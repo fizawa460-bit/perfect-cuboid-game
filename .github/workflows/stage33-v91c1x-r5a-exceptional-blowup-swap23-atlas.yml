@@ -1,0 +1,81 @@
+name: Stage33 R5A exceptional blowup swap23 atlas
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5a-exceptional-blowup-swap23-atlas.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py'
+      - 'stages/stage33/33-12/align_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize-r5a:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned exact algebra
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Lock triggering head and current main ancestry
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          git fetch --no-tags origin main
+          git merge-base --is-ancestor origin/main HEAD
+      - name: Materialize exact R5A exceptional blowup atlas
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --write
+      - name: Replay exact R5A atlas producer
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --check
+      - name: Align operational R5A hostile-audit checkpoint
+        run: python stages/stage33/33-12/align_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --write
+      - name: Verify R5A checkpoint and Stage33 state
+        run: |
+          python stages/stage33/33-12/align_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+      - name: Enforce bounded generated delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t changed < <(git status --porcelain | sed 's/^...//')
+          printf '%s\n' "${changed[@]}"
+          test "${#changed[@]}" -eq 3
+          printf '%s\n' "${changed[@]}" | sort > /tmp/changed
+          printf '%s\n' \
+            stages/stage33/33-12/e3-v91c1x-r5a-a2-02-exceptional-blowup-swap23-atlas.json \
+            stages/stage33/MAIN-STATE.json \
+            stages/stage33/sync_main_state.py | sort > /tmp/expected
+          diff -u /tmp/expected /tmp/changed
+      - name: Commit bounded R5A checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            stages/stage33/33-12/e3-v91c1x-r5a-a2-02-exceptional-blowup-swap23-atlas.json \
+            stages/stage33/MAIN-STATE.json \
+            stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] materialize R5A exceptional blowup swap23 atlas checkpoint'
+          remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | cut -f1)"
+          test "$remote_head" = "$GITHUB_SHA"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+      - name: Verify clean R5A checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stages/stage33/33-12/materialize_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --check
+          python stages/stage33/33-12/align_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_LOCAL_HEAD=$(git rev-parse HEAD)"
