@@ -1,90 +1,128 @@
-# Stage35-EX MAIN batch handoff — Goal4AW provisional marked-height lower-vs-upper audit
+# Stage35-EX MAIN batch handoff — Goal4AX provisional split six-norm torus chart
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AW are a provisional stacked research surface on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AX remain a provisional stacked research surface on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
 
 ## Exact-green parent
 
-Goal4AV is green at:
+Goal4AW is now exact-green after a verifier-only repair:
 
-- head: `47338365100fc73dee2f82cf9a2025230620ae22`
-- aggregate run: `34294868746`
-- `verify-stage35-ex-current`: `102290540930`
+- exact head: `a862b3ddea76b21110ba93b0d171e55c22ce6af8`
+- aggregate run: `34297319019`
+- `verify-stage35-ex-current`: `102298024754`
 - result: `SUCCESS`
 
-Goal4AV froze the exact `d_A*d_B*d_C=1` mechanism as a genuine degree-at-most-four **coefficient** package but not a rational endpoint common 2-cover / Selmer / Cassels obstruction.
+The repair changed only SymPy structural equality checks for the already-recorded exact `c4` and `j` identities; the Goal4AW mathematical artifact and source lock were unchanged.
 
-## Goal4AW provisional exact result
-
-The physical marked point does satisfy the key applicability condition: Goal4L proves every physical endpoint maps to a **non-torsion** point on
+Goal4AW therefore retains the exact boundary:
 
 ```text
-E_q: Y^2=X*(X-1)*(X+q^2).
+physical Goal4L point is non-torsion;
+Petsche explicit lower bound is semantically applicable;
+Goal4M still lacks an explicit upper coefficient;
+no endpoint-height lower growth for Delta_min is locked;
+no uniform Szpiro ratio bound is locked;
+no height contradiction / eventual elimination is obtained.
 ```
 
-Write the reduced Pythagorean base as
+## Goal4AX provisional exact result
+
+Goal4AX executes the Goal4AS lens `CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY`.
+
+For a positive endpoint the three face squares and three space-diagonal decompositions become six Gaussian norm equations:
 
 ```text
-q=r/s,
-r^2+s^2=t^2.
+N(A+iB)=D_AB^2,
+N(A+iC)=D_AC^2,
+N(B+iC)=D_BC^2,
+N(D_AB+iC)=W^2,
+N(D_AC+iB)=W^2,
+N(D_BC+iA)=W^2.
 ```
 
-After `x=s^2 X`, `y=s^3 Y`, the exact integral model is
+For each positive rational Pythagorean triple `U^2+V^2=H^2`, the half-angle parameter
 
 ```text
-y^2=x*(x-s^2)*(x+r^2),
-Delta_raw=16*r^4*s^4*t^4,
-c4=16*(r^4+r^2*s^2+s^4).
+t=V/(H+U)
 ```
 
-For every odd prime `ell|rst`, `c4` is an `ell`-adic unit, so this model is minimal and multiplicative there:
+gives
 
 ```text
-v_ell(Delta_min)=4*v_ell(r*s*t),
-ord_ell(N_E)=1.
+R(t)=2t/(1-t^2),
+H0(t)=(1+t^2)/(1-t^2),
+(U+iV)/H=(1+i*t)/(1-i*t).
 ```
 
-External literature check: Petsche, *Small rational points on elliptic curves over number fields*, Theorem 2, gives over `Q`
+Thus every one of the six norm-one phases has an explicit Hilbert–90 lift `1+i*t` once the endpoint is present.
+
+Using
 
 ```text
-hhat(P) >= log|Delta_min| /
-  (10^15*sigma^6*log^2(104613*sigma^2))
+f_AB=B/(D_AB+A),
+f_AC=C/(D_AC+A),
+f_BC=C/(D_BC+B),
+s_AB=C/(W+D_AB),
+s_AC=B/(W+D_AC),
+s_BC=A/(W+D_BC),
 ```
 
-for non-torsion rational points, so it is semantically applicable to the physical Goal4L point.
-
-However the comparison needed for eventual elimination is not available. Current exact sources lack all three required numerical adapters:
+the exact cross-face compatibility is
 
 ```text
-1. Goal4M has only hhat(P)=O(log B_cut), not an explicit C_up;
-2. no lower bound log|Delta_min(E_q)| >= c_Delta*log B_cut - O(1);
-3. no uniform source-locked Szpiro bound sigma(E_q)<=Sigma.
+R(f_AC)=R(f_AB)*R(f_BC),
+R(s_AB)=R(f_AC)/H0(f_AB),
+R(s_AC)=R(f_AB)/H0(f_AC),
+R(s_BC)=1/(R(f_AB)*H0(f_BC)).
 ```
 
-Therefore the required strict coefficient inequality cannot be evaluated or proved. The height candidate is frozen as
+Conversely these four identities reconstruct, up to positive scaling,
 
 ```text
-EXPLICIT_CANONICAL_HEIGHT_LOWER_VS_GOAL4M_UPPER_CONSTANTS
-  -> BLOCKED_MISSING_UNIFORM_HEIGHT_DISCRIMINANT_SZPIRO_ADAPTERS.
+A=1,
+B=R(f_AB),
+C=R(f_AC),
+D_AB=H0(f_AB),
+D_AC=H0(f_AC),
+D_BC=R(f_AB)*H0(f_BC),
+W=H0(f_AB)*H0(s_AB),
 ```
 
-This is not a proof that no future family-specific height argument can work; it is the exact boundary of current sources.
+and recover all three face-square equations plus the common space-square equation. Therefore this common six-norm chart is an exact positive-endpoint reparameterization rather than a stricter obstruction receiver.
+
+The primitive pair-gcd dictionary is compatible with the chart, e.g.
+
+```text
+B/(D_AB+A)=z*b/(r_AB+y*a),
+```
+
+but primitivity/gcd/parity remain integral representative conditions; Goal4AX obtains no new rational norm equation or finite branch pruning from them.
+
+Route decision:
+
+```text
+CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY
+  -> PASS_EXACT_SPLIT_SIX_NORM_TORUS_CHART
+  -> BLOCKED_AS_POSITIVE_ENDPOINT_BIRATIONAL_REPARAMETRIZATION
+```
+
+No nontrivial H1 torsor class, local norm obstruction, spinor obstruction, common Selmer complex, individual Kummer trivialization, or E1 closure is claimed.
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4aw-marked-elliptic-height-lower-vs-goal4m-upper-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4aw-marked-elliptic-height-lower-vs-goal4m-upper.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4aw_height_lower_vs_upper.py`
+- `stages/stage35-ex/35ex-35/goal4ax-cross-face-lattice-norm-torsor-compatibility-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4ax-cross-face-lattice-norm-torsor-compatibility.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4ax_cross_face_norm_torsor.py`
 
 ## Freshness
 
-At the exact-green Goal4AV parent, current `main` is `119e24100dd943cadef39df783a7b5de7b3a5704`; PR #1723 is ahead 39 / behind 7 from merge-base `42f20e47babdfdda068a605e3fec489eeace460c`. The main-side changes remain Stage32-EX1 / Stage32-EX5 / Stage32 routing and Stage36 material; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no sync is performed in this provisional leaf.
+Current `main` observed during this batch is `aab9afa37a136f76a5bf8e6eb146145b7bb853c3`. Relative to merge-base `42f20e47babdfdda068a605e3fec489eeace460c`, the main-side changes are Stage32-EX1 / Stage32-EX5 / Stage32 routing and Stage36 material. No Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no sync is performed in this provisional leaf.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4AX_CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY_PREFLIGHT
+35EX-35_GOAL4AY_GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT_PREFLIGHT
 ```
 
-The fresh Goal4AS exhaustive-view ledger still contains `CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY` as a distinct untested lens. Assemble the three primitive face Pythagorean structures and three space-diagonal couplings into one exact norm/lattice torsor and test whether it imposes anything not already equivalent to endpoint equations, primitivity, the marked-Kummer product-one relation, or the full Brauer route.
+Goal4AY must seek a **total** source-locked map from primitive full endpoints to primitive full endpoints that preserves all three face squares and the space square, treats every parity branch/exceptional locus, and strictly decreases a well-founded positive height. It must not reuse the common-scalar `v2` division already closed by Goal4I. Repository/source search miss alone is not a mathematical nonexistence proof.
 
-No merge. No hostile-audit credit is added by this handoff.
+No merge. No hostile-audit credit. `MAIN-STATE.json` remains at V74 / Goal4AK.
