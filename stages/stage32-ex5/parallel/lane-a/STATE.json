@@ -4,8 +4,41 @@
   "parent_program": "stage32ex5-mainbatch",
   "base_checkpoint": "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE",
   "target_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
-  "status": "ACTIVE_RESEARCH",
+  "status": "HANDOFF_CHECKPOINT_READY",
   "authority": "SCRATCH_NON_AUTHORITATIVE_UNTIL_MAINBATCH_CONSOLIDATION_AND_AUDIT",
   "handoff_condition": "Exact source-side node coordinate convention, labeling map, or a proved blocker sufficient for mainbatch decision",
+  "handoff_condition_met": true,
+  "checkpoint": {
+    "component_status": "PASS",
+    "component": "SOURCE_SIDE_48_NODE_TARGET_RECONSTRUCTION_AND_MODEL_ADAPTER",
+    "result_path": "stages/stage32-ex5/parallel/results/stage32ex5-a-result.json",
+    "result_commit_before_state_transition": "d38d2df99b05a8b8c6c1aa15fc1688f836ac41eb",
+    "node_target_path": "stages/stage32-ex5/parallel/results/stage32ex5-a-node-target.json",
+    "model_adapter_path": "stages/stage32-ex5/parallel/results/stage32ex5-a-source-to-stoll-model-adapter.json",
+    "verifier_path": "stages/stage32-ex5/parallel/results/verify_stage32ex5_a_source_nodes.py"
+  },
+  "established": {
+    "btva_source_side_48_node_target_complete": true,
+    "exact_qi_projective_canonicalization_defined": true,
+    "constructed_node_count": 48,
+    "distinct_projective_node_count": 48,
+    "all_constructed_nodes_jacobian_rank": 3,
+    "btva_to_stoll_projective_model_adapter_complete": true,
+    "stoll_model_equations_matched_after_coordinate_rename": 4
+  },
+  "remaining_blockers": [
+    "RUNTIME_EXCEPTIONAL_INDEX_0_47_TO_CANONICAL_NODE_MAPPING_NOT_ESTABLISHED_IN_LANE_A",
+    "PERMUTATION_INVARIANT_RUNTIME_CANONICALIZATION_REMAINS_FOR_A_B_C_D_SYNTHESIS"
+  ],
+  "handoff_instruction": "Mainbatch may consume Lane-A only as scratch evidence for the source-side target/model convention. It must independently validate and combine Lane-B/C/D evidence before deciding BC2-01B. Do not infer runtime ordering from Magma Points()/Support() iteration order.",
+  "credit": {
+    "bc2_01b_complete": false,
+    "route_qualified": false,
+    "receiver_credit": false,
+    "FULL178_complete": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "stage32_main_credit": false
+  },
   "merge_authorized": false
 }
