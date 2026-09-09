@@ -16,16 +16,16 @@
     "production_state": "stages/stage32/residual-32-01-production/state.json",
     "research_os_template": "docs/research-os/templates/mission-dag/",
     "external_ex5_pr": 1742,
-    "external_ex5_rule": "EX5 remains an independent producer; consume only retained/audited outputs through an explicit current-target adapter. Do not duplicate its active BC2-02 target-to-59D adapter work."
+    "external_ex5_rule": "EX5 remains an independent producer; consume only retained/audited outputs through an explicit current-target adapter. Do not duplicate its active BC2-02 target-to-59D/Picard64 adapter work."
   },
   "startup_snapshot": {
     "full178_authorized": true,
     "full178_complete": false,
     "r29_lg2": "NOT_DISCHARGED",
     "indexed_terminal_family_count": "688101306360803751427719294",
-    "current_primary_wall": "DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION",
+    "current_primary_wall": "INDEXED_TERMINAL_TO_EXACT_PICARD64_SUFFICIENT_SIGNATURE_OR_COMPLETION_ADAPTER",
     "bruteforce_scale": "FINITE_BUT_CURRENT_BRUTE_FORCE_SCALE_OPERATIONALLY_INFEASIBLE",
-    "ex5_status": "BC2-02 producer kernel localized; FULL178 target-to-59D model adapter remains active externally"
+    "ex5_status": "BC2-02 is the active external producer for the missing indexed-terminal -> integral Picard64 completion/projection boundary"
   },
   "nodes": [
     {"node_id":"N101","semantic_key":"s32-01-178:indexed-terminal-compression","title":"Exact indexed-terminal Picard leaf compression redesign","depends_on":[],"state_path":"nodes/N101/STATE.json","status":"DONE"},
@@ -33,9 +33,9 @@
     {"node_id":"N103","semantic_key":"s32-01-178:production-witness-support-interface","title":"Production-side 59D witness and 48-support retention interface","depends_on":[],"state_path":"nodes/N103/STATE.json","status":"DONE"},
     {"node_id":"N104","semantic_key":"s32-01-178:completeness-certificate-architecture","title":"FULL178 completeness and replay certificate architecture","depends_on":[],"state_path":"nodes/N104/STATE.json","status":"DONE"},
     {"node_id":"N105","semantic_key":"s32-01-178:independent-global-cut-discovery","title":"Independent global-cut and reusable-weapon discovery","depends_on":[],"state_path":"nodes/N105/STATE.json","status":"DONE"},
-    {"node_id":"N106","semantic_key":"s32-01-178:compressed-production-execution-plan","title":"Compressed production execution and sharding design","depends_on":[],"state_path":"nodes/N106/STATE.json","status":"AUDIT_REQUIRED"},
+    {"node_id":"N106","semantic_key":"s32-01-178:compressed-production-execution-plan","title":"Compressed production execution and sharding design","depends_on":[],"state_path":"nodes/N106/STATE-AUDITED.json","status":"DONE"},
     {"node_id":"N150","semantic_key":"s32-01-178:ex5-external-consumption-gate","title":"EX5 external audited-result consumption gate","depends_on":[],"state_path":"nodes/N150/STATE.json","status":"BLOCKED"},
-    {"node_id":"N190","semantic_key":"s32-01-178:generation1-reconciliation","title":"Generation-1 reconciliation and next frontier selection","depends_on":["N101","N102","N103","N104","N105","N106"],"state_path":"nodes/N190/STATE.json","status":"OPEN"}
+    {"node_id":"N190","semantic_key":"s32-01-178:generation1-reconciliation","title":"Generation-1 reconciliation and next frontier selection","depends_on":["N101","N102","N103","N104","N105","N106"],"state_path":"nodes/N190/STATE.json","status":"DONE"}
   ],
   "dispatch": {
     "generation": 1,
@@ -47,7 +47,7 @@
       {"slot":"c","node_id":"N103","node_title":"Production-side 59D witness and 48-support retention interface","command":"stage32-01-178-c","work_branch":"stage32-01-178-lane-c-g1","status":"RETURNED","return_head":"a25697783bc0dd4e4550845adb623d19e801a35b","return_state_blob_sha":"6bbd208155c0b66d87f3b8adfe84346864dababd","return_kind":"RETAINED_NONCREDIT_INTERFACE_CHECKPOINT"},
       {"slot":"d","node_id":"N104","node_title":"FULL178 completeness and replay certificate architecture","command":"stage32-01-178-d","work_branch":"stage32-01-178-lane-d-g1","status":"RETURNED","return_head":"7857eec0551f34e4b37c42b4075db1529c447d2b","return_state_blob_sha":"4ac907febfd60a3fb53e57bbb8ede9cf8959e954","return_kind":"RETAINED_NONCREDIT_COMPLETENESS_ARCHITECTURE"},
       {"slot":"e","node_id":"N105","node_title":"Independent global-cut and reusable-weapon discovery","command":"stage32-01-178-e","work_branch":"stage32-01-178-lane-e-g1","status":"RETURNED","return_head":"e7eff4e02b7d27d1ee08646d3e1591b50d243a60","return_state_blob_sha":"2202b9a4ae03a73233187307bc5cd796aba0e3ef","return_kind":"RETAINED_NONCREDIT_ROUTE_DISCOVERY_CHECKPOINT"},
-      {"slot":"f","node_id":"N106","node_title":"Compressed production execution and sharding design","command":"stage32-01-178-f","work_branch":"stage32-01-178-lane-f-g1","status":"RETURNED","return_head":"271dd19826c76a22d2a309fd4f74f297d2617f20","return_state_blob_sha":"fef69ecba545993db986b383ac0518c6d173c7a4","return_kind":"AUDIT_FAIL_REPAIRED_ON_MAIN_REAUDIT_REQUIRED","audit_review_id":5153281341,"audit_exact_head":"37296485b7227513f397cee2ad9276bf49624ed7","audit_result":"FAIL"}
+      {"slot":"f","node_id":"N106","node_title":"Compressed production execution and sharding design","command":"stage32-01-178-f","work_branch":"stage32-01-178-lane-f-g1","status":"CONSUMED","return_head":"271dd19826c76a22d2a309fd4f74f297d2617f20","return_state_blob_sha":"fef69ecba545993db986b383ac0518c6d173c7a4","return_kind":"AUDIT_PASS_CONSUMED_EXECUTION_ARCHITECTURE_ONLY","prior_audit_review_id":5153281341,"prior_audit_result":"FAIL","audit_review_id":5153922196,"audit_exact_head":"4f75ae49178d797da746b32ea603cf4da2bda8f0","audit_result":"PASS"}
     ]
   },
   "status_vocabulary": ["OPEN","ACTIVE","BLOCKED","DONE","SUPERSEDED","AUDIT_REQUIRED"],
