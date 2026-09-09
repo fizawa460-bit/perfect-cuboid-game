@@ -11,6 +11,11 @@ on:
       - 'stages/stage32/FINAL-CHECK.json'
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
+      - 'stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py'
+      - 'stages/stage32/post1728-v6-negative-authority-consumption-and-frontier-remap.json'
+      - 'stages/stage32/post1730-o210-v3-main-consumption-preflight.json'
+      - 'stages/stage32/verify_post1730_o210_v3_main_claim_sync.py'
+      - 'stages/stage32-ex3/**'
       - 'stages/stage32-ex*/MAIN-STATE.json'
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32/residual-32-01-production/post1623-hperp-v6-hdeck-character-preflight.json'
@@ -37,6 +42,12 @@ jobs:
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Verify repo-wide hostile-audit and freshness governance
         run: python docs/research-os/policies/verify_hostile_audit_and_freshness.py
+      - name: Verify post-1728 V6 authority consumption remains valid
+        run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
+      - name: Replay byte-exact imported EX3 O210 terminal mathematics
+        run: python stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py
+      - name: Verify post-sync audited O210 V3 MAIN authority
+        run: python stages/stage32/verify_post1730_o210_v3_main_claim_sync.py
       - name: Verify base Stage32 claim DAG
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify active Stage32 mathematical frontier and claim-sync hooks
