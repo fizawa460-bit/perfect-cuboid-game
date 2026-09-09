@@ -252,8 +252,8 @@ def build() -> dict:
             if len(old_rows) != 2:
                 raise SystemExit(f"historical direct axis support multiplicity moved: {typ}: {len(old_rows)}")
             spec = axis_specs[typ]
-            allowed = {str(x) for x in rec["refinement_scout"]["reduced_linear_branches_over_Qi"]}
-            if {r["reduced_support"] for r in old_rows} != allowed:
+            allowed = {parse_expr(str(x), loc) for x in rec["refinement_scout"]["reduced_linear_branches_over_Qi"]}
+            if {parse_expr(r["reduced_support"], loc) for r in old_rows} != allowed:
                 raise SystemExit(f"historical axis support labels moved: {typ}")
             domain = axis_domain_proof(spec["radicands"][0], spec["radicands"][1], spec["radicand_vars"])
             for old in sorted(old_rows, key=lambda r: r["reduced_support"]):
