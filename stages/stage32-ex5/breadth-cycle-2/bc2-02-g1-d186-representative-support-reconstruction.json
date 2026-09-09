@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE32EX5_BC2_02_REPRESENTATIVE_SUPPORT_RECONSTRUCTION_V1",
+  "authority": "STAGE32EX5_MAINBATCH_RETAINED_PARTIAL_CHECKPOINT",
+  "target": "BC2-02_FULL178_SUPPORT_RECONSTRUCTION",
+  "status": "PASS_ONE_EXACT_REPRESENTATIVE_CANDIDATE_FULL178_PENDING",
+  "scope": {
+    "row_id": "g1-d186",
+    "genus": 1,
+    "degree": 186,
+    "ordinal": 1617,
+    "triple": [76, -55, -96],
+    "slice_d_e_a": [186, 266, 592],
+    "fixed_projection_z": [-15, 62, -44, 26, 32],
+    "u": -44,
+    "v": 32
+  },
+  "exact_inputs": {
+    "fresh_21bl_audit": {
+      "path": "stages/stage32/32-21/32-21bl-joint-integer-witness-audit.json",
+      "blob": "7ce1d5de5918c230085e57058e998885b3637f1e",
+      "witness_sha256": "1a131595c87cf9c5d54ef97dba62261eeb3dda7bb92a5a9fa62c280f46bc4137"
+    },
+    "exact_59d_witness": {
+      "path": "stages/stage32/32-21/32-21bl-joint-integer-witness.json",
+      "blob": "4f2ba25c62021359501b3022668d7d1993fc0e4f",
+      "rank": 59
+    },
+    "exact_picard_adapter_result": {
+      "path": "stages/stage32/32-21/post-21bl-picard64-witness-adapter.json",
+      "blob": "43eed149c5cbfc026f60ef5d86351e63ff59f89c",
+      "pairing_count": 140,
+      "pairings_sha256": "1968dba54ebe2082c6ed07203ea9e4118460f60c32c60d46292bc73dc6bdf961"
+    },
+    "exceptional_pairing_bridge": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4"
+    },
+    "runtime_node_bridge": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+      "blob": "2a14a683e8ec38ec993eb711841c466f2be6eb06"
+    },
+    "full178_manifest": {
+      "path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+      "canonical_sha256_without_this_field": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+      "fact": "g1-d186 is one of the 178 numerical row ids"
+    }
+  },
+  "provenance_bridge": {
+    "fresh_audit_binds_ordinal_row_and_triple_together": true,
+    "fresh_audit_target_row_id": "g1-d186",
+    "fresh_audit_ordinal": 1617,
+    "fresh_audit_triple": [76, -55, -96],
+    "adapter_target_matches_same_row_ordinal_triple": true,
+    "semantic_substitution_of_compact_rank2_witness_for_59d_witness": false
+  },
+  "exceptional_support": {
+    "all140_exceptional_range_0based": [92, 139],
+    "runtime_exceptional_rule": "exceptional pairing k is all140[92+k]",
+    "pairings_last48": [5,0,1,1,3,0,0,0,5,3,6,6,6,7,10,9,6,8,8,5,4,1,8,10,5,9,7,4,5,12,9,5,3,1,9,4,11,1,16,1,9,12,1,11,1,3,1,14],
+    "exceptional_mass_sum": 266,
+    "expected_e": 266,
+    "mass_exact": true,
+    "zero_exceptional_indices_0based": [1, 5, 6, 7],
+    "positive_support_indices_0based": [0,2,3,4,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47],
+    "support_size": 44,
+    "support_definition": "pairings[92+k] > 0 under the effective-curve hypothesis; this checkpoint reconstructs the exact Picard support data but does not assert effectivity or curve existence"
+  },
+  "exact_projective_span_checksum": {
+    "supported_runtime_indices_used": [0, 2, 3, 4, 8, 9, 16],
+    "coordinate_order": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
+    "rows": [
+      [0,0,1,1,1,0,-1],
+      [0,0,1,-1,1,0,-1],
+      [0,0,1,-1,-1,0,-1],
+      [0,0,1,-1,-1,0,1],
+      [0,1,0,1,0,1,-1],
+      [0,1,0,1,0,-1,-1],
+      [1,0,0,0,1,1,-1]
+    ],
+    "determinant": 16,
+    "homogeneous_vector_rank": 7,
+    "support_spans_P6": true,
+    "note": "These seven rows are a subset of the positive exceptional support and are copied from the retained BC2-01B exact runtime-index-to-node table. Nonzero determinant proves rank 7 over Q, hence the full 44-node support spans P^6."
+  },
+  "route_interpretation": {
+    "genus0_nonconic_span_failure_rejection_triggered": false,
+    "genus1_rejection_triggered_by_span_alone": false,
+    "genus1_hyperplane_section_component_alternative_resolved": false,
+    "representative_support_reconstruction_infrastructure_pass": true,
+    "note": "For this genus-1 representative, 44-node P^6 span is a reconstruction checksum, not an exclusion theorem. The BTVA genus-1 alternative must remain preserved."
+  },
+  "remaining_exact_blocker": {
+    "full178_complete": false,
+    "reason": "The retained FULL178 census still does not contain a 59-entry reduced Picard witness or a directly verified 48-entry exceptional support certificate for every candidate that would receive support credit.",
+    "minimal_next_unit": "materialize exact 59D Picard witnesses or direct 48-slot support certificates for the remaining FULL178 candidate population before lossy aggregation",
+    "historical_scalar_e_census_is_not_enough": true,
+    "one_representative_does_not_supply_full178_credit": true
+  },
+  "firewalls": {
+    "effectivity_claimed": false,
+    "curve_existence_claimed": false,
+    "full178_projective_span_replay_complete": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
