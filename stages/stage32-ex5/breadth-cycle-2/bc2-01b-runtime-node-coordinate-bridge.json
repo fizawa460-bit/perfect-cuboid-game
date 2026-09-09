@@ -1,0 +1,169 @@
+{
+  "schema": "STAGE32EX5_BC2_01B_RUNTIME_NODE_COORDINATE_BRIDGE_V1",
+  "authority": "STAGE32EX5_RETAINED_PENDING_HOSTILE_AUDIT",
+  "target": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+  "status": "PASS_CANDIDATE_RETAINED_FOR_AUDIT",
+  "coordinate_order": [
+    "a1",
+    "a2",
+    "a3",
+    "b1",
+    "b2",
+    "b3",
+    "c"
+  ],
+  "field": "Q(i)",
+  "canonicalization": "divide all homogeneous coordinates by the first nonzero coordinate in fixed Stoll coordinate order",
+  "exact_inputs": {
+    "bc2_01a": {
+      "path": "stages/stage32-ex5/breadth-cycle-2/bc2-01a-exceptional-pairing-bridge.json",
+      "blob": "0a4b6b748bd4f4f94ae70e16cf38a0a2174c55d4"
+    },
+    "stoll_source": {
+      "repo": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "runtime_constructor": "pts := Points(SingularSubscheme(S))"
+    },
+    "lane_a": {
+      "pr": 1743,
+      "head": "2593d86733b3c3a4c276bbbc180c6c52e4a97130",
+      "node_catalog_blob": "059aa082c132ae95d65951455b4ae9c5196517b0",
+      "model_adapter_blob": "885dd106c87c5e73b705b89c860887341e6c8aab"
+    },
+    "lane_b": {
+      "pr": 1744,
+      "head": "1e94d593ab248407a9efc766bdc85d46af6c1bb7",
+      "fingerprint_run_id": 34321118868,
+      "fingerprint_job_id": 102367754014,
+      "conclusion": "success",
+      "runner_blob": "4efdfadac59f41f1d7b084594a69ef89f65825cb",
+      "exporter_blob": "167cb970974c50372a64da6122b67c0894a9dcd9",
+      "workflow_blob": "9f6842adafe19320b9308f104d384163465d299c",
+      "run_point_table_sha256": "82f526ee6d10e6c7bf3bf871f70984c3b6043a076b31227b03d45c375b11a69a"
+    },
+    "lane_d": {
+      "pr": 1746,
+      "head": "57f6c92525b0df0d9176440fd35b65dc1c98b900"
+    },
+    "lane_e": {
+      "pr": 1747,
+      "head": "cbf6b75721b5c7ca4db9e6b8fdd255feee66bf12",
+      "finding": "Points(SingularSubscheme(S)) numeric order is not a documented canonical cross-runtime contract"
+    },
+    "lane_h": {
+      "pr": 1750,
+      "head": "3548d9dcbb5c6886ea5754ffae654e941639966c",
+      "finding": "fresh runtime node set equals source canonical 48-node set; prior remaining blocker was durable persistence of the fingerprint-run permutation"
+    }
+  },
+  "mainbatch_independent_validation": {
+    "workflow_log_fetched": true,
+    "fingerprint_run_id": 34321118868,
+    "fingerprint_job_id": 102367754014,
+    "observed_map_rows": 48,
+    "observed_runtime_indices_exactly_0_to_47": true,
+    "observed_retained_indices_exactly_0_to_47": true,
+    "observed_every_map_row_identity": true,
+    "reported_runtime_to_retained_bijection": true,
+    "reported_runtime_to_retained_identity_permutation": true,
+    "reported_unique_runtime_fingerprints": true,
+    "reported_unique_retained_fingerprints": true,
+    "reported_unique_normalized_points": true,
+    "reported_success": true,
+    "important_semantics": "identity is retained because the exact fingerprint-aware run printed MAP|k|k for all 48 rows; it is not inferred from undocumented Points(...) ordering"
+  },
+  "counts": {
+    "historical_exceptional_indices": 48,
+    "fresh_runtime_indices": 48,
+    "canonical_nodes": 48,
+    "unique_canonical_nodes": 48,
+    "collisions": 0,
+    "omissions": 0
+  },
+  "mapping_semantics": {
+    "historical_exceptional_index_0based": "all140 slot 92+k",
+    "runtime_index_0based": "fresh exact Stoll pts index k in the fingerprint-aware run",
+    "join_key": "unique 92-bit incidence fingerprint against the first 92 retained curve classes",
+    "source_node_join": "exact canonical projective coordinates in the Stoll coordinate convention"
+  },
+  "rows": [
+    {"runtime_index_0based":0,"retained_exceptional_index_0based":0,"all140_index_0based":92,"source_label":"AXIS_X3:a=1,b=1,c=-1","canonical_stoll_coordinates":["0","0","1","1","1","0","-1"]},
+    {"runtime_index_0based":1,"retained_exceptional_index_0based":1,"all140_index_0based":93,"source_label":"AXIS_X3:a=1,b=-1,c=-1","canonical_stoll_coordinates":["0","0","1","1","-1","0","-1"]},
+    {"runtime_index_0based":2,"retained_exceptional_index_0based":2,"all140_index_0based":94,"source_label":"AXIS_X3:a=-1,b=1,c=-1","canonical_stoll_coordinates":["0","0","1","-1","1","0","-1"]},
+    {"runtime_index_0based":3,"retained_exceptional_index_0based":3,"all140_index_0based":95,"source_label":"AXIS_X3:a=-1,b=-1,c=-1","canonical_stoll_coordinates":["0","0","1","-1","-1","0","-1"]},
+    {"runtime_index_0based":4,"retained_exceptional_index_0based":4,"all140_index_0based":96,"source_label":"AXIS_X3:a=-1,b=-1,c=1","canonical_stoll_coordinates":["0","0","1","-1","-1","0","1"]},
+    {"runtime_index_0based":5,"retained_exceptional_index_0based":5,"all140_index_0based":97,"source_label":"AXIS_X3:a=-1,b=1,c=1","canonical_stoll_coordinates":["0","0","1","-1","1","0","1"]},
+    {"runtime_index_0based":6,"retained_exceptional_index_0based":6,"all140_index_0based":98,"source_label":"AXIS_X3:a=1,b=-1,c=1","canonical_stoll_coordinates":["0","0","1","1","-1","0","1"]},
+    {"runtime_index_0based":7,"retained_exceptional_index_0based":7,"all140_index_0based":99,"source_label":"AXIS_X3:a=1,b=1,c=1","canonical_stoll_coordinates":["0","0","1","1","1","0","1"]},
+    {"runtime_index_0based":8,"retained_exceptional_index_0based":8,"all140_index_0based":100,"source_label":"AXIS_X2:a=1,b=1,c=-1","canonical_stoll_coordinates":["0","1","0","1","0","1","-1"]},
+    {"runtime_index_0based":9,"retained_exceptional_index_0based":9,"all140_index_0based":101,"source_label":"AXIS_X2:a=1,b=-1,c=-1","canonical_stoll_coordinates":["0","1","0","1","0","-1","-1"]},
+    {"runtime_index_0based":10,"retained_exceptional_index_0based":10,"all140_index_0based":102,"source_label":"AXIS_X2:a=-1,b=1,c=-1","canonical_stoll_coordinates":["0","1","0","-1","0","1","-1"]},
+    {"runtime_index_0based":11,"retained_exceptional_index_0based":11,"all140_index_0based":103,"source_label":"AXIS_X2:a=-1,b=-1,c=-1","canonical_stoll_coordinates":["0","1","0","-1","0","-1","-1"]},
+    {"runtime_index_0based":12,"retained_exceptional_index_0based":12,"all140_index_0based":104,"source_label":"AXIS_X2:a=-1,b=-1,c=1","canonical_stoll_coordinates":["0","1","0","-1","0","-1","1"]},
+    {"runtime_index_0based":13,"retained_exceptional_index_0based":13,"all140_index_0based":105,"source_label":"AXIS_X2:a=-1,b=1,c=1","canonical_stoll_coordinates":["0","1","0","-1","0","1","1"]},
+    {"runtime_index_0based":14,"retained_exceptional_index_0based":14,"all140_index_0based":106,"source_label":"AXIS_X2:a=1,b=-1,c=1","canonical_stoll_coordinates":["0","1","0","1","0","-1","1"]},
+    {"runtime_index_0based":15,"retained_exceptional_index_0based":15,"all140_index_0based":107,"source_label":"AXIS_X2:a=1,b=1,c=1","canonical_stoll_coordinates":["0","1","0","1","0","1","1"]},
+    {"runtime_index_0based":16,"retained_exceptional_index_0based":16,"all140_index_0based":108,"source_label":"AXIS_X1:a=1,b=1,c=-1","canonical_stoll_coordinates":["1","0","0","0","1","1","-1"]},
+    {"runtime_index_0based":17,"retained_exceptional_index_0based":17,"all140_index_0based":109,"source_label":"AXIS_X1:a=1,b=-1,c=-1","canonical_stoll_coordinates":["1","0","0","0","1","-1","-1"]},
+    {"runtime_index_0based":18,"retained_exceptional_index_0based":18,"all140_index_0based":110,"source_label":"AXIS_X1:a=-1,b=1,c=-1","canonical_stoll_coordinates":["1","0","0","0","-1","1","-1"]},
+    {"runtime_index_0based":19,"retained_exceptional_index_0based":19,"all140_index_0based":111,"source_label":"AXIS_X1:a=-1,b=-1,c=-1","canonical_stoll_coordinates":["1","0","0","0","-1","-1","-1"]},
+    {"runtime_index_0based":20,"retained_exceptional_index_0based":20,"all140_index_0based":112,"source_label":"AXIS_X1:a=-1,b=-1,c=1","canonical_stoll_coordinates":["1","0","0","0","-1","-1","1"]},
+    {"runtime_index_0based":21,"retained_exceptional_index_0based":21,"all140_index_0based":113,"source_label":"AXIS_X1:a=-1,b=1,c=1","canonical_stoll_coordinates":["1","0","0","0","-1","1","1"]},
+    {"runtime_index_0based":22,"retained_exceptional_index_0based":22,"all140_index_0based":114,"source_label":"AXIS_X1:a=1,b=-1,c=1","canonical_stoll_coordinates":["1","0","0","0","1","-1","1"]},
+    {"runtime_index_0based":23,"retained_exceptional_index_0based":23,"all140_index_0based":115,"source_label":"AXIS_X1:a=1,b=1,c=1","canonical_stoll_coordinates":["1","0","0","0","1","1","1"]},
+    {"runtime_index_0based":24,"retained_exceptional_index_0based":24,"all140_index_0based":116,"source_label":"Y1_Z_ZERO:s=1,a=1,b=-1","canonical_stoll_coordinates":["0","1","i","0","i","-1","0"]},
+    {"runtime_index_0based":25,"retained_exceptional_index_0based":25,"all140_index_0based":117,"source_label":"Y1_Z_ZERO:s=1,a=-1,b=-1","canonical_stoll_coordinates":["0","1","i","0","-i","-1","0"]},
+    {"runtime_index_0based":26,"retained_exceptional_index_0based":26,"all140_index_0based":118,"source_label":"Y1_Z_ZERO:s=-1,a=1,b=-1","canonical_stoll_coordinates":["0","1","-i","0","i","-1","0"]},
+    {"runtime_index_0based":27,"retained_exceptional_index_0based":27,"all140_index_0based":119,"source_label":"Y1_Z_ZERO:s=-1,a=-1,b=-1","canonical_stoll_coordinates":["0","1","-i","0","-i","-1","0"]},
+    {"runtime_index_0based":28,"retained_exceptional_index_0based":28,"all140_index_0based":120,"source_label":"Y1_Z_ZERO:s=-1,a=-1,b=1","canonical_stoll_coordinates":["0","1","-i","0","-i","1","0"]},
+    {"runtime_index_0based":29,"retained_exceptional_index_0based":29,"all140_index_0based":121,"source_label":"Y1_Z_ZERO:s=-1,a=1,b=1","canonical_stoll_coordinates":["0","1","-i","0","i","1","0"]},
+    {"runtime_index_0based":30,"retained_exceptional_index_0based":30,"all140_index_0based":122,"source_label":"Y1_Z_ZERO:s=1,a=-1,b=1","canonical_stoll_coordinates":["0","1","i","0","-i","1","0"]},
+    {"runtime_index_0based":31,"retained_exceptional_index_0based":31,"all140_index_0based":123,"source_label":"Y1_Z_ZERO:s=1,a=1,b=1","canonical_stoll_coordinates":["0","1","i","0","i","1","0"]},
+    {"runtime_index_0based":32,"retained_exceptional_index_0based":32,"all140_index_0based":124,"source_label":"Y2_Z_ZERO:s=1,a=1,b=-1","canonical_stoll_coordinates":["1","0","i","i","0","-1","0"]},
+    {"runtime_index_0based":33,"retained_exceptional_index_0based":33,"all140_index_0based":125,"source_label":"Y2_Z_ZERO:s=1,a=-1,b=-1","canonical_stoll_coordinates":["1","0","i","-i","0","-1","0"]},
+    {"runtime_index_0based":34,"retained_exceptional_index_0based":34,"all140_index_0based":126,"source_label":"Y2_Z_ZERO:s=-1,a=1,b=-1","canonical_stoll_coordinates":["1","0","-i","i","0","-1","0"]},
+    {"runtime_index_0based":35,"retained_exceptional_index_0based":35,"all140_index_0based":127,"source_label":"Y2_Z_ZERO:s=-1,a=-1,b=-1","canonical_stoll_coordinates":["1","0","-i","-i","0","-1","0"]},
+    {"runtime_index_0based":36,"retained_exceptional_index_0based":36,"all140_index_0based":128,"source_label":"Y2_Z_ZERO:s=-1,a=-1,b=1","canonical_stoll_coordinates":["1","0","-i","-i","0","1","0"]},
+    {"runtime_index_0based":37,"retained_exceptional_index_0based":37,"all140_index_0based":129,"source_label":"Y2_Z_ZERO:s=-1,a=1,b=1","canonical_stoll_coordinates":["1","0","-i","i","0","1","0"]},
+    {"runtime_index_0based":38,"retained_exceptional_index_0based":38,"all140_index_0based":130,"source_label":"Y2_Z_ZERO:s=1,a=-1,b=1","canonical_stoll_coordinates":["1","0","i","-i","0","1","0"]},
+    {"runtime_index_0based":39,"retained_exceptional_index_0based":39,"all140_index_0based":131,"source_label":"Y2_Z_ZERO:s=1,a=1,b=1","canonical_stoll_coordinates":["1","0","i","i","0","1","0"]},
+    {"runtime_index_0based":40,"retained_exceptional_index_0based":40,"all140_index_0based":132,"source_label":"Y3_Z_ZERO:s=1,a=1,b=-1","canonical_stoll_coordinates":["1","i","0","i","-1","0","0"]},
+    {"runtime_index_0based":41,"retained_exceptional_index_0based":41,"all140_index_0based":133,"source_label":"Y3_Z_ZERO:s=1,a=-1,b=-1","canonical_stoll_coordinates":["1","i","0","-i","-1","0","0"]},
+    {"runtime_index_0based":42,"retained_exceptional_index_0based":42,"all140_index_0based":134,"source_label":"Y3_Z_ZERO:s=-1,a=1,b=-1","canonical_stoll_coordinates":["1","-i","0","i","-1","0","0"]},
+    {"runtime_index_0based":43,"retained_exceptional_index_0based":43,"all140_index_0based":135,"source_label":"Y3_Z_ZERO:s=-1,a=-1,b=-1","canonical_stoll_coordinates":["1","-i","0","-i","-1","0","0"]},
+    {"runtime_index_0based":44,"retained_exceptional_index_0based":44,"all140_index_0based":136,"source_label":"Y3_Z_ZERO:s=-1,a=-1,b=1","canonical_stoll_coordinates":["1","-i","0","-i","1","0","0"]},
+    {"runtime_index_0based":45,"retained_exceptional_index_0based":45,"all140_index_0based":137,"source_label":"Y3_Z_ZERO:s=-1,a=1,b=1","canonical_stoll_coordinates":["1","-i","0","i","1","0","0"]},
+    {"runtime_index_0based":46,"retained_exceptional_index_0based":46,"all140_index_0based":138,"source_label":"Y3_Z_ZERO:s=1,a=-1,b=1","canonical_stoll_coordinates":["1","i","0","-i","1","0","0"]},
+    {"runtime_index_0based":47,"retained_exceptional_index_0based":47,"all140_index_0based":139,"source_label":"Y3_Z_ZERO:s=1,a=1,b=1","canonical_stoll_coordinates":["1","i","0","i","1","0","0"]}
+  ],
+  "rows_sha256": "757b73698652e138ef909fa9c425a1dae8f687d58a8ef3910ab7c1612d374870",
+  "resolved_lane_disagreements": [
+    {"lane":"E","issue":"no documented canonical Points(...) order","resolution":"accepted; the retained bridge does not use cross-runtime enumeration-order identity as a premise. It uses unique incidence fingerprints."},
+    {"lane":"C","issue":"missing historical 92x48 MatCP-equivalent fingerprint binding","resolution":"B fingerprint replay recovers the retained 92-bit exceptional fingerprints from the exact retained intersection matrix and matches them bijectively."},
+    {"lane":"H","issue":"fingerprint permutation existed only in workflow logs","resolution":"mainbatch fetched the exact successful job log, observed all 48 MAP rows as k->k, and persists that exact mapping here."}
+  ],
+  "acceptance_matrix": {
+    "source_48_exact_nodes": true,
+    "runtime_48_exceptional_objects_or_order_independent_adapter": true,
+    "exact_48_to_48_bijection": true,
+    "collision_free": true,
+    "omission_free": true,
+    "reproducible_from_exact_inputs": true,
+    "projective_scale_canonicalization_pass": true,
+    "enumeration_order_not_promoted_to_canonical_geometry": true,
+    "unresolved_scale_sign_orbit_ambiguity": false
+  },
+  "firewalls": {
+    "full178_span_replay_performed": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "next_boundary": "HOSTILE_AUDIT_BC2_01B_RETAINED_BRIDGE_BEFORE_FULL178_BTVA_PROJECTIVE_SPAN_REPLAY"
+}
