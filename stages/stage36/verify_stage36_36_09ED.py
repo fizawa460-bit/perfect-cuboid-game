@@ -31,7 +31,7 @@ assert c['status']=='PASS_E_TAU_2ADIC_FREE_GENERATOR_SATURATED_ONE_Z2_VARIABLE_R
 assert c['base_main_sha']=='e1696bd4f9debc753128e41fb34e368fc77c3fea'
 for key,item in c['source_locks'].items():
     p=ROOT/item['path']; assert gh(p)==item['blob_sha'],(key,gh(p),item['blob_sha'])
-assert dz['E_tau_Weierstrass']['equation']=='V^2 = U(U+1)(U+49)'
+assert dz['E_tau_Weierstrass']['equation']=='V^2=U(U+1)(U+49)'
 assert dz['E_tau_Weierstrass']['mapped_point_P']==['1','10']
 assert ec['rank_and_rational_2torsion']['rank_vector']=={'E_tau':1,'E_sigma':0,'E_rho':0}
 assert ec['global_factor_2Selmer']['E_tau']['F2_dimension']==3
