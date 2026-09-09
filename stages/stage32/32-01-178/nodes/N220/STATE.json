@@ -2,19 +2,20 @@
   "schema": "research-os-mission-node/v1",
   "node_id": "N220",
   "semantic_key": "s32-01-178:prefix-exceptional-support-cap-cut",
-  "statement": "Use the ten exceptional pairings already fixed by one exact indexed-terminal prefix to upper-bound the maximum possible support among all 48 exceptional slots, giving a monotone necessary cut strictly stronger than the previously consumed scalar exceptional-mass cut.",
+  "statement": "Use the ten exceptional pairings already fixed by one exact indexed-terminal prefix to upper-bound the maximum possible support among all 48 exceptional slots, giving a monotone necessary cut strictly stronger than the previously consumed scalar exceptional-mass cut, and count its FULL178 effect symbolically without materializing terminal tuples.",
   "scope": {
     "population": "the exact FULL178 indexed-terminal family after the already-consumed coarse node-mass cut",
     "field_or_model": "11-coordinate exact indexed pairing prefix, of which ten coordinates are exceptional and one coordinate x4/label49 is normal",
     "quantifiers": "every exact indexed terminal addressed by (row_id,d,e,terminal_rank/pairings)",
-    "required_output": "source-locked exact support-cap predicate plus a machine-checkable proof that the predicate is nontrivial on the retained FULL178 population"
+    "required_output": "source-locked exact support-cap predicate plus machine-checkable exact symbolic pruning count on the retained FULL178 population"
   },
   "source_refs": [
     "stages/stage32/residual-32-01-production/compressed_terminal_family.py@90ff82ed312dcc0cb32cf207935945f550e29170",
     "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json@eb823cc2f99d74456d5701b4673f848f18ba3151",
     "stages/stage32/residual-32-01-production/full178-manifest.json@0a46b34e278688240656b4977e9cb7f589e90e06",
     "stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py@93f7dc6f1b224f61af3f260d09da55bfb5a3460a",
-    "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py@b7a157d2d1ec5c4006a6edc4bb5afb5c6ea29cad"
+    "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py@b7a157d2d1ec5c4006a6edc4bb5afb5c6ea29cad",
+    "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py@5855ae0835a828ab56b7a6e93a42f6788b6f676a"
   ],
   "reuse_check": {
     "performed": true,
@@ -40,10 +41,18 @@
       "result": "PASS_EXACT_PREFIX_SUPPORT_CAP_NONTRIVIAL_READY_FOR_HOSTILE_AUDIT",
       "blocker": "New mathematical pruning credit is not self-granted by MAINBATCH; hostile audit is required before the predicate is integrated as authoritative production pruning or counted toward FULL178 completeness.",
       "reopen_condition": "An external hostile audit PASS source-locks this exact N220 predicate/proof and its verifier at an exact PR#1753 head."
+    },
+    {
+      "route_id": "N220-R2-EXACT-SYMBOLIC-MASS-SUPPORT-CENSUS",
+      "status": "AUDIT_REQUIRED",
+      "summary": "Refine the retained exceptional-prefix symbolic counter by exact total exceptional mass M and known positive-support count S while preserving the current x0<x1 / x0=x1 lex split and parity rule. Sum the N220 rejection predicate over all exact mass/support states and legal x4 values across the frozen 178-row manifest.",
+      "result": "PASS_EXACT_SYMBOLIC_COUNT_N220_REJECTS_342047598454520296245948565_POST_NODE_MASS_TERMINALS",
+      "blocker": "The symbolic counter and new cut require hostile audit before authority consumption, despite reproducing the retained 27-digit total exactly.",
+      "reopen_condition": "External hostile audit PASS verifies both N220 verifiers, the exact mass/support decomposition, and the retained source locks at an exact #1753 head."
     }
   ],
   "retained_result": {
-    "status": "PASS_EXACT_PREFIX_SUPPORT_CAP_NONTRIVIAL_READY_FOR_HOSTILE_AUDIT",
+    "status": "PASS_EXACT_PREFIX_SUPPORT_CAP_WITH_SYMBOLIC_FULL178_COUNT_READY_FOR_HOSTILE_AUDIT",
     "definitions": {
       "exceptional_prefix_positions_0based": [0,1,2,3,5,6,7,8,9,10],
       "normal_prefix_position_0based": 4,
@@ -75,20 +84,36 @@
       "coarse_strata_eliminated_by_existing_node_mass_cut": 3620,
       "post_node_mass_strata": 60491,
       "post_node_mass_strata_with_at_least_one_explicit_n220_rejection": 60491,
-      "explicit_family": "all-zero exceptional prefix when rejected, plus x2=s or x3=s or x7=s with every other exceptional prefix coordinate zero; x4 remains any legal normal value",
       "explicit_rejected_exceptional_prefix_configurations": 24876258,
       "explicit_rejected_exact_terminal_tuple_lower_bound": 26206770933,
-      "lower_bound_is_not_total_n220_pruning_count": true,
-      "reason": "Only three simple one-slot concentration families are counted; many other indexed terminal prefixes can also fail the support-cap predicate."
+      "lower_bound_is_not_total_n220_pruning_count": true
+    },
+    "exact_symbolic_full178_census": {
+      "method": "exact exceptional-prefix distribution by total mass and known support, preserving the retained unequal/equal symmetry split, equal-case lex rule, and parity condition; x4 remains an independent normal coordinate",
+      "small_exact_mass_distribution_counts_M0_to_M5": [1,3,16,60,195,529],
+      "reconstructed_current_indexed_terminal_total_before_node_mass": "688101306360803751427719294",
+      "reconstructed_total_matches_retained_prefix_checkpoint_exactly": true,
+      "total_after_existing_node_mass_cut": "688101306357436883335845534",
+      "n220_exact_rejected_terminal_count": "342047598454520296245948565",
+      "n220_exact_surviving_terminal_count": "346053707902916587089896969",
+      "n220_rejection_fraction_numerator": "342047598454520296245948565",
+      "n220_rejection_fraction_denominator": "688101306357436883335845534",
+      "n220_rejection_percent_approx": 49.7089011885762,
+      "terminal_family_materialization_run": false,
+      "full_27_digit_enumeration_run": false,
+      "verifier": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py"
     },
     "supersedes_n210_no_live_prefix_cut_diagnosis": {
       "value": true,
       "reason": "N210 tested rediscoveries based on HNF/parity and scalar e. N220 uses new retained information already present in each indexed terminal: the labelled distribution (M10,S10) of exceptional mass across the ten known exceptional slots."
     },
-    "verifier": "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py"
+    "verifiers": [
+      "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py",
+      "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py"
+    ]
   },
-  "credit_ceiling": "AUDIT_READY_EXACT_PREFIX_NECESSARY_CUT_ONLY_NO_FULL178_COMPLETENESS_OR_THEOREM_CREDIT",
-  "next_action": "HOSTILE_AUDIT_N220. On PASS, integrate this predicate into the exact indexed-terminal symbolic/indexed representation without materializing the 27-digit family, then derive an exact symbolic count/rank-unrank adaptation rather than blind terminal enumeration.",
+  "credit_ceiling": "AUDIT_READY_EXACT_PREFIX_NECESSARY_CUT_AND_SYMBOLIC_COUNT_ONLY_NO_FULL178_COMPLETENESS_OR_THEOREM_CREDIT",
+  "next_action": "HOSTILE_AUDIT_N220. On PASS, integrate the predicate into the exact compressed terminal family/indexer with count/rank/unrank semantics preserved, replacing blind enumeration by the audited mass/support symbolic refinement.",
   "credit_firewall": {
     "heavy_compute_authorized": false,
     "full178_complete": false,
@@ -104,7 +129,7 @@
   },
   "notes": [
     "This is an independent MAINBATCH research result, not an EX5 consumption.",
-    "The 26,206,770,933 count is a certified lower bound from an explicit subfamily, not the full number of prefixes rejected by N220.",
+    "The earlier 26,206,770,933 count remains a simple explicit-family lower bound; the exact symbolic census is much stronger and rejects about 49.7089% of the post-node-mass indexed terminal population.",
     "No production pruning or FULL178 credit should consume N220 until hostile audit passes."
   ]
 }
