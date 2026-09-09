@@ -9,7 +9,8 @@
     "startup_contract": "stages/stage32-ex5/MAIN-START-HERE.md",
     "roadmap_contract": "stages/stage32-ex5/CURRENT-ROADMAP.md",
     "historical_source_locked_roadmap": "stages/stage32-ex5/stage32-ex5.md",
-    "audit_contract": "stages/stage32-ex5/AUDIT-CONTRACT.md",
+    "audit_contract": "stages/stage32-ex5/CURRENT-AUDIT-CONTRACT.md",
+    "historical_source_locked_audit_contract": "stages/stage32-ex5/AUDIT-CONTRACT.md",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
   },
   "bootstrap": {
@@ -150,10 +151,17 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
+  "intermediate_audit_boundary": {
+    "reason": "LONG_LIVED_SHARED_PR_100_COMMIT_CHECKPOINT",
+    "freeze_after_this_semantic_sync_commit": true,
+    "substantive_research_after_boundary_before_audit": false,
+    "required_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
+  },
   "next_step": {
     "id": "BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
     "goal": "Rederive the next 133-rank exceptional outer block after rank 398 by exact rank/unrank and terminal-predicate replay before applying any Picard64 solver credit.",
     "heavy_scaleout_authorized": false,
-    "main_promotion_authorized": false
+    "main_promotion_authorized": false,
+    "blocked_until_intermediate_hostile_audit_pass": true
   }
 }

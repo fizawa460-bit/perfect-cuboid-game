@@ -2,143 +2,124 @@
 
 Invocation token: `stage32ex5-audit`.
 
-This lane is independent from `stage32ex5-mainbatch`. It attacks the exact candidate as written; it does not continue research, repair the branch, merge, or promote EX5 into Stage32 MAIN.
+This lane is independent from `stage32ex5-mainbatch`. Its job is to attack the exact candidate as written, not to continue research or repair the branch while auditing.
 
 ## Audit startup
 
 Read, in this order:
 
 1. `AGENTS.md`;
-2. `stages/stage32-ex5/README.md`;
-3. `stages/stage32-ex5/AUDIT-CONTRACT.md`;
-4. `stages/stage32-ex5/MAIN-STATE.json`;
-5. exact target PR metadata/head, current `main`, Stage32 MAIN PR #1753 current authority, and complete changed-file list;
-6. only the changed files and exact source locks/verifiers needed for the claims under audit.
+2. `stages/stage32-ex5/AUDIT-CONTRACT.md`;
+3. `stages/stage32-ex5/MAIN-STATE.json`;
+4. exact target PR metadata, exact head, current `main`, and complete changed-file list;
+5. only the changed files and exact source locks/verifiers needed for the claims under audit.
 
-If the user supplies a PR/head, that exact target controls. Otherwise resolve the active EX5 PR from `MAIN-STATE.json`. Fail closed if no unique target exists.
+If the user supplies a PR/head, that exact target controls. Otherwise resolve the unique candidate from `MAIN-STATE.json.audit` / active EX5 work PR. Fail closed if no unique candidate exists.
 
-Do not rely on chat summary as mathematical evidence. Do not preload unrelated Stage32 history or other EX lanes.
+Do not rely on a chat summary as mathematical evidence. Do not preload unrelated Stage32 history or other EX lanes.
 
-## Current authority that the audit must enforce
+## Read-only discipline
 
-Current Stage32 MAIN authority is the `FULL178_AND_FINAL_MILESTONE_CHAIN`, with `32-01 FULL178` as the primary incomplete requirement.
+During audit:
 
-Therefore current-facing EX5 claims must satisfy all of the following:
-
-- V6 is not described as the current attack target;
-- O210 is not described as the current attack target;
-- Q602 is not described as the current attack target;
-- `[73,97,235]` is not described as the current survivor population;
-- if `[73,97,235]` appears, it is explicitly historical/formal Q602 provenance;
-- old no-O210/Q602-credit statements are treated as historical-credit firewalls rather than current-frontier descriptions.
-
-Historical retained artifacts may retain their original vocabulary. Audit must distinguish immutable proof/evidence provenance from mutable current-state prose.
-
-## Current EX5 claim family
-
-The active BC2 line is a FULL178 Picard64 / node-support interface and obstruction producer:
-
-`compressed terminal/pairings -> exact Picard64 completion -> 59D witness when SAT -> canonical 48-node support interface`.
-
-The Stage32 MAIN consumption boundary is `32-01-178/N150` or its audited successor. EX5 does not grant MAIN credit by asserting compatibility; a current-target population adapter and MAIN-side acceptance are required.
-
-## Mandatory checks
-
-### A. Exact Git/PR target and freshness
-
-Record PR number/state, exact candidate head, current `main`, Stage32 MAIN #1753 head, freshness/divergence, draft/mergeability, changed-file scope, and exact-head CI when applicable.
+- do not push fixes;
+- do not mutate state to make the candidate pass;
+- do not merge;
+- do not grant Stage32 MAIN promotion;
+- do not widen a bounded EX5 claim into a Stage32 theorem.
 
 A moved head invalidates the previous audit.
 
-### B. Startup/state/roadmap authority consistency
+## Mandatory checks
 
-Check that README, startup, `MAIN-STATE.json`, roadmap, PR body, and next-step agree that:
+### A. Exact Git/PR target
 
-- Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`;
-- primary incomplete is `32-01 FULL178`;
-- EX5 is an auxiliary interface/obstruction research surface for that chain;
-- current EX5 exact frontier matches the latest retained BC2 checkpoint;
-- V6/O210/Q602 and `[73,97,235]` are not presented as live current targets/survivors;
-- merge and MAIN promotion are separate explicit actions.
+Record PR number/state, exact candidate head, current main, freshness/divergence, draft/mergeability, changed-file scope, and exact-head CI when applicable.
 
-### C. Exact evidence preservation
+### B. Startup/state/roadmap consistency
 
-Semantic synchronization must not rewrite retained mathematical evidence merely to modernize terminology.
+Check that startup, state, and roadmap agree on:
 
-Check canonical locks for every claimed BC2 block. Current retained local closures include:
+- `stage32ex5-mainbatch` / `stage32ex5-audit` separation;
+- current breadth cycle, leaf, and working set;
+- `EX5_ROUTE_DECISION_CLOSURE` as a local route-decision state, not Stage32 closure;
+- exactly two terminal outcomes:
+  - `QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED`;
+  - `FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE`;
+- no automatic merge or Stage32 promotion.
 
-- ranks `0..132`, BC2-05 checkpoint canonical `cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e`;
-- ranks `133..265`, BC2-08 checkpoint canonical `af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c`;
-- ranks `266..398`, BC2-10 checkpoint canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`.
+### C. Receiver population and coverage lock
 
-Any canonical mismatch is FAIL for the associated exact claim.
+Hostile-test the load-bearing EX5 quantifier. Every receiver ledger row and any coverage/exhaustion claim must be traceable to the frozen Stage29 -> Stage32 authority chain with exact population semantics.
 
-### D. FULL178 population/interface adapter
+Check genus/branch/multibranch, field/model, degree/mask/height domain when relevant, numerical-vs-geometric status, and effectivity/existence distinctions.
 
-For any claim intended for Stage32 MAIN consumption, verify exact population semantics:
+A receiver ledger that omits an authority-required population, silently changes a mask/field/quantifier, or infers exhaustiveness from repository search is FAIL for breadth/exhaustion credit.
 
-- FULL178 row/terminal identity;
-- degree/ex\-ceptional-mass and assignment-order semantics;
-- terminal-rank/pairing adapter;
-- selected64/all140 Picard64 model;
-- witness reconstruction when SAT;
-- 48-node support mapping when consumed;
-- quantifier scope of any finite block or population claim.
+### D. Current-status provenance
 
-A finite block obstruction is not population-wide FULL178 completion without exhaustive coverage or another exact compression/adapter.
+For each ledger status (`CLOSED`, `OPEN`, `UNKNOWN`, `CONDITIONAL`, `OUT_OF_SCOPE`), verify the exact evidence/source and semantic adapter. Mutable state assertions alone do not close rows.
 
-### E. UNSAT interpretation
+V6/O210/Q602 must not be treated as the definition of all Stage32 receivers unless the frozen authority explicitly proves such a reduction.
 
-An exact UNSAT result may receive local obstruction credit only for its certified terminal/block/model. Audit must reject promotion to whole stratum, FULL178, effectivity, final milestone, theorem, endpoint, or Perfect Cuboid nonexistence unless separately proved.
+### E. Clean-room and asset-dedup discipline
 
-### F. SAT interpretation
+Check that clean-room candidate generation precedes existing-asset solution lookup for the frozen cycle, and that EX5-04 uses the repository asset-discovery chain.
 
-A SAT result must reconstruct the exact Picard64/59D witness and pass the retained node-support consumer when that interface is claimed.
+A keyword/theorem/card match is not applicability. Verify object, field, population, and quantifier compatibility for every imported asset.
 
-SAT is not by itself an effective curve, actual carrier, rational point, FULL178 completion, or final-milestone proof.
+### F. Route qualification
 
-### G. Historical/formal provenance
+A positive terminal requires all eight roadmap qualification items:
 
-Cycle1, early BC2, V6/O210/Q602, and formal Q602 residues may be audited as historical retained authority at their original scopes.
+1. exact receiver target;
+2. population adapter;
+3. exact new input;
+4. forward implication;
+5. reverse-scope firewall;
+6. falsifiable execution unit;
+7. retained nontrivial receiver effect;
+8. replay path.
 
-Do not require old immutable evidence files to use current terminology. Instead require current-facing prose/state to label them correctly.
+A route score, idea list, literature suggestion, missing-adapter diagnosis, sample result, or preflight-only predicate is insufficient.
 
-The historical-credit firewall means EX5 cannot silently recompute, reopen, mutate, or claim new V6/O210/Q602 credit unless current Stage32 MAIN explicitly reopens that line.
+The retained effect must be exact on its declared population: an exclusion, strict necessary-condition shrinkage of an exhaustive set, population-preserving reduction, or exact bridge to an audited external weapon.
 
-### H. Claim promotion and N150 boundary
+### G. Bounded exhaustion
 
-Check the current Stage32 MAIN `N150` external-consumption gate before any EX5-to-MAIN promotion.
+A negative terminal is valid only for an explicitly frozen receiver ledger and candidate universe. Verify every frozen candidate is classified as disproved, duplicate/dominated, inapplicable, blocked with named re-entry condition, or qualified.
 
-Newer EX5 progress than the N150 snapshot is local EX5 authority only until MAIN explicitly consumes it. An EX5 PR update, hostile-audit PASS, or local checkpoint does not automatically advance N150, `32-01`, or any final milestone.
+`FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE` must never be phrased as "no other route exists" or literature-wide/mathematics-wide exhaustion.
+
+### H. Independence and cross-stage imports
+
+For a claimed independent route, verify it is not merely MAIN/EX1-EX4 under different wording. Cooperation is allowed, but duplicate decisive predicates do not count as independent breadth discovery.
+
+Any imported Stage33/35/36 or other-EX result must have exact authority status plus object/model/field/population adapter. Provisional evidence may be explored but cannot support terminal credit.
 
 ### I. Computational/replay integrity
 
-Replay exact compact evidence/verifiers as appropriate. Heavy computation must not be rerun merely for audit unless separately authorized by a fresh run key. UNKNOWN cannot be promoted to UNSAT. Sample or finite evidence cannot be widened without completeness.
+When an artifact/verifier exists, replay or inspect exact CI evidence as appropriate. Heavy computation must not be rerun merely for audit unless separately authorized. Finite/sample evidence cannot be widened without a completeness certificate.
 
-### J. Merge and endpoint firewall
+### J. External authority firewall
 
-Verify:
-
-- merge is not authorized unless the user explicitly authorizes it;
-- no Stage32 final-milestone credit is inferred from EX5 alone;
-- no Perfect Cuboid existence/nonexistence claim is made from EX5 local evidence.
+Verify the candidate does not by EX5 assertion alone change Stage32 MAIN, Q602/O210, survivors `[73,97,235]`, O212+, FULL178, receiver/theorem/endpoint credit, or Perfect Cuboid existence/nonexistence claims.
 
 ## Credit ceiling
 
-Classify the strongest supported current result using precise scope, for example:
+Classify the strongest supported result as one of:
 
 - `NO_CREDIT`;
-- `LOCAL_EXACT_INTERFACE_PREFLIGHT`;
-- `LOCAL_EXACT_PICARD64_BLOCK_UNSAT / <rank interval>`;
-- `EXACT_PICARD64_WITNESS_INTERFACE / <terminal>`;
-- `MAIN_CONSUMABLE_FULL178_ADAPTER_CANDIDATE` only when the current-target adapter is complete and audit-ready.
+- `NECESSARY_CONDITION_ONLY`;
+- `BRANCH_EXCLUSION` for an explicitly named receiver branch;
+- `AUDIT_READY_EX5_ROUTE_DECISION_CLOSURE / <terminal outcome>`;
+- `EX5_ROUTE_DECISION_CLOSURE / QUALIFIED_INDEPENDENT_STAGE32_ROUTE_ESTABLISHED` only after exact-head hostile-audit PASS of the complete positive route certificate;
+- `EX5_ROUTE_DECISION_CLOSURE / FROZEN_BREADTH_PACKAGE_EXHAUSTED_WITHOUT_QUALIFIED_ROUTE` only after exact-head hostile-audit PASS of the complete bounded-exhaustion certificate.
 
-None of these automatically means `32-01 FULL178` complete or Stage32 closure.
-
-Historical Cycle1 route-decision labels remain valid only at their original frozen-package scope and are not the current Stage32 frontier.
+None of these labels automatically means Stage32 `FULL_TARGET_CLOSURE`.
 
 ## Required audit output
 
-Return one unambiguous `PASS` or `FAIL`. Record exact head, current main, Stage32 MAIN #1753 authority head, reviewed scope, CI/replay status, strongest supported current credit ceiling, historical-provenance findings, and every blocker.
+Return one unambiguous `PASS` or `FAIL`. Record exact head, current main, PR state, reviewed scope, exact-head CI status, strongest supported credit ceiling, selected terminal outcome if any, and every blocking finding.
 
 `PASS` does not merge and does not automatically promote anything into Stage32 MAIN. `FAIL` states the smallest concrete repair or missing proof boundary and stops; implementation belongs to `stage32ex5-mainbatch`.

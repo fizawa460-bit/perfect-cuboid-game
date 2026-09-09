@@ -71,10 +71,12 @@ A hostile-audit PASS does not silently promote EX5 to MAIN.
 
 ## `stage32ex5-audit` handoff
 
-`stage32ex5-audit` follows `stages/stage32-ex5/AUDIT-CONTRACT.md`. It audits an exact candidate head independently and does not continue research or repair the branch.
+`stage32ex5-audit` follows `stages/stage32-ex5/CURRENT-AUDIT-CONTRACT.md`. `AUDIT-CONTRACT.md` is the historical Cycle1 source-locked audit contract and is not the mutable current audit contract.
 
-Audit PASS establishes only the explicitly audited EX5 scope. It does not merge and does not automatically advance `32-01 FULL178` or any final milestone.
+The current audit attacks an exact candidate head independently and does not continue research or repair the branch. Audit PASS establishes only the explicitly audited EX5 scope; it does not merge and does not automatically advance `32-01 FULL178` or any final milestone.
+
+PR #1742 reaches the long-lived shared-PR checkpoint at the semantic-sync 100th commit. Freeze that exact head and perform the intermediate delta-bounded hostile audit required by `docs/research-os/policies/hostile-audit-and-freshness.md` before appending further substantive retained research.
 
 ## Search, write, and merge discipline
 
-Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Exact evidence/checkpoint artifacts and the historical source-locked `stage32-ex5.md` are not rewritten for terminology synchronization. Do not merge without explicit user authorization.
+Repository discovery is search-first under `AGENTS.md`. Preserve source/proof locks and current firewalls before writes. Exact evidence/checkpoint artifacts, historical `stage32-ex5.md`, and historical `AUDIT-CONTRACT.md` are not rewritten for terminology synchronization. Do not merge without explicit user authorization.

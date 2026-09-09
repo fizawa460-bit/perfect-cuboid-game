@@ -61,12 +61,17 @@ Current-facing EX5 documents must not present those objects as the live Stage32 
 - startup: `MAIN-START-HERE.md`
 - current routing/state: `MAIN-STATE.json`
 - current roadmap and claim boundaries: `CURRENT-ROADMAP.md`
+- current hostile audit: `CURRENT-AUDIT-CONTRACT.md`
 - historical source-locked Cycle1 roadmap: `stage32-ex5.md`
-- hostile audit: `AUDIT-CONTRACT.md`
+- historical source-locked Cycle1 audit contract: `AUDIT-CONTRACT.md`
 - current state verifier: `verify_main_state.py`
 
-`stage32-ex5.md` is retained because historical Cycle1 evidence source-locks that exact blob. Current terminology changes belong in `README.md`, `CURRENT-ROADMAP.md`, `MAIN-STATE.json`, and the audit/startup contracts instead.
+`stage32-ex5.md` and `AUDIT-CONTRACT.md` are retained because historical Cycle1 evidence source-locks those exact blobs. Current terminology changes belong in `README.md`, `CURRENT-ROADMAP.md`, `CURRENT-AUDIT-CONTRACT.md`, `MAIN-STATE.json`, and startup/routing projections instead.
 
 Exact evidence/checkpoint files are proof records, not prose state, and must not be rewritten merely to synchronize terminology.
+
+## Intermediate audit boundary
+
+PR #1742 reaches the repository long-lived shared-PR checkpoint at the semantic-sync 100th commit. Freeze that exact head for a delta-bounded intermediate hostile audit before appending further substantive retained research.
 
 Merge remains forbidden without explicit user authorization.

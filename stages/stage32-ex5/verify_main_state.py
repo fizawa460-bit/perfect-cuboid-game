@@ -44,16 +44,17 @@ def verify_current_docs() -> None:
         "README": (HERE / "README.md").read_text(encoding="utf-8"),
         "START": (HERE / "MAIN-START-HERE.md").read_text(encoding="utf-8"),
         "ROADMAP": (HERE / "CURRENT-ROADMAP.md").read_text(encoding="utf-8"),
-        "AUDIT": (HERE / "AUDIT-CONTRACT.md").read_text(encoding="utf-8"),
+        "AUDIT": (HERE / "CURRENT-AUDIT-CONTRACT.md").read_text(encoding="utf-8"),
     }
     for name, text in docs.items():
         req(MODE in text, f"{name} lost current Stage32 mode")
         req("32-01" in text and "FULL178" in text, f"{name} lost primary FULL178 routing")
     req("not the current Stage32 survivor population" in docs["README"], "README Q602 provenance wording drift")
     req("not current attack targets" in docs["ROADMAP"], "current roadmap restored V6/O210/Q602 as targets")
-    req("historical-credit firewall" in docs["AUDIT"], "audit historical-credit firewall missing")
+    req("historical-credit firewall" in docs["AUDIT"], "current audit historical-credit firewall missing")
     req(CURRENT_LEAF in docs["README"] and CURRENT_LEAF in docs["ROADMAP"], "current next step missing")
     req("historical Cycle1 source-locked roadmap" in docs["ROADMAP"], "current roadmap does not protect historical roadmap")
+    req("historical Cycle1 source-locked contract" in docs["AUDIT"], "current audit does not protect historical audit contract")
 
 
 def main() -> None:
@@ -62,6 +63,8 @@ def main() -> None:
     req(state["stage"] == "32EX5", "wrong stage")
     req(state["execution"]["roadmap_contract"] == "stages/stage32-ex5/CURRENT-ROADMAP.md", "mutable roadmap routing drift")
     req(state["execution"]["historical_source_locked_roadmap"] == "stages/stage32-ex5/stage32-ex5.md", "historical roadmap routing drift")
+    req(state["execution"]["audit_contract"] == "stages/stage32-ex5/CURRENT-AUDIT-CONTRACT.md", "mutable audit routing drift")
+    req(state["execution"]["historical_source_locked_audit_contract"] == "stages/stage32-ex5/AUDIT-CONTRACT.md", "historical audit routing drift")
 
     boot = state["bootstrap"]
     req(boot["current_main_sha_observed"] == "e2da76d90a0994af5038023613c6c4084c4c507e", "observed main drift")
@@ -133,6 +136,8 @@ def main() -> None:
     req(state["next_step"]["id"] == CURRENT_LEAF, "next-step drift")
     req(state["next_step"]["heavy_scaleout_authorized"] is False, "heavy scaleout silently authorized")
     req(state["next_step"]["main_promotion_authorized"] is False, "MAIN promotion silently authorized")
+    req(state["next_step"]["blocked_until_intermediate_hostile_audit_pass"] is True, "100-commit audit freeze missing")
+    req(state["intermediate_audit_boundary"]["freeze_after_this_semantic_sync_commit"] is True, "intermediate audit boundary missing")
 
     # Historical Cycle1 evidence remains source-locked and must still replay.
     receipt = load(RECEIPT_PATH)
@@ -150,7 +155,7 @@ def main() -> None:
     print("primary_incomplete=32-01:FULL178")
     print("historical_q602_residues=[73,97,235]:PROVENANCE_ONLY")
     print("local_exact_unsat_prefix=0..398")
-    print(f"next_leaf={CURRENT_LEAF}")
+    print(f"next_leaf={CURRENT_LEAF}:BLOCKED_PENDING_INTERMEDIATE_AUDIT")
     print("stage32_main_credit=NO")
     print("merge=SEPARATE_USER_ACTION")
 
