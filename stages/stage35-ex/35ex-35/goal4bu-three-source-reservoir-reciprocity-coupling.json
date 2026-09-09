@@ -1,0 +1,147 @@
+{
+  "schema": "STAGE35_EX_GOAL4BU_THREE_SOURCE_RESERVOIR_RECIPROCITY_COUPLING_V1",
+  "unit": "35EX-35_GOAL4BU_THREE_SOURCE_RESERVOIR_RECIPROCITY_COUPLING_PREFLIGHT",
+  "stacked_parent": {
+    "exact_head_sha": "d2a65383b141824321c6cc0bf6b594a59c03957c",
+    "aggregate_run": 34400316014,
+    "aggregate_current_job": 102631709439,
+    "goal4bt_run": 34400316042,
+    "goal4bs_checkpoint_run": 34400316012,
+    "mathematical_authority": "V74/Goal4AK",
+    "mathematical_authority_review_id": 5142248509,
+    "intermediate_checkpoint_review_id": 5151846948
+  },
+  "source_locks": {
+    "goal4bt": {
+      "path": "stages/stage35-ex/35ex-35/goal4bt-master-hypotenuse-bridge-reservoir-source-reclassification.json",
+      "blob_sha1": "50970a346f7d85f2da535329fda8218e52da0adb",
+      "canonical_sha256": "1eba0637995f9a3aa1e605fd7c42fb4310a51eadfe46cf459e50d81257aeb66e"
+    },
+    "35ex09": {
+      "path": "stages/stage35-ex/35ex-09/bridge-squareclass-graph.md",
+      "blob_sha1": "1cbd3fdf4891ffabc1911ae19632f593a87b5d14"
+    },
+    "35ex10": {
+      "path": "stages/stage35-ex/35ex-10/split-prime-obstruction.md",
+      "blob_sha1": "a5761a883b3c50bbdad6a357241bba4b61e71c8a"
+    },
+    "35ex11": {
+      "path": "stages/stage35-ex/35ex-11/reciprocity-routing-and-local-route-freeze.md",
+      "blob_sha1": "fc186e1a0b2134840135e67c29adb0e6bd9bf1a9"
+    },
+    "goal4bu_source": {
+      "path": "stages/stage35-ex/35ex-35/goal4bu-three-source-reservoir-reciprocity-coupling-source-lock.md",
+      "blob_sha1": "d6ce919c9a8867f77008e733e4701924ae49d437"
+    }
+  },
+  "source_known_triple": {
+    "branch_L": {
+      "cross": "t=D*V2/(2*p*q)",
+      "difference": "T=U2/c",
+      "bridge": "e=gcd(c,H)"
+    },
+    "branch_R": {
+      "cross": "j=D*V2/(p*q)",
+      "difference": "T=U2/c",
+      "bridge": "e=gcd(c,H)"
+    },
+    "pairwise_coprime_under_E1_counterexample": true,
+    "source_side_reason": "T divides reduced Master leg A, cross divides reduced Master leg B when integral, e divides H, and gcd(A,B)=gcd(A,H)=gcd(B,H)=1."
+  },
+  "quadratic_sieve": {
+    "branch_L": {
+      "cross_split_condition": "ell|t, ell=1mod4 => Legendre(K,ell)=+1",
+      "difference_split_condition": "ell|T, ell=1mod4 => Legendre(p*q,ell)=+1",
+      "bridge_condition": "odd ell|e => ell=1mod4 and Legendre(p*q,ell)=+1"
+    },
+    "branch_R": {
+      "cross_split_condition": "ell|j, ell=1mod4 => Legendre(2*K,ell)=+1",
+      "difference_split_condition": "ell|T, ell=1mod4 => Legendre(2*p*q,ell)=+1",
+      "bridge_condition": "odd ell|e => ell=1mod4 and Legendre(2*p*q,ell)=+1"
+    },
+    "numerator_identity": "K*(p*q)=W1*V1",
+    "composite_Jacobi_compression_stronger_than_primewise": false
+  },
+  "all_channels_admissible_witnesses": {
+    "branch_L": {
+      "tuple": [13, 4, 96, 91],
+      "U1": 153,
+      "V1": 104,
+      "W1": 185,
+      "U2": 935,
+      "V2": 17472,
+      "W2": 17497,
+      "M": 7155539400256,
+      "S": 2674984,
+      "c": 17,
+      "p": 1,
+      "q": 104,
+      "H": 1513,
+      "e": 17,
+      "D": 9,
+      "T": 55,
+      "K": 185,
+      "cross_t": 756,
+      "split_tests": {
+        "T_ell5_Legendre_pq": 1,
+        "e_ell17_Legendre_pq": 1
+      },
+      "bad_split_prime_in_any_source_channel": false
+    },
+    "branch_R": {
+      "tuple": [88, 7, 98, 37],
+      "U1": 7695,
+      "V1": 1232,
+      "W1": 7793,
+      "U2": 8235,
+      "V2": 7252,
+      "W2": 10973,
+      "M": 3217033617210000,
+      "S": 56718900,
+      "c": 135,
+      "p": 1,
+      "q": 28,
+      "H": 15005,
+      "e": 5,
+      "D": 57,
+      "T": 61,
+      "K": 342892,
+      "cross_j": 14763,
+      "split_tests": {
+        "j_ell37_Legendre_2K": 1,
+        "T_ell61_Legendre_2pq": 1,
+        "e_ell5_Legendre_2pq": 1
+      },
+      "bad_split_prime_in_any_source_channel": false
+    }
+  },
+  "reciprocity_boundary": {
+    "universal_bad_split_prime_in_three_source_channels": false,
+    "fixed_global_Jacobi_sign_forced_by_current_graph": false,
+    "cross_reservoir_orientation_bits_coupled_by_quadratic_reciprocity": false,
+    "reason": "Quadratic reciprocity rewrites the same source-local symbols but the three pairwise-coprime moving reservoirs retain independent edge allocations; no fixed support or source identity fixes a cross-reservoir product of orientation bits.",
+    "stronger_reciprocity_impossibility_claimed": false
+  },
+  "result": {
+    "three_source_known_reservoirs_exposed": true,
+    "third_bridge_sieve_retained": true,
+    "simple_universal_bad_prime_close_refuted": true,
+    "quadratic_reciprocity_universal_close_obtained": false,
+    "E1_proved": false,
+    "branch_pruning_beyond_goal4bt": false
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4BV_SOURCE_KNOWN_BRIDGE_QUARTIC_ORIENTATION_PREFLIGHT",
+    "question": "At source-known split primes ell|e, does quartic orientation of the Master root of -1 and the hypothetical E1 root produce a source-fixed exclusion beyond the quadratic bridge predicate, without recharging the later endpoint Gaussian/ray route?"
+  },
+  "credit_firewall": {
+    "hostile_audit_credit": false,
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256": "1efe64e90d160d040df403589abc7b14c966ebfdfb33e4defbdb9cf620a93a7e"
+}

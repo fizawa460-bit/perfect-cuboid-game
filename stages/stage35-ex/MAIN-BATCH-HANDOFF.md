@@ -1,13 +1,13 @@
-# Stage35-EX MAIN batch handoff — Goal4BT source-known bridge reservoir reopen
+# Stage35-EX MAIN batch handoff — Goal4BU three source-reservoir reciprocity
 
-Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4BS remains the independently audited intermediate checkpoint (review `5151846948`, audited head `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`). No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4BS remains the independently audited intermediate checkpoint. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 Audited checkpoint receipt:
 
 - review: `5151846948`
 - audited exact head: `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`
 
-Retained Goal4BS receipt markers (historical checkpoint state, not the post-BT current route):
+Retained Goal4BS receipt markers (historical checkpoint state):
 
 ```text
 PARKING_AUDIT_COMPLETE=true
@@ -17,74 +17,64 @@ NEW_SOURCE_FIXED_E1_INVARIANT
 QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
 ```
 
-## Reopen from audited parking
+## Goal4BT exact-green reopen
 
-Goal4BS had
-
-```text
-ROUTE_STATUS=PARKED_AUDITED_REOPEN_GATED
-```
-
-with reopen gate B:
+Goal4BT triggered reopen gate B by correcting the historical classification of
 
 ```text
-NEW_SOURCE_FIXED_E1_INVARIANT
-```
-
-Goal4BT identifies such an invariant by correcting the historical classification of the bridge reservoir.
-
-For every Master-Hit,
-
-```text
-M=(V1*U2)^2+(U1*V2)^2=S^2,
-h=c*q,
-H=S/(c*q),
+H=sqrt((V1*U2)^2+(U1*V2)^2)/(c*q),
 e=gcd(c,H).
 ```
 
-`H` is the primitive Master hypotenuse and is source-computable before any E1-failure assumption. Hence `e` is source-computable too.
+Both are source-computable from the Master-Hit before any E1-failure assumption.
 
-Historical 35EX-10 treated `e` as not source-known. Its branch-specific bridge residue conditions therefore upgrade to source-only E1 kill predicates:
+Exact Goal4BT parent:
 
 ```text
-Branch L: odd ell|e requires (p*q/ell)=+1.
-Branch R: odd ell|e requires (2*p*q/ell)=+1.
+head=d2a65383b141824321c6cc0bf6b594a59c03957c
+aggregate=34400316014
+verify-stage35-ex-current=102631709439
+Goal4BT-dedicated=34400316042
+Goal4BS-checkpoint=34400316012
 ```
 
-This channel is nonredundant with the old cross/T split-prime channels. Regression witnesses are retained in the Goal4BT artifact for both 2-adic branches.
+All are SUCCESS.
 
 ## Current provisional leaf
 
 ```text
-unit=35EX-35_GOAL4BT_MASTER_HYPOTENUSE_BRIDGE_RESERVOIR_SOURCE_RECLASSIFICATION
-status=PROVISIONAL_EXACT_REOPEN_GATE_B_SOURCE_KNOWN_BRIDGE_SIEVE_NO_E1_CREDIT
-REOPEN_GATE_B_TRIGGERED=true
-NEW_SOURCE_FIXED_E1_INVARIANT=SOURCE_KNOWN_BRIDGE_RESERVOIR_RESIDUE_PROFILE
+unit=35EX-35_GOAL4BU_THREE_SOURCE_RESERVOIR_RECIPROCITY_COUPLING_PREFLIGHT
+status=PROVISIONAL_EXACT_THREE_SOURCE_RESERVOIRS_NO_QUADRATIC_UNIVERSAL_CLOSE_NO_E1_CREDIT
 ```
+
+Goal4BU makes the source-known reservoir triple explicit:
+
+```text
+Branch L: t, T, e
+Branch R: j, T, e
+```
+
+and records the pairwise-coprime source-side reason using the primitive Master triple.
+
+The corrected source-only split-prime sieve is complete at the quadratic layer, but a simple universal close is false. Exact Master-Hit witnesses exist in both branches where every source-channel split-prime test is locally admissible; in Branch R an example has a nontrivial split prime in each of `j`, `T`, and `e`.
+
+Quadratic reciprocity rewrites the existing local symbols but the retained three-reservoir graph does not supply a fixed global product of the surviving split-prime orientation bits. Therefore Goal4BU does not add pruning beyond Goal4BT.
 
 Files:
 
-- `stages/stage35-ex/35ex-35/goal4bt-master-hypotenuse-bridge-reservoir-source-reclassification-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bt-master-hypotenuse-bridge-reservoir-source-reclassification.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bt_bridge_reservoir_source_reclassification.py`
-- `.github/workflows/stage35-ex-goal4bt-bridge-reservoir-source-reclassification.yml`
+- `stages/stage35-ex/35ex-35/goal4bu-three-source-reservoir-reciprocity-coupling-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bu-three-source-reservoir-reciprocity-coupling.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bu_three_source_reservoir_reciprocity.py`
+- `.github/workflows/stage35-ex-goal4bu-three-source-reservoir-reciprocity.yml`
 
-MAIN-STATE is intentionally unchanged at V74 / Goal4AK. Goal4BT has no hostile-audit or promotion credit.
+MAIN-STATE is intentionally unchanged at V74 / Goal4AK. Goal4BU has no hostile-audit or promotion credit.
 
 ## Next leaf
 
 ```text
-35EX-35_GOAL4BU_THREE_SOURCE_RESERVOIR_RECIPROCITY_COUPLING_PREFLIGHT
+35EX-35_GOAL4BV_SOURCE_KNOWN_BRIDGE_QUARTIC_ORIENTATION_PREFLIGHT
 ```
 
-Question: after correcting `e` to source-known, can the pairwise-coprime source-known triple
-
-```text
-cross reservoir, T, e
-```
-
-be coupled by a global Jacobi/reciprocity relation or universal bad-prime condition beyond the separate 35EX-10/11 primewise predicates?
-
-Do not recharge the already-tested Gaussian/ray/Brauer/height routes unless Goal4BU exposes a genuinely new adapter.
+Question: at the now-source-known split bridge primes `ell|e`, does quartic orientation supply a source-fixed exclusion beyond Goal4BT's quadratic predicate? This must first be proved distinct from the later endpoint Gaussian/ray system before any Arsenal reuse.
 
 No merge.
