@@ -66,6 +66,12 @@ def vector_int(v: Matrix) -> list[int]:
     return [int(v[i, 0]) for i in range(v.rows)]
 
 
+def evaluate_functional(coeffs, values: list[int]) -> int:
+    if len(coeffs) != len(values):
+        raise ValueError("functional/value length mismatch")
+    return sum(int(coeffs[j]) * int(values[j]) for j in range(len(values)))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--manifest", type=Path, required=True)
@@ -168,6 +174,7 @@ def main() -> None:
         result_status = "SAT"
         model = solver.model()
         x = Matrix([int(model.eval(v, model_completion=True).as_long()) for v in xvars])
+        x_values = vector_int(x)
         if x.shape != (PICARD_RANK, 1):
             raise ValueError("Picard64 witness shape regression")
         pairings = adapter.pairing_matrix * x
@@ -178,9 +185,9 @@ def main() -> None:
             if pairing_values[item["all140_index_0based"]] != item["pairing"]:
                 raise ValueError("SAT witness violates indexed terminal pairing")
 
-        d_actual = int(Matrix([bridge.degree_functional]) * x)[0]
-        e_actual = int(Matrix([bridge.exceptional_mass_functional]) * x)[0]
-        a_actual = int(Matrix([bridge.first_normal_half_functional]) * x)[0]
+        d_actual = evaluate_functional(bridge.degree_functional, x_values)
+        e_actual = evaluate_functional(bridge.exceptional_mass_functional, x_values)
+        a_actual = evaluate_functional(bridge.first_normal_half_functional, x_values)
         if (d_actual, e_actual) != (DEGREE, EXCEPTIONAL_MASS):
             raise ValueError("SAT witness violates exact d/e slice")
         if sum(pairing_values[92:140]) != EXCEPTIONAL_MASS:
@@ -188,8 +195,6 @@ def main() -> None:
 
         z = data["C"] * x
         z_values = vector_int(z)
-        if data["C"] * x != z:
-            raise ValueError("rank-5 projection replay regression")
         x0 = data["x0_map"] * z
         delta = x - x0
         original_t, params = data["K"].gauss_jordan_solve(delta)
@@ -232,8 +237,8 @@ def main() -> None:
 
         target.update({"a": a_actual, "z": z_values})
         completion = {
-            "picard_coordinates": vector_int(x),
-            "picard_coordinates_sha256": csha(vector_int(x)),
+            "picard_coordinates": x_values,
+            "picard_coordinates_sha256": csha(x_values),
             "all140_pairings": pairing_values,
             "all140_pairings_sha256": csha(pairing_values),
             "all140_nonnegative": True,
