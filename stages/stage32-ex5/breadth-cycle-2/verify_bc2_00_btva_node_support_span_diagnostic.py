@@ -13,8 +13,8 @@ CONTRACT = ROOT / "stages/stage29/29-02c-LG2/finite-search-contract.md"
 RESULT = ROOT / "stages/stage29/29-02c-LG2/result.md"
 
 EXPECTED_CANONICAL = "fd4a566243959a3bbabccfe68ffd1aa52de10ad591f0916819591e35b4d7563d"
-EXPECTED_BLOBS = {
-    MAIN_STATE: "6721539364b40622572d6cf9fe2898a1f6b8d0f2",
+HISTORICAL_CYCLE1_STATE_BLOB = "6721539364b40622572d6cf9fe2898a1f6b8d0f2"
+EXPECTED_LIVE_BLOBS = {
     AGG: "92561bbc1cac6f2d5c47bf37bfbc9c6bfaba3cdd",
     CONTRACT: "2c1a4813a77b517482b6fef497f9a517c9d12fe6",
     RESULT: "820ed4e1b1a53db14085678de6f186b59ae0ea48",
@@ -50,12 +50,28 @@ def main() -> None:
     assert "seven singularities that span P^6" in p["theorem_source"]["necessary_conditions"]["genus0_nonconic"]
     assert "six singularities spanning a hyperplane" in p["theorem_source"]["necessary_conditions"]["genus1_consequence"]
 
-    for path, expected in EXPECTED_BLOBS.items():
+    # BC2-00 is an immutable retained diagnostic. Its source lock intentionally
+    # points to the Cycle1 routing snapshot that existed when the diagnostic was
+    # created. RETAINED_CONSOLIDATION later moved live MAIN-STATE to BC2, so do
+    # not require live mutable routing bytes to equal this historical lock.
+    source_by_path = {item["path"]: item for item in p["source_locks"] if item["repo"] == "fizawa460-bit/perfect-cuboid-game"}
+    old_state_lock = source_by_path["stages/stage32-ex5/MAIN-STATE.json"]
+    assert old_state_lock["blob"] == HISTORICAL_CYCLE1_STATE_BLOB
+    assert old_state_lock["commit"] == "70265586b3f97be21c7621af73f443311f1f3fa3"
+
+    for path, expected in EXPECTED_LIVE_BLOBS.items():
         assert git_blob_sha(path) == expected, (path, git_blob_sha(path), expected)
 
     state = json.loads(MAIN_STATE.read_text())
-    assert state["current"]["status"] == "EX5_ROUTE_DECISION_CLOSURE_BOUNDED_EXHAUSTION_AUDITED"
-    assert "MATERIALLY_NEW_ROUTE_FAMILY_WITH_NEW_BREADTH_CYCLE" in state["route_anti_loop"]["reentry_requires_one_of"]
+    assert state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V2_BC2_RETAINED_PROVISIONAL"
+    assert state["prior_audited_authority"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_1"
+    assert state["prior_audited_authority"]["authority_status"] == "AUDITED"
+    assert state["prior_audited_authority"]["scope_firewall"] == "EX5_BREADTH_CYCLE_1_ONLY"
+    assert state["current"]["breadth_cycle"] == "EX5_BREADTH_CYCLE_2_CANDIDATE"
+    assert state["current"]["route_id"] == "EX5R-SYMDIFF-NODE-SPAN-001"
+    assert state["current"]["status"] == "BC2_RETAINED_PROVISIONAL_REAUDIT_REQUIRED"
+    assert state["route_anti_loop"]["materially_new_cycle2_route_family_admitted"] is True
+    assert state["credit"]["current_bc2_mathematical_credit"] is False
     assert state["credit"]["stage32_main_credit"] is False
 
     agg_text = AGG.read_text()
@@ -92,6 +108,8 @@ def main() -> None:
     print(json.dumps({
         "verdict": "PASS_BC2_00_BTVA_NODE_SUPPORT_SPAN_FIRST_PASS_DIAGNOSTIC",
         "canonical_sha256": EXPECTED_CANONICAL,
+        "historical_cycle1_state_lock_preserved": True,
+        "current_routing_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
         "route_credit": False,
         "mathematical_credit": False,
         "second_pass_dedup_required": True,
