@@ -184,6 +184,7 @@ def build():
 
     inv = {r["carrier_id"]: r for r in B3["finite_linear_carrier_inventory"]["carrier_rows"]}
     reps = {r["carrier_id"]: r for r in C2C["representative_strict_prime_decompositions"]["rows"]}
+    transported = {r["carrier_id"]: r for r in C2C["transported_novel20_strict_prime_decompositions"]["rows"]}
     bucket = next(r for r in B2["remaining24_partition"]["rows_by_bucket"]
                   if r["bucket"] == "UNIQUE_C1_FACTOR_STRICT_PRIMES")
     rows = list(bucket["rows"])
@@ -196,19 +197,35 @@ def build():
     if any(r["carrier_id"] != "LIN_024" or int(r["c1_factor_multiplicity_in_full_sign_norm"]) != 8
            for r in d1):
         raise SystemExit("LIN_024 degree-one deferred pair moved")
-    if set(reps) != {r["carrier_id"] for r in d16}:
-        raise SystemExit("C2C representative carrier set no longer equals the 16 unique degree-16 targets")
+    d16_ids = {r["carrier_id"] for r in d16}
+    special_ids = {"LIN_008", "LIN_015", "LIN_020", "LIN_025"}
+    if set(transported) != d16_ids | special_ids:
+        raise SystemExit("C2C transported novel20 carrier partition moved")
+    if {cid for cid in d16_ids if transported[cid]["strict_prime_count"] == 1} != d16_ids:
+        raise SystemExit("C2C single-prime degree16 transport contract moved")
 
     out_rows = []
     nonsquare = 0
     for t in sorted(d16, key=lambda r: r["carrier_id"]):
         cid = t["carrier_id"]
-        rep = reps[cid]
+        tr = transported[cid]
+        rep_id = tr["representative_carrier_id"]
+        rep = reps[rep_id]
+        if int(tr["strict_prime_count"]) != 1 or list(tr["strict_prime_multiplicities"]) != [1]:
+            raise SystemExit(f"C2C transported strict-prime contract moved for {cid}")
+        if not tr["transport_verified_against_C2B_projective_signature"]:
+            raise SystemExit(f"C2C transport verification moved for {cid}")
+        if cid == rep_id:
+            if list(tr["transport_word_from_representative"]) != []:
+                raise SystemExit(f"C2C identity transport moved for {cid}")
+        else:
+            if list(tr["transport_word_from_representative"]) != ["cc"]:
+                raise SystemExit(f"C2C nontrivial transport word moved for {cid}")
         if int(rep["strict_prime_count"]) != 1 or list(rep["strict_prime_multiplicities"]) != [1]:
-            raise SystemExit(f"C2C strict-prime contract moved for {cid}")
+            raise SystemExit(f"C2C representative strict-prime contract moved for {cid}/{rep_id}")
         st = rep["strict_transform_on_resolution"]
         if int(st["irreducible_strict_prime_count"]) != 1 or list(st["strict_transform_multiplicities"]) != [1]:
-            raise SystemExit(f"C2C strict-transform contract moved for {cid}")
+            raise SystemExit(f"C2C representative strict-transform contract moved for {cid}/{rep_id}")
         mc = rep["modular_norm_irreducibility_certificate"]
         dehom, y, x = VM[mc["dehom"]], VM[mc["polyvar"]], VM[mc["specialized_var"]]
         if {dehom, x, y} != set(BASE):
@@ -274,7 +291,11 @@ def build():
             "c2c_irreducible_norm_certificate": {
                 "strict_prime_count": 1,
                 "strict_prime_multiplicity": 1,
-                "norm_irreducible_modular_certificate_bound": True,
+                "representative_carrier_id": rep_id,
+                "transport_word_from_representative": list(tr["transport_word_from_representative"]),
+                "transport_verified_against_C2B_projective_signature": True,
+                "norm_irreducible_modular_certificate_bound_at_representative": True,
+                "irreducibility_transported_by_certified_action": cid != rep_id,
                 "finite_free_norm_exponent_one_implies_residue_degree_one": True,
             },
             "quotient_chart": {
