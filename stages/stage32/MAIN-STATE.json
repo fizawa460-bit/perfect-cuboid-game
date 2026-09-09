@@ -4,12 +4,12 @@
   "stage": 32,
   "authority_sync": {
     "startup_authority": "stages/stage32/MAIN-STATE.json",
-    "current_main_semantic_merge_sha": "56ce8213ffe90635aaa499c46639971c952724f1",
-    "latest_audited_stage32_leaf": "Q602_V3_VARIANCE_REPAIR_CLAIM_SYNC",
+    "current_main_semantic_merge_sha": "733176600f99e91993d08c16aa98f09c08a1e726",
+    "latest_audited_stage32_leaf": "Q602_V3_POST_SYNC_MAIN_TRANSITION",
     "latest_audited_stage32_pr": 1730,
-    "latest_hostile_audit_review_id": 5149462285,
-    "latest_audited_exact_head": "6487de765b0d35e05d81018aeaff902af9b7d21a",
-    "latest_stage32_merge_commit": "56ce8213ffe90635aaa499c46639971c952724f1",
+    "latest_hostile_audit_review_id": 5149990935,
+    "latest_audited_exact_head": "9b605ed7f44415198a0e261dc46971e5ecd3c80b",
+    "latest_stage32_merge_commit": "733176600f99e91993d08c16aa98f09c08a1e726",
     "audited_main_v6_negative_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
     "audited_main_v6_negative_claim_core_sha256": "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6",
     "audited_main_o210_claim": "S32.O210.EXCLUSION.V3",
@@ -20,7 +20,9 @@
     "audited_main_q602_claim": "S32.Q602.EXCLUSION.V3",
     "audited_main_q602_claim_core_sha256": "c85a76ac1ed07deec1d65269451452d33b63c3a5221134ee687e282951823067",
     "audited_main_q602_claim_review_id": 5149462285,
-    "q602_post_sync_hostile_audit_status": "PENDING"
+    "q602_post_sync_hostile_audit_status": "PASS",
+    "q602_post_sync_hostile_audit_review_id": 5149990935,
+    "q602_post_sync_hostile_audit_exact_head": "9b605ed7f44415198a0e261dc46971e5ecd3c80b"
   },
   "fixed_target": {
     "row_id": "g1-d186",
@@ -64,14 +66,13 @@
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "next_exact_route": "HOSTILE_REAUDIT_Q602_V3_MAIN_SYNC_THEN_FULL178_AND_FINAL_SYNTHESIS",
+    "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
     "stop_semantics": "V6_O210_Q602_DECISIONS_CLOSED_BUT_STAGE32_NOT_CLOSED",
-    "stacked_candidate_audit_status": "Q602_V3_AUDITED_CORES_CONSUMED_POST_SYNC_REAUDIT_PENDING"
+    "stacked_candidate_audit_status": "Q602_V3_AUDITED_CORES_CONSUMED_POST_SYNC_HOSTILE_AUDIT_PASS"
   },
   "current_leaf_working_set": [
-    "stages/stage32/q602-claim-dag-variance-repair-preflight-20260909.json",
-    "stages/stage32/proof/verify_stage32_q602_sync.py",
-    "stages/stage32/full178-dominance-recheck-after-v6-o210-q602-route-20260909.json"
+    "stages/stage32/full178-dominance-recheck-after-v6-o210-q602-route-20260909.json",
+    "stages/stage32/mainbatch-final-chain-reentry-20260909.json"
   ],
   "ordinary_startup_excludes": [
     "stages/stage32/controller.json",
@@ -104,7 +105,7 @@
     },
     "o210_v3_artifact": {
       "path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
-      "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"
+      "canonical_sha256": "4be8369e6ce56892c81dc3e685314168f1cf3518"
     },
     "q602_variance_repair": {
       "path": "stages/stage32/q602-claim-dag-variance-repair-preflight-20260909.json",
@@ -132,5 +133,5 @@
     "proof_or_source_locked_assets_may_be_deleted_without_reference_audit": false,
     "next_cleanup_phase": "AFTER_PHASE_B_HOSTILE_AUDIT_REVIEW_REFERENCED_ROOT_AUTHORITY_FILES"
   },
-  "canonical_sha256_without_this_field": "760fe1088661c320a69eca587889d41a190befefc4e1def6798e82d8b859a2bb"
+  "canonical_sha256_without_this_field": "78497768594f8b277c4c448ccce5ea2c5d3e8c2b26688d5fceba4cd31d157917"
 }
