@@ -86,7 +86,7 @@ assert bk["next"]["unit"] == "35EX-35_GOAL4BL_XI_TWO_ADIC_RAY_CLASS_PARITY_PREFL
 
 bj = json.loads(BJ.read_text())
 assert bj["canonical_sha256"] == "a1208a9ac7ec291074a36fe4d795e13b31eee22653fa83bcdef3b7eae120ac4e"
-assert bj["result"]["global_gaussian_orientation_carrier_Xi"] is True
+assert bj["result"]["global_gaussian_orientation_carrier_constructed"] is True
 
 src = SRC.read_text()
 for marker in (
