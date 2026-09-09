@@ -30,28 +30,47 @@ root = ET.fromstring(raw)
 lines = []
 for result in root.findall(".//results"):
     for line in result.findall(".//line"):
-        lines.append("".join(line.itertext()))
+        lines.append("".join(line.itertext()).strip())
 stdout = "\n".join(lines)
-node_lines = [line for line in lines if line.startswith("NODE|")]
+records = []
+for line in lines:
+    if not line.startswith("NODE|"):
+        continue
+    tag, idx, payload = line.split("|", 2)
+    records.append((int(idx), payload))
+indices = [idx for idx, _ in records]
+payloads = [payload for _, payload in records]
 completion = "STAGE32EX5_B_RUNTIME_POINTS_END" in stdout
 runtime_error = any(marker in stdout for marker in (
     "Runtime error", "Internal error", "User error", "Assertion failed"
 ))
+index_ok = indices == list(range(48))
+unique_ok = len(set(payloads)) == 48
+coordinate_arity_ok = all(len(payload.split(",")) == 7 for payload in payloads)
 success = (
     http_status == 200
     and completion
     and not runtime_error
-    and len(node_lines) == 48
+    and len(records) == 48
+    and index_ok
+    and unique_ok
+    and coordinate_arity_ok
     and "COUNT|48" in stdout
-    and "UNIQUE|48" in stdout
 )
 print(json.dumps({
     "http_status": http_status,
-    "node_lines": len(node_lines),
+    "node_records": len(records),
+    "indices_0_through_47": index_ok,
+    "unique_normalized_points": unique_ok,
+    "coordinate_arity_7": coordinate_arity_ok,
     "runtime_error_seen": runtime_error,
     "completion_marker_seen": completion,
     "success": success,
 }, sort_keys=True))
-print(stdout)
+for idx, payload in records:
+    print(f"NODE|{idx}|{payload}")
+print("COUNT|48")
+print("UNIQUE|48" if unique_ok else f"UNIQUE|{len(set(payloads))}")
+print("STAGE32EX5_B_RUNTIME_POINTS_END")
 if not success:
     raise SystemExit("Stage32EX5-B Magma runtime-point export did not finish cleanly")

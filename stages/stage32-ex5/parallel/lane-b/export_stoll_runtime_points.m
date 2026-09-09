@@ -15,7 +15,6 @@ S := Scheme(Pr6, eqns);
 pts := Points(SingularSubscheme(S));
 assert #pts eq 48;
 
-normpts := [];
 for k in [1..#pts] do
     v := Eltseq(pts[k]);
     j0 := 1;
@@ -23,12 +22,15 @@ for k in [1..#pts] do
         j0 +:= 1;
     end while;
     nv := [x/v[j0] : x in v];
-    Append(~normpts, nv);
-    printf "NODE|%o|%o\n", k-1, nv;
+    printf "NODE|%o|", k-1;
+    for j in [1..7] do
+        printf "%o", nv[j];
+        if j lt 7 then
+            printf ",";
+        end if;
+    end for;
+    printf "\n";
 end for;
 
-assert #normpts eq 48;
-assert forall{normpts[j] ne normpts[k] : j,k in [1..48] | j lt k};
 printf "COUNT|%o\n", #pts;
-printf "UNIQUE|%o\n", #normpts;
 print "STAGE32EX5_B_RUNTIME_POINTS_END";
