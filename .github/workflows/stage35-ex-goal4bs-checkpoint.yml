@@ -5,7 +5,9 @@ on:
     paths:
       - 'stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit-source-lock.md'
       - 'stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit.json'
+      - 'stages/stage35-ex/35ex-35/goal4bs-intermediate-hostile-audit-pass-consumption.json'
       - 'stages/stage35-ex/verify_stage35_ex_35_goal4bs_post_boundary_parking_checkpoint.py'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bs_intermediate_audit_consumption.py'
       - 'stages/stage35-ex/MAIN-BATCH-HANDOFF.md'
       - '.github/workflows/stage35-ex-goal4bs-checkpoint.yml'
   workflow_dispatch:
@@ -34,3 +36,5 @@ jobs:
           python-version: '3.12'
       - name: Verify Goal4BS parking and intermediate hostile-audit checkpoint
         run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bs_post_boundary_parking_checkpoint.py
+      - name: Verify Goal4BS independent hostile-audit PASS consumption
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bs_intermediate_audit_consumption.py
