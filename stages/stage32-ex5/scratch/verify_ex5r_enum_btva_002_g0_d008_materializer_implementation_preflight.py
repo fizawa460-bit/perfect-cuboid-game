@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[3]
 CERT = HERE / "ex5r-enum-btva-002-g0-d008-materializer-implementation-preflight.json"
 SOURCE = HERE / "run_ex5r_enum_btva_002_g0_d008_rank61.py"
 RUNKEY = HERE / "runkeys" / "ex5r-enum-btva-002-g0-d008-rank61.json"
@@ -53,6 +54,13 @@ def main() -> None:
         raise SystemExit("fail-closed source semantic regression")
 
     backend = raw["inspected_backend"]
+    for rec in backend.values():
+        path = ROOT / rec["path"]
+        if not path.is_file():
+            raise SystemExit(f"missing backend source: {rec['path']}")
+        if git_blob_sha(path.read_bytes()) != rec["blob_sha1"]:
+            raise SystemExit(f"backend source blob regression: {rec['path']}")
+
     if not backend["pairing_prefix_engine"]["supports_exact_selected64_pairing_membership"]:
         raise SystemExit("prefix membership regression")
     if not backend["pairing_prefix_engine"]["supports_exact_picard64_reconstruction_from_complete_selected64_pairings"]:
