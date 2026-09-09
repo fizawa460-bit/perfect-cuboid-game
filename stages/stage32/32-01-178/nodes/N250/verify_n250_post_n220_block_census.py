@@ -63,7 +63,6 @@ def main() -> None:
     total_post_node_mass = 0
     total_post_n220 = 0
     survivor_exceptional_sum = 0
-    stream = hashlib.sha256()
 
     for row_id in rows:
         genus, degree = base.parse_row_id(row_id)
@@ -83,7 +82,7 @@ def main() -> None:
             total_post_node_mass += old_terminal
             total_post_n220 += survivor_terminal
             survivor_exceptional_sum += survivor_exceptional
-            rec = {
+            records.append({
                 "row_id": row_id,
                 "g": genus,
                 "d": degree,
@@ -92,9 +91,7 @@ def main() -> None:
                 "normal_block": normal_block,
                 "old_exceptional_blocks": old_exceptional,
                 "survivor_exceptional_blocks": survivor_exceptional,
-            }
-            records.append(rec)
-            stream.update(json.dumps(rec, sort_keys=True, separators=(",", ":")).encode() + b"\n")
+            })
 
     if len(records) != EXPECTED_STRATA:
         raise ValueError("post-node-mass stratum count regression")
@@ -102,6 +99,11 @@ def main() -> None:
         raise ValueError("terminal-total regression")
     if survivor_exceptional_sum != EXPECTED_SURVIVOR_EXCEPTIONAL_BLOCKS_SUM:
         raise ValueError("survivor exceptional-block sum regression")
+
+    canonical_records = sorted(records, key=lambda r: (r["g"], r["d"], r["e"]))
+    stream = hashlib.sha256()
+    for rec in canonical_records:
+        stream.update(json.dumps(rec, sort_keys=True, separators=(",", ":")).encode() + b"\n")
     if stream.hexdigest() != EXPECTED_ROW_STREAM_SHA256:
         raise ValueError("per-stratum census stream regression")
 
