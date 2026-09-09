@@ -1,108 +1,104 @@
-# Stage35-EX MAIN batch handoff — Goal4AZ super-sqrt distinct-class amplification boundary
+# Stage35-EX MAIN batch handoff — Goal4BA finite visible Brauer truncation nonobstruction
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AZ are provisional stacked research leaves on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BA are provisional stacked research leaves on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
 
 ## Exact-green parent
 
-Goal4AY is exact-green:
+Goal4AZ is exact-green:
 
-- exact head: `d544357536ed92d7ab56c48d303e45f1073f6c5e`
-- aggregate: `34300718726`
-- `verify-stage35-ex-current`: `102307753849`
+- exact head: `932e863eb11749d1fbcd20a607535cbbf2816b47`
+- aggregate: `34301250886`
+- `verify-stage35-ex-current`: `102309735138`
 - result: `SUCCESS`
 
-Goal4AY recovered the classical derived-cuboid operator and proved that, after primitive normalization,
+Goal4AZ derived the exact amplification threshold `rho/kappa>1/2` against Goal4M's `T(B)<<B^(1/2+o(1))` and fail-closed the currently source-locked amplifier mechanisms.
+
+## Goal4BA provisional exact result
+
+Goal4BA executes the remaining finite-Brauer-shortcut lens on the exact visible algebraic/unit-character layer.
+
+Retained visible units:
 
 ```text
-D:(x,y,z ; a,b,c) -> (a,b,c ; x,y,z),
-D^2=id.
+u1=p+x,
+u2=q+y,
+u3=w+z.
 ```
 
-It preserves all three face-square equations, does not have proved fourth-square preservation, and cannot be a universal strict descent even under hypothetical full-endpoint preservation because it is an involution.
-
-## Goal4AZ provisional exact result
-
-Goal4AZ executes the Goal4AS lens
+For any finite set of global finite-order characters
 
 ```text
-SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_OR_STRONGER_COUNTING.
+Chi={chi_1,...,chi_m},
 ```
 
-Goal4M supplies
+define
 
 ```text
-T(B) << B^(1/2+o(1))
+F_Chi=<A,B,beta(chi_j,u_i):1<=j<=m,1<=i<=3>.
 ```
 
-for primitive canonical endpoint classes of space-diagonal height at most `B`.
-
-For an amplifier based at one hypothetical endpoint `P`, write
+Using the 35EX-22 rational boundary anchor
 
 ```text
-#Amp_P(N) >= c_P*N^rho,
-H(Q) <= C_P*N^kappa  for Q in Amp_P(N),
+P*=(272/225,0,353/225,1,272/225,353/225),
+(u1(P*),u2(P*),u3(P*))=(25/9,1,25/9),
 ```
 
-with all output classes pairwise distinct after primitive canonicalization and `H` exactly the Goal4M primitive space-diagonal height.
+one can construct a restricted-product adele in the source-marked local relaxation `A_src^loc` orthogonal to **every** class of `F_Chi`.
 
-Substitution `B=C_P*N^kappa` into the Goal4M epsilon-form gives an asymptotic contradiction exactly when
+At the finite bad set (including infinity, 2, primes <173, A/B model primes, P* denominator primes, and all ramification primes of the finitely many `chi_j`), take nonzero-y deformations arbitrarily close to `P*` inside one common local-constancy neighborhood for all generators. At 2 impose simultaneously
 
 ```text
-rho/kappa > 1/2.
+v2(y)>4=v2(x),
 ```
 
-The equality case is insufficient. In particular, a linear-size orbit needs `kappa<2`.
+and at infinity choose `y>0`.
 
-Current exact mechanism audit:
+Outside the bad set use the 35EX-22 integral `U_PC(Z_ell)` points. All three visible units are then `ell`-adic units; each `chi_j` is unramified; hence local reciprocity is trivial on the ratio `u_i(Q_ell)/u_i(P*)`. Thus every character-unit evaluation equals its diagonal `P*` evaluation. The same comparison for `A,B` is Goal4AN/Goal4AO's spread-out good-prime argument.
+
+Therefore every generator has exactly the same local invariant vector as its rational evaluation at `P*`; global Brauer reciprocity makes every total sum zero. Hence
 
 ```text
-scaling / edge permutation / source-pair swap -> O(1) canonical classes;
-Goal4AY derived operator -> primitive orbit size <=2;
-AU/AV Kummer package -> finite degree <=4 coefficient package, not endpoint map;
-AX six-norm torus -> endpoint birational reparameterization;
-elliptic multiplication -> infinitely many receiver points, but no arbitrary-multiple full-endpoint reconstruction and no polynomial primitive-space-diagonal height transfer;
-Euler-box quadratic jumps -> three-face Euler-brick scope; source explicitly does not require rational space diagonal;
-Sharipov cuboid-factor elliptic families -> no one-endpoint polynomial perfect-endpoint amplification theorem imported.
+(A_src^loc)^(F_Chi) != empty
 ```
 
-Thus current status is
+for **every finite Chi**.
+
+Exact route consequence:
 
 ```text
-SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_OR_STRONGER_COUNTING
-  -> FAIL_CLOSE_CURRENT_SOURCE_LOCKED_AMPLIFICATION_MECHANISMS_WITH_EXACT_RHO_OVER_KAPPA_GATE.
+every finite visible character truncation + A/B -> non-obstructing;
+full infinite visible character layer -> endpoint-equivalent (Goal4AQ).
 ```
 
-This does **not** prove that every future amplifier is impossible. It proves that the current source-locked mechanisms do not meet the exact `rho/kappa>1/2` gate.
+Thus AQ's endpoint reconstruction genuinely uses an infinite character intersection and cannot be replaced by a finite visible truncation.
+
+Boundary of claim:
+
+```text
+ARBITRARY_FINITE_BRAUER_SUBGROUP_NONOBSTRUCTING_PROVED=false;
+VISIBLE_UNITS_INTEGRAL_BASIS_OF_FULL_UNIT_LATTICE_PROVED=false;
+TRANSCENDENTAL_BRAUER_GROUP_COMPUTED=false;
+BRAUER_MANIN_OBSTRUCTION=false;
+E1=false.
+```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4az-super-sqrt-distinct-class-amplification-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4az-super-sqrt-distinct-class-amplification.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4az_super_sqrt_amplification.py`
-
-## Literature scope
-
-Scoped external checks used only as route boundaries:
-
-- H. Reddmann, *Boxing the rational box*, MathOverflow: its transformations are explicitly for an Euler box where the space diagonal need not be rational; no full endpoint amplifier imported.
-- R. Sharipov, *A note on rational and elliptic curves associated with the cuboid factor equations*, arXiv:1209.5706: rational/elliptic families are present, but no theorem found converting one hypothetical perfect endpoint into polynomially many distinct perfect endpoints with controlled primitive space-diagonal height.
+- `stages/stage35-ex/35ex-35/goal4ba-finite-visible-brauer-truncation-nonobstruction-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4ba-finite-visible-brauer-truncation-nonobstruction.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4ba_finite_visible_brauer_truncation.py`
 
 ## Freshness
 
-Current main observed in this batch:
-
-```text
-97aa65b83015ea31d453bffee0cc56c4d9876724
-```
-
-At Goal4AY, PR #1723 is ahead 43 / behind 10 from merge-base `42f20e47babdfdda068a605e3fec489eeace460c`. The ten main-side commits/files are Stage32-EX1 / Stage32-EX5 / Stage32 routing / Stage36 material; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no rebase/sync is performed for this provisional leaf.
+Latest current main observed before this leaf was `97aa65b83015ea31d453bffee0cc56c4d9876724`. The main-side drift was Stage32 / Stage36 only; no Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no rebase/sync is performed.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BA_FINITE_ADDITIONAL_BRAUER_SHORTCUT_EXHAUSTION_PREFLIGHT
+35EX-35_GOAL4BB_VISIBLE_UNIT_LATTICE_INDEX_AND_FINITE_ALGEBRAIC_BRAUER_COMPLETION_PREFLIGHT
 ```
 
-Question: can a single new finite Brauer class, or a finite explicitly generated subgroup of the already exposed algebraic/unit-character layer, force an empty **source-admissible** adelic population without requiring the full endpoint-equivalent Brauer computation?
+Compute the lattice index of `p+x,q+y,w+z` in the exact rank-three unit lattice `K=O(Ubar)^*/kbar^*`. If they are an integral basis (or have controlled finite index), combine the result with the Picard-lift `Z/2 x Z/2` quotient to determine how far Goal4BA extends to arbitrary finite algebraic Brauer subgroups.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
