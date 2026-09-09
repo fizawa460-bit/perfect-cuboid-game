@@ -1,0 +1,53 @@
+name: Stage33 V91C1X C4B2B2D offboundary residue reconciliation
+
+on:
+  push:
+    branches:
+      - stage33-v91c1x-r5b3b3c4b1e-1757-refinement-unit-preflight
+    paths:
+      - '.github/workflows/stage33-v91c1x-r5b3b3c4b2b2d-offboundary-reconciliation.yml'
+      - 'stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2d_offboundary_residue_reconciliation_and_direct_support_repair_scope.py'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b1-explicit-a1-boundary-residue-field-squareclass.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2-remaining24-strict-prime-squareclass-partition.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2a-f4-pair-multiquadratic-residue-norm-witness.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2b-f14-four-residual-prime-residue-norm-witness.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2c-unique-degree16-residue-norm-sweep.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2c1-inherited-direct-support-primality-recheck.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2c2-lin024-actual-four-component-prime-incidence.json'
+      - 'stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2c3-lin024-four-component-biquadratic-residue-norm.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize corrected offboundary residue reconciliation
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5b3b3c4b2b2d_offboundary_residue_reconciliation_and_direct_support_repair_scope.py --write
+      - name: Enforce artifact-only bounded delta
+        shell: bash
+        run: |
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2d-offboundary-residue-reconciliation-and-direct-support-repair-scope.json'
+          changed="$(git status --porcelain | sed 's/^...//')"
+          test -n "$changed"
+          test "$changed" = "$artifact"
+          git diff --check
+      - name: Commit generated certificate
+        shell: bash
+        run: |
+          artifact='stages/stage33/33-12/e3-v91c1x-r5b3b3c4b2b2d-offboundary-residue-reconciliation-and-direct-support-repair-scope.json'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$artifact"
+          git diff --cached --quiet || git commit -m '[Stage33] materialize C4B2B2D corrected offboundary reconciliation'
+          git push
