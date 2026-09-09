@@ -1,14 +1,63 @@
 {
-  "schema":"research-os-mission-node/v1",
-  "node_id":"N103",
-  "semantic_key":"s32-01-178:production-witness-support-interface",
-  "statement":"Design the Stage32 production-side interface that retains or reconstructs exact 59D reduced Picard witnesses and verified 48-node exceptional support certificates for admissible FULL178 targets, without duplicating EX5's active target-to-59D adapter research.",
-  "scope":{"population":"FULL178 production outputs/candidates","field_or_model":"Stage32 retained production state -> Picard64 / exceptional last48 support","quantifiers":"every retained candidate passed to any support-sensitive downstream cut","required_output":"minimal exact retention/reconstruction contract, verifier shape, and integration seam to external EX5 outputs"},
-  "source_refs":["stages/stage32/residual-32-01-production/state.json","PR#1742 Stage32EX5 BC2-02 external producer"],
-  "reuse_check":{"performed":false,"queries":[],"matches":[],"decision":"PENDING"},
-  "attempts":[],
-  "retained_result":null,
-  "credit_ceiling":"PRODUCTION_INTERFACE_ONLY_NO_BTVA_OR_FULL178_CREDIT",
-  "next_action":"AUDIT_EXISTING_PRODUCTION_OUTPUT_FIELDS_AND_DEFINE_NONOVERLAPPING_RETENTION_INTERFACE",
-  "notes":["Do not reimplement EX5 BC2-02 FULL178-target-to-59D adapter; treat it as an external producer.","The exact support certificate must not be inferred from scalar exceptional mass e."]
+  "attempts": [
+    {
+      "blocker": null,
+      "evidence_paths": [
+        "stages/stage32/32-01-178/nodes/N103/production-witness-support-interface.json",
+        "stages/stage32/32-01-178/nodes/N103/verify_production_witness_support_interface.py"
+      ],
+      "reopen_condition": null,
+      "route_id": "N103-R1-AUDIT-AND-INTERFACE-SEAM",
+      "status": "RETAINED",
+      "summary": "Audited current production state and EX5 BC2-02 seam; retained a fail-closed Stage32 locator+witness+support handoff contract without reimplementing the active terminal-to-59D producer."
+    }
+  ],
+  "credit_ceiling": "PRODUCTION_INTERFACE_ONLY_NO_BTVA_OR_FULL178_CREDIT",
+  "next_action": "HANDOFF_RETAINED_N103_RESULT_TO_STAGE32_01_178_MAINBATCH_FOR_N190_RECONCILIATION; DO_NOT_ACTIVATE_SUPPORT_CREDIT_UNTIL_EXTERNAL_EX5_PRODUCER_OUTPUT_IS EXACTLY_SOURCE_LOCKED_AND_REPLAYED",
+  "node_id": "N103",
+  "notes": [
+    "Do not reimplement EX5 BC2-02 FULL178-target-to-59D adapter; treat it as an external producer.",
+    "The exact support certificate must not be inferred from scalar exceptional mass e.",
+    "N103 closes only the production interface design obligation; it does not close the external producer, FULL178 numerical census, receiver, theorem, or endpoint."
+  ],
+  "retained_result": {
+    "contract": "stages/stage32/32-01-178/nodes/N103/production-witness-support-interface.json",
+    "contract_sha256": "b5d69286654f4f02c7496398befcd4bfbaec73f4bdc3b9df0076786d1629bf91",
+    "credit_released": "PRODUCTION_INTERFACE_ONLY",
+    "external_dependency_remaining": "FULL178 terminal -> integral Picard64 completion/projection-z -> exact 59D witness producer remains active in EX5 and is not closed here",
+    "integration_seam": "retain exact {row_id,d,e,terminal_rank,terminal_pairings[11],z[5],witness_r_reduced[59]} plus producer source locks; replay the existing EX5 exact consumer; retain exact last48/support hashes and canonical node-bridge provenance",
+    "local_contract_verifier": "PASS",
+    "observed_external_ex5_head": "14855e0d4a1d184b015f4735be8be9efbf4ec6e7",
+    "observed_external_ex5_pr": 1742,
+    "production_gap": "indexed terminal random access exists, but current production state retains neither a full exact 59D witness nor labelled last48 support",
+    "status": "RETAINED_PRODUCTION_INTERFACE_DESIGN",
+    "verifier": "stages/stage32/32-01-178/nodes/N103/verify_production_witness_support_interface.py"
+  },
+  "reuse_check": {
+    "decision": "REUSE_EXISTING_EXACT_CONSUMER_AND_59D_RECONSTRUCTION_INFRASTRUCTURE; DEFINE_ONLY_THE_NONOVERLAPPING_PRODUCTION_HANDOFF",
+    "matches": [
+      "stages/stage32/residual-32-01-production/adapt_stage32_post21bl_picard_witness.py",
+      "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py",
+      "PR#1742:stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json"
+    ],
+    "performed": true,
+    "queries": [
+      "existing Stage32 59D reduced witness to Picard64 adapter",
+      "Stage32EX5 BC2-02 exact witness to node support consumer",
+      "FULL178 indexed terminal to 59D adapter preflight"
+    ]
+  },
+  "schema": "research-os-mission-node/v1",
+  "scope": {
+    "field_or_model": "Stage32 retained production state -> Picard64 / exceptional last48 support",
+    "population": "FULL178 production outputs/candidates",
+    "quantifiers": "every retained candidate passed to any support-sensitive downstream cut",
+    "required_output": "minimal exact retention/reconstruction contract, verifier shape, and integration seam to external EX5 outputs"
+  },
+  "semantic_key": "s32-01-178:production-witness-support-interface",
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/state.json",
+    "PR#1742 Stage32EX5 BC2-02 external producer"
+  ],
+  "statement": "Design the Stage32 production-side interface that retains or reconstructs exact 59D reduced Picard witnesses and verified 48-node exceptional support certificates for admissible FULL178 targets, without duplicating EX5's active target-to-59D adapter research."
 }
