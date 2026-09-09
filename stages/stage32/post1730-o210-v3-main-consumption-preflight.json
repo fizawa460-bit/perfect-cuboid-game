@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32_POST1730_O210_V3_MAIN_CONSUMPTION_PREFLIGHT_V1",
+  "stage": 32,
+  "status": "RETAINED_PROVISIONAL_MAIN_O210_V3_CONSUMPTION_PREFLIGHT_AUDIT_REQUIRED",
+  "role": "PRE_SYNC_AUTHORITY_CONSUMPTION_CANDIDATE_NOT_MAIN_ROUTING_CREDIT",
+  "upstream_remap_audit": {
+    "pr": 1730,
+    "review_id": 5148423088,
+    "exact_head": "ceeac85cb70b7765380dd31b210f0b38423fa86c",
+    "status": "PASS",
+    "scope": "post-1728 V6 negative authority consumption / ACTIVE_FRONTIER_REMAP only"
+  },
+  "audited_o210_chain": {
+    "ex3_terminal": {
+      "claim_id": "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+      "claim_core_sha256": "78399b9797723b4134198b2f4b2dc3ed3024897b7ad128d1f0621e1e85cf8102",
+      "audit_receipt": {"status": "PASS", "pr": 1714, "review_id": 5141988194, "exact_head": "8da8d4cd932c5c9b82dfd0c304638e866c656069"}
+    },
+    "population_adapter": {
+      "claim_id": "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
+      "claim_core_sha256": "55505658e272ec7d60372f2d67cb93c9c007d782145f18d5ef9d2c1146582c88",
+      "audit_receipt": {"status": "PASS", "pr": 1714, "review_id": 5143014619, "exact_head": "280595ed892ae2ef70e049a3f722ea024452e206"}
+    },
+    "main_o210": {
+      "claim_id": "S32.O210.EXCLUSION.V3",
+      "claim_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
+      "audit_receipt": {"status": "PASS", "pr": 1714, "review_id": 5147304889, "exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"}
+    }
+  },
+  "current_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "current_active_o210_claim_id": "S32.O210.EXCLUSION.V1",
+    "current_active_o210_scope": {"row_id": "g1-d186", "picard_class": "V6", "O": 210, "qprime": 4, "target": "population_wide_exclusion"},
+    "audited_o210_v3_scope": {"row_id": "g1-d186", "picard_class": "V6", "O": 210, "qprime": 4, "target": "population_wide_exclusion"},
+    "scope_identity": true
+  },
+  "source_locks": {
+    "ex3_terminal_artifact": {"path": "stages/stage32-ex3/ex3-09-o210-cover-geometry-exclusion-candidate.json", "blob_sha1": "0114531c52730730e9a35ad1c8d8aea21eed03e9", "canonical_sha256": "9244f82daef79306abe99d8a3ccee111c80c4c057f1b5f7df3bafd5500d8ca21"},
+    "ex3_terminal_verifier": {"path": "stages/stage32-ex3/verify_ex3_09_o210_cover_geometry_exclusion_candidate.py", "blob_sha1": "6da6d509567b4b3523429ce865d1e47290b301f9"},
+    "o210_adapter_artifact": {"path": "stages/stage32-ex3/ex3-10-main-o210-promotion-adapter-candidate-v3.json", "blob_sha1": "dd548d20e4f9bd007395606a5450d1ffc964cde9", "canonical_sha256": "63dc72b89f59709fcce13cbc4e9c777819a419f7b6213a6ccd2c7c5977fce37c"},
+    "o210_adapter_verifier": {"path": "stages/stage32-ex3/verify_ex3_10_main_o210_promotion_adapter_candidate_v3.py", "blob_sha1": "7a3fb3d8aee4315a561534d0f6127581366738bd"},
+    "main_o210_v3_artifact": {"path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json", "blob_sha1": "43685d8c17bfc8135a5dd3c685314168f1cf3518", "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"},
+    "historical_main_o210_v3_verifier": {"path": "stages/stage32-ex3/verify_main_o210_exclusion_v3_candidate.py", "blob_sha1": "15ac49b761a83a42aac3e2f1bd26875003f718d0"}
+  },
+  "transition_contract": {
+    "before_hostile_audit": {"active_o210_claim": "S32.O210.EXCLUSION.V1", "main_state_o210_excluded": false, "q602_excluded": false},
+    "after_hostile_audit_pass_and_claim_sync_candidate": {"replace_active_o210_with": "S32.O210.EXCLUSION.V3", "main_state_o210_excluded": true, "q602_excluded": false},
+    "q602_next_route": "RETAIN_AND_HOSTILE_AUDIT_O210_EMPTY_TO_Q602_ADMISSIBLE_EMPTY_FORGETFUL_ADAPTER",
+    "full178_parallel": true
+  },
+  "firewalls": {
+    "this_artifact_grants_o210_credit": false,
+    "this_artifact_grants_q602_credit": false,
+    "active_frontier_mutated_here": false,
+    "main_state_mutated_here": false,
+    "o212_plus_advance_allowed": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "b28e95fbeaad0844122fb8fb62722db94cc50ea8cc3130f033a2835d6bd3acd7"
+}

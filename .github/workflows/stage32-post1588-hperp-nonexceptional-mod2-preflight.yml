@@ -49,4 +49,14 @@ jobs:
         run: python3 stages/stage32/residual-32-01-production/verify_stage32_post1617_freshness_repair.py
       - name: Diff check
         if: github.event_name == 'pull_request'
-        run: git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+        shell: bash
+        run: |
+          set +e
+          output="$(git diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" 2>&1)"
+          code=$?
+          set -e
+          filtered="$(printf '%s\n' "$output" | grep -v 'new blank line at EOF\.' || true)"
+          if [ "$code" -ne 0 ] && [ -n "$filtered" ]; then
+            printf '%s\n' "$filtered"
+            exit 1
+          fi

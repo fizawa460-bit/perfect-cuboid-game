@@ -1,0 +1,226 @@
+{
+  "schema": "STAGE32_Q602_O210_VERSIONED_CLAIM_BUNDLE_V1",
+  "stage": 32,
+  "status": "SCRATCH_RETAINED_AUDIT_PACKAGE_PREPARED_NO_AUTHORITY",
+  "role": "PREPARE_IMMUTABLE_ADAPTER_V1_AND_Q602_EXCLUSION_V2_CORES_WITHOUT_CLAIM_SYNC",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "d": 186,
+    "e": 266,
+    "genus": 1,
+    "O": 210,
+    "qprime": 4,
+    "Q": 602,
+    "formal_survivors": [
+      73,
+      97,
+      235
+    ]
+  },
+  "prerequisite_authority": {
+    "o210_claim_id": "S32.O210.EXCLUSION.V3",
+    "o210_claim_core_sha256": "7003e228cbb0273e1ac6352bd9535a5f10ca5964bc6d4072130d20012aaec824",
+    "o210_math_audit": {
+      "status": "PASS",
+      "pr": 1714,
+      "review_id": 5147304889,
+      "exact_head": "040dfb6c7e1dc40573866bb10f62e93419121711"
+    },
+    "main_post_sync_consumption_reaudit_required": true,
+    "main_post_sync_consumption_reaudit_status": "PENDING_AT_PACKAGE_CREATION",
+    "why": "The bundle may be prepared while O210 post-sync re-audit is pending, but Q602 downstream authority must not consume O210 MAIN routing until that management transition receives PASS."
+  },
+  "preflight_evidence": {
+    "typed_adapter_preflight_canonical_sha256": "bfd17b6b41e32ab9ce729c2fb735477beb3e70061576433a16d1d0ad30edce69",
+    "post1500_origin_addendum_canonical_sha256": "7399302b10711a77a656f54bf34e2305d5358ea0eb2c29370c77c7f49d6fcf6e",
+    "scratch_ci": {
+      "run_id": 34301779755,
+      "job_id": 102310007017,
+      "exact_ci_head": "bad8dcef7efef90c796e5b136a654f2a01c28a40",
+      "conclusion": "SUCCESS"
+    },
+    "semantic_result": "actual Q602 realization is decorated over the exact O210 carrier/cover population; formal residues are not themselves geometric carriers"
+  },
+  "claim_core_keys": [
+    "claim_id",
+    "kind",
+    "statement",
+    "scope_key",
+    "scope",
+    "proves",
+    "does_not_prove",
+    "requires",
+    "bridges",
+    "source_locks",
+    "replay_verifier"
+  ],
+  "adapter_claim": {
+    "claim_id": "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1",
+    "kind": "adapter_contract",
+    "statement": "For the bound Stage32 target g1-d186/V6/O=210/qprime=4/Q=602, every actual geometrically admissible Q602 configuration is an underlying member of S32.O210.COVER equipped with the source-locked common-cover correspondence T and retained Q602 decoration. Forgetting only that decoration defines a total map from actual Q602 realizations to S32.O210.COVER.",
+    "scope_key": "S32.ADAPTER.Q602_TO_O210",
+    "scope": {
+      "lane": "MAIN",
+      "row_id": "g1-d186",
+      "picard_class": "V6",
+      "O": 210,
+      "qprime": 4,
+      "Q": 602,
+      "formal_survivors": [
+        73,
+        97,
+        235
+      ],
+      "from_scope_key": "S32.Q602.ADMISSIBLE_CONFIGURATION",
+      "to_scope_key": "S32.O210.COVER",
+      "population_relation": "DECORATED_SUBPOPULATION_OVER_EXACT_O210"
+    },
+    "proves": [
+      "Every actual Q602-admissible fixed-target configuration has an underlying exact O210 carrier/cover.",
+      "Forgetting T/residue/marking decoration is a well-defined total map from actual Q602 realizations to S32.O210.COVER.",
+      "Emptiness of the exact O210 population implies emptiness of the actual Q602 realization population.",
+      "The formal audited residue labels [73,97,235] may remain valid arithmetic labels even if no geometric realization exists."
+    ],
+    "does_not_prove": [
+      "The O210 population is empty by this adapter alone.",
+      "Q602 is excluded before both O210 V3 authority and this adapter are consumable.",
+      "The abstract End(J(C0)) residue labels 73,97,235 are impossible.",
+      "Any residue-specific arithmetic contradiction.",
+      "Any O212+ exclusion, FULL178 completion, Stage32 closure, endpoint credit, or Perfect Cuboid existence/nonexistence."
+    ],
+    "requires": [
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.Q602.SURVIVORS_73_97_235.V1"
+    ],
+    "bridges": {
+      "from_scope_key": "S32.Q602.ADMISSIBLE_CONFIGURATION",
+      "to_scope_key": "S32.O210.COVER",
+      "semantics": "Forget only Q602 correspondence/residue/marking decoration. Total on actual Q602 realizations; injectivity and surjectivity are not asserted or needed."
+    },
+    "source_locks": [
+      {
+        "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+        "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+        "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json",
+        "blob_sha1": "f8c941af0598b1e3e73e5adcc4773ac1b3cf9aea",
+        "canonical_sha256": "a565673dd6cc6c4b732a18f1e4adba4febbde497387b70e81cc4b64c29004ce3"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
+        "blob_sha1": "2ebe262fe76f2ceda371e018c107bcfb7d6f523b",
+        "canonical_sha256": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+        "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+        "canonical_sha256": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386"
+      }
+    ],
+    "replay_verifier": "stages/stage32/scratch/verify_q602_o210_versioned_claim_bundle_20260909.py",
+    "authority_status": "PROVISIONAL",
+    "audit_receipt": {
+      "status": "NOT_AUDITED",
+      "review_id": null,
+      "exact_head": null
+    },
+    "claim_core_sha256": "ed1ea5441a3b0bb876a3a8b93f272e2a16d693f1b44f0f050c13af1625c1e028"
+  },
+  "q602_exclusion_claim": {
+    "claim_id": "S32.Q602.EXCLUSION.V2",
+    "kind": "mathematical_claim",
+    "statement": "For the exact current Stage32 target, no geometrically admissible Q602 configuration survives: every actual Q602 realization forgets through S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1 to an underlying member of S32.O210.COVER, while audited S32.O210.EXCLUSION.V3 excludes that full population. The formal residue labels [73,97,235] remain retained arithmetic data but have no geometric realization in the current target.",
+    "scope_key": "S32.Q602.ARITHMETIC",
+    "scope": {
+      "row_id": "g1-d186",
+      "picard_class": "V6",
+      "O": 210,
+      "qprime": 4,
+      "Q": 602,
+      "input_formal_survivors": [
+        73,
+        97,
+        235
+      ],
+      "target": "NO_GEOMETRICALLY_ADMISSIBLE_Q602_CONFIGURATION"
+    },
+    "proves": [
+      "Q602 is excluded for the exact registered target by an exact population-preserving obstruction once this V2 claim is AUDITED.",
+      "None of the formal survivor labels [73,97,235] is geometrically realized by an admissible fixed-target carrier/cover."
+    ],
+    "does_not_prove": [
+      "The abstract End(J(C0)) residue labels 73,97,235 cease to exist as formal arithmetic possibilities.",
+      "Any independent residue-specific arithmetic contradiction.",
+      "Any O212+ exclusion, FULL178 completion, Stage32 closure, endpoint credit, or Perfect Cuboid existence/nonexistence."
+    ],
+    "requires": [
+      "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+      "S32.Q602.SURVIVORS_73_97_235.V1",
+      "S32.O210.EXCLUSION.V3",
+      "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1"
+    ],
+    "source_locks": [
+      {
+        "path": "stages/stage32-ex3/main-o210-exclusion-v3-candidate.json",
+        "blob_sha1": "43685d8c17bfc8135a5dd3c685314168f1cf3518",
+        "canonical_sha256": "4be8369e6ce56892c81dc3e8b513649daccfbcd078117cb72e5b20b33269a005"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json",
+        "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34",
+        "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json",
+        "blob_sha1": "f8c941af0598b1e3e73e5adcc4773ac1b3cf9aea",
+        "canonical_sha256": "a565673dd6cc6c4b732a18f1e4adba4febbde497387b70e81cc4b64c29004ce3"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json",
+        "blob_sha1": "2ebe262fe76f2ceda371e018c107bcfb7d6f523b",
+        "canonical_sha256": "e28c7539e05b9c4836b9bc51c8f69316723eb8c368700a26706627045525fe07"
+      },
+      {
+        "path": "stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json",
+        "blob_sha1": "8e9a402706921c71217fc275be6b9885feea8bee",
+        "canonical_sha256": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386"
+      }
+    ],
+    "replay_verifier": "stages/stage32/scratch/verify_q602_o210_versioned_claim_bundle_20260909.py",
+    "authority_status": "PROVISIONAL",
+    "audit_receipt": {
+      "status": "NOT_AUDITED",
+      "review_id": null,
+      "exact_head": null
+    },
+    "claim_core_sha256": "f27890319709b9ee24a71e744990c9c5fb36d746cacb7bd8ee11a905bfc9750e"
+  },
+  "versioning": {
+    "q602_v1_mutation_forbidden": true,
+    "reason": "S32.Q602.EXCLUSION.V1 has a different immutable dependency/evidence route; the O210-empty population-preserving route requires V2.",
+    "adapter_is_new_claim": true
+  },
+  "authority_firewalls": {
+    "register_in_active_frontier_now": false,
+    "q602_excluded_now": false,
+    "o212_plus_advance_allowed": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_transition": {
+    "requires": [
+      "HOSTILE_PASS_ON_PR1730_POST_SYNC_O210_CONSUMPTION",
+      "HOSTILE_PASS_ON_ADAPTER_V1",
+      "HOSTILE_PASS_ON_Q602_EXCLUSION_V2"
+    ],
+    "then": "CLAIM_SYNC_AND_ACTIVE_FRONTIER_REMAP_FROM_Q602_V1_TO_Q602_V2"
+  },
+  "canonical_sha256_without_this_field": "9ce14c2d619685ab9c22a83ccd36cc1b085bf1579132df7b0c0b2b4b1122ba07"
+}
