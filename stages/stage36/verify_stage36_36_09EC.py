@@ -122,8 +122,9 @@ for name,(cr,dim,basis_pairs) in expected.items():
     assert cert['constraint_rank']==cr and cert['F2_dimension']==dim and cert['cardinality']==2**dim
 
 # Rank vector and Kummer exact-sequence dimension equality.
-assert dz['rank_one_witness']['E_tau_rank_lower_bound']==1
-assert dz['rank_one_witness']['A_rank_exact']==1
+assert dz['non_torsion_witness']['rank_E_tau_lower_bound']==1
+assert dz['Mordell_Weil_rank']['rank_A']==1
+assert dz['Mordell_Weil_rank']['rank_J']==1
 ranks={'E_tau':1,'E_sigma':0,'E_rho':0}
 assert c['rank_and_rational_2torsion']['rank_vector']==ranks
 for name in ranks:
@@ -137,17 +138,20 @@ qx,qy=F(-29,11),F(875,121)
 a=lambda x,y:(x+4)*(x+F(1,4))
 b=lambda x,y:(x+4)*(x+9)
 o=(F(0),F(1))
-def sqclass(q):
-    q=F(q);n=abs(q.numerator);d=q.denominator;res=-1 if q<0 else 1
-    p=2
-    while p*p<=max(n,d):
+def factor_int(n):
+    n=abs(n);out=[];p=2
+    while p*p<=n:
         e=0
-        while n%p==0:e^=1;n//=p
-        while d%p==0:e^=1;d//=p
-        if e:res*=p
+        while n%p==0:e+=1;n//=p
+        if e&1:out.append(p)
         p=3 if p==2 else p+2
-    if n>1:res*=n
-    if d>1:res*=d
+    if n>1:out.append(n)
+    return out
+def sqclass(q):
+    q=F(q);res=-1 if q<0 else 1
+    ps=factor_int(q.numerator)+factor_int(q.denominator)
+    for p in sorted(set(ps)):
+        if ps.count(p)&1:res*=p
     return res
 kp=(sqclass(a(qx,qy)/a(*o)),sqclass(b(qx,qy)/b(*o)))
 assert kp==(-7,42)
