@@ -1,77 +1,103 @@
-# Stage35-EX MAIN batch handoff — Goal4BI rational Hilbert split-orientation boundary
+# Stage35-EX MAIN batch handoff — Goal4BJ support-cleaned global Gaussian quartic orientation carrier
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BI are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BJ are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BH is exact-green:
+Goal4BI is exact-green:
 
-- exact head: `2d4839db40a676ef0ab57945d69a8cf14c80591d`
-- aggregate: `34310546263`
-- `verify-stage35-ex-current`: `102337324260`
+- exact head: `933e32403c2f87b65ac3e962647c59e71a35a291`
+- aggregate: `34312324963`
+- `verify-stage35-ex-current`: `102342539462`
 - result: `SUCCESS`
 
-Goal4BH reduced the surviving Gaussian phase problem to primewise `mu_2` face/space orientation bits `sigma_i(ell)`.
+Goal4BI fail-closed ordinary rational Hilbert reciprocity: reservoir primes split in `Q(i)`, so rational squareclasses/norms cannot see the `p_i` versus `bar(p_i)` orientation.
 
-## Goal4BI provisional exact result
+## Goal4BJ provisional exact result
 
-Every reservoir prime satisfies
-
-```text
-ell = 1 mod 4,
-```
-
-hence
+Use the BF squarefree primary reservoir kernels and BG primary space square roots. In direction `a`, define unique primary Gaussian gcds
 
 ```text
--1 in Q_ell^{*2},
-Q(i) tensor_Q Q_ell ~= Q_ell x Q_ell.
+M_a^- = gcd(Sigma_a,Psi_a),
+M_a^+ = gcd(Sigma_a,bar(Psi_a)),
+M_a^0 = Sigma_a/(M_a^-*M_a^+).
 ```
 
-The Goal4BH sign `sigma_i(ell)` distinguishes the two Gaussian primes `p_i` and `bar(p_i)` above the split rational prime. Therefore, for every `t in Q_ell^*`,
+Because the reduced space triple is primitive, `Psi_a` and `bar(Psi_a)` are coprime. Hence
 
 ```text
-(-1,t)_ell = 1,
+Sigma_a=M_a^-*M_a^+*M_a^0
 ```
 
-and ordinary rational quadratic Hilbert symbols cannot detect `sigma_i`. Rational norms also collapse the orientation because
+is an exact pairwise-coprime partition. Since every factor is a literal divisor of `Sigma_a`, no non-reservoir Gaussian prime enters the package.
+
+For a BF-selected prime `p_{a,ell}`:
 
 ```text
-N(p_i)=N(bar(p_i))=ell,
-s_i=Sigma_i*bar(Sigma_i).
+p|M_a^-  <=> secondary and sigma_a=-1,
+p|M_a^+  <=> secondary and sigma_a=+1,
+p|M_a^0  <=> no secondary orientation.
 ```
 
-Adding the real and 2-adic places does not recover information already lost at the split odd reservoir primes. A Hilbert product formula requires one fixed global pair; no fixed rational pair is source-locked whose localizations recover the `sigma_i`.
+Define cyclically
 
-Thus the rational Hilbert-product route is fail-closed. Any further reciprocity obstruction must remain over `Q(i)` and use one source-derived global Gaussian `K_2` / quadratic Hilbert / quartic or Hecke-character datum that distinguishes prime ideals.
+```text
+Xi_a=M_a^-/M_a^+,
+Xi_b=M_b^-/M_b^+,
+Xi_c=M_c^-/M_c^+,
+Xi=Xi_a*Xi_b*Xi_c.
+```
 
-A second missing object is support control: naive Gaussian symbols built from the available `Theta_**`, `Psi_*`, and `Sigma_i` also carry non-reservoir prime-ideal support, and no source-locked support-cleaning adapter is currently available.
+The supports are disjoint across `a,b,c`. At each selected reservoir prime,
+
+```text
+v_p(Xi)=+1  for sigma=-1,
+v_p(Xi)=-1  for sigma=+1,
+v_p(Xi)=0   for nonsecondary.
+```
+
+Thus all non-reservoir finite support is cleaned exactly, and the single class
+
+```text
+[Xi]_4 in Q(i)^*/Q(i)^{*4}
+```
+
+recovers the orientation because the local exponents are `1,3,0 mod 4`. The quadratic class cannot: `+1` and `-1` are identical modulo `2`. Hence even Gaussian quadratic `K_2`/Hilbert data is too coarse; the surviving datum is genuinely quartic.
+
+Also
+
+```text
+J=Xi/bar(Xi),
+N(J)=1,
+```
+
+is a global norm-one anti-invariant carrier. This gives no obstruction by itself because `J=Xi/bar(Xi)` is already an explicit Hilbert-90 presentation.
 
 Exact route status:
 
 ```text
-reservoir split in Q(i) = exact;
-sigma is split-prime orientation = exact;
-rational Hilbert (-1,*) detects sigma = no;
-rational norms detect sigma = no;
-real/2-adic correction alone repairs loss = no;
-global Gaussian symbol = not constructed;
-support-cleaning adapter = not obtained;
+support-cleaning adapter = obtained;
+global Gaussian orientation carrier = obtained;
+quartic class recovers sigma = yes;
+quadratic K2/Hilbert recovers sigma = no;
+norm-one carrier itself obstructive = no;
+dual order-four character = not constructed;
+global quartic reciprocity contradiction = no;
 branch pruning = no.
 ```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bi-secondary-orientation-hilbert-product-formula-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bi-secondary-orientation-hilbert-product-formula.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bi_secondary_orientation_hilbert_product.py`
+- `stages/stage35-ex/35ex-35/goal4bj-global-gaussian-k2-quartic-character-adapter-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4bj-global-gaussian-k2-quartic-character-adapter.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4bj_global_gaussian_orientation_carrier.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BJ_GLOBAL_GAUSSIAN_K2_OR_QUARTIC_CHARACTER_ADAPTER_PREFLIGHT
+35EX-35_GOAL4BK_DUAL_QUARTIC_CHARACTER_COFACTOR_UNIT_PREFLIGHT
 ```
 
-Construct one global Gaussian symbol from `Theta/Psi/Sigma` whose localizations recover the Goal4BH orientation bits, and test whether all non-reservoir prime-ideal support can be cancelled source-theoretically. If no such global pair/support-cleaning identity exists, fail-close this reciprocity branch rather than manufacturing a product formula.
+Use complementary Gaussian face/space cofactors and the BH leading units to seek one source-derived order-four dual character of `[Xi]_4`. A viable candidate must have controlled local value at every selected reservoir prime and controlled support elsewhere; otherwise fail-close the Gaussian reciprocity branch.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
