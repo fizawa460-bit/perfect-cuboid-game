@@ -1,0 +1,127 @@
+{
+  "schema": "STAGE32EX3_EX3_00_O210_TYPED_COVER_TOWER_V1",
+  "stage": 32,
+  "lane": "EX3",
+  "leaf": "EX3-00_SOURCE_LOCK_AND_TYPED_COVER_TOWER",
+  "status": "RETAINED_PROVISIONAL_EXACT_SOURCE_LOCK_UNAUDITED",
+  "fixed_target": {
+    "row_id": "g1-d186",
+    "picard_class": "V6",
+    "carrier_hypothesis": "hypothetical integral irreducible geometric-genus-1 carrier in the exact V6 class",
+    "O": 210,
+    "qprime": 4,
+    "Q_context_only": 602,
+    "Q_surviving_residues_context_only": [73, 97, 235]
+  },
+  "groups": {
+    "G8": {"definition": "Gamma[4]/Gamma[8]", "order": 8},
+    "H4": {"definition": "Gamma'[4]/Gamma[8]", "isomorphic_to": "(Z/2)^2", "order": 4, "normal_in_G8": true, "index_in_G8": 2, "acts_freely_on_X8": true},
+    "quotient": {"definition": "G8/H4", "order": 2}
+  },
+  "objects": {
+    "Z": {"model": "X(8)", "genus": 5},
+    "X4": {"model": "X(4)=Z/G8", "genus": 0},
+    "C0": {"model": "Z/H4", "genus": 2},
+    "P": {"model": "Z x Z"},
+    "B": {"model": "P/G8_diag", "role": "box-surface quotient on the retained normalization/open level"},
+    "X": {"model": "P/H4_diag", "role": "Beauville double-cover surface"},
+    "N": {"role": "normalization of the hypothetical fixed V6 carrier", "genus": 1},
+    "Y": {"role": "normalization of N x_B X; equivalently either factor pullback N x_{X4} C0 under the retained Cartesian identity", "genus": 106},
+    "D": {"role": "connected component of the pullback of the regular H4-cover P->X to Y when qprime=4", "genus": 421}
+  },
+  "tower_maps": [
+    {"map": "Z->C0", "degree": 4, "ramification_total": 0, "type": "finite etale H4 quotient"},
+    {"map": "C0->X4", "degree": 2, "ramification_total": 6, "type": "hyperelliptic quotient; six quotient cusps are fixed/Weierstrass points"},
+    {"map": "Z->X4", "degree": 8, "type": "finite G8 quotient"},
+    {"map": "P->X", "degree": 4, "ramification_total": 0, "type": "regular etale H4 cover"},
+    {"map": "X->B", "degree": 2, "type": "generic quadratic quotient; after the retained resolution it is branched along the exceptional divisor"},
+    {"map": "Y->N", "degree": 2, "ramification_total": 210, "type": "connected normalized Beauville/common quadratic pullback at O=210"},
+    {"map": "D->Y", "degree": 4, "ramification_total": 0, "type": "connected regular etale H4 pullback for qprime=4/full H4 monodromy"},
+    {"map": "D->N", "degree": 8, "type": "generic composite degree"},
+    {"map": "N->X4:first_factor", "degree": 105, "type": "nonconstant modular factor map"},
+    {"map": "N->X4:second_factor", "degree": 81, "type": "nonconstant modular factor map"},
+    {"map": "Y->C0:first_factor", "degree": 105, "ramification_total": 0, "type": "descended simultaneous common-cover map"},
+    {"map": "Y->C0:second_factor", "degree": 81, "ramification_total": 48, "type": "descended simultaneous common-cover map"},
+    {"map": "D->Z:first_factor", "degree": 105, "ramification_total": 0, "type": "product-cover projection"},
+    {"map": "D->Z:second_factor", "degree": 81, "ramification_total": 192, "type": "product-cover projection"}
+  ],
+  "degree_adapter": {
+    "generic_degree_identity": "8*n_i = 2*qprime*m_i",
+    "m_pair_N_to_X4": [105, 81],
+    "qprime_candidates": [1, 2, 4],
+    "qprime_1_integrality": false,
+    "qprime_2_integrality": false,
+    "forced_qprime": 4,
+    "n_pair_D_to_X8": [105, 81],
+    "D_to_N_generic_degree": 8
+  },
+  "contact_and_ramification": {
+    "exceptional_total_mass": 266,
+    "O_odd_contact_count": 210,
+    "extremal_histogram": {"multiplicity_1_count": 210, "multiplicity_2_count": 28},
+    "Y_to_N_ramifies_exactly_at_odd_contacts": true,
+    "Y_genus_from_RH": 106,
+    "D_genus_from_etale_H4_descent": 421,
+    "D_to_Z_RH": {"two_gD_minus_2": 840, "first": {"8_times_degree": 840, "ramification_remainder": 0}, "second": {"8_times_degree": 648, "ramification_remainder": 192}},
+    "Y_to_C0_second_ramification_after_H4_descent": 48,
+    "pre_descent_192_is_not_descended_48": true
+  },
+  "common_cover_identity": {
+    "Y_first_factor": "normalization of N x_{z,X4} C0",
+    "Y_second_factor": "normalization of N x_{w,X4} C0",
+    "same_quadratic_extension": true,
+    "function_field": "K(N)(sqrt(F(z))) = K(Y) = K(N)(sqrt(F(w)))",
+    "squareclass": "F(w)/F(z) is a square in K(N)^*",
+    "Pic2": "[1/2 div(F(w)/F(z))]=0 in Pic^0(N)[2]",
+    "obstruction_status": "compatibility identity for an actual carrier; not an independent exclusion"
+  },
+  "correspondence_interface": {
+    "source_curve": "Y",
+    "target_curve": "C0",
+    "maps": ["f1:Y->C0 degree 105 ramification 0", "f2:Y->C0 degree 81 ramification 48"],
+    "jacobian": "J=J(C0)",
+    "operator": "T=(f1)_*(f2)^* in End(J)",
+    "rosati_bound": "T^dagger T <= 8505",
+    "same_carrier_cover_requirement": true,
+    "Q602_marked_adapter_obtained": false
+  },
+  "source_locks": {
+    "bidegree_note": {"path": "stages/stage32/residual-32-01-production/post1484-v6-modular-factor-bidegree-source-note.md", "blob_sha1": "deeecac5599f3b542b445cd87c2070dae488bc85"},
+    "common_cover_identity": {"path": "stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json", "blob_sha1": "def8b60b726c02aa7ee97c0cc25b34f43525ec34", "canonical_sha256": "eb31183bf519fec4ad5bb2d0799b3f0a64b7af893308e09ce0c33119b63440a1"},
+    "bolza_correspondence_note": {"path": "stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-source-note.md", "blob_sha1": "25e365475b41c917a4bab5acc06bda5e9738b8e7"},
+    "v4_character_rank": {"path": "stages/stage32/residual-32-01-production/post1473-product-cover-v4-character-rank-reduction.json", "blob_sha1": "01ab580662a76ccda0fc0e3cc44f09f705825942", "canonical_sha256": "509635ab9964de7e7eecb41277b892589a7bb418676d8e76bd99b20607dac9dd"},
+    "x8_v4_cusp_quotient": {"path": "stages/stage32/residual-32-01-production/post1473-x8-v4-cusp-quotient.json", "blob_sha1": "00eaebc3c57f6b5e3696c7bcd60eac5a53121f72", "canonical_sha256": "2869208e7509d7b79378264ea1982299b0f1745b1a54c5856cfbba0754567ce5"},
+    "beauville_odd_branch_wall": {"path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-beauville-odd-branch-wall.md", "blob_sha1": "cb20a9b287430c2e238f79d3151500c262905468"},
+    "product_cover_extremal_wall": {"path": "stages/stage32/residual-32-01-production/post1473-specific-class-multibranch-product-cover-monodromy-extremal-wall.md", "blob_sha1": "c6430ca94a4897f9f50104ab76a4eaae60df4268"}
+  },
+  "checks": {
+    "Y_RH": "2*106-2 = 210",
+    "D_etale_RH": "2*421-2 = 4*(2*106-2) = 840",
+    "first_projection_RH": "840 = 105*(2*5-2)+0 = 840",
+    "second_projection_RH": "840 = 81*(2*5-2)+192 = 840",
+    "first_descended_RH": "210 = 105*(2*2-2)+0",
+    "second_descended_RH": "210 = 81*(2*2-2)+48",
+    "contact_mass": "210*1 + 28*2 = 266"
+  },
+  "firewalls": {
+    "carrier_existence_proved": false,
+    "O210_excluded": false,
+    "Q602_excluded": false,
+    "abstract_cover_promoted_to_actual_V6_carrier": false,
+    "O210_contact_mass_identified_with_all_modular_ramification": false,
+    "common_cover_identity_promoted_to_obstruction": false,
+    "pre_descent_192_confused_with_descended_48": false,
+    "Q602_residue_selected": false,
+    "stage32_main_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_claim": false
+  },
+  "verdict": {
+    "EX3_00_source_lock_complete": true,
+    "typed_cover_tower_complete": true,
+    "mathematical_scope": "exact necessary carrier-to-cover tower under the hypothetical fixed O210 V6 carrier assumption",
+    "credit_ceiling": "PROVISIONAL_NECESSARY_CONDITION_ONLY_UNAUDITED",
+    "next_leaf": "EX3-01_EXTREMAL_FIRST_PROJECTION_DEGREE105_ETALE_COVER"
+  },
+  "canonical_sha256_without_this_field": "3a743b0607c59dc959f383fca8d97e54e8a740d197401e4c080b6fc4c94eaf07"
+}
