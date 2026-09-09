@@ -48,7 +48,7 @@ jobs:
         run: python3 stages/stage36/verify_stage36_36_09ED.py
       - name: Verify hostile-audited 36-09EE Q2 rho retained-open exclusion
         run: python3 stages/stage36/verify_stage36_36_09EE.py
-      - name: Assert V241 hostile PASS receipt and EF relock
+      - name: Assert V242 hostile PASS consumed and EF unlocked
         shell: bash
         run: |
           set -euo pipefail
@@ -57,35 +57,30 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           r=json.loads(Path('stages/stage36/36-09EE/hostile-audit-pass-receipt.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V241_36_09EE_HOSTILE_PASS_RECEIVED_EF_RELOCKED'
-          assert s['status']=='PROMOTION_REPLAY_PENDING'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V242_36_09EE_HOSTILE_PASS_CONSUMED_EF_UNLOCKED'
+          assert s['status']=='ACTIVE_MAIN_CONTINUATION'
           assert s['base_main_sha']=='411ab6943fb0fe6ee7d9093a85281895ae1b0fba'
-          assert r['schema']=='STAGE36_36_09EE_HOSTILE_AUDIT_PASS_RECEIPT_V1'
-          assert r['status']=='PASS_RECEIVED_NOT_YET_PROMOTED'
-          assert r['audit']['pr']==1739
           assert r['audit']['review_id']==5149991589
-          assert r['audit']['result']=='PASS'
           assert r['audit']['audited_exact_head']=='6ae4fde45a9665f7a81173e0790006722f9bb1da'
-          assert r['audit']['final_exact_head_ci']=='34312513561/102341910787'
           assert r['merged_checkpoint']['merge_commit']=='4d7f50af95ffc00340d14ec9830f619273278a81'
-          assert r['freshness_after_merge']['stage36_mathematical_source_drift'] is False
-          af=s['authority_frontier']['36-09EE']; ha=s['hostile_audit_checkpoint']; pg=s['promotion_gates']; cur=s['current']
-          assert af['status']=='AUDITED_EXACT_GREEN_PASS_RECEIVED_PENDING_CONSUMPTION'
+          af=s['authority_frontier']['36-09EE'];ha=s['hostile_audit_checkpoint'];pg=s['promotion_gates'];cur=s['current']
+          assert af['status']=='AUDITED_EXACT_GREEN_PASS_CONSUMED'
           assert af['external_hostile_review_id']==5149991589
-          assert ha['result']=='PASS_RECEIVED_PENDING_CONSUMPTION'
-          assert ha['external_review_id']==5149991589
-          assert ha['pass_consumed'] is False
-          assert pg['36_09EE_external_hostile_audit_passed'] is True
-          assert pg['36_09EE_pass_receipt_recorded'] is True
-          assert pg['36_09EE_pass_consumption_ci_passed'] is False
-          assert pg['36_09EE_pass_consumed'] is False
-          assert pg['36_09EF_entry_allowed'] is False
-          assert cur['36_09EF_entry_allowed'] is False
+          assert af['pass_consumption_replay_head']=='e7b0fb5d266652c5fda0c71a5987ef9c97af933e'
+          assert af['pass_consumption_replay_ci']=='34315556514/102350902176'
+          assert ha['result']=='PASS_CONSUMED'
+          assert ha['promotion_pr']==1740
+          assert ha['pass_consumed'] is True
+          assert pg['36_09EE_pass_consumption_ci_passed'] is True
+          assert pg['36_09EE_pass_consumed'] is True
+          assert pg['36_09EF_entry_allowed'] is True
+          assert cur['36_09EF_entry_allowed'] is True
+          assert cur['hostile_audit_checkpoint_reached'] is False
           assert pg['BT_global_2primary_Brauer_set_empty'] is True
           assert pg['Brauer_Manin_obstruction_obtained'] is True
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EE/hostile-audit-pass-receipt.json'],text=True).strip()=='91a047fbffd05ecac51236a94e9d7582347051e2'
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V241 verified: external hostile PASS 5149991589 is recorded for exact head 6ae4fde; EF remains locked until separate V242 consumption.')
+          print('V242 verified: hostile PASS 5149991589 is consumed; 36-09EF is unlocked strictly for the physical receiver adapter. Downstream credit remains closed.')
           PY
           git diff --check
