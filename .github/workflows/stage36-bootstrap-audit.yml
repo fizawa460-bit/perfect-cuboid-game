@@ -80,7 +80,7 @@ jobs:
           assert pc['status']=='PROVISIONAL_CORRECTION_PENDING_EXACT_HEAD_CI_AND_EXTERNAL_REAUDIT'
           assert pc['certificate_blob_sha']=='d3318c8291835de8011f6b72fea8ca4479c3107d'
           assert pc['source_blob_sha']=='7b8d09ddf0eaa147af01437d0ef19a80da44fb0c'
-          assert pc['verifier_blob_sha']=='48da0461edbd728b9c621ec1931d2ff2b1abb04d'
+          assert pc['verifier_blob_sha']=='86f4dded7f2a7a9c9c800d12c73815211093353c'
           assert set(pc['revoked_claims'])=={'T2Sel_2_torsion_free','Phi_injective','Psi_injective','proSelmer_mutual_injections_constructed'}
           assert corr['corrected_proSelmer_transport']['Phi_kernel_nonzero'] is True
           assert corr['corrected_proSelmer_transport']['Psi_kernel_nonzero'] is True
@@ -115,7 +115,7 @@ jobs:
             assert pg[key] is False,key
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/proselmer-torsion-injectivity-correction.json'],text=True).strip()=='d3318c8291835de8011f6b72fea8ca4479c3107d'
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09DS/proselmer-torsion-injectivity-correction-source-lock.md'],text=True).strip()=='7b8d09ddf0eaa147af01437d0ef19a80da44fb0c'
-          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DS_correction.py'],text=True).strip()=='48da0461edbd728b9c621ec1931d2ff2b1abb04d'
+          assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09DS_correction.py'],text=True).strip()=='86f4dded7f2a7a9c9c800d12c73815211093353c'
           print('V217 verified: the historical PR1712 audit is reopened because DS mutual pro-Selmer injectivity is false in the presence of the split rational 2-torsion kernels. DX finite Phi-Selmer mathematics remains exact-green, but DY and every downstream promotion are relocked pending exact-head CI plus external re-audit.')
           PY
           git diff --check
