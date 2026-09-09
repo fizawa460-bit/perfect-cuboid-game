@@ -113,6 +113,8 @@ Since the maps induced by `Phi,Psi` satisfy the same compositions `[2]`,
 
 This is the missing point that rules out any additional Tate-Sha contribution to the pro-Selmer kernels.
 
+A nonzero compatible sequence in `T_2 Sha(B)` supplies arbitrarily deep 2-division and therefore lies in the 2-primary divisible part.  Conversely the Tate module of that divisible part gives such compatible sequences.  Thus the `T_2 Sha` term may be computed on the 2-primary divisible subgroup `D_B=Sha(B)(2)_div`.
+
 ## Exact pro-Selmer kernels
 
 Place the DQ exact sequences for `A` and `J` in a commutative diagram with vertical map induced by `Phi`.  The right vertical kernel is zero by the Tate-Sha torsion lemma.  The Snake lemma therefore identifies
@@ -187,25 +189,53 @@ So the Stage36 data already force the common Mordell--Weil rank to be at most on
 
 ## Pro-Selmer cokernel bounds
 
-Let `D_A` and `D_J` denote the 2-primary divisible parts of `Sha(A)` and `Sha(J)`.  The inverse-limit term `T_2 Sha` comes from these divisible parts.  The compositions `[2]` and divisibility imply that
+Let `D_A=Sha(A)(2)_div` and `D_J=Sha(J)(2)_div`.  Finite `2`-Selmer groups imply these divisible 2-primary groups have finite 2-corank, hence each is a finite direct sum of copies of `Q_2/Z_2`.
+
+The compositions `[2]` and divisibility imply that
 
 `Phi : D_A -> D_J`,
 
 `Psi : D_J -> D_A`
 
-are surjective.  Their kernels are contained respectively in `Sha(A)[Phi]` and `Sha(J)[Psi]`.
+are surjective.  For example, for `y in D_J`, choose `z in D_J` with `2z=y`; then `y=Phi Psi(z)`, and `Psi(z)` is again divisible.  Their kernels are
 
-Applying the Snake lemma to the two DQ exact rows shows that `coker(Phi_*)` is an extension of the completed Mordell--Weil quotient by the Tate-Sha cokernel.  Equivalently, if
+`D_A[Phi] subset Sha(A)[Phi]`,
 
-`d = dim_F2(D_A[Phi])`,
+`D_J[Psi] subset Sha(J)[Psi]`.
+
+For a surjection between finite-corank 2-primary divisible groups whose finite kernel `H` is killed by 2, passage to Tate modules gives the exact lattice sequence
+
+`0 -> T_2 D_source -> T_2 D_target -> H -> 0`.
+
+This can be checked after writing the divisible groups as `(Q_2/Z_2)^s`: the isogeny is represented by a full-rank `Z_2` matrix, and Smith normal form identifies the Tate-module cokernel with the finite kernel on the divisible group.  Therefore
+
+`coker(T_2 Sha(A) -> T_2 Sha(J)) ~= D_A[Phi]`,
+
+`coker(T_2 Sha(J) -> T_2 Sha(A)) ~= D_J[Psi]`.
+
+Now apply the Snake lemma to the two DQ exact rows.  Because the Tate-Sha vertical kernels are zero, one obtains exact sequences
+
+`0 -> J(Q)^hat_2/Phi A(Q)^hat_2 -> coker(Phi_*) -> D_A[Phi] -> 0`,
+
+`0 -> A(Q)^hat_2/Psi J(Q)^hat_2 -> coker(Psi_*) -> D_J[Psi] -> 0`.
+
+The rational quotients are already killed by 2, so completion does not change them.  If
+
+`d = dim_F2 D_A[Phi]`,
+
+`d'= dim_F2 D_J[Psi]`,
 
 then
 
 `dim_F2 coker(Phi_*) = a+d`,
 
-with
+`dim_F2 coker(Psi_*) = a'+d'`.
 
-`0 <= d <= dim_F2 Sha(A)[Phi] = 2-a`.
+The finite descent rows give
+
+`0 <= d <= dim_F2 Sha(A)[Phi] = 2-a`,
+
+`0 <= d' <= dim_F2 Sha(J)[Psi] = 5-a'`.
 
 Therefore
 
@@ -213,15 +243,9 @@ Therefore
 
 so
 
-`#coker(Phi_*) in {2,4}`.
+`#coker(Phi_*) in {2,4}`,
 
-Similarly, writing `d'=dim_F2(D_J[Psi])`,
-
-`dim_F2 coker(Psi_*) = a'+d'`,
-
-`0 <= d' <= 5-a'`,
-
-and hence
+and
 
 `4 <= dim_F2 coker(Psi_*) <= 5`,
 
