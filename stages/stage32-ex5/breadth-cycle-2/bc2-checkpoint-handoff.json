@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE32EX5_BC2_CHECKPOINT_HANDOFF_V1",
+  "stage": "32EX5",
+  "breadth_cycle": "EX5_BREADTH_CYCLE_2_CANDIDATE",
+  "pr": 1726,
+  "route_id": "EX5R-SYMDIFF-NODE-SPAN-001",
+  "checkpoint_status": "PROVISIONAL_RESEARCH_CHECKPOINT_READY_FOR_FRESHNESS_SYNC",
+  "cycle1_authority": {
+    "status": "AUDITED_BOUNDED_EXHAUSTION_CLOSURE_PRESERVED",
+    "authoritative_state_file": "stages/stage32-ex5/MAIN-STATE.json",
+    "rewritten_by_bc2": false
+  },
+  "retained_bc2_units": [
+    "BC2-00_BTVA_NODE_SUPPORT_SPAN_DIAGNOSTIC",
+    "BC2-00_SECOND_PASS_REPOSITORY_DEDUP",
+    "BC2-01_SUPPORT_ADAPTER_PREFLIGHT",
+    "BC2-01A_EXCEPTIONAL_PAIRING_BRIDGE"
+  ],
+  "frontier": {
+    "next_leaf": "BC2-01B_RUNTIME_NODE_COORDINATE_BRIDGE",
+    "goal": "recover/export the exact 48 singular-point coordinates in the same runtime ordering as the 48 exceptional classes, then persist a permutation-invariant canonical node mapping",
+    "promotion_condition": "48/48 bijection plus exact permutation-invariant canonicalization before any BTVA span replay on FULL178"
+  },
+  "credit": {
+    "route_qualified": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "Q602_excluded": false,
+    "O210_excluded": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "cycle1_audited_authority_replaced": false,
+    "runtime_node_coordinate_bridge_claimed": false,
+    "aggregate_mass_treated_as_labelled_support": false,
+    "btva_span_replay_claimed_ready": false,
+    "full178_closed": false
+  },
+  "freshness": {
+    "target_main_sha": "e1696bd4f9debc753128e41fb34e368fc77c3fea",
+    "consolidated_through_pr_head": "55dfb19d467e639697010ae03cc6b479d00d2c3c",
+    "sync_status": "PENDING",
+    "merge_to_main_performed": false
+  },
+  "post_checkpoint_split_plan": [
+    "runtime-node-coordinate bridge",
+    "FULL178 labelled-support reconstruction",
+    "BTVA support/span predicate replay",
+    "receiver-impact and promotion decision"
+  ]
+}
