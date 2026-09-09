@@ -1,33 +1,37 @@
-# Stage35-EX MAIN batch handoff — Goal4BS parking / intermediate hostile-audit checkpoint
+# Stage35-EX MAIN batch handoff — Goal4BS hostile-audit PASS consumed / parked
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BS are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). The retained Goal4AK→Goal4BS delta has now received and consumed an independent intermediate hostile-audit PASS. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
-## Exact-green parent
+## Audited intermediate checkpoint
 
-Goal4BR is exact-green:
+Goal4BS hostile audit:
 
-- exact head: `85b3e201c75030139977540c3bd8c274084851a5`
-- aggregate: `34323244536`
-- `verify-stage35-ex-current`: `102376597662`
-- result: `SUCCESS`
+- review: `5151846948`
+- audited exact head: `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`
+- audited delta: `Goal4AK -> Goal4BS`
+- aggregate: `34327910281`
+- `verify-stage35-ex-current`: `102390869295` — SUCCESS
+- dedicated Goal4BS checkpoint: `34327910480 / 102389372990` — SUCCESS
+- credit ceiling: `AUDITED_INTERMEDIATE_STAGE35EX_PARKING_CHECKPOINT_NO_E1_CREDIT`
 
-Goal4BR gives the exact derived fourth-square defect class and reservoir swap, but the original endpoint does not require the derived fourth-square defect to be square. Hence no legal S34-W01 receiver or branch pruning was obtained.
+Consumption artifact:
 
-## Goal4BS checkpoint result
+- `stages/stage35-ex/35ex-35/goal4bs-intermediate-hostile-audit-pass-consumption.json`
 
-The post-BQ/BR blind breadth pass and targeted historical/Arsenal dedup are complete.
+The previous long-lived-PR freeze is released by consumption of this receipt. This does **not** create a new live mathematical route.
+
+## Parking state
+
+Goal4BS remains the operative route checkpoint:
 
 ```text
-LIVE:
-  none
-
-UNTESTED_AND_ACTIONABLE_WITH_CURRENT_RETAINED_INPUTS:
-  none
+PARKING_AUDIT_COMPLETE=true
+LIVE_CANDIDATES=0
+UNTESTED_AND_ACTIONABLE_WITH_CURRENT_RETAINED_INPUTS=0
+ROUTE_STATUS=PARKED_AUDITED_REOPEN_GATED
 ```
 
-The apparently fresh direct Pesch gcd/factor route is historical: 35EX-02 proves `g0=c*p, h=c*q`, 35EX-03–04 reduce the two primitive triples to the coprime product rectangle, and 35EX-05–06 reach the four-factor square receiver with live parameter-dependent gcd reservoirs.
-
-The retained blockers are:
+The retained blockers remain:
 
 ```text
 BQ boundary-depth -> missing global rational realization with height control
@@ -37,7 +41,9 @@ AZ amplification -> retained maps do not cross the required threshold
 BO deeper Gaussian ray tower -> no source-fixed global character value
 ```
 
-Exact future reopen objects are:
+## Reopen gate
+
+Do not recharge the previously tested routes. Substantive retained research may resume only when at least one of these genuinely new inputs is identified:
 
 ```text
 A. GLOBAL_RATIONAL_REALIZATION_WITH_HEIGHT_CONTROL
@@ -45,25 +51,10 @@ B. NEW_SOURCE_FIXED_E1_INVARIANT
 C. QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
 ```
 
-## Intermediate hostile-audit checkpoint
+If none is available, ordinary `stage35exmainbatch` should remain parked rather than manufacture another equivalent leaf.
 
-PR #1723 had 91 retained commits at the Goal4BR parent and has entered the repository warning zone. Goal4BS is therefore the next retained consolidation checkpoint and must freeze the shared PR after exact-green CI.
+## Freshness
 
-```text
-INTERMEDIATE_HOSTILE_AUDIT_CHECKPOINT=true
-PARKING_AUDIT_COMPLETE=true
-LIVE_CANDIDATES=0
-HOSTILE_AUDIT_PASS_AWARDED=false
-FURTHER_SUBSTANTIVE_RETAINED_RESEARCH_BEFORE_AUDIT=false
-```
+At audit time current main was `e2da76d90a0994af5038023613c6c4084c4c507e`. Merge-ready freshness remains PENDING because #1723 is diverged. The audit found the observed main-only drift outside the load-bearing Stage35-EX mathematical source locks. Any later merge/promotion path must separately synchronize/replay on then-current main.
 
-The next action is an **independent delta-bounded intermediate hostile audit** of the Goal4AK→Goal4BS retained delta and any changed load-bearing dependency/source-lock/verifier/policy boundary. This batch does not self-award hostile-audit PASS.
-
-Artifacts:
-
-- `stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bs_post_boundary_parking_checkpoint.py`
-- `.github/workflows/stage35-ex-goal4bs-checkpoint.yml`
-
-No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
+No merge. MAIN mathematical authority remains V74 / Goal4AK. Goal4BS is an audited intermediate parking checkpoint only.
