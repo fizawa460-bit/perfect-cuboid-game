@@ -1,83 +1,125 @@
-# Stage35-EX MAIN batch handoff — Goal4BQ y-zero boundary escape depth
+# Stage35-EX MAIN batch handoff — Goal4BR derived fourth-square defect
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BQ are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4BR are provisional stacked leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted.
 
 ## Exact-green parent
 
-Goal4BP is exact-green:
+Goal4BQ is exact-green:
 
-- exact head: `a88fdbad3480f0a6a254a02a001efd179e01528d`
-- aggregate: `34319593575`
-- `verify-stage35-ex-current`: `102364864481`
+- exact head: `930c649ed32104c3faf1f22074423707ad2c6a40`
+- aggregate: `34322296008`
+- `verify-stage35-ex-current`: `102373228786`
 - result: `SUCCESS`
 
-Goal4BP executed a fresh blind+Arsenal-deduplicated route audit after the Gaussian ray tower was fail-closed. It selected the fixed `y=0` boundary escape/conductor-depth route and retained the derived fourth-square defect as a distinct untested backup.
+Goal4BQ proves that for the fixed 2-adic slice near the rational boundary anchor `y=0`, the finite visible-character packet of conductor `2^n` forces exact boundary depth `D(n)=n`. Any rational realization would satisfy `H(y)>=2^n`, but no retained theorem realizes those adelic packets by rational endpoints, so no counting or endpoint credit follows.
 
-## Goal4BQ provisional exact result
+## Goal4BR provisional exact result
 
-Use the rational boundary anchor
-
-```text
-P*=(272/225,0,353/225,1,272/225,353/225).
-```
-
-At the 2-adic place fix `x=272/225`, `p=353/225`, let `m=v2(y)>=6`, and choose the square-root branches reducing to the anchor. Then
+For the primitive six-variable endpoint
 
 ```text
-(q-1)(q+1)=y^2,
-v2(q+1)=1,
-v2(q-1)=2m-1,
-v2((q+y)-1)=m.
+A=x*y*a,
+B=x*z*b,
+C=y*z*c,
 ```
 
-For every `n>=6`, let
+Goal4AY's derived Euler brick has edges
 
 ```text
-X_n=Hom((Z/2^n Z)^*,Q/Z),
-F_n={beta(chi,q+y): chi in X_n}.
+A_D=x*a*b,
+B_D=y*a*c,
+C_D=z*b*c,
 ```
 
-Characters of `(Z/2^n Z)^*` separate unit classes, so all `F_n` evaluations at 2 match the anchor iff
+and fourth-square defect
 
 ```text
-q+y == 1 mod 2^n
-iff v2(y)>=n.
+Q_D=(x*a*b)^2+(y*a*c)^2+(z*b*c)^2.
 ```
 
-Hence the exact minimum boundary depth is
+Put
 
 ```text
-D(n)=n.
+P=r_AB*r_AC*r_BC,
+R=x*y*z*a*b*c.
 ```
 
-This is sharp and gives a concrete explanation of how finite Brauer-compatible adelic populations can escape toward the removed divisor `y=0` while the full infinite visible-character layer remains endpoint-equivalent.
-
-Conditionally, if a rational realization `y=a/b` in lowest terms existed with `v2(y)>=n`, then `b` is odd, `2^n|a`, and
+The exact completion identity is
 
 ```text
-H(y)>=2^n.
+P^2+R^2=W^2*Q_D.
 ```
 
-But Stage35-EX has no theorem realizing these finite adelic packets by rational endpoints. Therefore no Goal4M/counting contradiction, no compactness closure, and no branch pruning is credited.
+Let `G=gcd(P,R)`, `p=P/G`, `r=R/G`. Since every reduced face hypotenuse is odd and primitive endpoint parity makes `R` even,
+
+```text
+gcd(p,r)=1,
+p odd,
+r even,
+[Q_D]=[p^2+r^2].
+```
+
+Hence the squarefree support of `Q_D` contains no factor `2` and no prime `3 mod4`; every squarefree prime is `1 mod4`.
+
+Retaining the Goal4AU reservoirs
+
+```text
+h_a=gcd(a,r_BC),
+h_b=gcd(b,r_AC),
+h_c=gcd(c,r_AB)
+```
+
+and defining
+
+```text
+j_x=gcd(x,r_AB),
+j_y=gcd(y,r_AC),
+j_z=gcd(z,r_BC),
+```
+
+one gets valuation-exactly
+
+```text
+G=h_a*h_b*h_c*j_x*j_y*j_z.
+```
+
+Under the Goal4AY involution
+
+```text
+(x,y,z ; a,b,c) -> (a,b,c ; x,y,z),
+```
+
+the two reservoir triples swap:
+
+```text
+(h_a,h_b,h_c) <-> (j_x,j_y,j_z).
+```
+
+However the original perfect endpoint does **not** imply `Q_D` is a square. Imposing `Q_D=S^2` would additionally require the derived Euler brick itself to be perfect, which is unsupported population narrowing. Therefore the primitive Pythagorean equation obtained under that extra hypothesis is not a legal receiver for the original endpoint population.
+
+Consequently:
+
+```text
+Q_D squareclass restriction = exact;
+derived reservoir two-cycle = exact;
+finite exhaustive squareclass family = no;
+S34-W01 triggered = no;
+strict descent = no;
+branch pruning = no.
+```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4bq-y-zero-boundary-escape-conductor-depth-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bq-y-zero-boundary-escape-conductor-depth.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bq_y_zero_boundary_escape_conductor_depth.py`
+- `stages/stage35-ex/35ex-35/goal4br-derived-fourth-square-defect-squareclass-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4br-derived-fourth-square-defect-squareclass.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4br_derived_fourth_square_defect_squareclass.py`
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4BR_DERIVED_FOURTH_SQUARE_DEFECT_SQUARECLASS_PREFLIGHT
+35EX-35_GOAL4BS_POST_BOUNDARY_DERIVED_BACKUP_PARKING_AUDIT
 ```
 
-Analyze
-
-```text
-Q_D=(x*a*b)^2+(y*a*c)^2+(z*b*c)^2
-```
-
-using the Goal4AY completion identity and the primitive six-variable gcd/parity dictionary. First reduce the squareclass to its primitive two-square receiver and determine whether any bounded factor/squareclass family exists before invoking S34-W01.
+Goal4BQ's selected boundary-depth route is blocked at the missing rational-realization/global-height adapter, and Goal4BR closes its distinct derived-defect backup as non-obstructive. Run a fresh breadth/parking audit before reusing either route. Admit only a genuinely new source-fixed invariant or an exact adapter that discharges one of the frozen missing objects.
 
 No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
