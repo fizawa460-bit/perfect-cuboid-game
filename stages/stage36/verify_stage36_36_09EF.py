@@ -9,13 +9,15 @@ SRC=ROOT/'stages/stage36/36-09EF/fixed-p2-physical-receiver-adapter-source-lock.
 O=ROOT/'stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json'
 AW=ROOT/'stages/stage36/36-09AW/fixed-p-finite-squareclass-tunnell-branch-sieve-preflight.json'
 EE=ROOT/'stages/stage36/36-09EE/fixed-p2-q2-rho-retained-open-exclusion-preflight.json'
+EES=ROOT/'stages/stage36/36-09EE/q2-rho-torsion-retained-open-exclusion-source-lock.md'
 RECEIPT=ROOT/'stages/stage36/36-09EE/hostile-audit-pass-receipt.json'
 LOCKS={
- CERT:'14422b916552ba88562c2ed773a2c8a1fd2953e9',
+ CERT:'7ba7dd6df5d118868e0344d9d568c62c4058efdd',
  SRC:'7b616319f58cb466fa6840446ee71c2078f162e1',
  O:'6a2678ebedba40e13277100441361039ee47ca28',
  AW:'c1970a020803275ba87b249229e319367fa8f811',
  EE:'683d52e7cba9e2bd683cc06577fb6913532feb77',
+ EES:'0cc6e97c62fbb0782f19e30d87b19509d8144a8c',
  RECEIPT:'91a047fbffd05ecac51236a94e9d7582347051e2',
 }
 def gh(p):
@@ -23,7 +25,7 @@ def gh(p):
 for p,h in LOCKS.items():
     got=gh(p); assert got==h,(p,got,h)
 
-c=json.loads(CERT.read_text()); o=json.loads(O.read_text()); aw=json.loads(AW.read_text()); ee=json.loads(EE.read_text()); rr=json.loads(RECEIPT.read_text()); src=SRC.read_text()
+c=json.loads(CERT.read_text()); o=json.loads(O.read_text()); aw=json.loads(AW.read_text()); ee=json.loads(EE.read_text()); rr=json.loads(RECEIPT.read_text()); src=SRC.read_text(); ees=EES.read_text()
 assert c['schema']=='STAGE36_36_09EF_FIXED_P2_PHYSICAL_RECEIVER_ADAPTER_PREFLIGHT_V1'
 assert c['status']=='PASS_FIXED_P2_PHYSICAL_RECEIVER_SECTOR_EXCLUDED_HOSTILE_AUDIT_GATED'
 assert c['base_main_sha']=='09cc1687e74ef0372e4f7f1ebd8b0cddacc52dd6'
@@ -44,9 +46,9 @@ assert ns['base_parameter']=='p'
 assert set(ns['physical_exclusions'])=={'p=0','p=1','p=-1','t=0','t=1','t=-1','t=infinity'}
 assert top['normalized_model']=='C3_p: y^2=(t^2+p^2)*(t^2+p^(-2))*(t^2+c^2)*(t^2+c^(-2))'
 assert top['genus']==3
-assert o['middle_elliptic_physical_square_lift']['top_square_coordinate']=='x=t^2=(V+rho*U)/(V-rho*U)'
-assert o['middle_elliptic_physical_square_lift']['physical_lift_condition']=='(V+rho*U)/(V-rho*U) is a nonzero rational square'
-# Hostile-audited O authority is explicitly frozen in the EF cert/source.
+mid=o['middle_elliptic_physical_square_lift']
+assert mid['top_square_coordinate']=='x=t^2=(V+rho*U)/(V-rho*U)'
+assert mid['physical_lift_condition']=='(V+rho*U)/(V-rho*U) is a nonzero rational square'
 pa=c['physical_adapter_authority']
 assert pa['36_09O_pr']==1642 and pa['36_09O_hostile_review']==5123512777
 assert pa['36_09O_audited_exact_head']=='be979251c6e3d7a2431fb56537520afd2596c7d9'
@@ -54,14 +56,12 @@ assert pa['36_09O_exact_head_ci']=='34000052247/101397173180'
 assert pa['physical_square_lift_adapter_audited'] is True
 assert 'review `5123512777`' in src
 
-# AW confirms the fixed-p terminology means a rational physical base parameter.
+# AW confirms fixed-p means the rational physical base parameter.
 assert aw['fixed_p_outer_enumerator']['input']=='primitive p=a/b on the retained physical open'
 assert 'retained Stage36 receiver over that fixed p is empty' in aw['fixed_p_exclusion_rule']['statement']
 
 # Replay p=2 specialization exactly with rational arithmetic.
-p=Fraction(2,1)
-h=p-1/p
-cc=(p+1)/(p-1)
+p=Fraction(2,1); h=p-1/p; cc=(p+1)/(p-1)
 assert h==Fraction(3,2) and cc==3
 vals=[p*p,1/(p*p),cc*cc,1/(cc*cc)]
 assert vals==[Fraction(4),Fraction(1,4),Fraction(9),Fraction(1,9)]
@@ -74,9 +74,15 @@ assert sp['specialization_exactly_matches_36_09EE_curve'] is True
 for k in ['quadratic_twist_inserted','scalar_extension_inserted','extra_squareclass_branch_inserted']:
     assert sp[k] is False,k
 
-# The specialized equation is literally the audited EE fixed curve.
-assert ee['fixed_curve']['curve']=='C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)'
-# z/y is only an ordinate letter; the RHS and retained t-open are identical.
+# EE's fixed curve is source-locked in prose; compare the literal RHS while allowing only y/z ordinate renaming.
+ee_curve='C3_2: z^2=(t^2+4)(t^2+1/4)(t^2+9)(t^2+1/9)'
+assert ee_curve in ees
+assert sp['specialized_model'].replace('y^2','z^2')==ee_curve
+# EE certificate independently locks the rho quotient derived from this same curve.
+assert ee['rho_quotient']['invariants']=='v=t-1/t, Y=z/t^2'
+assert ee['rho_quotient']['quartic']=='Y^2=(v^2+25/4)(v^2+100/9)'
+
+# Retained top boundaries match exactly.
 ra=c['retained_open_adapter']
 assert set(ra['physical_top_boundary'])=={'t=0','t=1','t=-1','t=infinity'}
 assert set(ra['EE_retained_top_boundary'])==set(ra['physical_top_boundary'])
@@ -111,4 +117,4 @@ assert c['route_result']['next_leaf_entry_allowed'] is False
 for k,v in c['scope_firewalls'].items():
     assert v is False,(k,v)
 
-print('36-09EF verified: hostile-audited 36-09O specializes the exact physical top cover at p=2 to the audited EE curve C3_2 with the same retained boundary. EE emptiness of the full 2-primary Brauer set therefore excludes the retained physical receiver sector at p=2. No candidate-set, full-R29, Q11, endpoint, or Perfect Cuboid credit is granted.')
+print('36-09EF verified: hostile-audited 36-09O specializes the exact physical top cover at p=2 to the hostile-audited EE curve C3_2 with the same retained boundary. EE emptiness of the full 2-primary Brauer set therefore excludes the retained physical receiver sector at p=2. No candidate-set, full-R29, Q11, endpoint, or Perfect Cuboid credit is granted.')
