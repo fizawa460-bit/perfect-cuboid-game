@@ -1,128 +1,128 @@
-# Stage35-EX MAIN batch handoff — Goal4AX provisional split six-norm torus chart
+# Stage35-EX MAIN batch handoff — Goal4AY derived-cuboid involution / nonlinear-descent boundary
 
-Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AX remain a provisional stacked research surface on PR #1723 and grant no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Audited authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4AL–Goal4AY are provisional stacked research leaves on PR #1723. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted here.
 
 ## Exact-green parent
 
-Goal4AW is now exact-green after a verifier-only repair:
+Goal4AX is exact-green:
 
-- exact head: `a862b3ddea76b21110ba93b0d171e55c22ce6af8`
-- aggregate run: `34297319019`
-- `verify-stage35-ex-current`: `102298024754`
+- exact head: `0d620e70ff36b5c508fa3c59f6fde995eda25c90`
+- aggregate: `34298150005`
+- `verify-stage35-ex-current`: `102300427187`
 - result: `SUCCESS`
 
-The repair changed only SymPy structural equality checks for the already-recorded exact `c4` and `j` identities; the Goal4AW mathematical artifact and source lock were unchanged.
+Goal4AX's six Gaussian norm / Hilbert–90 chart is exact but endpoint-equivalent and non-pruning.
 
-Goal4AW therefore retains the exact boundary:
+## Goal4AY provisional exact result
 
-```text
-physical Goal4L point is non-torsion;
-Petsche explicit lower bound is semantically applicable;
-Goal4M still lacks an explicit upper coefficient;
-no endpoint-height lower growth for Delta_min is locked;
-no uniform Szpiro ratio bound is locked;
-no height contradiction / eventual elimination is obtained.
-```
+Goal4AY executes the Goal4AS lens `GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT` against the currently available source-locked candidates.
 
-## Goal4AX provisional exact result
-
-Goal4AX executes the Goal4AS lens `CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY`.
-
-For a positive endpoint the three face squares and three space-diagonal decompositions become six Gaussian norm equations:
+The strongest classical candidate is the derived-cuboid pair-product construction
 
 ```text
-N(A+iB)=D_AB^2,
-N(A+iC)=D_AC^2,
-N(B+iC)=D_BC^2,
-N(D_AB+iC)=W^2,
-N(D_AC+iB)=W^2,
-N(D_BC+iA)=W^2.
+(A,B,C) -> (AB,AC,BC).
 ```
 
-For each positive rational Pythagorean triple `U^2+V^2=H^2`, the half-angle parameter
+It exactly preserves the three face-square equations. Through the primitive Stage35-EX decomposition
 
 ```text
-t=V/(H+U)
+A=x*y*a,
+B=x*z*b,
+C=y*z*c,
 ```
 
-gives
+one obtains
 
 ```text
-R(t)=2t/(1-t^2),
-H0(t)=(1+t^2)/(1-t^2),
-(U+iV)/H=(1+i*t)/(1-i*t).
+gcd(AB,AC,BC)=x*y*z,
 ```
 
-Thus every one of the six norm-one phases has an explicit Hilbert–90 lift `1+i*t` once the endpoint is present.
-
-Using
+so the primitive derived edges are
 
 ```text
-f_AB=B/(D_AB+A),
-f_AC=C/(D_AC+A),
-f_BC=C/(D_BC+B),
-s_AB=C/(W+D_AB),
-s_AC=B/(W+D_AC),
-s_BC=A/(W+D_BC),
+A_D=x*a*b,
+B_D=y*a*c,
+C_D=z*b*c.
 ```
 
-the exact cross-face compatibility is
+Their pair gcds are exactly `a,b,c`, and their residual variables are exactly `x,y,z`. Therefore
 
 ```text
-R(f_AC)=R(f_AB)*R(f_BC),
-R(s_AB)=R(f_AC)/H0(f_AB),
-R(s_AC)=R(f_AB)/H0(f_AC),
-R(s_BC)=1/(R(f_AB)*H0(f_BC)).
+D : (x,y,z ; a,b,c) -> (a,b,c ; x,y,z),
+D^2=id.
 ```
 
-Conversely these four identities reconstruct, up to positive scaling,
+The reduced face hypotenuses transform as
 
 ```text
-A=1,
-B=R(f_AB),
-C=R(f_AC),
-D_AB=H0(f_AB),
-D_AC=H0(f_AC),
-D_BC=R(f_AB)*H0(f_BC),
-W=H0(f_AB)*H0(s_AB),
+r_D_AB=r_BC,
+r_D_AC=r_AC,
+r_D_BC=r_AB.
 ```
 
-and recover all three face-square equations plus the common space-square equation. Therefore this common six-norm chart is an exact positive-endpoint reparameterization rather than a stricter obstruction receiver.
+So the classical derived construction is an exact nonlinear self-map of the **three-face Euler-brick population**.
 
-The primitive pair-gcd dictionary is compatible with the chart, e.g.
+The fourth square is a separate gate:
 
 ```text
-B/(D_AB+A)=z*b/(r_AB+y*a),
+original:  W^2=(x*y*a)^2+(x*z*b)^2+(y*z*c)^2,
+derived:   W_D^2=(x*a*b)^2+(y*a*c)^2+(z*b*c)^2.
 ```
 
-but primitivity/gcd/parity remain integral representative conditions; Goal4AX obtains no new rational norm equation or finite branch pruning from them.
+No implication from the original fourth square to the derived fourth square is obtained. In raw variables, the exact completion identity is
+
+```text
+(D_AB*D_AC*D_BC)^2+(A*B*C)^2
+  = W^2*(A^2*B^2+A^2*C^2+B^2*C^2).
+```
+
+Even under the stronger hypothetical assumption that the derived operator preserved the fourth square for every endpoint, its involutivity rules out universal strict descent for **any** height: `H(D(P))<H(P)` and the same inequality at `D(P)` would give `H(P)<H(D(P))`.
+
+Thus the classical derived operator is closed as a universal strict-descent candidate without claiming that all nonlinear self-maps are impossible.
+
+Other current candidates:
+
+```text
+elliptic multiplication -> no full-endpoint reconstruction;
+AX torus symmetries -> chart symmetry / no proved strict compatible endomorphism;
+AU/AV Kummer package -> relation, not a self-map;
+common scalar v2 -> already closed by Goal4I.
+```
+
+A scoped literature check also recovered the classical pair-product construction in Spohn (1974) / Leech (1981). Current arXiv `2602.00239v2` discusses a divisor-propagation descent only as an exploratory gluing mechanism and explicitly does not claim resolution of the perfect-cuboid problem; no full-endpoint map is imported from it.
 
 Route decision:
 
 ```text
-CROSS_FACE_LATTICE_NORM_TORSOR_COMPATIBILITY
-  -> PASS_EXACT_SPLIT_SIX_NORM_TORUS_CHART
-  -> BLOCKED_AS_POSITIVE_ENDPOINT_BIRATIONAL_REPARAMETRIZATION
+GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT
+  -> FAIL_CLOSE_CURRENT_SOURCE_LOCKED_NONLINEAR_DESCENT_CANDIDATES
+  -> exact new fact: primitive derived cuboid = pair-gcd/residual involution
 ```
 
-No nontrivial H1 torsor class, local norm obstruction, spinor obstruction, common Selmer complex, individual Kummer trivialization, or E1 closure is claimed.
+Firewall:
+
+```text
+ALL_POSSIBLE_NONLINEAR_DESCENT_MAPS_PROVED_IMPOSSIBLE=false
+INFINITE_DESCENT_PROVED=false
+E1_PROVED=false
+```
 
 Artifacts:
 
-- `stages/stage35-ex/35ex-35/goal4ax-cross-face-lattice-norm-torsor-compatibility-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4ax-cross-face-lattice-norm-torsor-compatibility.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4ax_cross_face_norm_torsor.py`
+- `stages/stage35-ex/35ex-35/goal4ay-derived-cuboid-involution-nonlinear-descent-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4ay-derived-cuboid-involution-nonlinear-descent.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4ay_derived_cuboid_involution.py`
 
 ## Freshness
 
-Current `main` observed during this batch is `aab9afa37a136f76a5bf8e6eb146145b7bb853c3`. Relative to merge-base `42f20e47babdfdda068a605e3fec489eeace460c`, the main-side changes are Stage32-EX1 / Stage32-EX5 / Stage32 routing and Stage36 material. No Stage35-EX mathematical source drift was observed. No freshness credit is claimed and no sync is performed in this provisional leaf.
+No freshness credit is claimed. The main-side drift observed in this batch was confined to Stage32 / Stage36 material and did not change Stage35-EX mathematical sources. No rebase/sync is performed in this provisional leaf.
 
 ## Next exact leaf
 
 ```text
-35EX-35_GOAL4AY_GENUINE_NONLINEAR_FULL_ENDPOINT_SELF_MAP_DESCENT_PREFLIGHT
+35EX-35_GOAL4AZ_SUPER_SQRT_DISTINCT_CLASS_AMPLIFICATION_PREFLIGHT
 ```
 
-Goal4AY must seek a **total** source-locked map from primitive full endpoints to primitive full endpoints that preserves all three face squares and the space square, treats every parity branch/exceptional locus, and strictly decreases a well-founded positive height. It must not reuse the common-scalar `v2` division already closed by Goal4I. Repository/source search miss alone is not a mathematical nonexistence proof.
+Question: can one hypothetical endpoint force quantitatively many **distinct** endpoint classes or marked receiver points below controlled height, enough to contradict Goal4M's `O(B^(1/2+o(1)))` population ceiling? Symmetry or a finite orbit alone is insufficient; distinctness and height-growth constants must be exact.
 
-No merge. No hostile-audit credit. `MAIN-STATE.json` remains at V74 / Goal4AK.
+No merge. No hostile-audit credit. `MAIN-STATE.json` remains V74 / Goal4AK.
