@@ -1,0 +1,26 @@
+name: Stage32 32-01-178 N230 filtered index replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N230/**'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_indexer.py'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
+      - '.github/workflows/stage32-01-178-n230-filtered-indexer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-n230-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify audited N220 filtered random access
+        run: python stages/stage32/32-01-178/nodes/N230/verify_n230_filtered_terminal_indexer.py
