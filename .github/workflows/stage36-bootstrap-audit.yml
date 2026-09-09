@@ -58,12 +58,12 @@ jobs:
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09ED.py
-      - name: Verify provisional 36-09EE Q2 rho retained-open exclusion
+      - name: Verify exact-green 36-09EE Q2 rho retained-open exclusion
         shell: bash
         run: |
           set -euo pipefail
           python3 stages/stage36/verify_stage36_36_09EE.py
-      - name: Assert V239 provisional EE and EF relock
+      - name: Assert V240 EE exact-green hostile-audit checkpoint
         shell: bash
         run: |
           set -euo pipefail
@@ -72,32 +72,37 @@ jobs:
           from pathlib import Path
           s=json.loads(Path('stages/stage36/MAIN-STATE.json').read_text())
           ee=json.loads(Path('stages/stage36/36-09EE/fixed-p2-q2-rho-retained-open-exclusion-preflight.json').read_text())
-          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V239_36_09EE_PROVISIONAL_Q2_RHO_OBSTRUCTION'
-          assert s['status']=='PROVISIONAL_EXACT_PENDING_CI'
-          af=s['authority_frontier']['36-09EE'];cur=s['current'];pg=s['promotion_gates']
-          assert af['status']=='PROVISIONAL_EXACT_PENDING_CI'
+          assert s['schema']=='STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V240_36_09EE_EXACT_GREEN_HOSTILE_AUDIT_CHECKPOINT'
+          assert s['status']=='ACTIVE_HOSTILE_AUDIT_CHECKPOINT'
+          af=s['authority_frontier']['36-09EE'];cur=s['current'];pg=s['promotion_gates'];ha=s['hostile_audit_checkpoint']
+          assert af['status']=='EXACT_GREEN_HOSTILE_AUDIT_REQUIRED'
           assert af['certificate_blob_sha']=='683d52e7cba9e2bd683cc06577fb6913532feb77'
           assert af['source_blob_sha']=='0cc6e97c62fbb0782f19e30d87b19509d8144a8c'
           assert af['verifier_blob_sha']=='5bd144d3fca1ec08112d05e0639d12df9291c0c1'
-          assert ee['Q2_odd_torsion_exclusion']['E_rho_Q2_odd_torsion_zero'] is True
-          assert ee['Q2_odd_torsion_exclusion']['Q2_to_2adic_completion_injective'] is True
-          assert ee['Q2_intersection_exclusion']['local_Q2_retained_open_MW_completion_intersection_empty'] is True
+          assert af['exact_head']=='5e7bcbcbba6b0c096f0c2682581dacdf8b8a86f5'
+          assert af['exact_head_ci']=='34312386028/102341535408'
           assert ee['Q2_intersection_exclusion']['global_retained_open_proSelmer_intersection_empty'] is True
           assert ee['brauer_manin_consequence']['full_global_2primary_Brauer_set_on_retained_open_empty'] is True
           assert ee['brauer_manin_consequence']['two_primary_Brauer_Manin_obstruction_obtained'] is True
           assert ee['brauer_manin_consequence']['physical_receiver_adapter_not_yet_promoted'] is True
           assert cur['unit']=='36-09EE'
-          assert cur['36_09EF_entry_allowed'] is False
+          assert cur['next_owner']=='HOSTILE_AUDIT'
           assert cur['hostile_audit_checkpoint_reached'] is True
-          assert pg['36_09EE_exact_head_ci_passed'] is False
+          assert cur['36_09EF_entry_allowed'] is False
+          assert ha['current_pr']==1739
+          assert ha['new_checkpoint_pending'] is True
+          assert ha['exact_green_ci']=='34312386028/102341535408'
+          assert pg['36_09EE_exact_head_ci_passed'] is True
+          assert pg['36_09EE_promotion_replay_passed'] is True
           assert pg['36_09EF_entry_allowed'] is False
           assert pg['BT_Q2_retained_open_MW_completion_intersection_empty'] is True
+          assert pg['BT_retained_open_curve_proSelmer_intersection_computed'] is True
           assert pg['BT_global_2primary_Brauer_set_empty'] is True
           assert pg['Brauer_Manin_obstruction_obtained'] is True
           assert subprocess.check_output(['git','hash-object','stages/stage36/36-09EE/fixed-p2-q2-rho-retained-open-exclusion-preflight.json'],text=True).strip()=='683d52e7cba9e2bd683cc06577fb6913532feb77'
           assert subprocess.check_output(['git','hash-object','stages/stage36/verify_stage36_36_09EE.py'],text=True).strip()=='5bd144d3fca1ec08112d05e0639d12df9291c0c1'
           for key in ['fixed_p_parameter_exclusion_obtained','candidate_parameter_set_shrunk','receiver_emptiness_proved','R29_CAMP2_closed','Q11_CAMPEDELLI_closed','endpoint_closed']:
             assert pg[key] is False,key
-          print('V239 verified: EE provisionally proves the fixed-p2 retained-open pro-Selmer intersection and full 2-primary Brauer set are empty via the Q2 rho quotient. EF remains locked pending exact-head CI and hostile audit; no physical receiver or endpoint credit.')
+          print('V240 verified: EE exact-head CI is consumed. The fixed-p2 retained-open full 2-primary Brauer set is empty, but all physical receiver and endpoint promotion is frozen at the hostile-audit checkpoint.')
           PY
           git diff --check
