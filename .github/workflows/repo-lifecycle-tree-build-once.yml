@@ -1,0 +1,102 @@
+name: Repository lifecycle tree build (one shot)
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build normalized repository tree
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -f .github/workflows/repo-lifecycle-tree-build-once.yml
+          rm -f .github/workflows/repo-workflow-lifecycle-migration-once.yml
+          python - <<'PY'
+          from pathlib import Path
+          import base64,json,os,re,subprocess
+          wf=Path('.github/workflows')
+          active={
+            '.github/workflows/pages.yml','.github/workflows/research-arsenal.yml','.github/workflows/structure-radar.yml',
+            '.github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml','.github/workflows/stage32-main-startup-authority.yml',
+            '.github/workflows/stage32-claim-frontier-integrity.yml','.github/workflows/stage32-stale-run-sweeper.yml',
+            '.github/workflows/stage32-ex5-main.yml','.github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml',
+            '.github/workflows/stage35-35-01-to-09-audit.yml','.github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml',
+            '.github/workflows/stage36-bootstrap-audit.yml'}
+          manual={'.github/workflows/stage32-01-178-n350-production-leaf-contract.yml','.github/workflows/stage32-root-cleanup-phase-b.yml','.github/workflows/stage32-n350-symbolic-mirror-generator.yml','.github/workflows/stage32-q604-opposite-pair-residue-pack.yml'}
+          def cls(p):
+            if p in active:return 'ACTIVE_AUTO'
+            if p in manual:return 'MANUAL'
+            if re.match(r'\.github/workflows/stage\d',p):return 'RETIRED'
+            return 'MANUAL'
+          def span(lines):
+            for i,line in enumerate(lines):
+              if line.startswith('on:'):
+                e=i+1
+                if line.strip()!='on:':return i,e
+                while e<len(lines):
+                  s=lines[e]
+                  if s and not s[0].isspace() and not s.lstrip().startswith('#'):break
+                  e+=1
+                return i,e
+            return None
+          def events(text):
+            lines=text.splitlines();sp=span(lines)
+            if sp is None:return set()
+            a,b=sp;first=lines[a].strip()
+            if first!='on:':
+              rhs=first.split(':',1)[1].strip()
+              if rhs.startswith('[') and rhs.endswith(']'):return {x.strip().strip("'\"") for x in rhs[1:-1].split(',') if x.strip()}
+              return {rhs.strip("'\"")} if rhs else set()
+            out=set()
+            for line in lines[a+1:b]:
+              m=re.match(r'^  ([A-Za-z0-9_-]+):',line)
+              if m:out.add(m.group(1))
+            return out
+          def manualize(text):
+            lines=text.splitlines();a,b=span(lines)
+            return '\n'.join(lines[:a]+['on:','  workflow_dispatch:']+lines[b:])+('\n' if text.endswith('\n') else '')
+          paths=sorted([*wf.glob('*.yml'),*wf.glob('*.yaml')]);counts={'ACTIVE_AUTO':0,'MANUAL':0,'RETIRED':0};normalized=[]
+          for p in paths:
+            r=p.as_posix();c=cls(r);counts[c]+=1;text=p.read_text()
+            if c in {'MANUAL','RETIRED'} and events(text)!={'workflow_dispatch'}:
+              p.write_text(manualize(text));normalized.append(r)
+          bad=[];residual=[]
+          for p in paths:
+            r=p.as_posix();ev=events(p.read_text());c=cls(r)
+            if c=='ACTIVE_AUTO' and not (ev-{'workflow_dispatch','workflow_call'}):bad.append(r)
+            if c in {'MANUAL','RETIRED'} and ev!={'workflow_dispatch'}:residual.append(r)
+          if bad:raise SystemExit('ACTIVE_AUTO lost automatic trigger: '+','.join(bad))
+          if residual:raise SystemExit('residual auto trigger: '+','.join(residual))
+          raw=subprocess.check_output(['git','diff','--name-status','-z'])
+          parts=raw.decode().split('\0');tree=[];changed=[];i=0
+          while i<len(parts)-1:
+            status=parts[i];path=parts[i+1];i+=2
+            if not status or not path:continue
+            changed.append(path)
+            if status.startswith('D'):
+              tree.append({'path':path,'mode':'100644','type':'blob','sha':None});continue
+            data=Path(path).read_bytes();payload=json.dumps({'content':base64.b64encode(data).decode(),'encoding':'base64'})
+            out=subprocess.run(['gh','api','--method','POST',f'repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs','--input','-'],input=payload,text=True,capture_output=True,check=True)
+            tree.append({'path':path,'mode':'100644','type':'blob','sha':json.loads(out.stdout)['sha']})
+          base_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
+          payload=json.dumps({'base_tree':base_tree,'tree':tree})
+          out=subprocess.run(['gh','api','--method','POST',f'repos/{os.environ["GITHUB_REPOSITORY"]}/git/trees','--input','-'],input=payload,text=True,capture_output=True,check=True)
+          print('FINAL_TREE_SHA='+json.loads(out.stdout)['sha'])
+          print('WORKFLOW_TOTAL='+str(len(paths)))
+          print('COUNTS='+json.dumps(counts,sort_keys=True))
+          print('NORMALIZED_COUNT='+str(len(normalized)))
+          print('CHANGED_BEGIN');[print(x) for x in changed];print('CHANGED_END')
+          print('historical_or_manual_automatic_triggers=0')
+          PY
