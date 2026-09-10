@@ -8,6 +8,7 @@ As synchronized against Stage32 MAIN PR #1753:
 
 - control mode: `FULL178_AND_FINAL_MILESTONE_CHAIN`;
 - primary incomplete requirement: `32-01 FULL178`;
+- current observed stop gate: `N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER`;
 - downstream final milestones remain gated by the FULL178/finality chain;
 - V6 / O210 / Q602 are frozen historical/formal prerequisite provenance, not current attack targets;
 - `[73,97,235]` is the formal historical Q602 residue triple from the earlier proof path, not the current Stage32 survivor population.
@@ -28,9 +29,9 @@ This gives two useful kinds of output:
 1. **UNSAT obstruction:** an exact terminal or exact finite block has no integral Picard64 completion under the locked model, so that certified portion of the FULL178 geometric input can be pruned.
 2. **SAT interface:** an exact Picard witness can be reconstructed and passed to the canonical node-support interface for downstream geometric/effectivity analysis.
 
-Neither output automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, receiver credit, a final milestone, or a Perfect Cuboid endpoint claim.
+Neither output automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, production-leaf coverage, receiver credit, a final milestone, or a Perfect Cuboid endpoint claim.
 
-Stage32 MAIN node `32-01-178/N150` or its audited successor is the intended consumption boundary: MAIN may consume EX5 only after a retained/audited FULL178-target-compatible producer/result and an explicit adapter to the 32-01 numerical-census semantics exist. EX5 progress newer than MAIN's consumed snapshot is retained locally until MAIN explicitly consumes it.
+The legacy EX5 synchronization used Stage32 MAIN node `32-01-178/N150` as its consumption boundary. Current Stage32 MAIN has advanced to N350's production-leaf certificate/producer-registration boundary. N350 is still pending fresh hostile audit and its producer registry is empty, so current EX5 work has zero N350/N104 production-coverage credit and cannot self-register. A later MAIN-consumable EX5 producer requires exact canonical old-rank mapping, a source-locked replay verifier, fresh hostile-audit PASS, and explicit MAIN-side registration.
 
 ## Current exact EX5 progress
 
