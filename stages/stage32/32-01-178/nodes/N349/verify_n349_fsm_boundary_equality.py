@@ -42,7 +42,7 @@ def main() -> None:
 
     for s in [
         "a1+a2 >= 8",
-        "(a1,a2)=(4,4) at every node",
+        "`(a1,a2)=(4,4)` at every node",
         "LOCAL_CUSP_PAIR_DATA_PRESENT=false",
         "PICARD_PAIRING_ONE_IMPLIES_LOCAL_PAIR_4_4=false",
     ]:
