@@ -4,54 +4,46 @@ This is the mutable current roadmap. `stage32-ex5.md` is the historical Cycle1 s
 
 ## Stage32 context
 
-Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Current observed Stage32 MAIN #1753 head is `1edbb0775d2beac51d98c1327d2fe6b83c012323` and the stop gate remains `N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER`.
+Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Current observed Stage32 MAIN #1753 head is `b1d44137e0dd87cd3a604221715596d9b3574bc5`.
+
+The latest retained MAIN attack checkpoint visible there is N349C hostile-audit handoff, canonical `2034688f2f881fbd1aeab8b4a567179a8767a7378daf43105910f0de92320eec`. N349C remains provisional; N260/N280 prerequisite audits are separate. The MAIN startup state still carries the older N350 stop-gate projection, so N350 is treated here only as the separate fail-closed production-registration boundary.
 
 V6, O210, and Q602 are not current attack targets. `[73,97,235]` is historical/formal Q602 provenance, not a live survivor population.
 
 ## BC2 retained progress
 
-The current local `(g1-d008,e=4)` exact Picard64 UNSAT prefix is `0..531`:
+The current local `(g1-d008,e=4)` exact Picard64 UNSAT prefix is `0..664`:
 
 - BC2-05: `0..132` exact UNSAT;
 - BC2-08: `133..265` exact UNSAT;
 - BC2-10: `266..398` exact UNSAT;
-- BC2-12: `399..531` exact UNSAT.
+- BC2-12: `399..531` exact UNSAT;
+- BC2-14: `532..664` exact UNSAT.
 
-BC2-12 evidence canonical: `d55b84e9b90692c14211e7d1affe73857f0cec2496305121067e2cd71d8da58a`.
-BC2-12 checkpoint canonical: `2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9`.
+For BC2-14, the exact BC2-13 structural signature plus locked assignment order gives fixed exceptional mass `4` and residual exceptional mass `0`. The selected-exceptional partition therefore has one parent, and the exact QF_LIA Picard64 solver result is `1/1 UNSAT`, `UNKNOWN=0`, `SAT=0`.
 
-BC2-13 structurally rederived the next block, without solver credit:
-
-- ranks `532..664`, width `133`;
-- outer exceptional rank `4`;
-- base terminal at x4=0 `[0,1,0,0,0,0,1,1,0,0,1]`;
-- exceptional signature `[0,1,0,0,0,1,1,0,0,1]`;
-- `133/133` exact rank/unrank replays;
-- `133/133` exact source `terminal_predicate` replays;
-- replay stream SHA256 `c7178bb53882b5e4c88309bf26ff149e993f07d4c610aec98c50f7a9a84005d5`;
-- checkpoint canonical `77a0d31f6c5ca4b725c8d4f34ac2a867b82e042768858ff6475d949e1444f9c0`.
-
-The exact UNSAT prefix remains `0..531`; ranks `532..664` are structural-only at this checkpoint.
+BC2-14 evidence canonical: `52fb48627a8646db2dc5b3e0b04eb32bc89ca9391988f4b91f7f51afada2de5d`.
+BC2-14 checkpoint canonical: `fa603024cbf3b89fb097401f4e5e9b3f0cad04a0a0b6dd0b919b3a37b2781c0e`.
 
 ## Current route
 
-`BC2_14_OUTER_RANK4_SYMBOLIC_X4_PARENT_PREFLIGHT`.
+`BC2_15_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`.
 
-Goal: apply the retained exact symbolic-x4 Picard64 selected-exceptional parent formulation only to ranks `532..664`, deriving fixed/residual exceptional mass from the actual BC2-13 terminal signature before constructing the parent partition. Do not infer the split from the outer-rank number.
+Goal: structurally rederive the next exact 133-rank exceptional outer block after rank `664` using the source `CompressedTerminalIndexer`, rank/unrank round trips, and source `terminal_predicate` replay. Stop after an exact structural checkpoint. Do not assume the next exceptional signature or mass split from BC2-14.
 
-Heavy scaleout is not authorized by this roadmap. A dedicated fresh run-key is required for solver/artifact-producing execution.
+If BC2-15 succeeds structurally, a later bounded unit may construct its symbolic-x4 Picard64 parent partition. Heavy scaleout is not authorized by this roadmap.
 
 ## Claim and promotion boundary
 
-BC2-12 triggered retained-consolidation claim synchronization. EX5 remains an `ATTACKS` lane for `S32.FULL178.NUMERICAL_CENSUS.V1`; BC2-13 does not alter the active goal semantics, so no claim-core mutation or ACTIVE-FRONTIER remap is required. The local results are not a MAIN-consumable production producer and receive zero N350/N104 production-coverage credit.
+BC2-14 triggered retained-consolidation claim synchronization. EX5 remains an `ATTACKS` lane for `S32.FULL178.NUMERICAL_CENSUS.V1`; the active goal semantics did not change, so no claim-core mutation or ACTIVE-FRONTIER remap was required. Receipt canonical: `b42ff343464c2dfceaa9203309024f657ee1d0f29bfaa7e326b0dfcf21598ddc`.
 
-Promotion to Stage32 MAIN requires a separate exact current-target producer/adapter, replayable source locks, the required hostile audit, and explicit MAIN-side registration. EX5 cannot self-promote.
+This local result is not a MAIN-consumable production producer and receives zero N350/N104 production-coverage credit. Promotion to Stage32 MAIN requires a separate exact current-target producer/adapter, replayable source locks, the required hostile audit, and explicit MAIN-side registration. EX5 cannot self-promote.
 
 ## Credit ceiling
 
-The exact prefix `0..531` plus structural replay through `664` proves only local finite/structural progress in the locked EX5 model. It does not prove the whole `(g1-d008,e=4)` stratum closed, FULL178 complete, receiver closure, effectivity or actual-curve nonexistence, Stage32 closure, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
+The exact prefix `0..664` proves only local finite Picard64 obstruction in the locked EX5 model. It does not prove the whole `(g1-d008,e=4)` stratum closed, FULL178 complete, receiver closure, effectivity or actual-curve nonexistence, Stage32 closure, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
 
-N350 remains the current production boundary. Legacy N150 references are compatibility/provenance only.
+N350 remains a production-registration boundary. Legacy N150 references are compatibility/provenance only. N349C is the latest observed MAIN attack/audit checkpoint and is independent of this EX5 local prefix.
 
 ## Audit and merge
 
