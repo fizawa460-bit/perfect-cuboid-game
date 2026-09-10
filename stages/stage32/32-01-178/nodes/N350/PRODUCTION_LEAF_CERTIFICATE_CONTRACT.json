@@ -1,0 +1,131 @@
+{
+  "schema": "STAGE32_32_01_178_N350_PRODUCTION_LEAF_CERTIFICATE_CONTRACT_V1",
+  "node_id": "N350",
+  "purpose": "Register a fail-closed, source-locked producer certificate interface that can normalize exact numerical leaf dispositions into the N104 canonical indexed-terminal rank domain without granting production completion by shape/count alone.",
+  "source_locks": {
+    "n240_state": {
+      "path": "stages/stage32/32-01-178/nodes/N240/STATE.json",
+      "blob_sha1": "869c8b1dc3937a7e78e907e74b0ed08994a5199c",
+      "hostile_reaudit_review_id": 5161254728,
+      "hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
+    },
+    "n104_state": {
+      "path": "stages/stage32/32-01-178/nodes/N104/STATE.json",
+      "blob_sha1": "4ac907febfd60a3fb53e57bbb8ede9cf8959e954"
+    },
+    "n106_audited_state": {
+      "path": "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json",
+      "blob_sha1": "0ab8647b5af453e48b786103eb57b2a495f855fc",
+      "audit_review_id": 5153922196,
+      "audited_exact_head": "4f75ae49178d797da746b32ea603cf4da2bda8f0"
+    },
+    "n220_audited_state": {
+      "path": "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
+      "blob_sha1": "f5f0e902062c9fafc9f03fe8a203d744cf58281e"
+    },
+    "n230_audited_state": {
+      "path": "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json",
+      "blob_sha1": "9c4ecb012df70dc1b39f6cfffbd7c5b481f51967"
+    },
+    "full178_manifest": {
+      "path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+      "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
+      "canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+    }
+  },
+  "canonical_domain": {
+    "outer_key": ["row_id", "e"],
+    "inner_coordinate": "old stratum-local CompressedTerminalIndexer(e,d) rank",
+    "secondary_execution_coordinate": "N230 filtered survivor rank",
+    "required_mapping": "Every credited filtered interval must replay bijectively to canonical old-rank coverage under the audited N240 adapter.",
+    "expected_residual_rows": 178,
+    "expected_coarse_strata": 64111
+  },
+  "normalized_block_schema": {
+    "required_fields": [
+      "row_id",
+      "d",
+      "e",
+      "filtered_rank_lo",
+      "filtered_rank_hi",
+      "old_rank_intervals",
+      "disposition",
+      "producer_id",
+      "producer_contract_sha256",
+      "producer_evidence_sha256",
+      "unknown_count"
+    ],
+    "half_open_intervals": true,
+    "unknown_must_equal_zero": true,
+    "resource_wall_is_disposition": false,
+    "workflow_success_is_disposition": false
+  },
+  "verifier_owned_dispositions": {
+    "EXACT_PRUNED": {
+      "meaning": "The registered exact producer verifier proves every canonical terminal represented by the block has no qualifying numerical leaf under that producer contract.",
+      "requirements": [
+        "registered producer contract",
+        "source-locked exact replay verifier",
+        "deterministic evidence replay",
+        "unknown_count=0",
+        "canonical old-rank mapping replay"
+      ],
+      "picard64_sat_alone_sufficient": false
+    },
+    "NUMERICAL_CHECKED": {
+      "meaning": "The registered exact producer verifier has executed and replayed the complete project-native numerical leaf predicate for every canonical terminal represented by the block.",
+      "requirements": [
+        "registered producer contract",
+        "source-locked exact replay verifier",
+        "deterministic witness/result replay",
+        "unknown_count=0",
+        "canonical old-rank mapping replay"
+      ],
+      "picard64_sat_alone_sufficient": false
+    }
+  },
+  "producer_registry": [],
+  "registration_rule": "A producer is creditable only after its exact contract path/blob, replay verifier path/blob, accepted dispositions, source locks, and hostile-audit PASS receipt are added to producer_registry. Unregistered producer output receives zero N104 coverage credit.",
+  "production_certificate": {
+    "schema": "STAGE32_FULL178_PRODUCTION_LEAF_CERTIFICATE_V1",
+    "required_top_level_fields": [
+      "schema",
+      "contract_canonical_sha256",
+      "producer_registry_canonical_sha256",
+      "coverage_blocks",
+      "unknown_count",
+      "verdict"
+    ],
+    "complete_verdict": "PASS_PRODUCTION_LEAF_COVERAGE",
+    "complete_requires": [
+      "at least one audited registered producer when nonempty coverage exists",
+      "every coverage block validates",
+      "unknown_count=0",
+      "no unsupported disposition",
+      "all producer evidence replay succeeds"
+    ],
+    "count_plus_digest_shape_is_sufficient": false
+  },
+  "current_checkpoint": {
+    "meta_contract_registered": true,
+    "registered_producer_count": 0,
+    "production_complete_available": false,
+    "n104_old_domain_release_available": false,
+    "full178_numerical_credit": false,
+    "heavy_compute_authorized": false
+  },
+  "firewalls": {
+    "n341_picard64_sat_is_full_production_leaf": false,
+    "prefix_completion_is_numerical_completion": false,
+    "syntactic_hash_is_mathematical_evidence": false,
+    "resource_exhaustion_is_unsat": false,
+    "n104_release_without_audited_registered_producer": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_or_nonexistence": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a"
+}

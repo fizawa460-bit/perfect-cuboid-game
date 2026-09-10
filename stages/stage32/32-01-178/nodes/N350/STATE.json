@@ -1,0 +1,69 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N350",
+  "semantic_key": "s32-01-178:production-leaf-certificate-verifier-contract",
+  "statement": "Register the fail-closed source-locked producer certificate/verifier interface required after audited N240 V2, without granting production completeness until concrete producer contracts and exact replay verifiers are separately registered and hostile-audited.",
+  "scope": {
+    "population": "N240 audited filtered-survivor execution domain over the locked FULL178 manifest",
+    "field_or_model": "N104 canonical indexed-terminal rank coverage normalized through N240 filtered-rank execution",
+    "quantifiers": "contract-level invariants only; no claim that any nonempty production leaf population is currently completely checked",
+    "required_output": "source-locked meta-contract, replay verifier, hostile rejection fixtures, producer registry rule, and explicit zero-credit empty-registry checkpoint"
+  },
+  "depends_on": ["N104", "N106", "N220", "N230", "N240"],
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N240/STATE.json@869c8b1dc3937a7e78e907e74b0ed08994a5199c",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json@4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
+    "stages/stage32/32-01-178/nodes/N106/STATE-AUDITED.json@0ab8647b5af453e48b786103eb57b2a495f855fc",
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json@f5f0e902062c9fafc9f03fe8a203d744cf58281e",
+    "stages/stage32/32-01-178/nodes/N230/STATE-AUDITED.json@9c4ecb012df70dc1b39f6cfffbd7c5b481f51967",
+    "PR#1753 N240 V2 hostile re-audit PASS review 5161254728 exact head b56a832e6c194321916fe4ef63eef0d673b8ff9a"
+  ],
+  "implementation": {
+    "contract_path": "stages/stage32/32-01-178/nodes/N350/PRODUCTION_LEAF_CERTIFICATE_CONTRACT.json",
+    "contract_blob_sha1": "31ab6791dfe48259b60d4917ecab2b4590b4eb63",
+    "contract_canonical_sha256": "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N350/verify_n350_production_leaf_certificate_contract.py",
+    "verifier_blob_sha1": "3f1fcef571f09ade24977c771b0d438cf8c76723",
+    "workflow_path": ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    "workflow_blob_sha1": "c48ef505e40ad1e759c559dcf81963433e9b1075"
+  },
+  "contract": {
+    "canonical_old_rank_authority": "N104 canonical indexed-terminal rank domain",
+    "secondary_execution_coordinate": "N230 filtered rank through audited N240 adapter",
+    "registered_dispositions": ["EXACT_PRUNED", "NUMERICAL_CHECKED"],
+    "unregistered_producer_credit": false,
+    "unknown_or_resource_wall_credit": false,
+    "count_plus_digest_shape_credit": false,
+    "picard64_sat_alone_is_full_production_leaf": false,
+    "producer_registration_requires_hostile_audit_pass": true,
+    "complete_verdict_requires_nonempty_audited_producer_registry": true
+  },
+  "validation": {
+    "status": "AUDIT_REQUIRED",
+    "expected_workflow_verdict": "PASS_N350_FAIL_CLOSED_PRODUCTION_LEAF_META_CONTRACT",
+    "hostile_fixture_intent": [
+      "reject PASS production coverage with empty producer registry",
+      "reject digest-shaped EXACT_PRUNED output from unregistered producer",
+      "reject PICARD64_SAT as a production disposition",
+      "reject unknown/resource-wall credit"
+    ],
+    "heavy_compute": false
+  },
+  "retained_result": {
+    "status": "AUDIT_REQUIRED",
+    "result": "REGISTERED_FAIL_CLOSED_PRODUCTION_LEAF_META_CONTRACT_WITH_EMPTY_PRODUCER_REGISTRY",
+    "meta_contract_registered": true,
+    "registered_producer_count": 0,
+    "production_complete_available": false,
+    "n104_old_domain_release_available": false,
+    "full178_complete": false
+  },
+  "credit_ceiling": "PRODUCTION_LEAF_CERTIFICATE_INTERFACE_ONLY_NO_PRODUCER_COVERAGE_NO_N104_RELEASE_NO_FULL178_CREDIT",
+  "next_action": "RUN CHEAP N350 VERIFIER AND REQUEST EXTERNAL HOSTILE AUDIT OF THE EXACT META-CONTRACT. AFTER PASS, REGISTER A CONCRETE SOURCE-LOCKED EXACT PRODUCER ADAPTER; N341 PICARD64 SAT/UNSAT OUTPUT IS ONLY A CANDIDATE INPUT AND MUST NOT BE PROMOTED WITHOUT A PRODUCTION-SEMANTICS ADAPTER.",
+  "notes": [
+    "This node closes the specific N240 design hole that count plus hash shape could masquerade as production completeness.",
+    "The empty producer registry is deliberate and fail-closed.",
+    "No heavy compute, production COMPLETE, N104 old-domain release, FULL178 numerical completion, theorem/receiver/endpoint, Perfect Cuboid claim, or merge authorization is granted."
+  ],
+  "canonical_sha256_without_this_field": "f4a0ac8afcbdb35c7d5bf5265099a28e212b1971501de78c1b02cf7c13c2d13e"
+}
