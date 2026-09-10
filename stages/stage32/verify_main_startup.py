@@ -10,33 +10,26 @@ HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V7_N355_AUDIT_REQUIRED"
-EXPECTED_CANONICAL = "16c1cf5ad6164a7b33e32f99220cf6c37890a0ba5388639849985511fb21016a"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V8_N355_AUDITED_SUBSET_CONSUMED"
+EXPECTED_CANONICAL = "048ee5bc0ab835878f35672ff7e97bd531b5b53e92af6fb463166758dcaa068e"
 EXPECTED_MAIN = "5ca6acba4b591d9e2d40057241c850598c1fa1df"
-EXPECTED_N354_REVIEW = 5164850548
-EXPECTED_N354_HEAD = "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
-EXPECTED_N354_AUDIT_BLOB = "0394b088349780b6cddf7bcb9d207b3889679e1e"
-EXPECTED_N354_AUDIT_CANONICAL = "e329916a74eea4471e00f109964afdaa871d4f8614237efed7f0f6e5d9b9c808"
-EXPECTED_N354_SYNC_BLOB = "04132f6bff0cac2f70d59a3fa195fb655585f987"
-EXPECTED_N354_SYNC_CANONICAL = "aeea2acf56b281a29e8a24bd749740eb20f415b998519b5a9961c28c9070971d"
-EXPECTED_N354_RESULT_BLOB = "6f6ed5646689940cc304a655711dba83333d3576"
-EXPECTED_N354_RESULT_CANONICAL = "9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4"
-EXPECTED_N354_CREDIT = "EXACT_POST_N353_FULL178_TWO_SIDED_SCALAR_HURWITZ_NECESSARY_CUT_ONLY_30575_STRATA_307492486826907032120701491_TERMINALS_NO_FULL178_COMPLETION_OR_THEOREM_CREDIT"
-
+EXPECTED_N355_REVIEW = 5165493296
+EXPECTED_N355_HEAD = "a13a39ba5ec0a281fcd65601f9f75d41405b1da1"
+EXPECTED_N355_AUDIT_BLOB = "2f89b467d5dab8865b4ac52b0c03333f2a903b8f"
+EXPECTED_N355_AUDIT_CANONICAL = "bfb14b032932402c7b277fe301c9176fd3a80da5ef345d2c4c9961e676f6bf5e"
+EXPECTED_N355_SYNC_BLOB = "e568077deb33c66d176c2d8bea9e29ce86acb24b"
+EXPECTED_N355_SYNC_CANONICAL = "209a54c3c418554a1cf30ec61f0a80a2e065202e4f38dce359d674271d6a6e69"
 EXPECTED_N355_RESULT_BLOB = "22141aa67a001bf0ccccc8504963ebe492c49669"
 EXPECTED_N355_RESULT_CANONICAL = "241c0009f260a4136bc5abaa85caa08bfce9fea4f97c1744391e9331a21ad986"
-EXPECTED_N355_SYNC_BLOB = "11066013ab5e06dce677c43eb000ea418769a06d"
-EXPECTED_N355_SYNC_CANONICAL = "fe1427b8d5eaa6cc3087417d0bddbac9c47431a88f60e9fcea4d65f06147958c"
-EXPECTED_N355_REJECT = 8211103970847375998477971
-EXPECTED_N355_CANDIDATE_REMAIN = 30349852563549761636302131
+EXPECTED_REJECT = 8211103970847375998477971
+EXPECTED_REMAIN = 30349852563549761636302131
+EXPECTED_CREDIT = "EXACT_POST_N354_FULL178_N355_LABEL99_DIAGONAL_CERTIFIED_SUBSET_CUT_ONLY_8211103970847375998477971_TERMINALS_NO_FULL_N355_MAXCUT_CENSUS_OR_FULL178_COMPLETION_OR_THEOREM_CREDIT"
 
 
 def csha(obj: dict) -> str:
     body = dict(obj)
     body.pop("canonical_sha256_without_this_field", None)
-    return hashlib.sha256(
-        json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
 
 def git_blob_sha(path: Path) -> str:
@@ -60,87 +53,63 @@ def main() -> None:
     assert target["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
     assert target["primary_incomplete_id"] == "32-01"
     assert target["full178_residual_row_count"] == 178
-    assert target["full178_coarse_strata_count"] == 64111
     assert target["V6_is_current_attack_target"] is False
     assert target["O210_is_current_attack_target"] is False
     assert target["Q602_is_current_attack_target"] is False
 
     auth = state["authority_sync"]
     assert auth["current_repository_main"] == EXPECTED_MAIN
-    assert auth["n354_hostile_audit_status"] == "PASS"
-    assert auth["n354_hostile_audit_review_id"] == EXPECTED_N354_REVIEW
-    assert auth["n354_hostile_audit_exact_head"] == EXPECTED_N354_HEAD
-    assert auth["n354_audit_credit_consumed"] is True
-    assert auth["n355_hostile_audit_status"] == "PENDING"
-    assert auth["n355_hostile_audit_review_id"] is None
-    assert auth["n355_audit_credit_consumed"] is False
-    assert auth["n355_candidate_exact_subset_rejected_terminals"] == EXPECTED_N355_REJECT
+    assert auth["n355_hostile_audit_status"] == "PASS"
+    assert auth["n355_hostile_audit_review_id"] == EXPECTED_N355_REVIEW
+    assert auth["n355_hostile_audit_exact_head"] == EXPECTED_N355_HEAD
+    assert auth["n355_audit_credit_consumed"] is True
+    assert auth["n355_certified_subset_rejected_terminals"] == EXPECTED_REJECT
 
     frontier = state["current_exact_frontier"]
     assert frontier["full178_numerical_census_complete"] is False
     assert frontier["full178_goal_authority_status"] == "DECLARED_GOAL"
     assert frontier["full178_goal_frontier_status"] == "ACTIVE_INCOMPLETE"
     assert frontier["n354_status"] == "AUDITED_NECESSARY_CUT_CONSUMED"
-    assert frontier["n354_main_pruning_credit"] is True
-    assert frontier["n354_remaining_strata"] == 17128
-    assert frontier["n354_remaining_terminals"] == 38560956534397137634780102
-    # N355 is audit-candidate only: authoritative frontier MUST remain N354.
-    assert frontier["n355_status"] == "AUDIT_REQUIRED_EXACT_SUBSET_CENSUS"
-    assert frontier["n355_main_pruning_credit"] is False
-    assert frontier["n355_candidate_rejected_terminals"] == EXPECTED_N355_REJECT
-    assert frontier["n355_candidate_remaining_strata"] == 17128
-    assert frontier["n355_candidate_remaining_terminals"] == EXPECTED_N355_CANDIDATE_REMAIN
+    assert frontier["n355_status"] == "AUDITED_CERTIFIED_SUBSET_CUT_CONSUMED"
+    assert frontier["n355_main_pruning_credit"] is True
+    assert frontier["n355_rejected_terminals"] == EXPECTED_REJECT
+    assert frontier["n355_remaining_strata"] == 17128
+    assert frontier["n355_remaining_terminals"] == EXPECTED_REMAIN
     assert frontier["authoritative_remaining_strata"] == 17128
-    assert frontier["authoritative_remaining_terminals"] == 38560956534397137634780102
+    assert frontier["authoritative_remaining_terminals"] == EXPECTED_REMAIN
+    assert frontier["n355_full_maxcut_census_complete"] is False
     assert frontier["n350_registered_producer_count"] == 0
     assert frontier["stage32_closed"] is False
 
     current = state["current"]
-    assert current["next_exact_route"] == "N355_EXTERNAL_HOSTILE_AUDIT_EXACT_X1_DIAGONAL_SUBSET"
-    assert current["mainbatch_stop_gate"] == "STOP_BEFORE_N355_AUTHORITY_DECREMENT_AND_REQUEST_EXTERNAL_STAGE32_01_178_AUDIT"
-    assert current["stacked_candidate_audit_status"] == "N355_PENDING"
+    assert current["next_exact_route"] == "POST_N355_FULL_PREFIX_BLOCK_SUM_CENSUS_RESEARCH"
+    assert current["stacked_candidate_audit_status"] == "NONE"
 
-    # Preserve the hostile-audited N354 authority lock.
-    audit_path = ROOT / state["source_locks"]["n354_audit"]["path"]
-    audit = load_canonical(audit_path, EXPECTED_N354_AUDIT_CANONICAL)
-    assert git_blob_sha(audit_path) == EXPECTED_N354_AUDIT_BLOB
+    lock = state["source_locks"]["n355"]
+    audit_path = ROOT / lock["audit_receipt_path"]
+    audit = load_canonical(audit_path, EXPECTED_N355_AUDIT_CANONICAL)
+    assert git_blob_sha(audit_path) == EXPECTED_N355_AUDIT_BLOB
     assert audit["status"] == "PASS"
-    assert audit["review_id"] == EXPECTED_N354_REVIEW
-    assert audit["audited_exact_head"] == EXPECTED_N354_HEAD
-    assert audit["credit_ceiling"] == EXPECTED_N354_CREDIT
+    assert audit["review_id"] == EXPECTED_N355_REVIEW
+    assert audit["audited_exact_head"] == EXPECTED_N355_HEAD
+    assert audit["credit_ceiling"] == EXPECTED_CREDIT
+    assert audit["consumed_counts"]["rejected_terminals"] == EXPECTED_REJECT
     assert audit["consumed_counts"]["remaining_strata"] == 17128
-    assert audit["consumed_counts"]["remaining_terminals"] == 38560956534397137634780102
+    assert audit["consumed_counts"]["remaining_terminals"] == EXPECTED_REMAIN
+    assert audit["limitations"]["full_n355_maxcut_census"] is False
 
-    n354_sync_path = ROOT / state["source_locks"]["management_sync"]["path"]
-    n354_sync = load_canonical(n354_sync_path, EXPECTED_N354_SYNC_CANONICAL)
-    assert git_blob_sha(n354_sync_path) == EXPECTED_N354_SYNC_BLOB
-    assert n354_sync["n354"]["status"] == "AUDITED_NECESSARY_CUT_CONSUMED"
+    sync_path = ROOT / lock["management_path"]
+    sync = load_canonical(sync_path, EXPECTED_N355_SYNC_CANONICAL)
+    assert git_blob_sha(sync_path) == EXPECTED_N355_SYNC_BLOB
+    assert sync["authority"]["n355_authority_credit"] is True
+    assert sync["authority"]["authoritative_remaining_terminals"] == EXPECTED_REMAIN
+    assert sync["n355"]["status"] == "AUDITED_CERTIFIED_SUBSET_CUT_CONSUMED"
 
-    n354_result_path = ROOT / state["source_locks"]["n354"]["result_path"]
-    n354_result = load_canonical(n354_result_path, EXPECTED_N354_RESULT_CANONICAL)
-    assert git_blob_sha(n354_result_path) == EXPECTED_N354_RESULT_BLOB
-    assert n354_result["aggregate"]["n354_candidate_remaining_strata"] == 17128
-    assert n354_result["aggregate"]["n354_candidate_remaining_terminals"] == 38560956534397137634780102
-
-    # N355 candidate locks. These prove reproducibility, not audit credit.
-    n355_lock = state["source_locks"]["n355"]
-    n355_result_path = ROOT / n355_lock["result_path"]
-    n355_result = load_canonical(n355_result_path, EXPECTED_N355_RESULT_CANONICAL)
-    assert git_blob_sha(n355_result_path) == EXPECTED_N355_RESULT_BLOB
-    assert n355_result["status"] == "AUDIT_CANDIDATE_EXACT_SUBSET_CENSUS_NO_AUTHORITY_DECREMENT"
-    assert n355_result["exact_census"]["candidate_rejected_terminals"] == EXPECTED_N355_REJECT
-    assert n355_result["exact_census"]["candidate_remaining_strata"] == 17128
-    assert n355_result["exact_census"]["candidate_remaining_terminals"] == EXPECTED_N355_CANDIDATE_REMAIN
-    assert n355_result["semantics"]["main_pruning_credit"] is False
-    assert n355_result["semantics"]["hostile_audit_required"] is True
-
-    n355_sync_path = ROOT / n355_lock["management_path"]
-    n355_sync = load_canonical(n355_sync_path, EXPECTED_N355_SYNC_CANONICAL)
-    assert git_blob_sha(n355_sync_path) == EXPECTED_N355_SYNC_BLOB
-    assert n355_sync["n355"]["status"] == "AUDIT_REQUIRED"
-    assert n355_sync["n355"]["candidate_rejected_terminals"] == EXPECTED_N355_REJECT
-    assert n355_sync["authority"]["n355_authority_credit"] is False
-    assert n355_sync["authority"]["authoritative_remaining_terminals"] == 38560956534397137634780102
+    result_path = ROOT / lock["result_path"]
+    result = load_canonical(result_path, EXPECTED_N355_RESULT_CANONICAL)
+    assert git_blob_sha(result_path) == EXPECTED_N355_RESULT_BLOB
+    assert result["exact_census"]["candidate_rejected_terminals"] == EXPECTED_REJECT
+    assert result["exact_census"]["candidate_remaining_terminals"] == EXPECTED_REMAIN
 
     prov = state["historical_formal_provenance"]
     assert prov["formal_q602_residues"] == [73, 97, 235]
@@ -180,13 +149,12 @@ def main() -> None:
     ]:
         assert fragment in startup
 
-    print("PASS Stage32 MAIN startup authority N355_AUDIT_REQUIRED")
+    print("PASS Stage32 MAIN startup authority N355_AUDITED_SUBSET_CONSUMED")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
-    print("authoritative_remaining=17128_strata/38560956534397137634780102_terminals")
-    print(f"n355_candidate_reject={EXPECTED_N355_REJECT}")
-    print(f"n355_candidate_remaining=17128_strata/{EXPECTED_N355_CANDIDATE_REMAIN}_terminals")
-    print("n355_main_credit=false full178_complete=false heavy_compute_authorized=false merge_authorized=false")
-    print("next_route=N355_external_hostile_audit")
+    print(f"authoritative_remaining=17128_strata/{EXPECTED_REMAIN}_terminals")
+    print(f"n355_audited_subset_reject={EXPECTED_REJECT}")
+    print("full_n355_maxcut_census=false full178_complete=false heavy_compute_authorized=false merge_authorized=false")
+    print("next_route=POST_N355_FULL_PREFIX_BLOCK_SUM_CENSUS_RESEARCH")
 
 
 if __name__ == "__main__":
