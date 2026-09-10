@@ -8,8 +8,8 @@ import zlib
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-CERT = ROOT / "stage32-ex1" / "ex1-05af-cellular-pullback-smith-certificate.json"
+STAGES = HERE.parents[1]
+CERT = STAGES / "stage32-ex1" / "ex1-05af-cellular-pullback-smith-certificate.json"
 
 EXPECTED_CERT_CANONICAL = "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984"
 EXPECTED_SMITH = [1] * 25 + [2, 2, 2, 4, 4]
