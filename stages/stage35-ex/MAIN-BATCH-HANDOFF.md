@@ -1,184 +1,145 @@
-# Stage35-EX MAIN batch handoff — Goal4CE post-BT reopen parking checkpoint
+# Stage35-EX MAIN batch handoff — Goal4CF selected-direction discriminant-height checkpoint
 
-Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted. Merge is not authorized.
+Mathematical authority remains **V74 / Goal4AK** under hostile review `5142248509`. The independently audited intermediate boundary remains **Goal4BS**, review `5151846948`, exact head `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`. PR #1723 remains closed without merge. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted, and merge is not authorized.
 
-## Audited checkpoint
+## Synchronization provenance
+
+The research producer reported local checkpoint commit
 
 ```text
-unit=Goal4BS
-review=5151846948
-exact_head=d6f5151c9d95304afe7081c92f40f1d25cc4aa3b
-status=PARKED_AUDITED_REOPEN_GATED
+d32d62f0388db8aa593a4bb689848d4a45ea33f7
 ```
 
-Goal4CD parent `2d9380224f70f24530799f6d9fd6b5693351b0d4` is 49 commits beyond this hostile-audited checkpoint. Recompute this distance before future material retained growth; the ~100-commit re-audit trigger is not currently approached.
+on local branch `stage35-ex-goal4cf-e1-breadth-checkpoint`, with push/PR not performed. This repository-side MAINBATCH synchronization uses the supplied Goal4CF proof and certificate as the retained source. It does **not** claim that the repository synchronization commit is Git-identical to that local commit.
 
-## Goal4BT material reopen and consumption
-
-Goal4BT supplied genuinely new retained information after Goal4BS:
+Retained parent for the Goal4CF source locks:
 
 ```text
-H=sqrt((V1*U2)^2+(U1*V2)^2)/(c*q),
-e=gcd(c,H)
+70520b10e7db7063b1d7a7b75485533c131fe9f5
 ```
 
-are source-computable from a Master-Hit before any E1-failure assumption.
+## Goal4CF provisional exact result
 
-The reopen chain then spent that information:
+Goal4CF leaves the completed Goal4CE local-gcd route and reopens the quantitative Goal4AW height/discriminant direction with genuinely new information.
+
+For primitive positive endpoint edges `A,B,C`, define
 
 ```text
-BT  source-known H,e
-BU  three source-known quadratic reservoirs; no universal quadratic close
-BV  source-selected Gaussian prime / primary generator / quartic datum at ell|e
-BW  source-fixed relative root orientation; residual Legendre bit remains
-BX  global bridge-phase product compresses to a Jacobi bit; no forcing
-BY  integer global adapter reduces back to retained source phase data; no new pruning
-BZ  fresh-route audit after quartic saturation
-CA  source bridge norm B_e and odd-valuation local sieve
-CB  complete odd ell|e local-square criterion
-CC  fresh audit selecting canonical p/d cross-gcd families
-CD  complete p/d balanced local-square criteria
-CE  prove common-leg source-gcd local family completeness and return to parking
+h_AB=max(A,B)/gcd(A,B)
+h_AC=max(A,C)/gcd(A,C)
+h_BC=max(B,C)/gcd(B,C)
 ```
 
-## Goal4CA/CB exact bridge norm
-
-Define
+and deterministically select the maximal reduced pair height, with ties `AB,AC,BC`. If the selected reduced coprime opposite-parity legs are `b,c`, set
 
 ```text
-D=U1/c,
-T=U2/c,
-X=q*H/e,
-Y=c*D*T/e,
-B_e=X^2+Y^2.
+r=c^2-b^2
+s=2bc
+t=b^2+c^2
 ```
 
-Then exactly
+The selected Goal4L/BD elliptic curve has the explicit global minimal model
 
 ```text
-F_E1=(W1*U2)^2+(U1*V2)^2=(c*e)^2*B_e,
+v^2+u*v=u^3+((r^2-s^2-1)/4)*u^2-(r^2*s^2/16)*u
 ```
 
-so the E1 square target is equivalent to `B_e` square. Goal4CA/CB complete the ordinary odd-prime local-square test at every source-selected `ell|e`: unbalanced valuations are automatically local-square, while balanced strata require even valuation and square residual unit.
-
-## Goal4CC/CD canonical p/d local families
-
-The second exact E1 orientation is
+with exact minimal discriminant
 
 ```text
-F_E1=(U1*W2)^2+(V1*U2)^2.
+Delta_min=(r*s*t)^4/256.
 ```
 
-Goal4CD completes the local-square tests at
+The source-selected pair height satisfies
 
 ```text
-p=gcd(W1,V2),
-d=gcd(V1,W2).
+(h*)^2 >= max(A,B,C) >= W/sqrt(3),
 ```
 
-For either family, unequal cross valuations are automatically local-square. Balanced valuations give the only nontrivial source-selected local test: valuation parity plus residual-unit Legendre class.
-
-A genuine joint survivor remains:
+and the pair discriminant estimate is
 
 ```text
-(a,b,m,n)=(4,3,16,5),
-c=7,p=5,d=1,q=8,H=101,e=1,
-B_e=706225=5^2*13*41*53.
+4096*abs(Delta_min) >= 81*h^20.
 ```
 
-The selected `e/p/d` tests pass, but `B_e` is nonsquare. Thus these local families are useful per-hit sieves, not a universal E1 close.
-
-Goal4CD exact-green checkpoint:
+Therefore, for the **source-selected direction and the actual endpoint space diagonal W**,
 
 ```text
-head=2d9380224f70f24530799f6d9fd6b5693351b0d4
-dedicated_run=34425516973 SUCCESS
-aggregate_run=34425516998 SUCCESS
+12288*abs(Delta_min(E_*)) >= W^10.
 ```
 
-## Goal4CE exact common-leg completeness theorem
-
-For the two raw E1 norm orientations,
+Equivalently,
 
 ```text
-gcd(W1*U2,U1*V2)=c*p,
-gcd(U1*W2,V1*U2)=c*d.
+log abs(Delta_min(E_*)) >= 10 log W - log(12288).
 ```
 
-Therefore the complete source-selected common-leg gcd universe is exactly
+On the dyadic shell `B_cut/2 < W <= B_cut`, this becomes
 
 ```text
-{c,p,d}.
+log abs(Delta_min(E_*)) >= 10 log B_cut - log(12582912).
 ```
 
-The `c` channel has no remaining nontrivial local layer beyond the Goal4CA/CB `e=gcd(c,H)` family. The Master gcd
+This does not prove the historical fixed-direction AW-C2 statement and does not provide a lower bound in an arbitrarily enlarged cutoff for a fixed point.
+
+## Exact verification boundary
+
+Goal4CF certificate:
 
 ```text
-q=gcd(V1,V2)
+schema=STAGE35_EX_GOAL4CF_SELECTED_DISCRIMINANT_HEIGHT_V1
+status=PROVISIONAL_EXACT_QUANTITATIVE_ADAPTER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT
+canonical_sha256=46207a23fc54745851db52e9090fe147772dfb22eff49875d01d42d3fab9667d
 ```
 
-is not an E1 common-leg cancellation family: at each odd `ell|q`, one raw E1 summand is a nonzero square unit modulo `ell` while the other is divisible by `ell`, so no cancellation-depth obstruction is created.
+The retained verifier checks the certificate canonical digest and source locks, exact Weierstrass invariant/model identities, the Pythagorean parameter identity, the CF-4 factorization, all `31,079` primitive unordered triples with maximum edge `<=60`, all `50,765` coprime opposite-parity reduced pairs with maximum leg `<=500`, the three Euler-brick diagnostics, and the nonprimitive scaling negative control.
 
-Hence provisionally but exact-head verified:
+Finite panels are regression checks only; the unbounded statement is the written algebraic proof. Euler-brick diagnostics are not perfect cuboids and do not supply physical marked rational points.
 
-```text
-ALL_SOURCE_SELECTED_E1_COMMON_GCD_LOCAL_FAMILIES_COMPLETE=true.
-```
-
-Fresh norm primes outside `e/p/d` are not a fourth source-only family. Requiring even valuation at all of them is exactly the full condition `B_e` square. Equivalently, the historical exact factorization
+## Cycle state
 
 ```text
-F_E1=(p*d)^2*Lminus*Lplus,
-gcd(Lminus,Lplus)=1
-```
-
-returns to the full E1 receiver `Lminus` square and `Lplus` square; the remaining split-prime support is moving.
-
-Goal4CE exact-head checkpoint:
-
-```text
-head=e01a45a1bffe3bc143175b9797cd64587432a8de
-dedicated_run=34438954799 SUCCESS
-canonical_sha256=38852995a1f6d7a3a24a45443e07f243201217dc8572102ce013a2158e11174e
-```
-
-The dedicated workflow replays Goal4CD before verifying Goal4CE.
-
-## Current cycle state
-
-Goal4CE ran a blind breadth pass followed by historical/Arsenal dedup. No immediately actionable retained route remains from the information introduced by Goal4BT.
-
-```text
-CYCLE_ROUTE_STATUS=BLOCKED_NO_NEW_INFORMATION
-CYCLE_ACTIVE_RECEIVER=PESCH_E1_MASTER_HIT_WITH_COMPLETE_SOURCE_SELECTED_COMMON_GCD_LOCAL_FAMILIES
-CYCLE_LIVE_CANDIDATES=0
+CYCLE_ROUTE_STATUS=PASS_NEW_GATE_FROM_STRONGER_VIEW
+CYCLE_ACTIVE_RECEIVER=SELECTED_PHYSICAL_MARKED_HEIGHT_COMPARISON_AFTER_CF_C2_STAR
+CYCLE_LIVE_CANDIDATES=1
 CYCLE_UNTESTED_CANDIDATES=0
 CYCLE_EXHAUSTIVE_VIEW_AUDIT=true
 CYCLE_BLIND_REDISCOVERY=true
-CYCLE_SPLIT_TRIGGERED=false
-CYCLE_PARKING_AUDIT_COMPLETE=true
-RETURN_TO_GOAL4BS_PARKING_BOUNDARY=true
+CYCLE_PARKING_AUDIT_COMPLETE=false
 ```
 
-This is a parking statement, not an E1 impossibility theorem.
+Goal4CF is provisional and requires an independent hostile audit before any authority promotion.
 
-## Reopen conditions
-
-Do not recycle `e/p/d`, fresh-prime factorization, bridge quartic/ray characters, fixed-S S-unit/Thue, or old receiver-local arguments without new exact information. Reopen the retained cycle only if at least one genuinely new object is supplied, for example:
+## Next single research obligation
 
 ```text
-1. a source-fixed E1 invariant not reducible to e/p/d common-leg local data or the B_e/Lminus/Lplus endpoint receiver;
-2. a global rational-realization theorem with quantitative height control for the Goal4BQ boundary-depth packets;
-3. the missing Goal4AW quantitative height/discriminant adapter;
-4. a genuinely new amplifier meeting the Goal4AZ threshold;
-5. a global theorem coupling moving fresh split-prime support without merely restating B_e square.
+SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT
 ```
 
-Files for the current checkpoint:
+Keep the same deterministic direction selector and the actual `W`. Derive a numerical upper bound for the physical non-torsion marked point and inspect source-marked local height contributions for an unconditional lower comparison. Do not assume a uniform Szpiro ratio. The objective is a strict coefficient win; if that fails, freeze the exact blocker and broaden again rather than recycling the old Goal4AW/Petsche comparison.
 
-- `stages/stage35-ex/35ex-35/goal4ce-post-canonical-gcd-local-completion-parking-audit-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4ce-post-canonical-gcd-local-completion-parking-audit.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4ce_post_canonical_gcd_local_completion_parking_audit.py`
-- `.github/workflows/stage35-ex-goal4ce-post-canonical-gcd-local-completion-parking-audit.yml`
+Still false:
+
+```text
+FIXED_DIRECTION_AW_C2_DISCHARGED=false
+EXPLICIT_MARKED_CANONICAL_HEIGHT_UPPER_CONSTANT=false
+UNIFORM_SZPIRO_BOUND=false
+STRICT_CANONICAL_HEIGHT_COEFFICIENT_WIN=false
+FINITE_HEIGHT_REDUCTION=false
+E1_proved=false
+R29_PESCH_E1_closed=false
+stage35_closed=false
+perfect_cuboid_existence_claim=false
+perfect_cuboid_nonexistence_claim=false
+HOSTILE_AUDIT_PASS=false
+MERGE_AUTHORIZED=false
+```
+
+Retained files for this checkpoint:
+
+- `stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discriminant_height.py`
+- `stages/stage35-ex/MAIN-BATCH-HANDOFF.md`
 
 MAIN-STATE intentionally remains V74 / Goal4AK. No merge.
