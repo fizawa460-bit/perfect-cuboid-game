@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE32EX5_BC2_22_RECHECK_44_RETAINED_RESIDUAL_UNKNOWN_PARENTS_10S_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_22_RECHECK_44_RETAINED_RESIDUAL_UNKNOWN_PARENTS_10S",
+  "status": "BLOCKED_RETAINED_RESIDUAL_SLICE_STILL_HAS_36_UNKNOWN",
+  "source_locks": {
+    "exact_compute_head": "2ba830ca6e5c8a1b71d7fed773537af82ce1f546",
+    "workflow_run_id": 34482947476,
+    "authorize_job_id": 102890011053,
+    "compute_job_id": 102890092822,
+    "artifact_id": 10154680719,
+    "artifact_zip_bytes": 8456,
+    "artifact_zip_sha256": "b918580d33bb20b6eb65ca2b5eb9146bdf5b06286da9917029932f00d06aa98e",
+    "raw_result_canonical": "35ca4a21884ed23f485287270eb1acfd5c878755b2b8993dbbb277e159126be8",
+    "source_git_blob_sha": "49086afce3ae6c59ad315798dbb57e41654b12fd",
+    "preflight_canonical": "39533d8597009ab275ceef243a69437fbcd3b1ee510d259d182ae3e76d79c820",
+    "bc2_21_checkpoint_canonical": "8b40a6b0ee650897d276fb7e543d6f31ef3f76af6f3e923e109b8d02ecd46f4f",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112],
+    "source_bc2_19_unknown_count": 236,
+    "source_bc2_21_residual_unknown_count": 44,
+    "other_unretained_unknown_identity_count": 172,
+    "other_unretained_unknown_identities_inferred": false
+  },
+  "result": {
+    "checked_count": 44,
+    "per_parent_timeout_ms": 10000,
+    "solver": "Z3_QF_LIA",
+    "z3_version": "4.15.4",
+    "unsat_count": 8,
+    "unknown_count": 36,
+    "sat_count": 0,
+    "newly_unsat_parent_indices": [8, 110, 281, 680, 866, 1016, 1136, 1245],
+    "residual_unknown_parent_indices": [57, 61, 80, 88, 269, 280, 458, 584, 586, 1000, 1003, 1014, 1030, 1032, 1048, 1050, 1056, 1064, 1066, 1103, 1106, 1108, 1117, 1119, 1133, 1151, 1198, 1201, 1204, 1206, 1216, 1218, 1224, 1232, 1243, 1246]
+  },
+  "interpretation": {
+    "known_parent_unsat_count_lower_bound": 7128,
+    "known_retained_unknown_identity_count": 36,
+    "unretained_unknown_identity_count": 172,
+    "whole_first_block_unsat_proved": false,
+    "sat_witness_found": false,
+    "timeout_escalation_alone_has_diminishing_return": true
+  },
+  "next_exact_unit": {
+    "id": "BC2_23_TEST_N355_STRUCTURAL_INEQUALITIES_ON_36_RETAINED_UNKNOWN_PARENTS",
+    "goal": "Determine whether exact N355 special-fibre/prefix inequalities provide additional necessary constraints on the 36 retained BC2-22 UNKNOWN parent identities before any further timeout-only escalation.",
+    "heavy_scaleout_authorized": false,
+    "main_promotion_authorized": false
+  },
+  "credit": {
+    "new_parent_unsat_count": 8,
+    "known_parent_unsat_count_lower_bound": 7128,
+    "this_44_parent_slice_exact_unsat": false,
+    "whole_first_block_unsat": false,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "stage32_main_credit": false,
+    "effectivity_or_actual_curve_existence_proved": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "unretained_172_parent_identities_inferred": false,
+    "unknown_relabelled_unsat": false,
+    "sat_relabelled_actual_curve": false,
+    "main_promotion": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "e8151702d8386eeab44d9e9705abe7b4fa0e19dde96933ffdabdc56329f2fdc2"
+}
