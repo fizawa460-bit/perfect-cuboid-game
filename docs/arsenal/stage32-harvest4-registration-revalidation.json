@@ -1,0 +1,79 @@
+{
+  "schema": "arsenal-stage-registration-revalidation/v1",
+  "stage": "Stage32",
+  "harvest": 4,
+  "implementation_pr": 1763,
+  "implementation_branch": "stage32-arsenal-harvest4-registration",
+  "planning_pr": 1755,
+  "planning_head": "4b221fa9f2ea082ed95560118667789985f56859",
+  "frozen_merged_source_upper_bound": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
+  "range_expanded": false,
+  "phase": "READY_WAVE_SOURCE_LOCK_REVALIDATION",
+  "status": "PARTIAL_REVALIDATION_CHECKPOINT",
+  "validated": [
+    {
+      "candidate": "ABS-S32-H4-01",
+      "planned_id": "S32-PW07",
+      "source": "PR#1753 N220",
+      "audited_exact_head": "940fe99a20c1eaa215126acd92e7c390295bb441",
+      "hostile_review": 5159411821,
+      "verdict": "PASS",
+      "credit_ceiling": "EXACT_NECESSARY_PREFIX_PRUNING_ONLY_NO_FULL178_COMPLETENESS_OR_THEOREM_CREDIT",
+      "registration_scope": "READY"
+    },
+    {
+      "candidate": "ABS-S32-H4-02",
+      "target_existing": "S32-PW01",
+      "source": "PR#1753 N230",
+      "audited_exact_head": "1206475517ed8caf59e92d0d6daa57eb14ab4a41",
+      "hostile_review": 5160389467,
+      "verdict": "PASS",
+      "credit_ceiling": "EXACT_N220_FILTERED_RANDOM_ACCESS_ADAPTER_ONLY_NO_FULL178_NUMERICAL_OR_THEOREM_CREDIT",
+      "registration_scope": "READY_EXTENSION"
+    },
+    {
+      "candidate": "ABS-S32-H4-08",
+      "planned_id": "S32-PW08",
+      "source": "PR#1688 EX1-05C/05D",
+      "audited_exact_head": "93c455e1e69ed65fbfb553462fdcfbc8e2becbae",
+      "hostile_review": 5135375926,
+      "verdict": "PASS",
+      "credit_ceiling": "INTERMEDIATE_BRANCH_EXCLUSION_ONLY",
+      "registration_scope": "READY"
+    },
+    {
+      "candidate": "ABS-S32-H4-CF21",
+      "planned_id": "S32-PW12",
+      "source": "PR#1643 Hperp/V6 H-deck character preflight",
+      "audited_exact_head": "8550ab88e12cbbfd42b2d1e07c8f42be124de1a6",
+      "hostile_review": 5123545511,
+      "verdict": "PASS",
+      "absolute_marking_identified": false,
+      "registration_scope": "READY_SOURCE_BOUND_ONLY"
+    }
+  ],
+  "pending_revalidation": [
+    {"candidate": "ABS-S32-H4-09", "planned_id": "S32-PW09", "source_pr": 1700},
+    {"candidate": "ABS-S32-H4-10", "planned_id": "S32-PW10", "source_pr": 1728},
+    {"candidate": "ABS-S32-H4-13", "planned_id": "S32-PW11", "source_prs": [1697,1715]},
+    {"candidate": "ABS-S32-H4-07", "planned_id": "S32-WF01", "source_pr": 1742},
+    {"candidate": "ABS-S32-H4-15", "planned_id": "S32-WF02", "source_prs": [1742,1743]}
+  ],
+  "holds_preserved": [
+    "S32-PW13",
+    "ABS-S32-H4-06 -> S32-PW03",
+    "ABS-S32-H4-12 -> S30-W01/S30-WF01",
+    "ABS-S32-H4-CF20"
+  ],
+  "retired_id_policy": {"S32-PW02": "S32-PW01"},
+  "credit_firewall": {
+    "stage32_progress_change": false,
+    "stage32_authority_change": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false,
+    "merge_allowed": false
+  },
+  "next_action": "REVALIDATE_REMAINING_READY_UNITS_THEN_REGISTER_ONLY_COMPLETE_READY_WAVE"
+}
