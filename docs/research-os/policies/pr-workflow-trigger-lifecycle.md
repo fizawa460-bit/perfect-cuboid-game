@@ -22,6 +22,21 @@ When a Stage advances from one leaf to another, retire or demote the previous le
 
 Repository-wide safety/authority gates, including Stage MAIN startup and claim/frontier integrity where applicable, may remain automatic independently of the active mathematical leaf.
 
+## Cross-Stage behavior on long-lived PRs
+
+The current repository policy prohibits automatic fan-out from `MANUAL` and `RETIRED` workflows. It does **not** require every `ACTIVE_AUTO` workflow to be branch-local.
+
+Accordingly, a current `ACTIVE_AUTO` workflow may execute on a long-lived sibling PR when its automatic trigger and PR-wide path match apply there. This includes cross-Stage current-frontier or safety/authority workflows. Such execution is intentional under this policy and must be distinguished from the prohibited historical fan-out.
+
+For replay evidence, always report both:
+
+- total PR-triggered workflow runs at the exact head; and
+- the subset attributable to `MANUAL` / `RETIRED` workflows.
+
+A replay passes this lifecycle policy when the `MANUAL` / `RETIRED` automatic subset is zero. A nonzero total run count is not itself a lifecycle failure if every run is from the explicit `ACTIVE_AUTO` set.
+
+If a future Stage requires branch-local-only execution for an `ACTIVE_AUTO` workflow, that restriction must be encoded as an additional trigger/gating rule; it is not implied by lifecycle classification alone.
+
 ## Why `paths` is insufficient
 
 Do not use `pull_request.paths` as the only lifecycle control. GitHub evaluates pull-request path filters against the PR-wide changed-file set. On a long-lived PR, a historical path that was changed much earlier can continue to match when an unrelated later commit synchronizes the PR. The result is repeated re-execution of obsolete workflows.
