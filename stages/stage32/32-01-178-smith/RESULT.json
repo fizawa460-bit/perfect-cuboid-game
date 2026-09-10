@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_32_01_178_SMITH_CHECKPOINT_V1",
+  "schema": "STAGE32_32_01_178_SMITH_CHECKPOINT_V2",
   "lane": "stage32-01-178-smith",
   "fork": {
     "source_pr": 1753,
@@ -15,12 +15,14 @@
     "smith_certificate_canonical": "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984"
   },
   "ci": {
-    "run_id": 34466621297,
-    "job_id": 102836591436,
+    "run_id": 34467224646,
+    "job_id": 102838521624,
     "conclusion": "SUCCESS",
     "projection_canonical": "a81b6a5ebc5f1f71cd4c35f628e12df7791203a8555917dbd1243f437b4c8c81",
     "minimal_detector_canonical": "4605f19a110fae15ce589887ab0a6492a25e38803ac49a86754c6bbf8da85c5d",
-    "mod2_observable_canonical": "5b1a10ca0d0f4bb646072ac7115b366342ca52ee1a48a0c13df1eb2d43d22561"
+    "mod2_observable_canonical": "5b1a10ca0d0f4bb646072ac7115b366342ca52ee1a48a0c13df1eb2d43d22561",
+    "affine_invariant_canonical": "4e0c533a757b5b77148e080b92cfd5a6b810fc1bbe6fc51e87c55e5a3c53f842",
+    "source_formula_canonical": "10bcf19f4cfc2ec807cf6739c1d8b39e1a882e1fefd8e25db9751fe06ee194f4"
   },
   "exact_findings": {
     "cokernel_moduli": [2, 2, 2, 4, 4],
@@ -51,16 +53,35 @@
     },
     "old_legal_F_count": 6144,
     "old_legal_F_unique_mod2_count": 1536,
-    "old_legal_F_unique_row4_mod2_count": 12,
-    "old_legal_F40_distribution": {"1": 6144},
-    "old_legal_F49_distribution": {"1": 6144},
+    "old_legal_F_mod2_affine_dimension": 11,
+    "old_legal_F_mod2_affine_codimension": 89,
+    "old_legal_F_mod2_fixed_coordinates": [
+      {"entry": [1, 5], "value": 1},
+      {"entry": [2, 6], "value": 1},
+      {"entry": [3, 7], "value": 0},
+      {"entry": [4, 0], "value": 1},
+      {"entry": [4, 9], "value": 1},
+      {"entry": [8, 0], "value": 1},
+      {"entry": [8, 9], "value": 1}
+    ],
+    "source_integer_formulas": {
+      "F40": "-2*b11-a12+b12-g2b",
+      "F49": "-2*b11-a12+b12+g2b",
+      "common_mod2": "a12+b12+g2b"
+    },
+    "source_residue_parity_table": [
+      {"residue": 73, "a12_mod2": 0, "b12_mod2": 1, "g2b_mod2": 0, "one_bit": 1},
+      {"residue": 97, "a12_mod2": 0, "b12_mod2": 0, "g2b_mod2": 1, "one_bit": 1},
+      {"residue": 235, "a12_mod2": 0, "b12_mod2": 1, "g2b_mod2": 0, "one_bit": 1}
+    ],
     "old_v6_obstruction_detected_by_single_bit": true
   },
   "current_full178_bridge": {
     "established": false,
     "reason": "S32-PW10's audited source assembly is a V6/genus-1 X(8) H-equivariant correspondence. Current FULL178 terminal/Hurwitz data do not by themselves materialize the same 10x10 H1 action F or B block in the audited cellular basis.",
     "scalar_only_route_closed": true,
-    "next_required_adapter": "current FULL178 carrier/correspondence -> invariant source-compatible one-bit observable equivalent to Smith coord0, or directly prove B[4,4] mod 2 / the corresponding H1 parity without choosing an unjustified absolute basis",
+    "old_one_bit_is_source_parity_shell_not_generic_scalar_data": true,
+    "next_required_adapter": "current FULL178 carrier/correspondence -> invariant source-compatible parity observable corresponding to the old affine condition a12+b12+g2b=1, without importing historical residues 73/97/235 or choosing an unjustified absolute H1 basis",
     "possible_scope": "Start with source-compatible genus-1/common-cover carriers; do not claim genus-0 or all FULL178 until hypotheses are re-established."
   },
   "separation": {
@@ -68,7 +89,7 @@
     "ex5_route": "Picard64/terminal/integrality exact UNSAT",
     "smith_route": "cellular Smith cokernel / source-bound correspondence parity obstruction"
   },
-  "status": "CHECKPOINT_ONE_BIT_SMITH_OBSERVABLE_FOUND_CURRENT_FULL178_SEMANTIC_ADAPTER_OPEN_NO_CREDIT",
+  "status": "CHECKPOINT_SMITH_OBSTRUCTION_REDUCED_TO_OLD_SOURCE_ONE_BIT_PARITY_CURRENT_FULL178_SEMANTIC_ADAPTER_OPEN_NO_CREDIT",
   "credit": {
     "main_pruning_credit": false,
     "n350_producer_registration": false,
@@ -81,9 +102,9 @@
     "merge_authorized": false
   },
   "next_route": [
-    "Identify the invariant geometric meaning of the always-odd old source entries F[4,0] and F[4,9], avoiding absolute-basis promotion.",
-    "Test whether the retained current common-cover/factor geometry supplies that invariant one-bit observable for any authoritative FULL178 subpopulation.",
-    "Only after an exact source-to-current adapter exists, run a current survivor census and request hostile audit."
+    "Search current audited/common-cover geometry for an invariant mod-2 observable replacing the old coordinate expression a12+b12+g2b.",
+    "Test the bridge first on authoritative genus-1 carriers only; keep historical residues 73/97/235 as provenance, not current survivors.",
+    "If an exact source-to-current parity adapter is established, run it on the current Stage32 MAIN survivor population and request hostile audit."
   ],
-  "canonical_sha256_without_this_field": "eada5bd996ad24eb5ba9ad85636a205a090ab53a798f35b8f31130112bbfbdb0"
+  "canonical_sha256_without_this_field": "467a0b3b5ae126872c85e455161f3790bd5c7b56d2855c82876db33d27e85077"
 }
