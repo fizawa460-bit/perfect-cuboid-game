@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32EX5_BC2_24_EXPLICIT_FIBRE_DEGREE_PARTITION_PREFLIGHT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_24_PARTITION_REMAINING_RETAINED_UNKNOWN_BY_EXPLICIT_FIBRE_DEGREE",
+  "source_locks": {
+    "bc2_23_checkpoint_canonical": "6da1c158da8f8171d446c39b517270c0f7bf524ac62df0cd8f9d099155cdb3a0",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7",
+    "retained_bundle_canonical": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "retained_marking_canonical": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "retained_unknown_parent_count": 23,
+    "retained_unknown_parent_indices": [80,458,584,1000,1003,1014,1030,1032,1048,1050,1056,1064,1066,1103,1106,1108,1117,1119,1133,1198,1218,1224,1243],
+    "unretained_bc2_19_unknown_identity_count": 172,
+    "unretained_bc2_19_unknown_identities_inferred": false
+  },
+  "partition": {
+    "fibre_degree_variable": "n1",
+    "integer_values": [0,1,2,3,4,5,6,7,8],
+    "n2_relation": "n2=8-n1",
+    "branches_per_parent": 9,
+    "total_branch_checks": 207,
+    "coverage_exact": true,
+    "disjoint": true,
+    "parent_result_rule": {
+      "SAT": "at least one fibre-degree branch SAT",
+      "UNSAT": "all nine fibre-degree branches UNSAT",
+      "UNKNOWN": "no branch SAT and at least one branch UNKNOWN"
+    },
+    "soundness": "BC2-23 already proves exact integer n1+n2=8 with 0<=n1,n2<=8, so n1=0..8 is an exhaustive disjoint partition of every BC2-23 feasible model."
+  },
+  "execution_preflight": {
+    "per_branch_timeout_ms": 2000,
+    "workflow_timeout_minutes": 10,
+    "effective_heavy_concurrency": 1,
+    "artifact_retention_days": 1,
+    "projected_peak_artifact_bytes": 100000,
+    "repository_storage_budget_bytes": 524288000,
+    "maximum_branch_checks": 207
+  },
+  "credit": {
+    "preflight_only": true,
+    "whole_first_block_unsat": false,
+    "full178_complete": false,
+    "stage32_main_credit": false
+  },
+  "firewalls": {
+    "unretained_172_parent_identities_inferred": false,
+    "unknown_relabelled_unsat": false,
+    "main_promotion": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "6606fe259e5393be5b086384e546be35f0c8efb0d16f98e221cc72dac4046cb9"
+}
