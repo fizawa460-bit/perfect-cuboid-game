@@ -1,0 +1,50 @@
+{
+  "canonical_sha256_without_this_field": "820c5700e58f7c82fb28fc64186876a3d1c53a810034597219ca6e3772791953",
+  "claim_dag": {
+    "active_frontier_materially_changed": false,
+    "active_goal_semantics_changed": false,
+    "claim_registry_core_changed": false,
+    "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "lane_adapter_changed": false,
+    "lane_role": "ATTACKS",
+    "main_credit_granted": false,
+    "promotion_adapter_created": false,
+    "reason": "BC2-18 narrows a local EX5 search interface inside the existing FULL178 obligation. It neither closes the first block nor changes FULL178 population/model/quantifiers, and it creates no MAIN-consumable producer."
+  },
+  "firewalls": {
+    "FULL178_complete": false,
+    "endpoint_credit": false,
+    "hostile_audit_pass_for_bc2_18": false,
+    "merge_authorized": false,
+    "n350_production_coverage_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "theorem_credit": false
+  },
+  "lane": "EX5",
+  "required_verifiers": [
+    "python stages/stage32/proof/verify_stage32_claim_dag.py --integrity",
+    "python stages/stage32/proof/verify_stage32_active_frontier.py"
+  ],
+  "result": "NO_ACTIVE_FRONTIER_REMAP_NO_MAIN_PROMOTION",
+  "retained_candidate": {
+    "checkpoint_canonical_sha256": "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8",
+    "checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-18-n354-survivor-selected-exceptional-mod8-checkpoint.json",
+    "scope": "LOCAL_EX5_CURRENT_N354_SURVIVOR_PROBE",
+    "source_commit": "d095336aceae65d5f56cdbfaa88ef6e1ad705b82",
+    "source_path": "stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py",
+    "statement": "For the local current-survivor target (g1-d008,e=8) first compressed-terminal block ranks 0..112, exact HNF Picard64 integrality extension rejects 169764 of 177100 complete selected-exceptional parent assignments, leaving 7336 parents for normal-positivity/mass replay. No whole-block exclusion is obtained.",
+    "status": "PROVISIONAL_LOCAL_EVIDENCE_NOT_A_MAIN_DEPENDENCY"
+  },
+  "reviewed_contracts": {
+    "active_frontier": "stages/stage32/proof/ACTIVE-FRONTIER.json",
+    "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+    "lane_adapters": "stages/stage32/proof/LANE-ADAPTERS.json",
+    "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
+  },
+  "schema": "STAGE32EX5_BC2_18_CLAIM_SYNC_RECEIPT_V1",
+  "stage": "32EX5",
+  "trigger": "RETAINED_CONSOLIDATION"
+}
