@@ -43,6 +43,10 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_transvection_universal_mod2_preflight.py | tee /tmp/smith-transvection.json
+      - name: Test all Prym parity gluing types
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_all_prym_parity_transvection_gluing.py | tee /tmp/smith-all-prym.json
       - name: Install exact linear algebra dependency
         run: |
           python -m pip install --disable-pip-version-check sympy==1.14.0
@@ -64,11 +68,13 @@ jobs:
           a=json.load(open('/tmp/smith-affine.json'))
           s=json.load(open('/tmp/smith-formula.json'))
           u=json.load(open('/tmp/smith-transvection.json'))
+          y=json.load(open('/tmp/smith-all-prym.json'))
           p=json.load(open('/tmp/smith-prefix-gap.json'))
           z=json.load(open('/tmp/smith-pair-image.json'))
           m=x['map']; r=d['exact_replay']; f=a['family']
           g=p['exact_gap']; c=p['selected64_comparison']
           ur=u['full_ring_mod2_replay']; ui=u['integral_gluing_parity_replay']
+          yc=y['census']; yd=y['decision']
           zi=z['linear_image']; zf=z['fibre_parity_structure']; ze=z['current_prefix_extension']
           print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
@@ -88,6 +94,13 @@ jobs:
           print('transvection_mod4_lifts_checked='+str(ui['mod4_lifts_checked']))
           print('transvection_integral_builds='+str(ui['integral_builds']))
           print('v6_norms_needed_for_mod2='+str(u['interpretation']['v6_specific_norm_137_9_9_is_needed_for_this_mod2_obstruction']))
+          print('all_prym_canonical='+y['canonical_sha256_without_this_field'])
+          print('all_prym_builds_checked='+str(yc['builds_checked']))
+          print('all_prym_integral_builds='+str(yc['integral_builds']))
+          print('all_prym_integral_bit1='+str(yc['integral_bit_one']))
+          print('all_prym_integral_bit0='+str(yc['integral_bit_zero']))
+          print('all_prym_integrality_selects_alignment='+str(yd['integrality_alone_selects_audited_center_to_prym_alignment']))
+          print('all_prym_alignment_removable='+str(yd['prym_alignment_removable_from_smith_mod2_obstruction']))
           print('pair_mass_gap_canonical='+p['canonical_sha256_without_this_field'])
           print('invalid_boundary_sum_model_superseded=True')
           print('pair_mass_rank='+str(g['pair_mass_parity_map_rank']))
