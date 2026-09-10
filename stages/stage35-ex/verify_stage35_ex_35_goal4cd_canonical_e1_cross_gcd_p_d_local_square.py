@@ -14,7 +14,7 @@ SRC = P("stages/stage35-ex/35ex-35/goal4cd-canonical-e1-cross-gcd-p-d-local-squa
 CC = P("stages/stage35-ex/35ex-35/goal4cc-post-source-bridge-local-completion-fresh-route-audit.json")
 STATE = P("stages/stage35-ex/MAIN-STATE.json")
 
-EXPECTED = "91138db08d7e7761bdbedf1836e1e1ed59e3ab9895b938b18ee03edaed497ae5"
+EXPECTED = "dd583189846f993b6f7e0480b84a1018094607e07c6473a358555fc29a7f3a73"
 SRC_BLOB = "9f1d8ef3de24399382562195cf345e5e62f21052"
 CC_BLOB = "c7adb599c65304f3112c34ea0887b65f60e5609f"
 V74 = "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED"
@@ -83,7 +83,6 @@ assert art["result"]["universal_bad_prime_in_p_d_e"] is False
 assert art["next"]["unit"] == "35EX-35_GOAL4CE_POST_CANONICAL_GCD_LOCAL_COMPLETION_FRESH_ROUTE_AUDIT"
 assert all(v is False for v in art["credit_firewall"].values())
 
-# p-balanced kill: complete local test fails on residual unit.
 w = art["witnesses"]["p_kill"]
 z = data(tuple(w["tuple"]))
 for key in ("c", "p", "q", "H", "e"):
@@ -100,7 +99,6 @@ unit = z["Be"] // ell**v
 assert v == w["v_ell_B_e"] == 2
 assert unit % ell == w["unit_mod_ell"] == 2 and leg(unit, ell) == -1
 
-# d-balanced kill: odd depth.
 w = art["witnesses"]["d_kill"]
 z = data(tuple(w["tuple"]))
 assert z["c"] == w["c"] and z["p"] == w["p"] and z["d"] == w["d"]
@@ -113,7 +111,6 @@ Rd = (z["U1"] * (z["W2"] // ell**k))**2 + ((z["V1"] // ell**k) * z["U2"])**2
 assert z["Be"] * (z["c"]*z["e"])**2 == ell**(2*k) * Rd
 assert val(z["Be"], ell) == w["v_ell_B_e"] == 3
 
-# Balanced p survivor demonstrates the balanced stratum is not automatically bad.
 w = art["witnesses"]["balanced_p_survivor"]
 z = data(tuple(w["tuple"]))
 assert z["p"] == w["p"] == 13 and z["d"] == z["e"] == 1
@@ -124,7 +121,6 @@ unit = z["Be"] // ell**v
 assert z["Be"] == w["B_e"] and v == w["v_ell_B_e"] == 2
 assert unit % ell == w["unit_mod_ell"] == 4 and leg(unit, ell) == 1
 
-# Joint p/d/e survivor: selected local families all pass, fresh norm primes remain.
 w = art["witnesses"]["joint_survivor"]
 z = data(tuple(w["tuple"]))
 assert z["c"] == 7 and z["p"] == 5 and z["d"] == z["e"] == 1
