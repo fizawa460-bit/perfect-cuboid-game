@@ -1,0 +1,40 @@
+name: Stage35-EX Goal4CA source bridge norm valuation parity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4bz-post-bridge-quartic-fresh-route-audit-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4bz-post-bridge-quartic-fresh-route-audit.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bz_post_bridge_quartic_fresh_route_audit.py'
+      - 'stages/stage35-ex/35ex-35/goal4ca-source-bridge-norm-valuation-parity-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4ca-source-bridge-norm-valuation-parity.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4ca_source_bridge_norm_valuation_parity.py'
+      - '.github/workflows/stage35-ex-goal4ca-source-bridge-norm-valuation-parity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-goal4ca:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay Goal4BZ parent
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bz_post_bridge_quartic_fresh_route_audit.py
+      - name: Verify Goal4CA source bridge-norm valuation parity sieve
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ca_source_bridge_norm_valuation_parity.py
