@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE33_KUMMER_LANE_D_CHEAP_NON_E3_SOURCE_CHECKPOINT_V1",
+  "lane": "stage33kummer-d",
+  "status": "CHECKPOINT_B_SOURCE_BOUND_BLOCKER",
+  "scope": "NON_E3_ADAPTED_SOURCE_SCOUTING_ONLY",
+  "parent_exact_head": "fa7949deee5e134eddc45aff7bc1d6e608e1f286",
+  "source_locks": {
+    "full_surface_pic2_kummer_target_canonical_sha256": "384b7c9cb06e993c147fa89b30f93efcd454fe1a1773892ac70f463d07af9890",
+    "post_v35_evidence_locator_handoff_v36_canonical_sha256": "065c0ca8a92ad0994a88b2a62337a0ceb33af9823e746590e7de590676d6db7c",
+    "proper_invariant_basis_sha256": "6a34093c4c69d0a057b04db933cfbd000c4f7e2298abed9603edc57e9505ab71"
+  },
+  "adapted_anchor": {
+    "already_materialized_adapted_columns": 1,
+    "total_adapted_columns": 10,
+    "remaining_labels_from_v36": ["e3", "e1", "e4", "e5", "e6", "e7", "e8", "e9", "e10"],
+    "e3_r5b_owned_here": false
+  },
+  "candidate_cost_table": [
+    {"label": "e1", "proper14_row": [0,1,0,0,0,0,0,0,0,0,0,0,0,0], "coordinate_weight": 1, "rank": 1},
+    {"label": "e5", "proper14_row": [0,0,1,0,0,0,1,0,0,0,0,0,0,0], "coordinate_weight": 2, "rank": 2},
+    {"label": "e8", "proper14_row": [0,0,1,0,0,0,0,0,0,0,1,0,0,0], "coordinate_weight": 2, "rank": 2},
+    {"label": "e4", "proper14_row": [1,0,1,0,0,1,0,0,0,0,0,0,0,0], "coordinate_weight": 3, "rank": 3},
+    {"label": "e6", "proper14_row": [1,0,1,0,0,0,0,0,1,0,0,0,0,0], "coordinate_weight": 3, "rank": 3},
+    {"label": "e9", "proper14_row": [0,0,1,0,0,0,0,0,0,0,0,1,1,0], "coordinate_weight": 3, "rank": 3},
+    {"label": "e10", "proper14_row": [0,0,0,0,0,0,0,1,0,0,0,1,0,1], "coordinate_weight": 3, "rank": 3},
+    {"label": "e7", "proper14_row": [1,0,1,0,0,0,0,1,0,1,0,0,0,0], "coordinate_weight": 4, "rank": 4}
+  ],
+  "cost_metric": {
+    "definition": "Hamming weight of the locked proper-Br2 14D source row",
+    "purpose": "deterministic first-pass source complexity proxy only",
+    "does_not_prove_geometric_lift_cost": true
+  },
+  "selected_candidate": {
+    "label": "e1",
+    "reason": "unique minimum coordinate weight among lane-d non-e3 candidates",
+    "source_row_locked": true,
+    "source_row_weight": 1,
+    "genuine_full_surface_h2_mu2_lift_materialized": false,
+    "kummer_75_vector_materialized": false
+  },
+  "exact_blocker": {
+    "locator_statement": "No locator-registered positive asset directly supplies a standalone genuine H2(mu2) lift for any remaining adapted source direction.",
+    "e1_specific_consequence": "The locked e1 source row has no currently registered positive lift that can instantiate the Kummer defect map. A newly derived source-bound full-surface H2(mu2) lift, or equivalent unimodular/glue datum, is required before a 75-vector can be computed.",
+    "first_missing_geometric_object": "source-bound full-surface mu2 lift with literal cover/Gersten data sufficient to form g^*(alpha_tilde)-alpha_tilde and localize it",
+    "search_miss_proves_repository_absence": false,
+    "mathematical_nonexistence_claim": false,
+    "guessed_column": false
+  },
+  "comparison_with_e3_template": {
+    "read_only_reference": "e3-v91c1x-r5b3b3c4b1e-1757-refinement-unit-or-cech-cochain-preflight.json",
+    "e3_preflight_reaches_source_bound_refinement_and_orbit_difference_squareclasses": true,
+    "e3_preflight_still_requires_literal_cover_indexed_unit_cochain_formulas": true,
+    "e1_has_no_corresponding_source_bound_positive_lift_asset_in_v36_locator": true,
+    "r5b_implementation_modified": false
+  },
+  "next_candidate": {
+    "labels": ["e5", "e8"],
+    "reason": "next-lowest locked source-row weight is 2; no source-specific positive-lift asset currently breaks the tie",
+    "tie_break_policy": "prefer the first candidate for which a newly derived or newly registered source-bound positive lift appears; otherwise stable label order e5 before e8"
+  },
+  "checkpoint": {
+    "type": "B",
+    "satisfied": true,
+    "statement": "The uniquely cheapest non-e3 source e1 is fixed exactly and reduced to the first source-bound missing geometric object; the next-best e5/e8 tier is justified without guessing a Kummer column."
+  },
+  "firewall": {
+    "authority_credit": false,
+    "endpoint_credit": false,
+    "receiver_credit": false,
+    "stage33_close_credit": false,
+    "stage33_release_credit": false,
+    "merge_allowed": false,
+    "noncredit": true
+  }
+}
