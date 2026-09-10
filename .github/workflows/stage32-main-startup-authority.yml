@@ -8,6 +8,8 @@ on:
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/verify_main_startup.py'
+      - 'stages/stage32/proof/PR1753-INTEGRATION-AUDIT-HANDOFF.json'
+      - 'stages/stage32/proof/verify_pr1753_integration_audit_handoff.py'
       - 'stages/stage32/residual-32-01-production/post1577-mod2-fiber-divisor-identity.json'
       - 'stages/stage32/residual-32-01-production/post1577-mod2-fiber-divisor-identity-source-note.md'
       - 'stages/stage32/residual-32-01-production/post1570-three-involution-q602-exclusion-batch.json'
@@ -78,6 +80,9 @@ jobs:
 
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
+
+      - name: Verify PR1753 integration-only audit handoff
+        run: python3 stages/stage32/proof/verify_pr1753_integration_audit_handoff.py
 
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'
