@@ -111,9 +111,20 @@ def main() -> None:
     if org["integration_changes_mathematical_credit"] is not False:
         fail("organizational integration changed mathematical credit")
 
-    expected_checkpoint = "stages/stage32/management/post-ex5-merge-final-chain-sync-20260910.json"
-    if expected_checkpoint not in state["current_leaf_working_set"]:
-        fail("post-EX5-merge current MAIN checkpoint not in working set")
+    # The post-EX5 merge checkpoint is retained historical provenance.  It
+    # must remain present, but it must not be required to stay in the active
+    # leaf working set after MAIN has advanced to later audited/stop-gated
+    # checkpoints such as N240/N350.
+    historical_checkpoint = ROOT / "stages/stage32/management/post-ex5-merge-final-chain-sync-20260910.json"
+    if not historical_checkpoint.is_file():
+        fail("post-EX5-merge retained MAIN checkpoint missing")
+    working_set = set(state["current_leaf_working_set"])
+    for required in [
+        "stages/stage32/management/post-n240-v2-hostile-reaudit-pass-sync-20260910.json",
+        "stages/stage32/32-01-178/nodes/N350/STATE.json",
+    ]:
+        if required not in working_set:
+            fail(f"current MAIN working-set authority missing: {required}")
 
     fire = manifest["firewalls"]
     for key in ["mathematical_credit_changed", "claim_core_changed", "hostile_audit_credit_self_assigned", "heavy_compute_authorized", "receiver_credit_changed", "stage32_closed", "merge_authorized"]:
