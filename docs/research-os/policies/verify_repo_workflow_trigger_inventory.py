@@ -11,11 +11,13 @@ ROOT = Path(__file__).resolve().parents[3]
 WF_DIR = ROOT / ".github" / "workflows"
 INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
 
+# Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
+# if they are present, they are intentionally automatic.
 ACTIVE_AUTO = {
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
-    ".github/workflows/stage32-n356-deterministic-terminal-check.yml",
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
@@ -26,6 +28,8 @@ ACTIVE_AUTO = {
     ".github/workflows/stage36-bootstrap-audit.yml",
 }
 MANUAL = {
+    ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    ".github/workflows/stage32-root-cleanup-phase-b.yml",
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
     ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
 }
@@ -56,10 +60,8 @@ def classify(path: str) -> str:
         return "ACTIVE_AUTO"
     if path in MANUAL:
         return "MANUAL"
-    # Every known Stage workflow not explicitly live is historical/superseded.
     if re.match(r"\.github/workflows/stage\d", path):
         return "RETIRED"
-    # Unknown repo-level workflows fail closed until explicitly reviewed.
     return "MANUAL"
 
 
@@ -120,7 +122,7 @@ def build_inventory(changed: list[str]) -> dict:
     counts = {k: len(v) for k, v in groups.items()}
     counts["TOTAL"] = sum(counts.values())
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_on": "2026-09-11",
         "scope": "repository-wide workflow lifecycle policy",
         "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
@@ -128,12 +130,14 @@ def build_inventory(changed: list[str]) -> dict:
         "families": {k: dict(v) for k, v in sorted(fam.items())},
         "classifications": groups,
         "automatic_triggers_removed_by_migration": changed,
-        "branch_local_live_catalog": sorted(ACTIVE_AUTO),
+        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
             "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
             "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
-            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 leaf workflows therefore remain retired while the Stage35 aggregate audit remains live.",
+            "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
+            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
             "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
+            "Stage32 N356 optimistic exceptional transport is the current Stage32 MAIN mathematical frontier and must retain automatic PR replay.",
         ],
     }
 
