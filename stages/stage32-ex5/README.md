@@ -14,16 +14,7 @@ V6, O210, and Q602 are historical/formal prerequisite provenance, not current EX
 
 ## Current exact EX5 progress
 
-The local `(g1-d008,e=4)` Picard64 exact UNSAT blocks are:
-
-- `0..132`;
-- `133..265`;
-- `266..398`;
-- `399..531`;
-- `532..664`;
-- `665..797`.
-
-Therefore the retained local exact UNSAT prefix is **`0..797`**.
+The local `(g1-d008,e=4)` Picard64 exact UNSAT blocks are `0..132`, `133..265`, `266..398`, `399..531`, `532..664`, and `665..797`. Therefore the retained local exact UNSAT prefix is **`0..797`**.
 
 BC2-16 consumed the exact BC2-15 structural replay for ranks `665..797`. From the actual retained terminal plus locked label order it derived outer exceptional rank `5`, base terminal `[0,1,0,0,0,0,2,0,0,0,1]`, fixed exceptional mass `4`, residual mass `0`, and a complete one-parent symbolic-x4 partition. Exact result: `1/1 UNSAT`, `UNKNOWN=0`, `SAT=0`.
 
