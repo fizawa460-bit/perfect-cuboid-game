@@ -39,10 +39,10 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_one_bit_source_formula.py | tee /tmp/smith-formula.json
-      - name: Install exact-boundary linear algebra dependency
+      - name: Install exact linear algebra dependency
         run: |
           python -m pip install --disable-pip-version-check sympy==1.14.0
-      - name: Quantify current prefix boundary parity gap
+      - name: Quantify current prefix true pair-mass parity gap
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_current_prefix_boundary_parity_gap.py | tee /tmp/smith-prefix-gap.json
@@ -56,32 +56,28 @@ jobs:
           a=json.load(open('/tmp/smith-affine.json'))
           s=json.load(open('/tmp/smith-formula.json'))
           p=json.load(open('/tmp/smith-prefix-gap.json'))
-          m=x['map']; r=d['exact_replay']; z=o['old_legal_F_replay']; f=a['family']; q=a['dual_affine_constraints']
-          g=p['old_transvection_boundary_parity_map']; e=p['prefix_extension']
+          m=x['map']; r=d['exact_replay']; f=a['family']
+          g=p['exact_gap']; c=p['selected64_comparison']
           print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
           print('detector_canonical='+d['canonical_sha256_without_this_field'])
           print('minimal_detector_size='+str(r['minimal_detector_coordinate_count']))
           print('mod2_observable_canonical='+o['canonical_sha256_without_this_field'])
           print('smith0='+o['smith_coordinate_0']['formula_in_assembly_coordinates'])
-          print('required_F_entries='+str(o['smith_coordinate_0']['required_F_entries']))
           print('affine_canonical='+a['canonical_sha256_without_this_field'])
           print('unique_F_mod2='+str(f['unique_legal_F_mod2']))
           print('affine_dim='+str(f['affine_span_dimension']))
-          print('affine_codim='+str(f['affine_codimension']))
-          print('fixed_coords='+str(f['fixed_coordinates']))
-          print('min_odd_weight='+str(q['minimal_constant_one_weight']))
-          print('min_odd_supports='+str(q['minimal_constant_one_supports']))
           print('source_formula_canonical='+s['canonical_sha256_without_this_field'])
           print('source_common_bit='+s['exact_formula']['common_mod2'])
-          print('source_parity_table='+str(s['residue_parity_table']))
-          print('prefix_gap_canonical='+p['canonical_sha256_without_this_field'])
-          print('pair_parity_rank='+str(g['pair_parity_map_rank']))
-          print('pair_parity_residual_rank='+str(g['residual_pair_parity_rank_beyond_current_observables']))
-          print('direct_selected_boundary='+str(e['selected64_boundary_labels_already_coordinate_rows']))
-          print('residual_after_direct_selected='+str(e['residual_rank_after_exposing_all_direct_selected_boundary_labels']))
-          print('minimal_boundary_pairing_count='+str(e['minimal_actual_boundary_pairing_count_to_determine_all_pair_parities']))
-          print('minimal_boundary_subsets_first20='+str(e['minimal_subsets_first20']))
+          print('pair_mass_gap_canonical='+p['canonical_sha256_without_this_field'])
+          print('invalid_boundary_sum_model_superseded=True')
+          print('pair_mass_rank='+str(g['pair_mass_parity_map_rank']))
+          print('pair_mass_residual_rank='+str(g['residual_pair_mass_parity_rank_beyond_current_observables']))
+          print('individually_determined_pairs='+str(g['individually_determined_pair_indices_0based']))
+          print('minimal_extra_pair_group_sums='+str(g['minimal_additional_true_pair_group_sums_to_determine_all_pair_parities']))
+          print('minimal_pair_group_subsets='+str(g['minimal_group_subsets_0based_first30']))
+          print('selected64_exceptional_labels='+str(c['selected_exceptional_labels']))
+          print('residual_after_all_selected_exceptional='+str(c['residual_pair_mass_rank_after_current_plus_all_selected_exceptional_labels']))
           print('CURRENT_FULL178_SEMANTIC_ADAPTER=false')
           print('MAIN_PRUNING_CREDIT=false')
           PY
