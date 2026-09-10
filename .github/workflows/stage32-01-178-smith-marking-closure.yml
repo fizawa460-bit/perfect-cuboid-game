@@ -1,0 +1,49 @@
+name: Stage32 32-01-178 Smith marking closure
+
+on:
+  push:
+    branches:
+      - stage32-01-178-smith
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact evidence-locator authority commit
+        run: |
+          git fetch --no-tags --depth=1 origin 66147254a7893b38a57a07d75576ac72dc178a37
+          git cat-file -e 66147254a7893b38a57a07d75576ac72dc178a37^{commit}
+      - name: Install exact linear algebra dependency
+        run: |
+          python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Recompute pair-mass image
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_pair_mass_image_classifier.py | tee /tmp/smith-pair-image.json
+      - name: Close current numerical X8 marking gate
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_current_marking_closure.py /tmp/smith-pair-image.json | tee /tmp/smith-marking.json
+      - name: Compact ledger
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-marking.json'))
+          r=x['exact_result']
+          g=x['remaining_semantic_gate']
+          print('canonical='+x['canonical_sha256_without_this_field'])
+          print('incidence_components='+str(r['incidence_components']))
+          print('component_type='+r['component_type'])
+          print('weierstrass_pairs='+str(r['canonical_unordered_weierstrass_pairs']))
+          print('single_transpositions='+str(r['pair_mass_single_transpositions']))
+          print('single_transpositions_equal_marked_cusp_pairs='+str(r['single_transpositions_equal_marked_cusp_pairs']))
+          print('CURRENT_NUMERICAL_MARKING_GATE_CLOSED='+str(r['current_numerical_marking_gate_closed']))
+          print('CURRENT_CARRIER_COMMON_COVER_ASSEMBLY_LIFT='+str(g['current_carrier_common_cover_h_equivariant_assembly_lift']))
+          print('MAIN_PRUNING_CREDIT='+str(x['credit']['main_pruning_credit']))
+          PY
