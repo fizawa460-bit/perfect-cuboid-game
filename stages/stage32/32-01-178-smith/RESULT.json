@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE32_32_01_178_SMITH_CHECKPOINT_V1",
+  "lane": "stage32-01-178-smith",
+  "fork": {
+    "source_pr": 1753,
+    "source_branch": "stage32-main-final-chain-reentry",
+    "fork_head": "bfb503b738315a4b40155e214bf0f05d8a83e77c"
+  },
+  "arsenal_source": {
+    "weapon": "S32-PW10",
+    "role": "CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION",
+    "source_pr": 1728,
+    "hostile_review": 5147627146,
+    "audited_exact_head": "e3c4a04d5010e6dca9428722e334890e2614297a",
+    "smith_certificate_canonical": "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984"
+  },
+  "ci": {
+    "run_id": 34466621297,
+    "job_id": 102836591436,
+    "conclusion": "SUCCESS",
+    "projection_canonical": "a81b6a5ebc5f1f71cd4c35f628e12df7791203a8555917dbd1243f437b4c8c81",
+    "minimal_detector_canonical": "4605f19a110fae15ce589887ab0a6492a25e38803ac49a86754c6bbf8da85c5d",
+    "mod2_observable_canonical": "5b1a10ca0d0f4bb646072ac7115b366342ca52ee1a48a0c13df1eb2d43d22561"
+  },
+  "exact_findings": {
+    "cokernel_moduli": [2, 2, 2, 4, 4],
+    "cokernel_order": 128,
+    "endpoint_only_image_order": 16,
+    "middle_B_only_image_order": 128,
+    "full_linear_image_order": 128,
+    "coarse_g_d_e_determines_smith_class": false,
+    "certified_smith_coordinate_supports": {
+      "coord0_mod2": [[4, 4]],
+      "coord1_mod2": [[1, 1], [2, 4], [4, 2]],
+      "coord2_mod2": [[2, 1], [2, 3]]
+    },
+    "old_v6_actual_classes_checked": 24576,
+    "old_v6_distinct_actual_smith_classes": 2,
+    "old_v6_actual_class_distribution": [
+      {"class": [1, 1, 1, 0, 0], "count": 12288},
+      {"class": [1, 1, 1, 2, 2], "count": 12288}
+    ],
+    "minimal_detector_coordinate_count": 1,
+    "minimal_detector_coordinate_subsets": [[0], [1], [2]],
+    "smith_coord0_formula": "B[4,4] mod 2",
+    "smith_coord0_ji_reduction": {
+      "JI0": "F[4,9] mod 2",
+      "JI1": "F[4,9] mod 2",
+      "JI2": "F[4,0] mod 2",
+      "JI3": "F[4,0] mod 2"
+    },
+    "old_legal_F_count": 6144,
+    "old_legal_F_unique_mod2_count": 1536,
+    "old_legal_F_unique_row4_mod2_count": 12,
+    "old_legal_F40_distribution": {"1": 6144},
+    "old_legal_F49_distribution": {"1": 6144},
+    "old_v6_obstruction_detected_by_single_bit": true
+  },
+  "current_full178_bridge": {
+    "established": false,
+    "reason": "S32-PW10's audited source assembly is a V6/genus-1 X(8) H-equivariant correspondence. Current FULL178 terminal/Hurwitz data do not by themselves materialize the same 10x10 H1 action F or B block in the audited cellular basis.",
+    "scalar_only_route_closed": true,
+    "next_required_adapter": "current FULL178 carrier/correspondence -> invariant source-compatible one-bit observable equivalent to Smith coord0, or directly prove B[4,4] mod 2 / the corresponding H1 parity without choosing an unjustified absolute basis",
+    "possible_scope": "Start with source-compatible genus-1/common-cover carriers; do not claim genus-0 or all FULL178 until hypotheses are re-established."
+  },
+  "separation": {
+    "main_route": "Hurwitz/special-fibre/known-prefix structural pruning",
+    "ex5_route": "Picard64/terminal/integrality exact UNSAT",
+    "smith_route": "cellular Smith cokernel / source-bound correspondence parity obstruction"
+  },
+  "status": "CHECKPOINT_ONE_BIT_SMITH_OBSERVABLE_FOUND_CURRENT_FULL178_SEMANTIC_ADAPTER_OPEN_NO_CREDIT",
+  "credit": {
+    "main_pruning_credit": false,
+    "n350_producer_registration": false,
+    "full178_completion": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_claim": false,
+    "merge_authorized": false
+  },
+  "next_route": [
+    "Identify the invariant geometric meaning of the always-odd old source entries F[4,0] and F[4,9], avoiding absolute-basis promotion.",
+    "Test whether the retained current common-cover/factor geometry supplies that invariant one-bit observable for any authoritative FULL178 subpopulation.",
+    "Only after an exact source-to-current adapter exists, run a current survivor census and request hostile audit."
+  ],
+  "canonical_sha256_without_this_field": "eada5bd996ad24eb5ba9ad85636a205a090ab53a798f35b8f31130112bbfbdb0"
+}
