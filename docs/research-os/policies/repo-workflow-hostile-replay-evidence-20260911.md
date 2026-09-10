@@ -67,6 +67,10 @@ Total PR-triggered runs: 8.
 `MANUAL` / `RETIRED` automatic runs: 0.
 Historical fan-out: 0.
 
+## Audit-rule extension
+
+Audit-side lifecycle enforcement was added after the first PASS boundary. The governing rule is now carried by both root `AGENTS.md` and `pr-workflow-trigger-lifecycle.md`: hostile audit must verify the actual stopped-workflow trigger state and cannot grant lifecycle credit from prose alone. This extension changes audit procedure only; it does not change the workflow classification inventory or any Stage mathematical authority.
+
 ## Result
 
 The earlier zero-total-run claims for #1765 and #1766 were incorrect and are superseded by this evidence. The repository-wide lifecycle migration result remains: the audited sibling heads show zero automatic runs from `MANUAL` or `RETIRED` workflow classes. Cross-Stage `ACTIVE_AUTO` execution is intentional under the current policy and is not counted as historical fan-out.
