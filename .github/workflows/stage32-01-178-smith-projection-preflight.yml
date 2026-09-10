@@ -15,6 +15,10 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch exact audited PW10 source head
+        run: |
+          git fetch --no-tags --depth=1 origin e3c4a04d5010e6dca9428722e334890e2614297a
+          git cat-file -e e3c4a04d5010e6dca9428722e334890e2614297a^{commit}
       - name: Replay certified Smith projection
         run: |
           python stages/stage32/32-01-178-smith/verify_smith_projection_preflight.py | tee /tmp/smith-projection.json
