@@ -2,8 +2,6 @@ name: Repository lifecycle tree build (one shot)
 
 on:
   push:
-    branches:
-      - impl/stage32ex5-bc2-12-outer-rank3
 
 permissions:
   contents: write
@@ -14,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: impl/stage32ex5-bc2-12-outer-rank3
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -23,14 +21,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          rm .github/workflows/repo-lifecycle-tree-build-once.yml
+          rm -f .github/workflows/repo-lifecycle-tree-build-once.yml
+          rm -f .github/workflows/repo-workflow-lifecycle-migration-once.yml
           python - <<'PY'
           from pathlib import Path
           import json, os, re, subprocess
 
-          root=Path('.')
-          wf=root/'.github/workflows'
-          active={
+          wf = Path('.github/workflows')
+          active = {
             '.github/workflows/pages.yml',
             '.github/workflows/research-arsenal.yml',
             '.github/workflows/structure-radar.yml',
@@ -44,7 +42,7 @@ jobs:
             '.github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml',
             '.github/workflows/stage36-bootstrap-audit.yml',
           }
-          manual={
+          manual = {
             '.github/workflows/stage32-01-178-n350-production-leaf-contract.yml',
             '.github/workflows/stage32-root-cleanup-phase-b.yml',
             '.github/workflows/stage32-n350-symbolic-mirror-generator.yml',
@@ -53,75 +51,77 @@ jobs:
           def cls(p):
             if p in active: return 'ACTIVE_AUTO'
             if p in manual: return 'MANUAL'
-            if re.match(r'\.github/workflows/stage\d',p): return 'RETIRED'
+            if re.match(r'\.github/workflows/stage\d', p): return 'RETIRED'
             return 'MANUAL'
-          def span(lines):
-            for i,line in enumerate(lines):
-              if line.startswith('on:'):
-                end=i+1
-                if line.strip()!='on:': return i,end
-                while end<len(lines):
-                  s=lines[end]
-                  if s and not s[0].isspace() and not s.lstrip().startswith('#'): break
-                  end+=1
-                return i,end
+          def on_span(lines):
+            for i, line in enumerate(lines):
+                if line.startswith('on:'):
+                    e = i + 1
+                    if line.strip() != 'on:': return i, e
+                    while e < len(lines):
+                        s = lines[e]
+                        if s and not s[0].isspace() and not s.lstrip().startswith('#'): break
+                        e += 1
+                    return i, e
             return None
           def events(text):
-            lines=text.splitlines(); sp=span(lines)
+            lines = text.splitlines(); sp = on_span(lines)
             if sp is None: return set()
-            start,end=sp; first=lines[start].strip()
-            if first!='on:':
-              rhs=first.split(':',1)[1].strip()
-              if rhs.startswith('[') and rhs.endswith(']'):
-                return {x.strip().strip("'\"") for x in rhs[1:-1].split(',') if x.strip()}
-              return {rhs.strip("'\"")} if rhs else set()
+            a,b = sp; first = lines[a].strip()
+            if first != 'on:':
+                rhs = first.split(':',1)[1].strip()
+                if rhs.startswith('[') and rhs.endswith(']'):
+                    return {x.strip().strip("'\"") for x in rhs[1:-1].split(',') if x.strip()}
+                return {rhs.strip("'\"")} if rhs else set()
             out=set()
-            for line in lines[start+1:end]:
-              m=re.match(r'^  ([A-Za-z0-9_-]+):',line)
-              if m: out.add(m.group(1))
+            for line in lines[a+1:b]:
+                m=re.match(r'^  ([A-Za-z0-9_-]+):', line)
+                if m: out.add(m.group(1))
             return out
           def manualize(text):
-            lines=text.splitlines(); start,end=span(lines)
-            return '\n'.join(lines[:start]+['on:','  workflow_dispatch:']+lines[end:])+('\n' if text.endswith('\n') else '')
+            lines=text.splitlines(); sp=on_span(lines)
+            if sp is None: raise SystemExit('missing top-level on block')
+            a,b=sp
+            return '\n'.join(lines[:a]+['on:','  workflow_dispatch:']+lines[b:])+('\n' if text.endswith('\n') else '')
 
           paths=sorted([*wf.glob('*.yml'),*wf.glob('*.yaml')])
-          changed=[]; counts={'ACTIVE_AUTO':0,'MANUAL':0,'RETIRED':0}
+          counts={'ACTIVE_AUTO':0,'MANUAL':0,'RETIRED':0}; normalized=[]
           for p in paths:
-            r=p.as_posix(); c=cls(r); counts[c]+=1
-            text=p.read_text()
-            if c in {'MANUAL','RETIRED'} and events(text)!={'workflow_dispatch'}:
-              p.write_text(manualize(text)); changed.append(r)
-          # Safety: every retained ACTIVE_AUTO present on this branch must still be automatic.
-          bad=[]
-          for p in paths:
-            r=p.as_posix()
-            if cls(r)=='ACTIVE_AUTO' and not (events(p.read_text())-{'workflow_dispatch','workflow_call'}): bad.append(r)
+              r=p.as_posix(); c=cls(r); counts[c]+=1
+              text=p.read_text()
+              if c in {'MANUAL','RETIRED'} and events(text)!={'workflow_dispatch'}:
+                  p.write_text(manualize(text)); normalized.append(r)
+          bad=[]; residual=[]
+          for p in sorted([*wf.glob('*.yml'),*wf.glob('*.yaml')]):
+              r=p.as_posix(); c=cls(r); ev=events(p.read_text())
+              if c=='ACTIVE_AUTO' and not (ev-{'workflow_dispatch','workflow_call'}): bad.append(r)
+              if c in {'MANUAL','RETIRED'} and ev!={'workflow_dispatch'}: residual.append(r)
           if bad: raise SystemExit('ACTIVE_AUTO lost automatic trigger: '+','.join(bad))
-          residual=[]
-          for p in paths:
-            r=p.as_posix(); c=cls(r)
-            if c in {'MANUAL','RETIRED'} and events(p.read_text())!={'workflow_dispatch'}: residual.append(r)
           if residual: raise SystemExit('residual auto trigger: '+','.join(residual))
 
-          base_tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
-          tree=[]
-          for r in changed:
-            data=Path(r).read_bytes()
-            import base64
-            payload=json.dumps({'content':base64.b64encode(data).decode(),'encoding':'base64'})
-            out=subprocess.run(['gh','api','--method','POST',f'repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs','--input','-'],input=payload,text=True,capture_output=True,check=True)
-            sha=json.loads(out.stdout)['sha']
-            tree.append({'path':r,'mode':'100644','type':'blob','sha':sha})
-          tree.append({'path':'.github/workflows/repo-lifecycle-tree-build-once.yml','mode':'100644','type':'blob','sha':None})
-          payload=json.dumps({'base_tree':base_tree,'tree':tree})
-          out=subprocess.run(['gh','api','--method','POST',f'repos/{os.environ["GITHUB_REPOSITORY"]}/git/trees','--input','-'],input=payload,text=True,capture_output=True,check=True)
-          final_tree=json.loads(out.stdout)['sha']
-          print('FINAL_TREE_SHA='+final_tree)
-          print('WORKFLOW_TOTAL='+str(len(paths)))
+          raw=subprocess.check_output(['git','diff','--name-status','-z']).decode().split('\0')
+          entries=[]; changed=[]; i=0
+          while i < len(raw)-1:
+              status=raw[i]; path=raw[i+1]; i+=2
+              if not status or not path: continue
+              if status.startswith('R') or status.startswith('C'):
+                  raise SystemExit('unexpected rename/copy in lifecycle diff: '+status+' '+path)
+              changed.append(path)
+              if status.startswith('D'):
+                  entries.append({'path':path,'mode':'100644','type':'blob','sha':None})
+              else:
+                  entries.append({'path':path,'mode':'100644','type':'blob','content':Path(path).read_text()})
+          base=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
+          for start in range(0,len(entries),80):
+              payload=json.dumps({'base_tree':base,'tree':entries[start:start+80]})
+              out=subprocess.run(['gh','api','--method','POST',f'repos/{os.environ["GITHUB_REPOSITORY"]}/git/trees','--input','-'],input=payload,text=True,capture_output=True,check=True)
+              base=json.loads(out.stdout)['sha']
+          print('FINAL_TREE_SHA='+base)
+          print('WORKFLOW_TOTAL='+str(len([*wf.glob('*.yml'),*wf.glob('*.yaml')])))
           print('COUNTS='+json.dumps(counts,sort_keys=True))
-          print('CHANGED_COUNT='+str(len(changed)))
+          print('NORMALIZED_COUNT='+str(len(normalized)))
           print('CHANGED_BEGIN')
-          for r in changed: print(r)
+          for x in changed: print(x)
           print('CHANGED_END')
           print('historical_or_manual_automatic_triggers=0')
           PY
