@@ -1,27 +1,7 @@
 name: Stage32 post-21bl FULL178 node-mass parallel census
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py'
-      - 'stages/stage32/residual-32-01-production/aggregate_stage32_post21bl_full178_node_mass_shards.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
-      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
-      - 'stages/stage32/runkeys/stage32-post21bl-full178-node-mass-census.json'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-      - '.github/workflows/stage32-post21bl-full178-node-mass-census.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

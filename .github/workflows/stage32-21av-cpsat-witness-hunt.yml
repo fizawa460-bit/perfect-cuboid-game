@@ -1,18 +1,7 @@
 name: Stage32-21av CP-SAT exact witness hunt
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - '.github/workflows/stage32-21av-cpsat-witness-hunt.yml'
-      - 'stages/stage32/32-21/32-21ap-unknown-frontier.json'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21av_cpsat_witness_hunt.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21au_narrow_coordinate_split.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21at_lll_preconditioned_unknown.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

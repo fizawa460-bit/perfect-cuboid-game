@@ -1,19 +1,7 @@
 name: Stage32-21ba exact r51 interval suffix resume
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - '.github/workflows/stage32-21ba-r51-interval-resume.yml'
-      - 'stages/stage32/32-21/32-21ba-prefix-lock.json'
-      - 'stages/stage32/32-21/32-21az-survivor-prism.json'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21ba_r51_interval_resume.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21ba_r51_interval_census.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21aj_2adic_pairing_saturation.py'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

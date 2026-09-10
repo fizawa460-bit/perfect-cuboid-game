@@ -1,35 +1,7 @@
 name: Stage32 post-1473 integral Picard support preflight
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - '.github/workflows/stage32-post1473-integral-picard-support-preflight.yml'
-      - 'stages/stage32/controller.json'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_lia_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_saturated_lia_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_48branch_lia_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_reduced_lia_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_milp_candidate_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_post1473_integral_picard_support_selfsq_preflight.py'
-      - 'stages/stage32/residual-32-01-production/diagnose_stage32_21ak_affine_2adic_membership.py'
-      - 'stages/stage32/residual-32-01-production/build_stage32_post21bl_full178_node_mass_census.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21ba_r51_interval_census.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bc_pair_combination_projection.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bd_pair_cut_closure.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bf_r49_per_triple_projection.py'
-      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
-      - 'stages/stage32/32-21/post-21bl-picard64-witness-adapter.json'
-      - 'stages/stage32/32-21/post-21bl-node-support-refinement-audit.json'
-      - 'stages/stage32/32-21/32-21az-survivor-prism.json'
-      - 'stages/stage32/32-21/32-21bb-r51-interval-formula.json'
-      - 'stages/stage32/32-21/32-21bc-pair-combination-bounds.json'
-      - 'stages/stage32/32-21/32-21be-r51-endpoint-audit.json'
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-
+  workflow_dispatch:
 permissions:
   contents: read
 
