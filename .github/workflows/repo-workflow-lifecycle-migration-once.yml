@@ -1,0 +1,58 @@
+name: Repository workflow lifecycle migration (one shot)
+on:
+  push:
+    branches: [impl/stage32ex5-bc2-12-outer-rank3]
+permissions:
+  contents: write
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: impl/stage32ex5-bc2-12-outer-rank3
+          fetch-depth: 0
+      - name: Normalize retired/manual workflows
+        shell: bash
+        run: |
+          python - <<'PY'
+          import re
+          from pathlib import Path
+          active={
+          '.github/workflows/pages.yml','.github/workflows/research-arsenal.yml','.github/workflows/structure-radar.yml',
+          '.github/workflows/stage32-n356-deterministic-terminal-check.yml','.github/workflows/stage32-main-startup-authority.yml',
+          '.github/workflows/stage32-claim-frontier-integrity.yml','.github/workflows/stage32-stale-run-sweeper.yml',
+          '.github/workflows/stage32-ex5-main.yml','.github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml',
+          '.github/workflows/stage35-35-01-to-09-audit.yml','.github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml',
+          '.github/workflows/stage36-bootstrap-audit.yml','.github/workflows/repo-workflow-lifecycle-migration-once.yml'}
+          def span(lines):
+              for i,line in enumerate(lines):
+                  if line.startswith('on:'):
+                      if line.strip()!='on:': return i,i+1
+                      j=i+1
+                      while j<len(lines):
+                          s=lines[j]
+                          if s and not s[0].isspace() and not s.lstrip().startswith('#'): break
+                          j+=1
+                      return i,j
+              raise SystemExit('missing on block')
+          changed=[]
+          for p in sorted(Path('.github/workflows').glob('*.y*ml')):
+              r=p.as_posix()
+              if r in active: continue
+              text=p.read_text(); lines=text.splitlines(); a,b=span(lines)
+              new='\n'.join(lines[:a]+['on:','  workflow_dispatch:']+lines[b:])+('\n' if text.endswith('\n') else '')
+              if new!=text:
+                  p.write_text(new); changed.append(r)
+          print('normalized',len(changed))
+          for r in changed: print(r)
+          PY
+      - name: Commit normalized workflows and remove one-shot
+        shell: bash
+        run: |
+          rm .github/workflows/repo-workflow-lifecycle-migration-once.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .github/workflows
+          git commit -m '[workflow] retire historical auto triggers repo-wide' || exit 0
+          git push origin HEAD:impl/stage32ex5-bc2-12-outer-rank3
