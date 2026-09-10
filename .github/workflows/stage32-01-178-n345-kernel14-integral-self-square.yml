@@ -13,6 +13,11 @@ jobs:
   verify:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    outputs:
+      sat: ${{ steps.n345.outputs.sat }}
+      unsat: ${{ steps.n345.outputs.unsat }}
+      unknown: ${{ steps.n345.outputs.unknown }}
+      canonical: ${{ steps.n345.outputs.canonical }}
     steps:
       - uses: actions/checkout@v4
         with:
