@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32_32_01_178_N350_HOSTILE_AUDIT_HANDOFF_V1",
+  "node_id": "N350",
+  "scope": "fail-closed production leaf certificate/verifier meta-contract only; empty producer registry; no production coverage credit",
+  "authority": {
+    "n350_state_path": "stages/stage32/32-01-178/nodes/N350/STATE.json",
+    "n350_state_blob_sha1": "af55b1b59d173d3ef4492a69e3a6e7c9aa24ce42",
+    "n350_state_canonical_sha256": "7292601f1ba187b5c607fa174e9edffd4ba96762ff9a40921e1ec14aadeaa42d",
+    "contract_path": "stages/stage32/32-01-178/nodes/N350/PRODUCTION_LEAF_CERTIFICATE_CONTRACT.json",
+    "contract_blob_sha1": "31ab6791dfe48259b60d4917ecab2b4590b4eb63",
+    "contract_canonical_sha256": "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N350/verify_n350_production_leaf_certificate_contract.py",
+    "verifier_blob_sha1": "3f1fcef571f09ade24977c771b0d438cf8c76723",
+    "workflow_path": ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    "workflow_blob_sha1": "e2cc191e6e5cba9f1d1361974a189e198156f33b",
+    "n240_state_blob_sha1": "869c8b1dc3937a7e78e907e74b0ed08994a5199c",
+    "n240_hostile_reaudit_review_id": 5161254728,
+    "n240_hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a",
+    "full178_manifest_blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
+    "full178_manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+  },
+  "claims_to_audit": {
+    "meta_contract_registered": true,
+    "registered_producer_count": 0,
+    "accepted_dispositions": ["EXACT_PRUNED", "NUMERICAL_CHECKED"],
+    "pass_with_empty_registry_is_rejected": true,
+    "unregistered_producer_is_rejected": true,
+    "picard64_sat_is_not_production_leaf": true,
+    "unknown_or_resource_wall_is_rejected": true,
+    "count_plus_digest_shape_is_insufficient": true,
+    "production_complete_available": false,
+    "n104_old_domain_release_available": false,
+    "full178_complete": false
+  },
+  "hostile_checks": [
+    "Recompute the N350 contract canonical SHA-256 and verify every locked Git blob against the exact audited PR head.",
+    "Independently confirm the N240 V2 hostile re-audit PASS receipt and that N350 consumes only its structural adapter ceiling.",
+    "Run the N350 verifier and confirm a contract-only empty-registry certificate is accepted while PASS_PRODUCTION_LEAF_COVERAGE with empty registry is rejected.",
+    "Attempt a digest-shaped EXACT_PRUNED block from an unregistered producer and confirm it receives zero coverage credit.",
+    "Attempt PICARD64_SAT as a disposition and confirm it is rejected rather than promoted to a full project-native numerical leaf.",
+    "Attempt unknown_count>0 / resource-wall evidence and confirm it is rejected rather than treated as UNSAT or completion.",
+    "Confirm producer registration itself requires an exact source-locked replay verifier plus hostile-audit PASS before any N104 canonical-rank coverage can be credited.",
+    "Confirm no production COMPLETE, N104 old-domain release, FULL178, theorem, receiver, endpoint, Perfect Cuboid, or merge credit is inferred from this meta-contract."
+  ],
+  "credit_ceiling_if_pass": "AUDITED_PRODUCTION_LEAF_CERTIFICATE_INTERFACE_ONLY_NO_PRODUCER_COVERAGE_NO_N104_RELEASE_NO_FULL178_CREDIT",
+  "forbidden_promotions": [
+    "nonempty producer coverage",
+    "production leaf COMPLETE",
+    "N104 old-domain release",
+    "FULL178 numerical census completion",
+    "effectivity release",
+    "Stage32 closure",
+    "Perfect Cuboid existence or nonexistence",
+    "merge authorization"
+  ],
+  "canonical_sha256_without_this_field": "eabc60a112c156669526d02368bdfcd9cb8217b29da456781a55b639e0af8221"
+}
