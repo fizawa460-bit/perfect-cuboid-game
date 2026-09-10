@@ -1,0 +1,59 @@
+name: "[Stage32][32-01-178][N352] degree-sum scalar Hurwitz contraction"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N345/**"
+      - "stages/stage32/32-01-178/nodes/N352/**"
+      - "stages/stage32/residual-32-01-production/post1648ao-special-fibre-hurwitz-budget-source-note.md"
+      - "stages/stage32/33-07/**"
+      - "stages/stage33/33-07/picard_base_rows_retained.py"
+      - "stages/stage33/33-07/stage32_picard_marking_retained.py"
+      - ".github/workflows/stage32-01-178-n352-degree-sum-scalar-hurwitz.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      contradicted: ${{ steps.ledger.outputs.contradicted }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Replay N352 exact scalar contraction
+        run: |
+          python stages/stage32/32-01-178/nodes/N352/verify_n352_degree_sum_scalar_hurwitz.py \
+            --output /tmp/n352-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n352-result.json'))
+          print(f"contradicted={d['aggregate']['contradicted_row_count']}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N352 scalar contradictions=${{ needs.verify.outputs.contradicted }}/4"
+    steps:
+      - name: Report N352 compact ledger
+        run: |
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "N352 uses no SMT feasibility search"
+          echo "N351 geometric source audit remains required"
+          echo "MAIN/FULL178/N350/theorem/receiver/endpoint credit=false"
