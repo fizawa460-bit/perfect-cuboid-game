@@ -31,6 +31,9 @@ jobs:
       - name: Compute affine mod2 invariant space
         run: |
           python stages/stage32/32-01-178-smith/verify_smith_affine_mod2_invariants.py | tee /tmp/smith-affine.json
+      - name: Verify one-bit source formula
+        run: |
+          python stages/stage32/32-01-178-smith/verify_smith_one_bit_source_formula.py | tee /tmp/smith-formula.json
       - name: Compact ledger
         run: |
           python - <<'PY'
@@ -39,6 +42,7 @@ jobs:
           d=json.load(open('/tmp/smith-detector.json'))
           o=json.load(open('/tmp/smith-mod2.json'))
           a=json.load(open('/tmp/smith-affine.json'))
+          s=json.load(open('/tmp/smith-formula.json'))
           m=x['map']; r=d['exact_replay']; z=o['old_legal_F_replay']; f=a['family']; q=a['dual_affine_constraints']
           print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
@@ -54,6 +58,9 @@ jobs:
           print('fixed_coords='+str(f['fixed_coordinates']))
           print('min_odd_weight='+str(q['minimal_constant_one_weight']))
           print('min_odd_supports='+str(q['minimal_constant_one_supports']))
+          print('source_formula_canonical='+s['canonical_sha256_without_this_field'])
+          print('source_common_bit='+s['exact_formula']['common_mod2'])
+          print('source_parity_table='+str(s['residue_parity_table']))
           print('CURRENT_FULL178_SEMANTIC_ADAPTER=false')
           print('MAIN_PRUNING_CREDIT=false')
           PY
