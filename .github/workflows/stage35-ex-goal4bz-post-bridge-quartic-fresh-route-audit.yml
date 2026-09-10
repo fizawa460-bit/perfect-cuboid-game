@@ -1,0 +1,40 @@
+name: Stage35-EX Goal4BZ post bridge quartic fresh route audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4by-bridge-quartic-integer-global-adapter-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4by-bridge-quartic-integer-global-adapter.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4by_bridge_quartic_integer_global_adapter.py'
+      - 'stages/stage35-ex/35ex-35/goal4bz-post-bridge-quartic-fresh-route-audit-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4bz-post-bridge-quartic-fresh-route-audit.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bz_post_bridge_quartic_fresh_route_audit.py'
+      - '.github/workflows/stage35-ex-goal4bz-post-bridge-quartic-fresh-route-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-goal4bz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay Goal4BY parent
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4by_bridge_quartic_integer_global_adapter.py
+      - name: Verify Goal4BZ fresh route audit
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bz_post_bridge_quartic_fresh_route_audit.py
