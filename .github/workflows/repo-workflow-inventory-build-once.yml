@@ -1,0 +1,40 @@
+name: Repository workflow inventory build (one shot)
+
+on:
+  push:
+    branches:
+      - repo-agents-active-workflow-trigger-policy
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: repo-agents-active-workflow-trigger-policy
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build final inventory without this temporary workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm .github/workflows/repo-workflow-inventory-build-once.yml
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py --fix --write-inventory
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+          python - <<'PY'
+          import base64, json
+          from pathlib import Path
+          p = Path('docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json')
+          Path('/tmp/inventory-blob.json').write_text(json.dumps({
+              'content': base64.b64encode(p.read_bytes()).decode(),
+              'encoding': 'base64',
+          }))
+          PY
+          sha=$(gh api --method POST "repos/${GITHUB_REPOSITORY}/git/blobs" --input /tmp/inventory-blob.json --jq .sha)
+          echo "INVENTORY_BLOB=${sha}"
+          echo "FINAL_WORKFLOW_COUNT=$(find .github/workflows -maxdepth 1 -type f \( -name '*.yml' -o -name '*.yaml' \) | wc -l)"
