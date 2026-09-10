@@ -18,11 +18,12 @@ EXPECTED_CANONICAL = "c3789b3b4ac53fe2162f580989fbca6512007f1b7b19cdeef54ca541a3
 EXPECTED_BLOBS = {
     FIRST: "554f8626e0ea225ffb7e6a5b6fe40ee41a7448ee",
     POLICY: "bf001d4ff4375281a901d52c147c35c28643b8a3",
-    INDEX: "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98",
-    CATALOG: "87c4c896cc04a34e8e12ede92ced1c6079b76874",
     CONTRACT: "2c1a4813a77b517482b6fef497f9a517c9d12fe6",
     AGG: "92561bbc1cac6f2d5c47bf37bfbc9c6bfaba3cdd",
 }
+HISTORICAL_ARSENAL_INDEX_BLOB = "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98"
+HISTORICAL_ARSENAL_INDEX_BYTES = 101763
+HISTORICAL_ARSENAL_CATALOG_BLOB = "87c4c896cc04a34e8e12ede92ced1c6079b76874"
 
 
 def csha(value: object) -> str:
@@ -55,11 +56,19 @@ def main() -> None:
     assert p["decision"]["stage32_main_credit"] is False
     assert p["decision"]["next_leaf"] == "BC2-01_SUPPORT_ADAPTER_PREFLIGHT"
 
+    # Exact immutable source/provider locks still replay against the live tree.
     for path, expected in EXPECTED_BLOBS.items():
         actual = git_blob_sha(path)
         assert actual == expected, (str(path), actual, expected)
 
-    assert INDEX.stat().st_size == 101763
+    # The Arsenal index/catalog are generated discovery registries and may grow after
+    # this historical BC2-00 decision. Preserve the exact historical blobs inside the
+    # retained artifact, but do not require the current mutable registries to remain
+    # byte-identical forever. Repository-wide absence was never claimed.
+    assert INDEX.is_file() and CATALOG.is_file()
+    assert p["basis"]["arsenal_index_blob"] == HISTORICAL_ARSENAL_INDEX_BLOB
+    assert p["basis"]["arsenal_index_byte_size"] == HISTORICAL_ARSENAL_INDEX_BYTES
+    assert p["basis"]["bounded_human_registry_blob"] == HISTORICAL_ARSENAL_CATALOG_BLOB
     assert p["basis"]["arsenal_index_whole_fetched_into_chat"] is False
     assert p["arsenal_second_pass"]["search_miss_used_as_proof_of_absence"] is False
     assert p["arsenal_second_pass"]["absence_is_not_repository_wide_mathematical_absence"] is True
@@ -110,6 +119,8 @@ def main() -> None:
     print(json.dumps({
         "verdict": "PASS_BC2_00_SECOND_PASS_DEDUP_MATERIALLY_NEW_ROUTE_REENTRY_ELIGIBLE",
         "canonical_sha256": EXPECTED_CANONICAL,
+        "historical_arsenal_registry_locks_preserved_in_artifact": True,
+        "current_generated_arsenal_registry_allowed_to_advance": True,
         "route_qualified": False,
         "mathematical_credit": False,
         "next_leaf": "BC2-01_SUPPORT_ADAPTER_PREFLIGHT",
