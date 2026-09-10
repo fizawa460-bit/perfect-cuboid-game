@@ -1,0 +1,18 @@
+{
+  "schema": "STAGE32EX5_BC2_18_DECOMPOSE_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "source_git_blob_sha": "1e2ed93cae3c5b446c8d90c1ae2250be83289c79",
+  "bc2_17_evidence_canonical": "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072",
+  "target": {
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112]
+  },
+  "execution": {
+    "effective_concurrency": 1,
+    "workflow_timeout_minutes": 15
+  },
+  "purpose": "Fail-closed idle key. BC2-18 is already retained; unrelated PR synchronize events must not rerun the exact decomposition. A future rerun requires an explicit fresh generation with armed=true and an exact source lock."
+}
