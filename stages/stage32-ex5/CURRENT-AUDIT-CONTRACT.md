@@ -4,76 +4,44 @@ This is the mutable current audit contract. `AUDIT-CONTRACT.md` is the historica
 
 ## Audit target
 
-If the user gives an exact PR/head, audit that target. Otherwise resolve the active EX5 surface from `MAIN-STATE.json`. Current intended target is Draft PR #1765, branch `impl/stage32ex5-bc2-12-outer-rank3`; re-read the exact head at audit time. CI green is not hostile-audit PASS.
+If the user supplies an exact PR/head, audit that target. Otherwise resolve the active EX5 surface from `MAIN-STATE.json`. Current intended surface is Draft PR #1765, branch `impl/stage32ex5-bc2-12-outer-rank3`; re-read the exact head at audit time. CI green is not hostile-audit PASS, and a later moved head is not covered by an earlier exact-head PASS.
 
 ## Current Stage32 authority observation
 
-Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed MAIN PR #1753 head is `c2c1041298ae34a593fcb48d04c0e0a20dc9c37a`.
+Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed MAIN PR #1753 head is `6827e386f9c450414627573ea305b9794f2341bf`.
 
-N353 is no longer an audit candidate. It has hostile-audit PASS at review `5163144778`, exact head `0f8cee995e5c982cdb7ceceae14d69f91e65588d`, and its narrow scalar-Hurwitz necessary cut is consumed by MAIN.
+N355 full known-prefix is hostile-audited and consumed at review `5165895301`, exact head `3f3aadd2e5ada2a0a02a69490d6d659c02762682`, with authoritative residual `17128` strata / `66462870551188628549910` terminals. N356 optimistic exceptional transportation remains `AUDIT_REQUIRED`; its candidate work is not new MAIN pruning credit. N350 remains a separate zero-producer production-registration boundary. V6/O210/Q602 and `[73,97,235]` are historical/formal provenance only.
 
-N354 is the current MAIN hostile-audit gate. RESULT canonical `9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4`; audit candidate exact head `ab0ce28876dbba306985343c104b02b69cec89fb`; handoff canonical `350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6`. N354 remains `AUDIT_REQUIRED`, so its candidate counts are not MAIN pruning credit.
+## BC2-19 retained claim
 
-Freshness checkpoint is reset to the audited N353 head and MAIN is currently `9 ahead / 0 behind`; the previous N353-era freshness freeze is obsolete. N350 remains the separate production-registration boundary.
+BC2-19 is not a whole-block UNSAT claim. Audit must verify that workflow `34467246133` at exact compute head `f28112e30c0863e359c375813219196131ec6a06` was validly run-key authorized and completed all `7336` BC2-18 mod8/HNF-surviving parents with exactly `7100 UNSAT / 236 UNKNOWN / 0 SAT` using per-parent timeout `2000ms`.
 
-V6/O210/Q602 and `[73,97,235]` are historical/formal provenance. Any old no-O210/Q602 wording is a historical-credit firewall, not a current-frontier description.
+Required locks:
 
-## Exact BC2-16 mathematical claim under audit
+- BC2-17 evidence canonical `a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072`;
+- BC2-18 checkpoint canonical `b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8` and feasible stream SHA256 `752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7`;
+- BC2-19 raw result canonical `fcfecfc4dbd3592095c1c0302991c2b29bee22b6f3652d73612deea7775d7755` and status stream SHA256 `7a551339ab56ef34ed346b7586fd3d1f1ab81de042a3be9c1a9af2bc1d9ab18a`;
+- retained checkpoint canonical `62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb`;
+- artifact `10148676265`, ZIP bytes `3851`, ZIP SHA256 `a455af077828cd50e1db3a9736b7a6106fe8e2e09ffaaf9305883b1660cd2d3e`;
+- `236 UNKNOWN` must remain unresolved and must not be relabelled UNSAT.
 
-BC2-16 proposes only local finite Picard64 UNSAT for ranks `665..797` of `(g1-d008,e=4)`, extending the retained exact local prefix from `0..664` to **`0..797`**.
+## BC2-20 exact-union claim to audit after execution
 
-Audit must independently verify:
+BC2-20 may claim only that one global QF_LIA system is logically equivalent to the union of BC2-18's `7336` parent-fixed BC2-19 systems for the locked `(g,d,e)=(1,8,8)`, `x4=0..112` target. Independently verify both directions:
 
-- BC2-15 checkpoint canonical `f88ebe53c4300c01fc0a4870cc0dca75a0a091b60c95c8da7e00926bcee43182` and exact structural block `665..797`;
-- outer exceptional rank `5`, base terminal `[0,1,0,0,0,0,2,0,0,0,1]`, exceptional signature `[0,1,0,0,0,2,0,0,0,1]`;
-- BC2-16 solver source commit `defd1ee771ad01c1bbabed348fda2aa06132e4fe`;
-- generation-1 run-key arm / exact compute head `3f4fcca1e1b3462a23caee72d8274ad44a7643a3`;
-- commit-range authorization, effective heavy concurrency `1`, retention `1` day, projected artifact ceiling `200000` bytes;
-- mass split derived from the actual BC2-15 terminal and locked labels: fixed `4`, residual `0`;
-- complete selected-exceptional parent partition count `1`;
-- exact result `1/1 UNSAT`, `UNKNOWN=0`, `SAT=0`;
-- exact workflow run `34441599406`, authorize job `102757603904`, compute job `102757639746`;
-- artifact `10138147649`, ZIP bytes `4249`, SHA256 `fa297a4b22025dd5bcbd65a44cd5c658cab7ded96fcc0855dbacc22c41928341`;
-- evidence canonical `47278e00902f049e354227f02fe891b199025129a8fd3387a0249ad3b5c5ac9c`;
-- checkpoint canonical `8cfe535fbd486b32e21c9e2cbb7c2289f2880420e5aa4cf3fc98db5f7d310a20`;
-- retained exact prefix `0..797` and next route `BC2_17_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`.
+1. every BC2-19 parent SAT solution satisfies the global all140 nonnegative/mass/fixed-pairing system;
+2. every global integral Picard64 solution induces one BC2-18 enumerated parent, because total exceptional mass is `8`, the fixed selected-exceptional mass is `2`, the nineteen free selected-exceptional values are nonnegative with total at most `6`, and the integral Picard vector itself witnesses the selected64/HNF extension (including the induced x4 mod-8 admissibility).
 
-Audit must confirm that all later bookkeeping/synchronization heads leave the BC2-16 run-key at generation `1` and do not re-arm its heavy compute. Older BC2-12/14 heavy workflows must likewise remain cold on unrelated synchronizations.
+Audit the dedicated run-key by exact commit range. Heavy compute must have effective concurrency `1`, one-day artifact retention, solver timeout `300000ms`, workflow timeout `10` minutes, and projected peak artifact at most `100000` bytes. Non-key synchronizations must remain cold.
 
-## Prior retained chain
+Interpret outcomes narrowly. `UNSAT` may close only this certified first block under the locked model. `SAT` may produce only Picard64/all140 pairing feasibility, not an effective curve. `UNKNOWN` grants no closure. None of these outcomes self-promotes to Stage32 MAIN.
 
-BC2-12 remains ranks `399..531`: fixed mass `3`, residual `1`, `20/20 UNSAT`, evidence `d55b84e9b90692c14211e7d1affe73857f0cec2496305121067e2cd71d8da58a`, checkpoint `2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9`.
+## Preserved prior EX5 boundary
 
-BC2-14 remains ranks `532..664`: fixed mass `4`, residual `0`, `1/1 UNSAT`, evidence `52fb48627a8646db2dc5b3e0b04eb32bc89ca9391988f4b91f7f51afada2de5d`, checkpoint `fa603024cbf3b89fb097401f4e5e9b3f0cad04a0a0b6dd0b919b3a37b2781c0e`.
-
-## Claim-DAG synchronization
-
-BC2-16 triggered `RETAINED_CONSOLIDATION`. Audit must verify claim-sync receipt canonical `ddb8841a798ee491fd6322fcb5a25ac7ff64cc33fa1b82d7d5e717e13e3ea4fd`: EX5 continues to `ATTACKS` existing `S32.FULL178.NUMERICAL_CENSUS.V1`; active-goal semantics, ACTIVE-FRONTIER, claim core, lane adapter, and MAIN authority were not changed. No promotion adapter consumes BC2-16.
-
-Run:
-
-`python stages/stage32/proof/verify_stage32_claim_dag.py --integrity`
-
-`python stages/stage32/proof/verify_stage32_active_frontier.py`
-
-A local EX5 audit PASS must not mutate MAIN authority by itself.
+The older `(g1-d008,e=4)` exact Picard64 prefix `0..797` remains a separate local finite result. Do not conflate it with the current `(g1-d008,e=8)` first-block route. Historical Cycle1 evidence and the historical Cycle1 source-locked contract remain unchanged.
 
 ## Mandatory firewalls
 
-Even if BC2-16 passes hostile audit:
+Audit must preserve: no whole-stratum closure unless separately proved; FULL178 incomplete; no N350/N104 production coverage from EX5; no receiver/effectivity/actual-curve/theorem/final-milestone/endpoint credit; no Perfect Cuboid existence/nonexistence claim; no V6/O210/Q602 reopening; no automatic MAIN promotion; merge remains a separate explicit user action.
 
-- the whole `(g1-d008,e=4)` stratum remains open;
-- FULL178 remains incomplete;
-- N353 audited MAIN credit is separate from EX5;
-- N354 remains `AUDIT_REQUIRED` until its own external hostile audit passes;
-- N350/N104 production coverage remains zero for EX5 unless MAIN separately registers an audited exact producer;
-- no receiver/effectivity/actual-curve/theorem/final-milestone/endpoint credit is granted;
-- no Perfect Cuboid existence/nonexistence claim is granted;
-- V6/O210/Q602 are not reopened;
-- merge remains a separate explicit user action.
-
-Preserve all historical source-locked evidence. Do not rewrite the historical Cycle1 source-locked contract or `stage32-ex5.md` during audit.
-
-## Audit result
-
-A PASS must state the exact audited head and precise local credit ceiling. A moved head invalidates that PASS for the new head. FAIL must name the first load-bearing defect without repairing the research branch inside the audit operation.
+A PASS must state the exact audited head and precise local credit ceiling. FAIL must identify the first load-bearing defect without repairing the research branch inside the audit operation.

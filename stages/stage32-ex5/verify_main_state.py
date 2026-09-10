@@ -8,15 +8,16 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 B2 = HERE / "breadth-cycle-2"
 MODE = "FULL178_AND_FINAL_MILESTONE_CHAIN"
-CURRENT_LEAF = "BC2_17_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT"
-MAIN_HEAD = "c2c1041298ae34a593fcb48d04c0e0a20dc9c37a"
-N353_HEAD = "0f8cee995e5c982cdb7ceceae14d69f91e65588d"
-N354_RESULT = "9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4"
-N354_HANDOFF = "350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6"
-BC2_15 = "f88ebe53c4300c01fc0a4870cc0dca75a0a091b60c95c8da7e00926bcee43182"
-BC2_16_EVIDENCE = "47278e00902f049e354227f02fe891b199025129a8fd3387a0249ad3b5c5ac9c"
-BC2_16_CHECKPOINT = "8cfe535fbd486b32e21c9e2cbb7c2289f2880420e5aa4cf3fc98db5f7d310a20"
-BC2_16_SYNC = "ddb8841a798ee491fd6322fcb5a25ac7ff64cc33fa1b82d7d5e717e13e3ea4fd"
+CURRENT_LEAF = "BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK"
+DEFAULT_MAIN = "5ca6acba4b591d9e2d40057241c850598c1fa1df"
+STAGE32_HEAD = "6827e386f9c450414627573ea305b9794f2341bf"
+N355_AUDITED_HEAD = "3f3aadd2e5ada2a0a02a69490d6d659c02762682"
+N355_RESULT = "7961cbc55993d2264879686388096fbe289a6fb84ecd4b6713b6b56c371bb775"
+BC2_17 = "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072"
+BC2_18 = "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8"
+BC2_19 = "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb"
+BC2_19_RAW = "fcfecfc4dbd3592095c1c0302991c2b29bee22b6f3652d73612deea7775d7755"
+BC2_20_SOURCE_BLOB = "04c756502707a4ebcb7953d03ce2b31f38ea1f6d"
 
 
 def req(v: bool, msg: str) -> None:
@@ -42,60 +43,65 @@ def checked(path: Path, expected: str, label: str) -> dict:
     return obj
 
 
+def git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+
+
 def main() -> None:
     s = load(HERE / "MAIN-STATE.json")
     req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC", "state schema drift")
     req(s["bootstrap"]["active_work_pr"] == 1765 and s["bootstrap"]["merge_authorized"] is False, "working surface drift")
+    req(s["bootstrap"]["current_main_sha_observed"] == DEFAULT_MAIN, "default main observation drift")
 
     a = s["stage32_main_authority"]
-    req(a["authority_pr"] == 1753 and a["authority_head_observed"] == MAIN_HEAD, "MAIN head drift")
-    req(a["control_mode"] == MODE and a["primary_incomplete_id"] == "32-01", "MAIN route drift")
-    req(a["latest_retained_checkpoint_observed"] == "N354_TWO_SIDED_SCALAR_HURWITZ_AUDIT_GATE", "N354 gate drift")
-    req(a["latest_retained_checkpoint_result_canonical_observed"] == N354_RESULT, "N354 result drift")
-    req(a["latest_retained_checkpoint_credit_status"] == "N353_AUDITED_CUT_CONSUMED_N354_AUDIT_REQUIRED_NO_MAIN_PRUNING_CREDIT", "audit boundary drift")
-    req(a["n353_hostile_audit_status"] == "PASS" and a["n353_hostile_audit_review_id"] == 5163144778, "N353 audit status drift")
-    req(a["n353_hostile_audit_exact_head"] == N353_HEAD and a["n353_audit_credit_consumed"] is True, "N353 audit consumption drift")
-    req(a["n354_status"] == "AUDIT_REQUIRED" and a["n354_audit_candidate_exact_head"] == "ab0ce28876dbba306985343c104b02b69cec89fb", "N354 audit candidate drift")
-    req(a["n354_audit_handoff_canonical_observed"] == N354_HANDOFF, "N354 handoff drift")
-    req(a["freshness_freeze_active"] is False and a["freshness_last_hostile_audited_head"] == N353_HEAD, "freshness reset drift")
-    req(a["freshness_commits_ahead_observed"] == 9 and a["freshness_commits_behind_observed"] == 0, "freshness distance drift")
+    req(a["authority_pr"] == 1753 and a["authority_head_observed"] == STAGE32_HEAD, "Stage32 MAIN head drift")
+    req(a["control_mode"] == MODE and a["primary_incomplete_id"] == "32-01", "Stage32 route drift")
+    req(a["latest_audited_checkpoint_observed"] == "N355_FULL_KNOWN_PREFIX_BLOCK_SUM", "N355 authority drift")
+    req(a["latest_audited_checkpoint_result_canonical_observed"] == N355_RESULT, "N355 result drift")
+    req(a["n355_full_prefix_hostile_audit_status"] == "PASS" and a["n355_full_prefix_hostile_audit_review_id"] == 5165895301, "N355 audit drift")
+    req(a["n355_full_prefix_hostile_audit_exact_head"] == N355_AUDITED_HEAD and a["n355_full_prefix_audit_credit_consumed"] is True, "N355 consumption drift")
+    req(a["latest_audited_remaining_strata"] == 17128 and a["latest_audited_remaining_terminals"] == 66462870551188628549910, "N355 residual drift")
+    req(a["n356_status"] == "AUDIT_REQUIRED", "N356 audit gate drift")
+    req(a["freshness_commits_ahead_observed"] == 8 and a["freshness_commits_behind_observed"] == 0 and a["freshness_freeze_active"] is False, "N355-to-N356 freshness drift")
     for k in ("V6_is_current_attack_target", "O210_is_current_attack_target", "Q602_is_current_attack_target"):
         req(a[k] is False, f"historical target reactivated: {k}")
     req(a["historical_formal_q602_residues"] == [73,97,235] and a["historical_formal_q602_residues_are_current_survivors"] is False, "Q602 provenance drift")
 
     cur = s["current"]
-    req(cur["status"] == "BC2_16_EXACT_UNSAT_PASS_BC2_17_ACTIVE", "EX5 status drift")
-    req(cur["leaf"] == CURRENT_LEAF and cur["next_route"] == CURRENT_LEAF, "BC2-17 route drift")
-
-    iface = s["full178_interface"]
-    req(iface["latest_stage32_attack_checkpoint_observed"] == "N354_TWO_SIDED_SCALAR_HURWITZ_AUDIT_GATE", "N354 interface projection drift")
-    req(iface["latest_stage32_attack_checkpoint_result_canonical_observed"] == N354_RESULT, "N354 interface canonical drift")
-    req(iface["latest_stage32_attack_checkpoint_status"] == "AUDIT_REQUIRED_NO_MAIN_PRUNING_CREDIT", "N354 interface status drift")
-    req(iface["n350_registered_producer_count_observed"] == 0, "N350 producer drift")
-    req(iface["ex5_retained_exact_unsat_progress_through_rank"] == 797, "EX5 exact prefix drift")
-    req(iface["newer_ex5_progress_auto_promoted_to_main"] is False, "EX5 self-promotion drift")
+    req(cur["status"] == "BC2_19_COMPLETE_7100_UNSAT_236_UNKNOWN_BC2_20_ACTIVE", "EX5 status drift")
+    req(cur["leaf"] == CURRENT_LEAF and cur["next_route"] == CURRENT_LEAF, "BC2-20 route drift")
 
     f = s["frontier"]
-    req(f["closed_local_terminal_rank_prefix"] == [0,797], "closed prefix drift")
-    req(f["closed_local_terminal_blocks"] == [[0,132],[133,265],[266,398],[399,531],[532,664],[665,797]], "closed blocks drift")
-    req(f["whole_g1_d008_e4_stratum_closed"] is False and f["FULL178_complete"] is False, "local result promoted globally")
+    req(f["closed_local_e4_terminal_rank_prefix"] == [0,797], "historical e4 prefix drift")
+    req(f["whole_g1_d008_e4_stratum_closed"] is False, "e4 prefix promoted")
+    req((f["e8_bc2_18_mod8_parent_count"], f["e8_bc2_19_unsat_parent_count"], f["e8_bc2_19_unknown_parent_count"], f["e8_bc2_19_sat_parent_count"]) == (7336,7100,236,0), "BC2-19 frontier partition drift")
+    req(f["e8_bc2_19_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "BC2-19 UNKNOWN promoted")
 
-    c15 = checked(B2 / "bc2-15-next-exceptional-terminal-block-preflight-checkpoint.json", BC2_15, "BC2-15")
-    e16 = checked(B2 / "bc2-16-outer-rank5-parent-preflight-evidence.json", BC2_16_EVIDENCE, "BC2-16 evidence")
-    c16 = checked(B2 / "bc2-16-outer-rank5-exact-unsat-checkpoint.json", BC2_16_CHECKPOINT, "BC2-16 checkpoint")
-    sync = checked(B2 / "bc2-16-claim-sync-receipt.json", BC2_16_SYNC, "BC2-16 claim sync")
-    req(c15["next_block"]["outer_exceptional_rank"] == 5, "BC2-15 outer rank drift")
-    p = e16["adaptive_exceptional_partition"]
-    req(p["fixed_exceptional_mass"] == 4 and p["residual_exceptional_mass"] == 0 and p["parent_branch_count"] == 1, "BC2-16 partition drift")
-    pr = e16["parent_result"]
-    req(pr["aggregate_result"] == "UNSAT" and pr["exact_unsat_parent_branches"] == 1 and pr["unknown_parent_branches"] == 0, "BC2-16 result drift")
-    req(c16["scope"]["local_exact_unsat_prefix"] == [0,797] and c16["next_exact_unit"]["id"] == CURRENT_LEAF, "BC2-16 checkpoint route drift")
-    req(sync["result"] == "NO_ACTIVE_FRONTIER_REMAP_NO_MAIN_PROMOTION" and sync["claim_dag"]["main_credit_granted"] is False, "claim sync promotion drift")
+    c17 = checked(B2 / "bc2-17-n354-authority-picard64-retarget-v2-evidence.json", BC2_17, "BC2-17")
+    c18 = checked(B2 / "bc2-18-n354-survivor-selected-exceptional-mod8-checkpoint.json", BC2_18, "BC2-18")
+    c19 = checked(B2 / "bc2-19-n354-survivor-normal-positivity-mass-checkpoint.json", BC2_19, "BC2-19")
+    req(sum(int(v) for v in c17["retarget"]["fixed_exceptional_pairings"].values()) == 2, "BC2-17 fixed mass drift")
+    req(c18["exact_decomposition"]["mod8_extendable_parent_count"] == 7336, "BC2-18 parent count drift")
+    r = c19["result"]
+    req((r["parents_checked"],r["unsat_count"],r["unknown_count"],r["sat_count"]) == (7336,7100,236,0), "BC2-19 result drift")
+    req(c19["source_locks"]["raw_result_canonical"] == BC2_19_RAW and r["unknown_relabelled_unsat"] is False, "BC2-19 UNKNOWN firewall drift")
+
+    source = B2 / "bc2_20_global_normal_positivity_union_check.py"
+    req(git_blob_sha(source) == BC2_20_SOURCE_BLOB, "BC2-20 source blob drift")
+    key = load(HERE / "runkeys" / "bc2-20-global-normal-positivity-union.json")
+    req(key["schema"] == "STAGE32EX5_BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_RUNKEY_V1", "BC2-20 runkey schema drift")
+    req(key["generation"] == 1 and key["armed"] is True, "BC2-20 runkey arm drift")
+    req(key["source_git_blob_sha"] == BC2_20_SOURCE_BLOB and key["bc2_19_checkpoint_canonical"] == BC2_19, "BC2-20 source/checkpoint lock drift")
+    ex = key["execution"]
+    req(ex["effective_heavy_concurrency"] == 1 and ex["artifact_retention_days"] == 1, "BC2-20 compute safety drift")
+    req(ex["projected_peak_artifact_bytes"] <= 100000 and ex["repository_storage_budget_bytes"] == 524288000, "BC2-20 storage preflight drift")
 
     for section in (s["credit"], s["historical_credit_firewall"], s["firewalls"]):
-        for key, value in section.items():
-            if key != "level":
-                req(value is False, f"unauthorized credit/firewall: {key}")
+        for key_name, value in section.items():
+            if key_name != "level":
+                req(value is False, f"unauthorized credit/firewall: {key_name}")
+    req(s["full178_interface"]["n350_registered_producer_count_observed"] == 0, "N350 producer drift")
 
     docs = {
         "README": (HERE / "README.md").read_text(encoding="utf-8"),
@@ -104,19 +110,16 @@ def main() -> None:
         "AUDIT": (HERE / "CURRENT-AUDIT-CONTRACT.md").read_text(encoding="utf-8"),
     }
     for name, text in docs.items():
-        req(MODE in text and "0..797" in text and "N353" in text and "N354" in text and "N350" in text, f"{name} routing text drift")
-        req(N353_HEAD in text and N354_RESULT in text, f"{name} MAIN source lock drift")
-    req(CURRENT_LEAF in docs["README"] and CURRENT_LEAF in docs["ROADMAP"], "BC2-17 docs route missing")
+        req(MODE in text and "N355" in text and "N356" in text and "N350" in text, f"{name} Stage32 routing text drift")
+        req("0..797" in text and "7100" in text and "236" in text and "7336" in text, f"{name} EX5 frontier text drift")
+        req(CURRENT_LEAF in text, f"{name} BC2-20 route missing")
     req("not the current Stage32 survivor population" in docs["README"], "Q602 survivor firewall lost")
-    req("not current attack targets" in docs["ROADMAP"], "historical targets reactivated")
-    req("historical-credit firewall" in docs["AUDIT"], "historical credit wording lost")
     req("historical Cycle1 source-locked roadmap" in docs["ROADMAP"], "historical roadmap protection lost")
     req("historical Cycle1 source-locked contract" in docs["AUDIT"], "historical audit protection lost")
 
-    print("PASS: Stage32EX5 synced to N353 audited / N354 audit gate; BC2-17 routed")
-    print("local_exact_unsat_prefix=0..797")
-    print("stage32_main=N353_AUDITED_N354_AUDIT_REQUIRED")
-    print("freshness=9_AHEAD_0_BEHIND_NO_FREEZE")
+    print("PASS: Stage32EX5 synced to N355-audited/N356-audit-required; BC2-19 retained; BC2-20 armed")
+    print("e4_local_exact_unsat_prefix=0..797")
+    print("e8_bc2_19=7100_UNSAT_236_UNKNOWN_0_SAT")
     print("stage32_main_credit=NO_FROM_EX5")
     print("merge=SEPARATE_USER_ACTION")
 
