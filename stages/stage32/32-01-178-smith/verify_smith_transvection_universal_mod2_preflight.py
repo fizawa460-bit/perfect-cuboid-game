@@ -13,8 +13,12 @@ import tempfile
 AUDITED_HEAD = "e3c4a04d5010e6dca9428722e334890e2614297a"
 BUILDER_PATH = "stages/stage32-ex1/verify_ex1_05af_s0_integral_ns_pullback_saturation.py"
 BUILDER_BLOB = "8591e5e25743b32b6768022052ae59746269d17e"
+AA_PATH = "stages/stage32-ex1/verify_ex1_05aa_q602_mod4_isotropic_glue_kernel_action.py"
+AA_BLOB = "60fe8ae8624986c3f36f4e7e11db3dd141695854"
 ALIGN_PATH = "stages/stage32-ex1/ex1-05ac-fixed-x8-polarization-kernel-antiisometry-transvection-alignment-preflight.json"
 ALIGN_BLOB = "74a9d76faf652b5f40eb6b5b1b3244071a0d24b5"
+
+A2_GENS = [(2,0,0,0),(0,2,0,0),(0,0,1,0),(0,0,0,1)]
 
 
 def git_blob_sha1(raw: bytes) -> str:
@@ -47,12 +51,38 @@ def load_builder():
         return mod
 
 
-def mod2_matrix(A):
-    return tuple(tuple(int(x) & 1 for x in row) for row in A)
+def matvec(M, v, mod=None):
+    out = [sum(M[i][j] * v[j] for j in range(len(v))) for i in range(len(M))]
+    return out if mod is None else [x % mod for x in out]
+
+
+def rlinear_matrix_mod4(t):
+    a11,b11,a12,b12,a21,b21,a22,b22 = t
+    return [
+        [a11,a12,-2*b11,-2*b12],
+        [a21,a22,-2*b21,-2*b22],
+        [b11,b12,a11,a12],
+        [b21,b22,a21,a22],
+    ]
+
+
+def encode_A2(x):
+    x = tuple(a % 4 for a in x)
+    return ((x[0] // 2) & 1, (x[1] // 2) & 1, x[2] & 1, x[3] & 1)
+
+
+def action_A2(t):
+    # Exact 05AA quotient model:
+    # A[2]={x in J[4]: 2x in W}/W, basis [2e1,2e2,r e1,r e2].
+    M = rlinear_matrix_mod4(t)
+    cols = [encode_A2(matvec(M, g, 4)) for g in A2_GENS]
+    return tuple(tuple(cols[j][i] for j in range(4)) for i in range(4))
 
 
 def main() -> None:
     m = load_builder()
+    # Source-lock the exact verifier from which action_A2 above is copied.
+    git_show(AA_PATH, AA_BLOB)
     align = json.loads(git_show(ALIGN_PATH, ALIGN_BLOB))
     actions = {
         int(k): tuple(tuple(int(x) for x in row) for row in v)
@@ -60,28 +90,25 @@ def main() -> None:
     }
     selected = {73: 0, 97: 1, 235: 2}
 
-    # First source-lock that the retained ring-coordinate action TA is in the
-    # same A[2] basis as the three fixed-gluing transvection matrices in 05AC.
     for r in (73, 97, 235):
-        if mod2_matrix(m.TA(m.bits(r))) != actions[r]:
-            raise ValueError(f"A[2] action basis mismatch for residue {r}")
+        if action_A2(m.bits(r)) != actions[r]:
+            raise ValueError(f"audited A[2] quotient action regression for residue {r}")
 
     action_to_factor = {actions[r]: selected[r] for r in selected}
     if len(action_to_factor) != 3:
         raise ValueError("three transvection actions unexpectedly collide")
 
-    # Enumerate the *entire* retained 8-bit ring-coordinate cube, not just
-    # Q(T)=602 residues.  Keep exactly those whose A[2] action equals one of
-    # the three nonzero center transvections fixed by 05AC.  This isolates the
-    # mod-2 action type from the historical Rosati norm/Q602 shell.
+    # Enumerate the entire retained 8-bit ring-coordinate cube, not just Q(T)=602.
+    # Matching is done in the audited quotient A[2] basis, not in the integral
+    # H1 basis used by the later 05AF builder.
     compatible = []
     by_factor = {0: [], 1: [], 2: []}
     for r in range(256):
-        action = mod2_matrix(m.TA(m.bits(r)))
+        b = m.bits(r)
+        action = action_A2(b)
         if action not in action_to_factor:
             continue
         factor = action_to_factor[action]
-        b = m.bits(r)
         middle_gaussian_b = int(factor == 1)
         smith_source_bit = (b[2] + b[3] + middle_gaussian_b) & 1
         compatible.append((r, factor, smith_source_bit))
@@ -93,11 +120,10 @@ def main() -> None:
         bad = [(r, f, bit) for r, f, bit in compatible if bit != 1]
         raise ValueError(f"transvection action does not force Smith source bit: {bad[:20]}")
 
-    # The quotient gluing integrality test depends only on parity of the four
-    # blocks.  Use norm-1 representatives id=(1,0), i=(0,1): exactly one Prym
-    # block is i-type, the factor dictated by the fixed anti-isometry in 05AC.
-    # We do not claim these synthetic blocks have the historical V6 norms.
-    # We check every mod-4 lift of every compatible 8-bit invariant action.
+    # The 05AF quotient-gluing integrality condition and the tracked Smith source
+    # entries depend only on block parity.  Use odd-norm parity representatives
+    # id=(1,0) and i=(0,1), with the i-type factor fixed by the audited 05AC
+    # anti-isometry.  These are parity probes only; no historical norm is claimed.
     integral_builds = 0
     nonintegral_builds = 0
     checked_lifts = 0
@@ -123,15 +149,17 @@ def main() -> None:
         raise ValueError("historical residue/factor alignment regression")
 
     out = {
-        "schema": "STAGE32_32_01_178_SMITH_TRANSVECTION_UNIVERSAL_MOD2_PREFLIGHT_V1",
+        "schema": "STAGE32_32_01_178_SMITH_TRANSVECTION_UNIVERSAL_MOD2_PREFLIGHT_V2",
         "source_locks": {
             "source_pr": 1728,
             "hostile_review": 5147627146,
             "audited_exact_head": AUDITED_HEAD,
             "builder_blob_sha1": BUILDER_BLOB,
+            "a2_quotient_action_verifier_blob_sha1": AA_BLOB,
             "fixed_gluing_alignment_blob_sha1": ALIGN_BLOB,
         },
         "fixed_x8_gluing_input": {
+            "A2_basis": ["2e1","2e2","r*e1","r*e2"],
             "transvection_action_count": 3,
             "center_to_prym_factor_alignment": {"73": 0, "97": 1, "235": 2},
             "historical_q602_norms_used_in_this_test": False,
@@ -141,6 +169,7 @@ def main() -> None:
         "full_ring_mod2_replay": {
             "ambient_ring_residue_count": 256,
             "transvection_compatible_residue_count": len(compatible),
+            "compatible_residues": [r for r,_,_ in compatible],
             "counts_by_selected_prym_factor": {str(k): len(v) for k, v in by_factor.items()},
             "all_transvection_compatible_residues_force_source_bit_one": True,
             "source_bit_formula": "a12+b12+indicator(selected_prym_factor==middle) mod2",
@@ -151,20 +180,21 @@ def main() -> None:
             "integral_builds": integral_builds,
             "nonintegral_builds": nonintegral_builds,
             "all_integral_builds_have_F40_eq_F49_eq_1_mod2": True,
-            "why_norm_independent_at_this_layer": "The fixed-gluing divisibility and the Smith source bit depend only on the block entries modulo two; odd Gaussian norm magnitudes are not used.",
+            "why_norm_independent_at_this_layer": "The fixed-gluing divisibility and tracked Smith source entries are tested on all mod-4 lifts with the same block parities; historical odd Gaussian norm magnitudes are not used.",
         },
         "smith_consequence": {
             "certified_smith_coordinate": 0,
             "coordinate_formula": "B[4,4] mod2",
             "conditional_value": 1,
             "conditional_nonzero_cokernel_class": True,
-            "scope": "Any integral fixed-X8 H-equivariant assembly in the audited cellular basis whose invariant A[2] action is one of the three 05AC transvections and whose Prym action is aligned by the fixed anti-isometry has nonzero Smith coordinate 0.",
+            "scope": "Any integral fixed-X8 H-equivariant assembly in the audited cellular basis whose invariant A[2] action equals one of the three 05AC absolute transvections and whose Prym action is aligned by the fixed anti-isometry has nonzero Smith coordinate 0.",
         },
         "interpretation": {
             "v6_specific_norm_137_9_9_is_needed_for_this_mod2_obstruction": False,
-            "q602_numeric_shell_is_needed_after_transvection_type_is_supplied": False,
+            "q602_numeric_shell_is_needed_after_absolute_transvection_action_is_supplied": False,
+            "absolute_transvection_action_alone_selects_historical_three_ring_residues": len(compatible) == 3 and set(r for r,_,_ in compatible) == set(selected),
             "current_full178_semantic_adapter_established": False,
-            "remaining_bridge": "Show that a current FULL178 carrier supplies the same fixed-X8 common-cover/H-equivariant assembly and one of the three audited transvection action types. Pair-mass parity alone is not yet that semantic lift.",
+            "remaining_bridge": "Show that a current FULL178 carrier supplies the same fixed-X8 common-cover/H-equivariant assembly and one of the three audited absolute A[2] transvection actions. Pair-mass parity alone is not yet that semantic lift.",
         },
         "credit": {
             "main_pruning_credit": False,
