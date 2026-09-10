@@ -44,10 +44,15 @@
     "n355_hostile_audit_review_id": 5165493296,
     "n355_hostile_audit_status": "PASS",
     "n355_merge_ready_freshness": "BLOCKED_PENDING",
+    "n356_audit_credit_consumed": false,
+    "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
+    "n356_candidate_remaining_strata": 17128,
+    "n356_candidate_remaining_terminals": 65396964990500233636214,
+    "n356_candidate_status": "AUDIT_REQUIRED",
     "stage32_main_integration_pr": 1753,
     "startup_authority": "stages/stage32/MAIN-STATE.json"
   },
-  "canonical_sha256_without_this_field": "19bfec17ac2e306bf290b4b4933b5fe192ee5c8752f2fa5c31adfcf6dd953699",
+  "canonical_sha256_without_this_field": "6143a95a0fb380e3c30c6a464722b350666cec5f018318adefdae15800a676b3",
   "cleanup_gate": {
     "archive_manifest": "stages/stage32/archive/legacy-root/manifest-phase-c.json",
     "integrated_ex_view": "stages/stage32/integrated-ex/README.md",
@@ -60,10 +65,10 @@
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "NONE_UNTIL_NEXT_AUDITABLE_CANDIDATE_OR_TRUE_AUTHORITY_GATE",
-    "next_exact_route": "POST_N355_FULL_PREFIX_RESIDUAL_STRUCTURE_RESEARCH",
-    "stacked_candidate_audit_status": "NONE",
-    "stop_semantics": "N355_FULL_KNOWN_PREFIX_AUDIT_CONSUMED_CONTINUE_RESIDUAL_STRUCTURE_RESEARCH"
+    "mainbatch_stop_gate": "BEFORE_N356_PROMOTION",
+    "next_exact_route": "N356_EXTERNAL_HOSTILE_AUDIT_THEN_CONSUME_OPTIMISTIC_TRANSPORT_CUT",
+    "stacked_candidate_audit_status": "AUDIT_REQUIRED",
+    "stop_semantics": "N356_AUDIT_CANDIDATE_LOCKED_NO_MAIN_PRUNING_CREDIT"
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -97,6 +102,12 @@
     "n355_remaining_terminals": 66462870551188628549910,
     "n355_status": "AUDITED_FULL_KNOWN_PREFIX_BLOCK_SUM_CUT_CONSUMED",
     "n355_subset_rejected_terminals": 8211103970847375998477971,
+    "n356_candidate_affected_strata": 4304,
+    "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
+    "n356_candidate_remaining_strata": 17128,
+    "n356_candidate_remaining_terminals": 65396964990500233636214,
+    "n356_main_pruning_credit": false,
+    "n356_status": "AUDIT_REQUIRED",
     "post_n220_strata": 60491,
     "post_n220_terminals": 346053707902916587089896969,
     "primary_incomplete_remains_32_01": true,
@@ -105,11 +116,11 @@
     "stage32_closed": false
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/post-n354-n355-checkpoint-20260910.json",
-    "stages/stage32/32-01-178/nodes/N355/SPECIAL_FIBRE_PREFIX_MAX_CUT_CONTRACT.md",
-    "stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-HOSTILE-AUDIT-PASS.json",
-    "stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-RESULT.json",
-    "stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py"
+    "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
+    "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+    "stages/stage32/32-01-178/nodes/N356/RESULT.json",
+    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport.py",
+    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -138,6 +149,8 @@
     "n355_full_prefix_credit_exceeds_external_audit": false,
     "n355_full_prefix_self_promoted_to_audited": false,
     "n355_self_promoted_to_audited": false,
+    "n356_credit_exceeds_external_audit": false,
+    "n356_self_promoted_to_audited": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "production_complete_released_without_audited_leaf_contract": false,
@@ -206,7 +219,7 @@
     }
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V9_N355_FULL_PREFIX_AUDIT_CONSUMED",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V10_N356_AUDIT_REQUIRED",
   "source_locks": {
     "full178_manifest": {
       "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
@@ -276,6 +289,19 @@
       "result_path": "stages/stage32/32-01-178/nodes/N355/RESULT.json",
       "workflow_blob_sha1": "73891ec39a69248f0d153318d8c52cc5abbc17f4",
       "x1_census_verifier_blob_sha1": "ac281268032d06ab4687922395bb16543552beaf"
+    },
+    "n356": {
+      "contract_blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3",
+      "contract_path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+      "management_blob_sha1": "4af85896d3839c492773b2826f22790ad14895e1",
+      "management_canonical_sha256": "1c2e3b6deb097587778d84ed2f29651ae7e1d77fb4cc042632c82db1bd8889ed",
+      "management_path": "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
+      "parallel_verifier_blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19",
+      "reference_verifier_blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad",
+      "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed",
+      "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
+      "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json",
+      "workflow_blob_sha1": "68e105a1e2ccf65ab066e78fbb1e181368c9d5e0"
     }
   },
   "stage": 32
