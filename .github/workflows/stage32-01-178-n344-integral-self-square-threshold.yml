@@ -1,10 +1,8 @@
 name: Stage32 32-01-178 N344 integral self-square threshold
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - 'stages/stage32/32-01-178/nodes/N344/**'
-      - '.github/workflows/stage32-01-178-n344-integral-self-square-threshold.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -61,6 +59,7 @@ jobs:
           print('N344_COMPACT ' + json.dumps(out, sort_keys=True))
           PY
       - name: Diff check
+        if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
 
   report:
