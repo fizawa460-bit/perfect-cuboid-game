@@ -3,10 +3,11 @@ name: Stage32EX5 BC2-18 exceptional/mod8 decomposition
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [synchronize]
     paths:
       - 'stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py'
       - 'stages/stage32-ex5/breadth-cycle-2/bc2-17-n354-authority-picard64-retarget-v2-evidence.json'
+      - 'stages/stage32-ex5/runkeys/bc2-18-exceptional-mod8-decomposition.json'
       - 'stages/stage33/33-07/picard_base_rows_retained.py'
       - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
       - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
@@ -17,11 +18,62 @@ permissions:
   contents: read
 
 jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        name: Validate fresh BC2-18 run-key arm
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/bc2-18-exceptional-mod8-decomposition.json'
+          SOURCE='stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event.action }}' = synchronize || exit 0
+          test -n "$BEFORE" || exit 0
+          test "$(git rev-parse HEAD)" = "$HEAD" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          test -f "$KEY" -a -f "$SOURCE" || exit 0
+          python - "$KEY" "$SOURCE" "$BEFORE" <<'PY'
+          import json, subprocess, sys
+          key_path, source_path, before = sys.argv[1:]
+          new = json.load(open(key_path))
+          assert new['schema'] == 'STAGE32EX5_BC2_18_DECOMPOSE_RUNKEY_V1'
+          assert new['armed'] is True
+          assert int(new['generation']) > 0
+          assert new['target'] == {'g':1,'d':8,'e':8,'first_block':[0,112]}
+          assert new['bc2_17_evidence_canonical'] == 'a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072'
+          source_blob = subprocess.check_output(['git','hash-object',source_path], text=True).strip()
+          assert new['source_git_blob_sha'] == source_blob
+          old_raw = subprocess.run(['git','show',f'{before}:{key_path}'], text=True, capture_output=True)
+          if old_raw.returncode == 0:
+              old = json.loads(old_raw.stdout)
+              assert int(new['generation']) > int(old.get('generation', -1))
+          assert new['execution']['effective_concurrency'] == 1
+          assert new['execution']['workflow_timeout_minutes'] == 15
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
   decompose:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
