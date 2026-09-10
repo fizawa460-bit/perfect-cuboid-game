@@ -573,7 +573,13 @@
         "S32-PW03",
         "S32-PW04",
         "S32-PW05",
-        "S32-PW06"
+        "S32-PW06",
+        "S32-PW07",
+        "S32-PW08",
+        "S32-PW09",
+        "S32-PW10",
+        "S32-PW11",
+        "S32-PW12"
       ],
       "retired_merged_ids": {
         "S32-PW02": "S32-PW01"
@@ -583,7 +589,13 @@
         "S32-PW03": "LATTICE_IMAGE_HNF_GATE",
         "S32-PW04": "FINITE_LATTICE_QUOTIENT_BOUND",
         "S32-PW05": "FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION",
-        "S32-PW06": "BASIS_INDEPENDENT_SYMPLECTIC_TRANSVECTION_PRUNER"
+        "S32-PW06": "BASIS_INDEPENDENT_SYMPLECTIC_TRANSVECTION_PRUNER",
+        "S32-PW07": "SUPPORT_MASS_CAP_NECESSARY_PRUNER",
+        "S32-PW08": "FINITE_STABILIZER_CAPACITY_PARITY_ELIMINATOR",
+        "S32-PW09": "NORMALIZATION_CONDUCTOR_EVEN_CORRECTION_COUPLER",
+        "S32-PW10": "CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION",
+        "S32-PW11": "WEIGHTED_LOCAL_DEBT_AND_FACTORWISE_RAMIFICATION_SPLIT",
+        "S32-PW12": "SOURCE_BOUND_ORBIT_CHARACTER_WITH_ABSOLUTE_MARKING_FIREWALL"
       },
       "workflow_candidates": [
         "NUMERICAL_CANDIDATE_EXACT_REPLAY",
@@ -591,15 +603,21 @@
         "SEMANTIC_PROMOTION_FIREWALL",
         "CANONICAL_EVIDENCE_CHAIN"
       ],
-      "provisional_card_count": 5,
+      "provisional_card_count": 11,
       "routeable_for_candidate_discovery": true,
       "formal_selector": false,
       "theorem_credit": false,
       "final_review_required_at_stage_close": true,
       "card_summaries": {
-        "S32-PW06": "use source-derived geometric transposition/parity data to impose an intrinsic rank-one symplectic-transvection predicate and prune a complete finite operator/marking candidate set without choosing an absolute marked line"
+        "S32-PW06": "use source-derived geometric transposition/parity data to impose an intrinsic rank-one symplectic-transvection predicate and prune a complete finite operator/marking candidate set without choosing an absolute marked line",
+        "S32-PW07": "Combine exact exceptional mass/support information with remaining support capacity into a zero-loss necessary pruning inequality on the source-compatible finite population.",
+        "S32-PW08": "On a complete finite stabilizer family, apply exact capacity elimination and then an exhaustive residual parity discriminator; finite branch forcing only.",
+        "S32-PW09": "Use Disc(pi)=Br+2A and exact degree accounting to couple normalization/conductor defect to branch degree as a necessary condition.",
+        "S32-PW10": "Compute the actual cellular assembly class in a source-locked Smith cokernel and classify zero/nonzero and torsion order on a complete finite assembly population.",
+        "S32-PW11": "Track weighted local divisor debt and split nonnode ramification factorwise; retain exact accounting only and do not promote endpoint/effectivity credit.",
+        "S32-PW12": "Extract a source-bound abstract orbit-character/direction while certifying that the absolute retained marking torsor remains unresolved."
       },
-      "provisional_active_entry_count": 5,
+      "provisional_active_entry_count": 13,
       "post1478_harvest": {
         "previous_arsenal_integration_pr": 1478,
         "previous_arsenal_merge_commit": "b5b810be420eedc74cfa8074ae043d681598b412",
@@ -650,6 +668,48 @@
         },
         "historical_or_stage32_specific_promoted": false,
         "promotion_status": "PROVISIONAL_POST1478_HARVEST_PENDING_HOSTILE_AUDIT",
+        "arsenal_registration_adds_stage32_mathematical_credit": false
+      },
+      "active_workflows": [
+        "S32-WF01",
+        "S32-WF02"
+      ],
+      "workflow_roles": {
+        "S32-WF01": "SYMBOLIC_FREE_AXIS_EXACT_UNSAT_BLOCK_PARTITION",
+        "S32-WF02": "CANONICAL_GEOMETRIC_IDENTITY_RECONSTRUCTION_STACK"
+      },
+      "workflow_summaries": {
+        "S32-WF01": "Partition a finite outer rank into exact blocks while keeping an independent free axis symbolic through every exact leaf; transfer requires an exact source-model adapter.",
+        "S32-WF02": "Reconstruct exact geometric objects and bind runtime indices to collision-free canonical projective identities; runtime order itself is never semantic identity."
+      },
+      "provisional_workflow_count": 2,
+      "harvest4_registration": {
+        "planning_pr": 1755,
+        "implementation_pr": 1763,
+        "frozen_merged_source_upper_bound": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
+        "range_expanded": false,
+        "new_weapon_ids": [
+          "S32-PW07",
+          "S32-PW08",
+          "S32-PW09",
+          "S32-PW10",
+          "S32-PW11",
+          "S32-PW12"
+        ],
+        "extended_ids": [
+          "S32-PW01"
+        ],
+        "new_workflow_ids": [
+          "S32-WF01",
+          "S32-WF02"
+        ],
+        "held_ids_or_extensions": [
+          "S32-PW13",
+          "ABS-S32-H4-06 -> S32-PW03",
+          "ABS-S32-H4-12 -> S30-W01/S30-WF01",
+          "ABS-S32-H4-CF20"
+        ],
+        "source_revalidation": "docs/arsenal/stage32-harvest4-registration-revalidation.json",
         "arsenal_registration_adds_stage32_mathematical_credit": false
       }
     },

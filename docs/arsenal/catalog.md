@@ -54,6 +54,14 @@ Active Stage controllers and current source locks override every snapshot here. 
 | [`S32-PW04`](cards/provisional/S32-PW04.md) | `FINITE_LATTICE_QUOTIENT_BOUND` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW05`](cards/provisional/S32-PW05.md) | `FINITE_GROUP_EQUIVARIANT_RECONSTRUCTION` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW06`](cards/provisional/S32-PW06.md) | `BASIS_INDEPENDENT_SYMPLECTIC_TRANSVECTION_PRUNER` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW07`](cards/provisional/S32-PW07.md) | `SUPPORT_MASS_CAP_NECESSARY_PRUNER` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW08`](cards/provisional/S32-PW08.md) | `FINITE_STABILIZER_CAPACITY_PARITY_ELIMINATOR` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW09`](cards/provisional/S32-PW09.md) | `NORMALIZATION_CONDUCTOR_EVEN_CORRECTION_COUPLER` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW10`](cards/provisional/S32-PW10.md) | `CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW11`](cards/provisional/S32-PW11.md) | `WEIGHTED_LOCAL_DEBT_AND_FACTORWISE_RAMIFICATION_SPLIT` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-PW12`](cards/provisional/S32-PW12.md) | `SOURCE_BOUND_ORBIT_CHARACTER_WITH_ABSOLUTE_MARKING_FIREWALL` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-WF01`](cards/workflows/S32-WF01.md) | `SYMBOLIC_FREE_AXIS_EXACT_UNSAT_BLOCK_PARTITION` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
+| [`S32-WF02`](cards/workflows/S32-WF02.md) | `CANONICAL_GEOMETRIC_IDENTITY_RECONSTRUCTION_STACK` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S33-PW01`](cards/provisional/S33-PW01.md) | `ARITHMETIC_HS_CLASSIFIER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW02`](cards/provisional/S33-PW02.md) | `FINITE_MODULE_NORMAL_FORM_AND_EXTENSION_GATE` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
 | [`S33-PW04`](cards/provisional/S33-PW04.md) | `EXACT_MARKED_SOURCE_ADAPTER` | Stage33 | [../stage33-arsenal-promotion.md](../stage33-arsenal-promotion.md) |
