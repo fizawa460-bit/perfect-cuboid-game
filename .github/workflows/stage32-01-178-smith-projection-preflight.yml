@@ -21,21 +21,30 @@ jobs:
           git cat-file -e e3c4a04d5010e6dca9428722e334890e2614297a^{commit}
       - name: Replay certified Smith projection
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_projection_preflight.py | tee /tmp/smith-projection.json
       - name: Replay old legal assemblies and find minimal Smith detector
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_minimal_detector_preflight.py | tee /tmp/smith-detector.json
       - name: Reduce detector to source H1 mod2 observable
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_mod2_observable_preflight.py | tee /tmp/smith-mod2.json
       - name: Compute affine mod2 invariant space
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_affine_mod2_invariants.py | tee /tmp/smith-affine.json
       - name: Verify one-bit source formula
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_one_bit_source_formula.py | tee /tmp/smith-formula.json
+      - name: Install exact-boundary linear algebra dependency
+        run: |
+          python -m pip install --disable-pip-version-check sympy==1.14.0
       - name: Quantify current prefix boundary parity gap
         run: |
+          set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_current_prefix_boundary_parity_gap.py | tee /tmp/smith-prefix-gap.json
       - name: Compact ledger
         run: |
