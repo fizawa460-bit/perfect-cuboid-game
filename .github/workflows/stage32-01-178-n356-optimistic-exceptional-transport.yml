@@ -31,5 +31,6 @@ jobs:
         run: |
           python stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py --output /tmp/n356-result.json
           cat /tmp/n356-result.json
+          cmp /tmp/n356-result.json stages/stage32/32-01-178/nodes/N356/RESULT.json
       - name: Diff check
         run: git diff --check
