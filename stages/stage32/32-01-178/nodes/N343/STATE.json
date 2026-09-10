@@ -16,20 +16,30 @@
     ".github/workflows/stage32-01-178-n343-self-square-real-upper-bound.yml@be9095172d14461fcb480fe63b45a89da5b89392"
   ],
   "validation": {
-    "status": "RUN_REQUIRED",
-    "expected_verifier": "verify_n343_terminal_self_square_real_upper_bound.py",
+    "status": "DONE_EXACT_ZERO_PRUNING",
+    "run_id": 34427078523,
+    "job_id": 102714487551,
+    "exact_head": "9d27d78fae6c7795e76afef3b2202184e7c65b7b",
+    "conclusion": "SUCCESS",
+    "result_canonical_sha256": "df189091667e56f199bc7a259ab8b3c3a061089c49d3b3a21fad85a38e61e9bc",
     "heavy_compute": false
   },
   "retained_result": {
-    "status": "PENDING_EXACT_CI_LEDGER",
+    "status": "EXACT_REAL_RELAXATION_TOO_WEAK",
     "terminal_count": 21,
-    "pruned_count": null,
-    "survivor_count": null
+    "pruned_count": 0,
+    "survivor_count": 21,
+    "equality_rank": 50,
+    "picard_rank": 64,
+    "real_affine_kernel_dimension": 14,
+    "restricted_gram_negative_definite": true,
+    "all_exact_stationary_points_nonintegral": true
   },
-  "credit_ceiling": "LOCAL_REAL_AFFINE_SELF_SQUARE_NECESSARY_CUT_ONLY_NO_PRODUCTION_OR_ENDPOINT_CREDIT",
-  "next_action": "Run the exact N343 verifier. If all 21 real affine maxima are below the required lower bounds, retain the ledger and prepare an external hostile-audit handoff before any N350 producer registration or FULL178 promotion.",
+  "credit_ceiling": "LOCAL_REAL_AFFINE_SELF_SQUARE_NECESSARY_CUT_ONLY_ZERO_PRUNING_NO_PRODUCTION_OR_ENDPOINT_CREDIT",
+  "next_action": "Return to exact Picard integrality and normal nonnegativity. Test the self-square necessary condition directly on the 21 N341 integral residual terminals; UNKNOWN or timeout receives zero pruning credit.",
   "notes": [
-    "Normal nonnegativity and Picard integrality are deliberately omitted in N343, so the computed maximum is a safe upper bound for the smaller admissible set.",
+    "Normal nonnegativity and Picard integrality were deliberately omitted in N343, so the computed maxima are safe upper bounds but prune none of the 21 terminals.",
+    "Real-affine survival does not imply an integral or effective class.",
     "N343 does not change the N350 producer registry.",
     "No production COMPLETE, N104 release, FULL178 completion, theorem/receiver/endpoint, Perfect Cuboid claim, or merge authorization is granted."
   ]
