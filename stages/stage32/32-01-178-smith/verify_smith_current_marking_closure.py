@@ -128,7 +128,7 @@ def main() -> None:
     assert all(len(left) == len(right) == 2 for left, right in comps)
     assert all({(a, b) for a in left for b in right} <= edges for left, right in comps)
 
-    wmap = {int(k): int(v) for k, v in wei["boundary_to_weierstrass_id"].items()}
+    wmap = {int(k): int(v) for k, v in wei["boundary_label_to_weierstrass_id"].items()}
     component_weierstrass_pairs = []
     for left, right in comps:
         lw, rw = {wmap[x] for x in left}, {wmap[x] for x in right}
