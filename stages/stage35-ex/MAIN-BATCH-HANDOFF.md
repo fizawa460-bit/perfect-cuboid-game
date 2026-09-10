@@ -125,29 +125,16 @@ The retained verifier checks the certificate canonical digest and source locks, 
 
 Finite panels are regression checks only; the unbounded statement is the written algebraic proof. Euler-brick diagnostics are not perfect cuboids and do not supply physical marked rational points.
 
-Exact-head CI contract for this replacement checkpoint must run both:
+Exact-head CI contract for the replacement checkpoint must run both:
 
 ```text
 python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4bs_intermediate_audit_consumption.py
 python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discriminant_height.py
 ```
 
-A green aggregate that stops at Goal4BR is insufficient evidence for Goal4CF.
+A green aggregate that stops at Goal4BR is insufficient evidence for Goal4CF. Exact run/job identifiers are PR evidence and are not hard-coded into this handoff, so updating CI evidence cannot invalidate its own exact-head status.
 
-Replacement exact-head CI after hostile-audit FAIL review `5163623378`:
-
-```text
-failed_head=9917bb922fe255fc754442ea4f3ae8ff7f2e3aae
-replacement_head=ab6aa0d3b0e6e7930725c0080c9532455ced4ab0
-goal4cf_dedicated_run=34447561857
-goal4cf_dedicated_job=102775614249
-goal4cf_dedicated_result=SUCCESS
-goal4bs_dedicated_run=34447561867
-goal4bs_dedicated_job=102775614074
-goal4bs_dedicated_result=SUCCESS
-```
-
-The replacement repairs only the inherited Goal4BS handoff contract and exact-head CI wiring. Goal4CF mathematics, certificate and verifier are unchanged from the failed audited head.
+The hostile-audit FAIL at head `9917bb922fe255fc754442ea4f3ae8ff7f2e3aae`, review `5163623378`, is consumed only as a repair boundary: restore the historical Goal4BS consumption block and wire the Goal4CF verifier to exact-head CI. Goal4CF mathematics, certificate and verifier remain unchanged from that audited mathematical head.
 
 ## Cycle state
 
