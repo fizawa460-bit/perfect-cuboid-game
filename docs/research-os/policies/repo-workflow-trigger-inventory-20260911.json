@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_on": "2026-09-11",
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 9,
-    "MANUAL": 0,
-    "RETIRED": 519,
+    "ACTIVE_AUTO": 10,
+    "MANUAL": 2,
+    "RETIRED": 516,
     "TOTAL": 528
   },
   "families": {
@@ -23,9 +23,10 @@
       "TOTAL": 1
     },
     "Stage32": {
-      "RETIRED": 256,
+      "RETIRED": 253,
       "TOTAL": 259,
-      "ACTIVE_AUTO": 3
+      "MANUAL": 2,
+      "ACTIVE_AUTO": 4
     },
     "Stage32EX": {
       "RETIRED": 4,
@@ -57,6 +58,7 @@
     "ACTIVE_AUTO": [
       ".github/workflows/pages.yml",
       ".github/workflows/research-arsenal.yml",
+      ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
       ".github/workflows/stage32-claim-frontier-integrity.yml",
       ".github/workflows/stage32-ex5-main.yml",
       ".github/workflows/stage32-main-startup-authority.yml",
@@ -65,7 +67,10 @@
       ".github/workflows/stage36-bootstrap-audit.yml",
       ".github/workflows/structure-radar.yml"
     ],
-    "MANUAL": [],
+    "MANUAL": [
+      ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+      ".github/workflows/stage32-root-cleanup-phase-b.yml"
+    ],
     "RETIRED": [
       ".github/workflows/stage29-01-audit.yml",
       ".github/workflows/stage29-num1.yml",
@@ -97,13 +102,11 @@
       ".github/workflows/stage32-01-178-n349b-audit-consumed-relock.yml",
       ".github/workflows/stage32-01-178-n349b-factor-hurwitz-cap.yml",
       ".github/workflows/stage32-01-178-n349c-rowlevel-factor-hurwitz.yml",
-      ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
       ".github/workflows/stage32-01-178-n351-general-factor-hurwitz.yml",
       ".github/workflows/stage32-01-178-n352-degree-sum-scalar-hurwitz.yml",
       ".github/workflows/stage32-01-178-n353-full178-scalar-hurwitz-census.yml",
       ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
       ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml",
-      ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
       ".github/workflows/stage32-18-d16-aut-canonical.yml",
       ".github/workflows/stage32-18a-certify-d16-traversal.yml",
       ".github/workflows/stage32-18aa-d16-b16-tail-x64-rescue.yml",
@@ -307,7 +310,6 @@
       ".github/workflows/stage32-resumable-frontier-calibration.yml",
       ".github/workflows/stage32-resumable-prefix-selftest.yml",
       ".github/workflows/stage32-reynolds-rank2-integer-qp-census.yml",
-      ".github/workflows/stage32-root-cleanup-phase-b.yml",
       ".github/workflows/stage32-scout-d16-140first-lia.yml",
       ".github/workflows/stage32-scout-d16-aggregate-identity.yml",
       ".github/workflows/stage32-scout-d16-aut-profile.yml",
@@ -592,21 +594,21 @@
   "branch_local_live_catalog": [
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-n356-deterministic-terminal-check.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
-    ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
-    ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
     ".github/workflows/stage36-bootstrap-audit.yml",
     ".github/workflows/structure-radar.yml"
   ],
   "notes": [
     "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
     "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
-    "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 leaf workflows therefore remain retired while the Stage35 aggregate audit remains live.",
-    "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live."
+    "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
+    "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
+    "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
+    "Stage32 N356 optimistic exceptional transport is the current Stage32 MAIN mathematical frontier and must retain automatic PR replay."
   ]
 }
