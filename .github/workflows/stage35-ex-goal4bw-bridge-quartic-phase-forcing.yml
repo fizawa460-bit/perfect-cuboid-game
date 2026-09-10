@@ -1,0 +1,40 @@
+name: Stage35-EX Goal4BW bridge quartic phase forcing
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4bv-source-known-bridge-quartic-orientation-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4bv-source-known-bridge-quartic-orientation.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bv_source_known_bridge_quartic_orientation.py'
+      - 'stages/stage35-ex/35ex-35/goal4bw-bridge-quartic-phase-forcing-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4bw-bridge-quartic-phase-forcing.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4bw_bridge_quartic_phase_forcing.py'
+      - '.github/workflows/stage35-ex-goal4bw-bridge-quartic-phase-forcing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-goal4bw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        run: |
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay Goal4BV parent
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bv_source_known_bridge_quartic_orientation.py
+      - name: Verify Goal4BW bridge-local quartic phase forcing boundary
+        run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4bw_bridge_quartic_phase_forcing.py
