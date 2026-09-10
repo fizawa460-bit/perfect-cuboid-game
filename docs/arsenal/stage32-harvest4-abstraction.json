@@ -1,0 +1,346 @@
+{
+  "schema": "arsenal-stage-abstraction/v1",
+  "stage": "Stage32",
+  "harvest": 4,
+  "phase": "ABSTRACTION_ONLY",
+  "status": "ABSTRACTION_COMPLETE_HOSTILE_DEDUP_AND_REGISTRATION_NOT_PERFORMED",
+  "source_discovery": "docs/arsenal/stage32-harvest4-discovery.json",
+  "frozen_range": {
+    "previous_harvest_frozen_upper_bound": "714bd143f0c20082edcbb81c3905a86b1a56b4bf",
+    "merged_source_upper_bound": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
+    "open_retained_snapshot": {
+      "pr": 1753,
+      "branch": "stage32-main-final-chain-reentry",
+      "exact_head": "1b171f5f45ded8937f51a666e606d88b26a96402",
+      "role": "SNAPSHOT_SOURCE_ONLY_NOT_MAIN_AUTHORITY"
+    },
+    "range_expanded": false
+  },
+  "rules": {
+    "raw_candidate_count": 25,
+    "new_abstraction_unit_count": 19,
+    "carry_forward_abstraction_unit_count": 2,
+    "total_abstraction_unit_count": 21,
+    "hostile_dedup_performed": false,
+    "new_weapon_classification_performed": false,
+    "stable_arsenal_id_assignment_performed": false,
+    "arsenal_registry_modified": false,
+    "generated_cards_modified": false,
+    "stage32_authority_modified": false,
+    "mathematical_credit_change": 0,
+    "merge_authorized": false
+  },
+  "abstractions": [
+    {
+      "key": "ABS-S32-H4-01",
+      "name": "SUPPORT_MASS_CAP_NECESSARY_PRUNER",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-A01"],
+      "source_maturity": "AUDITED",
+      "contract": {
+        "input": "nonnegative exceptional coordinates, exact exceptional mass, exact support lower bound, and exact remaining support capacity",
+        "operation": "combine mass/support/capacity arithmetic into a necessary inequality and reject only assignments violating that inequality",
+        "output": "zero-loss necessary finite pruning on the source-compatible population"
+      },
+      "scope_firewall": "Stage32 constants S10,M10,38,d,g,e and the measured 49.7089% saving are provenance, not reusable universal constants.",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-02",
+      "name": "AUTHORITY_PRESERVING_FILTERED_RANDOM_ACCESS_ADAPTER",
+      "abstract_kind": "ADAPTER_CANDIDATE",
+      "sources": ["DISC-S32-H4-A02"],
+      "source_maturity": "AUDITED",
+      "contract": {
+        "input": "an authoritative canonical ranker, an exact audited predicate, and the exact survivor/rejection partition",
+        "operation": "construct a secondary survivor rank/unrank coordinate while retaining a reversible bridge to canonical rank",
+        "output": "random access to survivors without replacing completeness authority or changing canonical order"
+      },
+      "scope_firewall": "secondary execution identity never becomes completeness authority merely because it is bijective on survivors",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-03",
+      "name": "FAIL_CLOSED_FILTERED_EXECUTION_COMPLETENESS_WALL",
+      "abstract_kind": "WORKFLOW_ADAPTER_CANDIDATE",
+      "sources": ["DISC-S32-H4-A03"],
+      "source_maturity": "HOSTILE_FAIL_REPAIRED_REAUDIT_REQUIRED",
+      "contract": {
+        "input": "source-locked manifest membership, audited partition/ranker contracts, work-unit bounds, and an independently registered exact leaf-certificate verifier",
+        "operation": "bind all source identities into work-unit identity and refuse COMPLETE if any leaf-verification contract is absent or mismatched",
+        "output": "structural exact-cover evidence separated from numerical-leaf completeness"
+      },
+      "scope_firewall": "structural interval coverage alone cannot discharge production leaves or release numerical completeness",
+      "dedup_queue": "PROVISIONAL_REAUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-04",
+      "name": "EXACT_POST_FILTER_PRIORITY_CENSUS",
+      "abstract_kind": "WORKFLOW_CANDIDATE",
+      "sources": ["DISC-S32-H4-A04"],
+      "source_maturity": "EXACT_NONCREDIT",
+      "contract": {
+        "input": "an exact finite stratum population and an exact survivor counter",
+        "operation": "stream deterministic per-stratum counts, hashes, order statistics and small-bucket summaries without materializing the whole survivor set",
+        "output": "a reproducible priority ledger for choosing mathematically cheap next strata"
+      },
+      "scope_firewall": "priority information is not new pruning and gives no leaf/theorem credit",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-05",
+      "name": "SATURATED_SUPPORT_RIGIDITY_REDUCER",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-A05"],
+      "source_maturity": "AUDIT_REQUIRED",
+      "contract": {
+        "input": "n nonnegative integral coordinates with exact total mass n and a certified support lower bound at least n",
+        "operation": "use support<=n and integrality to force every coordinate positive, then exact mass to force every coordinate equal to one",
+        "output": "collapse of the exceptional branch to a unique all-ones vector"
+      },
+      "scope_firewall": "Stage32 n=48 and the four e=48 strata are provenance only; source audit is required before credit-bearing reuse",
+      "dedup_queue": "PROVISIONAL_AUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-06",
+      "name": "EXACT_FUNCTIONAL_AUGMENTATION_LADDER_FOR_LATTICE_OBSTRUCTION",
+      "abstract_kind": "WEAPON_ANTI_LOOP_PACKAGE",
+      "sources": ["DISC-S32-H4-A06", "DISC-S32-H4-A07", "DISC-S32-H4-A08"],
+      "source_maturity": "MIXED_EXACT_AND_AUDIT_REQUIRED",
+      "contract": {
+        "input": "an exact integral lattice image, a target family, and source-derived linear functionals or aggregate conservation laws",
+        "operation": "test baseline HNF membership, add exact independent functionals when baseline is too weak, detect rationally dependent functionals, and convert forced derived quantities into subsequent inequality/nonnegativity tests",
+        "output": "exact necessary rejection when augmentation adds information, plus anti-loop evidence when a proposed functional is dominated or dependent"
+      },
+      "scope_firewall": "HNF feasibility is not a SAT/effectivity witness; N280 rejection remains provisional until its N260 dependency and its own audit boundary are satisfied",
+      "dedup_queue": "PROVISIONAL_UPSTREAM_AUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-07",
+      "name": "SYMBOLIC_FREE_AXIS_EXACT_UNSAT_BLOCK_PARTITION",
+      "abstract_kind": "WEAPON_WORKFLOW_CANDIDATE",
+      "sources": ["DISC-S32-H4-A09"],
+      "source_maturity": "RETAINED_LOCAL_EXACT_UNSAT",
+      "contract": {
+        "input": "a finite outer branch rank, one independent free coordinate retained symbolically, and an exact leaf solver",
+        "operation": "partition only the outer branch into exact blocks while keeping the free axis symbolic through every leaf check",
+        "output": "exact UNSAT closure for each certified block without enumerating the free axis"
+      },
+      "scope_firewall": "the retained g1-d008/e4 constants and block endpoints are local provenance; transfer to other strata requires a source-model adapter",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-08",
+      "name": "FINITE_STABILIZER_CAPACITY_PARITY_ELIMINATOR",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-B01"],
+      "source_maturity": "AUDITED_INTERMEDIATE",
+      "contract": {
+        "input": "a complete finite stabilizer/branch candidate set with exact capacity data and an exact residual parity table",
+        "operation": "apply coarse capacity elimination first and an exhaustive parity discriminator to the remaining finite candidates",
+        "output": "a forced stabilizer/branch class on the certified finite population"
+      },
+      "scope_firewall": "finite branch forcing does not imply global geometric existence or Stage closure",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-09",
+      "name": "NORMALIZATION_CONDUCTOR_EVEN_CORRECTION_COUPLER",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-B02"],
+      "source_maturity": "AUDITED_NECESSARY_COUPLING",
+      "contract": {
+        "input": "normalization/cover data with branch divisor and conductor correction supported at the same base points",
+        "operation": "use Disc(pi)=Br+2A and degree accounting to couple local singularity/conductor mass to ramification with the required even correction",
+        "output": "exact necessary local/global degree coupling"
+      },
+      "scope_firewall": "the numerical degree shadows 4036/4084 are source provenance and the coupling is necessary, not an existence theorem",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-10",
+      "name": "CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-B03"],
+      "source_maturity": "AUDITED",
+      "contract": {
+        "input": "an exact finite cellular/gluing assembly model with an integral boundary or incidence map",
+        "operation": "enumerate legal assemblies and compute Smith normal form/cokernel classes for the induced obstruction map",
+        "output": "exact zero/nonzero and torsion-order obstruction classification for the finite assembly population"
+      },
+      "scope_firewall": "the 6144x4 population and order-two outcome are Stage32 provenance; another problem must source-lock its own cellular model",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-11",
+      "name": "SCOPE_IDENTITY_GATED_GEOMETRIC_EXCLUSION_PACKAGE",
+      "abstract_kind": "ADAPTER_WEAPON_PACKAGE",
+      "sources": ["DISC-S32-H4-B04"],
+      "source_maturity": "AUDITED",
+      "contract": {
+        "input": "an audited exclusion on source population A and a separately audited identity/transport adapter from A to target population B",
+        "operation": "verify exact population semantics before composing the exclusion with the adapter",
+        "output": "target-scope exclusion with both source theorem and population identity preserved as independent source locks"
+      },
+      "scope_firewall": "similar naming or equal cardinality cannot substitute for the audited population adapter",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-12",
+      "name": "PARTIAL_MARKING_WITH_RESIDUAL_TORSOR_CERTIFICATE",
+      "abstract_kind": "ADAPTER_ANTI_LOOP_PACKAGE",
+      "sources": ["DISC-S32-H4-B05", "DISC-S32-H4-B06"],
+      "source_maturity": "MIXED_AUDITED_AND_SCRATCH",
+      "contract": {
+        "input": "a finite marking torsor/group action plus source-derived structural invariants",
+        "operation": "enumerate admissible markings and orbit fibers, identify the structural quotient fixed by the data, and record the residual phase/torsor ambiguity exactly",
+        "output": "the strongest source-bound partial marking together with a certificate of what absolute marking cannot yet be selected"
+      },
+      "scope_firewall": "a gauge representative or structural P/Q split is not an absolute cyclic phase or retained W-line",
+      "dedup_queue": "READY_WITH_MIXED_MATURITY"
+    },
+    {
+      "key": "ABS-S32-H4-13",
+      "name": "WEIGHTED_LOCAL_DEBT_AND_RAMIFICATION_SPLIT_ACCOUNTING",
+      "abstract_kind": "WEAPON_ANTI_LOOP_PACKAGE",
+      "sources": ["DISC-S32-H4-B07", "DISC-S32-H4-B08"],
+      "source_maturity": "RETAINED_PROVISIONAL",
+      "contract": {
+        "input": "a weighted local pole/zero ledger and factorwise ramification support variables",
+        "operation": "balance divisor degree, split nonnode ramification into exact support contributions, and algebraically compare aggregate Riemann-Hurwitz equations with factorwise equations",
+        "output": "residual debt requirements plus an explicit no-double-counting certificate when an aggregate equation is dependent"
+      },
+      "scope_firewall": "dependent total-degree identities provide no independent saving; Stage32 O266 coefficients are provenance only",
+      "dedup_queue": "READY_PROVISIONAL"
+    },
+    {
+      "key": "ABS-S32-H4-14",
+      "name": "FINITE_NODE_ACTION_AND_FIELD_INVOLUTION_ORBIT_DIAGNOSTIC",
+      "abstract_kind": "ADAPTER_DIAGNOSTIC_PACKAGE",
+      "sources": ["DISC-S32-H4-B09", "DISC-S32-H4-B10"],
+      "source_maturity": "RETAINED_CONSOLIDATED_SCRATCH",
+      "contract": {
+        "input": "a canonical finite-node model, an explicit automorphism action, a retained class, and a field/Galois involution",
+        "operation": "reconstruct the finite action group and its orbit, apply the field involution to the class, and test membership in the retained automorphism orbit",
+        "output": "an exact finite diagnostic separating geometric automorphism orbit from field-conjugate class"
+      },
+      "scope_firewall": "outside-orbit is not by itself a descent obstruction or arithmetic nonexistence theorem",
+      "dedup_queue": "READY_PROVISIONAL"
+    },
+    {
+      "key": "ABS-S32-H4-15",
+      "name": "CANONICAL_GEOMETRIC_IDENTITY_RECONSTRUCTION_STACK",
+      "abstract_kind": "ADAPTER_WORKFLOW_PACKAGE",
+      "sources": ["DISC-S32-H4-C01", "DISC-S32-H4-C02"],
+      "source_maturity": "RETAINED_MERGED_COMPONENTS",
+      "contract": {
+        "input": "exact source-model equations/Jacobian data, explicit model renaming, runtime indices, and canonical projective fingerprints",
+        "operation": "reconstruct singular points, verify equations/Jacobian/distinctness, identify equivalent model coordinates, and map runtime objects to collision-free canonical geometric identities",
+        "output": "a source-locked runtime-index to canonical-object adapter independent of incidental enumeration order"
+      },
+      "scope_firewall": "runtime order itself is never semantic identity; fingerprints and source-model equations remain load-bearing",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-16",
+      "name": "FAIL_CLOSED_CLAIM_DAG_PROMOTION_WORKFLOW",
+      "abstract_kind": "WORKFLOW_CANDIDATE",
+      "sources": ["DISC-S32-H4-C03"],
+      "source_maturity": "MERGED_RESEARCH_OPS",
+      "contract": {
+        "input": "immutable claim cores, explicit PROVES/DOES_NOT_PROVE edges, exact source locks, cross-scope adapters and audit states",
+        "operation": "permit dependency promotion only through declared asymmetric transitions and fail closed on scope or audit mismatch",
+        "output": "a claim DAG in which local PASS cannot silently become parent/MAIN authority"
+      },
+      "scope_firewall": "workflow correctness does not itself grant mathematical credit",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-17",
+      "name": "BOUNDED_ROUTE_FAMILY_EXHAUSTION_LEDGER",
+      "abstract_kind": "ANTI_LOOP_WORKFLOW_CANDIDATE",
+      "sources": ["DISC-S32-H4-D01"],
+      "source_maturity": "AUDITED_BOUNDED_NEGATIVE",
+      "contract": {
+        "input": "a frozen finite route family, exact per-route status, and named missing adapters/reopen conditions",
+        "operation": "classify each route as qualified, blocked, inapplicable, duplicate or otherwise bounded and retain exact reopen prerequisites",
+        "output": "a reproducible no-recharge ledger for the frozen route family"
+      },
+      "scope_firewall": "zero qualified routes in the frozen family is not proof that no mathematically distinct route exists",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-18",
+      "name": "VALUATION_SEPARATED_SECTION_LOWER_BOUND_CERTIFIER",
+      "abstract_kind": "WEAPON_CANDIDATE",
+      "sources": ["DISC-S32-H4-D02"],
+      "source_maturity": "PROVISIONAL_CLOSED_UNMERGED",
+      "contract": {
+        "input": "explicit divisor-theoretic sections with source-locked valuation data",
+        "operation": "use valuation separation to prove linear independence from an already constructed section subspace",
+        "output": "a certified lower bound on section-space dimension"
+      },
+      "scope_firewall": "dimension lower bound is not full H0 reconstruction and does not imply a genus-one member or effectivity beyond the certified sections",
+      "dedup_queue": "READY_PROVISIONAL"
+    },
+    {
+      "key": "ABS-S32-H4-19",
+      "name": "LABELLED_NODE_SUPPORT_SPAN_IMPORT_ADAPTER",
+      "abstract_kind": "ADAPTER_CANDIDATE",
+      "sources": ["DISC-S32-H4-D03"],
+      "source_maturity": "AUDITED_INFRASTRUCTURE_ONLY",
+      "contract": {
+        "input": "an external labelled-node support/span object, an exact runtime-to-node identity adapter, and a separately typed exceptional-pairing bridge",
+        "operation": "validate labels, population identity and pairing semantics before importing the support/span statement into the current target",
+        "output": "a typed current-target infrastructure interface with no automatic mathematical conclusion"
+      },
+      "scope_firewall": "external node-support data cannot be consumed through label coincidence alone",
+      "dedup_queue": "READY"
+    },
+    {
+      "key": "ABS-S32-H4-CF20",
+      "name": "EQUIVARIANT_QUOTIENT_NONINVARIANCE_TO_COMMUTATOR_CHAIN",
+      "abstract_kind": "CARRY_FORWARD_WEAPON_CANDIDATE",
+      "sources": ["PR#1570 carry-forward"],
+      "source_maturity": "PROMOTION_BLOCKED_AUDIT_RECEIPT_NOT_RECOVERED",
+      "contract": {
+        "input": "an orbit-sum class on a resolved model, the exceptional-span quotient, an equivariant finite cover with injective rational pullback, and the exact hypothetical carrier/correspondence interface",
+        "operation": "prove stabilizer noninvariance after blow-down, descend equivariant pullback to the quotient, use injectivity to lift noninvariance, then translate to conditional correspondence noncommutation",
+        "output": "conditional commutator/non-scalarity obstruction under the exact carrier hypothesis"
+      },
+      "scope_firewall": "the withdrawn strict-transform multiplicity bridge must never be revived; without a recoverable hostile re-audit receipt this remains promotion-blocked",
+      "dedup_queue": "BLOCKED_AUDIT_RECEIPT"
+    },
+    {
+      "key": "ABS-S32-H4-CF21",
+      "name": "SOURCE_BOUND_ORBIT_CHARACTER_WITH_ABSOLUTE_MARKING_FIREWALL",
+      "abstract_kind": "CARRY_FORWARD_ADAPTER_CANDIDATE",
+      "sources": ["PR#1643 carry-forward; hostile PASS review/comment 5123545511 at 8550ab88e12cbbfd42b2d1e07c8f42be124de1a6"],
+      "source_maturity": "AUDITED_SOURCE_BOUND",
+      "contract": {
+        "input": "a source-bound finite group action on retained geometry and an exhaustive finite family of source-labelled character probes",
+        "operation": "evaluate orbit profiles, identify an abstract character direction through retained semantic anchors, and preserve the residual marking torsor explicitly",
+        "output": "a source-bound abstract character/direction without selecting an absolute marked line"
+      },
+      "scope_firewall": "chi_u -> delta_0inf does not identify delta_0inf with one retained W-line and grants no arithmetic residue exclusion",
+      "dedup_queue": "READY"
+    }
+  ],
+  "bundle_map": {
+    "DISC-S32-H4-A06+A07+A08": "ABS-S32-H4-06",
+    "DISC-S32-H4-B05+B06": "ABS-S32-H4-12",
+    "DISC-S32-H4-B07+B08": "ABS-S32-H4-13",
+    "DISC-S32-H4-B09+B10": "ABS-S32-H4-14",
+    "DISC-S32-H4-C01+C02": "ABS-S32-H4-15"
+  },
+  "next_phase": "STAGE32_HARVEST4_HOSTILE_DEDUP",
+  "credit_firewall": {
+    "abstraction_is_not_arsenal_registration": true,
+    "abstraction_is_not_stage32_progress": true,
+    "no_receiver_credit": true,
+    "no_theorem_credit": true,
+    "no_endpoint_credit": true,
+    "no_perfect_cuboid_claim": true,
+    "no_merge": true
+  }
+}
