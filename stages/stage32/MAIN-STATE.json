@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_POST_EX5_MERGE",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_POST_N240_REAUDIT_PASS",
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": 32,
   "authority_sync": {
@@ -16,6 +16,10 @@
     "ex5_audited_exact_head": "a5e59bab3f7fe5a31e356c5a78edcbd741b093a6",
     "ex5_merge_commit": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
     "ex5_merge_auto_promotes_main_credit": false,
+    "n240_hostile_reaudit_status": "PASS",
+    "n240_hostile_reaudit_review_id": 5161254728,
+    "n240_hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a",
+    "n240_reaudit_consumed_at_structural_ceiling": true,
     "legacy_detailed_files_are_not_ordinary_startup_authority": true
   },
   "current_target": {
@@ -32,7 +36,15 @@
     "Q602_is_current_attack_target": false
   },
   "historical_formal_provenance": {
-    "fixed_target": {"row_id":"g1-d186","degree":186,"e":266,"genus":1,"O":210,"qprime":4,"Q":602},
+    "fixed_target": {
+      "row_id": "g1-d186",
+      "degree": 186,
+      "e": 266,
+      "genus": 1,
+      "O": 210,
+      "qprime": 4,
+      "Q": 602
+    },
     "formal_q602_residues": [73, 97, 235],
     "formal_q602_residues_are_current_survivors": false,
     "audited_v6_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
@@ -43,10 +55,14 @@
   "current_exact_frontier": {
     "full178_numerical_census_complete": false,
     "primary_incomplete_remains_32_01": true,
-    "n240_status": "AUDIT_REQUIRED",
-    "n240_validation": "HOSTILE_FAIL_REPAIRED_REAUDIT_REQUIRED",
+    "n240_status": "AUDITED_STRUCTURAL_ADAPTER_ONLY",
+    "n240_validation": "HOSTILE_REAUDIT_PASS_CONSUMED",
+    "n240_hostile_reaudit_review_id": 5161254728,
+    "n240_hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a",
     "n240_production_complete_available": false,
     "n240_n104_old_domain_release_available": false,
+    "production_leaf_certificate_verifier_contract_registered": false,
+    "production_leaf_certificate_verifier_contract_audited": false,
     "ex5_retained_evidence_merged_to_main": true,
     "ex5_local_g1_d008_e4_exact_unsat_prefix": [0, 398],
     "ex5_whole_g1_d008_e4_stratum_closed": false,
@@ -59,13 +75,13 @@
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "next_exact_route": "N240_HOSTILE_REAUDIT_THEN_SOURCE_LOCKED_PRODUCTION_LEAF_CERTIFICATION",
-    "mainbatch_stop_gate": "STOP_BEFORE_N240_AUTHORITY_PROMOTION_AND_REQUEST_EXTERNAL_STAGE32_01_178_AUDIT",
-    "stop_semantics": "N240_REPAIR_RETAINED_BUT_REAUDIT_REQUIRED_FULL178_REMAINS_INCOMPLETE",
-    "stacked_candidate_audit_status": "N240_V2_REPAIR_PROVISIONAL_NO_N104_RELEASE"
+    "next_exact_route": "SOURCE_LOCKED_PRODUCTION_LEAF_CERTIFICATE_VERIFIER_CONTRACT",
+    "mainbatch_stop_gate": "DESIGN_AND_REGISTER_PRODUCTION_LEAF_CERTIFICATE_VERIFIER_CONTRACT_THEN_EXTERNAL_HOSTILE_AUDIT",
+    "stop_semantics": "N240_STRUCTURAL_ADAPTER_AUDITED_PRODUCTION_COMPLETENESS_STILL_FAIL_CLOSED_FULL178_REMAINS_INCOMPLETE",
+    "stacked_candidate_audit_status": "N240_V2_EXTERNAL_REAUDIT_PASS_CONSUMED_AT_STRUCTURAL_CEILING"
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/post-ex5-merge-final-chain-sync-20260910.json",
+    "stages/stage32/management/post-n240-v2-hostile-reaudit-pass-sync-20260910.json",
     "stages/stage32/32-01-178/nodes/N240/STATE.json"
   ],
   "ordinary_startup_excludes": [
@@ -97,7 +113,13 @@
     },
     "n240_state": {
       "path": "stages/stage32/32-01-178/nodes/N240/STATE.json",
-      "blob_sha1": "4f4eae0a2e7e5754084ecb9fe9e6f90909824755"
+      "blob_sha1": "869c8b1dc3937a7e78e907e74b0ed08994a5199c",
+      "hostile_reaudit_review_id": 5161254728,
+      "hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
+    },
+    "n240_management_sync": {
+      "path": "stages/stage32/management/post-n240-v2-hostile-reaudit-pass-sync-20260910.json",
+      "canonical_sha256": "b1a84efcc6352122a3595628fdfea0658d5e38714f139ebaaad8bdc058d6bab3"
     },
     "ex5_merge": {
       "pr": 1742,
@@ -113,7 +135,9 @@
     "historical_q602_residues_treated_as_current_survivors": false,
     "ex5_merge_auto_promotes_n150": false,
     "ex5_merge_auto_promotes_full178": false,
-    "n240_repair_self_promoted_to_audited": false,
+    "n240_reaudit_self_promoted": false,
+    "n240_structural_credit_exceeds_external_audit": false,
+    "production_complete_released_without_audited_leaf_contract": false,
     "n104_completeness_release_granted": false,
     "heavy_compute_authorized_by_startup_state": false,
     "receiver_credit": false,
@@ -136,7 +160,7 @@
   },
   "organizational_integration": {
     "former_ex1_ex4_user_facing_view": "stages/stage32/integrated-ex/README.md",
-    "ordinary_separate_lane_startup": {"EX1":false,"EX2":false,"EX3":false,"EX4":false},
+    "ordinary_separate_lane_startup": {"EX1": false, "EX2": false, "EX3": false, "EX4": false},
     "canonical_evidence_paths_preserved_for_compatibility": [
       "stages/stage32-ex1",
       "stages/stage32-ex2",
@@ -149,5 +173,5 @@
     "EX5_may_continue_as_auxiliary_FULL178_lane_under_new_retained_work": true,
     "integration_changes_mathematical_credit": false
   },
-  "canonical_sha256_without_this_field": "8f44f0473be26d183e3b9710e074f1b6d727ca825b543da8af3d31047284ca88"
+  "canonical_sha256_without_this_field": "3ceae34c0ec603c1405683218533b93d4d7a31bc0b0ec372a63c5360aacc3471"
 }
