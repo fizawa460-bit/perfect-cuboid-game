@@ -84,6 +84,11 @@ APPLICABILITY=large exact finite families whose materialization is the bottlenec
 DO_NOT_USE_FOR=changed filters/order semantics without a new proof; assuming legacy DFS order; sampled roundtrips as a substitute for global set-equality proof; theorem credit from finite count alone
 ```
 
+
+### Harvest 4 extension — authority-preserving filtered random access
+
+`S32-PW01` is extended by audited N230: an exact filtered survivor rank/unrank coordinate may be used for execution while the original canonical rank remains completeness authority. The adapter must retain a reversible bridge to canonical rank and may not replace canonical ordering or grant FULL178/theorem credit. Source: PR #1753 N230, hostile PASS review `5160389467`, exact head `1206475517ed8caf59e92d0d6daa57eb14ab4a41`.
+
 ## S32-PW03 — Picard lattice slice -> exact low-dimensional image bridge
 
 **Type:** `LATTICE_ADAPTER`
@@ -383,3 +388,217 @@ ARSENAL_REGISTRATION_IMPLIES_THEOREM_CREDIT=false
 ARSENAL_REGISTRATION_IMPLIES_ENDPOINT_CREDIT=false
 ARSENAL_REGISTRATION_IMPLIES_PERFECT_CUBOID_CONCLUSION=false
 ```
+
+# Fourth Stage32 provisional harvest — Harvest 4 ready-wave registration
+
+```text
+HARVEST=4
+IMPLEMENTATION_PR=1763
+FROZEN_MERGED_SOURCE_UPPER_BOUND=bf2890ec0b8168f70db803de876024aa6b6d1f6d
+RANGE_EXPANDED=false
+REGISTRATION_MATHEMATICAL_CREDIT_CHANGE=0
+S32_PW02_RETIRED_TO_S32_PW01=true
+S32_PW13_ACTIVE=false
+```
+
+## S32-PW07 — support mass cap necessary pruner
+
+**Type:** `SUPPORT_MASS_CAP_NECESSARY_PRUNER`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1753 N220
+hostile_review=5159411821
+audited_exact_head=940fe99a20c1eaa215126acd92e7c390295bb441
+```
+
+Reusable contract:
+
+Combine exact exceptional mass/support information with remaining support capacity into a zero-loss necessary pruning inequality on the source-compatible finite population.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=turning necessary finite pruning into feasibility/completeness/theorem credit
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-PW08 — finite stabilizer capacity parity eliminator
+
+**Type:** `FINITE_STABILIZER_CAPACITY_PARITY_ELIMINATOR`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1688 EX1-05C/05D
+hostile_review=5135375926
+audited_exact_head=93c455e1e69ed65fbfb553462fdcfbc8e2becbae
+```
+
+Reusable contract:
+
+On a complete finite stabilizer family, apply exact capacity elimination and then an exhaustive residual parity discriminator; finite branch forcing only.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=global geometric existence or Stage closure from finite stabilizer forcing
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-PW09 — normalization conductor even correction coupler
+
+**Type:** `NORMALIZATION_CONDUCTOR_EVEN_CORRECTION_COUPLER`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1700 EX1-05H
+hostile_review=5136931113
+audited_exact_head=b17e5a32e08adf3c668c07a71f5b2621b3485c87
+```
+
+Reusable contract:
+
+Use Disc(pi)=Br+2A and exact degree accounting to couple normalization/conductor defect to branch degree as a necessary condition.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=existence from necessary discriminant/conductor degree coupling
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-PW10 — cellular smith cokernel assembly obstruction
+
+**Type:** `CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1728 cellular Smith terminal bridge
+hostile_review=5147627146
+audited_exact_head=e3c4a04d5010e6dca9428722e334890e2614297a
+```
+
+Reusable contract:
+
+Compute the actual cellular assembly class in a source-locked Smith cokernel and classify zero/nonzero and torsion order on a complete finite assembly population.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=using abstract Smith group structure without the actual source-bound assembly-to-cokernel map
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-PW11 — weighted local debt and factorwise ramification split
+
+**Type:** `WEIGHTED_LOCAL_DEBT_AND_FACTORWISE_RAMIFICATION_SPLIT`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source1=PR#1697@205cf415424a84dbf716c75a61e945165b36912d (nonfreshness re-audit PASS)
+source2=PR#1715@5e8e0cd64a1cb74574f8dff9b43d33ecfbf937e7 (retained provisional, no hostile audit)
+```
+
+Reusable contract:
+
+Track weighted local divisor debt and split nonnode ramification factorwise; retain exact accounting only and do not promote endpoint/effectivity credit.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=effectivity, global descended tensor, endpoint exclusion or recharging dependent identities
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-PW12 — source bound orbit character with absolute marking firewall
+
+**Type:** `SOURCE_BOUND_ORBIT_CHARACTER_WITH_ABSOLUTE_MARKING_FIREWALL`
+
+**Maturity:** `PROVISIONAL` (weapon)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1643
+hostile_review=5123545511
+audited_exact_head=8550ab88e12cbbfd42b2d1e07c8f42be124de1a6
+```
+
+Reusable contract:
+
+Extract a source-bound abstract orbit-character/direction while certifying that the absolute retained marking torsor remains unresolved.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=selecting an absolute W-line or arithmetic residue from an abstract source-bound character
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-WF01 — symbolic free axis exact unsat block partition
+
+**Type:** `SYMBOLIC_FREE_AXIS_EXACT_UNSAT_BLOCK_PARTITION`
+
+**Maturity:** `PROVISIONAL` (workflow)
+
+Source-lock / audit provenance:
+
+```text
+source=PR#1742 retained exact UNSAT prefix
+hostile_review=5161068590
+audited_exact_head=a5e59bab3f7fe5a31e356c5a78edcbd741b093a6
+```
+
+Reusable contract:
+
+Partition a finite outer rank into exact blocks while keeping an independent free axis symbolic through every exact leaf; transfer requires an exact source-model adapter.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=mathematical exclusion or authority promotion from workflow/infrastructure success alone
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## S32-WF02 — canonical geometric identity reconstruction stack
+
+**Type:** `CANONICAL_GEOMETRIC_IDENTITY_RECONSTRUCTION_STACK`
+
+**Maturity:** `PROVISIONAL` (workflow)
+
+Source-lock / audit provenance:
+
+```text
+source1=PR#1742 BC2-01B@4a85517bbe12cc435313fcd9a14be3017c982914 (hostile PASS)
+source2=PR#1743@2593d86733b3c3a4c276bbbc180c6c52e4a97130 (retained component)
+```
+
+Reusable contract:
+
+Reconstruct exact geometric objects and bind runtime indices to collision-free canonical projective identities; runtime order itself is never semantic identity.
+
+```text
+HYPOTHESES=exact source/population match plus the source-bound adapters stated above
+APPLICABILITY=only when object, field, cutoff, canonicalization, multiplicity, measure, quantifiers and adapter hypotheses match
+DO_NOT_USE_FOR=mathematical exclusion or authority promotion from workflow/infrastructure success alone
+SEMANTIC_CREDIT_BOUNDARY=provisional Arsenal routing only; no Stage32 authority, receiver, theorem, endpoint or Perfect Cuboid credit
+```
+
+## Harvest 4 held / blocked boundary
+
+The following are deliberately **not active** in this registration: `S32-PW13`; `ABS-S32-H4-06 -> S32-PW03`; `ABS-S32-H4-12 -> S30-W01/S30-WF01`; `ABS-S32-H4-CF20`. Their existing hold/audit gates remain load-bearing.

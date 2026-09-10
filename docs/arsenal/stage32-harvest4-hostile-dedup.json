@@ -1,0 +1,267 @@
+{
+  "schema": "arsenal-stage-hostile-dedup/v1",
+  "stage": "Stage32",
+  "harvest": 4,
+  "phase": "HOSTILE_DEDUP_ONLY",
+  "status": "HOSTILE_DEDUP_COMPLETE_REGISTRATION_NOT_PERFORMED",
+  "source_abstraction": "docs/arsenal/stage32-harvest4-abstraction.json",
+  "frozen_source_boundary": {
+    "previous_harvest_upper_bound": "714bd143f0c20082edcbb81c3905a86b1a56b4bf",
+    "merged_source_upper_bound": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
+    "stage32_open_snapshot_pr": 1753,
+    "stage32_open_snapshot_head": "1b171f5f45ded8937f51a666e606d88b26a96402",
+    "range_expanded": false
+  },
+  "dedup_method": {
+    "match_dimensions": [
+      "object_and_population",
+      "field_and_marking",
+      "cutoff_and_canonicalization",
+      "input_semantics",
+      "operation",
+      "output_semantics",
+      "quantifiers",
+      "credit_layer",
+      "adapter_hypotheses"
+    ],
+    "prefer_formal_existing_cards": true,
+    "method_name_similarity_is_insufficient": true,
+    "specializations_are_not_new_ids_when_parent_contract_already_covers_them": true,
+    "unresolved_unique_interfaces_are_preserved_as_blocked_not_discarded": true
+  },
+  "summary": {
+    "input_abstraction_units": 21,
+    "new_weapon": 7,
+    "new_workflow": 2,
+    "extend_existing": 3,
+    "duplicate_no_register": 8,
+    "blocked_unique": 1,
+    "stable_ids_assigned": 0,
+    "arsenal_registry_modified": false,
+    "generated_cards_modified": false,
+    "stage32_mathematical_credit_change": 0
+  },
+  "existing_authorities_consulted": [
+    "docs/arsenal/cards/provisional/S32-PW01.md",
+    "docs/arsenal/cards/provisional/S32-PW03.md",
+    "docs/arsenal/cards/provisional/S32-PW04.md",
+    "docs/arsenal/cards/provisional/S32-PW05.md",
+    "docs/arsenal/cards/provisional/S32-PW06.md",
+    "docs/arsenal/cards/formal/S30-W01.md",
+    "docs/arsenal/cards/formal/S30-W02.md",
+    "docs/arsenal/cards/formal/S30-W03.md",
+    "docs/arsenal/cards/workflows/S30-WF01.md",
+    "docs/arsenal/cards/workflows/S30-WF02.md",
+    "docs/arsenal/cards/workflows/S30-WF03.md",
+    "docs/arsenal/cards/workflows/S33-WF01.md",
+    "docs/arsenal/cards/workflows/S33-WF02.md",
+    "docs/arsenal/cards/workflows/S35-WF01.md",
+    "docs/stage14-arsenal-index.md",
+    "docs/stage28-arsenal-promotion.md",
+    "docs/stage32-arsenal-promotion.md",
+    "docs/stage34-arsenal-promotion.md",
+    "docs/stage35-arsenal-promotion.md",
+    "docs/stage36-arsenal-promotion.md",
+    "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
+    "docs/research-os/policies/cycle-exploration-safety-protocol.md"
+  ],
+  "decisions": [
+    {
+      "key": "ABS-S32-H4-01",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "SUPPORT_MASS_CAP_NECESSARY_PRUNER",
+      "nearest_existing": ["S32-PW01"],
+      "hostile_reason": "S32-PW01 counts and indexes an exact finite family but does not derive a zero-loss necessary inequality from support, mass and remaining capacity. No current routed card found with the same input/output contract.",
+      "registration_gate": "PROVISIONAL_SOURCE_LOCK_REVALIDATION_AT_IMPLEMENTATION"
+    },
+    {
+      "key": "ABS-S32-H4-02",
+      "classification": "EXTEND_EXISTING",
+      "target_existing": ["S32-PW01"],
+      "retained_extension": "secondary survivor rank/unrank with a reversible bridge to the unchanged canonical completeness rank",
+      "hostile_reason": "Same exact finite-family compression/indexing interface as S32-PW01; the new content strengthens indexed access after an audited filter and explicitly preserves canonical authority, so a second stable ID would split one object again.",
+      "registration_gate": "PROVISIONAL_EXTENSION_ONLY"
+    },
+    {
+      "key": "ABS-S32-H4-03",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["S30-WF02", "S30-WF03", "Stage32 CANONICAL_EVIDENCE_CHAIN"],
+      "hostile_reason": "Immutable manifest binding, independent leaf-certificate verification, fail-closed mismatch handling and separation of structural coverage from mathematical completeness are already covered by the layered replay and typed-credit workflows. The Stage32 instance remains useful provenance but does not justify a new workflow ID.",
+      "source_gate": "HOSTILE_FAIL_REPAIRED_REAUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-04",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["S32-PW01", "Cycle Exploration Safety Protocol"],
+      "hostile_reason": "Exact per-stratum survivor counts and shard/order statistics are downstream uses of the existing exact count/index interface; using them to prioritize the next route is operational scheduling, not a distinct proof contract.",
+      "retained_as": "IMPLEMENTATION_AND_PRIORITY_PROVENANCE"
+    },
+    {
+      "key": "ABS-S32-H4-05",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["ABS-S32-H4-01"],
+      "relation": "STRICT_SPECIAL_CASE_WITHIN_HARVEST4",
+      "hostile_reason": "The all-ones conclusion is the saturation endpoint of the same support/mass/capacity mechanism retained in ABS-S32-H4-01. Registering it separately would create a micro-card for a specialization rather than a distinct reusable interface.",
+      "source_gate": "AUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-06",
+      "classification": "EXTEND_EXISTING",
+      "target_existing": ["S32-PW03"],
+      "retained_extension": "exact functional-augmentation ladder: add independent source-derived observables to an HNF image gate, detect dependent/dominated functionals, and pass forced derived quantities to later inequality tests",
+      "hostile_reason": "The core operation remains exact lattice-image/HNF membership. The augmentation/dependence logic strengthens S32-PW03 rather than defining a new lattice object or output.",
+      "registration_gate": "UPSTREAM_N260_AND_N280_AUDIT_REQUIRED"
+    },
+    {
+      "key": "ABS-S32-H4-07",
+      "classification": "NEW_WORKFLOW",
+      "retained_contract": "SYMBOLIC_FREE_AXIS_EXACT_UNSAT_BLOCK_PARTITION",
+      "nearest_existing": ["S30-WF02", "Stage32 NUMERICAL_CANDIDATE_EXACT_REPLAY"],
+      "hostile_reason": "Existing replay workflows validate certificates/candidates but do not prescribe exact outer-rank partitioning while retaining an independent free coordinate symbolically through every exact UNSAT leaf. This is a distinct reusable execution/proof workflow, not a new theorem.",
+      "registration_gate": "SOURCE_SCOPE_MUST_REMAIN_LOCAL_UNLESS_ADAPTED"
+    },
+    {
+      "key": "ABS-S32-H4-08",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "FINITE_STABILIZER_CAPACITY_PARITY_ELIMINATOR",
+      "nearest_existing": ["S30-W01", "S30-W03"],
+      "hostile_reason": "S30-W01 identifies finite actions and S30-W03 classifies marked descent classes; neither supplies the two-stage mathematical eliminator that first applies exact capacity and then an exhaustive residual parity table to a complete stabilizer family.",
+      "registration_gate": "AUDITED_INTERMEDIATE_SCOPE_ONLY"
+    },
+    {
+      "key": "ABS-S32-H4-09",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "NORMALIZATION_CONDUCTOR_EVEN_CORRECTION_COUPLER",
+      "nearest_existing": ["S28-W03", "S36-PW01"],
+      "hostile_reason": "Existing branch-profile/character-quotient cards inventory branch geometry but do not encode Disc(pi)=Br+2A with conductor correction supported at the same base points as an exact necessary degree coupling.",
+      "registration_gate": "AUDITED_NECESSARY_CONDITION_ONLY"
+    },
+    {
+      "key": "ABS-S32-H4-10",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "CELLULAR_SMITH_COKERNEL_ASSEMBLY_OBSTRUCTION",
+      "nearest_existing": ["S32-PW04"],
+      "hostile_reason": "S32-PW04 also uses Smith reduction, but its object/output are affine lattice fractional classes and a quadratic lower bound. The cellular assembly cokernel classifies exact gluing obstruction classes and torsion order, so method-name overlap is not semantic duplication.",
+      "registration_gate": "AUDITED_FINITE_ASSEMBLY_SCOPE_ONLY"
+    },
+    {
+      "key": "ABS-S32-H4-11",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["S30-WF03", "research-credit-and-promotion-firewalls.md"],
+      "hostile_reason": "Audited source-population exclusion plus a separately audited population-identity adapter before target-scope promotion is exactly the existing semantic-transfer/typed-credit firewall. The EX3 instance is valuable evidence, not a new generic weapon.",
+      "retained_as": "AUDITED_STAGE32_INSTANCE"
+    },
+    {
+      "key": "ABS-S32-H4-12",
+      "classification": "EXTEND_EXISTING",
+      "target_existing": ["S30-W01", "S30-WF01"],
+      "retained_extension": "record the strongest source-bound partial marking together with the exact residual torsor/phase ambiguity rather than choosing an arbitrary gauge representative",
+      "hostile_reason": "The formal finite-equivariant identification contract already treats finite survivors as candidates and forbids gauge representative => canonical marking. The residual-torsor certificate is a useful strengthening of that same identification interface, not an independent stable weapon.",
+      "registration_gate": "MIXED_AUDITED_AND_SCRATCH_SOURCE; EXTENSION_ONLY_AFTER_SOURCE_REVALIDATION"
+    },
+    {
+      "key": "ABS-S32-H4-13",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "WEIGHTED_LOCAL_DEBT_AND_FACTORWISE_RAMIFICATION_SPLIT",
+      "discarded_as_duplicate": "generic no-double-counting/no-recharge principle",
+      "routes_duplicate_part_to": ["research-credit-and-promotion-firewalls.md", "Cycle Exploration Safety Protocol"],
+      "nearest_existing": ["S28-W03", "S36-PW01"],
+      "hostile_reason": "The reusable positive core is the exact weighted divisor-debt plus factorwise nonnode ramification accounting. Existing policies already cover the anti-double-charge conclusion, so only the local accounting mechanism is retained as new.",
+      "registration_gate": "PROVISIONAL_SOURCE_ONLY"
+    },
+    {
+      "key": "ABS-S32-H4-14",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["S30-W03", "S30-W02"],
+      "hostile_reason": "Testing a field/Galois-conjugate class against an ordinary finite automorphism orbit is a diagnostic substep of the formal marked/Galois descent classifier, whose central firewall is precisely that ordinary orbits are not marked arithmetic classes. Outside-orbit alone remains nonconclusive.",
+      "retained_as": "FINITE_DIAGNOSTIC_PROVENANCE"
+    },
+    {
+      "key": "ABS-S32-H4-15",
+      "classification": "NEW_WORKFLOW",
+      "retained_contract": "CANONICAL_GEOMETRIC_IDENTITY_RECONSTRUCTION_STACK",
+      "nearest_existing": ["S30-W01", "S30-WF02", "Stage32 SOURCE_LOCKED_ADAPTER_WALL"],
+      "hostile_reason": "Existing cards require a source-derived semantic anchor and immutable replay but do not provide the general workflow that reconstructs singular objects from equations/Jacobians and then binds unstable runtime indices to collision-free canonical projective identities. The output is infrastructure, not mathematical exclusion.",
+      "registration_gate": "WORKFLOW_ONLY_NO_MATHEMATICAL_CREDIT"
+    },
+    {
+      "key": "ABS-S32-H4-16",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["S30-WF03", "research-credit-and-promotion-firewalls.md"],
+      "hostile_reason": "Explicit asymmetric PROVES/DOES_NOT_PROVE edges and fail-closed upward promotion are an implementation of the already formal typed credit DAG. A second claim-DAG workflow ID would duplicate S30-WF03.",
+      "retained_as": "RESEARCH_OS_IMPLEMENTATION_PROVENANCE"
+    },
+    {
+      "key": "ABS-S32-H4-17",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["Cycle Exploration Safety Protocol"],
+      "hostile_reason": "The repository-wide candidate ledger already requires LIVE/UNTESTED/EQUIVALENT/DOMINATED/BLOCKED states, exact reopen conditions, no silent discard, and a parking audit. A bounded route-family no-recharge ledger is a concrete instance of that policy, not a new Arsenal workflow.",
+      "retained_as": "AUDITED_BOUNDED_NEGATIVE_PROVENANCE"
+    },
+    {
+      "key": "ABS-S32-H4-18",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "VALUATION_SEPARATED_SECTION_LOWER_BOUND_CERTIFIER",
+      "nearest_existing": ["Stage14 divisor reconstruction lineage"],
+      "hostile_reason": "No current routed card found whose output is a certified section-space dimension lower bound obtained by proving new explicit sections linearly independent through source-locked valuation separation. Existing divisor reconstruction tools address different objects and outputs.",
+      "registration_gate": "SOURCE_IS_PROVISIONAL_CLOSED_UNMERGED; RETENTION_AND_AUDIT_REQUIRED_BEFORE_REGISTRATION"
+    },
+    {
+      "key": "ABS-S32-H4-19",
+      "classification": "DUPLICATE_NO_REGISTER",
+      "routes_to": ["Stage32 SOURCE_LOCKED_ADAPTER_WALL", "S30-WF03"],
+      "hostile_reason": "Label validation, population identity and pairing-semantic checks before importing an external support/span object are exactly the existing source-locked adapter requirement. Label coincidence alone is already forbidden by the generic wall.",
+      "retained_as": "AUDITED_TYPED_IMPORT_INSTANCE"
+    },
+    {
+      "key": "ABS-S32-H4-CF20",
+      "classification": "BLOCKED",
+      "uniqueness": "GENUINELY_NEW_INTERFACE_RETAINED",
+      "candidate_contract": "EQUIVARIANT_QUOTIENT_NONINVARIANCE_TO_COMMUTATOR_CHAIN",
+      "hostile_reason": "Harvest 3 already classified the repaired quotient-stabilizer -> noninvariance -> injective pullback -> conditional commutator shape as genuinely new. The current recheck still did not recover a hostile re-audit receipt for exact head 80de2c23979a691a8255baa221e31ad4b6f93f49. The withdrawn strict-transform multiplicity bridge remains forbidden.",
+      "registration_gate": "BLOCKED_AUDIT_RECEIPT"
+    },
+    {
+      "key": "ABS-S32-H4-CF21",
+      "classification": "NEW_WEAPON",
+      "retained_contract": "SOURCE_BOUND_ORBIT_CHARACTER_WITH_ABSOLUTE_MARKING_FIREWALL",
+      "nearest_existing": ["S30-W01", "S30-WF01", "S32-PW06"],
+      "hostile_reason": "Harvest 3 already classified this as a genuinely new interface but withheld registration because active authority was not established at the frozen bound. Harvest 4 recovered hostile PASS 5123545511 on exact head 8550ab88e12cbbfd42b2d1e07c8f42be124de1a6. S30-W01 governs semantic action identity and S32-PW06 prunes by an intrinsic transvection; neither outputs a source-bound abstract orbit character/direction while explicitly preserving the unresolved absolute marking torsor.",
+      "registration_gate": "AUDITED_SOURCE_BOUND_ONLY; ABSOLUTE_DELTA0INF_TO_W_LINE_FORBIDDEN"
+    }
+  ],
+  "registration_queue": {
+    "new_weapon": [
+      "ABS-S32-H4-01",
+      "ABS-S32-H4-08",
+      "ABS-S32-H4-09",
+      "ABS-S32-H4-10",
+      "ABS-S32-H4-13",
+      "ABS-S32-H4-18",
+      "ABS-S32-H4-CF21"
+    ],
+    "new_workflow": [
+      "ABS-S32-H4-07",
+      "ABS-S32-H4-15"
+    ],
+    "extend_existing": {
+      "ABS-S32-H4-02": ["S32-PW01"],
+      "ABS-S32-H4-06": ["S32-PW03"],
+      "ABS-S32-H4-12": ["S30-W01", "S30-WF01"]
+    },
+    "blocked": ["ABS-S32-H4-CF20"]
+  },
+  "next_phase": "STAGE32_HARVEST4_REGISTRATION_PLANNING",
+  "credit_firewall": {
+    "hostile_dedup_is_not_registration": true,
+    "stable_id_assignment_performed": false,
+    "arsenal_index_modified": false,
+    "generated_cards_modified": false,
+    "stage32_progress_changed": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_claim": false,
+    "merge_authorized": false
+  }
+}
