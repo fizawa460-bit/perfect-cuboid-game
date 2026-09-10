@@ -1,0 +1,50 @@
+{
+  "schema": "STAGE32_32_01_178_N354_TWO_SIDED_SCALAR_HURWITZ_CENSUS_V1",
+  "node_id": "N354",
+  "status": "AUDIT_CANDIDATE_DIAGNOSTIC_NO_MAIN_CREDIT",
+  "scope": "N353 audited remaining FULL178 post-N220 strata only",
+  "prerequisites": {
+    "n353_hostile_audit_review_id": 5163144778,
+    "n353_audited_exact_head": "0f8cee995e5c982cdb7ceceae14d69f91e65588d",
+    "n351_identity": "6*n_i = 2*q_i + e with q_i nonnegative integer",
+    "n352_identity": "n1+n2=d"
+  },
+  "necessary_condition": {
+    "parity": "e % 2 == 0",
+    "lower": "d >= 2*ceil(e/6)",
+    "upper": "d <= e+4g-4",
+    "n354_reject_within_n353_remaining": "e odd OR d < 2*ceil(e/6)"
+  },
+  "population": {
+    "n353_remaining_strata": 47703,
+    "n353_remaining_terminals": 346053443361304169755481593
+  },
+  "aggregate": {
+    "odd_e_rejected_strata": 23798,
+    "odd_e_rejected_terminals": 173026564978667598377973100,
+    "lower_interval_rejected_strata": 6777,
+    "lower_interval_rejected_terminals": 134465921848239433742728391,
+    "n354_candidate_rejected_strata": 30575,
+    "n354_candidate_rejected_terminals": 307492486826907032120701491,
+    "n354_candidate_remaining_strata": 17128,
+    "n354_candidate_remaining_terminals": 38560956534397137634780102,
+    "combined_n353_n354_rejected_strata": 43363,
+    "combined_n353_n354_rejected_terminals": 307492751368519449455116867
+  },
+  "replay": {
+    "classification_stream_sha256": "22449c7eafde95da5366e5092943aeb3cd47834bbe7379c9b47d14bb7d1d0439"
+  },
+  "semantics": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "production_leaf_credit": false,
+    "n350_producer_registration": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4"
+}
