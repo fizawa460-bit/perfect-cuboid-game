@@ -9,16 +9,19 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
-EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_N350_CONTRACT_AUDIT_REQUIRED"
-EXPECTED_CANONICAL = "c598c91acc2cb3fb61761168e6023eb5ca686efcc0e612652115efdc368c63fa"
-EXPECTED_N240_SYNC_CANONICAL = "b1a84efcc6352122a3595628fdfea0658d5e38714f139ebaaad8bdc058d6bab3"
-EXPECTED_N350_CANONICAL = "7292601f1ba187b5c607fa174e9edffd4ba96762ff9a40921e1ec14aadeaa42d"
-EXPECTED_N350_CONTRACT_CANONICAL = "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a"
-EXPECTED_N240_BLOB = "869c8b1dc3937a7e78e907e74b0ed08994a5199c"
-EXPECTED_N350_BLOB = "af55b1b59d173d3ef4492a69e3a6e7c9aa24ce42"
+EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V4_N353_AUDITED_N354_AUDIT_REQUIRED"
+EXPECTED_CANONICAL = "5509927c12aad7fcc8a387e282514bd0431436456da1e20a4941b6e0b8ad93d9"
+EXPECTED_MAIN = "5ca6acba4b591d9e2d40057241c850598c1fa1df"
+EXPECTED_N353_REVIEW = 5163144778
+EXPECTED_N353_HEAD = "0f8cee995e5c982cdb7ceceae14d69f91e65588d"
+EXPECTED_N353_AUDIT_BLOB = "7f1e2a7d930e6ddc25b83e00321c40e68742d656"
+EXPECTED_N353_AUDIT_CANONICAL = "fd3b372743e404570881bd5e25699dada273006bd006da8d5ac45d037a745d03"
+EXPECTED_N354_RESULT_BLOB = "6f6ed5646689940cc304a655711dba83333d3576"
+EXPECTED_N354_RESULT_CANONICAL = "9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4"
+EXPECTED_SYNC_CANONICAL = "39bcfd3c0573460cc36a0605ec6041a36f9b8586638bd07b323e917fded78b4a"
 EXPECTED_WORKING_SET = [
-    "stages/stage32/management/post-n240-v2-hostile-reaudit-pass-sync-20260910.json",
-    "stages/stage32/32-01-178/nodes/N350/STATE.json",
+    "stages/stage32/management/post-n353-hostile-pass-n354-checkpoint-20260910.json",
+    "stages/stage32/32-01-178/nodes/N354/RESULT.json",
 ]
 
 
@@ -35,11 +38,17 @@ def git_blob_sha(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
+def load_canonical(path: Path, expected: str) -> dict:
+    obj = json.loads(path.read_text())
+    assert obj["canonical_sha256_without_this_field"] == expected
+    assert csha(obj) == expected
+    return obj
+
+
 def main() -> None:
-    state = json.loads(STATE.read_text())
+    state = load_canonical(STATE, EXPECTED_CANONICAL)
     assert state["schema"] == EXPECTED_SCHEMA
-    assert state["canonical_sha256_without_this_field"] == EXPECTED_CANONICAL
-    assert csha(state) == EXPECTED_CANONICAL
+    assert state["role"] == "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE"
 
     target = state["current_target"]
     assert target["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
@@ -47,133 +56,105 @@ def main() -> None:
     assert target["primary_incomplete_name"] == "FULL178"
     assert target["full178_residual_row_count"] == 178
     assert target["full178_coarse_strata_count"] == 64111
-    assert target["full178_manifest_blob_sha1"] == "0a46b34e278688240656b4977e9cb7f589e90e06"
-    assert target["full178_manifest_canonical_sha256"] == "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
     assert target["V6_is_current_attack_target"] is False
     assert target["O210_is_current_attack_target"] is False
     assert target["Q602_is_current_attack_target"] is False
 
-    prov = state["historical_formal_provenance"]
-    assert prov["formal_q602_residues"] == [73, 97, 235]
-    assert prov["formal_q602_residues_are_current_survivors"] is False
-    assert prov["narrow_chain_semantics"] == "AUDITED_CONSUMED_HISTORICAL_PREREQUISITE_PROVENANCE_NOT_CURRENT_ATTACK_TARGET"
-
     auth = state["authority_sync"]
-    assert auth["current_repository_main"] == "bf2890ec0b8168f70db803de876024aa6b6d1f6d"
-    assert auth["ex5_merged_pr"] == 1742
-    assert auth["ex5_hostile_audit_status"] == "PASS"
-    assert auth["ex5_audited_exact_head"] == "a5e59bab3f7fe5a31e356c5a78edcbd741b093a6"
-    assert auth["ex5_merge_commit"] == "bf2890ec0b8168f70db803de876024aa6b6d1f6d"
-    assert auth["ex5_merge_auto_promotes_main_credit"] is False
-    assert auth["n240_hostile_reaudit_status"] == "PASS"
-    assert auth["n240_hostile_reaudit_review_id"] == 5161254728
-    assert auth["n240_hostile_reaudit_exact_head"] == "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
-    assert auth["n240_reaudit_consumed_at_structural_ceiling"] is True
+    assert auth["current_repository_main"] == EXPECTED_MAIN
+    assert auth["stage32_main_integration_pr"] == 1753
+    assert auth["n353_hostile_audit_status"] == "PASS"
+    assert auth["n353_hostile_audit_review_id"] == EXPECTED_N353_REVIEW
+    assert auth["n353_hostile_audit_exact_head"] == EXPECTED_N353_HEAD
+    assert auth["n353_audit_credit_consumed"] is True
+    assert auth["freshness_checkpoint"] == EXPECTED_N353_HEAD
+    assert auth["claim_dag_semantic_status_changed"] is False
 
     frontier = state["current_exact_frontier"]
     assert frontier["full178_numerical_census_complete"] is False
     assert frontier["primary_incomplete_remains_32_01"] is True
-    assert frontier["n240_status"] == "AUDITED_STRUCTURAL_ADAPTER_ONLY"
-    assert frontier["n240_validation"] == "HOSTILE_REAUDIT_PASS_CONSUMED"
-    assert frontier["n240_hostile_reaudit_review_id"] == 5161254728
-    assert frontier["n240_hostile_reaudit_exact_head"] == "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
-    assert frontier["n240_production_complete_available"] is False
-    assert frontier["n240_n104_old_domain_release_available"] is False
-    assert frontier["production_leaf_certificate_verifier_contract_registered"] is True
-    assert frontier["production_leaf_certificate_verifier_contract_audited"] is False
-    assert frontier["n350_status"] == "AUDIT_REQUIRED"
-    assert frontier["n350_contract_canonical_sha256"] == EXPECTED_N350_CONTRACT_CANONICAL
+    assert frontier["full178_goal_claim_id"] == "S32.FULL178.NUMERICAL_CENSUS.V1"
+    assert frontier["full178_goal_authority_status"] == "DECLARED_GOAL"
+    assert frontier["full178_goal_frontier_status"] == "ACTIVE_INCOMPLETE"
+    assert frontier["post_n220_strata"] == 60491
+    assert frontier["post_n220_terminals"] == 346053707902916587089896969
+    assert frontier["n353_status"] == "AUDITED_NECESSARY_CUT_CONSUMED"
+    assert frontier["n353_rejected_strata"] == 12788
+    assert frontier["n353_rejected_terminals"] == 264541612417334415376
+    assert frontier["n353_remaining_strata"] == 47703
+    assert frontier["n353_remaining_terminals"] == 346053443361304169755481593
+    assert frontier["n354_status"] == "AUDIT_REQUIRED"
+    assert frontier["n354_candidate_rejected_strata"] == 30575
+    assert frontier["n354_candidate_rejected_terminals"] == 307492486826907032120701491
+    assert frontier["n354_candidate_remaining_strata"] == 17128
+    assert frontier["n354_candidate_remaining_terminals"] == 38560956534397137634780102
+    assert frontier["n354_main_pruning_credit"] is False
     assert frontier["n350_registered_producer_count"] == 0
-    assert frontier["ex5_retained_evidence_merged_to_main"] is True
-    assert frontier["ex5_local_g1_d008_e4_exact_unsat_prefix"] == [0, 398]
-    assert frontier["ex5_whole_g1_d008_e4_stratum_closed"] is False
-    assert frontier["ex5_population_wide_full178_result_complete"] is False
-    assert frontier["ex5_auto_promoted_to_n150"] is False
     assert frontier["stage32_closed"] is False
 
     current = state["current"]
-    assert current["active_missing_interface"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
-    assert current["next_exact_route"] == "N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER"
-    assert current["mainbatch_stop_gate"] == "STOP_BEFORE_N350_AUTHORITY_PROMOTION_AND_REQUEST_EXTERNAL_STAGE32_01_178_AUDIT"
-    assert current["stop_semantics"] == "N350_FAIL_CLOSED_META_CONTRACT_REGISTERED_AUDIT_REQUIRED_NO_PRODUCER_COVERAGE_FULL178_INCOMPLETE"
-
+    assert current["next_exact_route"] == "N354_EXTERNAL_HOSTILE_AUDIT_THEN_CONSUME_TWO_SIDED_SCALAR_CUT"
+    assert current["mainbatch_stop_gate"] == "STOP_BEFORE_N354_AUTHORITY_PROMOTION_AND_REQUEST_EXTERNAL_STAGE32_01_178_AUDIT"
     assert state["current_leaf_working_set"] == EXPECTED_WORKING_SET
     for rel in EXPECTED_WORKING_SET:
         assert (ROOT / rel).is_file(), rel
 
+    audit_path = ROOT / state["source_locks"]["n353_audit"]["path"]
+    audit = load_canonical(audit_path, EXPECTED_N353_AUDIT_CANONICAL)
+    assert git_blob_sha(audit_path) == EXPECTED_N353_AUDIT_BLOB
+    assert audit["status"] == "PASS"
+    assert audit["review_id"] == EXPECTED_N353_REVIEW
+    assert audit["audited_exact_head"] == EXPECTED_N353_HEAD
+    assert audit["consumed_counts"]["remaining_strata"] == 47703
+    assert audit["consumed_counts"]["remaining_terminals"] == 346053443361304169755481593
+
     sync_path = ROOT / EXPECTED_WORKING_SET[0]
-    sync = json.loads(sync_path.read_text())
-    assert sync["schema"] == "STAGE32_MAIN_POST_N240_V2_HOSTILE_REAUDIT_PASS_SYNC_V1"
-    assert sync["canonical_sha256_without_this_field"] == EXPECTED_N240_SYNC_CANONICAL
-    assert csha(sync) == EXPECTED_N240_SYNC_CANONICAL
-    assert sync["authority"]["n240_state_blob_sha1"] == EXPECTED_N240_BLOB
-    assert sync["authority"]["n240_hostile_reaudit_status"] == "PASS"
-    assert sync["authority"]["n240_hostile_reaudit_review_id"] == 5161254728
-    assert sync["authority"]["n240_hostile_reaudit_exact_head"] == "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
-    assert sync["consumed_credit"]["structural_filtered_interval_adapter_mechanics"] is True
-    assert sync["consumed_credit"]["old_canonical_rank_preserved_as_completeness_authority"] is True
-    assert all(v is False for v in sync["not_consumed"].values())
-    assert sync["claim_sync"]["full178_claim_core_changed"] is False
-    assert sync["claim_sync"]["active_full178_claim_remains_incomplete"] is True
-    assert sync["next_gate"]["heavy_compute_authorized"] is False
+    sync = load_canonical(sync_path, EXPECTED_SYNC_CANONICAL)
+    assert sync["authority_transition"]["n353_hostile_audit_status"] == "PASS"
+    assert sync["authority_transition"]["n353_hostile_audit_review_id"] == EXPECTED_N353_REVIEW
+    assert sync["claim_sync"]["goal_claim_id"] == "S32.FULL178.NUMERICAL_CENSUS.V1"
+    assert sync["claim_sync"]["goal_authority_status"] == "DECLARED_GOAL"
+    assert sync["claim_sync"]["goal_frontier_status"] == "ACTIVE_INCOMPLETE"
+    assert sync["claim_sync"]["goal_core_semantic_change"] is False
+    assert sync["claim_sync"]["full178_completion_claim_registered"] is False
+    assert sync["n354_candidate"]["status"] == "AUDIT_REQUIRED"
+    assert sync["n354_candidate"]["main_credit"] is False
 
-    n240_path = ROOT / "stages/stage32/32-01-178/nodes/N240/STATE.json"
-    n240 = json.loads(n240_path.read_text())
-    assert git_blob_sha(n240_path) == EXPECTED_N240_BLOB
-    assert state["source_locks"]["n240_state"]["blob_sha1"] == EXPECTED_N240_BLOB
-    assert n240["validation"]["status"] == "HOSTILE_REAUDIT_PASS_CONSUMED"
-    assert n240["validation"]["hostile_reaudit_status"] == "PASS"
-    assert n240["validation"]["hostile_reaudit_review_id"] == 5161254728
-    assert n240["validation"]["hostile_reaudit_exact_head"] == "b56a832e6c194321916fe4ef63eef0d673b8ff9a"
-    assert n240["retained_result"]["status"] == "AUDITED_STRUCTURAL_ADAPTER_ONLY"
-    assert n240["retained_result"]["production_complete_available"] is False
-    assert n240["retained_result"]["n104_old_domain_release_available"] is False
-    assert n240["retained_result"]["full178_complete"] is False
+    n354_path = ROOT / EXPECTED_WORKING_SET[1]
+    n354 = load_canonical(n354_path, EXPECTED_N354_RESULT_CANONICAL)
+    assert git_blob_sha(n354_path) == EXPECTED_N354_RESULT_BLOB
+    assert n354["status"] == "AUDIT_CANDIDATE_DIAGNOSTIC_NO_MAIN_CREDIT"
+    assert n354["aggregate"]["n354_candidate_rejected_strata"] == 30575
+    assert n354["aggregate"]["n354_candidate_rejected_terminals"] == 307492486826907032120701491
+    assert n354["aggregate"]["n354_candidate_remaining_strata"] == 17128
+    assert n354["aggregate"]["n354_candidate_remaining_terminals"] == 38560956534397137634780102
+    assert n354["semantics"]["main_pruning_credit"] is False
+    assert n354["semantics"]["full178_complete"] is False
 
-    n350_path = ROOT / EXPECTED_WORKING_SET[1]
-    n350 = json.loads(n350_path.read_text())
-    assert git_blob_sha(n350_path) == EXPECTED_N350_BLOB
-    assert n350["canonical_sha256_without_this_field"] == EXPECTED_N350_CANONICAL
-    assert csha(n350) == EXPECTED_N350_CANONICAL
-    assert n350["node_id"] == "N350"
-    assert n350["validation"]["status"] == "AUDIT_REQUIRED"
-    assert n350["validation"]["heavy_compute"] is False
-    assert n350["retained_result"]["status"] == "AUDIT_REQUIRED"
-    assert n350["retained_result"]["registered_producer_count"] == 0
-    assert n350["retained_result"]["production_complete_available"] is False
-    assert n350["retained_result"]["n104_old_domain_release_available"] is False
-    assert n350["retained_result"]["full178_complete"] is False
-    assert n350["implementation"]["contract_canonical_sha256"] == EXPECTED_N350_CONTRACT_CANONICAL
-    n350_lock = state["source_locks"]["n350_contract"]
-    assert n350_lock["state_blob_sha1"] == EXPECTED_N350_BLOB
-    assert n350_lock["contract_blob_sha1"] == "31ab6791dfe48259b60d4917ecab2b4590b4eb63"
-    assert n350_lock["contract_canonical_sha256"] == EXPECTED_N350_CONTRACT_CANONICAL
-    assert n350_lock["verifier_blob_sha1"] == "3f1fcef571f09ade24977c771b0d438cf8c76723"
-    assert n350_lock["workflow_blob_sha1"] == "e2cc191e6e5cba9f1d1361974a189e198156f33b"
-
-    org = state["organizational_integration"]
-    assert all(v is False for v in org["ordinary_separate_lane_startup"].values())
-    assert org["EX5_separate_pr_active"] is False
-    assert org["EX5_retained_evidence_merged_to_main"] is True
-    assert org["integration_changes_mathematical_credit"] is False
+    prov = state["historical_formal_provenance"]
+    assert prov["formal_q602_residues"] == [73, 97, 235]
+    assert prov["formal_q602_residues_are_current_survivors"] is False
 
     fw = state["firewalls"]
-    assert fw["historical_q602_residues_treated_as_current_survivors"] is False
-    assert fw["ex5_merge_auto_promotes_n150"] is False
-    assert fw["ex5_merge_auto_promotes_full178"] is False
-    assert fw["n240_reaudit_self_promoted"] is False
-    assert fw["n240_structural_credit_exceeds_external_audit"] is False
-    assert fw["production_complete_released_without_audited_leaf_contract"] is False
-    assert fw["n104_completeness_release_granted"] is False
-    assert fw["heavy_compute_authorized_by_startup_state"] is False
-    assert fw["n350_contract_self_promoted_to_audited"] is False
-    assert fw["n350_empty_registry_grants_production_credit"] is False
-    assert fw["stage32_closed"] is False
-
-    cleanup = state["cleanup_gate"]
-    assert cleanup["proof_or_source_locked_assets_may_be_deleted_without_reference_audit"] is False
-    assert cleanup["root_cleanup_phase"] == "PHASE_C_USER_FACING_EX1_EX4_INTEGRATION_AND_LOOSE_ROOT_RELOCATION"
-    assert cleanup["legacy_numbered_directories_physically_relocated"] is False
+    for key in [
+        "historical_q602_residues_treated_as_current_survivors",
+        "n353_credit_exceeds_external_audit",
+        "n354_self_promoted_to_audited",
+        "n354_candidate_counts_treated_as_main_pruning_credit",
+        "n350_producer_registered_without_audit",
+        "production_complete_released_without_audited_leaf_contract",
+        "n104_completeness_release_granted",
+        "heavy_compute_authorized_by_startup_state",
+        "receiver_credit",
+        "route_credit",
+        "theorem_credit",
+        "endpoint_credit",
+        "stage32_closed",
+        "perfect_cuboid_existence_claim",
+        "perfect_cuboid_nonexistence_claim",
+        "merge_authorized",
+    ]:
+        assert fw[key] is False, key
 
     startup = START.read_text()
     for fragment in [
@@ -183,13 +164,13 @@ def main() -> None:
     ]:
         assert fragment in startup
 
-    print("PASS Stage32 MAIN startup authority FULL178_FINAL_CHAIN_N350_AUDIT_REQUIRED")
+    print("PASS Stage32 MAIN startup authority N353_AUDITED_N354_AUDIT_REQUIRED")
     print(f"main_state_canonical={EXPECTED_CANONICAL}")
     print("primary_incomplete=32-01_FULL178")
-    print("n240=hostile_reaudit_PASS_consumed_structural_only")
-    print("n350=fail_closed_meta_contract_AUDIT_REQUIRED_registered_producers_0")
-    print("full178_complete=false heavy_compute_authorized=false")
-    print("next_gate=N350_external_hostile_audit")
+    print("n353=hostile_audit_PASS_consumed_bounded_cut")
+    print("n354=AUDIT_REQUIRED_candidate_remaining_strata_17128")
+    print("full178_complete=false heavy_compute_authorized=false merge_authorized=false")
+    print("next_gate=N354_external_hostile_audit")
 
 
 if __name__ == "__main__":
