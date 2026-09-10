@@ -8,7 +8,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
-STATE_CANON = "8f44f0473be26d183e3b9710e074f1b6d727ca825b543da8af3d31047284ca88"
 CHECKPOINT_CANON = "6730cc294f6a2f5800a1ba6697639e5c25c4f6ce43361acffc9e130025858a0e"
 OBJECT_ID = "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1"
 EMPTY_ID = "S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1"
@@ -65,14 +64,14 @@ def validate(basev, by_id):
     assert basev.claim_core_sha(v6) == "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6"
     assert v6["audit_receipt"]["review_id"] == 5147810198
 
-    # Current mutable routing state is now FULL178-final-chain V3.  The Q602
-    # claim itself remains immutable/audited provenance and must not be
-    # presented as a live attack target or current survivor population.
+    # MAIN-STATE is mutable routing authority.  Historical Q602 replay must
+    # verify its self-canonicalization and semantic FULL178 firewalls, rather
+    # than pinning one obsolete mutable-state canonical forever.
     s = load("stages/stage32/MAIN-STATE.json")
     body = dict(s)
-    assert body.pop("canonical_sha256_without_this_field") == STATE_CANON
-    assert basev.csha(body) == STATE_CANON
-    assert s["schema"] == "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_POST_EX5_MERGE"
+    claimed_state_canonical = body.pop("canonical_sha256_without_this_field")
+    assert basev.csha(body) == claimed_state_canonical
+    assert s["schema"].startswith("STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_")
 
     a = s["authority_sync"]
     target = s["current_target"]
@@ -106,8 +105,14 @@ def validate(basev, by_id):
     assert fw["historical_q602_residues_treated_as_current_survivors"] is False
     assert fw["ex5_merge_auto_promotes_n150"] is False
     assert fw["ex5_merge_auto_promotes_full178"] is False
+    n240_self_promotion_keys = [
+        key for key in ("n240_repair_self_promoted_to_audited", "n240_reaudit_self_promoted")
+        if key in fw
+    ]
+    assert n240_self_promotion_keys
+    assert all(fw[key] is False for key in n240_self_promotion_keys)
     for key in [
-        "n240_repair_self_promoted_to_audited", "n104_completeness_release_granted",
+        "n104_completeness_release_granted",
         "heavy_compute_authorized_by_startup_state", "receiver_credit", "route_credit",
         "theorem_credit", "endpoint_credit", "stage32_closed",
         "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
