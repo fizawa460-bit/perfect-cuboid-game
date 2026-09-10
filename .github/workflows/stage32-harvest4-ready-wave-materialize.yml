@@ -66,7 +66,7 @@ jobs:
           assert promo.count('## S32-PW01 —')==1
           for i in range(7,13): assert f'## S32-PW{i:02d} —' in promo
           assert '## S32-WF01 —' in promo and '## S32-WF02 —' in promo
-          assert 'S32-PW13_ACTIVE=false' in promo
+          assert 'S32_PW13_ACTIVE=false' in promo
           PY
           git diff --check
       - name: Commit bounded ready-wave registration
