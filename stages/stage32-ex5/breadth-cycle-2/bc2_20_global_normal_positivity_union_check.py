@@ -19,6 +19,8 @@ BC2_19_CHECKPOINT = HERE / "bc2-19-n354-survivor-normal-positivity-mass-checkpoi
 SCHEMA = "STAGE32EX5_BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK_V1"
 EXPECTED_BC2_17 = "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072"
 EXPECTED_BC2_18 = "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8"
+EXPECTED_BC2_18_OUTPUT = "ca53c910b70cb41dd628cd1d428227b4aa91523ed49b74b0e669e89e7e88fe2e"
+EXPECTED_BC2_18_STREAM = "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
 EXPECTED_BC2_19 = "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb"
 EXPECTED_PARENT_COUNT = 7336
 NORMAL_COUNT = 92
@@ -28,20 +30,24 @@ TARGET_E = 8
 NORMAL_MASS = 112
 X4_LABEL = 49
 
+
 def csha(value: object) -> str:
     return hashlib.sha256(
         json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
 
-def load_checked(path: Path, expected: str, label: str) -> dict:
+
+def load_checked(path: Path, expected: str, label: str, *, replay_whole: bool = True) -> dict:
     obj = json.loads(path.read_text())
     if obj.get("canonical_sha256_without_this_field") != expected:
         raise ValueError(f"{label} canonical field regression")
-    cp = dict(obj)
-    cp.pop("canonical_sha256_without_this_field", None)
-    if csha(cp) != expected:
-        raise ValueError(f"{label} canonical replay regression")
+    if replay_whole:
+        cp = dict(obj)
+        cp.pop("canonical_sha256_without_this_field", None)
+        if csha(cp) != expected:
+            raise ValueError(f"{label} canonical replay regression")
     return obj
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -52,8 +58,18 @@ def main() -> None:
         raise ValueError("solver timeout must be positive")
 
     bc217 = load_checked(BC2_17_EVIDENCE, EXPECTED_BC2_17, "BC2-17")
-    bc218 = load_checked(BC2_18_CHECKPOINT, EXPECTED_BC2_18, "BC2-18")
+    # BC2-18 was retained with later workflow/audit metadata outside the original
+    # exact-result projection. Lock its stored checkpoint canonical plus the
+    # intrinsic exact-output/source fields used below instead of re-hashing the
+    # later augmented JSON envelope.
+    bc218 = load_checked(BC2_18_CHECKPOINT, EXPECTED_BC2_18, "BC2-18", replay_whole=False)
     bc219 = load_checked(BC2_19_CHECKPOINT, EXPECTED_BC2_19, "BC2-19")
+    if bc218["source_locks"]["exact_output_canonical"] != EXPECTED_BC2_18_OUTPUT:
+        raise ValueError("BC2-18 exact-output canonical regression")
+    if bc218["exact_decomposition"]["feasible_stream_sha256"] != EXPECTED_BC2_18_STREAM:
+        raise ValueError("BC2-18 feasible stream regression")
+    if bc218["exact_decomposition"]["enumerated_parent_count"] != 177100:
+        raise ValueError("BC2-18 enumeration-count regression")
     if bc218["exact_decomposition"]["mod8_extendable_parent_count"] != EXPECTED_PARENT_COUNT:
         raise ValueError("BC2-18 parent-count regression")
     if bc219["result"]["input_mod8_parent_count"] != EXPECTED_PARENT_COUNT:
@@ -197,6 +213,8 @@ def main() -> None:
         "source_locks": {
             "bc2_17_evidence_canonical": EXPECTED_BC2_17,
             "bc2_18_checkpoint_canonical": EXPECTED_BC2_18,
+            "bc2_18_exact_output_canonical": EXPECTED_BC2_18_OUTPUT,
+            "bc2_18_feasible_stream_sha256": EXPECTED_BC2_18_STREAM,
             "bc2_19_checkpoint_canonical": EXPECTED_BC2_19,
             "retained_bundle_canonical": d18.EXPECTED_BUNDLE_CANONICAL,
             "retained_marking_canonical": d18.EXPECTED_MARKING_CANONICAL,
@@ -255,6 +273,7 @@ def main() -> None:
         "solver_result": str(result),
         "next": next_id,
     }, sort_keys=True))
+
 
 if __name__ == "__main__":
     main()
