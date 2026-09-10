@@ -21,7 +21,7 @@
   },
   "stage32_main_authority": {
     "authority_pr": 1753,
-    "authority_head_observed": "58a25f59c3f82738c4666c76233568a038d151df",
+    "authority_head_observed": "1edbb0775d2beac51d98c1327d2fe6b83c012323",
     "control_mode": "FULL178_AND_FINAL_MILESTONE_CHAIN",
     "primary_incomplete_id": "32-01",
     "primary_incomplete_name": "FULL178",
@@ -89,20 +89,20 @@
     }
   },
   "current": {
-    "status": "BC2_12_EXACT_UNSAT_PASS_BC2_13_ACTIVE",
+    "status": "BC2_13_STRUCTURAL_PREFLIGHT_PASS_BC2_14_ACTIVE",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_13_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
+    "leaf": "BC2_14_OUTER_RANK4_SYMBOLIC_X4_PARENT_PREFLIGHT",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "objective": "Extend the exact compressed-terminal to Picard64 obstruction/interface one outer exceptional block at a time while preserving a fail-closed path to the current Stage32 production-leaf producer-registration boundary.",
-    "blocker": "NEXT_EXCEPTIONAL_OUTER_BLOCK_NOT_YET_STRUCTURALLY_REDERIVED",
-    "next_route": "BC2_13_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
-    "stop_semantics": "LOCAL_EXACT_BLOCK_PROGRESS_ONLY_NO_AUTOMATIC_FULL178_OR_MAIN_PROMOTION"
+    "blocker": "OUTER_RANK4_SYMBOLIC_X4_PICARD64_PARENT_NOT_YET_EXACTLY_CLASSIFIED",
+    "next_route": "BC2_14_OUTER_RANK4_SYMBOLIC_X4_PARENT_PREFLIGHT",
+    "stop_semantics": "LOCAL_STRUCTURAL_PROGRESS_ONLY_FOR_RANK532_TO_664_NO_AUTOMATIC_FULL178_OR_MAIN_PROMOTION"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-12-outer-rank3-exact-unsat-checkpoint.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-12-outer-rank3-parent-preflight-evidence.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_11_next_exceptional_terminal_block_preflight.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-13-next-exceptional-terminal-block-preflight-checkpoint.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_13_next_exceptional_terminal_block_preflight.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_10_outer_rank2_symbolic_x4_parent_preflight.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_03_generic_indexed_terminal_adaptive_exceptional_partition.py",
     "stages/stage32-ex5/verify_main_state.py"
   ],
@@ -119,7 +119,7 @@
     "unsat_output": "exact obstruction for the certified terminal or finite symbolic-x4 block",
     "legacy_n150_consumed_snapshot_through_rank_observed": 265,
     "ex5_retained_exact_unsat_progress_through_rank": 531,
-    "ex5_structural_replay_progress_through_rank": 531,
+    "ex5_structural_replay_progress_through_rank": 664,
     "newer_ex5_progress_auto_promoted_to_main": false,
     "n350_producer_registration_available_to_ex5_now": false,
     "population_wide_full178_adapter_complete": false,
@@ -130,7 +130,8 @@
     "picard64_exact_completion_interface_available": true,
     "closed_local_terminal_blocks": [[0, 132], [133, 265], [266, 398], [399, 531]],
     "closed_local_terminal_rank_prefix": [0, 531],
-    "next_structural_block_exactly_rederived": false,
+    "next_structural_block_exactly_rederived": true,
+    "structural_replay_rank_prefix": [0, 664],
     "whole_g1_d008_e4_stratum_closed": false,
     "FULL178_complete": false,
     "stage32_main_primary_incomplete_remains_32_01": true,
@@ -150,6 +151,9 @@
     "bc2_12_rank_399_531_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-12-outer-rank3-exact-unsat-checkpoint.json",
     "bc2_12_rank_399_531_checkpoint_canonical": "2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9",
     "bc2_12_parent_partition": "20_OF_20_EXACT_UNSAT_UNKNOWN_0_SAT_0",
+    "bc2_13_rank_532_664_structural_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-13-next-exceptional-terminal-block-preflight-checkpoint.json",
+    "bc2_13_rank_532_664_structural_checkpoint_canonical": "77a0d31f6c5ca4b725c8d4f34ac2a867b82e042768858ff6475d949e1444f9c0",
+    "bc2_13_rank_532_664_replay_stream_sha256": "c7178bb53882b5e4c88309bf26ff149e993f07d4c610aec98c50f7a9a84005d5",
     "exact_evidence_rewritten_by_semantic_sync": false
   },
   "claim_sync": {
@@ -163,7 +167,7 @@
     "main_promotion": false
   },
   "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_NO_PARENT_PROMOTION",
+    "level": "LOCAL_STRUCTURAL_AND_EXACT_FULL178_INTERFACE_PROGRESS_NO_PARENT_PROMOTION",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -185,6 +189,7 @@
   "firewalls": {
     "local_block_unsat_promoted_to_whole_stratum": false,
     "local_block_unsat_promoted_to_FULL178": false,
+    "bc2_13_structural_replay_promoted_to_picard64_unsat": false,
     "bc2_12_local_unsat_promoted_to_stage32_main": false,
     "sat_witness_promoted_to_effective_curve_existence": false,
     "ex5_progress_auto_promoted_to_stage32_main": false,
@@ -205,8 +210,8 @@
     "required_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
   },
   "next_step": {
-    "id": "BC2_13_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT",
-    "goal": "Rederive the next 133-rank exceptional outer block after ranks 399..531 by exact rank/unrank and source-terminal-predicate replay before applying any Picard64 solver credit.",
+    "id": "BC2_14_OUTER_RANK4_SYMBOLIC_X4_PARENT_PREFLIGHT",
+    "goal": "Apply the exact symbolic-x4 Picard64 selected-exceptional parent formulation only to ranks 532..664; derive fixed/residual exceptional mass from the retained BC2-13 terminal signature before constructing the parent partition.",
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "blocked_until_intermediate_hostile_audit_pass": false,
