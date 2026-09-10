@@ -2,7 +2,7 @@
 """Exact preflight: close the *numerical marking* gate for current Smith reuse.
 
 This does NOT lift a numerical Picard class to an actual carrier/common-cover/
-H-equivariant cellular assembly.  It only verifies that the retained current
+H-equivariant cellular assembly. It only verifies that the retained current
 X(8) boundary/exceptional geometry already supplies an audited marking in
 which the three single-transposition pair-mass signatures are the three
 marked cusp-pair directions.
@@ -16,8 +16,8 @@ import sys
 from collections import Counter, defaultdict, deque
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
-RESIDUAL = ROOT / "stage32" / "residual-32-01-production"
+STAGE32 = Path(__file__).resolve().parents[1]
+RESIDUAL = STAGE32 / "residual-32-01-production"
 HERE = Path(__file__).resolve().parent
 
 INCIDENCE_CANONICAL = "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143"
@@ -86,9 +86,9 @@ def connected_components(edges: set[tuple[int, int]]) -> list[tuple[set[int], se
                     seen.add(v)
                     unseen.discard(v)
                     q.append(v)
-        L = {x for s, x in seen if s == "L"}
-        R = {x for s, x in seen if s == "R"}
-        comps.append((L, R))
+        left = {x for s, x in seen if s == "L"}
+        right = {x for s, x in seen if s == "R"}
+        comps.append((left, right))
     return sorted(comps, key=lambda z: min(z[0]))
 
 
@@ -104,15 +104,12 @@ def main() -> None:
     require_canonical(cz, CZERO_CANONICAL, "c_zero_partition")
     require_canonical(cls, PAIR_IMAGE_CANONICAL, "pair_image_classifier")
 
-    # Historical evidence-locator receipt is used only to prove that the
-    # two semantic marking adapters were separately hostile-audited.
     assets = {a["asset_id"]: a for a in locator["assets"]}
     for aid, canon in [
         ("EVID-S32-BOUNDARY-LABEL-WEIERSTRASS-ADAPTER", WEIERSTRASS_CANONICAL),
         ("EVID-S32-X8-MARKED-NODE-CZERO-PARTITION", CZERO_CANONICAL),
     ]:
-        a = assets[aid]
-        auth = a["current_authority_snapshot"]
+        auth = assets[aid]["current_authority_snapshot"]
         assert auth["status"] == "AUDITED_PASS"
         assert auth["canonical_sha256"] == canon
         assert auth["audit_pass_head_sha"] == MARKING_AUDIT_HEAD
@@ -128,30 +125,29 @@ def main() -> None:
 
     comps = connected_components(edges)
     assert len(comps) == 3
-    assert all(len(L) == len(R) == 2 for L, R in comps)
-    assert all({(a, b) for a in L for b in R} <= edges for L, R in comps)
+    assert all(len(left) == len(right) == 2 for left, right in comps)
+    assert all({(a, b) for a in left for b in right} <= edges for left, right in comps)
 
     wmap = {int(k): int(v) for k, v in wei["boundary_to_weierstrass_id"].items()}
     component_weierstrass_pairs = []
-    for L, R in comps:
-        lw, rw = {wmap[x] for x in L}, {wmap[x] for x in R}
+    for left, right in comps:
+        lw, rw = {wmap[x] for x in left}, {wmap[x] for x in right}
         assert lw == rw and len(lw) == 2
         component_weierstrass_pairs.append(tuple(sorted(lw)))
     component_weierstrass_pairs = sorted(component_weierstrass_pairs)
     expected_pairs = sorted([tuple(sorted(x)) for x in wei["cusp_pairs"].values()])
     assert component_weierstrass_pairs == expected_pairs == [(1, 6), (2, 4), (3, 5)]
 
-    # c=0 and c!=0 each form one complementary perfect matching in every K2,2.
     zero_pairs = {tuple(map(int, k.split(":"))) for k in cz["structure"]["c_zero_pairs"]}
     nonzero_pairs = {tuple(map(int, k.split(":"))) for k in cz["structure"]["c_nonzero_pairs"]}
     assert zero_pairs.isdisjoint(nonzero_pairs)
     assert zero_pairs | nonzero_pairs == edges
-    for L, R in comps:
-        block = {(a, b) for a in L for b in R}
+    for left, right in comps:
+        block = {(a, b) for a in left for b in right}
         for matching in (zero_pairs & block, nonzero_pairs & block):
             assert len(matching) == 2
-            assert {a for a, _ in matching} == L
-            assert {b for _, b in matching} == R
+            assert {a for a, _ in matching} == left
+            assert {b for _, b in matching} == right
 
     transpositions = sorted(
         tuple(sorted(rec["nontrivial_cycles"][0]))
