@@ -1,13 +1,7 @@
 name: "[Stage32][32-01-178][N349] FSM boundary equality preflight"
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - "stages/stage32/32-01-178/nodes/N342/**"
-      - "stages/stage32/32-01-178/nodes/N348/**"
-      - "stages/stage32/32-01-178/nodes/N349/**"
-      - "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md"
-      - ".github/workflows/stage32-01-178-n349-fsm-boundary-equality.yml"
   workflow_dispatch:
 
 permissions:
@@ -45,6 +39,7 @@ jobs:
           print(f"canonical={d['canonical_sha256_without_this_field']}")
           PY
       - name: Diff check
+        if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
 
   report:
