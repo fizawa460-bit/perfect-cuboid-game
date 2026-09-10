@@ -15,10 +15,11 @@ CONTRACT = ROOT / "stages/stage29/29-02c-LG2/finite-search-contract.md"
 AGG = ROOT / "stages/stage32/residual-32-01-production/aggregate_stage32_post21bl_full178_node_mass_shards.py"
 
 EXPECTED_CANONICAL = "c3789b3b4ac53fe2162f580989fbca6512007f1b7b19cdeef54ca541a3abfedc"
+HISTORICAL_INDEX_BLOB = "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98"
+HISTORICAL_INDEX_BYTES = 101763
 EXPECTED_BLOBS = {
     FIRST: "554f8626e0ea225ffb7e6a5b6fe40ee41a7448ee",
     POLICY: "bf001d4ff4375281a901d52c147c35c28643b8a3",
-    INDEX: "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98",
     CATALOG: "87c4c896cc04a34e8e12ede92ced1c6079b76874",
     CONTRACT: "2c1a4813a77b517482b6fef497f9a517c9d12fe6",
     AGG: "92561bbc1cac6f2d5c47bf37bfbc9c6bfaba3cdd",
@@ -55,11 +56,22 @@ def main() -> None:
     assert p["decision"]["stage32_main_credit"] is False
     assert p["decision"]["next_leaf"] == "BC2-01_SUPPORT_ADAPTER_PREFLIGHT"
 
+    # Immutable source providers remain byte-locked.  The Arsenal machine
+    # registry is intentionally mutable as new cards are promoted, so replay
+    # its historical identity from the retained artifact and validate the live
+    # registry semantically instead of requiring the old whole-file blob.
     for path, expected in EXPECTED_BLOBS.items():
         actual = git_blob_sha(path)
         assert actual == expected, (str(path), actual, expected)
 
-    assert INDEX.stat().st_size == 101763
+    assert p["basis"]["arsenal_index_blob"] == HISTORICAL_INDEX_BLOB
+    assert p["basis"]["arsenal_index_byte_size"] == HISTORICAL_INDEX_BYTES
+    assert INDEX.is_file()
+    registry = json.loads(INDEX.read_text(encoding="utf-8"))
+    assert registry.get("registry_contract", {}).get("canonical_machine_registry") is True
+    assert registry.get("active_stage_snapshot_policy", {}).get("live_head_must_be_refetched_at_card_use") is True
+    assert registry.get("active_stage_snapshot_policy", {}).get("head_drift_requires_targeted_source_revalidation_before_use") is True
+
     assert p["basis"]["arsenal_index_whole_fetched_into_chat"] is False
     assert p["arsenal_second_pass"]["search_miss_used_as_proof_of_absence"] is False
     assert p["arsenal_second_pass"]["absence_is_not_repository_wide_mathematical_absence"] is True
@@ -110,6 +122,8 @@ def main() -> None:
     print(json.dumps({
         "verdict": "PASS_BC2_00_SECOND_PASS_DEDUP_MATERIALLY_NEW_ROUTE_REENTRY_ELIGIBLE",
         "canonical_sha256": EXPECTED_CANONICAL,
+        "historical_arsenal_index_blob": HISTORICAL_INDEX_BLOB,
+        "live_arsenal_registry_revalidated_semantically": True,
         "route_qualified": False,
         "mathematical_credit": False,
         "next_leaf": "BC2-01_SUPPORT_ADAPTER_PREFLIGHT",
