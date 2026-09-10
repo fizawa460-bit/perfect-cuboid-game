@@ -1,0 +1,64 @@
+name: "[Stage32][32-01-178][N353] FULL178 scalar Hurwitz census"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N220/**"
+      - "stages/stage32/32-01-178/nodes/N250/**"
+      - "stages/stage32/32-01-178/nodes/N351/**"
+      - "stages/stage32/32-01-178/nodes/N352/**"
+      - "stages/stage32/32-01-178/nodes/N353/**"
+      - "stages/stage32/residual-32-01-production/full178-manifest.json"
+      - "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json"
+      - ".github/workflows/stage32-01-178-n353-full178-scalar-hurwitz-census.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      contradicted: ${{ steps.ledger.outputs.contradicted }}
+      remaining: ${{ steps.ledger.outputs.remaining }}
+      rejected_terminals: ${{ steps.ledger.outputs.rejected_terminals }}
+      remaining_terminals: ${{ steps.ledger.outputs.remaining_terminals }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Replay N353 exact FULL178 scalar census
+        run: |
+          python stages/stage32/32-01-178/nodes/N353/verify_n353_full178_scalar_hurwitz_census.py \
+            --output /tmp/n353-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n353-result.json'))
+          a=d['aggregate']
+          print(f"contradicted={a['contradicted_strata']}")
+          print(f"remaining={a['not_contradicted_strata']}")
+          print(f"rejected_terminals={a['candidate_rejected_terminals']}")
+          print(f"remaining_terminals={a['candidate_remaining_terminals']}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N353 scalar census rejected=${{ needs.verify.outputs.contradicted }} remaining=${{ needs.verify.outputs.remaining }}"
+    steps:
+      - name: Report N353 compact ledger
+        run: |
+          echo "candidate_rejected_terminals=${{ needs.verify.outputs.rejected_terminals }}"
+          echo "candidate_remaining_terminals=${{ needs.verify.outputs.remaining_terminals }}"
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "N351/N352 external hostile audits remain required"
+          echo "MAIN/FULL178/N350/theorem/receiver/endpoint credit=false"
