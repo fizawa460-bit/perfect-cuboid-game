@@ -39,6 +39,10 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_one_bit_source_formula.py | tee /tmp/smith-formula.json
+      - name: Isolate transvection-only Smith bit
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_transvection_universal_mod2_preflight.py | tee /tmp/smith-transvection.json
       - name: Install exact linear algebra dependency
         run: |
           python -m pip install --disable-pip-version-check sympy==1.14.0
@@ -55,9 +59,11 @@ jobs:
           o=json.load(open('/tmp/smith-mod2.json'))
           a=json.load(open('/tmp/smith-affine.json'))
           s=json.load(open('/tmp/smith-formula.json'))
+          u=json.load(open('/tmp/smith-transvection.json'))
           p=json.load(open('/tmp/smith-prefix-gap.json'))
           m=x['map']; r=d['exact_replay']; f=a['family']
           g=p['exact_gap']; c=p['selected64_comparison']
+          ur=u['full_ring_mod2_replay']; ui=u['integral_gluing_parity_replay']
           print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
           print('detector_canonical='+d['canonical_sha256_without_this_field'])
@@ -69,13 +75,19 @@ jobs:
           print('affine_dim='+str(f['affine_span_dimension']))
           print('source_formula_canonical='+s['canonical_sha256_without_this_field'])
           print('source_common_bit='+s['exact_formula']['common_mod2'])
+          print('transvection_universal_canonical='+u['canonical_sha256_without_this_field'])
+          print('transvection_compatible_ring_residues='+str(ur['transvection_compatible_residue_count']))
+          print('transvection_counts_by_factor='+str(ur['counts_by_selected_prym_factor']))
+          print('transvection_all_force_bit1='+str(ur['all_transvection_compatible_residues_force_source_bit_one']))
+          print('transvection_mod4_lifts_checked='+str(ui['mod4_lifts_checked']))
+          print('transvection_integral_builds='+str(ui['integral_builds']))
+          print('v6_norms_needed_for_mod2='+str(u['interpretation']['v6_specific_norm_137_9_9_is_needed_for_this_mod2_obstruction']))
           print('pair_mass_gap_canonical='+p['canonical_sha256_without_this_field'])
           print('invalid_boundary_sum_model_superseded=True')
           print('pair_mass_rank='+str(g['pair_mass_parity_map_rank']))
           print('pair_mass_residual_rank='+str(g['residual_pair_mass_parity_rank_beyond_current_observables']))
           print('individually_determined_pairs='+str(g['individually_determined_pair_indices_0based']))
           print('minimal_extra_pair_group_sums='+str(g['minimal_additional_true_pair_group_sums_to_determine_all_pair_parities']))
-          print('minimal_pair_group_subsets='+str(g['minimal_group_subsets_0based_first30']))
           print('selected64_exceptional_labels='+str(c['selected_exceptional_labels']))
           print('residual_after_all_selected_exceptional='+str(c['residual_pair_mass_rank_after_current_plus_all_selected_exceptional_labels']))
           print('CURRENT_FULL178_SEMANTIC_ADAPTER=false')
