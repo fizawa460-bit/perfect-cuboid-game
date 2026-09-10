@@ -18,6 +18,9 @@ HERE = Path(__file__).resolve().parent
 ART = HERE / "ex5-04-repository-asset-dedup.json"
 EX503 = HERE / "ex5-03-clean-room-route-universe.json"
 INDEX = ROOT / "docs/arsenal/index.json"
+HISTORICAL_INDEX_PATH = "docs/arsenal/index.json"
+HISTORICAL_INDEX_BLOB = "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98"
+HISTORICAL_INDEX_BYTES = 101763
 
 
 def require(cond: bool, msg: str) -> None:
@@ -78,9 +81,19 @@ def main() -> None:
     require(data.get("status") == "EX5_04_REPOSITORY_ASSET_DISCOVERY_DEDUP_COMPLETE_UNAUDITED_RETAINED",
             "wrong EX5-04 status")
 
+    # Immutable source locks remain byte-exact.  docs/arsenal/index.json is a
+    # mutable generated registry; retain its historical identity in EX5-04 but
+    # revalidate the live registry semantically below instead of requiring the
+    # repository to remain frozen at that old whole-file blob.
+    historical_index_lock_seen = False
     for lock in data["source_locks"]:
         path = ROOT / lock["path"]
         require(path.is_file(), f"missing source lock {lock['path']}")
+        if lock["path"] == HISTORICAL_INDEX_PATH:
+            historical_index_lock_seen = True
+            require(lock["blob_sha1"] == HISTORICAL_INDEX_BLOB, "historical Arsenal index blob record drift")
+            require(lock.get("byte_size") == HISTORICAL_INDEX_BYTES, "historical Arsenal index size record drift")
+            continue
         require(blob_sha1(path) == lock["blob_sha1"], f"source blob drift {lock['path']}")
         if "byte_size" in lock:
             require(path.stat().st_size == lock["byte_size"], f"source size drift {lock['path']}")
@@ -89,6 +102,7 @@ def main() -> None:
             stored = obj.pop("canonical_sha256_without_this_field")
             require(stored == lock["canonical_sha256"], f"stored canonical drift {lock['path']}")
             require(csha(obj) == stored, f"recomputed canonical drift {lock['path']}")
+    require(historical_index_lock_seen, "historical Arsenal index source lock missing")
 
     inspect = data["inspection_contract"]
     for key in (
@@ -106,12 +120,17 @@ def main() -> None:
         "asset_keyword_match_grants_applicability",
     ):
         require(inspect[key] is False, f"inspection firewall lost: {key}")
-    require(INDEX.stat().st_size == inspect["arsenal_index_byte_size"] == 101763,
-            "Arsenal index byte-size lock drift")
+    require(inspect["arsenal_index_byte_size"] == HISTORICAL_INDEX_BYTES,
+            "historical Arsenal index byte-size record drift")
+    require(INDEX.is_file(), "live Arsenal index missing")
 
     registry = json.loads(INDEX.read_text(encoding="utf-8"))
     require(registry.get("registry_contract", {}).get("canonical_machine_registry") is True,
             "Arsenal index is not marked canonical machine registry")
+    require(registry.get("active_stage_snapshot_policy", {}).get("live_head_must_be_refetched_at_card_use") is True,
+            "Arsenal live-head revalidation contract drift")
+    require(registry.get("active_stage_snapshot_policy", {}).get("head_drift_requires_targeted_source_revalidation_before_use") is True,
+            "Arsenal head-drift revalidation contract drift")
     entries = collect_index_entries(registry)
     ids = [e["id"] for e in entries]
     require(len(ids) == len(set(ids)), "duplicate active Arsenal IDs")
