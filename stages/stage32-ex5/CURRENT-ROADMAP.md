@@ -4,47 +4,44 @@ This is the mutable current roadmap. `stage32-ex5.md` is the historical Cycle1 s
 
 ## Stage32 context
 
-Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Current observed Stage32 MAIN #1753 head is `b1d44137e0dd87cd3a604221715596d9b3574bc5`.
-
-The latest retained MAIN attack checkpoint visible there is N349C hostile-audit handoff, canonical `2034688f2f881fbd1aeab8b4a567179a8767a7378daf43105910f0de92320eec`. N349C remains provisional; N260/N280 prerequisite audits are separate. The MAIN startup state still carries the older N350 stop-gate projection, so N350 is treated here only as the separate fail-closed production-registration boundary.
+Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Observed MAIN PR #1753 head is `b1d44137e0dd87cd3a604221715596d9b3574bc5`. N349C hostile-audit handoff is the latest observed MAIN attack checkpoint; N350 remains the separate production-registration boundary.
 
 V6, O210, and Q602 are not current attack targets. `[73,97,235]` is historical/formal Q602 provenance, not a live survivor population.
 
 ## BC2 retained progress
 
-The current local `(g1-d008,e=4)` exact Picard64 UNSAT prefix is `0..664`:
+The local exact Picard64 UNSAT prefix remains `0..664`:
 
-- BC2-05: `0..132` exact UNSAT;
-- BC2-08: `133..265` exact UNSAT;
-- BC2-10: `266..398` exact UNSAT;
-- BC2-12: `399..531` exact UNSAT;
-- BC2-14: `532..664` exact UNSAT.
+- BC2-05 `0..132` exact UNSAT;
+- BC2-08 `133..265` exact UNSAT;
+- BC2-10 `266..398` exact UNSAT;
+- BC2-12 `399..531` exact UNSAT;
+- BC2-14 `532..664` exact UNSAT.
 
-For BC2-14, the exact BC2-13 structural signature plus locked assignment order gives fixed exceptional mass `4` and residual exceptional mass `0`. The selected-exceptional partition therefore has one parent, and the exact QF_LIA Picard64 solver result is `1/1 UNSAT`, `UNKNOWN=0`, `SAT=0`.
+BC2-15 structurally rederived the next 133-rank block without solver credit:
 
-BC2-14 evidence canonical: `52fb48627a8646db2dc5b3e0b04eb32bc89ca9391988f4b91f7f51afada2de5d`.
-BC2-14 checkpoint canonical: `fa603024cbf3b89fb097401f4e5e9b3f0cad04a0a0b6dd0b919b3a37b2781c0e`.
+- ranks `665..797`;
+- outer exceptional rank `5`;
+- base terminal `[0,1,0,0,0,0,2,0,0,0,1]`;
+- exceptional signature `[0,1,0,0,0,2,0,0,0,1]`;
+- `133/133` rank/unrank and source-terminal-predicate replays exact;
+- replay SHA `6655d249aa6d51cea8fe9bd7108c315c523b5ee1725d36dd1a1a537e11d4724f`;
+- checkpoint canonical `f88ebe53c4300c01fc0a4870cc0dca75a0a091b60c95c8da7e00926bcee43182`.
+
+Structural replay therefore reaches rank `797`, while exact UNSAT remains only through `664`.
 
 ## Current route
 
-`BC2_15_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`.
+`BC2_16_OUTER_RANK5_SYMBOLIC_X4_PARENT_PREFLIGHT`.
 
-Goal: structurally rederive the next exact 133-rank exceptional outer block after rank `664` using the source `CompressedTerminalIndexer`, rank/unrank round trips, and source `terminal_predicate` replay. Stop after an exact structural checkpoint. Do not assume the next exceptional signature or mass split from BC2-14.
+Goal: apply the retained exact symbolic-x4 Picard64 selected-exceptional parent formulation only to ranks `665..797`. Derive fixed/residual exceptional mass from the actual BC2-15 terminal signature and locked label order before constructing the parent partition. Do not infer the split solely from outer rank `5`.
 
-If BC2-15 succeeds structurally, a later bounded unit may construct its symbolic-x4 Picard64 parent partition. Heavy scaleout is not authorized by this roadmap.
+Heavy scaleout is not authorized by this roadmap. Any solver/artifact-producing execution requires a dedicated fresh run-key.
 
 ## Claim and promotion boundary
 
-BC2-14 triggered retained-consolidation claim synchronization. EX5 remains an `ATTACKS` lane for `S32.FULL178.NUMERICAL_CENSUS.V1`; the active goal semantics did not change, so no claim-core mutation or ACTIVE-FRONTIER remap was required. Receipt canonical: `b42ff343464c2dfceaa9203309024f657ee1d0f29bfaa7e326b0dfcf21598ddc`.
+BC2-15 is structural-only, so it does not fire a new claim-DAG synchronization trigger. The last retained-consolidation synchronization remains BC2-14, receipt canonical `b42ff343464c2dfceaa9203309024f657ee1d0f29bfaa7e326b0dfcf21598ddc`. EX5 remains `ATTACKS` on `S32.FULL178.NUMERICAL_CENSUS.V1`; no claim-core mutation, ACTIVE-FRONTIER remap, or MAIN promotion occurs here.
 
-This local result is not a MAIN-consumable production producer and receives zero N350/N104 production-coverage credit. Promotion to Stage32 MAIN requires a separate exact current-target producer/adapter, replayable source locks, the required hostile audit, and explicit MAIN-side registration. EX5 cannot self-promote.
+The exact prefix plus structural replay does not prove the whole stratum closed, FULL178 complete, N350/N104 production coverage, receiver/effectivity/theorem/endpoint credit, Stage32 closure, or Perfect Cuboid existence/nonexistence.
 
-## Credit ceiling
-
-The exact prefix `0..664` proves only local finite Picard64 obstruction in the locked EX5 model. It does not prove the whole `(g1-d008,e=4)` stratum closed, FULL178 complete, receiver closure, effectivity or actual-curve nonexistence, Stage32 closure, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
-
-N350 remains a production-registration boundary. Legacy N150 references are compatibility/provenance only. N349C is the latest observed MAIN attack/audit checkpoint and is independent of this EX5 local prefix.
-
-## Audit and merge
-
-Current work is Draft PR #1765 on `impl/stage32ex5-bc2-12-outer-rank3`. A future `stage32ex5-audit` must attack an exact fixed head independently. CI success is not hostile-audit PASS. Merge requires explicit user authorization.
+Current work remains Draft PR #1765. A future `stage32ex5-audit` must attack an exact fixed head independently; CI success is not hostile-audit PASS. Merge requires explicit user authorization.
