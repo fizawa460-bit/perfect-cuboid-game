@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32_32_01_178_N354_HOSTILE_AUDIT_HANDOFF_V1",
+  "node_id": "N354",
+  "pr": 1753,
+  "audit_candidate_exact_head": "ab0ce28876dbba306985343c104b02b69cec89fb",
+  "scope": "N354_TWO_SIDED_SCALAR_HURWITZ_CONSEQUENCES_AND_EXACT_POST_N353_CENSUS_ONLY",
+  "prerequisite_audited_chain": {
+    "n353_hostile_audit_review_id": 5163144778,
+    "n353_audited_exact_head": "0f8cee995e5c982cdb7ceceae14d69f91e65588d",
+    "n353_credit_ceiling": "EXACT_POST_N220_FULL178_SCALAR_HURWITZ_NECESSARY_CUT_ONLY_12788_STRATA_264541612417334415376_TERMINALS_NO_FULL178_COMPLETION_OR_THEOREM_CREDIT"
+  },
+  "authority": {
+    "n354_contract_path": "stages/stage32/32-01-178/nodes/N354/TWO_SIDED_SCALAR_HURWITZ_CONTRACT.md",
+    "n354_contract_blob_sha1": "7e1012c2f3b6a81889695fcfbc3bb1c2a7e78ba0",
+    "n354_result_path": "stages/stage32/32-01-178/nodes/N354/RESULT.json",
+    "n354_result_blob_sha1": "6f6ed5646689940cc304a655711dba83333d3576",
+    "n354_result_canonical_sha256": "9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4",
+    "n354_verifier_path": "stages/stage32/32-01-178/nodes/N354/verify_n354_two_sided_scalar_hurwitz.py",
+    "n354_verifier_blob_sha1": "324eee3bd20681a8440bc92713cfd1ae074d5d8c",
+    "n354_workflow_path": ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
+    "n354_workflow_blob_sha1": "12287e1ed772346e4249c67676b1680ad4536da1",
+    "n353_audit_receipt_blob_sha1": "7f1e2a7d930e6ddc25b83e00321c40e68742d656",
+    "main_state_blob_sha1": "deb6e632e65625dd9d0326f38ecd4ec820ea540c",
+    "main_state_canonical_sha256": "5509927c12aad7fcc8a387e282514bd0431436456da1e20a4941b6e0b8ad93d9",
+    "main_startup_verifier_blob_sha1": "f2f55aedaafe82615fdfae9286909fc94e7d3762",
+    "management_sync_blob_sha1": "6eb1e8db3f6ed3861a73ad5a13f60615fb7825e5",
+    "management_sync_canonical_sha256": "39bcfd3c0573460cc36a0605ec6041a36f9b8586638bd07b323e917fded78b4a"
+  },
+  "claims_to_audit": {
+    "parity": "From integer identities 6*n_i=2*q_i+e in either retained factor direction, e must be even.",
+    "lower_bound": "From q_i>=0, n_i>=ceil(e/6) in each factor; with n1+n2=d this gives d>=2*ceil(e/6).",
+    "two_sided": "Together with audited N353 upper bound, every admissible class must satisfy e even and 2*ceil(e/6)<=d<=e+4g-4.",
+    "population_partition": "Within the audited N353 remaining 47703 strata / 346053443361304169755481593 terminals, the new predicate e odd OR d<2*ceil(e/6) rejects exactly 30575 strata / 307492486826907032120701491 terminals, leaving 17128 strata / 38560956534397137634780102 terminals."
+  },
+  "hostile_checks": [
+    "Verify N351's audited 6*n_i=2*q_i+e identity has integer n_i and nonnegative integer q_i in both factor directions at exactly the same N353 scope; do not silently widen geometric hypotheses.",
+    "Check that parity really forces e even and that no convention allows half-integral q_i or n_i.",
+    "Check q_i>=0 at the retained Picard/geometric scope and independently derive n_i>=ceil(e/6).",
+    "Combine the two lower bounds only after confirming the audited N352 identity n1+n2=d applies to the same class and both factor directions.",
+    "Independently replay the post-N220/N353 classification and verify 23798 odd-e rejected strata / 173026564978667598377973100 terminals; 6777 additional lower-interval rejected strata / 134465921848239433742728391 terminals; total N354 30575 / 307492486826907032120701491; remaining 17128 / 38560956534397137634780102; stream SHA256 22449c7eafde95da5366e5092943aeb3cd47834bbe7379c9b47d14bb7d1d0439.",
+    "Verify the audit consumption changes no S32.FULL178.NUMERICAL_CENSUS.V1 completion-goal core/status: it remains DECLARED_GOAL / ACTIVE_INCOMPLETE.",
+    "Preserve all firewalls: no N350 registration, production COMPLETE/N104 release, FULL178 completion, theorem/receiver/endpoint/Stage32 closure, Perfect Cuboid claim, heavy authorization, or merge authorization."
+  ],
+  "credit_ceiling_if_pass": "EXACT_POST_N353_FULL178_TWO_SIDED_SCALAR_HURWITZ_NECESSARY_CUT_ONLY_30575_STRATA_307492486826907032120701491_TERMINALS_NO_FULL178_COMPLETION_OR_THEOREM_CREDIT",
+  "forbidden_promotions": [
+    "N350 producer registration",
+    "production COMPLETE",
+    "N104 release",
+    "FULL178 completion",
+    "theorem/receiver/endpoint credit",
+    "Stage32 closure",
+    "Perfect Cuboid existence or nonexistence",
+    "heavy-compute authorization",
+    "merge authorization"
+  ],
+  "canonical_sha256_without_this_field": "350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6"
+}
