@@ -60,9 +60,11 @@ jobs:
           assert s['retired_merged_ids']['S32-PW02']=='S32-PW01'
           assert s['provisional_active_entry_count']==13
           assert 'S32-PW13' not in s['active_cards']
-          for p in [*[f'docs/arsenal/cards/provisional/S32-PW{i:02d}.md' for i in range(7,13)], 'docs/arsenal/cards/workflows/S32-WF01.md','docs/arsenal/cards/workflows/S32-WF02.md']:
+          for p in ['docs/arsenal/cards/provisional/S32-PW01.md', *[f'docs/arsenal/cards/provisional/S32-PW{i:02d}.md' for i in range(7,13)], 'docs/arsenal/cards/workflows/S32-WF01.md','docs/arsenal/cards/workflows/S32-WF02.md']:
               assert Path(p).is_file(), p
           promo=Path('docs/stage32-arsenal-promotion.md').read_text()
+          assert promo.count('### Harvest 4 extension — authority-preserving filtered random access')==1
+          assert promo.count('# Fourth Stage32 provisional harvest — Harvest 4 ready-wave registration')==1
           assert promo.count('## S32-PW01 —')==1
           for i in range(7,13): assert f'## S32-PW{i:02d} —' in promo
           assert '## S32-WF01 —' in promo and '## S32-WF02 —' in promo
@@ -75,12 +77,12 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/stage32-arsenal-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards/provisional/S32-PW07.md docs/arsenal/cards/provisional/S32-PW08.md docs/arsenal/cards/provisional/S32-PW09.md docs/arsenal/cards/provisional/S32-PW10.md docs/arsenal/cards/provisional/S32-PW11.md docs/arsenal/cards/provisional/S32-PW12.md docs/arsenal/cards/workflows/S32-WF01.md docs/arsenal/cards/workflows/S32-WF02.md
+          git add docs/stage32-arsenal-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards/provisional/S32-PW01.md docs/arsenal/cards/provisional/S32-PW07.md docs/arsenal/cards/provisional/S32-PW08.md docs/arsenal/cards/provisional/S32-PW09.md docs/arsenal/cards/provisional/S32-PW10.md docs/arsenal/cards/provisional/S32-PW11.md docs/arsenal/cards/provisional/S32-PW12.md docs/arsenal/cards/workflows/S32-WF01.md docs/arsenal/cards/workflows/S32-WF02.md
           if git diff --cached --quiet; then
             echo 'READY_WAVE_ALREADY_MATERIALIZED=true'
             exit 0
           fi
-          git commit -m '[Arsenal][Stage32] materialize Harvest 4 ready wave'
+          git commit -m '[Arsenal][Stage32] materialize Harvest 4 ready wave generated extension'
           git push origin HEAD:${GITHUB_REF_NAME}
       - name: Verify exact committed tree
         shell: bash
