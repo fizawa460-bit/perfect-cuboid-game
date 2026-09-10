@@ -1,35 +1,29 @@
 # Stage32EX5 current roadmap
 
-This is the mutable current roadmap. `stage32-ex5.md` is the historical Cycle1 source-locked roadmap and is not rewritten.
+This is the mutable current roadmap. `stage32-ex5.md` remains the historical Cycle1 source-locked roadmap.
 
 ## Stage32 synchronization
 
-Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Observed MAIN PR #1753 head is `6827e386f9c450414627573ea305b9794f2341bf` and observed default `main` is `5ca6acba4b591d9e2d40057241c850598c1fa1df`.
+Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. The latest audited/consumed MAIN boundary remains N355 full known-prefix with residual `17128` strata / `66462870551188628549910` terminals. N356 remains `AUDIT_REQUIRED`; N350 remains a separate zero-producer registration boundary. V6/O210/Q602 and `[73,97,235]` are historical/formal provenance only.
 
-The latest audited/consumed MAIN authority is N355 full known-prefix: review `5165895301`, exact head `3f3aadd2e5ada2a0a02a69490d6d659c02762682`, result canonical `7961cbc55993d2264879686388096fbe289a6fb84ecd4b6713b6b56c371bb775`, residual `17128` strata / `66462870551188628549910` terminals. N356 optimistic exceptional transportation is the next retained candidate and remains `AUDIT_REQUIRED`; it contributes zero new MAIN pruning credit until its own audit passes. N350 producer count remains zero.
+## EX5 retained progression
 
-For the current EX5 `(g,d,e)=(1,8,8)` target, N356's new inequality specializes to `b-c<=16`; nonnegative exceptional mass `8` already implies `b-c<=8`, so N356 is nonbinding here. V6/O210/Q602 and `[73,97,235]` remain historical/formal provenance, not current targets/survivors.
+The older `(g1-d008,e=4)` exact Picard64 UNSAT prefix remains `0..797` and is not whole-stratum or MAIN credit.
 
-## EX5 retained progress
+For `(g,d,e)=(1,8,8)`, first block `x4=0..112`:
 
-The older `(g1-d008,e=4)` exact Picard64 UNSAT prefix remains `0..797` and is not promoted to whole-stratum or MAIN credit.
+`BC2-17 retarget -> BC2-18 mod8/HNF decomposition -> BC2-19 parent replay -> BC2-20 global union -> BC2-21 retained-64 slice -> BC2-22 retained-44 recheck -> BC2-23 redundant-cut acceleration -> BC2-24 explicit fibre-degree partition`.
 
-The current `(g1-d008,e=8)` path is:
+Retained checkpoints establish: BC2-19 `7100 UNSAT / 236 UNKNOWN / 0 SAT`; BC2-20 global union `UNKNOWN`; BC2-21 adds `20` exact UNSAT and leaves `44` retained UNKNOWN; BC2-22 adds `8` exact UNSAT and leaves `36`; BC2-23 adds `13` exact UNSAT and leaves `23`, for a known UNSAT lower bound of `7141`. The separate `172` BC2-19 UNKNOWN identities not retained by the later slices remain uninferred.
 
-`BC2-17 exact retarget` -> `BC2-18 selected-exceptional mod8/HNF decomposition` -> `BC2-19 normal positivity/mass parent replay` -> `BC2-20 global union check`.
+## Current route
 
-BC2-18 reduced `177100` enumerated selected-exceptional parents to exactly `7336` mod8/HNF-extendable parents. BC2-19 workflow `34467246133` then checked all `7336`: `7100 UNSAT`, `236 UNKNOWN`, `0 SAT`. The retained BC2-19 checkpoint canonical is `62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb`; raw result canonical is `fcfecfc4dbd3592095c1c0302991c2b29bee22b6f3652d73612deea7775d7755`. UNKNOWN is not UNSAT, so the first block remains open.
+BC2-24 workflow `34486703108` completed successfully on exact compute head `0d20510d73d6198a33ae0a74051e457e045b3427`. The next unit is not new heavy research: it is `BC2_24_RESULT_RETENTION_AND_STATE_SYNC`.
 
-## Current route — BC2-20
+Retrieve and retain the compact BC2-24 result, lock its exact run/head/artifact/canonical identifiers, then update `MAIN-STATE.json`, this roadmap, and `CURRENT-AUDIT-CONTRACT.md`. Until that retention is complete, do not infer a BC2-24 SAT/UNSAT/UNKNOWN outcome and do not launch BC2-25 or re-run BC2-20..23.
 
-`BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK` replaces the parent-by-parent disjunction by one exact Picard64 integer system. It retains all140 nonnegativity, normal mass `112`, exceptional mass `8`, and the ten fixed BC2-17 exceptional pairings. Since those fixed selected exceptionals have mass `2`, every global solution has nineteen free selected-exceptional nonnegative integers with total at most `6`, hence induces one of BC2-18's weak-composition parents; integral Picard coordinates also witness the selected64 HNF extension. Conversely every BC2-19 SAT parent is a global solution. Therefore global SAT iff at least one BC2-18 parent is SAT.
+## MAINBATCH operations
 
-Execution is one bounded heavy job, concurrency `1`, solver timeout `300000ms`, workflow timeout `10` minutes, one compact JSON artifact retained for one day, projected peak artifact `<=100000` bytes against the repository `500 MB` operating budget. Only a fresh commit-range run-key arm may launch it.
+PR #1765 is the sole active Stage32EX5 MAINBATCH PR. PR #1764 is superseded, closed, and unmerged. Old BC2-12..23 bounded-unit workflow definitions are retired from the current `.github/workflows` head; their research/provenance files remain retained. `MAINBATCH-OPERATIONS.md` is the operational contract.
 
-Outcome routing: global UNSAT -> retain exact first-block obstruction and assess whether any larger stratum coverage adapter exists; global SAT -> retain only a Picard64/all140 pairing-feasibility witness and analyze stronger special-fibre constraints; global UNKNOWN -> fall back to exact slicing of the `236` BC2-19 UNKNOWN parents.
-
-## Credit and audit boundary
-
-No BC2-20 outcome automatically grants whole-stratum, FULL178, N350/N104 production, receiver, effectivity/actual-curve, theorem, endpoint, Stage32 closure, or Perfect Cuboid existence/nonexistence credit. EX5 remains an `ATTACKS` lane on `S32.FULL178.NUMERICAL_CENSUS.V1`; MAIN promotion requires an explicit current-target adapter and the audit state required by Stage32.
-
-Draft PR #1765 remains the working surface. Current retained growth from its last hostile-audited exact head `4cc001cffb871d3c6304cb38beebaf9bf2a75814` was only six commits through the BC2-19 arm, below the 90/100 intermediate-audit thresholds. CI success is not hostile-audit PASS. Merge requires explicit user authorization.
+No EX5 result self-promotes to whole-stratum, FULL178, N350/N104, receiver, effectivity/actual-curve, theorem, endpoint, Stage32 MAIN, or Perfect Cuboid credit. Merge requires explicit user authorization.

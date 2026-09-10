@@ -1,33 +1,27 @@
 # Stage32EX5 MAIN startup
 
-Ordinary `stage32ex5-mainbatch` reads, in order: `AGENTS.md` -> `stages/stage32-ex5/README.md` -> this file -> `MAINBATCH-OPERATIONS.md` -> `MAIN-STATE.json` -> only `MAIN-STATE.json.current_leaf_working_set`. Do not preload unrelated Stage32 history, other EX lanes, or large retained payloads unless the active leaf explicitly triggers them.
+Ordinary `stage32ex5-mainbatch` reads, in order: `AGENTS.md` -> `stages/stage32-ex5/README.md` -> this file -> `MAINBATCH-OPERATIONS.md` -> `MAIN-STATE.json` -> only the active working set. Do not preload unrelated Stage32 history, other EX lanes, or large retained payloads unless the active leaf explicitly triggers them.
 
 ## Current authority
 
-Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed MAIN PR #1753 head is `6827e386f9c450414627573ea305b9794f2341bf`; observed default `main` is `5ca6acba4b591d9e2d40057241c850598c1fa1df`.
+Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. The latest audited/consumed MAIN boundary remains N355 full known-prefix with residual `17128` strata / `66462870551188628549910` terminals. N356 remains audit-required. V6/O210/Q602 and `[73,97,235]` remain historical/formal provenance only.
 
-N355 full known-prefix is hostile-audited and consumed at review `5165895301`, exact head `3f3aadd2e5ada2a0a02a69490d6d659c02762682`, leaving `17128` strata / `66462870551188628549910` terminals. N356 optimistic exceptional transportation is retained but `AUDIT_REQUIRED`; no new N356 MAIN pruning credit exists. The MAIN head is `8 ahead / 0 behind` the N355 audited head, so no intermediate freshness freeze is active. N350 remains the separate fail-closed production-registration boundary with zero registered producers.
+PR #1765 on `impl/stage32ex5-bc2-12-outer-rank3` is the sole active Stage32EX5 MAINBATCH working PR. PR #1764 is superseded, closed, and unmerged. Merge is not authorized.
 
-V6/O210/Q602 and `[73,97,235]` remain historical/formal provenance only.
+## Current EX5 boundary
 
-## MAINBATCH operations
+The current `(g,d,e)=(1,8,8)` first-block route has progressed beyond the older BC2-20 state projection:
 
-PR #1765 on `impl/stage32ex5-bc2-12-outer-rank3` is the sole active Stage32EX5 MAINBATCH working PR. PR #1764 is superseded and must remain closed/unmerged. Ordinary MAINBATCH continuation stays on #1765 unless the user explicitly requests a replacement or split. The detailed anti-refire and workflow-retirement contract is `stages/stage32-ex5/MAINBATCH-OPERATIONS.md`.
-
-## Current EX5 frontier
-
-The historical local `(g1-d008,e=4)` exact UNSAT prefix remains `0..797`; it is not a whole-stratum result. The current target is instead the `(g1-d008,e=8)` N354 survivor first block `x4=0..112`.
-
-BC2-19 workflow `34467246133` completed all `7336` BC2-18 mod8/HNF-surviving parents with `7100 UNSAT / 236 UNKNOWN / 0 SAT`. Checkpoint canonical: `62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb`. Because `236` remain UNKNOWN, whole-block UNSAT is not credited.
+- BC2-20 global union: `UNKNOWN` after `300000ms`; no closure.
+- BC2-21 first retained-64 slice: `20 UNSAT / 44 UNKNOWN / 0 SAT`.
+- BC2-22 retained-44 recheck: `8 UNSAT / 36 UNKNOWN / 0 SAT`.
+- BC2-23 redundant N355 acceleration: `13 UNSAT / 23 UNKNOWN / 0 SAT`; known UNSAT lower bound `7141`, with `172` other BC2-19 UNKNOWN identities still uninferred.
+- BC2-24 exact fibre-degree partition was validly authorized and run as workflow `34486703108` on compute head `0d20510d73d6198a33ae0a74051e457e045b3427`; CI execution succeeded. Its compact mathematical result has not yet been retained into the repository at this operational cleanup boundary, so no BC2-24 SAT/UNSAT/UNKNOWN outcome is asserted here.
 
 ## Current bounded unit
 
-`BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK`.
+`BC2_24_RESULT_RETENTION_AND_STATE_SYNC`.
 
-Run one exact global QF_LIA system equivalent to the union of the `7336` BC2-18 parent-fixed systems. The global formulation keeps integral Picard64 coordinates, all140 nonnegative pairings, normal mass `112`, exceptional mass `8`, and the ten BC2-17 fixed exceptional pairings. A global solution induces a BC2-18 parent; a BC2-19 parent solution satisfies the global system. This is an exact disjunction compression, not a heuristic relaxation.
+Do not launch another heavy EX5 unit until the compact BC2-24 result is retrieved/retained, source-locked, and the mutable state/roadmap/audit surfaces are synchronized. In particular, if `MAIN-STATE.json.current` still names BC2-20, treat that leaf as stale and non-executable; this startup file plus `MAINBATCH-OPERATIONS.md` is the newer operational guard until BC2-24 result retention updates the compact state.
 
-Heavy execution is allowed only through the dedicated fresh run-key `stages/stage32-ex5/runkeys/bc2-20-global-normal-positivity-union.json`; effective heavy concurrency is one, artifact retention one day, projected artifact below `100000` bytes. Do not mutate the branch while the authorized run is unresolved.
-
-SAT is Picard64 pairing feasibility only; UNSAT is only the certified first-block obstruction; UNKNOWN remains blocked. No effectivity, actual-curve, whole-stratum, FULL178, N350, receiver, theorem, endpoint, Stage32 MAIN, or Perfect Cuboid credit follows automatically.
-
-Historical `stage32-ex5.md` and `AUDIT-CONTRACT.md` are immutable Cycle1 source-locked records. Current working PR #1765 remains Draft/open/unmerged. Merge requires explicit user authorization.
+Retiring old workflow definitions does not retire their retained checkpoints, solvers, run keys, commit history, or audit provenance. No effectivity, actual-curve, whole-stratum, FULL178, N350, receiver, theorem, endpoint, Stage32 MAIN, or Perfect Cuboid credit follows automatically.
