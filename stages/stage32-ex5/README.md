@@ -8,76 +8,59 @@ As synchronized against Stage32 MAIN PR #1753:
 
 - control mode: `FULL178_AND_FINAL_MILESTONE_CHAIN`;
 - primary incomplete requirement: `32-01 FULL178`;
+- observed authority head: `b07bfc2b206d960e6e95d36cb9c50198720f7dce`;
 - current observed stop gate: `N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER`;
-- downstream final milestones remain gated by the FULL178/finality chain;
 - V6 / O210 / Q602 are frozen historical/formal prerequisite provenance, not current attack targets;
-- `[73,97,235]` is the formal historical Q602 residue triple from the earlier proof path, not the current Stage32 survivor population.
+- `[73,97,235]` is the formal historical Q602 residue triple, not the current Stage32 survivor population.
 
-The observed Stage32 MAIN authority head for this synchronization is `a2cacaeb9b61eca34399952a7daaf5288ff3b826`. Current repository `main` is `bf2890ec0b8168f70db803de876024aa6b6d1f6d`; later Stage32 MAIN movement must be rechecked before any EX5-to-MAIN promotion.
+Repository `main` observed for this continuation is `5ca6acba4b591d9e2d40057241c850598c1fa1df`.
 
 ## What EX5 can contribute to 32-01 FULL178
 
-The current EX5 BC2 line develops an exact interface/obstruction chain for FULL178 compressed terminal data:
+The active BC2 interface is:
 
-`FULL178 indexed terminal / pairings`
-`-> exact Picard64 completion constraints`
-`-> integral Picard / 59D witness reconstruction when SAT`
-`-> canonical 48-node support consumer through the retained runtime-node bridge`.
+`FULL178 indexed terminal / pairings -> exact Picard64 completion constraints -> integral Picard / 59D witness when SAT -> canonical 48-node support interface`.
 
-This gives two useful kinds of output:
+UNSAT gives local obstruction credit only for the exact certified terminal/block/model. SAT gives an exact witness/interface candidate. Neither automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, production-leaf coverage, receiver/final-milestone credit, theorem/endpoint credit, or a Perfect Cuboid claim.
 
-1. **UNSAT obstruction:** an exact terminal or exact finite block has no integral Picard64 completion under the locked model, so that certified portion of the FULL178 geometric input can be pruned.
-2. **SAT interface:** an exact Picard witness can be reconstructed and passed to the canonical node-support interface for downstream geometric/effectivity analysis.
-
-Neither output automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, production-leaf coverage, receiver credit, a final milestone, or a Perfect Cuboid endpoint claim.
-
-The legacy EX5 synchronization used Stage32 MAIN node `32-01-178/N150` as its consumption boundary. Current Stage32 MAIN has advanced to N350's production-leaf certificate/producer-registration boundary. N350 is still pending fresh hostile audit and its producer registry is empty, so current EX5 work has zero N350/N104 production-coverage credit and cannot self-register. A later MAIN-consumable EX5 producer requires exact canonical old-rank mapping, a source-locked replay verifier, fresh hostile-audit PASS, and explicit MAIN-side registration.
+The legacy EX5 synchronization referenced N150. Current Stage32 MAIN has advanced to N350's production-leaf certificate/producer-registration boundary. N350 is still pending fresh hostile audit and its producer registry is empty, so EX5 has zero N350/N104 production-coverage credit and cannot self-register.
 
 ## Current exact EX5 progress
 
-For the local `(g1-d008,e=4)` indexed terminal stratum, retained exact Picard64 UNSAT blocks are:
+For local `(g1-d008,e=4)`, retained exact Picard64 UNSAT blocks are:
 
 - ranks `0..132`;
 - ranks `133..265`;
 - ranks `266..398`.
 
-Thus ranks `0..398` are locally closed in this stratum. BC2-11 has additionally rederived ranks `399..531` exactly at the structural rank/unrank + source-terminal-predicate level, with outer exceptional rank `3` and base terminal `[0,1,0,0,0,0,1,0,0,0,1]`; it grants no Picard64 closure credit. The whole `(g1-d008,e=4)` stratum remains open, and FULL178 remains incomplete.
+Thus the exact UNSAT prefix remains `0..398`.
 
-Latest exact-UNSAT checkpoint:
+BC2-11 rederived ranks `399..531` structurally with outer exceptional rank `3`, base terminal `[0,1,0,0,0,0,1,0,0,0,1]`, and canonical `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`.
 
-- `stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json`;
-- checkpoint canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`;
-- evidence canonical `06e4e0e8fbbe1bb64fc757be58f272fec0e85bea1e3bd7a9f21f8bf0dbda1531`.
+BC2-12 then derived the exact exceptional-mass split from that terminal: fixed mass `3`, residual mass `1`. Its 20-parent symbolic-x4 Picard64 preflight returned **17 exact UNSAT / 3 UNKNOWN / 0 SAT**. The three UNKNOWN parents are IDs `1,6,8`, with selected one-based labels `135,125,120`; each requires exactly one full-exceptional refinement subcase. Retained BC2-12 evidence canonical: `67c48b8230c36567384e68ee413756074462de134a2d2451ca3dc3c034f642d7`.
 
-Latest structural checkpoint:
+UNKNOWN is not UNSAT. Therefore ranks `399..531` are not Picard64-closed, the whole `(g1-d008,e=4)` stratum remains open, and FULL178 remains incomplete.
 
-- `stages/stage32-ex5/breadth-cycle-2/bc2-11-next-exceptional-terminal-block-preflight-checkpoint.json`;
-- canonical `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`.
-
-Current next unit: `BC2_12_OUTER_RANK3_SYMBOLIC_X4_PARENT_PREFLIGHT`, which applies the retained symbolic-x4 Picard64 parent formulation only to the exactly rederived ranks `399..531` and derives the exceptional-mass split from the actual BC2-11 signature.
+Current next unit: `BC2_13_OUTER_RANK3_UNKNOWN_PARENT_FULL_EXCEPTIONAL_REFINEMENT`. It must classify only those three exact subcases; the 17 already-UNSAT parents are not rerun and no wider scaleout is authorized.
 
 ## Historical/formal provenance firewall
 
-Earlier EX5 artifacts were built while the Stage32 narrative prominently referenced V6/O210/Q602 and the formal Q602 triple `[73,97,235]`. Those retained artifacts and their canonical evidence remain valid at their original scopes and are not rewritten.
-
-Current-facing EX5 documents must not present those objects as the live Stage32 target or current survivor set. Old `no O210/Q602 credit` language is interpreted as a **historical-credit firewall**: EX5 does not mutate, recompute, or claim new credit for the frozen V6/O210/Q602 line unless current Stage32 MAIN explicitly reopens it.
+Earlier EX5 artifacts that reference V6/O210/Q602 and `[73,97,235]` remain valid only at their retained scopes and are not rewritten. Current-facing documents must not present them as the live frontier. Old no-O210/Q602-credit language is a **historical-credit firewall**.
 
 ## Operating files
 
 - startup: `MAIN-START-HERE.md`
 - current routing/state: `MAIN-STATE.json`
-- current roadmap and claim boundaries: `CURRENT-ROADMAP.md`
+- current roadmap: `CURRENT-ROADMAP.md`
 - current hostile audit: `CURRENT-AUDIT-CONTRACT.md`
-- historical source-locked Cycle1 roadmap: `stage32-ex5.md`
-- historical source-locked Cycle1 audit contract: `AUDIT-CONTRACT.md`
-- current state verifier: `verify_main_state.py`
+- historical Cycle1 source-locked roadmap: `stage32-ex5.md`
+- historical Cycle1 source-locked audit contract: `AUDIT-CONTRACT.md`
+- current verifier: `verify_main_state.py`
 
-`stage32-ex5.md` and `AUDIT-CONTRACT.md` are retained because historical Cycle1 evidence source-locks those exact blobs. Current terminology changes belong in `README.md`, `CURRENT-ROADMAP.md`, `CURRENT-AUDIT-CONTRACT.md`, `MAIN-STATE.json`, and startup/routing projections instead.
+Exact evidence/checkpoints and the two historical source-locked documents are not rewritten merely for terminology synchronization.
 
-Exact evidence/checkpoint files are proof records, not prose state, and must not be rewritten merely to synchronize terminology.
+## Audit / merge boundary
 
-## Intermediate audit boundary
+Predecessor PR #1742 passed its intermediate hostile audit and merged. PR #1762 subsequently passed hostile audit at exact head `0e768adddfb57a4828fd0ca0a1494f96f7a1c8b1` and merged at `c5b22dbfa5ecef432008cdedc5c0bb557447dda6`.
 
-Predecessor PR #1742 passed the required 100-commit intermediate hostile audit on exact head `a5e59bab3f7fe5a31e356c5a78edcbd741b093a6`, review `5161068590`, and was then merged to `main` at `bf2890ec0b8168f70db803de876024aa6b6d1f6d`. The freeze is therefore released for the current continuation; the audit scope/credit firewalls remain in force.
-
-Current continuation is Draft PR #1762 on `impl/stage32ex5-bc2-11-continuation`. Merge remains forbidden without explicit user authorization.
+Current continuation is Draft PR #1764 on `stage32ex5-mainbatch-bc2-12`. BC2-12 has not yet received its independent hostile audit. Merge remains forbidden without explicit user authorization.
