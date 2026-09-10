@@ -1,0 +1,92 @@
+{
+  "schema": "STAGE32EX5_BC2_23_N355_REDUNDANT_CUT_ACCELERATION_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_23_TEST_N355_STRUCTURAL_INEQUALITIES_ON_36_RETAINED_UNKNOWN_PARENTS",
+  "status": "BLOCKED_N355_REDUNDANT_CUT_ACCELERATION_LEAVES_23_RETAINED_UNKNOWN",
+  "source_locks": {
+    "exact_compute_head": "fc50faf6083daaf562f4ce3f6c5b779e14cc2daa",
+    "workflow_run_id": 34485549615,
+    "authorize_job_id": 102898779960,
+    "compute_job_id": 102899102415,
+    "artifact_id": 10155667339,
+    "artifact_zip_bytes": 12298,
+    "artifact_zip_sha256": "979753f2be2cecffd7b2edb93442e2782d3a063598645827d97bd45733e98c5a",
+    "raw_result_canonical": "ccc9db2dad94b8a2469416dc83a7279374f5c350692f686d2b7f1c990f0e02b4",
+    "source_git_blob_sha": "be6f2957df1c78e3587c0cff95b33326e1d6b601",
+    "preflight_canonical": "680ea3df4f90402d6535066a67b40bc8b635f68aa2fe2ab76bd06d9aaff96495",
+    "bc2_22_checkpoint_canonical": "e8151702d8386eeab44d9e9705abe7b4fa0e19dde96933ffdabdc56329f2fdc2",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7",
+    "n355_full_prefix_hostile_audit_review_id": 5165895301,
+    "n355_full_prefix_hostile_audit_exact_head": "3f3aadd2e5ada2a0a02a69490d6d659c02762682"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112],
+    "source_bc2_22_retained_unknown_count": 36,
+    "other_unretained_bc2_19_unknown_identity_count": 172,
+    "other_unretained_bc2_19_unknown_identities_inferred": false
+  },
+  "result": {
+    "checked_count": 36,
+    "per_parent_timeout_ms": 5000,
+    "solver": "Z3_QF_LIA_WITH_LOGICALLY_REDUNDANT_N355_PICARD_CUTS",
+    "z3_version": "4.15.4",
+    "unsat_count": 13,
+    "unknown_count": 23,
+    "sat_count": 0,
+    "newly_unsat_parent_indices": [57, 61, 88, 269, 280, 586, 1151, 1201, 1204, 1206, 1216, 1232, 1246],
+    "residual_unknown_parent_indices": [80, 458, 584, 1000, 1003, 1014, 1030, 1032, 1048, 1050, 1056, 1064, 1066, 1103, 1106, 1108, 1117, 1119, 1133, 1198, 1218, 1224, 1243]
+  },
+  "redundant_cut_certificate": {
+    "feasible_set_preserved": true,
+    "new_mathematical_feasible_set_restriction": false,
+    "n355_used_as_solver_acceleration": true,
+    "explicit_fibre_equalities": 10,
+    "explicit_degree_sum_equality": 1,
+    "explicit_exceptional_diagonal_caps": 48,
+    "explicit_full_block_pair_cuts": 36,
+    "diagonal_cap": 4,
+    "block_pair_cap": 8
+  },
+  "interpretation": {
+    "known_parent_unsat_count_lower_bound": 7141,
+    "known_retained_unknown_identity_count": 23,
+    "unretained_unknown_identity_count": 172,
+    "whole_first_block_unsat_proved": false,
+    "sat_witness_found": false,
+    "redundant_cut_acceleration_effective": true,
+    "comparison_to_bc2_22": "BC2-22 left 36 UNKNOWN at 10000 ms/parent; BC2-23 resolved 13 of those to exact UNSAT at 5000 ms/parent using only implied cuts."
+  },
+  "next_exact_unit": {
+    "id": "BC2_24_PARTITION_REMAINING_RETAINED_UNKNOWN_BY_EXPLICIT_FIBRE_DEGREE",
+    "goal": "Partition each of the 23 retained UNKNOWN parents by the exact integer fibre degree n1 in 0..8 (with n2=8-n1); combine branch results without inferring the other 172 BC2-19 UNKNOWN identities.",
+    "heavy_scaleout_authorized": false,
+    "main_promotion_authorized": false
+  },
+  "credit": {
+    "new_parent_unsat_count": 13,
+    "known_parent_unsat_count_lower_bound": 7141,
+    "this_36_parent_slice_exact_unsat": false,
+    "whole_first_block_unsat": false,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "stage32_main_credit": false,
+    "effectivity_or_actual_curve_existence_proved": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "unretained_172_parent_identities_inferred": false,
+    "unknown_relabelled_unsat": false,
+    "redundant_cut_relabelled_new_main_theorem": false,
+    "sat_relabelled_actual_curve": false,
+    "main_promotion": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "6da1c158da8f8171d446c39b517270c0f7bf524ac62df0cd8f9d099155cdb3a0"
+}
