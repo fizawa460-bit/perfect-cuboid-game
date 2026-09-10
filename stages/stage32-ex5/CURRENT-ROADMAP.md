@@ -8,6 +8,8 @@ Stage32 MAIN PR #1753 is in `FULL178_AND_FINAL_MILESTONE_CHAIN`; the primary inc
 
 V6 / O210 / Q602 are frozen historical/formal prerequisite lineage, not current attack targets. `[73,97,235]` is historical/formal Q602 provenance and is not the current survivor population.
 
+Current observed Stage32 MAIN stop gate is `N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER`. N350 currently has an empty producer registry and is itself pending fresh hostile audit, so EX5 has no N350/N104 production-coverage credit at this checkpoint.
+
 ## EX5 role
 
 Current EX5 BC2 research supplies a possible exact interface/obstruction to the FULL178 chain:
@@ -16,9 +18,9 @@ Current EX5 BC2 research supplies a possible exact interface/obstruction to the 
 `-> exact Picard64 completion constraints`
 `-> integral Picard/59D witness when SAT`
 `-> canonical 48-node support interface`
-`-> Stage32 MAIN N150 external-consumption gate`.
+`-> possible exact-producer adapter candidate for the Stage32 MAIN production-leaf boundary`.
 
-UNSAT gives local obstruction credit only for the certified terminal/block. SAT gives an exact witness/interface candidate. Neither automatically grants FULL178 completion, effectivity, actual-curve existence, receiver/final-milestone credit, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
+UNSAT gives local obstruction credit only for the certified terminal/block. SAT gives an exact witness/interface candidate. Neither automatically grants FULL178 completion, effectivity, actual-curve existence, production-leaf coverage, receiver/final-milestone credit, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
 
 ## Retained current frontier
 
@@ -43,9 +45,9 @@ No heavy scaleout is authorized by this roadmap.
 
 ## MAIN consumption boundary
 
-The intended Stage32 MAIN gate remains `stages/stage32/32-01-178/nodes/N150/STATE.json` or its audited successor. EX5 local progress does not automatically advance N150 or `32-01`.
+The legacy EX5 synchronization referenced N150. Current Stage32 MAIN has advanced to N350's production-leaf certificate/producer-registration boundary. Its contract canonical is `7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a`; the observed registry is empty and N350 hostile audit has not yet passed.
 
-A MAIN-consumable result requires a retained/audited current-target-compatible producer/result plus an explicit adapter from canonical FULL178 `(row_id,d,e,terminal rank/pairings)` semantics into the Picard64/sufficient-signature semantics MAIN consumes.
+Accordingly, EX5 may prepare exact local evidence and later a producer-adapter candidate, but it must not register itself into N350 or claim N104/FULL178 production coverage. A future MAIN-consumable EX5 producer requires a source-locked replay verifier, exact canonical old-rank mapping, accepted disposition semantics, fresh hostile-audit PASS, and explicit MAIN-side registration.
 
 ## Intermediate hostile-audit release
 
