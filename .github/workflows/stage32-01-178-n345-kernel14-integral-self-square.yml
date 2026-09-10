@@ -1,0 +1,50 @@
+name: Stage32 32-01-178 N345 kernel14 integral self-square
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N345/**'
+      - '.github/workflows/stage32-01-178-n345-kernel14-integral-self-square.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.0.0'
+      - name: Verify N345 exact kernel14 integral self-square
+        id: n345
+        shell: bash
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178/nodes/N345/verify_n345_kernel14_integral_self_square.py | tee /tmp/n345.json
+          python - <<'PY'
+          import json, os
+          d=json.load(open('/tmp/n345.json'))
+          a=d['aggregate']
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"sat={a['sat_threshold_count']}\n")
+              f.write(f"unsat={a['unsat_threshold_count']}\n")
+              f.write(f"unknown={a['unknown_count']}\n")
+              f.write(f"canonical={d['canonical_sha256_without_this_field']}\n")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
+
+  ledger:
+    needs: verify
+    if: always() && needs.verify.result == 'success'
+    runs-on: ubuntu-24.04
+    name: N345 ledger SAT=${{ needs.verify.outputs.sat }} UNSAT=${{ needs.verify.outputs.unsat }} UNKNOWN=${{ needs.verify.outputs.unknown }}
+    steps:
+      - run: echo 'N345 exact kernel14 verifier completed successfully.'
