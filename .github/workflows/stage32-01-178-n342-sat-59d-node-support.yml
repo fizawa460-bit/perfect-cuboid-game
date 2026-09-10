@@ -1,0 +1,25 @@
+name: Stage32 32-01-178 N342 SAT to 59D node support
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N342/**'
+      - '.github/workflows/stage32-01-178-n342-sat-59d-node-support.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.0.0'
+      - name: Replay N341 SAT witnesses into exact Reynolds 59D and labelled node support
+        run: python stages/stage32/32-01-178/nodes/N342/verify_n342_n341_sat_to_59d_node_support.py
