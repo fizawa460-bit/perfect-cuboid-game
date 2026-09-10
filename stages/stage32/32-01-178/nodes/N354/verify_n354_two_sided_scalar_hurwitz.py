@@ -47,6 +47,13 @@ def ceil_div(a: int, b: int) -> int:
     return -((-a) // b)
 
 
+def stream_sha(records: list[dict]) -> str:
+    stream = hashlib.sha256()
+    for rec in records:
+        stream.update(json.dumps(rec, sort_keys=True, separators=(",", ":")).encode() + b"\n")
+    return stream.hexdigest()
+
+
 def main() -> None:
     manifest = base.load_canonical(MANIFEST, base.EXPECTED_MANIFEST_CANONICAL)
     n353 = json.loads(N353.read_text())
@@ -84,7 +91,7 @@ def main() -> None:
         "N354_LOWER_INTERVAL_REJECT": [0, 0],
         "N354_REMAIN": [0, 0],
     }
-    stream = hashlib.sha256()
+    records: list[dict] = []
 
     for row_id in rows:
         g, d = base.parse_row_id(row_id)
@@ -108,8 +115,7 @@ def main() -> None:
 
             counts[status][0] += 1
             counts[status][1] += terminals
-            rec = {"d": d, "e": e, "g": g, "post_n220_terminals": terminals, "status": status}
-            stream.update(json.dumps(rec, sort_keys=True, separators=(",", ":")).encode() + b"\n")
+            records.append({"d": d, "e": e, "g": g, "post_n220_terminals": terminals, "status": status})
 
     expected = {
         "N353_REJECT": [EXPECTED_N353_REJECTED_STRATA, EXPECTED_N353_REJECTED_TERMINALS],
@@ -119,8 +125,22 @@ def main() -> None:
     }
     if counts != expected:
         raise ValueError(f"N354 census regression: {counts} != {expected}")
-    if stream.hexdigest() != EXPECTED_STREAM:
-        raise ValueError("N354 per-stratum stream regression")
+
+    # The retained certificate is a record-set certificate, not a manifest-traversal
+    # certificate.  Match the already-audited N353 convention: require one unique
+    # record for every (g,d,e) stratum and hash records in stable (g,d,e) order.
+    # Keeping the traversal digest separately makes an ordering-only drift visible
+    # without allowing it to mutate the canonical certificate.
+    keys = [(rec["g"], rec["d"], rec["e"]) for rec in records]
+    if len(keys) != len(set(keys)):
+        raise ValueError("N354 duplicate (g,d,e) stratum key")
+    canonical_records = sorted(records, key=lambda rec: (rec["g"], rec["d"], rec["e"]))
+    traversal_stream = stream_sha(records)
+    canonical_stream = stream_sha(canonical_records)
+    if canonical_stream != EXPECTED_STREAM:
+        raise ValueError(
+            f"N354 canonical per-stratum stream regression: {canonical_stream} != {EXPECTED_STREAM}"
+        )
 
     n354_rejected_strata = counts["N354_ODD_E_REJECT"][0] + counts["N354_LOWER_INTERVAL_REJECT"][0]
     n354_rejected_terminals = counts["N354_ODD_E_REJECT"][1] + counts["N354_LOWER_INTERVAL_REJECT"][1]
@@ -134,7 +154,11 @@ def main() -> None:
         "n354_rejected_terminals": n354_rejected_terminals,
         "remaining_strata": counts["N354_REMAIN"][0],
         "remaining_terminals": counts["N354_REMAIN"][1],
-        "classification_stream_sha256": stream.hexdigest(),
+        "classification_stream_sha256": canonical_stream,
+        "classification_stream_order": "stable_sort_(g,d,e)",
+        "manifest_traversal_stream_sha256": traversal_stream,
+        "ordering_only_difference": traversal_stream != canonical_stream,
+        "unique_stratum_keys": len(keys),
         "full178_complete": False,
         "main_credit": False,
         "heavy_compute": False,
