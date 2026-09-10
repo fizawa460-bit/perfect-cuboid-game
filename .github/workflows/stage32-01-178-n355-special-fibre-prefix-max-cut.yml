@@ -43,6 +43,7 @@ jobs:
       - name: Replay full known-prefix block-sum census research
         run: |
           python stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py --output /tmp/n355-full-prefix.json
+          diff -u stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-RESULT.json /tmp/n355-full-prefix.json
           cat /tmp/n355-full-prefix.json
       - name: Diff check
         run: git diff --check
