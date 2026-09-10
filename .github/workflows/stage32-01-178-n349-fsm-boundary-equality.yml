@@ -1,0 +1,59 @@
+name: "[Stage32][32-01-178][N349] FSM boundary equality preflight"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N342/**"
+      - "stages/stage32/32-01-178/nodes/N348/**"
+      - "stages/stage32/32-01-178/nodes/N349/**"
+      - "stages/stage32/32-21/post-21bl-freitag-node-support-refinement.md"
+      - ".github/workflows/stage32-01-178-n349-fsm-boundary-equality.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      boundary: ${{ steps.ledger.outputs.boundary }}
+      localcert: ${{ steps.ledger.outputs.localcert }}
+      unknown: ${{ steps.ledger.outputs.unknown }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Exact N349 boundary-equality preflight
+        run: |
+          python stages/stage32/32-01-178/nodes/N349/verify_n349_fsm_boundary_equality.py \
+            --output /tmp/n349-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n349-result.json'))
+          a=d['aggregate']
+          print(f"boundary={a['boundary_terminal_count']}")
+          print(f"localcert={a['local_pair_4_4_evidence_count']}")
+          print(f"unknown={a['local_pair_evidence_unknown_count']}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N349 ledger BOUNDARY=${{ needs.verify.outputs.boundary }} LOCAL44=${{ needs.verify.outputs.localcert }} UNKNOWN=${{ needs.verify.outputs.unknown }}"
+    steps:
+      - name: Report exact compact ledger
+        run: |
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "required local FSM pair=(4,4) at each of 48 nodes"
+          echo "new pruning/integral-low-genus/FULL178/N350/theorem/endpoint credit=false"
