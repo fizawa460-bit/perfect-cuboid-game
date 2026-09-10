@@ -23,13 +23,28 @@ from pairing_prefix_engine import INDLIST
 EXPECTED_BUNDLE_CANONICAL = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
 EXPECTED_MARKING_CANONICAL = "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
 EXPECTED_HPERP_ADAPTER_BLOB = "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
+EXPECTED_INCIDENCE_CANONICAL = "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143"
+EXPECTED_TRANSVECTION_CANONICAL = "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386"
 
 CURRENT_EXCEPTIONAL_PREFIX = [93,94,95,96,97,98,99,101,102,103]
-BOUNDARY_LABELS = list(range(33,45))
-PAIR_LABELS = [
-    (43,41),(42,44),(39,37),(38,40),(35,33),(34,36),
-    (35,36),(34,33),(38,37),(39,40),(43,44),(42,41),
+PAIR_KEYS = [
+    "43:41","42:44","39:37","38:40","35:33","34:36",
+    "35:36","34:33","38:37","39:40","43:44","42:41",
 ]
+PAIR_EXCEPTIONAL_LABELS = {
+    "43:41":[93,94,95,96],
+    "42:44":[97,98,99,100],
+    "39:37":[101,102,103,104],
+    "38:40":[105,106,107,108],
+    "35:33":[109,110,111,112],
+    "34:36":[113,114,115,116],
+    "35:36":[117,118,123,124],
+    "34:33":[119,120,121,122],
+    "38:37":[125,126,131,132],
+    "39:40":[127,128,129,130],
+    "43:44":[133,134,139,140],
+    "42:41":[135,136,137,138],
+}
 OLD_V6_PAIR_MASSES = [5,5,21,25,24,18,19,35,28,34,32,20]
 
 
@@ -68,17 +83,7 @@ def gf2_rank(rows) -> int:
             if i != rank and a[i][col]:
                 a[i] = [x ^ y for x, y in zip(a[i], a[rank])]
         rank += 1
-        if rank == len(a):
-            break
     return rank
-
-
-def row_add(*rows) -> tuple[int, ...]:
-    out = [0] * len(rows[0])
-    for row in rows:
-        for i, v in enumerate(row):
-            out[i] ^= int(v) & 1
-    return tuple(out)
 
 
 def isum_rows(P: Matrix, labels: list[int]) -> list[int]:
@@ -91,6 +96,18 @@ def main() -> None:
     blob = hashlib.sha1(f"blob {len(raw)}\0".encode() + raw).hexdigest()
     if blob != EXPECTED_HPERP_ADAPTER_BLOB:
         raise ValueError(f"hperp adapter blob regression: {blob}")
+
+    incidence = json.loads((RESIDUAL / "post1473-x8-marked-exceptional-incidence.json").read_text())
+    inc_claimed = incidence.pop("canonical_sha256_without_this_field")
+    if csha(incidence) != inc_claimed or inc_claimed != EXPECTED_INCIDENCE_CANONICAL:
+        raise ValueError("incidence canonical regression")
+    incidence["canonical_sha256_without_this_field"] = inc_claimed
+    derived = {key: [] for key in PAIR_KEYS}
+    for row in incidence["rows"]:
+        key = f"{row['first_factor_boundary_label']}:{row['second_factor_boundary_label']}"
+        derived[key].append(int(row["exceptional_label"]))
+    if {k: sorted(v) for k,v in derived.items()} != {k: sorted(v) for k,v in PAIR_EXCEPTIONAL_LABELS.items()}:
+        raise ValueError("pair-to-exceptional incidence regression")
 
     bundle = load_retained(RETAINED, "s32_smith_bundle")
     marking = load_retained(MARKING, "s32_smith_marking")
@@ -108,83 +125,89 @@ def main() -> None:
     basis_labels = hia.RETAINED_BASIS_KNOWN_LABELS_1BASED
     degree = [int(degree_col[label-1,0]) for label in basis_labels]
     e_total = isum_rows(P, list(range(93,141)))
-    normal_total = isum_rows(P, list(range(1,93)))
-    if normal_total != [19*degree[j] - 5*e_total[j] for j in range(64)]:
-        raise ValueError("normal-total identity regression")
-
     row_by_label = {label: [int(P[label-1,j]) for j in range(64)] for label in range(1,141)}
+
     obs_named = [("degree", degree), ("exceptional_total", e_total), ("x4_label49", row_by_label[49])]
     obs_named += [(f"exceptional_label{label}", row_by_label[label]) for label in CURRENT_EXCEPTIONAL_PREFIX]
     obs_rows = [gf2_row(row) for _, row in obs_named]
     obs_rank = gf2_rank(obs_rows)
 
-    target_rows = [row_add(gf2_row(row_by_label[a]), gf2_row(row_by_label[b])) for a,b in PAIR_LABELS]
-    target_rank = gf2_rank(target_rows)
-    joint_rank = gf2_rank(obs_rows + target_rows)
+    pair_rows = [gf2_row(isum_rows(P, PAIR_EXCEPTIONAL_LABELS[key])) for key in PAIR_KEYS]
+    pair_rank = gf2_rank(pair_rows)
+    joint_rank = gf2_rank(obs_rows + pair_rows)
     residual_rank = joint_rank - obs_rank
+    individually_determined = [i for i,row in enumerate(pair_rows) if gf2_rank(obs_rows+[row]) == obs_rank]
 
-    individually_determined = []
-    for i, row in enumerate(target_rows):
-        if gf2_rank(obs_rows + [row]) == obs_rank:
-            individually_determined.append(i)
+    # Pair masses partition all 48 exceptional labels, so their parity sum must equal e mod 2.
+    pair_sum = [sum(row[j] for row in pair_rows) & 1 for j in range(64)]
+    if pair_sum != list(gf2_row(e_total)):
+        raise ValueError("pair-mass partition/e-total parity regression")
 
-    direct_selected_boundary = [label for label in BOUNDARY_LABELS if label in INDLIST]
-    direct_rows = [gf2_row(row_by_label[label]) for label in direct_selected_boundary]
-    residual_after_direct_selected = gf2_rank(obs_rows + direct_rows + target_rows) - gf2_rank(obs_rows + direct_rows)
-
-    minimal_size = None
-    minimal_subsets = []
-    for k in range(len(BOUNDARY_LABELS) + 1):
-        for subset in itertools.combinations(BOUNDARY_LABELS, k):
-            rows = obs_rows + [gf2_row(row_by_label[label]) for label in subset]
-            if gf2_rank(rows + target_rows) == gf2_rank(rows):
-                minimal_size = k
-                minimal_subsets.append(list(subset))
-        if minimal_size is not None:
+    # N355 can expose arbitrary exceptional group sums directly. Find the smallest subset of the
+    # twelve true M_p group sums whose parity, together with the current prefix, determines all twelve.
+    minimal_group_count = None
+    minimal_group_subsets = []
+    for k in range(13):
+        for subset in itertools.combinations(range(12), k):
+            rows = obs_rows + [pair_rows[i] for i in subset]
+            if gf2_rank(rows + pair_rows) == gf2_rank(rows):
+                minimal_group_count = k
+                minimal_group_subsets.append(list(subset))
+        if minimal_group_count is not None:
             break
 
+    selected_exceptional = [label for label in INDLIST if 93 <= label <= 140]
+    selected_rows = [gf2_row(row_by_label[label]) for label in selected_exceptional]
+    residual_after_selected = gf2_rank(obs_rows + selected_rows + pair_rows) - gf2_rank(obs_rows + selected_rows)
+
     old_signature = [m & 1 for m in OLD_V6_PAIR_MASSES]
-    expected_old_signature = [1,1,1,1,0,0,1,1,0,0,0,0]
-    if old_signature != expected_old_signature:
+    if old_signature != [1,1,1,1,0,0,1,1,0,0,0,0]:
         raise ValueError("old V6 parity signature regression")
 
     body = {
-        "schema": "STAGE32_32_01_178_SMITH_CURRENT_PREFIX_BOUNDARY_PARITY_GAP_V1",
+        "schema": "STAGE32_32_01_178_SMITH_CURRENT_PREFIX_EXCEPTIONAL_PAIR_MASS_PARITY_GAP_V2",
+        "supersedes": {
+            "invalid_model": "V1 treated M_p as a sum of two boundary-curve pairings; that model is false and grants no credit.",
+            "repair": "M_p is the sum of exceptional contact masses over the four marked exceptional curves incident to the ordered cusp pair."
+        },
         "source_locks": {
             "hperp_adapter_blob_sha1": blob,
             "retained_bundle_canonical": EXPECTED_BUNDLE_CANONICAL,
             "retained_marking_canonical": EXPECTED_MARKING_CANONICAL,
-            "old_weierstrass_transvection_artifact_canonical": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386",
+            "marked_exceptional_incidence_canonical": EXPECTED_INCIDENCE_CANONICAL,
+            "old_weierstrass_transvection_artifact_canonical": EXPECTED_TRANSVECTION_CANONICAL,
             "old_smith_hostile_review": 5147627146
         },
-        "current_observables": {
-            "names": [name for name,_ in obs_named],
-            "mod2_rank": obs_rank,
-            "n355_group_sums_add_no_new_linear_information": True,
-            "normal_total_exactly_19d_minus_5e": True
-        },
-        "old_transvection_boundary_parity_map": {
-            "boundary_labels": BOUNDARY_LABELS,
-            "ordered_pair_labels": [list(x) for x in PAIR_LABELS],
-            "pair_parity_map_rank": target_rank,
-            "joint_rank_with_current_observables": joint_rank,
-            "residual_pair_parity_rank_beyond_current_observables": residual_rank,
-            "individually_determined_pair_indices_0based": individually_determined,
+        "pair_mass_semantics": {
+            "ordered_pairs": PAIR_KEYS,
+            "exceptional_label_groups": [PAIR_EXCEPTIONAL_LABELS[k] for k in PAIR_KEYS],
+            "each_group_size": 4,
+            "groups_partition_93_through_140": sorted(sum((PAIR_EXCEPTIONAL_LABELS[k] for k in PAIR_KEYS), [])) == list(range(93,141)),
             "old_v6_pair_masses": OLD_V6_PAIR_MASSES,
             "old_v6_pair_parity_signature": old_signature
         },
-        "prefix_extension": {
-            "selected64_boundary_labels_already_coordinate_rows": direct_selected_boundary,
-            "residual_rank_after_exposing_all_direct_selected_boundary_labels": residual_after_direct_selected,
-            "minimal_actual_boundary_pairing_count_to_determine_all_pair_parities": minimal_size,
-            "minimal_subset_count": len(minimal_subsets),
-            "minimal_subsets_first20": minimal_subsets[:20]
+        "current_observables": {
+            "names": [name for name,_ in obs_named],
+            "mod2_rank": obs_rank
+        },
+        "exact_gap": {
+            "pair_mass_parity_map_rank": pair_rank,
+            "joint_rank_with_current_observables": joint_rank,
+            "residual_pair_mass_parity_rank_beyond_current_observables": residual_rank,
+            "individually_determined_pair_indices_0based": individually_determined,
+            "pair_parity_xor_equals_exceptional_total_parity": True,
+            "minimal_additional_true_pair_group_sums_to_determine_all_pair_parities": minimal_group_count,
+            "minimal_group_subset_count": len(minimal_group_subsets),
+            "minimal_group_subsets_0based_first30": minimal_group_subsets[:30]
+        },
+        "selected64_comparison": {
+            "selected_exceptional_labels": selected_exceptional,
+            "residual_pair_mass_rank_after_current_plus_all_selected_exceptional_labels": residual_after_selected
         },
         "interpretation": {
-            "current_prefix_already_determines_old_transvection_parities": residual_rank == 0,
+            "current_prefix_already_determines_old_transvection_pair_parities": residual_rank == 0,
             "direct_current_to_smith_adapter_established": False,
-            "why_not": "The hostile-audited Smith obstruction still requires the fixed X(8)/V4 common-cover semantics. This computation only measures how much of the old boundary-parity observable is missing from the current Picard/N355 prefix.",
-            "next_route": "If the residual rank is small, extend the exact pairing prefix by the certified minimal boundary observables, reconstruct the branch-permutation/transvection predicate stratumwise, and only then test a source-compatible Smith obstruction on the corresponding common-cover subpopulation."
+            "next_route": "Use the exact residual rank and N355-style exceptional group sums to expose only the missing true M_p parities; then reconstruct the Weierstrass parity action. Common-cover/X(8)-V4 hypotheses still require a separate semantic adapter before any MAIN pruning credit."
         },
         "credit": {
             "main_pruning_credit": False,
