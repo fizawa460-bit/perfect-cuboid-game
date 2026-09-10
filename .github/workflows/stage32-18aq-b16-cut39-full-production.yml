@@ -1,10 +1,7 @@
 name: Stage32-18AQ d16 b16 cut39 full production
 
 on:
-  push:
-    branches: [stage32-18aq-b16-cut39-full-production]
-    paths: ['stages/stage32/runkeys/18aq-b16-cut39-full-production.json']
-
+  workflow_dispatch:
 permissions: {contents: read, actions: read}
 concurrency: {group: stage32-18aq-b16-cut39-full-production, cancel-in-progress: true}
 

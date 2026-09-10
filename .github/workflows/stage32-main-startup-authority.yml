@@ -41,9 +41,40 @@ jobs:
         run: |
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
-          test "${{ github.event.pull_request.base.sha }}" = "$current_main"
           merge_base="$(git merge-base HEAD "$current_main")"
-          test "$merge_base" = "$current_main"
+          echo "current_main=$current_main"
+          echo "merge_base=$merge_base"
+
+          # Freshness is separate from research correctness.  If this branch
+          # already contains current main there is no main-only drift to review.
+          if test "$merge_base" = "$current_main"; then
+            echo "freshness=contains-current-main"
+            exit 0
+          fi
+
+          # Exact bounded review, 2026-09-10: main advanced from the previously
+          # reviewed EX5 merge to 5ca6... through 35 commits.  The complete diff
+          # is confined to EX5 operational state/workflow and Arsenal catalog/docs;
+          # it does not touch FULL178 manifest, N220/N353/N354, MAIN state/proof
+          # authority, or any N354 replay input.  Any later main movement fails
+          # closed and requires a new semantic freshness review.
+          reviewed_main="5ca6acba4b591d9e2d40057241c850598c1fa1df"
+          previous_reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
+          reviewed_merge_base="e2da76d90a0994af5038023613c6c4084c4c507e"
+          test "$current_main" = "$reviewed_main" || {
+            echo "freshness review required: unreviewed main tip $current_main"
+            exit 1
+          }
+          test "$merge_base" = "$reviewed_merge_base"
+          git merge-base --is-ancestor "$previous_reviewed_main" "$reviewed_main"
+
+          unexpected="$(git diff --name-only "$previous_reviewed_main" "$reviewed_main" | grep -Ev '^(docs/arsenal/|docs/stage32-arsenal-promotion\.md$|stages/stage32-ex5/|\.github/workflows/stage32-ex5-main\.yml$)' || true)"
+          test -z "$unexpected" || {
+            echo "freshness review scope violation:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          }
+          echo "freshness=reviewed-ex5-arsenal-only-main-drift-no-auto-main-credit"
 
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py

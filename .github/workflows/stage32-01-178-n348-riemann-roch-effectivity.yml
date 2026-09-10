@@ -1,0 +1,56 @@
+name: "[Stage32][32-01-178][N348] Riemann-Roch divisor effectivity"
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      effective: ${{ steps.ledger.outputs.effective }}
+      nonpositive: ${{ steps.ledger.outputs.nonpositive }}
+      min_h0: ${{ steps.ledger.outputs.min_h0 }}
+      max_h0: ${{ steps.ledger.outputs.max_h0 }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Exact N348 Riemann-Roch replay
+        run: |
+          python stages/stage32/32-01-178/nodes/N348/verify_n348_riemann_roch_effectivity.py \
+            --output /tmp/n348-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d = json.load(open('/tmp/n348-result.json'))
+          a = d['aggregate']
+          print(f"effective={a['geometric_effective_divisor_representative_count']}")
+          print(f"nonpositive={a['nonpositive_chi_count']}")
+          print(f"min_h0={a['minimum_h0_lower_bound']}")
+          print(f"max_h0={a['maximum_h0_lower_bound']}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N348 ledger EFFECTIVE=${{ needs.verify.outputs.effective }} NONPOS=${{ needs.verify.outputs.nonpositive }} MINH0=${{ needs.verify.outputs.min_h0 }} MAXH0=${{ needs.verify.outputs.max_h0 }}"
+    steps:
+      - name: Report exact compact ledger
+        run: |
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "integral/irreducible/low-genus credit=false"
+          echo "FULL178/N350/theorem/endpoint credit=false"

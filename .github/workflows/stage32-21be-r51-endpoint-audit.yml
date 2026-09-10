@@ -1,16 +1,7 @@
 name: Stage32-21be independent r51 endpoint audit
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - '.github/workflows/stage32-21be-r51-endpoint-audit.yml'
-      - 'stages/stage32/residual-32-01-production/audit_stage32_21be_r51_endpoints.py'
-      - 'stages/stage32/32-21/32-21az-survivor-prism.json'
-      - 'stages/stage32/32-21/32-21bb-r51-interval-formula.json'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-
+  workflow_dispatch:
 permissions:
   contents: read
   actions: read

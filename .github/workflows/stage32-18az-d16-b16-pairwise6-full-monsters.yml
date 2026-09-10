@@ -1,10 +1,7 @@
 name: Stage32-18AZ d16 b16 pairwise6 full monsters
 
 on:
-  push:
-    branches: [stage32-18ax-b16-remaining-walls-tier3-planner]
-    paths: ['stages/stage32/runkeys/18az-b16-pairwise6-full-monsters.json']
-
+  workflow_dispatch:
 permissions: {contents: read, actions: read}
 concurrency: {group: stage32-18az-b16-pairwise6-full-monsters, cancel-in-progress: true}
 

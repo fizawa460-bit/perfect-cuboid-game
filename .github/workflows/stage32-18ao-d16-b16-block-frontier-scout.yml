@@ -1,10 +1,7 @@
 name: Stage32-18AO d16 b16 block-frontier scout
 
 on:
-  push:
-    branches: [stage32-18ao-b16-block-frontier-scout]
-    paths: ['stages/stage32/runkeys/18ao-b16-block-frontier-scout.json']
-
+  workflow_dispatch:
 permissions: {contents: read, actions: read}
 concurrency: {group: stage32-18ao-b16-block-frontier-scout, cancel-in-progress: true}
 

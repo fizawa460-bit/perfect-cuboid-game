@@ -1,0 +1,34 @@
+name: Stage32 32-01-178 N350 production leaf certificate contract
+
+# Trigger lifecycle: MANUAL
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-n350-production-leaf-contract-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Assert exact PR head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
+      - name: Verify fail-closed N350 production leaf meta-contract
+        run: python3 stages/stage32/32-01-178/nodes/N350/verify_n350_production_leaf_certificate_contract.py
+
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
