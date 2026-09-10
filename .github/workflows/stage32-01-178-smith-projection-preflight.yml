@@ -18,18 +18,28 @@ jobs:
       - name: Replay certified Smith projection
         run: |
           python stages/stage32/32-01-178-smith/verify_smith_projection_preflight.py | tee /tmp/smith-projection.json
+      - name: Replay old legal assemblies and find minimal Smith detector
+        run: |
+          python stages/stage32/32-01-178-smith/verify_smith_minimal_detector_preflight.py | tee /tmp/smith-detector.json
       - name: Compact ledger
         run: |
           python - <<'PY'
           import json
           x=json.load(open('/tmp/smith-projection.json'))
-          m=x['map']
-          print('canonical='+x['canonical_sha256_without_this_field'])
+          d=json.load(open('/tmp/smith-detector.json'))
+          m=x['map']; r=d['exact_replay']
+          print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('endpoint_only_image_order='+str(m['endpoint_only_image_order']))
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
           print('full_linear_image_order='+str(m['full_linear_image_order']))
           print('middle_B_alone_surjects='+str(m['middle_B_alone_surjects_to_full_cokernel']))
-          for r in x['coordinate_rows']:
-              print('coord',r['smith_coordinate'],'mod',r['modulus'],'endpoint',r['endpoint_coefficients'],'B_nz',r['middle_nonzero_count'],'rowcol',r['middle_matrix_additive_row_plus_column'])
+          for row in x['coordinate_rows']:
+              print('coord',row['smith_coordinate'],'mod',row['modulus'],'endpoint',row['endpoint_coefficients'],'B_nz',row['middle_nonzero_count'],'rowcol',row['middle_matrix_additive_row_plus_column'])
+          print('detector_canonical='+d['canonical_sha256_without_this_field'])
+          print('old_classes_checked='+str(r['classes_checked']))
+          print('distinct_actual_classes='+str(r['distinct_actual_smith_classes']))
+          print('per_coordinate_nonzero='+str(r['per_coordinate_nonzero_counts']))
+          print('minimal_detector_size='+str(r['minimal_detector_coordinate_count']))
+          print('minimal_detector_subsets='+str(r['minimal_detector_coordinate_subsets']))
           print('MAIN_PRUNING_CREDIT=false')
           PY
