@@ -36,7 +36,6 @@ X4_LABEL = 49
 NORMAL_LABEL_COUNT = 92
 FIRST_NORMAL_HALF_COUNT = 46
 PICARD_RANK = 64
-MAX_RESIDUE_ENUM_MODULUS = 512
 
 
 def csha(value: object) -> str:
@@ -65,6 +64,21 @@ def parse_degree(row_id: str) -> int:
     return int(str(row_id).split("-d", 1)[1])
 
 
+def primitive_integer_vector(v: Matrix) -> list[int]:
+    lcm = 1
+    for q in v:
+        lcm = math.lcm(lcm, int(sympy.denom(q)))
+    vals = [int(q * lcm) for q in v]
+    g = 0
+    for x in vals:
+        g = math.gcd(g, abs(x))
+    if g:
+        vals = [x // g for x in vals]
+    if vals[-1] < 0:
+        vals = [-x for x in vals]
+    return vals
+
+
 def main() -> None:
     n260 = json.loads(N260_STATE.read_text())
     if n260.get("node_id") != "N260" or n260["proof"].get("full_exceptional_vector") != "[1]^48":
@@ -89,107 +103,131 @@ def main() -> None:
     if P.shape != (140, PICARD_RANK):
         raise ValueError(f"all140 pairing matrix shape regression: {P.shape}")
 
+    exceptional_sum = Matrix.zeros(1, PICARD_RANK)
     normal_sum = Matrix.zeros(1, PICARD_RANK)
     first_half_sum = Matrix.zeros(1, PICARD_RANK)
     for i in range(NORMAL_LABEL_COUNT):
         normal_sum += P.row(i)
         if i < FIRST_NORMAL_HALF_COUNT:
             first_half_sum += P.row(i)
+    for i in range(NORMAL_LABEL_COUNT, NORMAL_LABEL_COUNT + 48):
+        exceptional_sum += P.row(i)
     if tuple(int(first_half_sum[0, j]) for j in range(PICARD_RANK)) != bridge.first_normal_half_functional:
         raise ValueError("first-normal-half functional source-lock regression")
-    if normal_sum + 5 * Matrix([list(bridge.exceptional_mass_functional)]) != 19 * Matrix([list(bridge.degree_functional)]):
+    if tuple(int(exceptional_sum[0, j]) for j in range(PICARD_RANK)) != bridge.exceptional_mass_functional:
+        raise ValueError("exceptional functional source-lock regression")
+    if normal_sum + 5 * exceptional_sum != 19 * Matrix([list(bridge.degree_functional)]):
         raise ValueError("normal + 5 exceptional = 19 degree identity regression")
 
-    rows = [P.row(label - 1) for label in EXCEPTIONAL_LABELS]
-    rows.append(P.row(X4_LABEL - 1))
-    rows.append(normal_sum)
-    rows.append(first_half_sum)
-    A = Matrix.vstack(*rows)
-    if A.shape != (51, PICARD_RANK):
-        raise ValueError(f"augmented functional matrix shape regression: {A.shape}")
+    base_rows = [P.row(label - 1) for label in EXCEPTIONAL_LABELS]
+    base_rows.append(P.row(X4_LABEL - 1))
+    base_rows.append(normal_sum)
+    A50 = Matrix.vstack(*base_rows)
+    if A50.shape != (50, PICARD_RANK) or A50.rank() != 50:
+        raise ValueError(f"N280 base functional rank regression: {A50.shape}, rank={A50.rank()}")
 
-    H = hermite_normal_form(A)
-    if H.shape != (51, 51) or H.det() == 0:
-        raise ValueError(f"augmented functionals lack full row rank: {H.shape}")
+    H = hermite_normal_form(A50)
+    if H.shape != (50, 50) or H.det() == 0:
+        raise ValueError(f"N280 base HNF regression: {H.shape}")
     Hinv = H.inv()
     modulus = 1
     for q in Hinv:
         modulus = math.lcm(modulus, int(sympy.denom(q)))
-    if modulus > MAX_RESIDUE_ENUM_MODULUS:
-        raise ValueError(f"cheap residue resource gate: modulus {modulus}>{MAX_RESIDUE_ENUM_MODULUS}")
     Hinv_int_q = Hinv * modulus
     if any(sympy.denom(q) != 1 for q in Hinv_int_q):
-        raise ValueError("augmented HNF inverse scaling regression")
+        raise ValueError("base HNF inverse scaling regression")
     Hinv_int = Matrix([
         [int(Hinv_int_q[i, j]) for j in range(Hinv_int_q.cols)]
         for i in range(Hinv_int_q.rows)
     ])
 
-    def feasible_residue_pairs(normal_mass: int) -> dict[int, list[int]]:
-        constants = []
-        x_slopes = []
-        a_slopes = []
-        for i in range(51):
-            row = [int(Hinv_int[i, j]) for j in range(51)]
-            constants.append((sum(row[:48]) + row[49] * normal_mass) % modulus)
-            x_slopes.append(row[48] % modulus)
-            a_slopes.append(row[50] % modulus)
-        out: dict[int, list[int]] = {}
-        for xr in range(modulus):
-            ars = [
-                ar for ar in range(modulus)
-                if all((c + sx * xr + sa * ar) % modulus == 0 for c, sx, sa in zip(constants, x_slopes, a_slopes))
-            ]
-            if ars:
-                out[xr] = ars
-        return out
+    A51 = A50.col_join(first_half_sum)
+    if A51.rank() != 50:
+        raise ValueError(f"first-half augmented rank unexpectedly changed: {A51.rank()}")
+    left_null = A51.T.nullspace()
+    if len(left_null) != 1:
+        raise ValueError(f"expected one exact left-null relation, got {len(left_null)}")
+    relation = primitive_integer_vector(left_null[0])
+    if len(relation) != 51 or relation[-1] == 0:
+        raise ValueError("invalid first-half dependence relation")
+    if any(int((Matrix([relation]).T.T * A51)[0, j]) != 0 for j in range(A51.cols)):
+        raise ValueError("primitive left-null relation replay regression")
+
+    rel_exc_constant = sum(relation[:48])
+    rel_x4 = relation[48]
+    rel_normal = relation[49]
+    rel_a = relation[50]
+
+    def base_lattice_feasible(x4: int, normal_mass: int) -> bool:
+        b = Matrix([1] * 48 + [int(x4), int(normal_mass)])
+        y = Hinv_int * b
+        return all(int(v) % modulus == 0 for v in y)
+
+    def forced_a(x4: int, normal_mass: int) -> tuple[bool, int | None]:
+        numerator = -(rel_exc_constant + rel_x4 * int(x4) + rel_normal * int(normal_mass))
+        if numerator % rel_a:
+            return False, None
+        return True, numerator // rel_a
 
     strata = []
-    total = rejected_total = feasible_total = 0
+    total = n280_rejected_total = n290_extra_rejected_total = feasible_total = 0
     for (row_id, degree, e), block in sorted(EXPECTED_STRATA.items()):
         normal_mass = 19 * degree - 5 * e
         if block != normal_mass + 1:
             raise ValueError("N260 x4 block / normal-mass identity regression")
-        residue_map = feasible_residue_pairs(normal_mass)
-        feasible_x4 = []
+        n280_rejected = 0
+        extra_rejected = 0
+        feasible = []
+        forced_a_samples = []
         for x4 in range(normal_mass + 1):
-            ars = residue_map.get(x4 % modulus, [])
-            if any(ar <= normal_mass for ar in ars):
-                feasible_x4.append(x4)
-        rejected = block - len(feasible_x4)
+            if not base_lattice_feasible(x4, normal_mass):
+                n280_rejected += 1
+                continue
+            integral, a = forced_a(x4, normal_mass)
+            if not integral or a is None or not (0 <= a <= normal_mass):
+                extra_rejected += 1
+                continue
+            feasible.append(x4)
+            if len(forced_a_samples) < 5:
+                forced_a_samples.append([x4, a])
         strata.append({
             "row_id": row_id,
             "degree": degree,
             "e": e,
             "normal_pairing_mass": normal_mass,
-            "x4_range": [0, normal_mass],
-            "lattice_feasible_x4_count": len(feasible_x4),
-            "lattice_rejected_x4_count": rejected,
-            "all_x4_lattice_rejected": not feasible_x4,
-            "feasible_x4_residues_mod_hnf_modulus": sorted(residue_map),
-            "allowed_first_half_residue_count_by_x4_residue": {str(k): len(v) for k, v in sorted(residue_map.items())},
-            "first_normal_half_bound": [0, normal_mass],
+            "terminal_count": block,
+            "n280_base_lattice_rejected": n280_rejected,
+            "n290_additional_halfmass_rejected": extra_rejected,
+            "n290_survivor_count": len(feasible),
+            "all_x4_rejected_after_n290": len(feasible) == 0,
+            "survivor_x4_min": min(feasible) if feasible else None,
+            "survivor_x4_max": max(feasible) if feasible else None,
+            "forced_a_samples_x4_a": forced_a_samples,
         })
         total += block
-        rejected_total += rejected
-        feasible_total += len(feasible_x4)
+        n280_rejected_total += n280_rejected
+        n290_extra_rejected_total += extra_rejected
+        feasible_total += len(feasible)
 
     body = {
-        "schema": "STAGE32_32_01_178_N290_ALL48_X4_HALFMASS_LATTICE_V1",
+        "schema": "STAGE32_32_01_178_N290_ALL48_X4_HALFMASS_DEPENDENCE_V2",
         "source_scope": "N260 four e=K=48 strata only",
-        "functionals": {
-            "fixed_exceptional_pairings": "labels93..140 all equal 1",
-            "x4_normal_label_1based": X4_LABEL,
-            "normal_pairing_sum": "sum labels1..92 = 19*d-5*e",
-            "first_normal_half_sum": "a=sum labels1..46 with 0<=a<=19*d-5*e",
-            "remaining_individual_normal_pairings_unfixed": 91,
-            "functional_matrix_shape": [51, 64],
-            "functional_matrix_sha256": matrix_csha(A),
-            "direct_slice_target_image_modulus": int(bridge.target_image_modulus),
+        "linear_dependence": {
+            "base_functionals": "48 exceptional pairings + label49=x4 + normal_total",
+            "base_rank": 50,
+            "first_normal_half_adds_rank": 0,
+            "primitive_left_null_relation": relation,
+            "forced_a_formula": {
+                "numerator_exceptional_allones_constant": -rel_exc_constant,
+                "numerator_x4_coefficient": -rel_x4,
+                "numerator_normal_mass_coefficient": -rel_normal,
+                "denominator": rel_a,
+                "meaning": "a = (constant + coeff_x4*x4 + coeff_normal*normal_mass)/denominator"
+            },
+            "first_normal_half_bound": "0 <= a <= normal_total",
             "direct_slice_bridge_sha256": bridge.certificate["canonical_sha256_without_this_field"],
         },
-        "lattice": {
-            "hnf_shape": [H.rows, H.cols],
+        "base_lattice": {
             "hnf_sha256": matrix_csha(H),
             "image_index": str(abs(int(H.det()))),
             "inverse_denominator_modulus": modulus,
@@ -197,15 +235,15 @@ def main() -> None:
         "strata": strata,
         "aggregate": {
             "terminal_count": total,
-            "lattice_rejected_terminal_count": rejected_total,
-            "lattice_survivor_terminal_count": feasible_total,
-            "all_four_strata_lattice_empty": feasible_total == 0,
+            "n280_base_lattice_rejected": n280_rejected_total,
+            "n290_additional_halfmass_rejected": n290_extra_rejected_total,
+            "n290_survivor_terminal_count": feasible_total,
         },
         "semantics": {
-            "exact_integer_lattice_membership_necessary_condition": True,
-            "includes_bounded_first_normal_half_mass_unlike_n280": True,
-            "rejection_implies_no_integral_picard64_class_with_required_pairing_functionals_and_halfmass_bound": True,
-            "feasible_does_not_imply_all140_nonnegative_or_picard_sat": True,
+            "exact_linear_dependence_and_integral_lattice_test": True,
+            "bounded_first_normal_half_is_source_locked_necessary_condition": True,
+            "rejection_is_safe_relative_to_n260_rigidity": True,
+            "survival_is_not_picard_sat": True,
             "does_not_run_z3": True,
             "does_not_duplicate_ex5_adaptive_exceptional_partition": True,
             "n260_hostile_audit_required_before_credit_consumption": True,
