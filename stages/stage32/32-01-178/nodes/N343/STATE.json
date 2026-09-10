@@ -1,0 +1,36 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N343",
+  "semantic_key": "s32-01-178:n342-residual-real-self-square-upper-bound",
+  "statement": "For each of the 21 N342 residual terminals, maximize the Picard self-square over the larger real affine space fixing degree, all 48 exceptional pairings to 1, and x4. If that exact real maximum is already below the required self-square lower bound, the terminal is pruned a fortiori before integrality/nonnegativity/effectivity.",
+  "scope": {
+    "population": "N342 residual 21 terminals only",
+    "field_or_model": "retained Picard64 real affine relaxation",
+    "quantifiers": "per terminal exact real quadratic maximum",
+    "required_output": "exact negative-definiteness certificate and exact rational upper bound ledger"
+  },
+  "depends_on": ["N341", "N342"],
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N342/RESULT.json@c44a5345e5f88f914023369323fb067ff964a18d",
+    "stages/stage32/32-01-178/nodes/N343/verify_n343_terminal_self_square_real_upper_bound.py@79bda9a223fbe89472ec4e03763c68df1d744ae2",
+    ".github/workflows/stage32-01-178-n343-self-square-real-upper-bound.yml@be9095172d14461fcb480fe63b45a89da5b89392"
+  ],
+  "validation": {
+    "status": "RUN_REQUIRED",
+    "expected_verifier": "verify_n343_terminal_self_square_real_upper_bound.py",
+    "heavy_compute": false
+  },
+  "retained_result": {
+    "status": "PENDING_EXACT_CI_LEDGER",
+    "terminal_count": 21,
+    "pruned_count": null,
+    "survivor_count": null
+  },
+  "credit_ceiling": "LOCAL_REAL_AFFINE_SELF_SQUARE_NECESSARY_CUT_ONLY_NO_PRODUCTION_OR_ENDPOINT_CREDIT",
+  "next_action": "Run the exact N343 verifier. If all 21 real affine maxima are below the required lower bounds, retain the ledger and prepare an external hostile-audit handoff before any N350 producer registration or FULL178 promotion.",
+  "notes": [
+    "Normal nonnegativity and Picard integrality are deliberately omitted in N343, so the computed maximum is a safe upper bound for the smaller admissible set.",
+    "N343 does not change the N350 producer registry.",
+    "No production COMPLETE, N104 release, FULL178 completion, theorem/receiver/endpoint, Perfect Cuboid claim, or merge authorization is granted."
+  ]
+}
