@@ -134,6 +134,21 @@ python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discri
 
 A green aggregate that stops at Goal4BR is insufficient evidence for Goal4CF.
 
+Replacement exact-head CI after hostile-audit FAIL review `5163623378`:
+
+```text
+failed_head=9917bb922fe255fc754442ea4f3ae8ff7f2e3aae
+replacement_head=ab6aa0d3b0e6e7930725c0080c9532455ced4ab0
+goal4cf_dedicated_run=34447561857
+goal4cf_dedicated_job=102775614249
+goal4cf_dedicated_result=SUCCESS
+goal4bs_dedicated_run=34447561867
+goal4bs_dedicated_job=102775614074
+goal4bs_dedicated_result=SUCCESS
+```
+
+The replacement repairs only the inherited Goal4BS handoff contract and exact-head CI wiring. Goal4CF mathematics, certificate and verifier are unchanged from the failed audited head.
+
 ## Cycle state
 
 ```text
