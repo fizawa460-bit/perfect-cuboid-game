@@ -8,50 +8,54 @@ If the user gives an exact PR/head, audit that target. Otherwise resolve the act
 
 Do not rely on chat summaries as mathematical evidence. CI green is not hostile-audit PASS.
 
-## Current Stage32 authority
+## Current Stage32 authority observation
 
-Stage32 remains in `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed Stage32 MAIN #1753 head is `1edbb0775d2beac51d98c1327d2fe6b83c012323`. Current observed production boundary is N350 with stop gate `N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER`.
+Stage32 remains in `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed Stage32 MAIN #1753 head is `b1d44137e0dd87cd3a604221715596d9b3574bc5`.
+
+The latest retained MAIN checkpoint visible at that head is N349C hostile-audit handoff, canonical `2034688f2f881fbd1aeab8b4a567179a8767a7378daf43105910f0de92320eec`. N349C remains provisional and its N260/N280 prerequisite audits are separate. The MAIN startup state still contains an older N350 stop-gate projection; N350 remains the production-registration boundary but must not be presented as the latest attack checkpoint.
 
 V6/O210/Q602 and `[73,97,235]` are historical/formal provenance. Any old no-O210/Q602 wording is a historical-credit firewall, not a current-frontier description.
 
-## Exact BC2-12 mathematical claim under audit
+## Exact BC2-14 mathematical claim under audit
 
-The mathematical credit proposed by BC2-12 remains local finite Picard64 UNSAT for ranks `399..531` of `(g1-d008,e=4)`, extending the retained exact local prefix to `0..531`.
+The new mathematical credit proposed by BC2-14 is local finite Picard64 UNSAT for ranks `532..664` of `(g1-d008,e=4)`, extending the retained exact local prefix from `0..531` to `0..664`.
 
-The audit must independently verify the BC2-11 structural source lock, BC2-12 generation-1 heavy authorization, fixed exceptional mass `3`, residual mass `1`, complete `20`-parent partition, exact result `20/20 UNSAT`, `UNKNOWN=0`, `SAT=0`, evidence canonical `d55b84e9b90692c14211e7d1affe73857f0cec2496305121067e2cd71d8da58a`, and checkpoint canonical `2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9`.
+The audit must independently verify:
 
-Audit must also confirm that later synchronization did not re-arm the BC2-12 heavy job.
+- BC2-13 checkpoint canonical `77a0d31f6c5ca4b725c8d4f34ac2a867b82e042768858ff6475d949e1444f9c0` and exact structural block `532..664`;
+- BC2-14 solver source commit `834d7d4b57659e96f27b1f73f569a9f1e1a79751`;
+- generation-1 run-key arm commit / exact compute head `05656d9fadb676422ebfa0977536fd99239600fd`;
+- commit-range heavy authorization, effective heavy concurrency `1`, artifact retention `1` day, and projected artifact ceiling `200000` bytes;
+- exceptional split derived from the exact BC2-13 terminal and locked labels: fixed mass `4`, residual mass `0`;
+- complete selected-exceptional parent partition count `1`;
+- exact solver result `1/1 UNSAT`, `UNKNOWN=0`, `SAT=0`;
+- exact run `34437319330`, authorize job `102745011293`, compute job `102745081056`;
+- evidence canonical `52fb48627a8646db2dc5b3e0b04eb32bc89ca9391988f4b91f7f51afada2de5d`;
+- checkpoint canonical `fa603024cbf3b89fb097401f4e5e9b3f0cad04a0a0b6dd0b919b3a37b2781c0e`;
+- retained exact prefix `0..664` and next route `BC2_15_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`.
 
-## BC2-13 structural claim under audit
+Audit must confirm that later bookkeeping/synchronization commits did not re-arm BC2-14 heavy computation. The older BC2-12 heavy workflow must likewise remain cold on unrelated synchronizations.
 
-BC2-13 adds structural replay only, with no Picard64 UNSAT credit for the new block. Audit must independently verify:
+## Prior retained chain
 
-- predecessor BC2-12 checkpoint canonical `2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9`;
-- next block ranks `532..664`, width `133`, outer exceptional rank `4`;
-- base terminal at x4=0 `[0,1,0,0,0,0,1,1,0,0,1]`;
-- exceptional signature `[0,1,0,0,0,1,1,0,0,1]`;
-- all `133/133` rank/unrank round trips exact;
-- all `133/133` source `terminal_predicate` replays exact;
-- replay stream SHA256 `c7178bb53882b5e4c88309bf26ff149e993f07d4c610aec98c50f7a9a84005d5`;
-- BC2-13 checkpoint canonical `77a0d31f6c5ca4b725c8d4f34ac2a867b82e042768858ff6475d949e1444f9c0`;
-- solver/heavy compute not invoked by BC2-13;
-- exact UNSAT prefix remains `0..531`, while structural replay reaches rank `664`;
-- next route is `BC2_14_OUTER_RANK4_SYMBOLIC_X4_PARENT_PREFLIGHT`.
+BC2-12 remains the exact `399..531` result: fixed mass `3`, residual mass `1`, `20/20 UNSAT`, evidence canonical `d55b84e9b90692c14211e7d1affe73857f0cec2496305121067e2cd71d8da58a`, checkpoint canonical `2fdb506c601ece59ef107fa62fc4e8948b6ea5145dae413e63ccc2d11691ecd9`.
+
+BC2-13 is the structural bridge for `532..664`: outer exceptional rank `4`, base terminal `[0,1,0,0,0,0,1,1,0,0,1]`, exceptional signature `[0,1,0,0,0,1,1,0,0,1]`, `133/133` rank/unrank and source-terminal-predicate replays, replay SHA `c7178bb53882b5e4c88309bf26ff149e993f07d4c610aec98c50f7a9a84005d5`.
 
 ## Claim-DAG synchronization
 
-BC2-12 triggered `RETAINED_CONSOLIDATION`; receipt canonical remains `3acaa613dabbaa0caa0fdee9bccf0220cd7b119fb304196d355f0528d648f639`. BC2-13 is structural-only and does not alter active-goal semantics. EX5 continues to attack existing `S32.FULL178.NUMERICAL_CENSUS.V1`; no MAIN dependency or producer adapter consumes BC2-12/13 at this checkpoint.
+BC2-14 triggered `RETAINED_CONSOLIDATION`. Audit must verify claim-sync receipt canonical `b42ff343464c2dfceaa9203309024f657ee1d0f29bfaa7e326b0dfcf21598ddc` and the decision that no active-frontier remap occurred: EX5 continues to attack existing `S32.FULL178.NUMERICAL_CENSUS.V1`; no MAIN dependency or producer adapter consumes BC2-14 at this checkpoint.
 
 Run the Stage32 claim-DAG integrity and active-frontier verifiers. A local EX5 audit PASS must not mutate MAIN authority by itself.
 
 ## Mandatory firewalls
 
-Even if BC2-12/13 pass hostile audit:
+Even if BC2-14 passes hostile audit:
 
-- ranks `532..664` are not Picard64-closed by BC2-13;
 - the whole `(g1-d008,e=4)` stratum remains open;
 - FULL178 remains incomplete;
 - N350/N104 production coverage remains zero for EX5 unless MAIN separately registers an audited exact producer;
+- N349C/N260/N280 authority is neither granted nor altered by EX5;
 - no receiver/effectivity/actual-curve/theorem/final-milestone/endpoint credit is granted;
 - no Perfect Cuboid existence/nonexistence claim is granted;
 - V6/O210/Q602 are not reopened;
