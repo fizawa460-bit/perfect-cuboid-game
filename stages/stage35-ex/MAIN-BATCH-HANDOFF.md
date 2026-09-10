@@ -2,6 +2,35 @@
 
 Mathematical authority remains **V74 / Goal4AK** under hostile review `5142248509`. The independently audited intermediate boundary remains **Goal4BS**, review `5151846948`, exact head `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`. PR #1723 remains closed without merge. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted, and merge is not authorized.
 
+## Goal4BS historical hostile-audit PASS consumption
+
+The Goal4BS audited parking boundary remains a load-bearing historical dependency of Goal4CF. Preserve its consumption contract even though Goal4CF has reopened the research cycle.
+
+Audited checkpoint receipt:
+
+- review: `5151846948`
+- audited exact head: `d6f5151c9d95304afe7081c92f40f1d25cc4aa3b`
+
+Retained Goal4BS receipt markers (historical checkpoint state, **not** the post-CF current route):
+
+```text
+PARKING_AUDIT_COMPLETE=true
+ROUTE_STATUS=PARKED_AUDITED_REOPEN_GATED
+GLOBAL_RATIONAL_REALIZATION_WITH_HEIGHT_CONTROL
+NEW_SOURCE_FIXED_E1_INVARIANT
+QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
+```
+
+Goal4CF is a formal reopen through the third retained Goal4BS gate:
+
+```text
+REOPEN_FROM_GOAL4BS=true
+REOPEN_GATE=QUANTITATIVE_HEIGHT_DISCRIMINANT_ADAPTER
+REOPEN_OBJECT=SOURCE_SELECTED_GLOBAL_MINIMAL_DISCRIMINANT_HEIGHT_ADAPTER
+```
+
+This transition does not rewrite the historical Goal4BS parking receipt and does not promote Goal4BS or Goal4CF to E1 credit.
+
 ## Synchronization provenance
 
 The research producer reported local checkpoint commit
@@ -96,6 +125,15 @@ The retained verifier checks the certificate canonical digest and source locks, 
 
 Finite panels are regression checks only; the unbounded statement is the written algebraic proof. Euler-brick diagnostics are not perfect cuboids and do not supply physical marked rational points.
 
+Exact-head CI contract for this replacement checkpoint must run both:
+
+```text
+python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4bs_intermediate_audit_consumption.py
+python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discriminant_height.py
+```
+
+A green aggregate that stops at Goal4BR is insufficient evidence for Goal4CF.
+
 ## Cycle state
 
 ```text
@@ -140,6 +178,7 @@ Retained files for this checkpoint:
 - `stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height-source-lock.md`
 - `stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height.json`
 - `stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discriminant_height.py`
+- `.github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml`
 - `stages/stage35-ex/MAIN-BATCH-HANDOFF.md`
 
-MAIN-STATE intentionally remains V74 / Goal4AK. No merge.
+MAIN-STATE intentionally remains V74 / Goal4AK. Freshness to current `main` remains PENDING. No merge.
