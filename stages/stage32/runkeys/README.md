@@ -13,4 +13,4 @@ Required base fields:
 
 Workflow-specific fields should select the smallest necessary execution set, for example only failed shard IDs or only breaker counts that still need measurement.
 
-See `stages/stage32/HEAVY_WORKFLOW_POLICY.md` for the full policy.
+The retained legacy policy text is at `stages/stage32/archive/legacy-root/HEAVY_WORKFLOW_POLICY.md`; current heavy execution must also obey the repository-wide Actions/storage policy referenced by `AGENTS.md`.
