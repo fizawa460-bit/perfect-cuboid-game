@@ -8,9 +8,13 @@ If the user gives an exact PR/head, audit that target. Otherwise resolve the act
 
 ## Current Stage32 authority observation
 
-Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed MAIN PR #1753 head is `0f8cee995e5c982cdb7ceceae14d69f91e65588d`.
+Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/incomplete. Observed MAIN PR #1753 head is `c2c1041298ae34a593fcb48d04c0e0a20dc9c37a`.
 
-Latest retained MAIN checkpoint is N353 uniform FULL178 scalar-Hurwitz census, RESULT canonical `afd873201ed0deea149c502d681729508face43942df085af91db3e95fbf371b`. N353 is audit-candidate only and grants no MAIN pruning credit. MAIN is freshness-frozen at `98 ahead / 0 behind` from hostile-audited head `b56a832e6c194321916fe4ef63eef0d673b8ff9a`, with thresholds `90/100`. N350 remains the separate production-registration boundary.
+N353 is no longer an audit candidate. It has hostile-audit PASS at review `5163144778`, exact head `0f8cee995e5c982cdb7ceceae14d69f91e65588d`, and its narrow scalar-Hurwitz necessary cut is consumed by MAIN.
+
+N354 is the current MAIN hostile-audit gate. RESULT canonical `9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4`; audit candidate exact head `ab0ce28876dbba306985343c104b02b69cec89fb`; handoff canonical `350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6`. N354 remains `AUDIT_REQUIRED`, so its candidate counts are not MAIN pruning credit.
+
+Freshness checkpoint is reset to the audited N353 head and MAIN is currently `9 ahead / 0 behind`; the previous N353-era freshness freeze is obsolete. N350 remains the separate production-registration boundary.
 
 V6/O210/Q602 and `[73,97,235]` are historical/formal provenance. Any old no-O210/Q602 wording is a historical-credit firewall, not a current-frontier description.
 
@@ -60,7 +64,8 @@ Even if BC2-16 passes hostile audit:
 
 - the whole `(g1-d008,e=4)` stratum remains open;
 - FULL178 remains incomplete;
-- N353 remains separate audit-candidate MAIN work and is not promoted by EX5;
+- N353 audited MAIN credit is separate from EX5;
+- N354 remains `AUDIT_REQUIRED` until its own external hostile audit passes;
 - N350/N104 production coverage remains zero for EX5 unless MAIN separately registers an audited exact producer;
 - no receiver/effectivity/actual-curve/theorem/final-milestone/endpoint credit is granted;
 - no Perfect Cuboid existence/nonexistence claim is granted;

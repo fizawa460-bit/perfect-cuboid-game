@@ -4,11 +4,15 @@ Stage32EX5 is an auxiliary `ATTACKS` lane for the current Stage32 `FULL178_AND_F
 
 ## Current Stage32 authority observation
 
-Observed Stage32 MAIN PR #1753 head: `0f8cee995e5c982cdb7ceceae14d69f91e65588d`.
+Observed Stage32 MAIN PR #1753 head: `c2c1041298ae34a593fcb48d04c0e0a20dc9c37a`.
 
-The latest retained MAIN checkpoint visible there is **N353 uniform FULL178 scalar-Hurwitz census**, RESULT canonical `afd873201ed0deea149c502d681729508face43942df085af91db3e95fbf371b`. N353 remains an audit-candidate diagnostic and grants no MAIN pruning credit. MAIN is freshness-frozen: last hostile-audited checkpoint `b56a832e6c194321916fe4ef63eef0d673b8ff9a`, current distance `98 ahead / 0 behind`, with re-audit threshold `90` and hard halt `100`.
+MAIN has advanced through the N101–N353 chain. **N353 is now hostile-audited and consumed**: review `5163144778`, exact audited head `0f8cee995e5c982cdb7ceceae14d69f91e65588d`. Its necessary cut is live MAIN credit at the exact stated ceiling: `12788` strata / `264541612417334415376` terminals rejected, leaving `47703` strata / `346053443361304169755481593` terminals.
 
-N350 remains the separate fail-closed production-registration boundary. EX5 cannot self-register and receives no N350/N104/FULL178 production coverage from local results alone.
+The current MAIN gate is **N354 two-sided scalar Hurwitz**. N354 RESULT canonical is `9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4`; audit-candidate exact head is `ab0ce28876dbba306985343c104b02b69cec89fb`; handoff canonical is `350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6`. N354 is `AUDIT_REQUIRED`; its candidate counts are not MAIN pruning credit until hostile audit passes.
+
+The freshness checkpoint has reset to the audited N353 head. Current MAIN head is `9 ahead / 0 behind` that checkpoint; there is no current freshness freeze.
+
+N350 remains the separate fail-closed production-registration boundary with zero registered producers. EX5 cannot self-register and receives no N350/N104/FULL178 production coverage from local results alone.
 
 V6, O210, and Q602 are historical/formal prerequisite provenance, not current EX5 attack targets. The formal Q602 residue triple `[73,97,235]` is not the current Stage32 survivor population.
 

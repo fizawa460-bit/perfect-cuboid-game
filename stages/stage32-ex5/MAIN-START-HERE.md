@@ -12,9 +12,11 @@ Do not preload unrelated Stage32 history, other EX lanes, Research OS, or large 
 
 ## Current authority
 
-Stage32 remains in `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is the primary incomplete requirement. Observed MAIN PR #1753 head is `0f8cee995e5c982cdb7ceceae14d69f91e65588d`.
+Stage32 remains in `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is the primary incomplete requirement. Observed MAIN PR #1753 head is `c2c1041298ae34a593fcb48d04c0e0a20dc9c37a`.
 
-The latest retained MAIN checkpoint is N353, RESULT canonical `afd873201ed0deea149c502d681729508face43942df085af91db3e95fbf371b`. N353 is audit-candidate only and grants no MAIN pruning credit. MAIN is freshness-frozen at `98 ahead / 0 behind` from hostile-audited head `b56a832e6c194321916fe4ef63eef0d673b8ff9a` until fresh hostile-audit credit is consumed. N350 remains the separate fail-closed production-registration boundary.
+MAIN has progressed through N353. N353 hostile audit PASS is consumed at review `5163144778`, exact head `0f8cee995e5c982cdb7ceceae14d69f91e65588d`. The current MAIN stop gate is N354 hostile audit: N354 RESULT canonical `9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4`, candidate head `ab0ce28876dbba306985343c104b02b69cec89fb`, handoff canonical `350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6`. N354 is `AUDIT_REQUIRED` and grants no MAIN pruning credit yet.
+
+Freshness is reset to the audited N353 head; current MAIN distance is `9 ahead / 0 behind`, so there is no freshness freeze. N350 remains the separate fail-closed production-registration boundary.
 
 V6/O210/Q602 and `[73,97,235]` are historical/formal provenance only. EX5 does not reopen them.
 
@@ -28,7 +30,7 @@ Evidence canonical: `47278e00902f049e354227f02fe891b199025129a8fd3387a0249ad3b5c
 Checkpoint canonical: `8cfe535fbd486b32e21c9e2cbb7c2289f2880420e5aa4cf3fc98db5f7d310a20`.
 Claim-sync canonical: `ddb8841a798ee491fd6322fcb5a25ac7ff64cc33fa1b82d7d5e717e13e3ea4fd`.
 
-The whole stratum is still open. FULL178 is still incomplete. No N350, receiver, effectivity, theorem, endpoint, or Stage32 MAIN credit follows.
+The whole stratum is still open. FULL178 is still incomplete. No N350, receiver, effectivity, theorem, endpoint, or Stage32 MAIN credit follows from EX5.
 
 ## Current unit
 

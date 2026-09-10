@@ -4,9 +4,13 @@ This is the mutable current roadmap. `stage32-ex5.md` is the historical Cycle1 s
 
 ## Stage32 context
 
-Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Observed MAIN PR #1753 head is `0f8cee995e5c982cdb7ceceae14d69f91e65588d`.
+Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Observed MAIN PR #1753 head is `c2c1041298ae34a593fcb48d04c0e0a20dc9c37a`.
 
-The latest retained MAIN checkpoint is N353 uniform FULL178 scalar-Hurwitz census, RESULT canonical `afd873201ed0deea149c502d681729508face43942df085af91db3e95fbf371b`. It remains audit-candidate only and grants no MAIN pruning credit. MAIN is freshness-frozen at `98 ahead / 0 behind` from hostile-audited checkpoint `b56a832e6c194321916fe4ef63eef0d673b8ff9a`; re-audit threshold is `90`, hard halt `100`.
+MAIN has accumulated the N101–N353 chain. N353 is now hostile-audited and consumed: review `5163144778`, exact head `0f8cee995e5c982cdb7ceceae14d69f91e65588d`. Its exact necessary cut is live at the audited ceiling.
+
+The current MAIN gate is N354 two-sided scalar Hurwitz. RESULT canonical `9f9976bfcf6142e44042ef393b0c5668f4d84a743dfd243ef086eb1a79cee1c4`; audit candidate head `ab0ce28876dbba306985343c104b02b69cec89fb`; handoff canonical `350afe8c3fbda418a888feff4e8c8233acc44b6472e825cf9d758c22d69065f6`. N354 is `AUDIT_REQUIRED`; candidate rejection `30575` strata / `307492486826907032120701491` terminals and candidate remaining `17128` strata / `38560956534397137634780102` terminals are diagnostic until audit PASS.
+
+Freshness checkpoint is the audited N353 head; current MAIN is `9 ahead / 0 behind` and is not freshness-frozen.
 
 N350 remains a separate production-registration boundary. V6, O210, and Q602 are not current attack targets. `[73,97,235]` is historical/formal Q602 provenance, not a live survivor population.
 
@@ -45,7 +49,7 @@ This local result is not a MAIN-consumable production producer and receives zero
 
 The exact prefix `0..797` proves only local finite Picard64 obstruction in the locked EX5 model. It does not prove the whole `(g1-d008,e=4)` stratum closed, FULL178 complete, receiver closure, effectivity or actual-curve nonexistence, Stage32 closure, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
 
-Legacy N150 references are compatibility/provenance only. N350 remains the production-registration boundary; N353 is the latest observed MAIN attack/audit-candidate checkpoint.
+Legacy N150 references are compatibility/provenance only. N350 remains the production-registration boundary; N353 is audited and N354 is the current MAIN hostile-audit gate.
 
 ## Audit and merge
 
