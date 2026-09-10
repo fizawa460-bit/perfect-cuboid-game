@@ -19,8 +19,13 @@ BC2_19_CHECKPOINT = HERE / "bc2-19-n354-survivor-normal-positivity-mass-checkpoi
 SCHEMA = "STAGE32EX5_BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK_V1"
 EXPECTED_BC2_17 = "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072"
 EXPECTED_BC2_18 = "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8"
+EXPECTED_BC2_18_BLOB = "0e269d5ec6da24b9b887b6dd40f4b4f33242e154"
+EXPECTED_BC2_18_RAW_OUTPUT = "ca53c910b70cb41dd628cd1d428227b4aa91523ed49b74b0e669e89e7e88fe2e"
+EXPECTED_BC2_18_SOURCE_COMMIT = "d095336aceae65d5f56cdbfaa88ef6e1ad705b82"
+EXPECTED_FEASIBLE_STREAM = "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
 EXPECTED_BC2_19 = "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb"
 EXPECTED_PARENT_COUNT = 7336
+EXPECTED_ENUMERATED_PARENT_COUNT = 177100
 NORMAL_COUNT = 92
 ALL140_COUNT = 140
 PICARD_RANK = 64
@@ -28,12 +33,19 @@ TARGET_E = 8
 NORMAL_MASS = 112
 X4_LABEL = 49
 
+
 def csha(value: object) -> str:
     return hashlib.sha256(
         json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
 
-def load_checked(path: Path, expected: str, label: str) -> dict:
+
+def git_blob_sha(raw: bytes) -> str:
+    header = f"blob {len(raw)}\0".encode()
+    return hashlib.sha1(header + raw).hexdigest()
+
+
+def load_self_canonical(path: Path, expected: str, label: str) -> dict:
     obj = json.loads(path.read_text())
     if obj.get("canonical_sha256_without_this_field") != expected:
         raise ValueError(f"{label} canonical field regression")
@@ -43,6 +55,40 @@ def load_checked(path: Path, expected: str, label: str) -> dict:
         raise ValueError(f"{label} canonical replay regression")
     return obj
 
+
+def load_bc2_18_pinned() -> dict:
+    raw = BC2_18_CHECKPOINT.read_bytes()
+    if git_blob_sha(raw) != EXPECTED_BC2_18_BLOB:
+        raise ValueError("BC2-18 checkpoint Git blob regression")
+    obj = json.loads(raw)
+    if obj.get("canonical_sha256_without_this_field") != EXPECTED_BC2_18:
+        raise ValueError("BC2-18 embedded canonical regression")
+    if obj.get("schema") != "STAGE32EX5_BC2_18_N354_SURVIVOR_SELECTED_EXCEPTIONAL_MOD8_CHECKPOINT_V1":
+        raise ValueError("BC2-18 checkpoint schema regression")
+    if obj.get("status") != "PASS_SELECTED_EXCEPTIONAL_MOD8_DECOMPOSITION_NORMAL_POSITIVITY_REMAINS":
+        raise ValueError("BC2-18 checkpoint status regression")
+    dec = obj.get("exact_decomposition", {})
+    if dec.get("mod8_extendable_parent_count") != EXPECTED_PARENT_COUNT:
+        raise ValueError("BC2-18 parent-count regression")
+    if dec.get("enumerated_parent_count") != EXPECTED_ENUMERATED_PARENT_COUNT:
+        raise ValueError("BC2-18 enumeration-count regression")
+    if dec.get("feasible_stream_sha256") != EXPECTED_FEASIBLE_STREAM:
+        raise ValueError("BC2-18 feasible-stream regression")
+    locks = obj.get("source_locks", {})
+    if locks.get("bc2_17_evidence_canonical") != EXPECTED_BC2_17:
+        raise ValueError("BC2-18 BC2-17 source-lock regression")
+    if locks.get("exact_output_canonical") != EXPECTED_BC2_18_RAW_OUTPUT:
+        raise ValueError("BC2-18 raw-output source-lock regression")
+    if locks.get("source_commit") != EXPECTED_BC2_18_SOURCE_COMMIT:
+        raise ValueError("BC2-18 source-commit regression")
+    nxt = obj.get("next_exact_unit", {})
+    if nxt.get("id") != "BC2_19_NORMAL_POSITIVITY_MASS_REPLAY_ON_MOD8_SURVIVING_PARENTS":
+        raise ValueError("BC2-18 next-unit regression")
+    if nxt.get("input_parent_count") != EXPECTED_PARENT_COUNT:
+        raise ValueError("BC2-18 next-unit parent-count regression")
+    return obj
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--solver-timeout-ms", type=int, default=300000)
@@ -51,9 +97,9 @@ def main() -> None:
     if args.solver_timeout_ms <= 0:
         raise ValueError("solver timeout must be positive")
 
-    bc217 = load_checked(BC2_17_EVIDENCE, EXPECTED_BC2_17, "BC2-17")
-    bc218 = load_checked(BC2_18_CHECKPOINT, EXPECTED_BC2_18, "BC2-18")
-    bc219 = load_checked(BC2_19_CHECKPOINT, EXPECTED_BC2_19, "BC2-19")
+    bc217 = load_self_canonical(BC2_17_EVIDENCE, EXPECTED_BC2_17, "BC2-17")
+    bc218 = load_bc2_18_pinned()
+    bc219 = load_self_canonical(BC2_19_CHECKPOINT, EXPECTED_BC2_19, "BC2-19")
     if bc218["exact_decomposition"]["mod8_extendable_parent_count"] != EXPECTED_PARENT_COUNT:
         raise ValueError("BC2-18 parent-count regression")
     if bc219["result"]["input_mod8_parent_count"] != EXPECTED_PARENT_COUNT:
@@ -197,6 +243,9 @@ def main() -> None:
         "source_locks": {
             "bc2_17_evidence_canonical": EXPECTED_BC2_17,
             "bc2_18_checkpoint_canonical": EXPECTED_BC2_18,
+            "bc2_18_checkpoint_git_blob": EXPECTED_BC2_18_BLOB,
+            "bc2_18_raw_output_canonical": EXPECTED_BC2_18_RAW_OUTPUT,
+            "bc2_18_source_commit": EXPECTED_BC2_18_SOURCE_COMMIT,
             "bc2_19_checkpoint_canonical": EXPECTED_BC2_19,
             "retained_bundle_canonical": d18.EXPECTED_BUNDLE_CANONICAL,
             "retained_marking_canonical": d18.EXPECTED_MARKING_CANONICAL,
@@ -255,6 +304,7 @@ def main() -> None:
         "solver_result": str(result),
         "next": next_id,
     }, sort_keys=True))
+
 
 if __name__ == "__main__":
     main()
