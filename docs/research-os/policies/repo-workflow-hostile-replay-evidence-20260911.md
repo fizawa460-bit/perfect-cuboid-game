@@ -4,6 +4,8 @@ Purpose: freeze exact-head sibling replay evidence for PR #1769 after hostile re
 
 Lifecycle interpretation follows `pr-workflow-trigger-lifecycle.md`: only automatic execution by workflows classified `MANUAL` or `RETIRED` is prohibited. Current `ACTIVE_AUTO` workflows, including cross-Stage current-frontier and repository safety/authority workflows, may fire on long-lived sibling PRs when their trigger/path conditions match. Therefore replay evidence reports both total runs and historical/manual fan-out.
 
+The lifecycle policy now also makes this an explicit hostile-audit obligation. A future hostile audit of workflow/lifecycle/frontier changes must independently establish exact-head inventory completeness, actual non-automatic triggers for `MANUAL`/`RETIRED`, current-authority justification for each `ACTIVE_AUTO`, verifier freshness/fail-closed behavior, and representative replay with `MANUAL`/`RETIRED` automatic runs = 0. A prose classification alone is not sufficient audit evidence.
+
 ## #1753 Stage32 MAIN
 
 Exact cleanup head: `d80cc9fb2bede1cf7efdeef30f33c61552368335`
