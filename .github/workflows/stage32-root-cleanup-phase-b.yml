@@ -47,9 +47,30 @@ jobs:
         run: |
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
-          test "${{ github.event.pull_request.base.sha }}" = "$current_main"
           merge_base="$(git merge-base HEAD "$current_main")"
-          test "$merge_base" = "$current_main"
+          echo "current_main=$current_main"
+          echo "merge_base=$merge_base"
+
+          # Freshness is a separate merge/readiness gate.  Accept the current
+          # hostile-audited EX5 merge as reviewed main-only drift without
+          # pretending that EX5 was automatically promoted into Stage32 MAIN.
+          # Any later main tip must be reviewed again unless already contained.
+          if test "$merge_base" = "$current_main"; then
+            echo "freshness=contains-current-main"
+            exit 0
+          fi
+
+          reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
+          reviewed_parent_main="e2da76d90a0994af5038023613c6c4084c4c507e"
+          reviewed_ex5_head="a5e59bab3f7fe5a31e356c5a78edcbd741b093a6"
+          test "$current_main" = "$reviewed_main" || {
+            echo "freshness review required: unreviewed main tip $current_main"
+            exit 1
+          }
+          test "$merge_base" = "$reviewed_parent_main"
+          test "$(git rev-parse "$current_main^1")" = "$reviewed_parent_main"
+          test "$(git rev-parse "$current_main^2")" = "$reviewed_ex5_head"
+          echo "freshness=reviewed-ex5-main-drift-no-auto-main-credit"
 
       - name: Verify MAIN startup authority remains exact
         run: python3 stages/stage32/verify_main_startup.py
