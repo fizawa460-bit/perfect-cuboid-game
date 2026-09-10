@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_32_01_178_SMITH_CURRENT_SEMANTIC_BRIDGE_CONTRACT_V1",
+  "schema": "STAGE32_32_01_178_SMITH_CURRENT_SEMANTIC_BRIDGE_CONTRACT_V2",
   "lane": "stage32-01-178-smith",
   "source_locks": {
     "smith_weapon": {
@@ -13,8 +13,17 @@
       "hostile_review": 5097039911,
       "audited_exact_head": "e5efd9a871d0eab05b9e9dabeb17aea3f0d599ec"
     },
+    "current_numerical_marking_closure": {
+      "path": "stages/stage32/32-01-178-smith/CURRENT_NUMERICAL_MARKING_CLOSURE.json",
+      "canonical": "ea66ae785b42e2fc15cf03378d63d3fab58ac8848d79c6eadfc70b604fe63d82",
+      "ci_run": 34479826321,
+      "ci_job": 102879530513,
+      "hostile_marking_review": 5083834097,
+      "hostile_marking_head": "a2cd62cdcf8331827eca94453482244a2fd8bf0d"
+    },
     "marked_exceptional_incidence_canonical": "efdecb5d5cef219fc39d931521cbc1890a4830b5296e3c6ff7e93ccb6fa6b143",
     "weierstrass_adapter_canonical": "b947be5a3677a9e0b46839241adc03004ee5221ee94d6371f165253281e2a81f",
+    "c_zero_partition_canonical": "96e9d9b78201e99d98b31b8ece51c3e6227a2637c35356f012d0049d589a0f42",
     "pair_mass_image_classifier_canonical": "8c5acfb7d058cfe8c4fdbd94c1eb889578c331b03f83150889303c6bcbbc1b23",
     "transvection_universal_canonical": "e558d97bbb1d68f82fc84e79d27b2851be63d14510746ba7bc8bcfd5f33c59d2",
     "all_prym_parity_gluing_canonical": "1eac1fd620dfd40f806ed9335b8b30b2e1b26d3f97039bbcffff794aaa4a64a4",
@@ -29,11 +38,20 @@
       "status": "SCRATCH_ONLY_UNAUDITED_CONDITIONAL"
     }
   },
+  "closed_numerical_marking_gate": {
+    "status": "CLOSED_EXACT_AUDITED_INPUTS_REPLAYED",
+    "incidence_components": 3,
+    "component_type": "K2,2",
+    "canonical_unordered_weierstrass_pairs": [[1, 6], [2, 4], [3, 5]],
+    "c_zero_and_c_nonzero_are_complementary_perfect_matchings": true,
+    "pair_mass_single_transpositions": [[1, 6], [2, 4], [3, 5]],
+    "single_transpositions_equal_marked_cusp_pairs": true,
+    "meaning": "No additional numerical labeling of 73/97/235 or of the three cusp-pair directions is required. The current retained X8 marking already identifies the three unordered directions."
+  },
   "exact_current_mod2_facts": {
     "pair_mass_parity_image_rank": 3,
     "signature_count": 8,
     "single_transposition_signature_count": 3,
-    "single_transpositions_1based": [[1, 6], [2, 4], [3, 5]],
     "current_n355_prefix_missing_pair_mass_rank": 2,
     "minimum_additional_true_pair_group_sums_to_determine_all_pair_parities": 2,
     "minimum_additional_individual_exceptional_pairings_to_classify_all_signatures": 5,
@@ -42,34 +60,36 @@
   "exact_smith_mod2_facts": {
     "smith_coordinate_0": "B[4,4] mod 2",
     "absolute_transvection_actions_checked": 3,
-    "all_mod4_lifts_checked": 768,
-    "all_mod4_lifts_integral_under_aligned_parity": 768,
-    "all_aligned_integral_lifts_force_smith0_one": true,
     "all_prym_parity_builds_checked": 6144,
     "all_prym_parity_integral_builds": 768,
-    "all_prym_parity_nonintegral_builds": 5376,
     "all_integral_builds_force_smith0_one": true,
     "integrality_alone_selects_center_to_prym_alignment": true,
-    "historical_q602_numeric_shell_needed_after_absolute_transvection": false,
-    "historical_gaussian_norm_magnitudes_needed_at_mod2_layer": false,
-    "historical_projection_degrees_needed_at_mod2_layer": false
+    "historical_q602_numeric_shell_needed_after_absolute_transvection": false
+  },
+  "remaining_semantic_gate": {
+    "status": "OPEN",
+    "statement": "For the intended current FULL178 carrier subpopulation, prove/source-lock an actual fixed-X8 common-cover/H-equivariant integral cellular assembly whose tau-fixed Weierstrass contributions are exactly represented by the marked exceptional contact masses.",
+    "not_missing": "numerical X8/Weierstrass/cusp-pair marking",
+    "still_missing": [
+      "Promote arbitrary-contact multiplicity parity from scratch/fixed-V6 conditional scope to the intended current carriers.",
+      "Promote exhaustion of tau-fixed Weierstrass contributions by marked exceptional contacts from scratch/fixed-V6 conditional scope.",
+      "Source-lock that each target carrier yields the same fixed-X8 H-equivariant integral cellular pullback assembly used by S32-PW10."
+    ]
   },
   "conditional_bridge": {
     "statement": [
-      "Let a current carrier admit the same fixed-X8/common-cover/H-equivariant cellular assembly used by the audited Smith weapon.",
-      "Assume all tau-fixed contributions to the Weierstrass pullbacks are exhausted by the marked exceptional contacts and arbitrary contact multiplicities contribute modulo two by their grouped exceptional masses.",
-      "If its exact 12 pair-mass parity signature is one of the three single-transposition signatures, the induced A[2] action is one of the three nonidentity transvections.",
-      "For any integral gluing with such a transvection, integrality itself selects the corresponding Prym parity alignment and forces Smith coordinate 0 to equal 1.",
-      "An actual divisor class in the audited cellular pullback image must have zero Smith cokernel class; therefore such a source-compatible current carrier would be obstructed."
+      "On a current carrier satisfying the remaining semantic gate, its exact 12 pair-mass parity signature is read in the already-closed current numerical marking.",
+      "If that signature is one of the three single transpositions, the induced absolute A[2] action is the corresponding fixed-X8 transvection.",
+      "For any integral aligned gluing with such a transvection, Smith coordinate 0 equals 1.",
+      "A divisor class in the audited cellular pullback image has zero Smith cokernel class, so such a source-compatible carrier is obstructed."
     ],
     "status": "CONDITIONAL_ONLY",
     "main_pruning_credit": false
   },
   "open_obligations": [
-    "Promote the arbitrary-contact parity and fixed-point-exhaustion steps from scratch/fixed-V6 scope to an audited statement for the intended current FULL178 carrier subpopulation.",
-    "Source-lock that each carrier in the target current subpopulation yields the same fixed-X8 H-equivariant integral cellular assembly to which the audited Smith pullback-image obstruction applies.",
-    "Materialize enough current exceptional observables to classify the 12 pair-mass parity signature stratumwise or terminalwise, then census the three transposition signatures.",
-    "Hostile-audit the assembled current bridge before any MAIN pruning credit."
+    "Close the current-carrier semantic lift; do not spend further work on numerical marking.",
+    "Once the semantic lift is closed, materialize two missing true group parities or the five-entry individual-exceptional extension and census the three transposition signatures.",
+    "Hostile-audit the assembled bridge before MAIN pruning credit."
   ],
   "firewalls": {
     "historical_residues_are_current_survivors": false,
@@ -82,5 +102,5 @@
     "perfect_cuboid_claim": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "5411640cd685d1ac7dc649bd1033d48b6effb57183dfd56cb8cfd6718d3d1417"
+  "canonical_sha256_without_this_field": "8947407eed72c783f06190b8c51480f3031eca46ac27e376c0d67678ca3392a0"
 }
