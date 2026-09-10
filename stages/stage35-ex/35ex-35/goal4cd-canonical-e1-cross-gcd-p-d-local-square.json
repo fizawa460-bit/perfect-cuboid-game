@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE35_EX_GOAL4CD_CANONICAL_E1_CROSS_GCD_P_D_LOCAL_SQUARE_V1",
+  "stage": "35-EX",
+  "unit": "35EX-35_GOAL4CD_CANONICAL_E1_CROSS_GCD_P_D_LOCAL_SQUARE_PREFLIGHT",
+  "status": "PROVISIONAL_EXACT_CANONICAL_P_D_COMPLETE_LOCAL_SQUARE_SIEVE_NO_UNIVERSAL_E1_CREDIT",
+  "authority": {
+    "state_schema": "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED",
+    "mathematical_authority": "V74/Goal4AK",
+    "merge_authorized": false
+  },
+  "stacked_parent": {
+    "unit": "35EX-35_GOAL4CC_POST_SOURCE_BRIDGE_LOCAL_COMPLETION_FRESH_ROUTE_AUDIT",
+    "exact_head_sha": "e56cec5b587f21ad905008536065c9d809e56e98",
+    "goal4cc_run": 34424751268,
+    "goal4cc_job": 102707479471,
+    "goal4cc_success": true,
+    "hostile_audited": false
+  },
+  "source_locks": {
+    "goal4cd_source": {
+      "path": "stages/stage35-ex/35ex-35/goal4cd-canonical-e1-cross-gcd-p-d-local-square-source-lock.md",
+      "blob_sha1": "9f1d8ef3de24399382562195cf345e5e62f21052"
+    },
+    "goal4cc": {
+      "path": "stages/stage35-ex/35ex-35/goal4cc-post-source-bridge-local-completion-fresh-route-audit.json",
+      "blob_sha1": "c7adb599c65304f3112c34ea0887b65f60e5609f"
+    }
+  },
+  "families": {
+    "e": "complete local square test from Goal4CA/CB",
+    "p": {
+      "definition": "gcd(W1,V2)",
+      "balanced": "v_ell(W1)=v_ell(V2)=v_ell(p)",
+      "unbalanced_automatic_local_square": true,
+      "balanced_test": "R_p,ell local square iff valuation even and residual unit Legendre +1"
+    },
+    "d": {
+      "definition": "gcd(V1,W2)",
+      "balanced": "v_ell(V1)=v_ell(W2)=v_ell(d)",
+      "unbalanced_automatic_local_square": true,
+      "balanced_test": "R_d,ell local square iff valuation even and residual unit Legendre +1"
+    }
+  },
+  "witnesses": {
+    "p_kill": {
+      "tuple": [9, 8, 6, 5],
+      "c": 1,
+      "p": 5,
+      "q": 12,
+      "H": 157,
+      "e": 1,
+      "B_e": 3584425,
+      "ell": 5,
+      "v_ell_B_e": 2,
+      "unit_mod_ell": 2
+    },
+    "d_kill": {
+      "tuple": [17, 10, 97, 88],
+      "c": 9,
+      "p": 1,
+      "d": 17,
+      "q": 4,
+      "H": 90997,
+      "e": 1,
+      "B_e": 133709815369,
+      "ell": 17,
+      "v_ell_B_e": 3
+    },
+    "balanced_p_survivor": {
+      "tuple": [41, 16, 118, 91],
+      "p": 13,
+      "d": 1,
+      "e": 1,
+      "B_e": 325034658169,
+      "ell": 13,
+      "v_ell_B_e": 2,
+      "unit_mod_ell": 4
+    },
+    "joint_survivor": {
+      "tuple": [4, 3, 16, 5],
+      "c": 7,
+      "p": 5,
+      "d": 1,
+      "q": 8,
+      "H": 101,
+      "e": 1,
+      "B_e": 706225,
+      "ell": 5,
+      "v_ell_B_e": 2,
+      "unit_mod_ell": 4,
+      "fresh_factorization": "5^2*13*41*53"
+    }
+  },
+  "result": {
+    "p_unbalanced_local_square_automatic": true,
+    "p_balanced_complete_local_test": true,
+    "d_unbalanced_local_square_automatic": true,
+    "d_balanced_complete_local_test": true,
+    "p_family_nonredundant_after_bridge": true,
+    "d_family_nonredundant_after_p_e": true,
+    "balanced_p_survivors_exist": true,
+    "universal_bad_prime_in_p_d_e": false,
+    "canonical_source_gcd_local_family_complete": true,
+    "E1_proved": false,
+    "stage35_closed": false
+  },
+  "next": {
+    "unit": "35EX-35_GOAL4CE_POST_CANONICAL_GCD_LOCAL_COMPLETION_FRESH_ROUTE_AUDIT",
+    "question": "run a fresh breadth audit after exhausting e/p/d source-selected local square families; distinguish genuinely new source invariants from endpoint-equivalent fresh-prime factorization"
+  },
+  "credit_firewall": {
+    "hostile_audit_credit": false,
+    "universal_E1_proof": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_claim": false
+  },
+  "canonical_sha256": "91138db08d7e7761bdbedf1836e1e1ed59e3ab9895b938b18ee03edaed497ae5"
+}
