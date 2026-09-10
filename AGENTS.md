@@ -26,6 +26,18 @@ Permanent whole-fetch denylist:
 - Storage risk, upload failure, or materially larger-than-estimated artifacts are stop/cancel conditions. Do not trade mathematical exactness for storage.
 - **On-demand trigger:** open `docs/research-os/policies/actions-storage-and-evidence-safety.md` only when designing, materially revising, authorizing, rerunning, or diagnosing an artifact-producing/heavy workflow.
 
+## Pull-request workflow trigger lifecycle
+
+Stage-local or leaf workflows may be created freely for research verification, but creating a workflow does **not** grant permission to leave it on an automatic PR trigger indefinitely.
+
+- Automatic `pull_request` / `pull_request_target` triggers are reserved for the current **ACTIVE frontier** and repository-wide safety/authority gates such as MAIN startup and claim/frontier integrity.
+- `RETIRED`, `HISTORICAL`, or `AUDITED-CONSUMED` leaf workflows must default to manual execution (`workflow_dispatch`) unless the active Stage controller explicitly keeps them automatic.
+- When the active frontier advances, retire the previous leaf's automatic PR trigger in the same transition, or before enabling the next leaf's automatic trigger.
+- Every new or materially revised Stage-local workflow must classify its trigger lifecycle as `ACTIVE_AUTO`, `MANUAL`, or `RETIRED`; if the class or active authority is unclear, fail closed to `MANUAL`.
+- Do **not** rely on `pull_request.paths` alone as workflow-lifecycle control. On long-lived PRs GitHub evaluates path filters against the PR-wide changed-file set, so historical workflow paths may re-match on unrelated later synchronizations.
+- A historical replay needed for audit, repair, or source-lock verification should be invoked explicitly rather than kept permanently auto-triggered.
+- **On-demand trigger:** open `docs/research-os/policies/pr-workflow-trigger-lifecycle.md` when adding or materially revising a Stage workflow, changing the active frontier, retiring/consuming a leaf, or diagnosing repeated PR-triggered Actions runs.
+
 ## Heavy workflow rerun authorization
 
 Heavy PR workflows must not rerun merely because a PR was synchronized, reopened, or docs/controller/status/source files changed. Every heavy job must remain behind a cheap authorization gate and run only when its dedicated run key is explicitly and semantically advanced/armed in the triggering commit range. If authorization cannot be verified, fail closed and skip heavy compute.
