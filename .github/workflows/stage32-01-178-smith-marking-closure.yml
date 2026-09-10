@@ -30,6 +30,10 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_current_marking_closure.py /tmp/smith-pair-image.json | tee /tmp/smith-marking.json
+      - name: Replay current factor-degree parity reduction
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_current_factor_parity_reduction.py | tee /tmp/smith-factor-parity.json
       - name: Compact ledger
         run: |
           python - <<'PY'
@@ -37,6 +41,8 @@ jobs:
           x=json.load(open('/tmp/smith-marking.json'))
           r=x['exact_result']
           g=x['remaining_semantic_gate']
+          f=json.load(open('/tmp/smith-factor-parity.json'))
+          a=f['current_observable_algebra']
           print('canonical='+x['canonical_sha256_without_this_field'])
           print('incidence_components='+str(r['incidence_components']))
           print('component_type='+r['component_type'])
@@ -45,5 +51,10 @@ jobs:
           print('single_transpositions_equal_marked_cusp_pairs='+str(r['single_transpositions_equal_marked_cusp_pairs']))
           print('CURRENT_NUMERICAL_MARKING_GATE_CLOSED='+str(r['current_numerical_marking_gate_closed']))
           print('CURRENT_CARRIER_COMMON_COVER_ASSEMBLY_LIFT='+str(g['current_carrier_common_cover_h_equivariant_assembly_lift']))
+          print('factor_parity_canonical='+f['canonical_sha256_without_this_field'])
+          print('PAIR_RESIDUAL_BEFORE_FACTOR_PARITY='+str(a['residual_pair_mass_rank_before_factor_parity']))
+          print('F1_PARITY_ALREADY_DETERMINED='+str(a['f1_parity_already_determined_by_current_prefix']))
+          print('PAIR_RESIDUAL_AFTER_FACTOR_PARITY='+str(a['residual_pair_mass_rank_after_factor_parity']))
+          print('MIN_EXTRA_PAIR_GROUPS_AFTER_FACTOR_PARITY='+str(a['minimal_additional_true_pair_group_sums_after_factor_parity']))
           print('MAIN_PRUNING_CREDIT='+str(x['credit']['main_pruning_credit']))
           PY
