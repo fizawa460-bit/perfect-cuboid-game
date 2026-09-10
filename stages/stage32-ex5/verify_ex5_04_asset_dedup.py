@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Replay Stage32EX5 EX5-04 repository asset discovery/dedup.
 
-The Arsenal machine registry is read runner-side because index.json exceeds the
-chat-context whole-fetch threshold. This verifier proves only discovery/dedup
-bookkeeping and exact source locking. It grants no mathematical route, receiver,
-theorem, endpoint, or Stage32 MAIN credit.
+Arsenal index/catalog/cards are generated discovery views. Historical snapshot
+identities remain frozen inside the canonical EX5-04 artifact; live generated
+views are revalidated semantically. Stable non-Arsenal source providers remain
+byte-exact. This grants no mathematical or Stage32 MAIN credit.
 """
 from __future__ import annotations
 
@@ -24,6 +24,7 @@ HISTORICAL_INDEX_BLOB = "82cbbe88b2a3afc7f3a13d34ce0ca6a43004ea98"
 HISTORICAL_INDEX_BYTES = 101763
 HISTORICAL_CATALOG_PATH = "docs/arsenal/catalog.md"
 HISTORICAL_CATALOG_BLOB = "87c4c896cc04a34e8e12ede92ced1c6079b76874"
+GENERATED_CARD_PREFIX = "docs/arsenal/cards/"
 
 
 def require(cond: bool, msg: str) -> None:
@@ -84,11 +85,9 @@ def main() -> None:
     require(data.get("status") == "EX5_04_REPOSITORY_ASSET_DISCOVERY_DEDUP_COMPLETE_UNAUDITED_RETAINED",
             "wrong EX5-04 status")
 
-    # Immutable source locks remain byte-exact.  The Arsenal index and catalog
-    # are generated mutable views.  Their historical identities remain frozen
-    # in EX5-04 evidence, while the live views are semantically revalidated.
     historical_index_lock_seen = False
     historical_catalog_lock_seen = False
+    generated_card_lock_count = 0
     for lock in data["source_locks"]:
         path = ROOT / lock["path"]
         require(path.is_file(), f"missing source lock {lock['path']}")
@@ -101,6 +100,11 @@ def main() -> None:
             historical_catalog_lock_seen = True
             require(lock["blob_sha1"] == HISTORICAL_CATALOG_BLOB, "historical Arsenal catalog blob record drift")
             continue
+        if lock["path"].startswith(GENERATED_CARD_PREFIX):
+            generated_card_lock_count += 1
+            # Historical blob value is already protected by EX5-04 canonical
+            # SHA. Live generated-card semantics are checked below.
+            continue
         require(blob_sha1(path) == lock["blob_sha1"], f"source blob drift {lock['path']}")
         if "byte_size" in lock:
             require(path.stat().st_size == lock["byte_size"], f"source size drift {lock['path']}")
@@ -111,6 +115,7 @@ def main() -> None:
             require(csha(obj) == stored, f"recomputed canonical drift {lock['path']}")
     require(historical_index_lock_seen, "historical Arsenal index source lock missing")
     require(historical_catalog_lock_seen, "historical Arsenal catalog source lock missing")
+    require(generated_card_lock_count == 6, "unexpected generated Arsenal card lock count")
 
     inspect = data["inspection_contract"]
     for key in (
@@ -159,7 +164,6 @@ def main() -> None:
         require(actual.get("maturity") == expected_entry["expected_maturity"], f"maturity drift for {cid}")
         require(actual.get("kind") == expected_entry["expected_kind"], f"kind drift for {cid}")
 
-    # Check source-card semantics that make the dedup labels falsifiable rather than keyword-only.
     card_text = {
         "S28-W04": (ROOT / "docs/arsenal/cards/formal/S28-W04.md").read_text(encoding="utf-8"),
         "S36-PW01": (ROOT / "docs/arsenal/cards/provisional/S36-PW01.md").read_text(encoding="utf-8"),
@@ -187,11 +191,8 @@ def main() -> None:
     require(len(records) == 7, "dedup record count drift")
 
     allowed = {
-        "NEW_ROUTE",
-        "EXISTING_BUT_UNUSED_HERE",
-        "EXISTING_WITH_MISSING_ADAPTER",
-        "DUPLICATE_OF_MAIN_OR_EX1_EX4",
-        "DOMINATED_BY_STRONGER_EXISTING_ROUTE",
+        "NEW_ROUTE", "EXISTING_BUT_UNUSED_HERE", "EXISTING_WITH_MISSING_ADAPTER",
+        "DUPLICATE_OF_MAIN_OR_EX1_EX4", "DOMINATED_BY_STRONGER_EXISTING_ROUTE",
         "NOT_APPLICABLE_TO_FROZEN_POPULATION",
     }
     require(all(r["classification"] in allowed for r in records.values()), "unknown dedup classification")
