@@ -41,7 +41,7 @@ It must structurally rederive the next 133-rank exceptional outer block after ra
 
 ## Claim and credit boundary
 
-BC2-16 triggered `RETAINED_CONSOLIDATION`. EX5 continues to attack `S32.FULL178.NUMERICAL_CENSUS.V1`; no ACTIVE-FRONTIER remap, claim-core mutation, lane-adapter change, promotion adapter, or MAIN credit was created.
+BC2-16 triggered `RETAINED_CONSOLIDATION`. EX5 continues to attack `S32.FULL178.NUMERICAL_CENSUS.V1`; this is the unchanged current attack target. No ACTIVE-FRONTIER remap, claim-core mutation, lane-adapter change, promotion adapter, or MAIN credit was created.
 
 The `0..797` local prefix does not prove whole-stratum closure, FULL178 completion, N350/N104 production coverage, receiver closure, effectivity, actual-curve existence/nonexistence, Stage32 closure, theorem/endpoint credit, or Perfect Cuboid existence/nonexistence.
 
