@@ -34,11 +34,14 @@ jobs:
           set -euo pipefail
           KEY='stages/stage32-ex5/runkeys/bc2-19-normal-positivity-mass-replay.json'
           SOURCE='stages/stage32-ex5/breadth-cycle-2/bc2_19_n354_survivor_normal_positivity_mass_replay.py'
-          HEAD="$(git rev-parse HEAD)"
-          BEFORE="$(git rev-parse HEAD^)"
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
           test '${{ github.event.action }}' = synchronize || exit 0
-          test "$HEAD" = '${{ github.event.pull_request.head.sha }}' || exit 0
+          test -n "$BEFORE" || exit 0
+          test "$(git rev-parse HEAD)" = "$HEAD" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
           git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
           test -f "$KEY" -a -f "$SOURCE" || exit 0
           python - "$KEY" "$SOURCE" "$BEFORE" <<'PY'
