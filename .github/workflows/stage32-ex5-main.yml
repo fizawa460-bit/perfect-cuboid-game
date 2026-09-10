@@ -41,6 +41,34 @@ jobs:
             --bc2-10-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json \
             --output "$tmp"
           cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-11-next-exceptional-terminal-block-preflight-checkpoint.json
+      - name: Verify retained BC2-12 parent evidence
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          path='stages/stage32-ex5/breadth-cycle-2/bc2-12-outer-rank3-parent-preflight-evidence.json'
+          p=json.load(open(path))
+          stored=p['canonical_sha256_without_this_field']
+          q=dict(p); q.pop('canonical_sha256_without_this_field',None)
+          got=hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+          expected='67c48b8230c36567384e68ee413756074462de134a2d2451ca3dc3c034f642d7'
+          assert got==stored==expected
+          assert p['target']['terminal_rank_block']==[399,531]
+          assert p['target']['outer_exceptional_rank']==3
+          a=p['adaptive_exceptional_partition']; r=p['parent_result']; f=p['firewalls']
+          assert a['fixed_exceptional_mass']==3 and a['residual_exceptional_mass']==1 and a['parent_branch_count']==20
+          assert r['aggregate_result']=='UNKNOWN' and r['tested_parent_branches']==20
+          assert r['exact_unsat_parent_branches']==17 and r['unknown_parent_branches']==3 and r['sat_parent'] is None
+          assert r['exact_full_exceptional_refinement_subcase_count_if_needed']==3
+          ups=p['unknown_parents']
+          assert [x['parent_branch_id'] for x in ups]==[1,6,8]
+          assert [x['selected_assignment_sparse_labels_1based'][0][0] for x in ups]==[135,125,120]
+          assert all(x['exact_full_exceptional_refinement_subcase_count']==1 for x in ups)
+          assert p['result']['rank_399_to_531_block_exact_unsat_authorized'] is False
+          assert f['rank_399_to_531_block_picard64_closed'] is False
+          assert f['FULL178_complete'] is False and f['stage32_main_credit'] is False and f['merge_authorized'] is False
+          assert p['next_exact_unit']['id']=='BC2_13_OUTER_RANK3_UNKNOWN_PARENT_FULL_EXCEPTIONAL_REFINEMENT'
+          print('PASS: BC2-12 retained evidence canonical and 17/3/0 firewall')
+          PY
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify Stage32 claim DAG integrity
