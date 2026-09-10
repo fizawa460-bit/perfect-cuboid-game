@@ -1,0 +1,76 @@
+name: "[Stage32][32-01-178][N349B] factor Hurwitz boundary cap"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N345/**"
+      - "stages/stage32/32-01-178/nodes/N349/**"
+      - "stages/stage32/32-01-178/nodes/N349A/**"
+      - "stages/stage32/32-01-178/nodes/N349B/**"
+      - "stages/stage32/residual-32-01-production/post1648ao-special-fibre-hurwitz-budget-source-note.md"
+      - "stages/stage33/33-07/picard_base_rows_retained.py"
+      - "stages/stage33/33-07/stage32_picard_marking_retained.py"
+      - ".github/workflows/stage32-01-178-n349b-factor-hurwitz-cap.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      sat: ${{ steps.ledger.outputs.sat }}
+      unsat: ${{ steps.ledger.outputs.unsat }}
+      unknown: ${{ steps.ledger.outputs.unknown }}
+      satg0: ${{ steps.ledger.outputs.satg0 }}
+      satg1: ${{ steps.ledger.outputs.satg1 }}
+      unsatg0: ${{ steps.ledger.outputs.unsatg0 }}
+      unsatg1: ${{ steps.ledger.outputs.unsatg1 }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Exact N349B relaxed Picard factor-Hurwitz cap
+        run: |
+          python stages/stage32/32-01-178/nodes/N349B/verify_n349b_factor_hurwitz_boundary_cap.py \
+            --output /tmp/n349b-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n349b-result.json'))
+          a=d['aggregate']
+          def csv(v): return ','.join(map(str,v)) if v else '-'
+          print(f"sat={a['sat_count']}")
+          print(f"unsat={a['unsat_count']}")
+          print(f"unknown={a['unknown_count']}")
+          print(f"satg0={csv(a['sat_partition']['g0-d176'])}")
+          print(f"satg1={csv(a['sat_partition']['g1-d192'])}")
+          print(f"unsatg0={csv(a['unsat_partition']['g0-d176'])}")
+          print(f"unsatg1={csv(a['unsat_partition']['g1-d192'])}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N349B ledger SAT=${{ needs.verify.outputs.sat }} UNSAT=${{ needs.verify.outputs.unsat }} UNKNOWN=${{ needs.verify.outputs.unknown }}"
+    steps:
+      - name: Report exact compact ledger
+        run: |
+          echo "SAT-g0=${{ needs.verify.outputs.satg0 }}"
+          echo "SAT-g1=${{ needs.verify.outputs.satg1 }}"
+          echo "UNSAT-g0=${{ needs.verify.outputs.unsatg0 }}"
+          echo "UNSAT-g1=${{ needs.verify.outputs.unsatg1 }}"
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "conditional on N349 hostile audit; no MAIN/FULL178/N350/theorem/endpoint credit"
