@@ -1,0 +1,38 @@
+name: "[Stage32][32-01-178][N355] special-fibre prefix max cut"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N230/**"
+      - "stages/stage32/32-01-178/nodes/N345/**"
+      - "stages/stage32/32-01-178/nodes/N351/**"
+      - "stages/stage32/32-01-178/nodes/N352/**"
+      - "stages/stage32/32-01-178/nodes/N354/**"
+      - "stages/stage32/32-01-178/nodes/N355/**"
+      - "stages/stage32/residual-32-01-production/compressed_terminal_family.py"
+      - "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py"
+      - "stages/stage33/33-07/picard_base_rows_retained.py"
+      - "stages/stage33/33-07/stage32_picard_marking_retained.py"
+      - ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Replay N355 special-fibre prefix max cut
+        run: |
+          python stages/stage32/32-01-178/nodes/N355/verify_n355_special_fibre_prefix_max_cut.py --output /tmp/n355-result.json
+          cat /tmp/n355-result.json
+      - name: Diff check
+        run: git diff --check
