@@ -28,6 +28,9 @@ jobs:
       - name: Reduce detector to source H1 mod2 observable
         run: |
           python stages/stage32/32-01-178-smith/verify_smith_mod2_observable_preflight.py | tee /tmp/smith-mod2.json
+      - name: Compute affine mod2 invariant space
+        run: |
+          python stages/stage32/32-01-178-smith/verify_smith_affine_mod2_invariants.py | tee /tmp/smith-affine.json
       - name: Compact ledger
         run: |
           python - <<'PY'
@@ -35,20 +38,22 @@ jobs:
           x=json.load(open('/tmp/smith-projection.json'))
           d=json.load(open('/tmp/smith-detector.json'))
           o=json.load(open('/tmp/smith-mod2.json'))
-          m=x['map']; r=d['exact_replay']; z=o['old_legal_F_replay']
+          a=json.load(open('/tmp/smith-affine.json'))
+          m=x['map']; r=d['exact_replay']; z=o['old_legal_F_replay']; f=a['family']; q=a['dual_affine_constraints']
           print('projection_canonical='+x['canonical_sha256_without_this_field'])
           print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
           print('detector_canonical='+d['canonical_sha256_without_this_field'])
-          print('old_classes_checked='+str(r['classes_checked']))
-          print('actual_classes='+str(r['actual_class_distribution']))
           print('minimal_detector_size='+str(r['minimal_detector_coordinate_count']))
-          print('minimal_detector_subsets='+str(r['minimal_detector_coordinate_subsets']))
           print('mod2_observable_canonical='+o['canonical_sha256_without_this_field'])
           print('smith0='+o['smith_coordinate_0']['formula_in_assembly_coordinates'])
           print('required_F_entries='+str(o['smith_coordinate_0']['required_F_entries']))
-          print('unique_F_mod2='+str(z['unique_F_mod2_count']))
-          print('unique_row4_mod2='+str(z['unique_row4_mod2_count']))
-          print('tracked='+str(z['tracked_entry_distributions']))
+          print('affine_canonical='+a['canonical_sha256_without_this_field'])
+          print('unique_F_mod2='+str(f['unique_legal_F_mod2']))
+          print('affine_dim='+str(f['affine_span_dimension']))
+          print('affine_codim='+str(f['affine_codimension']))
+          print('fixed_coords='+str(f['fixed_coordinates']))
+          print('min_odd_weight='+str(q['minimal_constant_one_weight']))
+          print('min_odd_supports='+str(q['minimal_constant_one_supports']))
           print('CURRENT_FULL178_SEMANTIC_ADAPTER=false')
           print('MAIN_PRUNING_CREDIT=false')
           PY
