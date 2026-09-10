@@ -134,7 +134,7 @@ def main() -> None:
             "exceptional_only_depth48_feasible": exceptional_only_feasible,
             "final_modulus": modulus,
             "final_active_congruence_rows": int(final["active_congruence_rows"]),
-            "final_quotient_index": str(final["quotient_index"]),
+            "final_image_index": str(final["image_index"]),
             "final_hnf_sha256": str(final["hnf_sha256"]),
             "feasible_x4_residues_mod_final_modulus": residue_values,
         },
