@@ -86,7 +86,7 @@ def main() -> None:
     body342.pop("canonical_sha256_without_this_field", None)
     if claimed != EXPECTED_N342_CHECKPOINT_CANONICAL or csha(body342) != claimed:
         raise ValueError("N342 checkpoint canonical regression")
-    if n342.get("ledger", {}).get("picard_integral_sat") != 21:
+    if n342.get("aggregate", {}).get("sat_terminal_count") != 21:
         raise ValueError("N342 residual count regression")
 
     bundle = load_retained(RETAINED, "s32_n344_bundle")
