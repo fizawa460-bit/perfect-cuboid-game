@@ -1,16 +1,7 @@
 name: "[Stage32][32-01-178][N353] FULL178 scalar Hurwitz census"
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - "stages/stage32/32-01-178/nodes/N220/**"
-      - "stages/stage32/32-01-178/nodes/N250/**"
-      - "stages/stage32/32-01-178/nodes/N351/**"
-      - "stages/stage32/32-01-178/nodes/N352/**"
-      - "stages/stage32/32-01-178/nodes/N353/**"
-      - "stages/stage32/residual-32-01-production/full178-manifest.json"
-      - "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json"
-      - ".github/workflows/stage32-01-178-n353-full178-scalar-hurwitz-census.yml"
   workflow_dispatch:
 
 permissions:
@@ -48,6 +39,7 @@ jobs:
           print(f"canonical={d['canonical_sha256_without_this_field']}")
           PY
       - name: Diff check
+        if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
 
   report:
