@@ -26,25 +26,30 @@ For local `(g1-d008,e=4)`:
 
 - BC2-05: ranks `0..132` exact UNSAT;
 - BC2-08: ranks `133..265` exact UNSAT;
-- BC2-10: ranks `266..398` exact UNSAT.
+- BC2-10: ranks `266..398` exact UNSAT;
+- BC2-11: ranks `399..531` structurally rederived exactly, with no Picard64 closure credit yet.
 
-Thus ranks `0..398` are a retained exact-UNSAT prefix in this local stratum. The whole stratum remains open and FULL178 remains incomplete.
+Thus ranks `0..398` remain the retained exact-UNSAT prefix. BC2-11 fixes the next 133-rank block as outer exceptional rank `3`, base terminal `[0,1,0,0,0,0,1,0,0,0,1]`, canonical checkpoint `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`. The whole stratum remains open and FULL178 remains incomplete.
 
-Latest retained checkpoint: `breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json`, canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`.
+Latest exact-UNSAT checkpoint: `breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json`, canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`.
 
 ## Current next step
 
-`BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`
+`BC2_12_OUTER_RANK3_SYMBOLIC_X4_PARENT_PREFLIGHT`
 
-Rederive the next 133-rank outer exceptional block after rank 398 from `CompressedTerminalIndexer` plus source `terminal_predicate`. Structural replay must establish the exact interval, base terminal, exceptional signature, and x4-innermost property before any further Picard64 solver credit.
+Apply the retained symbolic-x4 Picard64 parent formulation only to the exactly rederived ranks `399..531`. The fixed/residual exceptional-mass split must be derived from the BC2-11 terminal signature before constructing any parent partition. BC2-11 itself grants no solver or Picard64 closure credit.
 
 No heavy scaleout is authorized by this roadmap.
 
 ## MAIN consumption boundary
 
-The intended Stage32 MAIN gate is `stages/stage32/32-01-178/nodes/N150/STATE.json`. Its currently observed snapshot records EX5 progress through rank 265. EX5's newer rank `266..398` closure is locally retained and does not automatically advance N150 or `32-01`.
+The intended Stage32 MAIN gate remains `stages/stage32/32-01-178/nodes/N150/STATE.json` or its audited successor. EX5 local progress does not automatically advance N150 or `32-01`.
 
 A MAIN-consumable result requires a retained/audited current-target-compatible producer/result plus an explicit adapter from canonical FULL178 `(row_id,d,e,terminal rank/pairings)` semantics into the Picard64/sufficient-signature semantics MAIN consumes.
+
+## Intermediate hostile-audit release
+
+The predecessor shared PR #1742 was frozen at its 100-commit checkpoint and then passed the required intermediate hostile audit on exact head `a5e59bab3f7fe5a31e356c5a78edcbd741b093a6`, review `5161068590`. PR #1742 is merged to `main` at `bf2890ec0b8168f70db803de876024aa6b6d1f6d`. That audit release authorizes continuation from BC2-11 under the same scope/credit firewalls; it does not promote EX5 into Stage32 MAIN.
 
 ## Historical-credit firewall
 
@@ -54,4 +59,4 @@ Old `no O210/Q602 credit` statements mean that current EX5 does not mutate, reco
 
 ## Merge
 
-PR #1742 remains Draft/OPEN/unmerged. Merge requires explicit user authorization.
+Current continuation PR #1762 is Draft/OPEN/unmerged. Merge requires explicit user authorization.
