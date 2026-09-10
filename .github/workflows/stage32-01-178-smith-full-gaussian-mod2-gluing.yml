@@ -1,0 +1,42 @@
+name: Stage32 32-01-178 Smith full Gaussian mod2 gluing
+
+on:
+  push:
+    branches:
+      - stage32-01-178-smith
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch exact audited PW10 source head
+        run: |
+          git fetch --no-tags --depth=1 origin e3c4a04d5010e6dca9428722e334890e2614297a
+          git cat-file -e e3c4a04d5010e6dca9428722e334890e2614297a^{commit}
+      - name: Exhaust all Gaussian Prym mod2 actions
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_full_gaussian_mod2_gluing.py | tee /tmp/smith-full-gaussian.json
+      - name: Compact ledger
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-full-gaussian.json'))
+          c=x['census']; d=x['decision']
+          print('canonical='+x['canonical_sha256_without_this_field'])
+          print('builds_checked='+str(x['scope']['builds_checked']))
+          print('integral_builds='+str(c['integral_builds']))
+          print('nonintegral_builds='+str(c['nonintegral_builds']))
+          print('integral_prym_pattern_count='+str(c['integral_prym_pattern_count']))
+          print('smith_bit1='+str(c['integral_smith_source_bit_one']))
+          print('smith_bit0='+str(c['integral_smith_source_bit_zero']))
+          print('all_integral_force_bit1='+str(d['all_integral_full_gaussian_mod2_builds_force_smith_source_bit_one']))
+          print('odd_norm_restriction_needed='+str(d['old_odd_norm_unit_parity_restriction_needed_for_bit_one']))
+          print('MAIN_PRUNING_CREDIT=False')
+          PY
