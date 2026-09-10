@@ -12,7 +12,7 @@ As synchronized against Stage32 MAIN PR #1753:
 - V6 / O210 / Q602 are frozen historical/formal prerequisite provenance, not current attack targets;
 - `[73,97,235]` is the formal historical Q602 residue triple from the earlier proof path, not the current Stage32 survivor population.
 
-The observed Stage32 MAIN authority head for this synchronization is `6327346d336028c910410da9bd430e117ecc024d`. Current repository `main` was `e2da76d90a0994af5038023613c6c4084c4c507e`; later Stage32 MAIN movement must be rechecked before any EX5-to-MAIN promotion.
+The observed Stage32 MAIN authority head for this synchronization is `a2cacaeb9b61eca34399952a7daaf5288ff3b826`. Current repository `main` is `bf2890ec0b8168f70db803de876024aa6b6d1f6d`; later Stage32 MAIN movement must be rechecked before any EX5-to-MAIN promotion.
 
 ## What EX5 can contribute to 32-01 FULL178
 
@@ -30,7 +30,7 @@ This gives two useful kinds of output:
 
 Neither output automatically grants FULL178 completion, Stage32 MAIN credit, effectivity, actual-curve existence, receiver credit, a final milestone, or a Perfect Cuboid endpoint claim.
 
-Stage32 MAIN node `32-01-178/N150` is the intended consumption gate: MAIN may consume EX5 only after a retained/audited FULL178-target-compatible producer/result and an explicit adapter to the 32-01 numerical-census semantics exist. EX5 progress newer than the current N150 snapshot is therefore retained locally until MAIN explicitly consumes it.
+Stage32 MAIN node `32-01-178/N150` or its audited successor is the intended consumption boundary: MAIN may consume EX5 only after a retained/audited FULL178-target-compatible producer/result and an explicit adapter to the 32-01 numerical-census semantics exist. EX5 progress newer than MAIN's consumed snapshot is retained locally until MAIN explicitly consumes it.
 
 ## Current exact EX5 progress
 
@@ -40,15 +40,20 @@ For the local `(g1-d008,e=4)` indexed terminal stratum, retained exact Picard64 
 - ranks `133..265`;
 - ranks `266..398`.
 
-Thus ranks `0..398` are locally closed in this stratum. The whole `(g1-d008,e=4)` stratum remains open, and FULL178 remains incomplete.
+Thus ranks `0..398` are locally closed in this stratum. BC2-11 has additionally rederived ranks `399..531` exactly at the structural rank/unrank + source-terminal-predicate level, with outer exceptional rank `3` and base terminal `[0,1,0,0,0,0,1,0,0,0,1]`; it grants no Picard64 closure credit. The whole `(g1-d008,e=4)` stratum remains open, and FULL178 remains incomplete.
 
-Latest retained checkpoint:
+Latest exact-UNSAT checkpoint:
 
 - `stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json`;
 - checkpoint canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`;
 - evidence canonical `06e4e0e8fbbe1bb64fc757be58f272fec0e85bea1e3bd7a9f21f8bf0dbda1531`.
 
-Current next unit: `BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT`, which rederives the next 133-rank outer exceptional block after rank 398 before any further Picard64 solver credit.
+Latest structural checkpoint:
+
+- `stages/stage32-ex5/breadth-cycle-2/bc2-11-next-exceptional-terminal-block-preflight-checkpoint.json`;
+- canonical `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`.
+
+Current next unit: `BC2_12_OUTER_RANK3_SYMBOLIC_X4_PARENT_PREFLIGHT`, which applies the retained symbolic-x4 Picard64 parent formulation only to the exactly rederived ranks `399..531` and derives the exceptional-mass split from the actual BC2-11 signature.
 
 ## Historical/formal provenance firewall
 
@@ -72,6 +77,6 @@ Exact evidence/checkpoint files are proof records, not prose state, and must not
 
 ## Intermediate audit boundary
 
-PR #1742 reaches the repository long-lived shared-PR checkpoint at the semantic-sync 100th commit. Freeze that exact head for a delta-bounded intermediate hostile audit before appending further substantive retained research.
+Predecessor PR #1742 passed the required 100-commit intermediate hostile audit on exact head `a5e59bab3f7fe5a31e356c5a78edcbd741b093a6`, review `5161068590`, and was then merged to `main` at `bf2890ec0b8168f70db803de876024aa6b6d1f6d`. The freeze is therefore released for the current continuation; the audit scope/credit firewalls remain in force.
 
-Merge remains forbidden without explicit user authorization.
+Current continuation is Draft PR #1762 on `impl/stage32ex5-bc2-11-continuation`. Merge remains forbidden without explicit user authorization.
