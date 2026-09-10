@@ -1,20 +1,21 @@
-# Stage35-EX MAIN batch handoff — Goal4BX bridge quartic global product
+# Stage35-EX MAIN batch handoff — Goal4CE post-BT reopen parking checkpoint
 
-Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). Goal4BS remains the independently audited intermediate checkpoint. No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted. Merge is not authorized.
+Mathematical authority remains **V74 / Goal4AK** (hostile review `5142248509`). No E1, Stage35, endpoint, or Perfect Cuboid credit is promoted. Merge is not authorized.
 
-Audited checkpoint:
+## Audited checkpoint
 
 ```text
+unit=Goal4BS
 review=5151846948
 exact_head=d6f5151c9d95304afe7081c92f40f1d25cc4aa3b
 status=PARKED_AUDITED_REOPEN_GATED
 ```
 
-The retained branch is still far below the long-lived-PR re-audit trigger measured from this checkpoint; MAIN must recompute that distance before materially expanding the surface.
+Goal4CD parent `2d9380224f70f24530799f6d9fd6b5693351b0d4` is 49 commits beyond this hostile-audited checkpoint. Recompute this distance before future material retained growth; the ~100-commit re-audit trigger is not currently approached.
 
-## Goal4BT / BU / BV / BW chain
+## Goal4BT material reopen and consumption
 
-Goal4BT corrected the bridge-reservoir classification:
+Goal4BT supplied genuinely new retained information after Goal4BS:
 
 ```text
 H=sqrt((V1*U2)^2+(U1*V2)^2)/(c*q),
@@ -23,92 +24,161 @@ e=gcd(c,H)
 
 are source-computable from a Master-Hit before any E1-failure assumption.
 
-Goal4BU completed the three source-known quadratic reservoirs (`t/j`, `T`, `e`) and showed no universal quadratic-reciprocity close at that layer.
-
-Goal4BV proved that every odd bridge prime `ell|e` has a source-selected Gaussian prime, unique primary generator, and source-fixed quartic datum.
-
-Goal4BW sharpened the bridge equations. Put
+The reopen chain then spent that information:
 
 ```text
-omega_ell=W1/V1 mod ell in {+1,-1},
-iota=iota_e(ell).
+BT  source-known H,e
+BU  three source-known quadratic reservoirs; no universal quadratic close
+BV  source-selected Gaussian prime / primary generator / quartic datum at ell|e
+BW  source-fixed relative root orientation; residual Legendre bit remains
+BX  global bridge-phase product compresses to a Jacobi bit; no forcing
+BY  integer global adapter reduces back to retained source phase data; no new pruning
+BZ  fresh-route audit after quartic saturation
+CA  source bridge norm B_e and odd-valuation local sieve
+CB  complete odd ell|e local-square criterion
+CC  fresh audit selecting canonical p/d cross-gcd families
+CD  complete p/d balanced local-square criteria
+CE  prove common-leg source-gcd local family completeness and return to parking
 ```
 
-Then both branches force
+## Goal4CA/CB exact bridge norm
+
+Define
 
 ```text
-r/s = omega_ell*iota.
+D=U1/c,
+T=U2/c,
+X=q*H/e,
+Y=c*D*T/e,
+B_e=X^2+Y^2.
 ```
 
-Moreover
+Then exactly
 
 ```text
-Branch L: N_L=p*q=omega_ell*(q*v/s)^2,
-Branch R: N_R=2*p*q=omega_ell*((1+iota)*q*v/s)^2.
+F_E1=(W1*U2)^2+(U1*V2)^2=(c*e)^2*B_e,
 ```
 
-Hence the real quartic phase is
+so the E1 square target is equivalent to `B_e` square. Goal4CA/CB complete the ordinary odd-prime local-square test at every source-selected `ell|e`: unbalanced valuations are automatically local-square, while balanced strata require even valuation and square residual unit.
+
+## Goal4CC/CD canonical p/d local families
+
+The second exact E1 orientation is
 
 ```text
-Q_e(ell)=[omega_ell/pi_{e,ell}]_4 * Legendre(z_branch,ell).
+F_E1=(U1*W2)^2+(V1*U2)^2.
 ```
 
-The relative root orientation is therefore source-fixed, but the retained bridge-local equations leave one square-root Legendre bit. Dedicated Goal4BW run `34420170653` is SUCCESS and replays Goal4BV.
-
-## Current provisional leaf: Goal4BX
+Goal4CD completes the local-square tests at
 
 ```text
-unit=35EX-35_GOAL4BX_BRIDGE_QUARTIC_GLOBAL_PRODUCT_PREFLIGHT
-status=PROVISIONAL_EXACT_GLOBAL_PHASE_PRODUCT_COMPRESSED_TO_JACOBI_BIT_CONGRUENCE_LAYER_NO_FORCING_NO_E1_CREDIT
+p=gcd(W1,V2),
+d=gcd(V1,W2).
 ```
 
-Let `E=rad_odd(e)`. The residual bits come from one global rational carrier:
+For either family, unequal cross valuations are automatically local-square. Balanced valuations give the only nontrivial source-selected local test: valuation parity plus residual-unit Legendre class.
+
+A genuine joint survivor remains:
 
 ```text
-Branch L: Z_L=q*v/s,
-Branch R: Z_R=q*v*(A+B)/(s*B),
+(a,b,m,n)=(4,3,16,5),
+c=7,p=5,d=1,q=8,H=101,e=1,
+B_e=706225=5^2*13*41*53.
 ```
 
-where `A=(V1/q)*T`, `B=D*(V2/q)` are the ordered reduced Master legs. With the oriented bridge kernel
+The selected `e/p/d` tests pass, but `B_e` is nonsquare. Thus these local families are useful per-hit sieves, not a universal E1 close.
+
+Goal4CD exact-green checkpoint:
 
 ```text
-Sigma_e=product_{ell|E} pi_{e,ell},
+head=2d9380224f70f24530799f6d9fd6b5693351b0d4
+dedicated_run=34425516973 SUCCESS
+aggregate_run=34425516998 SUCCESS
 ```
 
-the product of bridge phases compresses to
+## Goal4CE exact common-leg completeness theorem
+
+For the two raw E1 norm orientations,
 
 ```text
-P_e=[N_branch/Sigma_e]_4=Omega_e*Jacobi(Z_branch,E).
+gcd(W1*U2,U1*V2)=c*p,
+gcd(U1*W2,V1*U2)=c*d.
 ```
 
-This is a real global compression, but the current bridge-congruence layer does not force the Jacobi bit. Simultaneous CRT models modulo `65=5*13` realize all four phase patterns `(+,+),(+,-),(-,+),(-,-)` in both Branch L and Branch R, hence both global product signs. These are bridge-local congruence models only, not global Master-Hits or E1 counterexamples.
-
-Files:
-
-- `stages/stage35-ex/35ex-35/goal4bw-bridge-quartic-phase-forcing-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bw-bridge-quartic-phase-forcing.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bw_bridge_quartic_phase_forcing.py`
-- `.github/workflows/stage35-ex-goal4bw-bridge-quartic-phase-forcing.yml`
-- `stages/stage35-ex/35ex-35/goal4bx-bridge-quartic-global-product-source-lock.md`
-- `stages/stage35-ex/35ex-35/goal4bx-bridge-quartic-global-product.json`
-- `stages/stage35-ex/verify_stage35_ex_35_goal4bx_bridge_quartic_global_product.py`
-- `.github/workflows/stage35-ex-goal4bx-bridge-quartic-global-product.yml`
-
-MAIN-STATE intentionally remains V74 / Goal4AK. Goal4BX has no hostile-audit or promotion credit.
-
-## Next leaf
+Therefore the complete source-selected common-leg gcd universe is exactly
 
 ```text
-35EX-35_GOAL4BY_BRIDGE_QUARTIC_INTEGER_GLOBAL_ADAPTER_PREFLIGHT
+{c,p,d}.
 ```
 
-Use the exact integer bridge double-square identities
+The `c` channel has no remaining nontrivial local layer beyond the Goal4CA/CB `e=gcd(c,H)` family. The Master gcd
 
 ```text
-p*w-q*H=e*A0^2,
-p*w+q*H=e*B0^2
+q=gcd(V1,V2)
 ```
 
-and factor-allocation data to test whether `Jacobi(Z_L,E)` or `Jacobi(Z_R,E)` is globally forced. A new integral adapter is required; another local reciprocity rewrite is not sufficient.
+is not an E1 common-leg cancellation family: at each odd `ell|q`, one raw E1 summand is a nonzero square unit modulo `ell` while the other is divisible by `ell`, so no cancellation-depth obstruction is created.
 
-No merge.
+Hence provisionally but exact-head verified:
+
+```text
+ALL_SOURCE_SELECTED_E1_COMMON_GCD_LOCAL_FAMILIES_COMPLETE=true.
+```
+
+Fresh norm primes outside `e/p/d` are not a fourth source-only family. Requiring even valuation at all of them is exactly the full condition `B_e` square. Equivalently, the historical exact factorization
+
+```text
+F_E1=(p*d)^2*Lminus*Lplus,
+gcd(Lminus,Lplus)=1
+```
+
+returns to the full E1 receiver `Lminus` square and `Lplus` square; the remaining split-prime support is moving.
+
+Goal4CE exact-head checkpoint:
+
+```text
+head=e01a45a1bffe3bc143175b9797cd64587432a8de
+dedicated_run=34438954799 SUCCESS
+canonical_sha256=38852995a1f6d7a3a24a45443e07f243201217dc8572102ce013a2158e11174e
+```
+
+The dedicated workflow replays Goal4CD before verifying Goal4CE.
+
+## Current cycle state
+
+Goal4CE ran a blind breadth pass followed by historical/Arsenal dedup. No immediately actionable retained route remains from the information introduced by Goal4BT.
+
+```text
+CYCLE_ROUTE_STATUS=BLOCKED_NO_NEW_INFORMATION
+CYCLE_ACTIVE_RECEIVER=PESCH_E1_MASTER_HIT_WITH_COMPLETE_SOURCE_SELECTED_COMMON_GCD_LOCAL_FAMILIES
+CYCLE_LIVE_CANDIDATES=0
+CYCLE_UNTESTED_CANDIDATES=0
+CYCLE_EXHAUSTIVE_VIEW_AUDIT=true
+CYCLE_BLIND_REDISCOVERY=true
+CYCLE_SPLIT_TRIGGERED=false
+CYCLE_PARKING_AUDIT_COMPLETE=true
+RETURN_TO_GOAL4BS_PARKING_BOUNDARY=true
+```
+
+This is a parking statement, not an E1 impossibility theorem.
+
+## Reopen conditions
+
+Do not recycle `e/p/d`, fresh-prime factorization, bridge quartic/ray characters, fixed-S S-unit/Thue, or old receiver-local arguments without new exact information. Reopen the retained cycle only if at least one genuinely new object is supplied, for example:
+
+```text
+1. a source-fixed E1 invariant not reducible to e/p/d common-leg local data or the B_e/Lminus/Lplus endpoint receiver;
+2. a global rational-realization theorem with quantitative height control for the Goal4BQ boundary-depth packets;
+3. the missing Goal4AW quantitative height/discriminant adapter;
+4. a genuinely new amplifier meeting the Goal4AZ threshold;
+5. a global theorem coupling moving fresh split-prime support without merely restating B_e square.
+```
+
+Files for the current checkpoint:
+
+- `stages/stage35-ex/35ex-35/goal4ce-post-canonical-gcd-local-completion-parking-audit-source-lock.md`
+- `stages/stage35-ex/35ex-35/goal4ce-post-canonical-gcd-local-completion-parking-audit.json`
+- `stages/stage35-ex/verify_stage35_ex_35_goal4ce_post_canonical_gcd_local_completion_parking_audit.py`
+- `.github/workflows/stage35-ex-goal4ce-post-canonical-gcd-local-completion-parking-audit.yml`
+
+MAIN-STATE intentionally remains V74 / Goal4AK. No merge.
