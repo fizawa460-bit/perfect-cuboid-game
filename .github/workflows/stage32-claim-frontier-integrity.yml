@@ -1,13 +1,19 @@
 name: Stage32 claim frontier integrity
 
+# Trigger lifecycle: ACTIVE_AUTO — repository-wide workflow/claim safety gate
 on:
   pull_request:
     paths:
-      - '.github/workflows/stage32-claim-frontier-integrity.yml'
+      - '.github/workflows/**'
       - 'stages/stage32/proof/verify_stage32_q602_sync.py'
       - 'AGENTS.md'
       - 'docs/research-os/policies/hostile-audit-and-freshness.md'
       - 'docs/research-os/policies/verify_hostile_audit_and_freshness.py'
+      - 'docs/research-os/policies/pr-workflow-trigger-lifecycle.md'
+      - 'docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json'
+      - 'docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py'
+      - 'docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json'
+      - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
       - 'stages/stage32/proof/**'
       - 'stages/stage32/STAGE32-PROOF-PATH.md'
       - 'stages/stage32/FINAL-CHECK.json'
@@ -51,6 +57,10 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
         run: python docs/research-os/policies/verify_hostile_audit_and_freshness.py
+      - name: Verify Stage32 PR workflow trigger lifecycle
+        run: python docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py
+      - name: Verify repository-wide PR workflow trigger lifecycle
+        run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
@@ -77,4 +87,3 @@ jobs:
           printf '%s\n' "$output"
           test "$code" -eq 2
           printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
-

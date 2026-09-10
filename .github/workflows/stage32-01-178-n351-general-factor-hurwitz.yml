@@ -1,14 +1,7 @@
 name: "[Stage32][32-01-178][N351] general factor Hurwitz mass cap"
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - "stages/stage32/32-01-178/nodes/N345/**"
-      - "stages/stage32/32-01-178/nodes/N351/**"
-      - "stages/stage32/residual-32-01-production/post1648ao-special-fibre-hurwitz-budget-source-note.md"
-      - "stages/stage33/33-07/picard_base_rows_retained.py"
-      - "stages/stage33/33-07/stage32_picard_marking_retained.py"
-      - ".github/workflows/stage32-01-178-n351-general-factor-hurwitz.yml"
   workflow_dispatch:
 
 permissions:
@@ -48,6 +41,7 @@ jobs:
           print(f"canonical={d['canonical_sha256_without_this_field']}")
           PY
       - name: Diff check
+        if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
 
   report:

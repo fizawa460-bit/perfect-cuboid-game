@@ -1,16 +1,7 @@
 name: Stage32 residual32-01 full178 cold preflight
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage32/residual-32-01-production/full178-production-preflight.json'
-      - 'stages/stage32/residual-32-01-production/full178-wave128-preflight.json'
-      - 'stages/stage32/residual-32-01-production/verify_full178_preflight.py'
-      - 'stages/stage32/runkeys/residual32-01-full178-production.json'
-      - '.github/workflows/stage32-residual32-01-full178-preflight.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

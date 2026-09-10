@@ -1,19 +1,7 @@
 name: Stage32 direct Picard KKT integral coordinate bound
 
 on:
-  pull_request:
-    types: [synchronize, opened, reopened]
-    paths:
-      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_integral_coordinate_bound.py'
-      - 'stages/stage32/residual-32-01-production/build_direct_picard_orbit_kkt_integral_coordinate_census.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_orbit_sum_qp_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_stabilizer_averaging_equivalence.py'
-      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-      - '.github/workflows/stage32-direct-picard-orbit-kkt-integral-coordinate.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

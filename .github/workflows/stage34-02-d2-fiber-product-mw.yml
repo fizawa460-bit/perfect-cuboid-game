@@ -1,22 +1,7 @@
 name: Stage34-02 D2 fiber-product MW sieve
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage34/runkeys/stage34-02-d2-fiber-product-mw.json'
-      - 'stages/stage34/34-02/d2-fiber-product-mw-preflight.json'
-      - 'stages/stage34/34-02/d2-jacobian-torsion-lock.json'
-      - 'stages/stage34/34-02/d2-jq-to-receiver-x-coordinate-lock.json'
-      - 'stages/stage34/34-02/verify_d2_jacobian_torsion.py'
-      - 'stages/stage34/34-02/verify_d2_inverse_basepoint_extension.py'
-      - 'stages/stage34/34-02/run_d2_fiber_product_mw_panel.py'
-      - 'stages/stage34/34-02/run_d2_fiber_product_mw_panel_v2.py'
-      - 'stages/stage34/34-02/validate_d2_fiber_product_mw_runkey.py'
-      - 'stages/stage34/34-02/d2-quartic-map-certificate.json'
-      - 'stages/stage34/34-02/d2-jacobian-mw-certificate.json'
-      - '.github/workflows/stage34-02-d2-fiber-product-mw.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

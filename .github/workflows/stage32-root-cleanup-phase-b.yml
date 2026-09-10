@@ -1,23 +1,7 @@
 name: Stage32 root cleanup phase C
 
+# Trigger lifecycle: MANUAL
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/stage32-root-cleanup-phase-b.yml'
-      - 'stages/README.md'
-      - 'stages/stage32/README.md'
-      - 'stages/stage32/MAIN-STATE.json'
-      - 'stages/stage32/verify_main_startup.py'
-      - 'stages/stage32/integrated-ex/**'
-      - 'stages/stage32/management/**'
-      - 'stages/stage32/archive/legacy-root/**'
-      - 'stages/stage32/HEAVY_WORKFLOW_POLICY.md'
-      - 'stages/stage32/HISTORY.md'
-      - 'stages/stage32/ROADMAP-32-01-RESIDUAL-CLOSURE.md'
-      - 'stages/stage32/ROADMAP-32-19-21-REANCHOR.md'
-      - 'stages/stage32/post1728-remap-audit-handoff.md'
-      - 'stages/stage32/verify_root_cleanup_phase_b.py'
-      - 'stages/stage32/mainbatch-final-chain-reentry-20260909.json'
   workflow_dispatch:
 
 permissions:
@@ -50,16 +34,10 @@ jobs:
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-
-          # Freshness is a separate merge/readiness gate.  Accept the current
-          # hostile-audited EX5 merge as reviewed main-only drift without
-          # pretending that EX5 was automatically promoted into Stage32 MAIN.
-          # Any later main tip must be reviewed again unless already contained.
           if test "$merge_base" = "$current_main"; then
             echo "freshness=contains-current-main"
             exit 0
           fi
-
           reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
           reviewed_parent_main="e2da76d90a0994af5038023613c6c4084c4c507e"
           reviewed_ex5_head="a5e59bab3f7fe5a31e356c5a78edcbd741b093a6"

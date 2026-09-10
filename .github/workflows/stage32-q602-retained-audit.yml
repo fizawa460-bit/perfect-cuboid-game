@@ -1,24 +1,7 @@
 name: Stage32 Q602 retained adapter audit
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/stage32-q602-retained-audit.yml'
-      - 'stages/stage32/proof/verify_stage32_q602_sync.py'
-      - 'stages/stage32/q602-forgetful-adapter-audit-package-20260909.json'
-      - 'stages/stage32/verify_q602_forgetful_adapter_audit_package_20260909.py'
-      - 'stages/stage32/q602-claim-dag-variance-repair-preflight-20260909.json'
-      - 'stages/stage32/verify_q602_claim_dag_variance_repair_preflight_20260909.py'
-      - 'stages/stage32/full178-dominance-recheck-after-v6-o210-q602-route-20260909.json'
-      - 'stages/stage32/verify_full178_dominance_recheck_after_v6_o210_q602_route_20260909.py'
-      - 'stages/stage32/scratch/q602-o210-*'
-      - 'stages/stage32/proof/ACTIVE-FRONTIER.json'
-      - 'stages/stage32/MAIN-STATE.json'
-      - 'stages/stage32-ex5/MAIN-STATE.json'
-      - 'stages/stage32/residual-32-01-production/post1484-o210-q4-common-double-cover-cartesian-identity.json'
-      - 'stages/stage32/residual-32-01-production/post1490-o210-q4-bolza-correspondence-rosati-frontier.json'
-      - 'stages/stage32/residual-32-01-production/post1500-hostile-audit-rosati-trace-repair.json'
-      - 'stages/stage32/residual-32-01-production/post1505-o210-q602-weierstrass-parity-transvection-refinement.json'
   workflow_dispatch:
 
 permissions:
@@ -62,4 +45,3 @@ jobs:
           printf '%s\n' "$output"
           test "$code" -eq 2
           printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
-

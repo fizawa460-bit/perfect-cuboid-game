@@ -1,17 +1,7 @@
 name: Stage32-21bl exact joint integer closure
 
 on:
-  pull_request:
-    types: [synchronize]
-    paths:
-      - 'stages/stage32/runkeys/stage32-21bl-joint-integer-closure.json'
-      - '.github/workflows/stage32-21bl-joint-integer-closure.yml'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_joint_integer_closure.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_isl_current_model_preflight.py'
-      - 'stages/stage32/residual-32-01-production/certify_stage32_21bl_milp_candidate_preflight.py'
-      - 'stages/stage32/residual-32-01-production/audit_stage32_21bl_joint_integer_witness.py'
-      - 'stages/stage32/32-21/32-21bl-joint-integer-witness.json'
-
+  workflow_dispatch:
 permissions:
   contents: read
   actions: read

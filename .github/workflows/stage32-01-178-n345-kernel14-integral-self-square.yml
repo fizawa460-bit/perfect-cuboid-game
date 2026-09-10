@@ -1,10 +1,8 @@
 name: Stage32 32-01-178 N345 kernel14 integral self-square
 
+# Trigger lifecycle: RETIRED
 on:
-  pull_request:
-    paths:
-      - 'stages/stage32/32-01-178/nodes/N345/**'
-      - '.github/workflows/stage32-01-178-n345-kernel14-integral-self-square.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -44,6 +42,7 @@ jobs:
               f.write(f"canonical={d['canonical_sha256_without_this_field']}\n")
           PY
       - name: Diff check
+        if: github.event_name == 'pull_request'
         run: git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
 
   ledger:
