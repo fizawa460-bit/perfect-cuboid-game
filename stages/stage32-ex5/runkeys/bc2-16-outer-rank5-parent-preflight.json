@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32EX5_BC2_16_OUTER_RANK5_PARENT_PREFLIGHT_RUNKEY_V1",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "source_commit": "defd1ee771ad01c1bbabed348fda2aa06132e4fe",
   "terminal_rank_block": [665, 797],
   "outer_exceptional_rank": 5,
@@ -12,5 +12,5 @@
   "artifact_retention_days": 1,
   "effective_heavy_concurrency": 1,
   "heavy_scaleout_authorized": false,
-  "note": "Cold setup only. Heavy compute requires a later synchronize commit that advances generation and sets armed=true."
+  "note": "Generation-1 explicit arm for the single bounded BC2-16 exact parent run. Later bookkeeping commits must remain cold."
 }
