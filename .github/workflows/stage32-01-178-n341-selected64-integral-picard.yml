@@ -1,0 +1,25 @@
+name: Stage32 32-01-178 N341 selected64 integral Picard completion
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N341/**'
+      - '.github/workflows/stage32-01-178-n341-selected64-integral-picard.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.0.0'
+      - name: Verify N341 selected64 exact integral Picard completions
+        run: python stages/stage32/32-01-178/nodes/N341/verify_n341_selected64_integral_picard_completion.py
