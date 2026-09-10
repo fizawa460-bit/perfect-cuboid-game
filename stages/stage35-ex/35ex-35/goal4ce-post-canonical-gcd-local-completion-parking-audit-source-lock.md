@@ -19,7 +19,7 @@ Goal4BS exact head = d6f5151c9d95304afe7081c92f40f1d25cc4aa3b
 review = 5151846948 PASS.
 ```
 
-The current parent is only 43 commits beyond that checkpoint, so the long-lived-PR warning threshold is not approached.
+The current parent is 49 commits beyond that checkpoint, so the long-lived-PR warning threshold is not approached.
 
 Goal4BS parked the retained cycle because no live route remained from the then-retained inputs. Goal4BT legally reopened it by proving that the Master hypotenuse and bridge reservoir
 
