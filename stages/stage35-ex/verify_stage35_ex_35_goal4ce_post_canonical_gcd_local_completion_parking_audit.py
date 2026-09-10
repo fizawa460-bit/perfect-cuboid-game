@@ -15,8 +15,8 @@ CD = P("stages/stage35-ex/35ex-35/goal4cd-canonical-e1-cross-gcd-p-d-local-squar
 BS = P("stages/stage35-ex/35ex-35/goal4bs-post-boundary-derived-backup-parking-audit-source-lock.md")
 STATE = P("stages/stage35-ex/MAIN-STATE.json")
 
-EXPECTED = "ac4ab184d828b06588bb6794b956d609959f3b191b03a2a0e349df75560641d2"
-SRC_BLOB = "1eb22d4a8318de39d3dd4c12f2fb2fbff1c7b875"
+EXPECTED = "38852995a1f6d7a3a24a45443e07f243201217dc8572102ce013a2158e11174e"
+SRC_BLOB = "f193c5eac223894292bc3ce653ca895e544228de"
 CD_BLOB = "d5e3c335cfd715ddf07bb7c7ee0e8d3b905318f3"
 BS_BLOB = "374a30ad8b69610120ee79ab40a8a517814a091c"
 V74 = "STAGE35_EX_PESCH_E1_STATE_V74_GOAL4AK_EXPLICIT_F_B_AUDITED_LOCAL_EVALUATION_RELEASED"
@@ -75,7 +75,7 @@ assert art["stacked_parent"]["goal4cd_success"] is True
 assert art["stacked_parent"]["aggregate_run"] == 34425516998
 assert art["stacked_parent"]["aggregate_success"] is True
 assert art["last_hostile_checkpoint"]["review"] == 5151846948
-assert art["last_hostile_checkpoint"]["commits_to_parent"] == 43
+assert art["last_hostile_checkpoint"]["commits_to_parent"] == 49
 assert art["source_locks"]["goal4ce_source"]["blob_sha1"] == SRC_BLOB
 assert art["source_locks"]["goal4cd"]["blob_sha1"] == CD_BLOB
 assert art["source_locks"]["goal4bs_source"]["blob_sha1"] == BS_BLOB
