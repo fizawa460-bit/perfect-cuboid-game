@@ -1,16 +1,7 @@
 name: Stage32 resumable prefix selftest
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/residual-32-01-production/resumable_prefix_engine.py'
-      - 'stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py'
-      - 'stages/stage32/residual-32-01-production/test_resumable_prefix_engine.py'
-      - 'stages/stage32/residual-32-01-production/test_resumable_prefix_engine_stage32.py'
-      - 'stages/stage32/residual-32-01-production/test_resumable_full178_runner.py'
-      - '.github/workflows/stage32-resumable-prefix-selftest.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

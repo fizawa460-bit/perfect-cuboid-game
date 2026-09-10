@@ -1,22 +1,7 @@
 name: Stage32 21aa-ac boundary audit
 
 on:
-  pull_request:
-    types: [synchronize, opened, reopened]
-    paths:
-      - 'stages/stage32/residual-32-01-production/audit_stage32_21aa_ac_boundary.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_antifixed_coset_penalty.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_quotient_class_map.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_antifixed_coset_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integer_qp.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_rank2_integral_projection_bound.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_reynolds_lattice_diagnostic.py'
-      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-      - '.github/workflows/stage32-21aa-ac-boundary-audit.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

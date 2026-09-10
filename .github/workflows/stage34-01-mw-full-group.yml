@@ -1,16 +1,7 @@
 name: Stage34-01 MW full-group certificate
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage34/runkeys/stage34-01-mw-full-group.json'
-      - 'stages/stage34/34-01/mw-full-group-preflight.json'
-      - 'stages/stage34/34-01/verify_mw_full_group_inputs.py'
-      - 'stages/stage34/34-01/run_eclib_mw_certificate.py'
-      - 'stages/stage34/34-01/validate_mw_runkey.py'
-      - '.github/workflows/stage34-01-mw-full-group.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

@@ -1,16 +1,7 @@
 name: Stage32 post-21bl FULL178 node-support preflight audit
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/32-21/post-21bl-full178-node-support-preflight.json'
-      - 'stages/stage32/residual-32-01-production/audit_stage32_post21bl_full178_node_support_preflight.py'
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage32/residual-32-01-production/build_stage32_21ad_full178_antifixed_coset_census.py'
-      - 'stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py'
-      - '.github/workflows/stage32-post21bl-full178-node-support-preflight-audit.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

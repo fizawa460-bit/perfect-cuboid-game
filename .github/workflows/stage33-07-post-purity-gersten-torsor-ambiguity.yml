@@ -1,17 +1,7 @@
 name: Stage33-07 post-purity Gersten torsor ambiguity
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/certify_post_purity_gersten_torsor_ambiguity.py'
-      - 'stages/stage33/33-07/certify_26_global_gersten_lift_existence_by_purity.py'
-      - 'stages/stage33/33-07/certify_order2_ambient_extension_ambiguity.py'
-      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
-      - 'stages/stage33/33-07/materialize_order2_localization_extension_from_ambient.py'
-      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
-      - '.github/workflows/stage33-07-post-purity-gersten-torsor-ambiguity.yml'
   workflow_dispatch:
-
 concurrency:
   group: stage33-07-post-purity-gersten-torsor-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false

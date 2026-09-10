@@ -1,0 +1,75 @@
+name: Stage32 32-01-178 N344 integral self-square threshold
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      sat_count: ${{ steps.ledger.outputs.sat_count }}
+      unsat_count: ${{ steps.ledger.outputs.unsat_count }}
+      unknown_count: ${{ steps.ledger.outputs.unknown_count }}
+      sat_g0: ${{ steps.ledger.outputs.sat_g0 }}
+      sat_g1: ${{ steps.ledger.outputs.sat_g1 }}
+      unsat_g0: ${{ steps.ledger.outputs.unsat_g0 }}
+      unsat_g1: ${{ steps.ledger.outputs.unsat_g1 }}
+      unknown_ids: ${{ steps.ledger.outputs.unknown_ids }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact algebra dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.0.0'
+      - name: Verify N344 integral self-square threshold
+        id: ledger
+        run: |
+          python stages/stage32/32-01-178/nodes/N344/verify_n344_integral_self_square_threshold.py > /tmp/n344-result.json
+          python - <<'PY'
+          import json, os
+          d = json.load(open('/tmp/n344-result.json'))
+          a = d['aggregate']
+          rows = d['rows']
+          def vals(verdict, row_id):
+              return ','.join(str(r['x4']) for r in rows if r['verdict'] == verdict and r['row_id'] == row_id) or '-'
+          unknown_ids = ';'.join(f"{r['row_id']}:{r['x4']}" for r in rows if r['verdict'] == 'UNKNOWN') or '-'
+          out = {
+              'sat_count': a['sat_threshold_count'],
+              'unsat_count': a['unsat_threshold_count'],
+              'unknown_count': a['unknown_count'],
+              'sat_g0': vals('SAT_THRESHOLD', 'g0-d176'),
+              'sat_g1': vals('SAT_THRESHOLD', 'g1-d192'),
+              'unsat_g0': vals('UNSAT_THRESHOLD', 'g0-d176'),
+              'unsat_g1': vals('UNSAT_THRESHOLD', 'g1-d192'),
+              'unknown_ids': unknown_ids,
+              'canonical': d['canonical_sha256_without_this_field'],
+          }
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              for k, v in out.items():
+                  f.write(f'{k}={v}\n')
+          print('N344_COMPACT ' + json.dumps(out, sort_keys=True))
+          PY
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}" HEAD
+
+  report:
+    needs: verify
+    name: "N344 ledger SAT=${{ needs.verify.outputs.sat_count }} UNSAT=${{ needs.verify.outputs.unsat_count }} UNKNOWN=${{ needs.verify.outputs.unknown_count }} | SAT-g0=${{ needs.verify.outputs.sat_g0 }} SAT-g1=${{ needs.verify.outputs.sat_g1 }}"
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Report compact exact ledger
+        run: |
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "unsat-g0=${{ needs.verify.outputs.unsat_g0 }}"
+          echo "unsat-g1=${{ needs.verify.outputs.unsat_g1 }}"
+          echo "unknown=${{ needs.verify.outputs.unknown_ids }}"

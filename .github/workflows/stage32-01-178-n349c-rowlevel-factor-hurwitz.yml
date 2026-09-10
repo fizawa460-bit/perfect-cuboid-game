@@ -1,0 +1,65 @@
+name: "[Stage32][32-01-178][N349C] row-level factor Hurwitz cap"
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      sat: ${{ steps.ledger.outputs.sat }}
+      unsat: ${{ steps.ledger.outputs.unsat }}
+      unknown: ${{ steps.ledger.outputs.unknown }}
+      terminals: ${{ steps.ledger.outputs.terminals }}
+      eliminated: ${{ steps.ledger.outputs.eliminated }}
+      bypass: ${{ steps.ledger.outputs.bypass }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Exact N349C row-level relaxed factor-Hurwitz cap
+        run: |
+          python stages/stage32/32-01-178/nodes/N349C/verify_n349c_rowlevel_factor_hurwitz_cap.py \
+            --output /tmp/n349c-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n349c-result.json'))
+          a=d['aggregate']
+          print(f"sat={a['sat_row_count']}")
+          print(f"unsat={a['unsat_row_count']}")
+          print(f"unknown={a['unknown_row_count']}")
+          print(f"terminals={a['boundary_terminal_count']}")
+          print(f"eliminated={a['candidate_eliminated_terminal_count_if_audited']}")
+          print(f"bypass={str(d['conclusion']['bypasses_n310_n341_if_both_rows_unsat_and_hostile_audited']).lower()}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        if: github.event_name == 'pull_request'
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N349C rows SAT=${{ needs.verify.outputs.sat }} UNSAT=${{ needs.verify.outputs.unsat }} UNKNOWN=${{ needs.verify.outputs.unknown }}"
+    steps:
+      - name: Report row-level compact ledger
+        run: |
+          echo "boundary-terminals=${{ needs.verify.outputs.terminals }}"
+          echo "candidate-eliminated-if-audited=${{ needs.verify.outputs.eliminated }}"
+          echo "bypasses-N310-N341=${{ needs.verify.outputs.bypass }}"
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "N349 hostile PASS is consumed; N349C itself remains hostile-audit-required"
+          echo "MAIN/FULL178/N350/theorem/receiver/endpoint credit=false"
