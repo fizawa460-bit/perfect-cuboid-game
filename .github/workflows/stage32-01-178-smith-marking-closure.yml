@@ -34,6 +34,16 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/32-01-178-smith/verify_smith_current_factor_parity_reduction.py | tee /tmp/smith-factor-parity.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-factor-parity.json'))
+          a=x['current_observable_algebra']
+          assert a['residual_pair_mass_rank_before_factor_parity'] == 2
+          assert a['f1_parity_already_determined_by_current_prefix'] is False
+          assert a['f2_parity_already_determined_by_current_prefix'] is False
+          assert a['residual_pair_mass_rank_after_factor_parity'] == 1
+          assert a['minimal_additional_true_pair_group_sums_after_factor_parity'] == 1
+          PY
       - name: Compact ledger
         run: |
           python - <<'PY'
