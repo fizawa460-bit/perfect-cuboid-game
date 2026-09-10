@@ -18,24 +18,21 @@ Read, in this order:
 6. exact target PR metadata/head, current `main`, Stage32 MAIN PR #1753 current authority, and complete changed-file list;
 7. only the changed files and exact source locks/verifiers needed for the claims under audit.
 
-If the user supplies a PR/head, that exact target controls. Otherwise resolve the active EX5 PR from `MAIN-STATE.json`. Fail closed if no unique target exists.
-
-Do not rely on chat summary as mathematical evidence. Do not preload unrelated Stage32 history or other EX lanes.
+If the user supplies a PR/head, that exact target controls. Otherwise resolve the active EX5 PR from `MAIN-STATE.json`. Fail closed if no unique target exists. Do not rely on chat summary as mathematical evidence.
 
 ## Current authority that the audit must enforce
 
-Current Stage32 MAIN authority is `FULL178_AND_FINAL_MILESTONE_CHAIN`, with `32-01 FULL178` as the primary incomplete requirement.
+Current Stage32 MAIN authority is `FULL178_AND_FINAL_MILESTONE_CHAIN`, with `32-01 FULL178` as the primary incomplete requirement. Current observed MAIN head is `a2cacaeb9b61eca34399952a7daaf5288ff3b826`.
 
-Current-facing EX5 claims must therefore satisfy all of the following:
+N350 is the current Stage32 production-leaf certificate/producer-registration boundary, but its meta-contract is still pending its own fresh hostile audit and currently has an empty producer registry. Therefore current EX5 work receives zero N350/N104/FULL178 production coverage credit unless a later audited MAIN authority explicitly registers an EX5 producer.
 
-- V6 is not described as the current attack target;
-- O210 is not described as the current attack target;
-- Q602 is not described as the current attack target;
-- `[73,97,235]` is not described as the current survivor population;
-- if `[73,97,235]` appears, it is explicitly historical/formal Q602 provenance;
-- old no-O210/Q602-credit statements are treated as historical-credit firewalls rather than current-frontier descriptions.
+Current-facing EX5 claims must keep V6/O210/Q602 and `[73,97,235]` as historical/formal provenance only. Old no-O210/Q602-credit statements are a historical-credit firewall, not current-frontier descriptions.
 
-Historical retained artifacts may retain their original vocabulary and source locks. Audit must distinguish immutable proof/evidence provenance from mutable current-state prose.
+## Predecessor audit release
+
+The long-lived predecessor PR #1742 hit the 100-commit freeze and then passed the required intermediate hostile audit on exact head `a5e59bab3f7fe5a31e356c5a78edcbd741b093a6`, review `5161068590`. It was merged to `main` at `bf2890ec0b8168f70db803de876024aa6b6d1f6d`. The freeze is released for current continuation, but the audited scope and credit ceilings remain binding.
+
+Current continuation target is Draft PR #1762, branch `impl/stage32ex5-bc2-11-continuation`. Merge remains unauthorized.
 
 ## Current EX5 claim family
 
@@ -43,87 +40,67 @@ The active BC2 line is a FULL178 Picard64 / node-support interface and obstructi
 
 `compressed terminal/pairings -> exact Picard64 completion -> 59D witness when SAT -> canonical 48-node support interface`.
 
-The Stage32 MAIN consumption boundary is `32-01-178/N150` or its audited successor. EX5 does not grant MAIN credit by asserting compatibility; a current-target population adapter and MAIN-side acceptance are required.
+The retained exact local UNSAT prefix is ranks `0..398` of `(g1-d008,e=4)`. BC2-11 additionally rederives ranks `399..531` structurally, but grants no Picard64 closure credit. Its checkpoint canonical is `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`.
+
+Current next leaf is `BC2_12_OUTER_RANK3_SYMBOLIC_X4_PARENT_PREFLIGHT`.
 
 ## Mandatory checks
 
 ### A. Exact Git/PR target and freshness
 
-Record PR number/state, exact candidate head, current `main`, Stage32 MAIN #1753 head, freshness/divergence, draft/mergeability, changed-file scope, and exact-head CI when applicable. A moved head invalidates the previous audit.
-
-For long-lived PR #1742, also apply `docs/research-os/policies/hostile-audit-and-freshness.md`. At the 100-commit retained checkpoint, freeze the exact head and perform an intermediate delta-bounded hostile audit before further substantive retained research.
+Record PR number/state, exact candidate head, current `main`, Stage32 MAIN #1753 head, freshness/divergence, draft/mergeability, changed-file scope, and exact-head CI. A moved head invalidates the previous audit.
 
 ### B. Startup/state/roadmap authority consistency
 
-Check that README, startup, `MAIN-STATE.json`, `CURRENT-ROADMAP.md`, PR body, and next-step agree that:
+Check README, startup, `MAIN-STATE.json`, `CURRENT-ROADMAP.md`, PR body, and next-step agree that Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`, primary incomplete is `32-01 FULL178`, EX5 is auxiliary, BC2-11 is structural-only for ranks `399..531`, BC2-12 is current, and merge/MAIN promotion are separate explicit actions.
 
-- Stage32 mode is `FULL178_AND_FINAL_MILESTONE_CHAIN`;
-- primary incomplete is `32-01 FULL178`;
-- EX5 is an auxiliary interface/obstruction research surface for that chain;
-- current EX5 exact frontier matches the latest retained BC2 checkpoint;
-- V6/O210/Q602 and `[73,97,235]` are not presented as live current targets/survivors;
-- merge and MAIN promotion are separate explicit actions.
-
-Also verify that historical `stage32-ex5.md` and `AUDIT-CONTRACT.md` remain source-locked historical artifacts rather than mutable current prose.
+Historical `stage32-ex5.md` and `AUDIT-CONTRACT.md` remain source-locked historical artifacts.
 
 ### C. Exact evidence preservation
 
-Semantic synchronization must not rewrite retained mathematical evidence merely to modernize terminology.
+Retained local closures are source-locked:
 
-Current retained local closures include:
+- ranks `0..132`, BC2-05 canonical `cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e`;
+- ranks `133..265`, BC2-08 canonical `af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c`;
+- ranks `266..398`, BC2-10 canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`;
+- ranks `399..531` structural BC2-11 canonical `b7c3d16f415623dabd6356a2ed94794c96da51de39c7118a7b4ec706b7b81f0d`.
 
-- ranks `0..132`, BC2-05 checkpoint canonical `cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e`;
-- ranks `133..265`, BC2-08 checkpoint canonical `af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c`;
-- ranks `266..398`, BC2-10 checkpoint canonical `1abeb2bd5299ed217840d028eb99ed961d98238cdec75b5286b05b7f066a752b`.
+Any canonical mismatch is FAIL for the associated claim. Semantic synchronization must not rewrite retained evidence merely to modernize terminology.
 
-Any canonical mismatch is FAIL for the associated exact claim.
+### D. BC2-11 structural replay
 
-### D. FULL178 population/interface adapter
+Re-run `bc2_11_next_exceptional_terminal_block_preflight.py` against the locked BC2-10 checkpoint and compare byte-for-byte with the retained BC2-11 checkpoint. Confirm ranks `399..531`, block width `133`, outer rank `3`, base terminal `[0,1,0,0,0,0,1,0,0,0,1]`, constant exceptional signature, exact rank/unrank round trips, and source `terminal_predicate` replay. Confirm solver/heavy compute was not invoked and no Picard64 closure was granted.
 
-For any claim intended for Stage32 MAIN consumption, verify exact population semantics: FULL178 row/terminal identity; degree/exceptional-mass and assignment-order semantics; terminal-rank/pairing adapter; selected64/all140 Picard64 model; witness reconstruction when SAT; 48-node support mapping when consumed; and quantifier scope of any finite block or population claim.
+### E. BC2-12 interpretation
 
-A finite block obstruction is not population-wide FULL178 completion without exhaustive coverage or another exact compression/adapter.
+If BC2-12 is present, derive fixed/residual exceptional mass from the exact BC2-11 terminal signature rather than assuming a prior outer-rank pattern. Any parent partition, solver result, UNKNOWN refinement, or SAT witness must be replayable under the retained selected64/all140 Picard model. UNKNOWN is never UNSAT.
 
-### E. UNSAT interpretation
+### F. FULL178 / N350 promotion firewall
 
-An exact UNSAT result may receive local obstruction credit only for its certified terminal/block/model. Reject promotion to whole stratum, FULL178, effectivity, final milestone, theorem, endpoint, or Perfect Cuboid nonexistence unless separately proved.
+A finite EX5 block is not population-wide FULL178 completion. N350 currently accepts production coverage only from a registered exact producer with a source-locked replay verifier and hostile-audit PASS. Until current Stage32 MAIN's N350 contract itself passes hostile audit and explicitly registers such a producer, EX5 output has zero N350/N104 production-coverage credit. Picard64 SAT alone is explicitly not a full project-native production leaf.
 
-### F. SAT interpretation
+### G. UNSAT and SAT scope
 
-A SAT result must reconstruct the exact Picard64/59D witness and pass the retained node-support consumer when that interface is claimed. SAT is not by itself an effective curve, actual carrier, rational point, FULL178 completion, or final-milestone proof.
+UNSAT may receive local obstruction credit only for its exact certified terminal/block/model. SAT must reconstruct the exact Picard64/59D witness when claimed, but is not by itself an effective curve, actual carrier, rational point, production leaf, FULL178 completion, or final milestone.
 
-### G. Historical/formal provenance
+### H. Historical/formal provenance
 
-Cycle1, early BC2, V6/O210/Q602, and formal Q602 residues may be audited as historical retained authority at their original scopes. Do not require old immutable evidence files to use current terminology. Current-facing prose/state must label them correctly.
-
-The historical-credit firewall means EX5 cannot silently recompute, reopen, mutate, or claim new V6/O210/Q602 credit unless current Stage32 MAIN explicitly reopens that line.
-
-### H. Claim promotion and N150 boundary
-
-Check the current Stage32 MAIN `N150` external-consumption gate before any EX5-to-MAIN promotion. Newer EX5 progress than the N150 snapshot is local EX5 authority only until MAIN explicitly consumes it. An EX5 PR update, hostile-audit PASS, or local checkpoint does not automatically advance N150, `32-01`, or any final milestone.
+Cycle1, early BC2, V6/O210/Q602, and formal Q602 residues may be cited only at retained historical scopes. The historical-credit firewall forbids silently reopening or claiming new credit for that line unless current Stage32 MAIN explicitly requires it.
 
 ### I. Computational/replay integrity
 
-Replay exact compact evidence/verifiers as appropriate. Heavy computation must not be rerun merely for audit unless separately authorized by a fresh run key. UNKNOWN cannot be promoted to UNSAT. Sample or finite evidence cannot be widened without completeness.
+Replay compact evidence/verifiers. Heavy computation must not be rerun merely for audit unless separately authorized by a fresh run key. Sample/finite evidence cannot be widened without completeness.
 
 ### J. Merge and endpoint firewall
 
-Verify merge is unauthorized unless the user explicitly authorizes it; no Stage32 final-milestone credit is inferred from EX5 alone; and no Perfect Cuboid existence/nonexistence claim is made from EX5 local evidence.
+Merge is unauthorized unless explicitly requested by the user. No EX5 local result alone grants Stage32 final-milestone, theorem, endpoint, or Perfect Cuboid existence/nonexistence credit.
 
 ## Credit ceiling
 
-Use precise current scope, for example:
-
-- `NO_CREDIT`;
-- `LOCAL_EXACT_INTERFACE_PREFLIGHT`;
-- `LOCAL_EXACT_PICARD64_BLOCK_UNSAT / <rank interval>`;
-- `EXACT_PICARD64_WITNESS_INTERFACE / <terminal>`;
-- `MAIN_CONSUMABLE_FULL178_ADAPTER_CANDIDATE` only when the current-target adapter is complete and audit-ready.
-
-None automatically means `32-01 FULL178` complete or Stage32 closure.
+Use precise scopes such as `LOCAL_EXACT_INTERFACE_PREFLIGHT`, `LOCAL_EXACT_PICARD64_BLOCK_UNSAT / <rank interval>`, or `EXACT_PICARD64_WITNESS_INTERFACE / <terminal>`. `N350_REGISTERABLE_EXACT_PRODUCER_CANDIDATE` is permitted only after a complete source-locked producer adapter/verifier exists; it still grants no N350 coverage until MAIN-side hostile-audited registration.
 
 ## Required audit output
 
-Return one unambiguous `PASS` or `FAIL`. Record exact head, current main, Stage32 MAIN #1753 authority head, reviewed delta/scope, CI/replay status, strongest supported credit ceiling, historical-provenance findings, and every blocker.
+Return one unambiguous `PASS` or `FAIL`. Record exact head, current main, Stage32 MAIN #1753 authority head, reviewed delta/scope, CI/replay status, strongest supported credit ceiling, N350 compatibility finding, historical-provenance findings, and every blocker.
 
 `PASS` does not merge and does not automatically promote anything into Stage32 MAIN. `FAIL` states the smallest concrete repair or missing proof boundary and stops; implementation belongs to `stage32ex5-mainbatch`.
