@@ -43,6 +43,20 @@ Do not use `pull_request.paths` as the only lifecycle control. GitHub evaluates 
 
 Path filtering may still narrow an active workflow, but retirement from automatic PR execution must be explicit.
 
+## Hostile-audit obligation
+
+Workflow lifecycle compliance is part of hostile-audit scope whenever the audited PR changes workflow definitions, lifecycle policy, the active Stage frontier, or a long-lived PR's retained workflow surface. The audit must not treat a workflow as safely retired merely because prose says so.
+
+A lifecycle audit must establish all of the following at the audited exact head:
+
+1. the repository/branch inventory covers every reachable `.github/workflows/*.yml` and `.yaml` workflow in scope, with each classified as `ACTIVE_AUTO`, `MANUAL`, or `RETIRED`;
+2. every `MANUAL` and `RETIRED` workflow is actually non-automatic — normally `workflow_dispatch`-only — and has no live `pull_request`, `pull_request_target`, schedule, push, or other unintended automatic event unless the governing policy explicitly authorizes that event;
+3. every `ACTIVE_AUTO` workflow is an explicit allowlist member whose automatic role still corresponds to the current Stage frontier or a repository-wide safety/authority gate; a stale leaf may not remain automatic merely because it is present in an allowlist;
+4. the lifecycle verifier/inventory is current against the exact workflow subtree and fails closed on an unclassified or stale path; and
+5. representative exact-head replay evidence reports total automatic runs separately from `MANUAL`/`RETIRED` runs and shows `MANUAL`/`RETIRED` automatic runs = 0.
+
+If any of these checks cannot be established from exact-head evidence, lifecycle audit credit fails closed. Job success/failure for an allowed `ACTIVE_AUTO` workflow remains separate from lifecycle correctness.
+
 ## Heavy workflows
 
 This policy does not weaken the repository heavy-workflow authorization contract. A heavy workflow that is `ACTIVE_AUTO` must still remain behind its cheap run-key/authorization gate. Automatic trigger eligibility and heavy-compute authorization are separate gates.
