@@ -35,9 +35,10 @@ Stage-local or leaf workflows may be created freely for research verification, b
 - When the active frontier advances, retire the previous leaf's automatic PR trigger in the same transition, or before enabling the next leaf's automatic trigger.
 - Every new or materially revised Stage-local workflow must classify its trigger lifecycle as `ACTIVE_AUTO`, `MANUAL`, or `RETIRED`; if the class or active authority is unclear, fail closed to `MANUAL`.
 - Cross-Stage execution by a current `ACTIVE_AUTO` workflow on a long-lived sibling PR is permitted when its automatic trigger/path conditions match. Lifecycle replay must report total runs separately from `MANUAL`/`RETIRED` runs; the prohibited historical/manual fan-out is the latter, not all nonzero automatic execution.
+- Hostile audit of workflow/lifecycle/frontier changes must independently verify the exact-head inventory and trigger classes: `MANUAL`/`RETIRED` must have no unintended automatic event, `ACTIVE_AUTO` must still map to the current frontier or a repository-wide safety/authority gate, the verifier must be current/fail-closed, and representative exact-head replay must show `MANUAL`/`RETIRED` automatic runs = 0. Prose-only retirement is not audit evidence.
 - Do **not** rely on `pull_request.paths` alone as workflow-lifecycle control. On long-lived PRs GitHub evaluates path filters against the PR-wide changed-file set, so historical workflow paths may re-match on unrelated later synchronizations.
 - A historical replay needed for audit, repair, or source-lock verification should be invoked explicitly rather than kept permanently auto-triggered.
-- **On-demand trigger:** open `docs/research-os/policies/pr-workflow-trigger-lifecycle.md` when adding or materially revising a Stage workflow, changing the active frontier, retiring/consuming a leaf, or diagnosing repeated PR-triggered Actions runs.
+- **On-demand trigger:** open `docs/research-os/policies/pr-workflow-trigger-lifecycle.md` when adding or materially revising a Stage workflow, changing the active frontier, retiring/consuming a leaf, diagnosing repeated PR-triggered Actions runs, or auditing workflow lifecycle compliance.
 
 ## Heavy workflow rerun authorization
 
