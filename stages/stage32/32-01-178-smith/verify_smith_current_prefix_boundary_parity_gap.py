@@ -11,7 +11,7 @@ from pathlib import Path
 from sympy import Matrix
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[2]
 RESIDUAL = ROOT / "stages/stage32/residual-32-01-production"
 RETAINED = ROOT / "stages/stage33/33-07/picard_base_rows_retained.py"
 MARKING = ROOT / "stages/stage33/33-07/stage32_picard_marking_retained.py"
@@ -26,7 +26,6 @@ EXPECTED_HPERP_ADAPTER_BLOB = "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
 
 CURRENT_EXCEPTIONAL_PREFIX = [93,94,95,96,97,98,99,101,102,103]
 BOUNDARY_LABELS = list(range(33,45))
-# Ordered pair masses used by the hostile-audited old V6 Weierstrass parity/transvection adapter.
 PAIR_LABELS = [
     (43,41),(42,44),(39,37),(38,40),(35,33),(34,36),
     (35,36),(34,33),(38,37),(39,40),(43,44),(42,41),
@@ -87,7 +86,6 @@ def isum_rows(P: Matrix, labels: list[int]) -> list[int]:
 
 
 def main() -> None:
-    # Fail closed on the compact adapter itself; do not read the retained denylist payloads in this script body.
     adapter_path = RESIDUAL / "hperp_integral_adapter.py"
     raw = adapter_path.read_bytes()
     blob = hashlib.sha1(f"blob {len(raw)}\0".encode() + raw).hexdigest()
@@ -106,7 +104,6 @@ def main() -> None:
     if P.shape != (140,64):
         raise ValueError("all140 pairing shape regression")
 
-    # Recover the canonical-degree functional in the same retained Picard basis.
     _, degree_col, _, _, _ = hia._parse_hperp(marking["hperp_text"])
     basis_labels = hia.RETAINED_BASIS_KNOWN_LABELS_1BASED
     degree = [int(degree_col[label-1,0]) for label in basis_labels]
@@ -135,8 +132,6 @@ def main() -> None:
     direct_rows = [gf2_row(row_by_label[label]) for label in direct_selected_boundary]
     residual_after_direct_selected = gf2_rank(obs_rows + direct_rows + target_rows) - gf2_rank(obs_rows + direct_rows)
 
-    # Exact minimal boundary-observable augmentation: among the twelve actual boundary pairings,
-    # find the smallest subset whose parities make all twelve pair-mass parities determined.
     minimal_size = None
     minimal_subsets = []
     for k in range(len(BOUNDARY_LABELS) + 1):
@@ -160,13 +155,13 @@ def main() -> None:
             "retained_bundle_canonical": EXPECTED_BUNDLE_CANONICAL,
             "retained_marking_canonical": EXPECTED_MARKING_CANONICAL,
             "old_weierstrass_transvection_artifact_canonical": "83fd16fdaac674a3f63b4b2dac498136f1bc584c9e06d89f1aa1a7bdc4c30386",
-            "old_smith_hostile_review": 5147627146,
+            "old_smith_hostile_review": 5147627146
         },
         "current_observables": {
             "names": [name for name,_ in obs_named],
             "mod2_rank": obs_rank,
             "n355_group_sums_add_no_new_linear_information": True,
-            "normal_total_exactly_19d_minus_5e": True,
+            "normal_total_exactly_19d_minus_5e": True
         },
         "old_transvection_boundary_parity_map": {
             "boundary_labels": BOUNDARY_LABELS,
@@ -176,20 +171,20 @@ def main() -> None:
             "residual_pair_parity_rank_beyond_current_observables": residual_rank,
             "individually_determined_pair_indices_0based": individually_determined,
             "old_v6_pair_masses": OLD_V6_PAIR_MASSES,
-            "old_v6_pair_parity_signature": old_signature,
+            "old_v6_pair_parity_signature": old_signature
         },
         "prefix_extension": {
             "selected64_boundary_labels_already_coordinate_rows": direct_selected_boundary,
             "residual_rank_after_exposing_all_direct_selected_boundary_labels": residual_after_direct_selected,
             "minimal_actual_boundary_pairing_count_to_determine_all_pair_parities": minimal_size,
             "minimal_subset_count": len(minimal_subsets),
-            "minimal_subsets_first20": minimal_subsets[:20],
+            "minimal_subsets_first20": minimal_subsets[:20]
         },
         "interpretation": {
             "current_prefix_already_determines_old_transvection_parities": residual_rank == 0,
             "direct_current_to_smith_adapter_established": False,
             "why_not": "The hostile-audited Smith obstruction still requires the fixed X(8)/V4 common-cover semantics. This computation only measures how much of the old boundary-parity observable is missing from the current Picard/N355 prefix.",
-            "next_route": "If the residual rank is small, extend the exact pairing prefix by the certified minimal boundary observables, reconstruct the branch-permutation/transvection predicate stratumwise, and only then test a source-compatible Smith obstruction on the corresponding common-cover subpopulation.",
+            "next_route": "If the residual rank is small, extend the exact pairing prefix by the certified minimal boundary observables, reconstruct the branch-permutation/transvection predicate stratumwise, and only then test a source-compatible Smith obstruction on the corresponding common-cover subpopulation."
         },
         "credit": {
             "main_pruning_credit": False,
@@ -198,8 +193,8 @@ def main() -> None:
             "receiver_credit": False,
             "endpoint_credit": False,
             "perfect_cuboid_claim": False,
-            "merge_authorized": False,
-        },
+            "merge_authorized": False
+        }
     }
     body["canonical_sha256_without_this_field"] = csha(body)
     print(json.dumps(body, sort_keys=True, separators=(",", ":")))
