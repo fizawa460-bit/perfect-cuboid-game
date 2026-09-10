@@ -37,7 +37,7 @@ Heavy scaleout is not authorized by this roadmap.
 
 ## Claim and promotion boundary
 
-BC2-16 triggered retained-consolidation claim synchronization. EX5 remains an `ATTACKS` lane for `S32.FULL178.NUMERICAL_CENSUS.V1`; no claim-core mutation, ACTIVE-FRONTIER remap, lane-adapter change, promotion adapter, or MAIN promotion was required.
+BC2-16 triggered retained-consolidation claim synchronization. EX5 remains an `ATTACKS` lane for `S32.FULL178.NUMERICAL_CENSUS.V1`; the active goal is unchanged and there is no current attack remap. No claim-core mutation, ACTIVE-FRONTIER remap, lane-adapter change, promotion adapter, or MAIN promotion was required.
 
 This local result is not a MAIN-consumable production producer and receives zero N350/N104 production-coverage credit. Promotion to Stage32 MAIN requires a separately audited exact current-target producer/adapter and explicit MAIN-side registration. EX5 cannot self-promote.
 
