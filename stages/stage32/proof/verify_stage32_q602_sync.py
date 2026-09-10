@@ -71,13 +71,15 @@ def validate(basev, by_id):
     body = dict(s)
     claimed_state_canonical = body.pop("canonical_sha256_without_this_field")
     assert basev.csha(body) == claimed_state_canonical
-    assert s["schema"].startswith("STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_")
+    assert s["schema"].startswith("STAGE32_MAIN_COMPACT_STATE_V")
+    assert s["role"] == "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE"
 
     a = s["authority_sync"]
     target = s["current_target"]
     prov = s["historical_formal_provenance"]
     f = s["current_exact_frontier"]
     fw = s["firewalls"]
+    org = s["organizational_integration"]
 
     assert a["historical_narrow_chain_post_sync_review_id"] == AUDIT_POST_SYNC["review_id"]
     assert a["historical_narrow_chain_post_sync_exact_head"] == AUDIT_POST_SYNC["exact_head"]
@@ -96,21 +98,25 @@ def validate(basev, by_id):
     assert target["Q602_is_current_attack_target"] is False
     assert f["full178_numerical_census_complete"] is False
     assert f["primary_incomplete_remains_32_01"] is True
-    assert f["ex5_auto_promoted_to_n150"] is False
-    assert f["ex5_population_wide_full178_result_complete"] is False
+    assert f["stage32_closed"] is False
+    if "n354_main_pruning_credit" in f:
+        assert f["n354_main_pruning_credit"] is False
 
-    assert fw["historical_V6_excluded_at_audited_scope"] is True
-    assert fw["historical_O210_excluded_at_audited_scope"] is True
-    assert fw["historical_Q602_excluded_at_audited_scope"] is True
+    # EX5 is retained evidence only; mutable MAIN schemas no longer carry the
+    # older n150/full178 auto-promotion booleans.  Check the current equivalent
+    # routing firewalls without weakening the historical Q602 claim checks.
+    assert a["ex5_merge_auto_promotes_main_credit"] is False
+    assert org["EX5_retained_evidence_merged_to_main"] is True
+    assert org["integration_changes_mathematical_credit"] is False
+
     assert fw["historical_q602_residues_treated_as_current_survivors"] is False
-    assert fw["ex5_merge_auto_promotes_n150"] is False
-    assert fw["ex5_merge_auto_promotes_full178"] is False
-    n240_self_promotion_keys = [
-        key for key in ("n240_repair_self_promoted_to_audited", "n240_reaudit_self_promoted")
-        if key in fw
-    ]
-    assert n240_self_promotion_keys
-    assert all(fw[key] is False for key in n240_self_promotion_keys)
+    assert a["n240_hostile_reaudit_status"] == "PASS"
+    assert a["n240_hostile_reaudit_review_id"] == 5161254728
+    assert a["n240_reaudit_consumed_at_structural_ceiling"] is True
+    if "n354_candidate_counts_treated_as_main_pruning_credit" in fw:
+        assert fw["n354_candidate_counts_treated_as_main_pruning_credit"] is False
+    if "n354_self_promoted_to_audited" in fw:
+        assert fw["n354_self_promoted_to_audited"] is False
     for key in [
         "n104_completeness_release_granted",
         "heavy_compute_authorized_by_startup_state", "receiver_credit", "route_credit",
