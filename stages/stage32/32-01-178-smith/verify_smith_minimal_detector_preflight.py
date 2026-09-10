@@ -6,6 +6,8 @@ import hashlib
 import importlib.util
 import itertools
 import json
+import subprocess
+import tempfile
 import zlib
 from collections import Counter
 from math import gcd
@@ -15,15 +17,12 @@ HERE = Path(__file__).resolve().parent
 STAGES = HERE.parents[1]
 EX1 = STAGES / "stage32-ex1"
 CERT = EX1 / "ex1-05af-cellular-pullback-smith-certificate.json"
-COMPACT = EX1 / "verify_ex1_05af_s0_integral_ns_pullback_saturation.py"
 
+AUDITED_HEAD = "e3c4a04d5010e6dca9428722e334890e2614297a"
+COMPACT_REPO_PATH = "stages/stage32-ex1/verify_ex1_05af_s0_integral_ns_pullback_saturation.py"
 EXPECTED_CERT_CANONICAL = "988a360ddeb7e22e0aa1923044b8e473d50f10e9dd82d84565266ed292d98984"
 EXPECTED_COMPACT_SHA1 = "8591e5e25743b32b6768022052ae59746269d17e"
 MODS = [2, 2, 2, 4, 4]
-
-
-def sha1(path: Path) -> str:
-    return hashlib.sha1(path.read_bytes()).hexdigest()
 
 
 def canonical_without_field(obj: dict) -> str:
@@ -43,12 +42,16 @@ def decode_payload(cert: dict) -> dict:
 
 
 def load_compact():
-    assert sha1(COMPACT) == EXPECTED_COMPACT_SHA1
-    spec = importlib.util.spec_from_file_location("stage32_ex1_compact", COMPACT)
-    assert spec and spec.loader
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+    raw = subprocess.check_output(["git", "show", f"{AUDITED_HEAD}:{COMPACT_REPO_PATH}"])
+    assert hashlib.sha1(raw).hexdigest() == EXPECTED_COMPACT_SHA1
+    with tempfile.NamedTemporaryFile(suffix=".py") as f:
+        f.write(raw)
+        f.flush()
+        spec = importlib.util.spec_from_file_location("stage32_ex1_compact_audited", f.name)
+        assert spec and spec.loader
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        return mod
 
 
 def mv(A, v):
@@ -62,11 +65,6 @@ def element_order(x):
             o = m // gcd(a, m)
             order = order * o // gcd(order, o)
     return order
-
-
-def smith_class(LL, k):
-    c = mv(LL, k)
-    return tuple(c[25 + i] % MODS[i] for i in range(5))
 
 
 def main():
@@ -129,9 +127,11 @@ def main():
             "arsenal_weapon": "S32-PW10",
             "source_pr": 1728,
             "hostile_review": 5147627146,
-            "audited_exact_head": "e3c4a04d5010e6dca9428722e334890e2614297a",
+            "audited_exact_head": AUDITED_HEAD,
             "smith_certificate_canonical": EXPECTED_CERT_CANONICAL,
+            "compact_assembly_builder_path": COMPACT_REPO_PATH,
             "compact_assembly_builder_sha1": EXPECTED_COMPACT_SHA1,
+            "compact_builder_loaded_by": "git show from audited exact head",
         },
         "exact_replay": {
             "classes_checked": total,
