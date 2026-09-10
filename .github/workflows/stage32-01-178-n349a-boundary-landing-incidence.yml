@@ -1,0 +1,66 @@
+name: "[Stage32][32-01-178][N349A] boundary landing incidence adapter"
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage32/32-01-178/nodes/N349/**"
+      - "stages/stage32/32-01-178/nodes/N349A/**"
+      - "stages/stage32/residual-32-01-production/post1648aq-residual-g-cusp-multiplicity-grid.json"
+      - "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md"
+      - "stages/stage32/residual-32-01-production/post1648as-residual-inertia-tangent-preflight-source-note.md"
+      - "stages/stage33/33-07/picard_base_rows_retained.py"
+      - "stages/stage33/33-07/stage32_picard_marking_retained.py"
+      - ".github/workflows/stage32-01-178-n349a-boundary-landing-incidence.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    outputs:
+      mapped: ${{ steps.ledger.outputs.mapped }}
+      fixed: ${{ steps.ledger.outputs.fixed }}
+      certified: ${{ steps.ledger.outputs.certified }}
+      unknown: ${{ steps.ledger.outputs.unknown }}
+      canonical: ${{ steps.ledger.outputs.canonical }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Exact N349A boundary landing incidence adapter
+        run: |
+          python stages/stage32/32-01-178/nodes/N349A/verify_n349a_boundary_landing_incidence.py \
+            --output /tmp/n349a-result.json
+      - name: Expose compact ledger
+        id: ledger
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          d=json.load(open('/tmp/n349a-result.json'))
+          a=d['aggregate']
+          print(f"mapped={a['mapped_exceptional_count']}")
+          print(f"fixed={a['forbidden_fixed_landing_count_per_member']}")
+          print(f"certified={a['actual_member_landing_certified_terminal_count']}")
+          print(f"unknown={a['actual_member_landing_unknown_terminal_count']}")
+          print(f"canonical={d['canonical_sha256_without_this_field']}")
+          PY
+      - name: Diff check
+        run: git diff --check "${{ github.event.pull_request.base.sha }}...HEAD"
+
+  report:
+    needs: verify
+    runs-on: ubuntu-latest
+    name: "N349A ledger E=${{ needs.verify.outputs.mapped }} FIXED=${{ needs.verify.outputs.fixed }} CERT=${{ needs.verify.outputs.certified }} UNKNOWN=${{ needs.verify.outputs.unknown }}"
+    steps:
+      - name: Report exact compact ledger
+        run: |
+          echo "canonical=${{ needs.verify.outputs.canonical }}"
+          echo "N349 audit is not consumed or promoted by this preparatory adapter"
+          echo "new pruning/FULL178/N350/theorem/endpoint credit=false"
