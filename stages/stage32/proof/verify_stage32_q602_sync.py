@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify live Q602 V3 authority consumption and completed post-sync management audit."""
+"""Verify retained Q602 V3 authority while current MAIN routes through FULL178."""
 from __future__ import annotations
 
 import importlib.util
@@ -8,7 +8,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 HERE = Path(__file__).resolve().parent
-STATE_CANON = "1a7295b3452d4cc7bc4406ee1bcfb655cd28a5d8e75f690fdc8bd93e6d85c6e2"
+STATE_CANON = "8f44f0473be26d183e3b9710e074f1b6d727ca825b543da8af3d31047284ca88"
+CHECKPOINT_CANON = "6730cc294f6a2f5800a1ba6697639e5c25c4f6ce43361acffc9e130025858a0e"
 OBJECT_ID = "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1"
 EMPTY_ID = "S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1"
 Q_ID = "S32.Q602.EXCLUSION.V3"
@@ -64,36 +65,52 @@ def validate(basev, by_id):
     assert basev.claim_core_sha(v6) == "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6"
     assert v6["audit_receipt"]["review_id"] == 5147810198
 
+    # Current mutable routing state is now FULL178-final-chain V3.  The Q602
+    # claim itself remains immutable/audited provenance and must not be
+    # presented as a live attack target or current survivor population.
     s = load("stages/stage32/MAIN-STATE.json")
     body = dict(s)
     assert body.pop("canonical_sha256_without_this_field") == STATE_CANON
     assert basev.csha(body) == STATE_CANON
-    a, f, fw = s["authority_sync"], s["current_exact_frontier"], s["firewalls"]
+    assert s["schema"] == "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_POST_EX5_MERGE"
 
-    assert a["latest_hostile_audit_review_id"] == AUDIT_POST_SYNC["review_id"]
-    assert a["latest_audited_exact_head"] == AUDIT_POST_SYNC["exact_head"]
-    assert a["latest_stage32_merge_commit"] == MERGE_COMMIT
-    assert a["audited_main_q602_claim_core_sha256"] == EXPECTED[Q_ID][0]
-    assert a["q602_post_sync_hostile_audit_status"] == "PASS"
-    assert a["q602_post_sync_hostile_audit_review_id"] == AUDIT_POST_SYNC["review_id"]
-    assert a["q602_post_sync_hostile_audit_exact_head"] == AUDIT_POST_SYNC["exact_head"]
+    a = s["authority_sync"]
+    target = s["current_target"]
+    prov = s["historical_formal_provenance"]
+    f = s["current_exact_frontier"]
+    fw = s["firewalls"]
 
-    assert f["q602_excluded"] is True and fw["Q602_excluded"] is True
-    assert f["q602_exclusion_claim_id"] == Q_ID
-    assert f["q602_exclusion_scope"] == "NO_GEOMETRICALLY_ADMISSIBLE_FIXED_TARGET_CONFIGURATION"
-    assert f["o210_excluded"] is True and fw["O210_excluded"] is True
-    assert f["v6_integral_irreducible_genus1_population_empty_audited"] is True
-    assert f["q602_survivors_audited"] == s["fixed_target"]["surviving_residues_decimal"] == [73,97,235]
+    assert a["historical_narrow_chain_post_sync_review_id"] == AUDIT_POST_SYNC["review_id"]
+    assert a["historical_narrow_chain_post_sync_exact_head"] == AUDIT_POST_SYNC["exact_head"]
+    assert a["historical_narrow_chain_merge_commit"] == MERGE_COMMIT
+    assert prov["audited_q602_claim"] == Q_ID
+    assert prov["audited_o210_claim"] == "S32.O210.EXCLUSION.V3"
+    assert prov["audited_v6_claim"] == "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+    assert prov["formal_q602_residues"] == [73,97,235]
+    assert prov["formal_q602_residues_are_current_survivors"] is False
     assert by_id["S32.Q602.SURVIVORS_73_97_235.V1"]["scope"]["surviving_residues"] == [73,97,235]
-    assert f["full178_numerical_census_complete"] is False
-    assert s["current"]["active_missing_interface"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
-    assert s["current"]["next_exact_route"] == "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS"
 
+    assert target["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
+    assert target["primary_incomplete_id"] == "32-01"
+    assert target["V6_is_current_attack_target"] is False
+    assert target["O210_is_current_attack_target"] is False
+    assert target["Q602_is_current_attack_target"] is False
+    assert f["full178_numerical_census_complete"] is False
+    assert f["primary_incomplete_remains_32_01"] is True
+    assert f["ex5_auto_promoted_to_n150"] is False
+    assert f["ex5_population_wide_full178_result_complete"] is False
+
+    assert fw["historical_V6_excluded_at_audited_scope"] is True
+    assert fw["historical_O210_excluded_at_audited_scope"] is True
+    assert fw["historical_Q602_excluded_at_audited_scope"] is True
+    assert fw["historical_q602_residues_treated_as_current_survivors"] is False
+    assert fw["ex5_merge_auto_promotes_n150"] is False
+    assert fw["ex5_merge_auto_promotes_full178"] is False
     for key in [
-        "O212_plus_advance_allowed", "controller_promotion_granted",
+        "n240_repair_self_promoted_to_audited", "n104_completeness_release_granted",
         "heavy_compute_authorized_by_startup_state", "receiver_credit", "route_credit",
-        "theorem_credit", "endpoint_credit", "perfect_cuboid_existence_claim",
-        "perfect_cuboid_nonexistence_claim",
+        "theorem_credit", "endpoint_credit", "stage32_closed",
+        "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
     ]:
         assert fw[key] is False, key
 
@@ -102,37 +119,30 @@ def validate(basev, by_id):
     for cid in ["S32.O210.EXCLUSION.V3", Q_ID]:
         assert all(link["role"] != "ATTACKS" for link in by_id[cid]["lane_links"])
 
-    checkpoint = load("stages/stage32/management/mainbatch-final-chain-reentry-20260909.json")
+    checkpoint = load("stages/stage32/management/post-ex5-merge-final-chain-sync-20260910.json")
     cp = dict(checkpoint)
-    digest = cp.pop("canonical_sha256_without_this_field")
-    assert basev.csha(cp) == digest
-    assert checkpoint["authority_consumed"]["q602_post_sync_management_audit"] == AUDIT_POST_SYNC
-    assert checkpoint["final_chain"]["32-01"]["full178_complete"] is False
-    assert checkpoint["final_chain"]["32-03"]["depends_on_full178"] is False
-    assert checkpoint["mainbatch_policy"]["heavy_compute_authorized"] is False
-    assert checkpoint["mainbatch_policy"]["merge_authorized"] is False
+    assert cp.pop("canonical_sha256_without_this_field") == CHECKPOINT_CANON
+    assert basev.csha(cp) == CHECKPOINT_CANON
+    assert checkpoint["authority"]["v6_o210_q602_current_attack_targets"] is False
+    assert checkpoint["authority"]["formal_q602_residues"] == [73,97,235]
+    assert checkpoint["ex5"]["auto_promoted_to_n150"] is False
+    assert checkpoint["full178"]["complete"] is False
+    assert checkpoint["claim_sync"]["ex_to_main_promotion_performed"] is False
+    assert checkpoint["firewalls"]["heavy_compute_authorized"] is False
+    assert checkpoint["firewalls"]["merge_authorized"] is False
 
     text = (ROOT / "stages/stage32/STAGE32-PROOF-PATH.md").read_text()
-    required = [
+    for token in [
         "POST-#1730 Q602-V3-CONSUMED / POST-SYNC-AUDITED / FINAL-CHAIN FRONTIER",
         Q_ID,
         "Q602_excluded=true",
         "O210_excluded=true",
         "FULL178_AND_FINAL_MILESTONE_CHAIN",
         "5149990935",
-        "post-sync management transition itself received independent hostile-audit PASS",
         "32-02-L   rigorous effectivity certification",
         "32-03-L   multibranch-at-node carrier ledger",
-    ]
-    for token in required:
-        assert token in text, token
-    for token in [
-        "Q602_excluded=false",
-        "Q602_FORGETFUL_O210_POPULATION_ADAPTER_PLUS_FULL178",
-        "post-sync hostile re-audit remains PENDING",
-        "HOSTILE_REAUDIT_Q602_V3_MAIN_SYNC_THEN_FULL178_AND_FINAL_SYNTHESIS",
     ]:
-        assert token not in text, token
+        assert token in text, token
 
 
 def main():
