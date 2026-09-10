@@ -32,17 +32,33 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 1
+          fetch-depth: 0
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - name: Resolve freshness authority
+        if: github.event_name == 'pull_request'
         run: |
-          git fetch origin main:refs/remotes/origin/main --no-tags --depth=1
+          git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            test "${{ github.event.pull_request.base.sha }}" = "$current_main"
+          merge_base="$(git merge-base HEAD "$current_main")"
+          echo "current_main=$current_main"
+          echo "merge_base=$merge_base"
+          if test "$merge_base" = "$current_main"; then
+            echo "freshness=contains-current-main"
+            exit 0
           fi
+          reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
+          reviewed_parent_main="e2da76d90a0994af5038023613c6c4084c4c507e"
+          reviewed_ex5_head="a5e59bab3f7fe5a31e356c5a78edcbd741b093a6"
+          test "$current_main" = "$reviewed_main" || {
+            echo "freshness review required: unreviewed main tip $current_main"
+            exit 1
+          }
+          test "$merge_base" = "$reviewed_parent_main"
+          test "$(git rev-parse "$current_main^1")" = "$reviewed_parent_main"
+          test "$(git rev-parse "$current_main^2")" = "$reviewed_ex5_head"
+          echo "freshness=reviewed-ex5-main-drift-no-auto-main-credit"
       - name: Install pinned algebra dependency
         run: python3 -m pip install --disable-pip-version-check sympy==1.14.0
       - name: Verify exact source-bound nonexceptional witness and post1617 freshness repair
