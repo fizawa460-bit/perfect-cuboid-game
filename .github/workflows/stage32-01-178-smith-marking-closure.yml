@@ -44,6 +44,17 @@ jobs:
           assert a['residual_pair_mass_rank_after_factor_parity'] == 1
           assert a['minimal_additional_true_pair_group_sums_after_factor_parity'] == 1
           PY
+      - name: Certify label104 exposure after factor parity
+        run: |
+          set -o pipefail
+          python stages/stage32/32-01-178-smith/verify_smith_label104_after_factor_parity.py /tmp/smith-factor-parity.json | tee /tmp/smith-label104.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-label104.json'))['exact_result']
+          assert x['minimum_additional_individual_exceptional_pairings_after_factor_parity'] == 1
+          assert x['additional_individual_exceptional_labels_needed_after_factor_parity'] == [104]
+          assert x['full_pair_mass_signature_determined_after_factor_parity_and_label104'] is True
+          PY
       - name: Compact ledger
         run: |
           python - <<'PY'
@@ -53,6 +64,7 @@ jobs:
           g=x['remaining_semantic_gate']
           f=json.load(open('/tmp/smith-factor-parity.json'))
           a=f['current_observable_algebra']
+          l=json.load(open('/tmp/smith-label104.json'))
           print('canonical='+x['canonical_sha256_without_this_field'])
           print('incidence_components='+str(r['incidence_components']))
           print('component_type='+r['component_type'])
@@ -66,5 +78,8 @@ jobs:
           print('F1_PARITY_ALREADY_DETERMINED='+str(a['f1_parity_already_determined_by_current_prefix']))
           print('PAIR_RESIDUAL_AFTER_FACTOR_PARITY='+str(a['residual_pair_mass_rank_after_factor_parity']))
           print('MIN_EXTRA_PAIR_GROUPS_AFTER_FACTOR_PARITY='+str(a['minimal_additional_true_pair_group_sums_after_factor_parity']))
+          print('LABEL104_EXPOSURE_CANONICAL='+l['canonical_sha256_without_this_field'])
+          print('MIN_EXTRA_INDIVIDUALS_AFTER_FACTOR_PARITY='+str(l['exact_result']['minimum_additional_individual_exceptional_pairings_after_factor_parity']))
+          print('ONE_MINIMAL_INDIVIDUAL_EXTENSION='+str(l['exact_result']['additional_individual_exceptional_labels_needed_after_factor_parity']))
           print('MAIN_PRUNING_CREDIT='+str(x['credit']['main_pruning_credit']))
           PY
