@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_POST_N240_REAUDIT_PASS",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V3_FULL178_FINAL_CHAIN_N350_CONTRACT_AUDIT_REQUIRED",
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": 32,
   "authority_sync": {
@@ -36,15 +36,7 @@
     "Q602_is_current_attack_target": false
   },
   "historical_formal_provenance": {
-    "fixed_target": {
-      "row_id": "g1-d186",
-      "degree": 186,
-      "e": 266,
-      "genus": 1,
-      "O": 210,
-      "qprime": 4,
-      "Q": 602
-    },
+    "fixed_target": {"row_id": "g1-d186", "degree": 186, "e": 266, "genus": 1, "O": 210, "qprime": 4, "Q": 602},
     "formal_q602_residues": [73, 97, 235],
     "formal_q602_residues_are_current_survivors": false,
     "audited_v6_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
@@ -61,7 +53,7 @@
     "n240_hostile_reaudit_exact_head": "b56a832e6c194321916fe4ef63eef0d673b8ff9a",
     "n240_production_complete_available": false,
     "n240_n104_old_domain_release_available": false,
-    "production_leaf_certificate_verifier_contract_registered": false,
+    "production_leaf_certificate_verifier_contract_registered": true,
     "production_leaf_certificate_verifier_contract_audited": false,
     "ex5_retained_evidence_merged_to_main": true,
     "ex5_local_g1_d008_e4_exact_unsat_prefix": [0, 398],
@@ -71,18 +63,21 @@
     "effectivity_final_execution_released": false,
     "multibranch_final_ledger_complete": false,
     "integrated_synthesis_complete": false,
-    "stage32_closed": false
+    "stage32_closed": false,
+    "n350_status": "AUDIT_REQUIRED",
+    "n350_contract_canonical_sha256": "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a",
+    "n350_registered_producer_count": 0
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "next_exact_route": "SOURCE_LOCKED_PRODUCTION_LEAF_CERTIFICATE_VERIFIER_CONTRACT",
-    "mainbatch_stop_gate": "DESIGN_AND_REGISTER_PRODUCTION_LEAF_CERTIFICATE_VERIFIER_CONTRACT_THEN_EXTERNAL_HOSTILE_AUDIT",
-    "stop_semantics": "N240_STRUCTURAL_ADAPTER_AUDITED_PRODUCTION_COMPLETENESS_STILL_FAIL_CLOSED_FULL178_REMAINS_INCOMPLETE",
-    "stacked_candidate_audit_status": "N240_V2_EXTERNAL_REAUDIT_PASS_CONSUMED_AT_STRUCTURAL_CEILING"
+    "next_exact_route": "N350_HOSTILE_AUDIT_THEN_REGISTER_EXACT_PRODUCER_ADAPTER",
+    "mainbatch_stop_gate": "STOP_BEFORE_N350_AUTHORITY_PROMOTION_AND_REQUEST_EXTERNAL_STAGE32_01_178_AUDIT",
+    "stop_semantics": "N350_FAIL_CLOSED_META_CONTRACT_REGISTERED_AUDIT_REQUIRED_NO_PRODUCER_COVERAGE_FULL178_INCOMPLETE",
+    "stacked_candidate_audit_status": "N350_META_CONTRACT_PROVISIONAL_AUDIT_REQUIRED"
   },
   "current_leaf_working_set": [
     "stages/stage32/management/post-n240-v2-hostile-reaudit-pass-sync-20260910.json",
-    "stages/stage32/32-01-178/nodes/N240/STATE.json"
+    "stages/stage32/32-01-178/nodes/N350/STATE.json"
   ],
   "ordinary_startup_excludes": [
     "stages/stage32/controller.json",
@@ -126,6 +121,15 @@
       "audit_review_id": 5161068590,
       "audited_exact_head": "a5e59bab3f7fe5a31e356c5a78edcbd741b093a6",
       "merge_commit": "bf2890ec0b8168f70db803de876024aa6b6d1f6d"
+    },
+    "n350_contract": {
+      "state_path": "stages/stage32/32-01-178/nodes/N350/STATE.json",
+      "state_blob_sha1": "57578b8ee00d68a14eef9bf4c249c5469b7f5fa1",
+      "contract_path": "stages/stage32/32-01-178/nodes/N350/PRODUCTION_LEAF_CERTIFICATE_CONTRACT.json",
+      "contract_blob_sha1": "31ab6791dfe48259b60d4917ecab2b4590b4eb63",
+      "contract_canonical_sha256": "7d64040945f258048f9d61b0f888ca8d3720bedee6eab8902c7233ffc059d25a",
+      "verifier_blob_sha1": "3f1fcef571f09ade24977c771b0d438cf8c76723",
+      "workflow_blob_sha1": "c48ef505e40ad1e759c559dcf81963433e9b1075"
     }
   },
   "firewalls": {
@@ -146,7 +150,9 @@
     "endpoint_credit": false,
     "stage32_closed": false,
     "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
+    "perfect_cuboid_nonexistence_claim": false,
+    "n350_contract_self_promoted_to_audited": false,
+    "n350_empty_registry_grants_production_credit": false
   },
   "cleanup_gate": {
     "stage32_root_cleanup_started": true,
@@ -173,5 +179,5 @@
     "EX5_may_continue_as_auxiliary_FULL178_lane_under_new_retained_work": true,
     "integration_changes_mathematical_credit": false
   },
-  "canonical_sha256_without_this_field": "3ceae34c0ec603c1405683218533b93d4d7a31bc0b0ec372a63c5360aacc3471"
+  "canonical_sha256_without_this_field": "04009000415fec5c4ae8341d56be16d101b882355fd55ad98d95a03e7809bcff"
 }
