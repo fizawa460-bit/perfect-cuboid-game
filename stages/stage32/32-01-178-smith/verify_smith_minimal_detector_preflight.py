@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import hashlib
 import importlib.util
+import io
 import itertools
 import json
 import subprocess
@@ -54,7 +56,8 @@ def load_compact():
         spec = importlib.util.spec_from_file_location("stage32_ex1_compact_audited", f.name)
         assert spec and spec.loader
         mod = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(mod)
+        with contextlib.redirect_stdout(io.StringIO()):
+            spec.loader.exec_module(mod)
         return mod
 
 
