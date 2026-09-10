@@ -15,9 +15,11 @@ N355_AUDITED_HEAD = "3f3aadd2e5ada2a0a02a69490d6d659c02762682"
 N355_RESULT = "7961cbc55993d2264879686388096fbe289a6fb84ecd4b6713b6b56c371bb775"
 BC2_17 = "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072"
 BC2_18 = "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8"
+BC2_18_OUTPUT = "ca53c910b70cb41dd628cd1d428227b4aa91523ed49b74b0e669e89e7e88fe2e"
+BC2_18_STREAM = "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
 BC2_19 = "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb"
 BC2_19_RAW = "fcfecfc4dbd3592095c1c0302991c2b29bee22b6f3652d73612deea7775d7755"
-BC2_20_SOURCE_BLOB = "04c756502707a4ebcb7953d03ce2b31f38ea1f6d"
+BC2_20_SOURCE_BLOB = "314b5aad015ed3ace997bbb8b4eef2cafd56697e"
 
 
 def req(v: bool, msg: str) -> None:
@@ -36,10 +38,11 @@ def canonical_without(obj: dict) -> str:
     return hashlib.sha256(raw).hexdigest()
 
 
-def checked(path: Path, expected: str, label: str) -> dict:
+def checked(path: Path, expected: str, label: str, *, replay_whole: bool = True) -> dict:
     obj = load(path)
     req(obj.get("canonical_sha256_without_this_field") == expected, f"{label} canonical field drift")
-    req(canonical_without(obj) == expected, f"{label} canonical replay drift")
+    if replay_whole:
+        req(canonical_without(obj) == expected, f"{label} canonical replay drift")
     return obj
 
 
@@ -79,10 +82,12 @@ def main() -> None:
     req(f["e8_bc2_19_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "BC2-19 UNKNOWN promoted")
 
     c17 = checked(B2 / "bc2-17-n354-authority-picard64-retarget-v2-evidence.json", BC2_17, "BC2-17")
-    c18 = checked(B2 / "bc2-18-n354-survivor-selected-exceptional-mod8-checkpoint.json", BC2_18, "BC2-18")
+    c18 = checked(B2 / "bc2-18-n354-survivor-selected-exceptional-mod8-checkpoint.json", BC2_18, "BC2-18", replay_whole=False)
     c19 = checked(B2 / "bc2-19-n354-survivor-normal-positivity-mass-checkpoint.json", BC2_19, "BC2-19")
     req(sum(int(v) for v in c17["retarget"]["fixed_exceptional_pairings"].values()) == 2, "BC2-17 fixed mass drift")
-    req(c18["exact_decomposition"]["mod8_extendable_parent_count"] == 7336, "BC2-18 parent count drift")
+    req(c18["source_locks"]["exact_output_canonical"] == BC2_18_OUTPUT, "BC2-18 exact-output lock drift")
+    req(c18["exact_decomposition"]["feasible_stream_sha256"] == BC2_18_STREAM, "BC2-18 stream drift")
+    req(c18["exact_decomposition"]["enumerated_parent_count"] == 177100 and c18["exact_decomposition"]["mod8_extendable_parent_count"] == 7336, "BC2-18 parent count drift")
     r = c19["result"]
     req((r["parents_checked"],r["unsat_count"],r["unknown_count"],r["sat_count"]) == (7336,7100,236,0), "BC2-19 result drift")
     req(c19["source_locks"]["raw_result_canonical"] == BC2_19_RAW and r["unknown_relabelled_unsat"] is False, "BC2-19 UNKNOWN firewall drift")
@@ -91,11 +96,16 @@ def main() -> None:
     req(git_blob_sha(source) == BC2_20_SOURCE_BLOB, "BC2-20 source blob drift")
     key = load(HERE / "runkeys" / "bc2-20-global-normal-positivity-union.json")
     req(key["schema"] == "STAGE32EX5_BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_RUNKEY_V1", "BC2-20 runkey schema drift")
-    req(key["generation"] == 1 and key["armed"] is True, "BC2-20 runkey arm drift")
+    req(key["generation"] == 2 and key["armed"] is True, "BC2-20 runkey arm drift")
     req(key["source_git_blob_sha"] == BC2_20_SOURCE_BLOB and key["bc2_19_checkpoint_canonical"] == BC2_19, "BC2-20 source/checkpoint lock drift")
     ex = key["execution"]
     req(ex["effective_heavy_concurrency"] == 1 and ex["artifact_retention_days"] == 1, "BC2-20 compute safety drift")
     req(ex["projected_peak_artifact_bytes"] <= 100000 and ex["repository_storage_budget_bytes"] == 524288000, "BC2-20 storage preflight drift")
+
+    idle18 = load(HERE / "runkeys" / "bc2-18-exceptional-mod8-decomposition.json")
+    req(idle18["schema"] == "STAGE32EX5_BC2_18_DECOMPOSE_RUNKEY_V1", "BC2-18 runkey schema drift")
+    req(idle18["generation"] == 0 and idle18["armed"] is False, "BC2-18 must remain cold on BC2-20 synchronization")
+    req(idle18["source_git_blob_sha"] == "1e2ed93cae3c5b446c8d90c1ae2250be83289c79", "BC2-18 source lock drift")
 
     for section in (s["credit"], s["historical_credit_firewall"], s["firewalls"]):
         for key_name, value in section.items():
@@ -117,7 +127,7 @@ def main() -> None:
     req("historical Cycle1 source-locked roadmap" in docs["ROADMAP"], "historical roadmap protection lost")
     req("historical Cycle1 source-locked contract" in docs["AUDIT"], "historical audit protection lost")
 
-    print("PASS: Stage32EX5 synced to N355-audited/N356-audit-required; BC2-19 retained; BC2-20 armed")
+    print("PASS: Stage32EX5 synced to N355-audited/N356-audit-required; BC2-19 retained; BC2-20 generation2 armed; BC2-18 cold-gated")
     print("e4_local_exact_unsat_prefix=0..797")
     print("e8_bc2_19=7100_UNSAT_236_UNKNOWN_0_SAT")
     print("stage32_main_credit=NO_FROM_EX5")
