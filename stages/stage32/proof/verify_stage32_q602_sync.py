@@ -64,9 +64,6 @@ def validate(basev, by_id):
     assert basev.claim_core_sha(v6) == "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6"
     assert v6["audit_receipt"]["review_id"] == 5147810198
 
-    # MAIN-STATE is mutable routing authority.  Historical Q602 replay must
-    # verify its self-canonicalization and semantic FULL178 firewalls, rather
-    # than pinning one obsolete mutable-state canonical forever.
     s = load("stages/stage32/MAIN-STATE.json")
     body = dict(s)
     claimed_state_canonical = body.pop("canonical_sha256_without_this_field")
@@ -99,12 +96,20 @@ def validate(basev, by_id):
     assert f["full178_numerical_census_complete"] is False
     assert f["primary_incomplete_remains_32_01"] is True
     assert f["stage32_closed"] is False
-    if "n354_main_pruning_credit" in f:
-        assert f["n354_main_pruning_credit"] is False
 
-    # EX5 is retained evidence only; mutable MAIN schemas no longer carry the
-    # older n150/full178 auto-promotion booleans.  Check the current equivalent
-    # routing firewalls without weakening the historical Q602 claim checks.
+    # N354 may be diagnostic or externally audited.  If MAIN consumes it,
+    # require the exact hostile-audit receipt rather than freezing Q602 replay
+    # to the pre-audit false value.
+    if f.get("n354_main_pruning_credit") is True:
+        assert a.get("n354_hostile_audit_status") == "PASS"
+        assert a.get("n354_hostile_audit_review_id") == 5164850548
+        assert a.get("n354_hostile_audit_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
+        n354_audit = s["source_locks"].get("n354_audit", {})
+        assert n354_audit.get("review_id") == 5164850548
+        assert n354_audit.get("audited_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
+        assert f.get("n354_remaining_strata") == 17128
+        assert f.get("n354_remaining_terminals") == 38560956534397137634780102
+
     assert a["ex5_merge_auto_promotes_main_credit"] is False
     assert org["EX5_retained_evidence_merged_to_main"] is True
     assert org["integration_changes_mathematical_credit"] is False
