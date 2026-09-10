@@ -1,0 +1,102 @@
+name: Stage33 R5A hostile-audit PASS consumption
+
+on:
+  push:
+    paths:
+      - '.github/workflows/stage33-r5a-hostile-audit-pass-consumption.yml'
+      - 'stages/stage33/33-12/consume_r5a_hostile_audit_pass.py'
+      - 'stages/stage33/33-12/r5a-hostile-audit-pass-consumption.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage33-r5a-hostile-audit-pass-consumption
+  cancel-in-progress: false
+
+jobs:
+  consume:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned exact algebra
+        run: python -m pip install 'sympy==1.14.0'
+
+      - name: Verify exact R5A receipt and semantic freshness boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          audited='f2ef0692fb9c186680d58693d2569aae84188827'
+          test "$(git rev-parse HEAD)" = "${GITHUB_SHA}"
+          git merge-base --is-ancestor "$audited" HEAD
+          git fetch --no-tags origin main
+          base="$(git merge-base "$audited" origin/main)"
+          git diff --name-only "$base..origin/main" > /tmp/main-drift
+          if grep -E '^(stages/stage33/|\.github/workflows/stage33-|AGENTS\.md$|docs/research-os/policies/(hostile-audit-and-freshness|research-credit-and-promotion-firewalls)\.md$)' /tmp/main-drift; then
+            echo 'load-bearing Stage33/shared-policy main drift detected; fresh hostile review required' >&2
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('stages/stage33/33-12/r5a-hostile-audit-pass-consumption.json').read_text())
+          assert r['pr']==1722
+          assert r['audited_exact_head']=='f2ef0692fb9c186680d58693d2569aae84188827'
+          assert r['hostile_audit_review_node']=='PRR_kwDOTr52Y88AAAABM6R4BQ'
+          assert r['hostile_audit_verdict']=='PASS'
+          assert r['r5a_certificate_sha256']=='4d8c7fbf517dba8968d3ecdd871f9f80544859bd05563a7c4c8dd123c43555d1'
+          b=r['consumption_boundary']
+          assert b['r5a_exceptional_blowup_swap23_atlas_audited'] is True
+          assert b['stage33_12_closed_exact'] is False
+          assert b['merge_allowed'] is False
+          PY
+
+      - name: Replay exact R5A atlas
+        run: python stages/stage33/33-12/materialize_e3_v91c1x_r5a_exceptional_blowup_swap23_atlas.py --check
+      - name: Consume R5A hostile-audit PASS
+        run: python stages/stage33/33-12/consume_r5a_hostile_audit_pass.py --write
+      - name: Verify consumed R5A checkpoint
+        run: |
+          python stages/stage33/33-12/consume_r5a_hostile_audit_pass.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+
+      - name: Commit bounded operational delta
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t files < <(git diff --name-only | sort)
+          printf '%s\n' "${files[@]}"
+          test "${#files[@]}" -eq 2
+          test "${files[0]}" = 'stages/stage33/MAIN-STATE.json'
+          test "${files[1]}" = 'stages/stage33/sync_main_state.py'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage33/MAIN-STATE.json stages/stage33/sync_main_state.py
+          git commit -m '[Stage33] consume R5A hostile PASS and open R5B side-isolation leaf'
+
+      - name: Verify clean consumed checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stages/stage33/33-12/consume_r5a_hostile_audit_pass.py --check
+          python stages/stage33/sync_main_state.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_LOCAL_HEAD=$(git rev-parse HEAD)"
+
+      - name: Push only from exact triggering remote head
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "${GITHUB_REF_NAME}"
+          remote_sha="$(git rev-parse "origin/${GITHUB_REF_NAME}")"
+          test "$remote_sha" = "$GITHUB_SHA"
+          git push origin HEAD:"${GITHUB_REF_NAME}"
