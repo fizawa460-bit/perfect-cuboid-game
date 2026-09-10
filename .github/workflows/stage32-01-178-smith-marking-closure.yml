@@ -55,6 +55,22 @@ jobs:
           assert x['additional_individual_exceptional_labels_needed_after_factor_parity'] == [104]
           assert x['full_pair_mass_signature_determined_after_factor_parity_and_label104'] is True
           PY
+      - name: Classify residual signature fibres after factor parity
+        run: |
+          set -o pipefail
+          cd stages/stage32/32-01-178-smith
+          python verify_smith_factor_parity_residual_signature_fibres.py | tee /tmp/smith-residual-fibres.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-residual-fibres.json'))
+          e=x['exact']
+          assert e['pair_signature_image_rank'] == 3
+          assert e['pair_signature_count'] == 8
+          assert e['residual_rank_after_current_plus_factor_parity'] == 1
+          assert e['residual_fibre_count'] == 4
+          assert sum(e['fibre_forbidden_member_count_distribution'].values()) == 4
+          assert x['hurwitz_equality']['equality_strata_count'] == 178
+          PY
       - name: Compact ledger
         run: |
           python - <<'PY'
@@ -65,6 +81,8 @@ jobs:
           f=json.load(open('/tmp/smith-factor-parity.json'))
           a=f['current_observable_algebra']
           l=json.load(open('/tmp/smith-label104.json'))
+          q=json.load(open('/tmp/smith-residual-fibres.json'))
+          e=q['exact']
           print('canonical='+x['canonical_sha256_without_this_field'])
           print('incidence_components='+str(r['incidence_components']))
           print('component_type='+r['component_type'])
@@ -81,5 +99,10 @@ jobs:
           print('LABEL104_EXPOSURE_CANONICAL='+l['canonical_sha256_without_this_field'])
           print('MIN_EXTRA_INDIVIDUALS_AFTER_FACTOR_PARITY='+str(l['exact_result']['minimum_additional_individual_exceptional_pairings_after_factor_parity']))
           print('ONE_MINIMAL_INDIVIDUAL_EXTENSION='+str(l['exact_result']['additional_individual_exceptional_labels_needed_after_factor_parity']))
+          print('RESIDUAL_FIBRES_CANONICAL='+q['canonical_sha256_without_this_field'])
+          print('RESIDUAL_FIBRE_DISTRIBUTION='+str(e['fibre_forbidden_member_count_distribution']))
+          print('ALL_FORBIDDEN_FIBRES='+str(e['all_forbidden_fibre_count']))
+          print('MIXED_FIBRES='+str(e['mixed_fibre_count']))
+          print('ALL_ALLOWED_FIBRES='+str(e['all_allowed_fibre_count']))
           print('MAIN_PRUNING_CREDIT='+str(x['credit']['main_pruning_credit']))
           PY
