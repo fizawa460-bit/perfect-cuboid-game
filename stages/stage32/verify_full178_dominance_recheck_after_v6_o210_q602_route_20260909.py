@@ -72,7 +72,15 @@ def verify_current_v4(e, hist):
     frontier = e['frontier']
     assert frontier['runtime_exceptional_index_to_projective_node_bridge_complete'] is True
     assert frontier['picard64_exact_completion_interface_available'] is True
-    assert frontier['closed_local_terminal_rank_prefix'] == [0, 398]
+    # This verifier protects the historical dominance boundary; it must allow
+    # monotone local EX5 progress after the original 0..398 checkpoint.  A
+    # larger local prefix grants no MAIN credit because the credit firewalls
+    # below remain fail-closed.
+    prefix = frontier['closed_local_terminal_rank_prefix']
+    assert isinstance(prefix, list) and len(prefix) == 2
+    assert prefix[0] == 0
+    assert isinstance(prefix[1], int) and prefix[1] >= 398
+    assert iface['ex5_retained_exact_unsat_progress_through_rank'] == prefix[1]
     assert frontier['whole_g1_d008_e4_stratum_closed'] is False
     assert frontier['FULL178_complete'] is False
     assert frontier['stage32_main_primary_incomplete_remains_32_01'] is True
