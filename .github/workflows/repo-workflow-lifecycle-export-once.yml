@@ -1,0 +1,39 @@
+name: Repository workflow lifecycle export (one shot)
+
+on:
+  push:
+    branches:
+      - repo-agents-active-workflow-trigger-policy
+
+permissions:
+  contents: read
+
+dispatch_placeholder: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: repo-agents-active-workflow-trigger-policy
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize in workspace and verify
+        run: |
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py --fix --write-inventory
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+          git diff --binary > repo-wide-workflow-cleanup.patch
+          git status --short > repo-wide-workflow-cleanup-status.txt
+          tar -czf repo-wide-workflow-cleanup-files.tgz $(git diff --name-only)
+      - name: Upload generated cleanup
+        uses: actions/upload-artifact@v4
+        with:
+          name: repo-wide-workflow-cleanup
+          path: |
+            repo-wide-workflow-cleanup.patch
+            repo-wide-workflow-cleanup-status.txt
+            repo-wide-workflow-cleanup-files.tgz
+          retention-days: 1
