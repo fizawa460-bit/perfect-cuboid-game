@@ -1,0 +1,35 @@
+name: Stage32 32-01-178 Smith projection preflight
+
+on:
+  push:
+    branches:
+      - stage32-01-178-smith
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Replay certified Smith projection
+        run: |
+          python stages/stage32/32-01-178-smith/verify_smith_projection_preflight.py | tee /tmp/smith-projection.json
+      - name: Compact ledger
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/smith-projection.json'))
+          m=x['map']
+          print('canonical='+x['canonical_sha256_without_this_field'])
+          print('endpoint_only_image_order='+str(m['endpoint_only_image_order']))
+          print('middle_B_only_image_order='+str(m['middle_B_only_image_order']))
+          print('full_linear_image_order='+str(m['full_linear_image_order']))
+          print('middle_B_alone_surjects='+str(m['middle_B_alone_surjects_to_full_cokernel']))
+          for r in x['coordinate_rows']:
+              print('coord',r['smith_coordinate'],'mod',r['modulus'],'endpoint',r['endpoint_coefficients'],'B_nz',r['middle_nonzero_count'],'rowcol',r['middle_matrix_additive_row_plus_column'])
+          print('MAIN_PRUNING_CREDIT=false')
+          PY
