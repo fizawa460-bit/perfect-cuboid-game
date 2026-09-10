@@ -1,6 +1,6 @@
 # Stage32EX5 MAIN startup
 
-Ordinary `stage32ex5-mainbatch` reads, in order: `AGENTS.md` -> `stages/stage32-ex5/README.md` -> this file -> `MAIN-STATE.json` -> only `MAIN-STATE.json.current_leaf_working_set`. Do not preload unrelated Stage32 history, other EX lanes, or large retained payloads unless the active leaf explicitly triggers them.
+Ordinary `stage32ex5-mainbatch` reads, in order: `AGENTS.md` -> `stages/stage32-ex5/README.md` -> this file -> `MAINBATCH-OPERATIONS.md` -> `MAIN-STATE.json` -> only `MAIN-STATE.json.current_leaf_working_set`. Do not preload unrelated Stage32 history, other EX lanes, or large retained payloads unless the active leaf explicitly triggers them.
 
 ## Current authority
 
@@ -9,6 +9,10 @@ Stage32 remains `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` is primary/
 N355 full known-prefix is hostile-audited and consumed at review `5165895301`, exact head `3f3aadd2e5ada2a0a02a69490d6d659c02762682`, leaving `17128` strata / `66462870551188628549910` terminals. N356 optimistic exceptional transportation is retained but `AUDIT_REQUIRED`; no new N356 MAIN pruning credit exists. The MAIN head is `8 ahead / 0 behind` the N355 audited head, so no intermediate freshness freeze is active. N350 remains the separate fail-closed production-registration boundary with zero registered producers.
 
 V6/O210/Q602 and `[73,97,235]` remain historical/formal provenance only.
+
+## MAINBATCH operations
+
+PR #1765 on `impl/stage32ex5-bc2-12-outer-rank3` is the sole active Stage32EX5 MAINBATCH working PR. PR #1764 is superseded and must remain closed/unmerged. Ordinary MAINBATCH continuation stays on #1765 unless the user explicitly requests a replacement or split. The detailed anti-refire and workflow-retirement contract is `stages/stage32-ex5/MAINBATCH-OPERATIONS.md`.
 
 ## Current EX5 frontier
 
