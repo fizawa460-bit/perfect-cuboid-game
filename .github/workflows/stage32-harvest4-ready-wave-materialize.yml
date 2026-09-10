@@ -1,0 +1,92 @@
+name: Stage32 Harvest4 ready-wave materialize
+
+on:
+  push:
+    branches:
+      - stage32-arsenal-harvest4-registration
+    paths:
+      - 'docs/arsenal/materialize_stage32_harvest4_ready_wave.py'
+      - 'docs/arsenal/stage32-harvest4-registration-revalidation.json'
+      - '.github/workflows/stage32-harvest4-ready-wave-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stage32-harvest4-ready-wave-materialize
+  cancel-in-progress: false
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Assert implementation branch and revalidation checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = "stage32-arsenal-harvest4-registration"
+          python - <<'PY'
+          import json
+          p='docs/arsenal/stage32-harvest4-registration-revalidation.json'
+          x=json.load(open(p))
+          assert x['status']=='READY_WAVE_REVALIDATED_REGISTRY_MATERIALIZATION_PENDING'
+          assert x['registration_shape_after_materialization']['pw13_active'] is False
+          assert x['registration_shape_after_materialization']['active_entry_count']==13
+          PY
+      - name: Materialize authoritative promotion source and registry
+        run: python docs/arsenal/materialize_stage32_harvest4_ready_wave.py
+      - name: Generate catalog and cards
+        run: python docs/arsenal/sync_arsenal_catalog.py
+      - name: Verify generated registry surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          python docs/arsenal/sync_arsenal_catalog.py --check
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.load(open('docs/arsenal/index.json'))
+          s=next(v for v in x['provisional_harvests'] if v.get('source_stage')=='Stage32')
+          assert s['active_cards']==['S32-PW01','S32-PW03','S32-PW04','S32-PW05','S32-PW06','S32-PW07','S32-PW08','S32-PW09','S32-PW10','S32-PW11','S32-PW12']
+          assert s['active_workflows']==['S32-WF01','S32-WF02']
+          assert s['retired_merged_ids']['S32-PW02']=='S32-PW01'
+          assert s['provisional_active_entry_count']==13
+          assert 'S32-PW13' not in s['active_cards']
+          for p in [*[f'docs/arsenal/cards/provisional/S32-PW{i:02d}.md' for i in range(7,13)], 'docs/arsenal/cards/workflows/S32-WF01.md','docs/arsenal/cards/workflows/S32-WF02.md']:
+              assert Path(p).is_file(), p
+          promo=Path('docs/stage32-arsenal-promotion.md').read_text()
+          assert promo.count('## S32-PW01 —')==1
+          for i in range(7,13): assert f'## S32-PW{i:02d} —' in promo
+          assert '## S32-WF01 —' in promo and '## S32-WF02 —' in promo
+          assert 'S32-PW13_ACTIVE=false' in promo
+          PY
+          git diff --check
+      - name: Commit bounded ready-wave registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/stage32-arsenal-promotion.md docs/arsenal/index.json docs/arsenal/catalog.md docs/arsenal/cards/provisional/S32-PW07.md docs/arsenal/cards/provisional/S32-PW08.md docs/arsenal/cards/provisional/S32-PW09.md docs/arsenal/cards/provisional/S32-PW10.md docs/arsenal/cards/provisional/S32-PW11.md docs/arsenal/cards/provisional/S32-PW12.md docs/arsenal/cards/workflows/S32-WF01.md docs/arsenal/cards/workflows/S32-WF02.md
+          if git diff --cached --quiet; then
+            echo 'READY_WAVE_ALREADY_MATERIALIZED=true'
+            exit 0
+          fi
+          git commit -m '[Arsenal][Stage32] materialize Harvest 4 ready wave'
+          git push origin HEAD:${GITHUB_REF_NAME}
+      - name: Verify exact committed tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python docs/arsenal/sync_arsenal_catalog.py --check
+          git diff --check
+          test -z "$(git status --porcelain)"
+          echo "EXACT_HEAD=$(git rev-parse HEAD)"
