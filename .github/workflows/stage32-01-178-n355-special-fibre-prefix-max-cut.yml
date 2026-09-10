@@ -40,5 +40,9 @@ jobs:
         run: |
           python stages/stage32/32-01-178/nodes/N355/verify_n355_x1_diagonal_lower_bound.py --output /tmp/n355-x1.json
           cat /tmp/n355-x1.json
+      - name: Replay full known-prefix block-sum census research
+        run: |
+          python stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py --output /tmp/n355-full-prefix.json
+          cat /tmp/n355-full-prefix.json
       - name: Diff check
         run: git diff --check
