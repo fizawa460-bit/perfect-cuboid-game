@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_MB104_BEAUVILLE_MIYAOKA_COVER_WALL_V1",
+  "status": "RETAINED_GLOBAL_COVER_BOUND_DOMINATED_NONCLOSING",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-MIYAOKA-COVER-WALL.md",
+    "al_path": "stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json",
+    "al_blob_sha1": "dbe2bea1b2cae1e69ad6c27e5828f81494532fa4",
+    "am_path": "stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json",
+    "miyaoka_reference": "Miyaoka, The Orbibundle Miyaoka-Yau-Sakai Inequality and an Effective Bogomolov-McQuillan Theorem, Publ. RIMS 44 (2008), DOI 10.2977/PRIMS/1210167331, Theorem 1.1"
+  },
+  "cover_surface": {
+    "model": "X=(C8 x C8)/H_diag",
+    "genus_C8": 5,
+    "H_order": 4,
+    "H_action_free": true,
+    "product_K2": 128,
+    "product_c2": 64,
+    "X_K2": 32,
+    "X_c2": 16,
+    "X_K2_gt_c2": true
+  },
+  "miyaoka_constants": {
+    "sqrt_term": 32,
+    "a": 6,
+    "b": 32,
+    "bound": "K_X.Cbar<=6*(G-1)+32"
+  },
+  "carrier_adapter": {
+    "connected_normalized_beauville_pullback": true,
+    "lift_genus": "G-1=2*g-2+r/2",
+    "upstairs_canonical_degree": "K_X.Cbar=2*d",
+    "derived_bound": "2*d<=3*r+12*g+20",
+    "g0": "2*d<=3*r+20",
+    "g1": "2*d<=3*r+32"
+  },
+  "dominance": {
+    "retained_ramification_lower_bound": "r>=s_min>=d-4*g+4",
+    "g0_existing": "r>=d+4",
+    "g1_existing": "r>=d",
+    "miyaoka_adds_finite_degree_window": false,
+    "reason": "the lift genus grows with the same ramification resource; substituting the retained lower bound makes the Miyaoka inequality automatically compatible"
+  },
+  "decision": {
+    "cover_K2_gt_c2_route_closes": false,
+    "reentry_requires": "an independent upper bound on r with sufficiently small slope in d",
+    "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND"
+  },
+  "firewalls": {
+    "global_carrier_constructed": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
