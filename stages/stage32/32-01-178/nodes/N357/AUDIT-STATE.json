@@ -1,14 +1,22 @@
 {
-  "schema": "STAGE32_32_01_178_N357_TRANSPORT_SUPPORT_CAPACITY_AUDIT_STATE_V5",
+  "schema": "STAGE32_32_01_178_N357_TRANSPORT_SUPPORT_CAPACITY_AUDIT_STATE_V6",
   "node_id": "N357",
-  "status": "ALL178_CANDIDATE_FROZEN_AUDIT_REQUIRED_NO_MAIN_CREDIT",
-  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity candidate after audited N356 authority without mutating the MAIN-routed N357 research checkpoint.",
+  "status": "ALL178_CANDIDATE_REPAIRED_REAUDIT_REQUIRED_NO_MAIN_CREDIT",
+  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity candidate after audited N356 authority, with direct transitive runtime dependency locks and an exact-head CI gate, without mutating the MAIN-routed N357 research checkpoint.",
   "authority_input": {
     "n356_status": "AUDITED_NECESSARY_CUT_CONSUMED_BY_MAIN",
     "n356_review_id": 5176607630,
     "n356_audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
     "n356_authoritative_remaining_strata": 17128,
     "n356_authoritative_remaining_terminals": 65396964990500233636214
+  },
+  "audit_history": {
+    "prior_hostile_audit_status": "FAIL",
+    "prior_hostile_audit_review_id": 5180168777,
+    "prior_hostile_audit_exact_head": "0bd9d452259fbbebb79bbb7ca91c155d2aaa34f6",
+    "fail_class": "TRANSITIVE_RUNTIME_DEPENDENCY_LOCK_AND_EXACT_HEAD_CI_GATE_GAP",
+    "mathematics_and_counting_body_ok": true,
+    "repair_requires_reaudit": true
   },
   "all178_candidate": {
     "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
@@ -35,6 +43,13 @@
     "SA": "min(13,d-a,d-2*a+4,h+5)",
     "S3": "min(9,d-b-c,d-2*b,d-2*c+1)"
   },
+  "direct_runtime_dependency_locks": {
+    "n357_engine": {"path": "stages/stage32/32-01-178/nodes/N357-engine/verify_n357_transport_support_capacity.py", "blob_sha1": "479c783cb42d0952cc310708106787147b499240"},
+    "n355_full_census": {"path": "stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py", "blob_sha1": "ccc00d1536cdf5e27965465dd5e40163e2fcb91c"},
+    "n220_base_import": {"path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py", "blob_sha1": "5855ae0835a828ab56b7a6e93a42f6788b6f676a"},
+    "n220_fast_import": {"path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py", "blob_sha1": "1510533965c475baab577e30e4eb26ad58dc4ac8"},
+    "full178_manifest": {"path": "stages/stage32/residual-32-01-production/full178-manifest.json", "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06"}
+  },
   "source_locks": {
     "main_routed_contract": {"path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md", "blob_sha1": "8a2a0048d216de9d177dc581dc208b51c6436442"},
     "audit_contract": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-CONTRACT.md", "blob_sha1": "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd"},
@@ -45,7 +60,8 @@
     "all178_target": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py", "blob_sha1": "beb6fb487a41f16d783f8762220a175d46ff2620"},
     "aggregate_base": {"path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py", "blob_sha1": "f9bbfc2739629c302d00a4d8d3974be3a30b52b7"},
     "aggregate_wrapper": {"path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_canonical_shards.py", "blob_sha1": "3b20ea11af78e210f9bb615bd164082c56d9239c"},
-    "audit_source_lock_verifier": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "blob_sha1": "13c9268e9b16d8a3753b14b6c9bf1058663c9762"},
+    "audit_source_lock_verifier": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2"},
+    "exact_head_ci_gate": {"path": ".github/workflows/stage32-claim-frontier-integrity.yml", "blob_sha1": "e4636477ba0e6696fea3def0f0c503f04720e0b6"},
     "n356_audit_receipt": {"path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json", "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569"},
     "n356_active_audited_workflow": {"path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml", "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08"},
     "n357_generation_workflow_archive": {"path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml", "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7", "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180", "generation_workflow_run_id": 34602587402}
@@ -53,7 +69,7 @@
   "credit": {
     "n356_main_pruning_credit": true,
     "n357_main_pruning_credit": false,
-    "n357_external_hostile_audit_required": true,
+    "n357_external_hostile_reaudit_required": true,
     "full178_complete": false,
     "theorem_credit": false,
     "endpoint_credit": false
@@ -71,5 +87,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "next_exact_route": "EXTERNAL_HOSTILE_AUDIT_N357_FROZEN_ALL178_CANDIDATE"
+  "next_exact_route": "EXTERNAL_HOSTILE_REAUDIT_N357_TRANSITIVE_LOCK_REPAIR"
 }

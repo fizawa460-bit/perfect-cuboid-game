@@ -8,6 +8,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[5]
 
 LOCKS = {
+    "main_routed_contract": (
+        ROOT / "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md",
+        "8a2a0048d216de9d177dc581dc208b51c6436442",
+    ),
     "audit_contract": (
         ROOT / "stages/stage32/32-01-178/nodes/N357/AUDIT-CONTRACT.md",
         "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd",
@@ -32,6 +36,26 @@ LOCKS = {
         ROOT / "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py",
         "beb6fb487a41f16d783f8762220a175d46ff2620",
     ),
+    "n357_engine_direct": (
+        ROOT / "stages/stage32/32-01-178/nodes/N357-engine/verify_n357_transport_support_capacity.py",
+        "479c783cb42d0952cc310708106787147b499240",
+    ),
+    "n355_full_census_direct": (
+        ROOT / "stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py",
+        "ccc00d1536cdf5e27965465dd5e40163e2fcb91c",
+    ),
+    "n220_base_import_direct": (
+        ROOT / "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py",
+        "5855ae0835a828ab56b7a6e93a42f6788b6f676a",
+    ),
+    "n220_fast_import_direct": (
+        ROOT / "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py",
+        "1510533965c475baab577e30e4eb26ad58dc4ac8",
+    ),
+    "full178_manifest_direct": (
+        ROOT / "stages/stage32/residual-32-01-production/full178-manifest.json",
+        "0a46b34e278688240656b4977e9cb7f589e90e06",
+    ),
     "aggregate_base": (
         ROOT / "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py",
         "f9bbfc2739629c302d00a4d8d3974be3a30b52b7",
@@ -52,8 +76,14 @@ LOCKS = {
         ROOT / "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml",
         "4d705356e95436b089743ede593ec24f8f2a59a7",
     ),
+    "exact_head_ci_gate": (
+        ROOT / ".github/workflows/stage32-claim-frontier-integrity.yml",
+        "e4636477ba0e6696fea3def0f0c503f04720e0b6",
+    ),
 }
 
+PRIOR_HOSTILE_AUDIT_FAIL_REVIEW = 5180168777
+PRIOR_HOSTILE_AUDIT_FAIL_HEAD = "0bd9d452259fbbebb79bbb7ca91c155d2aaa34f6"
 EXPECTED_GENERATION_HEAD = "ae6425fc0acc393d7554185af38a9525627ec180"
 EXPECTED_GENERATION_RUN = 34602587402
 EXPECTED_ARTIFACT_ID = 10265472692
@@ -131,7 +161,9 @@ def main() -> None:
             raise ValueError(f"N357 firewall regression: {key}")
 
     print(json.dumps({
-        "verdict": "PASS_N357_FROZEN_AUDIT_BOUNDARY_SOURCE_LOCKS",
+        "verdict": "PASS_N357_FROZEN_AUDIT_BOUNDARY_TRANSITIVE_SOURCE_LOCKS",
+        "prior_hostile_audit_fail_review": PRIOR_HOSTILE_AUDIT_FAIL_REVIEW,
+        "prior_hostile_audit_fail_head": PRIOR_HOSTILE_AUDIT_FAIL_HEAD,
         "generation_exact_head": EXPECTED_GENERATION_HEAD,
         "generation_workflow_run": EXPECTED_GENERATION_RUN,
         "generation_artifact_id": EXPECTED_ARTIFACT_ID,
@@ -141,6 +173,14 @@ def main() -> None:
         "source_terminals": EXPECTED_SOURCE_TERMINALS,
         "incremental_rejected_terminals": EXPECTED_REJECTED,
         "candidate_remaining_terminals": EXPECTED_REMAINING,
+        "direct_runtime_dependency_locks": [
+            "n357_engine_direct",
+            "n355_full_census_direct",
+            "n220_base_import_direct",
+            "n220_fast_import_direct",
+            "full178_manifest_direct",
+        ],
+        "exact_head_ci_gate_locked": True,
         "main_credit": False,
     }, sort_keys=True))
 

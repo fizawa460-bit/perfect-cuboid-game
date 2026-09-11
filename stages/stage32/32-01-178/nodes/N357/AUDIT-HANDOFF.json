@@ -1,8 +1,28 @@
 {
-  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V3",
+  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V4_TRANSITIVE_LOCK_REPAIR",
   "node_id": "N357",
   "branch": "stage32-01-178-n356-consume-n357-frontier",
-  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity necessary-cut candidate for independent hostile audit without changing MAIN-routed N357 research authority.",
+  "purpose": "Re-submit the completed deterministic FULL178 N357 support-capacity candidate after repairing hostile-audit transitive runtime dependency locks and adding an exact-head CI execution gate, without changing mathematics, retained counts, or MAIN credit.",
+  "prior_hostile_audit": {
+    "status": "FAIL",
+    "review_id": 5180168777,
+    "audited_exact_head": "0bd9d452259fbbebb79bbb7ca91c155d2aaa34f6",
+    "mathematics_and_counting_body_ok": true,
+    "fail_reason": "Audit verifier did not directly fail-close N357 engine / N355 full census / FULL178 manifest runtime dependencies, target-internal locks were not activated because target main() was not executed by the audit verifier, and exact-head CI did not execute the audit source-lock verifier."
+  },
+  "repair": {
+    "mathematics_changed": false,
+    "candidate_counts_changed": false,
+    "result_changed": false,
+    "generation_evidence_changed": false,
+    "direct_runtime_dependency_locks_added": true,
+    "n220_import_dependency_locks_added": true,
+    "exact_head_ci_gate_added": true,
+    "exact_head_ci_gate_workflow": ".github/workflows/stage32-claim-frontier-integrity.yml",
+    "exact_head_ci_gate_workflow_blob_sha1": "e4636477ba0e6696fea3def0f0c503f04720e0b6",
+    "audit_source_lock_verifier_blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2",
+    "audit_state_blob_sha1": "9fdca61ce325023bc050016d3a81787e225b0962"
+  },
   "audited_input": {
     "node": "N356",
     "review_id": 5176607630,
@@ -35,22 +55,19 @@
     "per_stratum_stream_sha256": "62c863cdbf3b18f34dbd0d95ea0c1980f361992b8ecec54a70f22efc33ff6d7b",
     "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
   },
-  "audit_questions": [
-    "Is the omitted-positive-support problem for each of the three N356 transport components exactly represented by the stated unit-capacity bipartite max-flow relaxation for every genuine completion?",
-    "Is the fixed-sum support maximum simultaneously attained at n1=n2=d/2 for all three components, and are S0=min(16,d), SA=min(13,d-a,d-2a+4,h+5), and S3=min(9,d-b-c,d-2b,d-2c+1) the complete non-dominated min-cut formulas?",
-    "Does s+min(e-M,Srem)>=K follow as a zero-loss necessary condition on every retained FULL178 row without extra integrality, positivity, or orientation assumptions?",
-    "Does the deterministic 16-shard implementation replay exactly 17,128 N356-authority strata and 65,396,964,990,500,233,636,214 source terminals before N357 rejection?",
-    "Is canonical grouping exact rather than heuristic, so the 2,441 groups exactly compress the 17,128 structural strata for N357 counting semantics?",
-    "Does the frozen aggregate satisfy exact partition identity without overlap or double credit, with 17,797,986,705,435,299,826,016 newly rejected and 47,598,978,285,064,933,810,198 remaining terminals?",
-    "Do prefix serialization, worker/target/aggregate source locks, the archived byte-exact generation workflow, frozen RESULT, and verify_n357_audit_source_locks.py fail closed under source drift?",
-    "Does the active branch preserve the independently audited N356 workflow blob ce7047ecc57dc2001856cf5382707c37adeefd08 while the successful N357 generation workflow is archived byte-exactly as blob 4d705356e95436b089743ede593ec24f8f2a59a7?",
-    "Is the MAIN-routed N357 research contract preserved byte-exactly as 8a2a0048d216de9d177dc581dc208b51c6436442, with the post-N356 audit contract isolated at AUDIT-CONTRACT.md as be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd?"
-  ],
+  "direct_runtime_dependency_locks": {
+    "n357_engine": {"path": "stages/stage32/32-01-178/nodes/N357-engine/verify_n357_transport_support_capacity.py", "blob_sha1": "479c783cb42d0952cc310708106787147b499240"},
+    "n355_full_census": {"path": "stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py", "blob_sha1": "ccc00d1536cdf5e27965465dd5e40163e2fcb91c"},
+    "n220_base_import": {"path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py", "blob_sha1": "5855ae0835a828ab56b7a6e93a42f6788b6f676a"},
+    "n220_fast_import": {"path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py", "blob_sha1": "1510533965c475baab577e30e4eb26ad58dc4ac8"},
+    "full178_manifest": {"path": "stages/stage32/residual-32-01-production/full178-manifest.json", "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06"}
+  },
   "frozen_source_locks": {
     "main_routed_contract": {"path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md", "blob_sha1": "8a2a0048d216de9d177dc581dc208b51c6436442"},
     "audit_contract": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-CONTRACT.md", "blob_sha1": "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd"},
-    "audit_state": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-STATE.json", "blob_sha1": "d04188ceae1502bd84f936e44ba27a2877de027b"},
-    "audit_source_lock_verifier": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "blob_sha1": "13c9268e9b16d8a3753b14b6c9bf1058663c9762"},
+    "audit_state": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-STATE.json", "blob_sha1": "9fdca61ce325023bc050016d3a81787e225b0962"},
+    "audit_source_lock_verifier": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2"},
+    "exact_head_ci_gate": {"path": ".github/workflows/stage32-claim-frontier-integrity.yml", "blob_sha1": "e4636477ba0e6696fea3def0f0c503f04720e0b6"},
     "result": {"path": "stages/stage32/32-01-178/nodes/N357/RESULT.json", "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec"},
     "prefix_producer": {"path": "stages/stage32/32-01-178/nodes/N357/prepare_n357_all178_prefix_cache.py", "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3"},
     "deterministic_worker": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py", "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c"},
@@ -62,7 +79,12 @@
     "n356_active_audited_workflow": {"path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml", "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08"},
     "n357_generation_workflow_archive": {"path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml", "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7", "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180", "generation_workflow_run_id": 34602587402}
   },
-  "credit_ceiling_before_audit": "N357_FROZEN_ALL178_AUDIT_CANDIDATE_ONLY_NO_MAIN_PRUNING_CREDIT",
+  "reaudit_questions": [
+    "Does verify_n357_audit_source_locks.py now directly fail-close every runtime dependency used by the N357 count, including N357 engine, N355 full census, its imported N220 base/fast code, and FULL178 manifest?",
+    "Does Stage32 claim frontier integrity execute verify_n357_audit_source_locks.py on the exact PR head, and do its path triggers include every directly locked runtime dependency?",
+    "Are the N357 mathematics, retained RESULT, generation run/artifact, partition identity, and zero-credit firewalls unchanged from the previously audited head?"
+  ],
+  "credit_ceiling_before_reaudit": "N357_FROZEN_ALL178_AUDIT_CANDIDATE_ONLY_NO_MAIN_PRUNING_CREDIT",
   "firewalls": {
     "n357_main_pruning_credit": false,
     "full178_complete": false,
@@ -78,6 +100,6 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "replay_requirement": "Independent hostile audit must verify the isolated audit contract/state, archived byte-exact generation workflow, frozen RESULT, and all transitive source locks. The active MAIN-routed research contract/state remain unchanged and no N357 MAIN credit is granted by this handoff.",
+  "replay_requirement": "Independent hostile re-audit must verify the repaired direct transitive source locks and the exact-head CI execution gate. The active MAIN-routed research contract/state remain unchanged and no N357 MAIN credit is granted by this handoff.",
   "next_command": "stage32-01-178-audit"
 }

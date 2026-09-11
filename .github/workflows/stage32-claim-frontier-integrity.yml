@@ -31,6 +31,12 @@ on:
       - 'stages/stage32/residual-32-01-production/post1648ag-v6-known140-basis-elimination.json'
       - 'stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json'
       - 'stages/stage32/residual-32-01-production/state.json'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/32-01-178/nodes/N357/**'
+      - 'stages/stage32/32-01-178/nodes/N357-engine/**'
+      - 'stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py'
+      - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py'
+      - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py'
       - 'stages/stage32/GOAL_AND_STOP_CONTRACT.md'
   workflow_dispatch:
 
@@ -61,6 +67,13 @@ jobs:
         run: python docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py
       - name: Verify repository-wide PR workflow trigger lifecycle
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+      - name: Verify frozen N357 audit dependency locks when present
+        shell: bash
+        run: |
+          verifier="stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
+          if test -f "$verifier"; then
+            python "$verifier"
+          fi
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
