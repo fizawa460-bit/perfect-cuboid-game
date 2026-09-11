@@ -73,6 +73,48 @@ def checked_canonical(path: Path, canonical: str) -> dict:
     return o
 
 
+def replay_parent_mod2_unsat_fail_closed(cut, P, blocks, fixed: dict[int, int]) -> tuple[bool, list[dict]]:
+    """Resolve timeout-sensitive parent checks by exact n1=0..8 partition on a fresh solver.
+
+    A timeout/UNKNOWN never earns credit. Each degree branch must independently return UNSAT.
+    If a 10s branch is UNKNOWN, retry that single branch on a new 60s solver; anything
+    other than UNSAT remains a hard verifier failure.
+    """
+    attempts: list[dict] = []
+    s, y, _ = cut.make_solver(P, blocks, 2, 10000)
+    for label, value in fixed.items():
+        s.add(y[label - 1] == int(value))
+    n1 = 2 * y[cut.PACKS[0][0] - 1] + sum((y[j - 1] for j in blocks[0][0]), 0)
+    for degree in range(cut.TARGET_D + 1):
+        s.push()
+        s.add(n1 == degree)
+        r = str(s.check())
+        reason = s.reason_unknown() if r == "unknown" else None
+        s.pop()
+        rec = {"n1": degree, "result": r}
+        if reason:
+            rec["reason_unknown"] = reason
+        if r == "sat":
+            attempts.append(rec)
+            return False, attempts
+        if r == "unknown":
+            s2, y2, _ = cut.make_solver(P, blocks, 2, 60000)
+            for label, value in fixed.items():
+                s2.add(y2[label - 1] == int(value))
+            n1_2 = 2 * y2[cut.PACKS[0][0] - 1] + sum((y2[j - 1] for j in blocks[0][0]), 0)
+            s2.add(n1_2 == degree)
+            r2 = str(s2.check())
+            rec["retry_60s_result"] = r2
+            if r2 == "unknown":
+                rec["retry_60s_reason_unknown"] = s2.reason_unknown()
+            attempts.append(rec)
+            if r2 != "unsat":
+                return False, attempts
+        else:
+            attempts.append(rec)
+    return True, attempts
+
+
 def main() -> None:
     for path, expected in LOCKS.items():
         req(path.exists(), f"missing source lock: {path.relative_to(ROOT)}")
@@ -87,10 +129,8 @@ def main() -> None:
     req(rk.get("consumed_by", {}).get("workflow_run_id") == 34602175336, "CUT193 consumed run mismatch")
     req(rk.get("consumed_by", {}).get("aggregate_artifact_id") == 10264888946, "CUT193 aggregate artifact mismatch")
 
-    # Independently replay the producer adapter's complete transitive source-lock boundary.
     subprocess.run([sys.executable, str(EX5_VERIFY)], cwd=ROOT, check=True)
 
-    # Import the locked CUT implementation only after dependency identity is established.
     sys.path.insert(0, str(HERE))
     import cut193_e8_common_adapter_wave1 as cut
     e8 = cut.e8
@@ -120,8 +160,6 @@ def main() -> None:
     req(result["result"]["remaining_nonclosed_block_count"] == 28, "residual count drift")
     req(result["result"]["method_counts"] == {"ALL_HNF_PARENTS_FINITE_RING_UNSAT":16,"FINITE_RING_NONCLOSING_RESIDUAL_PARENTS":28,"WHOLE_BLOCK_FINITE_RING_UNSAT":211}, "method-count drift")
 
-    # The original computation found every credited obstruction already modulo 2.
-    # Re-run every credited block from exact Picard64/HNF source data at the exact head.
     P, blocks, g = cut.load_picard_interface()
     s, y, linear = cut.make_solver(P, blocks, 2, 5000)
     req(linear["prime"] == 2, "mod-2 solver construction drift")
@@ -129,6 +167,7 @@ def main() -> None:
     derived_whole = []
     derived_parent = []
     parent_counts: dict[int, int] = {}
+    fallback_parent_checks = 0
     for block_index in closed:
         sig = e8.block_signature(block_index)
         req(sig["current_main_audited_prefix_survivor"] is True, f"credited block {block_index} left N220/N355 population")
@@ -139,15 +178,18 @@ def main() -> None:
         if status == "unsat":
             derived_whole.append(block_index)
             continue
-        # Whole-block mod2 is not enough: every exact HNF-integrality-feasible parent
-        # must separately be mod2 UNSAT before this block earns pruning credit.
         parents = list(e8.iter_parent_population(block_index, g))
         req(parents, f"credited parent-level block {block_index} unexpectedly has empty parent population")
         parent_counts[block_index] = len(parents)
         for ordinal, rec in enumerate(parents):
             fixed = {int(label): int(value) for label, value in zip(g.exceptional_labels, rec["selected_exceptional_pairings"])}
             pstatus, _ = cut.check_with_fixed(s, y, fixed)
-            req(pstatus == "unsat", f"credited block {block_index} parent {ordinal} not mod2 UNSAT: {pstatus}")
+            if pstatus == "unknown":
+                fallback_parent_checks += 1
+                ok, attempts = replay_parent_mod2_unsat_fail_closed(cut, P, blocks, fixed)
+                req(ok, f"credited block {block_index} parent {ordinal} unresolved by fail-closed n1 partition: {attempts}")
+            else:
+                req(pstatus == "unsat", f"credited block {block_index} parent {ordinal} not mod2 UNSAT: {pstatus}")
         derived_parent.append(block_index)
 
     req(len(derived_whole) == 211, f"whole-block mod2 replay count drift: {len(derived_whole)}")
@@ -169,6 +211,7 @@ def main() -> None:
         "whole_block_mod2_unsat": len(derived_whole),
         "all_hnf_parents_mod2_unsat_blocks": len(derived_parent),
         "all_hnf_parent_replayed": sum(parent_counts.values()),
+        "timeout_fallback_parent_checks": fallback_parent_checks,
         "remaining_nonclosed_blocks": 28,
         "stage32_main_pruning_credit": False,
         "hostile_audit_passed": False,
