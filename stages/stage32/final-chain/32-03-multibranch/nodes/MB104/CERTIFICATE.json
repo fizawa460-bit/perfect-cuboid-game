@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V1",
+  "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
+  "receiver": "R29-LG2-MB",
+  "parents": {
+    "mb101_blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563",
+    "mb102_blob_sha1": "f852f66c67343b6a553b5c20e15dc0a0f55d5226",
+    "mb103_blob_sha1": "6d2b7acb667e7757a4f859b7eb0680ce4fd3aae0"
+  },
+  "source_locks": {
+    "al_path": "stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json",
+    "al_blob_sha1": "dbe2bea1b2cae1e69ad6c27e5828f81494532fa4",
+    "am_path": "stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json",
+    "am_blob_sha1": "aa14d340e8b68f863d4013d34fb0eee7b306c0ee",
+    "ar_path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md",
+    "ar_blob_sha1": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
+    "fsm16_contract_path": "stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json",
+    "fsm16_contract_blob_sha1": "ef000f3607f7d85bde02d41f7323492edf80799f",
+    "fsm_reference": "Freitag--Salvati Manni, Parametrization of the box variety by theta functions, Theorem 3.1 proof, DOI 10.1307/mmj/1480734014"
+  },
+  "variables": {
+    "g": "geometric genus in {0,1}",
+    "d": "canonical/projective degree K_S.D",
+    "n1_n2": "factor degrees with n1+n2=d",
+    "M": "sum exceptional masses M_i",
+    "R": "sum normalization branch counts r_i",
+    "t": "M-R=sum(min(A,B)-1)",
+    "s_min": "number of FSM-minimal node branches (A,B)=(1,1)",
+    "q_i": "total intersection with the six Satake-boundary elliptics in factor direction i"
+  },
+  "special_fibre_contract": {
+    "identity": "6*n_i=2*q_i+M",
+    "q_formula": "q_i=3*n_i-M/2",
+    "M_even": true,
+    "M_upper_each_direction": "M<=6*n_i",
+    "M_upper_global": "M<=3*d"
+  },
+  "factor_slack_contract": {
+    "sigma_i": "2*g-2+2*n_i-q_i=t+q_i_node+eta_i+rho_i>=0",
+    "sigma_rewrite": "sigma_i=M/2-n_i+2*g-2",
+    "global_identity": "M-d+4*g-4=sigma_1+sigma_2>=0",
+    "degree_necessary_bound": "d<=M+4*g-4",
+    "g0_M_range": "d+4<=M<=3*d",
+    "g1_M_range": "d<=M<=3*d"
+  },
+  "minimal_branch_contract": {
+    "nonminimal_resource_charge": "U<=t+q1_node+q2_node",
+    "derived_nonminimal_bound": "U<=R-d+4*g-4",
+    "derived_minimal_bound": "s_min>=d-4*g+4",
+    "g0": "s_min>=d+4",
+    "g1": "s_min>=d"
+  },
+  "fsm_tensor_contract": {
+    "positive_pole_branch_iff": "A+B=2 iff (A,B)=(1,1)",
+    "positive_pole_order_per_minimal_branch_per_k": 8,
+    "branchwise_necessary_bound": "d<=16*g-16+4*s_min",
+    "population_wide_cardinality_route_closes_degree": false,
+    "reason": "retained factor slack forces a lower bound on s_min, while closure needs an independent upper coefficient"
+  },
+  "fixed_degree_finiteness": {
+    "discrete_scalar_profiles_finite_for_fixed_d": true,
+    "autS_node_quotient_available": true,
+    "degree_globally_bounded": false,
+    "continuous_landing_moduli_eliminated": false
+  },
+  "closing_thresholds": {
+    "minimal_branch_upper_coefficient": "s_min<=alpha*d+beta with alpha<1/4",
+    "exceptional_mass_upper_coefficient": "M<=alpha*d+beta with alpha<1",
+    "absolute_factor_or_degree_bound": "any independent absolute bound on n_i or d"
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_subobligation": "MB104_INDEPENDENT_UPPER_COEFFICIENT_OR_ABSOLUTE_FACTOR_DEGREE_BOUND"
+}
