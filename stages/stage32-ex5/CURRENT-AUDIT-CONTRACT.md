@@ -2,22 +2,23 @@
 
 This is the mutable current audit contract. `AUDIT-CONTRACT.md` remains the historical Cycle1 source-locked contract.
 
-## Audit target
+## Current audit target
 
-Audit PR #1765 only at the exact frozen BC2-24 merge-checkpoint head. N355 is the latest consumed Stage32 MAIN pruning authority; N356 remains `AUDIT_REQUIRED` and deferred with zero MAIN pruning credit. The e=4 local exact UNSAT prefix is `0..797`.
+There is **no active EX5 hostile-audit target at ordinary startup**. PR #1765 / BC2-24 is already merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa` and is historical retained provenance.
 
-The retained BC2-24 result must replay exactly: source retained UNKNOWN count 23; new parent UNSAT 4; retained UNKNOWN `19`; SAT 0; branch partition `147 UNSAT / 60 UNKNOWN / 0 SAT`; known parent-UNSAT lower bound `7145`; `172` other BC2-19 UNKNOWN identities uninferred. BC2-24 must not be interpreted as whole-first-block, whole-stratum, or FULL178 closure.
+`stage32ex5-audit` becomes applicable only after `stage32ex5-mainbatch` freezes a new exact retained post-merge checkpoint (BC2-25 or later). Do not re-audit #1765 merely because EX5 research resumes.
 
-## Required hostile checks
+## Required checks for the next checkpoint
 
-1. Historical Cycle1 authority provenance remains explicit in `MAIN-STATE.json`: `EX5_BREADTH_CYCLE_1`, audited status, `EX5_BREADTH_CYCLE_1_ONLY`, and the early-BC2 claim id are preserved. This repairs the prior `KeyError: breadth_cycle` integrity failure without weakening historical source locks.
-2. `verify_main_state.py` replays the BC2-24 canonical checkpoint and source/run-key locks, checks 4/19/0 parent accounting, 147/60/0 branch accounting, 7145 lower bound, and the 172-uninferred firewall.
-3. `Stage32EX5 main integrity` passes through the retained historical chain, BC2-12/14/16 exact checkpoints, current EX5 firewalls, Stage32 claim DAG, and active frontier.
-4. Repository claim/frontier integrity passes its repo-wide workflow lifecycle verifier. The branch-local BC2-24 automatic workflow must not remain on the merge surface; its successful run provenance is retained in the checkpoint instead.
-5. PR #1765 is based on current `main` and is not behind it at the audited head.
-6. BC2-25 is not opened on this PR. No new heavy research unit is authorized before merge.
-7. UNKNOWN remains UNKNOWN. No Stage32 MAIN/N350/receiver/effectivity/theorem/endpoint/Perfect Cuboid credit is promoted.
+At the next exact retained boundary, hostile audit must at minimum establish:
 
-## PASS boundary
+1. current-main / Stage32 routing freshness and exact-head identity;
+2. preserved historical Cycle1 and early-BC2 authority provenance;
+3. exact replay of the BC2-24 predecessor locks and the new checkpoint's own source/certificate/verifier chain;
+4. UNKNOWN is not relabelled UNSAT and unretained identities are not inferred;
+5. no local obstruction is promoted to whole-stratum/FULL178 credit without an exact population adapter;
+6. no EX5 result self-promotes Stage32 MAIN/N350/receiver/effectivity/theorem/endpoint/Perfect Cuboid credit;
+7. workflow lifecycle remains fail-closed for historical/retired leaf workflows;
+8. merge authorization remains a separate explicit user action.
 
-A PASS authorizes this retained Stage32EX5 checkpoint for merge only because the user explicitly requested merge priority for PR #1765. It does not authorize BC2-25 mathematics or any Stage32 MAIN promotion. If either active integrity gate is red, re-audit fails closed and merge must not proceed.
+Until a new checkpoint exists, `stage32ex5-audit` should stop with `NO_ACTIVE_EX5_AUDIT_BOUNDARY` rather than audit historical #1765 again.

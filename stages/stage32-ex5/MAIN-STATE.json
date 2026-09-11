@@ -1,10 +1,12 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
     "main_command": "stage32ex5-mainbatch",
     "audit_command": "stage32ex5-audit",
+    "command_registry": "stages/stage32/COMMANDS.md",
+    "stage32_routing_authority": "stages/stage32/MAIN-STATE.json",
     "readme": "stages/stage32-ex5/README.md",
     "startup_contract": "stages/stage32-ex5/MAIN-START-HERE.md",
     "roadmap_contract": "stages/stage32-ex5/CURRENT-ROADMAP.md",
@@ -14,17 +16,20 @@
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
   },
   "bootstrap": {
-    "current_main_sha_observed": "6bad01a45b3c57d8697df79c1790bd2f30af68de",
-    "work_branch": "impl/stage32ex5-bc2-12-outer-rank3",
-    "active_work_pr": 1765,
-    "merge_priority_requested": true,
-    "merge_authorized": true,
-    "merge_authorization_source": "user_request_2026-09-11_stage32ex5mainbatch_merge_priority"
+    "current_main_sha_observed": "bdac9395031cf26ebd7adc0da0a2ffdfb190c867",
+    "work_branch": null,
+    "active_work_pr": null,
+    "latest_merged_pr": 1765,
+    "latest_merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
+    "merge_priority_requested": false,
+    "merge_authorized": false,
+    "merge_authorization_source": null
   },
   "stage32_main_authority": {
-    "authority_pr": 1753,
-    "authority_head_observed": "b474801454dfc0ac2ee22e7daf9325d83f1fb237",
-    "authority_merged_main_sha_observed": "6bad01a45b3c57d8697df79c1790bd2f30af68de",
+    "routing_source": "stages/stage32/MAIN-STATE.json",
+    "historical_authority_pr": 1753,
+    "historical_authority_head": "b474801454dfc0ac2ee22e7daf9325d83f1fb237",
+    "historical_authority_merge_commit": "6bad01a45b3c57d8697df79c1790bd2f30af68de",
     "control_mode": "FULL178_AND_FINAL_MILESTONE_CHAIN",
     "primary_incomplete_id": "32-01",
     "primary_incomplete_name": "FULL178",
@@ -38,9 +43,10 @@
     "n355_full_prefix_audit_credit_consumed": true,
     "latest_retained_checkpoint_observed": "N356_OPTIMISTIC_EXCEPTIONAL_TRANSPORT_DEFERRED",
     "latest_retained_checkpoint_credit_status": "N355_AUDITED_CONSUMED_N356_DEFERRED_ZERO_NEW_MAIN_PRUNING_CREDIT",
-    "n356_status": "AUDIT_REQUIRED_DEFERRED_TO_NEXT_STAGE32_MAIN_PR",
+    "n356_status": "AUDIT_REQUIRED",
     "n356_audit_credit_consumed": false,
     "n356_main_pruning_credit": false,
+    "current_stage32_main_route_observed": "N356_EXTERNAL_HOSTILE_AUDIT_THEN_CONSUME_OPTIMISTIC_TRANSPORT_CUT",
     "V6_is_current_attack_target": false,
     "O210_is_current_attack_target": false,
     "Q602_is_current_attack_target": false,
@@ -96,22 +102,24 @@
       "merged_main_sha": "c5b22dbfa5ecef432008cdedc5c0bb557447dda6",
       "stage32_main_credit": false
     },
-    "bc2_16_pr_1765": {
-      "exact_head": "4cc001cffb871d3c6304cb38beebaf9bf2a75814",
+    "bc2_24_pr_1765": {
+      "audit_checkpoint_exact_head": "4cc001cffb871d3c6304cb38beebaf9bf2a75814",
       "hostile_audit_status": "PASS",
+      "merged_pr": 1765,
+      "merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
       "stage32_main_credit": false
     }
   },
   "current": {
-    "status": "BC2_24_RETAINED_MERGE_CHECKPOINT_4_NEW_UNSAT_19_RETAINED_UNKNOWN",
+    "status": "BC2_24_RETAINED_POST_MERGE_READY_FOR_BC2_25_PREFLIGHT",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
     "leaf": "BC2_24_EXPLICIT_FIBRE_DEGREE_PARTITION_RETAINED",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "objective": "Freeze the retained BC2-24 exact partition as a merge checkpoint; do not open BC2-25 on PR #1765.",
+    "objective": "Synchronize current Stage32 authority, preserve BC2-24, then consider only the smallest post-merge BC2-25 UNKNOWN refinement preflight.",
     "blocker": "19_RETAINED_UNKNOWN_AND_172_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES_REMAIN",
-    "next_route": "MERGE_PR_1765_BEFORE_BC2_25",
-    "stop_semantics": "MERGE_FIRST_NO_NEW_RESEARCH_UNIT_ON_THIS_PR"
+    "next_route": "BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT",
+    "stop_semantics": "POST_MERGE_CONTINUATION_ALLOWED_BOUNDED_ONLY_NO_BROAD_SCALEOUT"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/breadth-cycle-2/bc2-24-explicit-fibre-degree-partition-checkpoint.json",
@@ -125,8 +133,8 @@
     "legacy_main_consumption_node": "stages/stage32/32-01-178/nodes/N150/STATE.json",
     "production_registration_boundary": "stages/stage32/32-01-178/nodes/N350/PRODUCTION_LEAF_CERTIFICATE_CONTRACT.json",
     "n350_registered_producer_count_observed": 0,
-    "latest_stage32_attack_checkpoint_observed": "N356_DEFERRED",
-    "latest_stage32_attack_checkpoint_status": "AUDIT_REQUIRED_DEFERRED_ZERO_NEW_MAIN_PRUNING_CREDIT",
+    "latest_stage32_attack_checkpoint_observed": "N356_AUDIT_REQUIRED",
+    "latest_stage32_attack_checkpoint_status": "AUDIT_REQUIRED_ZERO_NEW_MAIN_PRUNING_CREDIT",
     "latest_audited_stage32_remaining_strata": 17128,
     "latest_audited_stage32_remaining_terminals": 66462870551188628549910,
     "input": "FULL178 compressed indexed terminal and exact pairings",
@@ -194,7 +202,7 @@
     "main_promotion": false
   },
   "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_MERGE_CHECKPOINT_NO_MAIN_PROMOTION",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_POST_MERGE_NO_MAIN_PROMOTION",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -226,16 +234,20 @@
   },
   "intermediate_audit_boundary": {
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md",
+    "historical_pr": 1765,
     "latest_exact_head_with_ex5_hostile_audit_pass": "4cc001cffb871d3c6304cb38beebaf9bf2a75814",
-    "latest_failed_audit_head": "51dfb6967bfaf2ad7ec1a20378c7bc44228d415a",
-    "repair_required_before_merge": true,
-    "re_audit_required": true,
-    "freeze_active": true
+    "merged": true,
+    "merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
+    "repair_required_before_merge": false,
+    "re_audit_required": false,
+    "freeze_active": false,
+    "historical_boundary_only": true,
+    "new_audit_boundary_exists": false
   },
   "next_step": {
-    "id": "MERGE_PR_1765_CHECKPOINT",
-    "goal": "Repair integrity, hostile re-audit the frozen BC2-24 checkpoint, then merge PR #1765 before opening BC2-25.",
-    "bc2_25_deferred_until_after_merge": true,
+    "id": "BC2_25_POST_MERGE_PREFLIGHT",
+    "goal": "Synchronize current Stage32 authority, replay BC2-24, deduplicate routes, then attack the smallest exact refinement of the remaining UNKNOWN structure.",
+    "bc2_25_deferred_until_after_merge": false,
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "n350_registration_authorized": false
