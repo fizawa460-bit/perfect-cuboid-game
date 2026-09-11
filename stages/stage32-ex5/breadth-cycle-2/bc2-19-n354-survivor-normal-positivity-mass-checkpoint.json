@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32EX5_BC2_19_N354_SURVIVOR_NORMAL_POSITIVITY_MASS_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_19_NORMAL_POSITIVITY_MASS_REPLAY_ON_MOD8_SURVIVING_PARENTS",
+  "status": "BLOCKED_236_UNKNOWN_NO_SAT_FOUND",
+  "source_locks": {
+    "exact_compute_head": "f28112e30c0863e359c375813219196131ec6a06",
+    "workflow_run_id": 34467246133,
+    "authorize_job_id": 102838590622,
+    "compute_job_id": 102838819035,
+    "artifact_id": 10148676265,
+    "artifact_zip_bytes": 3851,
+    "artifact_zip_sha256": "a455af077828cd50e1db3a9736b7a6106fe8e2e09ffaaf9305883b1660cd2d3e",
+    "raw_result_canonical": "fcfecfc4dbd3592095c1c0302991c2b29bee22b6f3652d73612deea7775d7755",
+    "bc2_17_evidence_canonical": "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072",
+    "bc2_18_checkpoint_canonical": "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112]
+  },
+  "result": {
+    "input_mod8_parent_count": 7336,
+    "parents_checked": 7336,
+    "unsat_count": 7100,
+    "unknown_count": 236,
+    "sat_count": 0,
+    "status_stream_sha256": "7a551339ab56ef34ed346b7586fd3d1f1ab81de042a3be9c1a9af2bc1d9ab18a",
+    "per_parent_timeout_ms": 2000,
+    "solver": "Z3_QF_LIA_INCREMENTAL",
+    "z3_version": "4.15.4",
+    "all_parents_attempted": true,
+    "unknown_relabelled_unsat": false
+  },
+  "interpretation": {
+    "bc2_18_parent_union_exhaustively_addressed_by_attempt": true,
+    "whole_first_block_unsat_proved": false,
+    "sat_witness_found": false,
+    "remaining_unresolved_parent_count": 236,
+    "reason": "Per-parent resource timeout left 236 UNKNOWN; finite UNKNOWN is not UNSAT."
+  },
+  "next_exact_unit": {
+    "id": "BC2_20_GLOBAL_NORMAL_POSITIVITY_UNION_CHECK",
+    "goal": "Replace the 7336 parent-fixed disjunction by one exact global Picard64 QF_LIA feasibility check. A global integral solution induces one BC2-18 enumerated parent; UNSAT closes the parent union, SAT yields only a Picard64 pairing-feasibility witness, UNKNOWN remains blocked.",
+    "heavy_scaleout_authorized": false,
+    "main_promotion_authorized": false
+  },
+  "credit": {
+    "local_compute_checkpoint_only": true,
+    "whole_first_block_unsat": false,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "stage32_main_credit": false,
+    "n350_production_credit": false,
+    "effectivity_or_actual_curve_existence_proved": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "unknown_relabelled_unsat": false,
+    "sat_relabelled_actual_curve": false,
+    "main_promotion": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb"
+}

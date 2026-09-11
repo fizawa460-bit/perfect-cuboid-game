@@ -41,6 +41,26 @@ jobs:
             --bc2-10-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-10-outer-rank2-exact-unsat-checkpoint.json \
             --output "$tmp"
           cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-11-next-exceptional-terminal-block-preflight-checkpoint.json
+      - name: Verify retained BC2-12 exact UNSAT checkpoint
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_12_outer_rank3_exact_unsat_checkpoint.py
+      - name: Replay retained BC2-13 next exceptional block preflight
+        run: |
+          tmp="$(mktemp)"
+          python stages/stage32-ex5/breadth-cycle-2/bc2_13_next_exceptional_terminal_block_preflight.py \
+            --bc2-12-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-12-outer-rank3-exact-unsat-checkpoint.json \
+            --output "$tmp"
+          cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-13-next-exceptional-terminal-block-preflight-checkpoint.json
+      - name: Verify retained BC2-14 exact UNSAT checkpoint
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_14_outer_rank4_exact_unsat_checkpoint.py
+      - name: Replay retained BC2-15 next exceptional block preflight
+        run: |
+          tmp="$(mktemp)"
+          python stages/stage32-ex5/breadth-cycle-2/bc2_15_next_exceptional_terminal_block_preflight.py \
+            --bc2-14-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-14-outer-rank4-exact-unsat-checkpoint.json \
+            --output "$tmp"
+          cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-15-next-exceptional-terminal-block-preflight-checkpoint.json
+      - name: Verify retained BC2-16 exact UNSAT checkpoint
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_16_outer_rank5_exact_unsat_checkpoint.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify Stage32 claim DAG integrity

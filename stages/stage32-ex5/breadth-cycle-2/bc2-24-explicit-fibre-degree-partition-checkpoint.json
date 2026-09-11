@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32EX5_BC2_24_EXPLICIT_FIBRE_DEGREE_PARTITION_CHECKPOINT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_24_PARTITION_REMAINING_RETAINED_UNKNOWN_BY_EXPLICIT_FIBRE_DEGREE",
+  "status": "BLOCKED_EXPLICIT_FIBRE_DEGREE_PARTITION_LEAVES_19_RETAINED_UNKNOWN",
+  "source_locks": {
+    "exact_compute_head": "0d20510d73d6198a33ae0a74051e457e045b3427",
+    "workflow_run_id": 34486703108,
+    "authorize_job_id": 102902705412,
+    "compute_job_id": 102902784776,
+    "artifact_id": 10156090980,
+    "artifact_zip_bytes": 29783,
+    "artifact_zip_sha256": "8b911634bb71df4e2fb05ff3aed1b33029d77cbfbaeb6671107b95a70fde26d8",
+    "raw_result_canonical": "8ce9b64586a0431a2695f5761d81f3e6e198e20cae63f3cf76ea6f38c6bbb758",
+    "bc2_23_checkpoint_canonical": "6da1c158da8f8171d446c39b517270c0f7bf524ac62df0cd8f9d099155cdb3a0",
+    "preflight_canonical": "6606fe259e5393be5b086384e546be35f0c8efb0d16f98e221cc72dac4046cb9",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7",
+    "retained_bundle_canonical": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "retained_marking_canonical": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112],
+    "source_bc2_23_retained_unknown_count": 23,
+    "other_unretained_bc2_19_unknown_identity_count": 172,
+    "other_unretained_bc2_19_unknown_identities_inferred": false
+  },
+  "partition": {
+    "fibre_degree_variable": "n1",
+    "integer_values": [0,1,2,3,4,5,6,7,8],
+    "n2_relation": "n2=8-n1",
+    "coverage_exact": true,
+    "disjoint": true,
+    "parent_unsat_requires_all_nine_branches_unsat": true
+  },
+  "result": {
+    "parent_unsat_count": 4,
+    "parent_unknown_count": 19,
+    "parent_sat_count": 0,
+    "branch_unsat_count": 147,
+    "branch_unknown_count": 60,
+    "branch_sat_count": 0,
+    "per_branch_timeout_ms": 2000,
+    "newly_unsat_parent_indices": [80,458,1032,1108],
+    "residual_unknown_parent_indices": [584,1000,1003,1014,1030,1048,1050,1056,1064,1066,1103,1106,1117,1119,1133,1198,1218,1224,1243]
+  },
+  "interpretation": {
+    "known_parent_unsat_count_lower_bound": 7145,
+    "known_retained_unknown_identity_count": 19,
+    "unretained_unknown_identity_count": 172,
+    "whole_first_block_unsat_proved": false,
+    "sat_witness_found": false
+  },
+  "next_exact_unit": {
+    "id": "BC2_25_PARTITION_RESIDUAL_BY_BOUNDARY_PAIRING_OR_X4",
+    "goal": "Refine only the remaining retained UNKNOWN fibre-degree branches by an exact finite secondary partition such as one boundary pairing or x4, preserving UNKNOWN branch accounting and leaving the other 172 BC2-19 UNKNOWN identities uninferred.",
+    "heavy_scaleout_authorized": false,
+    "main_promotion_authorized": false
+  },
+  "credit": {
+    "new_parent_unsat_count": 4,
+    "known_parent_unsat_count_lower_bound": 7145,
+    "this_23_parent_slice_exact_unsat": false,
+    "whole_first_block_unsat": false,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "stage32_main_credit": false,
+    "effectivity_or_actual_curve_existence_proved": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "unretained_172_parent_identities_inferred": false,
+    "unknown_relabelled_unsat": false,
+    "partition_branch_unknown_dropped": false,
+    "sat_relabelled_actual_curve": false,
+    "main_promotion": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "ac6f8afff29a4ac969b1fd32251499f299395261c1aa96a813502cfe2b22472f"
+}
