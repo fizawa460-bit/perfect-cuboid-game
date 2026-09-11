@@ -55,20 +55,6 @@ jobs:
       - name: Verify CUT191 exact-head audit boundary
         if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
         run: python stages/stage32/full178-cut/verify_cut191_exact_head_audit.py
-      - name: Checkout exact EX5 e8 handoff producer
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
-        uses: actions/checkout@v4
-        with:
-          ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
-          path: .stage32-ex5-cut-handoff
-      - name: Scan first CUT192 HNF-parent shard on exact head
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
-        run: |
-          python stages/stage32/full178-cut/cut192_e8_block1_parent_cover_scan.py \
-            --ex5-root .stage32-ex5-cut-handoff \
-            --start 0 --end 128 \
-            --output /tmp/CUT192-block1-parent-shard-0000-0128.json
-          cat /tmp/CUT192-block1-parent-shard-0000-0128.json
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
@@ -108,3 +94,139 @@ jobs:
           printf '%s\n' "$output"
           test "$code" -eq 2
           printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
+
+  authorize-cut192-block1-parent-cover:
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: gate
+        name: Authorize only a fresh CUT192 block1 parent-cover runkey generation
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          key=Path('stages/stage32/full178-cut/runkeys/CUT192-block1-parent-cover.json')
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
+          authorized=False; reason='cold'
+          if before and head and key.exists():
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+              if old_ok:
+                  changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
+                  if str(key) in changed:
+                      new=json.loads(key.read_text())
+                      try:
+                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL))
+                          generation_ok=int(new.get('generation',0))>int(old.get('generation',0))
+                      except subprocess.CalledProcessError:
+                          generation_ok=int(new.get('generation',0))==1
+                      scan='stages/stage32/full178-cut/cut192_e8_block1_parent_cover_scan.py'
+                      agg='stages/stage32/full178-cut/cut192_e8_block1_parent_cover_aggregate.py'
+                      handoff='stages/stage32/full178-cut/CUT192-EX5-E8-HANDOFF.json'
+                      scan_blob=subprocess.check_output(['git','hash-object',scan],text=True).strip()
+                      agg_blob=subprocess.check_output(['git','hash-object',agg],text=True).strip()
+                      handoff_blob=subprocess.check_output(['git','hash-object',handoff],text=True).strip()
+                      t=new.get('target',{}); ex=new.get('execution',{})
+                      authorized=(new.get('schema')=='STAGE32_CUT192_BLOCK1_PARENT_COVER_RUNKEY_V1'
+                          and new.get('armed') is True and generation_ok
+                          and new.get('scan_git_blob_sha')==scan_blob=='4b9489fb88970039aa0d46dc4203395d45f55816'
+                          and new.get('aggregate_git_blob_sha')==agg_blob=='3c1ccea9d0e21099e200dc0e06630cc58727a409'
+                          and new.get('handoff_git_blob_sha')==handoff_blob=='011fe82cd97bfa192d4efbbafacb21b0ea724b44'
+                          and new.get('ex5_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
+                          and t.get('block_index')==1 and t.get('terminal_rank_range')==[113,225]
+                          and t.get('hnf_parent_count')==2360 and t.get('shard_count')==8
+                          and ex.get('effective_heavy_concurrency')==8
+                          and ex.get('weak_timeout_ms')==300 and ex.get('strong_timeout_ms')==600 and ex.get('mod2_timeout_ms')==500)
+                      reason='fresh-runkey' if authorized else 'semantic-gate-failed'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n')
+          print('CUT192 block1 parent-cover authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
+          PY
+
+  cut192-block1-parent-cover:
+    needs: [integrity, authorize-cut192-block1-parent-cover]
+    if: needs.authorize-cut192-block1-parent-cover.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {id: '0000-0295', start: 0, end: 295}
+          - {id: '0295-0590', start: 295, end: 590}
+          - {id: '0590-0885', start: 590, end: 885}
+          - {id: '0885-1180', start: 885, end: 1180}
+          - {id: '1180-1475', start: 1180, end: 1475}
+          - {id: '1475-1770', start: 1475, end: 1770}
+          - {id: '1770-2065', start: 1770, end: 2065}
+          - {id: '2065-2360', start: 2065, end: 2360}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact CUT dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Checkout exact EX5 e8 handoff producer
+        uses: actions/checkout@v4
+        with:
+          ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
+          path: .stage32-ex5-cut-handoff
+      - name: Scan source-locked HNF parent shard
+        run: |
+          python stages/stage32/full178-cut/cut192_e8_block1_parent_cover_scan.py \
+            --ex5-root .stage32-ex5-cut-handoff \
+            --start ${{ matrix.start }} --end ${{ matrix.end }} \
+            --weak-timeout-ms 300 --strong-timeout-ms 600 --mod2-timeout-ms 500 \
+            --output "$RUNNER_TEMP/CUT192-parent-shard-${{ matrix.id }}.json"
+      - name: Upload compact CUT192 parent shard
+        uses: actions/upload-artifact@v4
+        with:
+          name: cut192-block1-parent-shard-${{ matrix.id }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT192-parent-shard-${{ matrix.id }}.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+
+  cut192-block1-parent-cover-aggregate:
+    needs: [cut192-block1-parent-cover]
+    if: always() && needs.cut192-block1-parent-cover.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Download CUT192 parent shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cut192-block1-parent-shard-*-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/cut192-parent-shards
+          merge-multiple: true
+      - name: Aggregate exact parent coverage
+        run: |
+          python stages/stage32/full178-cut/cut192_e8_block1_parent_cover_aggregate.py \
+            --input-dir "$RUNNER_TEMP/cut192-parent-shards" \
+            --output "$RUNNER_TEMP/CUT192-block1-parent-cover-aggregate.json"
+          cat "$RUNNER_TEMP/CUT192-block1-parent-cover-aggregate.json"
+      - name: Upload compact CUT192 parent aggregate
+        uses: actions/upload-artifact@v4
+        with:
+          name: cut192-block1-parent-cover-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT192-block1-parent-cover-aggregate.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
