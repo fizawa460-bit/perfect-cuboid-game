@@ -7,8 +7,9 @@ import json
 from pathlib import Path
 
 EXPECTED_SHARD_COUNT = 8
-EXPECTED_WORKER_BLOB = "023a5a084df5000c97cb110906beaf560710be5b"
+EXPECTED_WORKER_BLOB = "546335d44c068a565e715973c886e9980cf85587"
 EXPECTED_TARGET_BLOB = "beb6fb487a41f16d783f8762220a175d46ff2620"
+EXPECTED_PREFIX_PRODUCER_BLOB = "173ea0c029dbdfc511baecc9138a9613693afa70"
 EXPECTED_N356_REVIEW = 5176607630
 EXPECTED_N356_HEAD = "0cd222d4824e65ea122bc90ac0d48686ddae38f2"
 EXPECTED_N356_STRATA = 17128
@@ -38,6 +39,7 @@ def main() -> None:
 
     total_groups = None
     total_records_expected = None
+    prefix_cache_sha256 = None
     records = []
     for shard in shards:
         if shard.get("schema") != "STAGE32_32_01_178_N357_ALL178_SHARD_V1":
@@ -50,8 +52,14 @@ def main() -> None:
             raise ValueError("N357 shard worker source-lock regression")
         if shard.get("target_blob_sha1") != EXPECTED_TARGET_BLOB:
             raise ValueError("N357 target source-lock regression")
+        if shard.get("prefix_producer_blob_sha1") != EXPECTED_PREFIX_PRODUCER_BLOB:
+            raise ValueError("N357 prefix producer source-lock regression")
         if shard.get("main_pruning_credit") is not False:
             raise ValueError("N357 shard must not self-promote MAIN credit")
+        if prefix_cache_sha256 is None:
+            prefix_cache_sha256 = shard.get("prefix_cache_sha256")
+        elif prefix_cache_sha256 != shard.get("prefix_cache_sha256"):
+            raise ValueError("N357 shard prefix-cache disagreement")
         if total_groups is None:
             total_groups = int(shard["structural_group_count_total"])
             total_records_expected = int(shard["structural_record_count_total"])
@@ -59,6 +67,8 @@ def main() -> None:
             raise ValueError("N357 shard structural-total disagreement")
         records.extend(shard["records"])
 
+    if not prefix_cache_sha256:
+        raise ValueError("N357 prefix cache digest missing")
     if sum(int(s["shard_group_count"]) for s in shards) != total_groups:
         raise ValueError("N357 shard group partition regression")
     if len(records) != total_records_expected:
@@ -118,6 +128,8 @@ def main() -> None:
             "shard_count": EXPECTED_SHARD_COUNT,
             "worker_blob_sha1": EXPECTED_WORKER_BLOB,
             "target_blob_sha1": EXPECTED_TARGET_BLOB,
+            "prefix_producer_blob_sha1": EXPECTED_PREFIX_PRODUCER_BLOB,
+            "prefix_cache_sha256": prefix_cache_sha256,
         },
         "semantics": {
             "main_pruning_credit": False,
@@ -146,6 +158,7 @@ def main() -> None:
         "incremental_rejected_terminals": rejected,
         "remaining_strata": remaining_strata,
         "remaining_terminals": remaining,
+        "prefix_cache_sha256": prefix_cache_sha256,
         "stream": stream.hexdigest(),
         "canonical": result["canonical_sha256_without_this_field"],
         "main_credit": False,
