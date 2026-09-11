@@ -43,6 +43,9 @@ LOCKS = {
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_projective_span_filter.py": "c1ce59af9df1143ad8c7492b1bf9f1ded102a034",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/TWO-FACTOR-SAME-BEAUVILLE-COVER-WALL.json": "20d9873e41fb2db25105c437d3a10c031b23c0a3",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_two_factor_same_beauville_cover_wall.py": "fcdf95203d1b21a319cb78c32e3083649b61dae9",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/EVEN-SET-FAVORABLE-COVER-WALL-SOURCE-NOTE.md": "6b2ebc7b0a36a5c497a890cfedc1af46539d7e5c",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/EVEN-SET-FAVORABLE-COVER-WALL.json": "ebaf568f75a29a7ab0676bb296cc209e58efce16",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_even_set_favorable_cover_wall.py": "65d50c591b42e0a04f7fc43753e9e2b015c37761",
 }
 
 RUN_VERIFIERS = [
@@ -51,6 +54,7 @@ RUN_VERIFIERS = [
     "verify_mb104_beauville_miyaoka_cover_wall.py",
     "verify_mb104_btva_projective_span_filter.py",
     "verify_mb104_two_factor_same_beauville_cover_wall.py",
+    "verify_mb104_even_set_favorable_cover_wall.py",
 ]
 
 
@@ -70,7 +74,7 @@ def main() -> None:
 
     cert = load_json(NODE / "CERTIFICATE.json")
     state = load_json(STATE)
-    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V7"
+    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V8"
 
     assert cert["special_fibre_contract"]["identity"] == "6*n_i=2*q_i+M"
     assert cert["factor_slack_contract"]["global_identity"] == "M-d+4*g-4=sigma_1+sigma_2>=0"
@@ -109,18 +113,31 @@ def main() -> None:
     assert tf["combined"] == "r>=2*max(n1,n2)-4*g+4>=d-4*g+4"
     assert tf["closes_degree"] is False
 
+    ev = cert["even_set_favorable_cover_contract"]
+    assert ev["q_X"] == 4 and ev["b1_X"] == 8
+    assert ev["actual_even_set_code_dimension"] == 9
+    assert ev["necessary_supercode_weight4_word_count"] == 12
+    assert ev["weight4_single_AutS_orbit"] is True
+    assert ev["weight4_orbit_span_dimension"] == 12
+    assert ev["actual_weight4_word_exists"] is False
+    assert ev["actual_weight44_word_exists"] is False
+    assert ev["K2_gt_c2_possible_weights"] == [44, 48]
+    assert ev["weight44_available"] is False
+    assert ev["weight48_is_existing_Beauville_cover"] is True
+    assert ev["distinct_favorable_Chern_even_subset_cover_exists"] is False
+    assert ev["closes_degree"] is False
+
     rd = cert["route_decision"]
     assert rd["retire_naive_two_factor_independent_ramification_sum"] is True
+    assert rd["retire_distinct_even_subset_K2_gt_c2_cover_amplification_route"] is True
     assert rd["next_subobligation"] == "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND"
     assert state["next_obligation"]["subobligation"] == rd["next_subobligation"]
 
-    # Replay downstream retained verifiers, rather than merely source-locking
-    # their bytes. This makes the V7 main verifier depend on their executable
-    # contracts as well as their identities.
+    # Replay every retained downstream executable contract. V8 adds the exact
+    # even-set favorable-cover wall to the V7 chain.
     for name in RUN_VERIFIERS:
         runpy.run_path(str(NODE / name), run_name="__main__")
 
-    # Bounded sanity checks for the current coefficient barriers.
     for g in (0, 1):
         for d in range(2, 2001):
             r0 = d - 4 * g + 4
@@ -131,7 +148,6 @@ def main() -> None:
 
     for k in range(1, 501):
         d = 96 * k
-        M = d
         q_a1 = 48 * k * k
         assert q_a1 * 192 == d * d
         assert 48 >= 7 and 48 >= 6
@@ -146,8 +162,9 @@ def main() -> None:
     assert fw["endpoint_credit"] is False
     assert fw["merge_authorized"] is False
 
-    print("MB104 V7 main verifier PASS")
-    print("downstream executable contracts replayed: ambient/Lu-Miyaoka/Beauville/BTVA/same-cover")
+    print("MB104 V8 main verifier PASS")
+    print("downstream executable contracts replayed: ambient/Lu-Miyaoka/Beauville/BTVA/same-cover/even-set")
+    print("retired: distinct even-subset K^2>c2 cover amplification")
     print("active leaf: MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND")
     print("finite degree window remains OPEN")
 
