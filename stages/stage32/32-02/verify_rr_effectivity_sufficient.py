@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -33,6 +34,16 @@ def load_classifier():
     return mod
 
 
+def run_cli(*args: str) -> dict:
+    proc = subprocess.run(
+        [sys.executable, str(CLASSIFIER), *args],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return json.loads(proc.stdout)
+
+
 def main() -> None:
     cp = json.loads(CHECKPOINT.read_text(encoding="utf-8"))
     req(cp["schema"] == "STAGE32_32_02_RR_EFFECTIVITY_SUFFICIENT_CHECKPOINT_V1", "checkpoint schema drift")
@@ -41,7 +52,7 @@ def main() -> None:
     authority = cp["authority"]
     req(authority["parent_exact_head"] == "d44ff4403559dce4ea296698630f57a56cd0d0fe", "parent audited coordination head drift")
     req(authority["parent_hostile_reaudit_status"] == "PASS", "parent hostile re-audit is not PASS")
-    req(authority["parent_hostile_reaudit_review_id"] == 5179250825, "parent hostile re-audit review drift")
+    req(authority["parent_hostile_reaudit_review_id"] == 5179390797, "parent hostile re-audit review drift")
     req(authority["authoritative_remaining_strata"] == 17128, "MAIN strata authority drift")
     req(authority["authoritative_remaining_terminals"] == 65396964990500233636101, "MAIN terminal authority drift")
     req(authority["full178_complete"] is False, "FULL178 was silently promoted")
@@ -88,12 +99,21 @@ def main() -> None:
     req(odd.status == "INVALID_INTEGRAL_CLASS_PARITY", "odd RR parity did not fail closed")
     low_degree = mod.classify(16, 100, assumptions_affirmed=True)
     req(low_degree.status == "RR_INCONCLUSIVE", "d=K2 boundary was overclaimed")
-    conditional = mod.classify(186, 858, assumptions_affirmed=False)
-    req(conditional.status == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "missing assumptions did not fail closed")
+
+    default_call = mod.classify(186, 858)
+    req(default_call.status == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "default API call did not fail closed")
+    explicit_call = mod.classify(186, 858, assumptions_affirmed=True)
+    req(explicit_call.status == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "explicit API affirmation did not enable conditional certification")
+
+    cli_default = run_cli("--d", "186", "--c2", "858")
+    req(cli_default["status"] == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "default CLI invocation did not fail closed")
+    cli_affirmed = run_cli("--d", "186", "--c2", "858", "--assumptions-affirmed")
+    req(cli_affirmed["status"] == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "explicit CLI affirmation did not enable conditional certification")
 
     print("PASS: Stage32 32-02 conditional RR effectivity sufficient classifier")
     print("criterion: d>16 and C2>=d-14 with even C2-d; conclusion=effective divisor only")
-    print("regression: g1-d186 d=186 C2=858 -> chi=344")
+    print("default API/CLI: fail closed until assumptions are explicitly affirmed")
+    print("parent hostile re-audit: #1785 review 5179390797 at d44ff4403559dce4ea296698630f57a56cd0d0fe")
     print("credit: preparation only; CUT193/FULL178/receiver/theorem/endpoint remain zero")
 
 
