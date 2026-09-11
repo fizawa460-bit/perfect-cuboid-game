@@ -1,25 +1,13 @@
 # Stage32EX5 current roadmap
 
-This is the mutable current roadmap. `stage32-ex5.md` remains the historical Cycle1 source-locked roadmap.
+This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`.
 
-## Stage32 synchronization
+## Current retained boundary
 
-PR #1765 is merged into main at `98c5710dad4ca9a006e93b273ecf5259733e03aa`. N355 remains the latest consumed pruning authority recorded by current Stage32 compact state; N356 remains retained `AUDIT_REQUIRED` with zero new MAIN pruning credit. FULL178 remains active/incomplete. The retained e=4 local exact UNSAT prefix is `0..797`.
+PR #1776 retains BC2-25 boundary33 refinement. From the BC2-24 remainder of 19 retained UNKNOWN parents / 60 UNKNOWN branches, BC2-25 proves parents `[584,1030,1056]` exact UNSAT and leaves 16 retained UNKNOWN parents, 36 UNKNOWN branches, 38 UNKNOWN subbranches, and 0 SAT. The known parent-UNSAT lower bound is 7148. The other 172 BC2-19 UNKNOWN identities remain uninferred. Whole-first-block, stratum and FULL178 closure remain false.
 
-At each new EX5 batch, current Stage32 routing must be re-read from `stages/stage32/MAIN-STATE.json`; this roadmap does not override it.
+## Audit-first route
 
-## Current retained checkpoint
+The hostile audit at head `9bbc491cfde0f8a7f48d9742dad8ff368e4837b2` / review `5176133548` failed on retained-verifier/state synchronization and transitive executable source locks, not on the BC2-25 compute result. The repair route is: verify the BC2-25 checkpoint and full executable dependency chain, synchronize MAIN-STATE/audit boundary, obtain exact-head CI PASS, then re-run `stage32ex5-audit` on PR #1776.
 
-BC2-24 is merged retained evidence. Starting from the BC2-19 `7100 UNSAT / 236 UNKNOWN / 0 SAT` partition of 7336 mod8 parents, BC2-20..23 narrowed a retained slice to 23 UNKNOWN parents. BC2-24's exact fibre-degree partition proves 4 of those UNSAT and leaves `19` retained UNKNOWN, `0` SAT, with known parent-UNSAT lower bound `7145`. The other `172` BC2-19 UNKNOWN identities are deliberately uninferred.
-
-This does not prove the e=8 first block UNSAT, does not close the stratum, and does not close FULL178.
-
-## Post-merge route
-
-1. Synchronize current main, `stages/stage32/COMMANDS.md`, and current Stage32 `MAIN-STATE.json`.
-2. Replay the retained BC2-24 checkpoint and UNKNOWN firewalls.
-3. Search for already-retained MAIN/178/EX5 results that dominate or duplicate the next idea.
-4. If still live, open `BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT` as the smallest bounded next unit.
-5. Freeze a coherent checkpoint before hostile audit or any larger scale-out.
-
-No automatic heavy scale-out, Stage32 MAIN promotion, N350 registration, theorem/effectivity/receiver/endpoint credit, or Perfect Cuboid conclusion is authorized by this roadmap.
+BC2-26 is blocked until BC2-25 hostile-audit PASS. The 16 UNKNOWN and 172 uninferred identities remain UNKNOWN. No heavy scale-out, Stage32 MAIN/N350 promotion, theorem/effectivity/receiver/endpoint credit, Perfect Cuboid conclusion, or merge is authorized.
