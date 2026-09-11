@@ -107,11 +107,53 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
     return checked
 
 
+def validate_lane_adapters(by_id: dict[str, dict], adapters: dict) -> None:
+    """Keep claim validation unchanged while allowing the routing map to enroll specialists.
+
+    V2 adds operational routing lanes 32-01-178, CUT and MB. Their presence does
+    not add claim authority: claim_refs must still resolve into the existing
+    mathematical CLAIM-REGISTRY and demand IDs are forbidden there by the
+    independent cross-lane verifier.
+    """
+    schema = adapters.get("schema")
+    if schema == "STAGE32_LANE_CLAIM_ADAPTERS_V1":
+        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
+    elif schema == "STAGE32_LANE_CLAIM_ADAPTERS_V2_CROSS_LANE_DEMAND_ROUTING":
+        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "32-01-178", "CUT", "MB"}
+    else:
+        raise CheckError("unexpected lane adapter schema")
+    lanes = adapters.get("lanes")
+    if not isinstance(lanes, list):
+        raise CheckError("lane adapters must contain lanes list")
+    seen = set()
+    for lane in lanes:
+        name = lane.get("lane")
+        if name in seen:
+            raise CheckError(f"duplicate lane adapter: {name}")
+        seen.add(name)
+        state_path = lane.get("state_path")
+        if not isinstance(state_path, str) or not (ROOT / state_path).is_file():
+            raise CheckError(f"{name}: missing state_path")
+        startup_path = lane.get("startup_path")
+        if not isinstance(startup_path, str) or not (ROOT / startup_path).is_file():
+            raise CheckError(f"{name}: missing startup_path")
+        refs = lane.get("claim_refs")
+        if not isinstance(refs, list) or not refs:
+            raise CheckError(f"{name}: empty claim_refs")
+        for cid in refs:
+            if cid not in by_id:
+                raise CheckError(f"{name}: adapter references unknown claim {cid}")
+    if seen != expected:
+        raise CheckError(f"lane adapter coverage mismatch: {sorted(seen)}")
+
+
 _impl.validate_source_locks = validate_source_locks
+_impl.validate_lane_adapters = validate_lane_adapters
 
 
 def main() -> int:
     _impl.validate_source_locks = validate_source_locks
+    _impl.validate_lane_adapters = validate_lane_adapters
     return _impl.main()
 
 
