@@ -12,6 +12,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 CHECKPOINT = HERE / "RR-EFFECTIVITY-SUFFICIENT-CHECKPOINT.json"
 CLASSIFIER = HERE / "rr_effectivity_sufficient.py"
+SURFACE_LOCK = HERE / "SURFACE-INVARIANT-SOURCE-LOCK.json"
+SURFACE_LOCK_VERIFIER = HERE / "verify_surface_invariant_source_lock.py"
 DEGREE_GATE_VERIFIER = HERE / "verify_full178_rr_degree_gate.py"
 
 
@@ -59,14 +61,25 @@ def main() -> None:
     req(authority["authoritative_remaining_terminals"] == 65396964990500233636101, "MAIN terminal authority drift")
     req(authority["full178_complete"] is False, "FULL178 was silently promoted")
 
+    # The production wrapper may affirm the RR surface hypotheses only after
+    # replaying the retained Stage29/Stage32 source-lock chain.  The standalone
+    # classifier itself remains fail-closed by default.
+    runpy.run_path(str(SURFACE_LOCK_VERIFIER), run_name="__main__")
+    surface_lock = json.loads(SURFACE_LOCK.read_text(encoding="utf-8"))
+    req(canonical_without_self(surface_lock) == surface_lock["canonical_sha256_without_this_field"], "surface source-lock canonical drift")
+
     assumptions = cp["conditional_surface_assumptions"]
     req(assumptions["K2"] == 16 and assumptions["chi_O"] == 8, "RR constants drift")
     req(assumptions["K_nef"] is True, "nefness assumption missing")
-    req(assumptions["assumptions_are_not_newly_proved_by_this_checkpoint"] is True, "conditional assumption firewall missing")
-    req(assumptions["external_source_lock_for_surface_invariants_present_in_this_checkpoint"] is False, "checkpoint falsely claims invariant source-lock")
+    req(assumptions["assumptions_are_not_newly_proved_by_this_checkpoint"] is True, "source provenance firewall missing")
+    req(assumptions["external_source_lock_for_surface_invariants_present_in_this_checkpoint"] is True, "retained invariant source-lock not consumed")
+    req(assumptions["source_lock_path"] == "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json", "surface source-lock path drift")
+    req(assumptions["source_lock_canonical_sha256_without_this_field"] == surface_lock["canonical_sha256_without_this_field"], "surface source-lock canonical mismatch")
+    req(assumptions["official_wrapper_affirmation_requires_source_lock_pass"] is True, "official wrapper can affirm assumptions without source-lock replay")
 
     firewall = cp["credit_firewall"]
     req(firewall["effectivity_preparation_credit"] is True, "preparation credit missing")
+    req(firewall["surface_invariant_source_lock_complete"] is True, "surface source-lock completion missing")
     for key in (
         "effectivity_final_execution_released",
         "receiver_credit",
@@ -107,19 +120,20 @@ def main() -> None:
     req(low_degree.status == "RR_INCONCLUSIVE", "d=K2 boundary was overclaimed")
 
     default_call = mod.classify(186, 858)
-    req(default_call.status == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "default API call did not fail closed")
+    req(default_call.status == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "standalone default API call did not fail closed")
     explicit_call = mod.classify(186, 858, assumptions_affirmed=True)
-    req(explicit_call.status == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "explicit API affirmation did not enable conditional certification")
+    req(explicit_call.status == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "source-locked wrapper affirmation did not enable conditional certification")
 
     cli_default = run_cli("--d", "186", "--c2", "858")
-    req(cli_default["status"] == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "default CLI invocation did not fail closed")
+    req(cli_default["status"] == "RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED", "standalone default CLI invocation did not fail closed")
     cli_affirmed = run_cli("--d", "186", "--c2", "858", "--assumptions-affirmed")
     req(cli_affirmed["status"] == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "explicit CLI affirmation did not enable conditional certification")
 
-    print("PASS: Stage32 final-chain 32-02 conditional RR effectivity sufficient classifier")
+    print("PASS: Stage32 final-chain 32-02 source-locked RR effectivity sufficient classifier")
+    print("surface lock: K^2=16; p_g=7; q=0; chi(O)=8; K big and nef; degree=K.C")
     print("FULL178 degree gate: source-locked 168 rows with d>16 / 10 rows with d<=16")
     print("criterion: d>16 and C2>=d-14 with even C2-d; conclusion=effective divisor only")
-    print("default API/CLI: fail closed until assumptions are explicitly affirmed")
+    print("standalone API/CLI remains fail-closed; official wrapper affirms only after retained source-lock replay")
     print("parent hostile re-audit: #1785 review 5179390797 at d44ff4403559dce4ea296698630f57a56cd0d0fe")
     print("credit: preparation only; CUT193/FULL178/receiver/theorem/endpoint remain zero")
 
