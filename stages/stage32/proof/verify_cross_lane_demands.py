@@ -10,6 +10,7 @@ STAGE = HERE.parent
 REPO = STAGE.parents[1]
 REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
 LANES = HERE / "LANE-ADAPTERS.json"
+MAIN_STATE = STAGE / "MAIN-STATE.json"
 
 EXPECTED_REGISTRY_CANONICAL = "49a9c51c3d428afb97eade9b996f3e5b52337a565048a1cdd9a8e6bcf4294848"
 EXPECTED_EX5_STATE_CANONICAL = "39bb944f978dbc6a63e77ccac35a5ea51414ac8ba8a13a1b220f05613047a90d"
@@ -43,6 +44,7 @@ def git_blob_sha(path: Path) -> str:
 def detect_cycle(edges: dict[str, set[str]]) -> None:
     visiting: set[str] = set()
     done: set[str] = set()
+
     def dfs(v: str) -> None:
         if v in visiting:
             raise SystemExit(f"FAIL: cyclic cross-lane wait detected at {v}")
@@ -53,8 +55,27 @@ def detect_cycle(edges: dict[str, set[str]]) -> None:
             dfs(w)
         visiting.remove(v)
         done.add(v)
+
     for v in edges:
         dfs(v)
+
+
+def verify_satisfied_artifact(demand: dict) -> None:
+    sat = demand["satisfying_artifact"]
+    req(all(sat[k] for k in ("path","blob_sha1","canonical_sha256")),
+        f"SATISFIED demand missing artifact identity: {demand['demand_id']}")
+    path = REPO / sat["path"]
+    req(path.is_file(), f"SATISFIED artifact path missing: {path}")
+    req(git_blob_sha(path) == sat["blob_sha1"],
+        f"SATISFIED artifact blob drift: {demand['demand_id']}")
+    try:
+        artifact = load(path)
+    except Exception as exc:
+        raise SystemExit(f"FAIL: SATISFIED canonical artifact is not JSON: {demand['demand_id']}: {exc}")
+    req(artifact.get("canonical_sha256_without_this_field") == sat["canonical_sha256"],
+        f"SATISFIED artifact stored canonical drift: {demand['demand_id']}")
+    req(csha(artifact) == sat["canonical_sha256"],
+        f"SATISFIED artifact recomputed canonical drift: {demand['demand_id']}")
 
 
 def main() -> None:
@@ -95,11 +116,7 @@ def main() -> None:
             sat = d["satisfying_artifact"]
             req(all(sat[k] is None for k in ("path","blob_sha1","canonical_sha256","audited_exact_head","audit_review_id")), "OPEN demand has fake satisfying artifact")
         elif d["status"] == "SATISFIED":
-            sat = d["satisfying_artifact"]
-            req(all(sat[k] for k in ("path","blob_sha1","canonical_sha256")), f"SATISFIED demand missing artifact identity: {d['demand_id']}")
-            path = REPO / sat["path"]
-            req(path.exists(), f"SATISFIED artifact path missing: {path}")
-            req(git_blob_sha(path) == sat["blob_sha1"], f"SATISFIED artifact blob drift: {d['demand_id']}")
+            verify_satisfied_artifact(d)
     detect_cycle(edges)
 
     d = by_id[DEMAND_ID]
@@ -112,6 +129,19 @@ def main() -> None:
     req(pop["must_be_current_main_surviving"] is True and pop["must_be_disjoint_from_cut191_first_block"] is True, "CUT192 source population semantics weakened")
     req(pop["consumed_cut191_first_block_rank_range"] == [0,112], "CUT191 first-block identity drift")
     req(pop["authoritative_remaining_terminals"] == 65396964990500233636101, "post-CUT191 authority drift")
+
+    main_state = load(MAIN_STATE)
+    frontier = main_state["current_exact_frontier"]
+    req(frontier["authoritative_remaining_strata"] == pop["authoritative_remaining_strata"],
+        "demand source strata do not match live MAIN-STATE")
+    req(frontier["authoritative_remaining_terminals"] == pop["authoritative_remaining_terminals"],
+        "demand source terminals do not match live MAIN-STATE")
+    req(frontier["cut191_main_pruning_credit"] is True,
+        "CUT191 is not consumed in live MAIN-STATE")
+    req(frontier["cut191_incremental_rejected_terminals"] == 113,
+        "CUT191 live MAIN-STATE credit drift")
+    req(frontier["cut191_remaining_terminals"] == pop["authoritative_remaining_terminals"],
+        "CUT191 live post-consumption count disagrees with demand population")
 
     ex5 = load(REPO / reg["lane_coordination_state_paths"]["EX5"])
     req(ex5["canonical_sha256_without_this_field"] == EXPECTED_EX5_STATE_CANONICAL and csha(ex5) == EXPECTED_EX5_STATE_CANONICAL, "EX5 coordination state canonical drift")
@@ -166,6 +196,8 @@ def main() -> None:
         "cut192_waits_on_ex5":True,
         "ex5_priority_override":True,
         "cut191_main_consumed":True,
+        "main_population_cross_checked":True,
+        "satisfied_artifact_canonical_fail_closed":True,
         "cyclic_wait":False,
         "orphan_demand":False,
         "producer_diversion":False,
