@@ -1,102 +1,149 @@
-# Stage35-EX MAIN batch handoff — audited Goal4CF current-main integration
+# Stage35-EX MAIN batch handoff — Goal4CG current-main integration
 
-Formal authority remains **V74 / Goal4AK** under hostile review `5142248509`. Goal4CF is an independently hostile-audited intermediate quantitative adapter; it does not replace `MAIN-STATE.json` authority and grants no E1, Stage35, endpoint, or Perfect Cuboid credit.
+Formal authority remains **V74 / Goal4AK** under hostile review `5142248509`. Current `main` already contains the hostile-audited Goal4CF selected-direction discriminant-height adapter through merged PR #1773 at main commit `9a05bdbe2dbb1ba50ef68425c80f5c289260f5da`.
 
-## Goal4CF hostile-audit provenance
+No E1, Stage35, endpoint, or Perfect Cuboid credit is granted by Goal4CG.
 
-PR #1766 contains the long-lived research stack and must not be merged directly.
+## Retained Goal4CF boundary
 
-- mathematical hostile PASS: review `5164213568`, exact head `2ffe07f31d56caf78261d032b7e5a78d500dd146`
-- lifecycle-repaired hostile PASS: review `5174608648`, exact head `a059c12ecd298258fa59feac653eb750d7143767`
-- no-drift revalidation PASS: review `5174722371`, same exact head `a059c12ecd298258fa59feac653eb750d7143767`
-- exact-head aggregate run: `34556563263` SUCCESS
-- exact-head dedicated Goal4CF run: `34556563288` SUCCESS
-
-The source mathematical credit ceiling is:
+The audited Goal4CF current-main integration preserves:
 
 ```text
-AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT
+Delta_min=(r*s*t)^4/256
+12288*abs(Delta_min(E_*)) >= W^10
 ```
 
-## Current-main integration strategy
+for the deterministic selected cyclic direction and the actual primitive endpoint space diagonal `W`.
 
-Current-main parent before this integration is:
-
-```text
-9ce9abcde2880d6de10dd7f408feb18fb9fab630
-```
-
-The three load-bearing Goal4CF artifacts are copied byte-identically from audited head `a059c12ecd298258fa59feac653eb750d7143767`:
-
-- source-lock blob `a94e98e560793cf91548a67bd37989915de00e7a`
-- certificate blob `60fae382dd97ab6a905b1678681f829b59595e56`
-- historical verifier blob `e0f623087b8814f9d7ab7f8ced6d7d71f5de0033`
-
-The original certificate intentionally retains its historical source-lock environment and pre-audit status text. It is not rewritten to pretend that current root `AGENTS.md` or the cleaned repository lifecycle surface has the same blobs as the old research branch. Instead, `goal4cf-hostile-audit-pass-consumption.json` records the independent audit receipt, and `verify_stage35_ex_35_goal4cf_audited_integration.py` verifies byte identity of the audited artifacts plus the current V74 / Goal4AK authority firewall.
-
-This is the same successor-safe pattern used for the V74 persisted-history replay: preserve the audited historical object, consume it through an explicit current-generation adapter, and do not weaken the old verifier to fit a newer repository state.
-
-No Goal4AL+ provisional research, Goal4BS/BD/AW/AT/AU/AZ/CE historical file forest, or retired/manual Stage35EX workflow fan-out is imported by this integration.
-
-## Preserved research-route provenance
-
-The historical research information needed to avoid repeating exhausted or endpoint-equivalent routes is retained separately in:
+The retained research-route provenance is:
 
 ```text
 stages/stage35-ex/35ex-35/goal4cf-research-route-ledger.md
 ```
 
-The ledger is deliberately a compressed provenance index rather than an import of PR #1766's stacked file forest. It records the reusable results and exact stop conditions for Goal4AT, Goal4AU, Goal4BD, Goal4AW, Goal4AZ, the Goal4BS parking boundary, the Goal4BT→Goal4CE reopen, and Goal4CF itself, together with the #1766 hostile-audit chain.
+It records the historical AT/AU/BD/AW/AZ/BS/BT-CE route boundaries so they are not silently rediscovered.
 
-The ledger is **not** formal authority and does not promote those historical provisional leaves. `verify_stage35_ex_35_goal4cf_audited_integration.py` only checks that the provenance boundary and credit firewalls are present while `MAIN-STATE.json` remains V74 / Goal4AK.
+## Goal4CG source checkpoint
 
-Future mainbatch work must consult the ledger before reopening a Stage35EX route. Renaming an endpoint-equivalent receiver, re-running the completed `e/p/d` common-gcd local family, or reusing an amplifier that does not beat the exact `rho/kappa > 1/2` gate is not new research progress.
-
-## Audited Goal4CF mathematical result
-
-For each primitive positive endpoint, select the cyclic direction by the maximal reduced pair height, with ties `AB, AC, BC`. For the selected reduced coprime opposite-parity legs `b,c`, set
+Historical PR #1771 executed the exact next obligation left by Goal4CF:
 
 ```text
-r=c^2-b^2
-s=2bc
-t=b^2+c^2.
+SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT
 ```
 
-The selected elliptic curve has the global minimal model
+The historical clean audit checkpoint was:
 
 ```text
-v^2+u*v=u^3+((r^2-s^2-1)/4)*u^2-(r^2*s^2/16)*u
+source exact head = 67fa8115211119cb667caacabde7d52133507f6f
+dedicated CI run = 34555204989
+dedicated CI job = 103126305682
+Goal4BS checkpoint run = 34555205029
 ```
 
-and exact minimal discriminant
+That old PR was based on `stage35-ex-goal4cf-audit-base` and was not a legal direct merge path to current main. PR #1771 is now being rewritten as a current-main integration PR rather than merged with its old stacked ancestry.
+
+The three Goal4CG checkpoint artifacts are preserved byte-identically:
 
 ```text
-Delta_min=(r*s*t)^4/256.
+source-lock blob = c47e5c9a9faac08949f451e306c700102831dcb8
+source-lock LF sha256 = 8528b2b818dd505c277372dd44a313e60399e7361503d753376d2899a7010e44
+certificate blob = 473fe8a39596cb5741fc8709b22cd22590a0f67c
+certificate canonical sha256 = d7eb73b45871c66e2c0ded5c566ae2c6f5e914483419d31823ab2f99e6ad13de
+historical verifier blob = 1c753fc01a99efdd88e991fef15347c899d3dc37
 ```
 
-The hostile-audited selected-direction endpoint estimate is
+The historical verifier intentionally retains its old source-lock universe. Current main does not import the full Goal4AL+ file forest merely to satisfy those historical locks. Instead:
 
 ```text
-12288*abs(Delta_min(E_*)) >= W^10.
+stages/stage35-ex/35ex-35/goal4cg-current-main-integration.json
+stages/stage35-ex/verify_stage35_ex_35_goal4cg_current_main_integration.py
 ```
 
-Equivalently,
+form the successor-safe current-main consumption boundary.
+
+## Goal4CG mathematical checkpoint
+
+For the selected reduced legs `(m,n)`, opposite edge `K`, selected-face diagonals `d_m,d_n`, and
 
 ```text
-log abs(Delta_min(E_*)) >= 10 log W - log(12288).
+r=n^2-m^2
+s=2mn
+t=m^2+n^2
 ```
 
-This is not fixed-direction AW-C2, not an arbitrary-cutoff lower bound, and not a uniform Szpiro or canonical-height coefficient result.
+the physical marked point on the Goal4CF minimal model has exact x-coordinate
+
+```text
+u = -(m*n*r/2) * (n*d_m+m*d_n)/(m*d_m-n*d_n).
+```
+
+The denominator identity is
+
+```text
+(m*d_m-n*d_n)(m*d_m+n*d_n) = -r*W^2.
+```
+
+The explicit height bounds are
+
+```text
+h_x(P_*) <= 6 log W
+hhat(P_*) <= 17/3 log W.
+```
+
+The selected curve has the semistable conductor packet
+
+```text
+N(E_*) = rad_odd(R)       if v2(s)=2
+N(E_*) = 2*rad_odd(R)     if v2(s)>=3
+R=abs(r*s*t)
+N(E_*) <= R/4
+sigma(E_*) >= 4.
+```
+
+Using the Goal4CF discriminant coefficient `10`, Petsche's explicit lower bound has best possible coefficient under the retained information
+
+```text
+10/(10^15*4^6*log^2(104613*16)) < 1.19e-20,
+```
+
+which is far below the explicit upper coefficient `17/3`.
+
+Therefore:
+
+```text
+STRICT_PETSCHE_COEFFICIENT_WIN=false
+UNIFORM_SZPIRO_UPPER_BOUND=false
+FINITE_HEIGHT_REDUCTION=false
+```
+
+This is a fail-close of this explicit Petsche/Goal4CF comparison, not a theorem that all future height arguments fail.
+
+## Smaller live blocker exposed by Goal4CG
+
+The remaining local-height obligation is:
+
+```text
+UNIFORM_MARKED_BAD_PRIME_COMPONENT_INDEX_CONTROL
+```
+
+At bad primes the marked point can reduce to the nodal singular point, while denominator cancellation can change the component analysis. Current retained source identities do not give a uniform favorable component-index theorem.
+
+After a hostile-audit PASS of the current-main #1771 integration, the research order is:
+
+```text
+1. test UNIFORM_MARKED_BAD_PRIME_COMPONENT_INDEX_CONTROL;
+2. if it does not yield a strict lower comparison, execute the required breadth reopen;
+3. do not reopen a route already classified in goal4cf-research-route-ledger.md without a genuinely new adapter.
+```
 
 ## Credit firewall
 
 Still false / not granted:
 
 ```text
-FIXED_DIRECTION_AW_C2_DISCHARGED=false
-EXPLICIT_MARKED_CANONICAL_HEIGHT_UPPER_CONSTANT=false
-UNIFORM_SZPIRO_BOUND=false
+UNIFORM_SZPIRO_UPPER_BOUND=false
 STRICT_CANONICAL_HEIGHT_COEFFICIENT_WIN=false
+UNIFORM_MARKED_BAD_PRIME_COMPONENT_INDEX_CONTROL=false
 FINITE_HEIGHT_REDUCTION=false
 E1_proved=false
 R29_PESCH_E1_closed=false
@@ -105,12 +152,4 @@ perfect_cuboid_existence_claim=false
 perfect_cuboid_nonexistence_claim=false
 ```
 
-The current-main integration itself still requires hostile freshness audit before merge. The source Goal4CF mathematics is already audited; that audit is not being repeated or upgraded here.
-
-## Next bounded obligation after current-main integration PASS
-
-```text
-SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT
-```
-
-Keep the same deterministic selector and actual endpoint `W`. Derive an explicit numerical upper comparison for the selected physical marked point and test whether local contributions can produce a lower comparison without assuming a uniform Szpiro upper bound. A failure to obtain a strict coefficient win must be recorded as a blocker rather than promoted to E1 credit.
+PR #1771 must remain unmerged until its rewritten current-main exact head has green aggregate/lifecycle CI and a hostile freshness PASS anchored to that exact head.

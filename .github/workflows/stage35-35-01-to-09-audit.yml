@@ -54,7 +54,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          # Snapshot-aware V74 -> V73/V72/... replay. Historical adapters may inspect retained git history.
           fetch-depth: 380
       - name: Assert exact PR head checkout
         run: |
@@ -117,3 +116,5 @@ jobs:
         run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py
       - name: Verify audited Goal4CF current-main consumption
         run: python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_audited_integration.py
+      - name: Verify Goal4CG current-main integration
+        run: python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cg_current_main_integration.py
