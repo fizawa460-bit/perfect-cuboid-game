@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import runpy
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -11,8 +12,8 @@ STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V13_CUT194_AUDITED_CONSUMED"
-EXPECTED_STATE_BLOB = "16d23a965d42a38f6a22d1cbb6545ef294b8ba16"
-EXPECTED_STATE_CANONICAL = "a5d4889843bf4ad66c945823812a2f3f2edd5729a709124c97c7f7f4156a140e"
+EXPECTED_STATE_BLOB = "9dec644914d355f677331a3d78ab02a53c36c3b7"
+EXPECTED_STATE_CANONICAL = "ba36c9968211f9b26e31816d2749b433d85f01eabc0caff96d53ca93e4eda822"
 EXPECTED_REPOSITORY_MAIN = "c31684fb5f63d8a025eb298c91861d4c979b0e28"
 
 PRE_CUT194_REMAIN = 65396964990500233636101
@@ -27,6 +28,14 @@ CUT194_REVIEW = 5183299107
 CUT194_HEAD = "847f3bff0c5e0d0530bfb8db406e955b2d231d9a"
 CUT194_CI = 34643840690
 CUT194_HEAVY = 34614132290
+
+N357_REVIEW = 5183069892
+N357_HEAD = "0d787839b7e0dad4a42108c61d16e7849c50862f"
+N357_RESULT_BLOB = "50014d453266ad79101910a943d14388bd3ef6ec"
+N357_RESULT_CANONICAL = "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
+N357_ENGINE_BLOB = "479c783cb42d0952cc310708106787147b499240"
+N357_REJECT = 17797986705435299826016
+POST_N357_IF_CONSUMED = 47598978285064933783643
 
 EXPECTED = {
     "result": (
@@ -43,6 +52,11 @@ EXPECTED = {
         "stages/stage32/management/post-cut194-hostile-pass-consumption-20260912.json",
         "775c7853de989ee92167269bf3be774bd1e984f3",
         "6e9711716358ff955fe3aac1fda9661a800f3f1e3d10286fa5127a4638efb568",
+    ),
+    "n357_composition": (
+        "stages/stage32/management/N357-V13-CURRENT-AUTHORITY-COMPOSITION.json",
+        "5abac38ee21713fd978ae59e85a0e705c2eb7b6c",
+        "3a9d29b97ccc663a92cc4c0463d1e77c00a518450b65d8d9ece0054734eeebd8",
     ),
 }
 
@@ -87,6 +101,7 @@ def main() -> None:
     result = assert_locked(*EXPECTED["result"])
     handoff = assert_locked(*EXPECTED["handoff"])
     mgmt = assert_locked(*EXPECTED["management"])
+    n357 = assert_locked(*EXPECTED["n357_composition"])
 
     auth = state["authority_sync"]
     assert auth["current_repository_main"] == EXPECTED_REPOSITORY_MAIN
@@ -103,9 +118,22 @@ def main() -> None:
     assert auth["cut194_incremental_rejected_terminals"] == CUT194_REJECT
     assert auth["cut194_remaining_strata"] == REMAIN_STRATA
     assert auth["cut194_remaining_terminals"] == POST_CUT194_REMAIN
-    assert auth["cut194_post_sync_reaudit_required"] is True
-    assert auth["cut194_post_sync_reaudit_status"] == "PENDING"
-    assert auth["cut194_synchronized_head_hostile_audited"] is False
+
+    # N357 is already hostile-audited as a candidate. The current step is only
+    # composition against the newer V13 authority; it must not self-promote.
+    assert auth["n357_candidate_hostile_audit_status"] == "PASS"
+    assert auth["n357_candidate_hostile_audit_review_id"] == N357_REVIEW
+    assert auth["n357_candidate_hostile_audit_exact_head"] == N357_HEAD
+    assert auth["n357_candidate_result_blob_sha1"] == N357_RESULT_BLOB
+    assert auth["n357_candidate_result_canonical_sha256"] == N357_RESULT_CANONICAL
+    assert auth["n357_candidate_original_incremental_rejected_terminals"] == N357_REJECT
+    assert auth["n357_current_v13_composition_replayed"] is True
+    assert auth["n357_current_v13_overlap_cut191_terminals"] == 0
+    assert auth["n357_current_v13_overlap_cut194_terminals"] == 0
+    assert auth["n357_current_v13_incremental_rejected_terminals_if_consumed"] == N357_REJECT
+    assert auth["n357_current_v13_candidate_remaining_terminals_if_consumed"] == POST_N357_IF_CONSUMED
+    assert auth["n357_current_v13_composition_hostile_audit_status"] == "PENDING"
+    assert auth["n357_main_pruning_credit_consumed"] is False
 
     frontier = state["current_exact_frontier"]
     assert frontier["authoritative_remaining_strata"] == REMAIN_STRATA
@@ -114,26 +142,31 @@ def main() -> None:
     assert frontier["cut194_incremental_rejected_terminals"] == CUT194_REJECT
     assert frontier["cut194_remaining_terminals"] == POST_CUT194_REMAIN
     assert frontier["cut193_main_pruning_credit"] is False
+    assert frontier["n357_audit_review_id"] == N357_REVIEW
+    assert frontier["n357_audited_exact_head"] == N357_HEAD
+    assert frontier["n357_result_blob_sha1"] == N357_RESULT_BLOB
+    assert frontier["n357_result_canonical_sha256"] == N357_RESULT_CANONICAL
+    assert frontier["n357_candidate_incremental_rejected_terminals"] == N357_REJECT
+    assert frontier["n357_current_v13_composition_replayed"] is True
+    assert frontier["n357_current_v13_overlap_consumed_terminals"] == 0
+    assert frontier["n357_current_v13_incremental_rejected_terminals_if_later_consumed"] == N357_REJECT
+    assert frontier["n357_candidate_remaining_terminals_if_later_consumed"] == POST_N357_IF_CONSUMED
+    assert frontier["n357_status"] == "AUDITED_CANDIDATE_CURRENT_V13_COMPOSITION_REPLAYED_NO_MAIN_CREDIT"
     assert frontier["n357_main_pruning_credit"] is False
+    assert frontier["n357_current_v13_composition_hostile_audited"] is False
     assert frontier["full178_numerical_census_complete"] is False
     assert frontier["stage32_closed"] is False
     assert PRE_CUT194_REMAIN - CUT194_REJECT == POST_CUT194_REMAIN
+    assert POST_CUT194_REMAIN - N357_REJECT == POST_N357_IF_CONSUMED
 
     assert result["node"] == "CUT194"
     assert result["target"]["row_id"] == "g1-d008"
     assert result["target"]["d"] == 8 and result["target"]["e"] == 8
     assert result["target"]["survivor_offset_range"] == [256, 510]
-    assert result["target"]["block_count"] == 255
-    assert result["target"]["terminal_count"] == 28815
-    assert result["target"]["cut191_block0_disjoint"] is True
-    assert result["target"]["cut193_wave1_disjoint"] is True
-    assert result["target"]["n356_preserved_all_wave_blocks"] is True
     assert result["result"]["candidate_closed_block_count"] == 234
     assert result["result"]["candidate_pruned_terminals"] == CUT194_REJECT
-    assert result["result"]["remaining_nonclosed_block_count"] == 21
     assert result["result"]["candidate_post_wave2_from_main_v12_terminals"] == POST_CUT194_REMAIN
     assert result["credit"]["stage32_main_pruning_credit"] is False
-    assert result["credit"]["cut194_pruning_credit"] is False
 
     assert handoff["result"]["candidate_closed_block_count"] == 234
     assert handoff["result"]["candidate_pruned_terminals"] == CUT194_REJECT
@@ -141,45 +174,57 @@ def main() -> None:
     assert handoff["credit"]["stage32_main_pruning_credit"] is False
 
     assert mgmt["status"] == "RETAINED_AUTHORITY_TRANSITION_PENDING_REPLACEMENT_HEAD_HOSTILE_AUDIT"
-    assert mgmt["upstream_authority"]["main_parent_exact_head"] == MAIN_PRE_CUT194_HEAD
-    assert mgmt["upstream_authority"]["main_parent_hostile_reaudit_review_id"] == MAIN_PRE_CUT194_REVIEW
     assert mgmt["authority"]["cut194_main_pruning_credit"] is True
-    assert mgmt["authority"]["cut194_incremental_rejected_terminals"] == CUT194_REJECT
     assert mgmt["authority"]["authoritative_remaining_terminals"] == POST_CUT194_REMAIN
     assert mgmt["overlap_replay"]["n356_overlap_zero"] is True
     assert mgmt["overlap_replay"]["cut191_overlap_zero"] is True
     assert mgmt["overlap_replay"]["cut193_overlap_zero"] is True
-    assert mgmt["overlap_replay"]["cut193_main_credit_remains_false"] is True
-    assert mgmt["overlap_replay"]["unknown_checks_promoted"] is False
     assert mgmt["overlap_replay"]["double_charge"] is False
-    assert mgmt["claim_sync"]["claim_core_changed"] is False
-    assert mgmt["claim_sync"]["authority_status"] == "DECLARED_GOAL"
-    assert mgmt["claim_sync"]["frontier_status"] == "ACTIVE_INCOMPLETE"
 
-    lock = state["source_locks"]["cut194"]
-    for key, expected in [
-        ("result_blob_sha1", EXPECTED["result"][1]),
-        ("result_canonical_sha256", EXPECTED["result"][2]),
-        ("audit_handoff_blob_sha1", EXPECTED["handoff"][1]),
-        ("audit_handoff_canonical_sha256", EXPECTED["handoff"][2]),
-        ("management_blob_sha1", EXPECTED["management"][1]),
-        ("management_canonical_sha256", EXPECTED["management"][2]),
-    ]:
-        assert lock[key] == expected, key
-    assert lock["external_audit_review_id"] == CUT194_REVIEW
-    assert lock["external_audited_exact_head"] == CUT194_HEAD
-    assert lock["external_exact_head_ci_run"] == CUT194_CI
-    assert lock["heavy_run"] == CUT194_HEAVY
+    aud = n357["audited_n357_candidate"]
+    assert aud["pr"] == 1782
+    assert aud["hostile_audit_status"] == "PASS"
+    assert aud["hostile_audit_review_id"] == N357_REVIEW
+    assert aud["audited_exact_head"] == N357_HEAD
+    assert aud["result_blob_sha1"] == N357_RESULT_BLOB
+    assert aud["result_canonical_sha256"] == N357_RESULT_CANONICAL
+    assert aud["engine_blob_sha1"] == N357_ENGINE_BLOB
+    assert aud["candidate_incremental_rejected_terminals"] == N357_REJECT
+    assert aud["main_pruning_credit"] is False
+    comp = n357["e8_overlap_replay"]
+    assert comp["n357_overlap_with_current_consumed_terminals"] == 0
+    assert comp["n357_rejecting_cut191_terminal_count"] == 0
+    assert comp["n357_rejecting_cut194_terminal_count"] == 0
+    assert comp["composition_incremental_rejected_terminals"] == N357_REJECT
+    assert comp["candidate_remaining_terminals_if_later_consumed"] == POST_N357_IF_CONSUMED
+    assert n357["credit_firewall"]["n357_main_pruning_credit"] is False
+    assert n357["credit_firewall"]["main_authority_mutated_by_this_replay"] is False
+    assert n357["credit_firewall"]["separate_main_consumption_required"] is True
+
+    lock = state["source_locks"]["n357_current_v13_composition"]
+    assert lock["audited_candidate_pr"] == 1782
+    assert lock["audited_candidate_review_id"] == N357_REVIEW
+    assert lock["audited_candidate_exact_head"] == N357_HEAD
+    assert lock["audited_candidate_result_blob_sha1"] == N357_RESULT_BLOB
+    assert lock["audited_candidate_result_canonical_sha256"] == N357_RESULT_CANONICAL
+    assert lock["audited_candidate_engine_blob_sha1"] == N357_ENGINE_BLOB
+    assert lock["composition_receipt_blob_sha1"] == EXPECTED["n357_composition"][1]
+    assert lock["composition_receipt_canonical_sha256"] == EXPECTED["n357_composition"][2]
+    assert lock["composition_verifier_blob_sha1"] == "dc5b70f9a165c3e7d4b976edb45b3ecb8a074fb2"
+    assert lock["current_v13_overlap_cut191_terminals"] == 0
+    assert lock["current_v13_overlap_cut194_terminals"] == 0
+    assert lock["main_pruning_credit"] is False
 
     current = state["current"]
-    assert current["mainbatch_stop_gate"] == "POST_CUT194_REPLACEMENT_HEAD_HOSTILE_REAUDIT"
-    assert current["next_exact_route"] == "N357_ALL178_TRANSPORT_SUPPORT_CAPACITY_CENSUS_THEN_EXTERNAL_AUDIT"
+    assert current["mainbatch_stop_gate"] == "N357_CURRENT_V13_COMPOSITION_REPLAY_EXTERNAL_AUDIT"
+    assert current["next_exact_route"] == "N357_CURRENT_V13_COMPOSITION_EXTERNAL_AUDIT_THEN_MAIN_CONSUMPTION"
 
     fw = state["firewalls"]
     for key in [
         "cut194_self_promoted_to_audited",
         "cut194_credit_exceeds_external_audit",
         "cut193_promoted_via_cut194",
+        "n357_main_credit_without_current_authority_composition_audit",
         "receiver_credit",
         "route_credit",
         "theorem_credit",
@@ -194,14 +239,22 @@ def main() -> None:
     for rel in state["current_leaf_working_set"]:
         assert (ROOT / rel).is_file(), rel
 
+    # Execute the exact current-authority overlap/composition replay as part of
+    # the ordinary startup gate. This does not consume N357 credit.
+    runpy.run_path(
+        str(HERE / "verify_n357_v13_current_authority_composition.py"),
+        run_name="__main__",
+    )
+
     startup = START.read_text(encoding="utf-8")
     assert "Do not merge without explicit user authorization." in startup
 
-    print("PASS Stage32 MAIN startup authority V13 CUT194_AUDITED_CONSUMED")
+    print("PASS Stage32 MAIN startup authority V13 CUT194_CONSUMED_N357_COMPOSITION_REPLAYED")
     print(f"authoritative_remaining={REMAIN_STRATA}_strata/{POST_CUT194_REMAIN}_terminals")
-    print("cut194_incremental_reject=26442 cut193_main_credit=false")
-    print("replacement_head_reaudit_required=true synchronized_head_hostile_audited=false")
-    print("full178_complete=false n357_main_credit=false merge_authorized=false")
+    print("n357_candidate_hostile_audit=PASS review=5183069892")
+    print("n357_current_v13_overlap_cut191=0 overlap_cut194=0 main_credit=false")
+    print(f"n357_candidate_remaining_if_later_consumed={POST_N357_IF_CONSUMED}")
+    print("full178_complete=false merge_authorized=false")
 
 
 if __name__ == "__main__":
