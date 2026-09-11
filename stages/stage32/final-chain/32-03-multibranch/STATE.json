@@ -46,6 +46,7 @@
   "mb104_partial": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/RESULT.md",
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/CERTIFICATE.json",
+    "lambda_capacity_wall": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LAMBDA-CAPACITY-WALL.json",
     "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_coefficient_barrier.py",
     "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
     "special_fibre_identity": "6*n_i=2*q_i+M",
@@ -56,6 +57,8 @@
     "picard_hodge_quadratic_bound": "sum M_i^2<=d^2/8+2d-4g+4",
     "picard_hodge_global_mass_bound": "M^2<=6d^2+96d-192g+192",
     "picard_hodge_asymptotic_M_over_d_coefficient": "sqrt(6)>1",
+    "lambda_local_capacity_route_closes": false,
+    "lambda_wall_reason": "for every N the retained local A1 model permits N pairwise distinct nonzero minimal landing parameters over one node; FSM weighted local order is lambda-insensitive",
     "formal_scaling_witnesses_show_current_ledger_nonfinite": true,
     "fsm_cardinality_route_population_wide_dominated": true,
     "fixed_degree_discrete_profiles_finite": true,
@@ -65,9 +68,9 @@
   },
   "next_obligation": {
     "node_id": "MB104",
-    "subobligation": "MB104_INDEPENDENT_SUBUNIT_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
-    "title": "Break the population-wide scaling cone",
-    "preferred_route": "exceptional P1 minimal-landing capacity / lambda constraint independent of the existing two-factor and Hodge ledgers",
+    "subobligation": "MB104_GLOBAL_MEMBER_LEVEL_ANTI_SCALING_BOUND",
+    "title": "Break the population-wide scaling cone with a genuinely global constraint",
+    "preferred_route": "global jet/polar/effective-divisor capacity or stronger full-Picard/known-curve inequality; do not retry local lambda cardinality without new global coupling",
     "acceptable_closing_inputs": [
       "s_min<=alpha*d+beta with alpha<1",
       "M<=alpha*d+beta with alpha<1",
@@ -80,6 +83,7 @@
       "exceptional contact mass bounds the off-exception delta budget",
       "a lower bound on minimal branches is an upper bound",
       "Hodge coefficient sqrt(6)>1 closes the degree direction",
+      "local freedom of lambda implies existence of a global algebraic carrier",
       "finite Picard enumeration is released before a population-wide finite window is proved"
     ]
   },
