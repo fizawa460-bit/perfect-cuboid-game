@@ -1,5 +1,6 @@
 name: Stage32 MAIN startup authority
 
+# Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
 on:
   pull_request:
     paths:
@@ -14,6 +15,14 @@ on:
       - 'stages/stage32/verify_main_startup_authority_v11.py'
       - 'stages/stage32/verify_main_startup_authority_v12.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
+      - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
+      - 'stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md'
+      - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/verify_cross_lane_demands.py'
+      - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
+      - 'stages/stage32-ex*/MAIN-START-HERE.md'
+      - 'stages/stage32-ex5/CROSS-LANE-STATE.json'
+      - 'stages/stage32/full178-cut/CROSS-LANE-STATE.json'
       - 'stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json'
       - 'stages/stage32/management/post-cut191-hostile-pass-consumption-20260911.json'
       - 'stages/stage32/management/CUT191-MAIN-CONSUMPTION-HOSTILE-AUDIT-PASS.json'
@@ -70,15 +79,11 @@ jobs:
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
 
-          # Freshness is separate from research correctness. If this branch
-          # already contains current main there is no main-only drift to review.
           if test "$merge_base" = "$current_main"; then
             echo "freshness=contains-current-main"
             exit 0
           fi
 
-          # Historical bounded freshness exception retained for older branches.
-          # Any main movement outside this exact reviewed scope fails closed.
           reviewed_main="5ca6acba4b591d9e2d40057241c850598c1fa1df"
           previous_reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
           reviewed_merge_base="e2da76d90a0994af5038023613c6c4084c4c507e"
@@ -99,6 +104,9 @@ jobs:
 
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
+
+      - name: Verify Stage32 cross-lane demand coordination
+        run: python3 stages/stage32/proof/verify_cross_lane_demands.py
 
       - name: Verify Stage32 claim-DAG integrity after CUT191 authority transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
