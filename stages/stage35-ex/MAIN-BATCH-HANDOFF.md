@@ -38,6 +38,20 @@ This is the same successor-safe pattern used for the V74 persisted-history repla
 
 No Goal4AL+ provisional research, Goal4BS/BD/AW/AT/AU/AZ/CE historical file forest, or retired/manual Stage35EX workflow fan-out is imported by this integration.
 
+## Preserved research-route provenance
+
+The historical research information needed to avoid repeating exhausted or endpoint-equivalent routes is retained separately in:
+
+```text
+stages/stage35-ex/35ex-35/goal4cf-research-route-ledger.md
+```
+
+The ledger is deliberately a compressed provenance index rather than an import of PR #1766's stacked file forest. It records the reusable results and exact stop conditions for Goal4AT, Goal4AU, Goal4BD, Goal4AW, Goal4AZ, the Goal4BS parking boundary, the Goal4BT→Goal4CE reopen, and Goal4CF itself, together with the #1766 hostile-audit chain.
+
+The ledger is **not** formal authority and does not promote those historical provisional leaves. `verify_stage35_ex_35_goal4cf_audited_integration.py` only checks that the provenance boundary and credit firewalls are present while `MAIN-STATE.json` remains V74 / Goal4AK.
+
+Future mainbatch work must consult the ledger before reopening a Stage35EX route. Renaming an endpoint-equivalent receiver, re-running the completed `e/p/d` common-gcd local family, or reusing an amplifier that does not beat the exact `rho/kappa > 1/2` gate is not new research progress.
+
 ## Audited Goal4CF mathematical result
 
 For each primitive positive endpoint, select the cyclic direction by the maximal reduced pair height, with ties `AB, AC, BC`. For the selected reduced coprime opposite-parity legs `b,c`, set

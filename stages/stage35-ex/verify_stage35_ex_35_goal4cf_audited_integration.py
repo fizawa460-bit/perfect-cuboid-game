@@ -11,6 +11,7 @@ BASE = ROOT / "stages" / "stage35-ex" / "35ex-35"
 STATE = ROOT / "stages" / "stage35-ex" / "MAIN-STATE.json"
 HANDOFF = ROOT / "stages" / "stage35-ex" / "MAIN-BATCH-HANDOFF.md"
 RECEIPT = BASE / "goal4cf-hostile-audit-pass-consumption.json"
+LEDGER = BASE / "goal4cf-research-route-ledger.md"
 SOURCE = BASE / "goal4cf-selected-direction-minimal-discriminant-height-source-lock.md"
 CERT = BASE / "goal4cf-selected-direction-minimal-discriminant-height.json"
 HISTORICAL_VERIFIER = ROOT / "stages" / "stage35-ex" / "verify_stage35_ex_35_goal4cf_selected_discriminant_height.py"
@@ -87,11 +88,33 @@ assert cert["result"]["endpoint_bound"] == "12288*abs(Delta_min(E_*))>=W^10"
 assert cert["result"]["exact_minimal_discriminant"] == "(r*s*t)^4/256"
 assert cert["result"]["new_selected_direction_height_adapter"] is True
 
+ledger = LEDGER.read_text(encoding="utf-8")
+for marker in (
+    "HISTORICAL_SOURCE_PR=1766",
+    "HISTORICAL_FINAL_HEAD=a059c12ecd298258fa59feac653eb750d7143767",
+    "HISTORICAL_SOURCE_MERGEABLE_TO_MAIN=false",
+    "CURRENT_INTEGRATION_PR=1773",
+    "FORMAL_AUTHORITY=V74/Goal4AK",
+    "CREDIT_CEILING=AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT",
+    "Goal4AT — marked residual Kummer local support",
+    "Goal4AU — three-direction Kummer gcd allocation",
+    "Goal4BD — simultaneous three-marked rank-jump receiver",
+    "Goal4AW — marked elliptic height comparison",
+    "Goal4AZ — amplification / stronger counting",
+    "Goal4BS — first parking boundary",
+    "Goal4BT→Goal4CE reopen — canonical gcd/local completion",
+    "ALL_SOURCE_SELECTED_E1_COMMON_GCD_LOCAL_FAMILIES_COMPLETE=true",
+    "CURRENT_AMPLIFIERS_BEAT_SQRT_COUNTING=false",
+    "SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT",
+):
+    assert marker in ledger, marker
+
 handoff = HANDOFF.read_text(encoding="utf-8")
 for marker in (
     "Goal4CF",
     "review `5174608648`",
     "a059c12ecd298258fa59feac653eb750d7143767",
+    "goal4cf-research-route-ledger.md",
     "AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT",
     "SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT",
     "Formal authority remains **V74 / Goal4AK**",
@@ -100,6 +123,7 @@ for marker in (
 
 print("STAGE35_EX_GOAL4CF_AUDITED_CURRENT_MAIN_INTEGRATION=PASS")
 print("source_goal4cf_hostile_audit_pass=true")
+print("research_route_provenance_ledger=present")
 print("formal_authority=V74/Goal4AK")
 print("credit_ceiling=AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT")
 print("current_integration_hostile_audit_pass=false")
