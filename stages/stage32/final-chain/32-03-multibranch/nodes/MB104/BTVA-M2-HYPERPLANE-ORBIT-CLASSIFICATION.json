@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_BTVA_M2_HYPERPLANE_ORBIT_CLASSIFICATION_V1",
+  "schema": "STAGE32_MB104_BTVA_M2_HYPERPLANE_ORBIT_CLASSIFICATION_V2",
   "status": "RETAINED_EXACT_FINITE_CLASSIFICATION_NONFINAL",
   "receiver": "R29-LG2-MB",
   "parents": {
@@ -40,16 +40,9 @@
       "20": 48,
       "24": 28
     },
-    "extension_rank_distribution": {
-      "10": 3,
-      "11": 3264,
-      "12": 590468
-    },
+    "extension_rank_distribution": {"10": 3, "11": 3264, "12": 590468},
     "rank10_hyperplanes": "exactly y1=0, y2=0, y3=0",
-    "rank11_by_incidence": {
-      "7": 3072,
-      "12": 192
-    },
+    "rank11_by_incidence": {"7": 3072, "12": 192},
     "rank11_aut_orbits": [
       {"rep_mask": 318849034, "orbit_size": 768, "node_count": 7, "outside_rank12_survivors_per_hyperplane": 9},
       {"rep_mask": 318849184, "orbit_size": 384, "node_count": 7, "outside_rank12_survivors_per_hyperplane": 9},
@@ -58,21 +51,15 @@
       {"rep_mask": 469843978, "orbit_size": 384, "node_count": 7, "outside_rank12_survivors_per_hyperplane": 9},
       {"rep_mask": 470028298, "orbit_size": 384, "node_count": 7, "outside_rank12_survivors_per_hyperplane": 9},
       {"rep_mask": 1593905322, "orbit_size": 192, "node_count": 12, "outside_rank12_survivors_per_hyperplane": 4}
-    ]
+    ],
+    "rank11_representative_kernel_structure": "span(special_section, ell_H*eta)"
   },
   "outside_pairs": {
     "count": 24538032,
-    "extension_rank_distribution": {
-      "12": 28416,
-      "13": 24509616
-    },
+    "extension_rank_distribution": {"12": 28416, "13": 24509616},
     "rank12_survivor_hyperplane_count": 3264,
     "rank12_survivor_pair_orbit_count": 35,
-    "pair_orbit_size_distribution": {
-      "384": 12,
-      "768": 15,
-      "1536": 8
-    },
+    "pair_orbit_size_distribution": {"384": 12, "768": 15, "1536": 8},
     "retired_false_claim": "every node outside a node-spanned hyperplane raises the full m=2 extension rank to 13"
   },
   "special_web_support_residual": {
@@ -84,11 +71,15 @@
     "representative_survivor": {"hyperplane_mask": 318849034, "outside_node": 5},
     "representative_exact_kernel_section": "omega1-i*omega2-omega3+i*omega4+i*omega5+omega6",
     "kernel_dimension_on_survivor_pair": 1,
-    "exact_support_replay_over_Qi": true
+    "exact_support_replay_over_Qi": true,
+    "every_rank11_hyperplane_is_contained_in_one_special_support": true,
+    "survivor_outside_nodes_are_exactly_special_support_minus_hyperplane_support": true
   },
   "full_span_capacity": {
     "projective_node_rank": 7,
     "simultaneous_m2_extension_kernel_dimension_upper_bound": 1,
+    "if_nonzero_support_contained_in_special_24_residual": true,
+    "if_nonzero_kernel_is_corresponding_special_section": true,
     "two_section_m2_resultant_available_population_wide": false,
     "interpretation": "method-capacity wall only; zero extending sections is not a contradiction to curve existence"
   },
@@ -96,18 +87,13 @@
     "node_spanned_hyperplane_classification_complete": true,
     "outside_one_node_classification_complete": true,
     "special_24_support_residual_identified": true,
+    "all_full_span_nonzero_m2_kernels_classified_into_special_24_residual": true,
     "population_wide_finite_degree_window_proved": false,
-    "next_subobligation": "MB104_M2_SPECIAL_24_WEB_INTEGRAL_CURVE_CLASSIFICATION_OR_HIGHER_M",
-    "preferred_inputs": [
-      "classify integral curves of the representative quadratic web and transport through the 24 support orbit",
-      "prove every full-span support retaining a nonzero m=2 section is contained in one of the 24 special supports",
-      "for the rank13 no-section population, use m>=3 symmetric differentials or actual global-member geometry"
-    ]
+    "next_subobligation": "MB104_M2_SPECIAL_24_WEB_INTEGRAL_CURVE_CLASSIFICATION_OR_HIGHER_M"
   },
   "firewalls": {
     "rank13_extension_condition_is_curve_nonexistence": false,
     "one_surviving_section_is_finite_resultant": false,
-    "all_full_span_nonzero_kernels_globally_classified": false,
     "finite_degree_window_proved_population_wide": false,
     "finite_picard_enumeration_released": false,
     "r29_lg2_mb_discharged": false,
