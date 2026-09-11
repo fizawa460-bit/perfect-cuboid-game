@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -27,6 +28,7 @@ def load_classifier():
     spec = importlib.util.spec_from_file_location("stage32_rr_effectivity", CLASSIFIER)
     req(spec is not None and spec.loader is not None, "cannot load classifier module")
     mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod
     spec.loader.exec_module(mod)
     return mod
 
