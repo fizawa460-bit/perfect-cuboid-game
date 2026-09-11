@@ -66,7 +66,7 @@ jobs:
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_25_boundary33_partition_checkpoint.py
       - name: Verify retained BC2-26 boundary34 checkpoint and transitive source locks
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_26_boundary34_partition_checkpoint.py
-      - name: Verify common e8 CUT handoff adapter static contract
+      - name: Verify maximum audited current-MAIN e8 CUT handoff adapter
         run: python stages/stage32-ex5/cut-handoff/verify_e8_terminal_population_adapter.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
@@ -94,10 +94,8 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           key=Path('stages/stage32-ex5/runkeys/e8-cut-handoff-wave.json')
-          before=os.environ.get('BEFORE','').strip()
-          head=os.environ.get('HEAD_SHA','').strip()
-          authorized=False
-          reason='cold'
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
+          authorized=False; reason='cold'
           if before and head and key.exists():
               subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
               old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
@@ -106,8 +104,7 @@ jobs:
                   if str(key) in changed:
                       new=json.loads(key.read_text())
                       try:
-                          old_raw=subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL)
-                          old=json.loads(old_raw)
+                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL))
                           generation_ok=int(new.get('generation',0))>int(old.get('generation',0))
                       except subprocess.CalledProcessError:
                           generation_ok=int(new.get('generation',0))==1
@@ -118,11 +115,14 @@ jobs:
                       t=new.get('target',{}); ex=new.get('execution',{})
                       authorized=(new.get('schema')=='STAGE32EX5_E8_CUT_HANDOFF_WAVE_RUNKEY_V1'
                           and new.get('armed') is True and generation_ok
-                          and new.get('source_git_blob_sha')==source_blob=='8080565de8d540e8af6532ef58cb2a3ddc686f56'
-                          and new.get('preflight_git_blob_sha')==preflight_blob=='4ca41209a1b16d1608d106377eb448cc8deda242'
-                          and t.get('wave_block_start')==1 and t.get('wave_block_count')==255
-                          and t.get('wave_terminal_count')==28815 and t.get('wave_raw_parent_candidates')==378374
-                          and ex.get('max_raw_candidates')==400000 and ex.get('effective_heavy_concurrency')==1)
+                          and new.get('source_git_blob_sha')==source_blob=='6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f'
+                          and new.get('preflight_git_blob_sha')==preflight_blob=='b28539d9d0eafddc181d3bbf6d668261f2ff081e'
+                          and t.get('current_main_handoff_block_count')==7596
+                          and t.get('current_main_handoff_terminal_count')==858348
+                          and t.get('wave_survivor_offset_start')==1 and t.get('wave_survivor_count')==255
+                          and t.get('wave_source_block_index_minmax')==[1,343]
+                          and t.get('wave_terminal_count')==28815 and t.get('wave_raw_parent_candidates')==407672
+                          and ex.get('max_raw_candidates')==425000 and ex.get('effective_heavy_concurrency')==1)
                       reason='fresh-runkey' if authorized else 'semantic-gate-failed'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('authorized='+('true' if authorized else 'false')+'\n')
@@ -144,31 +144,37 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact adapter dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Execute disjoint e8 block wave through common adapter
+      - name: Execute current-MAIN survivor e8 wave through common adapter
         run: |
           python stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py \
-            --block-start 1 --block-count 255 --max-raw-candidates 400000 \
+            --survivor-offset 1 --survivor-count 255 --max-raw-candidates 425000 \
             --output "$RUNNER_TEMP/e8-cut-handoff-wave.json"
       - name: Validate compact handoff scope
         run: |
           python - "$RUNNER_TEMP/e8-cut-handoff-wave.json" <<'PY'
-          import json,sys
+          import hashlib,json,sys
           p=json.load(open(sys.argv[1]))
-          assert p['schema']=='STAGE32EX5_E8_TERMINAL_POPULATION_WAVE_V1'
-          assert p['block_range']==[1,255]
-          assert p['terminal_rank_range']==[113,28927]
+          assert p['schema']=='STAGE32EX5_E8_CURRENT_MAIN_HANDOFF_WAVE_V1'
+          assert p['survivor_offset_range']==[1,255]
+          assert p['block_index_minmax']==[1,343]
           assert p['block_count']==255 and p['terminal_count']==28815
-          assert p['raw_parent_candidates_checked']==378374
-          assert len(p['blocks'])==255
+          assert p['raw_parent_candidates_checked']==407672
+          assert len(p['blocks'])==255 and len(p['block_indices'])==255
+          h=hashlib.sha256()
+          for i in p['block_indices']: h.update(f'{i}\n'.encode())
+          assert h.hexdigest()=='68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea'
+          assert p['authority']['n220_audited'] is True and p['authority']['n355_full_prefix_audited'] is True
+          assert p['authority']['n356_candidate_consumed'] is False
+          assert all(b['current_main_audited_prefix_survivor'] is True for b in p['blocks'])
           assert p['firewalls']['stage32_main_pruning_credit'] is False
           assert p['firewalls']['full178_complete'] is False
           assert p['firewalls']['merge_authorized'] is False
-          print('E8_CUT_HANDOFF_WAVE_OK',p['canonical_sha256_without_this_field'])
+          print('E8_CURRENT_MAIN_CUT_HANDOFF_WAVE_OK',p['canonical_sha256_without_this_field'])
           PY
       - name: Upload compact e8 CUT handoff certificate
         uses: actions/upload-artifact@v4
         with:
-          name: stage32ex5-e8-cut-handoff-${{ github.event.pull_request.head.sha }}
+          name: stage32ex5-e8-current-main-cut-handoff-${{ github.event.pull_request.head.sha }}
           path: ${{ runner.temp }}/e8-cut-handoff-wave.json
           retention-days: 1
           compression-level: 0
