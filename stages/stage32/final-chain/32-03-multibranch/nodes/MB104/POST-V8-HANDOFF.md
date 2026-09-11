@@ -18,7 +18,7 @@ Ramification bookkeeping is on `Xhat->S`, with `(K^2,c2)=(-16,64)`. The 48 ramif
 
 Executable overlay: `verify_mb104_post_v8_globalization_overlay.py`.
 
-Next research leaf:
+## Current leaf
 
 `MB104_N_GE_14_GLOBALIZATION_OR_EFFECTIVE_LOW_SUPPORT_BOUND`.
 
