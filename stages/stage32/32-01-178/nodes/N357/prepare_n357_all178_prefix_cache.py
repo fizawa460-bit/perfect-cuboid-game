@@ -77,8 +77,11 @@ def main() -> None:
         "lex_pref": lex_pref,
     }
     args.cache.parent.mkdir(parents=True, exist_ok=True)
-    with gzip.open(args.cache, "wb", compresslevel=6) as fh:
-        pickle.dump(payload, fh, protocol=pickle.HIGHEST_PROTOCOL)
+    # Deterministic gzip envelope: a wall-clock mtime would make the cache digest
+    # (and therefore the retained census canonical) drift across exact replays.
+    with args.cache.open("wb") as raw:
+        with gzip.GzipFile(filename="", mode="wb", compresslevel=6, fileobj=raw, mtime=0) as fh:
+            pickle.dump(payload, fh, protocol=pickle.HIGHEST_PROTOCOL)
 
     producer_blob = git_blob_sha1(Path(__file__))
     meta = {
