@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_CROSS_LANE_DEMANDS_V1",
+  "stage": 32,
+  "purpose": "Machine-readable operational dependency DAG for current Stage32 lanes. This registry coordinates requested artifacts only and is separate from mathematical claim authority.",
+  "contract": {
+    "claim_dag_separation": true,
+    "demand_status_vocabulary": ["OPEN", "SATISFIED", "OBSOLETE"],
+    "priority_order": ["P0_BLOCKING_DOWNSTREAM", "P1_HIGH", "P2_NORMAL", "P3_LOW"],
+    "producer_priority_rule": "On startup, a lane must inspect OPEN demands for which it is producer. If an OPEN demand has higher priority than the lane's current local research, the demand artifact is the next route until satisfied, obsoleted, or explicitly reprioritized by MAIN.",
+    "consumer_reentry_rule": "A consumer waiting on an OPEN demand must stop rather than duplicate producer work. When the demand becomes SATISFIED, the consumer must re-enter on its next mainbatch and validate the satisfying artifact/source locks before continuing.",
+    "satisfaction_does_not_grant_credit": true,
+    "satisfaction_rule": "SATISFIED means only that the requested operational artifact exists with the recorded identity. Mathematical credit still requires the existing hostile-audit, claim-sync, current-target adapter, and MAIN-promotion rules.",
+    "main_monitor_rule": "MAIN verifies cycles, orphan lanes, producer acknowledgement/priority diversion, consumer re-entry wiring, satisfying-artifact identity fields, and hostile-audited results awaiting required MAIN consumption.",
+    "registry_path": "stages/stage32/proof/CROSS-LANE-DEMANDS.json"
+  },
+  "lane_coordination_state_paths": {
+    "EX5": "stages/stage32-ex5/CROSS-LANE-STATE.json",
+    "CUT": "stages/stage32/full178-cut/CROSS-LANE-STATE.json"
+  },
+  "demands": [
+    {
+      "demand_id": "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
+      "producer_lane": "EX5",
+      "consumer_lane": "CUT",
+      "requested_artifact": {
+        "artifact_type": "SOURCE_LOCKED_EXACT_TERMINAL_TO_PICARD64_COMPLETION_INTERFACE",
+        "exact_mathematical_interface": "A source-locked exact terminal-to-Picard64 completion interface for one disjoint current-MAIN-surviving e=8 block/population, including exact rank/unrank population semantics, exact terminal identity/preimage semantics, and all load-bearing executable dependency identities required for replay.",
+        "required_fields": ["population_id_or_exact_block", "rank_range_or_exact_rank_set", "rank_unrank_replay_contract", "terminal_to_picard64_map", "picard64_constraint_source_locks", "dependency_source_locks", "replay_verifier"]
+      },
+      "source_population_semantics": {
+        "authority_source": "stages/stage32/MAIN-STATE.json",
+        "authority_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+        "authority_hostile_reaudit_review_id": 5178420739,
+        "authoritative_remaining_strata": 17128,
+        "authoritative_remaining_terminals": 65396964990500233636101,
+        "degree_e": 8,
+        "must_be_current_main_surviving": true,
+        "must_be_disjoint_from_cut191_first_block": true,
+        "consumed_cut191_first_block_rank_range": [0, 112],
+        "cut191_main_credit_already_consumed": true,
+        "rank_unrank_semantics_required": true,
+        "population_drift_forbidden": true
+      },
+      "blocker_being_removed": "CUT192_NO_SOURCE_LOCKED_DISJOINT_CURRENT_MAIN_SURVIVING_E8_COMPLETION_INTERFACE",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "status": "OPEN",
+      "satisfying_artifact": {"path": null, "blob_sha1": null, "canonical_sha256": null, "audited_exact_head": null, "audit_review_id": null},
+      "audit_requirement": {"artifact_retention_requires_exact_replay": true, "hostile_audit_required_before_mathematical_credit": true, "producer_may_not_self_grant_audit_credit": true},
+      "main_promotion_requirement": {"demand_satisfaction_auto_promotes_to_main": false, "claim_sync_required_if_mathematical_credit_changes": true, "explicit_main_consumption_required_for_main_credit": true},
+      "routing": {"producer_acknowledgement_required": true, "producer_open_demand_must_preempt_lower_priority_local_work": true, "consumer_waits_without_rebuilding_producer_interface": true, "consumer_reentry_on_satisfied": true}
+    }
+  ],
+  "audited_result_consumption": [
+    {
+      "result_id": "S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1",
+      "producer_lane": "CUT",
+      "audit_status": "PASS",
+      "audit_review_id": 5177635336,
+      "audited_exact_head": "c1bba42b8b61040ce567037cf864fcfb3e6a1746",
+      "main_consumption_required": true,
+      "main_consumed": true,
+      "main_consumption_audit_review_id": 5177949195,
+      "main_synchronized_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+      "main_synchronized_reaudit_review_id": 5178420739,
+      "credited_incremental_rejected_terminals": 113,
+      "authoritative_remaining_terminals_after_consumption": 65396964990500233636101,
+      "note": "CUT192's OPEN EX5 demand is not a blocker to CUT191 consumption; CUT191 is already consumed in V12 authority."
+    }
+  ],
+  "credit_firewall": {"demand_satisfied_is_mathematical_credit": false, "demand_registry_is_claim_registry": false, "claim_dag_mutated_by_demand_status_alone": false, "hostile_audit_bypassed": false, "main_promotion_bypassed": false, "merge_authorized": false},
+  "canonical_sha256_without_this_field": "49a9c51c3d428afb97eade9b996f3e5b52337a565048a1cdd9a8e6bcf4294848"
+}
