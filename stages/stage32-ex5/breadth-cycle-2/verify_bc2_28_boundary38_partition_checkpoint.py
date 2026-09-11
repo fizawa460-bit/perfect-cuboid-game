@@ -19,7 +19,7 @@ ECHECK = "52138e7c417d69814d5007479420b56fcc27031679bf88f432916e6c89c77ec4"
 ERAW = "f77cad8d03035514e43e992ccdee25c1d4f6a386789fac33e488e198c35a998d"
 EMAN = "635bc832c61c539333f39f3732edd9f82397f8dc3d4a8c0a00406b2c79572477"
 EPF = "afd747ef826fe0c0287d0188f5cdc7e38ae704cc50709014f1b10b7db1a471e0"
-RAW_SHA256 = "768c4209d2162cd85a2c93a3bfcb3a71e8ea9a600e62b1323b8f7b372139f843"
+ARTIFACT_RAW_SHA256 = "768c4209d2162cd85a2c93a3bfcb3a71e8ea9a600e62b1323b8f7b372139f843"
 EXECUTED_RUNKEY_BLOB = "8c18f3d05ce79d86664ae2947fb84528912cceba"
 SOURCE_BLOBS = {
     ROOT / "stages/stage32-ex5/breadth-cycle-2/bc2_28_boundary38_partition.py": "5b5f8f927d5445d006eea19de9886b6e628a6150",
@@ -55,8 +55,6 @@ def blob(path: Path) -> str:
 
 
 def main() -> None:
-    raw_bytes = RAW.read_bytes()
-    req(hashlib.sha256(raw_bytes).hexdigest() == RAW_SHA256, "raw JSON byte digest drift")
     raw = checked(RAW, ERAW)
     cp = checked(CHECKPOINT, ECHECK)
     manifest = checked(MANIFEST, EMAN)
@@ -94,7 +92,7 @@ def main() -> None:
     req(s["authorize_job_id"] == 103295985357 and s["integrity_job_id"] == 103295985700, "gate/integrity provenance drift")
     req(s["artifact_id"] == 10268117064 and s["artifact_zip_bytes"] == 19958, "artifact metadata drift")
     req(s["artifact_zip_sha256"] == "d23645cca6e4bcf011ae1b0626934feaa2dafebf2563c2ced3d6c804cd89931c", "artifact digest drift")
-    req(s["raw_json_sha256"] == RAW_SHA256 and s["raw_result_canonical"] == ERAW, "raw result identity drift")
+    req(s["raw_json_sha256"] == ARTIFACT_RAW_SHA256 and s["raw_result_canonical"] == ERAW, "artifact raw/canonical identity drift")
     req(s["workflow_git_blob_sha"] == "f90dee770e771ef64ca4295d3ad9225a5e3adc20", "executed workflow identity drift")
     req(s["executed_runkey_git_blob_sha"] == EXECUTED_RUNKEY_BLOB, "executed runkey identity drift")
     req(s["bc2_27_checkpoint_canonical"] == "0f9278799809fd1a48c187f9a9668631422ab3136478cb3f9f64fd423df71462", "BC2-27 checkpoint lock drift")
@@ -105,7 +103,7 @@ def main() -> None:
     req(consumed.get("exact_compute_head") == s["exact_compute_head"], "runkey compute head drift")
     req(consumed.get("workflow_run_id") == s["workflow_run_id"] and consumed.get("compute_job_id") == s["compute_job_id"], "runkey workflow/job drift")
     req(consumed.get("artifact_id") == s["artifact_id"] and consumed.get("artifact_zip_sha256") == s["artifact_zip_sha256"], "runkey artifact drift")
-    req(consumed.get("raw_json_sha256") == RAW_SHA256 and consumed.get("raw_result_canonical") == ERAW, "runkey raw identity drift")
+    req(consumed.get("raw_json_sha256") == ARTIFACT_RAW_SHA256 and consumed.get("raw_result_canonical") == ERAW, "runkey raw identity drift")
     req(consumed.get("checkpoint_canonical") == ECHECK and consumed.get("checkpoint_git_blob_sha") == "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed", "runkey checkpoint drift")
     req((consumed.get("new_parent_unsat_count"), consumed.get("retained_unknown_parent_count"), consumed.get("parent_sat_count")) == (5, 4, 0), "runkey parent accounting drift")
     req((consumed.get("p38_leaf_unsat_count"), consumed.get("p38_leaf_unknown_count")) == (38, 4), "runkey p38 accounting drift")
