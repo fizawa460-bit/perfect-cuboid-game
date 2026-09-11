@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE36_36_09FD_RHO_FIXED_QUARTIC_FROBENIUS_SEED_CRT_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09FD",
+  "status": "PROVISIONAL_EXACT_GOOD_SEED_CRT_FORCING_PENDING_CI",
+  "base_main_sha": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
+  "source_locks": {
+    "stage36_36_09FC": {"path":"stages/stage36/36-09FC/rho-fixed-quartic-splitting-force-preflight.json","blob_sha":"cceb1c3246ff6ebd4f6b4f239c56a95580a58214"},
+    "stage36_36_09FC_verifier": {"path":"stages/stage36/verify_stage36_36_09FC.py","blob_sha":"43c12a5499e647ff633c280607555ef70527a21e"},
+    "stage36_36_09FD_source": {"path":"stages/stage36/36-09FD/rho-fixed-quartic-frobenius-seed-crt-source-lock.md","blob_sha":"18e2be3e2950289cb4768bb396eac595b70020c7"}
+  },
+  "entry_authority": {
+    "v292_exact_head": "da9d2de92e34e4e2879370f58968d3c8e95bfa5c",
+    "v292_exact_head_ci": "34419317648/102691087835",
+    "36_09FD_entry_allowed": true,
+    "fixed_parameter_exclusion_registry_count": 224,
+    "exact_sufficient_template_count": 17,
+    "partial_legendre_chart_count": 3,
+    "one_bit_splitting_criterion_count": 1,
+    "fixed_quartic_splitting_criterion_count": 1
+  },
+  "family": {
+    "U0": 17627,
+    "M": 34440,
+    "K": 729,
+    "u": "U0+M*j",
+    "P": "8*u^2-K^2",
+    "M_factorization": "2^3*3*5*7*41"
+  },
+  "good_seed_definition": {
+    "prime": true,
+    "p0_mod_8": 1,
+    "gcd_p0_M": 1,
+    "fixed_polynomial": "Y^4-2Y^2-1",
+    "required_factorization_degrees": [2,2]
+  },
+  "general_crt_theorem": {
+    "two_square_root_2_choices": true,
+    "P_zero_roots_formula": "u=+-K/(2r) mod p0 where r^2=2",
+    "P_zero_root_count": 2,
+    "each_u_root_gives_unique_j_mod_p0": true,
+    "forced_subprogression_count_per_seed": 2,
+    "forced_modulus": "M*p0",
+    "p0_divides_P_on_each_subprogression": true,
+    "FB_factor_shape_implies_p0_is_one_of_p1_p2": true,
+    "fixed_type_2_2_then_FC_applies": true,
+    "all_FB_factor_shape_realizations_on_forced_progressions_excluded": true,
+    "factor_shape_realizations_claimed_infinite": false
+  },
+  "seed_17": {
+    "p0": 17,
+    "sqrt2_choice": 6,
+    "quartic_factorization_mod_p0": "(Y^2-7)(Y^2-12)",
+    "quadratic_residues_nonzero": [1,2,4,8,9,13,15,16],
+    "seven_nonsquare": true,
+    "twelve_nonsquare": true,
+    "factorization_degrees": [2,2],
+    "u_roots_mod_p0": [3,14],
+    "j_roots_mod_p0": [6,9],
+    "u_progressions": [
+      {"residue":224267,"modulus":585480,"j_residue":6},
+      {"residue":327587,"modulus":585480,"j_residue":9}
+    ],
+    "retained_FB_witnesses": [
+      {"j":47691,"u":1642495667,"j_mod_17":6,"fixed_P1_factor":17},
+      {"j":73259,"u":2523057587,"j_mod_17":6,"fixed_P1_factor":17}
+    ]
+  },
+  "illustrative_good_seeds": [17,73,89,97,193,233,241,281,401,433],
+  "registry_impact": {
+    "previous_count": 224,
+    "new_orbits": 0,
+    "new_parameters": 0,
+    "provisional_count": 224,
+    "fixed_quartic_splitting_criterion_count_unchanged": 1,
+    "frobenius_seed_crt_forcing_criterion_count_provisional": 1,
+    "forced_crt_subprogression_count_for_seed_17": 2
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_GOOD_SEED_CRT_FORCING_PENDING_CI",
+    "next_leaf": "36-09FE_RHO_FORCED_CRT_FACTOR_SHAPE_REALIZATION_PREFLIGHT",
+    "next_leaf_entry_allowed": false
+  },
+  "scope_firewalls": {
+    "infinitely_many_FB_factor_shape_realizations_on_forced_progressions_proved": false,
+    "simultaneous_primality_proved": false,
+    "required_semiprime_factorizations_proved": false,
+    "FB_B_minus_necessary_proved": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

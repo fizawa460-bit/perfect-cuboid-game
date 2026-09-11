@@ -1,0 +1,73 @@
+{
+  "schema":"STAGE36_36_09EL_RHO_SQUARE_LEGENDRE_SYMBOLIC_SEL2_MATRIX_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EL",
+  "status":"PROVISIONAL_EXACT_SQUARE_LEGENDRE_SYMBOLIC_MATRIX_LOCAL_BRANCH_FORMULA_BLOCKER_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09EJ":{"path":"stages/stage36/36-09EJ/bounded-rho-sel2-exact-computation-preflight.json","blob_sha":"7ff288962132cae21f30a3c7b05ee1e5b5680c91"},
+    "stage36_36_09EK":{"path":"stages/stage36/36-09EK/rho-sel2-literal-orbit-closure-preflight.json","blob_sha":"f6af11a0f7fd8a303531b2a587b7446c382a84c5"},
+    "stage36_36_09DW_source":{"path":"stages/stage36/36-09DW/phi-selmer-five-place-local-image-source-lock.md","blob_sha":"08c91eed30774fa5c44509bb61f1c3b1386f2266"},
+    "arsenal_S34_W01":{"path":"docs/arsenal/cards/formal/S34-W01.md","blob_sha":"01a8e90e34b4aa46edbfa825803d488e5230e9d0"},
+    "stage36_36_09EL_source":{"path":"stages/stage36/36-09EL/rho-square-legendre-symbolic-sel2-matrix-source-lock.md","blob_sha":"a279ee06b5b7c33e09597c6516097a3e821e1f2e"}
+  },
+  "entry_authority":{
+    "v255_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V255_36_09EK_EXACT_GREEN_EL_UNLOCKED",
+    "36_09EK_exact_head_ci":"34332242775/102403299096",
+    "36_09EK_promotion_ci":"34332425775/102403890916",
+    "36_09EL_entry_allowed":true
+  },
+  "square_legendre_normalization":{
+    "N":"a^2-b^2",
+    "d":"ab",
+    "M":"a^2+b^2",
+    "P":"N+2d=a^2+2ab-b^2",
+    "Q":"N-2d=a^2-2ab-b^2",
+    "translated_model":"y^2=X*(X-P^2)*(X-Q^2)",
+    "scaled_model":"v^2=u*(u-1)*(u-s^2)",
+    "s":"Q/P",
+    "lambda":"s^2",
+    "P_Q_nonzero_for_positive_rational_p_ne_1":true
+  },
+  "prime_support":{
+    "gcd_P_Q_for_primitive_ab":"1 if a,b have opposite parity; 2 if a,b are both odd",
+    "gcd_P_Q_in":[1,2],
+    "P0_Q0_coprime":true,
+    "difference":"P0^2-Q0^2=8ab(a^2-b^2)/g^2",
+    "odd_bad_prime_branches":["q|P0","q|Q0","q|a","q|b","q|a^2-b^2"]
+  },
+  "symbolic_sel2_matrix":{
+    "global_ambient":"V_S=Q(S,2)^2",
+    "global_basis":"G=[-1] union sorted(S_f), duplicated in the two Kummer coordinates",
+    "local_target_dimensions":{"infinity":1,"Q2":3,"odd_Qq":2},
+    "localization":"L_v: V_S -> (Q_v^*/Q_v^{*2})^2",
+    "local_kummer":"W_v=delta_v(E_s(Q_v))",
+    "constraint_block":"W_v^perp * L_v",
+    "matrix":"M_Sel2(a,b)=vertical stack of all local constraint blocks",
+    "dimension_formula":"dim_F2 Sel^2(E_rho,p/Q)=2|G|-rank_F2 M_Sel2(a,b)",
+    "remaining_nonformal_input":"closed local branch formula for W_v in terms of P,Q,N,d and local Hilbert/Legendre data"
+  },
+  "single_D_squareclass_counterexample":{
+    "prime":17,
+    "row_Q_branch":{"a":1,"b":5,"P":-14,"Q":-34,"D":-960,"D_squareclass_bits":[0,0],"W17_basis":[[1,0,0,0],[0,1,0,0]]},
+    "row_P_branch":{"a":1,"b":7,"P":-34,"Q":-62,"D":-2688,"D_squareclass_bits":[0,0],"W17_basis":[[1,0,1,0],[0,1,0,1]]},
+    "same_D_squareclass":true,
+    "different_local_kummer_subspaces":true,
+    "consequence":"D squareclass alone is insufficient; P/Q divisibility-residue branch data must be retained"
+  },
+  "route_result":{
+    "route_status":"PASS_SYMBOLIC_MATRIX_EXACT_LOCAL_BRANCH_FORMULA_BLOCKER_PENDING_CI",
+    "next_leaf":"36-09EM_RHO_FULL2_LOCAL_KUMMER_BRANCH_FORMULA_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "uniform_Sel2_dimension_2_theorem":false,
+    "new_fixed_parameter_exclusion":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

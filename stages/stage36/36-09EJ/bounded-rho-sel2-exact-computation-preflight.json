@@ -1,0 +1,90 @@
+{
+  "schema":"STAGE36_36_09EJ_BOUNDED_RHO_SEL2_EXACT_COMPUTATION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EJ",
+  "status":"PROVISIONAL_EXACT_BOUNDED_SEL2_14_ROWS_TEN_NEW_FIXED_P_EXCLUSIONS_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09EH":{"path":"stages/stage36/36-09EH/rho-fixed-p-rankzero-torsion-criterion-preflight.json","blob_sha":"d95bf71f3cbed1d3fd12eaa0d235d2aa83539d37"},
+    "stage36_36_09EI":{"path":"stages/stage36/36-09EI/bounded-rho-no4-no3-screen-preflight.json","blob_sha":"979a2d58384d751a98c74555abf9581d95b30d37"},
+    "stage36_36_09DW_source":{"path":"stages/stage36/36-09DW/phi-selmer-five-place-local-image-source-lock.md","blob_sha":"08c91eed30774fa5c44509bb61f1c3b1386f2266"},
+    "stage36_36_09EC_source":{"path":"stages/stage36/36-09EC/factor-proselmer-mw-closure-source-lock.md","blob_sha":"c3bc3947747ad72a7708cbdce5b109a9286be6d3"},
+    "stage36_36_09EJ_source":{"path":"stages/stage36/36-09EJ/bounded-rho-sel2-exact-computation-source-lock.md","blob_sha":"3edce400c120880e1116ed68cef8a727887f49c0"}
+  },
+  "entry_authority":{
+    "v251_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V251_36_09EI_EXACT_GREEN_EJ_UNLOCKED",
+    "36_09EI_exact_head_ci":"34329177503/102393458967",
+    "36_09EI_promotion_ci":"34329373709/102394102293",
+    "36_09EJ_entry_allowed":true
+  },
+  "scan_domain":{
+    "a_range":"1..10",
+    "b_range":"1..10",
+    "conditions":["gcd(a,b)=1","a!=b","a>0","b>0"],
+    "ordered_parameter_count":62,
+    "same_as_36_09AX_and_EI_domain":true
+  },
+  "integral_rho_model":{
+    "N":"a^2-b^2",
+    "M":"a^2+b^2",
+    "d":"ab",
+    "roots":["4*N*d","-4*N*d","-M^2"],
+    "model":"y^2=(x-4Nd)(x+4Nd)(x+M^2)",
+    "root_differences":["8Nd","(N+2d)^2","(N-2d)^2"],
+    "finite_support_rule":"prime divisors of 2*(e1-e2)*(e1-e3)*(e2-e3), with 2 included"
+  },
+  "local_kummer_exactness":{
+    "odd_finite_target_dimension":2,
+    "Q2_target_dimension":3,
+    "real_target_dimension":1,
+    "target_source":"36-09DW local [2] Euler characteristic",
+    "kummer_pair":"([x-e1],[x-e2])",
+    "torsion_T1_pair":"([(e1-e2)(e1-e3)],[e1-e2])",
+    "torsion_T2_pair":"([e2-e1],[(e2-e1)(e2-e3)])",
+    "integer_witness_scan":"-50..50",
+    "all_required_local_images_saturated":true,
+    "largest_minimum_witness_abs_x":47,
+    "largest_minimum_witness_cases":[[7,6,97],[6,7,97]],
+    "bounded_search_used_only_to_saturate_theorem_upper_dimension":true
+  },
+  "global_sel2_intersection":{
+    "ambient_per_coordinate":"Q(S,2) with generators [-1] plus increasing finite support primes",
+    "squareclass_bits":{"infinity":"sign","odd_p":"valuation parity + nonsquare-unit","p2":"valuation parity + -1 bit + 5 bit"},
+    "intersection_method":"F2 localization matrix preimage of exact local Kummer subspaces",
+    "row_encoding":"lexicographic CSV a,b,semicolon-separated-S_f,ambient_dimension,constraint_rank,sel2_dimension with trailing newline",
+    "row_digest_sha256":"1a1ef2d5c15d74062f6af417f88b70ec358012afceb8c18aa9d4b55c7133eeea"
+  },
+  "exact_result":{
+    "sel2_dimension_distribution":{"2":14,"3":14,"4":30,"5":4},
+    "sel2_dimension_2_rows":[[1,2],[1,3],[1,5],[2,1],[2,3],[2,7],[2,9],[3,1],[3,2],[5,1],[5,9],[7,2],[9,2],[9,5]],
+    "sel2_dimension_2_parameters":["1/3","1/2","1/5","2","2/3","2/7","2/9","3","3/2","5","5/9","7/2","9/2","9/5"],
+    "p2_and_reciprocal_reproduce_fixed_rho_sel2_dim2":true
+  },
+  "criterion_consumption":{
+    "EI_no4_pass_all_62":true,
+    "EI_no3_pass_all_62":true,
+    "EH_complete_criterion_satisfied_on_all_14_dim2_rows":true,
+    "previous_EG_excluded_parameters":["1/3","1/2","2","3"],
+    "new_excluded_parameters_outside_EG_orbit":["1/5","5","2/3","3/2","2/7","7/2","2/9","9/2","5/9","9/5"],
+    "new_excluded_parameter_count":10,
+    "expanded_fixed_parameter_registry":["1/5","1/3","1/2","2/9","2/7","2/3","3/2","9/5","2","5/9","9/2","7/2","3","5"],
+    "expanded_fixed_parameter_registry_count":14,
+    "new_parameter_outside_EG_orbit_excluded":true,
+    "each_new_fixed_parameter_receiver_sector_empty":true
+  },
+  "route_result":{
+    "route_status":"PASS_EXACT_BOUNDED_SEL2_TEN_NEW_FIXED_P_EXCLUSIONS_PENDING_CI",
+    "next_leaf":"36-09EK_RHO_SEL2_PATTERN_OR_UNIFORM_FAMILY_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "bounded_box_is_exhaustive_parameter_ledger":false,
+    "all_positive_rational_p_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}
