@@ -40,8 +40,9 @@ def main() -> None:
     ):
         req(token in commands, f"canonical command missing: {token}")
     req("CROSS-LANE-DEMANDS.json" in commands, "command registry missing cross-lane demand routing")
-    req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in commands, "command registry missing current CUT192 demand")
-    req("CUT191" in commands and "already consumed" in commands, "command registry does not separate CUT191 consumption from CUT192 wait")
+    req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in commands, "command registry missing CUT192 demand")
+    req("SATISFIED" in commands and "CUT193" in commands, "command registry has stale CUT192 wait state")
+    req("CUT191" in commands and "already consumed" in commands, "command registry does not preserve CUT191 consumption")
 
     main_start = text(HERE / "MAIN-START-HERE.md")
     req("Ordinary `stage32mainbatch`" in main_start, "MAIN command not canonical")
@@ -77,7 +78,8 @@ def main() -> None:
     req("PR #1765 is merged" in ex5_start, "EX5 startup lost merged provenance")
     req("stage32ex5-mainbatch" in ex5_start, "EX5 command missing")
     req("stages/stage32/COMMANDS.md" in ex5_start, "EX5 startup does not read command registry")
-    req("P0_BLOCKING_DOWNSTREAM" in ex5_start, "EX5 startup does not prioritize current producer demand")
+    req("P0_BLOCKING_DOWNSTREAM" in ex5_start, "EX5 startup lost demand priority semantics")
+    req("SATISFIED" in ex5_start and "CUT192-EX5-E8-HANDOFF-SATISFIED.json" in ex5_start, "EX5 startup has stale producer wait state")
 
     cut = load(HERE / "full178-cut" / "MISSION.json")
     req(cut["status"] == "ACTIVE", "CUT mission unexpectedly inactive")
@@ -92,7 +94,8 @@ def main() -> None:
     req(cut["credit_firewall"]["stage32_main_pruning_credit"] is False, "CUT mission starts with MAIN credit")
     cut_start = text(HERE / "full178-cut" / "MAIN-START-HERE.md")
     req("stage32cut-mainbatch" in cut_start and "CROSS-LANE-DEMANDS.json" in cut_start, "CUT demand-aware startup missing")
-    req("CUT191" in cut_start and "already consumed" in cut_start, "CUT startup incorrectly couples CUT191 and CUT192")
+    req("CUT191" in cut_start and "consumed" in cut_start, "CUT startup lost CUT191 separation")
+    req("SATISFIED" in cut_start and "CUT193" in cut_start, "CUT startup has stale waiting state")
 
     mb_dir = HERE / "final-chain" / "32-03-multibranch"
     mb = load(mb_dir / "MISSION.json")
@@ -110,12 +113,11 @@ def main() -> None:
     mb_start = text(mb_dir / "MAIN-START-HERE.md")
     req("stage32mb-mainbatch" in mb_start and "CROSS-LANE-DEMANDS.json" in mb_start, "MB demand-aware startup missing")
 
-    # The cross-lane verifier owns cycle/orphan/priority/re-entry/audited-result-consumption checks.
     runpy.run_path(str(HERE / "proof" / "verify_cross_lane_demands.py"), run_name="__main__")
 
     print("PASS: Stage32 command surface is canonical, demand-aware, and authority-separated")
-    print("MAIN=global-monitor; EX5=producer; CUT=consumer; 178/MB=specialists")
-    print("CUT192=OPEN_P0_EX5_TO_CUT; CUT191=MAIN_CONSUMED")
+    print("MAIN=global-monitor; EX5=producer-handoff-complete; CUT=consumer-reentered; 178/MB=specialists")
+    print("CUT192=SATISFIED_EX5_TO_CUT; CUT193=REENTERED_ZERO_MAIN_CREDIT; CUT191=MAIN_CONSUMED")
 
 
 if __name__ == "__main__":
