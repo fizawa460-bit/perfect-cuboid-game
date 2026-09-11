@@ -20,10 +20,7 @@ on:
       - 'stages/stage32/proof/LANE-ADAPTERS.json'
       - 'stages/stage32/proof/verify_cross_lane_demands.py'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
-      - 'stages/stage32/32-02/RR-EFFECTIVITY-SUFFICIENT-LEMMA.md'
-      - 'stages/stage32/32-02/RR-EFFECTIVITY-SUFFICIENT-CHECKPOINT.json'
-      - 'stages/stage32/32-02/rr_effectivity_sufficient.py'
-      - 'stages/stage32/32-02/verify_rr_effectivity_sufficient.py'
+      - 'stages/stage32/final-chain/32-02-effectivity/**'
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32-ex5/CROSS-LANE-STATE.json'
       - 'stages/stage32/full178-cut/CROSS-LANE-STATE.json'
@@ -112,8 +109,8 @@ jobs:
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
 
-      - name: Verify Stage32 32-02 conditional RR effectivity classifier
-        run: python3 stages/stage32/32-02/verify_rr_effectivity_sufficient.py
+      - name: Verify Stage32 final-chain 32-02 conditional RR effectivity classifier
+        run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
 
       - name: Verify Stage32 claim-DAG integrity after CUT191 authority transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
