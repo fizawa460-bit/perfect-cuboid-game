@@ -44,26 +44,32 @@
   },
   "mb104_checkpoint": {
     "checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/CHECKPOINT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/OBSTRUCTION.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_input_insufficiency.py",
-    "status": "RETAINED_OBSTRUCTION_MB104_INCOMPLETE",
-    "current_inputs_imply_finite_degree_window": false,
-    "formal_arbitrary_even_degree_family_survives_current_necessary_conditions": true,
-    "actual_curve_existence_claimed": false,
-    "new_geometric_input_required": true
+    "baseline_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/OBSTRUCTION.json",
+    "baseline_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_input_insufficiency.py",
+    "fsm_multibranch_lemma": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FSM-MULTIBRANCH-POLE-LEMMA.md",
+    "fsm_multibranch_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FSM-MULTIBRANCH-POLE-CERTIFICATE.json",
+    "fsm_multibranch_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_fsm_multibranch_pole.py",
+    "status": "ACTIVE_RETAINED_NECESSARY_INEQUALITY_MB104_INCOMPLETE",
+    "branchwise_fsm_inequality": "d<=16g-16+4R8",
+    "R8_definition": "number of normalization branches over box nodes with MB101 cusp type (A,B)=(1,1)",
+    "bijective_specialization_recovers_published_bound": true,
+    "R8_le_R_le_M": true,
+    "absolute_R8_bound_proved": false,
+    "finite_degree_window_proved": false,
+    "actual_curve_existence_claimed": false
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Population-wide finite degree/intersection restriction",
-    "required_input": "new geometric inequality beyond MB101/MB102 necessary conditions",
+    "title": "Bound minimal-cusp branch population R8 strongly enough for a finite degree window",
+    "required_input": "prove R8<=constant or R8<=alpha*d+beta with alpha<1/4, or an equivalent stronger geometric restriction",
     "must_not_assume": [
-      "Freitag-Salvati Manni 176/192 cap transfers to multibranch population",
+      "Freitag-Salvati Manni 176/192 cap transfers unchanged to multibranch population",
+      "distinct node support N bounds normalization multiplicity R8",
+      "R8 equals total branch count R or exceptional mass M",
       "Delta_total is bounded by exceptional contact counts alone",
-      "Delta_off is zero",
-      "Aut(S) quotient itself implies a degree bound",
       "formal arbitrary-degree numerical data correspond to actual curves"
     ],
-    "target": "source-lock or prove a genuine multibranch degree/intersection inequality that rules out the retained arbitrary-degree formal family"
+    "target": "convert d<=16g-16+4R8 into a genuine population-wide finite degree/intersection window"
   },
   "routing": {
     "independent_of_full178_execution": true,
