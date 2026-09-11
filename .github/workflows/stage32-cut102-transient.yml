@@ -1,0 +1,37 @@
+name: Stage32 CUT102 transient finite-ring screen
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage32/full178-cut/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cut102:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact runtime dependencies
+        run: python -m pip install --disable-pip-version-check sympy z3-solver
+      - name: Run bounded finite-ring screen
+        run: |
+          python stages/stage32/full178-cut/cut102_finite_ring_direct_completion.py \
+            --primes 2,3,5,7,11,13,17,31,127 \
+            --per-check-timeout-ms 750 \
+            --no-partition-on-unknown \
+            --output stages/stage32/full178-cut/CUT102-result.json
+      - name: Upload CUT102 result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-cut102-result
+          path: stages/stage32/full178-cut/CUT102-result.json
+          if-no-files-found: warn
