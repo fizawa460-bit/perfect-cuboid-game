@@ -3,11 +3,7 @@
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
   "current_node": "MB104",
-  "completed_retained_nodes": [
-    "MB101",
-    "MB102",
-    "MB103"
-  ],
+  "completed_retained_nodes": ["MB101", "MB102", "MB103"],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
@@ -57,6 +53,7 @@
     "minimal_branch_lower_bound": "s_min>=d-4*g+4",
     "g0_ranges": "s_min>=d+4 and d+4<=M<=3d",
     "g1_ranges": "s_min>=d and d<=M<=3d",
+    "formal_scaling_witnesses_show_current_ledger_nonfinite": true,
     "fsm_cardinality_route_population_wide_dominated": true,
     "fixed_degree_discrete_profiles_finite": true,
     "finite_degree_window_proved": false,
@@ -65,10 +62,11 @@
   },
   "next_obligation": {
     "node_id": "MB104",
-    "subobligation": "MB104_INDEPENDENT_UPPER_COEFFICIENT_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
-    "title": "Close the remaining population-wide degree coefficient gap",
+    "subobligation": "MB104_INDEPENDENT_SUBLINEAR_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
+    "title": "Break the population-wide scaling cone",
+    "preferred_route": "exceptional P1 minimal-landing capacity / lambda constraint independent of the existing two-factor slack ledger",
     "acceptable_closing_inputs": [
-      "s_min<=alpha*d+beta with alpha<1/4",
+      "s_min<=alpha*d+beta with alpha<1",
       "M<=alpha*d+beta with alpha<1",
       "independent absolute bound on one factor degree or on d"
     ],
