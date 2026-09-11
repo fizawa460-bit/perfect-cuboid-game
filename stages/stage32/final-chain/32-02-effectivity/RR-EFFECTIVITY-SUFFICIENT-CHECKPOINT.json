@@ -2,7 +2,7 @@
   "schema": "STAGE32_32_02_RR_EFFECTIVITY_SUFFICIENT_CHECKPOINT_V1",
   "stage": 32,
   "leaf": "32-02",
-  "status": "CONDITIONAL_SUFFICIENT_CLASSIFIER_READY_PREPARATION_ONLY",
+  "status": "SOURCE_LOCKED_SUFFICIENT_CLASSIFIER_READY_PREPARATION_ONLY",
   "authority": {
     "parent_main_coordination_pr": 1785,
     "parent_exact_head": "d44ff4403559dce4ea296698630f57a56cd0d0fe",
@@ -20,7 +20,10 @@
     "serre_duality_applicable": true,
     "riemann_roch_for_integral_divisor_class": true,
     "assumptions_are_not_newly_proved_by_this_checkpoint": true,
-    "external_source_lock_for_surface_invariants_present_in_this_checkpoint": false
+    "external_source_lock_for_surface_invariants_present_in_this_checkpoint": true,
+    "source_lock_path": "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json",
+    "source_lock_canonical_sha256_without_this_field": "750a19b321699465bbfe9a0e09ce9223efa0bd65efbf786a7e0eeb86911d86a5",
+    "official_wrapper_affirmation_requires_source_lock_pass": true
   },
   "classifier": {
     "inputs": [
@@ -69,7 +72,7 @@
     "degree_gate_certificate_path": "stages/stage32/final-chain/32-02-effectivity/FULL178-RR-DEGREE-GATE.json",
     "full178_rows_effectivity_classified": false,
     "final_survivor_picard_ledger_available": false,
-    "reason": "The retained FULL178 manifest now source-locks only the 168/10 degree partition. Effectivity still requires affirmed surface assumptions and the final survivor/Picard ledger."
+    "reason": "The retained FULL178 manifest source-locks the 168/10 degree partition and retained Stage29/Stage32 evidence source-locks the surface invariants. Final row effectivity still requires the final survivor/Picard C2 ledger."
   },
   "live_specialist_observation": {
     "cut193_pr": 1786,
@@ -80,6 +83,7 @@
   },
   "credit_firewall": {
     "effectivity_preparation_credit": true,
+    "surface_invariant_source_lock_complete": true,
     "effectivity_final_execution_released": false,
     "receiver_credit": false,
     "full178_pruning_credit": false,
@@ -90,5 +94,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "79629e7921bf960c1a25cf74a2f7dbe5cc63c36b48a4e389309170c094d773cb"
+  "canonical_sha256_without_this_field": "459bcfcdd9ee8dda9fc36abd8cb319d4dda517d71a66e0275d8a8852fe242893"
 }
