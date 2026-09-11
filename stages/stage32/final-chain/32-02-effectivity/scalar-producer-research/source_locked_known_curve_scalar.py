@@ -4,7 +4,7 @@ import hashlib,importlib.util,json,math,sys
 from pathlib import Path
 from sympy import Matrix
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[4]
+ROOT=HERE.parents[5]
 RES=ROOT/"stages/stage32/residual-32-01-production"
 S33=ROOT/"stages/stage33/33-07"
 sys.path.insert(0,str(RES))
