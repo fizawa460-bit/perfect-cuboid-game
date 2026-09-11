@@ -55,12 +55,20 @@ jobs:
       - name: Verify CUT191 exact-head audit boundary
         if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
         run: python stages/stage32/full178-cut/verify_cut191_exact_head_audit.py
-      - name: Screen CUT192 first disjoint e8 block on exact head
+      - name: Checkout exact EX5 e8 handoff producer
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
+        uses: actions/checkout@v4
+        with:
+          ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
+          path: .stage32-ex5-cut-handoff
+      - name: Scan first CUT192 HNF-parent shard on exact head
         if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
         run: |
-          python stages/stage32/full178-cut/cut192_e8_block1_finite_ring_screen.py \
-            --output /tmp/CUT192-block1-finite-ring-screen.json
-          cat /tmp/CUT192-block1-finite-ring-screen.json
+          python stages/stage32/full178-cut/cut192_e8_block1_parent_cover_scan.py \
+            --ex5-root .stage32-ex5-cut-handoff \
+            --start 0 --end 128 \
+            --output /tmp/CUT192-block1-parent-shard-0000-0128.json
+          cat /tmp/CUT192-block1-parent-shard-0000-0128.json
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
