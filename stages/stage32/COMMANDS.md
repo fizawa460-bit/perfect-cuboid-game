@@ -15,7 +15,7 @@ Responsibilities:
 - route dedicated vertical work to the appropriate active specialist surface instead of duplicating it;
 - consume retained/audited specialist results only through the required current-target adapter/claim-sync boundary.
 
-This command is **not coordination-only**. It may do substantial mathematics. It must not start a duplicate FULL178 mission leaf already owned by `stage32-01-178-mainbatch`, or a duplicate EX5 Picard64/producer leaf already owned by `stage32ex5-mainbatch`, unless current `MAIN-STATE.json` explicitly reassigns that work to MAIN.
+This command is **not coordination-only**. It may do substantial mathematics. It must not start a duplicate FULL178 mission leaf already owned by `stage32-01-178-mainbatch`, a duplicate EX5 Picard64/producer leaf already owned by `stage32ex5-mainbatch`, a direct Picard64 completion-infeasibility leaf owned by `stage32cut-mainbatch`, or the 32-03 multibranch final-chain mission owned by `stage32mb-mainbatch`, unless current `MAIN-STATE.json` explicitly reassigns that work to MAIN.
 
 ### `stage32audit`
 
@@ -41,6 +41,26 @@ PR #1765 / BC2-24 is already merged history. A new invocation starts from curren
 
 Hostile audit only after EX5 MAINBATCH freezes a new exact retained checkpoint. PR #1765 is historical/merged and is not the current audit target.
 
+### `stage32cut-mainbatch`
+
+Dedicated auxiliary FULL178 **direct completion obstruction** researcher. It consumes an already retained/source-locked exact Picard64 completion interface and researches finite-ring/modular infeasibility first, followed only if necessary by exact dual/Farkas or proof-producing integer infeasibility certificates.
+
+CUT must not build or repair the EX5 terminal-to-Picard64 adapter, work on EX5 BC2-25 node-support/UNKNOWN identity refinement, or duplicate 178 prefix/exceptional-mass/block-sum/transport/maxcut/N356 work. Its startup contract is `stages/stage32/full178-cut/MAIN-START-HERE.md` and its mission is `stages/stage32/full178-cut/MISSION.json`.
+
+### `stage32cut-audit`
+
+Hostile audit only after CUT freezes an exact retained obstruction/checkpoint. PASS does not grant MAIN pruning credit or merge authorization by itself.
+
+### `stage32mb-mainbatch`
+
+Dedicated auxiliary Stage32 **32-03 multibranch final-chain** researcher. It advances the R29-LG2-MB population/normalization, local delta/genus accounting, Aut(S) quotient, justified finite window, and later Picard/effectivity backend. The lane is explicitly independent of FULL178 execution and may run concurrently with 178, EX5, and CUT.
+
+MB must not borrow the unibranch 176/192 caps without a new proof, rerun V6/O210/Q602 exclusions, or revive dominated EX6 O266 tensor routes. Its startup contract is `stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md` and its mission is `stages/stage32/final-chain/32-03-multibranch/MISSION.json`.
+
+### `stage32mb-audit`
+
+Hostile audit only after MB freezes an exact retained checkpoint. PASS does not grant receiver/final-milestone/theorem credit or merge authorization by itself.
+
 ## NOT ordinary active commands
 
 The following are historical, returned, merged, superseded, or on-demand research surfaces and must not be silently reactivated by ordinary startup:
@@ -57,11 +77,19 @@ For ordinary operation:
 
 `Stage32 MAIN-STATE explicit current routing` > `this command ownership table` > `historical mission/roadmap/controller text`.
 
-When two active commands could plausibly attack the same mathematics, do not run both independently. MAIN chooses/records ownership; the specialist lane executes the vertical leaf; MAIN later integrates the result. Parallelism is re-enabled only when the decomposition is explicit and nonoverlapping.
+When two active commands could plausibly attack the same mathematics, do not run both independently. MAIN chooses/records ownership; the specialist lane executes the vertical leaf; MAIN later integrates the result. Parallelism is enabled only for the explicit nonoverlapping ownership split above.
+
+Current intended split is:
+
+- 178: FULL178 numerical/prefix/incidence/transport pruning and census;
+- EX5: Picard64/node-support interface production and refinement;
+- CUT: direct infeasibility certificates consuming an exact Picard64 completion interface;
+- MB: independent 32-03 multibranch final-chain research;
+- MAIN: current authority, cross-lane synthesis, promotion, and genuinely unowned mathematics.
 
 ## Startup rule
 
-All three active research commands (`stage32mainbatch`, `stage32-01-178-mainbatch`, `stage32ex5-mainbatch`) must read this registry during startup and then synchronize against current Stage32 MAIN authority before substantive new work.
+All five active research commands (`stage32mainbatch`, `stage32-01-178-mainbatch`, `stage32ex5-mainbatch`, `stage32cut-mainbatch`, `stage32mb-mainbatch`) must read this registry during startup and then synchronize against current Stage32 MAIN authority before substantive new work.
 
 Replay the command-surface guard with:
 
