@@ -12,8 +12,8 @@ STATE = HERE / "MAIN-STATE.json"
 START = HERE / "MAIN-START-HERE.md"
 
 EXPECTED_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V13_CUT194_AUDITED_CONSUMED"
-EXPECTED_STATE_BLOB = "9dec644914d355f677331a3d78ab02a53c36c3b7"
-EXPECTED_STATE_CANONICAL = "ba36c9968211f9b26e31816d2749b433d85f01eabc0caff96d53ca93e4eda822"
+EXPECTED_STATE_BLOB = "0f281111572572a8068cc38bb77f5f1c869b98ad"
+EXPECTED_STATE_CANONICAL = "7c39d7935c36066cf2ec4a549eadc45e821fbf818490e6bfd10126f32bdf8a6d"
 EXPECTED_REPOSITORY_MAIN = "c31684fb5f63d8a025eb298c91861d4c979b0e28"
 
 PRE_CUT194_REMAIN = 65396964990500233636101
@@ -34,6 +34,7 @@ N357_HEAD = "0d787839b7e0dad4a42108c61d16e7849c50862f"
 N357_RESULT_BLOB = "50014d453266ad79101910a943d14388bd3ef6ec"
 N357_RESULT_CANONICAL = "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
 N357_ENGINE_BLOB = "479c783cb42d0952cc310708106787147b499240"
+N357_COMPOSITION_VERIFIER_BLOB = "fdca9ad629983d8c31c7e6355540af3545910120"
 N357_REJECT = 17797986705435299826016
 POST_N357_IF_CONSUMED = 47598978285064933783643
 
@@ -210,7 +211,8 @@ def main() -> None:
     assert lock["audited_candidate_engine_blob_sha1"] == N357_ENGINE_BLOB
     assert lock["composition_receipt_blob_sha1"] == EXPECTED["n357_composition"][1]
     assert lock["composition_receipt_canonical_sha256"] == EXPECTED["n357_composition"][2]
-    assert lock["composition_verifier_blob_sha1"] == "dc5b70f9a165c3e7d4b976edb45b3ecb8a074fb2"
+    assert lock["composition_verifier_blob_sha1"] == N357_COMPOSITION_VERIFIER_BLOB
+    assert git_blob_sha(HERE / "verify_n357_v13_current_authority_composition.py") == N357_COMPOSITION_VERIFIER_BLOB
     assert lock["current_v13_overlap_cut191_terminals"] == 0
     assert lock["current_v13_overlap_cut194_terminals"] == 0
     assert lock["main_pruning_credit"] is False
@@ -239,8 +241,6 @@ def main() -> None:
     for rel in state["current_leaf_working_set"]:
         assert (ROOT / rel).is_file(), rel
 
-    # Execute the exact current-authority overlap/composition replay as part of
-    # the ordinary startup gate. This does not consume N357 credit.
     runpy.run_path(
         str(HERE / "verify_n357_v13_current_authority_composition.py"),
         run_name="__main__",
