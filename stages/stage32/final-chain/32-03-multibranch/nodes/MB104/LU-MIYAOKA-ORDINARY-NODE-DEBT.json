@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE32_MB104_LU_MIYAOKA_ORDINARY_NODE_DEBT_V1",
+  "status": "RETAINED_GLOBAL_MEMBER_LEVEL_LINEAR_SINGULARITY_DEBT_NONCLOSING",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LU-MIYAOKA-ORDINARY-NODE-DEBT-SOURCE-NOTE.md",
+    "lu_miyaoka_reference": "Lu--Miyaoka, Bounding curves in algebraic surfaces by genus and Chern numbers, Math. Res. Lett. 2 (1995), DOI 10.4310/MRL.1995.V2.N6.A1",
+    "modern_restatement_reference": "Ciliberto--Fontanari, Variations on the Weak Bounded Negativity Conjecture, Adv. Geom. 24 (2024), DOI 10.1515/advgeom-2023-0027",
+    "known_curve_wall_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/KNOWN-CURVE-CONE-WALL.json",
+    "known_curve_wall_blob_sha1": "61e516f2cb231ad61d16eb097395ec69e409c943",
+    "ambient_scaling_wall_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AMBIENT-A1-SCALING-WALL.json",
+    "ambient_scaling_wall_blob_sha1": "443335ac8c4d1bb80c0f3e6294e9ed116a0c4001"
+  },
+  "surface_invariants": {
+    "K_square": 16,
+    "chi_O_S": 8,
+    "c2_by_noether": 80,
+    "three_c2_minus_K2": 224,
+    "K2_gt_c2": false
+  },
+  "theorem_contract": {
+    "hypothesis": "D integral of geometric genus g and some positive multiple of K_S+D effective",
+    "hypothesis_available": true,
+    "inequality": "d<=4*(g-1)+224+n_ot",
+    "n_ot": "number of ordinary double points plus ordinary triple points, using the coarse coefficient one for each",
+    "g0": "n_ot>=max(0,d-220)",
+    "g1": "n_ot>=max(0,d-224)"
+  },
+  "scaling_ray_interface": {
+    "ray": "D_k=6*k*H-k*sum_i(E_i)",
+    "degree": "d=96*k",
+    "g1_required_ordinary_singularities": "n1(k)=max(0,96*k-224)",
+    "g0_required_ordinary_singularities": "n0(k)=max(0,96*k-220)",
+    "previous_single_complex_cusp_witness_survives_for_all_k": false,
+    "reason": "for high k the Lu-Miyaoka inequality forces a linear number of ordinary nodes/triples"
+  },
+  "repaired_analytic_scaling_witness": {
+    "g1_total_strict_delta": "240*k^2+48*k",
+    "g1_residual_complex_delta": "240*k^2+48*k-max(0,96*k-224)",
+    "g0_total_strict_delta": "1+240*k^2+48*k",
+    "g0_residual_complex_delta": "1+240*k^2+48*k-max(0,96*k-220)",
+    "residual_positive_for_all_k_ge_1": true,
+    "residual_realization": "one irreducible plane branch v^2=u^(2*Delta_res+1)",
+    "ordinary_part_realization": "use the required number of ordinary nodes at distinct smooth ambient points",
+    "global_algebraic_member_claimed": false
+  },
+  "dimension_count": {
+    "h0_lower_bound_on_ray": "h0(D_k)>=240*k^2-48*k+8",
+    "forced_ordinary_debt_growth": "O(k)",
+    "linear_system_growth": "O(k^2)",
+    "naive_one_condition_per_node_closes": false,
+    "independence_of_conditions_claimed": false
+  },
+  "decision": {
+    "lu_miyaoka_kills_previous_zero_ordinary_node_globalization_model": true,
+    "lu_miyaoka_closes_finite_degree_window": false,
+    "generic_bounded_low_genus_theorem_K2_gt_c2_available": false,
+    "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
+    "required_new_input": [
+      "cuboid-specific upper bound n_ot<=alpha*d+beta with alpha<1",
+      "global modular/factor-map obstruction to linearly many ordinary nodes/triples",
+      "global jet/interpolation theorem for the actual Picard classes stronger than naive dimension count",
+      "another cuboid-specific theorem forbidding globalization of the repaired analytic scaling profile"
+    ]
+  },
+  "firewalls": {
+    "ordinary_node_triple_count_identified_with_total_delta": false,
+    "repaired_analytic_profile_globalizes_claimed": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
