@@ -1,0 +1,20 @@
+Stage32 MB104 BTVA projective-span local replay receipt
+
+Replay status: PASS (standalone arithmetic reconstruction; not exact-head repository CI)
+
+Checked:
+- reconstructed the same 48 projective box nodes from the MB103 seed/generators;
+- exact Gaussian-rational rank of all 48 coordinate vectors = 7, hence projective span P6;
+- zero-based node indices [0,1,2,4,8,9] have vector rank 6, hence span P5;
+- adding node 24 gives [0,1,2,4,8,9,24] of vector rank 7, hence span P6;
+- for the retained D_k scaling profile, support=48 and d=96k>16 for k>=1, so the BTVA support/span theorem does not close the degree direction.
+
+The repository verifier additionally source-locks the MB103 verifier blob and imports its exact orbit_nodes() implementation.
+
+Credit boundary:
+- no hostile audit PASS;
+- no exact-head Actions verifier PASS claimed;
+- finite degree window remains false;
+- finite Picard enumeration remains unreleased;
+- receiver/theorem/endpoint/Perfect-Cuboid credit remains zero;
+- merge unauthorized.
