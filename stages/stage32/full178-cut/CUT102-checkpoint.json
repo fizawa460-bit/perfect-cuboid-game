@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_FULL178_CUT102_CHECKPOINT_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT102",
+  "status": "CANDIDATE_PARTIAL_RETAINED_FINITE_RING_OBSTRUCTION_NEEDS_CUT103_SCOPE_CERTIFICATE",
+  "compute": {
+    "workflow_run_id": 34578997643,
+    "job_id": 103197940162,
+    "artifact_id": 10190859034,
+    "artifact_name": "stage32-cut102-result",
+    "artifact_zip_digest": "sha256:104fe02d8c5aa800eb8cbeb3c5e0cd80168fb0373b9ffc43ad926691a4b7adf5",
+    "compute_head": "98b9d4d8a08a6203865af5531656014e2ed61f86",
+    "runner": "stages/stage32/full178-cut/cut102_finite_ring_direct_completion_v2.py",
+    "z3_version": "5.1.0",
+    "raw_result_canonical_sha256": "1a71f1fb2a3c3daaee2ff9ad3f39a1eb82a9d137982d6deca101bdb8368e79df"
+  },
+  "source_locks": {
+    "bc2_24_checkpoint_blob_sha1": "37e12dc0bf40e0dec862784f5567bd247d451742",
+    "bc2_24_checkpoint_canonical_sha256": "ac6f8afff29a4ac969b1fd32251499f299395261c1aa96a813502cfe2b22472f",
+    "bc2_18_enumerator_blob_sha1": "1e2ed93cae3c5b446c8d90c1ae2250be83289c79",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7",
+    "retained_picard_bundle_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "retained_marking_blob_sha1": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "retained_unknown_parent_count": 19,
+    "other_unretained_unknown_identity_count": 172,
+    "other_unretained_unknown_identities_inferred": false
+  },
+  "result": {
+    "prime_2_rank_mod_p": 50,
+    "prime_2_left_kernel_dimension": 90,
+    "finite_ring_obstructed_parent_count": 14,
+    "finite_ring_obstructed_parent_indices": [584,1003,1014,1048,1050,1064,1066,1106,1117,1119,1198,1218,1224,1243],
+    "all_14_obstructions_found_mod_2": true,
+    "residual_parent_count": 5,
+    "residual_parent_indices": [1000,1030,1056,1103,1133],
+    "residual_status_in_first_screen": "timeout/canceled at 750ms for every tested prime 2,3,5,7,11,13,17,31,127",
+    "sat_relaxation_witness_found": false
+  },
+  "interpretation": {
+    "soundness": "Every exact integral Picard64 completion reduces to the finite-ring image. Therefore each mod-2 UNSAT parent is an exact-completion obstruction candidate, subject to CUT103 exact scope/preimage certification and hostile replay.",
+    "finite_ring_sat_implies_exact_sat": false,
+    "timeout_relabelled_unsat": false,
+    "main_pruning_credit_yet": false
+  },
+  "next": {
+    "id": "CUT102_RESIDUAL5_MOD2_PARTITION_REPLAY",
+    "goal": "Retry only the five residual retained parents with a longer bounded mod-2 check and exhaustive n1 partition on timeout before escalating to CUT104."
+  },
+  "credit": {
+    "cut102_candidate_obstruction_count": 14,
+    "cut103_scope_certificate_complete": false,
+    "stage32_main_pruning_credit": false,
+    "whole_first_block_unsat": false,
+    "full178_complete": false,
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "bc2_25_identity_refinement_performed": false,
+    "unretained_172_identities_inferred": false,
+    "n356_candidate_assumed_consumed": false,
+    "main_authority_mutated": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
