@@ -1,14 +1,14 @@
 {
   "authority_sync": {
     "claim_dag_semantic_status_changed": false,
-    "current_repository_main": "5ca6acba4b591d9e2d40057241c850598c1fa1df",
+    "current_repository_main": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
     "ex5_audited_exact_head": "a5e59bab3f7fe5a31e356c5a78edcbd741b093a6",
     "ex5_hostile_audit_review_id": 5161068590,
     "ex5_hostile_audit_status": "PASS",
     "ex5_merge_auto_promotes_main_credit": false,
     "ex5_merge_commit": "bf2890ec0b8168f70db803de876024aa6b6d1f6d",
     "ex5_merged_pr": 1742,
-    "freshness_checkpoint": "0f8cee995e5c982cdb7ceceae14d69f91e65588d",
+    "freshness_checkpoint": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
     "historical_narrow_chain_latest_audited_pr": 1730,
     "historical_narrow_chain_merge_commit": "733176600f99e91993d08c16aa98f09c08a1e726",
     "historical_narrow_chain_post_sync_exact_head": "9b605ed7f44415198a0e261dc46971e5ecd3c80b",
@@ -44,15 +44,19 @@
     "n355_hostile_audit_review_id": 5165493296,
     "n355_hostile_audit_status": "PASS",
     "n355_merge_ready_freshness": "BLOCKED_PENDING",
-    "n356_audit_credit_consumed": false,
+    "n356_audit_credit_consumed": true,
     "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
     "n356_candidate_remaining_strata": 17128,
     "n356_candidate_remaining_terminals": 65396964990500233636214,
-    "n356_candidate_status": "AUDIT_REQUIRED",
+    "n356_candidate_status": "AUDITED_OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CUT_CONSUMED",
     "stage32_main_integration_pr": 1753,
-    "startup_authority": "stages/stage32/MAIN-STATE.json"
+    "startup_authority": "stages/stage32/MAIN-STATE.json",
+    "n356_hostile_audit_status": "PASS",
+    "n356_hostile_audit_review_id": 5176607630,
+    "n356_hostile_audit_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+    "n356_exact_head_ci_run": 34578552640
   },
-  "canonical_sha256_without_this_field": "6143a95a0fb380e3c30c6a464722b350666cec5f018318adefdae15800a676b3",
+  "canonical_sha256_without_this_field": "9167620fab303b3bf8ffa6fcae2e2201bcd4d8e3b0c7ad2b41f6263a4dfd0106",
   "cleanup_gate": {
     "archive_manifest": "stages/stage32/archive/legacy-root/manifest-phase-c.json",
     "integrated_ex_view": "stages/stage32/integrated-ex/README.md",
@@ -65,14 +69,14 @@
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "BEFORE_N356_PROMOTION",
-    "next_exact_route": "N356_EXTERNAL_HOSTILE_AUDIT_THEN_CONSUME_OPTIMISTIC_TRANSPORT_CUT",
-    "stacked_candidate_audit_status": "AUDIT_REQUIRED",
-    "stop_semantics": "N356_AUDIT_CANDIDATE_LOCKED_NO_MAIN_PRUNING_CREDIT"
+    "mainbatch_stop_gate": "NONE_UNTIL_N357_AUDITABLE_CANDIDATE_OR_TRUE_AUTHORITY_GATE",
+    "next_exact_route": "N357_ALL178_TRANSPORT_SUPPORT_CAPACITY_CENSUS_THEN_EXTERNAL_AUDIT",
+    "stacked_candidate_audit_status": "N356_PASS_CONSUMED_N357_RESEARCH_CHECKPOINT_NO_MAIN_CREDIT",
+    "stop_semantics": "N357_OWNED_BY_STAGE32_01_178_MAINBATCH_MAIN_MUST_NOT_DUPLICATE"
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": 66462870551188628549910,
+    "authoritative_remaining_terminals": 65396964990500233636214,
     "effectivity_final_execution_released": false,
     "full178_goal_authority_status": "DECLARED_GOAL",
     "full178_goal_claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
@@ -106,21 +110,27 @@
     "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
     "n356_candidate_remaining_strata": 17128,
     "n356_candidate_remaining_terminals": 65396964990500233636214,
-    "n356_main_pruning_credit": false,
-    "n356_status": "AUDIT_REQUIRED",
+    "n356_main_pruning_credit": true,
+    "n356_status": "AUDITED_OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CUT_CONSUMED",
     "post_n220_strata": 60491,
     "post_n220_terminals": 346053707902916587089896969,
     "primary_incomplete_remains_32_01": true,
     "production_leaf_certificate_verifier_contract_audited": false,
     "production_leaf_certificate_verifier_contract_registered": true,
-    "stage32_closed": false
+    "stage32_closed": false,
+    "n356_rejected_terminals": 1065905560688394913696,
+    "n356_audit_review_id": 5176607630,
+    "n356_audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+    "n356_audit_credit_consumed": true,
+    "n357_main_pruning_credit": false,
+    "n357_status": "RESEARCH_CHECKPOINT_NO_MAIN_CREDIT",
+    "n357_known_checkpoint_head": "906a32d78f4cd0c522bde55179eb184ac9859b70"
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
-    "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+    "stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json",
+    "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
     "stages/stage32/32-01-178/nodes/N356/RESULT.json",
-    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport.py",
-    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py"
+    "stages/stage32/32-01-178/nodes/N356/verify_n356_dependency_source_locks.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -219,7 +229,7 @@
     }
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V10_N356_AUDIT_REQUIRED",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V11_N356_AUDITED_CONSUMED",
   "source_locks": {
     "full178_manifest": {
       "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
@@ -293,15 +303,30 @@
     "n356": {
       "contract_blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3",
       "contract_path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
-      "management_blob_sha1": "4af85896d3839c492773b2826f22790ad14895e1",
-      "management_canonical_sha256": "1c2e3b6deb097587778d84ed2f29651ae7e1d77fb4cc042632c82db1bd8889ed",
-      "management_path": "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
       "parallel_verifier_blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19",
       "reference_verifier_blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad",
       "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed",
       "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
       "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json",
-      "workflow_blob_sha1": "68e105a1e2ccf65ab066e78fbb1e181368c9d5e0"
+      "workflow_blob_sha1": "68e105a1e2ccf65ab066e78fbb1e181368c9d5e0",
+      "candidate_management_blob_sha1": "4af85896d3839c492773b2826f22790ad14895e1",
+      "candidate_management_canonical_sha256": "1c2e3b6deb097587778d84ed2f29651ae7e1d77fb4cc042632c82db1bd8889ed",
+      "candidate_management_path": "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
+      "management_blob_sha1": "715aa701208b576b78503dabf294a7b5c71c971e",
+      "management_canonical_sha256": "ef33829623f399fd5de2d46ce529c6a4b8eb8f14ba490057b65246f6f4919933",
+      "management_path": "stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json",
+      "audit_receipt_blob_sha1": "b6dd078c258c51b88c7fccb791893af6dc7a81f1",
+      "audit_receipt_canonical_sha256": "b710cb0fdaf9f5308655e3c5491ec4017e5f19a6a82f3fd5477a8e2396881505",
+      "audit_receipt_path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
+      "audit_review_id": 5176607630,
+      "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+      "dependency_lock_verifier_blob_sha1": "45c0c793f8b2edfec29728412f2951ce9639e352",
+      "serial_entrypoint_blob_sha1": "a7fdee753ba3cb46766ad465f1d4db50a493d6b1",
+      "parallel_entrypoint_blob_sha1": "d7d2e93ea125ee1002d2d39ebf64c7deb0fe9e12",
+      "fast_entrypoint_blob_sha1": "cf508c75d847c6e9df0119f805987fa4ac98cfc6",
+      "serial_engine_blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad",
+      "parallel_engine_blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19",
+      "fast_engine_blob_sha1": "ec2bba109f4a42816f366dbf605afeea7c16f0a2"
     }
   },
   "stage": 32
