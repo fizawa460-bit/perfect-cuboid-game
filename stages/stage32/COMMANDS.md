@@ -11,9 +11,9 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 - Demand SATISFIED does not grant mathematical credit. The claim DAG, hostile audit, claim synchronization, current-target adapters, explicit MAIN promotion, and merge authorization remain separate.
 - MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and hostile-audited results awaiting required MAIN consumption.
 
-Current highest-priority demand is `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`: EX5 must supply CUT with a source-locked exact terminal-to-Picard64 completion interface for a disjoint current-MAIN-surviving e=8 population, with exact rank/unrank semantics. CUT waits and must not rebuild it.
+Current transition: `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is **SATISFIED**. EX5 supplied the source-locked disjoint current-MAIN-surviving e=8 terminal-to-Picard64 completion interface; the retained satisfaction receipt is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`. CUT has re-entered at CUT193 on PR #1786. This transition grants zero new Stage32 MAIN pruning credit by itself.
 
-CUT191 is separate: its hostile-audited 113-terminal result is already consumed in Stage32 V12 authority. CUT192's EX5 wait must not block or revoke that consumed credit.
+CUT191 is separate: its hostile-audited 113-terminal result is already consumed in Stage32 V12 authority and remains unaffected by CUT192/CUT193.
 
 ## ACTIVE commands
 
@@ -35,7 +35,7 @@ Hostile audit only after 178 freezes a new exact retained boundary.
 
 ### `stage32ex5-mainbatch`
 
-Dedicated Picard64/node-support producer/refinement surface. It must synchronize current MAIN plus cross-lane demands. An OPEN producer demand with higher priority than local BC2 refinement takes precedence. EX5 never self-promotes to MAIN credit.
+Dedicated Picard64/node-support producer/refinement surface. It must synchronize current MAIN plus cross-lane demands. An OPEN producer demand with higher priority than local BC2 refinement takes precedence. The CUT192 producer obligation is currently SATISFIED, so EX5 may resume its legal local route unless another higher-priority OPEN demand appears. EX5 never self-promotes to MAIN credit.
 
 ### `stage32ex5-audit`
 
@@ -43,7 +43,7 @@ Hostile audit only after EX5 freezes a new exact retained checkpoint.
 
 ### `stage32cut-mainbatch`
 
-Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. When that demand is SATISFIED, CUT re-enters immediately on its next mainbatch.
+Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. The CUT192 demand is currently SATISFIED and CUT has re-entered at CUT193; CUT193 candidate work remains zero MAIN credit until its own hostile audit and separate MAIN consumption.
 
 ### `stage32cut-audit`
 
