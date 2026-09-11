@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import hashlib
 import importlib.util
 import json
 import os
+import pickle
 import sys
 from collections import defaultdict
 from multiprocessing import get_context
@@ -14,11 +16,20 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 TARGET = HERE / "verify_n357_all178_support_capacity_census.py"
 EXPECTED_TARGET_BLOB = "beb6fb487a41f16d783f8762220a175d46ff2620"
+EXPECTED_PREFIX_PRODUCER_BLOB = "173ea0c029dbdfc511baecc9138a9613693afa70"
 
 
 def git_blob_sha1(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def load_target():
@@ -39,6 +50,8 @@ def main() -> None:
     ap.add_argument("--shard-index", type=int, required=True)
     ap.add_argument("--shard-count", type=int, required=True)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--prefix-cache", type=Path, required=True)
+    ap.add_argument("--prefix-meta", type=Path, required=True)
     ap.add_argument("--workers", type=int, default=0)
     args = ap.parse_args()
     if args.shard_count <= 0 or not 0 <= args.shard_index < args.shard_count:
@@ -82,10 +95,30 @@ def main() -> None:
         raise ValueError("N357 shard census requires verified even FULL178 degrees")
     H = max(d // 2 for _, d in parsed)
 
-    original_bc = fullmod.build_bc_prefix
-    original_lex = fullmod.build_lex_prefix
-    bc_pref = original_bc(H)
-    lex_pref = original_lex(H)
+    meta = json.loads(args.prefix_meta.read_text())
+    if meta.get("schema") != "STAGE32_32_01_178_N357_PREFIX_CACHE_META_V1":
+        raise ValueError("N357 prefix metadata schema regression")
+    if meta.get("producer_blob_sha1") != EXPECTED_PREFIX_PRODUCER_BLOB:
+        raise ValueError("N357 prefix producer source-lock regression")
+    if meta.get("target_blob_sha1") != EXPECTED_TARGET_BLOB:
+        raise ValueError("N357 prefix target source-lock regression")
+    if meta.get("n355_full_blob_sha1") != mod.EXPECTED_N355_FULL_BLOB:
+        raise ValueError("N357 prefix N355 source-lock regression")
+    if meta.get("manifest_blob_sha1") != mod.EXPECTED_MANIFEST_BLOB:
+        raise ValueError("N357 prefix manifest source-lock regression")
+    if int(meta.get("H", -1)) != H or int(meta.get("full178_rows", -1)) != len(rows):
+        raise ValueError("N357 prefix domain regression")
+    if meta.get("cache_sha256") != sha256_file(args.prefix_cache):
+        raise ValueError("N357 prefix cache digest regression")
+    if meta.get("main_pruning_credit") is not False:
+        raise ValueError("N357 prefix cache must not self-promote MAIN credit")
+
+    with gzip.open(args.prefix_cache, "rb") as fh:
+        payload = pickle.load(fh)
+    if payload.get("schema") != "STAGE32_32_01_178_N357_PREFIX_CACHE_V1" or int(payload.get("H", -1)) != H:
+        raise ValueError("N357 prefix cache payload regression")
+    bc_pref = payload["bc_pref"]
+    lex_pref = payload["lex_pref"]
     fullmod.build_bc_prefix = lambda _h: bc_pref
     fullmod.build_lex_prefix = lambda _h: lex_pref
 
@@ -137,6 +170,8 @@ def main() -> None:
         "workers": workers,
         "worker_blob_sha1": worker_blob,
         "target_blob_sha1": EXPECTED_TARGET_BLOB,
+        "prefix_producer_blob_sha1": EXPECTED_PREFIX_PRODUCER_BLOB,
+        "prefix_cache_sha256": meta["cache_sha256"],
         "structural_group_count_total": len(ordered),
         "structural_record_count_total": structural_records,
         "shard_group_count": len(selected),
@@ -150,7 +185,7 @@ def main() -> None:
     }
     args.output.write_text(json.dumps(result, sort_keys=True) + "\n")
     print(json.dumps({
-        "verdict": "PASS_N357_ALL178_SHARD",
+        "verdict": "PASS_N357_ALL178_SHARD_SHARED_PREFIX",
         "shard_index": args.shard_index,
         "shard_count": args.shard_count,
         "workers": workers,
@@ -159,6 +194,7 @@ def main() -> None:
         "partial_source_terminals": result["partial_source_terminals"],
         "partial_rejected_terminals": result["partial_rejected_terminals"],
         "partial_remaining_terminals": result["partial_remaining_terminals"],
+        "prefix_cache_sha256": result["prefix_cache_sha256"],
         "stream": result["partial_stream_sha256"],
         "main_credit": False,
     }, sort_keys=True))
