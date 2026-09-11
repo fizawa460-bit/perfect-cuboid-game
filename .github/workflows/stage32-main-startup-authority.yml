@@ -12,7 +12,13 @@ on:
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v10.py'
       - 'stages/stage32/verify_main_startup_authority_v11.py'
+      - 'stages/stage32/verify_main_startup_authority_v12.py'
+      - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json'
+      - 'stages/stage32/management/post-cut191-hostile-pass-consumption-20260911.json'
+      - 'stages/stage32/management/CUT191-MAIN-CONSUMPTION-HOSTILE-AUDIT-PASS.json'
+      - 'stages/stage32/full178-cut/CUT191-HOSTILE-AUDIT-PASS.json'
+      - 'stages/stage32/full178-cut/CUT191-first-block-closure-checkpoint.json'
       - 'stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json'
       - 'stages/stage32/32-01-178/nodes/N356/AUDIT-HANDOFF.json'
       - 'stages/stage32/32-01-178/nodes/N356/RESULT.json'
@@ -94,10 +100,10 @@ jobs:
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
 
-      - name: Verify Stage32 claim-DAG integrity after N356 authority transition
+      - name: Verify Stage32 claim-DAG integrity after CUT191 authority transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
 
-      - name: Verify Stage32 active frontier after N356 authority transition
+      - name: Verify Stage32 active frontier after CUT191 authority transition
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Detect edits to historical PR1753 handoff
