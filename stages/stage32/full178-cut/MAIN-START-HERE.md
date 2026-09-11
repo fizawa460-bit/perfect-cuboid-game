@@ -8,7 +8,7 @@ Ordinary `stage32cut-mainbatch` reads, in this order:
 4. `stages/stage32/full178-cut/MISSION.json`;
 5. current `stages/stage32/MAIN-STATE.json`;
 6. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
-7. `stages/stage32/full178-cut/CROSS-LANE-STATE.json` when CUT is waiting on a demand;
+7. `stages/stage32/full178-cut/CROSS-LANE-STATE.json` whenever CUT has current demand state;
 8. only the exact source/interface assets required by the current CUT node.
 
 The current Stage32 mathematical routing authority remains `stages/stage32/MAIN-STATE.json`. Cross-lane demand state governs operational wait/re-entry only. This lane cannot promote itself to MAIN credit.
@@ -21,7 +21,7 @@ Before local CUT research, inspect OPEN demands. If CUT is producer for a higher
 
 Demand SATISFIED does not grant mathematical credit. Hostile audit, claim sync, current-target adapter and explicit MAIN consumption remain required.
 
-Current CUT192 coordination state waits on `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`, produced by EX5. CUT191 is independent of that wait and its hostile-audited 113-terminal result is already consumed into MAIN V12 authority.
+Current CUT192 coordination state is **SATISFIED**, not waiting. Its retained receipt is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`. CUT has consumed the re-entry trigger and is currently at CUT193 on PR #1786, using the EX5 common e=8 interface without rebuilding producer mathematics. CUT193 remains zero Stage32 MAIN credit until its own retained hostile audit and separate MAIN consumption. CUT191 is independent and its hostile-audited 113-terminal result remains consumed in MAIN V12 authority.
 
 ## Ownership
 
