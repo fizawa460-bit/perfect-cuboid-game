@@ -21,16 +21,15 @@ jobs:
           python-version: '3.12'
       - name: Install exact runtime dependencies
         run: python -m pip install --disable-pip-version-check sympy z3-solver
-      - name: Run bounded residual-five mod2 screen
+      - name: Run isolated residual-three mod2 branches
         run: |
-          python stages/stage32/full178-cut/cut102_finite_ring_direct_completion_v2.py \
-            --primes 2 \
-            --per-check-timeout-ms 5000 \
-            --output stages/stage32/full178-cut/CUT102-result.json
-      - name: Upload CUT102 result
+          python stages/stage32/full178-cut/cut102_residual3_branch_replay.py \
+            --per-branch-timeout-ms 15000 \
+            --output stages/stage32/full178-cut/CUT102-residual3-result.json
+      - name: Upload CUT102 residual result
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-cut102-result
-          path: stages/stage32/full178-cut/CUT102-result.json
+          name: stage32-cut102-residual3-result
+          path: stages/stage32/full178-cut/CUT102-residual3-result.json
           if-no-files-found: warn
