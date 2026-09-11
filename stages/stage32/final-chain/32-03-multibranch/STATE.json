@@ -2,10 +2,11 @@
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
@@ -29,17 +30,29 @@
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
+  "mb103": {
+    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/RESULT.md",
+    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/verify_mb103_aut_profile_quotient.py",
+    "status": "RETAINED_NO_CREDIT",
+    "aut_s_group_order": 1536,
+    "exact_geometric_profile_quotient": true,
+    "complete_packet_transport": true,
+    "node_permutation_table_materialized_in_repo": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false
+  },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
-    ]
+    "node_id": "MB104",
+    "title": "Population-wide finite degree/intersection restriction",
+    "required_input": "MB101 exact population profile plus MB102 global genus/delta identity",
+    "must_not_assume": [
+      "Freitag-Salvati Manni 176/192 cap transfers to multibranch population",
+      "Delta_total is bounded by exceptional contact counts alone",
+      "Delta_off is zero",
+      "Aut(S) quotient itself implies a degree bound"
+    ],
+    "target": "prove a genuine population-wide finite degree/intersection window or retain a precise obstruction if current inputs are insufficient"
   },
   "routing": {
     "independent_of_full178_execution": true,
