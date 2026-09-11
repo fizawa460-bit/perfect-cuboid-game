@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -19,6 +20,12 @@ def text(path: Path) -> str:
 
 def load(path: Path) -> dict:
     return json.loads(text(path))
+
+
+def git_blob_sha1(path: Path) -> str:
+    data = path.read_bytes()
+    header = f"blob {len(data)}\0".encode("ascii")
+    return hashlib.sha1(header + data).hexdigest()
 
 
 def main() -> None:
@@ -94,6 +101,16 @@ def main() -> None:
     req(mb["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "MB routing authority drift")
     req(mb["routing"]["independent_of_full178_execution"] is True, "MB lost FULL178 independence")
     req(mb["routing"]["main_credit_auto_promotion"] is False, "MB self-promotion enabled")
+    locked_preflight_sha = mb["routing"]["preflight_blob_sha1"]
+    req(
+        locked_preflight_sha == "f625c14b665af668d9ce6b6e78d0b05a2a27bd27",
+        "MB preflight source lock drift",
+    )
+    preflight_path = mb_dir / "PREFLIGHT.json"
+    req(
+        git_blob_sha1(preflight_path) == locked_preflight_sha,
+        "MB PREFLIGHT actual Git blob SHA does not match MISSION source lock",
+    )
     req(mb["execution"]["first_leaf"] == "MB101", "MB first leaf drift")
     req(mb["credit_firewall"]["receiver_credit"] is False, "MB starts with receiver credit")
     mb_start = text(mb_dir / "MAIN-START-HERE.md")
