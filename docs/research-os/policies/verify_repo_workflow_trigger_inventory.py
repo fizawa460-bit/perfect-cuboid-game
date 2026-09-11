@@ -12,12 +12,11 @@ WF_DIR = ROOT / ".github" / "workflows"
 INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
 
 # Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
-# if they are present, they are intentionally automatic.
+# if present, they are intentionally automatic.
 ACTIVE_AUTO = {
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
-    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
@@ -29,6 +28,7 @@ ACTIVE_AUTO = {
 }
 MANUAL = {
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-root-cleanup-phase-b.yml",
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
     ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
@@ -110,7 +110,7 @@ def manualize(text: str) -> str:
     return "\n".join(lines[:start] + replacement + lines[end:]) + ("\n" if text.endswith("\n") else "")
 
 
-def build_inventory(changed: list[str]) -> dict:
+def live_classifications() -> tuple[dict[str, list[str]], dict[str, dict[str, int]]]:
     groups: dict[str, list[str]] = {k: [] for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
     fam: dict[str, Counter] = defaultdict(Counter)
     for p in workflow_paths():
@@ -119,35 +119,59 @@ def build_inventory(changed: list[str]) -> dict:
         groups[cls].append(r)
         fam[family(r)][cls] += 1
         fam[family(r)]["TOTAL"] += 1
+    return groups, {k: dict(v) for k, v in sorted(fam.items())}
+
+
+def build_inventory(changed: list[str]) -> dict:
+    groups, fam = live_classifications()
     counts = {k: len(v) for k, v in groups.items()}
     counts["TOTAL"] = sum(counts.values())
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "generated_on": "2026-09-11",
         "scope": "repository-wide workflow lifecycle policy",
-        "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
+        "classification_contract": "explicit ACTIVE_AUTO and MANUAL allowlists; every other Stage workflow is RETIRED; every other repository workflow is MANUAL; verifier enumerates the exact live workflow directory and fails closed on trigger/class/count drift",
         "counts": counts,
-        "families": {k: dict(v) for k, v in sorted(fam.items())},
-        "classifications": groups,
+        "families": fam,
+        "active_auto_present": groups["ACTIVE_AUTO"],
+        "manual_present": groups["MANUAL"],
+        "retired_count": len(groups["RETIRED"]),
         "automatic_triggers_removed_by_migration": changed,
-        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
-            "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
+            "The verifier enumerates every live .github/workflows/*.yml and *.yaml file at the exact head; this compact inventory does not weaken full-path coverage.",
+            "RETIRED and MANUAL workflows must be workflow_dispatch-only unless an explicit policy exception is added.",
             "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
-            "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
-            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
-            "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-            "Stage32 N356 optimistic exceptional transport is the current Stage32 MAIN mathematical frontier and must retain automatic PR replay.",
+            "Allowlist entries absent from the current sibling branch do not affect that branch inventory.",
+            "Stage32 N356 optimistic exceptional transport is hostile-audited and MAIN-consumed; its heavy exact replay is retained as MANUAL only.",
+            "Mathematical authority is unchanged by this lifecycle transition.",
         ],
     }
 
 
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
-    actual = build_inventory([])["classifications"]
-    expected = inv.get("classifications", {})
-    if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
+    if inv.get("schema_version") != 3:
+        failures.append("inventory schema must be 3")
+        return failures
+
+    groups, fam = live_classifications()
+    counts = {k: len(v) for k, v in groups.items()}
+    counts["TOTAL"] = sum(counts.values())
+    if counts != inv.get("counts"):
+        failures.append(f"inventory count drift: live={counts} retained={inv.get('counts')}")
+    if fam != inv.get("families"):
+        failures.append("inventory family/count drift")
+    if groups["ACTIVE_AUTO"] != inv.get("active_auto_present"):
+        failures.append("inventory ACTIVE_AUTO live-path drift")
+    if groups["MANUAL"] != inv.get("manual_present"):
+        failures.append("inventory MANUAL live-path drift")
+    if len(groups["RETIRED"]) != inv.get("retired_count"):
+        failures.append("inventory RETIRED count drift")
+
+    n356 = ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
+    if n356 not in groups["MANUAL"] or n356 in groups["ACTIVE_AUTO"]:
+        failures.append("audited-consumed N356 heavy replay must be MANUAL")
+
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -156,6 +180,7 @@ def verify_inventory(inv: dict) -> list[str]:
             failures.append(f"{cls} must be workflow_dispatch-only: {r} events={sorted(ev)}")
         if cls == "ACTIVE_AUTO" and not (ev - {"workflow_dispatch", "workflow_call"}):
             failures.append(f"ACTIVE_AUTO has no automatic event: {r} events={sorted(ev)}")
+
     return failures
 
 
@@ -191,6 +216,7 @@ def main() -> None:
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
     for name, row in inv["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
+    print("N356=AUDITED_CONSUMED_MANUAL_HEAVY_REPLAY")
     print("historical_or_manual_automatic_triggers=0")
     print("mathematical_authority_changed=false")
 
