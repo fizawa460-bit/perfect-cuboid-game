@@ -1,4 +1,4 @@
-name: Stage32 CUT102 transient finite-ring screen
+name: Stage32 CUT103 transient scope/preimage replay
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  cut102:
+  cut103:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -21,15 +21,16 @@ jobs:
           python-version: '3.12'
       - name: Install exact runtime dependencies
         run: python -m pip install --disable-pip-version-check sympy z3-solver
-      - name: Run isolated residual-three mod2 branches
+      - name: Run CUT103 fresh retained19 replay and scope certificate
         run: |
-          python stages/stage32/full178-cut/cut102_residual3_branch_replay.py \
-            --per-branch-timeout-ms 15000 \
-            --output stages/stage32/full178-cut/CUT102-residual3-result.json
-      - name: Upload CUT102 residual result
+          python stages/stage32/full178-cut/cut103_scope_preimage_fresh_replay.py \
+            --whole-timeout-ms 10000 \
+            --branch-timeout-ms 20000 \
+            --output stages/stage32/full178-cut/CUT103-result.json
+      - name: Upload CUT103 result
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-cut102-residual3-result
-          path: stages/stage32/full178-cut/CUT102-residual3-result.json
+          name: stage32-cut103-result
+          path: stages/stage32/full178-cut/CUT103-result.json
           if-no-files-found: warn
