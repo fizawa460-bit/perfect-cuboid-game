@@ -39,11 +39,13 @@ def gneg(x):
 
 def det3(rows):
     a, b, c = rows
-    return gadd(
-        gsub(gmul(a[0], gsub(gmul(b[1], c[2]), gmul(b[2], c[1]))),
-             gmul(a[1], gsub(gmul(b[0], c[2]), gmul(b[2], c[0])))),
-        gmul(a[2], gsub(gmul(b[0], c[1]), gmul(b[1], c[0]))),
-    )
+    minor0 = gsub(gmul(b[1], c[2]), gmul(b[2], c[1]))
+    minor1 = gsub(gmul(b[0], c[2]), gmul(b[2], c[0]))
+    minor2 = gsub(gmul(b[0], c[1]), gmul(b[1], c[0]))
+    term0 = gmul(a[0], minor0)
+    term1 = gmul(a[1], minor1)
+    term2 = gmul(a[2], minor2)
+    return gadd(gsub(term0, term1), term2)
 
 
 def rank3(rows):
@@ -53,7 +55,6 @@ def rank3(rows):
             for k in range(j + 1, n):
                 if det3([rows[i], rows[j], rows[k]]) != (0, 0):
                     return 3
-    # The certificates claim rank three; lower ranks are a hard failure.
     return 0
 
 
@@ -74,7 +75,6 @@ def canon(point):
 
 Z = (0, 0)
 ONE = (1, 0)
-MONE = (-1, 0)
 I = (0, 1)
 MI = (0, -1)
 
@@ -149,11 +149,10 @@ def main():
     require(rank3(r1) == cert["R1"]["rank"] == 3, "R1 maximal principal-part rank")
     require(rank3(r2) == cert["R2"]["rank"] == 3, "R2 maximal principal-part rank")
 
-    # Three distinct affine landing directions already determine a quadratic.
     eval_rows = [
-        [(1, 0), (0, 0), (0, 0)],      # lambda=0
-        [(1, 0), (1, 0), (1, 0)],      # lambda=1
-        [(1, 0), (-1, 0), (1, 0)],     # lambda=-1
+        [(1, 0), (0, 0), (0, 0)],
+        [(1, 0), (1, 0), (1, 0)],
+        [(1, 0), (-1, 0), (1, 0)],
     ]
     require(det3(eval_rows) != (0, 0), "three distinct landing directions saturate quadratic principal part")
     require(cert["local_A1_lemma"]["distinct_landing_condition_saturation"] == 3, "saturation contract")
