@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_POST_V8_GLOBALIZATION_OVERLAY_V1",
+  "schema": "STAGE32_MB104_POST_V8_GLOBALIZATION_OVERLAY_V2",
   "status": "RETAINED_POST_V8_CHECKPOINT_NO_POPULATION_WIDE_FINITE_WINDOW",
   "receiver": "R29-LG2-MB",
   "parent_v8": {
@@ -15,6 +15,9 @@
     "beauville_blowup_note": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-BLOWUP-BRIDGE.md", "blob_sha1": "580dfd4e11acd1710de74d79bfbcf50624920c6c"},
     "beauville_blowup_certificate": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-BLOWUP-BRIDGE.json", "blob_sha1": "a64a15cabd2640cfce520d7c801795ccb63f59b9"},
     "beauville_blowup_verifier": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_beauville_blowup_bridge.py", "blob_sha1": "2fb41abc460b7d6dec1aae225408d18d4143f0fc"},
+    "btva_threshold_note": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13-THRESHOLD-SHARP-WALL-SOURCE-NOTE.md", "blob_sha1": "de02726f57985d0ab9773b0c20ff002274863e11"},
+    "btva_threshold_certificate": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13-THRESHOLD-SHARP-WALL.json", "blob_sha1": "98ad04104e97d7de4a42cf43e513f238ba06112c"},
+    "btva_threshold_verifier": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_13_threshold_sharp_wall.py", "blob_sha1": "4d15a8e07208c351bd4191c0340fe16980330940"},
     "local_replay_receipt": {"path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/POST-V8-VERIFY-LOCAL.txt", "blob_sha1": "f7525182503bf62f58ae6d18fdb7a1e364549029"}
   },
   "retained_results": {
@@ -23,6 +26,10 @@
     "abstract_D13_exists": true,
     "numerical_D13_known": false,
     "any_unbounded_distinct_low_genus_sequence_eventually_has_N_ge_14": true,
+    "btva_prop3_1_cubic_coefficient": "C(r)=(11*r-384)/108",
+    "btva_threshold_positive_iff": "r>=35 equivalently N<=13",
+    "btva_N14_cubic_coefficient": "-5/54",
+    "btva_threshold_13_sharp_for_this_asymptotic_method": true,
     "beauville_resolved_cover_invariants": "Xhat: K^2=-16, c2=64",
     "beauville_minimal_surface_invariants": "X: K^2=32, c2=16",
     "beauville_bridge": "Xhat -> X is blowdown of the 48 ramification (-1)-curves",
@@ -32,13 +39,20 @@
     "low_support_N_le_13_abstractly_finite": true,
     "low_support_effective_enumeration_released": false,
     "remaining_potentially_unbounded_population": "N>=14",
-    "next_subobligation": "MB104_N_GE_14_GLOBALIZATION_OR_EFFECTIVE_LOW_SUPPORT_BOUND",
+    "direct_btva_prop3_1_asymptotic_extension_to_N14_retired": true,
+    "next_subobligation": "MB104_N_GE_14_EXPLICIT_DIFFERENTIAL_OR_GLOBAL_MEMBER_OBSTRUCTION",
     "preferred_inputs": [
       "effective numerical degree cutoff for the finite N<=13 subpopulation",
-      "global symmetric-differential/tangent-direction capacity for N>=14",
+      "exact finite-m symmetric-differential computations with dependent node-extension conditions on N>=14",
+      "multiple explicit resultants/foliations or tangent-direction capacity on N>=14",
       "global jet/interpolation or irreducibility theorem for actual Picard classes",
       "subunit-slope upper bound on M or s_min on the N>=14 subpopulation"
     ]
+  },
+  "method_firewall": {
+    "negative_Prop3_1_lower_bound_at_N14_means_actual_h0_zero": false,
+    "higher_m_or_explicit_differential_improvement_excluded": false,
+    "N_ge_14_population_proved_infinite": false
   },
   "credit_firewall": {
     "mb104_complete": false,
