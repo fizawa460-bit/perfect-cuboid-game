@@ -15,6 +15,7 @@ CLASSIFIER = HERE / "rr_effectivity_sufficient.py"
 SURFACE_LOCK = HERE / "SURFACE-INVARIANT-SOURCE-LOCK.json"
 SURFACE_LOCK_VERIFIER = HERE / "verify_surface_invariant_source_lock.py"
 DEGREE_GATE_VERIFIER = HERE / "verify_full178_rr_degree_gate.py"
+HPERP_ADAPTER_VERIFIER = HERE / "verify_hperp_norm_rr_adapter.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -62,7 +63,7 @@ def main() -> None:
     req(authority["full178_complete"] is False, "FULL178 was silently promoted")
 
     # The production wrapper may affirm the RR surface hypotheses only after
-    # replaying the retained Stage29/Stage32 source-lock chain.  The standalone
+    # replaying the retained Stage29/Stage32 source-lock chain. The standalone
     # classifier itself remains fail-closed by default.
     runpy.run_path(str(SURFACE_LOCK_VERIFIER), run_name="__main__")
     surface_lock = json.loads(SURFACE_LOCK.read_text(encoding="utf-8"))
@@ -94,13 +95,18 @@ def main() -> None:
         req(firewall[key] is False, f"credit firewall opened: {key}")
 
     runpy.run_path(str(DEGREE_GATE_VERIFIER), run_name="__main__")
+    runpy.run_path(str(HPERP_ADAPTER_VERIFIER), run_name="__main__")
     pop = cp["population_firewall"]
     req(pop["full178_manifest_degree_partition_source_locked"] is True, "FULL178 RR degree partition is not source-locked")
     req(pop["degree_gt_16_row_count"] == 168, "degree>16 row count drift")
     req(pop["degree_le_16_row_count"] == 10, "degree<=16 row count drift")
     req(pop["degree_gate_certificate_path"] == "stages/stage32/final-chain/32-02-effectivity/FULL178-RR-DEGREE-GATE.json", "degree-gate certificate path drift")
     req(pop["full178_rows_effectivity_classified"] is False, "degree partition mislabeled as effectivity classification")
-    req(pop["final_survivor_picard_ledger_available"] is False, "missing survivor ledger silently assumed")
+    req(pop["final_survivor_picard_ledger_available"] is False, "full Picard ledger availability silently assumed")
+    req(pop["minimal_rr_scalar_interface_ready"] is True, "minimal Hperp-norm RR interface missing")
+    req(pop["minimal_rr_scalar_fields"] == ["row_id", "d", "negative_hperp_square_N"], "minimal RR scalar fields drift")
+    req(pop["hperp_norm_adapter_path"] == "stages/stage32/final-chain/32-02-effectivity/HPERP-NORM-RR-ADAPTER.json", "Hperp norm adapter path drift")
+    req(pop["final_survivor_hperp_norm_scalar_available"] is False, "32-01 Hperp norm producer silently assumed complete")
 
     cut = cp["live_specialist_observation"]
     req(cut["cut193_pr"] == 1786, "CUT193 PR drift")
@@ -132,6 +138,7 @@ def main() -> None:
     print("PASS: Stage32 final-chain 32-02 source-locked RR effectivity sufficient classifier")
     print("surface lock: K^2=16; p_g=7; q=0; chi(O)=8; K big and nef; degree=K.C")
     print("FULL178 degree gate: source-locked 168 rows with d>16 / 10 rows with d<=16")
+    print("minimal downstream RR interface: row_id, d, N=-y^2; full 59-entry Picard vector not required by this gate")
     print("criterion: d>16 and C2>=d-14 with even C2-d; conclusion=effective divisor only")
     print("standalone API/CLI remains fail-closed; official wrapper affirms only after retained source-lock replay")
     print("parent hostile re-audit: #1785 review 5179390797 at d44ff4403559dce4ea296698630f57a56cd0d0fe")
