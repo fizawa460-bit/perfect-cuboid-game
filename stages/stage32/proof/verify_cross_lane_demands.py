@@ -21,6 +21,8 @@ EXPECTED_RECEIPT_CANONICAL = "011265b32e83f269c8a46d9556982bbe7da3377fa15d3ffbf0
 REQUIRED_LANES = {"MAIN","EX1","EX2","EX3","EX4","EX5","EX6","CUT","32-01-178","MB"}
 DEMAND_ID = "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
 PRIORITY = {"P0_BLOCKING_DOWNSTREAM":0,"P1_HIGH":1,"P2_NORMAL":2,"P3_LOW":3}
+CUT194_INCREMENT = 26442
+POST_CUT194_REMAINING = 65396964990500233609659
 
 EXPECTED_INTERFACE_LOCKS = {
     "stages/stage32-ex5/cut-handoff/e8-terminal-population-preflight.json": "b28539d9d0eafddc181d3bbf6d668261f2ff081e",
@@ -188,10 +190,26 @@ def main() -> None:
     main_state = load(MAIN_STATE)
     frontier = main_state["current_exact_frontier"]
     req(frontier["authoritative_remaining_strata"] == pop["authoritative_remaining_strata"], "demand source strata do not match live MAIN-STATE")
-    req(frontier["authoritative_remaining_terminals"] == pop["authoritative_remaining_terminals"], "demand source terminals do not match live MAIN-STATE")
     req(frontier["cut191_main_pruning_credit"] is True, "CUT191 is not consumed in live MAIN-STATE")
     req(frontier["cut191_incremental_rejected_terminals"] == 113, "CUT191 live MAIN-STATE credit drift")
     req(frontier["cut191_remaining_terminals"] == pop["authoritative_remaining_terminals"], "CUT191 live post-consumption count disagrees with demand population")
+    req(frontier["cut194_main_pruning_credit"] is True, "CUT194 is not consumed in live MAIN-STATE")
+    req(frontier["cut194_incremental_rejected_terminals"] == CUT194_INCREMENT, "CUT194 live MAIN-STATE credit drift")
+    req(frontier["authoritative_remaining_terminals"] == POST_CUT194_REMAINING, "post-CUT194 live MAIN-STATE count drift")
+    req(pop["authoritative_remaining_terminals"] - frontier["authoritative_remaining_terminals"] == CUT194_INCREMENT, "live MAIN delta is not exactly CUT194")
+    req(frontier["cut194_remaining_terminals"] == frontier["authoritative_remaining_terminals"], "CUT194 remaining count disagrees with live MAIN authority")
+
+    cut194_lock = main_state["source_locks"]["cut194"]
+    cut194_path = REPO / cut194_lock["result_path"]
+    req(cut194_path.is_file(), "CUT194 source-locked result missing")
+    req(git_blob_sha(cut194_path) == cut194_lock["result_blob_sha1"], "CUT194 source-locked result blob drift")
+    cut194 = load(cut194_path)
+    req(csha(cut194) == cut194_lock["result_canonical_sha256"], "CUT194 source-locked result canonical drift")
+    preferred_wave = receipt["interface_semantics"]["preferred_wave_survivor_offset_range"]
+    cut194_wave = cut194["target"]["survivor_offset_range"]
+    req(preferred_wave == [1,255] and cut194_wave == [256,510], "CUT192/CUT194 wave identity drift")
+    req(preferred_wave[1] < cut194_wave[0], "CUT194 overlaps the satisfied CUT192 preferred wave")
+    req(cut194["target"]["cut193_wave1_disjoint"] is True, "CUT194 producer did not certify CUT193/CUT192-wave disjointness")
 
     ex5 = load(REPO / reg["lane_coordination_state_paths"]["EX5"])
     req(ex5["canonical_sha256_without_this_field"] == EXPECTED_EX5_STATE_CANONICAL and csha(ex5) == EXPECTED_EX5_STATE_CANONICAL, "EX5 coordination state canonical drift")
@@ -251,6 +269,7 @@ def main() -> None:
         "satisfied_demands":[d["demand_id"] for d in demands if d["status"] == "SATISFIED"],
         "cut192_satisfied":True,
         "cut193_reentered":True,
+        "cut194_consumed_disjoint_from_cut192_wave":True,
         "ex5_handoff_complete":True,
         "cut191_main_consumed":True,
         "main_population_cross_checked":True,
