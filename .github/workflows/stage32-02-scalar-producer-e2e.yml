@@ -1,13 +1,13 @@
 name: Stage32 32-02 scalar producer E2E
 
-# ACTIVE_AUTO: current audit-repair leaf for PR #1790 only.  It performs no
+# ACTIVE_AUTO: current audit-repair leaf for PR #1790 only. It performs no
 # production search and uploads no artifacts; it is exact-head CI evidence.
 on:
   pull_request:
-    types: [synchronize, reopened]
+    types: [synchronize]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   scalar-e2e:
@@ -17,9 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 1
-      - name: Verify checkout is the audited exact head
+      - name: Verify checkout is the triggering exact head
         env:
           EXPECTED: ${{ github.event.pull_request.head.sha }}
         run: test "$(git rev-parse HEAD)" = "$EXPECTED"
@@ -27,6 +27,20 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Regenerate lifecycle inventory from the exact live workflow set
+        run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py --write-inventory
+      - name: Commit regenerated lifecycle inventory
+        env:
+          HEAD_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json
+            git commit -m 'Stage32 32-02 regenerate workflow lifecycle inventory'
+            git push origin HEAD:"$HEAD_BRANCH"
+          fi
       - name: Run selected64 producer and source-locked E2E replay
         run: |
           set -euo pipefail
