@@ -2,10 +2,11 @@
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
@@ -29,16 +30,32 @@
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
+  "mb103": {
+    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/RESULT.md",
+    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/verify_mb103_aut_node_quotient.py",
+    "status": "RETAINED_NO_CREDIT",
+    "node_count": 48,
+    "generator_count": 9,
+    "group_order": 1536,
+    "transitive_on_nodes": true,
+    "point_stabilizer_order": 32,
+    "unordered_pair_orbit_count": 7,
+    "exact_intrinsic_node_profile_canonicalizer": true,
+    "histogram_complete_orbit_invariant": false,
+    "raw_lambda_coordinate_quotiented": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false
+  },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
+    "node_id": "MB104",
+    "title": "Population-wide finite degree/intersection restriction",
+    "required_input": "MB101 exact multibranch population + MB102 delta/genus ledger; MB103 exact node-orbit quotient may reduce redundant cases",
+    "must_not_assume": [
+      "Freitag-Salvati Manni unibranch 176/192 cap applies to multibranch normalization",
+      "symmetry quotient itself bounds degree",
+      "exceptional contact mass bounds the off-exception delta budget",
+      "finite Picard enumeration is released before a population-wide finite window is proved"
     ]
   },
   "routing": {
