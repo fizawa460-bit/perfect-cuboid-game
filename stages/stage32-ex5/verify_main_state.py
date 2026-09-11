@@ -8,7 +8,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 B2 = HERE / "breadth-cycle-2"
-ROOT = HERE.parents[1]
+ROOT = HERE.parents[0]
 STAGE32_MAIN = ROOT / "stage32" / "MAIN-STATE.json"
 BC29_TEMP_WORKFLOW = ROOT.parent / ".github/workflows/stage32-ex5-bc2-29.yml"
 MAIN = "c31684fb5f63d8a025eb298c91861d4c979b0e28"
@@ -69,8 +69,7 @@ def main() -> None:
     req(rp["bc2_29_raw_result_canonical"] == BC2_29_RAW and rp["bc2_29_raw_json_sha256"] == "cf2ff678247cd46efcb9558a1890dd27b1f799831a1b2073ec545d7dea97c50d", "BC2-29 raw receipt drift")
     req(rp["bc2_29_workflow_run_id"] == 34644942182 and rp["bc2_29_compute_job_id"] == 103413402930 and rp["bc2_29_artifact_id"] == 10281797941, "BC2-29 execution receipt drift")
     req(rp["bc2_29_retained_unknown_parent_indices"] == [1064] and rp["bc2_29_known_parent_unsat_count_lower_bound"] == 7163, "BC2-29 residual receipt drift")
-    leaf = rp["bc2_29_residual_unknown_p38_leaf"]
-    req(leaf == {"parent_index":1064,"n1":2,"n2":6,"p33":1,"p34":3,"p35":3,"p38":1,"p39":3}, "BC2-29 final timeout leaf drift")
+    req(rp["bc2_29_residual_unknown_p38_leaf"] == {"parent_index":1064,"n1":2,"n2":6,"p33":1,"p34":3,"p35":3,"p38":1,"p39":3}, "BC2-29 final timeout leaf drift")
 
     runkey = json.loads((HERE / "runkeys/bc2-29-boundary39-partition.json").read_text(encoding="utf-8"))
     req(runkey["schema"] == "STAGE32EX5_BC2_29_BOUNDARY39_PARTITION_RUNKEY_V1" and runkey["generation"] == 1 and runkey["armed"] is False, "BC2-29 runkey not consumed/disarmed")
