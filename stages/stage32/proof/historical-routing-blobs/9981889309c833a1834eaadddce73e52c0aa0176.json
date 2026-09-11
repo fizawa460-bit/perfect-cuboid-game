@@ -1,7 +1,7 @@
 {
   "authority_sync": {
     "claim_dag_semantic_status_changed": false,
-    "current_repository_main": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
+    "current_repository_main": "5ca6acba4b591d9e2d40057241c850598c1fa1df",
     "ex5_audited_exact_head": "a5e59bab3f7fe5a31e356c5a78edcbd741b093a6",
     "ex5_hostile_audit_review_id": 5161068590,
     "ex5_hostile_audit_status": "PASS",
@@ -44,21 +44,15 @@
     "n355_hostile_audit_review_id": 5165493296,
     "n355_hostile_audit_status": "PASS",
     "n355_merge_ready_freshness": "BLOCKED_PENDING",
-    "n356_audit_credit_consumed": true,
+    "n356_audit_credit_consumed": false,
     "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
     "n356_candidate_remaining_strata": 17128,
     "n356_candidate_remaining_terminals": 65396964990500233636214,
-    "n356_candidate_status": "AUDITED_CONSUMED",
+    "n356_candidate_status": "AUDIT_REQUIRED",
     "stage32_main_integration_pr": 1753,
-    "startup_authority": "stages/stage32/MAIN-STATE.json",
-    "n356_hostile_audit_status": "PASS",
-    "n356_hostile_audit_review_id": 5176607630,
-    "n356_hostile_audit_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
-    "n356_prior_hostile_audit_fail_review_id": 5175968127,
-    "claim_dag_sync_trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
-    "claim_dag_full178_status": "DECLARED_GOAL_ACTIVE_INCOMPLETE",
-    "n357_status": "RETAINED_RESEARCH_CHECKPOINT_NO_MAIN_CREDIT"
+    "startup_authority": "stages/stage32/MAIN-STATE.json"
   },
+  "canonical_sha256_without_this_field": "6143a95a0fb380e3c30c6a464722b350666cec5f018318adefdae15800a676b3",
   "cleanup_gate": {
     "archive_manifest": "stages/stage32/archive/legacy-root/manifest-phase-c.json",
     "integrated_ex_view": "stages/stage32/integrated-ex/README.md",
@@ -71,14 +65,14 @@
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "N357_RESEARCH_FRONTIER_NO_MAIN_CREDIT",
-    "next_exact_route": "N357_ALL178_SREM_SYMBOLIC_CENSUS",
-    "stacked_candidate_audit_status": "N356_HOSTILE_PASS_CONSUMED",
-    "stop_semantics": "N356_AUDITED_NECESSARY_CUT_CONSUMED_N357_RESEARCH_CHECKPOINT_ONLY"
+    "mainbatch_stop_gate": "BEFORE_N356_PROMOTION",
+    "next_exact_route": "N356_EXTERNAL_HOSTILE_AUDIT_THEN_CONSUME_OPTIMISTIC_TRANSPORT_CUT",
+    "stacked_candidate_audit_status": "AUDIT_REQUIRED",
+    "stop_semantics": "N356_AUDIT_CANDIDATE_LOCKED_NO_MAIN_PRUNING_CREDIT"
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": 65396964990500233636214,
+    "authoritative_remaining_terminals": 66462870551188628549910,
     "effectivity_final_execution_released": false,
     "full178_goal_authority_status": "DECLARED_GOAL",
     "full178_goal_claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
@@ -112,28 +106,21 @@
     "n356_candidate_incremental_rejected_terminals": 1065905560688394913696,
     "n356_candidate_remaining_strata": 17128,
     "n356_candidate_remaining_terminals": 65396964990500233636214,
-    "n356_main_pruning_credit": true,
-    "n356_status": "AUDITED_NECESSARY_CUT_CONSUMED",
+    "n356_main_pruning_credit": false,
+    "n356_status": "AUDIT_REQUIRED",
     "post_n220_strata": 60491,
     "post_n220_terminals": 346053707902916587089896969,
     "primary_incomplete_remains_32_01": true,
     "production_leaf_certificate_verifier_contract_audited": false,
     "production_leaf_certificate_verifier_contract_registered": true,
-    "stage32_closed": false,
-    "n356_incremental_rejected_terminals": 1065905560688394913696,
-    "n356_remaining_strata": 17128,
-    "n356_remaining_terminals": 65396964990500233636214,
-    "n357_status": "RETAINED_RESEARCH_CHECKPOINT_NO_MAIN_CREDIT",
-    "n357_main_pruning_credit": false,
-    "n357_all178_srem_census_complete": false
+    "stage32_closed": false
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json",
-    "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
+    "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
+    "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
     "stages/stage32/32-01-178/nodes/N356/RESULT.json",
-    "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md",
-    "stages/stage32/32-01-178/nodes/N357/STATE.json",
-    "stages/stage32/32-01-178/nodes/N357/verify_n357_transport_support_capacity.py"
+    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport.py",
+    "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -185,7 +172,11 @@
       "qprime": 4,
       "row_id": "g1-d186"
     },
-    "formal_q602_residues": [73, 97, 235],
+    "formal_q602_residues": [
+      73,
+      97,
+      235
+    ],
     "formal_q602_residues_are_current_survivors": false,
     "narrow_chain_semantics": "AUDITED_CONSUMED_HISTORICAL_PREREQUISITE_PROVENANCE_NOT_CURRENT_ATTACK_TARGET"
   },
@@ -228,7 +219,7 @@
     }
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V11_N356_CONSUMED_N357_RESEARCH",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V10_N356_AUDIT_REQUIRED",
   "source_locks": {
     "full178_manifest": {
       "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
@@ -302,48 +293,16 @@
     "n356": {
       "contract_blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3",
       "contract_path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
-      "management_blob_sha1": "3a82ffc1d41655d17adb83ca7a4551d80ecfe8ed",
-      "management_canonical_sha256": "ff90000cb353d8f3f5994588541cc39c5448973f9796950c7317969c472b5269",
-      "management_path": "stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json",
-      "parallel_verifier_blob_sha1": "d7d2e93ea125ee1002d2d39ebf64c7deb0fe9e12",
-      "reference_verifier_blob_sha1": "a7fdee753ba3cb46766ad465f1d4db50a493d6b1",
+      "management_blob_sha1": "4af85896d3839c492773b2826f22790ad14895e1",
+      "management_canonical_sha256": "1c2e3b6deb097587778d84ed2f29651ae7e1d77fb4cc042632c82db1bd8889ed",
+      "management_path": "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json",
+      "parallel_verifier_blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19",
+      "reference_verifier_blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad",
       "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed",
       "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
       "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json",
-      "workflow_blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08",
-      "audit_receipt_path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
-      "audit_receipt_blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
-      "audit_receipt_canonical_sha256": "fdeedf56ba9dca97dc06175f892efeae09fd7ef0d3bb8670bfea438106227b74",
-      "audit_review_id": 5176607630,
-      "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
-      "audit_handoff_blob_sha1": "b1eb6a6e7119ba4edb804e7cb91a8960c876bc83",
-      "dependency_lock_verifier_blob_sha1": "45c0c793f8b2edfec29728412f2951ce9639e352",
-      "fast_verifier_blob_sha1": "cf508c75d847c6e9df0119f805987fa4ac98cfc6",
-      "serial_engine_blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad",
-      "parallel_engine_blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19",
-      "fast_engine_blob_sha1": "ec2bba109f4a42816f366dbf605afeea7c16f0a2",
-      "workflow_lifecycle": "ACTIVE_AUTO_AUTHORITY_REPLAY_UNTIL_N357_ALL178_RETAINED_FRONTIER"
-    },
-    "n357": {
-      "contract_path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md",
-      "contract_blob_sha1": "8a2a0048d216de9d177dc581dc208b51c6436442",
-      "state_path": "stages/stage32/32-01-178/nodes/N357/STATE.json",
-      "state_blob_sha1": "eb4b8cfc26f789e2d0f9a1113f1894ebb730a443",
-      "state_canonical_sha256": "b2f4384ab176c0d855ee6e8d8a314e1c47c249239aca800c156938b2c944929f",
-      "verifier_path": "stages/stage32/32-01-178/nodes/N357/verify_n357_transport_support_capacity.py",
-      "verifier_blob_sha1": "b164bc85e0e58ca36b72504b8f32874484d56bf6",
-      "frozen_engine_path": "stages/stage32/32-01-178/nodes/N357-engine/verify_n357_transport_support_capacity.py",
-      "frozen_engine_blob_sha1": "479c783cb42d0952cc310708106787147b499240",
-      "main_pruning_credit": false
+      "workflow_blob_sha1": "68e105a1e2ccf65ab066e78fbb1e181368c9d5e0"
     }
   },
-  "stage": 32,
-  "workflow_lifecycle": {
-    "n356_workflow_classification": "ACTIVE_AUTO",
-    "n356_role": "AUDITED_CONSUMED_AUTHORITY_REPLAY_GUARD",
-    "n357_successor_auto_enabled": false,
-    "retire_n356_before_or_with_n357_successor_auto": true,
-    "reason": "No N357 all-FULL178 retained census/workflow exists yet, so this authority-consumption checkpoint does not enable a successor automatic leaf."
-  },
-  "canonical_sha256_without_this_field": "78d0306145f222466dfc205961e1db1ae5385ce7592a9fe451fb939bd7e0e40f"
+  "stage": 32
 }
