@@ -1,15 +1,13 @@
 # Stage32EX5 current roadmap
 
-This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`.
+This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains the active work surface.
 
-## Current retained boundary
+## Audited predecessor
 
-PR #1776 contains the frozen BC2-27 boundary35 checkpoint. Its predecessor BC2-26 hostile audit PASS is exact head `34d6b030095b97c738f6faf6b9045f366622592c`, review `5177919212`.
+BC2-27 hostile re-audit **PASS**: exact head `b70bc51909f5ed78641ee3b727a2258382ef950c`, review `5179488973`. Audited bounded result: known parent-UNSAT lower bound `7155`; 9 retained UNKNOWN parents; 13 UNKNOWN branches / p33 / p34 / p35 timeout leaves; 0 SAT. The other `172` BC2-19 UNKNOWN identities remain uninferred.
 
-BC2-27 refined the 23 BC2-26 residual p34 UNKNOWN leaves with exact `p35=0..floor(n2/2)`, at most 70 leaves. Result: 3 new parent UNSAT `[1066,1117,1133]`; `9` retained UNKNOWN parents; `13` UNKNOWN branches; `13` UNKNOWN p33 subbranches; `13` UNKNOWN p34 leaves; `13` timeout UNKNOWN p35 leaves; 0 SAT. Known parent-UNSAT lower bound is `7155`. The other `172` identities remain uninferred.
+## Current bounded route
 
-Checkpoint canonical: `0f9278799809fd1a48c187f9a9668631422ab3136478cb3f9f64fd423df71462`; raw result canonical `6537cdece0d03e80fb704e9ee8b95de240ec7dc043e872004ca78d4199a08fbd`; run `34593864110`; exact compute head `21828bcf36ea33d1e6c26465eea74c646ba26901`.
+BC2-28 consumes that PASS and targets exactly the 13 timeout p35 leaves. Use boundary38 in the already exact second-factor pack `[34,35,38,39,42,43]`: `n2=2*p38+sum(incident exceptional pairings)`, hence exact disjoint `p38=0..floor(n2/2)`. Maximum `42` solver checks, 2000 ms per check, concurrency 1. X4/N310 is not imported because its retained relation is `[1]^48`-strata scoped, not an e=8 EX5 authority.
 
-## Next route
-
-Run `stage32ex5-audit` on BC2-27. BC2-28 is blocked until that PASS. UNKNOWN remains UNKNOWN and all `172` unrelated identities remain uninferred. No broad/heavy scale-out, Stage32 MAIN/N350 promotion, FULL178 closure, theorem/effectivity/receiver/endpoint credit, Perfect Cuboid conclusion, or merge is authorized.
+Retain the result, disarm the runkey, install an exact verifier and create a new hostile-audit boundary. BC2-29 is blocked until then. No broad/heavy scaleout, Stage32 MAIN/N350 promotion, FULL178 closure, theorem/effectivity/receiver/endpoint/Perfect Cuboid conclusion, or merge is authorized.

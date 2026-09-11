@@ -1,15 +1,13 @@
 # Stage32EX5 — current role in Stage32
 
-Stage32EX5 is an auxiliary `ATTACKS` / producer lane for Stage32 `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Ordinary research uses `stage32ex5-mainbatch`; hostile audit uses `stage32ex5-audit`.
+Stage32EX5 remains an auxiliary `ATTACKS` lane for Stage32 `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Ordinary research uses `stage32ex5-mainbatch`; hostile audit uses `stage32ex5-audit`. PR #1776 remains the active work surface.
 
-## Audited predecessor BC2-26
+## Audited BC2-27 predecessor
 
-PR #1776 BC2-26 hostile audit PASS is exact head `34d6b030095b97c738f6faf6b9045f366622592c`, review `5177919212`. It left 12 retained UNKNOWN parents and authorized the bounded BC2-27 generation only.
+BC2-27 hostile re-audit **PASS** is exact head `b70bc51909f5ed78641ee3b727a2258382ef950c`, review `5179488973`. The first BC2-27 audit FAIL remains provenance at `43fce7733be95b47b2d2a4e4568300add7694224`, review `5179261378`. Audited bounded credit is 3 new UNSAT parents `[1066,1117,1133]`, known parent-UNSAT lower bound `7155`, with 9 retained UNKNOWN parents, 13 UNKNOWN branches / p33 / p34 / p35 timeout leaves, 0 SAT, and the other `172` BC2-19 UNKNOWN identities uninferred.
 
-## Active BC2-27 retained audit boundary
+## Active BC2-28 bounded route
 
-BC2-27 exactly partitions the 23 BC2-26 residual p34 UNKNOWN leaves by boundary label 35, at most 70 p35 leaves. It proves 3 additional parents `[1066,1117,1133]` exact UNSAT and leaves `9` retained UNKNOWN parents, `13` UNKNOWN branches, `13` UNKNOWN p33 subbranches, `13` UNKNOWN p34 leaves and `13` timeout UNKNOWN p35 leaves, with 0 SAT. Known parent-UNSAT lower bound is `7155`; the other `172` BC2-19 UNKNOWN identities remain uninferred.
+BC2-28 targets exactly those 13 audited BC2-27 timeout p35 leaves. BC2-24 already proves the second-factor pack `[34,35,38,39,42,43]` has common fibre degree `n2`, so BC2-28 uses exact boundary38 partition `p38=0..floor(n2/2)`, equivalently `n2=2*p38+sum(incident exceptional pairings)`. The retained target has at most `42` p38 checks, timeout 2000 ms per leaf, concurrency 1, and no heavy scaleout.
 
-Checkpoint canonical: `0f9278799809fd1a48c187f9a9668631422ab3136478cb3f9f64fd423df71462`. Compute run: `34593864110`; exact compute head: `21828bcf36ea33d1e6c26465eea74c646ba26901`.
-
-This is the new hostile-audit boundary. BC2-28 is blocked until BC2-27 hostile-audit PASS. No Stage32 MAIN/N350, whole-first-block, whole-stratum, FULL178, theorem, effectivity, receiver, endpoint, Perfect Cuboid, heavy-scaleout, or merge credit is authorized.
+BC2-29 is blocked until the BC2-28 result is retained and a new hostile-audit boundary is established. No Stage32 MAIN/N350, whole-first-block, whole-stratum, FULL178, theorem, effectivity, receiver, endpoint, Perfect Cuboid, heavy-scaleout, or merge credit is authorized.
