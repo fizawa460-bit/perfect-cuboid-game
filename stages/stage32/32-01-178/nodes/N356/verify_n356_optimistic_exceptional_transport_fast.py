@@ -6,8 +6,10 @@ import importlib.util
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-TARGET = HERE / "verify_n356_optimistic_exceptional_transport.py"
-EXPECTED_TARGET_BLOB = "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad"
+LOCKER = HERE / "verify_n356_dependency_source_locks.py"
+ENGINE = HERE.parent / "N356-engine" / "verify_n356_optimistic_exceptional_transport_fast.py"
+EXPECTED_LOCKER_BLOB = "cbc07540f664fa830262b43e63a4f17327f366e2"
+EXPECTED_ENGINE_BLOB = "ec2bba109f4a42816f366dbf605afeea7c16f0a2"
 
 
 def git_blob_sha1(path: Path) -> str:
@@ -15,37 +17,23 @@ def git_blob_sha1(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
 
-def load_target():
-    actual = git_blob_sha1(TARGET)
-    if actual != EXPECTED_TARGET_BLOB:
-        raise ValueError(f"N356 reference verifier source-lock regression: {actual}!={EXPECTED_TARGET_BLOB}")
-    spec = importlib.util.spec_from_file_location("s32_n356_reference", TARGET)
+def load_locked(path: Path, expected: str, name: str):
+    actual = git_blob_sha1(path)
+    if actual != expected:
+        raise ValueError(f"N356 locked-entry source regression {path}: {actual}!={expected}")
+    spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
-        raise RuntimeError(f"cannot import {TARGET}")
+        raise RuntimeError(f"cannot import {path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
 
 
 def main() -> None:
-    mod = load_target()
-    reference_build = mod.build_transport_exact
-    identity_cache = {}
-
-    def accelerated_build(h: int, threshold: int, bc_pref, lex_pref, fullmod):
-        # Under the audited N355 full-prefix condition, 0<=b,c<=h.  Hence
-        # b-c<=h.  When threshold>=h the N356 predicate b-c<=threshold is
-        # automatic, so the exact N356 distribution is literally the N355
-        # capped distribution.  This is an identity shortcut, not a relaxed
-        # or approximate count.
-        if threshold >= h:
-            if h not in identity_cache:
-                identity_cache[h] = fullmod.build_capped_exact(h, bc_pref, lex_pref)
-            return identity_cache[h]
-        return reference_build(h, threshold, bc_pref, lex_pref, fullmod)
-
-    mod.build_transport_exact = accelerated_build
-    mod.main()
+    locker = load_locked(LOCKER, EXPECTED_LOCKER_BLOB, "s32_n356_dependency_locks_fast")
+    locker.validate_n356_dependency_source_locks()
+    engine = load_locked(ENGINE, EXPECTED_ENGINE_BLOB, "s32_n356_locked_fast_engine")
+    engine.main()
 
 
 if __name__ == "__main__":
