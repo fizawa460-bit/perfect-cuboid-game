@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[6]
 NODE = ROOT / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104"
 
 LOCKS = {
+    "stages/stage29/29-02c-LG2/result.md": "820ed4e1b1a53db14085678de6f186b59ae0ea48",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json": "282fc94d8d5feb0221cf6bf096ed4b0030883563",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json": "f852f66c67343b6a553b5c20e15dc0a0f55d5226",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json": "6d2b7acb667e7757a4f859b7eb0680ce4fd3aae0",
@@ -33,6 +34,7 @@ def main() -> None:
         got = git_blob_sha(ROOT / rel)
         assert got == expected, (rel, got, expected)
 
+    stage29 = (ROOT / "stages/stage29/29-02c-LG2/result.md").read_text()
     mb101 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json")
     mb102 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json")
     mb103 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json")
@@ -41,6 +43,8 @@ def main() -> None:
     fsm = load_json("stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json")
     cert = json.loads((NODE / "CERTIFICATE.json").read_text())
 
+    assert "H^2 = K_S^2 = 16" in stage29
+    assert "negative-definite lattice `H^perp`" in stage29
     assert mb101["branch_contract"]["exceptional_intersection_multiplicity"] == "m=min(A,B)"
     assert mb101["branch_contract"]["A_plus_B_even"] is True
     assert mb102["global_genus_contract"]["finite_degree_bound_implied"] is False
@@ -60,14 +64,19 @@ def main() -> None:
     assert fsm["stage32_fsm16_adapter"]["A_plus_B_even"] is True
     assert fsm["stage32_fsm16_adapter"]["minimal_pairs_equivalent"] is True
 
+    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V3"
     assert cert["special_fibre_contract"]["identity"] == "6*n_i=2*q_i+M"
     assert cert["factor_slack_contract"]["global_identity"] == "M-d+4*g-4=sigma_1+sigma_2>=0"
     assert cert["minimal_branch_contract"]["derived_minimal_bound"] == "s_min>=d-4*g+4"
+    assert cert["picard_hodge_contract"]["quadratic_inequality"] == "sum_i M_i^2<=d^2/8+2*d-4*g+4"
+    assert cert["picard_hodge_contract"]["cauchy_global_inequality"] == "M^2<=6*d^2+96*d-192*g+192"
+    assert cert["picard_hodge_contract"]["closes_degree"] is False
     assert cert["fsm_tensor_contract"]["branchwise_necessary_bound"] == "d<=16*g-16+4*s_min"
 
-    # Exhaustive integer sanity replay over a bounded symbolic box.  We only test
-    # the algebraic implications encoded above; this is not a finite-degree proof.
+    # Exhaustive integer sanity replay over a bounded symbolic box. This checks
+    # the algebraic special-fibre/slack implications, not geometric existence.
     checked = 0
+    hodge_compatible = 0
     for g in (0, 1):
         for d in range(2, 81):
             for n1 in range(1, d):
@@ -85,8 +94,10 @@ def main() -> None:
                     assert sigma1 + sigma2 == M - d + 4 * g - 4
                     assert d <= M + 4 * g - 4
                     checked += 1
+                    if M * M <= 6 * d * d + 96 * d - 192 * g + 192:
+                        hodge_compatible += 1
 
-    # Local pole classification: A+B is positive even.  Positive pole occurs
+    # Local pole classification: A+B is positive even. Positive pole occurs
     # exactly for the unique minimal pair (1,1).
     for A in range(1, 10):
         for B in range(1, 10):
@@ -96,6 +107,13 @@ def main() -> None:
             assert (pole > 0) == (A == 1 and B == 1)
             if pole > 0:
                 assert pole == 8
+
+    # The explicit formal scaling rays remain Hodge-compatible for the tested
+    # range, confirming that the new quadratic restriction is still nonclosing.
+    for d in range(2, 2002, 2):
+        assert d * d <= 6 * d * d + 96 * d  # g=1, M=d
+        M0 = d + 4
+        assert M0 * M0 <= 6 * d * d + 96 * d + 192  # g=0
 
     fw = cert["credit_firewall"]
     assert fw["mb104_complete"] is False
@@ -107,8 +125,9 @@ def main() -> None:
     assert fw["merge_authorized"] is False
 
     print("MB104 coefficient-barrier verifier PASS")
-    print(f"bounded algebra sanity states={checked}")
+    print(f"bounded algebra sanity states={checked}; Hodge-compatible={hodge_compatible}")
     print("retained: M-d+4g-4=sigma1+sigma2>=0; s_min>=d-4g+4")
+    print("retained Hodge: M^2<=6d^2+96d-192g+192")
     print("finite degree window remains OPEN")
 
 
