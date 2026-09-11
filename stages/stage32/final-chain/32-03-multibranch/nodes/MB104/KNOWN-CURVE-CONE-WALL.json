@@ -1,0 +1,93 @@
+{
+  "schema": "STAGE32_MB104_KNOWN_CURVE_CONE_WALL_V1",
+  "status": "RETAINED_GLOBAL_PICARD_CONE_NONCLOSURE",
+  "source_locks": {
+    "upstream_repository": "MichaelStollBayreuth/Verification",
+    "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "upstream_path": "Cuboids/cuboids.magma",
+    "upstream_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "stage29_result_path": "stages/stage29/29-02c-LG2/result.md",
+    "stage29_result_blob_sha1": "820ed4e1b1a53db14085678de6f186b59ae0ea48",
+    "literature": "Stoll--Testa, The surface parametrizing cuboids, arXiv:1009.0388v2 / Math. Comp. 2026, DOI 10.1090/mcom/4238"
+  },
+  "geometry_contract": {
+    "H": "K_S, pullback of the hyperplane class",
+    "H_square": 16,
+    "exceptional_count": 48,
+    "exceptional_pairing": "E_i.E_j=-2 for i=j and 0 otherwise",
+    "H_dot_exceptional": 0,
+    "known_curve_count": 140,
+    "known_nonexceptional_curve_count": 92
+  },
+  "exact_incidence_reconstruction": {
+    "singular_point_count": 48,
+    "G1_conics": {
+      "count": 32,
+      "degree": 2,
+      "nodes_per_curve": 6,
+      "curves_per_node": 4
+    },
+    "G2_boundary_elliptics": {
+      "count": 12,
+      "degree": 4,
+      "nodes_per_curve": 8,
+      "curves_per_node": 2
+    },
+    "G3_other_elliptics": {
+      "count": 48,
+      "degree": 4,
+      "nodes_per_curve": 4,
+      "curves_per_node": 4
+    },
+    "exceptional_intersection_at_listed_node": 1
+  },
+  "symmetric_scaling_ray": {
+    "parameter": "integer k>=1",
+    "class": "D_k=6*k*H-k*E_total, E_total=sum_i E_i",
+    "degree": "d=H.D_k=96*k",
+    "exceptional_pairings": "D_k.E_i=2*k for all 48 nodes",
+    "exceptional_mass": "M=96*k=d",
+    "self_intersection": "D_k^2=480*k^2",
+    "known_curve_intersections": {
+      "G1_conic": "D_k.C=6*k",
+      "G2_boundary_elliptic": "D_k.C=16*k",
+      "G3_other_elliptic": "D_k.C=20*k",
+      "exceptional_curve": "D_k.E_i=2*k"
+    },
+    "strictly_positive_on_all_140_known_curves": true,
+    "hodge_mass_bound_satisfied_for_all_k": true
+  },
+  "riemann_roch_effectivity": {
+    "chi_O_S": 8,
+    "chi_O_Dk": "240*k^2-48*k+8",
+    "H_dot_K_minus_Dk": "16-96*k<0 for k>=1",
+    "reason_h2_zero": "H is nef, so an effective K_S-D_k cannot have negative H-intersection",
+    "h0_lower_bound": "h0(D_k)>=chi(O(D_k))>0",
+    "effective_divisor_class_for_every_k_ge_1": true,
+    "integral_member_claimed": false,
+    "low_geometric_genus_member_claimed": false
+  },
+  "genus_one_interface": {
+    "if_an_integral_member_had_geometric_genus_one_required_total_delta": "Delta_total=(D_k^2+d)/2=240*k^2+48*k",
+    "existing_MB102_interfaces_bound_this_delta_above": false,
+    "local_or_scalar_delta_feasibility_is_not_global_existence": true
+  },
+  "decision": {
+    "full_known_curve_nonnegative_intersection_cone_closes_degree": false,
+    "adding_divisor_class_effectivity_closes_degree": false,
+    "finite_degree_window_proved": false,
+    "route_reentry_requires": "global member-level singularity/jet/conductor constraint, or another theorem that controls low-geometric-genus members rather than divisor-class effectivity"
+  },
+  "firewalls": {
+    "effective_divisor_class_is_integral_curve": false,
+    "effective_divisor_class_is_low_genus_curve": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "finite_picard_enumeration_released": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
