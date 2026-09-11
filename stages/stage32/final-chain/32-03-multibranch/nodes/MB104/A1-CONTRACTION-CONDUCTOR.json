@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE32_MB104_A1_CONTRACTION_CONDUCTOR_V1",
+  "status": "RETAINED_EXACT_MEMBER_LEVEL_CONTRACTION_DELTA_COUPLING_NONCLOSING",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONTRACTION-CONDUCTOR-SOURCE-NOTE.md",
+    "delta_reference": "Cogolludo-Agustin--Laszlo--Martin-Morales--Nemethi, Delta invariant of curves on rational surfaces I, Commun. Contemp. Math. 24 (2022), DOI 10.1142/S0219199721500528, arXiv:1911.07539",
+    "delta_reference_contract": "Theorem 1.1 / Theorem 4.2 plus Blache correction Theorem 1.4 and Corollary 1.5",
+    "gfu_reference": "Garcia-Fritz--Urzua, Families of explicit quasi-hyperbolic and hyperbolic surfaces, Math. Z. 296 (2020), DOI 10.1007/s00209-019-02439-x, arXiv:1804.07671",
+    "gfu_reference_contract": "Theorem 3.1 and Corollary 3.3"
+  },
+  "a1_lattice": {
+    "local_model": "xz=y^2",
+    "exceptional_square": -2,
+    "crepant": true,
+    "local_class_group": "Z/2",
+    "exceptional_mass": "M=D.E",
+    "numerical_pullback": "pi^*C=D+(M/2)E",
+    "blache_correction_even_M": 0,
+    "blache_correction_odd_M": "1/4"
+  },
+  "exact_contraction_formula": {
+    "single_node": "p_a(C)-p_a(D)=floor(M^2/4)",
+    "all_48_nodes": "Delta_image=Delta_strict+sum_i floor(M_i^2/4)",
+    "Q_A1": "sum_i floor(M_i^2/4)",
+    "lambda_dependent": false,
+    "strict_transform_delta_identified_with_image_delta": false
+  },
+  "balanced_minimum": {
+    "write_mass": "M=48*q+r, 0<=r<48",
+    "exact_minimum": "Q_min(M)=(48-r)*floor(q^2/4)+r*floor((q+1)^2/4)",
+    "coarse_lower_bound": "Q_A1>=M^2/192-12",
+    "discrete_convexity_increment": "floor((m+1)^2/4)-floor(m^2/4)=floor((m+1)/2)"
+  },
+  "population_wide_consequences": {
+    "g0_factor_slack": "M>=d+4",
+    "g0_contraction_debt": "Q_A1>=(d+4)^2/192-12",
+    "g1_factor_slack": "M>=d",
+    "g1_contraction_debt": "Q_A1>=d^2/192-12",
+    "finite_degree_window_proved": false,
+    "reason_nonclosing": "image arithmetic genus and projection discriminant degree may also grow quadratically"
+  },
+  "known_curve_scaling_ray_check": {
+    "ray": "D_k=6*k*H-k*sum_i E_i",
+    "M_i": "2*k for every node",
+    "M": "96*k",
+    "Q_A1": "48*k^2",
+    "ray_excluded_by_A1_contraction_formula": false
+  },
+  "s32_pw09_interface": {
+    "arsenal_id": "S32-PW09",
+    "formula": "Disc(pi)=Br(f)+2*A",
+    "index_degree": "deg A=delta(image curve germ contribution plus other singularities)",
+    "a1_contraction_supplies_quadratic_index_debt": true,
+    "next_missing_input": "upper bound on special-factor-value discriminant/index multiplicity that is independent of the same arithmetic-genus growth"
+  },
+  "gfu_cross_check": {
+    "unknown_curve_necessary_condition": "d<=M+4*g-4",
+    "matches_retained_mb104_factor_slack_wall": true,
+    "smooth_at_surface_nodes_degree_bound": "d<=4*g+44",
+    "smooth_bound_imported_to_multibranch_population": false
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
