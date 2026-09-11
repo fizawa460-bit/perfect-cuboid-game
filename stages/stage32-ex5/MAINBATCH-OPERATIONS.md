@@ -2,30 +2,22 @@
 
 This file is an operational contract only. It grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, or Perfect Cuboid credit.
 
-## Working-surface rule
+## Working surface
 
-PR #1765 is merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa`. It is historical retained provenance, not the sole active working surface. At this command-surface boundary there is no active EX5 PR.
+PR #1776 is the active Stage32EX5 work/audit surface. Current Stage32 routing is still read from `stages/stage32/MAIN-STATE.json`; EX5 does not override MAIN authority.
 
-A new `stage32ex5-mainbatch` first synchronizes current main and `stages/stage32/MAIN-STATE.json`. It should create/continue a fresh work surface only when there is substantive post-merge retained work to keep. Do not reuse the merged #1765 branch as if it were current authority.
+## Retained BC2-25 boundary
 
-## Retained boundary
+BC2-25 retains 3 newly exact-UNSAT parents and leaves `16` retained UNKNOWN parents, 36 UNKNOWN branches, 38 UNKNOWN subbranches, and 0 SAT. The known parent-UNSAT lower bound is `7148`. The other `172` BC2-19 UNKNOWN identities remain uninferred. UNKNOWN must not be relabelled UNSAT.
 
-BC2-24 is retained. The e=4 local exact UNSAT prefix is `0..797`. In the e=8 first block, BC2-24 leaves `19` retained UNKNOWN / 0 SAT from its retained 23-parent slice, known parent-UNSAT lower bound `7145`, and `172` other BC2-19 UNKNOWN identities uninferred. This is not whole-block or FULL178 closure.
+The first hostile audit of #1776 failed at exact head `9bbc491cfde0f8a7f48d9742dad8ff368e4837b2` / review `5176133548`; compute run `34574409241` remains successful retained provenance. Repair requires the BC2-25 retained verifier, synchronized MAIN-STATE/audit boundary, and fail-closed transitive source locks through BC2-24/BC2-18 to the hperp and pairing engines.
 
-## Post-merge continuation rule
+## Mainbatch rule
 
-The next bounded candidate is `BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT`.
+For the current boundary, `stage32ex5-mainbatch` may repair and verify the existing #1776 checkpoint only. It must obtain exact-head integrity PASS and then stop for `stage32ex5-audit`.
 
-Before opening it:
-
-1. synchronize current Stage32 authority and current main;
-2. verify BC2-24 retained replay and UNKNOWN firewalls;
-3. search existing EX5/178/Main results so BC2-25 does not duplicate a route already solved or dominated;
-4. choose the smallest exact refinement of the remaining UNKNOWN structure;
-5. keep heavy/artifact-producing scale-out behind the normal authorization gate.
-
-Do not rerun BC2-20..24. UNKNOWN remains UNKNOWN. EX5 cannot self-register into N350 or self-promote Stage32 MAIN credit.
+BC2-26 is blocked until BC2-25 hostile-audit PASS. Do not launch BC2-26, broad/heavy scale-out, merge, N350 registration, or Stage32 MAIN promotion before that gate clears.
 
 ## Workflow lifecycle
 
-Historical bounded-unit compute provenance remains in source/checkpoint/run-key/run ids. Retired historical leaf workflows must not be re-enabled as automatic PR triggers merely because EX5 research resumes. Permanent repository/EX5 integrity gates remain governed by `AGENTS.md` and the repository workflow lifecycle policy.
+Historical bounded-unit compute provenance remains in source/checkpoint/run-key/run ids. Retired historical leaf workflows must not be re-enabled as automatic PR triggers. Permanent repository/EX5 integrity gates remain governed by `AGENTS.md` and the repository workflow lifecycle policy.
