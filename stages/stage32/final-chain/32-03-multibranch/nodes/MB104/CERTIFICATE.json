@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V1",
+  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V2",
   "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
   "receiver": "R29-LG2-MB",
   "parents": {
@@ -63,8 +63,15 @@
     "degree_globally_bounded": false,
     "continuous_landing_moduli_eliminated": false
   },
+  "formal_scaling_witnesses": {
+    "purpose": "show current scalar ledger admits arbitrarily large formal degrees and hence cannot itself prove a finite window",
+    "g1_even_d": "M=d, n1=n2=d/2, t=0, q1=q2=d, sigma1=sigma2=0",
+    "g0_even_d_ge_2": "M=d+4, n1=n2=d/2, t=0, q1=q2=d-2, sigma1=sigma2=0",
+    "geometric_existence_claimed": false
+  },
   "closing_thresholds": {
-    "minimal_branch_upper_coefficient": "s_min<=alpha*d+beta with alpha<1/4",
+    "minimal_branch_direct_threshold": "s_min<=alpha*d+beta with alpha<1; combine directly with s_min>=d-4*g+4",
+    "minimal_branch_fsm_tensor_sufficient_threshold": "alpha<1/4 is also sufficient if one insists on using d<=16*g-16+4*s_min, but is not the sharp threshold after the new direct lower bound",
     "exceptional_mass_upper_coefficient": "M<=alpha*d+beta with alpha<1",
     "absolute_factor_or_degree_bound": "any independent absolute bound on n_i or d"
   },
@@ -82,5 +89,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "next_subobligation": "MB104_INDEPENDENT_UPPER_COEFFICIENT_OR_ABSOLUTE_FACTOR_DEGREE_BOUND"
+  "next_subobligation": "MB104_INDEPENDENT_SUBLINEAR_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND"
 }
