@@ -98,9 +98,115 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Install exact CUT verifier dependencies
+      - name: Install exact CUT193 verifier dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
       - name: Verify retained CUT193 wave1 candidate and exact source locks
         run: python stages/stage32/full178-cut/verify_cut193_e8_common_adapter_wave1.py
-      - name: Verify retained CUT194 wave2 candidate and exact source locks
-        run: python stages/stage32/full178-cut/verify_cut194_e8_common_adapter_wave2.py
+
+  authorize-cut194-wave2:
+    if: github.event_name == 'pull_request' && github.head_ref == 'stage32cut-e8-common-adapter-wave2-20260911'
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: gate
+        name: Authorize CUT194 only from armed exact runkey
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          def blob(path):
+              raw=Path(path).read_bytes()
+              return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          p=Path('stages/stage32/full178-cut/runkeys/CUT194-e8-wave2.json')
+          ok=False
+          if p.exists():
+              o=json.loads(p.read_text())
+              ok=(o.get('schema')=='STAGE32_CUT194_E8_COMMON_ADAPTER_WAVE2_RUNKEY_V1'
+                  and o.get('generation')==1 and o.get('armed') is True
+                  and o.get('consumed') is False
+                  and o.get('branch')=='stage32cut-e8-common-adapter-wave2-20260911'
+                  and o.get('parent_cut193_audited_head')=='5b2ebb3f67805eddefef835878ba4b9744bfdbd9'
+                  and o.get('main_parent_exact_head')=='6d63d798adb50dd4efc5f0d5abc553b3dfa23060'
+                  and o.get('ex5_producer_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
+                  and o.get('worker_blob')==blob('stages/stage32/full178-cut/cut194_e8_common_adapter_wave2.py')
+                  and o.get('aggregator_blob')==blob('stages/stage32/full178-cut/aggregate_cut194_e8_wave2.py')
+                  and o.get('wave',{}).get('survivor_offset_range')==[256,510]
+                  and o.get('wave',{}).get('block_count')==255
+                  and o.get('wave',{}).get('terminal_count')==28815)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if ok else 'false')+'\n')
+          print('CUT194 wave2 authorized:',ok)
+          PY
+
+  cut194-wave2-shard:
+    needs: [integrity, authorize-cut194-wave2]
+    if: needs.authorize-cut194-wave2.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {shard: 0, start: 256, count: 32}
+          - {shard: 1, start: 288, count: 32}
+          - {shard: 2, start: 320, count: 32}
+          - {shard: 3, start: 352, count: 32}
+          - {shard: 4, start: 384, count: 32}
+          - {shard: 5, start: 416, count: 32}
+          - {shard: 6, start: 448, count: 32}
+          - {shard: 7, start: 480, count: 31}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact checked-out head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Execute CUT194 shard
+        run: |
+          python stages/stage32/full178-cut/cut194_e8_common_adapter_wave2.py \
+            --survivor-offset-start ${{ matrix.start }} \
+            --survivor-offset-count ${{ matrix.count }} \
+            --timeout-ms 750 \
+            --output "$RUNNER_TEMP/cut194-shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut194-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/cut194-shard-${{ matrix.shard }}.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+
+  cut194-wave2-aggregate:
+    needs: [cut194-wave2-shard]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cut194-shard-*
+          path: ${{ runner.temp }}/cut194-shards
+          merge-multiple: true
+      - name: Aggregate fail-closed CUT194 wave2
+        run: |
+          python stages/stage32/full178-cut/aggregate_cut194_e8_wave2.py \
+            --input-dir "$RUNNER_TEMP/cut194-shards" \
+            --output "$RUNNER_TEMP/CUT194-wave2-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut194-wave2-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT194-wave2-aggregate.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
