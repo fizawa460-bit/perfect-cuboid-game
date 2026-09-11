@@ -23,6 +23,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: stage32-32-01-178-n356-n357-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   verify-n356:
     runs-on: ubuntu-latest
@@ -88,9 +92,9 @@ jobs:
         with:
           name: n357-prefix-cache
           path: /tmp/n357-prefix
-      - name: Research N357 all178 shard from shared prefix cache
+      - name: Research N357 canonical all178 shard from shared prefix cache
         run: |
-          python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard.py \
+          python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_canonical.py \
             --shard-index ${{ matrix.shard }} --shard-count 16 --workers 4 \
             --prefix-cache /tmp/n357-prefix/prefix.pkl.gz \
             --prefix-meta /tmp/n357-prefix/prefix-meta.json \
@@ -115,9 +119,9 @@ jobs:
           pattern: n357-shard-*
           path: /tmp/n357-shards
           merge-multiple: true
-      - name: Aggregate N357 all178 candidate
+      - name: Aggregate canonical N357 all178 candidate
         run: |
-          python stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py \
+          python stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_canonical_shards.py \
             --shard-dir /tmp/n357-shards \
             --output /tmp/n357-all178-candidate.json
           cat /tmp/n357-all178-candidate.json
