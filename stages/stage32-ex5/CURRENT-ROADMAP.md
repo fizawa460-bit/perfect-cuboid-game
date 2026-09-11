@@ -2,12 +2,14 @@
 
 This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`.
 
-## Current retained boundary
+## Audited retained boundary
 
-PR #1776 retains BC2-25 boundary33 refinement. From the BC2-24 remainder of 19 retained UNKNOWN parents / 60 UNKNOWN branches, BC2-25 proves parents `[584,1030,1056]` exact UNSAT and leaves 16 retained UNKNOWN parents, 36 UNKNOWN branches, 38 UNKNOWN subbranches, and 0 SAT. The known parent-UNSAT lower bound is 7148. The other 172 BC2-19 UNKNOWN identities remain uninferred. Whole-first-block, stratum and FULL178 closure remain false.
+PR #1776 BC2-25 is hostile-audited PASS at exact head `1d2e04486e170336ce02af144aabb08e4a80a31d`, review `5177354131`. It leaves `16` retained UNKNOWN parents, `36` UNKNOWN branches, `38` UNKNOWN p33 subbranches, 0 SAT, known parent-UNSAT lower bound `7148`; `172` other BC2-19 UNKNOWN identities remain uninferred.
 
-## Audit-first route
+## Current bounded route
 
-The hostile audit at head `9bbc491cfde0f8a7f48d9742dad8ff368e4837b2` / review `5176133548` failed on retained-verifier/state synchronization and transitive executable source locks, not on the BC2-25 compute result. The repair route is: verify the BC2-25 checkpoint and full executable dependency chain, synchronize MAIN-STATE/audit boundary, obtain exact-head CI PASS, then re-run `stage32ex5-audit` on PR #1776.
+BC2-26 refines only those 38 residual p33 UNKNOWN subbranches by boundary pairing label 34. For each fixed `(parent,n1,n2,p33)`, use the exact disjoint partition `p34=0..floor(n2/2)` from `n2=2*p34+sum(incident exceptional pairings)`. The maximum is `110` solver leaves at concurrency 1.
 
-BC2-26 is blocked until BC2-25 hostile-audit PASS. The 16 UNKNOWN and 172 uninferred identities remain UNKNOWN. No heavy scale-out, Stage32 MAIN/N350 promotion, theorem/effectivity/receiver/endpoint credit, Perfect Cuboid conclusion, or merge is authorized.
+The retained manifest canonical is `39d816977fed0c770e155422ab7209ea3dd98dee49eb96daabb5b30557708a3a`; preflight canonical is `92c6e53d8e2e3f5bf6576983c042667b5c56c154206c5514877ab4f1e6af3bcd`. The BC2-26 source blob is `f795dcf24ea77a99c6c4a85bec64910ca02f65f9`.
+
+After BC2-26 is frozen, stop for hostile audit before BC2-27. UNKNOWN remains UNKNOWN. No broad/heavy scale-out, Stage32 MAIN/N350 promotion, theorem/effectivity/receiver/endpoint credit, Perfect Cuboid conclusion, or merge is authorized.
