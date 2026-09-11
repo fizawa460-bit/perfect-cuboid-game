@@ -25,7 +25,7 @@ The retained historical Stage32 evidence
 
 already uses these same surface invariants and explicitly identifies the Stage32 target degree with `K_S.C`. The exact local lock is recorded and replayed by `SURFACE-INVARIANT-SOURCE-LOCK.json` and `verify_surface_invariant_source_lock.py`.
 
-The classifier still requires explicit invocation affirmation (`assumptions_affirmed=True` / `--assumptions-affirmed`) so a caller cannot bypass the source-lock verifier accidentally. In the retained verification path that affirmation occurs only after the source locks pass.
+The standalone classifier still requires explicit invocation affirmation (`assumptions_affirmed=True` / `--assumptions-affirmed`) so a caller cannot bypass the source-lock verifier accidentally. In the retained verification path that affirmation occurs only after the source locks pass.
 
 Write
 
@@ -81,7 +81,29 @@ The retained FULL178 manifest is independently source-locked by `FULL178-RR-DEGR
 - 168 of the 178 rows have `d>16`;
 - exactly 10 rows have `d<=16`.
 
-This is only a degree partition. It does not state that those rows survive the numerical census and does not provide `C2` values for final survivors.
+This is only a degree partition. It does not state that those rows survive the numerical census.
+
+## Minimal H-perp norm interface
+
+The audited Stage29 finite Picard reduction writes
+
+`r=gcd(d,16)`, `m=16/r`, `n=d/r`, `y=mC-nH`
+
+with `H^2=16`, `H.C=d`, and proves
+
+`y^2 = m^2 (C^2-d^2/16)`.
+
+Put `N=-y^2`. Then
+
+`C^2 = d^2/16 - N/m^2`.
+
+Therefore the RR sufficient inequality `C^2>=d-14` is equivalent to the exact integer inequality
+
+`16 N <= m^2 (d^2 - 16d + 224)`.
+
+This is recorded in `HPERP-NORM-RR-ADAPTER.json` and replayed by `verify_hperp_norm_rr_adapter.py`. Consequently, the 32-02 RR sufficient gate does **not** require the full 59-entry Picard vector for each final survivor. A source-locked scalar `N=-y^2`, together with `row_id` and `d`, is enough for this gate.
+
+This does not claim that the current FULL178 producer already exports that scalar. The remaining 32-01→32-02 interface is to expose or certify exact `N=-y^2` for each final survivor with the same integral Picard-class/divisibility provenance. The current 11-coordinate prefix alone is not enough to infer `N`.
 
 ## Regression
 
@@ -91,7 +113,7 @@ For the retained historical target label `g1-d186`, `d=186`, `C2=858` gives
 
 hence `RR_EFFECTIVE_DIVISOR_CERTIFIED`. This is consistent with the retained historical RR certificate whose canonical SHA256 is `6e02dfa2f29ebdd218aa869e1994776abc6bd068be9f138e1dd1980789e2483b`.
 
-At `d=186`, the exact sufficient threshold is `C2=172`, where `chi=1`; `C2=170` gives `chi=0` and is deliberately inconclusive.
+For the same class, `r=2`, `m=8`, and `N=83472`. The exact norm threshold is `N<=127376`, which corresponds to `C2>=172`. `N=127504` reconstructs `C2=170` and remains inconclusive.
 
 ## Credit ceiling
 
@@ -104,4 +126,4 @@ An effective divisor is not automatically an integral irreducible representative
 - Stage32 closure;
 - perfect-cuboid existence/nonexistence credit.
 
-The remaining execution dependency is the final FULL178 survivor/Picard ledger, including exact `C2` for each survivor, followed by the integral/irreducible/normalization-genus disposal required by 32-02.
+After the scalar RR gate is executable on final survivors, the remaining 32-02 work is still the integral/irreducible/normalization-genus carrier disposal. That later step may require richer Picard/geometric data even though the RR sufficient test itself does not.
