@@ -1,0 +1,65 @@
+{
+  "schema": "STAGE32_MB104_BTVA_13FORM_PORTFOLIO_PREFLIGHT_V1",
+  "status": "ACTIVE_PREFLIGHT_NO_CREDIT",
+  "receiver": "R29-LG2-MB",
+  "global_space": {
+    "symmetric_order": 2,
+    "dimension": 13,
+    "surface_A1_node_count": 48,
+    "explicit_generators_available_in_source": true,
+    "omega7_has_hyperplane_vanishing": true,
+    "omega1_has_intrinsic_regular_exceptional_subset": true
+  },
+  "local_budget": {
+    "A1_chi0_at_order_2": 3,
+    "interpretation": "checksum/upper budget for local principal-part conditions; not an assertion that every node map has rank 3",
+    "target_map": "L_i: V13 -> W_i with dim(W_i)<=3",
+    "target_kernel": "forms extending regularly across exceptional over node i"
+  },
+  "required_materialization": [
+    "48 singular points in common coordinates",
+    "13 explicit order-two generators",
+    "48 exact local principal-part matrices L_i",
+    "rank and kernel for every L_i",
+    "Aut(S)-orbit reduction of node matrices",
+    "intersection/coverage census of intrinsic-regularity kernels",
+    "higher-order product plus hyperplane-twist optimization"
+  ],
+  "success_gate": {
+    "must_be_branch_sensitive": true,
+    "node_support_only_is_insufficient": true,
+    "target": "R8<=alpha*d+beta with alpha<1/4 or equivalent finite-degree restriction",
+    "matrix_materialized": false,
+    "global_regular_order2_section_found": false,
+    "R8_bound_proved": false,
+    "MB104_complete": false
+  },
+  "source_locks": {
+    "btva": {
+      "authors": "Nils Bruin; Jordan Thomas; Anthony Varilly-Alvarado",
+      "title": "Explicit computation of symmetric differentials and its application to quasi-hyperbolicity",
+      "arxiv": "1912.08908",
+      "journal": "Algebra & Number Theory 16 (2022)"
+    },
+    "cuboid_geometry": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+    }
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
