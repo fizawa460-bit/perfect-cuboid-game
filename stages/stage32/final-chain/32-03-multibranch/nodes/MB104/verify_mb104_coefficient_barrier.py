@@ -15,8 +15,11 @@ LOCKS = {
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json": "6d2b7acb667e7757a4f859b7eb0680ce4fd3aae0",
     "stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json": "dbe2bea1b2cae1e69ad6c27e5828f81494532fa4",
     "stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json": "aa14d340e8b68f863d4013d34fb0eee7b306c0ee",
+    "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
     "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
     "stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json": "ef000f3607f7d85bde02d41f7323492edf80799f",
+    "stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-wall.md": "f035251b6e2e79e8a2162d4cb62bbe3c52639ae8",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LAMBDA-CAPACITY-WALL.json": "2b5f64ff7ab6da7eccd889b0f99f887c19a3c88d",
 }
 
 
@@ -42,6 +45,7 @@ def main() -> None:
     am = load_json("stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json")
     fsm = load_json("stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json")
     cert = json.loads((NODE / "CERTIFICATE.json").read_text())
+    lambda_wall = json.loads((NODE / "LAMBDA-CAPACITY-WALL.json").read_text())
 
     assert "H^2 = K_S^2 = 16" in stage29
     assert "negative-definite lattice `H^perp`" in stage29
@@ -64,7 +68,7 @@ def main() -> None:
     assert fsm["stage32_fsm16_adapter"]["A_plus_B_even"] is True
     assert fsm["stage32_fsm16_adapter"]["minimal_pairs_equivalent"] is True
 
-    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V3"
+    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V4"
     assert cert["special_fibre_contract"]["identity"] == "6*n_i=2*q_i+M"
     assert cert["factor_slack_contract"]["global_identity"] == "M-d+4*g-4=sigma_1+sigma_2>=0"
     assert cert["minimal_branch_contract"]["derived_minimal_bound"] == "s_min>=d-4*g+4"
@@ -72,9 +76,23 @@ def main() -> None:
     assert cert["picard_hodge_contract"]["cauchy_global_inequality"] == "M^2<=6*d^2+96*d-192*g+192"
     assert cert["picard_hodge_contract"]["closes_degree"] is False
     assert cert["fsm_tensor_contract"]["branchwise_necessary_bound"] == "d<=16*g-16+4*s_min"
+    assert "alpha<1" in cert["closing_thresholds"]["minimal_branch_direct_threshold"]
+    assert "alpha<1" in cert["closing_thresholds"]["exceptional_mass_upper_coefficient"]
 
-    # Exhaustive integer sanity replay over a bounded symbolic box. This checks
-    # the algebraic special-fibre/slack implications, not geometric existence.
+    # Exact local nonclosure wall: lambda is a free C* landing parameter in the
+    # retained A1 model, while the retained FSM weighted order is lambda-blind.
+    assert cert["lambda_capacity_contract"]["arbitrarily_many_pairwise_distinct_local_landings_allowed"] is True
+    assert cert["lambda_capacity_contract"]["uniform_local_constant_capacity_bound_available"] is False
+    assert cert["lambda_capacity_contract"]["fsm_weighted_order_depends_on_lambda"] is False
+    assert cert["lambda_capacity_contract"]["local_lambda_route_closes_degree"] is False
+    assert lambda_wall["local_minimal_branch"]["fsm_type"] == "(A,B)=(1,1)"
+    assert lambda_wall["local_minimal_branch"]["exceptional_multiplicity"] == 1
+    assert lambda_wall["local_minimal_branch"]["fsm_exponents_determine_lambda"] is False
+    assert lambda_wall["arbitrary_local_capacity_witness"]["uniform_local_constant_cap_on_minimal_branches_derivable"] is False
+    assert lambda_wall["arbitrary_local_capacity_witness"]["global_algebraic_curve_existence_claimed"] is False
+    assert lambda_wall["fsm_tensor_visibility"]["depends_on_lambda"] is False
+    assert lambda_wall["conclusion"]["preferred_lambda_capacity_route_closes_mb104"] is False
+
     checked = 0
     hodge_compatible = 0
     for g in (0, 1):
@@ -97,8 +115,6 @@ def main() -> None:
                     if M * M <= 6 * d * d + 96 * d - 192 * g + 192:
                         hodge_compatible += 1
 
-    # Local pole classification: A+B is positive even. Positive pole occurs
-    # exactly for the unique minimal pair (1,1).
     for A in range(1, 10):
         for B in range(1, 10):
             if (A + B) % 2:
@@ -108,12 +124,10 @@ def main() -> None:
             if pole > 0:
                 assert pole == 8
 
-    # The explicit formal scaling rays remain Hodge-compatible for the tested
-    # range, confirming that the new quadratic restriction is still nonclosing.
     for d in range(2, 2002, 2):
-        assert d * d <= 6 * d * d + 96 * d  # g=1, M=d
+        assert d * d <= 6 * d * d + 96 * d
         M0 = d + 4
-        assert M0 * M0 <= 6 * d * d + 96 * d + 192  # g=0
+        assert M0 * M0 <= 6 * d * d + 96 * d + 192
 
     fw = cert["credit_firewall"]
     assert fw["mb104_complete"] is False
@@ -124,10 +138,11 @@ def main() -> None:
     assert fw["perfect_cuboid_nonexistence_claim"] is False
     assert fw["merge_authorized"] is False
 
-    print("MB104 coefficient-barrier verifier PASS")
+    print("MB104 V4 coefficient/Hodge/lambda-wall verifier PASS")
     print(f"bounded algebra sanity states={checked}; Hodge-compatible={hodge_compatible}")
     print("retained: M-d+4g-4=sigma1+sigma2>=0; s_min>=d-4g+4")
     print("retained Hodge: M^2<=6d^2+96d-192g+192")
+    print("retained local wall: lambda-cardinality route is nonclosing")
     print("finite degree window remains OPEN")
 
 
