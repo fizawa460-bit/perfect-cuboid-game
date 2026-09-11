@@ -1,0 +1,61 @@
+{
+  "audit_handoff": {
+    "command": "stage32cut-audit",
+    "hostile_audit_required": true,
+    "main_consumption_requires_separate_explicit_promotion": true
+  },
+  "blocker": {
+    "id": "CUT103_FULL178_PREIMAGE_NOT_ESTABLISHED",
+    "reason": "The retained completion-parent regions are not a one-to-one FULL178 terminal ledger, and 172 BC2-19 UNKNOWN identities were intentionally not retained/reidentified.",
+    "reopen_condition": "Provide a source-locked population-preserving adapter/ledger from the full BC2-19 UNKNOWN completion-parent population to current authoritative FULL178 terminals or an equivalent exhaustive union certificate, without rebuilding EX5 BC2-25 identity refinement inside CUT."
+  },
+  "canonical_sha256_without_this_field": "b226f4d2a0ccfe264a5a6dbc0d392d146c7d6f211fe1054432c57e199281e917",
+  "credit": {
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "receiver_credit": false,
+    "stage32_main_pruned_terminal_count": 0,
+    "stage32_main_pruning_credit": false,
+    "theorem_credit": false
+  },
+  "evidence": {
+    "cut102_final_checkpoint_blob_sha1": "d7ab957618d366c17b9d68029649de4f6823a9a7",
+    "cut102_final_checkpoint_path": "stages/stage32/full178-cut/CUT102-final-checkpoint.json",
+    "cut103_artifact_digest": "sha256:8db41cc58b6f23726f794d74954eab6e80e0ae9e035595df8852f4a2d2fb4a28",
+    "cut103_artifact_id": 10191554522,
+    "cut103_compute_head": "938aa76038f95f4b374d8befc147072470c42985",
+    "cut103_raw_result_canonical_sha256": "468b414364414ce5712b5d276cb547922a780c705a4a3c50100da8eb1acaf656",
+    "cut103_workflow_run_id": 34580799279
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "n356_candidate_assumed_consumed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "unretained_172_identities_inferred": false
+  },
+  "mission_result": {
+    "cut101_source_locked_interface_replay": "PASS",
+    "cut102_retained19_mod2_obstruction": "PASS",
+    "cut103_local_scope_replay": "PASS",
+    "cut103_population_preserving_full178_preimage": "BLOCKED",
+    "cut104_dual_farkas_fallback": "SKIPPED_NOT_NEEDED_FOR_RETAINED19"
+  },
+  "node": "CUT190",
+  "retained_claim": {
+    "not_claimed": [
+      "19 FULL178 terminals are rejected",
+      "the whole first block is UNSAT",
+      "the g1-d008/e8 stratum is closed",
+      "the other 172 BC2-19 UNKNOWN identities are closed or identified",
+      "FULL178 is complete"
+    ],
+    "scope": "Only the 19 retained completion-parent regions in the g1-d008/e8 first-block completion system.",
+    "statement": "The 19 retained BC2-24 Picard64 completion-parent regions have empty mod-2 completion image under fresh source-locked replay."
+  },
+  "schema": "STAGE32_FULL178_CUT190_HANDOFF_V1",
+  "stage": "32",
+  "status": "RETAINED_LOCAL_MOD2_OBSTRUCTION_MAIN_PREIMAGE_BLOCKED_AUDIT_READY",
+  "surface": "full178-cut"
+}
