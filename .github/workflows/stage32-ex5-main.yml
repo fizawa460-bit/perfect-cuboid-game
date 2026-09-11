@@ -69,3 +69,48 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
+
+  bc2-26-boundary34-bounded:
+    needs: verify-stage32ex5-main
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Authorize BC2-26 generation-1 bounded runkey
+        id: auth
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path('stages/stage32-ex5/runkeys/bc2-26-boundary34-partition.json')
+          r=json.loads(p.read_text())
+          ok=(r.get('schema')=='STAGE32EX5_BC2_26_BOUNDARY34_PARTITION_RUNKEY_V1'
+              and r.get('generation')==1
+              and r.get('armed') is True
+              and r.get('source_git_blob_sha')=='f795dcf24ea77a99c6c4a85bec64910ca02f65f9'
+              and r.get('residual_manifest_canonical')=='39d816977fed0c770e155422ab7209ea3dd98dee49eb96daabb5b30557708a3a'
+              and r.get('preflight_canonical')=='92c6e53d8e2e3f5bf6576983c042667b5c56c154206c5514877ab4f1e6af3bcd'
+              and r.get('target',{}).get('maximum_subbranch_checks')==110
+              and r.get('execution',{}).get('effective_heavy_concurrency')==1)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('proceed='+('true' if ok else 'false')+'\n')
+          print('BC2-26 armed/proceed:', ok)
+          PY
+      - name: Run bounded BC2-26 boundary34 exact partition
+        if: steps.auth.outputs.proceed == 'true'
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_26_boundary34_partition.py \
+            --per-subbranch-timeout-ms 2000 \
+            --output /tmp/bc2-26.json
+      - name: Upload BC2-26 exact result
+        if: steps.auth.outputs.proceed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-26-${{ github.event.pull_request.head.sha }}
+          path: /tmp/bc2-26.json
+          retention-days: 1
+          if-no-files-found: error
