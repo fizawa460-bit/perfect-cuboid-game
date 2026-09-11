@@ -42,17 +42,28 @@
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
+  "mb104_checkpoint": {
+    "checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/CHECKPOINT.md",
+    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/OBSTRUCTION.json",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_input_insufficiency.py",
+    "status": "RETAINED_OBSTRUCTION_MB104_INCOMPLETE",
+    "current_inputs_imply_finite_degree_window": false,
+    "formal_arbitrary_even_degree_family_survives_current_necessary_conditions": true,
+    "actual_curve_existence_claimed": false,
+    "new_geometric_input_required": true
+  },
   "next_obligation": {
     "node_id": "MB104",
     "title": "Population-wide finite degree/intersection restriction",
-    "required_input": "MB101 exact population profile plus MB102 global genus/delta identity",
+    "required_input": "new geometric inequality beyond MB101/MB102 necessary conditions",
     "must_not_assume": [
       "Freitag-Salvati Manni 176/192 cap transfers to multibranch population",
       "Delta_total is bounded by exceptional contact counts alone",
       "Delta_off is zero",
-      "Aut(S) quotient itself implies a degree bound"
+      "Aut(S) quotient itself implies a degree bound",
+      "formal arbitrary-degree numerical data correspond to actual curves"
     ],
-    "target": "prove a genuine population-wide finite degree/intersection window or retain a precise obstruction if current inputs are insufficient"
+    "target": "source-lock or prove a genuine multibranch degree/intersection inequality that rules out the retained arbitrary-degree formal family"
   },
   "routing": {
     "independent_of_full178_execution": true,
