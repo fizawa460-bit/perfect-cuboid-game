@@ -24,6 +24,7 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V6_BC2_25_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V7_BC2_25_AUDIT_CONSUMED_BC2_26_PREFLIGHT",
         "STAGE32EX5_MAIN_COMPACT_STATE_V8_BC2_26_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V9_BC2_27_AUDIT_BOUNDARY",
     }, "live EX5 schema drift")
 
     bootstrap = state["bootstrap"]
@@ -51,7 +52,7 @@ def main() -> None:
             "BC2-25 PASS receipt not consumed")
         req(audit["new_audit_boundary_exists"] is False and audit["bc2_26_execution_authorized"] is True,
             "BC2-26 bounded authorization drift")
-    else:
+    elif schema.endswith("V8_BC2_26_AUDIT_BOUNDARY"):
         req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch",
             "BC2-26 audit work surface drift")
         req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_26_RECHECK",
@@ -61,6 +62,16 @@ def main() -> None:
             "BC2-26 audit boundary missing")
         req(audit["bc2_27_execution_authorized"] is False,
             "BC2-27 authorization leak")
+    else:
+        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch",
+            "BC2-27 audit work surface drift")
+        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_27_RECHECK",
+            "BC2-27 audit-first route drift")
+        audit = state["intermediate_audit_boundary"]
+        req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True,
+            "BC2-27 audit boundary missing")
+        req(audit["bc2_28_execution_authorized"] is False,
+            "BC2-28 authorization leak")
 
     req(bootstrap["latest_merged_pr"] == 1765, "latest merged EX5 PR provenance drift")
     req(bootstrap["merge_authorized"] is False, "historical merge authorization leaked forward")
