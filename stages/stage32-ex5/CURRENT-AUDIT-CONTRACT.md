@@ -1,24 +1,15 @@
 # Stage32EX5 current hostile-audit contract
 
-This is the mutable current audit contract. `AUDIT-CONTRACT.md` remains the historical Cycle1 source-locked contract.
+This is the mutable current audit contract. `AUDIT-CONTRACT.md` remains historical source-locked provenance.
 
-## Current audit target
+## Active audit target
 
-There is **no active EX5 hostile-audit target at ordinary startup**. PR #1765 / BC2-24 is already merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa` and is historical retained provenance.
+PR #1776 is the active Stage32EX5 audit surface. BC2-25 is retained at the boundary33 partition checkpoint: 3 newly exact-UNSAT parents, 16 retained UNKNOWN parents, 0 SAT; 24/36/0 branch UNSAT/UNKNOWN/SAT; 128/38/0 subbranch UNSAT/UNKNOWN/SAT; known parent-UNSAT lower bound 7148. The other 172 BC2-19 UNKNOWN identities remain uninferred. This grants no Stage32 MAIN, FULL178, N350, theorem, effectivity, receiver, endpoint, or Perfect Cuboid credit.
 
-`stage32ex5-audit` becomes applicable only after `stage32ex5-mainbatch` freezes a new exact retained post-merge checkpoint (BC2-25 or later). Do not re-audit #1765 merely because EX5 research resumes.
+The first hostile audit of #1776 failed at exact head `9bbc491cfde0f8a7f48d9742dad8ff368e4837b2`, review `5176133548`. The compute run itself (`34574409241`) was accepted as successful; repair is required because the retained verifier/state still described BC2-24 and because the BC2-18 executable dependency identities for `hperp_integral_adapter.py` and `pairing_prefix_engine.py` were not fail-closed.
 
-## Required checks for the next checkpoint
+## Repair/re-audit requirements
 
-At the next exact retained boundary, hostile audit must at minimum establish:
+The repaired exact head must verify the BC2-25 checkpoint canonical, predecessor chain, compute/artifact identity, UNKNOWN accounting, and executable source chain `BC2-25 -> BC2-24 -> BC2-18 -> hperp_integral_adapter / pairing_prefix_engine`. The current dependency blob locks are `fb1eb380ca786e42a6b00c5ef454b0e79fdba771` and `c8e87c6598fa1cd7ba1675fc35fa83bea983c94b` respectively.
 
-1. current-main / Stage32 routing freshness and exact-head identity;
-2. preserved historical Cycle1 and early-BC2 authority provenance;
-3. exact replay of the BC2-24 predecessor locks and the new checkpoint's own source/certificate/verifier chain;
-4. UNKNOWN is not relabelled UNSAT and unretained identities are not inferred;
-5. no local obstruction is promoted to whole-stratum/FULL178 credit without an exact population adapter;
-6. no EX5 result self-promotes Stage32 MAIN/N350/receiver/effectivity/theorem/endpoint/Perfect Cuboid credit;
-7. workflow lifecycle remains fail-closed for historical/retired leaf workflows;
-8. merge authorization remains a separate explicit user action.
-
-Until a new checkpoint exists, `stage32ex5-audit` should stop with `NO_ACTIVE_EX5_AUDIT_BOUNDARY` rather than audit historical #1765 again.
+`stage32ex5-audit` must be re-run on the repaired exact head. BC2-26 is blocked until that audit passes. Merge remains unauthorized and separate from hostile-audit PASS.
