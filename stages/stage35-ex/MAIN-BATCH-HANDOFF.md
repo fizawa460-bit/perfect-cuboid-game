@@ -15,6 +15,13 @@ Delta_min=(r*s*t)^4/256
 
 for the deterministic selected cyclic direction and the actual primitive endpoint space diagonal `W`.
 
+Historical Goal4CF hostile-audit provenance remains retained for successor verification:
+
+- mathematical hostile PASS: review `5164213568`, exact head `2ffe07f31d56caf78261d032b7e5a78d500dd146`
+- lifecycle-repaired hostile PASS: review `5174608648`, exact head `a059c12ecd298258fa59feac653eb750d7143767`
+- no-drift revalidation: review `5174722371`, same exact head `a059c12ecd298258fa59feac653eb750d7143767`
+- retained credit ceiling: `AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT`
+
 The retained research-route provenance is:
 
 ```text
