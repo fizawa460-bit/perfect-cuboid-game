@@ -76,7 +76,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -91,7 +91,7 @@ jobs:
       - name: Research N357 all178 shard from shared prefix cache
         run: |
           python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard.py \
-            --shard-index ${{ matrix.shard }} --shard-count 8 --workers 4 \
+            --shard-index ${{ matrix.shard }} --shard-count 16 --workers 4 \
             --prefix-cache /tmp/n357-prefix/prefix.pkl.gz \
             --prefix-meta /tmp/n357-prefix/prefix-meta.json \
             --output /tmp/n357-shard-${{ matrix.shard }}.json
