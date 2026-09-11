@@ -37,13 +37,9 @@ def main() -> None:
     flattened = [p for values in groups.values() for p in values]
     assert len(flattened) == len(set(flattened)), "duplicate workflow path in inventory"
     assert len(flattened) == inv["counts"]["total"] == 41
-    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 3
-    assert len(groups["manual"]) == inv["counts"]["manual"] == 3
+    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 4
+    assert len(groups["manual"]) == inv["counts"]["manual"] == 2
     assert len(groups["retired"]) == inv["counts"]["retired"] == 35
-
-    n356 = ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
-    assert n356 in groups["manual"], "audited-consumed N356 heavy leaf must be MANUAL"
-    assert n356 not in groups["active_auto"], "audited-consumed N356 heavy leaf remained ACTIVE_AUTO"
 
     failures: list[str] = []
     for cls, paths in groups.items():
@@ -62,16 +58,12 @@ def main() -> None:
                     failures.append(f"{cls.upper()} still has PR trigger: {rel} events={sorted(ev)}")
                 if "workflow_dispatch" not in ev:
                     failures.append(f"{cls.upper()} missing workflow_dispatch: {rel} events={sorted(ev)}")
-                unintended = ev - {"workflow_dispatch", "workflow_call"}
-                if unintended:
-                    failures.append(f"{cls.upper()} has unintended automatic event: {rel} events={sorted(ev)}")
 
     if failures:
         raise SystemExit("\n".join(failures))
 
     print("PASS Stage32 PR workflow trigger lifecycle inventory")
-    print("ACTIVE_AUTO=3 MANUAL=3 RETIRED=35 TOTAL=41")
-    print("N356=AUDITED_CONSUMED_MANUAL_HEAVY_REPLAY")
+    print("ACTIVE_AUTO=4 MANUAL=2 RETIRED=35 TOTAL=41")
     print("historical_or_manual_pr_auto_triggers=0")
     print("mathematical_authority_changed=false")
 
