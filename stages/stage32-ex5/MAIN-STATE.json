@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V6_BC2_25_AUDIT_BOUNDARY",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V7_BC2_25_AUDIT_CONSUMED_BC2_26_PREFLIGHT",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -14,14 +14,15 @@
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md"
   },
   "bootstrap": {
-    "current_main_sha_observed": "63d076d240812004723434da64b542a06fcd443f",
+    "current_main_sha_observed": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
     "work_branch": "stage32ex5-bc2-25-boundary33-mainbatch",
     "active_work_pr": 1776,
     "latest_merged_pr": 1765,
     "latest_merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
     "merge_priority_requested": false,
     "merge_authorized": false,
-    "merge_authorization_source": null
+    "merge_authorization_source": null,
+    "merge_ready_freshness": "PENDING_MAIN_TWO_COMMITS_AHEAD_NON_LOAD_BEARING_REVIEWED"
   },
   "stage32_main_authority": {
     "routing_source": "stages/stage32/MAIN-STATE.json",
@@ -38,7 +39,7 @@
     "V6_is_current_attack_target": false,
     "O210_is_current_attack_target": false,
     "Q602_is_current_attack_target": false,
-    "historical_formal_q602_residues": [73, 97, 235],
+    "historical_formal_q602_residues": [73,97,235],
     "historical_formal_q602_residues_are_current_survivors": false,
     "ex5_auto_promotes_to_main": false
   },
@@ -53,51 +54,23 @@
     "predecessor_intermediate_hostile_audit_pass_preserved": true
   },
   "prior_audited_authority": {
-    "cycle1": {
-      "claim_id": "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
-      "authority_status": "AUDITED",
-      "candidate_pr": 1710,
-      "exact_head": "79c601b636857eaaaa97ad4c22e682e681341bad",
-      "review_id": 5141459384,
-      "stage32_main_credit": false
-    },
-    "early_bc2": {
-      "claim_id": "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
-      "authority_status": "AUDITED_HISTORICAL_INFRASTRUCTURE_CHECKPOINT",
-      "candidate_pr": 1726,
-      "exact_head": "280776eb5803f69bcb28b5c1da5e546cc198b5a2",
-      "review_id": 5149663802,
-      "stage32_main_credit": false
-    },
-    "bc2_24_pr_1765": {
-      "audit_checkpoint_exact_head": "4cc001cffb871d3c6304cb38beebaf9bf2a75814",
-      "hostile_audit_status": "PASS",
-      "merged_pr": 1765,
-      "merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
-      "stage32_main_credit": false
-    }
+    "cycle1": {"breadth_cycle":"EX5_BREADTH_CYCLE_1","scope_firewall":"EX5_BREADTH_CYCLE_1_ONLY","claim_id":"S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2","authority_status":"AUDITED","candidate_pr":1710,"exact_head":"79c601b636857eaaaa97ad4c22e682e681341bad","review_id":5141459384,"stage32_main_credit":false},
+    "early_bc2": {"claim_id":"S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1","authority_status":"AUDITED_HISTORICAL_INFRASTRUCTURE_CHECKPOINT","candidate_pr":1726,"exact_head":"280776eb5803f69bcb28b5c1da5e546cc198b5a2","review_id":5149663802,"stage32_main_credit":false},
+    "bc2_24_pr_1765": {"audit_checkpoint_exact_head":"4cc001cffb871d3c6304cb38beebaf9bf2a75814","hostile_audit_status":"PASS","merged_pr":1765,"merge_commit":"98c5710dad4ca9a006e93b273ecf5259733e03aa","stage32_main_credit":false},
+    "bc2_25_pr_1776": {"audit_checkpoint_exact_head":"1d2e04486e170336ce02af144aabb08e4a80a31d","hostile_audit_status":"PASS","hostile_audit_review_id":5177354131,"failed_prior_exact_head":"9bbc491cfde0f8a7f48d9742dad8ff368e4837b2","failed_prior_review_id":5176133548,"merged":false,"stage32_main_credit":false}
   },
   "current": {
-    "status": "BC2_25_RETAINED_HOSTILE_AUDIT_REPAIR_REQUIRED",
+    "status": "BC2_25_HOSTILE_AUDIT_PASS_CONSUMED_BC2_26_PREFLIGHT_READY",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_25_BOUNDARY33_PARTITION_RETAINED",
+    "leaf": "BC2_26_BOUNDARY34_PARTITION_PREFLIGHT",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "objective": "Repair BC2-25 retained authority verification and transitive source locks, then re-run hostile audit before any BC2-26 continuation.",
-    "blocker": "HOSTILE_AUDIT_FAIL_5176133548_AND_16_RETAINED_UNKNOWN_PLUS_172_UNRETAINED_IDENTITIES",
-    "next_route": "HOSTILE_AUDIT_BC2_25_RECHECK",
-    "stop_semantics": "BC2_26_BLOCKED_UNTIL_BC2_25_HOSTILE_AUDIT_PASS"
+    "objective": "Run only the bounded exact BC2-26 boundary34 partition over the 38 audited residual p33 UNKNOWN subbranches.",
+    "blocker": "16_RETAINED_UNKNOWN_PARENTS_36_BRANCHES_38_P33_SUBBRANCHES_PLUS_172_UNRETAINED_IDENTITIES",
+    "next_route": "BC2_26_BOUNDARY34_PARTITION_BOUNDED",
+    "stop_semantics": "BC2_26_MAX110_ONLY_THEN_FREEZE_NEW_AUDIT_BOUNDARY_BEFORE_BC2_27"
   },
-  "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-25-boundary33-partition-checkpoint.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_25_boundary33_partition_checkpoint.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_25_boundary33_partition.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_24_explicit_fibre_degree_partition.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py",
-    "stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
-    "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
-    "stages/stage32-ex5/verify_main_state.py"
-  ],
+  "current_leaf_working_set": ["stages/stage32-ex5/breadth-cycle-2/bc2-25-boundary33-partition-checkpoint.json","stages/stage32-ex5/breadth-cycle-2/verify_bc2_25_boundary33_partition_checkpoint.py","stages/stage32-ex5/breadth-cycle-2/bc2-26-residual-p33-subbranch-manifest.json","stages/stage32-ex5/breadth-cycle-2/bc2-26-boundary34-partition-preflight.json","stages/stage32-ex5/breadth-cycle-2/bc2_26_boundary34_partition.py","stages/stage32-ex5/runkeys/bc2-26-boundary34-partition.json","stages/stage32-ex5/verify_main_state.py"],
   "full178_interface": {
     "stage32_consumption_node": "stages/stage32/32-01-178/nodes/N150/STATE.json",
     "production_registration_boundary": "stages/stage32/32-01-178/nodes/N350/PRODUCTION_LEAF_CERTIFICATE_CONTRACT.json",
@@ -109,17 +82,18 @@
     "legacy_n150_consumed_snapshot_through_rank_observed": 265,
     "ex5_retained_exact_unsat_progress_through_rank": 797,
     "ex5_retained_e4_exact_unsat_progress_through_rank": 797,
-    "ex5_e8_current_target_first_block": [0, 112],
+    "ex5_e8_current_target_first_block": [0,112],
     "newer_ex5_progress_auto_promoted_to_main": false,
     "n350_producer_registration_available_to_ex5_now": false,
     "population_wide_full178_adapter_complete": false,
     "effectivity_or_actual_curve_existence_proved_by_interface": false
   },
   "frontier": {
-    "closed_local_terminal_rank_prefix": [0, 797],
-    "closed_local_e4_terminal_rank_prefix": [0, 797],
+    "runtime_exceptional_index_to_projective_node_bridge_complete": true,
+    "closed_local_terminal_rank_prefix": [0,797],
+    "closed_local_e4_terminal_rank_prefix": [0,797],
     "whole_g1_d008_e4_stratum_closed": false,
-    "e8_n354_survivor_first_block": [0, 112],
+    "e8_n354_survivor_first_block": [0,112],
     "e8_bc2_18_mod8_parent_count": 7336,
     "e8_bc2_19_unsat_parent_count": 7100,
     "e8_bc2_19_unknown_parent_count": 236,
@@ -143,6 +117,10 @@
     "e8_bc2_25_subbranch_sat_count": 0,
     "e8_bc2_25_unretained_unknown_identity_count": 172,
     "e8_known_parent_unsat_count_lower_bound": 7148,
+    "e8_bc2_26_target_parent_count": 16,
+    "e8_bc2_26_target_branch_count": 36,
+    "e8_bc2_26_target_p33_subbranch_count": 38,
+    "e8_bc2_26_maximum_p34_leaf_checks": 110,
     "e8_whole_first_block_unsat": false,
     "FULL178_complete": false,
     "population_wide_main_consumable_result_complete": false,
@@ -152,7 +130,6 @@
     "bc2_18_e8_mod8_checkpoint_canonical": "b789468cb515e9ebff55ca7bbfab98a32b3857137dd0ea534fcfdf20b914f6f8",
     "bc2_19_checkpoint_canonical": "62e97cdb8bd6a8d14c0ac176576bd2cf2ec51020295f8703cbefc3bc85f001eb",
     "bc2_23_checkpoint_canonical": "6da1c158da8f8171d446c39b517270c0f7bf524ac62df0cd8f9d099155cdb3a0",
-    "bc2_24_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-24-explicit-fibre-degree-partition-checkpoint.json",
     "bc2_24_checkpoint_canonical": "ac6f8afff29a4ac969b1fd32251499f299395261c1aa96a813502cfe2b22472f",
     "bc2_24_workflow_run_id": 34486703108,
     "bc2_25_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-25-boundary33-partition-checkpoint.json",
@@ -162,75 +139,38 @@
     "bc2_25_exact_compute_head": "01e6e23ce90b24efda37303d81df3820a948061a",
     "bc2_25_hperp_integral_adapter_git_blob_sha": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
     "bc2_25_pairing_prefix_engine_git_blob_sha": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "bc2_25_hostile_audit_exact_head": "1d2e04486e170336ce02af144aabb08e4a80a31d",
+    "bc2_25_hostile_audit_review_id": 5177354131,
+    "bc2_26_residual_manifest_canonical": "39d816977fed0c770e155422ab7209ea3dd98dee49eb96daabb5b30557708a3a",
+    "bc2_26_preflight_canonical": "92c6e53d8e2e3f5bf6576983c042667b5c56c154206c5514877ab4f1e6af3bcd",
+    "bc2_26_source_git_blob_sha": "f795dcf24ea77a99c6c4a85bec64910ca02f65f9",
     "exact_evidence_rewritten_by_semantic_sync": false
   },
-  "claim_sync": {
-    "last_trigger": "BC2_25_RESULT_RETENTION_HOSTILE_AUDIT_REPAIR",
-    "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
-    "lane_role": "ATTACKS",
-    "active_frontier_remapped": false,
-    "claim_registry_mutated": false,
-    "main_promotion": false
-  },
-  "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_AUDIT_PENDING_NO_MAIN_PROMOTION",
-    "stage32_main_credit": false,
-    "FULL178_complete": false,
-    "effectivity_credit": false,
-    "actual_curve_existence_credit": false,
-    "receiver_credit": false,
-    "final_milestone_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_credit": false,
-    "n350_production_coverage_credit": false
-  },
-  "historical_credit_firewall": {
-    "V6_recomputed_or_reopened": false,
-    "O210_recomputed_or_reopened": false,
-    "Q602_recomputed_or_reopened": false,
-    "historical_q602_residue_triple_promoted_as_current_survivors": false,
-    "historical_audit_credit_mutated": false
-  },
-  "firewalls": {
-    "bc2_19_or_bc2_24_or_bc2_25_unknown_promoted_to_unsat": false,
-    "unretained_172_parent_identities_inferred": false,
-    "local_block_unsat_promoted_to_whole_stratum": false,
-    "local_block_unsat_promoted_to_FULL178": false,
-    "ex5_progress_auto_promoted_to_stage32_main": false,
-    "ex5_registered_into_n350_without_main_audit": false,
-    "sat_witness_promoted_to_effective_curve_existence": false,
-    "stage32_final_milestone_claimed": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
-  },
+  "claim_sync": {"last_trigger":"BC2_25_HOSTILE_AUDIT_PASS_CONSUMED_FOR_BC2_26_PREFLIGHT","existing_active_goal":"S32.FULL178.NUMERICAL.CENSUS.V1","lane_role":"ATTACKS","active_frontier_remapped":false,"claim_registry_mutated":false,"main_promotion":false},
+  "credit": {"level":"LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_25_AUDITED_BC2_26_PREFLIGHT_NO_MAIN_PROMOTION","stage32_main_credit":false,"FULL178_complete":false,"effectivity_credit":false,"actual_curve_existence_credit":false,"receiver_credit":false,"final_milestone_credit":false,"theorem_credit":false,"endpoint_credit":false,"perfect_cuboid_credit":false,"n350_production_coverage_credit":false},
+  "historical_credit_firewall": {"V6_recomputed_or_reopened":false,"O210_recomputed_or_reopened":false,"Q602_recomputed_or_reopened":false,"historical_q602_residue_triple_promoted_as_current_survivors":false,"historical_audit_credit_mutated":false},
+  "firewalls": {"bc2_19_or_bc2_24_or_bc2_25_unknown_promoted_to_unsat":false,"unretained_172_parent_identities_inferred":false,"local_block_unsat_promoted_to_whole_stratum":false,"local_block_unsat_promoted_to_FULL178":false,"ex5_progress_auto_promoted_to_stage32_main":false,"ex5_registered_into_n350_without_main_audit":false,"sat_witness_promoted_to_effective_curve_existence":false,"stage32_final_milestone_claimed":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false},
   "intermediate_audit_boundary": {
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md",
     "historical_pass_pr": 1765,
-    "latest_exact_head_with_ex5_hostile_audit_pass": "4cc001cffb871d3c6304cb38beebaf9bf2a75814",
     "historical_pass_merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
     "candidate_pr": 1776,
     "candidate_checkpoint": "BC2_25_BOUNDARY33_PARTITION_RETAINED",
     "candidate_checkpoint_canonical": "fc4e4541a4f349e6c249f7dadd85f91edfd1c0dc1cb56d92b18bbf13054a4518",
-    "last_hostile_audit_status": "FAIL",
-    "last_hostile_audit_exact_head": "9bbc491cfde0f8a7f48d9742dad8ff368e4837b2",
-    "last_hostile_audit_review_id": 5176133548,
-    "merge_ready_freshness_at_failed_audit": "CLEAR",
+    "prior_failed_audit_exact_head": "9bbc491cfde0f8a7f48d9742dad8ff368e4837b2",
+    "prior_failed_audit_review_id": 5176133548,
+    "last_hostile_audit_status": "PASS",
+    "last_hostile_audit_exact_head": "1d2e04486e170336ce02af144aabb08e4a80a31d",
+    "last_hostile_audit_review_id": 5177354131,
+    "merge_ready_freshness_at_pass": "PENDING_MAIN_TWO_COMMITS_AHEAD_NON_LOAD_BEARING_REVIEWED",
     "merged": false,
-    "repair_required_before_merge": true,
-    "re_audit_required": true,
-    "freeze_active": true,
+    "repair_required_before_merge": false,
+    "re_audit_required": false,
+    "freeze_active": false,
     "historical_boundary_only": false,
-    "new_audit_boundary_exists": true,
-    "bc2_26_execution_authorized": false
+    "new_audit_boundary_exists": false,
+    "bc2_26_execution_authorized": true,
+    "bc2_26_authorization_scope": "BOUNDARY34_MAX110_ONLY"
   },
-  "next_step": {
-    "id": "BC2_25_HOSTILE_AUDIT_RECHECK",
-    "goal": "Obtain hostile-audit PASS for the repaired BC2-25 retained verifier/source-lock boundary before any BC2-26 work.",
-    "bc2_26_blocked_until_audit_pass": true,
-    "heavy_scaleout_authorized": false,
-    "main_promotion_authorized": false,
-    "n350_registration_authorized": false,
-    "merge_authorized": false
-  }
+  "next_step": {"id":"BC2_26_BOUNDARY34_PARTITION_BOUNDED","goal":"Run the exact p34 partition on only 38 audited residual p33 UNKNOWN subbranches; freeze the result and stop for a new hostile audit before BC2-27.","bc2_26_bounded_execution_authorized":true,"bc2_26_maximum_subbranch_checks":110,"heavy_scaleout_authorized":false,"main_promotion_authorized":false,"n350_registration_authorized":false,"merge_authorized":false}
 }
