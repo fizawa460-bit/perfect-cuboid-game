@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V6",
+  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V7",
   "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
   "receiver": "R29-LG2-MB",
   "parents": {
@@ -40,6 +40,28 @@
     "special_discriminant_capacity_wall_blob_sha1": "d6c53f35268fc09111017b1f147c656dfd6127f1",
     "special_discriminant_capacity_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_special_discriminant_capacity_wall.py",
     "special_discriminant_capacity_verifier_blob_sha1": "bdaf7c419c29e30623a34fd3852319e80cc2545e",
+    "ambient_a1_scaling_wall_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AMBIENT-A1-SCALING-WALL.json",
+    "ambient_a1_scaling_wall_blob_sha1": "3d14df8ae1e4bc79fde16ac3bfd550de68747e9f",
+    "ambient_a1_scaling_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_ambient_a1_scaling_wall.py",
+    "ambient_a1_scaling_verifier_blob_sha1": "411c52bc6647825b4b6d7a4a20b21408080a2bb6",
+    "lu_miyaoka_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LU-MIYAOKA-ORDINARY-NODE-DEBT.json",
+    "lu_miyaoka_certificate_blob_sha1": "80380d1009fb8c500ff327335b5754fde4a53b92",
+    "lu_miyaoka_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_lu_miyaoka_node_debt.py",
+    "lu_miyaoka_verifier_blob_sha1": "070c54731000aaf3f60203c735ef2e833df99acc",
+    "beauville_miyaoka_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-MIYAOKA-COVER-WALL.json",
+    "beauville_miyaoka_certificate_blob_sha1": "fdbf063329fa1f7a0cd4fbeb5034e897574e7448",
+    "beauville_miyaoka_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_beauville_miyaoka_cover_wall.py",
+    "beauville_miyaoka_verifier_blob_sha1": "0e891d135addc8d2cf5391743ceb25889ea1975a",
+    "btva_source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER-SOURCE-NOTE.md",
+    "btva_source_note_blob_sha1": "73c00595c599e0312c69060ffa6324358b0a13a2",
+    "btva_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER.json",
+    "btva_certificate_blob_sha1": "4ee8e6061a7cc2a54b54786fd065923434381bde",
+    "btva_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_projective_span_filter.py",
+    "btva_verifier_blob_sha1": "c1ce59af9df1143ad8c7492b1bf9f1ded102a034",
+    "two_factor_same_cover_wall_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/TWO-FACTOR-SAME-BEAUVILLE-COVER-WALL.json",
+    "two_factor_same_cover_wall_blob_sha1": "20d9873e41fb2db25105c437d3a10c031b23c0a3",
+    "two_factor_same_cover_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_two_factor_same_beauville_cover_wall.py",
+    "two_factor_same_cover_verifier_blob_sha1": "fcdf95203d1b21a319cb78c32e3083649b61dae9",
     "upstream_picard_source": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma",
     "upstream_picard_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
   },
@@ -52,7 +74,9 @@
     "t": "M-R=sum(min(A,B)-1)",
     "s_min": "number of FSM-minimal node branches (A,B)=(1,1)",
     "q_i": "total intersection with the six Satake-boundary elliptics in factor direction i",
-    "Q_A1": "sum_i floor(M_i^2/4), the A1 contraction normalization-defect increment"
+    "Q_A1": "sum_i floor(M_i^2/4)",
+    "n_ot": "ordinary double plus ordinary triple points in the Lu--Miyaoka coarse ledger",
+    "r": "ramification count of the one connected normalized Beauville double-cover pullback"
   },
   "special_fibre_contract": {
     "identity": "6*n_i=2*q_i+M",
@@ -67,12 +91,9 @@
     "global_identity": "M-d+4*g-4=sigma_1+sigma_2>=0",
     "degree_necessary_bound": "d<=M+4*g-4",
     "g0_M_range": "d+4<=M<=3*d",
-    "g1_M_range": "d<=M<=3*d",
-    "gfu_cross_check": "Garcia-Fritz--Urzua Theorem 3.1 gives the same coefficient-one necessary wall for an unknown low-genus cuboid curve"
+    "g1_M_range": "d<=M<=3*d"
   },
   "minimal_branch_contract": {
-    "nonminimal_resource_charge": "U<=t+q1_node+q2_node",
-    "derived_nonminimal_bound": "U<=R-d+4*g-4",
     "derived_minimal_bound": "s_min>=d-4*g+4",
     "g0": "s_min>=d+4",
     "g1": "s_min>=d"
@@ -80,8 +101,6 @@
   "picard_hodge_contract": {
     "H_square": 16,
     "exceptional_count": 48,
-    "exceptional_pairing": "E_i.E_j=-2 if i=j and 0 otherwise",
-    "H_dot_exceptional": 0,
     "quadratic_inequality": "sum_i M_i^2<=d^2/8+2*d-4*g+4",
     "cauchy_global_inequality": "M^2<=6*d^2+96*d-192*g+192",
     "asymptotic_M_over_d_upper_coefficient": "sqrt(6)",
@@ -89,8 +108,6 @@
   },
   "lambda_capacity_contract": {
     "minimal_germ_family": "gamma_lambda(t)=(t,lambda*t,lambda^2*t), lambda in C^*",
-    "arbitrarily_many_pairwise_distinct_local_landings_allowed": true,
-    "fsm_weighted_order_depends_on_lambda": false,
     "uniform_local_constant_capacity_bound_available": false,
     "local_lambda_route_closes_degree": false
   },
@@ -107,54 +124,98 @@
     "closes_degree": false
   },
   "a1_contraction_contract": {
-    "local_model": "xz=y^2",
     "single_node_formula": "p_a(C)-p_a(D)=floor(M_i^2/4)",
     "global_formula": "Delta_image=Delta_strict+Q_A1",
-    "Q_A1": "sum_i floor(M_i^2/4)",
-    "balanced_exact_minimum": "if M=48*q+r, Q_min=(48-r)*floor(q^2/4)+r*floor((q+1)^2/4)",
     "coarse_lower_bound": "Q_A1>=M^2/192-12",
     "g0_debt": "Q_A1>=(d+4)^2/192-12",
     "g1_debt": "Q_A1>=d^2/192-12",
     "lambda_dependent": false,
-    "closes_degree": false,
-    "reason_nonclosing": "image arithmetic genus and total projection discriminant degree may grow quadratically as well"
+    "closes_degree": false
   },
   "special_discriminant_capacity_contract": {
     "s32_pw09_formula": "Disc(pi)=Br(f)+2*A",
-    "generic_local_order": "A=k[[t]], B'=A+uA with u^2=t, B_N=A+t^N*uA",
     "normalized_projection_degree": 2,
     "special_values_needed": 1,
-    "index_length": "N",
-    "normalized_discriminant_valuation": 1,
-    "order_discriminant_valuation": "2*N+1",
     "normalization_index_unbounded_at_fixed_degree": true,
     "discriminant_multiplicity_unbounded_at_fixed_degree": true,
-    "generic_projection_degree_plus_special_value_count_closes": false,
-    "ambient_box_surface_constraint_still_may_close": true
+    "generic_projection_degree_plus_special_value_count_closes": false
+  },
+  "ambient_a1_scaling_contract": {
+    "embedded_family": "(x,y,z)=(s^2,s^(2*m+1),s^(4*m)) in xz=y^2",
+    "fixed_first_factor_degree": 2,
+    "fixed_exceptional_mass": 2,
+    "normalization_index": "m, unbounded",
+    "simultaneous_scaling_ray": "d=M=R=s_min=96*k, n1=n2=48*k, M_i=2*k",
+    "a1_debt_on_ray": "Q_A1=48*k^2=d^2/192",
+    "global_algebraic_member_constructed": false,
+    "closes_degree": false
+  },
+  "lu_miyaoka_contract": {
+    "surface_constants": "K_S^2=16, chi(O_S)=8, c2(S)=80, 3*c2-K^2=224",
+    "inequality": "d<=4*(g-1)+224+n_ot",
+    "g0_debt": "n_ot>=max(0,d-220)",
+    "g1_debt": "n_ot>=max(0,d-224)",
+    "ordinary_debt_growth": "O(d)",
+    "scaling_ray_total_delta_growth": "O(d^2)",
+    "closes_degree": false
+  },
+  "beauville_miyaoka_contract": {
+    "cover_surface": "X=(C8 x C8)/H_diag",
+    "K_X_square": 32,
+    "c2_X": 16,
+    "K2_gt_c2": true,
+    "inequality": "2*d<=3*r+12*g+20",
+    "dominated_by": "r>=s_min>=d-4*g+4",
+    "closes_degree": false
+  },
+  "btva_projective_span_contract": {
+    "genus0_nonconic": "d>2 => N>=7 and exact Q(i)-rank of met-node coordinate vectors is 7",
+    "genus1_high_degree": "d>16 => N>=6 and exact Q(i)-rank of met-node coordinate vectors is at least 6",
+    "all_48_node_vector_rank": 7,
+    "exact_node_profile_filter_available": true,
+    "scaling_ray_support": 48,
+    "scaling_ray_excluded": false,
+    "closes_degree": false
+  },
+  "two_factor_same_cover_contract": {
+    "single_beauville_double_cover": true,
+    "factor_directions": 2,
+    "shared_ramification_count": "r",
+    "per_direction": "r>=2*n_i-4*g+4",
+    "combined": "r>=2*max(n1,n2)-4*g+4>=d-4*g+4",
+    "independent_r1_r2_available": false,
+    "closes_degree": false
   },
   "fsm_tensor_contract": {
-    "positive_pole_branch_iff": "A+B=2 iff (A,B)=(1,1)",
-    "positive_pole_order_per_minimal_branch_per_k": 8,
     "branchwise_necessary_bound": "d<=16*g-16+4*s_min",
     "population_wide_cardinality_route_closes_degree": false
   },
   "fixed_degree_finiteness": {
     "discrete_scalar_profiles_finite_for_fixed_d": true,
     "autS_node_quotient_available": true,
+    "btva_exact_span_filter_available": true,
     "hodge_quadratic_pruning_available": true,
     "degree_globally_bounded": false,
-    "continuous_landing_moduli_eliminated": false
+    "finite_picard_enumeration_released": false
   },
   "route_decision": {
     "retire_local_lambda_cardinality_without_new_global_coupling": true,
     "retire_known_curve_nonnegative_cone_as_standalone_closer": true,
     "retire_generic_special_value_discriminant_capacity_bound": true,
-    "next_subobligation": "MB104_AMBIENT_BOX_SURFACE_CONDUCTOR_CAPACITY_BOUND",
+    "retire_local_a1_conductor_capacity_as_standalone_closer": true,
+    "retire_base_surface_generic_miyaoka_as_finite_window_closer": true,
+    "retire_beauville_miyaoka_without_ramification_upper_bound": true,
+    "retire_naive_two_factor_independent_ramification_sum": true,
+    "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
     "preferred_inputs": [
-      "ambient polar/jet/Jacobian restriction on singular curve orders inside the box surface",
-      "source-derived restriction on finite suborders realizable by the two factor projections",
-      "global linear-system theorem bounding normalization-index multiplicity at the six special fibres",
-      "independent subunit-slope upper bound on M or s_min"
+      "n_ot<=alpha*d+beta with alpha<1 for every R29-LG2-MB carrier",
+      "cuboid-specific factor-map obstruction to the Lu-Miyaoka-required ordinary singularities",
+      "global jet/interpolation theorem for the actual Picard classes excluding the repaired scaling profile",
+      "independent upper bound on shared Beauville ramification r with sufficiently small slope in d",
+      "global irreducibility/member theorem excluding the repaired scaling profile",
+      "s_min<=alpha*d+beta with alpha<1",
+      "M<=alpha*d+beta with alpha<1",
+      "independent absolute bound on one factor degree or on d"
     ]
   },
   "credit_firewall": {
