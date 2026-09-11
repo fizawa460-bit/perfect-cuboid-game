@@ -198,25 +198,55 @@ Using the exact 48-node coordinates reconstructed by MB103 over `Q(i)`, the full
 
 This is a real future fixed-degree node-profile filter. It does not close MB104 because the retained scaling profile meets all 48 nodes and therefore survives the span requirement.
 
-## 12. Current MB104 boundary
+## 12. Even-set favorable-cover wall
 
-The main certificate is now V7 and the main verifier source-locks the downstream ambient-A1, Lu--Miyaoka, Beauville-Miyaoka, BTVA-span, and same-cover verifiers and executes them during a repository replay.
+The remaining natural ramification-amplification idea was to replace the two projections of the same Beauville cover by a **genuinely different** double cover branched over another even subset of the 48 exceptional curves.
 
-The active sub-obligation is
+The full 48-node set is even, and the associated Beauville cover has `q(X)=4`, hence `b1(X)=8`. The standard even-node-code relation gives actual even-set code dimension
+
+`dim_F2 C_even=b1(X)+1=9`.
+
+Every actual even subset must also have even incidence with each of the 92 known nonexceptional curves. Reconstructing the 32 conics, 12 boundary elliptics and 48 other elliptics from the exact upstream equations gives a `92 x 48` binary incidence matrix of rank `25`; its kernel is therefore a necessary parity supercode `[48,23]`.
+
+Inside that necessary supercode there are exactly `12` weight-4 words. Under the exact nine MB103 Aut(S) node generators, these 12 words form one orbit, and their F2-linear span has dimension `12`.
+
+The actual code is Aut(S)-stable but has dimension only `9`. Therefore an actual weight-4 word is impossible: one such word would force its entire 12-dimensional orbit span into the actual code. Since the full-48 word is actual, an actual weight-44 word would complement to an actual weight-4 word. Hence actual weights `4` and `44` are both excluded.
+
+For an even subset of weight `w`, the double cover of `S` branched over those exceptional curves, followed by blowing down the `w` ramification `(-1)`-curves, has
+
+`K_Y^2=32`,
+`c2(Y)=160-3w`,
+`chi(O_Y)=16-w/4`.
+
+Thus `4|w`. The favorable Chern regime needed for the Miyaoka-2008 route is
+
+`K_Y^2>c2(Y)`,
+
+which is equivalent to `w>128/3`. With `0<=w<=48` and `4|w`, only `w=44` or `48` are possible. Weight `44` is excluded above; weight `48` is exactly the already-retained Beauville cover.
+
+Therefore there is **no genuinely distinct even-subset double cover with `K^2>c2`** available to create a new independent favorable-Chern ramification ledger.
+
+This does not reconstruct the full 9-dimensional actual code and does not exclude even subsets of weight at most `40`; such covers simply do not enter the favorable `K^2>c2` Miyaoka mechanism.
+
+## 13. Current MB104 boundary
+
+The main certificate is now V8. The main verifier source-locks and executes the downstream ambient-A1, Lu--Miyaoka, Beauville-Miyaoka, BTVA-span, same-cover, and even-set favorable-cover verifiers during a repository replay.
+
+The active sub-obligation remains
 
 `MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND`.
 
-A closing input must be genuinely global and cuboid-specific. Examples include:
+A closing input must now be genuinely member-level. The most direct possibilities are:
 
 - `n_ot<=alpha*d+beta` with `alpha<1`;
 - a global jet/interpolation theorem excluding the repaired scaling profile in the actual Picard linear systems;
-- an upper bound on the shared Beauville ramification with sufficiently small slope;
-- a genuinely distinct modular cover with independently chargeable ramification;
-- a global irreducibility/member theorem that forbids the surviving analytic profile;
-- or a subunit-slope bound on `M` or `s_min`.
+- a global irreducibility/member theorem forbidding the surviving analytic profile;
+- a subunit-slope bound on `M` or `s_min`;
+- an absolute bound on one factor degree or on `d`;
+- or a non-even-set cover/correspondence with genuinely independent charge and a closing inequality.
 
-For fixed `d`, MB103 symmetry, Hodge pruning, A1 debt, and the new exact BTVA projective-span filter can all be used. The degree direction is not yet bounded, so finite Picard enumeration remains unreleased.
+For fixed `d`, MB103 symmetry, Hodge pruning, A1 debt, and the exact BTVA projective-span filter remain usable. The degree direction is not yet bounded, so finite Picard enumeration remains unreleased.
 
 ## Firewalls
 
-No Freitag--Salvati Manni unibranch `176/192` cap is imported into the multibranch population. Surface nodes traversed by the image curve are not identified with ordinary self-nodes of the strict transform. The two factor directions are not treated as independent Beauville covers. Effectivity of `D_k` is not promoted to existence of an integral low-genus member. No finite degree window, `R29-LG2-MB` discharge, receiver/effectivity/final-milestone/theorem/endpoint/Stage32/Perfect-Cuboid credit is claimed. Merge remains unauthorized.
+No Freitag--Salvati Manni unibranch `176/192` cap is imported into the multibranch population. Surface nodes traversed by the image curve are not identified with ordinary self-nodes of the strict transform. The two factor directions are not treated as independent Beauville covers. The 23-dimensional necessary parity supercode is not identified with the 9-dimensional actual even-set code. Lower-weight even-set covers are not declared nonexistent. Effectivity of `D_k` is not promoted to existence of an integral low-genus member. No finite degree window, `R29-LG2-MB` discharge, receiver/effectivity/final-milestone/theorem/endpoint/Stage32/Perfect-Cuboid credit is claimed. Merge remains unauthorized.
