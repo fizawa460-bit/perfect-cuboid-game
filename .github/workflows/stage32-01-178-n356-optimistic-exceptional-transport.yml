@@ -43,8 +43,13 @@ jobs:
         run: git diff --check
 
   research-n357:
+    name: research-n357-shard-${{ matrix.shard }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -52,9 +57,42 @@ jobs:
           python-version: "3.10.x"
       - name: Install exact verifier dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
-      - name: Research N357 all178 support-suffix capacity candidate
+      - name: Research N357 all178 shard
         run: |
-          python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py --output /tmp/n357-all178-candidate.json
+          python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard.py \
+            --shard-index ${{ matrix.shard }} --shard-count 8 \
+            --output /tmp/n357-shard-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n357-shard-${{ matrix.shard }}
+          path: /tmp/n357-shard-${{ matrix.shard }}.json
+          retention-days: 1
+          if-no-files-found: error
+      - name: Diff check
+        run: git diff --check
+
+  aggregate-n357:
+    needs: research-n357
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: n357-shard-*
+          path: /tmp/n357-shards
+          merge-multiple: true
+      - name: Aggregate N357 all178 candidate
+        run: |
+          python stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py \
+            --shard-dir /tmp/n357-shards \
+            --output /tmp/n357-all178-candidate.json
           cat /tmp/n357-all178-candidate.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n357-all178-candidate
+          path: /tmp/n357-all178-candidate.json
+          retention-days: 1
+          if-no-files-found: error
       - name: Diff check
         run: git diff --check
