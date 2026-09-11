@@ -34,12 +34,8 @@
       "artifact_digest": "sha256:4e104703da463377d11198789b95dae6adafb6966ead7818919fdee981cd5e58",
       "raw_result_canonical_sha256": "45cbcb9437aacf9ac9ea9acb7d541d85e6146881892b99a28bcca008709bf841",
       "new_whole_unsat_parent_indices": [1103,1133],
-      "residual_partition_unknown_branches": {
-        "1000": [3,5],
-        "1030": [3,5],
-        "1056": [2,3,5]
-      },
-      "all_other_n1_branches_for_1000_1030_1056_unsat": true
+      "residual_partition_unknown_branches": {"1000":[3,5],"1030":[3,5],"1056":[2,3,5],"1224":[3]},
+      "all_other_n1_branches_for_residual_parents_unsat": true
     },
     {
       "role": "fresh-solver isolated replay of seven residual branches",
@@ -51,11 +47,21 @@
       "raw_result_canonical_sha256": "ba8375a42e27612d4e8d2c9093dd02f91c8fa5be0532b80b07b7e52a099a1aa3",
       "fresh_solver_per_branch": true,
       "per_branch_timeout_ms": 15000,
-      "unsat_branches": {
-        "1000": [3,5],
-        "1030": [3,5],
-        "1056": [2,3,5]
-      },
+      "unsat_branches": {"1000":[3,5],"1030":[3,5],"1056":[2,3,5]},
+      "unresolved_branch_count": 0
+    },
+    {
+      "role": "fresh-solver replay including parent 1224 stability branch",
+      "workflow_run_id": 34580019496,
+      "job_id": 103201165922,
+      "compute_head": "26cd9a37967eb3bd4dd473269f8ee94167938a6a",
+      "artifact_id": 10191238699,
+      "artifact_digest": "sha256:e2507d478828eecf364c83b76205071ebe5269251abaf056c7d3abcc4e65ec9a",
+      "raw_result_canonical_sha256": "c905f7e26f6e7d4ef96b911ea0a6b0b25e66474fe75d3a8881dc9ede54055d7d",
+      "retained_result_path": "stages/stage32/full178-cut/CUT102-residual4-result.json",
+      "fresh_solver_per_branch": true,
+      "per_branch_timeout_ms": 15000,
+      "unsat_branches": {"1000":[3,5],"1030":[3,5],"1056":[2,3,5],"1224":[3]},
       "unresolved_branch_count": 0
     }
   ],
@@ -76,15 +82,16 @@
     "unknown_branches_dropped": false
   },
   "replay_note": {
-    "parent_1224": "The first broad run returned whole-parent UNSAT at 750ms. A later incremental run returned timeout for the same parent after deeper solver history. This is a performance/replay-stability issue, not contradictory SAT evidence. CUT103 must fresh-solver replay parent 1224 before hostile handoff.",
+    "parent_1224": "The first broad run returned whole-parent UNSAT at 750ms; a later incremental run timed out after deeper solver history. The independent fresh-solver 15000ms replay now returns UNSAT for the only residual n1=3 branch, so replay stability is source-locked without treating timeout as UNSAT.",
+    "fresh_parent_1224_replay_passed": true,
     "cut103_required": true
   },
   "next": {
     "id": "CUT103_EXACT_SCOPE_AND_PREIMAGE_CERTIFICATE",
     "goals": [
-      "fresh-solver replay parent 1224 and preferably the whole retained19 certificate set",
       "freeze exact retained parent identities and source locks",
-      "prove the retained19 scope maps to the claimed current FULL178 terminal/block/stratum without population drift or double counting",
+      "prove the retained19 completion-space scope maps to the claimed current FULL178 first block without population drift or double counting",
+      "distinguish completion-branch exclusion from terminal-count pruning",
       "leave the other 172 BC2-19 UNKNOWN identities uninferred"
     ]
   },
