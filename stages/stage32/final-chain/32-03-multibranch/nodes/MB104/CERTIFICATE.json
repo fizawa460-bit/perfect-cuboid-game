@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V3",
+  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V4",
   "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
   "receiver": "R29-LG2-MB",
   "parents": {
@@ -14,10 +14,16 @@
     "al_blob_sha1": "dbe2bea1b2cae1e69ad6c27e5828f81494532fa4",
     "am_path": "stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json",
     "am_blob_sha1": "aa14d340e8b68f863d4013d34fb0eee7b306c0ee",
+    "an_path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+    "an_blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
     "ar_path": "stages/stage32/residual-32-01-production/post1648ar-two-factor-slack-minimal-branches-source-note.md",
     "ar_blob_sha1": "da9b6ba755b8bd43d5b342d5540053caeb218f57",
     "fsm16_contract_path": "stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json",
     "fsm16_contract_blob_sha1": "ef000f3607f7d85bde02d41f7323492edf80799f",
+    "fsm_weighted_path": "stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-wall.md",
+    "fsm_weighted_blob_sha1": "f035251b6e2e79e8a2162d4cb62bbe3c52639ae8",
+    "lambda_capacity_wall_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LAMBDA-CAPACITY-WALL.json",
+    "lambda_capacity_wall_blob_sha1": "2b5f64ff7ab6da7eccd889b0f99f887c19a3c88d",
     "upstream_picard_source": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma",
     "upstream_picard_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
     "fsm_reference": "Freitag--Salvati Manni, Parametrization of the box variety by theta functions, Theorem 3.1 proof, DOI 10.1307/mmj/1480734014"
@@ -67,6 +73,15 @@
     "closes_degree": false,
     "reason": "sqrt(6)>1, while factor slack already gives M>=d-4*g+4"
   },
+  "lambda_capacity_contract": {
+    "minimal_germ_family": "gamma_lambda(t)=(t,lambda*t,lambda^2*t), lambda in C^*",
+    "arbitrarily_many_pairwise_distinct_local_landings_allowed": true,
+    "forced_pairwise_exceptional_delta_for_distinct_landings": 0,
+    "fsm_weighted_order_depends_on_lambda": false,
+    "uniform_local_constant_capacity_bound_available": false,
+    "global_curve_existence_from_local_witness_claimed": false,
+    "local_lambda_route_closes_degree": false
+  },
   "fsm_tensor_contract": {
     "positive_pole_branch_iff": "A+B=2 iff (A,B)=(1,1)",
     "positive_pole_order_per_minimal_branch_per_k": 8,
@@ -95,6 +110,15 @@
     "current_hodge_exceptional_mass_coefficient": "sqrt(6)>1; nonclosing",
     "absolute_factor_or_degree_bound": "any independent absolute bound on n_i or d"
   },
+  "route_decision": {
+    "retire_local_lambda_cardinality_without_new_global_coupling": true,
+    "next_subobligation": "MB104_GLOBAL_MEMBER_LEVEL_ANTI_SCALING_BOUND",
+    "preferred_inputs": [
+      "global jet/polar/contact capacity",
+      "effective-divisor upper bound independent of existing factor slack",
+      "stronger full-Picard/known-curve inequality with subunit asymptotic coefficient"
+    ]
+  },
   "credit_firewall": {
     "mb104_complete": false,
     "finite_degree_window_proved": false,
@@ -108,6 +132,5 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
-  },
-  "next_subobligation": "MB104_INDEPENDENT_SUBUNIT_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND"
+  }
 }
