@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE32_MB104_BTVA_FULL_M2_NODE_EXTENSION_MAP_V1",
+  "status": "RETAINED_EXACT_48_NODE_EXTENSION_MAP_NONFINAL",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-FULL-M2-NODE-EXTENSION-MAP-SOURCE-NOTE.md",
+    "btva_primary": "Bruin--Thomas--Varilly-Alvarado, Algebra & Number Theory 16 (2022), DOI 10.2140/ant.2022.16.1377, arXiv 1912.08908v3",
+    "btva_locators": [
+      "Table 1: m=2 generators on the perfect-cuboid surface",
+      "local A1 regular-extension calculation",
+      "vanishing-on-hyperplane corollary"
+    ],
+    "ancillary_mirror_commit": "c5a8240aed71ed30c63528a2e8f1411f9cc2e04f",
+    "ancillary_path": "papers/1912.08908/anc/perfectcuboid_script.m",
+    "ancillary_blob_sha1": "7b84650178bd077a9829b51f669c78118b6ce4b9",
+    "mb103_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/verify_mb103_aut_node_quotient.py",
+    "mb103_verifier_blob_sha1": "5a362acbbc3969e76f74b783b53d69a2c17adedc"
+  },
+  "basis": {
+    "dimension": 13,
+    "labels": [
+      "omega1", "omega2", "omega3", "omega4", "omega5", "omega6",
+      "x1_eta", "x2_eta", "x3_eta", "y1_eta", "y2_eta", "y3_eta", "z_eta"
+    ],
+    "x1_eta_is_omega7": true,
+    "local_A1_regular_extension_quotient_dimension_at_m2": 3
+  },
+  "chart_x1": {
+    "node_count": 24,
+    "type_counts": {"V": 8, "T2": 8, "T3": 8},
+    "each_local_pole_map_rank": 3
+  },
+  "coordinate_transposition_action": {
+    "swap12_first6": ["omega2", "omega1", "omega4", "omega3", "omega5", "-omega6"],
+    "swap13_first6": ["-omega5", "omega2", "-omega3", "-omega6", "-omega1", "-omega4"],
+    "package_action": "natural coordinate permutation on (x1,x2,x3,y1,y2,y3,z)*eta",
+    "swap12_square_identity": true,
+    "swap13_square_identity": true,
+    "swap12_swap13_product_order": 3,
+    "overlap_propagation_rowspace_consistent": true
+  },
+  "all_nodes": {
+    "node_count": 48,
+    "each_extension_map_shape": [3, 13],
+    "each_extension_map_rank": 3,
+    "all_48_combined_extension_rank": 13,
+    "all_48_simultaneous_kernel_dimension": 0
+  },
+  "coordinate_hyperplanes": {
+    "x1": {"node_count": 24, "coordinate_rank": 6, "extension_rank": 12, "kernel_dimension": 1, "any_outside_node_extension_rank": 13},
+    "x2": {"node_count": 24, "coordinate_rank": 6, "extension_rank": 12, "kernel_dimension": 1, "any_outside_node_extension_rank": 13},
+    "x3": {"node_count": 24, "coordinate_rank": 6, "extension_rank": 12, "kernel_dimension": 1, "any_outside_node_extension_rank": 13},
+    "z":  {"node_count": 24, "coordinate_rank": 6, "extension_rank": 12, "kernel_dimension": 1, "any_outside_node_extension_rank": 13},
+    "y1": {"node_count": 16, "coordinate_rank": 6, "extension_rank": 10, "kernel_dimension": 3, "any_outside_node_extension_rank": 13},
+    "y2": {"node_count": 16, "coordinate_rank": 6, "extension_rank": 10, "kernel_dimension": 3, "any_outside_node_extension_rank": 13},
+    "y3": {"node_count": 16, "coordinate_rank": 6, "extension_rank": 10, "kernel_dimension": 3, "any_outside_node_extension_rank": 13}
+  },
+  "decision": {
+    "full_m2_node_extension_map_constructed": true,
+    "coordinate_hyperplane_plus_one_jump_certified": true,
+    "all_projective_rank7_supports_extension_rank13_certified": false,
+    "m2_route_closes_population_wide": false,
+    "next_subobligation": "MB104_M2_NODE_SPANNED_HYPERPLANE_ORBIT_CLASSIFICATION",
+    "preferred_inputs": [
+      "classify all node-spanned projective hyperplanes under the exact Aut(S) node action",
+      "certify extension-rank jump for every rank-6 support orbit plus an outside node",
+      "if that fails, isolate the surviving full-span configurations and pass them to higher-m or member geometry"
+    ]
+  },
+  "firewalls": {
+    "coordinate_hyperplane_results_promoted_to_all_hyperplanes": false,
+    "exploratory_full_span_sampling_promoted": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
