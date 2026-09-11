@@ -1,0 +1,56 @@
+{
+  "schema": "STAGE32_32_01_178_N260_HOSTILE_AUDIT_HANDOFF_V1",
+  "node_id": "N260",
+  "scope": "four-stratum e=K=48 full exceptional-vector rigidity only",
+  "authority": {
+    "n260_state_path": "stages/stage32/32-01-178/nodes/N260/STATE.json",
+    "n260_state_blob_sha1": "53003f091d8845013aac6c879aac9e0fd22f00c9",
+    "n260_verifier_path": "stages/stage32/32-01-178/nodes/N260/verify_n260_e48_full_exceptional_rigidity.py",
+    "n260_verifier_blob_sha1": "ff0709d9b2820a1fc17aa9819754463c971ece78",
+    "n260_workflow_path": ".github/workflows/stage32-01-178-n260-e48-rigidity.yml",
+    "n260_workflow_blob_sha1": "dab1a5559723dcd1be6923ff2fa24b5f84e695cb",
+    "n250_state_blob_sha1": "0c4cf9148dfed7ebc43cd1ee776917521e3635de",
+    "n220_audited_state_blob_sha1": "f5f0e902062c9fafc9f03fe8a203d744cf58281e",
+    "n230_audited_state_blob_sha1": "9c4ecb012df70dc1b39f6cfffbd7c5b481f51967",
+    "n220_corrected_hostile_audit_review_id": 5159411821,
+    "n230_hostile_audit_review_id": 5160389467,
+    "n260_replay_run_id": 34418800331,
+    "n260_replay_job_id": 102689522286
+  },
+  "claims_to_audit": {
+    "exact_strata": [
+      [0,174,48],
+      [0,176,48],
+      [1,190,48],
+      [1,192,48]
+    ],
+    "required_support_K": 48,
+    "exceptional_mass_e": 48,
+    "exceptional_slot_count": 48,
+    "rigidity_claim": "48 nonnegative integral exceptional coordinates with total mass 48 and support at least 48 are uniquely [1]^48",
+    "n230_survivor_exceptional_block_count_each": 1,
+    "unique_known_prefix_x4_zero": [1,1,1,1,0,1,1,1,1,1,1],
+    "normal_x4_block_sizes": {
+      "g0-d174/e48": 3067,
+      "g0-d176/e48": 3105,
+      "g1-d190/e48": 3371,
+      "g1-d192/e48": 3409
+    }
+  },
+  "hostile_checks": [
+    "Confirm on the same audited FULL178 branch that e is the exact sum of all 48 nonnegative integral exceptional pairings and K is a lower bound on their positive support.",
+    "Independently prove or break the implication e=K=48 => full exceptional vector [1]^48.",
+    "Replay N230 on all four strata and verify accepted_exceptional_count=1 and the unique first-ten exceptional prefix.",
+    "Verify the four x4 block sizes from 19*d-5*e+1 and exact filtered-rank/old-rank replay at boundaries.",
+    "Check that no Picard64 UNSAT, leaf-completion, FULL178, theorem, receiver, endpoint, existence/nonexistence, or merge credit is inferred from rigidity alone."
+  ],
+  "credit_ceiling_if_pass": "EXACT_FOUR_STRATUM_EXCEPTIONAL_VECTOR_RIGIDITY_ONLY_NO_PICARD_UNSAT_OR_FULL178_CREDIT",
+  "forbidden_promotions": [
+    "production Picard leaf COMPLETE",
+    "N104 full disposal",
+    "FULL178 completion",
+    "Stage32 closure",
+    "Perfect Cuboid existence or nonexistence",
+    "merge authorization"
+  ]
+}

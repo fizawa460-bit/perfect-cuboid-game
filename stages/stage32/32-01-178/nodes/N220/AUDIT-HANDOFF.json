@@ -1,0 +1,54 @@
+{
+  "schema": "stage32-01-178-hostile-audit-handoff/v1",
+  "mission_id": "stage32-01-178",
+  "node_id": "N220",
+  "status": "READY_FOR_EXTERNAL_HOSTILE_AUDIT",
+  "authority_state": {
+    "path": "stages/stage32/32-01-178/nodes/N220/STATE.json",
+    "blob_sha": "15f38f2bc2c0c5c84206505283dd3ed9d6fa5145"
+  },
+  "verifiers": [
+    {
+      "path": "stages/stage32/32-01-178/nodes/N220/verify_n220_prefix_exceptional_support_cap.py",
+      "blob_sha": "b7a157d2d1ec5c4006a6edc4bb5afb5c6ea29cad",
+      "purpose": "direct proof/nontriviality replay and explicit rejected-family lower bound"
+    },
+    {
+      "path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py",
+      "blob_sha": "5855ae0835a828ab56b7a6e93a42f6788b6f676a",
+      "purpose": "independent exact mass/support symbolic decomposition and full retained-total reconstruction"
+    },
+    {
+      "path": "stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py",
+      "blob_sha": "1510533965c475baab577e30e4eb26ad58dc4ac8",
+      "purpose": "same exact symbolic count with support-threshold prefix sums for bounded hostile replay"
+    }
+  ],
+  "claims_to_audit": {
+    "cut": "S10 + min(38, e-M10) >= ceil((d-16g+16)/4)",
+    "retained_total_before_node_mass": "688101306360803751427719294",
+    "total_after_existing_node_mass_cut": "688101306357436883335845534",
+    "n220_rejected": "342047598454520296245948565",
+    "n220_survivors": "346053707902916587089896969",
+    "rejection_percent_approx": 49.7089011885762
+  },
+  "hostile_checks_requested": [
+    "Confirm the indexed assignment order really contains ten exceptional labels and one normal label x4=49, with the same semantics used by compressed_terminal_family.py.",
+    "Confirm the full exceptional vector has 48 nonnegative integral slots totaling e on the exact branch where the retained support lower bound K=ceil((d-16g+16)/4) applies.",
+    "Try to break the support upper bound S10+min(38,e-M10) by completion, multiplicity, or labelled-support ambiguity; exact support must not be inferred, only an upper bound on support count.",
+    "Replay the symbolic unequal/equal split, equal-case lex rule, and parity condition and verify that summing all strata reconstructs the retained 27-digit indexed-terminal total exactly.",
+    "Verify the N220 rejected and survivor totals with an implementation independent enough to catch shared counting mistakes.",
+    "Confirm N220 does not import or duplicate EX5 BC2-02 Picard64 completion/projection-z work and grants no FULL178 completion/theorem/receiver credit."
+  ],
+  "credit_firewall": {
+    "self_audit_pass_granted": false,
+    "production_pruning_authorized": false,
+    "heavy_compute_authorized": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "existence_claim": false,
+    "nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

@@ -1,0 +1,191 @@
+name: Stage32EX5 BC2-10 outer-rank2 symbolic x4 parent preflight
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_10_outer_rank2_symbolic_x4_parent_preflight.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-09-next-exceptional-terminal-block-preflight-checkpoint.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json'
+      - 'stages/stage32-ex5/runkeys/bc2-10-outer-rank2-parent-preflight.json'
+      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - '.github/workflows/stage32ex5-bc2-02-unknown53-direct-slice-a-preflight.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32ex5-bc2-10-outer-rank2-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Validate fresh BC2-10 run-key arm in synchronize commit range
+        id: auth
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/bc2-10-outer-rank2-parent-preflight.json'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$BEFORE" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+              && git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"; then
+              python - "$KEY" "$BEFORE" <<'PY'
+          import json,subprocess,sys
+          key,before=sys.argv[1:]
+          new=json.load(open(key))
+          if new.get('schema')!='STAGE32EX5_BC2_10_OUTER_RANK2_PARENT_PREFLIGHT_RUNKEY_V1':
+              raise SystemExit('run-key schema mismatch')
+          if new.get('armed') is not True:
+              raise SystemExit('run-key is not armed')
+          if new.get('source_commit')!='a89ffff432c4ba22352a1a6c24a81b7d26de8139':
+              raise SystemExit('BC2-10 source commit lock mismatch')
+          if new.get('terminal_rank_block') != [266,398]:
+              raise SystemExit('terminal block lock mismatch')
+          if int(new.get('outer_exceptional_rank',-1)) != 2:
+              raise SystemExit('outer exceptional rank lock mismatch')
+          if int(new.get('expected_parent_branch_count',0)) != 1:
+              raise SystemExit('parent branch count lock mismatch')
+          if int(new.get('parent_timeout_ms',0)) != 5000:
+              raise SystemExit('parent timeout lock mismatch')
+          if new.get('bc2_09_checkpoint_canonical_sha256')!='db1cb79d564904192bf5cd6450d54decacf15ef3711d686e573e92f3b8f56cd7':
+              raise SystemExit('BC2-09 checkpoint lock mismatch')
+          if int(new.get('projected_max_artifact_bytes',0)) > 200000:
+              raise SystemExit('artifact projection exceeds BC2-10 ceiling')
+          if int(new.get('artifact_retention_days',0)) != 1:
+              raise SystemExit('transient artifact retention must be one day')
+          if int(new.get('effective_heavy_concurrency',0)) != 1:
+              raise SystemExit('effective heavy concurrency must be one')
+          old_generation=-1
+          try:
+              old_text=subprocess.check_output(['git','show',f'{before}:{key}'],text=True,stderr=subprocess.DEVNULL)
+              old_generation=int(json.loads(old_text).get('generation',-1))
+          except subprocess.CalledProcessError:
+              pass
+          if int(new.get('generation',-1)) <= old_generation:
+              raise SystemExit('run-key generation did not advance')
+          print('BC2_10_RUNKEY_FRESH_ARM_OK')
+          PY
+              authorized=true
+            fi
+          fi
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "BC2_10_HEAVY_AUTHORIZED=$authorized"
+
+  outer-rank2-symbolic-parent-preflight:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Compile BC2-10 solver
+        run: python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_10_outer_rank2_symbolic_x4_parent_preflight.py
+      - name: Run exact one-parent symbolic x4 preflight
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_10_outer_rank2_symbolic_x4_parent_preflight.py \
+            --manifest stages/stage32/residual-32-01-production/full178-manifest.json \
+            --prefix-checkpoint stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json \
+            --adapter-preflight stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-target-to-59d-model-adapter-preflight.json \
+            --bc2-09-checkpoint stages/stage32-ex5/breadth-cycle-2/bc2-09-next-exceptional-terminal-block-preflight-checkpoint.json \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --parent-timeout-ms 5000 \
+            --output "$RUNNER_TEMP/bc2-10-outer-rank2-parent-preflight.json"
+      - name: Validate exact parent partition and firewalls
+        run: |
+          python - "$RUNNER_TEMP/bc2-10-outer-rank2-parent-preflight.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1])); b=p['block_semantics']; a=p['adaptive_exceptional_partition']; q=p['parent_result']; r=p['result']; f=p['firewalls']
+          assert p['schema']=='STAGE32EX5_BC2_10_OUTER_RANK2_SYMBOLIC_X4_PARENT_PREFLIGHT_V1'
+          assert b['exceptional_rank']==2 and b['rank_start']==266 and b['rank_end']==398 and b['block_width']==133
+          assert b['x4_range']==[0,132] and b['x4_kept_symbolic_over_full_block'] is True
+          assert b['base_terminal_x4_zero']==[0,1,0,0,0,0,0,2,0,0,1]
+          assert b['exceptional_signature']==[0,1,0,0,0,0,2,0,0,1]
+          assert b['bc2_09_exact_replay_consumed'] is True and b['new_mathematical_condition_added'] is False
+          assert a['fixed_exceptional_mass']==4 and a['residual_exceptional_mass']==0
+          assert a['remaining_selected_exceptional_count']==19 and a['unselected_exceptional_count']==19
+          assert a['parent_branch_count']==1 and a['parent_partition_complete_for_symbolic_x4_block'] is True
+          assert q['tested_parent_branches']==1
+          assert q['aggregate_result'] in {'SAT','UNSAT','UNKNOWN'}
+          if q['aggregate_result']=='UNSAT':
+              assert q['exact_unsat_parent_branches']==1 and q['unknown_parent_branches']==0
+              assert r['rank_266_to_398_block_exact_unsat_authorized'] is True
+              assert p['next_exact_unit']['id']=='BC2_11_NEXT_EXCEPTIONAL_TERMINAL_BLOCK_PREFLIGHT'
+          elif q['aggregate_result']=='UNKNOWN':
+              assert q['unknown_parent_branches']==1
+              assert q['exact_full_exceptional_refinement_subcase_count_if_needed']==1
+              assert q['unknown_parent_unselected_mass_counts']=={'0':1}
+              assert r['rank_266_to_398_block_exact_unsat_authorized'] is False
+              assert p['next_exact_unit']['id']=='BC2_11_OUTER_RANK2_SINGLE_SUBCASE_EXACT_SOLVER_REFINEMENT'
+          else:
+              assert q['sat_parent'] is not None
+              assert 0 <= q['sat_parent']['x4'] <= 132
+              assert isinstance(r['witness_r_reduced'],list) and len(r['witness_r_reduced'])==59
+              assert p['next_exact_unit']['id']=='BC2_10_SAT_NODE_SUPPORT_CONSUMPTION'
+          assert f['rank_0_to_132_block_exact_unsat_retained'] is True
+          assert f['rank_133_to_265_block_exact_unsat_retained'] is True
+          assert f['whole_g1_d008_e4_stratum_closed'] is False
+          assert f['FULL178_complete'] is False and f['stage32_main_credit'] is False
+          assert f['receiver_credit'] is False and f['Q602_excluded'] is False and f['O210_excluded'] is False
+          assert f['merge_authorized'] is False
+          print(json.dumps({
+              'aggregate':q['aggregate_result'],
+              'tested':q['tested_parent_branches'],
+              'unsat':q['exact_unsat_parent_branches'],
+              'unknown':q['unknown_parent_branches'],
+              'refined_subcases':q['exact_full_exceptional_refinement_subcase_count_if_needed'],
+              'sat_parent':q['sat_parent'],
+              'canonical':p['canonical_sha256_without_this_field']
+          },sort_keys=True))
+          PY
+      - name: Feed BC2-10 SAT completion into node-support consumer
+        run: |
+          set -euo pipefail
+          STATUS=$(python - "$RUNNER_TEMP/bc2-10-outer-rank2-parent-preflight.json" <<'PY'
+          import json,sys
+          print(json.load(open(sys.argv[1]))['result']['status'])
+          PY
+          )
+          if [ "$STATUS" = SAT ]; then
+            python stages/stage32-ex5/breadth-cycle-2/bc2_02_exact_witness_to_node_support.py \
+              --evidence "$RUNNER_TEMP/bc2-10-outer-rank2-parent-preflight.json" \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --node-bridge stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json \
+              --output "$RUNNER_TEMP/bc2-10-outer-rank2-support.json"
+          else
+            echo "BC2-10 result=$STATUS; node-support consumer not invoked"
+          fi
+      - name: Upload compact BC2-10 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-10-outer-rank2-parent-preflight
+          path: ${{ runner.temp }}/bc2-10-outer-rank2*.json
+          retention-days: 1
+          compression-level: 9

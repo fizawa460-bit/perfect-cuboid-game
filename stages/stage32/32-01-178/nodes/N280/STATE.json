@@ -1,0 +1,60 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N280",
+  "semantic_key": "s32-01-178:all48-x4-normalmass-lattice-obstruction",
+  "statement": "Strengthen N270 by adjoining the exact normal-pairing mass sum(labels1..92)=19*d-5*e to the N260-forced [1]^48 exceptional vector and x4, then test exact integral Picard64 lattice membership before any EX5 Z3 leaf solver.",
+  "depends_on": ["N220", "N230", "N260", "N270"],
+  "scope": {
+    "population": "the four N260 e=K=48 one-exceptional-block strata",
+    "field_or_model": "50 exact integral linear functionals on retained Picard64: 48 exceptional pairings, label49=x4, and total normal pairing mass",
+    "quantifiers": "all 12952 x4 terminals across the four N260 strata",
+    "required_output": "exact integer-lattice necessary-condition rejection ledger"
+  },
+  "implementation": {
+    "verifier_path": "stages/stage32/32-01-178/nodes/N280/verify_n280_all48_x4_normalmass_lattice.py",
+    "verifier_blob_sha1": "c3c8f22e515f49890bee9b4aeddef7bca74511e6",
+    "workflow_path": ".github/workflows/stage32-01-178-n280-all48-normalmass-lattice.yml",
+    "workflow_blob_sha1": "c3f7f4cd5438ac6c2bfcde8f85aa66cd4bd317d8",
+    "runs_z3": false,
+    "materializes_picard_leaf_population": false
+  },
+  "validation": {
+    "status": "PASS_RETAINED_EXACT_LATTICE_REPLAY_PENDING_HOSTILE_AUDIT",
+    "workflow_run_id": 34420545898,
+    "workflow_job_id": 102694773833,
+    "workflow_conclusion": "success",
+    "canonical_sha256": "5309dc4d379ae30ce359baa9f611ed5742c2c1fcc6c1d8a0bab35bce3fcdd07e",
+    "functional_matrix_shape": [50,64],
+    "functional_matrix_sha256": "aa8cac5269579eb6d7801213528ada2f9c607e711b4efea04af57e1591a7d73d",
+    "hnf_shape": [50,50],
+    "hnf_sha256": "9dfe66cd46c4223671d2b06368d2dda1548855ce186010456d4c290e7b3c3e69",
+    "hnf_image_index": "637534208",
+    "hnf_inverse_denominator_modulus": 76,
+    "tested_terminal_count": 12952,
+    "lattice_rejected_terminal_count": 6438,
+    "lattice_survivor_terminal_count": 6514,
+    "strata": [
+      {"row_id":"g0-d174","e":48,"normal_mass":3066,"normal_mass_mod_76":26,"terminal_count":3067,"rejected":3067,"survivors":0},
+      {"row_id":"g0-d176","e":48,"normal_mass":3104,"normal_mass_mod_76":64,"terminal_count":3105,"rejected":0,"survivors":3105},
+      {"row_id":"g1-d190","e":48,"normal_mass":3370,"normal_mass_mod_76":26,"terminal_count":3371,"rejected":3371,"survivors":0},
+      {"row_id":"g1-d192","e":48,"normal_mass":3408,"normal_mass_mod_76":64,"terminal_count":3409,"rejected":0,"survivors":3409}
+    ]
+  },
+  "retained_result": {
+    "status": "AUDIT_REQUIRED",
+    "result": "TWO_OF_FOUR_N260_STRATA_EXACTLY_EMPTY_AT_INTEGER_PICARD64_LINEAR_LATTICE_LEVEL",
+    "provisional_empty_strata": ["g0-d174/e48", "g1-d190/e48"],
+    "provisional_exact_rejected_terminal_count": 6438,
+    "remaining_strata_not_pruned_by_n280": ["g0-d176/e48", "g1-d192/e48"],
+    "full178_complete": false
+  },
+  "credit_ceiling": "AUDIT_READY_EXACT_N260_SCOPED_INTEGER_LATTICE_NECESSARY_OBSTRUCTION_ONLY_NO_GLOBAL_PICARD_OR_FULL178_CREDIT",
+  "next_action": "HOSTILE_AUDIT N260 RIGIDITY AND N280 50-FUNCTIONAL HNF MEMBERSHIP; IF PASS, CONSUME 6438 EXACT REJECTIONS AND STUDY THE TWO REMAINING e48 STRATA WITH A STRICTLY STRONGER NONLINEAR/ADJUNCTION OR SOURCE-LOCKED PICARD LEAF CONDITION WITHOUT DUPLICATING EX5",
+  "notes": [
+    "N280 is strictly stronger than N270 because N270 left the remaining normal pairing mass unconstrained.",
+    "A rejected target cannot be the pairing image of any integral Picard64 class satisfying the fixed functionals; a feasible target is not a Picard SAT witness.",
+    "The observed rejection is independent of x4 inside each rejected stratum and separates normal_mass congruence 26 mod76 from the two tested feasible masses 64 mod76; no universal congruence theorem beyond the tested N260 scope is claimed.",
+    "N260 remains audit-required, so N280 rejection credit is provisional until the upstream rigidity is hostile-audited.",
+    "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}

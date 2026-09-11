@@ -1,0 +1,83 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N106",
+  "semantic_key": "s32-01-178:compressed-production-execution-plan",
+  "statement": "Consume the hostile-audited repaired N106 compressed production execution/sharding architecture without rewriting the audited contract.",
+  "scope": {
+    "population": "future compressed FULL178 work units",
+    "field_or_model": "GitHub Actions / local exact production runner and retained certificates",
+    "quantifiers": "all dispatched work units under the audited stratum-local architecture",
+    "required_output": "authority synchronization of the exact audited N106 contract"
+  },
+  "source_refs": [
+    "stages/stage32/32-01-178/nodes/N106/STATE.json@780d9639f2bb246386544cf045606014dd098b10",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json@4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
+    "PR#1753 review 5153281341",
+    "PR#1753 review 5153922196",
+    "docs/research-os/policies/hostile-audit-and-freshness.md"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "N106 repaired stratum-local contract exact blob",
+      "N106 hostile re-audit receipt",
+      "post-audit drift from exact audited head to current MAINBATCH head"
+    ],
+    "matches": [
+      "audited contract blob 780d9639f2bb246386544cf045606014dd098b10",
+      "hostile-audit PASS review 5153922196 at exact head 4f75ae49178d797da746b32ea603cf4da2bda8f0",
+      "post-audit commits before this authority sync touched only MAINBATCH.md and MISSION.json; N106 contract/source locks were unchanged"
+    ],
+    "decision": "CONSUME_EXISTING_AUDITED_N106_CONTRACT_BY_WRAPPER; DO_NOT REWRITE AUDITED CONTRACT BLOB"
+  },
+  "attempts": [
+    {
+      "route_id": "N106-R1-EXECUTION-ARCHITECTURE-DESIGN",
+      "status": "RETAINED",
+      "summary": "Initial exact execution architecture retained before hostile audit; later audit identified global-rank identity mismatch."
+    },
+    {
+      "route_id": "N106-R2-HOSTILE-AUDIT-FAIL-5153281341",
+      "status": "FAIL",
+      "summary": "Hostile audit failed because CompressedTerminalIndexer(e,d) rank is stratum-local while the initial contract used one implicit global rank domain.",
+      "evidence_paths": ["PR#1753 review 5153281341"]
+    },
+    {
+      "route_id": "N106-R3-STRATUM-LOCAL-REPAIR",
+      "status": "RETAINED",
+      "summary": "Repaired work-unit/checkpoint/ledger identity to include locked manifest plus row_id,d,e,stratum_terminal_count and local half-open rank interval; exact cover is per stratum then across all 64111 strata.",
+      "evidence_paths": ["stages/stage32/32-01-178/nodes/N106/STATE.json"]
+    },
+    {
+      "route_id": "N106-R4-HOSTILE-REAUDIT-PASS-5153922196",
+      "status": "PASS",
+      "summary": "Fresh hostile audit passed the repaired N106 architecture at exact head 4f75ae49178d797da746b32ea603cf4da2bda8f0.",
+      "evidence_paths": ["PR#1753 review 5153922196"]
+    }
+  ],
+  "retained_result": {
+    "status": "DONE_AUDITED_EXECUTION_ARCHITECTURE",
+    "audited_contract_path": "stages/stage32/32-01-178/nodes/N106/STATE.json",
+    "audited_contract_blob_sha": "780d9639f2bb246386544cf045606014dd098b10",
+    "hostile_audit_result": "PASS",
+    "hostile_audit_review_id": 5153922196,
+    "audited_exact_head": "4f75ae49178d797da746b32ea603cf4da2bda8f0",
+    "prior_fail_review_id": 5153281341,
+    "contract_identity": "stratum-local CompressedTerminalIndexer(e,d) rank intervals under locked FULL178 manifest",
+    "manifest_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+    "expected_rows": 178,
+    "expected_strata": 64111,
+    "global_terminal_count_consistency_only": "688101306360803751427719294",
+    "credit_released": "EXECUTION_ARCHITECTURE_ONLY",
+    "heavy_compute_authorized": false,
+    "full178_numerical_credit": false,
+    "authority_sync_only": true
+  },
+  "credit_ceiling": "EXECUTION_ARCHITECTURE_ONLY_NO_HEAVY_AUTHORIZATION_OR_FULL178_CREDIT",
+  "next_action": "ALLOW_N190_GENERATION1_RECONCILIATION; DO_NOT IMPLEMENT OR RUN HEAVY COMPUTE UNTIL AN EXACT LEAF CONTRACT AND RUN-KEY PATH ARE SEPARATELY AUTHORIZED",
+  "notes": [
+    "The audited N106 contract blob is intentionally left unchanged.",
+    "The earlier hostile-audit FAIL remains part of provenance and is not erased by the PASS.",
+    "Merge is not authorized."
+  ]
+}

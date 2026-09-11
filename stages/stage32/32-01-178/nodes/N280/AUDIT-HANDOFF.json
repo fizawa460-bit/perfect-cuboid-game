@@ -1,0 +1,69 @@
+{
+  "audit_candidate_exact_head": "59bf1aa6ebe55e8cf833864a3af7f79bf2d9322c",
+  "authority": {
+    "functional_matrix_sha256": "aa8cac5269579eb6d7801213528ada2f9c607e711b4efea04af57e1591a7d73d",
+    "hnf_sha256": "9dfe66cd46c4223671d2b06368d2dda1548855ce186010456d4c290e7b3c3e69",
+    "n260_handoff_blob_sha1": "ea39e4c35892c9c3f7d77e6bcdedcc850bec697e",
+    "n260_handoff_path": "stages/stage32/32-01-178/nodes/N260/AUDIT-HANDOFF.json",
+    "n260_state_blob_sha1": "53003f091d8845013aac6c879aac9e0fd22f00c9",
+    "n280_replay_job_id": 102694773833,
+    "n280_replay_run_id": 34420545898,
+    "n280_result_canonical": "5309dc4d379ae30ce359baa9f611ed5742c2c1fcc6c1d8a0bab35bce3fcdd07e",
+    "n280_state_blob_sha1": "9ec13f678d3412ed4116ff2da08ea7a999bb4f27",
+    "n280_state_path": "stages/stage32/32-01-178/nodes/N280/STATE.json",
+    "n280_verifier_blob_sha1": "c3c8f22e515f49890bee9b4aeddef7bca74511e6",
+    "n280_verifier_path": "stages/stage32/32-01-178/nodes/N280/verify_n280_all48_x4_normalmass_lattice.py",
+    "n280_workflow_blob_sha1": "c3f7f4cd5438ac6c2bfcde8f85aa66cd4bd317d8",
+    "n280_workflow_path": ".github/workflows/stage32-01-178-n280-all48-normalmass-lattice.yml"
+  },
+  "canonical_sha256_without_this_field": "8ac827548f0cd6667af7017be62e106978b8355e30e70c024c3e308684452483",
+  "claims_to_audit": {
+    "exact_lattice_rejected_terminal_count": 6438,
+    "exact_lattice_survivor_terminal_count": 6514,
+    "fixed_functionals": "48 exceptional pairings =1, label49=x4, sum(labels1..92)=19*d-5*e",
+    "functional_matrix_shape": [50, 64],
+    "hnf_image_index": "637534208",
+    "hnf_inverse_denominator_modulus": 76,
+    "hnf_shape": [50, 50],
+    "input_terminal_count": 12952,
+    "necessary_only": true,
+    "provisional_empty_strata": [
+      {"e": 48, "normal_mass": 3066, "row_id": "g0-d174", "terminal_count": 3067},
+      {"e": 48, "normal_mass": 3370, "row_id": "g1-d190", "terminal_count": 3371}
+    ],
+    "remaining_strata": [
+      {"e": 48, "normal_mass": 3104, "row_id": "g0-d176", "terminal_count": 3105},
+      {"e": 48, "normal_mass": 3408, "row_id": "g1-d192", "terminal_count": 3409}
+    ]
+  },
+  "credit_ceiling_if_pass": "EXACT_N260_SCOPED_50_FUNCTIONAL_HNF_REJECTION_6438_ONLY_NO_GLOBAL_PICARD_OR_FULL178_CREDIT",
+  "forbidden_promotions": [
+    "N260 PASS unless separately audited",
+    "Picard SAT from lattice feasibility",
+    "production leaf COMPLETE",
+    "N104 full disposal",
+    "N350 producer registration",
+    "FULL178 completion",
+    "Stage32 closure",
+    "theorem/receiver/endpoint credit",
+    "Perfect Cuboid existence or nonexistence",
+    "merge authorization"
+  ],
+  "hostile_checks": [
+    "Audit or consume a fresh PASS for N260 and verify e=K=48 forces the complete exceptional vector [1]^48 on exactly the four locked strata.",
+    "Recompute the 50x64 integral functional matrix from the retained Picard64 basis/marking and verify its canonical matrix hash.",
+    "Independently recompute the 50x50 HNF, nonzero determinant/image index 637534208, inverse-denominator modulus 76, and HNF hash.",
+    "Verify the normal-mass identity sum(labels1..92)=19*d-5*e and x4 block identity normal_mass+1 for all four strata.",
+    "Replay all 12952 x4 targets and confirm exactly 6438 are outside the integral Picard64 functional image: all 3067 in g0-d174/e48 and all 3371 in g1-d190/e48; the other 6514 remain feasible at this necessary lattice level.",
+    "Verify that HNF feasibility is not promoted to nonnegative-all140/Picard SAT and that rejection only earns the scoped necessary obstruction.",
+    "Confirm no N350/N104 production, FULL178, theorem, receiver, endpoint, Perfect Cuboid, heavy-compute, or merge credit follows."
+  ],
+  "node_id": "N280",
+  "prerequisite_gate": {
+    "n260_credit_needed": "EXACT_FOUR_STRATUM_EXCEPTIONAL_VECTOR_RIGIDITY_ONLY_NO_PICARD_UNSAT_OR_FULL178_CREDIT",
+    "n260_hostile_audit_required_before_n280_rejection_credit": true,
+    "n280_pass_without_n260_pass_grants_main_pruning_credit": false
+  },
+  "schema": "STAGE32_32_01_178_N280_HOSTILE_AUDIT_HANDOFF_V1",
+  "scope": "N260-scoped 50-functional integral Picard64 HNF necessary obstruction on the four e=K=48 strata"
+}

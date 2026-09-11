@@ -1,0 +1,73 @@
+{
+  "audit_candidate_exact_head": "e2b1ba79d6186def63c5c8979c0191fadbd8dcea",
+  "authority": {
+    "ao_source_note_blob_sha1": "242088adab5c86292154a6de9bc3563ba73b4f43",
+    "n349_audited_exact_head": "77e1ea70a93149e1e0d7e3f5add3bfb15beec4c2",
+    "n349_external_hostile_audit_review_id": 5162530057,
+    "n349_result_canonical": "10bdf80d8e9755455133226ac1166da254fec8b956658a53fde769f33c5cd12b",
+    "report_job_id": 102744965095,
+    "result_blob_sha1": "5c64233cbc2bd3826329cb0199e0b0fbda15c05d",
+    "result_canonical": "307a6ab4b0fe41bef39bf0fb528ff0f7c0d3c67c03545e3dccdc8ec2d8736d35",
+    "result_path": "stages/stage32/32-01-178/nodes/N349C/RESULT.json",
+    "verifier_blob_sha1": "b190c2c292442955032bfbbc3e1ef58ee2b9f75e",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N349C/verify_n349c_rowlevel_factor_hurwitz_cap.py",
+    "verify_job_id": 102744787594,
+    "workflow_blob_sha1": "3dd69452c2f9e0fe863845b0cacafc3aab76f92f",
+    "workflow_path": ".github/workflows/stage32-01-178-n349c-rowlevel-factor-hurwitz.yml",
+    "workflow_run_id": 34437246121
+  },
+  "canonical_sha256_without_this_field": "2034688f2f881fbd1aeab8b4a567179a8767a7378daf43105910f0de92320eec",
+  "claims_to_audit": {
+    "candidate_bypass": "N310 and N341 are unnecessary for these two rows if N349C passes hostile audit and the N260 all48 prerequisite is separately audited",
+    "candidate_eliminated_terminal_count": 6514,
+    "exact_result": "SAT=0 / UNSAT=2 / UNKNOWN=0",
+    "input_rows": [
+      {
+        "boundary_cap": 7,
+        "d": 176,
+        "e": 48,
+        "g": 0,
+        "row_id": "g0-d176",
+        "terminal_count": 3105
+      },
+      {
+        "boundary_cap": 8,
+        "d": 192,
+        "e": 48,
+        "g": 1,
+        "row_id": "g1-d192",
+        "terminal_count": 3409
+      }
+    ],
+    "necessary_formula": "six special fibres give 6n=2q+48; N349 local (4,4) equality gives R>=q with R=2g-2+2n; hence n<=22+2g and C.E<=7+g on all 12 boundary elliptics",
+    "relaxation": "x4 is intentionally unconstrained and self-square is omitted; UNSAT is therefore row-level and stronger than the prior selected-x4 N349B test"
+  },
+  "credit_ceiling_if_pass": "EXACT_TWO_BOUNDARY_E48_ROWS_NECESSARY_UNSAT_ONLY_6514_TERMINALS_NO_FULL178_OR_THEOREM_CREDIT",
+  "forbidden_promotions": [
+    "N260 hostile-audit PASS",
+    "N280 hostile-audit PASS",
+    "production leaf COMPLETE",
+    "N104 full disposal",
+    "N350 producer registration",
+    "FULL178 completion",
+    "Stage32 closure",
+    "theorem/receiver/endpoint credit",
+    "Perfect Cuboid existence or nonexistence",
+    "merge authorization"
+  ],
+  "hostile_checks": [
+    "Confirm the consumed N349 PASS only supplies the local (4,4) necessity under the stated integral-irreducible/bijective-normalization low-genus hypothesis and is not broadened.",
+    "Independently verify the six-special-fibre identity F_E=2E+sum(8 exceptional), the six-fibre exceptional partition of all 48 nodes in each factor direction, and the derivation 6n=2q+48.",
+    "Independently verify the Riemann-Hurwitz inequality used here gives n<=22+2g, hence boundary pairing caps 7 for g=0 and 8 for g=1.",
+    "Check that dropping x4 equality and self-square only relaxes the feasibility problem and cannot create a false UNSAT.",
+    "Independently replay the exact Picard64 integral QF_LIA reconstruction and verify both rows are UNSAT with no UNKNOWN.",
+    "Check that N349C does not self-promote N260/N280, N350/N104, FULL178, theorem, receiver, endpoint, or Perfect Cuboid credit."
+  ],
+  "node_id": "N349C",
+  "prerequisites_not_audited_by_this_handoff": [
+    "N260 all48 exceptional-vector rigidity",
+    "N280 off-boundary HNF rejection ledger"
+  ],
+  "schema": "STAGE32_32_01_178_N349C_HOSTILE_AUDIT_HANDOFF_V1",
+  "scope": "row-level factor-Hurwitz necessary obstruction on the two N280-surviving boundary e=48 strata only"
+}

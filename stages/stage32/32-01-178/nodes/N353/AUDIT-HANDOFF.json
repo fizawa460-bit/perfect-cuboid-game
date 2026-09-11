@@ -1,0 +1,67 @@
+{
+  "audit_candidate_code_head": "6a86eabaaeab9faaf07cc7dd3422670e947ea0ff",
+  "authority": {
+    "first_exact_ci_output_canonical": "4400dac0b9bcb04497f4963e53afc61e472251da0287c4d880f8e9dbaae2c113",
+    "first_exact_ci_report_job_id": 102752617802,
+    "first_exact_ci_run_id": 34439857500,
+    "first_exact_ci_verify_job_id": 102752434856,
+    "n250_verifier_blob_sha1": "a2aceacca94e446df96835f76ddae14fbc815f22",
+    "n351_contract_blob_sha1": "377c2c43b3c80644c5913586cee42e9a6ec1138d",
+    "n351_contract_path": "stages/stage32/32-01-178/nodes/N351/GENERAL_FACTOR_HURWITZ_MASS_CAP_CONTRACT.md",
+    "n352_contract_blob_sha1": "60295a86297330d83370cf32016c75a8244a2aa4",
+    "n352_contract_path": "stages/stage32/32-01-178/nodes/N352/DEGREE_SUM_SCALAR_HURWITZ_CONTRACT.md",
+    "n352_verifier_blob_sha1": "2462f3e45c0a47044b94c71c0eac3b984585e7ea",
+    "n353_base_verifier_blob_sha1": "06807bde7ba0e5de745b12f25192934c00539a1c",
+    "n353_base_verifier_path": "stages/stage32/32-01-178/nodes/N353/verify_n353_full178_scalar_hurwitz_census.py",
+    "n353_deterministic_replay_blob_sha1": "a441ee18dcf6adc0c5e0f19d554c4f15f32b76eb",
+    "n353_deterministic_replay_path": "stages/stage32/32-01-178/nodes/N353/verify_n353_deterministic_replay.py",
+    "per_stratum_stream_sha256": "87b50a7053f544717acb3b8682ffa9e15502e1fdba6668379bc44a39121aae5c",
+    "result_blob_sha1": "6306f741b28f693e72ab8ce12c0c4e97e2f2cb0d",
+    "result_canonical": "afd873201ed0deea149c502d681729508face43942df085af91db3e95fbf371b",
+    "result_path": "stages/stage32/32-01-178/nodes/N353/RESULT.json",
+    "workflow_blob_sha1": "36061efd07d3926e7dc2b9abf151ffb9cc7f0d2b",
+    "workflow_path": ".github/workflows/stage32-01-178-n353-full178-scalar-hurwitz-census.yml"
+  },
+  "canonical_sha256_without_this_field": "3a2dd6fc0d28b58a646fb0054672ea6b5060c45215673bad57f5ab4786f4fec0",
+  "claims_to_audit": {
+    "candidate_only": "all rejection counts remain candidate/diagnostic until this hostile audit passes; N353 does not claim the remaining strata are feasible and does not close FULL178",
+    "candidate_partition": "d>e+4g-4 occurs on exactly 12788 strata containing 264541612417334415376 post-N220 terminals; 47703 strata containing 346053443361304169755481593 terminals remain",
+    "full178_genus_coverage": "the authoritative 178-row manifest contains only genus 0 and genus 1 rows, so the explicit N351 low-genus scope g in {0,1} covers every FULL178 row",
+    "population_reconstruction": "N353 exactly reconstructs all 60491 nonempty post-N220 strata and total 346053707902916587089896969 terminals from the locked N250 adapter/manifest/prefix authority",
+    "uniform_degree_sum_step": "the exact retained Picard64 pairing identity n1+n2=d holds uniformly for the FULL178 population, so the two factor bounds imply d<=e+4g-4",
+    "uniform_geometric_hurwitz_step": "for every retained factor direction and every FULL178 stratum satisfying the N351 geometric hypotheses, 6n=2q+e, R>=q, and R=2g-2+2n imply n<=e/2+2g-2; this must be checked uniformly beyond the four e=48 pilot strata"
+  },
+  "credit_ceiling_if_pass": "EXACT_POST_N220_FULL178_SCALAR_HURWITZ_NECESSARY_CUT_ONLY_12788_STRATA_264541612417334415376_TERMINALS_NO_FULL178_COMPLETION_OR_THEOREM_CREDIT",
+  "forbidden_promotions": [
+    "production leaf COMPLETE",
+    "N104 full disposal",
+    "N350 producer registration",
+    "FULL178 global completion",
+    "Stage32 closure",
+    "theorem/receiver/endpoint credit",
+    "Perfect Cuboid existence or nonexistence",
+    "heavy-compute authorization",
+    "merge authorization"
+  ],
+  "freshness": {
+    "commits_ahead_at_result_commit": 97,
+    "hard_halt_threshold": 100,
+    "intermediate_reaudit_threshold": 90,
+    "last_hostile_audited_checkpoint": "b56a832e6c194321916fe4ef63eef0d673b8ff9a",
+    "new_math_nodes_forbidden_until_fresh_hostile_audit": true
+  },
+  "hostile_checks": [
+    "Re-audit the N351 geometric source argument for uniformity in arbitrary exceptional mass e and for both g=0 and g=1; do not inherit the prior four-e48-row credit ceiling without checking the broader quantifiers.",
+    "Verify the six special-fibre divisor identities in both factor directions and the branch accounting R>=e-B+q together with B<=e under exactly the stated integral-irreducible and bijective-normalization hypotheses.",
+    "Independently derive 6n=2q+e, R=2g-2+2n, n<=e/2+2g-2, then combine both directions only after verifying the exact Picard identity n1+n2=d.",
+    "Verify from the authoritative FULL178 manifest that all 178 rows have genus in {0,1}; fail closed if any population row lies outside the N351 genus scope.",
+    "Independently replay N250/N353 counting and verify 60491 strata, total 346053707902916587089896969 terminals, exact 12788/47703 stratum partition, and exact rejected/remaining terminal totals.",
+    "Verify that dropping individual exceptional-vector, fixed x4, self-square, N260/N280/N310/N341/N349 restrictions does not add a hidden strengthening to the N351-N353 necessary-condition chain.",
+    "Confirm the retained RESULT and deterministic replay lock the canonical 4400dac0b9bcb04497f4963e53afc61e472251da0287c4d880f8e9dbaae2c113 and per-stratum stream 87b50a7053f544717acb3b8682ffa9e15502e1fdba6668379bc44a39121aae5c.",
+    "Confirm no production COMPLETE, N104 release, N350 producer registration, FULL178 completion, theorem/receiver/endpoint, Stage32 closure, Perfect Cuboid existence/nonexistence, heavy authorization, or merge credit is inferred."
+  ],
+  "node_id": "N353",
+  "retained_result_commit": "e7c60675111ce0d933eb55f898c60cde943a1581",
+  "schema": "STAGE32_32_01_178_N353_HOSTILE_AUDIT_HANDOFF_V1",
+  "scope": "uniform FULL178 post-N220 scalar-Hurwitz census over all 60491 strata; audit N351 geometric uniformity, N352 degree-sum contraction, and N353 exact population counting as one bounded chain"
+}

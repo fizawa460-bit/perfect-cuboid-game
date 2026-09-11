@@ -1,0 +1,291 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N106",
+  "semantic_key": "s32-01-178:compressed-production-execution-plan",
+  "statement": "Design the bounded resumable execution/sharding plan for whichever exact compressed FULL178 search representation becomes load-bearing, with explicit storage/runtime gates and no blind scale-out.",
+  "scope": {
+    "population": "future compressed FULL178 work units",
+    "field_or_model": "GitHub Actions / local exact production runner and retained certificates",
+    "quantifiers": "all dispatched work units under the chosen compressed representation",
+    "required_output": "deterministic work-unit key, checkpoint/ingest contract, bounded shard plan, storage preflight, and cheap authorization gate design"
+  },
+  "source_refs": [
+    "stages/stage32/residual-32-01-production/state.json",
+    "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "stages/stage32/32-01-178/nodes/N104/STATE.json",
+    "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+    "PR#1753 review 5153281341"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "residual state resumable_hardness_avoidance generations 34-38",
+      "residual state prefix_indexed_compression",
+      "N104 178 rows 64111 strata canonical rank coverage",
+      "actions storage/evidence safety authorization + storage + compaction"
+    ],
+    "matches": [
+      "Existing resumable_prefix_engine.py and run_full178_resumable_work_unit.py are named by the retained production state; real Stage32 resume equivalence is recorded PASS.",
+      "Generation 36-38 retained exact FIFO checkpoint/frontier evidence, but prefix_indexed_compression supersedes the 52-unit Gen38 frontier as the enumeration mechanism.",
+      "N104 fixes the authoritative outer domain as 178 rows / 64111 exact (row_id,e) strata and the inner domain as half-open canonical indexed-terminal rank intervals per stratum.",
+      "Repository policy requires commit-range run-key authorization, 500 MB storage preflight, verify-before-compaction, compact retained certificates, and fail-closed resource stops."
+    ],
+    "decision": "REUSE_RESUME_AND_COMPACTION_INVARIANTS; REKEY_EXECUTION_TO_STRATUM_LOCAL_EXACT_INDEX_RANGES; DO_NOT_REUSE_LEGACY_FIFO_FRONTIER_OR_A_SINGLE_GLOBAL_RANK_DOMAIN"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "kind": "SOURCE_LOCKED_EXECUTION_ARCHITECTURE_DESIGN",
+      "source_state_schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V70_PREFIX_INDEXED_COMPRESSION",
+      "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c",
+      "policy_blob_sha": "1cc36fc087354e04944eb0531fd1a0f1a9ed982b",
+      "result": "RETAINED_THEN_HOSTILE_AUDIT_FAIL_RANK_DOMAIN_IDENTITY_MISMATCH"
+    },
+    {
+      "attempt": 2,
+      "kind": "HOSTILE_AUDIT",
+      "review_id": 5153281341,
+      "audited_exact_head": "37296485b7227513f397cee2ad9276bf49624ed7",
+      "status": "FAIL",
+      "accepted": [
+        "source locks and resume/storage/authorization firewalls",
+        "commit-range run-key authorization",
+        "500 MB storage preflight",
+        "verify-before-compaction",
+        "UNKNOWN/resource-wall noncredit",
+        "idempotent ingestion"
+      ],
+      "blocker": "CompressedTerminalIndexer(e,d) ranks are local to one exact (d,e) stratum, but the retained N106 contract used one global [0,total_terminal_count) rank domain and work-unit identity omitted row_id/d/e or an equivalent immutable stratum identity."
+    },
+    {
+      "attempt": 3,
+      "kind": "STRATUM_LOCAL_CONTRACT_REPAIR",
+      "status": "RETAINED_REPAIR_READY_FOR_FRESH_HOSTILE_REAUDIT",
+      "result": "Replace the invalid single global rank domain by exact local rank domains for every manifest stratum; bind row_id,d,e and local stratum_terminal_count into every work-unit/checkpoint/ledger identity; aggregate exact cover within each stratum and then require exact coverage of all 64111 manifest strata."
+    }
+  ],
+  "retained_result": {
+    "status": "PASS_REPAIRED_EXECUTION_ARCHITECTURE_READY_FOR_FRESH_HOSTILE_REAUDIT_NO_HEAVY_AUTHORIZATION",
+    "representation_lock": {
+      "representation": "PREFIX_DFS_REPARAMETERIZED_EXACT_INDEXED_TERMINAL_FAMILY",
+      "global_terminal_count_consistency_only": "688101306360803751427719294",
+      "forbidden_global_rank_domain": "Do not interpret [0,688101306360803751427719294) as a canonical CompressedTerminalIndexer rank domain.",
+      "required_properties": [
+        "random_access_unrank",
+        "inverse_rank",
+        "terminal_set_semantics_preserved"
+      ],
+      "forbidden_assumption": "legacy DFS stream order preservation",
+      "source_state_blob_sha": "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
+    },
+    "manifest_and_stratum_lock": {
+      "manifest_path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+      "manifest_schema": "STAGE32_RESIDUAL32_01_FULL178_MANIFEST_V1",
+      "manifest_canonical_sha256_without_this_field": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+      "residual_row_count": 178,
+      "coarse_strata_count": 64111,
+      "canonical_stratum_identity": ["row_id", "d", "e"],
+      "row_id_semantics": "g{genus}-d{degree:03d}",
+      "local_indexer": "CompressedTerminalIndexer(e,d)",
+      "local_rank_domain": "[0,stratum_terminal_count)",
+      "stratum_terminal_count_rule": "must be obtained/replayed from the exact source-locked indexed-terminal representation for the same (d,e); no total-domain offset is inferred"
+    },
+    "n104_reconciliation": {
+      "n104_state_blob_sha": "4ac907febfd60a3fb53e57bbb8ede9cf8959e954",
+      "outer_domain": "exactly the 64111 manifest (row_id,e) strata over 178 residual rows",
+      "inner_domain": "half-open canonical indexed-terminal rank intervals local to each (row_id,e) stratum",
+      "completion_rule": "every expected manifest stratum appears exactly once at aggregate level and its local rank domain is covered exactly once with no gap, overlap, extra, unknown, source-lock mismatch, or conflicting duplicate",
+      "global_consistency_rule": "after all 64111 local strata are exactly covered, sum of all replayed stratum_terminal_count values must equal 688101306360803751427719294; this is a checksum/consistency condition, not a global rank coordinate"
+    },
+    "work_unit_contract": {
+      "primary_partition": "for one canonical stratum (row_id,d,e), disjoint half-open local rank intervals [rank_lo,rank_hi)",
+      "canonical_fields": [
+        "contract_rev",
+        "representation_id",
+        "representation_source_sha256_or_blob_lock",
+        "full178_manifest_sha256",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
+        "leaf_contract_rev",
+        "rank_lo",
+        "rank_hi"
+      ],
+      "work_unit_id": "sha256(canonical_json(canonical_fields))",
+      "partition_invariants": [
+        "row_id parses to the same d carried by the work unit",
+        "e is admissible for the exact manifest row",
+        "stratum_terminal_count matches exact replay of CompressedTerminalIndexer(e,d) under the locked representation",
+        "0 <= rank_lo < rank_hi <= stratum_terminal_count",
+        "all intervals combined for a stratum share identical row_id,d,e,stratum_terminal_count and source locks",
+        "sorted accepted intervals inside one stratum are pairwise disjoint",
+        "complete stratum coverage requires first rank_lo=0, adjacent previous.rank_hi=next.rank_lo, and final rank_hi=stratum_terminal_count",
+        "interval boundaries are immutable within a generation",
+        "a changed representation/source/leaf/manifest contract creates a new generation rather than mutating prior work units"
+      ],
+      "shard_sizing": "runtime- and storage-bounded only after representative measurement; no fixed giant shard count is authorized by this plan"
+    },
+    "checkpoint_resume_contract": {
+      "checkpoint_identity": [
+        "work_unit_id",
+        "generation",
+        "attempt",
+        "source locks",
+        "full178_manifest_sha256",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
+        "rank_lo",
+        "rank_hi"
+      ],
+      "progress_fields": [
+        "next_rank",
+        "verified_prefix_lo",
+        "verified_prefix_hi",
+        "processed_count",
+        "completed_leaf_count",
+        "unknown_count",
+        "resource_wall_count",
+        "survivor_count_or_commitment",
+        "canonical_evidence_stream_sha256",
+        "raw_output_sha256_if_any",
+        "compact_certificate_sha256"
+      ],
+      "resume_rule": "resume only at next_rank after verifying identical immutable stratum/source locks and verified local prefix [rank_lo,next_rank); never infer progress from runner time or artifact presence",
+      "completion_rule": "COMPLETE only when verified_prefix=[rank_lo,rank_hi), processed_count=rank_hi-rank_lo, unknown_count=0, resource_wall_count=0, and compact certificate validation passes",
+      "failure_rule": "UNKNOWN, source drift, manifest/stratum identity mismatch, authorization failure, quota/storage wall, malformed checkpoint, local rank gap/overlap, or conflicting duplicate remains non-credit and cannot be promoted to COMPLETE",
+      "idempotency": "re-ingesting an identical work_unit_id + certificate digest is a no-op; a different digest for the same completed work_unit_id is a hard conflict"
+    },
+    "run_state_ledger_schema": {
+      "run_fields": [
+        "run_generation",
+        "dedicated_run_key_path",
+        "run_key_revision",
+        "event_before_sha",
+        "event_head_sha",
+        "authorization_pass",
+        "representation_lock",
+        "leaf_contract_rev",
+        "full178_manifest_sha256",
+        "expected_row_count",
+        "expected_strata_count",
+        "global_terminal_count_consistency_only",
+        "partition_manifest_sha256",
+        "planned_work_unit_count",
+        "representative_artifact_bytes",
+        "historical_retained_bytes",
+        "final_output_bytes_estimate",
+        "projected_peak_bytes",
+        "effective_heavy_concurrency"
+      ],
+      "work_unit_states": [
+        "PENDING",
+        "RUNNING",
+        "CHECKPOINTED",
+        "COMPLETE",
+        "RETRYABLE_FAILED",
+        "BLOCKED_RESOURCE",
+        "NONCREDIT_INVALID"
+      ],
+      "per_unit_fields": [
+        "work_unit_id",
+        "row_id",
+        "d",
+        "e",
+        "stratum_terminal_count",
+        "rank_lo",
+        "rank_hi",
+        "latest_attempt",
+        "state",
+        "checkpoint_digest",
+        "certificate_digest",
+        "unknown_count",
+        "resource_wall_count"
+      ],
+      "per_stratum_acceptance": "all planned work_unit_ids for the same canonical stratum are accounted for exactly once; accepted local intervals form [0,stratum_terminal_count); no conflicting duplicate; every COMPLETE certificate source-locks to the same generation/manifest/stratum",
+      "global_aggregate_acceptance": "the accepted stratum set equals the exact 64111-stratum manifest set with no missing or extra stratum; every stratum passes per_stratum_acceptance; every accepted disposition is exact and replayable; the sum of exact stratum_terminal_count values equals the canonical global terminal-count consistency value"
+    },
+    "authorization_gate": {
+      "policy": "fresh commit-range semantic run-key authorization before every heavy dispatch",
+      "synchronize": "require dedicated key path in verified github.event.before..pull_request.head.sha diff and strict generation/revision advance with locked parameters valid",
+      "opened": "cold preferred; if allowed, key must be newly introduced/changed relative to base and semantically armed",
+      "reopened": "cold; requires later synchronize with fresh generation/revision",
+      "fail_closed_on": [
+        "missing/unfetchable before SHA",
+        "unverifiable diff",
+        "cosmetic/non-key change only",
+        "source/artifact/parameter lock mismatch"
+      ]
+    },
+    "storage_and_wave_gate": {
+      "preflight_required": [
+        "planned work-unit count",
+        "largest plausible artifact per work unit",
+        "representative measured artifact size if no comparable prior run",
+        "historical evidence that must coexist",
+        "final output size and retention",
+        "projected peak storage",
+        "cleanup point",
+        "effective heavy concurrency",
+        "authorization method"
+      ],
+      "persistence_pattern": "exact raw local compute -> full local verification -> deterministic compact certificate -> upload compact certificate -> aggregate -> final manifest",
+      "raw_artifact_rule": "if raw persistence is unavoidable, use bounded waves; compact and clean each wave before the next",
+      "wave_size_rule": "derive from measured artifact size and remaining 500 MB headroom; no convenience-based fixed wave size",
+      "transient_retention_guidance_days": 1,
+      "stop_if": [
+        "measured artifact materially exceeds preflight",
+        "projected peak storage approaches/exhausts operating budget",
+        "quota uncertainty makes completion unsafe",
+        "artifact upload fails/rejects",
+        "failed/cancelled run leaves large non-credit intermediates requiring cleanup",
+        "evidence topology requires more simultaneous raw artifacts than planned",
+        "heavy run lacks fresh valid commit-range authorization"
+      ],
+      "operating_budget": "500 MB repository operating budget"
+    },
+    "retry_rules": [
+      "retry a failed work unit only from a validated checkpoint with identical manifest/stratum/representation/source/leaf locks",
+      "do not change interval boundaries inside a generation to rescue a hard shard; split only by creating an explicit child-partition manifest whose exact local union equals the blocked parent and whose parent is no longer independently creditable",
+      "a parameter/source/contract/manifest change starts a new generation",
+      "resource-wall results remain operational evidence only and grant no mathematical credit",
+      "before retry, remove unnecessary non-credit artifacts after preserving required compact commitments"
+    ],
+    "implementation_hooks": {
+      "existing_named_engine": "stages/stage32/residual-32-01-production/resumable_prefix_engine.py",
+      "existing_named_runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
+      "required_adapters_after_leaf_contract_stabilizes": [
+        "manifest-stratum enumerator/source-lock validator",
+        "stratum-local rank-range dispatcher using exact unrank/inverse-rank representation",
+        "checkpoint writer/validator",
+        "local raw-output verifier",
+        "compact-certificate emitter",
+        "idempotent ledger ingester",
+        "per-stratum exact-cover aggregator",
+        "64111-stratum global completeness aggregator consistent with N104",
+        "cheap run-key authorization job",
+        "storage-preflight gate"
+      ],
+      "implementation_status": "DESIGN_ONLY_REPAIRED_AFTER_HOSTILE_AUDIT_FAIL; implementation/heavy dispatch not authorized"
+    },
+    "credit_firewall": {
+      "heavy_compute_authorized": false,
+      "full178_numerical_leaf_credit": false,
+      "theorem_credit": false,
+      "receiver_credit": false,
+      "existence_claim": false,
+      "nonexistence_claim": false
+    }
+  },
+  "credit_ceiling": "EXECUTION_ARCHITECTURE_ONLY_NO_HEAVY_AUTHORIZATION_OR_FULL178_CREDIT",
+  "next_action": "FRESH_HOSTILE_REAUDIT_N106_REPAIRED_STRATUM_LOCAL_CONTRACT; KEEP_N106_AUDIT_REQUIRED_AND_DO_NOT_IMPLEMENT_OR_RUN_HEAVY_COMPUTE_BEFORE_PASS_IS_CONSUMED",
+  "notes": [
+    "Mission startup does not authorize heavy compute.",
+    "The hostile-audit FAIL at review 5153281341 is retained and not erased by this repair.",
+    "The exact indexed rank coordinate is stratum-local under CompressedTerminalIndexer(e,d); the 27-digit total is only a cross-stratum consistency check.",
+    "N104 completeness architecture is now an explicit load-bearing dependency of this repaired contract.",
+    "No fixed shard count, heavy concurrency, or run-key path is invented here because those require an authorized implementation and measured preflight."
+  ]
+}

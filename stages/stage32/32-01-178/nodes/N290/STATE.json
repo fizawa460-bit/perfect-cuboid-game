@@ -1,0 +1,50 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N290",
+  "semantic_key": "s32-01-178:all48-x4-halfmass-dependence",
+  "statement": "Determine the retained first-normal-half mass from the N280 base target by exact linear dependence, then test its integrality and source-locked bound 0<=a<=normal_total on the N260 four-stratum scope.",
+  "depends_on": ["N260", "N280"],
+  "scope": {
+    "population": "the four N260 e=K=48 one-exceptional-block strata",
+    "field_or_model": "retained Picard64 linear functionals and direct-slice first-normal-half coordinate",
+    "quantifiers": "all 12952 x4 terminals in the four strata"
+  },
+  "implementation": {
+    "verifier_path": "stages/stage32/32-01-178/nodes/N290/verify_n290_all48_x4_halfmass_lattice.py",
+    "verifier_blob_sha1": "0dcb4504a707203650c3327b54721b0fb946b53b",
+    "workflow_path": ".github/workflows/stage32-01-178-n290-all48-halfmass-lattice.yml",
+    "workflow_blob_sha1": "6b169076455737a8b6cc14daddccfb3f9df2c3f3"
+  },
+  "validation": {
+    "workflow_run_id": 34421244170,
+    "workflow_job_id": 102696926343,
+    "workflow_conclusion": "success",
+    "canonical_sha256": "7bcee6624fc638e6fa9c6ec4d4031049800aa530b12b87a6bc49f6898bc86a00",
+    "base_rank": 50,
+    "first_normal_half_adds_rank": 0,
+    "forced_a_formula": "a=(-2024 + 15*normal_mass)/38",
+    "x4_coefficient": 0,
+    "n280_base_rejected": 6438,
+    "n290_additional_rejected": 0,
+    "survivors_after_n290": 6514,
+    "remaining_strata": [
+      {"row_id":"g0-d176","e":48,"normal_mass":3104,"forced_a":1172,"x4_count":3105},
+      {"row_id":"g1-d192","e":48,"normal_mass":3408,"forced_a":1292,"x4_count":3409}
+    ]
+  },
+  "retained_result": {
+    "status": "DONE_EXACT_DEPENDENCE_NO_DIRECT_EXTRA_HNF_REJECTION",
+    "result": "FIRST_NORMAL_HALF_TOTAL_FORCED_AND_IN_RANGE_ON_N280_SURVIVORS",
+    "new_hnf_pruning_credit": false,
+    "derived_quantity_available_for_stronger_nonNEGATIVITY_CUT": true,
+    "full178_complete": false
+  },
+  "credit_ceiling": "EXACT_N260_SCOPED_LINEAR_DEPENDENCE_ONLY_NO_ADDITIONAL_PICARD_OR_FULL178_CREDIT",
+  "next_action": "USE NONNEGATIVITY OF THE SECOND 46 NORMAL PAIRINGS: LABEL49=x4 LIES IN THAT HALF, SO REQUIRE x4 <= normal_total-a; VERIFY THE RESULT AS A NEW NECESSARY CUT WITHOUT Z3.",
+  "notes": [
+    "The first-normal-half functional is rationally dependent on the N280 50 functionals, rather than an independent 51st coordinate.",
+    "On g0-d176/e48 a=1172; on g1-d192/e48 a=1292, independent of x4.",
+    "N260 and N280 remain hostile-audit boundaries before downstream pruning credit is consumed.",
+    "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}
