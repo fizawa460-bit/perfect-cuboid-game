@@ -27,6 +27,7 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V9_BC2_27_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V10_BC2_28_BOUNDARY38_EXECUTION",
         "STAGE32EX5_MAIN_COMPACT_STATE_V11_BC2_28_RETAINED_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V12_BC2_29_RETAINED_AUDIT_BOUNDARY",
     }, "live EX5 schema drift")
 
     bootstrap = state["bootstrap"]
@@ -54,20 +55,27 @@ def main() -> None:
         req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-27 audit boundary missing")
         req(audit["bc2_28_execution_authorized"] is False, "BC2-28 authorization leak")
     elif schema.endswith("V10_BC2_28_BOUNDARY38_EXECUTION"):
-        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "BC2-28 active work surface drift")
+        audit = state["intermediate_audit_boundary"]
         req(state["current"]["next_route"] == "BC2_28_BOUNDARY38_PARTITION_BOUNDED", "BC2-28 route drift")
-        audit = state["intermediate_audit_boundary"]
         req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5179488973, "BC2-27 PASS receipt not consumed")
-        req(audit["new_audit_boundary_exists"] is False and audit["freeze_active"] is False, "stale BC2-27 audit freeze")
-        req(audit["bc2_28_execution_authorized"] is True and audit["bc2_29_execution_authorized"] is False, "BC2-28/29 authorization drift")
-    else:
-        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "BC2-28 retained work surface drift")
-        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_28", "BC2-28 retained audit route drift")
+        req(audit["new_audit_boundary_exists"] is False and audit["bc2_28_execution_authorized"] is True, "BC2-28 authorization drift")
+    elif schema.endswith("V11_BC2_28_RETAINED_AUDIT_BOUNDARY"):
         audit = state["intermediate_audit_boundary"]
+        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_28", "BC2-28 retained audit route drift")
         req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5179488973, "BC2-27 PASS receipt lost")
         req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-28 retained audit boundary missing")
-        req(audit["bc2_28_execution_authorized"] is False and audit["bc2_29_execution_authorized"] is False, "BC2-28/29 retained-boundary authorization leak")
-        req(state["frontier"]["e8_bc2_28_executed"] is True and state["frontier"]["e8_bc2_28_audited"] is False, "BC2-28 retained execution/audit marker drift")
+        req(audit["bc2_28_execution_authorized"] is False and audit["bc2_29_execution_authorized"] is False, "BC2-28/29 authorization leak")
+        req(state["frontier"]["e8_bc2_28_executed"] is True and state["frontier"]["e8_bc2_28_audited"] is False, "BC2-28 execution/audit marker drift")
+    else:
+        audit = state["intermediate_audit_boundary"]
+        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "BC2-29 retained work surface drift")
+        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_29", "BC2-29 retained audit route drift")
+        req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5183082213, "BC2-28 PASS receipt lost")
+        req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-29 retained audit boundary missing")
+        req(audit["bc2_29_execution_authorized"] is False and audit["bc2_30_execution_authorized"] is False, "BC2-29/30 authorization leak")
+        req(state["frontier"]["e8_bc2_28_audited"] is True, "BC2-28 audit PASS not consumed")
+        req(state["frontier"]["e8_bc2_29_executed"] is True and state["frontier"]["e8_bc2_29_audited"] is False, "BC2-29 execution/audit marker drift")
+        req(state["frontier"]["e8_known_parent_unsat_count_lower_bound"] == 7163, "BC2-29 lower-bound drift")
 
     req(bootstrap["latest_merged_pr"] == 1765, "latest merged EX5 PR provenance drift")
     req(bootstrap["merge_authorized"] is False, "historical merge authorization leaked forward")
