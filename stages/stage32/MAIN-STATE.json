@@ -23,7 +23,7 @@
     "n357_status": "AUDITED_CONSUMED",
     "startup_authority": "stages/stage32/MAIN-STATE.json"
   },
-  "canonical_sha256_without_this_field": "f173f8ac64259ac45a369bf4744720bed5f4283399f6030413f68c51e4899309",
+  "canonical_sha256_without_this_field": "aba6484700764add786c1213e4577d4958a4f9db047a50b6b29e167d7a94f1ca",
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
     "mainbatch_stop_gate": "SELECT_NEXT_ZERO_LOSS_FULL178_NECESSARY_CUT_OR_RETAINED_FRONTIER",
@@ -99,7 +99,11 @@
     "audited_o210_claim": "S32.O210.EXCLUSION.V3",
     "audited_q602_claim": "S32.Q602.EXCLUSION.V3",
     "audited_v6_claim": "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2",
-    "formal_q602_residues": [73, 97, 235],
+    "formal_q602_residues": [
+      73,
+      97,
+      235
+    ],
     "formal_q602_residues_are_current_survivors": false,
     "narrow_chain_semantics": "AUDITED_CONSUMED_HISTORICAL_PREREQUISITE_PROVENANCE_NOT_CURRENT_ATTACK_TARGET"
   },
@@ -126,18 +130,65 @@
     "EX5_retained_evidence_merged_to_main": true,
     "EX5_separate_pr_active": false,
     "integration_changes_mathematical_credit": false,
-    "ordinary_separate_lane_startup": {"EX1": false, "EX2": false, "EX3": false, "EX4": false}
+    "ordinary_separate_lane_startup": {
+      "EX1": false,
+      "EX2": false,
+      "EX3": false,
+      "EX4": false
+    }
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "schema": "STAGE32_MAIN_COMPACT_STATE_V12_N357_CONSUMED_POST_N357_SELECTION",
   "source_locks": {
-    "claim_frontier_workflow": {"blob_sha1": "e4636477ba0e6696fea3def0f0c503f04720e0b6", "path": ".github/workflows/stage32-claim-frontier-integrity.yml"},
-    "full178_manifest": {"blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06", "canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23", "path": "stages/stage32/residual-32-01-production/full178-manifest.json"},
-    "historical_n357_pre_audit_state": {"blob_sha1": "eb4b8cfc26f789e2d0f9a1113f1894ebb730a443", "canonical_sha256": "b2f4384ab176c0d855ee6e8d8a314e1c47c249239aca800c156938b2c944929f", "path": "stages/stage32/proof/historical-routing-blobs/eb4b8cfc26f789e2d0f9a1113f1894ebb730a443.json"},
-    "historical_v11_state": {"blob_sha1": "354b23978cde0bfdff45fa50ee452b3fb52503a4", "canonical_sha256": "78d0306145f222466dfc205961e1db1ae5385ce7592a9fe451fb939bd7e0e40f", "path": "stages/stage32/proof/historical-routing-blobs/354b23978cde0bfdff45fa50ee452b3fb52503a4.json"},
-    "management_sync": {"blob_sha1": "1040370b6b98fc08f014aa4b104e3941e668a45a", "canonical_sha256": "dd4e536e19995342cae674443173d64960b9f716869b2ce1fa43bc1a7bc55a43", "path": "stages/stage32/management/post-n357-hostile-pass-main-consumption-20260912.json"},
-    "n356": {"audit_receipt_blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569", "audit_receipt_canonical_sha256": "fdeedf56ba9dca97dc06175f892efeae09fd7ef0d3bb8670bfea438106227b74", "audit_receipt_path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json", "audit_review_id": 5176607630, "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2", "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed", "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31", "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json"},
-    "n357": {"audit_receipt_blob_sha1": "e9f93fb1b2bfeb68b72598632522d164fee715c6", "audit_receipt_canonical_sha256": "74f294f87e0ae7f2f45b3f37f84f4d0636aecacf2210f9429f9ebafe5504ac31", "audit_receipt_path": "stages/stage32/32-01-178/nodes/N357/HOSTILE-AUDIT-PASS.json", "audit_review_id": 5183069892, "audit_source_lock_verifier_blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2", "audit_source_lock_verifier_path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "audited_exact_head": "0d787839b7e0dad4a42108c61d16e7849c50862f", "result_blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec", "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53", "result_path": "stages/stage32/32-01-178/nodes/N357/RESULT.json", "state_blob_sha1": "b2c40d47b9efab836e228310a81f0fd8860ac507", "state_canonical_sha256": "8cba4ce1d3b2c06740ddae4e3611015e8c4012bb6333f7f4c01db57acae62c54", "state_path": "stages/stage32/32-01-178/nodes/N357/STATE.json"}
+    "claim_frontier_workflow": {
+      "blob_sha1": "8ecf0699856b83b6e37d80782d042018d205e6d0",
+      "path": ".github/workflows/stage32-claim-frontier-integrity.yml"
+    },
+    "full178_manifest": {
+      "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
+      "canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23",
+      "path": "stages/stage32/residual-32-01-production/full178-manifest.json"
+    },
+    "historical_n357_pre_audit_state": {
+      "blob_sha1": "eb4b8cfc26f789e2d0f9a1113f1894ebb730a443",
+      "canonical_sha256": "b2f4384ab176c0d855ee6e8d8a314e1c47c249239aca800c156938b2c944929f",
+      "path": "stages/stage32/proof/historical-routing-blobs/eb4b8cfc26f789e2d0f9a1113f1894ebb730a443.json"
+    },
+    "historical_v11_state": {
+      "blob_sha1": "354b23978cde0bfdff45fa50ee452b3fb52503a4",
+      "canonical_sha256": "78d0306145f222466dfc205961e1db1ae5385ce7592a9fe451fb939bd7e0e40f",
+      "path": "stages/stage32/proof/historical-routing-blobs/354b23978cde0bfdff45fa50ee452b3fb52503a4.json"
+    },
+    "management_sync": {
+      "blob_sha1": "1040370b6b98fc08f014aa4b104e3941e668a45a",
+      "canonical_sha256": "dd4e536e19995342cae674443173d64960b9f716869b2ce1fa43bc1a7bc55a43",
+      "path": "stages/stage32/management/post-n357-hostile-pass-main-consumption-20260912.json"
+    },
+    "n356": {
+      "audit_receipt_blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
+      "audit_receipt_canonical_sha256": "fdeedf56ba9dca97dc06175f892efeae09fd7ef0d3bb8670bfea438106227b74",
+      "audit_receipt_path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
+      "audit_review_id": 5176607630,
+      "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+      "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed",
+      "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
+      "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json"
+    },
+    "n357": {
+      "audit_receipt_blob_sha1": "e9f93fb1b2bfeb68b72598632522d164fee715c6",
+      "audit_receipt_canonical_sha256": "74f294f87e0ae7f2f45b3f37f84f4d0636aecacf2210f9429f9ebafe5504ac31",
+      "audit_receipt_path": "stages/stage32/32-01-178/nodes/N357/HOSTILE-AUDIT-PASS.json",
+      "audit_review_id": 5183069892,
+      "audit_source_lock_verifier_blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2",
+      "audit_source_lock_verifier_path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py",
+      "audited_exact_head": "0d787839b7e0dad4a42108c61d16e7849c50862f",
+      "result_blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
+      "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53",
+      "result_path": "stages/stage32/32-01-178/nodes/N357/RESULT.json",
+      "state_blob_sha1": "b2c40d47b9efab836e228310a81f0fd8860ac507",
+      "state_canonical_sha256": "8cba4ce1d3b2c06740ddae4e3611015e8c4012bb6333f7f4c01db57acae62c54",
+      "state_path": "stages/stage32/32-01-178/nodes/N357/STATE.json"
+    }
   },
   "stage": 32,
   "workflow_lifecycle": {
