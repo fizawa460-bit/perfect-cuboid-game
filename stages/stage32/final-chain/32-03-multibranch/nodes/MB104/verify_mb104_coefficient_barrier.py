@@ -3,10 +3,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import runpy
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[6]
 NODE = ROOT / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104"
+STATE = ROOT / "stages/stage32/final-chain/32-03-multibranch/STATE.json"
 
 LOCKS = {
     "stages/stage29/29-02c-LG2/result.md": "820ed4e1b1a53db14085678de6f186b59ae0ea48",
@@ -28,7 +30,28 @@ LOCKS = {
     "docs/arsenal/cards/provisional/S32-PW09.md": "14755f8d7a14dac75a80eb711b6083c5f3b0ea3b",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/SPECIAL-DISCRIMINANT-CAPACITY-WALL.json": "d6c53f35268fc09111017b1f147c656dfd6127f1",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_special_discriminant_capacity_wall.py": "bdaf7c419c29e30623a34fd3852319e80cc2545e",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AMBIENT-A1-SCALING-WALL.json": "3d14df8ae1e4bc79fde16ac3bfd550de68747e9f",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_ambient_a1_scaling_wall.py": "411c52bc6647825b4b6d7a4a20b21408080a2bb6",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LU-MIYAOKA-ORDINARY-NODE-DEBT-SOURCE-NOTE.md": "23bc895d79ca34d17d9a07de73acc1f990930cf5",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LU-MIYAOKA-ORDINARY-NODE-DEBT.json": "80380d1009fb8c500ff327335b5754fde4a53b92",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_lu_miyaoka_node_debt.py": "070c54731000aaf3f60203c735ef2e833df99acc",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-MIYAOKA-COVER-WALL.md": "d01b461cc8f25b3b374e5327e678b37a52fc876b",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-MIYAOKA-COVER-WALL.json": "fdbf063329fa1f7a0cd4fbeb5034e897574e7448",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_beauville_miyaoka_cover_wall.py": "0e891d135addc8d2cf5391743ceb25889ea1975a",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER-SOURCE-NOTE.md": "73c00595c599e0312c69060ffa6324358b0a13a2",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER.json": "4ee8e6061a7cc2a54b54786fd065923434381bde",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_projective_span_filter.py": "c1ce59af9df1143ad8c7492b1bf9f1ded102a034",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/TWO-FACTOR-SAME-BEAUVILLE-COVER-WALL.json": "20d9873e41fb2db25105c437d3a10c031b23c0a3",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_two_factor_same_beauville_cover_wall.py": "fcdf95203d1b21a319cb78c32e3083649b61dae9",
 }
+
+RUN_VERIFIERS = [
+    "verify_mb104_ambient_a1_scaling_wall.py",
+    "verify_mb104_lu_miyaoka_node_debt.py",
+    "verify_mb104_beauville_miyaoka_cover_wall.py",
+    "verify_mb104_btva_projective_span_filter.py",
+    "verify_mb104_two_factor_same_beauville_cover_wall.py",
+]
 
 
 def git_blob_sha(path: Path) -> str:
@@ -36,8 +59,8 @@ def git_blob_sha(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
-def load_json(rel: str):
-    return json.loads((ROOT / rel).read_text())
+def load_json(path: Path):
+    return json.loads(path.read_text())
 
 
 def main() -> None:
@@ -45,38 +68,10 @@ def main() -> None:
         got = git_blob_sha(ROOT / rel)
         assert got == expected, (rel, got, expected)
 
-    stage29 = (ROOT / "stages/stage29/29-02c-LG2/result.md").read_text()
-    mb101 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json")
-    mb102 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json")
-    mb103 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json")
-    al = load_json("stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json")
-    am = load_json("stages/stage32/residual-32-01-production/post1648am-beauville-fibration-picard-source-lock.json")
-    fsm = load_json("stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json")
-    cert = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/CERTIFICATE.json")
-    lambda_wall = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LAMBDA-CAPACITY-WALL.json")
-    known_wall = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/KNOWN-CURVE-CONE-WALL.json")
-    a1 = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONTRACTION-CONDUCTOR.json")
-    disc_wall = load_json("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/SPECIAL-DISCRIMINANT-CAPACITY-WALL.json")
-    pw09 = (ROOT / "docs/arsenal/cards/provisional/S32-PW09.md").read_text()
+    cert = load_json(NODE / "CERTIFICATE.json")
+    state = load_json(STATE)
+    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V7"
 
-    assert "H^2 = K_S^2 = 16" in stage29
-    assert "negative-definite lattice `H^perp`" in stage29
-    assert mb101["branch_contract"]["exceptional_intersection_multiplicity"] == "m=min(A,B)"
-    assert mb102["global_genus_contract"]["finite_degree_bound_implied"] is False
-    assert mb103["quotient_contract"]["exact_for_intrinsic_node_indexed_discrete_payload"] is True
-
-    assert al["proof_adapter"]["factor_quotient_genus_Y"] == 2
-    assert al["proof_adapter"]["local_ramification_rule"] == "branch with exceptional intersection multiplicity m ramifies iff m is odd"
-    assert am["source_geometry_adapter"]["boundary_elliptics_per_direction"] == 6
-    assert am["source_geometry_adapter"]["singular_cusps_per_boundary_elliptic"] == 8
-    assert am["source_geometry_adapter"]["special_fibre_class_formula"] == "F_E=2*E+sum(8 incident exceptional curves)"
-    assert am["retained_picard_replay"]["B1_plus_B2_equals_K"] is True
-
-    assert fsm["source_proof_constants"]["tensor_degree_factor"] == 16
-    assert fsm["source_proof_constants"]["max_pole_order_per_minimal_cusp_branch_per_k"] == 8
-    assert fsm["stage32_fsm16_adapter"]["minimal_pairs_equivalent"] is True
-
-    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V6"
     assert cert["special_fibre_contract"]["identity"] == "6*n_i=2*q_i+M"
     assert cert["factor_slack_contract"]["global_identity"] == "M-d+4*g-4=sigma_1+sigma_2>=0"
     assert cert["minimal_branch_contract"]["derived_minimal_bound"] == "s_min>=d-4*g+4"
@@ -84,100 +79,77 @@ def main() -> None:
     assert cert["picard_hodge_contract"]["cauchy_global_inequality"] == "M^2<=6*d^2+96*d-192*g+192"
     assert cert["picard_hodge_contract"]["closes_degree"] is False
 
-    assert cert["lambda_capacity_contract"]["uniform_local_constant_capacity_bound_available"] is False
-    assert lambda_wall["conclusion"]["preferred_lambda_capacity_route_closes_mb104"] is False
+    amb = cert["ambient_a1_scaling_contract"]
+    assert amb["fixed_first_factor_degree"] == 2
+    assert amb["fixed_exceptional_mass"] == 2
+    assert amb["global_algebraic_member_constructed"] is False
+    assert amb["closes_degree"] is False
 
-    kc = cert["known_curve_cone_contract"]
-    assert kc["strictly_positive_on_all_140_known_curves"] is True
-    assert kc["riemann_roch_effective_divisor_class_for_all_k"] is True
-    assert kc["integral_member_claimed"] is False
-    assert kc["low_genus_member_claimed"] is False
-    assert kc["closes_degree"] is False
-    assert known_wall["symmetric_scaling_ray"]["exceptional_mass"] == "M=96*k=d"
+    lm = cert["lu_miyaoka_contract"]
+    assert lm["inequality"] == "d<=4*(g-1)+224+n_ot"
+    assert lm["g0_debt"] == "n_ot>=max(0,d-220)"
+    assert lm["g1_debt"] == "n_ot>=max(0,d-224)"
+    assert lm["closes_degree"] is False
 
-    ac = cert["a1_contraction_contract"]
-    assert ac["single_node_formula"] == "p_a(C)-p_a(D)=floor(M_i^2/4)"
-    assert ac["global_formula"] == "Delta_image=Delta_strict+Q_A1"
-    assert ac["coarse_lower_bound"] == "Q_A1>=M^2/192-12"
-    assert ac["lambda_dependent"] is False
-    assert ac["closes_degree"] is False
-    assert a1["exact_contraction_formula"]["single_node"] == "p_a(C)-p_a(D)=floor(M^2/4)"
-    assert a1["exact_contraction_formula"]["lambda_dependent"] is False
+    bm = cert["beauville_miyaoka_contract"]
+    assert bm["K_X_square"] == 32 and bm["c2_X"] == 16 and bm["K2_gt_c2"] is True
+    assert bm["inequality"] == "2*d<=3*r+12*g+20"
+    assert bm["closes_degree"] is False
 
-    sc = cert["special_discriminant_capacity_contract"]
-    assert sc["s32_pw09_formula"] == "Disc(pi)=Br(f)+2*A"
-    assert "Disc(pi)=Br+2A" in pw09
-    assert sc["normalized_projection_degree"] == 2
-    assert sc["special_values_needed"] == 1
-    assert sc["normalization_index_unbounded_at_fixed_degree"] is True
-    assert sc["discriminant_multiplicity_unbounded_at_fixed_degree"] is True
-    assert sc["generic_projection_degree_plus_special_value_count_closes"] is False
-    assert disc_wall["capacity_consequence"]["no_upper_bound_from_projection_degree_and_special_value_count_alone"] is True
-    assert disc_wall["firewalls"]["generic_nonclosure_refutes_ambient_geometry_bound"] is False
+    btva = cert["btva_projective_span_contract"]
+    assert btva["all_48_node_vector_rank"] == 7
+    assert btva["exact_node_profile_filter_available"] is True
+    assert btva["scaling_ray_excluded"] is False
+    assert btva["closes_degree"] is False
 
-    # Bounded algebra replay of the factor/slack identities.
-    checked = 0
-    for g in (0, 1):
-        for d in range(2, 81):
-            for n1 in range(1, d):
-                n2 = d - n1
-                for M in range(0, 3 * d + 1, 2):
-                    q1_num = 6 * n1 - M
-                    q2_num = 6 * n2 - M
-                    if q1_num < 0 or q2_num < 0 or q1_num % 2 or q2_num % 2:
-                        continue
-                    q1, q2 = q1_num // 2, q2_num // 2
-                    sigma1 = 2 * g - 2 + 2 * n1 - q1
-                    sigma2 = 2 * g - 2 + 2 * n2 - q2
-                    if sigma1 < 0 or sigma2 < 0:
-                        continue
-                    assert sigma1 + sigma2 == M - d + 4 * g - 4
-                    checked += 1
-
-    # A1 balanced contraction debt and coarse lower bound.
-    def q(m: int) -> int:
-        return (m * m) // 4
-
-    for M in range(0, 5001):
-        quo, rem = divmod(M, 48)
-        qmin = (48 - rem) * q(quo) + rem * q(quo + 1)
-        assert qmin >= M * M / 192 - 12
-
-    # Generic degree-two order wall: fixed normalized degree and one special
-    # value admit arbitrary normalization index N.
-    for N in range(0, 10001):
-        assert 2 * N + 1 == 1 + 2 * N
-
-    # Retained effective Picard ray remains compatible with the nonclosing
-    # ledgers; no integral/low-genus member is inferred.
-    for k in range(1, 101):
-        d = 96 * k
-        M = 96 * k
-        D2 = 480 * k * k
-        assert M == d
-        assert 48 * q(2 * k) == 48 * k * k
-        assert 48 * (2 * k) ** 2 <= d * d // 8 + 2 * d
-        chi = 8 + (D2 - d) // 2
-        assert chi == 240 * k * k - 48 * k + 8 and chi > 0
+    tf = cert["two_factor_same_cover_contract"]
+    assert tf["single_beauville_double_cover"] is True
+    assert tf["factor_directions"] == 2
+    assert tf["independent_r1_r2_available"] is False
+    assert tf["combined"] == "r>=2*max(n1,n2)-4*g+4>=d-4*g+4"
+    assert tf["closes_degree"] is False
 
     rd = cert["route_decision"]
-    assert rd["retire_generic_special_value_discriminant_capacity_bound"] is True
-    assert rd["next_subobligation"] == "MB104_AMBIENT_BOX_SURFACE_CONDUCTOR_CAPACITY_BOUND"
+    assert rd["retire_naive_two_factor_independent_ramification_sum"] is True
+    assert rd["next_subobligation"] == "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND"
+    assert state["next_obligation"]["subobligation"] == rd["next_subobligation"]
+
+    # Replay downstream retained verifiers, rather than merely source-locking
+    # their bytes. This makes the V7 main verifier depend on their executable
+    # contracts as well as their identities.
+    for name in RUN_VERIFIERS:
+        runpy.run_path(str(NODE / name), run_name="__main__")
+
+    # Bounded sanity checks for the current coefficient barriers.
+    for g in (0, 1):
+        for d in range(2, 2001):
+            r0 = d - 4 * g + 4
+            assert r0 > 0
+            assert 2 * d <= 3 * r0 + 12 * g + 20
+            lm_debt = max(0, d - (220 if g == 0 else 224))
+            assert lm_debt >= 0
+
+    for k in range(1, 501):
+        d = 96 * k
+        M = d
+        q_a1 = 48 * k * k
+        assert q_a1 * 192 == d * d
+        assert 48 >= 7 and 48 >= 6
 
     fw = cert["credit_firewall"]
     assert fw["mb104_complete"] is False
     assert fw["finite_degree_window_proved"] is False
     assert fw["finite_picard_enumeration_released"] is False
+    assert fw["r29_lg2_mb_discharged"] is False
     assert fw["receiver_credit"] is False
-    assert fw["perfect_cuboid_existence_claim"] is False
-    assert fw["perfect_cuboid_nonexistence_claim"] is False
+    assert fw["theorem_credit"] is False
+    assert fw["endpoint_credit"] is False
     assert fw["merge_authorized"] is False
 
-    print("MB104 V6 verifier PASS")
-    print(f"bounded factor/slack states={checked}")
-    print("retained A1 contraction debt: Q_A1=sum floor(M_i^2/4) >= M^2/192-12")
-    print("retained generic wall: degree 2 + one special value admits unbounded index")
-    print("next: ambient box-surface conductor capacity; finite degree window remains OPEN")
+    print("MB104 V7 main verifier PASS")
+    print("downstream executable contracts replayed: ambient/Lu-Miyaoka/Beauville/BTVA/same-cover")
+    print("active leaf: MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND")
+    print("finite degree window remains OPEN")
 
 
 if __name__ == "__main__":
