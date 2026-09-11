@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE32_32_02_RR_EFFECTIVITY_SUFFICIENT_CHECKPOINT_V1",
+  "stage": 32,
+  "leaf": "32-02",
+  "status": "CONDITIONAL_SUFFICIENT_CLASSIFIER_READY_PREPARATION_ONLY",
+  "authority": {
+    "parent_main_coordination_pr": 1785,
+    "parent_exact_head": "d44ff4403559dce4ea296698630f57a56cd0d0fe",
+    "parent_hostile_reaudit_status": "PASS",
+    "parent_hostile_reaudit_review_id": 5179250825,
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233636101,
+    "full178_complete": false
+  },
+  "conditional_surface_assumptions": {
+    "surface_is_smooth_projective_desingularization": true,
+    "K2": 16,
+    "chi_O": 8,
+    "K_nef": true,
+    "serre_duality_applicable": true,
+    "riemann_roch_for_integral_divisor_class": true,
+    "assumptions_are_not_newly_proved_by_this_checkpoint": true,
+    "external_source_lock_for_surface_invariants_present_in_this_checkpoint": false
+  },
+  "classifier": {
+    "inputs": [
+      "d=K.C",
+      "C2=C.C"
+    ],
+    "integral_class_parity_required": "(C2-d) mod 2 = 0",
+    "sufficient_gate": "d > 16 and C2 >= d - 14",
+    "derived_euler_characteristic": "chi(O(C)) = 8 + (C2-d)/2",
+    "derived_h2_vanishing": "d>16 => K.(K-C)=16-d<0; K nef => K-C not effective; Serre duality => h2(O(C))=0",
+    "conclusion": "h0(O(C)) >= 1, hence the class has an effective divisor",
+    "does_not_conclude": [
+      "integral irreducible representative",
+      "low-genus carrier",
+      "receiver discharge",
+      "FULL178 closure"
+    ]
+  },
+  "regressions": [
+    {
+      "id": "g1-d186-proposed-regression",
+      "d": 186,
+      "C2": 858,
+      "expected_chi": 344,
+      "expected_status": "RR_EFFECTIVE_DIVISOR_CERTIFIED"
+    },
+    {
+      "id": "threshold-d186",
+      "d": 186,
+      "C2": 172,
+      "expected_chi": 1,
+      "expected_status": "RR_EFFECTIVE_DIVISOR_CERTIFIED"
+    },
+    {
+      "id": "below-threshold-d186",
+      "d": 186,
+      "C2": 170,
+      "expected_chi": 0,
+      "expected_status": "RR_INCONCLUSIVE"
+    }
+  ],
+  "population_firewall": {
+    "historical_pr1783_168_over_10_degree_split_promoted": false,
+    "full178_rows_classified": false,
+    "final_survivor_picard_ledger_available": false,
+    "reason": "No current exact survivor/Picard ledger is source-locked here; classifier is pointwise only."
+  },
+  "live_specialist_observation": {
+    "cut193_pr": 1786,
+    "cut193_candidate_pruned_terminals": 25651,
+    "cut193_hostile_audit_passed": false,
+    "cut193_main_credit": false,
+    "cut193_is_not_consumed_here": true
+  },
+  "credit_firewall": {
+    "effectivity_preparation_credit": true,
+    "effectivity_final_execution_released": false,
+    "receiver_credit": false,
+    "full178_pruning_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "5973500e76c104195c60b105dd5395b871a8d95f5bf5dba89256340e8ee0affa"
+}
