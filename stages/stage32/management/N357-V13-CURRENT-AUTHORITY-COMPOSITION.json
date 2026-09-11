@@ -19,7 +19,19 @@
     "source_remaining_strata": 17128,
     "source_remaining_terminals": 65396964990500233636214
   },
-  "canonical_sha256_without_this_field": "3a9d29b97ccc663a92cc4c0463d1e77c00a518450b65d8d9ece0054734eeebd8",
+  "audited_object_replay": {
+    "audit_handoff_blob_sha1": "253c5fb4ed5cced2c033cbfa0ffe4b9eb3c107bf",
+    "audit_source_lock_verifier_blob_sha1": "9ce7477652b234e3424236bd2e61232fb38510d2",
+    "audit_state_blob_sha1": "9fdca61ce325023bc050016d3a81787e225b0962",
+    "byte_exact_audited_checkout_required": true,
+    "engine_blob_sha1": "479c783cb42d0952cc310708106787147b499240",
+    "exact_audited_head": "0d787839b7e0dad4a42108c61d16e7849c50862f",
+    "exact_audited_transitive_source_lock_verifier_reexecuted_in_ci": true,
+    "fail_closed_wrapper": "stages/stage32/verify_n357_v13_current_authority_composition_fail_closed.py",
+    "hostile_audit_review_id": 5183069892,
+    "result_blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec"
+  },
+  "canonical_sha256_without_this_field": "05ee86b2c51ea807cd965809b766158622e1169bfcc8f27c2034860c2d19472d",
   "credit_firewall": {
     "current_authority_composition_replayed": true,
     "endpoint_credit": false,
@@ -49,18 +61,10 @@
     "composition_incremental_rejected_terminals": 17797986705435299826016,
     "current_main_prefix_survivor_block_count": 7596,
     "current_main_prefix_survivor_block_stream_sha256": "529b9c31d36c517484dc176ba1d37674790eec05dc01853f9ce93b36e416c8e3",
-    "cut191_block_indices": [
-      0
-    ],
-    "cut191_survivor_offset_range": [
-      0,
-      0
-    ],
+    "cut191_block_indices": [0],
+    "cut191_survivor_offset_range": [0, 0],
     "cut194_closed_block_count": 234,
-    "cut194_survivor_offset_range": [
-      256,
-      510
-    ],
+    "cut194_survivor_offset_range": [256, 510],
     "cut194_target_block_count": 255,
     "d": 8,
     "e": 8,
@@ -73,8 +77,8 @@
     "n357_rejecting_cut194_terminal_count": 0,
     "row_id": "g1-d008"
   },
-  "purpose": "Replay the already hostile-audited N357 necessary-cut candidate against the current V13 authority after CUT191 and CUT194 consumption, without recomputing N357 or granting MAIN credit.",
-  "schema": "STAGE32_N357_V13_CURRENT_AUTHORITY_COMPOSITION_REPLAY_V1",
+  "purpose": "Replay the already hostile-audited N357 necessary-cut candidate against the current V13 authority after CUT191 and CUT194 consumption, while fail-closing on the byte-exact audited N357 object boundary and granting no MAIN credit.",
+  "schema": "STAGE32_N357_V13_CURRENT_AUTHORITY_COMPOSITION_REPLAY_V2_FAIL_CLOSED_AUDITED_OBJECTS",
   "source_locks": {
     "compressed_terminal_family_blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
     "compressed_terminal_indexer_blob_sha1": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
@@ -87,5 +91,5 @@
     "n355_full_prefix_result_canonical_sha256": "7961cbc55993d2264879686388096fbe289a6fb84ecd4b6713b6b56c371bb775"
   },
   "stage": 32,
-  "status": "PASS_COMPOSITION_REPLAY_CANDIDATE_NO_MAIN_CREDIT"
+  "status": "PASS_COMPOSITION_REPLAY_CANDIDATE_FAIL_CLOSED_AUDITED_OBJECTS_NO_MAIN_CREDIT"
 }
