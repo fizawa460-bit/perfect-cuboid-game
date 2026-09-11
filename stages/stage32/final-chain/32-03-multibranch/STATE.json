@@ -3,11 +3,7 @@
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
   "current_node": "MB104",
-  "completed_retained_nodes": [
-    "MB101",
-    "MB102",
-    "MB103"
-  ],
+  "completed_retained_nodes": ["MB101", "MB102", "MB103"],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
@@ -81,6 +77,9 @@
     "btva_13form_principal_part": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PRINCIPAL-PART.md",
     "btva_13form_principal_part_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PRINCIPAL-PART-CERTIFICATE.json",
     "btva_13form_principal_part_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_13form_principal_part.py",
+    "a1_conductor_branch_delta_wall": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-WALL.md",
+    "a1_conductor_branch_delta_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-CERTIFICATE.json",
+    "a1_conductor_branch_delta_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_a1_conductor_branch_delta.py",
     "status": "ACTIVE_RETAINED_NECESSARY_INEQUALITY_MB104_INCOMPLETE",
     "branchwise_fsm_inequality": "d<=16g-16+4R8",
     "R8_definition": "number of normalization branches over box nodes with MB101 cusp type (A,B)=(1,1)",
@@ -112,14 +111,19 @@
     "btva_order2_distinct_landing_saturation": 3,
     "btva_order2_counts_R8_multiplicity": false,
     "btva_order2_standalone_R8_route_closed": true,
+    "downstairs_delta_nodes_lower": "R-N",
+    "downstairs_delta_R8_lower": "R8-48",
+    "a1_delta_eq_r_minus_1_sharp": true,
+    "conductor_castelnuovo_R8_bound": "R8<=pi_6(d)-g+48 in full span P6",
+    "conductor_castelnuovo_meets_alpha_lt_quarter": false,
     "absolute_R8_bound_proved": false,
     "finite_degree_window_proved": false,
     "actual_curve_existence_claimed": false
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Find branch-multiplicity charging beyond order-two landing saturation",
-    "required_input": "prove a global conductor/intersection or genuinely higher-jet inequality that charges repeated minimal branches strongly enough to imply R8<=alpha*d+beta with alpha<1/4, or otherwise give a finite degree window on the remaining high-span sectors",
+    "title": "Find global linear multiplicity charging beyond sharp local A1 conductor",
+    "required_input": "prove a cuboid-specific linear upper bound on downstairs arithmetic genus/conductor, or a genuinely higher-jet/global inequality, strong enough to imply R8<=alpha*d+beta with alpha<1/4",
     "dominated_routes": [
       "purely local A1 landing/delta data",
       "published GFU exceptional-mass correction by itself",
@@ -128,10 +132,11 @@
       "automatic Riemann-Hurwitz charging from minimal cusp type without extra tangent/jet information",
       "simple summed unit Riemann-Hurwitz charging over all 28 genus-5 fibrations",
       "pure powers of omega7 with split hyperplane vanishing",
-      "BTVA 13-dimensional order-two principal-part portfolio by itself"
+      "BTVA 13-dimensional order-two principal-part portfolio by itself",
+      "universal local conductor bound delta>=r-1 plus standard Castelnuovo alone"
     ],
     "live_route_classes": [
-      "global conductor/intersection inequality charging normalization branch multiplicity",
+      "cuboid-specific linear arithmetic-genus or conductor bound for high-span curves",
       "genuinely higher-order jet or principal-part constraint whose independent conditions grow with repeated branches",
       "new global symmetric differential architecture with stronger exceptional regularity or vanishing",
       "high-span geometry for genus-zero full-span and genus-one span-5/6 sectors"
@@ -144,6 +149,7 @@
       "published GFU formulas contain a hidden branch-excess or delta cancellation",
       "omega7 powers can spread their full A1 regularization budget across independent hyperplanes",
       "order-two principal-part conditions keep growing after three distinct landing directions at one A1 node",
+      "A1 local delta grows faster than r-1 for all transverse branch configurations",
       "formal arbitrary-degree numerical data correspond to actual curves"
     ],
     "target": "convert d<=16g-16+4R8 into a genuine population-wide finite degree/intersection window"
