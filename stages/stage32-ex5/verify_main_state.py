@@ -18,7 +18,8 @@ FULL178_GOAL_CLAIM = "S32.FULL178.NUMERICAL_CENSUS.V1"
 BC2_27_AUDIT_HEAD = "b70bc51909f5ed78641ee3b727a2258382ef950c"
 BC2_27_AUDIT_REVIEW = 5179488973
 BC2_28_CHECKPOINT = "52138e7c417d69814d5007479420b56fcc27031679bf88f432916e6c89c77ec4"
-BC2_28_CHECKPOINT_BLOB = "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed"
+BC2_28_CHECKPOINT_BLOB = "bec4b7c06de727339b8eaf42f5158b7f28ba0376"
+BC2_28_PRIOR_MALFORMED_CHECKPOINT_BLOB = "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed"
 BC2_28_RAW = "f77cad8d03035514e43e992ccdee25c1d4f6a386789fac33e488e198c35a998d"
 BC2_28_RAW_SHA256 = "768c4209d2162cd85a2c93a3bfcb3a71e8ea9a600e62b1323b8f7b372139f843"
 PERFECT_CUBOID_FIREWALL_KEYS = {"perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim"}
@@ -75,6 +76,7 @@ def main() -> None:
     rp = s["retained_exact_progress"]
     req(rp["bc2_28_checkpoint_canonical"] == BC2_28_CHECKPOINT, "BC2-28 checkpoint canonical drift")
     req(rp["bc2_28_checkpoint_git_blob_sha"] == BC2_28_CHECKPOINT_BLOB, "BC2-28 checkpoint blob receipt drift")
+    req(rp["bc2_28_prior_malformed_checkpoint_git_blob_sha"] == BC2_28_PRIOR_MALFORMED_CHECKPOINT_BLOB, "BC2-28 checkpoint repair provenance drift")
     req(git_blob(B2 / "bc2-28-boundary38-partition-checkpoint.json") == BC2_28_CHECKPOINT_BLOB, "BC2-28 checkpoint blob drift")
     req(rp["bc2_28_raw_result_canonical"] == BC2_28_RAW and rp["bc2_28_raw_json_sha256"] == BC2_28_RAW_SHA256, "BC2-28 artifact raw identity drift")
     req(rp["bc2_28_raw_repository_mirror_retained"] is False, "BC2-28 raw mirror authority leak")
@@ -87,8 +89,10 @@ def main() -> None:
     runkey = json.loads((HERE / "runkeys/bc2-28-boundary38-partition.json").read_text(encoding="utf-8"))
     req(runkey["schema"] == "STAGE32EX5_BC2_28_BOUNDARY38_PARTITION_RUNKEY_V1" and runkey["generation"] == 1 and runkey["armed"] is False, "BC2-28 runkey not consumed/disarmed")
     consumed = runkey["consumed_run"]
-    req(consumed["checkpoint_canonical"] == BC2_28_CHECKPOINT and consumed["raw_result_canonical"] == BC2_28_RAW, "BC2-28 consumed evidence drift")
-    req(consumed["raw_json_sha256"] == BC2_28_RAW_SHA256, "BC2-28 consumed raw digest drift")
+    req(consumed["checkpoint_canonical"] == BC2_28_CHECKPOINT and consumed["checkpoint_git_blob_sha"] == BC2_28_CHECKPOINT_BLOB, "BC2-28 consumed checkpoint evidence drift")
+    req(consumed["prior_malformed_checkpoint_git_blob_sha"] == BC2_28_PRIOR_MALFORMED_CHECKPOINT_BLOB, "BC2-28 consumed repair provenance drift")
+    req(consumed["raw_result_canonical"] == BC2_28_RAW and consumed["raw_json_sha256"] == BC2_28_RAW_SHA256, "BC2-28 consumed raw digest drift")
+    req(consumed["raw_repository_mirror_authoritative"] is False, "BC2-28 consumed raw mirror authority leak")
     req((consumed["new_parent_unsat_count"], consumed["retained_unknown_parent_count"], consumed["parent_sat_count"]) == (5,4,0), "BC2-28 consumed parent accounting drift")
     req((consumed["p38_leaf_unsat_count"], consumed["p38_leaf_unknown_count"]) == (38,4), "BC2-28 consumed p38 accounting drift")
     req(consumed["known_parent_unsat_count_lower_bound"] == 7160, "BC2-28 consumed lower-bound drift")
