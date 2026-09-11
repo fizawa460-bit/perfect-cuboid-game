@@ -44,6 +44,14 @@ def main() -> None:
     req("SATISFIED" in commands and "CUT193" in commands, "command registry has stale CUT192 wait state")
     req("CUT191" in commands and "already consumed" in commands, "command registry does not preserve CUT191 consumption")
 
+    demand_registry = load(HERE / "proof" / "CROSS-LANE-DEMANDS.json")
+    demand_rows = {row["demand_id"]: row for row in demand_registry["demands"]}
+    cut192_id = "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
+    req(cut192_id in demand_rows, "CUT192 demand missing from machine registry")
+    cut192 = demand_rows[cut192_id]
+    req(cut192["priority"] == "P0_BLOCKING_DOWNSTREAM", "CUT192 machine priority drift")
+    req(cut192["status"] == "SATISFIED", "CUT192 machine status is stale")
+
     main_start = text(HERE / "MAIN-START-HERE.md")
     req("Ordinary `stage32mainbatch`" in main_start, "MAIN command not canonical")
     req("controller and researcher" in main_start.lower(), "MAIN research role missing")
@@ -78,7 +86,7 @@ def main() -> None:
     req("PR #1765 is merged" in ex5_start, "EX5 startup lost merged provenance")
     req("stage32ex5-mainbatch" in ex5_start, "EX5 command missing")
     req("stages/stage32/COMMANDS.md" in ex5_start, "EX5 startup does not read command registry")
-    req("P0_BLOCKING_DOWNSTREAM" in ex5_start, "EX5 startup lost demand priority semantics")
+    req("higher-priority OPEN demand" in ex5_start, "EX5 startup lost generic producer-priority rule")
     req("SATISFIED" in ex5_start and "CUT192-EX5-E8-HANDOFF-SATISFIED.json" in ex5_start, "EX5 startup has stale producer wait state")
 
     cut = load(HERE / "full178-cut" / "MISSION.json")
