@@ -1,0 +1,105 @@
+{
+  "schema": "STAGE35_EX_GOAL4CG_SELECTED_MARKED_HEIGHT_V1",
+  "status": "PROVISIONAL_EXACT_EXPLICIT_UPPER_AND_PETSCHE_BLOCKER_PENDING_HOSTILE_AUDIT_NO_E1_CREDIT",
+  "parent_goal4cf_head": "2ffe07f31d56caf78261d032b7e5a78d500dd146",
+  "authority": {
+    "mathematical_state": "V74/Goal4AK",
+    "hostile_review_id": 5142248509,
+    "intermediate_checkpoint": "Goal4BS",
+    "intermediate_review_id": 5151846948
+  },
+  "source_locks": {
+    "AGENTS.md": {"parent_blob_sha1": "f57f28ffc4889a5234986feb1fde2206ac83ed8c"},
+    "stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height-source-lock.md": {"parent_blob_sha1": "a94e98e560793cf91548a67bd37989915de00e7a"},
+    "stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height.json": {"parent_blob_sha1": "60fae382dd97ab6a905b1678681f829b59595e56"},
+    "stages/stage35-ex/35ex-35/goal4aw-marked-elliptic-height-lower-vs-goal4m-upper.json": {"parent_blob_sha1": "f3cf53d56fd20ffb8e0d059412b92eb23dac62a2"},
+    "stages/stage35-ex/35ex-35/goal4m-stage14-global-triple-population-height-transfer.json": {"parent_blob_sha1": "1c7a3e9e23dd8bbc41fc331b8c43e4023f5d3909"},
+    "stages/stage35-ex/35ex-35/goal4bd-simultaneous-three-marked-rankjump-endpoint-equivalence-source-lock.md": {"parent_blob_sha1": "94d010909544cfb8ca823f303436cf3405219d1a"},
+    "stages/stage35-ex/35ex-35/goal4bs-intermediate-hostile-audit-pass-consumption.json": {"parent_blob_sha1": "21049ede221ba45469c10b5c7e9d6d21d5713d69"},
+    "stages/stage35-ex/35ex-35/goal4cg-selected-physical-marked-local-height-comparison-source-lock.md": {"text_lf_sha256": "8528b2b818dd505c277372dd44a313e60399e7361503d753376d2899a7010e44"}
+  },
+  "marked_coordinate": {
+    "orientation": "selected reduced legs (m,n) chosen so p=-m/n; opposite edge K",
+    "r_s_t": "r=n^2-m^2, s=2mn, t=m^2+n^2",
+    "diagonals": "d_m^2=(gm)^2+K^2, d_n^2=(gn)^2+K^2, W^2=g^2*t+K^2",
+    "minimal_x": "u=-(m*n*r/2)*(n*d_m+m*d_n)/(m*d_m-n*d_n)",
+    "denominator_identity": "(m*d_m-n*d_n)*(m*d_m+n*d_n)=-r*W^2"
+  },
+  "height_upper": {
+    "naive_x": "h_x(P_*)<=6 log W",
+    "duplication_recursion": "h_x([2]Q)<=4*h_x(Q)+16 log W",
+    "canonical": "hhat(P_*)<=17/3 log W",
+    "explicit_upper_coefficient": 5.666666666666667
+  },
+  "semistable_conductor": {
+    "R": "abs(r*s*t)",
+    "delta_min": "(R/4)^4",
+    "conductor": "rad_odd(R) if v2(s)=2; 2*rad_odd(R) if v2(s)>=3",
+    "conductor_upper": "N(E_*)<=R/4",
+    "szpiro_lower": "sigma(E_*)>=4",
+    "uniform_szpiro_upper_obtained": false
+  },
+  "petsche_comparison": {
+    "lower_bound": "hhat(P)>=log|Delta_min|/(10^15*sigma^6*log^2(104613*sigma^2))",
+    "goal4cf_discriminant_coefficient": 10,
+    "best_allowed_sigma": 4,
+    "best_case_logW_coefficient": 1.1888049016503416e-20,
+    "explicit_upper_coefficient": 5.666666666666667,
+    "strict_coefficient_win": false,
+    "reason": "even sigma=4 gives Petsche+CF lower coefficient << 17/3; no uniform sigma upper is available"
+  },
+  "local_component_blocker": {
+    "status": "OPEN_SMALLER_OBLIGATION",
+    "name": "UNIFORM_MARKED_BAD_PRIME_COMPONENT_INDEX_CONTROL",
+    "odd_prime_r_case": "if ell|r and m*d_m-n*d_n is nonzero mod ell, the marked point reduces to the nodal singular point (u,v)=(0,0)",
+    "cancellation_case": "if denominator also vanishes mod ell, explicit cancellation/component analysis is required",
+    "uniform_favorable_component_control_obtained": false
+  },
+  "bounded_regression": {
+    "euler_brick_diagnostics": [
+      {"edges": [44,117,240], "selected_pair": "AB", "orientation": "C", "oriented_legs": [44,117], "u_num": 174149076816, "u_den": 2929, "W_squared": 73225},
+      {"edges": [85,132,720], "selected_pair": "AC", "orientation": "B", "oriented_legs": [144,17], "u_num": 125321555808, "u_den": 14677, "W_squared": 543049},
+      {"edges": [140,480,693], "selected_pair": "BC", "orientation": "A", "oriented_legs": [160,231], "u_num": 6899257780800, "u_den": 4901, "W_squared": 730249}
+    ],
+    "conductor_pair_panel": {"max_leg_exclusive": 100, "pair_count": 2000},
+    "finite_panels_are_unbounded_proof": false
+  },
+  "result": {
+    "selected_marked_x_coordinate_exact": true,
+    "explicit_naive_height_upper": true,
+    "explicit_canonical_height_upper": true,
+    "exact_semistable_conductor_packet": true,
+    "szpiro_lower_bound_four": true,
+    "uniform_szpiro_upper_bound": false,
+    "strict_petsche_coefficient_win": false,
+    "uniform_marked_bad_prime_component_control": false,
+    "finite_height_reduction": false,
+    "route_status": "BLOCKED_EXPLICIT_UPPER_OBTAINED_NO_LOWER_COEFFICIENT_WIN"
+  },
+  "cycle": {
+    "route_status": "BLOCKED_EXPLICIT_UPPER_OBTAINED_NO_LOWER_COEFFICIENT_WIN",
+    "active_receiver": "NONE_PENDING_HOSTILE_AUDIT",
+    "live_candidates": 0,
+    "untested_candidates": 0,
+    "parking_audit_complete": false,
+    "next": "HOSTILE_AUDIT_GOAL4CG_THEN_BREADTH_REOPEN"
+  },
+  "credit_firewall": {
+    "E1_proved": false,
+    "R29_PESCH_E1_closed": false,
+    "stage35_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "hostile_audit_pass": false,
+    "merge_authorized": false
+  },
+  "external_sources": [{
+    "author": "Clayton Petsche",
+    "title": "Small rational points on elliptic curves over number fields",
+    "journal": "New York Journal of Mathematics 12 (2006), 257-268",
+    "url": "https://nyjm.albany.edu/j/2006/12-16v.pdf",
+    "locator": "equation (1), Theorem 2, Ogg formula discussion",
+    "used_for": "explicit lower bound and Szpiro-ratio context only"
+  }],
+  "canonical_sha256": "d7eb73b45871c66e2c0ded5c566ae2c6f5e914483419d31823ab2f99e6ad13de"
+}
