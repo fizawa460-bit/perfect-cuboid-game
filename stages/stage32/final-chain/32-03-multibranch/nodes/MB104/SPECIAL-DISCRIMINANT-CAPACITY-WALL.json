@@ -1,0 +1,68 @@
+{
+  "schema": "STAGE32_MB104_SPECIAL_DISCRIMINANT_CAPACITY_WALL_V1",
+  "status": "RETAINED_GENERIC_PROJECTION_CAPACITY_NONCLOSURE",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "a1_contraction_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONTRACTION-CONDUCTOR.json",
+    "a1_contraction_certificate_blob_sha1": "fda08685a63caab19851d0d6e5bac353092c888e",
+    "s32_pw09_card_path": "docs/arsenal/cards/provisional/S32-PW09.md",
+    "s32_pw09_card_blob_sha1": "14755f8d7a14dac75a80eb711b6083c5f3b0ea3b",
+    "s32_pw09_formula": "Disc(pi)=Br(f)+2*A",
+    "s32_pw09_status": "PROVISIONAL_ROUTING_ONLY"
+  },
+  "local_order_family": {
+    "ground_field": "characteristic zero",
+    "base_dvr": "A=k[[t]]",
+    "normalized_quadratic_order": "B'=A+u*A with u^2=t",
+    "normalized_projection_degree": 2,
+    "normalized_branch_discriminant_valuation": 1,
+    "suborder": "B_N=A+t^N*u*A, N>=0",
+    "finite_free_rank_over_A": 2,
+    "integral_domain": true,
+    "fraction_field_unchanged": true,
+    "normalization": "B'",
+    "index_length": "length_A(B'/B_N)=N",
+    "trace_basis": "[1,t^N*u]",
+    "trace_matrix": "diag(2,2*t^(2N+1))",
+    "discriminant_valuation": "2*N+1",
+    "discriminant_split": "(2*N+1)=1+2*N",
+    "matches_even_correction_formula": true
+  },
+  "capacity_consequence": {
+    "projection_degree_fixed": 2,
+    "special_base_values_needed": 1,
+    "normalization_index_unbounded": true,
+    "discriminant_multiplicity_unbounded": true,
+    "no_upper_bound_from_projection_degree_and_special_value_count_alone": true,
+    "six_special_values_do_not_change_generic_nonclosure": true
+  },
+  "relation_to_a1_debt": {
+    "a1_debt": "Q_A1=sum_i floor(M_i^2/4)",
+    "generic_s32_pw09_interface_can_absorb_arbitrarily_large_index_at_one_value": true,
+    "therefore_degree_only_discriminant_accounting_closes_mb104": false,
+    "ambient_box_surface_constraint_still_may_close": true
+  },
+  "route_decision": {
+    "retire_generic_special_value_capacity_bound": true,
+    "next_subobligation": "MB104_AMBIENT_BOX_SURFACE_CONDUCTOR_CAPACITY_BOUND",
+    "required_new_input": [
+      "ambient polar/jet or Jacobian restriction on the singular curve order inside the box surface",
+      "source-derived restriction on which finite suborders can occur for factor projections of box-surface curve germs",
+      "global linear-system or divisor theorem bounding normalization-index multiplicity at the six special fibres"
+    ]
+  },
+  "firewalls": {
+    "local_order_family_embeds_in_box_surface_claimed": false,
+    "local_order_family_is_a1_contraction_model_claimed": false,
+    "generic_nonclosure_refutes_ambient_geometry_bound": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
