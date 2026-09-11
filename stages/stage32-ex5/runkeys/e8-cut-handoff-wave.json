@@ -1,10 +1,15 @@
 {
   "schema": "STAGE32EX5_E8_CUT_HANDOFF_WAVE_RUNKEY_V1",
-  "generation": 1,
+  "generation": 2,
   "armed": true,
-  "purpose": "Execute the first disjoint bounded wave through the common e8 terminal-population adapter and persist only compact per-block commitments for CUT handoff.",
+  "purpose": "Retry the first disjoint bounded wave after generation-1 stopped before heavy compute at the dependency-light static verifier; persist only compact per-block commitments for CUT handoff.",
   "source_git_blob_sha": "8080565de8d540e8af6532ef58cb2a3ddc686f56",
   "preflight_git_blob_sha": "4ca41209a1b16d1608d106377eb448cc8deda242",
+  "prior_generation": {
+    "generation": 1,
+    "heavy_compute_executed": false,
+    "stop_reason": "STATIC_VERIFIER_DEPENDENCY_MISSING_SYMPY_BEFORE_HEAVY_JOB"
+  },
   "target": {
     "row_id": "g1-d008",
     "g": 1,
