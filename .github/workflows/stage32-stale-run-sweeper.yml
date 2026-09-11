@@ -80,7 +80,7 @@ jobs:
                   if run.get('status') not in active:
                       continue
                   name = str(run.get('name') or '')
-                  if not name.startswith('Stage32'):
+                  if not (name.startswith('Stage32') or name.startswith('[Stage32]')):
                       continue
                   sha = run.get('head_sha')
                   if sha != current_sha:
