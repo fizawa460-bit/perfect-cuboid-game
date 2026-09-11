@@ -1,0 +1,71 @@
+{
+  "schema":"STAGE36_36_09EQ_RHO_LEGENDRE_GRAPH_LEAF_PIVOT_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EQ",
+  "status":"PROVISIONAL_EXACT_GRAPH_MAXIMAL_RANK_SUFFICIENT_CRITERION_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09EP":{"path":"stages/stage36/36-09EP/rho-sel2-support-rank-criterion-preflight.json","blob_sha":"4e3f103a3711220f1d5f6475f1fcff345b31ae7a"},
+    "stage36_36_09EP_source":{"path":"stages/stage36/36-09EP/rho-sel2-support-rank-criterion-source-lock.md","blob_sha":"cef2f0eaecd6d428821859a520d71042291c3744"},
+    "stage36_36_09EQ_source":{"path":"stages/stage36/36-09EQ/rho-legendre-graph-leaf-pivot-source-lock.md","blob_sha":"08ff42c1670a8dddffbbe9b9d81ef31934437af4"}
+  },
+  "entry_authority":{
+    "v265_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V265_36_09EP_EXACT_GREEN_EQ_UNLOCKED",
+    "36_09EP_exact_head_ci":"34339781268/102427591762",
+    "36_09EP_promotion_ci":"34339906922/102427995882",
+    "36_09EQ_entry_allowed":true
+  },
+  "legendre_graph":{
+    "matrix":"M_R(R(a,b))",
+    "vertices":"constraint rows disjoint_union ambient squareclass columns",
+    "edge_condition":"M_R[r,c]=1",
+    "determined_only_by_labelled_radical_legendre_datum":true,
+    "uses_valuation_exponents":false
+  },
+  "leaf_pivot_criterion":{
+    "pivot":"active row degree 1 with unique column, or active column degree 1 with unique row",
+    "target_pivot_count":"2n-2",
+    "sufficient_for_nonzero_2n_minus_2_minor":true,
+    "sufficient_for_rank_2n_minus_2":true,
+    "sufficient_for_Sel2_dimension_2":true,
+    "criterion_is_claimed_necessary":false
+  },
+  "deterministic_replay":{
+    "domain":"EO ordered primitive 1..50 box",
+    "row_count":1546,
+    "leaf_certified_row_count":20,
+    "leaf_certified_rows":[[1,2],[1,3],[1,5],[2,1],[2,3],[2,7],[2,9],[3,1],[3,2],[5,1],[5,9],[6,43],[7,2],[7,11],[9,2],[9,5],[11,7],[37,49],[43,6],[49,37]],
+    "false_positive_count":0,
+    "certified_dim2_orbit_count":5,
+    "certified_dim2_orbits":["O(2)","O(1/5)","O(2/7)","O(2/9)","O(6/43)"]
+  },
+  "nonnecessity_witness":{
+    "orbit":"O(3/47)",
+    "rows":[[3,47],[22,25],[25,22],[47,3]],
+    "n":10,
+    "exact_rank":18,
+    "exact_sel2_dimension":2,
+    "deterministic_leaf_pivot_counts":[12,12,10,10],
+    "residuals":[
+      {"rows":[[3,47],[22,25]],"shape":"8x8","rank":6},
+      {"rows":[[25,22],[47,3]],"shape":"10x10","rank":8}
+    ],
+    "leaf_criterion_not_necessary":true,
+    "remaining_structure":"cyclic Legendre core parity"
+  },
+  "route_result":{
+    "route_status":"PASS_GRAPH_LEAF_PIVOT_SUFFICIENT_CRITERION_PENDING_CI",
+    "next_leaf":"36-09ER_RHO_LEGENDRE_CORE_PARITY_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "new_fixed_parameter_exclusion":false,
+    "uniform_Sel2_dimension_2_theorem":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

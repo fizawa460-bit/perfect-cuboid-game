@@ -1,0 +1,97 @@
+{
+  "schema":"STAGE36_36_09EH_RHO_FIXED_P_RANKZERO_TORSION_CRITERION_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EH",
+  "status":"PROVISIONAL_EXACT_GENERIC_RHO_FIXED_P_EXCLUSION_CRITERION_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09O":{"path":"stages/stage36/36-09O/physical-square-lift-v4-quotient-preflight.json","blob_sha":"6a2678ebedba40e13277100441361039ee47ca28"},
+    "stage36_36_09DZ_source":{"path":"stages/stage36/36-09DZ/mw-phi-quotient-source-lock.md","blob_sha":"4ff753f9933f56cd33accaac264ddc7e936d2364"},
+    "stage36_36_09EE_source":{"path":"stages/stage36/36-09EE/q2-rho-torsion-retained-open-exclusion-source-lock.md","blob_sha":"0cc6e97c62fbb0782f19e30d87b19509d8144a8c"},
+    "stage36_36_09EG":{"path":"stages/stage36/36-09EG/fixed-p2-parameter-orbit-impact-preflight.json","blob_sha":"5a2977d3eafe9ea1d4751dc386e6a7b3aad01dc3"},
+    "stage36_36_09EH_source":{"path":"stages/stage36/36-09EH/rho-fixed-p-rankzero-torsion-criterion-source-lock.md","blob_sha":"71415af89ff48b0efce0f10429e5a2d4c4947634"}
+  },
+  "entry_authority":{
+    "v247_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V247_36_09EG_EXACT_GREEN_EH_UNLOCKED",
+    "36_09EG_exact_head_ci":"34323693323/102375953424",
+    "36_09EH_entry_allowed":true
+  },
+  "generic_rho_quotient":{
+    "h":"p-1/p",
+    "r":"p+1/p",
+    "relation":"r^2=h^2+4",
+    "quotient_coordinate":"S=t-1/t",
+    "quartic":"V^2=(S^2+r^2)(S^2+4*r^2/h^2)",
+    "positive_physical_domain":"p in Q_{>0}, p!=1",
+    "h_nonzero":true,
+    "rational_physical_h_ne_plusminus_2":true,
+    "retained_boundary":["t=0","t=1","t=-1","t=infinity"]
+  },
+  "uniform_weierstrass_model":{
+    "A":"r^2+4*r^2/h^2",
+    "B":"2*r^2/h",
+    "quartic_origin":"(S,V)=(0,B)",
+    "first_transform":["U=(V+B)/S^2","W=S*(U^2-1)"],
+    "first_identity":"W^2=(U^2-1)(2*B*U+A)",
+    "second_transform":["x=2*B*U","y=2*B*W"],
+    "intermediate_model":"y^2=(x-2B)(x+2B)(x+A)",
+    "final_scale":["X=x*h^2/r^2","Y=y*h^3/r^3"],
+    "final_model":"Y^2=(X-4h)(X+4h)(X+r^2)",
+    "full_rational_2torsion":true,
+    "p2_specialization_roots":["6","-6","-25/4"],
+    "p2_matches_36_09EE_after_rational_scaling":true
+  },
+  "rational_4torsion_test":{
+    "roots":["4h","-4h","-r^2"],
+    "differences":{
+      "e1-e2":"8h","e1-e3":"(h+2)^2",
+      "e2-e1":"-8h","e2-e3":"(h-2)^2",
+      "e3-e1":"-(h+2)^2","e3-e2":"-(h-2)^2"
+    },
+    "order4_iff":"8h in Q^2 or -8h in Q^2",
+    "no_order4_condition":"8h and -8h are both nonsquares in Q"
+  },
+  "rank_and_torsion_criterion":{
+    "sel2_dimension_condition":2,
+    "sel2_dimension_2_forces_rank_zero":true,
+    "mazur_full2_torsion_forms":"Z/2 x Z/2n, 1<=n<=4",
+    "no4_plus_no3_at_rank0_forces_exact_torsion":"(Z/2)^2",
+    "expanded_model":"Y^2=X^3+r^2*X^2-16*h^2*X-16*h^2*r^2",
+    "psi3":"3X^4+4r^2*X^3-96h^2*X^2-192h^2*r^2*X-64h^2*(r^4+4h^2)",
+    "psi3_no_rational_root_sufficient_for_no_rational_3torsion":true
+  },
+  "fixed_p_sufficient_conditions":[
+    "dim_F2 Sel^2(E_rho,p/Q)=2",
+    "8h is not a rational square and -8h is not a rational square",
+    "E_rho,p(Q)[3]=0"
+  ],
+  "fixed_p_consequence":{
+    "E_rho_p_Q_equals_rational_2torsion":true,
+    "retained_top_point_rho_image_affine":true,
+    "affine_rational_2torsion_forces_S_zero":true,
+    "S_zero_forces_t_plusminus_1":true,
+    "forced_t_is_retained_boundary":true,
+    "U_ret_C3_p_Q_empty_under_conditions":true,
+    "retained_physical_receiver_sector_empty_under_conditions":true
+  },
+  "operational_reduction":{
+    "future_fixed_p_tasks":["compute/certify Sel2 dimension","test +/-8h squareclasses","exclude rational 3-torsion"],
+    "full_fixed_p_genus3_Brauer_replay_required_for_rational_receiver_exclusion":false,
+    "new_parameter_outside_EG_orbit_excluded_by_this_leaf":false
+  },
+  "route_result":{
+    "route_status":"PASS_CONDITIONAL_GENERIC_RHO_FIXED_P_EXCLUSION_CRITERION_PENDING_CI",
+    "next_leaf":"36-09EI_RHO_CRITERION_FIXED_P_SEARCH_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "criterion_holds_for_all_rational_p":false,
+    "new_parameter_outside_EG_orbit_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

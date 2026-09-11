@@ -1,0 +1,69 @@
+{
+  "schema":"STAGE36_36_09EI_BOUNDED_RHO_NO4_NO3_SCREEN_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EI",
+  "status":"PROVISIONAL_EXACT_BOUNDED_NO4_NO3_SCREEN_SEL2_ONLY_BLOCKER_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09EH":{"path":"stages/stage36/36-09EH/rho-fixed-p-rankzero-torsion-criterion-preflight.json","blob_sha":"d95bf71f3cbed1d3fd12eaa0d235d2aa83539d37"},
+    "stage36_36_09AX":{"path":"stages/stage36/36-09AX/bounded-fixed-p-tunnell-sieve-scan-preflight.json","blob_sha":"e72142f2ec8a2ab0dec4a6602874e1c2edc87c60"},
+    "stage36_36_09EI_source":{"path":"stages/stage36/36-09EI/bounded-rho-no4-no3-screen-source-lock.md","blob_sha":"379f625e1eb6bad29f37fc2596c1a69913b36112"}
+  },
+  "entry_authority":{
+    "v249_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V249_36_09EH_EXACT_GREEN_EI_UNLOCKED",
+    "36_09EH_exact_head_ci":"34324450049/102378372364",
+    "36_09EI_entry_allowed":true
+  },
+  "scan_domain":{
+    "a_range":"1..10",
+    "b_range":"1..10",
+    "conditions":["gcd(a,b)=1","a!=b","a>0","b>0"],
+    "ordered_parameter_count":62,
+    "same_as_36_09AX_domain":true
+  },
+  "integral_rho_model":{
+    "N":"a^2-b^2",
+    "M":"a^2+b^2",
+    "d":"ab",
+    "model":"y^2=(x-4Nd)(x+4Nd)(x+M^2)",
+    "expanded_model":"y^2=x^3+M^2*x^2-16*N^2*d^2*x-16*N^2*d^2*M^2",
+    "order4_squareclasses":["8Nd","-8Nd"]
+  },
+  "psi3_screen":{
+    "polynomial":"3*x^4+4*M^2*x^3-96*N^2*d^2*x^2-192*N^2*d^2*M^2*x-64*N^2*d^2*(M^4+4*N^2*d^2)",
+    "leading_coefficient":3,
+    "witness_primes":[5,7,11,13,17,19,23,29,31,37,41,43,47],
+    "witness_meaning":"for q!=3, no root of psi3 mod q implies no rational root of psi3 and hence no rational 3-torsion"
+  },
+  "exact_scan_result":{
+    "no4_pass_count":62,
+    "no3_pass_count":62,
+    "all_rows_pass_no4":true,
+    "all_rows_pass_no3":true,
+    "first_witness_prime_counts":{"5":20,"11":36,"29":6},
+    "row_encoding":"lexicographic CSV a,b,plus8Nd_is_square,minus8Nd_is_square,first_no_root_prime with trailing newline",
+    "row_digest_sha256":"76ccf3835d0834c9f994822530719fc53e8915c1b06376c26f3f345ea7ac7973"
+  },
+  "criterion_impact":{
+    "EH_conditions_resolved_on_bounded_sample":["no rational order-4 torsion","no rational 3-torsion"],
+    "sole_unresolved_EH_condition_on_bounded_sample":"dim_F2 Sel^2(E_rho,p/Q)=2",
+    "Sel2_computed_by_this_leaf":false,
+    "new_parameter_outside_EG_orbit_excluded":false
+  },
+  "route_result":{
+    "route_status":"PASS_BOUNDED_NO4_NO3_SCREEN_SEL2_ONLY_BLOCKER_PENDING_CI",
+    "next_leaf":"36-09EJ_BOUNDED_RHO_SEL2_EXACT_COMPUTATION_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "bounded_screen_is_uniform_theorem":false,
+    "Sel2_dimension_2_proved_for_any_new_parameter":false,
+    "new_parameter_outside_EG_orbit_excluded":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

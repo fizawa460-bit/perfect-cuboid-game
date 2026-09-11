@@ -1,0 +1,62 @@
+{
+  "schema":"STAGE36_36_09EM_RHO_ODD_PRIME_LOCAL_KUMMER_BRANCH_PREFLIGHT_V1",
+  "stage":"36",
+  "unit":"36-09EM",
+  "status":"PROVISIONAL_EXACT_ODD_PRIME_LOCAL_KUMMER_COMPLETE_DYADIC_BLOCKER_PENDING_CI",
+  "base_main_sha":"e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks":{
+    "stage36_36_09EL":{"path":"stages/stage36/36-09EL/rho-square-legendre-symbolic-sel2-matrix-preflight.json","blob_sha":"192ff96c8b17db331cefd019c0b70c7b4a6f6bc9"},
+    "stage36_36_09EJ":{"path":"stages/stage36/36-09EJ/bounded-rho-sel2-exact-computation-preflight.json","blob_sha":"7ff288962132cae21f30a3c7b05ee1e5b5680c91"},
+    "stage36_36_09DW_source":{"path":"stages/stage36/36-09DW/phi-selmer-five-place-local-image-source-lock.md","blob_sha":"08c91eed30774fa5c44509bb61f1c3b1386f2266"},
+    "stage36_36_09EM_source":{"path":"stages/stage36/36-09EM/rho-odd-prime-local-kummer-branch-source-lock.md","blob_sha":"7ce09723f733907a61de20ff72607154bf993d26"}
+  },
+  "entry_authority":{
+    "v257_schema":"STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V257_36_09EL_EXACT_GREEN_EM_UNLOCKED",
+    "36_09EL_exact_head_ci":"34333797737/102408317932",
+    "36_09EL_promotion_ci":"34334026536/102409073034",
+    "36_09EM_entry_allowed":true
+  },
+  "coordinates":{
+    "model":"y^2=X*(X-P^2)*(X-Q^2)",
+    "D":"P^2-Q^2=8ab(a^2-b^2)",
+    "kummer_pair":"([X],[X-P^2])",
+    "odd_squareclass_bits":["valuation parity","nonsquare-unit bit"]
+  },
+  "branch_partition":{
+    "odd_bad_prime_branches":["q|P","q|Q","q|D and q does not divide P*Q"],
+    "branches_pairwise_disjoint":true,
+    "P_or_Q_branch_forces_2_quadratic_residue":true,
+    "P_or_Q_branch_allowed_q_mod8":[1,7]
+  },
+  "local_formulas":{
+    "D_branch":{"condition":"q|D and q does not divide P*Q","basis":[[0,0,1,0],[0,0,0,1]],"description":"{1} x K_q"},
+    "P_branch_mod8_1":{"condition":"q|P and q%8=1","basis":[[1,0,1,0],[0,1,0,1]],"description":"diagonal K_q"},
+    "P_branch_mod8_7":{"condition":"q|P and q%8=7","basis":[[0,1,0,0],[0,0,0,1]],"description":"U_q x U_q"},
+    "Q_branch_mod8_1":{"condition":"q|Q and q%8=1","basis":[[1,0,0,0],[0,1,0,0]],"description":"K_q x {1}"},
+    "Q_branch_mod8_7":{"condition":"q|Q and q%8=7","basis":[[0,1,0,0],[0,0,0,1]],"description":"U_q x U_q"}
+  },
+  "exactness":{
+    "odd_local_target_dimension":2,
+    "target_dimension_source":"36-09DW local [2] Euler characteristic with full rational 2-torsion",
+    "uniform_branch_proof_used":true,
+    "bounded_EJ_replay_is_regression_only":true,
+    "all_62_EJ_rows_all_odd_bad_places_match_formula":true
+  },
+  "route_result":{
+    "route_status":"PASS_ODD_PRIME_LOCAL_KUMMER_COMPLETE_DYADIC_BLOCKER_PENDING_CI",
+    "next_leaf":"36-09EN_RHO_DYADIC_LOCAL_KUMMER_BRANCH_FORMULA_PREFLIGHT",
+    "next_leaf_entry_allowed":false
+  },
+  "scope_firewalls":{
+    "odd_prime_local_kummer_branch_formula_complete":true,
+    "dyadic_local_kummer_branch_formula_complete":false,
+    "uniform_Sel2_dimension_2_theorem":false,
+    "new_fixed_parameter_exclusion":false,
+    "candidate_parameter_set_shrunk":false,
+    "receiver_emptiness_proved":false,
+    "R29_CAMP2_closed":false,
+    "Q11_CAMPEDELLI_closed":false,
+    "endpoint_closed":false,
+    "perfect_cuboid_nonexistence_claim":false
+  }
+}

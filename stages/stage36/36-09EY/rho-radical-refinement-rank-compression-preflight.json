@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE36_36_09EY_RHO_T6_RADICAL_REFINEMENT_RANK_COMPRESSION_PREFLIGHT_V1R1",
+  "stage": "36",
+  "unit": "36-09EY",
+  "status": "PROVISIONAL_EXACT_LEAF_CORE_NULLITY_COMPRESSION_REPAIRED_PENDING_CI",
+  "base_main_sha": "e2da76d90a0994af5038023613c6c4084c4c507e",
+  "repair": "T17_canonical_pattern_peel_row_replaces_raw_arithmetic_peel_row_only",
+  "source_locks": {
+    "stage36_36_09EP": {"path": "stages/stage36/36-09EP/rho-sel2-support-rank-criterion-preflight.json", "blob_sha": "4e3f103a3711220f1d5f6475f1fcff345b31ae7a"},
+    "stage36_36_09EQ_verifier": {"path": "stages/stage36/verify_stage36_36_09EQ.py", "blob_sha": "bcae53e30d7cc22832365eaae3fd3d205b730b75"},
+    "stage36_36_09ER": {"path": "stages/stage36/36-09ER/rho-legendre-core-parity-preflight.json", "blob_sha": "2994b87f098fad43d79cec17468889f72724b24b"},
+    "stage36_36_09EX": {"path": "stages/stage36/36-09EX/rho-t6-controlled-radical-relaxation-preflight.json", "blob_sha": "75663e2fbde9189a9c570a2075b76490151cd0b6"},
+    "stage36_36_09EX_verifier": {"path": "stages/stage36/verify_stage36_36_09EX.py", "blob_sha": "3adbd3fe00b2e4c85261862f8e949a5c8af09c03"},
+    "stage36_36_09EY_source": {"path": "stages/stage36/36-09EY/rho-radical-refinement-rank-compression-source-lock.md", "blob_sha": "fbc813e48f60e4651e01fcb826626ec561645d43"}
+  },
+  "entry_authority": {
+    "v282_exact_head": "fce8877acde317f1215c1804a9d93033209c8df0",
+    "v282_exact_head_ci": "34412114871/102668682937",
+    "36_09EY_entry_allowed": true,
+    "exact_sufficient_template_count": 17,
+    "fixed_parameter_exclusion_registry_count": 76
+  },
+  "leaf_core_theorem": {
+    "input": "square 36-09EP support matrix M of size 2n x 2n",
+    "peeling": "repeated legal EQ row-leaf or column-leaf pivot deletion",
+    "leaf_pivot_count": "k",
+    "residual_core": "H of size m=2n-k",
+    "rank_identity": "rank_F2(M)=k+rank_F2(H)",
+    "sel2_identity": "dim_F2 Sel^2(E_rho,p/Q)=nullity_F2(H)",
+    "sel2_dimension_2_iff": "nullity_F2(H)=2",
+    "criterion_exact_not_only_sufficient": true
+  },
+  "leaf_extension_invariance": {
+    "statement": "a support refinement eliminated completely by legal leaf pivots before reaching the previous residual core preserves Sel2 dimension",
+    "arbitrary_factor_split_preserves_sel2": false,
+    "residual_core_change_must_be_checked": true
+  },
+  "template_replay_representation": {
+    "T1_through_T9": "exact arithmetic support matrices",
+    "T10_through_T17": "canonical 36-09ES abstract pattern matrices promoted by 36-09EX",
+    "T17_v283_raw_row": {"leaf_pivots":17,"residual_size":15,"residual_rank":13,"residual_nullity":2},
+    "T17_v283r1_canonical_row": {"leaf_pivots":18,"residual_size":14,"residual_rank":12,"residual_nullity":2},
+    "repair_changes_nullity_or_sel2": false
+  },
+  "template_replay": [
+    {"id":"T1","n":4,"leaf_pivots":6,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T2","n":6,"leaf_pivots":10,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T3","n":7,"leaf_pivots":12,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T4","n":7,"leaf_pivots":12,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T5","n":9,"leaf_pivots":16,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T6","n":10,"leaf_pivots":12,"residual_size":8,"residual_rank":6,"residual_nullity":2},
+    {"id":"T7","n":10,"leaf_pivots":18,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T8","n":10,"leaf_pivots":18,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T9","n":10,"leaf_pivots":10,"residual_size":10,"residual_rank":8,"residual_nullity":2},
+    {"id":"T10","n":14,"leaf_pivots":26,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T11","n":14,"leaf_pivots":26,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T12","n":12,"leaf_pivots":15,"residual_size":9,"residual_rank":7,"residual_nullity":2},
+    {"id":"T13","n":15,"leaf_pivots":16,"residual_size":14,"residual_rank":12,"residual_nullity":2},
+    {"id":"T14","n":14,"leaf_pivots":26,"residual_size":2,"residual_rank":0,"residual_nullity":2},
+    {"id":"T15","n":14,"leaf_pivots":14,"residual_size":14,"residual_rank":12,"residual_nullity":2},
+    {"id":"T16","n":12,"leaf_pivots":15,"residual_size":9,"residual_rank":7,"residual_nullity":2},
+    {"id":"T17","n":16,"leaf_pivots":18,"residual_size":14,"residual_rank":12,"residual_nullity":2}
+  ],
+  "replay_summary": {
+    "template_count": 17,
+    "all_residual_nullity_two": true,
+    "leaf_only_template_count": 10,
+    "genuine_residual_core_template_count": 7,
+    "hash_labels_load_bearing_for_rank_after_support_matrix_built": false
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_LEAF_CORE_NULLITY_COMPRESSION_REPAIRED_PENDING_CI",
+    "next_leaf": "36-09EZ_RHO_CORE_NULLITY_CONTROLLED_RADICAL_SEARCH_PREFLIGHT",
+    "next_leaf_entry_allowed": false
+  },
+  "scope_firewalls": {
+    "every_radical_refinement_has_nullity_two": false,
+    "all_residual_cores_classified": false,
+    "new_fixed_parameter_exclusion": false,
+    "infinitely_many_controlled_radical_hits_proved": false,
+    "uniform_Sel2_dimension_2_theorem": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "STAGE36_36_09FC_RHO_FIXED_QUARTIC_SPLITTING_FORCE_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09FC",
+  "status": "PROVISIONAL_EXACT_FIXED_QUARTIC_SPLITTING_EQUIVALENCE_PENDING_CI",
+  "base_main_sha": "e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks": {
+    "stage36_36_09FB": {"path": "stages/stage36/36-09FB/rho-one-bit-splitting-realization-preflight.json", "blob_sha": "a48aa0032a4cf7789702458df2c537f2d1cf2e16"},
+    "stage36_36_09FB_source": {"path": "stages/stage36/36-09FB/rho-one-bit-splitting-realization-source-lock.md", "blob_sha": "2625033de8c08696e54120a48211afa3c4272c12"},
+    "stage36_36_09FB_verifier": {"path": "stages/stage36/verify_stage36_36_09FB.py", "blob_sha": "149373f95a5e654d8985d358a40028ec45704bbd"},
+    "stage36_36_09FC_source": {"path": "stages/stage36/36-09FC/rho-fixed-quartic-splitting-force-source-lock.md", "blob_sha": "6a2ab63a4dac743e0e2126219ef929629cb225d1"}
+  },
+  "entry_authority": {
+    "v290_promotion_head": "afb88651bc3f76f16119384de2a229a49b3a635f",
+    "v290_promotion_ci": "34416569390/102682661399",
+    "v290_receipt_head": "8eeb0d00448320beb0c1d39708919e76bbb01319",
+    "v290_receipt_ci": "34416716286/102683105148",
+    "36_09FC_entry_allowed": true,
+    "fixed_parameter_exclusion_registry_count": 224,
+    "exact_sufficient_template_count": 17,
+    "partial_legendre_chart_count": 3,
+    "one_bit_splitting_criterion_count": 1
+  },
+  "factor_shape_input": {
+    "K": 729,
+    "d": "u",
+    "e": "4d+729 prime, 5 mod 8",
+    "P": "8d^2-729^2=7*p1*p2",
+    "p1_p2": "distinct primes, each 1 mod 8",
+    "FB_common_bit": "B=(p1/e)=(p2/e)",
+    "FB_sufficient_sign": -1
+  },
+  "fixed_polynomial": {
+    "name": "F",
+    "expression": "Y^4-2Y^2-1",
+    "coefficients_ascending": [-1, 0, -2, 0, 1],
+    "independent_of_u": true,
+    "independent_of_e": true
+  },
+  "exact_reduction": {
+    "r_definition": "r=4d/729 mod p for p in {p1,p2}",
+    "r_square": "r^2=2 mod p",
+    "e_over_729": "e/729=1+r mod p",
+    "reciprocity": "B=(p/e)=(e/p)=(1+r/p)",
+    "root_equation": "F(y)=0 iff y^2=1+r or y^2=1-r",
+    "character_pair_product": "(1+r)(1-r)=-1",
+    "minus_one_square_from_p_mod8": true,
+    "character_pair_equal": true,
+    "B_plus_iff_F_has_root": true,
+    "B_minus_iff_F_has_no_root": true,
+    "root_choice_independent": true
+  },
+  "splitting_type_theorem": {
+    "F_separable_for_retained_primes": true,
+    "B_plus_factorization_degrees": [1, 1, 1, 1],
+    "B_minus_factorization_degrees": [2, 2],
+    "FB_sufficient_condition_equivalent_to_fixed_type": "F mod p has type (2,2)",
+    "same_type_for_p1_and_p2": true,
+    "fixed_type_2_2_implies_support_rank_22": true,
+    "fixed_type_2_2_implies_sel2_dimension_2": true,
+    "global_over_all_realizations_of_FB_factor_shape": true
+  },
+  "exact_replay": [
+    {"u": 1242922787, "p_factors": [617, 2861508783410569], "B": -1, "expected_factorization_degrees": [2, 2]},
+    {"u": 1435649027, "p_factors": [89, 26466621235646617], "B": -1, "expected_factorization_degrees": [2, 2]},
+    {"u": 1642495667, "p_factors": [17, 181364169150501409], "B": -1, "expected_factorization_degrees": [2, 2]},
+    {"u": 2523057587, "p_factors": [17, 427954257970971169], "B": -1, "expected_factorization_degrees": [2, 2]}
+  ],
+  "registry_impact": {
+    "previous_count": 224,
+    "new_orbits": 0,
+    "new_parameters": 0,
+    "provisional_count": 224,
+    "exact_sufficient_template_count_unchanged": 17,
+    "partial_legendre_chart_count_unchanged": 3,
+    "one_bit_splitting_criterion_count_unchanged": 1,
+    "fixed_quartic_splitting_criterion_count_provisional": 1
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_FIXED_QUARTIC_SPLITTING_EQUIVALENCE_PENDING_CI",
+    "next_leaf": "36-09FD_RHO_FIXED_QUARTIC_FROBENIUS_REALIZATION_PREFLIGHT",
+    "next_leaf_entry_allowed": false
+  },
+  "scope_firewalls": {
+    "type_2_2_occurs_infinitely_often_in_family_proved": false,
+    "FB_B_minus_necessary_proved": false,
+    "all_residual_cores_classified": false,
+    "all_maximal_rank_profiles_classified": false,
+    "uniform_Sel2_dimension_2_theorem": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}

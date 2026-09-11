@@ -1,0 +1,138 @@
+{
+  "schema": "STAGE36_36_09FB_RHO_ONE_BIT_SPLITTING_REALIZATION_PREFLIGHT_V1",
+  "stage": "36",
+  "unit": "36-09FB",
+  "status": "PROVISIONAL_EXACT_ONE_BIT_SUFFICIENT_FOUR_NEW_ORBITS_PENDING_CI",
+  "base_main_sha": "e2da76d90a0994af5038023613c6c4084c4c507e",
+  "source_locks": {
+    "stage36_36_09FA": {"path": "stages/stage36/36-09FA/rho-residual-core-partial-legendre-chart-preflight.json", "blob_sha": "499ac146f0d453a7a7abee565e4dcfb4aec982ed"},
+    "stage36_36_09FA_verifier": {"path": "stages/stage36/verify_stage36_36_09FA.py", "blob_sha": "93fd904a44879dad721fce7122fb79486cb2ab5c"},
+    "stage36_36_09FB_source": {"path": "stages/stage36/36-09FB/rho-one-bit-splitting-realization-source-lock.md", "blob_sha": "2625033de8c08696e54120a48211afa3c4272c12"}
+  },
+  "entry_authority": {
+    "v288_exact_head": "7c3cfca4eb2f84d71621099c16dd58c7e7212802",
+    "v288_exact_head_ci": "34415780996/102680229625",
+    "36_09FB_entry_allowed": true,
+    "fixed_parameter_exclusion_registry_count": 208,
+    "exact_sufficient_template_count": 17,
+    "partial_legendre_chart_count": 2
+  },
+  "factor_shape": {
+    "progression": "u=17627+34440*j",
+    "d": "u prime, 3 mod 8",
+    "f": "2u+729 prime, 7 mod 8",
+    "e": "4u+729 prime, 5 mod 8",
+    "P": "7*p1*p2 with distinct p1,p2 primes 1 mod 8",
+    "Q_abs": "41*q1*q2 with distinct q1,q2 primes 7 mod 8",
+    "p_label": "p1=2 mod 3, p2=1 mod 3",
+    "coarse_vertices": ["D3:3", "D3:d", "D5:e", "D7:f", "P1:p1", "P1:p2", "P7:7", "Q1:41", "Q7:q1", "Q7:q2"],
+    "n": 12,
+    "dyadic_branch": "shallow"
+  },
+  "forced_reciprocity_identities": {
+    "p1_over_d_equals_p2_over_d": true,
+    "41_over_d": -1,
+    "p1_over_e_equals_p2_over_e": true,
+    "7_over_f": 1,
+    "41_over_f": -1,
+    "p_over_f_formula": "(p/f)=(p/d)*(p/e) for p in {p1,p2}",
+    "proof_inputs": ["P=7p1p2=8d^2-729^2", "d=1 mod 7", "d=38 mod 41", "e=5 mod 7", "f=3 mod 7", "f=26 mod 41", "p1,p2=1 mod 8"]
+  },
+  "chart_C": {
+    "witness_u": 1642495667,
+    "condition_count": 6,
+    "conditions": ["chi_3(p1)=1", "chi_3(p2)=0", "chi_d(p2)=1", "chi_f(p1)=0", "chi_f(p2)=0", "chi_f(41)=1"],
+    "all_unlisted_reciprocity_bits_are_dont_care": true,
+    "leaf_pivots": 22,
+    "residual_size": 2,
+    "residual_rank": 0,
+    "support_rank": 22,
+    "sel2_dimension": 2
+  },
+  "one_bit_theorem": {
+    "A_definition": "A=(p1/d)=(p2/d)",
+    "B_definition": "B=(p1/e)=(p2/e)",
+    "sufficient_condition": "B=-1",
+    "A_plus_branch_uses": "promoted FA Chart A",
+    "A_minus_branch_uses": "FB Chart C",
+    "covers_both_A_signs": true,
+    "B_minus_implies_rank_2n_minus_2": true,
+    "B_minus_implies_sel2_dimension_2": true,
+    "global_over_all_realizations_of_factor_shape": true,
+    "B_minus_claimed_necessary": false,
+    "factor_shape_realizations_claimed_infinite": false
+  },
+  "arithmetic_realizations": [
+    {
+      "j": 36089,
+      "u": 1242922787,
+      "A": 1,
+      "B": -1,
+      "factorization": {"u": {"1242922787": 1}, "b": {"2485846303": 1}, "q": {"4971691877": 1}, "s": {"617": 1, "2861508783410569": 1}, "t": {"31327": 1, "9622233205111": 1}},
+      "literal_orbit": ["2485845574/2485846303", "2485846303/2485845574", "729/4971691877", "4971691877/729"]
+    },
+    {
+      "j": 41685,
+      "u": 1435649027,
+      "A": 1,
+      "B": -1,
+      "factorization": {"u": {"1435649027": 1}, "b": {"2871298783": 1}, "q": {"5742596837": 1}, "s": {"89": 1, "26466621235646617": 1}, "t": {"885959": 1, "453930420623": 1}},
+      "literal_orbit": ["2871298054/2871298783", "2871298783/2871298054", "729/5742596837", "5742596837/729"]
+    },
+    {
+      "j": 47691,
+      "u": 1642495667,
+      "A": -1,
+      "B": -1,
+      "factorization": {"u": {"1642495667": 1}, "b": {"3284992063": 1}, "q": {"6569983397": 1}, "s": {"17": 1, "181364169150501409": 1}, "t": {"120994711": 1, "4350592447": 1}},
+      "literal_orbit": ["3284991334/3284992063", "3284992063/3284991334", "729/6569983397", "6569983397/729"]
+    },
+    {
+      "j": 73259,
+      "u": 2523057587,
+      "A": -1,
+      "B": -1,
+      "factorization": {"u": {"2523057587": 1}, "b": {"5046115903": 1}, "q": {"10092231077": 1}, "s": {"17": 1, "427954257970971169": 1}, "t": {"4768607": 1, "260476801271": 1}},
+      "literal_orbit": ["5046115174/5046115903", "5046115903/5046115174", "729/10092231077", "10092231077/729"]
+    }
+  ],
+  "registry_impact": {
+    "previous_count": 208,
+    "new_orbits": 4,
+    "new_parameters": 16,
+    "disjoint": true,
+    "provisional_count": 224,
+    "exact_sufficient_template_count_unchanged": 17,
+    "promoted_partial_legendre_chart_count_on_entry": 2,
+    "new_chart_C_provisional": true,
+    "one_bit_conditional_theorem_provisional": true
+  },
+  "diagnostic_200k": {
+    "progression_index_domain": "0<=j<200000",
+    "exact_factor_shape_hits": 43,
+    "B_minus_hits": 25,
+    "B_minus_rank22_hits": 25,
+    "B_plus_hits": 18,
+    "B_plus_rank20_hits": 18,
+    "B_plus_global_rank20_claimed": false,
+    "diagnostic_exhaustiveness_outside_domain_claimed": false
+  },
+  "route_result": {
+    "route_status": "PASS_EXACT_ONE_BIT_SUFFICIENT_FOUR_NEW_ORBITS_PENDING_CI",
+    "next_leaf": "36-09FC_RHO_ONE_BIT_SPLITTING_FORCE_PREFLIGHT",
+    "next_leaf_entry_allowed": false
+  },
+  "scope_firewalls": {
+    "B_minus_necessary_proved": false,
+    "infinitely_many_factor_shape_realizations_proved": false,
+    "all_residual_cores_classified": false,
+    "all_maximal_rank_profiles_classified": false,
+    "uniform_Sel2_dimension_2_theorem": false,
+    "candidate_parameter_set_shrunk": false,
+    "receiver_emptiness_proved": false,
+    "R29_CAMP2_closed": false,
+    "Q11_CAMPEDELLI_closed": false,
+    "endpoint_closed": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
