@@ -1,10 +1,10 @@
-name: Stage32 CUT191 transient cover scan
+name: Stage32 CUT191 transient residual replay
 
 on:
   pull_request:
     branches: [main]
     paths:
-      - 'stages/stage32/full178-cut/cut191_bc218_parent_cover_scan.py'
+      - 'stages/stage32/full178-cut/cut191_residual_fresh_replay.py'
       - '.github/workflows/stage32-cut191-transient.yml'
   workflow_dispatch:
 
@@ -12,21 +12,9 @@ permissions:
   contents: read
 
 jobs:
-  scan:
+  replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        shard:
-          - '0-917'
-          - '917-1834'
-          - '1834-2751'
-          - '2751-3668'
-          - '3668-4585'
-          - '4585-5502'
-          - '5502-6419'
-          - '6419-7336'
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,21 +22,15 @@ jobs:
           python-version: '3.11'
       - name: Install exact solver dependencies
         run: python -m pip install --disable-pip-version-check sympy==1.13.3 z3-solver==4.15.4.0
-      - name: Run shard
-        shell: bash
+      - name: Fresh replay parent 3182
         run: |
-          set -euo pipefail
-          IFS=- read -r START END <<< "${{ matrix.shard }}"
           mkdir -p cut191-out
-          python stages/stage32/full178-cut/cut191_bc218_parent_cover_scan.py \
-            --start "$START" --end "$END" \
-            --weak-timeout-ms 500 \
-            --strong-timeout-ms 1000 \
-            --mod2-timeout-ms 1000 \
-            --output "cut191-out/CUT191-shard-${START}-${END}.json"
+          python stages/stage32/full178-cut/cut191_residual_fresh_replay.py \
+            --parent 3182 --timeout-ms 15000 \
+            --output cut191-out/CUT191-residual-parent-3182.json
       - uses: actions/upload-artifact@v4
         with:
-          name: cut191-${{ matrix.shard }}
+          name: cut191-residual-3182
           path: cut191-out/*.json
           if-no-files-found: error
           retention-days: 7
