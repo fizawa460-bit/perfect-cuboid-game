@@ -32,8 +32,10 @@ on:
       - 'stages/stage32/residual-32-01-production/post1648ah-fsm-unibranch-v6-exclusion.json'
       - 'stages/stage32/residual-32-01-production/state.json'
       - 'stages/stage32/residual-32-01-production/full178-manifest.json'
+      - 'stages/stage32/32-01-178/nodes/N356/**'
       - 'stages/stage32/32-01-178/nodes/N357/**'
       - 'stages/stage32/32-01-178/nodes/N357-engine/**'
+      - 'stages/stage32/32-01-178/nodes/N358/**'
       - 'stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py'
       - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py'
       - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py'
@@ -59,6 +61,11 @@ jobs:
         with:
           ref: 6487de765b0d35e05d81018aeaff902af9b7d21a
           path: .stage32-audited-q602
+      - name: Checkout exact audited N357 evidence separately
+        uses: actions/checkout@v4
+        with:
+          ref: 0d787839b7e0dad4a42108c61d16e7849c50862f
+          path: .stage32-audited-n357
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
@@ -67,13 +74,11 @@ jobs:
         run: python docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py
       - name: Verify repository-wide PR workflow trigger lifecycle
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
-      - name: Verify frozen N357 audit dependency locks when present
-        shell: bash
-        run: |
-          verifier="stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
-          if test -f "$verifier"; then
-            python "$verifier"
-          fi
+      - name: Replay frozen N357 audit dependency locks at audited exact head
+        working-directory: .stage32-audited-n357
+        run: python stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py
+      - name: Verify frozen N358 retained artifact identity and exact census
+        run: python stages/stage32/32-01-178/nodes/N358/verify_n358_audit_source_locks.py
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
