@@ -19,6 +19,7 @@ on:
       - 'stages/stage32/FINAL-CHECK.json'
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
+      - 'stages/stage32/full178-cut/**'
       - 'stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py'
       - 'stages/stage32/post1728-v6-negative-authority-consumption-and-frontier-remap.json'
       - 'stages/stage32/post1730-o210-v3-main-consumption-preflight.json'
@@ -48,12 +49,18 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-      - name: Install CUT191 exact-head replay dependencies
+      - name: Install CUT exact-head replay dependencies
         if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
       - name: Verify CUT191 exact-head audit boundary
         if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
         run: python stages/stage32/full178-cut/verify_cut191_exact_head_audit.py
+      - name: Screen CUT192 first disjoint e8 block on exact head
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
+        run: |
+          python stages/stage32/full178-cut/cut192_e8_block1_finite_ring_screen.py \
+            --output /tmp/CUT192-block1-finite-ring-screen.json
+          cat /tmp/CUT192-block1-finite-ring-screen.json
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
