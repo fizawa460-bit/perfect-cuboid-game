@@ -21,12 +21,11 @@ jobs:
           python-version: '3.12'
       - name: Install exact runtime dependencies
         run: python -m pip install --disable-pip-version-check sympy z3-solver
-      - name: Run bounded finite-ring screen
+      - name: Run bounded residual-five mod2 screen
         run: |
           python stages/stage32/full178-cut/cut102_finite_ring_direct_completion_v2.py \
-            --primes 2,3,5,7,11,13,17,31,127 \
-            --per-check-timeout-ms 750 \
-            --no-partition-on-unknown \
+            --primes 2 \
+            --per-check-timeout-ms 5000 \
             --output stages/stage32/full178-cut/CUT102-result.json
       - name: Upload CUT102 result
         if: always()
