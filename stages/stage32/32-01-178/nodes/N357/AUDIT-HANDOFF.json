@@ -1,123 +1,83 @@
 {
+  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V3",
+  "node_id": "N357",
+  "branch": "stage32-01-178-n356-consume-n357-frontier",
+  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity necessary-cut candidate for independent hostile audit without changing MAIN-routed N357 research authority.",
+  "audited_input": {
+    "node": "N356",
+    "review_id": 5176607630,
+    "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+    "main_pruning_credit_consumed": true,
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233636214
+  },
+  "candidate_generation": {
+    "exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
+    "workflow_run_id": 34602587402,
+    "workflow_run_conclusion": "success",
+    "all_16_shards_success": true,
+    "n356_replay_success": true,
+    "aggregate_success": true,
+    "artifact_id": 10265472692,
+    "artifact_digest_sha256": "da3b65180c19143800d1ddcc1cab0a3080ecd310e1d2b88b24c81314a7bc6b3f",
+    "workflow_blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7"
+  },
+  "candidate": {
+    "necessary_condition": "s + min(e-M,Srem) >= K",
+    "source_strata_replayed": 17128,
+    "source_terminals_replayed": 65396964990500233636214,
+    "affected_strata": 13322,
+    "incremental_rejected_terminals": 17797986705435299826016,
+    "candidate_remaining_strata": 17128,
+    "candidate_remaining_terminals": 47598978285064933810198,
+    "structural_group_count": 2441,
+    "prefix_cache_sha256": "5e6704bebc5118957bfbc42fbd30a9dc539f773231e6d22efc6f30a44e39acc5",
+    "per_stratum_stream_sha256": "62c863cdbf3b18f34dbd0d95ea0c1980f361992b8ecec54a70f22efc33ff6d7b",
+    "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
+  },
   "audit_questions": [
     "Is the omitted-positive-support problem for each of the three N356 transport components exactly represented by the stated unit-capacity bipartite max-flow relaxation for every genuine completion?",
     "Is the fixed-sum support maximum simultaneously attained at n1=n2=d/2 for all three components, and are S0=min(16,d), SA=min(13,d-a,d-2a+4,h+5), and S3=min(9,d-b-c,d-2b,d-2c+1) the complete non-dominated min-cut formulas?",
-    "Does s+min(e-M,Srem)>=K therefore follow as a zero-loss necessary condition on every retained FULL178 row, with no extra integrality, positivity, or orientation assumption?",
-    "Does the deterministic 16-shard implementation enumerate exactly the same 17,128 N356-authority strata and 65,396,964,990,500,233,636,214 source terminals before charging any N357 rejection?",
-    "Is canonical grouping exact rather than heuristic: do all strata sharing a canonical group have identical N357 counting semantics, making 2,441 groups an exact compression of 17,128 structural strata?",
-    "Does the frozen aggregate satisfy exact partition identity with no overlap/double-credit: source = rejected + remaining, yielding 17,797,986,705,435,299,826,016 new rejected terminals and 47,598,978,285,064,933,810,198 candidate remaining terminals?",
-    "Do deterministic prefix serialization, worker/target/aggregate transitive source locks, the byte-exact archived generation workflow, frozen RESULT, and verify_n357_audit_source_locks.py fail closed under any source drift?",
-    "Does the archived generation workflow blob 4d705356e95436b089743ede593ec24f8f2a59a7 exactly match successful run 34602587402 at head ae6425fc0acc393d7554185af38a9525627ec180, while the current branch restores the independently audited N356 workflow blob ce7047ecc57dc2001856cf5382707c37adeefd08?"
+    "Does s+min(e-M,Srem)>=K follow as a zero-loss necessary condition on every retained FULL178 row without extra integrality, positivity, or orientation assumptions?",
+    "Does the deterministic 16-shard implementation replay exactly 17,128 N356-authority strata and 65,396,964,990,500,233,636,214 source terminals before N357 rejection?",
+    "Is canonical grouping exact rather than heuristic, so the 2,441 groups exactly compress the 17,128 structural strata for N357 counting semantics?",
+    "Does the frozen aggregate satisfy exact partition identity without overlap or double credit, with 17,797,986,705,435,299,826,016 newly rejected and 47,598,978,285,064,933,810,198 remaining terminals?",
+    "Do prefix serialization, worker/target/aggregate source locks, the archived byte-exact generation workflow, frozen RESULT, and verify_n357_audit_source_locks.py fail closed under source drift?",
+    "Does the active branch preserve the independently audited N356 workflow blob ce7047ecc57dc2001856cf5382707c37adeefd08 while the successful N357 generation workflow is archived byte-exactly as blob 4d705356e95436b089743ede593ec24f8f2a59a7?",
+    "Is the MAIN-routed N357 research contract preserved byte-exactly as 8a2a0048d216de9d177dc581dc208b51c6436442, with the post-N356 audit contract isolated at AUDIT-CONTRACT.md as be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd?"
   ],
-  "audited_input": {
-    "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
-    "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": 65396964990500233636214,
-    "main_pruning_credit_consumed": true,
-    "node": "N356",
-    "review_id": 5176607630
-  },
-  "branch": "stage32-01-178-n356-consume-n357-frontier",
-  "candidate": {
-    "affected_strata": 13322,
-    "candidate_remaining_strata": 17128,
-    "candidate_remaining_terminals": 47598978285064933810198,
-    "incremental_rejected_terminals": 17797986705435299826016,
-    "necessary_condition": "s + min(e-M,Srem) >= K",
-    "per_stratum_stream_sha256": "62c863cdbf3b18f34dbd0d95ea0c1980f361992b8ecec54a70f22efc33ff6d7b",
-    "prefix_cache_sha256": "5e6704bebc5118957bfbc42fbd30a9dc539f773231e6d22efc6f30a44e39acc5",
-    "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53",
-    "source_strata_replayed": 17128,
-    "source_terminals_replayed": 65396964990500233636214,
-    "structural_group_count": 2441
-  },
-  "candidate_generation": {
-    "aggregate_success": true,
-    "all_16_shards_success": true,
-    "artifact_digest_sha256": "da3b65180c19143800d1ddcc1cab0a3080ecd310e1d2b88b24c81314a7bc6b3f",
-    "artifact_id": 10265472692,
-    "exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
-    "n356_replay_success": true,
-    "workflow_blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7",
-    "workflow_run_conclusion": "success",
-    "workflow_run_id": 34602587402
+  "frozen_source_locks": {
+    "main_routed_contract": {"path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md", "blob_sha1": "8a2a0048d216de9d177dc581dc208b51c6436442"},
+    "audit_contract": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-CONTRACT.md", "blob_sha1": "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd"},
+    "audit_state": {"path": "stages/stage32/32-01-178/nodes/N357/AUDIT-STATE.json", "blob_sha1": "d04188ceae1502bd84f936e44ba27a2877de027b"},
+    "audit_source_lock_verifier": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py", "blob_sha1": "13c9268e9b16d8a3753b14b6c9bf1058663c9762"},
+    "result": {"path": "stages/stage32/32-01-178/nodes/N357/RESULT.json", "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec"},
+    "prefix_producer": {"path": "stages/stage32/32-01-178/nodes/N357/prepare_n357_all178_prefix_cache.py", "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3"},
+    "deterministic_worker": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py", "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c"},
+    "canonical_worker": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_canonical.py", "blob_sha1": "81bcbab9bb49d4ac1f8be28c038f25ae3a469ab8"},
+    "all178_target": {"path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py", "blob_sha1": "beb6fb487a41f16d783f8762220a175d46ff2620"},
+    "aggregate_base": {"path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py", "blob_sha1": "f9bbfc2739629c302d00a4d8d3974be3a30b52b7"},
+    "aggregate_wrapper": {"path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_canonical_shards.py", "blob_sha1": "3b20ea11af78e210f9bb615bd164082c56d9239c"},
+    "n356_audit_receipt": {"path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json", "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569"},
+    "n356_active_audited_workflow": {"path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml", "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08"},
+    "n357_generation_workflow_archive": {"path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml", "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7", "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180", "generation_workflow_run_id": 34602587402}
   },
   "credit_ceiling_before_audit": "N357_FROZEN_ALL178_AUDIT_CANDIDATE_ONLY_NO_MAIN_PRUNING_CREDIT",
   "firewalls": {
-    "endpoint_credit": false,
+    "n357_main_pruning_credit": false,
     "full178_complete": false,
     "heavy_compute_authorized": false,
-    "merge_authorized": false,
-    "n104_release": false,
     "n350_producer_registered": false,
-    "n357_main_pruning_credit": false,
+    "production_complete": false,
+    "n104_release": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
-    "production_complete": false,
-    "receiver_credit": false,
-    "stage32_closed": false,
-    "theorem_credit": false
+    "merge_authorized": false
   },
-  "frozen_source_locks": {
-    "aggregate_base": {
-      "blob_sha1": "f9bbfc2739629c302d00a4d8d3974be3a30b52b7",
-      "path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py"
-    },
-    "aggregate_wrapper": {
-      "blob_sha1": "3b20ea11af78e210f9bb615bd164082c56d9239c",
-      "path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_canonical_shards.py"
-    },
-    "all178_target": {
-      "blob_sha1": "beb6fb487a41f16d783f8762220a175d46ff2620",
-      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py"
-    },
-    "audit_source_lock_verifier": {
-      "blob_sha1": "81f785c0e68e84fb2bb863524a9b03155e1b6a16",
-      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
-    },
-    "audit_state": {
-      "blob_sha1": "f270d3722a3cb518532afb58c7fc4576e493a22f",
-      "canonical_sha256": "8cfe31a4b94e908d8a224de707871109905afef3451a963fd55345f5c4767e39",
-      "path": "stages/stage32/32-01-178/nodes/N357/AUDIT-STATE.json"
-    },
-    "canonical_worker": {
-      "blob_sha1": "81bcbab9bb49d4ac1f8be28c038f25ae3a469ab8",
-      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_canonical.py"
-    },
-    "contract": {
-      "blob_sha1": "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd",
-      "path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md"
-    },
-    "deterministic_worker": {
-      "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c",
-      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py"
-    },
-    "n356_active_audited_workflow": {
-      "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08",
-      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
-    },
-    "n356_audit_receipt": {
-      "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
-      "path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json"
-    },
-    "n357_generation_workflow_archive": {
-      "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7",
-      "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
-      "generation_workflow_run_id": 34602587402,
-      "path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml"
-    },
-    "prefix_producer": {
-      "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3",
-      "path": "stages/stage32/32-01-178/nodes/N357/prepare_n357_all178_prefix_cache.py"
-    },
-    "result": {
-      "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
-      "path": "stages/stage32/32-01-178/nodes/N357/RESULT.json"
-    }
-  },
-  "next_command": "stage32-01-178-audit",
-  "node_id": "N357",
-  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity necessary-cut candidate for independent hostile audit. This boundary changes no already-audited N356 authority and grants no N357 MAIN pruning credit.",
-  "replay_requirement": "Independent hostile audit must verify the archived byte-exact generation workflow and all transitive source locks, and may replay the deterministic census. The frozen audit-boundary branch itself must preserve those executable blobs and pass ordinary Stage32 MAIN startup/claim-DAG/workflow-lifecycle gates; it does not replace the independently audited N356 active workflow with an N357 auto workflow.",
-  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V2"
+  "replay_requirement": "Independent hostile audit must verify the isolated audit contract/state, archived byte-exact generation workflow, frozen RESULT, and all transitive source locks. The active MAIN-routed research contract/state remain unchanged and no N357 MAIN credit is granted by this handoff.",
+  "next_command": "stage32-01-178-audit"
 }

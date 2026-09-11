@@ -8,8 +8,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[5]
 
 LOCKS = {
-    "contract": (
-        ROOT / "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md",
+    "audit_contract": (
+        ROOT / "stages/stage32/32-01-178/nodes/N357/AUDIT-CONTRACT.md",
         "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd",
     ),
     "result": (
@@ -86,27 +86,28 @@ def main() -> None:
         if actual != expected:
             raise ValueError(f"{name} source-lock regression: {actual} != {expected}")
 
-    result_path = ROOT / "stages/stage32/32-01-178/nodes/N357/RESULT.json"
-    result = json.loads(result_path.read_text())
+    result = json.loads((ROOT / "stages/stage32/32-01-178/nodes/N357/RESULT.json").read_text())
     if canonical_sha256_without_field(result) != EXPECTED_CANONICAL:
         raise ValueError("N357 RESULT canonical regression")
     if result.get("canonical_sha256_without_this_field") != EXPECTED_CANONICAL:
         raise ValueError("N357 RESULT self-canonical regression")
+
     agg = result["aggregate"]
-    if int(agg["source_strata_replayed"]) != EXPECTED_SOURCE_STRATA:
-        raise ValueError("N357 source strata regression")
-    if int(agg["source_terminals_replayed"]) != EXPECTED_SOURCE_TERMINALS:
-        raise ValueError("N357 source terminals regression")
-    if int(agg["candidate_incremental_rejected_terminals"]) != EXPECTED_REJECTED:
-        raise ValueError("N357 rejected-terminals regression")
-    if int(agg["candidate_remaining_strata"]) != EXPECTED_REMAINING_STRATA:
-        raise ValueError("N357 remaining-strata regression")
-    if int(agg["candidate_remaining_terminals"]) != EXPECTED_REMAINING:
-        raise ValueError("N357 remaining-terminals regression")
+    expected = {
+        "source_strata_replayed": EXPECTED_SOURCE_STRATA,
+        "source_terminals_replayed": EXPECTED_SOURCE_TERMINALS,
+        "candidate_incremental_rejected_terminals": EXPECTED_REJECTED,
+        "candidate_remaining_strata": EXPECTED_REMAINING_STRATA,
+        "candidate_remaining_terminals": EXPECTED_REMAINING,
+    }
+    for key, value in expected.items():
+        if int(agg[key]) != value:
+            raise ValueError(f"N357 aggregate regression: {key}")
     if agg["per_stratum_stream_sha256"] != EXPECTED_STREAM:
         raise ValueError("N357 per-stratum stream regression")
     if EXPECTED_SOURCE_TERMINALS - EXPECTED_REJECTED != EXPECTED_REMAINING:
         raise ValueError("N357 frozen partition identity regression")
+
     ver = result["verification"]
     if ver.get("prefix_cache_sha256") != EXPECTED_PREFIX_CACHE:
         raise ValueError("N357 deterministic prefix-cache regression")
@@ -114,6 +115,7 @@ def main() -> None:
         raise ValueError("N357 N356 authority replay flag regression")
     if ver.get("partition_identity") is not True:
         raise ValueError("N357 partition identity flag regression")
+
     sem = result["semantics"]
     if sem.get("main_pruning_credit") is not False:
         raise ValueError("N357 must not self-promote MAIN pruning credit")
