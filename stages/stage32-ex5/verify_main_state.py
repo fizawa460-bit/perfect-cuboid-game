@@ -7,15 +7,20 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
 B2 = HERE / "breadth-cycle-2"
 STAGE32_MAIN = HERE.parent / "stage32" / "MAIN-STATE.json"
+EX5_WORKFLOW = ROOT / ".github" / "workflows" / "stage32-ex5-main.yml"
+TEMP_BC2_28_WORKFLOW = ROOT / ".github" / "workflows" / "stage32-ex5-bc2-28.yml"
 MAIN = "c31684fb5f63d8a025eb298c91861d4c979b0e28"
 STAGE32_MAIN_BLOB = "9981889309c833a1834eaadddce73e52c0aa0176"
 FULL178_GOAL_CLAIM = "S32.FULL178.NUMERICAL_CENSUS.V1"
 BC2_27_AUDIT_HEAD = "b70bc51909f5ed78641ee3b727a2258382ef950c"
 BC2_27_AUDIT_REVIEW = 5179488973
 BC2_28_CHECKPOINT = "52138e7c417d69814d5007479420b56fcc27031679bf88f432916e6c89c77ec4"
+BC2_28_CHECKPOINT_BLOB = "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed"
 BC2_28_RAW = "f77cad8d03035514e43e992ccdee25c1d4f6a386789fac33e488e198c35a998d"
+BC2_28_RAW_SHA256 = "768c4209d2162cd85a2c93a3bfcb3a71e8ea9a600e62b1323b8f7b372139f843"
 PERFECT_CUBOID_FIREWALL_KEYS = {"perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim"}
 
 
@@ -55,6 +60,10 @@ def main() -> None:
     req(cur["next_route"] == "HOSTILE_AUDIT_BC2_28", "BC2-28 audit route drift")
     req(cur["stop_semantics"] == "NO_BC2_29_OR_BROAD_PROMOTION_BEFORE_BC2_28_HOSTILE_AUDIT_PASS", "BC2-29 stop firewall drift")
 
+    raw_mirror = "stages/stage32-ex5/breadth-cycle-2/bc2-28-boundary38-partition-raw.json"
+    req(raw_mirror not in s["current_leaf_working_set"], "malformed raw mirror leaked into current working set")
+    req(not (B2 / "bc2-28-boundary38-partition-raw.json").exists(), "non-authoritative raw mirror must remain absent")
+
     f = s["frontier"]
     req(f["e8_bc2_28_executed"] is True and f["e8_bc2_28_audited"] is False, "BC2-28 execution/audit marker drift")
     req((f["e8_bc2_28_new_parent_unsat_count"], f["e8_bc2_28_retained_unknown_count"], f["e8_bc2_28_parent_sat_count"]) == (5, 4, 0), "BC2-28 parent accounting drift")
@@ -65,7 +74,12 @@ def main() -> None:
 
     rp = s["retained_exact_progress"]
     req(rp["bc2_28_checkpoint_canonical"] == BC2_28_CHECKPOINT, "BC2-28 checkpoint canonical drift")
-    req(rp["bc2_28_raw_result_canonical"] == BC2_28_RAW, "BC2-28 raw canonical drift")
+    req(rp["bc2_28_checkpoint_git_blob_sha"] == BC2_28_CHECKPOINT_BLOB, "BC2-28 checkpoint blob receipt drift")
+    req(git_blob(B2 / "bc2-28-boundary38-partition-checkpoint.json") == BC2_28_CHECKPOINT_BLOB, "BC2-28 checkpoint blob drift")
+    req(rp["bc2_28_raw_result_canonical"] == BC2_28_RAW and rp["bc2_28_raw_json_sha256"] == BC2_28_RAW_SHA256, "BC2-28 artifact raw identity drift")
+    req(rp["bc2_28_raw_repository_mirror_retained"] is False, "BC2-28 raw mirror authority leak")
+    req(rp["bc2_28_raw_artifact_receipt_authoritative"] is True, "BC2-28 artifact receipt authority missing")
+    req("bc2_28_raw_result_git_blob_sha" not in rp, "stale raw mirror blob receipt leaked into state")
     req(rp["bc2_28_workflow_run_id"] == 34609454583 and rp["bc2_28_compute_job_id"] == 103296259426, "BC2-28 workflow/job receipt drift")
     req(rp["bc2_28_artifact_id"] == 10268117064 and rp["bc2_28_known_parent_unsat_count_lower_bound"] == 7160, "BC2-28 artifact/lower-bound receipt drift")
     req(rp["bc2_28_retained_unknown_parent_indices"] == [1048,1050,1064,1103], "BC2-28 residual parent receipt drift")
@@ -74,9 +88,16 @@ def main() -> None:
     req(runkey["schema"] == "STAGE32EX5_BC2_28_BOUNDARY38_PARTITION_RUNKEY_V1" and runkey["generation"] == 1 and runkey["armed"] is False, "BC2-28 runkey not consumed/disarmed")
     consumed = runkey["consumed_run"]
     req(consumed["checkpoint_canonical"] == BC2_28_CHECKPOINT and consumed["raw_result_canonical"] == BC2_28_RAW, "BC2-28 consumed evidence drift")
+    req(consumed["raw_json_sha256"] == BC2_28_RAW_SHA256, "BC2-28 consumed raw digest drift")
     req((consumed["new_parent_unsat_count"], consumed["retained_unknown_parent_count"], consumed["parent_sat_count"]) == (5,4,0), "BC2-28 consumed parent accounting drift")
     req((consumed["p38_leaf_unsat_count"], consumed["p38_leaf_unknown_count"]) == (38,4), "BC2-28 consumed p38 accounting drift")
     req(consumed["known_parent_unsat_count_lower_bound"] == 7160, "BC2-28 consumed lower-bound drift")
+
+    workflow_text = EX5_WORKFLOW.read_text(encoding="utf-8")
+    req("authorize-bc2-28:" not in workflow_text, "duplicate BC2-28 authorization path reintroduced")
+    req("bc2-28-boundary38-bounded:" not in workflow_text, "duplicate BC2-28 heavy executor reintroduced")
+    req("Verify retained BC2-28 boundary38 checkpoint and artifact receipt" in workflow_text, "BC2-28 exact-head verifier step missing")
+    req(not TEMP_BC2_28_WORKFLOW.exists(), "temporary BC2-28 auto workflow must remain removed")
 
     claim = s["claim_sync"]
     req(claim["existing_active_goal"] == FULL178_GOAL_CLAIM and claim["lane_role"] == "ATTACKS", "claim-sync drift")
@@ -112,8 +133,9 @@ def main() -> None:
         req("BC2-29" in text and ("blocked" in text.lower() or "禁止" in text), f"{name} does not block BC2-29")
         req("audit" in text.lower(), f"{name} does not identify audit boundary")
 
-    print("PASS: Stage32EX5 BC2-28 retained boundary is coherent and frozen for hostile audit")
+    print("PASS: Stage32EX5 BC2-28 retained boundary is coherent, non-rerunnable, and frozen for hostile audit")
     print("bc2_28=5_NEW_UNSAT_4_RETAINED_UNKNOWN_0_SAT;38_P38_UNSAT_4_P38_UNKNOWN;known_parent_unsat_lower_bound=7160")
+    print("raw_authority=ARTIFACT_RECEIPT_ONLY;duplicate_bc2_28_heavy_path=ABSENT")
     print("stage32_main_credit=NO;full178_complete=NO;merge_authorized=NO")
     print("next=HOSTILE_AUDIT_BC2_28;BC2_29_BLOCKED")
 
