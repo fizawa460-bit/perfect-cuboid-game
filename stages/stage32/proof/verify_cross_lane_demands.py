@@ -12,12 +12,22 @@ REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
 LANES = HERE / "LANE-ADAPTERS.json"
 MAIN_STATE = STAGE / "MAIN-STATE.json"
 
-EXPECTED_REGISTRY_CANONICAL = "49a9c51c3d428afb97eade9b996f3e5b52337a565048a1cdd9a8e6bcf4294848"
-EXPECTED_EX5_STATE_CANONICAL = "39bb944f978dbc6a63e77ccac35a5ea51414ac8ba8a13a1b220f05613047a90d"
-EXPECTED_CUT_STATE_CANONICAL = "2f9e88e64aa6cf14e9b212ded549dd943844aa771d53e182c78573408082b360"
+EXPECTED_REGISTRY_CANONICAL = "ae916d01b2690b2f86f06c754c83d396f947d4d2ed5df0b3adbdc42d10c2e62a"
+EXPECTED_EX5_STATE_CANONICAL = "7d3e06425e8672cb31a1c39c871b2e11964a662cffa29d0157623b8808710a9a"
+EXPECTED_CUT_STATE_CANONICAL = "fb19ce30a734a611390b05a08d774e9d4b3215a7b962eb1fb9a12edd03b48de7"
+EXPECTED_RECEIPT_PATH = "stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json"
+EXPECTED_RECEIPT_BLOB = "b8ff5a4b962c24a6e4f4bca5621cbdb79f6d4781"
+EXPECTED_RECEIPT_CANONICAL = "011265b32e83f269c8a46d9556982bbe7da3377fa15d3ffbf019eb11d1f16e42"
 REQUIRED_LANES = {"MAIN","EX1","EX2","EX3","EX4","EX5","EX6","CUT","32-01-178","MB"}
 DEMAND_ID = "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
 PRIORITY = {"P0_BLOCKING_DOWNSTREAM":0,"P1_HIGH":1,"P2_NORMAL":2,"P3_LOW":3}
+
+EXPECTED_INTERFACE_LOCKS = {
+    "stages/stage32-ex5/cut-handoff/e8-terminal-population-preflight.json": "b28539d9d0eafddc181d3bbf6d668261f2ff081e",
+    "stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py": "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f",
+    "stages/stage32-ex5/cut-handoff/verify_e8_terminal_population_adapter.py": "8fe802444ca8c92a80058555eaf431f0c1a52c76",
+    "stages/stage32-ex5/runkeys/e8-cut-handoff-wave.json": "3d1796fc09eabf507b8293bdad7421e05dff5723",
+}
 
 
 def req(v: bool, msg: str) -> None:
@@ -44,7 +54,6 @@ def git_blob_sha(path: Path) -> str:
 def detect_cycle(edges: dict[str, set[str]]) -> None:
     visiting: set[str] = set()
     done: set[str] = set()
-
     def dfs(v: str) -> None:
         if v in visiting:
             raise SystemExit(f"FAIL: cyclic cross-lane wait detected at {v}")
@@ -55,27 +64,58 @@ def detect_cycle(edges: dict[str, set[str]]) -> None:
             dfs(w)
         visiting.remove(v)
         done.add(v)
-
     for v in edges:
         dfs(v)
 
 
-def verify_satisfied_artifact(demand: dict) -> None:
+def verify_satisfied_artifact(demand: dict) -> dict:
     sat = demand["satisfying_artifact"]
-    req(all(sat[k] for k in ("path","blob_sha1","canonical_sha256")),
-        f"SATISFIED demand missing artifact identity: {demand['demand_id']}")
+    req(all(sat.get(k) for k in ("path","blob_sha1","canonical_sha256")), f"SATISFIED demand missing artifact identity: {demand['demand_id']}")
     path = REPO / sat["path"]
     req(path.is_file(), f"SATISFIED artifact path missing: {path}")
-    req(git_blob_sha(path) == sat["blob_sha1"],
-        f"SATISFIED artifact blob drift: {demand['demand_id']}")
-    try:
-        artifact = load(path)
-    except Exception as exc:
-        raise SystemExit(f"FAIL: SATISFIED canonical artifact is not JSON: {demand['demand_id']}: {exc}")
-    req(artifact.get("canonical_sha256_without_this_field") == sat["canonical_sha256"],
-        f"SATISFIED artifact stored canonical drift: {demand['demand_id']}")
-    req(csha(artifact) == sat["canonical_sha256"],
-        f"SATISFIED artifact recomputed canonical drift: {demand['demand_id']}")
+    req(git_blob_sha(path) == sat["blob_sha1"], f"SATISFIED artifact blob drift: {demand['demand_id']}")
+    artifact = load(path)
+    req(artifact.get("canonical_sha256_without_this_field") == sat["canonical_sha256"], f"SATISFIED artifact stored canonical drift: {demand['demand_id']}")
+    req(csha(artifact) == sat["canonical_sha256"], f"SATISFIED artifact recomputed canonical drift: {demand['demand_id']}")
+    return artifact
+
+
+def verify_cut192_receipt(receipt: dict) -> None:
+    req(receipt["schema"] == "STAGE32_CUT192_EX5_E8_HANDOFF_SATISFIED_RECEIPT_V1", "CUT192 receipt schema drift")
+    req(receipt["demand_id"] == DEMAND_ID and receipt["status"] == "SATISFIED", "CUT192 receipt demand/status drift")
+    req(receipt["producer_lane"] == "EX5" and receipt["consumer_lane"] == "CUT", "CUT192 receipt lane drift")
+
+    prod = receipt["producer"]
+    req(prod["pr"] == 1776, "CUT192 producer PR drift")
+    req(prod["exact_head"] == "fd00531181228c9f367a49eb61ddc3af6ab84ab3", "CUT192 producer exact head drift")
+    req(prod["exact_head_ci_run"] == 34598945799 and prod["ci_conclusion"] == "SUCCESS", "CUT192 producer exact-head CI drift")
+    req(prod["adapter_verifier_step_conclusion"] == "SUCCESS" and prod["handoff_job_conclusion"] == "SUCCESS", "CUT192 producer handoff checks not successful")
+
+    locks = {row["path"]: row["blob_sha1"] for row in receipt["interface_source_locks"]}
+    req(locks == EXPECTED_INTERFACE_LOCKS, "CUT192 interface source-lock set drift")
+
+    sem = receipt["interface_semantics"]
+    req(sem["artifact_type"] == "SOURCE_LOCKED_EXACT_TERMINAL_TO_PICARD64_COMPLETION_INTERFACE", "CUT192 interface type drift")
+    req(sem["handoff_universe_blocks"] == 7596 and sem["handoff_universe_terminals"] == 858348, "CUT192 handoff universe drift")
+    req(sem["random_access_by_exceptional_rank"] is True and sem["terminal_block_width"] == 113, "CUT192 rank/unrank semantics drift")
+    req(sem["preferred_wave_survivor_offset_range"] == [1,255] and sem["preferred_wave_block_count"] == 255 and sem["preferred_wave_terminal_count"] == 28815, "CUT192 first wave semantics drift")
+    req(sem["preferred_wave_block_index_stream_sha256"] == "68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea", "CUT192 wave block stream drift")
+
+    art = receipt["producer_wave_artifact"]
+    req(art["artifact_id"] == 10263148684, "CUT192 producer artifact id drift")
+    req(art["digest"] == "sha256:df48610fbf8d6cd11640f8f3feb534256b307e6ea803688267a33cb972cfba7f", "CUT192 producer artifact digest drift")
+    req(art["canonical_sha256"] == "7344a7c23ed83b66046d4a72a27a0679ab12fdc05cb41d8f6cdcacec6adcaa01", "CUT192 producer artifact canonical drift")
+
+    bridge = receipt["current_main_bridge"]
+    req(bridge["authority_exact_head"] == "6d63d798adb50dd4efc5f0d5abc553b3dfa23060" and bridge["authority_hostile_reaudit_review_id"] == 5178420739, "CUT192 MAIN authority receipt drift")
+    req(bridge["authoritative_remaining_strata"] == 17128 and bridge["authoritative_remaining_terminals"] == 65396964990500233636101, "CUT192 MAIN population receipt drift")
+    req(bridge["n356_preserves_handoff_population"] is True and bridge["preferred_wave_disjoint_from_cut191"] is True and bridge["preferred_wave_first_source_block_index"] == 1, "CUT192 current-MAIN/disjoint bridge drift")
+
+    reentry = receipt["consumer_reentry"]
+    req(reentry["pr"] == 1786 and reentry["head_at_satisfaction_sync"] == "702ed10b85948c562ee87ad7cc26c6554d1ef4f8" and reentry["node"] == "CUT193" and reentry["status"] == "REENTERED_CONSUMING_SATISFIED_INTERFACE" and reentry["stage32_main_credit"] is False, "CUT193 re-entry receipt drift")
+
+    fw = receipt["audit_and_credit_firewall"]
+    req(fw["demand_satisfaction_is_hostile_audit"] is False and fw["demand_satisfaction_grants_mathematical_credit"] is False and fw["producer_interface_requires_hostile_audit_before_mathematical_credit"] is True and fw["cut193_candidate_requires_own_hostile_audit"] is True and fw["cut193_requires_separate_main_consumption_for_main_credit"] is True and fw["cut191_main_credit_remains_consumed"] is True and fw["full178_complete"] is False and fw["stage32_closed"] is False and fw["merge_authorized"] is False, "CUT192/CUT193 credit firewall drift")
 
 
 def main() -> None:
@@ -120,11 +160,26 @@ def main() -> None:
     detect_cycle(edges)
 
     d = by_id[DEMAND_ID]
-    req(d["status"] == "OPEN", "CUT192 demand unexpectedly not OPEN")
+    req(d["status"] == "SATISFIED", "CUT192 demand is not synchronized SATISFIED")
     req(d["producer_lane"] == "EX5" and d["consumer_lane"] == "CUT", "CUT192 producer/consumer drift")
     req(d["priority"] == "P0_BLOCKING_DOWNSTREAM", "CUT192 priority drift")
-    req(DEMAND_ID in lane_rows["EX5"]["open_demand_refs"], "EX5 lane adapter lacks CUT192 demand")
-    req(DEMAND_ID in lane_rows["CUT"]["open_demand_refs"], "CUT lane adapter lacks CUT192 demand")
+    req(DEMAND_ID not in lane_rows["EX5"].get("open_demand_refs", []), "EX5 lane adapter retains stale OPEN demand ref")
+    req(DEMAND_ID not in lane_rows["CUT"].get("open_demand_refs", []), "CUT lane adapter retains stale OPEN demand ref")
+    req(DEMAND_ID in lane_rows["EX5"].get("satisfied_demand_refs", []), "EX5 lane adapter lacks SATISFIED demand ref")
+    req(DEMAND_ID in lane_rows["CUT"].get("satisfied_demand_refs", []), "CUT lane adapter lacks SATISFIED demand ref")
+
+    sat = d["satisfying_artifact"]
+    req(sat["path"] == EXPECTED_RECEIPT_PATH and sat["blob_sha1"] == EXPECTED_RECEIPT_BLOB and sat["canonical_sha256"] == EXPECTED_RECEIPT_CANONICAL, "CUT192 satisfaction receipt identity drift")
+    req(sat["producer_exact_head"] == "fd00531181228c9f367a49eb61ddc3af6ab84ab3" and sat["producer_ci_run"] == 34598945799, "CUT192 producer identity drift")
+    req(sat["consumer_reentry_pr"] == 1786 and sat["consumer_reentry_head"] == "702ed10b85948c562ee87ad7cc26c6554d1ef4f8", "CUT192 consumer re-entry identity drift")
+    req(sat["audited_exact_head"] is None and sat["audit_review_id"] is None, "operational satisfaction must not masquerade as hostile audit")
+
+    receipt_path = REPO / EXPECTED_RECEIPT_PATH
+    req(git_blob_sha(receipt_path) == EXPECTED_RECEIPT_BLOB, "CUT192 receipt blob drift")
+    receipt = load(receipt_path)
+    req(receipt["canonical_sha256_without_this_field"] == EXPECTED_RECEIPT_CANONICAL and csha(receipt) == EXPECTED_RECEIPT_CANONICAL, "CUT192 receipt canonical drift")
+    verify_cut192_receipt(receipt)
+
     pop = d["source_population_semantics"]
     req(pop["must_be_current_main_surviving"] is True and pop["must_be_disjoint_from_cut191_first_block"] is True, "CUT192 source population semantics weakened")
     req(pop["consumed_cut191_first_block_rank_range"] == [0,112], "CUT191 first-block identity drift")
@@ -132,31 +187,31 @@ def main() -> None:
 
     main_state = load(MAIN_STATE)
     frontier = main_state["current_exact_frontier"]
-    req(frontier["authoritative_remaining_strata"] == pop["authoritative_remaining_strata"],
-        "demand source strata do not match live MAIN-STATE")
-    req(frontier["authoritative_remaining_terminals"] == pop["authoritative_remaining_terminals"],
-        "demand source terminals do not match live MAIN-STATE")
-    req(frontier["cut191_main_pruning_credit"] is True,
-        "CUT191 is not consumed in live MAIN-STATE")
-    req(frontier["cut191_incremental_rejected_terminals"] == 113,
-        "CUT191 live MAIN-STATE credit drift")
-    req(frontier["cut191_remaining_terminals"] == pop["authoritative_remaining_terminals"],
-        "CUT191 live post-consumption count disagrees with demand population")
+    req(frontier["authoritative_remaining_strata"] == pop["authoritative_remaining_strata"], "demand source strata do not match live MAIN-STATE")
+    req(frontier["authoritative_remaining_terminals"] == pop["authoritative_remaining_terminals"], "demand source terminals do not match live MAIN-STATE")
+    req(frontier["cut191_main_pruning_credit"] is True, "CUT191 is not consumed in live MAIN-STATE")
+    req(frontier["cut191_incremental_rejected_terminals"] == 113, "CUT191 live MAIN-STATE credit drift")
+    req(frontier["cut191_remaining_terminals"] == pop["authoritative_remaining_terminals"], "CUT191 live post-consumption count disagrees with demand population")
 
     ex5 = load(REPO / reg["lane_coordination_state_paths"]["EX5"])
     req(ex5["canonical_sha256_without_this_field"] == EXPECTED_EX5_STATE_CANONICAL and csha(ex5) == EXPECTED_EX5_STATE_CANONICAL, "EX5 coordination state canonical drift")
-    req(DEMAND_ID in ex5["open_producer_demands"], "EX5 did not acknowledge OPEN producer demand")
-    req(ex5["highest_priority_open_demand"] == DEMAND_ID, "EX5 highest-priority demand drift")
+    req(ex5["status"] == "SATISFIED_HANDOFF_COMPLETE", "EX5 satisfaction state drift")
+    req(ex5["open_producer_demands"] == [] and DEMAND_ID in ex5["satisfied_producer_demands"], "EX5 producer demand transition drift")
+    req(ex5["highest_priority_open_demand"] is None, "EX5 stale highest-priority OPEN demand")
+    req(ex5["local_route_deferred_while_demand_open"] is False, "EX5 remains artificially deferred after satisfaction")
     req(ex5["producer_acknowledged"] is True, "EX5 producer acknowledgement missing")
-    req(ex5["local_route_deferred_while_demand_open"] is True, "EX5 still prioritizes local route over P0 demand")
-    req(PRIORITY[ex5["coordination_priority"]] < PRIORITY[ex5["local_route_priority"]], "EX5 demand priority does not dominate local route")
+    ex5r = ex5["handoff_receipt"]
+    req(ex5r["path"] == EXPECTED_RECEIPT_PATH and ex5r["blob_sha1"] == EXPECTED_RECEIPT_BLOB and ex5r["canonical_sha256"] == EXPECTED_RECEIPT_CANONICAL, "EX5 handoff receipt identity drift")
 
     cut = load(REPO / reg["lane_coordination_state_paths"]["CUT"])
     req(cut["canonical_sha256_without_this_field"] == EXPECTED_CUT_STATE_CANONICAL and csha(cut) == EXPECTED_CUT_STATE_CANONICAL, "CUT coordination state canonical drift")
-    req(DEMAND_ID in cut["waiting_on"], "CUT waiting edge missing")
+    req(cut["status"] == "REENTERED_CONSUMING_SATISFIED_DEMAND", "CUT re-entry state drift")
+    req(cut["waiting_on"] == [] and DEMAND_ID in cut["consuming_satisfied_demands"], "CUT stale wait / missing satisfied consumption")
     req(cut["must_not_rebuild_producer_interface"] is True, "CUT may duplicate producer work")
-    req(cut["reentry_on_satisfied"] is True, "CUT re-entry rule missing")
-    req(cut["cut191_main_consumed"] is True and cut["cut191_consumption_is_not_blocked"] is True, "CUT191 incorrectly blocked by CUT192 demand")
+    req(cut["reentry_on_satisfied"] is True and cut["reentry_consumed"] is True, "CUT re-entry transition missing")
+    req(cut["current_node"] == "CUT193", "CUT did not re-enter at CUT193")
+    req(cut["satisfying_artifact"]["path"] == EXPECTED_RECEIPT_PATH and cut["satisfying_artifact"]["blob_sha1"] == EXPECTED_RECEIPT_BLOB and cut["satisfying_artifact"]["canonical_sha256"] == EXPECTED_RECEIPT_CANONICAL, "CUT satisfying artifact identity drift")
+    req(cut["cut191_main_consumed"] is True and cut["cut191_consumption_is_not_blocked"] is True, "CUT191 incorrectly coupled to CUT192/CUT193")
 
     startup_paths = {
         "MAIN":"stages/stage32/MAIN-START-HERE.md",
@@ -193,8 +248,10 @@ def main() -> None:
     print(json.dumps({
         "verdict":"PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION",
         "open_demands":[d["demand_id"] for d in demands if d["status"] == "OPEN"],
-        "cut192_waits_on_ex5":True,
-        "ex5_priority_override":True,
+        "satisfied_demands":[d["demand_id"] for d in demands if d["status"] == "SATISFIED"],
+        "cut192_satisfied":True,
+        "cut193_reentered":True,
+        "ex5_handoff_complete":True,
         "cut191_main_consumed":True,
         "main_population_cross_checked":True,
         "satisfied_artifact_canonical_fail_closed":True,
