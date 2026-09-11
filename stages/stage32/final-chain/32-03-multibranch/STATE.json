@@ -47,14 +47,37 @@
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
+  "mb104_partial": {
+    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/RESULT.md",
+    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/CERTIFICATE.json",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_coefficient_barrier.py",
+    "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
+    "special_fibre_identity": "6*n_i=2*q_i+M",
+    "global_factor_slack_identity": "M-d+4*g-4=sigma_1+sigma_2>=0",
+    "minimal_branch_lower_bound": "s_min>=d-4*g+4",
+    "g0_ranges": "s_min>=d+4 and d+4<=M<=3d",
+    "g1_ranges": "s_min>=d and d<=M<=3d",
+    "fsm_cardinality_route_population_wide_dominated": true,
+    "fixed_degree_discrete_profiles_finite": true,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false
+  },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Population-wide finite degree/intersection restriction",
-    "required_input": "MB101 exact multibranch population + MB102 delta/genus ledger; MB103 exact node-orbit quotient may reduce redundant cases",
+    "subobligation": "MB104_INDEPENDENT_UPPER_COEFFICIENT_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
+    "title": "Close the remaining population-wide degree coefficient gap",
+    "acceptable_closing_inputs": [
+      "s_min<=alpha*d+beta with alpha<1/4",
+      "M<=alpha*d+beta with alpha<1",
+      "independent absolute bound on one factor degree or on d"
+    ],
+    "current_nonclosing_upper_bound": "s_min<=R<=M<=3d",
     "must_not_assume": [
       "Freitag-Salvati Manni unibranch 176/192 cap applies to multibranch normalization",
       "symmetry quotient itself bounds degree",
       "exceptional contact mass bounds the off-exception delta budget",
+      "a lower bound on minimal branches is an upper bound",
       "finite Picard enumeration is released before a population-wide finite window is proved"
     ]
   },
