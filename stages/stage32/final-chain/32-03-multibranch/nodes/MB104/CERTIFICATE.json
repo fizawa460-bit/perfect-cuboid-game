@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V7",
+  "schema": "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V8",
   "status": "RETAINED_PARTIAL_NO_FINITE_DEGREE_WINDOW",
   "receiver": "R29-LG2-MB",
   "parents": {
@@ -62,6 +62,12 @@
     "two_factor_same_cover_wall_blob_sha1": "20d9873e41fb2db25105c437d3a10c031b23c0a3",
     "two_factor_same_cover_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_two_factor_same_beauville_cover_wall.py",
     "two_factor_same_cover_verifier_blob_sha1": "fcdf95203d1b21a319cb78c32e3083649b61dae9",
+    "even_set_source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/EVEN-SET-FAVORABLE-COVER-WALL-SOURCE-NOTE.md",
+    "even_set_source_note_blob_sha1": "6b2ebc7b0a36a5c497a890cfedc1af46539d7e5c",
+    "even_set_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/EVEN-SET-FAVORABLE-COVER-WALL.json",
+    "even_set_certificate_blob_sha1": "ebaf568f75a29a7ab0676bb296cc209e58efce16",
+    "even_set_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_even_set_favorable_cover_wall.py",
+    "even_set_verifier_blob_sha1": "65d50c591b42e0a04f7fc43753e9e2b015c37761",
     "upstream_picard_source": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma",
     "upstream_picard_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
   },
@@ -75,8 +81,8 @@
     "s_min": "number of FSM-minimal node branches (A,B)=(1,1)",
     "q_i": "total intersection with the six Satake-boundary elliptics in factor direction i",
     "Q_A1": "sum_i floor(M_i^2/4)",
-    "n_ot": "ordinary double plus ordinary triple points in the Lu--Miyaoka coarse ledger",
-    "r": "ramification count of the one connected normalized Beauville double-cover pullback"
+    "n_ot": "ordinary double plus ordinary triple points in Lu--Miyaoka ledger",
+    "r": "ramification count of the one connected normalized Beauville pullback"
   },
   "special_fibre_contract": {
     "identity": "6*n_i=2*q_i+M",
@@ -186,6 +192,24 @@
     "independent_r1_r2_available": false,
     "closes_degree": false
   },
+  "even_set_favorable_cover_contract": {
+    "full_node_set_even": true,
+    "q_X": 4,
+    "b1_X": 8,
+    "actual_even_set_code_dimension": 9,
+    "necessary_parity_supercode": "[48,23] from 92 known-curve incidence rows of binary rank 25",
+    "necessary_supercode_weight4_word_count": 12,
+    "weight4_single_AutS_orbit": true,
+    "weight4_orbit_span_dimension": 12,
+    "actual_weight4_word_exists": false,
+    "actual_weight44_word_exists": false,
+    "double_cover_invariants": "K_Y^2=32, c2(Y)=160-3*w, chi(O_Y)=16-w/4 after ramification blowdown",
+    "K2_gt_c2_possible_weights": [44, 48],
+    "weight44_available": false,
+    "weight48_is_existing_Beauville_cover": true,
+    "distinct_favorable_Chern_even_subset_cover_exists": false,
+    "closes_degree": false
+  },
   "fsm_tensor_contract": {
     "branchwise_necessary_bound": "d<=16*g-16+4*s_min",
     "population_wide_cardinality_route_closes_degree": false
@@ -206,16 +230,17 @@
     "retire_base_surface_generic_miyaoka_as_finite_window_closer": true,
     "retire_beauville_miyaoka_without_ramification_upper_bound": true,
     "retire_naive_two_factor_independent_ramification_sum": true,
+    "retire_distinct_even_subset_K2_gt_c2_cover_amplification_route": true,
     "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
     "preferred_inputs": [
       "n_ot<=alpha*d+beta with alpha<1 for every R29-LG2-MB carrier",
       "cuboid-specific factor-map obstruction to the Lu-Miyaoka-required ordinary singularities",
       "global jet/interpolation theorem for the actual Picard classes excluding the repaired scaling profile",
-      "independent upper bound on shared Beauville ramification r with sufficiently small slope in d",
       "global irreducibility/member theorem excluding the repaired scaling profile",
       "s_min<=alpha*d+beta with alpha<1",
       "M<=alpha*d+beta with alpha<1",
-      "independent absolute bound on one factor degree or on d"
+      "independent absolute bound on one factor degree or on d",
+      "non-even-set cover/correspondence with genuinely independent charge and a closing inequality"
     ]
   },
   "credit_firewall": {
