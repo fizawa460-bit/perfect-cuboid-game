@@ -1,10 +1,10 @@
 # MB104 post-V8 handoff
 
-Parent main checkpoint remains `STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V8`.  MB104 is still open and has no receiver/theorem/endpoint credit.
+Parent main checkpoint remains `STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V8`. MB104 is still open and has no receiver/theorem/endpoint credit.
 
 ## Retained low-support side
 
-Bruin--Thomas--Varilly-Alvarado implies that genus-0/1 curves meeting at most 13 box nodes form a finite set.  An abstract maximum degree `D_13` exists, but no numerical cutoff is certified.
+Bruin--Thomas--Varilly-Alvarado implies that genus-0/1 curves meeting at most 13 box nodes form a finite set. An abstract maximum degree `D_13` exists, but no numerical cutoff is certified.
 
 ## Full `m=2` node-extension classification
 
@@ -20,14 +20,14 @@ Their exact simultaneous extension ranks are
 - rank 11: `3264`;
 - rank 10: `3`.
 
-The rank-11 hyperplanes form seven exact `Aut(S)` node-orbits.  Across all `24538032` pairs `(H,p)` with `p` outside a node-spanned hyperplane,
+The rank-11 hyperplanes form seven exact `Aut(S)` node-orbits. Across all `24538032` pairs `(H,p)` with `p` outside a node-spanned hyperplane,
 
 - `24509616` have extension rank 13;
 - `28416` have extension rank 12.
 
 The survivor pairs form 35 `Aut(S)` pair-orbits.
 
-All survivor kernel lines extend at exactly 16 nodes.  There are only 24 such 16-node supports, forming one node orbit.  A representative kernel is
+All survivor kernel lines extend at exactly 16 nodes. There are only 24 such 16-node supports, forming one node orbit. A representative kernel is
 
 `omega* = omega1 - i*omega2 - omega3 + i*omega4 + i*omega5 + omega6`.
 
@@ -51,18 +51,19 @@ Hence every integral curve of the representative surviving section is contained 
 
 `x2+i*x3=lambda*(z+x1)`,
 
-a hyperplane section.  Since the hyperplane class is `H=K_S` and `H^2=16`, every nonexceptional irreducible component has
+a hyperplane section. Since the hyperplane class is `H=K_S` and `H^2=16`, every nonexceptional irreducible component has
 
 `d<=16`.
 
 The same bound holds on all 24 automorphic special supports.
 
-Therefore any projective-rank-7 carrier with a nonzero simultaneous `m=2` extension section has `d<=16`.  Any unbounded rank-7 carrier must belong to the complementary **zero-extension** branch.
+Therefore any projective-rank-7 carrier with a nonzero simultaneous `m=2` extension section has `d<=16`. Any unbounded rank-7 carrier must belong to the complementary **zero-extension** branch.
 
 Retained files:
 
 - `BTVA-M2-SPECIAL-24-WEB-FIBRATION.md`
 - `BTVA-M2-SPECIAL-24-WEB-FIBRATION.json`
+- `BTVA-M2-SPECIAL-24-WEB-VERIFY-LOCAL.txt`
 
 ## Current leaf
 
@@ -74,4 +75,6 @@ Priority routes:
 2. find a different sheaf/cover whose sections survive those supports; or
 3. use actual Picard linear-system / global-member geometry to obstruct the zero-extension population.
 
-Do **not** reinterpret `m=2` kernel zero as curve nonexistence.  No finite Picard release, `R29-LG2-MB` discharge, receiver/effectivity/theorem/endpoint credit, or merge authorization.
+Do **not** reinterpret `m=2` kernel zero as curve nonexistence. No finite Picard release, `R29-LG2-MB` discharge, receiver/effectivity/theorem/endpoint credit, or merge authorization.
+
+Current exact head before this handoff update: `813fc499e4045ba373c56f7744e9783daec2114c`.
