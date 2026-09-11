@@ -125,6 +125,9 @@ jobs:
             --shard-dir /tmp/n357-shards \
             --output /tmp/n357-all178-candidate.json
           cat /tmp/n357-all178-candidate.json
+          cmp /tmp/n357-all178-candidate.json stages/stage32/32-01-178/nodes/N357/RESULT.json
+      - name: Verify frozen N357 audit boundary source locks
+        run: python stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py
       - uses: actions/upload-artifact@v4
         with:
           name: n357-all178-candidate
