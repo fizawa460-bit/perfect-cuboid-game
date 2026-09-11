@@ -20,6 +20,8 @@ LOCKS = {
     "stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json": "ef000f3607f7d85bde02d41f7323492edf80799f",
     "stages/stage32-ex6/post1697-fsm16-weighted-node-divisor-wall.md": "f035251b6e2e79e8a2162d4cb62bbe3c52639ae8",
     "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/LAMBDA-CAPACITY-WALL.json": "2b5f64ff7ab6da7eccd889b0f99f887c19a3c88d",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/KNOWN-CURVE-CONE-WALL.json": "61e516f2cb231ad61d16eb097395ec69e409c943",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_known_curve_cone_wall.py": "338347e34eecd5b6f3dd0c8fabf720c61780bdcb",
 }
 
 
@@ -46,6 +48,7 @@ def main() -> None:
     fsm = load_json("stages/stage32-ex6/post1697-fsm16-modular-tensor-multibranch-contract.json")
     cert = json.loads((NODE / "CERTIFICATE.json").read_text())
     lambda_wall = json.loads((NODE / "LAMBDA-CAPACITY-WALL.json").read_text())
+    known_wall = json.loads((NODE / "KNOWN-CURVE-CONE-WALL.json").read_text())
 
     assert "H^2 = K_S^2 = 16" in stage29
     assert "negative-definite lattice `H^perp`" in stage29
@@ -68,7 +71,7 @@ def main() -> None:
     assert fsm["stage32_fsm16_adapter"]["A_plus_B_even"] is True
     assert fsm["stage32_fsm16_adapter"]["minimal_pairs_equivalent"] is True
 
-    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V4"
+    assert cert["schema"] == "STAGE32_MB104_FINITE_WINDOW_COEFFICIENT_BARRIER_V5"
     assert cert["special_fibre_contract"]["identity"] == "6*n_i=2*q_i+M"
     assert cert["factor_slack_contract"]["global_identity"] == "M-d+4*g-4=sigma_1+sigma_2>=0"
     assert cert["minimal_branch_contract"]["derived_minimal_bound"] == "s_min>=d-4*g+4"
@@ -79,8 +82,6 @@ def main() -> None:
     assert "alpha<1" in cert["closing_thresholds"]["minimal_branch_direct_threshold"]
     assert "alpha<1" in cert["closing_thresholds"]["exceptional_mass_upper_coefficient"]
 
-    # Exact local nonclosure wall: lambda is a free C* landing parameter in the
-    # retained A1 model, while the retained FSM weighted order is lambda-blind.
     assert cert["lambda_capacity_contract"]["arbitrarily_many_pairwise_distinct_local_landings_allowed"] is True
     assert cert["lambda_capacity_contract"]["uniform_local_constant_capacity_bound_available"] is False
     assert cert["lambda_capacity_contract"]["fsm_weighted_order_depends_on_lambda"] is False
@@ -92,6 +93,20 @@ def main() -> None:
     assert lambda_wall["arbitrary_local_capacity_witness"]["global_algebraic_curve_existence_claimed"] is False
     assert lambda_wall["fsm_tensor_visibility"]["depends_on_lambda"] is False
     assert lambda_wall["conclusion"]["preferred_lambda_capacity_route_closes_mb104"] is False
+
+    kc = cert["known_curve_cone_contract"]
+    assert kc["scaling_ray"] == "D_k=6*k*H-k*sum_i(E_i), k>=1"
+    assert kc["strictly_positive_on_all_140_known_curves"] is True
+    assert kc["riemann_roch_effective_divisor_class_for_all_k"] is True
+    assert kc["integral_member_claimed"] is False
+    assert kc["low_genus_member_claimed"] is False
+    assert kc["closes_degree"] is False
+    assert known_wall["symmetric_scaling_ray"]["exceptional_mass"] == "M=96*k=d"
+    assert known_wall["symmetric_scaling_ray"]["strictly_positive_on_all_140_known_curves"] is True
+    assert known_wall["riemann_roch_effectivity"]["effective_divisor_class_for_every_k_ge_1"] is True
+    assert known_wall["riemann_roch_effectivity"]["integral_member_claimed"] is False
+    assert known_wall["riemann_roch_effectivity"]["low_geometric_genus_member_claimed"] is False
+    assert known_wall["decision"]["finite_degree_window_proved"] is False
 
     checked = 0
     hodge_compatible = 0
@@ -129,6 +144,19 @@ def main() -> None:
         M0 = d + 4
         assert M0 * M0 <= 6 * d * d + 96 * d + 192
 
+    # Replay the arithmetic of the exact symmetric Picard/effectivity ray.
+    for k in range(1, 101):
+        d = 96 * k
+        M = 96 * k
+        D2 = 480 * k * k
+        assert M == d
+        assert 6*k > 0 and 16*k > 0 and 20*k > 0 and 2*k > 0
+        assert 48 * (2*k)**2 <= d*d//8 + 2*d
+        chi = 8 + (D2 - d)//2
+        assert chi == 240*k*k - 48*k + 8 and chi > 0
+        assert 16 - d < 0
+        assert (D2 + d)//2 == 240*k*k + 48*k
+
     fw = cert["credit_firewall"]
     assert fw["mb104_complete"] is False
     assert fw["finite_degree_window_proved"] is False
@@ -138,11 +166,11 @@ def main() -> None:
     assert fw["perfect_cuboid_nonexistence_claim"] is False
     assert fw["merge_authorized"] is False
 
-    print("MB104 V4 coefficient/Hodge/lambda-wall verifier PASS")
+    print("MB104 V5 coefficient/Hodge/lambda/known-curve-wall verifier PASS")
     print(f"bounded algebra sanity states={checked}; Hodge-compatible={hodge_compatible}")
     print("retained: M-d+4g-4=sigma1+sigma2>=0; s_min>=d-4g+4")
     print("retained Hodge: M^2<=6d^2+96d-192g+192")
-    print("retained local wall: lambda-cardinality route is nonclosing")
+    print("retained walls: local lambda capacity and full known-curve/effective-divisor cone are nonclosing")
     print("finite degree window remains OPEN")
 
 
