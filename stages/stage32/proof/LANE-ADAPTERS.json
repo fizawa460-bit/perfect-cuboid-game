@@ -3,10 +3,21 @@
   "stage": 32,
   "contract": {
     "active_frontier_rule": "active_frontier_refs point into ACTIVE-FRONTIER.json and express current OWNER/ATTACKS/CONSUMES routing only; they do not grant proof credit. A lane with no current active attack may carry an empty list only under an explicit inactive-lane gate.",
-    "audit_transition_policy": {"fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY", "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE", "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT", "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY"},
+    "audit_transition_policy": {
+      "fail_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY",
+      "pass_before_sync": "KEEP_PRE_SYNC_AUTHORITY_NO_UPGRADE",
+      "registry_authority_mutation": "AT_CLAIM_SYNC_WITH_EXACT_RECEIPT",
+      "revocation_before_sync": "BLOCK_DOWNSTREAM_IMMEDIATELY"
+    },
     "claim_reference_rule": "claim_refs reference only the base mathematical claim registry. active_frontier_refs may reference the effective frontier overlay. Cross-lane demand refs are operational dependencies only and never grant mathematical credit.",
     "claim_sync_contract": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
-    "claim_sync_triggers": ["RETAINED_CONSOLIDATION", "AUTHORITY_OR_AUDIT_TRANSITION", "EX_TO_MAIN_PROMOTION", "ACTIVE_FRONTIER_REMAP", "FINAL_MILESTONE_TRANSITION"],
+    "claim_sync_triggers": [
+      "RETAINED_CONSOLIDATION",
+      "AUTHORITY_OR_AUDIT_TRANSITION",
+      "EX_TO_MAIN_PROMOTION",
+      "ACTIVE_FRONTIER_REMAP",
+      "FINAL_MILESTONE_TRANSITION"
+    ],
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_separation_rule": "The claim DAG and cross-lane demand DAG are independent. Demand SATISFIED does not mutate claim authority, audit status, or MAIN credit.",
     "producer_rule": "Each lane checks OPEN demands where producer_lane equals its lane. Higher-priority OPEN demand work preempts lower-priority local work until SATISFIED/OBSOLETE or explicit MAIN reprioritization.",
@@ -20,15 +31,170 @@
     "scratch_rule": "Scratch results are not claim dependencies or demand satisfaction artifacts until retained with exact identity/replay semantics."
   },
   "lanes": [
-    {"lane":"MAIN","state_path":"stages/stage32/MAIN-STATE.json","startup_path":"stages/stage32/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.MAIN.CURRENT_TARGET_CONTEXT.V1","S32.MAIN.HDECK_CHARACTER_DIRECTION.V1","S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"],"active_frontier_refs":["S32.O210.EXCLUSION.V3","S32.Q602.SURVIVORS_73_97_235.V1","S32.Q602.EXCLUSION.V3","S32.FULL178.NUMERICAL_CENSUS.V1","S32.GOAL.STAGE32_CLOSURE.V1"],"lane_status":"ACTIVE_CONTROLLER_RESEARCHER","demand_role":"GLOBAL_MONITOR"},
-    {"lane":"EX1","state_path":"stages/stage32-ex1/MAIN-STATE.json","startup_path":"stages/stage32-ex1/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.EX1.LANE_CONTRACT.V2","S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2","S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1","S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"],"active_frontier_refs":[],"lane_status":"COMPLETED_AUDITED_HANDOFF","promotion_blocked_without_active_claim":true,"demand_role":"ROUTABLE_IF_REOPENED"},
-    {"lane":"EX2","state_path":"stages/stage32-ex2/MAIN-STATE.json","startup_path":"stages/stage32-ex2/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.EX2.LANE_CONTRACT.V2","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2","S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"],"active_frontier_refs":[],"lane_status":"DOMINATED_BY_AUDITED_V6_NONEXISTENCE","promotion_blocked_without_active_claim":true,"demand_role":"ROUTABLE_IF_REOPENED"},
-    {"lane":"EX3","state_path":"stages/stage32-ex3/MAIN-STATE.json","startup_path":"stages/stage32-ex3/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.EX3.LANE_CONTRACT.V2","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2","S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"],"active_frontier_refs":["S32.O210.EXCLUSION.V3","S32.Q602.SURVIVORS_73_97_235.V1","S32.Q602.EXCLUSION.V3"],"lane_status":"AUDITED_PROVENANCE_NO_CURRENT_ATTACK","demand_role":"ROUTABLE_IF_REOPENED"},
-    {"lane":"EX4","state_path":"stages/stage32-ex4/MAIN-STATE.json","startup_path":"stages/stage32-ex4/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.EX4.LANE_CONTRACT.V2","S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2","S32.MAIN.HDECK_CHARACTER_DIRECTION.V1","S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"],"active_frontier_refs":["S32.Q602.SURVIVORS_73_97_235.V1","S32.Q602.EXCLUSION.V3"],"lane_status":"AUDITED_PROVENANCE_NO_CURRENT_ATTACK","demand_role":"ROUTABLE_IF_REOPENED"},
-    {"lane":"EX5","state_path":"stages/stage32-ex5/MAIN-STATE.json","startup_path":"stages/stage32-ex5/MAIN-START-HERE.md","demand_state_path":"stages/stage32-ex5/CROSS-LANE-STATE.json","claim_refs":["S32.EX5.LANE_CONTRACT.V3","S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2","S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1","S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"],"active_frontier_refs":["S32.FULL178.NUMERICAL_CENSUS.V1"],"lane_status":"ACTIVE_PRODUCER","demand_role":"PRODUCER","open_demand_refs":["S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"]},
-    {"lane":"EX6","state_path":"stages/stage32-ex6/MAIN-STATE.json","startup_path":"stages/stage32-ex6/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.MAIN.CURRENT_TARGET_CONTEXT.V1"],"active_frontier_refs":[],"lane_status":"STOPPED_PENDING_NEW_ENDPOINT_INPUT","promotion_blocked_without_active_claim":true,"demand_role":"ROUTABLE_IF_REOPENED"},
-    {"lane":"32-01-178","state_path":"stages/stage32/32-01-178/MISSION.json","startup_path":"stages/stage32/32-01-178/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.MAIN.CURRENT_TARGET_CONTEXT.V1"],"active_frontier_refs":["S32.FULL178.NUMERICAL_CENSUS.V1"],"lane_status":"ACTIVE_SPECIALIST","demand_role":"ROUTABLE"},
-    {"lane":"CUT","state_path":"stages/stage32/full178-cut/MISSION.json","startup_path":"stages/stage32/full178-cut/MAIN-START-HERE.md","demand_state_path":"stages/stage32/full178-cut/CROSS-LANE-STATE.json","claim_refs":["S32.MAIN.CURRENT_TARGET_CONTEXT.V1"],"active_frontier_refs":["S32.FULL178.NUMERICAL_CENSUS.V1"],"lane_status":"ACTIVE_CONSUMER_WAITING","demand_role":"CONSUMER","open_demand_refs":["S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"]},
-    {"lane":"MB","state_path":"stages/stage32/final-chain/32-03-multibranch/STATE.json","startup_path":"stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md","demand_state_path":null,"claim_refs":["S32.MAIN.CURRENT_TARGET_CONTEXT.V1"],"active_frontier_refs":["S32.GOAL.STAGE32_CLOSURE.V1"],"lane_status":"ACTIVE_INDEPENDENT_SPECIALIST","demand_role":"ROUTABLE"}
+    {
+      "lane": "MAIN",
+      "state_path": "stages/stage32/MAIN-STATE.json",
+      "startup_path": "stages/stage32/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+      ],
+      "active_frontier_refs": [
+        "S32.O210.EXCLUSION.V3",
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V3",
+        "S32.FULL178.NUMERICAL_CENSUS.V1",
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "lane_status": "ACTIVE_CONTROLLER_RESEARCHER",
+      "demand_role": "GLOBAL_MONITOR"
+    },
+    {
+      "lane": "EX1",
+      "state_path": "stages/stage32-ex1/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex1/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.EX1.LANE_CONTRACT.V2",
+        "S32.EX1.ALL_V6_GENUS1_CARRIERS_EXCLUDED_CANDIDATE.V2",
+        "S32.ADAPTER.EX1_V6_CARRIER_TO_MAIN_V6_CARRIER.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+      ],
+      "active_frontier_refs": [],
+      "lane_status": "COMPLETED_AUDITED_HANDOFF",
+      "promotion_blocked_without_active_claim": true,
+      "demand_role": "ROUTABLE_IF_REOPENED"
+    },
+    {
+      "lane": "EX2",
+      "state_path": "stages/stage32-ex2/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex2/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.EX2.LANE_CONTRACT.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+      ],
+      "active_frontier_refs": [],
+      "lane_status": "DOMINATED_BY_AUDITED_V6_NONEXISTENCE",
+      "promotion_blocked_without_active_claim": true,
+      "demand_role": "ROUTABLE_IF_REOPENED"
+    },
+    {
+      "lane": "EX3",
+      "state_path": "stages/stage32-ex3/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex3/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.EX3.LANE_CONTRACT.V2",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+      ],
+      "active_frontier_refs": [
+        "S32.O210.EXCLUSION.V3",
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V3"
+      ],
+      "lane_status": "AUDITED_PROVENANCE_NO_CURRENT_ATTACK",
+      "demand_role": "ROUTABLE_IF_REOPENED"
+    },
+    {
+      "lane": "EX4",
+      "state_path": "stages/stage32-ex4/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex4/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.EX4.LANE_CONTRACT.V2",
+        "S32.EX4.FIXED_SOURCE_PACKAGE_AMBIGUITY_TERMINAL.V2",
+        "S32.MAIN.HDECK_CHARACTER_DIRECTION.V1",
+        "S32.V6.NO_INTEGRAL_IRREDUCIBLE_GENUS1_MEMBER.V2"
+      ],
+      "active_frontier_refs": [
+        "S32.Q602.SURVIVORS_73_97_235.V1",
+        "S32.Q602.EXCLUSION.V3"
+      ],
+      "lane_status": "AUDITED_PROVENANCE_NO_CURRENT_ATTACK",
+      "demand_role": "ROUTABLE_IF_REOPENED"
+    },
+    {
+      "lane": "EX5",
+      "state_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex5/MAIN-START-HERE.md",
+      "demand_state_path": "stages/stage32-ex5/CROSS-LANE-STATE.json",
+      "claim_refs": [
+        "S32.EX5.LANE_CONTRACT.V3",
+        "S32.EX5.BOUNDED_EXHAUSTION_CANDIDATE.V2",
+        "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1",
+        "S32.ADAPTER.EX_TO_MAIN_PROMOTION_BOUNDARY.V2"
+      ],
+      "active_frontier_refs": [
+        "S32.FULL178.NUMERICAL_CENSUS.V1"
+      ],
+      "lane_status": "ACTIVE_PRODUCER_HANDOFF_COMPLETE",
+      "demand_role": "PRODUCER",
+      "satisfied_demand_refs": [
+        "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
+      ]
+    },
+    {
+      "lane": "EX6",
+      "state_path": "stages/stage32-ex6/MAIN-STATE.json",
+      "startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "active_frontier_refs": [],
+      "lane_status": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
+      "promotion_blocked_without_active_claim": true,
+      "demand_role": "ROUTABLE_IF_REOPENED"
+    },
+    {
+      "lane": "32-01-178",
+      "state_path": "stages/stage32/32-01-178/MISSION.json",
+      "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "active_frontier_refs": [
+        "S32.FULL178.NUMERICAL_CENSUS.V1"
+      ],
+      "lane_status": "ACTIVE_SPECIALIST",
+      "demand_role": "ROUTABLE"
+    },
+    {
+      "lane": "CUT",
+      "state_path": "stages/stage32/full178-cut/MISSION.json",
+      "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
+      "demand_state_path": "stages/stage32/full178-cut/CROSS-LANE-STATE.json",
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "active_frontier_refs": [
+        "S32.FULL178.NUMERICAL_CENSUS.V1"
+      ],
+      "lane_status": "ACTIVE_CONSUMER_REENTERED",
+      "demand_role": "CONSUMER",
+      "satisfied_demand_refs": [
+        "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
+      ]
+    },
+    {
+      "lane": "MB",
+      "state_path": "stages/stage32/final-chain/32-03-multibranch/STATE.json",
+      "startup_path": "stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "active_frontier_refs": [
+        "S32.GOAL.STAGE32_CLOSURE.V1"
+      ],
+      "lane_status": "ACTIVE_INDEPENDENT_SPECIALIST",
+      "demand_role": "ROUTABLE"
+    }
   ]
 }
