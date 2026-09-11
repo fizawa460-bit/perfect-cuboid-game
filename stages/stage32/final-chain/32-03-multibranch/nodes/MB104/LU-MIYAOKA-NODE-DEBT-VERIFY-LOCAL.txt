@@ -1,0 +1,14 @@
+Stage32 MB104 Lu-Miyaoka ordinary-node debt — lightweight arithmetic replay
+
+Scope: arithmetic replay only. This is NOT an exact-head repository source-lock verifier run and NOT a hostile audit.
+
+Checked independently for k=1..500:
+- d=96k.
+- genus 1: n_ot=max(0,d-224), delta_strict=240k^2+48k, residual delta=delta_strict-n_ot > 0.
+- genus 0: n_ot=max(0,d-220), delta_strict=1+240k^2+48k, residual delta=delta_strict-n_ot > 0.
+- Lu-Miyaoka inequalities d<=224+n_ot (g=1) and d<=220+n_ot (g=0) hold at equality once the debt is positive.
+- the residual delta is an integer and can be represented analytically by an irreducible plane branch v^2=u^(2*delta+1).
+
+Result: PASS for the arithmetic/nonclosure replay.
+
+Credit boundary: no global algebraic member, no finite degree window, no receiver/theorem/endpoint credit, no merge authorization.
