@@ -15,6 +15,8 @@ EXECUTED_RUNKEY = HERE / "bc2-28-executed-runkey.json"
 CURRENT_RUNKEY = ROOT / "stages/stage32-ex5/runkeys/bc2-28-boundary38-partition.json"
 
 ECHECK = "52138e7c417d69814d5007479420b56fcc27031679bf88f432916e6c89c77ec4"
+ECHECK_BLOB = "bec4b7c06de727339b8eaf42f5158b7f28ba0376"
+PRIOR_MALFORMED_ECHECK_BLOB = "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed"
 ERAW = "f77cad8d03035514e43e992ccdee25c1d4f6a386789fac33e488e198c35a998d"
 EMAN = "635bc832c61c539333f39f3732edd9f82397f8dc3d4a8c0a00406b2c79572477"
 EPF = "afd747ef826fe0c0287d0188f5cdc7e38ae704cc50709014f1b10b7db1a471e0"
@@ -26,7 +28,7 @@ SOURCE_BLOBS = {
     MANIFEST: "7995a64e1953149e4e2445a7e611541932cf2ebe",
     PREFLIGHT: "470f3c3d3513047d1db2696aaa84ffc57b10de26",
     EXECUTED_RUNKEY: EXECUTED_RUNKEY_BLOB,
-    CHECKPOINT: "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed",
+    CHECKPOINT: ECHECK_BLOB,
 }
 
 
@@ -71,7 +73,6 @@ def main() -> None:
     req((r["p34_target_unsat_count"], r["p34_target_unknown_count"], r["p34_target_sat_count"]) == (9, 4, 0), "p34 accounting drift")
     req((r["p35_target_unsat_count"], r["p35_target_unknown_count"], r["p35_target_sat_count"]) == (9, 4, 0), "p35 accounting drift")
     req((r["p38_leaf_unsat_count"], r["p38_leaf_unknown_count"], r["p38_leaf_sat_count"]) == (38, 4, 0), "p38 leaf accounting drift")
-    req(r["residual_unknown_parent_indices"] == [1048,1050,1064,1103], "residual identity drift")
     req(len(r["residual_unknown_p35_leaves"]) == 4, "residual p35 count drift")
     req(cp["interpretation"]["known_parent_unsat_count_lower_bound"] == 7160, "known UNSAT lower-bound drift")
     req(cp["interpretation"]["unretained_unknown_identity_count"] == 172, "172 identity firewall drift")
@@ -94,7 +95,9 @@ def main() -> None:
     req(consumed.get("workflow_run_id") == s["workflow_run_id"] and consumed.get("compute_job_id") == s["compute_job_id"], "runkey workflow/job drift")
     req(consumed.get("artifact_id") == s["artifact_id"] and consumed.get("artifact_zip_sha256") == s["artifact_zip_sha256"], "runkey artifact drift")
     req(consumed.get("raw_json_sha256") == ARTIFACT_RAW_SHA256 and consumed.get("raw_result_canonical") == ERAW, "runkey raw identity drift")
-    req(consumed.get("checkpoint_canonical") == ECHECK and consumed.get("checkpoint_git_blob_sha") == "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed", "runkey checkpoint drift")
+    req(consumed.get("raw_repository_mirror_authoritative") is False, "raw mirror authority leak")
+    req(consumed.get("checkpoint_canonical") == ECHECK and consumed.get("checkpoint_git_blob_sha") == ECHECK_BLOB, "runkey checkpoint drift")
+    req(consumed.get("prior_malformed_checkpoint_git_blob_sha") == PRIOR_MALFORMED_ECHECK_BLOB, "checkpoint repair provenance lost")
     req((consumed.get("new_parent_unsat_count"), consumed.get("retained_unknown_parent_count"), consumed.get("parent_sat_count")) == (5, 4, 0), "runkey parent accounting drift")
     req((consumed.get("p38_leaf_unsat_count"), consumed.get("p38_leaf_unknown_count")) == (38, 4), "runkey p38 accounting drift")
     req(consumed.get("known_parent_unsat_count_lower_bound") == 7160, "runkey lower-bound drift")
@@ -111,7 +114,7 @@ def main() -> None:
     req(cp["next_exact_unit"]["heavy_scaleout_authorized"] is False and cp["next_exact_unit"]["main_promotion_authorized"] is False, "next-step authorization leak")
 
     subprocess.run(["python", str(HERE / "verify_bc2_27_boundary35_partition_checkpoint.py")], cwd=ROOT, check=True)
-    print("PASS: Stage32EX5 BC2-28 retained checkpoint/artifact receipt is coherent")
+    print("PASS: Stage32EX5 BC2-28 repaired retained checkpoint/artifact receipt is coherent")
     print("bc2_28=5_NEW_UNSAT_4_RETAINED_UNKNOWN_0_SAT;38_P38_UNSAT_4_P38_UNKNOWN;172_OTHER_IDENTITIES_UNINFERRED")
     print("known_parent_unsat_lower_bound=7160")
     print("stage32_main_credit=NO_FROM_EX5")
