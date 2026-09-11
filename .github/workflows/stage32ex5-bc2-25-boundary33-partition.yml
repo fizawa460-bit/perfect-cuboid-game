@@ -1,0 +1,120 @@
+name: Stage32EX5 BC2-25 boundary33 partition
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex5/runkeys/bc2-25-boundary33-partition.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_25_boundary33_partition.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-25-boundary33-partition-preflight.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-25-residual-branch-manifest.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-24-explicit-fibre-degree-partition-checkpoint.json'
+      - '.github/workflows/stage32ex5-bc2-25-boundary33-partition.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        name: Validate fresh BC2-25 run-key arm
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/bc2-25-boundary33-partition.json'
+          SOURCE='stages/stage32-ex5/breadth-cycle-2/bc2_25_boundary33_partition.py'
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          test '${{ github.event.action }}' = synchronize || exit 0
+          test -n "$BEFORE" || exit 0
+          test "$(git rev-parse HEAD)" = "$HEAD" || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY" || exit 0
+          test -f "$KEY" -a -f "$SOURCE" || exit 0
+          python - "$KEY" "$SOURCE" "$BEFORE" <<'PY'
+          import json, subprocess, sys
+          key_path, source_path, before = sys.argv[1:]
+          new=json.load(open(key_path))
+          assert new['schema']=='STAGE32EX5_BC2_25_BOUNDARY33_PARTITION_RUNKEY_V1'
+          assert new['armed'] is True
+          assert int(new['generation'])>0
+          assert new['source_git_blob_sha']==subprocess.check_output(['git','hash-object',source_path],text=True).strip()
+          assert new['preflight_canonical']=='49ae6b46ce0d7e6e634d0bce2e2f3375b48514afe125895d89c9b8bceccf6be1'
+          assert new['residual_manifest_canonical']=='9a057a80c47b6babcec3d8ff12b4163d09bb88ccdf734ea95c5c8c344bad65b0'
+          assert new['bc2_24_checkpoint_canonical']=='ac6f8afff29a4ac969b1fd32251499f299395261c1aa96a813502cfe2b22472f'
+          assert new['target']=={'retained_unknown_parent_count':19,'residual_unknown_branch_count':60,'maximum_subbranch_checks':166,'other_unretained_unknown_identity_count':172}
+          ex=new['execution']
+          assert ex['per_subbranch_timeout_ms']==2000
+          assert ex['workflow_timeout_minutes']==10
+          assert ex['effective_heavy_concurrency']==1
+          assert ex['artifact_retention_days']==1
+          assert ex['projected_peak_artifact_bytes']<=100000
+          assert ex['repository_storage_budget_bytes']==524288000
+          old_raw=subprocess.run(['git','show',f'{before}:{key_path}'],text=True,capture_output=True)
+          if old_raw.returncode==0:
+              old=json.loads(old_raw.stdout)
+              assert int(new['generation'])>int(old.get('generation',-1))
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  boundary33-partition:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Compile BC2-25
+        run: python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_25_boundary33_partition.py
+      - name: Run exact boundary33 partition
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_25_boundary33_partition.py \
+            --per-subbranch-timeout-ms 2000 \
+            --output "$RUNNER_TEMP/bc2-25.json"
+          cat "$RUNNER_TEMP/bc2-25.json"
+      - name: Validate scope firewalls
+        run: |
+          python - "$RUNNER_TEMP/bc2-25.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p['target']['checked_parent_count']==19
+          assert p['target']['checked_bc2_24_unknown_branch_count']==60
+          assert p['target']['unretained_bc2_19_unknown_identity_count']==172
+          assert p['target']['unretained_bc2_19_unknown_identities_inferred'] is False
+          assert p['partition_certificate']['boundary_pairing_label']==33
+          assert p['partition_certificate']['coverage_exact'] is True
+          assert p['partition_certificate']['disjoint'] is True
+          assert p['partition_certificate']['maximum_possible_subbranch_count']==166
+          assert p['credit']['whole_first_block_unsat'] is False
+          assert p['credit']['full178_complete'] is False
+          assert p['credit']['stage32_main_credit'] is False
+          assert p['firewalls']['unknown_relabelled_unsat'] is False
+          assert p['firewalls']['partition_subbranch_unknown_dropped'] is False
+          assert p['firewalls']['main_promotion'] is False
+          assert p['firewalls']['merge_authorized'] is False
+          print('BC2_25_SCOPE_OK',p['status'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-25-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/bc2-25.json
+          retention-days: 1
+          compression-level: 0
