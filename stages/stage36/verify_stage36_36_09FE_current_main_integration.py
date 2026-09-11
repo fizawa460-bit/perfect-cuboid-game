@@ -27,7 +27,8 @@ s = json.loads(STATE.read_text())
 r = json.loads(RECEIPT.read_text())
 fe = json.loads(FE_CERT.read_text())
 
-assert s["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V296_36_09FE_EXACT_GREEN_FF_UNLOCKED"
+assert s["schema"] == "STAGE36_CAMPEDELLI_UNIFORM_TORSOR_MAIN_STATE_V296R1_36_09FE_AUDIT_FROZEN"
+assert s["status"] == "HOSTILE_AUDIT_FREEZE"
 assert s["authority_frontier"]["36-09FE"]["certificate_blob_sha"] == EXPECTED[FE_CERT]
 assert s["authority_frontier"]["36-09FE"]["source_blob_sha"] == EXPECTED[FE_SOURCE]
 assert s["authority_frontier"]["36-09FE"]["verifier_blob_sha"] == EXPECTED[FE_VERIFY]
@@ -38,6 +39,18 @@ assert s["claims"]["R29_CAMP2_closed"] is False
 assert s["claims"]["Q11_CAMPEDELLI_closed"] is False
 assert s["claims"]["endpoint_closed"] is False
 assert s["claims"]["perfect_cuboid_nonexistence_claim"] is False
+
+# Audit freeze is load-bearing: retained ES->FE mathematics is not consumable
+# authority for FF until a fresh post-ER hostile audit passes and is consumed.
+assert s["hostile_audit_checkpoint"]["new_checkpoint_pending"] is True
+assert s["hostile_audit_checkpoint"]["pending_scope"] == "36-09ES_THROUGH_36-09FE"
+assert s["hostile_audit_checkpoint"]["latest_failed_review_id"] == 5175373356
+assert s["hostile_audit_checkpoint"]["latest_failed_exact_head"] == "ca6d4fd981275db34cabd38aa6a51711dbaca8b7"
+assert s["current"]["unit"] == "36-09FE"
+assert s["current"]["next_exact_leaf"] == "36-09FF_RHO_FORCED_CRT_FACTOR_SHAPE_UNBOUNDED_CONTROL_PREFLIGHT"
+assert s["current"]["substantive_batch_pr_continues"] is False
+assert s["current"]["36_09FF_entry_allowed"] is False
+assert s["promotion_gates"]["36_09FF_entry_allowed"] is False
 
 assert r["schema"] == "STAGE36_V296_FE_CURRENT_MAIN_INTEGRATION_V1"
 assert r["source_pr"] == 1752
@@ -61,7 +74,8 @@ assert fe["finite_compatibility_theorem"]["infinitely_many_realizations_proved"]
 assert fe["registry_impact"]["provisional_count"] == 224
 assert fe["route_result"]["next_leaf"] == "36-09FF_RHO_FORCED_CRT_FACTOR_SHAPE_UNBOUNDED_CONTROL_PREFLIGHT"
 
-print("STAGE36_V296_FE_CURRENT_MAIN_INTEGRATION=PASS")
+print("STAGE36_V296R1_FE_CURRENT_MAIN_INTEGRATION=PASS")
 print("prior_hostile_pass_scope=through_36-09ER")
 print("fresh_hostile_audit_required_for_ES_through_FE=true")
+print("36_09FF_entry_allowed=false")
 print("credit_ceiling=AUDIT_PENDING_STAGE36_V296_FE_FINITE_COMPATIBILITY_NO_RECEIVER_OR_ENDPOINT_CREDIT")
