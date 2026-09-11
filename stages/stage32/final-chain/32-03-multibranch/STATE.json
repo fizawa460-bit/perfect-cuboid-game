@@ -78,6 +78,9 @@
     "gfu_correction_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_gfu_correction_wall.py",
     "btva_13form_preflight": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PORTFOLIO-PREFLIGHT.md",
     "btva_13form_preflight_contract": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PORTFOLIO-PREFLIGHT.json",
+    "btva_13form_principal_part": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PRINCIPAL-PART.md",
+    "btva_13form_principal_part_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PRINCIPAL-PART-CERTIFICATE.json",
+    "btva_13form_principal_part_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_btva_13form_principal_part.py",
     "status": "ACTIVE_RETAINED_NECESSARY_INEQUALITY_MB104_INCOMPLETE",
     "branchwise_fsm_inequality": "d<=16g-16+4R8",
     "R8_definition": "number of normalization branches over box nodes with MB101 cusp type (A,B)=(1,1)",
@@ -103,15 +106,20 @@
     "omega7_power_multi_hyperplane_slack": false,
     "btva_order2_space_dimension": 13,
     "btva_order2_A1_local_chi0": 3,
-    "btva_48_node_principal_part_matrix_materialized": false,
+    "btva_intrinsic_48_node_rank_map_materialized": true,
+    "btva_fixed_basis_3x13_each_label_materialized": false,
+    "btva_order2_principal_rank_every_node": 3,
+    "btva_order2_distinct_landing_saturation": 3,
+    "btva_order2_counts_R8_multiplicity": false,
+    "btva_order2_standalone_R8_route_closed": true,
     "absolute_R8_bound_proved": false,
     "finite_degree_window_proved": false,
     "actual_curve_existence_claimed": false
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Materialize BTVA 13-form exceptional-valuation matrix or prove an equivalent branch-sensitive global inequality",
-    "required_input": "construct the 48 local principal-part maps for the 13-dimensional order-two symmetric-differential space and test intrinsic exceptional regularity/products, or prove R8<=alpha*d+beta with alpha<1/4 by another global method",
+    "title": "Find branch-multiplicity charging beyond order-two landing saturation",
+    "required_input": "prove a global conductor/intersection or genuinely higher-jet inequality that charges repeated minimal branches strongly enough to imply R8<=alpha*d+beta with alpha<1/4, or otherwise give a finite degree window on the remaining high-span sectors",
     "dominated_routes": [
       "purely local A1 landing/delta data",
       "published GFU exceptional-mass correction by itself",
@@ -119,13 +127,13 @@
       "direct Hodge projection onto H plus the 48 exceptional classes",
       "automatic Riemann-Hurwitz charging from minimal cusp type without extra tangent/jet information",
       "simple summed unit Riemann-Hurwitz charging over all 28 genus-5 fibrations",
-      "pure powers of omega7 with split hyperplane vanishing"
+      "pure powers of omega7 with split hyperplane vanishing",
+      "BTVA 13-dimensional order-two principal-part portfolio by itself"
     ],
     "live_route_classes": [
-      "exact 13-form BTVA exceptional-valuation/regularity matrix across the 48 nodes",
-      "higher-order products with intrinsic exceptional regularity plus optimized twisting",
-      "global conductor/ramification inequality with effective aggregate charge beyond the retained RH capacity wall",
-      "new symmetric differential with exceptional regularity or movable vanishing ratio stronger than the omega7 1/2 wall",
+      "global conductor/intersection inequality charging normalization branch multiplicity",
+      "genuinely higher-order jet or principal-part constraint whose independent conditions grow with repeated branches",
+      "new global symmetric differential architecture with stronger exceptional regularity or vanishing",
       "high-span geometry for genus-zero full-span and genus-one span-5/6 sectors"
     ],
     "must_not_assume": [
@@ -135,6 +143,7 @@
       "minimal cusp type alone implies ramification for an incident fibration",
       "published GFU formulas contain a hidden branch-excess or delta cancellation",
       "omega7 powers can spread their full A1 regularization budget across independent hyperplanes",
+      "order-two principal-part conditions keep growing after three distinct landing directions at one A1 node",
       "formal arbitrary-degree numerical data correspond to actual curves"
     ],
     "target": "convert d<=16g-16+4R8 into a genuine population-wide finite degree/intersection window"
