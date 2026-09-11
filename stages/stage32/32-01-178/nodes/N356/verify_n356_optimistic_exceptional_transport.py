@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LOCKER = HERE / "verify_n356_dependency_source_locks.py"
 ENGINE = HERE.parent / "N356-engine" / "verify_n356_optimistic_exceptional_transport.py"
-EXPECTED_LOCKER_BLOB = "cbc07540f664fa830262b43e63a4f17327f366e2"
+EXPECTED_LOCKER_BLOB = "45c0c793f8b2edfec29728412f2951ce9639e352"
 EXPECTED_ENGINE_BLOB = "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad"
 
 
@@ -38,8 +38,6 @@ def validate_dependency_boundary():
 
 _DEPENDENCY_LOCKS, _ENGINE = validate_dependency_boundary()
 
-# Compatibility surface for the parallel/fast implementations and hostile-audit
-# probes.  The immutable engine is loaded only after all transitive locks pass.
 for _name in dir(_ENGINE):
     if not _name.startswith("__") and _name != "main":
         globals()[_name] = getattr(_ENGINE, _name)

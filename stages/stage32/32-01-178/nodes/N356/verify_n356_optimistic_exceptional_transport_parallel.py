@@ -8,7 +8,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LOCKER = HERE / "verify_n356_dependency_source_locks.py"
 ENGINE = HERE.parent / "N356-engine" / "verify_n356_optimistic_exceptional_transport_parallel.py"
-EXPECTED_LOCKER_BLOB = "cbc07540f664fa830262b43e63a4f17327f366e2"
+EXPECTED_LOCKER_BLOB = "45c0c793f8b2edfec29728412f2951ce9639e352"
 EXPECTED_ENGINE_BLOB = "e0a1ea5e9fc4437ac39db1b332033e7274939b19"
 
 

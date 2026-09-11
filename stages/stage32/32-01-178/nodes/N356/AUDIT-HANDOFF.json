@@ -1,9 +1,17 @@
 {
-  "schema": "STAGE32_32_01_178_N356_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V1",
+  "schema": "STAGE32_32_01_178_N356_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V2",
   "node_id": "N356",
   "branch": "stage32-01-178-n356-audit-boundary-20260911",
   "base_main_sha": "b41ce34172870fb541498e62d041e940b66d85be",
-  "purpose": "Freeze the already-retained N356 optimistic exceptional-transport necessary-cut candidate for independent hostile audit. This handoff changes no mathematics and grants no pruning credit.",
+  "purpose": "Freeze the already-retained N356 optimistic exceptional-transport necessary-cut candidate for independent hostile audit. The V2 handoff repairs dependency identity/source-lock fail-closedness only; it changes no N356 mathematics or census value and grants no pruning credit.",
+  "prior_hostile_audit": {
+    "status": "FAIL",
+    "review_id": 5175968127,
+    "audited_exact_head": "36c2f5e8167290872743114bf1522c728143160f",
+    "math_findings": "max-flow formula, C(n1,n2), balanced maximization, and b-c<=3d-e were not the failure reason",
+    "failure_reason": "N356 did not directly source-lock the live N220/N351/N352/N345/Hperp and related transition dependencies; relying on checks inside N355 main() was not fail-closed because N356 did not execute that main().",
+    "required_remediation": "Directly validate transitive dependency identity on every N356 serial/parallel/fast entrypoint, then obtain exact-head CI and independent hostile re-audit."
+  },
   "current_authority": {
     "routing_authority": "stages/stage32/MAIN-STATE.json",
     "authoritative_pre_n356_remaining_strata": 17128,
@@ -22,7 +30,45 @@
     "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
     "per_stratum_stream_sha256": "f9a625cd546634ae208aae848657d7bc68023dd0916e35fc552cae3a188cfbe7"
   },
-  "source_locks": {
+  "fail_closed_architecture": {
+    "dependency_lock_verifier": {
+      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_dependency_source_locks.py",
+      "blob_sha1": "45c0c793f8b2edfec29728412f2951ce9639e352",
+      "locked_dependency_count": 13
+    },
+    "serial_entrypoint": {
+      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport.py",
+      "blob_sha1": "a7fdee753ba3cb46766ad465f1d4db50a493d6b1"
+    },
+    "parallel_entrypoint": {
+      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py",
+      "blob_sha1": "4b6306e5b23789aa174d398f4a0f2658b36fda58"
+    },
+    "fast_entrypoint": {
+      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_fast.py",
+      "blob_sha1": "cf508c75d847c6e9df0119f805987fa4ac98cfc6"
+    },
+    "immutable_engines": {
+      "serial": {
+        "path": "stages/stage32/32-01-178/nodes/N356-engine/verify_n356_optimistic_exceptional_transport.py",
+        "blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad"
+      },
+      "parallel": {
+        "path": "stages/stage32/32-01-178/nodes/N356-engine/verify_n356_optimistic_exceptional_transport_parallel.py",
+        "blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19"
+      },
+      "fast": {
+        "path": "stages/stage32/32-01-178/nodes/N356-engine/verify_n356_optimistic_exceptional_transport_fast.py",
+        "blob_sha1": "ec2bba109f4a42816f366dbf605afeea7c16f0a2"
+      },
+      "contract_copy": {
+        "path": "stages/stage32/32-01-178/nodes/N356-engine/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+        "blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3"
+      }
+    },
+    "execution_rule": "Each public serial/parallel/fast entrypoint verifies the dependency-lock verifier blob, validates all transitive locks, verifies its immutable engine blob, and only then imports/executes the engine. The parallel CI path therefore cannot reach N355/N345/Hperp/N220 semantics before the dependency identity boundary passes."
+  },
+  "stable_source_locks": {
     "contract": {
       "path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
       "blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3"
@@ -30,18 +76,6 @@
     "result": {
       "path": "stages/stage32/32-01-178/nodes/N356/RESULT.json",
       "blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed"
-    },
-    "serial_verifier": {
-      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport.py",
-      "blob_sha1": "ad0f5dcf7eb70cc24a9a54d4d31807226de1d2ad"
-    },
-    "parallel_verifier": {
-      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py",
-      "blob_sha1": "e0a1ea5e9fc4437ac39db1b332033e7274939b19"
-    },
-    "fast_verifier": {
-      "path": "stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_fast.py",
-      "blob_sha1": "ec2bba109f4a42816f366dbf605afeea7c16f0a2"
     }
   },
   "audit_questions": [
@@ -50,7 +84,8 @@
     "Is the third-component residual max-flow exactly min(2*n1-b-c, 2*n2-b-c, d-2*b), and does this imply total capacity C(n1,n2)=min(6*m, 4*m+d+c-b) with m=min(n1,n2)?",
     "Does maximizing under n1+n2=d occur at m=floor(d/2), yielding the necessary prefix inequality b-c <= 4*floor(d/2)+d-e; and is the even-degree specialization b-c <= 3*d-e valid on every retained FULL178 row actually counted?",
     "Does the exact census replay N220 and N355 before charging incremental rejection, with no overlap/double-credit and exact partition identity from 66462870551188628549910 source terminals to rejected plus candidate remaining terminals?",
-    "Do serial/parallel/fast verifiers reproduce the locked result and fail closed on semantic/source-lock drift?"
+    "Do the V2 serial/parallel/fast entrypoints fail closed before semantic execution if any of the 13 transitive dependency blobs, dependency-lock verifier, or immutable engine blobs drift?",
+    "Does exact-head CI execute the V2 parallel entrypoint and reproduce RESULT.json byte-for-byte?"
   ],
   "credit_ceiling_before_audit": "N356_RETAINED_AUDIT_CANDIDATE_ONLY_NO_MAIN_PRUNING_CREDIT",
   "firewalls": {
