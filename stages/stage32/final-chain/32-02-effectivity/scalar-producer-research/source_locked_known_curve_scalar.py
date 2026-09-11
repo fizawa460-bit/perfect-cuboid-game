@@ -4,7 +4,7 @@ import hashlib,importlib.util,json,math,sys
 from pathlib import Path
 from sympy import Matrix
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[5]
+ROOT=HERE.parents[4]
 RES=ROOT/"stages/stage32/residual-32-01-production"
 S33=ROOT/"stages/stage33/33-07"
 sys.path.insert(0,str(RES))
@@ -17,7 +17,9 @@ def blob(p):
  raw=p.read_bytes(); return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
 def load_py_data(path,name):
  spec=importlib.util.spec_from_file_location(name,path); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
- for key in ("DATA","RESULT","PAYLOAD","CERTIFICATE"):
+ if hasattr(mod,"load"):
+  return mod.load()
+ for key in ("DATA","RESULT","CERTIFICATE"):
   if hasattr(mod,key): return getattr(mod,key)
  raise ValueError("retained data export not found: "+str(path))
 def load():
