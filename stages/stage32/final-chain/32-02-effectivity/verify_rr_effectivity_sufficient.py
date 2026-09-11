@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import runpy
 import subprocess
 import sys
 from pathlib import Path
@@ -11,6 +12,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 CHECKPOINT = HERE / "RR-EFFECTIVITY-SUFFICIENT-CHECKPOINT.json"
 CLASSIFIER = HERE / "rr_effectivity_sufficient.py"
+DEGREE_GATE_VERIFIER = HERE / "verify_full178_rr_degree_gate.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -78,9 +80,13 @@ def main() -> None:
     ):
         req(firewall[key] is False, f"credit firewall opened: {key}")
 
+    runpy.run_path(str(DEGREE_GATE_VERIFIER), run_name="__main__")
     pop = cp["population_firewall"]
-    req(pop["historical_pr1783_168_over_10_degree_split_promoted"] is False, "historical unsourced row split promoted")
-    req(pop["full178_rows_classified"] is False, "pointwise classifier mislabeled as FULL178 census")
+    req(pop["full178_manifest_degree_partition_source_locked"] is True, "FULL178 RR degree partition is not source-locked")
+    req(pop["degree_gt_16_row_count"] == 168, "degree>16 row count drift")
+    req(pop["degree_le_16_row_count"] == 10, "degree<=16 row count drift")
+    req(pop["degree_gate_certificate_path"] == "stages/stage32/final-chain/32-02-effectivity/FULL178-RR-DEGREE-GATE.json", "degree-gate certificate path drift")
+    req(pop["full178_rows_effectivity_classified"] is False, "degree partition mislabeled as effectivity classification")
     req(pop["final_survivor_picard_ledger_available"] is False, "missing survivor ledger silently assumed")
 
     cut = cp["live_specialist_observation"]
@@ -111,6 +117,7 @@ def main() -> None:
     req(cli_affirmed["status"] == "RR_EFFECTIVE_DIVISOR_CERTIFIED", "explicit CLI affirmation did not enable conditional certification")
 
     print("PASS: Stage32 final-chain 32-02 conditional RR effectivity sufficient classifier")
+    print("FULL178 degree gate: source-locked 168 rows with d>16 / 10 rows with d<=16")
     print("criterion: d>16 and C2>=d-14 with even C2-d; conclusion=effective divisor only")
     print("default API/CLI: fail closed until assumptions are explicitly affirmed")
     print("parent hostile re-audit: #1785 review 5179390797 at d44ff4403559dce4ea296698630f57a56cd0d0fe")
