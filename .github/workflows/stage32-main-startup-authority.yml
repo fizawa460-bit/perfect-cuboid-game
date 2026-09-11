@@ -16,6 +16,7 @@ on:
       - 'stages/stage32/verify_main_startup_authority_v12.py'
       - 'stages/stage32/verify_main_startup_authority_v13.py'
       - 'stages/stage32/verify_n357_v13_current_authority_composition.py'
+      - 'stages/stage32/verify_n357_v13_current_authority_composition_fail_closed.py'
       - 'stages/stage32/management/N357-V13-CURRENT-AUTHORITY-COMPOSITION.json'
       - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
@@ -79,6 +80,16 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
+      - name: Checkout exact hostile-audited N357 candidate boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 0d787839b7e0dad4a42108c61d16e7849c50862f
+          path: .stage32-audited-n357
+          fetch-depth: 1
+
+      - name: Assert exact hostile-audited N357 candidate head
+        run: test "$(git -C .stage32-audited-n357 rev-parse HEAD)" = "0d787839b7e0dad4a42108c61d16e7849c50862f"
+
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -114,8 +125,8 @@ jobs:
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
 
-      - name: Verify N357 current-V13 authority composition replay
-        run: python3 stages/stage32/verify_n357_v13_current_authority_composition.py
+      - name: Verify fail-closed N357 current-V13 authority composition replay
+        run: python3 stages/stage32/verify_n357_v13_current_authority_composition_fail_closed.py --audited-n357-root .stage32-audited-n357
 
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
