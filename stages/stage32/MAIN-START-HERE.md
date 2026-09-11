@@ -24,8 +24,10 @@ MAIN should perform mathematics directly when at least one of the following hold
 
 MAIN should **not** duplicate a sustained vertical leaf that is already owned by an active specialist command. In particular:
 
-- sustained FULL178 numerical census research belongs to `stage32-01-178-mainbatch` unless current MAIN routing explicitly takes it back;
-- sustained EX5 Picard64/node-support producer work belongs to `stage32ex5-mainbatch` unless current MAIN routing explicitly takes it back.
+- sustained FULL178 numerical census/prefix/incidence/transport research belongs to `stage32-01-178-mainbatch` unless current MAIN routing explicitly takes it back;
+- sustained EX5 Picard64/node-support interface producer/refinement work belongs to `stage32ex5-mainbatch` unless current MAIN routing explicitly takes it back;
+- direct modular/dual infeasibility research on an already source-locked Picard64 completion system belongs to `stage32cut-mainbatch` unless current MAIN routing explicitly takes it back;
+- sustained 32-03 multibranch final-chain population/window/effectivity research belongs to `stage32mb-mainbatch` unless current MAIN routing explicitly takes it back.
 
 MAIN may inspect, validate, adapt, integrate, or consume those specialist results as required. A specialist ownership boundary does not prevent MAIN from doing real research; it prevents two chats from unknowingly attacking the same leaf.
 
@@ -56,9 +58,11 @@ If historical material conflicts with `MAIN-STATE.json` about current routing, u
 
 ## Specialist handoff discipline
 
-When MAIN delegates a sustained vertical leaf to 178 or EX5, record/retain the ownership boundary before running both commands concurrently. The specialist should return a stable retained checkpoint, blocker, or audit handoff. MAIN then consumes it through the required current-target adapter and claim/audit procedure. Do not run MAIN and a specialist independently on the same semantic leaf.
+When MAIN delegates a sustained vertical leaf to 178, EX5, CUT, or MB, record/retain the ownership boundary before running the commands concurrently. The specialist should return a stable retained checkpoint, blocker, or audit handoff. MAIN then consumes it through the required current-target adapter and claim/audit procedure. Do not run MAIN and a specialist independently on the same semantic leaf.
 
-Historical commands `stage32-01-178-a..f` and `stage32ex5-a..h` are not ordinary active fanout. Parallel child dispatch requires an explicit new decomposition and user re-enable decision.
+CUT is a consumer of exact EX5 completion-interface output, not a competing producer: if the required interface is missing or stale, CUT returns a blocker rather than rebuilding EX5 work. MB is independent of FULL178 execution but final-milestone promotion remains a MAIN responsibility.
+
+Historical commands `stage32-01-178-a..f` and `stage32ex5-a..h` are not ordinary active fanout. Parallel child dispatch requires an explicit new decomposition and user re-enable decision. The active CUT and MB surfaces are separate named missions under the explicit ownership split in `COMMANDS.md`; they do not silently reactivate those historical child lanes.
 
 ## Search and Arsenal routing
 
