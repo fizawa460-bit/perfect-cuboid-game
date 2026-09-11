@@ -5,9 +5,12 @@ on:
     paths:
       - 'AGENTS.md'
       - '.github/workflows/stage32-main-startup-authority.yml'
+      - 'stages/stage32/COMMANDS.md'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/MAIN-STATE.json'
+      - 'stages/stage32/verify_command_surface.py'
       - 'stages/stage32/verify_main_startup.py'
+      - 'stages/stage32/verify_main_startup_authority_v10.py'
       - 'stages/stage32/proof/PR1753-INTEGRATION-AUDIT-HANDOFF.json'
       - 'stages/stage32/proof/verify_pr1753_integration_audit_handoff.py'
       - 'stages/stage32/residual-32-01-production/post1577-mod2-fiber-divisor-identity.json'
@@ -47,19 +50,15 @@ jobs:
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
 
-          # Freshness is separate from research correctness.  If this branch
+          # Freshness is separate from research correctness. If this branch
           # already contains current main there is no main-only drift to review.
           if test "$merge_base" = "$current_main"; then
             echo "freshness=contains-current-main"
             exit 0
           fi
 
-          # Exact bounded review, 2026-09-10: main advanced from the previously
-          # reviewed EX5 merge to 5ca6... through 35 commits.  The complete diff
-          # is confined to EX5 operational state/workflow and Arsenal catalog/docs;
-          # it does not touch FULL178 manifest, N220/N353/N354, MAIN state/proof
-          # authority, or any N354 replay input.  Any later main movement fails
-          # closed and requires a new semantic freshness review.
+          # Historical bounded freshness exception retained for older branches.
+          # Any main movement outside this exact reviewed scope fails closed.
           reviewed_main="5ca6acba4b591d9e2d40057241c850598c1fa1df"
           previous_reviewed_main="bf2890ec0b8168f70db803de876024aa6b6d1f6d"
           reviewed_merge_base="e2da76d90a0994af5038023613c6c4084c4c507e"
@@ -81,7 +80,24 @@ jobs:
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
 
-      - name: Verify PR1753 integration-only audit handoff
+      - name: Detect edits to historical PR1753 handoff
+        if: github.event_name == 'pull_request'
+        id: pr1753_handoff
+        shell: bash
+        run: |
+          changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" -- \
+            stages/stage32/proof/PR1753-INTEGRATION-AUDIT-HANDOFF.json \
+            stages/stage32/proof/verify_pr1753_integration_audit_handoff.py)"
+          if test -n "$changed"; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            printf 'historical PR1753 handoff touched:\n%s\n' "$changed"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "historical PR1753 handoff untouched"
+          fi
+
+      - name: Verify PR1753 integration-only audit handoff when touched
+        if: github.event_name == 'pull_request' && steps.pr1753_handoff.outputs.changed == 'true'
         run: python3 stages/stage32/proof/verify_pr1753_integration_audit_handoff.py
 
       - name: Enforce startup-only scope

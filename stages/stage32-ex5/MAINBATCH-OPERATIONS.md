@@ -2,18 +2,30 @@
 
 This file is an operational contract only. It grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, or Perfect Cuboid credit.
 
-## Single active MAINBATCH authority
+## Working-surface rule
 
-PR #1765 on `impl/stage32ex5-bc2-12-outer-rank3` is the sole Stage32EX5 MAINBATCH working PR. PR #1764 remains superseded, closed and unmerged. The user has explicitly requested merge priority for PR #1765; therefore the operational goal is closeout and merge, not another research unit.
+PR #1765 is merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa`. It is historical retained provenance, not the sole active working surface. At this command-surface boundary there is no active EX5 PR.
 
-## Current retained boundary
+A new `stage32ex5-mainbatch` first synchronizes current main and `stages/stage32/MAIN-STATE.json`. It should create/continue a fresh work surface only when there is substantive post-merge retained work to keep. Do not reuse the merged #1765 branch as if it were current authority.
 
-BC2-24 is retained. The e=4 local exact UNSAT prefix is `0..797`. In the e=8 first block, the retained BC2-24 slice proves 4 new parents UNSAT and leaves `19` retained UNKNOWN / 0 SAT, giving known parent-UNSAT lower bound `7145`; `172` other BC2-19 UNKNOWN identities remain uninferred. This is a checkpoint only, not whole-block or FULL178 closure. N355 remains consumed Stage32 authority and N356 remains deferred/AUDIT_REQUIRED.
+## Retained boundary
 
-## Workflow lifecycle / anti-refire rule
+BC2-24 is retained. The e=4 local exact UNSAT prefix is `0..797`. In the e=8 first block, BC2-24 leaves `19` retained UNKNOWN / 0 SAT from its retained 23-parent slice, known parent-UNSAT lower bound `7145`, and `172` other BC2-19 UNKNOWN identities uninferred. This is not whole-block or FULL178 closure.
 
-All bounded-unit computation provenance is retained in source, checkpoint, run key and GitHub run ids. The BC2-24 heavy workflow has already completed successfully and is no longer needed as an automatic PR trigger at the merge boundary. Remove that branch-local automatic workflow from the merge surface instead of carrying it into `main`. The permanent Stage32EX5 main integrity gate remains active. Repository workflow lifecycle policy in `AGENTS.md` and `docs/research-os/policies/pr-workflow-trigger-lifecycle.md` remains authoritative.
+## Post-merge continuation rule
 
-## Merge-first stop rule
+The next bounded candidate is `BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT`.
 
-Do not launch BC2-25 or rerun BC2-20..24 on PR #1765. Repair the retained-state schema, synchronize current docs/state, make active integrity/lifecycle gates green, hostile re-audit the exact frozen head, then merge PR #1765. After merge, a new working surface may decide whether BC2-25 is worth opening. UNKNOWN must remain UNKNOWN and no Stage32 MAIN promotion is implied.
+Before opening it:
+
+1. synchronize current Stage32 authority and current main;
+2. verify BC2-24 retained replay and UNKNOWN firewalls;
+3. search existing EX5/178/Main results so BC2-25 does not duplicate a route already solved or dominated;
+4. choose the smallest exact refinement of the remaining UNKNOWN structure;
+5. keep heavy/artifact-producing scale-out behind the normal authorization gate.
+
+Do not rerun BC2-20..24. UNKNOWN remains UNKNOWN. EX5 cannot self-register into N350 or self-promote Stage32 MAIN credit.
+
+## Workflow lifecycle
+
+Historical bounded-unit compute provenance remains in source/checkpoint/run-key/run ids. Retired historical leaf workflows must not be re-enabled as automatic PR triggers merely because EX5 research resumes. Permanent repository/EX5 integrity gates remain governed by `AGENTS.md` and the repository workflow lifecycle policy.

@@ -1,55 +1,64 @@
 # Stage32 MAIN startup
 
-Ordinary `Stage32-main-batch` reads, in this order:
+Ordinary `stage32mainbatch` reads, in this order:
 
 1. `AGENTS.md`;
-2. `stages/stage32/MAIN-START-HERE.md`;
-3. `stages/stage32/MAIN-STATE.json`;
-4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+2. `stages/stage32/COMMANDS.md`;
+3. `stages/stage32/MAIN-START-HERE.md`;
+4. `stages/stage32/MAIN-STATE.json`;
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
 
 This file is the fixed ordinary startup contract. It does not contain the mutable Stage32 frontier, current target, survivor set, next route, current firewall values, or cleanup progress. Read all such current values only from `MAIN-STATE.json`.
 
 Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS unless `MAIN-STATE.json`, `AGENTS.md`, or the active task explicitly requires them.
 
-## MAIN role and EX ownership
+## MAIN role: controller and researcher
 
-Stage32 MAIN is the integration/frontier-coordination lane and should not become a generic extra vertical attack lane by default.
+Stage32 MAIN is both the integration/frontier coordinator **and a research lane**. It must not be reduced to a passive dispatcher.
 
-The ownership classes below are **default anti-duplication routing hints**, not a replacement routing authority. Explicit current routing in `MAIN-STATE.json` remains authoritative for ordinary MAIN startup. If `MAIN-STATE.json` explicitly assigns a current MAIN route that overlaps one of these classes, MAIN follows that exact route until routing is changed through the existing state/claim-sync process; the ownership table alone must not silently reroute or suppress it.
+MAIN should perform mathematics directly when at least one of the following holds:
 
-Default ownership classes are:
+1. `MAIN-STATE.json` explicitly routes the current leaf to MAIN;
+2. the obligation is genuinely cross-lane, such as an adapter joining specialist results, an integrated same-object/same-member identity, or synthesis required to select the remaining frontier;
+3. the obligation is genuinely unowned and must be researched to decide routing or closure.
+
+MAIN should **not** duplicate a sustained vertical leaf that is already owned by an active specialist command. In particular:
+
+- sustained FULL178 numerical census research belongs to `stage32-01-178-mainbatch` unless current MAIN routing explicitly takes it back;
+- sustained EX5 Picard64/node-support producer work belongs to `stage32ex5-mainbatch` unless current MAIN routing explicitly takes it back.
+
+MAIN may inspect, validate, adapt, integrate, or consume those specialist results as required. A specialist ownership boundary does not prevent MAIN from doing real research; it prevents two chats from unknowingly attacking the same leaf.
+
+## Historical EX ownership hints
+
+The ownership classes below remain anti-duplication hints, not current routing authority:
 
 - `EX1`: V6 carrier, normalization, singularity, and branch-disposal attacks;
 - `EX2`: actual V6 member, complete linear system, fixed/moving decomposition, and member reconstruction;
 - `EX3`: O210 cover geometry, cover tower, and monodromy;
 - `EX4`: absolute marking, W-line identification, and Q602 residue discrimination;
-- `EX5`: receiver breadth, materially distinct bypass routes, and independent weapon qualification;
+- `EX5`: receiver breadth / Picard64 producer and materially distinct bypass routes;
 - `EX6`: reverse/upper-endpoint O266 attack and endpoint-specific diagnostics.
 
-The exact live status of an EX lane is mutable and is not duplicated here. When ownership is clear but current lane status matters, inspect only that EX lane's startup/state on demand rather than preloading all EX state.
+Ordinary separate EX1-EX4 startup is currently inactive unless Stage32 authority explicitly reopens it. Current routing precedence is:
 
-Before starting a new MAIN mathematical leaf that is **not already explicitly routed by current `MAIN-STATE.json`**, classify the obligation:
+`explicit current MAIN-STATE routing` > `stages/stage32/COMMANDS.md ownership` > `historical ownership/roadmap text`.
 
-1. If it is semantically owned by an EX lane, MAIN should route the work to that EX lane or consume its retained/audited result when authorized rather than creating a duplicate attack.
-2. MAIN may perform mathematics when the obligation is genuinely cross-lane: an adapter joining results from multiple EX lanes, an integrated same-object/same-member identity, an unowned bridge required by more than one lane, or a synthesis needed to decide the remaining Stage32 frontier.
-3. MAIN may perform consolidation, claim/frontier integration, authority routing, and `CLOSED` / `CURRENT_THEORY_BLOCKED` synthesis without creating a duplicate EX attack.
-4. If a new unowned MAIN scratch obligation develops into a sustained vertical research program, propose/perform the existing explicit routing or `ACTIVE_FRONTIER_REMAP` procedure before treating EX ownership as changed. Do not silently change routing authority from this table alone.
-
-Precedence is therefore:
-
-`explicit current MAIN-STATE routing` > `default anti-duplication ownership hint`.
-
-A future ownership change that is intended to override current routing must be represented in the routing authority and, when applicable, synchronized through the existing claim-DAG trigger contract.
-
-This role split grants no mathematical credit, does not promote any EX result, does not change the active frontier by itself, and does not authorize merge.
+A future ownership change that overrides current routing must be represented in routing authority and, when applicable, synchronized through the existing claim-DAG trigger contract.
 
 ## Authority split
 
 `MAIN-STATE.json` is the current mutable ordinary startup projection. It is not a proof certificate and does not rewrite historical evidence.
 
-Exact mathematical claims remain grounded in the hostile-audited certificates and source locks referenced by `MAIN-STATE.json`. Historical controller, production-state, runkey, roadmap, audit, and history files remain evidence or operational history; they are not ordinary current-leaf startup authority merely because they exist.
+Exact mathematical claims remain grounded in the hostile-audited certificates and source locks referenced by `MAIN-STATE.json`. Historical controller, production-state, runkey, roadmap, audit, mission, and history files remain evidence or operational history; they are not ordinary current-leaf startup authority merely because they exist.
 
 If historical material conflicts with `MAIN-STATE.json` about current routing, use `MAIN-STATE.json` for ordinary routing and use the exact referenced certificate chain for mathematical claims. Do not infer new mathematical credit from the compact state itself.
+
+## Specialist handoff discipline
+
+When MAIN delegates a sustained vertical leaf to 178 or EX5, record/retain the ownership boundary before running both commands concurrently. The specialist should return a stable retained checkpoint, blocker, or audit handoff. MAIN then consumes it through the required current-target adapter and claim/audit procedure. Do not run MAIN and a specialist independently on the same semantic leaf.
+
+Historical commands `stage32-01-178-a..f` and `stage32ex5-a..h` are not ordinary active fanout. Parallel child dispatch requires an explicit new decomposition and user re-enable decision.
 
 ## Search and Arsenal routing
 
@@ -57,17 +66,13 @@ Repository discovery is search-first; never request a recursive/full repository 
 
 A search miss is not repository-wide absence and is not mathematical nonexistence.
 
-## On-demand history
-
-Historical Stage32 files may be opened only when the current state or active task requires their exact semantics, provenance, heavy-workflow history, source lock, audit record, or cleanup-reference analysis. Their presence does not authorize heavy compute or change current credit.
-
 ## Timeout-safe batch execution
 
-For exploratory or micro-diagnostic Stage32 MAIN work, do not push every narrow experiment directly onto a large shared PR when that push would re-trigger the PR-wide Stage32 workflow set. Prefer a scratch branch or equivalent isolated working branch, keep scratch results non-authoritative, and consolidate only successful retained leaves into the shared PR at an audit-ready checkpoint. Perform freshness synchronization/rebase and broad exact-head CI verification at that consolidation checkpoint rather than after every micro-diagnostic. This execution rule changes workflow cadence only; it does not weaken source locks, credit firewalls, hostile-audit requirements, or merge gates.
+For exploratory or micro-diagnostic Stage32 MAIN work, do not push every narrow experiment directly onto a large shared PR when that push would re-trigger the PR-wide Stage32 workflow set. Prefer a scratch branch or equivalent isolated working branch, keep scratch results non-authoritative, and consolidate only successful retained leaves into the shared PR at an audit-ready checkpoint. Perform freshness synchronization/rebase and broad exact-head CI verification at that consolidation checkpoint rather than after every micro-diagnostic.
 
 ## Claim-DAG synchronization trigger
 
-Ordinary `stage32main batch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+Ordinary `stage32mainbatch` startup remains the startup set above and does not preload Stage32 proof-management files.
 
 When MAIN reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
 
