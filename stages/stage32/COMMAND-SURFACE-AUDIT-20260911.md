@@ -1,6 +1,6 @@
 # Stage32 command-surface audit — 2026-09-11
 
-Scope: ordinary Stage32 operator commands and startup/routing documents on `main`. This is an operational audit; it does not alter mathematical credit.
+Scope: ordinary Stage32 operator commands, startup/routing documents, and the ACTIVE Stage32 startup authority workflow on `main`. This is an operational audit; it does not alter mathematical credit.
 
 ## Findings
 
@@ -9,6 +9,7 @@ Scope: ordinary Stage32 operator commands and startup/routing documents on `main
 3. **178 startup routing drift.** `32-01-178/MISSION.json` remained ACTIVE but its integration surface and startup snapshot referenced PR #1753 / older N240-N280-era conditions. Stage32 MAIN has since advanced through audited N355 with N356 retained `AUDIT_REQUIRED`. The old mission snapshot is valid history but unsafe as current routing authority.
 4. **EX5 post-merge drift.** `README.md`, `MAIN-START-HERE.md`, `MAINBATCH-OPERATIONS.md`, `CURRENT-ROADMAP.md`, `CURRENT-AUDIT-CONTRACT.md`, `MAIN-STATE.json`, and `verify_main_state.py` still encoded PR #1765 as an active merge-first checkpoint even though #1765 is merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa`.
 5. **Historical parallel lanes remain discoverable.** 178 `a..f` and EX5 `a..h` branches/history remain useful evidence but are not ordinary active dispatch surfaces. Without a canonical registry they are easy to mistake for live commands.
+6. **Historical PR #1753 handoff was incorrectly globalized.** The ACTIVE `.github/workflows/stage32-main-startup-authority.yml` unconditionally replayed `verify_pr1753_integration_audit_handoff.py` after the live startup verifier. That handoff is an exact frozen integration-only boundary for PR #1753, not a permanent invariant of every future Stage32 startup PR. A fresh current-main command-surface PR therefore failed on historical #1753 state even after the live startup authority verification passed.
 
 ## Repair
 
@@ -20,6 +21,9 @@ Scope: ordinary Stage32 operator commands and startup/routing documents on `main
 - Advanced EX5 ordinary startup from the merged #1765 merge-first state to a post-merge BC2-25-preflight-ready state; no new mathematical credit is granted.
 - Made `stage32ex5-audit` fail conceptually closed until a new exact retained checkpoint exists.
 - Added `stages/stage32/verify_command_surface.py` and updated `stages/stage32-ex5/verify_main_state.py` to guard the repaired command surface and post-merge EX5 state.
+- Preserved the prior MAIN/EX5 mathematical replay verifiers as frozen compatibility verifiers and wrapped only their stale startup spelling/schema assumptions; their retained mathematical/source-lock assertions still execute.
+- Repaired the ACTIVE Stage32 startup workflow so the historical PR #1753 handoff verifier runs only when the handoff JSON/verifier itself is changed. Normal current-main startup PRs use the live startup authority verifier and do not inherit PR #1753's frozen lifecycle state.
+- Added `COMMANDS.md`, `verify_command_surface.py`, and the frozen V10 authority verifier to the ACTIVE startup workflow path trigger so command-surface changes cannot bypass startup CI.
 
 ## Canonical ordinary commands after repair
 
@@ -42,3 +46,7 @@ Do **not** split Stage32 MAIN into separate generic `coordinator` and `researche
 - MAIN integrates specialist results and may take over only through explicit current routing.
 
 This keeps one controller without turning it into a passive dispatcher.
+
+## Workflow / audit consequence
+
+The startup workflow remains `ACTIVE_AUTO`; no trigger class is broadened and no MANUAL/RETIRED workflow is reactivated. However, the PR #1753 handoff selection logic and startup path coverage are materially revised. Under repository governance this is a hostile-audit-relevant workflow change. Exact-head CI must be green, then this PR requires hostile audit before any merge decision. Hostile-audit PASS still does not itself authorize merge.
