@@ -109,7 +109,10 @@ jobs:
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
 
-      - name: Verify Stage32 final-chain 32-02 conditional RR effectivity classifier
+      - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
+        run: python3 stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
+
+      - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
 
       - name: Verify Stage32 claim-DAG integrity after CUT191 authority transition
