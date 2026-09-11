@@ -1,0 +1,63 @@
+{
+  "audit_consumption": {
+    "bc2_26_hostile_audit_exact_head": "34d6b030095b97c738f6faf6b9045f366622592c",
+    "bc2_26_hostile_audit_review_id": 5177919212,
+    "bc2_26_hostile_audit_status": "PASS"
+  },
+  "canonical_sha256_without_this_field": "1767c15cfd1064863f79f20af413651a818e1009bf37b7b471471ef89f60160b",
+  "credit": {
+    "full178_complete": false,
+    "preflight_only": true,
+    "stage32_main_credit": false,
+    "whole_first_block_unsat": false,
+    "whole_stratum_closed": false
+  },
+  "execution_preflight": {
+    "artifact_retention_days": 1,
+    "effective_heavy_concurrency": 1,
+    "maximum_subbranch_checks": 70,
+    "per_subbranch_timeout_ms": 2000,
+    "projected_peak_artifact_bytes": 100000,
+    "repository_storage_budget_bytes": 524288000,
+    "workflow_timeout_minutes": 10,
+    "worst_case_solver_timeout_ms": 140000
+  },
+  "firewalls": {
+    "main_promotion": false,
+    "merge_authorized": false,
+    "partition_subbranch_unknown_dropped": false,
+    "sat_relabelled_actual_curve": false,
+    "unknown_relabelled_unsat": false,
+    "unretained_172_parent_identities_inferred": false
+  },
+  "partition": {
+    "boundary_pairing_label": 35,
+    "coverage_exact": true,
+    "coverage_reason": "p35 and all exceptional pairings incident to boundary 35 are nonnegative integers in the retained Picard64 feasibility model; fixing n2 therefore exhausts exactly p35=0..floor(n2/2).",
+    "disjoint": true,
+    "fibre_degree_variable": "n2",
+    "identity": "n2 = 2*p35 + sum_{E incident to boundary 35} pE",
+    "maximum_subbranch_checks": 70,
+    "n2_histogram": {"2":3,"3":3,"4":6,"5":4,"6":7},
+    "rule": "for each fixed BC2-26 UNKNOWN p34 leaf, partition by integer p35 in 0..floor(n2/2)",
+    "x4_not_selected_reason": "boundary35 uses the same exact retained fibre identity as boundary34, requires no new HNF arithmetic hypothesis, and bounds the next generation to 70 checks versus a much broader exact x4-value partition."
+  },
+  "schema": "STAGE32EX5_BC2_27_BOUNDARY35_PARTITION_PREFLIGHT_V1",
+  "source_locks": {
+    "bc2_26_checkpoint_canonical": "b97d61c0d20cec1742831a07595429024cb9bb272d383cfb98d968278d8d330a",
+    "bc2_26_source_git_blob_sha": "f795dcf24ea77a99c6c4a85bec64910ca02f65f9",
+    "bc2_27_residual_manifest_canonical": "c723b63c1f61dc8f637b69cbca5888e16b6f3fb94f6bb71a8f9c57e7822a4cf1",
+    "hperp_integral_adapter_git_blob_sha": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+    "pairing_prefix_engine_git_blob_sha": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
+  },
+  "stage": "32EX5",
+  "target": {
+    "other_unretained_bc2_19_unknown_identities_inferred": false,
+    "other_unretained_bc2_19_unknown_identity_count": 172,
+    "residual_unknown_branch_count": 20,
+    "residual_unknown_p33_subbranch_count": 20,
+    "residual_unknown_p34_leaf_count": 23,
+    "retained_unknown_parent_count": 12
+  },
+  "unit": "BC2_27_PARTITION_BC2_26_RESIDUAL_P34_UNKNOWN_BY_BOUNDARY35"
+}
