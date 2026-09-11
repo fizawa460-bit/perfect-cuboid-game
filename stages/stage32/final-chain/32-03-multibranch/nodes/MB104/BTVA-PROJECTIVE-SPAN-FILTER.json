@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_BTVA_PROJECTIVE_SPAN_FILTER_V1",
+  "schema": "STAGE32_MB104_BTVA_PROJECTIVE_SPAN_FILTER_V2",
   "status": "RETAINED_CUBOID_SPECIFIC_GLOBAL_SUPPORT_FILTER_NONCLOSING",
   "receiver": "R29-LG2-MB",
   "source": {
@@ -8,6 +8,14 @@
     "arxiv": "1912.08908",
     "source_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER-SOURCE-NOTE.md",
     "corroboration": "Stoll--Testa, Curves on the surface of cuboids, Math. Comp. 2026, DOI 10.1090/mcom/4238"
+  },
+  "node_coordinate_source_lock": {
+    "mb103_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/verify_mb103_aut_node_quotient.py",
+    "mb103_verifier_blob_sha1": "5a362acbbc3969e76f74b783b53d69a2c17adedc",
+    "node_count": 48,
+    "coordinate_field": "Q(i)",
+    "full_node_vector_rank": 7,
+    "projective_span_dimension": 6
   },
   "canonical_embedding_adapter": {
     "H_equals_K": true,
@@ -20,19 +28,26 @@
     "all_curves_distinct_surface_nodes_min": 6,
     "nonconic_distinct_surface_nodes_min": 7,
     "nonconic_node_span": "P6",
-    "receiver_filter_for_d_gt_2": "N>=7 and met-node set spans P6"
+    "receiver_filter_for_d_gt_2": "N>=7 and exact Q(i)-rank of met-node coordinate vectors is 7"
   },
   "genus_one": {
     "theorem_dichotomy": "component of hyperplane section OR at least six singularities spanning a hyperplane",
-    "receiver_filter_for_d_gt_16": "N>=6 and met-node set spans at least P5"
+    "receiver_filter_for_d_gt_16": "N>=6 and exact Q(i)-rank of met-node coordinate vectors is at least 6"
+  },
+  "exact_span_witnesses_in_mb103_order": {
+    "P5_six_node_indices_zero_based": [0, 1, 2, 4, 8, 9],
+    "P5_vector_rank": 6,
+    "P6_seven_node_indices_zero_based": [0, 1, 2, 4, 8, 9, 24],
+    "P6_vector_rank": 7
   },
   "interaction_with_scaling_ray": {
     "ray": "D_k=6*k*H-k*sum_i(E_i)",
     "positive_node_support": 48,
     "projective_span_filter_excludes_ray": false,
-    "reason": "the retained scaling profile uses all 48 box nodes"
+    "reason": "the retained scaling profile uses all 48 box nodes, whose exact coordinate rank is 7"
   },
   "decision": {
+    "exact_executable_node_profile_filter_available": true,
     "use_as_future_fixed_degree_node_profile_filter": true,
     "finite_degree_window_proved": false,
     "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
