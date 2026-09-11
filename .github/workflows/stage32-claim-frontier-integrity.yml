@@ -48,6 +48,12 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Install CUT191 exact-head replay dependencies
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Verify CUT191 exact-head audit boundary
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32cut-mainbatch'
+        run: python stages/stage32/full178-cut/verify_cut191_exact_head_audit.py
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
