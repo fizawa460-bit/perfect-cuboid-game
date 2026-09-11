@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE32_MB104_BTVA_PROJECTIVE_SPAN_FILTER_V1",
+  "status": "RETAINED_CUBOID_SPECIFIC_GLOBAL_SUPPORT_FILTER_NONCLOSING",
+  "receiver": "R29-LG2-MB",
+  "source": {
+    "primary": "Bruin--Thomas--Varilly-Alvarado, Algebra & Number Theory 16 (2022), Theorem 1.2",
+    "doi": "10.2140/ant.2022.16.1377",
+    "arxiv": "1912.08908",
+    "source_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-PROJECTIVE-SPAN-FILTER-SOURCE-NOTE.md",
+    "corroboration": "Stoll--Testa, Curves on the surface of cuboids, Math. Comp. 2026, DOI 10.1090/mcom/4238"
+  },
+  "canonical_embedding_adapter": {
+    "H_equals_K": true,
+    "H_square": 16,
+    "proper_linear_span_implies_hyperplane_component": true,
+    "hyperplane_component_degree_upper_bound": 16,
+    "therefore_d_gt_16_implies_span_P6": true
+  },
+  "genus_zero": {
+    "all_curves_distinct_surface_nodes_min": 6,
+    "nonconic_distinct_surface_nodes_min": 7,
+    "nonconic_node_span": "P6",
+    "receiver_filter_for_d_gt_2": "N>=7 and met-node set spans P6"
+  },
+  "genus_one": {
+    "theorem_dichotomy": "component of hyperplane section OR at least six singularities spanning a hyperplane",
+    "receiver_filter_for_d_gt_16": "N>=6 and met-node set spans at least P5"
+  },
+  "interaction_with_scaling_ray": {
+    "ray": "D_k=6*k*H-k*sum_i(E_i)",
+    "positive_node_support": 48,
+    "projective_span_filter_excludes_ray": false,
+    "reason": "the retained scaling profile uses all 48 box nodes"
+  },
+  "decision": {
+    "use_as_future_fixed_degree_node_profile_filter": true,
+    "finite_degree_window_proved": false,
+    "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
+    "needed_closer": "upper bound on ordinary self-singularities / Beauville ramification / exceptional mass with subunit slope, or another global member obstruction"
+  },
+  "firewalls": {
+    "surface_node_support_equals_strict_transform_ordinary_nodes": false,
+    "surface_node_support_equals_total_delta": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
