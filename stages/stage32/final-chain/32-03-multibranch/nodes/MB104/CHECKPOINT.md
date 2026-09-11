@@ -1,57 +1,93 @@
-# Stage32 MB104 checkpoint — current contracts do not imply a finite degree window
+# Stage32 MB104 checkpoint — finite window reduced to a minimal-cusp branch bound
 
-Status: **RETAINED OBSTRUCTION / MB104 NOT COMPLETE / NO CREDIT**
+Status: **ACTIVE RETAINED CHECKPOINT / MB104 NOT COMPLETE / NO CREDIT**
 
-## Question
+## Baseline insufficiency
 
-Can MB101 plus MB102, without importing the unibranch Freitag--Salvati Manni bound, already force a population-wide upper bound on the canonical degree `d=H.D` for `R29-LG2-MB`?
-
-Answer: **no**. The currently retained numerical contracts admit formal low-genus data for arbitrarily large even degree. This is an insufficiency statement about the present necessary conditions, not an existence statement for curves.
-
-## Exact formal family
-
-For every integer `k>=1`, put `d=2k`. The MB102 identity is
-
-```text
-D^2 + d = 2g - 2 + 2 Delta_total.
-```
-
-Two arbitrary-degree formal families satisfy it exactly:
+MB101 plus MB102 alone do not force a finite upper bound on canonical degree `d=H.D`. Their numerical contracts admit formal arbitrary even-degree data such as
 
 ```text
 g=1: D^2=-d,   Delta_total=0,
-g=0: D^2=-d-2, Delta_total=0.
+g=0: D^2=-d-2, Delta_total=0,
 ```
 
-Their arithmetic genera are respectively
+which satisfy the retained adjunction/normalization identity and Hodge upper bound. This is an insufficiency witness only; it is not an existence claim for curves.
+
+## New progress: branchwise Freitag--Salvati Manni extension
+
+The proof of Freitag--Salvati Manni Theorem 3.1 was re-opened at the exact point where bijective normalization is used. The published proof has
 
 ```text
-p_a(D)=1+(D^2+d)/2 = 1,
-p_a(D)=1+(D^2+d)/2 = 0,
+16(2g-2)k = #zeros - #poles,
+#zeros >= 2kd.
 ```
 
-so `p_a-g=Delta_total=0` in both cases. Hodge supplies only
+For one normalization branch over a box node with cusp vector `(a1,a2)`, the differential contributes pole order `16k` and the discriminant factors contribute zero order `(a1+a2)k`. The translation-lattice congruences force
 
 ```text
-D^2 <= d^2/16
+a1,a2>0,
+a1 == a2 == 0 mod 4,
+a1+a2 == 0 mod 8.
 ```
 
-for `H^2=16`; both negative choices satisfy this for every `k>=1`.
+Thus a positive pole occurs only when `a1+a2=8`, equivalently in MB101 notation only for `(A,B)=(1,1)`, and then its order is `8k`.
 
-The multibranch membership condition is independent of these global scalar identities: one may retain a node profile with some `r_i>=2` (for example two branches of multiplicity one, hence `r_i=M_i=2`) without any MB101/MB102 rule converting that local fact into an upper bound for `d`.
+Let
 
-Therefore the retained contracts themselves do not entail a finite set of degrees.
+```text
+R8 = number of normalization branches over the 48 nodes with (A,B)=(1,1).
+```
 
-## Consequence
+Summing branchwise yields the retained necessary inequality
 
-MB104 cannot be closed by algebraically recombining the current adjunction, Hodge, branch-count, exceptional-contact, or delta-separation statements. A new geometric input must control degree relative to data not presently bounded. Examples of the kind of input that would be load-bearing are:
+```text
+d <= 16g - 16 + 4R8.                 (MB104-FSM-MB)
+```
 
-- a multibranch extension of the Freitag--Salvati Manni degree argument with an explicit correction term that is itself globally bounded;
-- an independent bound coupling `D^2` or arithmetic genus to canonical degree for the relevant integral low-geometric-genus carriers;
-- a global conductor/ramification/incidence inequality that converts the finite 48-node geometry into a genuine degree restriction.
+For bijective normalization, `R8<=48`, and the published bound is recovered exactly:
 
-No one of these is claimed here. They are route classes, not established lemmas.
+```text
+d <= 16g-16+4*48 = 176+16g.
+```
+
+The detailed proof and certificate are in:
+
+- `FSM-MULTIBRANCH-POLE-LEMMA.md`
+- `FSM-MULTIBRANCH-POLE-CERTIFICATE.json`
+- `verify_mb104_fsm_multibranch_pole.py`
+
+## MB101 interface
+
+Every minimal cusp branch `(A,B)=(1,1)` has `m=min(A,B)=1`. Therefore
+
+```text
+R8 <= R <= M=sum_i D.E_i,
+```
+
+and hence also
+
+```text
+d <= 16g-16+4M.
+```
+
+The latter is not a finite degree bound because no adequate population-wide upper bound on `M` is currently retained.
+
+## Sharpened bottleneck
+
+MB104 no longer needs a generic new inequality. The exact missing object is a bound on the minimal-cusp branch count `R8`. A finite degree window follows from either
+
+```text
+R8 <= constant,
+```
+
+or
+
+```text
+R8 <= alpha*d + beta,  alpha < 1/4.
+```
+
+The later symmetric-differential literature constrains **distinct node support** but does not bound normalization multiplicity `R8` at one node, so it does not by itself close this gap.
 
 ## Firewalls
 
-This checkpoint does not say that arbitrary-degree multibranch curves exist. It says only that the current necessary conditions fail to rule out arbitrary degree. It releases no finite Picard enumeration, receiver credit, effectivity credit, theorem credit, endpoint credit, or merge authorization.
+No absolute `R8` bound is claimed. MB104 remains incomplete; finite Picard enumeration is unreleased. There is no receiver, effectivity, final-milestone, theorem, endpoint, Perfect Cuboid, or merge credit.
