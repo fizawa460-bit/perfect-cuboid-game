@@ -14,141 +14,106 @@ where `R8` is the number of normalization branches over box nodes with minimal c
 
 ## Positive population reductions now retained
 
-### BTVA low-support finiteness
-
-Bruin--Thomas--Várilly-Alvarado prove that only finitely many genus-0/1 curves on the perfect cuboid surface pass through at most 13 singularities. Therefore any potentially infinite multibranch family lies in
-
-```text
-N=#{i:r_i>0} >= 14.
-```
-
-This theorem is non-effective for Stage32 production: it does not list the finite exceptional curves or give their maximum degree.
-
-### Genus-zero multibranch sector is full-span
-
-BTVA prove that every genus-zero curve other than the known 32 plane conics passes through at least seven nodes spanning `P^6`. The Stoll source model shows each of the 32 conics is a smooth plane conic; normalization is therefore an isomorphism and every met node has `r_i=1`. Hence none is in `R29-LG2-MB`.
-
-Consequently every genus-zero multibranch carrier satisfies
-
-```text
-N>=7,
-dim span(Sigma(D))=6.
-```
-
-There is no remaining conic exception inside the multibranch receiver.
-
-### Genus-one low-span sector has an explicit degree window
-
-BTVA Corollary 6.5 gives
-
-```text
-dim span(Sigma(D)) <= 4  =>  d <= 16.
-```
-
-Thus only genus-one node-support span dimensions `5` and `6` remain outside an explicit BTVA degree window. This is a real finite-window subpopulation, but global MB105 remains gated because the high-span sectors are still open.
+BTVA low-support finiteness gives: any potentially infinite genus-0/1 multibranch family lies in `N=#{i:r_i>0}>=14`. The known 32 plane conics are smooth and therefore not in the multibranch receiver, so every genus-zero multibranch carrier is in the full-span sector. For genus one, BTVA gives `dim span(Sigma(D))<=4 => d<=16`; only span dimensions 5 and 6 remain outside an explicit BTVA window.
 
 ## Exact negative-route walls
 
-### Local A1 geometry
+The following routes are now retained as insufficient by themselves:
 
-Distinct minimal `(1,1)` branches can land at distinct nonzero points of the exceptional line and separate after resolution. The retained local packet gives no bounded number of minimal branches per node and does not force exceptional delta.
+- local A1 landing/delta data: arbitrarily many minimal branches can use distinct exceptional landing points;
+- published Garcia-Fritz--Urzua correction: exactly `-d+M+4g-4`, with no hidden branch-excess or delta cancellation;
+- six rank-3 fibrations: only `R8<=M<=6d`;
+- Hodge projection: only `R8<=sqrt(6d^2+96d-192g+192)`;
+- minimal cusp plus one fibration: first tangential jet is free, so ramification is not automatic;
+- all 28 genus-5 fibrations with unit charging: even impossible-best-case charging gives only `R8<=d+2g-2`; slope `<1/4` would require aggregate charge `q>112` per minimal branch;
+- pure powers of BTVA `omega_7`: available hyperplane vanishing and A1 regularization cost both have ratio `1/2`, leaving no multi-hyperplane slack.
 
-### Published GFU correction
+## BTVA 13-form principal-part computation completed
 
-Garcia-Fritz--Urzua Theorem 3.1 has exact degree
+The preflight for the 13-dimensional order-two BTVA space has now been pushed to an exact local computation. The ancillary file `arXiv:1912.08908v3/anc/perfectcuboid.out` gives 13 affine generators in the basis `(dx2^2,dx2*dx3,dx3^2)`.
+
+For the A1 cone
 
 ```text
--d + M + 4g - 4,
-M=sum_i D.E_i.
+xz=y^2,
+x=u^2,
+y=uv,
+z=v^2,
 ```
 
-There is no hidden negative branch-excess or delta correction. Their smooth-at-node bound `d<=4g+44` is the special case `M<=48`; the multibranch formula only gives `d<=M+4g-4` outside the integral locus. Their multiple-differential refinement gives lower exceptional-incidence bounds. Published GFU therefore does not upper-bound `R8`.
-
-### Six rank-3 fibrations and Hodge
-
-The six rank-3 genus-5 fibrations give only
+and resolution chart `s=u^2, t=v/u`, a constant tensor
 
 ```text
-R8 <= M <= 6d.
+a du^2+b du dv+c dv^2
 ```
 
-Direct projection to `H` plus the 48 exceptional classes gives
+has exceptional pole polynomial
 
 ```text
-R8 <= sqrt(6d^2+96d-192g+192),
+P(t)=a+b*t+c*t^2,
 ```
 
-with asymptotic slope `sqrt(6)`. Both are far above the required `<1/4`.
+via the principal part `P(t) ds^2/(4s)`. An FSM-minimal branch has `s=tau, t=lambda+O(tau)`, hence the order-two form is regular on that normalization branch iff `P(lambda)=0`.
 
-### Local fibration jet wall
-
-A minimal branch has local strict-transform germ
+At `R1=[1:0:0:0:1:1:1]`, direct substitution of the 13 BTVA forms gives principal tensors spanning
 
 ```text
-x=t,
-u=lambda+c*t+O(t^2),
+t,
+1-t^2,
+1+t^2,
 ```
 
-with the first tangential coefficient `c` free in the retained packet. Even when the incident exceptional curve is a local section of a genus-5 fibration, a generic first jet makes the induced map unramified. Minimal cusp type alone therefore does not force even one ramification unit.
+so the local principal-part map has rank `3`, the maximum possible. A second representative `R2=[1:i:0:i:1:0:0]` independently gives rank `3`.
 
-### Full 28-fibration Riemann--Hurwitz capacity wall
+The fixed nine Stoll coordinate substitutions send `R1` through a single orbit of all 48 nodes. Therefore every node has an intrinsic rank-three order-two principal-part map.
 
-The 22 rank-4 fibrations occur in 11 complementary pairs with pair class sum `H`; their total restricted map degree is at most `11d`. The six rank-3 maps have total degree at most `3d`. Hence all 28 together satisfy
+Detailed artifacts:
+
+- `BTVA-13FORM-PRINCIPAL-PART.md`
+- `BTVA-13FORM-PRINCIPAL-PART-CERTIFICATE.json`
+- `verify_mb104_btva_13form_principal_part.py`
+
+## Structural consequence: order two cannot count R8 multiplicity
+
+Let `s_i` be the number of distinct exceptional landing directions among minimal `(1,1)` branches over node `i`. Requiring one order-two form to cancel its principal pole on all those branches gives at most
 
 ```text
-sum_j n_j <= 14d,
-B_total <= 28d+56(g-1).
+min(3,s_i)
 ```
 
-Even under the impossible-best-case assumption that every minimal branch contributes one ramification unit to all 28 maps,
+independent conditions at node `i`, because a binary quadratic is determined by three distinct landing directions. Repeated branches at the same landing direction impose the same principal pole-cancellation condition; after three distinct directions the condition has already saturated to full regularity at that node.
+
+Thus the complete 13-form order-two portfolio sees at most
 
 ```text
-R8 <= d+2g-2,
+sum_i min(3,s_i)
 ```
 
-so the asymptotic slope is still `1`. More generally, aggregate forced ramification charge `q` per minimal branch gives slope `28/q`; MB104 needs
+principal-part conditions. It does **not** count
 
 ```text
-q>112.
+R8=sum_i r8_i
 ```
 
-Thus ordinary unit-charging Riemann--Hurwitz architecture is structurally insufficient.
+with multiplicity. Consequently, even fully materializing a fixed-basis `3x13` matrix at all 48 labels would not supply the missing `R8` upper bound: the limitation is structural, not missing matrix bookkeeping.
 
-### Pure powers of the BTVA hyperplane-vanishing form
+This closes the order-two BTVA principal-part portfolio as a standalone MB104 route.
 
-For BTVA `omega_7^k`, symmetric order is `2k`, total movable hyperplane vanishing is `k`, and Corollary 3.4 requires `k` vanishing units to regularize one selected `A1` exceptional component. Available and required ratios are both exactly `1/2`; there is zero slack. Splitting the hyperplane divisor among different node subsets cannot bypass the common-hyperplane span barrier.
+## Current hard sectors and next live input
 
-## Concrete next computation: BTVA 13-form exceptional-valuation portfolio
-
-BTVA compute
+The unresolved population is concentrated in
 
 ```text
-dim H^0(X, SymHat^2 Omega_X^1)=13
-```
-
-with explicit generators. Their forms have nonuniform exceptional behavior: for example `omega_1` is already regular over a specified singular subset, while `omega_7` carries a hyperplane zero. For an `A1` node the order-two local Euler characteristic is `chi^0=3`, so regular extension is governed by at most three local principal-part conditions on this 13-dimensional space.
-
-The next exact object is therefore the family of 48 linear maps
-
-```text
-L_i: V_13 -> W_i,  dim W_i<=3,
-```
-
-whose kernels are the order-two forms intrinsically regular at node `i`. The required computation is to source-lock the 13 forms and 48 nodes, calculate all `L_i`, quotient them by the retained `Aut(S)` action, and optimize products plus hyperplane twists. A positive result matters only if the resulting branchwise inequality reaches `R8<=alpha*d+beta` with `alpha<1/4` or otherwise gives a finite window on the remaining high-span sectors.
-
-This route is recorded in `BTVA-13FORM-PORTFOLIO-PREFLIGHT.*`. No matrix or global regular section is claimed yet.
-
-## Current hard sectors
-
-After all retained reductions, the unresolved population is concentrated in:
-
-```text
-g=0: multibranch carriers with node support spanning all P^6;
+g=0: multibranch carriers with node support spanning P^6;
 g=1: carriers with node-support span dimension 5 or 6;
-and in either case the potentially infinite sector has N>=14.
+potentially infinite sector: N>=14.
 ```
 
-The exact numerical bottleneck remains the multiplicity-sensitive quantity `R8`, not merely distinct node support.
+The next successful input must charge **branch multiplicity**, including multiple minimal branches at one node, rather than only node support or finitely many landing-direction conditions. The live route classes are therefore narrowed to:
+
+1. a global conductor/intersection inequality that charges every normalization branch or total exceptional mass with coefficient strong enough to imply `R8<=alpha*d+beta`, `alpha<1/4`;
+2. a genuinely higher-jet/global constraint whose independent conditions grow with branch multiplicity rather than saturating at the order-two landing polynomial;
+3. a new global symmetric differential architecture with stronger exceptional regularity/vanishing than the retained BTVA/GFU portfolios.
 
 ## Firewalls
 
