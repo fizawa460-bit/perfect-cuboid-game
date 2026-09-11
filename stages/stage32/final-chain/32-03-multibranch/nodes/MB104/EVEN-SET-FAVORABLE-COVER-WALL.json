@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE32_MB104_EVEN_SET_FAVORABLE_COVER_WALL_V1",
+  "status": "RETAINED_DISTINCT_FAVORABLE_COVER_ROUTE_CLOSED_NONFINAL",
+  "receiver": "R29-LG2-MB",
+  "source_locks": {
+    "source_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/EVEN-SET-FAVORABLE-COVER-WALL-SOURCE-NOTE.md",
+    "upstream_repository": "MichaelStollBayreuth/Verification",
+    "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "upstream_path": "Cuboids/cuboids.magma",
+    "upstream_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "mb103_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json",
+    "mb103_certificate_blob_sha1": "6d2b7acb667e7757a4f859b7eb0680ce4fd3aae0",
+    "al_path": "stages/stage32/residual-32-01-production/post1648al-beauville-cover-projection-genus-bound.json",
+    "al_blob_sha1": "dbe2bea1b2cae1e69ad6c27e5828f81494532fa4",
+    "code_dimension_reference": "Beauville Lemma 2 / Jaffe-Ruberman Theorem 4.5 as used in Catanese-Tonoli, JEMS 9 (2007), Lemma 1.9: dim even-node code = b1(full-node double cover)+1"
+  },
+  "beauville_full_cover": {
+    "full_node_set_even": true,
+    "node_count": 48,
+    "factor_quotient_genus": 2,
+    "q_X": 4,
+    "b1_X": 8,
+    "actual_even_set_code_dimension": 9,
+    "all_48_word_in_actual_code": true
+  },
+  "necessary_parity_supercode": {
+    "known_nonexceptional_curve_count": 92,
+    "conic_count": 32,
+    "boundary_elliptic_count": 12,
+    "other_elliptic_count": 48,
+    "row_weights": [6, 8, 4],
+    "binary_incidence_rank": 25,
+    "dimension": 23,
+    "actual_code_is_subset": true,
+    "identified_with_actual_code": false
+  },
+  "weight4_obstruction": {
+    "necessary_supercode_weight4_word_count": 12,
+    "single_AutS_orbit": true,
+    "orbit_span_dimension": 12,
+    "actual_code_dimension": 9,
+    "actual_weight4_word_exists": false,
+    "reason": "Aut(S)-stability would force the 12-dimensional orbit span into a 9-dimensional actual code"
+  },
+  "weight44_obstruction": {
+    "full_48_word_actual": true,
+    "actual_weight44_word_exists": false,
+    "reason": "symmetric difference with the actual full-48 word would be an actual weight-4 word"
+  },
+  "double_cover_invariants": {
+    "for_even_subset_weight_w": {
+      "K_square_after_ramification_blowdown": "32",
+      "c2_after_ramification_blowdown": "160-3*w",
+      "chi_O": "16-w/4",
+      "weight_divisible_by_4": true
+    },
+    "K2_gt_c2_condition": "w>128/3",
+    "possible_weights_in_0_to_48_under_4_divisibility": [44, 48],
+    "weight44_available": false,
+    "weight48_is_existing_Beauville_cover": true,
+    "distinct_favorable_Chern_even_subset_cover_exists": false
+  },
+  "decision": {
+    "retire_distinct_even_subset_K2_gt_c2_cover_amplification_route": true,
+    "finite_degree_window_proved": false,
+    "next_subobligation": "MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND",
+    "remaining_useful_inputs": [
+      "n_ot<=alpha*d+beta with alpha<1",
+      "global jet/interpolation obstruction for actual Picard classes",
+      "member-level irreducibility/globalization theorem",
+      "a non-even-set cover or correspondence with genuinely independent charge and a closing inequality"
+    ]
+  },
+  "firewalls": {
+    "necessary_parity_supercode_equals_actual_even_set_code": false,
+    "full_actual_code_reconstructed": false,
+    "lower_weight_even_subset_cover_nonexistence_claimed": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
