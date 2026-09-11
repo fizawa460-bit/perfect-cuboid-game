@@ -20,7 +20,7 @@ class RRResult:
     integral_class_parity_ok: bool
 
 
-def classify(d: int, C2: int, *, assumptions_affirmed: bool = True) -> RRResult:
+def classify(d: int, C2: int, *, assumptions_affirmed: bool = False) -> RRResult:
     delta = C2 - d
     if delta % 2:
         return RRResult(
@@ -40,7 +40,7 @@ def classify(d: int, C2: int, *, assumptions_affirmed: bool = True) -> RRResult:
             C2=C2,
             status="RR_INCONCLUSIVE_ASSUMPTIONS_NOT_AFFIRMED",
             chi_OC=chi,
-            reason="K2=16, chi(O)=8, K nef, Serre duality and RR are conditional inputs of this checkpoint.",
+            reason="K2=16, chi(O)=8, K nef, Serre duality and RR are conditional inputs of this checkpoint and require explicit affirmation.",
             effective_divisor_certified=False,
             integral_class_parity_ok=True,
         )
@@ -83,12 +83,12 @@ def main() -> None:
     ap.add_argument("--d", type=int, required=True, help="d = K.C")
     ap.add_argument("--c2", type=int, required=True, help="C2 = C.C")
     ap.add_argument(
-        "--assumptions-not-affirmed",
+        "--assumptions-affirmed",
         action="store_true",
-        help="Fail closed when the surface assumptions are not source-affirmed for the caller.",
+        help="Explicitly affirm the conditional surface assumptions for this invocation; omitted means fail closed.",
     )
     args = ap.parse_args()
-    result = classify(args.d, args.c2, assumptions_affirmed=not args.assumptions_not_affirmed)
+    result = classify(args.d, args.c2, assumptions_affirmed=args.assumptions_affirmed)
     print(json.dumps(asdict(result), sort_keys=True, separators=(",", ":")))
 
 
