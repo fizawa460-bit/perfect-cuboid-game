@@ -35,6 +35,7 @@ N357_RESULT_BLOB = "50014d453266ad79101910a943d14388bd3ef6ec"
 N357_RESULT_CANONICAL = "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
 N357_ENGINE_BLOB = "479c783cb42d0952cc310708106787147b499240"
 N357_COMPOSITION_VERIFIER_BLOB = "fdca9ad629983d8c31c7e6355540af3545910120"
+N357_FAIL_CLOSED_VERIFIER_BLOB = "8c3bb80e6fe1c552171d3c1a4eb63cd2bb6e482a"
 N357_REJECT = 17797986705435299826016
 POST_N357_IF_CONSUMED = 47598978285064933783643
 
@@ -213,9 +214,15 @@ def main() -> None:
     assert lock["composition_receipt_canonical_sha256"] == EXPECTED["n357_composition"][2]
     assert lock["composition_verifier_blob_sha1"] == N357_COMPOSITION_VERIFIER_BLOB
     assert git_blob_sha(HERE / "verify_n357_v13_current_authority_composition.py") == N357_COMPOSITION_VERIFIER_BLOB
+    assert git_blob_sha(HERE / "verify_n357_v13_current_authority_composition_fail_closed.py") == N357_FAIL_CLOSED_VERIFIER_BLOB
     assert lock["current_v13_overlap_cut191_terminals"] == 0
     assert lock["current_v13_overlap_cut194_terminals"] == 0
     assert lock["main_pruning_credit"] is False
+
+    workflow = (ROOT / ".github/workflows/stage32-main-startup-authority.yml").read_text(encoding="utf-8")
+    assert N357_HEAD in workflow
+    assert "Checkout exact hostile-audited N357 candidate boundary" in workflow
+    assert "verify_n357_v13_current_authority_composition_fail_closed.py --audited-n357-root .stage32-audited-n357" in workflow
 
     current = state["current"]
     assert current["mainbatch_stop_gate"] == "N357_CURRENT_V13_COMPOSITION_REPLAY_EXTERNAL_AUDIT"
@@ -254,6 +261,7 @@ def main() -> None:
     print("n357_candidate_hostile_audit=PASS review=5183069892")
     print("n357_current_v13_overlap_cut191=0 overlap_cut194=0 main_credit=false")
     print(f"n357_candidate_remaining_if_later_consumed={POST_N357_IF_CONSUMED}")
+    print("n357_fail_closed_audited_object_gate=source_locked")
     print("full178_complete=false merge_authorized=false")
 
 
