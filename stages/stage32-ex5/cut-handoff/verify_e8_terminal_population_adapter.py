@@ -17,9 +17,17 @@ from compressed_terminal_indexer import CompressedTerminalIndexer
 
 PREFLIGHT = HERE / "e8-terminal-population-preflight.json"
 ADAPTER = HERE / "e8_terminal_population_adapter.py"
+N220 = ROOT / "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json"
+N355_RESULT = ROOT / "stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-RESULT.json"
+N355_AUDIT = ROOT / "stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-HOSTILE-AUDIT-PASS.json"
 ASSIGNMENT_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
+GROUPS = [[101,102,103],[97,98,99],[93,94,95,96]]
 LOCKS = {
-    ADAPTER: "8080565de8d540e8af6532ef58cb2a3ddc686f56",
+    ADAPTER: "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f",
+    PREFLIGHT: "b28539d9d0eafddc181d3bbf6d668261f2ff081e",
+    N220: "f5f0e902062c9fafc9f03fe8a203d744cf58281e",
+    N355_RESULT: "0f30517cc5007ea435f4183201fc6cad699dd635",
+    N355_AUDIT: "033294f56fb86d81b7aa43758a51a39747ccc082",
     ROOT / "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
     ROOT / "stages/stage32/residual-32-01-production/compressed_terminal_family.py": "90ff82ed312dcc0cb32cf207935945f550e29170",
     ROOT / "stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py": "1e2ed93cae3c5b446c8d90c1ae2250be83289c79",
@@ -36,68 +44,82 @@ def blob(path: Path) -> str:
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
 
+def csha(v: object) -> str:
+    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
 def req(ok: bool, msg: str) -> None:
     if not ok:
         raise SystemExit("FAIL: " + msg)
 
 
-def block(idx: CompressedTerminalIndexer, block_index: int) -> dict:
-    lo = block_index * 113
-    hi = lo + 112
-    base = tuple(int(v) for v in idx.unrank(lo))
-    top = tuple(int(v) for v in idx.unrank(hi))
+def checked(path: Path, canonical: str) -> dict:
+    obj = json.loads(path.read_text())
+    q = dict(obj); claimed = q.pop("canonical_sha256_without_this_field", None)
+    req(claimed == canonical and csha(q) == canonical, f"canonical drift: {path.relative_to(ROOT)}")
+    return obj
+
+
+def signature(idx: CompressedTerminalIndexer, block_index: int) -> dict:
+    lo = block_index * 113; hi = lo + 112
+    base = tuple(int(v) for v in idx.unrank(lo)); top = tuple(int(v) for v in idx.unrank(hi))
     req(base[4] == 0 and top[4] == 112, "x4 block endpoint regression")
     req(base[:4] + base[5:] == top[:4] + top[5:], "exceptional signature block regression")
     req(idx.rank(base) == lo and idx.rank(top) == hi, "rank/unrank block endpoint regression")
-    by = {label: int(v) for label, v in zip(ASSIGNMENT_ORDER, base) if label != 49}
-    mass = sum(by.values())
-    residual = 8 - mass
-    return {
-        "terminal_rank_range": [lo, hi],
-        "base_terminal": list(base),
-        "fixed_exceptional_mass": mass,
-        "residual_exceptional_mass": residual,
-        "raw_selected_parent_candidate_count": math.comb(residual + 19, 19),
-    }
+    fixed = {label: int(v) for label, v in zip(ASSIGNMENT_ORDER, base) if label != 49}
+    mass = sum(fixed.values()); support = sum(v > 0 for v in fixed.values())
+    n220 = support + min(38, 8 - mass) >= 2
+    sums = [sum(fixed[label] for label in group) for group in GROUPS]
+    n355 = max(sums) <= 4
+    return {"base": list(base), "mass": mass, "support": support, "sums": sums, "pass": bool(n220 and n355), "raw": math.comb((8-mass)+19,19)}
 
 
 def main() -> None:
     for path, expected in LOCKS.items():
         req(blob(path) == expected, f"source-lock drift: {path.relative_to(ROOT)}")
     p = json.loads(PREFLIGHT.read_text())
-    req(p["schema"] == "STAGE32EX5_E8_TERMINAL_POPULATION_PREFLIGHT_V1", "preflight schema drift")
+    req(p["schema"] == "STAGE32EX5_E8_CURRENT_MAIN_TERMINAL_POPULATION_PREFLIGHT_V2", "preflight schema drift")
+    n220 = json.loads(N220.read_text())
+    req(n220["status"] == "DONE_AUDITED_EXACT_NECESSARY_PREFIX_PRUNING" and n220["hostile_audit"]["result"] == "PASS", "N220 audit authority drift")
+    req(n220["audited_predicate"]["necessary_form"] == "S10 + min(38, e-M10) >= ceil((d-16g+16)/4)", "N220 predicate drift")
+    n355 = checked(N355_RESULT, "7961cbc55993d2264879686388096fbe289a6fb84ecd4b6713b6b56c371bb775")
+    req(n355["full_prefix_cut"]["known_groups"] == GROUPS, "N355 group partition drift")
+    req(n355["full_prefix_cut"]["equivalent_cut"] == "max(group1_sum,group2_sum,group3_sum)<=floor(d/2)", "N355 cut drift")
+    audit = checked(N355_AUDIT, "d6bda89f94eb57bf021f0acbbc5000e198f1805c09da3e5f9a531d20b70ce004")
+    req(audit["status"] == "PASS" and audit["audited_exact_head"] == "3f3aadd2e5ada2a0a02a69490d6d659c02762682" and audit["review_id"] == 5165895301, "N355 audit receipt drift")
 
     idx = CompressedTerminalIndexer(8, 8)
-    req(idx.normal_budget == 112, "e8 normal budget drift")
-    req(idx.exceptional_count == 11318, "e8 block count drift")
-    req(idx.terminal_count == 1278934, "e8 terminal population drift")
-
-    prior = 0
-    raw_total = 0
-    for mass in range(9):
-        cumulative = exceptional_terminal_count(mass)
-        exact = cumulative - prior
-        raw_total += exact * math.comb((8 - mass) + 19, 19)
-        prior = cumulative
-    req(prior == 11318 and raw_total == 12458750, "whole e8 parent-candidate accounting drift")
-
-    b0 = block(idx, 0)
-    req(b0["terminal_rank_range"] == [0,112] and b0["fixed_exceptional_mass"] == 2 and b0["raw_selected_parent_candidate_count"] == 177100, "first block signature drift")
-    b1 = block(idx, 1)
-    req(b1["terminal_rank_range"] == [113,225], "first disjoint block rank drift")
-    req(b1["base_terminal"] == [0,1,0,0,0,0,0,1,0,0,1], "first disjoint block terminal drift")
-    req(b1["fixed_exceptional_mass"] == 3 and b1["residual_exceptional_mass"] == 5 and b1["raw_selected_parent_candidate_count"] == 42504, "first disjoint block population preflight drift")
-
-    req(p["population"]["exceptional_signature_block_count"] == 11318, "preflight block population drift")
-    req(p["population"]["terminal_count"] == 1278934, "preflight terminal population drift")
-    req(p["population"]["raw_selected_parent_candidates_if_all_blocks_materialized"] == raw_total, "preflight raw population drift")
+    req(idx.normal_budget == 112 and idx.exceptional_count == 11318 and idx.terminal_count == 1278934, "e8 unfiltered population drift")
+    survivor = []; raw_survivor = 0; h = hashlib.sha256(); n220_fail_inside_n355 = 0
+    for block_index in range(11318):
+        s = signature(idx, block_index)
+        n355_pass = max(s["sums"]) <= 4
+        if n355_pass and not s["pass"]:
+            n220_fail_inside_n355 += 1
+        if s["pass"]:
+            survivor.append(block_index); raw_survivor += s["raw"]; h.update(f"{block_index}\n".encode())
+    req(len(survivor) == 7596 and 113*len(survivor) == 858348, "current-MAIN e8 handoff population drift")
+    req(n220_fail_inside_n355 == 0, "N220 unexpectedly removes N355 survivor blocks")
+    req(h.hexdigest() == "529b9c31d36c517484dc176ba1d37674790eec05dc01853f9ce93b36e416c8e3", "survivor block stream drift")
+    req(raw_survivor == 12357387, "current-MAIN raw parent population drift")
+    req(11318-len(survivor) == 3722 and 113*(11318-len(survivor)) == 420586, "N355 rejected population drift")
+    b0 = signature(idx,0); b1 = signature(idx,1)
+    req(b0["pass"] and b0["mass"] == 2 and b0["raw"] == 177100, "first block regression")
+    req(b1["pass"] and b1["base"] == [0,1,0,0,0,0,0,1,0,0,1] and b1["sums"] == [1,1,1] and b1["raw"] == 42504, "first disjoint current-MAIN block regression")
+    wave = survivor[1:256]
+    wh = hashlib.sha256(); wave_raw = 0
+    for block_index in wave:
+        wh.update(f"{block_index}\n".encode()); wave_raw += signature(idx, block_index)["raw"]
+    req(len(wave)==255 and wave[0]==1 and wave[-1]==343 and wave_raw==407672, "preferred wave population drift")
+    req(wh.hexdigest()=="68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea", "preferred wave block stream drift")
+    req(p["current_main_handoff_population"]["block_count"] == 7596 and p["current_main_handoff_population"]["terminal_count"] == 858348, "preflight handoff population drift")
     req(p["credit"]["stage32_main_pruning_credit"] is False and p["credit"]["merge_authorized"] is False, "credit leak")
     compile(ADAPTER.read_text(), str(ADAPTER), "exec")
-
-    print("PASS: Stage32EX5 common e8 terminal population adapter static contract is coherent")
-    print("e8_blocks=11318;e8_terminals=1278934;block_width=113;lazy_random_access=YES")
-    print("first_disjoint_block=1;terminal_ranks=113..225;raw_parent_candidates=42504")
-    print("whole_raw_parent_candidates=12458750")
+    print("PASS: Stage32EX5 common e8 adapter is scoped to audited current-MAIN prefix survivors")
+    print("adapter_universe=11318_blocks/1278934_terminals")
+    print("cut_handoff=7596_blocks/858348_terminals;rejected_by_audited_prefix=3722_blocks/420586_terminals")
+    print("N220_additional_inside_N355=0;N356_candidate_consumed=NO")
+    print("preferred_wave=255_survivor_blocks/28815_terminals/source_blocks_1..343/raw_candidates_407672")
     print("stage32_main_pruning_credit=NO;merge_authorized=NO")
 
 
