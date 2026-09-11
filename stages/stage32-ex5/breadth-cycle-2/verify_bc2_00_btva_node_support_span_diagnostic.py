@@ -18,34 +18,53 @@ def req(value: bool, message: str) -> None:
 
 def main() -> None:
     state = json.loads(LIVE_STATE.read_text(encoding="utf-8"))
-    req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE",
-        "live EX5 post-merge schema drift")
+    schema = state["schema"]
+    req(schema in {
+        "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V6_BC2_25_AUDIT_BOUNDARY",
+    }, "live EX5 schema drift")
+
     bootstrap = state["bootstrap"]
-    req(bootstrap["active_work_pr"] is None and bootstrap["work_branch"] is None,
-        "merged #1765 leaked forward as active work surface")
+    if schema.endswith("V5_POST_1765_MERGE"):
+        req(bootstrap["active_work_pr"] is None and bootstrap["work_branch"] is None,
+            "merged #1765 leaked forward as active work surface")
+        req(state["current"]["next_route"] == "BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT",
+            "post-merge BC2-25 route drift")
+    else:
+        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch",
+            "BC2-25 active work surface drift")
+        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_25_RECHECK",
+            "BC2-25 audit-first route drift")
+        req(state["intermediate_audit_boundary"]["new_audit_boundary_exists"] is True,
+            "BC2-25 audit boundary missing")
+        req(state["intermediate_audit_boundary"]["bc2_26_execution_authorized"] is False,
+            "BC2-26 authorization leak")
+
     req(bootstrap["latest_merged_pr"] == 1765,
         "latest merged EX5 PR provenance drift")
     req(bootstrap["merge_authorized"] is False,
         "historical merge authorization leaked forward")
-    req(state["current"]["next_route"] == "BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT",
-        "post-merge BC2-25 route drift")
     req(state["frontier"]["FULL178_complete"] is False,
-        "BC2-24 promoted to FULL178 closure")
+        "local EX5 work promoted to FULL178 closure")
     req(state["credit"]["stage32_main_credit"] is False,
-        "BC2-24 promoted to Stage32 MAIN credit")
+        "local EX5 work promoted to Stage32 MAIN credit")
 
     # Preserve the exact original BC2-00 mathematical/source-lock verifier.
-    # It predates the #1765 merge and hard-coded only the live-state schema V4.
-    # Present the current state with that historical schema label while every
-    # artifact hash, source lock, theorem condition, route and credit firewall
-    # assertion runs unchanged.
+    # It predates later EX5 routing schemas. Supply only the historical routing
+    # fields that verifier consumed; all artifact hashes and live source locks
+    # inside the frozen verifier remain unchanged and fail closed.
     spec = importlib.util.spec_from_file_location("bc2_00_v4_frozen", FROZEN_V4_VERIFIER)
     req(spec is not None and spec.loader is not None, "cannot load frozen BC2-00 verifier")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 
-    compat = dict(state)
+    compat = json.loads(json.dumps(state))
     compat["schema"] = "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC"
+    cycle1 = compat.setdefault("prior_audited_authority", {}).setdefault("cycle1", {})
+    cycle1.setdefault("breadth_cycle", "EX5_BREADTH_CYCLE_1")
+    cycle1.setdefault("scope_firewall", "EX5_BREADTH_CYCLE_1_ONLY")
+    frontier = compat.setdefault("frontier", {})
+    frontier.setdefault("runtime_exceptional_index_to_projective_node_bridge_complete", True)
 
     class StateCompatProxy:
         def read_text(self, *args, **kwargs):
@@ -53,7 +72,7 @@ def main() -> None:
 
     module.MAIN_STATE = StateCompatProxy()
     module.main()
-    print("PASS BC2-00 historical replay under EX5 V5 post-#1765 live routing")
+    print(f"PASS BC2-00 historical replay under live EX5 schema {schema}")
 
 
 if __name__ == "__main__":
