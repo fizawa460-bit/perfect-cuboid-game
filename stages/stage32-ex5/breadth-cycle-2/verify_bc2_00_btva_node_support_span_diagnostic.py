@@ -62,14 +62,10 @@ def main() -> None:
         req(audit["bc2_27_execution_authorized"] is False,
             "BC2-27 authorization leak")
 
-    req(bootstrap["latest_merged_pr"] == 1765,
-        "latest merged EX5 PR provenance drift")
-    req(bootstrap["merge_authorized"] is False,
-        "historical merge authorization leaked forward")
-    req(state["frontier"]["FULL178_complete"] is False,
-        "local EX5 work promoted to FULL178 closure")
-    req(state["credit"]["stage32_main_credit"] is False,
-        "local EX5 work promoted to Stage32 MAIN credit")
+    req(bootstrap["latest_merged_pr"] == 1765, "latest merged EX5 PR provenance drift")
+    req(bootstrap["merge_authorized"] is False, "historical merge authorization leaked forward")
+    req(state["frontier"]["FULL178_complete"] is False, "local EX5 work promoted to FULL178 closure")
+    req(state["credit"]["stage32_main_credit"] is False, "local EX5 work promoted to Stage32 MAIN credit")
 
     spec = importlib.util.spec_from_file_location("bc2_00_v4_frozen", FROZEN_V4_VERIFIER)
     req(spec is not None and spec.loader is not None, "cannot load frozen BC2-00 verifier")
@@ -78,9 +74,13 @@ def main() -> None:
 
     compat = json.loads(json.dumps(state))
     compat["schema"] = "STAGE32EX5_MAIN_COMPACT_STATE_V4_FULL178_FINAL_CHAIN_SYNC"
-    cycle1 = compat.setdefault("prior_audited_authority", {}).setdefault("cycle1", {})
+    prior = compat.setdefault("prior_audited_authority", {})
+    cycle1 = prior.setdefault("cycle1", {})
     cycle1.setdefault("breadth_cycle", "EX5_BREADTH_CYCLE_1")
+    cycle1.setdefault("authority_status", "AUDITED")
     cycle1.setdefault("scope_firewall", "EX5_BREADTH_CYCLE_1_ONLY")
+    early = prior.setdefault("early_bc2", {})
+    early.setdefault("claim_id", "S32.EX5.BC2_NODE_SUPPORT_SPAN_CHECKPOINT.V1")
     frontier = compat.setdefault("frontier", {})
     frontier.setdefault("runtime_exceptional_index_to_projective_node_bridge_complete", True)
 
