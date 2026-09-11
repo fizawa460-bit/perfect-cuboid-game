@@ -42,8 +42,35 @@ jobs:
       - name: Diff check
         run: git diff --check
 
+  prepare-n357-prefix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Build N357 shared FULL178 prefix cache once
+        run: |
+          mkdir -p /tmp/n357-prefix
+          python stages/stage32/32-01-178/nodes/N357/prepare_n357_all178_prefix_cache.py \
+            --cache /tmp/n357-prefix/prefix.pkl.gz \
+            --meta /tmp/n357-prefix/prefix-meta.json
+          cat /tmp/n357-prefix/prefix-meta.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: n357-prefix-cache
+          path: /tmp/n357-prefix
+          retention-days: 1
+          if-no-files-found: error
+      - name: Diff check
+        run: git diff --check
+
   research-n357:
     name: research-n357-shard-${{ matrix.shard }}
+    needs: prepare-n357-prefix
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -57,10 +84,16 @@ jobs:
           python-version: "3.10.x"
       - name: Install exact verifier dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
-      - name: Research N357 all178 shard
+      - uses: actions/download-artifact@v4
+        with:
+          name: n357-prefix-cache
+          path: /tmp/n357-prefix
+      - name: Research N357 all178 shard from shared prefix cache
         run: |
           python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard.py \
-            --shard-index ${{ matrix.shard }} --shard-count 8 \
+            --shard-index ${{ matrix.shard }} --shard-count 8 --workers 4 \
+            --prefix-cache /tmp/n357-prefix/prefix.pkl.gz \
+            --prefix-meta /tmp/n357-prefix/prefix-meta.json \
             --output /tmp/n357-shard-${{ matrix.shard }}.json
       - uses: actions/upload-artifact@v4
         with:
