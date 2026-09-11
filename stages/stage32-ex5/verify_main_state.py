@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import hashlib
 import json
 import subprocess
 import sys
@@ -9,14 +8,16 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 B2 = HERE / "breadth-cycle-2"
-RUNKEY = HERE / "runkeys/bc2-26-boundary34-partition.json"
 MAIN = "c31684fb5f63d8a025eb298c91861d4c979b0e28"
 BC2_25 = "fc4e4541a4f349e6c249f7dadd85f91edfd1c0dc1cb56d92b18bbf13054a4518"
-BC2_26_MANIFEST = "39d816977fed0c770e155422ab7209ea3dd98dee49eb96daabb5b30557708a3a"
-BC2_26_PREFLIGHT = "92c6e53d8e2e3f5bf6576983c042667b5c56c154206c5514877ab4f1e6af3bcd"
-BC2_26_SOURCE_BLOB = "f795dcf24ea77a99c6c4a85bec64910ca02f65f9"
-AUDIT_HEAD = "1d2e04486e170336ce02af144aabb08e4a80a31d"
-AUDIT_REVIEW = 5177354131
+BC2_25_AUDIT_HEAD = "1d2e04486e170336ce02af144aabb08e4a80a31d"
+BC2_25_AUDIT_REVIEW = 5177354131
+BC2_26 = "b97d61c0d20cec1742831a07595429024cb9bb272d383cfb98d968278d8d330a"
+BC2_26_RAW = "f61f60804829c63b2090b42e142824411120f4d1a80d04ea323e04127e94e831"
+BC2_26_RUN = 34588771756
+BC2_26_JOB = 103229111936
+BC2_26_HEAD = "7d5c35057b480ebe6bf3b0cdf047c0d7bdfde18f"
+BC2_26_ARTIFACT = 10194988584
 
 
 def req(ok: bool, msg: str) -> None:
@@ -24,26 +25,10 @@ def req(ok: bool, msg: str) -> None:
         raise SystemExit(f"FAIL: {msg}")
 
 
-def csha(v: object) -> str:
-    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
-
-
-def git_blob_sha(path: Path) -> str:
-    raw = path.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
-
-
-def checked(path: Path, expected: str) -> dict:
-    obj = json.loads(path.read_text(encoding="utf-8"))
-    req(obj.get("canonical_sha256_without_this_field") == expected, f"canonical field drift: {path.name}")
-    q = dict(obj); q.pop("canonical_sha256_without_this_field", None)
-    req(csha(q) == expected, f"canonical replay drift: {path.name}")
-    return obj
-
-
 def main() -> None:
     s = json.loads((HERE / "MAIN-STATE.json").read_text(encoding="utf-8"))
-    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V7_BC2_25_AUDIT_CONSUMED_BC2_26_PREFLIGHT", "state schema drift")
+    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V8_BC2_26_AUDIT_BOUNDARY", "state schema drift")
+
     b = s["bootstrap"]
     req(b["current_main_sha_observed"] == MAIN, "current-main observation drift")
     req(b["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch" and b["active_work_pr"] == 1776, "active work surface drift")
@@ -52,65 +37,66 @@ def main() -> None:
     a = s["stage32_main_authority"]
     req(a["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN" and a["primary_incomplete_id"] == "32-01", "Stage32 route drift")
     req(a["n356_status"] == "AUDIT_REQUIRED" and a["n356_audit_credit_consumed"] is False and a["n356_main_pruning_credit"] is False, "N356 credit leak")
-    for k in ("V6_is_current_attack_target","O210_is_current_attack_target","Q602_is_current_attack_target"):
+    for k in ("V6_is_current_attack_target", "O210_is_current_attack_target", "Q602_is_current_attack_target"):
         req(a[k] is False, f"historical target reactivated: {k}")
 
     cur = s["current"]
-    req(cur["status"] == "BC2_25_HOSTILE_AUDIT_PASS_CONSUMED_BC2_26_PREFLIGHT_READY", "BC2-26 status drift")
-    req(cur["leaf"] == "BC2_26_BOUNDARY34_PARTITION_PREFLIGHT" and cur["next_route"] == "BC2_26_BOUNDARY34_PARTITION_BOUNDED", "BC2-26 route drift")
-    req(cur["stop_semantics"] == "BC2_26_MAX110_ONLY_THEN_FREEZE_NEW_AUDIT_BOUNDARY_BEFORE_BC2_27", "BC2-26 stop gate drift")
+    req(cur["status"] == "BC2_26_RETAINED_HOSTILE_AUDIT_REQUIRED", "BC2-26 status drift")
+    req(cur["leaf"] == "BC2_26_BOUNDARY34_PARTITION_RETAINED", "BC2-26 leaf drift")
+    req(cur["next_route"] == "HOSTILE_AUDIT_BC2_26_RECHECK", "audit-first route drift")
+    req(cur["stop_semantics"] == "BC2_27_BLOCKED_UNTIL_BC2_26_HOSTILE_AUDIT_PASS", "BC2-27 stop firewall drift")
 
     f = s["frontier"]
-    req((f["e8_bc2_25_new_parent_unsat_count"],f["e8_bc2_25_retained_unknown_count"],f["e8_bc2_25_parent_sat_count"]) == (3,16,0), "BC2-25 parent accounting drift")
-    req((f["e8_bc2_25_branch_unknown_count"],f["e8_bc2_25_subbranch_unknown_count"]) == (36,38), "BC2-25 residual accounting drift")
-    req((f["e8_bc2_26_target_parent_count"],f["e8_bc2_26_target_branch_count"],f["e8_bc2_26_target_p33_subbranch_count"],f["e8_bc2_26_maximum_p34_leaf_checks"]) == (16,36,38,110), "BC2-26 target accounting drift")
-    req(f["e8_known_parent_unsat_count_lower_bound"] == 7148 and f["e8_bc2_25_unretained_unknown_identity_count"] == 172, "BC2-25 lower-bound/firewall drift")
-    req(f["e8_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "local result promoted")
+    req((f["e8_bc2_26_new_parent_unsat_count"], f["e8_bc2_26_retained_unknown_count"], f["e8_bc2_26_parent_sat_count"]) == (4, 12, 0), "BC2-26 parent accounting drift")
+    req((f["e8_bc2_26_branch_unsat_count"], f["e8_bc2_26_branch_unknown_count"], f["e8_bc2_26_branch_sat_count"]) == (16, 20, 0), "BC2-26 branch accounting drift")
+    req((f["e8_bc2_26_p33_subbranch_unsat_count"], f["e8_bc2_26_p33_subbranch_unknown_count"], f["e8_bc2_26_p33_subbranch_sat_count"]) == (18, 20, 0), "BC2-26 p33 accounting drift")
+    req((f["e8_bc2_26_p34_leaf_unsat_count"], f["e8_bc2_26_p34_leaf_unknown_count"], f["e8_bc2_26_p34_leaf_sat_count"]) == (87, 23, 0), "BC2-26 p34 accounting drift")
+    req(f["e8_known_parent_unsat_count_lower_bound"] == 7152 and f["e8_bc2_26_unretained_unknown_identity_count"] == 172, "BC2-26 lower-bound/firewall drift")
+    req(f["e8_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "local BC2-26 result promoted")
 
     rp = s["retained_exact_progress"]
     req(rp["bc2_25_checkpoint_canonical"] == BC2_25, "BC2-25 checkpoint lock drift")
-    req(rp["bc2_25_hostile_audit_exact_head"] == AUDIT_HEAD and rp["bc2_25_hostile_audit_review_id"] == AUDIT_REVIEW, "BC2-25 PASS receipt drift")
-    req(rp["bc2_26_residual_manifest_canonical"] == BC2_26_MANIFEST and rp["bc2_26_preflight_canonical"] == BC2_26_PREFLIGHT, "BC2-26 retained preflight lock drift")
-    req(rp["bc2_26_source_git_blob_sha"] == BC2_26_SOURCE_BLOB, "BC2-26 source state lock drift")
+    req(rp["bc2_25_hostile_audit_exact_head"] == BC2_25_AUDIT_HEAD and rp["bc2_25_hostile_audit_review_id"] == BC2_25_AUDIT_REVIEW, "BC2-25 PASS receipt drift")
+    req(rp["bc2_26_checkpoint_canonical"] == BC2_26 and rp["bc2_26_raw_result_canonical"] == BC2_26_RAW, "BC2-26 checkpoint/raw lock drift")
+    req(rp["bc2_26_workflow_run_id"] == BC2_26_RUN and rp["bc2_26_compute_job_id"] == BC2_26_JOB and rp["bc2_26_exact_compute_head"] == BC2_26_HEAD, "BC2-26 run provenance drift")
+    req(rp["bc2_26_artifact_id"] == BC2_26_ARTIFACT, "BC2-26 artifact drift")
 
     audit = s["intermediate_audit_boundary"]
-    req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_exact_head"] == AUDIT_HEAD and audit["last_hostile_audit_review_id"] == AUDIT_REVIEW, "audit PASS not consumed")
-    req(audit["prior_failed_audit_review_id"] == 5176133548, "prior FAIL receipt lost")
-    req(audit["new_audit_boundary_exists"] is False and audit["bc2_26_execution_authorized"] is True, "BC2-26 audit-consumption gate drift")
-    req(audit["bc2_26_authorization_scope"] == "BOUNDARY34_MAX110_ONLY", "BC2-26 scope drift")
-    req(audit["merged"] is False and b["merge_authorized"] is False, "merge authorization leak")
+    req(audit["candidate_pr"] == 1776 and audit["candidate_checkpoint_canonical"] == BC2_26, "BC2-26 audit checkpoint drift")
+    req(audit["predecessor_hostile_audit_status"] == "PASS" and audit["predecessor_hostile_audit_review_id"] == BC2_25_AUDIT_REVIEW, "BC2-25 predecessor audit receipt drift")
+    req(audit["last_hostile_audit_status"] == "PENDING", "BC2-26 audit status must be pending")
+    req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-26 audit boundary not frozen")
+    req(audit["bc2_27_execution_authorized"] is False and audit["merged"] is False, "BC2-27/merge authorization leak")
 
     ns = s["next_step"]
-    req(ns["id"] == "BC2_26_BOUNDARY34_PARTITION_BOUNDED" and ns["bc2_26_bounded_execution_authorized"] is True and ns["bc2_26_maximum_subbranch_checks"] == 110, "BC2-26 next-step drift")
-    for k in ("heavy_scaleout_authorized","main_promotion_authorized","n350_registration_authorized","merge_authorized"):
+    req(ns["id"] == "BC2_26_HOSTILE_AUDIT_RECHECK" and ns["bc2_27_blocked_until_audit_pass"] is True, "next-step audit gate drift")
+    for k in ("heavy_scaleout_authorized", "main_promotion_authorized", "n350_registration_authorized", "merge_authorized"):
         req(ns[k] is False, f"authorization leak: {k}")
-    for section_name in ("credit","historical_credit_firewall","firewalls"):
+
+    for section_name in ("credit", "historical_credit_firewall", "firewalls"):
         for key, value in s[section_name].items():
-            if key != "level": req(value is False, f"credit/firewall leak: {section_name}.{key}")
+            if key != "level":
+                req(value is False, f"credit/firewall leak: {section_name}.{key}")
+
+    runkey = json.loads((HERE / "runkeys/bc2-26-boundary34-partition.json").read_text(encoding="utf-8"))
+    req(runkey["armed"] is False, "BC2-26 runkey must stay disarmed after retained execution")
+    req(runkey["consumed_run"]["checkpoint_canonical"] == BC2_26, "BC2-26 consumed checkpoint drift")
 
     subprocess.run([sys.executable, str(B2 / "verify_bc2_25_boundary33_partition_checkpoint.py")], check=True)
-    man = checked(B2 / "bc2-26-residual-p33-subbranch-manifest.json", BC2_26_MANIFEST)
-    pf = checked(B2 / "bc2-26-boundary34-partition-preflight.json", BC2_26_PREFLIGHT)
-    req(len(man["target"]["residual_unknown_p33_subbranches"]) == 38, "BC2-26 manifest residual count drift")
-    req(len(set((r["parent_index"],r["n1"],r["n2"],r["p33"]) for r in man["target"]["residual_unknown_p33_subbranches"])) == 38, "BC2-26 manifest duplicate target")
-    req(man["partition_candidate"]["maximum_subbranch_checks"] == 110 and pf["partition"]["maximum_subbranch_checks"] == 110, "BC2-26 max110 drift")
-    source = B2 / "bc2_26_boundary34_partition.py"
-    req(git_blob_sha(source) == BC2_26_SOURCE_BLOB, "BC2-26 source blob drift")
-    rk = json.loads(RUNKEY.read_text(encoding="utf-8"))
-    req(rk["schema"] == "STAGE32EX5_BC2_26_BOUNDARY34_PARTITION_RUNKEY_V1" and rk["generation"] == 1, "BC2-26 runkey drift")
-    req(rk["source_git_blob_sha"] == BC2_26_SOURCE_BLOB and rk["target"]["maximum_subbranch_checks"] == 110, "BC2-26 runkey source/target drift")
-    req(isinstance(rk["armed"], bool), "BC2-26 runkey armed must be boolean")
+    subprocess.run([sys.executable, str(B2 / "verify_bc2_26_boundary34_partition_checkpoint.py")], check=True)
 
-    docs = {name:(HERE/name).read_text(encoding="utf-8") for name in ["README.md","MAIN-START-HERE.md","CURRENT-ROADMAP.md","CURRENT-AUDIT-CONTRACT.md","MAINBATCH-OPERATIONS.md"]}
-    for name,text in docs.items():
-        for token in ("BC2-25","BC2-26","7148","16","38","110","172","#1776"):
-            req(token in text, f"{name} missing live-boundary token: {token}")
-    req(str(AUDIT_REVIEW) in docs["CURRENT-AUDIT-CONTRACT.md"] and AUDIT_HEAD in docs["CURRENT-AUDIT-CONTRACT.md"], "audit contract missing PASS receipt")
+    docs = {name: (HERE / name).read_text(encoding="utf-8") for name in ["README.md", "MAIN-START-HERE.md", "CURRENT-ROADMAP.md", "CURRENT-AUDIT-CONTRACT.md", "MAINBATCH-OPERATIONS.md"]}
+    for name, text in docs.items():
+        for token in ("BC2-26", "7152", "12", "20", "23", "172", "#1776"):
+            req(token in text, f"{name} missing BC2-26 audit-boundary token: {token}")
+        req("BC2-27" in text and ("blocked" in text.lower() or "禁止" in text), f"{name} does not block BC2-27 before audit PASS")
+    req(BC2_26 in docs["CURRENT-AUDIT-CONTRACT.md"] and str(BC2_26_RUN) in docs["CURRENT-AUDIT-CONTRACT.md"], "audit contract missing BC2-26 receipt")
 
-    print("PASS: Stage32EX5 BC2-25 hostile-audit PASS consumed; BC2-26 bounded preflight coherent")
-    print(f"bc2_26=16_PARENTS_36_BRANCHES_38_P33_UNKNOWN_MAX110_P34_LEAVES;armed={rk['armed']}")
-    print("known_parent_unsat_lower_bound=7148;other_unretained_unknown=172")
+    print("PASS: Stage32EX5 BC2-26 retained hostile-audit boundary is coherent")
+    print("bc2_26=4_NEW_UNSAT_12_RETAINED_UNKNOWN_0_SAT;20_BRANCH_UNKNOWN;20_P33_UNKNOWN;23_P34_UNKNOWN;172_OTHER_IDENTITIES_UNINFERRED")
+    print("known_parent_unsat_lower_bound=7152")
     print("stage32_main_credit=NO;merge_authorized=NO")
+    print("next=HOSTILE_AUDIT_BC2_26_RECHECK;BC2_27_BLOCKED")
 
 
 if __name__ == "__main__":
