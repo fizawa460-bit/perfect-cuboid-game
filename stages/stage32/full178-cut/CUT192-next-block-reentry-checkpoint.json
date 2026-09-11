@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE32_FULL178_CUT192_NEXT_BLOCK_REENTRY_CHECKPOINT_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT192",
+  "status": "BLOCKED_NEXT_E8_BLOCK_REQUIRES_EX5_SOURCE_LOCKED_EXACT_INTERFACE",
+  "authority_sync": {
+    "repository_main_head": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
+    "stage32_main_state_blob": "9981889309c833a1834eaadddce73e52c0aa0176",
+    "stage32_main_state_canonical": "6143a95a0fb380e3c30c6a464722b350666cec5f018318adefdae15800a676b3",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 66462870551188628549910,
+    "n356_audit_credit_consumed": false,
+    "n356_main_pruning_credit": false
+  },
+  "retained_cut191": {
+    "audit_handoff_path": "stages/stage32/full178-cut/CUT191-AUDIT-HANDOFF.json",
+    "audit_handoff_blob": "016c92ea002bf8e5a04836933b6bb1729fa9aa7d",
+    "audit_handoff_canonical": "a779e5aa5b8e01c373f356302b8da371fe349f7e1c08f5840b499c02b22645ba",
+    "status": "AUDIT_READY_FIRST_BLOCK_113_TERMINAL_PRUNING_CANDIDATE",
+    "stage32_main_pruning_candidate_terminals": 113,
+    "stage32_main_pruning_credit": false
+  },
+  "reentry_assessment": {
+    "current_merged_ex5_state_blob": "a26f19cb01d86174aef49495be16e946a429ddcb",
+    "picard64_exact_completion_interface_available": true,
+    "merged_ex5_e8_source_locked_target": {
+      "row_id": "g1-d008",
+      "d": 8,
+      "e": 8,
+      "first_block": [0, 112]
+    },
+    "bc2_17_evidence_path": "stages/stage32-ex5/breadth-cycle-2/bc2-17-n354-authority-picard64-retarget-v2-evidence.json",
+    "bc2_17_evidence_blob": "28c4b762c7f96a4898c62751062648cad066578c",
+    "bc2_17_evidence_canonical": "a8dd000481a39011bd1d9d108d55e38e0420dbc2bb7abf4851595dfdb5da5072",
+    "bc2_17_explicit_first_block": [0, 112],
+    "bc2_17_terminal_exceptional_pairings_fixed_to_source_rank0_signature": true,
+    "existing_source_locked_disjoint_e8_next_block_interface_found": false,
+    "generic_or_e4_next_block_machinery_is_equivalent_e8_source_lock": false,
+    "reason": "The retained e8 retarget evidence explicitly fixes the first block [0,112] and its terminal exceptional signature. Existing retained next-block preflights are e=4-specific. Re-targeting them to a disjoint e=8 block would require new terminal-to-Picard64 adapter/source-lock mathematics rather than consumption of an already retained exact interface."
+  },
+  "bounded_discovery_evidence": {
+    "e4_next_block_example_path": "stages/stage32-ex5/breadth-cycle-2/bc2-15-next-exceptional-terminal-block-preflight-checkpoint.json",
+    "e4_next_block_example_blob": "d7a209fbe89ae9be20da7de04e4c08a217b1a74d",
+    "e4_next_block_example_canonical": "f88ebe53c4300c01fc0a4870cc0dca75a0a091b60c95c8da7e00926bcee43182",
+    "e4_target": {
+      "row_id": "g1-d008",
+      "degree": 8,
+      "e": 4,
+      "terminal_rank_range": [665, 797]
+    },
+    "finding": "This retained next-block pattern is explicitly e=4 and cannot itself certify a disjoint e=8 completion population."
+  },
+  "ownership_firewall": {
+    "cut_may_consume_existing_source_locked_interface": true,
+    "cut_may_construct_or_repair_ex5_adapter": false,
+    "ex5_bc2_25_identity_refinement_performed": false,
+    "new_e8_retarget_adapter_constructed": false,
+    "heavy_compute_invoked": false
+  },
+  "credit": {
+    "cut191_candidate_preserved": true,
+    "new_cut192_pruning_candidate_terminals": 0,
+    "stage32_main_pruning_credit": false,
+    "pruned_full178_terminal_count_credited": 0,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "reopen_condition": {
+    "owner": "stage32ex5-mainbatch",
+    "condition": "Merge or otherwise retain/source-lock an exact terminal-to-Picard64 completion interface for a disjoint current-MAIN-surviving e=8 block/terminal population, with exact rank/unrank population semantics. CUT may then consume that interface without rebuilding it.",
+    "parallel_allowed_while_cut191_audit_pending": true
+  },
+  "next": {
+    "cut191_audit_command": "stage32cut-audit",
+    "cut191_main_consumption_owner": "stage32mainbatch",
+    "next_cut_research_action": "WAIT_FOR_SOURCE_LOCKED_DISJOINT_E8_INTERFACE_OR_AUDIT_RESULT",
+    "cut_must_not_self_promote_main_credit": true
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "n356_candidate_assumed_consumed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "5f555ddd49b674aafbe8342eff142232d1e83f27d7ae89c4f11dbf770961ffcd"
+}
