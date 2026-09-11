@@ -44,12 +44,20 @@ LOCKS = {
         ROOT / "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
         "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
     ),
-    "workflow": (
+    "n356_active_audited_workflow": (
         ROOT / ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
-        "c616cad5d0ed8d6d9e2ca5bdcd57db0b89d31c84",
+        "ce7047ecc57dc2001856cf5382707c37adeefd08",
+    ),
+    "n357_generation_workflow_archive": (
+        ROOT / "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml",
+        "4d705356e95436b089743ede593ec24f8f2a59a7",
     ),
 }
 
+EXPECTED_GENERATION_HEAD = "ae6425fc0acc393d7554185af38a9525627ec180"
+EXPECTED_GENERATION_RUN = 34602587402
+EXPECTED_ARTIFACT_ID = 10265472692
+EXPECTED_ARTIFACT_DIGEST = "da3b65180c19143800d1ddcc1cab0a3080ecd310e1d2b88b24c81314a7bc6b3f"
 EXPECTED_CANONICAL = "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
 EXPECTED_STREAM = "62c863cdbf3b18f34dbd0d95ea0c1980f361992b8ecec54a70f22efc33ff6d7b"
 EXPECTED_SOURCE_STRATA = 17128
@@ -122,6 +130,10 @@ def main() -> None:
 
     print(json.dumps({
         "verdict": "PASS_N357_FROZEN_AUDIT_BOUNDARY_SOURCE_LOCKS",
+        "generation_exact_head": EXPECTED_GENERATION_HEAD,
+        "generation_workflow_run": EXPECTED_GENERATION_RUN,
+        "generation_artifact_id": EXPECTED_ARTIFACT_ID,
+        "generation_artifact_digest_sha256": EXPECTED_ARTIFACT_DIGEST,
         "result_canonical_sha256": EXPECTED_CANONICAL,
         "per_stratum_stream_sha256": EXPECTED_STREAM,
         "source_terminals": EXPECTED_SOURCE_TERMINALS,

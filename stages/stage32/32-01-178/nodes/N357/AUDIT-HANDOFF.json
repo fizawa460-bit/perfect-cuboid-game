@@ -6,8 +6,8 @@
     "Does the deterministic 16-shard implementation enumerate exactly the same 17,128 N356-authority strata and 65,396,964,990,500,233,636,214 source terminals before charging any N357 rejection?",
     "Is canonical grouping exact rather than heuristic: do all strata sharing a canonical group have identical N357 counting semantics, making 2,441 groups an exact compression of 17,128 structural strata?",
     "Does the frozen aggregate satisfy exact partition identity with no overlap/double-credit: source = rejected + remaining, yielding 17,797,986,705,435,299,826,016 new rejected terminals and 47,598,978,285,064,933,810,198 candidate remaining terminals?",
-    "Do deterministic prefix serialization, worker/target/aggregate transitive source locks, frozen RESULT byte comparison, and verify_n357_audit_source_locks.py fail closed under any source drift?",
-    "Does exact-head CI on the frozen audit-boundary PR head reproduce RESULT.json byte-for-byte and pass the dedicated source-lock verifier?"
+    "Do deterministic prefix serialization, worker/target/aggregate transitive source locks, the byte-exact archived generation workflow, frozen RESULT, and verify_n357_audit_source_locks.py fail closed under any source drift?",
+    "Does the archived generation workflow blob 4d705356e95436b089743ede593ec24f8f2a59a7 exactly match successful run 34602587402 at head ae6425fc0acc393d7554185af38a9525627ec180, while the current branch restores the independently audited N356 workflow blob ce7047ecc57dc2001856cf5382707c37adeefd08?"
   ],
   "audited_input": {
     "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
@@ -38,11 +38,11 @@
     "artifact_id": 10265472692,
     "exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
     "n356_replay_success": true,
+    "workflow_blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7",
     "workflow_run_conclusion": "success",
     "workflow_run_id": 34602587402
   },
   "credit_ceiling_before_audit": "N357_FROZEN_ALL178_AUDIT_CANDIDATE_ONLY_NO_MAIN_PRUNING_CREDIT",
-  "exact_head_ci_requirement": "The current frozen PR head must run the 16 deterministic shards, aggregate to byte-identical RESULT.json, and pass verify_n357_audit_source_locks.py before external hostile audit may PASS.",
   "firewalls": {
     "endpoint_credit": false,
     "full178_complete": false,
@@ -72,12 +72,12 @@
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py"
     },
     "audit_source_lock_verifier": {
-      "blob_sha1": "493701f588fb862eb8938fe4412ee24d18587aac",
+      "blob_sha1": "81f785c0e68e84fb2bb863524a9b03155e1b6a16",
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
     },
     "audit_state": {
-      "blob_sha1": "c64e0a18e55bc5588fd8d6b87d83326b200225f4",
-      "canonical_sha256": "e9b93a2e10a0eb0dd9a399bdff356dfae7472804a088b5ae47acb87d4df4b10c",
+      "blob_sha1": "f270d3722a3cb518532afb58c7fc4576e493a22f",
+      "canonical_sha256": "8cfe31a4b94e908d8a224de707871109905afef3451a963fd55345f5c4767e39",
       "path": "stages/stage32/32-01-178/nodes/N357/AUDIT-STATE.json"
     },
     "canonical_worker": {
@@ -92,9 +92,19 @@
       "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c",
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py"
     },
+    "n356_active_audited_workflow": {
+      "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08",
+      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
+    },
     "n356_audit_receipt": {
       "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
       "path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json"
+    },
+    "n357_generation_workflow_archive": {
+      "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7",
+      "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
+      "generation_workflow_run_id": 34602587402,
+      "path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml"
     },
     "prefix_producer": {
       "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3",
@@ -103,14 +113,11 @@
     "result": {
       "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
       "path": "stages/stage32/32-01-178/nodes/N357/RESULT.json"
-    },
-    "workflow": {
-      "blob_sha1": "c616cad5d0ed8d6d9e2ca5bdcd57db0b89d31c84",
-      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
     }
   },
   "next_command": "stage32-01-178-audit",
   "node_id": "N357",
   "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity necessary-cut candidate for independent hostile audit. This boundary changes no already-audited N356 authority and grants no N357 MAIN pruning credit.",
-  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V1"
+  "replay_requirement": "Independent hostile audit must verify the archived byte-exact generation workflow and all transitive source locks, and may replay the deterministic census. The frozen audit-boundary branch itself must preserve those executable blobs and pass ordinary Stage32 MAIN startup/claim-DAG/workflow-lifecycle gates; it does not replace the independently audited N356 active workflow with an N357 auto workflow.",
+  "schema": "STAGE32_32_01_178_N357_EXTERNAL_HOSTILE_AUDIT_HANDOFF_V2"
 }

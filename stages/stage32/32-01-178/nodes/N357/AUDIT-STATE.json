@@ -24,7 +24,7 @@
     "n356_review_id": 5176607630,
     "n356_status": "AUDITED_NECESSARY_CUT_CONSUMED_BY_MAIN"
   },
-  "canonical_sha256_without_this_field": "e9b93a2e10a0eb0dd9a399bdff356dfae7472804a088b5ae47acb87d4df4b10c",
+  "canonical_sha256_without_this_field": "8cfe31a4b94e908d8a224de707871109905afef3451a963fd55345f5c4767e39",
   "credit": {
     "endpoint_credit": false,
     "full178_complete": false,
@@ -63,7 +63,7 @@
   "next_exact_route": "EXTERNAL_HOSTILE_AUDIT_N357_FROZEN_ALL178_CANDIDATE",
   "node_id": "N357",
   "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity candidate after audited N356 authority, while preserving zero N357 MAIN pruning credit until independent hostile audit.",
-  "schema": "STAGE32_32_01_178_N357_TRANSPORT_SUPPORT_CAPACITY_STATE_V3",
+  "schema": "STAGE32_32_01_178_N357_TRANSPORT_SUPPORT_CAPACITY_STATE_V4",
   "source_locks": {
     "aggregate_base": {
       "blob_sha1": "f9bbfc2739629c302d00a4d8d3974be3a30b52b7",
@@ -78,7 +78,7 @@
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py"
     },
     "audit_source_lock_verifier": {
-      "blob_sha1": "493701f588fb862eb8938fe4412ee24d18587aac",
+      "blob_sha1": "81f785c0e68e84fb2bb863524a9b03155e1b6a16",
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
     },
     "canonical_worker": {
@@ -93,10 +93,20 @@
       "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c",
       "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py"
     },
+    "n356_active_audited_workflow": {
+      "blob_sha1": "ce7047ecc57dc2001856cf5382707c37adeefd08",
+      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
+    },
     "n356_audit_receipt": {
       "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
       "canonical_sha256": "fdeedf56ba9dca97dc06175f892efeae09fd7ef0d3bb8670bfea438106227b74",
       "path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json"
+    },
+    "n357_generation_workflow_archive": {
+      "blob_sha1": "4d705356e95436b089743ede593ec24f8f2a59a7",
+      "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
+      "generation_workflow_run_id": 34602587402,
+      "path": "stages/stage32/32-01-178/nodes/N357-engine/FROZEN-GENERATION-WORKFLOW-ae6425.yml"
     },
     "prefix_producer": {
       "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3",
@@ -105,10 +115,6 @@
     "result": {
       "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
       "path": "stages/stage32/32-01-178/nodes/N357/RESULT.json"
-    },
-    "workflow": {
-      "blob_sha1": "c616cad5d0ed8d6d9e2ca5bdcd57db0b89d31c84",
-      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
     }
   },
   "status": "ALL178_CANDIDATE_FROZEN_AUDIT_REQUIRED_NO_MAIN_CREDIT"
