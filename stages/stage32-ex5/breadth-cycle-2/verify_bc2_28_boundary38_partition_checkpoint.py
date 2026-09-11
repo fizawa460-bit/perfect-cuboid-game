@@ -102,8 +102,12 @@ def main() -> None:
     req((consumed.get("p38_leaf_unsat_count"), consumed.get("p38_leaf_unknown_count")) == (38, 4), "runkey p38 accounting drift")
     req(consumed.get("known_parent_unsat_count_lower_bound") == 7160, "runkey lower-bound drift")
 
-    req(manifest["target"]["residual_unknown_p35_leaf_count"] == 13, "manifest p35 target count drift")
-    req(preflight["partition"]["maximum_subbranch_checks"] == 42, "preflight leaf bound drift")
+    mt = manifest["target"]
+    req(mt["target_p35_leaf_count"] == 13 and len(mt["residual_unknown_p35_leaves"]) == 13, "manifest p35 target count drift")
+    req(mt["target_parent_count"] == 9, "manifest parent target count drift")
+    pt = preflight["target"]
+    req(pt["maximum_subbranch_checks"] == 42 and pt["residual_unknown_p35_leaf_count"] == 13, "preflight leaf bound drift")
+    req(pt["retained_unknown_parent_count"] == 9, "preflight parent target count drift")
     req(cp["partition"]["boundary_pairing_label"] == 38 and cp["partition"]["maximum_possible_subbranch_count"] == 42, "partition contract drift")
     req(cp["partition"]["coverage_exact"] is True and cp["partition"]["disjoint"] is True, "partition coverage/disjointness drift")
     for key in ("whole_first_block_unsat", "whole_stratum_closed", "full178_complete", "stage32_main_credit", "effectivity_or_actual_curve_existence_proved", "theorem_credit", "endpoint_credit"):
