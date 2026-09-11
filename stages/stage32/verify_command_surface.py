@@ -30,6 +30,10 @@ def main() -> None:
         "stage32-01-178-audit",
         "stage32ex5-mainbatch",
         "stage32ex5-audit",
+        "stage32cut-mainbatch",
+        "stage32cut-audit",
+        "stage32mb-mainbatch",
+        "stage32mb-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
 
@@ -39,6 +43,8 @@ def main() -> None:
     for stale in ("`Stage32-main-batch`", "`stage32main batch`"):
         req(stale not in main_start, f"stale MAIN spelling retained: {stale}")
     req("stages/stage32/COMMANDS.md" in main_start, "MAIN startup does not read command registry")
+    req("stage32cut-mainbatch" in main_start, "MAIN startup missing CUT ownership boundary")
+    req("stage32mb-mainbatch" in main_start, "MAIN startup missing MB ownership boundary")
 
     mission = load(HERE / "32-01-178" / "MISSION.json")
     req(mission["status"] == "ACTIVE", "178 mission unexpectedly inactive")
@@ -64,9 +70,40 @@ def main() -> None:
     req("stage32ex5-mainbatch" in ex5_start, "EX5 command missing")
     req("stages/stage32/COMMANDS.md" in ex5_start, "EX5 startup does not read command registry")
 
+    cut = load(HERE / "full178-cut" / "MISSION.json")
+    req(cut["status"] == "ACTIVE", "CUT mission unexpectedly inactive")
+    req(cut["operator_commands"]["main"] == "stage32cut-mainbatch", "CUT command drift")
+    req(cut["operator_commands"]["audit"] == "stage32cut-audit", "CUT audit command drift")
+    req(cut["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "CUT routing authority drift")
+    req(cut["routing"]["current_main_credit_auto_promotion"] is False, "CUT self-promotion enabled")
+    req(cut["routing"]["current_n356_candidate_may_be_assumed_consumed"] is False, "CUT assumes unaudited N356")
+    req(cut["inputs"]["required_ex5_property"] == "picard64_exact_completion_interface_available=true", "CUT/EX5 interface contract drift")
+    cut_excluded = " ".join(cut["ownership"]["does_not_own"])
+    req("EX5 terminal-to-Picard64 adapter" in cut_excluded, "CUT may duplicate EX5 adapter work")
+    req("N356" in cut_excluded, "CUT may duplicate 178/N356 work")
+    req(cut["credit_firewall"]["stage32_main_pruning_credit"] is False, "CUT starts with MAIN credit")
+    cut_start = text(HERE / "full178-cut" / "MAIN-START-HERE.md")
+    req("stage32cut-mainbatch" in cut_start, "CUT startup command missing")
+    req("stages/stage32/COMMANDS.md" in cut_start, "CUT startup does not read command registry")
+
+    mb_dir = HERE / "final-chain" / "32-03-multibranch"
+    mb = load(mb_dir / "MISSION.json")
+    req(mb["status"] == "ACTIVE", "MB mission unexpectedly inactive")
+    req(mb["operator_commands"]["main"] == "stage32mb-mainbatch", "MB command drift")
+    req(mb["operator_commands"]["audit"] == "stage32mb-audit", "MB audit command drift")
+    req(mb["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "MB routing authority drift")
+    req(mb["routing"]["independent_of_full178_execution"] is True, "MB lost FULL178 independence")
+    req(mb["routing"]["main_credit_auto_promotion"] is False, "MB self-promotion enabled")
+    req(mb["execution"]["first_leaf"] == "MB101", "MB first leaf drift")
+    req(mb["credit_firewall"]["receiver_credit"] is False, "MB starts with receiver credit")
+    mb_start = text(mb_dir / "MAIN-START-HERE.md")
+    req("stage32mb-mainbatch" in mb_start, "MB startup command missing")
+    req("stages/stage32/COMMANDS.md" in mb_start, "MB startup does not read command registry")
+
     print("PASS: Stage32 command surface is canonical and post-merge synchronized")
     print("MAIN=controller+researcher; FULL178=stage32-01-178-mainbatch; EX5=stage32ex5-mainbatch")
-    print("parallel_child_lanes=HISTORICAL_ONLY_BY_DEFAULT")
+    print("CUT=stage32cut-mainbatch; MB=stage32mb-mainbatch")
+    print("parallel_child_lanes=HISTORICAL_ONLY_BY_DEFAULT; named_specialist_surfaces=EXPLICIT_NONOVERLAPPING")
 
 
 if __name__ == "__main__":
