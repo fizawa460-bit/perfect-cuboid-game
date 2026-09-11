@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE32EX5_E8_TERMINAL_POPULATION_PREFLIGHT_V1",
+  "stage": "32EX5",
+  "consumer": "stage32/full178-cut",
+  "purpose": "Expose the whole current-MAIN-surviving g1-d008/e8 terminal population through one exact random-access terminal-signature to Picard64/HNF parent-population adapter, avoiding block-specific reconstruction in CUT.",
+  "target": {"row_id":"g1-d008","g":1,"d":8,"e":8,"n354_survivor_stratum":true},
+  "population": {
+    "exceptional_signature_block_count": 11318,
+    "terminal_block_width": 113,
+    "terminal_count": 1278934,
+    "first_retained_block": [0,112],
+    "first_disjoint_block": [113,225],
+    "full_materialization_required": false,
+    "random_access_by_exceptional_rank": true,
+    "raw_selected_parent_candidates_if_all_blocks_materialized": 12458750
+  },
+  "adapter_semantics": {
+    "block_index": "exceptional_rank in CompressedTerminalIndexer(e=8,d=8)",
+    "x4_is_innermost": true,
+    "fixed_terminal_exceptional_labels_1based": [95,99,103,102,97,94,101,93,98,96],
+    "selected64_inverse_denominator": 8,
+    "selected_exceptional_count": 29,
+    "free_selected_exceptional_count_per_block": 19,
+    "parent_population": "all exact HNF-integrality-feasible selected-exceptional completions under the fixed terminal exceptional signature, carrying exact x4 residue classes mod 8",
+    "first_block_regression_parent_count": 7336,
+    "first_block_regression_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7"
+  },
+  "first_disjoint_block_preflight": {
+    "block_index": 1,
+    "terminal_rank_range": [113,225],
+    "base_terminal": [0,1,0,0,0,0,0,1,0,0,1],
+    "fixed_exceptional_mass": 3,
+    "residual_exceptional_mass": 5,
+    "raw_selected_parent_candidate_count": 42504
+  },
+  "execution": {
+    "preferred_initial_wave_block_range": [1,255],
+    "preferred_initial_wave_terminal_count": 28815,
+    "preferred_initial_wave_raw_parent_candidate_upper_work": 378374,
+    "artifact_policy": "compact summary only; raw parent records regenerated lazily by adapter",
+    "artifact_retention_days": 1,
+    "effective_heavy_concurrency": 1,
+    "repository_storage_budget_bytes": 524288000
+  },
+  "credit": {"producer_interface_only":true,"stage32_main_pruning_credit":false,"full178_complete":false,"theorem_credit":false,"endpoint_credit":false,"merge_authorized":false},
+  "firewalls": {"cut_may_consume_after_source_lock_retention_or_required_audit":true,"cut_may_treat_uncomputed_block_as_pruned":false,"unknown_promoted_to_unsat":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false}
+}
