@@ -5,7 +5,7 @@ import runpy
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v12.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v12_compat.py"
 COMMAND_SURFACE_VERIFIER = HERE / "verify_command_surface.py"
 
 
