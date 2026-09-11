@@ -115,3 +115,5 @@ jobs:
         run: python -m pip install --disable-pip-version-check sympy==1.14.0
       - name: Verify audited Goal4AK authority synchronization and local-evaluation release
         run: python -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py
+      - name: Verify audited Goal4CF current-main consumption
+        run: python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_audited_integration.py

@@ -1,81 +1,116 @@
-# Stage35-EX MAIN batch handoff — Goal4AK audit-ready provisional exact result
+# Stage35-EX MAIN batch handoff — audited Goal4CF current-main integration
 
-Authority remains **V73 / audited Goal4AJ**. This handoff records an unpromoted Goal4AK result only. It grants no authoritative explicit-F_B, local-evaluation, Brauer-Manin, E1, Stage35, receiver, theorem, endpoint, or perfect-cuboid credit.
+Formal authority remains **V74 / Goal4AK** under hostile review `5142248509`. Goal4CF is an independently hostile-audited intermediate quantitative adapter; it does not replace `MAIN-STATE.json` authority and grants no E1, Stage35, endpoint, or Perfect Cuboid credit.
 
-## Provisional Goal4AK result
+## Goal4CF hostile-audit provenance
 
-PR: `#1720`
-Branch: `stage35-ex-goal4aj-audited-sync-fb-assembly`
+PR #1766 contains the long-lived research stack and must not be merged directly.
 
-The fixed class-B representative has been materialized provisionally as
+- mathematical hostile PASS: review `5164213568`, exact head `2ffe07f31d56caf78261d032b7e5a78d500dd146`
+- lifecycle-repaired hostile PASS: review `5174608648`, exact head `a059c12ecd298258fa59feac653eb750d7143767`
+- no-drift revalidation PASS: review `5174722371`, same exact head `a059c12ecd298258fa59feac653eb750d7143767`
+- exact-head aggregate run: `34556563263` SUCCESS
+- exact-head dedicated Goal4CF run: `34556563288` SUCCESS
 
-`F_B := A31 / B31`
+The source mathematical credit ceiling is:
 
-with both `A31` and `B31` homogeneous of degree 31 in
+```text
+AUDITED_SELECTED_DIRECTION_QUANTITATIVE_DISCRIMINANT_HEIGHT_ADAPTER_NO_E1_CREDIT
+```
 
-`(a1,a2,a3,b1,b2,b3,c)=(h,x,y,z,q,p,w)`.
+## Current-main integration strategy
 
-The corresponding class is `(-1,F_B)` modulo `Br_0(U)`. Multiplying this fixed representative by `q in Q^*` changes the quaternion symbol only by the constant class `(-1,q)`, so the independently fixed numerator/denominator Q-normalizations are compatible with the Goal4Z modulo-constants target. Downstream local evaluation must nevertheless keep this exact normalization unless a constant-class adjustment is explicitly tracked.
+Current-main parent before this integration is:
 
-### Exact permanent inputs
+```text
+9ce9abcde2880d6de10dd7f408feb18fb9fab630
+```
 
-Numerator:
-- permanent manifest: `stages/stage35-ex/35ex-35/goal4aj-degree31-qcandidate-gen24-gzip-chunks.json`
-- manifest blob: `85b52e921f36fc445fd243db1a3b3f65bb298966`
-- raw text bytes: `208802`
-- support count: `5924`
-- SHA256: `358ee320a7d28b790ee9267aad3f95e8ff35af15d002976720622bd2b6e8decb`
+The three load-bearing Goal4CF artifacts are copied byte-identically from audited head `a059c12ecd298258fa59feac653eb750d7143767`:
 
-Denominator:
-- transport: `stages/stage35-ex/35ex-35/goal4ak-degree31-denominator.txt.gz.b64`
-- repaired transport blob: `5e25d4db44249f6eba0c03863e49f2522c8e54c8`
-- transport manifest: `stages/stage35-ex/35ex-35/goal4ak-degree31-denominator-transport.json`
-- manifest blob: `586a37bfe90a5fd3773c7d3525dde7c873ddedca`
-- manifest canonical SHA256: `f0e1187b89c3c7ea577e6404c75d3459a3d343d9b4bf56cdc4053a50f40a2522`
-- base64 SHA256: `ef7d9c7a360807a85b10a45b150a1636f01ed78bfc0f3b5ca05584eaf2749e1e`
-- gzip bytes: `8346`
-- gzip SHA256: `43b1ef891c21e3ec4279c70da0661d7987051b3eaaaf418db2158ede481a822d`
-- raw text bytes: `42489`
-- support count: `1542`
-- raw polynomial SHA256: `28d738a7a23df1ace371cabe3a476c270a54c6b7798e8172bd7111b14e25fc29`
+- source-lock blob `a94e98e560793cf91548a67bd37989915de00e7a`
+- certificate blob `60fae382dd97ab6a905b1678681f829b59595e56`
+- historical verifier blob `e0f623087b8814f9d7ab7f8ced6d7d71f5de0033`
 
-The first repo-side denominator Base64 copy was operationally corrupt (gzip CRC failure). It was replaced byte-for-byte from the retained successful gen1 Actions artifact. This was a transport defect only, not a mathematical failure.
+The original certificate intentionally retains its historical source-lock environment and pre-audit status text. It is not rewritten to pretend that current root `AGENTS.md` or the cleaned repository lifecycle surface has the same blobs as the old research branch. Instead, `goal4cf-hostile-audit-pass-consumption.json` records the independent audit receipt, and `verify_stage35_ex_35_goal4cf_audited_integration.py` verifies byte identity of the audited artifacts plus the current V74 / Goal4AK authority firewall.
 
-### Goal4AK assembly/evaluator
+This is the same successor-safe pattern used for the V74 persisted-history replay: preserve the audited historical object, consume it through an explicit current-generation adapter, and do not weaken the old verifier to fit a newer repository state.
 
-- artifact: `stages/stage35-ex/35ex-35/goal4ak-explicit-fb-assembly.json`
-- artifact blob: `5c543b8e5172e19cdb143ba69fcaa55098e5920f`
-- artifact canonical SHA256: `105060a54ae5c64ba4d3d978fce5a7b76e890ee1516268b09ac96c4722d982d9`
-- exact loader/evaluator: `stages/stage35-ex/35ex-35/goal4ak_explicit_fb.py`
-- loader blob: `3c5814fd98375f1eeeefd33f7fb99d9c888fbb9a`
-- denominator verifier: `stages/stage35-ex/verify_stage35_ex_35_goal4ak_denominator_transport.py`
-- denominator verifier blob: `5d91bb21f139fa6d79e75d4b400af517b7638a90`
-- top verifier: `stages/stage35-ex/verify_stage35_ex_35_goal4ak_explicit_fb.py`
-- top verifier blob: `72e6cf5da10fc6ff72e5712a0647bce603525b6c`
+No Goal4AL+ provisional research, Goal4BS/BD/AW/AT/AU/AZ/CE historical file forest, or retired/manual Stage35EX workflow fan-out is imported by this integration.
 
-Exact CI:
-- run: `34225212517`
-- job: `102057540758`
-- checked head: `84a9906500e2b3f0c71a48cb1b162930888b6db2`
-- conclusion: `SUCCESS`
-- markers:
-  - `STAGE35_EX_GOAL4AJ_QCANDIDATE_CHUNKS=PASS`
-  - `STAGE35_EX_GOAL4AK_DENOMINATOR_TRANSPORT=PASS`
-  - `STAGE35_EX_GOAL4AK_EXPLICIT_FB=PASS`
-  - `downstream_local_evaluation_released=false`
+## Preserved research-route provenance
 
-The verifier reconstructs both permanent coefficient streams, parses all `5924 + 1542` terms exactly over `Fraction`, checks degree 31 on both sides, evaluates `F_B` exactly, and verifies projective scaling cancellation `A(2P)/B(2P)=A(P)/B(P)`.
+The historical research information needed to avoid repeating exhausted or endpoint-equivalent routes is retained separately in:
 
-## Authority / freshness firewall
+```text
+stages/stage35-ex/35ex-35/goal4cf-research-route-ledger.md
+```
 
-- authoritative `MAIN-STATE.json` remains V73 with Goal4AJ as `last_audited_authority` (review `5140644783`).
-- Goal4AK remains provisional pending hostile audit.
-- a byte-identical V73 snapshot was added at `stages/stage35-ex/snapshots/MAIN-STATE-V73-84a9906500e2.json`, blob `9dfb9f44b1c84ae774f80ce5021193a5d6cd8807`, snapshot commit `c34fc5510b74032df7feaf583400e5fd05021b91`.
-- current main observed after Goal4AK CI: `538913633330a8414c87931d3c52f93e4aaf5d0f` (Stage33 merge), while PR merge-base remains the Stage35-EX #1698 merge `e98b06455d34bf2f346d297d9370e82fc2a71970`.
-- therefore PR freshness is behind by one unrelated-main commit and must be synchronized/rechecked before hostile-audit credit or promotion.
+The ledger is deliberately a compressed provenance index rather than an import of PR #1766's stacked file forest. It records the reusable results and exact stop conditions for Goal4AT, Goal4AU, Goal4BD, Goal4AW, Goal4AZ, the Goal4BS parking boundary, the Goal4BT→Goal4CE reopen, and Goal4CF itself, together with the #1766 hostile-audit chain.
 
-## Next legal action
+The ledger is **not** formal authority and does not promote those historical provisional leaves. `verify_stage35_ex_35_goal4cf_audited_integration.py` only checks that the provenance boundary and credit firewalls are present while `MAIN-STATE.json` remains V74 / Goal4AK.
 
-`HOSTILE_AUDIT_GOAL4AK_BEFORE_LOCAL_EVALUATION_RELEASE`
+Future mainbatch work must consult the ledger before reopening a Stage35EX route. Renaming an endpoint-equivalent receiver, re-running the completed `e/p/d` common-gcd local family, or reusing an amplifier that does not beat the exact `rho/kappa > 1/2` gate is not new research progress.
 
-Do **not** continue to local evaluation, Brauer-Manin, E1, Stage35 closure, or endpoint credit from this handoff without the audit/release required by the active Research OS credit firewall.
+## Audited Goal4CF mathematical result
+
+For each primitive positive endpoint, select the cyclic direction by the maximal reduced pair height, with ties `AB, AC, BC`. For the selected reduced coprime opposite-parity legs `b,c`, set
+
+```text
+r=c^2-b^2
+s=2bc
+t=b^2+c^2.
+```
+
+The selected elliptic curve has the global minimal model
+
+```text
+v^2+u*v=u^3+((r^2-s^2-1)/4)*u^2-(r^2*s^2/16)*u
+```
+
+and exact minimal discriminant
+
+```text
+Delta_min=(r*s*t)^4/256.
+```
+
+The hostile-audited selected-direction endpoint estimate is
+
+```text
+12288*abs(Delta_min(E_*)) >= W^10.
+```
+
+Equivalently,
+
+```text
+log abs(Delta_min(E_*)) >= 10 log W - log(12288).
+```
+
+This is not fixed-direction AW-C2, not an arbitrary-cutoff lower bound, and not a uniform Szpiro or canonical-height coefficient result.
+
+## Credit firewall
+
+Still false / not granted:
+
+```text
+FIXED_DIRECTION_AW_C2_DISCHARGED=false
+EXPLICIT_MARKED_CANONICAL_HEIGHT_UPPER_CONSTANT=false
+UNIFORM_SZPIRO_BOUND=false
+STRICT_CANONICAL_HEIGHT_COEFFICIENT_WIN=false
+FINITE_HEIGHT_REDUCTION=false
+E1_proved=false
+R29_PESCH_E1_closed=false
+stage35_closed=false
+perfect_cuboid_existence_claim=false
+perfect_cuboid_nonexistence_claim=false
+```
+
+The current-main integration itself still requires hostile freshness audit before merge. The source Goal4CF mathematics is already audited; that audit is not being repeated or upgraded here.
+
+## Next bounded obligation after current-main integration PASS
+
+```text
+SELECTED_PHYSICAL_MARKED_LOCAL_HEIGHT_COMPARISON_PREFLIGHT
+```
+
+Keep the same deterministic selector and actual endpoint `W`. Derive an explicit numerical upper comparison for the selected physical marked point and test whether local contributions can produce a lower comparison without assuming a uniform Szpiro upper bound. A failure to obtain a strict coefficient win must be recorded as a blocker rather than promoted to E1 credit.
