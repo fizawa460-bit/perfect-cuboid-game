@@ -1,0 +1,18 @@
+MB104 known-curve cone standalone replay: PASS
+
+Reconstructed from the source-locked cuboid equations / G1,G2,G3 defining equations:
+- singular points: 48
+- G1: 32 curves x 6 nodes; every node lies on 4 G1 curves
+- G2: 12 curves x 8 nodes; every node lies on 2 G2 curves
+- G3: 48 curves x 4 nodes; every node lies on 4 G3 curves
+
+Checked for k=1..1000:
+- D_k=6kH-k*sum(E_i)
+- d=96k, M=96k=d, D_k^2=480k^2
+- intersections with G1/G2/G3/exceptionals are 6k/16k/20k/2k > 0
+- Hodge mass inequality holds
+- chi(O(D_k))=240k^2-48k+8 > 0
+- H.(K-D_k)=16-96k < 0, hence the Riemann--Roch effectivity argument is numerically consistent
+- a hypothetical genus-one integral member would require Delta_total=240k^2+48k
+
+Scope: this is a local standalone algebra/incidence replay, not an exact-head repository verifier run and not hostile-audit credit. No integral low-genus member is constructed. Finite degree window remains OPEN.
