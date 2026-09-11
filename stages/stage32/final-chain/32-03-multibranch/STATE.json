@@ -51,8 +51,11 @@
     "special_fibre_identity": "6*n_i=2*q_i+M",
     "global_factor_slack_identity": "M-d+4*g-4=sigma_1+sigma_2>=0",
     "minimal_branch_lower_bound": "s_min>=d-4*g+4",
-    "g0_ranges": "s_min>=d+4 and d+4<=M<=3d",
-    "g1_ranges": "s_min>=d and d<=M<=3d",
+    "g0_ranges": "s_min>=d+4 and d+4<=M",
+    "g1_ranges": "s_min>=d and d<=M",
+    "picard_hodge_quadratic_bound": "sum M_i^2<=d^2/8+2d-4g+4",
+    "picard_hodge_global_mass_bound": "M^2<=6d^2+96d-192g+192",
+    "picard_hodge_asymptotic_M_over_d_coefficient": "sqrt(6)>1",
     "formal_scaling_witnesses_show_current_ledger_nonfinite": true,
     "fsm_cardinality_route_population_wide_dominated": true,
     "fixed_degree_discrete_profiles_finite": true,
@@ -62,20 +65,21 @@
   },
   "next_obligation": {
     "node_id": "MB104",
-    "subobligation": "MB104_INDEPENDENT_SUBLINEAR_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
+    "subobligation": "MB104_INDEPENDENT_SUBUNIT_UPPER_BOUND_ON_SMIN_OR_M_OR_ABSOLUTE_FACTOR_DEGREE_BOUND",
     "title": "Break the population-wide scaling cone",
-    "preferred_route": "exceptional P1 minimal-landing capacity / lambda constraint independent of the existing two-factor slack ledger",
+    "preferred_route": "exceptional P1 minimal-landing capacity / lambda constraint independent of the existing two-factor and Hodge ledgers",
     "acceptable_closing_inputs": [
       "s_min<=alpha*d+beta with alpha<1",
       "M<=alpha*d+beta with alpha<1",
       "independent absolute bound on one factor degree or on d"
     ],
-    "current_nonclosing_upper_bound": "s_min<=R<=M<=3d",
+    "current_nonclosing_upper_bound": "M<=sqrt(6d^2+96d-192g+192), asymptotic coefficient sqrt(6)>1",
     "must_not_assume": [
       "Freitag-Salvati Manni unibranch 176/192 cap applies to multibranch normalization",
       "symmetry quotient itself bounds degree",
       "exceptional contact mass bounds the off-exception delta budget",
       "a lower bound on minimal branches is an upper bound",
+      "Hodge coefficient sqrt(6)>1 closes the degree direction",
       "finite Picard enumeration is released before a population-wide finite window is proved"
     ]
   },
