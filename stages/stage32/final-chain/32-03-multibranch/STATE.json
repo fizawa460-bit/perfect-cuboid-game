@@ -55,6 +55,9 @@
     "hodge_wall": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/HODGE-EXCEPTIONAL-MASS-WALL.md",
     "hodge_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/HODGE-EXCEPTIONAL-MASS-CERTIFICATE.json",
     "hodge_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_hodge_exceptional_mass.py",
+    "multifibration_local_jet_wall": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MULTIFIBRATION-LOCAL-JET-WALL.md",
+    "multifibration_local_jet_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MULTIFIBRATION-LOCAL-JET-CERTIFICATE.json",
+    "multifibration_local_jet_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_multifibration_local_jet.py",
     "status": "ACTIVE_RETAINED_NECESSARY_INEQUALITY_MB104_INCOMPLETE",
     "branchwise_fsm_inequality": "d<=16g-16+4R8",
     "R8_definition": "number of normalization branches over box nodes with MB101 cusp type (A,B)=(1,1)",
@@ -64,6 +67,8 @@
     "GFU_supplies_required_R8_upper_bound": false,
     "rank3_fibration_simple_intersection_bound": "R8<=M<=6d",
     "hodge_exceptional_mass_bound": "R8<=sqrt(6d^2+96d-192g+192)",
+    "minimal_cusp_alone_forces_incident_fibration_ramification": false,
+    "global_jet_constraint_required_for_multifibration_charging": true,
     "required_asymptotic_R8_slope_strictly_less_than": 0.25,
     "absolute_R8_bound_proved": false,
     "finite_degree_window_proved": false,
@@ -77,17 +82,19 @@
       "purely local A1 landing/delta data",
       "GFU exceptional-mass degree inequality by itself",
       "six rank3 genus-5 fibrations using only base-locus intersection nonnegativity",
-      "direct Hodge projection onto H plus the 48 exceptional classes"
+      "direct Hodge projection onto H plus the 48 exceptional classes",
+      "automatic Riemann-Hurwitz charging from minimal cusp type without extra tangent/jet information"
     ],
     "live_route_classes": [
       "global branchwise conductor or ramification inequality",
-      "multi-fibration branchwise criticality charging beyond simple intersection numbers",
+      "multi-fibration global tangent/jet constraint forcing criticality beyond local cusp data",
       "new modular/symmetric-differential section with additional node/tangent vanishing"
     ],
     "must_not_assume": [
       "Freitag-Salvati Manni 176/192 cap transfers unchanged to multibranch population",
       "distinct node support N bounds normalization multiplicity R8",
       "R8 equals total branch count R or exceptional mass M",
+      "minimal cusp type alone implies ramification for an incident fibration",
       "Delta_total is bounded by exceptional contact counts alone",
       "formal arbitrary-degree numerical data correspond to actual curves"
     ],
