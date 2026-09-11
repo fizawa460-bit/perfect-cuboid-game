@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE32_MB103_AUT_NODE_QUOTIENT_V1",
+  "status": "RETAINED_NO_CREDIT",
+  "receiver": "R29-LG2-MB",
+  "source_lock": {
+    "upstream_repo": "MichaelStollBayreuth/Verification",
+    "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "upstream_path": "Cuboids/cuboids.magma",
+    "upstream_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "locked_facts": [
+      "the singular locus has exactly 48 points",
+      "nine explicit substitutions generate the geometric automorphism action used on curves, singular points, and Pic(S)",
+      "the induced Picard action preserves the intersection form",
+      "Aut(S) has order 1536"
+    ]
+  },
+  "aut_node_action": {
+    "node_model": "projective orbit of R1=[1:0:0:0:1:1:1] under the nine source-locked substitutions",
+    "node_count": 48,
+    "generator_count": 9,
+    "group_order": 1536,
+    "faithful_on_reconstructed_node_set": true,
+    "transitive_on_nodes": true,
+    "node_orbit_sizes": [48],
+    "point_stabilizer_order": 32,
+    "unordered_pair_orbit_count": 7,
+    "unordered_pair_orbit_sizes": [24, 48, 48, 48, 192, 384, 384],
+    "canonical_node_labels_match_magma_pts_order": false,
+    "label_semantics": "deterministic local verifier ordering only; quotient results are label-independent"
+  },
+  "quotient_contract": {
+    "domain": "48-entry node-indexed discrete profile with each entry an intrinsic Aut-equivariant local signature",
+    "current_intrinsic_scalar_payload": [
+      "r_i normalization branch count",
+      "M_i exceptional intersection mass",
+      "Delta_exc_i local delta supported on the exceptional fibre when supplied",
+      "multibranch bit r_i>=2"
+    ],
+    "optional_intrinsic_discrete_payload": [
+      "canonically encoded multiset of branch multiplicities m_ij",
+      "canonically encoded unlabeled resolved-landing partition",
+      "other discrete local invariants already proved intrinsic under local analytic isomorphism"
+    ],
+    "canonical_key": "lexicographically minimum transformed 48-entry profile over all 1536 node permutations",
+    "exact_for_intrinsic_node_indexed_discrete_payload": true,
+    "histogram_is_invariant": true,
+    "histogram_is_complete_orbit_invariant": false,
+    "pair_orbit_counterexample_available": true,
+    "raw_chart_A_lt_B_A_gt_B_label_quotiented": false,
+    "raw_lambda_coordinate_quotiented": false,
+    "continuous_landing_or_jet_moduli_quotiented": false,
+    "reason_local_coordinate_firewall": "Aut(S) also acts inside each exceptional P1; a raw chart coordinate or lambda is not an intrinsic node token without a separate local-action adapter.",
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false
+  },
+  "invariants_preserved_by_node_quotient": {
+    "R_sum_r_i": true,
+    "M_sum_M_i": true,
+    "N_met_nodes": true,
+    "N_MB_multibranch_nodes": true,
+    "Delta_exc_total_when_supplied": true,
+    "histogram_of_intrinsic_node_signatures": true,
+    "multibranch_membership": true
+  },
+  "mathematical_boundary": {
+    "mb101_population_adapter_reused": true,
+    "mb102_delta_genus_ledger_reused": true,
+    "unibranch_176_192_cap_imported": false,
+    "degree_bound_from_symmetry_claimed": false,
+    "delta_bound_from_symmetry_claimed": false,
+    "effectivity_claimed": false,
+    "mb104_next": "population-wide finite degree/intersection restriction"
+  },
+  "credit_firewall": {
+    "mb103_retained": true,
+    "mb104_complete": false,
+    "mb105_complete": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_node": "MB104"
+}
