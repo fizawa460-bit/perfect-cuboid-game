@@ -1,13 +1,7 @@
 # Stage32EX5 MAINBATCH operations
 
-This operational contract grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, effectivity, or Perfect Cuboid credit. PR #1776 remains active; merge is not authorized.
+This operational contract grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, effectivity, or Perfect Cuboid credit. PR #1776 remains active; merge is not authorized. BC2-27 hostile re-audit **PASS** is `b70bc51909f5ed78641ee3b727a2258382ef950c` / review `5179488973`.
 
-BC2-27 hostile re-audit **PASS** is `b70bc51909f5ed78641ee3b727a2258382ef950c` / review `5179488973`. Its audited known parent-UNSAT lower bound is `7155`; 9 retained UNKNOWN parents and 13 UNKNOWN p35 timeout leaves remain, plus `172` unrelated BC2-19 UNKNOWN identities.
+BC2-28 boundary38 has reached its mainbatch STOP condition. Exact compute head `47c522ae4ee93e6fff19339048f982f48f932bab`, workflow `34609454583`, compute job `103296259426`, artifact `10268117064`: 42 p38 leaves checked, 38 UNSAT / 4 UNKNOWN / 0 SAT; 5 new UNSAT parents; residual UNKNOWN parents `[1048,1050,1064,1103]`; known parent-UNSAT lower bound `7160`. The other `172` BC2-19 UNKNOWN identities remain uninferred.
 
-## BC2-28 one-shot bounded execution
-
-The BC2-28 generation-1 runkey authorizes only the exact boundary38 partition of those 13 timeout p35 leaves. The common second-factor identity gives `p38=0..floor(n2/2)` and at most `42` checks. Execution scope is 2000 ms per p38 leaf and concurrency 1; heavy scaleout is forbidden.
-
-After the result appears, retain its exact run/artifact/source identities, disarm the runkey, add a retained BC2-28 verifier, update live state/docs to the new audit boundary, and remove the temporary executor workflow. UNKNOWN remains UNKNOWN and SAT, if any, is Picard64 feasibility only—not curve existence.
-
-BC2-29 is blocked until BC2-28 retention and subsequent hostile-audit PASS. No Stage32 MAIN/N350 promotion, whole-stratum/FULL178 closure, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge is authorized.
+The result is retained with raw/checkpoint provenance, the generation-1 runkey is consumed/disarmed, and the fail-closed BC2-28 verifier is installed. Ordinary `stage32ex5-mainbatch` must not recompute this unit. The next action is `stage32ex5-audit`; BC2-29 is blocked until that hostile audit passes. UNKNOWN remains UNKNOWN and SAT, if any later appears, is Picard64 feasibility only—not curve existence. No broad/heavy scaleout, Stage32 MAIN/N350 promotion, whole-stratum/FULL178 closure, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge is authorized.

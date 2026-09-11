@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V10_BC2_28_BOUNDARY38_EXECUTION",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V11_BC2_28_RETAINED_AUDIT_BOUNDARY",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -40,7 +40,11 @@
     "V6_is_current_attack_target": false,
     "O210_is_current_attack_target": false,
     "Q602_is_current_attack_target": false,
-    "historical_formal_q602_residues": [73,97,235],
+    "historical_formal_q602_residues": [
+      73,
+      97,
+      235
+    ],
     "historical_formal_q602_residues_are_current_survivors": false,
     "ex5_auto_promotes_to_main": false
   },
@@ -55,53 +59,88 @@
     "predecessor_intermediate_hostile_audit_pass_preserved": true
   },
   "prior_audited_authority": {
-    "bc2_24_pr_1765": {"hostile_audit_status":"PASS","merged_pr":1765,"merge_commit":"98c5710dad4ca9a006e93b273ecf5259733e03aa","stage32_main_credit":false},
-    "bc2_25_pr_1776": {"audit_checkpoint_exact_head":"1d2e04486e170336ce02af144aabb08e4a80a31d","hostile_audit_status":"PASS","hostile_audit_review_id":5177354131,"merged":false,"stage32_main_credit":false},
-    "bc2_26_pr_1776": {"audit_checkpoint_exact_head":"34d6b030095b97c738f6faf6b9045f366622592c","hostile_audit_status":"PASS","hostile_audit_review_id":5177919212,"merged":false,"stage32_main_credit":false},
-    "bc2_27_pr_1776": {"audit_checkpoint_exact_head":"b70bc51909f5ed78641ee3b727a2258382ef950c","hostile_audit_status":"PASS","hostile_audit_review_id":5179488973,"prior_failed_audit_exact_head":"43fce7733be95b47b2d2a4e4568300add7694224","prior_failed_audit_review_id":5179261378,"merged":false,"stage32_main_credit":false}
+    "bc2_24_pr_1765": {
+      "hostile_audit_status": "PASS",
+      "merged_pr": 1765,
+      "merge_commit": "98c5710dad4ca9a006e93b273ecf5259733e03aa",
+      "stage32_main_credit": false
+    },
+    "bc2_25_pr_1776": {
+      "audit_checkpoint_exact_head": "1d2e04486e170336ce02af144aabb08e4a80a31d",
+      "hostile_audit_status": "PASS",
+      "hostile_audit_review_id": 5177354131,
+      "merged": false,
+      "stage32_main_credit": false
+    },
+    "bc2_26_pr_1776": {
+      "audit_checkpoint_exact_head": "34d6b030095b97c738f6faf6b9045f366622592c",
+      "hostile_audit_status": "PASS",
+      "hostile_audit_review_id": 5177919212,
+      "merged": false,
+      "stage32_main_credit": false
+    },
+    "bc2_27_pr_1776": {
+      "audit_checkpoint_exact_head": "b70bc51909f5ed78641ee3b727a2258382ef950c",
+      "hostile_audit_status": "PASS",
+      "hostile_audit_review_id": 5179488973,
+      "prior_failed_audit_exact_head": "43fce7733be95b47b2d2a4e4568300add7694224",
+      "prior_failed_audit_review_id": 5179261378,
+      "merged": false,
+      "stage32_main_credit": false
+    }
   },
   "current": {
-    "status": "BC2_27_AUDIT_CONSUMED_BC2_28_BOUNDARY38_EXECUTION_AUTHORIZED",
+    "status": "BC2_28_RESULT_RETAINED_HOSTILE_AUDIT_REQUIRED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_28_BOUNDARY38_PARTITION_BOUNDED_EXECUTION",
+    "leaf": "BC2_28_BOUNDARY38_PARTITION_RETAINED_AUDIT_BOUNDARY",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "objective": "Execute one bounded exact boundary38 partition of the 13 BC2-27 timeout p35 leaves.",
-    "blocker": "9_RETAINED_UNKNOWN_PARENTS_13_P35_TIMEOUT_LEAVES_PLUS_172_UNRETAINED_IDENTITIES",
-    "next_route": "BC2_28_BOUNDARY38_PARTITION_BOUNDED",
-    "stop_semantics": "NO_BC2_29_OR_BROAD_PROMOTION_BEFORE_BC2_28_RESULT_RETENTION_AND_AUDIT_BOUNDARY"
+    "objective": "Freeze the bounded BC2-28 boundary38 result and obtain an independent hostile audit before any BC2-29 refinement.",
+    "blocker": "4_RETAINED_UNKNOWN_PARENTS_4_P38_TIMEOUT_LEAVES_PLUS_172_UNRETAINED_IDENTITIES",
+    "next_route": "HOSTILE_AUDIT_BC2_28",
+    "stop_semantics": "NO_BC2_29_OR_BROAD_PROMOTION_BEFORE_BC2_28_HOSTILE_AUDIT_PASS"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-27-boundary35-partition-checkpoint.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_27_boundary35_partition_checkpoint.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-28-residual-p35-leaf-manifest.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-28-boundary38-partition-preflight.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_28_boundary38_partition.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-28-boundary38-partition-raw.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-28-boundary38-partition-checkpoint.json",
+    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_28_boundary38_partition_checkpoint.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-28-executed-runkey.json",
     "stages/stage32-ex5/runkeys/bc2-28-boundary38-partition.json",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "frontier": {
-    "closed_local_terminal_rank_prefix": [0,797],
-    "closed_local_e4_terminal_rank_prefix": [0,797],
+    "closed_local_terminal_rank_prefix": [
+      0,
+      797
+    ],
+    "closed_local_e4_terminal_rank_prefix": [
+      0,
+      797
+    ],
     "whole_g1_d008_e4_stratum_closed": false,
-    "e8_n354_survivor_first_block": [0,112],
+    "e8_n354_survivor_first_block": [
+      0,
+      112
+    ],
     "e8_bc2_19_unsat_parent_count": 7100,
     "e8_bc2_19_unknown_parent_count": 236,
     "e8_bc2_25_new_parent_unsat_count": 3,
     "e8_bc2_26_new_parent_unsat_count": 4,
     "e8_bc2_27_new_parent_unsat_count": 3,
     "e8_bc2_27_audited": true,
-    "e8_bc2_27_retained_unknown_count": 9,
-    "e8_bc2_27_parent_sat_count": 0,
-    "e8_bc2_27_branch_unknown_count": 13,
-    "e8_bc2_27_p33_subbranch_unknown_count": 13,
-    "e8_bc2_27_p34_target_unknown_count": 13,
-    "e8_bc2_27_p35_leaf_unknown_count": 13,
-    "e8_bc2_27_unretained_unknown_identity_count": 172,
-    "e8_known_parent_unsat_count_lower_bound": 7155,
-    "e8_bc2_28_target_p35_leaf_count": 13,
-    "e8_bc2_28_target_parent_count": 9,
-    "e8_bc2_28_maximum_p38_subbranch_checks": 42,
+    "e8_bc2_28_executed": true,
+    "e8_bc2_28_audited": false,
+    "e8_bc2_28_new_parent_unsat_count": 5,
+    "e8_bc2_28_retained_unknown_count": 4,
+    "e8_bc2_28_parent_sat_count": 0,
+    "e8_bc2_28_branch_unknown_count": 4,
+    "e8_bc2_28_p33_subbranch_unknown_count": 4,
+    "e8_bc2_28_p34_target_unknown_count": 4,
+    "e8_bc2_28_p35_leaf_unknown_count": 4,
+    "e8_bc2_28_p38_leaf_unsat_count": 38,
+    "e8_bc2_28_p38_leaf_unknown_count": 4,
+    "e8_bc2_28_unretained_unknown_identity_count": 172,
+    "e8_known_parent_unsat_count_lower_bound": 7160,
     "e8_whole_first_block_unsat": false,
     "FULL178_complete": false,
     "population_wide_main_consumable_result_complete": false,
@@ -121,15 +160,25 @@
     "bc2_27_hostile_audit_review_id": 5179488973,
     "bc2_27_prior_failed_audit_exact_head": "43fce7733be95b47b2d2a4e4568300add7694224",
     "bc2_27_prior_failed_audit_review_id": 5179261378,
-    "bc2_28_residual_manifest_canonical": "635bc832c61c539333f39f3732edd9f82397f8dc3d4a8c0a00406b2c79572477",
-    "bc2_28_residual_manifest_git_blob_sha": "7995a64e1953149e4e2445a7e611541932cf2ebe",
-    "bc2_28_preflight_canonical": "afd747ef826fe0c0287d0188f5cdc7e38ae704cc50709014f1b10b7db1a471e0",
-    "bc2_28_preflight_git_blob_sha": "470f3c3d3513047d1db2696aaa84ffc57b10de26",
-    "bc2_28_source_git_blob_sha": "5b5f8f927d5445d006eea19de9886b6e628a6150",
+    "bc2_28_checkpoint_canonical": "52138e7c417d69814d5007479420b56fcc27031679bf88f432916e6c89c77ec4",
+    "bc2_28_checkpoint_git_blob_sha": "a4ea686f58d51ab451f9dbac420bfc97ca41d6ed",
+    "bc2_28_raw_result_canonical": "f77cad8d03035514e43e992ccdee25c1d4f6a386789fac33e488e198c35a998d",
+    "bc2_28_raw_json_sha256": "768c4209d2162cd85a2c93a3bfcb3a71e8ea9a600e62b1323b8f7b372139f843",
+    "bc2_28_raw_result_git_blob_sha": "895841c81759659c243f7c6ef3dc72d65b7522ce",
+    "bc2_28_workflow_run_id": 34609454583,
+    "bc2_28_compute_job_id": 103296259426,
+    "bc2_28_artifact_id": 10268117064,
+    "bc2_28_known_parent_unsat_count_lower_bound": 7160,
+    "bc2_28_retained_unknown_parent_indices": [
+      1048,
+      1050,
+      1064,
+      1103
+    ],
     "exact_evidence_rewritten_by_semantic_sync": false
   },
   "claim_sync": {
-    "last_trigger": "BC2_27_HOSTILE_REAUDIT_PASS_CONSUMED_FOR_BC2_28",
+    "last_trigger": "BC2_28_RESULT_RETAINED_FOR_HOSTILE_AUDIT",
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
     "active_frontier_remapped": false,
@@ -137,7 +186,7 @@
     "main_promotion": false
   },
   "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_27_AUDITED_BC2_28_BOUNDED_EXECUTION_NO_MAIN_PROMOTION",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_28_RETAINED_UNAUDITED_NO_MAIN_PROMOTION",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -179,17 +228,17 @@
     "merge_ready_freshness": "PENDING_SEPARATE_GATE",
     "merged": false,
     "repair_required_before_merge": false,
-    "re_audit_required": false,
-    "freeze_active": false,
-    "historical_boundary_only": true,
-    "new_audit_boundary_exists": false,
-    "bc2_28_execution_authorized": true,
+    "re_audit_required": true,
+    "freeze_active": true,
+    "historical_boundary_only": false,
+    "new_audit_boundary_exists": true,
+    "bc2_28_execution_authorized": false,
     "bc2_29_execution_authorized": false
   },
   "next_step": {
-    "id": "BC2_28_BOUNDARY38_PARTITION_BOUNDED",
-    "goal": "Partition exactly the 13 audited BC2-27 timeout p35 leaves by boundary38 with at most 42 checks.",
-    "bc2_29_blocked_until_bc2_28_retention_and_audit_boundary": true,
+    "id": "HOSTILE_AUDIT_BC2_28_RETAINED_BOUNDARY",
+    "goal": "Independently audit BC2-28 raw/checkpoint/source locks and firewall semantics before any BC2-29 refinement.",
+    "bc2_29_blocked_until_bc2_28_hostile_audit_pass": true,
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "n350_registration_authorized": false,
