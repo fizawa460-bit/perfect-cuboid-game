@@ -28,6 +28,8 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V10_BC2_28_BOUNDARY38_EXECUTION",
         "STAGE32EX5_MAIN_COMPACT_STATE_V11_BC2_28_RETAINED_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V12_BC2_29_RETAINED_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V13_BC2_29_AUDIT_CONSUMED_BC2_30_EXECUTION",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V14_BC2_30_RETAINED_AUDIT_BOUNDARY",
     }, "live EX5 schema drift")
 
     bootstrap = state["bootstrap"]
@@ -66,7 +68,7 @@ def main() -> None:
         req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-28 retained audit boundary missing")
         req(audit["bc2_28_execution_authorized"] is False and audit["bc2_29_execution_authorized"] is False, "BC2-28/29 authorization leak")
         req(state["frontier"]["e8_bc2_28_executed"] is True and state["frontier"]["e8_bc2_28_audited"] is False, "BC2-28 execution/audit marker drift")
-    else:
+    elif schema.endswith("V12_BC2_29_RETAINED_AUDIT_BOUNDARY"):
         audit = state["intermediate_audit_boundary"]
         req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "BC2-29 retained work surface drift")
         req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_29", "BC2-29 retained audit route drift")
@@ -76,10 +78,30 @@ def main() -> None:
         req(state["frontier"]["e8_bc2_28_audited"] is True, "BC2-28 audit PASS not consumed")
         req(state["frontier"]["e8_bc2_29_executed"] is True and state["frontier"]["e8_bc2_29_audited"] is False, "BC2-29 execution/audit marker drift")
         req(state["frontier"]["e8_known_parent_unsat_count_lower_bound"] == 7163, "BC2-29 lower-bound drift")
+    elif schema.endswith("V13_BC2_29_AUDIT_CONSUMED_BC2_30_EXECUTION"):
+        audit = state["intermediate_audit_boundary"]
+        req(state["current"]["next_route"] == "BC2_30_BOUNDARY42_PARTITION_BOUNDED", "BC2-30 execution route drift")
+        req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5183342658, "BC2-29 PASS receipt not consumed")
+        req(audit["new_audit_boundary_exists"] is False and audit["freeze_active"] is False, "stale BC2-29 audit freeze")
+        req(audit["bc2_30_execution_authorized"] is True and audit["bc2_31_execution_authorized"] is False, "BC2-30/31 authorization drift")
+        req(state["frontier"]["e8_bc2_29_audited"] is True and state["frontier"]["e8_bc2_30_executed"] is False, "BC2-30 pre-execution marker drift")
+    else:
+        audit = state["intermediate_audit_boundary"]
+        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "BC2-30 retained work surface drift")
+        req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_30", "BC2-30 retained audit route drift")
+        req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5183342658, "BC2-29 PASS receipt lost")
+        req(audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["freeze_active"] is True, "BC2-30 retained audit boundary missing")
+        req(audit["bc2_30_execution_authorized"] is False and audit["bc2_31_execution_authorized"] is False, "BC2-30/31 authorization leak")
+        req(state["frontier"]["e8_bc2_29_audited"] is True, "BC2-29 audit PASS not consumed")
+        req(state["frontier"]["e8_bc2_30_executed"] is True and state["frontier"]["e8_bc2_30_audited"] is False, "BC2-30 execution/audit marker drift")
+        req(state["frontier"]["e8_bc2_30_retained_unknown_count"] == 0, "BC2-30 retained UNKNOWN drift")
+        req(state["frontier"]["e8_bc2_30_unretained_unknown_identity_count"] == 172, "BC2-30 172 firewall drift")
+        req(state["frontier"]["e8_known_parent_unsat_count_lower_bound"] == 7164, "BC2-30 lower-bound drift")
 
     req(bootstrap["latest_merged_pr"] == 1765, "latest merged EX5 PR provenance drift")
     req(bootstrap["merge_authorized"] is False, "historical merge authorization leaked forward")
     req(state["frontier"]["FULL178_complete"] is False, "local EX5 work promoted to FULL178 closure")
+    req(state["frontier"]["e8_whole_first_block_unsat"] is False, "BC2-30 retained closure promoted to whole first block")
     req(state["credit"]["stage32_main_credit"] is False, "local EX5 work promoted to Stage32 MAIN credit")
 
     spec = importlib.util.spec_from_file_location("bc2_00_v4_frozen", FROZEN_V4_VERIFIER)
