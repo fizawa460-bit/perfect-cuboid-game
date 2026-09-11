@@ -4,12 +4,14 @@ Ordinary `stage32ex5-mainbatch` reads `AGENTS.md`, `stages/stage32/COMMANDS.md`,
 
 ## Active work surface
 
-PR #1776 is the active EX5 work surface. BC2-25 is retained and hostile-audited PASS at exact head `1d2e04486e170336ce02af144aabb08e4a80a31d`, review `5177354131`. Its retained boundary is `3` new parent UNSAT / `16` parent UNKNOWN / 0 SAT, known parent-UNSAT lower bound `7148`, with `36` UNKNOWN branches and `38` UNKNOWN p33 subbranches. The other `172` BC2-19 UNKNOWN identities remain uninferred.
+PR #1776 is the active EX5 work/audit surface. BC2-25 is hostile-audited PASS at exact head `1d2e04486e170336ce02af144aabb08e4a80a31d`, review `5177354131`.
 
-Current main observed for this continuation is `c31684fb5f63d8a025eb298c91861d4c979b0e28`. The two commits beyond the PR merge-base were reviewed as non-load-bearing for BC2-25; merge-ready freshness remains PENDING and merge is not authorized.
+BC2-26 has now been executed and frozen. It adds 4 exact-UNSAT parents `[1106,1119,1218,1224]`, advances the known parent-UNSAT lower bound to `7152`, and leaves `12` retained UNKNOWN parents, `20` UNKNOWN branches, `20` UNKNOWN p33 subbranches and `23` UNKNOWN p34 leaves, with 0 SAT. The other `172` BC2-19 UNKNOWN identities remain uninferred.
+
+Checkpoint canonical: `b97d61c0d20cec1742831a07595429024cb9bb272d383cfb98d968278d8d330a`. Compute run: `34588771756`; exact compute head: `7d5c35057b480ebe6bf3b0cdf047c0d7bdfde18f`.
 
 ## Startup route
 
-`stage32ex5-mainbatch` may consume the BC2-25 PASS and execute only `BC2_26_BOUNDARY34_PARTITION_BOUNDED`: exact p34 partition of the 38 audited residual p33 UNKNOWN subbranches, maximum `110` leaves, concurrency 1. Preserve UNKNOWN and leave all `172` other identities uninferred.
+On `stage32ex5-mainbatch`, replay the retained BC2-25 and BC2-26 verifiers, preserve every UNKNOWN and the `172` uninferred identities, and maintain the frozen BC2-26 hostile-audit boundary. BC2-27 is blocked until `stage32ex5-audit` grants PASS on BC2-26.
 
-After a BC2-26 result is frozen, stop and require a new `stage32ex5-audit` before BC2-27. No broad/heavy scale-out, merge, Stage32 MAIN/N350 promotion, theorem, receiver, effectivity, endpoint, or Perfect Cuboid credit is authorized.
+No broad/heavy scale-out, merge, Stage32 MAIN/N350 promotion, FULL178 closure, theorem, receiver, effectivity, endpoint, or Perfect Cuboid credit is authorized.
