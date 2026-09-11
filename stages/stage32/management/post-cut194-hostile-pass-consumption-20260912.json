@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_MAIN_POST_CUT194_CONSUMPTION_V1",
+  "stage": 32,
+  "status": "RETAINED_AUTHORITY_TRANSITION_PENDING_REPLACEMENT_HEAD_HOSTILE_AUDIT",
+  "purpose": "Consume the externally hostile-audited CUT194 e=8 common-adapter wave2 26,442-terminal exclusion into Stage32 MAIN as an exact disjoint increment while preserving CUT193 at zero MAIN credit.",
+  "upstream_authority": {
+    "main_parent_exact_head": "eb43085946a019323879b708aeb5246f88640c01",
+    "main_parent_hostile_reaudit_review_id": 5184015342,
+    "pre_cut_remaining_strata": 17128,
+    "pre_cut_remaining_terminals": 65396964990500233636101,
+    "n356_consumed": true,
+    "cut191_consumed": true,
+    "cut193_main_credit": false
+  },
+  "cut194_external_audit": {
+    "pr": 1789,
+    "review_id": 5183299107,
+    "audited_exact_head": "847f3bff0c5e0d0530bfb8db406e955b2d231d9a",
+    "exact_head_ci_run": 34643840690,
+    "heavy_run": 34614132290,
+    "result_path": "stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-result.json",
+    "result_blob_sha1": "dab1a28f55918b617112799f11ac9614eb8a481c",
+    "result_canonical_sha256": "c63f6da3dd0ec443572f8561bb7774491ce7d7c09ce319a322fb52e5b1e08cd4",
+    "audit_handoff_path": "stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-audit-handoff.json",
+    "audit_handoff_blob_sha1": "7585f93df035b928ebfbad733ccf501125d57e08",
+    "audit_handoff_canonical_sha256": "273ceb4cf9fba64023f9dcb5f0ab11342f4e6f1d71b5dd8574e75e886c3be4f9",
+    "target": {
+      "row_id": "g1-d008",
+      "d": 8,
+      "e": 8,
+      "survivor_offset_range": [
+        256,
+        510
+      ],
+      "input_blocks": 255,
+      "input_terminals": 28815,
+      "closed_blocks": 234,
+      "incremental_rejected_terminals": 26442,
+      "residual_blocks": 21,
+      "unknown_checks_not_promoted": 108
+    }
+  },
+  "overlap_replay": {
+    "n356_overlap_zero": true,
+    "cut191_overlap_zero": true,
+    "cut193_overlap_zero": true,
+    "cut193_main_credit_remains_false": true,
+    "unknown_checks_promoted": false,
+    "double_charge": false
+  },
+  "authority": {
+    "cut194_main_pruning_credit": true,
+    "cut194_incremental_rejected_terminals": 26442,
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233609659,
+    "full178_complete": false
+  },
+  "claim_sync": {
+    "trigger": "AUTHORITY_OR_AUDIT_TRANSITION",
+    "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "claim_core_changed": false,
+    "authority_status": "DECLARED_GOAL",
+    "frontier_status": "ACTIVE_INCOMPLETE",
+    "note": "This transition updates consumed evidence/authority metadata only; it does not mutate the immutable FULL178 goal statement or claim core."
+  },
+  "route": {
+    "next_exact_route": "N357_ALL178_TRANSPORT_SUPPORT_CAPACITY_CENSUS_THEN_EXTERNAL_AUDIT",
+    "owner": "stage32-01-178-mainbatch",
+    "main_must_not_duplicate_n357": true,
+    "replacement_head_reaudit_required_before_further_authority_promotion": true
+  },
+  "firewalls": {
+    "cut193_main_pruning_credit": false,
+    "unknown_promoted": false,
+    "full178_complete": false,
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "6e9711716358ff955fe3aac1fda9661a800f3f1e3d10286fa5127a4638efb568"
+}

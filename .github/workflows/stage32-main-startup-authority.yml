@@ -14,6 +14,9 @@ on:
       - 'stages/stage32/verify_main_startup_authority_v10.py'
       - 'stages/stage32/verify_main_startup_authority_v11.py'
       - 'stages/stage32/verify_main_startup_authority_v12.py'
+      - 'stages/stage32/verify_main_startup_authority_v13.py'
+      - 'stages/stage32/verify_n357_v13_current_authority_composition.py'
+      - 'stages/stage32/management/N357-V13-CURRENT-AUTHORITY-COMPOSITION.json'
       - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
       - 'stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md'
@@ -29,6 +32,9 @@ on:
       - 'stages/stage32/management/CUT191-MAIN-CONSUMPTION-HOSTILE-AUDIT-PASS.json'
       - 'stages/stage32/full178-cut/CUT191-HOSTILE-AUDIT-PASS.json'
       - 'stages/stage32/full178-cut/CUT191-first-block-closure-checkpoint.json'
+      - 'stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-result.json'
+      - 'stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json'
+      - 'stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-RESULT.json'
       - 'stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json'
       - 'stages/stage32/32-01-178/nodes/N356/AUDIT-HANDOFF.json'
       - 'stages/stage32/32-01-178/nodes/N356/RESULT.json'
@@ -37,6 +43,8 @@ on:
       - 'stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py'
       - 'stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_fast.py'
       - 'stages/stage32/32-01-178/nodes/N356-engine/**'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_indexer.py'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
       - 'stages/stage32/full178-cut/MISSION.json'
       - 'stages/stage32/full178-cut/MAIN-START-HERE.md'
       - 'stages/stage32/final-chain/32-03-multibranch/MISSION.json'
@@ -105,6 +113,9 @@ jobs:
 
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
+
+      - name: Verify N357 current-V13 authority composition replay
+        run: python3 stages/stage32/verify_n357_v13_current_authority_composition.py
 
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
