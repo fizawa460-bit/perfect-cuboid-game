@@ -1,5 +1,6 @@
 name: Stage32EX5 main integrity
 
+# Trigger lifecycle: ACTIVE_AUTO — EX5 current producer / retained-interface integrity gate
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -7,6 +8,8 @@ on:
       - 'stages/stage32-ex5/**'
       - 'stages/stage32/proof/CLAIM-REGISTRY.json'
       - 'stages/stage32/proof/LANE-ADAPTERS.json'
+      - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
+      - 'stages/stage32/proof/verify_cross_lane_demands.py'
       - '.github/workflows/stage32-ex5-main.yml'
 
 permissions:
@@ -63,6 +66,8 @@ jobs:
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_16_outer_rank5_exact_unsat_checkpoint.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
+      - name: Verify EX5 cross-lane producer demand routing
+        run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 claim DAG integrity
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
