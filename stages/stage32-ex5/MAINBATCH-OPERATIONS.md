@@ -4,20 +4,20 @@ This file is an operational contract only. It grants no mathematical, FULL178, S
 
 ## Working surface
 
-PR #1776 is the active Stage32EX5 work/audit surface. Current Stage32 routing is still read from `stages/stage32/MAIN-STATE.json`; EX5 does not override MAIN authority.
+PR #1776 remains the active Stage32EX5 work surface. BC2-25 hostile re-audit PASS is `1d2e04486e170336ce02af144aabb08e4a80a31d` / review `5177354131`. Merge is not authorized; live merge freshness remains PENDING.
 
-## Retained BC2-25 boundary
+## Retained boundary
 
-BC2-25 retains 3 newly exact-UNSAT parents and leaves `16` retained UNKNOWN parents, 36 UNKNOWN branches, 38 UNKNOWN subbranches, and 0 SAT. The known parent-UNSAT lower bound is `7148`. The other `172` BC2-19 UNKNOWN identities remain uninferred. UNKNOWN must not be relabelled UNSAT.
+BC2-25 retains 3 newly exact-UNSAT parents and leaves `16` retained UNKNOWN parents, `36` UNKNOWN branches, `38` UNKNOWN p33 subbranches, 0 SAT, known parent-UNSAT lower bound `7148`; `172` other BC2-19 UNKNOWN identities remain uninferred.
 
-The first hostile audit of #1776 failed at exact head `9bbc491cfde0f8a7f48d9742dad8ff368e4837b2` / review `5176133548`; compute run `34574409241` remains successful retained provenance. Repair requires the BC2-25 retained verifier, synchronized MAIN-STATE/audit boundary, and fail-closed transitive source locks through BC2-24/BC2-18 to the hperp and pairing engines.
+## BC2-26 bounded continuation
 
-## Mainbatch rule
+`stage32ex5-mainbatch` may execute only `BC2_26_BOUNDARY34_PARTITION_BOUNDED`. The exact target is the 38 audited residual p33 UNKNOWN subbranches. Partition by `p34=0..floor(n2/2)` using `n2=2*p34+sum(incident exceptional pairings)`. Hard ceiling: `110` p34 leaf checks, per-leaf timeout 2000 ms, effective concurrency 1, workflow timeout 10 minutes, artifact retention 1 day.
 
-For the current boundary, `stage32ex5-mainbatch` may repair and verify the existing #1776 checkpoint only. It must obtain exact-head integrity PASS and then stop for `stage32ex5-audit`.
+Runkey starts unarmed. Exact-head integrity must pass before arming. After one bounded generation is retained, remove/disable the temporary compute step, freeze the checkpoint, and stop for `stage32ex5-audit` before BC2-27.
 
-BC2-26 is blocked until BC2-25 hostile-audit PASS. Do not launch BC2-26, broad/heavy scale-out, merge, N350 registration, or Stage32 MAIN promotion before that gate clears.
+UNKNOWN remains UNKNOWN; the `172` unrelated identities remain uninferred. No broad/heavy scale-out, N350 registration, Stage32 MAIN promotion, theorem/effectivity/endpoint/Perfect Cuboid credit, or merge is authorized.
 
 ## Workflow lifecycle
 
-Historical bounded-unit compute provenance remains in source/checkpoint/run-key/run ids. Retired historical leaf workflows must not be re-enabled as automatic PR triggers. Permanent repository/EX5 integrity gates remain governed by `AGENTS.md` and the repository workflow lifecycle policy.
+Do not create a new automatic leaf workflow. BC2-26 must run through the existing ACTIVE_AUTO `.github/workflows/stage32-ex5-main.yml` with a runkey gate. Historical leaf workflows remain retired/manual according to repository lifecycle policy.
