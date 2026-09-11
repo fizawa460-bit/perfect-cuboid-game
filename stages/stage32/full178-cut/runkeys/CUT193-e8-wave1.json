@@ -1,43 +1,37 @@
 {
-  "schema": "STAGE32_CUT193_E8_COMMON_ADAPTER_WAVE1_RUNKEY_V1",
-  "generation": 1,
-  "armed": true,
+  "armed": false,
   "branch": "stage32cut-e8-common-adapter-wave1-20260911",
-  "purpose": "Run the first 255-block disjoint e=8 CUT wave on the source-locked EX5 common adapter, starting from externally hostile-re-audited MAIN V12 authority.",
-  "main_parent_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
-  "main_parent_external_reaudit_review": 5178420739,
-  "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
-  "ex5_producer_ci_run": 34598945799,
-  "wave": {
-    "survivor_offset_range": [1, 255],
-    "block_count": 255,
-    "terminal_count": 28815,
-    "shards": [
-      {"start": 1, "count": 32},
-      {"start": 33, "count": 32},
-      {"start": 65, "count": 32},
-      {"start": 97, "count": 32},
-      {"start": 129, "count": 32},
-      {"start": 161, "count": 32},
-      {"start": 193, "count": 32},
-      {"start": 225, "count": 31}
-    ]
-  },
-  "solver": {
-    "primes": [2, 3, 5, 7, 11, 13, 17, 31, 127],
-    "per_check_timeout_ms": 750,
-    "z3_version": "4.15.4.0",
-    "sympy_version": "1.14.0"
-  },
-  "artifact": {
-    "retention_days": 1,
-    "raw_parent_records_persisted": false,
-    "compact_commitments_only": true,
-    "repository_storage_budget_bytes": 524288000
+  "consumed": true,
+  "consumed_by": {
+    "aggregate_artifact_id": 10264888946,
+    "aggregate_artifact_zip_digest": "sha256:a36a25c5e8c1ccb78fcb7ac7bc3f5cbd346a02c4d5e4c581284ea369b546df69",
+    "aggregate_job_id": 103278987506,
+    "aggregate_result_canonical": "161abe2cf9a00b95ce2b1acd422008bbb5c72929ea7a72e9892b94546abae2c1",
+    "exact_head": "702ed10b85948c562ee87ad7cc26c6554d1ef4f8",
+    "workflow_run_id": 34602175336
   },
   "credit": {
     "candidate_only_until_hostile_audit": true,
-    "stage32_main_pruning_credit": false,
-    "merge_authorized": false
+    "merge_authorized": false,
+    "stage32_main_pruning_credit": false
+  },
+  "ex5_producer_ci_run": 34598945799,
+  "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+  "generation": 1,
+  "main_parent_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+  "main_parent_external_reaudit_review": 5178420739,
+  "purpose": "Retained consumed runkey for CUT193 wave1. Heavy execution is disarmed after artifact harvest.",
+  "schema": "STAGE32_CUT193_E8_COMMON_ADAPTER_WAVE1_RUNKEY_V1",
+  "solver": {
+    "per_check_timeout_ms": 750,
+    "primes": [2,3,5,7,11,13,17,31,127],
+    "sympy_version": "1.14.0",
+    "z3_version": "4.15.4.0"
+  },
+  "wave": {
+    "block_count": 255,
+    "shards": [{"count":32,"start":1},{"count":32,"start":33},{"count":32,"start":65},{"count":32,"start":97},{"count":32,"start":129},{"count":32,"start":161},{"count":32,"start":193},{"count":31,"start":225}],
+    "survivor_offset_range": [1,255],
+    "terminal_count": 28815
   }
 }
