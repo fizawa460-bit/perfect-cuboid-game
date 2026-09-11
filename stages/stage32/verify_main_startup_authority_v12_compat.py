@@ -6,7 +6,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BASE = HERE / "verify_main_startup_authority_v12.py"
-EXPECTED_CANONICAL = "f173f8ac64259ac45a369bf4744720bed5f4283399f6030413f68c51e4899309"
+EXPECTED_CANONICAL = "aba6484700764add786c1213e4577d4958a4f9db047a50b6b29e167d7a94f1ca"
 
 
 def main() -> None:
