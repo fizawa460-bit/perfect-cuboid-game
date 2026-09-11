@@ -22,6 +22,7 @@ def main() -> None:
     req(schema in {
         "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE",
         "STAGE32EX5_MAIN_COMPACT_STATE_V6_BC2_25_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V7_BC2_25_AUDIT_CONSUMED_BC2_26_PREFLIGHT",
     }, "live EX5 schema drift")
 
     bootstrap = state["bootstrap"]
@@ -30,7 +31,7 @@ def main() -> None:
             "merged #1765 leaked forward as active work surface")
         req(state["current"]["next_route"] == "BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT",
             "post-merge BC2-25 route drift")
-    else:
+    elif schema.endswith("V6_BC2_25_AUDIT_BOUNDARY"):
         req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch",
             "BC2-25 active work surface drift")
         req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_25_RECHECK",
@@ -39,6 +40,16 @@ def main() -> None:
             "BC2-25 audit boundary missing")
         req(state["intermediate_audit_boundary"]["bc2_26_execution_authorized"] is False,
             "BC2-26 authorization leak")
+    else:
+        req(bootstrap["active_work_pr"] == 1776 and bootstrap["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch",
+            "BC2-26 active work surface drift")
+        req(state["current"]["next_route"] == "BC2_26_BOUNDARY34_PARTITION_BOUNDED",
+            "BC2-26 bounded route drift")
+        audit = state["intermediate_audit_boundary"]
+        req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_review_id"] == 5177354131,
+            "BC2-25 PASS receipt not consumed")
+        req(audit["new_audit_boundary_exists"] is False and audit["bc2_26_execution_authorized"] is True,
+            "BC2-26 bounded authorization drift")
 
     req(bootstrap["latest_merged_pr"] == 1765,
         "latest merged EX5 PR provenance drift")
@@ -49,10 +60,6 @@ def main() -> None:
     req(state["credit"]["stage32_main_credit"] is False,
         "local EX5 work promoted to Stage32 MAIN credit")
 
-    # Preserve the exact original BC2-00 mathematical/source-lock verifier.
-    # It predates later EX5 routing schemas. Supply only the historical routing
-    # fields that verifier consumed; all artifact hashes and live source locks
-    # inside the frozen verifier remain unchanged and fail closed.
     spec = importlib.util.spec_from_file_location("bc2_00_v4_frozen", FROZEN_V4_VERIFIER)
     req(spec is not None and spec.loader is not None, "cannot load frozen BC2-00 verifier")
     module = importlib.util.module_from_spec(spec)
