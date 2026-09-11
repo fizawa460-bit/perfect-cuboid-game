@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE32_32_01_178_N351_HOSTILE_AUDIT_HANDOFF_V1",
+  "node_id": "N351",
+  "scope": "vector-independent general factor-Hurwitz mass-cap obstruction on the four current e=48 FULL178 strata",
+  "audit_candidate_exact_head": "6771d60b84e233dee305b56ff33700d3ec0025f1",
+  "authority": {
+    "contract_path": "stages/stage32/32-01-178/nodes/N351/GENERAL_FACTOR_HURWITZ_MASS_CAP_CONTRACT.md",
+    "contract_blob_sha1": "377c2c43b3c80644c5913586cee42e9a6ec1138d",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N351/verify_n351_general_factor_hurwitz_mass_cap.py",
+    "verifier_blob_sha1": "8c7d423cb492669f86181ca1048ea3ec73fb4fbf",
+    "workflow_path": ".github/workflows/stage32-01-178-n351-general-factor-hurwitz.yml",
+    "workflow_blob_sha1": "b8ffdfab5ccb689909447c0493409db081b034c0",
+    "ao_source_note_blob_sha1": "242088adab5c86292154a6de9bc3563ba73b4f43",
+    "result_path": "stages/stage32/32-01-178/nodes/N351/RESULT.json",
+    "result_blob_sha1": "37239c15cb5a71d73c0ce68bd544fbe237e5856b",
+    "result_canonical": "febfc7da3344bacb9afd33151d8a069a30b74935a66966ea4a96a9dab198800b",
+    "retained_bundle_canonical": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "retained_marking_canonical": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c",
+    "workflow_run_id": 34437679273,
+    "verify_job_id": 102746051547,
+    "report_job_id": 102747327290,
+    "verifier_output_canonical": "12f3b84e8da87bde061c47dd8add0bf69238e4ef350ad18673a020afa7cf3174"
+  },
+  "claims_to_audit": {
+    "necessary_formula": "6n=2q+e, R>=q, R=2g-2+2n imply n<=e/2+2g-2 and q<=e+6g-6 in either retained factor direction",
+    "independence": "the derivation and verifier use neither N349 local (4,4), N260 [1]^48, fixed x4, self-square, N310, nor N341",
+    "relaxation": "exact Picard64 integrality + all140 pairings nonnegative + exceptional total e + normal total 19d-5e + both six-boundary-pack q caps; individual exceptional vector and x4 are unconstrained",
+    "exact_result": "SAT=0 / UNSAT=4 / UNKNOWN=0",
+    "input_rows": [
+      {"row_id": "g0-d174", "g": 0, "d": 174, "e": 48, "normal_mass": 3066, "q_cap": 42, "current_terminal_count": 3067},
+      {"row_id": "g0-d176", "g": 0, "d": 176, "e": 48, "normal_mass": 3104, "q_cap": 42, "current_terminal_count": 3105},
+      {"row_id": "g1-d190", "g": 1, "d": 190, "e": 48, "normal_mass": 3370, "q_cap": 48, "current_terminal_count": 3371},
+      {"row_id": "g1-d192", "g": 1, "d": 192, "e": 48, "normal_mass": 3408, "q_cap": 48, "current_terminal_count": 3409}
+    ],
+    "candidate_current_terminal_obstruction_count": 12952,
+    "candidate_bypass": "if N351 passes hostile audit at this scope, N260/N280/N310/N341/N349/N349B/N349C are not prerequisites for obstruction of these four rows"
+  },
+  "hostile_checks": [
+    "Independently verify the six special-fibre divisor identities in both factor directions and that the six exceptional 8-sets partition all 48 exceptional curves exactly once.",
+    "Verify from the locked post1648AO source note that R>=e-B+q is valid under the exact low-genus integral/bijective-normalization hypotheses used here, and that B<=e follows without N349 local (4,4) or N260 allones.",
+    "Check the extension of the Hurwitz source argument to genus g=0 as well as g=1; fail the audit if the source only justifies the genus-one case.",
+    "Independently derive 6n=2q+e together with R=2g-2+2n and confirm q<=e+6g-6.",
+    "Confirm dropping individual exceptional coordinates, x4, self-square, N310 and N341 only relaxes the Picard feasibility system, so UNSAT cannot be manufactured by extra hidden restrictions.",
+    "Independently replay the exact Picard64 QF_LIA reconstruction and verify all four rows are UNSAT with zero UNKNOWN.",
+    "Check the retained terminal-count interpretation separately from the row-level mathematical UNSAT claim; do not broaden N351 to other FULL178 strata without a new audited sweep.",
+    "Confirm no N104/N350 production completeness, FULL178 global completion, theorem/receiver/endpoint, Stage32 closure, Perfect Cuboid existence/nonexistence, heavy authorization, or merge credit is inferred."
+  ],
+  "credit_ceiling_if_pass": "EXACT_FOUR_E48_STRATA_RELAXED_PICARD_HURWITZ_UNSAT_ONLY_12952_CURRENT_TERMINALS_NO_FULL178_OR_THEOREM_CREDIT",
+  "forbidden_promotions": [
+    "other FULL178 strata",
+    "production leaf COMPLETE",
+    "N104 full disposal",
+    "N350 producer registration",
+    "FULL178 global completion",
+    "Stage32 closure",
+    "theorem/receiver/endpoint credit",
+    "Perfect Cuboid existence or nonexistence",
+    "heavy-compute authorization",
+    "merge authorization"
+  ],
+  "canonical_sha256_without_this_field": "68e4c6dae3cd35d4923cc895c4a9b0e2f4e0d0d3fbaefa2038f1d731cf9a768d"
+}

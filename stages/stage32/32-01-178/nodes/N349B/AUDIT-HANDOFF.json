@@ -1,0 +1,53 @@
+{
+  "audit_candidate": {
+    "audit_consumed_relock_canonical": "c7bdb3736f83aa7c1ae8143f51db79c9f985b6bfb0312ca475219b910ae93d06",
+    "base_verifier_canonical": "f1595ea5b7ed99111ce32c5773bfb9c6e204154ca37bda2bf6e16e25d6b1782a",
+    "exact_head": "19066960d81fe73bd8c95af4238652cd00187b90",
+    "result_canonical": "8800cdaba2098ca70098c07a4c7944430e4bb9f546334b460fd6061e29d943e7",
+    "result_path": "stages/stage32/32-01-178/nodes/N349B/RESULT.json"
+  },
+  "canonical_sha256_without_this_field": "51f8d2e26de1e35565ae14ead3134ce11c4a320f865477c7053942dcf9d67214",
+  "expected_ledger": {
+    "sat_count": 0,
+    "terminal_count": 21,
+    "unknown_count": 0,
+    "unsat_count": 21,
+    "unsat_g0": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39],
+    "unsat_g1": [3, 7, 11, 15, 19, 23, 27, 31, 35, 39, 43]
+  },
+  "firewalls": {
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "main_self_audit_forbidden": true,
+    "merge_authorized": false,
+    "n349b_main_pruning_credit_before_external_pass": false,
+    "n350_producer_registry_unchanged": true,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "production_leaf_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "upstream_n260_n280_n310_n341_chain_not_auto_promoted": true
+  },
+  "node_id": "N349B",
+  "prerequisite_audit": {
+    "consumed_scope": "FSM boundary-equality / local cusp-pair necessity only",
+    "n349_exact_head": "77e1ea70a93149e1e0d7e3f5add3bfb15beec4c2",
+    "n349_receipt_canonical": "1752b861d0308cf4663d993c8d8c94b0ff491028ad88157580c64a39949907f3",
+    "n349_review_id": 5162530057
+  },
+  "requested_credit_ceiling": "AUDITED_N349B_FACTOR_HURWITZ_RELAXED_PICARD_ALL21_UNSAT_ONLY_NO_UPSTREAM_CHAIN_PROMOTION_NO_FULL178_NO_N350_NO_THEOREM_NO_ENDPOINT",
+  "requested_hostile_checks": [
+    "Verify that N349 external PASS is consumed only at its stated local-pair necessity ceiling.",
+    "Verify the six-special-fibre identity F_E=2E+sum(8 incident exceptional curves), six fibres per factor, and partition of all 48 exceptional curves.",
+    "Verify that N349 local pair (4,4), scaled (A,B)=(1,1), together with exceptional pairing vector [1]^48 implies e=B=48 and e-B=0 for the bijective normalization hypothesis.",
+    "Verify q=3n-24 and 6n=2q+48 for either factor direction.",
+    "Verify Riemann-Hurwitz on genus-g normalization over P1 gives R=2g-2+2n and, with R>=q, the necessary cap n<=22+2g, equivalently boundary pairing C.E<=7 for g=0 and <=8 for g=1.",
+    "Verify the factor map is nonconstant (n>=8 under the retained exceptional data).",
+    "Verify the retained Picard64 QF_LIA model is a relaxation: normal mass, x4, all48 exceptional pairings=1, all92 normal pairings nonnegative, and all12 boundary caps; self-square is omitted.",
+    "Replay the 21 exact terminal cases and confirm SAT=0, UNSAT=21, UNKNOWN=0 with the exact x4 partitions.",
+    "Verify that UNSAT in this relaxed necessary-condition system is safe pruning for the 21 terminal families, but grants no actual curve construction or upstream FULL178 credit without separate chain promotion."
+  ],
+  "schema": "STAGE32_32_01_178_N349B_HOSTILE_AUDIT_HANDOFF_V1",
+  "status": "HOSTILE_AUDIT_REQUIRED"
+}

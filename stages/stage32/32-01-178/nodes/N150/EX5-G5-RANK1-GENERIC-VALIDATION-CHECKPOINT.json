@@ -1,0 +1,47 @@
+{
+  "schema": "stage32-01-178-n150-ex5-observation/v1",
+  "node_id": "N150",
+  "route_id": "EX5-EXTERNAL-CONSUME-G5-RANK1-GENERIC-VALIDATION",
+  "status": "BLOCKED",
+  "observed_pr": 1742,
+  "observed_head": "decfc097cebf3e8d29e6e1d962f9b06ac586bb8a",
+  "material_progress": {
+    "checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-03-rank1-exact-unsat-checkpoint.json",
+    "checkpoint_blob_sha": "7254242491e7371027b23ac9e3b2d14ae18f99ca",
+    "source_exact_head": "31c4b1f1808dcd415768888a226f62e7213d42d7",
+    "row_id": "g1-d008",
+    "d": 8,
+    "e": 4,
+    "terminal_rank": 1,
+    "terminal_count_in_stratum": 36575,
+    "terminal_pairings": [0,1,0,0,1,0,0,0,0,0,1],
+    "rank1_result": "EXACT_UNSAT",
+    "parent_branch_count": 210,
+    "parent_exact_unsat": 159,
+    "parent_unknown_before_refinement": 51,
+    "refinement_subcases": 393,
+    "refinement_exact_unsat": 393,
+    "refinement_unknown": 0,
+    "closed_indexed_terminals": [0,1],
+    "generic_algorithm_validated_on_next_deterministic_terminal": true,
+    "rank0_to_rank1_difference": "x4/known-label-49 only; canonical x4 is innermost",
+    "next_ex5_unit": "BC2_04_X4_INNERMOST_BLOCK_COMPRESSION_PREFLIGHT"
+  },
+  "main_interaction": {
+    "n150_reopen_condition_met": false,
+    "reason": "Two exact UNSAT terminals and a validated generic per-terminal algorithm are material progress but do not yet supply a retained/audited population-wide FULL178-target-compatible adapter/result.",
+    "structural_overlap_notice": "EX5 BC2-04 and MAIN N220 both observe canonical x4 innermost structure. MAIN uses it only to preserve N220 filtered rank blocks; EX5 owns Picard64/x4 parametric completion compression. Do not duplicate EX5 BC2-04 inside MAIN."
+  },
+  "credit_firewall": {
+    "n150_done": false,
+    "whole_x4_block_closed": false,
+    "whole_stratum_closed": false,
+    "full178_credit": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "existence_claim": false,
+    "nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

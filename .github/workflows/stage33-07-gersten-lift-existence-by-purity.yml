@@ -1,16 +1,7 @@
 name: Stage33-07 Gersten lift existence by purity
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/certify_26_global_gersten_lift_existence_by_purity.py'
-      - 'stages/stage33/33-07/record_gersten_lift_existence_progress.py'
-      - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
-      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
-      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
-      - '.github/workflows/stage33-07-gersten-lift-existence-by-purity.yml'
   workflow_dispatch:
-
 concurrency:
   group: stage33-07-gersten-v11-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: false

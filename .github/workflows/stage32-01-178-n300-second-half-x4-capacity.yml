@@ -1,0 +1,17 @@
+name: Stage32 32-01-178 N300 second-half x4 capacity
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify N300 second-half x4 capacity cut
+        run: python stages/stage32/32-01-178/nodes/N300/verify_n300_second_half_x4_capacity.py

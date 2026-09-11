@@ -1,10 +1,7 @@
 name: Stage32-18AW d16 b16 remaining walls tier2 cost planner
 
 on:
-  push:
-    branches: [stage32-18as-b16-heavy-tier2-cost-planner]
-    paths: ['stages/stage32/runkeys/18aw-b16-remaining-walls-tier2-cost-planner.json']
-
+  workflow_dispatch:
 permissions: {contents: read, actions: read}
 concurrency: {group: stage32-18aw-b16-remaining-walls-tier2, cancel-in-progress: true}
 

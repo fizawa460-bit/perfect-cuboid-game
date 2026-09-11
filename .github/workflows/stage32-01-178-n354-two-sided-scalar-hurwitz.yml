@@ -1,0 +1,19 @@
+name: Stage32 32-01-178 N354 two-sided scalar Hurwitz census
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.x'
+      - name: Replay N354 exact census
+        run: python stages/stage32/32-01-178/nodes/N354/verify_n354_two_sided_scalar_hurwitz.py
+      - name: Diff check
+        run: git diff --check

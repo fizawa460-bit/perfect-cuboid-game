@@ -3,17 +3,6 @@ name: Stage33-07 k1 pure-geometric seven-sign fixed filtration
 # Latest-commit gating prevents PR-wide path replay. Support changes also open
 # this gate; prepare then waits for a successful exact support run/artifact.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'stages/stage33/33-07/nonelementary_k1_geometric_sign_fixed_common.py'
-      - 'stages/stage33/33-07/nonelementary_k1_endpoint_group_type.py'
-      - 'stages/stage33/33-07/certify_nonelementary_k1_geometric_sign_fixed_shard.py'
-      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_sign_fixed.py'
-      - '.github/workflows/stage33-07-k1-geometric-sign-fixed.yml'
-      - 'stages/stage33/33-07/certify_nonelementary_k1_geometric_support_ur_subshard.py'
-      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_support_ur_subshards.py'
-      - '.github/workflows/stage33-07-k1-geometric-support-orbits.yml'
   workflow_dispatch:
 permissions:
   contents: read

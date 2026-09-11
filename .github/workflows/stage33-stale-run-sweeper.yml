@@ -1,12 +1,7 @@
 name: Stage33 stale-run sweeper
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/**'
-      - '.github/workflows/stage33*.yml'
   workflow_dispatch:
-
 concurrency:
   group: stage33-stale-run-sweeper-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true

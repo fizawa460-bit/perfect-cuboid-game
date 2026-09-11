@@ -1,0 +1,82 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N150",
+  "semantic_key": "s32-01-178:ex5-external-consumption-gate",
+  "statement": "Consume a current-target EX5 result into 32-01 only after EX5 provides a retained/audited FULL178-target-compatible producer/result plus an explicit adapter to the 32-01 numerical census semantics.",
+  "scope": {
+    "population": "FULL178 numerical unibranch target",
+    "field_or_model": "EX5 retained BC2 output -> Stage32 32-01 current target",
+    "quantifiers": "only the exact population certified by the future adapter",
+    "required_output": "explicit current-target adapter, exact evidence locks, and MAIN-consumption checkpoint"
+  },
+  "source_refs": [
+    "PR#1742 Stage32EX5 BC2 integration surface",
+    "PR#1742@0b74536429331932f1d2b80f086a701db0c56413",
+    "PR#1742:BC2-05 ranks 0..132 exact UNSAT checkpoint canonical cc62959ccf8c2939ff4024dc3a1e4ba59fdea38b7d33fd94817161b732c5284e",
+    "PR#1742:BC2-06 ranks 133..265 exact structural replay checkpoint canonical b304b6c050327f617999a7a1181721ecf34aeeec45f108b6bbfed2edccec9746",
+    "PR#1742:BC2-08 ranks 133..265 exact UNSAT checkpoint canonical af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c"
+  ],
+  "reuse_check": {
+    "performed": true,
+    "queries": [
+      "Stage32EX5 current retained block result",
+      "FULL178 target to Picard64 adapter",
+      "symbolic x4 block compression",
+      "population-wide hostile audit"
+    ],
+    "matches": [
+      "PR#1742 remains the active external producer and is Draft/OPEN/unmerged.",
+      "BC2-05 retained exact UNSAT for terminal ranks 0..132 in g1-d008/e=4 with x4 symbolic.",
+      "BC2-08 now also retains exact UNSAT for ranks 133..265: 19 parent UNSAT branches plus the sole BC2-07 UNKNOWN parent refined to one full-exceptional subcase, 1/1 exact UNSAT, UNKNOWN=0, SAT=0, x4 symbolic.",
+      "Thus ranks 0..265 of the 36,575-terminal g1-d008/e=4 stratum are locally closed, but this is still not a hostile-audited population-wide MAIN-consumable adapter/result."
+    ],
+    "decision": "EXISTING_ACTIVE_EXTERNAL_WORK_REUSED_DO_NOT_DUPLICATE; TWO_133_RANK_BLOCKS_NOW_EXACT_UNSAT; REOPEN_CONDITION_NOT_YET_MET"
+  },
+  "attempts": [
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G1",
+      "status": "BLOCKED",
+      "blocker": "EX5 localized the reusable producer kernel but had not yet produced a retained/audited FULL178-target-compatible Picard64 completion adapter/result."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G2-PAIRCOORD-PROGRESS",
+      "status": "BLOCKED",
+      "summary": "Representative completion reparameterized by actual selected64 pairings with exact Picard membership/divisibility and exact all140 linear forms.",
+      "blocker": "Representative implementation only; not a retained/audited population-wide producer/result."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G5-SYMBOLIC-X4-BLOCK-UNSAT",
+      "status": "BLOCKED",
+      "summary": "BC2-05 closes ranks 0..132 exactly for g1-d008/e=4.",
+      "blocker": "One 133-terminal block is not the stratum or population scope MAIN requires."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G6-NEXT-BLOCK-PREFLIGHT",
+      "status": "SUPERSEDED_BY_G7",
+      "summary": "BC2-06 structurally rederived ranks 133..265 before solver credit."
+    },
+    {
+      "route_id": "EX5-EXTERNAL-CONSUME-G7-SECOND-X4-BLOCK-UNSAT",
+      "status": "BLOCKED",
+      "summary": "BC2-08 closes ranks 133..265 exactly for g1-d008/e=4. Combined retained local scope is ranks 0..265 exact UNSAT.",
+      "evidence": {
+        "current_pr_head": "0b74536429331932f1d2b80f086a701db0c56413",
+        "armed_exact_head": "1381082962a66f5a0fa6a996e6c3083b79694fb1",
+        "workflow_run": 34409953902,
+        "checkpoint_canonical_sha256": "af197e67d3f56a6775f99f49aae59a14bc99bfa8c1b9b1d113749df3f1aa162c",
+        "evidence_canonical_sha256": "f621bfc7da94b033f9efd8a6dfb5967d6ab3eb237288c35ab3df73e13a579503"
+      },
+      "blocker": "266 exact terminal ranks out of one 36,575-terminal stratum remain far below the hostile-audited population-wide adapter required by N150."
+    }
+  ],
+  "reopen_condition": "PR#1742 or its audited successor retains a hostile-audited FULL178-target-compatible producer/result and explicit adapter mapping canonical (row_id,d,e,terminal rank/pairings) into exact Picard64 completion or sufficient-signature semantics at the population scope MAIN intends to consume.",
+  "retained_result": null,
+  "credit_ceiling": "NONE_UNTIL_EXTERNAL_REOPEN_CONDITION",
+  "next_action": "REVALIDATE AFTER MATERIAL EX5 GENERAL-OBSTRUCTION/POPULATION-ADAPTER ADVANCE OR HOSTILE AUDIT; DO NOT DUPLICATE EX5 PICARD64/x4-BLOCK RESEARCH INSIDE 32-01-178",
+  "notes": [
+    "N150 exists specifically to prevent duplicate EX5 research inside 32-01-178.",
+    "Two symbolic-x4 blocks are meaningful local progress, but block-by-block continuation still leaves the exceptional-axis combinatorial wall.",
+    "N240 is independent and only adapts the audited N220/N230 pruning to N104/N106 execution completeness.",
+    "No FULL178, theorem, receiver, endpoint, existence/nonexistence, heavy-run, or merge credit is granted."
+  ]
+}

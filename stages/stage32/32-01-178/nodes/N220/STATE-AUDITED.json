@@ -1,0 +1,53 @@
+{
+  "schema": "research-os-mission-node-audit-consumption/v1",
+  "node_id": "N220",
+  "semantic_key": "s32-01-178:prefix-exceptional-support-cap-cut",
+  "status": "DONE_AUDITED_EXACT_NECESSARY_PREFIX_PRUNING",
+  "audited_contract": {
+    "path": "stages/stage32/32-01-178/nodes/N220/STATE.json",
+    "blob_sha": "15f38f2bc2c0c5c84206505283dd3ed9d6fa5145",
+    "audited_exact_head": "940fe99a20c1eaa215126acd92e7c390295bb441"
+  },
+  "hostile_audit": {
+    "result": "PASS",
+    "corrected_review_id": 5159411821,
+    "corrected_review_node_id": "PRR_kwDOTr52Y88AAAABM4ZgbQ",
+    "superseded_quantitative_review_id": 5155505013,
+    "scope": "N220 Prefix exceptional-support capacity exact cut only",
+    "credit_ceiling": "EXACT_NECESSARY_PREFIX_PRUNING_ONLY_NO_FULL178_COMPLETENESS_OR_THEOREM_CREDIT"
+  },
+  "exact_audited_accounting": {
+    "coarse_strata_before_existing_node_mass_cut": 64111,
+    "coarse_strata_after_existing_node_mass_cut": 60491,
+    "coarse_strata_eliminated_by_existing_node_mass_cut": 3620,
+    "existing_node_mass_cut_affected_rows": 168,
+    "terminal_total_before_existing_node_mass_cut": "688101306360803751427719294",
+    "terminal_total_after_existing_node_mass_cut": "688101306357436883335845534",
+    "n220_rejected": "342047598454520296245948565",
+    "n220_survivors": "346053707902916587089896969",
+    "n220_rejection_percent_approx": 49.7089011885762,
+    "partition_exact": true
+  },
+  "audited_predicate": {
+    "necessary_form": "S10 + min(38, e-M10) >= ceil((d-16g+16)/4)",
+    "rejection_form": "S10 + min(38, e-M10) < ceil((d-16g+16)/4)",
+    "zero_loss_necessary_pruning": true,
+    "exact_48bit_support_inferred": false,
+    "picard64_completion_required": false
+  },
+  "authority": {
+    "production_predicate_use_authorized": true,
+    "filtered_rank_implementation_authorized": true,
+    "old_n104_n106_canonical_rank_replaced": false,
+    "heavy_compute_authorized": false,
+    "full178_complete": false,
+    "numerical_row_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "existence_claim": false,
+    "nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_action": "Implement exact N220 filtered exceptional-rank random access while preserving the old stratum-local CompressedTerminalIndexer(e,d) rank as completeness authority; validate rank/unrank and rejected+survivor partition before any scaled execution."
+}

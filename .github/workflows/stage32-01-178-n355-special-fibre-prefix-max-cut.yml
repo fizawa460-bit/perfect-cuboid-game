@@ -1,0 +1,35 @@
+name: "[Stage32][32-01-178][N355] special-fibre prefix max cut"
+
+# Trigger lifecycle: RETIRED
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.x"
+      - name: Install exact verifier dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Replay N355 special-fibre prefix max cut
+        run: |
+          python stages/stage32/32-01-178/nodes/N355/verify_n355_special_fibre_prefix_max_cut.py --output /tmp/n355-preflight.json
+          cat /tmp/n355-preflight.json
+      - name: Replay exact certified x1 diagonal subset census
+        run: |
+          python stages/stage32/32-01-178/nodes/N355/verify_n355_x1_diagonal_lower_bound.py --output /tmp/n355-x1.json
+          cat /tmp/n355-x1.json
+      - name: Replay full known-prefix block-sum census research
+        run: |
+          python stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py --output /tmp/n355-full-prefix.json
+          diff -u stages/stage32/32-01-178/nodes/N355/FULL-PREFIX-RESULT.json /tmp/n355-full-prefix.json
+          cat /tmp/n355-full-prefix.json
+      - name: Diff check
+        run: git diff --check

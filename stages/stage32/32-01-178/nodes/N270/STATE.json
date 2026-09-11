@@ -1,0 +1,49 @@
+{
+  "schema": "research-os-mission-node/v1",
+  "node_id": "N270",
+  "semantic_key": "s32-01-178:all48-exceptional-hnf-obstruction",
+  "statement": "Test whether the N260-forced all-ones 48-exceptional pairing vector, together with x4, is already excluded by the exact all140 integer Picard pairing-image HNF oracle before any EX5 Picard solver work.",
+  "depends_on": ["N220", "N230", "N260"],
+  "scope": {
+    "population": "the four N260 e=K=48 one-exceptional-block strata",
+    "field_or_model": "exact all140 pairing image of the retained integral Picard64 lattice",
+    "quantifiers": "all x4 values in each of the four N260 normal blocks",
+    "required_output": "exact HNF extendability result only"
+  },
+  "implementation": {
+    "verifier_path": "stages/stage32/32-01-178/nodes/N270/verify_n270_all48_exceptional_hnf_obstruction.py",
+    "verifier_blob_sha1": "b25856cfa648d6b0f0a20f74f86bb3285f6f7801",
+    "workflow_path": ".github/workflows/stage32-01-178-n270-all48-hnf.yml",
+    "workflow_blob_sha1": "471b32b8a588f641e806bd5812699f768133a7e9"
+  },
+  "validation": {
+    "workflow_run_id": 34420367977,
+    "workflow_job_id": 102694236594,
+    "workflow_conclusion": "success",
+    "canonical_sha256": "dbdf0ca222c6d8f9ce61249b17c540668149aecfe5799a4cec0831c78066a6a4",
+    "final_modulus": 2,
+    "final_active_congruence_rows": 23,
+    "final_image_index": "8388608",
+    "final_hnf_sha256": "3545f3878434c09aaa4d82df58c130716ff4d82953dac784d729ef1fc9b82f72",
+    "feasible_x4_residues_mod_2": [0,1],
+    "tested_terminal_count": 12952,
+    "hnf_rejected_terminal_count": 0,
+    "hnf_survivor_terminal_count": 12952
+  },
+  "retained_result": {
+    "status": "DONE_DOMINATED_NO_NEW_INFORMATION",
+    "result": "ALL48_PLUS_X4_HNF_DOES_NOT_PRUNE_ANY_N260_TERMINAL",
+    "route_status": "DOMINATED",
+    "new_pruning_credit": false,
+    "picard_unsat_credit": false,
+    "full178_complete": false
+  },
+  "credit_ceiling": "EXACT_NEGATIVE_WEAPON_CHECK_ONLY_NO_PRUNING_OR_PICARD_OR_FULL178_CREDIT",
+  "next_action": "STRENGTHEN THE CHEAP LATTICE TEST BY ADDING THE EXACT NORMAL-PAIRING MASS 19*d-5*e TO THE N260 [1]^48 + x4 ASSIGNMENT; DO NOT DUPLICATE EX5 Z3 ADAPTIVE PARTITION",
+  "notes": [
+    "N270 uses no Z3 and no exceptional branching.",
+    "The all140 HNF test leaves the remaining 91 normal pairings unrestricted, which explains why adding the already-known normal mass is a strictly stronger next test.",
+    "N260 hostile audit is still required before any downstream use of the four-stratum rigidity as credit.",
+    "No heavy compute, theorem/receiver/endpoint, existence/nonexistence, or merge credit is authorized."
+  ]
+}

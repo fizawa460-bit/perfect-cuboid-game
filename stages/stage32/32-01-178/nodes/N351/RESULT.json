@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE32_32_01_178_N351_GENERAL_FACTOR_HURWITZ_MASS_CAP_RESULT_V1",
+  "node_id": "N351",
+  "status": "AUDIT_CANDIDATE_NO_MAIN_CREDIT",
+  "scope": "four e=48 FULL178 strata; vector-independent factor-Hurwitz mass cap plus relaxed exact integral Picard64 feasibility",
+  "workflow": {
+    "run_id": 34437679273,
+    "verify_job_id": 102746051547,
+    "report_job_id": 102747327290,
+    "conclusion": "success",
+    "verifier_output_canonical": "12f3b84e8da87bde061c47dd8add0bf69238e4ef350ad18673a020afa7cf3174"
+  },
+  "necessary_condition": {
+    "special_fibre_identity": "6n = 2q + e",
+    "hurwitz_lower_bound_used": "R >= q",
+    "riemann_hurwitz": "R = 2g - 2 + 2n",
+    "derived_degree_cap": "n <= e/2 + 2g - 2",
+    "equivalent_boundary_mass_cap": "q <= e + 6g - 6",
+    "independent_of": [
+      "N349 local (4,4)",
+      "N260 [1]^48",
+      "fixed x4",
+      "self-square",
+      "N310",
+      "N341"
+    ]
+  },
+  "relaxation": {
+    "picard64_integrality": true,
+    "all_140_pairings_nonnegative": true,
+    "exceptional_total_fixed_to_e": true,
+    "normal_total": "19*d-5*e",
+    "two_factor_six_boundary_pack_caps": true,
+    "individual_exceptional_pairings_fixed": false,
+    "x4_fixed": false,
+    "self_square_used": false,
+    "solver_logic": "QF_LIA",
+    "timeout_ms_per_row": 30000
+  },
+  "aggregate": {
+    "row_count": 4,
+    "sat_row_count": 0,
+    "unsat_row_count": 4,
+    "unknown_row_count": 0,
+    "candidate_current_e48_terminal_count": 12952
+  },
+  "rows": [
+    {
+      "row_id": "g0-d174",
+      "genus": 0,
+      "degree": 174,
+      "e": 48,
+      "normal_mass": 3066,
+      "q_cap": 42,
+      "current_terminal_count": 3067,
+      "verdict": "UNSAT_RELAXED_EXACT_QF_LIA"
+    },
+    {
+      "row_id": "g0-d176",
+      "genus": 0,
+      "degree": 176,
+      "e": 48,
+      "normal_mass": 3104,
+      "q_cap": 42,
+      "current_terminal_count": 3105,
+      "verdict": "UNSAT_RELAXED_EXACT_QF_LIA"
+    },
+    {
+      "row_id": "g1-d190",
+      "genus": 1,
+      "degree": 190,
+      "e": 48,
+      "normal_mass": 3370,
+      "q_cap": 48,
+      "current_terminal_count": 3371,
+      "verdict": "UNSAT_RELAXED_EXACT_QF_LIA"
+    },
+    {
+      "row_id": "g1-d192",
+      "genus": 1,
+      "degree": 192,
+      "e": 48,
+      "normal_mass": 3408,
+      "q_cap": 48,
+      "current_terminal_count": 3409,
+      "verdict": "UNSAT_RELAXED_EXACT_QF_LIA"
+    }
+  ],
+  "source_locks": {
+    "contract_path": "stages/stage32/32-01-178/nodes/N351/GENERAL_FACTOR_HURWITZ_MASS_CAP_CONTRACT.md",
+    "contract_blob_sha1": "377c2c43b3c80644c5913586cee42e9a6ec1138d",
+    "verifier_path": "stages/stage32/32-01-178/nodes/N351/verify_n351_general_factor_hurwitz_mass_cap.py",
+    "verifier_blob_sha1": "8c7d423cb492669f86181ca1048ea3ec73fb4fbf",
+    "workflow_path": ".github/workflows/stage32-01-178-n351-general-factor-hurwitz.yml",
+    "workflow_blob_sha1": "b8ffdfab5ccb689909447c0493409db081b034c0",
+    "ao_source_note_blob_sha1": "242088adab5c86292154a6de9bc3563ba73b4f43",
+    "retained_bundle_canonical": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "retained_marking_canonical": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
+  },
+  "audit_notes": {
+    "g0_extension_requires_hostile_check": true,
+    "unsat_under_relaxation_is_candidate_stratum_obstruction": true,
+    "sat_would_not_give_member_or_existence_credit": true,
+    "unknown_zero_credit": true
+  },
+  "semantics": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "production_leaf_credit": false,
+    "n350_producer_registry_unchanged": true,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closure": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false,
+    "external_hostile_audit_required": true
+  },
+  "canonical_sha256_without_this_field": "febfc7da3344bacb9afd33151d8a069a30b74935a66966ea4a96a9dab198800b"
+}
