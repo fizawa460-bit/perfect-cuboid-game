@@ -159,7 +159,7 @@ def apply_mask(mask, perm):
 def main():
     cert = json.loads(CERT.read_text())
     parent = json.loads(FULLMAP.read_text())
-    assert cert["schema"] == "STAGE32_MB104_BTVA_M2_HYPERPLANE_ORBIT_CLASSIFICATION_V1"
+    assert cert["schema"] == "STAGE32_MB104_BTVA_M2_HYPERPLANE_ORBIT_CLASSIFICATION_V2"
     assert parent["schema"] == "STAGE32_MB104_BTVA_FULL_M2_NODE_EXTENSION_MAP_V1"
     assert git_blob_sha1(FULLMAP) == cert["parents"]["full_m2_map_blob_sha1"]
     assert git_blob_sha1(MB103) == cert["parents"]["mb103_verifier_blob_sha1"]
@@ -200,8 +200,8 @@ def main():
     support_orbit = {apply_mask(support, g) for g in group}
     assert len(support_orbit) == 24
 
-    # Each rank-11 representative is contained in the representative special support.
-    # Exactly the remaining special-support nodes are the outside nodes that leave rank 12.
+    # Every rank-11 representative is contained in this special support.
+    # Exactly the remaining special-support nodes leave a one-dimensional kernel.
     survivor_pairs = set()
     for h in hinfo:
         mask = h["rep_mask"]
@@ -223,7 +223,7 @@ def main():
 
     assert len(survivor_pairs) == cert["outside_pairs"]["extension_rank_distribution"]["12"] == 28416
 
-    # Reconstruct pair-orbit partition under Aut(S).
+    # Reconstruct the 35 survivor pair-orbits.
     unseen = set(survivor_pairs)
     orbit_sizes = []
     while unseen:
@@ -235,18 +235,23 @@ def main():
     assert len(orbit_sizes) == cert["outside_pairs"]["rank12_survivor_pair_orbit_count"] == 35
     assert Counter(orbit_sizes) == Counter({384: 12, 768: 15, 1536: 8})
 
-    # Count identity for all outside pairs is retained from the exhaustive replay.
     assert cert["outside_pairs"]["count"] == 24538032
     assert cert["outside_pairs"]["extension_rank_distribution"]["13"] == 24509616
     assert 24509616 + 28416 == 24538032
 
-    assert cert["full_span_capacity"]["simultaneous_m2_extension_kernel_dimension_upper_bound"] == 1
+    full = cert["full_span_capacity"]
+    assert full["simultaneous_m2_extension_kernel_dimension_upper_bound"] == 1
+    assert full["if_nonzero_support_contained_in_special_24_residual"] is True
+    assert full["if_nonzero_kernel_is_corresponding_special_section"] is True
+    assert cert["decision"]["all_full_span_nonzero_m2_kernels_classified_into_special_24_residual"] is True
     assert cert["decision"]["population_wide_finite_degree_window_proved"] is False
     assert cert["firewalls"]["receiver_credit"] is False
+
     print("MB104 BTVA m=2 hyperplane/orbit verifier PASS")
     print("rank11_hyperplanes=3264 aut_orbits=7")
     print("outside_rank12_pairs=28416 pair_orbits=35")
     print("special_extension_supports=24 each_size=16")
+    print("full_span_nonzero_m2_kernel => special_24_residual")
     print("finite_window=false receiver_credit=false")
 
 
