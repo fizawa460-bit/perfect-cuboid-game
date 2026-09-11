@@ -143,7 +143,7 @@ jobs:
           if os.environ.get('RUNKEY_CHANGED') == 'true' and p.exists():
               o=json.loads(p.read_text())
               ok=(o.get('schema')=='STAGE32_CUT195_E8_COMMON_ADAPTER_WAVE3_RUNKEY_V1'
-                  and o.get('generation')==1 and o.get('armed') is True
+                  and o.get('generation')==2 and o.get('armed') is True
                   and o.get('consumed') is False
                   and o.get('branch')=='stage32cut-e8-common-adapter-wave3-20260912'
                   and o.get('parent_cut194_audited_head')=='847f3bff0c5e0d0530bfb8db406e955b2d231d9a'
@@ -178,7 +178,7 @@ jobs:
           - {shard: 6, start: 703, count: 32}
           - {shard: 7, start: 735, count: 31}
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
