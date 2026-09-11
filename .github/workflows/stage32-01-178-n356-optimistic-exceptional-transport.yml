@@ -1,6 +1,6 @@
 name: "[Stage32][32-01-178][N356] optimistic exceptional transport cap"
 
-# Trigger lifecycle: ACTIVE_AUTO — current Stage32 MAIN mathematical frontier
+# Trigger lifecycle: ACTIVE_AUTO — audited N356 replay guard while N357 successor is researched
 on:
   pull_request:
     paths:
@@ -8,8 +8,11 @@ on:
       - "stages/stage32/32-01-178/nodes/N345/**"
       - "stages/stage32/32-01-178/nodes/N355/**"
       - "stages/stage32/32-01-178/nodes/N356/**"
+      - "stages/stage32/32-01-178/nodes/N357/**"
+      - "stages/stage32/32-01-178/nodes/N357-engine/**"
       - "stages/stage32/residual-32-01-production/full178-manifest.json"
       - "stages/stage32/management/post-n355-n356-candidate-checkpoint-20260910.json"
+      - "stages/stage32/management/post-n356-hostile-pass-n357-checkpoint-20260911.json"
       - "stages/stage32/MAIN-STATE.json"
       - "stages/stage32/verify_main_startup.py"
       - "stages/stage33/33-07/picard_base_rows_retained.py"
@@ -36,5 +39,9 @@ jobs:
           python stages/stage32/32-01-178/nodes/N356/verify_n356_optimistic_exceptional_transport_parallel.py --output /tmp/n356-result.json
           cat /tmp/n356-result.json
           cmp /tmp/n356-result.json stages/stage32/32-01-178/nodes/N356/RESULT.json
+      - name: Research N357 all178 support-suffix capacity candidate
+        run: |
+          python stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py --output /tmp/n357-all178-candidate.json
+          cat /tmp/n357-all178-candidate.json
       - name: Diff check
         run: git diff --check
