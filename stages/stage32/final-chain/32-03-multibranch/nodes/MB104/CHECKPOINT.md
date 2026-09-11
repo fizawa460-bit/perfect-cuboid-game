@@ -1,138 +1,155 @@
-# Stage32 MB104 checkpoint — finite window reduced to a minimal-cusp branch bound
+# Stage32 MB104 checkpoint — finite window reduced to a high-span minimal-cusp branch problem
 
 Status: **ACTIVE RETAINED CHECKPOINT / MB104 NOT COMPLETE / NO CREDIT**
 
-## Baseline insufficiency
+## Core inequality
 
-MB101 plus MB102 alone do not force a finite upper bound on canonical degree `d=H.D`. Their numerical contracts admit formal arbitrary even-degree data such as
-
-```text
-g=1: D^2=-d,   Delta_total=0,
-g=0: D^2=-d-2, Delta_total=0,
-```
-
-which satisfy the retained adjunction/normalization identity and Hodge upper bound. This is an insufficiency witness only; it is not an existence claim for curves.
-
-## Branchwise Freitag--Salvati Manni extension
-
-The proof of Freitag--Salvati Manni Theorem 3.1 was re-opened at the exact point where bijective normalization is used. The published proof has
+Reopening Freitag--Salvati Manni Theorem 3.1 at the exact bijective-normalization step gives the retained branchwise necessary inequality
 
 ```text
-16(2g-2)k = #zeros - #poles,
-#zeros >= 2kd.
+d <= 16g - 16 + 4R8,
 ```
 
-For one normalization branch over a box node with cusp vector `(a1,a2)`, the differential contributes pole order `16k` and the discriminant factors contribute zero order `(a1+a2)k`. The translation-lattice congruences force
+where `R8` is the number of normalization branches over box nodes with minimal cusp type `(A,B)=(1,1)`. In the bijective case `R8<=48`, recovering `d<=176+16g`. Thus an explicit finite degree window follows from `R8<=constant` or `R8<=alpha*d+beta` with `alpha<1/4`.
+
+## Positive population reductions now retained
+
+### BTVA low-support finiteness
+
+Bruin--Thomas--Várilly-Alvarado prove that only finitely many genus-0/1 curves on the perfect cuboid surface pass through at most 13 singularities. Therefore any potentially infinite multibranch family lies in
 
 ```text
-a1,a2>0,
-a1 == a2 == 0 mod 4,
-a1+a2 == 0 mod 8.
+N=#{i:r_i>0} >= 14.
 ```
 
-Thus a positive pole occurs only when `a1+a2=8`, equivalently in MB101 notation only for `(A,B)=(1,1)`, and then its order is `8k`.
+This theorem is non-effective for Stage32 production: it does not list the finite exceptional curves or give their maximum degree.
 
-Let
+### Genus-zero multibranch sector is full-span
+
+BTVA prove that every genus-zero curve other than the known 32 plane conics passes through at least seven nodes spanning `P^6`. The Stoll source model shows each of the 32 conics is a smooth plane conic; normalization is therefore an isomorphism and every met node has `r_i=1`. Hence none is in `R29-LG2-MB`.
+
+Consequently every genus-zero multibranch carrier satisfies
 
 ```text
-R8 = number of normalization branches over the 48 nodes with (A,B)=(1,1).
+N>=7,
+dim span(Sigma(D))=6.
 ```
 
-Summing branchwise yields the retained necessary inequality
+There is no remaining conic exception inside the multibranch receiver.
+
+### Genus-one low-span sector has an explicit degree window
+
+BTVA Corollary 6.5 gives
 
 ```text
-d <= 16g - 16 + 4R8.                 (MB104-FSM-MB)
+dim span(Sigma(D)) <= 4  =>  d <= 16.
 ```
 
-For bijective normalization, `R8<=48`, and the published bound is recovered exactly:
+Thus only genus-one node-support span dimensions `5` and `6` remain outside an explicit BTVA degree window. This is a real finite-window subpopulation, but global MB105 remains gated because the high-span sectors are still open.
 
-```text
-d <= 16g-16+4*48 = 176+16g.
-```
-
-The detailed proof and certificate are in `FSM-MULTIBRANCH-POLE-*`.
-
-## Exact missing input
-
-A finite degree window follows from either
-
-```text
-R8 <= constant,
-```
-
-or
-
-```text
-R8 <= alpha*d + beta,  alpha < 1/4.
-```
-
-Every minimal cusp branch has exceptional multiplicity one, hence
-
-```text
-R8 <= R <= M=sum_i D.E_i.
-```
-
-## Routes now source-checked and too weak
+## Exact negative-route walls
 
 ### Local A1 geometry
 
-Distinct minimal branches can have distinct nonzero landing parameters on the exceptional line and separate after resolution. The local A1/FSM packet therefore gives no bounded number of `(1,1)` branches per node.
+Distinct minimal `(1,1)` branches can land at distinct nonzero points of the exceptional line and separate after resolution. The retained local packet gives no bounded number of minimal branches per node and does not force exceptional delta.
 
-### Garcia-Fritz--Urzua symmetric differentials
+### Published GFU correction
 
-Their degree computation is `-d+M+4g-4`; in the smooth-at-nodes case it yields `d<=4g+44`, but for the multibranch receiver the uncontrolled term is precisely exceptional mass `M`. Their multiple-differential refinement yields lower exceptional-incidence bounds rather than the required upper `R8` bound.
-
-### Six rank-3 genus-5 fibrations
-
-The six rank-3 quadrics have eight-node base sets that partition the 48 nodes. For the associated nef fiber class,
+Garcia-Fritz--Urzua Theorem 3.1 has exact degree
 
 ```text
-2F_Q = H - sum_{i in B_Q}E_i,
+-d + M + 4g - 4,
+M=sum_i D.E_i.
 ```
 
-so blockwise nonnegativity gives
+There is no hidden negative branch-excess or delta correction. Their smooth-at-node bound `d<=4g+44` is the special case `M<=48`; the multibranch formula only gives `d<=M+4g-4` outside the integral locus. Their multiple-differential refinement gives lower exceptional-incidence bounds. Published GFU therefore does not upper-bound `R8`.
+
+### Six rank-3 fibrations and Hodge
+
+The six rank-3 genus-5 fibrations give only
 
 ```text
-sum_{i in B_Q}M_i <= d.
+R8 <= M <= 6d.
 ```
 
-Summing all six blocks gives only
+Direct projection to `H` plus the 48 exceptional classes gives
 
 ```text
-R8 <= M <= 6d,
+R8 <= sqrt(6d^2+96d-192g+192),
 ```
 
-far weaker than the required slope `<1/4`. The full family of 28 genus-5 fibrations would need an additional branchwise ramification/tangent charging lemma; simple base-locus/fiber intersection data do not suffice.
+with asymptotic slope `sqrt(6)`. Both are far above the required `<1/4`.
 
-### Direct Hodge / Picard projection
+### Local fibration jet wall
 
-Orthogonal projection to `H` and the 48 exceptional classes gives
+A minimal branch has local strict-transform germ
 
 ```text
-D^2 <= d^2/16 - (1/2)sum_i M_i^2.
+x=t,
+u=lambda+c*t+O(t^2),
 ```
 
-Together with MB102,
+with the first tangential coefficient `c` free in the retained packet. Even when the incident exceptional curve is a local section of a genus-5 fibration, a generic first jet makes the induced map unramified. Minimal cusp type alone therefore does not force even one ramification unit.
+
+### Full 28-fibration Riemann--Hurwitz capacity wall
+
+The 22 rank-4 fibrations occur in 11 complementary pairs with pair class sum `H`; their total restricted map degree is at most `11d`. The six rank-3 maps have total degree at most `3d`. Hence all 28 together satisfy
 
 ```text
-sum_i M_i^2 <= d^2/8 + 2d - 4g + 4,
-R8 <= sqrt(6d^2 + 96d - 192g + 192).
+sum_j n_j <= 14d,
+B_total <= 28d+56(g-1).
 ```
 
-Its asymptotic slope is `sqrt(6)`, again far above `1/4`.
+Even under the impossible-best-case assumption that every minimal branch contributes one ramification unit to all 28 maps,
 
-The detailed negative-route ledger and certificates are in `R8-BOUND-ROUTE-LEDGER.md`, `R8-ROUTE-WALLS-CERTIFICATE.json`, and `HODGE-EXCEPTIONAL-MASS-*`.
+```text
+R8 <= d+2g-2,
+```
 
-## Current live route classes
+so the asymptotic slope is still `1`. More generally, aggregate forced ramification charge `q` per minimal branch gives slope `28/q`; MB104 needs
 
-The next result must be genuinely branch-sensitive rather than another exceptional-mass or node-support estimate. The surviving route classes are:
+```text
+q>112.
+```
 
-1. a global conductor/ramification inequality charging every minimal cusp branch to a bounded divisor;
-2. a multi-fibration theorem proving unavoidable criticality for minimal branches strongly enough for a summed Riemann--Hurwitz bound;
-3. a modular/symmetric-differential section with additional cusp/tangent vanishing, reducing or cancelling the `8k` minimal-branch pole charge.
+Thus ordinary unit-charging Riemann--Hurwitz architecture is structurally insufficient.
 
-Freitag--Salvati Manni explicitly note that a globally holomorphic tensor of their form would improve the degree bound; they report that they did not find such a modular form and suspected none exists, without proving nonexistence. Therefore route 3 is retained as a high-risk research route, not an existing weapon.
+### Pure powers of the BTVA hyperplane-vanishing form
+
+For BTVA `omega_7^k`, symmetric order is `2k`, total movable hyperplane vanishing is `k`, and Corollary 3.4 requires `k` vanishing units to regularize one selected `A1` exceptional component. Available and required ratios are both exactly `1/2`; there is zero slack. Splitting the hyperplane divisor among different node subsets cannot bypass the common-hyperplane span barrier.
+
+## Concrete next computation: BTVA 13-form exceptional-valuation portfolio
+
+BTVA compute
+
+```text
+dim H^0(X, SymHat^2 Omega_X^1)=13
+```
+
+with explicit generators. Their forms have nonuniform exceptional behavior: for example `omega_1` is already regular over a specified singular subset, while `omega_7` carries a hyperplane zero. For an `A1` node the order-two local Euler characteristic is `chi^0=3`, so regular extension is governed by at most three local principal-part conditions on this 13-dimensional space.
+
+The next exact object is therefore the family of 48 linear maps
+
+```text
+L_i: V_13 -> W_i,  dim W_i<=3,
+```
+
+whose kernels are the order-two forms intrinsically regular at node `i`. The required computation is to source-lock the 13 forms and 48 nodes, calculate all `L_i`, quotient them by the retained `Aut(S)` action, and optimize products plus hyperplane twists. A positive result matters only if the resulting branchwise inequality reaches `R8<=alpha*d+beta` with `alpha<1/4` or otherwise gives a finite window on the remaining high-span sectors.
+
+This route is recorded in `BTVA-13FORM-PORTFOLIO-PREFLIGHT.*`. No matrix or global regular section is claimed yet.
+
+## Current hard sectors
+
+After all retained reductions, the unresolved population is concentrated in:
+
+```text
+g=0: multibranch carriers with node support spanning all P^6;
+g=1: carriers with node-support span dimension 5 or 6;
+and in either case the potentially infinite sector has N>=14.
+```
+
+The exact numerical bottleneck remains the multiplicity-sensitive quantity `R8`, not merely distinct node support.
 
 ## Firewalls
 
-No absolute `R8` bound is claimed. MB104 remains incomplete; finite Picard enumeration is unreleased. There is no receiver, effectivity, final-milestone, theorem, endpoint, Perfect Cuboid, or merge credit.
+No population-wide finite degree window is claimed. MB104 remains incomplete; finite Picard enumeration is unreleased. There is no receiver, effectivity, final-milestone, theorem, endpoint, Perfect Cuboid, or merge credit.
