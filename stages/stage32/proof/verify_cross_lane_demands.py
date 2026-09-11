@@ -67,9 +67,13 @@ def main() -> None:
 
     lanes = load(LANES)
     lane_rows = {x["lane"]: x for x in lanes["lanes"]}
-    req(REQUIRED_LANES <= set(lane_rows), f"orphan lane registry: missing {sorted(REQUIRED_LANES-set(lane_rows))}")
+    req(REQUIRED_LANES == set(lane_rows), f"lane enrollment drift: got {sorted(lane_rows)}")
     req(lanes["contract"]["cross_lane_demand_registry"] == "stages/stage32/proof/CROSS-LANE-DEMANDS.json", "lane registry demand pointer drift")
     req(lanes["contract"]["cross_lane_separation_rule"].startswith("The claim DAG and cross-lane demand DAG are independent"), "lane registry separation rule drift")
+    req(lane_rows["MAIN"]["demand_role"] == "GLOBAL_MONITOR", "MAIN demand monitor role missing")
+    req(lane_rows["EX5"]["demand_role"] == "PRODUCER", "EX5 producer role missing")
+    req(lane_rows["CUT"]["demand_role"] == "CONSUMER", "CUT consumer role missing")
+    req(lane_rows["32-01-178"]["startup_path"] == "stages/stage32/32-01-178/MAIN-START-HERE.md", "178 demand-aware startup path drift")
 
     for p in (HERE / "CLAIM-REGISTRY.json", HERE / "ACTIVE-FRONTIER.json"):
         req("S32.DEMAND." not in p.read_text(encoding="utf-8"), f"demand ID leaked into claim DAG: {p.name}")
@@ -102,13 +106,14 @@ def main() -> None:
     req(d["status"] == "OPEN", "CUT192 demand unexpectedly not OPEN")
     req(d["producer_lane"] == "EX5" and d["consumer_lane"] == "CUT", "CUT192 producer/consumer drift")
     req(d["priority"] == "P0_BLOCKING_DOWNSTREAM", "CUT192 priority drift")
+    req(DEMAND_ID in lane_rows["EX5"]["open_demand_refs"], "EX5 lane adapter lacks CUT192 demand")
+    req(DEMAND_ID in lane_rows["CUT"]["open_demand_refs"], "CUT lane adapter lacks CUT192 demand")
     pop = d["source_population_semantics"]
     req(pop["must_be_current_main_surviving"] is True and pop["must_be_disjoint_from_cut191_first_block"] is True, "CUT192 source population semantics weakened")
     req(pop["consumed_cut191_first_block_rank_range"] == [0,112], "CUT191 first-block identity drift")
     req(pop["authoritative_remaining_terminals"] == 65396964990500233636101, "post-CUT191 authority drift")
 
-    ex5_path = REPO / reg["lane_coordination_state_paths"]["EX5"]
-    ex5 = load(ex5_path)
+    ex5 = load(REPO / reg["lane_coordination_state_paths"]["EX5"])
     req(ex5["canonical_sha256_without_this_field"] == EXPECTED_EX5_STATE_CANONICAL and csha(ex5) == EXPECTED_EX5_STATE_CANONICAL, "EX5 coordination state canonical drift")
     req(DEMAND_ID in ex5["open_producer_demands"], "EX5 did not acknowledge OPEN producer demand")
     req(ex5["highest_priority_open_demand"] == DEMAND_ID, "EX5 highest-priority demand drift")
@@ -116,8 +121,7 @@ def main() -> None:
     req(ex5["local_route_deferred_while_demand_open"] is True, "EX5 still prioritizes local route over P0 demand")
     req(PRIORITY[ex5["coordination_priority"]] < PRIORITY[ex5["local_route_priority"]], "EX5 demand priority does not dominate local route")
 
-    cut_path = REPO / reg["lane_coordination_state_paths"]["CUT"]
-    cut = load(cut_path)
+    cut = load(REPO / reg["lane_coordination_state_paths"]["CUT"])
     req(cut["canonical_sha256_without_this_field"] == EXPECTED_CUT_STATE_CANONICAL and csha(cut) == EXPECTED_CUT_STATE_CANONICAL, "CUT coordination state canonical drift")
     req(DEMAND_ID in cut["waiting_on"], "CUT waiting edge missing")
     req(cut["must_not_rebuild_producer_interface"] is True, "CUT may duplicate producer work")
@@ -132,21 +136,17 @@ def main() -> None:
         "EX4":"stages/stage32-ex4/MAIN-START-HERE.md",
         "EX5":"stages/stage32-ex5/MAIN-START-HERE.md",
         "EX6":"stages/stage32-ex6/MAIN-START-HERE.md",
+        "32-01-178":"stages/stage32/32-01-178/MAIN-START-HERE.md",
         "CUT":"stages/stage32/full178-cut/MAIN-START-HERE.md",
         "MB":"stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md",
     }
     for lane, rel in startup_paths.items():
         t = (REPO / rel).read_text(encoding="utf-8")
+        req(lane_rows[lane]["startup_path"] == rel, f"{lane} lane-adapter startup path drift")
         req("stages/stage32/proof/CROSS-LANE-DEMANDS.json" in t, f"{lane} startup missing demand registry")
         req("OPEN demand" in t, f"{lane} startup missing OPEN producer rule")
         req("SATISFIED" in t, f"{lane} startup missing SATISFIED consumer re-entry rule")
         req("does not grant mathematical credit" in t.lower() or "does not grant math credit" in t.lower(), f"{lane} startup missing demand/credit separation")
-
-    mission178 = load(STAGE / "32-01-178" / "MISSION.json")
-    x = mission178["cross_lane_coordination"]
-    req(x["registry"] == "stages/stage32/proof/CROSS-LANE-DEMANDS.json", "178 mission missing demand registry")
-    req(x["producer_open_demand_priority_rule"] is True and x["consumer_satisfied_reentry_rule"] is True, "178 startup demand rules incomplete")
-    req(x["demand_status_grants_mathematical_credit"] is False, "178 demand status credit leak")
 
     for r in reg["audited_result_consumption"]:
         if r["audit_status"] == "PASS" and r["main_consumption_required"]:
@@ -155,6 +155,7 @@ def main() -> None:
     req(cut191["result_id"] == "S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1", "CUT191 consumption record missing")
     req(cut191["credited_incremental_rejected_terminals"] == 113, "CUT191 credit drift")
     req(cut191["authoritative_remaining_terminals_after_consumption"] == 65396964990500233636101, "CUT191 post-consumption count drift")
+    req(cut191["main_synchronized_reaudit_review_id"] == 5178420739, "CUT191 synchronized-head audit identity drift")
 
     fw = reg["credit_firewall"]
     req(all(v is False for v in fw.values()), "cross-lane registry grants forbidden credit/merge")
@@ -167,6 +168,7 @@ def main() -> None:
         "cut191_main_consumed":True,
         "cyclic_wait":False,
         "orphan_demand":False,
+        "producer_diversion":False,
         "audited_result_unconsumed":False,
         "demand_status_grants_mathematical_credit":False
     }, sort_keys=True))
