@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE32_FULL178_CUT101_SOURCE_LOCK_CHECKPOINT_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT101",
+  "status": "PASS_SOURCE_LOCKED_RETAINED_COMPLETION_SCOPE_FROZEN",
+  "base_main_head": "63d076d240812004723434da64b542a06fcd443f",
+  "source_locks": {
+    "mission_path": "stages/stage32/full178-cut/MISSION.json",
+    "mission_blob_sha1": "c0487f74be5e8c962f73b00973608e8051be56a7",
+    "stage32_main_state_path": "stages/stage32/MAIN-STATE.json",
+    "stage32_main_state_blob_sha1": "9981889309c833a1834eaadddce73e52c0aa0176",
+    "stage32ex5_main_state_path": "stages/stage32-ex5/MAIN-STATE.json",
+    "stage32ex5_main_state_blob_sha1": "a26f19cb01d86174aef49495be16e946a429ddcb",
+    "bc2_24_checkpoint_path": "stages/stage32-ex5/breadth-cycle-2/bc2-24-explicit-fibre-degree-partition-checkpoint.json",
+    "bc2_24_checkpoint_blob_sha1": "37e12dc0bf40e0dec862784f5567bd247d451742",
+    "bc2_24_checkpoint_canonical_sha256": "ac6f8afff29a4ac969b1fd32251499f299395261c1aa96a813502cfe2b22472f",
+    "bc2_18_enumerator_path": "stages/stage32-ex5/breadth-cycle-2/bc2_18_n354_survivor_exceptional_mod8_decomposition.py",
+    "bc2_18_enumerator_blob_sha1": "1e2ed93cae3c5b446c8d90c1ae2250be83289c79",
+    "retained_picard_bundle_path": "stages/stage33/33-07/picard_base_rows_retained.py",
+    "retained_picard_bundle_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "retained_picard_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "retained_marking_path": "stages/stage33/33-07/stage32_picard_marking_retained.py",
+    "retained_marking_blob_sha1": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
+    "retained_marking_canonical_sha256": "e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c"
+  },
+  "bounded_target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "first_block": [0, 112],
+    "selected64_parent_index_semantics": "indices in the BC2-18 ordered stream of 7336 selected-exceptional mod8-extendable parents",
+    "retained_unknown_parent_indices": [584, 1000, 1003, 1014, 1030, 1048, 1050, 1056, 1064, 1066, 1103, 1106, 1117, 1119, 1133, 1198, 1218, 1224, 1243],
+    "retained_unknown_parent_count": 19,
+    "other_unretained_unknown_identity_count": 172,
+    "other_unretained_unknown_identities_inferred": false
+  },
+  "completion_interface": {
+    "all140_pairing_matrix_shape": [140, 64],
+    "selected64_inverse_denominator": 8,
+    "interface_semantics": "An integral Picard64 coordinate vector determines all 140 pairings. CUT consumes the retained/source-locked interface only; it does not repair or extend EX5 identity adapters.",
+    "cut102_relaxation": "Introduce bounded all140 pairing variables and require their residue vector to lie in the mod-p column image of the exact 140x64 pairing matrix, together with the already-certified mass, fibre-degree, diagonal, block-sum, fixed-terminal, and retained-parent constraints.",
+    "monotonicity": "Every exact integral completion maps to every tested finite-ring relaxation. Therefore finite-ring UNSAT is a necessary obstruction; finite-ring SAT carries no exact feasibility credit."
+  },
+  "cut102_scope": {
+    "mode": "bounded finite-ring direct completion screen",
+    "initial_primes": [2, 3, 5, 7, 11, 13, 17, 31, 127],
+    "heavy_compute_authorized": false,
+    "population_scope": "only the 19 retained BC2-24 UNKNOWN parents",
+    "bc2_25_identity_refinement_performed": false,
+    "n356_candidate_assumed_consumed": false
+  },
+  "credit": {
+    "cut101_complete": true,
+    "cut102_obstruction_proved": false,
+    "cut103_scope_certificate_complete": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "firewalls": {
+    "ex5_adapter_modified": false,
+    "unretained_172_identities_inferred": false,
+    "n356_candidate_promoted": false,
+    "main_authority_mutated": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next": "CUT102_BOUNDED_FINITE_RING_COMPLETION_OBSTRUCTION"
+}
