@@ -26,6 +26,8 @@
   },
   "stage32_main_authority": {
     "routing_source": "stages/stage32/MAIN-STATE.json",
+    "routing_source_blob_sha": "9981889309c833a1834eaadddce73e52c0aa0176",
+    "full178_goal_claim_id_observed": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "control_mode": "FULL178_AND_FINAL_MILESTONE_CHAIN",
     "primary_incomplete_id": "32-01",
     "primary_incomplete_name": "FULL178",
@@ -84,8 +86,8 @@
     "leaf": "BC2_27_BOUNDARY35_PARTITION_RETAINED",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "objective": "Hostile-audit the frozen BC2-27 boundary35 checkpoint before any BC2-28 refinement.",
-    "blocker": "HOSTILE_AUDIT_REQUIRED_AND_9_RETAINED_UNKNOWN_PARENTS_13_BRANCHES_13_P34_LEAVES_PLUS_172_UNRETAINED_IDENTITIES",
+    "objective": "Hostile-re-audit the repaired frozen BC2-27 boundary35 checkpoint before any BC2-28 refinement.",
+    "blocker": "HOSTILE_REAUDIT_REQUIRED_AFTER_REVIEW_5179261378_AND_9_RETAINED_UNKNOWN_PARENTS_13_BRANCHES_13_P34_LEAVES_PLUS_172_UNRETAINED_IDENTITIES",
     "next_route": "HOSTILE_AUDIT_BC2_27_RECHECK",
     "stop_semantics": "BC2_28_BLOCKED_UNTIL_BC2_27_HOSTILE_AUDIT_PASS"
   },
@@ -167,8 +169,8 @@
     "exact_evidence_rewritten_by_semantic_sync": false
   },
   "claim_sync": {
-    "last_trigger": "BC2_27_RESULT_RETENTION_NEW_HOSTILE_AUDIT_BOUNDARY",
-    "existing_active_goal": "S32.FULL178.NUMERICAL.CENSUS.V1",
+    "last_trigger": "BC2_27_HOSTILE_AUDIT_FAIL_AUTHORITY_REPAIR",
+    "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
     "active_frontier_remapped": false,
     "claim_registry_mutated": false,
@@ -203,7 +205,7 @@
     "ex5_registered_into_n350_without_main_audit": false,
     "sat_witness_promoted_to_effective_curve_existence": false,
     "stage32_final_milestone_claimed": false,
-    "perfect_curboid_existence_claim": false,
+    "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
   "intermediate_audit_boundary": {
@@ -214,12 +216,12 @@
     "predecessor_hostile_audit_status": "PASS",
     "predecessor_hostile_audit_exact_head": "34d6b030095b97c738f6faf6b9045f366622592c",
     "predecessor_hostile_audit_review_id": 5177919212,
-    "last_hostile_audit_status": "PENDING",
-    "last_hostile_audit_exact_head": null,
-    "last_hostile_audit_review_id": null,
+    "last_hostile_audit_status": "FAIL",
+    "last_hostile_audit_exact_head": "43fce7733be95b47b2d2a4e4568300add7694224",
+    "last_hostile_audit_review_id": 5179261378,
     "merge_ready_freshness": "PENDING_CURRENT_AUDIT_BOUNDARY",
     "merged": false,
-    "repair_required_before_merge": false,
+    "repair_required_before_merge": true,
     "re_audit_required": true,
     "freeze_active": true,
     "historical_boundary_only": false,
@@ -228,7 +230,7 @@
   },
   "next_step": {
     "id": "BC2_27_HOSTILE_AUDIT_RECHECK",
-    "goal": "Obtain hostile-audit PASS for the frozen BC2-27 retained checkpoint before any BC2-28 work.",
+    "goal": "Obtain hostile re-audit PASS for the repaired frozen BC2-27 retained checkpoint before any BC2-28 work.",
     "bc2_28_blocked_until_audit_pass": true,
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
