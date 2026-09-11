@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE32_FULL178_CUT102_FINAL_CHECKPOINT_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT102",
+  "status": "PASS_RETAINED19_FINITE_RING_UNSAT_CANDIDATE_CUT103_REQUIRED",
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "retained_unknown_parent_indices": [584,1000,1003,1014,1030,1048,1050,1056,1064,1066,1103,1106,1117,1119,1133,1198,1218,1224,1243],
+    "retained_unknown_parent_count": 19,
+    "other_unretained_unknown_identity_count": 172,
+    "other_unretained_unknown_identities_inferred": false
+  },
+  "evidence_runs": [
+    {
+      "role": "broad bounded finite-ring screen",
+      "workflow_run_id": 34578997643,
+      "job_id": 103197940162,
+      "compute_head": "98b9d4d8a08a6203865af5531656014e2ed61f86",
+      "artifact_id": 10190859034,
+      "artifact_digest": "sha256:104fe02d8c5aa800eb8cbeb3c5e0cd80168fb0373b9ffc43ad926691a4b7adf5",
+      "raw_result_canonical_sha256": "1a71f1fb2a3c3daaee2ff9ad3f39a1eb82a9d137982d6deca101bdb8368e79df",
+      "prime_2_whole_unsat_parent_indices": [584,1003,1014,1048,1050,1064,1066,1106,1117,1119,1198,1218,1224,1243]
+    },
+    {
+      "role": "longer mod2 plus exhaustive n1 partition on timeout",
+      "workflow_run_id": 34579306158,
+      "job_id": 103198913420,
+      "compute_head": "c6b49a734c68fd4bbcd38d4e48bd444e4347efb7",
+      "artifact_id": 10190986232,
+      "artifact_digest": "sha256:4e104703da463377d11198789b95dae6adafb6966ead7818919fdee981cd5e58",
+      "raw_result_canonical_sha256": "45cbcb9437aacf9ac9ea9acb7d541d85e6146881892b99a28bcca008709bf841",
+      "new_whole_unsat_parent_indices": [1103,1133],
+      "residual_partition_unknown_branches": {
+        "1000": [3,5],
+        "1030": [3,5],
+        "1056": [2,3,5]
+      },
+      "all_other_n1_branches_for_1000_1030_1056_unsat": true
+    },
+    {
+      "role": "fresh-solver isolated replay of seven residual branches",
+      "workflow_run_id": 34579640344,
+      "job_id": 103199956792,
+      "compute_head": "15e939f1bea5cd470ee3b070839223f4cbcf7349",
+      "artifact_id": 10191077975,
+      "artifact_digest": "sha256:9001677abf3c9610c35e56b56e1ee849d4701c209782629a2d99e762886f3d9a",
+      "raw_result_canonical_sha256": "ba8375a42e27612d4e8d2c9093dd02f91c8fa5be0532b80b07b7e52a099a1aa3",
+      "fresh_solver_per_branch": true,
+      "per_branch_timeout_ms": 15000,
+      "unsat_branches": {
+        "1000": [3,5],
+        "1030": [3,5],
+        "1056": [2,3,5]
+      },
+      "unresolved_branch_count": 0
+    }
+  ],
+  "result": {
+    "finite_ring_obstructed_parent_count": 19,
+    "finite_ring_obstructed_parent_indices": [584,1000,1003,1014,1030,1048,1050,1056,1064,1066,1103,1106,1117,1119,1133,1198,1218,1224,1243],
+    "prime": 2,
+    "rank_mod_2": 50,
+    "left_kernel_dimension_mod_2": 90,
+    "sat_finite_ring_witness_found": false,
+    "residual_retained_parent_count": 0,
+    "proof_mode": "whole finite-ring UNSAT or exhaustive n1=0..8 finite-ring UNSAT partition"
+  },
+  "soundness": {
+    "statement": "Every exact integral Picard64 completion reduces to the mod-2 image of the exact retained 140x64 pairing matrix and satisfies the replayed bounded mass/fibre/diagonal/block constraints. Therefore a mod-2 UNSAT whole-parent check, or UNSAT of all nine n1 branches, excludes exact integral completion for that retained parent.",
+    "finite_ring_sat_would_not_prove_exact_feasibility": true,
+    "timeouts_relabelled_unsat": false,
+    "unknown_branches_dropped": false
+  },
+  "replay_note": {
+    "parent_1224": "The first broad run returned whole-parent UNSAT at 750ms. A later incremental run returned timeout for the same parent after deeper solver history. This is a performance/replay-stability issue, not contradictory SAT evidence. CUT103 must fresh-solver replay parent 1224 before hostile handoff.",
+    "cut103_required": true
+  },
+  "next": {
+    "id": "CUT103_EXACT_SCOPE_AND_PREIMAGE_CERTIFICATE",
+    "goals": [
+      "fresh-solver replay parent 1224 and preferably the whole retained19 certificate set",
+      "freeze exact retained parent identities and source locks",
+      "prove the retained19 scope maps to the claimed current FULL178 terminal/block/stratum without population drift or double counting",
+      "leave the other 172 BC2-19 UNKNOWN identities uninferred"
+    ]
+  },
+  "credit": {
+    "cut102_retained19_candidate_obstruction": true,
+    "cut103_scope_certificate_complete": false,
+    "hostile_audit_passed": false,
+    "stage32_main_pruning_credit": false,
+    "whole_first_block_unsat": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "bc2_25_identity_refinement_performed": false,
+    "unretained_172_identities_inferred": false,
+    "n356_candidate_assumed_consumed": false,
+    "main_authority_mutated": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
