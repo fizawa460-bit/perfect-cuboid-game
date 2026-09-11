@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_FULL178_CUT191_AUDIT_HANDOFF_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT191",
+  "status": "AUDIT_READY_FIRST_BLOCK_113_TERMINAL_PRUNING_CANDIDATE",
+  "evidence": {
+    "checkpoint_path": "stages/stage32/full178-cut/CUT191-first-block-closure-checkpoint.json",
+    "checkpoint_blob_sha1": "a90042ec931cb487ae6be852524db5a4537862f4",
+    "checkpoint_canonical_sha256": "1e681c456dc30342346d134f5e0d89150573f8a756cbd808c309d2af89821fdd",
+    "evidence_head": "a97e3cb1f7b243a5dc7f88719fe174c921940f30",
+    "broad_cover_workflow_run_id": 34582716506,
+    "parent_3182_fresh_replay_workflow_run_id": 34583275183,
+    "parent_1030_fresh_replay_workflow_run_ids": [
+      34579306158,
+      34579640344
+    ],
+    "repository_main_head_at_evidence": "c31684fb5f63d8a025eb298c91861d4c979b0e28"
+  },
+  "claim_candidate": {
+    "target": {
+      "row_id": "g1-d008",
+      "g": 1,
+      "d": 8,
+      "e": 8
+    },
+    "first_block_rank_range": [
+      0,
+      112
+    ],
+    "first_block_terminal_count": 113,
+    "bc2_18_parent_union_count": 7336,
+    "broad_cover_parent_count": 7334,
+    "broad_cover_residual_parent_indices": [
+      1030,
+      3182
+    ],
+    "residual_parent_count_after_fresh_replay": 0,
+    "sat_parent_count": 0,
+    "unknown_parent_count": 0,
+    "whole_first_block_picard64_unsat_candidate": true,
+    "population_preserving_current_main_preimage_candidate": true,
+    "n355_preserves_all_113_first_block_terminals": true,
+    "n356_assumed_consumed": false,
+    "stage32_main_pruning_candidate_terminals": 113,
+    "candidate_remaining_terminals_if_consumed": 66462870551188628549797
+  },
+  "source_lock_summary": {
+    "stage32_main_state_blob": "9981889309c833a1834eaadddce73e52c0aa0176",
+    "stage32_main_state_canonical": "6143a95a0fb380e3c30c6a464722b350666cec5f018318adefdae15800a676b3",
+    "bc2_17_evidence_blob": "28c4b762c7f96a4898c62751062648cad066578c",
+    "bc2_18_checkpoint_blob": "0e269d5ec6da24b9b887b6dd40f4b4f33242e154",
+    "bc2_18_feasible_stream_sha256": "752a7618e5a4301aea16a3a4983081e02fb26451a21d84e4b8e60b8d11f84db7",
+    "n355_full_prefix_audit_blob": "033294f56fb86d81b7aa43758a51a39747ccc082",
+    "n355_full_prefix_audit_review_id": 5165895301,
+    "n355_full_prefix_result_blob": "0f30517cc5007ea435f4183201fc6cad699dd635"
+  },
+  "workflow_lifecycle": {
+    "transient_workflow_path": ".github/workflows/stage32-cut191-transient.yml",
+    "harvest_complete": true,
+    "transient_workflow_removed_from_branch": true,
+    "retirement_commit": "7a752e63b1d257c7a0062eefe99622b3d5491421",
+    "final_retained_surface_requires_no_cut191_auto_trigger": true
+  },
+  "credit_firewall": {
+    "hostile_audit_passed": false,
+    "stage32_main_pruning_credit": false,
+    "pruned_full178_terminal_count_credited": 0,
+    "whole_stratum_closed": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "main_authority_mutated": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "next": {
+    "audit_command": "stage32cut-audit",
+    "audit_required_before_main_consumption": true,
+    "main_consumption_owner": "stage32mainbatch",
+    "cut_must_not_self_promote_main_credit": true,
+    "next_block_reentry_requires_existing_source_locked_exact_completion_interface": true
+  },
+  "canonical_sha256_without_this_field": "a779e5aa5b8e01c373f356302b8da371fe349f7e1c08f5840b499c02b22645ba"
+}
