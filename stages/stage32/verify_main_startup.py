@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 START = HERE / "MAIN-START-HERE.md"
 COMMANDS = HERE / "COMMANDS.md"
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v12.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v13.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -42,13 +42,12 @@ def main() -> None:
     ):
         req(token in commands, f"canonical command missing from registry: {token}")
 
-    # V12 is the live startup authority after the hostile-audited CUT191
-    # 113-terminal transition was synchronized on top of consumed N356.
-    # The replacement synchronized head still requires its own hostile re-audit;
-    # V12 fails closed unless that pending gate remains explicit.
+    # V13 is the live startup authority after externally hostile-audited CUT194
+    # wave2 was consumed as a 26,442-terminal disjoint increment. The new
+    # synchronized head must receive its own hostile re-audit before any later
+    # authority promotion.
     runpy.run_path(str(AUTHORITY_VERIFIER), run_name="__main__")
 
-    # Run the command-surface cross-check in the same ACTIVE_AUTO authority job.
     runpy.run_path(str(HERE / "verify_command_surface.py"), run_name="__main__")
     print("PASS Stage32 canonical startup command surface")
 
