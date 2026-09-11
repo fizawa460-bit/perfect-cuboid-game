@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32_32_01_178_N357_RESEARCH_STATE_V1",
+  "node_id": "N357",
+  "title": "Transport-aware exceptional support capacity",
+  "status": "RESEARCH_CHECKPOINT_CONDITIONAL_ON_N356_AUDIT_NO_MAIN_CREDIT",
+  "branch": "stage32-01-178-n357-support-capacity-scratch",
+  "base_main": "b41ce34172870fb541498e62d041e940b66d85be",
+  "checkpoint_commit": "cc0962d3a8c98fa54cabedfe30929d5e790c36f0",
+  "depends_on": {
+    "n355_full_prefix_audit_review": 5165895301,
+    "n356_status_required": "AUDIT_CANDIDATE_TRANSPORT_NECESSARY_CUT_NO_MAIN_CREDIT",
+    "n356_external_hostile_audit_still_required": true,
+    "n356_pr": 1775
+  },
+  "source_locks": {
+    "n355_full_prefix_verifier_blob": "ccc00d1536cdf5e27965465dd5e40163e2fcb91c",
+    "n356_contract_blob": "d2353cab9c175a680067c7ad4c24759b6dd15df3",
+    "n356_result_blob": "677b1ae2bab910db0805d20ee489d922522919ed",
+    "n356_result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
+    "n357_contract_blob": "8a2a0048d216de9d177dc581dc208b51c6436442",
+    "n357_verifier_blob": "479c783cb42d0952cc310708106787147b499240"
+  },
+  "lemma": {
+    "h": "d/2",
+    "known_cell_masses": {
+      "a": "E101+E102+E103",
+      "b": "E97+E98+E99",
+      "c": "E93+E94+E95+E96"
+    },
+    "support_component_capacities": {
+      "S0": "min(16,d)",
+      "SA": "min(13,d-a,d-2a+4,h+5)",
+      "S3": "min(9,d-b-c,d-2b,d-2c+1)"
+    },
+    "necessary_condition": "s + min(e-M,S0+SA+S3) >= K",
+    "n220_comparison": "strict strengthening of s + min(e-M,38) >= K",
+    "zero_loss_semantics": "omitted positive coordinates are relaxed to unit support tokens subject only to transport block capacities"
+  },
+  "strict_witness": {
+    "g": 0,
+    "d": 100,
+    "e": 200,
+    "K": 29,
+    "prefix_tuple_x0_x1_x2_x3_x5_x6_x7_x8_x9_x10": [0,50,50,0,0,0,0,0,0,0],
+    "a": 50,
+    "b": 50,
+    "c": 0,
+    "prefix_mass": 100,
+    "prefix_support": 2,
+    "support_suffix_capacity": 20,
+    "n220_accepts": true,
+    "n355_accepts": true,
+    "n356_accepts": true,
+    "n357_rejects": true
+  },
+  "exact_single_stratum_replay": {
+    "g": 0,
+    "d": 100,
+    "e": 200,
+    "n356_exceptional_prefix_count": 49048088431446,
+    "n357_support_aware_exceptional_prefix_count": 49030556814634,
+    "incremental_exceptional_reject": 17531616812,
+    "normal_x4_block": 901,
+    "incremental_terminal_reject": 15795986747612
+  },
+  "k48_boundary_corollary": {
+    "generic": ["a<=h-5", "b<=h-5", "c<=h-4", "b+c<=d-9"],
+    "g0-d176": ["a<=83", "b<=83", "c<=84", "b+c<=167"],
+    "g1-d192": ["a<=91", "b<=91", "c<=92", "b+c<=183"]
+  },
+  "credit_firewall": {
+    "n356_main_pruning_credit": false,
+    "n357_main_pruning_credit": false,
+    "n350_producer_registered": false,
+    "production_complete": false,
+    "n104_release": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "next": "AFTER_N356_AUDIT_DISPOSITION_BUILD_ALL178_SREM_SYMBOLIC_CENSUS"
+}
