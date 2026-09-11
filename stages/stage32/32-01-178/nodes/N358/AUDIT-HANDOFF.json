@@ -1,0 +1,49 @@
+{
+  "schema": "STAGE32_32_01_178_N358_AUDIT_HANDOFF_V1",
+  "node_id": "N358",
+  "status": "READY_FOR_INDEPENDENT_HOSTILE_AUDIT_NO_MAIN_CREDIT",
+  "scope": "joint transport/support saturation necessary cut and exact incremental retained-frontier census",
+  "audited_input": {
+    "node": "N357",
+    "review_id": 5183069892,
+    "audited_exact_head": "0d787839b7e0dad4a42108c61d16e7849c50862f",
+    "remaining_strata": 17128,
+    "remaining_terminals": 47598978285064933810198
+  },
+  "candidate": {
+    "incremental_rejected_terminals": 9274971107798843958,
+    "affected_strata": 2540,
+    "candidate_remaining_strata": 17128,
+    "candidate_remaining_terminals": 47589703313957134966240,
+    "result_canonical_sha256": "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287",
+    "affected_record_stream_sha256": "206538209460c6b7b9cb3cc33e601a2cbf75fa084f9693af379e660ed6cf9625"
+  },
+  "source_locks": {
+    "contract": {"path": "stages/stage32/32-01-178/nodes/N358/JOINT_TRANSPORT_SUPPORT_SATURATION_CONTRACT.md", "blob_sha1": "a9a6836dc201feefd37bebb2f6c0ef42e8faaee4"},
+    "local_lemma_verifier": {"path": "stages/stage32/32-01-178/nodes/N358/verify_n358_joint_transport_support_saturation.py", "blob_sha1": "63666cdb0f3d14676f0ab5dac561501279e8c2a0"},
+    "exact_census_verifier": {"path": "stages/stage32/32-01-178/nodes/N358/verify_n358_exact_incremental_census.py", "blob_sha1": "c07a7e358a6253919194189377d6ed56f95e047a"},
+    "result": {"path": "stages/stage32/32-01-178/nodes/N358/RESULT.json", "blob_sha1": "e42c2b6cc6128c4666372b0c3f3c172afc006d7f"},
+    "state": {"path": "stages/stage32/32-01-178/nodes/N358/STATE.json", "blob_sha1": "03d6ef2f410b2afc234ee426566a1db5ce57515b"},
+    "n357_result": {"path": "stages/stage32/32-01-178/nodes/N357/RESULT.json", "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec"},
+    "n357_audit_receipt": {"path": "stages/stage32/32-01-178/nodes/N357/HOSTILE-AUDIT-PASS.json", "blob_sha1": "e9f93fb1b2bfeb68b72598632522d164fee715c6"},
+    "full178_manifest": {"path": "stages/stage32/residual-32-01-production/full178-manifest.json", "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06"}
+  },
+  "audit_checks_requested": [
+    "re-derive the one-support joint saturation loss from the 2x2 component constraints",
+    "execute verify_n358_exact_incremental_census.py and independently check the N357 witness semantic replay",
+    "check the exact affected-stratum stream and aggregate partition identity",
+    "check that every affected stratum retains the explicit b<c survivor and therefore remaining_strata stays 17128",
+    "check source-lock closure and current-main freshness"
+  ],
+  "firewalls": {
+    "n358_main_pruning_credit": false,
+    "full178_complete": false,
+    "production_complete": false,
+    "n104_release": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
