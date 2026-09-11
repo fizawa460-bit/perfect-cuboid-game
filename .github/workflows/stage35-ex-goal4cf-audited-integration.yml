@@ -1,0 +1,42 @@
+name: Stage35-EX Goal4CF audited current-main integration
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height-source-lock.md'
+      - 'stages/stage35-ex/35ex-35/goal4cf-selected-direction-minimal-discriminant-height.json'
+      - 'stages/stage35-ex/35ex-35/goal4cf-hostile-audit-pass-consumption.json'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4cf_selected_discriminant_height.py'
+      - 'stages/stage35-ex/verify_stage35_ex_35_goal4cf_audited_integration.py'
+      - 'stages/stage35-ex/MAIN-BATCH-HANDOFF.md'
+      - '.github/workflows/stage35-ex-goal4cf-audited-integration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-goal4cf-audited-integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      EXPECTED_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact PR head checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACTUAL_HEAD_SHA="$(git rev-parse HEAD)"
+          echo "EXPECTED_HEAD_SHA=${EXPECTED_HEAD_SHA}"
+          echo "ACTUAL_HEAD_SHA=${ACTUAL_HEAD_SHA}"
+          test "${ACTUAL_HEAD_SHA}" = "${EXPECTED_HEAD_SHA}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify current V74 Goal4AK authority
+        run: python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4ak_audited_claim_sync.py
+      - name: Verify audited Goal4CF current-main consumption
+        run: python -X utf8 -B stages/stage35-ex/verify_stage35_ex_35_goal4cf_audited_integration.py
