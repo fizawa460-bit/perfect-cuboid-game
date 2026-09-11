@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_FINAL_CHAIN_32_02_HPERP_NORM_RR_ADAPTER_V1",
+  "stage": 32,
+  "unit": "32-02-L",
+  "status": "EXACT_SCALAR_INTERFACE_READY_PREPARATION_ONLY",
+  "source_locks": {
+    "stage29_finite_picard_result": {
+      "path": "stages/stage29/29-02c-LG2/result.md",
+      "blob_sha": "820ed4e1b1a53db14085678de6f186b59ae0ea48",
+      "required_formula": "y^2 = m^2 (C^2 - d^2/16)"
+    },
+    "stage29_finite_picard_audit": {
+      "path": "stages/stage29/29-02c-LG2/audit.md",
+      "blob_sha": "7160e67d141e746099d65e1c891e8bbfcb21d56b",
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "required_formula": "y^2 = m^2*(C^2-d^2/16)"
+    },
+    "surface_invariant_lock": {
+      "path": "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json",
+      "canonical_sha256_without_this_field": "750a19b321699465bbfe9a0e09ce9223efa0bd65efbf786a7e0eeb86911d86a5"
+    }
+  },
+  "exact_adapter": {
+    "definitions": {
+      "r": "gcd(d,16)",
+      "m": "16/r",
+      "n": "d/r",
+      "y": "m*C-n*H",
+      "N": "-y^2"
+    },
+    "reconstruction": "C2=d^2/16-N/m^2",
+    "integrality_gate": "C2 must be an integer and (C2-d) must be even for a valid integral divisor-class input",
+    "rr_sufficient_gate_from_norm": "d>16 and 16*N <= m^2*(d^2-16*d+224)",
+    "equivalence_scope": "Equivalent to C2>=d-14 after exact reconstruction; effectivity conclusion still requires the retained surface source lock."
+  },
+  "minimal_survivor_interface": {
+    "required_fields": [
+      "row_id",
+      "d",
+      "negative_hperp_square_N"
+    ],
+    "required_provenance": "N must be the exact -y^2 for the same integral Picard class C represented by the final survivor, with the Stage29 divisibility reconstruction semantics preserved.",
+    "full_59_entry_picard_vector_required_for_rr_gate": false,
+    "current_full178_producer_exports_this_scalar_source_locked_here": false,
+    "producer_gap": "32-01 must expose or certify exact N=-y^2 per final survivor; this adapter does not infer N from the current 11-coordinate prefix."
+  },
+  "regressions": [
+    {
+      "id": "g1-d186-historical",
+      "d": 186,
+      "N": 83472,
+      "expected_C2": 858,
+      "expected_status": "RR_EFFECTIVE_DIVISOR_CERTIFIED"
+    },
+    {
+      "id": "g1-d186-threshold",
+      "d": 186,
+      "N": 127376,
+      "expected_C2": 172,
+      "expected_status": "RR_EFFECTIVE_DIVISOR_CERTIFIED"
+    },
+    {
+      "id": "g1-d186-below-threshold",
+      "d": 186,
+      "N": 127504,
+      "expected_C2": 170,
+      "expected_status": "RR_INCONCLUSIVE"
+    }
+  ],
+  "credit_firewall": {
+    "effectivity_preparation_credit": true,
+    "survivor_scalar_producer_complete": false,
+    "full178_rows_effectivity_classified": false,
+    "effectivity_final_execution_released": false,
+    "integral_irreducible_low_genus_carrier_proved": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "3dea123243082e06d2d3edaadc1765c6f068f875e0367bc11f0b4138e7500b66"
+}
