@@ -1,17 +1,9 @@
 # Stage32EX5 MAIN startup
 
-Ordinary `stage32ex5-mainbatch` reads `AGENTS.md`, `stages/stage32/COMMANDS.md`, current `stages/stage32/MAIN-STATE.json`, then this EX5 startup/operations/state surface. Historical Cycle1 files remain source-locked provenance.
+Ordinary `stage32ex5-mainbatch` reads `AGENTS.md`, `stages/stage32/COMMANDS.md`, current `stages/stage32/MAIN-STATE.json`, then this EX5 startup/state surface. PR #1776 remains the active work/audit surface.
 
-## Active work surface
+BC2-26 hostile audit PASS is exact head `34d6b030095b97c738f6faf6b9045f366622592c`, review `5177919212`. BC2-27 then executed and is now frozen: 3 new parent UNSAT `[1066,1117,1133]`, known parent-UNSAT lower bound `7155`, `9` retained UNKNOWN parents, and `13` UNKNOWN branches / p33 subbranches / p34 leaves / timeout p35 leaves. The other `172` BC2-19 UNKNOWN identities remain uninferred; SAT count is 0.
 
-PR #1776 is the active EX5 work/audit surface. BC2-25 is hostile-audited PASS at exact head `1d2e04486e170336ce02af144aabb08e4a80a31d`, review `5177354131`.
+Checkpoint canonical: `0f9278799809fd1a48c187f9a9668631422ab3136478cb3f9f64fd423df71462`. Run `34593864110`, exact compute head `21828bcf36ea33d1e6c26465eea74c646ba26901`.
 
-BC2-26 has now been executed and frozen. It adds 4 exact-UNSAT parents `[1106,1119,1218,1224]`, advances the known parent-UNSAT lower bound to `7152`, and leaves `12` retained UNKNOWN parents, `20` UNKNOWN branches, `20` UNKNOWN p33 subbranches and `23` UNKNOWN p34 leaves, with 0 SAT. The other `172` BC2-19 UNKNOWN identities remain uninferred.
-
-Checkpoint canonical: `b97d61c0d20cec1742831a07595429024cb9bb272d383cfb98d968278d8d330a`. Compute run: `34588771756`; exact compute head: `7d5c35057b480ebe6bf3b0cdf047c0d7bdfde18f`.
-
-## Startup route
-
-On `stage32ex5-mainbatch`, replay the retained BC2-25 and BC2-26 verifiers, preserve every UNKNOWN and the `172` uninferred identities, and maintain the frozen BC2-26 hostile-audit boundary. BC2-27 is blocked until `stage32ex5-audit` grants PASS on BC2-26.
-
-No broad/heavy scale-out, merge, Stage32 MAIN/N350 promotion, FULL178 closure, theorem, receiver, effectivity, endpoint, or Perfect Cuboid credit is authorized.
+On `stage32ex5-mainbatch`, replay BC2-25/26/27 retained verifiers and preserve UNKNOWN/firewalls. The next command is `stage32ex5-audit`; BC2-28 is blocked until BC2-27 hostile-audit PASS. No merge or Stage32 MAIN/FULL178/theorem/effectivity/endpoint credit is authorized.
