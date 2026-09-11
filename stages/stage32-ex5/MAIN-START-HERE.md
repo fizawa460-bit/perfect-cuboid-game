@@ -19,7 +19,7 @@ Historical Cycle1 files remain source-locked provenance.
 
 Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`.
 
-Before local EX5 research, inspect every OPEN demand with `producer_lane=EX5`. If an OPEN demand has higher priority than the current local route, producing the requested exact artifact becomes the next EX5 route. Do not continue lower-priority local BC2 refinement merely because it was already in progress.
+Before local EX5 research, inspect every OPEN demand with `producer_lane=EX5`. If a higher-priority OPEN demand exists relative to the current local route, producing the requested exact artifact becomes the next EX5 route. Do not continue lower-priority local BC2 refinement merely because it was already in progress.
 
 If EX5 is a consumer for another OPEN demand, wait without duplicating the producer. If that demand becomes SATISFIED, re-enter on the next `stage32ex5-mainbatch` and validate the satisfying artifact path/blob/canonical and population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync, current-target adapters and MAIN promotion remain separate.
 
