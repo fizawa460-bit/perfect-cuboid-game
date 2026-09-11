@@ -26,7 +26,8 @@ The following routes are now retained as insufficient by themselves:
 - Hodge projection: only `R8<=sqrt(6d^2+96d-192g+192)`;
 - minimal cusp plus one fibration: first tangential jet is free, so ramification is not automatic;
 - all 28 genus-5 fibrations with unit charging: even impossible-best-case charging gives only `R8<=d+2g-2`; slope `<1/4` would require aggregate charge `q>112` per minimal branch;
-- pure powers of BTVA `omega_7`: available hyperplane vanishing and A1 regularization cost both have ratio `1/2`, leaving no multi-hyperplane slack.
+- pure powers of BTVA `omega_7`: available hyperplane vanishing and A1 regularization cost both have ratio `1/2`, leaving no multi-hyperplane slack;
+- Beauville two-fold cover: exact global Riemann--Hurwitz gives `r_odd>=d-4g+4`, a lower bound on odd contacts, not an `R8` upper bound.
 
 ## BTVA 13-form principal-part computation completed
 
@@ -99,6 +100,48 @@ Artifacts:
 - `A1-CONDUCTOR-BRANCH-DELTA-CERTIFICATE.json`
 - `verify_mb104_a1_conductor_branch_delta.py`
 
+## Beauville odd-branch double-cover wall
+
+The canonical two-fold Beauville cover gives a global parity-sensitive constraint. Let
+
+```text
+r_odd = #{normalization branches through box nodes with odd m},
+```
+
+where `m=min(A,B)` is the exceptional contact multiplicity. Every FSM-minimal `(1,1)` branch has `m=1`, hence
+
+```text
+R8 <= r_odd <= M.
+```
+
+For `R8>0`, the restricted double cover of the carrier normalization is connected and Riemann--Hurwitz gives
+
+```text
+2h-2 = 4g-4+r_odd.
+```
+
+The Beauville surface has a finite etale cover by a product of two curves of genus greater than one. Applying Riemann--Hurwitz to the two projections of the lifted curve gives
+
+```text
+K_X.Y <= 4h-4.
+```
+
+The quasi-etale canonical pullback gives `K_X.Y=2d`, therefore
+
+```text
+d <= 4g-4+r_odd,
+r_odd >= d-4g+4,
+r_odd is even.
+```
+
+This is a genuine global constraint but has the wrong direction for MB104: it lower-bounds odd contact instead of upper-bounding `R8`. Using `r_odd<=M` recovers `d<=4g-4+M`, i.e. the same direction as the retained GFU exceptional-mass inequality.
+
+Artifacts:
+
+- `BEAUVILLE-ODD-BRANCH-COVER-WALL.md`
+- `BEAUVILLE-ODD-BRANCH-COVER-CERTIFICATE.json`
+- `verify_mb104_beauville_odd_branch_cover.py`
+
 ## Current hard sectors and next live input
 
 The unresolved population is concentrated in
@@ -109,7 +152,7 @@ g=1: carriers with node-support span dimension 5 or 6;
 potentially infinite sector: N>=14.
 ```
 
-The next successful input must charge branch multiplicity with a **global linear degree control**, not merely local branch count. The live route classes are narrowed to:
+The next successful input must charge branch multiplicity with a **global linear degree control**, not merely local branch count or odd-contact parity. The live route classes are narrowed to:
 
 1. a cuboid-specific conductor/arithmetic-genus inequality linear in `d`, strong enough to combine with `R8<=p_a(C)-g+48`;
 2. a genuinely higher-jet/global constraint whose independent conditions grow with branch multiplicity rather than saturating at order two;

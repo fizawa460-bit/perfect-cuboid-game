@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_MB104_BEAUVILLE_ODD_BRANCH_COVER_WALL_V1",
+  "status": "RETAINED_GLOBAL_COVER_WALL_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "definitions": {
+    "g": "genus of the normalization of the downstairs carrier",
+    "d": "canonical/projective degree of the downstairs carrier",
+    "m": "exceptional contact multiplicity min(A,B) of one normalization branch",
+    "r_odd": "number of normalization branches through box nodes with odd m",
+    "R8": "number of FSM-minimal (A,B)=(1,1) normalization branches",
+    "M": "total exceptional contact mass"
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
+      "facts": [
+        "m=min(A,B)",
+        "resolved Beauville double cover ramifies on a normalization branch iff m is odd",
+        "FSM-minimal (A,B)=(1,1) has m=1"
+      ]
+    },
+    {
+      "external": "Freitag--Salvati Manni, Parametrization of the box variety by theta functions, Michigan Math. J. 65 (2016), Section 4",
+      "doi": "10.1307/mmj/1480734014",
+      "arxiv": "1303.6495",
+      "facts": [
+        "degree-two Beauville cover X->B is locally C^2->C^2/{+/-1} at the 48 nodes",
+        "after blowup/resolution the cover is ramified along the 48 exceptional curves",
+        "X has a finite unramified cover by a product of two curves of genus greater than one"
+      ]
+    }
+  ],
+  "branch_relations": {
+    "R8_le_r_odd": true,
+    "r_odd_le_M": true,
+    "minimal_branch_is_odd": true
+  },
+  "restricted_double_cover": {
+    "assumption": "R8>0, hence r_odd>0 and the restricted degree-two cover is connected",
+    "riemann_hurwitz": "2h-2=4g-4+r_odd",
+    "r_odd_even": true
+  },
+  "canonical_pullback": {
+    "local_involution_determinant": 1,
+    "quasi_etale_in_codimension_one": true,
+    "identity": "K_X=q^*K_B",
+    "curve_identity": "K_X.Y=2d"
+  },
+  "product_cover_curve_inequality": {
+    "finite_etale_product_cover": true,
+    "inequality": "K_X.Y<=4h-4",
+    "proof_uses_two_projection_riemann_hurwitz_bounds": true
+  },
+  "derived_constraint": {
+    "degree_form": "d<=4g-4+r_odd",
+    "odd_branch_lower_bound": "r_odd>=d-4g+4",
+    "genus_zero": "r_odd>=d+4",
+    "genus_one": "r_odd>=d",
+    "using_r_odd_le_M": "d<=4g-4+M"
+  },
+  "route_consequence": {
+    "constraint_direction": "LOWER_BOUND_ON_ODD_BRANCH_COUNT",
+    "provides_R8_upper_bound": false,
+    "meets_alpha_lt_quarter_target": false,
+    "standalone_beauville_cover_route_sufficient": false,
+    "GFU_direction_recovered": true,
+    "additional_integral_multiplicity_or_higher_jet_input_required": true,
+    "MB104_complete": false
+  },
+  "credit_firewall": {
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
