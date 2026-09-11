@@ -2,13 +2,13 @@
   "schema": "STAGE32_PR_WORKFLOW_TRIGGER_INVENTORY_V1",
   "scope": "Stage32 workflows observed auto-firing on the long-lived MAIN PR plus the current active/safety exceptions",
   "active_auto": [
-    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml"
   ],
   "manual": [
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-root-cleanup-phase-b.yml"
   ],
   "retired": [
@@ -49,13 +49,13 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
-    "manual": 2,
+    "active_auto": 3,
+    "manual": 3,
     "retired": 35,
     "total": 41
   },
   "notes": {
-    "n356": "current Stage32 MAIN mathematical frontier; automatic PR replay retained",
+    "n356": "hostile-audited and MAIN-consumed historical heavy leaf; exact replay retained as workflow_dispatch-only",
     "main_startup": "repository/stage authority safety gate; automatic PR replay retained",
     "claim_frontier": "claim-DAG/frontier safety gate; automatic PR replay retained",
     "stale_run_sweeper": "Actions safety gate; automatic PR execution retained",
