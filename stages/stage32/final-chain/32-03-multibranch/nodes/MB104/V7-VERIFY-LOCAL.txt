@@ -1,0 +1,27 @@
+Stage32 MB104 V7 local replay receipt
+
+Status: PASS for independent arithmetic / exact-node-coordinate replay only.
+This is NOT an exact-head repository verifier run, NOT GitHub Actions proof, and NOT a hostile-audit PASS.
+
+Replayed independently:
+- MB103 48-node reconstruction from the exact nine generator formulas: 48 nodes;
+- exact Q(i) vector rank of all 48 nodes: 7;
+- BTVA P5 witness zero-based [0,1,2,4,8,9]: rank 6;
+- BTVA P6 witness zero-based [0,1,2,4,8,9,24]: rank 7;
+- Lu--Miyaoka debt formulas through d=5000 for g=0,1;
+- Beauville-Miyaoka compatibility `2d<=3r+12g+20` at the retained minimum `r=d-4g+4` through d=5000;
+- same-cover two-factor inequality `2*max(n1,n2)-4g+4>=d-4g+4` on representative edge/balanced splits through d=5000;
+- scaling-ray A1 debt identity `48*k^2=(96*k)^2/192` through k=1000.
+
+Repository contract changes in this checkpoint:
+- MB104 main certificate advanced to V7;
+- main verifier now source-locks and executes ambient-A1, Lu--Miyaoka, Beauville-Miyaoka, BTVA-span and same-cover downstream verifiers;
+- ambient-A1 wall/verifier AM dependency repaired from nonexistent markdown path to authoritative JSON blob `aa14d340e8b68f863d4013d34fb0eee7b306c0ee`;
+- STATE and RESULT synchronized to `MB104_CUBOID_SPECIFIC_ORDINARY_SINGULARITY_OR_GLOBALIZATION_BOUND`.
+
+Credit boundary:
+- finite degree window=false;
+- finite Picard enumeration released=false;
+- R29-LG2-MB discharged=false;
+- receiver/theorem/endpoint/Perfect-Cuboid credit=0;
+- merge unauthorized.
