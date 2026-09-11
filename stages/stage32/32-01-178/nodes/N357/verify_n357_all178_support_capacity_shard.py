@@ -5,8 +5,10 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 from collections import defaultdict
+from multiprocessing import get_context
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -37,6 +39,7 @@ def main() -> None:
     ap.add_argument("--shard-index", type=int, required=True)
     ap.add_argument("--shard-count", type=int, required=True)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--workers", type=int, default=0)
     args = ap.parse_args()
     if args.shard_count <= 0 or not 0 <= args.shard_index < args.shard_count:
         raise ValueError("invalid shard index/count")
@@ -109,9 +112,16 @@ def main() -> None:
     selected = ordered[args.shard_index::args.shard_count]
     mod._ENGINE = engine
     mod._FULLMOD = fullmod
-    records = []
-    for item in selected:
-        records.extend(mod._compute_group(item))
+
+    workers = args.workers or min(4, max(1, os.cpu_count() or 1), max(1, len(selected)))
+    if workers == 1:
+        batches = [mod._compute_group(item) for item in selected]
+    else:
+        ctx = get_context("fork")
+        chunksize = max(1, len(selected) // (workers * 8))
+        with ctx.Pool(processes=workers) as pool:
+            batches = pool.map(mod._compute_group, selected, chunksize=chunksize)
+    records = [rec for batch in batches for rec in batch]
 
     worker_blob = git_blob_sha1(Path(__file__))
     stream = hashlib.sha256()
@@ -124,6 +134,7 @@ def main() -> None:
         "status": "RESEARCH_SHARD_NO_MAIN_CREDIT",
         "shard_index": args.shard_index,
         "shard_count": args.shard_count,
+        "workers": workers,
         "worker_blob_sha1": worker_blob,
         "target_blob_sha1": EXPECTED_TARGET_BLOB,
         "structural_group_count_total": len(ordered),
@@ -142,6 +153,7 @@ def main() -> None:
         "verdict": "PASS_N357_ALL178_SHARD",
         "shard_index": args.shard_index,
         "shard_count": args.shard_count,
+        "workers": workers,
         "groups": len(selected),
         "records": len(records),
         "partial_source_terminals": result["partial_source_terminals"],
