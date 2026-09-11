@@ -11,11 +11,12 @@ from z3 import get_version_string, unknown, unsat
 import cut102_finite_ring_direct_completion_v2 as core
 
 HERE = Path(__file__).resolve().parent
-SCHEMA = "STAGE32_FULL178_CUT102_RESIDUAL3_BRANCH_REPLAY_V1"
+SCHEMA = "STAGE32_FULL178_CUT102_RESIDUAL4_BRANCH_REPLAY_V1"
 TARGET_BRANCHES = {
     1000: [3, 5],
     1030: [3, 5],
     1056: [2, 3, 5],
+    1224: [3],
 }
 
 
@@ -58,7 +59,7 @@ def main() -> None:
             records.append(rec)
 
     unresolved = [r for r in records if r["result"] != "unsat"]
-    status = "PASS_ALL_SEVEN_RESIDUAL_MOD2_BRANCHES_UNSAT" if not unresolved else "BLOCKED_RESIDUAL_MOD2_BRANCHES_REMAIN"
+    status = "PASS_ALL_EIGHT_RESIDUAL_MOD2_BRANCHES_UNSAT" if not unresolved else "BLOCKED_RESIDUAL_MOD2_BRANCHES_REMAIN"
     body = {
         "schema": SCHEMA,
         "stage": "32",
@@ -79,7 +80,7 @@ def main() -> None:
             "prime": 2,
             "fresh_solver_per_branch": True,
             "per_branch_timeout_ms": args.per_branch_timeout_ms,
-            "reason": "remove incremental solver search-state dependence observed when parent 1224 replayed after deeper residual checks",
+            "reason": "remove incremental solver search-state dependence, including the isolated parent-1224 n1=3 branch",
         },
         "records": records,
         "unresolved_records": unresolved,
