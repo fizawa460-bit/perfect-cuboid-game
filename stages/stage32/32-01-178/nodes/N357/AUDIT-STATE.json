@@ -1,0 +1,115 @@
+{
+  "all178_candidate": {
+    "affected_strata": 13322,
+    "artifact_digest_sha256": "da3b65180c19143800d1ddcc1cab0a3080ecd310e1d2b88b24c81314a7bc6b3f",
+    "artifact_id": 10265472692,
+    "candidate_remaining_strata": 17128,
+    "candidate_remaining_terminals": 47598978285064933810198,
+    "generation_exact_head": "ae6425fc0acc393d7554185af38a9525627ec180",
+    "incremental_rejected_terminals": 17797986705435299826016,
+    "n356_authority_replayed_exactly": true,
+    "partition_identity": true,
+    "per_stratum_stream_sha256": "62c863cdbf3b18f34dbd0d95ea0c1980f361992b8ecec54a70f22efc33ff6d7b",
+    "prefix_cache_sha256": "5e6704bebc5118957bfbc42fbd30a9dc539f773231e6d22efc6f30a44e39acc5",
+    "result_canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53",
+    "source_strata_replayed": 17128,
+    "source_terminals_replayed": 65396964990500233636214,
+    "structural_group_count": 2441,
+    "workflow_run_id": 34602587402
+  },
+  "authority_input": {
+    "n356_audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+    "n356_authoritative_remaining_strata": 17128,
+    "n356_authoritative_remaining_terminals": 65396964990500233636214,
+    "n356_review_id": 5176607630,
+    "n356_status": "AUDITED_NECESSARY_CUT_CONSUMED_BY_MAIN"
+  },
+  "canonical_sha256_without_this_field": "e9b93a2e10a0eb0dd9a399bdff356dfae7472804a088b5ae47acb87d4df4b10c",
+  "credit": {
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "n356_main_pruning_credit": true,
+    "n357_external_hostile_audit_required": true,
+    "n357_main_pruning_credit": false,
+    "theorem_credit": false
+  },
+  "firewalls": {
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false,
+    "n104_release": false,
+    "n350_producer_registered": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "production_complete": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "lemma": {
+    "S0": "min(16,d)",
+    "S3": "min(9,d-b-c,d-2*b,d-2*c+1)",
+    "SA": "min(13,d-a,d-2*a+4,h+5)",
+    "Srem": "S0+SA+S3",
+    "necessary_condition": "s+min(e-M,Srem)>=K",
+    "old_n220_condition": "s+min(e-M,38)>=K",
+    "strict_strengthening_witness": [
+      0,
+      100,
+      200
+    ]
+  },
+  "next_exact_route": "EXTERNAL_HOSTILE_AUDIT_N357_FROZEN_ALL178_CANDIDATE",
+  "node_id": "N357",
+  "purpose": "Freeze the completed deterministic FULL178 N357 support-capacity candidate after audited N356 authority, while preserving zero N357 MAIN pruning credit until independent hostile audit.",
+  "schema": "STAGE32_32_01_178_N357_TRANSPORT_SUPPORT_CAPACITY_STATE_V3",
+  "source_locks": {
+    "aggregate_base": {
+      "blob_sha1": "f9bbfc2739629c302d00a4d8d3974be3a30b52b7",
+      "path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_shards.py"
+    },
+    "aggregate_wrapper": {
+      "blob_sha1": "3b20ea11af78e210f9bb615bd164082c56d9239c",
+      "path": "stages/stage32/32-01-178/nodes/N357/aggregate_n357_all178_support_capacity_canonical_shards.py"
+    },
+    "all178_target": {
+      "blob_sha1": "beb6fb487a41f16d783f8762220a175d46ff2620",
+      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_census.py"
+    },
+    "audit_source_lock_verifier": {
+      "blob_sha1": "493701f588fb862eb8938fe4412ee24d18587aac",
+      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_audit_source_locks.py"
+    },
+    "canonical_worker": {
+      "blob_sha1": "81bcbab9bb49d4ac1f8be28c038f25ae3a469ab8",
+      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_canonical.py"
+    },
+    "contract": {
+      "blob_sha1": "be35e28b0e0f21ea0e3e0135d3515acaaa06f3bd",
+      "path": "stages/stage32/32-01-178/nodes/N357/TRANSPORT_SUPPORT_CAPACITY_CONTRACT.md"
+    },
+    "deterministic_worker": {
+      "blob_sha1": "cf6cf60d557f05268ea063f6d8bc7bc24fad1f8c",
+      "path": "stages/stage32/32-01-178/nodes/N357/verify_n357_all178_support_capacity_shard_deterministic.py"
+    },
+    "n356_audit_receipt": {
+      "blob_sha1": "4966d57f61624c1cfd313ae5d1fe5e33bb25e569",
+      "canonical_sha256": "fdeedf56ba9dca97dc06175f892efeae09fd7ef0d3bb8670bfea438106227b74",
+      "path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json"
+    },
+    "prefix_producer": {
+      "blob_sha1": "2b04166a863383bdd5e6eeccc01998dd173e40d3",
+      "path": "stages/stage32/32-01-178/nodes/N357/prepare_n357_all178_prefix_cache.py"
+    },
+    "result": {
+      "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
+      "path": "stages/stage32/32-01-178/nodes/N357/RESULT.json"
+    },
+    "workflow": {
+      "blob_sha1": "c616cad5d0ed8d6d9e2ca5bdcd57db0b89d31c84",
+      "path": ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
+    }
+  },
+  "status": "ALL178_CANDIDATE_FROZEN_AUDIT_REQUIRED_NO_MAIN_CREDIT"
+}
