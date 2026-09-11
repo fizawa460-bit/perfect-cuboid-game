@@ -1,0 +1,35 @@
+name: Stage32 32-02 scalar producer E2E
+
+# ACTIVE_AUTO: current audit-repair leaf for PR #1790 only. It performs no
+# production search and uploads no artifacts; it is exact-head CI evidence.
+on:
+  pull_request:
+    types: [synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  scalar-e2e:
+    if: github.event.pull_request.number == 1790 && github.event.pull_request.head.ref == 'stage32-02-scalar-producer-research'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Verify checkout is the audited exact head
+        env:
+          EXPECTED: ${{ github.event.pull_request.head.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Run selected64 producer and source-locked E2E replay
+        run: |
+          set -euo pipefail
+          python -B stages/stage32/final-chain/32-02-effectivity/scalar-producer-research/verify_pairing_scalar_producer.py
+          python -B stages/stage32/final-chain/32-02-effectivity/scalar-producer-research/verify_source_locked_known_curve_scalar.py
+          python -B stages/stage32/final-chain/32-02-effectivity/scalar-producer-research/verify_scalar_e2e.py

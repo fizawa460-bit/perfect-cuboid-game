@@ -18,6 +18,7 @@ ACTIVE_AUTO = {
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
     ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
+    ".github/workflows/stage32-02-scalar-producer-e2e.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
