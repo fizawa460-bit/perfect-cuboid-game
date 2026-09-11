@@ -1,8 +1,8 @@
-# Stage32 MB104 — population-wide finite-window reduction / coefficient barriers
+# Stage32 MB104 — population-wide finite-window reduction / member-level barriers
 
 Status: **RETAINED PARTIAL MB104 / FINITE DEGREE WINDOW NOT YET PROVED / NO RECEIVER CREDIT**.
 
-This checkpoint does not complete MB104. It records the strongest population-wide restrictions currently retained and, crucially, two exact nonclosure walls showing that neither purely local exceptional-landings nor the full known-curve numerical/effective-divisor cone can by themselves produce the required finite degree window.
+This checkpoint does not complete MB104. It records the strongest population-wide restrictions currently retained and the exact nonclosure walls accumulated so far. The active question has narrowed from numerical Picard/effectivity data to an ambient **box-surface-specific conductor/index bound for actual integral low-genus members**.
 
 Let `D` be the strict transform of a nonexceptional integral curve in `R29-LG2-MB`, with normalization genus `g in {0,1}`. Write `n_i=D.F_i`, `d=K_S.D=n1+n2`, `M=sum M_i`, `R=sum r_i`, and `t=M-R=sum_branches(min(A,B)-1)>=0`. Let `s_min` be the number of node branches of the unique FSM-minimal type `(A,B)=(1,1)`.
 
@@ -43,17 +43,13 @@ Specializations:
 - `g=0`: `d+4<=M<=3d`;
 - `g=1`: `d<=M<=3d`.
 
-These are genuine population-wide restrictions, but they do not bound `d` absolutely.
+Garcia-Fritz--Urzua Theorem 3.1 independently reaches the same coefficient-one wall for an unknown low-genus cuboid curve. Their stronger `d<=4g+44` corollary uses smoothness at the surface singularities and is not imported into the multibranch population.
 
 ## 3. Population-wide minimal-branch lower bound
 
 Every nonminimal node branch `(A,B)!=(1,1)` consumes at least one unit from `t`, `q_1_node`, or `q_2_node`. If `U` is the number of nonminimal node branches,
 
-`U<=t+q_1_node+q_2_node`.
-
-Since `q_i_node<=sigma_i-t`,
-
-`U<=sigma_1+sigma_2-t = R-d+4g-4`.
+`U<=t+q_1_node+q_2_node <= R-d+4g-4`.
 
 Thus
 
@@ -64,39 +60,21 @@ So
 - `g=0`: `s_min>=d+4`;
 - `g=1`: `s_min>=d`.
 
-Therefore an independent upper bound
-
-`s_min <= alpha*d+beta`
-
-with `alpha<1` closes the degree direction directly. The same sharp threshold applies to an upper bound `M<=alpha*d+beta` because the factor slack already gives `M>=d-4g+4`.
-
-The older threshold `alpha<1/4` is only a sufficient threshold if one insists on using the FSM tensor inequality `d<=16g-16+4*s_min` alone; it is not the sharp threshold after this direct lower bound.
+Therefore an independent upper bound `s_min<=alpha*d+beta` or `M<=alpha*d+beta` with `alpha<1` would close the degree direction directly.
 
 ## 4. Picard/Hodge exceptional-mass inequality
 
 Stage29 source-locks `H=K_S`, `H^2=16`, and negative-definiteness of `H^perp`. The 48 exceptional curves are pairwise disjoint rational `(-2)` curves and `H.E_i=0`.
 
-Set
-
-`x=D-(d/16)H in H^perp`.
-
-Since `x.E_i=M_i`, its exceptional projection is
+For `x=D-(d/16)H`, projection to the exceptional sublattice gives
 
 `x_E=-sum_i (M_i/2)E_i`,
 
-with
-
-`x_E^2=-(1/2)sum_i M_i^2`.
-
-Negative definiteness gives
+and hence
 
 `D^2-d^2/16 <= -(1/2)sum_i M_i^2`.
 
-Adjunction and `Delta_total>=0` give
-
-`D^2=2g-2+2Delta_total-d >= 2g-2-d`.
-
-Therefore
+Combining with adjunction and `Delta_strict>=0` gives
 
 `sum_i M_i^2 <= d^2/8+2d-4g+4`.
 
@@ -112,123 +90,146 @@ AN gives the exact minimal resolved germ
 
 `gamma_lambda(t)=(t,lambda*t,lambda^2*t)`, `lambda in C^*`,
 
-for the FSM-minimal type `(A,B)=(1,1)`. For every finite `N`, the retained local A1 model permits `N` pairwise distinct nonzero landing values over one node. The corresponding strict transforms are separated after resolution and have zero forced pairwise exceptional delta.
+for `(A,B)=(1,1)`. Arbitrarily many pairwise distinct nonzero `lambda` values can occur in the retained local A1 model over one node. Their strict transforms separate after resolution and the FSM weighted local divisor order does not see `lambda`.
 
-The retained FSM weighted local divisor order depends on `(A,B)` but not on `lambda`.
+Therefore no uniform local branch-capacity bound follows from the exceptional `P^1` landing coordinate alone. This is a local nonclosure statement only; it does not assert simultaneous global algebraic realization.
 
-Therefore no uniform local constant capacity bound on the number of minimal branches at a node follows from this local model. A purely local exceptional-`P^1` landing-count route cannot yield the needed subunit coefficient. This is a local nonclosure statement only; it does not assert that arbitrary such germs occur simultaneously on a global algebraic curve.
+## 6. Known-curve cone wall and effective scaling ray
 
-## 6. Exact known-curve incidence reconstruction
+The exact upstream cuboid computation gives 92 nonexceptional known curves plus 48 exceptional curves. Reconstruction yields:
 
-The source-locked upstream `Cuboids/cuboids.magma` defines 92 nonexceptional known curves and the 48 exceptional curves, for 140 known curves in total. Reconstructing the 48 singular points and evaluating the exact defining equations of the three nonexceptional families gives:
+- `G1`: 32 conics, each through 6 nodes; 4 through each node;
+- `G2`: 12 boundary elliptics, each through 8 nodes; 2 through each node;
+- `G3`: 48 other elliptics, each through 4 nodes; 4 through each node.
 
-- `G1`: 32 conics, each through 6 nodes; every node lies on 4 `G1` curves;
-- `G2`: 12 boundary elliptics, each through 8 nodes; every node lies on 2 `G2` curves;
-- `G3`: 48 other elliptics, each through 4 nodes; every node lies on 4 `G3` curves.
+For every integer `k>=1`, define
 
-At a listed singular point the strict transform of a known nonexceptional curve meets the corresponding exceptional curve once, exactly as encoded by the upstream pairing matrix.
-
-## 7. Infinite Picard ray defeating the standalone known-curve cone
-
-Let
-
-`E_total=sum_{i=1}^{48} E_i`
-
-and for every integer `k>=1` define the integral Picard class
-
-`D_k=6kH-kE_total`.
+`D_k=6kH-k*sum_i E_i`.
 
 Then
 
-`H.D_k=96k`,
+`d=H.D_k=96k`, `M=96k=d`, `D_k^2=480k^2`,
 
-so `d=96k`, while
+and the intersections with `G1`, `G2`, `G3`, and each exceptional curve are respectively
 
-`D_k.E_i=2k`
+`6k`, `16k`, `20k`, `2k`.
 
-for every exceptional curve and therefore
+So the full 140-known-curve nonnegative-intersection system admits an unbounded degree ray.
 
-`M=sum_i D_k.E_i=96k=d`.
+Riemann--Roch strengthens this from a formal numerical ray to effective divisor classes:
 
-Its self-intersection is
+`chi(O(D_k))=240k^2-48k+8>0`,
 
-`D_k^2 = 36k^2 H^2 + k^2 E_total^2 = 576k^2-96k^2 = 480k^2`.
+while `H.(K_S-D_k)=16-96k<0`, so `K_S-D_k` is not effective and `h^2(D_k)=0`. Hence `h^0(D_k)>0` for every `k>=1`.
 
-Using the exact incidence counts above:
+Critical firewall: this does not imply an integral member and does not imply geometric genus `0` or `1`.
 
-- for every `G1` conic, `D_k.C=6k`;
-- for every `G2` boundary elliptic, `D_k.C=16k`;
-- for every `G3` other elliptic, `D_k.C=20k`;
-- for every exceptional curve, `D_k.E_i=2k`.
+## 7. Exact A1 contraction conductor / delta correction
 
-Thus `D_k` has **strictly positive intersection with all 140 known curves for every `k>=1`**. It also satisfies the retained Hodge mass inequality.
+MB102 measures `Delta_strict` on the smooth resolution. Contracting an exceptional `(-2)` curve back to a box-surface `A1` node creates an additional, exact normalization defect.
 
-Consequently the full system of nonnegative intersection inequalities coming from the 140 known curves cannot, by itself, bound the degree.
+For one node with `M_i=D.E_i`, the numerical pullback is
 
-## 8. The ray consists of effective divisor classes
+`pi^*C = D + (M_i/2)E_i`.
 
-This wall is stronger than a merely formal numerical ray. On the cuboid resolution, `chi(O_S)=8`. Riemann--Roch gives
+Using the rational-surface delta formula / Blache correction for the `A1` lattice gives
 
-`chi(O(D_k)) = 8 + (D_k.(D_k-K_S))/2`
+`p_a(C)-p_a(D)=floor(M_i^2/4)`.
 
-and hence
+Therefore over all 48 nodes
 
-`chi(O(D_k))=240k^2-48k+8>0`.
+`Delta_image = Delta_strict + Q_A1`,
 
-Moreover
+where
 
-`H.(K_S-D_k)=16-96k<0` for `k>=1`.
+`Q_A1=sum_i floor(M_i^2/4)`.
 
-Since `H` is nef, an effective divisor linearly equivalent to `K_S-D_k` is impossible. Therefore
+This correction is independent of the exceptional landing parameter `lambda`.
 
-`h^2(D_k)=h^0(K_S-D_k)=0`.
+The function `floor(m^2/4)` is discretely convex. Writing `M=48q+r`, `0<=r<48`, the exact balanced minimum is
 
-Riemann--Roch then gives
+`Q_min(M)=(48-r)floor(q^2/4)+r floor((q+1)^2/4)`.
 
-`h^0(D_k)=chi(O(D_k))+h^1(D_k) >= chi(O(D_k)) > 0`.
+A convenient population-wide bound is
 
-Hence every `D_k` is represented by an **effective divisor**.
+`Q_A1 >= M^2/192-12`.
 
-This still does **not** imply that `D_k` has an integral member, and it certainly does not imply a member of geometric genus `0` or `1`. This distinction is load-bearing.
+Hence
 
-If an integral genus-one member existed in class `D_k`, MB102 adjunction would require
+- `g=0`: `Q_A1 >= (d+4)^2/192-12`;
+- `g=1`: `Q_A1 >= d^2/192-12`.
 
-`Delta_total=(D_k^2+d)/2=240k^2+48k`.
+This is a genuine quadratic member-level conductor debt on the singular box-surface image. It still does not bound `d` because the image arithmetic genus and projection discriminant degree can also grow quadratically.
 
-The presently retained local/scalar interfaces do not give an upper bound contradicting that quadratic singularity budget. The local AN feasibility wall is not a global existence theorem.
+The retained effective ray illustrates that nonclosure: there `M_i=2k` at all 48 nodes, so
 
-Therefore even
+`Q_A1=48k^2`.
 
-`known-curve nonnegative cone + divisor-class effectivity`
+## 8. S32-PW09 discriminant interface
 
-is insufficient to close MB104.
+The provisional Arsenal weapon `S32-PW09` supplies the exact normalization/conductor identity for a finite singular curve projection:
 
-## 9. What remains finite and what remains open
+`Disc(pi)=Br(f)+2*A`,
 
-For every fixed `d`, the scalar discrete search is finite and can use:
+with `deg A=delta` for the normalization-index divisor. Thus the A1 contraction debt contributes to the same index/discriminant ledger used by the two factor projections.
 
-- `n1+n2=d`;
-- the factor-slack interval for `M`;
-- the Hodge quadratic mass bound;
-- `R<=M`;
-- the exact MB103 `Aut(S)` canonicalizer on 48-entry intrinsic profiles.
+This suggested a possible closer: upper-bound the discriminant/index capacity at the six special factor values. Generic finite-map algebra shows that this route does **not** close without additional ambient geometry.
 
-But the degree direction remains globally infinite. Finite Picard enumeration is therefore still forbidden.
+## 9. Generic special-discriminant capacity wall
 
-The next MB104 obligation is no longer a numerical/effectivity-cone problem. It is:
+Let
 
-`MB104_GLOBAL_LOW_GENUS_MEMBER_SINGULARITY_BOUND`.
+`A=k[[t]]`,
 
-A closing input must control actual integral low-geometric-genus members, for example by one of:
+and let the normalized quadratic order be
 
-- a global jet/polar/contact/conductor bound on `Delta_total`;
-- a multi-fibration ramification inequality that charges the multibranch node data across sufficiently many independent fibrations;
-- another theorem giving an absolute or subunit-slope bound for integral genus `<=1` members.
+`B'=A+uA`, `u^2=t`.
 
-Do not retry local `lambda` cardinality or the standalone known-curve nonnegative cone without a new member-level coupling.
+The normalized projection degree is fixed at `2`, and the normalized branch discriminant valuation at `t=0` is `1`.
+
+For every integer `N>=0`, take the finite rank-two integral suborder
+
+`B_N=A+t^N u A`.
+
+Then:
+
+- `Frac(B_N)=Frac(B')`;
+- the normalization of `B_N` is `B'`;
+- `length_A(B'/B_N)=N`;
+- in the trace basis `[1,t^N u]`, the trace matrix is `diag(2,2t^(2N+1))`;
+- therefore `v_t(Disc(B_N))=2N+1=1+2N`.
+
+This is exactly the local identity `Disc=Br+2A` with index length `N`.
+
+Consequently, even with **normalized projection degree fixed at 2 and only one special base value**, normalization index and discriminant multiplicity are unbounded. Six special values do not alter this generic conclusion.
+
+Therefore:
+
+`projection degree + number of special values + S32-PW09`
+
+cannot by themselves upper-bound the quadratic `Q_A1` debt.
+
+This wall does **not** assert that the orders `B_N` embed as curve germs in the cuboid surface and does not assert that they arise from the A1 contraction profile. It only proves that a successful bound must use additional ambient box-surface structure.
+
+## 10. Current MB104 boundary
+
+For every fixed `d`, the scalar/discrete search remains finite and can use the factor-slack interval, Hodge quadratic bound, A1 contraction debt, and the exact MB103 `Aut(S)` node-profile quotient. The degree direction remains globally infinite, so finite Picard enumeration remains forbidden.
+
+The active sub-obligation is now
+
+`MB104_AMBIENT_BOX_SURFACE_CONDUCTOR_CAPACITY_BOUND`.
+
+A closing input must use structure absent from a generic finite map, for example:
+
+- an ambient polar/jet/Jacobian restriction on singular curve orders inside the cuboid surface;
+- a source-derived restriction on which finite suborders can occur for the two factor projections of embedded box-surface curves;
+- a global linear-system theorem bounding normalization-index multiplicity at the six special fibres;
+- or an independent subunit-slope upper bound on `M` or `s_min`.
+
+Do not retry local `lambda` cardinality, the standalone known-curve cone, or generic discriminant-degree counting without such new ambient input.
 
 ## Source locks / firewalls
 
-This checkpoint source-locks MB101/102/103, Stage29 finite-lattice geometry, AL/AM/AN/AR, the corrected FSM16 interfaces, the lambda wall, and the exact upstream `MichaelStollBayreuth/Verification@51233ed...:Cuboids/cuboids.magma` blob `0422b698...`.
+This checkpoint source-locks MB101/102/103, Stage29 finite-lattice geometry, AL/AM/AN/AR, the corrected FSM16 interfaces, the lambda wall, the exact known-curve/effective-divisor wall, the A1 contraction conductor certificate, and `S32-PW09` only at its provisional routing ceiling.
 
-No Freitag--Salvati Manni unibranch `176/192` cap is imported into the multibranch population. No integral low-genus member of `D_k` is asserted. No finite degree window, finite Picard release, R29-LG2-MB discharge, receiver/effectivity/final-milestone/theorem/endpoint/Stage32/Perfect-Cuboid credit is claimed. Merge remains unauthorized.
+No Freitag--Salvati Manni unibranch `176/192` cap is imported into the multibranch population. No generic DVR order is claimed to occur inside the cuboid surface. No integral low-genus member of `D_k` is asserted. No finite degree window, finite Picard release, `R29-LG2-MB` discharge, receiver/effectivity/final-milestone/theorem/endpoint/Stage32/Perfect-Cuboid credit is claimed. Merge remains unauthorized.
