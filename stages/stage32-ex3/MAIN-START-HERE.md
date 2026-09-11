@@ -6,24 +6,61 @@ Ordinary `stage32ex3-mainbatch` reads, in this order:
 2. `stages/stage32-ex3/MAIN-START-HERE.md`;
 3. `stages/stage32-ex3/MAIN-STATE.json`;
 4. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
-5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus exact demand artifacts selected by the registry.
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus any exact demand artifact/state explicitly selected by the registry.
 
-This file is the fixed ordinary startup contract. Mutable frontier, current leaf, blockers, audit status, and next route live only in `MAIN-STATE.json`. The final target and dependency roadmap live in `stages/stage32-ex3/stage32-ex3.md`.
+This file is the fixed ordinary startup contract. Mutable frontier, current leaf, blockers, audit status, and next route live only in `MAIN-STATE.json`. The final target and dependency roadmap live in `stages/stage32-ex3/stage32-ex3.md` and are opened only when the active task requires them.
+
+Do not preload Stage32 root history/controllers, other Stage32EX roadmaps, Research OS, Arsenal, or large retained payloads unless `AGENTS.md`, `MAIN-STATE.json`, the cross-lane registry, or the active leaf explicitly triggers them.
 
 ## Cross-lane demand routing
 
-Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before local work, inspect every OPEN demand involving EX3. A higher-priority OPEN demand where EX3 is producer preempts lower-priority local research. If EX3 is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next mainbatch and validate satisfying artifact identity and population semantics before continuing. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
+Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before substantive local work, inspect every OPEN demand involving EX3. A higher-priority OPEN demand where EX3 is producer preempts lower-priority local research. If EX3 is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next mainbatch and validate satisfying artifact identity and source-population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
 
 ## Authority split
 
-`MAIN-STATE.json` is the mutable routing/resume projection, not a proof certificate. Exact O210/Q602 claims require source locks, retained artifacts/verifiers, and hostile-audit authority. A finite monodromy/Nielsen ledger, abstract cover, or missing adapter does not close the carrier-attached O210 target.
+`MAIN-STATE.json` is the mutable Stage32EX3 routing/resume projection. It is not a proof certificate and cannot create mathematical credit by assertion.
 
-## Execution contract
+Exact claims must be grounded in source locks, leaf artifacts, verifiers, and hostile-audit records referenced by the state. Stage32 MAIN is read only as source/routing context where the current leaf explicitly requires it. Stage32EX3 does not inherit an unaudited Stage32 candidate or another EX lane as theorem authority.
 
-Execute one bounded cover/monodromy/adapter unit with exact object types, assumptions, population, source locators, and replay path. A failed route is not EX3 exhaustion. Retain a precise blocker/reopen condition and move only to a materially distinct legal route.
+The completion contract in `stage32-ex3.md` may not be weakened by a state update.
 
-Scratch work is non-authoritative; heavy/artifact-producing workflows require separate authorization. Cross-lane demand state is operational and separate from the mathematical claim DAG. Demand status alone must not mutate claim authority.
+## `stage32ex3-mainbatch` execution contract
 
-`stage32ex3-audit` remains independent audit-only work. PASS does not automatically merge, alter MAIN authority, or grant endpoint credit.
+A batch:
 
-Do not merge without explicit user authorization.
+1. reads the startup set, applies any higher-priority cross-lane demand, and identifies exactly one current mathematical unit;
+2. revalidates every load-bearing input through exact source locators;
+3. executes the bounded mathematical/diagnostic unit;
+4. retains only results with explicit assumptions, object types, quantification domain, and replay path;
+5. updates the leaf artifact/verifier when appropriate, then updates `MAIN-STATE.json` with result, credit ceiling, blocker/reopen condition, audit readiness, and next route;
+6. stops at a coherent checkpoint instead of silently broadening the target.
+
+A failed route is not Stage32EX3 exhaustion. A finite monodromy/Nielsen ledger or missing adapter remains an active work queue until EX3-09 terminal decision or a genuine carrier-attached O210 cover configuration is established.
+
+## Timeout-safe / parallel execution
+
+After EX3-00, materially distinct micro-diagnostics may run on separate scratch branches. Scratch results are non-authoritative. Cross-lane use must state whether the dependency is audited, retained exact, or provisional.
+
+Consolidate retained successful leaves at an audit-ready checkpoint. Freshness synchronization and broad exact-head CI belong at that checkpoint rather than after every micro-diagnostic.
+
+Heavy/artifact-producing workflows require the repository heavy-workflow policy and an explicit authorization gate. This file does not authorize heavy compute.
+
+## Claim-DAG synchronization trigger
+
+Ordinary `stage32ex3-mainbatch` startup now includes the operational cross-lane demand registry but still does not preload the mathematical claim DAG.
+
+When EX3 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
+
+Scratch-only diagnostics and demand-status changes alone do not trigger claim-DAG credit writes. A hostile-audit PASS/FAIL receipt does not silently promote EX3 or MAIN; downstream use waits for claim synchronization.
+
+## `stage32ex3-audit` handoff
+
+`stage32ex3-audit` is a separate hostile-audit lane governed by `stages/stage32-ex3/AUDIT-CONTRACT.md`. It audits an exact candidate head independently and does not continue the research while auditing.
+
+A hostile-audit FAIL returns the same working lineage to `stage32ex3-mainbatch` for repair. A PASS records only the audited Stage32EX3 claim ceiling. It does not automatically merge, alter Stage32 MAIN authority, exclude O210/Q602, or grant endpoint credit.
+
+## Search, write, and merge discipline
+
+Repository discovery is search-first under `AGENTS.md`. Existing weapon/evidence lookup follows the repository asset-discovery policy only when the active leaf needs it. A search miss is not repository-wide absence.
+
+Preserve source/proof locks and firewalls before writes. Do not merge without explicit user authorization.
