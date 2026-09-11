@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_32_01_178_N358_RESEARCH_STATE_V1",
+  "schema": "STAGE32_32_01_178_N358_RESEARCH_STATE_V2",
   "node_id": "N358",
   "semantic_key": "s32-01-178:joint-transport-support-saturation",
   "title": "Joint optimistic transport mass/support saturation obstruction",
-  "status": "ACTIVE_SELECTED_ZERO_LOSS_CANDIDATE_NO_MAIN_CREDIT",
+  "status": "AUDIT_REQUIRED_EXACT_INCREMENTAL_CENSUS_FROZEN_NO_MAIN_CREDIT",
   "selected_from_route": "POST_N357_FULL178_FRONTIER_SELECTION",
   "authority_input": {
     "node": "N357",
@@ -15,13 +15,24 @@
   },
   "candidate": {
     "scope": "b>=c, h-b>=5, e=3d+c-b mass-saturation face",
-    "n357_third_component_support_cap": 9,
-    "joint_saturated_third_component_support_cap": 8,
     "necessary_condition_on_scope": "s + min(e-M,Srem-1) >= K",
-    "strict_full178_witness_rows": ["g0-d174", "g0-d176", "g1-d190", "g1-d192"],
-    "strict_witness_terminal_lower_bound": 2932,
-    "proof_contract": "JOINT_TRANSPORT_SUPPORT_SATURATION_CONTRACT.md",
-    "lightweight_verifier": "verify_n358_joint_transport_support_saturation.py"
+    "exact_incremental_rejected_exceptional_prefixes": 11344256366314850,
+    "exact_incremental_rejected_terminals": 9274971107798843958,
+    "affected_strata": 2540,
+    "affected_rows": 76,
+    "candidate_remaining_strata": 17128,
+    "candidate_remaining_terminals": 47589703313957134966240,
+    "result": "RESULT.json",
+    "result_canonical_sha256": "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287",
+    "exact_census_verifier": "verify_n358_exact_incremental_census.py",
+    "exact_census_verifier_blob_sha1": "c07a7e358a6253919194189377d6ed56f95e047a",
+    "affected_record_stream_sha256": "206538209460c6b7b9cb3cc33e601a2cbf75fa084f9693af379e660ed6cf9625"
+  },
+  "validation": {
+    "n357_witness_semantic_replay": 49030556814634,
+    "retained_strata_preserved": true,
+    "retained_strata_witness": "all ten stored coordinates equal 1 gives (a,b,c)=(3,3,4), M=s=10 and b<c outside N358 scope",
+    "heavy_compute_used": false
   },
   "credit": {
     "n358_main_pruning_credit": false,
@@ -38,6 +49,5 @@
     "heavy_compute_authorized": false,
     "merge_authorized": false
   },
-  "next_bounded_unit": "COUNT_EXACT_INCREMENTAL_N358_REJECTION_ON_LOCKED_N357_RETAINED_FRONTIER_THEN_FREEZE_FOR_HOSTILE_AUDIT",
-  "research_checkpoint_head_before_state": "4cc712ed29ba23e08c916f26da5da147afe698db"
+  "next_bounded_unit": "INDEPENDENT_STAGE32_01_178_HOSTILE_AUDIT_OF_N358_EXACT_INCREMENTAL_CENSUS"
 }
