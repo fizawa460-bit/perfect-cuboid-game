@@ -1,0 +1,32 @@
+{
+  "schema": "STAGE32_FULL178_CUT102_PREFLIGHT_V1",
+  "stage": "32",
+  "surface": "full178-cut",
+  "node": "CUT102",
+  "status": "READY_BOUNDED_FINITE_RING_SCREEN",
+  "source_lock_checkpoint": "stages/stage32/full178-cut/CUT101-source-lock-checkpoint.json",
+  "runner": "stages/stage32/full178-cut/cut102_finite_ring_direct_completion_v2.py",
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "retained_unknown_parent_indices": [584,1000,1003,1014,1030,1048,1050,1056,1064,1066,1103,1106,1117,1119,1133,1198,1218,1224,1243],
+    "retained_unknown_parent_count": 19,
+    "unretained_172_identities_out_of_scope": true
+  },
+  "finite_ring_plan": {
+    "primes": [2,3,5,7,11,13,17,31,127],
+    "per_check_timeout_ms": 750,
+    "partition_on_unknown": false,
+    "image_test": "left-kernel equations for the exact retained 140x64 pairing matrix over F_p",
+    "bounded_pairings": true,
+    "exact_mass_fibre_diagonal_block_constraints_replayed": true,
+    "soundness": "exact integral completion implies every finite-ring relaxation; only UNSAT is excluding"
+  },
+  "credit": {
+    "stage32_main_pruning_credit": false,
+    "cut103_required_before_handoff": true,
+    "merge_authorized": false
+  }
+}
