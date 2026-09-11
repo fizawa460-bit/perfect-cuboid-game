@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 START = HERE / "MAIN-START-HERE.md"
 COMMANDS = HERE / "COMMANDS.md"
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v11.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v12.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -42,9 +42,10 @@ def main() -> None:
     ):
         req(token in commands, f"canonical command missing from registry: {token}")
 
-    # V11 is the live authority verifier after externally audited N356 was
-    # claim-synchronized and consumed into MAIN residual authority. V10 remains
-    # retained as historical pre-N356-consumption evidence only.
+    # V12 is the live startup authority after the hostile-audited CUT191
+    # 113-terminal transition was synchronized on top of consumed N356.
+    # The replacement synchronized head still requires its own hostile re-audit;
+    # V12 fails closed unless that pending gate remains explicit.
     runpy.run_path(str(AUTHORITY_VERIFIER), run_name="__main__")
 
     # Run the command-surface cross-check in the same ACTIVE_AUTO authority job.
