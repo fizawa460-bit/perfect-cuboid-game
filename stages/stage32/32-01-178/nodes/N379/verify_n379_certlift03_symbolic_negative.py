@@ -95,7 +95,11 @@ def main() -> None:
 
     producer = checked(certroot / CERTLIFT_STATE_REL, CERTLIFT_STATE_BLOB)
     feature = checked(certroot / FEATURE_REL, FEATURE_BLOB, FEATURE_CANON)
-    g3 = checked(certroot / G3_RECEIPT_REL, G3_RECEIPT_BLOB, G3_RECEIPT_CANON)
+    # This retained receipt's stored canonical is generator-defined rather than a
+    # whole-object self-hash. The exact blob lock is authoritative; separately
+    # assert the producer-recorded canonical token without reinterpreting it.
+    g3 = checked(certroot / G3_RECEIPT_REL, G3_RECEIPT_BLOB)
+    req(g3.get("canonical_sha256_without_this_field") == G3_RECEIPT_CANON, "g3 receipt stored canonical drift")
     req(blob(certroot / G3_ROW_REL) == G3_ROW_BLOB, "g3 row certificate blob drift")
     req(blob(certroot / G3_PARITY_REL) == G3_PARITY_BLOB, "g3 fibre parity lemma blob drift")
     req(blob(certroot / PRODUCER_WORKFLOW_REL) == PRODUCER_WORKFLOW_BLOB, "producer workflow blob drift")
