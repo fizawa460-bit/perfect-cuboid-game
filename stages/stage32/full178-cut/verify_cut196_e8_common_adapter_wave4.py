@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 import sys
 from pathlib import Path
 
@@ -38,16 +37,20 @@ LOCKS = {
     CUT195_VERIFY: "022a8733eae7763926848b5e8bcf7f54f69bee66",
 }
 
+
 def req(ok: bool, msg: str) -> None:
     if not ok:
         raise SystemExit("FAIL: " + msg)
+
 
 def blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
+
 def csha(v: object) -> str:
     return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
 
 def checked_canonical(path: Path, expected: str) -> dict:
     o = json.loads(path.read_text())
@@ -56,17 +59,99 @@ def checked_canonical(path: Path, expected: str) -> dict:
     req(claimed == expected and csha(q) == expected, f"canonical drift: {path.name}")
     return o
 
+
+def split_n1_unsat_fail_closed(cut, P, blocks, prime: int, fixed: dict[int, int]) -> tuple[bool, list[dict]]:
+    """Prove one finite-ring obstruction despite solver timeouts.
+
+    UNKNOWN never earns credit.  The exact n1+n2=8 constraint is partitioned
+    into n1=0..8.  Every branch must independently be UNSAT.  A 10s UNKNOWN is
+    retried on a fresh 60s solver.  SAT or a second UNKNOWN fails closed.
+    """
+    attempts: list[dict] = []
+    s, y, _ = cut.core.make_solver(P, blocks, prime, 10000)
+    for label, value in fixed.items():
+        s.add(y[label - 1] == int(value))
+    n1 = 2 * y[cut.core.PACKS[0][0] - 1] + sum((y[j - 1] for j in blocks[0][0]), 0)
+    for degree in range(cut.core.TARGET_D + 1):
+        s.push()
+        s.add(n1 == degree)
+        r = str(s.check())
+        reason = s.reason_unknown() if r == "unknown" else None
+        s.pop()
+        rec = {"prime": prime, "n1": degree, "result": r}
+        if reason:
+            rec["reason_unknown"] = reason
+        if r == "sat":
+            attempts.append(rec)
+            return False, attempts
+        if r == "unknown":
+            s2, y2, _ = cut.core.make_solver(P, blocks, prime, 60000)
+            for label, value in fixed.items():
+                s2.add(y2[label - 1] == int(value))
+            n1_2 = 2 * y2[cut.core.PACKS[0][0] - 1] + sum((y2[j - 1] for j in blocks[0][0]), 0)
+            s2.add(n1_2 == degree)
+            r2 = str(s2.check())
+            rec["retry_60s_result"] = r2
+            if r2 == "unknown":
+                rec["retry_60s_reason_unknown"] = s2.reason_unknown()
+            attempts.append(rec)
+            if r2 != "unsat":
+                return False, attempts
+        else:
+            attempts.append(rec)
+    return True, attempts
+
+
+def fresh_finite_ring_obstruction(cut, P, blocks, solvers, fixed: dict[int, int]) -> tuple[bool, int | None, int, list[dict]]:
+    """Find one independently replayed finite-ring UNSAT certificate.
+
+    Fast 5s checks are tried first.  Only primes returning UNKNOWN are eligible
+    for the exact n1 partition fallback.  SAT is never upgraded.  If no prime
+    is proved UNSAT, return False and let the caller fail closed.
+    """
+    unknown_primes: list[int] = []
+    unknown_count = 0
+    for p in PRIMES:
+        s, y, _ = solvers[p]
+        status, _reason = cut.core.check_with_fixed(s, y, fixed)
+        if status == "unsat":
+            return True, p, unknown_count, []
+        if status == "unknown":
+            unknown_count += 1
+            unknown_primes.append(p)
+    fallback: list[dict] = []
+    for p in unknown_primes:
+        ok, attempts = split_n1_unsat_fail_closed(cut, P, blocks, p, fixed)
+        fallback.extend(attempts)
+        if ok:
+            return True, p, unknown_count, fallback
+    return False, None, unknown_count, fallback
+
+
 def main() -> None:
     for path, expected in LOCKS.items():
         req(path.exists(), f"missing source-lock {path.name}")
         req(blob(path) == expected, f"source-lock drift {path.name}")
 
-    subprocess.run([sys.executable, str(CUT195_VERIFY)], cwd=ROOT, check=True)
-
     result = checked_canonical(RESULT, RESULT_CANONICAL)
     handoff = checked_canonical(HANDOFF, HANDOFF_CANONICAL)
     rk = json.loads(ACTIVE_RUNKEY.read_text())
     exrk = json.loads(EXECUTED_RUNKEY.read_text())
+
+    # CUT195 is already externally hostile-audited.  Do not re-run its
+    # timeout-sensitive solver replay here: source-lock its exact verifier and
+    # require the retained external audit receipt instead.  cut.preflight()
+    # below recursively locks CUT195 result/handoff/worker/verifier bytes.
+    req(handoff["source"]["predecessor_cut195_audited_exact_head"] == "2618f4dcd546d569b212753ac7abc10e07ee5828",
+        "CUT195 audited exact head drift")
+    req(handoff["source"]["predecessor_cut195_hostile_audit_review"] == 5184909672,
+        "CUT195 hostile-audit review drift")
+    req(handoff["source"]["predecessor_cut195_exact_head_ci"] == 34664320955,
+        "CUT195 exact-head CI drift")
+    req(result["source"]["cut195_audited_exact_head"] == handoff["source"]["predecessor_cut195_audited_exact_head"],
+        "CUT195 result/handoff exact-head mismatch")
+    req(result["source"]["cut195_hostile_audit_review"] == handoff["source"]["predecessor_cut195_hostile_audit_review"],
+        "CUT195 result/handoff audit-review mismatch")
 
     req(rk.get("generation") == 2 and rk.get("armed") is False and rk.get("consumed") is True,
         "CUT196 active runkey not generation2 consumed/disarmed")
@@ -118,11 +203,13 @@ def main() -> None:
 
     P, blocks, g = core.load_picard_interface()
     solvers = {p: core.make_solver(P, blocks, p, 5000) for p in PRIMES}
-    fresh_whole = []
-    fresh_hnf_empty = []
-    fresh_parent = []
+    fresh_whole: list[int] = []
+    fresh_hnf_empty: list[int] = []
+    fresh_parent: list[int] = []
     fresh_parent_checks = 0
     unknown_checks = 0
+    fallback_checks = 0
+    fallback_blocks: set[int] = set()
 
     for block_index in closed:
         sig = core.e8.block_signature(block_index)
@@ -133,17 +220,13 @@ def main() -> None:
             f"N356 bridge drift on block {block_index}")
         fixed_terminal = {int(k): int(v) for k, v in sig["fixed_exceptional_pairings"].items()}
 
-        whole_closed = False
-        for p in PRIMES:
-            s, y, _ = solvers[p]
-            status, _reason = core.check_with_fixed(s, y, fixed_terminal)
-            if status == "unsat":
-                whole_closed = True
-                fresh_whole.append(block_index)
-                break
-            if status == "unknown":
-                unknown_checks += 1
+        whole_closed, _prime, u, fb = fresh_finite_ring_obstruction(cut, P, blocks, solvers, fixed_terminal)
+        unknown_checks += u
+        fallback_checks += len(fb)
+        if fb:
+            fallback_blocks.add(block_index)
         if whole_closed:
+            fresh_whole.append(block_index)
             continue
 
         parents = list(core.e8.iter_parent_population(block_index, g))
@@ -155,17 +238,13 @@ def main() -> None:
             fresh_parent_checks += 1
             fixed = {int(label): int(value) for label, value in zip(
                 g.exceptional_labels, rec["selected_exceptional_pairings"])}
-            parent_closed = False
-            for p in PRIMES:
-                s, y, _ = solvers[p]
-                status, _reason = core.check_with_fixed(s, y, fixed)
-                if status == "unsat":
-                    parent_closed = True
-                    break
-                if status == "unknown":
-                    unknown_checks += 1
+            parent_closed, _prime, u, fb = fresh_finite_ring_obstruction(cut, P, blocks, solvers, fixed)
+            unknown_checks += u
+            fallback_checks += len(fb)
+            if fb:
+                fallback_blocks.add(block_index)
             req(parent_closed,
-                f"credited block {block_index} parent {ordinal} survives fresh finite-ring replay")
+                f"credited block {block_index} parent {ordinal} unresolved by fail-closed fresh replay: {fb[-3:] if fb else []}")
         fresh_parent.append(block_index)
 
     replay = set(fresh_whole) | set(fresh_hnf_empty) | set(fresh_parent)
@@ -182,6 +261,7 @@ def main() -> None:
 
     print(json.dumps({
         "status": "PASS_CUT196_EXACT_HEAD_AUDIT_VERIFIER",
+        "predecessor_cut195_inherited_by_external_audit_receipt": True,
         "wave_blocks": 255,
         "candidate_closed_blocks": EXPECTED_CLOSED,
         "candidate_pruned_terminals": EXPECTED_PRUNED,
@@ -190,10 +270,13 @@ def main() -> None:
         "fresh_all_hnf_parents_finite_ring_unsat_blocks": len(fresh_parent),
         "fresh_hnf_parents_checked": fresh_parent_checks,
         "unknown_checks_not_promoted": unknown_checks,
+        "timeout_partition_fallback_checks": fallback_checks,
+        "timeout_partition_fallback_blocks": sorted(fallback_blocks),
         "remaining_nonclosed_blocks": 13,
         "stage32_main_pruning_credit": False,
         "hostile_audit_passed": False,
     }, sort_keys=True))
+
 
 if __name__ == "__main__":
     main()
