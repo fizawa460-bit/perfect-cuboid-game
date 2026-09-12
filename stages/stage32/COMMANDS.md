@@ -13,7 +13,7 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 
 Current transition: the hostile re-audit PASS for the V15 CUT195-consumed replacement head is consumed by MAIN V16 without changing numerical authority. FULL178 frontier selection points provisionally to CUT196 on PR #1793, exact head `b4bca5f6dee0a910626587eedc06036e86888769`, with a 27,346-terminal candidate. CUT196 currently has no hostile-audit PASS and its exact-head claim-frontier run `34684663810` is FAILURE, so it has **zero MAIN pruning credit**. The required next CUT route is repair exact-head CI, freeze a clean boundary, run `stage32cut-audit`, and only after PASS perform a separate current-authority overlap/composition replay before any MAIN consumption.
 
-CUT191, CUT194, N357, and CUT195 remain separately consumed according to current `MAIN-STATE.json`; historical CUT192/CUT193 coordination does not alter the V16 numerical authority.
+CUT191 is already consumed; CUT194, N357, and CUT195 remain separately consumed according to current `MAIN-STATE.json`. Historical CUT192/CUT193 coordination does not alter the V16 numerical authority.
 
 ## ACTIVE commands
 
