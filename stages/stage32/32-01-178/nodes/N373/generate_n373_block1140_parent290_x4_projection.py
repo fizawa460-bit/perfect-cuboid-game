@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import json
 import math
+import subprocess
 import sys
 from pathlib import Path
 
@@ -26,6 +27,11 @@ N372_AUDIT_CANON = "4bead765cb9badfe6fb8ce4b1ae0c74807f541e35879fe1ad44b00f24068
 N372_RESULT_BLOB = "c0267d903fd0b397fcd4766b03964bde788650e7"
 N372_RESULT_CANON = "b9852fcfa926e77e8c51defe31002e0bf4b281dd1db4b5f320326166932fef48"
 N362_GENERATOR_BLOB = "f2b97ffb52dcf48e8e549cf71eb70a6ffcdebb30"
+CUT196_HEAD = "5403328470df32c65aea9a38efe3916cb87d24a4"
+N357_HEAD = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
+N357_VERIFIER_BLOB = "fdca9ad629983d8c31c7e6355540af3545910120"
+MAIN_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+MAIN_CANON = "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193"
 BLOCK, OFFSET, WIDTH = 1140, 797, 113
 PARENT_ORDINAL = 290
 
@@ -67,12 +73,18 @@ def load_module(path: Path, name: str):
     return mod
 
 
+def exact_head(path: Path) -> str:
+    return subprocess.check_output(["git", "-C", str(path), "rev-parse", "HEAD"], text=True).strip()
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--cut196-root", type=Path, required=True)
     ap.add_argument("--n357-composition-root", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
+    cut_root = args.cut196_root.resolve()
+    comp_root = args.n357_composition_root.resolve()
 
     state = checked(STATE, STATE_BLOB, STATE_CANON)
     audit = checked(N372_AUDIT, N372_AUDIT_BLOB, N372_AUDIT_CANON)
@@ -82,14 +94,37 @@ def main() -> None:
     req(audit["review_id"] == 5187357950 and audit["audited_exact_head"] == "9fb78a0e0c7b52baca84058dea69b8b083e33774", "N372 audit identity drift")
     req(n372_result["status"] == "SAT_CURRENT_V15_WITNESS_CANDIDATE", "N372 result drift")
 
-    # Reuse the audited-generation primitive directly, not the stale N372
-    # generation preflight. N372's current authority is supplied by the
-    # hostile-audit PASS receipt above and the workflow's preceding exact
-    # solver-independent N372 audit-boundary replay.
+    # N373 consumes the source-locked N362 solver primitive only. It does not
+    # reuse N362's historical ancestry check, because the PR checkout is
+    # intentionally shallow. Instead all load-bearing current interfaces are
+    # verified directly below, while the preceding workflow step independently
+    # replays the hostile-audited N372 boundary.
     n362 = load_module(N362_GENERATOR, "n373_n362")
-    _n362_state, _main_state, cut196, comp = n362.base_preflight(
-        args.cut196_root.resolve(), args.n357_composition_root.resolve()
-    )
+    req(exact_head(cut_root) == CUT196_HEAD, "CUT196 exact head drift")
+    req(exact_head(comp_root) == N357_HEAD, "N357 exact head drift")
+
+    req(blob(n362.MAIN_STATE) == MAIN_BLOB, "MAIN V15 blob drift")
+    main_state = json.loads(n362.MAIN_STATE.read_text())
+    req(main_state.get("canonical_sha256_without_this_field") == MAIN_CANON, "MAIN V15 stored canonical drift")
+    req(canonical(main_state) == MAIN_CANON, "MAIN V15 canonical drift")
+    frontier = main_state["current_exact_frontier"]
+    req(frontier["authoritative_remaining_strata"] == 17128, "MAIN V15 strata drift")
+    req(frontier["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN V15 terminal drift")
+    req(frontier["n357_main_pruning_credit"] is True and frontier["cut195_main_pruning_credit"] is True, "MAIN consumed authority drift")
+    req(frontier["full178_numerical_census_complete"] is False, "FULL178 unexpectedly complete")
+
+    comp_path = comp_root / "stages/stage32/verify_n357_v13_current_authority_composition.py"
+    req(blob(comp_path) == N357_VERIFIER_BLOB, "N357 composition verifier blob drift")
+    proc = subprocess.run([sys.executable, str(comp_path)], cwd=comp_root, text=True, capture_output=True)
+    if proc.returncode != 0:
+        sys.stderr.write(proc.stdout); sys.stderr.write(proc.stderr)
+        raise RuntimeError("audited N357 composition replay failed")
+    req("PASS_N357_CURRENT_V13_AUTHORITY_COMPOSITION_REPLAY" in proc.stdout, "N357 composition replay verdict missing")
+    comp = load_module(comp_path, "n373_n357comp")
+
+    cut196_path = cut_root / "stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py"
+    cut196 = load_module(cut196_path, "n373_cut196")
+    cut196.preflight()
     core = cut196.core
     P, blocks, g = core.load_picard_interface()
     idx = core.e8.indexer()
