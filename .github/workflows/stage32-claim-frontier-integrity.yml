@@ -12,6 +12,8 @@ on:
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
+      - 'stages/stage32/32-01-178/nodes/N342/RESULT.json'
+      - 'stages/stage32/32-01-178/nodes/N361/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -31,6 +33,12 @@ on:
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32-ex5/CROSS-LANE-STATE.json'
       - 'stages/stage32-ex3/**'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
+      - 'stages/stage32/residual-32-01-production/compressed_terminal_indexer.py'
+      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
+      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
       - 'stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py'
       - 'stages/stage32/post1728-v6-negative-authority-consumption-and-frontier-remap.json'
       - 'stages/stage32/post1730-o210-v3-main-consumption-preflight.json'
@@ -94,6 +102,10 @@ jobs:
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify live synchronized MAIN authority boundary
         run: python stages/stage32/verify_main_startup.py
+      - name: Install exact N361 retained replay dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Verify N361 current-V15 retained sample rebase boundary
+        run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
