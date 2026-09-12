@@ -11,7 +11,7 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 - Demand SATISFIED does not grant mathematical credit. The claim DAG, hostile audit, claim synchronization, current-target adapters, explicit MAIN promotion, and merge authorization remain separate.
 - MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and hostile-audited results awaiting required MAIN consumption.
 
-Current transition: the hostile re-audit PASS for the V15 CUT195-consumed replacement head is consumed by MAIN V16 without changing numerical authority. FULL178 frontier selection points provisionally to CUT196 on PR #1793, exact head `b4bca5f6dee0a910626587eedc06036e86888769`, with a 27,346-terminal candidate. CUT196 currently has no hostile-audit PASS and its exact-head claim-frontier run `34684663810` is FAILURE, so it has **zero MAIN pruning credit**. The required next CUT route is repair exact-head CI, freeze a clean boundary, run `stage32cut-audit`, and only after PASS perform a separate current-authority overlap/composition replay before any MAIN consumption.
+Current transition: the hostile re-audit PASS for the V15 CUT195-consumed replacement head is consumed by MAIN V16 without changing numerical authority. FULL178 frontier selection points provisionally to CUT196 on PR #1793, exact head `85f4e988acf6446fa0d472208e21990621a650b4`, with a 27,346-terminal candidate. Exact-head claim-frontier run `34687223279` is SUCCESS, but CUT196 still has no hostile-audit PASS and therefore has **zero MAIN pruning credit**. The required next CUT route is `stage32cut-audit`; only after PASS may MAIN perform a separate current-authority overlap/composition replay before any pruning consumption.
 
 Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191 is already consumed; CUT194, N357, and CUT195 remain separately consumed according to current `MAIN-STATE.json`. Historical CUT192/CUT193 coordination does not alter the V16 numerical authority.
 
@@ -43,7 +43,7 @@ Hostile audit only after EX5 freezes a new exact retained checkpoint.
 
 ### `stage32cut-mainbatch`
 
-Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. Current frontier candidate CUT196 on PR #1793 is provisional only: repair its failing exact-head claim-frontier CI before hostile audit. Its 27,346-terminal candidate must not be charged to MAIN until hostile-audit PASS plus a separate current-authority overlap/composition replay.
+Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. Current frontier candidate CUT196 on PR #1793 is frozen at exact head `85f4e988acf6446fa0d472208e21990621a650b4` with claim-frontier CI `34687223279` SUCCESS. Its 27,346-terminal candidate must not be charged to MAIN until `stage32cut-audit` PASS plus a separate current-authority overlap/composition replay.
 
 ### `stage32cut-audit`
 

@@ -44,9 +44,9 @@ def main() -> None:
 
     # V16 consumes the hostile re-audit PASS for the V15 CUT195-consumed
     # replacement head without changing numerical authority. FULL178 frontier
-    # selection now points at CUT196 only as an unaudited zero-credit candidate;
-    # its failed claim-frontier CI must be repaired before hostile audit and any
-    # current-authority composition/promotion.
+    # selection now points at CUT196 exact head 85f4e988... with exact-head
+    # claim-frontier CI SUCCESS. CUT196 remains unaudited and zero-credit until
+    # hostile audit PASS plus current-authority composition/promotion.
     runpy.run_path(str(AUTHORITY_VERIFIER), run_name="__main__")
 
     runpy.run_path(str(HERE / "verify_command_surface.py"), run_name="__main__")

@@ -20,19 +20,19 @@ CUT195_REAUDIT_RECEIPT = STAGE / "management/post-cut195-v15-hostile-reaudit-pas
 V13_STATE_BLOB = "0f281111572572a8068cc38bb77f5f1c869b98ad"
 V13_STATE_CANONICAL = "7c39d7935c36066cf2ec4a549eadc45e821fbf818490e6bfd10126f32bdf8a6d"
 V13_VERIFIER_BLOB = "4ce5d9ffe53aa25a00af054e35d5419d35b05355"
-V16_STATE_BLOB = "6bba1e9cceb2de1053777805f0e5d36d357a38a0"
-V16_STATE_CANONICAL = "a78056fadbc1a44ac5210a7dcd2b97b00d2f88bb7fbb26e4a664439c984366eb"
+V16_STATE_BLOB = "1b46f01070f5bbf1b81ba5c84684dcaa1a459119"
+V16_STATE_CANONICAL = "cd1865abe9918e1b5a64d2b9148f378a54cc24b203f16295ce256685164d3fd8"
 N357_RECEIPT_BLOB = "033500e397a0e9d6dfa04638ab765a861cc523b8"
 N357_RECEIPT_CANONICAL = "9e5209b77b7852df66673827782bbd6c0def6651409b711aff6969c69b8a8a5f"
 CUT195_RECEIPT_BLOB = "148ea573bb1f618baac33c0d1f8cc91678fbbca2"
 CUT195_RECEIPT_CANONICAL = "e33fb30bef69ce3ef87f095b500ecd4a8a21b155a3d9c957836ed17c82ad6be9"
-CUT195_REAUDIT_RECEIPT_BLOB = "7103d4f2c44fba5db52cde910095a6cd9e21233c"
-CUT195_REAUDIT_RECEIPT_CANONICAL = "663ba737e7370eb06af822f3749ba3fc4aa2c572b46a40b6f6b64dd56ef1e113"
+CUT195_REAUDIT_RECEIPT_BLOB = "cffa669d06d1d7cb73a7550b4df3e6572b8112e6"
+CUT195_REAUDIT_RECEIPT_CANONICAL = "1468c81e76e233f18f8433a36c3aae5a8a62d475e082924fc20a10f5c31bf0fa"
 CUT195_REAUDIT_HEAD = "fdc372e1666e1176d80953b6303b13b240da84c5"
 CUT195_REAUDIT_REVIEW = 5185987769
 V16_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-CUT196_HEAD = "b4bca5f6dee0a910626587eedc06036e86888769"
-CUT196_FAILED_CI = 34684663810
+CUT196_HEAD = "85f4e988acf6446fa0d472208e21990621a650b4"
+CUT196_CI = 34687223279
 CUT194_INCREMENT = 26442
 N357_INCREMENT = 17797986705435299826016
 CUT195_INCREMENT = 26216
@@ -134,8 +134,8 @@ def main() -> None:
 
     req(frontier["cut196_candidate_exact_head"] == CUT196_HEAD, "CUT196 selected head drift")
     req(frontier["cut196_candidate_rejected_terminals"] == 27346, "CUT196 candidate count drift")
-    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_FAILED_CI, "CUT196 failed CI identity drift")
-    req(frontier["cut196_claim_frontier_ci_status"] == "FAILURE", "CUT196 failure state drift")
+    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_CI, "CUT196 CI identity drift")
+    req(frontier["cut196_claim_frontier_ci_status"] == "SUCCESS", "CUT196 exact-head CI not green")
     req(frontier["cut196_candidate_hostile_audited"] is False, "CUT196 self-awarded hostile audit")
     req(frontier["cut196_main_pruning_credit"] is False, "CUT196 gained unauthorized MAIN credit")
 
@@ -201,7 +201,7 @@ def main() -> None:
     fs = reaud["full178_frontier_selection"]
     req(fs["selected_next_candidate"] == "CUT196", "CUT196 not selected in re-audit receipt")
     req(fs["candidate_exact_head"] == CUT196_HEAD, "CUT196 receipt head drift")
-    req(fs["claim_frontier_ci_run"] == CUT196_FAILED_CI and fs["claim_frontier_ci_status"] == "FAILURE",
+    req(fs["claim_frontier_ci_run"] == CUT196_CI and fs["claim_frontier_ci_status"] == "SUCCESS",
         "CUT196 receipt CI status drift")
     req(fs["candidate_hostile_audit_status"] == "NOT_AUDITED", "CUT196 receipt audit status drift")
     req(fs["main_pruning_credit"] is False, "CUT196 receipt grants MAIN credit")
@@ -225,7 +225,7 @@ def main() -> None:
         "cut195_n357_overlap": 0,
         "cut193_main_credit": False,
         "cut196_candidate_terminals": 27346,
-        "cut196_claim_frontier_ci": "FAILURE",
+        "cut196_claim_frontier_ci": "SUCCESS",
         "cut196_hostile_audited": False,
         "cut196_main_credit": False,
         "full178_complete": False,

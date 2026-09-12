@@ -12,16 +12,16 @@ RECEIPT_PATH = ROOT / "stages/stage32/management/post-cut195-v15-hostile-reaudit
 
 EXPECTED_PREDECESSOR_V15_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
 EXPECTED_PREDECESSOR_V15_CANONICAL = "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193"
-EXPECTED_STATE_BLOB = "6bba1e9cceb2de1053777805f0e5d36d357a38a0"
-EXPECTED_STATE_CANONICAL = "a78056fadbc1a44ac5210a7dcd2b97b00d2f88bb7fbb26e4a664439c984366eb"
-EXPECTED_RECEIPT_BLOB = "7103d4f2c44fba5db52cde910095a6cd9e21233c"
-EXPECTED_RECEIPT_CANONICAL = "663ba737e7370eb06af822f3749ba3fc4aa2c572b46a40b6f6b64dd56ef1e113"
+EXPECTED_STATE_BLOB = "1b46f01070f5bbf1b81ba5c84684dcaa1a459119"
+EXPECTED_STATE_CANONICAL = "cd1865abe9918e1b5a64d2b9148f378a54cc24b203f16295ce256685164d3fd8"
+EXPECTED_RECEIPT_BLOB = "cffa669d06d1d7cb73a7550b4df3e6572b8112e6"
+EXPECTED_RECEIPT_CANONICAL = "1468c81e76e233f18f8433a36c3aae5a8a62d475e082924fc20a10f5c31bf0fa"
 
 AUDITED_V15_HEAD = "fdc372e1666e1176d80953b6303b13b240da84c5"
 AUDIT_REVIEW = 5185987769
 MERGED_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-CUT196_HEAD = "b4bca5f6dee0a910626587eedc06036e86888769"
-CUT196_FAILED_CI = 34684663810
+CUT196_HEAD = "85f4e988acf6446fa0d472208e21990621a650b4"
+CUT196_CI = 34687223279
 AUTH_STRATA = 17128
 AUTH_TERMINALS = 47598978285064933757427
 
@@ -121,9 +121,9 @@ def main() -> None:
     req(frontier["cut195_main_pruning_credit"] is True, "CUT195 consumed credit lost")
     req(frontier["cut196_candidate_exact_head"] == CUT196_HEAD, "wrong CUT196 selected head")
     req(frontier["cut196_candidate_rejected_terminals"] == 27346, "wrong CUT196 candidate count")
-    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_FAILED_CI, "wrong CUT196 CI run")
-    req(frontier["cut196_claim_frontier_ci_status"] == "FAILURE",
-        "CUT196 CI failure must remain explicit")
+    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_CI, "wrong CUT196 CI run")
+    req(frontier["cut196_claim_frontier_ci_status"] == "SUCCESS",
+        "CUT196 exact-head CI must be successful before hostile audit")
     req(frontier["cut196_candidate_hostile_audited"] is False,
         "unaudited CUT196 candidate promoted")
     req(frontier["cut196_main_pruning_credit"] is False,
