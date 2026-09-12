@@ -12,7 +12,7 @@
   "last_hostile_audited_checkpoint": {
     "result": "PASS",
     "exact_head": "39a56d2a9abda0c051145172ff61d67eef0bdb14",
-    "scope": "retained MB103/MB104 checkpoint before the present four-orbit continuation"
+    "scope": "retained MB103/MB104 checkpoint before the present balanced16 continuation"
   },
   "completed_priority_leaves": [
     "MB104-FORMAL-INFINITE-FAMILY-FEASIBILITY",
@@ -26,7 +26,10 @@
     "MB104-GENUS1-SPAN5-INC14-ORBIT96-FIXED-CONIC",
     "MB104-GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT",
     "MB104-BALANCED16-STATIC-LANDING-AVOIDANCE-WALL",
-    "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL"
+    "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL",
+    "MB104-GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-WALL",
+    "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION",
+    "MB104-GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING"
   ],
   "semantic_repair": {
     "support_span_not_carrier_span": true,
@@ -40,18 +43,23 @@
     "incidence19_closed": true,
     "incidence15_closed": true,
     "incidence14_all_five_orbits_closed": true,
-    "incidence16_balanced_global_supports": 1632,
-    "incidence16_balanced_aut_orbit_sizes": [48, 48, 768, 768],
-    "known_conic_max_on_balanced_support": 2,
-    "known_elliptic_quartic_max_on_balanced_support": 7,
+    "incidence16_balanced_original_supports": 1632,
+    "incidence16_balanced_original_aut_orbit_sizes": [48,48,768,768],
     "static_landing_values_alone_close_balanced16": false,
     "zero_quartic_pic0_obstruction_exists": false,
-    "zero_quartic_restriction_bundle_trivial_for_all_l": true,
-    "restriction_map_nonzero_proved": false
+    "single_quartic_direct_KV_route_available": false,
+    "zero_quartic_fixedness_all_or_none_per_support_orbit": true,
+    "two_quartic_gluing_closed_mask": "00070b000f0f",
+    "two_quartic_gluing_closed_orbit_size": 768,
+    "two_quartic_gluing_monodromy": "17+12*sqrt2",
+    "surviving_balanced_supports": 864,
+    "surviving_balanced_aut_orbit_sizes": [48,48,768],
+    "surviving_balanced_masks": ["0000770000ff","00007b0000ff","000707000f0f"],
+    "restriction_map_nonzero_proved_on_survivors": false
   },
   "current_classification_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-CLASSIFICATION-CHECKPOINT.md",
-  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-RESTRICTION-MAP-AND-GLUING",
-  "next_execution_target": "Work only on the four balanced incidence-16 support orbits of sizes 48,48,768,768 for the displayed uniform P5 ray. Static landing-value avoidance and the hidden nontrivial Pic^0 restriction route are both exhausted: every zero-pairing elliptic quartic has O_Q(D_l)=O_Q. Determine whether H0(S,O(D_l))->H0(Q,O_Q) is zero or surjective, test simultaneous algebraic gluing of the required multibranch jets, or find a stronger nef/effective-cone obstruction. Do not reopen the frozen direct R8 alpha<1/4 route without a new lever. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
+  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-THREE-ORBIT-RESTRICTION",
+  "next_execution_target": "Work only on the three surviving balanced support orbits 48,48,768 with masks 0000770000ff, 00007b0000ff, 000707000f0f for the displayed uniform P5 ray. The second 768 orbit 00070b000f0f is closed by nontrivial two-quartic gluing monodromy 17+12*sqrt2 for every l>=1. For 000707000f0f the connected two-quartic union restriction is trivial; for the two size-48 orbits determine the strict-transform four-quartic intersection/gluing geometry. Then attack global restriction/nonfixedness or explicit degree-7l jet interpolation. Do not reopen the frozen direct R8 alpha<1/4 route without a new lever. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
   "state_interpretation": "This override supersedes only MB104 research priority/next-obligation wording in STATE.json. It does not alter retained mathematical facts, completed nodes, routing authority, or credit firewalls.",
   "credit_firewall": {
     "MB104_complete": false,
