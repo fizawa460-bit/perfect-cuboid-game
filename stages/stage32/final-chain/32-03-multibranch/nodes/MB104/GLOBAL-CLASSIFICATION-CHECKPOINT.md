@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` ONE-FACTOR HALF-FIBER CHARACTER ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` HALF-BRANCH ABEL-JACOBI OR MONODROMY ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -8,7 +8,7 @@ The most recent hostile-audited retained boundary is
 e269761fbe82c56cdcc8d4870584952dc2d800a3
 ```
 
-with `HOSTILE AUDIT: PASS`, review `5187369070`. This was the delta-bounded intermediate audit after the earlier boundary `39a56d2...`; long-lived-PR audit growth is measured anew from `e269761f...`.
+with `HOSTILE AUDIT: PASS`, review `5187369070`. Long-lived-PR audit growth is measured anew from this exact head.
 
 ## Scope
 
@@ -53,7 +53,7 @@ e=2 or e=4.
 
 With `H=<s1,s2>`, `Q=Z/H`, `R=C8/H~=P1`, the two descended factor maps have degree `28l` for `e=2` and `56l` for `e=4`. Their joint map `Q->P1xP1` is birational. The two retained zero quartics are Satake-boundary components and each forces two specific fully reduced/unramified saturated factor fibers. These facts were included in hostile review `5187369070`.
 
-## Post-audit reduction: one global two-torsion character
+## Residual two-torsion character
 
 Both surviving cases produce a degree-`56l` map
 
@@ -84,74 +84,101 @@ e=4 <=> eta!=0.
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER.md` and matching certificate/verifier.
 
-## Surface-Picard realization
+## Surface half-fiber and canonical half-branch class
 
-For the product-induced isotrivial genus-five fibrations, a bad `G2` half-fiber `Q` with eight box nodes has full divisor on the resolution
-
-```text
-F_Q=2Q+sum_(p in T_Q)E_p,
-F_Q^2=0,
-K.F_Q=8.
-```
-
-For the two absent-type half-fibers `Q_a,Q_b` of one factor,
+For a product-induced genus-five fibration, let `Q_a,Q_b` be the two absent-type reduced `G2` bad fibers, with disjoint eight-node sets `T_a,T_b`. Their resolution fibers give
 
 ```text
-2(Q_a-Q_b) ~ sum_(p in T_b)E_p-sum_(p in T_a)E_p.
+2(Q_a-Q_b)
+  ~ sum_(p in T_b)E_p - sum_(p in T_a)E_p.
 ```
 
-The `000707` carrier class has zero intersection with every absent-type exceptional curve. Thus
+Set
 
 ```text
-eta=O_E((Q_a-Q_b)|_E),
-D_l.Q_a=D_l.Q_b=28l.
+Delta=Q_a-Q_b,
+L_abs=Delta+sum_(p in T_a)E_p.
 ```
 
-The exceptional correction is load-bearing: torsion-freeness of `Pic(S)` does not force `eta=0`.
+Then
 
-Evidence: `STOLL-TESTA-G2-ISOTRIVIAL-FIBRATION-SOURCE-NOTE.md`, `GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD.md`, and matching certificate/verifier.
+```text
+2L_abs ~ B_abs,
+B_abs=sum_(all 16 absent-type nodes p) E_p.
+```
 
-## Factor-character comparison is exhausted
+The `000707` carrier class has coefficient zero at all sixteen absent exceptionals and an integral carrier therefore avoids them. Hence on the normalization
 
-For the complementary factor coordinates
+```text
+eta=O_E(L_abs|_E)=O_E(Delta|_E).
+```
+
+Exact numerical data are
+
+```text
+B_abs^2=-32,
+L_abs^2=-8,
+H.L_abs=K.L_abs=D_l.L_abs=0,
+L_abs.E_p=-1 for every absent exceptional E_p.
+```
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md` and matching certificate/verifier.
+
+## What Picard64 numerics can and cannot do
+
+The rank-64 Picard lattice identifies `L_abs` and all displayed intersections exactly. It does **not**, by numerical pairings alone, distinguish
+
+```text
+L_abs|_E = 0
+```
+
+from a nonzero element of `Pic^0(E)[2]`: both have degree zero and numerically trivial first Chern class after restriction to the genus-one normalization.
+
+Similarly, a surface-cohomology calculation on the singular carrier cannot be promoted directly to a statement on the normalization without controlling conductor/gluing data. The arithmetic genus of the carrier is large even though its normalization genus is one.
+
+Therefore the purely numerical Picard-pairing route is exhausted at this point. Explicit Picard geometry can still be useful if it computes the actual restriction/Abel-Jacobi class rather than only intersections.
+
+## Two-factor comparison
+
+For complementary factor coordinates
 
 ```text
 t=(c+a1)/(a2+i*a3),
 u=(c+a1)/(a2-i*a3),
 ```
 
-use absent-type square-class representatives
+and absent type `b3=0`, exact cuboid algebra gives
 
 ```text
-f_t=(t-i)/(t+i),
-f_u=(u-i)/(u+i).
+[(t-i)/(t+i)] / [(u-i)/(u+i)]
+  = (c+a3)/(c-a3)
+  = ((c+a3)/b3)^2.
 ```
 
-Exact cuboid algebra gives
-
-```text
-f_t/f_u=(c+a3)/(c-a3)=((c+a3)/b3)^2,
-```
-
-using `b3^2=c^2-a3^2`.
-
-Therefore `eta_1=eta_2` is automatic already in the cuboid function field. The route that tries to close `000707` by making the two factor characters disagree is exhausted.
-
-Evidence: `GENUS1-SPAN5-BALANCED16-000707-CHARACTER-PAIR-SQUARE-WALL.md` and matching exact-polynomial certificate/verifier.
+Thus the two factor square classes agree; comparing them cannot distinguish `e=2` from `e=4`. Only the common one-factor class remains.
 
 ## Active next leaf
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-FIBER-CHARACTER
+MB104-GENUS1-SPAN5-BALANCED16-000707-HALF-BRANCH-ABEL-JACOBI-OR-MONODROMY
 ```
 
-Only one binary invariant remains in the current cover reduction:
+The target is the actual class
 
 ```text
-is f_t|_E a square in k(E)^* ?
+eta=L_abs|_E in Pic^0(E)[2].
 ```
 
-Equivalently decide whether `O_E((Q_a-Q_b)|_E)` is trivial or the nonzero two-torsion point. A useful continuation must force `eta=0` (exclude `e=4`), force `eta!=0` (exclude `e=2`), or obtain an independent contradiction. Do not reopen coarse Hurwitz capacity, zero-quartic fixedness, static landing, or the exhausted two-factor character comparison.
+A useful continuation must compute one of the equivalent non-numerical invariants:
+
+- the Abel--Jacobi class of the two half-fiber intersection divisors;
+- the residual function-field square class;
+- split/connected status of the intermediate double cover of the normalization;
+- an equivalent monodromy/commensurator invariant.
+
+A proof of `eta=0` excludes `e=4`; a proof of `eta!=0` excludes `e=2`. An independent contradiction may close both.
+
+The 2026 Stoll--Testa low-degree classification does not directly settle this leaf: its integral-curve classification stops at degree `6`, whereas the current carrier degree is `112l`.
 
 Genus-one support-span P6 and genus-zero full-span P6 remain active in parallel.
 
