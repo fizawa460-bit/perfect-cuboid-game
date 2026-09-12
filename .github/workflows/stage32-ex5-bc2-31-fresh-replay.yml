@@ -1,0 +1,147 @@
+name: Stage32EX5 BC2-31 fresh all7336 replay
+# lifecycle: ACTIVE_AUTO_TEMPORARY — one-shot fresh-runkey gated executor; remove after retention.
+
+on:
+  pull_request:
+    types: [synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/bc2-31-fresh-all7336-replay.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_31_fresh_all7336_replay.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-31-fresh-all7336-replay-preflight.json'
+      - '.github/workflows/stage32-ex5-bc2-31-fresh-replay.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: gate
+        name: Authorize only fresh BC2-31 fresh-replay runkey generation
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          key=Path('stages/stage32-ex5/runkeys/bc2-31-fresh-all7336-replay.json')
+          before=os.environ.get('BEFORE','').strip()
+          head=os.environ.get('HEAD_SHA','').strip()
+          authorized=False
+          reason='cold'
+          if before and head and key.exists():
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],
+                             check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],
+                                    stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+              if old_ok:
+                  changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
+                  if str(key) in changed:
+                      r=json.loads(key.read_text())
+                      try:
+                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],
+                                                                text=True,stderr=subprocess.DEVNULL))
+                          generation_ok=int(r.get('generation',0))>int(old.get('generation',0))
+                      except subprocess.CalledProcessError:
+                          generation_ok=int(r.get('generation',0))==1
+                      source=Path('stages/stage32-ex5/breadth-cycle-2/bc2_31_fresh_all7336_replay.py')
+                      preflight=Path('stages/stage32-ex5/breadth-cycle-2/bc2-31-fresh-all7336-replay-preflight.json')
+                      sb=subprocess.check_output(['git','hash-object',str(source)],text=True).strip()
+                      pb=subprocess.check_output(['git','hash-object',str(preflight)],text=True).strip()
+                      pf=json.loads(preflight.read_text())
+                      a=r.get('audit_consumption',{})
+                      ex=r.get('execution',{})
+                      authorized=(
+                          r.get('schema')=='STAGE32EX5_BC2_31_FRESH_ALL7336_REPLAY_RUNKEY_V1'
+                          and r.get('generation')==1
+                          and r.get('armed') is True
+                          and generation_ok
+                          and r.get('source_git_blob_sha')==sb=='0433c448acfe55d17aa27f3ffd6c0e6e0a13d6f4'
+                          and r.get('preflight_git_blob_sha')==pb=='2b2e568da2cf643ffe7a72a07071f40c00780f1f'
+                          and r.get('preflight_canonical')=='a856d1eaedea9f71e7c33c96d84a0b6fc7310028896ebaa652a87c1298fbe1d0'
+                          and pf.get('canonical_sha256_without_this_field')==r.get('preflight_canonical')
+                          and a.get('bc2_30_hostile_audit_status')=='PASS'
+                          and a.get('bc2_30_hostile_audit_exact_head')=='38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f'
+                          and a.get('bc2_30_hostile_audit_review_id')==5184226057
+                          and ex.get('per_parent_timeout_ms')==10000
+                          and ex.get('effective_heavy_concurrency')==1
+                          and ex.get('heavy_scaleout_authorized') is False
+                      )
+                      reason='fresh-runkey' if authorized else 'semantic-gate-failed'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n')
+          print('BC2-31 fresh replay authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
+          PY
+
+  replay:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact replay dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Verify BC2-30 audited predecessor and current Stage32 firewalls
+        run: |
+          python - <<'PY'
+          import json, hashlib
+          p='stages/stage32-ex5/breadth-cycle-2/bc2-30-boundary42-partition-checkpoint.json'
+          x=json.load(open(p)); e=x.pop('canonical_sha256_without_this_field')
+          got=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert e==got=='2bbb85361d29331957b0d6f6916ae18a18a4bb04bad4846a7144f94546a32c7a'
+          s=json.load(open('stages/stage32-ex5/MAIN-STATE.json'))
+          b=s['intermediate_audit_boundary']
+          assert b['last_hostile_audit_status']=='PASS'
+          assert b['last_hostile_audit_exact_head']=='38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f'
+          assert b['last_hostile_audit_review_id']==5184226057
+          PY
+          python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
+          python stages/stage32/proof/verify_stage32_active_frontier.py
+      - name: Compile fresh replay producer
+        run: python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_31_fresh_all7336_replay.py
+      - name: Fresh replay all 7336 parents and retain every UNKNOWN identity
+        run: |
+          python stages/stage32-ex5/breadth-cycle-2/bc2_31_fresh_all7336_replay.py \
+            --per-parent-timeout-ms 10000 \
+            --output "$RUNNER_TEMP/bc2-31-fresh.json"
+          cat "$RUNNER_TEMP/bc2-31-fresh.json"
+      - name: Validate fresh replay scope
+        run: |
+          python - "$RUNNER_TEMP/bc2-31-fresh.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          r=p['fresh_replay']; c=p['credit']; f=p['firewalls']
+          assert p['schema']=='STAGE32EX5_BC2_31_FRESH_ALL7336_REPLAY_V1'
+          assert r['all_unknown_identities_explicitly_retained'] is True
+          assert len(r['unknown_parent_indices_all'])==r['unknown_count']
+          assert c['known_parent_unsat_count_lower_bound']>=7164
+          assert c['full178_complete'] is False and c['stage32_main_credit'] is False
+          assert f['timeout_unknown_relabelled_unsat'] is False
+          assert f['unknown_dropped'] is False
+          assert f['main_promotion'] is False and f['merge_authorized'] is False
+          print('BC2_31_FRESH_SCOPE_OK',p['canonical_sha256_without_this_field'],
+                r['unsat_count'],r['unknown_count'],r['unknown_parent_indices_all_sha256'])
+          PY
+      - name: Upload BC2-31 fresh replay result
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-31-fresh-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/bc2-31-fresh.json
+          retention-days: 2
+          compression-level: 0
+          if-no-files-found: error
