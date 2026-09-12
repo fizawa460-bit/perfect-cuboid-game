@@ -132,10 +132,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/g3_row_certificate.py --self-check
-      - name: Verify CERTLIFT-03 symbolic g3 fibre parity lemma
+      - name: Verify CERTLIFT-03 pure fibre parity negative control
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
-        run: python stages/stage32/cert-lift/g3_fibre_parity_lemma.py --self-check
+        run: python stages/stage32/cert-lift/g3_fibre_parity_negative_control.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
