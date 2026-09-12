@@ -60,14 +60,13 @@ def main() -> None:
     req(ident["execution_head_bc2_32_identity_independently_confirmed_by_failed_audit"] is True, "execution-head BC2-32 confirmation missing")
     req(ident["repair_head_must_match_execution_bc2_32_blob"] is True, "repair/current-head equality firewall missing")
 
-    # Current repaired exact head must still carry the byte-identical BC2-32 module
-    # that the failed audit independently confirmed at immutable execution head.
+    # The failed hostile audit independently confirmed this BC2-32 blob at the
+    # immutable execution head. The repaired boundary must carry the same bytes.
     req(git_blob(B32) == B32_BLOB, "current BC2-32 producer blob differs from immutable execution-head identity")
     req(git_blob(B34) == B34_BLOB, "BC2-34 executed producer source drift")
 
-    # The locked BC2-32 file is itself the code that build_parent_space() executes;
-    # require its transitive guards to remain present so B19/D18 identity checks are
-    # still reached before parent-space construction.
+    # The locked BC2-32 file is exactly the implementation whose build_parent_space()
+    # BC2-34 executes. Require the transitive B19/D18 guards to remain in that blob.
     src = B32.read_text()
     req(f'B19_BLOB = "{B19_BLOB}"' in src, "BC2-32 B19 lock missing")
     req(f'D18_BLOB = "{D18_BLOB}"' in src, "BC2-32 D18 lock missing")
@@ -87,6 +86,8 @@ def main() -> None:
     req(kept["remaining_unknown_parent_indices_sha256"] == UNKNOWN64_SHA, "retained BC2-34 UNKNOWN hash drift")
     req(all(v is False for v in repair["firewalls"].values()), "repair firewall leak")
 
+    # Consumption receipt now retains the missing dependency identity and the failed
+    # audit provenance without pretending the original compute reran.
     rk = json.loads(RUNKEY.read_text())
     rc = rk.get("consumed_run") or {}
     dep = rc.get("dependency_identity_repair") or {}
@@ -96,12 +97,14 @@ def main() -> None:
     req(dep["repair_receipt_git_blob_sha"] == REPAIR_BLOB and dep["repair_receipt_canonical"] == REPAIR_CANON, "run receipt repair identity drift")
     req(dep["heavy_recompute_performed"] is False and dep["mathematical_result_rewritten"] is False, "repair improperly rewrote computation")
 
+    # Live authority remains frozen at BC2-34 and still blocks BC2-35 until re-audit.
     state = json.loads(STATE.read_text())
-    rp = state["retained_exact_progress"]
-    req(rp["bc2_34_bc2_32_producer_git_blob_sha"] == B32_BLOB, "state BC2-32 source lock drift")
-    req(rp["bc2_34_dependency_repair_receipt_git_blob_sha"] == REPAIR_BLOB, "state repair receipt blob drift")
-    req(rp["bc2_34_dependency_repair_receipt_canonical"] == REPAIR_CANON, "state repair receipt canonical drift")
-    req(rp["bc2_34_failed_audit_exact_head"] == FAILED_AUDIT_HEAD and rp["bc2_34_failed_audit_review_id"] == FAILED_AUDIT_REVIEW, "state failed-audit provenance drift")
+    req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY", "EX5 state schema drift")
+    req(state["current"]["status"] == "BC2_34_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "BC2-34 audit-required state drift")
+    req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "BC2-34 re-audit route drift")
+    audit = state["intermediate_audit_boundary"]
+    req(audit["freeze_active"] is True and audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True, "BC2-34 repaired boundary is not frozen")
+    req(state["next_step"]["bc2_35_blocked_until_bc2_34_hostile_audit_pass"] is True, "BC2-35 released before BC2-34 re-audit PASS")
 
     print("PASS: BC2-34 directly executed BC2-32 dependency identity is fail-closed")
     print(f"execution_head={EXECUTION_HEAD}; bc2_32_blob={B32_BLOB}; failed_audit_review={FAILED_AUDIT_REVIEW}")
