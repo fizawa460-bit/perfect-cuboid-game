@@ -16,6 +16,7 @@ from z3 import Int, Or, SolverFor, Sum, sat, unknown
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[4]
 STATE = HERE / "STATE.json"
+ROUTE_RECEIPT = HERE / "CUT196-SHARD3-ROUTE-RECEIPT.json"
 N364_STATE = HERE.parent / "N364/STATE.json"
 N364_RESULT = HERE.parent / "N364/RESULT.json"
 MAIN_STATE = ROOT / "stages/stage32/MAIN-STATE.json"
@@ -30,16 +31,17 @@ N364_STATE_BLOB = "ee76313b8fc3a6c901038fa76b0b1ba0630681af"
 N364_STATE_CANON = "e5f8bb5510d96ce02226850e7aa0c6585e69b910df189b885891a21a17696a50"
 N364_RESULT_BLOB = "eeafab917537c793e89c4df5656a2e52488dca68"
 N364_RESULT_CANON = "2c8cc223a461c33bfa296023745b661a9843aa98ad4a849aa13869f82cf1cd4b"
-STATE_BLOB = "1560a20affa2c8baaec5b7d5e666234f745b6bb2"
-STATE_CANON = "c29b28542f6f1252b9d6116029b8daa47e59f5bbb8e0dea759522bee9f2ac5d2"
+STATE_BLOB = "ae478cd39e75a696fa63871e15308d4f49843340"
+STATE_CANON = "0ba611f6f1a473411715de810ed32eeda5cfc9ffb1a84cc9389a3d9a16cc2868"
+ROUTE_RECEIPT_BLOB = "30258a1f661d98fbf87214af6791d07c972d4900"
+ROUTE_RECEIPT_CANON = "1a0e966b6133670cb683cecdfe39c6cdb7fbe943e1c3b1bc93170159f80f1af7"
 HPERP_BLOB = "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
 BLOCK, OFFSET, WIDTH = 1265, 891, 113
 D = E = 8
 NORMAL_COUNT, NORMAL_MASS = 92, 112
 ASSIGNMENT_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 EXPECTED_PARENT_COUNT = 181
-EXPECTED_PRIME2_OBSTRUCTED = 178
-EXPECTED_RESIDUAL_COUNT = 3
+EXPECTED_RESIDUAL_ORDINALS = [2, 6, 14]
 EXPECTED_RESIDUAL_STREAM = "06638d2743bc21c504dc935a6a7711c0cbe3f82f867a4bab12e7d16567fbaf71"
 
 
@@ -58,7 +60,8 @@ def csha(v: object) -> str:
 
 
 def canonical(obj: dict) -> str:
-    q = dict(obj); q.pop("canonical_sha256_without_this_field", None)
+    q = dict(obj)
+    q.pop("canonical_sha256_without_this_field", None)
     return csha(q)
 
 
@@ -77,7 +80,9 @@ def exact_head(path: Path) -> str:
 def load_module(path: Path, name: str):
     spec = importlib.util.spec_from_file_location(name, path)
     req(spec is not None and spec.loader is not None, f"cannot import {path}")
-    mod = importlib.util.module_from_spec(spec); sys.modules[name] = mod; spec.loader.exec_module(mod)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
     return mod
 
 
@@ -85,15 +90,22 @@ def preflight(cut_root: Path, comp_root: Path):
     req(exact_head(cut_root) == CUT196_HEAD, "CUT196 head drift")
     req(exact_head(comp_root) == N357_HEAD, "N357 composition head drift")
     state = checked(STATE, STATE_BLOB, STATE_CANON)
+    receipt = checked(ROUTE_RECEIPT, ROUTE_RECEIPT_BLOB, ROUTE_RECEIPT_CANON)
     n364s = checked(N364_STATE, N364_STATE_BLOB, N364_STATE_CANON)
     n364r = checked(N364_RESULT, N364_RESULT_BLOB, N364_RESULT_CANON)
     main = checked(MAIN_STATE, MAIN_BLOB, MAIN_CANON)
     req(n364r["status"] == "NO_SAT_IN_TWO_PARENT_PROBE" and n364r["witness"] is None, "N364 result drift")
     req(n364s["target"]["block_index"] == 1405, "N364 state target drift")
-    req(state["method"]["replay_cut196_prime2_residual_boundary"] is True, "N365 prime2 boundary route drift")
-    sp = state["selection_provenance"]
-    req(sp["cut196_prime2_obstructed_parent_count"] == EXPECTED_PRIME2_OBSTRUCTED, "N365 recorded prime2 obstruction count drift")
-    req(sp["cut196_later_prime_additional_obstruction_count"] == 0, "N365 later-prime route firewall drift")
+    req(state["route_receipt"]["blob_sha1"] == ROUTE_RECEIPT_BLOB, "N365 route-receipt state lock drift")
+    req(state["target"]["parent_ordinals"] == EXPECTED_RESIDUAL_ORDINALS, "N365 explicit ordinal route drift")
+    rr = receipt["bounded_hash_preimage"]
+    req(rr["match_count"] == 1 and rr["parent_ordinals"] == EXPECTED_RESIDUAL_ORDINALS, "route receipt preimage drift")
+    br = receipt["block_record"]
+    req(br["modular_feasible_parent_count"] == EXPECTED_PARENT_COUNT, "route receipt parent population drift")
+    req(br["finite_ring_obstructed_parent_count"] == 178 and br["residual_parent_count"] == 3, "route receipt residual accounting drift")
+    req(br["residual_parent_ordinal_sha256"] == EXPECTED_RESIDUAL_STREAM, "route receipt residual stream drift")
+    req(receipt["source"]["artifact_id"] == 10294221440, "route receipt artifact id drift")
+    req(receipt["source"]["artifact_zip_sha256"] == "7734f51445b49b6aa3502c39d59a375998550e8f7e2bb2fdb3cb4dfbe2937b1b", "route receipt artifact digest drift")
     f = main["current_exact_frontier"]
     req(f["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN V15 terminal drift")
     req(f["n357_main_pruning_credit"] is True and f["cut195_main_pruning_credit"] is True, "MAIN consumed authority drift")
@@ -105,27 +117,15 @@ def preflight(cut_root: Path, comp_root: Path):
     cut196 = load_module(cut_root / "stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py", "n365_cut196")
     cut196.preflight()
     comp = load_module(comp_path, "n365_n357comp")
-    return state, cut196, comp
+    return state, receipt, cut196, comp
 
 
-def residual_ordinals(core, P, blocks, g):
-    parents = list(core.e8.iter_parent_population(BLOCK, g))
-    req(len(parents) == EXPECTED_PARENT_COUNT, "block1265 parent population drift")
-    s, y, _ = core.make_solver(P, blocks, 2, 750)
-    unresolved = []
-    obstructed = 0
-    for ordinal, parent in enumerate(parents):
-        fixed = {int(label): int(value) for label, value in zip(g.exceptional_labels, parent["selected_exceptional_pairings"])}
-        result, _reason = core.check_with_fixed(s, y, fixed)
-        if result == "unsat":
-            obstructed += 1
-        else:
-            unresolved.append(ordinal)
-    req(obstructed == EXPECTED_PRIME2_OBSTRUCTED, f"CUT196 prime2 obstruction count drift: {obstructed}")
-    req(len(unresolved) == EXPECTED_RESIDUAL_COUNT, f"CUT196 prime2 residual count drift: {len(unresolved)}")
-    stream = hashlib.sha256("".join(f"{v}\n" for v in unresolved).encode()).hexdigest()
-    req(stream == EXPECTED_RESIDUAL_STREAM, "CUT196 prime2 residual ordinal stream drift")
-    return unresolved
+def residual_ordinals(receipt: dict) -> list[int]:
+    out = [int(v) for v in receipt["bounded_hash_preimage"]["parent_ordinals"]]
+    req(out == EXPECTED_RESIDUAL_ORDINALS, "retained route ordinal drift")
+    stream = hashlib.sha256("".join(f"{v}\n" for v in out).encode()).hexdigest()
+    req(stream == EXPECTED_RESIDUAL_STREAM, "retained route stream replay drift")
+    return out
 
 
 def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: int):
@@ -236,7 +236,7 @@ def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: i
             "n356_accepts": True,
             "n357_accepts": True,
             "outside_consumed_cut_offset_prefix_0_765": True,
-            "cut196_not_consumed_into_main": True,
+            "cut196_not_consumed_into_main": True
         },
         "credit": {
             "current_v15_single_witness_candidate": True,
@@ -248,8 +248,8 @@ def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: i
             "theorem_credit": False,
             "endpoint_credit": False,
             "stage32_closed": False,
-            "merge_authorized": False,
-        },
+            "merge_authorized": False
+        }
     }
     witness["canonical_sha256_without_this_field"] = csha(witness)
     return attempt, witness
@@ -261,7 +261,7 @@ def main() -> None:
     ap.add_argument("--n357-composition-root", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
-    state, cut196, comp = preflight(args.cut196_root.resolve(), args.n357_composition_root.resolve())
+    state, receipt, cut196, comp = preflight(args.cut196_root.resolve(), args.n357_composition_root.resolve())
     core = cut196.core
     P, blocks, g = core.load_picard_interface()
     req(g.den == 8, "selected64 denominator drift")
@@ -275,7 +275,7 @@ def main() -> None:
     sums = [int(v) for v in sig["n355_known_group_sums"]]
     req(sums[1] - sums[2] <= 3 * D - E, "N356 replay failed")
 
-    ordinals = residual_ordinals(core, P, blocks, g)
+    ordinals = residual_ordinals(receipt)
     attempts = []
     witness = None
     for ordinal in ordinals:
@@ -294,11 +294,22 @@ def main() -> None:
         "schema": "STAGE32_32_01_178_N365_BLOCK1265_THREE_PARENT_WITNESS_RESULT_V1",
         "status": status,
         "target": {"block_index": BLOCK, "survivor_offset": OFFSET, "parent_ordinals": ordinals},
+        "route_receipt_blob_sha1": ROUTE_RECEIPT_BLOB,
+        "route_receipt_canonical_sha256": ROUTE_RECEIPT_CANON,
         "cut196_residual_parent_ordinal_sha256": EXPECTED_RESIDUAL_STREAM,
-        "route_boundary": {"prime": 2, "obstructed_parent_count": EXPECTED_PRIME2_OBSTRUCTED, "later_prime_additional_obstruction_count": 0},
         "attempts": attempts,
         "witness": witness,
-        "credit": {"main_pruning_credit": False, "full178_complete": False, "n350_registered": False, "effectivity_final": False, "receiver_credit": False, "theorem_credit": False, "endpoint_credit": False, "stage32_closed": False, "merge_authorized": False},
+        "credit": {
+            "main_pruning_credit": False,
+            "full178_complete": False,
+            "n350_registered": False,
+            "effectivity_final": False,
+            "receiver_credit": False,
+            "theorem_credit": False,
+            "endpoint_credit": False,
+            "stage32_closed": False,
+            "merge_authorized": False
+        }
     }
     body["canonical_sha256_without_this_field"] = csha(body)
     args.output.parent.mkdir(parents=True, exist_ok=True)
