@@ -209,6 +209,14 @@ def main() -> None:
         args.output.write_text(json.dumps(out, sort_keys=True, indent=2) + "\n")
     if args.self_check:
         d = out["derivation"]
+        req(out["status"] == "PASS_SYMBOLIC_G3_FIBRE_PARITY_CONTRADICTION_D8", "symbolic g3 fibre parity lemma not established")
+        req(d["constraint_rank_representation_found"] is True, "g3 functional absent from fibre parity row span")
+        req(d["d8_g3_equals_3_contradiction"] is True, "d=8 does not contradict g3=3")
+        req(out["interpretation"]["uses_picard64_column_image"] is False, "symbolic fibre lemma unexpectedly depends on Picard64")
+        req(out["interpretation"]["uses_hnf"] is False, "symbolic fibre lemma unexpectedly depends on HNF")
+        req(out["interpretation"]["uses_solver"] is False, "symbolic fibre lemma unexpectedly depends on solver")
+        req(out["interpretation"]["uses_block_enumeration"] is False, "symbolic fibre lemma unexpectedly depends on block enumeration")
+        req(out["interpretation"]["uses_fixed_exceptional_mass_ge_7"] is False, "symbolic fibre lemma unexpectedly depends on MASS7")
         print(json.dumps({
             "status": out["status"],
             "symbolic_relation": d["symbolic_relation"],
