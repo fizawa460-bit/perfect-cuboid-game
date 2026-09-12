@@ -30,6 +30,7 @@ CHECKPOINT_BLOB = "e566aeda2931642d79c88dc5eeb84b142f655609"
 UNKNOWN64_SHA = "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b"
 V22 = "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY"
 V23 = "STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION"
+V24 = "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY"
 
 
 def req(ok: bool, msg: str) -> None:
@@ -97,7 +98,7 @@ def main() -> None:
 
     state = json.loads(STATE.read_text())
     schema = state["schema"]
-    req(schema in {V22, V23}, "EX5 state schema drift")
+    req(schema in {V22, V23, V24}, "EX5 state schema drift")
     if schema == V22:
         req(state["current"]["status"] == "BC2_34_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "BC2-34 audit-required state drift")
         req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "BC2-34 re-audit route drift")
@@ -114,12 +115,23 @@ def main() -> None:
         req(state["frontier"]["e8_bc2_34_remaining_unknown_count"] == 64 and state["frontier"]["e8_bc2_34_remaining_unknown_parent_indices_sha256"] == UNKNOWN64_SHA, "BC2-34 audited residual drift")
         audit = state["intermediate_audit_boundary"]
         req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_exact_head"] == REAUDIT_HEAD and audit["last_hostile_audit_review_id"] == REAUDIT_REVIEW, "live BC2-34 re-audit receipt drift")
-        req(audit["freeze_active"] is False and audit["new_audit_boundary_exists"] is False and audit["re_audit_required"] is False, "BC2-35 execution incorrectly frozen")
-        req(audit["bc2_34_execution_authorized"] is False and audit["bc2_35_execution_authorized"] is True, "BC2-35 execution authorization drift")
-        req(state["current"]["status"] == "BC2_35_TARGETED_REPLAY_EXECUTION_AUTHORIZED", "BC2-35 execution state drift")
-        req(state["current"]["next_route"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "BC2-35 route drift")
-        req(state["next_step"]["bc2_35_execution_authorized"] is True and state["next_step"]["bc2_36_blocked_until_bc2_35_hostile_audit_pass"] is True, "BC2-35/36 routing firewall drift")
-        next_label = "stage32ex5-mainbatch"
+        req(audit["bc2_34_execution_authorized"] is False, "BC2-34 execution unexpectedly authorized")
+        if schema == V23:
+            req(audit["freeze_active"] is False and audit["new_audit_boundary_exists"] is False and audit["re_audit_required"] is False, "BC2-35 execution incorrectly frozen")
+            req(audit["bc2_35_execution_authorized"] is True, "BC2-35 execution authorization drift")
+            req(state["current"]["status"] == "BC2_35_TARGETED_REPLAY_EXECUTION_AUTHORIZED", "BC2-35 execution state drift")
+            req(state["current"]["next_route"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "BC2-35 route drift")
+            req(state["next_step"]["bc2_35_execution_authorized"] is True and state["next_step"]["bc2_36_blocked_until_bc2_35_hostile_audit_pass"] is True, "BC2-35/36 routing firewall drift")
+            next_label = "stage32ex5-mainbatch"
+        else:
+            req(audit["freeze_active"] is True and audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True, "BC2-35 audit boundary is not frozen")
+            req(audit["bc2_35_execution_authorized"] is False, "BC2-35 execution not retired at audit boundary")
+            req(state["current"]["status"] == "BC2_35_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "BC2-35 audit-required state drift")
+            req(state["current"]["next_route"] == "HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY", "BC2-35 audit route drift")
+            req(state["frontier"]["e8_bc2_35_executed"] is True and state["frontier"]["e8_bc2_35_audited"] is False, "BC2-35 retained/audit marker drift")
+            req(state["frontier"]["e8_known_parent_unsat_count_lower_bound"] == 7272 and state["frontier"]["e8_bc2_35_candidate_known_parent_unsat_count_lower_bound"] == 7284, "BC2-35 candidate leaked into audited lower bound")
+            req(state["next_step"]["bc2_35_execution_authorized"] is False and state["next_step"]["bc2_36_blocked_until_bc2_35_hostile_audit_pass"] is True, "BC2-35/36 audit routing firewall drift")
+            next_label = "stage32ex5-audit"
 
     print("PASS: BC2-34 directly executed BC2-32 dependency identity is fail-closed")
     print(f"execution_head={EXECUTION_HEAD}; bc2_32_blob={B32_BLOB}; failed_audit_review={FAILED_AUDIT_REVIEW}")
