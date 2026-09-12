@@ -8,6 +8,8 @@ EXPECTED_IDS = ["CUT193", "CUT194", "CUT195", "CUT196", "CUT197", "CUT198"]
 EXPECTED_BLOCKS_PER_WAVE = 255
 EXPECTED_TERMINALS_PER_BLOCK = 113
 EXPECTED_TERMINALS_PER_WAVE = EXPECTED_BLOCKS_PER_WAVE * EXPECTED_TERMINALS_PER_BLOCK
+EXPECTED_EX5_PRODUCER_HEAD = "fd00531181228c9f367a49eb61ddc3af6ab84ab3"
+EXPECTED_EX5_ADAPTER = "stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py"
 
 
 def req(cond, msg):
@@ -18,6 +20,13 @@ def req(cond, msg):
 def main():
     obj = json.loads(MANIFEST.read_text())
     req(obj.get("schema") == "STAGE32_CUT_CERT_LIFT_SOURCE_LOCKS_V1", "schema drift")
+    shared = obj.get("shared_inputs", {})
+    req(shared.get("ex5_e8_terminal_producer_exact_head") == EXPECTED_EX5_PRODUCER_HEAD,
+        "EX5 producer exact-head lock drift")
+    req(shared.get("adapter_path") == EXPECTED_EX5_ADAPTER, "EX5 adapter path drift")
+    req(shared.get("source_mode") == "separate_exact_head_checkout_read_only",
+        "EX5 source mode drift")
+
     waves = obj.get("waves")
     req(isinstance(waves, list) and len(waves) == 6, "wave count drift")
     req([w.get("id") for w in waves] == EXPECTED_IDS, "wave order drift")
@@ -72,6 +81,7 @@ def main():
         "candidate_pruning_fraction": total_pruned / total_terminals,
         "per_wave_pruning_fraction": rates,
         "next_offset_after_locked_waves": next_offset,
+        "ex5_producer_exact_head": EXPECTED_EX5_PRODUCER_HEAD,
         "heavy_compute": False,
         "main_credit": False,
     }, sort_keys=True))
