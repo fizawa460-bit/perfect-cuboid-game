@@ -30,14 +30,15 @@ N364_STATE_BLOB = "ee76313b8fc3a6c901038fa76b0b1ba0630681af"
 N364_STATE_CANON = "e5f8bb5510d96ce02226850e7aa0c6585e69b910df189b885891a21a17696a50"
 N364_RESULT_BLOB = "eeafab917537c793e89c4df5656a2e52488dca68"
 N364_RESULT_CANON = "2c8cc223a461c33bfa296023745b661a9843aa98ad4a849aa13869f82cf1cd4b"
-STATE_BLOB = "13d4b446c3c658dc3f332b3c9432de2eb508cd41"
-STATE_CANON = "9e48228b41027de2db435e45ac0724ecef107be35f65608a4b8a5ba6f1cf418b"
+STATE_BLOB = "1560a20affa2c8baaec5b7d5e666234f745b6bb2"
+STATE_CANON = "c29b28542f6f1252b9d6116029b8daa47e59f5bbb8e0dea759522bee9f2ac5d2"
 HPERP_BLOB = "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
 BLOCK, OFFSET, WIDTH = 1265, 891, 113
 D = E = 8
 NORMAL_COUNT, NORMAL_MASS = 92, 112
 ASSIGNMENT_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 EXPECTED_PARENT_COUNT = 181
+EXPECTED_PRIME2_OBSTRUCTED = 178
 EXPECTED_RESIDUAL_COUNT = 3
 EXPECTED_RESIDUAL_STREAM = "06638d2743bc21c504dc935a6a7711c0cbe3f82f867a4bab12e7d16567fbaf71"
 
@@ -89,6 +90,10 @@ def preflight(cut_root: Path, comp_root: Path):
     main = checked(MAIN_STATE, MAIN_BLOB, MAIN_CANON)
     req(n364r["status"] == "NO_SAT_IN_TWO_PARENT_PROBE" and n364r["witness"] is None, "N364 result drift")
     req(n364s["target"]["block_index"] == 1405, "N364 state target drift")
+    req(state["method"]["replay_cut196_prime2_residual_boundary"] is True, "N365 prime2 boundary route drift")
+    sp = state["selection_provenance"]
+    req(sp["cut196_prime2_obstructed_parent_count"] == EXPECTED_PRIME2_OBSTRUCTED, "N365 recorded prime2 obstruction count drift")
+    req(sp["cut196_later_prime_additional_obstruction_count"] == 0, "N365 later-prime route firewall drift")
     f = main["current_exact_frontier"]
     req(f["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN V15 terminal drift")
     req(f["n357_main_pruning_credit"] is True and f["cut195_main_pruning_credit"] is True, "MAIN consumed authority drift")
@@ -106,22 +111,21 @@ def preflight(cut_root: Path, comp_root: Path):
 def residual_ordinals(core, P, blocks, g):
     parents = list(core.e8.iter_parent_population(BLOCK, g))
     req(len(parents) == EXPECTED_PARENT_COUNT, "block1265 parent population drift")
-    primes = list(core.DEFAULT_PRIMES)
-    solvers = {p: core.make_solver(P, blocks, p, 750) for p in primes}
-    unresolved = set(range(len(parents)))
-    for prime in primes:
-        s, y, _ = solvers[prime]
-        for ordinal in list(unresolved):
-            parent = parents[ordinal]
-            fixed = {int(label): int(value) for label, value in zip(g.exceptional_labels, parent["selected_exceptional_pairings"])}
-            result, _reason = core.check_with_fixed(s, y, fixed)
-            if result == "unsat":
-                unresolved.remove(ordinal)
-    out = sorted(unresolved)
-    req(len(out) == EXPECTED_RESIDUAL_COUNT, f"CUT196 residual count drift: {len(out)}")
-    stream = hashlib.sha256("".join(f"{v}\n" for v in out).encode()).hexdigest()
-    req(stream == EXPECTED_RESIDUAL_STREAM, "CUT196 residual ordinal stream drift")
-    return out
+    s, y, _ = core.make_solver(P, blocks, 2, 750)
+    unresolved = []
+    obstructed = 0
+    for ordinal, parent in enumerate(parents):
+        fixed = {int(label): int(value) for label, value in zip(g.exceptional_labels, parent["selected_exceptional_pairings"])}
+        result, _reason = core.check_with_fixed(s, y, fixed)
+        if result == "unsat":
+            obstructed += 1
+        else:
+            unresolved.append(ordinal)
+    req(obstructed == EXPECTED_PRIME2_OBSTRUCTED, f"CUT196 prime2 obstruction count drift: {obstructed}")
+    req(len(unresolved) == EXPECTED_RESIDUAL_COUNT, f"CUT196 prime2 residual count drift: {len(unresolved)}")
+    stream = hashlib.sha256("".join(f"{v}\n" for v in unresolved).encode()).hexdigest()
+    req(stream == EXPECTED_RESIDUAL_STREAM, "CUT196 prime2 residual ordinal stream drift")
+    return unresolved
 
 
 def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: int):
@@ -155,16 +159,25 @@ def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: i
     fibre = []
     for pack, factor_blocks in zip(core.PACKS, blocks):
         vals = [2 * ynum[b - 1] + Sum([ynum[j - 1] for j in block]) for b, block in zip(pack, factor_blocks)]
-        for v in vals[1:]: s.add(v == vals[0])
+        for v in vals[1:]:
+            s.add(v == vals[0])
         fibre.append(vals[0])
     n1, n2 = fibre
     s.add(n1 + n2 == D * g.den, n1 >= 0, n1 <= D * g.den, n2 >= 0, n2 <= D * g.den)
-    for label in range(93, 141): s.add(ynum[label - 1] <= (D // 2) * g.den)
+    for label in range(93, 141):
+        s.add(ynum[label - 1] <= (D // 2) * g.den)
     for b1 in blocks[0]:
         a = Sum([ynum[j - 1] for j in b1])
-        for b2 in blocks[1]: s.add(a + Sum([ynum[j - 1] for j in b2]) <= D * g.den)
+        for b2 in blocks[1]:
+            s.add(a + Sum([ynum[j - 1] for j in b2]) <= D * g.den)
     r = s.check()
-    attempt = {"parent_ordinal":parent_ordinal,"selected_exceptional_pairings_sha256":csha(yE),"x4_allowed_residues_mod8":allowed,"exact_result":str(r),"reason_unknown":s.reason_unknown() if r == unknown else None}
+    attempt = {
+        "parent_ordinal": parent_ordinal,
+        "selected_exceptional_pairings_sha256": csha(yE),
+        "x4_allowed_residues_mod8": allowed,
+        "exact_result": str(r),
+        "reason_unknown": s.reason_unknown() if r == unknown else None,
+    }
     if r != sat:
         return attempt, None
 
@@ -198,13 +211,45 @@ def solve_parent(state: dict, core, P: Matrix, blocks, g, idx, parent_ordinal: i
     neg_n = numerator // 16
     Psel = P.extract([label - 1 for label in labels], list(range(64)))
     witness = {
-        "schema":"STAGE32_32_01_178_N365_CURRENT_V15_SELECTED64_WITNESS_V1",
-        "row_id":"g1-d008","g":1,"d":D,"e":E,"block_index":BLOCK,"survivor_offset":OFFSET,"parent_ordinal":parent_ordinal,
-        "terminal_rank":rank,"terminal_identity":f"g1-d008|e=8|rank={rank}","compressed_terminal_pairings":terminal,"selected64_pairings":selected,"picard64_coordinates":coords,
-        "all140_pairings_sha256":csha(pairings),"selected_pairing_matrix_sha256":csha([[int(Psel[i,j]) for j in range(64)] for i in range(64)]),
-        "gram64_sha256":csha([[int(G[i,j]) for j in range(64)] for i in range(64)]),"picard64_coordinates_sha256":csha(coords),"self_square":self_square,"negative_hperp_square_N":neg_n,"hperp_text_sha256":hmeta["hperp_text_sha256"],
-        "current_v15_membership":{"n220_n355_prefix_survivor":True,"n356_accepts":True,"n357_accepts":True,"outside_consumed_cut_offset_prefix_0_765":True,"cut196_not_consumed_into_main":True},
-        "credit":{"current_v15_single_witness_candidate":True,"main_pruning_credit":False,"full178_complete":False,"n350_registered":False,"effectivity_final":False,"receiver_credit":False,"theorem_credit":False,"endpoint_credit":False,"stage32_closed":False,"merge_authorized":False}
+        "schema": "STAGE32_32_01_178_N365_CURRENT_V15_SELECTED64_WITNESS_V1",
+        "row_id": "g1-d008",
+        "g": 1,
+        "d": D,
+        "e": E,
+        "block_index": BLOCK,
+        "survivor_offset": OFFSET,
+        "parent_ordinal": parent_ordinal,
+        "terminal_rank": rank,
+        "terminal_identity": f"g1-d008|e=8|rank={rank}",
+        "compressed_terminal_pairings": terminal,
+        "selected64_pairings": selected,
+        "picard64_coordinates": coords,
+        "all140_pairings_sha256": csha(pairings),
+        "selected_pairing_matrix_sha256": csha([[int(Psel[i, j]) for j in range(64)] for i in range(64)]),
+        "gram64_sha256": csha([[int(G[i, j]) for j in range(64)] for i in range(64)]),
+        "picard64_coordinates_sha256": csha(coords),
+        "self_square": self_square,
+        "negative_hperp_square_N": neg_n,
+        "hperp_text_sha256": hmeta["hperp_text_sha256"],
+        "current_v15_membership": {
+            "n220_n355_prefix_survivor": True,
+            "n356_accepts": True,
+            "n357_accepts": True,
+            "outside_consumed_cut_offset_prefix_0_765": True,
+            "cut196_not_consumed_into_main": True,
+        },
+        "credit": {
+            "current_v15_single_witness_candidate": True,
+            "main_pruning_credit": False,
+            "full178_complete": False,
+            "n350_registered": False,
+            "effectivity_final": False,
+            "receiver_credit": False,
+            "theorem_credit": False,
+            "endpoint_credit": False,
+            "stage32_closed": False,
+            "merge_authorized": False,
+        },
     }
     witness["canonical_sha256_without_this_field"] = csha(witness)
     return attempt, witness
@@ -246,15 +291,19 @@ def main() -> None:
     else:
         status = "NO_SAT_IN_THREE_PARENT_PROBE"
     body = {
-        "schema":"STAGE32_32_01_178_N365_BLOCK1265_THREE_PARENT_WITNESS_RESULT_V1","status":status,
-        "target":{"block_index":BLOCK,"survivor_offset":OFFSET,"parent_ordinals":ordinals},"cut196_residual_parent_ordinal_sha256":EXPECTED_RESIDUAL_STREAM,
-        "attempts":attempts,"witness":witness,
-        "credit":{"main_pruning_credit":False,"full178_complete":False,"n350_registered":False,"effectivity_final":False,"receiver_credit":False,"theorem_credit":False,"endpoint_credit":False,"stage32_closed":False,"merge_authorized":False}
+        "schema": "STAGE32_32_01_178_N365_BLOCK1265_THREE_PARENT_WITNESS_RESULT_V1",
+        "status": status,
+        "target": {"block_index": BLOCK, "survivor_offset": OFFSET, "parent_ordinals": ordinals},
+        "cut196_residual_parent_ordinal_sha256": EXPECTED_RESIDUAL_STREAM,
+        "route_boundary": {"prime": 2, "obstructed_parent_count": EXPECTED_PRIME2_OBSTRUCTED, "later_prime_additional_obstruction_count": 0},
+        "attempts": attempts,
+        "witness": witness,
+        "credit": {"main_pruning_credit": False, "full178_complete": False, "n350_registered": False, "effectivity_final": False, "receiver_credit": False, "theorem_credit": False, "endpoint_credit": False, "stage32_closed": False, "merge_authorized": False},
     }
     body["canonical_sha256_without_this_field"] = csha(body)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(body, sort_keys=True, indent=2) + "\n")
-    print(json.dumps({"status":status,"parent_ordinals":ordinals,"attempts":attempts,"terminal_identity":witness["terminal_identity"] if witness else None,"canonical":body["canonical_sha256_without_this_field"]}, sort_keys=True))
+    print(json.dumps({"status": status, "parent_ordinals": ordinals, "attempts": attempts, "terminal_identity": witness["terminal_identity"] if witness else None, "canonical": body["canonical_sha256_without_this_field"]}, sort_keys=True))
 
 
 if __name__ == "__main__":
