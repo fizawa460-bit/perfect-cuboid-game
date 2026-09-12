@@ -93,6 +93,22 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited EX5 BC2-35 head
         run: test "$(git -C .stage32-audited-ex5-bc2-35 rev-parse HEAD)" = "8bea7a6be26e01db0deb138dbd8406f578447921"
+      - name: Checkout hostile-audited MAIN V22 mathematical authority
+        uses: actions/checkout@v4
+        with:
+          ref: f8039b4ce479a4b91f2f0547e7049f629e9be5f5
+          path: .stage32-audited-main-v22
+          fetch-depth: 1
+      - name: Assert hostile-audited MAIN V22 head
+        run: test "$(git -C .stage32-audited-main-v22 rev-parse HEAD)" = "f8039b4ce479a4b91f2f0547e7049f629e9be5f5"
+      - name: Checkout hostile-audited N358 census basis
+        uses: actions/checkout@v4
+        with:
+          ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
+          path: .stage32-audited-n358
+          fetch-depth: 1
+      - name: Assert hostile-audited N358 head
+        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -118,6 +134,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py)" = "286abb04bb5c898c28187f4824311bdf779ef3f2"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "417e809b24e39fcf49e21aef2a653750765e675b"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
+          test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
       - name: Verify CUT193 CUT197 CUT198 batch current-V21 composition fail-closed
         run: >-
           python3 stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py
@@ -138,6 +155,11 @@ jobs:
             --audited-ex5-root .stage32-audited-ex5-bc2-35 \
             --json-output /tmp/stage32-hnf-syndrome-probe.json
           cat /tmp/stage32-hnf-syndrome-probe.json
+      - name: Verify HPADJ-01 orthogonal exceptional Hodge/adjunction current-V22 lower bound
+        run: >-
+          python stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py
+          --audited-main-v22-root .stage32-audited-main-v22
+          --audited-n358-root .stage32-audited-n358
       - name: Verify Stage32 MAIN startup authority
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination
