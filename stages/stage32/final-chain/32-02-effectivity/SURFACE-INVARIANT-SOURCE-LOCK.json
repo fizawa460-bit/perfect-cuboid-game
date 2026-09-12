@@ -1,0 +1,66 @@
+{
+  "schema": "STAGE32_FINAL_CHAIN_32_02_SURFACE_INVARIANT_SOURCE_LOCK_V1",
+  "stage": 32,
+  "unit": "32-02-L",
+  "status": "RETAINED_SOURCE_LOCK_READY",
+  "stage29_source": {
+    "path": "stages/stage29/29-02a/source-lock.md",
+    "blob_sha": "2f7dc59bcc14fb89bdd6785074c2362fed0a98b4",
+    "source_audit": "PASS",
+    "required_statements": [
+      "K^2=16",
+      "p_g=7",
+      "q=0",
+      "canonical divisor big and nef",
+      "PROJECTIVE_ENDPOINT_MODEL_MATCH=true",
+      "GEOMETRIC_THEOREM_TRANSFER_LOSS=0"
+    ]
+  },
+  "historical_rr": {
+    "path": "stages/stage32/32-21/post-21bl-riemann-roch-divisor-effectivity.json",
+    "blob_sha": "333cb39f670ba1f148bf79b08e4c74106d131671",
+    "canonical_sha256_without_this_field": "6e02dfa2f29ebdd218aa869e1994776abc6bd068be9f138e1dd1980789e2483b",
+    "source_lock_audit": "PASS"
+  },
+  "historical_fresh_audit": {
+    "path": "stages/stage32/residual-32-01-production/audit_stage32_post21bl_divisor_effectivity.py",
+    "blob_sha": "beaf153495fa2be42dd32bb134fbacf635739ba9",
+    "required_degree_bridge": [
+      "degree = int(picard[\"target\"][\"degree\"])",
+      "\"K_dot_C\": degree",
+      "K_K_minus_C = K2 - degree"
+    ]
+  },
+  "retired_n348_replay": {
+    "path": "stages/stage32/32-01-178/nodes/N348/verify_n348_riemann_roch_effectivity.py",
+    "blob_sha": "2c16e7b2ea33e83a7b987e6ccf1283d2182d9860",
+    "role": "historical retained replay that independently enforces the same source and degree bridge"
+  },
+  "surface_invariants": {
+    "K_square": 16,
+    "p_g": 7,
+    "q": 0,
+    "chi_O": 8,
+    "K_big": true,
+    "K_nef": true,
+    "chi_derivation": "chi(O_S)=1-q+p_g"
+  },
+  "applicability": {
+    "surface": "minimal desingularization of the cuboid surface",
+    "stage32_target_degree_semantics": "degree=K.C",
+    "source_lock_is_global_surface_data": true,
+    "does_not_depend_on_full178_completion": true
+  },
+  "credit_firewall": {
+    "surface_invariant_source_lock_complete": true,
+    "effectivity_final_execution_released": false,
+    "full178_rows_effectivity_classified": false,
+    "integral_irreducible_low_genus_carrier_proved": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "750a19b321699465bbfe9a0e09ce9223efa0bd65efbf786a7e0eeb86911d86a5"
+}

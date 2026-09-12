@@ -32,14 +32,16 @@ jobs:
           import json,sys
           from pathlib import Path
           r=json.loads(Path('stages/stage36/36-09FE/current-main-integration.json').read_text())
-          assert r['schema']=='STAGE36_V296R2_FE_CURRENT_MAIN_INTEGRATION_AUDIT_PASS_CONSUMED_V1'
+          assert r['schema']=='STAGE36_V296R3_FE_CURRENT_MAIN_DRIFT_REAUDIT_PENDING_V1'
           assert r['current_main_integration']['parent_main_sha']==sys.argv[1]
           assert r['current_main_integration']['post_ER_scope_requires_fresh_hostile_audit'] is True
-          assert r['current_main_integration']['fresh_hostile_audit_review_id']==5175426557
-          assert r['current_main_integration']['fresh_hostile_audit_exact_head']=='33bf92c13bc37862c5337564af399156826a8706'
-          assert r['current_main_integration']['current_integration_hostile_audit_pass'] is True
-          assert r['current_main_integration']['current_integration_hostile_audit_pass_consumed'] is True
+          assert r['current_main_integration']['current_integration_hostile_audit_pass'] is False
+          assert r['current_main_integration']['current_integration_hostile_audit_pass_consumed'] is False
+          assert r['current_main_integration']['hostile_audit_pending'] is True
           assert r['current_main_integration']['merge_authorized'] is False
+          assert r['previous_current_main_integration']['fresh_hostile_audit_review_id']==5175426557
+          assert r['previous_current_main_integration']['fresh_hostile_audit_exact_head']=='33bf92c13bc37862c5337564af399156826a8706'
+          assert r['latest_checkpoint']['next_leaf_entry_allowed'] is False
           PY
             git merge-base --is-ancestor "$expected_base" HEAD
           fi

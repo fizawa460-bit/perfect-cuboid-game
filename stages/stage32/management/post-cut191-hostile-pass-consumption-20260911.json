@@ -1,0 +1,65 @@
+{
+  "schema": "STAGE32_MAIN_POST_CUT191_CONSUMPTION_V1",
+  "stage": 32,
+  "status": "RETAINED_AUTHORITY_TRANSITION_PENDING_MAIN_HOSTILE_AUDIT",
+  "purpose": "Consume the externally hostile-audited CUT191 first-block 113-terminal exclusion into Stage32 MAIN after proving it is disjoint from the already-consumed N356 rejection.",
+  "upstream_authority": {
+    "main_parent_exact_head": "d1aa4e6391013b9cff29cb7bab323d7c8ae54b22",
+    "main_parent_audit_review_id": 5177570343,
+    "pre_cut_remaining_strata": 17128,
+    "pre_cut_remaining_terminals": 65396964990500233636214,
+    "n356_consumed": true
+  },
+  "cut191_external_audit": {
+    "pr": 1779,
+    "review_id": 5177635336,
+    "audited_exact_head": "c1bba42b8b61040ce567037cf864fcfb3e6a1746",
+    "exact_head_ci_run": 34588749601,
+    "first_block_rank_range": [0, 112],
+    "terminal_count": 113,
+    "whole_first_block_picard64_unsat": true
+  },
+  "n356_overlap_replay": {
+    "target": {
+      "row_id": "g1-d008",
+      "d": 8,
+      "e": 8
+    },
+    "n355_group_sums": {
+      "a": 0,
+      "b": 1,
+      "c": 1
+    },
+    "n356_even_degree_cut": "b-c <= 3*d-e",
+    "lhs_b_minus_c": 0,
+    "rhs_3d_minus_e": 16,
+    "n356_preserves_all_113_cut191_terminals": true,
+    "double_charge": false
+  },
+  "authority": {
+    "cut191_main_pruning_credit": true,
+    "cut191_incremental_rejected_terminals": 113,
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233636101,
+    "full178_complete": false
+  },
+  "route": {
+    "next_exact_route": "N357_ALL178_TRANSPORT_SUPPORT_CAPACITY_CENSUS_THEN_EXTERNAL_AUDIT",
+    "owner": "stage32-01-178-mainbatch",
+    "main_must_not_duplicate_n357": true,
+    "cut_reentry": "WAIT_FOR_SOURCE_LOCKED_DISJOINT_E8_COMPLETION_INTERFACE"
+  },
+  "firewalls": {
+    "whole_g1_d008_e8_stratum_closed": false,
+    "full178_complete": false,
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f1c59f708190f99ef87422eabc443a5c9df981438a5e647c93dc5052fc5fe6a2"
+}

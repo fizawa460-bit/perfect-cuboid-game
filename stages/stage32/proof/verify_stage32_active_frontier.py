@@ -39,7 +39,11 @@ REQUIRED_ACTIVE_IDS = {
     "S32.FULL178.NUMERICAL_CENSUS.V1",
     "S32.GOAL.STAGE32_CLOSURE.V1",
 }
-ALLOWED_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
+# Mathematical active-frontier lane_links remain the historical MAIN/EX contract.
+# 178/CUT/MB are routing-only specialists enrolled in LANE-ADAPTERS V2; they do
+# not become claim-DAG lane_links merely because they are operationally routed.
+CLAIM_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
+ROUTING_LANES = CLAIM_LANES | {"32-01-178", "CUT", "MB"}
 ALLOWED_LANE_ROLES = {"OWNER", "ATTACKS", "CONSUMES"}
 ALLOWED_FRONTIER_STATUS = {
     "AUDITED_TRUE", "OPEN_GOAL", "OPEN_BRANCH", "BLOCKED_OPEN_GOAL", "ACTIVE_INCOMPLETE"
@@ -48,6 +52,11 @@ INACTIVE_LANE_STATUSES = {
     "EX1": "COMPLETED_AUDITED_HANDOFF",
     "EX2": "DOMINATED_BY_AUDITED_V6_NONEXISTENCE",
     "EX6": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
+}
+SPECIALIST_FRONTIER_REFS = {
+    "32-01-178": {"S32.FULL178.NUMERICAL_CENSUS.V1"},
+    "CUT": {"S32.FULL178.NUMERICAL_CENSUS.V1"},
+    "MB": {"S32.GOAL.STAGE32_CLOSURE.V1"},
 }
 
 
@@ -76,6 +85,10 @@ def validate_sync(adapters: dict) -> None:
         raise RuntimeError("ordinary startup must not preload claim DAG")
     if contract.get("scratch_only_sync_required") is not False:
         raise RuntimeError("scratch-only work must not require sync")
+    if contract.get("cross_lane_demand_registry") != "stages/stage32/proof/CROSS-LANE-DEMANDS.json":
+        raise RuntimeError("cross-lane demand registry pointer drift")
+    if not str(contract.get("cross_lane_separation_rule", "")).startswith("The claim DAG and cross-lane demand DAG are independent"):
+        raise RuntimeError("claim/demand DAG separation rule drift")
     text = SYNC_CONTRACT_PATH.read_text(encoding="utf-8")
     for trigger in REQUIRED_SYNC_TRIGGERS:
         if trigger not in text:
@@ -165,8 +178,8 @@ def main() -> int:
             owners = 0
             for link in links:
                 lane, role = link.get("lane"), link.get("role")
-                if lane not in ALLOWED_LANES or role not in ALLOWED_LANE_ROLES:
-                    raise RuntimeError(f"{cid}: invalid lane link")
+                if lane not in CLAIM_LANES or role not in ALLOWED_LANE_ROLES:
+                    raise RuntimeError(f"{cid}: invalid mathematical lane link")
                 if lane == "MAIN" and role == "OWNER":
                     owners += 1; owner_claims.append(cid)
                 if lane.startswith("EX") and role in {"ATTACKS", "CONSUMES"}:
@@ -175,10 +188,11 @@ def main() -> int:
                 raise RuntimeError(f"{cid}: must have exactly one MAIN OWNER")
 
         lane_items = {x["lane"]: x for x in adapters.get("lanes", [])}
-        if set(lane_items) != ALLOWED_LANES:
-            raise RuntimeError("lane coverage drift")
+        if set(lane_items) != ROUTING_LANES:
+            raise RuntimeError(f"lane routing coverage drift: {sorted(lane_items)}")
+
         inactive = []
-        for lane in sorted(ALLOWED_LANES):
+        for lane in sorted(CLAIM_LANES):
             item = lane_items[lane]
             refs = item.get("active_frontier_refs")
             if not isinstance(refs, list) or len(refs) != len(set(refs)):
@@ -186,7 +200,7 @@ def main() -> int:
             expected = set(owner_claims) if lane == "MAIN" else set(lane_to_claims[lane])
             if expected:
                 if set(refs) != expected:
-                    raise RuntimeError(f"{lane}: active refs disagree with frontier")
+                    raise RuntimeError(f"{lane}: active refs disagree with mathematical frontier")
                 if lane in INACTIVE_LANE_STATUSES:
                     raise RuntimeError(f"{lane}: inactive lane unexpectedly has active claims")
                 continue
@@ -205,6 +219,22 @@ def main() -> int:
         if inactive != ["EX1", "EX2", "EX6"]:
             raise RuntimeError(f"inactive-lane set drift: {inactive}")
 
+        # Routing-only specialists may point at current frontier goals, but are
+        # intentionally absent from mathematical lane_links and get no credit.
+        for lane, expected_refs in SPECIALIST_FRONTIER_REFS.items():
+            item = lane_items[lane]
+            refs = item.get("active_frontier_refs")
+            if set(refs or []) != expected_refs:
+                raise RuntimeError(f"{lane}: specialist routing refs drift")
+            if any(ref not in active_ids for ref in refs):
+                raise RuntimeError(f"{lane}: specialist routing ref not in active frontier")
+        if lane_items["CUT"].get("demand_role") != "CONSUMER":
+            raise RuntimeError("CUT demand role drift")
+        if lane_items["EX5"].get("demand_role") != "PRODUCER":
+            raise RuntimeError("EX5 demand role drift")
+        if lane_items["MAIN"].get("demand_role") != "GLOBAL_MONITOR":
+            raise RuntimeError("MAIN demand role drift")
+
         survivor = by_id["S32.Q602.SURVIVORS_73_97_235.V1"]
         if survivor["authority_status"] != "AUDITED" or survivor["scope"].get("surviving_residues") != [73,97,235]:
             raise RuntimeError("Q602 survivor authority/set drift")
@@ -217,6 +247,8 @@ def main() -> int:
             "supporting_claim_ids":sorted(support_ids),
             "active_claim_ids":sorted(active_ids),
             "inactive_lanes":inactive,
+            "routing_only_specialists":sorted(SPECIALIST_FRONTIER_REFS),
+            "demand_dag_separate":True,
             "v6_negative_consumed":True,
             "o210_excluded":True,
             "q602_excluded":True,
@@ -231,4 +263,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     sys.exit(main())
-

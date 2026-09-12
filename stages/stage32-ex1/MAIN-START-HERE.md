@@ -5,11 +5,16 @@ Ordinary `stage32ex1-mainbatch` reads, in this order:
 1. `AGENTS.md`;
 2. `stages/stage32-ex1/MAIN-START-HERE.md`;
 3. `stages/stage32-ex1/MAIN-STATE.json`;
-4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+4. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus any exact demand artifact/state explicitly selected by the registry.
 
 This file is the fixed ordinary startup contract. Mutable frontier, current leaf, blockers, audit status, and next route live only in `MAIN-STATE.json`. The goal/dependency contract lives in `stages/stage32-ex1/stage32-ex1.md` and is opened only when the current working set or active task requires it.
 
-Do not preload the Stage32 root, Stage32 history/controllers, other Stage32EX roadmaps, Research OS, Arsenal, or large retained payloads unless `AGENTS.md`, `MAIN-STATE.json`, or the active leaf explicitly triggers them.
+Do not preload the Stage32 root, Stage32 history/controllers, other Stage32EX roadmaps, Research OS, Arsenal, or large retained payloads unless `AGENTS.md`, `MAIN-STATE.json`, the cross-lane registry, or the active leaf explicitly triggers them.
+
+## Cross-lane demand routing
+
+Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before substantive local work, inspect OPEN demands for this lane. A higher-priority OPEN demand where EX1 is producer preempts lower-priority local research. If EX1 is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next mainbatch and validate artifact identity and population semantics first. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
 
 ## Authority split
 
@@ -23,7 +28,7 @@ The final mathematical target and credit hierarchy are fixed by `stage32-ex1.md`
 
 A batch does the following:
 
-1. read the startup set above and identify exactly one current mathematical unit;
+1. read startup authority and cross-lane demands and identify exactly one current mathematical unit;
 2. revalidate every load-bearing input needed by that unit through exact source locators;
 3. execute the bounded mathematical/diagnostic unit;
 4. retain only results that have an explicit claim scope, assumptions, quantification domain, and replay path;
@@ -40,11 +45,9 @@ Heavy/artifact-producing workflows require the repository heavy-workflow policy 
 
 ## Claim-DAG synchronization trigger
 
-Ordinary `stage32ex1-mainbatch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+Cross-lane demand inspection is operational and separate from the mathematical claim DAG. When EX1 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
 
-When EX1 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
-
-Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit PASS/FAIL receipt does not silently promote EX1 or MAIN; downstream use waits for claim synchronization.
+Scratch-only diagnostics and demand status alone do not trigger claim-DAG credit writes. A hostile-audit PASS/FAIL receipt does not silently promote EX1 or MAIN; downstream use waits for claim synchronization.
 
 ## `stage32ex1-audit` handoff
 
