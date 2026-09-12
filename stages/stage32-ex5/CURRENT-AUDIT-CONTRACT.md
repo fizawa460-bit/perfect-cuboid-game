@@ -1,13 +1,21 @@
 # Stage32EX5 current hostile-audit contract
 
-This is the mutable current audit contract. Historical audit contracts remain provenance. PR #1776 remains open/draft/unmerged. BC2-30 hostile audit **PASS** is predecessor authority: exact head `38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f`, review `5184226057`.
+This is the mutable current audit contract. Historical audit contracts remain provenance. PR #1776 remains open/draft/unmerged.
 
-## BC2-31 fresh all-7336 replay candidate boundary
+## Predecessor authority
 
-The historical attempt to recover the unretained 172 BC2-19 UNKNOWN identities was rejected: generation-2 replay run `34660585544` produced `7113 UNSAT / 223 UNKNOWN / 0 SAT`, raw canonical `f5ef75a81dcb3a952689a0bad14fcf8b122d2b321b4b63a469b3e761910d7f13`; the historical 2-second timeout status stream is not replay-stable, so no exact historical-172 identity claim is retained.
+BC2-31 hostile audit **PASS** is the direct predecessor authority: exact head `72118efafdd25ca3b08d408463db46e2800e22df`, review `5184996992`. Its bounded result was a fresh all-7336 replay with `7166 UNSAT / 170 UNKNOWN / 0 SAT`; the 170 current UNKNOWN identities are explicit and hash to `df7db2159df41d93ce64b7d2ccf230b9363711bbdf769280e1df0560cfbae1ae`. The rejected historical 172-identity reconstruction remains rejected and must not be revived.
 
-BC2-31 therefore executed a fresh all-7336 replay at exact compute head `d5ee384f0dc0675ce034969964e71ccfdae25459`, workflow `34665881779`, authorize job `103477546494`, compute job `103477565567`, artifact `10288804651`. The retained result is `7166 UNSAT / 170 UNKNOWN / 0 SAT`; every fresh UNKNOWN identity is explicit. Checkpoint canonical is `f2aec1d923ff43393d24364864be36e223d43674149e6655a920d3b3d5de3ae4`, checkpoint blob `188601efcb99d33fe00fc60dc3c2f40f51e65b20`, raw canonical `8929e6bdffca0297c3ebbf67032fa514bf4685590563df91c7db26f9570c8ad6`, status-stream sha256 `1ad123b746f30db4542171e45da72a0fb93a408d6b312925af76dbb02da616eb`, UNKNOWN-list sha256 `df7db2159df41d93ce64b7d2ccf230b9363711bbdf769280e1df0560cfbae1ae`.
+## BC2-32 targeted replay candidate boundary
 
-The fresh generation-1 runkey is consumed/disarmed and the one-shot fresh executor is removed. Audit must verify predecessor receipt, producer/preflight locks, executed workflow/artifact receipt, exact checkpoint/canonical, explicit 170-UNKNOWN list, and the firewall that fresh run-specific statuses do not reconstruct the expired historical 172 set.
+BC2-32 replayed exactly those hostile-audited 170 UNKNOWN parent identities with a 20,000 ms per-parent limit, one heavy runner, and no heavy scaleout. Compute head: `5272a3b0d0835f9b970250adefada2c9868cecc9`. Workflow run: `34672718019`. Authorization job: `103497019707`. Compute job: `103497078073`. Artifact: `10292081214`.
 
-This candidate raises the local known parent-UNSAT lower bound to `7166` only. It does **not** prove the whole first block UNSAT, FULL178 closure, Stage32 MAIN/N350 promotion, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge authorization. BC2-32 is blocked until a fresh `stage32ex5-audit` PASS on the final exact head.
+Retained result: `63 UNSAT / 107 UNKNOWN / 0 SAT`. The known parent-UNSAT lower bound therefore rises from `7166` to `7229`. The remaining 107 UNKNOWN identities are all explicit; their canonical list hash is `e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492`. Result canonical: `905b416477b23199c794a1267e143158e0dac7baaaa9f809d9cd8528e8e4aa6c`. Status-stream sha256: `bdbd63978e0fdd34687661cf2b60e74553e7108e93fc7c773dd3e3406fdaf320`. Raw JSON sha256: `1d62550f3008d96be10b2f3e91e836181c6dbd3b774f7c017feef4734e14e89f`. Artifact ZIP sha256: `ba7a4314dcc7082c75dc18fa583b11a03f8e88d09d01526fa197c235d2717f6f`.
+
+The retained checkpoint is `stages/stage32-ex5/breadth-cycle-2/bc2-32-fresh-unknown170-replay-checkpoint.json`, canonical `905b416477b23199c794a1267e143158e0dac7baaaa9f809d9cd8528e8e4aa6c`, blob `d21a3ddd3c2e06dd5523777aa3141ff41392a467`. The generation-1 runkey is consumed/disarmed. BC2-33 is blocked until this boundary passes hostile audit.
+
+## Audit obligations
+
+Audit must independently verify the BC2-31 PASS receipt, exact BC2-31 170-UNKNOWN target identity set, BC2-32 source/preflight/checkpoint locks, fresh commit-range runkey authorization, workflow/job/artifact provenance, the exact `63/107/0` partition, explicit 107-UNKNOWN list, and the resulting lower bound `7229`.
+
+The following must remain false: whole-first-block UNSAT, whole-stratum closure, FULL178 completion, Stage32 MAIN pruning credit, N350 registration, effectivity/actual-curve credit, theorem/endpoint credit, Perfect Cuboid existence/nonexistence claim, merge authorization. UNKNOWN may not be relabelled UNSAT. No BC2-33 execution before hostile-audit PASS.
