@@ -1,0 +1,138 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import hashlib
+import json
+import subprocess
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+STATE_PATH = ROOT / "stages/stage32/MAIN-STATE.json"
+RECEIPT_PATH = ROOT / "stages/stage32/management/post-cut195-v15-hostile-reaudit-pass-consumption-20260912.json"
+
+EXPECTED_PREDECESSOR_V15_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+EXPECTED_PREDECESSOR_V15_CANONICAL = "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193"
+EXPECTED_STATE_BLOB = "6bba1e9cceb2de1053777805f0e5d36d357a38a0"
+EXPECTED_STATE_CANONICAL = "a78056fadbc1a44ac5210a7dcd2b97b00d2f88bb7fbb26e4a664439c984366eb"
+EXPECTED_RECEIPT_BLOB = "7103d4f2c44fba5db52cde910095a6cd9e21233c"
+EXPECTED_RECEIPT_CANONICAL = "663ba737e7370eb06af822f3749ba3fc4aa2c572b46a40b6f6b64dd56ef1e113"
+
+AUDITED_V15_HEAD = "fdc372e1666e1176d80953b6303b13b240da84c5"
+AUDIT_REVIEW = 5185987769
+MERGED_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
+CUT196_HEAD = "b4bca5f6dee0a910626587eedc06036e86888769"
+CUT196_FAILED_CI = 34684663810
+AUTH_STRATA = 17128
+AUTH_TERMINALS = 47598978285064933757427
+
+
+def fail(msg: str) -> None:
+    raise SystemExit("FAIL: " + msg)
+
+
+def req(cond: bool, msg: str) -> None:
+    if not cond:
+        fail(msg)
+
+
+def blob_sha1(data: bytes) -> str:
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+
+
+def canonical(obj: dict) -> str:
+    copy = dict(obj)
+    copy.pop("canonical_sha256_without_this_field", None)
+    payload = json.dumps(copy, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def load_locked(path: Path, blob: str, can: str) -> dict:
+    data = path.read_bytes()
+    req(blob_sha1(data) == blob, f"blob mismatch: {path.relative_to(ROOT)}")
+    obj = json.loads(data)
+    req(obj.get("canonical_sha256_without_this_field") == can,
+        f"stored canonical mismatch: {path.relative_to(ROOT)}")
+    req(canonical(obj) == can, f"recomputed canonical mismatch: {path.relative_to(ROOT)}")
+    return obj
+
+
+def historical_blob(blob: str) -> dict:
+    probe = subprocess.run(
+        ["git", "-C", str(ROOT), "cat-file", "-e", blob],
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
+    )
+    req(probe.returncode == 0, "predecessor V15 blob unavailable in git history")
+    data = subprocess.check_output(["git", "-C", str(ROOT), "cat-file", "blob", blob])
+    req(blob_sha1(data) == blob, "predecessor V15 blob identity mismatch")
+    return json.loads(data)
+
+
+def main() -> None:
+    prev = historical_blob(EXPECTED_PREDECESSOR_V15_BLOB)
+    req(prev.get("schema") == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED",
+        "unexpected predecessor schema")
+    req(prev.get("canonical_sha256_without_this_field") == EXPECTED_PREDECESSOR_V15_CANONICAL,
+        "predecessor stored canonical mismatch")
+    req(canonical(prev) == EXPECTED_PREDECESSOR_V15_CANONICAL,
+        "predecessor canonical mismatch")
+    prev_frontier = prev["current_exact_frontier"]
+    req(prev_frontier["authoritative_remaining_strata"] == AUTH_STRATA,
+        "predecessor strata drift")
+    req(prev_frontier["authoritative_remaining_terminals"] == AUTH_TERMINALS,
+        "predecessor terminals drift")
+    req(prev["authority_sync"]["cut195_post_sync_reaudit_status"] == "PENDING",
+        "predecessor did not require CUT195 replacement-head re-audit")
+
+    receipt = load_locked(RECEIPT_PATH, EXPECTED_RECEIPT_BLOB, EXPECTED_RECEIPT_CANONICAL)
+    req(receipt["status"] == "CONSUMED", "receipt not consumed")
+    audit = receipt["external_audit"]
+    req(audit["pr"] == 1788, "wrong audit PR")
+    req(audit["audited_exact_head"] == AUDITED_V15_HEAD, "wrong audited V15 head")
+    req(audit["review_id"] == AUDIT_REVIEW and audit["status"] == "PASS",
+        "wrong V15 hostile re-audit identity/status")
+    req(audit["merged_main_commit"] == MERGED_MAIN, "wrong merged-main identity")
+    trans = receipt["authority_transition"]
+    req(trans["mathematical_authority_changed"] is False,
+        "audit consumption must not change numerical authority")
+    req(trans["remaining_strata_before"] == trans["remaining_strata_after"] == AUTH_STRATA,
+        "strata changed during audit consumption")
+    req(trans["remaining_terminals_before"] == trans["remaining_terminals_after"] == AUTH_TERMINALS,
+        "terminals changed during audit consumption")
+
+    state = load_locked(STATE_PATH, EXPECTED_STATE_BLOB, EXPECTED_STATE_CANONICAL)
+    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V16_CUT195_REAUDIT_CONSUMED",
+        "unexpected V16 schema")
+    req(state["authority_sync"]["current_repository_main"] == MERGED_MAIN,
+        "V16 current-main source lock mismatch")
+    req(state["authority_sync"]["cut195_post_sync_reaudit_status"] == "PASS",
+        "CUT195 V15 replacement-head audit not consumed")
+    req(state["authority_sync"]["cut195_post_sync_reaudit_review_id"] == AUDIT_REVIEW,
+        "CUT195 V15 review mismatch")
+    req(state["authority_sync"]["cut195_synchronized_head_hostile_audited"] is True,
+        "CUT195 synchronized head not marked audited")
+    frontier = state["current_exact_frontier"]
+    req(frontier["authoritative_remaining_strata"] == AUTH_STRATA, "V16 strata drift")
+    req(frontier["authoritative_remaining_terminals"] == AUTH_TERMINALS, "V16 terminals drift")
+    req(frontier["cut195_main_pruning_credit"] is True, "CUT195 consumed credit lost")
+    req(frontier["cut196_candidate_exact_head"] == CUT196_HEAD, "wrong CUT196 selected head")
+    req(frontier["cut196_candidate_rejected_terminals"] == 27346, "wrong CUT196 candidate count")
+    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_FAILED_CI, "wrong CUT196 CI run")
+    req(frontier["cut196_claim_frontier_ci_status"] == "FAILURE",
+        "CUT196 CI failure must remain explicit")
+    req(frontier["cut196_candidate_hostile_audited"] is False,
+        "unaudited CUT196 candidate promoted")
+    req(frontier["cut196_main_pruning_credit"] is False,
+        "CUT196 MAIN pruning credit must remain false")
+    req(frontier["full178_numerical_census_complete"] is False, "FULL178 falsely closed")
+    req(frontier["stage32_closed"] is False, "Stage32 falsely closed")
+    fw = state["firewalls"]
+    for key in ("receiver_credit", "theorem_credit", "endpoint_credit",
+                "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
+                "merge_authorized"):
+        req(fw[key] is False, f"firewall opened: {key}")
+
+    print("PASS Stage32 MAIN V16 CUT195 re-audit consumption + CUT196 zero-credit frontier selection")
+
+
+if __name__ == "__main__":
+    main()
