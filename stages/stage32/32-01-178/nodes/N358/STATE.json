@@ -1,9 +1,10 @@
 {
-  "schema": "STAGE32_32_01_178_N358_RESEARCH_STATE_V2",
+  "schema": "STAGE32_32_01_178_N358_RESEARCH_STATE_V3_AUDITED_CONSUMED",
   "node_id": "N358",
   "semantic_key": "s32-01-178:joint-transport-support-saturation",
   "title": "Joint optimistic transport mass/support saturation obstruction",
-  "status": "AUDIT_REQUIRED_EXACT_INCREMENTAL_CENSUS_FROZEN_NO_MAIN_CREDIT",
+  "purpose": "Retain the hostile-audited N358 joint transport/support saturation necessary cut as consumed Stage32 MAIN pruning authority while keeping FULL178 and all downstream final milestones open.",
+  "status": "AUDITED_NECESSARY_CUT_CONSUMED_BY_MAIN",
   "selected_from_route": "POST_N357_FULL178_FRONTIER_SELECTION",
   "authority_input": {
     "node": "N357",
@@ -11,7 +12,7 @@
     "audited_exact_head": "0d787839b7e0dad4a42108c61d16e7849c50862f",
     "remaining_strata": 17128,
     "remaining_terminals": 47598978285064933810198,
-    "main_consumption_head_before_n358_research": "feeab259a83b9867a68c1dfb6cb4a9f8fe3cd670"
+    "main_pruning_credit": true
   },
   "candidate": {
     "scope": "b>=c, h-b>=5, e=3d+c-b mass-saturation face",
@@ -20,13 +21,20 @@
     "exact_incremental_rejected_terminals": 9274971107798843958,
     "affected_strata": 2540,
     "affected_rows": 76,
-    "candidate_remaining_strata": 17128,
-    "candidate_remaining_terminals": 47589703313957134966240,
-    "result": "RESULT.json",
+    "remaining_strata": 17128,
+    "remaining_terminals": 47589703313957134966240,
+    "result_path": "stages/stage32/32-01-178/nodes/N358/RESULT.json",
     "result_canonical_sha256": "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287",
-    "exact_census_verifier": "verify_n358_exact_incremental_census.py",
-    "exact_census_verifier_blob_sha1": "c07a7e358a6253919194189377d6ed56f95e047a",
     "affected_record_stream_sha256": "206538209460c6b7b9cb3cc33e601a2cbf75fa084f9693af379e660ed6cf9625"
+  },
+  "audit": {
+    "status": "PASS",
+    "review_id": 5184322011,
+    "prior_fail_review_id": 5184254963,
+    "audited_exact_head": "462174f74d6470ec7c64f5b6d078757c7b3372fc",
+    "receipt_path": "stages/stage32/32-01-178/nodes/N358/HOSTILE-AUDIT-PASS.json",
+    "receipt_blob_sha1": "7b36e0159987ef65485d36fa2d672c8ee3a1ff33",
+    "receipt_canonical_sha256": "bd27a2de6f54d5190f64917f90d64e1a07d4dac3c28947c2b44c94c6977f3482"
   },
   "validation": {
     "n357_witness_semantic_replay": 49030556814634,
@@ -35,7 +43,8 @@
     "heavy_compute_used": false
   },
   "credit": {
-    "n358_main_pruning_credit": false,
+    "n357_main_pruning_credit": true,
+    "n358_main_pruning_credit": true,
     "full178_complete": false,
     "n350_producer_registered": false,
     "production_complete": false,
@@ -49,5 +58,36 @@
     "heavy_compute_authorized": false,
     "merge_authorized": false
   },
-  "next_bounded_unit": "INDEPENDENT_STAGE32_01_178_HOSTILE_AUDIT_OF_N358_EXACT_INCREMENTAL_CENSUS"
+  "source_locks": {
+    "n358_audit_receipt": {
+      "path": "stages/stage32/32-01-178/nodes/N358/HOSTILE-AUDIT-PASS.json",
+      "blob_sha1": "7b36e0159987ef65485d36fa2d672c8ee3a1ff33",
+      "canonical_sha256": "bd27a2de6f54d5190f64917f90d64e1a07d4dac3c28947c2b44c94c6977f3482"
+    },
+    "result": {
+      "path": "stages/stage32/32-01-178/nodes/N358/RESULT.json",
+      "blob_sha1": "e42c2b6cc6128c4666372b0c3f3c172afc006d7f",
+      "canonical_sha256": "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287"
+    },
+    "audit_source_lock_verifier": {
+      "path": "stages/stage32/32-01-178/nodes/N358/verify_n358_audit_source_locks.py",
+      "blob_sha1": "78db45499a79438a4f01889012a358a39e43ea8c"
+    },
+    "contract": {
+      "path": "stages/stage32/32-01-178/nodes/N358/JOINT_TRANSPORT_SUPPORT_SATURATION_CONTRACT.md",
+      "blob_sha1": "a9a6836dc201feefd37bebb2f6c0ef42e8faaee4"
+    },
+    "n357_audit_receipt": {
+      "path": "stages/stage32/32-01-178/nodes/N357/HOSTILE-AUDIT-PASS.json",
+      "blob_sha1": "e9f93fb1b2bfeb68b72598632522d164fee715c6",
+      "canonical_sha256": "74f294f87e0ae7f2f45b3f37f84f4d0636aecacf2210f9429f9ebafe5504ac31"
+    },
+    "n357_result": {
+      "path": "stages/stage32/32-01-178/nodes/N357/RESULT.json",
+      "blob_sha1": "50014d453266ad79101910a943d14388bd3ef6ec",
+      "canonical_sha256": "0718c1f8f92a6d18e99e82b4adcbe1efe66a0daa47347284cbc6f42e6f0dac53"
+    }
+  },
+  "next_exact_route": "POST_N358_FULL178_FRONTIER_SELECTION",
+  "canonical_sha256_without_this_field": "0d96ed9bc530291e826682d2302e1b05bd985a83cb83631e38b694afbc4e09a4"
 }
