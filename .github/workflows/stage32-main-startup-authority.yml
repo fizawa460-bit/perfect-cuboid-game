@@ -35,7 +35,7 @@ concurrency:
 jobs:
   startup-authority:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 8
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -45,30 +45,46 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-      - name: Checkout hostile-audited MAIN V20 predecessor
+      - name: Checkout hostile-audited MAIN V21 predecessor
         uses: actions/checkout@v4
         with:
-          ref: b6c0a1e431ac04de5326a7c42af89a7b92423ed2
-          path: .stage32-audited-main-v20
+          ref: 62768270a39b23c358f11b3a75bccae5d7cea0f6
+          path: .stage32-audited-main-v21
           fetch-depth: 1
-      - name: Assert hostile-audited MAIN V20 head
-        run: test "$(git -C .stage32-audited-main-v20 rev-parse HEAD)" = "b6c0a1e431ac04de5326a7c42af89a7b92423ed2"
-      - name: Checkout hostile-audited N372 witness
+      - name: Assert hostile-audited MAIN V21 head
+        run: test "$(git -C .stage32-audited-main-v21 rev-parse HEAD)" = "62768270a39b23c358f11b3a75bccae5d7cea0f6"
+      - name: Checkout hostile-audited CUT193
         uses: actions/checkout@v4
         with:
-          ref: 9fb78a0e0c7b52baca84058dea69b8b083e33774
-          path: .stage32-audited-n372
+          ref: 5b2ebb3f67805eddefef835878ba4b9744bfdbd9
+          path: .stage32-audited-cut193
           fetch-depth: 1
-      - name: Assert hostile-audited N372 head
-        run: test "$(git -C .stage32-audited-n372 rev-parse HEAD)" = "9fb78a0e0c7b52baca84058dea69b8b083e33774"
-      - name: Checkout hostile-audited CUT196 evidence
+      - name: Assert hostile-audited CUT193 head
+        run: test "$(git -C .stage32-audited-cut193 rev-parse HEAD)" = "5b2ebb3f67805eddefef835878ba4b9744bfdbd9"
+      - name: Checkout hostile-audited CUT197
         uses: actions/checkout@v4
         with:
-          ref: 85f4e988acf6446fa0d472208e21990621a650b4
-          path: .stage32-audited-cut196
+          ref: adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5
+          path: .stage32-audited-cut197
           fetch-depth: 1
-      - name: Assert hostile-audited CUT196 head
-        run: test "$(git -C .stage32-audited-cut196 rev-parse HEAD)" = "85f4e988acf6446fa0d472208e21990621a650b4"
+      - name: Assert hostile-audited CUT197 head
+        run: test "$(git -C .stage32-audited-cut197 rev-parse HEAD)" = "adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5"
+      - name: Checkout hostile-audited CUT198
+        uses: actions/checkout@v4
+        with:
+          ref: 16e439bc65e723c9f2658c274d53fb839738dcd2
+          path: .stage32-audited-cut198
+          fetch-depth: 1
+      - name: Assert hostile-audited CUT198 head
+        run: test "$(git -C .stage32-audited-cut198 rev-parse HEAD)" = "16e439bc65e723c9f2658c274d53fb839738dcd2"
+      - name: Checkout hostile-audited N357 composition basis
+        uses: actions/checkout@v4
+        with:
+          ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
+          path: .stage32-audited-n357-composition
+          fetch-depth: 1
+      - name: Assert hostile-audited N357 composition head
+        run: test "$(git -C .stage32-audited-n357-composition rev-parse HEAD)" = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -80,17 +96,20 @@ jobs:
           test "$current_main" = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
           test "$merge_base" = "$current_main"
           echo "freshness=contains-current-main"
-      - name: Verify V21 verifier source identities
+      - name: Verify V22 verifier source identities
         run: |
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v21.py)" = "3e94dd6ceaebcfcea7a127dc627b2ddf5a3f4e69"
-          test "$(git hash-object stages/stage32/management/verify_n372_current_v20_authority_rebase.py)" = "88cf1f69396311d2a3842693e78423bcbd2b3d48"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "ea42fbbc7063be2e1e57460c76c1442a3de3d807"
-      - name: Verify N372 current-V20 authority rebase fail-closed
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "f350165a194fa02f29f6aed4dc283d3e6e744b56"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v22.py)" = "708482de47be700bb81f80e464554b60c4404514"
+          test "$(git hash-object stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py)" = "286abb04bb5c898c28187f4824311bdf779ef3f2"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "417e809b24e39fcf49e21aef2a653750765e675b"
+      - name: Verify CUT193 CUT197 CUT198 batch current-V21 composition fail-closed
         run: >-
-          python3 stages/stage32/management/verify_n372_current_v20_authority_rebase.py
-          --audited-main-v20-root .stage32-audited-main-v20
-          --audited-n372-root .stage32-audited-n372
-          --audited-cut196-root .stage32-audited-cut196
+          python3 stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py
+          --audited-main-v21-root .stage32-audited-main-v21
+          --audited-cut193-root .stage32-audited-cut193
+          --audited-cut197-root .stage32-audited-cut197
+          --audited-cut198-root .stage32-audited-cut198
+          --audited-n357-composition-root .stage32-audited-n357-composition
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination
@@ -99,9 +118,9 @@ jobs:
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V21 synchronization
+      - name: Verify Stage32 claim-DAG integrity after V22 batch CUT transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V21 synchronization
+      - name: Verify Stage32 active frontier after V22 batch CUT transition
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'

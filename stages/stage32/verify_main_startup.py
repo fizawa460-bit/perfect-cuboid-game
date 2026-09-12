@@ -5,7 +5,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 START=HERE/"MAIN-START-HERE.md"
 COMMANDS=HERE/"COMMANDS.md"
-AUTHORITY_VERIFIER=HERE/"verify_main_startup_authority_v21.py"
+AUTHORITY_VERIFIER=HERE/"verify_main_startup_authority_v22.py"
 def req(v,m):
     if not v: raise SystemExit("FAIL: "+m)
 def main():

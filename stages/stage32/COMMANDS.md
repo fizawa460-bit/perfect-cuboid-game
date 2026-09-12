@@ -4,21 +4,28 @@ This file is the single human-facing command registry for ordinary Stage32 opera
 
 ## Cross-lane demand routing
 
-All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-DEMANDS.json` before substantive local work.
+All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-DEMANDS.json` before substantive local work. Higher-priority OPEN producer demands preempt lower-priority local work; consumers wait rather than duplicate producer work. Demand SATISFIED never grants mathematical credit.
 
-- Producer: a higher-priority OPEN demand preempts lower-priority local research until SATISFIED, OBSOLETE, or explicitly reprioritized by MAIN.
-- Consumer: an OPEN demand means wait rather than duplicate producer work.
-- Demand SATISFIED does not grant mathematical credit; hostile audit, claim synchronization, MAIN promotion, replacement-head re-audit, and merge authorization remain separate.
-- MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and audited results awaiting promotion.
+Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**. CUT193 subsequently re-entered and is now part of the V22 batch composition below. CUT191 is already consumed.
 
-Current transition: MAIN V20 exact head `b6c0a1e431ac04de5326a7c42af89a7b92423ed2` has hostile-audit PASS review `5187834836`. Repaired N372 exact head `9fb78a0e0c7b52baca84058dea69b8b083e33774` has hostile-audit PASS review `5187357950`. Current-authority rebase now proves the N372 witness `g1-d008|e=8|rank=128820` survives all authority changes after V15: CUT196 targets block 1140 but does not close it, and the hostile-audited N358 incremental domain is empty on `g1-d008/e8`. The authoritative numerical residual therefore remains **17,128 strata / 47,589,703,313,957,134,886,123 terminals** with zero new pruning. N372 is now a current-authority witness only; MAIN pruning, FULL178, effectivity, receiver, theorem, endpoint, closure, and Perfect-Cuboid credit all remain false. V21 must pass `stage32audit` before any further N372 promotion. CUT197 remains deferred with zero MAIN credit.
+## Current MAIN transition
 
-Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191 is already consumed. CUT194, N357, CUT195, CUT196, and N358 are separately accounted under current `MAIN-STATE.json`. CUT193, CUT197, and N372 retain zero MAIN pruning credit.
+Hostile-audited V21 exact head `62768270a39b23c358f11b3a75bccae5d7cea0f6` has PASS review `5188129691`.
+
+V22 batch-composes three previously audited but unconsumed CUT results against that exact current authority in one fail-closed replay:
+
+- CUT193: exact head `5b2ebb3f67805eddefef835878ba4b9744bfdbd9`, review `5180126251`, **25,651** terminals, survivor offsets `1..255`.
+- CUT197: exact head `adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5`, review `5186601376`, **28,250** terminals, survivor offsets `1021..1275`.
+- CUT198: exact head `16e439bc65e723c9f2658c274d53fb839738dcd2`, review `5188018895`, **28,024** terminals, survivor offsets `1276..1530`.
+
+The single composition verifier reconstructs the exact `g1-d008/e8` 7,596-block N357 survivor sequence, proves the three new waves mutually disjoint, proves disjointness from already-consumed CUT191/CUT194/CUT195/CUT196 waves, proves zero N357 overlap, and source-locks the N358 proof that its incremental domain is empty on `g1-d008/e8`. Total incremental rejection is **81,925 terminals**.
+
+Candidate V22 authority is therefore **17,128 strata / 47,589,703,313,957,134,804,198 terminals**. N372 remains a current-authority witness because survivor offset `797` is outside all three newly consumed waves. FULL178 remains incomplete. No effectivity-final, receiver, theorem, endpoint, Stage32 closure, Perfect-Cuboid, or merge credit is granted. V22 requires `stage32audit` before any further MAIN authority promotion.
 
 ## ACTIVE commands
 
 ### `stage32mainbatch`
-Primary Stage32 controller and researcher. It owns authority integration, cross-lane synthesis, promotion, and genuinely unowned mathematics. It must not duplicate specialist-owned sustained leaves.
+Primary Stage32 controller and researcher. Owns authority integration, cross-lane synthesis, promotion, and genuinely unowned mathematics.
 
 ### `stage32audit`
 Hostile audit for an exact retained Stage32 MAIN boundary. PASS is not merge authorization.
@@ -27,36 +34,29 @@ Hostile audit for an exact retained Stage32 MAIN boundary. PASS is not merge aut
 Dedicated FULL178 numerical Picard-census specialist. Startup contract: `stages/stage32/32-01-178/MAIN-START-HERE.md`.
 
 ### `stage32-01-178-audit`
-Hostile audit only after 178 freezes a new exact retained boundary. N372 repaired boundary has PASS review `5187357950`; a later 178 checkpoint requires a new audit.
+Hostile audit after 178 freezes a new exact retained boundary.
 
 ### `stage32ex5-mainbatch`
 Dedicated Picard64/node-support producer/refinement surface. EX5 never self-promotes to MAIN credit.
 
 ### `stage32ex5-audit`
-Hostile audit only after EX5 freezes a new exact retained checkpoint.
+Hostile audit after EX5 freezes a new exact retained checkpoint.
 
 ### `stage32cut-mainbatch`
-Dedicated direct-completion obstruction consumer. CUT197 remains deferred and receives no MAIN credit until retained exact-head CI, hostile audit, and current-authority composition are complete.
+Dedicated direct-completion obstruction consumer. CUT never self-promotes to MAIN authority.
 
 ### `stage32cut-audit`
-Hostile audit only after CUT freezes an exact retained obstruction/checkpoint. PASS alone never grants MAIN credit.
+Hostile audit for exact retained CUT obstruction/checkpoints. PASS alone never grants MAIN credit.
 
 ### `stage32mb-mainbatch`
-Dedicated 32-03 multibranch final-chain researcher. It remains independent of FULL178 execution and does not own MAIN promotion.
+Dedicated 32-03 multibranch final-chain researcher. Independent of FULL178 execution and does not own MAIN promotion.
 
 ### `stage32mb-audit`
-Hostile audit only after MB freezes an exact retained checkpoint.
+Hostile audit after MB freezes a new exact retained checkpoint.
 
 ## Routable EX lanes
 
-EX1 through EX6 remain enrolled in `LANE-ADAPTERS.json` for machine routing. Ordinary separate EX1-EX4/EX6 research stays inactive unless current Stage32 authority or a valid demand explicitly reopens it.
-
-## NOT ordinary active commands
-
-- `stage32-01-178-a` through `stage32-01-178-f` — historical Generation-1 lanes.
-- `stage32ex5-a` through `stage32ex5-h` — historical additive lanes.
-- `stage32-01-178-smith` — audited/recovered checkpoint.
-- spelling variants such as `Stage32-main-batch`, `stage32main batch`, or `stage32 mainbatch` — noncanonical.
+EX1 through EX6 remain enrolled in `LANE-ADAPTERS.json`. Ordinary separate EX1-EX4/EX6 research stays inactive unless current authority or a valid demand reopens it.
 
 ## Routing precedence
 
@@ -64,9 +64,7 @@ Mathematical authority: `Stage32 MAIN-STATE explicit routing` > exact retained/a
 
 Operational scheduling: `higher-priority OPEN cross-lane demand` > local specialist route > historical roadmap text.
 
-The demand layer cannot change mathematical authority by itself.
-
-Current ownership split: 178 = FULL178 numerical census; EX5 = Picard64/node-support producer; CUT = direct infeasibility certificates; MB = multibranch final chain; MAIN = authority, coordination, synthesis, and promotion.
+The demand layer cannot change mathematical authority by itself. Current ownership split: 178 = FULL178 numerical census; EX5 = Picard64/node-support producer; CUT = direct infeasibility certificates; MB = multibranch final chain; MAIN = authority, coordination, synthesis, and promotion.
 
 ## Startup rule
 
