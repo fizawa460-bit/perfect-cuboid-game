@@ -27,6 +27,7 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V19_BC2_32_AUDIT_CONSUMED_BC2_33_EXECUTION",
         "STAGE32EX5_MAIN_COMPACT_STATE_V20_BC2_33_TARGETED_REPLAY_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY",
     }
     req(schema in allowed, "live EX5 schema drift")
 
@@ -64,7 +65,7 @@ def main() -> None:
         req(audit["new_audit_boundary_exists"] is True and audit["freeze_active"] is True and audit["re_audit_required"] is True, "BC2-33 freeze drift")
         req((frontier["e8_bc2_33_new_parent_unsat_count"], frontier["e8_bc2_33_remaining_unknown_count"], frontier["e8_bc2_33_sat_count"]) == (26, 81, 0), "BC2-33 partition drift")
         req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7255, "BC2-33 lower-bound drift")
-    else:
+    elif schema.endswith("BC2_34_EXECUTION"):
         req(audit["last_hostile_audit_exact_head"] == "241d65c51f93b66b79f7e8407891cc46359a45c9", "BC2-33 audit head drift")
         req(audit["last_hostile_audit_review_id"] == 5185961173, "BC2-33 audit review drift")
         req(audit["new_audit_boundary_exists"] is False and audit["freeze_active"] is False and audit["re_audit_required"] is False, "BC2-34 execution freeze drift")
@@ -72,6 +73,17 @@ def main() -> None:
         req(cur["next_route"] == "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET", "BC2-34 route drift")
         req(frontier["e8_bc2_33_audited"] is True and frontier["e8_bc2_34_executed"] is False, "BC2-34 pre-execution receipt drift")
         req(frontier["e8_bc2_34_target_unknown_count"] == 81 and frontier["e8_known_parent_unsat_count_lower_bound"] == 7255, "BC2-34 pre-execution frontier drift")
+    else:
+        req(audit["last_hostile_audit_exact_head"] == "241d65c51f93b66b79f7e8407891cc46359a45c9", "BC2-33 predecessor audit head drift")
+        req(audit["last_hostile_audit_review_id"] == 5185961173, "BC2-33 predecessor audit review drift")
+        req(audit["new_audit_boundary_exists"] is True and audit["freeze_active"] is True and audit["re_audit_required"] is True, "BC2-34 audit freeze drift")
+        req(audit["bc2_34_execution_authorized"] is False, "BC2-34 execution left authorized")
+        req(cur["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "BC2-34 audit route drift")
+        req("NO_BC2_35" in cur["stop_semantics"], "BC2-34 audit stop firewall drift")
+        req(frontier["e8_bc2_33_audited"] is True and frontier["e8_bc2_34_executed"] is True, "BC2-34 execution receipt drift")
+        req((frontier["e8_bc2_34_new_parent_unsat_count"], frontier["e8_bc2_34_remaining_unknown_count"], frontier["e8_bc2_34_sat_count"]) == (17, 64, 0), "BC2-34 partition drift")
+        req(frontier["e8_bc2_34_remaining_unknown_parent_indices_sha256"] == "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b", "BC2-34 UNKNOWN hash drift")
+        req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7272, "BC2-34 lower-bound drift")
 
     req(frontier["e8_bc2_30_audited"] is True, "BC2-30 audit marker drift")
     req(frontier["e8_bc2_31_exact_remaining172_recovered"] is False, "historical 172 identity overclaim")
