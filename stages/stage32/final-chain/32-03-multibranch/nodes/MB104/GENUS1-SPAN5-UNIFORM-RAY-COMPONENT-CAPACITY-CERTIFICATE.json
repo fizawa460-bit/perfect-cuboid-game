@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V1",
-  "status": "RETAINED_FIXED_COMPONENT_OBSTRUCTION_INC24_20_19_INC16_BALANCED_SURVIVORS_SPAN5_OPEN_MB104_INCOMPLETE",
+  "schema": "STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2",
+  "status": "RETAINED_FIXED_COMPONENT_OBSTRUCTION_INC24_20_19_AND_INC14_ORBIT96_INC16_BALANCED_SURVIVORS_SPAN5_OPEN_MB104_INCOMPLETE",
   "receiver": "R29-LG2-MB",
   "scope": {
     "span_semantics": "box-node support span",
@@ -17,27 +17,25 @@
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CERTIFICATE.json",
       "blob_sha1": "3bc4453affce96e87a60864c99f745bb4c28c794",
-      "use": "exact ambient support-hyperplane orbit classification"
+      "use": "exact support-hyperplane orbit classification"
     },
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json",
       "blob_sha1": "9c36555e495df0d8d6b816f1c0dc7d4c35b55848",
-      "use": "repaired exact incidence20/19/16 section-component geometry"
+      "use": "repaired incidence20/19/16 section geometry"
     },
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY.md",
-      "blob_sha1": "815fe72250bddb6c00c058162ea829fea2dfe072",
-      "use": "human-readable fixed-component capacity proof"
+      "blob_sha1": "59fb415010abfbb48cb6c4ae66b66fd9b1f270e8",
+      "use": "human-readable fixed-component capacity proof including incidence14 orbit96"
     },
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_uniform_ray_component_capacity.py",
-      "blob_sha1": "be54a0bd8cad6a5a8e89d1f7fdf83bb7931c6b69",
-      "use": "exact 48-node replay, incidence-16 balanced-subset enumeration and capacity checks"
+      "blob_sha1": "6df7ec835d3198beb118269c3b378d3e255546ae",
+      "use": "exact 48-node replay, balanced support enumeration, rank checks and incidence14 orbit96 conic replay"
     }
   ],
   "pairing": {
-    "component_degree": "e=H.Q",
-    "supported_nodes_on_component": "n_Q=|Sigma intersect T_Q|",
     "formula": "D_l.Q=l*(7e-4n_Q)",
     "nonnegative_capacity": "n_Q<=floor(7e/4)",
     "conic_capacity": 3,
@@ -46,76 +44,73 @@
   },
   "incidence24": {
     "section_components": "8 smooth conics",
-    "section_node_component_multiplicity": 2,
     "minimum_support_size": 14,
     "nonnegative_capacity": 24,
     "minimum_actual_incidence": 28,
-    "forced_negative_component": true,
     "uniform_ray_irreducibly_excluded": true
   },
   "incidence20": {
     "section_components": "4 smooth conics + 2 smooth elliptic quartics",
-    "section_node_component_multiplicity": 2,
     "minimum_support_size": 14,
     "nonnegative_capacity": 26,
     "minimum_actual_incidence": 28,
-    "forced_negative_component": true,
     "uniform_ray_irreducibly_excluded": true
   },
   "incidence19": {
     "reduced_section_components": "4 smooth conics",
-    "every_section_node_on_at_least_one_reduced_conic": true,
     "minimum_support_size": 14,
     "nonnegative_capacity": 12,
     "minimum_actual_incidence": 14,
-    "forced_negative_conic": true,
     "uniform_ray_irreducibly_excluded": true
   },
   "incidence16_size3": {
     "section_components": "4 smooth elliptic quartics",
-    "section_node_component_multiplicity": 2,
     "N_ge_15_forced_negative_component": true,
     "N14_nonnegative_pattern": [7,7,7,7],
-    "balanced_N14_spanning_survivors": 32,
-    "all_survivors_rank6_in_support_hyperplane": true
+    "balanced_N14_spanning_survivors": 32
   },
   "incidence16_size24": {
     "reduced_section_components": "2 smooth elliptic quartics",
-    "component_node_support_sizes": [8,8],
-    "component_node_supports_disjoint": true,
     "N_ge_15_forced_negative_component": true,
     "N14_nonnegative_pattern": [7,7],
-    "balanced_N14_spanning_survivors": 64,
-    "all_survivors_rank6_in_support_hyperplane": true
+    "balanced_N14_spanning_survivors": 64
+  },
+  "incidence14_orbit96": {
+    "orbit_size": 96,
+    "representative_support_mask_hex": "0000185aa566",
+    "representative_hyperplane": "-a2+a3+b2+b3=0",
+    "factor_identity": "q1-q3=2*(a2-b3)*(b2+b3) on the hyperplane",
+    "retained_branch": "a2=b3 gives two smooth conics each generically doubled",
+    "nodes_per_retained_conic": [6,6],
+    "support_size": 14,
+    "pairing_each_retained_conic": "-10l",
+    "uniform_ray_irreducibly_excluded": true
   },
   "retained_consequence": {
-    "incidence24_uniform_ray_closed": true,
-    "incidence20_uniform_ray_closed": true,
-    "incidence19_uniform_ray_closed": true,
+    "closed_uniform_ray_orbits": ["incidence24_all", "incidence20_all", "incidence19_all", "incidence14_orbit96"],
     "incidence16_uniform_ray_reduced_to_finite_balanced_supports": true,
-    "incidence16_total_balanced_support_survivors_per_representative_pair_of_orbits": 96,
+    "incidence16_total_balanced_support_survivors_on_two_representatives": 96,
+    "remaining_open_ambient_orbits": ["incidence15_orbit256", "incidence14_orbit192_a", "incidence14_orbit192_b", "incidence14_orbit384_a", "incidence14_orbit384_b"],
     "arbitrary_unequal_picard_classes_closed": false,
-    "incidence15_14_closed": false,
     "whole_span5_closed": false
   },
   "verification": {
     "local_replay_passed": true,
-    "pass_token": "PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V1",
+    "pass_token": "PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2",
     "exact_head_CI_claimed": false,
     "new_workflow_created": false
   },
   "next_leaf": {
-    "id": "MB104-GENUS1-SPAN5-INC16-BALANCED-PLUS-INC15-14",
+    "id": "MB104-GENUS1-SPAN5-BALANCED16-AND-LOWER-INCIDENCE",
     "targets": [
-      "test the 32 and 64 balanced incidence-16 supports against retained Picard/fibration/effectivity constraints",
-      "classify incidence-15 and incidence-14 section components only far enough to derive valid pairing-capacity obstructions"
+      "test the 32 and 64 balanced incidence-16 supports against retained global constraints",
+      "derive valid test-curve pairings for incidence15 and the remaining four incidence14 orbits"
     ]
   },
   "credit_firewall": {
     "MB104_complete": false,
     "span5_closed": false,
     "finite_degree_window_proved_population_wide": false,
-    "finite_picard_enumeration_released": false,
     "r29_lg2_mb_discharged": false,
     "receiver_credit": false,
     "theorem_credit": false,
