@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V20_BC2_33_TARGETED_REPLAY_AUDIT_BOUNDARY",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION",
   "bootstrap": {
     "active_work_pr": 1776,
     "current_main_sha_observed": "c31684fb5f63d8a025eb298c91861d4c979b0e28",
@@ -38,7 +38,7 @@
   "claim_sync": {
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
-    "last_trigger": "BC2_33_GENERATION2_REPLAY_RETAINED_AUDIT_REQUIRED",
+    "last_trigger": "BC2_33_HOSTILE_AUDIT_PASS_CONSUMED_BC2_34_AUTHORIZED",
     "main_promotion": false,
     "active_frontier_remapped": false,
     "claim_registry_mutated": false
@@ -47,18 +47,19 @@
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "leaf": "BC2_33_REFINE_REMAINING_FRESH_UNKNOWN_SET",
-    "status": "BC2_33_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED",
-    "blocker": "HOSTILE_AUDIT_BC2_33_REQUIRED",
-    "objective": "Retain the completed generation-2 replay of exactly the hostile-audited BC2-32 107-UNKNOWN parent set and freeze its 26 UNSAT / 81 UNKNOWN / 0 SAT result for hostile audit.",
-    "next_route": "HOSTILE_AUDIT_BC2_33_TARGETED_REPLAY",
-    "stop_semantics": "BC2_33_RETAINED_EXACTLY_NO_UNKNOWN_RELABEL_NO_MAIN_PROMOTION_NO_BC2_34_BEFORE_BC2_33_HOSTILE_AUDIT_PASS"
+    "leaf": "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "status": "BC2_34_EXPLICIT_FRESH_UNKNOWN81_REPLAY_EXECUTION_AUTHORIZED",
+    "blocker": "NONE_WITHIN_BOUNDED_BC2_34_EXECUTION",
+    "objective": "Replay only the 81 parent identities explicitly retained as UNKNOWN by hostile-audited BC2-33, at 60000 ms each, preserving SAT/UNKNOWN firewalls and without broad scaleout.",
+    "next_route": "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "stop_semantics": "AUDITED_FRESH_UNKNOWN_SET_ONLY_NO_HISTORICAL_172_INFERENCE_NO_MAIN_PROMOTION_NO_BC2_35_BEFORE_BC2_34_HOSTILE_AUDIT"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/breadth-cycle-2/bc2-33-fresh-unknown107-replay-checkpoint.json",
-    "stages/stage32-ex5/runkeys/bc2-33-fresh-unknown107-replay.json",
-    "stages/stage32-ex5/verify_main_state.py",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_00_btva_node_support_span_diagnostic.py"
+    "stages/stage32-ex5/breadth-cycle-2/bc2-34-fresh-unknown81-replay-preflight.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_34_replay_explicit_fresh_unknown81.py",
+    "stages/stage32-ex5/runkeys/bc2-34-fresh-unknown81-replay.json",
+    "stages/stage32-ex5/verify_main_state.py"
   ],
   "execution": {
     "main_command": "stage32ex5-mainbatch",
@@ -88,12 +89,15 @@
     "e8_bc2_32_remaining_unknown_count": 107,
     "e8_bc2_32_remaining_unknown_parent_indices_sha256": "e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492",
     "e8_bc2_32_sat_count": 0,
+    "e8_bc2_33_audited": true,
     "e8_bc2_33_executed": true,
     "e8_bc2_33_target_unknown_count": 107,
     "e8_bc2_33_new_parent_unsat_count": 26,
     "e8_bc2_33_remaining_unknown_count": 81,
     "e8_bc2_33_remaining_unknown_parent_indices_sha256": "be6ee823abd48d2a6f8163c07977e4112036f38526f39cdddbdf331751170071",
     "e8_bc2_33_sat_count": 0,
+    "e8_bc2_34_executed": false,
+    "e8_bc2_34_target_unknown_count": 81,
     "e8_known_parent_unsat_count_lower_bound": 7255,
     "e8_whole_first_block_unsat": false,
     "whole_g1_d008_e4_stratum_closed": false,
@@ -103,13 +107,14 @@
   "intermediate_audit_boundary": {
     "candidate_pr": 1776,
     "last_hostile_audit_status": "PASS",
-    "last_hostile_audit_exact_head": "5c68ed03d77d6443c54340c90d457e80441fe414",
-    "last_hostile_audit_review_id": 5185434136,
+    "last_hostile_audit_exact_head": "241d65c51f93b66b79f7e8407891cc46359a45c9",
+    "last_hostile_audit_review_id": 5185961173,
     "bc2_32_execution_authorized": false,
     "bc2_33_execution_authorized": false,
-    "freeze_active": true,
-    "new_audit_boundary_exists": true,
-    "re_audit_required": true,
+    "bc2_34_execution_authorized": true,
+    "freeze_active": false,
+    "new_audit_boundary_exists": false,
+    "re_audit_required": false,
     "historical_boundary_only": false,
     "repair_required_before_merge": false,
     "merged": false,
@@ -117,10 +122,11 @@
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
   },
   "next_step": {
-    "id": "HOSTILE_AUDIT_BC2_33_TARGETED_REPLAY",
-    "goal": "Hostile-audit the retained generation-2 BC2-33 checkpoint, exact run receipt, source locks, 26 UNSAT / 81 UNKNOWN / 0 SAT partition, and all credit firewalls.",
+    "id": "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "goal": "Replay exactly the hostile-audited BC2-33 remaining 81-UNKNOWN parent set at 60000 ms per parent on one heavy runner; retain every remaining UNKNOWN and any Picard64 SAT witness without curve/effectivity promotion.",
     "bc2_33_execution_authorized": false,
-    "bc2_34_blocked_until_bc2_33_hostile_audit_pass": true,
+    "bc2_34_execution_authorized": true,
+    "bc2_35_blocked_until_bc2_34_hostile_audit_pass": true,
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "n350_registration_authorized": false,
@@ -133,23 +139,21 @@
       "hostile_audit_review_id": 5185434136,
       "merged": false,
       "stage32_main_credit": false
+    },
+    "bc2_33_pr_1776": {
+      "hostile_audit_status": "PASS",
+      "audit_checkpoint_exact_head": "241d65c51f93b66b79f7e8407891cc46359a45c9",
+      "hostile_audit_review_id": 5185961173,
+      "merged": false,
+      "stage32_main_credit": false
     }
   },
   "retained_exact_progress": {
-    "bc2_32_checkpoint_canonical": "905b416477b23199c794a1267e143158e0dac7baaaa9f809d9cd8528e8e4aa6c",
-    "bc2_32_checkpoint_git_blob_sha": "d21a3ddd3c2e06dd5523777aa3141ff41392a467",
-    "bc2_32_hostile_audit_exact_head": "5c68ed03d77d6443c54340c90d457e80441fe414",
-    "bc2_32_hostile_audit_review_id": 5185434136,
-    "bc2_33_generation1_cancelled_exact_head": "75760777934825de9851811c708871412d99ab0e",
-    "bc2_33_generation1_cancelled_workflow_run_id": 34681403712,
-    "bc2_33_generation1_cancelled_compute_job_id": 103520625439,
     "bc2_33_generation2_execution_head": "109aa38ff7e7d18e80697970489976acfd489503",
     "bc2_33_workflow_run_id": 34681698147,
     "bc2_33_authorize_job_id": 103521379130,
     "bc2_33_compute_job_id": 103521422359,
     "bc2_33_artifact_id": 10294224700,
-    "bc2_33_artifact_zip_sha256": "2f60580c25eb6564a3daa3cd314cc0b0bf66eccc53f1da9dc32989f43da4052c",
-    "bc2_33_raw_json_sha256": "924a6b44cdba3152631a2a4ed24c9c37e6a5b23ee160d116903d25f3b7f74346",
     "bc2_33_checkpoint_canonical": "3310103df67d47d89ac121504a668158e0946070a7b15da07bbb0af7105fa73c",
     "bc2_33_checkpoint_git_blob_sha": "465dcb5c535c6cbbedc25ef2afe26915291ce38b",
     "bc2_33_status_stream_sha256": "e921c64caea0da8c75e2e47ade3c4b3d2105fc1583c97548cec7142e931473c5",
@@ -158,10 +162,15 @@
     "bc2_33_remaining_unknown_count": 81,
     "bc2_33_sat_count": 0,
     "bc2_33_known_parent_unsat_count_lower_bound": 7255,
+    "bc2_33_hostile_audit_exact_head": "241d65c51f93b66b79f7e8407891cc46359a45c9",
+    "bc2_33_hostile_audit_review_id": 5185961173,
+    "bc2_34_source_git_blob_sha": "eb715ed7cc5bb350b15e35868e2f79c548f17e28",
+    "bc2_34_preflight_git_blob_sha": "efbadd91e1bfea694d70791aeb77ccb8d05dbe02",
+    "bc2_34_preflight_canonical": "a131b1c481631b721ef8acea42c02592be5ef04ed66c401dc72990e35ac98e8e",
     "exact_evidence_rewritten_by_semantic_sync": false
   },
   "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_33_RETAINED_AUDIT_REQUIRED_NO_MAIN_CREDIT",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_33_AUDIT_CONSUMED_BC2_34_AUTHORIZED_NO_NEW_MATH_CREDIT",
     "FULL178_complete": false,
     "stage32_main_credit": false,
     "n350_production_coverage_credit": false,
