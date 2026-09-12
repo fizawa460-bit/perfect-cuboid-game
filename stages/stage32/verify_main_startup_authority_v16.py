@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 STATE_PATH = ROOT / "stages/stage32/MAIN-STATE.json"
+PREDECESSOR_V15_PATH = ROOT / "stages/stage32/management/MAIN-STATE-V15-CUT195-PRE-REAUDIT.json"
 RECEIPT_PATH = ROOT / "stages/stage32/management/post-cut195-v15-hostile-reaudit-pass-consumption-20260912.json"
 
 EXPECTED_PREDECESSOR_V15_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
@@ -56,25 +56,16 @@ def load_locked(path: Path, blob: str, can: str) -> dict:
     return obj
 
 
-def historical_blob(blob: str) -> dict:
-    probe = subprocess.run(
-        ["git", "-C", str(ROOT), "cat-file", "-e", blob],
-        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False,
-    )
-    req(probe.returncode == 0, "predecessor V15 blob unavailable in git history")
-    data = subprocess.check_output(["git", "-C", str(ROOT), "cat-file", "blob", blob])
-    req(blob_sha1(data) == blob, "predecessor V15 blob identity mismatch")
-    return json.loads(data)
-
-
 def main() -> None:
-    prev = historical_blob(EXPECTED_PREDECESSOR_V15_BLOB)
+    # Retain the exact V15 routing bytes inside the repository rather than
+    # relying on Git history. This keeps shallow exact-head CI fail-closed.
+    prev = load_locked(
+        PREDECESSOR_V15_PATH,
+        EXPECTED_PREDECESSOR_V15_BLOB,
+        EXPECTED_PREDECESSOR_V15_CANONICAL,
+    )
     req(prev.get("schema") == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED",
         "unexpected predecessor schema")
-    req(prev.get("canonical_sha256_without_this_field") == EXPECTED_PREDECESSOR_V15_CANONICAL,
-        "predecessor stored canonical mismatch")
-    req(canonical(prev) == EXPECTED_PREDECESSOR_V15_CANONICAL,
-        "predecessor canonical mismatch")
     prev_frontier = prev["current_exact_frontier"]
     req(prev_frontier["authoritative_remaining_strata"] == AUTH_STRATA,
         "predecessor strata drift")
@@ -82,6 +73,8 @@ def main() -> None:
         "predecessor terminals drift")
     req(prev["authority_sync"]["cut195_post_sync_reaudit_status"] == "PENDING",
         "predecessor did not require CUT195 replacement-head re-audit")
+    req(prev_frontier["cut195_synchronized_head_hostile_audited"] is False,
+        "predecessor self-awarded CUT195 replacement-head audit")
 
     receipt = load_locked(RECEIPT_PATH, EXPECTED_RECEIPT_BLOB, EXPECTED_RECEIPT_CANONICAL)
     req(receipt["status"] == "CONSUMED", "receipt not consumed")
@@ -91,6 +84,14 @@ def main() -> None:
     req(audit["review_id"] == AUDIT_REVIEW and audit["status"] == "PASS",
         "wrong V15 hostile re-audit identity/status")
     req(audit["merged_main_commit"] == MERGED_MAIN, "wrong merged-main identity")
+    ci = audit["exact_head_ci"]
+    req(ci == {
+        "claim_frontier": 34685096528,
+        "ex5_main_integrity": 34685096534,
+        "main_startup": 34685096537,
+        "stage36_authority": 34685096518,
+        "stale_run_sweeper": 34685096570,
+    }, "V15 exact-head CI identity drift")
     trans = receipt["authority_transition"]
     req(trans["mathematical_authority_changed"] is False,
         "audit consumption must not change numerical authority")
@@ -108,6 +109,10 @@ def main() -> None:
         "CUT195 V15 replacement-head audit not consumed")
     req(state["authority_sync"]["cut195_post_sync_reaudit_review_id"] == AUDIT_REVIEW,
         "CUT195 V15 review mismatch")
+    req(state["authority_sync"]["cut195_post_sync_reaudit_exact_head"] == AUDITED_V15_HEAD,
+        "CUT195 V15 audited head mismatch")
+    req(state["authority_sync"]["cut195_post_sync_reaudit_required"] is False,
+        "CUT195 V15 audit still marked required")
     req(state["authority_sync"]["cut195_synchronized_head_hostile_audited"] is True,
         "CUT195 synchronized head not marked audited")
     frontier = state["current_exact_frontier"]
