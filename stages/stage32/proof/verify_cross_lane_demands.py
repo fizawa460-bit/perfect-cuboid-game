@@ -3,34 +3,33 @@ from __future__ import annotations
 
 import hashlib
 import json
-import subprocess
-import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 STAGE = HERE.parent
-REPO = STAGE.parents[1]
 MAIN_STATE = STAGE / "MAIN-STATE.json"
-V13_SNAPSHOT = STAGE / "management/MAIN-STATE-V13-N357-PRECONSUMPTION.json"
-V13_VERIFIER = HERE / "verify_cross_lane_demands_v13.py"
+DEMANDS = HERE / "CROSS-LANE-DEMANDS.json"
 N357_RECEIPT = STAGE / "management/post-n357-composition-pass-consumption-20260912.json"
 CUT195_RECEIPT = STAGE / "management/post-cut195-current-v14-composition-consumption-20260912.json"
+V15_SYNC_RECEIPT = STAGE / "management/post-cut195-replacement-head-hostile-pass-merge-sync-20260912.json"
 
-V13_STATE_BLOB = "0f281111572572a8068cc38bb77f5f1c869b98ad"
-V13_STATE_CANONICAL = "7c39d7935c36066cf2ec4a549eadc45e821fbf818490e6bfd10126f32bdf8a6d"
-V13_VERIFIER_BLOB = "4ce5d9ffe53aa25a00af054e35d5419d35b05355"
-V15_STATE_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+V16_STATE_BLOB = "514fd4d3e4ba8ab5e33b0ff9537350e82a123ce0"
+V16_STATE_CANONICAL = "23918007afdf7b01c7736dfb938d3d51261d3f79939627df7737fa7de12ba882"
+DEMANDS_BLOB = "bbf4fc2460bad22c65359bc17aa89f8717e259a2"
+DEMANDS_CANONICAL = "ae916d01b2690b2f86f06c754c83d396f947d4d2ed5df0b3adbdc42d10c2e62a"
 N357_RECEIPT_BLOB = "033500e397a0e9d6dfa04638ab765a861cc523b8"
 N357_RECEIPT_CANONICAL = "9e5209b77b7852df66673827782bbd6c0def6651409b711aff6969c69b8a8a5f"
 CUT195_RECEIPT_BLOB = "148ea573bb1f618baac33c0d1f8cc91678fbbca2"
 CUT195_RECEIPT_CANONICAL = "e33fb30bef69ce3ef87f095b500ecd4a8a21b155a3d9c957836ed17c82ad6be9"
-CUT194_INCREMENT = 26442
-N357_INCREMENT = 17797986705435299826016
-CUT195_INCREMENT = 26216
+V15_SYNC_RECEIPT_BLOB = "a38be20bf4db3342eb0fcea91c6f8aed50b03b54"
+V15_SYNC_RECEIPT_CANONICAL = "9c5ef3da7907eb37b36e30d2feb7d47194d8765f8fac4cf72b1f102159190f2c"
 POST_CUT191 = 65396964990500233636101
 POST_CUT194 = 65396964990500233609659
 POST_N357 = 47598978285064933783643
 POST_CUT195 = 47598978285064933757427
+CUT194_INCREMENT = 26442
+N357_INCREMENT = 17797986705435299826016
+CUT195_INCREMENT = 26216
 
 def req(v: bool, msg: str) -> None:
     if not v:
@@ -47,130 +46,80 @@ def canonical(obj: dict) -> str:
         json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
 
-def load(path: Path) -> dict:
-    return json.loads(path.read_text(encoding="utf-8"))
-
-def replay_v13_contract() -> None:
-    req(git_blob(V13_SNAPSHOT) == V13_STATE_BLOB, "V13 snapshot blob drift")
-    old = load(V13_SNAPSHOT)
-    req(old["canonical_sha256_without_this_field"] == V13_STATE_CANONICAL, "V13 snapshot stored canonical drift")
-    req(canonical(old) == V13_STATE_CANONICAL, "V13 snapshot canonical drift")
-    req(git_blob(V13_VERIFIER) == V13_VERIFIER_BLOB, "V13 cross-lane verifier blob drift")
-
-    current = MAIN_STATE.read_bytes()
-    old_bytes = V13_SNAPSHOT.read_bytes()
-    try:
-        MAIN_STATE.write_bytes(old_bytes)
-        proc = subprocess.run([sys.executable, str(V13_VERIFIER)], cwd=REPO)
-        req(proc.returncode == 0, "historical V13 cross-lane contract replay failed")
-    finally:
-        MAIN_STATE.write_bytes(current)
-    req(git_blob(MAIN_STATE) == V15_STATE_BLOB, "V15 MAIN state was not restored after historical replay")
+def load_locked(path: Path, blob: str, canon: str) -> dict:
+    req(git_blob(path) == blob, f"blob drift: {path}")
+    obj = json.loads(path.read_text(encoding="utf-8"))
+    req(obj["canonical_sha256_without_this_field"] == canon, f"stored canonical drift: {path}")
+    req(canonical(obj) == canon, f"canonical drift: {path}")
+    return obj
 
 def main() -> None:
-    replay_v13_contract()
+    state = load_locked(MAIN_STATE, V16_STATE_BLOB, V16_STATE_CANONICAL)
+    demands = load_locked(DEMANDS, DEMANDS_BLOB, DEMANDS_CANONICAL)
+    load_locked(N357_RECEIPT, N357_RECEIPT_BLOB, N357_RECEIPT_CANONICAL)
+    load_locked(CUT195_RECEIPT, CUT195_RECEIPT_BLOB, CUT195_RECEIPT_CANONICAL)
+    sync = load_locked(V15_SYNC_RECEIPT, V15_SYNC_RECEIPT_BLOB, V15_SYNC_RECEIPT_CANONICAL)
 
-    state = load(MAIN_STATE)
+    req(demands["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V1", "demand schema drift")
+    open_demands = [d["demand_id"] for d in demands["demands"] if d["status"] == "OPEN"]
+    req(open_demands == [], f"unexpected OPEN cross-lane demands: {open_demands}")
+    req(all(d["status"] in {"OPEN", "SATISFIED", "OBSOLETE"} for d in demands["demands"]),
+        "invalid demand status")
+    req(demands["credit_firewall"]["demand_satisfied_is_mathematical_credit"] is False,
+        "demand satisfaction self-granted mathematical credit")
+    req(demands["credit_firewall"]["merge_authorized"] is False,
+        "demand registry self-authorized merge")
+
     frontier = state["current_exact_frontier"]
-    req(frontier["cut191_main_pruning_credit"] is True, "CUT191 lost MAIN credit")
-    req(frontier["cut194_main_pruning_credit"] is True, "CUT194 lost MAIN credit")
-    req(frontier["n357_main_pruning_credit"] is True, "N357 not consumed into MAIN")
-    req(frontier["cut195_main_pruning_credit"] is True, "CUT195 not consumed into MAIN")
-    req(frontier["cut193_main_pruning_credit"] is False, "CUT193 gained unauthorized MAIN credit")
-    req(frontier["cut191_remaining_terminals"] == POST_CUT191, "post-CUT191 historical count drift")
-    req(frontier["cut194_remaining_terminals"] == POST_CUT194, "post-CUT194 historical count drift")
-    req(frontier["n357_incremental_rejected_terminals"] == N357_INCREMENT, "N357 increment drift")
-    req(frontier["n357_remaining_terminals"] == POST_N357, "post-N357 count drift")
-    req(frontier["cut195_incremental_rejected_terminals"] == CUT195_INCREMENT, "CUT195 increment drift")
-    req(frontier["cut195_remaining_terminals"] == POST_CUT195, "post-CUT195 count drift")
-    req(frontier["authoritative_remaining_terminals"] == POST_CUT195, "live authority is not post-CUT195")
-    req(frontier["authoritative_remaining_strata"] == 17128, "live strata drift")
+    req(frontier["cut191_main_pruning_credit"] is True, "CUT191 credit lost")
+    req(frontier["cut194_main_pruning_credit"] is True, "CUT194 credit lost")
+    req(frontier["n357_main_pruning_credit"] is True, "N357 credit lost")
+    req(frontier["cut195_main_pruning_credit"] is True, "CUT195 credit lost")
+    req(frontier["cut193_main_pruning_credit"] is False, "CUT193 unauthorized credit")
+    req(frontier["cut196_main_pruning_credit"] is False, "CUT196 unauthorized credit")
+    req(frontier["cut191_remaining_terminals"] == POST_CUT191, "post-CUT191 drift")
+    req(frontier["cut194_remaining_terminals"] == POST_CUT194, "post-CUT194 drift")
+    req(frontier["n357_remaining_terminals"] == POST_N357, "post-N357 drift")
+    req(frontier["cut195_remaining_terminals"] == POST_CUT195, "post-CUT195 drift")
+    req(frontier["authoritative_remaining_terminals"] == POST_CUT195, "authority count drift")
+    req(frontier["authoritative_remaining_strata"] == 17128, "authority strata drift")
     req(POST_CUT191 - CUT194_INCREMENT == POST_CUT194, "CUT194 arithmetic drift")
     req(POST_CUT194 - N357_INCREMENT == POST_N357, "N357 arithmetic drift")
     req(POST_N357 - CUT195_INCREMENT == POST_CUT195, "CUT195 arithmetic drift")
-    req(POST_CUT191 - POST_CUT195 == CUT194_INCREMENT + N357_INCREMENT + CUT195_INCREMENT,
-        "live MAIN delta double-charge or gap")
 
     auth = state["authority_sync"]
-    req(auth["n357_current_v13_composition_hostile_audit_status"] == "PASS",
-        "N357 current-authority composition lacks audit PASS")
-    req(auth["n357_current_v13_composition_hostile_audit_review_id"] == 5184369560,
-        "N357 composition audit review drift")
-    req(auth["n357_current_v13_composition_audited_exact_head"] ==
-        "0bdc3b952b35ea3201d8619f21a3df7a3015ff85",
-        "N357 composition audited head drift")
-    req(auth["n357_main_pruning_credit_consumed"] is True, "N357 consumption flag false")
-    req(auth["n357_post_sync_reaudit_status"] == "PASS", "N357 replacement-head re-audit not consumed")
-    req(auth["n357_synchronized_head_hostile_audited"] is True, "N357 synchronized head not audited")
-    req(auth["cut195_candidate_hostile_audit_status"] == "PASS", "CUT195 candidate lacks audit PASS")
-    req(auth["cut195_current_v14_composition_replayed"] is True, "CUT195 current-V14 composition not replayed")
-    req(auth["cut195_current_v14_overlap_n357_terminals"] == 0, "CUT195 overlaps N357")
-    req(auth["cut195_main_pruning_credit_consumed"] is True, "CUT195 consumption flag false")
-    req(auth["cut195_post_sync_reaudit_required"] is True, "CUT195 replacement-head audit gate missing")
-    req(auth["cut195_post_sync_reaudit_status"] == "PENDING", "CUT195 replacement-head audit status drift")
-    req(frontier["cut195_synchronized_head_hostile_audited"] is False,
-        "CUT195 replacement head self-awarded audit")
+    req(auth["n357_post_sync_reaudit_status"] == "PASS", "N357 re-audit not PASS")
+    req(auth["cut195_candidate_hostile_audit_status"] == "PASS", "CUT195 candidate audit not PASS")
+    req(auth["cut195_current_v14_overlap_n357_terminals"] == 0, "CUT195/N357 overlap")
+    req(auth["cut195_post_sync_reaudit_status"] == "PASS", "CUT195 replacement re-audit not PASS")
+    req(auth["cut195_synchronized_head_hostile_audited"] is True, "CUT195 sync audit flag false")
+    req(auth["cut195_audited_head_tree_equals_current_main_tree"] is True, "V15/main tree mismatch")
 
-    req(git_blob(N357_RECEIPT) == N357_RECEIPT_BLOB, "N357 consumption receipt blob drift")
-    n357_receipt = load(N357_RECEIPT)
-    req(n357_receipt["canonical_sha256_without_this_field"] == N357_RECEIPT_CANONICAL,
-        "N357 consumption receipt stored canonical drift")
-    req(canonical(n357_receipt) == N357_RECEIPT_CANONICAL,
-        "N357 consumption receipt canonical drift")
-    x = n357_receipt["overlap_and_cross_lane_replay"]
-    req(x["cut191_overlap_terminals"] == 0 and x["cut194_overlap_terminals"] == 0,
-        "N357 overlaps previously consumed cuts")
-    req(x["double_charge"] is False, "N357 double-charge flag set")
-    req(x["g1_d008_e8_current_prefix_survivor_block_count"] == 7596,
-        "CUT192 source prefix block count drift")
-    req(x["g1_d008_e8_current_prefix_survivor_block_stream_sha256"] ==
-        "529b9c31d36c517484dc176ba1d37674790eec05dc01853f9ce93b36e416c8e3",
-        "CUT192 source prefix stream drift")
-    req(x["cut192_preferred_wave_survivor_offset_range"] == [1, 255],
-        "CUT192 preferred wave identity drift")
-    req(x["n357_rejecting_current_prefix_blocks"] == 0,
-        "N357 invalidates e=8 current prefix")
-    req(x["n357_rejecting_cut192_preferred_wave_blocks"] == 0 and
-        x["n357_rejecting_cut192_preferred_wave_terminals"] == 0,
-        "N357 invalidates CUT192 preferred wave")
-    req(x["cut192_satisfied_handoff_remains_current_main_surviving"] is True,
-        "CUT192 satisfied handoff no longer current-MAIN surviving")
+    req(sync["authority_projection"]["cut195_post_sync_reaudit_consumed"] is True,
+        "V15 external audit not consumed")
+    req(sync["authority_projection"]["full178_frontier_status"] == "ACTIVE_INCOMPLETE",
+        "FULL178 frontier status drift")
+    req(sync["cut196_observation"]["main_pruning_credit"] is False,
+        "CUT196 observation self-granted credit")
+    req(sync["cut196_observation"]["claim_frontier_ci_conclusion"] == "FAILURE",
+        "CUT196 failed CI observation lost")
 
-    req(git_blob(CUT195_RECEIPT) == CUT195_RECEIPT_BLOB, "CUT195 consumption receipt blob drift")
-    cut195_receipt = load(CUT195_RECEIPT)
-    req(cut195_receipt["canonical_sha256_without_this_field"] == CUT195_RECEIPT_CANONICAL,
-        "CUT195 consumption receipt stored canonical drift")
-    req(canonical(cut195_receipt) == CUT195_RECEIPT_CANONICAL,
-        "CUT195 consumption receipt canonical drift")
-    y = cut195_receipt["current_v14_composition_replay"]
-    req(y["cut195_target_equals_current_prefix_offsets_511_765"] is True,
-        "CUT195 current-prefix population identity drift")
-    req(y["n357_rejecting_cut195_target_blocks"] == 0 and
-        y["n357_rejecting_cut195_target_terminals"] == 0,
-        "CUT195 overlaps N357 in retained receipt")
-    req(y["cut191_disjoint"] is True and y["cut194_disjoint"] is True,
-        "CUT195 overlaps consumed CUT191/CUT194")
-    req(y["double_charge"] is False, "CUT195 double-charge flag set")
-
-    req(state["firewalls"]["merge_authorized"] is False, "merge authorized")
-    req(frontier["full178_numerical_census_complete"] is False, "FULL178 incorrectly closed")
+    req(frontier["full178_numerical_census_complete"] is False, "FULL178 incorrectly complete")
     req(frontier["stage32_closed"] is False, "Stage32 incorrectly closed")
+    req(state["firewalls"]["merge_authorized"] is False, "merge authorized")
 
     print(json.dumps({
-        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V15",
-        "historical_v13_contract_replayed": True,
+        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V16",
+        "open_demands": 0,
         "cut191_main_consumed": True,
         "cut194_main_consumed": True,
         "n357_main_consumed": True,
         "cut195_main_consumed": True,
-        "n357_incremental_rejected_terminals": N357_INCREMENT,
-        "cut195_incremental_rejected_terminals": CUT195_INCREMENT,
+        "cut195_replacement_head_reaudit_consumed": True,
+        "cut196_main_credit": False,
         "authoritative_remaining_terminals": POST_CUT195,
-        "cut192_preferred_wave_n357_overlap": 0,
-        "cut195_n357_overlap": 0,
-        "cut193_main_credit": False,
-        "full178_complete": False,
-        "replacement_head_hostile_reaudit_required": True,
+        "full178_frontier": "ACTIVE_INCOMPLETE",
+        "stage32_closed": False,
         "merge_authorized": False,
     }, sort_keys=True))
 
