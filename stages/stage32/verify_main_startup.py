@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 START = HERE / "MAIN-START-HERE.md"
 COMMANDS = HERE / "COMMANDS.md"
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v15.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v16.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -42,11 +42,11 @@ def main() -> None:
     ):
         req(token in commands, f"canonical command missing from registry: {token}")
 
-    # V15 is the live startup authority after the hostile-audited CUT195 wave3
-    # was composed against hostile-reaudited V14 authority, proved disjoint
-    # from N357/current consumed cuts, and consumed as a bounded numerical
-    # pruning increment. The V15 replacement head still requires its own
-    # hostile re-audit before any further MAIN promotion.
+    # V16 consumes the external hostile re-audit PASS for the exact V15
+    # CUT195-consumed head after proving that the squash-merged main commit
+    # has the identical Git tree. No new pruning credit is introduced here.
+    # FULL178 is selected as the active incomplete frontier; CUT196 remains
+    # observed-only with zero MAIN credit pending its own successful audit.
     runpy.run_path(str(AUTHORITY_VERIFIER), run_name="__main__")
 
     runpy.run_path(str(HERE / "verify_command_surface.py"), run_name="__main__")
