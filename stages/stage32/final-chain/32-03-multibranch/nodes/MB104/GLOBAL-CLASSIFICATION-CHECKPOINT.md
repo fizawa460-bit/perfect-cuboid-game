@@ -1,22 +1,18 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **FROZEN FOR INTERMEDIATE HOSTILE AUDIT / UNIFORM P5 GEOMETRIC CORE 864 / MB104 EQUALITY-PACKET CORE 768 / 000707 JOINT PAIR BIRATIONAL + SATURATED BOUNDARY FIBERS / P6 OPEN / NO CREDIT**
+Status: **FROZEN FOR INTERMEDIATE HOSTILE AUDIT / UNIFORM P5 GEOMETRIC CORE 864 / MB104 EQUALITY-PACKET CORE 768 / 000707 JOINT PAIR BIRATIONAL + SATURATED BOUNDARY FIBERS / NO CREDIT**
 
-Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of a standalone `R8<d/4+O(1)` inequality remains frozen unless a genuinely new lever appears.
-
-The most recent hostile-audited retained boundary is
+The shared retained PR is frozen for the next intermediate delta-bounded `stage32mb` hostile audit. The previous hostile-audited exact head is
 
 ```text
-39a56d2a9abda0c051145172ff61d67eef0bdb14
+39a56d2a9abda0c051145172ff61d67eef0bdb14.
 ```
 
-with `HOSTILE AUDIT: PASS`.
+The freeze transition itself is recorded by `PRIORITY-OVERRIDE-20260912.json`. Do not append further substantive retained mathematics on this shared PR before the audit result; metadata-only PR synchronization is allowed.
 
-The retained continuation has now reached the repository's long-lived shared-PR warning zone. Treat this exact retained checkpoint as frozen for the next intermediate delta-bounded `stage32mb` hostile audit. Do not append another substantial retained research wave to this shared PR before that audit result. Scratch-only exploration may continue off the shared retained surface when permitted.
+## Current mathematical frontier
 
-## 1. Scope
-
-For the displayed uniform genus-one P5 ray,
+Displayed uniform genus-one P5 ray:
 
 ```text
 D_l=7lH-4l sum_(p in Sigma)E_p,
@@ -25,19 +21,15 @@ d=112l,
 l>=1.
 ```
 
-The dangerous MB104 packet is stronger:
+Dangerous MB104 packet:
 
 ```text
-r_i=M_i=8l on all 14 supported nodes,
+r_i=M_i=8l at all 14 supported nodes,
 all branches FSM-minimal (A,B)=(1,1), m=1,
 R=R8=M=r_odd=d=112l.
 ```
 
-The Picard class and this branch packet must not be conflated.
-
-## 2. Geometric and equality-packet frontiers
-
-For the displayed ray, fixed-component reductions plus the exact two-zero-quartic gluing obstruction leave the geometric arbitrary-branch support population
+Geometric arbitrary-branch uniform-ray core remains
 
 ```text
 864 = 48+48+768
@@ -51,44 +43,19 @@ on
 000707000f0f.
 ```
 
-All retained zero-pairing quartics on these supports are nonfixed for every `l>=1`; the known zero-quartic route is exhausted.
-
-The Beauville equality route applies only to the dangerous packet. It forces product-cover projections to be finite etale of degree `14el`. The two one-type size48 packets are excluded for all `l>=1` by the CM inert-7 contradiction. Therefore
+The dangerous equality-packet core is smaller. The two size48 one-type packets are excluded for all `l>=1` by the retained CM inert-7 obstruction, leaving only
 
 ```text
-geometric arbitrary-branch core: 864;
-MB104 dangerous equality-packet core: 768,
+000707000f0f   size 768.
 ```
 
-and the latter consists only of
-
-```text
-000707000f0f.
-```
-
-## 3. `000707` current exact reductions
-
-The support has node-type counts
-
-```text
-(7,7,0).
-```
-
-Two used outside involutions exclude `e=1`, leaving
+For `000707`, exact node-type replay leaves
 
 ```text
 e=2 or e=4.
 ```
 
-Let
-
-```text
-H=<s1,s2> ~= (Z/2)^2,
-Q=Z/H,
-R=C8/H ~= P1.
-```
-
-Then `g(Q)=1` and the two descended factor maps
+Let `H=<s1,s2>`, `Q=Z/H`, `R=C8/H ~= P1`. The descended factor maps
 
 ```text
 psi1,psi2:Q->R
@@ -107,7 +74,7 @@ The joint map
 Psi=(psi1,psi2):Q->R x R
 ```
 
-is birational onto its image. Exact `Aut(S)` replay shows the support stabilizer has order two, with its unique nonidentity swapping the two used node types; hence there is no nontrivial type-preserving relative deck symmetry. The image bidegree is therefore exactly
+is birational onto its image: exact `Aut(S)` replay shows the only nontrivial support automorphism swaps the two used node types, so there is no nontrivial type-preserving relative deck symmetry. Hence the image has exact bidegree
 
 ```text
 e=2: (28l,28l);
@@ -116,8 +83,6 @@ e=4: (56l,56l),
 
 with normalization genus one.
 
-## 4. Satake-boundary two-fiber saturation
-
 The two zero quartics
 
 ```text
@@ -125,66 +90,56 @@ Q0: b1=0, i*a2-a3=0, a1-c=0,
 Q1: b2=0, i*a3+a1=0, a2-c=0
 ```
 
-are Satake-boundary components. Each contains eight box nodes, seven supported by `000707`.
+are Satake-boundary components. Each contains seven supported nodes. A boundary component's four-cusp `G`-orbit splits into two `H`-orbits, so all dangerous-packet branches from one zero quartic lie over two specific factor-quotient values.
 
-For a fixed zero quartic, its relevant four-cusp `G`-orbit splits into exactly two `H`-orbits on the fixed factor. Consequently all dangerous-packet branches from those seven nodes lie over two specific factor-quotient values.
-
-For `e=2`,
+Thus:
 
 ```text
-7*(8l)=56l=2*(28l),
+e=2:
+  7*(8l)=56l=2*(28l),
+  so the two specific degree-28l fibers are reduced, unramified,
+  and contain 28l supported points each.
+
+e=4:
+  after the residual etale double cover B=Z/H -> E=Z/G,
+  2*7*(8l)=112l=2*(56l),
+  so the two specific degree-56l fibers are reduced, unramified,
+  and contain 56l supported points each.
 ```
 
-so the two specific degree-`28l` fibers are reduced, unramified, and fully saturated, each containing `28l` supported points.
+No per-node branch-value concentration, equal split of the `8l` branches at one node, or orientation relation between `Q0,Q1` is assumed.
 
-For `e=4`, the residual etale double cover doubles the supported points on `Q=Z/H`:
+## Post-audit next leaf
 
 ```text
-2*7*(8l)=112l=2*(56l),
+MB104-GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER
 ```
 
-so the two corresponding degree-`56l` fibers are also reduced, unramified, and fully saturated, each containing `56l` supported points.
+The missing invariant is the residual product-cover sheet/character assignment: compute the restriction of the remaining nontrivial character(s) of the free `G0` cover to the carrier pullback, or derive an algebraic incompatibility between the birational factor pair and the two saturated fiber pairs.
 
-No per-node concentration, equal split of the `8l` branches at a node, or orientation relation between the two zero quartics is assumed.
+## Audit handoff
 
-## 5. Exact missing datum after freeze
+Audit the retained delta since `39a56d2a9abda0c051145172ff61d67eef0bdb14`, together with transitive load-bearing source locks, semantic adapters, and fail-closed verifiers. In particular include:
 
-The retained equality packet now satisfies simultaneously
+- balanced16 zero-quartic and gluing continuation;
+- primitive restriction-rank work;
+- Lu--Miyaoka and Miyaoka 2008 adapters;
+- Beauville equality/node-type/Hurwitz reductions;
+- size48 CM inert-7 obstruction;
+- `000707` joint-pair birationality;
+- Satake-boundary source adapter and boundary-fiber saturation.
 
-```text
-e in {2,4};
-Psi birational of bidegree (28l,28l) or (56l,56l);
-for each zero quartic, two specific factor fibers are completely saturated and unramified.
-```
-
-The missing invariant is the residual product-cover sheet/character assignment: compute the restriction of the remaining nontrivial character(s) of the free `G0` cover to the carrier pullback, or derive an algebraic incompatibility between the two birational factor maps and the saturated fiber pairs.
-
-That is the post-audit next leaf:
-
-```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER.
-```
-
-## 6. Evidence and audit handoff
-
-New active evidence includes:
-
-- `GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY.md` + certificate/verifier;
-- `BEAUVILLE-SATAKE-BOUNDARY-SOURCE-NOTE.md`;
-- `GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md` + certificate/verifier;
-- size48 CM inert-7 evidence and the earlier balanced16 continuation since the last hostile PASS.
-
-The new boundary-fiber verifier is fail-closed on its declared Git blob identities. No exact-head CI/local replay is claimed; no automatic MB workflow is required. The intermediate hostile audit should run the relevant fail-closed verifiers directly on the frozen exact head and audit the retained delta since `39a56d2a9abda0c051145172ff61d67eef0bdb14` plus transitive load-bearing dependencies.
+No exact-head CI/local replay is claimed for the newest boundary-fiber leaf; no automatic MB workflow is required. The hostile audit should run the relevant fail-closed verifiers directly on the exact frozen candidate head.
 
 ## Firewalls
 
-- geometric arbitrary-branch uniform-ray support core remains `864`;
-- only the dangerous equality-packet core is `768`;
-- `000707` remains open for both `e=2` and `e=4`;
+- geometric arbitrary-branch core remains `864`;
+- dangerous equality-packet core is `768`;
+- `000707` remains open for `e=2` and `e=4`;
 - support-span five is not fully closed;
 - arbitrary unequal exceptional coefficients remain open;
 - genus-one P6 and genus-zero P6 remain open;
-- no population-wide finite degree window is proved;
-- MB104 remains incomplete and finite Picard enumeration is unreleased;
+- no finite degree window is proved population-wide;
+- MB104 remains incomplete;
 - no receiver/theorem/endpoint/Perfect-Cuboid credit;
 - no merge authorization.
