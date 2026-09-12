@@ -27,13 +27,12 @@ The following routes are now retained as insufficient by themselves:
 - minimal cusp plus one fibration: first tangential jet is free, so ramification is not automatic;
 - all 28 genus-5 fibrations with unit charging: even impossible-best-case charging gives only `R8<=d+2g-2`; slope `<1/4` would require aggregate charge `q>112` per minimal branch;
 - pure powers of BTVA `omega_7`: available hyperplane vanishing and A1 regularization cost both have ratio `1/2`, leaving no multi-hyperplane slack;
-- Beauville two-fold cover: exact global Riemann--Hurwitz gives `r_odd>=d-4g+4`, a lower bound on odd contacts, not an `R8` upper bound.
+- Beauville two-fold cover: exact global Riemann--Hurwitz gives `r_odd>=d-4g+4`, a lower bound on odd contacts, not an `R8` upper bound;
+- any **fixed finite** local branch-jet portfolio: distinct FSM-minimal branches can share an arbitrarily deep but fixed jet, so local evaluation rank need not grow with repeated branch multiplicity.
 
 ## BTVA 13-form principal-part computation completed
 
-The preflight for the 13-dimensional order-two BTVA space has now been pushed to an exact local computation. The ancillary file `arXiv:1912.08908v3/anc/perfectcuboid.out` gives 13 affine generators in the basis `(dx2^2,dx2*dx3,dx3^2)`.
-
-For the A1 cone `xz=y^2`, double cover `x=u^2,y=uv,z=v^2`, and resolution chart `s=u^2,t=v/u`, a constant tensor
+The immutable BTVA ancillary 13-generator order-two space was expanded at A1 nodes. For the A1 cone `xz=y^2`, double cover `x=u^2,y=uv,z=v^2`, and resolution chart `s=u^2,t=v/u`, a constant tensor
 
 ```text
 a du^2+b du dv+c dv^2
@@ -142,6 +141,51 @@ Artifacts:
 - `BEAUVILLE-ODD-BRANCH-COVER-CERTIFICATE.json`
 - `verify_mb104_beauville_odd_branch_cover.py`
 
+## Fixed finite-jet multiplicity saturation wall
+
+The order-two saturation has a general local explanation. In the standard A1 resolution chart
+
+```text
+x=s,
+y=s*t,
+z=s*t^2,
+E={s=0},
+```
+
+fix nonzero `lambda`. For any fixed `J>=0` and any number of distinct constants `c`, the smooth resolved branch germs
+
+```text
+s=tau,
+t=lambda+c*tau^(J+1)
+```
+
+all have exceptional multiplicity one, the same FSM-leading type `(A,B)=(1,1)`, and the same landing key `lambda`, while remaining pairwise distinct. Their branch maps agree through the entire `J`-jet.
+
+Therefore any fixed finite family of local principal-part/Taylor/jet conditions factoring through a bounded jet depth can see identical rows on arbitrarily many distinct minimal branches. Local rank growth alone cannot charge `R8` multiplicity.
+
+For fixed symmetric order `m`, the same point appears at leading pole order: a constant tensor
+
+```text
+sum_(j=0)^m a_j du^(m-j) dv^j
+```
+
+has most singular `ds^m` coefficient
+
+```text
+P_m(t)/(2^m*s^(m/2)),
+P_m(t)=sum_(j=0)^m a_j*t^j.
+```
+
+Thus the leading landing condition is only `P_m(lambda)=0`, with at most `m+1` landing-direction rows; repeated branches at the same `lambda` repeat the row. Subleading poles at `m>2` may see higher jets, but any **fixed finite** collection of such jet conditions is covered by the construction above.
+
+This closes “raise the fixed symmetric order / fixed local jet depth and expect one new independent condition per repeated branch” as a standalone MB104 route. It does **not** close higher-jet methods with genuinely global collision control, conductor/intersection charging of high contact, or adaptive depth growing with multiplicity/degree.
+
+Artifacts:
+
+- `FINITE-JET-MULTIPLICITY-SATURATION-WALL.md`
+- `FINITE-JET-MULTIPLICITY-SATURATION-CERTIFICATE.json`
+- `verify_mb104_finite_jet_multiplicity_saturation.py`
+
 ## Current hard sectors and next live input
 
 The unresolved population is concentrated in
@@ -152,11 +196,11 @@ g=1: carriers with node-support span dimension 5 or 6;
 potentially infinite sector: N>=14.
 ```
 
-The next successful input must charge branch multiplicity with a **global linear degree control**, not merely local branch count or odd-contact parity. The live route classes are narrowed to:
+The next successful input must charge branch multiplicity with a **global linear degree control**, not merely local branch count, odd-contact parity, or a fixed finite local jet portfolio. The live route classes are narrowed to:
 
-1. a cuboid-specific conductor/arithmetic-genus inequality linear in `d`, strong enough to combine with `R8<=p_a(C)-g+48`;
-2. a genuinely higher-jet/global constraint whose independent conditions grow with branch multiplicity rather than saturating at order two;
-3. a new global symmetric-differential architecture with stronger exceptional regularity/vanishing than the retained BTVA/GFU portfolios;
+1. a cuboid-specific global conductor/arithmetic-genus/intersection inequality linear in `d`, strong enough to combine with `R8<=p_a(C)-g+48`;
+2. a global constraint preventing arbitrarily many minimal branches from sharing bounded jets, or quantitatively charging the high contact created by such collisions;
+3. an adaptive/unbounded jet or symmetric-differential architecture whose effective depth grows with multiplicity or degree and whose global dimension/vanishing budget is controlled;
 4. a high-span geometric restriction that directly bounds the remaining genus-zero full-span or genus-one span-5/6 sectors.
 
 ## Firewalls
