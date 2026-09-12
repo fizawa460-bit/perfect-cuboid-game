@@ -1,0 +1,46 @@
+{
+  "canonical_sha256_without_this_field": "fb111cd123eb1ee0aa99848fc7c75bd976684517cd63a2bfd44f9e9abdaed01f",
+  "execution_identity": {
+    "bc2_32_producer_git_blob_sha": "7cfe8450cb9b9ab7f04da797d487655505598b93",
+    "bc2_32_producer_path": "stages/stage32-ex5/breadth-cycle-2/bc2_32_replay_explicit_fresh_unknown170.py",
+    "bc2_34_execution_head": "79167ffcdd0be4cf3bdcb7e652fad38acb447fb4",
+    "bc2_34_producer_git_blob_sha": "eb715ed7cc5bb350b15e35868e2f79c548f17e28",
+    "execution_head_bc2_32_identity_independently_confirmed_by_failed_audit": true,
+    "repair_head_must_match_execution_bc2_32_blob": true
+  },
+  "failed_audit": {
+    "defect": "BC2-34 did not fail-close the identity of the BC2-32 module whose build_parent_space() code it directly executed",
+    "exact_head": "75723b1626d7f40eb1ab75a1a52f2fc679d619bf",
+    "review_id": 5186319290,
+    "verdict": "FAIL"
+  },
+  "firewalls": {
+    "bc2_35_authorized": false,
+    "full178_complete": false,
+    "heavy_recompute_required": false,
+    "mathematical_result_rewritten": false,
+    "merge_authorized": false,
+    "stage32_main_credit": false
+  },
+  "retained_result_unchanged": {
+    "checkpoint_canonical": "e535e86ddfcd19aaa3aa316f5f42e49be830e48c16e1cdd15c03a6a80e6a84ba",
+    "checkpoint_git_blob_sha": "e566aeda2931642d79c88dc5eeb84b142f655609",
+    "known_parent_unsat_count_lower_bound": 7272,
+    "remaining_unknown_parent_indices_sha256": "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b",
+    "result": {
+      "sat": 0,
+      "unknown": 64,
+      "unsat": 17
+    }
+  },
+  "schema": "STAGE32EX5_BC2_34_DEPENDENCY_IDENTITY_REPAIR_V1",
+  "stage": "32EX5",
+  "status": "REPAIRED_HOSTILE_REAUDIT_REQUIRED",
+  "transitive_dependency_contract": {
+    "bc2_32_bc2_18_source_git_blob_sha": "1e2ed93cae3c5b446c8d90c1ae2250be83289c79",
+    "bc2_32_bc2_19_source_git_blob_sha": "b2899aa228e7a3ee97526e3787ffbefa483530b4",
+    "bc2_32_build_parent_space_directly_used": true,
+    "bc2_32_source_itself_checks_bc2_19_and_bc2_18_before_parent_space_construction": true
+  },
+  "unit": "BC2_34_DEPENDENCY_IDENTITY_REPAIR"
+}
