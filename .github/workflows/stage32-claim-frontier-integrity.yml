@@ -14,6 +14,23 @@ on:
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/nodes/N342/RESULT.json'
       - 'stages/stage32/32-01-178/nodes/N361/**'
+      - 'stages/stage32/32-01-178/nodes/N362/**'
+      - 'stages/stage32/32-01-178/nodes/N363/**'
+      - 'stages/stage32/32-01-178/nodes/N364/**'
+      - 'stages/stage32/32-01-178/nodes/N365/**'
+      - 'stages/stage32/32-01-178/nodes/N366/**'
+      - 'stages/stage32/32-01-178/nodes/N367/**'
+      - 'stages/stage32/32-01-178/nodes/N368/**'
+      - 'stages/stage32/32-01-178/nodes/N369/**'
+      - 'stages/stage32/32-01-178/nodes/N370/**'
+      - 'stages/stage32/32-01-178/nodes/N371/**'
+      - 'stages/stage32/32-01-178/nodes/N372/**'
+      - 'stages/stage32/32-01-178/nodes/N373/**'
+      - 'stages/stage32/32-01-178/nodes/N374/**'
+      - 'stages/stage32/32-01-178/nodes/N375/**'
+      - 'stages/stage32/32-01-178/nodes/N376/**'
+      - 'stages/stage32/32-01-178/nodes/N377/**'
+      - 'stages/stage32/32-01-178/nodes/N378/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -70,6 +87,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 20
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
@@ -102,10 +120,65 @@ jobs:
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify live synchronized MAIN authority boundary
         run: python stages/stage32/verify_main_startup.py
-      - name: Install exact N361 retained replay dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Install exact N361/N372/N375 dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
       - name: Verify N361 current-V15 retained sample rebase boundary
         run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
+      - name: Checkout exact CUT196 evidence for N372 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 5403328470df32c65aea9a38efe3916cb87d24a4
+          path: .n372-audit-cut196
+      - name: Checkout exact N357 composition evidence for N372 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
+          path: .n372-audit-n357comp
+      - name: Verify N372 exact audit boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N372/verify_n372_audit_boundary.py \
+            --cut196-root .n372-audit-cut196 \
+            --n357-composition-root .n372-audit-n357comp
+      - name: Verify retained N373 partial x4 timeout boundary
+        run: python stages/stage32/32-01-178/nodes/N373/verify_n373_retained_partial_boundary.py
+      - name: Verify N374 global compression reopen audit
+        run: python stages/stage32/32-01-178/nodes/N374/verify_n374_global_compression_reopen_audit.py
+      - name: Generate bounded N375 current-MAIN e8 S3 numerical-leaf symmetry probe
+        run: |
+          python stages/stage32/32-01-178/nodes/N375/generate_n375_e8_s3_leaf_symmetry_probe.py \
+            --cut196-root .n372-audit-cut196 \
+            --output N375-CANDIDATE.json
+      - name: Verify retained N375 identity-only boundary and N376 stop route
+        run: python stages/stage32/32-01-178/nodes/N375/verify_n375_identity_only_boundary.py --candidate N375-CANDIDATE.json
+      - name: Checkout exact CERT-LIFT producer boundary for N377
+        uses: actions/checkout@v4
+        with:
+          ref: 3d4b16e7da3e2f4f1a078fb2e150ab6fd939bfda
+          path: .n377-certlift
+      - name: Verify N377 CERT-LIFT producer handoff wait boundary
+        run: python stages/stage32/32-01-178/nodes/N377/verify_n377_certlift_handoff.py --certlift-root .n377-certlift
+      - name: Checkout exact CERT-LIFT02 producer boundary for N378
+        uses: actions/checkout@v4
+        with:
+          ref: 007e0591e94e475caf348aa82c39837368f3e5c0
+          path: .n378-certlift
+      - name: Checkout hostile-audited MAIN V22 authority for N378
+        uses: actions/checkout@v4
+        with:
+          ref: f8039b4ce479a4b91f2f0547e7049f629e9be5f5
+          path: .n378-main-v22
+      - name: Verify N378 CERT-LIFT02 execution and V22 adapter wait boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N378/verify_n378_certlift02_wait.py \
+            --certlift-root .n378-certlift \
+            --main-v22-root .n378-main-v22
+      - name: Upload bounded N375 e8 S3 symmetry probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-n375-e8-s3-symmetry-${{ github.event.pull_request.head.sha || github.sha }}
+          path: N375-CANDIDATE.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
