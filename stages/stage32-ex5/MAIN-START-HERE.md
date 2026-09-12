@@ -17,7 +17,7 @@ PR #1776 remains active/open/draft/unmerged. Historical Cycle1 files remain sour
 
 ## Cross-lane demand priority
 
-Before local EX5 research, inspect every `OPEN` demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and grants no mathematical credit.
+Before local EX5 research, inspect every `OPEN` demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
 
 At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e`, the only registered EX5 producer demand, `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`, is **SATISFIED**. There are no OPEN EX5 producer demands, so the retained BC2-34 audit boundary remains the legal local route. A later OPEN demand may preempt local continuation after audit.
 
