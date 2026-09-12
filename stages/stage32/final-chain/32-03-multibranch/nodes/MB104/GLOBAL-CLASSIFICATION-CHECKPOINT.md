@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE PRIORITY / UNIFORM P5 GEOMETRIC CORE 864 / MB104 EQUALITY-PACKET CORE 768 / 000707 JOINT PAIR BIRATIONAL + SATURATED BOUNDARY FIBERS / INTERMEDIATE AUDIT APPROACHING / P6 OPEN / NO CREDIT**
+Status: **FROZEN FOR INTERMEDIATE HOSTILE AUDIT / UNIFORM P5 GEOMETRIC CORE 864 / MB104 EQUALITY-PACKET CORE 768 / 000707 JOINT PAIR BIRATIONAL + SATURATED BOUNDARY FIBERS / P6 OPEN / NO CREDIT**
 
 Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of a standalone `R8<d/4+O(1)` inequality remains frozen unless a genuinely new lever appears.
 
@@ -10,19 +10,11 @@ The most recent hostile-audited retained boundary is
 39a56d2a9abda0c051145172ff61d67eef0bdb14
 ```
 
-with `HOSTILE AUDIT: PASS`. The retained continuation below is newer and unaudited. The shared PR is now in the high-80s of retained commits beyond that boundary; the next substantial retained wave should be preceded by an intermediate hostile audit checkpoint under the repository-wide long-lived-PR policy.
+with `HOSTILE AUDIT: PASS`.
+
+The retained continuation has now reached the repository's long-lived shared-PR warning zone. Treat this exact retained checkpoint as frozen for the next intermediate delta-bounded `stage32mb` hostile audit. Do not append another substantial retained research wave to this shared PR before that audit result. Scratch-only exploration may continue off the shared retained surface when permitted.
 
 ## 1. Scope
-
-Potentially infinite sectors remain
-
-```text
-g=0: box-node support spans P^6;
-g=1: box-node support span dimension 5 or 6;
-N>=14.
-```
-
-`span` means the box-node support span, not carrier containment.
 
 For the displayed uniform genus-one P5 ray,
 
@@ -43,137 +35,60 @@ R=R8=M=r_odd=d=112l.
 
 The Picard class and this branch packet must not be conflated.
 
-## 2. Geometric uniform-ray core
+## 2. Geometric and equality-packet frontiers
 
-Incidence `24`, `20`, `19`, `15`, and all incidence-`14` ambient support orbits are closed for the displayed ray. Incidence16 originally left
-
-```text
-0000770000ff   size 48
-00007b0000ff   size 48
-000707000f0f   size 768
-00070b000f0f   size 768.
-```
-
-`00070b000f0f` is closed for every `l>=1` by exact two-zero-quartic gluing monodromy
-
-```text
-17+12*sqrt(2).
-```
-
-Thus the geometric uniform-ray support population allowing arbitrary branch partitions is still
+For the displayed ray, fixed-component reductions plus the exact two-zero-quartic gluing obstruction leave the geometric arbitrary-branch support population
 
 ```text
 864 = 48+48+768
 ```
 
-on the first three masks.
-
-All retained zero-pairing quartics on those 864 supports are nonfixed for all `l>=1`; the conic/quartic fixed-component route, hidden Pic0, static landing, and null-union gluing are exhausted there.
-
-## 3. Global singularity walls
-
-For a hypothetical integral genus-one member,
+on
 
 ```text
-p_a(D_l)=1+168l^2+56l,
-Delta_total=168l^2+56l.
+0000770000ff,
+00007b0000ff,
+000707000f0f.
 ```
 
-Lu--Miyaoka gives
+All retained zero-pairing quartics on these supports are nonfixed for every `l>=1`; the known zero-quartic route is exhausted.
 
-```text
-n_ordinary_node_or_triple >= max(0,112l-224).
-```
-
-Miyaoka 2008 single-curve orbibundle BMY gives no `l`-bound, and the sharp A1 conductor coefficient `delta>=r-1` is insufficient by itself.
-
-## 4. Beauville equality rigidity
-
-On the dangerous packet, `g=1` and `r_odd=d`. Pulling to
-
-```text
-P=C8 x C8,
-g(C8)=5,
-P->X=P/G0,
-G0~=(Z/2)^2
-```
-
-forces both projections of every connected product-cover component `Z` to be finite etale of equal degree
-
-```text
-14 e l,
-e in {1,2,4}.
-```
-
-Node-type replay gives
-
-```text
-0000770000ff : (14,0,0)
-00007b0000ff : (14,0,0)
-000707000f0f : (7,7,0).
-```
-
-For `000707`, the two used outside involutions exclude `e=1`; only `e=2,4` remain.
-
-## 5. Size48 equality packets are closed by CM inert-7
-
-For either one-type size48 support, quotienting `Z` by the unique singular involution gives an elliptic curve `B1`. Freitag--Salvati Manni's modular/Kummer model gives the corresponding factor quotient
-
-```text
-E0:y^2=x^3-x,
-j(E0)=1728,
-End^0(E0)=Q(i).
-```
-
-The two product projections descend to equal-degree isogenies
-
-```text
-B1 -> E0,
-degree 14 e l.
-```
-
-Since `7` is inert in `Q(i)`, equal degree forces a common nontrivial 7-primary kernel, so the pair map has generic degree divisible by `7`. But the same modular map factors geometrically through the box/Kummer quotient with generic degree `e` or `2e`, one of `{1,2,4,8}`. Contradiction.
-
-Therefore the dangerous equality packet is impossible on both size48 orbits for all `l>=1`.
-
-Population split:
+The Beauville equality route applies only to the dangerous packet. It forces product-cover projections to be finite etale of degree `14el`. The two one-type size48 packets are excluded for all `l>=1` by the CM inert-7 contradiction. Therefore
 
 ```text
 geometric arbitrary-branch core: 864;
 MB104 dangerous equality-packet core: 768,
 ```
 
-with the latter consisting only of `000707000f0f`.
-
-## 6. `000707` Hurwitz capacity
-
-Let the two used singular involutions be `s1,s2` and
+and the latter consists only of
 
 ```text
-H=<s1,s2> ~= (Z/2)^2.
+000707000f0f.
 ```
 
-For `e=2`, component stabilizer `K=H`; for `e=4`, `K=G~=(Z/2)^3`.
+## 3. `000707` current exact reductions
 
-The quotient-Hurwitz regimes are
+The support has node-type counts
 
 ```text
-e=2: degree 28l genus1 -> P1 with 8 involutory marked values;
-e=4: degree 56l genus1 -> P1 with 6 involutory marked values.
+(7,7,0).
 ```
 
-In both cases the `112l` supported minimal branches exhaust the total unramified capacity. Coarse one-factor RH does not close either case.
-
-## 7. Joint factor-pair map is birational
-
-Put
+Two used outside involutions exclude `e=1`, leaving
 
 ```text
+e=2 or e=4.
+```
+
+Let
+
+```text
+H=<s1,s2> ~= (Z/2)^2,
 Q=Z/H,
 R=C8/H ~= P1.
 ```
 
-Then `g(Q)=1`, and the two descended factor maps
+Then `g(Q)=1` and the two descended factor maps
 
 ```text
 psi1,psi2:Q->R
@@ -186,27 +101,13 @@ e=2: 28l;
 e=4: 56l.
 ```
 
-For
+The joint map
 
 ```text
-Psi=(psi1,psi2):Q->R x R,
+Psi=(psi1,psi2):Q->R x R
 ```
 
-the only possible generic common quotient would come from a relative deck symmetry `(1,r)`, `r in H`. Any such nontrivial symmetry descends to a type-preserving automorphism of the 14-node support.
-
-Exact `Aut(S)` replay gives support stabilizer order exactly `2`; its unique nonidentity element swaps
-
-```text
-b1=0 <-> b2=0,
-```
-
-so the type-preserving support stabilizer is trivial. Hence the relative symmetry group is trivial and
-
-```text
-Psi is birational onto its image.
-```
-
-The image has exact bidegree
+is birational onto its image. Exact `Aut(S)` replay shows the support stabilizer has order two, with its unique nonidentity swapping the two used node types; hence there is no nontrivial type-preserving relative deck symmetry. The image bidegree is therefore exactly
 
 ```text
 e=2: (28l,28l);
@@ -215,41 +116,18 @@ e=4: (56l,56l),
 
 with normalization genus one.
 
-Evidence:
-- `GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY.md`
-- matching certificate/verifier.
+## 4. Satake-boundary two-fiber saturation
 
-## 8. Satake-boundary fiber saturation
-
-The two zero quartics are
+The two zero quartics
 
 ```text
 Q0: b1=0, i*a2-a3=0, a1-c=0,
-Q1: b2=0, i*a3+a1=0, a2-c=0.
+Q1: b2=0, i*a3+a1=0, a2-c=0
 ```
 
-Each is a smooth elliptic quartic with eight box nodes and seven supported nodes. Freitag--Salvati Manni identify the Satake boundary with
+are Satake-boundary components. Each contains eight box nodes, seven supported by `000707`.
 
-```text
-Z1 Z2 Z3=b1 b2 b3=0,
-```
-
-whose irreducible components are the twelve smooth elliptic boundary curves. Hence `Q0,Q1` are Satake-boundary components.
-
-For both remaining cases set
-
-```text
-B=Z/H.
-```
-
-Then
-
-```text
-e=2: B=E, g(B)=1, deg(psi_j)=28l;
-e=4: B->E is etale degree2, g(B)=1, deg(psi_j)=56l.
-```
-
-A boundary component fixes one factor at a four-cusp `G`-orbit. Modulo `H`, that orbit splits into exactly two values. Therefore the seven supported nodes on one zero quartic place all their dangerous-packet branches over two specific factor-quotient values.
+For a fixed zero quartic, its relevant four-cusp `G`-orbit splits into exactly two `H`-orbits on the fixed factor. Consequently all dangerous-packet branches from those seven nodes lie over two specific factor-quotient values.
 
 For `e=2`,
 
@@ -257,26 +135,21 @@ For `e=2`,
 7*(8l)=56l=2*(28l),
 ```
 
-so those two specific degree-`28l` fibers are completely reduced, unramified, and saturated: exactly `28l` supported points in each.
+so the two specific degree-`28l` fibers are reduced, unramified, and fully saturated, each containing `28l` supported points.
 
-For `e=4`, the residual etale double cover doubles the supported points on `B`:
+For `e=4`, the residual etale double cover doubles the supported points on `Q=Z/H`:
 
 ```text
 2*7*(8l)=112l=2*(56l),
 ```
 
-so the two corresponding degree-`56l` fibers are likewise completely reduced, unramified, and saturated: `56l` points in each.
+so the two corresponding degree-`56l` fibers are also reduced, unramified, and fully saturated, each containing `56l` supported points.
 
-No per-node concentration, even split of the `8l` branches at a node, or orientation relation between `Q0,Q1` is assumed.
+No per-node concentration, equal split of the `8l` branches at a node, or orientation relation between the two zero quartics is assumed.
 
-Evidence:
-- `BEAUVILLE-SATAKE-BOUNDARY-SOURCE-NOTE.md`
-- `GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md`
-- matching certificate/verifier.
+## 5. Exact missing datum after freeze
 
-## 9. Current exact missing invariant
-
-The `000707` equality packet is now constrained by all of:
+The retained equality packet now satisfies simultaneously
 
 ```text
 e in {2,4};
@@ -284,19 +157,24 @@ Psi birational of bidegree (28l,28l) or (56l,56l);
 for each zero quartic, two specific factor fibers are completely saturated and unramified.
 ```
 
-This still does not decide branch-by-branch which of the two `H`-orbit values is selected. Distinct exceptional landing keys do not currently identify that residual product-cover sheet.
+The missing invariant is the residual product-cover sheet/character assignment: compute the restriction of the remaining nontrivial character(s) of the free `G0` cover to the carrier pullback, or derive an algebraic incompatibility between the two birational factor maps and the saturated fiber pairs.
 
-The next leaf is therefore
+That is the post-audit next leaf:
 
 ```text
 MB104-GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER.
 ```
 
-Required input: compute the restriction to the carrier pullback of the remaining nontrivial character(s) of the free `G0` cover, or derive an algebraic incompatibility between the two birational factor maps and the two saturated fiber pairs. Do not assume per-node concentration or equal splitting.
+## 6. Evidence and audit handoff
 
-## 10. Audit checkpoint
+New active evidence includes:
 
-The retained shared PR is now at roughly the repository warning boundary measured from the last hostile-audited exact head. Before another large substantive retained wave, freeze an exact head and run an intermediate delta-bounded `stage32mb` hostile audit. Scratch exploration may continue off the shared retained surface if permitted by the active contract.
+- `GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY.md` + certificate/verifier;
+- `BEAUVILLE-SATAKE-BOUNDARY-SOURCE-NOTE.md`;
+- `GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md` + certificate/verifier;
+- size48 CM inert-7 evidence and the earlier balanced16 continuation since the last hostile PASS.
+
+The new boundary-fiber verifier is fail-closed on its declared Git blob identities. No exact-head CI/local replay is claimed; no automatic MB workflow is required. The intermediate hostile audit should run the relevant fail-closed verifiers directly on the frozen exact head and audit the retained delta since `39a56d2a9abda0c051145172ff61d67eef0bdb14` plus transitive load-bearing dependencies.
 
 ## Firewalls
 
@@ -305,7 +183,7 @@ The retained shared PR is now at roughly the repository warning boundary measure
 - `000707` remains open for both `e=2` and `e=4`;
 - support-span five is not fully closed;
 - arbitrary unequal exceptional coefficients remain open;
-- P6 sectors remain open;
+- genus-one P6 and genus-zero P6 remain open;
 - no population-wide finite degree window is proved;
 - MB104 remains incomplete and finite Picard enumeration is unreleased;
 - no receiver/theorem/endpoint/Perfect-Cuboid credit;
