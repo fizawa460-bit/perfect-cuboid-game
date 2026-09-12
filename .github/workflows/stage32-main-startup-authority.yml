@@ -16,12 +16,15 @@ on:
       - 'stages/stage32/verify_main_startup_authority_v12.py'
       - 'stages/stage32/verify_main_startup_authority_v13.py'
       - 'stages/stage32/verify_main_startup_authority_v14.py'
+      - 'stages/stage32/verify_main_startup_authority_v15.py'
       - 'stages/stage32/verify_n357_v13_current_authority_composition.py'
       - 'stages/stage32/verify_n357_v13_current_authority_composition_fail_closed.py'
       - 'stages/stage32/verify_n357_main_consumption_v14.py'
+      - 'stages/stage32/verify_cut195_main_consumption_v15.py'
       - 'stages/stage32/management/N357-V13-CURRENT-AUTHORITY-COMPOSITION.json'
       - 'stages/stage32/management/MAIN-STATE-V13-N357-PRECONSUMPTION.json'
       - 'stages/stage32/management/post-n357-composition-pass-consumption-20260912.json'
+      - 'stages/stage32/management/post-cut195-current-v14-composition-consumption-20260912.json'
       - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
       - 'stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md'
@@ -86,6 +89,26 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
+      - name: Checkout exact hostile-reaudited MAIN V14 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: da1cdd5391ff7f298979ffacbb37e6f3823ba93f
+          path: .stage32-audited-main-v14
+          fetch-depth: 1
+
+      - name: Assert exact hostile-reaudited MAIN V14 head
+        run: test "$(git -C .stage32-audited-main-v14 rev-parse HEAD)" = "da1cdd5391ff7f298979ffacbb37e6f3823ba93f"
+
+      - name: Checkout exact hostile-audited CUT195 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 2618f4dcd546d569b212753ac7abc10e07ee5828
+          path: .stage32-audited-cut195
+          fetch-depth: 1
+
+      - name: Assert exact hostile-audited CUT195 head
+        run: test "$(git -C .stage32-audited-cut195 rev-parse HEAD)" = "2618f4dcd546d569b212753ac7abc10e07ee5828"
+
       - name: Checkout exact hostile-audited N357 candidate boundary
         uses: actions/checkout@v4
         with:
@@ -141,9 +164,11 @@ jobs:
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
 
-      - name: Verify fail-closed N357 MAIN V14 consumption transition
+      - name: Verify fail-closed CUT195 MAIN V15 consumption transition
         run: >-
-          python3 stages/stage32/verify_n357_main_consumption_v14.py
+          python3 stages/stage32/verify_cut195_main_consumption_v15.py
+          --audited-main-v14-root .stage32-audited-main-v14
+          --audited-cut195-root .stage32-audited-cut195
           --audited-composition-root .stage32-audited-n357-composition
           --audited-n357-root .stage32-audited-n357
 
@@ -156,10 +181,10 @@ jobs:
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
 
-      - name: Verify Stage32 claim-DAG integrity after N357 authority transition
+      - name: Verify Stage32 claim-DAG integrity after CUT195 authority transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
 
-      - name: Verify Stage32 active frontier after N357 authority transition
+      - name: Verify Stage32 active frontier after CUT195 authority transition
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Detect edits to historical PR1753 handoff
