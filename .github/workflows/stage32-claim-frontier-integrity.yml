@@ -100,17 +100,129 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact CUT verifier dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Verify retained CUT197 wave5 candidate and exact source locks with bounded retry
+      - name: Verify audited CUT197 predecessor and exact source locks with bounded retry
         shell: bash
         run: |
           set -euo pipefail
           for attempt in 1 2 3; do
-            echo "CUT197 exact-head replay attempt ${attempt}/3"
-            if python stages/stage32/full178-cut/verify_cut197_e8_common_adapter_wave5.py; then
-              exit 0
-            fi
-            if [ "$attempt" -lt 3 ]; then
-              sleep 5
-            fi
+            echo "CUT197 predecessor exact replay attempt ${attempt}/3"
+            if python stages/stage32/full178-cut/verify_cut197_e8_common_adapter_wave5.py; then exit 0; fi
+            if [ "$attempt" -lt 3 ]; then sleep 5; fi
           done
           exit 1
+
+  authorize-cut198-wave6:
+    if: github.event_name == 'pull_request' && github.head_ref == 'stage32cut-e8-common-adapter-wave6-20260912'
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: gate
+        name: Authorize CUT198 only from fresh armed runkey commit
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/full178-cut/runkeys/CUT198-e8-wave6.json'
+          changed=false
+          if [ -n "${BEFORE:-}" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then changed=true; fi
+          fi
+          export RUNKEY_CHANGED="$changed"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          def blob(path):
+              raw=Path(path).read_bytes(); return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          p=Path('stages/stage32/full178-cut/runkeys/CUT198-e8-wave6.json'); ok=False
+          if os.environ.get('RUNKEY_CHANGED') == 'true' and p.exists():
+              o=json.loads(p.read_text())
+              ok=(o.get('schema')=='STAGE32_CUT198_E8_COMMON_ADAPTER_WAVE6_RUNKEY_V1'
+                  and o.get('generation')==1 and o.get('armed') is True and o.get('consumed') is False
+                  and o.get('branch')=='stage32cut-e8-common-adapter-wave6-20260912'
+                  and o.get('parent_cut197_audited_head')=='adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5'
+                  and o.get('parent_cut197_hostile_audit_review')==5186601376
+                  and o.get('main_parent_exact_head')=='6d63d798adb50dd4efc5f0d5abc553b3dfa23060'
+                  and o.get('ex5_producer_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
+                  and o.get('preflight_blob')==blob('stages/stage32/full178-cut/CUT198-e8-common-adapter-wave6-preflight.json')
+                  and o.get('worker_blob')==blob('stages/stage32/full178-cut/cut198_e8_common_adapter_wave6.py')
+                  and o.get('aggregator_blob')==blob('stages/stage32/full178-cut/aggregate_cut198_e8_wave6.py')
+                  and o.get('wave',{}).get('survivor_offset_range')==[1276,1530]
+                  and o.get('wave',{}).get('block_count')==255 and o.get('wave',{}).get('terminal_count')==28815)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if ok else 'false')+'\n')
+          print('CUT198 wave6 fresh-runkey changed:',os.environ.get('RUNKEY_CHANGED')); print('CUT198 wave6 authorized:',ok)
+          PY
+
+  cut198-wave6-shard:
+    needs: [integrity, authorize-cut198-wave6]
+    if: needs.authorize-cut198-wave6.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {shard: 0, start: 1276, count: 32}
+          - {shard: 1, start: 1308, count: 32}
+          - {shard: 2, start: 1340, count: 32}
+          - {shard: 3, start: 1372, count: 32}
+          - {shard: 4, start: 1404, count: 32}
+          - {shard: 5, start: 1436, count: 32}
+          - {shard: 6, start: 1468, count: 32}
+          - {shard: 7, start: 1500, count: 31}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact checked-out head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Execute CUT198 shard
+        run: |
+          python stages/stage32/full178-cut/cut198_e8_common_adapter_wave6.py \
+            --survivor-offset-start ${{ matrix.start }} \
+            --survivor-offset-count ${{ matrix.count }} \
+            --timeout-ms 750 \
+            --output "$RUNNER_TEMP/cut198-shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut198-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/cut198-shard-${{ matrix.shard }}.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+
+  cut198-wave6-aggregate:
+    needs: [cut198-wave6-shard]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cut198-shard-*
+          path: ${{ runner.temp }}/cut198-shards
+          merge-multiple: true
+      - name: Aggregate fail-closed CUT198 wave6
+        run: |
+          python stages/stage32/full178-cut/aggregate_cut198_e8_wave6.py \
+            --input-dir "$RUNNER_TEMP/cut198-shards" \
+            --output "$RUNNER_TEMP/CUT198-wave6-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut198-wave6-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT198-wave6-aggregate.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
