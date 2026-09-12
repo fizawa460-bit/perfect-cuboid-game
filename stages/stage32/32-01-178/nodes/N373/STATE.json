@@ -1,5 +1,5 @@
 {
-  "canonical_sha256_without_this_field": "79946afd0d1948ff3165b9ece960ed21c3c18a9943acffc571ba0090ae74afd8",
+  "canonical_sha256_without_this_field": "100b1be5c34481464d8bc2f98454b2e47ae3a78600c25675c140bdcab1c003a1",
   "credit": {
     "effectivity_final": false,
     "endpoint_credit": false,
@@ -20,17 +20,28 @@
   },
   "method": {
     "artifact_scope": "single parent / at most 113 x4 values",
-    "description": "Build the exact N372 direct Picard64 parent290 solver once. Repeatedly solve, retain one witness for the model's x4=pairing(label49), then add x4!=value. UNSAT after blocking all discovered x4 proves the exact feasible x4 projection. UNKNOWN stops fail-closed with a partial projection.",
-    "formulation": "INCREMENTAL_DIRECT_PICARD64_COORDINATES_BLOCK_X4_MODEL_VALUE",
+    "description": "Seed x4=0 from hostile-audited N372, then search only for additional x4 values with the exact direct Picard64 solver; UNKNOWN freezes fail-closed with no timeout escalation.",
+    "formulation": "AUDITED_N372_SEED_PLUS_INCREMENTAL_DIRECT_PICARD64_BLOCK_X4",
     "heavy_compute_authorized": false,
     "maximum_sat_models": 113,
     "per_check_timeout_ms": 5000
   },
-  "next_gate": "IF_COMPLETE_RETAIN_LOCAL_TERMINAL_PROJECTION_AND_ROTATE_TO_GLOBAL_COMPRESSION_ROUTE_ELSE_FREEZE_TIMEOUT_BOUNDARY_NO_CEILING_ESCALATION",
+  "next_gate": "ROTATE_TO_GLOBAL_COMPRESSION_ROUTE_NO_TIMEOUT_ESCALATION",
   "node_id": "N373",
+  "retained_result": {
+    "artifact_id": 10305313411,
+    "exact_head": "bdb055cfa6752fc330e5f3e16d35f05fb669fb86",
+    "exact_head_ci_run": 34718895695,
+    "feasible_x4": [0],
+    "reason_unknown": "timeout",
+    "result_blob_sha1": "2520e180f3637ab393584d95933c4d56ac15c5a8",
+    "result_canonical_sha256": "f480eec4f07f12e5f93341f307071b4ca0d44d6065bc65aa83ad01545576151d",
+    "solver_checks_after_seed": 1,
+    "status": "PARTIAL_X4_PROJECTION_UNKNOWN_TIMEOUT"
+  },
   "schema": "STAGE32_32_01_178_N373_BLOCK1140_PARENT290_X4_TERMINAL_PROJECTION_V1",
   "semantic_key": "s32-01-178:block1140-parent290-exact-x4-terminal-projection",
-  "status": "ACTIVE_BOUNDED_EXACT_X4_PROJECTION_NO_CREDIT",
+  "status": "RETAINED_PARTIAL_X4_PROJECTION_UNKNOWN_TIMEOUT_NO_CREDIT",
   "success_contract": {
     "complete_status": "COMPLETE_EXACT_X4_PROJECTION",
     "does_not_count_all_picard_classes_per_terminal": true,
