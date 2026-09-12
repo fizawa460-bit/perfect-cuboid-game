@@ -73,9 +73,12 @@ jobs:
           test "$current_main" = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
           test "$merge_base" = "$current_main"
           echo "freshness=contains-current-main"
+      - name: Verify N358/V18 fail-closed wrapper source identity
+        run: test "$(git hash-object stages/stage32/management/verify_n358_v18_audited_predecessor_composition.py)" = "c0db67efac68c1f277d09cc6e321ede404ba97f8"
       - name: Replay N358 current-V18 composition and consumption fail-closed
         run: >-
-          python3 stages/stage32/management/verify_n358_v18_current_authority_composition.py
+          python3 stages/stage32/management/verify_n358_v18_audited_predecessor_composition.py
+          --audited-main-v18-root .stage32-audited-main-v18
           --audited-n358-root .stage32-audited-n358
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
