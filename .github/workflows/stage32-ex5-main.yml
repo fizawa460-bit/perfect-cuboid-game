@@ -88,7 +88,7 @@ jobs:
         with:
           fetch-depth: 2
       - id: gate
-        name: Authorize only fresh BC2-31 generation-1 recovery runkey
+        name: Authorize only fresh BC2-31 generation-2 recovery runkey
         shell: bash
         env:
           BEFORE: ${{ github.event.before }}
@@ -120,7 +120,7 @@ jobs:
                       s=json.load(open('stages/stage32-ex5/MAIN-STATE.json'))
                       boundary=s.get('intermediate_audit_boundary',{})
                       authorized=(r.get('schema')=='STAGE32EX5_BC2_31_RECOVER_REMAINING172_RUNKEY_V1'
-                          and r.get('generation')==1 and r.get('armed') is True and generation_ok
+                          and r.get('generation')==2 and r.get('armed') is True and generation_ok
                           and r.get('source_git_blob_sha')==sb=='bd6ba2a0048b565354319598ff5811a9edf9a7a3'
                           and r.get('preflight_git_blob_sha')==pb=='15633233f18bf66815ca149ac3009156d0ef57e3'
                           and r.get('preflight_canonical')=='edd1bf6198d054277f828795f4e7a9d5372bc3094886e7afea420484bd899328'
