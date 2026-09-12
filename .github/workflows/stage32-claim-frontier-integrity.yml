@@ -118,21 +118,21 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Verify N361 current-V15 retained sample rebase boundary
         run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
-      - name: Checkout exact CUT196 evidence for N372 solver-independent replay
+      - name: Checkout exact CUT196 evidence for N372 audit boundary
         uses: actions/checkout@v4
         with:
           ref: 5403328470df32c65aea9a38efe3916cb87d24a4
-          path: .n372-replay-cut196
-      - name: Checkout exact N357 composition evidence for N372 solver-independent replay
+          path: .n372-audit-cut196
+      - name: Checkout exact N357 composition evidence for N372 audit boundary
         uses: actions/checkout@v4
         with:
           ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
-          path: .n372-replay-n357comp
-      - name: Verify retained N372 current-V15 witness without z3
+          path: .n372-audit-n357comp
+      - name: Verify N372 exact audit boundary
         run: |
-          python stages/stage32/32-01-178/nodes/N372/verify_n372_current_v15_witness_replay.py \
-            --cut196-root .n372-replay-cut196 \
-            --n357-composition-root .n372-replay-n357comp
+          python stages/stage32/32-01-178/nodes/N372/verify_n372_audit_boundary.py \
+            --cut196-root .n372-audit-cut196 \
+            --n357-composition-root .n372-audit-n357comp
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
