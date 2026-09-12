@@ -93,17 +93,24 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited EX5 BC2-35 head
         run: test "$(git -C .stage32-audited-ex5-bc2-35 rev-parse HEAD)" = "8bea7a6be26e01db0deb138dbd8406f578447921"
-      - name: Resolve freshness authority
+      - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
+          baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
+          expected_current_main="62ca8fdf5ff71eeb4e5c1dc062df0ecc9024bc58"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          test "$merge_base" = "$current_main"
-          echo "freshness=contains-current-main"
+          test "$current_main" = "$expected_current_main"
+          test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
+          drift="$(git diff --name-only "$baseline" "$current_main")"
+          printf 'main_drift_paths=%s\n' "$drift"
+          test "$drift" = "x"
+          test "$merge_base" = "$baseline"
+          echo "research_freshness=CLEAR_UNRELATED_MAIN_DRIFT"
+          echo "merge_ready_freshness=PENDING_BEHIND_MAIN"
       - name: Verify V22 verifier source identities
         run: |
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "f350165a194fa02f29f6aed4dc283d3e6e744b56"
