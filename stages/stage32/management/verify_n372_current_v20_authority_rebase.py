@@ -54,10 +54,14 @@ def main():
     v20root=a.audited_main_v20_root.resolve()
     n372root=a.audited_n372_root.resolve()
     cut196root=a.audited_cut196_root.resolve()
+
     req(head(v20root)==V20_HEAD,"V20 exact head drift")
     audited_v20=locked(v20root/"stages/stage32/MAIN-STATE.json",V20_STATE_BLOB,V20_STATE_CANON)
     local_v20=locked(V20_SNAPSHOT,V20_STATE_BLOB,V20_STATE_CANON)
     req(audited_v20==local_v20,"local V20 snapshot differs from audited exact head")
+    audited_n358=locked(v20root/"stages/stage32/management/post-n358-current-v18-composition-consumption-20260912.json",N358_BLOB,N358_CANON)
+    local_n358=locked(N358,N358_BLOB,N358_CANON)
+    req(audited_n358==local_n358,"local N358 receipt differs from hostile-audited V20 exact head")
     vf=audited_v20["current_exact_frontier"]
     req(vf["authoritative_remaining_terminals"]==AUTH_TERMS,"V20 authority drift")
     req(vf["n372_current_authority_rebased"] is False,"V20 already self-awarded rebase")
@@ -81,8 +85,7 @@ def main():
     req(result["remaining_nonclosed_block_count"]==13,"CUT196 nonclosed count drift")
     req(766 <= 797 <= 1020,"N372 offset outside CUT196 target range")
 
-    n358=locked(N358,N358_BLOB,N358_CANON)
-    zr=n358["current_v18_composition_replay"]["zero_overlap_reason"]
+    zr=audited_n358["current_v18_composition_replay"]["zero_overlap_reason"]
     req(zr["consumed_cut_d"]==8 and zr["consumed_cut_e"]==8,"N358 d/e zero-overlap drift")
     req(zr["h"]==4 and zr["h_minus_5"]==-1,"N358 h bound drift")
     req(zr["nonnegative_b_cannot_satisfy_b_le_h_minus_5"] is True,"N358 nonnegative-b proof drift")
@@ -100,5 +103,5 @@ def main():
         req(sf[k] is False,f"unauthorized credit opened: {k}")
     req(sf["authoritative_remaining_terminals"]==AUTH_TERMS,"state authority changed")
     req(state["firewalls"]["merge_authorized"] is False,"merge authorized")
-    print(json.dumps({"verdict":"PASS_N372_CURRENT_V20_AUTHORITY_REBASE","terminal":"g1-d008|e=8|rank=128820","survives_cut196":True,"survives_n358":True,"current_authority_witness":True,"numerical_authority_changed":False,"main_pruning_credit":False,"full178_complete":False,"effectivity_credit":False,"merge_authorized":False},sort_keys=True))
+    print(json.dumps({"verdict":"PASS_N372_CURRENT_V20_AUTHORITY_REBASE","terminal":"g1-d008|e=8|rank=128820","survives_cut196":True,"survives_n358":True,"n358_dependency_bound_to_audited_v20":True,"current_authority_witness":True,"numerical_authority_changed":False,"main_pruning_credit":False,"full178_complete":False,"effectivity_credit":False,"merge_authorized":False},sort_keys=True))
 if __name__=="__main__": main()
