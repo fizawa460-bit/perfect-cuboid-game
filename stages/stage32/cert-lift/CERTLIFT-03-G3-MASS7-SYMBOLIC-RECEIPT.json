@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE32_CERTLIFT_03_G3_MASS7_SYMBOLIC_RECEIPT_V1",
+  "stage": "32",
+  "node": "CERTLIFT-03",
+  "status": "SYMBOLIC_CANDIDATE_PASS_PENDING_HOSTILE_AUDIT",
+  "predicate": {
+    "d": 8,
+    "e": 8,
+    "fixed_exceptional_mass_lower_bound": 7,
+    "g3_labels": [93, 94, 95, 96],
+    "g3_sum": 3
+  },
+  "symbolic_lemma": {
+    "verifier": "stages/stage32/cert-lift/g3_mass7_symbolic_parity_lemma.py",
+    "exact_head": "2ea8f9131de81529ad152665df8b637d72092421",
+    "exact_head_ci_run": 34726357893,
+    "exact_head_ci_job": 103641044511,
+    "canonical": "2d1fcfe51420ab01f81d353e0d19a2b1eef467a51e321da953b5cf18aa88e764",
+    "result": "PASS_SYMBOLIC_MASS7_G3_FIBRE_PARITY_LEMMA_D8_E8",
+    "uses_block_enumeration": false,
+    "uses_solver": false,
+    "uses_picard64": false,
+    "uses_hnf": false,
+    "uses_cross_pack_incidence_inequality": false
+  },
+  "source_locked_geometry": {
+    "producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+    "group_cell_pairs_pack1_pack2": {
+      "g1": [2, 3],
+      "g2": [5, 4],
+      "g3": [4, 5]
+    },
+    "fixed_empty_cells_by_pack": [[0, 1, 3], [0, 1, 2]],
+    "free_exceptional_labels_with_g3_cell_pair_4_5": []
+  },
+  "derivation": [
+    "fixed_exceptional_mass>=7 and total exceptional mass e=8 imply residual exceptional mass at most one",
+    "the ten fixed exceptional labels occupy exactly three cells in each six-cell pack, leaving three fixed-empty cells per pack",
+    "one residual unit can affect at most one cell per pack, so at least one zero cell remains in each pack",
+    "the exact fibre equations 2*y_boundary+s[p,k]=n_p force all six cell sums in each pack to have common parity; a remaining zero cell forces that parity even",
+    "g3=3 contributes odd mass to pack1 cell4 and pack2 cell5, hence both could become even only if the unique residual unit occupied cell pair (4,5)",
+    "the source-locked incidence geometry has no free exceptional label in cell pair (4,5), contradiction"
+  ],
+  "finite_replay": {
+    "unfiltered_compressed_e8_blocks": 11318,
+    "targeted_blocks": 1852,
+    "targeted_mass7": 588,
+    "targeted_mass8": 1264,
+    "closed_blocks": 1852,
+    "survivors": 0,
+    "canonical": "a48db497fc3a7e4b2ace3edcc03714f3c956724a7b6aad6bcd36f8e806bb9a9b"
+  },
+  "pre_picard_replay": {
+    "fibre_empty_blocks": 1852,
+    "post_fibre_configurations": 0,
+    "canonical": "aa3d9b6b16738fc0594daa0b2cfcfbf8043afc1ac0e3e651e1be5153f3d8ab1c"
+  },
+  "failure_profile": {
+    "exact_exceptional_completions": 23608,
+    "fibre_feasible_completions": 0,
+    "both_packs_mixed_parity": 21336,
+    "pack1_only_mixed_parity": 1136,
+    "pack2_only_mixed_parity": 1136,
+    "canonical": "ce8fd6bf083a08f0e59f7617aaf3e4157a51aa01278ebc4d0fd3f7815840525d"
+  },
+  "negative_control": {
+    "result": "PASS_EXPECTED_NO_PURE_G3_FIBRE_PARITY_RELATION",
+    "meaning": "g3 parity is not forced by the fibre parity row span without the MASS7 residual-mass hypothesis; the stronger hypothesis is essential"
+  },
+  "audit": {
+    "hostile_audited": false,
+    "hostile_audit_required_before_authority_promotion": true,
+    "replacement_head_reaudit_required_after_semantic_changes": true
+  },
+  "credit": {
+    "stage32_main_pruning_credit": false,
+    "full178_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "stage32_closure_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  }
+}
