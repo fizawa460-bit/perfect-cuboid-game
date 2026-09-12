@@ -81,6 +81,7 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION",
         "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION",
     }
     req(ex5_schema in allowed_ex5_schemas, "EX5 retained state schema drift")
     b = ex5["bootstrap"]
@@ -110,6 +111,7 @@ def main() -> None:
         req(routing["satisfied_cut192_handoff_preserved"] is True, "EX5 lost CUT192 satisfied handoff")
         req("PR #1776 remains active/open/draft/unmerged" in ex5_start, "EX5 startup lost active PR provenance")
         req("higher-priority OPEN producer demand" in ex5_start, "EX5 startup lost generic producer-priority rule")
+        req("OPEN demand" in ex5_start, "EX5 startup lost contiguous OPEN demand literal")
         req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in ex5_start and "SATISFIED" in ex5_start, "EX5 startup lost satisfied CUT192 demand")
         req("does not grant mathematical credit" in ex5_start.lower(), "EX5 startup missing demand/credit separation")
         current = ex5["current"]
@@ -128,7 +130,7 @@ def main() -> None:
             req(current["next_route"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V23 next route drift")
             req("BC2-34 hostile re-audit PASS" in ex5_start, "EX5 V23 startup lost BC2-34 PASS consumption")
             req("BC2-35 execution" in ex5_start and "BC2-36 is blocked" in ex5_start, "EX5 V23 startup lost execution/next-audit gate")
-        else:
+        elif ex5_schema == "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY":
             req(routing["local_bc2_35_audit_boundary_may_continue"] is True, "EX5 V24 BC2-35 audit boundary not authorized")
             req(current["leaf"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V24 BC2-35 leaf drift")
             req(current["status"] == "BC2_35_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "EX5 V24 audit status drift")
@@ -136,6 +138,15 @@ def main() -> None:
             req(current["next_route"] == "HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY", "EX5 V24 next route drift")
             req("stage32ex5-audit" in ex5_start and "BC2-36 is blocked" in ex5_start, "EX5 V24 startup lost audit stop rule")
             req("12 UNSAT / 52 UNKNOWN / 0 SAT" in ex5_start, "EX5 V24 startup lost retained BC2-35 partition")
+        else:
+            req(routing["local_bc2_36_execution_may_continue"] is True, "EX5 V25 BC2-36 execution not authorized")
+            req(current["leaf"] == "BC2_36_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V25 BC2-36 leaf drift")
+            req(current["status"] == "BC2_36_TARGETED_REPLAY_EXECUTION_AUTHORIZED", "EX5 V25 execution status drift")
+            req(current["blocker"] == "BC2_36_FRESH_RUNKEY_NOT_YET_CONSUMED", "EX5 V25 execution blocker drift")
+            req(current["next_route"] == "BC2_36_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V25 next route drift")
+            req("BC2-35 hostile audit PASS" in ex5_start, "EX5 V25 startup lost BC2-35 PASS consumption")
+            req("BC2-36 execution" in ex5_start and "BC2-37 is blocked" in ex5_start, "EX5 V25 startup lost execution/next-audit gate")
+            req("12 UNSAT / 52 UNKNOWN / 0 SAT" in ex5_start and "7284" in ex5_start, "EX5 V25 startup lost audited BC2-35 authority")
 
     cut = load(HERE / "full178-cut" / "MISSION.json")
     req(cut["status"] == "ACTIVE", "CUT mission unexpectedly inactive")

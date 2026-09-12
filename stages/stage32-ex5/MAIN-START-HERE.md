@@ -19,38 +19,37 @@ PR #1776 remains active/open/draft/unmerged. Historical Cycle1 files remain sour
 
 Before local EX5 research, inspect every OPEN demand with `producer_lane=EX5`. A higher-priority OPEN producer demand (that is, an OPEN demand for which EX5 is the producer) preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
 
-At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e`, `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is **SATISFIED** and there are no OPEN EX5 producer demands. Local BC2-35 hostile audit may therefore continue.
+At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e`, `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is **SATISFIED** and there are no OPEN EX5 producer demands. Local BC2-36 execution may therefore continue.
 
 ## Current authority
 
 Current Stage32 MAIN is V15 `STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED`, with FULL178 incomplete and no EX5 auto-promotion.
 
-The last consumable EX5 mathematical authority remains BC2-34 hostile re-audit PASS at exact head `cdb455860849cfd064e3ab8c83d6d4993fb5ff1b`, review `5186516652`:
+BC2-35 hostile audit PASS is consumed from exact head `8bea7a6be26e01db0deb138dbd8406f578447921`, review `5187359907`.
 
-- audited BC2-34: `17 UNSAT / 64 UNKNOWN / 0 SAT`;
-- audited known parent-UNSAT lower bound: `7272`;
-- audited remaining 64 UNKNOWN hash: `00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b`.
+Audited BC2-35 credit is bounded to:
 
-## BC2-35 retained execution
+- `12 UNSAT / 52 UNKNOWN / 0 SAT` on the exact BC2-34 64-parent target;
+- known parent-UNSAT lower bound `7284`;
+- remaining 52 UNKNOWN hash `95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818`.
 
-BC2-35 heavy execution completed successfully at exact head `c8b929e1fbbc12bb432a5d4bfd0b9aea0d03cfa8`.
+## BC2-36 execution
 
-- workflow: `34696592793`
-- authorize job: `103561025783`
-- compute job: `103561129955`
-- artifact: `10299388802`
-- artifact ZIP sha256: `7e3b5a48300af52f19a329ed8f87e2048702b3587825b8893c2d5475aab150c3`
-- raw JSON sha256: `da3f19d1e7e8f72052d9046f3e1482e669a50eeada228a3b113d440081bc266c`
-- retained result: `12 UNSAT / 52 UNKNOWN / 0 SAT`
-- candidate known parent-UNSAT lower bound: `7284`
-- retained UNKNOWN hash: `95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818`
-- checkpoint canonical: `14f808df5db80842b87efbbc0dafb9c68ad9cc5e3529b2647cfa66ee9faccf2f`
-- checkpoint blob: `ee95590c637735478c06af413835ea390000b445`
+BC2-36 execution targets exactly those 52 audited UNKNOWN parents.
 
-The BC2-35 runkey is consumed/disarmed at generation 1. The BC2-35 authorize/heavy jobs are retired from the active workflow. The retained verifier `breadth-cycle-2/verify_bc2_35_targeted_replay_checkpoint.py` fail-closes the checkpoint, run receipt, source locks, partition and UNKNOWN identities.
+- producer: `breadth-cycle-2/bc2_36_replay_explicit_fresh_unknown52.py`
+- producer blob: `18f9c2146d5dc97400c4af1a8691560523cc03cf`
+- preflight canonical: `b2cc1cd97fe8da4504da980aa1c470f1aa419f9417b3eea8b1533305382155b0`
+- preflight blob: `aa9bf40cf3550cae33cdfe8669aa51a80acddcec`
+- timeout: `100000 ms` per parent
+- heavy concurrency: `1`
+- workflow timeout: `110 minutes`
+- no scaleout
+- artifact retention: `2 days`
+- runkey: `runkeys/bc2-36-fresh-unknown52-replay.json`
 
-## Audit stop
+The producer source-locks BC2-32 (`7cfe8450cb9b9ab7f04da797d487655505598b93`), BC2-19 (`b2899aa228e7a3ee97526e3787ffbefa483530b4`), BC2-18 (`1e2ed93cae3c5b446c8d90c1ae2250be83289c79`), and the hostile-audited BC2-35 checkpoint before `build_parent_space()`.
 
-The current route is `HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY`. Run `stage32ex5-audit` on the exact frozen head after exact-head CI is green.
+Generation 0 is a cold state only. Heavy execution is authorized only after a fresh semantic runkey advance to generation 1. Ordinary synchronization must not rerun heavy work.
 
-BC2-36 is blocked until BC2-35 hostile-audit PASS. The `7284` lower bound is a retained **candidate**, not consumable audited credit; audited credit remains `7272` until PASS. No whole-first-block/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.
+BC2-37 is blocked until BC2-36 has been retained, frozen, and receives hostile-audit PASS. No whole-first-block/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.

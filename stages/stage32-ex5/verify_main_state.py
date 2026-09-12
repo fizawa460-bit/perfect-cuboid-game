@@ -17,25 +17,20 @@ MAIN_WORKFLOW = ROOT.parent / ".github/workflows/stage32-ex5-main.yml"
 CURRENT_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
 STAGE32_MAIN_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
 CROSS_LANE_BLOB = "bbf4fc2460bad22c65359bc17aa89f8717e259a2"
-BC2_34_AUDIT_HEAD = "cdb455860849cfd064e3ab8c83d6d4993fb5ff1b"
-BC2_34_AUDIT_REVIEW = 5186516652
-BC2_34_CP_BLOB = "e566aeda2931642d79c88dc5eeb84b142f655609"
-BC2_34_CP_CANON = "e535e86ddfcd19aaa3aa316f5f42e49be830e48c16e1cdd15c03a6a80e6a84ba"
-BC2_34_UNKNOWN_SHA = "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b"
-BC2_34_REPAIR_BLOB = "5569d0d0c806db361ad6cafdafbe5e7911850e4c"
-BC2_34_REPAIR_CANON = "fb111cd123eb1ee0aa99848fc7c75bd976684517cd63a2bfd44f9e9abdaed01f"
-BC2_34_REPAIR_VERIFIER_BLOB = "8adab4503f4a23e778cc6374722c77849bd370f8"
-B32_BLOB = "7cfe8450cb9b9ab7f04da797d487655505598b93"
-B19_BLOB = "b2899aa228e7a3ee97526e3787ffbefa483530b4"
-D18_BLOB = "1e2ed93cae3c5b446c8d90c1ae2250be83289c79"
-BC2_35_SOURCE_BLOB = "40111bb7619113d1c9c766089026bcf59d6bdb01"
-BC2_35_PREFLIGHT_BLOB = "bf2f4b1125925a27c820dfdc49ad796e69b268b4"
-BC2_35_PREFLIGHT_CANON = "e74e6c15050187d06c472c2eff6156c66837f8f9c9de3d2cfca7629b431dadb4"
+BC2_35_AUDIT_HEAD = "8bea7a6be26e01db0deb138dbd8406f578447921"
+BC2_35_AUDIT_REVIEW = 5187359907
 BC2_35_CP_BLOB = "ee95590c637735478c06af413835ea390000b445"
 BC2_35_CP_CANON = "14f808df5db80842b87efbbc0dafb9c68ad9cc5e3529b2647cfa66ee9faccf2f"
 BC2_35_UNKNOWN_SHA = "95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818"
 BC2_35_RUNKEY_BLOB = "5707320cc227531292f1a868d6da20554d9fd095"
 BC2_35_VERIFIER_BLOB = "3057db90284fd7aa99a2335747af5826113753b3"
+BC2_34_REPAIR_VERIFIER_BLOB = "4e7916771efb6143eb605d9fd866c77a3c1e1e1a"
+B32_BLOB = "7cfe8450cb9b9ab7f04da797d487655505598b93"
+B19_BLOB = "b2899aa228e7a3ee97526e3787ffbefa483530b4"
+D18_BLOB = "1e2ed93cae3c5b446c8d90c1ae2250be83289c79"
+BC2_36_SOURCE_BLOB = "18f9c2146d5dc97400c4af1a8691560523cc03cf"
+BC2_36_PREFLIGHT_BLOB = "aa9bf40cf3550cae33cdfe8669aa51a80acddcec"
+BC2_36_PREFLIGHT_CANON = "b2cc1cd97fe8da4504da980aa1c470f1aa419f9417b3eea8b1533305382155b0"
 PC_KEYS = {"perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim"}
 
 
@@ -62,11 +57,10 @@ def checked(path: Path, expected: str) -> dict:
 
 def main() -> None:
     s = json.loads((HERE / "MAIN-STATE.json").read_text())
-    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY", "state schema drift")
+    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION", "state schema drift")
     b = s["bootstrap"]
-    req(b["current_main_sha_observed"] == CURRENT_MAIN, "current MAIN observation drift")
     req(b["active_work_pr"] == 1776 and b["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "work surface drift")
-    req(b["merge_authorized"] is False, "merge authorization leak")
+    req(b["current_main_sha_observed"] == CURRENT_MAIN and b["merge_authorized"] is False, "MAIN observation/merge firewall drift")
 
     req(git_blob(STAGE32_MAIN) == STAGE32_MAIN_BLOB, "Stage32 MAIN blob drift")
     ma = json.loads(STAGE32_MAIN.read_text())
@@ -77,90 +71,65 @@ def main() -> None:
 
     req(git_blob(CROSS_LANE) == CROSS_LANE_BLOB, "cross-lane registry blob drift")
     cl = json.loads(CROSS_LANE.read_text())
-    ex5_open = [d for d in cl["demands"] if d.get("producer_lane") == "EX5" and d.get("status") == "OPEN"]
-    req(ex5_open == [], "OPEN EX5 producer demand preempts BC2-35 audit")
+    req([d for d in cl["demands"] if d.get("producer_lane") == "EX5" and d.get("status") == "OPEN"] == [], "OPEN EX5 producer demand preempts BC2-36")
     cr = s["cross_lane_routing"]
-    req(cr["registry_blob_sha"] == CROSS_LANE_BLOB and cr["open_ex5_producer_demand_count"] == 0 and cr["local_bc2_35_audit_boundary_may_continue"] is True, "cross-lane projection drift")
+    req(cr["registry_blob_sha"] == CROSS_LANE_BLOB and cr["open_ex5_producer_demand_count"] == 0 and cr["local_bc2_36_execution_may_continue"] is True, "cross-lane projection drift")
+    req(s["claim_sync"]["existing_active_goal"] == "S32.FULL178.NUMERICAL_CENSUS.V1", "claim sync drift")
 
-    pa = s["prior_audited_authority"]["bc2_34_pr_1776"]
-    req(pa["hostile_audit_status"] == "PASS", "BC2-34 PASS not preserved")
-    req(pa["audit_checkpoint_exact_head"] == BC2_34_AUDIT_HEAD and pa["hostile_audit_review_id"] == BC2_34_AUDIT_REVIEW, "BC2-34 audit receipt drift")
-    req(pa["prior_failed_audit_exact_head"] == "75723b1626d7f40eb1ab75a1a52f2fc679d619bf" and pa["prior_failed_audit_review_id"] == 5186319290, "BC2-34 failed-audit provenance drift")
-
-    cp34p = B2 / "bc2-34-fresh-unknown81-replay-checkpoint.json"
-    repairp = B2 / "bc2-34-dependency-identity-repair.json"
-    repairver = B2 / "verify_bc2_34_dependency_identity_repair.py"
-    req(git_blob(cp34p) == BC2_34_CP_BLOB, "BC2-34 checkpoint blob drift")
-    cp34 = checked(cp34p, BC2_34_CP_CANON)
-    r34 = cp34["replay"]
-    req((r34["parents_checked"], r34["unsat_count"], r34["unknown_count"], r34["sat_count"]) == (81,17,64,0), "BC2-34 partition drift")
-    req(r34["unknown_parent_indices_sha256"] == BC2_34_UNKNOWN_SHA and len(r34["unknown_parent_indices"]) == 64, "BC2-34 target identity drift")
-    req(cp34["credit"]["known_parent_unsat_count_lower_bound"] == 7272, "BC2-34 audited lower-bound drift")
-    req(git_blob(repairp) == BC2_34_REPAIR_BLOB, "BC2-34 repair receipt blob drift")
-    checked(repairp, BC2_34_REPAIR_CANON)
-    req(git_blob(repairver) == BC2_34_REPAIR_VERIFIER_BLOB, "BC2-34 repair verifier blob drift")
-
-    src35 = B2 / "bc2_35_replay_explicit_fresh_unknown64.py"
-    pf35p = B2 / "bc2-35-fresh-unknown64-replay-preflight.json"
     cp35p = B2 / "bc2-35-fresh-unknown64-replay-checkpoint.json"
-    ver35p = B2 / "verify_bc2_35_targeted_replay_checkpoint.py"
     rk35p = HERE / "runkeys/bc2-35-fresh-unknown64-replay.json"
-    req(git_blob(src35) == BC2_35_SOURCE_BLOB, "BC2-35 producer blob drift")
-    req(git_blob(pf35p) == BC2_35_PREFLIGHT_BLOB, "BC2-35 preflight blob drift")
-    pf = checked(pf35p, BC2_35_PREFLIGHT_CANON)
-    req(pf["audit_consumption"] == {"bc2_34_hostile_audit_status":"PASS","bc2_34_hostile_audit_exact_head":BC2_34_AUDIT_HEAD,"bc2_34_hostile_audit_review_id":BC2_34_AUDIT_REVIEW}, "BC2-35 preflight audit receipt drift")
-    locks = pf["source_locks"]
-    req(locks["producer_git_blob_sha"] == BC2_35_SOURCE_BLOB, "BC2-35 producer preflight lock drift")
-    req(locks["bc2_32_producer_git_blob_sha"] == B32_BLOB and locks["bc2_19_replay_source_git_blob_sha"] == B19_BLOB and locks["bc2_18_enumerator_source_git_blob_sha"] == D18_BLOB, "BC2-35 transitive source lock drift")
-    req(pf["target"]["audited_unknown_parent_count"] == 64 and pf["target"]["audited_unknown_parent_indices_sha256"] == BC2_34_UNKNOWN_SHA and pf["target"]["prior_audited_unsat_count"] == 7272, "BC2-35 target preflight drift")
-    req(pf["execution"]["per_parent_timeout_ms"] == 80000 and pf["execution"]["effective_heavy_concurrency"] == 1 and pf["execution"]["workflow_timeout_minutes"] == 100 and pf["execution"]["heavy_scaleout_authorized"] is False, "BC2-35 execution preflight drift")
-
-    req(git_blob(B2 / "bc2_32_replay_explicit_fresh_unknown170.py") == B32_BLOB, "current BC2-32 producer blob drift")
-    req(git_blob(B2 / "bc2_19_n354_survivor_normal_positivity_mass_replay.py") == B19_BLOB, "current BC2-19 source blob drift")
-    req(git_blob(B2 / "bc2_18_n354_survivor_exceptional_mod8_decomposition.py") == D18_BLOB, "current BC2-18 source blob drift")
-
+    ver35p = B2 / "verify_bc2_35_targeted_replay_checkpoint.py"
     req(git_blob(cp35p) == BC2_35_CP_BLOB, "BC2-35 checkpoint blob drift")
     cp35 = checked(cp35p, BC2_35_CP_CANON)
     r35 = cp35["replay"]
     req((r35["parents_checked"], r35["unsat_count"], r35["unknown_count"], r35["sat_count"]) == (64,12,52,0), "BC2-35 partition drift")
-    req(r35["unknown_parent_indices_sha256"] == BC2_35_UNKNOWN_SHA and len(r35["unknown_parent_indices"]) == 52, "BC2-35 UNKNOWN identity drift")
-    req(cp35["credit"]["known_parent_unsat_count_lower_bound"] == 7284, "BC2-35 candidate lower-bound drift")
-    req(cp35["credit"]["stage32_main_credit"] is False and cp35["credit"]["full178_complete"] is False, "BC2-35 broad credit leak")
-    req(git_blob(rk35p) == BC2_35_RUNKEY_BLOB, "BC2-35 consumed runkey blob drift")
-    rk = json.loads(rk35p.read_text())
-    req(rk["schema"] == "STAGE32EX5_BC2_35_FRESH_UNKNOWN64_REPLAY_RUNKEY_V1" and rk["generation"] == 1 and rk["armed"] is False, "BC2-35 runkey not consumed/disarmed")
-    consumed = rk["consumed_run"]
-    req(consumed["accepted_for_hostile_audit"] is True and consumed["exact_head"] == "c8b929e1fbbc12bb432a5d4bfd0b9aea0d03cfa8", "BC2-35 execution receipt drift")
-    req(consumed["workflow_run_id"] == 34696592793 and consumed["authorize_job_id"] == 103561025783 and consumed["compute_job_id"] == 103561129955, "BC2-35 workflow/job receipt drift")
-    req(consumed["artifact_id"] == 10299388802 and consumed["artifact_zip_sha256"] == "7e3b5a48300af52f19a329ed8f87e2048702b3587825b8893c2d5475aab150c3", "BC2-35 artifact receipt drift")
-    req(consumed["raw_json_sha256"] == "da3f19d1e7e8f72052d9046f3e1482e669a50eeada228a3b113d440081bc266c", "BC2-35 raw JSON receipt drift")
-    req(consumed["checkpoint_git_blob_sha"] == BC2_35_CP_BLOB and consumed["checkpoint_canonical"] == BC2_35_CP_CANON, "BC2-35 checkpoint receipt drift")
-    req((consumed["new_unsat_count"], consumed["remaining_unknown_count"], consumed["sat_count"], consumed["known_parent_unsat_count_lower_bound"]) == (12,52,0,7284), "BC2-35 consumed count drift")
-    req(consumed["remaining_unknown_parent_indices_sha256"] == BC2_35_UNKNOWN_SHA, "BC2-35 consumed UNKNOWN hash drift")
-    req(git_blob(ver35p) == BC2_35_VERIFIER_BLOB, "BC2-35 retained verifier blob drift")
+    req(r35["unknown_parent_indices_sha256"] == BC2_35_UNKNOWN_SHA and cp35["credit"]["known_parent_unsat_count_lower_bound"] == 7284, "BC2-35 retained authority drift")
+    req(git_blob(rk35p) == BC2_35_RUNKEY_BLOB and git_blob(ver35p) == BC2_35_VERIFIER_BLOB, "BC2-35 receipt/verifier drift")
+    rk35 = json.loads(rk35p.read_text())
+    req(rk35["generation"] == 1 and rk35["armed"] is False and rk35["consumed_run"]["accepted_for_hostile_audit"] is True, "BC2-35 consumed runkey drift")
+    pa35 = s["prior_audited_authority"]["bc2_35_pr_1776"]
+    req(pa35["hostile_audit_status"] == "PASS" and pa35["audit_checkpoint_exact_head"] == BC2_35_AUDIT_HEAD and pa35["hostile_audit_review_id"] == BC2_35_AUDIT_REVIEW, "BC2-35 hostile audit PASS not consumed")
+
+    repairver = B2 / "verify_bc2_34_dependency_identity_repair.py"
+    req(git_blob(repairver) == BC2_34_REPAIR_VERIFIER_BLOB, "BC2-34 repair verifier blob drift")
+
+    src36 = B2 / "bc2_36_replay_explicit_fresh_unknown52.py"
+    pf36p = B2 / "bc2-36-fresh-unknown52-replay-preflight.json"
+    rk36p = HERE / "runkeys/bc2-36-fresh-unknown52-replay.json"
+    req(git_blob(src36) == BC2_36_SOURCE_BLOB, "BC2-36 producer blob drift")
+    req(git_blob(pf36p) == BC2_36_PREFLIGHT_BLOB, "BC2-36 preflight blob drift")
+    pf36 = checked(pf36p, BC2_36_PREFLIGHT_CANON)
+    req(pf36["audit_consumption"] == {"bc2_35_hostile_audit_status":"PASS","bc2_35_hostile_audit_exact_head":BC2_35_AUDIT_HEAD,"bc2_35_hostile_audit_review_id":BC2_35_AUDIT_REVIEW}, "BC2-36 audit receipt drift")
+    locks = pf36["source_locks"]
+    req(locks["producer_git_blob_sha"] == BC2_36_SOURCE_BLOB and locks["bc2_35_checkpoint_git_blob_sha"] == BC2_35_CP_BLOB and locks["bc2_35_checkpoint_canonical"] == BC2_35_CP_CANON, "BC2-36 predecessor lock drift")
+    req(locks["bc2_32_producer_git_blob_sha"] == B32_BLOB and locks["bc2_19_replay_source_git_blob_sha"] == B19_BLOB and locks["bc2_18_enumerator_source_git_blob_sha"] == D18_BLOB, "BC2-36 transitive source lock drift")
+    req(pf36["target"] == {"audited_unknown_parent_count":52,"audited_unknown_parent_indices_sha256":BC2_35_UNKNOWN_SHA,"exact_audited_unknown_complement_only":True,"prior_audited_unsat_count":7284}, "BC2-36 target preflight drift")
+    req(pf36["execution"]["per_parent_timeout_ms"] == 100000 and pf36["execution"]["effective_heavy_concurrency"] == 1 and pf36["execution"]["workflow_timeout_minutes"] == 110 and pf36["execution"]["heavy_scaleout_authorized"] is False, "BC2-36 execution preflight drift")
+    req(git_blob(B2 / "bc2_32_replay_explicit_fresh_unknown170.py") == B32_BLOB, "current BC2-32 blob drift")
+    req(git_blob(B2 / "bc2_19_n354_survivor_normal_positivity_mass_replay.py") == B19_BLOB, "current BC2-19 blob drift")
+    req(git_blob(B2 / "bc2_18_n354_survivor_exceptional_mod8_decomposition.py") == D18_BLOB, "current BC2-18 blob drift")
+
+    rk = json.loads(rk36p.read_text())
+    req(rk["schema"] == "STAGE32EX5_BC2_36_FRESH_UNKNOWN52_REPLAY_RUNKEY_V1", "BC2-36 runkey schema drift")
+    req(rk["generation"] in (0,1) and rk["armed"] is (rk["generation"] == 1), "BC2-36 runkey generation/arm drift")
+    req(rk["source_git_blob_sha"] == BC2_36_SOURCE_BLOB and rk["preflight_git_blob_sha"] == BC2_36_PREFLIGHT_BLOB and rk["preflight_canonical"] == BC2_36_PREFLIGHT_CANON, "BC2-36 runkey source/preflight drift")
+    req(rk["target"]["fresh_unknown_parent_count"] == 52 and rk["target"]["fresh_unknown_parent_indices_sha256"] == BC2_35_UNKNOWN_SHA and rk["target"]["prior_audited_unsat_count"] == 7284, "BC2-36 runkey target drift")
+    req(rk["execution"]["per_parent_timeout_ms"] == 100000 and rk["execution"]["effective_heavy_concurrency"] == 1 and rk["execution"]["workflow_timeout_minutes"] == 110 and rk["execution"]["heavy_scaleout_authorized"] is False, "BC2-36 runkey execution drift")
+    req("consumed_run" not in rk, "BC2-36 runkey unexpectedly consumed")
 
     cur = s["current"]
-    req(cur["leaf"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET" and cur["status"] == "BC2_35_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "BC2-35 current route drift")
-    req(cur["blocker"] == "HOSTILE_AUDIT_BC2_35_REQUIRED" and cur["next_route"] == "HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY", "BC2-35 audit route drift")
+    req(cur["leaf"] == "BC2_36_REFINE_REMAINING_FRESH_UNKNOWN_SET" and cur["status"] == "BC2_36_TARGETED_REPLAY_EXECUTION_AUTHORIZED", "BC2-36 current route drift")
+    req(cur["blocker"] == "BC2_36_FRESH_RUNKEY_NOT_YET_CONSUMED" and cur["next_route"] == "BC2_36_REFINE_REMAINING_FRESH_UNKNOWN_SET", "BC2-36 blocker/route drift")
     f = s["frontier"]
-    req(f["e8_bc2_34_audited"] is True and f["e8_bc2_35_executed"] is True and f["e8_bc2_35_audited"] is False, "BC2-35 frontier audit state drift")
-    req((f["e8_bc2_35_target_unknown_count"], f["e8_bc2_35_new_parent_unsat_count"], f["e8_bc2_35_remaining_unknown_count"], f["e8_bc2_35_sat_count"]) == (64,12,52,0), "BC2-35 frontier partition drift")
-    req(f["e8_bc2_35_remaining_unknown_parent_indices_sha256"] == BC2_35_UNKNOWN_SHA, "BC2-35 frontier UNKNOWN hash drift")
-    req(f["e8_known_parent_unsat_count_lower_bound"] == 7272, "unaudited BC2-35 result leaked into audited lower bound")
-    req(f["e8_bc2_35_candidate_known_parent_unsat_count_lower_bound"] == 7284, "BC2-35 candidate lower bound drift")
-    req(f["e8_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "BC2-35 broad closure leak")
-
+    req(f["e8_bc2_35_audited"] is True and f["e8_bc2_36_executed"] is False and f["e8_bc2_36_target_unknown_count"] == 52, "BC2-36 frontier drift")
+    req(f["e8_known_parent_unsat_count_lower_bound"] == 7284 and f["e8_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "BC2-36 credit frontier drift")
     a = s["intermediate_audit_boundary"]
-    req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == BC2_34_AUDIT_HEAD and a["last_hostile_audit_review_id"] == BC2_34_AUDIT_REVIEW, "last consumable audit boundary drift")
-    req(a["freeze_active"] is True and a["new_audit_boundary_exists"] is True and a["re_audit_required"] is True, "BC2-35 audit boundary not frozen")
-    req(a["bc2_35_execution_authorized"] is False and a["bc2_34_execution_authorized"] is False, "BC2-35 execution authority not retired")
-
+    req(a["last_hostile_audit_exact_head"] == BC2_35_AUDIT_HEAD and a["last_hostile_audit_review_id"] == BC2_35_AUDIT_REVIEW, "BC2-35 audit boundary receipt drift")
+    req(a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False and a["bc2_36_execution_authorized"] is True, "BC2-36 execution boundary drift")
     ns = s["next_step"]
-    req(ns["id"] == "HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY" and ns["bc2_35_execution_authorized"] is False, "BC2-35 next-step audit gate drift")
-    req(ns["bc2_36_blocked_until_bc2_35_hostile_audit_pass"] is True, "BC2-36 gate drift")
+    req(ns["id"] == "BC2_36_REFINE_REMAINING_FRESH_UNKNOWN_SET" and ns["bc2_36_execution_authorized"] is True and ns["bc2_37_blocked_until_bc2_36_hostile_audit_pass"] is True, "BC2-36/37 gate drift")
     for k in ("heavy_scaleout_authorized","main_promotion_authorized","n350_registration_authorized","merge_authorized"):
         req(ns[k] is False, f"authorization leak: {k}")
-
     req({k for k in s["firewalls"] if "cuboid" in k or "curboid" in k} == PC_KEYS, "Perfect Cuboid firewall key drift")
     for section in ("historical_credit_firewall","firewalls"):
         for key, value in s[section].items():
@@ -170,10 +139,9 @@ def main() -> None:
             req(value is False, f"credit leak: credit.{key}")
 
     wf = MAIN_WORKFLOW.read_text()
-    req("authorize-bc2-35-fresh-unknown64:" not in wf and "\n  bc2-35-fresh-unknown64:" not in wf, "retired BC2-35 heavy path still active")
-    req("verify_bc2_35_targeted_replay_checkpoint.py" in wf, "BC2-35 retained verifier missing from exact-head CI")
-    req("authorize-bc2-34-fresh-unknown81:" not in wf and "\n  bc2-34-fresh-unknown81:" not in wf, "retired BC2-34 heavy path returned")
-    req("authorize-e8-cut-handoff-wave:" in wf, "e8 handoff lifecycle unexpectedly removed")
+    req("authorize-bc2-36-fresh-unknown52:" in wf and "bc2-36-fresh-unknown52:" in wf, "BC2-36 heavy path missing")
+    req("authorize-bc2-35-fresh-unknown64:" not in wf and "\n  bc2-35-fresh-unknown64:" not in wf, "retired BC2-35 heavy path returned")
+    req("authorize-e8-cut-handoff-wave:" in wf and "bc2_36_replay_explicit_fresh_unknown52.py" in wf, "workflow route drift")
 
     subprocess.run([sys.executable, str(B2 / "verify_bc2_34_dependency_identity_repair.py")], check=True)
     for verifier in (
@@ -187,10 +155,10 @@ def main() -> None:
     ):
         subprocess.run([sys.executable, str(B2 / verifier)], check=True)
 
-    print("PASS: Stage32EX5 BC2-35 targeted replay retained and frozen for hostile audit")
-    print("bc2_35=CANDIDATE_12_UNSAT_52_UNKNOWN_0_SAT; audited_lower_bound=7272; candidate_lower_bound=7284")
-    print("execution_head=c8b929e1fbbc12bb432a5d4bfd0b9aea0d03cfa8; workflow=34696592793; artifact=10299388802")
-    print("next=stage32ex5-audit; BC2_36_BLOCKED; Stage32_MAIN_credit=NO; FULL178=NO; merge=NO")
+    print("PASS: Stage32EX5 BC2-35 hostile audit consumed; BC2-36 exact UNKNOWN52 execution boundary coherent")
+    print("bc2_35=AUDITED_12_UNSAT_52_UNKNOWN_0_SAT; known_parent_unsat_lower_bound=7284")
+    print(f"bc2_36_runkey_generation={rk['generation']}; armed={rk['armed']}; target=52; timeout_ms=100000")
+    print("Stage32_MAIN_credit=NO; FULL178=NO; merge=NO")
 
 
 if __name__ == "__main__":
