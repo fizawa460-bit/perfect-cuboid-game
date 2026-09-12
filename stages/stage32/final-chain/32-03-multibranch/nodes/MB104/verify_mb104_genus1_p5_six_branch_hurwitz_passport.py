@@ -5,7 +5,7 @@ from pathlib import Path
 HERE=Path(__file__).resolve().parent
 CERT=HERE/"GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT-CERTIFICATE.json"
 LOCKS={
- "HUMAN_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT.md","1632a05a62d9087f845ccaaca3f091ac9581e105"),
+ "HUMAN_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT.md","d421c11ecd6577234823b6e9604c8cc99ce48fec"),
  "FULL_DECK_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-FULL-DECK-STABILIZER-RIGIDITY-CERTIFICATE.json","1c03b78456a704e50f8af0640e1d23dc36948a3c"),
  "NODE_TYPE_SOURCE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-NODE-STABILIZER-TYPE-SOURCE-NOTE.md","a29161602c0b38f0607794e56e61068b8cb9735d"),
  "FORMAL_FEASIBILITY_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-FEASIBILITY-CERTIFICATE.json","8ec4a403d2485dbf061b8b16182aa06c62193c43"),
@@ -33,47 +33,25 @@ def main():
     cert=json.loads(CERT.read_text())
     req(cert["schema"]=="STAGE32_MB104_GENUS1_P5_SIX_BRANCH_HURWITZ_PASSPORT_V1","schema")
     preflight(cert)
-    fq=cert["factor_quotient"]
-    req(fq["G_order"]==8 and fq["quotient_genus"]==0,"factor quotient")
-    req(fq["singular_stabilizer_fixed_points_each"]==8,"fixed count")
-    req(fq["branch_values_per_stabilizer_type"]==2 and fq["total_branch_values"]==6,"six branch values")
-    req(fq["remaining_outside_involution_fixed_points"]==0,"fourth outside free")
-    # Group RH on C8: 2g-2=8. Three involutions contribute 8 fixed points each.
-    req(8 == 8*(-2) + 3*8,"C8/G RH")
-    pair_nodes=(5,5,4)
+    req(cert["status"].startswith("REPAIRED_"),"repaired status")
+    req(8 == 8*(-2)+3*8,"C8/G RH")
     for l in range(1,9):
         n=56*l
         total_r=2*n
         total_u=6*n-2*total_r
-        req(total_r==112*l,"elliptic->P1 RH")
+        req(total_r==112*l,"total ramification")
         req(total_u==112*l,"unramified capacity")
-        u_pairs=tuple(c*8*l for c in pair_nodes)
+        u_pairs=(40*l,40*l,32*l)
         r_pairs=tuple((2*n-u)//2 for u in u_pairs)
-        req(u_pairs==(40*l,40*l,32*l),"u pair totals")
-        req(r_pairs==(36*l,36*l,40*l),"r pair totals")
-        req(sum(u_pairs)==total_u and sum(r_pairs)==total_r,"pair sums")
-        # Enumerate all finite split shapes; each q has u=8*l*m and r=(28-4m)*l.
-        count=0
-        for m1 in range(6):
-          m2=5-m1
-          for m3 in range(6):
-            m4=5-m3
-            for m5 in range(5):
-              m6=4-m5
-              ms=(m1,m2,m3,m4,m5,m6)
-              us=[8*l*m for m in ms]
-              rs=[(28-4*m)*l for m in ms]
-              req(all(u+2*r==n for u,r in zip(us,rs)),"local fiber degree")
-              req(sum(us)==total_u and sum(rs)==total_r,"global passport sums")
-              count+=1
-        req(count==180,"passport split count before pair swaps")
-    sp=cert["support_exhaustion"]
-    req(sp["they_exhaust_all_unramified_points_over_the_six_values"] is True,"support exhaustion")
-    fp=cert["finite_passport"]
-    req(fp["pair_sum_constraints"]==["m1+m2=5","m3+m4=5","m5+m6=4"],"pair constraints")
+        req(r_pairs==(36*l,36*l,40*l),"pair ramification totals")
+        req(sum(u_pairs)==total_u and sum(r_pairs)==total_r,"capacity sums")
+    re=cert["retraction"]
+    req(re["u_q_divisible_by_8l_claimed"] is False,"no 8l divisibility")
+    req(re["per_node_all_branches_same_branch_value_claimed"] is False,"no per-node concentration")
+    req(re["finite_six_integer_passport_retained"] is False,"finite split retracted")
+    req(cert["frontier"]["old_5_5_4_support_is_current_survivor"] is False,"non-frontier")
     for k,v in cert["credit_firewall"].items(): req(v is False,f"firewall {k}")
-    print("PASS STAGE32_MB104_GENUS1_P5_SIX_BRANCH_HURWITZ_PASSPORT_V1")
-    print("degree=56l genus1->P1; six order-2 branch values; supported 112l branches exhaust all unramified slots")
-    print("finite passport m-pair sums=(5,5,4); 180 ordered split shapes before within-pair symmetry; no closure/credit")
+    print("PASS STAGE32_MB104_GENUS1_P5_SIX_BRANCH_HURWITZ_PASSPORT_V1_REPAIRED")
+    print("historical (5,5,4) support: capacity equality retained; per-node 8l concentration and finite split retracted")
 
 if __name__=="__main__": main()
