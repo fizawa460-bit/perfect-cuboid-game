@@ -1,31 +1,13 @@
 # Stage32EX5 MAINBATCH operations
 
-This file is an operational contract only. It grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, or Perfect Cuboid credit.
+This operational contract grants no mathematical, FULL178, Stage32 MAIN, N350, receiver, theorem, endpoint, effectivity, or Perfect Cuboid credit. PR #1776 remains active/open/draft/unmerged; merge is not authorized.
 
-## Working-surface rule
+Ordinary `stage32ex5-mainbatch` must first read current Stage32 MAIN and `stages/stage32/proof/CROSS-LANE-DEMANDS.json`. Any higher-priority OPEN EX5 producer demand preempts lower-priority local work. At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e` there are zero OPEN EX5 producer demands, so the retained local BC2-34 boundary remains the legal route.
 
-PR #1765 is merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa`. It is historical retained provenance, not the sole active working surface. At this command-surface boundary there is no active EX5 PR.
+BC2-33 hostile audit **PASS** is exact head `241d65c51f93b66b79f7e8407891cc46359a45c9`, review `5185961173`.
 
-A new `stage32ex5-mainbatch` first synchronizes current main and `stages/stage32/MAIN-STATE.json`. It should create/continue a fresh work surface only when there is substantive post-merge retained work to keep. Do not reuse the merged #1765 branch as if it were current authority.
+BC2-34 has reached its mainbatch STOP condition. Exact compute head `79167ffcdd0be4cf3bdcb7e652fad38acb447fb4`, workflow `34685719102`, authorize job `103532247242`, compute job `103532291007`, artifact `10296591024`: exactly 81 audited UNKNOWN parents replayed at `60000 ms`; result `17 UNSAT / 64 UNKNOWN / 0 SAT`; known parent-UNSAT lower bound `7272`; remaining64 hash `00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b`.
 
-## Retained boundary
+The result is retained with checkpoint/artifact provenance, generation-1 runkey is consumed/disarmed, and the BC2-34 heavy executor is removed. Ordinary mainbatch must not recompute BC2-34.
 
-BC2-24 is retained. The e=4 local exact UNSAT prefix is `0..797`. In the e=8 first block, BC2-24 leaves `19` retained UNKNOWN / 0 SAT from its retained 23-parent slice, known parent-UNSAT lower bound `7145`, and `172` other BC2-19 UNKNOWN identities uninferred. This is not whole-block or FULL178 closure.
-
-## Post-merge continuation rule
-
-The next bounded candidate is `BC2_25_POST_MERGE_UNKNOWN_REFINEMENT_PREFLIGHT`.
-
-Before opening it:
-
-1. synchronize current Stage32 authority and current main;
-2. verify BC2-24 retained replay and UNKNOWN firewalls;
-3. search existing EX5/178/Main results so BC2-25 does not duplicate a route already solved or dominated;
-4. choose the smallest exact refinement of the remaining UNKNOWN structure;
-5. keep heavy/artifact-producing scale-out behind the normal authorization gate.
-
-Do not rerun BC2-20..24. UNKNOWN remains UNKNOWN. EX5 cannot self-register into N350 or self-promote Stage32 MAIN credit.
-
-## Workflow lifecycle
-
-Historical bounded-unit compute provenance remains in source/checkpoint/run-key/run ids. Retired historical leaf workflows must not be re-enabled as automatic PR triggers merely because EX5 research resumes. Permanent repository/EX5 integrity gates remain governed by `AGENTS.md` and the repository workflow lifecycle policy.
+The next action is `stage32ex5-audit`; BC2-35 is blocked until that hostile audit passes. No broad/heavy scaleout, Stage32 MAIN/N350 promotion, whole-first-block/whole-stratum/FULL178 closure, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge is authorized.

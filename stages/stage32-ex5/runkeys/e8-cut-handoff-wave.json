@@ -1,0 +1,52 @@
+{
+  "schema": "STAGE32EX5_E8_CUT_HANDOFF_WAVE_RUNKEY_V1",
+  "generation": 3,
+  "armed": true,
+  "purpose": "Execute the first bounded wave over the maximum audited current-MAIN g1-d008/e8 survivor population through the common multi-block adapter; persist only compact per-block commitments for CUT handoff.",
+  "source_git_blob_sha": "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f",
+  "preflight_git_blob_sha": "b28539d9d0eafddc181d3bbf6d668261f2ff081e",
+  "prior_generation": {
+    "generation": 2,
+    "heavy_compute_credit_retained": false,
+    "superseded_reason": "SCOPE_REPAIRED_FROM_UNFILTERED_E8_UNIVERSE_TO_AUDITED_N220_PLUS_N355_CURRENT_MAIN_SURVIVORS"
+  },
+  "target": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "adapter_universe_block_count": 11318,
+    "adapter_universe_terminal_count": 1278934,
+    "current_main_handoff_block_count": 7596,
+    "current_main_handoff_terminal_count": 858348,
+    "current_main_survivor_block_stream_sha256": "529b9c31d36c517484dc176ba1d37674790eec05dc01853f9ce93b36e416c8e3",
+    "wave_survivor_offset_start": 1,
+    "wave_survivor_count": 255,
+    "wave_source_block_index_minmax": [1,343],
+    "wave_block_index_stream_sha256": "68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea",
+    "wave_terminal_count": 28815,
+    "wave_raw_parent_candidates": 407672
+  },
+  "authority": {
+    "n220_audited": true,
+    "n355_full_prefix_audited": true,
+    "n355_audit_exact_head": "3f3aadd2e5ada2a0a02a69490d6d659c02762682",
+    "n355_audit_review": 5165895301,
+    "n356_candidate_consumed": false
+  },
+  "execution": {
+    "max_raw_candidates": 425000,
+    "effective_heavy_concurrency": 1,
+    "workflow_timeout_minutes": 15,
+    "artifact_retention_days": 1,
+    "projected_peak_artifact_bytes": 1048576,
+    "repository_storage_budget_bytes": 524288000
+  },
+  "credit": {
+    "producer_interface_only": true,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "merge_authorized": false
+  }
+}
