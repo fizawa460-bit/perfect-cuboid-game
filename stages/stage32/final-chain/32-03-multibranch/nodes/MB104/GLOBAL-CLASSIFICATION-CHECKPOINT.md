@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` HALF-BRANCH ABEL-JACOBI OR MONODROMY ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 CROSS-SHEET CONDUCTOR UPPER BOUND ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -124,7 +124,7 @@ L_abs.E_p=-1 for every absent exceptional E_p.
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md` and matching certificate/verifier.
 
-## What Picard64 numerics can and cannot do
+## Numerical Picard wall
 
 The rank-64 Picard lattice identifies `L_abs` and all displayed intersections exactly. It does **not**, by numerical pairings alone, distinguish
 
@@ -134,9 +134,64 @@ L_abs|_E = 0
 
 from a nonzero element of `Pic^0(E)[2]`: both have degree zero and numerically trivial first Chern class after restriction to the genus-one normalization.
 
-Similarly, a surface-cohomology calculation on the singular carrier cannot be promoted directly to a statement on the normalization without controlling conductor/gluing data. The arithmetic genus of the carrier is large even though its normalization genus is one.
+Similarly, a surface-cohomology calculation on the singular carrier cannot be promoted directly to a statement on the normalization without controlling conductor/gluing data. Therefore the purely numerical Picard-pairing route is exhausted; the actual restriction/monodromy is required.
 
-Therefore the purely numerical Picard-pairing route is exhausted at this point. Explicit Picard geometry can still be useful if it computes the actual restriction/Abel-Jacobi class rather than only intersections.
+## e=2 split-normalization Hodge constraint
+
+Let `pi:Y->S` be the double cover defined by `L_abs`, branched along `B_abs`. The carrier is disjoint from the branch divisor, so the induced cover over the singular carrier is etale.
+
+If `e=2`, then `eta=0` and the normalization of `pi^{-1}(C)` is two copies of `E`. The singular preimage can nevertheless remain connected by cross-sheet conductor gluing. It has two irreducible components `C_1,C_2`, exchanged by the deck involution. Put
+
+```text
+y=C_1.C_2.
+```
+
+Projection formula gives
+
+```text
+C_1^2=C_2^2=D_l^2-y=336l^2-y.
+```
+
+For any ample divisor `A` on `S`,
+
+```text
+(C_1-C_2).pi^*A=0.
+```
+
+Hodge index on `Y` yields
+
+```text
+(C_1-C_2)^2=672l^2-4y <=0,
+```
+
+hence the new quadratic requirement
+
+```text
+y >= 168l^2.                                  (E2-HODGE)
+```
+
+Adjunction on `S` gives
+
+```text
+Delta(C)=168l^2+56l.
+```
+
+If `delta_same` denotes the normalization defect internal to either lifted component, etaleness and the union formula give
+
+```text
+2Delta(C)=2delta_same+y.
+```
+
+Thus `e=2` requires
+
+```text
+y/2 >=84l^2,
+delta_same <=84l^2+56l.
+```
+
+This is compatible with the current quadratic delta budget and therefore is not yet a contradiction. It is a new target for conductor geometry.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-SPLIT-HODGE-CONDUCTOR.md` and matching certificate/verifier.
 
 ## Two-factor comparison
 
@@ -160,25 +215,28 @@ Thus the two factor square classes agree; comparing them cannot distinguish `e=2
 ## Active next leaf
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-HALF-BRANCH-ABEL-JACOBI-OR-MONODROMY
+MB104-GENUS1-SPAN5-BALANCED16-000707-E2-CROSS-SHEET-CONDUCTOR-UPPER-BOUND
 ```
 
-The target is the actual class
+For `e=2`, derive an independent upper bound for
 
 ```text
-eta=L_abs|_E in Pic^0(E)[2].
+y=C_1.C_2.
 ```
 
-A useful continuation must compute one of the equivalent non-numerical invariants:
+Any strict inequality
 
-- the Abel--Jacobi class of the two half-fiber intersection divisors;
-- the residual function-field square class;
-- split/connected status of the intermediate double cover of the normalization;
-- an equivalent monodromy/commensurator invariant.
+```text
+y<168l^2
+```
 
-A proof of `eta=0` excludes `e=4`; a proof of `eta!=0` excludes `e=2`. An independent contradiction may close both.
+contradicts `(E2-HODGE)` and excludes `e=2`, forcing the nonzero residual character `e=4`.
 
-The 2026 Stoll--Testa low-degree classification does not directly settle this leaf: its integral-curve classification stops at degree `6`, whereas the current carrier degree is `112l`.
+Candidate inputs are explicit local conductor/singularity types, a global conductor divisor bound, or exact modular/commensurator monodromy. The retained Lu--Miyaoka ordinary-node/triple bound is only linear and does not by itself contradict the quadratic requirement.
+
+In parallel, `e=4` remains the one-factor Abel--Jacobi/monodromy problem `eta!=0`.
+
+The 2026 Stoll--Testa classification of integral curves of degree at most `6` does not directly settle this leaf because the current carrier has degree `112l`.
 
 Genus-one support-span P6 and genus-zero full-span P6 remain active in parallel.
 
