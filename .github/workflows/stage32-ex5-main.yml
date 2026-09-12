@@ -66,6 +66,8 @@ jobs:
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_27_boundary35_partition_checkpoint.py
       - name: Verify retained BC2-28 boundary38 checkpoint and artifact receipt
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_28_boundary38_partition_checkpoint.py
+      - name: Verify retained BC2-35 targeted replay checkpoint and artifact receipt
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_35_targeted_replay_checkpoint.py
       - name: Verify maximum audited current-MAIN e8 CUT handoff adapter
         run: python stages/stage32-ex5/cut-handoff/verify_e8_terminal_population_adapter.py
       - name: Compile targeted replay producers
@@ -82,87 +84,6 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
-
-  authorize-bc2-35-fresh-unknown64:
-    runs-on: ubuntu-24.04
-    outputs:
-      authorized: ${{ steps.gate.outputs.authorized }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - id: gate
-        name: Authorize only a fresh BC2-35 generation
-        shell: bash
-        env:
-          BEFORE: ${{ github.event.before }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          python - <<'PY'
-          import json, os, subprocess
-          from pathlib import Path
-          key=Path('stages/stage32-ex5/runkeys/bc2-35-fresh-unknown64-replay.json')
-          statep=Path('stages/stage32-ex5/MAIN-STATE.json')
-          source=Path('stages/stage32-ex5/breadth-cycle-2/bc2_35_replay_explicit_fresh_unknown64.py')
-          preflight=Path('stages/stage32-ex5/breadth-cycle-2/bc2-35-fresh-unknown64-replay-preflight.json')
-          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip(); authorized=False; reason='cold'
-          if before and head and key.exists():
-              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
-              if old_ok:
-                  changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
-                  if str(key) in changed:
-                      new=json.loads(key.read_text())
-                      try:
-                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL)); generation_ok=int(new.get('generation',0))>int(old.get('generation',0))
-                      except subprocess.CalledProcessError: generation_ok=int(new.get('generation',0))==1
-                      source_blob=subprocess.check_output(['git','hash-object',str(source)],text=True).strip(); preflight_blob=subprocess.check_output(['git','hash-object',str(preflight)],text=True).strip()
-                      state=json.loads(statep.read_text()); dep=new.get('dependency_locks',{}); target=new.get('target',{}); ex=new.get('execution',{}); audit=new.get('audit_consumption',{})
-                      authorized=(new.get('schema')=='STAGE32EX5_BC2_35_FRESH_UNKNOWN64_REPLAY_RUNKEY_V1' and new.get('armed') is True and int(new.get('generation',0))==1 and generation_ok and source_blob==new.get('source_git_blob_sha')=='40111bb7619113d1c9c766089026bcf59d6bdb01' and preflight_blob==new.get('preflight_git_blob_sha')=='bf2f4b1125925a27c820dfdc49ad796e69b268b4' and new.get('preflight_canonical')=='e74e6c15050187d06c472c2eff6156c66837f8f9c9de3d2cfca7629b431dadb4' and audit=={'bc2_34_hostile_audit_status':'PASS','bc2_34_hostile_audit_exact_head':'cdb455860849cfd064e3ab8c83d6d4993fb5ff1b','bc2_34_hostile_audit_review_id':5186516652} and dep.get('bc2_32_producer_git_blob_sha')=='7cfe8450cb9b9ab7f04da797d487655505598b93' and dep.get('bc2_19_replay_source_git_blob_sha')=='b2899aa228e7a3ee97526e3787ffbefa483530b4' and dep.get('bc2_18_enumerator_source_git_blob_sha')=='1e2ed93cae3c5b446c8d90c1ae2250be83289c79' and target.get('fresh_unknown_parent_count')==64 and target.get('fresh_unknown_parent_indices_sha256')=='00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b' and target.get('prior_audited_unsat_count')==7272 and ex.get('per_parent_timeout_ms')==80000 and ex.get('effective_heavy_concurrency')==1 and ex.get('workflow_timeout_minutes')==100 and ex.get('heavy_scaleout_authorized') is False and state.get('schema')=='STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION' and state.get('intermediate_audit_boundary',{}).get('bc2_35_execution_authorized') is True)
-                      reason='fresh-runkey' if authorized else 'semantic-gate-failed'
-          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if authorized else 'false')+'\n')
-          print('BC2-35 authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
-          PY
-
-  bc2-35-fresh-unknown64:
-    needs: [verify-stage32ex5-main, authorize-bc2-35-fresh-unknown64]
-    if: needs.authorize-bc2-35-fresh-unknown64.outputs.authorized == 'true'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 100
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 1
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.10.6'
-      - name: Install exact BC2-35 dependencies
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Verify BC2-34 audit consumption and BC2-35 authority
-        run: python stages/stage32-ex5/verify_main_state.py
-      - name: Execute targeted replay of audited 64 UNKNOWN parents
-        run: |
-          python stages/stage32-ex5/breadth-cycle-2/bc2_35_replay_explicit_fresh_unknown64.py --per-parent-timeout-ms 80000 --output "$RUNNER_TEMP/bc2-35.json"
-      - name: Validate BC2-35 retained scope
-        run: |
-          python - "$RUNNER_TEMP/bc2-35.json" <<'PY'
-          import json,sys
-          p=json.load(open(sys.argv[1])); r=p['replay']
-          assert p['schema']=='STAGE32EX5_BC2_35_FRESH_UNKNOWN64_REPLAY_V1'; assert r['parents_checked']==64; assert r['unsat_count']+r['unknown_count']+r['sat_count']==64; assert r['per_parent_timeout_ms']==80000
-          assert p['target']['parent_indices_sha256']=='00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b' and p['target']['prior_audited_unsat_count']==7272
-          assert p['source_locks']['bc2_32_producer_git_blob_sha']=='7cfe8450cb9b9ab7f04da797d487655505598b93'; assert p['credit']['known_parent_unsat_count_lower_bound']==7272+r['unsat_count']; assert p['credit']['stage32_main_credit'] is False and p['credit']['full178_complete'] is False
-          assert p['firewalls']['merge_authorized'] is False and p['firewalls']['heavy_scaleout_authorized'] is False and p['firewalls']['perfect_cuboid_existence_claim'] is False and p['firewalls']['perfect_cuboid_nonexistence_claim'] is False
-          print('BC2_35_RESULT_OK',p['canonical_sha256_without_this_field'],r['unsat_count'],r['unknown_count'],r['sat_count'])
-          PY
-      - name: Upload compact BC2-35 result
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage32ex5-bc2-35-${{ github.event.pull_request.head.sha }}
-          path: ${{ runner.temp }}/bc2-35.json
-          retention-days: 2
-          compression-level: 0
-          if-no-files-found: error
 
   authorize-e8-cut-handoff-wave:
     runs-on: ubuntu-24.04

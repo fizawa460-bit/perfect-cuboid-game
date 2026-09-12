@@ -2,24 +2,25 @@
 
 This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains active/open/draft/unmerged.
 
-BC2-34 hostile re-audit **PASS** is consumed from exact head `cdb455860849cfd064e3ab8c83d6d4993fb5ff1b`, review `5186516652`.
+BC2-34 hostile re-audit **PASS** remains the last consumable mathematical authority: exact head `cdb455860849cfd064e3ab8c83d6d4993fb5ff1b`, review `5186516652`, audited lower bound `7272`.
 
-Audited current local result:
+BC2-35 heavy execution is complete and retained:
 
-- BC2-34: `17 UNSAT / 64 UNKNOWN / 0 SAT`
-- known parent-UNSAT lower bound: `7272`
-- remaining UNKNOWN hash: `00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b`
+- execution head: `c8b929e1fbbc12bb432a5d4bfd0b9aea0d03cfa8`
+- workflow: `34696592793`
+- authorize job: `103561025783`
+- compute job: `103561129955`
+- artifact: `10299388802`
+- artifact ZIP sha256: `7e3b5a48300af52f19a329ed8f87e2048702b3587825b8893c2d5475aab150c3`
+- raw JSON sha256: `da3f19d1e7e8f72052d9046f3e1482e669a50eeada228a3b113d440081bc266c`
+- result: `12 UNSAT / 52 UNKNOWN / 0 SAT`
+- candidate known parent-UNSAT lower bound: `7284`
+- remaining UNKNOWN hash: `95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818`
+- checkpoint canonical: `14f808df5db80842b87efbbc0dafb9c68ad9cc5e3529b2647cfa66ee9faccf2f`
+- checkpoint blob: `ee95590c637735478c06af413835ea390000b445`
 
-BC2-35 now targets exactly those 64 audited UNKNOWN parents at `80000 ms` per parent, one heavy runner, no scaleout. Its producer source-locks BC2-32/BC2-19/BC2-18 before reusing `build_parent_space()`.
+The generation-1 runkey is consumed/disarmed. The BC2-35 heavy path is retired. `verify_bc2_35_targeted_replay_checkpoint.py` is the retained fail-closed verifier.
 
-Cold execution boundary:
+Current operational step: `stage32ex5-audit` on the frozen BC2-35 boundary. BC2-36 remains blocked until hostile-audit PASS.
 
-- producer blob: `40111bb7619113d1c9c766089026bcf59d6bdb01`
-- preflight canonical: `e74e6c15050187d06c472c2eff6156c66837f8f9c9de3d2cfca7629b431dadb4`
-- preflight blob: `bf2f4b1125925a27c820dfdc49ad796e69b268b4`
-- runkey generation: `0`
-- runkey armed: `false`
-
-The next operational step is a fresh generation-1 arm followed by the exact-head BC2-35 heavy replay. After a successful run, mainbatch must retain the compact artifact, disarm/consume the runkey, retire the BC2-35 heavy path, install a fail-closed retained verifier, and freeze a new hostile-audit boundary.
-
-BC2-36 remains blocked until that future BC2-35 hostile-audit PASS. No timeout UNKNOWN is relabelled UNSAT and no Stage32 MAIN/FULL178/N350/theorem/effectivity/receiver/endpoint/Perfect Cuboid/merge credit follows automatically.
+No timeout UNKNOWN is relabelled UNSAT. The retained `7284` lower bound is candidate-only until audit PASS; audited EX5 lower bound remains `7272`. No Stage32 MAIN/FULL178/N350/theorem/effectivity/receiver/endpoint/Perfect Cuboid/merge credit follows automatically.
