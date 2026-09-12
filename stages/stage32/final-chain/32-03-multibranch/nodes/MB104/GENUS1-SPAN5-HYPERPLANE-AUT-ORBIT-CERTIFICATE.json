@@ -1,0 +1,132 @@
+{
+  "schema": "STAGE32_MB104_GENUS1_SPAN5_HYPERPLANE_AUT_ORBITS_V1",
+  "status": "RETAINED_EXACT_AUT_ORBITS_INCIDENCE24_COMPONENT_GEOMETRY_SPAN5_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json",
+      "blob_sha1": "9cb1e8acc268491a84f0c0e27f4fd39f6cb39d8b",
+      "use": "retained Aut(S) semantic quotient and immutable upstream source identity"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-FINITE-REDUCTION-CERTIFICATE.json",
+      "blob_sha1": "b6035b2e525a08ab0fc028e1e1f81519548e1a5b",
+      "use": "complete exact 1655-hyperplane input population and support digest"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-EFFECTIVITY-P5-CONIC-CERTIFICATE.json",
+      "blob_sha1": "7bef88be7a8a81bbcf022ef9fea4834c2dc2da39",
+      "use": "c=0 eight-conic geometry, strict-transform pairings, and prior displayed-ray obstruction"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AUTS-NODE-ACTION-SOURCE-NOTE.md",
+      "blob_sha1": "cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693",
+      "use": "exact nine automorphism coordinate substitutions"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CLASSIFICATION.md",
+      "blob_sha1": "c3bcc580b5bd43b7805c7227c7420445f14c4b8c",
+      "use": "human-readable proof and scope checkpoint"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_hyperplane_aut_orbits.cpp",
+      "blob_sha1": "0c5b460b76b69e41e6009be2e92b7c051f003c22",
+      "use": "exact node action, exhaustive high-hyperplane replay, orbit classification, and incidence-24 node/conic check"
+    }
+  ],
+  "external_source_lock": {
+    "repository": "MichaelStollBayreuth/Verification",
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "path": "Cuboids/cuboids.magma",
+    "blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "required_features": [
+      "48 singular points",
+      "nine explicit automorphism coordinate substitutions",
+      "induced permutations on singular points",
+      "Aut(S) order 1536"
+    ]
+  },
+  "input_population": {
+    "field": "Q(i)",
+    "exact_high_incidence_hyperplanes": 1655,
+    "exact_support_fnv64": "ba8379b50029db53",
+    "incidence_distribution": {
+      "14": 1248,
+      "15": 256,
+      "16": 27,
+      "19": 48,
+      "20": 48,
+      "24": 28
+    }
+  },
+  "aut_action": {
+    "generator_count": 9,
+    "generated_node_permutation_group_order": 1536,
+    "matches_retained_AutS_order": true,
+    "candidate_set_closed_under_action": true
+  },
+  "orbit_classification": {
+    "total_orbits": 12,
+    "by_incidence": {
+      "14": {"orbit_count": 5, "orbit_sizes": [96,192,192,384,384]},
+      "15": {"orbit_count": 1, "orbit_sizes": [256]},
+      "16": {"orbit_count": 2, "orbit_sizes": [3,24]},
+      "19": {"orbit_count": 1, "orbit_sizes": [48]},
+      "20": {"orbit_count": 1, "orbit_sizes": [48]},
+      "24": {"orbit_count": 2, "orbit_sizes": [4,24]}
+    },
+    "orbit_size_sums_reproduce_population": true,
+    "ambient_hyperplane_quotient_complete": true,
+    "support_subset_or_divisor_class_quotient_complete": false
+  },
+  "incidence24": {
+    "hyperplane_count": 28,
+    "orbit_sizes": [4,24],
+    "single_orbit": false,
+    "size4_orbit_contains_c_eq_0": true,
+    "size4_representative_support_mask_hex": "0000ffffff00",
+    "size24_representative_support_mask_hex": "005a5affa5a5",
+    "size24_representative_hyperplane": "a1+a2-b3=0",
+    "size4_section_geometry": "eight smooth conics by retained c=0 source plus Aut(S) transport",
+    "size24_section_geometry": "eight smooth conics by direct factorization of q1 on a1+a2-b3=0",
+    "all_28_sections_are_eight_smooth_conics": true,
+    "nodes_per_conic_on_size24_representative": 6,
+    "conics_through_each_incidence24_node": 2
+  },
+  "uniform_ray_consequence": {
+    "scope": "any incidence-24 ambient hyperplane and any support subset S of at least 14 of its box nodes",
+    "class": "D_l=7l H-4l sum_{i in S}E_i, l>=1",
+    "support_conic_incidence_lower_bound": 28,
+    "some_conic_supported_nodes_at_least": 4,
+    "pairing_formula": "D_l.Q=14l-4l*n_Q",
+    "negative_pairing_upper": "-2l",
+    "effective_member_has_fixed_conic_component": true,
+    "irreducible_effective_member_exists": false,
+    "covers_arbitrary_picard_classes": false,
+    "covers_unequal_exceptional_coefficients": false,
+    "whole_genus1_span5_sector_closed": false
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-SECTION-COMPONENTS-INC20-DOWN",
+    "order": [20,19,16,15,14],
+    "target": "Determine scheme-theoretic surface-section component geometry orbitwise, then test support/multiplicity obstructions for irreducible genus-one carriers."
+  },
+  "verification": {
+    "local_replay_passed": true,
+    "exact_head_CI_claimed": false,
+    "new_workflow_created": false
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
