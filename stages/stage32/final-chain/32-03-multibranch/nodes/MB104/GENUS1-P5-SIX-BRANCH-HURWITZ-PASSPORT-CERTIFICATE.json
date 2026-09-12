@@ -1,53 +1,48 @@
 {
   "schema": "STAGE32_MB104_GENUS1_P5_SIX_BRANCH_HURWITZ_PASSPORT_V1",
-  "status": "RETAINED_FINITE_GLOBAL_REDUCTION_NO_CLOSURE",
+  "status": "REPAIRED_RETAINED_CAPACITY_EQUALITY_FINITE_SPLIT_RETRACTED_NON_FRONTIER",
   "source_locks": [
-    {"id":"HUMAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT.md","blob_sha1":"1632a05a62d9087f845ccaaca3f091ac9581e105"},
+    {"id":"HUMAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT.md","blob_sha1":"d421c11ecd6577234823b6e9604c8cc99ce48fec"},
     {"id":"FULL_DECK_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-FULL-DECK-STABILIZER-RIGIDITY-CERTIFICATE.json","blob_sha1":"1c03b78456a704e50f8af0640e1d23dc36948a3c"},
     {"id":"NODE_TYPE_SOURCE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-NODE-STABILIZER-TYPE-SOURCE-NOTE.md","blob_sha1":"a29161602c0b38f0607794e56e61068b8cb9735d"},
     {"id":"FORMAL_FEASIBILITY_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-FEASIBILITY-CERTIFICATE.json","blob_sha1":"8ec4a403d2485dbf061b8b16182aa06c62193c43"}
   ],
   "factor_quotient": {
-    "G_order": 8,
-    "quotient_genus": 0,
-    "singular_stabilizer_fixed_points_each": 8,
-    "branch_values_per_stabilizer_type": 2,
-    "total_branch_values": 6,
-    "all_inertia_orders": 2,
-    "remaining_outside_involution_fixed_points": 0
+    "G_order":8,
+    "quotient_genus":0,
+    "branch_values_per_stabilizer_type":2,
+    "total_branch_values":6,
+    "all_inertia_orders":2
   },
-  "induced_map": {
-    "domain_genus": 1,
-    "degree": "56*l",
-    "branch_values": 6,
-    "all_ramification_simple": true,
-    "total_ramification_points": "112*l",
-    "total_unramified_points_over_six_values": "112*l"
+  "capacity": {
+    "domain_genus":1,
+    "degree":"56*l",
+    "total_ramification_points":"112*l",
+    "total_unramified_points_over_six_values":"112*l",
+    "supported_odd_branches":"112*l",
+    "supported_branches_exhaust_unramified_capacity":true,
+    "unramified_type_pair_totals":["40*l","40*l","32*l"],
+    "ramified_type_pair_totals":["36*l","36*l","40*l"],
+    "per_value_constraint":"0<=u_q<=56*l; u_q even; r_q=(56*l-u_q)/2"
   },
-  "support_exhaustion": {
-    "supported_odd_branches": "112*l",
-    "they_are_unramified_over_the_six_branch_values": true,
-    "they_exhaust_all_unramified_points_over_the_six_values": true,
-    "unramified_pair_totals": ["40*l","40*l","32*l"],
-    "ramified_pair_totals": ["36*l","36*l","40*l"]
+  "retraction": {
+    "u_q_divisible_by_8l_claimed":false,
+    "per_node_all_branches_same_branch_value_claimed":false,
+    "finite_six_integer_passport_retained":false,
+    "reason":"branch-specific lifts through one box node need not share a first-factor quotient branch value"
   },
-  "finite_passport": {
-    "u_q": "8*l*m_q",
-    "pair_sum_constraints": ["m1+m2=5","m3+m4=5","m5+m6=4"],
-    "r_q": "(28-4*m_q)*l",
-    "local_cycle_shape": "2^((28-4*m_q)*l) 1^(8*m_q*l)"
+  "frontier": {
+    "old_5_5_4_support_is_current_survivor":false,
+    "promoted_to_current_frontier":false
   },
-  "next_problem": "Nielsen-class / G-equivariant lift existence for the finite six-integer passport",
   "credit_firewall": {
-    "hurwitz_passport_exists_claimed": false,
-    "nielsen_nonexistence_proved": false,
-    "any_surviving_support_orbit_closed": false,
-    "span5_closed": false,
-    "MB104_complete": false,
-    "receiver_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_nonexistence_claim": false,
-    "merge_authorized": false
+    "any_surviving_support_orbit_closed":false,
+    "span5_closed":false,
+    "MB104_complete":false,
+    "receiver_credit":false,
+    "theorem_credit":false,
+    "endpoint_credit":false,
+    "perfect_cuboid_nonexistence_claim":false,
+    "merge_authorized":false
   }
 }
