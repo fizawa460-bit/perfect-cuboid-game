@@ -9,26 +9,10 @@
     "carrier_contained_in_support_hyperplane_assumed": false
   },
   "source_locks": [
-    {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md",
-      "blob_sha1": "de83fc169814681109bcbc1576ad24f67d6159e0",
-      "use": "displayed genus-one P5 uniform Picard ray"
-    },
-    {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CERTIFICATE.json",
-      "blob_sha1": "3bc4453affce96e87a60864c99f745bb4c28c794",
-      "use": "exact support-hyperplane orbit classification"
-    },
-    {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json",
-      "blob_sha1": "9c36555e495df0d8d6b816f1c0dc7d4c35b55848",
-      "use": "repaired incidence20/19/16 section geometry"
-    },
-    {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY.md",
-      "blob_sha1": "59fb415010abfbb48cb6c4ae66b66fd9b1f270e8",
-      "use": "human-readable fixed-component capacity proof including incidence14 orbit96"
-    }
+    {"path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md","blob_sha1":"de83fc169814681109bcbc1576ad24f67d6159e0","use":"displayed genus-one P5 uniform Picard ray"},
+    {"path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CERTIFICATE.json","blob_sha1":"3bc4453affce96e87a60864c99f745bb4c28c794","use":"exact support-hyperplane orbit classification"},
+    {"path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json","blob_sha1":"9c36555e495df0d8d6b816f1c0dc7d4c35b55848","use":"repaired incidence20/19/16 section geometry"},
+    {"path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY.md","blob_sha1":"59fb415010abfbb48cb6c4ae66b66fd9b1f270e8","use":"human-readable fixed-component capacity proof including incidence14 orbit96"}
   ],
   "source_lock_contract": {
     "declared_dependency_count": 4,
@@ -36,104 +20,16 @@
     "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL before node/capacity replay",
     "self_lock_policy": "verifier is not self-referentially included in source_locks; its blob identity is fixed separately under verification.verifier_blob_sha1"
   },
-  "pairing": {
-    "formula": "D_l.Q=l*(7e-4n_Q)",
-    "nonnegative_capacity": "n_Q<=floor(7e/4)",
-    "conic_capacity": 3,
-    "elliptic_quartic_capacity": 7,
-    "negative_pairing_forces_fixed_component": true
-  },
-  "incidence24": {
-    "section_components": "8 smooth conics",
-    "minimum_support_size": 14,
-    "nonnegative_capacity": 24,
-    "minimum_actual_incidence": 28,
-    "uniform_ray_irreducibly_excluded": true
-  },
-  "incidence20": {
-    "section_components": "4 smooth conics + 2 smooth elliptic quartics",
-    "minimum_support_size": 14,
-    "nonnegative_capacity": 26,
-    "minimum_actual_incidence": 28,
-    "uniform_ray_irreducibly_excluded": true
-  },
-  "incidence19": {
-    "reduced_section_components": "4 smooth conics",
-    "minimum_support_size": 14,
-    "nonnegative_capacity": 12,
-    "minimum_actual_incidence": 14,
-    "uniform_ray_irreducibly_excluded": true
-  },
-  "incidence16_size3": {
-    "section_components": "4 smooth elliptic quartics",
-    "N_ge_15_forced_negative_component": true,
-    "N14_nonnegative_pattern": [7,7,7,7],
-    "balanced_N14_spanning_survivors": 32
-  },
-  "incidence16_size24": {
-    "reduced_section_components": "2 smooth elliptic quartics",
-    "N_ge_15_forced_negative_component": true,
-    "N14_nonnegative_pattern": [7,7],
-    "balanced_N14_spanning_survivors": 64
-  },
-  "incidence14_orbit96": {
-    "orbit_size": 96,
-    "representative_support_mask_hex": "0000185aa566",
-    "representative_hyperplane": "-a2+a3+b2+b3=0",
-    "factor_identity": "q1-q3=2*(a2-b3)*(b2+b3) on the hyperplane",
-    "retained_branch": "a2=b3 gives two smooth conics each generically doubled",
-    "nodes_per_retained_conic": [6,6],
-    "support_size": 14,
-    "pairing_each_retained_conic": "-10l",
-    "uniform_ray_irreducibly_excluded": true
-  },
-  "retained_consequence": {
-    "closed_uniform_ray_orbits": ["incidence24_all", "incidence20_all", "incidence19_all", "incidence14_orbit96"],
-    "incidence16_uniform_ray_reduced_to_finite_balanced_supports": true,
-    "incidence16_total_balanced_support_survivors_on_two_representatives": 96,
-    "remaining_open_ambient_orbits": ["incidence15_orbit256", "incidence14_orbit192_a", "incidence14_orbit192_b", "incidence14_orbit384_a", "incidence14_orbit384_b"],
-    "arbitrary_unequal_picard_classes_closed": false,
-    "whole_span5_closed": false
-  },
-  "verification": {
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_uniform_ray_component_capacity.py",
-    "verifier_blob_sha1": "70af8bd96f485abfcf2a7b97873795b91ecbe2e1",
-    "source_lock_values_cross_checked_at_repair_head": true,
-    "source_lock_replay_required_by_auditor": true,
-    "prior_math_replay_passed_on_v2_body": true,
-    "v3_math_body_change": "none except fail-closed dependency preflight and pass token",
-    "v3_local_replay_claimed": false,
-    "v3_local_replay_note": "The connected execution environment could not materialize repository files locally; hostile re-audit should execute the source-locked verifier directly. Exact current dependency blob identities were independently cross-checked through the repository API.",
-    "pass_token": "PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V3",
-    "exact_head_CI_claimed": false,
-    "new_workflow_created": false
-  },
-  "audit_repair": {
-    "prior_fail_review": 5186000763,
-    "prior_failed_exact_head": "fbd6023e5cb37daba0a0d259cff6fb4669cd0f0d",
-    "blocker": "declared source locks were not enforced by the capacity verifier",
-    "repair": "pre-math fail-closed git-blob SHA1 verification for every declared dependency; verifier identity separated from dependency source locks to avoid a self-referential hash cycle",
-    "repair_candidate_exact_head": "f341c51a5126811aa82abce95dfbe5c34932d054",
-    "freeze_bookkeeping_commit_after_candidate": "aa5274a604ecd3e0a5b4a3156b6ebbf37baf6884",
-    "audit_boundary_note": "No mathematical claim changed after the repair candidate; subsequent commits only made the audit metadata and freeze boundary explicit. The live exact head is authoritative from PR metadata."
-  },
-  "next_leaf": {
-    "id": "MB104-GENUS1-SPAN5-BALANCED16-AND-LOWER-INCIDENCE",
-    "targets": [
-      "test the 32 and 64 balanced incidence-16 supports against retained global constraints",
-      "derive valid test-curve pairings for incidence15 and the remaining four incidence14 orbits"
-    ]
-  },
-  "credit_firewall": {
-    "MB104_complete": false,
-    "span5_closed": false,
-    "finite_degree_window_proved_population_wide": false,
-    "r29_lg2_mb_discharged": false,
-    "receiver_credit": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false,
-    "merge_authorized": false
-  }
+  "pairing": {"formula":"D_l.Q=l*(7e-4n_Q)","nonnegative_capacity":"n_Q<=floor(7e/4)","conic_capacity":3,"elliptic_quartic_capacity":7,"negative_pairing_forces_fixed_component":true},
+  "incidence24": {"section_components":"8 smooth conics","minimum_support_size":14,"nonnegative_capacity":24,"minimum_actual_incidence":28,"uniform_ray_irreducibly_excluded":true},
+  "incidence20": {"section_components":"4 smooth conics + 2 smooth elliptic quartics","minimum_support_size":14,"nonnegative_capacity":26,"minimum_actual_incidence":28,"uniform_ray_irreducibly_excluded":true},
+  "incidence19": {"reduced_section_components":"4 smooth conics","minimum_support_size":14,"nonnegative_capacity":12,"minimum_actual_incidence":14,"uniform_ray_irreducibly_excluded":true},
+  "incidence16_size3": {"section_components":"4 smooth elliptic quartics","N_ge_15_forced_negative_component":true,"N14_nonnegative_pattern":[7,7,7,7],"balanced_N14_spanning_survivors":32},
+  "incidence16_size24": {"reduced_section_components":"2 smooth elliptic quartics","N_ge_15_forced_negative_component":true,"N14_nonnegative_pattern":[7,7],"balanced_N14_spanning_survivors":64},
+  "incidence14_orbit96": {"orbit_size":96,"representative_support_mask_hex":"0000185aa566","representative_hyperplane":"-a2+a3+b2+b3=0","factor_identity":"q1-q3=2*(a2-b3)*(b2+b3) on the hyperplane","retained_branch":"a2=b3 gives two smooth conics each generically doubled","nodes_per_retained_conic":[6,6],"support_size":14,"pairing_each_retained_conic":"-10l","uniform_ray_irreducibly_excluded":true},
+  "retained_consequence": {"closed_uniform_ray_orbits":["incidence24_all","incidence20_all","incidence19_all","incidence14_orbit96"],"incidence16_uniform_ray_reduced_to_finite_balanced_supports":true,"incidence16_total_balanced_support_survivors_on_two_representatives":96,"remaining_open_ambient_orbits":["incidence15_orbit256","incidence14_orbit192_a","incidence14_orbit192_b","incidence14_orbit384_a","incidence14_orbit384_b"],"arbitrary_unequal_picard_classes_closed":false,"whole_span5_closed":false},
+  "verification": {"verifier":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_uniform_ray_component_capacity.py","verifier_blob_sha1":"70af8bd96f485abfcf2a7b97873795b91ecbe2e1","source_lock_values_cross_checked_at_repair_head":true,"source_lock_replay_required_by_auditor":true,"prior_math_replay_passed_on_v2_body":true,"v3_math_body_change":"none except fail-closed dependency preflight and pass token","v3_local_replay_claimed":false,"v3_local_replay_note":"The connected execution environment could not materialize repository files locally; hostile re-audit should execute the source-locked verifier directly. Exact current dependency blob identities were independently cross-checked through the repository API.","pass_token":"PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V3","exact_head_CI_claimed":false,"new_workflow_created":false},
+  "audit_repair": {"prior_fail_review":5186000763,"prior_failed_exact_head":"fbd6023e5cb37daba0a0d259cff6fb4669cd0f0d","blocker":"declared source locks were not enforced by the capacity verifier","repair":"pre-math fail-closed git-blob SHA1 verification for every declared dependency; verifier identity separated from dependency source locks to avoid a self-referential hash cycle","repair_candidate_exact_head":"f341c51a5126811aa82abce95dfbe5c34932d054","audit_boundary_note":"No mathematical claim changed after the repair candidate; subsequent commits only made audit metadata explicit. The live exact head is authoritative from PR metadata."},
+  "next_leaf": {"id":"MB104-GENUS1-SPAN5-BALANCED16-AND-LOWER-INCIDENCE","targets":["test the 32 and 64 balanced incidence-16 supports against retained global constraints","derive valid test-curve pairings for incidence15 and the remaining four incidence14 orbits"]},
+  "credit_firewall": {"MB104_complete":false,"span5_closed":false,"finite_degree_window_proved_population_wide":false,"r29_lg2_mb_discharged":false,"receiver_credit":false,"theorem_credit":false,"endpoint_credit":false,"perfect_cuboid_existence_claim":false,"perfect_cuboid_nonexistence_claim":false,"merge_authorized":false}
 }
