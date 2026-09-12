@@ -25,6 +25,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N370/**'
       - 'stages/stage32/32-01-178/nodes/N371/**'
       - 'stages/stage32/32-01-178/nodes/N372/**'
+      - 'stages/stage32/32-01-178/nodes/N373/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -114,16 +115,16 @@ jobs:
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify live synchronized MAIN authority boundary
         run: python stages/stage32/verify_main_startup.py
-      - name: Install exact N361 retained replay dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Install exact N361/N373 dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
       - name: Verify N361 current-V15 retained sample rebase boundary
         run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
-      - name: Checkout exact CUT196 evidence for N372 audit boundary
+      - name: Checkout exact CUT196 evidence for N372/N373 boundary
         uses: actions/checkout@v4
         with:
           ref: 5403328470df32c65aea9a38efe3916cb87d24a4
           path: .n372-audit-cut196
-      - name: Checkout exact N357 composition evidence for N372 audit boundary
+      - name: Checkout exact N357 composition evidence for N372/N373 boundary
         uses: actions/checkout@v4
         with:
           ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
@@ -133,6 +134,19 @@ jobs:
           python stages/stage32/32-01-178/nodes/N372/verify_n372_audit_boundary.py \
             --cut196-root .n372-audit-cut196 \
             --n357-composition-root .n372-audit-n357comp
+      - name: Generate bounded N373 block1140 parent290 x4 projection
+        run: |
+          python stages/stage32/32-01-178/nodes/N373/generate_n373_block1140_parent290_x4_projection.py \
+            --cut196-root .n372-audit-cut196 \
+            --n357-composition-root .n372-audit-n357comp \
+            --output N373-CANDIDATE.json
+      - name: Upload bounded N373 x4 projection
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-n373-x4-projection-${{ github.event.pull_request.head.sha || github.sha }}
+          path: N373-CANDIDATE.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
