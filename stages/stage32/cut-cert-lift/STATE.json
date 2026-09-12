@@ -1,43 +1,53 @@
 {
   "schema": "STAGE32_CUT_CERT_LIFT_STATE_V1",
   "status": "ACTIVE",
-  "active_node": "CERTLIFT-01_CERTIFICATE_SIGNATURE_EXTRACTION",
+  "active_node": "CERTLIFT-02_INVARIANT_COMPRESSION_AND_COUNTEREXAMPLE_SPLIT",
   "base_main_exact_head": "b6c0a1e431ac04de5326a7c42af89a7b92423ed2",
   "source_manifest": "stages/stage32/cut-cert-lift/SOURCE-LOCKS.json",
   "mission": "stages/stage32/cut-cert-lift/MISSION.json",
-  "current_receiver": "Find an exact family-level obstruction explaining a large subset of audited CUT193..CUT198 finite-ring/HNF UNSAT closures; start from retained evidence and escalate to targeted heavy experiments when that has clear information gain.",
+  "current_receiver": "Convert the CERTLIFT-01 MASS7 audited separator into an exact mod-2 Picard64 obstruction, or retain a deterministic projected-mod2 counterexample.",
+  "certlift_01": {
+    "status": "L1_AUDITED_SEPARATOR_FOUND",
+    "evidence": "stages/stage32/cert-lift/CERTIFICATE-LEDGER.json",
+    "verifier": "stages/stage32/cert-lift/certificate_profile.py --self-check",
+    "predicate": "fixed_exceptional_mass >= 7",
+    "audited_scope_blocks": 1530,
+    "audited_closed_blocks": 1433,
+    "audited_residual_controls": 97,
+    "selected_closed_blocks": 1049,
+    "selected_residual_controls": 0,
+    "threshold_6_residual_counterexamples": 13,
+    "interpretation": "minimal one-parameter monotone separator on the frozen CUT193..CUT198 scope; not yet a symbolic lemma"
+  },
   "current_work": {
-    "extract": [
-      "finite-ring modulus/signature actually proving each retained closure",
-      "whole-block versus all-HNF-parent route",
-      "prefix/residue invariants available before solving",
-      "minimal Picard/HNF row dependency used by the certificate",
-      "same signatures on nonclosed residual controls"
-    ],
-    "first_test": "Cluster closed and residual blocks by certificate signature; promote nothing until all residual controls have been checked for false positives.",
-    "heavy_compute": "CONDITIONAL_ALLOWED",
-    "heavy_trigger": "Use targeted heavy computation when retained certificates cannot distinguish live candidate invariants, when exact counterexamples are needed, or when a cross-wave/cross-e challenge requires fresh bounded computation.",
-    "heavy_safety": "Any artifact-producing heavy execution requires dedicated fresh runkey authorization, <=500 MB peak-storage preflight, compact deterministic evidence, explicit retention, and lifecycle classification before arming."
+    "exact_discriminator": "stages/stage32/cert-lift/mass7_mod2_obstruction.py",
+    "method_note": "stages/stage32/cert-lift/CERTLIFT-02-MOD2-EXACT.md",
+    "test": "Enumerate the exact residual exceptional mass 1/0 for MASS7/MASS8, solve exact fibre-degree equations, then project the Picard64 column-image necessity mod 2 onto the remaining normal variables by deterministic Gaussian elimination.",
+    "primary_scope": "all current-MAIN e8 prefix-surviving blocks",
+    "challenge_scope": "entire 11,318-block compressed e8 terminal universe before N220/N355 filtering",
+    "solver_policy": "No Z3/CP-SAT rerun is needed for this discriminator; any projected-mod2 survivor is a counterexample to this proof route, not UNSAT.",
+    "heavy_compute": "NOT_NEEDED_FOR_CURRENT_GATE",
+    "heavy_safety": "Any later artifact-producing heavy execution still requires a fresh runkey, <=500 MB peak-storage preflight, compact deterministic evidence, retention, and lifecycle classification."
   },
   "candidate_ledger": [
-    {"id":"CL-A","status":"LIVE","view":"finite-ring rank/minor obstruction","question":"Do closed blocks share a small set of rank-defect or inconsistent-minor templates after normalizing prefix data?"},
-    {"id":"CL-B","status":"LIVE","view":"HNF-parent congruence obstruction","question":"Can the all-HNF-parent closures be expressed as a symbolic congruence class condition on parent invariants rather than enumerating every parent?"},
+    {"id":"CL-A","status":"PRIMARY_EXACT_TEST","view":"finite-ring rank/minor obstruction","question":"Does MASS7 force inconsistency in the exact projected mod-2 Picard64 column-image system for every current-MAIN e8 block?"},
+    {"id":"CL-B","status":"DEFERRED_AFTER_MASS7","view":"HNF-parent congruence obstruction","question":"If MASS7 is insufficient, can all-HNF-parent closures be compressed into a symbolic parent congruence condition?"},
     {"id":"CL-C","status":"UNTESTED","view":"p-adic valuation lift","question":"Is the mod-2 behavior the first layer of a valuation obstruction that survives across e and strata?"},
     {"id":"CL-D","status":"UNTESTED","view":"symbolic dual/Farkas template","question":"Do repeated bounded infeasibility certificates lie in a finite family of dual rays with parameters affine in prefix invariants?"},
-    {"id":"CL-E","status":"UNTESTED","view":"normalized e-transfer","question":"After a symbolic e8 lemma exists, does the exact e10 interface preserve the same normalized invariant tuple?"},
-    {"id":"CL-F","status":"UNTESTED","view":"residual-first classifier","question":"Are the few nonclosed blocks characterized by a complementary invariant, allowing the bulk population to be closed by exclusion?"}
+    {"id":"CL-E","status":"UNTESTED","view":"normalized e-transfer","question":"After an exact e8 lemma exists, does an exact e10 interface preserve the normalized invariant tuple?"},
+    {"id":"CL-F","status":"LIVE_CONTROL","view":"residual-first classifier","question":"Do projected-mod2 survivors explain the audited residual blocks or isolate a smaller complementary invariant?"}
   ],
   "cycle_protocol": {
-    "CYCLE_ROUTE_STATUS": "SPLIT_TRIGGERED_DISTINCT_OBSTRUCTIONS",
-    "CYCLE_ACTIVE_RECEIVER": "symbolic lift of audited CUT infeasibility",
+    "CYCLE_ROUTE_STATUS": "CERTLIFT_01_L1_FOUND_ADVANCED_TO_EXACT_DISCRIMINATOR",
+    "CYCLE_ACTIVE_RECEIVER": "MASS7 exact mod-2 obstruction",
     "CYCLE_LIVE_CANDIDATES": 2,
     "CYCLE_UNTESTED_CANDIDATES": 4,
     "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
     "CYCLE_BLIND_REDISCOVERY": true,
     "CYCLE_SPLIT_TRIGGERED": true,
     "CYCLE_PARKING_AUDIT_COMPLETE": false,
-    "CYCLE_NEW_VIEW": "infer a parameterized obstruction from repeated audited finite-ring/HNF closures instead of only extending bounded wave execution",
-    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+    "CYCLE_NEW_VIEW": "replace the empirical MASS7 separator by deterministic elimination of the exact Picard64 mod-2 necessity",
+    "CYCLE_NEW_VIEW_SOURCE": "CERTLIFT-01"
   },
   "split_justification": {
     "independent_from_active_heavy": true,
@@ -47,7 +57,7 @@
     "may_start_own_targeted_heavy": true,
     "must_not_duplicate_existing_heavy_scope_without_new_information_gain": true
   },
-  "next_gate": "CERTLIFT-01 compact signature table with closed/residual controls; authorize a targeted heavy discriminator only if retained data cannot decide the first candidate split",
+  "next_gate": "Run mass7_mod2_obstruction.py on current-main. PASS with zero counterexamples promotes MASS7 to an exact bounded-e8 obstruction candidate; any survivor becomes the next deterministic counterexample target. Then run the unfiltered e8 challenge before any cross-e claim.",
   "credit": {
     "main_pruning": false,
     "full178": false,
