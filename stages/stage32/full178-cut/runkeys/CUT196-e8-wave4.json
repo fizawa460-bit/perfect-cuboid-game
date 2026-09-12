@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_CUT196_E8_COMMON_ADAPTER_WAVE4_RUNKEY_V1",
-  "generation": 1,
+  "generation": 2,
   "armed": true,
   "consumed": false,
   "branch": "stage32cut-e8-common-adapter-wave4-20260912",
@@ -11,6 +11,15 @@
   "preflight_blob": "1375420604bed13c72cc5cd8fd389ed2b006d3b4",
   "worker_blob": "b458556ffcb895f1d05011847935b7cc1ac1f21f",
   "aggregator_blob": "86049f617b28f99eb600480272eeddecfd3d9998",
+  "repair": {
+    "prior_run": 34675810016,
+    "prior_run_conclusion": "failure",
+    "heavy_started": false,
+    "reason": "inherited CUT194 exact-head replay passed once in the integrity job, then the redundant nested CUT194 replay inside CUT195 hit a timeout-sensitive non-UNSAT outcome at credited block 511 parent 0; no CUT196 mathematical execution occurred",
+    "workflow_cold_repair_head": "d650eab9a8a0eeea24be4f5779a50577f8501572",
+    "workflow_cold_repair_blob": "d19a40b93bc72aedb09c9a95f9c62b96933b1c12",
+    "inherited_chain_replay": "CUT195 verifier only, recursively covering CUT194 and CUT193, with at most 3 fail-closed attempts"
+  },
   "storage_preflight": {
     "artifact_retention_days": 1,
     "prior_comparable_run": 34659443498,
