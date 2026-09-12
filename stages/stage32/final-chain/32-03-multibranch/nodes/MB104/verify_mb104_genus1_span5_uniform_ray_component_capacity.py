@@ -51,6 +51,13 @@ def support(pred):
     return [r for r,z in enumerate(V) if pred(z)]
 
 
+def mask(ids):
+    m=0
+    for r in ids:
+        m|=1<<r
+    return m
+
+
 def rank_mod(ids):
     M=[]
     for r in ids:
@@ -143,9 +150,29 @@ for omit in combinations(S16b,2):
 assert len(balanced_b)==64
 assert len(set(balanced_b))==64
 
-print('PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V1')
+# Incidence-14 orbit size 96. Representative:
+#   -a2+a3+b2+b3=0.
+# On this hyperplane q1-q3=2*(a2-b3)*(b2+b3).
+# The branch a2=b3 has a1=0, b2=-a3 and splits into two doubled conics c=+/-b1.
+H14a=lambda z:-z[1]+z[2]+z[4]+z[5]==0
+S14a=support(H14a)
+assert len(S14a)==14
+assert mask(S14a)==int('0000185aa566',16)
+assert rank_mod(S14a)==6
+Q14p=set(support(lambda z:H14a(z) and z[1]==z[5] and z[0]==0 and z[4]==-z[2] and z[6]==z[3] and q(z,2)==0))
+Q14m=set(support(lambda z:H14a(z) and z[1]==z[5] and z[0]==0 and z[4]==-z[2] and z[6]==-z[3] and q(z,2)==0))
+assert len(Q14p)==len(Q14m)==6
+assert len(Q14p|Q14m)==10
+assert len(Q14p&Q14m)==2
+# For the unique N=14 support in this incidence-14 hyperplane, each conic has n_Q=6:
+# D_l.Q=l*(14-24)=-10l.
+assert 7*2-4*len(Q14p)==-10
+assert 7*2-4*len(Q14m)==-10
+
+print('PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2')
 print('inc24=N>=14_forces_negative_component capacity=24 incidence_at_least=28')
 print('inc20=N>=14_forces_negative_component capacity=26 incidence_at_least=28')
 print('inc19=N>=14_forces_negative_conic capacity=12 incidence_at_least=14')
 print('inc16_orbit3=N>=15_forced;N14_balanced_spanning_survivors=32 counts=7,7,7,7')
 print('inc16_orbit24=N>=15_forced;N14_balanced_spanning_survivors=64 counts=7,7')
+print('inc14_orbit96=unique_N14_support_forces_double_conic_pairing_minus10l conic_node_counts=6,6')
