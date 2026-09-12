@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2",
+  "schema": "STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V3",
   "status": "RETAINED_FIXED_COMPONENT_OBSTRUCTION_INC24_20_19_AND_INC14_ORBIT96_INC16_BALANCED_SURVIVORS_SPAN5_OPEN_MB104_INCOMPLETE",
   "receiver": "R29-LG2-MB",
   "scope": {
@@ -28,13 +28,14 @@
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY.md",
       "blob_sha1": "59fb415010abfbb48cb6c4ae66b66fd9b1f270e8",
       "use": "human-readable fixed-component capacity proof including incidence14 orbit96"
-    },
-    {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_uniform_ray_component_capacity.py",
-      "blob_sha1": "6df7ec835d3198beb118269c3b378d3e255546ae",
-      "use": "exact 48-node replay, balanced support enumeration, rank checks and incidence14 orbit96 conic replay"
     }
   ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL before node/capacity replay",
+    "self_lock_policy": "verifier is not self-referentially included in source_locks; its blob identity is fixed separately under verification.verifier_blob_sha1"
+  },
   "pairing": {
     "formula": "D_l.Q=l*(7e-4n_Q)",
     "nonnegative_capacity": "n_Q<=floor(7e/4)",
@@ -95,8 +96,13 @@
     "whole_span5_closed": false
   },
   "verification": {
-    "local_replay_passed": true,
-    "pass_token": "PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_uniform_ray_component_capacity.py",
+    "verifier_blob_sha1": "70af8bd96f485abfcf2a7b97873795b91ecbe2e1",
+    "source_lock_values_cross_checked_at_repair_head": true,
+    "source_lock_replay_required_by_auditor": true,
+    "prior_math_replay_passed_on_v2_body": true,
+    "v3_math_body_change": "none except fail-closed dependency preflight and pass token",
+    "pass_token": "PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V3",
     "exact_head_CI_claimed": false,
     "new_workflow_created": false
   },
