@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_32_01_178_N359_AUDIT_HANDOFF_V1",
+  "node_id": "N359",
+  "status": "READY_FOR_INDEPENDENT_HOSTILE_AUDIT_NO_NEW_MAIN_PRUNING_CREDIT",
+  "scope": "prove N358 exactly closes the joint optimistic N356 transport-mass plus N357 support-capacity relaxation over FULL178 h<=96",
+  "authority_input": {
+    "node": "N358",
+    "review_id": 5184322011,
+    "audited_exact_head": "462174f74d6470ec7c64f5b6d078757c7b3372fc",
+    "remaining_strata": 17128,
+    "remaining_terminals": 47589703313957134966240
+  },
+  "candidate": {
+    "additional_rejected_terminals": 0,
+    "candidate_remaining_strata": 17128,
+    "candidate_remaining_terminals": 47589703313957134966240,
+    "result_canonical_sha256": "349c52bf40ca931c94cffbf37e34757f4069a4343f9c165a3f8f14424bd74c6e",
+    "route_exhaustion_candidate": true
+  },
+  "source_locks": {
+    "contract": {
+      "path": "stages/stage32/32-01-178/nodes/N359/TRANSPORT_SUPPORT_RELAXATION_CLOSURE_CONTRACT.md",
+      "blob_sha1": "1366eb2d950b1d7d714452aeff821393ece2830e"
+    },
+    "research_verifier": {
+      "path": "stages/stage32/32-01-178/nodes/N359/verify_n359_transport_support_relaxation_closure.py",
+      "blob_sha1": "995207ae5ef70fa8ffdcb54ecd9b6dbecedf1f10"
+    },
+    "result": {
+      "path": "stages/stage32/32-01-178/nodes/N359/RESULT.json",
+      "blob_sha1": "0fdf087fd87506908e29da86b6de712820c13877",
+      "canonical_sha256": "349c52bf40ca931c94cffbf37e34757f4069a4343f9c165a3f8f14424bd74c6e"
+    },
+    "state": {
+      "path": "stages/stage32/32-01-178/nodes/N359/STATE.json",
+      "blob_sha1": "8ff1045cd495e6f5a69b42079ecced1338aa84fc",
+      "canonical_sha256": "3e5b0edf27d998228024df01e5397aefbd56349985d1e6abdb3933ec72f9dab8"
+    },
+    "n356_contract": {
+      "path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+      "blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3"
+    },
+    "n357_engine": {
+      "path": "stages/stage32/32-01-178/nodes/N357-engine/verify_n357_transport_support_capacity.py",
+      "blob_sha1": "479c783cb42d0952cc310708106787147b499240"
+    },
+    "n358_contract": {
+      "path": "stages/stage32/32-01-178/nodes/N358/JOINT_TRANSPORT_SUPPORT_SATURATION_CONTRACT.md",
+      "blob_sha1": "a9a6836dc201feefd37bebb2f6c0ef42e8faaee4"
+    },
+    "n358_result": {
+      "path": "stages/stage32/32-01-178/nodes/N358/RESULT.json",
+      "blob_sha1": "e42c2b6cc6128c4666372b0c3f3c172afc006d7f",
+      "canonical_sha256": "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287"
+    },
+    "n358_audit_receipt": {
+      "path": "stages/stage32/32-01-178/nodes/N358/HOSTILE-AUDIT-PASS.json",
+      "blob_sha1": "7b36e0159987ef65485d36fa2d672c8ee3a1ff33",
+      "canonical_sha256": "bd27a2de6f54d5190f64917f90d64e1a07d4dac3c28947c2b44c94c6977f3482"
+    },
+    "n358_consumed_state": {
+      "path": "stages/stage32/32-01-178/nodes/N358/STATE.json",
+      "blob_sha1": "6091b0da0acc3fb4b3b2143327f7d57f5323668e",
+      "canonical_sha256": "0d96ed9bc530291e826682d2302e1b05bd985a83cb83631e38b694afbc4e09a4"
+    },
+    "full178_manifest": {
+      "path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+      "blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
+      "canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+    },
+    "claim_frontier_workflow": {
+      "path": ".github/workflows/stage32-claim-frontier-integrity.yml",
+      "blob_sha1": "ae336bb7eb0e1e36eb219f0a211984dc14b9ca3a"
+    }
+  },
+  "audit_checks_requested": [
+    "rederive the component-0 exact support profile J0(r)=min(r,S0)",
+    "rederive the component-A saturated construction and verify max_z support equals SA on h<=96",
+    "rederive the component-3 endpoint dichotomy and show its unique support loss is exactly the N358 scope",
+    "check the three-component convolution: no further loss for R<Rmax and one support loss only at the N358 total-saturation face",
+    "execute the retained research verifier and check raw component/aggregate brute replays",
+    "check retained RESULT/STATE/HANDOFF identity and all zero-credit firewalls",
+    "confirm this closes only the optimistic transport/support relaxation and grants zero additional pruning"
+  ],
+  "audit_verifier_path": "stages/stage32/32-01-178/nodes/N359/verify_n359_audit_source_locks.py",
+  "firewalls": {
+    "n359_main_pruning_credit": false,
+    "transport_support_relaxation_route_exhausted": false,
+    "full178_complete": false,
+    "production_complete": false,
+    "n104_release": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "110e59c0e41b05fe60137ab06d262f235c4030ea143f1fac90500aa29e133ced"
+}

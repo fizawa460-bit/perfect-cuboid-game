@@ -36,6 +36,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N357/**'
       - 'stages/stage32/32-01-178/nodes/N357-engine/**'
       - 'stages/stage32/32-01-178/nodes/N358/**'
+      - 'stages/stage32/32-01-178/nodes/N359/**'
       - 'stages/stage32/32-01-178/nodes/N355/verify_n355_full_prefix_block_sum_census.py'
       - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count.py'
       - 'stages/stage32/32-01-178/nodes/N220/verify_n220_exact_symbolic_count_fast.py'
@@ -85,6 +86,8 @@ jobs:
       - name: Replay frozen N358 audit boundary at audited exact head
         working-directory: .stage32-audited-n358
         run: python stages/stage32/32-01-178/nodes/N358/verify_n358_audit_source_locks.py
+      - name: Verify N359 optimistic transport/support route-exhaustion audit boundary
+        run: python stages/stage32/32-01-178/nodes/N359/verify_n359_audit_source_locks.py
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py

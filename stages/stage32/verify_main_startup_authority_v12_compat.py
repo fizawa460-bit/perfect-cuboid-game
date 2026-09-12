@@ -6,7 +6,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 BASE = HERE / "verify_main_startup_authority_v12.py"
-EXPECTED_CANONICAL = "ee451b06cfe5052cbedde107f09e13cfc232647edf88de84cf02fb81c4ed94c6"
+EXPECTED_CANONICAL = "ff887d58b3869ec682966a8364c26c7fb3f8d913ef7b1493d6ee050f80fc5380"
+EXPECTED_CLAIM_WORKFLOW_BLOB = "ae336bb7eb0e1e36eb219f0a211984dc14b9ca3a"
 
 
 def main() -> None:
@@ -15,6 +16,7 @@ def main() -> None:
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     mod.EXPECTED_CANONICAL = EXPECTED_CANONICAL
+    mod.EXPECTED_CLAIM_WORKFLOW_BLOB = EXPECTED_CLAIM_WORKFLOW_BLOB
     mod.main()
 
 
