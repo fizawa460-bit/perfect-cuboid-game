@@ -1,22 +1,28 @@
 {
-  "schema": "STAGE32_MB104_GENUS1_SPAN5_SECTIONS_20_19_16_V1",
-  "status": "RETAINED_EXACT_SECTION_COMPONENT_CLASSIFICATION_INCIDENCE20_19_16_HIGH_DEGREE_GENUS1_CLOSED_SPAN5_OPEN_MB104_INCOMPLETE",
+  "schema": "STAGE32_MB104_GENUS1_SPAN5_SECTIONS_20_19_16_V2",
+  "status": "RETAINED_EXACT_SECTION_COMPONENT_CLASSIFICATION_SUPPORT_SPAN_SEMANTICS_REPAIRED_FIXED_COMPONENT_INPUT_ONLY_SPAN5_OPEN_MB104_INCOMPLETE",
   "receiver": "R29-LG2-MB",
+  "scope": {
+    "span_semantics": "projective span of the box-node support Sigma, not projective span of the unknown carrier curve",
+    "carrier_contained_in_support_hyperplane": false,
+    "section_component_degree_bounds_carrier_degree": false,
+    "valid_use": "explicit test curves for Picard intersection and fixed-component arguments"
+  },
   "source_locks": [
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CERTIFICATE.json",
       "blob_sha1": "3bc4453affce96e87a60864c99f745bb4c28c794",
-      "use": "complete 12-orbit ambient P5 quotient and incidence orbit sizes"
+      "use": "complete 12-orbit ambient support-hyperplane quotient"
     },
     {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CLASSIFICATION.md",
-      "blob_sha1": "c3bcc580b5bd43b7805c7227c7420445f14c4b8c",
-      "use": "retained orbit semantics and previous incidence-24 closure"
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-FINITE-REDUCTION.md",
+      "blob_sha1": "08eee3d3492db710c7161fdf17ce1eca35e50413",
+      "use": "authoritative support-span semantics"
     },
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16.md",
-      "blob_sha1": "849749ac46c176b19422875761a52e04d6dd51e3",
-      "use": "human-readable exact component proof and scope"
+      "blob_sha1": "593868a09e41ebfd1ad7f0f4c1aa83f6ca5cd923",
+      "use": "human-readable exact component proof and repaired scope"
     },
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_sections_20_19_16.py",
@@ -24,98 +30,49 @@
       "use": "exact Z[i] factor identities, node replay, component incidence, smoothness and degree accounting"
     }
   ],
-  "surface_model": {
-    "coordinates": ["a1","a2","a3","b1","b2","b3","c"],
-    "quadrics": [
-      "q1=a1^2+a2^2-b3^2",
-      "q2=a2^2+a3^2-b1^2",
-      "q3=a1^2+a3^2-b2^2",
-      "q4=a1^2+a2^2+a3^2-c^2"
-    ],
-    "field": "Q(i)"
-  },
   "incidence20": {
-    "orbit_count": 1,
     "orbit_size": 48,
     "representative_support_mask_hex": "0000ff33330f",
     "representative_hyperplane": "c=a1+b1",
-    "factor_identity": "q4-q2=-2*a1*b1",
-    "section_components": {
-      "smooth_conics": 4,
-      "smooth_elliptic_quartics": 2,
-      "scheme_reduced": true,
-      "total_degree": 16
-    },
-    "node_incidence": {
-      "section_nodes": 20,
-      "nodes_per_conic": 6,
-      "nodes_per_elliptic_quartic": 8,
-      "reduced_components_through_each_section_node": 2
-    },
-    "irreducible_genus1_component_degree_cap": 4
+    "section": "4 smooth conics + 2 smooth elliptic quartics",
+    "scheme_reduced": true,
+    "total_degree": 16,
+    "node_component_incidence": "each of 20 section nodes lies on exactly two reduced components"
   },
   "incidence19": {
-    "orbit_count": 1,
     "orbit_size": 48,
     "representative_support_mask_hex": "003c3c163333",
     "representative_hyperplane": "c=a3+b1+b2",
-    "factor_identity": "q2+q3-q4=2*(a3+b1)*(a3+b2)",
-    "section_components": {
-      "reduced_smooth_conics": 4,
-      "generic_scheme_multiplicity_each": 2,
-      "smooth_elliptic_components": 0,
-      "total_degree": 16
-    },
-    "reduced_node_component_incidence_distribution": {
-      "one_component": 16,
-      "two_components": 2,
-      "four_components": 1
-    },
-    "irreducible_genus1_component_exists": false
+    "section": "four smooth conics each of generic scheme multiplicity two",
+    "total_degree": 16,
+    "reduced_node_component_incidence_distribution": "16x1,2x2,1x4"
   },
   "incidence16_size3": {
     "orbit_size": 3,
     "representative_support_mask_hex": "0000ff0000ff",
     "representative_hyperplane": "b1=0",
-    "factor_identities": [
-      "q2=(a2+i*a3)*(a2-i*a3)",
-      "q4-q2=(a1-c)*(a1+c)"
-    ],
-    "section_components": {
-      "smooth_elliptic_quartics": 4,
-      "scheme_reduced": true,
-      "total_degree": 16
-    },
-    "node_incidence": {
-      "section_nodes": 16,
-      "nodes_per_elliptic_quartic": 8,
-      "reduced_components_through_each_section_node": 2
-    },
-    "irreducible_genus1_component_degree_cap": 4
+    "section": "4 smooth elliptic quartics",
+    "scheme_reduced": true,
+    "total_degree": 16,
+    "node_component_incidence": "each of 16 section nodes lies on exactly two quartics"
   },
   "incidence16_size24": {
     "orbit_size": 24,
     "representative_support_mask_hex": "000f0f000f0f",
     "representative_hyperplane": "c=a1+a2+i*a3",
-    "factor_identity": "q4=-2*(a1+i*a3)*(a2+i*a3)",
-    "section_components": {
-      "reduced_smooth_elliptic_quartics": 2,
-      "generic_scheme_multiplicity_each": 2,
-      "total_degree": 16
-    },
-    "node_incidence": {
-      "section_nodes": 16,
-      "nodes_on_each_reduced_elliptic_quartic": 8,
-      "node_supports_disjoint": true
-    },
-    "irreducible_genus1_component_degree_cap": 4
+    "section": "two smooth elliptic quartics each of generic scheme multiplicity two",
+    "total_degree": 16,
+    "reduced_node_supports": "8 plus 8, disjoint"
   },
-  "global_consequence": {
-    "logic": "An irreducible curve whose projective span is the ambient P5 hyperplane is contained in the one-dimensional hyperplane section and therefore is one of its reduced irreducible components.",
-    "incidence20_19_16_high_degree_genus1_carriers_closed": true,
-    "all_incidence_ge_16_span5_ambient_orbits_closed_for_potentially_infinite_genus1_sector_with_prior_incidence24_result": true,
-    "remaining_span5_incidence_levels": [15,14],
-    "population_wide_MB104_finite_degree_window_proved": false
+  "pairing_interface": {
+    "general": "D=aH-sum b_i E_i gives D.Q=a*(H.Q)-sum_{i in T_Q} b_i for a transverse section component Q",
+    "uniform_genus1_ray": "D_l=7lH-4l sum_{i in Sigma}E_i gives D_l.Q=l*(7e-4n_Q)",
+    "negative_pairing_consequence": "Q is a fixed component of every effective member of D_l"
+  },
+  "revoked_overclaim": {
+    "incidence20_19_16_high_degree_genus1_carriers_closed_from_section_degree": false,
+    "all_incidence_ge_16_support_span_orbits_closed_from_section_components_alone": false,
+    "reason": "support-span P5 does not contain the unknown carrier curve in general"
   },
   "verification": {
     "local_replay_passed": true,
@@ -124,17 +81,16 @@
     "new_workflow_created": false
   },
   "next_leaf": {
-    "id": "MB104-GENUS1-SPAN5-SECTION-COMPONENTS-INC15-14",
-    "order": [15,14],
-    "target": "Classify the remaining incidence-15 and five incidence-14 ambient hyperplane sections; exclude genus-one carriers when the irreducible section genus is >1 or bound them by explicit reducible components."
+    "id": "MB104-GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY",
+    "target": "Use retained section components only through exact Picard pairings; determine which ambient orbits force fixed components for the displayed infinite genus-one Picard ray and isolate balanced survivors."
   },
   "credit_firewall": {
     "MB104_complete": false,
+    "span5_closed": false,
     "finite_degree_window_proved_population_wide": false,
     "finite_picard_enumeration_released": false,
     "r29_lg2_mb_discharged": false,
     "receiver_credit": false,
-    "effectivity_final_milestone_credit": false,
     "theorem_credit": false,
     "endpoint_credit": false,
     "perfect_cuboid_existence_claim": false,
