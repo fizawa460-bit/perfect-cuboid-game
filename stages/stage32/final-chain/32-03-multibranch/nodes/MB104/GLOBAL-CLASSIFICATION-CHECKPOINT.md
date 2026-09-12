@@ -1,43 +1,40 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE PRIORITY / GENUS-ONE SPAN-5 AMBIENT AUT QUOTIENT COMPLETE / INCIDENCE >=16 COMPONENT GEOMETRY CLOSED / P6 OPEN / NO CREDIT**
+Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / GENUS-ONE SPAN-5 AMBIENT AUT QUOTIENT COMPLETE / UNIFORM-RAY FIXED-COMPONENT PROGRESS / P6 OPEN / NO CREDIT**
 
-This checkpoint is read under `PRIORITY-OVERRIDE-20260912.json`. It supersedes the older MB104 checkpoint only for research ordering. The retained direct inequality
+Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. The direct inequality
 
 ```text
 d <= 16g-16+4R8
 ```
 
-remains mathematically valid, but direct pursuit of `R8<d/4+O(1)` remains frozen until a genuinely new lever appears.
+remains valid, but direct pursuit of `R8<d/4+O(1)` is frozen until a genuinely new lever appears.
 
 ## Hard sectors
 
-The priority population remains
-
 ```text
-g=0: node support spans P^6;
-g=1: node-support span dimension 5 or 6;
+g=0: box-node support spans P^6;
+g=1: box-node support span dimension 5 or 6;
 potentially infinite sector: N>=14.
 ```
 
-## Formal-family / Picard / effectivity status
+The word `span` in this route refers to the **box-node support**, not the unknown carrier curve.
 
-The retained formal packet families are
+## Formal/Picard status
+
+The retained formal families `F0-P6`, `F1-P5`, `F1-P6` survive the older packet inequalities. Infinite integral Picard subsequences also survive. For the genus-one P5 family the displayed ray is
 
 ```text
-F0-P6: d=28k-4,
-F1-P5: d=28k,
-F1-P6: d=28k,
-N=14, R=R8=M=r_odd=28k.
+D_l = 7l H - 4l sum_{i in Sigma} E_i,
+|Sigma|=14,
+d=112l.
 ```
 
-Integral Picard subsequences exist, and Riemann--Roch with `K=H`, `chi(O_S)=8`, and `H` big and nef shows all three displayed Picard rays are effective. Therefore Picard integrality and bare effectivity are not the obstruction.
+Bare Picard integrality and effectivity do not close it; irreducibility is the issue.
 
-The displayed `c=0` genus-one P5 ray remains irreducibly excluded by conic fixed components.
+## Exact finite support-hyperplane reduction
 
-## Genus-one span-five ambient reduction
-
-The potentially infinite span-five sector was reduced exactly to `1,655` characteristic-zero node-spanned ambient `P^5` hyperplanes containing at least 14 of the 48 box nodes:
+Every potentially infinite genus-one support of span dimension five lies in one of exactly `1,655` node-spanned ambient `P^5` hyperplanes containing at least 14 of the 48 box nodes:
 
 ```text
 14: 1248
@@ -48,116 +45,83 @@ The potentially infinite span-five sector was reduced exactly to `1,655` charact
 24:   28
 ```
 
-The exact support digest is `ba8379b50029db53`. The retained two-prime/Hadamard argument supplies completeness.
+Stable exact-support digest: `ba8379b50029db53`.
 
-## Complete `Aut(S)` quotient
-
-The `1,655` ambient hyperplanes form exactly **12 `Aut(S)` orbits**:
+The complete `Aut(S)` quotient has 12 support-hyperplane orbits:
 
 ```text
-incidence 14: 5 orbits, sizes 96, 192, 192, 384, 384
-incidence 15: 1 orbit,  size 256
-incidence 16: 2 orbits, sizes 3, 24
-incidence 19: 1 orbit,  size 48
-incidence 20: 1 orbit,  size 48
-incidence 24: 2 orbits, sizes 4, 24
+14: sizes 96,192,192,384,384
+15: size 256
+16: sizes 3,24
+19: size 48
+20: size 48
+24: sizes 4,24
 ```
 
-This completes the ambient-hyperplane quotient. It does not classify arbitrary support subsets or divisor classes.
+## Semantic repair
 
-## Incidence 24: closed
-
-The two incidence-24 orbits have sizes `4` and `24`. Every section is a union of eight smooth conics. For the uniform ray `D_l=7lH-4l sum E_i` on any support subset of at least 14 section nodes, some conic has negative pairing and is fixed. More strongly for the present span-five component route, every irreducible component of the hyperplane section has genus zero and degree two, so an irreducible genus-one carrier cannot occur in either incidence-24 orbit.
-
-## Incidence 20, 19, 16: exact component classification
-
-`GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16` gives exact representative factorizations and node replay.
-
-### Incidence 20, orbit size 48
-
-Representative:
+The support hyperplane contains `Sigma`, not necessarily the carrier curve. Therefore:
 
 ```text
-H20: c=a1+b1,
-q4-q2=-2 a1 b1.
+carrier C need not lie in H=Span(Sigma),
+section-component degree does not bound deg(C),
+C is not identified with a component of S intersect H.
 ```
 
-The section is
+The previous provisional inference closing incidence `>=16` from section-component degrees is revoked. The exact section decompositions themselves remain valid and are retained only as explicit test-curve geometry.
+
+## Retained section geometry
+
+- incidence 24: eight smooth conics;
+- incidence 20: four smooth conics plus two smooth elliptic quartics;
+- incidence 19: four smooth conics, each generically doubled scheme-theoretically;
+- incidence 16, orbit size 3: four smooth elliptic quartics;
+- incidence 16, orbit size 24: two smooth elliptic quartics, each generically doubled.
+
+## New valid consequence: uniform-ray component capacity
+
+For a reduced section component `Q` of degree `e=H.Q`, meeting `n_Q` supported nodes, the displayed uniform ray satisfies
 
 ```text
-4 smooth conics + 2 smooth elliptic quartics,
+D_l.Q = l(7e-4n_Q).
 ```
 
-reduced of degree 16. Any irreducible genus-one component therefore has degree exactly 4.
+Thus a conic can contain at most 3 supported nodes and an elliptic quartic at most 7 if all pairings are to remain nonnegative. Negative pairing forces that section component into every effective member of `D_l`, excluding irreducibility.
 
-### Incidence 19, orbit size 48
-
-Representative:
+Applying the exact node/component incidence data gives:
 
 ```text
-H19: c=a3+b1+b2,
-q2+q3-q4=2(a3+b1)(a3+b2).
+incidence 24: forced negative conic for every N>=14 support;
+incidence 20: forced negative section component for every N>=14 support;
+incidence 19: forced negative conic for every N>=14 support;
+incidence 16, size-3 orbit: N>=15 forced; N=14 leaves exactly 32 balanced (7,7,7,7) supports;
+incidence 16, size-24 orbit: N>=15 forced; N=14 leaves exactly 64 balanced (7,7) supports.
 ```
 
-The reduced support consists of four smooth conics, each with generic scheme multiplicity two. Hence there is no irreducible genus-one component in this orbit.
+All 96 balanced incidence-16 supports retain rank six and genuinely span their support hyperplane.
 
-### Incidence 16, orbit size 3
+This is a correct support-span obstruction because it uses `H` only to supply explicit test curves and does not assume the carrier lies in `H`.
 
-Representative:
+## What remains open
 
-```text
-H16a: b1=0.
-```
+The uniform-ray P5 route is not closed: 96 balanced incidence-16 supports survive on the two representative incidence-16 orbits, and incidence 15/14 have not yet been converted into pairing-capacity obstructions. Arbitrary Picard classes with unequal exceptional coefficients are also not covered.
 
-The section is four smooth elliptic quartics, reduced of degree 16. Any irreducible genus-one component has degree 4.
-
-### Incidence 16, orbit size 24
-
-Representative:
-
-```text
-H16b: c=a1+a2+i a3,
-q4=-2(a1+i a3)(a2+i a3).
-```
-
-The reduced support consists of two smooth elliptic quartics, each with generic scheme multiplicity two. Any irreducible genus-one component again has degree 4.
-
-## Consequence for the hard genus-one span-five sector
-
-If an irreducible curve `C` spans an ambient hyperplane `H=P^5`, then `C` is contained in the one-dimensional section `S intersect H` and hence is one of its reduced irreducible components.
-
-Therefore all incidence `24,20,19,16` ambient orbits are closed for **unbounded** genus-one span-five carriers. Incidence 20 and 16 permit genus-one components only in degree 4; incidence 24 and 19 permit none.
-
-This conclusion does not use the equal-coefficient Picard-ray hypothesis.
-
-## Routes exhausted for priority purposes
-
-Do not spend the next mainbatch on:
-
-- direct `R8<d/4` recombinations without a new external lever;
-- fixed finite local jets;
-- Picard integrality or bare effectivity of the displayed formal rays;
-- re-enumerating the 1,655 ambient span-five hyperplanes;
-- recomputing their `Aut(S)` orbit quotient;
-- incidence 24/20/19/16 component geometry;
-- already-retained Hodge/GFU/Beauville/rank-3 packet tests.
+Genus-one support-span six and genus-zero full-span remain open.
 
 ## Next execution leaf
 
-Only lower incidence remains in the genus-one span-five component route:
+`MB104-GENUS1-SPAN5-INC16-BALANCED-PLUS-INC15-14`:
 
-1. incidence 15 orbit, size 256;
-2. incidence 14 orbits, sizes 96, 192, 192, 384, 384.
-
-For each representative, determine the scheme-theoretic hyperplane section. If the section is irreducible of genus greater than one, that directly excludes it as a genus-one carrier. If reducible, classify only enough components to bound or exclude irreducible genus-one members.
-
-Keep genus-zero P6 and genus-one P6 irreducible-low-genus classification open in parallel.
+1. test the 32+64 balanced incidence-16 supports against retained Picard/fibration/effectivity constraints;
+2. classify incidence-15 and incidence-14 support-hyperplane sections only far enough to derive valid component pairings/capacities;
+3. keep genus-one support-span P6 and genus-zero full-span active in parallel;
+4. never infer carrier degree from support-hyperplane section degree.
 
 ## Firewalls
 
-- the ambient span-five `Aut(S)` quotient is complete, but incidence 15/14 section geometry remains open;
-- genus-one span-six and genus-zero full-span remain open;
-- no population-wide finite degree window is proved for all MB104 sectors;
+- support-span five is not closed;
+- the uniform-ray result does not cover arbitrary unequal exceptional coefficients;
+- no population-wide finite degree window is proved;
 - MB104 remains incomplete and MB105 remains gated;
 - no receiver/effectivity-final/theorem/endpoint/Perfect-Cuboid credit;
 - no merge authorization.
