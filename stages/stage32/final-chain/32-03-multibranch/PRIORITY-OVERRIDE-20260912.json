@@ -29,7 +29,10 @@
     "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL",
     "MB104-GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-WALL",
     "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION",
-    "MB104-GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING"
+    "MB104-GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING",
+    "MB104-GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-WALL",
+    "MB104-LU-MIYAOKA-GENUS1-SINGULARITY-COUNT",
+    "MB104-GENUS1-SPAN5-BALANCED16-SIZE48-DEGREE7-RESTRICTION-RANK"
   ],
   "semantic_repair": {
     "support_span_not_carrier_span": true,
@@ -55,11 +58,20 @@
     "surviving_balanced_supports": 864,
     "surviving_balanced_aut_orbit_sizes": [48,48,768],
     "surviving_balanced_masks": ["0000770000ff","00007b0000ff","000707000f0f"],
-    "restriction_map_nonzero_proved_on_survivors": false
+    "null_union_gluing_route_exhausted_on_survivors": true,
+    "size48_four_quartic_strict_transforms_pairwise_disjoint": true,
+    "size48_primitive_h0": 124,
+    "size48_primitive_h1": 4,
+    "size48_union_restriction_rank_lower_bound": 2,
+    "size48_zero_quartics_nonfixed_for_all_l": true,
+    "restriction_map_nonzero_proved_size48_orbits": true,
+    "restriction_map_nonzero_proved_000707000f0f": false,
+    "lu_miyaoka_ordinary_node_triple_lower_bound": "n(C)>=max(0,112*l-224)",
+    "l_ge_3_zero_ordinary_node_triple_concentrated_cusp_witness_allowed": false
   },
   "current_classification_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-CLASSIFICATION-CHECKPOINT.md",
-  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-THREE-ORBIT-RESTRICTION",
-  "next_execution_target": "Work only on the three surviving balanced support orbits 48,48,768 with masks 0000770000ff, 00007b0000ff, 000707000f0f for the displayed uniform P5 ray. The second 768 orbit 00070b000f0f is closed by nontrivial two-quartic gluing monodromy 17+12*sqrt2 for every l>=1. For 000707000f0f the connected two-quartic union restriction is trivial; for the two size-48 orbits determine the strict-transform four-quartic intersection/gluing geometry. Then attack global restriction/nonfixedness or explicit degree-7l jet interpolation. Do not reopen the frozen direct R8 alpha<1/4 route without a new lever. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
+  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK-AND-GLOBAL-SINGULARITY",
+  "next_execution_target": "The two size-48 surviving orbits now have exact primitive h0=124,h1=4 and nonzero zero-quartic restriction; by powers their zero quartics are nonfixed for every l>=1. The remaining restriction-rank question is 000707000f0f. Resolve its characteristic-zero primitive degree-7 jet rank (current one-prime computation is not itself retained as a char0 claim), then attack the genuinely global genus-one singularity/conductor problem. Lu-Miyaoka forces at least max(0,112*l-224) ordinary nodes/triples on any hypothetical integral genus-one carrier, so concentrated single-cusp compatibility witnesses are unavailable for l>=3. Do not reopen fixed finite local-jet counting or automatic multifibration-ramification routes; both are retained no-go walls. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
   "state_interpretation": "This override supersedes only MB104 research priority/next-obligation wording in STATE.json. It does not alter retained mathematical facts, completed nodes, routing authority, or credit firewalls.",
   "credit_firewall": {
     "MB104_complete": false,
