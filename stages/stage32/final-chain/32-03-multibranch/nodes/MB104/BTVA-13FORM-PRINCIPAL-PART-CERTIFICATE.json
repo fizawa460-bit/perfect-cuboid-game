@@ -1,0 +1,118 @@
+{
+  "schema": "STAGE32_MB104_BTVA_13FORM_PRINCIPAL_PART_V1",
+  "status": "RETAINED_BRANCH_SENSITIVE_LOCAL_RESULT_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "space": {
+    "name": "BTVA order-two reflexive symmetric-differential space",
+    "dimension": 13,
+    "local_A1_obstruction_dimension": 3,
+    "principal_part_target": "Sym^2(C^2)"
+  },
+  "local_A1_lemma": {
+    "cone": "xz=y^2",
+    "double_cover": "x=u^2,y=uv,z=v^2",
+    "resolution_chart": "s=u^2,t=v/u",
+    "constant_tensor": "a du^2+b du dv+c dv^2",
+    "pole_polynomial": "P(t)=a+b*t+c*t^2",
+    "principal_part": "P(t) ds^2/(4s)",
+    "minimal_branch": "s=tau,t=lambda+O(tau)",
+    "branch_regular_iff": "P(lambda)=0",
+    "distinct_landing_condition_saturation": 3
+  },
+  "R1": {
+    "point": ["1","0","0","0","1","1","1"],
+    "cover": {
+      "x2": "(u^2-v^2)/2",
+      "x3": "u*v",
+      "y1": "(u^2+v^2)/2"
+    },
+    "rows_du2_dudv_dv2": [
+      ["0","0","0"],
+      ["0","-2","0"],
+      ["1","0","-1"],
+      ["0","0","0"],
+      ["1","0","-1"],
+      ["0","2","0"],
+      ["1","0","1"],
+      ["0","0","0"],
+      ["0","0","0"],
+      ["0","0","0"],
+      ["1","0","1"],
+      ["1","0","1"],
+      ["1","0","1"]
+    ],
+    "rank": 3,
+    "spanning_pole_polynomials": ["t","1-t^2","1+t^2"]
+  },
+  "R2": {
+    "point": ["1","i","0","i","1","0","0"],
+    "cover": {
+      "x3": "(u^2-v^2)/2",
+      "y3": "u*v",
+      "z": "(u^2+v^2)/2"
+    },
+    "rows_du2_dudv_dv2": [
+      ["-i","0","i"],
+      ["1","0","-1"],
+      ["i","0","i"],
+      ["-1","0","-1"],
+      ["0","0","0"],
+      ["0","0","0"],
+      ["0","2i","0"],
+      ["0","-2","0"],
+      ["0","0","0"],
+      ["0","-2","0"],
+      ["0","2i","0"],
+      ["0","0","0"],
+      ["0","0","0"]
+    ],
+    "rank": 3
+  },
+  "all_nodes": {
+    "node_count": 48,
+    "stoll_generator_count": 9,
+    "R1_orbit_size_under_fixed_generators": 48,
+    "single_geometric_orbit_verified": true,
+    "principal_part_rank_at_every_node": 3,
+    "full_fixed_basis_3x13_matrix_at_every_label_materialized": false
+  },
+  "branch_multiplicity_consequence": {
+    "per_node_visible_conditions": "min(3,s_i) where s_i is number of distinct minimal-branch landing directions",
+    "visible_global_condition_bound": "sum_i min(3,s_i)",
+    "counts_R8_with_multiplicity": false,
+    "order_two_portfolio_alone_can_bound_R8_linearly": false,
+    "higher_order_or_repeated_branch_charging_required": true
+  },
+  "external_sources": {
+    "BTVA_article": {
+      "title": "Explicit computation of symmetric differentials and its application to quasi-hyperbolicity",
+      "authors": "Nils Bruin; Jordan Thomas; Anthony Varilly-Alvarado",
+      "arxiv_version": "1912.08908v3",
+      "journal": "Algebra & Number Theory 16 (2022), 1377-1405",
+      "ancillary_output": "https://arxiv.org/src/1912.08908v3/anc/perfectcuboid.out",
+      "ancillary_contract": "13 displayed affine generators forms[1]..forms[13] in basis dx2^2,dx2*dx3,dx3^2"
+    },
+    "Stoll_verification": {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/cuboids.magma",
+      "blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+      "used_contract": "nine coordinate substitutions generating Aut(S) action"
+    }
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "absolute_R8_bound_proved": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_MB104_FIXED_FINITE_JET_MULTIPLICITY_SATURATION_V1",
+  "status": "RETAINED_LOCAL_NOGO_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "a1_chart": {
+    "equation": "x*z=y^2",
+    "resolution": {
+      "x": "s",
+      "y": "s*t",
+      "z": "s*t^2",
+      "exceptional": "s=0"
+    },
+    "landing_lambda_nonzero": true
+  },
+  "branch_family": {
+    "J_domain": "integer J>=0",
+    "resolved_parametrization": {
+      "s": "tau",
+      "t": "lambda+c*tau^(J+1)"
+    },
+    "distinct_c_give_distinct_germs": true,
+    "exceptional_intersection_multiplicity": 1,
+    "fsm_minimal_type_preserved": "(A,B)=(1,1)",
+    "same_landing_key": "lambda",
+    "contracted_parametrization": {
+      "x": "tau",
+      "y": "lambda*tau+c*tau^(J+2)",
+      "z": "lambda^2*tau+2*lambda*c*tau^(J+2)+c^2*tau^(2J+3)"
+    },
+    "same_J_jet_for_all_c": true
+  },
+  "finite_jet_consequence": {
+    "fixed_finite_portfolio_factoring_through_J_jet_sees_same_row_on_family": true,
+    "local_rank_grows_with_repeated_branch_count": false,
+    "fixed_finite_local_jet_portfolio_alone_bounds_R8_multiplicity": false,
+    "extra_global_collision_or_contact_control_required": true,
+    "arbitrary_local_family_globalizes_to_actual_cuboid_curve": false
+  },
+  "fixed_symmetric_order_leading_part": {
+    "tensor": "sum_(j=0)^m a_j du^(m-j) dv^j",
+    "cover": "s=u^2,v=t*u",
+    "leading_ds_m": "P_m(t)/(2^m*s^(m/2))",
+    "P_m": "sum_(j=0)^m a_j*t^j",
+    "landing_condition": "P_m(lambda)=0",
+    "landing_row_dimension_upper_bound": "m+1",
+    "repeated_same_lambda_same_leading_row": true,
+    "full_regularity_for_m_gt_2_claimed_from_leading_condition": false
+  },
+  "verification_samples": {
+    "J_values": [
+      0,
+      1,
+      2,
+      3,
+      5,
+      8
+    ],
+    "lambda": 2,
+    "c_values": [
+      1,
+      3,
+      5,
+      7
+    ]
+  },
+  "next_live_inputs": [
+    "global bound preventing many branches from sharing a bounded jet",
+    "conductor/intersection charge for high jet collision",
+    "adaptive or unbounded jet depth with quantitative global dimension control",
+    "high-span geometry for genus0 P6 and genus1 span5/6"
+  ],
+  "credit_firewall": {
+    "MB104_complete": false,
+    "absolute_R8_bound_proved": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "source_locks": {
+    "a1_fsm_adapter": {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150",
+      "used_contract": "A=B=1 branches have m=1 and nonzero landing lambda; gamma_lambda has leading (x,y,z)=(tau,lambda*tau,lambda^2*tau)"
+    },
+    "mb101_population_adapter": {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
+      "blob_sha1": "890f80ce208e402b14275d3e3279f9c02d5dc2fa",
+      "used_contract": "R8 counts normalization branches of FSM-minimal type (A,B)=(1,1); landing keys are retained branch data"
+    }
+  }
+}

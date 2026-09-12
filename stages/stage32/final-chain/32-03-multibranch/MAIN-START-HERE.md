@@ -8,9 +8,13 @@ Ordinary `stage32mb-mainbatch` reads, in this order:
 4. `stages/stage32/final-chain/32-03-multibranch/PREFLIGHT.json`;
 5. `stages/stage32/final-chain/32-03-multibranch/MISSION.json`;
 6. current `stages/stage32/MAIN-STATE.json`;
-7. only the exact assets required by the current MB node.
+7. current `stages/stage32/final-chain/32-03-multibranch/STATE.json`;
+8. `stages/stage32/final-chain/32-03-multibranch/PRIORITY-OVERRIDE-20260912.json` when its status is `ACTIVE`;
+9. only the exact assets required by the current MB node.
 
-This lane is the dedicated Stage32 32-03-L multibranch researcher. The preflight explicitly permits mission work without waiting for 32-01/FULL178, and the operator has now allocated parallel capacity. Current Stage32 routing authority remains `MAIN-STATE.json` and this lane cannot self-promote.
+This lane is the dedicated Stage32 32-03-L multibranch researcher. The preflight explicitly permits mission work without waiting for 32-01/FULL178, and the operator has allocated parallel capacity. Current Stage32 routing authority remains `MAIN-STATE.json` and this lane cannot self-promote.
+
+An ACTIVE priority override may supersede only the MB research ordering / next-obligation wording. It cannot alter retained facts, completed-node status, MAIN routing authority, or any credit firewall. The 2026-09-12 override freezes direct `R8<d/4+O(1)` pursuit until a new lever appears and prioritizes hard-sector global classification plus formal infinite-family construction/nonconstruction.
 
 ## Ownership
 
@@ -27,7 +31,7 @@ MB does **not** own:
 
 ## First route
 
-Start at `MB101`: freeze the exact R29-LG2-MB population and normalization-profile adapter. Do not jump directly to finite Picard enumeration. The load-bearing sequence is MB101 -> MB102/MB103 -> MB104 -> MB105 -> MB190.
+The load-bearing sequence remains MB101 -> MB102/MB103 -> MB104 -> MB105 -> MB190. MB101-MB103 are retained. MB104 is active. Under the current priority override, do not continue direct `R8<d/4+O(1)` recombination work unless new enabling material appears; first attack genus-zero full-span / genus-one span-5/6 classification or the exact formal-infinite-family feasibility boundary.
 
 Exceptional contact mass, number of normalization preimages, and delta invariant are distinct until an exact local adapter proves the relation required in the current profile.
 

@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE32_MB104_FORMAL_INFINITE_FAMILY_FEASIBILITY_V1",
+  "status": "RETAINED_FORMAL_INFINITE_FAMILIES_CURRENT_CONSTRAINTS_INSUFFICIENT_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "operator_priority": {
+    "direct_R8_alpha_lt_quarter": "FROZEN_UNTIL_NEW_LEVER",
+    "priority": [
+      "GENUS0_FULL_SPAN_GLOBAL_CLASSIFICATION",
+      "GENUS1_SPAN5_6_GLOBAL_CLASSIFICATION",
+      "FORMAL_INFINITE_FAMILY_CONSTRUCT_OR_REFUTE"
+    ]
+  },
+  "scope": {
+    "retained_constraints_only": true,
+    "actual_curves_constructed": false,
+    "picard_or_effectivity_realizability_claimed": false
+  },
+  "common": {
+    "parameter": "integer k>=1",
+    "N": 14,
+    "N_MB": 14,
+    "per_supported_node": "r_i=M_i=2k; all 2k branches are (A,B)=(1,1), m=1, with distinct nonzero landing keys",
+    "totals": "R=R8=M=r_odd=28k; sum M_i^2=56k^2",
+    "resolved_Delta_total": 0,
+    "downstairs_delta": "R-N=28k-14"
+  },
+  "families": [
+    {
+      "id": "F0-P6",
+      "g": 0,
+      "d": "28k-4",
+      "support": "S_P6_14",
+      "span": 6,
+      "rank3_block_node_counts": [3, 3, 2, 2, 2, 2],
+      "span_minor": "rows[0,1,2,3,6,9,10], all 7 cols, det=8+8i",
+      "checks": ["N=14", "nonconic rational support spans P6", "FSM", "Beauville r_odd=d+4 even", "GFU degree=0", "rank3 block mass<=d", "Hodge", "Stoll-Testa M>=8", "conductor"]
+    },
+    {
+      "id": "F1-P5",
+      "g": 1,
+      "d": "28k",
+      "support": "S_P5_14 subset {c=0}",
+      "span": 5,
+      "rank3_block_node_counts": [0, 0, 0, 5, 5, 4],
+      "span_minor": "rows[0,1,2,4,5,6], cols[0..5], det=16i",
+      "checks": ["N=14", "s=5 hard BTVA sector", "FSM", "Beauville r_odd=d even", "GFU degree=0", "rank3 block mass<=d", "Hodge", "Stoll-Testa M>=4", "conductor"]
+    },
+    {
+      "id": "F1-P6",
+      "g": 1,
+      "d": "28k",
+      "support": "S_P6_14",
+      "span": 6,
+      "rank3_block_node_counts": [3, 3, 2, 2, 2, 2],
+      "span_minor": "rows[0,1,2,3,6,9,10], all 7 cols, det=8+8i",
+      "checks": ["N=14", "s=6 hard BTVA sector", "FSM", "Beauville r_odd=d even", "GFU degree=0", "rank3 block mass<=d", "Hodge", "Stoll-Testa M>=4", "conductor"]
+    }
+  ],
+  "source_locks": {
+    "MB101": "282fc94d8d5feb0221cf6bf096ed4b0030883563",
+    "MB102": "f852f66c67343b6a553b5c20e15dc0a0f55d5226",
+    "R8_WALLS": "88220a04928f61a3491118c9c1f1bb35a1d6e6b9",
+    "HODGE": "3e1ea879f2b8368a6795f2e7faa1a4a08b608100",
+    "BTVA_LOW_SUPPORT": "248adcc01021ba087cb24e06e6492e837aca22ae",
+    "BTVA_SPAN": "dd174696c7391981d4d9a95e631b5df22d08500a",
+    "BEAUVILLE": "6a3fc0207aa66b453be0ad2f921425a70f93bd91"
+  },
+  "consequence": {
+    "formal_unbounded_packets_exist_in_all_hard_sectors": true,
+    "current_retained_constraints_alone_force_finiteness": false,
+    "next_missing_input": [
+      "global classification/effectivity obstruction",
+      "Picard/divisor-class realizability",
+      "global incidence obstruction for selected 14-node supports",
+      "new theorem excluding these asymptotic packet shapes"
+    ]
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "actual_curve_existence_claimed": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

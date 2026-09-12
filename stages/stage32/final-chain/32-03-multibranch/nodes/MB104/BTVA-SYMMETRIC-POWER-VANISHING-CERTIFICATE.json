@@ -1,0 +1,54 @@
+{
+  "schema": "STAGE32_MB104_BTVA_POWER_VANISHING_WALL_V1",
+  "status": "RETAINED_NEGATIVE_ROUTE_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "source_contract": {
+    "paper": "Bruin--Thomas--Varilly-Alvarado, Explicit computation of symmetric differentials and its application to quasi-hyperbolicity",
+    "arxiv": "1912.08908",
+    "a1_regularization_rule": "order m requires floor(m/2) hyperplane vanishing at selected A1 node",
+    "perfect_cuboid_section": "omega_7 has symmetric order 2 and one hyperplane of vanishing",
+    "hyperplane_can_be_moved_by_linear_equivalence": true
+  },
+  "power_contract": {
+    "power_parameter": "k>=1",
+    "symmetric_order": "m=2k",
+    "total_hyperplane_vanishing_budget": "k",
+    "per_node_regularization_cost": "k",
+    "split_divisor": "D_H=sum_l a_l H_l with sum_l a_l=k",
+    "node_received_budget": "v_s=sum_{l:s in H_l}a_l<=k",
+    "regularization_requires": "v_s=k",
+    "equality_consequence": "every positive-multiplicity H_l contains s"
+  },
+  "support_consequence": {
+    "regularize_all_supported_nodes_by_split_power_budget": "every H_l must contain every supported node",
+    "pure_power_bypasses_common_hyperplane_span_barrier": false,
+    "available_vanishing_to_order_ratio": "1/2",
+    "required_regularization_to_order_ratio": "1/2",
+    "asymptotic_slack": 0
+  },
+  "escape_conditions": [
+    "movable vanishing ratio greater than 1/2",
+    "intrinsic regularity on many exceptional components",
+    "different local cancellation mechanism"
+  ],
+  "route_consequence": {
+    "omega7_power_only_route_dominated": true,
+    "all_symmetric_differential_routes_impossible": false,
+    "finite_R8_bound_proved": false,
+    "MB104_complete": false
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

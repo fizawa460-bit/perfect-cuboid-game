@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_MB104_MULTIFIBRATION_RH_CAPACITY_WALL_V1",
+  "status": "RETAINED_NEGATIVE_ROUTE_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "fibration_contract": {
+    "total_fibrations": 28,
+    "rank4_fibrations": 22,
+    "rank4_complementary_pairs": 11,
+    "rank4_pair_class_sum": "F+F'=H",
+    "rank4_total_map_degree_upper": "11d",
+    "rank3_fibrations": 6,
+    "rank3_class_formula": "2F_Q=H-sum_{i in B_Q}E_i",
+    "rank3_each_map_degree_upper": "d/2",
+    "rank3_total_map_degree_upper": "3d",
+    "all_28_total_map_degree_upper": "14d"
+  },
+  "riemann_hurwitz_contract": {
+    "per_nonconstant_map": "B_j=2g-2+2n_j",
+    "summed_ramification_upper": "B_total<=28d+56(g-1)",
+    "optimistic_hypothesis": "each R8 branch contributes at least one ramification unit to all 28 maps",
+    "optimistic_charge_per_branch": 28,
+    "optimistic_result": "R8<=d+2g-2",
+    "g0_result": "R8<=d-2",
+    "g1_result": "R8<=d",
+    "optimistic_asymptotic_slope": 1.0,
+    "required_asymptotic_slope_strictly_less_than": 0.25,
+    "optimistic_unit_charging_sufficient": false
+  },
+  "aggregate_charge_threshold": {
+    "definition": "q=guaranteed total ramification multiplicity across all 28 maps per minimal cusp branch",
+    "derived_bound": "R8<=(28/q)d+56(g-1)/q",
+    "required_for_slope_lt_quarter": "q>112",
+    "one_unit_per_map_gives_q_at_most": 28,
+    "one_unit_per_map_route_structurally_insufficient": true
+  },
+  "local_jet_interface": {
+    "minimal_cusp_alone_forces_one_unit": false,
+    "current_local_packet_is_weaker_than_optimistic_capacity_test": true
+  },
+  "route_consequence": {
+    "simple_summed_RH_unit_charging_dominated": true,
+    "all_fibration_arguments_proved_impossible": false,
+    "possible_escape_requires": [
+      "forced high ramification multiplicity",
+      "smaller global degree budget",
+      "additional cancellation or conductor inequality"
+    ],
+    "finite_R8_bound_proved": false,
+    "MB104_complete": false
+  },
+  "external_source_locks": [
+    {
+      "title": "The surface parametrizing cuboids",
+      "authors": "Michael Stoll; Damiano Testa",
+      "section": "Section 5",
+      "used_statements": [
+        "28=6+2*11 genus-5 fibrations",
+        "rank-4 fibrations occur in 11 complementary pairs whose fiber classes sum to H",
+        "rank-3 fiber class satisfies 2F_Q=H-sum of the eight exceptional curves in its base locus"
+      ]
+    },
+    {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/Section5_fibrations.log",
+      "blob_sha1": "9cfef75aa58335655d6ae3e78597f5924b6c2433"
+    }
+  ],
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
