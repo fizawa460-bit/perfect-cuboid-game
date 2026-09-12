@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_TWO_QUARTIC_GLUING_V1",
+  "status": "RETAINED_EXACT_GLUING_OBSTRUCTION_ONE_768_ORBIT_CLOSED_UNIFORM_P5_BALANCED16_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "scope": {
+    "span_semantics": "box-node support span",
+    "divisor_ray": "D_l=l*(7H-4 sum_{i in Sigma}E_i)",
+    "l_min": 1,
+    "target_supports": ["000707000f0f","00070b000f0f"],
+    "arbitrary_unequal_picard_classes_covered": false
+  },
+  "source_locks": [
+    {"id":"FORMAL_PICARD","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md","blob_sha1":"de83fc169814681109bcbc1576ad24f67d6159e0"},
+    {"id":"PIC0_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-CERTIFICATE.json","blob_sha1":"1a92336433816883757fee844b736181e6848813"},
+    {"id":"STABILIZER_UNION_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json","blob_sha1":"31695c6908cff73d04baab2ed11dfd04608a2464"},
+    {"id":"HUMAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md","blob_sha1":"61cfd59c94a4b2559bd22bbfbe7d5f438791b881"}
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
+    "self_lock_policy": "verifier identity fixed separately by this certificate"
+  },
+  "zero_quartics": {
+    "Q0": ["b1=0","i*a2-a3=0","a1-c=0"],
+    "Q1": ["b2=0","i*a3+a1=0","a2-c=0"]
+  },
+  "intersection": {
+    "combined_linear_reduction": "a1=a2=c=t, a3=i*t, b1=b2=0",
+    "remaining_equation": "b3^2=2*t^2",
+    "points": ["[1:1:i:0:0:+sqrt2:1]","[1:1:i:0:0:-sqrt2:1]"],
+    "reduced": true,
+    "surface_smooth_at_points": true,
+    "jacobian_minor_a1_a2_a3_c": "-32*i",
+    "strict_transform_intersection_number": 2,
+    "transverse": true
+  },
+  "component_trivializations": {
+    "A": "7H-4 sum E_i",
+    "common_hyperplane": "c",
+    "Q0_box_node_form": "a1*a2",
+    "Q1_box_node_form": "a2*a3",
+    "formula": "tau_Q=c^7*L_P/G_Q^4",
+    "at_intersection_denominator_fourth_powers": 1
+  },
+  "gluing": {
+    "000707000f0f": {
+      "omitted_nodes": {"Q0":27,"Q1":35},
+      "hyperflex_forms": {"Q0":"-2*a2+b3+i*b2","Q1":"-2*a3-b1+i*b3"},
+      "gluing_ratio_at_R_plus": "-i",
+      "gluing_ratio_at_R_minus": "-i",
+      "cycle_monodromy_A": "1",
+      "O_union_A_trivial": true,
+      "O_union_D_l_trivial_all_l": true,
+      "fixed_component_obstruction_from_union_gluing": false
+    },
+    "00070b000f0f": {
+      "omitted_nodes": {"Q0":26,"Q1":35},
+      "hyperflex_forms": {"Q0":"-2*a2-b3+i*b2","Q1":"-2*a3-b1+i*b3"},
+      "gluing_ratio_at_R_plus": "(-2-sqrt2)/(i*(-2+sqrt2))",
+      "gluing_ratio_at_R_minus": "(-2+sqrt2)/(i*(-2-sqrt2))",
+      "cycle_monodromy_A": "17+12*sqrt2",
+      "cycle_monodromy_D_l": "(17+12*sqrt2)^l != 1 for every l>=1",
+      "H0_union_D_l": 0,
+      "both_zero_quartics_fixed": true,
+      "uniform_ray_irreducible_member_exists": false
+    }
+  },
+  "retained_consequence": {
+    "orbit_00070b000f0f_uniform_ray_closed": true,
+    "closed_support_orbit_size": 768,
+    "orbit_000707000f0f_closed_by_this_gluing": false,
+    "previous_balanced_support_population": 1632,
+    "surviving_uniform_ray_support_population": 864,
+    "surviving_support_masks": ["0000770000ff","00007b0000ff","000707000f0f"],
+    "surviving_support_orbit_sizes": [48,48,768],
+    "balanced16_fully_closed": false,
+    "next_required_lever": "four-quartic_disconnected_union_or_explicit_global_jet_interpolation_for_48_orbits_and_connected_trivial-union_restriction_for_000707000f0f"
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md",
+    "human_note_blob_sha1": "61cfd59c94a4b2559bd22bbfbe7d5f438791b881",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_two_quartic_gluing.py",
+    "verifier_blob_sha1": "66bf15c4a1768b810abe8d12a8e293df125d092d"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_TWO_QUARTIC_GLUING_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on exact candidate head"
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-BALANCED16-THREE-ORBIT-RESTRICTION",
+    "targets": [
+      "decide restriction/nonfixedness for 000707000f0f where the connected two-quartic union restriction is trivial",
+      "treat 0000770000ff and 00007b0000ff four-quartic unions, which are disconnected on the strict-transform level if pairwise intersection subtraction confirms zero",
+      "use explicit global degree-7l interpolation or a whole-null-locus semiampleness/effective-cone input if needed"
+    ]
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "balanced16_closed": false,
+    "whole_span5_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
