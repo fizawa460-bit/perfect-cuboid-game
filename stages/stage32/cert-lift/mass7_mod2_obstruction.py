@@ -41,6 +41,8 @@ def row_sum(m: Matrix, labels: list[int]) -> Matrix:
 
 
 def load_picard_interface() -> tuple[Matrix, list[list[list[int]]]]:
+    # Replay the EX5 source-lock and retained-geometry contract before using P.
+    e8.load_geometry()
     d18 = e8.d18
     bundle = d18.load_retained(d18.RETAINED, "s32certlift_mass7_bundle")
     marking = d18.load_retained(d18.MARKING, "s32certlift_mass7_marking")
@@ -181,6 +183,9 @@ def exceptional_completions(fixed: dict[int, int]):
 def boundary_candidates(
     exceptional: dict[int, int], blocks: list[list[list[int]]]
 ):
+    # Exact CUT bound on every exceptional pairing.
+    if any(v < 0 or v > TARGET_D // 2 for v in exceptional.values()):
+        return
     sums = [[sum(exceptional[j] for j in inc) for inc in pack] for pack in blocks]
     for n1 in range(TARGET_D + 1):
         n2 = TARGET_D - n1
@@ -293,6 +298,7 @@ def run(scope: str) -> dict:
             "picard_condition": "exact membership in im(P mod 2) via the full left kernel of P^T",
             "exceptional_completion": "exact because e=8 and fixed mass 7/8 leaves residual exceptional mass 1/0",
             "fibre_constraints": "exactly enumerate n1+n2=8 and solve 2*y_boundary+incidence_sum=n_pack before parity projection",
+            "exceptional_bound": "every y_93..y_140 is constrained to 0..4 exactly as in CUT193",
             "normal_projection": "eliminate the 80 non-boundary normal parities; retained consistency masks are necessary conditions only, hence any contradiction is a sound UNSAT certificate",
         },
         "matrix": {
@@ -319,6 +325,7 @@ def run(scope: str) -> dict:
             "merge_authorized": False,
         },
         "firewalls": {
+            "source_lock_replayed": True,
             "no_cross_e_extrapolation": True,
             "no_timeout_semantics": True,
             "no_unknown_relabel": True,
