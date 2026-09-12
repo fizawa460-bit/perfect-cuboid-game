@@ -1,0 +1,55 @@
+{
+  "schema": "STAGE32_CERTLIFT_02_SCOPE_SPLIT_RECEIPT_V1",
+  "stage": "32",
+  "node": "CERTLIFT-02",
+  "status": "PASS_AUDITED_MASS7_MOD2__CURRENT_MAIN_EXTENSION_COUNTEREXAMPLES",
+  "exact_head": "0ba3efe2059690a91604b96a065dd7e4e5c0ba25",
+  "exact_head_ci": {
+    "run_id": 34724017036,
+    "job_id": 103634856509,
+    "conclusion": "success"
+  },
+  "source": {
+    "ex5_e8_terminal_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+    "audited_cut_range": "CUT193..CUT198",
+    "audited_survivor_offsets": [1, 1530]
+  },
+  "certlift_01": {
+    "profile_canonical": "ad5db4052bfb97382b10c42983d5fc659c3c17a4779c0a7061953a336d4d62be",
+    "audited_mass7_closed": 1049,
+    "audited_mass7_residual_controls": 0
+  },
+  "certlift_02": {
+    "current_main_mod2_canonical": "1cccc909dedd2d7b830e40be616d0990db9f55f40c0edb15e725fb6d03536766",
+    "scope_split_canonical": "94164d317132b3f811ee85908fdeb23b045bdbc4b678be821d37c5cd6e69d847",
+    "audited": {
+      "targeted": 1049,
+      "mod2_obstructed": 1049,
+      "projection_survivors": 0
+    },
+    "current_main": {
+      "targeted": 5667,
+      "mod2_obstructed": 5392,
+      "projection_survivors": 275,
+      "survivor_by_fixed_exceptional_mass": {
+        "7": 27,
+        "8": 248
+      },
+      "survivor_offset_minmax": [2218, 7595],
+      "first_survivor_blocks": [3140, 3147, 3176, 3183, 3186, 3274, 3277, 3290, 3293, 3323, 3327, 3470, 3473, 3486, 3489, 3519]
+    }
+  },
+  "interpretation": {
+    "audited_six_wave_mass7_mod2_replay": "PASS",
+    "current_main_extension": "FAIL_WITH_275_PROJECTION_SURVIVORS",
+    "projection_survivor_is_integral_completion_witness": false,
+    "next_receiver": "classify 275 projection survivors by mathematical prefix/HNF invariants; seek a stronger exact sufficient obstruction than MASS7 alone"
+  },
+  "credit": {
+    "main_pruning": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "45a772c16975ce1f8f74968c15cfd505a4098306561ddb8cb58dd0d7bd200a1e"
+}

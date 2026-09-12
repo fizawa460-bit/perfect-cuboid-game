@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32_CERTLIFT_02_FEATURE_DISCRIMINATOR_RECEIPT_V1",
+  "stage": "32",
+  "node": "CERTLIFT-02",
+  "status": "PASS_ZERO_FALSE_POSITIVE_FEATURE_SEARCH",
+  "exact_head": "c3f83c5b132ee47ad0473a16703b2d133027c4d7",
+  "exact_head_ci": {
+    "run_id": 34724188378,
+    "job_id": 103635319064,
+    "conclusion": "success"
+  },
+  "source": {
+    "scope_split_receipt": "stages/stage32/cert-lift/CERTLIFT-02-SCOPE-SPLIT-RECEIPT.json",
+    "feature_discriminator": "stages/stage32/cert-lift/mass7_feature_discriminator.py"
+  },
+  "scope": {
+    "current_main_mass7_targets": 5667,
+    "mod2_obstructed": 5392,
+    "projection_survivors": 275,
+    "audited_mass7_targets": 1049
+  },
+  "result": {
+    "canonical": "1fc21410fb316973b455ed07c3365ae139e7717d59dbb06829aa523027b290cb",
+    "best_single": {
+      "predicate": "g3==3",
+      "selected_mod2_obstructed": 1677,
+      "selected_projection_survivors": 0,
+      "selected_audited_mass7": 308,
+      "blocked_coverage_fraction": "1677/5392",
+      "audited_coverage_fraction": "308/1049"
+    },
+    "next_singles": [
+      {"predicate": "y101==1", "selected_mod2_obstructed": 1644, "selected_projection_survivors": 0},
+      {"predicate": "y102==1", "selected_mod2_obstructed": 1644, "selected_projection_survivors": 0},
+      {"predicate": "y103==1", "selected_mod2_obstructed": 1644, "selected_projection_survivors": 0},
+      {"predicate": "g1==3", "selected_mod2_obstructed": 1560, "selected_projection_survivors": 0}
+    ],
+    "best_pair": {
+      "predicate": "(min_group==1) & (y99>=1)",
+      "selected_mod2_obstructed": 1944,
+      "selected_projection_survivors": 0,
+      "selected_audited_mass7": 532,
+      "blocked_coverage_fraction": "1944/5392",
+      "audited_coverage_fraction": "532/1049"
+    }
+  },
+  "interpretation": {
+    "primary_certlift03_hypothesis": "fixed_exceptional_mass>=7 and g3==3",
+    "reason": "largest simple single-feature zero-survivor separator among the tested source-level features; no block index/offset used",
+    "feature_search_is_symbolic_proof": false,
+    "next_gate": "challenge the hypothesis on the full 11,318-block compressed e8 universe and extract an explicit mod-2 contradiction independent of current-MAIN enumeration"
+  },
+  "credit": {
+    "main_pruning": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "241a922dfd37fbd47b297654ea29aeac7e32bc9d73fad1165f0592d9f5d14188"
+}

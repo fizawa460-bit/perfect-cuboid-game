@@ -27,6 +27,8 @@ on:
       - 'stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-result.json'
       - 'stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-audit-handoff.json'
       - 'stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md'
+      - 'stages/stage32/cert-lift/**'
+      - 'stages/stage32/cut-cert-lift/**'
       - 'stages/stage32-ex*/MAIN-STATE.json'
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32-ex5/CROSS-LANE-STATE.json'
@@ -70,6 +72,11 @@ jobs:
         with:
           ref: 6487de765b0d35e05d81018aeaff902af9b7d21a
           path: .stage32-audited-q602
+      - name: Checkout exact EX5 e8 producer source separately
+        uses: actions/checkout@v4
+        with:
+          ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
+          path: .certlift-ex5-source
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
@@ -96,6 +103,35 @@ jobs:
         run: python stages/stage32/verify_main_startup.py
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
+      - name: Prepare CERT-LIFT lightweight dependencies
+        run: python -c 'import sympy' || python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Verify CERT-LIFT source manifest
+        run: python stages/stage32/cut-cert-lift/verify_source_manifest.py
+      - name: Verify CERTLIFT-01 audited MASS7 profile
+        env:
+          CERTLIFT_EX5_SOURCE_ROOT: ${{ github.workspace }}/.certlift-ex5-source
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/certificate_profile.py --self-check
+      - name: Verify CERTLIFT-02 MASS7 current-MAIN mod2 obstruction
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/mass7_mod2_obstruction.py --scope current-main --self-check
+      - name: Verify CERTLIFT-02 audited/current scope split
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/mass7_scope_split.py --self-check
+      - name: Verify CERTLIFT-02 mathematical feature discriminator
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/mass7_feature_discriminator.py --self-check
+      - name: Verify CERTLIFT-03 g3 exact full-e8 candidate
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/g3_exact_candidate.py --self-check
+      - name: Verify CERTLIFT-03 g3 GF2 row certificate compression
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/g3_row_certificate.py --self-check
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
