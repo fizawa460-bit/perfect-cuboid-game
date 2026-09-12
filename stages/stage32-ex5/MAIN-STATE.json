@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V14_BC2_30_RETAINED_AUDIT_BOUNDARY",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V15_BC2_30_AUDIT_CONSUMED_BC2_31_RECOVERY_EXECUTION",
   "role": "ORDINARY_STAGE32EX5_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "stage": "32EX5",
   "execution": {
@@ -60,24 +60,24 @@
     "bc2_26_pr_1776": {"audit_checkpoint_exact_head":"34d6b030095b97c738f6faf6b9045f366622592c","hostile_audit_status":"PASS","hostile_audit_review_id":5177919212,"merged":false,"stage32_main_credit":false},
     "bc2_27_pr_1776": {"audit_checkpoint_exact_head":"b70bc51909f5ed78641ee3b727a2258382ef950c","hostile_audit_status":"PASS","hostile_audit_review_id":5179488973,"prior_failed_audit_exact_head":"43fce7733be95b47b2d2a4e4568300add7694224","prior_failed_audit_review_id":5179261378,"merged":false,"stage32_main_credit":false},
     "bc2_28_pr_1776": {"audit_checkpoint_exact_head":"4221d7f9816590e808976da37ba479880f35dc22","hostile_audit_status":"PASS","hostile_audit_review_id":5183082213,"merged":false,"stage32_main_credit":false},
-    "bc2_29_pr_1776": {"audit_checkpoint_exact_head":"ca8e0ea7209b898d24d5f647dcce11be1aff03b2","hostile_audit_status":"PASS","hostile_audit_review_id":5183342658,"merged":false,"stage32_main_credit":false}
+    "bc2_29_pr_1776": {"audit_checkpoint_exact_head":"ca8e0ea7209b898d24d5f647dcce11be1aff03b2","hostile_audit_status":"PASS","hostile_audit_review_id":5183342658,"merged":false,"stage32_main_credit":false},
+    "bc2_30_pr_1776": {"audit_checkpoint_exact_head":"38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f","hostile_audit_status":"PASS","hostile_audit_review_id":5184226057,"merged":false,"stage32_main_credit":false}
   },
   "current": {
-    "status": "BC2_30_RESULT_RETAINED_HOSTILE_AUDIT_REQUIRED",
+    "status": "BC2_31_EXACT_IDENTITY_RECOVERY_EXECUTION_AUTHORIZED",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_30_BOUNDARY42_PARTITION_RETAINED_AUDIT_BOUNDARY",
+    "leaf": "BC2_31_RECOVER_REMAINING_172_BC2_19_UNKNOWN_IDENTITIES",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
-    "objective": "Freeze the bounded BC2-30 boundary42 result and obtain an independent hostile audit before recovering the remaining 172 BC2-19 UNKNOWN identities.",
-    "blocker": "0_RETAINED_UNKNOWN_PARENTS_BUT_172_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES_REMAIN",
-    "next_route": "HOSTILE_AUDIT_BC2_30",
-    "stop_semantics": "NO_BC2_31_OR_BROAD_PROMOTION_BEFORE_BC2_30_HOSTILE_AUDIT_PASS"
+    "objective": "Recover the exact identities of the 172 BC2-19 UNKNOWN parents that were not retained by BC2-21, using exact historical replay and fail-closed source/status locks.",
+    "blocker": "BC2_19_ARTIFACT_EXPIRED_REQUIRES_EXACT_SOURCE_REPLAY_AND_STATUS_STREAM_MATCH",
+    "next_route": "BC2_31_EXACT_RECOVERY_OF_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES",
+    "stop_semantics": "IDENTITY_RECOVERY_ONLY_NO_STATUS_INFERENCE_NO_BC2_32_BEFORE_BC2_31_HOSTILE_AUDIT"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-30-boundary42-partition-checkpoint.json",
-    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_30_boundary42_partition_checkpoint.py",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-30-executed-runkey.json",
-    "stages/stage32-ex5/runkeys/bc2-30-boundary42-partition.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-31-recover-remaining172-preflight.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_31_recover_remaining172_bc2_19_unknown.py",
+    "stages/stage32-ex5/runkeys/bc2-31-recover-remaining172.json",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "frontier": {
@@ -104,7 +104,7 @@
     "e8_bc2_29_p39_leaf_unknown_count": 1,
     "e8_bc2_29_unretained_unknown_identity_count": 172,
     "e8_bc2_30_executed": true,
-    "e8_bc2_30_audited": false,
+    "e8_bc2_30_audited": true,
     "e8_bc2_30_new_parent_unsat_count": 1,
     "e8_bc2_30_retained_unknown_count": 0,
     "e8_bc2_30_parent_sat_count": 0,
@@ -112,6 +112,8 @@
     "e8_bc2_30_p42_leaf_unknown_count": 0,
     "e8_bc2_30_p42_leaf_sat_count": 0,
     "e8_bc2_30_unretained_unknown_identity_count": 172,
+    "e8_bc2_31_identity_recovery_executed": false,
+    "e8_bc2_31_exact_remaining172_recovered": false,
     "e8_known_parent_unsat_count_lower_bound": 7164,
     "e8_whole_first_block_unsat": false,
     "FULL178_complete": false,
@@ -146,10 +148,14 @@
     "bc2_30_artifact_id": 10283165917,
     "bc2_30_known_parent_unsat_count_lower_bound": 7164,
     "bc2_30_retained_unknown_parent_indices": [],
+    "bc2_30_hostile_audit_exact_head": "38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f",
+    "bc2_30_hostile_audit_review_id": 5184226057,
+    "bc2_31_preflight_canonical": "edd1bf6198d054277f828795f4e7a9d5372bc3094886e7afea420484bd899328",
+    "bc2_31_source_git_blob_sha": "bd6ba2a0048b565354319598ff5811a9edf9a7a3",
     "exact_evidence_rewritten_by_semantic_sync": false
   },
   "claim_sync": {
-    "last_trigger": "BC2_30_RESULT_RETAINED_FOR_HOSTILE_AUDIT",
+    "last_trigger": "BC2_30_HOSTILE_AUDIT_PASS_CONSUMED_BC2_31_RECOVERY_AUTHORIZED",
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
     "active_frontier_remapped": false,
@@ -157,7 +163,7 @@
     "main_promotion": false
   },
   "credit": {
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_30_RETAINED_UNAUDITED_NO_MAIN_PROMOTION",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_31_IDENTITY_RECOVERY_AUTHORIZED_NO_NEW_MATH_CREDIT",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -192,22 +198,23 @@
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md",
     "candidate_pr": 1776,
     "last_hostile_audit_status": "PASS",
-    "last_hostile_audit_exact_head": "ca8e0ea7209b898d24d5f647dcce11be1aff03b2",
-    "last_hostile_audit_review_id": 5183342658,
+    "last_hostile_audit_exact_head": "38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f",
+    "last_hostile_audit_review_id": 5184226057,
     "merge_ready_freshness": "PENDING_SEPARATE_GATE",
     "merged": false,
     "repair_required_before_merge": false,
-    "re_audit_required": true,
-    "freeze_active": true,
+    "re_audit_required": false,
+    "freeze_active": false,
     "historical_boundary_only": false,
-    "new_audit_boundary_exists": true,
+    "new_audit_boundary_exists": false,
     "bc2_30_execution_authorized": false,
-    "bc2_31_execution_authorized": false
+    "bc2_31_execution_authorized": true
   },
   "next_step": {
-    "id": "HOSTILE_AUDIT_BC2_30_RETAINED_BOUNDARY",
-    "goal": "Independently audit the BC2-30 boundary42 checkpoint, exact artifact receipt, source locks and zero-retained-UNKNOWN accounting before recovering the remaining 172 identities.",
-    "bc2_31_blocked_until_bc2_30_hostile_audit_pass": true,
+    "id": "BC2_31_EXACT_RECOVERY_OF_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES",
+    "goal": "Re-execute the exact BC2-19 source with exact dependencies; accept only a byte-semantic replay matching the historical raw canonical and status-stream hash, then retain the exact remaining 172 parent indices without changing their UNKNOWN status.",
+    "bc2_31_identity_recovery_authorized": true,
+    "bc2_32_blocked_until_bc2_31_hostile_audit_pass": true,
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "n350_registration_authorized": false,
