@@ -77,7 +77,7 @@ Each branch point of `E` with inertia `<s>` lifts to
 |K|/2=e
 ```
 
-points of `Z` fixed by `s`. Therefore
+points of `Z` fixed by `s`. There are no additional `s`-fixed points on `Z`: a fixed point descends to a box node of type `s`, and the uniform packet has no exceptional support outside `Sigma`. Therefore
 
 ```text
 #Fix_Z(s)=112*e*l.
@@ -148,7 +148,7 @@ alpha1,alpha2:B1 -> E0.
 In the isogeny category put
 
 ```text
-u = alpha2 * alpha1^{-1} in End^0(E0)^* = Q(i)^*.
+nu = alpha2 * alpha1^{-1} in End^0(E0)^* = Q(i)^*.
 ```
 
 Equal degrees give
@@ -189,13 +189,14 @@ Phi=(alpha1,alpha2): B1 -> E0 x E0
 
 factors through `B1/J`. Consequently the generic degree of `Phi` onto its image is divisible by `7`.
 
-The same remains true after composing with any finite quotient of `E0 x E0`: the generic degree can only be multiplied by the generic degree of the image curve under that quotient. In particular it remains divisible by `7` after the fixed group
+After composing with the fixed finite quotient
 
 ```text
-H ~= (Z/2)^2
+E0 x E0 -> (E0 x E0)/H,
+H ~= (Z/2)^2,
 ```
 
-from the Beauville/Kummer model.
+the generic degree is the generic degree of `Phi` multiplied by the generic degree of its image curve under the quotient. Therefore it remains divisible by `7`.
 
 ## 4. The box/Kummer diagram says the same generic degree is a power of two
 
@@ -217,13 +218,13 @@ The first arrow has degree
 [K:<s>]=e.
 ```
 
-The normalization map `E->C` has generic degree one. Since `C` is not contained in the fixed divisor of `sigma`, the restriction
+The normalization map `E->C` has generic degree one. For an involution quotient, the restriction
 
 ```text
 C -> image(C in B/sigma)
 ```
 
-has generic degree either `1` or `2`, according as `sigma(C)` is distinct from or equal to `C`.
+has generic degree either `1` or `2`: it is `1` when the generic `sigma`-orbit meets `C` once (including the pointwise-fixed case), and `2` only when `sigma` preserves `C` nontrivially.
 
 Therefore the generic degree of
 
@@ -267,7 +268,7 @@ The only current balanced support orbit still compatible with the full uniform m
 000707000f0f   size 768.
 ```
 
-This is stronger than the previous size-48 quotient/isogeny classification: the CM field and the inert prime `7` prevent the required pair of factor isogenies from descending through the degree-`2` box/Kummer quotient.
+This is stronger than the previous size-48 quotient/isogeny classification: the CM field and the inert prime `7` prevent the required pair of factor isogenies from descending through the box/Kummer quotient.
 
 ## Important scope firewall
 
