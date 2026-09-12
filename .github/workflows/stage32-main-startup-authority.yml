@@ -113,7 +113,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="62ca8fdf5ff71eeb4e5c1dc062df0ecc9024bc58"
+          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
