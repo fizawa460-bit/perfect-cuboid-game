@@ -31,6 +31,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N376/**'
       - 'stages/stage32/32-01-178/nodes/N377/**'
       - 'stages/stage32/32-01-178/nodes/N378/**'
+      - 'stages/stage32/32-01-178/nodes/N379/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -172,6 +173,16 @@ jobs:
           python stages/stage32/32-01-178/nodes/N378/verify_n378_certlift02_wait.py \
             --certlift-root .n378-certlift \
             --main-v22-root .n378-main-v22
+      - name: Checkout exact CERT-LIFT03 failed symbolic boundary for N379
+        uses: actions/checkout@v4
+        with:
+          ref: d42062c498d42550e85143d72abf53854676b93d
+          path: .n379-certlift
+      - name: Verify N379 CERT-LIFT03 symbolic parity negative boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N379/verify_n379_certlift03_symbolic_negative.py \
+            --certlift-root .n379-certlift \
+            --ex5-source-root .n379-certlift
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
