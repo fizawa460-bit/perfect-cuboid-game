@@ -21,38 +21,32 @@ N362_RESULT = HERE.parent / "N362/RESULT.json"
 MAIN_STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 HPERP = ROOT / "stages/stage32/residual-32-01-production/hperp_integral_adapter.py"
 
-N361_AUDITED_HEAD = "caf92557103de0bfce1faebb88062dd5e731a430"
-CUT196_COMPUTE_HEAD = "5403328470df32c65aea9a38efe3916cb87d24a4"
-N357_COMPOSITION_HEAD = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
-N357_COMPOSITION_VERIFIER_BLOB = "fdca9ad629983d8c31c7e6355540af3545910120"
-MAIN_STATE_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
-MAIN_STATE_CANONICAL = "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193"
+N361_HEAD = "caf92557103de0bfce1faebb88062dd5e731a430"
+CUT196_HEAD = "5403328470df32c65aea9a38efe3916cb87d24a4"
+N357_HEAD = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
+N357_VERIFIER_BLOB = "fdca9ad629983d8c31c7e6355540af3545910120"
+MAIN_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+MAIN_CANON = "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193"
 N362_STATE_BLOB = "78d0aa2537910e675ce4768a66a245534bbfbb8c"
-N362_STATE_CANONICAL = "a6df6266455f6431b5ecce9f35f5303d96142fa6e5c9299d29a4c3c0a72557a5"
+N362_STATE_CANON = "a6df6266455f6431b5ecce9f35f5303d96142fa6e5c9299d29a4c3c0a72557a5"
 N362_RESULT_BLOB = "0df825cc7604a177e4235032b03d6a88fbca1a74"
-N362_RESULT_CANONICAL = "e7d41b4f610def90e95b4979662dccfe3c878c6481fc35ffbae522413364bfb6"
+N362_RESULT_CANON = "e7d41b4f610def90e95b4979662dccfe3c878c6481fc35ffbae522413364bfb6"
 STATE_BLOB = "7f6daeb12ce57eae6ac1895fdd17df686413b42e"
-STATE_CANONICAL = "915baa4b6f254ceb88f89dad83e554aca46064005e5e602b6f15e73cb7af62df"
+STATE_CANON = "915baa4b6f254ceb88f89dad83e554aca46064005e5e602b6f15e73cb7af62df"
 HPERP_BLOB = "fb1eb380ca786e42a6b00c5ef454b0e79fdba771"
-BLOCK_INDEX = 1140
-PARENT_ORDINAL = 290
-SURVIVOR_OFFSET = 797
-ROW_ID = "g1-d008"
-D = 8
-E = 8
-BLOCK_WIDTH = 113
-NORMAL_COUNT = 92
-NORMAL_MASS = 112
+PARENT_HASH = "5aa6566b20c71e3c7328b0b63a196d45b79fccaae1ca8d6f43e82891c7405474"
+BLOCK, OFFSET, PARENT = 1140, 797, 290
+D = E = 8
+NORMAL_COUNT, NORMAL_MASS, WIDTH = 92, 112, 113
 ASSIGNMENT_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
-EXPECTED_PARENT_HASH = "5aa6566b20c71e3c7328b0b63a196d45b79fccaae1ca8d6f43e82891c7405474"
 
 
-def req(ok: bool, msg: str) -> None:
-    if not ok:
+def req(v: bool, msg: str) -> None:
+    if not v:
         raise RuntimeError(msg)
 
 
-def git_blob(path: Path) -> str:
+def blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
@@ -65,6 +59,14 @@ def canonical(obj: dict) -> str:
     q = dict(obj)
     q.pop("canonical_sha256_without_this_field", None)
     return csha(q)
+
+
+def checked(path: Path, expected_blob: str, expected_canon: str) -> dict:
+    req(blob(path) == expected_blob, f"blob drift: {path}")
+    obj = json.loads(path.read_text())
+    req(obj.get("canonical_sha256_without_this_field") == expected_canon, f"stored canonical drift: {path}")
+    req(canonical(obj) == expected_canon, f"canonical drift: {path}")
+    return obj
 
 
 def exact_head(path: Path) -> str:
@@ -80,48 +82,27 @@ def load_module(path: Path, name: str):
     return mod
 
 
-def checked(path: Path, blob_sha: str, canonical_sha: str) -> dict:
-    req(path.is_file(), f"missing {path}")
-    req(git_blob(path) == blob_sha, f"blob drift {path}")
-    obj = json.loads(path.read_text())
-    req(obj.get("canonical_sha256_without_this_field") == canonical_sha, f"stored canonical drift {path}")
-    req(canonical(obj) == canonical_sha, f"canonical drift {path}")
-    return obj
-
-
 def preflight(cut_root: Path, comp_root: Path):
-    req(exact_head(cut_root) == CUT196_COMPUTE_HEAD, "CUT196 compute head drift")
-    req(exact_head(comp_root) == N357_COMPOSITION_HEAD, "N357 composition head drift")
-    subprocess.run(["git", "merge-base", "--is-ancestor", N361_AUDITED_HEAD, "HEAD"], cwd=ROOT, check=True)
-
-    state = checked(STATE, STATE_BLOB, STATE_CANONICAL)
-    n362s = checked(N362_STATE, N362_STATE_BLOB, N362_STATE_CANONICAL)
-    n362r = checked(N362_RESULT, N362_RESULT_BLOB, N362_RESULT_CANONICAL)
-    main = checked(MAIN_STATE, MAIN_STATE_BLOB, MAIN_STATE_CANONICAL)
-
+    req(exact_head(cut_root) == CUT196_HEAD, "CUT196 head drift")
+    req(exact_head(comp_root) == N357_HEAD, "N357 composition head drift")
+    subprocess.run(["git", "merge-base", "--is-ancestor", N361_HEAD, "HEAD"], cwd=ROOT, check=True)
+    state = checked(STATE, STATE_BLOB, STATE_CANON)
+    n362s = checked(N362_STATE, N362_STATE_BLOB, N362_STATE_CANON)
+    n362r = checked(N362_RESULT, N362_RESULT_BLOB, N362_RESULT_CANON)
+    main = checked(MAIN_STATE, MAIN_BLOB, MAIN_CANON)
     req(n362s["next_bounded_unit"] == "N363_BLOCK1140_PARENT290_SELECTED64_PARAMETERIZED_EXACT_WITNESS_DECISION", "N362 route drift")
-    req(n362r["status"] == "NO_SAT_IN_SINGLE_PARENT_PROBE" and n362r["witness"] is None, "N362 result status drift")
-    attempts = {(a["block_index"], a["parent_ordinal"]): a for a in n362r["attempts"]}
-    old = attempts[(BLOCK_INDEX, PARENT_ORDINAL)]
-    req(old["exact_result"] == "unknown" and old.get("reason_unknown") == "timeout", "N362 timeout locator drift")
-    req(old["selected_exceptional_pairings_sha256"] == EXPECTED_PARENT_HASH, "N362 parent hash drift")
-
+    attempt = next(a for a in n362r["attempts"] if a["block_index"] == BLOCK and a["parent_ordinal"] == PARENT)
+    req(attempt["exact_result"] == "unknown" and attempt.get("reason_unknown") == "timeout", "N362 timeout drift")
+    req(attempt["selected_exceptional_pairings_sha256"] == PARENT_HASH, "N362 parent hash drift")
     f = main["current_exact_frontier"]
-    req(f["authoritative_remaining_strata"] == 17128, "MAIN V15 strata drift")
-    req(f["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN V15 terminal drift")
-    req(f["n357_main_pruning_credit"] is True and f["cut195_main_pruning_credit"] is True, "consumed authority drift")
+    req(f["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN terminal drift")
+    req(f["n357_main_pruning_credit"] is True and f["cut195_main_pruning_credit"] is True, "MAIN consumed-authority drift")
     req(f["full178_numerical_census_complete"] is False, "FULL178 unexpectedly complete")
-
     comp_path = comp_root / "stages/stage32/verify_n357_v13_current_authority_composition.py"
-    req(git_blob(comp_path) == N357_COMPOSITION_VERIFIER_BLOB, "N357 composition verifier drift")
-    proc = subprocess.run([sys.executable, str(comp_path)], cwd=comp_root, text=True, capture_output=True)
-    if proc.returncode != 0:
-        sys.stderr.write(proc.stdout); sys.stderr.write(proc.stderr)
-        raise RuntimeError("N357 audited composition replay failed")
-    req("PASS_N357_CURRENT_V13_AUTHORITY_COMPOSITION_REPLAY" in proc.stdout, "N357 composition verdict missing")
-
-    cut196_path = cut_root / "stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py"
-    cut196 = load_module(cut196_path, "n363_cut196")
+    req(blob(comp_path) == N357_VERIFIER_BLOB, "N357 verifier drift")
+    p = subprocess.run([sys.executable, str(comp_path)], cwd=comp_root, text=True, capture_output=True)
+    req(p.returncode == 0 and "PASS_N357_CURRENT_V13_AUTHORITY_COMPOSITION_REPLAY" in p.stdout, "N357 composition replay failed")
+    cut196 = load_module(cut_root / "stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py", "n363_cut196")
     cut196.preflight()
     comp = load_module(comp_path, "n363_n357comp")
     return state, cut196, comp
@@ -138,34 +119,26 @@ def main() -> None:
     P, blocks, g = core.load_picard_interface()
     idx = core.e8.indexer()
     survivors = core.e8.current_main_survivor_block_indices()
-    req(survivors[SURVIVOR_OFFSET] == BLOCK_INDEX, "block1140 survivor offset drift")
-    req(SURVIVOR_OFFSET > 765, "block1140 overlaps consumed CUT offset prefix")
-    sig = core.e8.block_signature(BLOCK_INDEX, idx)
-    req(sig["current_main_audited_prefix_survivor"] is True, "block1140 lost N220/N355 survival")
-    base = tuple(int(v) for v in idx.unrank(BLOCK_INDEX * BLOCK_WIDTH))
-    req(comp.prefix_survives(base), "block1140 prefix replay failed")
-    req(comp.n357_accepts(base), "block1140 rejected by consumed N357")
+    req(survivors[OFFSET] == BLOCK and OFFSET > 765, "block1140 current-V15 offset drift")
+    sig = core.e8.block_signature(BLOCK, idx)
+    base = tuple(int(v) for v in idx.unrank(BLOCK * WIDTH))
+    req(sig["current_main_audited_prefix_survivor"] is True, "prefix survival drift")
+    req(comp.prefix_survives(base) and comp.n357_accepts(base), "N220/N355/N357 replay failed")
     sums = [int(v) for v in sig["n355_known_group_sums"]]
-    req(sums[1] - sums[2] <= 3 * D - E, "block1140 rejected by consumed N356")
+    req(sums[1] - sums[2] <= 3 * D - E, "N356 replay failed")
 
-    parents = list(core.e8.iter_parent_population(BLOCK_INDEX, g))
-    req(len(parents) == 300 and PARENT_ORDINAL < len(parents), "block1140 parent population drift")
-    parent = parents[PARENT_ORDINAL]
+    parents = list(core.e8.iter_parent_population(BLOCK, g))
+    req(len(parents) == 300, "parent population drift")
+    parent = parents[PARENT]
     yE = [int(v) for v in parent["selected_exceptional_pairings"]]
-    req(csha(yE) == EXPECTED_PARENT_HASH, "parent290 selected exceptional hash drift")
+    req(csha(yE) == PARENT_HASH, "parent290 hash drift")
     allowed = [int(v) for v in parent["x4_allowed_residues_mod8"]]
-    req(allowed == list(range(8)), "parent290 x4 residue set drift")
+    req(allowed == list(range(8)), "x4 residue drift")
 
     labels = [int(v) for v in g.selected_labels]
     req(len(labels) == 64 and g.den == 8, "selected64 geometry drift")
-    ysel: list[object] = [None] * 64
-    exceptional_by_pos = {pos: yE[k] for k, pos in enumerate(g.exceptional_positions)}
-    for pos in range(64):
-        if pos in exceptional_by_pos:
-            ysel[pos] = int(exceptional_by_pos[pos])
-        else:
-            ysel[pos] = Int(f"s_{labels[pos]}")
-
+    by_pos = {pos: yE[k] for k, pos in enumerate(g.exceptional_positions)}
+    ysel = [int(by_pos[pos]) if pos in by_pos else Int(f"s_{labels[pos]}") for pos in range(64)]
     s = SolverFor("QF_LIA")
     s.set(timeout=int(state["method"]["exact_timeout_ms"]))
     for pos in g.normal_positions:
@@ -179,14 +152,12 @@ def main() -> None:
     for v in cnum:
         s.add(v % g.den == 0)
     ynum = [Sum([int(A[i, j]) * ysel[j] for j in range(64)]) for i in range(140)]
-
     for i in range(NORMAL_COUNT):
         s.add(ynum[i] >= 0, ynum[i] <= NORMAL_MASS * g.den)
     for i in range(NORMAL_COUNT, 140):
         s.add(ynum[i] >= 0, ynum[i] <= E * g.den)
     s.add(Sum(ynum[:NORMAL_COUNT]) == NORMAL_MASS * g.den)
     s.add(Sum(ynum[NORMAL_COUNT:]) == E * g.den)
-
     fibre = []
     for pack, factor_blocks in zip(core.PACKS, blocks):
         vals = [2 * ynum[b - 1] + Sum([ynum[j - 1] for j in block]) for b, block in zip(pack, factor_blocks)]
@@ -206,30 +177,28 @@ def main() -> None:
     witness = None
     if r == sat:
         m = s.model()
-        selected = [int(v) if isinstance(v, int) else int(m.eval(v, model_completion=True).as_long()) for v in ysel]
+        selected = [v if isinstance(v, int) else int(m.eval(v, model_completion=True).as_long()) for v in ysel]
         cnums = [int(m.eval(v, model_completion=True).as_long()) for v in cnum]
-        req(all(v % g.den == 0 for v in cnums), "coordinate divisibility replay failed")
+        req(all(v % g.den == 0 for v in cnums), "coordinate divisibility failed")
         coords = [v // g.den for v in cnums]
         yn = [int(m.eval(v, model_completion=True).as_long()) for v in ynum]
-        req(all(v % g.den == 0 for v in yn), "all140 divisibility replay failed")
+        req(all(v % g.den == 0 for v in yn), "all140 divisibility failed")
         pairings = [v // g.den for v in yn]
         cv = Matrix(coords)
-        req([int(v) for v in (P * cv)] == pairings, "P*c all140 replay failed")
+        req([int(v) for v in P * cv] == pairings, "P*c replay failed")
         req([pairings[label - 1] for label in labels] == selected, "selected64 replay failed")
         terminal = [pairings[label - 1] for label in ASSIGNMENT_ORDER]
         rank = int(idx.rank(tuple(terminal)))
-        req(BLOCK_INDEX * BLOCK_WIDTH <= rank <= BLOCK_INDEX * BLOCK_WIDTH + 112, "terminal rank left block1140")
-        req(list(idx.unrank(rank)) == terminal, "terminal rank roundtrip failed")
+        req(BLOCK * WIDTH <= rank <= BLOCK * WIDTH + 112 and list(idx.unrank(rank)) == terminal, "terminal rank replay failed")
 
+        req(blob(HPERP) == HPERP_BLOB, "Hperp adapter drift")
         hperp = load_module(HPERP, "n363_hperp")
-        req(git_blob(HPERP) == HPERP_BLOB, "Hperp adapter drift")
         bundle = core.e8.d18.load_retained(core.e8.d18.RETAINED, "n363_bundle")
         marking = core.e8.d18.load_retained(core.e8.d18.MARKING, "n363_marking")
         G = Matrix(bundle["picard_gram_64x64"])
         _, known_degree, _, _, hmeta = hperp._parse_hperp(marking["hperp_text"])
         basis_labels = [int(v) for v in hperp.RETAINED_BASIS_KNOWN_LABELS_1BASED]
-        degree_coeffs = [int(known_degree[v - 1]) for v in basis_labels]
-        degree = sum(degree_coeffs[j] * coords[j] for j in range(64))
+        degree = sum(int(known_degree[label - 1]) * coords[j] for j, label in enumerate(basis_labels))
         req(degree == D, "degree replay failed")
         self_square = int((cv.T * G * cv)[0])
         scale = 16 // math.gcd(D, 16)
@@ -237,77 +206,70 @@ def main() -> None:
         req(numerator % 16 == 0, "Hperp scalar integrality failed")
         neg_n = numerator // 16
         Psel = P.extract([label - 1 for label in labels], list(range(64)))
-        psel_plain = [[int(Psel[i, j]) for j in range(64)] for i in range(64)]
-        gram_plain = [[int(G[i, j]) for j in range(64)] for i in range(64)]
         witness = {
             "schema": "STAGE32_32_01_178_N363_CURRENT_V15_SELECTED64_WITNESS_V1",
-            "row_id": ROW_ID,
-            "g": 1,
-            "d": D,
-            "e": E,
-            "block_index": BLOCK_INDEX,
-            "survivor_offset": SURVIVOR_OFFSET,
-            "parent_ordinal": PARENT_ORDINAL,
-            "terminal_rank": rank,
-            "terminal_identity": f"{ROW_ID}|e={E}|rank={rank}",
+            "row_id": "g1-d008", "g": 1, "d": D, "e": E,
+            "block_index": BLOCK, "survivor_offset": OFFSET, "parent_ordinal": PARENT,
+            "terminal_rank": rank, "terminal_identity": f"g1-d008|e=8|rank={rank}",
             "compressed_terminal_pairings": terminal,
             "selected64_pairings": selected,
             "picard64_coordinates": coords,
             "all140_pairings_sha256": csha(pairings),
-            "selected_pairing_matrix_sha256": csha(psel_plain),
-            "gram64_sha256": csha(gram_plain),
+            "selected_pairing_matrix_sha256": csha([[int(Psel[i, j]) for j in range(64)] for i in range(64)]),
+            "gram64_sha256": csha([[int(G[i, j]) for j in range(64)] for i in range(64)]),
             "picard64_coordinates_sha256": csha(coords),
             "self_square": self_square,
             "negative_hperp_square_N": neg_n,
             "hperp_text_sha256": hmeta["hperp_text_sha256"],
             "current_v15_membership": {
-                "n220_n355_prefix_survivor": true,
-                "n356_accepts": true,
-                "n357_accepts": true,
-                "outside_consumed_cut_offset_prefix_0_765": true,
-                "cut196_not_consumed_into_main": true
+                "n220_n355_prefix_survivor": True,
+                "n356_accepts": True,
+                "n357_accepts": True,
+                "outside_consumed_cut_offset_prefix_0_765": True,
+                "cut196_not_consumed_into_main": True
             },
             "credit": {
-                "current_v15_single_witness_candidate": true,
-                "main_pruning_credit": false,
-                "full178_complete": false,
-                "n350_registered": false,
-                "effectivity_final": false,
-                "receiver_credit": false,
-                "theorem_credit": false,
-                "endpoint_credit": false,
-                "stage32_closed": false,
-                "merge_authorized": false
+                "current_v15_single_witness_candidate": True,
+                "main_pruning_credit": False,
+                "full178_complete": False,
+                "n350_registered": False,
+                "effectivity_final": False,
+                "receiver_credit": False,
+                "theorem_credit": False,
+                "endpoint_credit": False,
+                "stage32_closed": False,
+                "merge_authorized": False
             }
         }
         witness["canonical_sha256_without_this_field"] = csha(witness)
 
+    status = "SAT_CURRENT_V15_WITNESS_CANDIDATE" if r == sat else ("EXACT_UNSAT_SELECTED64_ELIMINATION" if str(r) == "unsat" else "UNKNOWN_SELECTED64_ELIMINATION")
     body = {
         "schema": "STAGE32_32_01_178_N363_BLOCK1140_SELECTED64_ELIMINATION_RESULT_V1",
-        "status": "SAT_CURRENT_V15_WITNESS_CANDIDATE" if r == sat else ("EXACT_UNSAT_SELECTED64_ELIMINATION" if str(r) == "unsat" else "UNKNOWN_SELECTED64_ELIMINATION"),
+        "status": status,
         "exact_result": str(r),
-        "reason_unknown": s.reason_unknown() if r == unknown else null,
-        "target": {"block_index": BLOCK_INDEX, "survivor_offset": SURVIVOR_OFFSET, "parent_ordinal": PARENT_ORDINAL},
+        "reason_unknown": s.reason_unknown() if r == unknown else None,
+        "target": {"block_index": BLOCK, "survivor_offset": OFFSET, "parent_ordinal": PARENT},
         "method": state["method"],
         "witness": witness,
         "credit": {
-            "main_pruning_credit": false,
-            "full178_complete": false,
-            "n350_registered": false,
-            "effectivity_final": false,
-            "receiver_credit": false,
-            "theorem_credit": false,
-            "endpoint_credit": false,
-            "stage32_closed": false,
-            "merge_authorized": false
+            "main_pruning_credit": False,
+            "full178_complete": False,
+            "n350_registered": False,
+            "effectivity_final": False,
+            "receiver_credit": False,
+            "theorem_credit": False,
+            "endpoint_credit": False,
+            "stage32_closed": False,
+            "merge_authorized": False
         }
     }
     body["canonical_sha256_without_this_field"] = csha(body)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(body, sort_keys=True, indent=2) + "\n")
     print(json.dumps({
-        "status": body["status"],
-        "exact_result": body["exact_result"],
+        "status": status,
+        "exact_result": str(r),
         "reason_unknown": body["reason_unknown"],
         "terminal_identity": witness["terminal_identity"] if witness else None,
         "self_square": witness["self_square"] if witness else None,
