@@ -17,6 +17,7 @@ CUT194 = STAGE / "management/post-cut194-hostile-pass-consumption-20260912.json"
 CUT195 = STAGE / "management/post-cut195-current-v14-composition-consumption-20260912.json"
 CUT196 = STAGE / "management/post-cut196-current-v16-composition-consumption-20260912.json"
 
+V18_HEAD = "152e8f92346c038aed5628d7d70063cc5c8cd9d4"
 V18_BLOB = "48a3b18671ddd85a8b0916a8be1d9f611c38b534"
 V18_CANONICAL = "8590ba2d6a8d9e5250f5849a5052a3abeef43884eee2e237d5372dd61f841bef"
 N358_HEAD = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
@@ -56,11 +57,11 @@ def canonical(obj: dict) -> str:
     return hashlib.sha256(json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
 def load_locked(path: Path, blob: str, can: str) -> dict:
-    req(path.is_file(), f"missing {path.relative_to(ROOT)}")
-    req(git_blob(path) == blob, f"blob drift {path.relative_to(ROOT)}")
+    req(path.is_file(), f"missing {path}")
+    req(git_blob(path) == blob, f"blob drift {path}")
     obj = json.loads(path.read_text(encoding="utf-8"))
-    req(obj.get("canonical_sha256_without_this_field") == can, f"stored canonical drift {path.relative_to(ROOT)}")
-    req(canonical(obj) == can, f"canonical drift {path.relative_to(ROOT)}")
+    req(obj.get("canonical_sha256_without_this_field") == can, f"stored canonical drift {path}")
+    req(canonical(obj) == can, f"canonical drift {path}")
     return obj
 
 def exact_head(root: Path) -> str:
@@ -72,9 +73,18 @@ def n358_scope_empty_on_cut_target(d: int, e: int) -> bool:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--audited-main-v18-root", type=Path, required=True)
     ap.add_argument("--audited-n358-root", type=Path, required=True)
     args = ap.parse_args()
+    main_v18_root = args.audited_main_v18_root.resolve()
     n358_root = args.audited_n358_root.resolve()
+
+    req(exact_head(main_v18_root) == V18_HEAD, "audited MAIN V18 exact head drift")
+    audited_v18_state = main_v18_root / "stages/stage32/MAIN-STATE.json"
+    v18 = load_locked(audited_v18_state, V18_BLOB, V18_CANONICAL)
+    req(git_blob(V18) == V18_BLOB, "retained V18 snapshot blob drift")
+    retained_v18 = load_locked(V18, V18_BLOB, V18_CANONICAL)
+    req(retained_v18 == v18, "retained V18 snapshot differs from audited exact-head MAIN state")
 
     req(exact_head(n358_root) == N358_HEAD, "audited N358 exact head drift")
     external = n358_root / "stages/stage32/32-01-178/nodes/N358"
@@ -83,7 +93,6 @@ def main() -> None:
     req(git_blob(external / "verify_n358_exact_incremental_census.py") == N358_EXACT_CENSUS_BLOB, "audited N358 exact census blob drift")
     req(git_blob(external / "verify_n358_joint_transport_support_saturation.py") == N358_JOINT_BLOB, "audited N358 joint verifier blob drift")
 
-    v18 = load_locked(V18, V18_BLOB, V18_CANONICAL)
     vf = v18["current_exact_frontier"]
     req(vf["authoritative_remaining_strata"] == STRATA, "V18 strata drift")
     req(vf["authoritative_remaining_terminals"] == V18_TERMINALS, "V18 authority drift")
@@ -133,7 +142,7 @@ def main() -> None:
     req(HISTORICAL_N358_POST - cut_total == POST, "historical N358/current-cut composition drift")
     req(V18_TERMINALS - N358_INCREMENT == POST, "current-V18 N358 subtraction drift")
 
-    print(json.dumps({"verdict":"PASS_N358_CURRENT_V18_COMPOSITION_AND_MAIN_CONSUMPTION","n358_audited_exact_head":N358_HEAD,"n358_hostile_audit_review_id":N358_REVIEW,"n358_exact_head_ci_run":N358_CI,"n357_overlap_terminals":0,"cut191_overlap_terminals":0,"cut194_overlap_terminals":0,"cut195_overlap_terminals":0,"cut196_overlap_terminals":0,"already_consumed_cut_total_terminals":cut_total,"n358_incremental_rejected_terminals":N358_INCREMENT,"authoritative_remaining_strata":STRATA,"authoritative_remaining_terminals":POST,"double_charge":False,"full178_complete":False,"merge_authorized":False}, sort_keys=True))
+    print(json.dumps({"verdict":"PASS_N358_CURRENT_V18_COMPOSITION_AND_MAIN_CONSUMPTION","audited_main_v18_exact_head":V18_HEAD,"audited_main_v18_state_blob":V18_BLOB,"n358_audited_exact_head":N358_HEAD,"n358_hostile_audit_review_id":N358_REVIEW,"n358_exact_head_ci_run":N358_CI,"n357_overlap_terminals":0,"cut191_overlap_terminals":0,"cut194_overlap_terminals":0,"cut195_overlap_terminals":0,"cut196_overlap_terminals":0,"already_consumed_cut_total_terminals":cut_total,"n358_incremental_rejected_terminals":N358_INCREMENT,"authoritative_remaining_strata":STRATA,"authoritative_remaining_terminals":POST,"double_charge":False,"full178_complete":False,"merge_authorized":False}, sort_keys=True))
 
 if __name__ == "__main__":
     main()
