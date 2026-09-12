@@ -121,7 +121,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - id: gate
-        name: Authorize CUT199 only from fresh armed runkey commit
+        name: Authorize CUT199 generation2 only from fresh armed runkey commit
         shell: bash
         env:
           BEFORE: ${{ github.event.before }}
@@ -144,7 +144,7 @@ jobs:
           if os.environ.get('RUNKEY_CHANGED') == 'true' and p.exists():
               o=json.loads(p.read_text())
               ok=(o.get('schema')=='STAGE32_CUT199_E8_COMMON_ADAPTER_WAVE7_RUNKEY_V1'
-                  and o.get('generation')==1 and o.get('armed') is True and o.get('consumed') is False
+                  and o.get('generation')==2 and o.get('armed') is True and o.get('consumed') is False
                   and o.get('branch')=='stage32cut-e8-common-adapter-wave7-20260913'
                   and o.get('parent_cut198_audited_head')=='16e439bc65e723c9f2658c274d53fb839738dcd2'
                   and o.get('parent_cut198_hostile_audit_review')==5188018895
@@ -153,10 +153,11 @@ jobs:
                   and o.get('preflight_blob')==blob('stages/stage32/full178-cut/CUT199-e8-common-adapter-wave7-preflight.json')
                   and o.get('worker_blob')==blob('stages/stage32/full178-cut/cut199_e8_common_adapter_wave7.py')
                   and o.get('aggregator_blob')==blob('stages/stage32/full178-cut/aggregate_cut199_e8_wave7.py')
+                  and o.get('workflow_blob')==blob('.github/workflows/stage32-claim-frontier-integrity.yml')
                   and o.get('wave',{}).get('survivor_offset_range')==[1531,1785]
                   and o.get('wave',{}).get('block_count')==255 and o.get('wave',{}).get('terminal_count')==28815)
           with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if ok else 'false')+'\n')
-          print('CUT199 wave7 fresh-runkey changed:',os.environ.get('RUNKEY_CHANGED')); print('CUT199 wave7 authorized:',ok)
+          print('CUT199 wave7 fresh-runkey changed:',os.environ.get('RUNKEY_CHANGED')); print('CUT199 wave7 generation2 authorized:',ok)
           PY
 
   cut199-wave7-shard:
