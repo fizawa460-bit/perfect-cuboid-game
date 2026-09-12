@@ -6,7 +6,7 @@
     "remaining_strata": 17128,
     "remaining_terminals": 47598978285064933757427
   },
-  "canonical_sha256_without_this_field": "37c756c5f9cb5e928b6e4dbff581c576d8588cc3b03731a3f61ea51502e6b711",
+  "canonical_sha256_without_this_field": "a6df6266455f6431b5ecce9f35f5303d96142fa6e5c9299d29a4c3c0a72557a5",
   "credit": {
     "current_v15_survivor_coverage": false,
     "effectivity_final": false,
@@ -20,7 +20,7 @@
     "stage32_closed": false,
     "theorem_credit": false
   },
-  "next_gate": "RETAIN_GENERATED_RESULT_AND_SOLVER_INDEPENDENT_REPLAY_IF_SAT_ELSE_SELECT_NEXT_BOUNDED_PROBE",
+  "next_bounded_unit": "N363_BLOCK1140_PARENT290_SELECTED64_PARAMETERIZED_EXACT_WITNESS_DECISION",
   "node_id": "N362",
   "parent": {
     "n361_audited_exact_head": "caf92557103de0bfce1faebb88062dd5e731a430",
@@ -29,19 +29,28 @@
     "n361_pr": 1794,
     "scope": "historical_one_sample_interface_authority_only"
   },
-  "probe": {
-    "candidate_blocks": [1141, 1195, 1145, 1209, 1261, 1140, 1190],
-    "candidate_parent_ordinals": [0, 1, 30, 18, 25, 290, 242],
-    "cut196_compute_head": "5403328470df32c65aea9a38efe3916cb87d24a4",
-    "d": 8,
-    "e": 8,
-    "g": 1,
-    "n357_composition_audited_head": "0bdc3b952b35ea3201d8619f21a3df7a3015ff85",
-    "per_exact_solve_timeout_ms": 20000,
-    "row_id": "g1-d008",
-    "selection_rule": "single finite-ring-residual-parent blocks from CUT196 execution evidence, used only as route-selection heuristics; current-V15 membership and exact Picard witness are independently replayed",
-    "stop_on_first_sat": true
+  "retained_result": {
+    "artifact_digest_sha256": "d7450798fee105cda3841f580797893f7fac5ce61a4ac0633f90f575ea30fd7e",
+    "artifact_id": 10296407696,
+    "attempt_count": 7,
+    "blob_sha1": "0df825cc7604a177e4235032b03d6a88fbca1a74",
+    "canonical_sha256": "e7d41b4f610def90e95b4979662dccfe3c878c6481fc35ffbae522413364bfb6",
+    "exact_unsat_count": 6,
+    "generation_ci_run": 34689861254,
+    "generation_exact_head": "4a26b7ab8b6d0357c9e3959d707b95dfdde4914f",
+    "path": "stages/stage32/32-01-178/nodes/N362/RESULT.json",
+    "sat_count": 0,
+    "timeout_block_index": 1140,
+    "timeout_parent_ordinal": 290,
+    "timeout_survivor_offset": 797,
+    "unknown_timeout_count": 1
   },
-  "schema": "STAGE32_32_01_178_N362_CURRENT_V15_WITNESS_PROBE_V1",
-  "status": "ACTIVE_GENERATION_PROBE_NO_CREDIT"
+  "schema": "STAGE32_32_01_178_N362_CURRENT_V15_WITNESS_PROBE_V2_RETAINED_ROUTE_SELECTION",
+  "semantics": {
+    "current_v15_witness_found": false,
+    "cut196_used_only_for_route_selection": true,
+    "n362_exact_unsat_grants_pruning_credit": false,
+    "reason_no_pruning_credit": "178 witness-search lane does not consume CUT direct-infeasibility credit; exact UNSAT attempts are retained only to choose the next witness-search route."
+  },
+  "status": "RETAINED_NO_SAT_SIX_EXACT_UNSAT_ONE_TIMEOUT_NO_CREDIT"
 }
