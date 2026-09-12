@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / UNIFORM P5 RAY REDUCED TO FOUR BALANCED INC16 SUPPORT ORBITS / ZERO-QUARTIC PIC^0 ROUTE EXHAUSTED / P6 OPEN / NO CREDIT**
+Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / UNIFORM P5 BALANCED HARD CORE REDUCED 1632 -> 864 / ONE 768 ORBIT CLOSED BY ZERO-QUARTIC GLUING / P6 OPEN / NO CREDIT**
 
 Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of `R8<d/4+O(1)` remains frozen until a genuinely new lever appears.
 
@@ -20,11 +20,9 @@ g=1: box-node support span dimension 5 or 6;
 potentially infinite sector: N>=14.
 ```
 
-`span` refers to the box-node support, not the unknown carrier curve. The carrier need not lie in its support hyperplane.
+`span` refers to the box-node support, not containment of the carrier curve in its support hyperplane.
 
 ## Displayed uniform genus-one P5 ray
-
-The retained ray is
 
 ```text
 D_l=7lH-4l sum_{i in Sigma}E_i,
@@ -39,57 +37,36 @@ For a retained test curve `Q` of degree `e=H.Q` meeting `n_Q` supported nodes,
 D_l.Q=l(7e-4n_Q).
 ```
 
-A conic becomes negative at `n_Q>=4`; an elliptic quartic becomes negative at `n_Q>=8`.
+## Ambient support classification and closures
 
-## Complete ambient reduction and uniform-ray closures
-
-Support-span five is reduced to exactly 1,655 node-spanned `P^5` hyperplanes with incidence distribution
+The exact node-spanned `P^5` hyperplane population is
 
 ```text
-14:1248, 15:256, 16:27, 19:48, 20:48, 24:28.
+14:1248, 15:256, 16:27, 19:48, 20:48, 24:28,
 ```
 
-The complete `Aut(S)` quotient has 12 ambient orbits:
+with 12 `Aut(S)` ambient orbits
 
 ```text
-14: sizes 96,192,192,384,384
-15: size 256
-16: sizes 3,24
-19: size 48
-20: size 48
-24: sizes 4,24.
+14: 96,192,192,384,384
+15: 256
+16: 3,24
+19: 48
+20: 48
+24: 4,24.
 ```
 
-Retained fixed-component arguments close, for the displayed uniform ray,
+For the displayed uniform ray, incidence `24`, `20`, `19`, `15`, and all five incidence-`14` orbits are closed by retained fixed-component arguments.
+
+## Original incidence-16 balanced hard core
+
+Capacity leaves leave exactly `N=14` balanced supports. Globally:
 
 ```text
-incidence 24: CLOSED
-incidence 20: CLOSED
-incidence 19: CLOSED
-incidence 15: CLOSED
-incidence 14: ALL FIVE AMBIENT ORBITS CLOSED.
+3*32 + 24*64 = 1632.
 ```
 
-The complete incidence-14/15 closure uses the 32 known smooth conics and is retained in `GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT-*`.
-
-## Incidence-16 hard core
-
-The only surviving supports for the displayed uniform ray are balanced `N=14` supports.
-
-On representative ambient hyperplanes:
-
-```text
-size-3 ambient orbit: 32 supports, pattern (7,7,7,7)
-size-24 ambient orbit: 64 supports, pattern (7,7).
-```
-
-Globally this gives
-
-```text
-3*32 + 24*64 = 1632
-```
-
-supports. Their complete `Aut(S)` quotient has exactly four orbits:
+Their complete support-orbit quotient was
 
 ```text
 0000770000ff   size 48
@@ -98,141 +75,155 @@ supports. Their complete `Aut(S)` quotient has exactly four orbits:
 00070b000f0f   size 768.
 ```
 
-Across all representative balanced supports,
+Known conics and elliptic quartics have no negative pairing on these supports. Static landing-value avoidance also does not close them.
 
-```text
-max incidence on any of the 32 known conics = 2,
-max incidence on any of the 12 retained elliptic quartics = 7.
-```
+## Zero-quartic Pic^0 and cohomology walls
 
-Thus no retained conic/quartic has negative pairing on this hard core.
-
-## Zero-pairing quartics: static landing values are insufficient
-
-The four support orbits have zero-pairing elliptic quartics:
-
-```text
-orbit sizes 48,48: 4 zero quartics; each supported node lies on 2;
-orbit sizes 768,768: 2 zero quartics; each supported node lies on 1.
-```
-
-The formal packet has `M_i=8l` multiplicity-one branches with pairwise distinct nonzero exceptional landing keys. A zero quartic forbids at most one landing point, so at most two static points are forbidden at a supported node. Over the infinite characteristic-zero geometric field this cannot close the packet. This negative route is retained in `BALANCED16-STATIC-LANDING-AVOIDANCE-*`.
-
-## New exact wall: the hidden Pic^0 obstruction is also absent
-
-For the representative elliptic quartic
-
-```text
-Q: z^2=x^2+y^2,
-   w^2=x^2-y^2,
-```
-
-the eight box nodes split as the two degree-four hyperplane sections `x=0` and `y=0`. Therefore
-
-```text
-B_Q ~ 2H_Q.
-```
-
-The 12 retained elliptic quartics, together with their eight box nodes each, give `12*8=96` incident pairs `(Q,P)`. Exact `Aut(S)` replay shows these 96 pairs form a single orbit.
-
-At the representative point
-
-```text
-P=[0:1:1:-i],
-```
-
-the plane
-
-```text
--2y+z+i w=0
-```
-
-cuts `Q` as `4P`; equivalently
-
-```text
-H_Q ~ 4P.
-```
-
-Projective-linear automorphism transport gives this relation for every box node on every retained elliptic quartic.
-
-For a zero-pairing quartic of a balanced support, exactly one of its eight box nodes is omitted, so
-
-```text
-Sigma cap Q = B_Q-P.
-```
-
-For the primitive uniform-ray class `A=7H-4 sum E_i`,
-
-```text
-A|_Q
- ~ 7H_Q-4(B_Q-P)
- ~ 4P-H_Q
- ~ 0.
-```
-
-Hence
+For every zero-pairing retained elliptic quartic `Q`, exact hyperflex transport gives
 
 ```text
 O_Q(D_l) ~= O_Q
 ```
 
-for every `l>=1` and every zero-pairing quartic in all four balanced support orbits.
+for all `l>=1`. Thus nontrivial degree-zero restriction does not force `Q` fixed.
 
-Therefore the tempting route
+For one zero quartic,
 
 ```text
-D_l.Q=0 but O_Q(D_l) is nontrivial degree zero,
-forcing Q into every effective divisor
+0 -> O(D_l-Q) -> O(D_l) -> O_Q -> 0
 ```
 
-is false. There is no hidden `Pic^0` obstruction.
+has equal Euler characteristics on the first two terms and
+
+```text
+H^2(D_l)=H^2(D_l-Q)=0.
+```
+
+If `r` is the restriction rank,
+
+```text
+h0(D_l)=h0(D_l-Q)+r,
+h1(D_l)=h1(D_l-Q)+r,
+r in {0,1},
+h1(D_l)>=1.
+```
+
+The obvious single-quartic Kawamata--Viehweg route is structurally blocked because another zero quartic always has negative intersection with the adjoint residual.
 
 Evidence:
 
-- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL.md`
-- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-CERTIFICATE.json`
-- `verify_mb104_balanced16_zero_quartic_pic0.py`.
+- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-*`
+- `GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-*`.
 
-This still does **not** prove that the restriction map
+## Support stabilizer reduction: fixedness is all-or-none
+
+For the four canonical balanced supports, exact support stabilizer orders and zero-quartic orbits are
 
 ```text
-H^0(S,O(D_l)) -> H^0(Q,O_Q)
+mask             |G_Sigma|   zero quartics   zero-quartic orbit
+0000770000ff         32             4                 4
+00007b0000ff         32             4                 4
+000707000f0f          2             2                 2
+00070b000f0f          2             2                 2.
 ```
 
-is nonzero. Thus a zero quartic may still be a fixed component for a different global reason; that question is now isolated cleanly.
+Thus on each support orbit the zero quartics form one stabilizer orbit. Since `D_l` is stabilizer-invariant,
 
-## Remaining open work
+```text
+one zero quartic fixed <=> all zero quartics fixed,
+```
 
-For support-span five:
+and their individual restriction ranks are simultaneously `0` or simultaneously `1`.
 
-- the displayed uniform ray is reduced to four balanced incidence-16 support orbits;
-- static landing-value exclusion is exhausted;
-- nontrivial degree-zero/Pic^0 restriction is exhausted;
-- the global restriction-map/fixed-locus question is open;
-- simultaneous algebraic gluing of the required multibranch jets is open;
-- arbitrary Picard classes with unequal exceptional coefficients remain open.
+Evidence:
 
-In parallel:
+- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION.md`
+- matching certificate/verifier.
 
-- genus-one support-span `P^6` remains open;
-- genus-zero full-span `P^6` remains open.
+## New closure: nontrivial two-quartic gluing kills `00070b000f0f`
+
+The two size-768 representatives have the same two zero quartics
+
+```text
+Q0: b1=0, i*a2-a3=0, a1-c=0,
+Q1: b2=0, i*a3+a1=0, a2-c=0.
+```
+
+They meet transversely at exactly two smooth points
+
+```text
+R_±=[1:1:i:0:0:±sqrt(2):1].
+```
+
+For `000707000f0f`, the omitted nodes are `P27` on `Q0` and `P35` on `Q1`. Explicit hyperflex trivializations give the same gluing ratio `-i` at both `R_+` and `R_-`, so the restriction to the connected union is trivial. This orbit survives this leaf.
+
+For `00070b000f0f`, the omitted nodes are `P26` and `P35`. The two gluing ratios differ, with cycle monodromy
+
+```text
+mu = ((2+sqrt(2))/(2-sqrt(2)))^2
+   = 17+12sqrt(2).
+```
+
+Since `mu>1` in the positive real embedding,
+
+```text
+mu^l != 1
+```
+
+for every `l>=1`. Therefore
+
+```text
+H^0(Q0 union Q1, O(D_l))=0.
+```
+
+Every global section of `O(D_l)` vanishes on both zero quartics; they are fixed components. Hence no irreducible effective divisor in the displayed uniform ray exists on this support orbit. By automorphism transport, the entire size-768 orbit represented by
+
+```text
+00070b000f0f
+```
+
+is closed.
+
+Evidence:
+
+- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md`
+- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-CERTIFICATE.json`
+- `verify_mb104_balanced16_two_quartic_gluing.py`.
+
+## Updated uniform-P5 hard core
+
+The balanced population drops
+
+```text
+1632 -> 864.
+```
+
+Surviving support orbits are exactly
+
+```text
+0000770000ff   size 48
+00007b0000ff   size 48
+000707000f0f   size 768.
+```
+
+The second size-768 orbit is no longer part of the displayed uniform-ray frontier.
 
 ## Next execution leaf
 
-`MB104-GENUS1-SPAN5-BALANCED16-RESTRICTION-MAP-AND-GLUING`:
+`MB104-GENUS1-SPAN5-BALANCED16-THREE-ORBIT-RESTRICTION`:
 
-1. determine whether `H^0(S,O(D_l))->H^0(Q,O_Q)` is zero or surjective for the four support orbits;
-2. if nonzero, test simultaneous multibranch jet gluing across all fourteen exceptional curves;
-3. if the restriction map is identically zero, identify the actual fixed-locus mechanism;
-4. if neither route closes, seek a stronger nef/effective-cone wall;
-5. keep the P6 hard sectors active in parallel.
+1. decide restriction/nonfixedness for `000707000f0f`, where the connected two-quartic union has trivial gluing;
+2. classify strict-transform intersections for the four zero quartics of the two size-48 supports and determine whether their union imposes any gluing obstruction;
+3. if union geometry does not close them, test explicit global degree-`7l` interpolation / multibranch first-jet gluing;
+4. seek a whole-null-locus semiampleness/effective-cone input only if source-supported;
+5. keep genus-one support-span `P^6` and genus-zero full-span `P^6` active in parallel.
 
 ## Firewalls
 
 - support-span five is not closed;
-- the displayed uniform P5 ray is not fully closed because four balanced support orbits survive;
+- the displayed uniform P5 ray is not fully closed: three balanced support orbits of total size `864` survive;
 - arbitrary unequal exceptional coefficients are not covered;
-- restriction-map nonzero/surjective is not proved;
+- genus-one P6 and genus-zero P6 remain open;
 - no population-wide finite degree window is proved;
 - MB104 remains incomplete and finite Picard enumeration is unreleased;
 - no receiver/effectivity-final/theorem/endpoint/Perfect-Cuboid credit;
