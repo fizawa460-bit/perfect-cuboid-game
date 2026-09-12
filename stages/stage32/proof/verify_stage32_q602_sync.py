@@ -16,6 +16,9 @@ AUDIT_OBJECT = {"status":"PASS", "pr":1730, "review_id":5149322780, "exact_head"
 AUDIT_REPAIR = {"status":"PASS", "pr":1730, "review_id":5149462285, "exact_head":"6487de765b0d35e05d81018aeaff902af9b7d21a"}
 AUDIT_POST_SYNC = {"status":"PASS", "pr":1730, "review_id":5149990935, "exact_head":"9b605ed7f44415198a0e261dc46971e5ecd3c80b"}
 MERGE_COMMIT = "733176600f99e91993d08c16aa98f09c08a1e726"
+LEGACY_MAIN_REL = "stages/stage32/management/MAIN-STATE-V13-N357-PRECONSUMPTION.json"
+LEGACY_MAIN_BLOB = "0f281111572572a8068cc38bb77f5f1c869b98ad"
+LEGACY_MAIN_CANON = "7c39d7935c36066cf2ec4a549eadc45e821fbf818490e6bfd10126f32bdf8a6d"
 EXPECTED = {
     OBJECT_ID: ("ed1ea5441a3b0bb876a3a8b93f272e2a16d693f1b44f0f050c13af1625c1e028", AUDIT_OBJECT),
     EMPTY_ID: ("4dd78ed5a1917d7c953fee95bb52f1d1429e239ca90d3bf8dae26461e0611de8", AUDIT_REPAIR),
@@ -64,6 +67,10 @@ def validate(basev, by_id):
     assert basev.claim_core_sha(v6) == "c7927cd86c321de2956b3843dff4882ddeb29fb3489715d4dd7d1d60eff58cc6"
     assert v6["audit_receipt"]["review_id"] == 5147810198
 
+    # Live V14+ is the current routing authority. Historical Q602/O210/V6
+    # synchronization metadata is intentionally read from the retained,
+    # byte-exact V13 pre-N357-consumption snapshot so a numerical MAIN
+    # authority transition cannot silently rewrite already-audited history.
     s = load("stages/stage32/MAIN-STATE.json")
     body = dict(s)
     claimed_state_canonical = body.pop("canonical_sha256_without_this_field")
@@ -71,12 +78,21 @@ def validate(basev, by_id):
     assert s["schema"].startswith("STAGE32_MAIN_COMPACT_STATE_V")
     assert s["role"] == "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE"
 
-    a = s["authority_sync"]
+    legacy_path = ROOT / LEGACY_MAIN_REL
+    legacy_bytes = legacy_path.read_bytes()
+    assert basev.git_blob_sha1(legacy_bytes) == LEGACY_MAIN_BLOB
+    legacy = json.loads(legacy_bytes)
+    legacy_body = dict(legacy)
+    assert legacy_body.pop("canonical_sha256_without_this_field") == LEGACY_MAIN_CANON
+    assert basev.csha(legacy_body) == LEGACY_MAIN_CANON
+    assert legacy["schema"] == "STAGE32_MAIN_COMPACT_STATE_V13_CUT194_AUDITED_CONSUMED"
+
+    a = legacy["authority_sync"]
     target = s["current_target"]
-    prov = s["historical_formal_provenance"]
+    prov = legacy["historical_formal_provenance"]
     f = s["current_exact_frontier"]
-    fw = s["firewalls"]
-    org = s["organizational_integration"]
+    fw = legacy["firewalls"]
+    org = legacy["organizational_integration"]
 
     assert a["historical_narrow_chain_post_sync_review_id"] == AUDIT_POST_SYNC["review_id"]
     assert a["historical_narrow_chain_post_sync_exact_head"] == AUDIT_POST_SYNC["exact_head"]
@@ -97,14 +113,14 @@ def validate(basev, by_id):
     assert f["primary_incomplete_remains_32_01"] is True
     assert f["stage32_closed"] is False
 
-    # N354 may be diagnostic or externally audited.  If MAIN consumes it,
+    # N354 may be diagnostic or externally audited. If MAIN consumes it,
     # require the exact hostile-audit receipt rather than freezing Q602 replay
     # to the pre-audit false value.
     if f.get("n354_main_pruning_credit") is True:
         assert a.get("n354_hostile_audit_status") == "PASS"
         assert a.get("n354_hostile_audit_review_id") == 5164850548
         assert a.get("n354_hostile_audit_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
-        n354_audit = s["source_locks"].get("n354_audit", {})
+        n354_audit = legacy["source_locks"].get("n354_audit", {})
         assert n354_audit.get("review_id") == 5164850548
         assert n354_audit.get("audited_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
         assert f.get("n354_remaining_strata") == 17128
