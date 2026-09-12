@@ -128,6 +128,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/g3_exact_candidate.py --self-check
+      - name: Verify CERTLIFT-03 g3 GF2 row certificate compression
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/g3_row_certificate.py --self-check
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
