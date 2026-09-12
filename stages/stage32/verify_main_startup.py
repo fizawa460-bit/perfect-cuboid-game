@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 START = HERE / "MAIN-START-HERE.md"
 COMMANDS = HERE / "COMMANDS.md"
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v13.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v14.py"
 
 
 def req(value: bool, message: str) -> None:
@@ -42,10 +42,10 @@ def main() -> None:
     ):
         req(token in commands, f"canonical command missing from registry: {token}")
 
-    # V13 is the live startup authority after externally hostile-audited CUT194
-    # wave2 was consumed as a 26,442-terminal disjoint increment. The new
-    # synchronized head must receive its own hostile re-audit before any later
-    # authority promotion.
+    # V14 is the live startup authority after N357's hostile-audited candidate
+    # and hostile-audited current-V13 composition adapter were consumed as an
+    # exact disjoint numerical-pruning increment. This replacement head must
+    # receive its own hostile re-audit before any further MAIN promotion.
     runpy.run_path(str(AUTHORITY_VERIFIER), run_name="__main__")
 
     runpy.run_path(str(HERE / "verify_command_surface.py"), run_name="__main__")
