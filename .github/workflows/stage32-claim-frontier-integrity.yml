@@ -30,6 +30,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N375/**'
       - 'stages/stage32/32-01-178/nodes/N376/**'
       - 'stages/stage32/32-01-178/nodes/N377/**'
+      - 'stages/stage32/32-01-178/nodes/N378/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -156,6 +157,21 @@ jobs:
           path: .n377-certlift
       - name: Verify N377 CERT-LIFT producer handoff wait boundary
         run: python stages/stage32/32-01-178/nodes/N377/verify_n377_certlift_handoff.py --certlift-root .n377-certlift
+      - name: Checkout exact CERT-LIFT02 producer boundary for N378
+        uses: actions/checkout@v4
+        with:
+          ref: 007e0591e94e475caf348aa82c39837368f3e5c0
+          path: .n378-certlift
+      - name: Checkout hostile-audited MAIN V22 authority for N378
+        uses: actions/checkout@v4
+        with:
+          ref: f8039b4ce479a4b91f2f0547e7049f629e9be5f5
+          path: .n378-main-v22
+      - name: Verify N378 CERT-LIFT02 execution and V22 adapter wait boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N378/verify_n378_certlift02_wait.py \
+            --certlift-root .n378-certlift \
+            --main-v22-root .n378-main-v22
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
