@@ -26,11 +26,7 @@ def req(ok: bool, message: str) -> None:
         raise RuntimeError(message)
 
 
-def rhs_bmask(
-    kernel: list[list[int]],
-    exceptional: dict[int, int],
-    boundary_normal: dict[int, int],
-) -> int:
+def rhs_bmask(kernel, exceptional, boundary_normal) -> int:
     bmask = 0
     for eq, h in enumerate(kernel):
         rhs = 0
@@ -40,30 +36,23 @@ def rhs_bmask(
             rhs ^= (h[label - 1] & 1) & (int(value) & 1)
         if rhs:
             bmask |= 1 << eq
-    # The extra elimination equation is parity of total normal mass 112 = 0.
-    # Moving the fixed boundary-normal coordinates to the RHS gives their sum.
     if sum(int(v) for v in boundary_normal.values()) & 1:
         bmask |= 1 << len(kernel)
     return bmask
 
 
-def projected_row_coefficients(
-    kernel: list[list[int]], mask: int
-) -> list[int]:
+def projected_row_coefficients(kernel, mask: int) -> list[int]:
     coeff = [0] * 140
     for eq, h in enumerate(kernel):
         if (mask >> eq) & 1:
             coeff = [a ^ (int(b) & 1) for a, b in zip(coeff, h)]
-    # Final transform bit is the total-normal parity equation.
     if (mask >> len(kernel)) & 1:
         for label in range(1, base.NORMAL_COUNT + 1):
             coeff[label - 1] ^= 1
     return coeff
 
 
-def exact_cover(
-    cover_bits: list[int], universe: int, max_size: int = 6
-) -> list[int] | None:
+def exact_cover(cover_bits: list[int], universe: int, max_size: int = 6):
     useful = [i for i, bits in enumerate(cover_bits) if bits]
     for size in range(1, min(max_size, len(useful)) + 1):
         for combo in itertools.combinations(useful, size):
@@ -115,6 +104,7 @@ def run() -> dict:
     violation_pattern_hist = Counter()
     configuration_count = 0
     targeted_blocks = 0
+    fibre_empty_blocks = 0
     targeted_by_mass = Counter()
     configs_by_mass = Counter()
     configs_by_fibre = Counter()
@@ -148,67 +138,68 @@ def run() -> dict:
                 violation_pattern_hist[violated] += 1
                 for i in violated:
                     cover_bits[i] |= 1 << ordinal
-                rec = {
-                    "block": block_index,
-                    "mass": mass,
-                    "residual_label": residual_label,
-                    "fibre": [n1, n2],
-                    "incidence_sums": sums,
-                    "violated_rows": list(violated),
-                }
                 config_h.update(
-                    json.dumps(rec, sort_keys=True, separators=(",", ",")).encode() + b"\n"
+                    json.dumps({
+                        "block": block_index,
+                        "mass": mass,
+                        "residual_label": residual_label,
+                        "fibre": [n1, n2],
+                        "incidence_sums": sums,
+                        "violated_rows": list(violated),
+                    }, sort_keys=True, separators=(",", ":")).encode() + b"\n"
                 )
-        # A target with zero exact exceptional/fibre candidates is already closed by
-        # fibre constraints; it does not need a projected GF2 row. Track this explicitly.
         if not had_configuration:
+            fibre_empty_blocks += 1
             config_h.update(f"EMPTY:{block_index}\n".encode())
 
     req(targeted_blocks == 1852, "g3 full-e8 target-count drift")
     req(targeted_by_mass == Counter({8: 1264, 7: 588}), "g3 mass split drift")
-    req(configuration_count > 0, "g3 projected configuration universe unexpectedly empty")
-    universe = (1 << configuration_count) - 1
-    req(
-        all((sum(1 for bits in cover_bits if (bits >> ordinal) & 1) > 0) for ordinal in range(configuration_count)),
-        "at least one exact g3 configuration lacks a GF2 contradiction row",
-    )
 
-    universal_rows = [i for i, bits in enumerate(cover_bits) if bits == universe]
-    exact = exact_cover(cover_bits, universe, max_size=6)
-    greedy = greedy_cover(cover_bits, universe)
-    chosen = exact if exact is not None else greedy
+    universal_rows = []
+    exact = None
+    greedy = []
+    chosen = []
+    if configuration_count:
+        universe = (1 << configuration_count) - 1
+        req(
+            all(any((bits >> ordinal) & 1 for bits in cover_bits) for ordinal in range(configuration_count)),
+            "at least one exact g3 configuration lacks a GF2 contradiction row",
+        )
+        universal_rows = [i for i, bits in enumerate(cover_bits) if bits == universe]
+        exact = exact_cover(cover_bits, universe, max_size=6)
+        greedy = greedy_cover(cover_bits, universe)
+        chosen = exact if exact is not None else greedy
+        status = "PASS_SINGLE_UNIVERSAL_GF2_ROW" if universal_rows else "PASS_FINITE_GF2_ROW_COVER"
+    else:
+        req(fibre_empty_blocks == targeted_blocks, "mixed fibre-empty accounting drift")
+        status = "PASS_G3_PRE_GF2_FIBRE_EMPTY"
 
     row_records = []
     for i, (mask, coeff, coverage) in enumerate(zip(masks, row_coeffs, cover_bits)):
         labels = [j + 1 for j, bit in enumerate(coeff) if bit]
-        normal = [label for label in labels if label <= base.NORMAL_COUNT]
-        exceptional = [label for label in labels if label > base.NORMAL_COUNT]
         row_records.append({
             "row_index": i,
             "transform_mask_hex": hex(mask),
             "covered_configurations": coverage.bit_count(),
             "coverage_fraction": f"{coverage.bit_count()}/{configuration_count}",
-            "normal_labels": normal,
-            "exceptional_labels": exceptional,
+            "normal_labels": [label for label in labels if label <= base.NORMAL_COUNT],
+            "exceptional_labels": [label for label in labels if label > base.NORMAL_COUNT],
             "coefficient_support": len(labels),
             "coefficient_stream_sha256": csha(labels),
         })
 
     out = {
-        "schema": "STAGE32_CERTLIFT_G3_GF2_ROW_CERTIFICATE_V1",
+        "schema": "STAGE32_CERTLIFT_G3_GF2_ROW_CERTIFICATE_V2",
         "stage": "32",
         "node": "CERTLIFT-03",
-        "status": (
-            "PASS_SINGLE_UNIVERSAL_GF2_ROW"
-            if universal_rows
-            else "PASS_FINITE_GF2_ROW_COVER"
-        ),
+        "status": status,
         "hypothesis": "e=8,d=8,fixed_exceptional_mass>=7,g3=sum(y93,y94,y95,y96)=3",
         "scope": {
             "unfiltered_e8_blocks": base.e8.UNFILTERED_BLOCK_COUNT,
             "targeted_blocks": targeted_blocks,
             "targeted_by_mass": {str(k): v for k, v in sorted(targeted_by_mass.items())},
-            "exact_exceptional_fibre_configurations": configuration_count,
+            "fibre_empty_blocks": fibre_empty_blocks,
+            "post_fibre_projected_configurations": configuration_count,
             "configurations_by_mass": {str(k): v for k, v in sorted(configs_by_mass.items())},
             "configurations_by_fibre_degrees": {
                 f"{k[0]},{k[1]}": v for k, v in sorted(configs_by_fibre.items())
@@ -228,26 +219,20 @@ def run() -> dict:
             "greedy_cover_row_indices": greedy,
             "chosen_row_indices": chosen,
             "violation_pattern_count": len(violation_pattern_hist),
-            "violation_pattern_histogram": {
-                ",".join(map(str, key)): value
-                for key, value in sorted(
-                    violation_pattern_hist.items(), key=lambda kv: (-kv[1], kv[0])
-                )
-            },
             "rows": row_records,
         },
         "interpretation": {
-            "row_equation": "For each projected consistency row, sum_{label in row} y_label == 0 (mod 2) is necessary for y to lie in the Picard64 column image after eliminating nonboundary normal parities.",
-            "single_universal_row_found": bool(universal_rows),
-            "next_gate": "Substitute the exact fibre equations into the chosen row(s) and simplify using fixed_mass>=7 and g3=3. Promotion to a symbolic lemma requires an algebraic implication, not just finite coverage.",
+            "pre_gf2_fibre_obstruction": configuration_count == 0,
+            "meaning": "If post_fibre_projected_configurations=0, the exact exceptional mass and fibre equalities already contradict the hypothesis before any Picard64 column-image parity row is used.",
+            "next_gate": "Derive the fibre contradiction directly from incidence-sum parity/degree equations under fixed_mass>=7 and g3=3.",
         },
         "credit": {
             "symbolic_lemma": False,
             "stage32_main_pruning_credit": False,
             "theorem_credit": False,
             "stage32_closure_credit": False,
-            "merge_authorized": False,
-        },
+            "merge_authorized": False
+        }
     }
     out["canonical_sha256_without_this_field"] = csha(out)
     return out
@@ -268,13 +253,11 @@ def main() -> None:
         print(json.dumps({
             "status": out["status"],
             "targeted_blocks": out["scope"]["targeted_blocks"],
-            "configurations": out["scope"]["exact_exceptional_fibre_configurations"],
+            "fibre_empty_blocks": out["scope"]["fibre_empty_blocks"],
+            "post_fibre_configurations": out["scope"]["post_fibre_projected_configurations"],
             "consistency_rows": p["consistency_row_count"],
             "universal_rows": p["universal_row_indices"],
-            "exact_cover": p["exact_cover_row_indices"],
-            "greedy_cover": p["greedy_cover_row_indices"],
             "chosen_rows": [rows[i] for i in p["chosen_row_indices"]],
-            "violation_patterns": p["violation_pattern_count"],
             "canonical": out["canonical_sha256_without_this_field"],
         }, sort_keys=True))
     elif not args.output:
