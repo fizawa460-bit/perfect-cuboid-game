@@ -96,8 +96,8 @@ jobs:
       - name: Replay frozen N359 transport/support route-exhaustion audit boundary
         working-directory: .stage32-audited-n359
         run: python stages/stage32/32-01-178/nodes/N359/verify_n359_audit_source_locks.py
-      - name: Install exact N361 solver dependency
-        run: python -m pip install --disable-pip-version-check 'z3-solver==4.13.0.0'
+      - name: Install exact N361 research dependencies
+        run: python -m pip install --disable-pip-version-check 'z3-solver==4.13.0.0' 'sympy==1.14.0'
       - name: Generate N361 selected64 sidecar deterministic sample
         run: python stages/stage32/32-01-178/nodes/N361/generate_n361_sample_sidecar.py
       - name: Replay historical V6 authority consumption
