@@ -120,6 +120,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/mass7_scope_split.py --self-check
+      - name: Verify CERTLIFT-02 mathematical feature discriminator
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/mass7_feature_discriminator.py --self-check
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
