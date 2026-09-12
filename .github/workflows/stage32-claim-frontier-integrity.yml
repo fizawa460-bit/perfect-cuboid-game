@@ -27,6 +27,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N372/**'
       - 'stages/stage32/32-01-178/nodes/N373/**'
       - 'stages/stage32/32-01-178/nodes/N374/**'
+      - 'stages/stage32/32-01-178/nodes/N375/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -139,6 +140,18 @@ jobs:
         run: python stages/stage32/32-01-178/nodes/N373/verify_n373_retained_partial_boundary.py
       - name: Verify N374 global compression reopen audit
         run: python stages/stage32/32-01-178/nodes/N374/verify_n374_global_compression_reopen_audit.py
+      - name: Generate bounded N375 e8 S3 numerical-leaf symmetry probe
+        run: |
+          python stages/stage32/32-01-178/nodes/N375/generate_n375_e8_s3_leaf_symmetry_probe.py \
+            --cut196-root .n372-audit-cut196 \
+            --output N375-CANDIDATE.json
+      - name: Upload bounded N375 e8 S3 symmetry probe
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-n375-e8-s3-symmetry-${{ github.event.pull_request.head.sha || github.sha }}
+          path: N375-CANDIDATE.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
