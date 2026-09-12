@@ -11,9 +11,12 @@ HERE = Path(__file__).resolve().parent
 B2 = HERE / "breadth-cycle-2"
 ROOT = HERE.parents[0]
 STAGE32_MAIN = ROOT / "stage32" / "MAIN-STATE.json"
+CROSS_LANE = ROOT / "stage32" / "proof" / "CROSS-LANE-DEMANDS.json"
 MAIN_WORKFLOW = ROOT.parent / ".github/workflows/stage32-ex5-main.yml"
 
-STAGE32_MAIN_BLOB = "9981889309c833a1834eaadddce73e52c0aa0176"
+CURRENT_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
+STAGE32_MAIN_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+CROSS_LANE_BLOB = "bbf4fc2460bad22c65359bc17aa89f8717e259a2"
 BC2_33_AUDIT_HEAD = "241d65c51f93b66b79f7e8407891cc46359a45c9"
 BC2_33_AUDIT_REVIEW = 5185961173
 BC2_33_SOURCE_BLOB = "efc44c368b408bf8b50c5ad9aa86cd646fb7b19c"
@@ -62,13 +65,32 @@ def main() -> None:
     s = json.loads((HERE / "MAIN-STATE.json").read_text())
     req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY", "state schema drift")
     b = s["bootstrap"]
-    req(b["current_main_sha_observed"] == "c31684fb5f63d8a025eb298c91861d4c979b0e28", "current MAIN observation drift")
+    req(b["current_main_sha_observed"] == CURRENT_MAIN, "current MAIN observation drift")
     req(b["active_work_pr"] == 1776 and b["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "work surface drift")
     req(b["merge_authorized"] is False, "merge authorization leak")
 
+    # Current MAIN V15 authority projection.
     req(git_blob(STAGE32_MAIN) == STAGE32_MAIN_BLOB, "Stage32 MAIN blob drift")
     ma = json.loads(STAGE32_MAIN.read_text())
-    req(ma["current_exact_frontier"]["full178_goal_claim_id"] == "S32.FULL178.NUMERICAL_CENSUS.V1", "FULL178 claim drift")
+    req(ma["schema"] == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED", "Stage32 MAIN schema drift")
+    mt = ma["current_target"]
+    mf = ma["current_exact_frontier"]
+    req(mt["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN", "MAIN control-mode drift")
+    req(mt["primary_incomplete_id"] == "32-01" and mt["primary_incomplete_name"] == "FULL178", "MAIN primary target drift")
+    req(mf["authoritative_remaining_strata"] == 17128, "MAIN remaining-strata drift")
+    req(mf["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN remaining-terminal drift")
+    req(mf["full178_numerical_census_complete"] is False and mf["cut195_main_pruning_credit"] is True, "MAIN FULL178/CUT195 authority drift")
+
+    # Current cross-lane routing: no OPEN EX5 producer demand may be silently skipped.
+    req(git_blob(CROSS_LANE) == CROSS_LANE_BLOB, "cross-lane demand registry blob drift")
+    cl = json.loads(CROSS_LANE.read_text())
+    req(cl["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V1", "cross-lane registry schema drift")
+    ex5_open = [d for d in cl["demands"] if d.get("producer_lane") == "EX5" and d.get("status") == "OPEN"]
+    req(ex5_open == [], "OPEN EX5 producer demand preempts local BC2-34 audit boundary")
+    cut192 = [d for d in cl["demands"] if d.get("demand_id") == "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"]
+    req(len(cut192) == 1 and cut192[0]["status"] == "SATISFIED", "CUT192 EX5 handoff status drift")
+    cr = s["cross_lane_routing"]
+    req(cr["registry_blob_sha"] == CROSS_LANE_BLOB and cr["open_ex5_producer_demand_count"] == 0 and cr["local_bc2_34_audit_boundary_may_continue"] is True, "EX5 cross-lane projection drift")
 
     p33 = s["prior_audited_authority"]["bc2_33_pr_1776"]
     req(p33["hostile_audit_status"] == "PASS", "BC2-33 PASS not consumed")
@@ -150,6 +172,7 @@ def main() -> None:
     req("authorize-bc2-34-fresh-unknown81:" not in wf and "bc2-34-fresh-unknown81:" not in wf, "consumed BC2-34 heavy path still active")
     req("authorize-bc2-33-fresh-unknown107:" not in wf and "bc2-33-fresh-unknown107:" not in wf, "retired BC2-33 heavy path still active")
     req("authorize-e8-cut-handoff-wave:" in wf, "current e8 handoff lifecycle unexpectedly removed")
+    req("verify_cross_lane_demands.py" in wf and "CROSS-LANE-DEMANDS.json" in wf, "current cross-lane workflow gate missing")
 
     for verifier in (
         "verify_bc2_25_boundary33_partition_checkpoint.py",
@@ -163,7 +186,7 @@ def main() -> None:
 
     print("PASS: Stage32EX5 BC2-34 targeted replay retained and frozen for hostile audit")
     print("bc2_34=17_UNSAT_64_UNKNOWN_0_SAT; known_parent_unsat_lower_bound=7272")
-    print("generation1=CONSUMED_DISARMED; heavy_path=RETIRED")
+    print("generation1=CONSUMED_DISARMED; heavy_path=RETIRED; open_EX5_demand=0")
     print("Stage32_MAIN_credit=NO; FULL178=NO; merge=NO; next=stage32ex5-audit")
 
 
