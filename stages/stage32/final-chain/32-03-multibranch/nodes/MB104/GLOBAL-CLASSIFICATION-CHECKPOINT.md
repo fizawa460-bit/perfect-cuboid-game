@@ -1,16 +1,16 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **FROZEN FOR INTERMEDIATE HOSTILE AUDIT / UNIFORM P5 GEOMETRIC CORE 864 / MB104 EQUALITY-PACKET CORE 768 / 000707 JOINT PAIR BIRATIONAL + SATURATED BOUNDARY FIBERS / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` ONE-FACTOR HALF-FIBER CHARACTER ACTIVE / NO CREDIT**
 
-The shared retained PR is frozen for the next intermediate delta-bounded `stage32mb` hostile audit. The previous hostile-audited exact head is
+The most recent hostile-audited retained boundary is
 
 ```text
-39a56d2a9abda0c051145172ff61d67eef0bdb14.
+e269761fbe82c56cdcc8d4870584952dc2d800a3
 ```
 
-The freeze transition itself is recorded by `PRIORITY-OVERRIDE-20260912.json`. Do not append further substantive retained mathematics on this shared PR before the audit result; metadata-only PR synchronization is allowed.
+with `HOSTILE AUDIT: PASS`, review `5187369070`.  This was the delta-bounded intermediate audit after the earlier boundary `39a56d2...`; long-lived-PR audit growth is measured anew from `e269761f...`.
 
-## Current mathematical frontier
+## Scope
 
 Displayed uniform genus-one P5 ray:
 
@@ -21,7 +21,7 @@ d=112l,
 l>=1.
 ```
 
-Dangerous MB104 packet:
+Dangerous MB104 packet is stronger:
 
 ```text
 r_i=M_i=8l at all 14 supported nodes,
@@ -29,7 +29,11 @@ all branches FSM-minimal (A,B)=(1,1), m=1,
 R=R8=M=r_odd=d=112l.
 ```
 
-Geometric arbitrary-branch uniform-ray core remains
+Do not identify the Picard class with this branch packet.
+
+## Current populations
+
+The geometric uniform-ray core allowing arbitrary branch partitions remains
 
 ```text
 864 = 48+48+768
@@ -43,103 +47,172 @@ on
 000707000f0f.
 ```
 
-The dangerous equality-packet core is smaller. The two size48 one-type packets are excluded for all `l>=1` by the retained CM inert-7 obstruction, leaving only
+The two size-48 dangerous equality packets are excluded for all `l>=1` by the retained `j=1728` CM / inert-7 obstruction.  Thus the dangerous equality-packet core is
 
 ```text
-000707000f0f   size 768.
+768
 ```
 
-For `000707`, exact node-type replay leaves
+and consists only of
+
+```text
+000707000f0f.
+```
+
+For this mask the node-type count is `(7,7,0)` and the product-cover component degree is
 
 ```text
 e=2 or e=4.
 ```
 
-Let `H=<s1,s2>`, `Q=Z/H`, `R=C8/H ~= P1`. The descended factor maps
+## Audited `000707` input
+
+With `H=<s1,s2>`, `Q=Z/H`, `R=C8/H~=P1`, the two descended factor maps have degree
 
 ```text
-psi1,psi2:Q->R
-```
-
-have common degree
-
-```text
-e=2: 28l;
+e=2: 28l,
 e=4: 56l.
 ```
 
-The joint map
+Their joint map `Q->P1xP1` is birational.  The two retained zero quartics are Satake-boundary components and each forces two specific fully reduced/unramified saturated factor fibers.  These facts were included in hostile review `5187369070`.
+
+## New post-audit reduction: one global two-torsion character
+
+Let `G/H~=Z/2` be the residual factor-cover character.  Both surviving cases produce a degree-`56l` map
 
 ```text
-Psi=(psi1,psi2):Q->R x R
+phi:E->S=C8/G~=P1.
 ```
 
-is birational onto its image: exact `Aut(S)` replay shows the only nontrivial support automorphism swaps the two used node types, so there is no nontrivial type-preserving relative deck symmetry. Hence the image has exact bidegree
+At the two branch values of the absent singular type,
 
 ```text
-e=2: (28l,28l);
-e=4: (56l,56l),
+phi^*(a)=2A,
+phi^*(b)=2B,
+deg A=deg B=28l.
 ```
 
-with normalization genus one.
-
-The two zero quartics
+Define
 
 ```text
-Q0: b1=0, i*a2-a3=0, a1-c=0,
-Q1: b2=0, i*a3+a1=0, a2-c=0
+eta=O_E(A-B) in Pic^0(E)[2].
 ```
 
-are Satake-boundary components. Each contains seven supported nodes. A boundary component's four-cusp `G`-orbit splits into two `H`-orbits, so all dangerous-packet branches from one zero quartic lie over two specific factor-quotient values.
-
-Thus:
+The normalized residual base change is classified by `eta`, hence exactly
 
 ```text
-e=2:
-  7*(8l)=56l=2*(28l),
-  so the two specific degree-28l fibers are reduced, unramified,
-  and contain 28l supported points each.
-
-e=4:
-  after the residual etale double cover B=Z/H -> E=Z/G,
-  2*7*(8l)=112l=2*(56l),
-  so the two specific degree-56l fibers are reduced, unramified,
-  and contain 56l supported points each.
+e=2  <=> eta=0,
+e=4  <=> eta!=0.
 ```
 
-No per-node branch-value concentration, equal split of the `8l` branches at one node, or orientation relation between `Q0,Q1` is assumed.
+Evidence:
 
-## Post-audit next leaf
+- `GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER.md`
+- matching certificate/verifier.
+
+## Surface-Picard realization of `eta`
+
+Stoll--Testa's two complementary product-induced isotrivial genus-five fibrations have six bad fibers each; every bad reduced component is one of the twelve known `G2` elliptic quartics and occurs with multiplicity two on the canonical model.
+
+On the minimal resolution a bad fiber with reduced component `Q` and eight box nodes `T_Q` is
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER
+F_Q=2Q+sum_(p in T_Q)E_p,
+F_Q^2=0,
+K.F_Q=8.
 ```
 
-The missing invariant is the residual product-cover sheet/character assignment: compute the restriction of the remaining nontrivial character(s) of the free `G0` cover to the carrier pullback, or derive an algebraic incompatibility between the birational factor pair and the two saturated fiber pairs.
+For the two absent-type half-fibers `Q_a,Q_b` in one factor fibration,
 
-## Audit handoff
+```text
+2(Q_a-Q_b)
+  ~ sum_(p in T_b)E_p - sum_(p in T_a)E_p.
+```
 
-Audit the retained delta since `39a56d2a9abda0c051145172ff61d67eef0bdb14`, together with transitive load-bearing source locks, semantic adapters, and fail-closed verifiers. In particular include:
+The dangerous `000707` class has no absent-type exceptional coefficient, so an integral carrier is disjoint from those exceptional curves.  Therefore
 
-- balanced16 zero-quartic and gluing continuation;
-- primitive restriction-rank work;
-- Lu--Miyaoka and Miyaoka 2008 adapters;
-- Beauville equality/node-type/Hurwitz reductions;
-- size48 CM inert-7 obstruction;
-- `000707` joint-pair birationality;
-- Satake-boundary source adapter and boundary-fiber saturation.
+```text
+eta=O_E((Q_a-Q_b)|_E),
+D_l.Q_a=D_l.Q_b=28l.
+```
 
-No exact-head CI/local replay is claimed for the newest boundary-fiber leaf; no automatic MB workflow is required. The hostile audit should run the relevant fail-closed verifiers directly on the exact frozen candidate head.
+This is an explicit restriction of a known Picard-64 class.  Torsion-freeness of `Pic(S)` does **not** force `eta=0`, because the surface relation contains the nonzero exceptional correction.
+
+Evidence:
+
+- `STOLL-TESTA-G2-ISOTRIVIAL-FIBRATION-SOURCE-NOTE.md`
+- `GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD.md`
+- matching certificate/verifier.
+
+## Factor-character comparison is exhausted
+
+For the two complementary ruling coordinates
+
+```text
+t=(c+a1)/(a2+i*a3),
+u=(c+a1)/(a2-i*a3),
+```
+
+the absent `b3=0` values are `+i,-i`.  Use square-class representatives
+
+```text
+f_t=(t-i)/(t+i),
+f_u=(u-i)/(u+i).
+```
+
+Exact cuboid algebra gives
+
+```text
+f_t/f_u
+ = (c+a3)/(c-a3)
+ = ((c+a3)/b3)^2,
+```
+
+using `b3^2=c^2-a3^2`.
+
+Thus
+
+```text
+eta_1=eta_2
+```
+
+is automatic already in the cuboid function field.  Trying to close `000707` by making the two factor characters disagree is therefore a dead route.
+
+Evidence:
+
+- `GENUS1-SPAN5-BALANCED16-000707-CHARACTER-PAIR-SQUARE-WALL.md`
+- matching exact-polynomial certificate/verifier.
+
+## Active next leaf
+
+```text
+MB104-GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-FIBER-CHARACTER
+```
+
+Only one binary invariant remains in the current cover reduction:
+
+```text
+is f_t|_E a square in k(E)^* ?
+```
+
+Equivalently, decide whether
+
+```text
+O_E((Q_a-Q_b)|_E)
+```
+
+is trivial or the nonzero two-torsion point.  A useful continuation must force `eta=0` (exclude `e=4`), force `eta!=0` (exclude `e=2`), or obtain an independent contradiction.  Do not reopen coarse Hurwitz capacity, zero-quartic fixedness, static landing, or the now-exhausted two-factor character comparison.
+
+Genus-one support-span P6 and genus-zero full-span P6 remain active in parallel.
 
 ## Firewalls
 
 - geometric arbitrary-branch core remains `864`;
-- dangerous equality-packet core is `768`;
-- `000707` remains open for `e=2` and `e=4`;
-- support-span five is not fully closed;
+- dangerous equality-packet core remains `768`;
+- `000707` remains open for `e=2,e=4`;
 - arbitrary unequal exceptional coefficients remain open;
-- genus-one P6 and genus-zero P6 remain open;
-- no finite degree window is proved population-wide;
-- MB104 remains incomplete;
+- support-span five is not fully closed;
+- P6 sectors remain open;
+- MB104 incomplete; no finite degree window;
 - no receiver/theorem/endpoint/Perfect-Cuboid credit;
 - no merge authorization.
