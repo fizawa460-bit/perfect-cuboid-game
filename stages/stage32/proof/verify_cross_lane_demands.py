@@ -9,24 +9,18 @@ HERE = Path(__file__).resolve().parent
 STAGE = HERE.parent
 ROOT = STAGE.parents[1]
 STATE = STAGE / "MAIN-STATE.json"
-RECEIPT = STAGE / "management/post-n358-current-v18-composition-consumption-20260912.json"
+RECEIPT = STAGE / "management/post-n358-v19-hostile-reaudit-pass-n372-reaudit-selection-20260913.json"
 
-STATE_BLOB = "acad022fe90b4d72edeac5f9d7ba08930decdff2"
-STATE_CANONICAL = "2f0ed49bd3640f4f7158176bc435344d46785928e20c4ce67173305eb3974771"
-RECEIPT_BLOB = "efa87a1b62cc698745f87814cd8f9eb9fe95dbd2"
-RECEIPT_CANONICAL = "27c50848e19c242389298b6a23d7c5b6a8ea86afd97c36ced16905adc66a5bdc"
-
-POST_CUT191 = 65396964990500233636101
-CUT194_INCREMENT = 26442
-POST_CUT194 = 65396964990500233609659
-N357_INCREMENT = 17797986705435299826016
-POST_N357 = 47598978285064933783643
-CUT195_INCREMENT = 26216
-POST_CUT195 = 47598978285064933757427
-CUT196_INCREMENT = 27346
-POST_CUT196 = 47598978285064933730081
+STATE_BLOB = "c9b5f71c49904ee0afbb929346e27d1f89c60f83"
+STATE_CANON = "8d705f54fa7d90f8344917e7fc1f3709da5a598a5ce3b546eae1d826e1b2df6d"
+RECEIPT_BLOB = "de96a11ff5cbbbefd15f242a4a18324d1cbb9907"
+RECEIPT_CANON = "70bbf092d62cc696ab51b80cbd2fb8615ef1e55fa532145c3bbd832a74dafb58"
+AUTH_STRATA = 17128
+AUTH_TERMS = 47589703313957134886123
 N358_INCREMENT = 9274971107798843958
-POST_N358 = 47589703313957134886123
+N372_HEAD = "9fb78a0e0c7b52baca84058dea69b8b083e33774"
+N372_CI = 34700502007
+V19_REVIEW = 5186730520
 
 def req(v: bool, msg: str) -> None:
     if not v:
@@ -41,7 +35,7 @@ def canonical(obj: dict) -> str:
     cp.pop("canonical_sha256_without_this_field", None)
     return hashlib.sha256(json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
 
-def load_locked(path: Path, blob: str, can: str) -> dict:
+def locked(path: Path, blob: str, can: str) -> dict:
     req(path.is_file(), f"missing {path.relative_to(ROOT)}")
     req(git_blob(path) == blob, f"blob drift {path.relative_to(ROOT)}")
     obj = json.loads(path.read_text(encoding="utf-8"))
@@ -50,59 +44,54 @@ def load_locked(path: Path, blob: str, can: str) -> dict:
     return obj
 
 def main() -> None:
-    state = load_locked(STATE, STATE_BLOB, STATE_CANONICAL)
-    receipt = load_locked(RECEIPT, RECEIPT_BLOB, RECEIPT_CANONICAL)
+    state = locked(STATE, STATE_BLOB, STATE_CANON)
+    receipt = locked(RECEIPT, RECEIPT_BLOB, RECEIPT_CANON)
 
     f = state["current_exact_frontier"]
-    req(f["cut191_main_pruning_credit"] is True, "CUT191 lost MAIN credit")
-    req(f["cut194_main_pruning_credit"] is True, "CUT194 lost MAIN credit")
-    req(f["n357_main_pruning_credit"] is True, "N357 lost MAIN credit")
-    req(f["cut195_main_pruning_credit"] is True, "CUT195 lost MAIN credit")
-    req(f["cut196_main_pruning_credit"] is True, "CUT196 lost MAIN credit")
-    req(f["n358_main_pruning_credit"] is True, "N358 MAIN credit missing")
-    req(f["cut193_main_pruning_credit"] is False, "CUT193 gained unauthorized MAIN credit")
-    req(f["cut197_main_pruning_credit"] is False, "CUT197 gained unauthorized MAIN credit")
-    req(f["authoritative_remaining_strata"] == 17128, "strata drift")
-    req(f["authoritative_remaining_terminals"] == POST_N358, "terminal authority drift")
+    req(f["authoritative_remaining_strata"] == AUTH_STRATA, "strata drift")
+    req(f["authoritative_remaining_terminals"] == AUTH_TERMS, "terminal authority drift")
+    req(f["n358_incremental_rejected_terminals"] == N358_INCREMENT, "N358 increment drift")
+    req(f["n358_main_pruning_credit"] is True, "N358 credit lost")
+    req(f["n358_synchronized_head_hostile_audited"] is True, "N358 hostile re-audit sync missing")
+    req(f["cut193_main_pruning_credit"] is False, "CUT193 gained credit")
+    req(f["cut197_main_pruning_credit"] is False, "CUT197 gained credit")
+    req(f["n372_candidate_exact_head"] == N372_HEAD, "N372 selected head drift")
+    req(f["n372_candidate_exact_head_ci_run"] == N372_CI, "N372 selected CI drift")
+    req(f["n372_candidate_hostile_audited"] is False, "N372 audit self-awarded")
+    req(f["n372_current_v15_witness_candidate_only"] is True, "N372 witness-only marker lost")
+    req(f["n372_main_pruning_credit"] is False, "N372 MAIN credit opened")
+    req(f["n372_full178_credit"] is False, "N372 FULL178 credit opened")
+    req(f["n372_effectivity_final_credit"] is False, "N372 effectivity credit opened")
     req(f["full178_numerical_census_complete"] is False, "FULL178 incorrectly closed")
     req(f["stage32_closed"] is False, "Stage32 incorrectly closed")
 
-    req(POST_CUT191 - CUT194_INCREMENT == POST_CUT194, "CUT194 arithmetic drift")
-    req(POST_CUT194 - N357_INCREMENT == POST_N357, "N357 arithmetic drift")
-    req(POST_N357 - CUT195_INCREMENT == POST_CUT195, "CUT195 arithmetic drift")
-    req(POST_CUT195 - CUT196_INCREMENT == POST_CUT196, "CUT196 arithmetic drift")
-    req(POST_CUT196 - N358_INCREMENT == POST_N358, "N358 arithmetic drift")
-
-    rr = receipt["current_v18_composition_replay"]
-    req(rr["n357_overlap_terminals"] == 0, "N358/N357 overlap drift")
-    req(all(x["n358_overlap_terminals"] == 0 for x in rr["consumed_cut_targets"]), "N358/consumed-cut overlap drift")
-    req(rr["already_consumed_cut_total_terminals"] == 80117, "consumed-cut total drift")
-    req(rr["double_charge"] is False, "N358 double-charge flag set")
-    req(receipt["authority"]["after_remaining_terminals"] == POST_N358, "receipt authority drift")
-
     auth = state["authority_sync"]
-    req(auth["n358_candidate_hostile_audit_status"] == "PASS", "N358 hostile audit PASS missing")
-    req(auth["n358_main_pruning_credit_consumed"] is True, "N358 consumption flag false")
-    req(auth["n358_post_sync_reaudit_status"] == "PENDING", "N358 replacement audit self-awarded")
-    req(auth["cut197_main_pruning_credit_consumed"] is False, "CUT197 consumption flag drift")
+    req(auth["n358_post_sync_reaudit_review_id"] == V19_REVIEW, "V19 audit review drift")
+    req(auth["n358_post_sync_reaudit_status"] == "PASS", "V19 audit PASS missing")
+    req(auth["n372_candidate_hostile_audit_status"] == "PENDING_REAUDIT", "N372 audit route drift")
+    req(auth["n372_main_pruning_credit_consumed"] is False, "N372 consumption self-awarded")
+    req(auth["cut197_main_pruning_credit_consumed"] is False, "CUT197 consumption drift")
+
+    rr = receipt["n372_candidate"]
+    req(rr["repaired_exact_head"] == N372_HEAD, "receipt N372 exact head drift")
+    req(rr["repaired_exact_head_ci_run"] == N372_CI and rr["repaired_exact_head_ci_status"] == "SUCCESS", "receipt N372 CI drift")
+    req(rr["hostile_audit_status"] == "PENDING_REAUDIT", "receipt N372 audit status drift")
+    req(receipt["authority"]["incremental_rejected_terminals"] == 0, "V20 synchronization changed numerical authority")
+    req(receipt["authority"]["after_remaining_terminals"] == AUTH_TERMS, "receipt authority drift")
 
     fw = state["firewalls"]
-    req(fw["merge_authorized"] is False, "merge authorized")
-    req(fw["receiver_credit"] is False and fw["theorem_credit"] is False and fw["endpoint_credit"] is False,
-        "final-chain firewall opened")
+    for key in ("receiver_credit","theorem_credit","endpoint_credit","route_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):
+        req(fw[key] is False, f"firewall opened: {key}")
 
     print(json.dumps({
-        "verdict":"PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V19",
-        "cut191_main_consumed":True,
-        "cut194_main_consumed":True,
-        "n357_main_consumed":True,
-        "cut195_main_consumed":True,
-        "cut196_main_consumed":True,
-        "n358_main_consumed":True,
-        "cut193_main_credit":False,
+        "verdict":"PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V20",
+        "n358_main_consumed_reaudited":True,
+        "n372_selected_zero_credit":True,
+        "n372_candidate_exact_head":N372_HEAD,
+        "n372_hostile_audit_status":"PENDING_REAUDIT",
         "cut197_main_credit":False,
-        "n358_overlap_consumed_main_terminals":0,
-        "authoritative_remaining_terminals":POST_N358,
+        "authoritative_remaining_strata":AUTH_STRATA,
+        "authoritative_remaining_terminals":AUTH_TERMS,
         "full178_complete":False,
         "merge_authorized":False
     }, sort_keys=True))

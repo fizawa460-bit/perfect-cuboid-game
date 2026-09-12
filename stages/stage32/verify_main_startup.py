@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 START = HERE / "MAIN-START-HERE.md"
 COMMANDS = HERE / "COMMANDS.md"
-AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v19.py"
+AUTHORITY_VERIFIER = HERE / "verify_main_startup_authority_v20.py"
 
 def req(value: bool, message: str) -> None:
     if not value:

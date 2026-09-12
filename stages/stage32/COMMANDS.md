@@ -11,9 +11,9 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 - Demand SATISFIED does not grant mathematical credit; hostile audit, claim synchronization, MAIN promotion, replacement-head re-audit, and merge authorization remain separate.
 - MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and audited results awaiting promotion.
 
-Current transition: hostile-audit PASS N358 exact head `462174f74d6470ec7c64f5b6d078757c7b3372fc` (review `5184322011`) is consumed into hostile-audited MAIN V18 only after exact current-authority composition. N358 is incremental on the hostile-audited N357 frontier and its exact domain is empty on the already-consumed `g1-d008/e8` CUT191/CUT194/CUT195/CUT196 population, so current-authority overlap is zero and the exact incremental rejection remains **9,274,971,107,798,843,958 terminals**. The authoritative numerical residual is now **17,128 strata / 47,589,703,313,957,134,886,123 terminals**. CUT197 remains deferred with zero MAIN credit. This replacement head must receive `stage32audit` PASS before any further MAIN promotion.
+Current transition: MAIN V19 exact head `56c52a64dc402126431a6de6d023007052f4112c` has hostile-audit PASS review `5186730520`. N358 remains consumed with exact incremental rejection **9,274,971,107,798,843,958 terminals**, and the authoritative numerical residual remains **17,128 strata / 47,589,703,313,957,134,886,123 terminals**. V20 consumes that replacement-head audit with zero numerical change. N372 PR #1797 had hostile-audit FAIL review `5186762166` on superseded head `eafc5e4a18b30e25330eb01d3817020fa59a207c` for incomplete transitive source-lock closure; repaired exact head `9fb78a0e0c7b52baca84058dea69b8b083e33774` now has exact-head CI `34700502007` SUCCESS and is selected only as the next FULL178 witness candidate. N372 remains `current_v15_witness_candidate_only`, carries zero MAIN/effectivity/FULL178 credit, and must pass `stage32-01-178-audit` re-audit plus later current-authority rebase before any promotion. V20 itself must pass `stage32audit`. CUT197 remains deferred with zero MAIN credit.
 
-Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191 is already consumed. CUT194, N357, CUT195, CUT196, and N358 are separately accounted under current `MAIN-STATE.json`. CUT193 and CUT197 retain zero MAIN pruning credit.
+Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191 is already consumed. CUT194, N357, CUT195, CUT196, and N358 are separately accounted under current `MAIN-STATE.json`. CUT193, CUT197, and N372 retain zero MAIN pruning credit.
 
 ## ACTIVE commands
 
@@ -27,7 +27,7 @@ Hostile audit for an exact retained Stage32 MAIN boundary. PASS is not merge aut
 Dedicated FULL178 numerical Picard-census specialist. Startup contract: `stages/stage32/32-01-178/MAIN-START-HERE.md`.
 
 ### `stage32-01-178-audit`
-Hostile audit only after 178 freezes a new exact retained boundary.
+Hostile audit only after 178 freezes a new exact retained boundary. N372 is currently at this gate.
 
 ### `stage32ex5-mainbatch`
 Dedicated Picard64/node-support producer/refinement surface. EX5 never self-promotes to MAIN credit.
@@ -36,7 +36,7 @@ Dedicated Picard64/node-support producer/refinement surface. EX5 never self-prom
 Hostile audit only after EX5 freezes a new exact retained checkpoint.
 
 ### `stage32cut-mainbatch`
-Dedicated direct-completion obstruction consumer. CUT197 wave5 remains the current specialist frontier, but N358 consumption has priority at the current MAIN transition. CUT197 receives no MAIN credit until retained exact-head CI, hostile audit, and current-authority composition are complete.
+Dedicated direct-completion obstruction consumer. CUT197 wave5 remains deferred and receives no MAIN credit until retained exact-head CI, hostile audit, and current-authority composition are complete.
 
 ### `stage32cut-audit`
 Hostile audit only after CUT freezes an exact retained obstruction/checkpoint. PASS alone never grants MAIN credit.

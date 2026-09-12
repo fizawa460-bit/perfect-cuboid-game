@@ -46,22 +46,22 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-      - name: Checkout hostile-audited MAIN V18 predecessor
+      - name: Checkout hostile-audited MAIN V19 predecessor
         uses: actions/checkout@v4
         with:
-          ref: 152e8f92346c038aed5628d7d70063cc5c8cd9d4
-          path: .stage32-audited-main-v18
+          ref: 56c52a64dc402126431a6de6d023007052f4112c
+          path: .stage32-audited-main-v19
           fetch-depth: 1
-      - name: Assert hostile-audited MAIN V18 head
-        run: test "$(git -C .stage32-audited-main-v18 rev-parse HEAD)" = "152e8f92346c038aed5628d7d70063cc5c8cd9d4"
-      - name: Checkout hostile-audited N358 evidence
+      - name: Assert hostile-audited MAIN V19 head
+        run: test "$(git -C .stage32-audited-main-v19 rev-parse HEAD)" = "56c52a64dc402126431a6de6d023007052f4112c"
+      - name: Checkout repaired N372 candidate
         uses: actions/checkout@v4
         with:
-          ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
-          path: .stage32-audited-n358
+          ref: 9fb78a0e0c7b52baca84058dea69b8b083e33774
+          path: .stage32-n372-candidate
           fetch-depth: 1
-      - name: Assert hostile-audited N358 head
-        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
+      - name: Assert repaired N372 exact head
+        run: test "$(git -C .stage32-n372-candidate rev-parse HEAD)" = "9fb78a0e0c7b52baca84058dea69b8b083e33774"
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -73,26 +73,27 @@ jobs:
           test "$current_main" = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
           test "$merge_base" = "$current_main"
           echo "freshness=contains-current-main"
-      - name: Verify N358/V18 fail-closed wrapper source identity
-        run: test "$(git hash-object stages/stage32/management/verify_n358_v18_audited_predecessor_composition.py)" = "c0db67efac68c1f277d09cc6e321ede404ba97f8"
-      - name: Replay N358 current-V18 composition and consumption fail-closed
+      - name: Verify V20 verifier source identities
+        run: |
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v20.py)" = "d5f0b295ff4ec52c288cf78c476b4e3825cd5676"
+          test "$(git hash-object stages/stage32/management/verify_v20_external_source_locks.py)" = "c280d1f6fe84a2493cf92ba5565c43c611c95005"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "a25fb7921ea2934a0f666f680a87d1b1ccedc973"
+      - name: Verify V20 external source identities fail-closed
         run: >-
-          python3 stages/stage32/management/verify_n358_v18_audited_predecessor_composition.py
-          --audited-main-v18-root .stage32-audited-main-v18
-          --audited-n358-root .stage32-audited-n358
+          python3 stages/stage32/management/verify_v20_external_source_locks.py
+          --audited-main-v19-root .stage32-audited-main-v19
+          --n372-candidate-root .stage32-n372-candidate
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 MAIN V19 N358 current-V18 consumption frontier
-        run: python3 stages/stage32/verify_main_startup_authority_v19.py
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V19 N358 transition
+      - name: Verify Stage32 claim-DAG integrity after V20 synchronization
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V19 N358 transition
+      - name: Verify Stage32 active frontier after V20 synchronization
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'
