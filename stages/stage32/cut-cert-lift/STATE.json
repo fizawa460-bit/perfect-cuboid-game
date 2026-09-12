@@ -1,0 +1,56 @@
+{
+  "schema": "STAGE32_CUT_CERT_LIFT_STATE_V1",
+  "status": "ACTIVE",
+  "active_node": "CERTLIFT-01_CERTIFICATE_SIGNATURE_EXTRACTION",
+  "base_main_exact_head": "b6c0a1e431ac04de5326a7c42af89a7b92423ed2",
+  "source_manifest": "stages/stage32/cut-cert-lift/SOURCE-LOCKS.json",
+  "mission": "stages/stage32/cut-cert-lift/MISSION.json",
+  "current_receiver": "Find an exact family-level obstruction explaining a large subset of audited CUT193..CUT198 finite-ring/HNF UNSAT closures without replaying heavy solves.",
+  "current_work": {
+    "extract": [
+      "finite-ring modulus/signature actually proving each retained closure",
+      "whole-block versus all-HNF-parent route",
+      "prefix/residue invariants available before solving",
+      "minimal Picard/HNF row dependency used by the certificate",
+      "same signatures on nonclosed residual controls"
+    ],
+    "first_test": "Cluster closed and residual blocks by certificate signature; promote nothing until all residual controls have been checked for false positives.",
+    "heavy_compute": false
+  },
+  "candidate_ledger": [
+    {"id":"CL-A","status":"LIVE","view":"finite-ring rank/minor obstruction","question":"Do closed blocks share a small set of rank-defect or inconsistent-minor templates after normalizing prefix data?"},
+    {"id":"CL-B","status":"LIVE","view":"HNF-parent congruence obstruction","question":"Can the all-HNF-parent closures be expressed as a symbolic congruence class condition on parent invariants rather than enumerating every parent?"},
+    {"id":"CL-C","status":"UNTESTED","view":"p-adic valuation lift","question":"Is the mod-2 behavior the first layer of a valuation obstruction that survives across e and strata?"},
+    {"id":"CL-D","status":"UNTESTED","view":"symbolic dual/Farkas template","question":"Do repeated bounded infeasibility certificates lie in a finite family of dual rays with parameters affine in prefix invariants?"},
+    {"id":"CL-E","status":"UNTESTED","view":"normalized e-transfer","question":"After a symbolic e8 lemma exists, does the exact e10 interface preserve the same normalized invariant tuple?"},
+    {"id":"CL-F","status":"UNTESTED","view":"residual-first classifier","question":"Are the few nonclosed blocks characterized by a complementary invariant, allowing the bulk population to be closed by exclusion?"}
+  ],
+  "cycle_protocol": {
+    "CYCLE_ROUTE_STATUS": "SPLIT_TRIGGERED_DISTINCT_OBSTRUCTIONS",
+    "CYCLE_ACTIVE_RECEIVER": "symbolic lift of audited CUT infeasibility",
+    "CYCLE_LIVE_CANDIDATES": 2,
+    "CYCLE_UNTESTED_CANDIDATES": 4,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_SPLIT_TRIGGERED": true,
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_NEW_VIEW": "infer a parameterized obstruction from repeated audited finite-ring/HNF closures instead of extending bounded wave execution",
+    "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+  },
+  "split_justification": {
+    "independent_from_active_heavy": true,
+    "does_not_require_cut199_result": true,
+    "does_not_require_bc2_36_result": true,
+    "uses_only_audited_historical_inputs": true,
+    "reduces_wall_clock_without_duplicate_heavy_compute": true
+  },
+  "next_gate": "CERTLIFT-01 compact signature table with closed/residual controls",
+  "credit": {
+    "main_pruning": false,
+    "full178": false,
+    "effectivity": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
