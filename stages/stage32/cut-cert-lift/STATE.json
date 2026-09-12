@@ -5,7 +5,7 @@
   "base_main_exact_head": "b6c0a1e431ac04de5326a7c42af89a7b92423ed2",
   "source_manifest": "stages/stage32/cut-cert-lift/SOURCE-LOCKS.json",
   "mission": "stages/stage32/cut-cert-lift/MISSION.json",
-  "current_receiver": "Find an exact family-level obstruction explaining a large subset of audited CUT193..CUT198 finite-ring/HNF UNSAT closures without replaying heavy solves.",
+  "current_receiver": "Find an exact family-level obstruction explaining a large subset of audited CUT193..CUT198 finite-ring/HNF UNSAT closures; start from retained evidence and escalate to targeted heavy experiments when that has clear information gain.",
   "current_work": {
     "extract": [
       "finite-ring modulus/signature actually proving each retained closure",
@@ -15,7 +15,9 @@
       "same signatures on nonclosed residual controls"
     ],
     "first_test": "Cluster closed and residual blocks by certificate signature; promote nothing until all residual controls have been checked for false positives.",
-    "heavy_compute": false
+    "heavy_compute": "CONDITIONAL_ALLOWED",
+    "heavy_trigger": "Use targeted heavy computation when retained certificates cannot distinguish live candidate invariants, when exact counterexamples are needed, or when a cross-wave/cross-e challenge requires fresh bounded computation.",
+    "heavy_safety": "Any artifact-producing heavy execution requires dedicated fresh runkey authorization, <=500 MB peak-storage preflight, compact deterministic evidence, explicit retention, and lifecycle classification before arming."
   },
   "candidate_ledger": [
     {"id":"CL-A","status":"LIVE","view":"finite-ring rank/minor obstruction","question":"Do closed blocks share a small set of rank-defect or inconsistent-minor templates after normalizing prefix data?"},
@@ -34,17 +36,18 @@
     "CYCLE_BLIND_REDISCOVERY": true,
     "CYCLE_SPLIT_TRIGGERED": true,
     "CYCLE_PARKING_AUDIT_COMPLETE": false,
-    "CYCLE_NEW_VIEW": "infer a parameterized obstruction from repeated audited finite-ring/HNF closures instead of extending bounded wave execution",
+    "CYCLE_NEW_VIEW": "infer a parameterized obstruction from repeated audited finite-ring/HNF closures instead of only extending bounded wave execution",
     "CYCLE_NEW_VIEW_SOURCE": "BLIND"
   },
   "split_justification": {
     "independent_from_active_heavy": true,
     "does_not_require_cut199_result": true,
     "does_not_require_bc2_36_result": true,
-    "uses_only_audited_historical_inputs": true,
-    "reduces_wall_clock_without_duplicate_heavy_compute": true
+    "uses_audited_historical_inputs_as_seed": true,
+    "may_start_own_targeted_heavy": true,
+    "must_not_duplicate_existing_heavy_scope_without_new_information_gain": true
   },
-  "next_gate": "CERTLIFT-01 compact signature table with closed/residual controls",
+  "next_gate": "CERTLIFT-01 compact signature table with closed/residual controls; authorize a targeted heavy discriminator only if retained data cannot decide the first candidate split",
   "credit": {
     "main_pruning": false,
     "full178": false,
