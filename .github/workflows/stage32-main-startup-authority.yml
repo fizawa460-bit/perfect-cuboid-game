@@ -85,6 +85,14 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited N357 composition head
         run: test "$(git -C .stage32-audited-n357-composition rev-parse HEAD)" = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
+      - name: Checkout hostile-audited EX5 BC2-35 cross-lane basis
+        uses: actions/checkout@v4
+        with:
+          ref: 8bea7a6be26e01db0deb138dbd8406f578447921
+          path: .stage32-audited-ex5-bc2-35
+          fetch-depth: 1
+      - name: Assert hostile-audited EX5 BC2-35 head
+        run: test "$(git -C .stage32-audited-ex5-bc2-35 rev-parse HEAD)" = "8bea7a6be26e01db0deb138dbd8406f578447921"
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -102,6 +110,7 @@ jobs:
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v22.py)" = "708482de47be700bb81f80e464554b60c4404514"
           test "$(git hash-object stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py)" = "286abb04bb5c898c28187f4824311bdf779ef3f2"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "417e809b24e39fcf49e21aef2a653750765e675b"
+          test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
       - name: Verify CUT193 CUT197 CUT198 batch current-V21 composition fail-closed
         run: >-
           python3 stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py
@@ -110,6 +119,12 @@ jobs:
           --audited-cut197-root .stage32-audited-cut197
           --audited-cut198-root .stage32-audited-cut198
           --audited-n357-composition-root .stage32-audited-n357-composition
+      - name: Probe cross-lane HNF syndrome compression
+        run: |
+          python3 stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py \
+            --audited-ex5-root .stage32-audited-ex5-bc2-35 \
+            --json-output /tmp/stage32-hnf-syndrome-probe.json
+          cat /tmp/stage32-hnf-syndrome-probe.json
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination
