@@ -20,6 +20,8 @@ N372_AUDIT_BLOB = "6ff80567e922890d0fb4517789537d398b34f761"
 N372_AUDIT_CANON = "4bead765cb9badfe6fb8ce4b1ae0c74807f541e35879fe1ad44b00f240680454"
 N372_RESULT_BLOB = "c0267d903fd0b397fcd4766b03964bde788650e7"
 N372_RESULT_CANON = "b9852fcfa926e77e8c51defe31002e0bf4b281dd1db4b5f320326166932fef48"
+GENERATION_HEAD = "bdb055cfa6752fc330e5f3e16d35f05fb669fb86"
+GENERATION_RUN = 34718895695
 
 
 def req(v: bool, msg: str) -> None:
@@ -59,8 +61,8 @@ def main() -> None:
     req(state["status"] == "RETAINED_PARTIAL_X4_PROJECTION_UNKNOWN_TIMEOUT_NO_CREDIT", "N373 retained state drift")
     req(state["next_gate"] == "ROTATE_TO_GLOBAL_COMPRESSION_ROUTE_NO_TIMEOUT_ESCALATION", "N373 next gate drift")
     rr = state["retained_result"]
-    req(rr["exact_head"] == "bdb055cfa6752fc330e5f3e16d35f05fb669fb86", "N373 generation head drift")
-    req(rr["exact_head_ci_run"] == 34718895695, "N373 generation run drift")
+    req(rr["exact_head"] == GENERATION_HEAD, "N373 generation head drift")
+    req(rr["exact_head_ci_run"] == GENERATION_RUN, "N373 generation run drift")
     req(rr["result_blob_sha1"] == RESULT_BLOB and rr["result_canonical_sha256"] == RESULT_CANON, "N373 result binding drift")
     req(rr["status"] == "PARTIAL_X4_PROJECTION_UNKNOWN_TIMEOUT", "N373 retained status drift")
     req(rr["feasible_x4"] == [0] and rr["solver_checks_after_seed"] == 1 and rr["reason_unknown"] == "timeout", "N373 retained projection summary drift")
@@ -94,6 +96,8 @@ def main() -> None:
 
     print(json.dumps({
         "verdict": "PASS_N373_RETAINED_PARTIAL_X4_TIMEOUT_BOUNDARY",
+        "generation_exact_head": GENERATION_HEAD,
+        "generation_ci_run": GENERATION_RUN,
         "status": result["status"],
         "feasible_x4": [0],
         "additional_x4_classified": 0,
