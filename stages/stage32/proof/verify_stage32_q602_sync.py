@@ -91,6 +91,7 @@ def validate(basev, by_id):
     target = s["current_target"]
     prov = legacy["historical_formal_provenance"]
     f = s["current_exact_frontier"]
+    legacy_f = legacy["current_exact_frontier"]
     fw = legacy["firewalls"]
     org = legacy["organizational_integration"]
 
@@ -110,21 +111,21 @@ def validate(basev, by_id):
     assert target["O210_is_current_attack_target"] is False
     assert target["Q602_is_current_attack_target"] is False
     assert f["full178_numerical_census_complete"] is False
-    assert f["primary_incomplete_remains_32_01"] is True
+    assert legacy_f["primary_incomplete_remains_32_01"] is True
     assert f["stage32_closed"] is False
 
-    # N354 may be diagnostic or externally audited. If MAIN consumes it,
-    # require the exact hostile-audit receipt rather than freezing Q602 replay
-    # to the pre-audit false value.
-    if f.get("n354_main_pruning_credit") is True:
+    # N354 is historical at this compatibility boundary. Its audited
+    # consumption metadata belongs to the frozen V13 projection; live V14+
+    # carries only the post-N357 current authority/routing frontier.
+    if legacy_f.get("n354_main_pruning_credit") is True:
         assert a.get("n354_hostile_audit_status") == "PASS"
         assert a.get("n354_hostile_audit_review_id") == 5164850548
         assert a.get("n354_hostile_audit_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
         n354_audit = legacy["source_locks"].get("n354_audit", {})
         assert n354_audit.get("review_id") == 5164850548
         assert n354_audit.get("audited_exact_head") == "e82a1d2ae6ed3693e5e5e81adfd95b83a6c317b6"
-        assert f.get("n354_remaining_strata") == 17128
-        assert f.get("n354_remaining_terminals") == 38560956534397137634780102
+        assert legacy_f.get("n354_remaining_strata") == 17128
+        assert legacy_f.get("n354_remaining_terminals") == 38560956534397137634780102
 
     assert a["ex5_merge_auto_promotes_main_credit"] is False
     assert org["EX5_retained_evidence_merged_to_main"] is True
