@@ -13,7 +13,7 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 
 Current transition: hostile-audit PASS N358 exact head `462174f74d6470ec7c64f5b6d078757c7b3372fc` (review `5184322011`) is consumed into hostile-audited MAIN V18 only after exact current-authority composition. N358 is incremental on the hostile-audited N357 frontier and its exact domain is empty on the already-consumed `g1-d008/e8` CUT191/CUT194/CUT195/CUT196 population, so current-authority overlap is zero and the exact incremental rejection remains **9,274,971,107,798,843,958 terminals**. The authoritative numerical residual is now **17,128 strata / 47,589,703,313,957,134,886,123 terminals**. CUT197 remains deferred with zero MAIN credit. This replacement head must receive `stage32audit` PASS before any further MAIN promotion.
 
-Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191, CUT194, N357, CUT195, CUT196, and N358 are separately accounted under current `MAIN-STATE.json`. CUT193 and CUT197 retain zero MAIN pruning credit.
+Historical demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**; CUT193 is retained only as historical re-entry provenance. CUT191 is already consumed. CUT194, N357, CUT195, CUT196, and N358 are separately accounted under current `MAIN-STATE.json`. CUT193 and CUT197 retain zero MAIN pruning credit.
 
 ## ACTIVE commands
 
