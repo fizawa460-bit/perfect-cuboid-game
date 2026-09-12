@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / UNIFORM P5 BALANCED HARD CORE REDUCED 1632 -> 864 / ONE 768 ORBIT CLOSED BY ZERO-QUARTIC GLUING / P6 OPEN / NO CREDIT**
+Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / UNIFORM P5 BALANCED HARD CORE 1632 -> 864 / ZERO-QUARTIC ROUTE EXHAUSTED ON SURVIVORS / GLOBAL SINGULARITY-CONDUCTOR FRONTIER / P6 OPEN / NO CREDIT**
 
 Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of `R8<d/4+O(1)` remains frozen until a genuinely new lever appears.
 
@@ -37,7 +37,7 @@ For a retained test curve `Q` of degree `e=H.Q` meeting `n_Q` supported nodes,
 D_l.Q=l(7e-4n_Q).
 ```
 
-## Ambient support classification and closures
+## Ambient support classification and fixed-component closures
 
 The exact node-spanned `P^5` hyperplane population is
 
@@ -58,15 +58,7 @@ with 12 `Aut(S)` ambient orbits
 
 For the displayed uniform ray, incidence `24`, `20`, `19`, `15`, and all five incidence-`14` orbits are closed by retained fixed-component arguments.
 
-## Original incidence-16 balanced hard core
-
-Capacity leaves leave exactly `N=14` balanced supports. Globally:
-
-```text
-3*32 + 24*64 = 1632.
-```
-
-Their complete support-orbit quotient was
+Incidence `16` leaves exactly `1632` balanced `N=14` supports, with support-orbit quotient
 
 ```text
 0000770000ff   size 48
@@ -75,130 +67,32 @@ Their complete support-orbit quotient was
 00070b000f0f   size 768.
 ```
 
-Known conics and elliptic quartics have no negative pairing on these supports. Static landing-value avoidance also does not close them.
+## One size-768 orbit is closed by two-quartic gluing
 
-## Zero-quartic Pic^0 and cohomology walls
-
-For every zero-pairing retained elliptic quartic `Q`, exact hyperflex transport gives
-
-```text
-O_Q(D_l) ~= O_Q
-```
-
-for all `l>=1`. Thus nontrivial degree-zero restriction does not force `Q` fixed.
-
-For one zero quartic,
-
-```text
-0 -> O(D_l-Q) -> O(D_l) -> O_Q -> 0
-```
-
-has equal Euler characteristics on the first two terms and
-
-```text
-H^2(D_l)=H^2(D_l-Q)=0.
-```
-
-If `r` is the restriction rank,
-
-```text
-h0(D_l)=h0(D_l-Q)+r,
-h1(D_l)=h1(D_l-Q)+r,
-r in {0,1},
-h1(D_l)>=1.
-```
-
-The obvious single-quartic Kawamata--Viehweg route is structurally blocked because another zero quartic always has negative intersection with the adjoint residual.
-
-Evidence:
-
-- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-*`
-- `GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-*`.
-
-## Support stabilizer reduction: fixedness is all-or-none
-
-For the four canonical balanced supports, exact support stabilizer orders and zero-quartic orbits are
-
-```text
-mask             |G_Sigma|   zero quartics   zero-quartic orbit
-0000770000ff         32             4                 4
-00007b0000ff         32             4                 4
-000707000f0f          2             2                 2
-00070b000f0f          2             2                 2.
-```
-
-Thus on each support orbit the zero quartics form one stabilizer orbit. Since `D_l` is stabilizer-invariant,
-
-```text
-one zero quartic fixed <=> all zero quartics fixed,
-```
-
-and their individual restriction ranks are simultaneously `0` or simultaneously `1`.
-
-Evidence:
-
-- `GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION.md`
-- matching certificate/verifier.
-
-## New closure: nontrivial two-quartic gluing kills `00070b000f0f`
-
-The two size-768 representatives have the same two zero quartics
+The two size-768 representatives have zero quartics
 
 ```text
 Q0: b1=0, i*a2-a3=0, a1-c=0,
-Q1: b2=0, i*a3+a1=0, a2-c=0.
+Q1: b2=0, i*a3+a1=0, a2-c=0,
 ```
 
-They meet transversely at exactly two smooth points
+meeting transversely at two smooth points.
+
+For `00070b000f0f`, the exact gluing cycle monodromy is
 
 ```text
-R_±=[1:1:i:0:0:±sqrt(2):1].
+17+12*sqrt(2),
 ```
 
-For `000707000f0f`, the omitted nodes are `P27` on `Q0` and `P35` on `Q1`. Explicit hyperflex trivializations give the same gluing ratio `-i` at both `R_+` and `R_-`, so the restriction to the connected union is trivial. This orbit survives this leaf.
+which is never a root of unity. Therefore every section of `O(D_l)` vanishes on both zero quartics for every `l>=1`; the whole size-768 support orbit is excluded as an irreducible member of the displayed uniform ray.
 
-For `00070b000f0f`, the omitted nodes are `P26` and `P35`. The two gluing ratios differ, with cycle monodromy
+Thus
 
 ```text
-mu = ((2+sqrt(2))/(2-sqrt(2)))^2
-   = 17+12sqrt(2).
+1632 -> 864
 ```
 
-Since `mu>1` in the positive real embedding,
-
-```text
-mu^l != 1
-```
-
-for every `l>=1`. Therefore
-
-```text
-H^0(Q0 union Q1, O(D_l))=0.
-```
-
-Every global section of `O(D_l)` vanishes on both zero quartics; they are fixed components. Hence no irreducible effective divisor in the displayed uniform ray exists on this support orbit. By automorphism transport, the entire size-768 orbit represented by
-
-```text
-00070b000f0f
-```
-
-is closed.
-
-Evidence:
-
-- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md`
-- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-CERTIFICATE.json`
-- `verify_mb104_balanced16_two_quartic_gluing.py`.
-
-## Updated uniform-P5 hard core
-
-The balanced population drops
-
-```text
-1632 -> 864.
-```
-
-Surviving support orbits are exactly
+and the surviving support orbits are
 
 ```text
 0000770000ff   size 48
@@ -206,16 +100,99 @@ Surviving support orbits are exactly
 000707000f0f   size 768.
 ```
 
-The second size-768 orbit is no longer part of the displayed uniform-ray frontier.
+Evidence:
+
+- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md`
+- matching certificate/verifier.
+
+## Null-union and primitive restriction results on the 864 survivors
+
+The Picard/hyperflex calculation gives
+
+```text
+O_Q(D_l) ~= O_Q
+```
+
+for every zero-pairing retained elliptic quartic and every `l>=1`.
+
+For the two size-48 support orbits, the four zero quartics are pairwise disjoint on the minimal resolution. Their union gives no gluing monodromy obstruction but forces `h1(D_l)>=4`. A primitive degree-seven jet computation then gives
+
+```text
+h0(A)=124,
+h1(A)=4,
+rank(jet_4)=220,
+rank(H0(A)->H0(Z4,O_Z4(A))) >= 2.
+```
+
+The support stabilizer is transitive on the four zero quartics, so all four are nonfixed in `|A|`; powers give nonfixedness in `|D_l|` for every `l>=1`.
+
+For `000707000f0f`, the connected two-quartic gluing line bundle is trivial, so gluing alone also does not close the orbit. The primitive ambiguity is now resolved exactly:
+
+```text
+C = 6H-3 sum E_i:
+  h0(C)=122, h1(C)=0,
+
+A = 7H-4 sum E_i:
+  h0(A)=124, h1(A)=4,
+  rank_Q(i)(jet_4)=220.
+```
+
+The proof uses the support hyperplane
+
+```text
+L=c-a1-a2-i*a3,
+```
+
+whose multiplication injects the 122-dimensional triple-vanishing degree-six space into `H0(A)`, together with two explicit exact degree-seven sections outside the complete `L`-multiple subspace. One of them restricts nontrivially to `Q0`. Stabilizer transport gives nonfixedness of `Q1`, and powers give the result for every `l>=1`.
+
+Evidence:
+
+- `GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-WALL.md`
+- `GENUS1-SPAN5-BALANCED16-SIZE48-DEGREE7-RESTRICTION-RANK.md`
+- `GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md`
+- matching certificates/verifiers.
+
+### Exact retained conclusion
+
+On all three surviving support orbits, every known zero-pairing elliptic quartic is nonfixed for every `l>=1`.
+
+Therefore the following routes are exhausted on the surviving uniform-ray core:
+
+- negative pairing with the retained conic/quartic library;
+- static exceptional landing-value avoidance;
+- hidden nontrivial `Pic^0` restriction on a zero quartic;
+- zero-quartic union gluing monodromy;
+- zero-quartic global restriction/fixedness.
+
+No surviving orbit is closed by nonfixedness itself.
+
+## Global singularity/conductor frontier
+
+For an integral member `C_l in |D_l|` of normalization genus one,
+
+```text
+p_a(D_l)=1+168l^2+56l,
+Delta_total=168l^2+56l.
+```
+
+The retained Lu--Miyaoka adapter gives
+
+```text
+n_ordinary_node_or_triple(C_l) >= max(0,112l-224).
+```
+
+Hence for `l>=3`, a hypothetical carrier cannot realize essentially all genus defect in a single complicated cusp while having no ordinary nodes/triples. The required ordinary singularity population grows linearly with `l`.
+
+This is not yet a contradiction: the total delta budget is quadratic. The active problem is to combine the forced `Omega(l)` ordinary singularities with canonical degree, conductor/branch accounting, fibration ramification, global interpolation, or a stronger source-supported singular-curve inequality so as to bound `l`, force a forbidden incidence, or exclude the 864 supports.
 
 ## Next execution leaf
 
-`MB104-GENUS1-SPAN5-BALANCED16-THREE-ORBIT-RESTRICTION`:
+`MB104-GENUS1-SPAN5-BALANCED16-GLOBAL-SINGULARITY-CONDUCTOR`:
 
-1. decide restriction/nonfixedness for `000707000f0f`, where the connected two-quartic union has trivial gluing;
-2. classify strict-transform intersections for the four zero quartics of the two size-48 supports and determine whether their union imposes any gluing obstruction;
-3. if union geometry does not close them, test explicit global degree-`7l` interpolation / multibranch first-jet gluing;
-4. seek a whole-null-locus semiampleness/effective-cone input only if source-supported;
+1. seek a stronger global inequality controlling singularity count/type against `K.C=112l`, `C^2=336l^2`, and normalization genus one;
+2. translate any such inequality into the retained branch/conductor semantics without double-counting box-node contributions;
+3. test whether the forced ordinary nodes/triples can be charged through one or more genus-five fibrations only with an additional global tangent condition;
+4. if no contradiction is available, isolate the exact missing invariant rather than reopening fixed finite local-jet counting;
 5. keep genus-one support-span `P^6` and genus-zero full-span `P^6` active in parallel.
 
 ## Firewalls
