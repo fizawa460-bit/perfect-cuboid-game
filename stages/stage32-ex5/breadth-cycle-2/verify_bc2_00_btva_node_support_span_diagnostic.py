@@ -19,7 +19,11 @@ def req(value: bool, message: str) -> None:
 def main() -> None:
     state = json.loads(LIVE_STATE.read_text(encoding="utf-8"))
     schema = state["schema"]
-    req(schema == "STAGE32EX5_MAIN_COMPACT_STATE_V15_BC2_30_AUDIT_CONSUMED_BC2_31_RECOVERY_EXECUTION", "live EX5 schema drift")
+    allowed = {
+        "STAGE32EX5_MAIN_COMPACT_STATE_V15_BC2_30_AUDIT_CONSUMED_BC2_31_RECOVERY_EXECUTION",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V16_BC2_31_FRESH_REPLAY_AUDIT_BOUNDARY",
+    }
+    req(schema in allowed, "live EX5 schema drift")
 
     bootstrap = state["bootstrap"]
     req(bootstrap["active_work_pr"] == 1776, "BC2-31 active work PR drift")
@@ -31,20 +35,30 @@ def main() -> None:
     req(audit["last_hostile_audit_status"] == "PASS", "BC2-30 PASS not consumed")
     req(audit["last_hostile_audit_exact_head"] == "38b60be7d0390ad5fa89ddb4dcd9511cfe36c57f", "BC2-30 audit head drift")
     req(audit["last_hostile_audit_review_id"] == 5184226057, "BC2-30 audit review drift")
-    req(audit["new_audit_boundary_exists"] is False and audit["freeze_active"] is False, "stale BC2-30 audit freeze")
-    req(audit["bc2_30_execution_authorized"] is False and audit["bc2_31_execution_authorized"] is True, "BC2-31 execution authority drift")
 
     cur = state["current"]
-    req(cur["next_route"] == "BC2_31_EXACT_RECOVERY_OF_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES", "BC2-31 route drift")
-    req("NO_STATUS_INFERENCE" in cur["stop_semantics"], "BC2-31 identity-only firewall drift")
-
     frontier = state["frontier"]
+    if schema.endswith("BC2_31_RECOVERY_EXECUTION"):
+        req(audit["new_audit_boundary_exists"] is False and audit["freeze_active"] is False, "stale BC2-30 audit freeze")
+        req(audit["bc2_30_execution_authorized"] is False and audit["bc2_31_execution_authorized"] is True, "BC2-31 execution authority drift")
+        req(cur["next_route"] == "BC2_31_EXACT_RECOVERY_OF_UNRETAINED_BC2_19_UNKNOWN_IDENTITIES", "BC2-31 route drift")
+        req("NO_STATUS_INFERENCE" in cur["stop_semantics"], "BC2-31 identity-only firewall drift")
+        req(frontier["e8_bc2_31_identity_recovery_executed"] is False, "BC2-31 result claimed before execution")
+        req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7164, "BC2-30 lower-bound drift")
+    else:
+        req(audit["new_audit_boundary_exists"] is True and audit["freeze_active"] is True and audit["re_audit_required"] is True, "BC2-31 fresh audit freeze drift")
+        req(audit["bc2_30_execution_authorized"] is False and audit["bc2_31_execution_authorized"] is False, "BC2-31 post-execution authority drift")
+        req(cur["next_route"] == "HOSTILE_AUDIT_BC2_31_FRESH_ALL7336_REPLAY", "BC2-31 fresh audit route drift")
+        req("NO_HISTORICAL_172_IDENTITY_INFERENCE" in cur["stop_semantics"] and "NO_BC2_32" in cur["stop_semantics"], "BC2-31 fresh firewall drift")
+        req(frontier["e8_bc2_31_identity_recovery_executed"] is True, "BC2-31 execution receipt missing")
+        req(frontier["e8_bc2_31_fresh_replay_executed"] is True, "BC2-31 fresh replay receipt missing")
+        req(frontier["e8_bc2_31_fresh_unknown_count"] == 170 and frontier["e8_bc2_31_fresh_sat_count"] == 0, "BC2-31 fresh partition drift")
+        req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7166, "BC2-31 fresh lower-bound drift")
+
     req(frontier["e8_bc2_30_audited"] is True, "BC2-30 audit marker drift")
-    req(frontier["e8_bc2_31_identity_recovery_executed"] is False, "BC2-31 result claimed before execution")
-    req(frontier["e8_bc2_31_exact_remaining172_recovered"] is False, "BC2-31 identity set claimed before execution")
+    req(frontier["e8_bc2_31_exact_remaining172_recovered"] is False, "historical 172 identity set overclaim")
     req(frontier["e8_bc2_19_unknown_parent_count"] == 236, "BC2-19 UNKNOWN count drift")
-    req(frontier["e8_bc2_30_unretained_unknown_identity_count"] == 172, "remaining172 count drift")
-    req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7164, "BC2-30 lower-bound drift")
+    req(frontier["e8_bc2_30_unretained_unknown_identity_count"] == 172, "historical remaining172 count drift")
     req(frontier["FULL178_complete"] is False and frontier["e8_whole_first_block_unsat"] is False, "local EX5 work promoted")
     req(state["credit"]["stage32_main_credit"] is False, "local EX5 work promoted to Stage32 MAIN credit")
 
