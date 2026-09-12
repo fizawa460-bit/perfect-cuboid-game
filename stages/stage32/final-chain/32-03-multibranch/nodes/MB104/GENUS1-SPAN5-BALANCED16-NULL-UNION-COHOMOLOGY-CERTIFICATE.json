@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_NULL_UNION_COHOMOLOGY_V1",
+  "status": "RETAINED_EXACT_NEGATIVE_ROUTE_NULL_UNION_GLUING_EXHAUSTED_SURVIVORS864_BALANCED16_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "scope": {
+    "span_semantics": "box-node support span",
+    "divisor_ray": "D_l=7lH-4l sum_{i in Sigma}E_i",
+    "l_min": 1,
+    "surviving_support_masks": ["0000770000ff", "00007b0000ff", "000707000f0f"],
+    "surviving_support_population": 864,
+    "arbitrary_unequal_picard_classes_covered": false
+  },
+  "source_locks": [
+    {"id":"SECTION_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json","blob_sha1":"9c36555e495df0d8d6b816f1c0dc7d4c35b55848"},
+    {"id":"PIC0_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-CERTIFICATE.json","blob_sha1":"1a92336433816883757fee844b736181e6848813"},
+    {"id":"STABILIZER_UNION_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json","blob_sha1":"31695c6908cff73d04baab2ed11dfd04608a2464"},
+    {"id":"TWO_QUARTIC_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-CERTIFICATE.json","blob_sha1":"658516458e0af20bbcac28f5f778eeeb361cd468"}
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
+    "self_lock_policy": "verifier identity and human note identity are fixed by this certificate"
+  },
+  "size48_union": {
+    "support_masks": ["0000770000ff", "00007b0000ff"],
+    "support_orbit_sizes": [48,48],
+    "representative_hyperplane": "b1=0",
+    "quartic_indexing": "Q_(s,t): b1=0, a2+s*i*a3=0, a1+t*c=0; s,t=+-1",
+    "component_count": 4,
+    "pair_type_counts": {"same_s_opposite_t":2,"same_t_opposite_s":2,"opposite_both":2},
+    "same_s_canonical_intersection": "four box nodes only",
+    "same_t_canonical_intersection": "four box nodes only",
+    "opposite_both_canonical_intersection": "empty",
+    "same_s_local_A1": "x*z+y^2=0",
+    "same_t_local_A1": "x*z-y^2=0",
+    "strict_transform_pairwise_intersection": 0,
+    "strict_transform_union": "four disjoint smooth elliptic quartics",
+    "component_restrictions_trivial": true,
+    "union_restriction_trivial": true,
+    "H0_union_D_l": 4,
+    "union_cycle_monodromy_obstruction_exists": false,
+    "Z4_square": -16,
+    "K_dot_Z4": 16,
+    "D_dot_Z4": 0,
+    "chi_D_minus_Z4_equals_chi_D": true,
+    "H2_D_minus_Z4_zero_all_l": true,
+    "forced_h1_lower_bound": 4,
+    "global_restriction_rank_decided": false
+  },
+  "size768_000707_union": {
+    "support_mask": "000707000f0f",
+    "support_orbit_size": 768,
+    "component_count": 2,
+    "pair_intersection": 2,
+    "connected": true,
+    "cycle_monodromy": "1",
+    "union_restriction_trivial": true,
+    "arithmetic_genus": 3,
+    "Z2_square": -4,
+    "K_dot_Z2": 8,
+    "D_dot_Z2": 0,
+    "chi_D_minus_Z2_minus_chi_D": 2,
+    "H2_D_minus_Z2_zero_all_l": true,
+    "forced_h1_lower_bound": 3,
+    "global_restriction_rank_decided": false
+  },
+  "retained_consequence": {
+    "surviving_support_population": 864,
+    "surviving_support_masks": ["0000770000ff", "00007b0000ff", "000707000f0f"],
+    "any_surviving_orbit_closed": false,
+    "null_union_gluing_route_exhausted": true,
+    "size48_disconnected_gluing_route_closed_as_strategy": true,
+    "000707_connected_cycle_gluing_route_closed_as_strategy": true,
+    "zero_quartic_nonfixedness_proved": false,
+    "irreducible_genus1_carrier_constructed": false,
+    "balanced16_closed": false,
+    "next_required_lever": "global restriction-rank/interpolation or conductor/singularity inequality or whole-null-locus semiampleness/effective-cone input"
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-WALL.md",
+    "human_note_blob_sha1": "6d5fde6404a99e4541c9447d4111c7d7d14df9ec",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_null_union_cohomology.py",
+    "verifier_blob_sha1": "6cbb3188a00118a0dc9d7b88b6bf86d21692e377"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_NULL_UNION_COHOMOLOGY_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on exact candidate head"
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-BALANCED16-GLOBAL-SINGULARITY-AND-RESTRICTION-RANK",
+    "targets": [
+      "compute global restriction rank on the three surviving support orbits",
+      "test degree-7l global interpolation rather than fixed local finite-jet rank",
+      "seek conductor/log-Miyaoka singularity inequalities compatible with geometric genus one",
+      "retain all existing finite-jet and local-ramification no-go firewalls"
+    ]
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "balanced16_closed": false,
+    "whole_span5_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
