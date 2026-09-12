@@ -2,20 +2,36 @@
 
 This is the mutable current audit contract. Historical audit contracts remain provenance. PR #1776 remains open/draft/unmerged.
 
-## Predecessor authority
+## Direct predecessor authority
 
-BC2-32 hostile audit **PASS** is the direct predecessor authority: exact head `5c68ed03d77d6443c54340c90d457e80441fe414`, review `5185434136`. It certified `63 UNSAT / 107 UNKNOWN / 0 SAT` from the audited BC2-31 170-UNKNOWN target, with known parent-UNSAT lower bound `7229`. The 107 current UNKNOWN identities are explicit and hash to `e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492`.
+BC2-32 hostile audit **PASS** is the direct predecessor authority: exact head `5c68ed03d77d6443c54340c90d457e80441fe414`, review `5185434136`.
 
-## BC2-33 execution recovery
+## BC2-33 retained boundary under audit
 
-BC2-33 remains bounded to exactly those 107 audited UNKNOWN parents, `40000 ms` per parent, one heavy runner, effective concurrency 1, no scaleout. Generation 1 at head `75760777934825de9851811c708871412d99ab0e` passed its semantic runkey gate, but workflow `34681403712` compute job `103520625439` was cancelled by the stale-head sweeper during solver execution. Validation and artifact upload were skipped. Therefore generation 1 has no retained solver result and no mathematical credit.
+BC2-33 generation 2 replayed exactly the hostile-audited BC2-32 107-UNKNOWN parent set with `40000 ms` per parent, one heavy runner, no scaleout.
 
-The runkey records that cancelled generation-1 receipt with `accepted_for_mathematical_credit=false` and is disarmed. The active gate is generation-2-only. A generation-2 run may start only after the repaired exact cold head passes EX5 main integrity, Stage32 claim-frontier integrity, and stale-run sweeper, followed by a fresh runkey advance from generation 1 to generation 2.
+Exact receipts:
 
-## Execution and retention obligations
+- execution head `109aa38ff7e7d18e80697970489976acfd489503`
+- workflow `34681698147`
+- authorize job `103521379130`
+- compute job `103521422359`
+- artifact `10294224700`
+- artifact ZIP sha256 `2f60580c25eb6564a3daa3cd314cc0b0bf66eccc53f1da9dc32989f43da4052c`
+- raw JSON sha256 `924a6b44cdba3152631a2a4ed24c9c37e6a5b23ee160d116903d25f3b7f74346`
+- retained result/checkpoint canonical `3310103df67d47d89ac121504a668158e0946070a7b15da07bbb0af7105fa73c`
+- checkpoint git blob `465dcb5c535c6cbbedc25ef2afe26915291ce38b`
+- status stream sha256 `e921c64caea0da8c75e2e47ade3c4b3d2105fc1583c97548cec7142e931473c5`
+- result `26 UNSAT / 81 UNKNOWN / 0 SAT`
+- remaining UNKNOWN identity hash `be6ee823abd48d2a6f8163c07977e4112036f38526f39cdddbdf331751170071`
+- known parent-UNSAT lower bound `7255`
 
-Every successful result must partition exactly 107 audited targets into UNSAT / UNKNOWN / SAT. Every remaining UNKNOWN identity must be retained explicitly; timeout UNKNOWN may not be relabelled UNSAT. Any SAT result is only a Picard64 feasibility witness and must retain its coordinates/pairings without actual-curve or effectivity promotion. The known parent-UNSAT lower bound may increase only by newly exact UNSAT parents from a completed authorized run.
+Every remaining UNKNOWN identity is explicitly retained. No timeout UNKNOWN is relabelled UNSAT. There is no SAT witness. Generation 1 is separately retained as `CANCELLED_STALE_HEAD_NO_RESULT_RETAINED` and grants no mathematical credit.
 
-After successful generation-2 compute, mainbatch must retain the compact artifact and exact workflow/job/artifact receipt, disarm/consume the runkey, remove the BC2-33 heavy execution path, install a fail-closed retained verifier/state projection, freeze a new BC2-33 hostile-audit boundary, and stop for `stage32ex5-audit`. BC2-34 is blocked until that audit returns PASS.
+The generation-2 runkey is consumed/disarmed. The BC2-33 authorize/compute heavy jobs have been removed from the active workflow. The live state is frozen with `re_audit_required=true`; BC2-34 is blocked until hostile-audit PASS.
 
-The following remain false: whole-first-block authoritative UNSAT, whole-stratum closure, FULL178 completion, Stage32 MAIN pruning credit, N350 registration, effectivity/actual-curve credit, theorem/endpoint credit, Perfect Cuboid existence/nonexistence claim, heavy scaleout, and merge authorization.
+## Hostile-audit obligations
+
+Audit must verify the BC2-32 PASS receipt, BC2-33 source/preflight/checkpoint blob and canonical locks, generation-1 non-credit cancellation receipt, generation-2 exact execution/artifact receipt, exact `26/81/0` partition, retained 81-identity hash, lower bound `7255`, runkey consumption/disarm, heavy-path retirement, and all credit firewalls.
+
+The following remain false: whole-first-block authoritative UNSAT, whole-stratum closure, FULL178 completion, Stage32 MAIN pruning credit, N350 registration, effectivity/actual-curve credit, theorem/endpoint/receiver credit, Perfect Cuboid existence/nonexistence claim, heavy scaleout, and merge authorization.
