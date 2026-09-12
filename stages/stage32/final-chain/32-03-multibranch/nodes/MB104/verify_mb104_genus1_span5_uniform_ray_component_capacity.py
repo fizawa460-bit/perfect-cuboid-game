@@ -1,5 +1,46 @@
 #!/usr/bin/env python3
+import hashlib
 from itertools import combinations
+from pathlib import Path
+
+# Fail closed on every declared dependency before any mathematical replay.
+SOURCE_LOCKS = {
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md": "de83fc169814681109bcbc1576ad24f67d6159e0",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-AUT-ORBIT-CERTIFICATE.json": "3bc4453affce96e87a60864c99f745bb4c28c794",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json": "9c36555e495df0d8d6b816f1c0dc7d4c35b55848",
+    "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY.md": "59fb415010abfbb48cb6c4ae66b66fd9b1f270e8",
+}
+
+
+def repo_root():
+    here = Path(__file__).resolve()
+    for parent in here.parents:
+        if (parent / "AGENTS.md").is_file() and (parent / "stages").is_dir():
+            return parent
+    raise SystemExit("SOURCE_LOCK_FAIL repo_root_not_found")
+
+
+def git_blob_sha1(path):
+    data = path.read_bytes()
+    header = f"blob {len(data)}\0".encode("ascii")
+    return hashlib.sha1(header + data).hexdigest()
+
+
+def verify_source_locks():
+    root = repo_root()
+    for rel, expected in SOURCE_LOCKS.items():
+        path = root / rel
+        if not path.is_file():
+            raise SystemExit(f"SOURCE_LOCK_FAIL missing {rel}")
+        actual = git_blob_sha1(path)
+        if actual != expected:
+            raise SystemExit(
+                f"SOURCE_LOCK_FAIL {rel} expected={expected} actual={actual}"
+            )
+    print(f"SOURCE_LOCKS_PASS count={len(SOURCE_LOCKS)}")
+
+
+verify_source_locks()
 
 P=1097
 II=341
@@ -96,14 +137,14 @@ assert capacity([2]*4)==12
 assert capacity([4]*4)==28
 assert capacity([4]*2)==14
 
-# Retained incidence-24 geometry: 8 conics, each section node on two conics.
+# Source-locked incidence-24 geometry: 8 conics, each section node on two conics.
 assert 2*14>24
 
-# Retained incidence-20 geometry: 4 conics + 2 elliptic quartics,
+# Source-locked incidence-20 geometry: 4 conics + 2 elliptic quartics,
 # every section node on exactly two reduced components.
 assert 2*14>26
 
-# Retained incidence-19 geometry: four reduced conics cover every section node.
+# Source-locked incidence-19 geometry: four reduced conics cover every section node.
 assert 14>12
 
 # Incidence-16 size-3 orbit: b1=0; four smooth elliptic quartics.
@@ -169,7 +210,8 @@ assert len(Q14p&Q14m)==2
 assert 7*2-4*len(Q14p)==-10
 assert 7*2-4*len(Q14m)==-10
 
-print('PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V2')
+print('PASS STAGE32_MB104_GENUS1_SPAN5_UNIFORM_RAY_COMPONENT_CAPACITY_V3')
+print('source_locks=4 fail_closed_before_math')
 print('inc24=N>=14_forces_negative_component capacity=24 incidence_at_least=28')
 print('inc20=N>=14_forces_negative_component capacity=26 incidence_at_least=28')
 print('inc19=N>=14_forces_negative_conic capacity=12 incidence_at_least=14')
