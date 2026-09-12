@@ -1,0 +1,155 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_RESTRICTION_COHOMOLOGY_WALL_V1",
+  "status": "RETAINED_EXACT_COHOMOLOGY_REDUCTION_DIRECT_SINGLE_QUARTIC_KV_BLOCKED_BALANCED16_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "scope": {
+    "span_semantics": "box-node support span",
+    "divisor_ray": "D_l=7lH-4l sum_{i in Sigma}E_i",
+    "support_size": 14,
+    "l_min": 1,
+    "support_frontier": "four balanced incidence-16 Aut(S) support orbits",
+    "chosen_test_curve": "one zero-pairing smooth elliptic quartic Q",
+    "arbitrary_unequal_picard_classes_covered": false
+  },
+  "source_locks": [
+    {
+      "id": "FORMAL_PICARD",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md",
+      "blob_sha1": "de83fc169814681109bcbc1576ad24f67d6159e0"
+    },
+    {
+      "id": "PIC0_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-CERTIFICATE.json",
+      "blob_sha1": "1a92336433816883757fee844b736181e6848813"
+    },
+    {
+      "id": "STOLL_CANONICAL_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/STOLL-CANONICAL-C0-SOURCE-NOTE.md",
+      "blob_sha1": "e344290d5241c3f7f165ea3027cfc778abec3360"
+    },
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-WALL.md",
+      "blob_sha1": "dccd805176d710cfbc05728c0746de60f54b2798"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "verifier_checks_required_source_semantics_after_blob_identity": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
+    "self_lock_policy": "verifier identity is fixed by this certificate and omitted from its own source_locks"
+  },
+  "geometry": {
+    "K_equals_H": true,
+    "K2": 16,
+    "chi_O_S": 8,
+    "Q_genus": 1,
+    "H_dot_Q": 4,
+    "K_dot_Q": 4,
+    "Q2": -4,
+    "D_dot_Q": 0,
+    "O_Q_D_trivial": true,
+    "zero_quartics_per_balanced_orbit": {
+      "0000770000ff": 4,
+      "00007b0000ff": 4,
+      "000707000f0f": 2,
+      "00070b000f0f": 2
+    }
+  },
+  "cohomology_reduction": {
+    "D2": "336*l^2",
+    "K_dot_D": "112*l",
+    "chi_D": "168*l^2-56*l+8",
+    "D_minus_Q_2": "336*l^2-4",
+    "K_dot_D_minus_Q": "112*l-4",
+    "chi_D_minus_Q": "168*l^2-56*l+8",
+    "H_dot_K_minus_D": "16-112*l",
+    "H_dot_K_minus_D_plus_Q": "20-112*l",
+    "H2_D_zero": true,
+    "H2_D_minus_Q_zero": true,
+    "restriction_rank_values": [0, 1],
+    "h0_dimension_relation": "h0(D)=h0(D-Q)+r",
+    "h1_dimension_relation": "h1(D)=h1(D-Q)+r",
+    "H1_D_to_H1_OQ_surjective": true,
+    "h1_D_forced_at_least": 1,
+    "balanced_ray_forced_special": true,
+    "H1_D_minus_Q_zero_implies_restriction_surjective": true,
+    "RR_alone_decides_restriction_rank": false
+  },
+  "omitted_exceptional": {
+    "definition": "P is the unique box node on Q omitted from Sigma; E_P is its exceptional curve",
+    "D_dot_E_P": 0,
+    "Q_dot_E_P": 1,
+    "E_P2": -2,
+    "D_minus_Q_dot_E_P": -1,
+    "E_P_forced_component_of_D_minus_Q": true,
+    "restriction_degree_on_E_P": -1,
+    "O_E_P_D_minus_Q": "O_P1(-1)",
+    "acyclic_fixed_component_stripping": true,
+    "cohomology_after_strip": "H^i(D-Q-E_P)=H^i(D-Q) for i=0,1,2"
+  },
+  "direct_KV_wall": {
+    "all_four_orbits_have_at_least_two_zero_quartics": true,
+    "candidate": "L=D-Q-K",
+    "candidate_dot_E_P": -1,
+    "other_zero_quartic_formula": "L.R=-4-Q.R<0 for every other zero quartic R",
+    "D_minus_Q_minus_K_nef": false,
+    "after_exceptional_strip_candidate": "L_E=D-Q-E_P-K",
+    "after_exceptional_strip_other_zero_formula": "L_E.R=-4-Q.R-E_P.R<0",
+    "after_exceptional_strip_nef": false,
+    "double_Q_ladder_candidate": "N=D-2Q-E_P-K",
+    "double_Q_ladder_other_zero_formula": "N.R=-4-2Q.R-E_P.R<0",
+    "double_Q_ladder_nef": false,
+    "reason": "distinct irreducible curves have nonnegative intersection and every balanced support has another zero-pairing elliptic quartic",
+    "single_quartic_Kawamata_Viehweg_vanishing_route_available": false
+  },
+  "retained_consequence": {
+    "restriction_map_nonzero_proved": false,
+    "restriction_map_zero_proved": false,
+    "direct_single_quartic_KV_route_closed": true,
+    "RR_route_closed_without_H1_input": true,
+    "forced_speciality_h1_D_positive": true,
+    "simultaneous_zero_quartic_structure_is_load_bearing": true,
+    "next_required_lever": "simultaneous_zero_quartic_union_or_explicit_global_jet_gluing",
+    "balanced16_closed": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-WALL.md",
+    "human_note_blob_sha1": "dccd805176d710cfbc05728c0746de60f54b2798",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_restriction_cohomology.py",
+    "verifier_blob_sha1": "a49c5dd2f63f0091b22ca07c0a56959779c81e38"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_RESTRICTION_COHOMOLOGY_WALL_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run the fail-closed verifier directly on the exact candidate head"
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-BALANCED16-SIMULTANEOUS-ZERO-QUARTIC-GLUING",
+    "targets": [
+      "replace one-quartic restriction by the restriction map to the union of all zero quartics",
+      "compute compatibility/gluing conditions at quartic intersections and exceptional landing points",
+      "test explicit degree-7 global jet interpolation on the canonical model if the union sequence does not decide fixedness",
+      "do not retry the direct single-quartic Kawamata-Viehweg route"
+    ]
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "balanced16_closed": false,
+    "whole_span5_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
