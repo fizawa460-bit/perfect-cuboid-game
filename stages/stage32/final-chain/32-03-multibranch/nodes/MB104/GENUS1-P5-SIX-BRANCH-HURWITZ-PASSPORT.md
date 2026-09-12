@@ -1,229 +1,99 @@
-# Stage32 MB104 — F1-P5 six-branch Hurwitz passport
+# Stage32 MB104 — historical explicit F1-P5 six-branch capacity wall
 
-Status: **RETAINED FINITE GLOBAL REDUCTION / INFINITE l-FAMILY REDUCED TO SIX INTEGER NODE-SPLITS / NO CLOSURE / MB104 INCOMPLETE / NO CREDIT**
+Status: **REPAIRED RETAINED CAPACITY EQUALITY / PRIOR FINITE-SPLIT CLAIM RETRACTED / NON-FRONTIER / NO CLOSURE / NO CREDIT**
 
-## Inputs
+## Scope
 
-Assume an actual integral normalization-genus-one carrier realizes the explicit retained uniform F1-P5 packet.  The preceding full-deck leaf forces a connected `G`-stable curve
+This file concerns only the original explicit formal F1-P5 support `S_P5_14` with node-stabilizer type counts `(5,5,4)`.  That support is historical/non-frontier: it was already excluded as an irreducible carrier by the retained negative `c=0` conic argument.
+
+The full-deck equality leaf conditionally forces, for that explicit packet,
 
 ```text
 Z subset C8 x C8,
 G ~= (Z/2)^3,
-g(Z)=224l+1,
+Z/G=E,
+g(E)=1,
+Z->C8 etale of degree 56l.
 ```
 
-whose two projections to the genus-five curve `C8` are etale of degree
+The factor quotient `C8/G` is `P^1` with six order-two branch values, two for each of the three singular stabilizer types.  Thus the induced map
 
 ```text
-n=56l,
+phi:E -> P^1
 ```
 
-and whose quotient
+has degree `56l` and is ramified only over those six values.
 
-```text
-E=Z/G
-```
+## Exact capacity equality
 
-is the original genus-one normalization.
-
-## 1. The factor quotient has six simple branch values
-
-The three singular node-stabilizer involutions `s1,s2,s3` each account for exactly `16` box nodes.  If `f_j` is the number of fixed points of `s_j` on `C8`, then the diagonal fixed locus in `C8 x C8` has `f_j^2` points.  No point can be fixed by two distinct outside involutions because their product is a nontrivial element of the free subgroup `G0`.  Hence every diagonal fixed-point orbit has size `|G|/2=4`, and
-
-```text
-f_j^2/4 = 16,
-f_j=8.
-```
-
-The three nontrivial elements of `G0` are fixed-point-free.  Apply Riemann--Hurwitz to
-
-```text
-C8 -> Q:=C8/G.
-```
-
-With `genus(C8)=5`,
-
-```text
-8 = 8(2g(Q)-2) + sum_(1!=s in G) #Fix(s).
-```
-
-The three singular stabilizers already contribute `3*8=24`.  The remaining outside involution cannot contribute positively without forcing negative genus.  Therefore
-
-```text
-Q ~= P^1,
-```
-
-and the remaining outside involution is fixed-point-free.
-
-For each `s_j`, its eight fixed points split into two `G`-orbits of four points.  Thus
-
-```text
-C8 -> P^1
-```
-
-has exactly six branch values, two for each singular stabilizer type, and all inertia indices are `2`.
-
-## 2. Quotient the etale correspondence
-
-The first etale projection `Z->C8` is `G`-equivariant, so quotienting gives a degree-`n=56l` map
-
-```text
-phi: E=Z/G -> Q=C8/G ~= P^1.
-```
-
-It is unramified away from the six branch values of `C8->Q`.
-
-Fix one such branch value `q`, with inertia involution `s`.  For a point `z in Z` over a fixed point `x in C8`, etaleness of `Z->C8` gives
-
-```text
-G_z subset G_x=<s>.
-```
-
-Comparing local quotient degrees in the commutative square shows
-
-```text
-ramification_index(phi at [z]) = |G_x|/|G_z|.
-```
-
-Hence every point over `q` is of exactly one of two kinds:
-
-```text
-G_z=<s>:  phi is unramified there;
-G_z=1:    phi has simple ramification index 2.
-```
-
-Let
+For a branch value `q`, write
 
 ```text
 u_q = number of unramified points over q,
-r_q = number of ramified points over q.
+r_q = number of simple ramification points over q.
 ```
 
 Then
 
 ```text
-u_q + 2 r_q = n = 56l.                   (H1)
+u_q+2r_q=56l.
 ```
 
-## 3. Riemann--Hurwitz fixes the total unramified capacity
-
-Since `E` has genus one and `Q=P^1`,
+Riemann--Hurwitz on the genus-one domain gives
 
 ```text
-sum_q r_q = 2n = 112l.                   (H2)
+sum_q r_q=112l,
+sum_q u_q=112l.
 ```
 
-Summing `(H1)` over the six branch values gives
+The explicit formal packet has exactly `112l` supported odd/minimal normalization branches.  Each such normalization point is unramified for `phi` over a branch value of its own stabilizer type.  Hence these supported branches exhaust all unramified points over the six values.
+
+The three type totals are therefore exactly
 
 ```text
-sum_q u_q + 2 sum_q r_q = 6n.
+sum_(two type-1 values) u_q = 40l,
+sum_(two type-2 values) u_q = 40l,
+sum_(two type-3 values) u_q = 32l.
 ```
 
-Using `(H2)`,
+Equivalently the corresponding pair totals of ramified points are
 
 ```text
-sum_q u_q = 2n = 112l.                   (H3)
+36l, 36l, 40l.
 ```
 
-But the retained uniform packet has exactly
+For each individual branch value only
 
 ```text
-R8=r_odd=112l
+0<=u_q<=56l,
+u_q even,
+r_q=(56l-u_q)/2
 ```
 
-distinct normalization branches through its fourteen supported box nodes.
+is retained here.
 
-Each such branch gives a distinct point of `E`.  At the corresponding box node the same singular stabilizer fixes both coordinates of every lift in `Z`, so the point of `E` is **unramified** for `phi` and lies over one of the six branch values.
+## Retraction of the former finite-split claim
 
-Thus the `112l` supported odd branches inject into a set whose total cardinality is exactly `112l`.  Therefore they exhaust it:
+The earlier version of this file asserted
 
 ```text
-all unramified points of phi over the six branch values
-= the supported odd/minimal branches.
+u_q=8l*m_q
 ```
 
-There are no additional unramified points over those six values.
+and reduced the problem to six integers whose pair sums were `(5,5,4)`.  That step implicitly assumed that all `8l` normalization branches supported at one box node must descend to the same first-factor quotient branch value.
 
-## 4. Exact pair totals from the `(5,5,4)` support
-
-The support uses the three stabilizer types in node counts
+That concentration statement has not been proved.  Different normalization branches through the same box node may lift to different fixed points in the finite product-cover fiber.  Therefore:
 
 ```text
-5,5,4.
+u_q divisible by 8l
 ```
 
-Each supported node carries `8l` normalization branches.  Therefore, for the two branch values associated to each stabilizer type, the sums of `u_q` are exactly
+is **not retained**, and the former finite six-integer/Nielsen-passport reduction is withdrawn.
 
-```text
-40l,
-40l,
-32l.                                      (H4)
-```
+The valid retained conclusion is only the global capacity equality and the three stabilizer-type pair totals above.
 
-Using `(H1)` on each pair, the corresponding pair sums of simple ramification points are
+## Frontier firewall
 
-```text
-36l,
-36l,
-40l.                                      (H5)
-```
+This historical support is not one of the current balanced16 survivors.  No `(5,5,4)` conclusion is transferred to the active masks `0000770000ff`, `00007b0000ff`, or `000707000f0f`.
 
-## 5. Finite six-integer passport
-
-A fixed supported box node has a fixed first-factor `G`-orbit, hence contributes all of its `8l` branches to one of the six branch values.  Write
-
-```text
-u_q = 8l m_q.
-```
-
-Then the infinite family is reduced to six nonnegative integers
-
-```text
-m1,...,m6
-```
-
-with pair constraints
-
-```text
-m1+m2=5,
-m3+m4=5,
-m5+m6=4.                                (H6)
-```
-
-For each branch value,
-
-```text
-r_q = (56l-u_q)/2
-    = (28-4m_q)l.                         (H7)
-```
-
-Thus the local monodromy permutation around `q` has cycle shape
-
-```text
-2^((28-4m_q)l) 1^(8m_q l).
-```
-
-Up to swapping the two branch values inside each stabilizer pair, only finitely many integer passport shapes remain, independent of `l` except for the common scaling factor.
-
-## Consequence
-
-The global realization problem for this explicit F1-P5 uniform ray has moved from arbitrary high-degree singular curves to a finite Hurwitz/Nielsen-class question:
-
-```text
-Does there exist, for some l>=1,
-a connected degree-56l genus-one cover of P^1
-with six involutory branch permutations,
-pairwise fixed-point totals governed by (H6),
-which lifts to the required G-equivariant etale correspondence Z->C8?
-```
-
-This leaf does not answer that final existence question.
-
-## Firewalls
-
-- Conditional on actual realization of the explicit uniform F1-P5 packet.
-- No Hurwitz passport is asserted to exist.
-- No Nielsen-class nonexistence theorem is claimed.
-- No surviving support orbit is closed yet.
-- Whole span5, unequal Picard coefficients, P6 sectors, MB104, receiver, theorem, endpoint, and Perfect-Cuboid credit remain open/zero.
-- No merge authorization.
+No support orbit is closed by this repaired leaf; MB104/receiver/theorem/endpoint credit remains zero.  No merge authorization.
