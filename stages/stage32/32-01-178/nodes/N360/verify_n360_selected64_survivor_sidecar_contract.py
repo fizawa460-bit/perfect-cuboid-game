@@ -97,7 +97,10 @@ def main() -> None:
         "gram64_sha256": "1" * 64,
         "picard64_coordinates_sha256": digest(zero),
         "witness_source_locks": PICARD_LOCKS,
-        "coverage_source": {"identity_contract": "N104_CANONICAL_INDEXED_TERMINAL_RANK", "producer_status": "SYNTHETIC_SCHEMA_FIXTURE_ONLY"},
+        "coverage_source": {
+            "identity_contract": "N104_CANONICAL_INDEXED_TERMINAL_RANK",
+            "producer_status": "SYNTHETIC_SCHEMA_FIXTURE_ONLY",
+        },
     }
     validate(fixture)
 
