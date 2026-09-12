@@ -1,7 +1,15 @@
 # Stage32EX5 — current role in Stage32
 
-Stage32EX5 remains an auxiliary `ATTACKS` lane for Stage32 `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Ordinary research uses `stage32ex5-mainbatch`; hostile audit uses `stage32ex5-audit`. PR #1776 remains active. BC2-29 hostile audit **PASS** is exact head `ca8e0ea7209b898d24d5f647dcce11be1aff03b2`, review `5183342658`.
+Stage32EX5 is an auxiliary `ATTACKS` / producer lane for Stage32 `FULL178_AND_FINAL_MILESTONE_CHAIN`; `32-01 FULL178` remains primary/incomplete. Ordinary EX5 research uses `stage32ex5-mainbatch`; `stage32ex5-audit` is used only after a new exact retained checkpoint is frozen. PR #1776 remains open/draft/unmerged.
 
-BC2-30 boundary42 executed exactly once at compute head `53be207f91cfd6b13ee8533efcf0af64bdccf3d6`, workflow `34647160641`, compute job `103420643305`, artifact `10283165917`. All four p42 leaves are UNSAT: `4 UNSAT / 0 UNKNOWN / 0 SAT`; parent `1064` is newly UNSAT. The retained BC2-25..30 path therefore has **retained UNKNOWN=0** and the known parent-UNSAT lower bound is `7164`.
+At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e`, Stage32 is V15 `STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED`; authoritative residual is `17,128` strata / `47,598,978,285,064,933,757,427` terminals and FULL178 remains incomplete. EX5 must re-read current MAIN and `stages/stage32/proof/CROSS-LANE-DEMANDS.json` at startup rather than treating this observation as permanent authority.
 
-This does **not** close the whole first block: the separate `172` BC2-19 UNKNOWN identities remain uninferred. The BC2-30 runkey is consumed/disarmed, the one-shot executor is removed, and the retained checkpoint/verifier are source-locked to the exact compute/artifact receipt. BC2-31 is blocked until a fresh `stage32ex5-audit` PASS. No Stage32 MAIN/N350, whole-first-block, whole-stratum, FULL178, theorem, effectivity, receiver, endpoint, Perfect Cuboid, heavy-scaleout, or merge credit is authorized.
+The registered EX5 producer demand `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is SATISFIED and there are currently no OPEN EX5 producer demands. A future higher-priority OPEN EX5 demand preempts lower-priority local continuation.
+
+BC2-33 hostile audit **PASS** is exact head `241d65c51f93b66b79f7e8407891cc46359a45c9`, review `5185961173`.
+
+BC2-34 replayed exactly the audited BC2-33 81-UNKNOWN set at `60000 ms` per parent, one heavy runner, no scaleout. The retained result is `17 UNSAT / 64 UNKNOWN / 0 SAT`; known parent-UNSAT lower bound `7272`; remaining UNKNOWN hash `00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b`.
+
+Execution head `79167ffcdd0be4cf3bdcb7e652fad38acb447fb4`, workflow `34685719102`, compute job `103532291007`, artifact `10296591024`, checkpoint canonical `e535e86ddfcd19aaa3aa316f5f42e49be830e48c16e1cdd15c03a6a80e6a84ba`. The runkey is consumed/disarmed and the BC2-34 heavy path is retired.
+
+BC2-34 is frozen for hostile audit. BC2-35 is blocked until audit PASS. UNKNOWN remains UNKNOWN. No whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem, effectivity, receiver, endpoint, Perfect Cuboid, heavy-scaleout, or merge credit is authorized.
