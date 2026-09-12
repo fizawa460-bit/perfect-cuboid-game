@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
-import itertools
+import json
 import sys
 from pathlib import Path
 
@@ -26,6 +26,13 @@ def stream_digest(values) -> str:
     return hashlib.sha256("".join(f"{v}\n" for v in values).encode()).hexdigest()
 
 
+def output_path() -> Path:
+    req("--output" in sys.argv, "--output missing")
+    i = sys.argv.index("--output")
+    req(i + 1 < len(sys.argv), "--output value missing")
+    return Path(sys.argv[i + 1])
+
+
 def main() -> None:
     req(blob(GENERATOR) == EXPECTED_GENERATOR_BLOB, "N367 generator blob drift")
     spec = importlib.util.spec_from_file_location("n367_generator_stable", GENERATOR)
@@ -33,6 +40,8 @@ def main() -> None:
     mod = importlib.util.module_from_spec(spec)
     sys.modules["n367_generator_stable"] = mod
     spec.loader.exec_module(mod)
+
+    replay_meta = {}
 
     def stable_residual_ordinals(core, P, blocks, g):
         parents = list(core.e8.iter_parent_population(mod.BLOCK, g))
@@ -46,19 +55,38 @@ def main() -> None:
                 result, _reason = core.check_with_fixed(s, y, fixed)
                 if result == "unsat":
                     unresolved.remove(ordinal)
-        replay_superset = sorted(unresolved)
-        req(mod.EXPECTED_RESIDUAL_COUNT <= len(replay_superset) <= 12,
-            f"finite-ring replay timeout superset outside bounded recovery gate: {len(replay_superset)}")
-        matches = [list(c) for c in itertools.combinations(replay_superset, mod.EXPECTED_RESIDUAL_COUNT)
-                   if stream_digest(c) == mod.EXPECTED_RESIDUAL_STREAM]
-        req(len(matches) == 1, f"CUT196 residual digest preimage not unique: {len(matches)}")
-        recovered = matches[0]
-        req(stream_digest(recovered) == mod.EXPECTED_RESIDUAL_STREAM, "recovered residual digest drift")
-        print({"finite_ring_replay_superset": replay_superset, "retained_digest_recovered_ordinals": recovered})
-        return recovered
+        current = sorted(unresolved)
+        req(1 <= len(current) <= 12,
+            f"finite-ring replay unresolved set outside bounded exact-probe gate: {len(current)}")
+        replay_meta.update({
+            "source_cut196_residual_count": mod.EXPECTED_RESIDUAL_COUNT,
+            "source_cut196_residual_parent_ordinal_sha256": mod.EXPECTED_RESIDUAL_STREAM,
+            "independent_replay_unresolved_count": len(current),
+            "independent_replay_unresolved_ordinals": current,
+            "independent_replay_unresolved_sha256": stream_digest(current),
+            "source_digest_reproduced_exactly": stream_digest(current) == mod.EXPECTED_RESIDUAL_STREAM,
+            "semantics": "CUT196 source residuals are route-selection only; every parent proved finite-ring UNSAT in this exact-head replay is safely excluded by a necessary condition, and every unresolved parent is sent to exact selected64 solve"
+        })
+        print(json.dumps(replay_meta, sort_keys=True))
+        return current
 
     mod.residual_ordinals = stable_residual_ordinals
     mod.main()
+
+    out = output_path()
+    body = json.loads(out.read_text())
+    body["schema"] = "STAGE32_32_01_178_N367_BLOCK1155_INDEPENDENT_FINITE_RING_RESIDUAL_WITNESS_RESULT_V1"
+    body["route_replay"] = replay_meta
+    if body.get("witness") is not None:
+        body["status"] = "SAT_CURRENT_V15_WITNESS_CANDIDATE"
+    elif any(a.get("exact_result") == "unknown" for a in body.get("attempts", [])):
+        body["status"] = "UNKNOWN_REMAINS_IN_INDEPENDENT_RESIDUAL_PROBE"
+    else:
+        body["status"] = "NO_SAT_IN_INDEPENDENT_RESIDUAL_PROBE"
+    body.pop("canonical_sha256_without_this_field", None)
+    body["canonical_sha256_without_this_field"] = mod.csha(body)
+    out.write_text(json.dumps(body, sort_keys=True, indent=2) + "\n")
+    print(json.dumps({"final_status": body["status"], "exact_parent_ordinals": body["target"]["parent_ordinals"], "canonical": body["canonical_sha256_without_this_field"]}, sort_keys=True))
 
 
 if __name__ == "__main__":
