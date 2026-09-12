@@ -5,11 +5,16 @@ Ordinary `stage32ex6-mainbatch` reads, in this order:
 1. `AGENTS.md`;
 2. `stages/stage32-ex6/MAIN-START-HERE.md`;
 3. `stages/stage32-ex6/MAIN-STATE.json`;
-4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+4. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus any exact demand artifact/state explicitly selected by the registry.
 
 This is the fixed ordinary startup contract. Mutable routing, current blocker, re-entry conditions, audit provenance, and next route live only in `MAIN-STATE.json`. The mathematical endpoint roadmap remains `stages/stage32-ex6/stage32-ex6.md` and is opened only when the active task requires it.
 
-Do not preload Stage32 root history/controllers, other EX roadmaps, Research OS, Arsenal, or the whole EX6 artifact set unless `AGENTS.md`, `MAIN-STATE.json`, or the active leaf explicitly triggers them.
+Do not preload Stage32 root history/controllers, other EX roadmaps, Research OS, Arsenal, or the whole EX6 artifact set unless `AGENTS.md`, `MAIN-STATE.json`, the cross-lane registry, or the active leaf explicitly triggers them.
+
+## Cross-lane demand routing
+
+Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before substantive local work, inspect every OPEN demand involving EX6. A higher-priority OPEN demand where EX6 is producer preempts lower-priority local research. If EX6 is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next mainbatch and validate satisfying artifact identity and source-population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
 
 ## Authority split
 
@@ -23,14 +28,14 @@ Exact mathematical use must follow the merged source locks/artifacts/verifiers. 
 
 A batch:
 
-1. reads the startup set and identifies one bounded O266 endpoint/re-entry unit;
+1. reads the startup set, applies any higher-priority cross-lane demand, and identifies one bounded O266 endpoint/re-entry unit;
 2. revalidates every load-bearing input through exact source locators;
 3. executes one bounded mathematical/diagnostic unit;
 4. retains only replayable results with explicit population, object type, assumptions, quantification domain, and claim ceiling;
 5. updates the leaf artifact/verifier when appropriate, then updates `MAIN-STATE.json` with blocker/re-entry condition, audit readiness, and next route;
 6. stops at a coherent checkpoint instead of guessing descent from O=266 to lower O.
 
-A blocked endpoint route is not Stage32 exhaustion. The current state remains stopped until genuinely new endpoint input appears.
+A blocked endpoint route is not Stage32 exhaustion. The current state remains stopped until genuinely new endpoint input or an explicit valid demand appears.
 
 ## Timeout-safe execution
 
@@ -40,7 +45,7 @@ Heavy/artifact-producing workflows require the repository heavy-workflow policy 
 
 ## Claim-DAG synchronization trigger
 
-Ordinary scratch work does not preload the Stage32 claim DAG. Open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and perform the on-demand synchronization procedure only when one of these events occurs:
+Ordinary startup may inspect the operational cross-lane demand registry without preloading the mathematical Stage32 claim DAG. Open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and perform the on-demand synchronization procedure only when one of these events occurs:
 
 - `RETAINED_CONSOLIDATION`;
 - `AUTHORITY_OR_AUDIT_TRANSITION`;
@@ -48,7 +53,7 @@ Ordinary scratch work does not preload the Stage32 claim DAG. Open `stages/stage
 - `ACTIVE_FRONTIER_REMAP`;
 - `FINAL_MILESTONE_TRANSITION`.
 
-Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit FAIL or revocation immediately blocks downstream consumption even before registry synchronization; a PASS cannot upgrade authority before synchronization.
+Scratch-only diagnostics and demand-status changes alone do not trigger claim-DAG credit writes. A hostile-audit FAIL or revocation immediately blocks downstream consumption even before registry synchronization; a PASS cannot upgrade authority before synchronization.
 
 EX6 has no automatic promotion path. Any future O266 terminal result must satisfy the claim-DAG authority rules and an explicit current-target EX -> MAIN promotion adapter before affecting MAIN.
 
