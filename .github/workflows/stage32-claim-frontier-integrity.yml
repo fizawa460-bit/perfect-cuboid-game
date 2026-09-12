@@ -117,8 +117,8 @@ jobs:
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify live synchronized MAIN authority boundary
         run: python stages/stage32/verify_main_startup.py
-      - name: Install exact N361/N372 dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Install exact N361/N372/N375 dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
       - name: Verify N361 current-V15 retained sample rebase boundary
         run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
       - name: Checkout exact CUT196 evidence for N372 boundary
