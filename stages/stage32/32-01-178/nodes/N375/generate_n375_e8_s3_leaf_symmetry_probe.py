@@ -35,8 +35,10 @@ CUT196_HEAD = "5403328470df32c65aea9a38efe3916cb87d24a4"
 D = 8
 E = 8
 BLOCK_WIDTH = 113
-BLOCK_COUNT = 7596
-TERMINAL_COUNT = 858348
+RAW_BLOCK_COUNT = 11318
+RAW_TERMINAL_COUNT = 1278934
+SURVIVOR_BLOCK_COUNT = 7596
+SURVIVOR_TERMINAL_COUNT = 858348
 TARGET_POS = (2, 3, 7)
 TARGET_LABELS = (103, 102, 101)
 ASSIGNMENT_ORDER = (95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96)
@@ -120,7 +122,7 @@ def main() -> None:
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
 
-    state = checked_json(STATE, STATE_BLOB, STATE_CANON)
+    checked_json(STATE, STATE_BLOB, STATE_CANON)
     checked_json(N374_STATE, N374_STATE_BLOB)
     n374 = checked_json(N374_RESULT, N374_RESULT_BLOB)
     req(n374["decision"]["next_exact_unit"] == "SOURCE_LOCKED_NUMERICAL_LEAF_INVARIANCE_SIGNATURE_PROTOTYPE", "N374 next unit drift")
@@ -138,10 +140,16 @@ def main() -> None:
     idx = core.e8.indexer()
 
     req((idx.d, idx.e) == (D, E), "e8 indexer stratum drift")
-    req(idx.exceptional_count == BLOCK_COUNT, "e8 block count drift")
-    req(idx.terminal_count == TERMINAL_COUNT, "e8 terminal count drift")
+    req(idx.exceptional_count == RAW_BLOCK_COUNT, "raw e8 block count drift")
+    req(idx.terminal_count == RAW_TERMINAL_COUNT, "raw e8 terminal count drift")
     req(idx.normal_budget + 1 == BLOCK_WIDTH, "e8 block width drift")
     req(tuple(core.e8.ASSIGNMENT_ORDER) == ASSIGNMENT_ORDER, "assignment order drift")
+
+    survivor_blocks = tuple(int(v) for v in core.e8.current_main_survivor_block_indices())
+    req(len(survivor_blocks) == SURVIVOR_BLOCK_COUNT, "current-MAIN e8 survivor block count drift")
+    req(len(set(survivor_blocks)) == SURVIVOR_BLOCK_COUNT, "current-MAIN e8 survivor block stream is not unique")
+    req(all(0 <= block < RAW_BLOCK_COUNT for block in survivor_blocks), "current-MAIN e8 survivor block outside raw indexer")
+    req(BLOCK_WIDTH * len(survivor_blocks) == SURVIVOR_TERMINAL_COUNT, "current-MAIN e8 survivor terminal count drift")
 
     special_positions = {0, 1, 4, 5, 6, 8, 9, 10}
     req(set(TARGET_POS).isdisjoint(special_positions), "candidate positions touch non-symmetric terminal predicate coordinates")
@@ -170,9 +178,15 @@ def main() -> None:
     results = []
     valid: list[tuple[int, int, int]] = []
 
-    all_blocks = set(range(BLOCK_COUNT))
-    base_cache = [tuple(int(v) for v in idx.unrank(block * BLOCK_WIDTH)) for block in range(BLOCK_COUNT)]
-    req(all(base[4] == 0 and family.terminal_predicate(base, e=E, d=D) for base in base_cache), "canonical e8 block bases drift")
+    all_blocks = set(survivor_blocks)
+    base_cache = {
+        block: tuple(int(v) for v in idx.unrank(block * BLOCK_WIDTH))
+        for block in survivor_blocks
+    }
+    req(
+        all(base[4] == 0 and family.terminal_predicate(base, e=E, d=D) for base in base_cache.values()),
+        "canonical current-MAIN e8 survivor block bases drift",
+    )
 
     for perm in perms:
         Pperm = row_permuted_matrix(P, perm)
@@ -194,7 +208,7 @@ def main() -> None:
 
         mapped_blocks: list[int] = []
         terminal_family_closed = True
-        for block, base in enumerate(base_cache):
+        for _block, base in base_cache.items():
             moved = apply_terminal_perm(base, perm)
             if not family.terminal_predicate(moved, e=E, d=D):
                 terminal_family_closed = False
@@ -204,7 +218,11 @@ def main() -> None:
                 terminal_family_closed = False
                 break
             mapped_blocks.append(rank // BLOCK_WIDTH)
-        block_bijection = terminal_family_closed and len(mapped_blocks) == BLOCK_COUNT and set(mapped_blocks) == all_blocks
+        block_bijection = (
+            terminal_family_closed
+            and len(mapped_blocks) == SURVIVOR_BLOCK_COUNT
+            and set(mapped_blocks) == all_blocks
+        )
 
         leaf_action = all([
             integral,
@@ -221,7 +239,7 @@ def main() -> None:
             "pairing_label_action": {
                 str(TARGET_LABELS[i]): int(TARGET_LABELS[perm[i]]) for i in range(3)
             },
-            "terminal_family_bijection": block_bijection,
+            "current_main_survivor_block_bijection": block_bijection,
             "picard_coordinate_transform_integral": integral,
             "picard_coordinate_transform_determinant": det,
             "picard_coordinate_transform_unimodular": unimodular,
@@ -237,23 +255,23 @@ def main() -> None:
     req(subgroup_closed, "valid numerical-leaf actions are not closed under composition")
 
     canonical_blocks: dict[int, set[int]] = {}
-    for block, base in enumerate(base_cache):
+    for block, base in base_cache.items():
         orbit = set()
         for perm in valid:
             moved = apply_terminal_perm(base, perm)
             rank = int(idx.rank(moved))
             orbit.add(rank // BLOCK_WIDTH)
-        req(orbit <= all_blocks, "valid action left exact e8 terminal family")
+        req(orbit <= all_blocks, "valid action left current-MAIN e8 survivor family")
         rep = min(orbit)
         canonical_blocks.setdefault(rep, set()).update(orbit)
 
     covered = set().union(*canonical_blocks.values()) if canonical_blocks else set()
-    req(covered == all_blocks, "block orbit quotient does not cover exact e8 family")
+    req(covered == all_blocks, "block orbit quotient does not cover current-MAIN e8 survivor family")
     orbit_sizes = Counter(len(v) for v in canonical_blocks.values())
     block_orbit_count = len(canonical_blocks)
     terminal_orbit_count = block_orbit_count * BLOCK_WIDTH
-    strict_reduction = terminal_orbit_count < TERMINAL_COUNT
-    reduction_ratio = [TERMINAL_COUNT, terminal_orbit_count]
+    strict_reduction = terminal_orbit_count < SURVIVOR_TERMINAL_COUNT
+    reduction_ratio = [SURVIVOR_TERMINAL_COUNT, terminal_orbit_count]
 
     status = (
         "NONTRIVIAL_E8_NUMERICAL_LEAF_SYMMETRY_CANDIDATE"
@@ -268,8 +286,10 @@ def main() -> None:
             "row_id": "g1-d008",
             "d": D,
             "e": E,
-            "exact_terminal_count": TERMINAL_COUNT,
-            "exact_block_count": BLOCK_COUNT,
+            "raw_e8_terminal_count": RAW_TERMINAL_COUNT,
+            "raw_e8_block_count": RAW_BLOCK_COUNT,
+            "current_main_survivor_terminal_count": SURVIVOR_TERMINAL_COUNT,
+            "current_main_survivor_block_count": SURVIVOR_BLOCK_COUNT,
             "block_width": BLOCK_WIDTH,
             "full178_global_scope": False,
             "effectivity_or_lift_invariance_proved": False,
@@ -298,12 +318,12 @@ def main() -> None:
             "all140_pairing_equivariance_checked": True,
             "picard_gram_isometry_checked": True,
             "degree_preservation_checked": True,
-            "exact_rank_unrank_block_bijection_checked_for_all_7596_blocks": True,
+            "exact_rank_unrank_block_bijection_checked_for_all_7596_current_main_survivor_blocks": True,
             "hperp_text_sha256": hmeta["hperp_text_sha256"],
         },
         "interpretation": {
             "n101_globally_reopened": False,
-            "why_not_global": "Only the exact e=8 g1-d008 numerical Picard leaf is tested; no all-strata FULL178 action and no lift/effectivity factorization is proved.",
+            "why_not_global": "Only the exact current-MAIN e=8 g1-d008 numerical Picard leaf is tested; no all-strata FULL178 action and no lift/effectivity factorization is proved.",
             "next_exact_unit": "IF_NONTRIVIAL_GENERALIZE_ACTION_TO_OTHER_STRATA_WITH_EXACT_MULTIPLICITY_CONSERVATION_ELSE_SEARCH_DIFFERENT_AFFINE_SIGNATURE",
         },
         "credit": {
