@@ -178,11 +178,16 @@ jobs:
         with:
           ref: d42062c498d42550e85143d72abf53854676b93d
           path: .n379-certlift
+      - name: Checkout exact EX5 e8 producer source for N379
+        uses: actions/checkout@v4
+        with:
+          ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
+          path: .n379-ex5-source
       - name: Verify N379 CERT-LIFT03 symbolic parity negative boundary
         run: |
           python stages/stage32/32-01-178/nodes/N379/verify_n379_certlift03_symbolic_negative.py \
             --certlift-root .n379-certlift \
-            --ex5-source-root .n379-certlift
+            --ex5-source-root .n379-ex5-source
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
