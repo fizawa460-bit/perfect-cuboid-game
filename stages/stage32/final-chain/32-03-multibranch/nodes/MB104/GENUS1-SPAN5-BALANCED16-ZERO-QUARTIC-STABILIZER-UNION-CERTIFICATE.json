@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_ZERO_QUARTIC_STABILIZER_UNION_V1",
+  "status": "RETAINED_EXACT_SYMMETRY_REDUCTION_FIXEDNESS_ALL_OR_NONE_BALANCED16_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "scope": {
+    "span_semantics": "box-node support span",
+    "divisor_ray": "D_l=7lH-4l sum_{i in Sigma}E_i",
+    "support_size": 14,
+    "l_min": 1,
+    "support_frontier": "four balanced incidence-16 Aut(S) support orbits",
+    "arbitrary_unequal_picard_classes_covered": false
+  },
+  "source_locks": [
+    {"id":"AUT_SOURCE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AUTS-NODE-ACTION-SOURCE-NOTE.md","blob_sha1":"cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693"},
+    {"id":"BALANCED_QUOTIENT_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT-CERTIFICATE.json","blob_sha1":"f63d08b9005762a02935a727f35e6581ae52aaab"},
+    {"id":"RESTRICTION_COHOM_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-RESTRICTION-COHOMOLOGY-CERTIFICATE.json","blob_sha1":"f1e7e483e115b04cbf63c08a3be37627214a7122"},
+    {"id":"HUMAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION.md","blob_sha1":"19b59a13f3c4cb2d4e7d0c46798c046ee6303d52"}
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
+    "self_lock_policy": "verifier identity fixed separately by this certificate"
+  },
+  "support_stabilizers": {
+    "0000770000ff": {"support_orbit_size":48,"stabilizer_order":32,"zero_quartics":4,"zero_quartic_stabilizer_orbit_size":4,"omitted_node_set":[27,31],"omitted_node_orbit_size":2,"zero_quartic_box_node_pair_overlap_multiset":{"0":2,"4":4}},
+    "00007b0000ff": {"support_orbit_size":48,"stabilizer_order":32,"zero_quartics":4,"zero_quartic_stabilizer_orbit_size":4,"omitted_node_set":[26,31],"omitted_node_orbit_size":2,"zero_quartic_box_node_pair_overlap_multiset":{"0":2,"4":4}},
+    "000707000f0f": {"support_orbit_size":768,"stabilizer_order":2,"zero_quartics":2,"zero_quartic_stabilizer_orbit_size":2,"omitted_node_set":[27,35],"omitted_node_orbit_size":2,"zero_quartic_box_node_pair_overlap_multiset":{"0":1}},
+    "00070b000f0f": {"support_orbit_size":768,"stabilizer_order":2,"zero_quartics":2,"zero_quartic_stabilizer_orbit_size":2,"omitted_node_set":[26,35],"omitted_node_orbit_size":2,"zero_quartic_box_node_pair_overlap_multiset":{"0":1}}
+  },
+  "symmetry_consequence": {
+    "D_class_invariant_under_support_stabilizer": true,
+    "support_stabilizer_transitive_on_zero_quartics": true,
+    "one_zero_quartic_fixed_implies_all_zero_quartics_fixed": true,
+    "one_zero_quartic_nonfixed_implies_all_zero_quartics_nonfixed": true,
+    "individual_restriction_ranks_equal_on_zero_quartic_orbit": true,
+    "individual_rank_values": [0,1],
+    "mixed_fixed_nonfixed_pattern_possible": false
+  },
+  "node_incidence_firewall": {
+    "box_node_overlap_only": true,
+    "strict_transform_intersection_scheme_classified": false,
+    "smooth_intersections_away_from_box_nodes_classified": false,
+    "union_gluing_constants_classified": false
+  },
+  "retained_consequence": {
+    "zero_quartic_fixedness_all_or_none_per_support_orbit": true,
+    "restriction_rank_decided": false,
+    "zero_quartic_union_fixed_proved": false,
+    "zero_quartic_union_nonfixed_proved": false,
+    "next_required_lever": "strict_transform_zero_quartic_intersection_scheme_and_union_gluing_or_explicit_global_jet_interpolation",
+    "balanced16_closed": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION.md",
+    "human_note_blob_sha1": "19b59a13f3c4cb2d4e7d0c46798c046ee6303d52",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_zero_quartic_stabilizer_union.py",
+    "verifier_blob_sha1": "cc20d6a9d251325a38f5cf399d982b65ed187bd5"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_ZERO_QUARTIC_STABILIZER_UNION_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on exact candidate head"
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-INTERSECTION-AND-GLUING",
+    "targets": [
+      "classify pairwise intersections of zero quartic strict transforms, not just shared box nodes",
+      "compute gluing of componentwise constant restrictions on the complete zero-quartic orbit",
+      "combine with omitted-exceptional and first-jet data",
+      "if still undecided, test explicit global degree-7l interpolation"
+    ]
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "balanced16_closed": false,
+    "whole_span5_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
