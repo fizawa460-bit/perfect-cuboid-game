@@ -96,11 +96,11 @@ def main() -> None:
     runkey = json.loads((HERE / "runkeys/bc2-31-recover-remaining172.json").read_text(encoding="utf-8"))
     req(runkey["schema"] == "STAGE32EX5_BC2_31_RECOVER_REMAINING172_RUNKEY_V1", "runkey schema drift")
     req(runkey["source_git_blob_sha"] == BC2_31_SOURCE_BLOB and runkey["preflight_git_blob_sha"] == BC2_31_PREFLIGHT_BLOB and runkey["preflight_canonical"] == BC2_31_PREFLIGHT, "runkey source lock drift")
-    req(runkey["generation"] in (0,1), "unexpected runkey generation")
+    req(runkey["generation"] in (0,1,2), "unexpected runkey generation")
     if runkey["generation"] == 0:
         req(runkey["armed"] is False and runkey["consumed_run"] is None, "cold generation-0 runkey drift")
     else:
-        req(runkey["armed"] is True and runkey["consumed_run"] is None, "generation-1 execution runkey drift")
+        req(runkey["armed"] is True and runkey["consumed_run"] is None, "armed execution runkey drift")
     req(runkey["audit_consumption"]["bc2_30_hostile_audit_review_id"] == BC2_30_AUDIT_REVIEW, "runkey audit receipt drift")
     req((runkey["target"]["historical_unknown_count"],runkey["target"]["retained_first64_count"],runkey["target"]["remaining_identity_count"]) == (236,64,172), "runkey target drift")
     req(runkey["target"]["identity_recovery_only"] is True and runkey["execution"]["heavy_scaleout_authorized"] is False, "runkey scope leak")
