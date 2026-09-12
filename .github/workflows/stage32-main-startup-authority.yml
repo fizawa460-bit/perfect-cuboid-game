@@ -46,14 +46,22 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-      - name: Checkout hostile-reaudited MAIN V17 predecessor
+      - name: Checkout hostile-audited MAIN V18 predecessor
         uses: actions/checkout@v4
         with:
-          ref: 43685b50e285151364a0934b349f6dcc911484f4
-          path: .stage32-audited-main-v17
+          ref: 152e8f92346c038aed5628d7d70063cc5c8cd9d4
+          path: .stage32-audited-main-v18
           fetch-depth: 1
-      - name: Assert hostile-reaudited MAIN V17 head
-        run: test "$(git -C .stage32-audited-main-v17 rev-parse HEAD)" = "43685b50e285151364a0934b349f6dcc911484f4"
+      - name: Assert hostile-audited MAIN V18 head
+        run: test "$(git -C .stage32-audited-main-v18 rev-parse HEAD)" = "152e8f92346c038aed5628d7d70063cc5c8cd9d4"
+      - name: Checkout hostile-audited N358 evidence
+        uses: actions/checkout@v4
+        with:
+          ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
+          path: .stage32-audited-n358
+          fetch-depth: 1
+      - name: Assert hostile-audited N358 head
+        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -65,19 +73,23 @@ jobs:
           test "$current_main" = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
           test "$merge_base" = "$current_main"
           echo "freshness=contains-current-main"
+      - name: Replay N358 current-V18 composition and consumption fail-closed
+        run: >-
+          python3 stages/stage32/management/verify_n358_v18_current_authority_composition.py
+          --audited-n358-root .stage32-audited-n358
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 MAIN V18 CUT196 re-audit consumption and CUT197 zero-credit frontier
-        run: python3 stages/stage32/verify_main_startup_authority_v18.py
+      - name: Verify Stage32 MAIN V19 N358 current-V18 consumption frontier
+        run: python3 stages/stage32/verify_main_startup_authority_v19.py
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V18 audit-consumption transition
+      - name: Verify Stage32 claim-DAG integrity after V19 N358 transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V18 audit-consumption transition
+      - name: Verify Stage32 active frontier after V19 N358 transition
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'
