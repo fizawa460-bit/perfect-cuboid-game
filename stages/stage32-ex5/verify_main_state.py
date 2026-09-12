@@ -20,10 +20,20 @@ BC2_33_SOURCE_BLOB = "efc44c368b408bf8b50c5ad9aa86cd646fb7b19c"
 BC2_33_CP_CANON = "3310103df67d47d89ac121504a668158e0946070a7b15da07bbb0af7105fa73c"
 BC2_33_CP_BLOB = "465dcb5c535c6cbbedc25ef2afe26915291ce38b"
 BC2_33_UNKNOWN_SHA = "be6ee823abd48d2a6f8163c07977e4112036f38526f39cdddbdf331751170071"
-BC2_33_STATUS_SHA = "e921c64caea0da8c75e2e47ade3c4b3d2105fc1583c97548cec7142e931473c5"
 BC2_34_SOURCE_BLOB = "eb715ed7cc5bb350b15e35868e2f79c548f17e28"
 BC2_34_PREFLIGHT_BLOB = "efbadd91e1bfea694d70791aeb77ccb8d05dbe02"
 BC2_34_PREFLIGHT_CANON = "a131b1c481631b721ef8acea42c02592be5ef04ed66c401dc72990e35ac98e8e"
+BC2_34_CP_BLOB = "e566aeda2931642d79c88dc5eeb84b142f655609"
+BC2_34_CP_CANON = "e535e86ddfcd19aaa3aa316f5f42e49be830e48c16e1cdd15c03a6a80e6a84ba"
+BC2_34_UNKNOWN_SHA = "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b"
+BC2_34_STATUS_SHA = "3dfc34636f7a44093e0c93034bf74442fd5cadcdf197b28f8bf674ca7bfe19c2"
+BC2_34_EXECUTION_HEAD = "79167ffcdd0be4cf3bdcb7e652fad38acb447fb4"
+BC2_34_RUN = 34685719102
+BC2_34_AUTH_JOB = 103532247242
+BC2_34_JOB = 103532291007
+BC2_34_ARTIFACT = 10296591024
+BC2_34_ARTIFACT_ZIP_SHA = "1aff75ecda329d8770c7cd6c120eb0aeb8630521ed68dd93427079f8eee09792"
+BC2_34_RAW_JSON_SHA = "d2b8963c21fbb3d8cf5c739169c41bdc6a0ac4036540d6cf8e6e807159033a63"
 PC_KEYS = {"perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim"}
 
 
@@ -50,7 +60,7 @@ def checked(path: Path, expected: str) -> dict:
 
 def main() -> None:
     s = json.loads((HERE / "MAIN-STATE.json").read_text())
-    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION", "state schema drift")
+    req(s["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY", "state schema drift")
     b = s["bootstrap"]
     req(b["current_main_sha_observed"] == "c31684fb5f63d8a025eb298c91861d4c979b0e28", "current MAIN observation drift")
     req(b["active_work_pr"] == 1776 and b["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "work surface drift")
@@ -72,52 +82,59 @@ def main() -> None:
     r33 = cp33["replay"]
     req((r33["parents_checked"], r33["unsat_count"], r33["unknown_count"], r33["sat_count"]) == (107, 26, 81, 0), "BC2-33 partition drift")
     req(r33["unknown_parent_indices_sha256"] == BC2_33_UNKNOWN_SHA and len(r33["unknown_parent_indices"]) == 81, "BC2-33 UNKNOWN identity drift")
-    req(r33["status_stream_sha256"] == BC2_33_STATUS_SHA, "BC2-33 status stream drift")
     req(cp33["credit"]["known_parent_unsat_count_lower_bound"] == 7255, "BC2-33 lower-bound drift")
-
-    rk33 = json.loads((HERE / "runkeys/bc2-33-fresh-unknown107-replay.json").read_text())
-    req(rk33["generation"] == 2 and rk33["armed"] is False, "BC2-33 runkey not consumed/disarmed")
-    rc33 = rk33.get("consumed_run") or {}
-    req((rc33.get("workflow_run_id"), rc33.get("authorize_job_id"), rc33.get("compute_job_id"), rc33.get("artifact_id")) == (34681698147, 103521379130, 103521422359, 10294224700), "BC2-33 execution receipt drift")
-    req(rc33.get("checkpoint_canonical") == BC2_33_CP_CANON and rc33.get("checkpoint_git_blob_sha") == BC2_33_CP_BLOB, "BC2-33 checkpoint receipt drift")
-    req(rc33.get("known_parent_unsat_count_lower_bound") == 7255 and rc33.get("accepted_for_hostile_audit") is True, "BC2-33 audit-candidate receipt drift")
 
     src34 = B2 / "bc2_34_replay_explicit_fresh_unknown81.py"
     pf34p = B2 / "bc2-34-fresh-unknown81-replay-preflight.json"
+    cp34p = B2 / "bc2-34-fresh-unknown81-replay-checkpoint.json"
     req(git_blob(src34) == BC2_34_SOURCE_BLOB, "BC2-34 source blob drift")
     req(git_blob(pf34p) == BC2_34_PREFLIGHT_BLOB, "BC2-34 preflight blob drift")
-    pf34 = checked(pf34p, BC2_34_PREFLIGHT_CANON)
-    a34 = pf34["audit_consumption"]
-    t34 = pf34["target"]
-    ex34 = pf34["execution"]
-    req(a34["bc2_33_hostile_audit_status"] == "PASS" and a34["bc2_33_hostile_audit_exact_head"] == BC2_33_AUDIT_HEAD and a34["bc2_33_hostile_audit_review_id"] == BC2_33_AUDIT_REVIEW, "BC2-34 predecessor audit drift")
-    req(t34["fresh_unknown_parent_count"] == 81 and t34["fresh_unknown_parent_indices_sha256"] == BC2_33_UNKNOWN_SHA and t34["prior_audited_unsat_count"] == 7255 and t34["targeted_replay_only"] is True, "BC2-34 target drift")
-    req(ex34["per_parent_timeout_ms"] == 60000 and ex34["effective_heavy_concurrency"] == 1 and ex34["workflow_timeout_minutes"] == 90 and ex34["heavy_scaleout_authorized"] is False, "BC2-34 execution envelope drift")
+    checked(pf34p, BC2_34_PREFLIGHT_CANON)
+    req(git_blob(cp34p) == BC2_34_CP_BLOB, "BC2-34 checkpoint blob drift")
+    cp34 = checked(cp34p, BC2_34_CP_CANON)
+    r34 = cp34["replay"]
+    req((r34["parents_checked"], r34["unsat_count"], r34["unknown_count"], r34["sat_count"]) == (81, 17, 64, 0), "BC2-34 partition drift")
+    req(r34["per_parent_timeout_ms"] == 60000, "BC2-34 timeout drift")
+    req(r34["unknown_parent_indices_sha256"] == BC2_34_UNKNOWN_SHA and len(r34["unknown_parent_indices"]) == 64, "BC2-34 UNKNOWN identity drift")
+    req(r34["status_stream_sha256"] == BC2_34_STATUS_SHA, "BC2-34 status stream drift")
+    req(r34["all_remaining_unknown_identities_explicitly_retained"] is True, "BC2-34 UNKNOWN retention drift")
+    req(cp34["credit"]["known_parent_unsat_count_lower_bound"] == 7272, "BC2-34 lower-bound drift")
+    req(cp34["credit"]["whole_first_block_picard64_unsat_candidate"] is False, "BC2-34 closure overclaim")
+    req(cp34["sat_witnesses"] == [], "unexpected BC2-34 SAT witness")
 
     rk34 = json.loads((HERE / "runkeys/bc2-34-fresh-unknown81-replay.json").read_text())
     req(rk34["schema"] == "STAGE32EX5_BC2_34_FRESH_UNKNOWN81_REPLAY_RUNKEY_V1", "BC2-34 runkey schema drift")
-    req(rk34["generation"] in (0, 1), "BC2-34 runkey generation drift")
-    req(rk34["armed"] is (rk34["generation"] == 1), "BC2-34 runkey arm/generation mismatch")
-    req(rk34.get("consumed_run") is None, "BC2-34 pre-execution runkey unexpectedly consumed")
+    req(rk34["generation"] == 1 and rk34["armed"] is False, "BC2-34 runkey not consumed/disarmed")
     req(rk34["source_git_blob_sha"] == BC2_34_SOURCE_BLOB and rk34["preflight_git_blob_sha"] == BC2_34_PREFLIGHT_BLOB and rk34["preflight_canonical"] == BC2_34_PREFLIGHT_CANON, "BC2-34 runkey source/preflight drift")
+    rc = rk34.get("consumed_run") or {}
+    req((rc.get("workflow_run_id"), rc.get("authorize_job_id"), rc.get("compute_job_id"), rc.get("artifact_id")) == (BC2_34_RUN, BC2_34_AUTH_JOB, BC2_34_JOB, BC2_34_ARTIFACT), "BC2-34 execution receipt drift")
+    req(rc.get("exact_head") == BC2_34_EXECUTION_HEAD and rc.get("generation") == 1, "BC2-34 execution head drift")
+    req(rc.get("artifact_zip_sha256") == BC2_34_ARTIFACT_ZIP_SHA and rc.get("raw_json_sha256") == BC2_34_RAW_JSON_SHA, "BC2-34 artifact hash drift")
+    req(rc.get("checkpoint_canonical") == BC2_34_CP_CANON and rc.get("checkpoint_git_blob_sha") == BC2_34_CP_BLOB, "BC2-34 checkpoint receipt drift")
+    req(rc.get("new_unsat_count") == 17 and rc.get("remaining_unknown_count") == 64 and rc.get("sat_count") == 0, "BC2-34 result receipt drift")
+    req(rc.get("remaining_unknown_parent_indices_sha256") == BC2_34_UNKNOWN_SHA and rc.get("status_stream_sha256") == BC2_34_STATUS_SHA, "BC2-34 retained hashes drift")
+    req(rc.get("known_parent_unsat_count_lower_bound") == 7272 and rc.get("accepted_for_hostile_audit") is True, "BC2-34 audit candidate receipt drift")
 
     cur = s["current"]
-    req(cur["status"] == "BC2_34_EXPLICIT_FRESH_UNKNOWN81_REPLAY_EXECUTION_AUTHORIZED", "current status drift")
-    req(cur["next_route"] == "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET", "current route drift")
-    req("NO_BC2_35_BEFORE_BC2_34_HOSTILE_AUDIT" in cur["stop_semantics"], "BC2-35 stop firewall drift")
+    req(cur["status"] == "BC2_34_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "current status drift")
+    req(cur["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "audit route drift")
+    req("NO_BC2_35_BEFORE_BC2_34_HOSTILE_AUDIT_PASS" in cur["stop_semantics"], "BC2-35 stop firewall drift")
 
     f = s["frontier"]
-    req(f["e8_bc2_33_audited"] is True and f["e8_bc2_34_executed"] is False, "frontier audit/execution drift")
-    req(f["e8_bc2_34_target_unknown_count"] == 81 and f["e8_known_parent_unsat_count_lower_bound"] == 7255, "BC2-34 pre-execution frontier drift")
+    req(f["e8_bc2_33_audited"] is True and f["e8_bc2_34_executed"] is True, "BC2-34 frontier receipt drift")
+    req((f["e8_bc2_34_new_parent_unsat_count"], f["e8_bc2_34_remaining_unknown_count"], f["e8_bc2_34_sat_count"]) == (17, 64, 0), "BC2-34 frontier partition drift")
+    req(f["e8_bc2_34_remaining_unknown_parent_indices_sha256"] == BC2_34_UNKNOWN_SHA, "BC2-34 frontier UNKNOWN hash drift")
+    req(f["e8_known_parent_unsat_count_lower_bound"] == 7272, "BC2-34 frontier lower-bound drift")
     req(f["e8_whole_first_block_unsat"] is False and f["FULL178_complete"] is False, "local result promoted")
 
     a = s["intermediate_audit_boundary"]
-    req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == BC2_33_AUDIT_HEAD and a["last_hostile_audit_review_id"] == BC2_33_AUDIT_REVIEW, "BC2-33 audit receipt drift")
-    req(a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "stale audit freeze")
-    req(a["bc2_33_execution_authorized"] is False and a["bc2_34_execution_authorized"] is True, "BC2-34 execution authority drift")
+    req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == BC2_33_AUDIT_HEAD and a["last_hostile_audit_review_id"] == BC2_33_AUDIT_REVIEW, "predecessor audit receipt drift")
+    req(a["freeze_active"] is True and a["new_audit_boundary_exists"] is True and a["re_audit_required"] is True, "BC2-34 audit freeze drift")
+    req(a["bc2_34_execution_authorized"] is False, "BC2-34 execution left authorized")
 
     ns = s["next_step"]
-    req(ns["id"] == "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET" and ns["bc2_34_execution_authorized"] is True and ns["bc2_35_blocked_until_bc2_34_hostile_audit_pass"] is True, "next-step drift")
+    req(ns["id"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "next-step drift")
+    req(ns["bc2_34_execution_authorized"] is False and ns["bc2_35_blocked_until_bc2_34_hostile_audit_pass"] is True, "BC2-35 gate drift")
     for k in ("heavy_scaleout_authorized", "main_promotion_authorized", "n350_registration_authorized", "merge_authorized"):
         req(ns[k] is False, f"authorization leak: {k}")
 
@@ -130,9 +147,9 @@ def main() -> None:
             req(value is False, f"credit leak: credit.{key}")
 
     wf = MAIN_WORKFLOW.read_text()
-    for token in ("authorize-bc2-34-fresh-unknown81:", "bc2-34-fresh-unknown81:", "bc2-34-fresh-unknown81-replay.json", BC2_34_SOURCE_BLOB):
-        req(token in wf, f"main workflow missing BC2-34 token: {token}")
+    req("authorize-bc2-34-fresh-unknown81:" not in wf and "bc2-34-fresh-unknown81:" not in wf, "consumed BC2-34 heavy path still active")
     req("authorize-bc2-33-fresh-unknown107:" not in wf and "bc2-33-fresh-unknown107:" not in wf, "retired BC2-33 heavy path still active")
+    req("authorize-e8-cut-handoff-wave:" in wf, "current e8 handoff lifecycle unexpectedly removed")
 
     for verifier in (
         "verify_bc2_25_boundary33_partition_checkpoint.py",
@@ -144,10 +161,10 @@ def main() -> None:
     ):
         subprocess.run([sys.executable, str(B2 / verifier)], check=True)
 
-    print("PASS: BC2-33 hostile audit consumed; BC2-34 targeted replay narrowly authorized")
-    print("target=81 audited UNKNOWN parents; timeout=60000ms; concurrency=1; heavy_scaleout=NO")
-    print("known_parent_unsat_lower_bound=7255 pre-execution; Stage32_MAIN_credit=NO; merge=NO")
-    print("next=arm BC2-34 generation1 only after exact-head integrity PASS")
+    print("PASS: Stage32EX5 BC2-34 targeted replay retained and frozen for hostile audit")
+    print("bc2_34=17_UNSAT_64_UNKNOWN_0_SAT; known_parent_unsat_lower_bound=7272")
+    print("generation1=CONSUMED_DISARMED; heavy_path=RETIRED")
+    print("Stage32_MAIN_credit=NO; FULL178=NO; merge=NO; next=stage32ex5-audit")
 
 
 if __name__ == "__main__":
