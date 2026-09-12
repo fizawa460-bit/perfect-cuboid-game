@@ -1,11 +1,11 @@
 {
   "schema": "STAGE32_CUT_CERT_LIFT_STATE_V1",
   "status": "ACTIVE",
-  "active_node": "CERTLIFT-02_INVARIANT_COMPRESSION_AND_COUNTEREXAMPLE_SPLIT",
+  "active_node": "CERTLIFT-03_SYMBOLIC_G3_MASS7_CANDIDATE_PENDING_HOSTILE_AUDIT",
   "base_main_exact_head": "b6c0a1e431ac04de5326a7c42af89a7b92423ed2",
   "source_manifest": "stages/stage32/cut-cert-lift/SOURCE-LOCKS.json",
   "mission": "stages/stage32/cut-cert-lift/MISSION.json",
-  "current_receiver": "Classify the 275 current-MAIN MASS7/MASS8 blocks that survive the exact projected mod-2 Picard64 obstruction, and extract a stronger mathematical prefix/HNF invariant without weakening the audited-six-wave result.",
+  "current_receiver": "Hostile-audit the source-locked d=e=8 symbolic MASS7+g3 fibre-parity obstruction, then build an exact consumption adapter before any Stage32 MAIN pruning credit.",
   "certlift_01": {
     "status": "L1_AUDITED_SEPARATOR_FOUND_EXACT_HEAD_REPLAYED",
     "evidence": "stages/stage32/cert-lift/CERTIFICATE-LEDGER.json",
@@ -18,13 +18,11 @@
     "selected_closed_blocks": 1049,
     "selected_residual_controls": 0,
     "threshold_6_residual_counterexamples": 13,
-    "interpretation": "minimal one-parameter monotone separator on the frozen CUT193..CUT198 scope; not a global theorem"
+    "interpretation": "minimal one-parameter monotone separator on the frozen CUT193..CUT198 scope; not by itself a global theorem"
   },
   "certlift_02": {
     "status": "AUDITED_EXACT_MOD2_PASS_CURRENT_MAIN_EXTENSION_COUNTEREXAMPLES",
     "receipt": "stages/stage32/cert-lift/CERTLIFT-02-SCOPE-SPLIT-RECEIPT.json",
-    "exact_head": "0ba3efe2059690a91604b96a065dd7e4e5c0ba25",
-    "exact_head_ci_run": 34724017036,
     "scope_split_canonical": "94164d317132b3f811ee85908fdeb23b045bdbc4b678be821d37c5cd6e69d847",
     "audited_mass7_targeted": 1049,
     "audited_mod2_obstructed": 1049,
@@ -33,46 +31,84 @@
     "current_main_mod2_obstructed": 5392,
     "current_main_projection_survivors": 275,
     "current_main_survivor_by_mass": {"7": 27, "8": 248},
-    "current_main_survivor_offset_minmax": [2218, 7595],
-    "interpretation": "MASS7 has an exact solver-independent mod-2 replay on all six audited CUT waves, but MASS7 alone does not extend to the full current-MAIN e8 population. Projection survivors are counterexamples to this proof route, not integral completion witnesses."
+    "interpretation": "MASS7 alone does not extend to all current-MAIN e8 blocks; the 275 projection survivors triggered source-level feature compression."
+  },
+  "certlift_03": {
+    "status": "SYMBOLIC_CANDIDATE_PASS_PENDING_HOSTILE_AUDIT",
+    "receipt": "stages/stage32/cert-lift/CERTLIFT-03-G3-MASS7-SYMBOLIC-RECEIPT.json",
+    "audit_handoff": "stages/stage32/cert-lift/CERTLIFT-03-HOSTILE-AUDIT-HANDOFF.json",
+    "receipt_verifier": "stages/stage32/cert-lift/verify_certlift03_symbolic_receipt.py",
+    "symbolic_verifier": "stages/stage32/cert-lift/g3_mass7_symbolic_parity_lemma.py",
+    "evidence_exact_head": "2ea8f9131de81529ad152665df8b637d72092421",
+    "evidence_ci_run": 34726357893,
+    "evidence_ci_job": 103641044511,
+    "symbolic_canonical": "2d1fcfe51420ab01f81d353e0d19a2b1eef467a51e321da953b5cf18aa88e764",
+    "predicate": "d=8, e=8, fixed_exceptional_mass>=7, g3=sum(y93,y94,y95,y96)=3",
+    "finite_replay": {
+      "unfiltered_compressed_e8_blocks": 11318,
+      "targeted": 1852,
+      "closed": 1852,
+      "survivors": 0,
+      "mass7": 588,
+      "mass8": 1264,
+      "canonical": "a48db497fc3a7e4b2ace3edcc03714f3c956724a7b6aad6bcd36f8e806bb9a9b"
+    },
+    "pre_picard": {
+      "fibre_empty_blocks": 1852,
+      "post_fibre_configurations": 0,
+      "canonical": "aa3d9b6b16738fc0594daa0b2cfcfbf8043afc1ac0e3e651e1be5153f3d8ab1c"
+    },
+    "failure_profile": {
+      "exact_exceptional_completions": 23608,
+      "fibre_feasible_completions": 0,
+      "both_packs_mixed_parity": 21336,
+      "pack1_only_mixed_parity": 1136,
+      "pack2_only_mixed_parity": 1136,
+      "canonical": "ce8fd6bf083a08f0e59f7617aaf3e4157a51aa01278ebc4d0fd3f7815840525d"
+    },
+    "source_locked_geometry": {
+      "g1_labels": [101,102,103],
+      "g1_cell_pair": [2,3],
+      "g2_labels": [97,98,99],
+      "g2_cell_pair": [5,4],
+      "g3_labels": [93,94,95,96],
+      "g3_cell_pair": [4,5],
+      "fixed_empty_cells_by_pack": [[0,1,3],[0,1,2]],
+      "free_labels_with_g3_cell_pair": []
+    },
+    "proof_core": "MASS7 leaves residual exceptional mass <=1. Each pack retains a zero cell, forcing the common fibre-cell parity even. g3=3 is odd in pack1 cell4 and pack2 cell5; correcting both would require the unique residual unit on a free exceptional label with cell pair (4,5), but no such free label exists.",
+    "negative_control": "Pure fibre parity without MASS7 does not force g3 parity; g3_fibre_parity_negative_control.py passes the expected non-representation check.",
+    "dependencies_not_used": ["Picard64 column image", "HNF", "Z3/CP-SAT", "block enumeration in the logical proof", "cross-pack incidence inequality"],
+    "hostile_audited": false
   },
   "current_work": {
-    "exact_discriminator": "stages/stage32/cert-lift/mass7_mod2_obstruction.py",
-    "scope_split": "stages/stage32/cert-lift/mass7_scope_split.py",
-    "next_test": "Profile the 275 projected-mod2 survivors against source-level exceptional coordinates, N355 group sums, support, fibre-degree witness type, and HNF-compatible signatures; search only mathematical invariant predicates, never survivor offset/index itself.",
-    "solver_policy": "No Z3/CP-SAT rerun is needed for the current discriminator; retain projected survivors as controls.",
+    "primary": "CERTLIFT-03 hostile audit and exact consumption-adapter design",
+    "solver_policy": "No heavy solver is needed for the symbolic candidate or its exact-head replay.",
     "heavy_compute": "NOT_NEEDED_FOR_CURRENT_GATE",
-    "heavy_safety": "Any later artifact-producing heavy execution still requires a fresh runkey, <=500 MB peak-storage preflight, compact deterministic evidence, retention, and lifecycle classification."
+    "heavy_safety": "Any later artifact-producing heavy execution requires a fresh runkey, <=500 MB peak-storage preflight, compact deterministic evidence, retention, and lifecycle classification.",
+    "promotion_firewall": "No MAIN pruning or cross-e/cross-d promotion before hostile audit plus an exact adapter transporting the same fixed-label and fibre-cell semantics."
   },
   "candidate_ledger": [
-    {"id":"CL-A","status":"AUDITED_PASS_CURRENT_MAIN_INSUFFICIENT","view":"finite-ring rank/minor obstruction","question":"Which extra prefix/HNF invariant removes the 275 projected-mod2 survivors while retaining a large exact obstructed population?"},
-    {"id":"CL-B","status":"LIVE_SECONDARY","view":"HNF-parent congruence obstruction","question":"Do the 275 projected survivors split by exact selected-exceptional HNF extension class, yielding a symbolic parent congruence condition?"},
-    {"id":"CL-C","status":"UNTESTED","view":"p-adic valuation lift","question":"Is the mod-2 behavior the first layer of a valuation obstruction that removes the remaining projected survivors?"},
-    {"id":"CL-D","status":"UNTESTED","view":"symbolic dual/Farkas template","question":"Do repeated bounded infeasibility certificates lie in a finite family of dual rays with parameters affine in prefix invariants?"},
-    {"id":"CL-E","status":"BLOCKED_ON_STRONGER_E8_SCOPE","view":"normalized e-transfer","question":"After an exact current-MAIN e8 invariant exists, does an exact e10 interface preserve it?"},
-    {"id":"CL-F","status":"PRIMARY_CONTROL","view":"residual-first classifier","question":"What compact source-level invariant characterizes the 275 current-MAIN projected-mod2 survivors without using enumeration offset?"}
+    {"id":"CL-A","status":"SUPERSEDED_AS_PRIMARY_BY_PRE_PICARD_SYMBOLIC_CANDIDATE","view":"finite-ring rank/minor obstruction","question":"Retain as fallback for blocks outside the CERTLIFT-03 predicate."},
+    {"id":"CL-B","status":"LIVE_SECONDARY","view":"HNF-parent congruence obstruction","question":"Use only for populations not captured by the fibre-parity lemma."},
+    {"id":"CL-C","status":"PARKED","view":"p-adic valuation lift","question":"Not needed for the current CERTLIFT-03 predicate."},
+    {"id":"CL-D","status":"PARKED","view":"symbolic dual/Farkas template","question":"Not needed after pre-Picard fibre obstruction was found."},
+    {"id":"CL-E","status":"BLOCKED_ON_EXACT_ADAPTER","view":"normalized e-transfer","question":"Does another e/stratum preserve the fixed-label and cell-pair semantics exactly?"},
+    {"id":"CL-F","status":"SUCCESS_SOURCE","view":"residual-first classifier","question":"Produced g3==3 and then the symbolic MASS7 residual-unit obstruction."}
   ],
   "cycle_protocol": {
-    "CYCLE_ROUTE_STATUS": "AUDITED_L2_REPLAY_CURRENT_MAIN_SPLIT",
-    "CYCLE_ACTIVE_RECEIVER": "275 projected-mod2 survivor invariant compression",
-    "CYCLE_LIVE_CANDIDATES": 3,
-    "CYCLE_UNTESTED_CANDIDATES": 2,
+    "CYCLE_ROUTE_STATUS": "CERTLIFT03_SYMBOLIC_CANDIDATE_PENDING_HOSTILE_AUDIT",
+    "CYCLE_ACTIVE_RECEIVER": "hostile audit plus exact consumption adapter",
+    "CYCLE_LIVE_CANDIDATES": 2,
+    "CYCLE_UNTESTED_CANDIDATES": 0,
     "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
-    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_BLIND_REDISCOVERY": false,
     "CYCLE_SPLIT_TRIGGERED": true,
-    "CYCLE_PARKING_AUDIT_COMPLETE": false,
-    "CYCLE_NEW_VIEW": "separate the exact audited MASS7 obstruction from its failed full-current-MAIN extension and classify only the extension counterexamples",
-    "CYCLE_NEW_VIEW_SOURCE": "CERTLIFT-02_SCOPE_SPLIT"
+    "CYCLE_PARKING_AUDIT_COMPLETE": true,
+    "CYCLE_NEW_VIEW": "pre-Picard fibre-parity contradiction from MASS7 residual mass and source-locked cell geometry",
+    "CYCLE_NEW_VIEW_SOURCE": "CERTLIFT-03_G3_MASS7_SYMBOLIC"
   },
-  "split_justification": {
-    "independent_from_active_heavy": true,
-    "does_not_require_cut199_result": true,
-    "does_not_require_bc2_36_result": true,
-    "uses_audited_historical_inputs_as_seed": true,
-    "may_start_own_targeted_heavy": true,
-    "must_not_duplicate_existing_heavy_scope_without_new_information_gain": true
-  },
-  "next_gate": "Find a compact mathematical invariant on the 275 current-MAIN projection survivors. Promote nothing based on block index/offset. A candidate must be replayed against all 5667 current-MAIN MASS7/MASS8 targets and must preserve zero false-positive promotion semantics before CERTLIFT-03 symbolic derivation.",
+  "next_gate": "Obtain hostile-audit PASS on CERTLIFT-03 and freeze the audited exact head. Then construct a source-locked adapter that counts/disjoints the predicate against the authoritative Stage32 MAIN population. Do not grant MAIN credit from the candidate receipt alone.",
   "credit": {
     "main_pruning": false,
     "full178": false,
