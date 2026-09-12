@@ -11,9 +11,9 @@ All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-
 - Demand SATISFIED does not grant mathematical credit. The claim DAG, hostile audit, claim synchronization, current-target adapters, explicit MAIN promotion, and merge authorization remain separate.
 - MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and hostile-audited results awaiting required MAIN consumption.
 
-Current transition: `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is **SATISFIED**. EX5 supplied the source-locked disjoint current-MAIN-surviving e=8 terminal-to-Picard64 completion interface; the retained satisfaction receipt is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`. CUT has re-entered at CUT193 on PR #1786. This transition grants zero new Stage32 MAIN pruning credit by itself.
+Current transition: the hostile re-audit PASS for the V15 CUT195-consumed replacement head is consumed by MAIN V16 without changing numerical authority. FULL178 frontier selection points provisionally to CUT196 on PR #1793, exact head `b4bca5f6dee0a910626587eedc06036e86888769`, with a 27,346-terminal candidate. CUT196 currently has no hostile-audit PASS and its exact-head claim-frontier run `34684663810` is FAILURE, so it has **zero MAIN pruning credit**. The required next CUT route is repair exact-head CI, freeze a clean boundary, run `stage32cut-audit`, and only after PASS perform a separate current-authority overlap/composition replay before any MAIN consumption.
 
-CUT191 is separate: its hostile-audited 113-terminal result is already consumed in Stage32 V12 authority and remains unaffected by CUT192/CUT193.
+CUT191, CUT194, N357, and CUT195 remain separately consumed according to current `MAIN-STATE.json`; historical CUT192/CUT193 coordination does not alter the V16 numerical authority.
 
 ## ACTIVE commands
 
@@ -43,7 +43,7 @@ Hostile audit only after EX5 freezes a new exact retained checkpoint.
 
 ### `stage32cut-mainbatch`
 
-Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. The CUT192 demand is currently SATISFIED and CUT has re-entered at CUT193; CUT193 candidate work remains zero MAIN credit until its own hostile audit and separate MAIN consumption.
+Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. Current frontier candidate CUT196 on PR #1793 is provisional only: repair its failing exact-head claim-frontier CI before hostile audit. Its 27,346-terminal candidate must not be charged to MAIN until hostile-audit PASS plus a separate current-authority overlap/composition replay.
 
 ### `stage32cut-audit`
 
