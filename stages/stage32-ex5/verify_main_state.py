@@ -69,7 +69,6 @@ def main() -> None:
     req(b["active_work_pr"] == 1776 and b["work_branch"] == "stage32ex5-bc2-25-boundary33-mainbatch", "work surface drift")
     req(b["merge_authorized"] is False, "merge authorization leak")
 
-    # Current MAIN V15 authority projection.
     req(git_blob(STAGE32_MAIN) == STAGE32_MAIN_BLOB, "Stage32 MAIN blob drift")
     ma = json.loads(STAGE32_MAIN.read_text())
     req(ma["schema"] == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED", "Stage32 MAIN schema drift")
@@ -81,7 +80,6 @@ def main() -> None:
     req(mf["authoritative_remaining_terminals"] == 47598978285064933757427, "MAIN remaining-terminal drift")
     req(mf["full178_numerical_census_complete"] is False and mf["cut195_main_pruning_credit"] is True, "MAIN FULL178/CUT195 authority drift")
 
-    # Current cross-lane routing: no OPEN EX5 producer demand may be silently skipped.
     req(git_blob(CROSS_LANE) == CROSS_LANE_BLOB, "cross-lane demand registry blob drift")
     cl = json.loads(CROSS_LANE.read_text())
     req(cl["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V1", "cross-lane registry schema drift")
@@ -181,12 +179,13 @@ def main() -> None:
         "verify_bc2_28_boundary38_partition_checkpoint.py",
         "verify_bc2_29_boundary39_partition_checkpoint.py",
         "verify_bc2_30_boundary42_partition_checkpoint.py",
+        "verify_bc2_34_dependency_identity_repair.py",
     ):
         subprocess.run([sys.executable, str(B2 / verifier)], check=True)
 
-    print("PASS: Stage32EX5 BC2-34 targeted replay retained and frozen for hostile audit")
+    print("PASS: Stage32EX5 BC2-34 targeted replay retained and frozen for hostile re-audit")
     print("bc2_34=17_UNSAT_64_UNKNOWN_0_SAT; known_parent_unsat_lower_bound=7272")
-    print("generation1=CONSUMED_DISARMED; heavy_path=RETIRED; open_EX5_demand=0")
+    print("bc2_32_dependency=FAIL_CLOSED; prior_audit=FAIL_5186319290; heavy_recompute=NO")
     print("Stage32_MAIN_credit=NO; FULL178=NO; merge=NO; next=stage32ex5-audit")
 
 
