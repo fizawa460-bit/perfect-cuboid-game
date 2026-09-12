@@ -74,6 +74,11 @@ jobs:
         with:
           ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
           path: .stage32-audited-n358
+      - name: Checkout exact audited N359 evidence separately
+        uses: actions/checkout@v4
+        with:
+          ref: 4d273acb4560cbdfa69d0a114eb3a14e8b9ba187
+          path: .stage32-audited-n359
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
@@ -88,7 +93,8 @@ jobs:
       - name: Replay frozen N358 audit boundary at audited exact head
         working-directory: .stage32-audited-n358
         run: python stages/stage32/32-01-178/nodes/N358/verify_n358_audit_source_locks.py
-      - name: Verify N359 optimistic transport/support route-exhaustion audit boundary
+      - name: Replay frozen N359 transport/support route-exhaustion audit boundary
+        working-directory: .stage32-audited-n359
         run: python stages/stage32/32-01-178/nodes/N359/verify_n359_audit_source_locks.py
       - name: Generate N361 selected64 sidecar deterministic sample
         run: python stages/stage32/32-01-178/nodes/N361/generate_n361_sample_sidecar.py
