@@ -2,7 +2,6 @@
   "schema": "STAGE32_PR_WORKFLOW_TRIGGER_INVENTORY_V1",
   "scope": "Stage32 workflows observed auto-firing on the long-lived MAIN PR plus the current active/safety exceptions",
   "active_auto": [
-    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml"
@@ -12,6 +11,7 @@
     ".github/workflows/stage32-root-cleanup-phase-b.yml"
   ],
   "retired": [
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-01-178-n230-filtered-indexer.yml",
     ".github/workflows/stage32-01-178-n240-filtered-execution-adapter.yml",
     ".github/workflows/stage32-01-178-n250-post-n220-block-census.yml",
@@ -49,13 +49,14 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
+    "active_auto": 3,
     "manual": 2,
-    "retired": 35,
+    "retired": 36,
     "total": 41
   },
   "notes": {
-    "n356": "current Stage32 MAIN mathematical frontier; automatic PR replay retained",
+    "n356": "AUDITED-CONSUMED historical leaf; workflow_dispatch-only replay retained",
+    "current_stage32_main_leaf": "N361 retained one-sample selected64/Picard64 sidecar bridge; exact-head replay is enforced by the claim-frontier safety gate rather than a leaf-specific automatic workflow",
     "main_startup": "repository/stage authority safety gate; automatic PR replay retained",
     "claim_frontier": "claim-DAG/frontier safety gate; automatic PR replay retained",
     "stale_run_sweeper": "Actions safety gate; automatic PR execution retained",
