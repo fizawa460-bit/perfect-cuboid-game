@@ -9,6 +9,11 @@
     {"rank": 1, "route": "GENUS1_SPAN5_6_GLOBAL_CLASSIFICATION"},
     {"rank": 1, "route": "FORMAL_INFINITE_FAMILY_CONSTRUCTION_OR_NONCONSTRUCTION"}
   ],
+  "last_hostile_audited_checkpoint": {
+    "result": "PASS",
+    "exact_head": "39a56d2a9abda0c051145172ff61d67eef0bdb14",
+    "scope": "retained MB103/MB104 checkpoint before the present four-orbit continuation"
+  },
   "completed_priority_leaves": [
     "MB104-FORMAL-INFINITE-FAMILY-FEASIBILITY",
     "MB104-FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY",
@@ -18,7 +23,9 @@
     "MB104-GENUS1-SPAN5-SECTION-COMPONENTS-INC24",
     "MB104-GENUS1-SPAN5-SECTION-COMPONENTS-INC20-19-16",
     "MB104-GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY",
-    "MB104-GENUS1-SPAN5-INC14-ORBIT96-FIXED-CONIC"
+    "MB104-GENUS1-SPAN5-INC14-ORBIT96-FIXED-CONIC",
+    "MB104-GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT",
+    "MB104-BALANCED16-STATIC-LANDING-AVOIDANCE-WALL"
   ],
   "semantic_repair": {
     "support_span_not_carrier_span": true,
@@ -26,13 +33,27 @@
     "section_component_degree_is_not_carrier_degree_bound": true,
     "section_components_used_only_via_explicit_intersection_pairings": true
   },
+  "uniform_P5_ray_frontier": {
+    "incidence24_closed": true,
+    "incidence20_closed": true,
+    "incidence19_closed": true,
+    "incidence15_closed": true,
+    "incidence14_all_five_orbits_closed": true,
+    "incidence16_balanced_global_supports": 1632,
+    "incidence16_balanced_aut_orbit_sizes": [48, 48, 768, 768],
+    "known_conic_max_on_balanced_support": 2,
+    "known_elliptic_quartic_max_on_balanced_support": 7,
+    "static_landing_values_alone_close_balanced16": false
+  },
   "current_classification_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-CLASSIFICATION-CHECKPOINT.md",
-  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-AND-LOWER-INCIDENCE",
-  "next_execution_target": "For the displayed uniform genus-one Picard ray, test the 32+64 balanced incidence-16 N=14 supports against retained global constraints. Attack the incidence-15 orbit and the remaining four incidence-14 orbits (sizes 192,192,384,384) only through valid support-hyperplane test-curve pairings/capacity obstructions. Do not infer carrier degree from support-hyperplane section degree. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
+  "next_execution_leaf": "MB104-GENUS1-SPAN5-BALANCED16-FIRST-JET-GLOBAL-COMPATIBILITY",
+  "next_execution_target": "Work only on the four balanced incidence-16 support orbits of sizes 48,48,768,768 for the displayed uniform P5 ray. Static exceptional landing-value avoidance is dominated: the zero-pairing quartics forbid at most two landing points per supported node while the retained minimal-branch packet admits 8l distinct nonzero landings. Seek a genuinely global tangent/first-jet compatibility condition, simultaneous algebraic gluing obstruction, or stronger Picard/effective-cone input. Do not reopen the frozen direct R8 alpha<1/4 route without a new lever. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
   "state_interpretation": "This override supersedes only MB104 research priority/next-obligation wording in STATE.json. It does not alter retained mathematical facts, completed nodes, routing authority, or credit firewalls.",
   "credit_firewall": {
     "MB104_complete": false,
     "span5_closed": false,
+    "uniform_P5_ray_fully_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
     "finite_degree_window_proved": false,
     "receiver_credit": false,
     "merge_authorized": false
