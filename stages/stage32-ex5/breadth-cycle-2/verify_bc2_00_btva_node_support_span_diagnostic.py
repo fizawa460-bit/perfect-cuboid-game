@@ -29,6 +29,7 @@ def main() -> None:
         "STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION",
         "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY",
         "STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY",
     }
     req(schema in allowed, "live EX5 schema drift")
     bootstrap = state["bootstrap"]
@@ -79,6 +80,17 @@ def main() -> None:
         req("NO_BC2_35" in cur["stop_semantics"], "BC2-34 audit stop firewall drift")
         req((frontier["e8_bc2_34_new_parent_unsat_count"], frontier["e8_bc2_34_remaining_unknown_count"], frontier["e8_bc2_34_sat_count"]) == (17,64,0), "BC2-34 partition drift")
         req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7272, "BC2-34 lower-bound drift")
+    elif schema.endswith("BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY"):
+        req(audit["last_hostile_audit_exact_head"] == "cdb455860849cfd064e3ab8c83d6d4993fb5ff1b", "BC2-34 re-audit head drift")
+        req(audit["last_hostile_audit_review_id"] == 5186516652, "BC2-34 re-audit review drift")
+        req(audit["new_audit_boundary_exists"] is True and audit["freeze_active"] is True and audit["re_audit_required"] is True, "BC2-35 audit freeze drift")
+        req(audit["bc2_35_execution_authorized"] is False and audit["bc2_34_execution_authorized"] is False, "BC2-35 execution authority not retired")
+        req(cur["next_route"] == "HOSTILE_AUDIT_BC2_35_TARGETED_REPLAY", "BC2-35 audit route drift")
+        req("NO_BC2_36" in cur["stop_semantics"], "BC2-35 audit stop firewall drift")
+        req(frontier["e8_bc2_34_audited"] is True and frontier["e8_bc2_35_executed"] is True and frontier["e8_bc2_35_audited"] is False, "BC2-35 retained audit state drift")
+        req((frontier["e8_bc2_35_new_parent_unsat_count"], frontier["e8_bc2_35_remaining_unknown_count"], frontier["e8_bc2_35_sat_count"]) == (12,52,0), "BC2-35 retained partition drift")
+        req(frontier["e8_known_parent_unsat_count_lower_bound"] == 7272, "unaudited BC2-35 result leaked into audited lower bound")
+        req(frontier["e8_bc2_35_candidate_known_parent_unsat_count_lower_bound"] == 7284, "BC2-35 candidate lower-bound drift")
     else:
         req(audit["last_hostile_audit_exact_head"] == "cdb455860849cfd064e3ab8c83d6d4993fb5ff1b", "BC2-34 re-audit head drift")
         req(audit["last_hostile_audit_review_id"] == 5186516652, "BC2-34 re-audit review drift")
