@@ -102,14 +102,11 @@ def row_permuted_matrix(P: Matrix, perm: tuple[int, int, int]) -> Matrix:
     return Matrix(rows)
 
 
-def flatten_ints(value) -> set[int]:
-    out: set[int] = set()
-    if isinstance(value, int):
-        out.add(int(value))
-    elif isinstance(value, (list, tuple)):
-        for item in value:
-            out.update(flatten_ints(item))
-    return out
+def map_label(label: int, perm: tuple[int, int, int]) -> int:
+    for i, target in enumerate(TARGET_LABELS):
+        if int(label) == target:
+            return int(TARGET_LABELS[perm[i]])
+    return int(label)
 
 
 def compose(p: tuple[int, int, int], q: tuple[int, int, int]) -> tuple[int, int, int]:
@@ -155,8 +152,21 @@ def main() -> None:
     req(set(TARGET_POS).isdisjoint(special_positions), "candidate positions touch non-symmetric terminal predicate coordinates")
     req(set(TARGET_LABELS) == {ASSIGNMENT_ORDER[i] for i in TARGET_POS}, "candidate label/position map drift")
     req(all(label > 92 for label in TARGET_LABELS), "candidate labels are not exceptional")
-    normal_structure_labels = flatten_ints(core.PACKS) | flatten_ints(blocks)
-    req(set(TARGET_LABELS).isdisjoint(normal_structure_labels), "candidate exceptional labels enter fibre/cross-factor normal structures")
+
+    factor_sets = [
+        [frozenset(int(v) for v in factor) for factor in pack]
+        for pack in blocks
+    ]
+    target_memberships = {
+        str(label): [
+            [pack_i, factor_i]
+            for pack_i, pack in enumerate(factor_sets)
+            for factor_i, factor in enumerate(pack)
+            if label in factor
+        ]
+        for label in TARGET_LABELS
+    }
+    req(all(target_memberships[str(label)] for label in TARGET_LABELS), "candidate target label missing from fibre-factor structure")
 
     selected_labels = [int(v) for v in g.selected_labels]
     req(len(selected_labels) == 64 and len(set(selected_labels)) == 64, "selected64 label set drift")
@@ -189,6 +199,12 @@ def main() -> None:
     )
 
     for perm in perms:
+        fibre_cross_structure_preserved = all(
+            frozenset(map_label(v, perm) for v in factor) == factor
+            for pack in factor_sets
+            for factor in pack
+        )
+
         Pperm = row_permuted_matrix(P, perm)
         Pperm_sel = Pperm.extract([label - 1 for label in selected_labels], list(range(64)))
         Tq = Psel_inv * Pperm_sel
@@ -225,6 +241,7 @@ def main() -> None:
         )
 
         leaf_action = all([
+            fibre_cross_structure_preserved,
             integral,
             unimodular,
             full_pairing_equivariance,
@@ -239,6 +256,7 @@ def main() -> None:
             "pairing_label_action": {
                 str(TARGET_LABELS[i]): int(TARGET_LABELS[perm[i]]) for i in range(3)
             },
+            "fibre_cross_factor_structure_preserved": fibre_cross_structure_preserved,
             "current_main_survivor_block_bijection": block_bijection,
             "picard_coordinate_transform_integral": integral,
             "picard_coordinate_transform_determinant": det,
@@ -297,6 +315,7 @@ def main() -> None:
         "candidate": {
             "coordinate_positions": list(TARGET_POS),
             "pairing_labels": list(TARGET_LABELS),
+            "target_fibre_factor_memberships": target_memberships,
             "ambient_group": "S3",
             "ambient_group_order": 6,
             "permutation_results": results,
@@ -313,7 +332,7 @@ def main() -> None:
         },
         "proof_surface": {
             "terminal_predicate_symmetry_exact_by_coordinate_support": True,
-            "candidate_labels_disjoint_from_fibre_and_cross_factor_normal_structures": True,
+            "fibre_cross_factor_structure_action_checked_per_permutation": True,
             "picard_integral_unimodular_action_checked": True,
             "all140_pairing_equivariance_checked": True,
             "picard_gram_isometry_checked": True,
@@ -343,6 +362,7 @@ def main() -> None:
     args.output.write_text(json.dumps(out, sort_keys=True, indent=2) + "\n")
     print(json.dumps({
         "status": status,
+        "target_fibre_factor_memberships": target_memberships,
         "valid_group_order": len(valid),
         "valid_permutations": [list(p) for p in valid],
         "block_orbit_count": block_orbit_count,
