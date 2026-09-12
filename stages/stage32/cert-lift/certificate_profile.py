@@ -4,12 +4,20 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
+import subprocess
 import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
-EX5_HANDOFF = ROOT / "stages/stage32-ex5/cut-handoff"
+SOURCE_ROOT = Path(os.environ.get("CERTLIFT_EX5_SOURCE_ROOT", str(ROOT))).resolve()
+EX5_HANDOFF = SOURCE_ROOT / "stages/stage32-ex5/cut-handoff"
+EX5_ADAPTER = EX5_HANDOFF / "e8_terminal_population_adapter.py"
+if not EX5_ADAPTER.is_file():
+    raise RuntimeError(
+        "locked EX5 adapter checkout missing; set CERTLIFT_EX5_SOURCE_ROOT to the exact producer checkout"
+    )
 sys.path.insert(0, str(EX5_HANDOFF))
 
 import e8_terminal_population_adapter as e8
@@ -47,6 +55,18 @@ def verify_source_manifest(ledger: dict) -> None:
         manifest.get("schema") == "STAGE32_CUT_CERT_LIFT_SOURCE_LOCKS_V1",
         "CERT-LIFT source manifest schema drift",
     )
+    shared = manifest.get("shared_inputs", {})
+    expected_head = shared.get("ex5_e8_terminal_producer_exact_head")
+    req(isinstance(expected_head, str) and len(expected_head) == 40, "EX5 producer head lock missing")
+    req(
+        shared.get("adapter_path") == "stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py",
+        "EX5 adapter path lock drift",
+    )
+    actual_head = subprocess.check_output(
+        ["git", "-C", str(SOURCE_ROOT), "rev-parse", "HEAD"], text=True
+    ).strip()
+    req(actual_head == expected_head, f"EX5 source checkout head drift: {actual_head}")
+
     locked = {w["id"]: w for w in manifest["waves"]}
     for wave in ledger["waves"]:
         src = locked.get(wave["id"])
@@ -160,6 +180,7 @@ def build_profile(ledger: dict) -> dict:
         "per_wave": per_wave,
         "checks": {
             "source_manifest_locked": True,
+            "ex5_source_checkout_exact_head_locked": True,
             "all_six_wave_scopes_reconstructed_from_current_main_prefix_adapter": True,
             "residual_controls_replayed": True,
             "cp_sat_or_z3_rerun": False,
