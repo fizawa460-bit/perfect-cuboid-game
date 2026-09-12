@@ -92,7 +92,7 @@ jobs:
         with:
           fetch-depth: 2
       - id: gate
-        name: Authorize only fresh BC2-33 generation-1 targeted replay
+        name: Authorize only fresh BC2-33 generation-2 targeted replay
         shell: bash
         env:
           BEFORE: ${{ github.event.before }}
@@ -105,17 +105,14 @@ jobs:
           before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
           authorized=False; reason='cold'
           if before and head and key.exists():
-              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],
-                             check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],
-                                    stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
               if old_ok:
                   changed=subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines()
                   if str(key) in changed:
                       r=json.loads(key.read_text())
                       try:
-                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],
-                                                                text=True,stderr=subprocess.DEVNULL))
+                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL))
                           generation_ok=int(r.get('generation',0))>int(old.get('generation',0))
                       except subprocess.CalledProcessError:
                           generation_ok=False
@@ -123,14 +120,14 @@ jobs:
                       preflight=Path('stages/stage32-ex5/breadth-cycle-2/bc2-33-fresh-unknown107-replay-preflight.json')
                       sb=subprocess.check_output(['git','hash-object',str(source)],text=True).strip()
                       pb=subprocess.check_output(['git','hash-object',str(preflight)],text=True).strip()
-                      a=r.get('audit_consumption',{}); t=r.get('target',{}); ex=r.get('execution',{})
-                      s=json.load(open('stages/stage32-ex5/MAIN-STATE.json'))
-                      boundary=s.get('intermediate_audit_boundary',{})
+                      a=r.get('audit_consumption',{}); t=r.get('target',{}); ex=r.get('execution',{}); cr=r.get('cancelled_run',{})
+                      s=json.load(open('stages/stage32-ex5/MAIN-STATE.json')); boundary=s.get('intermediate_audit_boundary',{})
                       authorized=(
                           r.get('schema')=='STAGE32EX5_BC2_33_FRESH_UNKNOWN107_REPLAY_RUNKEY_V1'
-                          and r.get('generation')==1
-                          and r.get('armed') is True
-                          and generation_ok
+                          and r.get('generation')==2 and r.get('armed') is True and generation_ok
+                          and cr.get('generation')==1 and cr.get('exact_head')=='75760777934825de9851811c708871412d99ab0e'
+                          and cr.get('workflow_run_id')==34681403712 and cr.get('compute_job_id')==103520625439
+                          and cr.get('accepted_for_mathematical_credit') is False
                           and r.get('source_git_blob_sha')==sb=='efc44c368b408bf8b50c5ad9aa86cd646fb7b19c'
                           and r.get('preflight_git_blob_sha')==pb=='b0a012ac62a98c5b5bbf3d8b7c8d120f8f37128a'
                           and r.get('preflight_canonical')=='8e9925ba869e4d3d2b98220472a5fbba6985acac9d2067bc48402d3b4cb4a58e'
@@ -139,21 +136,16 @@ jobs:
                           and a.get('bc2_32_hostile_audit_review_id')==5185434136
                           and t.get('fresh_unknown_parent_count')==107
                           and t.get('fresh_unknown_parent_indices_sha256')=='e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492'
-                          and t.get('prior_audited_unsat_count')==7229
-                          and t.get('targeted_replay_only') is True
-                          and ex.get('per_parent_timeout_ms')==40000
-                          and ex.get('effective_heavy_concurrency')==1
-                          and ex.get('workflow_timeout_minutes')==90
-                          and ex.get('heavy_scaleout_authorized') is False
+                          and t.get('prior_audited_unsat_count')==7229 and t.get('targeted_replay_only') is True
+                          and ex.get('per_parent_timeout_ms')==40000 and ex.get('effective_heavy_concurrency')==1
+                          and ex.get('workflow_timeout_minutes')==90 and ex.get('heavy_scaleout_authorized') is False
                           and s.get('schema')=='STAGE32EX5_MAIN_COMPACT_STATE_V19_BC2_32_AUDIT_CONSUMED_BC2_33_EXECUTION'
                           and boundary.get('last_hostile_audit_exact_head')=='5c68ed03d77d6443c54340c90d457e80441fe414'
                           and boundary.get('last_hostile_audit_review_id')==5185434136
-                          and boundary.get('bc2_33_execution_authorized') is True
-                          and boundary.get('freeze_active') is False
+                          and boundary.get('bc2_33_execution_authorized') is True and boundary.get('freeze_active') is False
                       )
-                      reason='fresh-runkey' if authorized else 'semantic-gate-failed'
-          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
-              f.write('authorized='+('true' if authorized else 'false')+'\n')
+                      reason='fresh-runkey-gen2' if authorized else 'semantic-gate-failed'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if authorized else 'false')+'\n')
           print('BC2-33 targeted replay authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
           PY
 
@@ -187,26 +179,17 @@ jobs:
         run: |
           python - "$RUNNER_TEMP/bc2-33.json" <<'PY'
           import json,sys
-          p=json.load(open(sys.argv[1]))
-          a=p['audit_consumption']; t=p['target']; r=p['replay']; c=p['credit']; f=p['firewalls']
+          p=json.load(open(sys.argv[1])); a=p['audit_consumption']; t=p['target']; r=p['replay']; c=p['credit']; f=p['firewalls']
           assert p['schema']=='STAGE32EX5_BC2_33_FRESH_UNKNOWN107_REPLAY_V1'
-          assert a['bc2_32_hostile_audit_status']=='PASS'
-          assert a['bc2_32_hostile_audit_exact_head']=='5c68ed03d77d6443c54340c90d457e80441fe414'
-          assert a['bc2_32_hostile_audit_review_id']==5185434136
-          assert t['audited_bc2_32_unknown_count']==107
-          assert t['parent_indices_sha256']=='e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492'
-          assert r['parents_checked']==107
-          assert r['unsat_count']+r['unknown_count']+r['sat_count']==107
+          assert a['bc2_32_hostile_audit_status']=='PASS' and a['bc2_32_hostile_audit_exact_head']=='5c68ed03d77d6443c54340c90d457e80441fe414' and a['bc2_32_hostile_audit_review_id']==5185434136
+          assert t['audited_bc2_32_unknown_count']==107 and t['parent_indices_sha256']=='e617578c83e604866c22de5d38d62d93fe4453886b0d46ddce609bce87308492'
+          assert r['parents_checked']==107 and r['unsat_count']+r['unknown_count']+r['sat_count']==107
           assert r['all_remaining_unknown_identities_explicitly_retained'] is True
           assert c['known_parent_unsat_count_lower_bound']==7229+r['unsat_count']
-          assert c['full178_complete'] is False and c['stage32_main_credit'] is False
-          assert c['effectivity_or_actual_curve_existence_proved'] is False
-          assert f['timeout_unknown_relabelled_unsat'] is False
-          assert f['unknown_dropped'] is False and f['sat_relabelled_actual_curve'] is False
-          assert f['main_promotion'] is False and f['merge_authorized'] is False
-          assert f['heavy_scaleout_authorized'] is False
-          print('BC2_33_TARGETED_SCOPE_OK',p['canonical_sha256_without_this_field'],
-                r['unsat_count'],r['unknown_count'],r['sat_count'])
+          assert c['full178_complete'] is False and c['stage32_main_credit'] is False and c['effectivity_or_actual_curve_existence_proved'] is False
+          assert f['timeout_unknown_relabelled_unsat'] is False and f['unknown_dropped'] is False and f['sat_relabelled_actual_curve'] is False
+          assert f['main_promotion'] is False and f['merge_authorized'] is False and f['heavy_scaleout_authorized'] is False
+          print('BC2_33_TARGETED_SCOPE_OK',p['canonical_sha256_without_this_field'],r['unsat_count'],r['unknown_count'],r['sat_count'])
           PY
       - name: Upload compact BC2-33 result
         uses: actions/upload-artifact@v4
@@ -236,8 +219,7 @@ jobs:
           import json, os, subprocess
           from pathlib import Path
           key=Path('stages/stage32-ex5/runkeys/e8-cut-handoff-wave.json')
-          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
-          authorized=False; reason='cold'
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip(); authorized=False; reason='cold'
           if before and head and key.exists():
               subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
               old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
@@ -246,28 +228,13 @@ jobs:
                   if str(key) in changed:
                       new=json.loads(key.read_text())
                       try:
-                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL))
-                          generation_ok=int(new.get('generation',0))>int(old.get('generation',0))
-                      except subprocess.CalledProcessError:
-                          generation_ok=int(new.get('generation',0))==1
-                      source='stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py'
-                      preflight='stages/stage32-ex5/cut-handoff/e8-terminal-population-preflight.json'
-                      source_blob=subprocess.check_output(['git','hash-object',source],text=True).strip()
-                      preflight_blob=subprocess.check_output(['git','hash-object',preflight],text=True).strip()
-                      t=new.get('target',{}); ex=new.get('execution',{})
-                      authorized=(new.get('schema')=='STAGE32EX5_E8_CUT_HANDOFF_WAVE_RUNKEY_V1'
-                          and new.get('armed') is True and generation_ok
-                          and new.get('source_git_blob_sha')==source_blob=='6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f'
-                          and new.get('preflight_git_blob_sha')==preflight_blob=='b28539d9d0eafddc181d3bbf6d668261f2ff081e'
-                          and t.get('current_main_handoff_block_count')==7596
-                          and t.get('current_main_handoff_terminal_count')==858348
-                          and t.get('wave_survivor_offset_start')==1 and t.get('wave_survivor_count')==255
-                          and t.get('wave_source_block_index_minmax')==[1,343]
-                          and t.get('wave_terminal_count')==28815 and t.get('wave_raw_parent_candidates')==407672
-                          and ex.get('max_raw_candidates')==425000 and ex.get('effective_heavy_concurrency')==1)
+                          old=json.loads(subprocess.check_output(['git','show',before+':'+str(key)],text=True,stderr=subprocess.DEVNULL)); generation_ok=int(new.get('generation',0))>int(old.get('generation',0))
+                      except subprocess.CalledProcessError: generation_ok=int(new.get('generation',0))==1
+                      source='stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py'; preflight='stages/stage32-ex5/cut-handoff/e8-terminal-population-preflight.json'
+                      source_blob=subprocess.check_output(['git','hash-object',source],text=True).strip(); preflight_blob=subprocess.check_output(['git','hash-object',preflight],text=True).strip(); t=new.get('target',{}); ex=new.get('execution',{})
+                      authorized=(new.get('schema')=='STAGE32EX5_E8_CUT_HANDOFF_WAVE_RUNKEY_V1' and new.get('armed') is True and generation_ok and new.get('source_git_blob_sha')==source_blob=='6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f' and new.get('preflight_git_blob_sha')==preflight_blob=='b28539d9d0eafddc181d3bbf6d668261f2ff081e' and t.get('current_main_handoff_block_count')==7596 and t.get('current_main_handoff_terminal_count')==858348 and t.get('wave_survivor_offset_start')==1 and t.get('wave_survivor_count')==255 and t.get('wave_source_block_index_minmax')==[1,343] and t.get('wave_terminal_count')==28815 and t.get('wave_raw_parent_candidates')==407672 and ex.get('max_raw_candidates')==425000 and ex.get('effective_heavy_concurrency')==1)
                       reason='fresh-runkey' if authorized else 'semantic-gate-failed'
-          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
-              f.write('authorized='+('true' if authorized else 'false')+'\n')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if authorized else 'false')+'\n')
           print('e8 CUT handoff authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
           PY
 
@@ -295,22 +262,10 @@ jobs:
         run: |
           python - "$RUNNER_TEMP/e8-cut-handoff-wave.json" <<'PY'
           import hashlib,json,sys
-          p=json.load(open(sys.argv[1]))
-          assert p['schema']=='STAGE32EX5_E8_CURRENT_MAIN_HANDOFF_WAVE_V1'
-          assert p['survivor_offset_range']==[1,255]
-          assert p['block_index_minmax']==[1,343]
-          assert p['block_count']==255 and p['terminal_count']==28815
-          assert p['raw_parent_candidates_checked']==407672
-          assert len(p['blocks'])==255 and len(p['block_indices'])==255
+          p=json.load(open(sys.argv[1])); assert p['schema']=='STAGE32EX5_E8_CURRENT_MAIN_HANDOFF_WAVE_V1'; assert p['survivor_offset_range']==[1,255]; assert p['block_index_minmax']==[1,343]; assert p['block_count']==255 and p['terminal_count']==28815; assert p['raw_parent_candidates_checked']==407672; assert len(p['blocks'])==255 and len(p['block_indices'])==255
           h=hashlib.sha256()
           for i in p['block_indices']: h.update(f'{i}\n'.encode())
-          assert h.hexdigest()=='68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea'
-          assert p['authority']['n220_audited'] is True and p['authority']['n355_full_prefix_audited'] is True
-          assert p['authority']['n356_candidate_consumed'] is False
-          assert all(b['current_main_audited_prefix_survivor'] is True for b in p['blocks'])
-          assert p['firewalls']['stage32_main_pruning_credit'] is False
-          assert p['firewalls']['full178_complete'] is False
-          assert p['firewalls']['merge_authorized'] is False
+          assert h.hexdigest()=='68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea'; assert p['authority']['n220_audited'] is True and p['authority']['n355_full_prefix_audited'] is True; assert p['authority']['n356_candidate_consumed'] is False; assert all(b['current_main_audited_prefix_survivor'] is True for b in p['blocks']); assert p['firewalls']['stage32_main_pruning_credit'] is False; assert p['firewalls']['full178_complete'] is False; assert p['firewalls']['merge_authorized'] is False
           print('E8_CURRENT_MAIN_CUT_HANDOFF_WAVE_OK',p['canonical_sha256_without_this_field'])
           PY
       - name: Upload compact e8 CUT handoff certificate
