@@ -79,6 +79,7 @@ def main() -> None:
     allowed_ex5_schemas = {
         "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE",
         "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY",
+        "STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION",
     }
     req(ex5_schema in allowed_ex5_schemas, "EX5 retained state schema drift")
     b = ex5["bootstrap"]
@@ -96,27 +97,36 @@ def main() -> None:
         req("higher-priority OPEN demand" in ex5_start, "EX5 startup lost generic producer-priority rule")
         req("SATISFIED" in ex5_start and "CUT192-EX5-E8-HANDOFF-SATISFIED.json" in ex5_start, "EX5 startup has stale producer wait state")
     else:
-        req(b["active_work_pr"] == 1776, "EX5 V22 active work PR drift")
-        req(b["current_main_sha_observed"] == "e4d3b8b83626526ffeccdbd9c956081735fe1a6e", "EX5 V22 current MAIN observation drift")
+        req(b["active_work_pr"] == 1776, "EX5 active work PR drift")
+        req(b["current_main_sha_observed"] == "e4d3b8b83626526ffeccdbd9c956081735fe1a6e", "EX5 current MAIN observation drift")
         main_auth = ex5["stage32_main_authority"]
-        req(main_auth["current_main_schema"] == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED", "EX5 V22 MAIN schema drift")
-        req(main_auth["current_main_sha"] == "e4d3b8b83626526ffeccdbd9c956081735fe1a6e", "EX5 V22 MAIN SHA drift")
-        req(main_auth["full178_numerical_census_complete"] is False, "EX5 V22 falsely closes FULL178")
-        req(main_auth["ex5_auto_promotes_to_main"] is False, "EX5 V22 self-promotion enabled")
+        req(main_auth["current_main_schema"] == "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED", "EX5 MAIN schema drift")
+        req(main_auth["current_main_sha"] == "e4d3b8b83626526ffeccdbd9c956081735fe1a6e", "EX5 MAIN SHA drift")
+        req(main_auth["full178_numerical_census_complete"] is False, "EX5 falsely closes FULL178")
+        req(main_auth["ex5_auto_promotes_to_main"] is False, "EX5 self-promotion enabled")
         routing = ex5["cross_lane_routing"]
-        req(routing["open_ex5_producer_demand_count"] == 0, "EX5 V22 has unhandled OPEN producer demand")
-        req(routing["satisfied_cut192_handoff_preserved"] is True, "EX5 V22 lost CUT192 satisfied handoff")
-        req(routing["local_bc2_34_audit_boundary_may_continue"] is True, "EX5 V22 local audit boundary not authorized")
+        req(routing["open_ex5_producer_demand_count"] == 0, "EX5 has unhandled OPEN producer demand")
+        req(routing["satisfied_cut192_handoff_preserved"] is True, "EX5 lost CUT192 satisfied handoff")
+        req("PR #1776 remains active/open/draft/unmerged" in ex5_start, "EX5 startup lost active PR provenance")
+        req("higher-priority OPEN producer demand" in ex5_start, "EX5 startup lost generic producer-priority rule")
+        req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in ex5_start and "SATISFIED" in ex5_start, "EX5 startup lost satisfied CUT192 demand")
+        req("does not grant mathematical credit" in ex5_start.lower(), "EX5 startup missing demand/credit separation")
         current = ex5["current"]
-        req(current["leaf"] == "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V22 BC2-34 leaf drift")
-        req(current["status"] == "BC2_34_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "EX5 V22 audit status drift")
-        req(current["blocker"] == "HOSTILE_AUDIT_BC2_34_REQUIRED", "EX5 V22 audit blocker drift")
-        req(current["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "EX5 V22 next route drift")
-        req("PR #1776 remains active/open/draft/unmerged" in ex5_start, "EX5 V22 startup lost active PR provenance")
-        req("higher-priority OPEN producer demand" in ex5_start, "EX5 V22 startup lost generic producer-priority rule")
-        req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in ex5_start and "SATISFIED" in ex5_start, "EX5 V22 startup lost satisfied CUT192 demand")
-        req("does not grant mathematical credit" in ex5_start.lower(), "EX5 V22 startup missing demand/credit separation")
-        req("stage32ex5-audit" in ex5_start and "BC2-35 is blocked" in ex5_start, "EX5 V22 startup lost audit stop rule")
+        if ex5_schema == "STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY":
+            req(routing["local_bc2_34_audit_boundary_may_continue"] is True, "EX5 V22 local audit boundary not authorized")
+            req(current["leaf"] == "BC2_34_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V22 BC2-34 leaf drift")
+            req(current["status"] == "BC2_34_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED", "EX5 V22 audit status drift")
+            req(current["blocker"] == "HOSTILE_AUDIT_BC2_34_REQUIRED", "EX5 V22 audit blocker drift")
+            req(current["next_route"] == "HOSTILE_AUDIT_BC2_34_TARGETED_REPLAY", "EX5 V22 next route drift")
+            req("stage32ex5-audit" in ex5_start and "BC2-35 is blocked" in ex5_start, "EX5 V22 startup lost audit stop rule")
+        else:
+            req(routing["local_bc2_35_execution_may_continue"] is True, "EX5 V23 BC2-35 execution not authorized")
+            req(current["leaf"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V23 BC2-35 leaf drift")
+            req(current["status"] == "BC2_35_TARGETED_REPLAY_EXECUTION_AUTHORIZED", "EX5 V23 execution status drift")
+            req(current["blocker"] == "BC2_35_FRESH_RUNKEY_NOT_YET_CONSUMED", "EX5 V23 execution blocker drift")
+            req(current["next_route"] == "BC2_35_REFINE_REMAINING_FRESH_UNKNOWN_SET", "EX5 V23 next route drift")
+            req("BC2-34 hostile re-audit PASS" in ex5_start, "EX5 V23 startup lost BC2-34 PASS consumption")
+            req("BC2-35 execution" in ex5_start and "BC2-36 is blocked" in ex5_start, "EX5 V23 startup lost execution/next-audit gate")
 
     cut = load(HERE / "full178-cut" / "MISSION.json")
     req(cut["status"] == "ACTIVE", "CUT mission unexpectedly inactive")
@@ -151,7 +161,6 @@ def main() -> None:
     req("stage32mb-mainbatch" in mb_start and "CROSS-LANE-DEMANDS.json" in mb_start, "MB demand-aware startup missing")
 
     runpy.run_path(str(HERE / "proof" / "verify_cross_lane_demands.py"), run_name="__main__")
-
     print("PASS: Stage32 command surface is canonical, demand-aware, and authority-separated")
     print("MAIN=global-monitor; EX5=producer-handoff-complete; CUT=consumer-reentered; 178/MB=specialists")
     print("CUT192=SATISFIED_EX5_TO_CUT; CUT193=REENTERED_ZERO_MAIN_CREDIT; CUT191=MAIN_CONSUMED")
