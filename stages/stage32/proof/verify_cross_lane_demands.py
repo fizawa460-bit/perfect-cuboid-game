@@ -15,15 +15,24 @@ V13_SNAPSHOT = STAGE / "management/MAIN-STATE-V13-N357-PRECONSUMPTION.json"
 V13_VERIFIER = HERE / "verify_cross_lane_demands_v13.py"
 N357_RECEIPT = STAGE / "management/post-n357-composition-pass-consumption-20260912.json"
 CUT195_RECEIPT = STAGE / "management/post-cut195-current-v14-composition-consumption-20260912.json"
+CUT195_REAUDIT_RECEIPT = STAGE / "management/post-cut195-v15-hostile-reaudit-pass-consumption-20260912.json"
 
 V13_STATE_BLOB = "0f281111572572a8068cc38bb77f5f1c869b98ad"
 V13_STATE_CANONICAL = "7c39d7935c36066cf2ec4a549eadc45e821fbf818490e6bfd10126f32bdf8a6d"
 V13_VERIFIER_BLOB = "4ce5d9ffe53aa25a00af054e35d5419d35b05355"
-V15_STATE_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
+V16_STATE_BLOB = "6bba1e9cceb2de1053777805f0e5d36d357a38a0"
+V16_STATE_CANONICAL = "a78056fadbc1a44ac5210a7dcd2b97b00d2f88bb7fbb26e4a664439c984366eb"
 N357_RECEIPT_BLOB = "033500e397a0e9d6dfa04638ab765a861cc523b8"
 N357_RECEIPT_CANONICAL = "9e5209b77b7852df66673827782bbd6c0def6651409b711aff6969c69b8a8a5f"
 CUT195_RECEIPT_BLOB = "148ea573bb1f618baac33c0d1f8cc91678fbbca2"
 CUT195_RECEIPT_CANONICAL = "e33fb30bef69ce3ef87f095b500ecd4a8a21b155a3d9c957836ed17c82ad6be9"
+CUT195_REAUDIT_RECEIPT_BLOB = "7103d4f2c44fba5db52cde910095a6cd9e21233c"
+CUT195_REAUDIT_RECEIPT_CANONICAL = "663ba737e7370eb06af822f3749ba3fc4aa2c572b46a40b6f6b64dd56ef1e113"
+CUT195_REAUDIT_HEAD = "fdc372e1666e1176d80953b6303b13b240da84c5"
+CUT195_REAUDIT_REVIEW = 5185987769
+V16_MAIN = "e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
+CUT196_HEAD = "b4bca5f6dee0a910626587eedc06036e86888769"
+CUT196_FAILED_CI = 34684663810
 CUT194_INCREMENT = 26442
 N357_INCREMENT = 17797986705435299826016
 CUT195_INCREMENT = 26216
@@ -65,7 +74,12 @@ def replay_v13_contract() -> None:
         req(proc.returncode == 0, "historical V13 cross-lane contract replay failed")
     finally:
         MAIN_STATE.write_bytes(current)
-    req(git_blob(MAIN_STATE) == V15_STATE_BLOB, "V15 MAIN state was not restored after historical replay")
+    req(git_blob(MAIN_STATE) == V16_STATE_BLOB, "V16 MAIN state was not restored after historical replay")
+    restored = load(MAIN_STATE)
+    req(restored["canonical_sha256_without_this_field"] == V16_STATE_CANONICAL,
+        "V16 restored MAIN state stored canonical drift")
+    req(canonical(restored) == V16_STATE_CANONICAL,
+        "V16 restored MAIN state canonical drift")
 
 def main() -> None:
     replay_v13_contract()
@@ -92,6 +106,7 @@ def main() -> None:
         "live MAIN delta double-charge or gap")
 
     auth = state["authority_sync"]
+    req(auth["current_repository_main"] == V16_MAIN, "current repository main lock drift")
     req(auth["n357_current_v13_composition_hostile_audit_status"] == "PASS",
         "N357 current-authority composition lacks audit PASS")
     req(auth["n357_current_v13_composition_hostile_audit_review_id"] == 5184369560,
@@ -106,10 +121,23 @@ def main() -> None:
     req(auth["cut195_current_v14_composition_replayed"] is True, "CUT195 current-V14 composition not replayed")
     req(auth["cut195_current_v14_overlap_n357_terminals"] == 0, "CUT195 overlaps N357")
     req(auth["cut195_main_pruning_credit_consumed"] is True, "CUT195 consumption flag false")
-    req(auth["cut195_post_sync_reaudit_required"] is True, "CUT195 replacement-head audit gate missing")
-    req(auth["cut195_post_sync_reaudit_status"] == "PENDING", "CUT195 replacement-head audit status drift")
-    req(frontier["cut195_synchronized_head_hostile_audited"] is False,
-        "CUT195 replacement head self-awarded audit")
+    req(auth["cut195_post_sync_reaudit_required"] is False, "CUT195 replacement-head audit was not consumed")
+    req(auth["cut195_post_sync_reaudit_status"] == "PASS", "CUT195 replacement-head audit PASS missing")
+    req(auth["cut195_post_sync_reaudit_exact_head"] == CUT195_REAUDIT_HEAD,
+        "CUT195 replacement-head audited head drift")
+    req(auth["cut195_post_sync_reaudit_review_id"] == CUT195_REAUDIT_REVIEW,
+        "CUT195 replacement-head audit review drift")
+    req(auth["cut195_synchronized_head_hostile_audited"] is True,
+        "CUT195 replacement head not synchronized as audited")
+    req(frontier["cut195_synchronized_head_hostile_audited"] is True,
+        "CUT195 frontier audit synchronization lost")
+
+    req(frontier["cut196_candidate_exact_head"] == CUT196_HEAD, "CUT196 selected head drift")
+    req(frontier["cut196_candidate_rejected_terminals"] == 27346, "CUT196 candidate count drift")
+    req(frontier["cut196_claim_frontier_ci_run"] == CUT196_FAILED_CI, "CUT196 failed CI identity drift")
+    req(frontier["cut196_claim_frontier_ci_status"] == "FAILURE", "CUT196 failure state drift")
+    req(frontier["cut196_candidate_hostile_audited"] is False, "CUT196 self-awarded hostile audit")
+    req(frontier["cut196_main_pruning_credit"] is False, "CUT196 gained unauthorized MAIN credit")
 
     req(git_blob(N357_RECEIPT) == N357_RECEIPT_BLOB, "N357 consumption receipt blob drift")
     n357_receipt = load(N357_RECEIPT)
@@ -152,25 +180,56 @@ def main() -> None:
         "CUT195 overlaps consumed CUT191/CUT194")
     req(y["double_charge"] is False, "CUT195 double-charge flag set")
 
+    req(git_blob(CUT195_REAUDIT_RECEIPT) == CUT195_REAUDIT_RECEIPT_BLOB,
+        "CUT195 re-audit consumption receipt blob drift")
+    reaud = load(CUT195_REAUDIT_RECEIPT)
+    req(reaud["canonical_sha256_without_this_field"] == CUT195_REAUDIT_RECEIPT_CANONICAL,
+        "CUT195 re-audit receipt stored canonical drift")
+    req(canonical(reaud) == CUT195_REAUDIT_RECEIPT_CANONICAL,
+        "CUT195 re-audit receipt canonical drift")
+    ext = reaud["external_audit"]
+    req(ext["audited_exact_head"] == CUT195_REAUDIT_HEAD,
+        "CUT195 re-audit receipt head drift")
+    req(ext["review_id"] == CUT195_REAUDIT_REVIEW and ext["status"] == "PASS",
+        "CUT195 re-audit receipt review/status drift")
+    req(ext["merged_main_commit"] == V16_MAIN, "CUT195 re-audit receipt merged-main drift")
+    transition = reaud["authority_transition"]
+    req(transition["mathematical_authority_changed"] is False,
+        "audit consumption changed mathematical authority")
+    req(transition["remaining_terminals_before"] == transition["remaining_terminals_after"] == POST_CUT195,
+        "audit consumption changed terminal authority")
+    fs = reaud["full178_frontier_selection"]
+    req(fs["selected_next_candidate"] == "CUT196", "CUT196 not selected in re-audit receipt")
+    req(fs["candidate_exact_head"] == CUT196_HEAD, "CUT196 receipt head drift")
+    req(fs["claim_frontier_ci_run"] == CUT196_FAILED_CI and fs["claim_frontier_ci_status"] == "FAILURE",
+        "CUT196 receipt CI status drift")
+    req(fs["candidate_hostile_audit_status"] == "NOT_AUDITED", "CUT196 receipt audit status drift")
+    req(fs["main_pruning_credit"] is False, "CUT196 receipt grants MAIN credit")
+
     req(state["firewalls"]["merge_authorized"] is False, "merge authorized")
     req(frontier["full178_numerical_census_complete"] is False, "FULL178 incorrectly closed")
     req(frontier["stage32_closed"] is False, "Stage32 incorrectly closed")
 
     print(json.dumps({
-        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V15",
+        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V16",
         "historical_v13_contract_replayed": True,
         "cut191_main_consumed": True,
         "cut194_main_consumed": True,
         "n357_main_consumed": True,
         "cut195_main_consumed": True,
+        "cut195_replacement_head_reaudit_consumed": True,
         "n357_incremental_rejected_terminals": N357_INCREMENT,
         "cut195_incremental_rejected_terminals": CUT195_INCREMENT,
         "authoritative_remaining_terminals": POST_CUT195,
         "cut192_preferred_wave_n357_overlap": 0,
         "cut195_n357_overlap": 0,
         "cut193_main_credit": False,
+        "cut196_candidate_terminals": 27346,
+        "cut196_claim_frontier_ci": "FAILURE",
+        "cut196_hostile_audited": False,
+        "cut196_main_credit": False,
         "full178_complete": False,
-        "replacement_head_hostile_reaudit_required": True,
+        "replacement_head_hostile_reaudit_required": False,
         "merge_authorized": False,
     }, sort_keys=True))
 
