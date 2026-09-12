@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 WF_DIR = ROOT / ".github" / "workflows"
 INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+N356_WORKFLOW = ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
 
 # Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
 # if they are present, they are intentionally automatic.
@@ -17,7 +18,6 @@ ACTIVE_AUTO = {
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
-    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
@@ -137,17 +137,28 @@ def build_inventory(changed: list[str]) -> dict:
             "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
             "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
             "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-            "Stage32 N356 optimistic exceptional transport is the current Stage32 MAIN mathematical frontier and must retain automatic PR replay.",
+            "Stage32 N356 optimistic exceptional transport is AUDITED-CONSUMED and RETIRED; historical replay is workflow_dispatch-only.",
+            "Stage32 current retained research leaf is N361; its exact-head replay is enforced by the Stage32 claim-frontier safety gate rather than a leaf-specific automatic workflow.",
         ],
     }
 
 
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
-    actual = build_inventory([])["classifications"]
+    generated = build_inventory([])
+    actual = generated["classifications"]
     expected = inv.get("classifications", {})
     if actual != expected:
         failures.append("inventory is stale: classification/path set differs from .github/workflows")
+    if N356_WORKFLOW in actual.get("ACTIVE_AUTO", []):
+        failures.append("consumed N356 leaf is still ACTIVE_AUTO")
+    if N356_WORKFLOW not in actual.get("RETIRED", []):
+        failures.append("consumed N356 leaf is not RETIRED")
+    notes = inv.get("notes", [])
+    if not any("N356" in str(note) and "AUDITED-CONSUMED" in str(note) for note in notes):
+        failures.append("repository inventory lacks audited-consumed N356 rationale")
+    if not any("N361" in str(note) and "claim-frontier" in str(note) for note in notes):
+        failures.append("repository inventory lacks current N361 retained-leaf rationale")
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -191,6 +202,7 @@ def main() -> None:
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
     for name, row in inv["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
+    print("N356=AUDITED_CONSUMED_RETIRED current_retained_leaf=N361")
     print("historical_or_manual_automatic_triggers=0")
     print("mathematical_authority_changed=false")
 
