@@ -13,12 +13,11 @@ from sympy import Matrix
 from z3 import sat, unsat, unknown
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[4]
 STATE = HERE / "STATE.json"
 N372_DIR = HERE.parent / "N372"
 N372_AUDIT = N372_DIR / "AUDIT-PASS.json"
 N372_RESULT = N372_DIR / "RESULT.json"
-N372_GENERATOR = N372_DIR / "generate_n372_block1140_parent290_direct_picard64_probe.py"
+N362_GENERATOR = HERE.parent / "N362/generate_n362_current_v15_witness_probe.py"
 
 STATE_BLOB = "3a0ca8355131c5a791c50c299e368cd8c4ffaba9"
 STATE_CANON = "79946afd0d1948ff3165b9ece960ed21c3c18a9943acffc571ba0090ae74afd8"
@@ -26,7 +25,7 @@ N372_AUDIT_BLOB = "6ff80567e922890d0fb4517789537d398b34f761"
 N372_AUDIT_CANON = "4bead765cb9badfe6fb8ce4b1ae0c74807f541e35879fe1ad44b00f240680454"
 N372_RESULT_BLOB = "c0267d903fd0b397fcd4766b03964bde788650e7"
 N372_RESULT_CANON = "b9852fcfa926e77e8c51defe31002e0bf4b281dd1db4b5f320326166932fef48"
-N372_GENERATOR_BLOB = "4ac20f586028345ef5f1a691718305e1bbcbf700"
+N362_GENERATOR_BLOB = "f2b97ffb52dcf48e8e549cf71eb70a6ffcdebb30"
 BLOCK, OFFSET, WIDTH = 1140, 797, 113
 PARENT_ORDINAL = 290
 
@@ -78,23 +77,35 @@ def main() -> None:
     state = checked(STATE, STATE_BLOB, STATE_CANON)
     audit = checked(N372_AUDIT, N372_AUDIT_BLOB, N372_AUDIT_CANON)
     n372_result = checked(N372_RESULT, N372_RESULT_BLOB, N372_RESULT_CANON)
-    req(blob(N372_GENERATOR) == N372_GENERATOR_BLOB, "N372 generator blob drift")
+    req(blob(N362_GENERATOR) == N362_GENERATOR_BLOB, "N362 direct solver generator blob drift")
     req(audit["status"] == "HOSTILE_REAUDIT_PASS_CURRENT_V15_WITNESS_CANDIDATE_ONLY", "N372 audit PASS drift")
     req(audit["review_id"] == 5187357950 and audit["audited_exact_head"] == "9fb78a0e0c7b52baca84058dea69b8b083e33774", "N372 audit identity drift")
     req(n372_result["status"] == "SAT_CURRENT_V15_WITNESS_CANDIDATE", "N372 result drift")
 
-    n372 = load_module(N372_GENERATOR, "n373_n372")
-    _n372_state, cut196, comp, n362 = n372.preflight(args.cut196_root.resolve(), args.n357_composition_root.resolve())
+    # Reuse the audited-generation primitive directly, not the stale N372
+    # generation preflight. N372's current authority is supplied by the
+    # hostile-audit PASS receipt above and the workflow's preceding exact
+    # solver-independent N372 audit-boundary replay.
+    n362 = load_module(N362_GENERATOR, "n373_n362")
+    _n362_state, _main_state, cut196, comp = n362.base_preflight(
+        args.cut196_root.resolve(), args.n357_composition_root.resolve()
+    )
     core = cut196.core
     P, blocks, g = core.load_picard_interface()
     idx = core.e8.indexer()
     survivors = core.e8.current_main_survivor_block_indices()
-    req(survivors[OFFSET] == BLOCK, "block1140 survivor offset drift")
+    req(len(survivors) == 7596 and survivors[OFFSET] == BLOCK, "block1140 survivor offset drift")
+    req(OFFSET > 765, "block1140 overlaps consumed CUT offsets")
+    sig = core.e8.block_signature(BLOCK, idx)
+    req(sig["current_main_audited_prefix_survivor"] is True, "prefix survival drift")
     base = tuple(int(v) for v in idx.unrank(BLOCK * WIDTH))
     req(comp.prefix_survives(base) and comp.n357_accepts(base), "current-V15 membership replay failed")
+    sums = [int(v) for v in sig["n355_known_group_sums"]]
+    req(sums[1] - sums[2] <= 16, "consumed N356 rejects block1140")
     parents = list(core.e8.iter_parent_population(BLOCK, g))
     req(len(parents) == 300, "block1140 parent population drift")
     parent = parents[PARENT_ORDINAL]
+    req(csha(parent["selected_exceptional_pairings"]) == n372_result["attempt"]["selected_exceptional_pairings_sha256"], "parent290 commitment drift")
 
     timeout_ms = int(state["method"]["per_check_timeout_ms"])
     solver, cvars, yexpr, _fixed, allowed = n362.exact_solver_for_parent(core, P, blocks, g, BLOCK, parent, timeout_ms)
