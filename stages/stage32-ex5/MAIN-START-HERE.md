@@ -17,7 +17,7 @@ PR #1776 remains active/open/draft/unmerged. Historical Cycle1 files remain sour
 
 ## Cross-lane demand priority
 
-Before local EX5 research, inspect every `OPEN` demand with `producer_lane=EX5`. A higher-priority OPEN demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
+Before local EX5 research, inspect every `OPEN` demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
 
 At current MAIN `e4d3b8b83626526ffeccdbd9c956081735fe1a6e`, the only registered EX5 producer demand, `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`, is **SATISFIED**. There are no OPEN EX5 producer demands. A later OPEN demand may preempt local continuation after audit.
 
@@ -50,4 +50,4 @@ Generation 1 remains consumed/disarmed. The BC2-34 heavy path remains retired. H
 
 Until hostile re-audit PASS, BC2-34 `17/64/0` and lower bound `7272` are provisional retained evidence only; last audited credit remains BC2-33 lower bound `7255`.
 
-The next command is `stage32ex5-audit`. BC2-35 remains blocked until hostile re-audit PASS. Do not resume compute, move to BC2-35, promote to Stage32 MAIN/N350, claim whole-first-block/FULL178/theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge from this boundary.
+The next command is `stage32ex5-audit`. BC2-35 is blocked until hostile re-audit PASS. Do not resume compute, move to BC2-35, promote to Stage32 MAIN/N350, claim whole-first-block/FULL178/theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, or merge from this boundary.
