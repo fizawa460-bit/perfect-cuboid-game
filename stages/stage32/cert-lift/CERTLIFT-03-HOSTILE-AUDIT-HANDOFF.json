@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE32_CERTLIFT_03_HOSTILE_AUDIT_HANDOFF_V1",
+  "stage": "32",
+  "node": "CERTLIFT-03",
+  "status": "READY_FOR_HOSTILE_AUDIT_NOT_AUDITED",
+  "candidate_receipt": "stages/stage32/cert-lift/CERTLIFT-03-G3-MASS7-SYMBOLIC-RECEIPT.json",
+  "primary_verifier": "python stages/stage32/cert-lift/verify_certlift03_symbolic_receipt.py",
+  "symbolic_verifier": "python stages/stage32/cert-lift/g3_mass7_symbolic_parity_lemma.py",
+  "finite_challenge_verifier": "python stages/stage32/cert-lift/g3_exact_candidate.py --self-check",
+  "pre_picard_verifier": "python stages/stage32/cert-lift/g3_row_certificate.py --self-check",
+  "negative_control": "python stages/stage32/cert-lift/g3_fibre_parity_negative_control.py",
+  "failure_profile": "python stages/stage32/cert-lift/g3_fibre_failure_profile.py",
+  "evidence_exact_head": "2ea8f9131de81529ad152665df8b637d72092421",
+  "evidence_ci_run": 34726357893,
+  "evidence_ci_job": 103641044511,
+  "expected": {
+    "symbolic_canonical": "2d1fcfe51420ab01f81d353e0d19a2b1eef467a51e321da953b5cf18aa88e764",
+    "finite_replay_canonical": "a48db497fc3a7e4b2ace3edcc03714f3c956724a7b6aad6bcd36f8e806bb9a9b",
+    "pre_picard_canonical": "aa3d9b6b16738fc0594daa0b2cfcfbf8043afc1ac0e3e651e1be5153f3d8ab1c",
+    "failure_profile_canonical": "ce8fd6bf083a08f0e59f7617aaf3e4157a51aa01278ebc4d0fd3f7815840525d",
+    "targeted_blocks": 1852,
+    "closed_blocks": 1852,
+    "post_fibre_configurations": 0,
+    "exact_exceptional_completions": 23608,
+    "fibre_feasible_completions": 0
+  },
+  "hostile_questions": [
+    "Confirm that total exceptional mass is exactly e=8 in the source-locked interface and that fixed_exceptional_mass>=7 therefore leaves integral residual mass 0 or 1.",
+    "Confirm that the ten fixed labels are exactly the union of N355 groups g1=[101,102,103], g2=[97,98,99], g3=[93,94,95,96].",
+    "Recompute the two-pack incidence cell pairs and verify g1=(2,3), g2=(5,4), g3=(4,5), with fixed-empty cells [0,1,3] and [0,1,2].",
+    "Verify that no free exceptional label 93..140 outside the fixed ten occupies cell pair (4,5).",
+    "Check the parity implication from 2*y_boundary+s[p,k]=n_p: all six cell sums in a pack have one parity, and a surviving zero cell forces that parity even.",
+    "Check the residual-unit argument: residual mass<=1 cannot fill all three fixed-empty cells and can flip g3 parity in both packs only via a free label at cell pair (4,5).",
+    "Confirm that the proof does not consume Picard64, HNF, solver output, block enumeration, cross-pack inequality, or any unstated current-MAIN prefix cut.",
+    "Replay the finite 1852-block challenge and 23,608 completion profile only as consistency checks, not as the logical proof.",
+    "Reject any promotion beyond d=e=8 without an exact adapter transporting the same fixed-label and fibre-cell semantics."
+  ],
+  "credit_firewall": {
+    "hostile_audit_pass": false,
+    "stage32_main_pruning_credit": false,
+    "full178_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "stage32_closure_credit": false,
+    "merge_authorized": false
+  }
+}
