@@ -29,6 +29,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N374/**'
       - 'stages/stage32/32-01-178/nodes/N375/**'
       - 'stages/stage32/32-01-178/nodes/N376/**'
+      - 'stages/stage32/32-01-178/nodes/N377/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -148,6 +149,13 @@ jobs:
             --output N375-CANDIDATE.json
       - name: Verify retained N375 identity-only boundary and N376 stop route
         run: python stages/stage32/32-01-178/nodes/N375/verify_n375_identity_only_boundary.py --candidate N375-CANDIDATE.json
+      - name: Checkout exact CERT-LIFT producer boundary for N377
+        uses: actions/checkout@v4
+        with:
+          ref: 3d4b16e7da3e2f4f1a078fb2e150ab6fd939bfda
+          path: .n377-certlift
+      - name: Verify N377 CERT-LIFT producer handoff wait boundary
+        run: python stages/stage32/32-01-178/nodes/N377/verify_n377_certlift_handoff.py --certlift-root .n377-certlift
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
