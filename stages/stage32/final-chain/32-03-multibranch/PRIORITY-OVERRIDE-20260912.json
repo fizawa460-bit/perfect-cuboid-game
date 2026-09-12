@@ -14,6 +14,13 @@
     "exact_head":"39a56d2a9abda0c051145172ff61d67eef0bdb14",
     "scope":"retained MB103/MB104 checkpoint before the present balanced16 continuation"
   },
+  "intermediate_audit_planning": {
+    "retained_growth_from_last_hostile_pass": 88,
+    "warning_zone_approx_commits": 90,
+    "hard_freeze_no_later_than_first_checkpoint_at_or_above_commits": 100,
+    "status":"APPROACHING_WARNING_ZONE",
+    "instruction":"Do not append another large retained research wave before an intermediate stage32mb hostile audit checkpoint. Scratch exploration may continue off the shared retained surface when permitted."
+  },
   "completed_priority_leaves": [
     "MB104-FORMAL-INFINITE-FAMILY-FEASIBILITY",
     "MB104-FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY",
@@ -40,6 +47,7 @@
     "MB104-GENUS1-SPAN5-BALANCED16-000707-HURWITZ-CAPACITY",
     "MB104-GENUS1-SPAN5-BALANCED16-SIZE48-BEAUVILLE-QUOTIENT",
     "MB104-GENUS1-SPAN5-BALANCED16-SIZE48-CM-INERT7-OBSTRUCTION",
+    "MB104-GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY",
     "MB104-GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION"
   ],
   "semantic_repair": {
@@ -90,6 +98,8 @@
     "mb104_equality_packet_remaining_masks":["000707000f0f"],
     "mb104_equality_packet_000707_allowed_component_degrees_e":[2,4],
     "mb104_equality_packet_000707_hurwitz_capacity_saturated":true,
+    "mb104_equality_packet_000707_joint_pair_birational":true,
+    "mb104_equality_packet_000707_joint_pair_bidegrees":["28*l x 28*l","56*l x 56*l"],
     "mb104_equality_packet_000707_zero_quartics_are_satake_boundary_components":true,
     "mb104_equality_packet_000707_boundary_fiber_saturation_e2":"for each zero quartic, two specific degree-28*l factor fibers are reduced, unramified, and contain 28*l supported points each",
     "mb104_equality_packet_000707_boundary_fiber_saturation_e4":"for each zero quartic on B=Z/<s1,s2>, two specific degree-56*l factor fibers are reduced, unramified, and contain 56*l supported points each",
@@ -98,7 +108,7 @@
   },
   "current_classification_checkpoint":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-CLASSIFICATION-CHECKPOINT.md",
   "next_execution_leaf":"MB104-GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER",
-  "next_execution_target":"The dangerous equality packet is reduced to 000707000f0f with e=2 or 4. Coarse Hurwitz capacity is now strengthened by Satake-boundary geometry: each of the two zero quartics forces two specific factor-quotient fibers to be completely reduced, unramified and saturated. This still does not determine, in the e=2 case, which of the two H-orbit values each individual branch chooses. Work on the residual product-cover sheet/character assignment, equivalently the restriction to the carrier pullback of the remaining nontrivial character(s) of the free G0 cover, or derive an algebraic incompatibility between the two factor maps psi_1,psi_2 and the two saturated fiber pairs. Do not assume per-node concentration or even splitting. A useful result should exclude e=2/e=4, bound l, or isolate a source-supported character obstruction. Keep genus-zero P6 and genus-one support-span P6 active in parallel.",
+  "next_execution_target":"The dangerous equality packet is reduced to 000707000f0f with e=2 or 4. Its joint factor-quotient pair map is birational, with bidegree (28l,28l) or (56l,56l). Satake-boundary geometry further forces each zero quartic to saturate two specific unramified factor fibers. The missing datum is the residual product-cover sheet/character assignment: compute the restriction of the remaining nontrivial character(s) of the free G0 cover to the carrier pullback, or derive an algebraic incompatibility between the two birational factor maps and the two saturated fiber pairs. Do not assume per-node concentration or equal splitting. Because retained growth from the last hostile PASS is now in the high-80s, the next substantial retained wave should be preceded by an intermediate stage32mb hostile audit checkpoint.",
   "state_interpretation":"This override supersedes only MB104 research priority/next-obligation wording in STATE.json. It does not alter retained mathematical facts, completed nodes, routing authority, or credit firewalls.",
   "credit_firewall": {
     "MB104_complete":false,
