@@ -16,6 +16,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N361/**'
       - 'stages/stage32/32-01-178/nodes/N362/**'
       - 'stages/stage32/32-01-178/nodes/N363/**'
+      - 'stages/stage32/32-01-178/nodes/N364/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -109,30 +110,30 @@ jobs:
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Verify N361 current-V15 retained sample rebase boundary
         run: python stages/stage32/32-01-178/nodes/N361/verify_n361_current_v15_rebase_audit_boundary.py
-      - name: Checkout exact CUT196 compute evidence for N363 route
+      - name: Checkout exact CUT196 compute evidence for N364 route
         uses: actions/checkout@v4
         with:
           ref: 5403328470df32c65aea9a38efe3916cb87d24a4
-          path: .n363-cut196
-      - name: Checkout exact hostile-audited N357 composition evidence for N363
+          path: .n364-cut196
+      - name: Checkout exact hostile-audited N357 composition evidence for N364
         uses: actions/checkout@v4
         with:
           ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
-          path: .n363-n357comp
-      - name: Install exact N363 probe dependency
+          path: .n364-n357comp
+      - name: Install exact N364 probe dependency
         run: python -m pip install --disable-pip-version-check 'z3-solver==4.15.4.0'
-      - name: Generate bounded N363 selected64-elimination result
+      - name: Generate bounded N364 block1405 witness probe
         run: |
-          mkdir -p stages/stage32/32-01-178/nodes/N363/generated
-          python stages/stage32/32-01-178/nodes/N363/generate_n363_block1140_selected64_elimination.py \
-            --cut196-root .n363-cut196 \
-            --n357-composition-root .n363-n357comp \
-            --output stages/stage32/32-01-178/nodes/N363/generated/N363-CANDIDATE.json
-      - name: Upload N363 probe artifact
+          mkdir -p stages/stage32/32-01-178/nodes/N364/generated
+          python stages/stage32/32-01-178/nodes/N364/generate_n364_block1405_two_parent_probe.py \
+            --cut196-root .n364-cut196 \
+            --n357-composition-root .n364-n357comp \
+            --output stages/stage32/32-01-178/nodes/N364/generated/N364-CANDIDATE.json
+      - name: Upload N364 probe artifact
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-n363-block1140-${{ github.event.pull_request.head.sha || github.sha }}
-          path: stages/stage32/32-01-178/nodes/N363/generated/N363-CANDIDATE.json
+          name: stage32-n364-block1405-${{ github.event.pull_request.head.sha || github.sha }}
+          path: stages/stage32/32-01-178/nodes/N364/generated/N364-CANDIDATE.json
           if-no-files-found: error
           retention-days: 1
       - name: Verify stopped EX6 management enrollment
