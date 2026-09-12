@@ -11,37 +11,17 @@
     "arbitrary_unequal_picard_classes_covered": false
   },
   "source_locks": [
-    {
-      "id": "FORMAL_PICARD",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md",
-      "blob_sha1": "de83fc169814681109bcbc1576ad24f67d6159e0"
-    },
-    {
-      "id": "AUT_SOURCE",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AUTS-NODE-ACTION-SOURCE-NOTE.md",
-      "blob_sha1": "cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693"
-    },
-    {
-      "id": "SECTION_CERT",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json",
-      "blob_sha1": "9c36555e495df0d8d6b816f1c0dc7d4c35b55848"
-    },
-    {
-      "id": "CAPACITY_CERT",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY-CERTIFICATE.json",
-      "blob_sha1": "f6fdfdf33d41a0c35a10dad911a2a78c33dec640"
-    },
-    {
-      "id": "BALANCED_QUOTIENT_CERT",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT-CERTIFICATE.json",
-      "blob_sha1": "f63d08b9005762a02935a727f35e6581ae52aaab"
-    }
+    {"id":"FORMAL_PICARD","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md","blob_sha1":"de83fc169814681109bcbc1576ad24f67d6159e0"},
+    {"id":"AUT_SOURCE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AUTS-NODE-ACTION-SOURCE-NOTE.md","blob_sha1":"cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693"},
+    {"id":"SECTION_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-SECTION-COMPONENTS-20-19-16-CERTIFICATE.json","blob_sha1":"9c36555e495df0d8d6b816f1c0dc7d4c35b55848"},
+    {"id":"CAPACITY_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-UNIFORM-RAY-COMPONENT-CAPACITY-CERTIFICATE.json","blob_sha1":"f6fdfdf33d41a0c35a10dad911a2a78c33dec640"},
+    {"id":"BALANCED_QUOTIENT_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT-CERTIFICATE.json","blob_sha1":"f63d08b9005762a02935a727f35e6581ae52aaab"}
   ],
   "source_lock_contract": {
     "declared_dependency_count": 5,
     "verifier_checks_every_declared_dependency_before_math": true,
     "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
-    "self_lock_policy": "verifier identity is fixed by this certificate and omitted from its own source_locks"
+    "self_lock_policy": "top-level verifier identity is fixed by this certificate; it source-locks and executes the finite-replay subverifier"
   },
   "geometry": {
     "representative_hyperplane": "b1=0",
@@ -66,30 +46,10 @@
     "transport_reason": "Aut(S) generators are projective linear coordinate substitutions preserving H"
   },
   "balanced_profiles": {
-    "0000770000ff": {
-      "support_orbit_size": 48,
-      "zero_quartics": 4,
-      "supported_nodes_per_zero_quartic": 7,
-      "zero_quartics_through_each_supported_node": 2
-    },
-    "00007b0000ff": {
-      "support_orbit_size": 48,
-      "zero_quartics": 4,
-      "supported_nodes_per_zero_quartic": 7,
-      "zero_quartics_through_each_supported_node": 2
-    },
-    "000707000f0f": {
-      "support_orbit_size": 768,
-      "zero_quartics": 2,
-      "supported_nodes_per_zero_quartic": 7,
-      "zero_quartics_through_each_supported_node": 1
-    },
-    "00070b000f0f": {
-      "support_orbit_size": 768,
-      "zero_quartics": 2,
-      "supported_nodes_per_zero_quartic": 7,
-      "zero_quartics_through_each_supported_node": 1
-    }
+    "0000770000ff": {"support_orbit_size":48,"zero_quartics":4,"supported_nodes_per_zero_quartic":7,"zero_quartics_through_each_supported_node":2},
+    "00007b0000ff": {"support_orbit_size":48,"zero_quartics":4,"supported_nodes_per_zero_quartic":7,"zero_quartics_through_each_supported_node":2},
+    "000707000f0f": {"support_orbit_size":768,"zero_quartics":2,"supported_nodes_per_zero_quartic":7,"zero_quartics_through_each_supported_node":1},
+    "00070b000f0f": {"support_orbit_size":768,"zero_quartics":2,"supported_nodes_per_zero_quartic":7,"zero_quartics_through_each_supported_node":1}
   },
   "restriction_calculation": {
     "primitive_ray_class": "A=7H-4 sum_{i in Sigma}E_i",
@@ -113,15 +73,20 @@
   "evidence": {
     "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL.md",
     "human_note_blob_sha1": "260da960d17e9b756c2e27b056f33603e3b58d9d",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_zero_quartic_pic0.py",
-    "verifier_blob_sha1": "02ff4cf4d7a43de2fe278f4f8950776e7814d042"
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_zero_quartic_pic0_v2.py",
+    "verifier_blob_sha1": "65e29f24f7c25f9abbfd4e598a92d54dbcc7ce11",
+    "source_locked_subverifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_zero_quartic_pic0.py",
+    "source_locked_subverifier_blob_sha1": "02ff4cf4d7a43de2fe278f4f8950776e7814d042"
   },
   "verification": {
-    "pass_token": "PASS STAGE32_MB104_BALANCED16_ZERO_QUARTIC_PIC0_V1",
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_ZERO_QUARTIC_PIC0_V2",
+    "top_level_verifier_source_locks_subverifier": true,
+    "subverifier_checks_all_five_declared_dependencies_before_math": true,
+    "top_level_verifier_checks_local_hyperflex_algebra": true,
     "exact_verifier_local_replay_claimed": false,
     "exact_head_CI_claimed": false,
     "automatic_workflow_required": false,
-    "audit_instruction": "run the fail-closed verifier directly on the exact candidate head"
+    "audit_instruction": "run the fail-closed V2 verifier directly on the exact candidate head"
   },
   "next_leaf": {
     "id": "MB104-GENUS1-SPAN5-BALANCED16-RESTRICTION-MAP-AND-GLUING",
