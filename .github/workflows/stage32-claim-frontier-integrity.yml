@@ -26,6 +26,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N371/**'
       - 'stages/stage32/32-01-178/nodes/N372/**'
       - 'stages/stage32/32-01-178/nodes/N373/**'
+      - 'stages/stage32/32-01-178/nodes/N374/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -136,6 +137,8 @@ jobs:
             --n357-composition-root .n372-audit-n357comp
       - name: Verify retained N373 partial x4 timeout boundary
         run: python stages/stage32/32-01-178/nodes/N373/verify_n373_retained_partial_boundary.py
+      - name: Verify N374 global compression reopen audit
+        run: python stages/stage32/32-01-178/nodes/N374/verify_n374_global_compression_reopen_audit.py
       - name: Verify stopped EX6 management enrollment
         run: python stages/stage32-ex6/verify_main_state.py
       - name: Replay synthetic fail-close regressions
