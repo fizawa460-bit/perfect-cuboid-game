@@ -1,64 +1,59 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE PRIORITY / SUPPORT-SPAN SEMANTICS REPAIRED / UNIFORM P5 BALANCED HARD CORE 1632 -> 864 / ZERO-QUARTIC ROUTE EXHAUSTED ON SURVIVORS / GLOBAL SINGULARITY-CONDUCTOR FRONTIER / P6 OPEN / NO CREDIT**
+Status: **ACTIVE PRIORITY / UNIFORM P5 GEOMETRIC CORE 864 / MB104 MINIMAL-BRANCH EQUALITY-PACKET CORE 768 / SIZE48 CLOSED FOR THE EQUALITY PACKET BY CM INERT-7 / 000707 ACTIVE / P6 OPEN / NO CREDIT**
 
-Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of `R8<d/4+O(1)` remains frozen until a genuinely new lever appears.
+Read this checkpoint under `PRIORITY-OVERRIDE-20260912.json`. Direct pursuit of a standalone `R8<d/4+O(1)` inequality remains frozen unless a genuinely new lever appears.
 
-The most recent hostile-audited retained boundary is exact head
+The most recent hostile-audited retained boundary is
 
 ```text
 39a56d2a9abda0c051145172ff61d67eef0bdb14
 ```
 
-with `HOSTILE AUDIT: PASS`. The present continuation is newer retained work and has not yet been hostile-audited.
+with `HOSTILE AUDIT: PASS`. Everything below that depends on later retained continuation is unaudited until the next hostile checkpoint.
 
-## Hard sectors and span semantics
+## 1. Hard-sector semantics
+
+The active potentially infinite sectors remain
 
 ```text
 g=0: box-node support spans P^6;
 g=1: box-node support span dimension 5 or 6;
-potentially infinite sector: N>=14.
+N>=14.
 ```
 
-`span` refers to the box-node support, not containment of the carrier curve in its support hyperplane.
+`span` is the projective span of the box-node support. It is not a containment statement for the carrier curve.
 
-## Displayed uniform genus-one P5 ray
+For the displayed uniform genus-one P5 Picard ray,
 
 ```text
-D_l=7lH-4l sum_{i in Sigma}E_i,
+D_l=7lH-4l sum_(p in Sigma)E_p,
 |Sigma|=14,
 d=112l,
 l>=1.
 ```
 
-For a retained test curve `Q` of degree `e=H.Q` meeting `n_Q` supported nodes,
+The MB104 dangerous formal packet is stronger than the divisor class alone:
 
 ```text
-D_l.Q=l(7e-4n_Q).
+r_i=M_i=8l at all 14 supported nodes,
+all branches FSM-minimal (A,B)=(1,1), m=1,
+R=R8=M=r_odd=d=112l.
 ```
 
-## Ambient support classification and fixed-component closures
+The distinction between the Picard class and this branch packet is load-bearing in the current checkpoint.
 
-The exact node-spanned `P^5` hyperplane population is
+## 2. Support classification and the geometric uniform-ray core
+
+Exact node-spanned P5 hyperplane incidence distribution:
 
 ```text
-14:1248, 15:256, 16:27, 19:48, 20:48, 24:28,
+14:1248, 15:256, 16:27, 19:48, 20:48, 24:28.
 ```
 
-with 12 `Aut(S)` ambient orbits
+For the displayed uniform ray, incidence `24`, `20`, `19`, `15`, and all five incidence-14 ambient orbits are closed by retained fixed-component arguments.
 
-```text
-14: 96,192,192,384,384
-15: 256
-16: 3,24
-19: 48
-20: 48
-24: 4,24.
-```
-
-For the displayed uniform ray, incidence `24`, `20`, `19`, `15`, and all five incidence-`14` orbits are closed by retained fixed-component arguments.
-
-Incidence `16` leaves exactly `1632` balanced `N=14` supports, with support-orbit quotient
+Incidence16 originally left four balanced support orbits
 
 ```text
 0000770000ff   size 48
@@ -67,141 +62,272 @@ Incidence `16` leaves exactly `1632` balanced `N=14` supports, with support-orbi
 00070b000f0f   size 768.
 ```
 
-## One size-768 orbit is closed by two-quartic gluing
-
-The two size-768 representatives have zero quartics
+The orbit `00070b000f0f` is closed for every `l>=1` by the exact two-zero-quartic gluing monodromy
 
 ```text
-Q0: b1=0, i*a2-a3=0, a1-c=0,
-Q1: b2=0, i*a3+a1=0, a2-c=0,
+17+12*sqrt(2).
 ```
 
-meeting transversely at two smooth points.
-
-For `00070b000f0f`, the exact gluing cycle monodromy is
+Therefore the current **geometric uniform-ray support population**, allowing an arbitrary exceptional branch partition compatible with the class, is
 
 ```text
-17+12*sqrt(2),
+864 = 48+48+768
 ```
 
-which is never a root of unity. Therefore every section of `O(D_l)` vanishes on both zero quartics for every `l>=1`; the whole size-768 support orbit is excluded as an irreducible member of the displayed uniform ray.
-
-Thus
+on
 
 ```text
-1632 -> 864
+0000770000ff,
+00007b0000ff,
+000707000f0f.
 ```
 
-and the surviving support orbits are
+This geometric number remains `864` after the new CM leaf.
+
+## 3. Zero-quartic route is exhausted on all 864 geometric survivors
+
+For every retained zero-pairing elliptic quartic `Q`, the exact hyperflex calculation gives
 
 ```text
-0000770000ff   size 48
-00007b0000ff   size 48
-000707000f0f   size 768.
+O_Q(D_l) ~= O_Q.
 ```
 
-Evidence:
-
-- `GENUS1-SPAN5-BALANCED16-TWO-QUARTIC-GLUING-OBSTRUCTION.md`
-- matching certificate/verifier.
-
-## Null-union and primitive restriction results on the 864 survivors
-
-The Picard/hyperflex calculation gives
-
-```text
-O_Q(D_l) ~= O_Q
-```
-
-for every zero-pairing retained elliptic quartic and every `l>=1`.
-
-For the two size-48 support orbits, the four zero quartics are pairwise disjoint on the minimal resolution. Their union gives no gluing monodromy obstruction but forces `h1(D_l)>=4`. A primitive degree-seven jet computation then gives
+The two size48 orbits have four pairwise-disjoint zero quartics. Exact primitive degree-seven jet calculation gives
 
 ```text
 h0(A)=124,
 h1(A)=4,
 rank(jet_4)=220,
-rank(H0(A)->H0(Z4,O_Z4(A))) >= 2.
+rank(H0(A)->H0(Z4,O_Z4(A)))>=2.
 ```
 
-The support stabilizer is transitive on the four zero quartics, so all four are nonfixed in `|A|`; powers give nonfixedness in `|D_l|` for every `l>=1`.
+Hence all four are nonfixed, and powers give nonfixedness for all `l>=1`.
 
-For `000707000f0f`, the connected two-quartic gluing line bundle is trivial, so gluing alone also does not close the orbit. The primitive ambiguity is now resolved exactly:
+For `000707000f0f`, exact primitive calculation gives
 
 ```text
-C = 6H-3 sum E_i:
-  h0(C)=122, h1(C)=0,
-
-A = 7H-4 sum E_i:
-  h0(A)=124, h1(A)=4,
-  rank_Q(i)(jet_4)=220.
+h0(A)=124,
+h1(A)=4,
+rank(jet_4)=220,
 ```
 
-The proof uses the support hyperplane
+plus an explicit primitive section nonzero on one zero quartic. Support-stabilizer transport gives nonfixedness of both zero quartics; powers again give all `l>=1`.
 
-```text
-L=c-a1-a2-i*a3,
-```
+Thus negative low-degree pairing, static landing avoidance, hidden Pic0, null-union gluing, and zero-quartic fixedness are all exhausted on the geometric 864 core.
 
-whose multiplication injects the 122-dimensional triple-vanishing degree-six space into `H0(A)`, together with two explicit exact degree-seven sections outside the complete `L`-multiple subspace. One of them restricts nontrivially to `Q0`. Stabilizer transport gives nonfixedness of `Q1`, and powers give the result for every `l>=1`.
+## 4. Global singularity walls retained before the new cover route
 
-Evidence:
-
-- `GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-WALL.md`
-- `GENUS1-SPAN5-BALANCED16-SIZE48-DEGREE7-RESTRICTION-RANK.md`
-- `GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md`
-- matching certificates/verifiers.
-
-### Exact retained conclusion
-
-On all three surviving support orbits, every known zero-pairing elliptic quartic is nonfixed for every `l>=1`.
-
-Therefore the following routes are exhausted on the surviving uniform-ray core:
-
-- negative pairing with the retained conic/quartic library;
-- static exceptional landing-value avoidance;
-- hidden nontrivial `Pic^0` restriction on a zero quartic;
-- zero-quartic union gluing monodromy;
-- zero-quartic global restriction/fixedness.
-
-No surviving orbit is closed by nonfixedness itself.
-
-## Global singularity/conductor frontier
-
-For an integral member `C_l in |D_l|` of normalization genus one,
+For a hypothetical integral genus-one member in the class,
 
 ```text
 p_a(D_l)=1+168l^2+56l,
 Delta_total=168l^2+56l.
 ```
 
-The retained Lu--Miyaoka adapter gives
+Lu--Miyaoka gives the necessary condition
 
 ```text
-n_ordinary_node_or_triple(C_l) >= max(0,112l-224).
+n_ordinary_node_or_triple >= max(0,112l-224).
 ```
 
-Hence for `l>=3`, a hypothetical carrier cannot realize essentially all genus defect in a single complicated cusp while having no ordinary nodes/triples. The required ordinary singularity population grows linearly with `l`.
+Miyaoka's 2008 single-curve orbibundle inequality gives no bound on `l` on this ray. The sharp A1 conductor inequality `delta>=r-1` is also insufficient by itself.
 
-This is not yet a contradiction: the total delta budget is quadratic. The active problem is to combine the forced `Omega(l)` ordinary singularities with canonical degree, conductor/branch accounting, fibration ramification, global interpolation, or a stronger source-supported singular-curve inequality so as to bound `l`, force a forbidden incidence, or exclude the 864 supports.
+These remain structural constraints, not closure.
 
-## Next execution leaf
+## 5. Beauville equality rigidity for the MB104 minimal-branch packet
 
-`MB104-GENUS1-SPAN5-BALANCED16-GLOBAL-SINGULARITY-CONDUCTOR`:
+The equality packet lies exactly on
 
-1. seek a stronger global inequality controlling singularity count/type against `K.C=112l`, `C^2=336l^2`, and normalization genus one;
-2. translate any such inequality into the retained branch/conductor semantics without double-counting box-node contributions;
-3. test whether the forced ordinary nodes/triples can be charged through one or more genus-five fibrations only with an additional global tangent condition;
-4. if no contradiction is available, isolate the exact missing invariant rather than reopening fixed finite local-jet counting;
-5. keep genus-one support-span `P^6` and genus-zero full-span `P^6` active in parallel.
+```text
+g=1,
+r_odd=d.
+```
+
+Let `Y` be the connected Beauville pullback and let `Z` be one connected component after pulling to
+
+```text
+P=C8 x C8,
+g(C8)=5,
+P->X=P/G0,
+G0~=(Z/2)^2.
+```
+
+If
+
+```text
+e=deg(Z->Y) in {1,2,4},
+```
+
+then equality in the product-cover canonical/Riemann--Hurwitz estimate forces **both** projections
+
+```text
+Z -> C8
+```
+
+to be finite etale of equal degree
+
+```text
+14el.
+```
+
+This upgrades the old wrong-direction inequality `d<=r_odd` into rigid product-cover geometry on the equality face.
+
+## 6. Current node-type quotient
+
+The three singular stabilizer types are the unique zero among `b1,b2,b3`. Exact current-mask replay gives
+
+```text
+mask             b1=0  b2=0  b3=0
+0000770000ff       14     0     0
+00007b0000ff       14     0     0
+000707000f0f        7     7     0.
+```
+
+Thus the two size48 supports are one-type, while `000707` is two-type.
+
+For `000707`, the two outside involutions force the component stabilizer to meet `G0` nontrivially, so
+
+```text
+e in {2,4};
+```
+
+`e=1` is excluded.
+
+The two surviving quotient-Hurwitz regimes are
+
+```text
+e=2: degree 28l genus1 -> P1 with 8 involutory branch values;
+e=4: degree 56l genus1 -> P1 with 6 involutory branch values.
+```
+
+In both cases the `112l` supported minimal branches exhaust the full unramified capacity over the quotient branch values. Coarse Riemann--Hurwitz alone does not contradict either case.
+
+## 7. New closure for both size48 MB104 equality packets: CM inert-7
+
+For either size48 support all `112l` branches have one singular type `s`.
+
+Let `K` be the product-component stabilizer, `|K|=2e`, and put
+
+```text
+B1=Z/<s>.
+```
+
+Each supported normalization branch lifts to `e` points of `Z` fixed by `s`, so
+
+```text
+#Fix_Z(s)=112el.
+```
+
+Equality rigidity also gives
+
+```text
+2g(Z)-2=112el.
+```
+
+Riemann--Hurwitz therefore forces
+
+```text
+g(B1)=1.
+```
+
+Freitag--Salvati Manni's modular/Kummer model identifies the corresponding factor quotient with
+
+```text
+E0: y^2=x^3-x,
+j(E0)=1728,
+End^0(E0)=Q(i),
+```
+
+and gives
+
+```text
+(E0 x E0)/H ~= B/sigma,
+H~=(Z/2)^2.
+```
+
+The two etale product projections descend to equal-degree isogenies
+
+```text
+alpha1,alpha2:B1 -> E0,
+deg(alpha1)=deg(alpha2)=14el.
+```
+
+Put `nu=alpha2 alpha1^{-1}` in `Q(i)^*`. Equal degree gives `Norm(nu)=1`.
+
+The prime `7` is inert in `Q(i)`. Hence `nu` is a 7-adic unit, so `alpha1` and `alpha2` have the same nontrivial 7-primary kernel. Therefore the pair map
+
+```text
+(alpha1,alpha2):B1 -> E0 x E0
+```
+
+has generic degree divisible by `7`, and this divisibility remains after the finite `H` quotient.
+
+But the same modular map factors geometrically as
+
+```text
+B1 -> E=Z/K -> C subset B -> B/sigma.
+```
+
+Its generic degree is `e` or `2e`, hence one of
+
+```text
+1,2,4,8.
+```
+
+This is a power of two and cannot be divisible by seven. Contradiction.
+
+Therefore the retained MB104 uniform minimal-branch equality packet is impossible on both size48 support orbits for every `l>=1`.
+
+Evidence:
+
+- `BEAUVILLE-KUMMER-CM-SOURCE-NOTE.md`
+- `GENUS1-SPAN5-BALANCED16-SIZE48-CM-INERT7-OBSTRUCTION.md`
+- matching certificate/verifier.
+
+### Frontier split after the CM leaf
+
+Geometric uniform-ray supports with arbitrary branch partition:
+
+```text
+864 = 48+48+768.
+```
+
+MB104 dangerous equality-packet supports:
+
+```text
+864 -> 768,
+```
+
+with only
+
+```text
+000707000f0f   size 768
+```
+
+remaining.
+
+Do not conflate these two populations.
+
+## 8. Next execution leaf
+
+`MB104-GENUS1-SPAN5-BALANCED16-000707-EQUIVARIANT-LIFT`:
+
+1. treat the `e=2` and `e=4` equality cases separately;
+2. use the **joint** two-factor lift, not only one-factor Riemann--Hurwitz;
+3. encode the actual seven supported nodes of each of the two stabilizer types as pairs of fixed-point orbits in the two factors;
+4. test whether the capacity-saturating branch fibers can lift to one connected etale correspondence `Z subset C8 x C8`;
+5. if no contradiction is obtained, isolate the exact missing equivariant/Nielsen-class datum rather than reopening exhausted local routes.
+
+Genus-one support-span P6 and genus-zero full-span P6 remain active in parallel.
 
 ## Firewalls
 
-- support-span five is not closed;
-- the displayed uniform P5 ray is not fully closed: three balanced support orbits of total size `864` survive;
-- arbitrary unequal exceptional coefficients are not covered;
-- genus-one P6 and genus-zero P6 remain open;
+- the Picard-class geometric support core is still 864 when arbitrary branch partitions are allowed;
+- only the MB104 minimal-branch equality-packet core has dropped to 768;
+- support-span five is not fully closed;
+- arbitrary unequal exceptional coefficients remain open;
+- P6 sectors remain open;
 - no population-wide finite degree window is proved;
-- MB104 remains incomplete and finite Picard enumeration is unreleased;
-- no receiver/effectivity-final/theorem/endpoint/Perfect-Cuboid credit;
+- MB104 is incomplete and finite Picard enumeration is unreleased;
+- no receiver/theorem/endpoint/Perfect-Cuboid credit;
 - no merge authorization.
