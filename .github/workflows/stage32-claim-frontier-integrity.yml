@@ -106,3 +106,128 @@ jobs:
         run: python stages/stage32/full178-cut/verify_cut194_e8_common_adapter_wave2.py
       - name: Verify retained CUT195 wave3 candidate and exact source locks
         run: python stages/stage32/full178-cut/verify_cut195_e8_common_adapter_wave3.py
+
+  authorize-cut196-wave4:
+    if: github.event_name == 'pull_request' && github.head_ref == 'stage32cut-e8-common-adapter-wave4-20260912'
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: gate
+        name: Authorize CUT196 only from fresh armed runkey commit
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/full178-cut/runkeys/CUT196-e8-wave4.json'
+          changed=false
+          if [ -n "${BEFORE:-}" ]; then
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            if git cat-file -e "$BEFORE^{commit}" 2>/dev/null \
+              && git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+              changed=true
+            fi
+          fi
+          export RUNKEY_CHANGED="$changed"
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          def blob(path):
+              raw=Path(path).read_bytes()
+              return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          p=Path('stages/stage32/full178-cut/runkeys/CUT196-e8-wave4.json')
+          ok=False
+          if os.environ.get('RUNKEY_CHANGED') == 'true' and p.exists():
+              o=json.loads(p.read_text())
+              ok=(o.get('schema')=='STAGE32_CUT196_E8_COMMON_ADAPTER_WAVE4_RUNKEY_V1'
+                  and o.get('generation')==1 and o.get('armed') is True
+                  and o.get('consumed') is False
+                  and o.get('branch')=='stage32cut-e8-common-adapter-wave4-20260912'
+                  and o.get('parent_cut195_audited_head')=='2618f4dcd546d569b212753ac7abc10e07ee5828'
+                  and o.get('parent_cut195_hostile_audit_review')==5184909672
+                  and o.get('main_parent_exact_head')=='6d63d798adb50dd4efc5f0d5abc553b3dfa23060'
+                  and o.get('ex5_producer_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
+                  and o.get('preflight_blob')==blob('stages/stage32/full178-cut/CUT196-e8-common-adapter-wave4-preflight.json')
+                  and o.get('worker_blob')==blob('stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py')
+                  and o.get('aggregator_blob')==blob('stages/stage32/full178-cut/aggregate_cut196_e8_wave4.py')
+                  and o.get('wave',{}).get('survivor_offset_range')==[766,1020]
+                  and o.get('wave',{}).get('block_count')==255
+                  and o.get('wave',{}).get('terminal_count')==28815)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if ok else 'false')+'\n')
+          print('CUT196 wave4 fresh-runkey changed:', os.environ.get('RUNKEY_CHANGED'))
+          print('CUT196 wave4 authorized:',ok)
+          PY
+
+  cut196-wave4-shard:
+    needs: [integrity, authorize-cut196-wave4]
+    if: needs.authorize-cut196-wave4.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {shard: 0, start: 766, count: 32}
+          - {shard: 1, start: 798, count: 32}
+          - {shard: 2, start: 830, count: 32}
+          - {shard: 3, start: 862, count: 32}
+          - {shard: 4, start: 894, count: 32}
+          - {shard: 5, start: 926, count: 32}
+          - {shard: 6, start: 958, count: 32}
+          - {shard: 7, start: 990, count: 31}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact checked-out head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Execute CUT196 shard
+        run: |
+          python stages/stage32/full178-cut/cut196_e8_common_adapter_wave4.py \
+            --survivor-offset-start ${{ matrix.start }} \
+            --survivor-offset-count ${{ matrix.count }} \
+            --timeout-ms 750 \
+            --output "$RUNNER_TEMP/cut196-shard-${{ matrix.shard }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut196-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/cut196-shard-${{ matrix.shard }}.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+
+  cut196-wave4-aggregate:
+    needs: [cut196-wave4-shard]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cut196-shard-*
+          path: ${{ runner.temp }}/cut196-shards
+          merge-multiple: true
+      - name: Aggregate fail-closed CUT196 wave4
+        run: |
+          python stages/stage32/full178-cut/aggregate_cut196_e8_wave4.py \
+            --input-dir "$RUNNER_TEMP/cut196-shards" \
+            --output "$RUNNER_TEMP/CUT196-wave4-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut196-wave4-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT196-wave4-aggregate.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
