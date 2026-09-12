@@ -7,6 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 INVENTORY = Path(__file__).with_name("stage32-pr-workflow-trigger-inventory-20260911.json")
+N356_WORKFLOW = ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml"
 
 
 def top_level_on_block(text: str) -> str:
@@ -37,9 +38,16 @@ def main() -> None:
     flattened = [p for values in groups.values() for p in values]
     assert len(flattened) == len(set(flattened)), "duplicate workflow path in inventory"
     assert len(flattened) == inv["counts"]["total"] == 41
-    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 4
+    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 3
     assert len(groups["manual"]) == inv["counts"]["manual"] == 2
-    assert len(groups["retired"]) == inv["counts"]["retired"] == 35
+    assert len(groups["retired"]) == inv["counts"]["retired"] == 36
+
+    notes = inv.get("notes", {})
+    assert N356_WORKFLOW not in groups["active_auto"], "consumed N356 leaf must not remain ACTIVE_AUTO"
+    assert N356_WORKFLOW in groups["retired"], "consumed N356 leaf must be RETIRED"
+    assert str(notes.get("n356", "")).startswith("AUDITED-CONSUMED"), "N356 lifecycle rationale is stale"
+    assert "N361" in str(notes.get("current_stage32_main_leaf", "")), "current Stage32 retained leaf rationale must name N361"
+    assert notes.get("mathematical_authority_changed") is False, "lifecycle repair must not claim new mathematical authority"
 
     failures: list[str] = []
     for cls, paths in groups.items():
@@ -63,7 +71,8 @@ def main() -> None:
         raise SystemExit("\n".join(failures))
 
     print("PASS Stage32 PR workflow trigger lifecycle inventory")
-    print("ACTIVE_AUTO=4 MANUAL=2 RETIRED=35 TOTAL=41")
+    print("ACTIVE_AUTO=3 MANUAL=2 RETIRED=36 TOTAL=41")
+    print("N356=AUDITED_CONSUMED_RETIRED current_retained_leaf=N361")
     print("historical_or_manual_pr_auto_triggers=0")
     print("mathematical_authority_changed=false")
 
