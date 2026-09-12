@@ -94,11 +94,6 @@ def main() -> None:
     req(audit["review_id"] == 5187357950 and audit["audited_exact_head"] == "9fb78a0e0c7b52baca84058dea69b8b083e33774", "N372 audit identity drift")
     req(n372_result["status"] == "SAT_CURRENT_V15_WITNESS_CANDIDATE", "N372 result drift")
 
-    # N373 consumes the source-locked N362 solver primitive only. It does not
-    # reuse N362's historical ancestry check, because the PR checkout is
-    # intentionally shallow. Instead all load-bearing current interfaces are
-    # verified directly below, while the preceding workflow step independently
-    # replays the hostile-audited N372 boundary.
     n362 = load_module(N362_GENERATOR, "n373_n362")
     req(exact_head(cut_root) == CUT196_HEAD, "CUT196 exact head drift")
     req(exact_head(comp_root) == N357_HEAD, "N357 exact head drift")
@@ -152,8 +147,38 @@ def main() -> None:
     selected_labels = [int(v) for v in g.selected_labels]
     Psel = P.extract([label - 1 for label in selected_labels], list(range(64)))
 
-    witnesses: list[dict] = []
-    seen: set[int] = set()
+    # Seed the projection with the already hostile-audited N372 model. This is
+    # not a fresh solver claim: its bytes and arithmetic were replayed by the
+    # preceding N372 audit-boundary step. N373 only searches for additional
+    # x4 values under the unchanged 5-second per-check ceiling.
+    seed = n372_result["witness"]
+    seed_coords = [int(v) for v in seed["picard64_coordinates"]]
+    req(csha(seed_coords) == seed["picard64_coordinates_sha256"], "N372 seed coordinate commitment drift")
+    seed_cv = Matrix(seed_coords)
+    seed_pairings = [int((P.row(i) * seed_cv)[0]) for i in range(140)]
+    req(csha(seed_pairings) == seed["all140_pairings_sha256"], "N372 seed all140 commitment drift")
+    seed_x4 = int(seed_pairings[48])
+    seed_terminal = [seed_pairings[label - 1] for label in n362.ASSIGNMENT_ORDER]
+    req(seed_x4 == 0, "N372 audited seed x4 drift")
+    req(seed_terminal == [int(v) for v in seed["compressed_terminal_pairings"]], "N372 seed terminal drift")
+    req(int(idx.rank(tuple(seed_terminal))) == int(seed["terminal_rank"]) == BLOCK * WIDTH + seed_x4, "N372 seed rank drift")
+    req([int(v) for v in Psel * seed_cv] == [int(v) for v in seed["selected64_pairings"]], "N372 seed selected64 drift")
+
+    witnesses: list[dict] = [{
+        "x4": seed_x4,
+        "terminal_rank": int(seed["terminal_rank"]),
+        "terminal_identity": seed["terminal_identity"],
+        "compressed_terminal_pairings": seed_terminal,
+        "picard64_coordinates": seed_coords,
+        "picard64_coordinates_sha256": seed["picard64_coordinates_sha256"],
+        "selected64_pairings_sha256": csha([int(v) for v in seed["selected64_pairings"]]),
+        "all140_pairings_sha256": seed["all140_pairings_sha256"],
+        "self_square": int(seed["self_square"]),
+        "negative_hperp_square_N": int(seed["negative_hperp_square_N"]),
+        "source": "HOSTILE_AUDITED_N372_SEED"
+    }]
+    seen: set[int] = {seed_x4}
+    solver.add(yexpr[48] != seed_x4)
     terminal_status = None
     reason_unknown = None
     checks = 0
@@ -198,6 +223,7 @@ def main() -> None:
             "all140_pairings_sha256": csha(pairings),
             "self_square": self_square,
             "negative_hperp_square_N": numerator // 16,
+            "source": "N373_INCREMENTAL_EXACT_SOLVER"
         })
         seen.add(x4)
         solver.add(yexpr[48] != x4)
@@ -212,7 +238,7 @@ def main() -> None:
         "schema": "STAGE32_32_01_178_N373_BLOCK1140_PARENT290_X4_TERMINAL_PROJECTION_RESULT_V1",
         "status": terminal_status,
         "target": {"row_id":"g1-d008","block_index":BLOCK,"survivor_offset":OFFSET,"parent_ordinal":PARENT_ORDINAL,"x4_domain":[0,112]},
-        "method": {"formulation":"INCREMENTAL_DIRECT_PICARD64_COORDINATES_BLOCK_X4_MODEL_VALUE","per_check_timeout_ms":timeout_ms,"solver_checks":checks,"reason_unknown":reason_unknown},
+        "method": {"formulation":"AUDITED_N372_SEED_PLUS_INCREMENTAL_DIRECT_PICARD64_BLOCK_X4","per_check_timeout_ms":timeout_ms,"solver_checks_after_seed":checks,"reason_unknown":reason_unknown,"seed_x4":seed_x4},
         "projection": {
             "complete": terminal_status == "COMPLETE_EXACT_X4_PROJECTION",
             "feasible_x4": feasible,
@@ -232,7 +258,7 @@ def main() -> None:
         "feasible_terminal_count": len(feasible),
         "feasible_x4": feasible,
         "infeasible_terminal_count": len(infeasible) if infeasible is not None else None,
-        "solver_checks": checks,
+        "solver_checks_after_seed": checks,
         "reason_unknown": reason_unknown,
         "canonical": body["canonical_sha256_without_this_field"],
         "main_pruning_credit": False,
