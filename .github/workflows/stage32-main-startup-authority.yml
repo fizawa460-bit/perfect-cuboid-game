@@ -17,6 +17,7 @@ on:
       - 'stages/stage32/verify_main_startup_authority_v13.py'
       - 'stages/stage32/verify_main_startup_authority_v14.py'
       - 'stages/stage32/verify_main_startup_authority_v15.py'
+      - 'stages/stage32/verify_main_startup_authority_v16.py'
       - 'stages/stage32/verify_n357_v13_current_authority_composition.py'
       - 'stages/stage32/verify_n357_v13_current_authority_composition_fail_closed.py'
       - 'stages/stage32/verify_n357_main_consumption_v14.py'
@@ -25,6 +26,7 @@ on:
       - 'stages/stage32/management/MAIN-STATE-V13-N357-PRECONSUMPTION.json'
       - 'stages/stage32/management/post-n357-composition-pass-consumption-20260912.json'
       - 'stages/stage32/management/post-cut195-current-v14-composition-consumption-20260912.json'
+      - 'stages/stage32/management/post-cut195-v15-hostile-reaudit-pass-consumption-20260912.json'
       - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
       - 'stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md'
@@ -164,13 +166,8 @@ jobs:
       - name: Verify Stage32 MAIN startup authority
         run: python3 stages/stage32/verify_main_startup.py
 
-      - name: Verify fail-closed CUT195 MAIN V15 consumption transition
-        run: >-
-          python3 stages/stage32/verify_cut195_main_consumption_v15.py
-          --audited-main-v14-root .stage32-audited-main-v14
-          --audited-cut195-root .stage32-audited-cut195
-          --audited-composition-root .stage32-audited-n357-composition
-          --audited-n357-root .stage32-audited-n357
+      - name: Verify Stage32 MAIN V16 CUT195 re-audit consumption frontier
+        run: python3 stages/stage32/verify_main_startup_authority_v16.py
 
       - name: Verify Stage32 cross-lane demand coordination
         run: python3 stages/stage32/proof/verify_cross_lane_demands.py
@@ -181,10 +178,10 @@ jobs:
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python3 stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
 
-      - name: Verify Stage32 claim-DAG integrity after CUT195 authority transition
+      - name: Verify Stage32 claim-DAG integrity after V16 audit-consumption transition
         run: python3 stages/stage32/proof/verify_stage32_claim_dag.py --integrity
 
-      - name: Verify Stage32 active frontier after CUT195 authority transition
+      - name: Verify Stage32 active frontier after V16 audit-consumption transition
         run: python3 stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Detect edits to historical PR1753 handoff
