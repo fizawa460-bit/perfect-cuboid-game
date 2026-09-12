@@ -136,6 +136,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/g3_fibre_parity_negative_control.py
+      - name: Verify CERTLIFT-03 fibre failure profile
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/g3_fibre_failure_profile.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
