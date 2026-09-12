@@ -54,13 +54,13 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited MAIN V19 head
         run: test "$(git -C .stage32-audited-main-v19 rev-parse HEAD)" = "56c52a64dc402126431a6de6d023007052f4112c"
-      - name: Checkout repaired N372 candidate
+      - name: Checkout hostile-audited N372 current-V15 witness
         uses: actions/checkout@v4
         with:
           ref: 9fb78a0e0c7b52baca84058dea69b8b083e33774
           path: .stage32-n372-candidate
           fetch-depth: 1
-      - name: Assert repaired N372 exact head
+      - name: Assert hostile-audited N372 exact head
         run: test "$(git -C .stage32-n372-candidate rev-parse HEAD)" = "9fb78a0e0c7b52baca84058dea69b8b083e33774"
       - name: Resolve freshness authority
         if: github.event_name == 'pull_request'
@@ -75,9 +75,9 @@ jobs:
           echo "freshness=contains-current-main"
       - name: Verify V20 verifier source identities
         run: |
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v20.py)" = "d5f0b295ff4ec52c288cf78c476b4e3825cd5676"
-          test "$(git hash-object stages/stage32/management/verify_v20_external_source_locks.py)" = "c280d1f6fe84a2493cf92ba5565c43c611c95005"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "a25fb7921ea2934a0f666f680a87d1b1ccedc973"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v20.py)" = "4011ed3400dc96045e1d2d17ae56ab41d1498bda"
+          test "$(git hash-object stages/stage32/management/verify_v20_external_source_locks.py)" = "d6b2e0927720254aa984c62a235901230384b2ac"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "a5961c066ea16bbdfa7c447ee6cf6a0778dcbe6e"
       - name: Verify V20 external source identities fail-closed
         run: >-
           python3 stages/stage32/management/verify_v20_external_source_locks.py
