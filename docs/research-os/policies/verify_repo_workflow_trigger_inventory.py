@@ -110,7 +110,7 @@ def manualize(text: str) -> str:
     return "\n".join(lines[:start] + replacement + lines[end:]) + ("\n" if text.endswith("\n") else "")
 
 
-def build_inventory(changed: list[str]) -> dict:
+def classify_tree() -> tuple[dict[str, list[str]], dict[str, dict[str, int]]]:
     groups: dict[str, list[str]] = {k: [] for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
     fam: dict[str, Counter] = defaultdict(Counter)
     for p in workflow_paths():
@@ -119,16 +119,23 @@ def build_inventory(changed: list[str]) -> dict:
         groups[cls].append(r)
         fam[family(r)][cls] += 1
         fam[family(r)]["TOTAL"] += 1
+    return groups, {k: dict(v) for k, v in sorted(fam.items())}
+
+
+def build_inventory(changed: list[str]) -> dict:
+    groups, fam = classify_tree()
     counts = {k: len(v) for k, v in groups.items()}
     counts["TOTAL"] = sum(counts.values())
     return {
-        "schema_version": 2,
-        "generated_on": "2026-09-11",
+        "schema_version": 3,
+        "generated_on": "2026-09-12",
         "scope": "repository-wide workflow lifecycle policy",
-        "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
+        "classification_contract": "ACTIVE_AUTO and MANUAL are explicit allowlists; every reachable Stage workflow absent from both is RETIRED; unknown non-Stage workflows fail closed to MANUAL; exact-head verifier enumerates all reachable workflows and validates events/counts/families",
         "counts": counts,
-        "families": {k: dict(v) for k, v in sorted(fam.items())},
-        "classifications": groups,
+        "families": fam,
+        "active_auto": groups["ACTIVE_AUTO"],
+        "manual": groups["MANUAL"],
+        "retired_count": len(groups["RETIRED"]),
         "automatic_triggers_removed_by_migration": changed,
         "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
@@ -145,20 +152,41 @@ def build_inventory(changed: list[str]) -> dict:
 
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
-    generated = build_inventory([])
-    actual = generated["classifications"]
-    expected = inv.get("classifications", {})
-    if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
-    if N356_WORKFLOW in actual.get("ACTIVE_AUTO", []):
+    if inv.get("schema_version") != 3:
+        failures.append("inventory schema_version must be 3")
+
+    groups, fam = classify_tree()
+    counts = {k: len(v) for k, v in groups.items()}
+    counts["TOTAL"] = sum(counts.values())
+
+    if inv.get("active_auto") != groups["ACTIVE_AUTO"]:
+        failures.append("inventory is stale: ACTIVE_AUTO allowlist differs from exact workflow tree")
+    if inv.get("manual") != groups["MANUAL"]:
+        failures.append("inventory is stale: MANUAL allowlist differs from exact workflow tree")
+    if inv.get("retired_count") != len(groups["RETIRED"]):
+        failures.append("inventory is stale: RETIRED count differs from exact workflow tree")
+    if inv.get("counts") != counts:
+        failures.append("inventory is stale: lifecycle counts differ from exact workflow tree")
+    if inv.get("families") != fam:
+        failures.append("inventory is stale: family counts differ from exact workflow tree")
+
+    expected_live = sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file())
+    if inv.get("branch_local_live_catalog") != expected_live:
+        failures.append("inventory is stale: branch_local_live_catalog differs from exact workflow tree")
+
+    if N356_WORKFLOW in groups["ACTIVE_AUTO"]:
         failures.append("consumed N356 leaf is still ACTIVE_AUTO")
-    if N356_WORKFLOW not in actual.get("RETIRED", []):
+    if N356_WORKFLOW not in groups["RETIRED"]:
         failures.append("consumed N356 leaf is not RETIRED")
+    removed = inv.get("automatic_triggers_removed_by_migration", [])
+    if N356_WORKFLOW not in removed:
+        failures.append("inventory does not record N356 automatic-trigger retirement")
     notes = inv.get("notes", [])
     if not any("N356" in str(note) and "AUDITED-CONSUMED" in str(note) for note in notes):
         failures.append("repository inventory lacks audited-consumed N356 rationale")
     if not any("N361" in str(note) and "claim-frontier" in str(note) for note in notes):
         failures.append("repository inventory lacks current N361 retained-leaf rationale")
+
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
