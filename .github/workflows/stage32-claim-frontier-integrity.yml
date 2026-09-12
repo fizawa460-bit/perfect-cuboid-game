@@ -144,6 +144,10 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/g3_mass7_symbolic_parity_lemma.py
+      - name: Verify CERTLIFT-03 frozen symbolic receipt
+        env:
+          PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
+        run: python stages/stage32/cert-lift/verify_certlift03_symbolic_receipt.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
