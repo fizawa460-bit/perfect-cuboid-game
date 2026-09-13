@@ -56,7 +56,7 @@ and states that in the theta-parametrization it is induced by
 The three singular node-stabilizer types are permuted by the modular `S_3` symmetry, as recorded in the retained Stage32 node-type adapter. Therefore, after conjugating coordinates, the same statement applies to each of the three singular types `Zj=0`: if `s` is the corresponding diagonal singular involution on `C8 x C8`, then each factor quotient
 
 ```text
-C8/<s_factor> 
+C8/<s_factor>
 ```
 
 is a conjugate of the displayed elliptic quotient and has CM field `Q(i)`.

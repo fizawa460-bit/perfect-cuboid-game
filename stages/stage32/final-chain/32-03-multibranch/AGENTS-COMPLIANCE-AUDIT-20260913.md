@@ -2,8 +2,8 @@
 
 Status: **PROCEDURAL COMPLIANCE FAIL / MATHEMATICAL CLAIMS NOT REVOKED BY THIS NOTE / SUBSTANTIVE MB RETAINED WORK HOLD UNTIL REPAIR**
 
-Audited PR: #1791  
-Audited pre-audit head: `4e89845ade736ee2c58819c3b885f7249c101780`  
+Audited PR: #1791
+Audited pre-audit head: `4e89845ade736ee2c58819c3b885f7249c101780`
 Current main inspected: `4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c`
 
 This is an AGENTS/startup/process audit, not a hostile mathematical audit of the MB104 claims.
