@@ -11,7 +11,7 @@ Ordinary `stage32cut-mainbatch` reads, in this order:
 7. `stages/stage32/full178-cut/CROSS-LANE-STATE.json` whenever CUT has current demand state;
 8. only the exact source/interface assets required by the current CUT node.
 
-The local branch predates the demand registry. Do not treat its absence as an empty registry; follow the live coordinator before substantive work. OPEN consumer demands require waiting without rebuilding EX5 work; SATISFIED handoffs require identity and population validation before re-entry. Higher-priority OPEN producer demands preempt local work.
+The local branch predates the demand registry. Do not treat its absence as an empty registry; follow the live coordinator before substantive work. Before local CUT research, inspect every OPEN demand. OPEN consumer demands require waiting without rebuilding EX5 work; SATISFIED handoffs require identity and population validation before re-entry. Higher-priority OPEN producer demands preempt local work.
 
 Demand SATISFIED does not grant mathematical credit. Hostile audit, claim sync, current-target adapter and explicit MAIN consumption remain required.
 
