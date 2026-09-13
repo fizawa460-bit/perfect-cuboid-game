@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 LOCAL THETA PRODUCT-LIFT ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 CONDUCTOR DESCENT-GLUING MAP ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -293,6 +293,12 @@ multiplicity transport != residual-sheet transport.
 The active missing input is now narrowed to local modular geometry: a completed-local or theta-coordinate map near a supported box node that sends a local carrier branch parameter to its point in `X(8)xX(8)`, then to `C8/H` coordinates and the residual `G/H` sheet.
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-O210-LOCAL-LIFT-PRECEDENT-BOUNDARY.md`.
+
+## Invariant A1 branch normalization boundary
+
+With `B=C[[p^2,pq,q^2]]=C[[x,y,z]]/(xz-y^2)`, an exact downstairs carrier branch plus its normalization determines only the unordered pair of product lifts related by `(p,q)->(-p,-q)`. Thus the branch germ cannot canonically select a residual sheet. For conductor-identified normalization points, the missing datum is the descent/gluing isomorphism between their residual-cover fibres; identity and deck-twisted gluing have the same downstairs invariant branches but opposite conductor character.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-INVARIANT-NODE-BRANCH-NORMALIZATION.md`.
 
 ## Two-factor comparison
 
