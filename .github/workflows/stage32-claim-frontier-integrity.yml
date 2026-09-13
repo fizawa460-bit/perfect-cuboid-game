@@ -37,6 +37,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N382/**'
       - 'stages/stage32/32-01-178/nodes/N383/**'
       - 'stages/stage32/32-01-178/nodes/N384/**'
+      - 'stages/stage32/32-01-178/nodes/N385/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -287,6 +288,21 @@ jobs:
           python stages/stage32/32-01-178/nodes/N384/verify_n384_certlift03_v22_receipt_audit_wait.py \
             --certlift-root .n384-certlift \
             --v22-main-root .n378-main-v22
+      - name: Checkout retained CERTLIFT-03 V22 adapter hostile-audit PASS for N385
+        uses: actions/checkout@v4
+        with:
+          ref: 51c56b5c3ee15177c2975b966ab546d0b548c4af
+          path: .n385-certlift
+      - name: Checkout hostile-audited MAIN V23 authority for N385
+        uses: actions/checkout@v4
+        with:
+          ref: fba76454a49132f752dc93deb20214970b314d89
+          path: .n385-main-v23
+      - name: Verify N385 CERTLIFT-03 V23 hostile-audited MAIN authority sync
+        run: |
+          python stages/stage32/32-01-178/nodes/N385/verify_n385_certlift03_v23_hostile_audited_main_sync.py \
+            --certlift-root .n385-certlift \
+            --main-v23-root .n385-main-v23
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
