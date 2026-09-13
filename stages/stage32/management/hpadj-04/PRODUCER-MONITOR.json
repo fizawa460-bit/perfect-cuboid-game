@@ -1,54 +1,70 @@
 {
-  "schema": "STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V2_BC2_37_AUDIT_PASS",
+  "schema": "STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V3_P0_PREEMPTION_VIOLATION",
   "stage": 32,
   "leaf": "HPADJ-04_EX5_PRODUCER_SYNC_MONITOR",
-  "status": "WAITING_FOR_EX5_POST_AUDIT_P0_SYNC_NO_DUPLICATION",
+  "status": "EX5_P0_PREEMPTION_VIOLATION_MAIN_FAIL_CLOSED_WAIT",
   "main_observation": {
     "main_pr": 1800,
-    "consumer_head_before_monitor": "68a5220927c60e7bf3fdbe9f1ff937c4b43a25c1",
+    "consumer_head_before_monitor": "c57c506236c3161bd5a4a904d19bd055e1027a7b",
     "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
     "demand_status": "OPEN",
     "demand_priority": "P0_BLOCKING_DOWNSTREAM",
     "registry_blob_sha1": "75982b910ae1f149bc55b766f22ddea77db1f49e",
     "registry_canonical_sha256": "470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668",
+    "producer_priority_rule": "OPEN P0 producer demand preempts lower-priority local research",
     "main_consumer_wait_required": true,
     "main_must_not_rebuild_producer_interface": true
   },
   "producer_observation": {
     "producer_lane": "EX5",
     "producer_pr": 1776,
-    "observed_exact_head": "9852fcec959962607da3290100291a60185e7104",
-    "observed_head_commit_time": "2026-09-13T02:59:21Z",
-    "observed_head_commit_message": "[Stage32EX5][BC2-37] normalize V28 BC2-00 audit receipt guard",
+    "observed_exact_head": "d26a27e8564458f3d575ec58601b2226fc23944f",
+    "observed_head_commit_message": "[Stage32EX5][BC2-38] consume BC2-37 audit and arm targeted replay",
     "observed_registry_blob_sha1": "bbf4fc2460bad22c65359bc17aa89f8717e259a2",
     "observed_registry_contains_hpadj_demand": false,
     "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
-    "observed_cross_lane_schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V2_SATISFIED",
     "observed_open_producer_demands": [],
-    "producer_acknowledged_current_hpadj_demand": false,
     "bc2_37_hostile_audit_status": "PASS",
     "bc2_37_hostile_audit_review_id": 5189412496,
     "bc2_37_hostile_audited_exact_head": "9852fcec959962607da3290100291a60185e7104",
-    "bc2_37_audited_known_parent_unsat_lower_bound": 7302,
-    "bc2_37_audited_remaining_unknown_count": 34
+    "bc2_37_audit_consumed_by_ex5": true,
+    "bc2_38_execution_authorized": true,
+    "bc2_38_workflow_run": 34742297972,
+    "bc2_38_compute_job": 103683975497,
+    "bc2_38_compute_status_observed": "IN_PROGRESS",
+    "producer_cross_lane_sync_performed": false
   },
-  "preexisting_execution_context": {
-    "bc2_37_heavy_run": 34728149823,
-    "bc2_37_compute_job": 103645956700,
-    "bc2_37_compute_conclusion": "SUCCESS",
-    "latest_post_demand_commit_classification": "AUDIT_BOUNDARY_VERIFIER_REPAIR",
-    "new_lower_priority_research_after_demand_detected": false,
-    "producer_diversion_violation_asserted": false
+  "violation": {
+    "producer_diversion_violation_asserted": true,
+    "new_lower_priority_research_after_demand_detected": true,
+    "violated_contract_field": "producer_open_demand_must_preempt_lower_priority_local_work",
+    "local_route": "BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "local_route_priority": "P2_NORMAL",
+    "blocking_route": "HPADJ_FULL178_TERMINAL_TO_PICARD64_POPULATION_INTERFACE",
+    "blocking_route_priority": "P0_BLOCKING_DOWNSTREAM",
+    "bc2_38_must_not_be_promoted_to_main": true,
+    "bc2_38_result_does_not_satisfy_hpadj_demand": true
+  },
+  "observed_ci": {
+    "producer_head_main_startup_run": 34742297976,
+    "producer_head_main_startup_conclusion": "FAILURE",
+    "producer_head_claim_frontier_run": 34742297971,
+    "producer_head_claim_frontier_conclusion": "FAILURE",
+    "producer_head_ex5_integrity_run": 34742297972,
+    "producer_head_ex5_integrity_status_observed": "IN_PROGRESS",
+    "producer_head_stale_run_sweeper": 34742297975,
+    "producer_head_stale_run_sweeper_conclusion": "SUCCESS"
   },
   "next_gate": {
-    "immediate_producer_gate": "On the next stage32ex5-mainbatch, consume BC2-37 hostile-audit PASS review 5189412496, synchronize the current CROSS-LANE-DEMANDS registry/state, and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before any new P2 local research.",
+    "required_producer_action": "Stop advancing BC2-38 as a local P2 route for coordination purposes, synchronize the current Stage32 CROSS-LANE-DEMANDS registry/state, acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1, then produce the requested exact HPADJ terminal-to-Picard64 population interface.",
     "main_reentry_condition": "HPADJ demand becomes SATISFIED with a source-locked replayable artifact identity; MAIN then validates the satisfying artifact before any promotion attempt.",
-    "stage32ex5_audit_complete": true,
-    "stage32ex5_mainbatch_is_immediate_producer_command": true
+    "next_producer_command": "stage32ex5-mainbatch",
+    "main_remains_blocked": true
   },
   "firewalls": {
     "main_authority_mutated": false,
     "main_pruning_credit": false,
+    "bc2_38_main_credit": false,
     "demand_satisfaction_credit": false,
     "full178_complete": false,
     "effectivity_final_credit": false,
@@ -61,5 +77,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "69a3367639c3c8c66ad2e2411c8485aab8cc2628c8baaa8d9bc641ff4a589cd9"
+  "canonical_sha256_without_this_field": "d28370cb9af18ee5afd427e3445ae1a0765d6bd52e30aa2177c2f999ceafc123"
 }
