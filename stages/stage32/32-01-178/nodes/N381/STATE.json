@@ -1,0 +1,117 @@
+{
+  "schema": "STAGE32_32_01_178_N381_CERTLIFT03_ADAPTER_AUDIT_PASS_STALE_AUTHORITY_REBASE_WAIT_V1",
+  "node_id": "N381",
+  "semantic_key": "s32-01-178:certlift03-adapter-audit-pass-stale-authority-rebase-wait",
+  "status": "CERTLIFT03_ADAPTER_HOSTILE_AUDIT_PASS_BUT_V15_SNAPSHOT_STALE_VS_V22_NO_CREDIT",
+  "parent": {
+    "n380_state_blob_sha1": "4464d6106d71758bf3e920c3d2963db128e48cf9",
+    "n380_state_canonical_sha256": "bb6b8c48550c60cc090bf1226ae3ee50c5a66c862398df75edc5505001d3a7de"
+  },
+  "producer": {
+    "lane": "CUT-CERT-LIFT",
+    "pr": 1803,
+    "reviewed_pr_head": "7c3a9c301d9e1d98678fcd1532afce62c44d56e0",
+    "reviewed_state_path": "stages/stage32/cut-cert-lift/STATE.json",
+    "reviewed_state_blob_sha1": "7622229037045b1e43e9c25864354ac2c1ed77f7",
+    "reviewed_state_active_node": "CERTLIFT-03_MAIN_CONSUMPTION_ADAPTER_CANDIDATE_PENDING_HOSTILE_AUDIT",
+    "symbolic_hostile_audit_review_id": 5188640528,
+    "symbolic_audit_pass_path": "stages/stage32/cert-lift/CERTLIFT-03-HOSTILE-AUDIT-PASS.json",
+    "symbolic_audit_pass_blob_sha1": "5a8083c6dfcf67b052966dbbfdf5c29c1767448f",
+    "adapter_hostile_audit_review_id": 5188753236,
+    "adapter_hostile_audit_reviewed_head": "7c3a9c301d9e1d98678fcd1532afce62c44d56e0",
+    "adapter_hostile_audit_submitted_at": "2026-09-13T00:26:35Z",
+    "adapter_external_review_pass_observed": true,
+    "adapter_pass_not_yet_promoted_in_reviewed_state": true,
+    "adapter_evidence_exact_head": "9215d4f365ee6400c7de9ba169fe670ddde1d067",
+    "adapter_evidence_ci_run": 34727280181,
+    "adapter_evidence_ci_job": 103643534635,
+    "adapter_blob_sha1": "97ece748a7cd30bd718ea87a64405ab592548aa9",
+    "adapter_canonical_sha256": "ba5079e4370db0467a40c80646bce90fae5e907993a3614c928fae1a73cb5ebb",
+    "receipt": {
+      "path": "stages/stage32/cert-lift/CERTLIFT-03-MAIN-CONSUMPTION-ADAPTER-RECEIPT.json",
+      "blob_sha1": "994d518394e39e857adaace8cb79989f44a87301",
+      "canonical_sha256_without_this_field": "f21181472a589efd39f1fe15ccbdec8062e6af2e993946fcdf571da30e68a59d"
+    }
+  },
+  "adapter_snapshot": {
+    "source_main_exact_head": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "source_main_schema": "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED",
+    "source_main_state_blob_sha1": "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9",
+    "source_main_state_canonical_sha256": "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193",
+    "source_authoritative_remaining_terminals": 47598978285064933757427,
+    "current_prefix_blocks": 7596,
+    "symbolic_target_blocks": 1677,
+    "prior_overlap_blocks_accounted": {
+      "n357": 0,
+      "cut191": 0,
+      "cut194": 33,
+      "cut195": 29,
+      "union": 62,
+      "double_charge": false
+    },
+    "candidate_incremental_blocks_on_source_snapshot": 1615,
+    "candidate_incremental_terminals_on_source_snapshot": 182495,
+    "candidate_remainder_on_source_snapshot_if_consumed": 47598978285064933574932
+  },
+  "current_audited_main": {
+    "version": "V22",
+    "exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+    "hostile_audit_review_id": 5188224290,
+    "state_path": "stages/stage32/MAIN-STATE.json",
+    "state_blob_sha1": "80fb35c79854bfdf775dc5b94c331f5f8a535ced",
+    "state_canonical_sha256": "82ca200d81b0ce844b1756dc0c3205eec388a20cae312af5e0f3c55d959d491c",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 47589703313957134804198,
+    "full178_complete": false,
+    "consumed_after_or_missing_from_adapter_overlap_accounting": [
+      "CUT196",
+      "N358",
+      "CUT193",
+      "CUT197",
+      "CUT198"
+    ],
+    "source_snapshot_equals_current_audited_authority": false,
+    "source_minus_current_authority_terminals": 9274971107798953229
+  },
+  "consumption_boundary": {
+    "adapter_hostile_audit_pass_is_sufficient_for_locked_v15_counting_only": true,
+    "adapter_increment_consumable_on_v22_now": false,
+    "v22_incremental_overlap_with_post_v15_consumed_sets_proved": false,
+    "v22_incremental_candidate_blocks": null,
+    "v22_incremental_candidate_terminals": null,
+    "v22_remainder_after_candidate": null,
+    "required_rebase": "Recompute exact block-set overlap/disjointness of the audited predicate against current hostile-audited MAIN V22, including all authority consumed after the V15 source snapshot, then freeze/audit the replacement adapter before MAIN synchronization.",
+    "main_authority_mutation_allowed": false
+  },
+  "n101_contract": {
+    "remains_stopped": true,
+    "adapter_is_population_pruning_not_finite_signature_compression": true,
+    "s1_full_numerical_leaf_factorization_proved": false,
+    "s2_prefix_transition_closure_proved": false,
+    "exact_multiplicity_conservation_proved": false,
+    "strict_global_compression_reduction_proved": false
+  },
+  "anti_loop": {
+    "duplicate_certlift_hostile_audit_inside_178": false,
+    "duplicate_certlift_adapter_research_inside_178": false,
+    "consume_182495_as_v22_pruning": false,
+    "blind_full178_materialization": false,
+    "escalate_n373_timeout": false,
+    "rerun_n375_s3": false,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "n101_reopened_credit": false,
+    "numerical_leaf_compression_credit": false,
+    "effectivity_final": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_gate": "CERTLIFT03_RETAINED_ADAPTER_AUDIT_PASS_PLUS_EXACT_V15_TO_CURRENT_AUDITED_MAIN_REBASE_OVERLAP_ADAPTER_THEN_MAIN_CONSUMPTION_SYNC_OR_N377_STRONG_SIGNATURE_ACTION",
+  "canonical_sha256_without_this_field": "e9c8efa33cce2251fe0ac6f35b9b1664af74fe46ccc2fde32ff5cf394030a276"
+}
