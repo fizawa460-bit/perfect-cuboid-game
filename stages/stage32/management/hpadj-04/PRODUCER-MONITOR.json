@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V1",
+  "stage": 32,
+  "leaf": "HPADJ-04_EX5_PRODUCER_SYNC_MONITOR",
+  "status": "WAITING_FOR_EX5_PRODUCER_SYNC_NO_DUPLICATION",
+  "main_observation": {
+    "main_pr": 1800,
+    "consumer_head_before_monitor": "864f243b081650b2f2df920553aba5a0bff8b5da",
+    "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
+    "demand_status": "OPEN",
+    "demand_priority": "P0_BLOCKING_DOWNSTREAM",
+    "registry_blob_sha1": "75982b910ae1f149bc55b766f22ddea77db1f49e",
+    "registry_canonical_sha256": "470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668",
+    "main_consumer_wait_required": true,
+    "main_must_not_rebuild_producer_interface": true
+  },
+  "producer_observation": {
+    "producer_lane": "EX5",
+    "producer_pr": 1776,
+    "observed_exact_head": "9852fcec959962607da3290100291a60185e7104",
+    "observed_head_commit_time": "2026-09-13T02:59:21Z",
+    "observed_head_commit_message": "[Stage32EX5][BC2-37] normalize V28 BC2-00 audit receipt guard",
+    "observed_registry_blob_sha1": "bbf4fc2460bad22c65359bc17aa89f8717e259a2",
+    "observed_registry_contains_hpadj_demand": false,
+    "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
+    "observed_cross_lane_schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V2_SATISFIED",
+    "observed_open_producer_demands": [],
+    "producer_acknowledged_current_hpadj_demand": false
+  },
+  "preexisting_execution_context": {
+    "bc2_37_heavy_run": 34728149823,
+    "bc2_37_compute_job": 103645956700,
+    "bc2_37_compute_conclusion": "SUCCESS",
+    "latest_post_demand_commit_classification": "AUDIT_BOUNDARY_VERIFIER_REPAIR",
+    "new_lower_priority_research_after_demand_detected": false,
+    "producer_diversion_violation_asserted": false
+  },
+  "next_gate": {
+    "required_producer_action": "EX5 must synchronize the current CROSS-LANE-DEMANDS registry/state and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before starting any new P2 local research; then produce the requested exact HPADJ terminal-to-Picard64 population interface.",
+    "main_reentry_condition": "Demand becomes SATISFIED with a source-locked replayable artifact identity; MAIN then validates the satisfying artifact before any promotion attempt.",
+    "stage32ex5_mainbatch_is_next_producer_command": true
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "demand_satisfaction_credit": false,
+    "full178_complete": false,
+    "effectivity_final_credit": false,
+    "integral_irreducible_carrier_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "5107504368728ca7cb0c775991fc167c0275e11960fa05012b52b1b9ff8c7990"
+}
