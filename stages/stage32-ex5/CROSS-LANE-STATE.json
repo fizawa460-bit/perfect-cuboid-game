@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V3_HPADJ_OPEN",
+  "schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V4_HPADJ_OPEN_PRODUCER_SYNC_PENDING",
   "lane": "EX5",
   "registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-  "status": "OPEN_P0_HPADJ_FULL178_PICARD64_HANDOFF",
+  "status": "OPEN_P0_HPADJ_FULL178_PICARD64_HANDOFF_PRODUCER_SYNC_PENDING",
   "open_producer_demands": [
     "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
   ],
@@ -15,7 +15,20 @@
   "coordination_route": "HPADJ_FULL178_TERMINAL_TO_PICARD64_POPULATION_INTERFACE",
   "coordination_priority": "P0_BLOCKING_DOWNSTREAM",
   "local_route_deferred_while_demand_open": true,
-  "producer_acknowledged": true,
+  "producer_acknowledged": false,
+  "producer_sync_required": true,
+  "producer_observation": {
+    "producer_pr": 1776,
+    "observed_exact_head": "9852fcec959962607da3290100291a60185e7104",
+    "observed_head_commit_time": "2026-09-13T02:59:21Z",
+    "observed_head_commit_message": "[Stage32EX5][BC2-37] normalize V28 BC2-00 audit receipt guard",
+    "observed_registry_blob_sha1": "bbf4fc2460bad22c65359bc17aa89f8717e259a2",
+    "observed_registry_contains_hpadj_demand": false,
+    "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
+    "observed_open_producer_demands": [],
+    "post_demand_new_lower_priority_research_detected": false,
+    "classification": "PENDING_PRODUCER_SYNC_AFTER_PREEXISTING_BC2_37_AUDIT_BOUNDARY_REPAIR"
+  },
   "prior_handoff_receipt": {
     "path": "stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json",
     "blob_sha1": "b8ff5a4b962c24a6e4f4bca5621cbdb79f6d4781",
@@ -36,11 +49,11 @@
   "credit_firewall": {
     "demand_acknowledgement_grants_math_credit": false,
     "demand_satisfaction_grants_math_credit": false,
-    "main_promotion_requires_existing_rules": true,
+    "main_waiting_grants_math_credit": false,
     "effectivity_credit": false,
     "integral_irreducible_carrier_credit": false,
     "endpoint_credit": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "a17fb31f9bf222f0b7d7307f0f62a4ddcc68ec0459762ec07365384057332d76"
+  "canonical_sha256_without_this_field": "f47ffa88cfe0378b5fff9a5a9014c3af164d0f91b89e471da493ec3b317585a8"
 }
