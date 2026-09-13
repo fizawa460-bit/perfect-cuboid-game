@@ -16,7 +16,7 @@ def main():
         req(a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False and a['bc2_37_execution_authorized'] is True,'BC2-37 execution authority drift')
         req(cur['next_route']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET','BC2-37 route drift'); req(f['e8_bc2_36_audited'] is True and f['e8_bc2_37_executed'] is False and f['e8_bc2_37_target_unknown_count']==41 and f['e8_known_parent_unsat_count_lower_bound']==7295,'BC2-37 frontier drift')
     elif schema.endswith('BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY'):
-        req(a['last_hostile_audit_exact_head']=='9c63ccb48dd0e5bdeedda8a0c9049489248bce8' if False else a['last_hostile_audit_exact_head']=='9c63ccb48dd0e5bdeedda7739dd05e2404698465','BC2-36 audit receipt drift')
+        req(a['last_hostile_audit_exact_head']=='9c63ccb48dd0e5bdeedda7739dd05e2404698465' and a['last_hostile_audit_review_id']==5188625406,'BC2-36 audit receipt drift')
         req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and a['bc2_37_execution_authorized'] is False,'BC2-37 audit boundary drift')
         req(cur['status']=='BC2_37_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and cur['next_route']=='HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY','BC2-37 audit route drift')
         req(f['e8_bc2_36_audited'] is True and f['e8_bc2_37_executed'] is True and f['e8_bc2_37_audited'] is False and f['e8_bc2_37_new_parent_unsat_count']==7 and f['e8_bc2_37_remaining_unknown_count']==34 and f['e8_bc2_37_sat_count']==0 and f['e8_known_parent_unsat_count_lower_bound']==7295 and f['e8_bc2_37_candidate_known_parent_unsat_count_lower_bound']==7302,'BC2-37 V28 frontier drift')
