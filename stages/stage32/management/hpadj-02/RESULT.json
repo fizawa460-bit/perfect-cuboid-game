@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ02_RR_EFFECTIVITY_PROMOTION_NOGO_V1",
+  "stage": 32,
+  "leaf": "HPADJ-02_RR_EFFECTIVITY_PROMOTION_NOGO",
+  "status": "RETAINED_FAIL_CLOSED_NO_PROMOTION_FROM_CURRENT_RR_SUFFICIENT_CLASSIFIER",
+  "scope": {
+    "hpadj01_authority_basis": "current-V22 only",
+    "hpadj01_affected_rows": 178,
+    "hpadj01_candidate_endpoint_rejected_terminals_lower_bound": 27104321327305699275487,
+    "main_v23_reaudit_pending": true,
+    "this_checkpoint_rebases_hpadj01_to_v23": false
+  },
+  "source_boundary": {
+    "hpadj01_result": {
+      "path": "stages/stage32/management/hpadj-01/RESULT.json",
+      "blob_sha1": "520b6b0f230e23fb5ea34b80fef591cfa5f9be4b",
+      "canonical_sha256": "9773c11e87de149b5b56438fd1c86929aa54a971601bf8306855fd0f8a303506"
+    },
+    "rr_checkpoint": {
+      "path": "stages/stage32/final-chain/32-02-effectivity/RR-EFFECTIVITY-SUFFICIENT-CHECKPOINT.json",
+      "blob_sha1": "f6fd9935865542d7d05a9ce83df0263f0f051bc2",
+      "canonical_sha256": "ff9ca45aef3f81835609588c2a189ebd26baedd7f4f69b0cba9339a5101f22bc"
+    },
+    "rr_lemma": {
+      "path": "stages/stage32/final-chain/32-02-effectivity/RR-EFFECTIVITY-SUFFICIENT-LEMMA.md",
+      "blob_sha1": "07b3fbb969457a29b0a92f8fbc0d3e81bc7138e2"
+    },
+    "rr_degree_gate": {
+      "path": "stages/stage32/final-chain/32-02-effectivity/FULL178-RR-DEGREE-GATE.json",
+      "blob_sha1": "6ee0887d6f37ae9f4971b5d48df9edc8c2b99010",
+      "canonical_sha256": "f936aa647922268a0000315701a297d1fc31fa8d25e4ffd099b335f35872e5f3"
+    },
+    "historical_effectivity_gap": {
+      "path": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
+      "blob_sha1": "8b46b85a7fe7d1b366d0ada0a7db852f123e77e1",
+      "canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc"
+    },
+    "historical_genus_defect": {
+      "path": "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
+      "blob_sha1": "ecf4e9d20eddcaef9375f4c6b21ecf9bf6b0cd8c",
+      "canonical_sha256": "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c"
+    }
+  },
+  "exact_predicate_separation": {
+    "hpadj01_rejection_implies": "C2 < -2",
+    "rr_sufficient_gate": "d > 16 and C2 >= d - 14",
+    "degree_gt_16_rows": 168,
+    "degree_le_16_rows": 10,
+    "all_178_rows_partitioned_exactly_once": true,
+    "degree_gt_16_argument": "d>16 implies d-14>2, so C2<-2 cannot satisfy C2>=d-14",
+    "degree_le_16_argument": "RR sufficient classifier is inapplicable because its first gate is d>16",
+    "rr_certified_overlap_with_hpadj01_rejection_population": "EMPTY_BY_PREDICATE",
+    "rr_classifier_can_promote_hpadj01": false
+  },
+  "semantic_gap": {
+    "rr_conclusion": "effective divisor",
+    "rr_does_not_conclude_integral_irreducible_representative": true,
+    "historical_integral_irreducible_curve_certificate_present": false,
+    "historical_geometric_genus1_normalization_certificate_present": false,
+    "historical_actual_effective_curve_certificate_present": false,
+    "therefore_existing_rr_material_does_not_supply_irreducible_carrier_adapter": true
+  },
+  "next_exact_datum": {
+    "required_adapter": "source-locked population-preserving geometric adapter proving that every relevant FULL178 survivor charged by HPADJ realizes the required integral irreducible K3 carrier, or an exact exclusion theorem disposing of that carrier via normalization-genus/branch data",
+    "rr_effectivity_route_for_hpadj_promotion": "DOMINATED_NO_OVERLAP",
+    "genus_defect_route": "LIVE_GEOMETRIC_ALTERNATIVE",
+    "historical_sample_required_total_normalization_genus_defect": 522
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_final_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "d7e653f7e693776730121769c86fc3fa11af0b6a5755dc392d40837c1eb05986"
+}
