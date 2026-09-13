@@ -16,12 +16,12 @@ STATE_BLOB="bead809db3a008dd35d664a8923f06fecb7de5bb"
 STATE_CANON="460b04ecb09d41c1082aee46795acf5da79454df42cc6126a7b92925977855aa"
 RECEIPT_BLOB="7a9d84f6ca137740aba01b6983a02a229dc13036"
 RECEIPT_CANON="4de6317e2bde395de5aaa58036148e8dc1df1330d614f2143d8e15e7ede2e935"
-REGISTRY_BLOB="75982b910ae1f149bc55b766f22ddea77db1f49e"
-REGISTRY_CANON="470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668"
-EX5_STATE_BLOB="9935b06a5f9073ca4bb1b3d8e58b6f81f20a5bd6"
-EX5_STATE_CANON="9f1a814a4a13181f98e85e7d42fc8dc66e1c6ad84508f651576ae5e7d2599e7c"
-MONITOR_BLOB="c48f22a3567ce813881d9072a33cbaf48019d67a"
-MONITOR_CANON="c8d671b441c489b30e3153218b4174f72b2daf214567ee5e100067ce92d2cdd3"
+REGISTRY_BLOB="38dda2e9cfcd46418e3fe3f75d569e63110e64ce"
+REGISTRY_CANON="0c5e19eca58a57adbaa3fc149b6c886e10228809e0b13242e6f1b66cd030529c"
+EX5_STATE_BLOB="99151c6b5402e2ed12dfe268bd497935d5be1b3c"
+EX5_STATE_CANON="3400c1f6a145445b615a1c425b6f0637b0cbe2364626933a4d7fe385a3a2ee29"
+MONITOR_BLOB="c53136aee3d78edd9f3dafe140ab5147411606e6"
+MONITOR_CANON="c21719bb2c6d4b40826614b72b80990ef566eaa40d6fa583e07b4efb40e8a928"
 
 AUTH=47589703313957134649501
 HPADJ_DEMAND="S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
@@ -77,16 +77,31 @@ def main():
     old=demand(registry,CUT192_DEMAND)
     req(old["status"]=="SATISFIED" and old["satisfying_artifact"]["blob_sha1"]=="b8ff5a4b962c24a6e4f4bca5621cbdb79f6d4781","CUT192 drift")
     hp=demand(registry,HPADJ_DEMAND)
-    req(hp["status"]=="OPEN" and hp["priority"]=="P0_BLOCKING_DOWNSTREAM","HPADJ state drift")
-    req(hp["producer_lane"]=="EX5" and hp["consumer_lane"]=="MAIN" and hp["satisfying_artifact"] is None,"HPADJ routing drift")
+    req(hp["status"]=="SATISFIED" and hp["priority"]=="P0_BLOCKING_DOWNSTREAM","HPADJ state drift")
+    req(hp["producer_lane"]=="EX5" and hp["consumer_lane"]=="MAIN" and isinstance(hp["satisfying_artifact"],dict),"HPADJ routing drift")
     pop=hp["source_population_semantics"]
     req(pop["authority_exact_head"]=="f8039b4ce479a4b91f2f0547e7049f629e9be5f5" and pop["authoritative_remaining_terminals"]==HPADJ_V22_AUTH,"HPADJ source drift")
     req(pop["affected_rows"]==178 and pop["charged_terminal_lower_bound"]==HPADJ_CHARGED,"HPADJ population drift")
     req(pop["hpadj01_main_pruning_credit"] is False and pop["population_drift_forbidden"] is True,"HPADJ firewall drift")
 
-    req(ex5["schema"]=="STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V6_HPADJ_OPEN_BC2_38_RETAINED_QUARANTINED","EX5 schema drift")
-    req(ex5["open_producer_demands"]==[HPADJ_DEMAND] and ex5["highest_priority_open_demand"]==HPADJ_DEMAND,"EX5 demand mirror drift")
-    req(ex5["producer_acknowledged"] is False and ex5["producer_sync_required"] is True and ex5["producer_diversion_detected"] is True,"EX5 diversion drift")
+    req(ex5["schema"]=="STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V7_HPADJ_SATISFIED_HISTORICAL_DIVERSION_PRESERVED","EX5 schema drift")
+    req(ex5["open_producer_demands"]==[] and ex5["highest_priority_open_demand"] is None,"EX5 demand mirror drift")
+    req(ex5["producer_acknowledged"] is True and ex5["producer_sync_required"] is False and ex5["producer_diversion_detected"] is True,"EX5 diversion drift")
+    sat=hp['satisfying_artifact']
+    req(sat['blob_sha1']=='3e21202c813220c59a6831dd7645f612112a2415' and sat['canonical_sha256']=='34eef4777e706a2fec9b55e6473f469c9bbb0351ba0741d588c132d7772173cf','satisfaction receipt identity')
+    handoff=lock(ROOT/sat['path'],sat['blob_sha1'],sat['canonical_sha256'])
+    interface=lock(ROOT/sat['interface_path'],sat['interface_blob_sha1'],sat['interface_canonical_sha256'])
+    req(sat['interface_blob_sha1']=='8a30e3aa30777460f344eb19836dc725dd442329','producer interface identity')
+    req(handoff['demand_id']==HPADJ_DEMAND and interface['demand_id']==HPADJ_DEMAND,'handoff demand identity')
+    req(sat['audit_review_id'] is None and sat['audited_exact_head'] is None,'operational handoff asserted audit')
+    req(handoff['source_population']['charged_terminal_lower_bound']==HPADJ_CHARGED and handoff['source_population']['affected_rows']==178,'handoff population identity')
+    req(handoff['source_population']['hpadj01_result_blob_sha1']==pop['population_source_blob_sha1'],'handoff source identity')
+    req(interface['population_cardinality_replay']['charged_terminal_lower_bound']==HPADJ_CHARGED and interface['population_cardinality_replay']['affected_rows']==178,'interface population identity')
+    req(all(v is False for v in handoff['credit_firewall'].values()) and all(v is False for v in interface['credit_firewall'].values()),'handoff credit promotion')
+    req(ex5['historical_diversion_observation_preserved'] is True and ex5['coordination_repair_complete'] is True,'historical/current split')
+    req(mon['current_handoff_observation']['demand_status']=='SATISFIED','current monitor status')
+    # The following checks preserve the historical diversion receipt; they do not
+    # require the producer to remain unacknowledged after the repair.
     xo=ex5["producer_observation"]
     req(xo["producer_pr"]==1776 and xo["observed_exact_head"]==OBSERVED_EX5_HEAD,"EX5 head drift")
     req(xo["observed_registry_contains_hpadj_demand"] is False and xo["observed_open_producer_demands"]==[],"EX5 stale registry drift")
@@ -101,7 +116,7 @@ def main():
         req(ex5["credit_firewall"][k] is False,f"EX5 credit firewall opened {k}")
 
     req(mon["schema"]=="STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V4_BC2_38_RETAINED_QUARANTINED","monitor schema drift")
-    req(mon["status"]=="EX5_BC2_38_RETAINED_P0_PREEMPTION_VIOLATION_QUARANTINED_MAIN_WAIT","monitor status drift")
+    req(mon["status"]=="HPADJ_SATISFIED_OPERATIONAL_CONSUMER_REENTRY_REQUIRED_HISTORICAL_QUARANTINE_PRESERVED","monitor status drift")
     mo=mon["producer_observation"]
     req(mo["observed_exact_head"]==OBSERVED_EX5_HEAD and mo["bc2_38_execution_conclusion"]=="SUCCESS","monitor producer/result drift")
     req(mo["bc2_38_artifact_id"]==10313851431 and mo["bc2_38_checkpoint_blob_sha1"]=="91eca02054cd2dbf702dd4a7635398ef76ee832f","BC2-38 retained identity drift")
@@ -111,22 +126,22 @@ def main():
     ci=mon["observed_ci"]
     req(ci["producer_retained_head_main_startup_conclusion"]=="FAILURE" and ci["producer_retained_head_claim_frontier_conclusion"]=="FAILURE","producer governance failure evidence drift")
     req(ci["producer_retained_head_ex5_integrity_conclusion"]=="SUCCESS" and ci["producer_retained_head_stale_run_sweeper_conclusion"]=="SUCCESS","producer retained CI drift")
-    req(mon["next_gate"]["next_producer_command"]=="stage32ex5-mainbatch" and mon["next_gate"]["main_remains_blocked"] is True,"next gate drift")
+    req(mon["next_gate"]["next_producer_command"]=="stage32ex5-audit" and mon["next_gate"]["main_remains_blocked"] is True,"next gate drift")
     for k,v in mon["firewalls"].items():
         req(v is False,f"HPADJ04 firewall opened {k}")
 
     print(json.dumps({
       "verdict":"PASS_STAGE32_CROSS_LANE_HPADJ_EX5_BC2_38_RETAINED_QUARANTINED",
       "authoritative_remaining_terminals":AUTH,
-      "open_p0_demand":HPADJ_DEMAND,
+      "satisfied_p0_demand":HPADJ_DEMAND,
       "producer_pr":1776,
       "observed_producer_head":OBSERVED_EX5_HEAD,
       "bc2_38_candidate_unsat":4,
       "bc2_38_candidate_unknown":30,
       "bc2_38_main_credit":False,
       "bc2_38_quarantined":True,
-      "required_producer_command":"stage32ex5-mainbatch",
-      "main_waiting":True,
+      "required_producer_command":"stage32ex5-audit",
+      "main_consumer_reentry_required":True,
       "full178_complete":False,
       "replacement_head_hostile_reaudit_required":True,
       "merge_authorized":False

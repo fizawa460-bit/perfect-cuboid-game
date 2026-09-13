@@ -2,6 +2,18 @@
 
 This file is the single human-facing command registry for ordinary Stage32 operation. It changes no mathematical authority or credit. Current mathematical routing comes from `stages/stage32/MAIN-STATE.json`; current operational cross-lane dependencies come from `stages/stage32/proof/CROSS-LANE-DEMANDS.json`.
 
+## Live cross-lane coordination check (2026-09-13 process repair)
+
+Before substantive work, resolve the current open MAIN coordination PR (currently #1800) to its live exact head and inspect its `stages/stage32/proof/CROSS-LANE-DEMANDS.json`. Also inspect the live exact producer head for any relevant handoff. Record both head and registry blob; do not infer zero OPEN demands from an old branch-local registry or from the default branch alone. If this read cannot be completed, or the relevant state disagrees, hold substantive work until the operational discrepancy is resolved. Historical source locks remain historical evidence.
+
+This check supplements the ordinary startup order and does not copy, promote, or replace mathematical `MAIN-STATE.json` values. A producer receipt marked SATISFIED requires consumer identity/population validation and the existing independent audit/promotion gates. A stale OPEN mirror must not cause duplicate production of an already retained handoff.
+
+Operational ordering: P0 is a blocking cross-lane artifact or its consumer re-entry; P1 is a required procedural repair or frozen exact-boundary audit; P2 is ordinary local research after applicable P0/P1 gates. These priorities do not reassign mathematical ownership, reopen a stopped route, arm compute, or grant credit. Independent lanes may work concurrently when no relevant higher-priority demand or local stop gate applies.
+
+The `stage32certlift-mainbatch` surface is on-demand, not an ordinary active command. CERTLIFT-03 / #1803 is retained producer and adapter provenance already represented in MAIN; do not repeat its consumption or start CERTLIFT-01 from the historical startup text. A new symbolic leaf needs an explicit current MAIN assignment and lane enrollment before participating in new demand routing. The 32-02 scalar experiment / #1790 is likewise a retained on-demand surface; it must not reconstruct the EX5 population interface or silently become an ordinary enrolled lane.
+
+Audit ownership stays with the named lane audit surface, followed by MAIN's distinct consumption/composition audit where required. Repeated requests for the same unchanged head and evidence boundary reuse the exact receipt; a changed verifier, source lock, workflow, or dependency requires a bounded replacement-head audit. An old PASS is not revoked solely by unrelated main drift.
+
 ## Cross-lane demand routing
 
 All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-DEMANDS.json` before substantive local work. Higher-priority OPEN producer demands preempt lower-priority local work; consumers wait rather than duplicate producer work. Demand SATISFIED never grants mathematical credit.
