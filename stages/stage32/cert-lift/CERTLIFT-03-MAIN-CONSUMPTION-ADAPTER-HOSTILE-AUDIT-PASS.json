@@ -1,0 +1,40 @@
+{
+  "schema": "STAGE32_CERTLIFT_03_MAIN_CONSUMPTION_ADAPTER_HOSTILE_AUDIT_PASS_V1",
+  "stage": "32",
+  "node": "CERTLIFT-03-CONSUME",
+  "status": "HOSTILE_AUDIT_PASS",
+  "pr": 1803,
+  "review_id": 5188753236,
+  "reviewed_pr_head": "7c3a9c301d9e1d98678fcd1532afce62c44d56e0",
+  "adapter_evidence_exact_head": "9215d4f365ee6400c7de9ba169fe670ddde1d067",
+  "adapter_exact_head_ci_run": 34727280181,
+  "adapter_exact_head_ci_job": 103643534635,
+  "adapter_blob_sha1": "97ece748a7cd30bd718ea87a64405ab592548aa9",
+  "adapter_canonical_sha256": "ba5079e4370db0467a40c80646bce90fae5e907993a3614c928fae1a73cb5ebb",
+  "candidate_receipt": {
+    "path": "stages/stage32/cert-lift/CERTLIFT-03-MAIN-CONSUMPTION-ADAPTER-RECEIPT.json",
+    "blob_sha1": "994d518394e39e857adaace8cb79989f44a87301",
+    "canonical_sha256": "f21181472a589efd39f1fe15ccbdec8062e6af2e993946fcdf571da30e68a59d"
+  },
+  "audited_scope": {
+    "authority_snapshot_exact_head": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "current_prefix_blocks": 7596,
+    "predicate_target_blocks": 1677,
+    "prior_overlap_union_blocks": 62,
+    "incremental_blocks": 1615,
+    "incremental_terminals": 182495,
+    "candidate_remaining_if_consumed": 47598978285064933574932
+  },
+  "scope_note": "PASS certifies deterministic source-locked counting/disjointness only at the locked V15 authority snapshot. It does not itself mutate MAIN authority.",
+  "credit_firewall": {
+    "main_pruning": false,
+    "main_authority_mutated": false,
+    "full178": false,
+    "effectivity": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_gate": "Recompose the audited CERTLIFT predicate against the hostile-audited current Stage32 MAIN authority and hostile-audit that freshness/composition adapter before any subtraction.",
+  "canonical_sha256_without_this_field": "b747660bada9c83a4815862b686fa8e5cea7f24e4ea85394040d25ea8d0a81d8"
+}
