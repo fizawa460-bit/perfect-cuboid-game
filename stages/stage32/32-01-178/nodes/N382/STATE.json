@@ -1,0 +1,106 @@
+{
+  "schema": "STAGE32_32_01_178_N382_CERTLIFT03_RETAINED_ADAPTER_AUDIT_PASS_V22_REBASE_WAIT_V1",
+  "node_id": "N382",
+  "semantic_key": "s32-01-178:certlift03-retained-adapter-audit-pass-v22-rebase-wait",
+  "status": "CERTLIFT03_ADAPTER_HOSTILE_AUDIT_PASS_RETAINED_V15_COUNT_VALID_V22_REBASE_REQUIRED_NO_CREDIT",
+  "parent": {
+    "n381_state_blob_sha1": "9da9b6e4488bb127bf43ac6c1fed9567ee14d2c2",
+    "n381_state_canonical_sha256": "e9c8efa33cce2251fe0ac6f35b9b1664af74fe46ccc2fde32ff5cf394030a276"
+  },
+  "producer": {
+    "lane": "CUT-CERT-LIFT",
+    "pr": 1803,
+    "retained_audit_pass_head": "7304511aff6f59f406d610cd48cc02d7c25fb2bb",
+    "adapter_audit_pass": {
+      "path": "stages/stage32/cert-lift/CERTLIFT-03-MAIN-CONSUMPTION-ADAPTER-HOSTILE-AUDIT-PASS.json",
+      "blob_sha1": "6ea2f6cf8e10adab4acf49e70da3dd892e817cf7",
+      "canonical_sha256_without_this_field": "b747660bada9c83a4815862b686fa8e5cea7f24e4ea85394040d25ea8d0a81d8",
+      "status": "HOSTILE_AUDIT_PASS",
+      "review_id": 5188753236,
+      "reviewed_pr_head": "7c3a9c301d9e1d98678fcd1532afce62c44d56e0",
+      "adapter_evidence_exact_head": "9215d4f365ee6400c7de9ba169fe670ddde1d067",
+      "adapter_exact_head_ci_run": 34727280181,
+      "adapter_exact_head_ci_job": 103643534635,
+      "adapter_blob_sha1": "97ece748a7cd30bd718ea87a64405ab592548aa9",
+      "adapter_canonical_sha256": "ba5079e4370db0467a40c80646bce90fae5e907993a3614c928fae1a73cb5ebb"
+    },
+    "symbolic_audit_review_id": 5188640528,
+    "symbolic_canonical_sha256": "2d1fcfe51420ab01f81d353e0d19a2b1eef467a51e321da953b5cf18aa88e764"
+  },
+  "audited_v15_adapter_result": {
+    "authority_snapshot_exact_head": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "authority_snapshot_schema": "STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED",
+    "authority_snapshot_blob_sha1": "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9",
+    "authority_snapshot_canonical_sha256": "d61dd73ecf0c0fa6fc1a96ea37f284dac4d5beb65c88bff59d5cc25b87939193",
+    "authority_before": 47598978285064933757427,
+    "predicate_target_blocks": 1677,
+    "prior_overlap_union_blocks": 62,
+    "incremental_blocks": 1615,
+    "incremental_terminals": 182495,
+    "candidate_remainder_if_consumed_on_v15": 47598978285064933574932,
+    "audited_scope_is_v15_only": true
+  },
+  "current_hostile_audited_main": {
+    "version": "V22",
+    "exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+    "hostile_audit_review_id": 5188224290,
+    "state_blob_sha1": "80fb35c79854bfdf775dc5b94c331f5f8a535ced",
+    "state_canonical_sha256": "82ca200d81b0ce844b1756dc0c3205eec388a20cae312af5e0f3c55d959d491c",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 47589703313957134804198,
+    "full178_complete": false,
+    "additional_consumed_sets_not_accounted_by_v15_adapter": [
+      "CUT196",
+      "N358",
+      "CUT193",
+      "CUT197",
+      "CUT198"
+    ],
+    "v15_minus_v22_authority_terminals": 9274971107798953229
+  },
+  "rebase_contract": {
+    "required": true,
+    "must_recompute_predicate_on_v22_current_population": true,
+    "must_subtract_exact_block_sets_for_all_post_v15_consumption": true,
+    "must_prove_union_overlap_and_no_double_charge": true,
+    "must_freeze_replacement_adapter_exact_head": true,
+    "must_hostile_audit_replacement_adapter": true,
+    "must_pass_main_consumption_sync_after_adapter_audit": true,
+    "v15_incremental_blocks_may_not_be_reused_as_v22_increment": true,
+    "v15_incremental_terminals_may_not_be_subtracted_from_v22": true,
+    "v22_incremental_blocks": null,
+    "v22_incremental_terminals": null,
+    "v22_remainder_after_candidate": null
+  },
+  "n101_contract": {
+    "remains_stopped": true,
+    "population_pruning_adapter_is_not_n377_signature_or_action": true,
+    "s1_full_numerical_leaf_factorization_proved": false,
+    "s2_prefix_transition_closure_proved": false,
+    "exact_multiplicity_conservation_proved": false,
+    "strict_global_compression_reduction_proved": false
+  },
+  "anti_loop": {
+    "duplicate_certlift_hostile_audit_inside_178": false,
+    "duplicate_certlift_adapter_rebase_inside_178": false,
+    "consume_v15_182495_on_v22": false,
+    "blind_full178_materialization": false,
+    "escalate_n373_timeout": false,
+    "rerun_n375_s3": false,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "n101_reopened_credit": false,
+    "numerical_leaf_compression_credit": false,
+    "effectivity_final": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_gate": "CERTLIFT03_EXACT_V22_RECOMPOSITION_ADAPTER_WITH_POST_V15_OVERLAP_ACCOUNTING_THEN_HOSTILE_AUDIT_AND_MAIN_CONSUMPTION_SYNC_OR_N377_STRONG_SIGNATURE_ACTION",
+  "canonical_sha256_without_this_field": "f5b6b08264c1743df1d633bad47c9cb435ba569da3eff2ce808053cfb36eec1d"
+}
