@@ -187,6 +187,8 @@ jobs:
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "6de2e6b0f265758114835148c0742ffad36f68d8"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
           test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
+          test "$(git hash-object stages/stage32/management/hpadj-02/RESULT.json)" = "2f7b016c9030bdb86071f5b0b4803b4bde210584"
+          test "$(git hash-object stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py)" = "07b929817c526dec618b578a10482d23d4e58b83"
 
       - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
         run: >-
@@ -219,6 +221,8 @@ jobs:
           python stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py
           --audited-main-v22-root .stage32-audited-main-v22
           --audited-n358-root .stage32-audited-n358
+      - name: Verify HPADJ-02 RR effectivity promotion no-go
+        run: python stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py
 
       - name: Verify Stage32 MAIN startup authority
         run: python stages/stage32/verify_main_startup.py
