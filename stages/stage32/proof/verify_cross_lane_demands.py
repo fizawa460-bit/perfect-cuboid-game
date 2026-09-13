@@ -20,8 +20,8 @@ REGISTRY_BLOB="75982b910ae1f149bc55b766f22ddea77db1f49e"
 REGISTRY_CANON="470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668"
 EX5_STATE_BLOB="73697fac439703bba7f1282559f71e1b4b2b4538"
 EX5_STATE_CANON="f47ffa88cfe0378b5fff9a5a9014c3af164d0f91b89e471da493ec3b317585a8"
-MONITOR_BLOB="731a4d3ab43f712a3a96ff44b1cf96da68bf6dec"
-MONITOR_CANON="5107504368728ca7cb0c775991fc167c0275e11960fa05012b52b1b9ff8c7990"
+MONITOR_BLOB="927ba2d2858ebfb3b54c299c6650836d10a6b97e"
+MONITOR_CANON="929c6815ba13236362b9fb233f6aa1148a5253a757b347123a31f76c9640b0cd"
 
 AUTH=47589703313957134649501
 HPADJ_DEMAND="S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
@@ -118,7 +118,9 @@ def main():
     pc=monitor["preexisting_execution_context"]
     req(pc["bc2_37_heavy_run"]==34728149823 and pc["bc2_37_compute_job"]==103645956700 and pc["bc2_37_compute_conclusion"]=="SUCCESS","BC2-37 preexisting execution drift")
     req(pc["latest_post_demand_commit_classification"]=="AUDIT_BOUNDARY_VERIFIER_REPAIR" and pc["new_lower_priority_research_after_demand_detected"] is False and pc["producer_diversion_violation_asserted"] is False,"producer diversion classification drift")
-    req(monitor["next_gate"]["stage32ex5_mainbatch_is_next_producer_command"] is True,"next producer command drift")
+    ng=monitor["next_gate"]
+    req(mo["observed_pr_route"]=="HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY" and mo["observed_next_command"]=="stage32ex5-audit","producer frozen-audit route drift")
+    req(ng["stage32ex5_audit_is_immediate_producer_command"] is True and ng["stage32ex5_mainbatch_is_next_after_audit"] is True,"producer sequencing drift")
     for k,v in monitor["firewalls"].items():
         req(v is False,f"HPADJ04 firewall opened {k}")
 
@@ -131,6 +133,8 @@ def main():
         "observed_producer_head":OBSERVED_EX5_HEAD,
         "producer_acknowledged":False,
         "new_lower_priority_research_after_demand_detected":False,
+        "immediate_producer_command":"stage32ex5-audit",
+        "hpadj_sync_on_next_mainbatch_after_audit":True,
         "main_waiting":True,
         "main_pruning_credit":False,
         "full178_complete":False,
