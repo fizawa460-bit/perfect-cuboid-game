@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib,json
+import hashlib, json
 from pathlib import Path
 
 HERE=Path(__file__).resolve().parent
@@ -20,8 +20,8 @@ REGISTRY_BLOB="75982b910ae1f149bc55b766f22ddea77db1f49e"
 REGISTRY_CANON="470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668"
 EX5_STATE_BLOB="73697fac439703bba7f1282559f71e1b4b2b4538"
 EX5_STATE_CANON="f47ffa88cfe0378b5fff9a5a9014c3af164d0f91b89e471da493ec3b317585a8"
-MONITOR_BLOB="927ba2d2858ebfb3b54c299c6650836d10a6b97e"
-MONITOR_CANON="929c6815ba13236362b9fb233f6aa1148a5253a757b347123a31f76c9640b0cd"
+MONITOR_BLOB="bbc37d3bea433e96fd70ca30394d5c08104bf7c2"
+MONITOR_CANON="69a3367639c3c8c66ad2e2411c8485aab8cc2628c8baaa8d9bc641ff4a589cd9"
 
 AUTH=47589703313957134649501
 HPADJ_DEMAND="S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
@@ -29,9 +29,11 @@ CUT192_DEMAND="S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
 HPADJ_V22_AUTH=47589703313957134804198
 HPADJ_CHARGED=27104321327305699275487
 OBSERVED_EX5_HEAD="9852fcec959962607da3290100291a60185e7104"
+BC2_37_AUDIT_REVIEW=5189412496
 
 def req(v,m):
-    if not v: raise SystemExit("FAIL: "+m)
+    if not v:
+        raise SystemExit("FAIL: "+m)
 
 def blob(p):
     r=p.read_bytes()
@@ -82,8 +84,7 @@ def main():
     req(old["satisfying_artifact"]["blob_sha1"]=="b8ff5a4b962c24a6e4f4bca5621cbdb79f6d4781","CUT192 receipt drift")
 
     hp=demand(registry,HPADJ_DEMAND)
-    req(hp["status"]=="OPEN","HPADJ demand not OPEN")
-    req(hp["priority"]=="P0_BLOCKING_DOWNSTREAM","HPADJ demand priority drift")
+    req(hp["status"]=="OPEN" and hp["priority"]=="P0_BLOCKING_DOWNSTREAM","HPADJ demand state drift")
     req(hp["producer_lane"]=="EX5" and hp["consumer_lane"]=="MAIN","HPADJ routing drift")
     req(hp["satisfying_artifact"] is None,"HPADJ demand unexpectedly satisfied")
     pop=hp["source_population_semantics"]
@@ -97,8 +98,7 @@ def main():
 
     req(ex5["open_producer_demands"]==[HPADJ_DEMAND],"EX5 open-demand mirror drift")
     req(CUT192_DEMAND in ex5["satisfied_producer_demands"],"EX5 lost CUT192 satisfied demand")
-    req(ex5["highest_priority_open_demand"]==HPADJ_DEMAND,"EX5 priority mirror drift")
-    req(ex5["coordination_priority"]=="P0_BLOCKING_DOWNSTREAM","EX5 coordination priority drift")
+    req(ex5["highest_priority_open_demand"]==HPADJ_DEMAND and ex5["coordination_priority"]=="P0_BLOCKING_DOWNSTREAM","EX5 priority mirror drift")
     req(ex5["local_route_deferred_while_demand_open"] is True,"EX5 defer rule drift")
     req(ex5["producer_acknowledged"] is False and ex5["producer_sync_required"] is True,"EX5 producer sync state drift")
     obs=ex5["producer_observation"]
@@ -109,32 +109,35 @@ def main():
     for k in ("demand_acknowledgement_grants_math_credit","demand_satisfaction_grants_math_credit","main_waiting_grants_math_credit","effectivity_credit","integral_irreducible_carrier_credit","endpoint_credit","merge_authorized"):
         req(ex5["credit_firewall"][k] is False,f"EX5 credit firewall opened {k}")
 
-    req(monitor["status"]=="WAITING_FOR_EX5_PRODUCER_SYNC_NO_DUPLICATION","HPADJ04 monitor status drift")
+    req(monitor["status"]=="WAITING_FOR_EX5_POST_AUDIT_P0_SYNC_NO_DUPLICATION","HPADJ04 monitor status drift")
     req(monitor["main_observation"]["demand_id"]==HPADJ_DEMAND and monitor["main_observation"]["main_consumer_wait_required"] is True,"MAIN wait contract drift")
     req(monitor["main_observation"]["main_must_not_rebuild_producer_interface"] is True,"MAIN producer-duplication firewall drift")
     mo=monitor["producer_observation"]
     req(mo["producer_pr"]==1776 and mo["observed_exact_head"]==OBSERVED_EX5_HEAD,"monitor producer identity drift")
     req(mo["observed_registry_contains_hpadj_demand"] is False and mo["producer_acknowledged_current_hpadj_demand"] is False,"monitor acknowledgement drift")
+    req(mo["bc2_37_hostile_audit_status"]=="PASS","BC2-37 audit status drift")
+    req(mo["bc2_37_hostile_audit_review_id"]==BC2_37_AUDIT_REVIEW,"BC2-37 audit review drift")
+    req(mo["bc2_37_hostile_audited_exact_head"]==OBSERVED_EX5_HEAD,"BC2-37 audited head drift")
+    req(mo["bc2_37_audited_known_parent_unsat_lower_bound"]==7302 and mo["bc2_37_audited_remaining_unknown_count"]==34,"BC2-37 audited result drift")
     pc=monitor["preexisting_execution_context"]
-    req(pc["bc2_37_heavy_run"]==34728149823 and pc["bc2_37_compute_job"]==103645956700 and pc["bc2_37_compute_conclusion"]=="SUCCESS","BC2-37 preexisting execution drift")
-    req(pc["latest_post_demand_commit_classification"]=="AUDIT_BOUNDARY_VERIFIER_REPAIR" and pc["new_lower_priority_research_after_demand_detected"] is False and pc["producer_diversion_violation_asserted"] is False,"producer diversion classification drift")
+    req(pc["bc2_37_heavy_run"]==34728149823 and pc["bc2_37_compute_job"]==103645956700 and pc["bc2_37_compute_conclusion"]=="SUCCESS","BC2-37 execution drift")
+    req(pc["new_lower_priority_research_after_demand_detected"] is False and pc["producer_diversion_violation_asserted"] is False,"producer diversion classification drift")
     ng=monitor["next_gate"]
-    req(mo["observed_pr_route"]=="HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY" and mo["observed_next_command"]=="stage32ex5-audit","producer frozen-audit route drift")
-    req(ng["stage32ex5_audit_is_immediate_producer_command"] is True and ng["stage32ex5_mainbatch_is_next_after_audit"] is True,"producer sequencing drift")
+    req(ng["stage32ex5_audit_complete"] is True and ng["stage32ex5_mainbatch_is_immediate_producer_command"] is True,"producer sequencing drift")
     for k,v in monitor["firewalls"].items():
         req(v is False,f"HPADJ04 firewall opened {k}")
 
     print(json.dumps({
-        "verdict":"PASS_STAGE32_CROSS_LANE_HPADJ_EX5_P0_WAIT_PRODUCER_SYNC",
+        "verdict":"PASS_STAGE32_CROSS_LANE_HPADJ_EX5_P0_WAIT_POST_AUDIT_PRODUCER_SYNC",
         "authoritative_remaining_terminals":AUTH,
         "open_p0_demand":HPADJ_DEMAND,
         "producer_lane":"EX5",
         "producer_pr":1776,
         "observed_producer_head":OBSERVED_EX5_HEAD,
+        "bc2_37_hostile_audit_review_id":BC2_37_AUDIT_REVIEW,
+        "bc2_37_audit_pass":True,
         "producer_acknowledged":False,
-        "new_lower_priority_research_after_demand_detected":False,
-        "immediate_producer_command":"stage32ex5-audit",
-        "hpadj_sync_on_next_mainbatch_after_audit":True,
+        "immediate_producer_command":"stage32ex5-mainbatch",
         "main_waiting":True,
         "main_pruning_credit":False,
         "full178_complete":False,
