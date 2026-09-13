@@ -11,7 +11,6 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
 AUDIT_RECEIPT = HERE / "CERTLIFT-03-HOSTILE-AUDIT-PASS.json"
 
 AUDITED_CERTLIFT_HEAD = "af41c95b9e952ed6cf913f2187a9d3acd94ddef3"
@@ -30,6 +29,7 @@ CUT191_BLOB = "a90042ec931cb487ae6be852524db5a4537862f4"
 CUT191_CANONICAL = "1e681c456dc30342346d134f5e0d89150573f8a756cbd808c309d2af89821fdd"
 CUT194_BLOB = "dab1a28f55918b617112799f11ac9614eb8a481c"
 CUT194_CANONICAL = "c63f6da3dd0ec443572f8561bb7774491ce7d7c09ce319a322fb52e5b1e08cd4"
+CUT195_AUDITED_HEAD = "2618f4dcd546d569b212753ac7abc10e07ee5828"
 CUT195_BLOB = "d9fe913dccd41446780dbdde9f0200970ee9129e"
 CUT195_CANONICAL = "1a7d802f427761d304ee06451d00ea67a1365d7d2629cdbf2ac88b6b4ff08aed"
 
@@ -103,7 +103,9 @@ def replay_audited_symbolic_lemma(audited_root: Path, ex5_root: Path) -> None:
     req(git_blob(lemma) == AUDITED_LEMMA_BLOB, "audited symbolic lemma blob drift")
     env = dict(os.environ)
     env["PYTHONPATH"] = str(ex5_root / "stages/stage32-ex5/cut-handoff")
-    proc = subprocess.run([sys.executable, str(lemma)], cwd=audited_root, env=env, text=True, capture_output=True)
+    proc = subprocess.run(
+        [sys.executable, str(lemma)], cwd=audited_root, env=env, text=True, capture_output=True
+    )
     if proc.returncode != 0:
         sys.stderr.write(proc.stdout)
         sys.stderr.write(proc.stderr)
@@ -115,14 +117,21 @@ def replay_audited_symbolic_lemma(audited_root: Path, ex5_root: Path) -> None:
     req(out.get("canonical") == AUDITED_LEMMA_CANONICAL, "symbolic lemma canonical drift")
 
 
+def env_root(name: str) -> Path:
+    raw = os.environ.get(name)
+    req(bool(raw), f"{name} missing")
+    root = Path(raw).resolve()
+    req(root.is_dir(), f"{name} is not a directory")
+    return root
+
+
 def run() -> dict:
-    main_root = Path(os.environ.get("CERTLIFT_CURRENT_MAIN_ROOT", "")).resolve()
-    audited_root = Path(os.environ.get("CERTLIFT_AUDITED_ROOT", "")).resolve()
-    ex5_root = Path(os.environ.get("CERTLIFT_EX5_SOURCE_ROOT", "")).resolve()
-    req(str(main_root) != "." and main_root.is_dir(), "CERTLIFT_CURRENT_MAIN_ROOT missing")
-    req(str(audited_root) != "." and audited_root.is_dir(), "CERTLIFT_AUDITED_ROOT missing")
-    req(str(ex5_root) != "." and ex5_root.is_dir(), "CERTLIFT_EX5_SOURCE_ROOT missing")
+    main_root = env_root("CERTLIFT_CURRENT_MAIN_ROOT")
+    audited_root = env_root("CERTLIFT_AUDITED_ROOT")
+    ex5_root = env_root("CERTLIFT_EX5_SOURCE_ROOT")
+    cut195_root = env_root("CERTLIFT_CUT195_ROOT")
     req(exact_head(main_root) == CURRENT_MAIN_HEAD, "current MAIN exact head drift")
+    req(exact_head(cut195_root) == CUT195_AUDITED_HEAD, "audited CUT195 exact head drift")
 
     audit = checked_json(AUDIT_RECEIPT, AUDIT_RECEIPT_BLOB, AUDIT_RECEIPT_CANONICAL)
     req(audit["status"] == "HOSTILE_AUDIT_PASS", "CERTLIFT hostile audit status drift")
@@ -147,15 +156,18 @@ def run() -> dict:
 
     cut191 = checked_json(
         main_root / "stages/stage32/full178-cut/CUT191-first-block-closure-checkpoint.json",
-        CUT191_BLOB, CUT191_CANONICAL,
+        CUT191_BLOB,
+        CUT191_CANONICAL,
     )
     cut194 = checked_json(
         main_root / "stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-result.json",
-        CUT194_BLOB, CUT194_CANONICAL,
+        CUT194_BLOB,
+        CUT194_CANONICAL,
     )
     cut195 = checked_json(
-        main_root / "stages/stage32/full178-cut/CUT195-e8-common-adapter-wave3-result.json",
-        CUT195_BLOB, CUT195_CANONICAL,
+        cut195_root / "stages/stage32/full178-cut/CUT195-e8-common-adapter-wave3-result.json",
+        CUT195_BLOB,
+        CUT195_CANONICAL,
     )
 
     residual = main_root / "stages/stage32/residual-32-01-production"
@@ -227,6 +239,9 @@ def run() -> dict:
             "current_main_exact_head": CURRENT_MAIN_HEAD,
             "current_main_state_blob_sha1": MAIN_STATE_BLOB,
             "current_main_state_canonical_sha256": MAIN_STATE_CANONICAL,
+            "cut195_audited_exact_head": CUT195_AUDITED_HEAD,
+            "cut195_result_blob_sha1": CUT195_BLOB,
+            "cut195_result_canonical_sha256": CUT195_CANONICAL,
             "ex5_source_exact_head": EX5_SOURCE_HEAD,
         },
         "predicate": {
