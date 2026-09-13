@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 SQRT FACTOR SIGN TRANSPORT ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 RESIDUAL LIFT CONDUCTOR-PAIR MAP ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -253,6 +253,32 @@ For two normalization preimages identified in the singular carrier, `alpha_abs(l
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-FUNCTION.md`.
 
+## Residual base-cover semantic correction
+
+The square-root transport is now fixed at the residual quotient level
+
+```text
+q:R=C8/H -> S=C8/G,
+phi:E->S.
+```
+
+Choose `h in k(S)^*` representing `q`, so `k(R)=k(S)(sqrt(h))`. The normalized base change `Norm(E x_S R)` is represented by
+
+```text
+[h o phi] in k(E)^*/k(E)^{*2}.
+```
+
+The explicit surface representative satisfies the verified square-class match
+
+```text
+[f_t|_E]=[h o phi],
+f_t=(t-i)/(t+i),
+```
+
+but literal equality of rational functions is not asserted. Thus in the `e=2` case the correct sign-transport object is the square root of the pulled-back residual-cover class. The missing datum is an explicit map from each conductor normalization preimage to its lift in `R` above `phi(x)`; only this determines same-sheet versus opposite-sheet gluing.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-SQRT-FACTOR-BASECHANGE-SEMANTICS.md`.
+
 ## Two-factor comparison
 
 For complementary factor coordinates
@@ -275,7 +301,7 @@ Thus the two factor square classes agree; comparing them cannot distinguish `e=2
 ## Active next leaf
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-E2-SQRT-FACTOR-SIGN-TRANSPORT
+MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP
 ```
 
 Assume `e=2` and choose `g` on the normalization with `g^2=f_t|_E`, where `f_t=(t-i)/(t+i)`. Compute at each conductor identification whether the two normalization preimages have the same or opposite limiting square-root sign using the explicit modular/product-cover lift. The opposite-sign weighted intersection sum is exactly `y/2`. Any strict upper bound below `84l^2` contradicts `(E2-HODGE)` and excludes `e=2`. Even valuations of `f_t` on `U` prove etaleness, not global triviality.
