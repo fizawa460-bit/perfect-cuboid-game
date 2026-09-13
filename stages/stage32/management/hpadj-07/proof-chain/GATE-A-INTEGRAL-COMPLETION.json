@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ07_CARRIER_CHAIN_GATE_A_V1",
+  "stage": 32,
+  "leaf": "HPADJ-07_CARRIER_ADAPTER_PROOF_CHAIN",
+  "gate": "A_INTEGRAL_PICARD_COMPLETION_EXISTENCE",
+  "status": "CANDIDATE_CLOSED_EXACT_PREFIX_LATTICE_EXTENSION_PENDING_CHAIN_AUDIT",
+  "scope": {
+    "population": "retained HPADJ-01 charged current-V22 terminal lower-bound population",
+    "affected_rows": 178,
+    "charged_terminal_lower_bound": 27104321327305699275487,
+    "terminal_identity": ["row_id", "e", "compressed_terminal_rank"],
+    "population_subset_of_exact_compressed_terminal_family": true
+  },
+  "source_locks": {
+    "ex5_interface": {
+      "path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+      "blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+      "canonical_sha256": "cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6",
+      "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f"
+    },
+    "compressed_terminal_family": {
+      "path": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+      "blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170"
+    },
+    "pairing_prefix_engine": {
+      "path": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+      "blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
+    },
+    "picard_bundle_loader": {
+      "path": "stages/stage33/33-07/picard_base_rows_retained.py",
+      "blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+      "bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+    }
+  },
+  "exact_proof": {
+    "terminal_assignment_order_1based": [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96],
+    "terminal_parity_condition": "x1+x8+x9+x10 == 0 (mod 2)",
+    "prefix_oracle_semantics": "the 11 fixed selected pairings extend to a full selected64 pairing vector in the integral Picard image iff the exact HNF prefix-membership congruences hold",
+    "oracle_kernel_identification": "the depth-11 HNF oracle kernel equals the index-2 parity sublattice ker(x1+x8+x9+x10 mod 2)",
+    "kernel_proof_method": "verify the parity-kernel Z-basis is accepted by the exact oracle and one odd-parity coset representative is rejected; since the parity kernel has index 2, equality follows",
+    "terminal_family_implication": "terminal_predicate enforces the same parity condition, so every exact compressed terminal has at least one integer z53 completion",
+    "completion_conclusion": "for every charged HPADJ terminal there exists at least one selected64 completion whose inverse numerator is divisible by 8 coordinatewise, hence at least one integral retained Picard64 class with the same fixed terminal pairings"
+  },
+  "chain_handoff": {
+    "gate_a_closed_for_research": true,
+    "next_gate": "B_EFFECTIVE_DIVISOR_EXISTENCE",
+    "downstream_use_before_hostile_audit": "PROVISIONAL_RESEARCH_ONLY_NO_MAIN_CREDIT",
+    "full_chain_hostile_audit_required_before_main_consumption": true
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "effectivity_credit": false,
+    "integral_irreducible_carrier_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "theorem_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "588ab6769610c3f93afcd5540db7e1c4404d2c6d1cf83caf5616c1fb6e21a3fe"
+}
