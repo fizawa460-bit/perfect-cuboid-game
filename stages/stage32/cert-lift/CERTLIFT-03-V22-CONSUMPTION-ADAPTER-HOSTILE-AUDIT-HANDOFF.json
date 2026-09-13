@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32_CERTLIFT_03_V22_CONSUMPTION_ADAPTER_HOSTILE_AUDIT_HANDOFF_V1",
+  "stage": "32",
+  "node": "CERTLIFT-03-V22-CONSUME",
+  "status": "READY_FOR_HOSTILE_AUDIT_NOT_AUDITED",
+  "pr": 1803,
+  "symbolic_lemma_hostile_audit_review_id": 5188640528,
+  "v15_adapter_hostile_audit_review_id": 5188753236,
+  "v22_main_hostile_audit_review_id": 5188224290,
+  "v22_main_exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+  "adapter_candidate_exact_head": "5f6b98f28568e840aee9e639cce6d334c56b49c2",
+  "adapter_candidate_ci_run": 34728296585,
+  "adapter_candidate_ci_job": 103646309512,
+  "adapter_canonical_sha256": "597fe83b10c7a23f1da9748423ea3f70a78d448991a253777b64cab554c7ffaf",
+  "receipt": "stages/stage32/cert-lift/CERTLIFT-03-V22-CONSUMPTION-ADAPTER-RECEIPT.json",
+  "receipt_blob_sha1": "4aebf10fe9381314859d87fa2395a4d0e48cb579",
+  "receipt_canonical_sha256": "983042fb058d60b9c2ab39ee24c7192d93fec92ab6c9b81c840c91903133c858",
+  "receipt_verifier": "stages/stage32/cert-lift/verify_certlift03_v22_consumption_adapter_receipt.py",
+  "expected_population": {
+    "current_prefix_blocks": 7596,
+    "predicate_target_blocks": 1677,
+    "prior_overlap_union_blocks": 308,
+    "incremental_blocks": 1369,
+    "incremental_terminals": 154697,
+    "authoritative_remaining_before": 47589703313957134804198,
+    "candidate_remaining_if_later_consumed": 47589703313957134649501
+  },
+  "expected_overlap_breakdown": {
+    "n357": 0,
+    "n358": 0,
+    "CUT191": 0,
+    "CUT193": 40,
+    "CUT194": 33,
+    "CUT195": 29,
+    "CUT196": 59,
+    "CUT197": 72,
+    "CUT198": 75
+  },
+  "audit_scope": [
+    "independently confirm the hostile-audited V22 authority source head and MAIN-STATE canonical",
+    "independently reconstruct the 7596-block e8 prefix and the 1677 MASS7+g3 target set",
+    "independently verify exact CUT191/CUT193/CUT194/CUT195/CUT196/CUT197/CUT198 closed-block identities and pairwise disjointness",
+    "confirm N357 overlap is zero on the target and N358 has an audited empty incremental domain on g1-d008/e8",
+    "confirm target overlap union is 308 blocks and the remaining increment is 1369 blocks = 154697 terminals",
+    "confirm no MAIN authority mutation or pruning credit is granted by the adapter or receipt"
+  ],
+  "credit_firewall": {
+    "main_pruning": false,
+    "main_authority_mutated": false,
+    "full178": false,
+    "effectivity": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_if_pass": "Freeze hostile-audit PASS on the V22 adapter, then perform the separate Stage32 MAIN claim/authority synchronization needed to consume 154697 terminals."
+}
