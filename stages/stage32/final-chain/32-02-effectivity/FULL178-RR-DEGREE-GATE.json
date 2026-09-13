@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE32_FINAL_CHAIN_32_02_FULL178_RR_DEGREE_GATE_V1",
+  "stage": 32,
+  "unit": "32-02-L",
+  "status": "SOURCE_LOCKED_PREPARATION_ONLY",
+  "manifest": {
+    "path": "stages/stage32/residual-32-01-production/full178-manifest.json",
+    "schema": "STAGE32_RESIDUAL32_01_FULL178_MANIFEST_V1",
+    "residual_row_count": 178,
+    "canonical_sha256_without_this_field": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+  },
+  "rr_degree_gate": {
+    "criterion": "degree > 16",
+    "degree_gt_16_row_count": 168,
+    "degree_le_16_row_count": 10,
+    "degree_le_16_rows": [
+      "g0-d008",
+      "g0-d010",
+      "g0-d012",
+      "g0-d014",
+      "g0-d016",
+      "g1-d008",
+      "g1-d010",
+      "g1-d012",
+      "g1-d014",
+      "g1-d016"
+    ],
+    "all_178_rows_partitioned_exactly_once": true
+  },
+  "semantics": {
+    "degree_gate_is_not_effectivity_certification": true,
+    "degree_gate_is_not_survivor_count": true,
+    "degree_gate_does_not_assume_all_rows_survive_full178": true,
+    "rr_surface_assumptions_source_locked_here": false,
+    "final_survivor_picard_ledger_available": false
+  },
+  "credit_firewall": {
+    "effectivity_preparation_credit": true,
+    "effectivity_final_execution_released": false,
+    "full178_pruning_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f936aa647922268a0000315701a297d1fc31fa8d25e4ffd099b335f35872e5f3"
+}

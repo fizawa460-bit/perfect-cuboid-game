@@ -1,0 +1,93 @@
+{
+  "schema": "STAGE32_CUT192_EX5_E8_HANDOFF_SATISFIED_RECEIPT_V1",
+  "stage": 32,
+  "demand_id": "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
+  "status": "SATISFIED",
+  "producer_lane": "EX5",
+  "consumer_lane": "CUT",
+  "producer": {
+    "pr": 1776,
+    "exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+    "exact_head_ci_run": 34598945799,
+    "ci_conclusion": "SUCCESS",
+    "adapter_verifier_step": "Verify maximum audited current-MAIN e8 CUT handoff adapter",
+    "adapter_verifier_step_conclusion": "SUCCESS",
+    "handoff_job": "e8-cut-handoff-wave",
+    "handoff_job_conclusion": "SUCCESS"
+  },
+  "interface_source_locks": [
+    {
+      "path": "stages/stage32-ex5/cut-handoff/e8-terminal-population-preflight.json",
+      "blob_sha1": "b28539d9d0eafddc181d3bbf6d668261f2ff081e"
+    },
+    {
+      "path": "stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py",
+      "blob_sha1": "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f"
+    },
+    {
+      "path": "stages/stage32-ex5/cut-handoff/verify_e8_terminal_population_adapter.py",
+      "blob_sha1": "8fe802444ca8c92a80058555eaf431f0c1a52c76"
+    },
+    {
+      "path": "stages/stage32-ex5/runkeys/e8-cut-handoff-wave.json",
+      "blob_sha1": "3d1796fc09eabf507b8293bdad7421e05dff5723"
+    }
+  ],
+  "interface_semantics": {
+    "artifact_type": "SOURCE_LOCKED_EXACT_TERMINAL_TO_PICARD64_COMPLETION_INTERFACE",
+    "handoff_universe_blocks": 7596,
+    "handoff_universe_terminals": 858348,
+    "random_access_by_exceptional_rank": true,
+    "terminal_block_width": 113,
+    "preferred_wave_survivor_offset_range": [
+      1,
+      255
+    ],
+    "preferred_wave_source_block_index_minmax": [
+      1,
+      343
+    ],
+    "preferred_wave_block_count": 255,
+    "preferred_wave_terminal_count": 28815,
+    "preferred_wave_block_index_stream_sha256": "68ca7b27ffeceb52c35942449ca47105fd4a74757575544033454c3c9be514ea"
+  },
+  "producer_wave_artifact": {
+    "artifact_id": 10263148684,
+    "digest": "sha256:df48610fbf8d6cd11640f8f3feb534256b307e6ea803688267a33cb972cfba7f",
+    "canonical_sha256": "7344a7c23ed83b66046d4a72a27a0679ab12fdc05cb41d8f6cdcacec6adcaa01"
+  },
+  "current_main_bridge": {
+    "authority_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+    "authority_hostile_reaudit_review_id": 5178420739,
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233636101,
+    "n356_preserves_handoff_population": true,
+    "n356_reason": "For e=d=8 every handed-off N355 survivor has retained group sums in [0,4], so b-c<=4<=16=3d-e.",
+    "cut191_first_block_rank_range": [
+      0,
+      112
+    ],
+    "preferred_wave_disjoint_from_cut191": true,
+    "preferred_wave_first_source_block_index": 1
+  },
+  "consumer_reentry": {
+    "pr": 1786,
+    "head_at_satisfaction_sync": "702ed10b85948c562ee87ad7cc26c6554d1ef4f8",
+    "base_authority_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+    "node": "CUT193",
+    "status": "REENTERED_CONSUMING_SATISFIED_INTERFACE",
+    "stage32_main_credit": false
+  },
+  "audit_and_credit_firewall": {
+    "demand_satisfaction_is_hostile_audit": false,
+    "demand_satisfaction_grants_mathematical_credit": false,
+    "producer_interface_requires_hostile_audit_before_mathematical_credit": true,
+    "cut193_candidate_requires_own_hostile_audit": true,
+    "cut193_requires_separate_main_consumption_for_main_credit": true,
+    "cut191_main_credit_remains_consumed": true,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "011265b32e83f269c8a46d9556982bbe7da3377fa15d3ffbf019eb11d1f16e42"
+}

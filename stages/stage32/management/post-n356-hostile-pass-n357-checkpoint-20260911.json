@@ -1,0 +1,83 @@
+{
+  "authority": {
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 65396964990500233636214,
+    "full178_complete": false,
+    "n355_status": "AUDITED_FULL_KNOWN_PREFIX_BLOCK_SUM_CUT_CONSUMED",
+    "n356_authority_credit": true,
+    "n356_status": "AUDITED_OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CUT_CONSUMED"
+  },
+  "canonical_sha256_without_this_field": "ef33829623f399fd5de2d46ce529c6a4b8eb8f14ba490057b65246f6f4919933",
+  "claim_sync": {
+    "claim_core_change_required": false,
+    "claim_dag_semantic_status_changed": false,
+    "full178_claim_authority_status": "DECLARED_GOAL",
+    "full178_claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "full178_frontier_status": "ACTIVE_INCOMPLETE",
+    "reason": "N356 consumes an audited necessary pruning condition inside the still-incomplete FULL178 census; it does not make the FULL178 completion statement true.",
+    "required_verifiers": [
+      "python stages/stage32/proof/verify_stage32_claim_dag.py --integrity",
+      "python stages/stage32/proof/verify_stage32_active_frontier.py"
+    ],
+    "trigger": "AUTHORITY_OR_AUDIT_TRANSITION"
+  },
+  "firewalls": {
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false,
+    "n104_release": false,
+    "n350_producer_registered": false,
+    "n357_main_pruning_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "production_complete": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "n356": {
+    "affected_strata": 4304,
+    "audit_receipt_blob_sha1": "b6dd078c258c51b88c7fccb791893af6dc7a81f1",
+    "audit_receipt_canonical_sha256": "b710cb0fdaf9f5308655e3c5491ec4017e5f19a6a82f3fd5477a8e2396881505",
+    "audit_receipt_path": "stages/stage32/32-01-178/nodes/N356/HOSTILE-AUDIT-PASS.json",
+    "audit_review_id": 5176607630,
+    "audited_exact_head": "0cd222d4824e65ea122bc90ac0d48686ddae38f2",
+    "contract_blob_sha1": "d2353cab9c175a680067c7ad4c24759b6dd15df3",
+    "contract_path": "stages/stage32/32-01-178/nodes/N356/OPTIMISTIC_EXCEPTIONAL_TRANSPORT_CAP_CONTRACT.md",
+    "cut": "b-c<=3*d-e",
+    "dependency_lock_blob_sha1": "45c0c793f8b2edfec29728412f2951ce9639e352",
+    "incremental_rejected_terminals": 1065905560688394913696,
+    "main_pruning_credit": true,
+    "per_stratum_stream_sha256": "f9a625cd546634ae208aae848657d7bc68023dd0916e35fc552cae3a188cfbe7",
+    "public_fast_blob_sha1": "cf508c75d847c6e9df0119f805987fa4ac98cfc6",
+    "public_parallel_blob_sha1": "d7d2e93ea125ee1002d2d39ebf64c7deb0fe9e12",
+    "public_serial_blob_sha1": "a7fdee753ba3cb46766ad465f1d4db50a493d6b1",
+    "remaining_strata": 17128,
+    "remaining_terminals": 65396964990500233636214,
+    "result_blob_sha1": "677b1ae2bab910db0805d20ee489d922522919ed",
+    "result_canonical_sha256": "d1aecec8b78c78f03fa7b82b3dc136668f435d9cfb98636a1a23b704431abe31",
+    "result_path": "stages/stage32/32-01-178/nodes/N356/RESULT.json"
+  },
+  "n357": {
+    "candidate_lemma": "s + min(e-M,S0+SA+S3) >= K",
+    "contract_blob_sha1": "8a2a0048d216de9d177dc581dc208b51c6436442",
+    "main_pruning_credit": false,
+    "next_research_unit": "BUILD_ALL178_SREM_SYMBOLIC_CENSUS",
+    "owner_command": "stage32-01-178-mainbatch",
+    "scratch_branch": "stage32-01-178-n357-support-capacity-scratch",
+    "scratch_head": "906a32d78f4cd0c522bde55179eb184ac9859b70",
+    "state_blob_sha1": "4a04fc62e32ef8a235dcc4979c3673588f418373",
+    "status": "RESEARCH_CHECKPOINT_NO_MAIN_CREDIT",
+    "verifier_blob_sha1": "479c783cb42d0952cc310708106787147b499240"
+  },
+  "primary_incomplete": "32-01 FULL178",
+  "route": {
+    "main_must_not_duplicate_n357": true,
+    "main_stop_gate": "NONE_UNTIL_N357_AUDITABLE_CANDIDATE_OR_TRUE_AUTHORITY_GATE",
+    "next": "N357_ALL178_TRANSPORT_SUPPORT_CAPACITY_CENSUS_THEN_EXTERNAL_AUDIT",
+    "owner": "stage32-01-178-mainbatch"
+  },
+  "schema": "STAGE32_MAIN_POST_N356_AUDIT_CONSUMED_N357_FRONTIER_V1",
+  "stage": 32
+}
