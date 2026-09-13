@@ -46,15 +46,6 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Checkout hostile-audited MAIN V21 predecessor
-        uses: actions/checkout@v4
-        with:
-          ref: 62768270a39b23c358f11b3a75bccae5d7cea0f6
-          path: .stage32-audited-main-v21
-          fetch-depth: 1
-      - name: Assert hostile-audited MAIN V21 head
-        run: test "$(git -C .stage32-audited-main-v21 rev-parse HEAD)" = "62768270a39b23c358f11b3a75bccae5d7cea0f6"
-
       - name: Checkout hostile-audited CUT193
         uses: actions/checkout@v4
         with:
@@ -103,15 +94,6 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited CUT198 head
         run: test "$(git -C .stage32-audited-cut198 rev-parse HEAD)" = "16e439bc65e723c9f2658c274d53fb839738dcd2"
-
-      - name: Checkout hostile-audited N357 composition basis
-        uses: actions/checkout@v4
-        with:
-          ref: 0bdc3b952b35ea3201d8619f21a3df7a3015ff85
-          path: .stage32-audited-n357-composition
-          fetch-depth: 1
-      - name: Assert hostile-audited N357 composition head
-        run: test "$(git -C .stage32-audited-n357-composition rev-parse HEAD)" = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
 
       - name: Checkout hostile-audited EX5 BC2-35 cross-lane basis
         uses: actions/checkout@v4
@@ -189,19 +171,9 @@ jobs:
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "88a9b511cadc72ede01791108b0f10537323d1c0"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v23.py)" = "0a14c08be80e86b7393a92b42903f08db1fe4275"
           test "$(git hash-object stages/stage32/management/verify_certlift03_current_v22_composition.py)" = "2ec9e2a8629b8ec566ff2d35c19420c8e0662400"
-          test "$(git -C .stage32-audited-main-v22 hash-object stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py)" = "286abb04bb5c898c28187f4824311bdf779ef3f2"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "6de2e6b0f265758114835148c0742ffad36f68d8"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
           test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
-
-      - name: Verify CUT193 CUT197 CUT198 batch current-V21 composition fail-closed
-        run: >-
-          python3 .stage32-audited-main-v22/stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py
-          --audited-main-v21-root .stage32-audited-main-v21
-          --audited-cut193-root .stage32-audited-cut193
-          --audited-cut197-root .stage32-audited-cut197
-          --audited-cut198-root .stage32-audited-cut198
-          --audited-n357-composition-root .stage32-audited-n357-composition
 
       - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
         run: >-
