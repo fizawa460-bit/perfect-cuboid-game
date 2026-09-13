@@ -17,42 +17,9 @@
   "receipt_canonical_sha256": "983042fb058d60b9c2ab39ee24c7192d93fec92ab6c9b81c840c91903133c858",
   "receipt_verifier": "stages/stage32/cert-lift/verify_certlift03_v22_consumption_adapter_receipt.py",
   "receipt_replay_enrolled_in_active_auto_ci": true,
-  "expected_population": {
-    "current_prefix_blocks": 7596,
-    "predicate_target_blocks": 1677,
-    "prior_overlap_union_blocks": 308,
-    "incremental_blocks": 1369,
-    "incremental_terminals": 154697,
-    "authoritative_remaining_before": 47589703313957134804198,
-    "candidate_remaining_if_later_consumed": 47589703313957134649501
-  },
-  "expected_overlap_breakdown": {
-    "n357": 0,
-    "n358": 0,
-    "CUT191": 0,
-    "CUT193": 40,
-    "CUT194": 33,
-    "CUT195": 29,
-    "CUT196": 59,
-    "CUT197": 72,
-    "CUT198": 75
-  },
-  "audit_scope": [
-    "independently confirm the hostile-audited V22 authority source head and MAIN-STATE canonical",
-    "independently reconstruct the 7596-block e8 prefix and the 1677 MASS7+g3 target set",
-    "independently verify exact CUT191/CUT193/CUT194/CUT195/CUT196/CUT197/CUT198 closed-block identities and pairwise disjointness",
-    "confirm N357 overlap is zero on the target and N358 has an audited empty incremental domain on g1-d008/e8",
-    "confirm target overlap union is 308 blocks and the remaining increment is 1369 blocks = 154697 terminals",
-    "confirm no MAIN authority mutation or pruning credit is granted by the adapter or receipt"
-  ],
-  "credit_firewall": {
-    "main_pruning": false,
-    "main_authority_mutated": false,
-    "full178": false,
-    "effectivity": false,
-    "theorem": false,
-    "stage32_closed": false,
-    "merge_authorized": false
-  },
+  "expected_population": {"current_prefix_blocks":7596,"predicate_target_blocks":1677,"prior_overlap_union_blocks":308,"incremental_blocks":1369,"incremental_terminals":154697,"authoritative_remaining_before":47589703313957134804198,"candidate_remaining_if_later_consumed":47589703313957134649501},
+  "expected_overlap_breakdown": {"n357":0,"n358":0,"CUT191":0,"CUT193":40,"CUT194":33,"CUT195":29,"CUT196":59,"CUT197":72,"CUT198":75},
+  "audit_scope": ["independently confirm the hostile-audited V22 authority source head and MAIN-STATE canonical","independently reconstruct the 7596-block e8 prefix and the 1677 MASS7+g3 target set","independently verify exact CUT191/CUT193/CUT194/CUT195/CUT196/CUT197/CUT198 closed-block identities and pairwise disjointness","confirm N357 overlap is zero on the target and N358 has an audited empty incremental domain on g1-d008/e8","confirm target overlap union is 308 blocks and the remaining increment is 1369 blocks = 154697 terminals","confirm no MAIN authority mutation or pruning credit is granted by the adapter or receipt"],
+  "credit_firewall": {"main_pruning":false,"main_authority_mutated":false,"full178":false,"effectivity":false,"theorem":false,"stage32_closed":false,"merge_authorized":false},
   "next_if_pass": "Freeze hostile-audit PASS on the V22 adapter, then perform the separate Stage32 MAIN claim/authority synchronization needed to consume 154697 terminals."
 }
