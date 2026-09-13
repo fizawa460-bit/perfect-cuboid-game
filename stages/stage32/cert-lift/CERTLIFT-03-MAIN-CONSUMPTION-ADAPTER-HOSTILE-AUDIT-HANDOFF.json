@@ -1,0 +1,39 @@
+{
+  "schema": "STAGE32_CERTLIFT_03_MAIN_CONSUMPTION_ADAPTER_HOSTILE_AUDIT_HANDOFF_V1",
+  "stage": "32",
+  "node": "CERTLIFT-03-CONSUME",
+  "status": "READY_FOR_HOSTILE_AUDIT",
+  "pr": 1803,
+  "symbolic_lemma_hostile_audit_review_id": 5188640528,
+  "symbolic_lemma_reviewed_head": "af41c95b9e952ed6cf913f2187a9d3acd94ddef3",
+  "adapter_exact_head": "9215d4f365ee6400c7de9ba169fe670ddde1d067",
+  "adapter_exact_head_ci_run": 34727280181,
+  "adapter_exact_head_ci_job": 103643534635,
+  "adapter_canonical_sha256": "ba5079e4370db0467a40c80646bce90fae5e907993a3614c928fae1a73cb5ebb",
+  "receipt": "stages/stage32/cert-lift/CERTLIFT-03-MAIN-CONSUMPTION-ADAPTER-RECEIPT.json",
+  "receipt_canonical_sha256": "f21181472a589efd39f1fe15ccbdec8062e6af2e993946fcdf571da30e68a59d",
+  "receipt_verifier": "stages/stage32/cert-lift/verify_certlift03_main_consumption_adapter_receipt.py",
+  "audit_scope": [
+    "confirm source-locks: current MAIN 4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c, audited symbolic head af41c95b9e952ed6cf913f2187a9d3acd94ddef3, EX5 source fd00531181228c9f367a49eb61ddc3af6ab84ab3, audited CUT195 2618f4dcd546d569b212753ac7abc10e07ee5828",
+    "confirm current-prefix 7596-block stream and MASS7+g3 target count 1677",
+    "confirm prior-authority overlaps: N357=0, CUT191=0, CUT194=33, CUT195=29, union=62",
+    "confirm 1615 incremental blocks and 182495 terminals with no double-charge",
+    "confirm adapter is candidate-only: no MAIN authority mutation and no pruning credit"
+  ],
+  "expected_if_pass": {
+    "target_blocks": 1677,
+    "prior_overlap_union_blocks": 62,
+    "incremental_blocks": 1615,
+    "incremental_terminals": 182495,
+    "candidate_remaining_if_later_consumed": 47598978285064933574932
+  },
+  "credit_firewall": {
+    "main_pruning": false,
+    "main_authority_mutated": false,
+    "full178": false,
+    "effectivity": false,
+    "theorem": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
