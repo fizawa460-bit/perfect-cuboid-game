@@ -1,0 +1,102 @@
+{
+  "schema": "STAGE32_32_01_178_N384_CERTLIFT03_V22_RECEIPT_RETAINED_HOSTILE_AUDIT_WAIT_V1",
+  "node_id": "N384",
+  "semantic_key": "s32-01-178:certlift03-v22-receipt-retained-hostile-audit-wait",
+  "status": "CERTLIFT03_V22_ADAPTER_RECEIPT_RETAINED_READY_FOR_HOSTILE_AUDIT_NO_CREDIT",
+  "parent": {
+    "n383_state_blob_sha1": "c2b3d3fa82606cebf261ba4ea4652c1fcad3a867",
+    "n383_state_canonical_sha256": "f12b8a4696d2e82f8541f89fcb80ee47243443dacc2c26df072a4831ac4b7182"
+  },
+  "producer": {
+    "lane": "CUT-CERT-LIFT",
+    "pr": 1803,
+    "retained_receipt_snapshot_head": "a306dfaea55e1d350e9a3ea3583c51ad52d5391b",
+    "state_path": "stages/stage32/cut-cert-lift/STATE.json",
+    "state_blob_sha1": "34fb494810906faaee3678294d852b386c65db8b",
+    "state_active_node": "CERTLIFT-03_V22_CONSUMPTION_ADAPTER_CANDIDATE_PENDING_HOSTILE_AUDIT",
+    "receipt": {
+      "path": "stages/stage32/cert-lift/CERTLIFT-03-V22-CONSUMPTION-ADAPTER-RECEIPT.json",
+      "blob_sha1": "291bb8b125566bb72c1caae0537dff2625219ffb",
+      "canonical_sha256": "983042fb058d60b9c2ab39ee24c7192d93fec92ab6c9b81c840c91903133c858",
+      "status": "V22_ADAPTER_CANDIDATE_PASS_PENDING_HOSTILE_AUDIT",
+      "adapter_blob_sha1": "327aa601acad47bc1e486cccbbac3d3dee7c2681",
+      "adapter_canonical_sha256": "597fe83b10c7a23f1da9748423ea3f70a78d448991a253777b64cab554c7ffaf",
+      "exact_head": "5f6b98f28568e840aee9e639cce6d334c56b49c2",
+      "exact_head_ci_run": 34728296585,
+      "exact_head_ci_job": 103646309512
+    },
+    "hostile_audit_handoff": {
+      "path": "stages/stage32/cert-lift/CERTLIFT-03-V22-CONSUMPTION-ADAPTER-HOSTILE-AUDIT-HANDOFF.json",
+      "blob_sha1": "4c5096e4de8ccee478c8ea10ed1b6858df533583",
+      "status": "READY_FOR_HOSTILE_AUDIT_NOT_AUDITED",
+      "receipt_replay_enrolled_in_active_auto_ci": true
+    },
+    "v22_adapter_hostile_audited": false
+  },
+  "v22_candidate": {
+    "current_prefix_blocks": 7596,
+    "predicate_target_blocks": 1677,
+    "prior_overlap_union_blocks": 308,
+    "overlap_breakdown": {
+      "n357": 0,
+      "n358": 0,
+      "CUT191": 0,
+      "CUT193": 40,
+      "CUT194": 33,
+      "CUT195": 29,
+      "CUT196": 59,
+      "CUT197": 72,
+      "CUT198": 75
+    },
+    "double_charge": false,
+    "incremental_blocks": 1369,
+    "incremental_terminals": 154697,
+    "authoritative_remaining_terminals_before": 47589703313957134804198,
+    "candidate_remaining_terminals_if_later_consumed": 47589703313957134649501
+  },
+  "source_locks": {
+    "symbolic_hostile_audit_review_id": 5188640528,
+    "v15_adapter_hostile_audit_review_id": 5188753236,
+    "v22_main_hostile_audit_review_id": 5188224290,
+    "v22_main_exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+    "v22_main_state_blob_sha1": "80fb35c79854bfdf775dc5b94c331f5f8a535ced",
+    "v22_main_state_canonical_sha256": "82ca200d81b0ce844b1756dc0c3205eec388a20cae312af5e0f3c55d959d491c"
+  },
+  "promotion_boundary": {
+    "receipt_retained": true,
+    "receipt_exact_result_matches_n383_replay": true,
+    "hostile_audit_handoff_ready": true,
+    "hostile_audit_pass": false,
+    "main_consumption_sync_after_audit_required": true,
+    "main_authority_mutation_allowed_now": false,
+    "subtract_154697_now": false,
+    "v22_increment_consumable_now": false
+  },
+  "n101_contract": {
+    "remains_stopped": true,
+    "population_pruning_receipt_is_not_n377_signature_or_action": true
+  },
+  "anti_loop": {
+    "duplicate_v22_adapter_execution_inside_178": false,
+    "duplicate_certlift_hostile_audit_inside_178": false,
+    "consume_154697_before_audit": false,
+    "blind_full178_materialization": false,
+    "escalate_n373_timeout": false,
+    "rerun_n375_s3": false,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "n101_reopened_credit": false,
+    "numerical_leaf_compression_credit": false,
+    "effectivity_final": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_gate": "CERTLIFT03_V22_ADAPTER_HOSTILE_AUDIT_PASS_FROZEN_EXACT_HEAD_THEN_STAGE32_MAIN_CLAIM_AUTHORITY_CONSUMPTION_SYNC_OR_N377_STRONG_SIGNATURE_ACTION",
+  "canonical_sha256_without_this_field": "ce2523230b4e13bb3be270265881e73c5a50bd1f4815e8e6a6380472978b1a6e"
+}
