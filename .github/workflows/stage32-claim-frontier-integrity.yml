@@ -34,6 +34,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N379/**'
       - 'stages/stage32/32-01-178/nodes/N380/**'
       - 'stages/stage32/32-01-178/nodes/N381/**'
+      - 'stages/stage32/32-01-178/nodes/N382/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -205,7 +206,7 @@ jobs:
         with:
           ref: 7c3a9c301d9e1d98678fcd1532afce62c44d56e0
           path: .n381-certlift
-      - name: Checkout exact V15 adapter source authority for N381
+      - name: Checkout exact V15 adapter source authority for N381/N382
         uses: actions/checkout@v4
         with:
           ref: 4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c
@@ -214,6 +215,17 @@ jobs:
         run: |
           python stages/stage32/32-01-178/nodes/N381/verify_n381_certlift03_adapter_audit_stale_authority.py \
             --certlift-root .n381-certlift \
+            --source-main-v15-root .n381-main-v15 \
+            --current-main-v22-root .n378-main-v22
+      - name: Checkout retained CERT-LIFT03 adapter hostile-audit PASS for N382
+        uses: actions/checkout@v4
+        with:
+          ref: 7304511aff6f59f406d610cd48cc02d7c25fb2bb
+          path: .n382-certlift
+      - name: Verify N382 retained adapter audit PASS V22 rebase wait boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N382/verify_n382_certlift03_retained_audit_pass_v22_rebase_wait.py \
+            --certlift-root .n382-certlift \
             --source-main-v15-root .n381-main-v15 \
             --current-main-v22-root .n378-main-v22
       - name: Upload bounded N375 e8 S3 symmetry probe
