@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 CROSS-SHEET CONDUCTOR UPPER BOUND ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 AMBIENT KUMMER CHARACTER EVALUATION ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -193,6 +193,38 @@ This is compatible with the current quadratic delta budget and therefore is not 
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-SPLIT-HODGE-CONDUCTOR.md` and matching certificate/verifier.
 
+## e=2 ambient Kummer monodromy constraint
+
+Put
+
+```text
+U=S\\B_abs.
+```
+
+The relation `2L_abs~B_abs` defines one fixed degree-two etale Kummer torsor over `U`, hence one character
+
+```text
+alpha_abs: pi_1(U) -> Z/2.
+```
+
+The restricted cover on the singular carrier is obtained by base change. In the `e=2` case its pullback to the normalization `E` is split, so `alpha_abs` vanishes on normalization loops, but conductor branch identifications may still evaluate nontrivially. For two normalization branches `beta_i,beta_j` above a singular point, let `lambda_(p;i,j)` be the corresponding ambient fibre-transport loop. Then the retained sheet labels satisfy
+
+```text
+epsilon_i+epsilon_j=alpha_abs(lambda_(p;i,j)).
+```
+
+Consequently the exact cross-sheet formula is
+
+```text
+y/2
+ = sum_p sum_(i<j) I_p(beta_i,beta_j)
+                    * alpha_abs(lambda_(p;i,j)).
+```
+
+Thus the conductor/gluing character `kappa` is not an arbitrary element of the normalization kernel and local sheet labels cannot be chosen independently. The missing computation is now the image of conductor identification cycles in `pi_1(U)` (or a valid mod-two homology realization) followed by this fixed character.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-KUMMER-MONODROMY.md` and `STACKS-KUMMER-AMBIENT-ETALE-MONODROMY-SOURCE-NOTE.md`.
+
 ## Two-factor comparison
 
 For complementary factor coordinates
@@ -215,24 +247,10 @@ Thus the two factor square classes agree; comparing them cannot distinguish `e=2
 ## Active next leaf
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-E2-CROSS-SHEET-CONDUCTOR-UPPER-BOUND
+MB104-GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-EVALUATION
 ```
 
-For `e=2`, derive an independent upper bound for
-
-```text
-y=C_1.C_2.
-```
-
-Any strict inequality
-
-```text
-y<168l^2
-```
-
-contradicts `(E2-HODGE)` and excludes `e=2`, forcing the nonzero residual character `e=4`.
-
-Candidate inputs are explicit local conductor/singularity types, a global conductor divisor bound, or exact modular/commensurator monodromy. The retained Lu--Miyaoka ordinary-node/triple bound is only linear and does not by itself contradict the quadratic requirement.
+Evaluate `alpha_abs(lambda_(p;i,j))` from the explicit modular double-cover / commensurator model, or compute the conductor-cycle image in a justified mod-two homology model of `U=S\\B_abs`. The exact target is the weighted sum `y/2=sum I_ij*alpha_abs(lambda_ij)`. Any strict upper bound below `84l^2` contradicts `(E2-HODGE)` and excludes `e=2`, forcing the nonzero residual character `e=4`. The retained Lu--Miyaoka ordinary-node/triple bound is only linear and does not by itself supply this evaluation.
 
 In parallel, `e=4` remains the one-factor Abel--Jacobi/monodromy problem `eta!=0`.
 
