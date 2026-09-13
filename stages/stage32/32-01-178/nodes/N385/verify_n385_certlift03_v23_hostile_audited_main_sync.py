@@ -11,6 +11,7 @@ FROZEN_N385_VERIFIER_HEAD = "865b5732143c8328f507f880def24907afdfef0a"
 FROZEN_N385_VERIFIER_BLOB = "885324d78b4dd84978c60346db1f0a32307ba42c"
 FROZEN_N385_VERIFIER_REL = "stages/stage32/32-01-178/nodes/N385/verify_n385_certlift03_v23_hostile_audited_main_sync.py"
 N386_VERIFIER = HERE.parent / "N386" / "verify_n386_hpadj01_n372_nontransfer.py"
+N387_VERIFIER = HERE.parent / "N387" / "verify_n387_ex5_bc237_audit_pass_hpadj_ack_wait.py"
 
 
 def req(ok: bool, message: str) -> None:
@@ -56,6 +57,15 @@ def main() -> None:
             str(N386_VERIFIER),
             "--main-v23-root",
             main_v23_root,
+        ],
+        check=True,
+    )
+
+    req(N387_VERIFIER.is_file(), "missing N387 verifier")
+    subprocess.run(
+        [
+            sys.executable,
+            str(N387_VERIFIER),
         ],
         check=True,
     )
