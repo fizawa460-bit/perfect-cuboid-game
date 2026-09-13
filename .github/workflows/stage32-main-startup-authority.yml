@@ -186,15 +186,14 @@ jobs:
           test "$(git hash-object stages/stage32/management/verify_certlift03_current_v22_composition.py)" = "2ec9e2a8629b8ec566ff2d35c19420c8e0662400"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "56f66941608e6883e3110ca370cda5dac043e968"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
-          test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
-          test "$(git hash-object stages/stage32/management/hpadj-02/RESULT.json)" = "2f7b016c9030bdb86071f5b0b4803b4bde210584"
-          test "$(git hash-object stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py)" = "07b929817c526dec618b578a10482d23d4e58b83"
-          test "$(git hash-object stages/stage32/management/hpadj-03/RESULT.json)" = "6f5985f2c2e0995628653a6bc73b9bf6c7256a7c"
-          test "$(git hash-object stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py)" = "68047e16f63e20b299d27cdade3a5b83b45b3788"
-          test "$(git hash-object stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json)" = "2f8d51dd4c52cf9189b829d0cd42679ef110cef9"
-          test "$(git hash-object stages/stage32/management/hpadj-06/verify_hpadj06_carrier_adapter.py)" = "83f76a5826a006d77443cd55ff16af26b1924eb3"
-          test "$(git hash-object stages/stage32/management/hpadj-07/CARRIER-REALIZATION-WALL.json)" = "4837aafab6e041d4746e0b8b66703316a9eb86ba"
-          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py)" = "51faceb12371ae2f822c38357e5d66c0351a135e"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json)" = "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py)" = "9f815a26a40091a5e265bcb6ca342c64be0a7af2"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/PRUNING-DIRECTION-CONTRACT-REVIEW.json)" = "bd1beddf25b505c9f6c7e163606e6156dca10346"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py)" = "97afaae92429bd8a2166414186ed719f141dc9cb"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json)" = "8883cfc59a6d48e34d7e256fad15e69714dc02d1"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_current_v23_conservative_rebase.py)" = "63403e42901b4ab796b842830568f3a22c91f29c"
+          test "$(git hash-object stages/stage32/management/hpadj-07/CARRIER-REALIZATION-WALL.json)" = "e4a35aa9bdd174ac64162839ec391cd57f7d9315"
+          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py)" = "0da5877f539e2d654feb5b3c156526f820ca64da"
 
       - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
         run: >-
@@ -222,23 +221,17 @@ jobs:
             --audited-ex5-root .stage32-audited-ex5-bc2-35 \
             --json-output /tmp/stage32-hnf-syndrome-probe.json
           cat /tmp/stage32-hnf-syndrome-probe.json
-      - name: Verify HPADJ-01 orthogonal exceptional Hodge/adjunction current-V22 lower bound
-        run: >-
-          python stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py
-          --audited-main-v22-root .stage32-audited-main-v22
-          --audited-n358-root .stage32-audited-n358
-      - name: Verify HPADJ-02 RR effectivity promotion no-go
-        run: python stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py
 
-      - name: Verify HPADJ-03 Freitag node-support dominance no-go
-        run: >-
-          python stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py
-          --audited-n358-root .stage32-audited-n358
+      - name: Verify HPADJ-07 general-type adjunction correction replay
+        run: python stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py
 
-      - name: Verify HPADJ-06 one-way actual-carrier adapter
-        run: python stages/stage32/management/hpadj-06/verify_hpadj06_carrier_adapter.py
+      - name: Verify HPADJ-07 pruning-direction contract
+        run: python stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py
 
-      - name: Verify HPADJ-07 precise reverse carrier-realization wall
+      - name: Verify HPADJ-07 current-V23 conservative rebase
+        run: python stages/stage32/management/hpadj-07/proof-chain/verify_current_v23_conservative_rebase.py
+
+      - name: Verify HPADJ-07 general-type supersession wall
         run: python stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py
 
       - name: Verify Stage32 MAIN startup authority
