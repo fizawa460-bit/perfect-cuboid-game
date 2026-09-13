@@ -223,6 +223,17 @@ jobs:
           CERTLIFT_CUT197_ROOT: ${{ github.workspace }}/.certlift-cut197
           CERTLIFT_CUT198_ROOT: ${{ github.workspace }}/.certlift-cut198
         run: python stages/stage32/cert-lift/certlift03_v22_consumption_adapter.py --self-check
+      - name: Verify CERTLIFT-03 frozen V22 consumption adapter receipt
+        env:
+          CERTLIFT_V22_MAIN_ROOT: ${{ github.workspace }}/.certlift-v22-main
+          CERTLIFT_ADAPTER_AUDITED_ROOT: ${{ github.workspace }}/.certlift-adapter-audited
+          CERTLIFT_CUT193_ROOT: ${{ github.workspace }}/.certlift-cut193
+          CERTLIFT_CUT194_ROOT: ${{ github.workspace }}/.certlift-cut194
+          CERTLIFT_CUT195_ROOT: ${{ github.workspace }}/.certlift-cut195
+          CERTLIFT_CUT196_ROOT: ${{ github.workspace }}/.certlift-cut196
+          CERTLIFT_CUT197_ROOT: ${{ github.workspace }}/.certlift-cut197
+          CERTLIFT_CUT198_ROOT: ${{ github.workspace }}/.certlift-cut198
+        run: python stages/stage32/cert-lift/verify_certlift03_v22_consumption_adapter_receipt.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
