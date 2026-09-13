@@ -4,7 +4,9 @@ import hashlib,json,subprocess,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent; B2=HERE/'breadth-cycle-2'; ROOT=HERE.parents[0]
 STAGE32_MAIN=ROOT/'stage32'/'MAIN-STATE.json'; CROSS=ROOT/'stage32'/'proof'/'CROSS-LANE-DEMANDS.json'; WF=ROOT.parent/'.github/workflows/stage32-ex5-main.yml'
-CURRENT_MAIN='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c'; MAIN_BLOB='73cc6ef56647a4be9119e89bf42c8ba4d96d54c9'; CROSS_BLOB='bbf4fc2460bad22c65359bc17aa89f8717e259a2'
+HPADJ_RECEIPT=ROOT/'stage32'/'proof'/'HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json'; HPADJ_INTERFACE=HERE/'hpadj-handoff'/'INTERFACE.json'; HPADJ_VERIFIER=HERE/'hpadj-handoff'/'verify_hpadj_full178_terminal_picard64_interface.py'; CROSS_STATE=HERE/'CROSS-LANE-STATE.json'
+CURRENT_MAIN='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c'; MAIN_BLOB='73cc6ef56647a4be9119e89bf42c8ba4d96d54c9'; CROSS_BLOB='776495776423a8682b4baca5a444d4b8a0345628'
+HPADJ_RECEIPT_BLOB='724d9b0d625a4035b43e28a61ad5579ab68c6b57'; HPADJ_RECEIPT_CANON='2cacd0b104ccd12f5aac46963db01e890685c99c29903e2c1a2c91604dd4f0b8'; HPADJ_INTERFACE_BLOB='8a30e3aa30777460f344eb19836dc725dd442329'; HPADJ_INTERFACE_CANON='cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6'; HPADJ_VERIFIER_BLOB='1953bea4118c0492d10d77d7e4c8b354842a4fcd'; CROSS_STATE_BLOB='fca87e4e5daca77df9fe641b83a9f718ab8a71c6'; CROSS_STATE_CANON='b3bbf910f23cf57ff0380121fddee0e1ba0b02b6b95d90769c5f48a14079473b'
 AUDIT37_HEAD='9852fcec959962607da3290100291a60185e7104'; AUDIT37_REVIEW=5189412496
 CP38_BLOB='91eca02054cd2dbf702dd4a7635398ef76ee832f'; CP38_CANON='88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba'; RK38_BLOB='87855350c6240cd524069490f85858b11099da60'; VER38_BLOB='934f19363549d652c18b02934c1f963a19204664'; UNKNOWN30_SHA='d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7'; TARGET34_SHA='b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891'
 SRC38_BLOB='6fb0af6c77e44edfa5d2b8a13fbde73bfbd468aa'; PF38_BLOB='aa959e57cfe9f9ffc136c9722c96ed0ec9770f7e'; PF38_CANON='22b74170a7ebb556fc97315f147c1fe90bb80d225fbd611f60b4ff8bed6fe964'
@@ -12,12 +14,20 @@ def req(x,m):
     if not x: raise SystemExit('FAIL: '+m)
 def blob(p): return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
 def canon(o):
-    q=dict(o); q.pop('canonical_sha256_without_this_field',None); return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    q=dict(o); q.pop('canonical_sha256_without_this_field',None); return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+def lock_json(path,b,c):
+    req(blob(path)==b,'blob drift '+str(path.relative_to(ROOT))); o=json.loads(path.read_text()); req(o.get('canonical_sha256_without_this_field')==c and canon(o)==c,'canonical drift '+str(path.relative_to(ROOT))); return o
 def main():
     s=json.loads((HERE/'MAIN-STATE.json').read_text()); req(s['schema']=='STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY','schema')
     b=s['bootstrap']; req(b['active_work_pr']==1776 and b['work_branch']=='stage32ex5-bc2-25-boundary33-mainbatch' and b['current_main_sha_observed']==CURRENT_MAIN and b['merge_authorized'] is False,'bootstrap')
     req(blob(STAGE32_MAIN)==MAIN_BLOB,'MAIN blob'); ma=json.loads(STAGE32_MAIN.read_text()); mf=ma['current_exact_frontier']; req(ma['schema']=='STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED' and mf['authoritative_remaining_strata']==17128 and mf['authoritative_remaining_terminals']==47598978285064933757427 and mf['full178_numerical_census_complete'] is False,'MAIN authority')
-    req(blob(CROSS)==CROSS_BLOB,'cross blob'); cl=json.loads(CROSS.read_text()); req([d for d in cl['demands'] if d.get('producer_lane')=='EX5' and d.get('status')=='OPEN']==[],'OPEN EX5 demand')
+    req(blob(CROSS)==CROSS_BLOB,'cross blob'); cl=json.loads(CROSS.read_text()); req(cl.get('canonical_sha256_without_this_field')=='79a29c2bdbae0852c7932b9ddc573f9d3b79da0d2a427b482639551c92e581f0' and canon(cl)==cl['canonical_sha256_without_this_field'],'cross canonical')
+    req([d for d in cl['demands'] if d.get('producer_lane')=='EX5' and d.get('status')=='OPEN']==[],'OPEN EX5 demand')
+    hp=[d for d in cl['demands'] if d.get('demand_id')=='S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1']; req(len(hp)==1 and hp[0]['status']=='SATISFIED','HPADJ demand not satisfied'); sa=hp[0]['satisfying_artifact']; req(sa['blob_sha1']==HPADJ_RECEIPT_BLOB and sa['canonical_sha256']==HPADJ_RECEIPT_CANON and sa['interface_blob_sha1']==HPADJ_INTERFACE_BLOB and sa['interface_canonical_sha256']==HPADJ_INTERFACE_CANON,'HPADJ satisfying artifact identity')
+    receipt=lock_json(HPADJ_RECEIPT,HPADJ_RECEIPT_BLOB,HPADJ_RECEIPT_CANON); interface=lock_json(HPADJ_INTERFACE,HPADJ_INTERFACE_BLOB,HPADJ_INTERFACE_CANON); req(blob(HPADJ_VERIFIER)==HPADJ_VERIFIER_BLOB,'HPADJ verifier blob')
+    req(receipt['status']=='SATISFIED_OPERATIONAL_ARTIFACT_NO_MATH_CREDIT' and receipt['producer_execution']['producer_exact_head']=='91daf88a16ca823e2b22583e47adc3b081fce30f' and receipt['producer_execution']['workflow_run_id']==34746541013 and receipt['producer_execution']['artifact_id']==10313753827,'HPADJ producer receipt')
+    req(interface['population_cardinality_replay']['affected_rows']==178 and interface['population_cardinality_replay']['charged_terminal_lower_bound']==27104321327305699275487 and interface['terminal_to_picard64_map']['inverse_denominator']==8 and interface['terminal_to_picard64_map']['free_pairing_parameter_count']==53,'HPADJ interface semantics')
+    xs=lock_json(CROSS_STATE,CROSS_STATE_BLOB,CROSS_STATE_CANON); req(xs['open_producer_demands']==[] and xs['producer_acknowledged'] is True and xs['producer_sync_required'] is False and xs['coordination_repair_complete'] is True,'coordination state'); req(xs['next_gate']['next_command']=='stage32ex5-audit' and xs['next_gate']['bc2_38_hostile_audit_required'] is True and xs['next_gate']['bc2_39_blocked_until_bc2_38_hostile_audit_pass'] is True,'coordination next gate')
     cp38=B2/'bc2-38-fresh-unknown34-replay-checkpoint.json'; rk38=HERE/'runkeys/bc2-38-fresh-unknown34-replay.json'; ver38=B2/'verify_bc2_38_targeted_replay_checkpoint.py'; req(blob(cp38)==CP38_BLOB and blob(rk38)==RK38_BLOB and blob(ver38)==VER38_BLOB,'BC2-38 retained identity')
     cp=json.loads(cp38.read_text()); r=cp['replay']; req((r['parents_checked'],r['unsat_count'],r['unknown_count'],r['sat_count'])==(34,4,30,0) and r['unknown_parent_indices_sha256']==UNKNOWN30_SHA and r['status_stream_sha256']=='839233bb8552e4da7589616439cb614c07ceb018643f4f6d9bf3bf3f175fdeb5','BC2-38 partition'); req(cp['target']['parent_indices_sha256']==TARGET34_SHA and cp['target']['prior_audited_unsat_count']==7302,'BC2-38 target'); req(cp['credit']['known_parent_unsat_count_lower_bound']==7306 and cp['credit']['stage32_main_credit'] is False and cp['credit']['full178_complete'] is False,'BC2-38 candidate credit')
     src38=B2/'bc2_38_replay_explicit_fresh_unknown34.py'; pf38=B2/'bc2-38-fresh-unknown34-replay-preflight.json'; req(blob(src38)==SRC38_BLOB and blob(pf38)==PF38_BLOB,'BC2-38 source/preflight identity'); pf=json.loads(pf38.read_text()); req(pf['canonical_sha256_without_this_field']==PF38_CANON and canon(pf)==PF38_CANON,'BC2-38 preflight canonical')
@@ -31,6 +41,6 @@ def main():
     for q,v in s['credit'].items():
         if q!='level': req(v is False,'credit '+q)
     wf=WF.read_text(); req('verify_bc2_38_targeted_replay_checkpoint.py' in wf,'BC2-38 retained verifier missing'); req('authorize-bc2-38-fresh-unknown34:' not in wf and '\n  bc2-38-fresh-unknown34:' not in wf,'BC2-38 heavy not retired')
-    subprocess.run([sys.executable,str(ver38)],check=True); subprocess.run([sys.executable,'-m','py_compile',str(src38)],check=True)
-    print('PASS: Stage32EX5 BC2-38 targeted replay retained as hostile-audit boundary'); print('candidate_lower_bound=7306 audited_lower_bound=7302 retained_unknown=30 main_credit=NO FULL178=NO merge=NO')
+    subprocess.run([sys.executable,str(ver38)],check=True); subprocess.run([sys.executable,str(HPADJ_VERIFIER)],check=True); subprocess.run([sys.executable,'-m','py_compile',str(src38)],check=True)
+    print('PASS: Stage32EX5 HPADJ P0 handoff satisfied; BC2-38 quarantine retained for hostile audit'); print('HPADJ rows=178 terminals=27104321327305699275487; BC2-38 candidate=7306 audited=7302 unknown=30 main_credit=NO merge=NO')
 if __name__=='__main__': main()
