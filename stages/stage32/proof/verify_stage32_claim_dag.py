@@ -30,10 +30,39 @@ for _name in dir(_impl):
 # remain strict so new candidates cannot silently consume stale routing.
 _HISTORICAL_ROUTING_STATUSES = {"AUDITED", "DECLARED_GOAL", "SUPERSEDED", "REVOKED"}
 
+# One pre-existing management claim is still PROVISIONAL even though the
+# referenced V13 routing boundary has now been superseded by the separately
+# hostile-audited N357 MAIN consumption transition. Do not broaden the general
+# PROVISIONAL rule: only this exact claim/path/blob may resolve through the
+# byte-exact retained V13 snapshot. Any different claim, path, or digest remains
+# strict against the live routing state.
+_FROZEN_PROVISIONAL_ROUTING_LOCKS = {
+    (
+        "S32.MGMT.MAIN.CUT191-CONSUMPTION.V1",
+        "stages/stage32/MAIN-STATE.json",
+        "0f281111572572a8068cc38bb77f5f1c869b98ad",
+    ): "stages/stage32/management/MAIN-STATE-V13-N357-PRECONSUMPTION.json",
+}
+
 
 def _is_mutable_routing_state(lock: dict) -> bool:
     path = lock.get("path")
     return isinstance(path, str) and path.endswith("/MAIN-STATE.json")
+
+
+def _frozen_provisional_snapshot(cid: str, lock: dict) -> bytes | None:
+    key = (cid, lock.get("path"), lock.get("blob_sha1"))
+    rel = _FROZEN_PROVISIONAL_ROUTING_LOCKS.get(key)
+    if rel is None:
+        return None
+    snapshot = ROOT / rel
+    if not snapshot.is_file():
+        raise CheckError(f"frozen provisional routing snapshot missing: {rel}")
+    data = snapshot.read_bytes()
+    expected = key[2]
+    if git_blob_sha1(data) != expected:
+        raise CheckError(f"frozen provisional routing snapshot digest mismatch: {rel}")
+    return data
 
 
 def _historical_blob_bytes(expected_sha1: str) -> bytes:
@@ -82,7 +111,13 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
         clone = dict(claim)
         clone["source_locks"] = []
         for lock in claim["source_locks"]:
-            if claim["authority_status"] in _HISTORICAL_ROUTING_STATUSES and _is_mutable_routing_state(lock):
+            historical_status = claim["authority_status"] in _HISTORICAL_ROUTING_STATUSES
+            frozen_provisional = (
+                cid,
+                lock.get("path"),
+                lock.get("blob_sha1"),
+            ) in _FROZEN_PROVISIONAL_ROUTING_LOCKS
+            if _is_mutable_routing_state(lock) and (historical_status or frozen_provisional):
                 historical.append((cid, lock))
             else:
                 clone["source_locks"].append(lock)
@@ -101,17 +136,61 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
             if not isinstance(expected, str) or not HEX40_RE.fullmatch(expected):
                 raise CheckError(f"{cid}: malformed blob_sha1 for {lock['path']}")
             if git_blob_sha1(live_data) != expected:
-                locked_data = _historical_blob_bytes(expected)
+                locked_data = _frozen_provisional_snapshot(cid, lock)
+                if locked_data is None:
+                    locked_data = _historical_blob_bytes(expected)
         _check_locked_bytes(cid, lock, locked_data)
         checked += 1
     return checked
 
 
+def validate_lane_adapters(by_id: dict[str, dict], adapters: dict) -> None:
+    """Keep claim validation unchanged while allowing the routing map to enroll specialists.
+
+    V2 adds operational routing lanes 32-01-178, CUT and MB. Their presence does
+    not add claim authority: claim_refs must still resolve into the existing
+    mathematical CLAIM-REGISTRY and demand IDs are forbidden there by the
+    independent cross-lane verifier.
+    """
+    schema = adapters.get("schema")
+    if schema == "STAGE32_LANE_CLAIM_ADAPTERS_V1":
+        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
+    elif schema == "STAGE32_LANE_CLAIM_ADAPTERS_V2_CROSS_LANE_DEMAND_ROUTING":
+        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "32-01-178", "CUT", "MB"}
+    else:
+        raise CheckError("unexpected lane adapter schema")
+    lanes = adapters.get("lanes")
+    if not isinstance(lanes, list):
+        raise CheckError("lane adapters must contain lanes list")
+    seen = set()
+    for lane in lanes:
+        name = lane.get("lane")
+        if name in seen:
+            raise CheckError(f"duplicate lane adapter: {name}")
+        seen.add(name)
+        state_path = lane.get("state_path")
+        if not isinstance(state_path, str) or not (ROOT / state_path).is_file():
+            raise CheckError(f"{name}: missing state_path")
+        startup_path = lane.get("startup_path")
+        if not isinstance(startup_path, str) or not (ROOT / startup_path).is_file():
+            raise CheckError(f"{name}: missing startup_path")
+        refs = lane.get("claim_refs")
+        if not isinstance(refs, list) or not refs:
+            raise CheckError(f"{name}: empty claim_refs")
+        for cid in refs:
+            if cid not in by_id:
+                raise CheckError(f"{name}: adapter references unknown claim {cid}")
+    if seen != expected:
+        raise CheckError(f"lane adapter coverage mismatch: {sorted(seen)}")
+
+
 _impl.validate_source_locks = validate_source_locks
+_impl.validate_lane_adapters = validate_lane_adapters
 
 
 def main() -> int:
     _impl.validate_source_locks = validate_source_locks
+    _impl.validate_lane_adapters = validate_lane_adapters
     return _impl.main()
 
 
