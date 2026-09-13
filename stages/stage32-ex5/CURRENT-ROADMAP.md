@@ -2,9 +2,19 @@
 
 This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains active/open/draft/unmerged. Merge is not authorized.
 
+## P0 coordination repair
+
+`S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` is now operationally SATISFIED. The retained handoff receipt is `stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json`; its exact interface is `stages/stage32-ex5/hpadj-handoff/INTERFACE.json`, blob `8a30e3aa30777460f344eb19836dc725dd442329`, canonical `cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6`.
+
+The interface preserves all `178` HPADJ rows and charged lower-bound population `27104321327305699275487`. It realizes terminal-to-Picard64 data as an exact selected64 pairing fiber with denominator `8`, `11` terminal-fixed pairings and `53` free selected pairings. It does **not** assert that any individual terminal has an integral completion, and demand satisfaction grants no mathematical credit. MAIN consumer re-entry remains separate.
+
+BC2-38's P0 preemption violation remains recorded. Coordination repair does not retroactively grant BC2-38 MAIN/178 credit; it only clears the coordination prerequisite for BC2-38 hostile-audit re-entry.
+
+## BC2-38 retained audit boundary
+
 BC2-37 hostile audit **PASS** is consumed from exact head `9852fcec959962607da3290100291a60185e7104`, review `5189412496`. Its audited lower bound is `7302`, with exact remaining-34 hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
 
-BC2-38 has completed and is now frozen for hostile audit:
+BC2-38 has completed and is frozen for hostile audit:
 
 - execution head `d26a27e8564458f3d575ec58601b2226fc23944f`
 - workflow `34742297972`
