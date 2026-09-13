@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 AMBIENT KUMMER CHARACTER EVALUATION ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 SQRT FACTOR SIGN TRANSPORT ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -225,6 +225,34 @@ Thus the conductor/gluing character `kappa` is not an arbitrary element of the n
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-KUMMER-MONODROMY.md` and `STACKS-KUMMER-AMBIENT-ETALE-MONODROMY-SOURCE-NOTE.md`.
 
+## Explicit Kummer representative
+
+For the same factor coordinate
+
+```text
+f_t=(t-i)/(t+i),
+```
+
+the complete resolved bad fibers satisfy
+
+```text
+div(f_t)=F_a-F_b
+        =2(Q_a-Q_b)+E_a-E_b
+        =2L_abs-B_abs.
+```
+
+Therefore the ambient etale double cover on `U=S\\B_abs` is represented by the explicit square-class `[f_t]`. On `U`, the only remaining zero/pole divisors are `2Q_a` and `2Q_b`, so all codimension-one valuations are even. Nontrivial conductor signs, if present, are global square-root monodromy rather than local odd branching.
+
+In the `e=2` case, choose `g in k(E)^*` with
+
+```text
+g^2=f_t|_E.
+```
+
+For two normalization preimages identified in the singular carrier, `alpha_abs(lambda_(p;i,j))` is exactly the same-sign/opposite-sign comparison of the limiting values of `g`. Thus the next computation can bypass a full presentation of `pi_1(U)` and work directly with the modular/product-cover lift of `sqrt((t-i)/(t+i))`.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-FUNCTION.md`.
+
 ## Two-factor comparison
 
 For complementary factor coordinates
@@ -247,10 +275,10 @@ Thus the two factor square classes agree; comparing them cannot distinguish `e=2
 ## Active next leaf
 
 ```text
-MB104-GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-EVALUATION
+MB104-GENUS1-SPAN5-BALANCED16-000707-E2-SQRT-FACTOR-SIGN-TRANSPORT
 ```
 
-Evaluate `alpha_abs(lambda_(p;i,j))` from the explicit modular double-cover / commensurator model, or compute the conductor-cycle image in a justified mod-two homology model of `U=S\\B_abs`. The exact target is the weighted sum `y/2=sum I_ij*alpha_abs(lambda_ij)`. Any strict upper bound below `84l^2` contradicts `(E2-HODGE)` and excludes `e=2`, forcing the nonzero residual character `e=4`. The retained Lu--Miyaoka ordinary-node/triple bound is only linear and does not by itself supply this evaluation.
+Assume `e=2` and choose `g` on the normalization with `g^2=f_t|_E`, where `f_t=(t-i)/(t+i)`. Compute at each conductor identification whether the two normalization preimages have the same or opposite limiting square-root sign using the explicit modular/product-cover lift. The opposite-sign weighted intersection sum is exactly `y/2`. Any strict upper bound below `84l^2` contradicts `(E2-HODGE)` and excludes `e=2`. Even valuations of `f_t` on `U` prove etaleness, not global triviality.
 
 In parallel, `e=4` remains the one-factor Abel--Jacobi/monodromy problem `eta!=0`.
 
