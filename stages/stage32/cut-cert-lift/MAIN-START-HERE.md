@@ -20,7 +20,7 @@ A useful result must be solver-timeout independent and must carry an exact popul
 
 1. `AGENTS.md`
 2. `stages/stage32/COMMANDS.md`
-3. `docs/research-os/policies/cycle-exploration-safety-protocol.md`
+3. live MAIN coordination head and `stages/stage32/proof/CROSS-LANE-DEMANDS.json` under `COMMANDS.md`; then `docs/research-os/policies/cycle-exploration-safety-protocol.md`
 4. this file
 5. `MISSION.json`
 6. `STATE.json`
@@ -63,11 +63,9 @@ For every candidate rule:
 4. only after a zero-false-positive exact implication exists, attempt symbolic proof;
 5. only after symbolic proof, challenge a different wave and then the e10 scout through an exact adapter.
 
-## Current active leaf
+## Current operational status
 
-`CERTLIFT-01_CERTIFICATE_SIGNATURE_EXTRACTION`
-
-Deliverable: a compact table keyed by exact block/terminal scope containing only stable pre-solve invariants plus the deterministic infeasibility witness signature. The table must include residual controls, not only successes. If retained evidence is insufficient to distinguish the first live candidate split, a targeted heavy discriminator is authorized subject to the heavy-safety contract above.
+RETAINED_PROVENANCE: CERTLIFT-03 and its V22 adapter on #1803 have already been represented in MAIN #1800. The historical CERTLIFT-01 startup target is not a new active assignment. Do not duplicate its research, audit, or MAIN consumption. Current bounded mathematical evidence and its historical audits remain unchanged. A new symbolic leaf requires current MAIN routing, exact scope, and enrollment before new demand participation; any new result still needs independent hostile audit and a separate current-target consumption adapter.
 
 ## Firewalls
 
