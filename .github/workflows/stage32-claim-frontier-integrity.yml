@@ -35,6 +35,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N380/**'
       - 'stages/stage32/32-01-178/nodes/N381/**'
       - 'stages/stage32/32-01-178/nodes/N382/**'
+      - 'stages/stage32/32-01-178/nodes/N383/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -228,6 +229,53 @@ jobs:
             --certlift-root .n382-certlift \
             --source-main-v15-root .n381-main-v15 \
             --current-main-v22-root .n378-main-v22
+      - name: Checkout CERTLIFT-03 V22 adapter execution head for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 5f6b98f28568e840aee9e639cce6d334c56b49c2
+          path: .n383-certlift
+      - name: Checkout exact CUT193 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 5b2ebb3f67805eddefef835878ba4b9744bfdbd9
+          path: .n383-cut193
+      - name: Checkout exact CUT194 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 847f3bff0c5e0d0530bfb8db406e955b2d231d9a
+          path: .n383-cut194
+      - name: Checkout exact CUT195 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 2618f4dcd546d569b212753ac7abc10e07ee5828
+          path: .n383-cut195
+      - name: Checkout exact CUT196 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 85f4e988acf6446fa0d472208e21990621a650b4
+          path: .n383-cut196
+      - name: Checkout exact CUT197 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5
+          path: .n383-cut197
+      - name: Checkout exact CUT198 evidence for N383
+        uses: actions/checkout@v4
+        with:
+          ref: 16e439bc65e723c9f2658c274d53fb839738dcd2
+          path: .n383-cut198
+      - name: Verify N383 CERTLIFT-03 V22 adapter execution PASS audit-wait boundary
+        run: |
+          python stages/stage32/32-01-178/nodes/N383/verify_n383_certlift03_v22_adapter_execution_pass.py \
+            --producer-root .n383-certlift \
+            --audited-adapter-root .n381-certlift \
+            --v22-main-root .n378-main-v22 \
+            --cut193-root .n383-cut193 \
+            --cut194-root .n383-cut194 \
+            --cut195-root .n383-cut195 \
+            --cut196-root .n383-cut196 \
+            --cut197-root .n383-cut197 \
+            --cut198-root .n383-cut198
       - name: Upload bounded N375 e8 S3 symmetry probe
         uses: actions/upload-artifact@v4
         with:
