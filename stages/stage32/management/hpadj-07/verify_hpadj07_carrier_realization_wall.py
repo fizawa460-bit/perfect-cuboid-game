@@ -8,33 +8,28 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 WALL = HERE / "CARRIER-REALIZATION-WALL.json"
-EXPECTED_WALL_CANON = "b51f756e7388321d7a8b834702dd226fca3c99e8412fefd183069e3168ab7619"
+EXPECTED_WALL_CANON = "79598cf3649be2d86771ea9f90d748a51028d348c672dc258424db025a39b303"
 
 LOCKS = {
-    "hpadj06": (
+    "historical_hpadj06": (
         "stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json",
         "2f8d51dd4c52cf9189b829d0cd42679ef110cef9",
         "72144be89761ba82f93fd33ca7647c90a4ba12646d5f63e70537a955d93f106d",
     ),
-    "rr": (
-        "stages/stage32/final-chain/32-02-effectivity/RR-EFFECTIVITY-SUFFICIENT-CHECKPOINT.json",
-        "f6fd9935865542d7d05a9ce83df0263f0f051bc2",
-        "ff9ca45aef3f81835609588c2a189ebd26baedd7f4f69b0cba9339a5101f22bc",
+    "general_type_correction": (
+        "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+        "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+        "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa",
     ),
-    "hperp": (
-        "stages/stage32/final-chain/32-02-effectivity/HPERP-NORM-RR-ADAPTER.json",
-        "320eaefb97d5308da8e5f12590d894e55ffc3c63",
-        "3dea123243082e06d2d3edaadc1765c6f068f875e0367bc11f0b4138e7500b66",
+    "pruning_direction": (
+        "stages/stage32/management/hpadj-07/proof-chain/PRUNING-DIRECTION-CONTRACT-REVIEW.json",
+        "bd1beddf25b505c9f6c7e163606e6156dca10346",
+        "3c6ace29e475f781e6db5a5859578b88b91179a46637c97551391782e85d3e87",
     ),
-    "effectivity_gap": (
-        "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
-        "8b46b85a7fe7d1b366d0ada0a7db852f123e77e1",
-        "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc",
-    ),
-    "genus_defect": (
-        "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
-        "ecf4e9d20eddcaef9375f4c6b21ecf9bf6b0cd8c",
-        "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c",
+    "current_v23_rebase": (
+        "stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json",
+        "8883cfc59a6d48e34d7e256fad15e69714dc02d1",
+        "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01",
     ),
 }
 ROUTE_PATH = "stages/stage29/29-02c-LG2/route-contract.json"
@@ -72,93 +67,130 @@ def locked_json(rel: str, blob: str, canon: str | None = None) -> dict:
 
 def main() -> None:
     wall = json.loads(WALL.read_text(encoding="utf-8"))
-    req(wall.get("schema") == "STAGE32_MAIN_HPADJ07_CARRIER_REALIZATION_WALL_V1", "wall schema")
+    req(
+        wall.get("schema") == "STAGE32_MAIN_HPADJ07_CARRIER_REALIZATION_WALL_V2_GENERAL_TYPE_SUPERSESSION",
+        "wall schema",
+    )
     req(wall.get("canonical_sha256_without_this_field") == EXPECTED_WALL_CANON, "wall stored canonical")
     req(canonical(wall) == EXPECTED_WALL_CANON, "wall canonical")
-    pred = wall["predecessor_boundary"]
-    req(pred["hostile_audited_exact_head"] == "89e612ed3884ac6f3c10d834fe94c4d73a77c912", "predecessor head")
-    req(pred["hostile_audit_status"] == "PASS", "predecessor audit")
-    req(pred["merge_authorized"] is False, "predecessor merge firewall")
+
+    audit = wall["audit_repair_boundary"]
+    req(audit["failed_exact_head"] == "d7b9b06ad8d162304ac52310cbb20ef8363fc3cd", "failed-head lock")
+    req(audit["hostile_audit_review_id"] == 5190972957, "FAIL review lock")
+    req(audit["hostile_audit_status"] == "FAIL", "FAIL status lock")
+    req(audit["repair_required"] is True, "repair-required lock")
+    req(audit["merge_authorized"] is False, "merge firewall")
 
     src = {name: locked_json(*spec) for name, spec in LOCKS.items()}
     route = locked_json(ROUTE_PATH, ROUTE_BLOB)
 
-    h6 = src["hpadj06"]
-    req(h6["reverse_realization_gap"]["status"] == "OPEN_LOAD_BEARING", "HPADJ06 reverse gap")
-    req(h6["population_interface"]["terminal_alone_asserts_integral_completion_exists"] is False,
-        "terminal completion existence firewall")
-    req(h6["population_interface"]["this_adapter_asserts_every_terminal_has_actual_carrier"] is False,
-        "actual-carrier existence firewall")
-    req(h6["proved_direction"]["contrapositive"] ==
-        "HPADJ_REJECTED_TERMINAL -> NO_ACTUAL_MATCHING_INTEGRAL_IRREDUCIBLE_K3_CARRIER",
-        "HPADJ06 one-way carrier exclusion")
+    old = src["historical_hpadj06"]
+    req(
+        old["proved_direction"]["step_5_adjunction_contradiction"]
+        == "an integral irreducible curve on the K3 carrier surface satisfies C^2 >= -2, so an HPADJ-rejected matching terminal cannot be realized by such a carrier",
+        "historical HPADJ06 claim identity",
+    )
+    req(
+        old["proved_direction"]["contrapositive"]
+        == "HPADJ_REJECTED_TERMINAL -> NO_ACTUAL_MATCHING_INTEGRAL_IRREDUCIBLE_K3_CARRIER",
+        "historical K3 contrapositive identity",
+    )
 
-    rr = src["rr"]
-    req("integral irreducible representative" in rr["classifier"]["does_not_conclude"],
-        "RR irreducibility firewall")
-    req(rr["population_firewall"]["final_survivor_hperp_norm_scalar_available"] is False,
-        "RR population scalar gap")
-    req(rr["credit_firewall"]["effectivity_final_execution_released"] is False,
-        "RR final effectivity firewall")
+    corrected = src["general_type_correction"]
+    superseded = corrected["supersedes_for_mathematical_use"]
+    req(
+        "stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json proved_direction.step_5_adjunction_contradiction"
+        in superseded,
+        "HPADJ06 supersession missing",
+    )
+    req(
+        "stages/stage32/management/hpadj-01/RESULT.json necessary_condition.irreducible_k3_adjunction"
+        in superseded,
+        "HPADJ01 K3-threshold supersession missing",
+    )
+    c = corrected["corrected_general_type_adjunction"]
+    req(c["g0_lower_bound"] == "C^2>=-d-2", "g0 corrected adjunction")
+    req(c["g1_lower_bound"] == "C^2>=-d", "g1 corrected adjunction")
+    req(
+        c["g0_group_cauchy_rejection"] == "8*a^2+8*b^2+6*c^2>3*d^2+48*d+96",
+        "g0 corrected rejection",
+    )
+    req(
+        c["g1_group_cauchy_rejection"] == "8*a^2+8*b^2+6*c^2>3*d^2+48*d",
+        "g1 corrected rejection",
+    )
+    req(corrected["firewalls"]["main_pruning_credit"] is False, "correction premature credit")
 
-    hp = src["hperp"]
-    req(hp["minimal_survivor_interface"]["current_full178_producer_exports_this_scalar_source_locked_here"] is False,
-        "Hperp scalar producer gap")
-    req(hp["credit_firewall"]["integral_irreducible_low_genus_carrier_proved"] is False,
-        "Hperp carrier firewall")
+    direction = src["pruning_direction"]
+    logic = direction["logic"]
+    req(
+        logic["necessary_condition_direction"] == "ACTUAL_TARGET_CARRIER -> CORRECTED_HPADJ_CONDITION",
+        "necessary-condition direction",
+    )
+    req(
+        logic["contrapositive"]
+        == "CORRECTED_HPADJ_REJECTED_TERMINAL -> NO_ACTUAL_TARGET_CARRIER_WITH_THAT_TERMINAL",
+        "corrected contrapositive",
+    )
+    req(
+        logic["reverse_realization_not_needed"].startswith("It is not necessary to prove"),
+        "reverse-realization pruning contract",
+    )
+    req(direction["firewalls"]["main_pruning_credit"] is False, "direction premature credit")
 
-    eg = src["effectivity_gap"]
-    req(eg["exact_gap_result"]["actual_effective_curve_certificate_present"] is False,
-        "historical effective-curve gap")
-    req(eg["exact_gap_result"]["integral_irreducible_curve_certificate_present"] is False,
-        "historical integral-irreducible gap")
-    req(eg["strategy_selection"]["new_heavy_compute_authorized"] is False,
-        "historical heavy-arm firewall")
+    rebase = src["current_v23_rebase"]
+    rb = rebase["set_theoretic_rebase"]
+    req(rb["v22_to_v23_total_removed"] == 154697, "V22->V23 removal")
+    req(rb["therefore_current_v23_hpadj_rejected_lower_bound"] == 20713268924714183560113,
+        "current V23 corrected lower bound")
+    req(rb["candidate_remaining_upper_bound_if_corrected_hpadj_promoted"] == 26876434389242951089388,
+        "current V23 remaining upper bound")
+    req(rebase["firewalls"]["main_pruning_credit"] is False, "rebase premature credit")
 
-    gd = src["genus_defect"]
-    req(gd["interpretation"]["actual_effective_integral_curve_certificate_present"] is False,
-        "genus-defect curve-existence firewall")
-    req(gd["interpretation"]["normalization_genus1_certificate_present"] is False,
-        "normalization-genus firewall")
-    req(gd["interpretation"]["multibranch_case_resolved"] is False,
-        "multibranch firewall")
+    receivers = route["receivers"]
+    req(any(x.startswith("R29-LG2 ") for x in receivers), "R29-LG2 receiver missing")
+    req(any(x.startswith("R29-LG2-EFF ") for x in receivers), "R29-LG2-EFF receiver missing")
+    req(route["verdicts"]["effectivity_certified"] is False, "effectivity remains separate")
 
-    verdicts = route["verdicts"]
-    req(verdicts["effectivity_certified"] is False, "Stage29 effectivity gap")
-    req(verdicts["multibranch_cases_covered"] is False, "Stage29 multibranch gap")
-    req(verdicts["isolated_rational_points_excluded"] is False, "Stage29 isolated-point gap")
+    active = wall["active_path"]
+    req(active["terminal_to_picard64_population_identity"] is True, "terminal/Picard64 interface")
+    req(active["historical_k3_adjunction_claim_active"] is False, "old K3 claim must be retired")
+    req(active["historical_hpadj06_carrier_exclusion_active"] is False, "old HPADJ06 exclusion must be retired")
+    req(active["historical_hpadj01_k3_threshold_active"] is False, "old HPADJ01 K3 threshold must be retired")
+    req(active["corrected_general_type_adjunction_active"] is True, "corrected adjunction active")
+    req(active["corrected_necessary_filter_candidate_active"] is True, "corrected filter active")
+    req(active["necessary_condition_direction"] == logic["necessary_condition_direction"], "active direction mismatch")
+    req(active["contrapositive"] == logic["contrapositive"], "active contrapositive mismatch")
+    req(active["reverse_realization_required_for_32_01_pruning"] is False, "reverse realization wrongly active")
 
-    req(wall["closed_interfaces"]["terminal_to_picard64_population_identity"] is True,
-        "closed terminal/Picard64 interface")
-    req(wall["closed_interfaces"]["hpadj_rejected_terminal_excludes_actual_matching_integral_irreducible_k3_carrier"] is True,
-        "closed one-way carrier exclusion")
+    for claim in wall["superseded_claims"]:
+        req(claim["active_credit"] is False, "superseded claim retained active credit")
 
-    gates = wall["load_bearing_reverse_chain"]
-    req([g["gate"] for g in gates] == [
-        "A_INTEGRAL_PICARD_COMPLETION_EXISTENCE",
-        "B_EFFECTIVE_DIVISOR_EXISTENCE",
-        "C_INTEGRAL_IRREDUCIBLE_CARRIER",
-        "D_NORMALIZATION_AND_BRANCH_COMPATIBILITY",
-        "E_RECEIVER_ENDPOINT",
-    ], "reverse-chain ordering")
-    req(all(g["current_status"].startswith("OPEN") for g in gates), "reverse-chain must remain open")
+    cm = wall["corrected_mathematics"]
+    req(cm["corrected_v22_candidate_rejected_lower_bound"] == 20713268924714183714810, "V22 corrected count")
+    req(cm["current_v23_conservative_rejected_lower_bound"] == 20713268924714183560113, "V23 corrected count")
+    req(cm["current_v23_candidate_remaining_upper_bound_if_promoted"] == 26876434389242951089388,
+        "V23 remaining upper bound")
 
-    req(wall["non_routes"]["repeat_terminal_to_picard64_interface"] ==
-        "DOMINATED_ALREADY_CLOSED_BY_HPADJ05_HPADJ06", "terminal-interface anti-loop")
-    req(wall["non_routes"]["repeat_rr_effectivity_as_irreducibility"] ==
-        "INVALID_SEMANTIC_PROMOTION", "RR semantic anti-promotion")
-    req(wall["non_routes"]["blind_full178_heavy_arm"] ==
-        "NOT_AUTHORIZED_BY_THIS_CHECKPOINT", "heavy anti-loop")
+    reverse = wall["reverse_realization_chain"]
+    req(reverse["status"] == "NOT_A_PREREQUISITE_FOR_32_01_NECESSARY_FILTER_PRUNING", "reverse-chain status")
+    req(reverse["retained_for_positive_existence_or_effectivity_routes"] is True, "positive-route retention")
+    req(reverse["effectivity_receiver"] == "R29-LG2-EFF", "effectivity receiver")
+    req(reverse["no_positive_realization_credit_from_this_repair"] is True, "positive-credit firewall")
 
-    req(wall["scope"]["main_authority_mutated"] is False, "MAIN authority firewall")
-    req(wall["scope"]["main_pruning_credit"] is False, "MAIN pruning firewall")
-    req(wall["scope"]["heavy_compute_used"] is False, "heavy-compute use firewall")
-    req(wall["scope"]["heavy_compute_authorized"] is False, "heavy-compute authorization firewall")
-    req(wall["scope"]["new_cross_lane_demand_opened"] is False, "cross-lane demand firewall")
+    promotion = wall["promotion_gate"]
+    req(promotion["corrected_proof_chain_exact_head_ci_required"] is True, "CI gate")
+    req(promotion["replacement_head_hostile_reaudit_required"] is True, "reaudit gate")
+    req(promotion["explicit_main_consumption_required"] is True, "consumption gate")
+    req(promotion["main_authority_mutation_allowed_now"] is False, "authority mutation firewall")
+
     for key, value in wall["firewalls"].items():
         req(value is False, f"credit/firewall unexpectedly true: {key}")
 
-    print("PASS hpadj07 precise reverse carrier-realization wall; gates A-E open; no MAIN credit/heavy arm")
+    print(
+        "PASS hpadj07 general-type supersession wall; old K3 HPADJ path retired; "
+        "corrected candidate remains zero-credit pending replacement-head hostile re-audit"
+    )
 
 
 if __name__ == "__main__":
