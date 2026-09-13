@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V1",
+  "schema": "STAGE32_MAIN_HPADJ04_EX5_PRODUCER_SYNC_MONITOR_V2_BC2_37_AUDIT_PASS",
   "stage": 32,
   "leaf": "HPADJ-04_EX5_PRODUCER_SYNC_MONITOR",
-  "status": "WAITING_FOR_EX5_PRODUCER_SYNC_NO_DUPLICATION",
+  "status": "WAITING_FOR_EX5_POST_AUDIT_P0_SYNC_NO_DUPLICATION",
   "main_observation": {
     "main_pr": 1800,
-    "consumer_head_before_monitor": "864f243b081650b2f2df920553aba5a0bff8b5da",
+    "consumer_head_before_monitor": "68a5220927c60e7bf3fdbe9f1ff937c4b43a25c1",
     "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
     "demand_status": "OPEN",
     "demand_priority": "P0_BLOCKING_DOWNSTREAM",
@@ -26,8 +26,11 @@
     "observed_cross_lane_schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V2_SATISFIED",
     "observed_open_producer_demands": [],
     "producer_acknowledged_current_hpadj_demand": false,
-    "observed_pr_route": "HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY",
-    "observed_next_command": "stage32ex5-audit"
+    "bc2_37_hostile_audit_status": "PASS",
+    "bc2_37_hostile_audit_review_id": 5189412496,
+    "bc2_37_hostile_audited_exact_head": "9852fcec959962607da3290100291a60185e7104",
+    "bc2_37_audited_known_parent_unsat_lower_bound": 7302,
+    "bc2_37_audited_remaining_unknown_count": 34
   },
   "preexisting_execution_context": {
     "bc2_37_heavy_run": 34728149823,
@@ -38,11 +41,10 @@
     "producer_diversion_violation_asserted": false
   },
   "next_gate": {
-    "immediate_producer_gate": "Finish the already-frozen BC2-37 hostile-audit boundary using stage32ex5-audit; MAIN does not run that audit.",
-    "after_bc2_37_audit": "On the next stage32ex5-mainbatch, synchronize the current CROSS-LANE-DEMANDS registry/state and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before any new P2 local research.",
+    "immediate_producer_gate": "On the next stage32ex5-mainbatch, consume BC2-37 hostile-audit PASS review 5189412496, synchronize the current CROSS-LANE-DEMANDS registry/state, and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before any new P2 local research.",
     "main_reentry_condition": "HPADJ demand becomes SATISFIED with a source-locked replayable artifact identity; MAIN then validates the satisfying artifact before any promotion attempt.",
-    "stage32ex5_audit_is_immediate_producer_command": true,
-    "stage32ex5_mainbatch_is_next_after_audit": true
+    "stage32ex5_audit_complete": true,
+    "stage32ex5_mainbatch_is_immediate_producer_command": true
   },
   "firewalls": {
     "main_authority_mutated": false,
@@ -59,5 +61,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "929c6815ba13236362b9fb233f6aa1148a5253a757b347123a31f76c9640b0cd"
+  "canonical_sha256_without_this_field": "69a3367639c3c8c66ad2e2411c8485aab8cc2628c8baaa8d9bc641ff4a589cd9"
 }
