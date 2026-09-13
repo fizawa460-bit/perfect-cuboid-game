@@ -35,7 +35,7 @@ concurrency:
 jobs:
   startup-authority:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -46,54 +46,59 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
+      - name: Checkout hostile-audited HPADJ07 V23 predecessor
+        uses: actions/checkout@v4
+        with:
+          ref: 8d8f1116d82f873d2cddafdd4d3619fb8649891b
+          path: .stage32-audited-hpadj07-v23
+          fetch-depth: 1
+      - name: Assert hostile-audited HPADJ07 V23 predecessor
+        run: test "$(git -C .stage32-audited-hpadj07-v23 rev-parse HEAD)" = "8d8f1116d82f873d2cddafdd4d3619fb8649891b"
+
       - name: Checkout hostile-audited CUT193
         uses: actions/checkout@v4
         with:
           ref: 5b2ebb3f67805eddefef835878ba4b9744bfdbd9
           path: .stage32-audited-cut193
           fetch-depth: 1
-      - name: Assert hostile-audited CUT193 head
-        run: test "$(git -C .stage32-audited-cut193 rev-parse HEAD)" = "5b2ebb3f67805eddefef835878ba4b9744bfdbd9"
       - name: Checkout hostile-audited CUT194
         uses: actions/checkout@v4
         with:
           ref: 847f3bff0c5e0d0530bfb8db406e955b2d231d9a
           path: .stage32-audited-cut194
           fetch-depth: 1
-      - name: Assert hostile-audited CUT194 head
-        run: test "$(git -C .stage32-audited-cut194 rev-parse HEAD)" = "847f3bff0c5e0d0530bfb8db406e955b2d231d9a"
       - name: Checkout hostile-audited CUT195
         uses: actions/checkout@v4
         with:
           ref: 2618f4dcd546d569b212753ac7abc10e07ee5828
           path: .stage32-audited-cut195
           fetch-depth: 1
-      - name: Assert hostile-audited CUT195 head
-        run: test "$(git -C .stage32-audited-cut195 rev-parse HEAD)" = "2618f4dcd546d569b212753ac7abc10e07ee5828"
       - name: Checkout hostile-audited CUT196
         uses: actions/checkout@v4
         with:
           ref: 85f4e988acf6446fa0d472208e21990621a650b4
           path: .stage32-audited-cut196
           fetch-depth: 1
-      - name: Assert hostile-audited CUT196 head
-        run: test "$(git -C .stage32-audited-cut196 rev-parse HEAD)" = "85f4e988acf6446fa0d472208e21990621a650b4"
       - name: Checkout hostile-audited CUT197
         uses: actions/checkout@v4
         with:
           ref: adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5
           path: .stage32-audited-cut197
           fetch-depth: 1
-      - name: Assert hostile-audited CUT197 head
-        run: test "$(git -C .stage32-audited-cut197 rev-parse HEAD)" = "adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5"
       - name: Checkout hostile-audited CUT198
         uses: actions/checkout@v4
         with:
           ref: 16e439bc65e723c9f2658c274d53fb839738dcd2
           path: .stage32-audited-cut198
           fetch-depth: 1
-      - name: Assert hostile-audited CUT198 head
-        run: test "$(git -C .stage32-audited-cut198 rev-parse HEAD)" = "16e439bc65e723c9f2658c274d53fb839738dcd2"
+      - name: Assert audited CUT heads
+        run: |
+          test "$(git -C .stage32-audited-cut193 rev-parse HEAD)" = "5b2ebb3f67805eddefef835878ba4b9744bfdbd9"
+          test "$(git -C .stage32-audited-cut194 rev-parse HEAD)" = "847f3bff0c5e0d0530bfb8db406e955b2d231d9a"
+          test "$(git -C .stage32-audited-cut195 rev-parse HEAD)" = "2618f4dcd546d569b212753ac7abc10e07ee5828"
+          test "$(git -C .stage32-audited-cut196 rev-parse HEAD)" = "85f4e988acf6446fa0d472208e21990621a650b4"
+          test "$(git -C .stage32-audited-cut197 rev-parse HEAD)" = "adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5"
+          test "$(git -C .stage32-audited-cut198 rev-parse HEAD)" = "16e439bc65e723c9f2658c274d53fb839738dcd2"
 
       - name: Checkout hostile-audited EX5 BC2-35 cross-lane basis
         uses: actions/checkout@v4
@@ -110,33 +115,30 @@ jobs:
           ref: f8039b4ce479a4b91f2f0547e7049f629e9be5f5
           path: .stage32-audited-main-v22
           fetch-depth: 1
-      - name: Assert hostile-audited MAIN V22 head
-        run: test "$(git -C .stage32-audited-main-v22 rev-parse HEAD)" = "f8039b4ce479a4b91f2f0547e7049f629e9be5f5"
-
       - name: Checkout CERTLIFT-03 hostile-audited reviewed head
         uses: actions/checkout@v4
         with:
           ref: 289437a4a97a814c2388133cbde0c794d9502e4b
           path: .stage32-certlift-reviewed
           fetch-depth: 1
-      - name: Assert CERTLIFT-03 reviewed head
-        run: test "$(git -C .stage32-certlift-reviewed rev-parse HEAD)" = "289437a4a97a814c2388133cbde0c794d9502e4b"
       - name: Checkout CERTLIFT-03 hostile-audit PASS receipt head
         uses: actions/checkout@v4
         with:
           ref: 51c56b5c3ee15177c2975b966ab546d0b548c4af
           path: .stage32-certlift-audit-pass
           fetch-depth: 1
-      - name: Assert CERTLIFT-03 audit-pass receipt head
-        run: test "$(git -C .stage32-certlift-audit-pass rev-parse HEAD)" = "51c56b5c3ee15177c2975b966ab546d0b548c4af"
       - name: Checkout hostile-audited V15 adapter semantic provenance
         uses: actions/checkout@v4
         with:
           ref: 7c3a9c301d9e1d98678fcd1532afce62c44d56e0
           path: .stage32-certlift-v15-adapter
           fetch-depth: 1
-      - name: Assert hostile-audited V15 adapter head
-        run: test "$(git -C .stage32-certlift-v15-adapter rev-parse HEAD)" = "7c3a9c301d9e1d98678fcd1532afce62c44d56e0"
+      - name: Assert CERTLIFT provenance heads
+        run: |
+          test "$(git -C .stage32-audited-main-v22 rev-parse HEAD)" = "f8039b4ce479a4b91f2f0547e7049f629e9be5f5"
+          test "$(git -C .stage32-certlift-reviewed rev-parse HEAD)" = "289437a4a97a814c2388133cbde0c794d9502e4b"
+          test "$(git -C .stage32-certlift-audit-pass rev-parse HEAD)" = "51c56b5c3ee15177c2975b966ab546d0b548c4af"
+          test "$(git -C .stage32-certlift-v15-adapter rev-parse HEAD)" = "7c3a9c301d9e1d98678fcd1532afce62c44d56e0"
 
       - name: Checkout hostile-audited N358 census basis
         uses: actions/checkout@v4
@@ -144,8 +146,6 @@ jobs:
           ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
           path: .stage32-audited-n358
           fetch-depth: 1
-      - name: Assert hostile-audited N358 head
-        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
       - name: Checkout N358 hostile-audit PASS receipt retention head
         uses: actions/checkout@v4
         with:
@@ -155,6 +155,7 @@ jobs:
       - name: Source-lock and materialize N358 hostile-audit PASS receipt
         run: |
           receipt="stages/stage32/32-01-178/nodes/N358/HOSTILE-AUDIT-PASS.json"
+          test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
           test "$(git -C .stage32-n358-audit-receipt rev-parse HEAD)" = "95122f8223226e51cfb77ea4be2e952b6a623387"
           test "$(git -C .stage32-n358-audit-receipt hash-object "$receipt")" = "7b36e0159987ef65485d36fa2d672c8ee3a1ff33"
           cp ".stage32-n358-audit-receipt/$receipt" ".stage32-audited-n358/$receipt"
@@ -179,25 +180,26 @@ jobs:
           echo "research_freshness=CLEAR_UNRELATED_MAIN_DRIFT"
           echo "merge_ready_freshness=PENDING_BEHIND_MAIN"
 
-      - name: Verify V23 verifier source identities
+      - name: Verify V24 source identities
         run: |
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "88a9b511cadc72ede01791108b0f10537323d1c0"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v23.py)" = "0a14c08be80e86b7393a92b42903f08db1fe4275"
-          test "$(git hash-object stages/stage32/management/verify_certlift03_current_v22_composition.py)" = "2ec9e2a8629b8ec566ff2d35c19420c8e0662400"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "56f66941608e6883e3110ca370cda5dac043e968"
-          test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "c7fac09b774d8fc75ba3daa1b9320dbb66b81a6d"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "e44680ba0209607f234707ca5199dbd86e6972ab"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v24.py)" = "7a98893e7a8a427749da0facbd55b6c1c082640e"
+          test "$(git hash-object stages/stage32/management/hpadj-07/HPADJ07-V23-MAIN-CONSUMPTION.json)" = "e942711b67ebc43b39a73ab55bc10862654059f8"
+          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v23_main_consumption.py)" = "923e81a61446da47f92239efc06be52a96b23466"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "6bacdbabf51ca2af591062f062201e0bfb3c26b1"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands_v23_historical.py)" = "56f66941608e6883e3110ca370cda5dac043e968"
+          test "$(git hash-object stages/stage32/proof/historical-routing-blobs/bead809db3a008dd35d664a8923f06fecb7de5bb.json)" = "bead809db3a008dd35d664a8923f06fecb7de5bb"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json)" = "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py)" = "e3efa7c27c1cb37324d588bac270d53f2b21620f"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/PRUNING-DIRECTION-CONTRACT-REVIEW.json)" = "bd1beddf25b505c9f6c7e163606e6156dca10346"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py)" = "97afaae92429bd8a2166414186ed719f141dc9cb"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json)" = "8883cfc59a6d48e34d7e256fad15e69714dc02d1"
-          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_current_v23_conservative_rebase.py)" = "63403e42901b4ab796b842830568f3a22c91f29c"
           test "$(git hash-object stages/stage32/management/hpadj-07/CARRIER-REALIZATION-WALL.json)" = "e4a35aa9bdd174ac64162839ec391cd57f7d9315"
-          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py)" = "0da5877f539e2d654feb5b3c156526f820ca64da"
 
-      - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
+      - name: Replay hostile-audited CERTLIFT-03 V23 predecessor composition
         run: >-
-          python3 stages/stage32/management/verify_certlift03_current_v22_composition.py
+          python3 .stage32-audited-hpadj07-v23/stages/stage32/management/verify_certlift03_current_v22_composition.py
           --audited-main-v22-root .stage32-audited-main-v22
           --certlift-reviewed-root .stage32-certlift-reviewed
           --certlift-audit-pass-root .stage32-certlift-audit-pass
@@ -226,27 +228,29 @@ jobs:
         run: >-
           python stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py
           --audited-n358-root .stage32-audited-n358
-
       - name: Verify HPADJ-07 pruning-direction contract
         run: python stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py
+      - name: Replay hostile-audited HPADJ-07 V23 conservative rebase
+        run: python .stage32-audited-hpadj07-v23/stages/stage32/management/hpadj-07/proof-chain/verify_current_v23_conservative_rebase.py
+      - name: Replay hostile-audited HPADJ-07 general-type supersession wall
+        run: python .stage32-audited-hpadj07-v23/stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py
 
-      - name: Verify HPADJ-07 current-V23 conservative rebase
-        run: python stages/stage32/management/hpadj-07/proof-chain/verify_current_v23_conservative_rebase.py
+      - name: Verify HPADJ-07 V23 lower-bound MAIN consumption
+        run: >-
+          python stages/stage32/management/hpadj-07/verify_hpadj07_v23_main_consumption.py
+          --audited-v23-root .stage32-audited-hpadj07-v23
 
-      - name: Verify HPADJ-07 general-type supersession wall
-        run: python stages/stage32/management/hpadj-07/verify_hpadj07_carrier_realization_wall.py
-
-      - name: Verify Stage32 MAIN startup authority
+      - name: Verify Stage32 MAIN startup authority V24
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination
+      - name: Verify Stage32 cross-lane demand coordination after V24
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V23 CERTLIFT transition
+      - name: Verify Stage32 claim-DAG integrity after V24 HPADJ transition
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V23 CERTLIFT transition
+      - name: Verify Stage32 active frontier after V24 HPADJ transition
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Enforce startup-only scope
