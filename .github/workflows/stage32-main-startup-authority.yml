@@ -187,7 +187,7 @@ jobs:
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "56f66941608e6883e3110ca370cda5dac043e968"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json)" = "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e"
-          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py)" = "9f815a26a40091a5e265bcb6ca342c64be0a7af2"
+          test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py)" = "e3efa7c27c1cb37324d588bac270d53f2b21620f"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/PRUNING-DIRECTION-CONTRACT-REVIEW.json)" = "bd1beddf25b505c9f6c7e163606e6156dca10346"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py)" = "97afaae92429bd8a2166414186ed719f141dc9cb"
           test "$(git hash-object stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json)" = "8883cfc59a6d48e34d7e256fad15e69714dc02d1"
@@ -223,7 +223,9 @@ jobs:
           cat /tmp/stage32-hnf-syndrome-probe.json
 
       - name: Verify HPADJ-07 general-type adjunction correction replay
-        run: python stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py
+        run: >-
+          python stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py
+          --audited-n358-root .stage32-audited-n358
 
       - name: Verify HPADJ-07 pruning-direction contract
         run: python stages/stage32/management/hpadj-07/proof-chain/verify_pruning_direction_contract_review.py
