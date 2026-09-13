@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE32_32_01_178_N387_EX5_BC2_37_AUDIT_PASS_HPADJ_P0_ACK_WAIT_V1",
+  "node_id": "N387",
+  "semantic_key": "s32-01-178:ex5-bc2-37-audit-pass-hpadj-p0-ack-wait",
+  "status": "BC2_37_HOSTILE_AUDIT_PASS_OBSERVED_HPADJ_P0_DEMAND_STILL_UNACKNOWLEDGED_WAIT_FOR_EX5_MAINBATCH_NO_CREDIT",
+  "parent": {
+    "n386_state_blob_sha1": "d8f092cfac4a32c95ded9f2208126ac8c2d354b9",
+    "n386_state_canonical_sha256": "66f100b8bcfb8008afd3f59817268ff3d2293001b8746035ac75ffb25b871885"
+  },
+  "main_coordination": {
+    "pr": 1800,
+    "exact_head": "68a5220927c60e7bf3fdbe9f1ff937c4b43a25c1",
+    "demand_registry_path": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
+    "demand_registry_blob_sha1": "75982b910ae1f149bc55b766f22ddea77db1f49e",
+    "demand_registry_canonical_sha256": "470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668",
+    "producer_monitor_path": "stages/stage32/management/hpadj-04/PRODUCER-MONITOR.json",
+    "producer_monitor_blob_sha1": "927ba2d2858ebfb3b54c299c6650836d10a6b97e",
+    "producer_monitor_canonical_sha256": "929c6815ba13236362b9fb233f6aa1148a5253a757b347123a31f76c9640b0cd",
+    "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
+    "demand_status": "OPEN",
+    "demand_priority": "P0_BLOCKING_DOWNSTREAM",
+    "producer_lane": "EX5",
+    "consumer_lane": "MAIN",
+    "main_consumer_wait_required": true,
+    "main_must_not_rebuild_producer_interface": true
+  },
+  "producer_audit": {
+    "producer_pr": 1776,
+    "audited_exact_head": "9852fcec959962607da3290100291a60185e7104",
+    "hostile_audit_review_id": 5189412496,
+    "hostile_audit_status": "PASS",
+    "review_submitted_at": "2026-09-13T03:37:55Z",
+    "bounded_result": "7 UNSAT / 34 UNKNOWN / 0 SAT",
+    "known_parent_unsat_lower_bound_after_audit": 7302,
+    "remaining_unknown_count": 34,
+    "main_credit_from_bc2_37": false,
+    "full178_credit_from_bc2_37": false,
+    "merge_authorized": false
+  },
+  "producer_pre_ack_state": {
+    "main_state_path": "stages/stage32-ex5/MAIN-STATE.json",
+    "main_state_blob_sha1": "93cd25eb0798facfd0eb9d342b681dc8aeaeb020",
+    "main_state_schema": "STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY",
+    "cross_lane_state_path": "stages/stage32-ex5/CROSS-LANE-STATE.json",
+    "cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
+    "cross_lane_state_canonical_sha256": "7d3e06425e8672cb31a1c39c871b2e11964a662cffa29d0157623b8808710a9a",
+    "observed_registry_contains_hpadj_demand": false,
+    "observed_open_producer_demands": [],
+    "producer_acknowledged_hpadj_demand": false,
+    "bc2_37_audited_flag_in_frozen_pre_review_state": false,
+    "reason": "The exact producer head was frozen before the external BC2-37 hostile-audit review. The review now PASSes that head, but the producer branch has not advanced to consume the PASS or synchronize the newer HPADJ P0 demand."
+  },
+  "routing": {
+    "stage32ex5_audit_gate_resolved": true,
+    "next_required_external_command": "stage32ex5-mainbatch",
+    "required_external_action": "consume BC2-37 hostile-audit PASS, synchronize current CROSS-LANE-DEMANDS, and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before new lower-priority EX5 research",
+    "178_duplicates_ex5_producer_work": false,
+    "178_may_treat_demand_as_satisfied_now": false,
+    "178_may_promote_hpadj01_now": false,
+    "independent_n377_strong_signature_or_integral_picard_action_route_remains_legal": true,
+    "n101_remains_stopped": true,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "n387_new_main_pruning_credit": false,
+    "n387_full178_complete": false,
+    "n387_n101_reopened_credit": false,
+    "n387_effectivity_final": false,
+    "n387_theorem_credit": false,
+    "n387_endpoint_credit": false,
+    "n387_receiver_credit": false,
+    "n387_stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "EX5_CONSUMES_BC2_37_AUDIT_PASS_AND_ACKNOWLEDGES_HPADJ_P0_DEMAND_THEN_PRODUCES_SOURCE_LOCKED_POPULATION_INTERFACE_OR_N377_STRONG_SIGNATURE_ACTION",
+  "canonical_sha256_without_this_field": "609a5cf44445a269f201ff1ba2fb0d52b4d4b86677e430fd3ac151811e9fbbca"
+}
