@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V4_HPADJ_OPEN_PRODUCER_SYNC_PENDING",
+  "schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V5_HPADJ_OPEN_PRODUCER_DIVERSION_DETECTED",
   "lane": "EX5",
   "registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-  "status": "OPEN_P0_HPADJ_FULL178_PICARD64_HANDOFF_PRODUCER_SYNC_PENDING",
+  "status": "OPEN_P0_HPADJ_FULL178_PICARD64_HANDOFF_PRODUCER_DIVERSION_BLOCKED",
   "open_producer_demands": [
     "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
   ],
@@ -10,24 +10,38 @@
     "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
   ],
   "highest_priority_open_demand": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
-  "local_route_observed": "BC2_25_26_FIRST_BLOCK_RESIDUAL_REFINEMENT",
+  "local_route_observed": "BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET",
   "local_route_priority": "P2_NORMAL",
   "coordination_route": "HPADJ_FULL178_TERMINAL_TO_PICARD64_POPULATION_INTERFACE",
   "coordination_priority": "P0_BLOCKING_DOWNSTREAM",
   "local_route_deferred_while_demand_open": true,
   "producer_acknowledged": false,
   "producer_sync_required": true,
+  "producer_diversion_detected": true,
   "producer_observation": {
     "producer_pr": 1776,
-    "observed_exact_head": "9852fcec959962607da3290100291a60185e7104",
-    "observed_head_commit_time": "2026-09-13T02:59:21Z",
-    "observed_head_commit_message": "[Stage32EX5][BC2-37] normalize V28 BC2-00 audit receipt guard",
+    "observed_exact_head": "d26a27e8564458f3d575ec58601b2226fc23944f",
+    "observed_head_commit_message": "[Stage32EX5][BC2-38] consume BC2-37 audit and arm targeted replay",
     "observed_registry_blob_sha1": "bbf4fc2460bad22c65359bc17aa89f8717e259a2",
     "observed_registry_contains_hpadj_demand": false,
     "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
     "observed_open_producer_demands": [],
-    "post_demand_new_lower_priority_research_detected": false,
-    "classification": "PENDING_PRODUCER_SYNC_AFTER_PREEXISTING_BC2_37_AUDIT_BOUNDARY_REPAIR"
+    "bc2_37_hostile_audit_review_id": 5189412496,
+    "bc2_37_hostile_audit_consumed": true,
+    "bc2_38_execution_authorized": true,
+    "bc2_38_workflow_run": 34742297972,
+    "bc2_38_compute_job": 103683975497,
+    "bc2_38_compute_status_observed": "IN_PROGRESS",
+    "post_demand_new_lower_priority_research_detected": true,
+    "classification": "P0_PREEMPTION_VIOLATION_EX5_STARTED_BC2_38_WITH_STALE_CROSS_LANE_REGISTRY"
+  },
+  "required_repair": {
+    "stop_new_p2_research": true,
+    "do_not_promote_bc2_38_to_main": true,
+    "synchronize_current_cross_lane_registry": true,
+    "acknowledge_hpadj_p0_before_next_local_research": true,
+    "next_producer_command": "stage32ex5-mainbatch",
+    "requested_output": "SOURCE_LOCKED_EXACT_HPADJ_TERMINAL_TO_PICARD64_POPULATION_INTERFACE"
   },
   "prior_handoff_receipt": {
     "path": "stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json",
@@ -50,10 +64,11 @@
     "demand_acknowledgement_grants_math_credit": false,
     "demand_satisfaction_grants_math_credit": false,
     "main_waiting_grants_math_credit": false,
+    "bc2_38_main_credit": false,
     "effectivity_credit": false,
     "integral_irreducible_carrier_credit": false,
     "endpoint_credit": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "f47ffa88cfe0378b5fff9a5a9014c3af164d0f91b89e471da493ec3b317585a8"
+  "canonical_sha256_without_this_field": "4afb71a75c11647fe5dd0b27f080e4bdc90e970a33d45db46e0fa25a24b95f47"
 }
