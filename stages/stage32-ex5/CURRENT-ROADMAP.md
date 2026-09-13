@@ -1,35 +1,30 @@
 # Stage32EX5 current roadmap
 
-This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains active/open/draft/unmerged.
+This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains active/open/draft/unmerged. Merge is not authorized.
 
-BC2-35 hostile audit **PASS** remains the last consumable local mathematical authority:
+BC2-36 hostile audit **PASS** is now consumed:
 
-- exact head `8bea7a6be26e01db0deb138dbd8406f578447921`
-- review `5187359907`
-- `12 UNSAT / 52 UNKNOWN / 0 SAT`
-- audited known parent-UNSAT lower bound `7284`
-- remaining UNKNOWN hash `95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818`
-
-BC2-36 replayed exactly those 52 audited UNKNOWN parents at `100000 ms` per parent, one heavy runner, no scaleout.
-
-Retained BC2-36 candidate result:
-
+- exact head `9c63ccb48dd0e5bdeedda7739dd05e2404698465`
+- review `5188625406`
 - `11 UNSAT / 41 UNKNOWN / 0 SAT`
-- candidate known parent-UNSAT lower bound `7295`
+- audited known parent-UNSAT lower bound `7295`
 - remaining UNKNOWN hash `570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9`
-- execution head `63986c900a34cbbfa00c96a0d2dcc38d3ffc92d5`
-- workflow `34718999232`
-- authorize job `103621253008`
-- compute job `103621306508`
-- artifact `10306816385`
-- artifact ZIP sha256 `35de2891058d97483fd7b3c9c95ca5c1041d9d96096287b1b01652a944f63ccb`
-- raw JSON sha256 `a70320e767ffe87d0751a7df195fd54387201e170e8f7daad43d41257af61f92`
-- checkpoint canonical `e92cd6d07299b833a79fe20b81e9de032d61790cf1b7a6fb81ec6adccdb49fdf`
-- checkpoint blob `09ac58349e388c479ac77e04724bef2fd9b49b7e`
-- consumed runkey blob `78d9c847863232b10d149b651c32c668887e4b23`
 
-The heavy path is retired and the retained fail-closed verifier is installed. The current route is the frozen `HOSTILE_AUDIT_BC2_36_TARGETED_REPLAY` boundary.
+BC2-37 targets exactly those 41 hostile-audited UNKNOWN parents. The retained cold execution contract is:
 
-Next command: `stage32ex5-audit`.
+- producer blob `35a1644c197fd32aec845332452cc918f3bc75d9`
+- preflight canonical `30fa122941ee6b75e6e5004aa43ab121b216af93831cff0e9e22922f2438ddba`
+- preflight blob `15a008cd4557fe4e81d31591c3d80b50bc595a03`
+- timeout `120000 ms` per parent
+- effective heavy concurrency `1`
+- workflow timeout `110 minutes`
+- compact artifact only; no scaleout
+- generation 0 runkey is cold / `armed=false`
 
-BC2-37 remains blocked until BC2-36 hostile-audit PASS. Until then the audited lower bound remains `7284`; `7295` is candidate-only. No timeout UNKNOWN is relabelled UNSAT and no Stage32 MAIN/FULL178/N350/theorem/effectivity/receiver/endpoint/Perfect Cuboid/merge credit follows automatically.
+Cold exact-head EX5 / MAIN-startup / claim-frontier / stale-run CI must all succeed while BC2-37 heavy remains skipped. Only then may `stage32ex5-mainbatch` advance the runkey to generation 1 / `armed=true`. That semantic runkey change is the only automatic BC2-37 heavy authorization path.
+
+While the authorized BC2-37 heavy run is active, the branch head must remain fixed. A successful computation is not audit credit: mainbatch must retain the exact result/run/artifact receipt, disarm the runkey, retire the heavy path, install a fail-closed verifier, freeze a BC2-37 hostile-audit boundary, and stop.
+
+BC2-38 remains blocked until BC2-37 receives hostile-audit PASS. UNKNOWN remains UNKNOWN. No whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, heavy-scaleout, or merge credit follows automatically.
+
+Next command: `stage32ex5-mainbatch`.
