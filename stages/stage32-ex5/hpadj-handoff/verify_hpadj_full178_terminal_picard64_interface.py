@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
 INTERFACE=HERE/'INTERFACE.json'
 PRODUCER=HERE/'hpadj_full178_terminal_picard64_adapter.py'
-HPADJ=ROOT/'stages/stage32/management/hpadj-01/RESULT.json'
+HPADJ_SNAPSHOT=HERE/'HPADJ01-V22-RESULT-SNAPSHOT.json'
 MANIFEST=ROOT/'stages/stage32/residual-32-01-production/full178-manifest.json'
 FAMILY=ROOT/'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
 INDEXER=ROOT/'stages/stage32/residual-32-01-production/compressed_terminal_indexer.py'
@@ -18,8 +18,10 @@ BUNDLE=ROOT/'stages/stage33/33-07/picard_base_rows_retained.py'
 INTERFACE_BLOB='8a30e3aa30777460f344eb19836dc725dd442329'
 INTERFACE_CANON='cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6'
 PRODUCER_BLOB='756a859a5949b5054202228d9df005b6c55a20fc'
+HPADJ_SNAPSHOT_BLOB='a88e425f29d83919afd3048419c56f3689b457dd'
+HPADJ_CANON='9773c11e87de149b5b56438fd1c86929aa54a971601bf8306855fd0f8a303506'
+HPADJ_SOURCE_BLOB='520b6b0f230e23fb5ea34b80fef591cfa5f9be4b'
 LOCKS={
- HPADJ:'520b6b0f230e23fb5ea34b80fef591cfa5f9be4b',
  MANIFEST:'0a46b34e278688240656b4977e9cb7f589e90e06',
  FAMILY:'90ff82ed312dcc0cb32cf207935945f550e29170',
  INDEXER:'4fb0a8dd34909494bd62646373e42877ed7a3c9e',
@@ -39,12 +41,21 @@ def canon(o):
 def main():
     req(blob(INTERFACE)==INTERFACE_BLOB,'interface blob drift')
     req(blob(PRODUCER)==PRODUCER_BLOB,'producer blob drift')
+    req(blob(HPADJ_SNAPSHOT)==HPADJ_SNAPSHOT_BLOB,'HPADJ V22 snapshot blob drift')
+    hs=json.loads(HPADJ_SNAPSHOT.read_text())
+    req(hs.get('canonical_sha256_without_this_field')==HPADJ_CANON and canon(hs)==HPADJ_CANON,'HPADJ V22 snapshot canonical drift')
+    req(hs['authority_input']['main_v22_exact_head']=='f8039b4ce479a4b91f2f0547e7049f629e9be5f5' and hs['authority_input']['main_v22_hostile_audit_review_id']==5188224290,'HPADJ V22 authority receipt')
+    hv=hs['current_v22_intersection_lower_bound']
+    req(hv['affected_rows']==178 and hv['candidate_endpoint_rejected_terminals_lower_bound']==27104321327305699275487 and hv['per_row_stream_sha256']=='5852e58fdd570e05c057d5fcaf426f6b25fefb1eaf83ae1329657b42289775ae','HPADJ V22 population snapshot')
     for p,b in LOCKS.items(): req(p.is_file() and blob(p)==b,'source-lock drift '+str(p.relative_to(ROOT)))
     x=json.loads(INTERFACE.read_text())
     req(x.get('canonical_sha256_without_this_field')==INTERFACE_CANON and canon(x)==INTERFACE_CANON,'interface canonical drift')
     req(x.get('schema')=='STAGE32EX5_HPADJ_FULL178_TERMINAL_TO_PICARD64_INTERFACE_V1','schema')
     req(x.get('demand_id')=='S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1','demand id')
     req(x.get('status')=='PRODUCED_SOURCE_LOCKED_EXACT_INTERFACE_NO_MATH_CREDIT','status')
+    src=x['hpadj01_population_identity']
+    req(src['path']=='stages/stage32/management/hpadj-01/RESULT.json' and src['blob_sha1']==HPADJ_SOURCE_BLOB and src['canonical_sha256']==HPADJ_CANON,'original HPADJ source identity')
+    req(src['authority_exact_head']=='f8039b4ce479a4b91f2f0547e7049f629e9be5f5' and src['authority_hostile_audit_review_id']==5188224290,'original HPADJ authority receipt')
     p=x['population_cardinality_replay']
     req(p['affected_rows']==178 and p['charged_terminal_lower_bound']==27104321327305699275487,'population count')
     req(p['exceptional_prefix_stratum_instances']==19700993066083231249,'prefix count')
@@ -62,5 +73,5 @@ def main():
     r=x['reconstructed_picard64_coordinate_identity']; req(r['fixed_plus_free_affine_fiber_exact'] is True and r['unique_coordinate_vector_for_each_integral_selected64_completion'] is True and r['terminal_alone_asserts_completion_exists'] is False,'fiber semantics')
     req(all(v is False for v in x['credit_firewall'].values()),'credit firewall')
     print('PASS_STAGE32EX5_HPADJ_FULL178_TERMINAL_PICARD64_INTERFACE',INTERFACE_CANON)
-    print('rows=178 charged_terminals=27104321327305699275487 denominator=8 fixed=11 free=53 math_credit=NO merge=NO')
+    print('source_snapshot='+HPADJ_SNAPSHOT_BLOB+' rows=178 charged_terminals=27104321327305699275487 denominator=8 fixed=11 free=53 math_credit=NO merge=NO')
 if __name__=='__main__': main()
