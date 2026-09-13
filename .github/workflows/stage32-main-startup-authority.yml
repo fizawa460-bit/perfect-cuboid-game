@@ -191,6 +191,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py)" = "07b929817c526dec618b578a10482d23d4e58b83"
           test "$(git hash-object stages/stage32/management/hpadj-03/RESULT.json)" = "6f5985f2c2e0995628653a6bc73b9bf6c7256a7c"
           test "$(git hash-object stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py)" = "68047e16f63e20b299d27cdade3a5b83b45b3788"
+          test "$(git hash-object stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json)" = "2f8d51dd4c52cf9189b829d0cd42679ef110cef9"
+          test "$(git hash-object stages/stage32/management/hpadj-06/verify_hpadj06_carrier_adapter.py)" = "83f76a5826a006d77443cd55ff16af26b1924eb3"
 
       - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
         run: >-
@@ -230,6 +232,9 @@ jobs:
         run: >-
           python stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py
           --audited-n358-root .stage32-audited-n358
+
+      - name: Verify HPADJ-06 one-way actual-carrier adapter
+        run: python stages/stage32/management/hpadj-06/verify_hpadj06_carrier_adapter.py
 
       - name: Verify Stage32 MAIN startup authority
         run: python stages/stage32/verify_main_startup.py
