@@ -1,6 +1,6 @@
 # Stage32 MB104 global-classification checkpoint
 
-Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 RESIDUAL LIFT CONDUCTOR-PAIR MAP ACTIVE / NO CREDIT**
+Status: **ACTIVE AFTER INTERMEDIATE HOSTILE-AUDIT PASS / GEOMETRIC P5 CORE 864 / DANGEROUS EQUALITY-PACKET CORE 768 / `000707` e2 LOCAL THETA PRODUCT-LIFT ACTIVE / NO CREDIT**
 
 The most recent hostile-audited retained boundary is
 
@@ -278,6 +278,21 @@ f_t=(t-i)/(t+i),
 but literal equality of rational functions is not asserted. Thus in the `e=2` case the correct sign-transport object is the square root of the pulled-back residual-cover class. The missing datum is an explicit map from each conductor normalization preimage to its lift in `R` above `phi(x)`; only this determines same-sheet versus opposite-sheet gluing.
 
 Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-SQRT-FACTOR-BASECHANGE-SEMANTICS.md`.
+
+## O210 precedent transfer boundary
+
+A bounded cross-lane lookup found the closest retained precedent in the post-1490 O210 chain. There, relative-H actions are source-locked on the 48 marked X node lifts and may transport already-attached marked-point data such as multiplicities. The same chain explicitly records that no local equation, tangent cone, branch jet, strict-transform point on the exceptional line, or infinitely-near cluster is retained.
+
+Therefore these O210 assets do not determine the MB104 branch-to-residual-sheet map. In particular:
+
+```text
+marked-node permutation != normalization-branch permutation,
+multiplicity transport != residual-sheet transport.
+```
+
+The active missing input is now narrowed to local modular geometry: a completed-local or theta-coordinate map near a supported box node that sends a local carrier branch parameter to its point in `X(8)xX(8)`, then to `C8/H` coordinates and the residual `G/H` sheet.
+
+Evidence: `GENUS1-SPAN5-BALANCED16-000707-E2-O210-LOCAL-LIFT-PRECEDENT-BOUNDARY.md`.
 
 ## Two-factor comparison
 
