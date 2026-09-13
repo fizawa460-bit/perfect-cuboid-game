@@ -91,6 +91,61 @@
         "consumer_waits_without_rebuilding_producer_interface": true,
         "consumer_reentry_on_satisfied": true
       }
+    },
+    {
+      "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
+      "producer_lane": "EX5",
+      "consumer_lane": "MAIN",
+      "requested_artifact": {
+        "artifact_type": "SOURCE_LOCKED_EXACT_HPADJ_TERMINAL_TO_PICARD64_POPULATION_INTERFACE",
+        "exact_mathematical_interface": "A population-preserving exact terminal-to-Picard64 completion interface for every terminal in the retained HPADJ-01 current-V22 charged lower-bound population across all 178 FULL178 rows. It must preserve row/stratum/terminal identity, exact rank/unrank or equivalent deterministic preimage semantics, the 10 stored exceptional coordinates and all reconstructed Picard64 coordinates, and executable dependency identities required for replay. It must not assert effectivity, integrality, irreducibility, normalization genus, or endpoint credit.",
+        "required_fields": [
+          "hpadj01_population_identity",
+          "all_178_rows_partition",
+          "terminal_identity_or_exact_rank_unrank_contract",
+          "terminal_to_picard64_map",
+          "stored_10_exceptional_coordinate_identity",
+          "reconstructed_picard64_coordinate_identity",
+          "population_cardinality_replay",
+          "dependency_source_locks",
+          "replay_verifier"
+        ]
+      },
+      "source_population_semantics": {
+        "authority_source": "stages/stage32/MAIN-STATE.json",
+        "authority_exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+        "authority_hostile_reaudit_review_id": 5188224290,
+        "authoritative_remaining_strata": 17128,
+        "authoritative_remaining_terminals": 47589703313957134804198,
+        "population_source": "stages/stage32/management/hpadj-01/RESULT.json",
+        "population_source_blob_sha1": "520b6b0f230e23fb5ea34b80fef591cfa5f9be4b",
+        "population_source_canonical_sha256": "9773c11e87de149b5b56438fd1c86929aa54a971601bf8306855fd0f8a303506",
+        "affected_rows": 178,
+        "charged_terminal_lower_bound": 27104321327305699275487,
+        "hpadj01_main_pruning_credit": false,
+        "must_preserve_current_v22_population": true,
+        "population_drift_forbidden": true
+      },
+      "blocker_being_removed": "HPADJ01_NO_POPULATION_WIDE_TERMINAL_TO_PICARD64_IDENTITY_ADAPTER",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "status": "OPEN",
+      "satisfying_artifact": null,
+      "audit_requirement": {
+        "artifact_retention_requires_exact_replay": true,
+        "hostile_audit_required_before_mathematical_credit": true,
+        "producer_may_not_self_grant_audit_credit": true
+      },
+      "main_promotion_requirement": {
+        "demand_satisfaction_auto_promotes_to_main": false,
+        "claim_sync_required_if_mathematical_credit_changes": true,
+        "explicit_main_consumption_required_for_main_credit": true
+      },
+      "routing": {
+        "producer_acknowledgement_required": true,
+        "producer_open_demand_must_preempt_lower_priority_local_work": true,
+        "consumer_waits_without_rebuilding_producer_interface": true,
+        "consumer_reentry_on_satisfied": true
+      }
     }
   ],
   "audited_result_consumption": [
@@ -118,5 +173,5 @@
     "main_promotion_bypassed": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "ae916d01b2690b2f86f06c754c83d396f947d4d2ed5df0b3adbdc42d10c2e62a"
+  "canonical_sha256_without_this_field": "470168bccfd4130b7de28002f40277002fcf6eda7f8d917b2df57f88879d0668"
 }
