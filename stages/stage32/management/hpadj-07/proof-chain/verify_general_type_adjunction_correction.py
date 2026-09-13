@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -12,13 +14,14 @@ ROOT = HERE.parents[4]
 RESULT = HERE / "GENERAL-TYPE-ADJUNCTION-CORRECTION.json"
 SURFACE = ROOT / "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json"
 STAGE29 = ROOT / "stages/stage29/29-02c-LG2/result.md"
-N358 = ROOT / "stages/stage32/32-01-178/nodes/N358/verify_n358_exact_incremental_census.py"
 HPADJ01 = ROOT / "stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py"
+N358_REL = Path("stages/stage32/32-01-178/nodes/N358/verify_n358_exact_incremental_census.py")
+N358_AUDITED_HEAD = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
+N358_BLOB = "c07a7e358a6253919194189377d6ed56f95e047a"
 
 LOCKS = {
     SURFACE: "07b7fae35a23f403898d33e5dc75baa24f631dcf",
     STAGE29: "820ed4e1b1a53db14085678de6f186b59ae0ea48",
-    N358: "c07a7e358a6253919194189377d6ed56f95e047a",
     HPADJ01: "b0253975ddf28c99b9d9898f54ada9a6842b2386",
 }
 EXPECTED_CANON = "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
@@ -55,6 +58,17 @@ def load_module(path: Path, name: str):
     sys.modules[name] = mod
     spec.loader.exec_module(mod)
     return mod
+
+
+def exact_checkout_head(root: Path) -> str:
+    try:
+        return subprocess.check_output(
+            ["git", "-C", str(root), "rev-parse", "HEAD"],
+            text=True,
+            stderr=subprocess.STDOUT,
+        ).strip()
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit("FAIL: cannot resolve audited N358 checkout head: " + exc.output.strip()) from exc
 
 
 def even_interval_normal_sum(d: int, lower: int, upper: int, excluded: set[int]) -> tuple[int, int]:
@@ -163,9 +177,20 @@ def replay(n358) -> dict:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--audited-n358-root", required=True, type=Path)
+    args = ap.parse_args()
+
     for path, expected in LOCKS.items():
         req(path.is_file(), f"missing source {path}")
         req(git_blob(path) == expected, f"source-lock drift {path}")
+
+    audited_n358_root = args.audited_n358_root.resolve()
+    req(audited_n358_root.is_dir(), "missing hostile-audited N358 checkout")
+    req(exact_checkout_head(audited_n358_root) == N358_AUDITED_HEAD, "hostile-audited N358 exact head drift")
+    n358_path = audited_n358_root / N358_REL
+    req(n358_path.is_file(), f"missing hostile-audited N358 replay source {N358_REL}")
+    req(git_blob(n358_path) == N358_BLOB, "hostile-audited N358 replay source blob drift")
 
     surface = json.loads(SURFACE.read_text(encoding="utf-8"))
     inv = surface["surface_invariants"]
@@ -183,7 +208,7 @@ def main() -> None:
     req(result["status"].startswith("PREDECESSOR_HPADJ_ADJUNCTION_INVALID"), "correction status")
     req(result["firewalls"]["main_pruning_credit"] is False, "premature pruning credit")
 
-    n358 = load_module(N358, "stage32_hpadj07_n358")
+    n358 = load_module(n358_path, "stage32_hpadj07_n358")
     got = replay(n358)
     expected = result["corrected_v22_conservative_replay"]
     for key, value in got.items():
@@ -199,6 +224,7 @@ def main() -> None:
     print(json.dumps({
         "verdict": "PASS_HPADJ07_GENERAL_TYPE_ADJUNCTION_CORRECTION_CANDIDATE",
         **got,
+        "audited_n358_head": N358_AUDITED_HEAD,
         "main_pruning_credit": False,
         "hostile_audit_required": True,
         "merge_authorized": False,
