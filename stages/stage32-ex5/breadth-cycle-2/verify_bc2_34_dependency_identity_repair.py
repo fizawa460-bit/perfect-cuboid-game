@@ -27,6 +27,8 @@ REAUDIT_HEAD = "cdb455860849cfd064e3ab8c83d6d4993fb5ff1b"
 REAUDIT_REVIEW = 5186516652
 BC2_35_AUDIT_HEAD = "8bea7a6be26e01db0deb138dbd8406f578447921"
 BC2_35_AUDIT_REVIEW = 5187359907
+BC2_36_AUDIT_HEAD = "9c63ccb48dd0e5bdeedda7739dd05e2404698465"
+BC2_36_AUDIT_REVIEW = 5188625406
 CHECKPOINT_CANON = "e535e86ddfcd19aaa3aa316f5f42e49be830e48c16e1cdd15c03a6a80e6a84ba"
 CHECKPOINT_BLOB = "e566aeda2931642d79c88dc5eeb84b142f655609"
 UNKNOWN64_SHA = "00626c95f20bfcab7d9e78c86fdc2b5900684e9765bd483b813c8c047302497b"
@@ -35,6 +37,7 @@ V23 = "STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION"
 V24 = "STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY"
 V25 = "STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION"
 V26 = "STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY"
+V27 = "STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION"
 
 
 def req(ok: bool, msg: str) -> None:
@@ -76,16 +79,21 @@ def main() -> None:
     req(dep.get("heavy_recompute_performed") is False and dep.get("mathematical_result_rewritten") is False, "BC2-34 repair improperly rewrote computation")
 
     state = json.loads(STATE.read_text()); schema = state["schema"]
-    req(schema in {V22,V23,V24,V25,V26}, "EX5 state schema drift")
+    req(schema in {V22,V23,V24,V25,V26,V27}, "EX5 state schema drift")
     if schema != V22:
         pa = state["prior_audited_authority"]["bc2_34_pr_1776"]
         req(pa["hostile_audit_status"] == "PASS" and pa["audit_checkpoint_exact_head"] == REAUDIT_HEAD and pa["hostile_audit_review_id"] == REAUDIT_REVIEW, "BC2-34 hostile re-audit PASS not preserved")
         req(pa["prior_failed_audit_exact_head"] == FAILED_AUDIT_HEAD and pa["prior_failed_audit_review_id"] == FAILED_AUDIT_REVIEW, "BC2-34 failed-audit provenance lost")
         req(state["frontier"]["e8_bc2_34_audited"] is True and state["frontier"]["e8_bc2_34_remaining_unknown_count"] == 64 and state["frontier"]["e8_bc2_34_remaining_unknown_parent_indices_sha256"] == UNKNOWN64_SHA, "BC2-34 audited frontier drift")
-    if schema in {V25,V26}:
+    if schema in {V25,V26,V27}:
         pa35 = state["prior_audited_authority"]["bc2_35_pr_1776"]
         req(pa35["hostile_audit_status"] == "PASS" and pa35["audit_checkpoint_exact_head"] == BC2_35_AUDIT_HEAD and pa35["hostile_audit_review_id"] == BC2_35_AUDIT_REVIEW, "BC2-35 hostile audit PASS not consumed")
-    if schema == V26:
+    if schema == V27:
+        pa36 = state["prior_audited_authority"]["bc2_36_pr_1776"]
+        req(pa36["hostile_audit_status"] == "PASS" and pa36["audit_checkpoint_exact_head"] == BC2_36_AUDIT_HEAD and pa36["hostile_audit_review_id"] == BC2_36_AUDIT_REVIEW, "BC2-36 hostile audit PASS not consumed")
+        req(state["frontier"]["e8_bc2_36_audited"] is True and state["frontier"]["e8_known_parent_unsat_count_lower_bound"] == 7295, "BC2-36 audited credit drift")
+        next_label = "stage32ex5-mainbatch"
+    elif schema == V26:
         audit = state["intermediate_audit_boundary"]
         req(audit["last_hostile_audit_status"] == "PASS" and audit["last_hostile_audit_exact_head"] == BC2_35_AUDIT_HEAD and audit["last_hostile_audit_review_id"] == BC2_35_AUDIT_REVIEW, "live BC2-35 audit receipt drift")
         req(audit["freeze_active"] is True and audit["new_audit_boundary_exists"] is True and audit["re_audit_required"] is True and audit["bc2_36_execution_authorized"] is False, "BC2-36 audit boundary not frozen")
