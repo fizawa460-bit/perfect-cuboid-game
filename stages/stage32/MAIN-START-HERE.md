@@ -6,11 +6,20 @@ Ordinary `stage32mainbatch` reads, in this order:
 2. `stages/stage32/COMMANDS.md`;
 3. `stages/stage32/MAIN-START-HERE.md`;
 4. `stages/stage32/MAIN-STATE.json`;
-5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+5. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
+6. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus exact cross-lane coordination state paths required by OPEN demands.
 
 This file is the fixed ordinary startup contract. It does not contain the mutable Stage32 frontier, current target, survivor set, next route, current firewall values, or cleanup progress. Read all such current values only from `MAIN-STATE.json`.
 
-Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS unless `MAIN-STATE.json`, `AGENTS.md`, or the active task explicitly requires them.
+Do not preload the Stage32 root directory, historical roadmaps, controller history, production state, runkeys, audits, or Research OS unless `MAIN-STATE.json`, `AGENTS.md`, the cross-lane demand registry, or the active task explicitly requires them.
+
+## Cross-lane demand routing
+
+Operational dependency authority is `stages/stage32/proof/CROSS-LANE-DEMANDS.json`; detailed shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`.
+
+Before substantive work, MAIN must inspect all OPEN demands. For any lane acting as producer, a higher-priority OPEN demand preempts lower-priority local research until the requested artifact is supplied, obsoleted, or explicitly reprioritized by MAIN. A consumer with an OPEN demand waits rather than duplicating producer work; once the demand is SATISFIED, the consumer must re-enter on its next mainbatch and validate the satisfying artifact identity/population semantics immediately.
+
+MAIN additionally runs `stages/stage32/proof/verify_cross_lane_demands.py` to detect cyclic wait, orphan demand, producer diversion into lower-priority work, broken consumer re-entry wiring, and hostile-audited results awaiting required MAIN consumption. Demand SATISFIED does not grant mathematical credit; claim-DAG, hostile-audit, claim-sync, current-target adapter, MAIN-promotion, and merge firewalls remain separate.
 
 ## MAIN role: controller and researcher
 
@@ -44,7 +53,7 @@ The ownership classes below remain anti-duplication hints, not current routing a
 
 Ordinary separate EX1-EX4 startup is currently inactive unless Stage32 authority explicitly reopens it. Current routing precedence is:
 
-`explicit current MAIN-STATE routing` > `stages/stage32/COMMANDS.md ownership` > `historical ownership/roadmap text`.
+`explicit current MAIN-STATE routing` > `OPEN cross-lane demand priority` > `stages/stage32/COMMANDS.md ownership` > `historical ownership/roadmap text`.
 
 A future ownership change that overrides current routing must be represented in routing authority and, when applicable, synchronized through the existing claim-DAG trigger contract.
 
@@ -54,13 +63,13 @@ A future ownership change that overrides current routing must be represented in 
 
 Exact mathematical claims remain grounded in the hostile-audited certificates and source locks referenced by `MAIN-STATE.json`. Historical controller, production-state, runkey, roadmap, audit, mission, and history files remain evidence or operational history; they are not ordinary current-leaf startup authority merely because they exist.
 
-If historical material conflicts with `MAIN-STATE.json` about current routing, use `MAIN-STATE.json` for ordinary routing and use the exact referenced certificate chain for mathematical claims. Do not infer new mathematical credit from the compact state itself.
+If historical material conflicts with `MAIN-STATE.json` about current routing, use `MAIN-STATE.json` for mathematical routing and then apply any higher-priority OPEN cross-lane operational demand. Do not infer new mathematical credit from compact or demand state itself.
 
 ## Specialist handoff discipline
 
 When MAIN delegates a sustained vertical leaf to 178, EX5, CUT, or MB, record/retain the ownership boundary before running the commands concurrently. The specialist should return a stable retained checkpoint, blocker, or audit handoff. MAIN then consumes it through the required current-target adapter and claim/audit procedure. Do not run MAIN and a specialist independently on the same semantic leaf.
 
-CUT is a consumer of exact EX5 completion-interface output, not a competing producer: if the required interface is missing or stale, CUT returns a blocker rather than rebuilding EX5 work. MB is independent of FULL178 execution but final-milestone promotion remains a MAIN responsibility.
+CUT is a consumer of exact EX5 completion-interface output, not a competing producer: if the required interface is missing or stale, CUT returns a blocker and records an OPEN demand rather than rebuilding EX5 work. MB is independent of FULL178 execution but final-milestone promotion remains a MAIN responsibility.
 
 Historical commands `stage32-01-178-a..f` and `stage32ex5-a..h` are not ordinary active fanout. Parallel child dispatch requires an explicit new decomposition and user re-enable decision. The active CUT and MB surfaces are separate named missions under the explicit ownership split in `COMMANDS.md`; they do not silently reactivate those historical child lanes.
 
@@ -76,11 +85,11 @@ For exploratory or micro-diagnostic Stage32 MAIN work, do not push every narrow 
 
 ## Claim-DAG synchronization trigger
 
-Ordinary `stage32mainbatch` startup remains the startup set above and does not preload Stage32 proof-management files.
+Ordinary `stage32mainbatch` startup remains the startup set above and does not preload the mathematical claim DAG beyond explicit transition triggers. Cross-lane demand inspection is operational and separate.
 
 When MAIN reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
 
-Scratch-only diagnostics do not trigger claim-DAG writes. A separate hostile-audit PASS/FAIL receipt does not silently mutate claim authority; any downstream use waits for claim synchronization.
+Scratch-only diagnostics and demand-status changes by themselves do not trigger claim-DAG credit writes. A separate hostile-audit PASS/FAIL receipt does not silently mutate claim authority; any downstream use waits for claim synchronization.
 
 ## Write and merge discipline
 
