@@ -189,6 +189,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
           test "$(git hash-object stages/stage32/management/hpadj-02/RESULT.json)" = "2f7b016c9030bdb86071f5b0b4803b4bde210584"
           test "$(git hash-object stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py)" = "07b929817c526dec618b578a10482d23d4e58b83"
+          test "$(git hash-object stages/stage32/management/hpadj-03/RESULT.json)" = "6f5985f2c2e0995628653a6bc73b9bf6c7256a7c"
+          test "$(git hash-object stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py)" = "68047e16f63e20b299d27cdade3a5b83b45b3788"
 
       - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
         run: >-
@@ -223,6 +225,11 @@ jobs:
           --audited-n358-root .stage32-audited-n358
       - name: Verify HPADJ-02 RR effectivity promotion no-go
         run: python stages/stage32/management/hpadj-02/verify_hpadj02_rr_promotion_nogo.py
+
+      - name: Verify HPADJ-03 Freitag node-support dominance no-go
+        run: >-
+          python stages/stage32/management/hpadj-03/verify_hpadj03_node_support_dominance.py
+          --audited-n358-root .stage32-audited-n358
 
       - name: Verify Stage32 MAIN startup authority
         run: python stages/stage32/verify_main_startup.py
