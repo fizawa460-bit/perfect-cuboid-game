@@ -170,6 +170,13 @@ jobs:
           CERTLIFT_EX5_SOURCE_ROOT: ${{ github.workspace }}/.certlift-ex5-source
           CERTLIFT_CUT195_ROOT: ${{ github.workspace }}/.certlift-cut195
         run: python stages/stage32/cert-lift/certlift03_main_consumption_adapter.py --self-check
+      - name: Verify CERTLIFT-03 frozen MAIN consumption adapter receipt
+        env:
+          CERTLIFT_CURRENT_MAIN_ROOT: ${{ github.workspace }}/.certlift-current-main
+          CERTLIFT_AUDITED_ROOT: ${{ github.workspace }}/.certlift-audited
+          CERTLIFT_EX5_SOURCE_ROOT: ${{ github.workspace }}/.certlift-ex5-source
+          CERTLIFT_CUT195_ROOT: ${{ github.workspace }}/.certlift-cut195
+        run: python stages/stage32/cert-lift/verify_certlift03_main_consumption_adapter_receipt.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
