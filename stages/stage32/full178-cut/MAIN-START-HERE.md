@@ -7,7 +7,10 @@ Ordinary `stage32cut-mainbatch` reads, in this order:
 3. `stages/stage32/full178-cut/MAIN-START-HERE.md`;
 4. `stages/stage32/full178-cut/MISSION.json`;
 5. current `stages/stage32/MAIN-STATE.json`;
-6. only the exact source/interface assets required by the current CUT node.
+6. the live coordinator `stages/stage32/proof/CROSS-LANE-DEMANDS.json`, resolved as required by `COMMANDS.md`;
+7. only the exact source/interface assets required by the current CUT node.
+
+The local branch predates the demand registry. Do not treat its absence as an empty registry; follow the live coordinator before substantive work. OPEN consumer demands require waiting without rebuilding EX5 work; SATISFIED handoffs require identity and population validation before re-entry. Higher-priority OPEN producer demands preempt local work.
 
 The current Stage32 routing authority remains `stages/stage32/MAIN-STATE.json`. This lane is an auxiliary researcher and cannot promote itself to MAIN credit.
 

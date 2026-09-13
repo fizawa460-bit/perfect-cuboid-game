@@ -136,15 +136,28 @@ jobs:
           fi
           export RUNKEY_CHANGED="$changed"
           python - <<'PY'
-          import hashlib,json,os
+          import hashlib,json,os,subprocess
           from pathlib import Path
           def blob(path):
               raw=Path(path).read_bytes(); return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
           p=Path('stages/stage32/full178-cut/runkeys/CUT201-e8-wave9.json'); ok=False
           if os.environ.get('RUNKEY_CHANGED') == 'true' and p.exists():
               o=json.loads(p.read_text())
+              previous=subprocess.run(['git','show',os.environ['BEFORE']+':'+str(p)],capture_output=True,text=True)
+              generation=o.get('generation')
+              fresh=False
+              if previous.returncode == 0:
+                  try:
+                      old=json.loads(previous.stdout); old_generation=old.get('generation')
+                      fresh=(type(generation) is int and type(old_generation) is int and generation>old_generation)
+                  except (ValueError,AttributeError):
+                      fresh=False
+              else:
+                  # Only a proven new path may use the initial positive generation.
+                  names=subprocess.check_output(['git','ls-tree','--name-only',os.environ['BEFORE'],'--',str(p)],text=True).splitlines()
+                  fresh=(not names and type(generation) is int and generation>0)
               ok=(o.get('schema')=='STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1'
-                  and o.get('generation')==1 and o.get('armed') is True and o.get('consumed') is False
+                  and fresh and o.get('armed') is True and o.get('consumed') is False
                   and o.get('branch')=='stage32cut-e8-common-adapter-wave9-20260913'
                   and o.get('parent_cut200_audited_head')=='a1073508a33dac1001657554054a74d3cf47034a'
                   and o.get('parent_cut200_hostile_audit_review')==5189541446
