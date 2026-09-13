@@ -8,9 +8,14 @@ Ordinary `stage32cut-mainbatch` reads, in this order:
 4. `stages/stage32/full178-cut/MISSION.json`;
 5. current `stages/stage32/MAIN-STATE.json`;
 6. the live coordinator `stages/stage32/proof/CROSS-LANE-DEMANDS.json`, resolved as required by `COMMANDS.md`;
-7. only the exact source/interface assets required by the current CUT node.
+7. `stages/stage32/full178-cut/CROSS-LANE-STATE.json` whenever CUT has current demand state;
+8. only the exact source/interface assets required by the current CUT node.
 
 The local branch predates the demand registry. Do not treat its absence as an empty registry; follow the live coordinator before substantive work. OPEN consumer demands require waiting without rebuilding EX5 work; SATISFIED handoffs require identity and population validation before re-entry. Higher-priority OPEN producer demands preempt local work.
+
+Demand SATISFIED does not grant mathematical credit. Hostile audit, claim sync, current-target adapter and explicit MAIN consumption remain required.
+
+Current CUT192 coordination state is **SATISFIED**, not waiting. Its retained receipt is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`. CUT has consumed the re-entry trigger and is currently at CUT193 on PR #1786, using the EX5 common e=8 interface without rebuilding producer mathematics. CUT193 remains zero Stage32 MAIN credit until its own retained hostile audit and separate MAIN consumption. CUT191 is independent and its hostile-audited 113-terminal result remains consumed in MAIN V12 authority.
 
 The current Stage32 routing authority remains `stages/stage32/MAIN-STATE.json`. This lane is an auxiliary researcher and cannot promote itself to MAIN credit.
 
