@@ -2,6 +2,14 @@
 
 PR #1776 remains open/draft/unmerged. Merge is not authorized.
 
+## Cross-lane prerequisite
+
+The P0 producer demand `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` is operationally SATISFIED. The satisfying receipt is `stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json`; the retained exact interface is `stages/stage32-ex5/hpadj-handoff/INTERFACE.json`, blob `8a30e3aa30777460f344eb19836dc725dd442329`, canonical `cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6`.
+
+The interface preserves all `178` HPADJ rows and charged population lower bound `27104321327305699275487`, with exact Picard64 fiber denominator `8`, `11` terminal-fixed selected pairings and `53` free selected pairings. The retained verifier is `stages/stage32-ex5/hpadj-handoff/verify_hpadj_full178_terminal_picard64_interface.py`.
+
+This satisfaction is operational only. It grants no HPADJ pruning, FULL178, theorem, effectivity, receiver, endpoint, Stage32 MAIN, Perfect Cuboid, or merge credit. MAIN consumer re-entry is separate. BC2-38's earlier P0 preemption violation is preserved; the candidate remains quarantined from synchronized MAIN/178 credit. Coordination repair merely allows the independent BC2-38 hostile-audit gate to be entered again.
+
 BC2-37 hostile audit **PASS** is consumed from exact head `9852fcec959962607da3290100291a60185e7104`, review `5189412496`. Its bounded EX5 authority is `7 UNSAT / 34 UNKNOWN / 0 SAT`, audited known parent-UNSAT lower bound `7302`, remaining UNKNOWN hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
 
 ## Active BC2-38 hostile-audit boundary
@@ -34,7 +42,7 @@ Retained result to audit:
 
 `MAIN-STATE.json` must retain `new_audit_boundary_exists=true`, `freeze_active=true`, `re_audit_required=true`, and `bc2_38_execution_authorized=false`. BC2-38 heavy execution is retired; BC2-39 remains blocked.
 
-Hostile audit must independently verify exact target partition, artifact/raw-result identity, source-lock chain through BC2-37/BC2-32/BC2-19/BC2-18, UNKNOWN preservation, consumed runkey, heavy-path retirement, state freeze, audited/candidate separation, and broad-credit firewalls.
+Hostile audit must independently verify exact target partition, artifact/raw-result identity, source-lock chain through BC2-37/BC2-32/BC2-19/BC2-18, UNKNOWN preservation, consumed runkey, heavy-path retirement, state freeze, audited/candidate separation, broad-credit firewalls, and that the HPADJ P0 coordination prerequisite is SATISFIED without mathematical promotion.
 
 A future BC2-38 hostile-audit PASS may advance only the bounded EX5 audited lower bound from `7302` to `7306` and release the explicit 30 UNKNOWN set for BC2-39. It cannot automatically grant whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, or merge credit.
 
