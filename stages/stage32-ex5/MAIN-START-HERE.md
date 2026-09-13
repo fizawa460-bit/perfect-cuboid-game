@@ -10,23 +10,23 @@ Before local work, inspect every OPEN demand with `producer_lane=EX5`. A higher-
 
 ## Current authority
 
-Stage32 MAIN remains `STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED`, FULL178 incomplete, with no EX5 auto-promotion. Current observed main is `4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c`; its net content drift from the BC2-36 audit setup does not alter the source-locked Stage32 MAIN authority blob.
+Stage32 MAIN remains `STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED`, FULL178 incomplete, with no EX5 auto-promotion. Current observed main is `4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c`; EX5 does not mutate Stage32 MAIN authority.
 
-BC2-36 hostile audit PASS is consumed:
+BC2-37 hostile audit PASS is consumed:
 
-- audited exact head `9c63ccb48dd0e5bdeedda7739dd05e2404698465`;
-- review `5188625406`;
-- `11 UNSAT / 41 UNKNOWN / 0 SAT`;
-- audited known parent-UNSAT lower bound `7295`;
-- remaining 41 UNKNOWN hash `570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9`.
+- audited exact head `9852fcec959962607da3290100291a60185e7104`;
+- review `5189412496`;
+- `7 UNSAT / 34 UNKNOWN / 0 SAT`;
+- audited known parent-UNSAT lower bound `7302`;
+- remaining 34 UNKNOWN hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
 
-## BC2-37 hostile-audit boundary
+## BC2-38 hostile-audit boundary
 
-BC2-37 replayed exactly those 41 hostile-audited UNKNOWN parents at `120000 ms` per parent with effective heavy concurrency `1` and no scaleout. Execution head `52dfcb0ae986dac1b27998349feb97171c30be1b`, workflow `34728149823`, authorizer `103645902953`, compute `103645956700`, artifact `10309795138` all belong to the retained execution receipt.
+BC2-38 replayed exactly those 34 hostile-audited UNKNOWN parents at `140000 ms` per parent with effective heavy concurrency `1` and no scaleout. Execution head `d26a27e8564458f3d575ec58601b2226fc23944f`, workflow `34742297972`, authorizer `103683927278`, compute `103683975497`, artifact `10313851431` belong to the retained execution receipt.
 
-The retained result is `7 UNSAT / 34 UNKNOWN / 0 SAT`. The candidate lower bound `7302` is not yet consumable; the audited lower bound remains `7295` until BC2-37 hostile audit PASS. Remaining 34 UNKNOWN hash is `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`. UNKNOWN remains UNKNOWN.
+The retained result is `4 UNSAT / 30 UNKNOWN / 0 SAT`. Candidate lower bound `7306` is not yet consumable; audited lower bound remains `7302` until BC2-38 hostile audit PASS. Remaining 30 UNKNOWN hash is `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`. UNKNOWN remains UNKNOWN.
 
-The BC2-37 runkey is consumed/disarmed, the BC2-37 heavy path is retired, and V28 is frozen with `new_audit_boundary_exists=true`, `freeze_active=true`, and `re_audit_required=true`. BC2-38 is blocked until BC2-37 hostile audit PASS.
+The BC2-38 runkey is consumed/disarmed, the BC2-38 heavy path is retired, and V30 is frozen with `new_audit_boundary_exists=true`, `freeze_active=true`, and `re_audit_required=true`. BC2-39 is blocked until BC2-38 hostile audit PASS.
 
 No whole-first-block/whole-stratum/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.
 
