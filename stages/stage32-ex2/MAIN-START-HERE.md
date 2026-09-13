@@ -5,11 +5,16 @@ Ordinary `stage32ex2-mainbatch` reads, in this order:
 1. `AGENTS.md`;
 2. `stages/stage32-ex2/MAIN-START-HERE.md`;
 3. `stages/stage32-ex2/MAIN-STATE.json`;
-4. only the paths listed in `MAIN-STATE.json.current_leaf_working_set`.
+4. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
+5. only the paths listed in `MAIN-STATE.json.current_leaf_working_set` plus any exact demand artifact/state explicitly selected by the registry.
 
 This file is the fixed ordinary startup contract. Mutable frontier, current leaf, blockers, audit status, and next route live only in `MAIN-STATE.json`. The mathematical target and dependency roadmap live in `stages/stage32-ex2/stage32-ex2.md` and are opened only when the active task/working set requires them.
 
-Do not preload Stage32 history/controllers, other EX lanes, Research OS, Arsenal, or retained heavy payloads unless `AGENTS.md`, `MAIN-STATE.json`, or the active leaf explicitly triggers them.
+Do not preload Stage32 history/controllers, other EX lanes, Research OS, Arsenal, or retained heavy payloads unless `AGENTS.md`, `MAIN-STATE.json`, the cross-lane registry, or the active leaf explicitly triggers them.
+
+## Cross-lane demand routing
+
+Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before substantive local work, inspect every OPEN demand involving EX2. A higher-priority OPEN demand where EX2 is producer preempts lower-priority local research. If EX2 is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next mainbatch and validate satisfying artifact identity and source-population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
 
 ## Authority split
 
@@ -23,7 +28,7 @@ The final EX2 target is fixed by `stage32-ex2.md`: decide whether the V6 linear 
 
 A batch:
 
-1. identifies exactly one current mathematical unit;
+1. identifies exactly one current mathematical unit after applying any higher-priority cross-lane demand;
 2. revalidates every load-bearing input through exact source locators;
 3. executes a bounded reconstruction/decomposition/verification unit;
 4. records object type, field, model, population, assumptions, claim scope, and replay path;
@@ -42,11 +47,11 @@ Heavy/artifact-producing workflows require the repository heavy-workflow policy 
 
 ## Claim-DAG synchronization trigger
 
-Ordinary `stage32ex2-mainbatch` startup remains exactly the four-item startup set above and does not preload Stage32 proof-management files.
+Ordinary `stage32ex2-mainbatch` startup now includes the operational cross-lane demand registry but still does not preload the mathematical claim DAG.
 
 When EX2 reaches any `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOTION`, `ACTIVE_FRONTIER_REMAP`, or `FINAL_MILESTONE_TRANSITION`, open `stages/stage32/proof/CLAIM-SYNC-CONTRACT.md` and complete its on-demand synchronization procedure before treating that checkpoint or downstream credit transition as complete.
 
-Scratch-only diagnostics do not trigger claim-DAG writes. A hostile-audit PASS/FAIL receipt does not silently promote EX2 or MAIN; downstream use waits for claim synchronization.
+Scratch-only diagnostics and demand-status changes alone do not trigger claim-DAG credit writes. A hostile-audit PASS/FAIL receipt does not silently promote EX2 or MAIN; downstream use waits for claim synchronization.
 
 ## `stage32ex2-audit` handoff
 
