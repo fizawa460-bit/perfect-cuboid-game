@@ -20,10 +20,14 @@ BC2-36 hostile audit PASS is consumed:
 - audited known parent-UNSAT lower bound `7295`;
 - remaining 41 UNKNOWN hash `570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9`.
 
-## BC2-37 cold execution boundary
+## BC2-37 hostile-audit boundary
 
-BC2-37 targets exactly those 41 hostile-audited UNKNOWN parents. The producer is source-locked, timeout is `120000 ms` per parent, effective heavy concurrency is `1`, and heavy scaleout is forbidden. The cold runkey is generation 0 / `armed=false`; therefore cold exact-head CI must skip BC2-37 heavy execution.
+BC2-37 replayed exactly those 41 hostile-audited UNKNOWN parents at `120000 ms` per parent with effective heavy concurrency `1` and no scaleout. Execution head `52dfcb0ae986dac1b27998349feb97171c30be1b`, workflow `34728149823`, authorizer `103645902953`, compute `103645956700`, artifact `10309795138` all belong to the retained execution receipt.
 
-Only after cold exact-head CI succeeds may `stage32ex5-mainbatch` advance the runkey to generation 1 / `armed=true`. That semantic runkey change is the sole automatic heavy authorization path. While heavy execution is active, the branch head must remain fixed.
+The retained result is `7 UNSAT / 34 UNKNOWN / 0 SAT`. The candidate lower bound `7302` is not yet consumable; the audited lower bound remains `7295` until BC2-37 hostile audit PASS. Remaining 34 UNKNOWN hash is `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`. UNKNOWN remains UNKNOWN.
 
-BC2-38 is blocked until a retained BC2-37 result receives hostile-audit PASS. UNKNOWN remains UNKNOWN. No whole-first-block/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.
+The BC2-37 runkey is consumed/disarmed, the BC2-37 heavy path is retired, and V28 is frozen with `new_audit_boundary_exists=true`, `freeze_active=true`, and `re_audit_required=true`. BC2-38 is blocked until BC2-37 hostile audit PASS.
+
+No whole-first-block/whole-stratum/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.
+
+Next command: `stage32ex5-audit`.
