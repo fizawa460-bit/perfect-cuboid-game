@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_32_01_178_N388_EX5_BC2_38_P0_PREEMPTION_VIOLATION_FIREWALL_V1",
+  "node_id": "N388",
+  "semantic_key": "s32-01-178:ex5-bc2-38-p0-preemption-violation-firewall",
+  "status": "EX5_BC2_38_LOWER_PRIORITY_ROUTE_STARTED_WITH_STALE_REGISTRY_WHILE_HPADJ_P0_OPEN_FAIL_CLOSED_DISARM_AND_ACK_REQUIRED_NO_CREDIT",
+  "parent": {
+    "n387_state_blob_sha1": "3bff027f7fccc50dadd91514a8f143fba6316f47",
+    "n387_state_canonical_sha256": "609a5cf44445a269f201ff1ba2fb0d52b4d4b86677e430fd3ac151811e9fbbca"
+  },
+  "main_coordination": {
+    "pr": 1800,
+    "exact_head": "7bd57f5f2013089f0cba34513a7be5e9fee78c7a",
+    "cross_lane_state_path": "stages/stage32-ex5/CROSS-LANE-STATE.json",
+    "cross_lane_state_blob_sha1": "0006aa15d3971d993eee4b3c33fc3a15004ce891",
+    "cross_lane_state_canonical_sha256": "4afb71a75c11647fe5dd0b27f080e4bdc90e970a33d45db46e0fa25a24b95f47",
+    "producer_monitor_path": "stages/stage32/management/hpadj-04/PRODUCER-MONITOR.json",
+    "producer_monitor_blob_sha1": "1b3e2bb96058a4e03dc522a16ca9a6ed8b80cab8",
+    "producer_monitor_canonical_sha256": "d28370cb9af18ee5afd427e3445ae1a0765d6bd52e30aa2177c2f999ceafc123",
+    "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
+    "demand_status": "OPEN",
+    "demand_priority": "P0_BLOCKING_DOWNSTREAM",
+    "producer_acknowledged": false,
+    "producer_diversion_detected": true,
+    "main_authority_mutated": false,
+    "main_pruning_credit": false
+  },
+  "producer_diversion": {
+    "producer_pr": 1776,
+    "observed_exact_head": "d26a27e8564458f3d575ec58601b2226fc23944f",
+    "observed_main_state_path": "stages/stage32-ex5/MAIN-STATE.json",
+    "observed_main_state_blob_sha1": "ef688b0a2101ec60a48db25567aa386471ab0ea7",
+    "observed_cross_lane_state_path": "stages/stage32-ex5/CROSS-LANE-STATE.json",
+    "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
+    "observed_cross_lane_state_canonical_sha256": "7d3e06425e8672cb31a1c39c871b2e11964a662cffa29d0157623b8808710a9a",
+    "producer_registry_contains_hpadj_demand": false,
+    "producer_open_demands": [],
+    "bc2_37_hostile_audit_review_id": 5189412496,
+    "bc2_37_hostile_audit_consumed": true,
+    "local_route": "BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "local_route_priority": "P2_NORMAL",
+    "bc2_38_execution_authorized_in_stale_producer_state": true,
+    "bc2_38_workflow_run": 34742297972,
+    "bc2_38_compute_job": 103683975497,
+    "main_observed_compute_status": "IN_PROGRESS",
+    "classification": "P0_PREEMPTION_VIOLATION_EX5_STARTED_BC2_38_WITH_STALE_CROSS_LANE_REGISTRY"
+  },
+  "firewall": {
+    "bc2_38_execution_authorized_under_current_coordination": false,
+    "bc2_38_output_may_be_promoted_to_main_now": false,
+    "bc2_38_output_satisfies_hpadj_demand": false,
+    "bc2_38_output_may_grant_178_pruning_credit": false,
+    "bc2_38_output_must_remain_quarantined_for_main_credit_until_coordination_repair_and_separate_acceptance": true,
+    "178_must_not_duplicate_ex5_producer_work": true,
+    "178_heavy_compute_authorized": false,
+    "n101_remains_stopped": true,
+    "independent_n377_strong_signature_or_integral_picard_action_route_remains_legal": true
+  },
+  "required_repair": {
+    "next_external_command": "stage32ex5-mainbatch",
+    "stop_new_p2_research": true,
+    "disarm_or_retire_bc2_38_run_authorization": true,
+    "synchronize_current_cross_lane_registry": true,
+    "acknowledge_hpadj_p0_before_next_local_research": true,
+    "requested_output": "SOURCE_LOCKED_EXACT_HPADJ_TERMINAL_TO_PICARD64_POPULATION_INTERFACE",
+    "main_reentry_requires_satisfied_demand_with_source_locked_replayable_artifact": true
+  },
+  "credit": {
+    "n388_new_main_pruning_credit": false,
+    "n388_full178_complete": false,
+    "n388_n101_reopened_credit": false,
+    "n388_effectivity_final": false,
+    "n388_integral_irreducible_carrier_credit": false,
+    "n388_theorem_credit": false,
+    "n388_endpoint_credit": false,
+    "n388_receiver_credit": false,
+    "n388_stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "EX5_DISARMS_OR_RETIRES_BC2_38_RUN_AUTHORIZATION_AND_ACKNOWLEDGES_HPADJ_P0_THEN_PRODUCES_SOURCE_LOCKED_PICARD64_INTERFACE_OR_N377_STRONG_SIGNATURE_ACTION",
+  "canonical_sha256_without_this_field": "becb1434075922d957569a17c3cb59ac3629946fbf3c78e6a648956acb5e1e5d"
+}
