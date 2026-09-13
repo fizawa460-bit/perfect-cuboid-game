@@ -6,7 +6,16 @@ PR #1776 remains active/open/draft/unmerged. Merge is not authorized.
 
 ## Cross-lane demand priority
 
-Before local work, inspect every OPEN demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**. `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains SATISFIED and there are no OPEN EX5 producer demands.
+Before local work, inspect every OPEN demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
+
+Both producer demands are now operationally SATISFIED:
+
+- `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`;
+- `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1`.
+
+The HPADJ handoff is source-locked by `stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json`. Its retained interface is `stages/stage32-ex5/hpadj-handoff/INTERFACE.json`, blob `8a30e3aa30777460f344eb19836dc725dd442329`, canonical `cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6`. It preserves all `178` HPADJ rows and charged lower-bound population `27104321327305699275487`, with exact selected64-to-Picard64 fiber denominator `8`, `11` stored terminal pairings and `53` free selected pairings. Demand satisfaction grants no pruning, FULL178, theorem, endpoint, receiver, or merge credit. MAIN consumer re-entry remains separate.
+
+BC2-38's earlier P0 preemption violation is not erased. The retained computation remains quarantined from synchronized MAIN/178 credit; coordination repair only permits it to re-enter its independent hostile-audit gate.
 
 ## Current authority
 
