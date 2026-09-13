@@ -77,6 +77,16 @@ jobs:
         with:
           ref: fd00531181228c9f367a49eb61ddc3af6ab84ab3
           path: .certlift-ex5-source
+      - name: Checkout hostile-audited CERTLIFT-03 head separately
+        uses: actions/checkout@v4
+        with:
+          ref: af41c95b9e952ed6cf913f2187a9d3acd94ddef3
+          path: .certlift-audited
+      - name: Checkout exact current MAIN population separately
+        uses: actions/checkout@v4
+        with:
+          ref: 4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c
+          path: .certlift-current-main
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
@@ -148,6 +158,12 @@ jobs:
         env:
           PYTHONPATH: ${{ github.workspace }}/.certlift-ex5-source/stages/stage32-ex5/cut-handoff
         run: python stages/stage32/cert-lift/verify_certlift03_symbolic_receipt.py
+      - name: Verify CERTLIFT-03 exact current-MAIN consumption adapter
+        env:
+          CERTLIFT_CURRENT_MAIN_ROOT: ${{ github.workspace }}/.certlift-current-main
+          CERTLIFT_AUDITED_ROOT: ${{ github.workspace }}/.certlift-audited
+          CERTLIFT_EX5_SOURCE_ROOT: ${{ github.workspace }}/.certlift-ex5-source
+        run: python stages/stage32/cert-lift/certlift03_main_consumption_adapter.py --self-check
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
