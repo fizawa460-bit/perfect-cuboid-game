@@ -45,6 +45,7 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
       - name: Checkout hostile-audited MAIN V21 predecessor
         uses: actions/checkout@v4
         with:
@@ -53,6 +54,7 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited MAIN V21 head
         run: test "$(git -C .stage32-audited-main-v21 rev-parse HEAD)" = "62768270a39b23c358f11b3a75bccae5d7cea0f6"
+
       - name: Checkout hostile-audited CUT193
         uses: actions/checkout@v4
         with:
@@ -61,6 +63,30 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited CUT193 head
         run: test "$(git -C .stage32-audited-cut193 rev-parse HEAD)" = "5b2ebb3f67805eddefef835878ba4b9744bfdbd9"
+      - name: Checkout hostile-audited CUT194
+        uses: actions/checkout@v4
+        with:
+          ref: 847f3bff0c5e0d0530bfb8db406e955b2d231d9a
+          path: .stage32-audited-cut194
+          fetch-depth: 1
+      - name: Assert hostile-audited CUT194 head
+        run: test "$(git -C .stage32-audited-cut194 rev-parse HEAD)" = "847f3bff0c5e0d0530bfb8db406e955b2d231d9a"
+      - name: Checkout hostile-audited CUT195
+        uses: actions/checkout@v4
+        with:
+          ref: 2618f4dcd546d569b212753ac7abc10e07ee5828
+          path: .stage32-audited-cut195
+          fetch-depth: 1
+      - name: Assert hostile-audited CUT195 head
+        run: test "$(git -C .stage32-audited-cut195 rev-parse HEAD)" = "2618f4dcd546d569b212753ac7abc10e07ee5828"
+      - name: Checkout hostile-audited CUT196
+        uses: actions/checkout@v4
+        with:
+          ref: 85f4e988acf6446fa0d472208e21990621a650b4
+          path: .stage32-audited-cut196
+          fetch-depth: 1
+      - name: Assert hostile-audited CUT196 head
+        run: test "$(git -C .stage32-audited-cut196 rev-parse HEAD)" = "85f4e988acf6446fa0d472208e21990621a650b4"
       - name: Checkout hostile-audited CUT197
         uses: actions/checkout@v4
         with:
@@ -77,6 +103,7 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited CUT198 head
         run: test "$(git -C .stage32-audited-cut198 rev-parse HEAD)" = "16e439bc65e723c9f2658c274d53fb839738dcd2"
+
       - name: Checkout hostile-audited N357 composition basis
         uses: actions/checkout@v4
         with:
@@ -85,6 +112,7 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited N357 composition head
         run: test "$(git -C .stage32-audited-n357-composition rev-parse HEAD)" = "0bdc3b952b35ea3201d8619f21a3df7a3015ff85"
+
       - name: Checkout hostile-audited EX5 BC2-35 cross-lane basis
         uses: actions/checkout@v4
         with:
@@ -93,6 +121,7 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited EX5 BC2-35 head
         run: test "$(git -C .stage32-audited-ex5-bc2-35 rev-parse HEAD)" = "8bea7a6be26e01db0deb138dbd8406f578447921"
+
       - name: Checkout hostile-audited MAIN V22 mathematical authority
         uses: actions/checkout@v4
         with:
@@ -101,6 +130,32 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited MAIN V22 head
         run: test "$(git -C .stage32-audited-main-v22 rev-parse HEAD)" = "f8039b4ce479a4b91f2f0547e7049f629e9be5f5"
+
+      - name: Checkout CERTLIFT-03 hostile-audited reviewed head
+        uses: actions/checkout@v4
+        with:
+          ref: 289437a4a97a814c2388133cbde0c794d9502e4b
+          path: .stage32-certlift-reviewed
+          fetch-depth: 1
+      - name: Assert CERTLIFT-03 reviewed head
+        run: test "$(git -C .stage32-certlift-reviewed rev-parse HEAD)" = "289437a4a97a814c2388133cbde0c794d9502e4b"
+      - name: Checkout CERTLIFT-03 hostile-audit PASS receipt head
+        uses: actions/checkout@v4
+        with:
+          ref: 51c56b5c3ee15177c2975b966ab546d0b548c4af
+          path: .stage32-certlift-audit-pass
+          fetch-depth: 1
+      - name: Assert CERTLIFT-03 audit-pass receipt head
+        run: test "$(git -C .stage32-certlift-audit-pass rev-parse HEAD)" = "51c56b5c3ee15177c2975b966ab546d0b548c4af"
+      - name: Checkout hostile-audited V15 adapter semantic provenance
+        uses: actions/checkout@v4
+        with:
+          ref: 7c3a9c301d9e1d98678fcd1532afce62c44d56e0
+          path: .stage32-certlift-v15-adapter
+          fetch-depth: 1
+      - name: Assert hostile-audited V15 adapter head
+        run: test "$(git -C .stage32-certlift-v15-adapter rev-parse HEAD)" = "7c3a9c301d9e1d98678fcd1532afce62c44d56e0"
+
       - name: Checkout hostile-audited N358 census basis
         uses: actions/checkout@v4
         with:
@@ -109,6 +164,7 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited N358 head
         run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
+
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
@@ -127,14 +183,17 @@ jobs:
           test "$merge_base" = "$baseline"
           echo "research_freshness=CLEAR_UNRELATED_MAIN_DRIFT"
           echo "merge_ready_freshness=PENDING_BEHIND_MAIN"
-      - name: Verify V22 verifier source identities
+
+      - name: Verify V23 verifier source identities
         run: |
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "f350165a194fa02f29f6aed4dc283d3e6e744b56"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v22.py)" = "708482de47be700bb81f80e464554b60c4404514"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "88a9b511cadc72ede01791108b0f10537323d1c0"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v23.py)" = "0a14c08be80e86b7393a92b42903f08db1fe4275"
+          test "$(git hash-object stages/stage32/management/verify_certlift03_current_v22_composition.py)" = "2ec9e2a8629b8ec566ff2d35c19420c8e0662400"
           test "$(git hash-object stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py)" = "286abb04bb5c898c28187f4824311bdf779ef3f2"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "417e809b24e39fcf49e21aef2a653750765e675b"
           test "$(git hash-object stages/stage32/management/cross-lane-hnf-syndrome/hnf_syndrome_compression_probe.py)" = "6dc96469a173571753ca8ce3e6556b182db56387"
           test "$(git hash-object stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py)" = "b0253975ddf28c99b9d9898f54ada9a6842b2386"
+
       - name: Verify CUT193 CUT197 CUT198 batch current-V21 composition fail-closed
         run: >-
           python3 stages/stage32/management/verify_cut193_cut197_cut198_current_v21_batch_composition.py
@@ -143,6 +202,21 @@ jobs:
           --audited-cut197-root .stage32-audited-cut197
           --audited-cut198-root .stage32-audited-cut198
           --audited-n357-composition-root .stage32-audited-n357-composition
+
+      - name: Verify hostile-audited CERTLIFT-03 current-V22 composition fail-closed
+        run: >-
+          python3 stages/stage32/management/verify_certlift03_current_v22_composition.py
+          --audited-main-v22-root .stage32-audited-main-v22
+          --certlift-reviewed-root .stage32-certlift-reviewed
+          --certlift-audit-pass-root .stage32-certlift-audit-pass
+          --audited-v15-adapter-root .stage32-certlift-v15-adapter
+          --cut193-root .stage32-audited-cut193
+          --cut194-root .stage32-audited-cut194
+          --cut195-root .stage32-audited-cut195
+          --cut196-root .stage32-audited-cut196
+          --cut197-root .stage32-audited-cut197
+          --cut198-root .stage32-audited-cut198
+
       - name: Setup exact EX5 adapter Python
         uses: actions/setup-python@v5
         with:
@@ -160,6 +234,7 @@ jobs:
           python stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py
           --audited-main-v22-root .stage32-audited-main-v22
           --audited-n358-root .stage32-audited-n358
+
       - name: Verify Stage32 MAIN startup authority
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination
@@ -168,10 +243,11 @@ jobs:
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V22 batch CUT transition
+      - name: Verify Stage32 claim-DAG integrity after V23 CERTLIFT transition
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V22 batch CUT transition
+      - name: Verify Stage32 active frontier after V23 CERTLIFT transition
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
+
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'
         run: |
