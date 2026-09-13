@@ -25,7 +25,9 @@
     "observed_cross_lane_state_blob_sha1": "0c15a31d8085b50d5ab54a92c5ff7fa96e7535e0",
     "observed_cross_lane_schema": "STAGE32_EX5_CROSS_LANE_COORDINATION_STATE_V2_SATISFIED",
     "observed_open_producer_demands": [],
-    "producer_acknowledged_current_hpadj_demand": false
+    "producer_acknowledged_current_hpadj_demand": false,
+    "observed_pr_route": "HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY",
+    "observed_next_command": "stage32ex5-audit"
   },
   "preexisting_execution_context": {
     "bc2_37_heavy_run": 34728149823,
@@ -36,9 +38,11 @@
     "producer_diversion_violation_asserted": false
   },
   "next_gate": {
-    "required_producer_action": "EX5 must synchronize the current CROSS-LANE-DEMANDS registry/state and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before starting any new P2 local research; then produce the requested exact HPADJ terminal-to-Picard64 population interface.",
-    "main_reentry_condition": "Demand becomes SATISFIED with a source-locked replayable artifact identity; MAIN then validates the satisfying artifact before any promotion attempt.",
-    "stage32ex5_mainbatch_is_next_producer_command": true
+    "immediate_producer_gate": "Finish the already-frozen BC2-37 hostile-audit boundary using stage32ex5-audit; MAIN does not run that audit.",
+    "after_bc2_37_audit": "On the next stage32ex5-mainbatch, synchronize the current CROSS-LANE-DEMANDS registry/state and acknowledge S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1 before any new P2 local research.",
+    "main_reentry_condition": "HPADJ demand becomes SATISFIED with a source-locked replayable artifact identity; MAIN then validates the satisfying artifact before any promotion attempt.",
+    "stage32ex5_audit_is_immediate_producer_command": true,
+    "stage32ex5_mainbatch_is_next_after_audit": true
   },
   "firewalls": {
     "main_authority_mutated": false,
@@ -55,5 +59,5 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "5107504368728ca7cb0c775991fc167c0275e11960fa05012b52b1b9ff8c7990"
+  "canonical_sha256_without_this_field": "929c6815ba13236362b9fb233f6aa1148a5253a757b347123a31f76c9640b0cd"
 }
