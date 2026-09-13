@@ -92,6 +92,41 @@ jobs:
         with:
           ref: 2618f4dcd546d569b212753ac7abc10e07ee5828
           path: .certlift-cut195
+      - name: Checkout hostile-audited CERTLIFT adapter reviewed head separately
+        uses: actions/checkout@v4
+        with:
+          ref: 7c3a9c301d9e1d98678fcd1532afce62c44d56e0
+          path: .certlift-adapter-audited
+      - name: Checkout hostile-audited Stage32 MAIN V22 separately
+        uses: actions/checkout@v4
+        with:
+          ref: f8039b4ce479a4b91f2f0547e7049f629e9be5f5
+          path: .certlift-v22-main
+      - name: Checkout hostile-audited CUT193 separately
+        uses: actions/checkout@v4
+        with:
+          ref: 5b2ebb3f67805eddefef835878ba4b9744bfdbd9
+          path: .certlift-cut193
+      - name: Checkout hostile-audited CUT194 separately
+        uses: actions/checkout@v4
+        with:
+          ref: 847f3bff0c5e0d0530bfb8db406e955b2d231d9a
+          path: .certlift-cut194
+      - name: Checkout hostile-audited CUT196 separately
+        uses: actions/checkout@v4
+        with:
+          ref: 85f4e988acf6446fa0d472208e21990621a650b4
+          path: .certlift-cut196
+      - name: Checkout hostile-audited CUT197 separately
+        uses: actions/checkout@v4
+        with:
+          ref: adce53dc9004c24bffb3ba9f88e9d5d6e51cf6a5
+          path: .certlift-cut197
+      - name: Checkout hostile-audited CUT198 separately
+        uses: actions/checkout@v4
+        with:
+          ref: 16e439bc65e723c9f2658c274d53fb839738dcd2
+          path: .certlift-cut198
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
@@ -177,6 +212,17 @@ jobs:
           CERTLIFT_EX5_SOURCE_ROOT: ${{ github.workspace }}/.certlift-ex5-source
           CERTLIFT_CUT195_ROOT: ${{ github.workspace }}/.certlift-cut195
         run: python stages/stage32/cert-lift/verify_certlift03_main_consumption_adapter_receipt.py
+      - name: Verify CERTLIFT-03 hostile-audited V22 consumption adapter candidate
+        env:
+          CERTLIFT_V22_MAIN_ROOT: ${{ github.workspace }}/.certlift-v22-main
+          CERTLIFT_ADAPTER_AUDITED_ROOT: ${{ github.workspace }}/.certlift-adapter-audited
+          CERTLIFT_CUT193_ROOT: ${{ github.workspace }}/.certlift-cut193
+          CERTLIFT_CUT194_ROOT: ${{ github.workspace }}/.certlift-cut194
+          CERTLIFT_CUT195_ROOT: ${{ github.workspace }}/.certlift-cut195
+          CERTLIFT_CUT196_ROOT: ${{ github.workspace }}/.certlift-cut196
+          CERTLIFT_CUT197_ROOT: ${{ github.workspace }}/.certlift-cut197
+          CERTLIFT_CUT198_ROOT: ${{ github.workspace }}/.certlift-cut198
+        run: python stages/stage32/cert-lift/certlift03_v22_consumption_adapter.py --self-check
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
