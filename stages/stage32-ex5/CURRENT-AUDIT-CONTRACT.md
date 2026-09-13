@@ -2,40 +2,40 @@
 
 PR #1776 remains open/draft/unmerged. Merge is not authorized.
 
-BC2-36 hostile audit **PASS** is consumed from exact head `9c63ccb48dd0e5bdeedda7739dd05e2404698465`, review `5188625406`. Its bounded EX5 authority is `11 UNSAT / 41 UNKNOWN / 0 SAT`, audited known parent-UNSAT lower bound `7295`, remaining UNKNOWN hash `570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9`.
+BC2-37 hostile audit **PASS** is consumed from exact head `9852fcec959962607da3290100291a60185e7104`, review `5189412496`. Its bounded EX5 authority is `7 UNSAT / 34 UNKNOWN / 0 SAT`, audited known parent-UNSAT lower bound `7302`, remaining UNKNOWN hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
 
-## Active BC2-37 hostile-audit boundary
+## Active BC2-38 hostile-audit boundary
 
-BC2-37 executed exactly the hostile-audited BC2-36 41-UNKNOWN set at `120000 ms` per parent, one heavy runner, no scaleout.
+BC2-38 executed exactly the hostile-audited BC2-37 34-UNKNOWN set at `140000 ms` per parent, one heavy runner, no scaleout.
 
 Execution receipt:
 
-- execution head `52dfcb0ae986dac1b27998349feb97171c30be1b`
-- workflow `34728149823`
-- authorize job `103645902953`: SUCCESS / fresh-runkey
-- compute job `103645956700`: SUCCESS
-- artifact `10309795138`
-- artifact ZIP sha256 `f3ab28efcbe4881f053fc5bbcaccd26fba44056d635603d6f3a05ed6a589fdc4`
-- raw JSON sha256 `4dc7d7108b7edfc18a987e9f6a3574b323ce70d82b33444e4ef5c2955404b2aa`
+- execution head `d26a27e8564458f3d575ec58601b2226fc23944f`
+- workflow `34742297972`
+- authorize job `103683927278`: SUCCESS / fresh-runkey
+- compute job `103683975497`: SUCCESS
+- artifact `10313851431`
+- artifact ZIP sha256 `674c4deb7c2e13f654738278ad2108d40d3c4c463ae9f158a6cc438f10f65f01`
+- raw JSON sha256 `2ac56238dd57989beebfd36a346074acd6ab57d497e692b16934203306a2b0e7`
 
 Retained result to audit:
 
-- `7 UNSAT / 34 UNKNOWN / 0 SAT`
-- new UNSAT IDs `[1003,1016,1066,1198,2690,3160,4549]`
-- remaining UNKNOWN IDs `[1014,1048,1050,1056,1103,1133,1206,1216,1218,1243,1251,1703,1706,1717,1719,1733,1798,1910,2092,2122,2187,2407,2634,2651,2817,2819,3205,3375,3635,3885,3901,3915,3980,4200]`
-- remaining UNKNOWN hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`
-- status-stream sha256 `2f1bf300c7ec7a05975c2a4be5fb8d85deb4a40980e9daa12d7aec5adedf8f66`
-- checkpoint canonical `286e40b0004b978cdbbc3829c600383c34a8bdc4e1492c54d99a2400258e37b7`
-- checkpoint blob `6ac4592eded6be2bf80e88c33d0ac5944f13afaf`
-- consumed/disarmed runkey blob `f23a9062f5211dbf0cd17dd6d9d14299551a8e51`
-- retained verifier blob `744ef59e67baca75900dd25381107b35dbbf04c5`
-- candidate lower bound `7302`
-- audited lower bound remains `7295` until BC2-37 hostile-audit PASS.
+- `4 UNSAT / 30 UNKNOWN / 0 SAT`
+- new UNSAT IDs `[1014,1133,1910,2817]`
+- remaining UNKNOWN IDs `[1048,1050,1056,1103,1206,1216,1218,1243,1251,1703,1706,1717,1719,1733,1798,2092,2122,2187,2407,2634,2651,2819,3205,3375,3635,3885,3901,3915,3980,4200]`
+- remaining UNKNOWN hash `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`
+- status-stream sha256 `839233bb8552e4da7589616439cb614c07ceb018643f4f6d9bf3bf3f175fdeb5`
+- checkpoint canonical `88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba`
+- checkpoint blob `91eca02054cd2dbf702dd4a7635398ef76ee832f`
+- consumed/disarmed runkey blob `87855350c6240cd524069490f85858b11099da60`
+- retained verifier blob `934f19363549d652c18b02934c1f963a19204664`
+- candidate lower bound `7306`
+- audited lower bound remains `7302` until BC2-38 hostile-audit PASS.
 
-`MAIN-STATE.json` must retain `new_audit_boundary_exists=true`, `freeze_active=true`, `re_audit_required=true`, and `bc2_37_execution_authorized=false`. BC2-37 heavy execution is retired; BC2-38 remains blocked.
+`MAIN-STATE.json` must retain `new_audit_boundary_exists=true`, `freeze_active=true`, `re_audit_required=true`, and `bc2_38_execution_authorized=false`. BC2-38 heavy execution is retired; BC2-39 remains blocked.
 
-Hostile audit must independently verify exact target partition, artifact/raw-result identity, source-lock chain through BC2-36/BC2-32/BC2-19/BC2-18, UNKNOWN preservation, consumed runkey, heavy-path retirement, state freeze, audited/candidate separation, and broad-credit firewalls.
+Hostile audit must independently verify exact target partition, artifact/raw-result identity, source-lock chain through BC2-37/BC2-32/BC2-19/BC2-18, UNKNOWN preservation, consumed runkey, heavy-path retirement, state freeze, audited/candidate separation, and broad-credit firewalls.
 
-A future BC2-37 hostile-audit PASS may advance only the bounded EX5 audited lower bound from `7295` to `7302` and release the explicit 34 UNKNOWN set for BC2-38. It cannot automatically grant whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, or merge credit.
+A future BC2-38 hostile-audit PASS may advance only the bounded EX5 audited lower bound from `7302` to `7306` and release the explicit 30 UNKNOWN set for BC2-39. It cannot automatically grant whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, or merge credit.
 
 Next command: `stage32ex5-audit`.
