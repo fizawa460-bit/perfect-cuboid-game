@@ -146,6 +146,19 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited N358 head
         run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
+      - name: Checkout N358 hostile-audit PASS receipt retention head
+        uses: actions/checkout@v4
+        with:
+          ref: 95122f8223226e51cfb77ea4be2e952b6a623387
+          path: .stage32-n358-audit-receipt
+          fetch-depth: 1
+      - name: Source-lock and materialize N358 hostile-audit PASS receipt
+        run: |
+          receipt="stages/stage32/32-01-178/nodes/N358/HOSTILE-AUDIT-PASS.json"
+          test "$(git -C .stage32-n358-audit-receipt rev-parse HEAD)" = "95122f8223226e51cfb77ea4be2e952b6a623387"
+          test "$(git -C .stage32-n358-audit-receipt hash-object "$receipt")" = "7b36e0159987ef65485d36fa2d672c8ee3a1ff33"
+          cp ".stage32-n358-audit-receipt/$receipt" ".stage32-audited-n358/$receipt"
+          test "$(git -C .stage32-audited-n358 hash-object "$receipt")" = "7b36e0159987ef65485d36fa2d672c8ee3a1ff33"
 
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
