@@ -1,0 +1,62 @@
+{
+  "canonical_sha256_without_this_field": "b7ff04666b5a29f7cca5da4df0fd9076a6e785702b594bda602cb4085d45c15d",
+  "consequence": {
+    "full178_population_statement": false,
+    "grf02_completion_parity_strengthened": false,
+    "interpretation": "GRF-02 integrality parity may still prune concrete terminals, but the exact norm-ladder congruence modulo 2*m^2 cannot further split its integral completion kernel. Any stronger GRF obstruction must use norm magnitude/bounds or additional source-locked conditions, not this congruence alone.",
+    "new_linear_congruence_obstruction_from_norm_ladder": false,
+    "new_quadratic_residue_obstruction_from_norm_ladder_mod_2m2_alone": false
+  },
+  "credit_firewall": {
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "main_pruning_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "theorem_credit": false
+  },
+  "even_lattice_collapse": {
+    "degree_even_in_stage29_windows": true,
+    "norm_ladder_congruence_automatic_for_every_integral_completion": true,
+    "reason": "For an integral Picard64 coordinate vector p, p^T G p mod 2 equals the diagonal contribution; every retained Gram diagonal entry is even.",
+    "retained_picard64_gram_diagonal_even": true,
+    "therefore_C2_even_for_every_integral_completion": true,
+    "two_minus_two_g_even_for_g_0_or_1": true
+  },
+  "grf02_input": {
+    "exact_completion_parity": {
+      "coefficients": [1,0,0,0,1,0,0,0,1,0,1],
+      "formula": "x95+x49+x93+x96 == 0 (mod 2)",
+      "modulus": 2
+    },
+    "fixed_selected64_order_1based": [95,99,103,102,49,97,94,101,93,98,96]
+  },
+  "norm_ladder": {
+    "arithmetic_genus_parameterization": "p_a(C)=g+k with k>=0 integer",
+    "definitions": ["r=gcd(d,16)","m=16/r","n=d/r","y=m*C-n*H","N=-y^2=16*n^2-m^2*C^2"],
+    "equivalent_picard_parity": "C^2+d+2-2*g == 0 (mod 2)",
+    "exact_identity": "N=16*n^2+m^2*(d+2-2*g)-2*m^2*k",
+    "required_congruence": "N == 16*n^2+m^2*(d+2-2*g) (mod 2*m^2)"
+  },
+  "ownership": {
+    "bounded_leaf_search_performed": false,
+    "concrete_application_owner": "stage32-01-178-mainbatch",
+    "concrete_row_or_stratum_selected": false,
+    "population_replay_performed": false
+  },
+  "schema": "STAGE32_MAIN_GRF03_NORM_LADDER_RESIDUE_COLLAPSE_V1",
+  "source": {
+    "grf02_projected_kernel_blob_sha1": "7c1cda07749fbfb90245995d1def2ae96fb5604b",
+    "grf02_projected_kernel_canonical_sha256": "2e08a25e2de891bfabd0bf96ba06d928d733711b2c27449c9818b856665d4d6f",
+    "hperp_integral_adapter_blob_sha1": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+    "picard_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+    "picard_bundle_source_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "stage29_finite_search_contract_blob_sha1": "2c1a4813a77b517482b6fef497f9a517c9d12fe6"
+  },
+  "stage": 32,
+  "status": "EXACT_SYMBOLIC_NO_GO_NORM_LADDER_CONGRUENCE_ADDS_NO_OBSTRUCTION_NO_CREDIT",
+  "surface": "MAIN"
+}
