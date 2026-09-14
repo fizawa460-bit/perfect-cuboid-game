@@ -25,7 +25,7 @@ If live MAIN identity cannot be resolved, or the lane-local mirror materially di
 
 Inspect only demands involving lane `MB`. A higher-priority OPEN demand where MB is producer preempts lower-priority local work. If MB is consumer of an OPEN demand, wait rather than duplicate producer mathematics. For SATISFIED re-entry, validate the satisfying artifact identity and source-population semantics before use. Do not preload unrelated demand artifacts.
 
-Demand SATISFIED does not grant mathematical credit. It also grants no receiver, effectivity, theorem, endpoint, closure, or merge credit. Hostile audit, claim synchronization, current-target adapters where applicable, and explicit MAIN consumption/promotion remain separate gates.
+Demand SATISFIED does not grant mathematical credit. Demand status never grants receiver, effectivity, theorem, endpoint, closure, or merge credit. Hostile audit, claim synchronization, current-target adapters where applicable, and explicit MAIN consumption/promotion remain separate gates.
 
 ## Ownership and anti-loop boundary
 

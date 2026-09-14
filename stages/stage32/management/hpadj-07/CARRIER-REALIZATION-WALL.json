@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ07_CARRIER_REALIZATION_WALL_V2_GENERAL_TYPE_SUPERSESSION",
+  "stage": 32,
+  "leaf": "HPADJ-07_GENERAL_TYPE_SUPERSESSION_AND_PRUNING_WALL",
+  "status": "CORRECTED_GENERAL_TYPE_ACTIVE_PATH_OLD_K3_ADJUNCTION_RETIRED_NO_MAIN_CREDIT",
+  "audit_repair_boundary": {
+    "failed_exact_head": "d7b9b06ad8d162304ac52310cbb20ef8363fc3cd",
+    "hostile_audit_review_id": 5190972957,
+    "hostile_audit_status": "FAIL",
+    "repair_required": true,
+    "merge_authorized": false
+  },
+  "historical_boundary": {
+    "last_hpadj07_wall_pass_head": "ab0f3c7eb02fddbdb8caf1be2ccfa12b0001bbed",
+    "historical_pass_preserved": true,
+    "historical_pass_does_not_authorize_current_k3_claim": true
+  },
+  "source_boundary": {
+    "historical_hpadj06_carrier_adapter": {
+      "path": "stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json",
+      "blob_sha1": "2f8d51dd4c52cf9189b829d0cd42679ef110cef9",
+      "canonical_sha256": "72144be89761ba82f93fd33ca7647c90a4ba12646d5f63e70537a955d93f106d",
+      "current_mathematical_status": "SUPERSEDED_INVALID_K3_ADJUNCTION_ON_STAGE32_SURFACE"
+    },
+    "general_type_correction": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+      "blob_sha1": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+      "canonical_sha256": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
+    },
+    "pruning_direction_contract": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/PRUNING-DIRECTION-CONTRACT-REVIEW.json",
+      "blob_sha1": "bd1beddf25b505c9f6c7e163606e6156dca10346",
+      "canonical_sha256": "3c6ace29e475f781e6db5a5859578b88b91179a46637c97551391782e85d3e87"
+    },
+    "current_v23_conservative_rebase": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json",
+      "blob_sha1": "8883cfc59a6d48e34d7e256fad15e69714dc02d1",
+      "canonical_sha256": "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01"
+    },
+    "stage29_lg2_route_contract": {
+      "path": "stages/stage29/29-02c-LG2/route-contract.json",
+      "blob_sha1": "99752985fd705ee993d052e5bcc622181c7a4cbc"
+    }
+  },
+  "active_path": {
+    "terminal_to_picard64_population_identity": true,
+    "historical_k3_adjunction_claim_active": false,
+    "historical_hpadj06_carrier_exclusion_active": false,
+    "historical_hpadj01_k3_threshold_active": false,
+    "corrected_general_type_adjunction_active": true,
+    "corrected_necessary_filter_candidate_active": true,
+    "necessary_condition_direction": "ACTUAL_TARGET_CARRIER -> CORRECTED_HPADJ_CONDITION",
+    "contrapositive": "CORRECTED_HPADJ_REJECTED_TERMINAL -> NO_ACTUAL_TARGET_CARRIER_WITH_THAT_TERMINAL",
+    "reverse_realization_required_for_32_01_pruning": false
+  },
+  "superseded_claims": [
+    {
+      "source": "stages/stage32/management/hpadj-01/RESULT.json",
+      "claim": "necessary_condition.irreducible_k3_adjunction",
+      "reason": "Stage32 source-locked surface is the cuboid-surface minimal desingularization with K^2=16, not a K3 surface",
+      "active_credit": false
+    },
+    {
+      "source": "stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json",
+      "claim": "proved_direction.step_5_adjunction_contradiction and K3-carrier contrapositive",
+      "reason": "C^2>=-2 is not the Stage32 adjunction lower bound; use genus-dependent general-type bounds instead",
+      "active_credit": false
+    }
+  ],
+  "corrected_mathematics": {
+    "adjunction": "C^2+d=2*p_a(C)-2 with d=K.C and p_a(C)>=g",
+    "g0_lower_bound": "C^2>=-d-2",
+    "g1_lower_bound": "C^2>=-d",
+    "g0_group_cauchy_rejection": "8*a^2+8*b^2+6*c^2>3*d^2+48*d+96",
+    "g1_group_cauchy_rejection": "8*a^2+8*b^2+6*c^2>3*d^2+48*d",
+    "corrected_v22_candidate_rejected_lower_bound": 20713268924714183714810,
+    "current_v23_conservative_rejected_lower_bound": 20713268924714183560113,
+    "current_v23_candidate_remaining_upper_bound_if_promoted": 26876434389242951089388
+  },
+  "reverse_realization_chain": {
+    "status": "NOT_A_PREREQUISITE_FOR_32_01_NECESSARY_FILTER_PRUNING",
+    "retained_for_positive_existence_or_effectivity_routes": true,
+    "gates": [
+      "A_INTEGRAL_PICARD_COMPLETION_EXISTENCE",
+      "B_EFFECTIVE_DIVISOR_EXISTENCE",
+      "C_INTEGRAL_IRREDUCIBLE_CARRIER",
+      "D_NORMALIZATION_AND_BRANCH_COMPATIBILITY",
+      "E_RECEIVER_ENDPOINT"
+    ],
+    "effectivity_receiver": "R29-LG2-EFF",
+    "no_positive_realization_credit_from_this_repair": true
+  },
+  "promotion_gate": {
+    "corrected_proof_chain_exact_head_ci_required": true,
+    "replacement_head_hostile_reaudit_required": true,
+    "explicit_main_consumption_required": true,
+    "main_authority_mutation_allowed_now": false
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "integrality_or_irreducibility_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "79598cf3649be2d86771ea9f90d748a51028d348c672dc258424db025a39b303"
+}
