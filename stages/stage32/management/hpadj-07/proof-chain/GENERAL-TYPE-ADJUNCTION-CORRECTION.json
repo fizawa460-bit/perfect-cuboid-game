@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ07_GENERAL_TYPE_ADJUNCTION_CORRECTION_V1",
+  "stage": 32,
+  "leaf": "HPADJ-07_CARRIER_ADAPTER_PROOF_CHAIN",
+  "status": "PREDECESSOR_HPADJ_ADJUNCTION_INVALID_ON_SOURCE_LOCKED_SURFACE_CORRECTED_CANDIDATE_NO_MAIN_CREDIT",
+  "supersedes_for_mathematical_use": [
+    "stages/stage32/management/hpadj-01/RESULT.json necessary_condition.irreducible_k3_adjunction",
+    "stages/stage32/management/hpadj-06/CARRIER-ADAPTER.json proved_direction.step_5_adjunction_contradiction"
+  ],
+  "source_locks": {
+    "surface_invariants": {
+      "path": "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json",
+      "blob_sha1": "07b7fae35a23f403898d33e5dc75baa24f631dcf",
+      "K_square": 16,
+      "p_g": 7,
+      "q": 0,
+      "K_big": true,
+      "K_nef": true,
+      "degree_semantics": "d=K.C"
+    },
+    "stage29_adjunction": {
+      "path": "stages/stage29/29-02c-LG2/result.md",
+      "blob_sha1": "820ed4e1b1a53db14085678de6f186b59ae0ea48",
+      "statements": [
+        "C^2+d=2*p_a(C)-2",
+        "geometric genus g=0 implies C^2>=-d-2",
+        "geometric genus g=1 implies C^2>=-d"
+      ]
+    },
+    "hpadj01_replay": {
+      "path": "stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py",
+      "blob_sha1": "b0253975ddf28c99b9d9898f54ada9a6842b2386"
+    },
+    "n358_replay": {
+      "path": "stages/stage32/32-01-178/nodes/N358/verify_n358_exact_incremental_census.py",
+      "blob_sha1": "c07a7e358a6253919194189377d6ed56f95e047a"
+    }
+  },
+  "failure": {
+    "old_statement": "integral irreducible K3 carrier satisfies C^2>=-2",
+    "why_invalid": "The charged Picard64/exceptional-pairing data belong to the minimal desingularization S of the cuboid surface, not to a K3 surface. S has K_S^2=16 and d=K_S.C.",
+    "impact": "The old group-Cauchy rejection threshold 8*a^2+8*b^2+6*c^2 > 3*d^2+96 is too strong as a population-wide low-genus carrier exclusion and cannot retain mathematical credit."
+  },
+  "corrected_general_type_adjunction": {
+    "formula": "C^2+d=2*p_a(C)-2 and p_a(C)>=g",
+    "g0_lower_bound": "C^2>=-d-2",
+    "g1_lower_bound": "C^2>=-d",
+    "hodge_upper_bound": "C^2<=d^2/16-(1/2)*sum(y_i^2)",
+    "g0_exact_exceptional_square_necessary_condition": "8*sum(y_i^2)<=d^2+16*d+32",
+    "g1_exact_exceptional_square_necessary_condition": "8*sum(y_i^2)<=d^2+16*d",
+    "g0_group_cauchy_rejection": "8*a^2+8*b^2+6*c^2>3*d^2+48*d+96",
+    "g1_group_cauchy_rejection": "8*a^2+8*b^2+6*c^2>3*d^2+48*d"
+  },
+  "corrected_v22_conservative_replay": {
+    "semantics": "same HPADJ-01 V22 population/composition firewall and symbolic BC/support convolution; only the invalid K3 adjunction threshold is replaced by the source-locked general-type low-genus threshold",
+    "affected_rows_with_nonzero_rejection": 165,
+    "zero_rejection_rows": [
+      "g0-d008",
+      "g0-d010",
+      "g0-d012",
+      "g0-d014",
+      "g0-d016",
+      "g0-d018",
+      "g0-d020",
+      "g1-d008",
+      "g1-d010",
+      "g1-d012",
+      "g1-d014",
+      "g1-d016",
+      "g1-d018"
+    ],
+    "exceptional_prefix_stratum_instances": 15196542371901641344,
+    "candidate_rejected_terminals_lower_bound": 20713268924714183714810,
+    "genus0_candidate_rejected_terminals": 4629288543122194904265,
+    "genus1_candidate_rejected_terminals": 16083980381591988810545,
+    "old_invalid_candidate_rejected_terminals_lower_bound": 27104321327305699275487,
+    "invalid_overcount_removed": 6391052402591515560677,
+    "per_row_stream_sha256": "3bf1ab5cb3c46f42ab2c6178936cd965bd635823cfb54d2d82b24fee541ee27a"
+  },
+  "chain_effect": {
+    "gate_A": "independent integral Picard completion research evidence remains logically separate",
+    "gate_B": "not reached by this correction",
+    "gate_C": "the prior HPADJ-06 carrier exclusion must be re-proved with the corrected genus-dependent adjunction bounds before any carrier/pruning promotion",
+    "saint_donat_nikulin_direct_route": "rejected because S is not K3",
+    "next_exact_route": "source-lock and hostile-audit the corrected general-type HPADJ carrier adapter, then rebase its charged set to current authority and resolve overlap/composition; do not pursue reverse A-B-C realization as a prerequisite for 32-01 necessary-condition pruning unless a contract explicitly requires it"
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "effectivity_credit": false,
+    "integrality_or_irreducibility_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
+}
