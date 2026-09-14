@@ -15,7 +15,7 @@ PROBE = HERE / "probe_grf09_e8_picard_completion_parity.py"
 MAIN_STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 CUT201_ROOT = ROOT / ".stage32-cut201"
 PASS_MARKER = "PASS_GRF09_CUT201_E8_PICARD_COMPLETION_PARITY_PROBE"
-EXPECTED_CERT_CANONICAL = "8e191c511d80b4d5e705c2584d8c611ed8c5dd4d2189c226e0a4bcae0d788f33"
+EXPECTED_CERT_CANONICAL = "ddb7787190a8c37d8a913bcd81c39cff471828fd553b91f5268ed4f56dba5646"
 
 CURRENT_FILES = {
     PROBE: "ff3c5037e720561c35fe44649f2faf4dc8c6ef8e",
@@ -32,6 +32,19 @@ CUT201_FILES = {
     CUT201_ROOT / "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
 }
 CUT201_EXACT_HEAD = "118c1df8f33759cc2e4da7e53fb8c8d7463a5bb0"
+EXPECTED_INDEX_TO_LABEL = {
+    "0": 95,
+    "1": 99,
+    "2": 103,
+    "3": 102,
+    "4": 49,
+    "5": 97,
+    "6": 94,
+    "7": 101,
+    "8": 93,
+    "9": 98,
+    "10": 96,
+}
 
 
 def req(ok: bool, msg: str) -> None:
@@ -133,6 +146,17 @@ def main() -> None:
     coeff = result["selected_affine_gf2_coefficients"]
     req(coeff["constant"] == 0 and coeff["x1"] == 1 and coeff["x9"] == 1, "selected parity identity drift")
     req(sum(int(v) for v in coeff.values()) == 2, "unexpected selected parity support")
+    req(result["coordinate_index_to_assignment_label"] == EXPECTED_INDEX_TO_LABEL, "assignment-label map drift")
+    req(
+        result["selected_model_coordinate_identity"]
+        == "coordinate_index_4_mod2 = coordinate_index_1_mod2 XOR coordinate_index_9_mod2",
+        "coordinate-index parity identity drift",
+    )
+    req(
+        result["selected_model_assignment_label_identity"]
+        == "assignment_label_49_mod2 = assignment_label_99_mod2 XOR assignment_label_98_mod2",
+        "assignment-label parity identity drift",
+    )
 
     credit = summary["credit"]
     req(credit["cut201_survivor_offset_identity_proved"], "CUT201 survivor identity not retained")
@@ -172,7 +196,7 @@ def main() -> None:
     print(
         "GRF-09 CHECKPOINT PASS: corrected CUT201 survivor-offset slice is frozen at "
         "255 blocks / 28,815 terminals, masks 198:57, SAT 14,478 / UNSAT 14,337; "
-        "MAIN pruning credit remains zero."
+        "label-49 parity = label-99 XOR label-98 on the selected model; MAIN pruning credit remains zero."
     )
 
 
