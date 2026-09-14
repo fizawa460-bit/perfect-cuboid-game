@@ -13,8 +13,8 @@ WORKFLOW=ROOT/'.github/workflows/stage32-ex5-bc2-40-resume.yml'
 LEGACY_WORKFLOW=ROOT/'.github/workflows/stage32-ex5-main.yml'
 RUNKEY=HERE.parent/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
 
-CONTRACT_BLOB='dfc09a96b1521fab8877b64b2aaa90d174ff70f2'
-CONTRACT_CANON='65ea5dcd69a73d6617c651a4fb8f4454c06786780436eded119ab41f3d97f561'
+CONTRACT_BLOB='6e359cc137a06db788977bfeeca5dd2803d783c2'
+CONTRACT_CANON='0df94c808345498cac98dc5ab1c0f3ffcd4daf7038cd19b2e86ff2ca09e3f7f4'
 WORKER_BLOB='a28061b99527c6585c3f4016992d1ef6e47b42de'
 AGG_BLOB='76c1d5e9f45d113ccb17e8149b2d840e2278b301'
 HELPER_BLOB='5b262f1c05d82ae3203a689522f476d83406dbb8'
@@ -57,7 +57,7 @@ def main():
 
     wf=WORKFLOW.read_text()
     req('# Trigger lifecycle: ACTIVE_AUTO' in wf,'workflow lifecycle')
-    req(RUNKEY_V2 in wf and 'authorize-bc2-40-resume-v2:' in wf and 'bc2-40-resume-heavy:' in wf,'V2 semantic gate')
+    req(RUNKEY_V2 in wf and 'authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf,'V2 semantic gate')
     req('bc2_40_resume_execute.py' in wf and 'bc2_40_replay_explicit_fresh_unknown23.py --output' not in wf,'resume helper replaces monolithic execution')
     req(wf.count('if: always()')>=3,'salvage/failure steps must be always')
     req(wf.count('retention-days: 2')==2,'artifact retention')
@@ -65,11 +65,13 @@ def main():
     req("effective_heavy_concurrency')==1" in wf and "heavy_scaleout_authorized') is False" in wf,'semantic concurrency gate')
 
     legacy=LEGACY_WORKFLOW.read_text()
-    req(LEGACY_V1 in legacy and RUNKEY_V2 not in legacy,'legacy V1 gate must reject V2 runkey schema')
-    req(c['workflow']['legacy_v1_monolithic_gate']=='RETAINED_FAIL_CLOSED_FOR_V2_SCHEMA','legacy gate firewall')
+    req('authorize-bc2-40-fresh-unknown23:' not in legacy and '\n  bc2-40-fresh-unknown23:' not in legacy,'legacy V1 runtime jobs must remain removed')
+    req(LEGACY_V1 not in legacy and RUNKEY_V2 not in legacy,'legacy workflow must not recognize BC2-40 runkey schemas')
+    w=c['workflow']
+    req(w['legacy_v1_monolithic_gate']=='REMOVED_FROM_STAGE32_EX5_MAIN' and w['legacy_runtime_jobs_removed'] is True and w['legacy_workflow_path']=='.github/workflows/stage32-ex5-main.yml','legacy gate removal contract')
 
     subprocess.run([sys.executable,'-m','py_compile',str(WORKER),str(AGG),str(HELPER)],check=True)
-    print('PASS: BC2-40 resume-first V2 workflow migrated, exact parent-index partition=23; contract itself arms no heavy execution')
+    print('PASS: BC2-40 resume-first V2 workflow migrated; legacy V1 runtime removed; exact parent-index partition=23; contract arms no heavy execution')
 
 if __name__=='__main__':
     main()

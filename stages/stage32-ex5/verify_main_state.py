@@ -14,7 +14,8 @@ PREFLIGHT40=B2/'bc2-40-fresh-unknown23-replay-preflight.json'
 PRODUCER40=B2/'bc2_40_replay_explicit_fresh_unknown23.py'
 RESUME40=B2/'verify_bc2_40_resume_first_contract.py'
 RUNKEY40=HERE/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
-WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
+RESUME_WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-bc2-40-resume.yml'
+LEGACY_WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
 
 SYNC_BLOB='c9a3a878413df5afc634f99b94707534412b5d84'
 SYNC_CANON='fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c'
@@ -30,6 +31,7 @@ AUDIT39_HEAD='4b974550d9ad030973fec99e19a090f6785f8aa8'
 AUDIT39_REVIEW=5193423203
 V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'
 V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'
+RUNKEY_V2='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
 
 def req(v,m):
     if not v: raise SystemExit('FAIL: '+m)
@@ -79,7 +81,8 @@ def main():
     req(ac['audit_pass_receipt_canonical']==PASS39_CANON and ac['bc2_39_hostile_audit_exact_head']==AUDIT39_HEAD and ac['bc2_39_hostile_audit_review_id']==AUDIT39_REVIEW and ac['bc2_39_hostile_audit_status']=='PASS' and ac['live_main_state_consumed'] is False,'BC2-40 staged audit identity')
     req(pf['status']=='PREFLIGHT_STAGED_LIVE_AUTHORITY_NOT_ACTIVATED' and pf['next_gate']=='VERIFY_AND_ACTIVATE_A_SEPARATE_LIVE_STATE_SCHEMA_MIGRATION_BEFORE_ANY_BC2_40_RUNKEY','BC2-40 staged migration gate')
     req(pf['target']['audited_unknown_parent_count']==23 and pf['target']['audited_unknown_parent_indices_sha256']==UNKNOWN23_SHA and pf['target']['prior_audited_unsat_count']==7313,'BC2-40 target')
-    ex=pf['execution']; req(ex['per_parent_timeout_ms']==180000 and ex['effective_heavy_concurrency']==1 and ex['heavy_scaleout_authorized'] is False and ex['runkey_armed'] is False,'BC2-40 execution preflight')
+    ex=pf['execution']
+    req(ex['per_parent_timeout_ms']==180000 and ex['effective_heavy_concurrency']==1 and ex['heavy_scaleout_authorized'] is False and ex['runkey_armed'] is False,'BC2-40 execution preflight')
     req(pf['firewalls']['bc2_40_execution_authorized'] is False and pf['firewalls']['main_promotion'] is False and pf['firewalls']['merge_authorized'] is False,'BC2-40 preflight firewalls')
 
     f=s['frontier']; a=s['intermediate_audit_boundary']; cur=s['current']; nx=s['next_step']; prog=s['retained_exact_progress']; ma=s['stage32_main_authority']
@@ -105,13 +108,17 @@ def main():
     for k,v in s['credit'].items():
         if k!='level': req(v is False,'credit '+k)
 
-    wf=WORKFLOW.read_text()
-    req('authorize-bc2-40-fresh-unknown23:' in wf and '\n  bc2-40-fresh-unknown23:' in wf,'BC2-40 cold workflow gate missing')
+    wf=RESUME_WORKFLOW.read_text()
+    req('# Trigger lifecycle: ACTIVE_AUTO' in wf and RUNKEY_V2 in wf,'BC2-40 V2 workflow lifecycle/schema')
+    req('authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf,'BC2-40 V2 cold workflow gate missing')
+    legacy=LEGACY_WORKFLOW.read_text()
+    req('authorize-bc2-40-fresh-unknown23:' not in legacy and '\n  bc2-40-fresh-unknown23:' not in legacy,'legacy BC2-40 V1 runtime jobs resurrected')
+    req(RUNKEY_V2 not in legacy,'legacy EX5 main must not authorize V2 runkey')
     req(not RUNKEY40.exists(),'BC2-40 runkey must remain absent while V33 cold gate is validated')
     subprocess.run([sys.executable,str(V39)],check=True)
     subprocess.run([sys.executable,'-m','py_compile',str(PRODUCER40)],check=True)
     subprocess.run([sys.executable,str(RESUME40)],check=True)
-    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt, cold BC2-40 gate, and resume-first contract')
+    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt, dedicated BC2-40 V2 cold gate, and resume-first contract')
     print('audited_lower_bound=7313 retained_unknown=23 partition=parent_index/23 heavy=NOT_ARMED main_credit=NO merge=NO')
 
 if __name__=='__main__': main()
