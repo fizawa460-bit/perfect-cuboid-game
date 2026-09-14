@@ -1,12 +1,37 @@
 {
-  "schema": "STAGE32_MB104_GENUS1_P5_ETALE_CORRESPONDENCE_CUSP_WIDTH_V1",
-  "status": "CANDIDATE_RETAINED_CLOSURE_HOSTILE_AUDIT_REQUIRED",
+  "schema": "STAGE32_MB104_GENUS1_P5_ETALE_CORRESPONDENCE_CUSP_WIDTH_REJECTED_V2",
+  "status": "REJECTED_HOSTILE_AUDIT_FAIL",
+  "candidate_exact_head": "d83914576150bf0c5c6e3be0fcadf3baf7104ece",
+  "hostile_audit_review_id": 5194067386,
+  "hostile_audit_result": "FAIL",
+  "consumable": false,
+  "proof_credit": false,
+  "blocking_defect": {
+    "missing_common_puncture_statement": "f1^{-1}(Cusps)=f2^{-1}(Cusps)",
+    "proved": false,
+    "invalidated_implications": [
+      "common punctured H/Lambda for both projections",
+      "Lambda=Gamma[8] cap g^{-1}Gamma[8]g",
+      "two-projection Gamma[8] cusp-width divisibilities",
+      "det(A)=1",
+      "projection degree forced to 1",
+      "uniform F1-P5 equality nonexistence"
+    ],
+    "compact_universal_cover_repairs_route": false
+  },
+  "preserved_retained_authority": {
+    "equality_rigidity_unchanged": true,
+    "MB104_state_unchanged": true,
+    "000707_e2_open": true,
+    "000707_e4_open": true
+  },
+  "authoritative_next_leaf": "000707 e=2 residual-lift conductor-pair map / residual sheet transition",
+  "reentry_gate": {
+    "requires_source_locked_common_puncture_structure": true,
+    "example_required_statement": "f1^{-1}(Cusps)=f2^{-1}(Cusps)",
+    "requires_separate_hostile_audit_before_consumption": true
+  },
   "source_locks": [
-    {
-      "id": "HUMAN_NOTE",
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-ETALE-CORRESPONDENCE-CUSP-WIDTH-OBSTRUCTION.md",
-      "blob_sha1": "7c554e689bffe2c1644ad15bc04d1c2d2c0a9dfe"
-    },
     {
       "id": "EQUALITY_CERT",
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-BEAUVILLE-EQUALITY-RIGIDITY-CERTIFICATE.json",
@@ -18,59 +43,15 @@
       "blob_sha1": "974c6cfecb6e4141615583841a0c90146ad2b4a6"
     }
   ],
-  "scope": {
-    "uniform_F1_P5_equality_face_only": true,
-    "arbitrary_unequal_picard_classes_covered": false,
-    "P6_covered": false
-  },
-  "upstream": {
-    "C8": "H*/Gamma[8]",
-    "factor_genus": 5,
-    "projection_degree": "14*e*l",
-    "allowed_e": [1,2,4],
-    "l_min": 1,
-    "both_projections_compact_etale_required": true,
-    "Z_normalization_of_product_component_required": true
-  },
-  "uniformization_reduction": {
-    "Lambda0": "Gamma cap g^{-1}Gamma g",
-    "pair_generic_degree_one_forces_Lambda_eq_Lambda0": true,
-    "g_commensurates_Gamma": true,
-    "cusp_set": "P1(Q)",
-    "g_projectively_rational": true
-  },
-  "cusp_width_lemma": {
-    "U_infinity": [[1,8],[0,1]],
-    "U_zero": [[1,0],[-8,1]],
-    "primitive_integral_A": true,
-    "Delta_positive": true,
-    "infinity_divisibilities": ["Delta|a^2","Delta|a*c","Delta|c^2"],
-    "zero_divisibilities": ["Delta|b^2","Delta|b*d","Delta|d^2"],
-    "primitive_consequence": "Delta=1"
-  },
-  "consequence": {
-    "g_in_SL2Z": true,
-    "Gamma8_normal_in_SL2Z": true,
-    "Lambda_eq_Gamma": true,
-    "projection_degree_forced": 1,
-    "required_projection_degree_min": 14,
-    "uniform_F1_P5_equality_realization_possible": false
-  },
-  "audit_gate": {
-    "hostile_audit_required": true,
-    "verify_normalization_pair_birational_interface": true,
-    "verify_etale_includes_cusps": true,
-    "verify_PSL_sign_mod8_interface": true,
-    "state_promotion_done": false
-  },
   "credit_firewall": {
-    "candidate_uniform_F1_P5_equality_closed": true,
+    "candidate_uniform_F1_P5_equality_closed": false,
     "retained_uniform_F1_P5_equality_closed": false,
     "MB104_complete": false,
     "receiver_credit": false,
     "theorem_credit": false,
     "endpoint_credit": false,
     "perfect_cuboid_nonexistence_claim": false,
+    "state_promotion_done": false,
     "merge_authorized": false
   }
 }
