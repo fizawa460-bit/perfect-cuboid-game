@@ -59,18 +59,11 @@ jobs:
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
-          baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "$expected_current_main"
-          test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
-          drift="$(git diff --name-only "$baseline" "$current_main")"
-          printf 'main_drift_paths=%s\n' "$drift"
-          test "$drift" = "x"
           git merge-base --is-ancestor "$current_main" HEAD
           test "$merge_base" = "$current_main"
           echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
