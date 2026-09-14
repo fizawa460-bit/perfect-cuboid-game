@@ -25,7 +25,8 @@ RECEIPT_BLOB = "37a1d7ed1af5d715220fd3c78e292f84eecbca72"
 RECEIPT_CANON = "9594be3af8ed976adbbd513cd776652e76fc92285cc3c875617cd3a10604f56e"
 CLAIM_REGISTRY_BLOB = "f3a884adc1c82aace81cb73d049ff14720ace862"
 ACTIVE_FRONTIER_BLOB = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
-LANE_ADAPTERS_BLOB = "f0d364e24e16633149f2ac5f26e44f3acb0e73fe"
+AUDITED_SYNC_LANE_ADAPTERS_BLOB = "f0d364e24e16633149f2ac5f26e44f3acb0e73fe"
+LIVE_LANE_ADAPTERS_BLOB = "c0ef34e5838e27046a20fed77063593009c56f40"
 AUTH = 26876434389242951089388
 STRATA = 17128
 
@@ -78,6 +79,7 @@ def main() -> None:
     req(audited.is_dir(), "missing hostile-audited V24 checkout")
     req(head(audited) == AUDITED_HEAD, "hostile-audited V24 exact head drift")
     old = locked_json(audited / "stages/stage32/MAIN-STATE.json", AUDITED_STATE_BLOB, AUDITED_STATE_CANON)
+    locked_json(audited / "stages/stage32/proof/LANE-ADAPTERS.json", AUDITED_SYNC_LANE_ADAPTERS_BLOB)
     oldf = old["current_exact_frontier"]
     req(old["schema"] == "STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_LOWER_BOUND_CONSUMED", "audited V24 schema")
     req(old["current"]["mainbatch_stop_gate"] == "V24_HPADJ07_REPLACEMENT_HEAD_HOSTILE_REAUDIT", "audited V24 stop gate")
@@ -98,12 +100,13 @@ def main() -> None:
     req(receipt["authority_accounting"]["pre_sync_remaining_terminals_upper_bound"] == AUTH, "receipt pre authority")
     req(receipt["authority_accounting"]["post_sync_remaining_terminals_upper_bound"] == AUTH, "receipt post authority")
     req(receipt["claim_sync"]["immutable_claim_core_mutation_required"] is False, "unexpected claim core mutation")
+    req(receipt["claim_sync"]["lane_adapters_blob_sha1"] == AUDITED_SYNC_LANE_ADAPTERS_BLOB, "receipt audited lane adapter lock")
     req(receipt["routing_after_sync"]["heavy_compute_authorized"] is False, "unexpected heavy authorization")
     req(all(v is False for v in receipt["firewalls"].values()), "receipt broad-credit firewall")
 
     locked_json(CLAIM_REGISTRY, CLAIM_REGISTRY_BLOB)
     frontier = locked_json(ACTIVE_FRONTIER, ACTIVE_FRONTIER_BLOB)
-    locked_json(LANE_ADAPTERS, LANE_ADAPTERS_BLOB)
+    locked_json(LANE_ADAPTERS, LIVE_LANE_ADAPTERS_BLOB)
     full178 = find_claim(frontier, "S32.FULL178.NUMERICAL_CENSUS.V1")
     req(full178 is not None, "missing FULL178 active-frontier claim")
     req(full178.get("frontier_status") == "ACTIVE_INCOMPLETE", "FULL178 frontier status was promoted")
@@ -135,7 +138,7 @@ def main() -> None:
     req(lock["audit_sync_receipt_blob_sha1"] == RECEIPT_BLOB, "state receipt blob lock")
     req(lock["claim_registry_blob_sha1"] == CLAIM_REGISTRY_BLOB, "state registry lock")
     req(lock["active_frontier_blob_sha1"] == ACTIVE_FRONTIER_BLOB, "state frontier lock")
-    req(lock["lane_adapters_blob_sha1"] == LANE_ADAPTERS_BLOB, "state lane adapter lock")
+    req(lock["lane_adapters_blob_sha1"] == AUDITED_SYNC_LANE_ADAPTERS_BLOB, "state historical lane adapter lock")
 
     print(json.dumps({
         "verdict":"PASS_V24_HPADJ07_HOSTILE_AUDIT_SYNC",
