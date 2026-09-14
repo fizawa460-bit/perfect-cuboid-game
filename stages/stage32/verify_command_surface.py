@@ -16,7 +16,10 @@ def main():
     reg=load(HERE/'proof'/'CROSS-LANE-DEMANDS.json'); rows={r['demand_id']:r for r in reg['demands']}; cid='S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1'; req(cid in rows and rows[cid]['priority']=='P0_BLOCKING_DOWNSTREAM' and rows[cid]['status']=='SATISFIED','CUT192 registry drift')
     ms=text(HERE/'MAIN-START-HERE.md'); req('Ordinary `stage32mainbatch`' in ms and 'controller and researcher' in ms.lower() and 'stages/stage32/COMMANDS.md' in ms and 'stage32cut-mainbatch' in ms and 'stage32mb-mainbatch' in ms and 'verify_cross_lane_demands.py' in ms,'MAIN startup drift')
     m178=load(HERE/'32-01-178'/'MISSION.json'); req(m178['status']=='ACTIVE' and m178['operator_commands']['cycle']=='stage32-01-178-mainbatch' and m178['operator_commands']['audit']=='stage32-01-178-audit' and m178['dispatch']['future_parallel_dispatch_enabled'] is False,'178 mission drift'); req(m178['operator_sync']['routing_authority']=='stages/stage32/MAIN-STATE.json' and m178['operator_sync']['startup_snapshot_is_historical'] is True and m178['operator_sync']['latest_ex5_merged_pr']==1765,'178 sync drift')
-    ex5=load(REPO/'stages'/'stage32-ex5'/'MAIN-STATE.json'); schema=ex5['schema']
+    ex5dir=REPO/'stages'/'stage32-ex5'; ex5=load(ex5dir/'MAIN-STATE.json'); schema=ex5['schema']
+    retired=('README.md','MAIN-START-HERE.md','MAINBATCH-OPERATIONS.md','CURRENT-ROADMAP.md','CURRENT-AUDIT-CONTRACT.md','CROSS-LANE-STATE.json')
+    req(all(not (ex5dir/n).exists() for n in retired),'EX5 retired startup surface leaked back into stage root')
+    req(ex5['execution']['main_command']=='stage32ex5-mainbatch' and ex5['execution']['audit_command']=='stage32ex5-audit','EX5 command/state drift')
     V31='STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION'; V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'; V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'
     allowed={'STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE','STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY',V31,V32,V33}; req(schema in allowed,'EX5 retained state schema drift')
     b=ex5['bootstrap']; req(b['merge_authorized'] is False,'EX5 merge provenance drift')
@@ -25,14 +28,14 @@ def main():
         req(b['live_main_coordination_head']=='9d4a24ef479d031e9c4b85001fe8f7a10198b17d','EX5 live MAIN coordination drift')
     else:
         req(b['latest_merged_pr']==1765,'EX5 merge provenance drift')
-    start=text(REPO/'stages'/'stage32-ex5'/'MAIN-START-HERE.md'); req('stage32ex5-mainbatch' in start and 'stages/stage32/COMMANDS.md' in start,'EX5 startup command drift')
     if schema!='STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE':
         req(b['active_work_pr']==1776,'EX5 active PR drift'); ma=ex5['stage32_main_authority']; req(ma['full178_numerical_census_complete'] is False and ma['ex5_auto_promotes_to_main'] is False,'EX5 MAIN credit firewall drift'); routing=ex5['cross_lane_routing']; req(routing['open_ex5_producer_demand_count']==0,'EX5 demand projection drift')
         if schema in {V31,V32,V33}:
             req(ma['current_main_schema']=='STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED' and ma['authoritative_remaining_strata']==17128 and ma['certified_remaining_terminal_upper_bound']==26876434389242951089388,'EX5 live MAIN authority drift')
         else:
             req(ma['current_main_schema']=='STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED','EX5 historical MAIN authority drift'); req(routing['satisfied_cut192_handoff_preserved'] is True,'EX5 historical demand projection drift')
-        req('PR #1776 remains active/open/draft/unmerged' in start and 'higher-priority OPEN producer demand' in start and 'OPEN demand' in start and cid in start and 'SATISFIED' in start and 'does not grant mathematical credit' in start.lower(),'EX5 startup governance drift')
+        req(cid in routing.get('satisfied_producer_demands',[cid]),'EX5 satisfied demand projection drift')
+        req(ex5['credit']['stage32_main_credit'] is False and ex5['credit']['FULL178_complete'] is False,'EX5 startup credit firewall drift')
     if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION':
         req(b['current_main_sha_observed']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c' and ex5['stage32_main_authority']['current_main_sha']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c','V27 MAIN observation drift'); req(ex5['cross_lane_routing']['local_bc2_37_execution_may_continue'] is True,'V27 local execution disabled'); c=ex5['current']; req(c['leaf']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET' and c['status']=='BC2_37_TARGETED_REPLAY_EXECUTION_AUTHORIZED' and c['blocker']=='BC2_37_FRESH_RUNKEY_NOT_YET_ARMED' and c['next_route']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET','V27 route drift')
     if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY':
