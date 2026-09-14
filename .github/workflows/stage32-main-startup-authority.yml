@@ -105,8 +105,9 @@ jobs:
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf05_integral_finite_quotient_lower_bound_kernel.py)" = "75a92a3ec494481e89b671f4f8f6f7a9162befb8"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-08-GRF01-A-D-SYMBOLIC-SUITE-CHECKPOINT.json)" = "5a24d7a32be38e36bc00dfe004b10a4a9fe8fe3d"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf08_grf01_a_d_symbolic_suite_checkpoint.py)" = "b1bfec6cc56d2b99190b653a09617cb1b2de8542"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/probe_grf09_e8_picard_completion_parity.py)" = "088970b08cb47c902af555aa89a9db9a1f996730"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/probe_grf09_e8_picard_completion_parity.py)" = "ff3c5037e720561c35fe44649f2faf4dc8c6ef8e"
           test "$(git -C .stage32-cut201 hash-object stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json)" = "87b2f139b576b3b8bddea336396c8c2da30014b1"
+          test "$(git -C .stage32-cut201 hash-object stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py)" = "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
