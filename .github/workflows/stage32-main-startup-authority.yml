@@ -89,6 +89,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/derive_grf02_selected64_projected_kernel.py)" = "05b5c5134261c4d35c3433d509d4968c820dc227"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-02-PROJECTED-KERNEL.json)" = "7c1cda07749fbfb90245995d1def2ae96fb5604b"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-03-NORM-LADDER-RESIDUE-COLLAPSE.json)" = "d6777200cadb6809dc3b46374c8f714cb6ebd6cd"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py)" = "eaddc4eaa790742cc92ec0bac3043c6743f947fc"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
@@ -100,6 +102,9 @@ jobs:
 
       - name: Verify frozen GRF-02 selected64 projected symbolic kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py
+
+      - name: Verify GRF-03 norm-ladder residue collapse no-go
+        run: python stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py
 
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
