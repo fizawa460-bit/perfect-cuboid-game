@@ -43,6 +43,9 @@ def main() -> None:
     req("stages/stage32/proof/CROSS-LANE-DEMANDS.json" in commands, "command registry missing demand authority path")
     req("Each lane's startup/read order belongs only in that lane's `MAIN-START-HERE.md`" in commands,
         "command registry does not separate lane startup ownership")
+    req("not a second startup contract" in commands, "command registry still acts as startup contract")
+    req("## Stable startup invariants" not in commands and "Before substantive work, every active `*-mainbatch`" not in commands,
+        "command registry retains duplicate startup procedure")
     for stale in (
         "currently #1800",
         "Current MAIN transition",
@@ -56,14 +59,55 @@ def main() -> None:
     req(isinstance(demand_registry.get("demands"), list), "cross-lane demand registry malformed")
 
     main_start = text(HERE / "MAIN-START-HERE.md")
-    req("Ordinary `stage32mainbatch`" in main_start, "MAIN command not canonical")
-    req("controller and researcher" in main_start.lower(), "MAIN research role missing")
+    req("single authoritative startup/read-order contract" in main_start, "MAIN canonical startup ownership missing")
+    req("ordinary `stage32mainbatch`" in main_start.lower(), "MAIN command not canonical")
+    req("controller/integrator" in main_start.lower() and "research lane" in main_start.lower(), "MAIN research role missing")
     for stale in ("`Stage32-main-batch`", "`stage32main batch`"):
         req(stale not in main_start, f"stale MAIN spelling retained: {stale}")
-    req("stages/stage32/COMMANDS.md" in main_start, "MAIN startup does not read command registry")
+
+    startup_tokens = (
+        "1. `AGENTS.md`;",
+        "2. this file;",
+        "3. current `stages/stage32/MAIN-STATE.json`",
+        "4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json`",
+        "5. only paths in `MAIN-STATE.json.current_leaf_working_set`",
+        "6. only exact source/evidence paths referenced by that selected state or demand.",
+    )
+    positions = []
+    for token in startup_tokens:
+        req(token in main_start, f"MAIN startup sequence missing: {token}")
+        positions.append(main_start.index(token))
+    req(positions == sorted(positions), "MAIN startup sequence order drift")
+    req("COMMANDS.md" in main_start and "not a second MAIN startup contract" in main_start,
+        "MAIN command-registry/startup separation missing")
+    req("README.md" in main_start and "layout map only" in main_start,
+        "MAIN README/startup separation missing")
+    req("CROSS-LANE-STARTUP-CONTRACT.md" in main_start and "on-demand reference" in main_start,
+        "MAIN shared demand prose not bounded to on-demand reference")
+    req("verify_cross_lane_demands.py" in main_start, "MAIN startup missing demand monitor verifier")
+    req("stage32-01-178-mainbatch" in main_start, "MAIN startup missing 178 ownership boundary")
+    req("stage32ex5-mainbatch" in main_start, "MAIN startup missing EX5 ownership boundary")
     req("stage32cut-mainbatch" in main_start, "MAIN startup missing CUT ownership boundary")
     req("stage32mb-mainbatch" in main_start, "MAIN startup missing MB ownership boundary")
-    req("verify_cross_lane_demands.py" in main_start, "MAIN startup missing demand monitor verifier")
+    for duplicate_section in (
+        "## Historical EX ownership hints",
+        "## Search and Arsenal routing",
+        "## Timeout-safe batch execution",
+    ):
+        req(duplicate_section not in main_start, f"MAIN startup retained expanded duplicate section: {duplicate_section}")
+    for stale in ("PR #", "Candidate V22 authority", "47,589,703,313,957,134,804,198"):
+        req(stale not in main_start, f"MAIN startup pins mutable historical state: {stale}")
+
+    readme = text(HERE / "README.md")
+    req("layout map only" in readme and "not a startup/read-order contract" in readme,
+        "Stage32 README still competes with MAIN startup contract")
+    req("Ordinary entry point:" not in readme, "Stage32 README retains duplicate startup sequence")
+    req("MAIN-START-HERE.md" in readme and "MAIN-STATE.json" in readme,
+        "Stage32 README lost authority pointers")
+    req("MISSION.json" in readme and "on-demand evidence" in readme,
+        "Stage32 README still treats 178 mission history as startup authority")
+    req("currently dispatched short lane commands" not in readme,
+        "Stage32 README retains stale 178 child-fanout startup text")
 
     mission = load(HERE / "32-01-178" / "MISSION.json")
     req(mission["status"] == "ACTIVE", "178 mission unexpectedly inactive")
@@ -148,8 +192,9 @@ def main() -> None:
 
     runpy.run_path(str(HERE / "proof" / "verify_cross_lane_demands.py"), run_name="__main__")
 
-    print("PASS: Stage32 command registry is state-free and lane startup contracts are authority-separated")
-    print("178 startup=MAIN-START-HERE only; MISSION/history=on-demand; demand registry=machine authority")
+    print("PASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated")
+    print("MAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence")
+    print("README=layout only; COMMANDS=registry only; demand registry=machine authority")
 
 
 if __name__ == "__main__":
