@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1",
-  "generation": 2,
-  "armed": false,
+  "generation": 3,
+  "armed": true,
   "consumed": false,
   "branch": "stage32cut-e8-common-adapter-wave9-20260913",
   "parent_cut200_audited_head": "a1073508a33dac1001657554054a74d3cf47034a",
@@ -10,9 +10,11 @@
   "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
   "preflight_blob": "87b2f139b576b3b8bddea336396c8c2da30014b1",
   "recovery_preflight_blob": "c2d122c025d2b94b2529893ce97f6c80df49fd71",
+  "recovery_g2_failure_blob": "7eca8d368b4b1118fa171697228f74366f7877a4",
+  "recovery_g3_preflight_blob": "f93dc7f776180834d7bdcc55e05e1783d4e60fdb",
   "worker_blob": "a8be279ebc3bca4a383d4a81e4c04de7413b17b8",
   "aggregator_blob": "6e41072243ff92eabae39f522398aed2fad8df7f",
-  "workflow_blob": "fc9c4a19f458cc6166cf9008deee5a9ba05d7441",
+  "workflow_blob": "8d43834c7b45d99d1dd64d6de859868b8b892e87",
   "storage_preflight": {
     "artifact_retention_days": 1,
     "prior_comparable_run": 34732279906,
@@ -21,20 +23,21 @@
     "projected_peak_compact_artifact_bytes_upper_bound": 200000,
     "repository_budget_bytes": 524288000,
     "raw_parent_records_persisted": false,
-    "shard_timeout_minutes": 90
+    "shard_timeout_minutes": 120
   },
   "recovery": {
     "source_run_id": 34745899934,
+    "generation2_failed_run_id": 34792659996,
+    "generation2_failed_job_id": 103819741317,
     "rerun_shards": [5],
     "survivor_offset_start": 2201,
     "survivor_offset_count": 32,
-    "job_timeout_minutes": 90,
+    "job_timeout_minutes": 120,
+    "execution_checkout_head": "be6a6f8acc9942dd4973f13c630a4318b923e03d",
     "reuse_generation1_success_artifacts": true,
     "full_wave_rerun_forbidden": true,
-    "generation2_run_id": 34792659996,
-    "generation2_job_id": 103819741317,
-    "generation2_outcome": "FAILED_PRE_MATH_MAIN_V12_CANONICAL_DRIFT",
-    "generation2_failure_record": "stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g2-failure.json"
+    "mathematical_worker_change": false,
+    "source_population_change": false
   },
   "wave": {
     "block_count": 255,
