@@ -1,40 +1,36 @@
 # Stage32EX5 current roadmap
 
-This mutable roadmap does not override `stages/stage32/MAIN-STATE.json`. PR #1776 remains active/open/draft/unmerged. Merge is not authorized.
+PR #1776 remains open/draft/unmerged. Merge is not authorized. This roadmap is operational and does not override Stage32 MAIN authority.
 
-## P0 coordination repair
+## Live MAIN / cross-lane synchronization
 
-`S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` is now operationally SATISFIED. The retained handoff receipt is `stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json`; its exact interface is `stages/stage32-ex5/hpadj-handoff/INTERFACE.json`, blob `8a30e3aa30777460f344eb19836dc725dd442329`, canonical `cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6`.
+The live MAIN coordination PR is #1800 at exact head `9d4a24ef479d031e9c4b85001fe8f7a10198b17d`. Its V24 authority has `mainbatch_stop_gate=NONE`; bounded FULL178/final-chain research may resume. The reviewed V24 mathematical boundary is `3c5915dee248660a2821f2ebe9c24e20b0ad1647`, hostile-audit review `5191916561`.
 
-The interface preserves all `178` HPADJ rows and charged lower-bound population `27104321327305699275487`. It realizes terminal-to-Picard64 data as an exact selected64 pairing fiber with denominator `8`, `11` terminal-fixed pairings and `53` free selected pairings. It does **not** assert that any individual terminal has an integral completion, and demand satisfaction grants no mathematical credit. MAIN consumer re-entry remains separate.
+Current MAIN authority projection remains **17,128 strata** and **26,876,434,389,242,951,089,388 certified remaining-terminal upper bound**, with semantics `CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET`. FULL178 remains incomplete.
 
-BC2-38's P0 preemption violation remains recorded. Coordination repair does not retroactively grant BC2-38 MAIN/178 credit; it only clears the coordination prerequisite for BC2-38 hostile-audit re-entry.
+The live cross-lane registry has zero OPEN EX5 producer demands. CUT192 and HPADJ FULL178→Picard64 demands remain SATISFIED. Existing terminal→Picard64 handoff work must not be reopened.
 
-## BC2-38 retained audit boundary
+## BC2-38 consumed
 
-BC2-37 hostile audit **PASS** is consumed from exact head `9852fcec959962607da3290100291a60185e7104`, review `5189412496`. Its audited lower bound is `7302`, with exact remaining-34 hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
+BC2-38 hostile re-audit is **PASS** at exact head `5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71`, review `5190676180`. The exact retained result is `4 UNSAT / 30 UNKNOWN / 0 SAT`; therefore the bounded EX5 audited known-parent UNSAT lower bound advances from `7302` to `7306`.
 
-BC2-38 has completed and is frozen for hostile audit:
+The exact remaining UNKNOWN set is `[1048,1050,1056,1103,1206,1216,1218,1243,1251,1703,1706,1717,1719,1733,1798,2092,2122,2187,2407,2634,2651,2819,3205,3375,3635,3885,3901,3915,3980,4200]`, hash `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`.
 
-- execution head `d26a27e8564458f3d575ec58601b2226fc23944f`
-- workflow `34742297972`
-- authorizer job `103683927278`
-- compute job `103683975497`
-- artifact `10313851431`
-- artifact ZIP sha256 `674c4deb7c2e13f654738278ad2108d40d3c4c463ae9f158a6cc438f10f65f01`
-- raw JSON sha256 `2ac56238dd57989beebfd36a346074acd6ab57d497e692b16934203306a2b0e7`
-- retained checkpoint canonical `88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba`
-- retained checkpoint blob `91eca02054cd2dbf702dd4a7635398ef76ee832f`
-- consumed/disarmed runkey blob `87855350c6240cd524069490f85858b11099da60`
-- retained verifier blob `934f19363549d652c18b02934c1f963a19204664`
-- exact result `4 UNSAT / 30 UNKNOWN / 0 SAT`
-- remaining UNKNOWN hash `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`
-- status-stream sha256 `839233bb8552e4da7589616439cb614c07ceb018643f4f6d9bf3bf3f175fdeb5`
-- candidate lower bound `7306`
-- audited lower bound remains `7302` until hostile audit PASS.
+This is EX5-local audited progress only. It grants no Stage32 MAIN pruning, whole-block/whole-stratum, FULL178, effectivity, receiver, theorem, endpoint, Perfect Cuboid, or merge credit.
 
-BC2-38 heavy authorization/execution is retired. The active route is `HOSTILE_AUDIT_BC2_38_TARGETED_REPLAY`; BC2-39 remains blocked until exact-head hostile audit PASS. UNKNOWN remains UNKNOWN.
+## Active leaf: BC2-39
 
-No whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, heavy-scaleout, or merge credit follows automatically.
+BC2-39 targets exactly the audited remaining 30 UNKNOWN parents. The retained producer is `breadth-cycle-2/bc2_39_replay_explicit_fresh_unknown30.py`; preflight canonical is `7bda94c5869c988892c979873f13a1c311debedbbe9fcc670a253e339fb5e435`.
 
-Next command: `stage32ex5-audit`.
+Execution contract:
+
+- one heavy runner only;
+- `160000 ms` per parent;
+- no heavy scaleout;
+- compact result artifact only, retention 2 days;
+- dedicated runkey `runkeys/bc2-39-fresh-unknown30-replay.json` must advance freshly to generation 1 in the triggering commit range;
+- UNKNOWN remains UNKNOWN and SAT, if any, is only Picard64-feasibility evidence, not curve existence.
+
+After BC2-39 executes, freeze its exact result and require `stage32ex5-audit` before BC2-40 or any credit promotion.
+
+No merge.
