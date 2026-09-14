@@ -12,7 +12,7 @@ on:
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
-      - 'stages/stage32/32-01-178/nodes/N393/**'
+      - 'stages/stage32/32-01-178/nodes/N394/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -130,8 +130,10 @@ jobs:
             --hpadj-root .n391-hpadj
       - name: Replay audited N392 V24 mass6 signature census
         run: python stages/stage32/32-01-178/nodes/N392/verify_n392_v24_mass6_signature_census.py
-      - name: Verify N393 V24 mass5 30-block signature census
+      - name: Replay hostile-audited N393 V24 mass5 signature census
         run: python stages/stage32/32-01-178/nodes/N393/verify_n393_v24_mass5_signature_census.py
+      - name: Probe N394 N391-wide cross-mass affine signature structure
+        run: python stages/stage32/32-01-178/nodes/N394/probe_n394_cross_mass_affine_structure.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
