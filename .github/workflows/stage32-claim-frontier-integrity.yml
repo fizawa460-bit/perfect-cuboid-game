@@ -35,6 +35,8 @@ on:
       - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g5-preflight.json'
       - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g5-authorization-failure.json'
       - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g6-preflight.json'
+      - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g6-failure.json'
+      - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g7-preflight.json'
       - 'stages/stage32/full178-cut/runkeys/CUT201-e8-wave9.json'
       - 'stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md'
       - 'stages/stage32-ex*/MAIN-STATE.json'
@@ -132,7 +134,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 2
       - id: gate
-        name: Authorize CUT201 generation6 singleton source-lock repair
+        name: Authorize CUT201 generation7 offset2204 extended-ceiling recovery
         shell: bash
         run: |
           set -euo pipefail
@@ -153,16 +155,16 @@ jobs:
               old={}
           new=json.loads(Path(key).read_text())
           changed=subprocess.run(['git','diff','--quiet',os.environ['PARENT_SHA'],os.environ['HEAD_SHA'],'--',key]).returncode != 0
-          receipt_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g5-authorization-failure.json'
-          g6_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g6-preflight.json'
-          receipt=json.loads(Path(receipt_path).read_text())
-          g6=json.loads(Path(g6_path).read_text())
+          fail_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g6-failure.json'
+          preflight_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g7-preflight.json'
+          fail=json.loads(Path(fail_path).read_text())
+          pre=json.loads(Path(preflight_path).read_text())
           recovery=new.get('recovery',{})
           ok=(changed
-              and old.get('generation')==5 and old.get('armed') is True and old.get('consumed') is False
+              and old.get('generation')==6 and old.get('armed') is True and old.get('consumed') is False
               and old.get('recovery',{}).get('singleton_offsets')==[2201,2202,2203,2204]
               and new.get('schema')=='STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1'
-              and new.get('generation')==6 and new.get('generation',0)>old.get('generation',0)
+              and new.get('generation')==7 and new.get('generation',0)>old.get('generation',0)
               and new.get('armed') is True and new.get('consumed') is False
               and new.get('branch')=='stage32cut-e8-common-adapter-wave9-20260913'
               and new.get('parent_cut200_audited_head')=='a1073508a33dac1001657554054a74d3cf47034a'
@@ -171,33 +173,32 @@ jobs:
               and new.get('ex5_producer_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
               and new.get('worker_blob')=='a8be279ebc3bca4a383d4a81e4c04de7413b17b8'
               and new.get('aggregator_blob')=='6e41072243ff92eabae39f522398aed2fad8df7f'
-              and new.get('recovery_g4_failure_blob')==blob('stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g4-failure.json')
-              and new.get('recovery_g5_preflight_blob')==blob('stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g5-preflight.json')
-              and new.get('recovery_g5_authorization_failure_blob')==blob(receipt_path)
-              and new.get('recovery_g6_preflight_blob')==blob(g6_path)
+              and new.get('recovery_g6_failure_blob')==blob(fail_path)
+              and new.get('recovery_g7_preflight_blob')==blob(preflight_path)
               and new.get('workflow_blob')==blob('.github/workflows/stage32-claim-frontier-integrity.yml')
-              and receipt.get('classification',{}).get('heavy_started') is False
-              and receipt.get('run',{}).get('run_id')==34804129167
-              and receipt.get('run',{}).get('authorization_job_id')==103852533163
-              and receipt.get('run',{}).get('authorization_output') is False
-              and receipt.get('mismatch',{}).get('actual_git_blob_sha1')==blob('stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g4-failure.json')
-              and g6.get('repair',{}).get('heavy_started') is False
-              and g6.get('repair',{}).get('g4_failure_actual_blob_sha1')==blob('stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g4-failure.json')
+              and fail.get('run',{}).get('run_id')==34805311483
+              and fail.get('run',{}).get('failed_singleton',{}).get('offset')==2204
+              and fail.get('run',{}).get('failed_singleton',{}).get('job_id')==103856002785
+              and fail.get('run',{}).get('failed_singleton',{}).get('artifact_count')==0
+              and [x.get('offset') for x in fail.get('run',{}).get('successful_singletons',[])]==[2201,2202,2203]
+              and fail.get('classification',{}).get('same_generation_rearm_forbidden') is True
+              and fail.get('classification',{}).get('generation7_may_retry_only_offset_2204') is True
+              and pre.get('generation')==7
+              and pre.get('execution',{}).get('failed_offset')==2204
+              and pre.get('execution',{}).get('job_timeout_minutes')==300
+              and pre.get('execution',{}).get('mathematical_worker_change') is False
+              and pre.get('execution',{}).get('source_population_change') is False
               and recovery.get('source_run_id')==34745899934
-              and recovery.get('generation4_failed_run_id')==34800899498
-              and recovery.get('generation4_failed_job_id')==103843353976
-              and recovery.get('generation5_failed_run_id')==34804129167
-              and recovery.get('generation5_authorization_job_id')==103852533163
-              and recovery.get('generation5_heavy_started') is False
+              and recovery.get('generation4_success_run_id')==34800899498
+              and recovery.get('generation6_run_id')==34805311483
+              and recovery.get('generation6_failed_job_id')==103856002785
               and recovery.get('rerun_shards')==[5]
-              and recovery.get('failed_partition_range')==[2201,2204]
-              and recovery.get('singleton_offsets')==[2201,2202,2203,2204]
-              and recovery.get('partition_size')==1
-              and recovery.get('job_timeout_minutes')==120
-              and recovery.get('max_parallel')==4
+              and recovery.get('failed_offset')==2204
+              and recovery.get('job_timeout_minutes')==300
               and recovery.get('execution_checkout_head')=='be6a6f8acc9942dd4973f13c630a4318b923e03d'
               and recovery.get('reuse_generation1_success_artifacts') is True
               and recovery.get('reuse_generation4_success_artifacts') is True
+              and recovery.get('reuse_generation6_success_artifacts') is True
               and recovery.get('full_wave_rerun_forbidden') is True
               and recovery.get('mathematical_worker_change') is False
               and recovery.get('source_population_change') is False
@@ -208,19 +209,14 @@ jobs:
               f.write('authorized='+('true' if ok else 'false')+'\n')
           print('CUT201 wave9 recovery runkey changed:', changed)
           print('CUT201 wave9 recovery old/new generations:', old.get('generation'), new.get('generation'))
-          print('CUT201 wave9 generation6 singleton source-lock repair authorized:', ok)
+          print('CUT201 wave9 generation7 offset2204 recovery authorized:', ok)
           PY
 
-  cut201-wave9-recovery-g6-singletons:
+  cut201-wave9-recovery-g7-singleton2204:
     needs: [authorize-cut201-wave9-recovery]
     if: needs.authorize-cut201-wave9-recovery.outputs.authorized == 'true'
-    strategy:
-      fail-fast: false
-      max-parallel: 4
-      matrix:
-        offset: [2201, 2202, 2203, 2204]
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 300
     steps:
       - name: Checkout byte-identical generation1 execution tree
         uses: actions/checkout@v4
@@ -233,23 +229,23 @@ jobs:
           python-version: '3.10.6'
       - name: Install exact solver dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
-      - name: Execute CUT201 shard5 generation6 singleton
+      - name: Execute CUT201 shard5 generation7 singleton 2204
         run: |
           python stages/stage32/full178-cut/cut201_e8_common_adapter_wave9.py \
-            --survivor-offset-start ${{ matrix.offset }} \
+            --survivor-offset-start 2204 \
             --survivor-offset-count 1 \
             --timeout-ms 750 \
-            --output "$RUNNER_TEMP/cut201-shard-5-singleton-${{ matrix.offset }}.json"
+            --output "$RUNNER_TEMP/cut201-shard-5-singleton-2204.json"
       - uses: actions/upload-artifact@v4
         with:
-          name: cut201-shard-5-singleton-${{ matrix.offset }}-recovery-g6
-          path: ${{ runner.temp }}/cut201-shard-5-singleton-${{ matrix.offset }}.json
+          name: cut201-shard-5-singleton-2204-recovery-g7
+          path: ${{ runner.temp }}/cut201-shard-5-singleton-2204.json
           retention-days: 1
           compression-level: 0
           if-no-files-found: error
 
-  cut201-wave9-recovery-g6-combine-shard5:
-    needs: [cut201-wave9-recovery-g6-singletons]
+  cut201-wave9-recovery-g7-combine-shard5:
+    needs: [cut201-wave9-recovery-g7-singleton2204]
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout byte-identical generation1 execution tree
@@ -258,12 +254,19 @@ jobs:
           ref: be6a6f8acc9942dd4973f13c630a4318b923e03d
       - name: Assert exact generation1 execution tree
         run: test "$(git rev-parse HEAD)" = "be6a6f8acc9942dd4973f13c630a4318b923e03d"
-      - name: Download generation6 singleton recoveries
+      - name: Download generation7 singleton 2204
+        uses: actions/download-artifact@v4
+        with:
+          name: cut201-shard-5-singleton-2204-recovery-g7
+          path: ${{ runner.temp }}/cut201-shard5-parts
+      - name: Download retained generation6 successful singletons
         uses: actions/download-artifact@v4
         with:
           pattern: cut201-shard-5-singleton-*-recovery-g6
           path: ${{ runner.temp }}/cut201-shard5-parts
           merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34805311483
       - name: Download retained generation4 successful partitions
         uses: actions/download-artifact@v4
         with:
@@ -346,14 +349,14 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: cut201-shard-5-recovery-g6
+          name: cut201-shard-5-recovery-g7
           path: ${{ runner.temp }}/cut201-shard-5.json
           retention-days: 1
           compression-level: 0
           if-no-files-found: error
 
   cut201-wave9-recovery-aggregate:
-    needs: [cut201-wave9-recovery-g6-combine-shard5]
+    needs: [cut201-wave9-recovery-g7-combine-shard5]
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout byte-identical generation1 execution tree
@@ -370,10 +373,10 @@ jobs:
           merge-multiple: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: 34745899934
-      - name: Download generation6 reconstructed shard5
+      - name: Download generation7 reconstructed shard5
         uses: actions/download-artifact@v4
         with:
-          name: cut201-shard-5-recovery-g6
+          name: cut201-shard-5-recovery-g7
           path: ${{ runner.temp }}/cut201-shards
       - name: Assert exact eight-shard recovery population
         shell: bash
