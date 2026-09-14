@@ -25,6 +25,21 @@ Before any new mathematics, compare the mission's local state with current Stage
 
 Use Research OS policies only on explicit triggers.
 
+## V24 re-entry ownership contract
+
+Under the current V24 re-entry contract, 178 owns concrete FULL178 work only:
+
+- bounded leaves;
+- row / stratum / terminal identities;
+- census, compression, incidence, and transport;
+- exact subset certificates and replayable identity-level evidence.
+
+178 must **not** duplicate or rederive MAIN-owned `GLOBAL RESIDUAL FEASIBILITY` obstruction research. MAIN owns new global/family-level obstruction design and synthesis.
+
+If concrete 178 observations expose a repeated family-level rule, common UNSAT cause, or symbolic obstruction candidate, record the exact local evidence and hand the candidate to MAIN. Do not promote the candidate to a global obstruction inside 178.
+
+Heavy compute remains disarmed unless separately authorized by the repository heavy-workflow gate.
+
 ## One batch
 
 1. Revalidate the current FULL178 receiver and unresolved frontier against current Stage32 MAIN authority.
@@ -40,13 +55,14 @@ Use Research OS policies only on explicit triggers.
 
 ## Current authority relationship
 
-Stage32 MAIN currently remains the controller/integrator and may itself research MAIN-owned, cross-lane, or unowned mathematics. This 178 command is not a second controller: it is the sustained FULL178 specialist research surface.
+Stage32 MAIN currently remains the controller/integrator and owns global residual-feasibility obstruction design. This 178 command is not a second controller: it is the sustained FULL178 specialist research surface for concrete bounded identity/subset work.
 
 Thus:
 
-- MAIN chooses/integrates the Stage32 frontier;
-- 178 attacks sustained FULL178 census mathematics;
+- MAIN chooses/integrates the Stage32 frontier and owns global obstruction synthesis;
+- 178 attacks concrete bounded FULL178 census / compression / incidence / transport leaves;
 - EX5 produces sustained Picard64/node-support obstruction results;
+- family-level patterns found by 178 are candidates handed to MAIN, not global claims self-promoted in 178;
 - no two surfaces should independently own the same semantic leaf.
 
 ## Human interface
