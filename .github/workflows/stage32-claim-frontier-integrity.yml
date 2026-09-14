@@ -13,6 +13,7 @@ on:
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/nodes/N394/**'
+      - 'stages/stage32/32-01-178/nodes/N395/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -134,6 +135,8 @@ jobs:
         run: python stages/stage32/32-01-178/nodes/N393/verify_n393_v24_mass5_signature_census.py
       - name: Probe N394 N391-wide cross-mass affine signature structure
         run: python stages/stage32/32-01-178/nodes/N394/probe_n394_cross_mass_affine_structure.py
+      - name: Verify N395 N394 relation transport to every retained within-block terminal
+        run: python stages/stage32/32-01-178/nodes/N395/verify_n395_n394_relation_terminal_transport.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
