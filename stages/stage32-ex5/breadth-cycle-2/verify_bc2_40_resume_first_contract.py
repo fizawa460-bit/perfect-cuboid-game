@@ -13,12 +13,12 @@ WORKFLOW=ROOT/'.github/workflows/stage32-ex5-bc2-40-resume.yml'
 LEGACY_WORKFLOW=ROOT/'.github/workflows/stage32-ex5-main.yml'
 RUNKEY=HERE.parent/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
 
-CONTRACT_BLOB='2a0be4cb9d8e23e03065ae7c1dc8063de4d7cbdd'
-CONTRACT_CANON='861970873870968b5ef40b30f9c486219af0f07b5f355d41b228b607cc6e0361'
+CONTRACT_BLOB='750f26b6485041031e5a2be31ce2fa52ab99d80b'
+CONTRACT_CANON='0404db1edffc4b899f29dd6693fb2c84f857a3071dfd5ca653d1a97002f7a7ba'
 WORKER_BLOB='a28061b99527c6585c3f4016992d1ef6e47b42de'
 AGG_BLOB='76c1d5e9f45d113ccb17e8149b2d840e2278b301'
 HELPER_BLOB='5b262f1c05d82ae3203a689522f476d83406dbb8'
-WORKFLOW_BLOB='a8ec513a95dab76529ead2a5b8b7f33acaf9a22b'
+WORKFLOW_BLOB='eac5501973b98e7df01786fd8188581f7f470c9d'
 TARGET_SHA='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
 RUNKEY_V2='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
 LEGACY_V1='STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_RUNKEY_V1'
@@ -59,6 +59,7 @@ def main():
     req('# Trigger lifecycle: ACTIVE_AUTO' in wf,'workflow lifecycle')
     req(RUNKEY_V2 in wf and 'authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf,'V2 semantic gate')
     req('LIVE-MAIN-COORDINATION-SYNC-20260915.json' in wf,'V34 live-main sync path')
+    req(wf.count('ref: ${{ github.event.pull_request.head.sha }}')==3,'all BC2-40 jobs must checkout exact PR head')
     req('bc2_40_resume_execute.py' in wf and 'bc2_40_replay_explicit_fresh_unknown23.py --output' not in wf,'resume helper replaces monolithic execution')
     req(wf.count('if: always()')>=3,'salvage/failure steps must be always')
     req(wf.count('retention-days: 2')==2,'artifact retention')
@@ -72,7 +73,7 @@ def main():
     req(w['legacy_v1_monolithic_gate']=='REMOVED_FROM_STAGE32_EX5_MAIN' and w['legacy_runtime_jobs_removed'] is True and w['legacy_workflow_path']=='.github/workflows/stage32-ex5-main.yml','legacy gate removal contract')
 
     subprocess.run([sys.executable,'-m','py_compile',str(WORKER),str(AGG),str(HELPER)],check=True)
-    print('PASS: BC2-40 resume-first V2 workflow migrated; legacy V1 runtime removed; exact parent-index partition=23; contract arms no heavy execution')
+    print('PASS: BC2-40 resume-first V2 workflow migrated; exact PR-head checkout locked; legacy V1 runtime removed; exact parent-index partition=23; contract arms no heavy execution')
 
 if __name__=='__main__':
     main()
