@@ -18,6 +18,9 @@ INDEXER_BLOB = "4fb0a8dd34909494bd62646373e42877ed7a3c9e"
 PREFIX_BLOB = "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
 BUNDLE_BLOB = "82e4d450a1d852e34f6615440fb88a029c6e54eb"
 BUNDLE_CANON = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+CUT201_PREFLIGHT_BLOB = "87b2f139b576b3b8bddea336396c8c2da30014b1"
+CUT201_PREFLIGHT_CANON = "2e09ff8e8f415f37b52f6f0395c6279276c57398222b02258ec962dbb0e0048b"
+CUT201_EXACT_HEAD = "118c1df8f33759cc2e4da7e53fb8c8d7463a5bb0"
 ASSIGNMENT_LABELS = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 NORMAL_INDEX = 4
 
@@ -80,12 +83,24 @@ def main() -> None:
     prefix_path = residual / "pairing_prefix_engine.py"
     family_path = residual / "compressed_terminal_family.py"
     indexer_path = residual / "compressed_terminal_indexer.py"
+    cut201_path = repo / ".stage32-cut201/stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json"
 
     interface = checked_json(interface_path, INTERFACE_BLOB, INTERFACE_CANON)
+    cut201 = checked_json(cut201_path, CUT201_PREFLIGHT_BLOB, CUT201_PREFLIGHT_CANON)
     req(blob(family_path) == FAMILY_BLOB, "compressed family blob drift")
     req(blob(indexer_path) == INDEXER_BLOB, "compressed indexer blob drift")
     req(blob(prefix_path) == PREFIX_BLOB, "pairing prefix blob drift")
     req(blob(bundle_path) == BUNDLE_BLOB, "retained Picard bundle blob drift")
+
+    target = cut201["target"]
+    req(target["row_id"] == "g1-d008", "CUT201 row drift")
+    req(int(target["g"]) == 1 and int(target["d"]) == 8 and int(target["e"]) == 8, "CUT201 stratum drift")
+    offsets = [int(v) for v in target["survivor_offset_range"]]
+    req(offsets == [2041, 2295], "CUT201 offset range drift")
+    start_offset, end_offset = offsets
+    block_count = end_offset - start_offset + 1
+    req(block_count == int(target["block_count"]) == 255, "CUT201 block count drift")
+    req(int(target["terminal_count"]) == 28815, "CUT201 terminal count drift")
 
     sys.path.insert(0, str(residual))
     bundle_mod = load_module(bundle_path, "grf09_retained_bundle")
@@ -115,17 +130,17 @@ def main() -> None:
     H = hermite_normal_form(lattice)
     req(H.shape == (64, 64), "completion HNF rank drift")
 
-    idx = CompressedTerminalIndexer(8, 8)
+    idx = CompressedTerminalIndexer(int(target["e"]), int(target["d"]))
     width = idx.normal_budget + 1
     req(width == 113, "e8 width drift")
-    block_count = idx.exceptional_count
-    req(idx.terminal_count == block_count * width, "terminal factorization drift")
+    req(end_offset < idx.exceptional_count, "CUT201 offset range outside compressed exceptional family")
+    req(block_count * width == int(target["terminal_count"]), "CUT201 terminal factorization drift")
 
     block_records: list[tuple[tuple[int, ...], int]] = []
     mask_counts: Counter[int] = Counter()
-    for block in range(block_count):
-        base = tuple(int(v) for v in idx.unrank(block * width))
-        req(base[NORMAL_INDEX] == 0, f"base x49 drift block={block}")
+    for offset in range(start_offset, end_offset + 1):
+        base = tuple(int(v) for v in idx.unrank(offset * width))
+        req(base[NORMAL_INDEX] == 0, f"base x49 drift offset={offset}")
         mask = 0
         for r in range(8):
             x = list(base)
@@ -133,7 +148,7 @@ def main() -> None:
             rhs = -(B_fixed * Matrix(x))
             if hnf_contains(H, rhs):
                 mask |= 1 << r
-        req(mask in (0x55, 0xAA), f"non-parity mask block={block} mask={mask:#x}")
+        req(mask in (0x55, 0xAA), f"non-parity mask offset={offset} mask={mask:#x}")
         required = 0 if mask == 0x55 else 1
         block_records.append((base, required))
         mask_counts[mask] += 1
@@ -153,57 +168,64 @@ def main() -> None:
                 break
         if good:
             matching_models.append(model)
-    req(matching_models, "no affine GF2 x49 parity model on full e8 family")
+    req(matching_models, "no affine GF2 x49 parity model on CUT201 e8 offset family")
     model = min(matching_models)
 
     coeff = {"constant": model & 1}
     for j, idx_i in enumerate(feature_indices, start=1):
         coeff[f"x{idx_i}"] = (model >> j) & 1
 
-    # Replay all 28,815 terminals against the fitted parity identity and exact HNF membership.
+    # Replay exactly the 255 CUT201 exceptional offsets times all 113 x49 values.
     sat = 0
     unsat = 0
-    for rank in range(idx.terminal_count):
-        x = tuple(int(v) for v in idx.unrank(rank))
-        pred = coeff["constant"]
-        for idx_i in feature_indices:
-            if coeff[f"x{idx_i}"]:
-                pred ^= x[idx_i] & 1
-        parity_ok = (x[NORMAL_INDEX] & 1) == pred
-        rhs = -(B_fixed * Matrix(x))
-        exact = hnf_contains(H, rhs)
-        req(exact == parity_ok, f"full replay mismatch rank={rank}")
-        if exact:
-            sat += 1
-        else:
-            unsat += 1
+    for offset in range(start_offset, end_offset + 1):
+        for r in range(width):
+            rank = offset * width + r
+            x = tuple(int(v) for v in idx.unrank(rank))
+            req(x[NORMAL_INDEX] == r, f"x49 rank/order drift offset={offset} r={r}")
+            pred = coeff["constant"]
+            for idx_i in feature_indices:
+                if coeff[f"x{idx_i}"]:
+                    pred ^= x[idx_i] & 1
+            parity_ok = (x[NORMAL_INDEX] & 1) == pred
+            rhs = -(B_fixed * Matrix(x))
+            exact = hnf_contains(H, rhs)
+            req(exact == parity_ok, f"CUT201 replay mismatch offset={offset} r={r}")
+            if exact:
+                sat += 1
+            else:
+                unsat += 1
 
     even_blocks = int(mask_counts[0x55])
     odd_blocks = int(mask_counts[0xAA])
     req(sat == even_blocks * 57 + odd_blocks * 56, "SAT count reconstruction")
     req(unsat == even_blocks * 56 + odd_blocks * 57, "UNSAT count reconstruction")
-    req(sat + unsat == idx.terminal_count, "partition count")
+    req(sat + unsat == int(target["terminal_count"]), "CUT201 partition count")
 
     summary = {
-        "scope": "FULL_COMPRESSED_g1_d008_e8_255_BLOCK_FAMILY_PRE_CURRENT_RESIDUAL_INTERSECTION",
+        "scope": "CUT201_g1_d008_e8_OFFSETS_2041_2295_INDEPENDENT_MAIN_PARITY_PROBE",
+        "source_cut201_exact_head": CUT201_EXACT_HEAD,
+        "source_cut201_preflight_blob": CUT201_PREFLIGHT_BLOB,
+        "offset_range": [start_offset, end_offset],
         "block_count": block_count,
-        "terminal_count": idx.terminal_count,
+        "terminal_count": int(target["terminal_count"]),
         "completion_modulus": 8,
         "mask_distribution": {"0x55": even_blocks, "0xaa": odd_blocks},
         "affine_gf2_model_count": len(matching_models),
         "selected_affine_gf2_coefficients": coeff,
         "sat_terminal_count": sat,
         "unsat_terminal_count": unsat,
-        "unsat_fraction": [unsat, idx.terminal_count],
+        "unsat_fraction": [unsat, int(target["terminal_count"])],
         "credit": {
-            "current_residual_subset_identity_proved": False,
+            "independent_main_route_only": True,
+            "current_main_residual_subset_identity_proved": False,
             "main_pruning_credit": False,
             "double_charge_authorized": False,
             "full178_complete": False,
         },
     }
     print(json.dumps(summary, sort_keys=True, indent=2))
-    print("PASS_GRF09_E8_PICARD_COMPLETION_PARITY_PROBE")
+    print("PASS_GRF09_CUT201_E8_PICARD_COMPLETION_PARITY_PROBE")
 
 
 if __name__ == "__main__":
