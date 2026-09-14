@@ -20,6 +20,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N399/**'
       - 'stages/stage32/32-01-178/nodes/N400/**'
       - 'stages/stage32/32-01-178/nodes/N401/**'
+      - 'stages/stage32/32-01-178/nodes/N402/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -172,6 +173,8 @@ jobs:
             --current-main-root .n400-current-main
       - name: Probe N401 N399 survivor coarse-invariant compression
         run: python stages/stage32/32-01-178/nodes/N401/probe_n401_survivor_coarse_invariant_compression.py
+      - name: Probe N402 intrinsic block-congruence replacement for operational wave
+        run: python stages/stage32/32-01-178/nodes/N402/probe_n402_intrinsic_block_congruence_wave_replacement.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
