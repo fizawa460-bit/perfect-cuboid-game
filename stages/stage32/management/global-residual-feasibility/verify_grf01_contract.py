@@ -28,7 +28,7 @@ def req(ok: bool, msg: str) -> None:
 
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\\0" + raw).hexdigest()
+    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\x00" + raw).hexdigest()
 
 def csha(v: object) -> str:
     return hashlib.sha256(
