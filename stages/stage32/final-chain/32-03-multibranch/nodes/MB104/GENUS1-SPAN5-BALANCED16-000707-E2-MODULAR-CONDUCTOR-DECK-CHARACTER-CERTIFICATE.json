@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_MODULAR_CONDUCTOR_RESIDUAL_DECK_CHARACTER_V2",
+  "status": "RETAINED_V2_CORRECTION_CANDIDATE_ACTUAL_G_OVER_H_CHARACTER_AND_EXPLICIT_QUOTIENT_COORDINATE_NO_PAIR_TRANSITIONS",
+  "supersedes": {
+    "prior_blob_sha1": "0ea2caaebdee123ec4c0b2df63b35ba7ef82729f",
+    "defect": "prior note used Beauville G/G0 character as residual G/H character",
+    "prior_evaluator_consumable": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    },
+    {
+      "id": "FSM_COORD_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FREITAG-SALVATI-MANNI-RESIDUAL-KUMMER-COORDINATE-SOURCE-NOTE.md",
+      "blob_sha1": "a49f5b28b456dd88436c030e857cf771e5a1ba2f"
+    },
+    {
+      "id": "NODE_TYPE_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BEAUVILLE-NODE-STABILIZER-TYPE-SOURCE-NOTE.md",
+      "blob_sha1": "a29161602c0b38f0607794e56e61068b8cb9735d"
+    },
+    {
+      "id": "BOUNDARY_SATURATION",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md",
+      "blob_sha1": "aa9a7215467428b55b18ef296ced91b63ec4bf07"
+    },
+    {
+      "id": "RESIDUAL_SHEET",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-RESIDUAL-SHEET-CHARACTER.md",
+      "blob_sha1": "bf5f1fe82db9c1bfd1a5465ddf4e7015a3d2bb72"
+    }
+  ],
+  "support_specific_group": {
+    "G": "<T,T',R> ~= (Z/2)^3",
+    "used_types": [
+      "b1=0 <-> T'",
+      "b2=0 <-> TT'R"
+    ],
+    "absent_type": "b3=0 <-> T",
+    "H_generators": [
+      "T'",
+      "TT'R"
+    ],
+    "H_elements": [
+      "1",
+      "T'",
+      "TR",
+      "TT'R"
+    ],
+    "beauville_G0_generators": [
+      "TT'",
+      "TR"
+    ],
+    "H_equals_G0": false,
+    "witness_Tprime_in_H_not_G0": true
+  },
+  "mod8_class": {
+    "form": "[[1+4*rho,4*tau],[4*upsilon,1+4*rho]] mod 8",
+    "bits": {
+      "rho": "R exponent",
+      "tau": "T exponent",
+      "upsilon": "T' exponent"
+    },
+    "residual_character": "rho+tau mod 2",
+    "residual_kernel_test": "A+B == 1 mod 8",
+    "beauville_character": "rho+tau+upsilon mod 2",
+    "beauville_kernel_test": "A+B+C == 1 mod 8",
+    "characters_distinct": true,
+    "Tprime_residual_bit": 0,
+    "Tprime_beauville_bit": 1
+  },
+  "quotient_coordinate": {
+    "theta_coordinates": [
+      "a=theta00(z)",
+      "e=theta10(z)",
+      "b=theta01(z)",
+      "c=theta00(2z)",
+      "d=theta10(2z)"
+    ],
+    "relations": [
+      "a^2=c^2+d^2",
+      "b^2=c^2-d^2",
+      "e^2=2*c*d"
+    ],
+    "chart": "d != 0",
+    "x": "c/d",
+    "r": "e/d",
+    "relation": "r^2=2*x",
+    "H_fixes_r": true,
+    "fixed_field": "C(r)",
+    "R": "P1_r",
+    "residual_action": "T:r->-r",
+    "S": "P1_s",
+    "q": "s=r^2",
+    "base_function_choice": "h=2*x",
+    "square_root": "sqrt(h)=r=e/d"
+  },
+  "conductor_evaluator": {
+    "formula": "epsilon(u)+epsilon(v)=chi_res([M_(u,v)])",
+    "matrix_test": "chi_res=0 iff A+B == 1 mod 8",
+    "coordinate_test": "r(v)=(-1)^chi_res*r(u) over the common S-value",
+    "transition_elements_materialized": false,
+    "individual_signs_assigned": false,
+    "weighted_cut_bound_proved": false
+  },
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
