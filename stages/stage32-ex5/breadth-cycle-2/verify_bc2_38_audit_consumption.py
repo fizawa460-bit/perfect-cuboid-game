@@ -25,6 +25,7 @@ AUDIT_REVIEW = 5190676180
 UNKNOWN_SHA = "d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7"
 V31 = "STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION"
 V32 = "STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY"
+V33 = "STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT"
 
 
 def req(v: bool, msg: str) -> None:
@@ -66,21 +67,28 @@ def main() -> None:
 
     state = json.loads(STATE.read_text())
     schema = state["schema"]
-    req(schema in {V31, V32}, "BC2-38 consumed live state schema")
+    req(schema in {V31, V32, V33}, "BC2-38 consumed live state schema")
     pa = state["prior_audited_authority"]["bc2_38_pr_1776"]
     req(pa["hostile_audit_status"] == "PASS" and pa["audit_checkpoint_exact_head"] == AUDIT_HEAD and pa["hostile_audit_review_id"] == AUDIT_REVIEW, "BC2-38 hostile-audit receipt")
     f = state["frontier"]
-    req(f["e8_bc2_38_audited"] is True and f["e8_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_bc2_38_remaining_unknown_count"] == 30 and f["e8_bc2_38_remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 consumed frontier")
     a = state["intermediate_audit_boundary"]
     if schema == V31:
+        req(f["e8_bc2_38_audited"] is True and f["e8_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_bc2_38_remaining_unknown_count"] == 30 and f["e8_bc2_38_remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 consumed frontier")
         req(f["e8_bc2_39_executed"] is False and f["e8_bc2_39_target_unknown_count"] == 30 and f["e8_bc2_39_target_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-39 target frontier")
         req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == AUDIT_HEAD and a["last_hostile_audit_review_id"] == AUDIT_REVIEW and a["bc2_39_execution_authorized"] is True and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False, "V31 audit consumption state")
-    else:
+    elif schema == V32:
+        req(f["e8_bc2_38_audited"] is True and f["e8_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_bc2_38_remaining_unknown_count"] == 30 and f["e8_bc2_38_remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 consumed frontier")
         req(f["e8_bc2_39_executed"] is True and f["e8_bc2_39_audited"] is False and f["e8_bc2_39_new_parent_unsat_count"] == 7 and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_39_sat_count"] == 0 and f["e8_bc2_39_candidate_known_parent_unsat_count_lower_bound"] == 7313, "V32 BC2-39 quarantined frontier")
         req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == AUDIT_HEAD and a["last_hostile_audit_review_id"] == AUDIT_REVIEW and a["bc2_39_execution_authorized"] is False and a["freeze_active"] is True and a["new_audit_boundary_exists"] is True and a["re_audit_required"] is True, "V32 audit freeze")
+    else:
+        req(f["e8_bc2_38_audited"] is True and f["e8_bc2_38_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_known_parent_unsat_count_lower_bound"] == 7313, "BC2-38 V33 retained authority")
+        pa39 = state["prior_audited_authority"]["bc2_39_pr_1776"]
+        req(pa39["hostile_audit_status"] == "PASS" and pa39["audit_checkpoint_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and pa39["hostile_audit_review_id"] == 5193423203, "BC2-39 hostile-audit receipt")
+        req(f["e8_bc2_39_audited"] is True and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_40_preflight_ready"] is True and f["e8_bc2_40_execution_authorized"] is False, "V33 BC2-40 preflight frontier")
+        req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and a["last_hostile_audit_review_id"] == 5193423203 and a["bc2_40_execution_authorized"] is False and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "V33 audit consumption state")
 
     print("PASS: BC2-38 hostile-audit PASS remains consumed into EX5 local authority")
-    print("audited_lower_bound=7306 bc2_39_candidate_lower_bound=7313 main_credit=NO merge=NO")
+    print("audited_lower_bound=7306 bc2_39_audited_lower_bound=7313 main_credit=NO merge=NO")
 
 
 if __name__ == "__main__":
