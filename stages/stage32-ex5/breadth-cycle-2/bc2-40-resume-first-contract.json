@@ -1,0 +1,102 @@
+{
+  "aggregation": {
+    "complete_schema": "STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_V2_RESUMABLE",
+    "git_blob_sha": "76c1d5e9f45d113ccb17e8149b2d840e2278b301",
+    "partial_schema": "STAGE32EX5_BC2_40_RECOVERY_SNAPSHOT_V1",
+    "path": "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py",
+    "requires_exact_union": true,
+    "requires_no_gaps": true,
+    "requires_no_overlaps": true
+  },
+  "authorization": {
+    "heavy_execution_authorized": false,
+    "main_promotion_authorized": false,
+    "merge_authorized": false,
+    "runkey_armed": false,
+    "workflow_migrated": false
+  },
+  "canonical_sha256_without_this_field": "d016c9bf836d73979efd80cfa622aadb2390645a673c8c259e7f1ce90a3ea4e6",
+  "carry_validation": {
+    "reject_duplicate_parent_index": true,
+    "require_partition_identity": true,
+    "require_source_semantics_match": true,
+    "require_target_hash": true,
+    "require_timeout_ms": 180000,
+    "require_unit_canonical": true,
+    "reuse_only_complete_unit_certificates": true
+  },
+  "firewalls": {
+    "full178_complete": false,
+    "partial_units_are_complete_bc2_40": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "resume_contract_is_mathematical_credit": false,
+    "stage32_main_credit": false
+  },
+  "partition": {
+    "expected_unit_count": 23,
+    "finer_exact_partition_feasible": true,
+    "key": "parent_index",
+    "unit_certificate_schema": "STAGE32EX5_BC2_40_PARENT_UNIT_CERT_V1",
+    "unit_worker_git_blob_sha": "a28061b99527c6585c3f4016992d1ef6e47b42de",
+    "unit_worker_path": "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py"
+  },
+  "recovery": {
+    "fresh_runkey_generation_required": true,
+    "monolithic_rerun_default": false,
+    "next_generation": "VALIDATE_CARRY_AND_SCHEDULE_ONLY_MISSING_PARENT_INDICES",
+    "on_timeout_or_cancellation": "UPLOAD_COMPLETE_UNIT_CERTIFICATES_AND_RECOVERY_SNAPSHOT_IF_TECHNICALLY_SAFE"
+  },
+  "schema": "STAGE32EX5_BC2_40_RESUME_FIRST_CONTRACT_V1",
+  "stage": "32EX5",
+  "status": "RESUME_FIRST_CONTRACT_READY_NOT_WIRED_NOT_ARMED",
+  "storage_preflight": {
+    "aggregate_max_bytes": 524288,
+    "artifact_retention_days": 2,
+    "projected_peak_new_storage_bytes": 3670016,
+    "recovery_snapshot_max_bytes": 131072,
+    "repository_operating_budget_bytes": 524288000,
+    "unit_certificate_max_bytes": 131072,
+    "unit_count": 23,
+    "within_budget": true
+  },
+  "target": {
+    "audited_unknown_parent_count": 23,
+    "audited_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
+    "parent_indices": [
+      1056,
+      1103,
+      1206,
+      1243,
+      1703,
+      1706,
+      1717,
+      1733,
+      1798,
+      2092,
+      2122,
+      2187,
+      2407,
+      2651,
+      2819,
+      3205,
+      3375,
+      3635,
+      3885,
+      3901,
+      3915,
+      3980,
+      4200
+    ],
+    "prior_audited_unsat_count": 7313
+  },
+  "unit": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+  "workflow_requirements": {
+    "compact_certificates_only": true,
+    "effective_heavy_concurrency": 1,
+    "heavy_scaleout_authorized": false,
+    "partial_upload_if_always_or_equivalent_required": true,
+    "per_parent_timeout_ms": 180000,
+    "raw_solver_state_persisted": false
+  }
+}

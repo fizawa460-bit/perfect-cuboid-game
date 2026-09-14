@@ -12,6 +12,7 @@ V39=B2/'verify_bc2_39_targeted_replay_checkpoint.py'
 PASS39=B2/'bc2-39-hostile-audit-pass-receipt.json'
 PREFLIGHT40=B2/'bc2-40-fresh-unknown23-replay-preflight.json'
 PRODUCER40=B2/'bc2_40_replay_explicit_fresh_unknown23.py'
+RESUME40=B2/'verify_bc2_40_resume_first_contract.py'
 RUNKEY40=HERE/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
 WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
 
@@ -109,7 +110,8 @@ def main():
     req(not RUNKEY40.exists(),'BC2-40 runkey must remain absent while V33 cold gate is validated')
     subprocess.run([sys.executable,str(V39)],check=True)
     subprocess.run([sys.executable,'-m','py_compile',str(PRODUCER40)],check=True)
-    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt and validates a cold BC2-40 workflow gate')
-    print('audited_lower_bound=7313 retained_unknown=23 bc2_40_timeout_ms=180000 heavy=NOT_ARMED main_credit=NO merge=NO')
+    subprocess.run([sys.executable,str(RESUME40)],check=True)
+    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt, cold BC2-40 gate, and resume-first contract')
+    print('audited_lower_bound=7313 retained_unknown=23 partition=parent_index/23 heavy=NOT_ARMED main_credit=NO merge=NO')
 
 if __name__=='__main__': main()
