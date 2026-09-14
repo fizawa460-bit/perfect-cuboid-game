@@ -1,6 +1,6 @@
 # Stage32
 
-This README is a layout map only. It is **not** a startup/read-order contract and is not current mathematical routing authority. `stage32mainbatch` resolves through `COMMANDS.md` to the single MAIN startup contract `MAIN-START-HERE.md`; mutable routing/credit comes from `MAIN-STATE.json`, and operational cross-lane dependencies come from `proof/CROSS-LANE-DEMANDS.json`.
+This README is a layout map only. It is not a startup/read-order contract and is not current mathematical routing authority. `stage32mainbatch` resolves through `COMMANDS.md` to the single MAIN startup contract `MAIN-START-HERE.md`; mutable routing/credit comes from `MAIN-STATE.json`, and operational cross-lane dependencies come from `proof/CROSS-LANE-DEMANDS.json`.
 
 The retained final-chain architecture is `32-01 FULL178 -> 32-02 effectivity -> 32-03 multibranch -> 32-04 synthesis -> 32-05 hostile audit`; which step is currently active must be read from `MAIN-STATE.json`, not inferred from this README.
 
