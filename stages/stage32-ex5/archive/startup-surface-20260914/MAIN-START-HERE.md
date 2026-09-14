@@ -1,46 +1,57 @@
 # Stage32EX5 MAIN startup
 
-Ordinary `stage32ex5-mainbatch` reads, in order: `AGENTS.md`; `stages/stage32/COMMANDS.md`; current `stages/stage32/MAIN-STATE.json`; `stages/stage32/proof/CROSS-LANE-DEMANDS.json`; `stages/stage32-ex5/CROSS-LANE-STATE.json` when present; `README.md`; this file; `MAINBATCH-OPERATIONS.md`; `MAIN-STATE.json`; then only the active EX5 working set.
+Ordinary `stage32ex5-mainbatch` reads, in order:
 
-PR #1776 remains active/open/draft/unmerged. Merge is not authorized.
+1. `AGENTS.md`;
+2. `stages/stage32/COMMANDS.md`;
+3. `stages/stage32/MAIN-STATE.json` for current Stage32 routing;
+4. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
+5. `stages/stage32-ex5/CROSS-LANE-STATE.json` whenever EX5 has current demand state;
+6. `stages/stage32-ex5/README.md`;
+7. this file;
+8. `MAINBATCH-OPERATIONS.md`;
+9. `MAIN-STATE.json`;
+10. only the active EX5 working set required by the selected route.
+
+Historical Cycle1 files remain source-locked provenance.
 
 ## Cross-lane demand priority
 
-Before local work, inspect every OPEN demand with `producer_lane=EX5`. A higher-priority OPEN producer demand preempts lower-priority local work. A SATISFIED demand is only an operational handoff and **does not grant mathematical credit**.
+Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`.
 
-The live synchronization retained by EX5 records zero OPEN EX5 producer demands. Both retained producer obligations are SATISFIED:
+Before local EX5 research, inspect every OPEN demand with `producer_lane=EX5`. If a higher-priority OPEN demand exists relative to the current local route, producing the requested exact artifact becomes the next EX5 route. Do not continue lower-priority local BC2 refinement merely because it was already in progress.
 
-- `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1`;
-- `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1`.
+If EX5 is a consumer for another OPEN demand, wait without duplicating the producer. If that demand becomes SATISFIED, re-enter on the next `stage32ex5-mainbatch` and validate the satisfying artifact path/blob/canonical and population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync, current-target adapters and MAIN promotion remain separate.
 
-These handoffs grant no Stage32 MAIN pruning, FULL178, theorem, endpoint, receiver, effectivity, or merge credit. EX5 remains a separate local producer/refinement surface and never self-promotes to MAIN authority.
+Current coordination state:
 
-## Current synchronized MAIN authority
+- `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` remains **SATISFIED**. Its retained handoff is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`.
+- `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` is **OPEN / P0_BLOCKING_DOWNSTREAM**. EX5 must therefore defer the lower-priority BC2-25/26 local route and produce the smallest exact population-preserving terminal-to-Picard64 interface covering the retained HPADJ-01 current-V22 charged population across all 178 FULL178 rows.
+- The HPADJ demand ends at Picard64 population identity. It must not claim effectivity, integrality, irreducibility, normalization genus, receiver/theorem/endpoint credit, or Stage32 closure.
 
-EX5's retained live coordination snapshot is `LIVE-MAIN-COORDINATION-SYNC-20260914.json`, blob `c9a3a878413df5afc634f99b94707534412b5d84`, canonical `fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c`, from MAIN coordination PR #1800 at head `9d4a24ef479d031e9c4b85001fe8f7a10198b17d`.
+## Current authority
 
-The synchronized Stage32 MAIN schema is `STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED`; authoritative remaining strata are `17128`; certified remaining-terminal upper bound is `26876434389242951089388`; FULL178 remains incomplete. EX5 does not mutate or auto-promote into that authority.
+PR #1765 is merged at `98c5710dad4ca9a006e93b273ecf5259733e03aa`; it is not an active working PR. Current Stage32 routing must be read from `stages/stage32/MAIN-STATE.json`, not the old #1765 base SHA. Later unmerged EX5 research remains retained only at its exact audited boundary until separately integrated.
 
-## Current EX5 authority — V33
+The retained local EX5 state/evidence remains mathematical provenance; cross-lane coordination state changes routing priority only and creates no mathematical credit.
 
-BC2-39 hostile audit is PASS and consumed locally:
+## Retained boundary
 
-- hostile-audit exact head `4b974550d9ad030973fec99e19a090f6785f8aa8`;
-- review `5193423203`;
-- retained result `7 UNSAT / 23 UNKNOWN / 0 SAT`;
-- audited known-parent UNSAT lower bound `7313`;
-- remaining 23 UNKNOWN hash `29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02`.
+BC2-24 remains the merged EX5 base result: 4 newly UNSAT parents, `19` retained UNKNOWN, 0 SAT; known parent-UNSAT lower bound `7145`; `172` other BC2-19 UNKNOWN identities remain uninferred. Later BC2-25/26 work may exist on an unmerged research PR, but it is deferred while the P0 HPADJ demand is OPEN.
 
-The active EX5 schema is `STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT`. Its fail-closed migration is covered by the shared Stage32 command/startup verifiers and the retained BC2 compatibility chain.
+The whole first block, whole stratum, and FULL178 remain open.
 
-## BC2-40 preflight gate
+## Executable boundary
 
-BC2-40 is staged only for the exact 23 hostile-audited UNKNOWN parents. The retained producer is `breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py`; the preflight is `breadth-cycle-2/bc2-40-fresh-unknown23-replay-preflight.json`. Planned bounded execution is `180000 ms` per parent with at most one heavy runner and no scaleout.
+On a new `stage32ex5-mainbatch` invocation:
 
-No BC2-40 runkey is armed. Live execution remains `dedicated_runkey=null`, `effective_heavy_concurrency=0`, `runkey_armed=false`, and `heavy_scaleout_authorized=false`. The next exact gate is `BC2_40_FRESH_RUNKEY_AUTHORIZATION`; a fresh semantic runkey and fail-closed workflow authorization are required before any BC2-40 heavy execution. The V33 migration itself does not authorize compute.
+1. synchronize current MAIN routing;
+2. inspect `CROSS-LANE-DEMANDS.json` and `CROSS-LANE-STATE.json`;
+3. execute `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` before lower-priority local BC2 work while it remains OPEN;
+4. produce only the smallest exact source-locked interface needed to preserve HPADJ population identity through terminal-to-Picard64 completion;
+5. if the demand becomes SATISFIED, preserve its exact handoff receipt and stop at the audit/MAIN-consumption boundary;
+6. never relabel UNKNOWN as UNSAT and do not broad/heavy scale out without its separate authorization gate.
 
-UNKNOWN remains UNKNOWN. Any future SAT is Picard64-feasibility evidence only and cannot be promoted to an actual effective/irreducible curve.
+Supplying or satisfying a cross-lane interface does not itself prove UNSAT, FULL178 closure, effectivity, receiver credit, theorem credit, endpoint credit, or Stage32 closure.
 
-No whole-first-block/whole-stratum/FULL178 closure, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid credit, heavy scaleout, or merge is authorized.
-
-Next ordinary command: `stage32ex5-mainbatch` at the BC2-40 fresh-runkey authorization gate. `stage32ex5-audit` is not active until a new exact BC2-40 result boundary is actually executed and frozen.
+No Stage32 MAIN, N350, theorem, receiver, effectivity, endpoint, or Perfect Cuboid credit follows automatically.
