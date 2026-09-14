@@ -1,28 +1,93 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib,json,subprocess,sys
+import hashlib, json, subprocess, sys
 from pathlib import Path
-HERE=Path(__file__).resolve().parent; B2=HERE/'breadth-cycle-2'; STATE=HERE/'MAIN-STATE.json'; SYNC=HERE/'LIVE-MAIN-COORDINATION-SYNC-20260914.json'; CHECKPOINT=B2/'bc2-39-fresh-unknown30-replay-checkpoint.json'; RUNKEY=HERE/'runkeys/bc2-39-fresh-unknown30-replay.json'; RETAINED=B2/'verify_bc2_39_targeted_replay_checkpoint.py'; WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
-SYNC_BLOB='c9a3a878413df5afc634f99b94707534412b5d84'; SYNC_CANON='fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c'; CP_BLOB='43565b80d730caa5db8e3c95aa0a1e58217155cf'; CP_CANON='77f9339f99070b35df09ac4f88c458ab23220fffa5679a9c1c125b429cb3f86e'; RUNKEY_BLOB='2e0f7467ffd5b16dc9f2e8feaefaedbee5ffbfab'; RETAINED_BLOB='0746b3976b79bc26bddc141f8d023da5b780ea96'; UNKNOWN23_SHA='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
+
+HERE=Path(__file__).resolve().parent
+B2=HERE/'breadth-cycle-2'
+STATE=HERE/'MAIN-STATE.json'
+SYNC=HERE/'LIVE-MAIN-COORDINATION-SYNC-20260914.json'
+CP39=B2/'bc2-39-fresh-unknown30-replay-checkpoint.json'
+V39=B2/'verify_bc2_39_targeted_replay_checkpoint.py'
+CONSUME=B2/'bc2-39-hostile-audit-consumption.json'
+PREFLIGHT40=B2/'bc2-40-fresh-unknown23-replay-preflight.json'
+PRODUCER40=B2/'bc2_40_replay_explicit_fresh_unknown23.py'
+WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
+
+SYNC_BLOB='c9a3a878413df5afc634f99b94707534412b5d84'
+SYNC_CANON='fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c'
+CP39_BLOB='43565b80d730caa5db8e3c95aa0a1e58217155cf'
+CP39_CANON='77f9339f99070b35df09ac4f88c458ab23220fffa5679a9c1c125b429cb3f86e'
+CONSUME_BLOB='b180c663ff70436cb251922f0eabfd1ff59297a8'
+CONSUME_CANON='d108344e6bbda137e780e8c16e8a96c525ac8c912f2e9c5cb13e259da3d2625f'
+PREFLIGHT40_BLOB='798aae5a9ff1be3194093133ff61e8db6ad3d86c'
+PREFLIGHT40_CANON='01ef9ab1c95e31435975ed61b276c100deb815e31838ef26f95d8ab62cf4f56d'
+PRODUCER40_BLOB='acccc2360a2b113b4d568c86bb4be48152a68013'
+UNKNOWN23_SHA='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
+
 def req(v,m):
     if not v: raise SystemExit('FAIL: '+m)
 def blob(p): return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
 def canon(o):
-    q=dict(o); q.pop('canonical_sha256_without_this_field',None); return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+    q=dict(o); q.pop('canonical_sha256_without_this_field',None)
+    return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+
 def main():
-    s=json.loads(STATE.read_text()); req(s['schema']=='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY','schema'); b=s['bootstrap']; req(b['active_work_pr']==1776 and b['merge_authorized'] is False,'bootstrap')
-    req(blob(SYNC)==SYNC_BLOB,'live MAIN sync blob'); sync=json.loads(SYNC.read_text()); req(sync['canonical_sha256_without_this_field']==SYNC_CANON and canon(sync)==SYNC_CANON,'live MAIN sync canonical'); lm=sync['live_main_state']; req(lm['authoritative_remaining_strata']==17128 and lm['certified_remaining_terminal_upper_bound']==26876434389242951089388 and lm['full178_complete'] is False,'MAIN authority sync')
-    req(blob(CHECKPOINT)==CP_BLOB,'checkpoint blob'); cp=json.loads(CHECKPOINT.read_text()); req(cp['canonical_sha256_without_this_field']==CP_CANON and canon(cp)==CP_CANON,'checkpoint canonical'); r=cp['replay']; req((r['unsat_count'],r['unknown_count'],r['sat_count'])==(7,23,0) and r['unknown_parent_indices_sha256']==UNKNOWN23_SHA,'checkpoint partition')
-    req(blob(RUNKEY)==RUNKEY_BLOB,'consumed runkey blob'); rk=json.loads(RUNKEY.read_text()); req(rk['generation']==2 and rk['armed'] is False and rk['consumed_run']['accepted_for_hostile_audit'] is True,'runkey consumed')
-    req(blob(RETAINED)==RETAINED_BLOB,'retained verifier blob')
-    f=s['frontier']; req(f['e8_known_parent_unsat_count_lower_bound']==7306 and f['e8_bc2_39_candidate_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_executed'] is True and f['e8_bc2_39_audited'] is False and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']==UNKNOWN23_SHA,'frontier quarantine')
-    cur=s['current']; a=s['intermediate_audit_boundary']; req(cur['status']=='BC2_39_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and cur['next_route']=='HOSTILE_AUDIT_BC2_39_TARGETED_REPLAY','route'); req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and a['bc2_39_execution_authorized'] is False,'audit freeze')
+    s=json.loads(STATE.read_text())
+    req(s['bootstrap']['active_work_pr']==1776 and s['bootstrap']['merge_authorized'] is False,'bootstrap')
+    req(blob(SYNC)==SYNC_BLOB,'live MAIN sync blob')
+    sync=json.loads(SYNC.read_text())
+    req(sync['canonical_sha256_without_this_field']==SYNC_CANON and canon(sync)==SYNC_CANON,'live MAIN sync canonical')
+    lm=sync['live_main_state']
+    req(lm['authoritative_remaining_strata']==17128 and lm['certified_remaining_terminal_upper_bound']==26876434389242951089388 and lm['full178_complete'] is False,'MAIN authority sync')
+    req(blob(CP39)==CP39_BLOB,'BC2-39 checkpoint blob')
+    cp=json.loads(CP39.read_text())
+    req(cp['canonical_sha256_without_this_field']==CP39_CANON and canon(cp)==CP39_CANON,'BC2-39 checkpoint canonical')
+    r=cp['replay']
+    req((r['unsat_count'],r['unknown_count'],r['sat_count'])==(7,23,0) and r['unknown_parent_indices_sha256']==UNKNOWN23_SHA,'BC2-39 partition')
+
+    if s['schema']=='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY':
+        f=s['frontier']; a=s['intermediate_audit_boundary']
+        req(f['e8_known_parent_unsat_count_lower_bound']==7306 and f['e8_bc2_39_candidate_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_audited'] is False,'V32 quarantine')
+        req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True,'V32 audit freeze')
+        print('PASS: Stage32EX5 V32 BC2-39 hostile-audit boundary')
+        return
+
+    req(s['schema']=='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT','V33 schema')
+    req(blob(CONSUME)==CONSUME_BLOB,'BC2-39 audit-consumption blob')
+    co=json.loads(CONSUME.read_text())
+    req(co['canonical_sha256_without_this_field']==CONSUME_CANON and canon(co)==CONSUME_CANON,'BC2-39 audit-consumption canonical')
+    req(co['audit']=={'exact_head':'4b974550d9ad030973fec99e19a090f6785f8aa8','review_id':5193423203,'status':'PASS'},'BC2-39 audit identity')
+    cc=co['consumption']
+    req((cc['prior_audited_lower_bound'],cc['new_exact_unsat'],cc['audited_lower_bound'],cc['remaining_unknown_count'],cc['sat_count'])==(7306,7,7313,23,0),'BC2-39 consumption counts')
+    req(cc['remaining_unknown_parent_indices_sha256']==UNKNOWN23_SHA,'BC2-39 remaining identity')
+
+    req(blob(PREFLIGHT40)==PREFLIGHT40_BLOB,'BC2-40 preflight blob')
+    pf=json.loads(PREFLIGHT40.read_text())
+    req(pf['canonical_sha256_without_this_field']==PREFLIGHT40_CANON and canon(pf)==PREFLIGHT40_CANON,'BC2-40 preflight canonical')
+    req(blob(PRODUCER40)==PRODUCER40_BLOB,'BC2-40 producer blob')
+    req(pf['source_locks']['producer_git_blob_sha']==PRODUCER40_BLOB,'BC2-40 producer source lock')
+    req(pf['target']['audited_unknown_parent_count']==23 and pf['target']['audited_unknown_parent_indices_sha256']==UNKNOWN23_SHA and pf['target']['prior_audited_unsat_count']==7313,'BC2-40 target')
+    ex=pf['execution']; req(ex['per_parent_timeout_ms']==180000 and ex['effective_heavy_concurrency']==1 and ex['heavy_scaleout_authorized'] is False and ex['runkey_armed'] is False,'BC2-40 execution preflight')
+    req(pf['firewalls']['bc2_40_execution_authorized'] is False and pf['firewalls']['main_promotion'] is False and pf['firewalls']['merge_authorized'] is False,'BC2-40 preflight firewalls')
+
+    f=s['frontier']; a=s['intermediate_audit_boundary']; cur=s['current']; nx=s['next_step']
+    req(f['e8_bc2_39_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']==UNKNOWN23_SHA,'V33 audited frontier')
+    req(f['e8_bc2_40_preflight_ready'] is True and f['e8_bc2_40_execution_authorized'] is False and f['e8_bc2_40_target_unknown_count']==23,'V33 BC2-40 frontier')
+    req(cur['status']=='BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED' and cur['next_route']=='BC2_40_FRESH_RUNKEY_AUTHORIZATION','V33 route')
+    req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['last_hostile_audit_status']=='PASS','V33 audit receipt')
+    req(a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False and a['bc2_40_execution_authorized'] is False,'V33 no audit/heavy boundary')
+    req(nx['bc2_40_runkey_armed'] is False and nx['heavy_scaleout_authorized'] is False and nx['main_promotion_authorized'] is False and nx['merge_authorized'] is False,'V33 next gate')
     for sec in ('historical_credit_firewall','firewalls'):
         for k,v in s[sec].items(): req(v is False,'firewall '+sec+'.'+k)
     for k,v in s['credit'].items():
         if k!='level': req(v is False,'credit '+k)
-    wf=WORKFLOW.read_text(); req('verify_bc2_39_targeted_replay_checkpoint.py' in wf,'retained checkpoint step missing'); req('authorize-bc2-39-fresh-unknown30:' not in wf and '\n  bc2-39-fresh-unknown30:' not in wf,'BC2-39 heavy not retired')
-    subprocess.run([sys.executable,str(RETAINED)],check=True)
-    print('PASS: Stage32EX5 V32 BC2-39 audit boundary is frozen and fail-closed')
-    print('audited_lower_bound=7306 candidate_lower_bound=7313 retained_unknown=23 sat=0 heavy=RETIRED main_credit=NO merge=NO')
+
+    wf=WORKFLOW.read_text()
+    req('authorize-bc2-40' not in wf and '\n  bc2-40' not in wf,'BC2-40 heavy must remain unarmed')
+    subprocess.run([sys.executable,str(V39)],check=True)
+    subprocess.run([sys.executable,'-m','py_compile',str(PRODUCER40)],check=True)
+    print('PASS: Stage32EX5 V33 consumed BC2-39 audit and retained BC2-40 preflight without heavy authorization')
+    print('audited_lower_bound=7313 retained_unknown=23 bc2_40_timeout_ms=180000 heavy=NOT_ARMED main_credit=NO merge=NO')
+
 if __name__=='__main__': main()
