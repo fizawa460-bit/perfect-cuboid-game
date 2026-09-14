@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V24 authority retained; GRF-04 is a zero-credit symbolic kernel candidate.
+# Current boundary: V24 authority retained; GRF-05 is a zero-credit symbolic kernel candidate.
 on:
   pull_request:
     paths:
@@ -92,6 +92,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py)" = "eaddc4eaa790742cc92ec0bac3043c6743f947fc"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-04-RATIONAL-QUADRATIC-LOWER-BOUND-KERNEL.json)" = "f7c1073edbf895f498fd9923e59eedf5a4e981c8"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py)" = "af883bd66600c626350f9e6ef4bc12c00e239f45"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-05-INTEGRAL-FINITE-QUOTIENT-LOWER-BOUND-KERNEL.json)" = "75e556dee57dff282232a57898924d7e1826a40c"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf05_integral_finite_quotient_lower_bound_kernel.py)" = "75a92a3ec494481e89b671f4f8f6f7a9162befb8"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
@@ -109,6 +111,9 @@ jobs:
 
       - name: Verify GRF-04 rational quadratic lower-bound kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
+
+      - name: Verify GRF-05 integral finite-quotient lower-bound kernel
+        run: python stages/stage32/management/global-residual-feasibility/verify_grf05_integral_finite_quotient_lower_bound_kernel.py
 
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
