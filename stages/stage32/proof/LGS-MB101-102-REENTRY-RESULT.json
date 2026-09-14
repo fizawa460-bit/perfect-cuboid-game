@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32_LGS_MB101_MB102_REENTRY_RESULT_V1",
+  "status": "REOPENED_MB_SUBROUTE_ONLY_NO_CREDIT",
+  "historical_route": "EX5R-LGS-001",
+  "historical_blocker": "LGS_MISSING_POPULATION_WIDE_GLOBAL_TO_LOCAL_DEFECT_ADAPTER",
+  "overall_outcome": "DIRECT_RECONNECT",
+  "scope_split": {
+    "R29_LG2_MB": {
+      "outcome": "DIRECT_RECONNECT",
+      "reason": "MB101 and MB102 use the exact R29-LG2-MB receiver and provide the formerly missing typed multibranch population, branch/multiplicity semantics, exact global genus-defect identity, and exact local delta decomposition rule.",
+      "post_adapter_frontier_reached": true
+    },
+    "R29_LG2_EFF": {
+      "outcome": "SEMANTIC_ADAPTER_GAP",
+      "reason": "MB101/MB102 are retained specifically on R29-LG2-MB and do not provide a population-complete adapter for all R29-LG2-EFF numerical survivors.",
+      "post_adapter_frontier_reached": false
+    }
+  },
+  "historical_requirements_now_satisfied_on_mb_side": {
+    "receiver_identity": true,
+    "multibranch_population_semantics": true,
+    "smooth_node_branch_and_multiplicity_semantics": true,
+    "row_to_global_genus_defect_identity": true,
+    "local_delta_decomposition_rule": true
+  },
+  "not_satisfied": {
+    "exhaustive_allowed_local_defect_partition": true,
+    "population_complete_intrinsic_branch_delta_ranges": true,
+    "population_complete_pairwise_intersection_ranges": true,
+    "population_complete_conductor_constraints": true,
+    "Delta_off_control": true,
+    "finite_degree_window": true
+  },
+  "new_smallest_blocker": {
+    "code": "LGS_MB_MISSING_EXHAUSTIVE_LOCAL_DEFECT_RANGE_AND_DELTA_OFF_CONTROL",
+    "statement": "For the attacked R29-LG2-MB population, source-lock a population-complete allowed range or finite partition for intrinsic branch delta, pairwise intersection/conductor contributions at shared resolved points, and off-exceptional Delta_off, sufficient to exhaust the exact identity D^2+d=2g-2+2*Delta_total.",
+    "why_load_bearing": "MB102 explicitly forbids deriving delta from r_i/M_i and explicitly leaves Delta_off uncontrolled; therefore the local-global ledger is exact but not yet an obstruction."
+  },
+  "finite_exception_reduction_obtained": false,
+  "mathematical_effect": {
+    "receiver_subset_excluded": false,
+    "effectivity_subset_excluded": false,
+    "multibranch_subset_excluded": false,
+    "new_pruning_terminals": 0,
+    "stage32_main_authority_changed": false
+  },
+  "next_bounded_unit": "LGS_MB_02_POPULATION_COMPLETE_LOCAL_DEFECT_RANGE_OR_BOUND_PREFLIGHT",
+  "forbidden_next_actions": [
+    "FULL178 row or terminal enumeration",
+    "EX5 BC2 replay",
+    "CUT rerun",
+    "MB104 conductor/monodromy continuation",
+    "heavy compute before a finite source-locked defect domain exists",
+    "promotion of MB101/102 ledger identities to exclusion without exhaustive local-defect control"
+  ],
+  "audit_required_before_credit": true,
+  "merge_authorized": false
+}
