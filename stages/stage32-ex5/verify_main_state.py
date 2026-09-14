@@ -17,11 +17,15 @@ PREFLIGHT = B2 / "bc2-39-fresh-unknown30-replay-preflight.json"
 SOURCE = B2 / "bc2_39_replay_explicit_fresh_unknown30.py"
 PREFLIGHT_VERIFIER = B2 / "verify_bc2_39_preflight.py"
 CONSUME38_VERIFIER = B2 / "verify_bc2_38_audit_consumption.py"
+RETRY_RECEIPT = B2 / "bc2-39-generation1-no-heavy-retry-receipt.json"
 WORKFLOW = ROOT.parent / ".github/workflows/stage32-ex5-main.yml"
 
 SYNC_BLOB = "c9a3a878413df5afc634f99b94707534412b5d84"
 SYNC_CANON = "fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c"
-RUNKEY_BLOB = "48dcc39fd06d5714bb54a8485a909de0a13363b8"
+RUNKEY_G1_BLOB = "48dcc39fd06d5714bb54a8485a909de0a13363b8"
+RUNKEY_G2_BLOB = "d77f8bde0bda3d4c438094490dec297322f70a37"
+RETRY_RECEIPT_BLOB = "a812727a9e5dfa29e88fd74aee292386a5231e64"
+RETRY_RECEIPT_CANON = "cb0a292479cf230f96a052d771a448cbc8e4b5254ed4ae31297ca470fa929d79"
 PREFLIGHT_BLOB = "e3dab72865d734f2420fb71ddf3c29115f9df68e"
 PREFLIGHT_CANON = "7bda94c5869c988892c979873f13a1c311debedbbe9fcc670a253e339fb5e435"
 SOURCE_BLOB = "e322029cfc4476ce8cf3685ca04f35b58e2ce9f2"
@@ -76,10 +80,22 @@ def main() -> None:
     req(pf["canonical_sha256_without_this_field"] == PREFLIGHT_CANON and canon(pf) == PREFLIGHT_CANON, "BC2-39 preflight canonical")
     req(blob(PREFLIGHT_VERIFIER) == PREFLIGHT_VERIFIER_BLOB and blob(CONSUME38_VERIFIER) == CONSUME38_VERIFIER_BLOB, "BC2-39 verifier identity")
 
-    req(blob(RUNKEY) == RUNKEY_BLOB, "BC2-39 armed runkey blob")
+    req(blob(RETRY_RECEIPT) == RETRY_RECEIPT_BLOB, "BC2-39 generation1 retry receipt blob")
+    rr = json.loads(RETRY_RECEIPT.read_text())
+    req(rr["canonical_sha256_without_this_field"] == RETRY_RECEIPT_CANON and canon(rr) == RETRY_RECEIPT_CANON, "BC2-39 generation1 retry receipt canonical")
+    req(rr["generation1"]["heavy_started"] is False and rr["generation1"]["heavy_conclusion"] == "skipped", "generation1 heavy execution firewall")
+    req(rr["repair_validation"]["all_retained_chain_steps_success"] is True and rr["repair_validation"]["heavy_started"] is False, "generation1 repair validation")
+    req(rr["retry_contract"]["next_generation"] == 2 and rr["retry_contract"]["generation1_must_not_be_reused"] is True, "generation2 retry contract")
+
+    rk_blob = blob(RUNKEY)
     rk = json.loads(RUNKEY.read_text())
-    req(rk["schema"] == "STAGE32EX5_BC2_39_FRESH_UNKNOWN30_REPLAY_RUNKEY_V1" and rk["generation"] == 1 and rk["armed"] is True, "BC2-39 fresh runkey")
+    generation = rk["generation"]
+    req(rk["schema"] == "STAGE32EX5_BC2_39_FRESH_UNKNOWN30_REPLAY_RUNKEY_V1" and generation in {1, 2} and rk["armed"] is True, "BC2-39 fresh runkey")
+    req((generation == 1 and rk_blob == RUNKEY_G1_BLOB) or (generation == 2 and rk_blob == RUNKEY_G2_BLOB), "BC2-39 exact runkey blob")
     req(rk["source_git_blob_sha"] == SOURCE_BLOB and rk["preflight_git_blob_sha"] == PREFLIGHT_BLOB and rk["preflight_canonical"] == PREFLIGHT_CANON, "BC2-39 runkey source locks")
+    if generation == 2:
+        dep = rk["dependency_locks"]
+        req(dep["generation1_no_heavy_retry_receipt_git_blob_sha"] == RETRY_RECEIPT_BLOB and dep["generation1_no_heavy_retry_receipt_canonical"] == RETRY_RECEIPT_CANON, "generation2 retry receipt lock")
     t = rk["target"]
     req(t["fresh_unknown_parent_count"] == 30 and t["fresh_unknown_parent_indices_sha256"] == UNKNOWN30_SHA and t["prior_audited_unsat_count"] == 7306 and t["targeted_replay_only"] is True, "BC2-39 runkey target")
     ex = rk["execution"]
@@ -114,7 +130,7 @@ def main() -> None:
     subprocess.run([sys.executable, str(PREFLIGHT_VERIFIER)], check=True)
     subprocess.run([sys.executable, "-m", "py_compile", str(SOURCE)], check=True)
 
-    print("PASS: Stage32EX5 V31 consumed BC2-38 audit and armed one bounded BC2-39 replay")
+    print(f"PASS: Stage32EX5 V31 consumed BC2-38 audit and armed one bounded BC2-39 replay generation={generation}")
     print("audited_lower_bound=7306 target_unknown=30 timeout_ms=160000 concurrency=1 scaleout=NO main_credit=NO merge=NO")
 
 
