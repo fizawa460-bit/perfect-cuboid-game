@@ -1,0 +1,52 @@
+{
+  "canonical_sha256_without_this_field": "c704500d036b2994680d4f42c3c8b7256c6eda02703f4cf371e97718d10ac199",
+  "schema": "STAGE32EX5_BC2_40_GENERATION3_POLICY_QUARANTINE_RECEIPT_V1",
+  "stage": "32EX5",
+  "unit": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+  "generation3": {
+    "exact_head": "7f82c49a07bb82d59603b47b436ff8e84a884fd5",
+    "workflow_run_id": 34903034534,
+    "authorize_job_id": 104173208732,
+    "heavy_job_id": 104173295178,
+    "authorization_result": true,
+    "authorization_reason": "exact-v2-resume-runkey",
+    "heavy_started": true,
+    "observed_heavy_status_at_quarantine": "in_progress",
+    "runkey_generation": 3,
+    "runkey_canonical": "618180dde85ef828a3341eb593640ad24f0bcc32220bcdd209c9ed18c738e77f",
+    "authorized_contract_canonical": "0404db1edffc4b899f29dd6693fb2c84f857a3071dfd5ca653d1a97002f7a7ba",
+    "authorized_contract_git_blob_sha": "750f26b6485041031e5a2be31ce2fa52ab99d80b",
+    "authorized_workflow_git_blob_sha": "eac5501973b98e7df01786fd8188581f7f470c9d"
+  },
+  "defect": {
+    "kind": "HEAVY_AUTHORIZATION_EVENT_RANGE_POLICY_VIOLATION",
+    "old_delta_source": "HEAD^..HEAD",
+    "required_delta_source": "github.event.before..github.event.pull_request.head.sha",
+    "policy": "docs/research-os/policies/actions-storage-and-evidence-safety.md",
+    "policy_rule": "synchronize must inspect the actual event commit range",
+    "mathematical_execution_semantics_changed": false
+  },
+  "quarantine": {
+    "credit_eligible": false,
+    "carry_into_credited_generation_authorized": false,
+    "stage32_main_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "result_may_be_used_only_as_noncredit_diagnostic": true,
+    "blocks_new_bc2_40_generation": true,
+    "hostile_audit_required_before_generation4": true
+  },
+  "repair": {
+    "repaired_workflow_git_blob_sha": "425b0d72f1a654f53b16bf086c537e79335d6263",
+    "repaired_contract_git_blob_sha": "220edb27584ea99899e7e3f129869f1a1b7719a2",
+    "repaired_contract_canonical": "ff2106909f7d9e02c7300127f10463e7d4fc3415e300c10f1e8aad712b133ca1",
+    "next_gate": "HOSTILE_AUDIT_REPAIRED_COMMIT_RANGE_AUTHORIZATION_BEFORE_GENERATION4_REARM"
+  },
+  "firewalls": {
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "theorem_credit_changed": false,
+    "receiver_credit_changed": false,
+    "effectivity_credit_changed": false
+  }
+}

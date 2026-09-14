@@ -1,6 +1,6 @@
 name: Stage32EX5 BC2-40 resume-first heavy
 # Trigger lifecycle: ACTIVE_AUTO — current BC2-40 resumable heavy frontier.
-# Heavy execution is fail-closed behind an exact semantic V2 runkey delta.
+# Heavy execution is fail-closed behind an exact semantic V2 runkey delta over github.event.before..PR-head.
 
 on:
   pull_request:
@@ -41,10 +41,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
+          fetch-depth: 1
       - id: gate
         name: Authorize only an exact V2 resume runkey delta
         shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           python - <<'PY'
           import hashlib,json,os,subprocess
@@ -59,6 +62,8 @@ jobs:
           aggp=Path('stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py')
           target=[1056,1103,1206,1243,1703,1706,1717,1733,1798,2092,2122,2187,2407,2651,2819,3205,3375,3635,3885,3901,3915,3980,4200]
           target_sha='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
+          before=os.environ.get('BEFORE','').strip()
+          head=os.environ.get('HEAD_SHA','').strip()
           authorized=False
           reason='cold'
 
@@ -70,8 +75,17 @@ jobs:
           def gblob(p):
               return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
 
-          if key.exists() and subprocess.run(['git','rev-parse','--verify','HEAD^'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
-              changed=set(subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'],text=True).splitlines())
+          commit_range_ok=False
+          if key.exists() and before and head:
+              fetched=subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              commit_range_ok=(
+                  fetched.returncode==0
+                  and subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+                  and subprocess.run(['git','cat-file','-e',head+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+              )
+
+          if commit_range_ok:
+              changed=set(subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines())
               if str(key) in changed:
                   new=json.loads(key.read_text())
                   got,calc=canon(new)
@@ -94,7 +108,7 @@ jobs:
                       and (set(carried)|set(missing))==set(target)
                       and resume.get('schedule_only_missing_parent_indices')==missing
                   )
-                  old_text=subprocess.run(['git','show','HEAD^:'+str(key)],capture_output=True,text=True)
+                  old_text=subprocess.run(['git','show',before+':'+str(key)],capture_output=True,text=True)
                   generation_ok=False
                   generation=new.get('generation')
                   if generation==1 and old_text.returncode!=0 and carried==[]:
@@ -117,11 +131,13 @@ jobs:
                   se=state.get('execution',{})
                   sf=state.get('frontier',{})
                   sa=state.get('intermediate_audit_boundary',{})
+                  quarantine=state.get('workflow_policy_quarantine',{})
                   authorized=(
                       got==calc
                       and new.get('schema')=='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
                       and new.get('armed') is True
                       and generation_ok and valid_lists
+                      and quarantine.get('blocks_new_bc2_40_generation') is not True
                       and tgt.get('fresh_unknown_parent_count')==23
                       and tgt.get('fresh_unknown_parent_indices_sha256')==target_sha
                       and tgt.get('prior_audited_unsat_count')==7313
@@ -166,11 +182,15 @@ jobs:
                       and state.get('firewalls',{}).get('merge_authorized') is False
                   )
                   reason='exact-v2-resume-runkey' if authorized else 'semantic-gate-failed'
+              else:
+                  reason='runkey-not-changed-in-event-range'
+          elif before or head:
+              reason='commit-range-unverifiable'
 
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('authorized='+('true' if authorized else 'false')+'\n')
               f.write('reason='+reason+'\n')
-          print(json.dumps({'authorized':authorized,'reason':reason},sort_keys=True))
+          print(json.dumps({'authorized':authorized,'reason':reason,'before':before,'head':head},sort_keys=True))
           PY
 
   bc2-40-resume-heavy:

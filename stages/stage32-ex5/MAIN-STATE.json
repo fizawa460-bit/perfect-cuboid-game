@@ -57,7 +57,9 @@
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
     "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
-    "stop_semantics": "BOUNDED_BC2_40_RESUME_EXECUTION_ONLY_NO_MAIN_PROMOTION_NO_MERGE"
+    "stop_semantics": "BOUNDED_BC2_40_RESUME_EXECUTION_ONLY_NO_MAIN_PROMOTION_NO_MERGE",
+    "policy_quarantine_active": true,
+    "policy_quarantine_reason": "GENERATION3_HEAVY_AUTHORIZATION_USED_HEAD_CARET_INSTEAD_OF_GITHUB_EVENT_BEFORE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/breadth-cycle-2/bc2-39-hostile-audit-pass-receipt.json",
@@ -65,6 +67,7 @@
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-first-contract.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation1-no-heavy-retry-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation2-no-heavy-retry-receipt.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation3-policy-quarantine-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py",
@@ -80,7 +83,9 @@
     "main_command": "stage32ex5-mainbatch",
     "per_parent_timeout_ms": 180000,
     "runkey_armed": true,
-    "workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml"
+    "workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
+    "new_generation_rearm_authorized": false,
+    "generation4_rearm_requires_hostile_audit": true
   },
   "firewalls": {
     "bc2_unknown_promoted_to_unsat": false,
@@ -120,7 +125,8 @@
     "e8_whole_first_block_unsat": false,
     "population_wide_main_consumable_result_complete": false,
     "qualified_independent_stage32_route_established": false,
-    "whole_g1_d008_e4_stratum_closed": false
+    "whole_g1_d008_e4_stratum_closed": false,
+    "e8_bc2_40_generation3_policy_credit_eligible": false
   },
   "historical_credit_firewall": {
     "O210_recomputed_or_reopened": false,
@@ -148,7 +154,9 @@
     "id": "BC2_40_RESUME_EXECUTION",
     "main_promotion_authorized": false,
     "merge_authorized": false,
-    "n350_registration_authorized": false
+    "n350_registration_authorized": false,
+    "generation4_rearm_authorized": false,
+    "hostile_audit_required_before_generation4": true
   },
   "prior_audited_authority": {
     "bc2_35_pr_1776": {
@@ -195,15 +203,19 @@
     "bc2_40_preflight_canonical": "935929b0a206fbbefb9657b6b2d7f65be76174506624445582b22252c0c5590c",
     "bc2_40_preflight_git_blob_sha": "155924fa925f2433b394debc8d3bdde0375093fa",
     "bc2_40_producer_git_blob_sha": "acccc2360a2b113b4d568c86bb4be48152a68013",
-    "bc2_40_resume_contract_canonical": "0404db1edffc4b899f29dd6693fb2c84f857a3071dfd5ca653d1a97002f7a7ba",
-    "bc2_40_resume_contract_git_blob_sha": "750f26b6485041031e5a2be31ce2fa52ab99d80b",
+    "bc2_40_resume_contract_canonical": "ff2106909f7d9e02c7300127f10463e7d4fc3415e300c10f1e8aad712b133ca1",
+    "bc2_40_resume_contract_git_blob_sha": "220edb27584ea99899e7e3f129869f1a1b7719a2",
+    "bc2_40_generation3_authorized_contract_canonical": "0404db1edffc4b899f29dd6693fb2c84f857a3071dfd5ca653d1a97002f7a7ba",
+    "bc2_40_generation3_authorized_contract_git_blob_sha": "750f26b6485041031e5a2be31ce2fa52ab99d80b",
     "bc2_40_resume_helper_git_blob_sha": "5b262f1c05d82ae3203a689522f476d83406dbb8",
     "bc2_40_parent_worker_git_blob_sha": "a28061b99527c6585c3f4016992d1ef6e47b42de",
     "bc2_40_resume_aggregator_git_blob_sha": "76c1d5e9f45d113ccb17e8149b2d840e2278b301",
     "bc2_40_generation1_retry_receipt_canonical": "33cb5f4117c4b639a42cc670eaceff5faaf9497132a26808b0cbee3e65d892e9",
     "bc2_40_generation1_retry_receipt_git_blob_sha": "f25d2cf24a761ef9e60da98f83c1e52468a834c0",
     "bc2_40_generation2_retry_receipt_canonical": "b2ace1e9695f4db57c2d662d9494f1728f7927d64e31725e6c36231dd420ae1b",
-    "bc2_40_generation2_retry_receipt_git_blob_sha": "5827bc1af0ec8f4a5fff6bb6df68836427a838ff"
+    "bc2_40_generation2_retry_receipt_git_blob_sha": "5827bc1af0ec8f4a5fff6bb6df68836427a838ff",
+    "bc2_40_generation3_policy_quarantine_receipt_canonical": "c704500d036b2994680d4f42c3c8b7256c6eda02703f4cf371e97718d10ac199",
+    "bc2_40_generation3_policy_quarantine_receipt_git_blob_sha": "0819e7a800057873e2909513a32d3fe462fd87a6"
   },
   "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION",
   "stage": "32EX5",
@@ -221,5 +233,19 @@
     "reviewed_v24_hostile_audit_review_id": 5191916561,
     "source": "LIVE-MAIN-COORDINATION-SYNC-20260915.json"
   },
-  "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED"
+  "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
+  "workflow_policy_quarantine": {
+    "active": true,
+    "blocks_new_bc2_40_generation": true,
+    "generation3_credit_eligible": false,
+    "generation3_carry_into_credited_generation_authorized": false,
+    "generation3_exact_head": "7f82c49a07bb82d59603b47b436ff8e84a884fd5",
+    "generation3_workflow_run_id": 34903034534,
+    "generation3_heavy_job_id": 104173295178,
+    "receipt": "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation3-policy-quarantine-receipt.json",
+    "repaired_authorization_commit_range": "github.event.before..github.event.pull_request.head.sha",
+    "hostile_audit_required_before_generation4": true,
+    "audit_command": "stage32ex5-audit",
+    "mathematical_authority_changed": false
+  }
 }
