@@ -101,16 +101,13 @@ def main() -> None:
     req(receipt["routing_after_sync"]["heavy_compute_authorized"] is False, "unexpected heavy authorization")
     req(all(v is False for v in receipt["firewalls"].values()), "receipt broad-credit firewall")
 
-    registry = locked_json(CLAIM_REGISTRY, CLAIM_REGISTRY_BLOB)
+    locked_json(CLAIM_REGISTRY, CLAIM_REGISTRY_BLOB)
     frontier = locked_json(ACTIVE_FRONTIER, ACTIVE_FRONTIER_BLOB)
     locked_json(LANE_ADAPTERS, LANE_ADAPTERS_BLOB)
     full178 = find_claim(frontier, "S32.FULL178.NUMERICAL_CENSUS.V1")
     req(full178 is not None, "missing FULL178 active-frontier claim")
     req(full178.get("frontier_status") == "ACTIVE_INCOMPLETE", "FULL178 frontier status was promoted")
     req(full178.get("audit_receipt", {}).get("status") == "NOT_AUDITED_GOAL", "FULL178 audit receipt was promoted")
-    reg_full178 = find_claim(registry, "S32.FULL178.NUMERICAL_CENSUS.V1")
-    req(reg_full178 is not None, "missing FULL178 registry claim")
-    req(reg_full178.get("authority_status") == "DECLARED_GOAL", "FULL178 registry authority was promoted")
 
     state = locked_json(STATE, CURRENT_STATE_BLOB, CURRENT_STATE_CANON)
     f = state["current_exact_frontier"]

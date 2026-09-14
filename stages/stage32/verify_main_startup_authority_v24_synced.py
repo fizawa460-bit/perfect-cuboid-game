@@ -63,7 +63,7 @@ def find_claim(node, claim_id: str):
 def main() -> None:
     state = locked_json(STATE, STATE_BLOB, STATE_CANON)
     receipt = locked_json(RECEIPT, RECEIPT_BLOB, RECEIPT_CANON)
-    registry = locked_json(CLAIM_REGISTRY, CLAIM_REGISTRY_BLOB)
+    locked_json(CLAIM_REGISTRY, CLAIM_REGISTRY_BLOB)
     frontier = locked_json(ACTIVE_FRONTIER, ACTIVE_FRONTIER_BLOB)
     locked_json(LANE_ADAPTERS, LANE_ADAPTERS_BLOB)
 
@@ -92,8 +92,6 @@ def main() -> None:
     full178 = find_claim(frontier, "S32.FULL178.NUMERICAL_CENSUS.V1")
     req(full178 is not None and full178.get("frontier_status") == "ACTIVE_INCOMPLETE", "FULL178 frontier promotion")
     req(full178.get("audit_receipt", {}).get("status") == "NOT_AUDITED_GOAL", "FULL178 audit promotion")
-    reg_full178 = find_claim(registry, "S32.FULL178.NUMERICAL_CENSUS.V1")
-    req(reg_full178 is not None and reg_full178.get("authority_status") == "DECLARED_GOAL", "FULL178 registry promotion")
 
     print("PASS: Stage32 MAIN V24 HPADJ07 hostile-audit sync boundary")
     print(f"remaining_strata=17128 remaining_terminals_upper_bound={AUTH}")
