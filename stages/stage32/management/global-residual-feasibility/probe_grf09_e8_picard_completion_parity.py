@@ -73,7 +73,7 @@ def load_module(path: Path, name: str):
 
 
 def main() -> None:
-    repo = Path(__file__).resolve().parents[5]
+    repo = Path(__file__).resolve().parents[4]
     residual = repo / "stages/stage32/residual-32-01-production"
     interface_path = repo / "stages/stage32-ex5/hpadj-handoff/INTERFACE.json"
     bundle_path = repo / "stages/stage33/33-07/picard_base_rows_retained.py"
