@@ -1,0 +1,56 @@
+{
+  "schema": "STAGE32_32_01_178_N398_STATE_V1",
+  "status": "AUDIT_BOUNDARY_FROZEN",
+  "current_frontier": "N398_N396_SURVIVOR_AFFINE_PARITY_COMPRESSION_CANDIDATE",
+  "route_status": "MATERIAL_PARITY_COMPRESSION_RETAINED_PENDING_HOSTILE_AUDIT",
+  "result_summary": {
+    "block_count": 97,
+    "terminal_identity_count": 10961,
+    "n396_survivor_terminal_count": 5459,
+    "n396_rejected_terminal_count": 5502,
+    "allowed_x49_residue_mask_distribution": {
+      "0x55": 27,
+      "0xaa": 70
+    },
+    "affine_rule": "x49 = x93 + x96 (mod 2)",
+    "n395_reduced_rule": "x49 + x98 = 1 (mod 2)",
+    "direct_naive_mod2_relation_found": false
+  },
+  "audit_gate": {
+    "next_gate": "HOSTILE_AUDIT_N398_N396_SURVIVOR_PARITY_COMPRESSION",
+    "audit_focus": [
+      "source-lock integrity and exact-head CI replay",
+      "97-block exact parity replay and 27/70 residue-mask distribution",
+      "minimum affine GF2 classifier extraction",
+      "algebraic reduction using hostile-audited N395 relation",
+      "scope firewall: retained 97 blocks only, no broader transport inferred",
+      "credit firewall: no new pruning, MAIN, theorem, effectivity, endpoint, or numerical compression credit"
+    ]
+  },
+  "breadth_cycle": {
+    "boundary_reason": "N398 converts the N396 97-block residue-mask census into one exact affine parity classifier and, using N395, a two-coordinate rule; this is a material structural compression suitable for hostile audit.",
+    "same_route_reopen_before_audit": false,
+    "same_97x8_parity_census_reopen": false,
+    "small_node_audit_avoided": true
+  },
+  "firewalls": {
+    "candidate_only": true,
+    "additional_pruning_credit": false,
+    "main_pruning_credit": false,
+    "numerical_leaf_compression_credit": false,
+    "integral_carrier_obstruction_promoted": false,
+    "effectivity_final": false,
+    "full178_complete": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "source_result": {
+    "generation_exact_head": "a63f10205f693fff03794b87f553e3e110ca0a80",
+    "claim_frontier_run": 34843576925,
+    "claim_frontier_job": 103973993654,
+    "probe_blob_sha1": "fa8aa54ce4c69a8b735255b53896c939bb84542f",
+    "probe_output_canonical_sha256": "22d90d0302e8082e8d71a0fa92394e65c559341b38123664051f3dbeb564e859",
+    "result_canonical_sha256": "611632cedd9ff3515bb374a608020dd06079240db5224bb15f90845c7b90cad7"
+  },
+  "canonical_sha256_without_this_field": "f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1"
+}
