@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1",
-  "generation": 1,
-  "armed": false,
+  "generation": 2,
+  "armed": true,
   "consumed": false,
   "branch": "stage32cut-e8-common-adapter-wave9-20260913",
   "parent_cut200_audited_head": "a1073508a33dac1001657554054a74d3cf47034a",
@@ -9,18 +9,28 @@
   "main_parent_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
   "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
   "preflight_blob": "87b2f139b576b3b8bddea336396c8c2da30014b1",
+  "recovery_preflight_blob": "c2d122c025d2b94b2529893ce97f6c80df49fd71",
   "worker_blob": "a8be279ebc3bca4a383d4a81e4c04de7413b17b8",
   "aggregator_blob": "6e41072243ff92eabae39f522398aed2fad8df7f",
-  "workflow_blob": "7ec51f8f7b54a32c72dc8ce681f416447da9b57f",
+  "workflow_blob": "fc9c4a19f458cc6166cf9008deee5a9ba05d7441",
   "storage_preflight": {
     "artifact_retention_days": 1,
     "prior_comparable_run": 34732279906,
     "prior_max_shard_artifact_bytes": 50000,
-    "planned_shards": 8,
-    "projected_peak_compact_artifact_bytes_upper_bound": 800000,
+    "planned_shards": 1,
+    "projected_peak_compact_artifact_bytes_upper_bound": 200000,
     "repository_budget_bytes": 524288000,
     "raw_parent_records_persisted": false,
-    "shard_timeout_minutes": 60
+    "shard_timeout_minutes": 90
+  },
+  "recovery": {
+    "source_run_id": 34745899934,
+    "rerun_shards": [5],
+    "survivor_offset_start": 2201,
+    "survivor_offset_count": 32,
+    "job_timeout_minutes": 90,
+    "reuse_generation1_success_artifacts": true,
+    "full_wave_rerun_forbidden": true
   },
   "wave": {
     "block_count": 255,
