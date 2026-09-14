@@ -10,16 +10,19 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 EX5 = REPO / "stages" / "stage32-ex5"
 ARCH_EX5 = EX5 / "archive" / "startup-surface-20260914"
+ARCH_EX5_STATE = ARCH_EX5 / "MAIN-STATE-V5-POST-1765-MERGE.json"
 ARCH = HERE / "proof" / "historical-routing-blobs"
 LANES = HERE / "proof" / "LANE-ADAPTERS.json"
 OLD_COMMANDS = ARCH / "COMMANDS-PRE-EX5-STARTUP-COLLAPSE.md"
 OLD_VERIFIER = ARCH / "VERIFY-COMMAND-SURFACE-PRE-EX5-STARTUP-COLLAPSE.py"
 TMP_VERIFIER = HERE / ".verify_command_surface_pre_ex5_startup_collapse.py"
 LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
+LIVE_EX5_STATE = EX5 / "MAIN-STATE.json"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
 OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
 OLD_EX5_START_BLOB = "47581a734da21dac3d2cabc4dc520d5be1310a49"
+OLD_EX5_STATE_BLOB = "a26f19cb01d86174aef49495be16e946a429ddcb"
 RETIRED = (
     "README.md",
     "MAIN-START-HERE.md",
@@ -72,7 +75,7 @@ def main() -> None:
     req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
 
-    state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
+    state = json.loads(LIVE_EX5_STATE.read_text(encoding="utf-8"))
     req(state.get("stage") == "32EX5", "EX5 stage identity drift")
     req(state.get("schema", "").startswith("STAGE32EX5_MAIN_COMPACT_STATE_"),
         "EX5 compact state schema drift")
@@ -81,17 +84,21 @@ def main() -> None:
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
     req(blob(ARCH_EX5 / "MAIN-START-HERE.md") == OLD_EX5_START_BLOB, "archived EX5 startup snapshot drift")
+    req(blob(ARCH_EX5_STATE) == OLD_EX5_STATE_BLOB, "archived EX5 retained state snapshot drift")
 
     live_commands = (HERE / "COMMANDS.md").read_bytes()
+    live_ex5_state = LIVE_EX5_STATE.read_bytes()
     old_start = LEGACY_EX5_START.read_bytes() if LEGACY_EX5_START.exists() else None
     old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
     try:
         (HERE / "COMMANDS.md").write_bytes(OLD_COMMANDS.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
+        LIVE_EX5_STATE.write_bytes(ARCH_EX5_STATE.read_bytes())
         TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
         (HERE / "COMMANDS.md").write_bytes(live_commands)
+        LIVE_EX5_STATE.write_bytes(live_ex5_state)
         if old_start is None:
             if LEGACY_EX5_START.exists():
                 LEGACY_EX5_START.unlink()
@@ -104,6 +111,7 @@ def main() -> None:
             TMP_VERIFIER.write_bytes(old_tmp)
 
     req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
+    req(LIVE_EX5_STATE.read_bytes() == live_ex5_state, "live EX5 state restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
     print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
