@@ -1,0 +1,72 @@
+{
+  "canonical_sha256_without_this_field": "536969fff8d75cf42e0a93f4f231350221f4b249a115e0192fc10f7f8e3aa932",
+  "classification": {
+    "expired_artifact_count": 7,
+    "expired_generation1_shards": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      7
+    ],
+    "final_wave_aggregate_started": false,
+    "generation10_offset2204_reconstruction_succeeded": true,
+    "generation10_shard5_combination_succeeded": true,
+    "kind": "RETAINED_GENERATION1_ARTIFACTS_EXPIRED",
+    "mathematical_validation_failure": false,
+    "next_generation_required": 11,
+    "root_cause": "retention-days=1 generation1 shard artifacts expired before generation10 final aggregate; actions/download-artifact returned HTTP 410 Artifact has expired",
+    "same_generation_rearm_forbidden": true,
+    "solver_semantics_change_required": false,
+    "source_population_change_required": false
+  },
+  "credit": {
+    "cut201_pruning_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "stage32_main_pruning_credit": false,
+    "theorem_credit": false
+  },
+  "expired_generation1_artifacts": [
+    {"artifact_id": 10314631512, "digest": "sha256:5244d8221fa3a051108bd87abe667f6e92deda56ef3ee7d5454fd7a2d3b508a7", "shard_id": 0, "survivor_offset_range": [2041,2072]},
+    {"artifact_id": 10314696349, "digest": "sha256:36c9380840a7505707e134ca7d69a9d4b57773218686008ccbe74daa31566efb", "shard_id": 1, "survivor_offset_range": [2073,2104]},
+    {"artifact_id": 10313784536, "digest": "sha256:006f08455a6bdc8ea5db9b612c18ba3da0869f04f2da0217f92fa57e6a19a80e", "shard_id": 2, "survivor_offset_range": [2105,2136]},
+    {"artifact_id": 10314741261, "digest": "sha256:70f9ba299cfb96c1ced0cd026ff63c6a04fa2bea3dc8534ff01e1bcbed6a5e9b", "shard_id": 3, "survivor_offset_range": [2137,2168]},
+    {"artifact_id": 10314218596, "digest": "sha256:113f25b0e6ee7bf6319abd03f52d1d783a3004e3d4bafc9a432e1e667d6c7127", "shard_id": 4, "survivor_offset_range": [2169,2200]},
+    {"artifact_id": 10314243930, "digest": "sha256:255312ac0386553ab53385878208ea21af5c0c8c2e9f915a9847ad65000bd17d", "shard_id": 6, "survivor_offset_range": [2233,2264]},
+    {"artifact_id": 10313894120, "digest": "sha256:6e5bee9880a1404d7efa55a23a4e07d11569c6ce8167e2a7ba95346442af9032", "shard_id": 7, "survivor_offset_range": [2265,2295]}
+  ],
+  "generation": 10,
+  "node": "CUT201",
+  "recovery_contract": {
+    "exact_worker_blob_unchanged": "a8be279ebc3bca4a383d4a81e4c04de7413b17b8",
+    "execution_checkout_head_unchanged": "be6a6f8acc9942dd4973f13c630a4318b923e03d",
+    "finer_subpartition_required": true,
+    "full_wave_rerun_forbidden": true,
+    "generation10_shard5_rerun_forbidden": true,
+    "per_check_timeout_ms_unchanged": 750,
+    "recompute_only_expired_generation1_shards": [0,1,2,3,4,6,7],
+    "reuse_generation10_shard5": true,
+    "subpartition_max_offsets": 8
+  },
+  "run": {
+    "aggregate2204_conclusion": "success",
+    "arm_exact_head": "7b68cf970a08980d1f880af654a0831576727be5",
+    "audited_pre_arm_head": "2a7026f8147a417946adc4ce2fea39d8a1b8dd91",
+    "audited_pre_arm_review_id": 5203296300,
+    "authorization_succeeded": true,
+    "combine_shard5_conclusion": "success",
+    "final_aggregate_conclusion": "failure",
+    "final_aggregate_job_id": 104168268132,
+    "run_id": 34901388028,
+    "shard5_artifact_digest": "sha256:53644fb9cb411e295269571e04ba8871b9ed2c6bbd99867487e2c74f6ff1f8c0",
+    "shard5_artifact_id": 10370677088
+  },
+  "schema": "STAGE32_CUT201_E8_WAVE9_RECOVERY_G10_FAILURE_V1",
+  "stage": 32,
+  "status": "FAILED_FINAL_AGGREGATE_RETAINED_G1_ARTIFACTS_EXPIRED",
+  "surface": "full178-cut"
+}
