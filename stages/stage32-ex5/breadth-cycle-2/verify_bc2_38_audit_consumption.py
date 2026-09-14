@@ -12,20 +12,24 @@ CHECKPOINT = HERE / "bc2-38-fresh-unknown34-replay-checkpoint.json"
 RUNKEY = ROOT / "runkeys/bc2-38-fresh-unknown34-replay.json"
 RETAINED_VERIFIER = HERE / "verify_bc2_38_targeted_replay_checkpoint.py"
 STATE = ROOT / "MAIN-STATE.json"
-SYNC = ROOT / "LIVE-MAIN-COORDINATION-SYNC-20260914.json"
+SYNC_V33 = ROOT / "LIVE-MAIN-COORDINATION-SYNC-20260914.json"
+SYNC_V34 = ROOT / "LIVE-MAIN-COORDINATION-SYNC-20260915.json"
 
 CP_BLOB = "91eca02054cd2dbf702dd4a7635398ef76ee832f"
 CP_CANON = "88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba"
 RUNKEY_BLOB = "87855350c6240cd524069490f85858b11099da60"
 RETAINED_VERIFIER_BLOB = "934f19363549d652c18b02934c1f963a19204664"
-SYNC_BLOB = "c9a3a878413df5afc634f99b94707534412b5d84"
-SYNC_CANON = "fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c"
+SYNC_V33_BLOB = "c9a3a878413df5afc634f99b94707534412b5d84"
+SYNC_V33_CANON = "fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c"
+SYNC_V34_BLOB = "1698915fe01af97f5f60f90645792fb6c3d33576"
+SYNC_V34_CANON = "677b9e595f271a669c32ca2849dd6dc010de363d1df359c70e0b970162757565"
 AUDIT_HEAD = "5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71"
 AUDIT_REVIEW = 5190676180
 UNKNOWN_SHA = "d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7"
 V31 = "STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION"
 V32 = "STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY"
 V33 = "STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT"
+V34 = "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION"
 
 
 def req(v: bool, msg: str) -> None:
@@ -59,15 +63,19 @@ def main() -> None:
     req(cr["checkpoint_git_blob_sha"] == CP_BLOB and cr["checkpoint_canonical"] == CP_CANON and cr["remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA and cr["known_parent_unsat_count_lower_bound"] == 7306, "BC2-38 receipt result identity")
     req(blob(RETAINED_VERIFIER) == RETAINED_VERIFIER_BLOB, "hostile-audited retained verifier identity")
 
-    req(blob(SYNC) == SYNC_BLOB, "live coordination sync blob")
-    sync = json.loads(SYNC.read_text())
-    req(sync["canonical_sha256_without_this_field"] == SYNC_CANON and canon(sync) == SYNC_CANON, "live coordination sync canonical")
+    state = json.loads(STATE.read_text())
+    schema = state["schema"]
+    req(schema in {V31, V32, V33, V34}, "BC2-38 consumed live state schema")
+    sync_path = SYNC_V34 if schema == V34 else SYNC_V33
+    expected_sync_blob = SYNC_V34_BLOB if schema == V34 else SYNC_V33_BLOB
+    expected_sync_canon = SYNC_V34_CANON if schema == V34 else SYNC_V33_CANON
+    req(sync_path.is_file(), "live coordination sync missing")
+    req(blob(sync_path) == expected_sync_blob, "live coordination sync blob")
+    sync = json.loads(sync_path.read_text())
+    req(sync["canonical_sha256_without_this_field"] == expected_sync_canon and canon(sync) == expected_sync_canon, "live coordination sync canonical")
     req(sync["live_cross_lane_registry"]["open_ex5_producer_demand_count"] == 0, "OPEN EX5 producer demand")
     req(sync["live_main_state"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
 
-    state = json.loads(STATE.read_text())
-    schema = state["schema"]
-    req(schema in {V31, V32, V33}, "BC2-38 consumed live state schema")
     pa = state["prior_audited_authority"]["bc2_38_pr_1776"]
     req(pa["hostile_audit_status"] == "PASS" and pa["audit_checkpoint_exact_head"] == AUDIT_HEAD and pa["hostile_audit_review_id"] == AUDIT_REVIEW, "BC2-38 hostile-audit receipt")
     f = state["frontier"]
@@ -81,11 +89,15 @@ def main() -> None:
         req(f["e8_bc2_39_executed"] is True and f["e8_bc2_39_audited"] is False and f["e8_bc2_39_new_parent_unsat_count"] == 7 and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_39_sat_count"] == 0 and f["e8_bc2_39_candidate_known_parent_unsat_count_lower_bound"] == 7313, "V32 BC2-39 quarantined frontier")
         req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == AUDIT_HEAD and a["last_hostile_audit_review_id"] == AUDIT_REVIEW and a["bc2_39_execution_authorized"] is False and a["freeze_active"] is True and a["new_audit_boundary_exists"] is True and a["re_audit_required"] is True, "V32 audit freeze")
     else:
-        req(f["e8_bc2_38_audited"] is True and f["e8_bc2_38_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_known_parent_unsat_count_lower_bound"] == 7313, "BC2-38 V33 retained authority")
+        req(f["e8_bc2_38_audited"] is True and f["e8_bc2_38_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_known_parent_unsat_count_lower_bound"] == 7313, "BC2-38 retained authority")
         pa39 = state["prior_audited_authority"]["bc2_39_pr_1776"]
         req(pa39["hostile_audit_status"] == "PASS" and pa39["audit_checkpoint_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and pa39["hostile_audit_review_id"] == 5193423203, "BC2-39 hostile-audit receipt")
-        req(f["e8_bc2_39_audited"] is True and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_40_preflight_ready"] is True and f["e8_bc2_40_execution_authorized"] is False, "V33 BC2-40 preflight frontier")
-        req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and a["last_hostile_audit_review_id"] == 5193423203 and a["bc2_40_execution_authorized"] is False and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "V33 audit consumption state")
+        req(f["e8_bc2_39_audited"] is True and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_40_preflight_ready"] is True, "BC2-40 preflight frontier")
+        expected_auth = schema == V34
+        req(f["e8_bc2_40_execution_authorized"] is expected_auth and a["bc2_40_execution_authorized"] is expected_auth, "BC2-40 authorization state")
+        if schema == V34:
+            req(f["e8_bc2_40_executed"] is False, "V34 BC2-40 must be unexecuted at authorization boundary")
+        req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and a["last_hostile_audit_review_id"] == 5193423203 and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "BC2-39 audit consumption state")
 
     print("PASS: BC2-38 hostile-audit PASS remains consumed into EX5 local authority")
     print("audited_lower_bound=7306 bc2_39_audited_lower_bound=7313 main_credit=NO merge=NO")
