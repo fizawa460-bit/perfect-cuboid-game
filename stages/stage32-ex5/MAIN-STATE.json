@@ -21,7 +21,7 @@
     "claim_registry_mutated": false,
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
-    "last_trigger": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
+    "last_trigger": "BC2_40_GENERATION4_REARM_AUDIT_PASS_CONSUMED",
     "main_promotion": false
   },
   "credit": {
@@ -53,10 +53,10 @@
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
     "leaf": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
     "next_route": "BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS",
-    "objective": "Execute generation 3 over the exact 23 hostile-audited BC2-39 UNKNOWN parents after generations 1 and 2 both failed closed before heavy start; preserve complete units and schedule only missing parents after interruption.",
+    "objective": "Execute fresh generation 4 over the exact 23 hostile-audited BC2-39 UNKNOWN parents after operational hostile-audit PASS cleared the repaired event-range authorization prerequisite; carry no generation-3 outputs.",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
-    "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
+    "status": "BC2_40_GENERATION4_REARMED_EXECUTION_AUTHORIZED",
     "stop_semantics": "BOUNDED_BC2_40_RESUME_EXECUTION_ONLY_NO_MAIN_PROMOTION_NO_MERGE",
     "policy_quarantine_active": true,
     "policy_quarantine_reason": "GENERATION3_HEAVY_AUTHORIZATION_USED_HEAD_CARET_INSTEAD_OF_GITHUB_EVENT_BEFORE"
@@ -68,6 +68,7 @@
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation1-no-heavy-retry-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation2-no-heavy-retry-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation3-policy-quarantine-receipt.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation4-rearm-audit-consumption.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py",
@@ -84,8 +85,8 @@
     "per_parent_timeout_ms": 180000,
     "runkey_armed": true,
     "workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
-    "new_generation_rearm_authorized": false,
-    "generation4_rearm_requires_hostile_audit": true
+    "new_generation_rearm_authorized": true,
+    "generation4_rearm_requires_hostile_audit": false
   },
   "firewalls": {
     "bc2_unknown_promoted_to_unsat": false,
@@ -126,7 +127,8 @@
     "population_wide_main_consumable_result_complete": false,
     "qualified_independent_stage32_route_established": false,
     "whole_g1_d008_e4_stratum_closed": false,
-    "e8_bc2_40_generation3_policy_credit_eligible": false
+    "e8_bc2_40_generation3_policy_credit_eligible": false,
+    "e8_bc2_40_generation4_rearm_authorized": true
   },
   "historical_credit_firewall": {
     "O210_recomputed_or_reopened": false,
@@ -149,14 +151,14 @@
   },
   "next_step": {
     "bc2_40_runkey_armed": true,
-    "goal": "Execute generation 3 over exactly the missing 23 parent-index units; generations 1 and 2 had no heavy start and no carry. On interruption retain complete certificates and issue a fresh generation scheduling only missing parents.",
+    "goal": "Execute fresh generation 4 over exactly all 23 parent-index units; generation-3 outputs remain quarantined noncredit and are not carried. On interruption retain only generation-4 complete certificates and issue the next monotone generation for the remaining parents.",
     "heavy_scaleout_authorized": false,
     "id": "BC2_40_RESUME_EXECUTION",
     "main_promotion_authorized": false,
     "merge_authorized": false,
     "n350_registration_authorized": false,
-    "generation4_rearm_authorized": false,
-    "hostile_audit_required_before_generation4": true
+    "generation4_rearm_authorized": true,
+    "hostile_audit_required_before_generation4": false
   },
   "prior_audited_authority": {
     "bc2_35_pr_1776": {
@@ -215,7 +217,11 @@
     "bc2_40_generation2_retry_receipt_canonical": "b2ace1e9695f4db57c2d662d9494f1728f7927d64e31725e6c36231dd420ae1b",
     "bc2_40_generation2_retry_receipt_git_blob_sha": "5827bc1af0ec8f4a5fff6bb6df68836427a838ff",
     "bc2_40_generation3_policy_quarantine_receipt_canonical": "c704500d036b2994680d4f42c3c8b7256c6eda02703f4cf371e97718d10ac199",
-    "bc2_40_generation3_policy_quarantine_receipt_git_blob_sha": "0819e7a800057873e2909513a32d3fe462fd87a6"
+    "bc2_40_generation3_policy_quarantine_receipt_git_blob_sha": "0819e7a800057873e2909513a32d3fe462fd87a6",
+    "bc2_40_generation4_rearm_audit_receipt_canonical": "8ccd42cf0b8fb43eae3f90b51f98fa1f809883679c6a39bac59b5b058f94187f",
+    "bc2_40_generation4_rearm_audit_receipt_git_blob_sha": "07866a4ab965c432d94efd71d88bf98c65452ee4",
+    "bc2_40_generation4_runkey_canonical": "acf01030540d310637c8a30395c3aec320eadfd95f0df015954df50fc8461daf",
+    "bc2_40_generation4_runkey_git_blob_sha": "6e26b2f1b1b39935d2f1735576124fe2786bd1fb"
   },
   "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION",
   "stage": "32EX5",
@@ -233,10 +239,10 @@
     "reviewed_v24_hostile_audit_review_id": 5191916561,
     "source": "LIVE-MAIN-COORDINATION-SYNC-20260915.json"
   },
-  "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
+  "status": "BC2_40_GENERATION4_REARMED_EXECUTION_AUTHORIZED",
   "workflow_policy_quarantine": {
     "active": true,
-    "blocks_new_bc2_40_generation": true,
+    "blocks_new_bc2_40_generation": false,
     "generation3_credit_eligible": false,
     "generation3_carry_into_credited_generation_authorized": false,
     "generation3_exact_head": "7f82c49a07bb82d59603b47b436ff8e84a884fd5",
@@ -244,8 +250,13 @@
     "generation3_heavy_job_id": 104173295178,
     "receipt": "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation3-policy-quarantine-receipt.json",
     "repaired_authorization_commit_range": "github.event.before..github.event.pull_request.head.sha",
-    "hostile_audit_required_before_generation4": true,
+    "hostile_audit_required_before_generation4": false,
     "audit_command": "stage32ex5-audit",
-    "mathematical_authority_changed": false
+    "mathematical_authority_changed": false,
+    "generation4_rearm_authorized": true,
+    "operational_hostile_audit_status": "PASS",
+    "operational_hostile_audit_exact_head": "dd0a7339e6d40a8208b03e1263da192d139b00d7",
+    "operational_hostile_audit_review_id": 5203808297,
+    "generation4_rearm_receipt": "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation4-rearm-audit-consumption.json"
   }
 }
