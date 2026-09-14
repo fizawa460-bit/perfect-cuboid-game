@@ -12,7 +12,6 @@ on:
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
-      - 'stages/stage32/32-01-178/nodes/N391/**'
       - 'stages/stage32/32-01-178/nodes/N392/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
@@ -117,7 +116,7 @@ jobs:
         with:
           ref: 8d8f1116d82f873d2cddafdd4d3619fb8649891b
           path: .n391-hpadj
-      - name: Verify N391 V24 six-wave residual 97-block identity transport
+      - name: Replay N391 audited six-wave residual transport
         run: |
           python stages/stage32/32-01-178/nodes/N391/verify_n391_v24_six_wave_residual_identity_transport.py \
             --main-v24-root .n391-main-v24 \
@@ -129,8 +128,8 @@ jobs:
             --cut198-root .n391-cut198 \
             --certlift-root .n391-certlift \
             --hpadj-root .n391-hpadj
-      - name: Probe N392 mass6 exact signature census
-        run: python stages/stage32/32-01-178/nodes/N392/probe_n392_mass6_signature_census.py
+      - name: Verify N392 V24 mass6 13-block signature census
+        run: python stages/stage32/32-01-178/nodes/N392/verify_n392_v24_mass6_signature_census.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
