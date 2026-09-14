@@ -13,6 +13,7 @@ on:
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/nodes/N391/**'
+      - 'stages/stage32/32-01-178/nodes/N392/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -128,6 +129,8 @@ jobs:
             --cut198-root .n391-cut198 \
             --certlift-root .n391-certlift \
             --hpadj-root .n391-hpadj
+      - name: Probe N392 mass6 exact signature census
+        run: python stages/stage32/32-01-178/nodes/N392/probe_n392_mass6_signature_census.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
