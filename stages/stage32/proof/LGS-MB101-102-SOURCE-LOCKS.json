@@ -1,8 +1,53 @@
 {
-  "schema": "STAGE32_LGS_MB101_MB102_SOURCE_LOCKS_V0_PENDING_FETCH",
-  "status": "PENDING_EXACT_SOURCE_FETCH",
-  "historical_lgs_pr": 1710,
-  "mb101_mb102_pr": 1778,
-  "historical_blocker": "LGS_MISSING_POPULATION_WIDE_GLOBAL_TO_LOCAL_DEFECT_ADAPTER",
-  "note": "Populate exact paths/blob identities after connector fetch; no mathematical credit while pending."
+  "schema": "STAGE32_LGS_MB101_MB102_SOURCE_LOCKS_V1",
+  "status": "EXACT_SOURCE_LOCKED",
+  "historical_lgs": {
+    "route_id": "EX5R-LGS-001",
+    "blocker": "LGS_MISSING_POPULATION_WIDE_GLOBAL_TO_LOCAL_DEFECT_ADAPTER",
+    "audit_pr": 1710,
+    "audited_exact_head": "79c601b636857eaaaa97ad4c22e682e681341bad",
+    "hostile_audit_review": 5141459384,
+    "route_universe": {
+      "path": "stages/stage32-ex5/ex5-03-clean-room-route-universe.json",
+      "blob_sha1": "68de8dc99f8947fb24873ad6c9903cfaa8491f93",
+      "canonical_sha256": "3e1667d88fd6a2eb0baaf7473e67b3d9000066177231ae1a6bbffe7a17da87ff"
+    },
+    "terminal_blocker_ledger": {
+      "path": "stages/stage32-ex5/ex5-10-bounded-breadth-exhaustion-ledger.json",
+      "blob_sha1": "77bfa2a82ee117d3c3e0d61ba0dba182071323e9",
+      "canonical_sha256": "82a5ae06c29e76b40c09a568971b64edf637584785e817ac7d1492cfc68160e1"
+    },
+    "minimal_reentry_condition": "Source-lock a receiver-scale row-to-global-genus-defect identity and an exhaustive allowed local conductor/delta/intersection partition with exact smooth/node branch and multiplicity semantics across the attacked EFF/MB population."
+  },
+  "mb_reconnection_sources": {
+    "retained_mb_head": "c5a60e8bd24971c7996b3c55fd188511a28c0108",
+    "mb101": {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
+      "blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563",
+      "schema": "STAGE32_MB101_NORMALIZATION_PROFILE_V1",
+      "receiver": "R29-LG2-MB"
+    },
+    "mb102": {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
+      "blob_sha1": "f852f66c67343b6a553b5c20e15dc0a0f55d5226",
+      "schema": "STAGE32_MB102_DELTA_GENUS_LEDGER_V1",
+      "receiver": "R29-LG2-MB",
+      "parent_mb101_blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563"
+    },
+    "stage29_receiver_source": {
+      "path": "stages/stage29/29-02c-LG2/result.md",
+      "blob_sha1": "820ed4e1b1a53db14085678de6f186b59ae0ea48"
+    },
+    "a1_delta_source": {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150"
+    }
+  },
+  "credit": {
+    "historical_audit_replayed": false,
+    "new_hostile_audit_passed": false,
+    "receiver_credit": false,
+    "stage32_main_credit": false,
+    "merge_authorized": false
+  }
 }
