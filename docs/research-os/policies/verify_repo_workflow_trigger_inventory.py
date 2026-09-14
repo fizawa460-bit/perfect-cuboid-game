@@ -26,13 +26,6 @@ ACTIVE_AUTO = {
     ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
     ".github/workflows/stage36-bootstrap-audit.yml",
 }
-# Branch-local live leaves are not back-written into the dated 2026-09-11
-# inventory. If the exact workflow exists on this branch, it is overlaid onto
-# the historical inventory before comparison. This keeps the retained inventory
-# immutable while making current branch lifecycle explicit and fail-closed.
-BRANCH_LOCAL_ACTIVE_AUTO = {
-    ".github/workflows/stage32-02-scalar-producer-e2e.yml",
-}
 MANUAL = {
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
     ".github/workflows/stage32-root-cleanup-phase-b.yml",
@@ -62,7 +55,7 @@ def family(path: str) -> str:
 
 
 def classify(path: str) -> str:
-    if path in ACTIVE_AUTO or path in BRANCH_LOCAL_ACTIVE_AUTO:
+    if path in ACTIVE_AUTO:
         return "ACTIVE_AUTO"
     if path in MANUAL:
         return "MANUAL"
@@ -136,12 +129,11 @@ def build_inventory(changed: list[str]) -> dict:
         "families": {k: dict(v) for k, v in sorted(fam.items())},
         "classifications": groups,
         "automatic_triggers_removed_by_migration": changed,
-        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO | BRANCH_LOCAL_ACTIVE_AUTO if (ROOT / p).is_file()),
+        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
             "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
             "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
             "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
-            "Branch-local ACTIVE_AUTO overlays are verified without mutating the retained dated inventory.",
             "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
             "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
             "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
@@ -149,28 +141,12 @@ def build_inventory(changed: list[str]) -> dict:
     }
 
 
-def expected_classifications(inv: dict) -> dict[str, list[str]]:
-    expected = {k: list(v) for k, v in inv.get("classifications", {}).items()}
-    for cls in ("ACTIVE_AUTO", "MANUAL", "RETIRED"):
-        expected.setdefault(cls, [])
-    for p in sorted(BRANCH_LOCAL_ACTIVE_AUTO):
-        if not (ROOT / p).is_file():
-            continue
-        for cls in expected:
-            if p in expected[cls]:
-                expected[cls].remove(p)
-        expected["ACTIVE_AUTO"].append(p)
-    for cls in expected:
-        expected[cls] = sorted(expected[cls])
-    return expected
-
-
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
     actual = build_inventory([])["classifications"]
-    expected = expected_classifications(inv)
+    expected = inv.get("classifications", {})
     if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from historical inventory plus branch-local live overlay")
+        failures.append("inventory is stale: classification/path set differs from .github/workflows")
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -209,13 +185,13 @@ def main() -> None:
     if failures:
         raise SystemExit("\n".join(failures))
 
-    c = generated["counts"]
+    c = inv["counts"]
     print("PASS repository-wide workflow trigger lifecycle inventory")
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
-    for name, row in generated["families"].items():
+    for name, row in inv["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
     print("historical_or_manual_automatic_triggers=0")
-    print("mathematical_authority_changed=false")
+    print("mathematical_authority_changed=true")
 
 
 if __name__ == "__main__":
