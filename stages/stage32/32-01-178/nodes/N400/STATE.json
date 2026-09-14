@@ -1,0 +1,71 @@
+{
+  "schema": "STAGE32_32_01_178_N400_STATE_V1",
+  "status": "AUDIT_BOUNDARY_FROZEN",
+  "current_frontier": "N400_N399_COMPACT_MAIN_CONSUMPTION_HANDOFF_CANDIDATE",
+  "route_status": "MATERIAL_MAIN_CONSUMPTION_HANDOFF_CANDIDATE_RETAINED_PENDING_HOSTILE_AUDIT",
+  "result_summary": {
+    "source_terminal_count": 10961,
+    "rejected_predicate": "(x49 + x98) mod 2 = 0",
+    "rejected_terminal_count": 5502,
+    "rejected_terminal_rank_stream_sha256": "6648c3a246b71f74dec275012f0218d8a44477cd756229e6e3bc3eda965ca262",
+    "prior_consumed_v24_overlap_terminal_count": 0,
+    "double_charge": false,
+    "eligible_for_separate_main_consumption": true,
+    "additional_pruning_terminals": 0,
+    "main_authority_subtraction_performed": false
+  },
+  "audit_gate": {
+    "next_gate": "HOSTILE_AUDIT_N400_N399_COMPACT_MAIN_CONSUMPTION_HANDOFF",
+    "audit_focus": [
+      "source-lock integrity for retained N399 hostile-audit receipt, N397 hostile-audit receipt, N400 verifier, and current MAIN authority",
+      "exact equivalence of rejected predicate (x49 + x98) mod 2 = 0 with the hostile-audited N396 rejected 5,502-terminal rank stream on the retained N391 97-block population",
+      "N397 no-double-charge accounting remains applicable: prior consumed V24 overlap 0 and double_charge=false",
+      "scope firewall: retained N391 97 blocks only, not an exact global residual identity set",
+      "ownership firewall: N400 is a compact consumer handoff candidate only and performs no MAIN authority subtraction",
+      "no repeated 97x8 parity census or terminal re-enumeration",
+      "workflow lifecycle and freshness separation"
+    ]
+  },
+  "breadth_cycle": {
+    "boundary_reason": "N400 binds hostile-audited N399 exact predicate identity to hostile-audited N397 current-authority/no-double-charge accounting, yielding a compact exact consumer handoff for the already audited 5,502 rejected terminals without repeating enumeration.",
+    "same_n399_terminal_predicate_transport_reopen_before_audit": false,
+    "same_97x8_parity_census_reopen": false,
+    "main_subtraction_before_audit": false,
+    "n401_before_audit": false
+  },
+  "firewalls": {
+    "candidate_only": true,
+    "main_consumption_handoff_candidate": true,
+    "new_additional_pruning_credit": false,
+    "main_pruning_credit": false,
+    "main_authority_subtraction_performed": false,
+    "full178_complete": false,
+    "integral_carrier_obstruction_promoted": false,
+    "effectivity_final": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "source_result": {
+    "generation_exact_head": "0faceb4e72020c287ef60b3cc4cc47b1e879756b",
+    "claim_frontier_run": 34900226364,
+    "claim_frontier_job": 104164148604,
+    "verifier_blob": "6898ea22458d2156944569dc598eb5b7ebb0048e",
+    "result_blob": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+    "result_canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb",
+    "certificate_canonical_sha256": "6833b61e3bf45553df14004275a22a844f92a3bdbcc4099f6eb86995d9aad6ee"
+  },
+  "process_freshness": {
+    "stale_run_sweeper_run": 34900226360,
+    "stale_run_sweeper_conclusion": "SUCCESS",
+    "main_startup_authority_run": 34900226384,
+    "main_startup_authority": "HOLD_STALE_EXPECTED_MAIN_PIN",
+    "current_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "expected_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "merge_ready_freshness": "HOLD"
+  },
+  "canonical_sha256_without_this_field": "eabea6689d7fc92542eb5a417e1467dba4bf3ce7cb69613fd6dff4d5e52fd342"
+}
