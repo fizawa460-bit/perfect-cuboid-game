@@ -49,6 +49,12 @@ Active Stage controllers and current source locks override every snapshot here. 
 
 | ID card | Role | Stage | Source |
 |---|---|---|---|
+| [`FLT-PW03`](cards/provisional/FLT-PW03.md) | `UNRAMIFIED_LOCAL_NORM_VALUATION_GATE` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
+| [`FLT-PW04`](cards/provisional/FLT-PW04.md) | `FINITE_S_SUPPORTED_POWERCLASS_UNIVERSE` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
+| [`FLT-PW05`](cards/provisional/FLT-PW05.md) | `SIMULTANEOUS_MOD3_MOD5_REDUCIBILITY_J_FILTER` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
+| [`FLT-PW06`](cards/provisional/FLT-PW06.md) | `PRIME_TO_RESIDUE_CHARACTERISTIC_TORSION_REDUCTION_INJECTION` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
+| [`FLT-PW07`](cards/provisional/FLT-PW07.md) | `NODAL_VALUE_AND_LEADING_TERM_RR_DIMENSION_BOUND` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
+| [`FLT-PW08`](cards/provisional/FLT-PW08.md) | `ALGEBRAICALLY_CLOSED_CONSTANT_FIELD_TORSION_DESCENT` | External FLT internal lemmas / cross-Stage | [anthropic-flt-pass2-harvest.md](anthropic-flt-pass2-harvest.md) |
 | [`FLT-PW01`](cards/provisional/FLT-PW01.md) | `SEMISTABLE_MODEL_MODULARITY_ADAPTER` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |
 | [`FLT-PW02`](cards/provisional/FLT-PW02.md) | `LEVEL_TWO_CUSPFORM_CONTRADICTION_GATE` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |
 | [`FLT-WF01`](cards/workflows/FLT-WF01.md) | `FORMAL_TARGET_IDENTITY_AND_AXIOM_GATE` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |

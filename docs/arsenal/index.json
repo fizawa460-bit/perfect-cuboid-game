@@ -816,6 +816,43 @@
   ],
   "provisional_harvests": [
     {
+      "source_stage": "External FLT internal lemmas / cross-Stage",
+      "path": "anthropic-flt-pass2-harvest.md",
+      "active_cards": [
+        "FLT-PW03",
+        "FLT-PW04",
+        "FLT-PW05",
+        "FLT-PW06",
+        "FLT-PW07",
+        "FLT-PW08"
+      ],
+      "active_workflows": [],
+      "card_roles": {
+        "FLT-PW03": "UNRAMIFIED_LOCAL_NORM_VALUATION_GATE",
+        "FLT-PW04": "FINITE_S_SUPPORTED_POWERCLASS_UNIVERSE",
+        "FLT-PW05": "SIMULTANEOUS_MOD3_MOD5_REDUCIBILITY_J_FILTER",
+        "FLT-PW06": "PRIME_TO_RESIDUE_CHARACTERISTIC_TORSION_REDUCTION_INJECTION",
+        "FLT-PW07": "NODAL_VALUE_AND_LEADING_TERM_RR_DIMENSION_BOUND",
+        "FLT-PW08": "ALGEBRAICALLY_CLOSED_CONSTANT_FIELD_TORSION_DESCENT"
+      },
+      "card_summaries": {
+        "FLT-PW03": "Input: number fields E -> M, a finite place v of E and a specified place w above it; ramification index e(w/v)=1; a nonzero element x of E_v. Let f be the residue degree. Output: x is a norm from M_w exactly when its normalized valuation is divisible by f. The Lean version states multiplicative valuation = exp(f*k), k in Z, so the valuation sign/normalization must be matched explicitly.",
+        "FLT-PW04": "Input: a Dedekind domain R, fraction field K, n>0, a finite set S of height-one primes, finite class group and finitely generated unit group. Output: the multiplicative n-Selmer group of K relative to R and S is finite: n-th-power classes whose valuations away from S vanish modulo n.",
+        "FLT-PW05": "Input: an integral Weierstrass model W with nonzero discriminant, and proofs that BOTH its mod-3 and mod-5 Galois representations are not irreducible (the precise upstream ModRepIsIrreducible predicate). Output: j=c4^3/Delta belongs to exactly the stated candidate set:\n{-25/2, -349938025/8, -121945/32, 46969655/32768}.",
+        "FLT-PW06": "Input: a valued field L with valuation subring A; a Weierstrass equation over A whose reduction has nonzero discriminant; an integer N whose residue-field image is nonzero; two generic-fiber points P,Q killed by N. Output: equal reductions imply P=Q. Thus reduction is injective on this N-torsion.",
+        "FLT-PW07": "Input: an algebraically closed field K and a function field F with the upstream IsCurveOver instance; divisors Kc,D1,D2 and genus parameter g with the Riemann-Roch identity for ALL divisors. Choose a nonempty finite set SS of ordered pairs of places, injective in the first coordinate, a distinguished pair s, order-one parameters x,y there, nonnegative integers m,k and u in K. Require D1(t.first)=0 and D2(t.second)=0 at the relevant places, deg D1 >= 2g+m+|SS| and deg D2 >= 2g+k+|SS|.",
+        "FLT-PW08": "Input: compatible field towers K -> F, K' -> F', K -> K', F -> F'; K and K' algebraically closed with K characteristic zero; F and F' one-variable finite-type function fields with the stated IsCurveOver instances, and F' generated over K' by the image of F. For n>0 let D' be a divisor with nD'=div(g') for a nonzero g'."
+      },
+      "retired_merged_ids": {},
+      "promotion_status": "PROVISIONAL_EXTERNAL_SOURCE_SCREEN_NOT_KERNEL_REPLAYED",
+      "source_commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
+      "repo_theorem_credit": false,
+      "arsenal_registration_adds_stage_mathematical_credit": false,
+      "hostile_audit_required_before_formal_treatment": true
+    },
+    {
+      "source_stage": "External FLT source / cross-Stage",
+      "path": "anthropic-flt-provisional-harvest.md",
       "active_cards": [
         "FLT-PW01",
         "FLT-PW02"
@@ -823,8 +860,6 @@
       "active_workflows": [
         "FLT-WF01"
       ],
-      "arsenal_base_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
-      "arsenal_registration_adds_stage_mathematical_credit": false,
       "card_roles": {
         "FLT-PW01": "SEMISTABLE_MODEL_MODULARITY_ADAPTER",
         "FLT-PW02": "LEVEL_TWO_CUSPFORM_CONTRADICTION_GATE"
@@ -833,19 +868,19 @@
         "FLT-PW01": "Exact integral semistable model and Q-model adapter -> upstream good-prime trace-matching modularity; no rank or rational-point exclusion.",
         "FLT-PW02": "A proved receiver-to-nonzero-Gamma0(2)-weight2-form implication plus the zero-space theorem -> that receiver is empty. Cuboid bridge absent; Frey-specific level lowering does not transfer automatically."
       },
-      "hostile_audit_required_before_formal_treatment": true,
-      "path": "anthropic-flt-provisional-harvest.md",
-      "promotion_status": "PROVISIONAL_EXTERNAL_SOURCE_SCREEN_NOT_KERNEL_REPLAYED",
-      "repo_theorem_credit": false,
-      "retired_merged_ids": {},
-      "source_commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
-      "source_stage": "External FLT source / cross-Stage",
       "workflow_roles": {
         "FLT-WF01": "FORMAL_TARGET_IDENTITY_AND_AXIOM_GATE"
       },
       "workflow_summaries": {
         "FLT-WF01": "Independent standard-definition target + exact solution + permitted-axiom and constant-identity checks; source-inspected design only, no kernel replay performed."
-      }
+      },
+      "retired_merged_ids": {},
+      "promotion_status": "PROVISIONAL_EXTERNAL_SOURCE_SCREEN_NOT_KERNEL_REPLAYED",
+      "source_commit": "aa2d8b34692b16c70f699536de0d8e75b9a3e9ef",
+      "arsenal_base_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+      "repo_theorem_credit": false,
+      "arsenal_registration_adds_stage_mathematical_credit": false,
+      "hostile_audit_required_before_formal_treatment": true
     },
     {
       "active_cards": [
