@@ -1,0 +1,75 @@
+{
+  "canonical_sha256_without_this_field": "8d2db62de7defea8fc02d6f32cfbab9165f92b08c327f687d430d15ef2729786",
+  "schema": "STAGE32_32_01_178_N394_HOSTILE_AUDIT_PASS_V1",
+  "stage": 32,
+  "node_id": "N394",
+  "status": "HOSTILE_AUDIT_PASS_RETAINED",
+  "audited_exact_head": "5cd1b2eadb7fd2921686bc3a2554fdd1b427f431",
+  "hostile_audit_review_id": 5194812379,
+  "hostile_audit_verdict": "PASS",
+  "exact_head_ci": {
+    "claim_frontier_run_id": 34815170636,
+    "claim_frontier_conclusion": "SUCCESS",
+    "stale_run_sweeper_run_id": 34815170649,
+    "stale_run_sweeper_conclusion": "SUCCESS",
+    "main_startup_authority_run_id": 34815170611,
+    "main_startup_authority_conclusion": "FAILURE_FRESHNESS_HOLD"
+  },
+  "audited_scope": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "block_count": 97,
+    "identity_count": 10961,
+    "global_affine_rank": {
+      "Q": 8,
+      "GF2": 7,
+      "GF3": 8
+    },
+    "classified_exact_relations": [
+      "x95 = 0",
+      "x99 = 1"
+    ],
+    "classified_gf2_extra_relation": "x93 + x98 + x96 = 1 (mod 2)",
+    "additional_pruning_terminals": 0,
+    "numerical_leaf_compression_credit": false
+  },
+  "source_locks": {
+    "result_blob": "cc8298c0a4d5d003be2eb00d828df42ceb6a1af0",
+    "result_canonical": "2bb9ca471ec6ce50e77921de17113bb5dda711e48d1026240f683660a2ea4fbc",
+    "state_blob": "37d7b0287bc8ce2a3b83b1e0245acbb467f15401",
+    "state_canonical": "07d610c436346b083700255a7219e76552d623e9507498157cb5450d2d566716",
+    "probe_blob": "042bb940a6c586092f6b31312d3b16551e566a58",
+    "indexer_blob": "4fb0a8dd34909494bd62646373e42877ed7a3c9e"
+  },
+  "freshness_gate": {
+    "status": "HOLD",
+    "current_repository_main": "edea24520c6242bf25e6d28a7a771c191ffd1f2b",
+    "central_startup_expected_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "reason": "Central Stage32 startup authority workflow still pins the pre-#1800 main; this is a merge-readiness freshness hold, not an N394 mathematical-audit failure.",
+    "final_check": "NOT_READY",
+    "merge_authorized": false
+  },
+  "ownership_firewall": {
+    "main_global_residual_feasibility_competition": false,
+    "global_obstruction_rederived": false,
+    "family_level_claim_promoted": false,
+    "common_unsat_claim_promoted": false,
+    "symbolic_obstruction_claim_promoted": false
+  },
+  "credit_firewall": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_final": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "next_gate": "NEXT_BOUNDED_178_LEAF_MAY_START_IF_IT_USES_A_NEW_EXACT_TRANSPORT_MECHANISM"
+}
