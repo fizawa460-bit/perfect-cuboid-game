@@ -44,6 +44,10 @@ Stage-local or leaf workflows may be created freely for research verification, b
 
 Heavy PR workflows must not rerun merely because a PR was synchronized, reopened, or docs/controller/status/source files changed. Every heavy job must remain behind a cheap authorization gate and run only when its dedicated run key is explicitly and semantically advanced/armed in the triggering commit range. If authorization cannot be verified, fail closed and skip heavy compute.
 
+Heavy compute is **resume-first by default**. Before arming a new or materially revised heavy run, partition it at the finest practical exact boundary, retain compact verifiable certificates for completed subunits, salvage validated completed subunits after timeout/cancellation, and schedule only unfinished work on recovery. A monolithic rerun or timeout increase is not the default recovery path. If no valid finer partition exists, record `RESUME_NOT_FEASIBLE` with the reason before authorization.
+
+- **On-demand trigger:** open `docs/research-os/policies/heavy-checkpoint-and-resume.md` whenever designing, materially revising, authorizing, rerunning, or recovering a heavy/artifact-producing workflow.
+
 ## Research credit and claim promotion
 
 - finite/bounded/sample evidence is not a global theorem;
