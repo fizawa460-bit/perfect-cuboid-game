@@ -1,0 +1,93 @@
+{
+  "canonical_sha256_without_this_field": "02e654b76702ddc33595b6c41995af26de7ad4981296f4dbf4b2353659dc6925",
+  "credit_firewall": {
+    "coordinate_equivalence_proved": false,
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "ex5_main_credit": false,
+    "full178_complete": false,
+    "grf09_main_pruning_credit": false,
+    "merge_authorized": false,
+    "n398_main_pruning_credit": false,
+    "population_equivalence_proved": false,
+    "shared_parity_theorem_proved": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "purpose": "Place the retained 178 N398 parity candidate, MAIN GRF-09 CUT201 parity checkpoint, and EX5 Picard64/node-support route in one explicit comparison boundary before any cross-population or coordinate identification is asserted.",
+  "required_comparisons": [
+    {
+      "id": "POPULATION_IDENTITY",
+      "question": "Do the N398 and GRF-09 populations intersect, embed, or merely share a common parent parameterization?",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "COORDINATE_LABEL_ADAPTER",
+      "question": "Map N398 labels x49/x93/x96/x98 and GRF-09 assignment labels 49/99/98 to exact Picard64/HNF coordinates or dual covectors with source locks.",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "AFFINE_RELATION_SPACE",
+      "question": "After an exact coordinate adapter exists, compare the GF(2) affine relation spaces and mod-8 lifting semantics; do not identify formulas by label coincidence alone.",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "EX5_STRUCTURAL_ORIGIN",
+      "question": "Determine whether the same relation follows from the audited EX5 Picard64/node-support constraint system, or whether the three observations are genuinely distinct.",
+      "status": "NOT_PROVED"
+    }
+  ],
+  "routing": {
+    "cut_state_must_not_be_mutated_by_main_synthesis": true,
+    "ex5_state_must_not_be_mutated_by_main_synthesis": true,
+    "main_may_prepare_noncredit_comparison_before_n398_audit": true,
+    "main_must_not_claim_cross_population_equivalence_without_exact_adapter": true,
+    "n398_demand_id": "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1",
+    "n398_hostile_audit_must_pass_before_main_consumes_as_audited_input": true
+  },
+  "schema": "STAGE32_PICARD64_PARITY_CROSS_LANE_SYNTHESIS_V1",
+  "sources": {
+    "ex5_picard64": {
+      "current_route": "BC2-40 preflight; execution not armed",
+      "hostile_audit_review_id": 5193423203,
+      "hostile_audited_boundary": "BC2-39",
+      "hostile_audited_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
+      "known_parent_unsat_lower_bound": 7313,
+      "producer_pr": 1776,
+      "remaining_unknown_parent_count": 23,
+      "remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
+      "role_in_synthesis": "Provide exact Picard64/node-support coordinate and constraint semantics needed to test whether the N398 and GRF-09 affine parity relations are representations of the same underlying covector/2-adic lifting constraint."
+    },
+    "grf09_main": {
+      "affine_model_count": 4,
+      "checkpoint_blob_sha1": "432a15f3c899f33e7d96cebde2247ae257318c46",
+      "checkpoint_path": "stages/stage32/management/global-residual-feasibility/GRF-09-CUT201-E8-PICARD-PARITY-CHECKPOINT.json",
+      "current_main_residual_subset_identity_proved": false,
+      "diagnostic_sat_terminals": 14478,
+      "diagnostic_unsat_terminals": 14337,
+      "population": "CUT201 survivor offsets 2041..2295; 255 blocks x 113 = 28,815 terminals; corrected raw block indices 2713..3247",
+      "producer_pr": 1808,
+      "relations": [
+        "assignment label 49 parity = assignment label 99 parity XOR assignment label 98 parity"
+      ],
+      "verifier_blob_sha1": "55c1de5a90bb66322ee139a6334a5fc8ebaec4ea"
+    },
+    "n398_178": {
+      "audit_status": "PENDING",
+      "candidate_head": "71f078a7521b265e300a450ab129370f077ef6a1",
+      "direct_naive_mod2_relation_found": false,
+      "population": "97 retained blocks / 10,961 terminal identities from the N395/N396 retained route",
+      "producer_pr": 1797,
+      "relations": [
+        "x49 = x93 + x96 (mod 2)",
+        "x49 + x98 = 1 (mod 2)"
+      ],
+      "result_canonical_sha256": "611632cedd9ff3515bb374a608020dd06079240db5224bb15f90845c7b90cad7",
+      "result_path": "stages/stage32/32-01-178/nodes/N398/RESULT.json",
+      "state_canonical_sha256": "f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1",
+      "state_path": "stages/stage32/32-01-178/nodes/N398/STATE.json"
+    }
+  },
+  "stage": 32,
+  "status": "OPEN_SYNTHESIS_NO_CREDIT"
+}
