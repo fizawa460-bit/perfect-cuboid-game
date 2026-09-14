@@ -18,6 +18,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N397/**'
       - 'stages/stage32/32-01-178/nodes/N398/**'
       - 'stages/stage32/32-01-178/nodes/N399/**'
+      - 'stages/stage32/32-01-178/nodes/N400/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -86,6 +87,11 @@ jobs:
         with:
           ref: 955a9eb6b95b2f4a3234013b3da74257863d8954
           path: .n397-current-main
+      - name: Checkout N400 current MAIN authority
+        uses: actions/checkout@v4
+        with:
+          ref: 117310b6a9d40273683cab8c08cc9e5e0cc584d9
+          path: .n400-current-main
       - name: Checkout N391 CUT193 source
         uses: actions/checkout@v4
         with:
@@ -159,6 +165,10 @@ jobs:
         run: python stages/stage32/32-01-178/nodes/N398/probe_n398_n396_survivor_parity_compression.py
       - name: Verify N399 N398 terminal parity predicate transport
         run: python stages/stage32/32-01-178/nodes/N399/verify_n399_n398_terminal_parity_predicate_transport.py
+      - name: Verify N400 N399 compact MAIN-consumption handoff
+        run: |
+          python stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py \
+            --current-main-root .n400-current-main
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
