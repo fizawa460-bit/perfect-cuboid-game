@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ06_ONE_WAY_ACTUAL_CARRIER_ADAPTER_V1",
+  "stage": 32,
+  "leaf": "HPADJ-06_ONE_WAY_ACTUAL_CARRIER_TO_HPADJ_NECESSARY_FILTER",
+  "status": "PASS_ONE_WAY_ACTUAL_CARRIER_ADAPTER_REVERSE_REALIZATION_OPEN_NO_MAIN_CREDIT",
+  "predecessor_boundary": {
+    "pr": 1800,
+    "hostile_audited_exact_head": "7846413a1d632646044340c40f57551cf2ff4b0c",
+    "hostile_audit_review_id": 5190630517,
+    "merge_authorized": false
+  },
+  "source_boundary": {
+    "hpadj01_result": {
+      "path": "stages/stage32/management/hpadj-01/RESULT.json",
+      "blob_sha1": "520b6b0f230e23fb5ea34b80fef591cfa5f9be4b",
+      "canonical_sha256": "9773c11e87de149b5b56438fd1c86929aa54a971601bf8306855fd0f8a303506"
+    },
+    "hpadj02_result": {
+      "path": "stages/stage32/management/hpadj-02/RESULT.json",
+      "blob_sha1": "2f7b016c9030bdb86071f5b0b4803b4bde210584",
+      "canonical_sha256": "d7e653f7e693776730121769c86fc3fa11af0b6a5755dc392d40837c1eb05986"
+    },
+    "hpadj03_result": {
+      "path": "stages/stage32/management/hpadj-03/RESULT.json",
+      "blob_sha1": "6f5985f2c2e0995628653a6bc73b9bf6c7256a7c",
+      "canonical_sha256": "0840d9ec07f6380e4fdad97ab2d6e32c69d25e7539837fa65bd0c34ca3cb8b49"
+    },
+    "hpadj05_consumer_reentry": {
+      "path": "stages/stage32/management/hpadj-05/CONSUMER-REENTRY.json",
+      "blob_sha1": "b6c1fb139fdb4189b8b5dbe351ace27f3a6748ad",
+      "canonical_sha256": "a064c6d95aaf19f2b2b0515143722da50fdd307c7fbd608b98bcf0c9f2be9ee1"
+    },
+    "ex5_full178_terminal_picard64_interface": {
+      "path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+      "blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+      "canonical_sha256": "cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6"
+    },
+    "stage29_lg2_route_contract": {
+      "path": "stages/stage29/29-02c-LG2/route-contract.json",
+      "blob_sha1": "99752985fd705ee993d052e5bcc622181c7a4cbc"
+    },
+    "historical_effectivity_gap": {
+      "path": "stages/stage32/32-21/post-21bl-effectivity-gap-separation.json",
+      "blob_sha1": "8b46b85a7fe7d1b366d0ada0a7db852f123e77e1",
+      "canonical_sha256": "4afeb8a3add7c203fbbaa9ffdb5b4b4d357df8503979ee80617db654df73d4dc"
+    },
+    "historical_genus_defect": {
+      "path": "stages/stage32/32-21/post-21bl-genus-defect-preflight.json",
+      "blob_sha1": "ecf4e9d20eddcaef9375f4c6b21ecf9bf6b0cd8c",
+      "canonical_sha256": "e59e23b2aefb1a3b622f3f3ed4eb0f83fd7bb335125fa3254c7e4e737caaa96c"
+    }
+  },
+  "proved_direction": {
+    "domain": "an actual integral irreducible K3 carrier C represented at the Stage32 HPADJ charging point by a matching charged compressed terminal",
+    "step_1_terminal_to_picard64": "the matching terminal fixes 11 selected pairings; EX5 represents every integral selected64/Picard64 completion exactly once by the 53 free pairing coordinates, with denominator-8 divisibility enforced",
+    "step_2_exceptional_pairings": "the ten exceptional pairings used by HPADJ are exactly terminal-fixed selected64 coordinates and are therefore shared by every integral Picard64 completion of that terminal",
+    "step_3_hodge": "C^2 <= d^2/16 - (1/2)*sum(y_i^2)",
+    "step_4_group_cauchy": "8*a^2 + 8*b^2 + 6*c^2 > 3*d^2 + 96 implies C^2 < -2",
+    "step_5_adjunction_contradiction": "an integral irreducible curve on the K3 carrier surface satisfies C^2 >= -2, so an HPADJ-rejected matching terminal cannot be realized by such a carrier",
+    "conclusion": "ACTUAL_MATCHING_INTEGRAL_IRREDUCIBLE_CARRIER -> NOT_HPADJ_REJECTED_TERMINAL",
+    "contrapositive": "HPADJ_REJECTED_TERMINAL -> NO_ACTUAL_MATCHING_INTEGRAL_IRREDUCIBLE_K3_CARRIER"
+  },
+  "exact_algebra_regression": {
+    "hodge_upper_bound_times_48": "3*d^2 - 8*a^2 - 8*b^2 - 6*c^2",
+    "hpadj_rejection_equivalent_strict_bound": "3*d^2 - 8*a^2 - 8*b^2 - 6*c^2 < -96",
+    "therefore": "48*C^2 < -96, hence C^2 < -2"
+  },
+  "population_interface": {
+    "affected_rows": 178,
+    "charged_terminal_lower_bound": 27104321327305699275487,
+    "terminal_identity_tuple": [
+      "row_id",
+      "e",
+      "compressed_terminal_rank"
+    ],
+    "selected64_inverse_denominator": 8,
+    "terminal_fixed_selected_pairings": 11,
+    "free_selected_pairings": 53,
+    "retained_picard64_coordinate_count": 64,
+    "terminal_alone_asserts_integral_completion_exists": false,
+    "this_adapter_asserts_every_terminal_has_actual_carrier": false,
+    "this_adapter_asserts_every_numerical_survivor_has_actual_carrier": false
+  },
+  "reverse_realization_gap": {
+    "status": "OPEN_LOAD_BEARING",
+    "not_proved": [
+      "a charged numerical terminal has any integral Picard64 completion",
+      "an integral Picard64 completion is effective",
+      "an effective divisor has an integral irreducible representative with the required carrier semantics",
+      "the required normalization-genus and branch conditions hold population-wide",
+      "multibranch-at-node cases are covered",
+      "isolated rational points are excluded",
+      "family-carrier exclusion equals endpoint nonexistence"
+    ],
+    "next_exact_datum": "a source-locked population-preserving 32-02 geometry theorem/adapter proving the required actual integral irreducible carrier realization for the authority population, or a separate exact exclusion theorem disposing of the same population while preserving normalization/branch firewalls"
+  },
+  "scope": {
+    "rebase_hpadj01_candidate_count_to_current_main": false,
+    "subtract_hpadj01_from_main_authority": false,
+    "change_main_state": false,
+    "heavy_compute_used": false,
+    "new_cross_lane_demand_opened": false
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "integrality_or_irreducibility_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "72144be89761ba82f93fd33ca7647c90a4ba12646d5f63e70537a955d93f106d"
+}

@@ -1,47 +1,40 @@
 # Stage32 32-03 multibranch startup
 
-Ordinary `stage32mb-mainbatch` reads, in this order:
+This file is the single authoritative startup/read-order contract for ordinary `stage32mb-mainbatch`. `COMMANDS.md` resolves the command to this entrypoint; `PREFLIGHT.json`, `MISSION.json`, priority/history files, audit receipts, and shared explanatory contracts must not define a competing ordinary startup order.
+
+## Ordinary startup
+
+Read only, in this order:
 
 1. `AGENTS.md`;
-2. `stages/stage32/COMMANDS.md`;
-3. `stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md`;
-4. `stages/stage32/final-chain/32-03-multibranch/PREFLIGHT.json`;
-5. `stages/stage32/final-chain/32-03-multibranch/MISSION.json`;
-6. current `stages/stage32/MAIN-STATE.json`;
-7. `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
-8. only the exact assets required by the current MB node plus any exact demand artifact/state explicitly selected by the registry.
+2. this file;
+3. current `stages/stage32/MAIN-STATE.json` from the live Stage32 MAIN authority surface;
+4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json` from that same live authority surface;
+5. `stages/stage32/final-chain/32-03-multibranch/STATE.json`, focusing on the current node, active leaf, `next_obligation`, routing, and credit firewall;
+6. only the exact source/evidence paths required by that active leaf or by an applicable demand.
 
-This lane is the dedicated Stage32 32-03-L multibranch researcher. The preflight explicitly permits mission work without waiting for 32-01/FULL178, and the operator has now allocated parallel capacity. Current Stage32 routing authority remains `MAIN-STATE.json`; cross-lane demand state controls operational priority only and this lane cannot self-promote.
+Do not preload the rest of MB history. In particular, `stages/stage32/COMMANDS.md`, `PREFLIGHT.json`, `MISSION.json`, `PRIORITY-OVERRIDE-20260912.json`, `AGENTS-COMPLIANCE-AUDIT-20260913.md`, and `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md` are on-demand after command resolution. Read them only when the current authority, active leaf, audit task, or duplicate-route/reopen question explicitly requires them. Research OS files remain on-demand under `AGENTS.md` triggers.
 
-## Cross-lane demand routing
+## Authority and drift
 
-Shared semantics are in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`. Before substantive local work, inspect every OPEN demand involving MB. A higher-priority OPEN demand where MB is producer preempts lower-priority local research. If MB is consumer of an OPEN demand, wait without duplicating producer mathematics; when it becomes SATISFIED, re-enter on the next `stage32mb-mainbatch` and validate satisfying artifact identity and source-population semantics before resuming. Demand SATISFIED does not grant mathematical credit; hostile audit, claim sync and MAIN promotion remain separate.
+Current live `MAIN-STATE.json` is mathematical routing authority. `CROSS-LANE-DEMANDS.json` controls operational priority only. The MB `STATE.json` selects the lane-local retained frontier inside that authority; historical mission/preflight text cannot override it.
 
-## Ownership
+If live MAIN identity cannot be resolved, or the lane-local mirror materially disagrees with live authority, fail closed before substantive research. An outstanding hostile-audit FAIL or frozen audit boundary also blocks further substantive retained mathematics until repaired/re-audited; startup cleanup itself grants no mathematical credit.
 
-MB owns the R29-LG2-MB multibranch final-chain obligations: exact population/normalization profile, local branch-delta-genus accounting, Aut(S) quotient semantics, a population-wide justified finite degree/intersection window, and only then finite Picard/effectivity backend work.
+## Cross-lane routing
 
-MB does **not** own:
+Inspect only demands involving lane `MB`. A higher-priority OPEN demand where MB is producer preempts lower-priority local work. If MB is consumer of an OPEN demand, wait rather than duplicate producer mathematics. For SATISFIED re-entry, validate the satisfying artifact identity and source-population semantics before use. Do not preload unrelated demand artifacts.
 
-- FULL178 numerical census, N356, or other 178 cuts;
-- EX5 Picard64/node-support FULL178 producer research;
-- already-consumed V6/O210/Q602 exclusions;
-- the unibranch 176/192 degree cap unless a new multibranch proof is supplied;
-- EX6 O266 tensor routes already recorded as nonexcluding/dominated;
-- MAIN final milestone promotion, theorem/endpoint credit, or merge.
+Demand SATISFIED does not grant mathematical credit. Demand status never grants receiver, effectivity, theorem, endpoint, closure, or merge credit. Hostile audit, claim synchronization, current-target adapters where applicable, and explicit MAIN consumption/promotion remain separate gates.
 
-## First route
+## Ownership and anti-loop boundary
 
-Start at `MB101`: freeze the exact R29-LG2-MB population and normalization-profile adapter. Do not jump directly to finite Picard enumeration. The load-bearing sequence is MB101 -> MB102/MB103 -> MB104 -> MB105 -> MB190, interpreted through the current retained MB state.
+MB owns the R29-LG2-MB multibranch final-chain obligations: exact population/normalization semantics, local branch/delta/genus accounting, Aut(S) quotient semantics, justified finite degree/intersection restrictions, and later Picard/effectivity work only after that finite window is proved.
 
-Exceptional contact mass, number of normalization preimages, and delta invariant are distinct until an exact local adapter proves the relation required in the current profile.
+MB does not own FULL178 numerical census/cuts, EX5 Picard64 producer work, consumed V6/O210/Q602 exclusions, unibranch 176/192 caps without a new multibranch proof, dominated EX6 O266 tensor routes, or MAIN promotion/endpoint/merge authority. Do not identify exceptional contact mass, normalization-preimage count, and delta invariant without an exact adapter.
 
-## Parallelism rule
+## Execution and audit
 
-`stage32mb-mainbatch` may run concurrently with `stage32-01-178-mainbatch`, `stage32ex5-mainbatch`, and `stage32cut-mainbatch` because its target receiver and output contract are independent. If current MAIN routing later assigns the same semantic leaf elsewhere, or a valid higher-priority cross-lane demand changes its operational dependency, stop and obey current machine routing rather than duplicating it.
+`stage32mb-mainbatch` may run in parallel with other Stage32 specialist lanes unless current MAIN routing or a higher-priority demand assigns the same semantic leaf elsewhere. Ordinary startup does not arm heavy compute.
 
-## Handoff and audit
-
-A retained MB checkpoint receives zero receiver/final-milestone/theorem credit until hostile audit and explicit MAIN consumption. Cross-lane demand state is operational and separate from the mathematical claim DAG; demand status alone does not grant mathematical credit. `stage32mb-audit` is audit-only. Any final-milestone transition remains a MAIN claim-sync event.
-
-Do not merge without explicit user authorization.
+Use `stage32mb-audit` only for a frozen exact MB audit boundary. MB never self-grants MAIN credit. Do not merge without explicit user authorization.

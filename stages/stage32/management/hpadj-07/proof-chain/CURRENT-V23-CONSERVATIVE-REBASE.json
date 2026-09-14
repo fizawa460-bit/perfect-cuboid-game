@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ07_CURRENT_V23_CONSERVATIVE_REBASE_V1",
+  "stage": 32,
+  "leaf": "HPADJ-07_CARRIER_ADAPTER_PROOF_CHAIN",
+  "status": "CURRENT_V23_CONSERVATIVE_INTERSECTION_LOWER_BOUND_CANDIDATE_NO_MAIN_CREDIT",
+  "source_locks": {
+    "current_main_state": {
+      "path": "stages/stage32/MAIN-STATE.json",
+      "blob_sha1": "bead809db3a008dd35d664a8923f06fecb7de5bb",
+      "schema": "STAGE32_MAIN_COMPACT_STATE_V23_CERTLIFT03_CONSUMED",
+      "authoritative_remaining_terminals": 47589703313957134649501,
+      "authoritative_remaining_strata": 17128
+    },
+    "predecessor_v22": {
+      "exact_head": "f8039b4ce479a4b91f2f0547e7049f629e9be5f5",
+      "hostile_audit_review_id": 5188224290,
+      "authoritative_remaining_terminals": 47589703313957134804198
+    },
+    "corrected_v22_hpadj": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+      "canonical_sha256": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa",
+      "candidate_rejected_terminals_lower_bound": 20713268924714183714810
+    }
+  },
+  "set_theoretic_rebase": {
+    "v22_to_v23_total_removed": 154697,
+    "identity_check": "47589703313957134804198 - 47589703313957134649501 = 154697",
+    "current_state_reason": "CERTLIFT03 incremental pruning consumed after V22",
+    "worst_case_overlap_bound": "At most every one of the 154697 V22->V23 removed terminals lies in the corrected HPADJ rejected subset.",
+    "therefore_current_v23_hpadj_rejected_lower_bound": 20713268924714183560113,
+    "candidate_remaining_upper_bound_if_corrected_hpadj_promoted": 26876434389242951089388,
+    "requires_exact_overlap_for_exact_increment": false,
+    "sufficient_for_safe_lower_bound_credit_after_audit": true
+  },
+  "composition_notes": {
+    "earlier_cut_overlap": "The corrected V22 replay inherits HPADJ-01's conservative composition firewall, including exact N358 slice removal and total g1-d008/e8 exclusion for consumed CUT overlap.",
+    "later_v23_overlap": "Handled only by the worst-case subtraction of all 154697 V22->V23 removals; no double charge is possible in the stated lower bound.",
+    "stratum_count_change_claimed": false
+  },
+  "promotion_dependencies": [
+    "hostile audit of GENERAL-TYPE-ADJUNCTION-CORRECTION and its verifier",
+    "hostile audit of PRUNING-DIRECTION-CONTRACT-REVIEW",
+    "replacement-head hostile re-audit for the current PR head under Research OS",
+    "explicit MAIN consumption before authority mutation"
+  ],
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01"
+}
