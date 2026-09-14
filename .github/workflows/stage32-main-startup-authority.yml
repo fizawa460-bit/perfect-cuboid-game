@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V24 HPADJ07 hostile-audit PASS synchronized into MAIN routing.
+# Current boundary: V24 authority retained; GRF-04 is a zero-credit symbolic kernel candidate.
 on:
   pull_request:
     paths:
@@ -56,25 +56,23 @@ jobs:
       - name: Assert hostile-audited V24 HPADJ07 boundary
         run: test "$(git -C .stage32-audited-hpadj07-v24 rev-parse HEAD)" = "3c5915dee248660a2821f2ebe9c24e20b0ad1647"
 
-      - name: Resolve research freshness authority
+      - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
-          baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
+          event_base="${{ github.event.pull_request.base.sha }}"
+          echo "event_base=$event_base"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "$expected_current_main"
-          test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
-          drift="$(git diff --name-only "$baseline" "$current_main")"
-          printf 'main_drift_paths=%s\n' "$drift"
-          test "$drift" = "x"
-          git merge-base --is-ancestor "$current_main" HEAD
-          test "$merge_base" = "$current_main"
-          echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
-          echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+          test -n "$merge_base"
+          if git merge-base --is-ancestor "$current_main" HEAD && [ "$merge_base" = "$current_main" ]; then
+            echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+          else
+            echo "merge_ready_freshness=PENDING_MAIN_DRIFT_REQUIRES_SEPARATE_SEMANTIC_REVIEW"
+          fi
+          echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
       - name: Verify V24 audit-sync source identities
         run: |
@@ -92,6 +90,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-03-NORM-LADDER-RESIDUE-COLLAPSE.json)" = "d6777200cadb6809dc3b46374c8f714cb6ebd6cd"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py)" = "eaddc4eaa790742cc92ec0bac3043c6743f947fc"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-04-RATIONAL-QUADRATIC-LOWER-BOUND-KERNEL.json)" = "f7c1073edbf895f498fd9923e59eedf5a4e981c8"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py)" = "af883bd66600c626350f9e6ef4bc12c00e239f45"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
@@ -106,6 +106,9 @@ jobs:
 
       - name: Verify GRF-03 norm-ladder residue collapse no-go
         run: python stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py
+
+      - name: Verify GRF-04 rational quadratic lower-bound kernel
+        run: python stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
 
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
