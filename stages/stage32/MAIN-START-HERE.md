@@ -10,12 +10,35 @@ Read only, in this order:
 2. this file;
 3. current `stages/stage32/MAIN-STATE.json` from the active Stage32 MAIN authority surface;
 4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json` from that same authority surface;
-5. only paths in `MAIN-STATE.json.current_leaf_working_set` plus exact coordination paths required by applicable `OPEN` demands;
-6. only exact source/evidence paths referenced by that selected state or demand.
+5. `stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json`, then perform its required **live specialist sweep** before substantive MAIN research;
+6. only paths in `MAIN-STATE.json.current_leaf_working_set`, exact coordination paths required by applicable `OPEN` demands, and synthesis boundaries explicitly named by those demands;
+7. only exact source/evidence paths referenced by the selected state, demand, live specialist observation, or synthesis boundary.
 
 `stages/stage32/COMMANDS.md` is the stable registry used to resolve `stage32mainbatch` to this entrypoint; once resolved, it is **not a second MAIN startup contract** and need not be re-read as startup payload. `stages/stage32/README.md` is a layout map only.
 
-Do not preload the Stage32 root, historical roadmaps/controllers, production state, runkeys, audits, claim DAG, Research OS, Arsenal, or specialist mission history merely because those files exist. Open them only when current state/demand, `AGENTS.md`, or the active task triggers them.
+Do not preload the Stage32 root, historical roadmaps/controllers, production state, runkeys, audits, claim DAG, Research OS, Arsenal, or specialist mission history merely because those files exist. The mandatory live specialist sweep is deliberately bounded: inspect only the active specialist surfaces enumerated by `ACTIVE-SPECIALIST-MONITOR-CONTRACT.json`, their live startup/current-state boundary, and the exact retained/audit/handoff paths needed to answer the monitor fields.
+
+## Mandatory live specialist sweep
+
+Every ordinary `stage32mainbatch` startup must resolve the **live** current surface for each active specialist listed in `ACTIVE-SPECIALIST-MONITOR-CONTRACT.json` and record, at minimum, the following before MAIN begins new substantive mathematics:
+
+- live PR or active surface and live head;
+- current state or exact retained boundary;
+- latest retained result;
+- current hostile-audit gate/status;
+- pending handoff to MAIN or another lane, or explicit `NONE`;
+- current-main freshness signal;
+- semantic leaf currently being attacked.
+
+The contract's recorded PR numbers are discovery hints, not authority snapshots. Never treat an old head recorded in the monitor contract, PR body, historical receipt, or local branch mirror as live without resolving it again. If an active specialist cannot be resolved, its current retained boundary is ambiguous, a relevant retained/audit-pending result has no explicit MAIN disposition, or two active surfaces silently attack the same semantic leaf, fail closed before new MAIN research and repair the routing/monitor record first.
+
+A specialist may be mathematically independent of MAIN's current leaf and still must appear in the sweep. `32-02` and CERTLIFT remain on-demand and are not promoted to ordinary active specialists merely by being open or retained.
+
+Run:
+
+`python stages/stage32/proof/verify_cross_lane_demands.py`
+
+The verifier checks the retained wiring/monitor contract. The operator/agent is still responsible for resolving live PR heads and live lane state on every startup; a retained verifier cannot prove a remote PR head has not advanced.
 
 ## Authority and routing
 
@@ -39,9 +62,9 @@ A specialist handoff returns a retained checkpoint, blocker, or audit handoff; M
 
 ## Cross-lane demand monitor
 
-Before substantive work, MAIN inspects all applicable `OPEN` demands and runs:
+Before substantive work, MAIN inspects all applicable `OPEN` demands. In particular, `S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1` is an explicit P0 handoff route: while N398 hostile audit is pending it remains an audit-blocked candidate, and after PASS the producer must materialize the source-locked handoff so MAIN re-enters the synthesis route. Demand satisfaction still does not grant mathematical credit.
 
-`python stages/stage32/proof/verify_cross_lane_demands.py`
+When the N398 parity route is applicable, open `stages/stage32/proof/PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json`. It places the N398, GRF-09, and EX5 Picard64 observations in one comparison boundary. Do not identify their populations, coordinate labels, affine relation spaces, or 2-adic meanings by notation/label coincidence; an exact adapter is required before any such promotion.
 
 Shared producer/consumer/re-entry semantics live in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`; that prose is an **on-demand reference**, not another mandatory startup read. `SATISFIED` means an operational artifact exists; it does not grant pruning, receiver, effectivity, theorem, endpoint, closure, or merge credit.
 
