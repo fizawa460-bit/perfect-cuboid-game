@@ -1,0 +1,129 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_RESIDUAL_NODE_ORBIT_TABLE_V1",
+  "status": "RETAINED_EXACT_RESIDUAL_NODE_ORBIT_REFINEMENT_BRANCH_ALLOCATION_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+      "blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+    },
+    {
+      "id": "FSM_COORD_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FREITAG-SALVATI-MANNI-RESIDUAL-KUMMER-COORDINATE-SOURCE-NOTE.md",
+      "blob_sha1": "a49f5b28b456dd88436c030e857cf771e5a1ba2f"
+    },
+    {
+      "id": "EXPLICIT_KUMMER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EXPLICIT-RESIDUAL-KUMMER-COORDINATE.md",
+      "blob_sha1": "5017d7c137f6d4994a34cb1edac28aadcd832a2a"
+    },
+    {
+      "id": "MODULAR_CHARACTER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    },
+    {
+      "id": "NODE_MODEL_VERIFIER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_two_quartic_gluing.py",
+      "blob_sha1": "20b49289677b5f7b6f5370107b286ac977fe6a11"
+    },
+    {
+      "id": "SUPPORT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json",
+      "blob_sha1": "31695c6908cff73d04baab2ed11dfd04608a2464"
+    },
+    {
+      "id": "SATURATION_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION-CERTIFICATE.json",
+      "blob_sha1": "1f51cf157b3de6db393049af41fda0843e0f2068"
+    }
+  ],
+  "inverse_formulas": {
+    "r_z": "theta10(z)/theta10(2z)",
+    "r_w": "theta10(w)/theta10(2w)",
+    "r_z_square": "2*(C+W3)/(W1-i*W2)",
+    "r_w_square": "2*(C+W3)/(W1+i*W2)",
+    "product": "2*Z3/(C-W3)",
+    "finite_chart_covers_all_14_supported_nodes": true
+  },
+  "exact_residual_orbits": {
+    "support_mask": "000707000f0f",
+    "support_nodes": [0,1,2,3,8,9,10,11,24,25,26,32,33,34],
+    "q0_supported_nodes": [0,1,2,3,24,25,26],
+    "q0_omitted_node": 27,
+    "q1_supported_nodes": [8,9,10,11,32,33,34],
+    "q1_omitted_node": 35,
+    "triples": {
+      "P0,P2": ["2","2","2"],
+      "P1,P3": ["2","2","-2"],
+      "P24,P26": ["-2","2","-2i"],
+      "P25": ["-2","2","2i"],
+      "P8,P10": ["2i","-2i","2"],
+      "P9,P11": ["2i","-2i","-2"],
+      "P32,P34": ["2i","2i","-2i"],
+      "P33": ["2i","2i","2i"]
+    },
+    "triple_semantics": "(r_z^2,r_w^2,r_z*r_w)",
+    "simultaneous_deck_action": "(r_z,r_w)->(-r_z,-r_w)",
+    "omitted_orbit_coincidences": {
+      "P27": "same residual orbit as P25",
+      "P35": "same residual orbit as P33"
+    },
+    "per_normalization_branch_member_selected": false
+  },
+  "saturation_constraints": {
+    "branches_per_supported_node": "8*l",
+    "q0_fixed_factor": "r_w in {+a,-a}, a^2=2",
+    "q1_fixed_factor": "r_z in {+u,-u}, u^2=2i",
+    "q0": "x0-x1+x2-x3-x24+x25-x26=-4*l",
+    "q1": "x8+x9+x10+x11+x32+x33+x34=28*l",
+    "centered_q0": "d0-d1+d2-d3-d24+d25-d26=0",
+    "centered_q1": "d8+d9+d10+d11+d32+d33+d34=0",
+    "branch_allocation_unique_from_current_data": false,
+    "formal_nonuniqueness_witnesses": [
+      "all x_j=4*l",
+      "x0=5*l,x2=3*l,x8=5*l,x9=3*l, all other x_j=4*l"
+    ],
+    "formal_nonuniqueness_witnesses_geometrically_realized": false
+  },
+  "routing_consequence": {
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "node_to_residual_orbit_materialized": true,
+    "per_branch_orbit_member_missing": true,
+    "conductor_transition_missing": true,
+    "residual_character_evaluator_available": "chi_res(M)=rho+tau mod 2",
+    "weighted_cut_bound_proved": false,
+    "next_required_input": "global branch-allocation relation or direct conductor descent/transition M_(u,v) mapping normalization preimages to residual orbit members"
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+    "human_note_blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_residual_node_orbit_table.py",
+    "verifier_blob_sha1": "ebecc69e32533c56926ccd104589a3a77cd93221",
+    "pass_token": "PASS STAGE32_MB104_000707_E2_RESIDUAL_NODE_ORBIT_TABLE_V1"
+  },
+  "verification": {
+    "exact_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on the exact candidate head"
+  },
+  "credit_firewall": {
+    "conductor_sign_computed": false,
+    "cross_sheet_upper_bound_proved": false,
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}
