@@ -1,0 +1,31 @@
+name: Stage32 32-01-178 N389 V24 singleton identity transport
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-01-178/nodes/N389/**'
+      - '.github/workflows/stage32-01-178-n389-v24-identity-transport.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact checked-out 178 head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Checkout hostile-audited V24 MAIN authority
+        uses: actions/checkout@v4
+        with:
+          ref: a89580f3fcf42152b47673d2cfec1935c72555c2
+          path: .n389-main-v24
+      - name: Verify N389 exact singleton identity transport
+        run: |
+          python stages/stage32/32-01-178/nodes/N389/verify_n389_v24_singleton_identity_transport.py \
+            --main-v24-root .n389-main-v24
