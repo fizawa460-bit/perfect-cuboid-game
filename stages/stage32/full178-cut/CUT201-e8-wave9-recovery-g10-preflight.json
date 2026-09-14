@@ -1,0 +1,75 @@
+{
+  "canonical_sha256_without_this_field": "6ba5bfc8166d8be5af7ce54fdb812720c40f3565983dcf78b7a1458b24c529b5",
+  "credit": {
+    "cut201_pruning_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "stage32_main_pruning_credit": false,
+    "theorem_credit": false
+  },
+  "generation": 10,
+  "node": "CUT201",
+  "recovery_contract": {
+    "full_wave_rerun_forbidden": true,
+    "generation9_parent_shard_rerun_forbidden": true,
+    "next_execution_requires_fresh_hostile_audit": true,
+    "next_execution_requires_key_only_generation_9_to_10_arm": true,
+    "reuse_generation1_success_artifacts": true,
+    "reuse_generation4_success_artifacts": true,
+    "reuse_generation6_success_artifacts": true,
+    "reuse_generation9_complete_parent_shards": true,
+    "same_generation9_rearm_forbidden": true
+  },
+  "repair": {
+    "aggregate_only": true,
+    "alias_rule": "for N=0..31 copy cut201-g9-parent-shard-N.json byte-for-byte to cut201-g8-parent-shard-N.json before invoking unchanged retained aggregate protocol",
+    "execution_only": true,
+    "heavy_compute": false,
+    "kind": "AGGREGATE_FILENAME_COMPATIBILITY_ALIAS",
+    "mathematical_worker_change": false,
+    "parent_shard_rerun": false,
+    "partition_rule_change": false,
+    "per_check_timeout_change": false,
+    "prepare_rerun": false,
+    "prime_list_change": false,
+    "retained_protocol_validation": [
+      "exact execution head",
+      "exact worker blob",
+      "manifest canonical",
+      "parent stream hash",
+      "G8 shard schema and canonical",
+      "shard id coverage 0..31",
+      "ordinal routing",
+      "exact parent ordinal union with no gaps or duplicates"
+    ],
+    "solver_execution": false,
+    "solver_semantics_change": false,
+    "source_population_change": false
+  },
+  "schema": "STAGE32_CUT201_E8_WAVE9_RECOVERY_G10_PREFLIGHT_V1",
+  "source_generation9": {
+    "artifact_count": 33,
+    "complete_parent_shard_ids": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+    "manifest_artifact_digest": "sha256:fb39c49457b2fec6c83cd0a8c1dc8ec839047269ee1f186cbbc146451be5bd7a",
+    "manifest_artifact_id": 10368965407,
+    "manifest_artifact_name": "cut201-g9-offset2204-parent-manifest",
+    "parent_shard_artifact_pattern": "cut201-g9-parent-shard-*",
+    "parent_shard_count": 32,
+    "run_head": "d64fcccde66e001f9aeac25659fcd8e501c95509",
+    "run_id": 34895000504
+  },
+  "source_locks": {
+    "aggregator_blob": "6e41072243ff92eabae39f522398aed2fad8df7f",
+    "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+    "execution_checkout_head": "be6a6f8acc9942dd4973f13c630a4318b923e03d",
+    "g10_recovery_helper_blob": "7c5393154f578a6f86c3af690978f1f1e9496daa",
+    "main_parent_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+    "resume_protocol_g8_blob": "a45c83dc0f02842fcf024faf269b65bd6e6f64f7",
+    "resume_wrapper_blob": "f4deb338a0bb8ca9250b857a45ef777d29b0f11c",
+    "worker_blob": "a8be279ebc3bca4a383d4a81e4c04de7413b17b8"
+  },
+  "stage": 32,
+  "status": "COLD_AGGREGATE_ONLY_RECOVERY_NOT_ARMED",
+  "surface": "full178-cut"
+}
