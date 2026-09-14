@@ -23,16 +23,16 @@ EXPECTED = {
     "n392_audit_canonical": "ce8295b8c363a2bb27f97d4e83d41c68f70e171f8bc8aa2af0e3b8f394979377",
     "n392_audit_head": "9f9277a2a841a93f978a1549f14049552536424b",
     "n392_audit_review": 5193632260,
-    "result_blob": "920c81f91c9916bdfa4c1db85cb2aada40f642b4",
-    "result_canonical": "b6e10fc2aa8231477b04990e2e8579bb29d8b1ca954664b8820dba8cc8ecd938",
+    "result_blob": "05e756b060f646708e5e7273840d66e66e232537",
+    "result_canonical": "d9f5252b4c6a683ce2ff915b60cfd464f893357d164093692aca3879ca611d6e",
     "state_blob": "c1f5d23bc69c09beb7701efc17ab98d47489c83c",
     "state_canonical": "55edb88c70d4a2a4390edc17e3b8403c34b354bf20589b7ad90cd4d64fbe3b09",
     "probe_blob": "e063e335804252ca24e99a5ea722370f16614722",
     "indexer_blob": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
     "family_blob": "90ff82ed312dcc0cb32cf207935945f550e29170",
     "n357_verifier_blob": "fdca9ad629983d8c31c7e6355540af3545910120",
-    "block_stream": "bd48abe1e4a0de24546d1681032b713902e9fe4ced5225443459049af0a664ec",
-    "offset_stream": "ca1fd026b59f6be792d99aa0340b96cf5cb1558cf9f11413a82f4627e082ac08",
+    "block_stream": "18e24ba5e4f5e9a874f3734763d224845f3101da72a4498ba47b925d72fbad72",
+    "offset_stream": "efc41eb62f665cd1337fad9467dc04e2a85247ba029de5e0228fef2287f8e7eb",
 }
 EXPECTED_BLOCKS = [35,110,212,221,236,246,271,301,406,492,501,572,617,698,933,942,978,1010,1015,1065,1069,1141,1145,1195,1261,1265,1456,1708,1895,1960]
 EXPECTED_OFFSETS = [25,79,157,163,174,183,202,228,301,353,361,406,438,495,645,653,679,700,703,743,745,798,801,840,889,891,1021,1239,1364,1413]
@@ -179,6 +179,8 @@ def main() -> None:
     req(dict(sorted(bmc_counts.items())) == EXPECTED_BMC, "mass5 b-c census drift")
     req(line_stream(blocks) == EXPECTED["block_stream"], "mass5 block stream drift")
     req(line_stream(offsets) == EXPECTED["offset_stream"], "mass5 offset stream drift")
+    req(result["identity_certificate"]["mass5_block_stream_sha256"] == EXPECTED["block_stream"], "retained mass5 block-stream certificate drift")
+    req(result["identity_certificate"]["mass5_survivor_offset_stream_sha256"] == EXPECTED["offset_stream"], "retained mass5 offset-stream certificate drift")
     req(128820 not in ranks, "retained N372 witness unexpectedly enters N393 subset")
 
     req(result["mass5_blocks"] == blocks, "retained N393 block list drift")
