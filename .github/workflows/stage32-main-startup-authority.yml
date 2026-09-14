@@ -77,15 +77,15 @@ jobs:
 
       - name: Verify V24 audit-sync source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "2855717819311a484a7b43491cab04637dbe92af"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8df16056625db5fbb1947f1e927593de258f1ff"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "456dbb6bfba1e9e86df53adcf2d0d61b28222311"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v24_synced.py)" = "070402ae1b3bb2a796280948d308358431f6b539"
-          test "$(git hash-object stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json)" = "9bd7167ad77d56c994dd636dd0c47491ee21379a"
-          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py)" = "7741bb4b09df7d286a9c04a2eabb7a692034a37e"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v24_synced.py)" = "63608b4334e19cccd1e64bc33a7630b20a32f0fc"
+          test "$(git hash-object stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json)" = "37a1d7ed1af5d715220fd3c78e292f84eecbca72"
+          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py)" = "0093001dd2f70a5277fd383524e9679b66a77978"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "ff08315e6588e507cc3279a3eeca1ecd4e91e70f"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "f0d364e24e16633149f2ac5f26e44f3acb0e73fe"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "e8103484cb6b31ac9cc0ad80222351e140488287"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "add0e8d511295c6aeca1364f3901cda930407307"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
