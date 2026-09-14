@@ -2,48 +2,35 @@
 
 PR #1776 remains open/draft/unmerged. Merge is not authorized.
 
-## Cross-lane prerequisite
+## Consumed predecessor boundary
 
-The P0 producer demand `S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1` is operationally SATISFIED. The satisfying receipt is `stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json`; the retained exact interface is `stages/stage32-ex5/hpadj-handoff/INTERFACE.json`, blob `8a30e3aa30777460f344eb19836dc725dd442329`, canonical `cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6`.
+BC2-38 hostile re-audit **PASS** is consumed from exact head `5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71`, review `5190676180`.
 
-The interface preserves all `178` HPADJ rows and charged population lower bound `27104321327305699275487`, with exact Picard64 fiber denominator `8`, `11` terminal-fixed selected pairings and `53` free selected pairings. The retained verifier is `stages/stage32-ex5/hpadj-handoff/verify_hpadj_full178_terminal_picard64_interface.py`.
+The audited retained BC2-38 result is:
 
-This satisfaction is operational only. It grants no HPADJ pruning, FULL178, theorem, effectivity, receiver, endpoint, Stage32 MAIN, Perfect Cuboid, or merge credit. MAIN consumer re-entry is separate. BC2-38's earlier P0 preemption violation is preserved; the candidate remains quarantined from synchronized MAIN/178 credit. Coordination repair merely allows the independent BC2-38 hostile-audit gate to be entered again.
+- exact target: 34 previously audited UNKNOWN parents;
+- result: `4 UNSAT / 30 UNKNOWN / 0 SAT`;
+- new UNSAT IDs: `[1014,1133,1910,2817]`;
+- remaining UNKNOWN hash: `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`;
+- checkpoint blob: `91eca02054cd2dbf702dd4a7635398ef76ee832f`;
+- checkpoint canonical: `88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba`;
+- retained audited verifier blob: `934f19363549d652c18b02934c1f963a19204664`;
+- audited known-parent UNSAT lower bound: `7306`.
 
-BC2-37 hostile audit **PASS** is consumed from exact head `9852fcec959962607da3290100291a60185e7104`, review `5189412496`. Its bounded EX5 authority is `7 UNSAT / 34 UNKNOWN / 0 SAT`, audited known parent-UNSAT lower bound `7302`, remaining UNKNOWN hash `b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891`.
+The current EX5 state must preserve that BC2-38 is audited and consumed locally, with no Stage32 MAIN/FULL178/effectivity/receiver/theorem/endpoint/Perfect Cuboid/merge promotion.
 
-## Active BC2-38 hostile-audit boundary
+## Active execution boundary: BC2-39
 
-BC2-38 executed exactly the hostile-audited BC2-37 34-UNKNOWN set at `140000 ms` per parent, one heavy runner, no scaleout.
+BC2-39 may execute exactly once from a fresh generation-1 runkey against the exact BC2-38 remaining 30 UNKNOWN set. The producer blob is `e322029cfc4476ce8cf3685ca04f35b58e2ce9f2`; preflight blob `e3dab72865d734f2420fb71ddf3c29115f9df68e`, canonical `7bda94c5869c988892c979873f13a1c311debedbbe9fcc670a253e339fb5e435`.
 
-Execution receipt:
+Execution is bounded to one runner, `160000 ms` per parent, no scaleout, compact artifact only, two-day retention. The runkey must be newly advanced in the triggering `before..head` commit range; unrelated synchronization must not authorize compute.
 
-- execution head `d26a27e8564458f3d575ec58601b2226fc23944f`
-- workflow `34742297972`
-- authorize job `103683927278`: SUCCESS / fresh-runkey
-- compute job `103683975497`: SUCCESS
-- artifact `10313851431`
-- artifact ZIP sha256 `674c4deb7c2e13f654738278ad2108d40d3c4c463ae9f158a6cc438f10f65f01`
-- raw JSON sha256 `2ac56238dd57989beebfd36a346074acd6ab57d497e692b16934203306a2b0e7`
+The live MAIN coordination source is PR #1800 head `9d4a24ef479d031e9c4b85001fe8f7a10198b17d`, retained in `LIVE-MAIN-COORDINATION-SYNC-20260914.json`. It records zero OPEN EX5 producer demands and `mainbatch_stop_gate=NONE`. This routing synchronization is not mathematical credit.
 
-Retained result to audit:
+## Next hostile audit
 
-- `4 UNSAT / 30 UNKNOWN / 0 SAT`
-- new UNSAT IDs `[1014,1133,1910,2817]`
-- remaining UNKNOWN IDs `[1048,1050,1056,1103,1206,1216,1218,1243,1251,1703,1706,1717,1719,1733,1798,2092,2122,2187,2407,2634,2651,2819,3205,3375,3635,3885,3901,3915,3980,4200]`
-- remaining UNKNOWN hash `d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7`
-- status-stream sha256 `839233bb8552e4da7589616439cb614c07ceb018643f4f6d9bf3bf3f175fdeb5`
-- checkpoint canonical `88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba`
-- checkpoint blob `91eca02054cd2dbf702dd4a7635398ef76ee832f`
-- consumed/disarmed runkey blob `87855350c6240cd524069490f85858b11099da60`
-- retained verifier blob `934f19363549d652c18b02934c1f963a19204664`
-- candidate lower bound `7306`
-- audited lower bound remains `7302` until BC2-38 hostile-audit PASS.
+After BC2-39 executes, mainbatch must retain the exact artifact/result commitments, consume/disarm the runkey, remove the active BC2-39 heavy path, and freeze the state with `new_audit_boundary_exists=true`, `re_audit_required=true`, and BC2-40 blocked.
 
-`MAIN-STATE.json` must retain `new_audit_boundary_exists=true`, `freeze_active=true`, `re_audit_required=true`, and `bc2_38_execution_authorized=false`. BC2-38 heavy execution is retired; BC2-39 remains blocked.
+`stage32ex5-audit` must then independently verify the exact 30-parent target identity, solver/result partition, UNKNOWN preservation, SAT witness semantics if any, artifact/raw commitments, source locks, fresh-runkey authorization, heavy-path retirement, current MAIN/cross-lane synchronization, and all broad-credit firewalls.
 
-Hostile audit must independently verify exact target partition, artifact/raw-result identity, source-lock chain through BC2-37/BC2-32/BC2-19/BC2-18, UNKNOWN preservation, consumed runkey, heavy-path retirement, state freeze, audited/candidate separation, broad-credit firewalls, and that the HPADJ P0 coordination prerequisite is SATISFIED without mathematical promotion.
-
-A future BC2-38 hostile-audit PASS may advance only the bounded EX5 audited lower bound from `7302` to `7306` and release the explicit 30 UNKNOWN set for BC2-39. It cannot automatically grant whole-first-block, whole-stratum, FULL178, Stage32 MAIN/N350, theorem/effectivity/receiver/endpoint/Perfect Cuboid, or merge credit.
-
-Next command: `stage32ex5-audit`.
+A PASS may only advance bounded EX5-local audited progress. It does not automatically grant whole-block, whole-stratum, FULL178, Stage32 MAIN/N350, effectivity, receiver, theorem, endpoint, Perfect Cuboid, or merge credit.
