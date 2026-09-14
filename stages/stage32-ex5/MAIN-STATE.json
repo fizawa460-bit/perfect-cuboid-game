@@ -7,12 +7,12 @@
   },
   "bootstrap": {
     "active_work_pr": 1776,
-    "current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
-    "live_main_coordination_head": "9d4a24ef479d031e9c4b85001fe8f7a10198b17d",
+    "current_repository_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "live_main_coordination_head": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
     "live_main_coordination_pr": 1800,
-    "live_main_sync_blob_sha": "c9a3a878413df5afc634f99b94707534412b5d84",
-    "live_main_sync_canonical": "fd5c7c6d025286a5677b7dcab5113f066dff83574c4647d772d89c7799b8be6c",
-    "live_main_sync_path": "stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260914.json",
+    "live_main_sync_blob_sha": "1698915fe01af97f5f60f90645792fb6c3d33576",
+    "live_main_sync_canonical": "677b9e595f271a669c32ca2849dd6dc010de363d1df359c70e0b970162757565",
+    "live_main_sync_path": "stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260915.json",
     "merge_authorized": false,
     "work_branch": "stage32ex5-bc2-25-boundary33-mainbatch"
   },
@@ -21,7 +21,7 @@
     "claim_registry_mutated": false,
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
-    "last_trigger": "BC2_39_HOSTILE_AUDIT_PASS_CONSUMED_BC2_40_PREFLIGHT",
+    "last_trigger": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
     "main_promotion": false
   },
   "credit": {
@@ -30,7 +30,7 @@
     "effectivity_credit": false,
     "endpoint_credit": false,
     "final_milestone_credit": false,
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_39_AUDITED_BC2_40_PREFLIGHT_NO_MAIN_CREDIT",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_39_AUDITED_BC2_40_RESUME_AUTHORIZED_NO_MAIN_CREDIT",
     "n350_production_coverage_credit": false,
     "perfect_cuboid_credit": false,
     "receiver_credit": false,
@@ -40,7 +40,7 @@
   "cross_lane_routing": {
     "live_registry_blob_sha": "e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd",
     "live_registry_canonical": "a5a85f824ba8fe466dbd13a7118bc0e95220cd5925d2af273653d86746a71228",
-    "local_bc2_40_execution_may_continue": false,
+    "local_bc2_40_execution_may_continue": true,
     "open_ex5_producer_demand_count": 0,
     "satisfied_producer_demands": [
       "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
@@ -49,32 +49,36 @@
     "terminal_to_picard64_handoff_reopened": false
   },
   "current": {
-    "blocker": "BC2_40_FRESH_SEMANTIC_RUNKEY_NOT_ARMED",
+    "blocker": "BC2_40_RESUME_HEAVY_PENDING",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
     "leaf": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
-    "next_route": "BC2_40_FRESH_RUNKEY_AUTHORIZATION",
-    "objective": "Replay exactly the 23 hostile-audited BC2-39 UNKNOWN parents with the smallest next timeout refinement; remain at preflight until a fresh semantic runkey is explicitly armed.",
+    "next_route": "BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS",
+    "objective": "Execute the exact 23 hostile-audited BC2-39 UNKNOWN parents through the resume-first parent-index partition at 180000 ms per missing parent; preserve complete units and schedule only missing parents after interruption.",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
-    "status": "BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED",
-    "stop_semantics": "STOP_AT_BC2_40_PREFLIGHT_NO_HEAVY_EXECUTION_WITHOUT_FRESH_SEMANTIC_RUNKEY"
+    "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED",
+    "stop_semantics": "BOUNDED_BC2_40_RESUME_EXECUTION_ONLY_NO_MAIN_PROMOTION_NO_MERGE"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/breadth-cycle-2/bc2-39-hostile-audit-pass-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-fresh-unknown23-replay-preflight.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-first-contract.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py",
+    "stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "execution": {
     "artifact_retention_days": 2,
     "audit_command": "stage32ex5-audit",
-    "dedicated_runkey": null,
-    "effective_heavy_concurrency": 0,
+    "dedicated_runkey": "stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json",
+    "effective_heavy_concurrency": 1,
     "heavy_scaleout_authorized": false,
     "main_command": "stage32ex5-mainbatch",
     "per_parent_timeout_ms": 180000,
-    "runkey_armed": false,
-    "workflow": ".github/workflows/stage32-ex5-main.yml"
+    "runkey_armed": true,
+    "workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml"
   },
   "firewalls": {
     "bc2_unknown_promoted_to_unsat": false,
@@ -105,7 +109,8 @@
     "e8_bc2_39_remaining_unknown_count": 23,
     "e8_bc2_39_remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
     "e8_bc2_39_sat_count": 0,
-    "e8_bc2_40_execution_authorized": false,
+    "e8_bc2_40_execution_authorized": true,
+    "e8_bc2_40_executed": false,
     "e8_bc2_40_preflight_ready": true,
     "e8_bc2_40_target_unknown_count": 23,
     "e8_bc2_40_target_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
@@ -123,7 +128,7 @@
     "historical_q602_residue_triple_promoted_as_current_survivors": false
   },
   "intermediate_audit_boundary": {
-    "bc2_40_execution_authorized": false,
+    "bc2_40_execution_authorized": true,
     "candidate_pr": 1776,
     "freeze_active": false,
     "last_hostile_audit_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
@@ -135,10 +140,10 @@
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
   },
   "next_step": {
-    "bc2_40_runkey_armed": false,
-    "goal": "Arm a fresh semantic BC2-40 runkey only if bounded heavy execution is intentionally authorized; otherwise remain stopped at preflight.",
+    "bc2_40_runkey_armed": true,
+    "goal": "Execute generation 1 over exactly the missing 23 parent-index units; on interruption retain complete certificates and issue a fresh generation scheduling only missing parents.",
     "heavy_scaleout_authorized": false,
-    "id": "BC2_40_FRESH_RUNKEY_AUTHORIZATION",
+    "id": "BC2_40_RESUME_EXECUTION",
     "main_promotion_authorized": false,
     "merge_authorized": false,
     "n350_registration_authorized": false
@@ -187,9 +192,14 @@
     "bc2_39_remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
     "bc2_40_preflight_canonical": "935929b0a206fbbefb9657b6b2d7f65be76174506624445582b22252c0c5590c",
     "bc2_40_preflight_git_blob_sha": "155924fa925f2433b394debc8d3bdde0375093fa",
-    "bc2_40_producer_git_blob_sha": "acccc2360a2b113b4d568c86bb4be48152a68013"
+    "bc2_40_producer_git_blob_sha": "acccc2360a2b113b4d568c86bb4be48152a68013",
+    "bc2_40_resume_contract_canonical": "0df94c808345498cac98dc5ab1c0f3ffcd4daf7038cd19b2e86ff2ca09e3f7f4",
+    "bc2_40_resume_contract_git_blob_sha": "6e359cc137a06db788977bfeeca5dd2803d783c2",
+    "bc2_40_resume_helper_git_blob_sha": "5b262f1c05d82ae3203a689522f476d83406dbb8",
+    "bc2_40_parent_worker_git_blob_sha": "a28061b99527c6585c3f4016992d1ef6e47b42de",
+    "bc2_40_resume_aggregator_git_blob_sha": "76c1d5e9f45d113ccb17e8149b2d840e2278b301"
   },
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION",
   "stage": "32EX5",
   "stage32_main_authority": {
     "authoritative_remaining_strata": 17128,
@@ -198,12 +208,12 @@
     "ex5_auto_promotes_to_main": false,
     "full178_numerical_census_complete": false,
     "hpadj07_main_pruning_credit": true,
-    "live_coordination_head": "9d4a24ef479d031e9c4b85001fe8f7a10198b17d",
+    "live_coordination_head": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
     "mainbatch_stop_gate": "NONE",
     "remaining_terminal_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "reviewed_v24_exact_head": "3c5915dee248660a2821f2ebe9c24e20b0ad1647",
     "reviewed_v24_hostile_audit_review_id": 5191916561,
-    "source": "LIVE-MAIN-COORDINATION-SYNC-20260914.json"
+    "source": "LIVE-MAIN-COORDINATION-SYNC-20260915.json"
   },
-  "status": "BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED"
+  "status": "BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED"
 }
