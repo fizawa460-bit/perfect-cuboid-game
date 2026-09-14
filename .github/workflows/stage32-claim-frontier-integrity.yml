@@ -26,6 +26,8 @@ on:
       - 'stages/stage32/full178-cut/verify_cut191_exact_head_audit.py'
       - 'stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-result.json'
       - 'stages/stage32/full178-cut/CUT194-e8-common-adapter-wave2-audit-handoff.json'
+      - 'stages/stage32/full178-cut/CUT201-e8-wave9-recovery-preflight.json'
+      - 'stages/stage32/full178-cut/runkeys/CUT201-e8-wave9.json'
       - 'stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md'
       - 'stages/stage32-ex*/MAIN-STATE.json'
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
@@ -53,6 +55,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   integrity:
@@ -108,3 +111,133 @@ jobs:
           printf '%s\n' "$output"
           test "$code" -eq 2
           printf '%s\n' "$output" | python -c 'import json,sys; o=json.load(sys.stdin); assert o["verdict"] == "NOT_READY_STAGE32_FINAL_CHECK"; assert o["final_ready"] is False'
+
+  authorize-cut201-wave9-recovery:
+    needs: [integrity]
+    if: github.event_name == 'pull_request' && github.head_ref == 'stage32cut-e8-common-adapter-wave9-20260913'
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - id: gate
+        name: Authorize CUT201 generation2 shard5-only recovery
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/full178-cut/runkeys/CUT201-e8-wave9.json'
+          HEAD_SHA="$(git rev-parse HEAD)"
+          PARENT_SHA="$(git rev-parse HEAD^)"
+          export HEAD_SHA PARENT_SHA KEY
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          def blob(path):
+              raw=Path(path).read_bytes(); return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          key=os.environ['KEY']
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f"{os.environ['PARENT_SHA']}:{key}"],text=True))
+          except Exception:
+              old={}
+          p=Path(key); new=json.loads(p.read_text()) if p.exists() else {}
+          changed=subprocess.run(['git','diff','--quiet',os.environ['PARENT_SHA'],os.environ['HEAD_SHA'],'--',key]).returncode != 0
+          ok=(changed
+              and old.get('generation')==1 and old.get('armed') is False and old.get('consumed') is False
+              and new.get('schema')=='STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1'
+              and new.get('generation')==2 and new.get('generation',0)>old.get('generation',0)
+              and new.get('armed') is True and new.get('consumed') is False
+              and new.get('branch')=='stage32cut-e8-common-adapter-wave9-20260913'
+              and new.get('parent_cut200_audited_head')=='a1073508a33dac1001657554054a74d3cf47034a'
+              and new.get('parent_cut200_hostile_audit_review')==5189541446
+              and new.get('main_parent_exact_head')=='6d63d798adb50dd4efc5f0d5abc553b3dfa23060'
+              and new.get('ex5_producer_exact_head')=='fd00531181228c9f367a49eb61ddc3af6ab84ab3'
+              and new.get('worker_blob')==blob('stages/stage32/full178-cut/cut201_e8_common_adapter_wave9.py')
+              and new.get('aggregator_blob')==blob('stages/stage32/full178-cut/aggregate_cut201_e8_wave9.py')
+              and new.get('recovery_preflight_blob')==blob('stages/stage32/full178-cut/CUT201-e8-wave9-recovery-preflight.json')
+              and new.get('workflow_blob')==blob('.github/workflows/stage32-claim-frontier-integrity.yml')
+              and new.get('recovery',{}).get('source_run_id')==34745899934
+              and new.get('recovery',{}).get('rerun_shards')==[5]
+              and new.get('recovery',{}).get('survivor_offset_start')==2201
+              and new.get('recovery',{}).get('survivor_offset_count')==32
+              and new.get('recovery',{}).get('job_timeout_minutes')==90
+              and new.get('wave',{}).get('survivor_offset_range')==[2041,2295]
+              and new.get('wave',{}).get('block_count')==255
+              and new.get('wave',{}).get('terminal_count')==28815)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if ok else 'false')+'\n')
+          print('CUT201 wave9 recovery runkey changed:', changed)
+          print('CUT201 wave9 recovery old/new generations:', old.get('generation'), new.get('generation'))
+          print('CUT201 wave9 generation2 shard5-only recovery authorized:', ok)
+          PY
+
+  cut201-wave9-recovery-shard5:
+    needs: [authorize-cut201-wave9-recovery]
+    if: needs.authorize-cut201-wave9-recovery.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert exact checked-out head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Execute only interrupted CUT201 shard 5
+        run: |
+          python stages/stage32/full178-cut/cut201_e8_common_adapter_wave9.py \
+            --survivor-offset-start 2201 \
+            --survivor-offset-count 32 \
+            --timeout-ms 750 \
+            --output "$RUNNER_TEMP/cut201-shard-5.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut201-shard-5-recovery
+          path: ${{ runner.temp }}/cut201-shard-5.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
+
+  cut201-wave9-recovery-aggregate:
+    needs: [cut201-wave9-recovery-shard5]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Download retained generation1 successful shards
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cut201-shard-*
+          path: ${{ runner.temp }}/cut201-shards
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 34745899934
+      - name: Download generation2 shard5 recovery
+        uses: actions/download-artifact@v4
+        with:
+          name: cut201-shard-5-recovery
+          path: ${{ runner.temp }}/cut201-shards
+      - name: Assert exact eight-shard recovery population
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(find "$RUNNER_TEMP/cut201-shards" -maxdepth 1 -name 'cut201-shard-*.json' -type f | wc -l)" -eq 8
+          test -f "$RUNNER_TEMP/cut201-shards/cut201-shard-5.json"
+      - name: Aggregate fail-closed CUT201 wave9 recovery
+        run: |
+          python stages/stage32/full178-cut/aggregate_cut201_e8_wave9.py \
+            --input-dir "$RUNNER_TEMP/cut201-shards" \
+            --output "$RUNNER_TEMP/CUT201-wave9-recovery-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cut201-wave9-recovery-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/CUT201-wave9-recovery-aggregate.json
+          retention-days: 1
+          compression-level: 0
+          if-no-files-found: error
