@@ -1,113 +1,40 @@
 # Stage32 canonical command surface
 
-This file is the single human-facing command registry for ordinary Stage32 operation. It changes no mathematical authority or credit. Current mathematical routing comes from `stages/stage32/MAIN-STATE.json`; current operational cross-lane dependencies come from `stages/stage32/proof/CROSS-LANE-DEMANDS.json`.
+This file is the stable human-facing registry for Stage32 operator commands. It is not mathematical authority and must not duplicate current PR numbers, exact heads, authority-version transitions, terminal totals, lane-local retained state, or a lane's startup sequence.
 
-## Live cross-lane coordination check (2026-09-13 process repair)
+Current mathematical routing/credit authority is `stages/stage32/MAIN-STATE.json`; current operational dependency authority is `stages/stage32/proof/CROSS-LANE-DEMANDS.json`. Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`. Most active lanes point to a `MAIN-START-HERE.md`; Stage32EX5 is intentionally collapsed to `stages/stage32-ex5/MAIN-STATE.json` so retired readme/startup/roadmap mirrors cannot compete with live state. This registry resolves commands to those entrypoints and is not a second startup contract.
 
-Before substantive work, resolve the current open MAIN coordination PR (currently #1800) to its live exact head and inspect its `stages/stage32/proof/CROSS-LANE-DEMANDS.json`. Also inspect the live exact producer head for any relevant handoff. Record both head and registry blob; do not infer zero OPEN demands from an old branch-local registry or from the default branch alone. If this read cannot be completed, or the relevant state disagrees, hold substantive work until the operational discrepancy is resolved. Historical source locks remain historical evidence.
-
-This check supplements the ordinary startup order and does not copy, promote, or replace mathematical `MAIN-STATE.json` values. A producer receipt marked SATISFIED requires consumer identity/population validation and the existing independent audit/promotion gates. A stale OPEN mirror must not cause duplicate production of an already retained handoff.
-
-Operational ordering: P0 is a blocking cross-lane artifact or its consumer re-entry; P1 is a required procedural repair or frozen exact-boundary audit; P2 is ordinary local research after applicable P0/P1 gates. These priorities do not reassign mathematical ownership, reopen a stopped route, arm compute, or grant credit. Independent lanes may work concurrently when no relevant higher-priority demand or local stop gate applies.
-
-The `stage32certlift-mainbatch` surface is on-demand, not an ordinary active command. CERTLIFT-03 / #1803 is retained producer and adapter provenance already represented in MAIN; do not repeat its consumption or start CERTLIFT-01 from the historical startup text. A new symbolic leaf needs an explicit current MAIN assignment and lane enrollment before participating in new demand routing. The 32-02 scalar experiment / #1790 is likewise a retained on-demand surface; it must not reconstruct the EX5 population interface or silently become an ordinary enrolled lane.
-
-Audit ownership stays with the named lane audit surface, followed by MAIN's distinct consumption/composition audit where required. Repeated requests for the same unchanged head and evidence boundary reuse the exact receipt; a changed verifier, source lock, workflow, or dependency requires a bounded replacement-head audit. An old PASS is not revoked solely by unrelated main drift.
-
-## Cross-lane demand routing
-
-All active `*-mainbatch` surfaces must inspect `stages/stage32/proof/CROSS-LANE-DEMANDS.json` before substantive local work.
-
-- Producer: a higher-priority OPEN demand preempts lower-priority local research until the requested artifact is SATISFIED, OBSOLETE, or explicitly reprioritized by MAIN.
-- Consumer: an OPEN demand means wait rather than duplicate producer work; SATISFIED means immediate next-mainbatch re-entry after validating artifact identity and source-population semantics.
-- Demand SATISFIED does not grant mathematical credit. The claim DAG, hostile audit, claim synchronization, current-target adapters, explicit MAIN promotion, and merge authorization remain separate.
-- MAIN monitors cycles, orphan demands, producer diversion, consumer re-entry wiring, and hostile-audited results awaiting required MAIN consumption.
-
-Current transition: `S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1` is **SATISFIED**. EX5 supplied the source-locked disjoint current-MAIN-surviving e=8 terminal-to-Picard64 completion interface; the retained satisfaction receipt is `stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json`. CUT has re-entered at CUT193 on PR #1786. This transition grants zero new Stage32 MAIN pruning credit by itself.
-
-CUT191 is separate: its hostile-audited 113-terminal result is already consumed in Stage32 V12 authority and remains unaffected by CUT192/CUT193.
+If the live MAIN authority identity cannot be resolved, or a lane-local mirror conflicts with the authority being consumed, fail closed before substantive research. Historical receipts, snapshots, roadmaps, and mission DAGs remain evidence/history unless current routing explicitly selects them. Demand status and mathematical credit remain separate.
 
 ## ACTIVE commands
 
-### `stage32mainbatch`
+- `stage32mainbatch` — primary Stage32 controller/researcher for authority integration, demand coordination, cross-lane synthesis, promotion, and genuinely MAIN-owned/unowned mathematics. Startup: `stages/stage32/MAIN-START-HERE.md`.
+- `stage32audit` — hostile audit for an exact retained MAIN boundary. PASS is not promotion, merge-ready freshness, or merge authorization.
+- `stage32-01-178-mainbatch` — sustained FULL178 numerical-census specialist. Startup: `stages/stage32/32-01-178/MAIN-START-HERE.md`.
+- `stage32-01-178-audit` — hostile audit after a new exact retained 178 boundary is frozen.
+- `stage32ex5-mainbatch` — Picard64/node-support producer/refinement specialist; never self-promotes to MAIN credit. Startup: `stages/stage32-ex5/MAIN-STATE.json`.
+- `stage32ex5-audit` — hostile audit after a new exact retained EX5 checkpoint is frozen.
+- `stage32cut-mainbatch` — direct completion infeasibility/obstruction consumer/research specialist; never self-promotes to MAIN authority.
+- `stage32cut-audit` — hostile audit for an exact retained CUT checkpoint; PASS alone grants no MAIN credit.
+- `stage32mb-mainbatch` — independent 32-03 multibranch final-chain specialist; does not own MAIN promotion.
+- `stage32mb-audit` — hostile audit after a new exact retained MB checkpoint is frozen.
 
-Primary Stage32 controller **and researcher**. It coordinates authority/integration/claim transitions, monitors the cross-lane demand DAG, performs cross-lane adapters and genuinely unowned mathematics, and consumes audited specialist results only through existing promotion rules. It must not duplicate specialist-owned sustained leaves unless current authority explicitly reassigns them.
+## On-demand and historical surfaces
 
-### `stage32audit`
+`stage32certlift-mainbatch` and the 32-02 scalar experiment are on-demand, not ordinary active commands; new work requires explicit current MAIN assignment. EX1-EX4 and EX6 may remain machine-enrolled in `LANE-ADAPTERS.json`, but ordinary separate EX research is inactive unless current authority or a valid demand reopens it. EX5 is the active specialist listed above. Historical child commands such as `stage32-01-178-a..f`, `stage32ex5-a..h`, and checkpoint-specific commands are not ordinary startup surfaces unless MAIN explicitly re-enables them.
 
-Hostile audit for an exact retained Stage32 MAIN boundary. PASS is not merge authorization.
+## Routing precedence and ownership
 
-### `stage32-01-178-mainbatch`
+Mathematical authority: `MAIN-STATE explicit routing` > exact retained/audited evidence > historical roadmap/snapshot text.
 
-Dedicated FULL178 numerical Picard-census specialist. Startup contract: `stages/stage32/32-01-178/MAIN-START-HERE.md`. Before research it synchronizes current MAIN authority and cross-lane demands. Historical mission snapshots/Generation-1 returns do not override current routing. Default execution is one researcher breadth-cycle; historical `-a..-f` child fanout stays inactive unless explicitly re-enabled.
+Operational scheduling inside that authority: `higher-priority applicable OPEN demand` > current lane route > historical roadmap text. The demand layer cannot change mathematical authority by itself.
 
-### `stage32-01-178-audit`
+Stable ownership split: 178 = sustained FULL178 census/incidence/transport/completeness; EX5 = Picard64/node-support interface production/refinement; CUT = direct infeasibility/obstruction consuming exact producer interfaces; MB = 32-03 multibranch research; MAIN = authority, coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics. No two surfaces independently own the same semantic leaf without explicit MAIN reassignment.
 
-Hostile audit only after 178 freezes a new exact retained boundary.
+## Guards
 
-### `stage32ex5-mainbatch`
+Cross-lane demand guard: `python stages/stage32/proof/verify_cross_lane_demands.py`
 
-Dedicated Picard64/node-support producer/refinement surface. It must synchronize current MAIN plus cross-lane demands. An OPEN producer demand with higher priority than local BC2 refinement takes precedence. The CUT192 producer obligation is currently SATISFIED, so EX5 may resume its legal local route unless another higher-priority OPEN demand appears. EX5 never self-promotes to MAIN credit.
+Command/startup-surface guard: `python stages/stage32/verify_command_surface.py`
 
-### `stage32ex5-audit`
-
-Hostile audit only after EX5 freezes a new exact retained checkpoint.
-
-### `stage32cut-mainbatch`
-
-Dedicated direct-completion obstruction consumer. It consumes an already source-locked exact Picard64 completion interface and researches modular/finite-ring infeasibility first, then exact dual/Farkas or proof-producing integer infeasibility if required. Missing producer interface becomes an OPEN demand; CUT must not rebuild EX5 adapter mathematics. The CUT192 demand is currently SATISFIED and CUT has re-entered at CUT193; CUT193 candidate work remains zero MAIN credit until its own hostile audit and separate MAIN consumption.
-
-### `stage32cut-audit`
-
-Hostile audit only after CUT freezes an exact retained obstruction/checkpoint. PASS does not itself grant MAIN pruning credit.
-
-### `stage32mb-mainbatch`
-
-Dedicated 32-03 multibranch final-chain researcher. It is independent of FULL178 execution but still participates in demand routing. It owns multibranch population/normalization, local delta/genus accounting, Aut(S) quotient, justified finite windows, and later Picard/effectivity work; it does not own MAIN promotion.
-
-### `stage32mb-audit`
-
-Hostile audit only after MB freezes an exact retained checkpoint.
-
-## Routable EX lanes
-
-EX1 through EX6 remain enrolled in `LANE-ADAPTERS.json` for machine routing even when some are completed, dominated, or stopped. Their `MAIN-START-HERE.md` contracts read the demand registry, so an explicit future OPEN demand/re-entry can be represented without inventing an out-of-band dependency.
-
-Ordinary separate EX1-EX4/EX6 research remains inactive unless current Stage32 authority or a valid demand explicitly reopens it.
-
-## NOT ordinary active commands
-
-- `stage32-01-178-a` through `stage32-01-178-f` — historical Generation-1 returned/consumed lanes;
-- `stage32ex5-a` through `stage32ex5-h` — historical additive lanes;
-- `stage32-01-178-smith` — audited/recovered checkpoint, not ordinary live command;
-- spelling variants such as `Stage32-main-batch`, `stage32main batch`, or `stage32 mainbatch` — noncanonical.
-
-## Routing precedence
-
-For mathematical authority:
-
-`Stage32 MAIN-STATE explicit routing` > exact retained/audited evidence.
-
-For operational scheduling within that mathematical authority:
-
-`higher-priority OPEN cross-lane demand` > local specialist route > historical roadmap text.
-
-The demand layer cannot change mathematical authority by itself.
-
-Current ownership split:
-
-- 178: FULL178 numerical/prefix/incidence/transport/support-capacity pruning and census;
-- EX5: Picard64/node-support interface production and refinement;
-- CUT: direct infeasibility certificates consuming exact Picard64 interfaces;
-- MB: independent 32-03 multibranch final-chain research;
-- MAIN: authority, demand coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics.
-
-## Startup rule
-
-All active mainbatch commands and all routable EX startup contracts read `stages/stage32/proof/CROSS-LANE-DEMANDS.json` before substantive work. The machine guard is:
-
-`python stages/stage32/proof/verify_cross_lane_demands.py`
-
-The command-surface guard remains:
-
-`python stages/stage32/verify_command_surface.py`
+This registry grants no mathematical credit and no merge authorization.

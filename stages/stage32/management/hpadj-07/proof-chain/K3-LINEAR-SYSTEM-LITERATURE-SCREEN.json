@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ07_K3_LINEAR_SYSTEM_LITERATURE_SCREEN_V1",
+  "stage": 32,
+  "leaf": "HPADJ-07_CARRIER_ADAPTER_PROOF_CHAIN",
+  "status": "SOURCE_LOCKED_SCREEN_DIRECT_ADAPTER_REJECTED_AUXILIARY_K3_QUOTIENT_ROUTE_OPEN",
+  "question": "Can Saint-Donat/Nikulin K3 linear-system theory close HPADJ-07 gates B-C for the charged terminal population?",
+  "literature_source_lock": {
+    "saint_donat": {
+      "citation": "Bernard Saint-Donat, Projective models of K-3 surfaces, American Journal of Mathematics 96 (1974), 602-639",
+      "doi": "10.2307/2373709",
+      "load_bearing_statements": [
+        "If a nonempty complete linear system on a K3 surface has no fixed components and L^2>0, its general member is irreducible (Saint-Donat Proposition 2.6).",
+        "For fixed-component-free systems, Saint-Donat gives base-point-freeness and the projective-model classification used downstream."
+      ]
+    },
+    "nikulin_urabe": {
+      "citation": "Tohsuke Urabe, On Nikulin's theorem on fixed components of linear systems on K3 surfaces, Journal of the Mathematical Society of Japan 45 (1993), 185-195",
+      "doi": "10.2969/jmsj/04520185",
+      "load_bearing_statement": "For a nef line bundle L on a K3 surface with L^2>0, if |L| has a fixed component then the system is of the special elliptic-pencil plus (-2)-curve form m|E|+Gamma with E^2=0, E.Gamma=1, Gamma^2=-2; otherwise a general member is irreducible."
+    },
+    "chen_gounelas_liedtke": {
+      "citation": "Xi Chen, Frank Gounelas, Christian Liedtke, Rational curves on lattice-polarised K3 surfaces, Algebraic Geometry 9 (2022), 443-475",
+      "doi": "10.14231/AG-2022-013",
+      "role": "secondary_only_not_direct_adapter",
+      "reason": "Their integral nodal rational-curve existence theorem is for generic lattice-polarised K3 surfaces under positivity hypotheses; Stage32 source-locks one specific non-K3 cuboid surface."
+    },
+    "bogomolov_mumford": {
+      "role": "secondary_only_not_direct_adapter",
+      "reason": "Existence of a divisor that is a sum of rational curves in an effective K3 class does not by itself produce an integral irreducible carrier, and again requires a K3 surface."
+    }
+  },
+  "repo_surface_source_lock": {
+    "path": "stages/stage32/final-chain/32-02-effectivity/SURFACE-INVARIANT-SOURCE-LOCK.json",
+    "blob_sha1": "07b7fae35a23f403898d33e5dc75baa24f631dcf",
+    "surface": "minimal desingularization of the cuboid surface",
+    "K_square": 16,
+    "p_g": 7,
+    "q": 0,
+    "chi_O": 8,
+    "K_big": true,
+    "K_nef": true,
+    "conclusion": "The Stage32 carrier surface S is not a K3 surface; K3 has trivial canonical class, hence K^2=0 and chi(O)=2 over characteristic zero."
+  },
+  "direct_application_verdict": {
+    "saint_donat_nikulin_on_stage32_carrier_class": "NOT_APPLICABLE",
+    "reason": [
+      "The load-bearing theorems are K3-specific.",
+      "Stage32 carrier classes live on the minimal desingularization S of the cuboid surface, whose source-locked invariants are K_S^2=16, p_g=7, q=0.",
+      "HPADJ-rejected matching carrier classes are forced by the already-audited HPADJ inequality to satisfy C^2<-2 if such a carrier existed; this is not the positive-square nef line-bundle regime of the K3 theorems."
+    ],
+    "cannot_close_gate_B": true,
+    "cannot_close_gate_C": true
+  },
+  "auxiliary_k3_quotient_route": {
+    "status": "OPEN_REQUIRES_NEW_BRIDGE",
+    "source_lock": "stages/stage29/29-02c-LG2/upstream-code-lock.md",
+    "known_fact": "The published degree-6 proof uses a long-diagonal-sign K3 quotient and then checks lifts back to S.",
+    "non_generalization_lock": "The retained Stage29 source explicitly states that the degree-6 K3 reduction does not automatically generalize to all degrees.",
+    "required_new_statement": "A population-preserving theorem assigning every relevant Stage32 carrier (or every HPADJ charged authority class under the intended semantics) to a specific K3 quotient line bundle L, with exact pullback/lift compatibility of degree, Picard class, integrality, irreducibility and normalization/branch data.",
+    "then_possible_use": "Only after that bridge could Saint-Donat/Nikulin reduce the K3-side fixed-component-free case to irreducible general members and isolate the mE+Gamma exceptional case."
+  },
+  "chain_effect": {
+    "gate_A": "retained separately as provisional exact integral-completion research evidence",
+    "gate_B": "OPEN; K3 literature does not supply effectivity on S",
+    "gate_C": "OPEN; K3 literature does not supply an integral irreducible representative on S",
+    "gate_D": "OPEN",
+    "gate_E": "OPEN",
+    "best_next_route": "Search for a theorem intrinsic to the cuboid surface/general-type surface S, or prove an explicit population-wide S-to-K3 quotient/lift bridge; do not apply Saint-Donat/Nikulin directly to S."
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "effectivity_credit": false,
+    "integrality_or_irreducibility_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "5a17b023bf8cd296432d82966d26c85f0266163dc92ef59b9433813ab3514df3"
+}

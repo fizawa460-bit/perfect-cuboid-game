@@ -1,63 +1,112 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib,json,runpy
+
+import hashlib
+import json
+import runpy
 from pathlib import Path
-HERE=Path(__file__).resolve().parent; REPO=HERE.parents[1]
-def req(v,m):
-    if not v: raise SystemExit('FAIL: '+m)
-def text(p): return p.read_text(encoding='utf-8')
-def load(p): return json.loads(text(p))
-def blob(p):
-    d=p.read_bytes(); return hashlib.sha1(f'blob {len(d)}\0'.encode()+d).hexdigest()
-def main():
-    commands=text(HERE/'COMMANDS.md')
-    for t in ('stage32mainbatch','stage32audit','stage32-01-178-mainbatch','stage32-01-178-audit','stage32ex5-mainbatch','stage32ex5-audit','stage32cut-mainbatch','stage32cut-audit','stage32mb-mainbatch','stage32mb-audit'): req(t in commands,'canonical command missing: '+t)
-    req('CROSS-LANE-DEMANDS.json' in commands and 'S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1' in commands and 'SATISFIED' in commands and 'CUT193' in commands and 'CUT191' in commands and 'already consumed' in commands,'command demand routing drift')
-    reg=load(HERE/'proof'/'CROSS-LANE-DEMANDS.json'); rows={r['demand_id']:r for r in reg['demands']}; cid='S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1'; req(cid in rows and rows[cid]['priority']=='P0_BLOCKING_DOWNSTREAM' and rows[cid]['status']=='SATISFIED','CUT192 registry drift')
-    ms=text(HERE/'MAIN-START-HERE.md'); req('Ordinary `stage32mainbatch`' in ms and 'controller and researcher' in ms.lower() and 'stages/stage32/COMMANDS.md' in ms and 'stage32cut-mainbatch' in ms and 'stage32mb-mainbatch' in ms and 'verify_cross_lane_demands.py' in ms,'MAIN startup drift')
-    m178=load(HERE/'32-01-178'/'MISSION.json'); req(m178['status']=='ACTIVE' and m178['operator_commands']['cycle']=='stage32-01-178-mainbatch' and m178['operator_commands']['audit']=='stage32-01-178-audit' and m178['dispatch']['future_parallel_dispatch_enabled'] is False,'178 mission drift'); req(m178['operator_sync']['routing_authority']=='stages/stage32/MAIN-STATE.json' and m178['operator_sync']['startup_snapshot_is_historical'] is True and m178['operator_sync']['latest_ex5_merged_pr']==1765,'178 sync drift')
-    ex5dir=REPO/'stages'/'stage32-ex5'; ex5=load(ex5dir/'MAIN-STATE.json'); schema=ex5['schema']
-    retired=('README.md','MAIN-START-HERE.md','MAINBATCH-OPERATIONS.md','CURRENT-ROADMAP.md','CURRENT-AUDIT-CONTRACT.md','CROSS-LANE-STATE.json')
-    req(all(not (ex5dir/n).exists() for n in retired),'EX5 retired startup surface leaked back into stage root')
-    req(ex5['execution']['main_command']=='stage32ex5-mainbatch' and ex5['execution']['audit_command']=='stage32ex5-audit','EX5 command/state drift')
-    V31='STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION'; V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'; V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'
-    allowed={'STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE','STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY',V31,V32,V33}; req(schema in allowed,'EX5 retained state schema drift')
-    b=ex5['bootstrap']; req(b['merge_authorized'] is False,'EX5 merge provenance drift')
-    if schema in {V31,V32,V33}:
-        req(b['active_work_pr']==1776 and b['work_branch']=='stage32ex5-bc2-25-boundary33-mainbatch','EX5 active work surface drift')
-        req(b['live_main_coordination_head']=='9d4a24ef479d031e9c4b85001fe8f7a10198b17d','EX5 live MAIN coordination drift')
-    else:
-        req(b['latest_merged_pr']==1765,'EX5 merge provenance drift')
-    if schema!='STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE':
-        req(b['active_work_pr']==1776,'EX5 active PR drift'); ma=ex5['stage32_main_authority']; req(ma['full178_numerical_census_complete'] is False and ma['ex5_auto_promotes_to_main'] is False,'EX5 MAIN credit firewall drift'); routing=ex5['cross_lane_routing']; req(routing['open_ex5_producer_demand_count']==0,'EX5 demand projection drift')
-        if schema in {V31,V32,V33}:
-            req(ma['current_main_schema']=='STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED' and ma['authoritative_remaining_strata']==17128 and ma['certified_remaining_terminal_upper_bound']==26876434389242951089388,'EX5 live MAIN authority drift')
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[1]
+EX5 = REPO / "stages" / "stage32-ex5"
+ARCH_EX5 = EX5 / "archive" / "startup-surface-20260914"
+ARCH = HERE / "proof" / "historical-routing-blobs"
+LANES = HERE / "proof" / "LANE-ADAPTERS.json"
+OLD_COMMANDS = ARCH / "COMMANDS-PRE-EX5-STARTUP-COLLAPSE.md"
+OLD_VERIFIER = ARCH / "VERIFY-COMMAND-SURFACE-PRE-EX5-STARTUP-COLLAPSE.py"
+TMP_VERIFIER = HERE / ".verify_command_surface_pre_ex5_startup_collapse.py"
+LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
+
+OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
+OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
+OLD_EX5_START_BLOB = "47581a734da21dac3d2cabc4dc520d5be1310a49"
+RETIRED = (
+    "README.md",
+    "MAIN-START-HERE.md",
+    "MAINBATCH-OPERATIONS.md",
+    "CROSS-LANE-STATE.json",
+    "CURRENT-ROADMAP.md",
+    "CURRENT-AUDIT-CONTRACT.md",
+    "AUDIT-CONTRACT.md",
+)
+
+
+def req(v: bool, msg: str) -> None:
+    if not v:
+        raise SystemExit(f"FAIL: {msg}")
+
+
+def blob(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+
+
+def main() -> None:
+    commands = (HERE / "COMMANDS.md").read_text(encoding="utf-8")
+    for token in (
+        "stage32mainbatch", "stage32audit",
+        "stage32-01-178-mainbatch", "stage32-01-178-audit",
+        "stage32ex5-mainbatch", "stage32ex5-audit",
+        "stage32cut-mainbatch", "stage32cut-audit",
+        "stage32mb-mainbatch", "stage32mb-audit",
+    ):
+        req(token in commands, f"canonical command missing: {token}")
+    req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
+        "command registry missing lane startup authority")
+    req("Stage32EX5 is intentionally collapsed to `stages/stage32-ex5/MAIN-STATE.json`" in commands,
+        "command registry missing EX5 startup collapse")
+    req("not a second startup contract" in commands, "command registry still acts as startup contract")
+    req("## Stable startup invariants" not in commands and "Before substantive work, every active `*-mainbatch`" not in commands,
+        "command registry reintroduced duplicate startup procedure")
+
+    req(all(not (EX5 / name).exists() for name in RETIRED),
+        "retired EX5 startup surface leaked back into live stage root")
+    req(all((ARCH_EX5 / name).is_file() for name in RETIRED),
+        "retired EX5 startup surface missing from archive")
+
+    lanes = json.loads(LANES.read_text(encoding="utf-8"))
+    rows = [row for row in lanes["lanes"] if row.get("lane") == "EX5"]
+    req(len(rows) == 1, "EX5 lane adapter missing or duplicated")
+    ex5 = rows[0]
+    req(ex5["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 state path drift")
+    req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
+    req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
+
+    state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
+    req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
+    req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
+
+    req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
+    req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
+    req(blob(ARCH_EX5 / "MAIN-START-HERE.md") == OLD_EX5_START_BLOB, "archived EX5 startup snapshot drift")
+
+    live_commands = (HERE / "COMMANDS.md").read_bytes()
+    old_start = LEGACY_EX5_START.read_bytes() if LEGACY_EX5_START.exists() else None
+    old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
+    try:
+        (HERE / "COMMANDS.md").write_bytes(OLD_COMMANDS.read_bytes())
+        LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
+        TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
+        runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
+    finally:
+        (HERE / "COMMANDS.md").write_bytes(live_commands)
+        if old_start is None:
+            if LEGACY_EX5_START.exists():
+                LEGACY_EX5_START.unlink()
         else:
-            req(ma['current_main_schema']=='STAGE32_MAIN_COMPACT_STATE_V15_CUT195_AUDITED_CONSUMED','EX5 historical MAIN authority drift'); req(routing['satisfied_cut192_handoff_preserved'] is True,'EX5 historical demand projection drift')
-        req(cid in routing.get('satisfied_producer_demands',[cid]),'EX5 satisfied demand projection drift')
-        req(ex5['credit']['stage32_main_credit'] is False and ex5['credit']['FULL178_complete'] is False,'EX5 startup credit firewall drift')
-    if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION':
-        req(b['current_main_sha_observed']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c' and ex5['stage32_main_authority']['current_main_sha']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c','V27 MAIN observation drift'); req(ex5['cross_lane_routing']['local_bc2_37_execution_may_continue'] is True,'V27 local execution disabled'); c=ex5['current']; req(c['leaf']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET' and c['status']=='BC2_37_TARGETED_REPLAY_EXECUTION_AUTHORIZED' and c['blocker']=='BC2_37_FRESH_RUNKEY_NOT_YET_ARMED' and c['next_route']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET','V27 route drift')
-    if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY':
-        c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; req(c['status']=='BC2_37_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and c['next_route']=='HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY','V28 route drift'); req(f['e8_bc2_37_executed'] is True and f['e8_bc2_37_audited'] is False and f['e8_bc2_37_new_parent_unsat_count']==7 and f['e8_bc2_37_remaining_unknown_count']==34 and f['e8_bc2_37_remaining_unknown_parent_indices_sha256']=='b2b0d1ef7d667fc380457818aa352e770f41fcdef7ca34c9ea88372c3193f891' and f['e8_known_parent_unsat_count_lower_bound']==7295 and f['e8_bc2_37_candidate_known_parent_unsat_count_lower_bound']==7302,'V28 frontier drift'); req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and a['bc2_37_execution_authorized'] is False,'V28 audit freeze drift')
-    if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION':
-        c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; req(c['status']=='BC2_38_TARGETED_REPLAY_EXECUTION_AUTHORIZED' and c['next_route']=='BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET','V29 route drift'); req(f['e8_bc2_37_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7302 and f['e8_bc2_38_executed'] is False,'V29 frontier drift'); req(a['bc2_38_execution_authorized'] is True and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V29 execution boundary drift')
-    if schema=='STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY':
-        req(b['current_main_sha_observed']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c' and ex5['stage32_main_authority']['current_main_sha']=='4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c','V30 MAIN observation drift'); req(ex5['cross_lane_routing']['local_bc2_38_execution_may_continue'] is False,'V30 execution not frozen'); c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; req(c['leaf']=='BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET' and c['status']=='BC2_38_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and c['blocker']=='HOSTILE_AUDIT_BC2_38_REQUIRED' and c['next_route']=='HOSTILE_AUDIT_BC2_38_TARGETED_REPLAY','V30 route drift'); req(f['e8_bc2_37_audited'] is True and f['e8_bc2_38_executed'] is True and f['e8_bc2_38_audited'] is False and f['e8_bc2_38_target_unknown_count']==34 and f['e8_bc2_38_new_parent_unsat_count']==4 and f['e8_bc2_38_remaining_unknown_count']==30 and f['e8_bc2_38_remaining_unknown_parent_indices_sha256']=='d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7' and f['e8_bc2_38_sat_count']==0 and f['e8_known_parent_unsat_count_lower_bound']==7302 and f['e8_bc2_38_candidate_known_parent_unsat_count_lower_bound']==7306,'V30 frontier drift'); req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and a['bc2_38_execution_authorized'] is False,'V30 audit freeze drift')
-    if schema==V31:
-        c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; req(c['status']=='BC2_38_HOSTILE_AUDIT_PASS_CONSUMED_BC2_39_EXECUTION_AUTHORIZED' and c['next_route']=='BC2_39_REFINE_REMAINING_FRESH_UNKNOWN_SET','V31 route drift'); req(f['e8_bc2_38_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7306 and f['e8_bc2_39_executed'] is False and f['e8_bc2_39_target_unknown_count']==30,'V31 frontier drift'); req(a['bc2_39_execution_authorized'] is True and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V31 execution boundary drift')
-    if schema==V32:
-        c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; req(c['status']=='BC2_39_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and c['next_route']=='HOSTILE_AUDIT_BC2_39_TARGETED_REPLAY','V32 route drift'); req(f['e8_bc2_38_audited'] is True and f['e8_bc2_39_executed'] is True and f['e8_bc2_39_audited'] is False and f['e8_bc2_39_new_parent_unsat_count']==7 and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']=='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02' and f['e8_bc2_39_sat_count']==0 and f['e8_known_parent_unsat_count_lower_bound']==7306 and f['e8_bc2_39_candidate_known_parent_unsat_count_lower_bound']==7313,'V32 frontier drift'); req(a['bc2_39_execution_authorized'] is False and a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True,'V32 audit freeze drift'); req(ex5['credit']['stage32_main_credit'] is False and ex5['credit']['FULL178_complete'] is False,'V32 credit firewall drift')
-    if schema==V33:
-        c=ex5['current']; f=ex5['frontier']; a=ex5['intermediate_audit_boundary']; nx=ex5['next_step']; execution=ex5['execution']
-        req(c['status']=='BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED' and c['next_route']=='BC2_40_FRESH_RUNKEY_AUTHORIZATION' and c['blocker']=='BC2_40_FRESH_SEMANTIC_RUNKEY_NOT_ARMED','V33 route drift')
-        req(f['e8_bc2_39_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']=='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02' and f['e8_bc2_40_preflight_ready'] is True and f['e8_bc2_40_execution_authorized'] is False and f['e8_bc2_40_target_unknown_count']==23,'V33 frontier drift')
-        req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['last_hostile_audit_status']=='PASS' and a['bc2_40_execution_authorized'] is False and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V33 audit boundary drift')
-        req(nx['bc2_40_runkey_armed'] is False and nx['heavy_scaleout_authorized'] is False and nx['main_promotion_authorized'] is False and nx['merge_authorized'] is False,'V33 next gate drift')
-        req(execution['dedicated_runkey'] is None and execution['effective_heavy_concurrency']==0 and execution['runkey_armed'] is False and execution['heavy_scaleout_authorized'] is False,'V33 heavy unexpectedly armed')
-        req(ex5['credit']['stage32_main_credit'] is False and ex5['credit']['FULL178_complete'] is False,'V33 credit firewall drift')
-        runpy.run_path(str(REPO/'stages'/'stage32-ex5'/'verify_main_state.py'),run_name='__main__')
-    cut=load(HERE/'full178-cut'/'MISSION.json'); req(cut['status']=='ACTIVE' and cut['operator_commands']['main']=='stage32cut-mainbatch' and cut['operator_commands']['audit']=='stage32cut-audit' and cut['routing']['authority']=='stages/stage32/MAIN-STATE.json' and cut['routing']['current_main_credit_auto_promotion'] is False and cut['credit_firewall']['stage32_main_pruning_credit'] is False,'CUT mission drift'); ce=' '.join(cut['ownership']['does_not_own']); req('EX5 terminal-to-Picard64 adapter' in ce and 'N356' in ce,'CUT ownership drift')
-    mbd=HERE/'final-chain'/'32-03-multibranch'; mb=load(mbd/'MISSION.json'); req(mb['status']=='ACTIVE' and mb['operator_commands']['main']=='stage32mb-mainbatch' and mb['operator_commands']['audit']=='stage32mb-audit' and mb['routing']['authority']=='stages/stage32/MAIN-STATE.json' and mb['routing']['independent_of_full178_execution'] is True and mb['routing']['main_credit_auto_promotion'] is False and mb['credit_firewall']['receiver_credit'] is False,'MB mission drift'); req(mb['routing']['preflight_blob_sha1']=='f625c14b665af668d9ce6b6e78d0b05a2a27bd27' and blob(mbd/'PREFLIGHT.json')==mb['routing']['preflight_blob_sha1'],'MB preflight lock drift')
-    runpy.run_path(str(HERE/'proof'/'verify_cross_lane_demands.py'),run_name='__main__'); print('PASS: Stage32 command surface is canonical, demand-aware, and authority-separated'); print('MAIN=global-monitor; EX5=producer-handoff-complete; CUT=consumer-reentered; 178/MB=specialists')
-if __name__=='__main__': main()
+            LEGACY_EX5_START.write_bytes(old_start)
+        if old_tmp is None:
+            if TMP_VERIFIER.exists():
+                TMP_VERIFIER.unlink()
+        else:
+            TMP_VERIFIER.write_bytes(old_tmp)
+
+    req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
+    req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
+        "retired EX5 startup leaked after compatibility replay")
+    print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
+    print("historical pre-collapse command contract replayed transiently with no live-path resurrection")
+
+
+if __name__ == "__main__":
+    main()
