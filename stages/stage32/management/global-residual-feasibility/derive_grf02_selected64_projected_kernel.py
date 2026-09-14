@@ -46,7 +46,9 @@ def blob(path: Path) -> str:
 
 
 def csha(v: object) -> str:
-    return hashlib.sha256(json.dumps(v, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(v, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+    ).hexdigest()
 
 
 def matrix_list(m: Matrix) -> list[list[int]]:
@@ -207,7 +209,7 @@ def main() -> None:
         },
     }
     body["canonical_sha256_without_this_field"] = csha(body)
-    print(json.dumps(body, sort_keys=True, indent=2))
+    print(json.dumps(body, sort_keys=True, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":
