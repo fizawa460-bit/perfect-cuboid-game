@@ -2,7 +2,6 @@
   "schema": "STAGE32_PR_WORKFLOW_TRIGGER_INVENTORY_V1",
   "scope": "Stage32 workflows observed auto-firing on the long-lived MAIN PR plus the current active/safety exceptions",
   "active_auto": [
-    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml"
@@ -42,6 +41,7 @@
     ".github/workflows/stage32-01-178-n353-full178-scalar-hurwitz-census.yml",
     ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
     ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml",
+    ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
     ".github/workflows/stage32-post1505-o210-q602-16-residue-retained-asset-search.yml",
     ".github/workflows/stage32-post1588-hperp-nonexceptional-mod2-preflight.yml",
     ".github/workflows/stage32-post1623-hperp-v6-hdeck-anchor-preflight.yml",
@@ -49,18 +49,18 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
+    "active_auto": 3,
     "manual": 2,
-    "retired": 35,
+    "retired": 36,
     "total": 41
   },
   "notes": {
-    "n356": "current Stage32 MAIN mathematical frontier; automatic PR replay retained",
+    "n356": "consumed historical Stage32 MAIN leaf; workflow_dispatch-only replay retained",
     "main_startup": "repository/stage authority safety gate; automatic PR replay retained",
     "claim_frontier": "claim-DAG/frontier safety gate; automatic PR replay retained",
     "stale_run_sweeper": "Actions safety gate; automatic PR execution retained",
     "n350": "production-leaf meta-contract is not current active frontier; manual replay retained",
     "root_cleanup": "housekeeping verifier; manual replay retained",
-    "mathematical_authority_changed": false
+    "mathematical_authority_changed": true
   }
 }

@@ -2,8 +2,9 @@
 """Replay the retained EX5 evidence chain against its pre-remap management snapshots.
 
 All retained EX5 leaf verifiers remain byte-for-byte unchanged. This wrapper supplies
-the exact historical mutable MAIN routing and active-frontier bytes while replaying
-them, then restores the live post-#1728 management files before current checks run.
+the exact historical mutable MAIN routing, active-frontier bytes, and retired audit
+contract path only for the replay, then restores the live filesystem before current
+checks run.
 """
 from __future__ import annotations
 
@@ -18,6 +19,8 @@ ACTIVE = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
 MAIN_SNAPSHOT = ROOT / "stages/stage32/proof/historical-routing-blobs/05e2942b4c893044688f16926b5e9837e59d8e9d.json"
 ACTIVE_SNAPSHOT = ROOT / "stages/stage32/proof/historical-management-blobs/93dee109899185602d9e8e4bb200f614a3b421e0.json"
 EX5 = ROOT / "stages/stage32-ex5"
+LEGACY_AUDIT = EX5 / "AUDIT-CONTRACT.md"
+ARCHIVED_AUDIT = EX5 / "archive/startup-surface-20260914/AUDIT-CONTRACT.md"
 VERIFIERS = [
     "verify_ex5_00_source_lock.py",
     "verify_ex5_01_receiver_ledger.py",
@@ -41,20 +44,32 @@ def git_blob_sha1(data: bytes) -> str:
 def main() -> None:
     old_main = MAIN_SNAPSHOT.read_bytes()
     old_active = ACTIVE_SNAPSHOT.read_bytes()
+    old_audit = ARCHIVED_AUDIT.read_bytes()
     assert git_blob_sha1(old_main) == "05e2942b4c893044688f16926b5e9837e59d8e9d"
     assert git_blob_sha1(old_active) == "93dee109899185602d9e8e4bb200f614a3b421e0"
+    assert git_blob_sha1(old_audit) == "b0639b5655e33ce2f7877018b8650e0e8150c4fe"
+
     live_main = MAIN.read_bytes()
     live_active = ACTIVE.read_bytes()
+    live_audit = LEGACY_AUDIT.read_bytes() if LEGACY_AUDIT.exists() else None
     try:
         MAIN.write_bytes(old_main)
         ACTIVE.write_bytes(old_active)
+        LEGACY_AUDIT.write_bytes(old_audit)
         for name in VERIFIERS:
             subprocess.run([sys.executable, str(EX5 / name)], cwd=ROOT, check=True)
     finally:
         MAIN.write_bytes(live_main)
         ACTIVE.write_bytes(live_active)
+        if live_audit is None:
+            if LEGACY_AUDIT.exists():
+                LEGACY_AUDIT.unlink()
+        else:
+            LEGACY_AUDIT.write_bytes(live_audit)
+
     assert MAIN.read_bytes() == live_main
     assert ACTIVE.read_bytes() == live_active
+    assert not LEGACY_AUDIT.exists() if live_audit is None else LEGACY_AUDIT.read_bytes() == live_audit
     print("PASS_EX5_RETAINED_CHAIN_HISTORICAL_MANAGEMENT_REPLAY_POST1728")
 
 
