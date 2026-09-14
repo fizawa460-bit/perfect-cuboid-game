@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -20,9 +21,11 @@ BUNDLE_BLOB = "82e4d450a1d852e34f6615440fb88a029c6e54eb"
 BUNDLE_CANON = "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
 CUT201_PREFLIGHT_BLOB = "87b2f139b576b3b8bddea336396c8c2da30014b1"
 CUT201_PREFLIGHT_CANON = "2e09ff8e8f415f37b52f6f0395c6279276c57398222b02258ec962dbb0e0048b"
+CUT201_ADAPTER_BLOB = "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f"
 CUT201_EXACT_HEAD = "118c1df8f33759cc2e4da7e53fb8c8d7463a5bb0"
 ASSIGNMENT_LABELS = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 NORMAL_INDEX = 4
+EXPECTED_SURVIVOR_BLOCK_COUNT = 7596
 
 
 def req(ok: bool, msg: str) -> None:
@@ -75,6 +78,41 @@ def load_module(path: Path, name: str):
     return mod
 
 
+def source_locked_cut201_survivors(cut201_root: Path) -> list[int]:
+    adapter_dir = cut201_root / "stages/stage32-ex5/cut-handoff"
+    adapter_path = adapter_dir / "e8_terminal_population_adapter.py"
+    cut_indexer = cut201_root / "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py"
+    cut_family = cut201_root / "stages/stage32/residual-32-01-production/compressed_terminal_family.py"
+    req(blob(adapter_path) == CUT201_ADAPTER_BLOB, "CUT201 e8 adapter blob drift")
+    req(blob(cut_indexer) == INDEXER_BLOB, "CUT201 compressed indexer differs from GRF-09 ranking source")
+    req(blob(cut_family) == FAMILY_BLOB, "CUT201 compressed family differs from GRF-09 ranking source")
+
+    code = (
+        "import json,sys\n"
+        "sys.path.insert(0, sys.argv[1])\n"
+        "import e8_terminal_population_adapter as e8\n"
+        "print(json.dumps(e8.current_main_survivor_block_indices()))\n"
+    )
+    proc = subprocess.run(
+        [sys.executable, "-c", code, str(adapter_dir)],
+        cwd=cut201_root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    req(proc.returncode == 0, f"CUT201 survivor adapter failed: {proc.stderr[-2000:]}")
+    try:
+        raw = json.loads(proc.stdout.strip())
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"FAIL: CUT201 survivor adapter emitted non-JSON output: {exc}") from exc
+    req(isinstance(raw, list), "CUT201 survivor adapter output is not a list")
+    survivors = [int(v) for v in raw]
+    req(len(survivors) == EXPECTED_SURVIVOR_BLOCK_COUNT, "CUT201 survivor block-count drift")
+    req(len(set(survivors)) == len(survivors), "CUT201 survivor block-index duplication")
+    req(survivors == sorted(survivors), "CUT201 survivor block-index order drift")
+    return survivors
+
+
 def main() -> None:
     repo = Path(__file__).resolve().parents[4]
     residual = repo / "stages/stage32/residual-32-01-production"
@@ -83,7 +121,8 @@ def main() -> None:
     prefix_path = residual / "pairing_prefix_engine.py"
     family_path = residual / "compressed_terminal_family.py"
     indexer_path = residual / "compressed_terminal_indexer.py"
-    cut201_path = repo / ".stage32-cut201/stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json"
+    cut201_root = repo / ".stage32-cut201"
+    cut201_path = cut201_root / "stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json"
 
     interface = checked_json(interface_path, INTERFACE_BLOB, INTERFACE_CANON)
     cut201 = checked_json(cut201_path, CUT201_PREFLIGHT_BLOB, CUT201_PREFLIGHT_CANON)
@@ -101,6 +140,14 @@ def main() -> None:
     block_count = end_offset - start_offset + 1
     req(block_count == int(target["block_count"]) == 255, "CUT201 block count drift")
     req(int(target["terminal_count"]) == 28815, "CUT201 terminal count drift")
+
+    survivors = source_locked_cut201_survivors(cut201_root)
+    req(end_offset < len(survivors), "CUT201 survivor offset outside source-locked survivor stream")
+    block_indices = survivors[start_offset : end_offset + 1]
+    req(len(block_indices) == block_count, "CUT201 survivor slice width drift")
+    block_stream = hashlib.sha256()
+    for block_index in block_indices:
+        block_stream.update(f"{block_index}\n".encode())
 
     sys.path.insert(0, str(residual))
     bundle_mod = load_module(bundle_path, "grf09_retained_bundle")
@@ -133,14 +180,14 @@ def main() -> None:
     idx = CompressedTerminalIndexer(int(target["e"]), int(target["d"]))
     width = idx.normal_budget + 1
     req(width == 113, "e8 width drift")
-    req(end_offset < idx.exceptional_count, "CUT201 offset range outside compressed exceptional family")
+    req(max(block_indices) < idx.exceptional_count, "CUT201 source block outside compressed exceptional family")
     req(block_count * width == int(target["terminal_count"]), "CUT201 terminal factorization drift")
 
     block_records: list[tuple[tuple[int, ...], int]] = []
     mask_counts: Counter[int] = Counter()
-    for offset in range(start_offset, end_offset + 1):
-        base = tuple(int(v) for v in idx.unrank(offset * width))
-        req(base[NORMAL_INDEX] == 0, f"base x49 drift offset={offset}")
+    for offset, block_index in zip(range(start_offset, end_offset + 1), block_indices):
+        base = tuple(int(v) for v in idx.unrank(block_index * width))
+        req(base[NORMAL_INDEX] == 0, f"base x49 drift survivor_offset={offset} block_index={block_index}")
         mask = 0
         for r in range(8):
             x = list(base)
@@ -148,7 +195,7 @@ def main() -> None:
             rhs = -(B_fixed * Matrix(x))
             if hnf_contains(H, rhs):
                 mask |= 1 << r
-        req(mask in (0x55, 0xAA), f"non-parity mask offset={offset} mask={mask:#x}")
+        req(mask in (0x55, 0xAA), f"non-parity mask survivor_offset={offset} block_index={block_index} mask={mask:#x}")
         required = 0 if mask == 0x55 else 1
         block_records.append((base, required))
         mask_counts[mask] += 1
@@ -168,21 +215,21 @@ def main() -> None:
                 break
         if good:
             matching_models.append(model)
-    req(matching_models, "no affine GF2 x49 parity model on CUT201 e8 offset family")
+    req(matching_models, "no affine GF2 x49 parity model on CUT201 e8 survivor-offset slice")
     model = min(matching_models)
 
     coeff = {"constant": model & 1}
     for j, idx_i in enumerate(feature_indices, start=1):
         coeff[f"x{idx_i}"] = (model >> j) & 1
 
-    # Replay exactly the 255 CUT201 exceptional offsets times all 113 x49 values.
+    # Replay the exact CUT201 survivor-offset slice: 255 source block indices times all 113 x49 values.
     sat = 0
     unsat = 0
-    for offset in range(start_offset, end_offset + 1):
+    for offset, block_index in zip(range(start_offset, end_offset + 1), block_indices):
         for r in range(width):
-            rank = offset * width + r
+            rank = block_index * width + r
             x = tuple(int(v) for v in idx.unrank(rank))
-            req(x[NORMAL_INDEX] == r, f"x49 rank/order drift offset={offset} r={r}")
+            req(x[NORMAL_INDEX] == r, f"x49 rank/order drift survivor_offset={offset} block_index={block_index} r={r}")
             pred = coeff["constant"]
             for idx_i in feature_indices:
                 if coeff[f"x{idx_i}"]:
@@ -190,7 +237,7 @@ def main() -> None:
             parity_ok = (x[NORMAL_INDEX] & 1) == pred
             rhs = -(B_fixed * Matrix(x))
             exact = hnf_contains(H, rhs)
-            req(exact == parity_ok, f"CUT201 replay mismatch offset={offset} r={r}")
+            req(exact == parity_ok, f"CUT201 replay mismatch survivor_offset={offset} block_index={block_index} r={r}")
             if exact:
                 sat += 1
             else:
@@ -203,10 +250,13 @@ def main() -> None:
     req(sat + unsat == int(target["terminal_count"]), "CUT201 partition count")
 
     summary = {
-        "scope": "CUT201_g1_d008_e8_OFFSETS_2041_2295_INDEPENDENT_MAIN_PARITY_PROBE",
+        "scope": "CUT201_g1_d008_e8_SURVIVOR_OFFSETS_2041_2295_INDEPENDENT_MAIN_PARITY_PROBE",
         "source_cut201_exact_head": CUT201_EXACT_HEAD,
         "source_cut201_preflight_blob": CUT201_PREFLIGHT_BLOB,
-        "offset_range": [start_offset, end_offset],
+        "source_cut201_adapter_blob": CUT201_ADAPTER_BLOB,
+        "survivor_offset_range": [start_offset, end_offset],
+        "actual_block_index_minmax": [min(block_indices), max(block_indices)],
+        "actual_block_index_stream_sha256": block_stream.hexdigest(),
         "block_count": block_count,
         "terminal_count": int(target["terminal_count"]),
         "completion_modulus": 8,
@@ -218,6 +268,7 @@ def main() -> None:
         "unsat_fraction": [unsat, int(target["terminal_count"])],
         "credit": {
             "independent_main_route_only": True,
+            "cut201_survivor_offset_identity_proved": True,
             "current_main_residual_subset_identity_proved": False,
             "main_pruning_credit": False,
             "double_charge_authorized": False,
