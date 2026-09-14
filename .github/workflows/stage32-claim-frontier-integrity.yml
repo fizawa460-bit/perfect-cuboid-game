@@ -138,16 +138,44 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          fetch-depth: 2
+          fetch-depth: 1
       - id: gate
         name: Authorize CUT201 generation8 resumable parent-shard recovery
         shell: bash
         run: |
           set -euo pipefail
           KEY='stages/stage32/full178-cut/runkeys/CUT201-e8-wave9.json'
-          HEAD_SHA="$(git rev-parse HEAD)"
-          PARENT_SHA="$(git rev-parse HEAD^)"
-          export HEAD_SHA PARENT_SHA KEY
+          HEAD_SHA='${{ github.event.pull_request.head.sha }}'
+          BEFORE_SHA='${{ github.event.before }}'
+          ACTION='${{ github.event.action }}'
+          export HEAD_SHA BEFORE_SHA ACTION KEY
+          authorized=false
+          printf 'CUT201 authorization event action=%s before=%s head=%s\n' "$ACTION" "$BEFORE_SHA" "$HEAD_SHA"
+          if [ "$ACTION" != 'synchronize' ] || [ -z "$BEFORE_SHA" ] || [ -z "$HEAD_SHA" ]; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! git fetch --no-tags --depth=1 origin "$BEFORE_SHA"; then
+            echo 'CUT201 authorization fail-closed: event before revision is not fetchable'
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null; then
+            echo 'CUT201 authorization fail-closed: event before revision is not a commit'
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if ! git merge-base --is-ancestor "$BEFORE_SHA" "$HEAD_SHA"; then
+            echo 'CUT201 authorization fail-closed: event before revision is not an ancestor of event head'
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mapfile -t changed_paths < <(git diff --name-only "$BEFORE_SHA" "$HEAD_SHA")
+          if [ "${#changed_paths[@]}" -ne 1 ] || [ "${changed_paths[0]:-}" != "$KEY" ]; then
+            printf 'CUT201 authorization fail-closed: exact event range must change only the runkey; got=%s\n' "${changed_paths[*]:-<none>}"
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           python - <<'PY'
           import hashlib,json,os,subprocess
           from pathlib import Path
@@ -156,19 +184,17 @@ jobs:
               return hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
           key=os.environ['KEY']
           try:
-              old=json.loads(subprocess.check_output(['git','show',f"{os.environ['PARENT_SHA']}:{key}"],text=True))
+              old=json.loads(subprocess.check_output(['git','show',f"{os.environ['BEFORE_SHA']}:{key}"],text=True))
           except Exception:
               old={}
           new=json.loads(Path(key).read_text())
-          changed=subprocess.run(['git','diff','--quiet',os.environ['PARENT_SHA'],os.environ['HEAD_SHA'],'--',key]).returncode != 0
           fail_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g7-failure.json'
           preflight_path='stages/stage32/full178-cut/CUT201-e8-wave9-recovery-g8-preflight.json'
           wrapper_path='stages/stage32/full178-cut/cut201_e8_wave9_parent_resume.py'
           fail=json.loads(Path(fail_path).read_text())
           pre=json.loads(Path(preflight_path).read_text())
           recovery=new.get('recovery',{})
-          ok=(changed
-              and old.get('generation')==7
+          ok=(old.get('generation')==7
               and new.get('schema')=='STAGE32_CUT201_E8_COMMON_ADAPTER_WAVE9_RUNKEY_V1'
               and new.get('generation')==8 and new.get('armed') is True and new.get('consumed') is False
               and new.get('branch')=='stage32cut-e8-common-adapter-wave9-20260913'
@@ -202,7 +228,7 @@ jobs:
               and recovery.get('reuse_generation4_success_artifacts') is True
               and recovery.get('reuse_generation6_success_artifacts') is True
               and recovery.get('reuse_completed_parent_shards_on_future_recovery') is True
-              and recovery.get('intermediate_hostile_audited_head')==os.environ['PARENT_SHA']
+              and recovery.get('intermediate_hostile_audited_head')==os.environ['BEFORE_SHA']
               and isinstance(recovery.get('intermediate_hostile_audit_review_id'),int)
               and recovery.get('intermediate_hostile_audit_review_id',0)>0
               and new.get('wave',{}).get('survivor_offset_range')==[2041,2295]
@@ -210,7 +236,7 @@ jobs:
               and new.get('wave',{}).get('terminal_count')==28815)
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('authorized='+('true' if ok else 'false')+'\n')
-          print('CUT201 wave9 recovery runkey changed:', changed)
+          print('CUT201 wave9 recovery event range:', os.environ['BEFORE_SHA'], os.environ['HEAD_SHA'])
           print('CUT201 wave9 recovery old/new generations:', old.get('generation'), new.get('generation'))
           print('CUT201 wave9 generation8 resumable recovery authorized:', ok)
           PY
