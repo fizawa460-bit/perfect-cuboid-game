@@ -1,0 +1,69 @@
+{
+  "canonical_sha256_without_this_field": "27de1189c34716362d430c7b3631c02c9341894b1e7116a8de09f71a21fb22cd",
+  "schema": "STAGE32_32_01_178_N395_HOSTILE_AUDIT_PASS_RECEIPT_V1",
+  "stage": 32,
+  "node_id": "N395",
+  "status": "HOSTILE_AUDIT_PASS_RETAINED",
+  "hostile_audit_verdict": "PASS",
+  "audited_exact_head": "604780ed17dbbb575f53a632a317a1308036157d",
+  "hostile_audit_review_id": 5194942683,
+  "audited_scope": "Exact transport of hostile-audited N394 relations from 97 retained block bases to all 10,961 within-block terminal identities.",
+  "retained_outcome": "TERMINAL_RELATION_TRANSPORT_VERIFIED_NO_PRUNING",
+  "source_locks": {
+    "n395_result_blob": "02adab67a764a373c59cd42e2e404318f2d7488c",
+    "n395_result_canonical": "0a9ef6ccd8be8e3f270694d155bc7d4ebbd19cc9eab79906c34808440aa7441b",
+    "n395_state_blob": "916ae69561af0e9d4d361d14f3ed1e5f703a58d0",
+    "n395_state_canonical": "f14a97744b3d62780df5512888c9a9b079e719d9a83c9ae54c0857f65854bbb6",
+    "n395_verifier_blob": "6168055224172a961c6caf39a40b107d0a576368",
+    "n394_audited_head": "5cd1b2eadb7fd2921686bc3a2554fdd1b427f431",
+    "n394_hostile_audit_review_id": 5194812379
+  },
+  "exact_head_ci": {
+    "claim_frontier_run_id": 34817018013,
+    "claim_frontier_job_id": 103889727660,
+    "claim_frontier_conclusion": "SUCCESS",
+    "stale_run_sweeper_run_id": 34817017909,
+    "stale_run_sweeper_conclusion": "SUCCESS"
+  },
+  "scope_result": {
+    "block_count": 97,
+    "block_width": 113,
+    "terminal_identity_count": 10961,
+    "relation_violation_count": 0,
+    "exact_relations": [
+      "x95 = 0",
+      "x99 = 1"
+    ],
+    "gf2_extra_relation": "x93 + x98 + x96 = 1 (mod 2)",
+    "additional_pruning_terminals": 0,
+    "numerical_leaf_compression_credit": false,
+    "picard64_unsat_promoted": false,
+    "integral_carrier_obstruction_promoted": false,
+    "effectivity_final": false
+  },
+  "continuation": {
+    "allowed": true,
+    "requirement": "Continue only through a new exact source-locked bridge from the transported terminal relations to Picard64 or an integral-carrier/effectivity condition; do not repeat the affine census/transport.",
+    "audit_cadence": "Do not freeze a new hostile-audit boundary for every micro-leaf; continue a bounded breadth cycle until a materially larger retained boundary, route closure/promotion boundary, or the repository audit-debt threshold."
+  },
+  "freshness_gate": {
+    "hostile_audit_independent_of_freshness": true,
+    "merge_ready_freshness": "HOLD",
+    "current_repository_main": "edea24520c6242bf25e6d28a7a771c191ffd1f2b",
+    "central_startup_expected_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "final_check": "NOT_READY",
+    "merge_authorized": false
+  },
+  "credit": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}
