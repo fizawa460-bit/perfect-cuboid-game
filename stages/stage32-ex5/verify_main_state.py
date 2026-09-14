@@ -15,6 +15,7 @@ PREFLIGHT40=B2/'bc2-40-fresh-unknown23-replay-preflight.json'
 PRODUCER40=B2/'bc2_40_replay_explicit_fresh_unknown23.py'
 RESUME40=B2/'verify_bc2_40_resume_first_contract.py'
 CONTRACT40=B2/'bc2-40-resume-first-contract.json'
+RETRY40=B2/'bc2-40-generation1-no-heavy-retry-receipt.json'
 HELPER40=B2/'bc2_40_resume_execute.py'
 WORKER40=B2/'bc2_40_replay_parent_unit.py'
 AGG40=B2/'bc2_40_resume_aggregate.py'
@@ -33,8 +34,10 @@ PASS39_CANON='bd1abc34b2225cef146f3c79eab5d09d3fcf2b1b4fc7dc6ff3cda6e1b362eefb'
 PREFLIGHT40_BLOB='155924fa925f2433b394debc8d3bdde0375093fa'
 PREFLIGHT40_CANON='935929b0a206fbbefb9657b6b2d7f65be76174506624445582b22252c0c5590c'
 PRODUCER40_BLOB='acccc2360a2b113b4d568c86bb4be48152a68013'
-CONTRACT40_BLOB='6e359cc137a06db788977bfeeca5dd2803d783c2'
-CONTRACT40_CANON='0df94c808345498cac98dc5ab1c0f3ffcd4daf7038cd19b2e86ff2ca09e3f7f4'
+CONTRACT40_BLOB='2a0be4cb9d8e23e03065ae7c1dc8063de4d7cbdd'
+CONTRACT40_CANON='861970873870968b5ef40b30f9c486219af0f07b5f355d41b228b607cc6e0361'
+RETRY40_BLOB='f25d2cf24a761ef9e60da98f83c1e52468a834c0'
+RETRY40_CANON='33cb5f4117c4b639a42cc670eaceff5faaf9497132a26808b0cbee3e65d892e9'
 HELPER40_BLOB='5b262f1c05d82ae3203a689522f476d83406dbb8'
 WORKER40_BLOB='a28061b99527c6585c3f4016992d1ef6e47b42de'
 AGG40_BLOB='76c1d5e9f45d113ccb17e8149b2d840e2278b301'
@@ -78,9 +81,9 @@ def main():
     s=json.loads(STATE.read_text()); schema=s['schema']
     req(s['bootstrap']['active_work_pr']==1776 and s['bootstrap']['merge_authorized'] is False,'bootstrap')
     if schema==V34:
-        sync=verify_sync(SYNC_V34,SYNC_V34_BLOB,SYNC_V34_CANON,True)
+        verify_sync(SYNC_V34,SYNC_V34_BLOB,SYNC_V34_CANON,True)
     else:
-        sync=verify_sync(SYNC_V33,SYNC_V33_BLOB,SYNC_V33_CANON,False)
+        verify_sync(SYNC_V33,SYNC_V33_BLOB,SYNC_V33_CANON,False)
 
     req(blob(CP39)==CP39_BLOB,'BC2-39 checkpoint blob')
     cp=json.loads(CP39.read_text())
@@ -133,7 +136,7 @@ def main():
 
     wf=RESUME_WORKFLOW.read_text()
     req('# Trigger lifecycle: ACTIVE_AUTO' in wf and RUNKEY_V2 in wf,'BC2-40 V2 workflow lifecycle/schema')
-    req('authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf,'BC2-40 V2 cold workflow gate missing')
+    req('authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf and 'LIVE-MAIN-COORDINATION-SYNC-20260915.json' in wf,'BC2-40 V2 gate missing')
     legacy=LEGACY_WORKFLOW.read_text()
     req('authorize-bc2-40-fresh-unknown23:' not in legacy and '\n  bc2-40-fresh-unknown23:' not in legacy,'legacy BC2-40 V1 runtime jobs resurrected')
     req(RUNKEY_V2 not in legacy,'legacy EX5 main must not authorize V2 runkey')
@@ -159,20 +162,27 @@ def main():
         req(nx['bc2_40_runkey_armed'] is True and nx['heavy_scaleout_authorized'] is False and nx['main_promotion_authorized'] is False and nx['merge_authorized'] is False,'V34 next gate')
         se=s['execution']; req(se['dedicated_runkey']==RUNKEY_PATH and se['effective_heavy_concurrency']==1 and se['per_parent_timeout_ms']==180000 and se['runkey_armed'] is True and se['heavy_scaleout_authorized'] is False and se['workflow']=='.github/workflows/stage32-ex5-bc2-40-resume.yml','V34 execution')
         req(RUNKEY40.is_file(),'V34 runkey missing')
-        rk=json.loads(RUNKEY40.read_text()); req(rk['schema']==RUNKEY_V2 and rk['generation']==1 and rk['armed'] is True and rk['canonical_sha256_without_this_field']==canon(rk),'V34 runkey identity/canonical')
+        rk=json.loads(RUNKEY40.read_text()); req(rk['schema']==RUNKEY_V2 and rk['generation']==2 and rk['armed'] is True and rk['canonical_sha256_without_this_field']==canon(rk),'V34 runkey identity/canonical')
         req(rk['target']=={'fresh_unknown_parent_count':23,'fresh_unknown_parent_indices_sha256':UNKNOWN23_SHA,'prior_audited_unsat_count':7313},'V34 runkey target')
         req(rk['audit_consumption']=={'bc2_39_hostile_audit_status':'PASS','bc2_39_hostile_audit_exact_head':AUDIT39_HEAD,'bc2_39_hostile_audit_review_id':AUDIT39_REVIEW},'V34 runkey audit consumption')
         rex=rk['execution']; req(rex['per_parent_timeout_ms']==180000 and rex['effective_heavy_concurrency']==1 and rex['heavy_scaleout_authorized'] is False and rex['artifact_retention_days']==2,'V34 runkey execution')
-        resume=rk['resume']; req(resume['partition_key']=='parent_index' and resume['carry_dir']=='stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry' and resume['carried_parent_indices']==[] and resume['missing_parent_indices']==TARGET23 and resume['schedule_only_missing_parent_indices']==TARGET23,'V34 generation-1 resume partition')
+        resume=rk['resume']; req(resume['partition_key']=='parent_index' and resume['carry_dir']=='stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry' and resume['carried_parent_indices']==[] and resume['missing_parent_indices']==TARGET23 and resume['schedule_only_missing_parent_indices']==TARGET23,'V34 generation-2 resume partition')
+        req(blob(RETRY40)==RETRY40_BLOB,'generation-1 retry receipt blob')
+        retry=json.loads(RETRY40.read_text()); req(retry['canonical_sha256_without_this_field']==RETRY40_CANON and canon(retry)==RETRY40_CANON,'generation-1 retry receipt canonical')
+        req(retry['generation1']['heavy_started'] is False and retry['generation1']['authorization_result'] is False and retry['retry_contract']['next_generation']==2,'generation-1 no-heavy provenance')
         dep=rk['dependency_locks']; req(dep['resume_contract_canonical']==CONTRACT40_CANON and dep['resume_contract_git_blob_sha']==CONTRACT40_BLOB and dep['resume_helper_git_blob_sha']==HELPER40_BLOB and dep['parent_worker_git_blob_sha']==WORKER40_BLOB and dep['resume_aggregator_git_blob_sha']==AGG40_BLOB and dep['current_main_exact_head']==CURRENT_MAIN,'V34 dependency locks')
+        req(dep['generation1_retry_receipt_canonical']==RETRY40_CANON and dep['generation1_retry_receipt_git_blob_sha']==RETRY40_BLOB,'V34 retry receipt locks')
         req(blob(CONTRACT40)==CONTRACT40_BLOB and json.loads(CONTRACT40.read_text())['canonical_sha256_without_this_field']==CONTRACT40_CANON,'V34 contract lock')
         req(blob(HELPER40)==HELPER40_BLOB and blob(WORKER40)==WORKER40_BLOB and blob(AGG40)==AGG40_BLOB,'V34 executable locks')
+        req(prog['bc2_40_resume_contract_canonical']==CONTRACT40_CANON and prog['bc2_40_resume_contract_git_blob_sha']==CONTRACT40_BLOB,'V34 retained contract lock')
+        req(prog['bc2_40_generation1_retry_receipt_canonical']==RETRY40_CANON and prog['bc2_40_generation1_retry_receipt_git_blob_sha']==RETRY40_BLOB,'V34 retained retry receipt lock')
         req(s['bootstrap']['live_main_sync_path']=='stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260915.json' and s['bootstrap']['live_main_sync_blob_sha']==SYNC_V34_BLOB and s['bootstrap']['live_main_sync_canonical']==SYNC_V34_CANON,'V34 bootstrap sync lock')
         req(s['bootstrap']['current_repository_main']==CURRENT_MAIN and s['stage32_main_authority']['live_coordination_head']==CURRENT_MAIN,'V34 current main head')
         expected_working={
             'stages/stage32-ex5/breadth-cycle-2/bc2-39-hostile-audit-pass-receipt.json',
             'stages/stage32-ex5/breadth-cycle-2/bc2-40-fresh-unknown23-replay-preflight.json',
             'stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-first-contract.json',
+            'stages/stage32-ex5/breadth-cycle-2/bc2-40-generation1-no-heavy-retry-receipt.json',
             'stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py',
             'stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py',
             'stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py',
