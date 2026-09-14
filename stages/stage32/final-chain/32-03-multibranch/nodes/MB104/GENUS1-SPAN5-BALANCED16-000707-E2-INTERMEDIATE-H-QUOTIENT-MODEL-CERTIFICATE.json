@@ -1,0 +1,125 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_INTERMEDIATE_H_QUOTIENT_MODEL_V1",
+  "status": "RETAINED_EXPLICIT_SUPPORT_SPECIFIC_INTERMEDIATE_H_QUOTIENT_ONE_RESIDUAL_SIGN_BIT_CONDUCTOR_SPECIALIZATION_OPEN_NO_CREDIT",
+  "active_support": "000707000f0f",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+      "blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137"
+    },
+    {
+      "id": "FSM_COORD_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FREITAG-SALVATI-MANNI-RESIDUAL-KUMMER-COORDINATE-SOURCE-NOTE.md",
+      "blob_sha1": "a49f5b28b456dd88436c030e857cf771e5a1ba2f"
+    },
+    {
+      "id": "EXPLICIT_KUMMER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EXPLICIT-RESIDUAL-KUMMER-COORDINATE.md",
+      "blob_sha1": "5017d7c137f6d4994a34cb1edac28aadcd832a2a"
+    },
+    {
+      "id": "MODULAR_CHARACTER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    },
+    {
+      "id": "HURWITZ_CAPACITY",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-HURWITZ-CAPACITY.md",
+      "blob_sha1": "c91f97b738faa66a49a068824f9b8c3739d4a8fa"
+    },
+    {
+      "id": "FOURIER_REFINEMENT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-G-FOURIER-CHARACTER.md",
+      "blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 6,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "verifier_checks_e2_semantic_bridge_text": true,
+    "mismatch_behavior": "fail closed",
+    "verifier_identity_bound_separately": true
+  },
+  "exact_model": {
+    "P": "C8 x C8",
+    "G": "<T,T',R>~=(Z/2)^3",
+    "H": "<T',TT'R>~=(Z/2)^2",
+    "X_H": "P/H_diag",
+    "B": "P/G_diag",
+    "R": "C8/H=P1_r",
+    "one_factor_r": "e/d",
+    "one_factor_u": "a/d",
+    "one_factor_v": "b/d",
+    "one_factor_u2": "(r^4+4)/4",
+    "one_factor_v2": "(r^4-4)/4",
+    "H_action": {
+      "T'": "(r,u,v)->(r,u,-v)",
+      "TT'R": "(r,u,v)->(r,-u,v)"
+    },
+    "residual_T_action": "(r,u,v)->(-r,u,v)",
+    "XH_over_RxR_degree": 4,
+    "U": "u_z*u_w",
+    "V": "v_z*v_w",
+    "U2": "((r_z^4+4)(r_w^4+4))/16",
+    "V2": "((r_z^4-4)(r_w^4-4))/16",
+    "XH_over_B_degree": 2,
+    "tau": "(r_z,r_w,U,V)->(-r_z,-r_w,U,V)",
+    "box_rz2": "2*(C+W3)/(W1-i*W2)",
+    "box_rw2": "2*(C+W3)/(W1+i*W2)",
+    "box_rzrw": "2*Z3/(C-W3)",
+    "box_U": "2*Z2/(C-W3)",
+    "box_V": "2*Z1/(C-W3)",
+    "generic_residual_ambiguity": "simultaneous_sign_only",
+    "function_field_generator": "k(X_H)=k(B)(r_z)=k(B)(r_w) on the displayed chart"
+  },
+  "e2_bridge": {
+    "component_stabilizer": "K=H",
+    "normalization_quotient": "E=Z/H",
+    "descended_map": "j:E->X_H",
+    "pair_evaluator": {
+      "chi_res_0": "same (r_z,r_w) lift",
+      "chi_res_1": "simultaneously negated (r_z,r_w) lift"
+    },
+    "per_conductor_preimage_values_materialized": false
+  },
+  "routing": {
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "ambient_quotient_equation_materialized": true,
+    "per_conductor_preimage_sign_missing": true,
+    "conductor_transition_computed": false,
+    "weighted_cut_bound_proved": false,
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+    "human_note_blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_intermediate_h_quotient_model.py",
+    "verifier_blob_sha1": "3de9cac43a5516b3d1b51a9f7e0af43fca0c7beb"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_INTERMEDIATE_H_QUOTIENT_MODEL_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on the exact candidate head"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
