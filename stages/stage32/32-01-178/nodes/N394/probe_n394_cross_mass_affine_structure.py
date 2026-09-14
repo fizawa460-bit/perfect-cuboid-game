@@ -14,6 +14,7 @@ WIDTH = 113
 WAVES = ("CUT193", "CUT194", "CUT195", "CUT196", "CUT197", "CUT198")
 ASSIGNMENT_ORDER = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 FIXED_LABELS = [label for label in ASSIGNMENT_ORDER if label != 49]
+RELATION_COORDINATES = ["const"] + FIXED_LABELS
 GROUPS = [[101, 102, 103], [97, 98, 99], [93, 94, 95, 96]]
 EXPECTED = {
     "n391_result_blob": "3e72cea011e5a519173a710c20d88bc781c4cee8",
@@ -67,13 +68,13 @@ def load_module(path: Path, name: str):
     return mod
 
 
-def rank_q(rows: list[list[int]]) -> int:
+def rref_q(rows: list[list[int]]) -> tuple[list[list[Fraction]], list[int]]:
     if not rows:
-        return 0
+        return [], []
     a = [[Fraction(v) for v in row] for row in rows]
     r = 0
-    cols = len(a[0])
-    for c in range(cols):
+    pivots: list[int] = []
+    for c in range(len(a[0])):
         pivot = next((i for i in range(r, len(a)) if a[i][c] != 0), None)
         if pivot is None:
             continue
@@ -84,19 +85,20 @@ def rank_q(rows: list[list[int]]) -> int:
             if i != r and a[i][c] != 0:
                 f = a[i][c]
                 a[i] = [x - f * y for x, y in zip(a[i], a[r])]
+        pivots.append(c)
         r += 1
         if r == len(a):
             break
-    return r
+    return a, pivots
 
 
-def rank_mod(rows: list[list[int]], p: int) -> int:
+def rref_mod(rows: list[list[int]], p: int) -> tuple[list[list[int]], list[int]]:
     if not rows:
-        return 0
+        return [], []
     a = [[v % p for v in row] for row in rows]
     r = 0
-    cols = len(a[0])
-    for c in range(cols):
+    pivots: list[int] = []
+    for c in range(len(a[0])):
         pivot = next((i for i in range(r, len(a)) if a[i][c] % p), None)
         if pivot is None:
             continue
@@ -107,10 +109,19 @@ def rank_mod(rows: list[list[int]], p: int) -> int:
             if i != r and a[i][c] % p:
                 f = a[i][c] % p
                 a[i] = [(x - f * y) % p for x, y in zip(a[i], a[r])]
+        pivots.append(c)
         r += 1
         if r == len(a):
             break
-    return r
+    return a, pivots
+
+
+def rank_q(rows: list[list[int]]) -> int:
+    return len(rref_q(rows)[1])
+
+
+def rank_mod(rows: list[list[int]], p: int) -> int:
+    return len(rref_mod(rows, p)[1])
 
 
 def affine_ranks(rows: list[list[int]]) -> dict[str, int]:
@@ -130,6 +141,50 @@ def common_affine_relation_dimensions(rows: list[list[int]]) -> dict[str, int]:
         "GF2": ncols - rank_mod(augmented, 2),
         "GF3": ncols - rank_mod(augmented, 3),
     }
+
+
+def normalize_q_vector(vec: list[Fraction]) -> list[int]:
+    lcm = 1
+    for value in vec:
+        lcm = math.lcm(lcm, value.denominator)
+    ints = [int(value * lcm) for value in vec]
+    g = 0
+    for value in ints:
+        g = math.gcd(g, abs(value))
+    if g:
+        ints = [value // g for value in ints]
+    first = next((value for value in ints if value), 0)
+    if first < 0:
+        ints = [-value for value in ints]
+    return ints
+
+
+def nullspace_q(rows: list[list[int]]) -> list[list[int]]:
+    rref, pivots = rref_q(rows)
+    ncols = len(rows[0])
+    free = [c for c in range(ncols) if c not in pivots]
+    basis: list[list[int]] = []
+    for f in free:
+        vec = [Fraction(0) for _ in range(ncols)]
+        vec[f] = Fraction(1)
+        for row_i, pivot_col in enumerate(pivots):
+            vec[pivot_col] = -rref[row_i][f]
+        basis.append(normalize_q_vector(vec))
+    return basis
+
+
+def nullspace_mod(rows: list[list[int]], p: int) -> list[list[int]]:
+    rref, pivots = rref_mod(rows, p)
+    ncols = len(rows[0])
+    free = [c for c in range(ncols) if c not in pivots]
+    basis: list[list[int]] = []
+    for f in free:
+        vec = [0 for _ in range(ncols)]
+        vec[f] = 1
+        for row_i, pivot_col in enumerate(pivots):
+            vec[pivot_col] = (-rref[row_i][f]) % p
+        basis.append(vec)
+    return basis
 
 
 def integer_stream_sha(values: list[int]) -> str:
@@ -241,6 +296,18 @@ def main() -> None:
 
     global_affine = affine_ranks(signature_rows)
     global_relation_dims = common_affine_relation_dimensions(signature_rows)
+    req(global_affine == {"Q": 8, "GF2": 7, "GF3": 8}, "global affine-rank drift")
+    req(global_relation_dims == {"Q": 2, "GF2": 3, "GF3": 2}, "global relation-dimension drift")
+    augmented = [[1] + row for row in signature_rows]
+    relation_basis = {
+        "Q": nullspace_q(augmented),
+        "GF2": nullspace_mod(augmented, 2),
+        "GF3": nullspace_mod(augmented, 3),
+    }
+    req(len(relation_basis["Q"]) == 2, "Q relation basis drift")
+    req(len(relation_basis["GF2"]) == 3, "GF2 relation basis drift")
+    req(len(relation_basis["GF3"]) == 2, "GF3 relation basis drift")
+
     per_mass = {}
     for m in sorted(by_mass_rows):
         rows = by_mass_rows[m]
@@ -255,12 +322,14 @@ def main() -> None:
         "entry_count": 97,
         "identity_count": 97 * WIDTH,
         "signature_coordinate_labels": FIXED_LABELS,
+        "relation_coordinate_order": RELATION_COORDINATES,
         "signature_dimension": 10,
         "exact_base_signature_unique_count": 97,
         "fixed_mass_distribution": {str(k): v for k, v in sorted(mass.items())},
         "wave_distribution": {k: wave_counts[k] for k in WAVES},
         "global_affine_rank": global_affine,
         "global_common_affine_relation_dimension": global_relation_dims,
+        "global_common_affine_relation_basis": relation_basis,
         "per_mass_structure": per_mass,
         "abc_class_count": len(abc),
         "g3_distribution": {str(k): v for k, v in sorted(g3.items())},
@@ -271,7 +340,7 @@ def main() -> None:
         "family_level_claim_promoted": False,
         "common_unsat_claim_promoted": False,
         "symbolic_obstruction_claim_promoted": False,
-        "main_handoff_required": False,
+        "main_handoff_status": "RELATION_BASIS_EXTRACTED_CLASSIFICATION_REQUIRED",
         "additional_pruning_terminals": 0,
         "numerical_leaf_compression_credit": False,
         "heavy_compute_authorized": False,
@@ -284,6 +353,9 @@ def main() -> None:
         + " relation_dim="
         + ",".join(f"{k}:{global_relation_dims[k]}" for k in ("Q", "GF2", "GF3"))
     )
+    print("relation_basis_Q=" + json.dumps(relation_basis["Q"], separators=(",", ":")))
+    print("relation_basis_GF2=" + json.dumps(relation_basis["GF2"], separators=(",", ":")))
+    print("relation_basis_GF3=" + json.dumps(relation_basis["GF3"], separators=(",", ":")))
     print(
         "mass_distribution="
         + ",".join(f"{k}:{mass[k]}" for k in sorted(mass))
