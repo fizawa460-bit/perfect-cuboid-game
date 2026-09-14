@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE32_MAIN_GRF07_COPRIME_CRT_LOCAL_SYSTEM_COMPOSITION_KERNEL_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "node": "GRF-07",
+  "status": "EXACT_SYMBOLIC_COPRIME_CRT_COMPOSITION_KERNEL_NO_CONCRETE_178_TARGET_NO_CREDIT",
+  "purpose": "Provide the fail-closed exact composition rule requested by GRF-01 step D: keep local systems separate by default, but combine exact residue-local admissible sets across pairwise-coprime moduli when CRT materially simplifies the symbolic system.",
+  "source_locks": {
+    "grf01_design_blob_sha1": "7daa489d182e52401df9300acfe9899759515078",
+    "grf03_2adic_blob_sha1": "d6777200cadb6809dc3b46374c8f714cb6ebd6cd",
+    "grf06_odd_prime_blob_sha1": "fec2271a241c76750d904fb08de48aa068339218"
+  },
+  "mathematical_kernel": {
+    "domain": "pairwise-coprime moduli q_1,...,q_t >=2; one common integer parameter vector z in Z^n; exact residue-local admissible sets S_i subset (Z/q_i Z)^n",
+    "product_modulus": "Q=product_i q_i",
+    "crt_bijection": "(Z/QZ)^n is canonically bijective to product_i (Z/q_iZ)^n by componentwise reduction.",
+    "admissible_product": "The global residue set S_Q consisting of classes whose reduction lies in every S_i is canonically bijective to product_i S_i.",
+    "emptiness_rule": "S_Q is empty iff at least one S_i is empty. A certified empty 2-adic or odd-prime local image is therefore a global necessary-condition obstruction for the same source-locked system.",
+    "cardinality_rule": "|S_Q|=product_i |S_i| for exact residue-local sets under the stated common-variable adapter.",
+    "scope": "This is exact CRT set composition, not probabilistic independence and not permission to multiply pruning credits.",
+    "noncoprime_case": "If moduli are not pairwise coprime, this kernel does not apply; use one exact common-modulus system instead.",
+    "semantic_identity": "Every S_i must refer to the same integer variables and the same family semantics, with exact reduction maps. Similar-looking local filters on different parameterizations cannot be combined without an adapter."
+  },
+  "composition_with_grf": {
+    "grf03": "2-adic local necessary-condition image/residue gate",
+    "grf06": "odd-prime affine column-image gate",
+    "allowed": "combine only when the exact variable/family adapter and pairwise-coprime moduli are source-locked",
+    "sat_semantics": "all local systems SAT means only that the combined local necessary-condition system is SAT; it proves neither integrality nor geometric existence"
+  },
+  "credit_firewall": {
+    "multiply_local_savings": false,
+    "assume_statistical_independence": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "ownership": {
+    "concrete_population_materialized": false,
+    "concrete_overlap_accounting_performed": false,
+    "concrete_application_owner": "specialist lane supplying the exact current target adapter; MAIN retains only the CRT theorem schema"
+  },
+  "next_route": {
+    "main": "Freeze the GRF-01 A-D symbolic suite as one audit-ready no-credit checkpoint.",
+    "specialists": "Apply local kernels to concrete current populations only with exact subset and overlap/accounting certificates."
+  },
+  "canonical_sha256_without_this_field": "b799bbd899f3953d9b98191609f6f989f47780738bd1579eb146b2b9083b4beb"
+}
