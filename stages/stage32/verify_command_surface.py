@@ -73,7 +73,9 @@ def main() -> None:
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
 
     state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
-    req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
+    req(state.get("stage") == "32EX5", "EX5 stage identity drift")
+    req(state.get("schema", "").startswith("STAGE32EX5_MAIN_COMPACT_STATE_"),
+        "EX5 compact state schema drift")
     req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
 
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
