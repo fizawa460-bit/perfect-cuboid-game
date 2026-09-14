@@ -3,7 +3,11 @@
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
   "current_node": "MB104",
-  "completed_retained_nodes": ["MB101", "MB102", "MB103"],
+  "completed_retained_nodes": [
+    "MB101",
+    "MB102",
+    "MB103"
+  ],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
@@ -80,7 +84,7 @@
     "a1_conductor_branch_delta_wall": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-WALL.md",
     "a1_conductor_branch_delta_certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-CERTIFICATE.json",
     "a1_conductor_branch_delta_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_a1_conductor_branch_delta.py",
-    "status": "ACTIVE_RETAINED_NECESSARY_INEQUALITY_MB104_INCOMPLETE",
+    "status": "ACTIVE_RETAINED_000707_E2_RESIDUAL_LIFT_CONDUCTOR_PAIR_MAP_MB104_INCOMPLETE",
     "branchwise_fsm_inequality": "d<=16g-16+4R8",
     "R8_definition": "number of normalization branches over box nodes with MB101 cusp type (A,B)=(1,1)",
     "bijective_specialization_recovers_published_bound": true,
@@ -93,7 +97,10 @@
     "genus0_multibranch_min_distinct_nodes": 7,
     "genus0_multibranch_node_support_span_dimension": 6,
     "genus1_span_le_4_degree_upper": 16,
-    "genus1_hard_span_dimensions": [5,6],
+    "genus1_hard_span_dimensions": [
+      5,
+      6
+    ],
     "gfu_exact_multibranch_degree_correction": "-d+M+4g-4",
     "gfu_supplies_required_R8_upper_bound": false,
     "rank3_fibration_simple_intersection_bound": "R8<=M<=6d",
@@ -118,47 +125,42 @@
     "conductor_castelnuovo_meets_alpha_lt_quarter": false,
     "absolute_R8_bound_proved": false,
     "finite_degree_window_proved": false,
-    "actual_curve_existence_claimed": false
+    "actual_curve_existence_claimed": false,
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "old_R8_route_status": "FROZEN_DOMINATED_UNTIL_PROGRESS_ENABLING_INPUT",
+    "ambient_kummer_conductor_chain_wrapper": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_ambient_kummer_conductor_chain.py"
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Find global linear multiplicity charging beyond sharp local A1 conductor",
-    "required_input": "prove a cuboid-specific linear upper bound on downstairs arithmetic genus/conductor, or a genuinely higher-jet/global inequality, strong enough to imply R8<=alpha*d+beta with alpha<1/4",
+    "title": "Compute the 000707 e=2 residual-lift conductor-pair map",
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "old_R8_route_status": "FROZEN_DOMINATED_UNTIL_PROGRESS_ENABLING_INPUT",
+    "source_locked_boundary": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_ambient_kummer_conductor_chain.py",
+    "required_input": "construct a source-locked map from each conductor normalization preimage to its H-orbit coordinate in R=C8/H, or an equivalent sqrt(h o phi) evaluation, and determine the same/opposite residual G/H sheet under the nontrivial s3H action",
     "dominated_routes": [
-      "purely local A1 landing/delta data",
-      "published GFU exceptional-mass correction by itself",
-      "six rank3 genus-5 fibrations using only base-locus intersection nonnegativity",
-      "direct Hodge projection onto H plus the 48 exceptional classes",
-      "automatic Riemann-Hurwitz charging from minimal cusp type without extra tangent/jet information",
-      "simple summed unit Riemann-Hurwitz charging over all 28 genus-5 fibrations",
-      "pure powers of omega7 with split hyperplane vanishing",
-      "BTVA 13-dimensional order-two principal-part portfolio by itself",
-      "universal local conductor bound delta>=r-1 plus standard Castelnuovo alone"
-    ],
-    "live_route_classes": [
-      "cuboid-specific linear arithmetic-genus or conductor bound for high-span curves",
-      "genuinely higher-order jet or principal-part constraint whose independent conditions grow with repeated branches",
-      "new global symmetric differential architecture with stronger exceptional regularity or vanishing",
-      "high-span geometry for genus-zero full-span and genus-one span-5/6 sectors"
+      "direct R8<=alpha*d+beta with alpha<1/4 until a progress-enabling input appears",
+      "supported-node local (p,q)<->(-p,-q) sign as a residual-sheet label",
+      "purely local A1 landing/delta data without residual G/H lift data",
+      "independent local conductor sign choices unconstrained by the ambient Kummer character"
     ],
     "must_not_assume": [
-      "Freitag-Salvati Manni 176/192 cap transfers unchanged to multibranch population",
-      "distinct node support N bounds normalization multiplicity R8",
-      "R8 equals total branch count R or exceptional mass M",
-      "minimal cusp type alone implies ramification for an incident fibration",
-      "published GFU formulas contain a hidden branch-excess or delta cancellation",
-      "omega7 powers can spread their full A1 regularization budget across independent hyperplanes",
-      "order-two principal-part conditions keep growing after three distinct landing directions at one A1 node",
-      "A1 local delta grows faster than r-1 for all transverse branch configurations",
+      "supported-node local plus/minus exchanges residual G/H sheets",
+      "eta=0 forces all conductor identifications to be same-sheet",
+      "even codimension-one valuations of f_t make the ambient etale cover globally trivial",
+      "the square-class identity [f_t|_E]=[h o phi] is literal rational-function equality",
+      "a conductor sign or cross-sheet upper bound has already been computed",
       "formal arbitrary-degree numerical data correspond to actual curves"
     ],
-    "target": "convert d<=16g-16+4R8 into a genuine population-wide finite degree/intersection window"
+    "target": "materialize the conductor-preimage to R=C8/H lift/descent map and evaluate the fixed residual character; only then compare the weighted opposite-sheet sum with the retained 84*l^2 Hodge threshold"
   },
   "routing": {
     "independent_of_full178_execution": true,
     "main_credit_auto_promotion": false,
     "finite_picard_enumeration_released": false,
-    "hostile_audit_target_available": true
+    "hostile_audit_target_available": true,
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "old_R8_route_frozen": true,
+    "ambient_kummer_conductor_chain_source_locked": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
