@@ -49,6 +49,9 @@ Active Stage controllers and current source locks override every snapshot here. 
 
 | ID card | Role | Stage | Source |
 |---|---|---|---|
+| [`FLT-PW01`](cards/provisional/FLT-PW01.md) | `SEMISTABLE_MODEL_MODULARITY_ADAPTER` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |
+| [`FLT-PW02`](cards/provisional/FLT-PW02.md) | `LEVEL_TWO_CUSPFORM_CONTRADICTION_GATE` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |
+| [`FLT-WF01`](cards/workflows/FLT-WF01.md) | `FORMAL_TARGET_IDENTITY_AND_AXIOM_GATE` | External FLT source / cross-Stage | [anthropic-flt-provisional-harvest.md](anthropic-flt-provisional-harvest.md) |
 | [`S32-PW01`](cards/provisional/S32-PW01.md) | `EXACT_ENUMERATION_COMPRESSION_AND_INDEXER` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW03`](cards/provisional/S32-PW03.md) | `LATTICE_IMAGE_HNF_GATE` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
 | [`S32-PW04`](cards/provisional/S32-PW04.md) | `FINITE_LATTICE_QUOTIENT_BOUND` | Stage32 | [../stage32-arsenal-promotion.md](../stage32-arsenal-promotion.md) |
