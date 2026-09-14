@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE32_32_01_178_N401_STATE_V1",
+  "stage": 32,
+  "node_id": "N401",
+  "status": "AUDIT_BOUNDARY_FROZEN",
+  "current_frontier": "N401_N399_SURVIVOR_COARSE_INVARIANT_COMPRESSION_CANDIDATE",
+  "route_status": "MATERIAL_BOUNDED_SURVIVOR_COMPRESSION_CANDIDATE_RETAINED_PENDING_HOSTILE_AUDIT",
+  "result_summary": {
+    "source_block_count": 97,
+    "source_terminal_count": 10961,
+    "survivor_terminal_count": 5459,
+    "rejected_terminal_count": 5502,
+    "best_coarse_model_fields": ["a", "b", "b_minus_c", "wave"],
+    "compressed_parity_class_count": 66,
+    "original_block_count": 97,
+    "conflicting_class_count": 0,
+    "deterministic_model_count": 15,
+    "minimal_feature_count": 4,
+    "additional_pruning_terminals": 0,
+    "main_authority_subtraction_performed": false
+  },
+  "audit_gate": {
+    "next_gate": "HOSTILE_AUDIT_N401_N399_SURVIVOR_COARSE_INVARIANT_COMPRESSION",
+    "audit_focus": [
+      "source-lock integrity for retained N400 hostile-audit receipt, N401 probe, N401 RESULT, and retained N391/N394/N399 evidence",
+      "exact reconstruction of the retained 97-block / 5,459-survivor population without terminal-rank re-enumeration",
+      "independent replay that the best coarse model (a,b,b_minus_c,wave) partitions 97 blocks into exactly 66 classes with zero parity conflicts",
+      "independent replay that all 15 deterministic models are nontrivial and that no model with fewer than four coarse features determines parity",
+      "simple-model no-go counts for mass, wave, abc, g3, b_minus_c, mass+wave, mass+g3, and mass+(b-c)",
+      "scope firewall: retained N391 97 blocks only; no transport beyond this bounded population",
+      "ownership firewall: N400 rejected-set MAIN handoff is not reopened and N401 performs no MAIN subtraction",
+      "credit firewall: compression candidate only, zero new pruning and no numerical/MAIN/FULL178 credit",
+      "workflow lifecycle and current-main freshness"
+    ]
+  },
+  "breadth_cycle": {
+    "boundary_reason": "N401 is a materially distinct 178-owned compression attack on the 5,459 hostile-audited N399 survivors: coarse incidence/wave invariants compress the 97 raw block parity identities to 66 conflict-free classes, while simpler coarse keys fail.",
+    "same_n399_terminal_predicate_transport_reopen_before_audit": false,
+    "same_97x8_parity_census_reopen": false,
+    "n400_main_handoff_reopen": false,
+    "n402_before_audit": false
+  },
+  "source_result": {
+    "generation_exact_head": "a62c1bfabad6e78de942a347e303c96073f9a27a",
+    "claim_frontier_run": 34904215189,
+    "claim_frontier_job": 104176987374,
+    "main_startup_run": 34904215175,
+    "stale_run_sweeper_run": 34904215276,
+    "probe_blob": "032a8015312b4e05bc9de7984e068ea5c4f9844e",
+    "probe_payload_canonical_sha256": "baa46d73ee0919d817c4f24518665b97c3f431160508308907f246803ee54d15",
+    "result_blob": "d24b2100c90bd6e0f575572765a35fafaaa89196",
+    "result_canonical_sha256": "2689675c445d241c7874931524884fd45cd9b723a8999890ede9fa8a07870cda"
+  },
+  "process_freshness": {
+    "current_repository_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "main_startup_authority": "SUCCESS",
+    "claim_frontier_integrity": "SUCCESS",
+    "stale_run_sweeper": "SUCCESS",
+    "merge_ready_freshness": "NOT_GRANTED_BY_N401"
+  },
+  "firewalls": {
+    "candidate_only": true,
+    "bounded_terminal_family_compression_candidate": true,
+    "numerical_leaf_compression_credit": false,
+    "new_additional_pruning_credit": false,
+    "main_pruning_credit": false,
+    "main_authority_subtraction_performed": false,
+    "full178_complete": false,
+    "integral_carrier_obstruction_promoted": false,
+    "effectivity_final": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "167eb3410fc38a7bd7a67bd0af4a12d4d2f8e3e232e376c44ccbfaa710a3a9f1"
+}
