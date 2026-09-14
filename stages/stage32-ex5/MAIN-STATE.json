@@ -21,7 +21,7 @@
     "claim_registry_mutated": false,
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
-    "last_trigger": "BC2_39_HOSTILE_AUDIT_PASS_CONSUMED_BC2_40_PREFLIGHT",
+    "last_trigger": "BC2_39_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED",
     "main_promotion": false
   },
   "credit": {
@@ -30,7 +30,7 @@
     "effectivity_credit": false,
     "endpoint_credit": false,
     "final_milestone_credit": false,
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_39_AUDITED_BC2_40_PREFLIGHT_NO_MAIN_CREDIT",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_39_EXECUTED_QUARANTINED_NO_MAIN_CREDIT",
     "n350_production_coverage_credit": false,
     "perfect_cuboid_credit": false,
     "receiver_credit": false,
@@ -40,7 +40,7 @@
   "cross_lane_routing": {
     "live_registry_blob_sha": "e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd",
     "live_registry_canonical": "a5a85f824ba8fe466dbd13a7118bc0e95220cd5925d2af273653d86746a71228",
-    "local_bc2_40_execution_may_continue": false,
+    "local_bc2_39_execution_may_continue": false,
     "open_ex5_producer_demand_count": 0,
     "satisfied_producer_demands": [
       "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
@@ -49,31 +49,31 @@
     "terminal_to_picard64_handoff_reopened": false
   },
   "current": {
-    "blocker": "BC2_40_FRESH_SEMANTIC_RUNKEY_NOT_ARMED",
+    "blocker": "HOSTILE_AUDIT_REQUIRED_FOR_BC2_39_EXACT_HEAD",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
-    "next_route": "BC2_40_FRESH_RUNKEY_AUTHORIZATION",
-    "objective": "Replay exactly the 23 hostile-audited BC2-39 UNKNOWN parents with the smallest next timeout refinement; preflight only until a fresh semantic runkey is explicitly armed.",
+    "leaf": "BC2_39_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+    "next_route": "HOSTILE_AUDIT_BC2_39_TARGETED_REPLAY",
+    "objective": "Hostile-audit the retained BC2-39 exact replay: 7 new UNSAT / 23 UNKNOWN / 0 SAT. Keep candidate lower bound 7313 quarantined until PASS.",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
-    "status": "BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED",
-    "stop_semantics": "STOP_AT_BC2_40_PREFLIGHT_NO_HEAVY_EXECUTION_WITHOUT_FRESH_SEMANTIC_RUNKEY"
+    "status": "BC2_39_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED",
+    "stop_semantics": "FREEZE_AT_BC2_39_AUDIT_BOUNDARY_NO_BC2_40_OR_PROMOTION_BEFORE_HOSTILE_AUDIT_PASS"
   },
   "current_leaf_working_set": [
-    "stages/stage32-ex5/breadth-cycle-2/bc2-39-hostile-audit-consumption.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2-40-fresh-unknown23-replay-preflight.json",
-    "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-39-fresh-unknown30-replay-checkpoint.json",
+    "stages/stage32-ex5/breadth-cycle-2/verify_bc2_39_targeted_replay_checkpoint.py",
+    "stages/stage32-ex5/runkeys/bc2-39-fresh-unknown30-replay.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-39-generation1-no-heavy-retry-receipt.json",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "execution": {
     "artifact_retention_days": 2,
     "audit_command": "stage32ex5-audit",
-    "dedicated_runkey": null,
+    "dedicated_runkey": "stages/stage32-ex5/runkeys/bc2-39-fresh-unknown30-replay.json",
     "effective_heavy_concurrency": 0,
     "heavy_scaleout_authorized": false,
     "main_command": "stage32ex5-mainbatch",
-    "per_parent_timeout_ms": 180000,
-    "runkey_armed": false,
+    "per_parent_timeout_ms": 160000,
     "workflow": ".github/workflows/stage32-ex5-main.yml"
   },
   "firewalls": {
@@ -97,19 +97,22 @@
     "e8_bc2_37_audited": true,
     "e8_bc2_37_known_parent_unsat_count_lower_bound": 7302,
     "e8_bc2_38_audited": true,
-    "e8_bc2_38_known_parent_unsat_count_lower_bound": 7306,
-    "e8_bc2_39_audited": true,
-    "e8_bc2_39_hostile_audit_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
-    "e8_bc2_39_hostile_audit_review_id": 5193423203,
+    "e8_bc2_38_executed": true,
+    "e8_bc2_38_new_parent_unsat_count": 4,
+    "e8_bc2_38_remaining_unknown_count": 30,
+    "e8_bc2_38_remaining_unknown_parent_indices_sha256": "d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7",
+    "e8_bc2_38_sat_count": 0,
+    "e8_bc2_38_target_unknown_count": 34,
+    "e8_bc2_39_audited": false,
+    "e8_bc2_39_candidate_known_parent_unsat_count_lower_bound": 7313,
+    "e8_bc2_39_executed": true,
     "e8_bc2_39_new_parent_unsat_count": 7,
     "e8_bc2_39_remaining_unknown_count": 23,
     "e8_bc2_39_remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
     "e8_bc2_39_sat_count": 0,
-    "e8_bc2_40_execution_authorized": false,
-    "e8_bc2_40_preflight_ready": true,
-    "e8_bc2_40_target_unknown_count": 23,
-    "e8_bc2_40_target_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
-    "e8_known_parent_unsat_count_lower_bound": 7313,
+    "e8_bc2_39_target_unknown_count": 30,
+    "e8_bc2_39_target_unknown_parent_indices_sha256": "d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7",
+    "e8_known_parent_unsat_count_lower_bound": 7306,
     "e8_whole_first_block_unsat": false,
     "population_wide_main_consumable_result_complete": false,
     "qualified_independent_stage32_route_established": false,
@@ -123,80 +126,40 @@
     "historical_q602_residue_triple_promoted_as_current_survivors": false
   },
   "intermediate_audit_boundary": {
-    "bc2_40_execution_authorized": false,
+    "bc2_38_execution_authorized": false,
+    "bc2_39_execution_authorized": false,
+    "candidate_execution_head": "38a62af36630b0d7a899f68bcd2295f0a07aaea6",
     "candidate_pr": 1776,
-    "freeze_active": false,
-    "last_hostile_audit_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
-    "last_hostile_audit_review_id": 5193423203,
+    "freeze_active": true,
+    "last_hostile_audit_exact_head": "5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71",
+    "last_hostile_audit_review_id": 5190676180,
     "last_hostile_audit_status": "PASS",
     "merged": false,
-    "new_audit_boundary_exists": false,
-    "re_audit_required": false,
+    "new_audit_boundary_exists": true,
+    "re_audit_required": true,
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
   },
   "next_step": {
-    "bc2_40_runkey_armed": false,
-    "goal": "Arm a fresh semantic BC2-40 runkey only if bounded heavy execution is intentionally authorized; otherwise remain stopped at preflight.",
+    "bc2_40_blocked_until_bc2_39_hostile_audit_pass": true,
+    "goal": "Hostile-audit BC2-39 exact execution and retained artifact receipt. On PASS, consume 7 exact UNSAT and continue only on the 23 retained UNKNOWN parents.",
     "heavy_scaleout_authorized": false,
-    "id": "BC2_40_FRESH_RUNKEY_AUTHORIZATION",
+    "id": "HOSTILE_AUDIT_BC2_39_TARGETED_REPLAY",
     "main_promotion_authorized": false,
     "merge_authorized": false,
     "n350_registration_authorized": false
   },
   "prior_audited_authority": {
-    "bc2_35_pr_1776": {
-      "audit_checkpoint_exact_head": "8bea7a6be26e01db0deb138dbd8406f578447921",
-      "hostile_audit_review_id": 5187359907,
-      "hostile_audit_status": "PASS",
-      "stage32_main_credit": false
-    },
-    "bc2_36_pr_1776": {
-      "audit_checkpoint_exact_head": "9c63ccb48dd0e5bdeedda7739dd05e2404698465",
-      "hostile_audit_review_id": 5188625406,
-      "hostile_audit_status": "PASS",
-      "stage32_main_credit": false
-    },
-    "bc2_37_pr_1776": {
-      "audit_checkpoint_exact_head": "9852fcec959962607da3290100291a60185e7104",
-      "hostile_audit_review_id": 5189412496,
-      "hostile_audit_status": "PASS",
-      "stage32_main_credit": false
-    },
-    "bc2_38_pr_1776": {
-      "audit_checkpoint_exact_head": "5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71",
-      "hostile_audit_review_id": 5190676180,
-      "hostile_audit_status": "PASS",
-      "stage32_main_credit": false
-    },
-    "bc2_39_pr_1776": {
-      "audit_checkpoint_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
-      "hostile_audit_review_id": 5193423203,
-      "hostile_audit_status": "PASS",
-      "stage32_main_credit": false
-    }
+    "bc2_35_pr_1776": {"audit_checkpoint_exact_head":"8bea7a6be26e01db0deb138dbd8406f578447921","hostile_audit_review_id":5187359907,"hostile_audit_status":"PASS","stage32_main_credit":false},
+    "bc2_36_pr_1776": {"audit_checkpoint_exact_head":"9c63ccb48dd0e5bdeedda7739dd05e2404698465","hostile_audit_review_id":5188625406,"hostile_audit_status":"PASS","stage32_main_credit":false},
+    "bc2_37_pr_1776": {"audit_checkpoint_exact_head":"9852fcec959962607da3290100291a60185e7104","hostile_audit_review_id":5189412496,"hostile_audit_status":"PASS","stage32_main_credit":false},
+    "bc2_38_pr_1776": {"audit_checkpoint_exact_head":"5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71","hostile_audit_review_id":5190676180,"hostile_audit_status":"PASS","stage32_main_credit":false}
   },
   "retained_exact_progress": {
-    "bc2_39_checkpoint_canonical": "77f9339f99070b35df09ac4f88c458ab23220fffa5679a9c1c125b429cb3f86e",
-    "bc2_39_checkpoint_git_blob_sha": "43565b80d730caa5db8e3c95aa0a1e58217155cf",
-    "bc2_39_consumption_receipt_canonical": "d108344e6bbda137e780e8c16e8a96c525ac8c912f2e9c5cb13e259da3d2625f",
-    "bc2_39_consumption_receipt_git_blob_sha": "b180c663ff70436cb251922f0eabfd1ff59297a8",
-    "bc2_39_hostile_audit_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
-    "bc2_39_hostile_audit_review_id": 5193423203,
-    "bc2_39_known_parent_unsat_count_lower_bound": 7313,
-    "bc2_39_remaining_unknown_count": 23,
-    "bc2_39_remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
-    "bc2_40_preflight_canonical": "01ef9ab1c95e31435975ed61b276c100deb815e31838ef26f95d8ab62cf4f56d",
-    "bc2_40_preflight_git_blob_sha": "798aae5a9ff1be3194093133ff61e8db6ad3d86c",
-    "bc2_40_producer_git_blob_sha": "acccc2360a2b113b4d568c86bb4be48152a68013"
+    "bc2_38_artifact_id":10313851431,"bc2_38_artifact_zip_sha256":"674c4deb7c2e13f654738278ad2108d40d3c4c463ae9f158a6cc438f10f65f01","bc2_38_authorize_job_id":103683927278,"bc2_38_checkpoint_canonical":"88b41680df6bb78f8b7f8ca00cde121d909a39e7b3c29eef765edb77b2c022ba","bc2_38_checkpoint_git_blob_sha":"91eca02054cd2dbf702dd4a7635398ef76ee832f","bc2_38_compute_job_id":103683975497,"bc2_38_consumed_runkey_git_blob_sha":"87855350c6240cd524069490f85858b11099da60","bc2_38_execution_head":"d26a27e8564458f3d575ec58601b2226fc23944f","bc2_38_hostile_audit_exact_head":"5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71","bc2_38_hostile_audit_review_id":5190676180,"bc2_38_known_parent_unsat_count_lower_bound":7306,"bc2_38_new_unsat_count":4,"bc2_38_preflight_canonical":"22b74170a7ebb556fc97315f147c1fe90bb80d225fbd611f60b4ff8bed6fe964","bc2_38_preflight_git_blob_sha":"aa959e57cfe9f9ffc136c9722c96ed0ec9770f7e","bc2_38_raw_json_sha256":"2ac56238dd57989beebfd36a346074acd6ab57d497e692b16934203306a2b0e7","bc2_38_remaining_unknown_count":30,"bc2_38_remaining_unknown_parent_indices_sha256":"d60d873c4fc66ebb6cda0530d4137e5fd195fe1b601b0a21e91f873c1df28fb7","bc2_38_retained_verifier_git_blob_sha":"934f19363549d652c18b02934c1f963a19204664","bc2_38_sat_count":0,"bc2_38_source_git_blob_sha":"6fb0af6c77e44edfa5d2b8a13fbde73bfbd468aa","bc2_38_status_stream_sha256":"839233bb8552e4da7589616439cb614c07ceb018643f4f6d9bf3bf3f175fdeb5","bc2_38_workflow_run_id":34742297972,
+    "bc2_39_artifact_id":10330073656,"bc2_39_artifact_zip_sha256":"fb26723ef7abcfcacd2a241bcfbacdd07684b765e54e777bc36c2b586f305fd7","bc2_39_authorize_job_id":103825118780,"bc2_39_checkpoint_canonical":"77f9339f99070b35df09ac4f88c458ab23220fffa5679a9c1c125b429cb3f86e","bc2_39_checkpoint_git_blob_sha":"43565b80d730caa5db8e3c95aa0a1e58217155cf","bc2_39_compute_job_id":103825180872,"bc2_39_consumed_runkey_git_blob_sha":"2e0f7467ffd5b16dc9f2e8feaefaedbee5ffbfab","bc2_39_execution_head":"38a62af36630b0d7a899f68bcd2295f0a07aaea6","bc2_39_generation1_retry_receipt_canonical":"cb0a292479cf230f96a052d771a448cbc8e4b5254ed4ae31297ca470fa929d79","bc2_39_generation1_retry_receipt_git_blob_sha":"a812727a9e5dfa29e88fd74aee292386a5231e64","bc2_39_new_unsat_count":7,"bc2_39_preflight_canonical":"7bda94c5869c988892c979873f13a1c311debedbbe9fcc670a253e339fb5e435","bc2_39_preflight_git_blob_sha":"e3dab72865d734f2420fb71ddf3c29115f9df68e","bc2_39_raw_json_sha256":"143b2ea64d1a7aad4ac1008d0837198d5f0f5b2b430a4b62886e5da1ebbbc966","bc2_39_remaining_unknown_count":23,"bc2_39_remaining_unknown_parent_indices_sha256":"29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02","bc2_39_sat_count":0,"bc2_39_source_git_blob_sha":"e322029cfc4476ce8cf3685ca04f35b58e2ce9f2","bc2_39_status_stream_sha256":"7c6b390281a2ee68fac023d1e0130103609a0d2ed2b22e36aa2ca0b89facbfb8","bc2_39_workflow_run_id":34794585988
   },
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT",
-  "stage": "32EX5",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY",
   "stage32_main_authority": {
-    "authoritative_remaining_strata": 17128,
-    "certified_remaining_terminal_upper_bound": 26876434389242951089388,
-    "full178_complete": false,
-    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
-    "stage32_closed": false
-  },
-  "status": "BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED"
+    "authoritative_remaining_strata":17128,"certified_remaining_terminal_upper_bound":26876434389242951089388,"current_main_schema":"STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED","ex5_auto_promotes_to_main":false,"full178_numerical_census_complete":false,"hpadj07_main_pruning_credit":true,"live_coordination_head":"9d4a24ef479d031e9c4b85001fe8f7a10198b17d","mainbatch_stop_gate":"NONE","remaining_terminal_semantics":"CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET","reviewed_v24_exact_head":"3c5915dee248660a2821f2ebe9c24e20b0ad1647","reviewed_v24_hostile_audit_review_id":5191916561,"source":"LIVE-MAIN-COORDINATION-SYNC-20260914.json"
+  }
 }
