@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V1",
+  "stage": 32,
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect the live retained boundary of every active specialist before substantive MAIN research so pending handoffs, audit gates, and semantic overlap cannot be silently missed.",
+  "authority": {
+    "mathematical_authority": "stages/stage32/MAIN-STATE.json",
+    "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
+    "lane_registry": "stages/stage32/proof/LANE-ADAPTERS.json",
+    "this_contract_grants_mathematical_credit": false,
+    "this_contract_is_a_snapshot_of_live_heads": false
+  },
+  "startup_rule": {
+    "refresh_live_on_every_stage32mainbatch": true,
+    "do_not_trust_last_observed_head_as_current": true,
+    "required_observation_fields": [
+      "live_pr_or_active_surface",
+      "live_head",
+      "current_state_or_retained_boundary",
+      "latest_retained_result",
+      "audit_gate",
+      "pending_handoff_or_none",
+      "main_freshness",
+      "semantic_leaf"
+    ],
+    "fail_closed_conditions": [
+      "active specialist cannot be resolved",
+      "current retained boundary cannot be resolved",
+      "hostile-audited or audit-pending retained result has no explicit MAIN disposition when MAIN consumption may be relevant",
+      "two active surfaces silently attack the same semantic leaf without an explicit independent-parallel or reassignment record",
+      "a pending handoff is absent from CROSS-LANE-DEMANDS when it is required for consumer re-entry"
+    ]
+  },
+  "active_specialists": [
+    {
+      "lane": "32-01-178",
+      "command": "stage32-01-178-mainbatch",
+      "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
+      "expected_open_pr": 1797,
+      "state_resolution": "Resolve the current retained node/state selected by the live lane startup; MISSION.json is historical/on-demand and must not override the live retained boundary.",
+      "main_role": "FULL178 census/incidence/transport/completeness specialist",
+      "pending_main_handoff_ids": [
+        "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1"
+      ]
+    },
+    {
+      "lane": "EX5",
+      "command": "stage32ex5-mainbatch",
+      "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "expected_open_pr": 1776,
+      "state_resolution": "Read the live EX5 MAIN-STATE.json at the current PR head and its exact retained/audited checkpoint references.",
+      "main_role": "Picard64/node-support producer/refinement specialist",
+      "pending_main_handoff_ids": []
+    },
+    {
+      "lane": "CUT",
+      "command": "stage32cut-mainbatch",
+      "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
+      "expected_open_pr": 1806,
+      "state_resolution": "Resolve the current CUT retained checkpoint selected by the live lane startup and current PR head; historical waves remain evidence only.",
+      "main_role": "direct completion infeasibility/obstruction specialist",
+      "pending_main_handoff_ids": []
+    },
+    {
+      "lane": "MB",
+      "command": "stage32mb-mainbatch",
+      "startup_path": "stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md",
+      "expected_open_pr": 1791,
+      "state_resolution": "Read the live MB STATE.json selected by the lane startup and extract the active leaf, retained checkpoint, and audit gate even when PR title/prose is stale.",
+      "main_role": "32-03 multibranch specialist",
+      "pending_main_handoff_ids": []
+    }
+  ],
+  "on_demand_not_counted_as_active_specialist": [
+    "stage32certlift-mainbatch",
+    "32-02 scalar producer experiment"
+  ],
+  "credit_firewall": {
+    "monitor_observation_is_mathematical_credit": false,
+    "audit_pending_candidate_is_main_credit": false,
+    "demand_status_is_main_credit": false,
+    "duplicate_pruning_credit_authorized": false,
+    "merge_authorized": false
+  }
+}
