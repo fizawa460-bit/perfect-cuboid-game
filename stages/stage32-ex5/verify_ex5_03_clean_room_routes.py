@@ -16,6 +16,14 @@ HERE = Path(__file__).resolve().parent
 ARTIFACT = HERE / "ex5-03-clean-room-route-universe.json"
 LEDGER = HERE / "ex5-01-exact-receiver-ledger.json"
 
+# Historical EX5-03 source locks must replay against the immutable bytes that
+# were actually consumed at EX5-03, not against the later compact live
+# Stage32EX5 entrypoint that reused the original path.
+HISTORICAL_SOURCE_OVERRIDES = {
+    "stages/stage32-ex5/stage32-ex5.md":
+        HERE / "archive" / "ex5-03-stage32-ex5-roadmap-f961f7bb.md",
+}
+
 EXPECTED_FAMILIES = {
     "EFFECTIVE_CONE_FIXED_COMPONENT_LANE",
     "EQUGENERIC_HILBERT_SEVERI_LANE",
@@ -67,14 +75,17 @@ def main() -> None:
     require(set(locks) == {"SRC-EX5-00", "SRC-EX5-01", "SRC-EX5-02", "SRC-ROADMAP"},
             "unexpected source-lock set")
     for lock in data["source_locks"]:
-        path = ROOT / lock["path"]
-        require(path.is_file(), f"missing source lock {lock['path']}")
-        require(blob_sha1(path) == lock["blob_sha1"], f"source blob drift {lock['path']}")
+        locked_path = lock["path"]
+        path = HISTORICAL_SOURCE_OVERRIDES.get(locked_path, ROOT / locked_path)
+        if locked_path in HISTORICAL_SOURCE_OVERRIDES:
+            require(lock["id"] == "SRC-ROADMAP", "unexpected historical source override")
+        require(path.is_file(), f"missing source lock {locked_path}")
+        require(blob_sha1(path) == lock["blob_sha1"], f"source blob drift {locked_path}")
         if "canonical_sha256" in lock:
             obj = json.loads(path.read_text(encoding="utf-8"))
             stored = obj.pop("canonical_sha256_without_this_field")
-            require(stored == lock["canonical_sha256"], f"stored canonical drift {lock['path']}")
-            require(csha(obj) == stored, f"recomputed canonical drift {lock['path']}")
+            require(stored == lock["canonical_sha256"], f"stored canonical drift {locked_path}")
+            require(csha(obj) == stored, f"recomputed canonical drift {locked_path}")
 
     contract = data["generation_contract"]
     require(contract["candidate_universe_version"] == "EX5_CLEANROOM_CANDIDATES_V1",
