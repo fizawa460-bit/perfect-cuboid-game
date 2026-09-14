@@ -39,18 +39,21 @@ def main() -> None:
         "stage32mb-mainbatch", "stage32mb-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
-    req("CROSS-LANE-DEMANDS.json" in commands, "command registry missing cross-lane demand routing")
-    req("S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1" in commands, "command registry missing CUT192 demand")
-    req("SATISFIED" in commands and "CUT193" in commands, "command registry has stale CUT192 wait state")
-    req("CUT191" in commands and "already consumed" in commands, "command registry does not preserve CUT191 consumption")
+    req("stages/stage32/MAIN-STATE.json" in commands, "command registry missing MAIN authority path")
+    req("stages/stage32/proof/CROSS-LANE-DEMANDS.json" in commands, "command registry missing demand authority path")
+    req("Each lane's startup/read order belongs only in that lane's `MAIN-START-HERE.md`" in commands,
+        "command registry does not separate lane startup ownership")
+    for stale in (
+        "currently #1800",
+        "Current MAIN transition",
+        "Candidate V22 authority",
+        "47,589,703,313,957,134,804,198",
+    ):
+        req(stale not in commands, f"dynamic/stale MAIN state retained in command registry: {stale}")
 
     demand_registry = load(HERE / "proof" / "CROSS-LANE-DEMANDS.json")
-    demand_rows = {row["demand_id"]: row for row in demand_registry["demands"]}
-    cut192_id = "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
-    req(cut192_id in demand_rows, "CUT192 demand missing from machine registry")
-    cut192 = demand_rows[cut192_id]
-    req(cut192["priority"] == "P0_BLOCKING_DOWNSTREAM", "CUT192 machine priority drift")
-    req(cut192["status"] == "SATISFIED", "CUT192 machine status is stale")
+    req(demand_registry.get("stage") == 32, "cross-lane demand registry stage drift")
+    req(isinstance(demand_registry.get("demands"), list), "cross-lane demand registry malformed")
 
     main_start = text(HERE / "MAIN-START-HERE.md")
     req("Ordinary `stage32mainbatch`" in main_start, "MAIN command not canonical")
@@ -70,9 +73,31 @@ def main() -> None:
     sync = mission["operator_sync"]
     req(sync["routing_authority"] == "stages/stage32/MAIN-STATE.json", "178 routing authority drift")
     req(sync["startup_snapshot_is_historical"] is True, "178 stale snapshot not firewalled")
-    req(sync["latest_ex5_merged_pr"] == 1765, "178 EX5 merge observation stale")
+
     start178 = text(HERE / "32-01-178" / "MAIN-START-HERE.md")
-    req("stage32-01-178-mainbatch" in start178 and "CROSS-LANE-DEMANDS.json" in start178, "178 demand-aware startup missing")
+    req("single authoritative startup/read-order contract" in start178, "178 canonical startup ownership missing")
+    req("stage32-01-178-mainbatch" in start178, "178 canonical command missing from startup")
+    req("stages/stage32/MAIN-STATE.json" in start178, "178 startup missing MAIN authority")
+    req("stages/stage32/proof/CROSS-LANE-DEMANDS.json" in start178, "178 demand-aware startup missing")
+    req("MISSION.json" in start178 and "on-demand only" in start178, "178 historical mission removed from startup incorrectly")
+    req("COMMANDS.md" in start178 and "not a second 178 startup contract" in start178,
+        "178 command-registry/startup separation missing")
+    req("CROSS-LANE-STARTUP-CONTRACT.md" in start178 and "on-demand reference" in start178,
+        "178 shared demand prose not bounded to on-demand reference")
+    req("PR #1765" not in start178 and "N357" not in start178,
+        "178 startup still pins stale lane/current-history identifiers")
+
+    mainbatch178 = text(HERE / "32-01-178" / "MAINBATCH.md")
+    req("stages/stage32/32-01-178/MAIN-START-HERE.md" in mainbatch178,
+        "178 MAINBATCH does not delegate to canonical startup")
+    req("only authoritative startup/read-order contract" in mainbatch178,
+        "178 MAINBATCH still acts as a second startup contract")
+    req("MISSION.json" in mainbatch178 and "on-demand" in mainbatch178,
+        "178 MAINBATCH still treats mission history as ordinary startup")
+    req("Read only, in this order" not in mainbatch178,
+        "178 MAINBATCH retains a duplicate startup sequence")
+    req("PR #1765" not in mainbatch178 and "BC2-24" not in mainbatch178,
+        "178 MAINBATCH retains stale EX5 checkpoint routing")
 
     ex5 = load(REPO / "stages" / "stage32-ex5" / "MAIN-STATE.json")
     req(ex5["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained state schema drift")
@@ -123,9 +148,8 @@ def main() -> None:
 
     runpy.run_path(str(HERE / "proof" / "verify_cross_lane_demands.py"), run_name="__main__")
 
-    print("PASS: Stage32 command surface is canonical, demand-aware, and authority-separated")
-    print("MAIN=global-monitor; EX5=producer-handoff-complete; CUT=consumer-reentered; 178/MB=specialists")
-    print("CUT192=SATISFIED_EX5_TO_CUT; CUT193=REENTERED_ZERO_MAIN_CREDIT; CUT191=MAIN_CONSUMED")
+    print("PASS: Stage32 command registry is state-free and lane startup contracts are authority-separated")
+    print("178 startup=MAIN-START-HERE only; MISSION/history=on-demand; demand registry=machine authority")
 
 
 if __name__ == "__main__":
