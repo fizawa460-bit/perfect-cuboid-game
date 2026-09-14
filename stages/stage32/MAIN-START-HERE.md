@@ -62,11 +62,13 @@ A specialist handoff returns a retained checkpoint, blocker, or audit handoff; M
 
 ## Cross-lane demand monitor
 
-Before substantive work, MAIN inspects all applicable `OPEN` demands. In particular, `S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1` is an explicit P0 handoff route: while N398 hostile audit is pending it remains an audit-blocked candidate, and after PASS the producer must materialize the source-locked handoff so MAIN re-enters the synthesis route. Demand satisfaction still does not grant mathematical credit.
+Before substantive work, MAIN inspects all applicable `OPEN` demands. The historical P0 route `S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1` is now `OBSOLETE`: hostile-audited N400 materialized a strictly later compact consumer handoff and superseded that re-entry blocker. The replacement demand `S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1` is `SATISFIED` by audit review `5203374607` at exact producer head `b1a950cbc6edf3cb85e1ea79473105c6f1f67b03`.
 
-When the N398 parity route is applicable, open `stages/stage32/proof/PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json`. It places the N398, GRF-09, and EX5 Picard64 observations in one comparison boundary. Do not identify their populations, coordinate labels, affine relation spaces, or 2-adic meanings by notation/label coincidence; an exact adapter is required before any such promotion.
+`stages/stage32/proof/PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json` is retained as a superseded comparison boundary. Its N398/GRF-09/EX5 cross-population and coordinate equivalences remain `NOT_PROVED`; none is used to justify N400 consumption. N400 instead source-locks the hostile-audited N399 exact predicate and hostile-audited N397 no-double-charge accounting on the retained 97-block / 10,961-terminal population.
 
-Shared producer/consumer/re-entry semantics live in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`; that prose is an **on-demand reference**, not another mandatory startup read. `SATISFIED` means an operational artifact exists; it does not grant pruning, receiver, effectivity, theorem, endpoint, closure, or merge credit.
+V25 MAIN consumes exactly 5,502 terminals once, with prior consumed overlap `0` and `double_charge=false`. The 178 producer lane performs no MAIN authority subtraction. After that consumption the replacement MAIN head is frozen at `HOSTILE_AUDIT_V25_N400_MAIN_CONSUMPTION`; no further MAIN consumption or substantive research is permitted before a fresh hostile-audit PASS.
+
+Shared producer/consumer/re-entry semantics live in `stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md`; that prose is an **on-demand reference**, not another mandatory startup read. `SATISFIED` by itself never grants pruning, receiver, effectivity, theorem, endpoint, closure, or merge credit.
 
 ## On-demand transitions and execution
 

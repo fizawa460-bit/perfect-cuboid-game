@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE32_MAIN_RETAINED_EXTERNAL_HOSTILE_AUDIT_RECEIPT_V1",
+  "stage": 32,
+  "producer_lane": "32-01-178",
+  "producer_pr": 1797,
+  "node_id": "N400",
+  "audit": {
+    "status": "PASS",
+    "review_id": 5203374607,
+    "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+    "submitted_at": "2026-09-14T22:05:06Z",
+    "verdict": "N400_COMPACT_MAIN_CONSUMPTION_HANDOFF_VERIFIED",
+    "scope": "N400 compact MAIN-consumption handoff only; no producer-lane MAIN subtraction"
+  },
+  "source_locks": {
+    "result": {
+      "path": "stages/stage32/32-01-178/nodes/N400/RESULT.json",
+      "blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+      "canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb"
+    },
+    "state": {
+      "path": "stages/stage32/32-01-178/nodes/N400/STATE.json",
+      "blob_sha1": "c6fb6f55e026be9c87f5e825a18d114ce0dd3d23",
+      "canonical_sha256": "eabea6689d7fc92542eb5a417e1467dba4bf3ce7cb69613fd6dff4d5e52fd342"
+    },
+    "verifier": {
+      "path": "stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py",
+      "blob_sha1": "6898ea22458d2156944569dc598eb5b7ebb0048e"
+    }
+  },
+  "accepted_bounded_result": {
+    "source_terminal_count": 10961,
+    "rejected_terminal_count": 5502,
+    "rejected_terminal_rank_stream_sha256": "6648c3a246b71f74dec275012f0218d8a44477cd756229e6e3bc3eda965ca262",
+    "survivor_terminal_count": 5459,
+    "prior_consumed_v24_overlap_terminal_count": 0,
+    "double_charge": false,
+    "eligible_for_separate_main_consumption": true
+  },
+  "firewalls": {
+    "producer_lane_main_authority_subtraction_performed": false,
+    "new_additional_pruning_credit": false,
+    "main_authority_mutated_by_this_receipt": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "retention_note": "This MAIN-side receipt retains the external hostile-audit verdict and exact audited producer bytes. It does not alter the 178 producer lane.",
+  "canonical_sha256_without_this_field": "201422333dd02f1e15c8fc9bb59b332651905f8b21c2d4cd9fa8c67005f1ccbb"
+}

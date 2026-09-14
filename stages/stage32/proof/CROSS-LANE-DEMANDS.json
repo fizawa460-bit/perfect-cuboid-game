@@ -14,9 +14,26 @@
       "note": "CUT191 remains independently consumed in V12 authority. CUT192 is now SATISFIED and CUT193 has re-entered, with zero new MAIN credit.",
       "producer_lane": "CUT",
       "result_id": "S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1"
+    },
+    {
+      "audit_review_id": 5203374607,
+      "audit_status": "PASS",
+      "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+      "authoritative_remaining_terminals_before_consumption": 26876434389242951089388,
+      "authoritative_remaining_terminals_after_consumption": 26876434389242951083886,
+      "credited_incremental_rejected_terminals": 5502,
+      "main_consumed": true,
+      "main_consumption_required": true,
+      "main_consumption_status": "CONSUMED_ON_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT",
+      "producer_lane": "32-01-178",
+      "producer_lane_subtraction_performed": false,
+      "result_id": "S32.N400.N396_REJECTED_5502.COMPACT_MAIN_CONSUMPTION.V1",
+      "demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+      "double_charge": false,
+      "prior_consumed_overlap_terminals": 0,
+      "note": "MAIN consumes the hostile-audited N400 equivalent handoff exactly once. The 178 producer lane performs no authority subtraction; replacement MAIN head remains frozen pending hostile audit."
     }
   ],
-  "canonical_sha256_without_this_field": "0ba500be9566fbda6e24c87a5ed8f83f481498b67d99f4498e9e9fc8cfc4d777",
   "contract": {
     "claim_dag_separation": true,
     "consumer_reentry_rule": "A consumer waiting on an OPEN demand must stop rather than duplicate producer work. When the demand becomes SATISFIED, the consumer must re-enter on its next mainbatch and validate the satisfying artifact/source locks before continuing.",
@@ -241,8 +258,75 @@
         "scope": "RETAINED_97_BLOCKS_ONLY",
         "terminal_identity_count": 10961
       },
-      "status": "OPEN",
-      "status_reason": "N398 retained candidate is frozen pending independent hostile audit; MAIN synthesis/re-entry must not consume it as audited credit before PASS."
+      "status": "OBSOLETE",
+      "status_reason": "Superseded by hostile-audited N400 compact MAIN-consumption handoff, which binds the audited N399 predicate to hostile-audited N397 no-double-charge accounting for the same retained 97-block / 10,961-terminal route. N398 cross-population synthesis is no longer a consumer re-entry blocker."
+    },
+    {
+      "audit_requirement": {
+        "artifact_retention_requires_exact_replay": true,
+        "hostile_audit_required_before_demand_satisfaction": true,
+        "hostile_audit_required_before_mathematical_credit": true,
+        "producer_may_not_self_grant_audit_credit": true
+      },
+      "blocker_being_removed": "N400_AUDITED_COMPACT_MAIN_CONSUMPTION_HANDOFF_NOT_CONSUMED",
+      "consumer_lane": "MAIN",
+      "demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+      "main_promotion_requirement": {
+        "claim_sync_required_if_mathematical_credit_changes": true,
+        "demand_satisfaction_auto_promotes_to_main": false,
+        "explicit_main_consumption_required_for_main_credit": true
+      },
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "32-01-178",
+      "requested_artifact": {
+        "artifact_type": "HOSTILE_AUDITED_N400_COMPACT_MAIN_CONSUMPTION_HANDOFF",
+        "exact_mathematical_interface": "A hostile-audited compact handoff binding the exact N396 rejected 5,502-terminal rank stream to the N399 terminal predicate and N397 current-authority/no-double-charge accounting, with no subtraction performed in the 178 producer lane.",
+        "required_fields": [
+          "producer_pr_and_audited_exact_head",
+          "n400_result_identity",
+          "n400_state_identity",
+          "n400_verifier_identity",
+          "hostile_audit_receipt",
+          "source_population_identity",
+          "rejected_rank_stream_identity",
+          "n397_no_double_charge_identity",
+          "main_subtraction_not_performed_by_producer",
+          "credit_firewall"
+        ]
+      },
+      "routing": {
+        "consumer_reentry_on_satisfied": true,
+        "consumer_waits_without_rebuilding_producer_interface": true,
+        "producer_acknowledgement_required": true,
+        "producer_open_demand_must_preempt_lower_priority_local_work": true
+      },
+      "satisfying_artifact": {
+        "producer_pr": 1797,
+        "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+        "audit_review_id": 5203374607,
+        "audit_status": "PASS",
+        "result_path": "stages/stage32/32-01-178/nodes/N400/RESULT.json",
+        "result_blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+        "result_canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb",
+        "state_path": "stages/stage32/32-01-178/nodes/N400/STATE.json",
+        "state_blob_sha1": "c6fb6f55e026be9c87f5e825a18d114ce0dd3d23",
+        "state_canonical_sha256": "eabea6689d7fc92542eb5a417e1467dba4bf3ce7cb69613fd6dff4d5e52fd342",
+        "verifier_path": "stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py",
+        "verifier_blob_sha1": "6898ea22458d2156944569dc598eb5b7ebb0048e",
+        "verdict": "N400_COMPACT_MAIN_CONSUMPTION_HANDOFF_VERIFIED"
+      },
+      "source_population_semantics": {
+        "scope": "RETAINED_N391_97_BLOCKS_ONLY",
+        "terminal_identity_count": 10961,
+        "rejected_terminal_count": 5502,
+        "rejected_terminal_rank_stream_sha256": "6648c3a246b71f74dec275012f0218d8a44477cd756229e6e3bc3eda965ca262",
+        "prior_consumed_v24_overlap_terminal_count": 0,
+        "double_charge": false,
+        "eligible_for_separate_main_consumption": true,
+        "producer_lane_main_authority_subtraction_performed": false
+      },
+      "status": "SATISFIED",
+      "status_reason": "Hostile audit PASS review 5203374607 at exact head b1a950c... verifies the N400 compact consumer handoff. Satisfaction itself grants no MAIN credit; explicit MAIN consumption is recorded separately."
     }
   ],
   "lane_coordination_state_paths": {
@@ -250,6 +334,7 @@
     "EX5": "stages/stage32-ex5/CROSS-LANE-STATE.json"
   },
   "purpose": "Machine-readable operational dependency DAG for current Stage32 lanes. This registry coordinates requested artifacts only and is separate from mathematical claim authority.",
-  "schema": "STAGE32_CROSS_LANE_DEMANDS_V2_ACTIVE_SPECIALIST_HANDOFF",
-  "stage": 32
+  "schema": "STAGE32_CROSS_LANE_DEMANDS_V3_N400_MAIN_CONSUMPTION",
+  "stage": 32,
+  "canonical_sha256_without_this_field": "600e877e1d0764c4ac0687282d2836707e06b55d6248cf7a0c6fe5b845842161"
 }

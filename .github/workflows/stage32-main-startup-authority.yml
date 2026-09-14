@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V24 authority retained; GRF-08 freezes GRF-01 A-D; GRF-09 is a bounded zero-credit CUT201 parity probe.
+# Current boundary: V25 N400 audited 5,502-terminal MAIN consumption; replacement head frozen for hostile audit.
 on:
   pull_request:
     paths:
@@ -36,7 +36,7 @@ concurrency:
 jobs:
   startup-authority:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -47,14 +47,32 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Checkout hostile-audited V24 HPADJ07 boundary
+      - name: Checkout pre-N400 MAIN authority boundary
         uses: actions/checkout@v4
         with:
-          ref: 3c5915dee248660a2821f2ebe9c24e20b0ad1647
-          path: .stage32-audited-hpadj07-v24
+          ref: 23a6512e0e14b98439e4c04d0c4367fb779359a5
+          path: .stage32-pre-n400-main
           fetch-depth: 1
-      - name: Assert hostile-audited V24 HPADJ07 boundary
-        run: test "$(git -C .stage32-audited-hpadj07-v24 rev-parse HEAD)" = "3c5915dee248660a2821f2ebe9c24e20b0ad1647"
+      - name: Assert pre-N400 MAIN authority boundary
+        run: test "$(git -C .stage32-pre-n400-main rev-parse HEAD)" = "23a6512e0e14b98439e4c04d0c4367fb779359a5"
+
+      - name: Checkout hostile-audited N400 producer boundary
+        uses: actions/checkout@v4
+        with:
+          ref: b1a950cbc6edf3cb85e1ea79473105c6f1f67b03
+          path: .stage32-audited-n400
+          fetch-depth: 1
+      - name: Assert hostile-audited N400 producer boundary
+        run: test "$(git -C .stage32-audited-n400 rev-parse HEAD)" = "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03"
+
+      - name: Checkout N400 source-locked current MAIN root
+        uses: actions/checkout@v4
+        with:
+          ref: 117310b6a9d40273683cab8c08cc9e5e0cc584d9
+          path: .stage32-n400-current-main
+          fetch-depth: 1
+      - name: Assert N400 source-locked current MAIN root
+        run: test "$(git -C .stage32-n400-current-main rev-parse HEAD)" = "117310b6a9d40273683cab8c08cc9e5e0cc584d9"
 
       - name: Checkout source-locked CUT201 boundary
         uses: actions/checkout@v4
@@ -71,8 +89,6 @@ jobs:
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
-          event_base="${{ github.event.pull_request.base.sha }}"
-          echo "event_base=$event_base"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
           test -n "$merge_base"
@@ -83,17 +99,41 @@ jobs:
           fi
           echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
-      - name: Verify V24 audit-sync source identities
+      - name: Verify V25 N400 source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8df16056625db5fbb1947f1e927593de258f1ff"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "456dbb6bfba1e9e86df53adcf2d0d61b28222311"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v24_synced.py)" = "874689f538eda37aee53a2022eb85b65afdcca2c"
-          test "$(git hash-object stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json)" = "37a1d7ed1af5d715220fd3c78e292f84eecbca72"
-          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py)" = "2b57cecea5ac7b7e985ea07e6185f8ce9e780a08"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "c6debd246e0a7f5bac2f5cce6c1d3cf80de3918c"
+          test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "e4b4943ff18657d40703f50ae8ae20e62e0980e4"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "7072232d989b35e2ee129c262d9ece1bf34c8dd6"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v25_n400_consumed.py)" = "c363e1d15ec541ef04f4ece8e0772b18cda50296"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-HOSTILE-AUDIT-PASS-RECEIPT.json)" = "c43a50a417cb62228860c0c230a27110939ed6e7"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V25-MAIN-CONSUMPTION.json)" = "e0eb8e7d0364dc11df0568d7bbd820488cd44678"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py)" = "69413a17e31758e2c49aa56e5778c8694cbaa4a9"
+          test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "454eca60149ae5c3121f79567d6b4a782d373369"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "344aeaccb0c655f2e1def290eb68dab834aa5105"
+          test "$(git hash-object stages/stage32/proof/PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json)" = "e41ee562f8a940ad5041d2d5e64228f2ada7a207"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8aec897d129c805404079bdc6d41c9164362276c"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
+          test "$(git hash-object stages/stage32/proof/CLAIM-SYNC-CONTRACT.md)" = "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "906ff7d1c64175e8cc74e587b95dc3257a015639"
+          test "$(git hash-object stages/stage32/verify_command_surface.py)" = "69e6c295221bf504681648b2b4e3a61115520294"
+
+      - name: Verify retained N400 audited producer replay
+        run: >-
+          python .stage32-audited-n400/stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py
+          --current-main-root .stage32-n400-current-main
+
+      - name: Verify N400 V25 MAIN consumption and no-double-charge
+        run: >-
+          python stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py
+          --predecessor-main-root .stage32-pre-n400-main
+          --n400-audited-root .stage32-audited-n400
+
+      - name: Reverify pre-N400 V24 MAIN startup boundary
+        run: python .stage32-pre-n400-main/stages/stage32/verify_main_startup.py
+
+      - name: Verify retained GRF source identities
+        run: |
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/derive_grf02_selected64_projected_kernel.py)" = "05b5c5134261c4d35c3433d509d4968c820dc227"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-02-PROJECTED-KERNEL.json)" = "7c1cda07749fbfb90245995d1def2ae96fb5604b"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
@@ -111,26 +151,14 @@ jobs:
           test "$(git -C .stage32-cut201 hash-object stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json)" = "87b2f139b576b3b8bddea336396c8c2da30014b1"
           test "$(git -C .stage32-cut201 hash-object stages/stage32-ex5/cut-handoff/e8_terminal_population_adapter.py)" = "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f"
 
-      - name: Reverify hostile-audited V24 predecessor startup boundary
-        run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
-
-      - name: Verify V24 HPADJ07 hostile-audit PASS synchronization
-        run: >-
-          python stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py
-          --audited-v24-root .stage32-audited-hpadj07-v24
-
       - name: Verify frozen GRF-02 selected64 projected symbolic kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py
-
       - name: Verify GRF-03 norm-ladder residue collapse no-go
         run: python stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py
-
       - name: Verify GRF-04 rational quadratic lower-bound kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
-
       - name: Verify GRF-05 integral finite-quotient lower-bound kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf05_integral_finite_quotient_lower_bound_kernel.py
-
       - name: Verify GRF-08 GRF-01 A-D symbolic suite checkpoint
         run: python stages/stage32/management/global-residual-feasibility/verify_grf08_grf01_a_d_symbolic_suite_checkpoint.py
 
@@ -140,29 +168,22 @@ jobs:
         run: |
           set -o pipefail
           python stages/stage32/management/global-residual-feasibility/probe_grf09_e8_picard_completion_parity.py | tee grf09-exact-output.txt
-      - name: Retain GRF-09 exact probe output
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage32-grf09-exact-output
-          path: grf09-exact-output.txt
-          if-no-files-found: error
-          retention-days: 7
-      - name: Verify GRF-09 exact parity checkpoint against retained probe output
+      - name: Verify GRF-09 exact parity checkpoint
         run: >-
           python stages/stage32/management/global-residual-feasibility/verify_grf09_cut201_e8_picard_parity_checkpoint.py
           --probe-output grf09-exact-output.txt
 
-      - name: Verify Stage32 MAIN startup authority after V24 audit sync
+      - name: Verify Stage32 MAIN V25 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination after V24 audit sync
+      - name: Verify Stage32 cross-lane demand coordination after N400 consumption
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V24 audit sync
+      - name: Verify Stage32 claim-DAG integrity after N400 consumption
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V24 audit sync
+      - name: Verify Stage32 active frontier remains incomplete
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Enforce startup-only scope

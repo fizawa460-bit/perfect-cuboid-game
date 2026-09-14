@@ -1,5 +1,5 @@
 {
-  "canonical_sha256_without_this_field": "02e654b76702ddc33595b6c41995af26de7ad4981296f4dbf4b2353659dc6925",
+  "canonical_sha256_without_this_field": "20defc105e39fedaaf5243de55bf0c496ffa997566fec582595847da5a02c2ca",
   "credit_firewall": {
     "coordinate_equivalence_proved": false,
     "effectivity_credit": false,
@@ -14,7 +14,7 @@
     "stage32_closed": false,
     "theorem_credit": false
   },
-  "purpose": "Place the retained 178 N398 parity candidate, MAIN GRF-09 CUT201 parity checkpoint, and EX5 Picard64/node-support route in one explicit comparison boundary before any cross-population or coordinate identification is asserted.",
+  "purpose": "Historical comparison boundary for N398/GRF-09/EX5 parity observations. It is superseded as a MAIN re-entry blocker by the hostile-audited N400 compact consumption handoff; unresolved cross-population comparisons remain NOT_PROVED and are not used for the N400 bounded 5,502-terminal consumption.",
   "required_comparisons": [
     {
       "id": "POPULATION_IDENTITY",
@@ -40,12 +40,16 @@
   "routing": {
     "cut_state_must_not_be_mutated_by_main_synthesis": true,
     "ex5_state_must_not_be_mutated_by_main_synthesis": true,
-    "main_may_prepare_noncredit_comparison_before_n398_audit": true,
+    "main_may_prepare_noncredit_comparison_before_n398_audit": false,
     "main_must_not_claim_cross_population_equivalence_without_exact_adapter": true,
     "n398_demand_id": "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1",
-    "n398_hostile_audit_must_pass_before_main_consumes_as_audited_input": true
+    "n398_demand_status": "OBSOLETE",
+    "superseding_demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+    "superseding_audit_review_id": 5203374607,
+    "superseding_audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+    "n400_consumption_does_not_require_grf09_population_equivalence": true
   },
-  "schema": "STAGE32_PICARD64_PARITY_CROSS_LANE_SYNTHESIS_V1",
+  "schema": "STAGE32_PICARD64_PARITY_CROSS_LANE_SYNTHESIS_V2_SUPERSEDED_BY_N400",
   "sources": {
     "ex5_picard64": {
       "current_route": "BC2-40 preflight; execution not armed",
@@ -56,7 +60,7 @@
       "producer_pr": 1776,
       "remaining_unknown_parent_count": 23,
       "remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
-      "role_in_synthesis": "Provide exact Picard64/node-support coordinate and constraint semantics needed to test whether the N398 and GRF-09 affine parity relations are representations of the same underlying covector/2-adic lifting constraint."
+      "role_in_synthesis": "Historical comparison input only; no N400 consumption credit derives from this source."
     },
     "grf09_main": {
       "affine_model_count": 4,
@@ -73,9 +77,9 @@
       "verifier_blob_sha1": "55c1de5a90bb66322ee139a6334a5fc8ebaec4ea"
     },
     "n398_178": {
-      "audit_status": "PENDING",
-      "candidate_head": "71f078a7521b265e300a450ab129370f077ef6a1",
-      "direct_naive_mod2_relation_found": false,
+      "audit_status": "PASS_RETAINED_HISTORICAL_INPUT",
+      "audited_exact_head": "71f078a7521b265e300a450ab129370f077ef6a1",
+      "hostile_audit_review_id": 5198108138,
       "population": "97 retained blocks / 10,961 terminal identities from the N395/N396 retained route",
       "producer_pr": 1797,
       "relations": [
@@ -83,11 +87,21 @@
         "x49 + x98 = 1 (mod 2)"
       ],
       "result_canonical_sha256": "611632cedd9ff3515bb374a608020dd06079240db5224bb15f90845c7b90cad7",
-      "result_path": "stages/stage32/32-01-178/nodes/N398/RESULT.json",
-      "state_canonical_sha256": "f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1",
-      "state_path": "stages/stage32/32-01-178/nodes/N398/STATE.json"
+      "state_canonical_sha256": "f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1"
+    },
+    "n400_178": {
+      "audit_status": "PASS",
+      "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+      "hostile_audit_review_id": 5203374607,
+      "producer_pr": 1797,
+      "result_blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+      "result_canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb",
+      "rejected_terminal_count": 5502,
+      "prior_consumed_v24_overlap_terminal_count": 0,
+      "double_charge": false,
+      "producer_main_subtraction": false
     }
   },
   "stage": 32,
-  "status": "OPEN_SYNTHESIS_NO_CREDIT"
+  "status": "SUPERSEDED_BY_AUDITED_N400_MAIN_CONSUMPTION"
 }
