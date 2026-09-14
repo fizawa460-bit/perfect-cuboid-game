@@ -87,6 +87,8 @@ jobs:
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "f0d364e24e16633149f2ac5f26e44f3acb0e73fe"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "add0e8d511295c6aeca1364f3901cda930407307"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/derive_grf02_selected64_projected_kernel.py)" = "05b5c5134261c4d35c3433d509d4968c820dc227"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-02-PROJECTED-KERNEL.json)" = "7c1cda07749fbfb90245995d1def2ae96fb5604b"
+          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
@@ -96,19 +98,8 @@ jobs:
           python stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py
           --audited-v24-root .stage32-audited-hpadj07-v24
 
-      - name: Derive GRF-02 selected64 projected symbolic kernel
-        run: |
-          mkdir -p .grf02
-          python stages/stage32/management/global-residual-feasibility/derive_grf02_selected64_projected_kernel.py > .grf02/GRF-02-PROJECTED-KERNEL.json
-          python -m json.tool .grf02/GRF-02-PROJECTED-KERNEL.json >/dev/null
-          test "$(wc -c < .grf02/GRF-02-PROJECTED-KERNEL.json)" -lt 262144
-      - name: Upload transient GRF-02 projected-kernel certificate
-        uses: actions/upload-artifact@v4
-        with:
-          name: grf02-projected-kernel-${{ github.event.pull_request.head.sha || github.sha }}
-          path: .grf02/GRF-02-PROJECTED-KERNEL.json
-          if-no-files-found: error
-          retention-days: 1
+      - name: Verify frozen GRF-02 selected64 projected symbolic kernel
+        run: python stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py
 
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
