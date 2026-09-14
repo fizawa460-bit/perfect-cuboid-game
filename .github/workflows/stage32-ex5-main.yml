@@ -88,6 +88,7 @@ jobs:
           python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_37_replay_explicit_fresh_unknown41.py
           python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_38_replay_explicit_fresh_unknown34.py
           python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_39_replay_explicit_fresh_unknown30.py
+          python -m py_compile stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify EX5 cross-lane producer demand routing
@@ -96,6 +97,117 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
+
+  authorize-bc2-40-fresh-unknown23:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: gate
+        name: Authorize only a fresh BC2-40 generation1 runkey under V34
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          key=Path('stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json')
+          statep=Path('stages/stage32-ex5/MAIN-STATE.json')
+          source=Path('stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py')
+          preflight=Path('stages/stage32-ex5/breadth-cycle-2/bc2-40-fresh-unknown23-replay-preflight.json')
+          syncp=Path('stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260914.json')
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip(); authorized=False; reason='cold'
+          if before and head and key.exists():
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],check=False,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              old_ok=subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+              if old_ok and str(key) in subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines():
+                  old_key_exists=subprocess.run(['git','cat-file','-e',before+':'+str(key)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0
+                  new=json.loads(key.read_text()); state=json.loads(statep.read_text()); sync=json.loads(syncp.read_text())
+                  sb=subprocess.check_output(['git','hash-object',str(source)],text=True).strip(); pb=subprocess.check_output(['git','hash-object',str(preflight)],text=True).strip(); yb=subprocess.check_output(['git','hash-object',str(syncp)],text=True).strip()
+                  audit=new.get('audit_consumption',{}); dep=new.get('dependency_locks',{}); target=new.get('target',{}); ex=new.get('execution',{}); se=state.get('execution',{}); sf=state.get('frontier',{}); sa=state.get('intermediate_audit_boundary',{}); sc=state.get('current',{}); sm=state.get('stage32_main_authority',{}); sx=state.get('cross_lane_routing',{})
+                  lm=sync.get('live_main_state',{}); lr=sync.get('live_cross_lane_registry',{})
+                  authorized=(
+                      old_key_exists is False
+                      and new.get('schema')=='STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_RUNKEY_V1'
+                      and new.get('generation')==1 and new.get('armed') is True
+                      and sb==new.get('source_git_blob_sha')=='acccc2360a2b113b4d568c86bb4be48152a68013'
+                      and pb==new.get('preflight_git_blob_sha')=='155924fa925f2433b394debc8d3bdde0375093fa'
+                      and new.get('preflight_canonical')=='935929b0a206fbbefb9657b6b2d7f65be76174506624445582b22252c0c5590c'
+                      and audit=={'bc2_39_hostile_audit_status':'PASS','bc2_39_hostile_audit_exact_head':'4b974550d9ad030973fec99e19a090f6785f8aa8','bc2_39_hostile_audit_review_id':5193423203}
+                      and target.get('fresh_unknown_parent_count')==23
+                      and target.get('fresh_unknown_parent_indices_sha256')=='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
+                      and target.get('prior_audited_unsat_count')==7313 and target.get('targeted_replay_only') is True
+                      and ex.get('per_parent_timeout_ms')==180000 and ex.get('effective_heavy_concurrency')==1 and ex.get('workflow_timeout_minutes')==100
+                      and ex.get('expected_compact_result_max_bytes')==524288 and ex.get('artifact_retention_days')==2 and ex.get('compact_result_only') is True and ex.get('heavy_scaleout_authorized') is False
+                      and sync.get('live_exact_head')=='be1d42b7bc0f91e10e0b60c85f5ba6467111ab99'
+                      and sync.get('main_coordination_pr')==1800
+                      and lm.get('schema')=='STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED'
+                      and lm.get('git_blob_sha')=='b8df16056625db5fbb1947f1e927593de258f1ff'
+                      and lm.get('canonical_sha256')=='bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d'
+                      and lm.get('authoritative_remaining_strata')==17128 and lm.get('certified_remaining_terminal_upper_bound')==26876434389242951089388 and lm.get('full178_complete') is False and lm.get('mainbatch_stop_gate')=='NONE'
+                      and lr.get('git_blob_sha')=='e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd' and lr.get('canonical_sha256')=='a5a85f824ba8fe466dbd13a7118bc0e95220cd5925d2af273653d86746a71228' and lr.get('open_ex5_producer_demand_count')==0
+                      and dep.get('live_main_sync_git_blob_sha')==yb and dep.get('live_main_sync_canonical')==sync.get('canonical_sha256_without_this_field')
+                      and dep.get('current_main_exact_head')=='be1d42b7bc0f91e10e0b60c85f5ba6467111ab99' and dep.get('current_main_state_git_blob_sha')=='b8df16056625db5fbb1947f1e927593de258f1ff' and dep.get('cross_lane_registry_git_blob_sha')=='e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd'
+                      and state.get('schema')=='STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_FRESH_RUNKEY_ARMED_EXECUTION'
+                      and sf.get('e8_bc2_40_execution_authorized') is True and sf.get('e8_bc2_40_executed') is False and sf.get('e8_bc2_40_target_unknown_count')==23
+                      and sa.get('bc2_40_execution_authorized') is True and sa.get('freeze_active') is False and sa.get('new_audit_boundary_exists') is False and sa.get('re_audit_required') is False
+                      and sc.get('status')=='BC2_40_TARGETED_REPLAY_EXECUTION_AUTHORIZED' and sc.get('next_route')=='BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET'
+                      and se.get('dedicated_runkey')==str(key) and se.get('runkey_armed') is True and se.get('effective_heavy_concurrency')==1 and se.get('per_parent_timeout_ms')==180000 and se.get('heavy_scaleout_authorized') is False
+                      and sm.get('live_coordination_head')=='be1d42b7bc0f91e10e0b60c85f5ba6467111ab99' and sm.get('full178_numerical_census_complete') is False and sm.get('ex5_auto_promotes_to_main') is False
+                      and sx.get('open_ex5_producer_demand_count')==0 and sx.get('local_bc2_40_execution_may_continue') is True
+                      and state.get('credit',{}).get('stage32_main_credit') is False and state.get('credit',{}).get('FULL178_complete') is False and state.get('firewalls',{}).get('merge_authorized') is False
+                  )
+                  reason='fresh-generation1-runkey' if authorized else 'semantic-gate-failed'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('authorized='+('true' if authorized else 'false')+'\n')
+          print('BC2-40 authorized:',authorized,'reason:',reason,'before:',before,'head:',head)
+          PY
+
+  bc2-40-fresh-unknown23:
+    needs: [verify-stage32ex5-main, authorize-bc2-40-fresh-unknown23]
+    if: needs.authorize-bc2-40-fresh-unknown23.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact BC2-40 dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Verify V34 BC2-40 authority and source locks
+        run: python stages/stage32-ex5/verify_main_state.py
+      - name: Execute targeted replay of audited 23 UNKNOWN parents
+        run: python stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_explicit_fresh_unknown23.py --per-parent-timeout-ms 180000 --output "$RUNNER_TEMP/bc2-40.json"
+      - name: Validate compact BC2-40 result
+        run: |
+          python - "$RUNNER_TEMP/bc2-40.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1])); r=p['replay']; t=p['target']; c=p['credit']; f=p['firewalls']
+          assert p['schema']=='STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_V1'
+          assert t['audited_bc2_39_unknown_count']==23 and t['parent_indices_sha256']=='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02' and t['prior_audited_unsat_count']==7313 and t['target_is_exact_audited_unknown_complement'] is True
+          assert r['parents_checked']==23 and r['unsat_count']+r['unknown_count']+r['sat_count']==23 and r['per_parent_timeout_ms']==180000
+          assert sorted(t['parent_indices'])==sorted(r['unsat_parent_indices']+r['unknown_parent_indices']+r['sat_parent_indices']) and len(set(r['unknown_parent_indices']))==len(r['unknown_parent_indices'])
+          assert c['known_parent_unsat_count_lower_bound']==7313+r['unsat_count'] and c['stage32_main_credit'] is False and c['full178_complete'] is False and c['effectivity_or_actual_curve_existence_proved'] is False
+          assert f['timeout_unknown_relabelled_unsat'] is False and f['unknown_dropped'] is False and f['sat_relabelled_actual_curve'] is False and f['main_promotion'] is False and f['merge_authorized'] is False and f['heavy_scaleout_authorized'] is False
+          print('BC2_40_COMPACT_RESULT_OK',p['canonical_sha256_without_this_field'],r['unsat_count'],r['unknown_count'],r['sat_count'])
+          PY
+          test "$(stat -c%s "$RUNNER_TEMP/bc2-40.json")" -le 524288
+      - name: Upload compact BC2-40 result
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-40-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/bc2-40.json
+          retention-days: 2
+          compression-level: 0
+          if-no-files-found: error
 
   authorize-e8-cut-handoff-wave:
     runs-on: ubuntu-24.04

@@ -12,6 +12,7 @@ V39=B2/'verify_bc2_39_targeted_replay_checkpoint.py'
 PASS39=B2/'bc2-39-hostile-audit-pass-receipt.json'
 PREFLIGHT40=B2/'bc2-40-fresh-unknown23-replay-preflight.json'
 PRODUCER40=B2/'bc2_40_replay_explicit_fresh_unknown23.py'
+RUNKEY40=HERE/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
 WORKFLOW=HERE.parent.parent/'.github/workflows/stage32-ex5-main.yml'
 
 SYNC_BLOB='c9a3a878413df5afc634f99b94707534412b5d84'
@@ -104,10 +105,11 @@ def main():
         if k!='level': req(v is False,'credit '+k)
 
     wf=WORKFLOW.read_text()
-    req('authorize-bc2-40' not in wf and '\n  bc2-40' not in wf,'BC2-40 heavy must remain unarmed')
+    req('authorize-bc2-40-fresh-unknown23:' in wf and '\n  bc2-40-fresh-unknown23:' in wf,'BC2-40 cold workflow gate missing')
+    req(not RUNKEY40.exists(),'BC2-40 runkey must remain absent while V33 cold gate is validated')
     subprocess.run([sys.executable,str(V39)],check=True)
     subprocess.run([sys.executable,'-m','py_compile',str(PRODUCER40)],check=True)
-    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt and activated only the BC2-40 preflight route')
+    print('PASS: Stage32EX5 V33 consumed BC2-39 PASS receipt and validates a cold BC2-40 workflow gate')
     print('audited_lower_bound=7313 retained_unknown=23 bc2_40_timeout_ms=180000 heavy=NOT_ARMED main_credit=NO merge=NO')
 
 if __name__=='__main__': main()
