@@ -24,6 +24,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
@@ -38,6 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 2
       - id: gate
         name: Authorize only an exact V2 resume runkey delta
@@ -177,6 +180,8 @@ jobs:
     timeout-minutes: 100
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
