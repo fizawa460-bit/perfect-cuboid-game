@@ -1,0 +1,221 @@
+name: Stage32EX5 BC2-40 resume-first heavy
+# Trigger lifecycle: ACTIVE_AUTO — current BC2-40 resumable heavy frontier.
+# Heavy execution is fail-closed behind an exact semantic V2 runkey delta.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json'
+      - 'stages/stage32-ex5/MAIN-STATE.json'
+      - 'stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260914.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-first-contract.json'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py'
+      - 'stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry/**'
+      - '.github/workflows/stage32-ex5-bc2-40-resume.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-bc2-40-resume-cold-surface:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Verify resume-first cold contract
+        run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_40_resume_first_contract.py
+
+  authorize-bc2-40-resume-v2:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: gate
+        name: Authorize only an exact V2 resume runkey delta
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+
+          key=Path('stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json')
+          statep=Path('stages/stage32-ex5/MAIN-STATE.json')
+          syncp=Path('stages/stage32-ex5/LIVE-MAIN-COORDINATION-SYNC-20260914.json')
+          contractp=Path('stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-first-contract.json')
+          helperp=Path('stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py')
+          workerp=Path('stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py')
+          aggp=Path('stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py')
+          target=[1056,1103,1206,1243,1703,1706,1717,1733,1798,2092,2122,2187,2407,2651,2819,3205,3375,3635,3885,3901,3915,3980,4200]
+          target_sha='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
+          authorized=False
+          reason='cold'
+
+          def csha(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          def canon(o):
+              q=dict(o); got=q.pop('canonical_sha256_without_this_field',None)
+              return got, csha(q)
+          def gblob(p):
+              return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
+
+          if key.exists() and subprocess.run(['git','rev-parse','--verify','HEAD^'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
+              changed=set(subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'],text=True).splitlines())
+              if str(key) in changed:
+                  new=json.loads(key.read_text())
+                  got,calc=canon(new)
+                  state=json.loads(statep.read_text())
+                  sync=json.loads(syncp.read_text())
+                  contract=json.loads(contractp.read_text())
+                  cg,cc=canon(contract)
+                  resume=new.get('resume',{})
+                  ex=new.get('execution',{})
+                  dep=new.get('dependency_locks',{})
+                  audit=new.get('audit_consumption',{})
+                  tgt=new.get('target',{})
+                  carried=resume.get('carried_parent_indices',[])
+                  missing=resume.get('missing_parent_indices',[])
+                  valid_lists=(
+                      isinstance(carried,list) and isinstance(missing,list)
+                      and carried==[i for i in target if i in set(carried)]
+                      and missing==[i for i in target if i in set(missing)]
+                      and not (set(carried)&set(missing))
+                      and (set(carried)|set(missing))==set(target)
+                      and resume.get('schedule_only_missing_parent_indices')==missing
+                  )
+                  old_text=subprocess.run(['git','show','HEAD^:'+str(key)],capture_output=True,text=True)
+                  generation_ok=False
+                  generation=new.get('generation')
+                  if generation==1 and old_text.returncode!=0 and carried==[]:
+                      generation_ok=True
+                  elif isinstance(generation,int) and generation>1 and old_text.returncode==0:
+                      try:
+                          old=json.loads(old_text.stdout)
+                          old_r=old.get('resume',{})
+                          generation_ok=(
+                              old.get('schema')=='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
+                              and old.get('generation')==generation-1
+                              and set(old_r.get('carried_parent_indices',[])).issubset(set(carried))
+                              and set(missing).issubset(set(old_r.get('missing_parent_indices',[])))
+                          )
+                      except Exception:
+                          generation_ok=False
+                  remote_main=subprocess.check_output(['git','ls-remote','origin','refs/heads/main'],text=True).split()[0]
+                  lm=sync.get('live_main_state',{})
+                  lr=sync.get('live_cross_lane_registry',{})
+                  se=state.get('execution',{})
+                  sf=state.get('frontier',{})
+                  sa=state.get('intermediate_audit_boundary',{})
+                  authorized=(
+                      got==calc
+                      and new.get('schema')=='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
+                      and new.get('armed') is True
+                      and generation_ok and valid_lists
+                      and tgt.get('fresh_unknown_parent_count')==23
+                      and tgt.get('fresh_unknown_parent_indices_sha256')==target_sha
+                      and tgt.get('prior_audited_unsat_count')==7313
+                      and audit=={'bc2_39_hostile_audit_status':'PASS','bc2_39_hostile_audit_exact_head':'4b974550d9ad030973fec99e19a090f6785f8aa8','bc2_39_hostile_audit_review_id':5193423203}
+                      and ex.get('per_parent_timeout_ms')==180000
+                      and ex.get('effective_heavy_concurrency')==1
+                      and ex.get('heavy_scaleout_authorized') is False
+                      and ex.get('artifact_retention_days')==2
+                      and resume.get('partition_key')=='parent_index'
+                      and resume.get('carry_dir')=='stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry'
+                      and cg==cc
+                      and contract.get('schema')=='STAGE32EX5_BC2_40_RESUME_FIRST_CONTRACT_V2'
+                      and contract.get('status')=='RESUME_FIRST_WORKFLOW_MIGRATED_NOT_ARMED'
+                      and contract.get('authorization',{}).get('workflow_migrated') is True
+                      and contract.get('authorization',{}).get('runkey_armed') is False
+                      and contract.get('authorization',{}).get('heavy_execution_authorized') is False
+                      and dep.get('resume_contract_canonical')==cc
+                      and dep.get('resume_contract_git_blob_sha')==gblob(contractp)
+                      and dep.get('resume_helper_git_blob_sha')==gblob(helperp)
+                      and dep.get('parent_worker_git_blob_sha')==gblob(workerp)
+                      and dep.get('resume_aggregator_git_blob_sha')==gblob(aggp)
+                      and dep.get('current_main_exact_head')==sync.get('live_exact_head')==remote_main
+                      and lm.get('git_blob_sha')=='b8df16056625db5fbb1947f1e927593de258f1ff'
+                      and lm.get('canonical_sha256')=='bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d'
+                      and lm.get('authoritative_remaining_strata')==17128
+                      and lm.get('certified_remaining_terminal_upper_bound')==26876434389242951089388
+                      and lm.get('full178_complete') is False
+                      and lr.get('git_blob_sha')=='e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd'
+                      and lr.get('canonical_sha256')=='a5a85f824ba8fe466dbd13a7118bc0e95220cd5925d2af273653d86746a71228'
+                      and lr.get('open_ex5_producer_demand_count')==0
+                      and state.get('schema')=='STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION'
+                      and sf.get('e8_bc2_40_execution_authorized') is True
+                      and sf.get('e8_bc2_40_executed') is False
+                      and sa.get('bc2_40_execution_authorized') is True
+                      and se.get('dedicated_runkey')==str(key)
+                      and se.get('runkey_armed') is True
+                      and se.get('effective_heavy_concurrency')==1
+                      and se.get('per_parent_timeout_ms')==180000
+                      and se.get('heavy_scaleout_authorized') is False
+                      and state.get('credit',{}).get('stage32_main_credit') is False
+                      and state.get('credit',{}).get('FULL178_complete') is False
+                      and state.get('firewalls',{}).get('merge_authorized') is False
+                  )
+                  reason='exact-v2-resume-runkey' if authorized else 'semantic-gate-failed'
+
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n')
+              f.write('reason='+reason+'\n')
+          print(json.dumps({'authorized':authorized,'reason':reason},sort_keys=True))
+          PY
+
+  bc2-40-resume-heavy:
+    needs: [verify-bc2-40-resume-cold-surface, authorize-bc2-40-resume-v2]
+    if: ${{ needs['authorize-bc2-40-resume-v2'].outputs.authorized == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact solver dependencies
+        run: python -m pip install --disable-pip-version-check sympy==1.13.3 z3-solver==4.15.3.0
+      - id: run
+        name: Execute only missing BC2-40 parent units
+        shell: bash
+        run: |
+          set +e
+          python stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py \
+            --runkey stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json \
+            --carry-dir stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry \
+            --units-dir "$RUNNER_TEMP/bc2-40-units" \
+            --output "$RUNNER_TEMP/bc2-40-resume-output.json"
+          rc=$?
+          set -e
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          echo "helper_exit_code=$rc"
+      - name: Upload completed parent certificates even after partial failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-40-parent-units-${{ github.run_id }}
+          path: ${{ runner.temp }}/bc2-40-units/parent-*.json
+          if-no-files-found: warn
+          retention-days: 2
+      - name: Upload aggregate or recovery snapshot even after partial failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32ex5-bc2-40-resume-output-${{ github.run_id }}
+          path: ${{ runner.temp }}/bc2-40-resume-output.json
+          if-no-files-found: warn
+          retention-days: 2
+      - name: Preserve helper failure after salvage uploads
+        if: always()
+        shell: bash
+        run: |
+          rc='${{ steps.run.outputs.rc }}'
+          test -n "$rc" || exit 1
+          exit "$rc"

@@ -13,9 +13,9 @@
     "main_promotion_authorized": false,
     "merge_authorized": false,
     "runkey_armed": false,
-    "workflow_migrated": false
+    "workflow_migrated": true
   },
-  "canonical_sha256_without_this_field": "d016c9bf836d73979efd80cfa622aadb2390645a673c8c259e7f1ce90a3ea4e6",
+  "canonical_sha256_without_this_field": "65ea5dcd69a73d6617c651a4fb8f4454c06786780436eded119ab41f3d97f561",
   "carry_validation": {
     "reject_duplicate_parent_index": true,
     "require_partition_identity": true,
@@ -24,6 +24,16 @@
     "require_timeout_ms": 180000,
     "require_unit_canonical": true,
     "reuse_only_complete_unit_certificates": true
+  },
+  "execution_helper": {
+    "carry_dir": "stages/stage32-ex5/breadth-cycle-2/bc2-40-resume-carry",
+    "git_blob_sha": "5b262f1c05d82ae3203a689522f476d83406dbb8",
+    "path": "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py",
+    "runkey_schema": "STAGE32EX5_BC2_40_RESUME_RUNKEY_V2",
+    "schedules_only_missing_parent_indices": true,
+    "validates_carried_unit_certificates": true,
+    "validates_runkey_canonical": true,
+    "writes_recovery_snapshot_before_failure_exit_when_possible": true
   },
   "firewalls": {
     "full178_complete": false,
@@ -47,9 +57,9 @@
     "next_generation": "VALIDATE_CARRY_AND_SCHEDULE_ONLY_MISSING_PARENT_INDICES",
     "on_timeout_or_cancellation": "UPLOAD_COMPLETE_UNIT_CERTIFICATES_AND_RECOVERY_SNAPSHOT_IF_TECHNICALLY_SAFE"
   },
-  "schema": "STAGE32EX5_BC2_40_RESUME_FIRST_CONTRACT_V1",
+  "schema": "STAGE32EX5_BC2_40_RESUME_FIRST_CONTRACT_V2",
   "stage": "32EX5",
-  "status": "RESUME_FIRST_CONTRACT_READY_NOT_WIRED_NOT_ARMED",
+  "status": "RESUME_FIRST_WORKFLOW_MIGRATED_NOT_ARMED",
   "storage_preflight": {
     "aggregate_max_bytes": 524288,
     "artifact_retention_days": 2,
@@ -91,6 +101,13 @@
     "prior_audited_unsat_count": 7313
   },
   "unit": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
+  "workflow": {
+    "git_blob_sha": "e4b60e4f5664d5da134b25ff66cceb2125dd44a8",
+    "legacy_v1_monolithic_gate": "RETAINED_FAIL_CLOSED_FOR_V2_SCHEMA",
+    "legacy_v1_runkey_schema": "STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_RUNKEY_V1",
+    "path": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
+    "trigger_lifecycle": "ACTIVE_AUTO"
+  },
   "workflow_requirements": {
     "compact_certificates_only": true,
     "effective_heavy_concurrency": 1,
