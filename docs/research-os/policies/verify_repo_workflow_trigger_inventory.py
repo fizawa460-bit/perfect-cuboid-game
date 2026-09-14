@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from collections import Counter, defaultdict
@@ -9,10 +10,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 WF_DIR = ROOT / ".github" / "workflows"
-INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+BASE_INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+CURRENT_DELTA = Path(__file__).with_name("repo-workflow-trigger-inventory-current-delta-20260914.json")
 
-# Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
-# if they are present, they are intentionally automatic.
 ACTIVE_AUTO = {
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
@@ -21,6 +21,7 @@ ACTIVE_AUTO = {
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
     ".github/workflows/stage32-ex5-main.yml",
+    ".github/workflows/stage32-ex5-bc2-40-resume.yml",
     ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
@@ -32,6 +33,7 @@ MANUAL = {
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
     ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
 }
+CLASSES = ("ACTIVE_AUTO", "MANUAL", "RETIRED")
 
 
 def rel(path: Path) -> str:
@@ -110,7 +112,7 @@ def manualize(text: str) -> str:
 
 
 def build_inventory(changed: list[str]) -> dict:
-    groups: dict[str, list[str]] = {k: [] for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
+    groups: dict[str, list[str]] = {k: [] for k in CLASSES}
     fam: dict[str, Counter] = defaultdict(Counter)
     for p in workflow_paths():
         r = rel(p)
@@ -122,7 +124,7 @@ def build_inventory(changed: list[str]) -> dict:
     counts["TOTAL"] = sum(counts.values())
     return {
         "schema_version": 2,
-        "generated_on": "2026-09-11",
+        "generated_on": "2026-09-14",
         "scope": "repository-wide workflow lifecycle policy",
         "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
         "counts": counts,
@@ -131,22 +133,92 @@ def build_inventory(changed: list[str]) -> dict:
         "automatic_triggers_removed_by_migration": changed,
         "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
+            "The 2026-09-11 full inventory is an immutable baseline; the current exact inventory is baseline plus the locked 2026-09-14 delta.",
             "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
             "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
             "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
-            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
-            "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-            "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
+            "Stage32EX5 BC2-40 resume-first is ACTIVE_AUTO only at the cheap gate; heavy execution remains separately runkey-authorized.",
         ],
     }
 
 
-def verify_inventory(inv: dict) -> list[str]:
+def git_blob_sha(data: bytes) -> str:
+    header = f"blob {len(data)}\0".encode()
+    return hashlib.sha1(header + data).hexdigest()
+
+
+def resolved_expected_classifications(base: dict, delta: dict) -> dict[str, list[str]]:
+    if delta.get("schema") != "REPO_WORKFLOW_TRIGGER_INVENTORY_CURRENT_DELTA_V1":
+        raise AssertionError("current inventory delta schema drift")
+    dq = dict(delta)
+    got_canonical = dq.pop("canonical_sha256_without_this_field", None)
+    calc_canonical = hashlib.sha256(
+        json.dumps(dq, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    if got_canonical != calc_canonical:
+        raise AssertionError("current inventory delta canonical drift")
+    if delta.get("base_inventory_path") != BASE_INVENTORY.relative_to(ROOT).as_posix():
+        raise AssertionError("current inventory delta base path drift")
+    base_bytes = BASE_INVENTORY.read_bytes()
+    if git_blob_sha(base_bytes) != delta.get("base_inventory_git_blob_sha"):
+        raise AssertionError("current inventory baseline blob drift")
+
+    groups = {k: list(base.get("classifications", {}).get(k, [])) for k in CLASSES}
+    additions = delta.get("additions", {})
+    removals = delta.get("removals", {})
+    if set(additions) - set(CLASSES) or set(removals) - set(CLASSES):
+        raise AssertionError("current inventory delta class drift")
+
+    for cls in CLASSES:
+        for path in removals.get(cls, []):
+            if path not in groups[cls]:
+                raise AssertionError(f"inventory removal missing from baseline: {cls} {path}")
+            groups[cls].remove(path)
+        for path in additions.get(cls, []):
+            if any(path in groups[c] for c in CLASSES):
+                raise AssertionError(f"inventory addition already classified: {path}")
+            groups[cls].append(path)
+        groups[cls].sort()
+
+    all_paths = [p for cls in CLASSES for p in groups[cls]]
+    if len(all_paths) != len(set(all_paths)):
+        raise AssertionError("resolved inventory has duplicate paths")
+    return groups
+
+
+def counts_from_groups(groups: dict[str, list[str]]) -> dict[str, int]:
+    out = {k: len(groups[k]) for k in CLASSES}
+    out["TOTAL"] = sum(out.values())
+    return out
+
+
+def families_from_groups(groups: dict[str, list[str]]) -> dict[str, dict[str, int]]:
+    fam: dict[str, Counter] = defaultdict(Counter)
+    for cls in CLASSES:
+        for path in groups[cls]:
+            fam[family(path)][cls] += 1
+            fam[family(path)]["TOTAL"] += 1
+    return {k: dict(v) for k, v in sorted(fam.items())}
+
+
+def verify_inventory(base: dict, delta: dict) -> tuple[list[str], dict]:
     failures: list[str] = []
-    actual = build_inventory([])["classifications"]
-    expected = inv.get("classifications", {})
+    generated = build_inventory([])
+    try:
+        expected = resolved_expected_classifications(base, delta)
+    except AssertionError as exc:
+        return [str(exc)], generated
+
+    actual = generated["classifications"]
     if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
+        failures.append("inventory is stale: resolved baseline+delta classification/path set differs from .github/workflows")
+    if counts_from_groups(expected) != delta.get("expected_counts"):
+        failures.append("current inventory delta expected_counts drift")
+    if families_from_groups(expected) != delta.get("expected_families"):
+        failures.append("current inventory delta expected_families drift")
+    if generated["branch_local_live_catalog"] != delta.get("expected_branch_local_live_catalog"):
+        failures.append("current inventory delta branch_local_live_catalog drift")
+
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -155,7 +227,7 @@ def verify_inventory(inv: dict) -> list[str]:
             failures.append(f"{cls} must be workflow_dispatch-only: {r} events={sorted(ev)}")
         if cls == "ACTIVE_AUTO" and not (ev - {"workflow_dispatch", "workflow_call"}):
             failures.append(f"ACTIVE_AUTO has no automatic event: {r} events={sorted(ev)}")
-    return failures
+    return failures, generated
 
 
 def main() -> None:
@@ -175,21 +247,29 @@ def main() -> None:
                 p.write_text(manualize(text))
                 changed.append(r)
 
-    generated = build_inventory(changed)
     if args.write_inventory:
-        INVENTORY.write_text(json.dumps(generated, indent=2, sort_keys=False) + "\n")
-    if not INVENTORY.is_file():
-        raise SystemExit(f"missing inventory: {INVENTORY}")
-    inv = json.loads(INVENTORY.read_text())
-    failures = verify_inventory(inv)
+        raise SystemExit(
+            "the 2026-09-11 full inventory is immutable; update "
+            "repo-workflow-trigger-inventory-current-delta-20260914.json instead"
+        )
+
+    if not BASE_INVENTORY.is_file():
+        raise SystemExit(f"missing base inventory: {BASE_INVENTORY}")
+    if not CURRENT_DELTA.is_file():
+        raise SystemExit(f"missing current inventory delta: {CURRENT_DELTA}")
+    base = json.loads(BASE_INVENTORY.read_text())
+    delta = json.loads(CURRENT_DELTA.read_text())
+    failures, generated = verify_inventory(base, delta)
     if failures:
         raise SystemExit("\n".join(failures))
 
-    c = inv["counts"]
+    c = generated["counts"]
     print("PASS repository-wide workflow trigger lifecycle inventory")
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
-    for name, row in inv["families"].items():
+    for name, row in generated["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
+    print(f"baseline_blob={delta['base_inventory_git_blob_sha']}")
+    print(f"current_delta_canonical={delta['canonical_sha256_without_this_field']}")
     print("historical_or_manual_automatic_triggers=0")
     print("mathematical_authority_changed=true")
 
