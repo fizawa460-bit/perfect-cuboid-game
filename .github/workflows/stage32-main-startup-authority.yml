@@ -135,7 +135,16 @@ jobs:
       - name: Install exact GRF-09 arithmetic dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Probe GRF-09 CUT201 e8 Picard completion parity compression
-        run: python stages/stage32/management/global-residual-feasibility/probe_grf09_e8_picard_completion_parity.py
+        run: |
+          set -o pipefail
+          python stages/stage32/management/global-residual-feasibility/probe_grf09_e8_picard_completion_parity.py | tee grf09-exact-output.txt
+      - name: Retain GRF-09 exact probe output
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-grf09-exact-output
+          path: grf09-exact-output.txt
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
