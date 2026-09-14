@@ -12,10 +12,16 @@ STAGE = HERE.parent
 REPO = STAGE.parents[1]
 MAIN_STATE = STAGE / "MAIN-STATE.json"
 REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
-EX5_STATE = REPO / "stages/stage32-ex5/CROSS-LANE-STATE.json"
+LANE_ADAPTERS = HERE / "LANE-ADAPTERS.json"
+EX5_DIR = REPO / "stages/stage32-ex5"
+EX5_MAIN_STATE = EX5_DIR / "MAIN-STATE.json"
+EX5_LEGACY_STATE = EX5_DIR / "CROSS-LANE-STATE.json"
+EX5_LEGACY_STARTUP = EX5_DIR / "MAIN-START-HERE.md"
+EX5_LEGACY_STARTUP_ARCHIVE = EX5_DIR / "archive/startup-surface-20260914/MAIN-START-HERE.md"
 V13_SNAPSHOT = STAGE / "management/MAIN-STATE-V13-N357-PRECONSUMPTION.json"
 V13_REGISTRY_SNAPSHOT = STAGE / "management/CROSS-LANE-DEMANDS-V13-N357-PRECONSUMPTION.json"
 V13_EX5_SNAPSHOT = STAGE / "management/EX5-CROSS-LANE-STATE-V13-N357-PRECONSUMPTION.json"
+V13_LANE_ADAPTERS_SNAPSHOT = HERE / "historical-routing-blobs/LANE-ADAPTERS-PRE-EX5-STARTUP-COLLAPSE.json"
 V13_VERIFIER = HERE / "verify_cross_lane_demands_v13.py"
 N357_RECEIPT = STAGE / "management/post-n357-composition-pass-consumption-20260912.json"
 CUT195_RECEIPT = STAGE / "management/post-cut195-current-v14-composition-consumption-20260912.json"
@@ -27,15 +33,15 @@ V13_REGISTRY_SNAPSHOT_BLOB = "006b4fbb66c83955dbda9e0e40bf5acf402ada8b"
 V13_REGISTRY_CANONICAL = "ae916d01b2690b2f86f06c754c83d396f947d4d2ed5df0b3adbdc42d10c2e62a"
 V13_EX5_SNAPSHOT_BLOB = "95328732bf98a2b2b693b82b78e701e3e3b6d7ee"
 V13_EX5_CANONICAL = "7d3e06425e8672cb31a1c39c871b2e11964a662cffa29d0157623b8808710a9a"
+V13_LANE_ADAPTERS_BLOB = "f0d364e24e16633149f2ac5f26e44f3acb0e73fe"
 V13_VERIFIER_BLOB = "4ce5d9ffe53aa25a00af054e35d5419d35b05355"
 V15_STATE_BLOB = "73cc6ef56647a4be9119e89bf42c8ba4d96d54c9"
 CURRENT_REGISTRY_BLOB = "1837d77b112c045d1b02ff0c31f452bbefba50a9"
 CURRENT_REGISTRY_CANONICAL = "3b99db2a7b6017001622b93ce773af1a01f6ecd9cc73c3f70a2f12aa0d03172a"
-CURRENT_EX5_STATE_BLOB = "0facfa0596050dba854d20c2595601ec4922aba8"
-CURRENT_EX5_STATE_CANONICAL = "bb7cbe43041c5b81675393581a21d546ff5c3ba4532d401008b65f3ad70bfc3d"
 HPADJ_RECEIPT_BLOB = "3e21202c813220c59a6831dd7645f612112a2415"
 HPADJ_RECEIPT_CANONICAL = "34eef4777e706a2fec9b55e6473f469c9bbb0351ba0741d588c132d7772173cf"
 HPADJ_DEMAND = "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"
+CUT192_DEMAND = "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
 N357_RECEIPT_BLOB = "033500e397a0e9d6dfa04638ab765a861cc523b8"
 N357_RECEIPT_CANONICAL = "9e5209b77b7852df66673827782bbd6c0def6651409b711aff6969c69b8a8a5f"
 CUT195_RECEIPT_BLOB = "148ea573bb1f618baac33c0d1f8cc91678fbbca2"
@@ -48,23 +54,26 @@ POST_CUT194 = 65396964990500233609659
 POST_N357 = 47598978285064933783643
 POST_CUT195 = 47598978285064933757427
 
+
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit(f"FAIL: {msg}")
+
 
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
 
+
 def canonical(obj: dict) -> str:
     cp = dict(obj)
     cp.pop("canonical_sha256_without_this_field", None)
-    return hashlib.sha256(
-        json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    ).hexdigest()
+    return hashlib.sha256(json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+
 
 def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
 
 def lock_json(path: Path, blob: str, canon: str) -> dict:
     req(path.is_file(), f"missing {path.relative_to(REPO)}")
@@ -74,6 +83,7 @@ def lock_json(path: Path, blob: str, canon: str) -> dict:
     req(canonical(obj) == canon, f"recomputed canonical drift {path.relative_to(REPO)}")
     return obj
 
+
 def replay_v13_contract() -> None:
     req(git_blob(V13_SNAPSHOT) == V13_STATE_BLOB, "V13 snapshot blob drift")
     old = load(V13_SNAPSHOT)
@@ -81,25 +91,42 @@ def replay_v13_contract() -> None:
     req(canonical(old) == V13_STATE_CANONICAL, "V13 snapshot canonical drift")
     lock_json(V13_REGISTRY_SNAPSHOT, V13_REGISTRY_SNAPSHOT_BLOB, V13_REGISTRY_CANONICAL)
     lock_json(V13_EX5_SNAPSHOT, V13_EX5_SNAPSHOT_BLOB, V13_EX5_CANONICAL)
+    req(git_blob(V13_LANE_ADAPTERS_SNAPSHOT) == V13_LANE_ADAPTERS_BLOB, "historical lane adapters snapshot drift")
     req(git_blob(V13_VERIFIER) == V13_VERIFIER_BLOB, "V13 cross-lane verifier blob drift")
+    req(EX5_LEGACY_STARTUP_ARCHIVE.is_file(), "archived EX5 startup contract missing")
 
     live = {
         MAIN_STATE: MAIN_STATE.read_bytes(),
         REGISTRY: REGISTRY.read_bytes(),
-        EX5_STATE: EX5_STATE.read_bytes(),
+        LANE_ADAPTERS: LANE_ADAPTERS.read_bytes(),
+    }
+    legacy_before = {
+        EX5_LEGACY_STATE: EX5_LEGACY_STATE.read_bytes() if EX5_LEGACY_STATE.exists() else None,
+        EX5_LEGACY_STARTUP: EX5_LEGACY_STARTUP.read_bytes() if EX5_LEGACY_STARTUP.exists() else None,
     }
     try:
         MAIN_STATE.write_bytes(V13_SNAPSHOT.read_bytes())
         REGISTRY.write_bytes(V13_REGISTRY_SNAPSHOT.read_bytes())
-        EX5_STATE.write_bytes(V13_EX5_SNAPSHOT.read_bytes())
+        LANE_ADAPTERS.write_bytes(V13_LANE_ADAPTERS_SNAPSHOT.read_bytes())
+        EX5_LEGACY_STATE.write_bytes(V13_EX5_SNAPSHOT.read_bytes())
+        EX5_LEGACY_STARTUP.write_bytes(EX5_LEGACY_STARTUP_ARCHIVE.read_bytes())
         proc = subprocess.run([sys.executable, str(V13_VERIFIER)], cwd=REPO)
         req(proc.returncode == 0, "historical V13 cross-lane contract replay failed")
     finally:
         for path, raw in live.items():
             path.write_bytes(raw)
+        for path, raw in legacy_before.items():
+            if raw is None:
+                if path.exists():
+                    path.unlink()
+            else:
+                path.write_bytes(raw)
+
     req(git_blob(MAIN_STATE) == V15_STATE_BLOB, "V15 MAIN state was not restored after historical replay")
     req(git_blob(REGISTRY) == CURRENT_REGISTRY_BLOB, "current cross-lane registry was not restored")
-    req(git_blob(EX5_STATE) == CURRENT_EX5_STATE_BLOB, "current EX5 coordination state was not restored")
+    req(not EX5_LEGACY_STATE.exists(), "historical EX5 coordination file leaked into live root")
+    req(not EX5_LEGACY_STARTUP.exists(), "historical EX5 startup file leaked into live root")
+
 
 def verify_current_hpadj_coordination() -> None:
     reg = lock_json(REGISTRY, CURRENT_REGISTRY_BLOB, CURRENT_REGISTRY_CANONICAL)
@@ -122,9 +149,20 @@ def verify_current_hpadj_coordination() -> None:
     req(receipt["status"] == "SATISFIED_OPERATIONAL_ARTIFACT_NO_MATH_CREDIT", "HPADJ receipt status drift")
     req(receipt["bc2_38_quarantine"]["p0_preemption_violation_not_retroactively_erased"] is True and receipt["bc2_38_quarantine"]["bc2_38_main_credit"] is False, "BC2-38 quarantine drift")
     req(all(v is False for v in receipt["credit_firewall"].values()), "HPADJ receipt credit firewall opened")
-    ex5 = lock_json(EX5_STATE, CURRENT_EX5_STATE_BLOB, CURRENT_EX5_STATE_CANONICAL)
-    req(ex5["open_producer_demands"] == [] and ex5["producer_acknowledged"] is True and ex5["producer_sync_required"] is False and ex5["coordination_repair_complete"] is True, "EX5 current coordination state drift")
-    req(ex5["next_gate"]["next_command"] == "stage32ex5-audit" and ex5["next_gate"]["bc2_38_hostile_audit_required"] is True and ex5["next_gate"]["bc2_39_blocked_until_bc2_38_hostile_audit_pass"] is True, "EX5 post-HPADJ gate drift")
+
+    ex5 = load(EX5_MAIN_STATE)
+    routing = ex5["cross_lane_routing"]
+    req(routing["open_ex5_producer_demand_count"] == 0, "EX5 MAIN-STATE has open producer demand")
+    req(CUT192_DEMAND in routing["satisfied_producer_demands"] and HPADJ_DEMAND in routing["satisfied_producer_demands"], "EX5 MAIN-STATE lost satisfied demand projection")
+    req(routing["terminal_to_picard64_handoff_reopened"] is False, "EX5 handoff unexpectedly reopened")
+    req(ex5["credit"]["stage32_main_credit"] is False and ex5["credit"]["FULL178_complete"] is False, "EX5 current state credit firewall opened")
+
+    adapters = load(LANE_ADAPTERS)
+    ex5_lane = next(row for row in adapters["lanes"] if row["lane"] == "EX5")
+    req(ex5_lane["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 lane state path drift")
+    req(ex5_lane["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 lane startup authority not collapsed")
+    req(ex5_lane["demand_state_path"] is None, "EX5 local demand-state mirror reintroduced")
+
 
 def main() -> None:
     replay_v13_contract()
@@ -133,7 +171,7 @@ def main() -> None:
     state = load(MAIN_STATE)
     frontier = state["current_exact_frontier"]
     req(frontier["cut191_main_pruning_credit"] is True, "CUT191 lost MAIN credit")
-    req(frontier["cut194_main_pruning_credit"] is True, "CUT194 lost MAIN credit")
+    req(frontier["cut194_main_pruning_credit"] is True, "CUT194 not consumed into MAIN")
     req(frontier["n357_main_pruning_credit"] is True, "N357 not consumed into MAIN")
     req(frontier["cut195_main_pruning_credit"] is True, "CUT195 not consumed into MAIN")
     req(frontier["cut193_main_pruning_credit"] is False, "CUT193 gained unauthorized MAIN credit")
@@ -148,8 +186,7 @@ def main() -> None:
     req(POST_CUT191 - CUT194_INCREMENT == POST_CUT194, "CUT194 arithmetic drift")
     req(POST_CUT194 - N357_INCREMENT == POST_N357, "N357 arithmetic drift")
     req(POST_N357 - CUT195_INCREMENT == POST_CUT195, "CUT195 arithmetic drift")
-    req(POST_CUT191 - POST_CUT195 == CUT194_INCREMENT + N357_INCREMENT + CUT195_INCREMENT,
-        "live MAIN delta double-charge or gap")
+    req(POST_CUT191 - POST_CUT195 == CUT194_INCREMENT + N357_INCREMENT + CUT195_INCREMENT, "live MAIN delta double-charge or gap")
 
     auth = state["authority_sync"]
     req(auth["n357_current_v13_composition_hostile_audit_status"] == "PASS", "N357 current-authority composition lacks audit PASS")
@@ -193,8 +230,9 @@ def main() -> None:
     req(frontier["stage32_closed"] is False, "Stage32 incorrectly closed")
 
     print(json.dumps({
-        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V15_PLUS_HPADJ",
+        "verdict": "PASS_STAGE32_CROSS_LANE_DEMAND_COORDINATION_V15_PLUS_HPADJ_COLLAPSED_EX5_STARTUP",
         "historical_v13_contract_replayed": True,
+        "historical_ex5_paths_persisted": False,
         "hpadj_p0_satisfied_operationally": True,
         "hpadj_main_credit": False,
         "bc2_38_quarantine_preserved": True,
@@ -207,6 +245,7 @@ def main() -> None:
         "replacement_head_hostile_reaudit_required": True,
         "merge_authorized": False,
     }, sort_keys=True))
+
 
 if __name__ == "__main__":
     main()
