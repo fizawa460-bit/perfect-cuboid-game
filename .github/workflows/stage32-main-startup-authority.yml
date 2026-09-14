@@ -71,9 +71,10 @@ jobs:
           drift="$(git diff --name-only "$baseline" "$current_main")"
           printf 'main_drift_paths=%s\n' "$drift"
           test "$drift" = "x"
-          test "$merge_base" = "$baseline"
-          echo "research_freshness=CLEAR_UNRELATED_MAIN_DRIFT"
-          echo "merge_ready_freshness=PENDING_BEHIND_MAIN"
+          git merge-base --is-ancestor "$current_main" HEAD
+          test "$merge_base" = "$current_main"
+          echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+          echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
 
       - name: Verify V24 audit-sync source identities
         run: |
