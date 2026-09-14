@@ -1,0 +1,43 @@
+{
+  "schema": "STAGE32_CUT193_E8_COMMON_ADAPTER_WAVE1_RUNKEY_V1",
+  "generation": 1,
+  "armed": true,
+  "branch": "stage32cut-e8-common-adapter-wave1-20260911",
+  "purpose": "Run the first 255-block disjoint e=8 CUT wave on the source-locked EX5 common adapter, starting from externally hostile-re-audited MAIN V12 authority.",
+  "main_parent_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+  "main_parent_external_reaudit_review": 5178420739,
+  "ex5_producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3",
+  "ex5_producer_ci_run": 34598945799,
+  "wave": {
+    "survivor_offset_range": [1, 255],
+    "block_count": 255,
+    "terminal_count": 28815,
+    "shards": [
+      {"start": 1, "count": 32},
+      {"start": 33, "count": 32},
+      {"start": 65, "count": 32},
+      {"start": 97, "count": 32},
+      {"start": 129, "count": 32},
+      {"start": 161, "count": 32},
+      {"start": 193, "count": 32},
+      {"start": 225, "count": 31}
+    ]
+  },
+  "solver": {
+    "primes": [2, 3, 5, 7, 11, 13, 17, 31, 127],
+    "per_check_timeout_ms": 750,
+    "z3_version": "4.15.4.0",
+    "sympy_version": "1.14.0"
+  },
+  "artifact": {
+    "retention_days": 1,
+    "raw_parent_records_persisted": false,
+    "compact_commitments_only": true,
+    "repository_storage_budget_bytes": 524288000
+  },
+  "credit": {
+    "candidate_only_until_hostile_audit": true,
+    "stage32_main_pruning_credit": false,
+    "merge_authorized": false
+  }
+}

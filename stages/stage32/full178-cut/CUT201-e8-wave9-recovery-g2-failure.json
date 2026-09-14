@@ -1,0 +1,39 @@
+{
+  "schema": "STAGE32_CUT201_E8_WAVE9_RECOVERY_G2_FAILURE_V1",
+  "stage": "32",
+  "node": "CUT201",
+  "wave": 9,
+  "generation": 2,
+  "status": "FAILED_BEFORE_MATHEMATICAL_SHARD_EXECUTION",
+  "exact_head": "8a784f8c150160c8225e7d84cb5ca3aaaa6b1f6f",
+  "workflow_run_id": 34792659996,
+  "job_id": 103819741317,
+  "source_generation1_run_id": 34745899934,
+  "source_generation1_execution_head": "be6a6f8acc9942dd4973f13c630a4318b923e03d",
+  "rerun_shard": 5,
+  "survivor_offset_start": 2201,
+  "survivor_offset_count": 32,
+  "observed_failure": {
+    "exception": "RuntimeError: MAIN V12 canonical drift",
+    "origin": "cut193_e8_common_adapter_wave1.py::source_and_authority_preflight",
+    "classification": "EXECUTION_ENVIRONMENT_SOURCE_PROJECTION_DRIFT_NOT_MATHEMATICAL_FAILURE",
+    "worker_entered_solver_loop": false,
+    "shard_artifact_emitted": false
+  },
+  "root_cause": "Generation2 checked out the live PR head. The CUT193-to-CUT201 worker chain is intentionally source-scoped to the hostile-reaudited MAIN V12 population at exact head 6d63d798adb50dd4efc5f0d5abc553b3dfa23060, while the live PR head now carries a later MAIN projection. The worker therefore failed closed before shard computation.",
+  "recovery_rule": {
+    "same_generation_rearm_forbidden": true,
+    "full_wave_rerun_forbidden": true,
+    "generation3_must_execute_shard5_against_generation1_execution_tree": "be6a6f8acc9942dd4973f13c630a4318b923e03d",
+    "generation1_successful_shards_reused": [0, 1, 2, 3, 4, 6, 7],
+    "mathematical_worker_change_allowed": false,
+    "authority_or_credit_change_allowed": false
+  },
+  "credit": {
+    "stage32_main_pruning_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
