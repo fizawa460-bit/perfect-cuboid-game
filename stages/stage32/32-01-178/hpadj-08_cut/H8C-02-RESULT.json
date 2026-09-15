@@ -1,0 +1,55 @@
+{
+  "schema": "STAGE32_178_HPADJ08_CUT_H8C02_SUPPORT_RESULT_V1",
+  "stage": 32,
+  "surface": "32-01-178",
+  "route": "HPADJ-08_cut",
+  "leaf": "H8C-02_SUPPORT_AWARE_INTEGER_SQUARE_MINIMUM",
+  "status": "RETAINED_NONCREDIT_CANDIDATE_AUDIT_REQUIRED",
+  "source_locks": {
+    "hpadj07_verifier_blob_sha1": "e3efa7c27c1cb37324d588bac270d53f2b21620f",
+    "n358_audited_exact_head": "462174f74d6470ec7c64f5b6d078757c7b3372fc",
+    "n358_verifier_blob_sha1": "c07a7e358a6253919194189377d6ed56f95e047a"
+  },
+  "mathematics": {
+    "group_sizes": [3, 3, 4],
+    "group_masses": ["a", "b", "c"],
+    "retained_support_semantics": "Use the exact total stored support already present in the HPADJ/N358 symbolic convolution. For each (a,b,c,total_support), minimize the sum of ten integer squares over all feasible support allocations among groups of sizes 3,3,4.",
+    "scaled_rejection": "24*min_support_aware_sum_squares > 3*d^2+48*d+96-96*g",
+    "dominates_hpadj07_group_cauchy": true,
+    "dominates_h8c01_mass_only_integer_minimum": true,
+    "terminal_materialization_required": false
+  },
+  "population_replay": {
+    "full178_rows": 178,
+    "hpadj07_rejected_terminals": 20713268924714183714810,
+    "h8c02_rejected_terminals": 22291592385308320124345,
+    "incremental_candidate_rejected_terminals_vs_hpadj07": 1578323460594136409535,
+    "h8c01_incremental_candidate_rejected_terminals_vs_hpadj07": 23798828491085012736,
+    "additional_candidate_rejected_terminals_vs_h8c01": 1554524632103051396799,
+    "affected_incremental_rows": 178,
+    "row_stream_sha256": "6ab0ab20dc346bd704c6d3421f0301aeadeb3598d9d7b93e446586f646741a92",
+    "hpadj07_replay_exact_match": true
+  },
+  "scale_interpretation": {
+    "current_main_remaining_upper_bound_reference": 26876434389242951089388,
+    "increment_fraction_of_current_upper_bound_approx": 0.0587251805,
+    "candidate_is_material_at_second_strike_scale": true,
+    "warning": "This fraction is only a scale comparison. Exact current-authority subtraction still requires hostile audit plus overlap/double-charge accounting and MAIN consumption."
+  },
+  "next": {
+    "audit_required": true,
+    "after_audit_if_pass": "H8C-03 exact ten-coordinate/prefix moment or GRF-04/05 Picard-fiber strengthening on the H8C-02 survivors",
+    "do_not_fallback_to_terminal_bruteforce": true
+  },
+  "credit_firewall": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
