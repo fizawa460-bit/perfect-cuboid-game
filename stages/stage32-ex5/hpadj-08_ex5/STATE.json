@@ -1,0 +1,44 @@
+{
+  "schema": "STAGE32EX5_HPADJ08_STATE_V1",
+  "route_id": "HPADJ-08_ex5",
+  "status": "SHARDED_FULL178_WORKER_READY_HEAVY_NOT_ARMED",
+  "scratch_branch": "stage32ex5-hpadj-08-exact-square-compression",
+  "bounded_evidence": {
+    "scope": "26 rows d=8..32 both genera",
+    "old_group_cauchy_candidate_rejected_terminals": 3257761571005,
+    "stored_exact_square_candidate_rejected_terminals": 25770706503487,
+    "incremental_candidate_over_group_cauchy": 22512944932482,
+    "strict_gain": true
+  },
+  "scaleout": {
+    "contract_path": "stages/stage32-ex5/hpadj-08_ex5/FULL178-SCALEOUT-CONTRACT.json",
+    "contract_blob_sha1": "fdc43237b84c00e615147b52f8a1f9d8d41ed5de",
+    "contract_canonical": "23ab8ae0509754f94cdf7cc661e18e692ec2af3f20a2653d0d92c1a8ff5fa84b",
+    "worker_path": "stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py",
+    "worker_blob_sha1": "c5fc340ea734dfc54436f124bb302c1ec6c5677c",
+    "partition": "8 disjoint b-interval shards covering 0..96",
+    "resume_first": true,
+    "heavy_run_armed": false,
+    "full178_candidate_count_available": false
+  },
+  "kernel_validation": {
+    "independent_small_H_crosscheck": "PASS at H=4 and H=6 against direct coordinate enumeration in local diagnostic",
+    "exact_head_ci_pass": false,
+    "reason": "no dedicated exact-head CI/run has been created or executed yet"
+  },
+  "next_action": "Add a lightweight fail-closed kernel verifier for the shard decomposition; only after it passes should a dedicated runkey/workflow be armed for the 8 FULL178 shards.",
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "d44409d6daf9549d596b010a6174a09325c638743c63461a7246abe7c0255358"
+}
