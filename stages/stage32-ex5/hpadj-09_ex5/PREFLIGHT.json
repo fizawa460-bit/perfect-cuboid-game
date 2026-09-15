@@ -1,0 +1,92 @@
+{
+  "candidate_ledger": [
+    {
+      "candidate": "Picard64 completion congruence obstruction via col(B_free)+8Z^64",
+      "reason": "Exact necessary condition already encoded by the retained selected64 affine-fiber interface; cheap finite residue predicate is plausible.",
+      "status": "LIVE"
+    },
+    {
+      "candidate": "Affine-coset minimum exceptional norm over integral Picard64 completions",
+      "reason": "Potentially stronger than pure solvability, but requires a separate normalization bridge from free selected pairings/Picard64 coordinates to the exceptional-square quantity used by adjunction.",
+      "status": "UNTESTED"
+    },
+    {
+      "candidate": "Residue refinement of Qstored using squares modulo 8/16",
+      "reason": "Could sharpen exact-square thresholds but may be dominated by the full Picard64 completion congruence once its quotient constraints are derived.",
+      "status": "UNTESTED"
+    },
+    {
+      "candidate": "Direct HNF/Picard64 UNSAT replay on HPADJ-08 survivor blocks",
+      "reason": "Likely stronger but more expensive; defer until the fixed-residue completion obstruction is measured.",
+      "status": "UNTESTED"
+    }
+  ],
+  "canonical_sha256_without_this_field": "3466ea1180f23926c8efce78ce244e1be238f68151c89a4da3b1a834ede471d7",
+  "cycle": {
+    "CYCLE_ACTIVE_RECEIVER": "integral selected64 completion of an HPADJ terminal under the retained Picard64 affine fiber",
+    "CYCLE_BLIND_REDISCOVERY": true,
+    "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+    "CYCLE_LIVE_CANDIDATES": 1,
+    "CYCLE_NEW_VIEW": "finite quotient obstruction for the 11 fixed terminal pairings modulo the selected64 denominator 8",
+    "CYCLE_NEW_VIEW_SOURCE": "INTERNAL_DERIVATION",
+    "CYCLE_PARKING_AUDIT_COMPLETE": false,
+    "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+    "CYCLE_SPLIT_TRIGGERED": false,
+    "CYCLE_UNTESTED_CANDIDATES": 3
+  },
+  "exact_receiver": {
+    "direction": "ACTUAL_RETAINED_PRIMITIVE_PICARD64_COMPLETION -> MOD8_COMPLETION_SOLVABILITY",
+    "fixed_terminal_vector": "x11 = selected pairings at labels [95,99,103,102,49,97,94,101,93,98,96]",
+    "free_completion_vector": "z53 = integer selected-pairing values at the 53 unassigned selected64 labels",
+    "integrality_condition": "B_fixed*x11 + B_free*z53 == 0 (mod 8) coordinatewise",
+    "necessary_condition": "-B_fixed*x11 belongs to col_Z(B_free) + 8*Z^64",
+    "rejection": "If the lattice-membership condition fails, no integral retained Picard64 completion exists for that terminal.",
+    "reverse_realization_required": false
+  },
+  "firewalls": {
+    "current_main_incremental_credit": false,
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "heavy_run_armed": false,
+    "integrality_completion_existence_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage32_main_pruning_credit": false,
+    "theorem_credit": false
+  },
+  "next_exact_unit": "Implement a deterministic bounded verifier that reconstructs B_fixed/B_free from the source-locked retained interface, derives the exact mod-8 lattice-membership predicate, and measures strict additional rejection on a low-degree HPADJ panel without any MAIN credit.",
+  "parallelism": {
+    "future_main_credit_requires_new_overlap_adapter": true,
+    "main_handoff_may_proceed_in_parallel": true,
+    "requires_main_hpadj08_consumption_first": false,
+    "shares_hpadj08_main_credit": false
+  },
+  "planned_exact_method": {
+    "compression": "Factor the predicate through the finite residue image of the 11 fixed terminal coordinates; do not materialize the FULL178 population.",
+    "first_scope": "bounded low-degree diagnostic before any FULL178 scaleout",
+    "full178_scaleout_authorized": false,
+    "heavy_authorized": false,
+    "lattice": "L = [B_free | 8*I_64] as a full-rank column lattice in Z^64",
+    "normal_form": "Compute a deterministic Hermite/Smith membership certificate for L.",
+    "predicate": "Evaluate membership of -B_fixed*x11 in L using only x11 residues modulo 8."
+  },
+  "purpose": "Exploit the exact retained Picard64 selected64 integrality fiber to reject HPADJ terminals whose fixed 11 selected pairings admit no integral completion modulo 8, independently of whether MAIN has consumed HPADJ-08.",
+  "route_id": "HPADJ-09_ex5",
+  "schema": "STAGE32EX5_HPADJ09_PICARD64_COMPLETION_CONGRUENCE_PREFLIGHT_V1",
+  "source_locks": {
+    "free_completion_coefficient_matrix_sha256": "ad27fa86fbc98d55a97af5fd9d247fb880af9dac58d6429ca029d6b8ca4c288b",
+    "hpadj08_adapter_hostile_audited_exact_head": "36eab50192cf80ec5ed48aba40f4a56076759fea",
+    "hpadj08_current_main_adapter_canonical": "14de9512d0ad1449b80b89f660ccbfd6d9e0864702e9b711234e8697596ff7c1",
+    "hpadj_picard64_adapter_producer_blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
+    "hpadj_picard64_adapter_producer_path": "stages/stage32-ex5/hpadj-handoff/hpadj_full178_terminal_picard64_adapter.py",
+    "hpadj_picard64_interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "hpadj_picard64_interface_path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "selected64_inverse_denominator": 8,
+    "selected64_inverse_integer_matrix_sha256": "7b4d0601585f011e168bf5c4b15086950b0e3e3e16c90826b7413cdbe183c233",
+    "terminal_fixed_coefficient_matrix_sha256": "e8f4a9004177fc2a2023775431505d4ef39b7b808bd41cb517787c235ab170fe"
+  },
+  "status": "ROUTE_SELECTED_BOUNDED_DIAGNOSTIC_NOT_YET_RUN"
+}
