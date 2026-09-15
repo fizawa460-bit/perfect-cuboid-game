@@ -26,9 +26,9 @@ N400_RECEIPT_BLOB = "e0eb8e7d0364dc11df0568d7bbd820488cd44678"
 N400_RECEIPT_CANON = "2b6d8d3c3f6eec99def1ee29d65e9a53d610c2c4696de4301d16ec37241ff205"
 N400_AUDIT_BLOB = "c43a50a417cb62228860c0c230a27110939ed6e7"
 N400_AUDIT_CANON = "201422333dd02f1e15c8fc9bb59b332651905f8b21c2d4cd9fa8c67005f1ccbb"
-REGISTRY_BLOB = "454eca60149ae5c3121f79567d6b4a782d373369"
-REGISTRY_CANON = "600e877e1d0764c4ac0687282d2836707e06b55d6248cf7a0c6fe5b845842161"
-MONITOR_BLOB = "344aeaccb0c655f2e1def290eb68dab834aa5105"
+REGISTRY_BLOB = "619c4c415dee38c0539c9d91d6881a3d7b31d46c"
+REGISTRY_CANON = "9ace76a55e717dec9f39151e694e78a00250fa08a0a804373faded45196ab7e4"
+MONITOR_BLOB = "e8f058eb5daf33fb471bbda522650c5926433e97"
 CLAIM_REGISTRY_BLOB = "f3a884adc1c82aace81cb73d049ff14720ace862"
 ACTIVE_FRONTIER_BLOB = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
 LANE_ADAPTERS_BLOB = "c0ef34e5838e27046a20fed77063593009c56f40"
@@ -36,6 +36,7 @@ AUDITED_REPLACEMENT_HEAD = "f80b2c87979a980716c9fa3c9b2649f168e0fff8"
 AUDITED_REVIEW = 5204417753
 AUTH = 26876434389242951083886
 STRATA = 17128
+CUT201_DEMAND = "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1"
 
 
 def req(v: bool, msg: str) -> None:
@@ -87,7 +88,7 @@ def main() -> None:
     n400 = locked_json(N400_RECEIPT, N400_RECEIPT_BLOB, N400_RECEIPT_CANON)
     audit = locked_json(N400_AUDIT, N400_AUDIT_BLOB, N400_AUDIT_CANON)
     registry = locked_json(REGISTRY, REGISTRY_BLOB, REGISTRY_CANON)
-    req(blob(MONITOR) == MONITOR_BLOB, "specialist monitor drift")
+    monitor = locked_json(MONITOR, MONITOR_BLOB)
     req(blob(CLAIM_REGISTRY) == CLAIM_REGISTRY_BLOB, "claim registry drift")
     frontier = locked_json(ACTIVE_FRONTIER, ACTIVE_FRONTIER_BLOB)
     req(blob(LANE_ADAPTERS) == LANE_ADAPTERS_BLOB, "lane adapters drift")
@@ -124,18 +125,28 @@ def main() -> None:
     byid = {d["demand_id"]: d for d in registry["demands"]}
     req(byid["S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1"]["status"] == "OBSOLETE", "N398 demand")
     req(byid["S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1"]["status"] == "SATISFIED", "N400 demand")
+    req(byid[CUT201_DEMAND]["status"] == "OPEN", "CUT201 V26 adapter demand")
+    req(byid[CUT201_DEMAND]["source_population_semantics"]["credited_incremental_rejected_terminals"] == 0, "CUT201 premature credit")
+    req(byid[CUT201_DEMAND]["source_population_semantics"]["current_v26_subset_identity_proved"] is False, "CUT201 subset overpromotion")
+    req(byid[CUT201_DEMAND]["source_population_semantics"]["current_v26_overlap_accounting_proved"] is False, "CUT201 overlap overpromotion")
     consumed = [x for x in registry.get("audited_result_consumption", []) if x.get("result_id") == "S32.N400.N396_REJECTED_5502.COMPACT_MAIN_CONSUMPTION.V1"]
     req(len(consumed) == 1, "N400 consumption ledger cardinality")
     req(consumed[0].get("credited_incremental_rejected_terminals") == 5502, "N400 ledger credit")
     req(consumed[0].get("double_charge") is False and consumed[0].get("prior_consumed_overlap_terminals") == 0, "N400 ledger overlap")
 
+    req(monitor["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V3_CUT201_V26_ADAPTER_PENDING", "monitor schema")
+    by_lane = {x["lane"]: x for x in monitor["active_specialists"]}
+    req(by_lane["CUT"]["pending_main_handoff_ids"] == [CUT201_DEMAND], "CUT201 monitor handoff")
+    req(monitor["credit_firewall"]["duplicate_pruning_credit_authorized"] is False, "duplicate pruning firewall")
+
     full178 = find_claim(frontier, "S32.FULL178.NUMERICAL_CENSUS.V1")
     req(full178 is not None and full178.get("frontier_status") == "ACTIVE_INCOMPLETE", "FULL178 frontier")
     req(full178.get("audit_receipt", {}).get("status") == "NOT_AUDITED_GOAL", "FULL178 overpromotion")
 
-    print("PASS: Stage32 MAIN V26 N400 hostile-audit sync authority")
+    print("PASS: Stage32 MAIN V26 N400 hostile-audit sync authority + CUT201 V26 adapter routing")
     print(f"remaining_strata={STRATA} remaining_terminals_upper_bound={AUTH}")
     print("N400=5502 consumed_once replacement_audit=PASS additional_sync_credit=0")
+    print("CUT201=25538 audited CUT candidate current_V26_credit=0 adapter_demand=OPEN")
     print("FULL178=ACTIVE_INCOMPLETE stop_gate=NONE heavy_compute_authorized=false merge_authorized=false")
 
 
