@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V5_TD01_HPADJ10_AUDIT_WAIT",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V6_TD01_V31_CONSUMED",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists and expose the current TD01/HPADJ10 audit-pending MAIN handoffs without granting credit.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after TD01 V31 bound consumption; HPADJ10 is retained audited same-character provenance with zero additional V31 credit.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -36,24 +36,20 @@
       "command": "stage32-01-178-mainbatch",
       "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
       "expected_open_pr": 1815,
-      "state_resolution": "Resolve the live TD01/top-down retained boundary selected by the current 178 startup and do not trust this PR hint without refreshing it.",
+      "state_resolution": "Resolve the live TD01/top-down retained boundary selected by current 178 startup; refresh the PR/head rather than trusting this hint.",
       "main_role": "FULL178 census/incidence/transport/completeness specialist",
-      "pending_main_handoff_ids": [
-        "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1"
-      ],
-      "last_main_disposition": "N400 was consumed once historically. Current TD01 is audit-pending and grants zero MAIN credit until hostile-audit PASS plus explicit MAIN min-composition consumption."
+      "pending_main_handoff_ids": [],
+      "last_main_disposition": "TD01 producer exact head 54945927... received hostile-audit PASS review 5214778974 and its certified upper bound is consumed once by MAIN V31 through non-additive min-composition."
     },
     {
       "lane": "EX5",
       "command": "stage32ex5-mainbatch",
       "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
       "expected_open_pr": 1814,
-      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10 boundaries even if the branch-local compact MAIN-STATE lags the successor research surface.",
+      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10 boundaries even if branch-local compact MAIN-STATE lags successor research.",
       "main_role": "Picard64/node-support producer/refinement specialist",
-      "pending_main_handoff_ids": [
-        "S32.DEMAND.HPADJ10.EX5.MAIN.AUDITED_POPULATION_HANDOFF.V1"
-      ],
-      "last_main_disposition": "HPADJ09 bounded diagnostic PASS is retained. HPADJ10 population count is audit-pending, grants zero MAIN credit, and is the same Picard64 parity character as TD01 so additive stacking is forbidden."
+      "pending_main_handoff_ids": [],
+      "last_main_disposition": "HPADJ10 exact population result at ec087d39... received hostile-audit PASS review 5211248190. It is the same Picard64 parity character consumed through TD01 V31 and has zero additional V31 MAIN credit."
     },
     {
       "lane": "CUT",
@@ -89,5 +85,5 @@
     "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "9fb4e4123ca2107151a3b8ffec9c975251f2ea00e297805ccd0dfd1ba67ab2ad"
+  "canonical_sha256_without_this_field": "5c0c07cd7e38d2a40e6855b8020e34dc2b8dc371108b48886d51f7214090fbf5"
 }

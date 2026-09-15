@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_CROSS_LANE_DEMANDS_V6_TD01_HPADJ10_AUDIT_WAIT",
+  "schema": "STAGE32_CROSS_LANE_DEMANDS_V7_TD01_V31_CONSUMED_HPADJ10_RETAINED",
   "stage": 32,
-  "purpose": "Machine-readable operational dependency DAG for current Stage32 lanes at the V30 MAIN authority boundary, including live audit-pending TD01 and HPADJ10 producer handoffs.",
+  "purpose": "Operational dependency DAG after hostile-audited TD01 V31 MAIN bound consumption and audited HPADJ10 same-character retention.",
   "contract": {
     "claim_dag_separation": true,
     "consumer_reentry_rule": "A consumer waiting on an OPEN demand stops rather than duplicating producer work. SATISFIED records the exact operational artifact; mathematical credit still requires audit, claim-sync, current-target adapter, and explicit MAIN consumption.",
@@ -19,6 +19,7 @@
     "demand_satisfied_is_mathematical_credit": false,
     "hostile_audit_bypassed": false,
     "main_promotion_bypassed": false,
+    "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
   "audited_result_consumption": [
@@ -60,9 +61,26 @@
       "double_charge": false,
       "producer_lane_subtraction_performed": false,
       "main_consumed": true,
-      "main_consumption_status": "CONSUMED_ON_V27_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT",
       "authoritative_remaining_terminals_before_consumption": 26876434389242951083886,
       "authoritative_remaining_terminals_after_consumption": 26876434389242951065128
+    },
+    {
+      "result_id": "S32.TD01.V31.CERTIFIED_UPPER_BOUND_REPLACEMENT.V1",
+      "producer_lane": "32-01-178",
+      "producer_pr": 1815,
+      "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+      "audit_review_id": 5214778974,
+      "audit_status": "PASS",
+      "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
+      "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+      "authoritative_remaining_terminals_before_consumption": 6703403803993210101494,
+      "certified_producer_upper_bound": 3453268626299532038131,
+      "authoritative_remaining_terminals_after_consumption": 3453268626299532038131,
+      "certified_tightening": 3250135177693678063363,
+      "exact_incremental_rejected_set_claimed": false,
+      "additive_subtraction_performed": false,
+      "double_charge": false,
+      "main_consumed": true
     }
   ],
   "demands": [
@@ -151,20 +169,20 @@
         "main_authority_before": 26876434389242951083886,
         "main_authority_after": 26876434389242951065128
       },
-      "status_reason": "Exact V26 subset/no-double-charge adapter received hostile-audit PASS review 5206283218 and was consumed exactly once by MAIN V27; replacement MAIN head requires hostile re-audit before further consumption."
+      "status_reason": "Exact V26 subset/no-double-charge adapter received hostile-audit PASS review 5206283218 and was consumed exactly once by MAIN V27; retained as historical provenance."
     },
     {
       "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
       "priority": "P0_BLOCKING_MAIN_CONSUMPTION",
       "producer_lane": "32-01-178",
       "consumer_lane": "MAIN",
-      "status": "OPEN",
+      "status": "SATISFIED",
       "producer_surface": {
         "producer_pr": 1815,
         "observed_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
         "base_main_authority_head": "4f7889e79d9d967d410bfcf781ade8e215703a5d",
-        "audit_status": "HOSTILE_REAUDIT_REQUIRED",
-        "prior_failed_audit_head": "a90c208ff38c65e65d45d4a320d98d4e4d1d7106"
+        "audit_status": "HOSTILE_AUDIT_PASS",
+        "audit_review_id": 5214778974
       },
       "candidate": {
         "exact_hpadj08_survivor_envelope": 6703403803993209250491,
@@ -176,23 +194,32 @@
         "same_completion_character_as_hpadj09_hpadj10": true,
         "additive_stacking_authorized": false
       },
-      "consumer_reentry_rule": "Do not consume before exact-head hostile-audit PASS. After PASS, MAIN must separately verify current-authority freshness and min-composition/no-double-charge semantics; never additively stack this character with HPADJ09/HPADJ10.",
-      "satisfying_artifact": null,
-      "status_reason": "TD01 repaired producer head is re-audit-ready; no MAIN authority or pruning credit before hostile-audit PASS and explicit MAIN consumption."
+      "satisfying_artifact": {
+        "producer_pr": 1815,
+        "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+        "audit_review_id": 5214778974,
+        "audit_status": "PASS",
+        "packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+        "packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
+        "main_consumption_receipt": "stages/stage32/management/td01-main-disposition/TD01-V31-MAIN-BOUND-REPLACEMENT.json",
+        "main_consumption_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING"
+      },
+      "status_reason": "TD01 producer received hostile-audit PASS and is consumed once by MAIN V31 as a stronger certified upper-bound replacement. No additive subtraction or exact rejected-set claim is made."
     },
     {
       "demand_id": "S32.DEMAND.HPADJ10.EX5.MAIN.AUDITED_POPULATION_HANDOFF.V1",
       "priority": "P0_BLOCKING_MAIN_CONSUMPTION",
       "producer_lane": "EX5",
       "consumer_lane": "MAIN",
-      "status": "OPEN",
+      "status": "SATISFIED",
       "producer_surface": {
         "producer_pr": 1814,
         "observed_exact_head": "ec087d394d577a893932e5bf05d7b530c285e5c6",
         "base_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
         "prior_hpadj09_audited_exact_head": "e6cb644440b90d83f4ccc0b14400c208c618005b",
         "prior_hpadj09_hostile_audit_review_id": 5210729473,
-        "audit_status": "HPADJ10_HOSTILE_AUDIT_REQUIRED"
+        "audit_status": "HOSTILE_AUDIT_PASS",
+        "audit_review_id": 5211248190
       },
       "scope": {
         "same_completion_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
@@ -204,14 +231,20 @@
         "full_stage32_residual_fraction_claimed": false,
         "additive_stacking_with_td01_authorized": false
       },
-      "consumer_reentry_rule": "Do not consume before HPADJ10 hostile-audit PASS. After PASS, require a population-preserving current-authority adapter and explicit overlap/no-double-charge accounting. This is the same Picard64 parity character as TD01 and cannot be charged independently.",
-      "satisfying_artifact": null,
-      "status_reason": "HPADJ10 exact population count is a current audit boundary on the HPADJ01 charged population; no MAIN credit before audit and adapter."
+      "satisfying_artifact": {
+        "producer_pr": 1814,
+        "audited_exact_head": "ec087d394d577a893932e5bf05d7b530c285e5c6",
+        "audit_review_id": 5211248190,
+        "audit_status": "PASS",
+        "main_v31_disposition": "RETAINED_AUDITED_SAME_CHARACTER_ZERO_ADDITIONAL_MAIN_CREDIT",
+        "additional_main_credit": 0
+      },
+      "status_reason": "HPADJ10 population result received hostile-audit PASS. V31 consumes the same Picard64 character through TD01 current-authority min-composition, so HPADJ10 receives zero additional MAIN credit here; a future strictly stronger nonduplicate current-authority adapter would require a new transition."
     }
   ],
   "lane_coordination_state_paths": {
     "CUT": "stages/stage32/full178-cut/CROSS-LANE-STATE.json",
     "EX5": "stages/stage32-ex5/CROSS-LANE-STATE.json"
   },
-  "canonical_sha256_without_this_field": "70594e57118ba54d787b21fe6e2abb72090293d6406341f8ef6d746f2ee64eec"
+  "canonical_sha256_without_this_field": "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
 }
