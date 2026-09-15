@@ -143,6 +143,35 @@ jobs:
         run: |
           test "$(git -C _hpadj08-audit rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
           python stages/stage32-ex5/hpadj-12_ex5/verify_hpadj12_audit_boundary.py --hpadj08-root _hpadj08-audit
+      - name: Checkout exact MAIN GRF04 V35 candidate source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 9cc20024e7842918a45210d8a7d5e2428f5f85f3
+          path: _main-v35-grf04
+          fetch-depth: 1
+      - name: Derive HPADJ13 joint GRF04 Picard parity bound
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          test "$(git -C _main-v35-grf04 rev-parse HEAD)" = "9cc20024e7842918a45210d8a7d5e2428f5f85f3"
+          python stages/stage32-ex5/hpadj-13_ex5/derive_grf04_picard_parity_bound.py --grf-root _main-v35-grf04 | tee /tmp/hpadj13-joint.json
+          cmp /tmp/hpadj13-joint.json stages/stage32-ex5/hpadj-13_ex5/RESULT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj13-joint.json').read_text())
+          assert data['status'] == 'STRICTER_JOINT_GRF04_PICARD_PARITY_7_OVER_33_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          assert data['canonical_sha256_without_this_field'] == '58039b1e73a288389a6b2899d22e2902e2dc291b6f4f7482b6685c69d1ab7b3a'
+          assert data['joint_block_proof']['uniform_retained_fraction'] == '7/33'
+          assert data['candidate_bound']['joint_survivor_upper_bound'] == 1421934140240983780407
+          assert data['candidate_bound']['improvement_vs_current_audited_main'] == 1938844673526816877962
+          assert data['semantics']['same_x4_direct_intersection_not_independence_assumption'] is True
+          assert data['semantics']['grf04_v35_source_candidate_is_audit_pending'] is True
+          assert data['firewalls']['stage32_main_pruning_credit'] is False
+          print('HPADJ13_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ13_JOINT_UPPER=' + str(data['candidate_bound']['joint_survivor_upper_bound']))
+          PY
       - name: Checkout hostile-audited MAIN V31 target
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         uses: actions/checkout@v4
