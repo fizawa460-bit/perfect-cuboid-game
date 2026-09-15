@@ -113,9 +113,9 @@ def main() -> None:
     # The original compressed row certificate is retained byte-for-byte. Its
     # two stale provenance fields are accepted only because the locked repair
     # and the independently checked historical result supersede them.
-    req(cert["provenance"]["hpadj08_hostile_audit_review_id"] == DEPRECATED_EMBEDDED_REVIEW_ID, "certificate embedded review-id drift")
-    req(cert["provenance"]["hpadj08_full178_result_blob_sha1"] == DEPRECATED_EMBEDDED_FULL178_BLOB, "certificate embedded FULL178 blob drift")
-    req(cert["provenance"]["hpadj08_full178_result_canonical_sha256"] == DEPRECATED_EMBEDDED_FULL178_CANONICAL, "certificate embedded FULL178 canonical drift")
+    req(cert["source"]["hpadj08_hostile_audit_review_id"] == DEPRECATED_EMBEDDED_REVIEW_ID, "certificate embedded review-id drift")
+    req(cert["source"]["hpadj08_full178_result_blob_sha1"] == DEPRECATED_EMBEDDED_FULL178_BLOB, "certificate embedded FULL178 blob drift")
+    req(cert["source"]["hpadj08_full178_result_canonical_sha256"] == DEPRECATED_EMBEDDED_FULL178_CANONICAL, "certificate embedded FULL178 canonical drift")
     req(cert["aggregate"]["stored_exact_square_candidate_rejected_terminals"] == HPADJ08_REMOVED_TERMINALS, "certificate rejected-total drift")
 
     # The pre-repair derived result is also intentionally retained byte-exact;
