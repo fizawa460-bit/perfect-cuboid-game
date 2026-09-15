@@ -130,9 +130,19 @@ jobs:
           print('HPADJ12_CANONICAL=' + data['canonical_sha256_without_this_field'])
           print('HPADJ12_REFINED_UPPER=' + str(data['candidate_bound']['row_stratified_refined_survivor_upper_bound']))
           PY
+      - name: Checkout hostile-audited HPADJ08 source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 36eab50192cf80ec5ed48aba40f4a56076759fea
+          path: _hpadj08-audit
+          fetch-depth: 1
       - name: Verify HPADJ12 repaired audit boundary
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
-        run: python stages/stage32-ex5/hpadj-12_ex5/verify_hpadj12_audit_boundary.py
+        run: |
+          test "$(git -C _hpadj08-audit rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
+          python stages/stage32-ex5/hpadj-12_ex5/verify_hpadj12_audit_boundary.py --hpadj08-root _hpadj08-audit
       - name: Checkout hostile-audited MAIN V31 target
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         uses: actions/checkout@v4
