@@ -1,0 +1,213 @@
+name: Stage32EX5 HPADJ08 FULL178
+
+# lifecycle: ACTIVE_AUTO while PR #1812 is the active HPADJ-08_ex5 frontier.
+# Heavy execution is fail-closed behind a fresh runkey delta over github.event.before..PR-head.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json'
+      - 'stages/stage32-ex5/hpadj-08_ex5/**'
+      - '.github/workflows/stage32-ex5-hpadj08-full178.yml'
+
+permissions:
+  contents: read
+
+env:
+  RUNKEY: stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json
+
+jobs:
+  verify-cold-surface:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Verify HPADJ-08 bounded certificate
+        run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_exact_square_bounded.py
+      - name: Verify HPADJ-08 shard kernel
+        run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py
+
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: gate
+        name: Authorize only fresh semantically armed runkey
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+
+          key = Path(os.environ.get('RUNKEY', 'stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json'))
+          contract = Path('stages/stage32-ex5/hpadj-08_ex5/FULL178-SCALEOUT-CONTRACT.json')
+          worker = Path('stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py')
+          verifier = Path('stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py')
+          aggregator = Path('stages/stage32-ex5/hpadj-08_ex5/aggregate_hpadj08_ex5_full178.py')
+          carry_dir = Path('stages/stage32-ex5/hpadj-08_ex5/carry')
+          planned = [[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]]
+          before = os.environ.get('BEFORE','').strip()
+          head = os.environ.get('HEAD_SHA','').strip()
+          authorized = False
+          reason = 'cold'
+          matrix = {'include': []}
+
+          def blob(p):
+              raw=p.read_bytes()
+              return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          def canon(o):
+              q=dict(o); got=q.pop('canonical_sha256_without_this_field',None)
+              calc=hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+              return got,calc
+
+          commit_range_ok=False
+          if before and head:
+              fetched=subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              commit_range_ok=(fetched.returncode==0 and subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0)
+
+          if commit_range_ok:
+              changed=set(subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines())
+              if str(key) in changed:
+                  new=json.loads(key.read_text())
+                  got,calc=canon(new)
+                  old_show=subprocess.run(['git','show',before+':'+str(key)],capture_output=True,text=True)
+                  old_generation=-1
+                  if old_show.returncode==0:
+                      try: old_generation=int(json.loads(old_show.stdout).get('generation',-1))
+                      except Exception: old_generation=-1
+                  src=new.get('source_locks',{})
+                  ex=new.get('execution',{})
+                  rs=new.get('resume',{})
+                  sp=new.get('storage_preflight',{})
+                  fw=new.get('firewalls',{})
+                  completed=rs.get('completed_shards',[])
+                  missing=rs.get('missing_shards',[])
+                  union=completed+missing if isinstance(completed,list) and isinstance(missing,list) else []
+                  exact_partition=(sorted(map(tuple,union))==sorted(map(tuple,planned)) and len({tuple(x) for x in union})==len(planned))
+                  carry_ok=True
+                  if completed:
+                      objs=[]
+                      for p in sorted(carry_dir.glob('*.json')) if carry_dir.exists() else []:
+                          try:
+                              o=json.loads(p.read_text())
+                              if o.get('schema')=='STAGE32EX5_HPADJ08_FULL178_B_SHARD_RESULT_V1': objs.append(o)
+                          except Exception: pass
+                      by_int={tuple(o.get('b_interval',[])):o for o in objs}
+                      carry_ok=all(tuple(x) in by_int for x in completed)
+                      carry_ok=carry_ok and sorted(o.get('canonical_sha256_without_this_field') for o in by_int.values() if tuple(o.get('b_interval',[])) in map(tuple,completed))==sorted(rs.get('carried_certificate_canonicals',[]))
+                  generation=int(new.get('generation',-1)) if isinstance(new.get('generation'),int) else -1
+                  generation_ok=(generation>=1 and generation==old_generation+1)
+                  matrix={'include':[{'b_start':int(x[0]),'b_end':int(x[1])} for x in missing]}
+                  authorized=(
+                      got==calc
+                      and new.get('schema')=='STAGE32EX5_HPADJ08_FULL178_RUNKEY_V1'
+                      and new.get('route_id')=='HPADJ-08_ex5'
+                      and new.get('pr')==1812
+                      and new.get('armed') is True
+                      and generation_ok
+                      and src.get('contract_blob_sha1')==blob(contract)
+                      and src.get('contract_canonical')=='23ab8ae0509754f94cdf7cc661e18e692ec2af3f20a2653d0d92c1a8ff5fa84b'
+                      and src.get('worker_blob_sha1')==blob(worker)
+                      and src.get('kernel_verifier_blob_sha1')==blob(verifier)
+                      and src.get('aggregator_blob_sha1')==blob(aggregator)
+                      and ex.get('planned_shards')==planned
+                      and ex.get('effective_heavy_concurrency')==1
+                      and ex.get('artifact_retention_days')==1
+                      and ex.get('resume_first') is True
+                      and ex.get('schedule_only_missing_shards') is True
+                      and exact_partition and carry_ok and len(missing)>0
+                      and sp.get('repository_budget_mb')==500
+                      and sp.get('compact_certificate_only') is True
+                      and sp.get('representative_shard_measured') is True
+                      and isinstance(sp.get('measured_compact_certificate_bytes'),int)
+                      and sp.get('measured_compact_certificate_bytes')>0
+                      and isinstance(sp.get('projected_peak_storage_bytes'),int)
+                      and sp.get('projected_peak_storage_bytes') < 500*1024*1024
+                      and fw=={
+                          'stage32_main_pruning_credit':False,
+                          'current_main_incremental_credit':False,
+                          'full178_complete':False,
+                          'theorem_credit':False,
+                          'merge_authorized':False,
+                      }
+                  )
+                  reason='fresh-armed-runkey' if authorized else 'semantic-gate-failed'
+              else:
+                  reason='runkey-not-changed-in-event-range'
+          elif before or head:
+              reason='commit-range-unverifiable'
+
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n')
+              f.write('reason='+reason+'\n')
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':authorized,'reason':reason,'matrix':matrix,'before':before,'head':head},sort_keys=True))
+          PY
+
+  full178-shards:
+    needs: [verify-cold-surface, authorize]
+    if: ${{ needs.authorize.outputs.authorized == 'true' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJSON(needs.authorize.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run exact FULL178 b-shard
+        run: |
+          python stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py \
+            --b-start ${{ matrix.b_start }} \
+            --b-end ${{ matrix.b_end }} \
+            --output "$RUNNER_TEMP/hpadj08-${{ matrix.b_start }}-${{ matrix.b_end }}.json"
+      - name: Upload compact shard certificate
+        if: ${{ always() && hashFiles(format('{0}/hpadj08-{1}-{2}.json', runner.temp, matrix.b_start, matrix.b_end)) != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj08-shard-${{ matrix.b_start }}-${{ matrix.b_end }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/hpadj08-${{ matrix.b_start }}-${{ matrix.b_end }}.json
+          retention-days: 1
+          if-no-files-found: error
+
+  aggregate:
+    needs: [authorize, full178-shards]
+    if: ${{ needs.authorize.outputs.authorized == 'true' && needs.full178-shards.result == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj08-shard-*-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/hpadj08-shards
+          merge-multiple: true
+      - name: Aggregate exact shard union
+        run: |
+          python stages/stage32-ex5/hpadj-08_ex5/aggregate_hpadj08_ex5_full178.py \
+            --input-dir "$RUNNER_TEMP/hpadj08-shards" \
+            --input-dir stages/stage32-ex5/hpadj-08_ex5/carry \
+            --output "$RUNNER_TEMP/hpadj08-full178-aggregate.json"
+      - name: Upload compact aggregate candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj08-full178-aggregate-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/hpadj08-full178-aggregate.json
+          retention-days: 2
+          if-no-files-found: error
