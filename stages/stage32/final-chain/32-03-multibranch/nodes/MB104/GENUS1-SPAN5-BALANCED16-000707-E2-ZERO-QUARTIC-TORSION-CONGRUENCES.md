@@ -28,15 +28,23 @@ The conclusions below also use the already-retained candidate ambient-H1 linear 
 
 ## 1. The two used zero quartics split in the residual double cover
 
-The residual double cover `pi:Y->S` is the Kummer cover of the absent-type square class
+The residual double cover `pi:Y->S` is the Kummer cover of the absent-type square class. For one product factor this class is represented by
 
 ```text
 f_t=(t-i)/(t+i),
 ```
 
-whose divisor is the difference of the two complete absent-type fibers. The used zero quartics `Q0` and `Q1` belong to the other two singular types. On the resolved surface they are disjoint from the absent branch exceptionals and are components of fibers distinct from the two zero/pole fibers of `f_t`.
+whose zero and pole are the two absent-type bad fibers. The complementary product factor has the analogous representative `f_u`, and the retained cuboid identity proves
 
-Hence the restriction of `f_t` to either used zero quartic is a nonzero constant. Over the complex ground field that constant is a square, so
+```text
+[f_t]=[f_u]
+```
+
+already in the ambient function-field square-class group.
+
+For each used zero quartic `Qk`, choose the product factor for which that quartic is the fixed used-type boundary fiber. Its corresponding representative (`f_t` or `f_u`) restricts to a nonzero constant on `Qk`: the used fiber is distinct from the two absent zero/pole fibers. Since the two factor representatives define the same ambient square class, this computes the restriction of the actual residual double cover.
+
+Over the complex ground field every nonzero constant is a square. Therefore
 
 ```text
 pi^{-1}(Qk)=Qk^+ disjoint_union Qk^-,
@@ -49,6 +57,8 @@ Choose `Qk^+` by the residual factor value used in the exact node-orbit table:
 Q0^+ : fixed second-factor value r_w=+a,
 Q1^+ : fixed first-factor value  r_z=+u.
 ```
+
+This componentwise splitting does not assert that the two `+` components glue to one global sheet across both intersection points of `Q0` and `Q1`; no such assertion is needed below.
 
 ## 2. Restriction of the candidate linearization
 
@@ -248,6 +258,7 @@ These conditions act on the same residual simultaneous-sign allocation that cont
 ## Firewalls
 
 - The 2-torsion conclusion inherits the candidate status of the ambient-H1 linearization used by the half-hyperplane factorization.
+- Componentwise split over `Q0,Q1` is not promoted to a global same-sheet choice on their two-point union.
 - No claim is made that an arbitrary allocation satisfying these congruences globalizes to a curve.
 - No individual conductor pair is assigned a residual sign.
 - No weighted-cut upper bound is proved.
