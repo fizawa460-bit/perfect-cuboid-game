@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE32_MAIN_BC2_41_CONSUMER_DISPOSITION_V1",
+  "stage": 32,
+  "producer_lane": "EX5",
+  "consumer_lane": "MAIN",
+  "status": "REJECTED_AS_FULLY_ALREADY_CONSUMED_ZERO_INCREMENTAL_MAIN_CREDIT",
+  "purpose": "Record MAIN-side no-double-charge disposition for EX5 BC2-41. The candidate target is exactly the already-consumed CUT191 first e=8 block, so no authority subtraction is permitted.",
+  "source_locks": {
+    "main_pr": 1808,
+    "main_head_before_disposition": "4e421bfba91970f84ffcc282da8d89809c54bdfc",
+    "repository_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "main_state_canonical_sha256": "39b66cb72dd60900158e60cbca9e0c8dbd15bff3d77f7d9ed2fd096e0f12b9dd",
+    "producer_pr": 1776,
+    "producer_head_observed": "98f13bd5527e53c5e77e7f85c72b3fa46db19d9f",
+    "bc2_41_candidate_path": "stages/stage32-ex5/breadth-cycle-2/bc2-41-first-e8-block-main-subtraction-adapter-candidate.json",
+    "bc2_41_candidate_blob_sha1": "12791a4300afac6ce8b5324982d2ac63208dd4e7",
+    "bc2_41_candidate_canonical_sha256": "cd40eb0e9b380eb219d94fd75d44b457bcdb3d1edee83f1c9a56cac38415628a",
+    "bc2_40_hostile_audit_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+    "bc2_40_hostile_audit_review_id": 5204245683
+  },
+  "bc2_41_candidate": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "block_index": 0,
+    "terminal_rank_range": [0, 112],
+    "terminal_count": 113,
+    "candidate_subtraction": 113,
+    "hostile_audit_required_before_positive_main_acceptance": true,
+    "bc2_41_hostile_audit_pass_observed": false
+  },
+  "prior_consumed_cut191": {
+    "result_id": "S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1",
+    "producer_lane": "CUT",
+    "degree_e": 8,
+    "terminal_rank_range": [0, 112],
+    "terminal_count": 113,
+    "main_consumed": true,
+    "cut191_main_credit_already_consumed": true,
+    "main_consumption_audit_review_id": 5177949195,
+    "main_synchronized_exact_head": "6d63d798adb50dd4efc5f0d5abc553b3dfa23060",
+    "main_synchronized_reaudit_review_id": 5178420739
+  },
+  "overlap_accounting": {
+    "exact_rank_set_equality": true,
+    "overlap_terminal_count": 113,
+    "candidate_terminal_count": 113,
+    "incremental_new_terminal_count": 0,
+    "double_charge_if_subtracted_again": true,
+    "main_terminal_subtraction_authorized": false
+  },
+  "authority": {
+    "remaining_strata_before": 17128,
+    "remaining_strata_after": 17128,
+    "remaining_terminals_before": 26876434389242951083886,
+    "remaining_terminals_after": 26876434389242951083886,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "authority_mutated": false
+  },
+  "credit_firewall": {
+    "stage32_main_pruning_credit_added": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_action": "Do not subtract BC2-41 ranks 0..112. EX5 may retain BC2-41 as redundant corroborating evidence only, or produce a separately audited disjoint current-MAIN-surviving adapter if new MAIN pruning credit is sought.",
+  "canonical_sha256_without_this_field": "88f23dd5676157331c4f212eeae745ead0b51db4dddeacbedd1cf14f2749fd12"
+}
