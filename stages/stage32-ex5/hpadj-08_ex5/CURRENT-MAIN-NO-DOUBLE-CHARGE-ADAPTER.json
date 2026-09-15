@@ -1,0 +1,102 @@
+{
+  "schema": "STAGE32EX5_HPADJ08_CURRENT_MAIN_NO_DOUBLE_CHARGE_ADAPTER_V1",
+  "stage": 32,
+  "route_id": "HPADJ-08_ex5",
+  "status": "RETAINED_CURRENT_MAIN_CONSERVATIVE_OVERLAP_ADAPTER_CANDIDATE_AUDIT_REQUIRED",
+  "producer_audit": {
+    "hostile_audit_status": "PASS",
+    "audited_exact_head": "ce8fd7d583175ffa12cec41fc1c6ccc16f264638",
+    "audit_report_provenance": "operator-supplied stage32ex5-audit result; no repository review id recorded at adapter construction time"
+  },
+  "source_locks": {
+    "current_repository_main": {
+      "exact_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "pr_base_parent": "cd7e2aab6e7471f956091e0d5105f6d249f5c8e5",
+      "drift_from_pr_base_commits": 1,
+      "drift_classification": "NON_PRUNING_32_02_SCALAR_PRODUCER_RESEARCH_HANDOFF_ONLY"
+    },
+    "current_main_state": {
+      "path": "stages/stage32/MAIN-STATE.json",
+      "blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+      "schema": "STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED",
+      "authoritative_remaining_strata": 17128,
+      "authoritative_remaining_terminals": 26876434389242951089388,
+      "remaining_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
+    },
+    "hpadj08_full178_result": {
+      "path": "stages/stage32-ex5/hpadj-08_ex5/FULL178-RESULT.json",
+      "blob_sha1": "f9a01c3e673dc630a3446ac4560c72c4f76db812",
+      "canonical_sha256": "625e289a1a9f086b5e02f247665a7f9ac4b7fe72eaacd3011fe73a0e96041953"
+    },
+    "hpadj08_preflight": {
+      "path": "stages/stage32-ex5/hpadj-08_ex5/HPADJ08-EX5-EXACT-SQUARE-PREFLIGHT.json",
+      "blob_sha1": "8ecc5ecd97838d4225de1d1163fd8843451b68e5",
+      "canonical_sha256": "9867898a32d34f470ec421fef560527dcbcc5579453a0dab8454553a142cf953"
+    },
+    "hpadj08_worker": {
+      "path": "stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py",
+      "blob_sha1": "c5fc340ea734dfc54436f124bb302c1ec6c5677c"
+    },
+    "hpadj07_main_consumption": {
+      "path": "stages/stage32/management/hpadj-07/HPADJ07-V23-MAIN-CONSUMPTION.json",
+      "blob_sha1": "e942711b67ebc43b39a73ab55bc10862654059f8",
+      "canonical_sha256": "6fc1800b84de587e2218c372966e1424186405e57477586e8a284961f575f417"
+    },
+    "hpadj07_current_v23_rebase": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json",
+      "blob_sha1": "8883cfc59a6d48e34d7e256fad15e69714dc02d1",
+      "canonical_sha256": "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01"
+    },
+    "corrected_general_type_adjunction": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+      "blob_sha1": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+      "canonical_sha256": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
+    }
+  },
+  "population_and_subset_contract": {
+    "identical_population_semantics": true,
+    "old_group_cauchy_candidate_is_subset_of_exact_square_candidate": true,
+    "worker_fail_closed_check": "for every enumerated state, old_reject implies exact-square rejection count equals the full local multiplicity",
+    "earlier_cut_n358_overlap_firewall_inherited": true,
+    "earlier_cut_n358_firewall": "exact N358 slice excluded and entire g1-d008/e8 stratum excluded before both HPADJ07 and HPADJ08 candidate counting"
+  },
+  "set_theoretic_accounting": {
+    "notation": {
+      "A": "HPADJ07 corrected group-Cauchy rejected candidate set on the common replay domain",
+      "B": "HPADJ08 stored exact-square rejected candidate set on the same domain",
+      "C": "V22->V23 CERTLIFT03 removed set"
+    },
+    "subset": "A subseteq B",
+    "A_count": 20713268924714183714810,
+    "B_count": 40886299509963924857401,
+    "B_minus_A_count": 20173030585249741142591,
+    "C_count": 154697,
+    "exact_C_intersection_with_B_minus_A_computed": false,
+    "worst_case_overlap_bound": "|C intersect (B\\A)| <= |C| = 154697",
+    "safe_current_main_incremental_lower_bound_formula": "|B\\A|-|C|",
+    "safe_current_main_incremental_rejected_terminals_lower_bound": 20173030585249740987894,
+    "current_main_pre_adapter_remaining_terminals_upper_bound": 26876434389242951089388,
+    "candidate_post_adapter_remaining_terminals_upper_bound": 6703403803993210101494,
+    "identity_check": "26876434389242951089388 - 20173030585249740987894 = 6703403803993210101494",
+    "exact_overlap_required_for_safe_lower_bound": false,
+    "no_double_charge_proved_for_stated_lower_bound": true,
+    "stratum_count_change_claimed": false
+  },
+  "credit": {
+    "adapter_candidate_only": true,
+    "stage32_main_pruning_credit": false,
+    "current_main_subtraction_prepared": true,
+    "main_promotion_authorized": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_action": "Freeze this adapter and run stage32ex5-audit. Only an audited adapter may be handed to Stage32 MAIN for explicit consumption.",
+  "canonical_sha256_without_this_field": "14de9512d0ad1449b80b89f660ccbfd6d9e0864702e9b711234e8697596ff7c1"
+}
