@@ -69,10 +69,10 @@ jobs:
       - name: Checkout audited N358 head separately for H8C-02
         uses: actions/checkout@v4
         with:
-          ref: 462174f9ff5c7cda44edd3db9133a5dbef15a12e
+          ref: 462174f74d6470ec7c64f5b6d078757c7b3372fc
           path: .stage32-audited-n358
       - name: Assert audited N358 head
-        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f9ff5c7cda44edd3db9133a5dbef15a12e"
+        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
