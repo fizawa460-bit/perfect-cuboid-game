@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -11,7 +13,7 @@ REPO = HERE.parents[3]
 REBASE = HERE / "H8C-03A-CURRENT-V24-REBASE.json"
 H8C03 = HERE / "H8C-03A-RESULT.json"
 H8C02 = HERE / "H8C-02-RESULT.json"
-MAIN_STATE = REPO / "stages/stage32/MAIN-STATE.json"
+MAIN_STATE_REL = Path("stages/stage32/MAIN-STATE.json")
 HPADJ_CORRECTION = REPO / "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json"
 HPADJ_V23_REBASE = REPO / "stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json"
 HPADJ_CONSUMPTION = REPO / "stages/stage32/management/hpadj-07/HPADJ07-V23-MAIN-CONSUMPTION.json"
@@ -51,23 +53,38 @@ def check_canonical(obj: dict, expected: str, label: str) -> None:
     payload = dict(obj)
     stored = payload.pop("canonical_sha256_without_this_field", None)
     req(stored == expected, f"{label} stored canonical drift")
-    actual = hashlib.sha256(
-        json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
-    ).hexdigest()
+    actual = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
     req(actual == expected, f"{label} canonical replay drift")
 
 
+def exact_head(root: Path) -> str:
+    try:
+        return subprocess.check_output(["git", "-C", str(root), "rev-parse", "HEAD"], text=True, stderr=subprocess.STDOUT).strip()
+    except subprocess.CalledProcessError as exc:
+        raise SystemExit("FAIL: cannot resolve pre-V25 MAIN checkout head: " + exc.output.strip()) from exc
+
+
 def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--pre-v25-root", type=Path, default=REPO)
+    args = ap.parse_args()
+
+    main_root = args.pre_v25_root.resolve()
+    req(main_root.is_dir(), "missing pre-V25 MAIN checkout")
+    req(exact_head(main_root) == EXPECTED_MAIN_HEAD, "pre-V25 MAIN exact-head drift")
+    main_state_path = main_root / MAIN_STATE_REL
+
     rebase = load_locked(REBASE, REBASE_BLOB)
     h8c03 = load_locked(H8C03, H8C03_BLOB)
     h8c02 = load_locked(H8C02, H8C02_BLOB)
-    main_state = load_locked(MAIN_STATE, MAIN_STATE_BLOB)
+    main_state = load_locked(main_state_path, MAIN_STATE_BLOB)
     corr = load_locked(HPADJ_CORRECTION, HPADJ_CORRECTION_BLOB)
     old_rebase = load_locked(HPADJ_V23_REBASE, HPADJ_V23_REBASE_BLOB)
     consumption = load_locked(HPADJ_CONSUMPTION, HPADJ_CONSUMPTION_BLOB)
 
     check_canonical(rebase, REBASE_CANONICAL, "H8C-03A current-V24 rebase")
     check_canonical(h8c03, H8C03_CANONICAL, "H8C-03A RESULT")
+    check_canonical(main_state, "bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d", "pre-V25 MAIN V24 state")
     check_canonical(corr, "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa", "HPADJ07 correction")
     check_canonical(old_rebase, "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01", "HPADJ07 V23 rebase")
     check_canonical(consumption, "6fc1800b84de587e2218c372966e1424186405e57477586e8a284961f575f417", "HPADJ07 V23 consumption")
@@ -78,8 +95,8 @@ def main() -> None:
     req(locks["h8c03a"]["hostile_audit_review_id"] == EXPECTED_H8C03_REVIEW, "H8C-03A hostile-audit review drift")
 
     mf = main_state["current_exact_frontier"]
-    req(mf["authoritative_remaining_strata"] == 17128, "MAIN stratum authority drift")
-    req(mf["authoritative_remaining_terminals"] == 26876434389242951089388, "MAIN terminal upper-bound drift")
+    req(mf["authoritative_remaining_strata"] == 17128, "pre-V25 MAIN stratum authority drift")
+    req(mf["authoritative_remaining_terminals"] == 26876434389242951089388, "pre-V25 MAIN terminal upper-bound drift")
     req(mf["authoritative_remaining_terminals_semantics"] == "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET", "MAIN terminal semantics drift")
     req(mf["hpadj07_main_pruning_credit"] is True, "HPADJ07 MAIN consumption missing")
     req(main_state["firewalls"]["full178_complete"] is False, "FULL178 unexpectedly complete")
@@ -108,7 +125,7 @@ def main() -> None:
     req(v23 == old_rebase["source_locks"]["current_main_state"]["authoritative_remaining_terminals"], "V23 authority source drift")
     req(hcons == consumption["accounting"]["certified_hpadj07_rejected_terminals_lower_bound_consumed"], "consumed HPADJ07 lower-bound drift")
     req(v24 == consumption["accounting"]["post_consumption_certified_remaining_terminals_upper_bound"], "V24 authority consumption identity drift")
-    req(v24 == mf["authoritative_remaining_terminals"], "V24 rebase != live MAIN authority")
+    req(v24 == mf["authoritative_remaining_terminals"], "V24 rebase != pre-V25 MAIN authority")
     req(s["corrected_hpadj07_v22_rejected_lower_bound"] == h, "rebase HPADJ07 V22 lower-bound drift")
     req(s["h8c03a_v22_rejected_lower_bound_candidate"] == k, "rebase H8C-03A V22 lower-bound drift")
 
@@ -128,22 +145,17 @@ def main() -> None:
     audit = rebase["audit_boundary"]
     req(audit["current_authority_overlap_accounted_candidate"] is True, "overlap accounting candidate flag drift")
     req(audit["double_charge_accounted_candidate"] is True, "double-charge accounting candidate flag drift")
-    req(audit["main_pruning_credit"] is False, "premature MAIN credit")
+    req(audit["main_pruning_credit"] is False, "premature candidate MAIN credit")
     req(audit["hostile_audit_required_before_main_credit"] is True, "hostile-audit gate drift")
     req(audit["claim_sync_required_if_promoted"] is True, "claim-sync gate drift")
 
     fw = rebase["firewalls"]
-    for key in (
-        "main_authority_mutated", "main_pruning_credit", "full178_complete",
-        "effectivity_credit", "receiver_credit", "theorem_credit",
-        "endpoint_credit", "stage32_closed", "perfect_cuboid_existence_claim",
-        "perfect_cuboid_nonexistence_claim", "merge_authorized",
-    ):
-        req(fw[key] is False, f"firewall drift: {key}")
+    for key in ("main_authority_mutated", "main_pruning_credit", "full178_complete", "effectivity_credit", "receiver_credit", "theorem_credit", "endpoint_credit", "stage32_closed", "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim", "merge_authorized"):
+        req(fw[key] is False, f"candidate firewall drift: {key}")
 
     print(json.dumps({
         "status": "PASS_H8C03A_CURRENT_V24_CONSERVATIVE_REBASE_CANDIDATE",
-        "current_main_exact_head_locked": EXPECTED_MAIN_HEAD,
+        "pre_v25_main_exact_head_locked": EXPECTED_MAIN_HEAD,
         "h8c03a_hostile_audit_review_id": EXPECTED_H8C03_REVIEW,
         "current_v24_remaining_upper_bound": v24,
         "h8c03a_incremental_lower_bound_vs_consumed_hpadj07_candidate": inc,
