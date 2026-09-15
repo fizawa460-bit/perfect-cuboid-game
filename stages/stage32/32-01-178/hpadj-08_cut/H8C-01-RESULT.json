@@ -1,0 +1,39 @@
+{
+  "schema": "STAGE32_178_HPADJ08_CUT_H8C01_RESULT_V1",
+  "stage": 32,
+  "surface": "32-01-178",
+  "mission_id": "HPADJ-08_cut",
+  "leaf": "H8C-01_INTEGER_GROUP_SQUARE_MINIMUM",
+  "status": "EXACT_DOMINANCE_PROVED_POPULATION_REPLAY_PENDING_NO_CREDIT",
+  "domain": {
+    "a_min": 0,
+    "a_max": 96,
+    "b_min": 0,
+    "b_max": 96,
+    "c_min": 0,
+    "c_max": 96,
+    "group_triples": 912673
+  },
+  "old_scaled_lower_bound": "8*a^2+8*b^2+6*c^2",
+  "new_scaled_lower_bound": "24*(m_3(a)+m_3(b)+m_4(c))",
+  "integer_minimum": "m_n(s)=(n-r)*q^2+r*(q+1)^2, q=floor(s/n), r=s-n*q",
+  "proof_obligation_checked": "new_scaled_lower_bound >= old_scaled_lower_bound for every group triple in the full retained mass domain",
+  "result": {
+    "strictly_stronger_group_triples": 885448,
+    "equal_group_triples": 27225,
+    "equality_characterization": "a divisible by 3 AND b divisible by 3 AND c divisible by 4",
+    "maximum_scaled24_gain": 56,
+    "one_max_gain_witness": {"a": 1, "b": 1, "c": 2, "old": 40, "new": 96}
+  },
+  "interpretation": "The H8C-01 threshold is a monotone strengthening of HPADJ07 group Cauchy and can be replayed on the same aggregate a,b,c/support population without terminal materialization. This result alone does not establish any incremental rejected-terminal count.",
+  "next": "Replay the exact HPADJ07 current-population convolution replacing only the group-Cauchy threshold by the integer-minimum threshold; compute incremental rejection relative to HPADJ07 and consumed cuts.",
+  "credit_firewall": {
+    "population_replay_complete": false,
+    "new_pruning_credit": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
