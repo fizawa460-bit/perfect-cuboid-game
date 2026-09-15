@@ -115,7 +115,9 @@ def main() -> None:
     req(n358["aggregate"]["incremental_rejected_terminals"] == 9274971107798843958, "N358 rejected count drift")
     req(n358["verification"]["partition_identity"] is True, "N358 partition identity drift")
 
-    req(equiv["character_identity"]["same_character_exactly"] is True, "completion-character equivalence drift")
+    req(equiv["status"] == "EXACT_SAME_CHARACTER_PROVED_SOURCE_LOCKED_NO_MAIN_CREDIT", "completion-character status drift")
+    req(equiv["character_identity"]["hash_match"] is True, "completion-character hash identity drift")
+    req(equiv["character_identity"]["hpadj09_reconstructed_mod8_row"] == [4,0,0,0,4,0,0,0,4,0,4], "HPADJ09 character drift")
     req(packet["source_locks"]["completion_character"]["grf02_mod2_row"] == [1,0,0,0,1,0,0,0,1,0,1], "GRF02 character drift")
 
     frontier = main_state["current_exact_frontier"]
