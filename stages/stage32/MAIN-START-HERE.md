@@ -34,6 +34,8 @@ The contract's recorded PR numbers are discovery hints, not authority snapshots.
 
 A specialist may be mathematically independent of MAIN's current leaf and still must appear in the sweep. `32-02` and CERTLIFT remain on-demand and are not promoted to ordinary active specialists merely by being open or retained.
 
+`32-02` is explicitly **PARKED / INCOMPLETE**. If the user asks to resume it with language such as `32-02の研究途中から開始して`, `32-02を途中から再開`, or an equivalent explicit reopen request, open `stages/stage32/final-chain/32-02-effectivity/SCALAR-PRODUCER-RESEARCH-HANDOFF.md` first and resume from its retained #1790 boundary rather than restarting the scalar-producer research from scratch. This routing note grants no MAIN/effectivity/FULL178/theorem credit by itself.
+
 Run:
 
 `python stages/stage32/proof/verify_cross_lane_demands.py`
