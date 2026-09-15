@@ -39,6 +39,7 @@ UNKNOWN=[1056,1103,1206,1243,1703,1706,1717,1733,1798,2092,2122,2187,2407,2651,2
 V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'
 V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'
 V34='STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION'
+V35='STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED'
 
 def req(v,m):
     if not v: raise SystemExit('FAIL: '+m)
@@ -75,16 +76,28 @@ def main():
         req(f['e8_bc2_39_executed'] is True and f['e8_bc2_39_audited'] is False and f['e8_bc2_39_new_parent_unsat_count']==7 and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']==UNKNOWN_SHA and f['e8_known_parent_unsat_count_lower_bound']==7306 and f['e8_bc2_39_candidate_known_parent_unsat_count_lower_bound']==7313,'V32 frontier')
         req(cur['status']=='BC2_39_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True,'V32 audit boundary')
     else:
-        req(schema in {V33,V34},'V33/V34 schema')
+        req(schema in {V33,V34,V35},'V33/V34/V35 schema')
         f=s['frontier']; a=s['intermediate_audit_boundary']; cur=s['current']
-        req(f['e8_bc2_39_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']==UNKNOWN_SHA,'consumed frontier')
+        req(f['e8_bc2_39_audited'] is True and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_39_remaining_unknown_parent_indices_sha256']==UNKNOWN_SHA,'consumed BC2-39 frontier')
         req(f['e8_bc2_39_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and f['e8_bc2_39_hostile_audit_review_id']==5193423203,'hostile audit identity')
-        req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'audit receipt')
+        pa=s['prior_audited_authority']['bc2_39_pr_1776']
+        req(pa['hostile_audit_status']=='PASS' and pa['audit_checkpoint_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and pa['hostile_audit_review_id']==5193423203,'retained BC2-39 audit receipt')
         if schema==V33:
+            req(f['e8_known_parent_unsat_count_lower_bound']==7313,'V33 retained lower bound')
+            req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V33 audit receipt')
             req(cur['status']=='BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT_READY_NOT_ARMED' and cur['next_route']=='BC2_40_FRESH_RUNKEY_AUTHORIZATION' and a['bc2_40_execution_authorized'] is False and f['e8_bc2_40_execution_authorized'] is False,'V33 routing')
-        else:
+        elif schema==V34:
+            req(f['e8_known_parent_unsat_count_lower_bound']==7313,'V34 retained lower bound')
+            req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V34 audit receipt')
             req(cur['status']=='BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED' and cur['next_route']=='BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS' and cur['blocker']=='BC2_40_RESUME_HEAVY_PENDING','V34 routing')
             req(a['bc2_40_execution_authorized'] is True and f['e8_bc2_40_execution_authorized'] is True and f['e8_bc2_40_executed'] is False,'V34 authorization')
+        else:
+            pa40=s['prior_audited_authority']['bc2_40_pr_1776']
+            req(pa40['hostile_audit_status']=='PASS' and pa40['audit_checkpoint_exact_head']=='b3b16f3db20074e3dbdb1851ad123d5c2004b843' and pa40['hostile_audit_review_id']==5204245683,'V35 BC2-40 hostile-audit receipt')
+            req(f['e8_bc2_40_audited'] is True and f['e8_bc2_40_executed'] is True and f['e8_bc2_40_execution_authorized'] is False and f['e8_bc2_40_remaining_unknown_count']==0 and f['e8_bc2_40_sat_count']==0,'V35 BC2-40 consumed closure')
+            req(f['e8_known_parent_unsat_count_lower_bound']==7336 and f['e8_whole_first_block_unsat'] is True,'V35 first e8 block closure')
+            req(a['last_hostile_audit_exact_head']=='b3b16f3db20074e3dbdb1851ad123d5c2004b843' and a['last_hostile_audit_review_id']==5204245683 and a['bc2_40_execution_authorized'] is False and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'V35 audit receipt')
+            req(s['credit']['stage32_main_credit'] is False and s['credit']['FULL178_complete'] is False and s['firewalls']['merge_authorized'] is False,'V35 credit firewall')
 
     wf=WORKFLOW.read_text()
     req('verify_bc2_39_targeted_replay_checkpoint.py' in wf and 'authorize-bc2-39-fresh-unknown30:' not in wf and '\n  bc2-39-fresh-unknown30:' not in wf,'BC2-39 workflow lifecycle')
