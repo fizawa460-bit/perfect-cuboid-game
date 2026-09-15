@@ -66,6 +66,13 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Checkout exact pre-V25 MAIN authority separately
+        uses: actions/checkout@v4
+        with:
+          ref: c6284abbb29930255892d56f800da0ea1e34734b
+          path: .stage32-pre-v25-main
+      - name: Assert exact pre-V25 MAIN head
+        run: test "$(git -C .stage32-pre-v25-main rev-parse HEAD)" = "c6284abbb29930255892d56f800da0ea1e34734b"
       - name: Checkout audited N358 head separately for H8C-02
         uses: actions/checkout@v4
         with:
@@ -101,7 +108,13 @@ jobs:
           python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_exact_a_triple_moment.py
           --audited-n358-root .stage32-audited-n358
       - name: Verify H8C-03A current-V24 overlap and double-charge rebase
-        run: python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_current_v24_rebase.py
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_current_v24_rebase.py
+          --pre-v25-root .stage32-pre-v25-main
+      - name: Verify H8C-03A V25 MAIN consumption
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_main_consumption.py
+          --pre-v25-root .stage32-pre-v25-main
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
