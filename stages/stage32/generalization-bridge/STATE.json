@@ -2,13 +2,15 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR102",
-  "active_leaf": "BR102_KRES_PICARD64_COVECTOR_FINGERPRINT_REPLAY",
+  "current_node": "BR103",
+  "active_leaf": "BR103_KRES_MOD8_FREE_COMPLETION_CANCELLATION",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR102-EXCEPTIONAL-INCIDENCE-FINGERPRINT-ADAPTER.json",
-    "status": "RETAINED_EXACT_SEMANTIC_REDUCTION_NO_CREDIT",
+    "path": "stages/stage32/generalization-bridge/BR102-KRES-PICARD64-COVECTOR-RESULT.json",
+    "status": "EXACT_REPLAY_PASS_ADVANCE_BR103_NO_CREDIT",
     "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "bridge_commit": "c365cf3bd189ab289857bb0b55514a2458aad32d"
+    "bridge_commit": "02dd5b37871e408d4b97d44f9a133a758ec33213",
+    "replay_run_id": 34968946601,
+    "replay_exact_head": "8b83e18949e3edc36beea5b506edff0c79e4e6b3"
   },
   "source_seed": {
     "source_lane": "MB",
@@ -43,8 +45,8 @@
   "candidate_ledger": [
     {
       "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
-      "status": "ACTIVE_EXACT_FINGERPRINT_REPLAY",
-      "description": "Recover MB104 exceptional classes by exact 35-curve incidence fingerprints against the retained Gram, reconstruct K_res in Picard64, then split ell_res into the 11 fixed and 53 free selected pairing coordinates."
+      "status": "ACTIVE_BR103_FREE_COMPLETION_CANCELLATION",
+      "description": "BR102 reconstructed the exact 48-node exceptional-class bijection, verified K_res^2=-16, and expressed ell_res on the HPADJ selected-pairing fiber. The functional has 10 nonzero fixed coefficients and 48 nonzero free coefficients, so it is not terminal-visible before exact mod-8 free-completion minimization."
     },
     {
       "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
@@ -53,11 +55,11 @@
     }
   ],
   "next_obligation": {
-    "node_id": "BR102",
-    "title": "Replay exact exceptional-incidence matcher and classify K_res free dependence",
-    "required_input": "Run stages/stage32/generalization-bridge/verify_br102_kres_picard64_covector_adapter.py against the source-locked retained Picard bundle. The verifier must match the 29 retained exceptional fingerprints to unique MB104 nodes, reconstruct all K_res terms, and verify K_res^2=-16.",
-    "success": "Emit exact ell_res coefficients on the selected pairing coordinates. If all 53 free coefficients vanish, retain terminal visibility on the certified HPADJ interface scope; if any are nonzero, advance directly to BR103 exact congruence-aware cancellation/minimization.",
-    "no_go": "If exact incidence fingerprints are ambiguous or inconsistent with the retained Gram/source locks, retain the semantic mismatch as BR102 NO_GENERALIZATION evidence; do not guess Magma point order and do not descend to local terminal pruning."
+    "node_id": "BR103",
+    "title": "Decide exact K_res cancellation over the mod-8 integral 53-free completion fiber",
+    "required_input": "Use the exact selected64 affine completion model and the BR102 ell_res coefficients. Determine, for every allowed terminal-fixed x11 in the certified interface scope, the attainable set/minimum obstruction of ell_res under integer z53 subject to B_fixed*x11+B_free*z53 == 0 (mod 8) coordinatewise. Reuse GRF-04/GRF-05 exact kernels where applicable rather than enumerating terminals.",
+    "success": "Prove a nontrivial terminal-visible residue/lower-bound/necessary condition that survives minimization over all allowed free completions, then advance to BR104 bounded identical-population diagnostic.",
+    "no_go": "If the 53-free congruence fiber can cancel the residual character for every compatible terminal, retain exact BR103 NO_GENERALIZATION evidence for BR-C1. Do not fall back to terminal-by-terminal or block-by-block pruning."
   },
   "routing": {
     "independent_specialist": true,
