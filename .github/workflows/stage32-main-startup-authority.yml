@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V25 N400 audited 5,502-terminal MAIN consumption; replacement head frozen for hostile audit.
+# Current boundary: V26 synchronization of hostile-audited V25 N400 5,502-terminal MAIN consumption.
 on:
   pull_request:
     paths:
@@ -46,6 +46,15 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
+      - name: Checkout hostile-audited V25 replacement boundary
+        uses: actions/checkout@v4
+        with:
+          ref: f80b2c87979a980716c9fa3c9b2649f168e0fff8
+          path: .stage32-audited-v25-main
+          fetch-depth: 1
+      - name: Assert hostile-audited V25 replacement boundary
+        run: test "$(git -C .stage32-audited-v25-main rev-parse HEAD)" = "f80b2c87979a980716c9fa3c9b2649f168e0fff8"
 
       - name: Checkout pre-N400 MAIN authority boundary
         uses: actions/checkout@v4
@@ -99,12 +108,14 @@ jobs:
           fi
           echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
-      - name: Verify V25 N400 source identities
+      - name: Verify V26 N400 audit-sync source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "c6debd246e0a7f5bac2f5cce6c1d3cf80de3918c"
-          test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "e4b4943ff18657d40703f50ae8ae20e62e0980e4"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "7072232d989b35e2ee129c262d9ece1bf34c8dd6"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v25_n400_consumed.py)" = "c363e1d15ec541ef04f4ece8e0772b18cda50296"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b"
+          test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "64e587998523ad52209c452ed9d15e85d977ab71"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "b3a6153235e465a910241953fdbf4b8e5f546395"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v26_n400_audit_synced.py)" = "634c7823969b463540c10f6a8026890ca22b91dc"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V26-HOSTILE-AUDIT-PASS-SYNC.json)" = "8f0603116bb3bb0e203651ecfb07c8e0bbe6c3f0"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py)" = "1145f1fe16048130164556754a2b4ae35cab45af"
           test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-HOSTILE-AUDIT-PASS-RECEIPT.json)" = "c43a50a417cb62228860c0c230a27110939ed6e7"
           test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V25-MAIN-CONSUMPTION.json)" = "e0eb8e7d0364dc11df0568d7bbd820488cd44678"
           test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py)" = "69413a17e31758e2c49aa56e5778c8694cbaa4a9"
@@ -117,6 +128,11 @@ jobs:
           test "$(git hash-object stages/stage32/proof/CLAIM-SYNC-CONTRACT.md)" = "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
           test "$(git hash-object stages/stage32/verify_command_surface.py)" = "69e6c295221bf504681648b2b4e3a61115520294"
+
+      - name: Verify N400 V26 hostile-audit synchronization
+        run: >-
+          python stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py
+          --audited-v25-root .stage32-audited-v25-main
 
       - name: Verify retained N400 audited producer replay
         run: >-
@@ -173,15 +189,15 @@ jobs:
           python stages/stage32/management/global-residual-feasibility/verify_grf09_cut201_e8_picard_parity_checkpoint.py
           --probe-output grf09-exact-output.txt
 
-      - name: Verify Stage32 MAIN V25 startup authority
+      - name: Verify Stage32 MAIN V26 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination after N400 consumption
+      - name: Verify Stage32 cross-lane demand coordination after N400 audit sync
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after N400 consumption
+      - name: Verify Stage32 claim-DAG integrity after N400 audit sync
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier remains incomplete
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
