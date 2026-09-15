@@ -12,7 +12,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 CERT = HERE / "GRF-09-CUT201-E8-PICARD-PARITY-CHECKPOINT.json"
 PROBE = HERE / "probe_grf09_e8_picard_completion_parity.py"
-MAIN_STATE = ROOT / "stages/stage32/MAIN-STATE.json"
+ARCHIVED_MAIN_STATE = ROOT / "stages/stage32/proof/historical-routing-blobs/b8df16056625db5fbb1947f1e927593de258f1ff.json"
 CUT201_ROOT = ROOT / ".stage32-cut201"
 PASS_MARKER = "PASS_GRF09_CUT201_E8_PICARD_COMPLETION_PARITY_PROBE"
 EXPECTED_CERT_CANONICAL = "ddb7787190a8c37d8a913bcd81c39cff471828fd553b91f5268ed4f56dba5646"
@@ -24,6 +24,7 @@ CURRENT_FILES = {
     ROOT / "stages/stage32/residual-32-01-production/compressed_terminal_indexer.py": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
     ROOT / "stages/stage32/residual-32-01-production/pairing_prefix_engine.py": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
     ROOT / "stages/stage33/33-07/picard_base_rows_retained.py": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    ARCHIVED_MAIN_STATE: "b8df16056625db5fbb1947f1e927593de258f1ff",
 }
 CUT201_FILES = {
     CUT201_ROOT / "stages/stage32/full178-cut/CUT201-e8-common-adapter-wave9-preflight.json": "87b2f139b576b3b8bddea336396c8c2da30014b1",
@@ -183,11 +184,14 @@ def main() -> None:
     ):
         req(not firewall[key], f"credit firewall drift: {key}")
 
-    state = read_json(MAIN_STATE)
+    # GRF-09 is a retained zero-credit checkpoint from the V24 authority
+    # boundary. Replay that authority firewall against the exact archived V24
+    # MAIN state rather than the mutable V25 startup projection after N400.
+    state = read_json(ARCHIVED_MAIN_STATE)
     frontier = state["current_exact_frontier"]
-    req(frontier["authoritative_remaining_strata"] == 17128, "MAIN authority strata drift")
-    req(frontier["authoritative_remaining_terminals"] == 26876434389242951089388, "MAIN authority terminal upper bound drift")
-    req(frontier["authoritative_remaining_terminals_semantics"] == "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET", "MAIN authority semantics drift")
+    req(frontier["authoritative_remaining_strata"] == 17128, "V24 authority strata drift")
+    req(frontier["authoritative_remaining_terminals"] == 26876434389242951089388, "V24 authority terminal upper bound drift")
+    req(frontier["authoritative_remaining_terminals_semantics"] == "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET", "V24 authority semantics drift")
 
     cross = cert["independent_arithmetic_cross_check"]
     req(not cross["proof_authority"], "Wolfram cross-check must not become proof authority")
