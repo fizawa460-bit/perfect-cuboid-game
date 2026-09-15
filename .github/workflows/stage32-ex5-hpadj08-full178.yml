@@ -1,12 +1,13 @@
 name: Stage32EX5 HPADJ08 FULL178
 
 # lifecycle: ACTIVE_AUTO while PR #1812 is the active HPADJ-08_ex5 frontier.
-# Heavy execution is fail-closed behind a fresh runkey delta over github.event.before..PR-head.
+# Pilot and FULL178 heavy execution are independently fail-closed behind fresh runkey deltas.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json'
+      - 'stages/stage32-ex5/runkeys/hpadj08-storage-pilot.json'
       - 'stages/stage32-ex5/hpadj-08_ex5/**'
       - '.github/workflows/stage32-ex5-hpadj08-full178.yml'
 
@@ -15,6 +16,7 @@ permissions:
 
 env:
   RUNKEY: stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json
+  PILOT_RUNKEY: stages/stage32-ex5/runkeys/hpadj08-storage-pilot.json
 
 jobs:
   verify-cold-surface:
@@ -28,6 +30,123 @@ jobs:
         run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_exact_square_bounded.py
       - name: Verify HPADJ-08 shard kernel
         run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py
+
+  authorize-pilot:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      reason: ${{ steps.gate.outputs.reason }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: gate
+        name: Authorize only fresh representative-shard pilot runkey
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          key=Path(os.environ['PILOT_RUNKEY'])
+          worker=Path('stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py')
+          contract=Path('stages/stage32-ex5/hpadj-08_ex5/FULL178-SCALEOUT-CONTRACT.json')
+          verifier=Path('stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py')
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
+          authorized=False; reason='cold'
+          def blob(p):
+              raw=p.read_bytes(); return hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          def canon(o):
+              q=dict(o); got=q.pop('canonical_sha256_without_this_field',None)
+              calc=hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+              return got,calc
+          range_ok=False
+          if before and head:
+              fetched=subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              range_ok=(fetched.returncode==0 and subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0)
+          if range_ok:
+              changed=set(subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines())
+              if str(key) in changed:
+                  new=json.loads(key.read_text()); got,calc=canon(new)
+                  old_show=subprocess.run(['git','show',before+':'+str(key)],capture_output=True,text=True)
+                  old_generation=-1
+                  if old_show.returncode==0:
+                      try: old_generation=int(json.loads(old_show.stdout).get('generation',-1))
+                      except Exception: old_generation=-1
+                  generation=new.get('generation',-1)
+                  p=new.get('pilot',{}); src=new.get('source_locks',{}); fw=new.get('firewalls',{})
+                  authorized=(
+                      got==calc and new.get('schema')=='STAGE32EX5_HPADJ08_STORAGE_PILOT_RUNKEY_V1'
+                      and new.get('route_id')=='HPADJ-08_ex5' and new.get('pr')==1812
+                      and new.get('armed') is True and isinstance(generation,int) and generation>=1 and generation==old_generation+1
+                      and p.get('b_interval')==[0,11] and p.get('artifact_retention_days')==1 and p.get('effective_heavy_concurrency')==1
+                      and src.get('worker_blob_sha1')==blob(worker)
+                      and src.get('contract_blob_sha1')==blob(contract)
+                      and src.get('kernel_verifier_blob_sha1')==blob(verifier)
+                      and fw=={
+                          'stage32_main_pruning_credit':False,
+                          'current_main_incremental_credit':False,
+                          'full178_complete':False,
+                          'pilot_measurement_only':True,
+                          'merge_authorized':False,
+                      }
+                  )
+                  reason='fresh-armed-pilot-runkey' if authorized else 'pilot-semantic-gate-failed'
+              else: reason='pilot-runkey-not-changed-in-event-range'
+          elif before or head: reason='commit-range-unverifiable'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n'); f.write('reason='+reason+'\n')
+          print(json.dumps({'authorized':authorized,'reason':reason,'before':before,'head':head},sort_keys=True))
+          PY
+
+  storage-pilot:
+    needs: [verify-cold-surface, authorize-pilot]
+    if: ${{ needs.authorize-pilot.outputs.authorized == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run representative exact shard b=0..11
+        run: |
+          python stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py \
+            --b-start 0 --b-end 11 \
+            --output "$RUNNER_TEMP/hpadj08-0-11.json"
+      - name: Measure compact certificate
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])/'hpadj08-0-11.json'
+          obj=json.loads(p.read_text())
+          out={
+            'schema':'STAGE32EX5_HPADJ08_STORAGE_PILOT_MEASUREMENT_V1',
+            'route_id':'HPADJ-08_ex5',
+            'exact_head':os.environ['HEAD_SHA'],
+            'b_interval':[0,11],
+            'compact_certificate_bytes':p.stat().st_size,
+            'shard_canonical':obj['canonical_sha256_without_this_field'],
+            'stage32_main_pruning_credit':False,
+            'full178_complete':False,
+          }
+          (Path(os.environ['RUNNER_TEMP'])/'hpadj08-storage-pilot-measurement.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - name: Upload representative compact certificate and measurement
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj08-storage-pilot-${{ github.event.pull_request.head.sha }}
+          path: |
+            ${{ runner.temp }}/hpadj08-0-11.json
+            ${{ runner.temp }}/hpadj08-storage-pilot-measurement.json
+          retention-days: 1
+          if-no-files-found: error
 
   authorize:
     runs-on: ubuntu-latest
