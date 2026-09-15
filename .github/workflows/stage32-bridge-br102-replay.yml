@@ -41,15 +41,13 @@ jobs:
               'kres_square': d['kres_square'],
               'terminal_visible_on_hpadj_interface': d['terminal_visible_on_hpadj_interface'],
               'next_route': d['next_route'],
+              'bijection_count': d['exceptional_fingerprint_bijection_count'],
+              'bijection_sha256': d['exceptional_fingerprint_bijection_sha256'],
               'fixed_nonzero_count': len(fixed),
               'fixed_nonzero': fixed,
               'free_nonzero_count': len(free),
               'free_nonzero': free,
-              'relevant_node_to_retained_exceptional': {
-                  str(node): label
-                  for label, node in d['retained_exceptional_to_mb104_node'].items()
-                  if int(node) in {24,25,26,27,32,33,34,35}
-              },
+              'relevant_mb104_node_to_known_class': d['relevant_mb104_node_to_known_class'],
               'result_sha256': hashlib.sha256(open(p,'rb').read()).hexdigest(),
           }
           print('BR102_COMPACT_RESULT=' + json.dumps(compact, sort_keys=True, separators=(',', ':')))
