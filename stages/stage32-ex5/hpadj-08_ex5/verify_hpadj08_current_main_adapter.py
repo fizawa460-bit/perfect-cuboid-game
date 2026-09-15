@@ -77,6 +77,9 @@ def canon(obj: dict) -> str:
 def load_json(path: Path, blob: str, expected_canon: str | None) -> dict:
     req(path.is_file(), f"missing {path}")
     req(git_blob(path) == blob, f"blob drift {path}")
+    if path.suffix != ".json":
+        req(expected_canon is None, f"non-JSON source unexpectedly has canonical lock {path}")
+        return {}
     obj = json.loads(path.read_text(encoding="utf-8"))
     if expected_canon is not None:
         req(obj.get("canonical_sha256_without_this_field") == expected_canon,
