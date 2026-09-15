@@ -35,7 +35,6 @@ SOURCE_LOCKS = {
 FIXED_LABELS = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
 KRES_TERMS = {24: -1, 25: 1, 26: -1, 27: 1, 32: -1, 33: 1, 34: -1, 35: 1}
 
-# Gaussian integer z = r + i*i.
 G = tuple[int, int]
 ZERO: G = (0, 0)
 ONE: G = (1, 0)
@@ -54,7 +53,6 @@ def gmul(a: G, b: G) -> G:
     return (a[0] * b[0] - a[1] * b[1], a[0] * b[1] + a[1] * b[0])
 
 
-# Coefficient in Q(i,sqrt(2)) represented as A + sqrt(2)*B, A,B Gaussian.
 Coeff = tuple[G, G]
 R1: Coeff = (ONE, ZERO)
 RI: Coeff = (II, ZERO)
@@ -82,7 +80,6 @@ def form(*terms: tuple[Coeff, int]) -> list[tuple[Coeff, int]]:
 
 def node_model() -> list[tuple[G, ...]]:
     out: list[tuple[G, ...]] = []
-    # Exact translation of verify_mb104_genus1_span5_hyperplane_aut_orbits.cpp::nodes().
     for j in range(3):
         for sa, s1, s2 in product((1, -1), repeat=3):
             z = [ZERO] * 7
@@ -107,7 +104,6 @@ def node_model() -> list[tuple[G, ...]]:
 
 
 def source_curves() -> list[list[list[tuple[Coeff, int]]]]:
-    # Variables: a1,a2,a3,b1,b2,b3,c = 0..6.
     curves: list[list[list[tuple[Coeff, int]]]] = []
     def add(eqs: list[list[tuple[Coeff, int]]]) -> None:
         curves.append(eqs)
@@ -120,7 +116,6 @@ def source_curves() -> list[list[list[tuple[Coeff, int]]]]:
     def isq(q: int, pos: int) -> tuple[Coeff, int]:
         return cscale(SI, q), pos
 
-    # C1s, exactly in cuboids.magma list-comprehension order.
     for e1, e2, e3 in product((1, -1), repeat=3):
         add([form(r(1,0)), form(r(1,1),r(e1,5)), form(r(1,2),r(e2,4)), form(r(1,3),r(e3,6))])
     for e1, e2, e3 in product((1, -1), repeat=3):
@@ -131,7 +126,6 @@ def source_curves() -> list[list[list[tuple[Coeff, int]]]]:
         add([form(r(1,6)), form(im(1,0),r(e1,3)), form(im(1,1),r(e2,4)), form(im(1,2),r(e3,5))])
     assert len(curves) == 32
 
-    # C2s.
     for e1, e2 in product((1, -1), repeat=2):
         add([form(r(1,3)), form(im(1,1),r(e1,2)), form(r(1,0),r(e2,6))])
     for e1, e2 in product((1, -1), repeat=2):
@@ -140,7 +134,6 @@ def source_curves() -> list[list[list[tuple[Coeff, int]]]]:
         add([form(r(1,5)), form(im(1,0),r(e1,1)), form(r(1,2),r(e2,6))])
     assert len(curves) == 44
 
-    # C3s.
     for e1, e2, e3 in product((1, -1), repeat=3):
         add([form(r(1,0),r(e1,1)), form(sq(1,0),r(e2,5)), form(r(1,3),r(e3,4))])
     for e1, e2, e3 in product((1, -1), repeat=3):
@@ -164,6 +157,10 @@ def on_curve(node: tuple[G, ...], curve: list[list[tuple[Coeff, int]]]) -> int:
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
+
+def nonzero_labels(fp: tuple[int, ...], curve_labels: list[int]) -> list[int]:
+    return [label for label, value in zip(curve_labels, fp) if value]
 
 
 def main() -> int:
@@ -195,7 +192,25 @@ def main() -> int:
     for label, fp in retained_fp.items():
         matches = [i for i, candidate in node_fp.items() if candidate == fp]
         if len(matches) != 1:
-            raise SystemExit(f"exceptional fingerprint is not unique: Big[{label}] -> {matches}")
+            ranked = sorted(
+                (
+                    sum(int(a != b) for a, b in zip(fp, candidate)),
+                    i,
+                    nonzero_labels(candidate, curve_labels),
+                )
+                for i, candidate in node_fp.items()
+            )[:8]
+            diag = {
+                "label": label,
+                "retained_nonzero_curve_labels": nonzero_labels(fp, curve_labels),
+                "retained_values": {str(cl): int(v) for cl, v in zip(curve_labels, fp) if v},
+                "exact_matches": matches,
+                "closest_nodes": [
+                    {"hamming": h, "node": i, "node_nonzero_curve_labels": labels}
+                    for h, i, labels in ranked
+                ],
+            }
+            raise SystemExit("exceptional fingerprint mismatch diagnostic=" + json.dumps(diag, sort_keys=True, separators=(",", ":")))
         label_to_node[label] = matches[0]
     if len(set(label_to_node.values())) != len(label_to_node):
         raise SystemExit("retained exceptional fingerprint matching is not injective")
@@ -220,8 +235,6 @@ def main() -> int:
         y = exceptional_selected_pairings(node_index)
         yk = [a + sign * b for a, b in zip(yk, y)]
     xk = transform.reconstruct_picard_basis(yk)
-    k2 = int((Matrix([xk]).T.T * gram * Matrix(xk))[0])
-    # Equivalent scalar expression, kept explicit for audit readability.
     k2 = int((Matrix(xk).T * gram * Matrix(xk))[0])
     if k2 != -16:
         raise SystemExit(f"K_res square mismatch: {k2} != -16")
