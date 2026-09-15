@@ -88,10 +88,28 @@ jobs:
           assert data['status'] == 'EXACT_PRE_HPADJ08_BLOCK_CENSUS_WITH_CONSERVATIVE_SAME_CHARACTER_ENVELOPE_BOUND_AUDIT_REQUIRED'
           assert data['exact_replay']['replay_domain_terminal_total_exact_match'] is True
           assert data['exact_replay']['pre_hpadj08_replay_domain_terminals'] == 47589703313957134107892
+          assert data['canonical_sha256_without_this_field'] == '86c909a6892bcad290d383c1397e7f889ed0911e33bd1d8f9c698137b1d8798c'
           print('HPADJ11_CANONICAL=' + data['canonical_sha256_without_this_field'])
           print('HPADJ11_PRE_BLOCKS=' + str(data['exact_replay']['pre_hpadj08_x4_complete_blocks']))
           print('HPADJ11_REFINED_UPPER=' + str(data['same_character_bound']['block_count_refined_survivor_upper_bound']))
           print('HPADJ11_IMPROVEMENT_VS_TD01=' + str(data['same_character_bound']['improvement_vs_td01_upper_bound']))
+          PY
+      - name: Strengthen HPADJ11 using retained HPADJ08 whole-block removal
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-11_ex5/refine_with_hpadj08_removed_blocks.py | tee /tmp/hpadj11-removed-blocks.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj11-removed-blocks.json').read_text())
+          assert data['status'] == 'STRICTER_TD01_SAME_CHARACTER_UPPER_BOUND_AUDIT_REQUIRED'
+          assert data['block_geometry']['maximum_possible_block_size'] == 2689
+          assert data['block_geometry']['hpadj08_removed_terminals'] == 40886299509963924857401
+          assert data['candidate_bound']['removed_block_refined_survivor_upper_bound'] == 3360778813767800658369
+          assert data['candidate_bound']['strict_improvement'] is True
+          print('HPADJ11_REMOVED_BLOCK_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ11_REMOVED_BLOCK_UPPER=' + str(data['candidate_bound']['removed_block_refined_survivor_upper_bound']))
+          print('HPADJ11_REMOVED_BLOCK_IMPROVEMENT_VS_TD01=' + str(data['candidate_bound']['improvement_vs_td01_upper_bound']))
           PY
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
