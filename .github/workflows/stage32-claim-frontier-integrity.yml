@@ -96,6 +96,10 @@ jobs:
         run: >-
           python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c02_support_population.py
           --audited-n358-root .stage32-audited-n358
+      - name: Verify H8C-03A exact N358 BC and aggregate replay
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_exact_a_triple_moment.py
+          --audited-n358-root .stage32-audited-n358
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
