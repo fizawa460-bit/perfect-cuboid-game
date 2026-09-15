@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V35 retains a zero-credit independent MAIN GRF04+TD01-parity 5/33 candidate pending hostile audit.
+# Current boundary: V35 retains a zero-credit independent canonical-capacity LP bound pending hostile audit.
 on:
   pull_request:
     paths:
@@ -46,6 +46,12 @@ jobs:
           ref: d534e107bfcf68ab1d687366afd3671a152f6e2b
           path: .stage32-audited-grf04
           fetch-depth: 1
+      - name: Checkout hostile-audited HPADJ08 domain source
+        uses: actions/checkout@v4
+        with:
+          ref: 36eab50192cf80ec5ed48aba40f4a56076759fea
+          path: .stage32-audited-hpadj08
+          fetch-depth: 1
       - name: Checkout exact 178 TD02 source identity
         uses: actions/checkout@v4
         with:
@@ -57,6 +63,7 @@ jobs:
           test "$(git -C .stage32-v34 rev-parse HEAD)" = "8ec716abbaebbdf91d8452f19145a66c310bd222"
           test "$(git -C .stage32-audited-td01 rev-parse HEAD)" = "54945927416a94a67533c7b06c59c5a24e50c4f1"
           test "$(git -C .stage32-audited-grf04 rev-parse HEAD)" = "d534e107bfcf68ab1d687366afd3671a152f6e2b"
+          test "$(git -C .stage32-audited-hpadj08 rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
           test "$(git -C .stage32-td02-source rev-parse HEAD)" = "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe"
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
@@ -71,10 +78,10 @@ jobs:
       - name: Verify V35 source identities
         run: |
           test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "ec0243cb998c5c58340100d8151559516c474193"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "5880fcf7c8ec7414a8d90498bd53db621552e004"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v35_grf04_candidate.py)" = "006ef0d9c99130e146f90c8bca5e392cf2d92544"
-          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json)" = "1db470334ad10bfeefecc8d3241cb8353f89ce3a"
-          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py)" = "3a0f3b327d27fc346210d3a6515edae2d143204c"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "6d09d850d423d30282494c06bf0e71d7aed23279"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v35_grf04_candidate.py)" = "dccc639a83fd0ab542df38ae2b3c7d749c8176f1"
+          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json)" = "a203df7b15a9cc655b78aa70b849933b98404a2d"
+          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py)" = "1e6c2d2305e9e41e8d6bb9c0ba447a6faedf01d7"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "9d7c3ee0e74f8d32d54904faf817f1b387c1f01b"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
@@ -83,23 +90,19 @@ jobs:
           test "$(git -C .stage32-audited-td01 hash-object stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json)" = "51271c11078459ad9171138c4fb6121d7a665c39"
           test "$(git -C .stage32-audited-td01 hash-object stages/stage32/32-01-178/topdown-01/FULL178-SCALEOUT-CONTRACT.json)" = "ca1b195a3ee8e786707e1ef50b404ee8c19f1429"
           test "$(git -C .stage32-audited-grf04 hash-object stages/stage32/management/global-residual-feasibility/GRF-04-RATIONAL-QUADRATIC-LOWER-BOUND-KERNEL.json)" = "f7c1073edbf895f498fd9923e59eedf5a4e981c8"
-          test "$(git -C .stage32-audited-grf04 hash-object stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py)" = "af883bd66600c626350f9e6ef4bc12c00e239f45"
-          test "$(git -C .stage32-td02-source hash-object stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py)" = "ed96731709b7425a2a1a4c8f1fcbc79c52bd22b2"
+          test "$(git -C .stage32-audited-hpadj08 hash-object stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py)" = "c5fc340ea734dfc54436f124bb302c1ec6c5677c"
+          test "$(git -C .stage32-audited-hpadj08 hash-object stages/stage32/residual-32-01-production/compressed_terminal_family.py)" = "90ff82ed312dcc0cb32cf207935945f550e29170"
           test "$(git -C .stage32-td02-source hash-object stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bounded.py)" = "8dc7b6255b31a79aa7f51141f1ac5a5b8137efc0"
       - name: Set up pinned Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11.x'
-      - name: Install exact TD02 algebra dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
       - name: Reverify V34 process predecessor
         run: python .stage32-v34/stages/stage32/verify_main_startup.py
       - name: Reverify hostile-audited MAIN GRF04 symbolic kernel
         run: python .stage32-audited-grf04/stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
-      - name: Replay exact TD02 Hperp probe only
-        run: python .stage32-td02-source/stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py
-      - name: Verify independent MAIN GRF04 plus TD01 parity 5 over 33 candidate
-        run: python stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py --v34-root .stage32-v34 --td01-root .stage32-audited-td01 --grf04-root .stage32-audited-grf04 --td02-root .stage32-td02-source
+      - name: Verify independent MAIN canonical-capacity LP candidate
+        run: python stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py --v34-root .stage32-v34 --td01-root .stage32-audited-td01 --grf04-root .stage32-audited-grf04 --hpadj08-root .stage32-audited-hpadj08 --td02-root .stage32-td02-source
       - name: Verify Stage32 MAIN V35 zero-credit candidate boundary
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane coordination
