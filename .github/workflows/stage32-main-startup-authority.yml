@@ -139,9 +139,9 @@ jobs:
           python .stage32-audited-n400/stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py
           --current-main-root .stage32-n400-current-main
 
-      - name: Verify N400 V25 MAIN consumption and no-double-charge
+      - name: Reverify hostile-audited V25 N400 MAIN consumption and no-double-charge
         run: >-
-          python stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py
+          python .stage32-audited-v25-main/stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py
           --predecessor-main-root .stage32-pre-n400-main
           --n400-audited-root .stage32-audited-n400
 
