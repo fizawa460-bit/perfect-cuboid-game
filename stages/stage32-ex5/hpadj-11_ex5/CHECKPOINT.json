@@ -1,0 +1,79 @@
+{
+  "schema": "STAGE32EX5_HPADJ11_TD01_ENVELOPE_REFINEMENT_CHECKPOINT_V1",
+  "status": "RETAINED_STRICT_TD01_ENVELOPE_REFINEMENT_AUDIT_REQUIRED",
+  "route_id": "HPADJ-11_ex5",
+  "diagnostic_exact_head": "1fecd11e6c84ba953c3e4bae35d48071e3d93071",
+  "diagnostic_workflow": {
+    "run_id": 35015663735,
+    "job_id": 104538318860,
+    "conclusion": "SUCCESS",
+    "literal_head_checkout": true
+  },
+  "producer": {
+    "path": "stages/stage32-ex5/hpadj-11_ex5/count_td01_envelope_block_upper_bound.py",
+    "blob_sha1": "4afe018e1108c89d419f85c5aa1219e42e292a96",
+    "diagnostic_canonical_sha256": "86c909a6892bcad290d383c1397e7f889ed0911e33bd1d8f9c698137b1d8798c",
+    "row_stream_sha256": "4fe260f31c999226042e4bfe39f3024eb92660f21e580dd5b4e1c34d9ae6a8ba"
+  },
+  "audit_provenance": {
+    "hpadj10_pr": 1814,
+    "hpadj10_audited_exact_head": "ec087d394d577a893932e5bf05d7b530c285e5c6",
+    "hpadj10_hostile_audit_reconfirmed_review_id": 5214966911,
+    "td01_pr": 1815,
+    "td01_audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "td01_hostile_audit_review_id": 5214778974,
+    "td01_post_audit_sync_head": "ce808eb50d9b75e9c5994b083939e7e2f65e276c"
+  },
+  "current_main_authority": {
+    "main_pr": 1808,
+    "authority_exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+    "authority_hostile_audit_review_id": 5209163478,
+    "remaining_strata": 17128,
+    "remaining_terminal_upper_bound": 6703403803993210101494,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "used_as_exact_population_identity": false
+  },
+  "td01_scope": {
+    "replay_domain_exact_terminals": 47589703313957134107892,
+    "replay_domain_exact_match": true,
+    "hpadj08_survivor_x4_complete_envelope_terminals": 6703403803993209250491,
+    "same_picard64_character_as_hpadj10": true,
+    "additive_stacking_forbidden": true
+  },
+  "exact_block_census": {
+    "affected_rows": 178,
+    "pre_hpadj08_x4_complete_blocks": 33358843813855035700,
+    "survivor_block_count_known_exactly": false,
+    "survivor_block_count_upper_bound": 33358843813855035700,
+    "proof_rule": "Each surviving block is a complete odd x4 block. For one parity character, a block of size B retains at most ceil(B/2)=(B+1)/2 terminals. HPADJ08 only removes complete blocks, so surviving block count is at most the exact pre-HPADJ08 block count."
+  },
+  "candidate_bound": {
+    "td01_previous_17_over_33_upper_bound": 3453268626299532038131,
+    "block_count_refined_survivor_upper_bound": 3368381323903532143095,
+    "block_count_refined_rejection_lower_bound_inside_td01_envelope": 3335022480089677107396,
+    "strict_improvement_vs_td01_upper_bound": true,
+    "improvement_vs_td01_upper_bound": 84887302395999895036,
+    "main_credit_granted": false
+  },
+  "semantics": {
+    "current_main_upper_bound_intersected_as_identity_set": false,
+    "old_hpadj01_population_reused_as_current_main_population": false,
+    "hpadj10_rejected_count_additively_stacked": false,
+    "td01_and_hpadj10_same_character_double_charged": false,
+    "candidate_is_a_refinement_of_td01_envelope_not_an_independent_subtraction": true,
+    "hostile_audit_required_before_main_consumption": true,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "heavy_run_armed": false,
+    "merge_authorized": false
+  }
+}
