@@ -8,6 +8,7 @@ on:
       - 'stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py'
       - 'stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bounded.py'
       - 'stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bc_envelope_bounded.py'
+      - 'stages/stage32/32-01-178/topdown-02/verify_td02_grf04_canonical_interval_bounded.py'
       - '.github/workflows/stage32-178-td02-grf04-probe.yml'
 
 permissions:
@@ -28,3 +29,5 @@ jobs:
         run: python stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py
       - name: Run zero-state GRF04 BC-envelope bounded census
         run: python stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bc_envelope_bounded.py
+      - name: Run canonical-interval GRF04 bounded census
+        run: python stages/stage32/32-01-178/topdown-02/verify_td02_grf04_canonical_interval_bounded.py
