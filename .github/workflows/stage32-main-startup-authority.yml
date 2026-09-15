@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V24 HPADJ07 hostile-audit PASS synchronized into MAIN routing.
+# Current boundary: V25 H8C-03A consumed; replacement-head hostile re-audit required.
 on:
   pull_request:
     paths:
@@ -16,6 +16,7 @@ on:
       - 'stages/stage32/management/**'
       - 'stages/stage32/proof/**'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
+      - 'stages/stage32/32-01-178/hpadj-08_cut/**'
       - 'stages/stage32/final-chain/32-02-effectivity/**'
       - 'stages/stage32-ex*/MAIN-START-HERE.md'
       - 'stages/stage32-ex5/CROSS-LANE-STATE.json'
@@ -47,6 +48,15 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
+      - name: Checkout exact pre-V25 MAIN authority
+        uses: actions/checkout@v4
+        with:
+          ref: c6284abbb29930255892d56f800da0ea1e34734b
+          path: .stage32-pre-v25-main
+          fetch-depth: 1
+      - name: Assert exact pre-V25 MAIN authority
+        run: test "$(git -C .stage32-pre-v25-main rev-parse HEAD)" = "c6284abbb29930255892d56f800da0ea1e34734b"
+
       - name: Checkout hostile-audited V24 HPADJ07 boundary
         uses: actions/checkout@v4
         with:
@@ -59,47 +69,37 @@ jobs:
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
-          baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
+          expected_current_main="c6284abbb29930255892d56f800da0ea1e34734b"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
           test "$current_main" = "$expected_current_main"
-          test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
-          drift="$(git diff --name-only "$baseline" "$current_main")"
-          printf 'main_drift_paths=%s\n' "$drift"
-          test "$drift" = "x"
+          test "$(git -C .stage32-pre-v25-main rev-parse HEAD)" = "$expected_current_main"
           git merge-base --is-ancestor "$current_main" HEAD
           test "$merge_base" = "$current_main"
           echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
           echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
 
-      - name: Verify V24 audit-sync source identities
+      - name: Verify exact pre-V25 V24 source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8df16056625db5fbb1947f1e927593de258f1ff"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "456dbb6bfba1e9e86df53adcf2d0d61b28222311"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v24_synced.py)" = "874689f538eda37aee53a2022eb85b65afdcca2c"
-          test "$(git hash-object stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json)" = "37a1d7ed1af5d715220fd3c78e292f84eecbca72"
-          test "$(git hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py)" = "2b57cecea5ac7b7e985ea07e6185f8ce9e780a08"
-          test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
-          test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "a61e78f64a16b9761888c3a31f71a679c9b91d80"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/derive_grf02_selected64_projected_kernel.py)" = "05b5c5134261c4d35c3433d509d4968c820dc227"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-02-PROJECTED-KERNEL.json)" = "7c1cda07749fbfb90245995d1def2ae96fb5604b"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-03-NORM-LADDER-RESIDUE-COLLAPSE.json)" = "d6777200cadb6809dc3b46374c8f714cb6ebd6cd"
-          test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py)" = "eaddc4eaa790742cc92ec0bac3043c6743f947fc"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/MAIN-STATE.json)" = "b8df16056625db5fbb1947f1e927593de258f1ff"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/verify_main_startup.py)" = "456dbb6bfba1e9e86df53adcf2d0d61b28222311"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/verify_main_startup_authority_v24_synced.py)" = "874689f538eda37aee53a2022eb85b65afdcca2c"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json)" = "37a1d7ed1af5d715220fd3c78e292f84eecbca72"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py)" = "2b57cecea5ac7b7e985ea07e6185f8ce9e780a08"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
+          test "$(git -C .stage32-pre-v25-main hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "a61e78f64a16b9761888c3a31f71a679c9b91d80"
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
 
-      - name: Verify V24 HPADJ07 hostile-audit PASS synchronization
-        run: >-
-          python stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py
-          --audited-v24-root .stage32-audited-hpadj07-v24
+      - name: Reverify exact pre-V25 V24 MAIN startup boundary
+        working-directory: .stage32-pre-v25-main
+        run: python stages/stage32/verify_main_startup.py
 
       - name: Verify frozen GRF-02 selected64 projected symbolic kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py
@@ -107,17 +107,30 @@ jobs:
       - name: Verify GRF-03 norm-ladder residue collapse no-go
         run: python stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py
 
-      - name: Verify Stage32 MAIN startup authority after V24 audit sync
+      - name: Verify H8C-03A current-V24 overlap and double-charge rebase
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_current_v24_rebase.py
+          --pre-v25-root .stage32-pre-v25-main
+
+      - name: Verify H8C-03A V25 MAIN consumption
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_main_consumption.py
+          --pre-v25-root .stage32-pre-v25-main
+
+      - name: Verify H8C-03A V25 claim-DAG synchronization checkpoint
+        run: python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_claim_sync.py
+
+      - name: Verify Stage32 MAIN V25 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination after V24 audit sync
+      - name: Verify Stage32 cross-lane demand coordination at V25
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after V24 audit sync
+      - name: Verify Stage32 claim-DAG integrity at V25
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier after V24 audit sync
+      - name: Verify Stage32 active frontier at V25
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Enforce startup-only scope
