@@ -17,7 +17,6 @@ EX5 = ROOT / "stages/stage32-ex5/hpadj-handoff"
 PREFIX = RESIDUAL / "pairing_prefix_engine.py"
 BUNDLE_SOURCE = BUNDLE_DIR / "picard_base_rows_retained.py"
 INTERFACE = EX5 / "INTERFACE.json"
-PRODUCER = EX5 / "hpadj_full178_terminal_picard64_adapter.py"
 
 sys.path.insert(0, str(RESIDUAL))
 sys.path.insert(0, str(BUNDLE_DIR))
@@ -30,6 +29,7 @@ LOCKS = {
     "retained_bundle_source_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
     "retained_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
     "interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f",
     "producer_blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
 }
 
@@ -48,11 +48,16 @@ def main() -> None:
     req(git_blob(PREFIX) == LOCKS["pairing_prefix_engine_blob_sha1"], "pairing-prefix source-lock drift")
     req(git_blob(BUNDLE_SOURCE) == LOCKS["retained_bundle_source_blob_sha1"], "retained-bundle source-lock drift")
     req(git_blob(INTERFACE) == LOCKS["interface_blob_sha1"], "EX5 interface source-lock drift")
-    req(git_blob(PRODUCER) == LOCKS["producer_blob_sha1"], "EX5 producer source-lock drift")
 
     interface = json.loads(INTERFACE.read_text())
-    req(interface["picard_completion"]["inverse_denominator"] == 8, "interface denominator drift")
-    req(interface["picard_completion"]["terminal_fixed_selected_pairing_labels"] == TERMINAL_LABELS, "terminal pairing order drift")
+    dep = interface["dependency_source_locks"]
+    req(dep["pairing_prefix_engine_blob_sha1"] == LOCKS["pairing_prefix_engine_blob_sha1"], "interface pairing-engine lock drift")
+    req(dep["picard_bundle_source_blob_sha1"] == LOCKS["retained_bundle_source_blob_sha1"], "interface retained-bundle source lock drift")
+    req(dep["picard_bundle_canonical_sha256"] == LOCKS["retained_bundle_canonical_sha256"], "interface retained-bundle canonical lock drift")
+    mapping = interface["terminal_to_picard64_map"]
+    req(mapping["inverse_denominator"] == 8, "interface denominator drift")
+    req(mapping["terminal_assignment_labels_1based"] == TERMINAL_LABELS, "terminal pairing order drift")
+    req(interface["replay_verifier"]["producer"] == "stages/stage32-ex5/hpadj-handoff/hpadj_full178_terminal_picard64_adapter.py", "producer provenance path drift")
 
     bundle = retained_bundle.load()
     req(bundle["canonical_sha256"] == LOCKS["retained_bundle_canonical_sha256"], "retained bundle canonical drift")
