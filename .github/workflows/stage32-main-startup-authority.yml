@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V35 retains a zero-credit independent MAIN GRF04 13/33 candidate pending hostile audit.
+# Current boundary: V35 retains a zero-credit independent MAIN GRF04+TD01-parity 5/33 candidate pending hostile audit.
 on:
   pull_request:
     paths:
@@ -71,10 +71,10 @@ jobs:
       - name: Verify V35 source identities
         run: |
           test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "ec0243cb998c5c58340100d8151559516c474193"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "698b4c6a12c9e247edcb75fcca21a236b866f90c"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v35_grf04_candidate.py)" = "cb5edcf690d48d9825f950817bd1f493571975a6"
-          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json)" = "f2a50838e9a443d70a13957c2f65626c7af5d4cc"
-          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py)" = "274c84c8efb9a3a710c9f7374d6ab41fbcf62923"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "5880fcf7c8ec7414a8d90498bd53db621552e004"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v35_grf04_candidate.py)" = "006ef0d9c99130e146f90c8bca5e392cf2d92544"
+          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json)" = "1db470334ad10bfeefecc8d3241cb8353f89ce3a"
+          test "$(git hash-object stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py)" = "3a0f3b327d27fc346210d3a6515edae2d143204c"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "9d7c3ee0e74f8d32d54904faf817f1b387c1f01b"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
@@ -98,7 +98,7 @@ jobs:
         run: python .stage32-audited-grf04/stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
       - name: Replay exact TD02 Hperp probe only
         run: python .stage32-td02-source/stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py
-      - name: Verify independent MAIN GRF04 13 over 33 candidate
+      - name: Verify independent MAIN GRF04 plus TD01 parity 5 over 33 candidate
         run: python stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py --v34-root .stage32-v34 --td01-root .stage32-audited-td01 --grf04-root .stage32-audited-grf04 --td02-root .stage32-td02-source
       - name: Verify Stage32 MAIN V35 zero-credit candidate boundary
         run: python stages/stage32/verify_main_startup.py

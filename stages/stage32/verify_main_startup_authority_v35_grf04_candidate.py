@@ -14,17 +14,17 @@ ADAPTERS = HERE / "proof/LANE-ADAPTERS.json"
 
 STATE_BLOB = "ec0243cb998c5c58340100d8151559516c474193"
 STATE_CANON = "25e68a40148ce1ca4bb893ef47d23a0e213898aca8be3a76f497252cb2adc2eb"
-CAND_BLOB = "f2a50838e9a443d70a13957c2f65626c7af5d4cc"
-CAND_CANON = "aa60c5710f86891628420389b0aa5a7f12675264287bd18742e7e9255b2841e6"
-VERIFY_BLOB = "274c84c8efb9a3a710c9f7374d6ab41fbcf62923"
+CAND_BLOB = "1db470334ad10bfeefecc8d3241cb8353f89ce3a"
+CAND_CANON = "6d20957f2098b5a4c675b4bedcd2cb38e281761a24936ddff29eac45d8e29496"
+VERIFY_BLOB = "3a0f3b327d27fc346210d3a6515edae2d143204c"
 CROSS_BLOB = "9d7c3ee0e74f8d32d54904faf817f1b387c1f01b"
 CLAIMS_BLOB = "f3a884adc1c82aace81cb73d049ff14720ace862"
 FRONTIER_BLOB = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
 ADAPTERS_BLOB = "c0ef34e5838e27046a20fed77063593009c56f40"
 
 CURRENT = 3360778813767800658369
-CANDIDATE = 2640734831876112735041
-TIGHTENING = 720043981891687923328
+CANDIDATE = 1015667243029274128862
+TIGHTENING = 2345111570738526529507
 
 def req(v,m):
     if not v: raise SystemExit("FAIL: "+m)
@@ -52,11 +52,12 @@ def main():
     req(st["current"]["mainbatch_stop_gate"]=="NONE","V34 operational gate remains synchronized")
     cb=c["candidate_bound"]
     req(cb["candidate_upper_bound"]==CANDIDATE and cb["candidate_tightening_vs_v34"]==TIGHTENING,"candidate arithmetic")
+    req(cb["uniform_fraction_numerator"]==5 and cb["uniform_fraction_denominator"]==33,"candidate fraction")
     req(c["status"]=="RETAINED_INDEPENDENT_PARALLEL_CANDIDATE_HOSTILE_AUDIT_REQUIRED_NO_AUTHORITY_CHANGE","candidate status")
     req(c["promotion_gate"]["hostile_audit_required"] is True and c["promotion_gate"]["main_authority_mutated"] is False,"candidate audit firewall")
     req(c["ownership"]["source_lane_state_mutated"] is False and c["ownership"]["source_lane_credit_inherited"] is False,"independent-parallel ownership")
     req(c["firewalls"]["full178_complete"] is False and c["firewalls"]["merge_authorized"] is False,"closure firewalls")
-    print("PASS: Stage32 MAIN V35 retains independent GRF04 13/33 candidate with zero authority mutation")
-    print("CURRENT_AUTHORITY=3360778813767800658369 CANDIDATE=2640734831876112735041 AUDIT_REQUIRED=true")
+    print("PASS: Stage32 MAIN V35 retains independent GRF04+TD01-parity 5/33 candidate with zero authority mutation")
+    print("CURRENT_AUTHORITY=3360778813767800658369 CANDIDATE=1015667243029274128862 AUDIT_REQUIRED=true")
 
 if __name__=="__main__": main()

@@ -12,7 +12,7 @@ ROOT = HERE.parents[3]
 CANDIDATE = HERE / "GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json"
 
 LOCKS = {
-    "candidate_canonical": "aa60c5710f86891628420389b0aa5a7f12675264287bd18742e7e9255b2841e6",
+    "candidate_canonical": "6d20957f2098b5a4c675b4bedcd2cb38e281761a24936ddff29eac45d8e29496",
     "v34_state_blob": "ec0243cb998c5c58340100d8151559516c474193",
     "v34_state_canonical": "25e68a40148ce1ca4bb893ef47d23a0e213898aca8be3a76f497252cb2adc2eb",
     "td01_packet_blob": "51271c11078459ad9171138c4fb6121d7a665c39",
@@ -28,19 +28,16 @@ LOCKS = {
 
 V34_BOUND = 3360778813767800658369
 ENVELOPE = 6703403803993209250491
-EXPECTED_CANDIDATE = 2640734831876112735041
-EXPECTED_TIGHTENING = 720043981891687923328
-
+EXPECTED_CANDIDATE = 1015667243029274128862
+EXPECTED_TIGHTENING = 2345111570738526529507
 
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
 
-
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
-
 
 def canon(obj: dict) -> str:
     body = dict(obj)
@@ -48,7 +45,6 @@ def canon(obj: dict) -> str:
     return hashlib.sha256(
         json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
-
 
 def locked_json(path: Path, blob: str, canonical: str, label: str) -> dict:
     req(path.is_file(), f"missing {label}: {path}")
@@ -58,6 +54,9 @@ def locked_json(path: Path, blob: str, canonical: str, label: str) -> dict:
     req(canon(value) == canonical, f"{label} canonical drift")
     return value
 
+def max_fixed_parity_count(u: int) -> int:
+    req(u >= 0, "negative U")
+    return u // 2 + 1
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -98,6 +97,7 @@ def main() -> None:
     req(deriv["hpadj08_exact_square_survivor_envelope"] == ENVELOPE, "TD01 envelope total")
     req(pbound["domain_facts"] == ["d,e even", "d>=8", "e<=3*d"], "TD01 domain facts")
     req(pbound["normal_budget"] == "N=19*d-5*e", "normal budget")
+    req(pbound["required_character"] == "x4 == x0+x8+x10 (mod 2)", "TD01 completion parity")
     cov = contract["coverage"]
     req(cov["rows_total"] == 178 and cov["g0_d_even"] == [8, 176] and cov["g1_d_even"] == [8, 192], "FULL178 coverage")
 
@@ -118,6 +118,7 @@ def main() -> None:
     text = td02_bounded.read_text()
     req("24*q + 4*(d/2 - t - 2*x4)^2 <= 3*d^2+48*d+96-96*g." in text, "concrete GRF04 formula source")
     req("upper = min((19*d)//5, 3*d, 3*d - (b-c))" in text, "e<=3d source")
+    req("x0 + x1 + x6 + x9" in text and "t = 2*x0 + x6 + x9" in text, "nonnegative t source")
     req("req(grf_bad >= hp_bad" in text, "TD02 encodes GRF04 as strengthening of HPADJ08 on its diagnostic domain")
 
     worst_num = 0
@@ -128,38 +129,38 @@ def main() -> None:
             R = 3*d*d + 48*d + 96 - 96*g
             req(R >= 0 and R % 4 == 0, f"R divisibility {(g,d)}")
             r = math.isqrt(R // 4)
-            num = r + 1
+            U = (d // 2 + r) // 2
+            num = max_fixed_parity_count(U)
             den = 4*d + 1
-            req(num * 33 <= 13 * den, f"13/33 bound failed {(g,d,num,den)}")
+            req(num * 33 <= 5 * den, f"5/33 bound failed {(g,d,r,U,num,den)}")
             if num * worst_den > worst_num * den:
-                worst_num, worst_den, worst = num, den, (g, d, r)
-    req(worst == (0, 8, 12) and worst_num == 13 and worst_den == 33, f"unexpected worst block {worst}")
+                worst_num, worst_den, worst = num, den, (g, d, r, U)
+    req(worst == (0, 8, 12, 8) and worst_num == 5 and worst_den == 33, f"unexpected worst block {worst}")
 
-    P10 = 7549*10*10 - 60592*10 - 102944
-    req(P10 == 46036 and P10 > 0, "P(10)")
-    req(30196*10 - 90988 == 210972 and 210972 > 0, "P even-step monotonicity")
+    P10 = 2*(6431*10*10 - 54584*10 - 27184)
+    req(P10 == 140152 and P10 > 0, "P(10)")
+    req(51448*10 - 166888 == 347592 and 347592 > 0, "P even-step monotonicity")
     for d in range(10, 194, 2):
-        P = 7549*d*d - 60592*d - 102944
+        P = (127*d - 224)**2 - 1089*(3*d*d + 48*d + 96)
         req(P >= P10, f"P monotonic sanity d={d}")
-        R0 = 3*d*d + 48*d + 96
-        req(1089*R0 <= (104*d - 40)**2, f"squared 13/33 inequality d={d}")
+        req(1089*(3*d*d + 48*d + 96) <= (127*d - 224)**2, f"squared 5/33 inequality d={d}")
 
-    expected = (13 * ENVELOPE) // 33
+    expected = (5 * ENVELOPE) // 33
     req(expected == EXPECTED_CANDIDATE, "candidate arithmetic")
     req(V34_BOUND - expected == EXPECTED_TIGHTENING, "tightening arithmetic")
     cb = candidate["candidate_bound"]
     req(cb["candidate_upper_bound"] == EXPECTED_CANDIDATE, "candidate JSON bound")
     req(cb["candidate_tightening_vs_v34"] == EXPECTED_TIGHTENING, "candidate JSON tightening")
-    req(candidate["uniform_block_proof"]["uniform_retained_fraction"] == "13/33", "candidate fraction")
+    req(candidate["uniform_block_proof"]["uniform_retained_fraction"] == "5/33", "candidate fraction")
+    req(candidate["exact_input_envelope"]["hostile_audited_completion_character"] == "x4 == x0+x8+x10 (mod 2)", "candidate parity source")
     pg = candidate["promotion_gate"]
     req(pg["hostile_audit_required"] is True and pg["main_authority_mutated"] is False and pg["main_credit_granted"] is False, "promotion firewall")
     req(pg["exact_incremental_rejected_identity_set_claimed"] is False and pg["additive_subtraction_authorized"] is False, "no additive credit")
     req(candidate["firewalls"]["full178_complete"] is False and candidate["firewalls"]["merge_authorized"] is False, "closure firewalls")
 
-    print("PASS: independent MAIN GRF04 uniform all-FULL178 x4-block theorem <= 13/33")
+    print("PASS: independent MAIN GRF04 + audited TD01 parity all-FULL178 x4-block theorem <= 5/33")
     print(f"PASS: candidate upper bound={EXPECTED_CANDIDATE} tightening_vs_V34={EXPECTED_TIGHTENING}")
     print("PASS: authority unchanged; hostile audit required before any MAIN promotion")
-
 
 if __name__ == "__main__":
     main()
