@@ -6,9 +6,6 @@ import json
 import sys
 from pathlib import Path
 
-from sympy import Matrix, eye
-from sympy.matrices.normalforms import hermite_normal_form
-
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 PREFLIGHT = HERE / "PREFLIGHT.json"
@@ -17,11 +14,6 @@ PAIRING = ROOT / "stages/stage32/residual-32-01-production/pairing_prefix_engine
 BUNDLE_DIR = ROOT / "stages/stage33/33-07"
 BUNDLE_SOURCE = BUNDLE_DIR / "picard_base_rows_retained.py"
 RESIDUAL = ROOT / "stages/stage32/residual-32-01-production"
-
-sys.path.insert(0, str(RESIDUAL))
-sys.path.insert(0, str(BUNDLE_DIR))
-from pairing_prefix_engine import RetainedBasisPairingTransform
-import picard_base_rows_retained as retained_bundle
 
 PREFLIGHT_BLOB = "4fb4b22b0577c19e98aeefa43c073ba062556dff"
 PREFLIGHT_CANON = "d41612200ecf621de4d1f44bca128b721c84e73ad50bce7ce1c550f3daf87441"
@@ -54,17 +46,18 @@ def canon(value: dict) -> str:
     ).hexdigest()
 
 
-def matrix_list(m: Matrix) -> list[list[int]]:
+def matrix_list(m) -> list[list[int]]:
     return [[int(m[i, j]) for j in range(m.cols)] for i in range(m.rows)]
 
 
-def matrix_sha(m: Matrix) -> str:
+def matrix_sha(m) -> str:
     return hashlib.sha256(
         json.dumps(matrix_list(m), sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
 
 
 def main() -> None:
+    # Fail closed before executing any load-bearing repository module.
     req(PREFLIGHT.is_file() and blob(PREFLIGHT) == PREFLIGHT_BLOB, "preflight blob drift")
     pre = json.loads(PREFLIGHT.read_text())
     req(pre.get("canonical_sha256_without_this_field") == PREFLIGHT_CANON, "preflight stored canonical drift")
@@ -77,6 +70,15 @@ def main() -> None:
     req(canon(interface) == INTERFACE_CANON, "interface canonical drift")
     req(PAIRING.is_file() and blob(PAIRING) == PAIRING_BLOB, "pairing engine blob drift")
     req(BUNDLE_SOURCE.is_file() and blob(BUNDLE_SOURCE) == BUNDLE_BLOB, "Picard bundle source blob drift")
+
+    # Imports are intentionally after all load-bearing source locks above.
+    from sympy import eye
+    from sympy.matrices.normalforms import hermite_normal_form
+
+    sys.path.insert(0, str(RESIDUAL))
+    sys.path.insert(0, str(BUNDLE_DIR))
+    from pairing_prefix_engine import RetainedBasisPairingTransform
+    import picard_base_rows_retained as retained_bundle
 
     bundle = retained_bundle.load()
     req(bundle["canonical_sha256"] == BUNDLE_CANON, "Picard bundle canonical drift")
