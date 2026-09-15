@@ -1,25 +1,29 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V27_CUT201_CONSUMED_PENDING_REAUDIT",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V28_CUT201_AUDIT_SYNCED",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_v26_exact_head": "41f57132ca18d0b002e94d397210ac0c65e00f2e",
-    "predecessor_v26_main_state_blob_sha1": "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b",
-    "predecessor_v26_main_state_canonical_sha256": "39b66cb72dd60900158e60cbca9e0c8dbd15bff3d77f7d9ed2fd096e0f12b9dd",
+    "predecessor_v27_exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
+    "predecessor_v27_main_state_blob_sha1": "399221dc91733b3a9a2d79ae3473ea2365e409a3",
+    "predecessor_v27_main_state_canonical_sha256": "e25d3c2d3381193462af28577c6ddd0c6c5fc597192a640d7534034213b86d1b",
     "n400_main_pruning_credit_consumed": true,
     "cut201_main_pruning_credit_consumed": true,
     "cut201_producer_pr": 1806,
     "cut201_audited_exact_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
     "cut201_hostile_audit_review_id": 5206283218,
-    "cut201_hostile_audit_status": "PASS"
+    "cut201_hostile_audit_status": "PASS",
+    "v27_cut201_replacement_exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
+    "v27_cut201_replacement_hostile_audit_review_id": 5207093455,
+    "v27_cut201_replacement_hostile_audit_status": "PASS",
+    "merge_ready_freshness_at_audit": "CLEAR"
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "HOSTILE_REAUDIT_REQUIRED_BEFORE_FURTHER_MAIN_CONSUMPTION",
-    "next_exact_route": "HOSTILE_REAUDIT_OF_CUT201_V27_REPLACEMENT_HEAD",
-    "stacked_candidate_audit_status": "CUT201_V27_CONSUMED_REPLACEMENT_HEAD_PENDING_HOSTILE_REAUDIT",
-    "stop_semantics": "The hostile-audited CUT201 V26 adapter has been consumed exactly once for 18,758 incremental terminals. The replacement MAIN head is frozen for independent hostile re-audit before any further MAIN pruning consumption or authority increase."
+    "mainbatch_stop_gate": "NONE",
+    "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
+    "stacked_candidate_audit_status": "CUT201_V27_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED_MAIN_AUTHORITY_CURRENT",
+    "stop_semantics": "The V27 CUT201 MAIN-consumption replacement head received exact-head hostile-audit PASS and is synchronized as the current MAIN authority boundary. This sync adds no pruning beyond the already-consumed 18,758 CUT201 terminals and grants no FULL178, effectivity, receiver, theorem, endpoint, closure, heavy-compute, or merge credit."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -43,15 +47,19 @@
     "cut201_double_charge": false,
     "cut201_main_pruning_credit": true,
     "cut201_main_consumer_subtraction_performed": true,
-    "cut201_producer_lane_subtraction_performed": false
+    "cut201_producer_lane_subtraction_performed": false,
+    "cut201_v27_replacement_hostile_audited": true,
+    "cut201_v27_replacement_audited_exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
+    "cut201_v27_replacement_hostile_audit_review_id": 5207093455
   },
   "current_leaf_working_set": [
+    "stages/stage32/management/cut201-main-disposition/CUT201-V28-HOSTILE-AUDIT-PASS-SYNC.json",
+    "stages/stage32/management/cut201-main-disposition/verify_cut201_v28_audit_sync.py",
     "stages/stage32/management/cut201-main-disposition/CUT201-V27-MAIN-CONSUMPTION.json",
-    "stages/stage32/management/cut201-main-disposition/verify_cut201_v26_main_consumption_preflight.py",
     "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "stages/stage32/proof/verify_cross_lane_demands.py",
     "stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json",
-    "stages/stage32/verify_main_startup_authority_v27_cut201_consumed.py"
+    "stages/stage32/verify_main_startup_authority_v28_cut201_audit_synced.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -70,7 +78,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": true,
+    "replacement_head_hostile_reaudit_required": false,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -84,13 +92,16 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "source_locks": {
-    "predecessor_v26": {
-      "exact_head": "41f57132ca18d0b002e94d397210ac0c65e00f2e",
-      "main_state_blob_sha1": "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b",
-      "main_state_canonical_sha256": "39b66cb72dd60900158e60cbca9e0c8dbd15bff3d77f7d9ed2fd096e0f12b9dd",
-      "cross_lane_registry_blob_sha1": "619c4c415dee38c0539c9d91d6881a3d7b31d46c",
-      "cross_lane_registry_canonical_sha256": "9ace76a55e717dec9f39151e694e78a00250fa08a0a804373faded45196ab7e4",
-      "active_specialist_monitor_blob_sha1": "e8f058eb5daf33fb471bbda522650c5926433e97"
+    "predecessor_v27": {
+      "exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
+      "main_state_blob_sha1": "399221dc91733b3a9a2d79ae3473ea2365e409a3",
+      "main_state_canonical_sha256": "e25d3c2d3381193462af28577c6ddd0c6c5fc597192a640d7534034213b86d1b",
+      "v27_verifier_blob_sha1": "f51e153b572147707d20280062e1b11d56317b05",
+      "v27_consumption_receipt_blob_sha1": "cdd766cae064430bb1aa901f1d023fcb48b39877",
+      "v27_consumption_receipt_canonical_sha256": "aa9a40c0514412444a15db8a59d54de4866de39345ff4a0dbd531c14eaced9f6",
+      "cross_lane_registry_blob_sha1": "e14bea1a62ec287710064a96f80abe57f8b0c3f4",
+      "cross_lane_registry_canonical_sha256": "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74",
+      "active_specialist_monitor_blob_sha1": "53f286f78574cfad59fc397a9d3268d345331594"
     },
     "cut201_v27_consumption": {
       "producer_pr": 1806,
@@ -106,11 +117,25 @@
       "incremental_rank_stream_sha256": "dc61b63b1ff6ade5762e5e5930cdcb1f17f9eaffee90750a143a8d84d5107e83",
       "incremental_identity_stream_sha256": "0fa6f9ac49363d6506080a96b3ceb3857f4ef21bbbc24222158e2fb57766a097"
     },
+    "cut201_v28_audit_sync": {
+      "reviewed_exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
+      "reviewed_main_state_blob_sha1": "399221dc91733b3a9a2d79ae3473ea2365e409a3",
+      "reviewed_main_state_canonical_sha256": "e25d3c2d3381193462af28577c6ddd0c6c5fc597192a640d7534034213b86d1b",
+      "hostile_audit_review_id": 5207093455,
+      "hostile_audit_status": "PASS",
+      "merge_ready_freshness": "CLEAR",
+      "current_main_at_audit": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "audit_sync_receipt_blob_sha1": "1af25126b74dc887208f785b27e2fc5e02eff99c",
+      "audit_sync_receipt_canonical_sha256": "411df68063eab37a5d81053f01c436c803edb79df18752466777525a0dcac33d",
+      "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
+      "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
+      "lane_adapters_blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40"
+    },
     "claim_sync_unchanged": {
       "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
       "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
       "lane_adapters_blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40"
     }
   },
-  "canonical_sha256_without_this_field": "e25d3c2d3381193462af28577c6ddd0c6c5fc597192a640d7534034213b86d1b"
+  "canonical_sha256_without_this_field": "29859578ce1c4e2372379cd508595e767393d676c0b6429e7de3bc8691998fc9"
 }
