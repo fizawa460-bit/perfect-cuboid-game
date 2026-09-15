@@ -111,6 +111,25 @@ jobs:
           print('HPADJ11_REMOVED_BLOCK_UPPER=' + str(data['candidate_bound']['removed_block_refined_survivor_upper_bound']))
           print('HPADJ11_REMOVED_BLOCK_IMPROVEMENT_VS_TD01=' + str(data['candidate_bound']['improvement_vs_td01_upper_bound']))
           PY
+      - name: Refine HPADJ12 by row-stratified archived HPADJ08 removal
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-12_ex5/derive_row_stratified_removed_block_bound.py | tee /tmp/hpadj12-row.json
+          cmp /tmp/hpadj12-row.json stages/stage32-ex5/hpadj-12_ex5/ROW-STRATIFIED-RESULT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj12-row.json').read_text())
+          assert data['status'] == 'STRICTER_ROW_STRATIFIED_TD01_SAME_CHARACTER_UPPER_BOUND_AUDIT_REQUIRED'
+          assert data['canonical_sha256_without_this_field'] == '2b710888bd332e4c402f086ae0e5177acfd96a003a6bb30991b2f67e131b2e74'
+          assert data['block_geometry']['row_stratified_removed_complete_block_lower_bound'] == 17071409609395633850
+          assert data['candidate_bound']['row_stratified_refined_survivor_upper_bound'] == 3359845619098834326170
+          assert data['candidate_bound']['improvement_vs_hpadj11_upper_bound'] == 933194668966332199
+          assert data['semantics']['new_heavy_run_used'] is False
+          assert data['semantics']['main_consumption_performed'] is False
+          print('HPADJ12_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ12_REFINED_UPPER=' + str(data['candidate_bound']['row_stratified_refined_survivor_upper_bound']))
+          PY
       - name: Checkout hostile-audited MAIN V31 target
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         uses: actions/checkout@v4
