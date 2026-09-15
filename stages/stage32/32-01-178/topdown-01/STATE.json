@@ -4,7 +4,7 @@
     "main_authority_mutated": false,
     "n401_n405_closed_route_reopened": false
   },
-  "canonical_sha256_without_this_field": "fdb6d9480f707863a53d70358abd960f3a29913c75eac4d06724580fe70921f2",
+  "canonical_sha256_without_this_field": "b48231ce0b8f100101994be479cf94c8888c4b3d28737f8d234748bddbed5436",
   "credit_firewall": {
     "effectivity_credit": false,
     "endpoint_credit": false,
@@ -49,7 +49,18 @@
     "repair_required": false,
     "stop_gate": "HEAVY_WORKFLOW_AUTHORIZATION_REQUIRED"
   },
-  "schema": "STAGE32_32_01_178_TD01_STATE_V2_FULL178_PREPARED",
+  "schema": "STAGE32_32_01_178_TD01_STATE_V3_SHARED_HPADJ09_OBSTRUCTION",
+  "shared_obstruction": {
+    "equivalence_note_path": "stages/stage32/32-01-178/topdown-01/HPADJ09-EQUIVALENCE-NOTE.json",
+    "ex5_pr": 1814,
+    "ex5_panel_run_id": 34971687575,
+    "ex5_panel_status": "FAIL_IMPLEMENTATION_ASSUMPTION_MODULUS_2_VS_RETAINED_MODULUS_8",
+    "same_fixed_matrix_sha256": "e8f4a9004177fc2a2023775431505d4ef39b7b808bd41cb517787c235ab170fe",
+    "same_free_matrix_sha256": "ad27fa86fbc98d55a97af5fd9d247fb880af9dac58d6429ca029d6b8ca4c288b",
+    "same_completion_obstruction": true,
+    "preferred_execution_surface": "TD01_SYMBOLIC_FULL178_COUNTER",
+    "reason": "HPADJ09 independently derives the same selected64 completion obstruction; TD01 already reduces it to the exact primitive parity character and has a population-wide bounded exact count."
+  },
   "source_main": {
     "authority_remaining_strata": 17128,
     "authority_remaining_terminals_upper_bound": 6703403803993210101494,
@@ -58,5 +69,5 @@
     "pr": 1808
   },
   "stage": 32,
-  "status": "FULL178_SCALEOUT_PREPARED_HEAVY_GATE_BLOCKED"
+  "status": "FULL178_SCALEOUT_PREPARED_SHARED_OBSTRUCTION_HEAVY_GATE_BLOCKED"
 }
