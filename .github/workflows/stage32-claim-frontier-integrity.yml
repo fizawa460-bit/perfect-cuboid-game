@@ -84,8 +84,26 @@ jobs:
           python -m py_compile stages/stage32/full178-cut/cut201_e8_common_adapter_wave9.py
       - name: Install CUT201 exact-head verifier dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Checkout CUT201 source-locked MAIN V12 separately
+        uses: actions/checkout@v4
+        with:
+          ref: 6d63d798adb50dd4efc5f0d5abc553b3dfa23060
+          path: .stage32-cut201-main-v12
       - name: Verify CUT201 exact-head audit replay
-        run: python stages/stage32/full178-cut/verify_cut201_e8_common_adapter_wave9.py
+        shell: bash
+        run: |
+          set -euo pipefail
+          LIVE='stages/stage32/MAIN-STATE.json'
+          HIST='.stage32-cut201-main-v12/stages/stage32/MAIN-STATE.json'
+          SAVED="$RUNNER_TEMP/stage32-main-state-live.json"
+          cp "$LIVE" "$SAVED"
+          restore() { cp "$SAVED" "$LIVE"; }
+          trap restore EXIT
+          cp "$HIST" "$LIVE"
+          python stages/stage32/full178-cut/verify_cut201_e8_common_adapter_wave9.py
+          restore
+          trap - EXIT
+          git diff --exit-code -- "$LIVE"
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
@@ -141,7 +159,7 @@ jobs:
               and new.get('worker_blob')=='a8be279ebc3bca4a383d4a81e4c04de7413b17b8' and new.get('aggregator_blob')=='6e41072243ff92eabae39f522398aed2fad8df7f'
               and new.get('recovery_g10_failure_blob')==blob(failp) and new.get('recovery_g11_preflight_blob')==blob(prep) and new.get('g11_recovery_helper_blob')==blob(helper) and new.get('workflow_blob')==blob('.github/workflows/stage32-claim-frontier-integrity.yml')
               and fail.get('run',{}).get('run_id')==34901388028 and fail.get('run',{}).get('shard5_artifact_id')==10370677088 and fail.get('classification',{}).get('kind')=='RETAINED_GENERATION1_ARTIFACTS_EXPIRED' and fail.get('classification',{}).get('same_generation_rearm_forbidden') is True
-              and pre.get('resume_design',{}).get('subpart_count')==28 and pre.get('resume_design',{}).get('subpartition_max_offsets')==8 and pre.get('resume_design',{}).get('per_check_timeout_ms')==750 and pre.get('retained_generation10',{}).get('shard5_artifact_id')==10370677088
+              and pre.get('resume_design',{}).get('subpart_count')==28 and pre.get('resume_design',{}).get('subpartition_max_offsets')==8 and pre.get('per_check_timeout_ms')==750 and pre.get('retained_generation10',{}).get('shard5_artifact_id')==10370677088
               and r.get('expired_generation1_shard_ids')==[0,1,2,3,4,6,7] and r.get('subpart_count')==28 and r.get('subpartition_max_offsets')==8 and r.get('source_g10_run_id')==34901388028 and r.get('source_g10_shard5_artifact_id')==10370677088
               and r.get('generation10_shard5_rerun_forbidden') is True and r.get('generation9_parent_shard_rerun_forbidden') is True and r.get('full_wave_rerun_forbidden') is True
               and r.get('intermediate_hostile_audited_head')==os.environ['BEFORE_SHA'] and isinstance(r.get('intermediate_hostile_audit_review_id'),int) and r.get('intermediate_hostile_audit_review_id',0)>0
