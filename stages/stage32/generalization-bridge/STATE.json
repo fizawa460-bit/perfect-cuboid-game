@@ -1,13 +1,13 @@
 {
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_BLOCKED_UPSTREAM_NO_CREDIT",
-  "current_node": "BR101",
-  "active_leaf": "BR101_MB104_TO_FULL178_GENERALIZATION_FEASIBILITY",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT",
+  "current_node": "BR102",
+  "active_leaf": "BR102_KRES_PICARD64_COVECTOR_ADAPTER",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR101-SOURCE-TARGET-SEMANTIC-FREEZE.json",
-    "status": "EXACT_FREEZE_BLOCKED_ON_TARGET_WIDE_PICARD64_INTERFACE_NO_CREDIT",
-    "repository_main_at_freeze": "c6284abbb29930255892d56f800da0ea1e34734b"
+    "path": "stages/stage32/generalization-bridge/BR102-INVARIANT-DEFINITION-PREFLIGHT.json",
+    "status": "ACTIVE_EXACT_PREFLIGHT_NO_CREDIT",
+    "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b"
   },
   "source_seed": {
     "source_lane": "MB",
@@ -34,31 +34,29 @@
     "frontier": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "target_population": "current authoritative FULL178/Picard64 population",
     "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
-    "required_picard64_interface_owner": "EX5",
     "known_interface": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
-    "known_interface_scope": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "known_interface_scope_for_population_claims": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "known_affine_completion_model": "retained_picard64=(B_fixed*x11+B_free*z53)/8 with coordinatewise mod-8 integrality",
     "ordinary_178_enumeration_owned_elsewhere": true
   },
   "candidate_ledger": [
     {
       "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
-      "status": "WAITING_ON_BR101_TARGET_INTERFACE_BLOCKER",
-      "description": "Test whether an MB-style residual character/Fourier Picard direction has a source-independent formulation on general retained Picard64 completions and yields a nontrivial terminal-visible lower bound after minimizing over free completion coordinates."
+      "status": "ACTIVE",
+      "description": "Express K_res=-E24+E25-E26+E27-E32+E33-E34+E35 as an exact covector in retained Picard64 coordinates, substitute the 11-fixed/53-free affine fiber, then test free-coordinate visibility/cancellation."
     },
     {
       "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
-      "status": "WAITING_ON_BR101_TARGET_INTERFACE_BLOCKER",
-      "description": "Test whether the MB A1 allocation square-energy mechanism has an intrinsic Picard/completion analogue beyond the source-specific multibranch packet."
+      "status": "RETIRED_DUPLICATE_SPECIALIST_ROUTE",
+      "description": "Do not duplicate. FULL178 support-aware/exact stored-square strengthening is already owned by 178 H8C-02/H8C-03A and EX5 HPADJ-08 exact-square compression."
     }
   ],
   "next_obligation": {
-    "node_id": "BR101",
-    "title": "Obtain a current-FULL178-wide exact terminal-to-Picard64 interface or freeze an explicit scope reduction",
-    "blocker_id": "BR101_MISSING_CURRENT_FULL178_WIDE_TERMINAL_TO_PICARD64_INTERFACE_AND_COORDINATE_SEMANTIC_ADAPTER",
-    "owner": "EX5_FOR_INTERFACE_PRODUCTION__BRIDGE_FOR_POST_INTERFACE_GENERALIZATION",
-    "required_input": "A source-locked exact completion interface covering every terminal in the claimed current FULL178 bridge population, preserving all free completion coordinates/congruences and sufficient coordinate semantics to test whether MB104 directions have a target analogue.",
-    "success": "Validate the upstream artifact identity and population semantics, then re-enter BR101 and only then authorize BR102 population-wide invariant definition.",
-    "no_go": "If EX5 proves that no such population-preserving interface can be supplied at the required semantics, retain that exact blocker; do not descend to terminal/block pruning."
+    "node_id": "BR102",
+    "title": "Construct exact K_res -> retained Picard64 covector adapter",
+    "required_input": "Use source-locked compact Picard bundle loaders/adapters to identify the retained primitive Picard64 coordinate image/covector of K_res without whole-fetching denylisted retained payloads.",
+    "success": "Obtain ell_res((B_fixed*x11+B_free*z53)/8) exactly. If free coefficients vanish, record terminal-visible character functional on the certified interface scope; otherwise advance to BR103 exact congruence-aware minimization/cancellation.",
+    "no_go": "If no basis-compatible source-locked embedding of K_res into the retained Picard64 lattice exists, freeze NO_GENERALIZATION for BR-C1 and do not descend to local terminal pruning."
   },
   "routing": {
     "independent_specialist": true,
@@ -66,10 +64,11 @@
     "main_credit_auto_promotion": false,
     "terminal_by_terminal_fallback_forbidden": true,
     "heavy_compute_armed": false,
-    "BR102_population_wide_entry_authorized": false,
+    "BR102_population_wide_entry_authorized": true,
+    "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
-    "stop_reason": "UPSTREAM_EX5_INTERFACE_SCOPE_BLOCKER"
+    "stop_reason": null
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,
