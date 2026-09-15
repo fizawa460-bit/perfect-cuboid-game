@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
+ROOT = HERE.parents[3]
 RECEIPT = HERE / "HPADJ08-V30-HOSTILE-AUDIT-PASS-SYNC.json"
 STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 
