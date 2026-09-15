@@ -1,0 +1,27 @@
+name: Stage32EX5 HPADJ08 kernel
+
+# lifecycle: ACTIVE_AUTO while PR #1812 is the active HPADJ-08_ex5 frontier.
+# This workflow is lightweight only; it never authorizes or runs FULL178 heavy shards.
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32-ex5/hpadj-08_ex5/**'
+      - '.github/workflows/stage32-ex5-hpadj08-kernel.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32ex5-hpadj08-kernel-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  verify-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify bounded exact-square certificate
+        run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_exact_square_bounded.py
+      - name: Verify FULL178 shard kernel
+        run: python stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py
