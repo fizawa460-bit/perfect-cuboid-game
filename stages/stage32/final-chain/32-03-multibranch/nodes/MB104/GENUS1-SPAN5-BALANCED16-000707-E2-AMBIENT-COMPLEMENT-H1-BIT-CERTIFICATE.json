@@ -1,6 +1,6 @@
 {
-  "schema_version": "stage32-mb104-ambient-complement-h1-bit-v1",
-  "status": "RETAINED_EXACT_TOPOLOGICAL_REDUCTION_CONDUCTOR_LOOP_CLASS_OPEN_NO_CREDIT",
+  "schema_version": "stage32-mb104-ambient-complement-h1-bit-v2",
+  "status": "RETAINED_EXACT_INTEGRAL_TOPOLOGICAL_REDUCTION_CONDUCTOR_LOOP_CLASS_OPEN_NO_CREDIT",
   "scope": {
     "packet": "000707000f0f",
     "component_degree_case": 2,
@@ -10,25 +10,35 @@
     "absent_nodes": [16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47],
     "absent_component_count": 16,
     "absent_components_pairwise_disjoint": true,
+    "absent_self_intersection": -2,
     "half_branch_relation": "2*L_abs ~ B_abs",
     "all_ones_relation_mod2": true,
     "picard_absent_span_rank_mod2": 15,
     "picard_surface_torsion_free": true,
+    "surface_h1_z_zero": true,
     "surface_h1_f2_dimension": 0,
     "ambient_character_local_monodromy_on_each_absent_meridian": 1,
     "e2_normalization_character_trivial": true
   },
   "exact_result": {
-    "relative_h2_dimension": 16,
+    "relative_h2_integral_rank": 16,
+    "intersection_map_contains_2Z16": true,
     "intersection_map_rank_mod2": 15,
-    "intersection_map_image": "even_weight_hyperplane_in_F2^16",
+    "intersection_map_image_mod2": "even_weight_hyperplane_in_F2^16",
+    "intersection_map_image_integral": "{v in Z^16 : sum(v_i) even}",
+    "intersection_image_index_integral": 2,
+    "smith_invariant_factors_model": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+    "complement_h1_integral": "Z/2",
     "complement_h1_f2_dimension": 1,
     "absent_meridians_same_nonzero_class": true,
     "alpha_abs_nonzero": true,
+    "alpha_abs_unique_nonzero": true,
     "alpha_abs_isomorphism": true,
-    "conductor_sheet_test": "epsilon_(p,i)+epsilon_(p,j)=alpha_abs(lambda)=0 iff [lambda]=0 in H1(U,F2); value 1 iff [lambda] is the unique nonzero class",
+    "linking_evaluator": "alpha_abs(lambda)=Gamma.B_abs mod 2 for any integral 2-chain Gamma in S with boundary lambda",
+    "relative_coordinate_evaluator": "sum_i intersection_i mod 2",
+    "conductor_sheet_test": "epsilon_(p,i)+epsilon_(p,j)=alpha_abs(lambda)=Gamma_(p;i,j).B_abs mod 2",
     "normalization_h1_map_to_complement_is_zero_in_e2_case": true,
-    "remaining_datum": "one F2 null-homology/linking bit for each conductor dual-graph gluing cycle"
+    "remaining_datum": "one integral Z/2 linking bit for each conductor dual-graph gluing cycle"
   },
   "source_files": [
     "CUBOID-SURFACE-COMPLEMENT-MOD2-HOMOLOGY-SOURCE-NOTE.md",
@@ -38,10 +48,11 @@
     "STACKS-KUMMER-AMBIENT-ETALE-MONODROMY-SOURCE-NOTE.md"
   ],
   "wolfram_crosscheck": {
-    "abstract_meridian_space_dimension": 16,
-    "even_weight_hyperplane_rank": 15,
-    "quotient_dimension": 1,
-    "each_standard_meridian_has_nonzero_quotient_bit": true
+    "relation_matrix_shape": [31,16],
+    "model_generators": "2e_i (i=1..16) plus e_i+e_16 (i=1..15)",
+    "smith_diagonal": [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+    "index": 2,
+    "quotient": "Z/2"
   },
   "credit_firewall": {
     "conductor_pair_map_complete": false,
