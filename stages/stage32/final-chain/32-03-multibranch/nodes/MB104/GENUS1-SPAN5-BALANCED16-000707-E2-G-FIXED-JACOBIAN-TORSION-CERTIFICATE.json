@@ -1,0 +1,100 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_G_FIXED_JACOBIAN_TORSION_V1",
+  "status": "RETAINED_CANDIDATE_EXACT_INTEGRAL_HOMOLOGY_G_FIXED_JACOBIAN_Z2_5_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "depends_on_external_product_picard_candidate": true,
+    "conductor_pair_sign_computed": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-G-FIXED-JACOBIAN-TORSION.md",
+      "blob_sha1": "3163ec6480041f6634bdff2ed8454bd99cb7e36b"
+    },
+    {
+      "id": "EXTERNAL_PRODUCT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EXTERNAL-PRODUCT-PICARD-REDUCTION-CERTIFICATE.json",
+      "blob_sha1": "8ee4c7a3b3f445c9f34cb7b37f55a22fd7e99a06"
+    },
+    {
+      "id": "SIX_BRANCH_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-SIX-BRANCH-HURWITZ-PASSPORT.md",
+      "blob_sha1": "d421c11ecd6577234823b6e9604c8cc99ce48fec"
+    },
+    {
+      "id": "PRODUCT_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PRODUCT-CORRESPONDENCE-LINEARIZATION.md",
+      "blob_sha1": "2c2db567db6a3c33762b2ff3d7f39f885a95b974"
+    }
+  ],
+  "topological_replay": {
+    "orbifold_group": "<x1,...,x6 | xi^2=1, x1*x2*x3*x4*x5*x6=1>",
+    "branch_monodromy": "e1,e1,e2,e2,e3,e3",
+    "formal_schreier_generators": 48,
+    "freely_trivial_schreier_generators": 7,
+    "nontrivial_schreier_generators": 41,
+    "abelian_relations": 56,
+    "primitive_relation_rank": 31,
+    "H1_rank": 10,
+    "H1_torsion_free": true,
+    "singular_involution_H1_trace": -6,
+    "free_nonidentity_H1_trace": 2
+  },
+  "fixed_torus": {
+    "stacked_fixed_matrix_shape": "30x10",
+    "smith_invariants": [1,1,1,1,1,2,2,2,2,2],
+    "J_C8_G_fixed_structure": "(Z/2)^5",
+    "J_C8_G_fixed_size": 32
+  },
+  "factor_picard_consequence": {
+    "G_invariant_degree_28l_classes_per_factor": 32,
+    "ordered_factor_class_pairs": 1024,
+    "independent_of_l": true,
+    "explicit_five_binary_generators_materialized": false
+  },
+  "routing": {
+    "new_global_constraint_materialized": true,
+    "previous_4_torsion_ambient_bound_sharpened_to_exact_2_torsion_fixed_group": true,
+    "finite_uniform_factor_pair_target_materialized": true,
+    "individual_conductor_transition_materialized": false,
+    "weighted_cut_bound_proved": false,
+    "recommended_next_target": "materialize five explicit generators of J(C8)^G[2] in retained coordinates and enumerate the 1024 factor pairs against the 000707 support passport / irreducibility / common-etale normalization",
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-G-FIXED-JACOBIAN-TORSION.md",
+    "human_note_blob_sha1": "3163ec6480041f6634bdff2ed8454bd99cb7e36b",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_g_fixed_jacobian_torsion.py",
+    "verifier_blob_sha1": "07e54f9f5eb5c01f17dcdd099aada75ef6e95716"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_G_FIXED_JACOBIAN_TORSION_V1",
+    "source_boundary_fail_closed": true,
+    "external_CAS_dependency": false,
+    "algorithmic_replay_independently_checked": true,
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "hostile_audit_claimed": false,
+    "audit_instruction": "run the fail-closed verifier on the exact candidate head; independently inspect the orbifold-kernel identification, Reidemeister-Schreier deck action, and the fixed-torus Smith-factor interpretation before consuming the 32/1024 counts"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
