@@ -111,6 +111,19 @@ jobs:
           print('HPADJ11_REMOVED_BLOCK_UPPER=' + str(data['candidate_bound']['removed_block_refined_survivor_upper_bound']))
           print('HPADJ11_REMOVED_BLOCK_IMPROVEMENT_VS_TD01=' + str(data['candidate_bound']['improvement_vs_td01_upper_bound']))
           PY
+      - name: Checkout hostile-audited MAIN V31 target
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: f5558f0d1b23c6dd48519207e1dc872ae66127d7
+          path: _main-v31
+          fetch-depth: 1
+      - name: Verify HPADJ11 MAIN handoff against audited V31 target
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          test "$(git -C _main-v31 rev-parse HEAD)" = "f5558f0d1b23c6dd48519207e1dc872ae66127d7"
+          python stages/stage32-ex5/hpadj-11_ex5/verify_main_handoff.py --main-root _main-v31
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
       - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
