@@ -1,8 +1,9 @@
 {
-  "schema": "STAGE32EX5_HPADJ08_STATE_V1",
+  "schema": "STAGE32EX5_HPADJ08_STATE_V2",
   "route_id": "HPADJ-08_ex5",
-  "status": "SHARDED_FULL178_WORKER_READY_HEAVY_NOT_ARMED",
-  "scratch_branch": "stage32ex5-hpadj-08-exact-square-compression",
+  "status": "KERNEL_CI_ACTIVE_BC2_40_AUTO_RETIRED_HEAVY_NOT_ARMED",
+  "work_pr": 1812,
+  "work_branch": "stage32ex5-hpadj-08-exact-square-compression",
   "bounded_evidence": {
     "scope": "26 rows d=8..32 both genera",
     "old_group_cauchy_candidate_rejected_terminals": 3257761571005,
@@ -22,11 +23,21 @@
     "full178_candidate_count_available": false
   },
   "kernel_validation": {
-    "independent_small_H_crosscheck": "PASS at H=4 and H=6 against direct coordinate enumeration in local diagnostic",
+    "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py",
+    "verifier_added_commit": "15461470377fe3303f1c4a3dec8f463bc4bed448",
+    "workflow": ".github/workflows/stage32-ex5-hpadj08-kernel.yml",
+    "workflow_lifecycle": "ACTIVE_AUTO",
+    "first_run_id": 34925336594,
     "exact_head_ci_pass": false,
-    "reason": "no dedicated exact-head CI/run has been created or executed yet"
+    "current_observed_status": "QUEUED_AT_DFEF20A"
   },
-  "next_action": "Add a lightweight fail-closed kernel verifier for the shard decomposition; only after it passes should a dedicated runkey/workflow be armed for the 8 FULL178 shards.",
+  "workflow_lifecycle": {
+    "retired_bc2_40_workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
+    "retired_bc2_40_class": "RETIRED_MANUAL_ONLY",
+    "retired_commit": "1a5f39383d337848a21de4fa4d02b032b8feb956",
+    "reason": "BC2-40 generation 4 is hostile-audited/consumed; automatic execution is no longer current frontier."
+  },
+  "next_action": "Wait only for current exact-head lightweight kernel CI observation; if PASS, add a cold/unarmed dedicated HPADJ-08 FULL178 runkey and runkey-gated resumable 8-shard workflow. Do not arm heavy execution before storage preflight and exact authorization gate are complete.",
   "firewalls": {
     "stage32_main_pruning_credit": false,
     "current_main_incremental_credit": false,
@@ -38,7 +49,8 @@
     "stage32_closed": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
+    "heavy_run_armed": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "d44409d6daf9549d596b010a6174a09325c638743c63461a7246abe7c0255358"
+  "canonical_sha256_without_this_field": "f7703e64bab2899e839e5c577b55cf21c4c9459a0d709058930ea6c6604bc243"
 }
