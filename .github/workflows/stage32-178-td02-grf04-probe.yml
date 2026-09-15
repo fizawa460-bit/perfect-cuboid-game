@@ -1,0 +1,26 @@
+name: Stage32 178 TD02 GRF04 exact probe
+
+on:
+  push:
+    branches:
+      - stage32-01-178-topdown-grf02-hpadj08
+    paths:
+      - 'stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py'
+      - '.github/workflows/stage32-178-td02-grf04-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+      - name: Run TD02 GRF04 exact Hperp probe
+        run: python stages/stage32/32-01-178/topdown-02/probe_td02_grf04_hperp.py
