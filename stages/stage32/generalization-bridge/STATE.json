@@ -3,11 +3,12 @@
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR102",
-  "active_leaf": "BR102_KRES_PICARD64_COVECTOR_ADAPTER",
+  "active_leaf": "BR102_KRES_PICARD64_COVECTOR_FINGERPRINT_REPLAY",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR102-INVARIANT-DEFINITION-PREFLIGHT.json",
-    "status": "ACTIVE_EXACT_PREFLIGHT_NO_CREDIT",
-    "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b"
+    "path": "stages/stage32/generalization-bridge/BR102-EXCEPTIONAL-INCIDENCE-FINGERPRINT-ADAPTER.json",
+    "status": "RETAINED_EXACT_SEMANTIC_REDUCTION_NO_CREDIT",
+    "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "bridge_commit": "c365cf3bd189ab289857bb0b55514a2458aad32d"
   },
   "source_seed": {
     "source_lane": "MB",
@@ -42,8 +43,8 @@
   "candidate_ledger": [
     {
       "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
-      "status": "ACTIVE",
-      "description": "Express K_res=-E24+E25-E26+E27-E32+E33-E34+E35 as an exact covector in retained Picard64 coordinates, substitute the 11-fixed/53-free affine fiber, then test free-coordinate visibility/cancellation."
+      "status": "ACTIVE_EXACT_FINGERPRINT_REPLAY",
+      "description": "Recover MB104 exceptional classes by exact 35-curve incidence fingerprints against the retained Gram, reconstruct K_res in Picard64, then split ell_res into the 11 fixed and 53 free selected pairing coordinates."
     },
     {
       "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
@@ -53,10 +54,10 @@
   ],
   "next_obligation": {
     "node_id": "BR102",
-    "title": "Construct exact K_res -> retained Picard64 covector adapter",
-    "required_input": "Use source-locked compact Picard bundle loaders/adapters to identify the retained primitive Picard64 coordinate image/covector of K_res without whole-fetching denylisted retained payloads.",
-    "success": "Obtain ell_res((B_fixed*x11+B_free*z53)/8) exactly. If free coefficients vanish, record terminal-visible character functional on the certified interface scope; otherwise advance to BR103 exact congruence-aware minimization/cancellation.",
-    "no_go": "If no basis-compatible source-locked embedding of K_res into the retained Picard64 lattice exists, freeze NO_GENERALIZATION for BR-C1 and do not descend to local terminal pruning."
+    "title": "Replay exact exceptional-incidence matcher and classify K_res free dependence",
+    "required_input": "Run stages/stage32/generalization-bridge/verify_br102_kres_picard64_covector_adapter.py against the source-locked retained Picard bundle. The verifier must match the 29 retained exceptional fingerprints to unique MB104 nodes, reconstruct all K_res terms, and verify K_res^2=-16.",
+    "success": "Emit exact ell_res coefficients on the selected pairing coordinates. If all 53 free coefficients vanish, retain terminal visibility on the certified HPADJ interface scope; if any are nonzero, advance directly to BR103 exact congruence-aware cancellation/minimization.",
+    "no_go": "If exact incidence fingerprints are ambiguous or inconsistent with the retained Gram/source locks, retain the semantic mismatch as BR102 NO_GENERALIZATION evidence; do not guess Magma point order and do not descend to local terminal pruning."
   },
   "routing": {
     "independent_specialist": true,
