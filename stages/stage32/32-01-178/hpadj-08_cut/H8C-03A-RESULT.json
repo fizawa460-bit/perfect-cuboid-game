@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE32_32_01_178_HPADJ08_CUT_H8C03A_RESULT_V1",
+  "status": "RESEARCH_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+  "scope": "FULL178 population-preserving exact free-A-triple square-moment strengthening over H8C-02",
+  "audited_inputs": {
+    "n358_exact_head": "462174f74d6470ec7c64f5b6d078757c7b3372fc",
+    "n358_verifier_blob": "c07a7e358a6253919194189377d6ed56f95e047a",
+    "hpadj07_verifier_blob": "e3efa7c27c1cb37324d588bac270d53f2b21620f",
+    "h8c02_result_blob": "81cfcbe8f9cb9c1c9750be3187e15f61ade3ea9d"
+  },
+  "method": {
+    "stored_groups": {
+      "a": [
+        "x2",
+        "x3",
+        "x7"
+      ],
+      "b": [
+        "x1",
+        "x5",
+        "x9"
+      ],
+      "c": [
+        "x0",
+        "x6",
+        "x8",
+        "x10"
+      ]
+    },
+    "exact_moment_retained": "qA=x2^2+x3^2+x7^2 together with exact A support sa",
+    "remaining_population": "audited N358 exact canonical BC[b][c][sbc] support population",
+    "bc_lower_bound": "min over sb+sc=sbc of minSq(b,3,sb)+minSq(c,4,sc)",
+    "rejection_test": "qA + minBC(b,c,sbc) > floor((3d^2+48d+96-96g)/24)",
+    "dominance_over_h8c02": "H8C02 minimizes over every support split sa+sb+sc. H8C03A fixes sa and sbc and then uses the actual A-triple square qA, so its lower bound is pointwise >= H8C02.",
+    "population_materialization": false,
+    "full_ten_coordinate_moment_completed": false,
+    "next_exact_refinement": "retain the exact BC second moment as well, or prove an equivalent compressed moment transform"
+  },
+  "verification": {
+    "full_audited_n358_support_projection_match_required": true,
+    "n357_witness": 49030556814634,
+    "h8c02_exact_replay_identity_required": true,
+    "row_count": 178,
+    "affected_incremental_rows": 178,
+    "row_stream_sha256": "b878ad354ee66ac418a9c4deb829d427b5622e8e6185c74ed2830d598d5074bb"
+  },
+  "aggregate": {
+    "h8c02_rejected_terminals": 22291592385308320124345,
+    "h8c03a_rejected_terminals": 30842390262547542736909,
+    "incremental_vs_h8c02": 8550797877239222612564,
+    "incremental_vs_hpadj07": 10129121337833359022099,
+    "h8c02_prefixes": 16339149982514616389,
+    "h8c03a_prefixes": 22220441198788176229,
+    "incremental_prefixes_vs_h8c02": 5881291216273559840,
+    "h8c03a_genus0_terms": 7090206941837623987493,
+    "h8c03a_genus1_terms": 23752183320709918749416,
+    "current_main_upper_bound_scale_reference": 26876434389242951089388,
+    "increment_vs_current_main_upper_bound_scale_ratio": 0.31815224271942866
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "current_authority_overlap_accounted": false,
+    "double_charge_accounted": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "next_gate": "stage32-01-178-audit; only after hostile PASS may current-authority overlap/double-charge accounting or a full BC exact-moment refinement proceed",
+  "canonical_sha256_without_this_field": "e2fc7899f0546ae9739c1d8ad626d6e7992635dc814f424e41869b5a6bc9746e"
+}
