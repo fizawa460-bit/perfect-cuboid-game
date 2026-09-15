@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32_32_01_178_N403_STATE_V1",
+  "stage": 32,
+  "node_id": "N403",
+  "status": "PROVISIONAL_EXACT_RESULT_PENDING_REPO_CI",
+  "current_frontier": "N403_MODULAR_RESIDUE_QUOTIENT_COMPRESSION",
+  "route_status": "MATERIAL_BOUNDED_QUOTIENT_COMPRESSION_RETAINED_PENDING_EXACT_HEAD_REPLAY",
+  "result_summary": {
+    "source_block_count": 97,
+    "source_terminal_count": 10961,
+    "survivor_terminal_count": 5459,
+    "tested_model_count": 7056,
+    "deterministic_model_count": 1873,
+    "n402_class_count": 64,
+    "best_class_count": 56,
+    "best_model": {
+      "a_modulus": 3,
+      "b_modulus": 2,
+      "b_minus_c_modulus": 2,
+      "block_modulus": 42
+    },
+    "best_model_tie_count": 1,
+    "conflicting_class_count": 0,
+    "strictly_improves_n402_class_count": true,
+    "minimum_deterministic_block_modulus": 15,
+    "best_class_count_at_minimum_block_modulus": 84,
+    "additional_pruning_terminals": 0,
+    "main_authority_subtraction_performed": false
+  },
+  "next_gate": {
+    "gate": "EXACT_HEAD_REPO_CI_FOR_N403_THEN_HOSTILE_AUDIT_IF_PASS",
+    "requirements": [
+      "execute the source-locked N403 probe at the exact PR head",
+      "reproduce models=7056 and deterministic=1873",
+      "reproduce unique best quotient (a mod3,b mod2,(b-c) mod2,block mod42) with 56 classes and zero conflicts",
+      "preserve retained 97-block scope and N400 ownership firewall",
+      "if exact-head replay passes, freeze N403 audit boundary and invoke stage32-01-178-audit"
+    ]
+  },
+  "firewalls": {
+    "candidate_only": true,
+    "numerical_leaf_compression_credit": false,
+    "new_additional_pruning_credit": false,
+    "main_pruning_credit": false,
+    "main_authority_subtraction_performed": false,
+    "full178_complete": false,
+    "integral_carrier_obstruction_promoted": false,
+    "effectivity_final": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  },
+  "source_result": {
+    "result_blob": "e5fb41a7f99ad312dc4a168771a05809003b87f3",
+    "result_canonical_sha256": "5a1385d44ab53d3b806bbdc98369ad1aac2bca01a5b8f91b42c5c20e3ee08398",
+    "probe_blob": "f17c5c607fa3edfd58b402b81c2a483e55d1f393",
+    "probe_payload_canonical_sha256": "aee046a1b1aa4492fc20ffaa3a6b9c4c84ed70f63ae11e18125520cd5478ae26",
+    "n402_audit_receipt_blob": "0c60cda38370333b4b1fb4393132809644d52edf",
+    "n402_audit_receipt_canonical": "fd37543ebe9e0f68205cfa92bba3d5816e823d4e0a60a1827bd83c411bcfd63e"
+  },
+  "canonical_sha256_without_this_field": "f46bfef69be880e9e538117e6fe754de05fed242ad9788ce633db8a4135d4323"
+}
