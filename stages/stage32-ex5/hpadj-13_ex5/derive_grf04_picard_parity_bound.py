@@ -10,11 +10,16 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 HPADJ10 = ROOT / "stages/stage32-ex5/hpadj-10_ex5/KERNEL-RESULT.json"
+HPADJ11_CHECKPOINT = ROOT / "stages/stage32-ex5/hpadj-11_ex5/REMOVED-BLOCK-CHECKPOINT.json"
+HPADJ11_REFINER = ROOT / "stages/stage32-ex5/hpadj-11_ex5/refine_with_hpadj08_removed_blocks.py"
 GRF04_REL = Path("stages/stage32/management/grf04-uniform-bound/GRF04-V35-INDEPENDENT-UNIFORM-BLOCK-BOUND-CANDIDATE.json")
 
 LOCKS = {
     "hpadj10_blob": "0a073dc9e01e037fa02fdbca5a482ee1ce6ab002",
     "hpadj10_canonical": "c678a84a8bb8aa44db0063ca797dec0e174ff021893ae5e9631ac607f43f1598",
+    "hpadj11_checkpoint_blob": "81abb4aa2c626ec2a77b5b1e751e99f4299c55ba",
+    "hpadj11_checkpoint_canonical": "0eff74f8adb64b3ecd8d2a3959d55686a64b57b52bcf6baabe62ac184cc1760d",
+    "hpadj11_refiner_blob": "bda314b4ebbca59a209e2f4fd4d17dfc826cd17a",
     "grf04_blob": "f2a50838e9a443d70a13957c2f65626c7af5d4cc",
     "grf04_canonical": "aa60c5710f86891628420389b0aa5a7f12675264287bd18742e7e9255b2841e6",
 }
@@ -23,7 +28,7 @@ EXPECTED_MAIN_AUDITED = 3360778813767800658369
 EXPECTED_HPADJ12 = 3359845619098834326170
 EXPECTED_GRF04 = 2640734831876112735041
 EXPECTED_JOINT = 1421934140240983780407
-EXPECTED_CANONICAL = "58039b1e73a288389a6b2899d22e2902e2dc291b6f4f7482b6685c69d1ab7b3a"
+EXPECTED_CANONICAL = "0113356fcbd759a002ca73fba697b84f762231f4e1ee823e52629e7af8b93c81"
 
 
 def req(v: bool, msg: str) -> None:
@@ -58,12 +63,28 @@ def main() -> None:
     args = ap.parse_args()
 
     hp = load_locked(HPADJ10, LOCKS["hpadj10_blob"], LOCKS["hpadj10_canonical"], "HPADJ10 kernel")
+    hp11 = load_locked(
+        HPADJ11_CHECKPOINT,
+        LOCKS["hpadj11_checkpoint_blob"],
+        LOCKS["hpadj11_checkpoint_canonical"],
+        "hostile-audited HPADJ11 removed-block checkpoint",
+    )
+    req(HPADJ11_REFINER.is_file(), "missing HPADJ11 refiner")
+    req(git_blob(HPADJ11_REFINER) == LOCKS["hpadj11_refiner_blob"], "HPADJ11 refiner blob drift")
+
     grf_path = Path(args.grf_root) / GRF04_REL
     grf = load_locked(grf_path, LOCKS["grf04_blob"], LOCKS["grf04_canonical"], "GRF04 V35 candidate")
 
     req(hp["kernel"]["accepted_terminal_condition"] == "x4 ≡ x0 + x8 + x10 (mod 2)", "HPADJ10 parity drift")
     req(hp["kernel"]["normal_coordinate_index"] == 4, "HPADJ10 normal-coordinate drift")
     req(hp["kernel"]["reduced_modulus"] == 2, "HPADJ10 modulus drift")
+
+    # HPADJ11 is the hostile-audited bridge proving this same Picard64 character
+    # is applied on the TD01 / HPADJ08 x4-complete envelope without additive charge.
+    req(hp11["exact_envelope"]["hpadj08_survivor_x4_complete_envelope_terminals"] == EXPECTED_ENVELOPE, "HPADJ11 envelope drift")
+    req(hp11["candidate_bound"]["removed_block_refined_survivor_upper_bound"] == EXPECTED_MAIN_AUDITED, "HPADJ11 bound drift")
+    req(hp11["semantics"]["same_picard64_character_as_td01_and_hpadj10"] is True, "HPADJ11 same-character bridge drift")
+    req(hp11["semantics"]["candidate_is_refinement_not_additive_subtraction"] is True, "HPADJ11 no-additive bridge drift")
 
     req(grf["exact_input_envelope"]["full178_rows"] == 178, "GRF04 row coverage drift")
     req(grf["exact_input_envelope"]["x4_complete_after_hpadj08"] is True, "GRF04 x4-complete contract drift")
@@ -76,7 +97,7 @@ def main() -> None:
     req(grf["grf04_exact_necessary_condition"]["q_nonnegative"] is True, "GRF04 q nonnegative drift")
 
     # Direct intersection, not an independence assumption:
-    # y=D-2*x4. GRF04 gives |y|<=r. HPADJ10 fixes x4 mod 2, hence y mod 4.
+    # y=D-2*x4. GRF04 gives |y|<=r. HPADJ fixes x4 mod 2, hence y mod 4.
     # One residue class mod 4 inside [-r,r] has at most floor(r/2)+1 elements.
     worst_num = -1
     worst_den = 1
@@ -94,7 +115,7 @@ def main() -> None:
 
     req(worst == (0, 8, 672, 12, 7, 33), f"unexpected worst block {worst}")
 
-    # Closed proof used by the retained certificate for every even d>=10:
+    # Closed proof for every even d>=10:
     # sqrt(R0(d)) <= (112*d-104)/33 follows after squaring from Q(d)>=0.
     def Q(d: int) -> int:
         return 9277*d*d - 75568*d - 93728
@@ -118,6 +139,12 @@ def main() -> None:
             "hpadj10_kernel_blob_sha1": LOCKS["hpadj10_blob"],
             "hpadj10_kernel_canonical_sha256": LOCKS["hpadj10_canonical"],
             "hpadj10_hostile_audit_reconfirmed_review_id": 5214966911,
+            "hpadj11_audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+            "hpadj11_hostile_audit_review_id": 5216065509,
+            "hpadj11_removed_block_checkpoint_blob_sha1": LOCKS["hpadj11_checkpoint_blob"],
+            "hpadj11_removed_block_checkpoint_canonical_sha256": LOCKS["hpadj11_checkpoint_canonical"],
+            "hpadj11_refiner_blob_sha1": LOCKS["hpadj11_refiner_blob"],
+            "hpadj11_removed_block_result_canonical_sha256": "c25501d53f424a6ddcaa68d54ec671545563d6b663cf9a192b118389fb974546",
             "grf04_v35_candidate_exact_head": "9cc20024e7842918a45210d8a7d5e2428f5f85f3",
             "grf04_v35_candidate_blob_sha1": LOCKS["grf04_blob"],
             "grf04_v35_candidate_canonical_sha256": LOCKS["grf04_canonical"],
@@ -164,6 +191,7 @@ def main() -> None:
         },
         "semantics": {
             "same_x4_direct_intersection_not_independence_assumption": True,
+            "hpadj11_audited_bridge_used_for_envelope_parity_applicability": True,
             "grf04_v35_source_candidate_is_audit_pending": True,
             "candidate_requires_independent_hostile_audit": True,
             "main_consumption_performed": False,
