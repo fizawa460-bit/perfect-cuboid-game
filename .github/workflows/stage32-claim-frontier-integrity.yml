@@ -1,7 +1,7 @@
 name: Stage32 claim frontier integrity
 
 # Trigger lifecycle: ACTIVE_AUTO — repository-wide workflow/claim/demand safety gate
-# TD01 audit-repair exact-head trigger: equivalence + historical x4-envelope replay.
+# TD01 audit-repair exact-head trigger: equivalence + historical x4-envelope replay + audited MAIN handoff.
 on:
   pull_request:
     paths:
@@ -110,6 +110,14 @@ jobs:
             python stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py --historical-replay
           else
             echo "TD01 audit surface absent; skip"
+          fi
+      - name: Verify TD01 hostile-audited MAIN handoff readiness
+        shell: bash
+        run: |
+          if [ -f stages/stage32/32-01-178/topdown-01/MAIN-HANDOFF.json ]; then
+            python stages/stage32/32-01-178/topdown-01/verify_td01_main_handoff.py
+          else
+            echo "TD01 MAIN handoff absent; skip"
           fi
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
