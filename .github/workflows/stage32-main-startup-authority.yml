@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V26 synchronization of hostile-audited V25 N400 5,502-terminal MAIN consumption.
+# Current boundary: V27 consumption of hostile-audited CUT201 V26 adapter; replacement head requires hostile re-audit.
 on:
   pull_request:
     paths:
@@ -46,6 +46,15 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
+      - name: Checkout predecessor V26 MAIN boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 41f57132ca18d0b002e94d397210ac0c65e00f2e
+          path: .stage32-v26-main
+          fetch-depth: 1
+      - name: Assert predecessor V26 MAIN boundary
+        run: test "$(git -C .stage32-v26-main rev-parse HEAD)" = "41f57132ca18d0b002e94d397210ac0c65e00f2e"
 
       - name: Checkout hostile-audited V25 replacement boundary
         uses: actions/checkout@v4
@@ -92,6 +101,15 @@ jobs:
       - name: Assert source-locked CUT201 boundary
         run: test "$(git -C .stage32-cut201 rev-parse HEAD)" = "118c1df8f33759cc2e4da7e53fb8c8d7463a5bb0"
 
+      - name: Checkout hostile-audited CUT201 V26 adapter boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 9b485b4e643b7ed041629547fdb4a867e31c00cd
+          path: .stage32-audited-cut201-v26
+          fetch-depth: 1
+      - name: Assert hostile-audited CUT201 V26 adapter boundary
+        run: test "$(git -C .stage32-audited-cut201-v26 rev-parse HEAD)" = "9b485b4e643b7ed041629547fdb4a867e31c00cd"
+
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
@@ -108,30 +126,35 @@ jobs:
           fi
           echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
-      - name: Verify V26 N400 audit-sync source identities
+      - name: Verify V27 CUT201 consumption source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "399221dc91733b3a9a2d79ae3473ea2365e409a3"
           test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "8eb1f518b349569d03d65bc9d21a27c2009cc3c2"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "b3a6153235e465a910241953fdbf4b8e5f546395"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v26_n400_audit_synced.py)" = "67abbec70a4faf8a4adc8bda940ee4088b1f7fdf"
-          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V26-HOSTILE-AUDIT-PASS-SYNC.json)" = "8f0603116bb3bb0e203651ecfb07c8e0bbe6c3f0"
-          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py)" = "1145f1fe16048130164556754a2b4ae35cab45af"
-          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-HOSTILE-AUDIT-PASS-RECEIPT.json)" = "c43a50a417cb62228860c0c230a27110939ed6e7"
-          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V25-MAIN-CONSUMPTION.json)" = "e0eb8e7d0364dc11df0568d7bbd820488cd44678"
-          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py)" = "69413a17e31758e2c49aa56e5778c8694cbaa4a9"
-          test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "619c4c415dee38c0539c9d91d6881a3d7b31d46c"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "e8f058eb5daf33fb471bbda522650c5926433e97"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "f3ecce3c7600b08ca8b2065999d9708e9df20017"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v27_cut201_consumed.py)" = "f51e153b572147707d20280062e1b11d56317b05"
+          test "$(git hash-object stages/stage32/management/cut201-main-disposition/CUT201-V27-MAIN-CONSUMPTION.json)" = "cdd766cae064430bb1aa901f1d023fcb48b39877"
+          test "$(git hash-object stages/stage32/management/cut201-main-disposition/verify_cut201_g11_v26_main_disposition.py)" = "295d1bae9fbaa0dce183e71159505be90d53c030"
+          test "$(git hash-object stages/stage32/management/cut201-main-disposition/verify_cut201_v26_main_consumption_preflight.py)" = "669b3bdbe43d8bf9f56f136af18db7ab44d8f839"
+          test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "53f286f78574cfad59fc397a9d3268d345331594"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "49d5ec492b5ed336a7602c8dd598a9dc85e64d96"
           test "$(git hash-object stages/stage32/proof/PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json)" = "e41ee562f8a940ad5041d2d5e64228f2ada7a207"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "4afdf5a3ccea19f72c2171c72c9321255a14f4cb"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/CLAIM-SYNC-CONTRACT.md)" = "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
           test "$(git hash-object stages/stage32/verify_command_surface.py)" = "69e6c295221bf504681648b2b4e3a61115520294"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V26-HOSTILE-AUDIT-PASS-SYNC.json)" = "8f0603116bb3bb0e203651ecfb07c8e0bbe6c3f0"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py)" = "1145f1fe16048130164556754a2b4ae35cab45af"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-HOSTILE-AUDIT-PASS-RECEIPT.json)" = "c43a50a417cb62228860c0c230a27110939ed6e7"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/N400-V25-MAIN-CONSUMPTION.json)" = "e0eb8e7d0364dc11df0568d7bbd820488cd44678"
+          test "$(git hash-object stages/stage32/management/n400-main-consumption/verify_n400_v25_main_consumption.py)" = "69413a17e31758e2c49aa56e5778c8694cbaa4a9"
+          test "$(git -C .stage32-audited-cut201-v26 hash-object stages/stage32/full178-cut/CUT201-V26-current-authority-adapter-handoff.json)" = "a4a5bad33e552e121ad83e8777641121375aeb94"
+          test "$(git -C .stage32-audited-cut201-v26 hash-object stages/stage32/full178-cut/verify_cut201_v26_current_authority_adapter.py)" = "fb219371c3d80471b087c5057aa0584af3474b92"
 
-      - name: Verify N400 V26 hostile-audit synchronization
+      - name: Reverify predecessor V26 N400 hostile-audit synchronization
         run: >-
-          python stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py
+          python .stage32-v26-main/stages/stage32/management/n400-main-consumption/verify_n400_v26_audit_sync.py
           --audited-v25-root .stage32-audited-v25-main
 
       - name: Verify retained N400 audited producer replay
@@ -189,20 +212,20 @@ jobs:
           python stages/stage32/management/global-residual-feasibility/verify_grf09_cut201_e8_picard_parity_checkpoint.py
           --probe-output grf09-exact-output.txt
 
-      - name: Verify retained CUT201 G11 V26 MAIN disposition
+      - name: Verify historical CUT201 G11 V26 MAIN disposition remains zero-credit
         run: python stages/stage32/management/cut201-main-disposition/verify_cut201_g11_v26_main_disposition.py
-      - name: Verify CUT201 V26 MAIN consumption preflight hold
+      - name: Verify CUT201 V27 MAIN consumption and no-double-charge
         run: python stages/stage32/management/cut201-main-disposition/verify_cut201_v26_main_consumption_preflight.py
 
-      - name: Verify Stage32 MAIN V26 startup authority
+      - name: Verify Stage32 MAIN V27 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination after N400 audit sync
+      - name: Verify Stage32 cross-lane demand coordination after CUT201 V27 consumption
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity after N400 audit sync
+      - name: Verify Stage32 claim-DAG integrity after CUT201 V27 consumption
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier remains incomplete
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
