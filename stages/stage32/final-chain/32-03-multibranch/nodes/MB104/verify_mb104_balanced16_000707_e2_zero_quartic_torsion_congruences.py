@@ -12,7 +12,7 @@ CERT = HERE / "GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-TORSION-CONGRUENCE
 LOCKS = {
     "HUMAN_NOTE": (
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-TORSION-CONGRUENCES.md",
-        "f3f3541c87bb5020155811886421932e177f7a2f",
+        "544ded0d132dcf4dca0a5a3d52925a88c8c461e2",
     ),
     "HALF_HYPERPLANE_CERT": (
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-HALF-HYPERPLANE-FACTORIZATION-CERTIFICATE.json",
@@ -33,6 +33,14 @@ LOCKS = {
     "AMBIENT_CHARACTER": (
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-FUNCTION.md",
         "2bdb46e79be8a745880622c9c0643eb13ef20b26",
+    ),
+    "CHARACTER_PAIR_SQUARE": (
+        "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-CHARACTER-PAIR-SQUARE-WALL.md",
+        "657653c56f8e36be505bbca663e60ef3a937a044",
+    ),
+    "G2_FIBRATION_SOURCE": (
+        "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/STOLL-TESTA-G2-ISOTRIVIAL-FIBRATION-SOURCE-NOTE.md",
+        "b71225ac859eef5afefeebd019a97c403ed27655",
     ),
 }
 
@@ -110,13 +118,8 @@ def check_zero_quartics(v: list[tuple[complex, ...]]) -> None:
     require(q0 == {0, 1, 2, 3, 24, 25, 26, 27}, f"Q0 node set regression: {sorted(q0)}")
     require(q1 == {8, 9, 10, 11, 32, 33, 34, 35}, f"Q1 node set regression: {sorted(q1)}")
 
-    # Exact representative coordinates used by the torsion partition.
-    q0_xyzw = {
-        j: (v[j][0], v[j][1], v[j][4], v[j][5]) for j in sorted(q0)
-    }
-    q1_xyzw = {
-        j: (v[j][1], v[j][2], v[j][5], v[j][3]) for j in sorted(q1)
-    }
+    q0_xyzw = {j: (v[j][0], v[j][1], v[j][4], v[j][5]) for j in sorted(q0)}
+    q1_xyzw = {j: (v[j][1], v[j][2], v[j][5], v[j][3]) for j in sorted(q1)}
     require({j for j, p in q0_xyzw.items() if p[1] == 0} == {0, 1, 2, 3}, "Q0 y=0 half")
     require({j for j, p in q0_xyzw.items() if p[0] == 0} == {24, 25, 26, 27}, "Q0 x=0 half")
     require({j for j, p in q1_xyzw.items() if p[1] == 0} == {8, 9, 10, 11}, "Q1 y=0 half")
@@ -129,44 +132,29 @@ def check_zero_quartics(v: list[tuple[complex, ...]]) -> None:
 
 
 def check_bitangent_torsion_logic() -> None:
-    # For Q: z^2=x^2-y^2 and w^2=x^2+y^2:
-    # z=±x or w=±x forces y^2=0, so the corresponding plane
-    # section is twice a pair of y=0 box nodes.
-    # z=±i*y or w=±y forces x^2=0, so the corresponding plane
-    # section is twice a pair of x=0 box nodes.
-    # These identities are checked as coefficient equalities after substitution.
-    # z=s*x into z^2-x^2+y^2 gives y^2 for s^2=1.
-    for s2 in (1,):
-        require((s2 - 1, 1) == (0, 1), "z=±x substitution")
-    # w=s*x into w^2-x^2-y^2 gives -y^2 for s^2=1.
+    # Q: z^2=x^2-y^2, w^2=x^2+y^2.
+    # z=±x and w=±x force y^2=0, giving double pairs of y=0 nodes.
+    # z=±i*y and w=±y force x^2=0, giving double pairs of x=0 nodes.
+    require((1 - 1, 1) == (0, 1), "z=±x substitution")
     require((1 - 1, -1) == (0, -1), "w=±x substitution")
-    # z=s*i*y gives -y^2-x^2+y^2=-x^2.
     require((-1, -1 + 1) == (-1, 0), "z=±iy substitution")
-    # w=s*y gives y^2-x^2-y^2=-x^2.
     require((-1, 1 - 1) == (-1, 0), "w=±y substitution")
-
-    # Four y=0 nodes already form all four points of Q[2]. If the common
-    # double of the four distinct x=0 nodes were zero, those four would also
-    # lie in Q[2], impossible because the two halves are disjoint.
     require(4 == 2 ** 2, "elliptic two-torsion cardinality")
 
 
 def gf2_rank(rows: list[list[int]]) -> int:
     a = [sum((v & 1) << j for j, v in enumerate(row)) for row in rows]
     r = 0
-    bit = 0
     n = max((len(row) for row in rows), default=0)
-    while bit < n:
+    for bit in range(n):
         pivot = next((k for k in range(r, len(a)) if (a[k] >> bit) & 1), None)
         if pivot is None:
-            bit += 1
             continue
         a[r], a[pivot] = a[pivot], a[r]
         for k in range(len(a)):
             if k != r and ((a[k] >> bit) & 1):
                 a[k] ^= a[r]
         r += 1
-        bit += 1
     return r
 
 
@@ -187,8 +175,6 @@ def check_mod4_reduction(cert: dict) -> None:
     require(gf2_rank([sat0, sat1]) == 2, "centered saturation F2 rank")
     require(gf2_rank([sat0, sat1, tor0, tor1]) == 4, "combined torsion F2 rank")
 
-    # Exhaust all b_j mod 2 values. Under saturation, tor0 is equivalent to
-    # parity on {0,1,2,3}, and tor1 to parity on {8,9,10,11}.
     for bits in product((0,1), repeat=len(inds)):
         s0 = sum(bits[pos[j]] for j in [0,1,2,3,24,25,26]) % 2
         s1 = sum(bits[pos[j]] for j in [8,9,10,11,32,33,34]) % 2
@@ -214,6 +200,11 @@ def main() -> None:
     check_zero_quartics(nodes())
     check_bitangent_torsion_logic()
     check_mod4_reduction(cert)
+
+    split = cert["componentwise_residual_split"]
+    require(split["ambient_square_classes_equal"] == "[f_t]=[f_u]", "factor square-class identity")
+    require(split["split_over_complex_field"] is True, "componentwise split")
+    require(split["global_same_sheet_on_Q0_union_Q1_claimed"] is False, "global-sheet firewall")
 
     zq = cert["zero_quartics"]
     require(zq["Q0"]["mod4_condition"] == "x24+x25+x26=0 mod 4", "Q0 mod4 certificate")
