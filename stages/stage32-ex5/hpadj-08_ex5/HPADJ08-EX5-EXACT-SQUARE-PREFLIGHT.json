@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32EX5_HPADJ08_EXACT_SQUARE_COMPRESSION_PREFLIGHT_V1",
+  "route_id": "HPADJ-08_ex5",
+  "status": "BOUNDED_STRICT_GAIN_CONFIRMED_FULL178_SCALEOUT_NOT_YET_RUN",
+  "purpose": "Replace HPADJ-07 group-Cauchy relaxation by an exact stored-exceptional square-sum statistic on the FULL178 indexed terminal family, preserving EX5 noncredit firewalls.",
+  "source_locks": {
+    "ex5_scratch_base_head": "4f0e6972c89500153e8ffd140a6d7ebfd0f524ce",
+    "compressed_terminal_family": {
+      "path": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+      "blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170"
+    },
+    "prefix_indexed_checkpoint": {
+      "path": "stages/stage32/residual-32-01-production/full178-prefix-indexed-compression-main-checkpoint.json",
+      "blob_sha1": "eb823cc2f99d74456d5701b4673f848f18ba3151",
+      "terminal_count_total": "688101306360803751427719294"
+    },
+    "corrected_adjunction": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+      "blob_sha1": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+      "canonical_sha256": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
+    },
+    "hpadj_v22_replay": {
+      "path": "stages/stage32/management/hpadj-01/verify_hpadj01_current_v22_lower_bound.py",
+      "blob_sha1": "b0253975ddf28c99b9d9898f54ada9a6842b2386"
+    }
+  },
+  "mathematical_contract": {
+    "stored_exceptional_labels_1based": [95, 99, 103, 102, 97, 94, 101, 93, 98, 96],
+    "normal_label_1based": 49,
+    "stored_statistic": "Qstored=sum(x_i^2 for i!=4)",
+    "safe_lower_bound": "Qstored <= sum(all exceptional y_i^2)",
+    "g0_necessary_condition": "8*sum(y_i^2)<=d^2+16*d+32",
+    "g1_necessary_condition": "8*sum(y_i^2)<=d^2+16*d",
+    "g0_rejection": "8*Qstored>d^2+16*d+32",
+    "g1_rejection": "8*Qstored>d^2+16*d",
+    "direction": "ACTUAL_TARGET_CARRIER -> EXACT_SQUARE_NECESSARY_CONDITION",
+    "contrapositive": "STORED_EXACT_SQUARE_REJECTED_TERMINAL -> NO_ACTUAL_TARGET_CARRIER_WITH_THAT_TERMINAL",
+    "reverse_realization_required": false,
+    "group_cauchy_is_subset": true
+  },
+  "bounded_diagnostic": {
+    "scope": {"g": [0, 1], "d_even": [8, 32], "row_count": 26},
+    "semantic_crosscheck": "q-refined BC counter equals independent brute enumeration for H=4",
+    "old_group_cauchy_candidate_rejected_terminals": 3257761571005,
+    "stored_exact_square_candidate_rejected_terminals": 25770706503487,
+    "incremental_candidate_over_group_cauchy": 22512944932482,
+    "exact_to_cauchy_ratio": 7.910556356503674,
+    "row_stream_sha256": "8c416e9424439780202522a5cba88f19b2681ba1352e0e0470498922cfcd40ac",
+    "strict_gain": true,
+    "interpretation": "The Cauchy relaxation loses substantial pruning power even on the first 26 FULL178 rows; this is a route-strength diagnostic, not current-MAIN incremental credit."
+  },
+  "scaleout": {
+    "target": "FULL178 rows through d=176 (g0) / d=192 (g1), HMAX=96",
+    "method": "lift the retained A/BC composition convolution from (mass,support) to sparse (mass,support,Qstored), then replay the same HPADJ V22 composition/support/e-interval firewalls with exact-square rejection",
+    "heavy_authorized": false,
+    "runkey_required_if_scaleout_exceeds_ordinary_bounded_execution": true,
+    "main_overlap_resolution_deferred_to_main": true,
+    "next_exact_unit": "Implement HMAX=96 sparse/capped-Q convolution and obtain FULL178 candidate rejected count; compare against corrected HPADJ-07 on the identical population semantics."
+  },
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "9867898a32d34f470ec421fef560527dcbcc5579453a0dab8454553a142cf953"
+}
