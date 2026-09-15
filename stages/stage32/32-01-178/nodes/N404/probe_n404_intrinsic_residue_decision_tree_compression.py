@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import hashlib
+import itertools
 import json
+import math
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 WIDTH = 113
@@ -71,6 +73,103 @@ def classify(node: object, row: dict, path: str = "") -> tuple[int, str]:
     return classify(no_branch, row, path + "R")
 
 
+def determines_parity(entries: list[dict], key_fn) -> tuple[bool, int]:
+    groups: dict[object, set[int]] = defaultdict(set)
+    for row in entries:
+        groups[key_fn(row)].add(row["required_x49_parity"])
+    conflicts = sum(1 for values in groups.values() if len(values) > 1)
+    return conflicts == 0, len(groups)
+
+
+def primitive_sign_canonical_coefficients() -> list[tuple[int, int, int, int]]:
+    out = []
+    for coeff in itertools.product(range(-4, 5), repeat=4):
+        if not any(coeff):
+            continue
+        g = 0
+        for value in coeff:
+            g = math.gcd(g, abs(value))
+        if g != 1:
+            continue
+        first = next(value for value in coeff if value != 0)
+        if first > 0:
+            out.append(coeff)
+    return out
+
+
+def replay_linear_hash_diagnostic(entries: list[dict]) -> dict:
+    coeffs = primitive_sign_canonical_coefficients()
+    req(len(coeffs) == 2928, f"primitive/sign-canonical coefficient count regression: {len(coeffs)}")
+    tested = 0
+    deterministic = 0
+    for modulus in range(2, 65):
+        for ca, cb, cd, ck in coeffs:
+            tested += 1
+            ok, _ = determines_parity(
+                entries,
+                lambda row, m=modulus, x=ca, y=cb, z=cd, w=ck: (
+                    x * row["a"] + y * row["b"] + z * row["b_minus_c"] + w * row["block"]
+                ) % m,
+            )
+            deterministic += int(ok)
+    req(tested == 184464, f"linear-hash tested-model regression: {tested}")
+    req(deterministic == 0, f"linear-hash deterministic-model regression: {deterministic}")
+    return {
+        "coefficient_range": [-4, 4],
+        "modulus_range": [2, 64],
+        "primitive_sign_canonical_coefficient_count": len(coeffs),
+        "tested_model_count": tested,
+        "deterministic_model_count": deterministic,
+        "status": "BOUNDED_NO_GO",
+    }
+
+
+def replay_cartesian_extension_diagnostic(entries: list[dict]) -> dict:
+    tested = 0
+    deterministic = 0
+    best: tuple[int, int, int, int, int] | None = None
+    for ma in range(2, 6):
+        for mb in range(2, 6):
+            for md in range(2, 9):
+                for mblock in range(65, 257):
+                    tested += 1
+                    ok, class_count = determines_parity(
+                        entries,
+                        lambda row, x=ma, y=mb, z=md, w=mblock: (
+                            row["a"] % x,
+                            row["b"] % y,
+                            row["b_minus_c"] % z,
+                            row["block"] % w,
+                        ),
+                    )
+                    if not ok:
+                        continue
+                    deterministic += 1
+                    candidate = (class_count, mblock, ma, mb, md)
+                    if best is None or candidate < best:
+                        best = candidate
+    req(tested == 21504, f"extended-cartesian tested-model regression: {tested}")
+    req(deterministic == 15374, f"extended-cartesian deterministic-model regression: {deterministic}")
+    req(best == (73, 84, 2, 2, 3), f"extended-cartesian best-model regression: {best}")
+    return {
+        "a_modulus_range": [2, 5],
+        "b_modulus_range": [2, 5],
+        "b_minus_c_modulus_range": [2, 8],
+        "block_modulus_range": [65, 256],
+        "tested_model_count": tested,
+        "deterministic_model_count": deterministic,
+        "best_class_count": best[0],
+        "best_block_modulus": best[1],
+        "best_model": {
+            "a_modulus": best[2],
+            "b_modulus": best[3],
+            "b_minus_c_modulus": best[4],
+            "block_modulus": best[1],
+        },
+        "status": "NO_IMPROVEMENT_OVER_N403_56",
+    }
+
+
 def main() -> None:
     repo = Path(__file__).resolve().parents[5]
     node_root = repo / "stages/stage32/32-01-178/nodes"
@@ -133,6 +232,9 @@ def main() -> None:
     req(sorted(leaf_counts) == sorted([44, 5, 4, 1, 11, 5, 3, 3, 2, 1, 2, 1, 15]), "leaf-population regression")
     req(stream_sha == "d79f09a4d30e2193166a4ef5f93b5c12a1d453a6fad20ec3cb5c14e718516245", "classification stream drift")
 
+    linear_diag = replay_linear_hash_diagnostic(entries)
+    extension_diag = replay_cartesian_extension_diagnostic(entries)
+
     payload = {
         "semantics": "EXACT_BOUNDED_N403_INTRINSIC_RESIDUE_DECISION_TREE_COMPRESSION_ON_RETAINED_97_BLOCK_POPULATION_ONLY",
         "source_block_count": 97,
@@ -146,6 +248,10 @@ def main() -> None:
         "leaf_population_counts": [44, 5, 4, 1, 11, 5, 3, 3, 2, 1, 2, 1, 15],
         "classification_stream_sha256": stream_sha,
         "strictly_fewer_partition_cells_than_n403": len(leaves) < 56,
+        "route_diagnostics": {
+            "single_linear_modular_hash": linear_diag,
+            "n403_cartesian_block_modulus_extension": extension_diag,
+        },
         "optimality_or_minimality_claimed": False,
         "transport_beyond_retained_97_blocks": False,
         "terminal_reenumeration_of_n399_rank_stream": False,
@@ -159,10 +265,12 @@ def main() -> None:
         "merge_authorized": False,
     }
     payload["canonical_sha256_without_this_field"] = csha(payload)
-    req(payload["canonical_sha256_without_this_field"] == "c6d4bcd43efc95b312b0bdf22a5d2c6743096440ee3bce98addcebb06d6de466", "payload canonical regression")
+    req(payload["canonical_sha256_without_this_field"] == "cdd0766e4ca6fa7a7f9edfd0ed9f7b0816d46e0fd47c00a53777cac5db969f20", "payload canonical regression")
 
     print("PASS_N404_N403_INTRINSIC_RESIDUE_DECISION_TREE_COMPRESSION_PROBE")
     print(f"blocks=97 leaves={len(leaves)} max_depth={max_depth} conflicts={conflicts}")
+    print(f"linear_hash_models={linear_diag['tested_model_count']} deterministic={linear_diag['deterministic_model_count']}")
+    print(f"extended_cartesian_models={extension_diag['tested_model_count']} deterministic={extension_diag['deterministic_model_count']} best={extension_diag['best_class_count']}@{extension_diag['best_block_modulus']}")
     print("N404_PROBE_JSON=" + json.dumps(payload, sort_keys=True, separators=(",", ":")))
 
 
