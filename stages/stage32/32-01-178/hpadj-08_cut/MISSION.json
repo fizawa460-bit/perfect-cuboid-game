@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_178_HPADJ08_CUT_MISSION_V1",
+  "stage": 32,
+  "surface": "32-01-178",
+  "mission_id": "HPADJ-08_cut",
+  "title": "exact/prefix-aware exceptional square minimization",
+  "status": "ACTIVE_NONCREDIT_CONCRETE_PROBE",
+  "ownership": {
+    "owner": "stage32-01-178-mainbatch",
+    "main_role": "symbolic-kernel authority and later consumption only",
+    "not_a_duplicate_main_theorem_family": true,
+    "cut_suffix_is_experiment_name_not_stage32cut_lane_ownership": true
+  },
+  "purpose": "Apply already-retained quadratic lower-bound ideas to the concrete FULL178 terminal/prefix population and measure whether a second HPADJ-scale subtraction is available, without creating a duplicate HPADJ theorem family or granting pruning credit.",
+  "authority_boundary": {
+    "branch_base_main": "cd7e2aab6e7471f956091e0d5105f6d249f5c8e5",
+    "main_state_path": "stages/stage32/MAIN-STATE.json",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals_upper_bound": 26876434389242951089388,
+    "remaining_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "main_authority_mutation_by_probe": false
+  },
+  "dedup_source": {
+    "audit_head": "bca2fb7555f89eddb648bb75390c5443d93bf941",
+    "audit_path": "stages/stage32/management/second-strike-audit/FEASIBILITY-AUDIT.json",
+    "audit_disposition": "DO_NOT_CREATE_A_DUPLICATE_HPADJ08_THEOREM_FAMILY__RUN_178_OWNED_CONCRETE_PROBE"
+  },
+  "source_locks": {
+    "hpadj07_general_type_correction_path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+    "hpadj07_general_type_correction_blob_sha1": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+    "compressed_terminal_family_path": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "compressed_terminal_family_blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "picard64_interface_path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "picard64_interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "grf_source_head": "73c98c8024f1b4c29b0bb83455884134c8268ebb",
+    "grf04_path": "stages/stage32/management/global-residual-feasibility/GRF-04-RATIONAL-QUADRATIC-LOWER-BOUND-KERNEL.json",
+    "grf04_blob_sha1": "f7c1073edbf895f498fd9923e59eedf5a4e981c8",
+    "grf05_path": "stages/stage32/management/global-residual-feasibility/GRF-05-INTEGRAL-FINITE-QUOTIENT-LOWER-BOUND-KERNEL.json",
+    "grf05_blob_sha1": "75e556dee57dff282232a57898924d7e1826a40c"
+  },
+  "mathematical_baseline": {
+    "adjunction_hodge_exact_necessary_condition_g0": "8*sum(y_i^2) <= d^2+16*d+32",
+    "adjunction_hodge_exact_necessary_condition_g1": "8*sum(y_i^2) <= d^2+16*d",
+    "hpadj07_group_cauchy_rejection": "8*a^2+8*b^2+6*c^2 > 3*d^2+48*d+96-96*g",
+    "group_sizes": {"a": 3, "b": 3, "c": 4}
+  },
+  "route": [
+    {
+      "leaf": "H8C-01_INTEGER_GROUP_SQUARE_MINIMUM",
+      "goal": "Replace real-valued group Cauchy by the exact minimum integer square sum for fixed group masses a,b,c, reusing the existing HPADJ07 population convolution unchanged.",
+      "formula": "m_n(s)=(n-r)*q^2+r*(q+1)^2 where q=floor(s/n), r=s-n*q",
+      "candidate_rejection": "24*(m_3(a)+m_3(b)+m_4(c)) > 3*d^2+48*d+96-96*g",
+      "expected_property": "monotone strengthening of HPADJ07 group Cauchy with no population refinement required"
+    },
+    {
+      "leaf": "H8C-02_SUPPORT_AWARE_SQUARE_MINIMUM",
+      "goal": "Use retained support counts to strengthen m_n(s) to the exact minimum over exactly k positive coordinates where current symbolic states preserve k.",
+      "credit": false
+    },
+    {
+      "leaf": "H8C-03_PREFIX_AWARE_EXACT_TEN_SQUARES",
+      "goal": "Exploit the exact ten stored exceptional prefix coordinates when a population-preserving symbolic replay can retain their square moment without materializing terminals.",
+      "credit": false
+    },
+    {
+      "leaf": "H8C-04_GRF04_GRF05_PICARD_FIBER_MINIMUM",
+      "goal": "Instantiate source-locked GRF-04/05 on an exact FULL178 target only after an exact A,b(u), lattice shift w(u), SPD residual form B, reachable quotient, and subset/accounting adapter are fixed.",
+      "credit": false
+    }
+  ],
+  "stop_rule": "If H8C-01 and H8C-02 show negligible incremental rejection and no exact prefix/Picard adapter yields a family-level lower bound, stop rather than perform terminal-by-terminal brute force.",
+  "credit_firewall": {
+    "noncredit_probe_only": true,
+    "new_pruning_credit": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
