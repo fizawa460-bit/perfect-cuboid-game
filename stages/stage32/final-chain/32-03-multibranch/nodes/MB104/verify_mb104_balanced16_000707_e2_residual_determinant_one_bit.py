@@ -20,7 +20,7 @@ LOCKS = {
     ),
     "EXPLICIT_BASIS_CERT": (
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-G-FIXED-JACOBIAN-EXPLICIT-BASIS-CERTIFICATE.json",
-        "f6f925ed221d4b11c78d53f9c2e9a0ff76033298"
+        "bd9d35a06d97e10600471b90983295979ae89537"
     ),
     "G_FIXED_VERIFIER": (
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_g_fixed_jacobian_torsion.py",
