@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE32_MAIN_LIVE_SPECIALIST_SWEEP_V1_20260915",
+  "stage": 32,
+  "status": "ROUTING_REFRESH_RECORDED_NO_MATHEMATICAL_CREDIT",
+  "purpose": "Retain the ordinary stage32mainbatch live-specialist observation required by ACTIVE-SPECIALIST-MONITOR-CONTRACT without mutating mathematical authority or treating discovery hints as snapshots.",
+  "controller": {
+    "main_pr": 1808,
+    "pre_record_head": "947d3a057a099d7752ed462630868590425f5983",
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "repository_main_integrated_into_controller_head": true,
+    "main_state_authority_mutated": false
+  },
+  "observations": [
+    {
+      "lane": "32-01-178",
+      "live_pr": 1811,
+      "live_head": "bfa9a53d6add9f4e35210d70370be3ffa5678ffe",
+      "current_state_or_retained_boundary": "stages/stage32/32-01-178/hpadj-08_cut/H8C-02-RESULT.json",
+      "latest_retained_result": "H8C-02 support-aware integer square minimum; 1,578,323,460,594,136,409,535 candidate incremental rejections versus HPADJ-07 across 178/178 rows",
+      "audit_gate": "INDEPENDENT_STAGE32_01_178_AUDIT_REQUIRED",
+      "pending_handoff_or_none": "NONE_BEFORE_AUDIT",
+      "main_freshness": "DIVERGED_FROM_CURRENT_MAIN_BEHIND_1_AT_OBSERVATION",
+      "semantic_leaf": "HPADJ-08_cut/H8C-02 support-aware integer square minimum",
+      "main_credit": 0
+    },
+    {
+      "lane": "EX5",
+      "live_pr": 1812,
+      "live_head": "b0646b924695eb1e5f7165748f527024ece0a60c",
+      "current_state_or_retained_boundary": "stages/stage32-ex5/hpadj-08_ex5/STATE.json",
+      "latest_retained_result": "bounded exact stored-square evidence on 26 rows; FULL178 b-shard scaleout retained but generation 0 remains unarmed and representative-shard storage is not yet measured",
+      "audit_gate": "STORAGE_PILOT_AND_EXACT_AUTHORIZATION_GATE_BEFORE_ANY_HEAVY_SCALEOUT",
+      "pending_handoff_or_none": "NONE",
+      "main_freshness": "DIVERGED_FROM_CURRENT_MAIN_BEHIND_3_AT_OBSERVATION",
+      "semantic_leaf": "HPADJ-08_ex5 exact Qstored indexed-terminal compression and resume-first FULL178 scaleout",
+      "main_credit": 0
+    },
+    {
+      "lane": "CUT",
+      "live_pr": 1806,
+      "live_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
+      "current_state_or_retained_boundary": "stages/stage32/full178-cut/CUT201-V26-current-authority-adapter-handoff.json",
+      "latest_retained_result": "hostile-audited CUT201 bounded candidate plus V26 adapter candidate; 25,538 source candidate terminals, 6,780 CERTLIFT03 overlap, 18,758 exact incremental adapter terminals",
+      "audit_gate": "V26_ADAPTER_CANDIDATE_REQUIRES_FRESH_INDEPENDENT_HOSTILE_AUDIT_BEFORE_DEMAND_SATISFACTION_OR_MAIN_CONSUMPTION",
+      "pending_handoff_or_none": "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1",
+      "main_freshness": "CURRENT_MAIN_INTEGRATED_AT_OBSERVATION",
+      "semantic_leaf": "CUT201 bounded obstruction to current-V26 exact-authority adapter with no-double-charge accounting",
+      "main_credit": 0
+    },
+    {
+      "lane": "MB",
+      "live_pr": 1791,
+      "live_head": "c7eb5cdf4d97ab033ad27e6726de1051f5e130c1",
+      "current_state_or_retained_boundary": "stages/stage32/final-chain/32-03-multibranch/STATE.json#MB104",
+      "latest_retained_result": "MB104 retained residual G/H character and intermediate H-quotient model; conductor normalization-preimage residual-sheet sign remains unevaluated",
+      "audit_gate": "NO_MAIN_PROMOTION; CURRENT_ACTIVE_LEAF_REMAINS_INCOMPLETE",
+      "pending_handoff_or_none": "NONE",
+      "main_freshness": "DIVERGED_FROM_CURRENT_MAIN_BEHIND_3_AT_OBSERVATION",
+      "semantic_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+      "main_credit": 0
+    }
+  ],
+  "parallel_route_coordination": {
+    "id": "S32.PARALLEL.HPADJ08.178.EX5.V1",
+    "surfaces": ["32-01-178:H8C-02", "EX5:HPADJ-08_ex5"],
+    "status": "EXPLICIT_RELATED_PARALLEL_NO_SHARED_CREDIT",
+    "semantic_separation": "178 uses a support-aware integer minimum over retained (a,b,c,total_support) symbolic buckets; EX5 retains the exact ten-coordinate Qstored statistic and builds a sharded indexed-terminal FULL178 scaleout.",
+    "overlap_rule": "They may reject overlapping terminal populations. Their counts are never additive by default. Any future MAIN subtraction requires independent audit, current-authority identity, and exact overlap accounting against all prior and parallel consumption.",
+    "duplicate_pruning_credit_authorized": false
+  },
+  "routing_disposition": {
+    "h8c02_main_consumption_now": false,
+    "cut201_v26_main_consumption_now": false,
+    "duplicate_ex5_heavy_work_in_main": false,
+    "duplicate_mb_active_leaf_in_main": false,
+    "reason": "All newly observed material results are either audit-gated, lane-owned, or freshness-gated. MAIN remains controller/integrator and does not self-audit or double-charge them."
+  },
+  "credit_firewall": {
+    "this_snapshot_is_mathematical_credit": false,
+    "main_pruning_credit_added": 0,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
