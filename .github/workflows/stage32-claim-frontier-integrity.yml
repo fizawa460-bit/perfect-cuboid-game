@@ -89,7 +89,9 @@ jobs:
       - name: Verify H8C integer group square minimum
         run: python stages/stage32/32-01-178/hpadj-08_cut/verify_integer_group_square_minimum.py
       - name: Replay H8C-01 population at exact PR head
-        run: python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c01_population.py
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c01_population.py
+          --audited-n358-root .stage32-audited-n358
       - name: Replay H8C-02 support population against audited N358
         run: >-
           python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c02_support_population.py
