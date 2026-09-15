@@ -1,65 +1,57 @@
 {
-  "audit_obligations": [
-    "Replay current packet canonical/blob, current N358 retained result, MAIN V30 authority, and exact GRF02=HPADJ09 character.",
-    "Run verify_hpadj09_grf02_character_equivalence.py --historical-replay and require direct retained-oracle row derivation plus exact HPADJ09 PANEL-RESULT blob/canonical replay.",
-    "Run verify_td01_exact_x4_envelope_bound.py --historical-replay; it must source-lock and invoke the equivalence verifier as part of the same fail-closed chain.",
-    "Require exact-head Stage32 claim frontier integrity SUCCESS containing both TD01 replay steps before hostile PASS.",
-    "Verify N357 residual is an exact x4-complete block union and N358 removes complete x4 blocks.",
-    "Verify hostile-audited CERTLIFT03 e8 population 7596*113 and N358 empty incremental domain on g1-d008/e8.",
-    "Verify audited HPADJ08 worker domain equals N357 survivors minus N358 slice minus whole g1-d008/e8 and exact-square predicate is x4-independent.",
-    "Verify 17/33 blockwise retained-fraction theorem and all arithmetic.",
-    "Do not grant MAIN credit; audit PASS only freezes a producer bound candidate for later MAIN consumption."
-  ],
+  "schema": "STAGE32_32_01_178_TD01_AUDIT_HANDOFF_V3_PASS_RECORDED_MAIN_HANDOFF_READY",
+  "stage": 32,
+  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
+  "status": "HOSTILE_AUDIT_PASS_RECORDED_MAIN_HANDOFF_READY_NO_MAIN_CREDIT",
+  "audited_boundary": {
+    "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "hostile_audit_status": "PASS",
+    "audit_review_id": 5214778974,
+    "merge_ready_freshness": "CLEAR",
+    "exact_head_ci_run_id": 34979035686,
+    "exact_head_ci_job_id": 104414192160,
+    "exact_head_ci_conclusion": "SUCCESS"
+  },
   "candidate": {
-    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
-    "current_main_upper_bound": 6703403803993210101494,
+    "current_main_upper_bound_at_audited_boundary": 6703403803993210101494,
     "exact_hpadj08_survivor_envelope": 6703403803993209250491,
-    "heavy_run_used": false,
     "per_block_max_retained_fraction": "17/33",
-    "potential_tightening_if_audited_and_consumed": 3250135177693678063363,
-    "td01_certified_upper_bound_candidate": 3453268626299532038131
+    "td01_certified_upper_bound_candidate": 3453268626299532038131,
+    "potential_tightening_if_consumed": 3250135177693678063363,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "heavy_run_used": false
   },
-  "canonical_sha256_without_this_field": "5ad21b989a0a56b45627ef80379c2017895f8164655e77b80760016cc327df28",
-  "evidence": {
-    "claim_frontier_workflow_path": ".github/workflows/stage32-claim-frontier-integrity.yml",
-    "claim_frontier_workflow_trigger_note": "Final repair head is intentionally a change to this existing workflow so base-branch .github/workflows/** path filtering produces exact-head PR CI.",
-    "equivalence_verifier_blob_sha1": "0d9c2c506edb33d656f449593597c8befadd2e0d",
-    "equivalence_verifier_path": "stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py",
-    "hpadj09_panel_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
-    "hpadj09_panel_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115",
-    "hpadj09_panel_ref": "fd14ff7e53dcd6f0c5ba9b38c45a27d30885f019",
-    "packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
-    "packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
-    "packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
-    "state_blob_sha1": "9b7ee99c9adf5b93c85915e57cb6380fd26c9b2d",
-    "state_canonical_sha256": "f860797b8816fc14d9d7956a878a40d613216c3579978f975839c8ae373a58ed",
+  "producer_artifacts": {
+    "audit_pass_receipt_path": "stages/stage32/32-01-178/topdown-01/TD01-HOSTILE-AUDIT-PASS.json",
+    "audit_pass_receipt_blob_sha1": "cf00fb61435d198a1f033306190647331f9884f7",
+    "audit_pass_receipt_canonical_sha256": "9ae9e53c93c761aff3144443a9e63ee82dab71a9767eaaae1f5e3256220da41c",
+    "main_handoff_path": "stages/stage32/32-01-178/topdown-01/MAIN-HANDOFF.json",
+    "main_handoff_blob_sha1": "19d0ba1005ee149b405e87b97c10a42409e0998a",
+    "main_handoff_canonical_sha256": "09b1bb55b8bdfbe844258d8ad7d112d78c25c4397f08675c9c4c3b1f4a000469",
     "state_path": "stages/stage32/32-01-178/topdown-01/STATE.json",
-    "td01_verifier_blob_sha1": "4d64db072093502df2a11dbedaa108ddfa0c69b7",
-    "td01_verifier_path": "stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py"
+    "state_blob_sha1": "26f55629483a843bc41d0be9b27a074908b4b8d2",
+    "state_canonical_sha256": "5175a23ee481c145171d50ac794e4e9c191c51b2695cafad7cc5d7cbe06a2108"
   },
-  "evidence_head_before_handoff": "9c368aae0e58a776f64f5ae8d6da10d42910d2f7",
-  "failed_audit_repair": {
-    "blocker_1_repair": "Existing Stage32 claim-frontier workflow now triggers on topdown-01 changes, fetches exact historical refs, and executes both equivalence --historical-replay and TD01 --historical-replay.",
-    "blocker_2_repair": "Equivalence verifier now reconstructs the HPADJ09 row from PrefixMembershipOracle.check.coefficients and source-locks/replays exact PANEL-RESULT blob 8b01e8... canonical 7635e2....",
-    "exact_head_ci_success_observed_in_handoff": false,
-    "exact_head_ci_success_required": true,
-    "prior_audited_exact_head": "a90c208ff38c65e65d45d4a320d98d4e4d1d7106",
-    "prior_verdict": "FAIL_HOLD"
+  "consumer_contract": {
+    "consumer_pr": 1808,
+    "consumer_observed_head": "85c27501e4d5a5ffffe46f38d34949c8e265c735",
+    "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
+    "producer_ready_for_consumer_reentry": true,
+    "consumer_may_satisfy_demand": true,
+    "explicit_main_consumption_required": true,
+    "producer_main_authority_mutation": false
   },
   "firewalls": {
-    "effectivity_credit": false,
-    "endpoint_credit": false,
-    "full178_complete": false,
-    "main_authority_mutated": false,
     "main_pruning_credit": false,
-    "merge_authorized": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
     "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
     "stage32_closed": false,
-    "theorem_credit": false
+    "merge_authorized": false
   },
-  "next_operator_command": "WAIT_FOR_EXACT_HEAD_CI_SUCCESS_THEN_STAGE32_01_178_AUDIT",
-  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
-  "schema": "STAGE32_32_01_178_TD01_EXACT_X4_ENVELOPE_AUDIT_HANDOFF_V2_REPAIR",
-  "stage": 32,
-  "status": "AUDIT_REPAIR_HANDOFF_EXACT_HEAD_CI_REQUIRED_NO_MAIN_CREDIT"
+  "next_operator_command": "stage32mainbatch",
+  "next_gate": "MAIN consumes or rejects the hostile-audited TD01 bound under current-authority freshness and no-double-charge checks.",
+  "canonical_sha256_without_this_field": "fc20d86b534e1a49f30d7896137bd8657df837c28fc07d97219a97e08667f5b5"
 }
