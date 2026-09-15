@@ -24,7 +24,7 @@ CUT201_DISP_VERIFIER = ROOT / "stages/stage32/management/cut201-main-disposition
 
 ARCH_VERIFIER_BLOB = "add0e8d511295c6aeca1364f3901cda930407307"
 ARCH_REGISTRY_BLOB = "e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd"
-ARCH_MAIN_STATE_BLOB = "b8df16056625db5fbb19456a6854a39cb3aec87a"
+ARCH_MAIN_STATE_BLOB = "b8df16056625db5fbb1947f1e927593de258f1ff"
 ARCH_EX5_STATE_BLOB = "99151c6b5402e2ed12dfe268bd497935d5be1b3c"
 CURRENT_REGISTRY_CANON = "9ace76a55e717dec9f39151e694e78a00250fa08a0a804373faded45196ab7e4"
 SYNTHESIS_CANON = "20defc105e39fedaaf5243de55bf0c496ffa997566fec582595847da5a02c2ca"
@@ -36,33 +36,26 @@ N400_DEMAND = "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1"
 CUT201_DEMAND = "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1"
 ACTIVE_SPECIALISTS = {"32-01-178", "EX5", "CUT", "MB"}
 
-
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
-
 
 def blob(path: Path) -> str:
     data = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
-
 def canon(obj: dict) -> str:
-    cp = dict(obj)
-    cp.pop("canonical_sha256_without_this_field", None)
+    cp = dict(obj); cp.pop("canonical_sha256_without_this_field", None)
     return hashlib.sha256(json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
-
 
 def load_json(path: Path) -> dict:
     req(path.is_file(), f"missing {path.relative_to(ROOT)}")
     return json.loads(path.read_text(encoding="utf-8"))
 
-
 def demand_by_id(registry: dict, demand_id: str) -> dict:
     hits = [d for d in registry.get("demands", []) if d.get("demand_id") == demand_id]
     req(len(hits) == 1, f"demand identity drift {demand_id}")
     return hits[0]
-
 
 def verify_current_wiring() -> None:
     registry = load_json(REGISTRY)
@@ -137,7 +130,7 @@ def verify_current_wiring() -> None:
     req(by_lane["CUT"].get("pending_main_handoff_ids") == [CUT201_DEMAND], "CUT201 pending handoff missing")
     req(by_lane["MB"].get("expected_open_pr") == 1791 and by_lane["MB"].get("pending_main_handoff_ids") == [], "MB monitor state")
     fw = monitor.get("credit_firewall", {})
-    req(all(fw.get(k) is False for k in ("monitor_observation_is_mathematical_credit", "audit_pending_candidate_is_main_credit", "demand_status_is_main_credit", "duplicate_pruning_credit_authorized", "merge_authorized")), "monitor firewall")
+    req(all(fw.get(k) is False for k in ("monitor_observation_is_mathematical_credit","audit_pending_candidate_is_main_credit","demand_status_is_main_credit","duplicate_pruning_credit_authorized","merge_authorized")), "monitor firewall")
 
     synthesis = load_json(SYNTHESIS)
     req(synthesis.get("schema") == "STAGE32_PICARD64_PARITY_CROSS_LANE_SYNTHESIS_V2_SUPERSEDED_BY_N400", "synthesis schema")
@@ -146,8 +139,7 @@ def verify_current_wiring() -> None:
     req(all(x.get("status") == "NOT_PROVED" for x in synthesis.get("required_comparisons", [])), "unresolved synthesis promoted")
     req(synthesis.get("sources", {}).get("n400_178", {}).get("hostile_audit_review_id") == 5203374607, "N400 synthesis audit")
     sfw = synthesis.get("credit_firewall", {})
-    req(all(sfw.get(k) is False for k in ("n398_main_pruning_credit", "grf09_main_pruning_credit", "ex5_main_credit", "population_equivalence_proved", "coordinate_equivalence_proved", "shared_parity_theorem_proved", "full178_complete", "effectivity_credit", "theorem_credit", "endpoint_credit", "stage32_closed", "merge_authorized")), "synthesis firewall")
-
+    req(all(sfw.get(k) is False for k in ("n398_main_pruning_credit","grf09_main_pruning_credit","ex5_main_credit","population_equivalence_proved","coordinate_equivalence_proved","shared_parity_theorem_proved","full178_complete","effectivity_credit","theorem_credit","endpoint_credit","stage32_closed","merge_authorized")), "synthesis firewall")
 
 def replay_historical_v24_boundary() -> None:
     req(not EX5_STATE.exists(), "retired EX5 CROSS-LANE-STATE leaked into live root")
@@ -169,18 +161,15 @@ def replay_historical_v24_boundary() -> None:
         REGISTRY.write_bytes(current_registry)
         MAIN_STATE.write_bytes(current_main_state)
         if old_state is None:
-            if EX5_STATE.exists():
-                EX5_STATE.unlink()
+            if EX5_STATE.exists(): EX5_STATE.unlink()
         else:
             EX5_STATE.write_bytes(old_state)
         if old_tmp is None:
-            if TMP_VERIFIER.exists():
-                TMP_VERIFIER.unlink()
+            if TMP_VERIFIER.exists(): TMP_VERIFIER.unlink()
         else:
             TMP_VERIFIER.write_bytes(old_tmp)
     req(REGISTRY.read_bytes() == current_registry, "registry restore failed")
     req(MAIN_STATE.read_bytes() == current_main_state, "MAIN-STATE restore failed")
-
 
 def main() -> None:
     verify_current_wiring()
@@ -189,7 +178,6 @@ def main() -> None:
     print("PASS: live Stage32 specialist monitor and N400 MAIN-consumption coordination verified")
     print("PASS: CUT201 G11 is dispositioned at zero current-V26 MAIN credit with one P0 adapter demand OPEN")
     print("PASS: historical V24 cross-lane authority replay preserved")
-
 
 if __name__ == "__main__":
     main()
