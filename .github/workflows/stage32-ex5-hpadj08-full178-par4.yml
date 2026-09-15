@@ -1,0 +1,99 @@
+name: Stage32EX5 HPADJ08 FULL178 par4
+
+# Temporary fast-path runner for HPADJ-08_ex5 generation >=2.
+# Heavy execution remains fail-closed behind a fresh runkey delta.
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json'
+      - '.github/workflows/stage32-ex5-hpadj08-full178-par4.yml'
+
+permissions:
+  contents: read
+
+env:
+  RUNKEY: stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json
+
+jobs:
+  authorize-par4:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      matrix: ${{ steps.gate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: gate
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          key=Path(os.environ['RUNKEY'])
+          before=os.environ.get('BEFORE','').strip(); head=os.environ.get('HEAD_SHA','').strip()
+          planned=[[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]]
+          authorized=False; matrix={'include':[]}
+          def canon(o):
+              q=dict(o); got=q.pop('canonical_sha256_without_this_field',None)
+              calc=hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+              return got==calc
+          if before and head:
+              subprocess.run(['git','fetch','--no-tags','--depth=1','origin',before],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+              if subprocess.run(['git','cat-file','-e',before+'^{commit}'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).returncode==0:
+                  changed=set(subprocess.check_output(['git','diff','--name-only',before,head],text=True).splitlines())
+                  if str(key) in changed:
+                      new=json.loads(key.read_text())
+                      old_show=subprocess.run(['git','show',before+':'+str(key)],capture_output=True,text=True)
+                      oldgen=-1
+                      if old_show.returncode==0:
+                          try: oldgen=int(json.loads(old_show.stdout).get('generation',-1))
+                          except Exception: oldgen=-1
+                      ex=new.get('execution',{}); rs=new.get('resume',{}); fw=new.get('firewalls',{})
+                      missing=rs.get('missing_shards',[]); completed=rs.get('completed_shards',[])
+                      authorized=(canon(new)
+                          and new.get('schema')=='STAGE32EX5_HPADJ08_FULL178_RUNKEY_V1'
+                          and new.get('route_id')=='HPADJ-08_ex5' and new.get('pr')==1812
+                          and new.get('armed') is True and int(new.get('generation',-1))==oldgen+1
+                          and ex.get('planned_shards')==planned and ex.get('effective_heavy_concurrency')==4
+                          and ex.get('resume_first') is True and ex.get('schedule_only_missing_shards') is True
+                          and sorted(map(tuple,completed+missing))==sorted(map(tuple,planned))
+                          and fw=={'stage32_main_pruning_credit':False,'current_main_incremental_credit':False,'full178_complete':False,'theorem_credit':False,'merge_authorized':False})
+                      if authorized:
+                          matrix={'include':[{'b_start':int(a),'b_end':int(b)} for a,b in missing]}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized='+('true' if authorized else 'false')+'\n')
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':authorized,'matrix':matrix},sort_keys=True))
+          PY
+
+  full178-shards-par4:
+    needs: authorize-par4
+    if: ${{ needs.authorize-par4.outputs.authorized == 'true' }}
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix: ${{ fromJSON(needs.authorize-par4.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Run exact FULL178 b-shard
+        run: |
+          python stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py \
+            --b-start ${{ matrix.b_start }} --b-end ${{ matrix.b_end }} \
+            --output "$RUNNER_TEMP/hpadj08-${{ matrix.b_start }}-${{ matrix.b_end }}.json"
+      - name: Upload compact shard certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj08-par4-shard-${{ matrix.b_start }}-${{ matrix.b_end }}-${{ github.event.pull_request.head.sha }}
+          path: ${{ runner.temp }}/hpadj08-${{ matrix.b_start }}-${{ matrix.b_end }}.json
+          retention-days: 1
+          if-no-files-found: error
