@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V3_CUT201_V26_ADAPTER_PENDING",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V4_CUT201_V27_CONSUMED",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect the live retained boundary of every active specialist before substantive MAIN research so pending handoffs, audit gates, and semantic overlap cannot be silently missed. N400 is consumed; hostile-audited CUT201 G11 is explicitly dispositioned at zero current-V26 credit pending its exact V26 authority adapter.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists. CUT201 V26 adapter is now hostile-audited and consumed exactly once by MAIN V27; no CUT201 handoff remains pending.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -12,8 +12,23 @@
   "startup_rule": {
     "refresh_live_on_every_stage32mainbatch": true,
     "do_not_trust_last_observed_head_as_current": true,
-    "required_observation_fields": ["live_pr_or_active_surface", "live_head", "current_state_or_retained_boundary", "latest_retained_result", "audit_gate", "pending_handoff_or_none", "main_freshness", "semantic_leaf"],
-    "fail_closed_conditions": ["active specialist cannot be resolved", "current retained boundary cannot be resolved", "hostile-audited or audit-pending retained result has no explicit MAIN disposition when MAIN consumption may be relevant", "two active surfaces silently attack the same semantic leaf without an explicit independent-parallel or reassignment record", "a pending handoff is absent from CROSS-LANE-DEMANDS when it is required for consumer re-entry"]
+    "required_observation_fields": [
+      "live_pr_or_active_surface",
+      "live_head",
+      "current_state_or_retained_boundary",
+      "latest_retained_result",
+      "audit_gate",
+      "pending_handoff_or_none",
+      "main_freshness",
+      "semantic_leaf"
+    ],
+    "fail_closed_conditions": [
+      "active specialist cannot be resolved",
+      "current retained boundary cannot be resolved",
+      "hostile-audited or audit-pending retained result has no explicit MAIN disposition when MAIN consumption may be relevant",
+      "two active surfaces silently attack the same semantic leaf without an explicit independent-parallel or reassignment record",
+      "a pending handoff is absent from CROSS-LANE-DEMANDS when required for consumer re-entry"
+    ]
   },
   "active_specialists": [
     {
@@ -21,47 +36,51 @@
       "command": "stage32-01-178-mainbatch",
       "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
       "expected_open_pr": 1797,
-      "state_resolution": "Resolve the current retained node/state selected by the live lane startup; MISSION.json is historical/on-demand and must not override the live retained boundary.",
+      "state_resolution": "Resolve the current retained node/state selected by the live lane startup.",
       "main_role": "FULL178 census/incidence/transport/completeness specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "N400 hostile-audited compact consumer handoff consumed exactly once by MAIN V25; producer lane subtraction remains forbidden."
+      "last_main_disposition": "N400 hostile-audited compact consumer handoff consumed exactly once by MAIN V25; producer subtraction forbidden."
     },
     {
       "lane": "EX5",
       "command": "stage32ex5-mainbatch",
       "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
       "expected_open_pr": 1776,
-      "state_resolution": "Read the live EX5 MAIN-STATE.json at the current PR head and its exact retained/audited checkpoint references.",
+      "state_resolution": "Read the live EX5 MAIN-STATE at the current PR head and exact retained/audited references.",
       "main_role": "Picard64/node-support producer/refinement specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "BC2-41 block-0 113-terminal candidate is fully redundant with already-consumed CUT191 ranks 0..112; incremental MAIN credit is zero and no second subtraction is allowed."
+      "last_main_disposition": "No currently retained EX5 handoff is authorized for duplicate MAIN subtraction."
     },
     {
       "lane": "CUT",
       "command": "stage32cut-mainbatch",
       "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
       "expected_open_pr": 1806,
-      "state_resolution": "Resolve the current CUT retained checkpoint selected by the live lane startup and current PR head; historical waves remain evidence only.",
+      "state_resolution": "Resolve the current CUT retained checkpoint and current PR head.",
       "main_role": "direct completion infeasibility/obstruction specialist",
-      "pending_main_handoff_ids": ["S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1"],
-      "last_main_disposition": "CUT201 G11 hostile-audit PASS is accepted as bounded CUT evidence only. The 25,538-terminal candidate is anchored to MAIN V12; current V26 subset identity and post-V12 overlap accounting remain unproved, so MAIN credit is zero until the P0 adapter demand is satisfied and separately consumed."
+      "pending_main_handoff_ids": [],
+      "last_main_disposition": "CUT201 exact V26 adapter at 9b485b4e... / review 5206283218 was consumed exactly once by MAIN V27 for 18,758 terminals; producer subtraction remains forbidden; replacement MAIN head requires hostile re-audit."
     },
     {
       "lane": "MB",
       "command": "stage32mb-mainbatch",
       "startup_path": "stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md",
       "expected_open_pr": 1791,
-      "state_resolution": "Read the live MB STATE.json selected by the lane startup and extract the active leaf, retained checkpoint, and audit gate even when PR title/prose is stale.",
+      "state_resolution": "Read the live MB STATE selected by lane startup.",
       "main_role": "32-03 multibranch specialist",
       "pending_main_handoff_ids": []
     }
   ],
-  "on_demand_not_counted_as_active_specialist": ["stage32certlift-mainbatch", "32-02 scalar producer experiment"],
+  "on_demand_not_counted_as_active_specialist": [
+    "stage32certlift-mainbatch",
+    "32-02 scalar producer experiment"
+  ],
   "credit_firewall": {
     "monitor_observation_is_mathematical_credit": false,
     "audit_pending_candidate_is_main_credit": false,
     "demand_status_is_main_credit": false,
     "duplicate_pruning_credit_authorized": false,
     "merge_authorized": false
-  }
+  },
+  "canonical_sha256_without_this_field": "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
 }

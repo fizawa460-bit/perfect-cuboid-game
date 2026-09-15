@@ -1,1 +1,162 @@
-{"audited_result_consumption":[{"audit_review_id":5177635336,"audit_status":"PASS","audited_exact_head":"c1bba42b8b61040ce567037cf864fcfb3e6a1746","authoritative_remaining_terminals_after_consumption":65396964990500233636101,"credited_incremental_rejected_terminals":113,"main_consumed":true,"main_consumption_audit_review_id":5177949195,"main_consumption_required":true,"main_synchronized_exact_head":"6d63d798adb50dd4efc5f0d5abc553b3dfa23060","main_synchronized_reaudit_review_id":5178420739,"note":"CUT191 remains independently consumed in V12 authority. CUT192 is now SATISFIED and CUT193 has re-entered, with zero new MAIN credit.","producer_lane":"CUT","result_id":"S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1"},{"audit_review_id":5203374607,"audit_status":"PASS","audited_exact_head":"b1a950cbc6edf3cb85e1ea79473105c6f1f67b03","authoritative_remaining_terminals_before_consumption":26876434389242951089388,"authoritative_remaining_terminals_after_consumption":26876434389242951083886,"credited_incremental_rejected_terminals":5502,"main_consumed":true,"main_consumption_required":true,"main_consumption_status":"CONSUMED_ON_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT","producer_lane":"32-01-178","producer_lane_subtraction_performed":false,"result_id":"S32.N400.N396_REJECTED_5502.COMPACT_MAIN_CONSUMPTION.V1","demand_id":"S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1","double_charge":false,"prior_consumed_overlap_terminals":0,"note":"MAIN consumes the hostile-audited N400 equivalent handoff exactly once. The 178 producer lane performs no authority subtraction; replacement MAIN head remains frozen pending hostile audit."}],"contract":{"claim_dag_separation":true,"consumer_reentry_rule":"A consumer waiting on an OPEN demand must stop rather than duplicate producer work. When the demand becomes SATISFIED, the consumer must re-enter on its next mainbatch and validate the satisfying artifact/source locks before continuing.","demand_status_vocabulary":["OPEN","SATISFIED","OBSOLETE"],"main_monitor_rule":"MAIN verifies every active specialist's live retained boundary, audit gate, pending handoff, cycles, orphan lanes, producer acknowledgement/priority diversion, consumer re-entry wiring, satisfying-artifact identity fields, and hostile-audited results awaiting required MAIN consumption.","priority_order":["P0_BLOCKING_DOWNSTREAM","P1_HIGH","P2_NORMAL","P3_LOW"],"producer_priority_rule":"On startup, a lane must inspect OPEN demands for which it is producer. If an OPEN demand has higher priority than the lane's current local research, the demand artifact is the next route until satisfied, obsoleted, or explicitly reprioritized by MAIN.","registry_path":"stages/stage32/proof/CROSS-LANE-DEMANDS.json","satisfaction_does_not_grant_credit":true,"satisfaction_rule":"SATISFIED means only that the requested operational artifact exists with the recorded identity. Mathematical credit still requires the existing hostile-audit, claim-sync, current-target adapter, and MAIN-promotion rules."},"credit_firewall":{"claim_dag_mutated_by_demand_status_alone":false,"demand_registry_is_claim_registry":false,"demand_satisfied_is_mathematical_credit":false,"hostile_audit_bypassed":false,"main_promotion_bypassed":false,"merge_authorized":false},"demands":[{"audit_requirement":{"artifact_retention_requires_exact_replay":true,"hostile_audit_required_before_mathematical_credit":true,"producer_may_not_self_grant_audit_credit":true},"blocker_being_removed":"CUT192_NO_SOURCE_LOCKED_DISJOINT_CURRENT_MAIN_SURVIVING_E8_COMPLETION_INTERFACE","consumer_lane":"CUT","demand_id":"S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1","main_promotion_requirement":{"claim_sync_required_if_mathematical_credit_changes":true,"demand_satisfaction_auto_promotes_to_main":false,"explicit_main_consumption_required_for_main_credit":true},"priority":"P0_BLOCKING_DOWNSTREAM","producer_lane":"EX5","requested_artifact":{"artifact_type":"SOURCE_LOCKED_EXACT_TERMINAL_TO_PICARD64_COMPLETION_INTERFACE","exact_mathematical_interface":"A source-locked exact terminal-to-Picard64 completion interface for one disjoint current-MAIN-surviving e=8 block/population, including exact rank/unrank population semantics, exact terminal identity/preimage semantics, and all load-bearing executable dependency identities required for replay.","required_fields":["population_id_or_exact_block","rank_range_or_exact_rank_set","rank_unrank_replay_contract","terminal_to_picard64_map","picard64_constraint_source_locks","dependency_source_locks","replay_verifier"]},"routing":{"consumer_reentry_on_satisfied":true,"consumer_waits_without_rebuilding_producer_interface":true,"producer_acknowledgement_required":true,"producer_open_demand_must_preempt_lower_priority_local_work":true},"satisfying_artifact":{"audit_review_id":null,"audited_exact_head":null,"blob_sha1":"b8ff5a4b962c24a6e4f4bca5621cbdb79f6d4781","canonical_sha256":"011265b32e83f269c8a46d9556982bbe7da3377fa15d3ffbf019eb11d1f16e42","consumer_reentry_head":"702ed10b85948c562ee87ad7cc26c6554d1ef4f8","consumer_reentry_pr":1786,"path":"stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json","producer_ci_run":34598945799,"producer_exact_head":"fd00531181228c9f367a49eb61ddc3af6ab84ab3"},"source_population_semantics":{"authoritative_remaining_strata":17128,"authoritative_remaining_terminals":65396964990500233636101,"authority_exact_head":"6d63d798adb50dd4efc5f0d5abc553b3dfa23060","authority_hostile_reaudit_review_id":5178420739,"authority_source":"stages/stage32/MAIN-STATE.json","consumed_cut191_first_block_rank_range":[0,112],"cut191_main_credit_already_consumed":true,"degree_e":8,"must_be_current_main_surviving":true,"must_be_disjoint_from_cut191_first_block":true,"population_drift_forbidden":true,"rank_unrank_semantics_required":true},"status":"SATISFIED"},{"audit_requirement":{"artifact_retention_requires_exact_replay":true,"hostile_audit_required_before_mathematical_credit":true,"producer_may_not_self_grant_audit_credit":true},"blocker_being_removed":"HPADJ01_NO_POPULATION_WIDE_TERMINAL_TO_PICARD64_IDENTITY_ADAPTER","consumer_lane":"MAIN","demand_id":"S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1","main_promotion_requirement":{"claim_sync_required_if_mathematical_credit_changes":true,"demand_satisfaction_auto_promotes_to_main":false,"explicit_main_consumption_required_for_main_credit":true},"priority":"P0_BLOCKING_DOWNSTREAM","producer_lane":"EX5","requested_artifact":{"artifact_type":"SOURCE_LOCKED_EXACT_HPADJ_TERMINAL_TO_PICARD64_POPULATION_INTERFACE","exact_mathematical_interface":"A population-preserving exact terminal-to-Picard64 completion interface for every terminal in the retained HPADJ-01 current-V22 charged lower-bound population across all 178 FULL178 rows. It must preserve row/stratum/terminal identity, exact rank/unrank or equivalent deterministic preimage semantics, the 10 stored exceptional coordinates and all reconstructed Picard64 coordinates, and executable dependency identities required for replay. It must not assert effectivity, integrality, irreducibility, normalization genus, or endpoint credit.","required_fields":["hpadj01_population_identity","all_178_rows_partition","terminal_identity_or_exact_rank_unrank_contract","terminal_to_picard64_map","stored_10_exceptional_coordinate_identity","reconstructed_picard64_coordinate_identity","population_cardinality_replay","dependency_source_locks","replay_verifier"]},"routing":{"consumer_reentry_on_satisfied":true,"consumer_waits_without_rebuilding_producer_interface":true,"producer_acknowledgement_required":true,"producer_open_demand_must_preempt_lower_priority_local_work":true},"satisfying_artifact":{"audit_review_id":null,"audited_exact_head":null,"blob_sha1":"3e21202c813220c59a6831dd7645f612112a2415","canonical_sha256":"34eef4777e706a2fec9b55e6473f469c9bbb0351ba0741d588c132d7772173cf","consumer_reentry_head":"ff4eadbc88c40560c4e47399e745e1abe6aa2553","consumer_reentry_pr":1800,"consumer_reentry_receipt_blob_sha1":"b6c1fb139fdb4189b8b5dbe351ace27f3a6748ad","consumer_reentry_receipt_canonical_sha256":"a064c6d95aaf19f2b2b0515143722da50fdd307c7fbd608b98bcf0c9f2be9ee1","consumer_reentry_receipt_path":"stages/stage32/management/hpadj-05/CONSUMER-REENTRY.json","interface_blob_sha1":"8a30e3aa30777460f344eb19836dc725dd442329","interface_canonical_sha256":"cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6","interface_path":"stages/stage32-ex5/hpadj-handoff/INTERFACE.json","path":"stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json","producer_artifact_id":10313753827,"producer_ci_job":103695396009,"producer_ci_run":34746541013,"producer_exact_head":"91daf88a16ca823e2b22583e47adc3b081fce30f"},"source_population_semantics":{"affected_rows":178,"authoritative_remaining_strata":17128,"authoritative_remaining_terminals":47589703313957134804198,"authority_exact_head":"f8039b4ce479a4b91f2f0547e7049f629e9be5f5","authority_hostile_reaudit_review_id":5188224290,"authority_source":"stages/stage32/MAIN-STATE.json","charged_terminal_lower_bound":27104321327305699275487,"hpadj01_main_pruning_credit":false,"must_preserve_current_v22_population":true,"population_drift_forbidden":true,"population_source":"stages/stage32/management/hpadj-01/RESULT.json","population_source_blob_sha1":"520b6b0f230e23fb5ea34b80fef591cfa5f9be4b","population_source_canonical_sha256":"9773c11e87de149b5b56438fd1c86929aa54a971601bf8306855fd0f8a303506"},"status":"SATISFIED"},{"audit_requirement":{"artifact_retention_requires_exact_replay":true,"hostile_audit_required_before_demand_satisfaction":true,"hostile_audit_required_before_mathematical_credit":true,"producer_may_not_self_grant_audit_credit":true},"blocker_being_removed":"N398_AUDIT_PASS_AND_MAIN_PARITY_SYNTHESIS_HANDOFF_NOT_RECORDED","consumer_lane":"MAIN","demand_id":"S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1","main_promotion_requirement":{"claim_sync_required_if_mathematical_credit_changes":true,"demand_satisfaction_auto_promotes_to_main":false,"explicit_main_consumption_required_for_main_credit":true},"priority":"P0_BLOCKING_DOWNSTREAM","producer_lane":"32-01-178","requested_artifact":{"artifact_type":"HOSTILE_AUDITED_N398_PARITY_SYNTHESIS_HANDOFF","exact_mathematical_interface":"After independent hostile audit PASS of the frozen N398 retained boundary, provide MAIN an exact source-locked handoff of the retained 97-block / 10,961-terminal parity-compression candidate, including its population identity, coordinate-label semantics, affine GF(2) relations, N395/N396 dependencies, audit receipt, and replay identities. The handoff is for cross-lane synthesis only and must not assert pruning, FULL178, effectivity, theorem, endpoint, or closure credit.","required_fields":["producer_pr_and_audited_exact_head","n398_state_and_result_identity","population_identity","coordinate_label_semantics","affine_relation_x49_x93_x96","reduced_relation_x49_x98","n395_n396_dependency_locks","hostile_audit_receipt","replay_verifier","credit_firewall"]},"routing":{"consumer_reentry_on_satisfied":true,"consumer_waits_without_rebuilding_producer_interface":true,"producer_acknowledgement_required":true,"producer_open_demand_must_preempt_lower_priority_local_work":true},"satisfying_artifact":null,"source_population_semantics":{"affine_rule":"x49 = x93 + x96 (mod 2)","broader_transport_proved":false,"candidate_branch_head":"71f078a7521b265e300a450ab129370f077ef6a1","candidate_result_canonical_sha256":"611632cedd9ff3515bb374a608020dd06079240db5224bb15f90845c7b90cad7","candidate_result_path":"stages/stage32/32-01-178/nodes/N398/RESULT.json","candidate_state_canonical_sha256":"f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1","candidate_state_path":"stages/stage32/32-01-178/nodes/N398/STATE.json","current_main_residual_subset_identity_proved":false,"n395_reduced_rule":"x49 + x98 = 1 (mod 2)","n396_rejected_terminal_count":5502,"n396_survivor_terminal_count":5459,"producer_pr":1797,"retained_block_count":97,"scope":"RETAINED_97_BLOCKS_ONLY","terminal_identity_count":10961},"status":"OBSOLETE","status_reason":"Superseded by hostile-audited N400 compact MAIN-consumption handoff, which binds the audited N399 predicate to hostile-audited N397 no-double-charge accounting for the same retained 97-block / 10,961-terminal route. N398 cross-population synthesis is no longer a consumer re-entry blocker."},{"audit_requirement":{"artifact_retention_requires_exact_replay":true,"hostile_audit_required_before_demand_satisfaction":true,"hostile_audit_required_before_mathematical_credit":true,"producer_may_not_self_grant_audit_credit":true},"blocker_being_removed":"N400_AUDITED_COMPACT_MAIN_CONSUMPTION_HANDOFF_NOT_CONSUMED","consumer_lane":"MAIN","demand_id":"S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1","main_promotion_requirement":{"claim_sync_required_if_mathematical_credit_changes":true,"demand_satisfaction_auto_promotes_to_main":false,"explicit_main_consumption_required_for_main_credit":true},"priority":"P0_BLOCKING_DOWNSTREAM","producer_lane":"32-01-178","requested_artifact":{"artifact_type":"HOSTILE_AUDITED_N400_COMPACT_MAIN_CONSUMPTION_HANDOFF","exact_mathematical_interface":"A hostile-audited compact handoff binding the exact N396 rejected 5,502-terminal rank stream to the N399 terminal predicate and N397 current-authority/no-double-charge accounting, with no subtraction performed in the 178 producer lane.","required_fields":["producer_pr_and_audited_exact_head","n400_result_identity","n400_state_identity","n400_verifier_identity","hostile_audit_receipt","source_population_identity","rejected_rank_stream_identity","n397_no_double_charge_identity","main_subtraction_not_performed_by_producer","credit_firewall"]},"routing":{"consumer_reentry_on_satisfied":true,"consumer_waits_without_rebuilding_producer_interface":true,"producer_acknowledgement_required":true,"producer_open_demand_must_preempt_lower_priority_local_work":true},"satisfying_artifact":{"producer_pr":1797,"audited_exact_head":"b1a950cbc6edf3cb85e1ea79473105c6f1f67b03","audit_review_id":5203374607,"audit_status":"PASS","result_path":"stages/stage32/32-01-178/nodes/N400/RESULT.json","result_blob_sha1":"485c9a0380788bedd25cde5a47204e2c8c62472e","result_canonical_sha256":"8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb","state_path":"stages/stage32/32-01-178/nodes/N400/STATE.json","state_blob_sha1":"c6fb6f55e026be9c87f5e825a18d114ce0dd3d23","state_canonical_sha256":"eabea6689d7fc92542eb5a417e1467dba4bf3ce7cb69613fd6dff4d5e52fd342","verifier_path":"stages/stage32/32-01-178/nodes/N400/verify_n400_n399_compact_main_consumption_handoff.py","verifier_blob_sha1":"6898ea22458d2156944569dc598eb5b7ebb0048e","verdict":"N400_COMPACT_MAIN_CONSUMPTION_HANDOFF_VERIFIED"},"source_population_semantics":{"scope":"RETAINED_N391_97_BLOCKS_ONLY","terminal_identity_count":10961,"rejected_terminal_count":5502,"rejected_terminal_rank_stream_sha256":"6648c3a246b71f74dec275012f0218d8a44477cd756229e6e3bc3eda965ca262","prior_consumed_v24_overlap_terminal_count":0,"double_charge":false,"eligible_for_separate_main_consumption":true,"producer_lane_main_authority_subtraction_performed":false},"status":"SATISFIED","status_reason":"Hostile audit PASS review 5203374607 at exact head b1a950c... verifies the N400 compact consumer handoff. Satisfaction itself grants no MAIN credit; explicit MAIN consumption is recorded separately."},{"audit_requirement":{"artifact_retention_requires_exact_replay":true,"hostile_audit_required_before_demand_satisfaction":true,"hostile_audit_required_before_mathematical_credit":true,"producer_may_not_self_grant_audit_credit":true},"blocker_being_removed":"CUT201_G11_HOSTILE_AUDIT_PASS_IS_V12_BASED_AND_NOT_YET_MAPPED_TO_CURRENT_V26_AUTHORITY","consumer_lane":"MAIN","demand_id":"S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1","main_promotion_requirement":{"claim_sync_required_if_mathematical_credit_changes":true,"demand_satisfaction_auto_promotes_to_main":false,"explicit_main_consumption_required_for_main_credit":true},"priority":"P0_BLOCKING_DOWNSTREAM","producer_lane":"CUT","requested_artifact":{"artifact_type":"SOURCE_LOCKED_CUT201_TO_CURRENT_V26_AUTHORITY_SUBSET_AND_NO_DOUBLE_CHARGE_ADAPTER","exact_mathematical_interface":"Map the hostile-audited CUT201 G11 exact 226-block / 25,538-terminal candidate from its V12 source-authority semantics into the current V26 MAIN authority boundary, proving exact current-authority subset identity and exact overlap/no-double-charge accounting against every MAIN pruning consumption between V12 and V26. Output the exact incremental terminal identity/rank set and incremental rejected count. The CUT producer lane must not mutate MAIN authority.","required_fields":["cut201_audited_exact_head_and_review","cut201_result_and_verifier_source_locks","exact_226_block_identity","exact_25538_terminal_identity_or_replayable_rank_contract","v12_to_v26_authority_adapter","post_v12_consumed_ledger_source_locks","exact_overlap_by_consumed_route","exact_incremental_identity_set","exact_incremental_rejected_terminal_count","double_charge_false_certificate","replay_verifier","main_authority_subtraction_not_performed_by_producer","credit_firewall"]},"routing":{"consumer_reentry_on_satisfied":true,"consumer_waits_without_rebuilding_producer_interface":true,"producer_acknowledgement_required":true,"producer_open_demand_must_preempt_lower_priority_local_work":true},"satisfying_artifact":null,"source_population_semantics":{"producer_pr":1806,"audited_exact_head":"8eed1449b325c3b990f90b61471bf7ecec0d89bc","hostile_audit_review_id":5204865930,"audit_status":"PASS","cut201_result_blob_sha1":"ebdf1f741365f7403050f22b478eeea5a7a1d653","cut201_result_canonical_sha256":"8f9ccc51046b9559d15ee5d64ef72be35f798a740a78a85df92d865286dbd467","cut201_verifier_blob_sha1":"1aad3b1ffb54b1d3be8e4095091904826fbdfa43","row_id":"g1-d008","degree_e":8,"survivor_offset_range":[2041,2295],"target_block_count":255,"target_terminal_count":28815,"candidate_closed_block_count":226,"candidate_pruned_terminal_count":25538,"candidate_closed_block_stream_sha256":"86ef70cd38d91e7ffe49f6069c48440c388142f151abb89d126fcb88182642fb","source_main_authority_exact_head":"6d63d798adb50dd4efc5f0d5abc553b3dfa23060","source_main_authority_version":"V12","current_main_projection_schema":"STAGE32_MAIN_COMPACT_STATE_V26_N400_AUDIT_SYNCED","current_main_state_blob_sha1":"9242ffc2d44d68b7c6e3a3946fa26f18288fe51b","current_authoritative_remaining_terminals":26876434389242951083886,"current_authority_semantics":"CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET","current_v26_subset_identity_proved":false,"current_v26_overlap_accounting_proved":false,"credited_incremental_rejected_terminals":0,"main_disposition_path":"stages/stage32/management/cut201-main-disposition/CUT201-G11-V26-MAIN-DISPOSITION.json","main_disposition_canonical_sha256":"946ec777f824eaae75aa14d9c3ab5f348bfea38da020e72ede9750c914f86381"},"status":"OPEN","status_reason":"CUT201 G11 has hostile-audit PASS as bounded CUT evidence, but its retained result is anchored to MAIN V12. Current V26 subset identity and post-V12 overlap/no-double-charge accounting are not yet proved, so MAIN credit remains zero."}],"lane_coordination_state_paths":{"CUT":"stages/stage32/full178-cut/CROSS-LANE-STATE.json","EX5":"stages/stage32-ex5/CROSS-LANE-STATE.json"},"purpose":"Machine-readable operational dependency DAG for current Stage32 lanes. This registry coordinates requested artifacts only and is separate from mathematical claim authority.","schema":"STAGE32_CROSS_LANE_DEMANDS_V4_CUT201_V26_ADAPTER_OPEN","stage":32,"canonical_sha256_without_this_field":"9ace76a55e717dec9f39151e694e78a00250fa08a0a804373faded45196ab7e4"}
+{
+  "schema": "STAGE32_CROSS_LANE_DEMANDS_V5_CUT201_V27_CONSUMED",
+  "stage": 32,
+  "purpose": "Machine-readable operational dependency DAG for current Stage32 lanes after audited CUT201 V26 adapter consumption.",
+  "contract": {
+    "claim_dag_separation": true,
+    "consumer_reentry_rule": "A consumer waiting on an OPEN demand stops rather than duplicating producer work. SATISFIED records the exact operational artifact; mathematical credit still requires audit, claim-sync, current-target adapter, and explicit MAIN consumption.",
+    "demand_status_vocabulary": [
+      "OPEN",
+      "SATISFIED",
+      "OBSOLETE"
+    ],
+    "satisfaction_does_not_grant_credit": true,
+    "main_monitor_rule": "MAIN resolves live active specialists and all hostile-audited results awaiting required MAIN consumption on each ordinary startup."
+  },
+  "credit_firewall": {
+    "claim_dag_mutated_by_demand_status_alone": false,
+    "demand_registry_is_claim_registry": false,
+    "demand_satisfied_is_mathematical_credit": false,
+    "hostile_audit_bypassed": false,
+    "main_promotion_bypassed": false,
+    "merge_authorized": false
+  },
+  "audited_result_consumption": [
+    {
+      "result_id": "S32.CUT191.FIRST_BLOCK.113_TERMINAL_PRUNING.V1",
+      "producer_lane": "CUT",
+      "audit_status": "PASS",
+      "credited_incremental_rejected_terminals": 113,
+      "main_consumed": true,
+      "authoritative_remaining_terminals_after_consumption": 65396964990500233636101
+    },
+    {
+      "result_id": "S32.N400.N396_REJECTED_5502.COMPACT_MAIN_CONSUMPTION.V1",
+      "producer_lane": "32-01-178",
+      "producer_pr": 1797,
+      "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+      "audit_review_id": 5203374607,
+      "audit_status": "PASS",
+      "demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+      "credited_incremental_rejected_terminals": 5502,
+      "prior_consumed_overlap_terminals": 0,
+      "double_charge": false,
+      "producer_lane_subtraction_performed": false,
+      "main_consumed": true,
+      "authoritative_remaining_terminals_after_consumption": 26876434389242951083886
+    },
+    {
+      "result_id": "S32.CUT201.V26_CURRENT_AUTHORITY_INCREMENTAL_18758.MAIN_CONSUMPTION.V1",
+      "producer_lane": "CUT",
+      "producer_pr": 1806,
+      "audited_exact_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
+      "audit_review_id": 5206283218,
+      "audit_status": "PASS",
+      "demand_id": "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1",
+      "credited_incremental_rejected_terminals": 18758,
+      "prior_consumed_overlap_terminals": 6780,
+      "prior_consumed_overlap_route": "CERTLIFT03",
+      "other_consumed_route_overlap_terminals": 0,
+      "double_charge": false,
+      "producer_lane_subtraction_performed": false,
+      "main_consumed": true,
+      "main_consumption_status": "CONSUMED_ON_V27_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT",
+      "authoritative_remaining_terminals_before_consumption": 26876434389242951083886,
+      "authoritative_remaining_terminals_after_consumption": 26876434389242951065128
+    }
+  ],
+  "demands": [
+    {
+      "demand_id": "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "EX5",
+      "consumer_lane": "CUT",
+      "status": "SATISFIED",
+      "satisfying_artifact": {
+        "path": "stages/stage32/proof/CUT192-EX5-E8-HANDOFF-SATISFIED.json",
+        "producer_exact_head": "fd00531181228c9f367a49eb61ddc3af6ab84ab3"
+      },
+      "status_reason": "Retained exact EX5 completion interface already satisfies the historical CUT192 consumer demand."
+    },
+    {
+      "demand_id": "S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "EX5",
+      "consumer_lane": "MAIN",
+      "status": "SATISFIED",
+      "satisfying_artifact": {
+        "path": "stages/stage32/proof/HPADJ-EX5-FULL178-PICARD64-HANDOFF-SATISFIED.json",
+        "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f"
+      },
+      "status_reason": "Retained population-preserving Picard64 interface already satisfies the historical HPADJ consumer demand."
+    },
+    {
+      "demand_id": "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "32-01-178",
+      "consumer_lane": "MAIN",
+      "status": "OBSOLETE",
+      "satisfying_artifact": null,
+      "status_reason": "Superseded by hostile-audited N400 compact MAIN-consumption handoff."
+    },
+    {
+      "demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "32-01-178",
+      "consumer_lane": "MAIN",
+      "status": "SATISFIED",
+      "satisfying_artifact": {
+        "producer_pr": 1797,
+        "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+        "audit_review_id": 5203374607,
+        "audit_status": "PASS",
+        "result_blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+        "verifier_blob_sha1": "6898ea22458d2156944569dc598eb5b7ebb0048e"
+      },
+      "status_reason": "N400 handoff was consumed exactly once by MAIN V25."
+    },
+    {
+      "demand_id": "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1",
+      "priority": "P0_BLOCKING_DOWNSTREAM",
+      "producer_lane": "CUT",
+      "consumer_lane": "MAIN",
+      "status": "SATISFIED",
+      "satisfying_artifact": {
+        "producer_pr": 1806,
+        "audited_exact_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
+        "audit_review_id": 5206283218,
+        "audit_status": "PASS",
+        "bounded_source_exact_head": "8eed1449b325c3b990f90b61471bf7ecec0d89bc",
+        "bounded_source_audit_review_id": 5204865930,
+        "adapter_handoff_path": "stages/stage32/full178-cut/CUT201-V26-current-authority-adapter-handoff.json",
+        "adapter_handoff_blob_sha1": "a4a5bad33e552e121ad83e8777641121375aeb94",
+        "adapter_handoff_canonical_sha256": "1c777be6bcce85c648b5c7a365cf9d4151bc72278438e738a58ef12b019e058a",
+        "adapter_verifier_path": "stages/stage32/full178-cut/verify_cut201_v26_current_authority_adapter.py",
+        "adapter_verifier_blob_sha1": "fb219371c3d80471b087c5057aa0584af3474b92"
+      },
+      "source_population_semantics": {
+        "row_id": "g1-d008",
+        "degree_e": 8,
+        "source_candidate_terminals": 25538,
+        "certlift03_overlap_terminals": 6780,
+        "certlift03_overlap_blocks": 60,
+        "exact_incremental_rejected_terminals": 18758,
+        "exact_incremental_blocks": 166,
+        "incremental_block_stream_sha256": "7a67d7f5071853f3376e0a8c39eacefd89eed37855b3f5b59b91d38da0c6a099",
+        "incremental_rank_stream_sha256": "dc61b63b1ff6ade5762e5e5930cdcb1f17f9eaffee90750a143a8d84d5107e83",
+        "incremental_identity_stream_sha256": "0fa6f9ac49363d6506080a96b3ceb3857f4ef21bbbc24222158e2fb57766a097",
+        "other_consumed_route_overlap_terminals": 0,
+        "double_charge": false,
+        "producer_lane_main_authority_subtraction_performed": false,
+        "main_authority_before": 26876434389242951083886,
+        "main_authority_after": 26876434389242951065128
+      },
+      "status_reason": "Exact V26 subset/no-double-charge adapter received hostile-audit PASS review 5206283218 and was consumed exactly once by MAIN V27; replacement MAIN head requires hostile re-audit before further consumption."
+    }
+  ],
+  "lane_coordination_state_paths": {
+    "CUT": "stages/stage32/full178-cut/CROSS-LANE-STATE.json",
+    "EX5": "stages/stage32-ex5/CROSS-LANE-STATE.json"
+  },
+  "canonical_sha256_without_this_field": "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74"
+}
