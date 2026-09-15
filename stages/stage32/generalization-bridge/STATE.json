@@ -2,16 +2,13 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR190",
-  "active_leaf": "BR190_C1_SEMANTIC_NO_GENERALIZATION_HANDOFF",
+  "current_node": "BR103",
+  "active_leaf": "BR103_C3_PICARD64_FIXED_PAIRING_EXTENDABILITY",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json",
-    "status": "EXACT_SOURCE_SEMANTIC_BLOCKER_NO_GENERALIZATION_NO_CREDIT",
-    "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "bridge_commit": "2350ec0f3bb4fe1d2ae0f36109a4748bf7b3cca2",
-    "source_mb104_exact_head": "5263eedb652fc290440f4c69b4704da959694aec",
-    "source_mb104_fourier_note_blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36",
-    "br102_result_blob_sha1": "d87d9c4d4a61496dfd07591876da2b0500108346"
+    "path": "stages/stage32/generalization-bridge/BR190-BREADTH-REDISCOVERY-C3-PREFLIGHT.json",
+    "status": "ACTIVE_EXACT_PREFLIGHT_NO_CREDIT",
+    "bridge_commit": "eb4eecef195d0fded97c45b829ba6f6e09335f5e",
+    "prior_c1_result": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json"
   },
   "source_seed": {
     "source_lane": "MB",
@@ -20,7 +17,8 @@
     "last_full_hostile_audit_checkpoint": "160516b1c315c25c777797b88d53b356fb05e05a",
     "candidate_family": [
       "residual_G_over_H_character_to_Picard_Fourier_direction",
-      "A1_lift_square_energy_identity"
+      "A1_lift_square_energy_identity",
+      "intrinsic_Picard64_fixed_pairing_projection"
     ],
     "authority_status": "RETAINED_EXACT_RESEARCH_SEEDS_POST_LAST_FULL_HOSTILE_AUDIT_CHECKPOINT_NO_BRIDGE_AUTHORITY",
     "source_specific_hypotheses_known_to_require_attention": [
@@ -47,20 +45,25 @@
     {
       "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
       "status": "RETAINED_NO_GENERALIZATION_SOURCE_SEMANTIC_BLOCKER",
-      "description": "BR102 constructed the exact K_res Picard64 covector and found 48/53 nonzero free coefficients. BR103 then rechecked the frozen MB104 source semantics and found the load-bearing transport premise absent: the source explicitly leaves conductor normalization pair -> relative/full modular transition -> chi_res open and forbids conductor-sign/weighted-cut use before that adapter exists. Therefore no target ell_res parity/sign/congruence/lower-bound condition is currently justified, and mod-8 minimization is not logically relevant until an MB-owned semantic adapter is source-locked."
+      "description": "BR102 constructed the exact K_res Picard64 covector and found 48/53 nonzero free coefficients. BR103 rechecked the frozen MB104 source semantics and found the load-bearing conductor normalization pair -> relative/full modular transition -> chi_res adapter absent. No target ell_res necessary condition is currently justified."
     },
     {
       "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
       "status": "RETIRED_DUPLICATE_SPECIALIST_ROUTE",
       "description": "Do not duplicate. FULL178 support-aware/exact stored-square strengthening is already owned by 178 H8C-02/H8C-03A and EX5 HPADJ-08 exact-square compression."
+    },
+    {
+      "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+      "status": "ACTIVE_BR103_EXACT_EXTENDABILITY_TEST",
+      "description": "Breadth rediscovery after C1 no-go. Test whether the 11 terminal-fixed selected pairings have an intrinsic retained-Picard64 lattice congruence, independently of MB chi_res/conductor semantics, by exact PrefixMembershipOracle/HNF minimization over the remaining 53 pairing coordinates."
     }
   ],
   "next_obligation": {
-    "node_id": "BR190",
-    "title": "Retain exact BR-C1 no-generalization/source-blocker handoff",
-    "required_input": "Use BR103-KRES-SEMANTIC-NO-GENERALIZATION.json together with the source-locked MB104 relative-G Fourier note and BR102 Picard64 covector result. Preserve the distinction between an exact lattice covector and a source-justified target necessary condition.",
-    "success": "Freeze the current BRIDGE boundary for hostile audit as a precise no-generalization result under the presently retained MB104 semantics. Re-enter C1 only if an MB-owned source-locked conductor/residual-sheet -> chi_res adapter appears with hypotheses compatible with the claimed target scope.",
-    "no_go": "Do not run the 53-free mod-8 minimization, bounded diagnostics, terminal/block pruning, or FULL178 scaleout merely from the existence of the K_res covector. Those routes lack the required semantic premise."
+    "node_id": "BR103",
+    "title": "Decide exact C3 Picard64 fixed-pairing extendability",
+    "required_input": "Run the existing source-locked PrefixMembershipOracle in the exact terminal pairing order [95,99,103,102,49,97,94,101,93,98,96]. Inspect the depth-11 modulus, active congruence rows, quotient index, and independently cross-check the 11x64 forward projection with integer Smith normal form where useful.",
+    "success": "If the depth-11 projection has a nontrivial quotient, retain an intrinsic terminal-visible Picard64 congruence candidate and advance only within the certified interface scope before any bounded diagnostic or broader population claim.",
+    "no_go": "If modulus=1/no active congruence survives after minimizing over all 53 free pairing coordinates, retain exact C3 no-obstruction evidence and return to BR190. Do not fall back to terminal/block pruning."
   },
   "routing": {
     "independent_specialist": true,
@@ -69,11 +72,11 @@
     "terminal_by_terminal_fallback_forbidden": true,
     "heavy_compute_armed": false,
     "BR102_population_wide_entry_authorized": true,
-    "BR103_mod8_minimization_authorized": false,
+    "BR103_C3_exact_extendability_authorized": true,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
-    "stop_reason": "BR_C1_BLOCKED_BY_MISSING_MB_OWNED_CONDUCTOR_TO_CHI_RES_SEMANTIC_ADAPTER"
+    "stop_reason": null
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,
