@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32_MAIN_CUT201_V26_CONSUMPTION_PREFLIGHT_V1",
+  "stage": 32,
+  "status": "HOLD_EXACT_ADAPTER_HOSTILE_AUDIT_RECEIPT_NOT_REPOSITORY_BOUND",
+  "purpose": "Fail-closed MAIN consumption preflight for the CUT201 current-V26 adapter. This checkpoint records the exact candidate and the remaining audit gate without mutating MAIN authority.",
+  "source_locks": {
+    "producer_pr": 1806,
+    "producer_live_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
+    "bounded_cut_audited_exact_head": "8eed1449b325c3b990f90b61471bf7ecec0d89bc",
+    "bounded_cut_hostile_audit_review_id": 5204865930,
+    "adapter_handoff_path": "stages/stage32/full178-cut/CUT201-V26-current-authority-adapter-handoff.json",
+    "adapter_verifier_path": "stages/stage32/full178-cut/verify_cut201_v26_current_authority_adapter.py",
+    "producer_exact_head_main_startup_ci": 34931277319,
+    "producer_exact_head_claim_frontier_ci": 34931277333,
+    "main_pr": 1808,
+    "main_preflight_parent_head": "99fff9d0c88bd0ca3d40e496fe13bf82f90758d6",
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_blob_sha1": "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b"
+  },
+  "candidate": {
+    "row_id": "g1-d008",
+    "degree_e": 8,
+    "source_candidate_terminals": 25538,
+    "certlift03_exact_overlap_terminals": 6780,
+    "certlift03_exact_overlap_blocks": 60,
+    "exact_incremental_terminals": 18758,
+    "exact_incremental_blocks": 166,
+    "double_charge": false,
+    "other_consumed_route_overlap_terminals": 0,
+    "incremental_block_stream_sha256": "7a67d7f5071853f3376e0a8c39eacefd89eed37855b3f5b59b91d38da0c6a099"
+  },
+  "audit_gate": {
+    "bounded_cut_result_hostile_audited": true,
+    "current_v26_adapter_exact_ci_observed_green": true,
+    "current_v26_adapter_pr_body_reports_pass": true,
+    "repository_bound_exact_adapter_hostile_audit_receipt": null,
+    "claim_sync_contract_requires_exact_pass_receipt_before_audited_consumption": true,
+    "demand_id": "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1",
+    "demand_may_be_marked_satisfied_now": false,
+    "main_consumption_authorized": false,
+    "reason": "The persisted hostile-audit review 5204865930 covers the bounded CUT201 head 8eed1449..., not the later current-V26 adapter claim core at live head 9b485b4e.... CI and PR-body status do not substitute for an exact hostile-audit PASS receipt under CLAIM-SYNC-CONTRACT."
+  },
+  "authority_firewall": {
+    "authoritative_remaining_strata_before": 17128,
+    "authoritative_remaining_terminals_before": 26876434389242951083886,
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "credited_incremental_rejected_terminals_now": 0,
+    "main_authority_mutated": false,
+    "hypothetical_remaining_terminals_if_future_exact_adapter_audit_passes_and_main_consumes_once": 26876434389242951065128,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_gate": "Persist an independent hostile-audit PASS receipt for the exact current-V26 adapter claim core, then perform claim-DAG synchronization and explicit MAIN consumption with exact no-double-charge replay.",
+  "canonical_sha256_without_this_field": "1c65420fbd2ff79c466630f221edcd1ceb3d58a36e65bbdf28461f24b2da3bf6"
+}
