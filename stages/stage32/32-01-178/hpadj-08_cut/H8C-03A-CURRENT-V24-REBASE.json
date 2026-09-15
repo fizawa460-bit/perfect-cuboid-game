@@ -1,0 +1,85 @@
+{
+  "schema": "STAGE32_32_01_178_HPADJ08_CUT_H8C03A_CURRENT_V24_REBASE_V1",
+  "stage": 32,
+  "surface": "32-01-178",
+  "route": "HPADJ-08_cut",
+  "leaf": "H8C-03A_CURRENT_V24_CONSERVATIVE_REBASE",
+  "status": "CURRENT_V24_CONSERVATIVE_REBASE_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+  "source_locks": {
+    "current_main": {
+      "exact_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "main_state_path": "stages/stage32/MAIN-STATE.json",
+      "main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+      "authoritative_remaining_strata": 17128,
+      "authoritative_remaining_terminals_upper_bound": 26876434389242951089388,
+      "remaining_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
+    },
+    "h8c03a": {
+      "audited_exact_head": "c656d49fbd210f530d927d19a543d944fbe6b003",
+      "hostile_audit_review_id": 5207037037,
+      "result_path": "stages/stage32/32-01-178/hpadj-08_cut/H8C-03A-RESULT.json",
+      "result_blob_sha1": "37cf76455dc9d29329a730f0facf6f413058712f",
+      "result_canonical_sha256": "1e5e0cb7b3ec873c550ca73f3993ab1a06a8da19db745007aa76cc4931cae11a"
+    },
+    "h8c02_result_blob_sha1": "81cfcbe8f9cb9c1c9750be3187e15f61ade3ea9d",
+    "hpadj07_general_type_correction": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/GENERAL-TYPE-ADJUNCTION-CORRECTION.json",
+      "blob_sha1": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+      "canonical_sha256": "87e9ee4ea791d894f5f1ba093d5ad295ad2ebb3d569f2f50fa9a1b1d4c1858aa"
+    },
+    "hpadj07_current_v23_rebase": {
+      "path": "stages/stage32/management/hpadj-07/proof-chain/CURRENT-V23-CONSERVATIVE-REBASE.json",
+      "blob_sha1": "8883cfc59a6d48e34d7e256fad15e69714dc02d1",
+      "canonical_sha256": "9ae15dd70a3ba84fe83d2d11dfa8e1081c44a8b06e68b78dda4f871aa0f00e01"
+    },
+    "hpadj07_v23_main_consumption": {
+      "path": "stages/stage32/management/hpadj-07/HPADJ07-V23-MAIN-CONSUMPTION.json",
+      "blob_sha1": "e942711b67ebc43b39a73ab55bc10862654059f8",
+      "canonical_sha256": "6fc1800b84de587e2218c372966e1424186405e57477586e8a284961f575f417"
+    }
+  },
+  "set_theoretic_rebase": {
+    "v22_authoritative_remaining_terminals_upper_bound": 47589703313957134804198,
+    "v22_to_v23_certlift03_removed_terminals": 154697,
+    "v23_pre_hpadj07_authoritative_remaining_terminals_upper_bound": 47589703313957134649501,
+    "corrected_hpadj07_v22_rejected_lower_bound": 20713268924714183714810,
+    "hpadj07_v23_consumed_lower_bound": 20713268924714183560113,
+    "current_v24_authoritative_remaining_terminals_upper_bound": 26876434389242951089388,
+    "h8c03a_v22_rejected_lower_bound_candidate": 30842390262547542736909,
+    "h8c03a_incremental_lower_bound_vs_hpadj07_candidate": 10129121337833359022099,
+    "candidate_post_rebase_remaining_terminals_upper_bound": 16747313051409592067289,
+    "identities": [
+      "V23 = V22 - 154697",
+      "HPADJ07_consumed = HPADJ07_V22 - 154697",
+      "V24 = V23 - HPADJ07_consumed = V22 - HPADJ07_V22",
+      "H8C03A_increment = H8C03A_V22 - HPADJ07_V22",
+      "V24 - H8C03A_increment = V22 - H8C03A_V22"
+    ],
+    "overlap_argument": "The current V24 upper-bound authority already algebraically absorbs the entire 154697 CERTLIFT03 removal by worst-case overlap in the consumed HPADJ07 lower bound. H8C-03A is replayed on the same corrected V22 HPADJ/N358 population and pointwise dominates the HPADJ07 group-Cauchy rejection. Therefore replacing the already-charged HPADJ07 V22 lower bound by the stronger H8C-03A V22 lower bound adds exactly the candidate difference H8C03A-HPADJ07 at the upper-bound accounting level, without charging CERTLIFT03 again.",
+    "exact_current_residual_identity_set_claimed": false,
+    "stratum_count_change_claimed": false,
+    "requires_main_consumption_before_authority_mutation": true
+  },
+  "audit_boundary": {
+    "current_authority_overlap_accounted_candidate": true,
+    "double_charge_accounted_candidate": true,
+    "main_pruning_credit": false,
+    "hostile_audit_required_before_main_credit": true,
+    "claim_sync_required_if_promoted": true
+  },
+  "firewalls": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "exact-head CI then stage32-01-178-audit; only hostile PASS may permit a separate explicit MAIN consumption/promotion step",
+  "canonical_sha256_without_this_field": "a3d486a4c5c652e8d31b3abafe81d49f15164dc05253c3ac9fdd28a1db9735fe"
+}
