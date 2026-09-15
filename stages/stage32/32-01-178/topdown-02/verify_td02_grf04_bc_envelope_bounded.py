@@ -145,9 +145,18 @@ def envelope_x4_survivors(*, d: int, g: int, b: int, c: int, q: int, n: int) -> 
     return max(0, hi-lo+1)
 
 
+def convolved_q_distribution(A, BC, *, a: int, sa: int, b: int, c: int, sbc: int) -> dict[int, int]:
+    out = defaultdict(int)
+    for qa, va in A[a][sa].items():
+        for qb, vb in BC[b][c][sbc].items():
+            out[qa + qb] += va * vb
+    return out
+
+
 def census() -> dict:
     A = build_a_q()
     BC = build_bc_q()
+    qcache: dict[tuple[int, int, int, int, int], dict[int, int]] = {}
     panel = hpbad = envbad = 0
     rows = []
     for g in (0,1):
@@ -169,12 +178,10 @@ def census() -> dict:
                         M = a+b+c
                         srem = min(16,d) + ca + c3
                         for sbc in range(8):
-                            bd = BC[b][c][sbc]
-                            if not bd:
+                            if not BC[b][c][sbc]:
                                 continue
                             for sa in range(4):
-                                ad = A[a][sa]
-                                if not ad:
+                                if not A[a][sa]:
                                     continue
                                 support = sbc+sa
                                 qneed = K-support
@@ -193,22 +200,46 @@ def census() -> dict:
                                 es = allowed_es(d,lower,upper,excluded)
                                 if not es:
                                     continue
-                                for qb,vb in bd.items():
-                                    for qa,va in ad.items():
-                                        q = qa+qb
-                                        mult = va*vb
-                                        hp_all = 8*q > hp8
-                                        for e in es:
-                                            n = 19*d-5*e
-                                            total = n+1
-                                            survive = envelope_x4_survivors(d=d,g=g,b=b,c=c,q=q,n=n)
-                                            bad = total-survive
-                                            req(bad >= (total if hp_all else 0), f"HPADJ08 subset regression {(g,d,e,a,b,c,q)}")
-                                            rp += mult*total
-                                            rh += mult*(total if hp_all else 0)
-                                            re += mult*bad
+
+                                # Every allowed e satisfies e<=3d, hence
+                                # n=19d-5e >= 4d. Also rem/4 <=
+                                # (3d^2+48d+96)/4 <= 4d^2 for d>=8, so
+                                # r<=2d and the raw GRF04 x4 upper endpoint is
+                                # at most 5d/4 < 4d. Therefore the n-clipping
+                                # in envelope_x4_survivors is inactive for all
+                                # e in this bounded domain. We may sum the
+                                # affine total_x4=n+1 exactly over e while
+                                # evaluating the survivor count only once.
+                                req(max(es) <= 3*d, f"e upper-bound regression {(g,d,a,b,c)}")
+                                min_n = 19*d - 5*max(es)
+                                req(min_n >= 4*d, f"normal-budget lower-bound regression {(g,d,a,b,c)}")
+                                ecount = len(es)
+                                total_x4_sum = sum(19*d - 5*e + 1 for e in es)
+
+                                key = (a, sa, b, c, sbc)
+                                qdist = qcache.get(key)
+                                if qdist is None:
+                                    qdist = convolved_q_distribution(A, BC, a=a, sa=sa, b=b, c=c, sbc=sbc)
+                                    qcache[key] = qdist
+
+                                for q, mult in qdist.items():
+                                    rhs = 3*d*d + 48*d + 96 - 96*g
+                                    rem = rhs - 24*q
+                                    if rem >= 0:
+                                        r = math.isqrt(rem // 4)
+                                        req(r <= 2*d, f"GRF04 radius bound regression {(g,d,q)}")
+                                        raw_hi = (d//2 + r) // 2
+                                        req(raw_hi <= min_n, f"x4 n-clip unexpectedly active {(g,d,q,min_n,raw_hi)}")
+                                    survive = envelope_x4_survivors(d=d,g=g,b=b,c=c,q=q,n=min_n)
+                                    hp_all = 8*q > hp8
+                                    rp += mult * total_x4_sum
+                                    rh += mult * (total_x4_sum if hp_all else 0)
+                                    re += mult * (total_x4_sum - ecount*survive)
+
             rows.append({"g":g,"d":d,"panel_terminals":rp,"hpadj08_rejected":rh,"bc_envelope_rejected":re,"incremental_over_hpadj08":re-rh,"bc_envelope_survivors":rp-re})
-            panel += rp; hpbad += rh; envbad += re
+            panel += rp
+            hpbad += rh
+            envbad += re
 
     req(panel == EXPECTED_PANEL, f"panel baseline drift {panel}")
     req(hpbad == EXPECTED_HPADJ08_REJECTED, f"HPADJ08 baseline drift {hpbad}")
