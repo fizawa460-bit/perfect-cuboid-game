@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_PICARD_PARITY_CARTIER_REFINEMENT_V1",
+  "status": "RETAINED_EXACT_LOCAL_CARTIER_CONSEQUENCE_CONDITIONAL_CARTIER_PENCIL_NAIVE_MOD4_REPEAT_CLOSED_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "claim_level": "exact parity-to-Cartier consequence; pencil only conditional on retained candidate H1 linearization; no conductor sign"
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-PARITY-CARTIER-REFINEMENT.md",
+      "blob_sha1": "5e37a08cdc7dbb2636fed104d6104230451dbbd7"
+    },
+    {
+      "id": "PICARD_PARITY_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-PARITY-CERTIFICATE.json",
+      "blob_sha1": "7621932b87a7558d473bc99a09b46bcb04a433a0"
+    },
+    {
+      "id": "A1_ENERGY_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY-CERTIFICATE.json",
+      "blob_sha1": "0cec993c9d22e31fcf982985b37f0ae82c8cbce7"
+    },
+    {
+      "id": "AMBIENT_H1_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-H1-TORSION-KILL-CERTIFICATE.json",
+      "blob_sha1": "480f452b75afed9d0f33dbb3e931feaca496d922"
+    },
+    {
+      "id": "PRODUCT_LINEARIZATION_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PRODUCT-CORRESPONDENCE-LINEARIZATION-CERTIFICATE.json",
+      "blob_sha1": "ea8bd879093a5ec2054f560807fa05806f96a553"
+    },
+    {
+      "id": "SHEET_AJ_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-SHEET-SELECTED-FIBER-ABEL-JACOBI.md",
+      "blob_sha1": "76ef6c5638b9a601fd01ca28bb01531d7279c180"
+    }
+  ],
+  "exact_parity_refinement": {
+    "support_nodes": [0,1,2,3,8,9,10,11,24,25,26,32,33,34],
+    "all_x_j_even": true,
+    "substitution": "x_j=2*y_j; b_j=y_j-2*l",
+    "a_j_formula": "a_j=x_j-4*l=2*b_j",
+    "d_j_formula": "d_j=2*x_j-8*l=4*b_j",
+    "d_j_divisible_by_4": true,
+    "b_range": "-2*l<=b_j<=2*l",
+    "Q1_b_equation": "b8+b9+b10+b11+b32+b33+b34=0",
+    "Q0_b_equation": "b0-b1+b2-b3-b24+b25-b26=0",
+    "C1_C2_formula": "168*l^2+4*sum_j b_j^2",
+    "weighted_cut_formula": "84*l^2+2*sum_j b_j^2",
+    "same_sheet_formula": "84*l^2+56*l-2*sum_j b_j^2",
+    "balanced_b_zero_survives": true
+  },
+  "exact_cartier_consequence": {
+    "intermediate_surface": "X_H=(C8 x C8)/H_diag",
+    "quotient_singularities": "isolated A1 rational double points",
+    "supported_A1_lifts_per_box_node": 2,
+    "Gamma_multiplicities_at_two_lifts": ["x_j", "8*l-x_j"],
+    "tauGamma_multiplicities_at_two_lifts": ["8*l-x_j", "x_j"],
+    "A1_local_class_group": "Z/2",
+    "A1_local_class_detector": "strict-transform intersection with the exceptional (-2)-curve modulo 2",
+    "supported_local_Cartier": true,
+    "unsupported_box_exceptionals_met_by_carrier": false,
+    "Gamma_globally_Cartier_on_X_H": true,
+    "tauGamma_globally_Cartier_on_X_H": true
+  },
+  "conditional_pencil_consequence": {
+    "depends_on_candidate_ambient_H1_linearization": true,
+    "Gamma_linearly_equivalent_tauGamma": true,
+    "honest_line_bundle": "L=O_XH(Gamma)~=O_XH(tau Gamma)",
+    "distinct_effective_members": true,
+    "h0_lower_bound": 2,
+    "honest_pencil_exists": true,
+    "base_point_free_claimed": false,
+    "pencil_tau_stable": true,
+    "antiinvariant_ratio_generates_same_quadratic_extension_up_to_kB_star": true,
+    "invariant_multiplier_evaluated": false
+  },
+  "mod4_route_wall": {
+    "descent_condition": "[D'] in Span_F2(absent exceptional classes) inside Pic(S)/2Pic(S)",
+    "membership_already_means": "D'=2*M+B_J for some integral Picard class M and integral absent-class lift B_J",
+    "same_descent_implies_new_x_mod4_condition": false,
+    "reason": "requiring (D'-B_J)/2 to be two-divisible would be a new hypothesis not supplied by the retained double-cover descent",
+    "valid_future_2adic_input_requires_new_geometry": true
+  },
+  "routing_consequence": {
+    "new_geometric_upgrade": "Gamma and tauGamma are Cartier on X_H",
+    "candidate_next_bridge": "identify the tau-antiinvariant Cartier-pencil generator with the explicit residual Kummer generator r_z or r_w up to an invariant k(B)^* multiplier, then specialize at conductor normalization preimages",
+    "individual_conductor_pair_map_materialized": false,
+    "weighted_cut_upper_bound_proved": false,
+    "e2_closed": false,
+    "active_leaf_unchanged": true
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_PICARD_PARITY_CARTIER_REFINEMENT_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "hostile_audit_claimed": false
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
