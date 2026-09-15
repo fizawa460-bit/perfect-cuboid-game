@@ -2,15 +2,16 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR103",
-  "active_leaf": "BR103_KRES_MOD8_FREE_COMPLETION_CANCELLATION",
+  "current_node": "BR190",
+  "active_leaf": "BR190_C1_SEMANTIC_NO_GENERALIZATION_HANDOFF",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR102-KRES-PICARD64-COVECTOR-RESULT.json",
-    "status": "EXACT_REPLAY_PASS_ADVANCE_BR103_NO_CREDIT",
+    "path": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json",
+    "status": "EXACT_SOURCE_SEMANTIC_BLOCKER_NO_GENERALIZATION_NO_CREDIT",
     "repository_main_reference": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "bridge_commit": "02dd5b37871e408d4b97d44f9a133a758ec33213",
-    "replay_run_id": 34968946601,
-    "replay_exact_head": "8b83e18949e3edc36beea5b506edff0c79e4e6b3"
+    "bridge_commit": "2350ec0f3bb4fe1d2ae0f36109a4748bf7b3cca2",
+    "source_mb104_exact_head": "5263eedb652fc290440f4c69b4704da959694aec",
+    "source_mb104_fourier_note_blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36",
+    "br102_result_blob_sha1": "d87d9c4d4a61496dfd07591876da2b0500108346"
   },
   "source_seed": {
     "source_lane": "MB",
@@ -45,8 +46,8 @@
   "candidate_ledger": [
     {
       "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
-      "status": "ACTIVE_BR103_FREE_COMPLETION_CANCELLATION",
-      "description": "BR102 reconstructed the exact 48-node exceptional-class bijection, verified K_res^2=-16, and expressed ell_res on the HPADJ selected-pairing fiber. The functional has 10 nonzero fixed coefficients and 48 nonzero free coefficients, so it is not terminal-visible before exact mod-8 free-completion minimization."
+      "status": "RETAINED_NO_GENERALIZATION_SOURCE_SEMANTIC_BLOCKER",
+      "description": "BR102 constructed the exact K_res Picard64 covector and found 48/53 nonzero free coefficients. BR103 then rechecked the frozen MB104 source semantics and found the load-bearing transport premise absent: the source explicitly leaves conductor normalization pair -> relative/full modular transition -> chi_res open and forbids conductor-sign/weighted-cut use before that adapter exists. Therefore no target ell_res parity/sign/congruence/lower-bound condition is currently justified, and mod-8 minimization is not logically relevant until an MB-owned semantic adapter is source-locked."
     },
     {
       "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
@@ -55,11 +56,11 @@
     }
   ],
   "next_obligation": {
-    "node_id": "BR103",
-    "title": "Decide exact K_res cancellation over the mod-8 integral 53-free completion fiber",
-    "required_input": "Use the exact selected64 affine completion model and the BR102 ell_res coefficients. Determine, for every allowed terminal-fixed x11 in the certified interface scope, the attainable set/minimum obstruction of ell_res under integer z53 subject to B_fixed*x11+B_free*z53 == 0 (mod 8) coordinatewise. Reuse GRF-04/GRF-05 exact kernels where applicable rather than enumerating terminals.",
-    "success": "Prove a nontrivial terminal-visible residue/lower-bound/necessary condition that survives minimization over all allowed free completions, then advance to BR104 bounded identical-population diagnostic.",
-    "no_go": "If the 53-free congruence fiber can cancel the residual character for every compatible terminal, retain exact BR103 NO_GENERALIZATION evidence for BR-C1. Do not fall back to terminal-by-terminal or block-by-block pruning."
+    "node_id": "BR190",
+    "title": "Retain exact BR-C1 no-generalization/source-blocker handoff",
+    "required_input": "Use BR103-KRES-SEMANTIC-NO-GENERALIZATION.json together with the source-locked MB104 relative-G Fourier note and BR102 Picard64 covector result. Preserve the distinction between an exact lattice covector and a source-justified target necessary condition.",
+    "success": "Freeze the current BRIDGE boundary for hostile audit as a precise no-generalization result under the presently retained MB104 semantics. Re-enter C1 only if an MB-owned source-locked conductor/residual-sheet -> chi_res adapter appears with hypotheses compatible with the claimed target scope.",
+    "no_go": "Do not run the 53-free mod-8 minimization, bounded diagnostics, terminal/block pruning, or FULL178 scaleout merely from the existence of the K_res covector. Those routes lack the required semantic premise."
   },
   "routing": {
     "independent_specialist": true,
@@ -68,10 +69,11 @@
     "terminal_by_terminal_fallback_forbidden": true,
     "heavy_compute_armed": false,
     "BR102_population_wide_entry_authorized": true,
+    "BR103_mod8_minimization_authorized": false,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
-    "stop_reason": null
+    "stop_reason": "BR_C1_BLOCKED_BY_MISSING_MB_OWNED_CONDUCTOR_TO_CHI_RES_SEMANTIC_ADAPTER"
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,
