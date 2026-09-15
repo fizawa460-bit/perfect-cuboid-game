@@ -77,6 +77,22 @@ jobs:
           print('HPADJ10_REJECTED=' + str(data['exact_count']['kernel_rejected_terminals']))
           print('HPADJ10_ACCEPTED=' + str(data['exact_count']['kernel_accepted_terminals']))
           PY
+      - name: Refine TD01 envelope by exact pre-HPADJ08 x4 block census
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-11_ex5/count_td01_envelope_block_upper_bound.py | tee /tmp/hpadj11-envelope.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj11-envelope.json').read_text())
+          assert data['status'] == 'EXACT_PRE_HPADJ08_BLOCK_CENSUS_WITH_CONSERVATIVE_SAME_CHARACTER_ENVELOPE_BOUND_AUDIT_REQUIRED'
+          assert data['exact_replay']['replay_domain_terminal_total_exact_match'] is True
+          assert data['exact_replay']['pre_hpadj08_replay_domain_terminals'] == 47589703313957134107892
+          print('HPADJ11_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ11_PRE_BLOCKS=' + str(data['exact_replay']['pre_hpadj08_x4_complete_blocks']))
+          print('HPADJ11_REFINED_UPPER=' + str(data['same_character_bound']['block_count_refined_survivor_upper_bound']))
+          print('HPADJ11_IMPROVEMENT_VS_TD01=' + str(data['same_character_bound']['improvement_vs_td01_upper_bound']))
+          PY
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
       - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
