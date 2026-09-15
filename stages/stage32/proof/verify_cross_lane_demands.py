@@ -6,7 +6,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
 MONITOR = HERE / "ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
-CONSUMPTION_VERIFIER = ROOT / "stages/stage32/management/cut201-main-disposition/verify_cut201_v26_main_consumption_preflight.py"
+AUDIT_SYNC_VERIFIER = ROOT / "stages/stage32/management/cut201-main-disposition/verify_cut201_v28_audit_sync.py"
 REGISTRY_BLOB = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
 REGISTRY_CANON = "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74"
 MONITOR_BLOB = "53f286f78574cfad59fc397a9d3268d345331594"
@@ -58,7 +58,8 @@ def main() -> None:
     req(set(lanes) == {"32-01-178","EX5","CUT","MB"}, "monitor coverage")
     req(lanes["CUT"]["pending_main_handoff_ids"] == [], "CUT pending handoff not cleared")
     req(mon["credit_firewall"]["duplicate_pruning_credit_authorized"] is False and mon["credit_firewall"]["merge_authorized"] is False, "monitor firewall")
-    runpy.run_path(str(CONSUMPTION_VERIFIER), run_name="__main__")
-    print("PASS: Stage32 cross-lane demand coordination verified after CUT201 V27 MAIN consumption")
+    req(blob(AUDIT_SYNC_VERIFIER) == "b8af5c304382e4086286e1be4b3eeb107babb979", "V28 audit-sync verifier drift")
+    runpy.run_path(str(AUDIT_SYNC_VERIFIER), run_name="__main__")
+    print("PASS: Stage32 cross-lane demand coordination verified after CUT201 V28 hostile-audit synchronization")
 if __name__ == "__main__":
     main()
