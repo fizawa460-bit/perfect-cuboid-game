@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_32_01_178_TD01_HOSTILE_AUDIT_PASS_V1",
+  "stage": 32,
+  "producer_lane": "32-01-178",
+  "producer_pr": 1815,
+  "status": "HOSTILE_AUDIT_PASS",
+  "hostile_audit": {
+    "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "review_id": 5214778974,
+    "merge_ready_freshness": "CLEAR",
+    "current_repository_main_at_audit": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "scope": "TD01 exact nonheavy x4-complete envelope bound; source locks; GRF02=HPADJ09 character replay; N357/N358/e8/HPADJ08 chain; 17/33 blockwise upper bound; no-double-charge and credit firewalls"
+  },
+  "exact_head_ci": {
+    "run_id": 34979035686,
+    "job_id": 104414192160,
+    "conclusion": "SUCCESS",
+    "exact_head_checkout": true,
+    "hpadj09_grf02_historical_replay": true,
+    "td01_x4_envelope_historical_replay": true,
+    "workflow_lifecycle": true,
+    "main_startup_authority": true,
+    "final_check_not_ready": true
+  },
+  "audited_evidence": {
+    "packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+    "packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+    "packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
+    "state_path": "stages/stage32/32-01-178/topdown-01/STATE.json",
+    "state_blob_sha1": "9b7ee99c9adf5b93c85915e57cb6380fd26c9b2d",
+    "state_canonical_sha256": "f860797b8816fc14d9d7956a878a40d613216c3579978f975839c8ae373a58ed",
+    "td01_verifier_path": "stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py",
+    "td01_verifier_blob_sha1": "4d64db072093502df2a11dbedaa108ddfa0c69b7",
+    "equivalence_verifier_path": "stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py",
+    "equivalence_verifier_blob_sha1": "0d9c2c506edb33d656f449593597c8befadd2e0d",
+    "hpadj09_panel_ref": "fd14ff7e53dcd6f0c5ba9b38c45a27d30885f019",
+    "hpadj09_panel_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
+    "hpadj09_panel_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115"
+  },
+  "candidate": {
+    "exact_hpadj08_survivor_envelope": 6703403803993209250491,
+    "per_block_max_retained_fraction": "17/33",
+    "certified_upper_bound_candidate": 3453268626299532038131,
+    "potential_tightening_vs_current_main": 3250135177693678063363,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "same_completion_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+    "additive_stacking_authorized": false
+  },
+  "consumer_handoff": {
+    "consumer_lane": "MAIN",
+    "consumer_pr": 1808,
+    "consumer_observed_head": "85c27501e4d5a5ffffe46f38d34949c8e265c735",
+    "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
+    "producer_candidate_ready_for_main_disposition": true,
+    "main_authority_mutated_by_this_receipt": false,
+    "main_must_recheck_current_authority_freshness": true,
+    "main_must_apply_min_composition_not_additive_subtraction": true
+  },
+  "credit_firewall": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "MAIN may satisfy S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1 from this receipt, then separately perform current-authority freshness and MIN-composition consumption. Producer must not mutate MAIN authority.",
+  "canonical_sha256_without_this_field": "9ae9e53c93c761aff3144443a9e63ee82dab71a9767eaaae1f5e3256220da41c"
+}
