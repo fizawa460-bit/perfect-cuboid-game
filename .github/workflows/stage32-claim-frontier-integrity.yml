@@ -82,6 +82,8 @@ jobs:
         run: |
           python -m py_compile stages/stage32/full178-cut/cut201_e8_wave9_g11_recover.py
           python -m py_compile stages/stage32/full178-cut/cut201_e8_common_adapter_wave9.py
+      - name: Verify CUT201 exact-head audit replay
+        run: python stages/stage32/full178-cut/verify_cut201_e8_common_adapter_wave9.py
       - name: Replay synthetic fail-close regressions
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --self-test-fail-closed
       - name: Assert current FINAL-CHECK is NOT_READY
