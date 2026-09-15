@@ -151,10 +151,54 @@ jobs:
           ref: 9cc20024e7842918a45210d8a7d5e2428f5f85f3
           path: _main-v35-grf04
           fetch-depth: 1
-      - name: Derive HPADJ13 joint GRF04 Picard parity bound
+      - name: Checkout V34 MAIN predecessor for GRF04 dependency replay
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 8ec716abbaebbdf91d8452f19145a66c310bd222
+          path: _main-v34
+          fetch-depth: 1
+      - name: Checkout hostile-audited TD01 envelope for GRF04 dependency replay
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 54945927416a94a67533c7b06c59c5a24e50c4f1
+          path: _td01-audit
+          fetch-depth: 1
+      - name: Checkout hostile-audited symbolic GRF04 kernel
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: d534e107bfcf68ab1d687366afd3671a152f6e2b
+          path: _grf04-audit
+          fetch-depth: 1
+      - name: Checkout exact TD02 concrete formula source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe
+          path: _td02-source
+          fetch-depth: 1
+      - name: Reverify MAIN GRF04 V35 candidate dependencies inside EX5
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         run: |
           test "$(git -C _main-v35-grf04 rev-parse HEAD)" = "9cc20024e7842918a45210d8a7d5e2428f5f85f3"
+          test "$(git -C _main-v34 rev-parse HEAD)" = "8ec716abbaebbdf91d8452f19145a66c310bd222"
+          test "$(git -C _td01-audit rev-parse HEAD)" = "54945927416a94a67533c7b06c59c5a24e50c4f1"
+          test "$(git -C _grf04-audit rev-parse HEAD)" = "d534e107bfcf68ab1d687366afd3671a152f6e2b"
+          test "$(git -C _td02-source rev-parse HEAD)" = "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe"
+          python _main-v35-grf04/stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py \
+            --v34-root _main-v34 \
+            --td01-root _td01-audit \
+            --grf04-root _grf04-audit \
+            --td02-root _td02-source
+      - name: Derive HPADJ13 joint GRF04 Picard parity bound
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
           python stages/stage32-ex5/hpadj-13_ex5/derive_grf04_picard_parity_bound.py --grf-root _main-v35-grf04 | tee /tmp/hpadj13-joint.json
           cmp /tmp/hpadj13-joint.json stages/stage32-ex5/hpadj-13_ex5/RESULT.json
           python - <<'PY'
@@ -162,12 +206,14 @@ jobs:
           from pathlib import Path
           data = json.loads(Path('/tmp/hpadj13-joint.json').read_text())
           assert data['status'] == 'STRICTER_JOINT_GRF04_PICARD_PARITY_7_OVER_33_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
-          assert data['canonical_sha256_without_this_field'] == '58039b1e73a288389a6b2899d22e2902e2dc291b6f4f7482b6685c69d1ab7b3a'
+          assert data['canonical_sha256_without_this_field'] == '0113356fcbd759a002ca73fba697b84f762231f4e1ee823e52629e7af8b93c81'
           assert data['joint_block_proof']['uniform_retained_fraction'] == '7/33'
           assert data['candidate_bound']['joint_survivor_upper_bound'] == 1421934140240983780407
           assert data['candidate_bound']['improvement_vs_current_audited_main'] == 1938844673526816877962
           assert data['semantics']['same_x4_direct_intersection_not_independence_assumption'] is True
+          assert data['semantics']['hpadj11_audited_bridge_used_for_envelope_parity_applicability'] is True
           assert data['semantics']['grf04_v35_source_candidate_is_audit_pending'] is True
+          assert data['sources']['hpadj11_hostile_audit_review_id'] == 5216065509
           assert data['firewalls']['stage32_main_pruning_credit'] is False
           print('HPADJ13_CANONICAL=' + data['canonical_sha256_without_this_field'])
           print('HPADJ13_JOINT_UPPER=' + str(data['candidate_bound']['joint_survivor_upper_bound']))
