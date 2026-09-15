@@ -1,40 +1,114 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib,json,subprocess
+
+import hashlib
+import json
+import subprocess
 from pathlib import Path
-HERE=Path(__file__).resolve().parent; ROOT=HERE.parent; CHECKPOINT=HERE/'bc2-36-fresh-unknown52-replay-checkpoint.json'; RUNKEY=ROOT/'runkeys/bc2-36-fresh-unknown52-replay.json'; SOURCE=HERE/'bc2_36_replay_explicit_fresh_unknown52.py'; PREFLIGHT=HERE/'bc2-36-fresh-unknown52-replay-preflight.json'; B32=HERE/'bc2_32_replay_explicit_fresh_unknown170.py'; B19=HERE/'bc2_19_n354_survivor_normal_positivity_mass_replay.py'; B18=HERE/'bc2_18_n354_survivor_exceptional_mod8_decomposition.py'; STATE=ROOT/'MAIN-STATE.json'; WORKFLOW=HERE.parents[2]/'.github/workflows/stage32-ex5-main.yml'
-CP_BLOB='09ac58349e388c479ac77e04724bef2fd9b49b7e'; CP_CANON='e92cd6d07299b833a79fe20b81e9de032d61790cf1b7a6fb81ec6adccdb49fdf'; RUNKEY_BLOB='78d9c847863232b10d149b651c32c668887e4b23'; SOURCE_BLOB='18f9c2146d5dc97400c4af1a8691560523cc03cf'; PREFLIGHT_BLOB='aa9bf40cf3550cae33cdfe8669aa51a80acddcec'; PREFLIGHT_CANON='b2cc1cd97fe8da4504da980aa1c470f1aa419f9417b3eea8b1533305382155b0'; B32_BLOB='7cfe8450cb9b9ab7f04da797d487655505598b93'; B19_BLOB='b2899aa228e7a3ee97526e3787ffbefa483530b4'; B18_BLOB='1e2ed93cae3c5b446c8d90c1ae2250be83289c79'; TARGET_SHA='95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818'; UNKNOWN_SHA='570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9'; STATUS_SHA='59c8f444d235a7b3223d2ef4df5c2da65636f66edc3f69ebd2572c2d3354dff8'; AUDIT_HEAD='9c63ccb48dd0e5bdeedda7739dd05e2404698465'; AUDIT_REVIEW=5188625406
-V26='STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY'; V27='STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION'; V28='STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY'; V29='STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION'; V30='STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY'; V31='STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION'; V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'; V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'; V34='STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION'
-def req(v,m):
-    if not v: raise SystemExit('FAIL: '+m)
-def blob(p): return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
-def canon(o):
-    q=dict(o); q.pop('canonical_sha256_without_this_field',None); return hashlib.sha256(json.dumps(q,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-def main():
-    req(blob(CHECKPOINT)==CP_BLOB,'checkpoint blob'); cp=json.loads(CHECKPOINT.read_text()); req(cp['schema']=='STAGE32EX5_BC2_36_FRESH_UNKNOWN52_REPLAY_V1' and cp['canonical_sha256_without_this_field']==CP_CANON and canon(cp)==CP_CANON,'checkpoint canonical'); r=cp['replay']; req((r['parents_checked'],r['unsat_count'],r['unknown_count'],r['sat_count'])==(52,11,41,0) and r['per_parent_timeout_ms']==100000 and r['unknown_parent_indices_sha256']==UNKNOWN_SHA and r['status_stream_sha256']==STATUS_SHA,'partition/hash'); req(len(r['unknown_parent_indices'])==41 and len(r['unsat_parent_indices'])==11 and set(r['unsat_parent_indices']).isdisjoint(r['unknown_parent_indices']),'partition identity'); t=cp['target']; req(t['audited_bc2_35_unknown_count']==52 and t['parent_indices_sha256']==TARGET_SHA and t['prior_audited_unsat_count']==7284 and sorted(t['parent_indices'])==sorted(r['unsat_parent_indices']+r['unknown_parent_indices']+r['sat_parent_indices']),'target'); req(cp['credit']['known_parent_unsat_count_lower_bound']==7295 and cp['credit']['new_exact_parent_unsat_count']==11 and cp['credit']['stage32_main_credit'] is False and cp['credit']['full178_complete'] is False,'credit'); req(cp['firewalls']['timeout_unknown_relabelled_unsat'] is False and cp['firewalls']['unknown_dropped'] is False,'UNKNOWN firewall')
-    req(blob(SOURCE)==SOURCE_BLOB and blob(PREFLIGHT)==PREFLIGHT_BLOB and blob(B32)==B32_BLOB and blob(B19)==B19_BLOB and blob(B18)==B18_BLOB,'source identity'); pf=json.loads(PREFLIGHT.read_text()); req(pf['canonical_sha256_without_this_field']==PREFLIGHT_CANON and canon(pf)==PREFLIGHT_CANON,'preflight canonical')
-    req(blob(RUNKEY)==RUNKEY_BLOB,'consumed runkey blob'); rk=json.loads(RUNKEY.read_text()); req(rk['generation']==1 and rk['armed'] is False,'runkey consumed'); cr=rk['consumed_run']; req(cr['accepted_for_hostile_audit'] is True and cr['exact_head']=='63986c900a34cbbfa00c96a0d2dcc38d3ffc92d5' and cr['workflow_run_id']==34718999232 and cr['authorize_job_id']==103621253008 and cr['compute_job_id']==103621306508 and cr['artifact_id']==10306816385,'run receipt'); req(cr['artifact_zip_sha256']=='35de2891058d97483fd7b3c9c95ca5c1041d9d96096287b1b01652a944f63ccb' and cr['raw_json_sha256']=='a70320e767ffe87d0751a7df195fd54387201e170e8f7daad43d41257af61f92' and cr['checkpoint_git_blob_sha']==CP_BLOB and cr['checkpoint_canonical']==CP_CANON,'artifact receipt'); req((cr['new_unsat_count'],cr['remaining_unknown_count'],cr['sat_count'],cr['known_parent_unsat_count_lower_bound'])==(11,41,0,7295) and cr['remaining_unknown_parent_indices_sha256']==UNKNOWN_SHA and cr['status_stream_sha256']==STATUS_SHA,'run counts')
-    s=json.loads(STATE.read_text()); schema=s['schema']; req(schema in {V26,V27,V28,V29,V30,V31,V32,V33,V34},'BC2-36 live state schema drift'); f=s['frontier']; a=s['intermediate_audit_boundary']; cur=s['current']
-    if schema in {V33,V34}:
-        pa=s['prior_audited_authority']['bc2_36_pr_1776']; req(pa['hostile_audit_status']=='PASS' and pa['audit_checkpoint_exact_head']==AUDIT_HEAD and pa['hostile_audit_review_id']==AUDIT_REVIEW,'BC2-36 audit receipt'); req(f['e8_bc2_36_audited'] is True and f['e8_bc2_36_known_parent_unsat_count_lower_bound']==7295 and f['e8_known_parent_unsat_count_lower_bound']==7313,'BC2-36 retained authority'); pa39=s['prior_audited_authority']['bc2_39_pr_1776']; req(pa39['hostile_audit_status']=='PASS' and pa39['audit_checkpoint_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and pa39['hostile_audit_review_id']==5193423203,'BC2-39 audit receipt'); req(f['e8_bc2_39_audited'] is True and f['e8_bc2_39_remaining_unknown_count']==23 and f['e8_bc2_40_preflight_ready'] is True,'BC2-40 preflight')
-        if schema==V33:
-            req(f['e8_bc2_40_execution_authorized'] is False and a['bc2_40_execution_authorized'] is False and cur['next_route']=='BC2_40_FRESH_RUNKEY_AUTHORIZATION','V33 route')
-        else:
-            req(f['e8_bc2_40_execution_authorized'] is True and f['e8_bc2_40_executed'] is False and a['bc2_40_execution_authorized'] is True and cur['next_route']=='BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS','V34 route')
-        req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203 and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False,'BC2-39 retained audit boundary')
-    elif schema==V32:
-        pa=s['prior_audited_authority']['bc2_36_pr_1776']; req(pa['hostile_audit_status']=='PASS' and pa['audit_checkpoint_exact_head']==AUDIT_HEAD and pa['hostile_audit_review_id']==AUDIT_REVIEW,'BC2-36 audit receipt'); req(f['e8_bc2_36_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7306,'BC2-36 compact audited frontier'); pa38=s['prior_audited_authority']['bc2_38_pr_1776']; req(pa38['hostile_audit_status']=='PASS' and pa38['audit_checkpoint_exact_head']=='5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71' and pa38['hostile_audit_review_id']==5190676180,'BC2-38 audit receipt'); req(f['e8_bc2_39_executed'] is True and f['e8_bc2_39_audited'] is False and f['e8_bc2_39_candidate_known_parent_unsat_count_lower_bound']==7313 and f['e8_bc2_39_remaining_unknown_count']==23,'V32 BC2-39 boundary'); req(a['bc2_39_execution_authorized'] is False and a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and cur['next_route']=='HOSTILE_AUDIT_BC2_39_TARGETED_REPLAY','V32 route/freeze')
-    elif schema==V31:
-        pa=s['prior_audited_authority']['bc2_36_pr_1776']; req(pa['hostile_audit_status']=='PASS' and pa['audit_checkpoint_exact_head']==AUDIT_HEAD and pa['hostile_audit_review_id']==AUDIT_REVIEW,'BC2-36 audit receipt'); req(f['e8_bc2_36_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7306,'BC2-36 compact audited frontier'); pa38=s['prior_audited_authority']['bc2_38_pr_1776']; req(pa38['hostile_audit_status']=='PASS' and pa38['audit_checkpoint_exact_head']=='5e1d07e4c92fbecff9bfa89b0bfb65cdaf564a71' and pa38['hostile_audit_review_id']==5190676180,'BC2-38 audit receipt'); req(a['bc2_39_execution_authorized'] is True and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False and cur['next_route']=='BC2_39_REFINE_REMAINING_FRESH_UNKNOWN_SET','V31 route'); req(f['e8_bc2_38_audited'] is True and f['e8_bc2_39_target_unknown_count']==30,'V31 frontier')
-    elif schema in {V28,V29,V30}:
-        pa=s['prior_audited_authority']['bc2_36_pr_1776']; req(pa['hostile_audit_status']=='PASS' and pa['audit_checkpoint_exact_head']==AUDIT_HEAD and pa['hostile_audit_review_id']==AUDIT_REVIEW,'BC2-36 audit receipt'); req(f['e8_bc2_36_executed'] is True and f['e8_bc2_36_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']>=7295,'BC2-36 audited frontier')
-        if schema==V28: req(a['bc2_37_execution_authorized'] is False and a['freeze_active'] is True and cur['next_route']=='HOSTILE_AUDIT_BC2_37_TARGETED_REPLAY','V28 route/freeze')
-        elif schema==V29: req(a['bc2_38_execution_authorized'] is True and a['freeze_active'] is False and cur['next_route']=='BC2_38_REFINE_REMAINING_FRESH_UNKNOWN_SET','V29 route')
-        else: req(a['bc2_38_execution_authorized'] is False and a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and cur['next_route']=='HOSTILE_AUDIT_BC2_38_TARGETED_REPLAY','V30 route/freeze')
-    elif schema==V27:
-        req(f['e8_bc2_36_executed'] is True and f['e8_bc2_36_audited'] is True and f['e8_known_parent_unsat_count_lower_bound']==7295 and f['e8_bc2_37_target_unknown_count']==41 and f['e8_bc2_37_executed'] is False,'V27 audited frontier'); req(a['last_hostile_audit_exact_head']==AUDIT_HEAD and a['last_hostile_audit_review_id']==AUDIT_REVIEW and a['bc2_37_execution_authorized'] is True and a['freeze_active'] is False and a['new_audit_boundary_exists'] is False,'V27 audit consumption'); req(cur['next_route']=='BC2_37_REFINE_REMAINING_FRESH_UNKNOWN_SET','V27 route')
-    else:
-        req(cur['status']=='BC2_36_TARGETED_REPLAY_EXECUTED_AUDIT_REQUIRED' and cur['next_route']=='HOSTILE_AUDIT_BC2_36_TARGETED_REPLAY','V26 route'); req(f['e8_bc2_36_executed'] is True and f['e8_bc2_36_audited'] is False and f['e8_known_parent_unsat_count_lower_bound']==7284 and f['e8_bc2_36_candidate_known_parent_unsat_count_lower_bound']==7295,'V26 frontier'); req(a['freeze_active'] is True and a['new_audit_boundary_exists'] is True and a['re_audit_required'] is True and a['bc2_36_execution_authorized'] is False,'V26 freeze')
-    wf=WORKFLOW.read_text(); req('verify_bc2_36_targeted_replay_checkpoint.py' in wf and 'authorize-bc2-36-fresh-unknown52:' not in wf and '\n  bc2-36-fresh-unknown52:' not in wf,'BC2-36 workflow lifecycle')
-    print('PASS: Stage32EX5 BC2-36 retained checkpoint/artifact receipt is fail-closed'); print('bc2_36=11_NEW_UNSAT_41_RETAINED_UNKNOWN_0_SAT; audited_or_candidate_lower_bound=7295'); print('execution_head=63986c900a34cbbfa00c96a0d2dcc38d3ffc92d5; workflow=34718999232; artifact=10306816385')
-if __name__=='__main__': main()
+
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
+CHECKPOINT = HERE / 'bc2-36-fresh-unknown52-replay-checkpoint.json'
+RUNKEY = ROOT / 'runkeys/bc2-36-fresh-unknown52-replay.json'
+SOURCE = HERE / 'bc2_36_replay_explicit_fresh_unknown52.py'
+PREFLIGHT = HERE / 'bc2-36-fresh-unknown52-replay-preflight.json'
+B32 = HERE / 'bc2_32_replay_explicit_fresh_unknown170.py'
+B19 = HERE / 'bc2_19_n354_survivor_normal_positivity_mass_replay.py'
+B18 = HERE / 'bc2_18_n354_survivor_exceptional_mod8_decomposition.py'
+STATE = ROOT / 'MAIN-STATE.json'
+WORKFLOW = HERE.parents[2] / '.github/workflows/stage32-ex5-main.yml'
+
+CP_BLOB = '09ac58349e388c479ac77e04724bef2fd9b49b7e'
+CP_CANON = 'e92cd6d07299b833a79fe20b81e9de032d61790cf1b7a6fb81ec6adccdb49fdf'
+RUNKEY_BLOB = '78d9c847863232b10d149b651c32c668887e4b23'
+SOURCE_BLOB = '18f9c2146d5dc97400c4af1a8691560523cc03cf'
+PREFLIGHT_BLOB = 'aa9bf40cf3550cae33cdfe8669aa51a80acddcec'
+PREFLIGHT_CANON = 'b2cc1cd97fe8da4504da980aa1c470f1aa419f9417b3eea8b1533305382155b0'
+B32_BLOB = '7cfe8450cb9b9ab7f04da797d487655505598b93'
+B19_BLOB = 'b2899aa228e7a3ee97526e3787ffbefa483530b4'
+B18_BLOB = '1e2ed93cae3c5b446c8d90c1ae2250be83289c79'
+TARGET_SHA = '95743ba70ed11191bffa8ce8464ff190d5133cdcd0643d7b83f7756ed33f9818'
+UNKNOWN_SHA = '570b36293f136405c2beceb1be77dbad4b0c6b50e7fd2f28d9f3dfc944f590e9'
+STATUS_SHA = '59c8f444d235a7b3223d2ef4df5c2da65636f66edc3f69ebd2572c2d3354dff8'
+AUDIT_HEAD = '9c63ccb48dd0e5bdeedda7739dd05e2404698465'
+AUDIT_REVIEW = 5188625406
+V35 = 'STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED'
+
+
+def req(value: bool, message: str) -> None:
+    if not value:
+        raise SystemExit('FAIL: ' + message)
+
+
+def blob(path: Path) -> str:
+    return subprocess.check_output(['git', 'hash-object', str(path)], text=True).strip()
+
+
+def canon(obj: dict) -> str:
+    body = dict(obj)
+    body.pop('canonical_sha256_without_this_field', None)
+    return hashlib.sha256(json.dumps(body, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
+def main() -> None:
+    req(blob(CHECKPOINT) == CP_BLOB, 'checkpoint blob')
+    cp = json.loads(CHECKPOINT.read_text())
+    req(cp['schema'] == 'STAGE32EX5_BC2_36_FRESH_UNKNOWN52_REPLAY_V1', 'checkpoint schema')
+    req(cp['canonical_sha256_without_this_field'] == CP_CANON and canon(cp) == CP_CANON, 'checkpoint canonical')
+    replay = cp['replay']
+    req((replay['parents_checked'], replay['unsat_count'], replay['unknown_count'], replay['sat_count']) == (52, 11, 41, 0), 'partition counts')
+    req(replay['per_parent_timeout_ms'] == 100000, 'timeout contract')
+    req(replay['unknown_parent_indices_sha256'] == UNKNOWN_SHA and replay['status_stream_sha256'] == STATUS_SHA, 'partition hashes')
+    req(len(replay['unknown_parent_indices']) == 41 and len(replay['unsat_parent_indices']) == 11, 'partition identities')
+    req(set(replay['unsat_parent_indices']).isdisjoint(replay['unknown_parent_indices']), 'partition disjointness')
+    target = cp['target']
+    req(target['audited_bc2_35_unknown_count'] == 52 and target['parent_indices_sha256'] == TARGET_SHA, 'target identity')
+    req(target['prior_audited_unsat_count'] == 7284, 'prior audited lower bound')
+    req(sorted(target['parent_indices']) == sorted(replay['unsat_parent_indices'] + replay['unknown_parent_indices'] + replay['sat_parent_indices']), 'target partition')
+    req(cp['credit']['known_parent_unsat_count_lower_bound'] == 7295 and cp['credit']['new_exact_parent_unsat_count'] == 11, 'checkpoint credit')
+    req(cp['credit']['stage32_main_credit'] is False and cp['credit']['full178_complete'] is False, 'checkpoint credit firewall')
+    req(cp['firewalls']['timeout_unknown_relabelled_unsat'] is False and cp['firewalls']['unknown_dropped'] is False, 'UNKNOWN firewall')
+
+    req(blob(SOURCE) == SOURCE_BLOB and blob(PREFLIGHT) == PREFLIGHT_BLOB, 'BC2-36 source identity')
+    req(blob(B32) == B32_BLOB and blob(B19) == B19_BLOB and blob(B18) == B18_BLOB, 'transitive source identity')
+    pf = json.loads(PREFLIGHT.read_text())
+    req(pf['canonical_sha256_without_this_field'] == PREFLIGHT_CANON and canon(pf) == PREFLIGHT_CANON, 'preflight canonical')
+
+    req(blob(RUNKEY) == RUNKEY_BLOB, 'consumed runkey blob')
+    rk = json.loads(RUNKEY.read_text())
+    req(rk['generation'] == 1 and rk['armed'] is False, 'runkey consumed')
+    receipt = rk['consumed_run']
+    req(receipt['accepted_for_hostile_audit'] is True, 'run accepted for hostile audit')
+    req(receipt['exact_head'] == '63986c900a34cbbfa00c96a0d2dcc38d3ffc92d5', 'execution head')
+    req(receipt['workflow_run_id'] == 34718999232 and receipt['authorize_job_id'] == 103621253008 and receipt['compute_job_id'] == 103621306508, 'workflow provenance')
+    req(receipt['artifact_id'] == 10306816385, 'artifact provenance')
+    req(receipt['checkpoint_git_blob_sha'] == CP_BLOB and receipt['checkpoint_canonical'] == CP_CANON, 'checkpoint receipt binding')
+    req((receipt['new_unsat_count'], receipt['remaining_unknown_count'], receipt['sat_count'], receipt['known_parent_unsat_count_lower_bound']) == (11, 41, 0, 7295), 'run counts')
+    req(receipt['remaining_unknown_parent_indices_sha256'] == UNKNOWN_SHA and receipt['status_stream_sha256'] == STATUS_SHA, 'run identity hashes')
+
+    state = json.loads(STATE.read_text())
+    req(state['schema'] == V35, 'BC2-36 live state schema drift')
+    prior = state['prior_audited_authority']['bc2_36_pr_1776']
+    req(prior['hostile_audit_status'] == 'PASS', 'BC2-36 retained hostile audit status')
+    req(prior['audit_checkpoint_exact_head'] == AUDIT_HEAD and prior['hostile_audit_review_id'] == AUDIT_REVIEW, 'BC2-36 retained hostile audit provenance')
+    frontier = state['frontier']
+    req(frontier['e8_bc2_36_audited'] is True, 'BC2-36 retained audited flag')
+    req(frontier['e8_bc2_36_known_parent_unsat_count_lower_bound'] == 7295, 'BC2-36 retained lower bound')
+    req(frontier['e8_known_parent_unsat_count_lower_bound'] == 7336, 'current EX5 audited lower bound')
+    req(frontier['e8_bc2_40_audited'] is True and frontier['e8_bc2_40_remaining_unknown_count'] == 0 and frontier['e8_bc2_40_sat_count'] == 0, 'newer authority retention')
+    req(frontier['e8_whole_first_block_unsat'] is True, 'first e8 block retained closure')
+    req(frontier['population_wide_main_consumable_result_complete'] is False, 'MAIN adapter firewall')
+    req(state['credit']['stage32_main_credit'] is False and state['credit']['FULL178_complete'] is False, 'current credit firewall')
+    req(state['firewalls']['merge_authorized'] is False, 'merge firewall')
+
+    wf = WORKFLOW.read_text()
+    req('verify_bc2_36_targeted_replay_checkpoint.py' in wf, 'BC2-36 verifier absent from workflow')
+    req('authorize-bc2-36-fresh-unknown52:' not in wf and '\n  bc2-36-fresh-unknown52:' not in wf, 'retired BC2-36 runtime job restored')
+
+    print('PASS: Stage32EX5 BC2-36 retained checkpoint is V35-aware and fail-closed')
+    print('bc2_36=11_NEW_UNSAT_41_RETAINED_UNKNOWN_0_SAT; audited_lower_bound=7295; current_EX5_lower_bound=7336')
+    print('execution_head=63986c900a34cbbfa00c96a0d2dcc38d3ffc92d5; workflow=34718999232; artifact=10306816385')
+
+
+if __name__ == '__main__':
+    main()
