@@ -63,9 +63,9 @@ def ceil_div(a: int, b: int) -> int:
     return -((-a) // b)
 
 def canonical_prefix_caps(H: int = 96) -> dict[int, int]:
-    # Count only the source-locked h-caps + canonical ordering + terminal parity.
-    # Omitting all further support, total-sum, N358 and HPADJ08-square restrictions
-    # makes this an upper envelope, never an undercount.
+    # Exact count for the deliberately relaxed h-cap/canonical/parity envelope.
+    # Later support, total-mass, N358 and HPADJ08-square conditions are omitted,
+    # so this is a conservative upper capacity, never an undercount.
     B2 = []
     C3 = []
     D2 = []
@@ -88,6 +88,7 @@ def canonical_prefix_caps(H: int = 96) -> dict[int, int]:
 
     equal = [[0, 0] for _ in range(H + 1)]
     for R in range(H + 1):
+        # x0=x1=t and x5<x8.
         lex_first = [0, 0]
         for x5 in range(R + 1):
             for x8 in range(x5 + 1, R + 1):
@@ -97,6 +98,7 @@ def canonical_prefix_caps(H: int = 96) -> dict[int, int]:
                     lex_first[0] += D2[L][p]
                     lex_first[1] += D2[L][p ^ 1]
 
+        # x0=x1=t, x5=x8=u and x6<=x9.
         lex_second = [0, 0]
         for u in range(R + 1):
             for x9 in range(R - u + 1):
@@ -135,6 +137,8 @@ def block_survivor_count(g: int, d: int) -> int:
     R = 3*d*d + 48*d + 96 - 96*g
     req(R >= 0 and R % 4 == 0, f"R divisibility {(g,d)}")
     r = math.isqrt(R // 4)
+    # q,t>=0 imply x4 <= floor((d/2+r)/2); fixed audited parity keeps
+    # at most floor(U/2)+1 values.
     U = (d // 2 + r) // 2
     return U // 2 + 1
 
@@ -155,8 +159,7 @@ def build_bins(caps: dict[int, int]):
                 B = 19*d - 5*e + 1
                 req(B > 0, f"normal block {(g,d,e)}")
                 capacity = caps[h] * B
-                ratio = Fraction(c, B)
-                bins.append((ratio, capacity, g, d, e, c, B))
+                bins.append((Fraction(c, B), capacity, g, d, e, c, B))
     req(len(bins) == 17127, "coarse (g,d,e) bin coverage")
     return bins
 
@@ -207,20 +210,32 @@ def main() -> None:
     req(git_blob(compressed) == LOCKS["compressed_family_blob"], "compressed family blob")
     wt = hp_worker.read_text()
     ct = compressed.read_text()
+
+    # Domain and h-cap identities are carried by the exact audited HPADJ08 worker.
     for snippet in (
         "for g,dmax in ((0,176),(1,192))",
         "h=d//2; legacy=8 if g==0 else 4; K=ceil_div(d-16*g+16,4)",
         "lower=max(legacy,K,d-4*g+4,M,M+max(0,qneed))",
         "upper=min((19*d)//5,3*d,3*d-(b-c))",
         "if g==1 and d==8: excluded.add(8)",
+        "x5=m-x9; B[m]",
+        "x6=m-x8-x10",
+        "g2=b-x1",
+        "g3=c-x0",
+        "b=t+x5+x9",
+        "c=t+x8+m",
+        "b=t+u+x9",
+        "for x6 in range(min(x9,HMAX-t-u)+1):",
+        "c=t+u+x6+x10",
     ):
-        req(snippet in wt, "HPADJ08 domain source drift: " + snippet)
+        req(snippet in wt, "HPADJ08 worker source drift: " + snippet)
+
+    # Canonical order/parity semantics are separately source-locked in the
+    # compressed-family implementation.
     for snippet in (
         "x0 <= x1",
         "(x5,x6) <=lex (x8,x9)",
         "x1 + x8 + x9 + x10 == 0 (mod 2)",
-        "x1 + x5 + x9",
-        "x0 + x8 + x6 + x10",
     ):
         req(snippet in ct, "compressed canonical source drift: " + snippet)
 
@@ -240,11 +255,7 @@ def main() -> None:
     req(n_gt == 2566 and n_eq == 17, "threshold bin counts")
     req(cap_gt < ENVELOPE <= cap_ge, "threshold brackets envelope")
 
-    correction = sum(
-        (ratio - LAMBDA) * cap
-        for ratio, cap, *_ in bins
-        if ratio > LAMBDA
-    )
+    correction = sum((ratio - LAMBDA) * cap for ratio, cap, *_ in bins if ratio > LAMBDA)
     dual = LAMBDA * ENVELOPE + correction
     req(dual == EXPECTED_DUAL, "exact LP dual value")
     upper = dual.numerator // dual.denominator
@@ -255,16 +266,27 @@ def main() -> None:
     cert = candidate["capacity_lp_certificate"]
     req(cb["candidate_upper_bound"] == EXPECTED_CANDIDATE, "candidate JSON bound")
     req(cb["candidate_tightening_vs_v34"] == EXPECTED_TIGHTENING, "candidate JSON tightening")
+    req(cb["dual_threshold"] == "1/15", "candidate threshold")
     req(cert["capacity_strictly_above_threshold"] == EXPECTED_CAP_GT, "candidate cap gt")
     req(cert["capacity_at_or_above_threshold"] == EXPECTED_CAP_GE, "candidate cap ge")
-    req(cert["exact_dual_value_numerator"] == EXPECTED_DUAL.numerator and cert["exact_dual_value_denominator"] == EXPECTED_DUAL.denominator, "candidate dual")
-    pg = candidate["promotion_gate"]
-    req(pg["hostile_audit_required"] is True and pg["main_authority_mutated"] is False and pg["main_credit_granted"] is False, "promotion firewall")
-    req(pg["additive_subtraction_authorized"] is False and pg["exact_incremental_rejected_identity_set_claimed"] is False, "no additive credit")
-    req(candidate["firewalls"]["full178_complete"] is False and candidate["firewalls"]["merge_authorized"] is False, "closure firewall")
+    req(cert["strictly_above_threshold_bin_count"] == n_gt, "candidate n_gt")
+    req(cert["equal_threshold_bin_count"] == n_eq, "candidate n_eq")
+    req(cert["exact_dual_value_numerator"] == EXPECTED_DUAL.numerator, "candidate dual numerator")
+    req(cert["exact_dual_value_denominator"] == EXPECTED_DUAL.denominator, "candidate dual denominator")
 
-    print("PASS: exact nonheavy canonical-capacity LP certificate")
-    print(f"PASS: envelope={ENVELOPE} lambda=1/15 cap_gt={cap_gt} cap_ge={cap_ge}")
+    pg = candidate["promotion_gate"]
+    req(pg["hostile_audit_required"] is True, "hostile audit gate")
+    req(pg["main_authority_mutated"] is False and pg["main_credit_granted"] is False, "authority firewall")
+    req(pg["exact_incremental_rejected_identity_set_claimed"] is False, "identity firewall")
+    req(pg["additive_subtraction_authorized"] is False and pg["heavy_compute_required"] is False, "composition/heavy firewall")
+    own = candidate["ownership"]
+    req(own["source_lane_state_mutated"] is False and own["source_lane_credit_inherited"] is False, "ownership firewall")
+    fw = candidate["firewalls"]
+    req(fw["full178_complete"] is False and fw["merge_authorized"] is False, "closure firewall")
+    req(fw["effectivity_credit"] is False and fw["theorem_credit"] is False and fw["endpoint_credit"] is False, "downstream firewall")
+
+    print("PASS: independent MAIN canonical-capacity LP bound")
+    print(f"PASS: cap_gt={cap_gt} cap_ge={cap_ge} lambda=1/15")
     print(f"PASS: candidate={upper} tightening_vs_V34={EXPECTED_TIGHTENING}")
     print("PASS: V34 authority unchanged; hostile audit required before promotion")
 
