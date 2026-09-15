@@ -22,12 +22,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # Preserve the historical merge-ref behavior elsewhere, but hostile
-          # audit of #1814 requires replay of the literal PR head.
+          # audit of the HPADJ successor branch requires literal PR-head replay.
           ref: ${{ github.head_ref == 'stage32ex5-hpadj09-successor-20260915' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Install HPADJ09 exact diagnostic dependency
+      - name: Install HPADJ exact diagnostic dependency
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
       - name: Replay HPADJ09 retained mod-8 quotient at exact head
@@ -46,6 +46,20 @@ jobs:
           assert data['aggregate']['kernel_rejected_terminals'] == 17120
           assert data['aggregate']['kernel_accepted_terminals'] == 17120
           print('HPADJ09_PANEL_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          PY
+      - name: Derive HPADJ10 exact symbolic terminal kernel
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-10_ex5/derive_terminal_kernel.py | tee /tmp/hpadj10-kernel.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj10-kernel.json').read_text())
+          assert data['status'] == 'EXACT_INDEX2_TERMINAL_KERNEL_REDUCED_TO_PARITY'
+          assert data['kernel']['reduced_modulus'] == 2
+          assert data['kernel']['normal_coordinate_index'] == 4
+          print('HPADJ10_KERNEL_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ10_PARITY=' + data['kernel']['accepted_terminal_condition'])
           PY
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
