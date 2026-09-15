@@ -4,7 +4,7 @@
   "node_id": "N404",
   "status": "AUDIT_BOUNDARY_FROZEN",
   "current_frontier": "N404_INTRINSIC_RESIDUE_DECISION_TREE_COMPRESSION_CANDIDATE",
-  "route_status": "MATERIAL_BOUNDED_DECISION_TREE_COMPRESSION_RETAINED_PENDING_HOSTILE_AUDIT",
+  "route_status": "MATERIAL_BOUNDED_DECISION_TREE_COMPRESSION_REPAIRED_PENDING_HOSTILE_REAUDIT",
   "result_summary": {
     "source_block_count": 97,
     "source_terminal_count": 10961,
@@ -19,13 +19,15 @@
     "main_authority_subtraction_performed": false
   },
   "audit_gate": {
-    "next_gate": "HOSTILE_AUDIT_N404_INTRINSIC_RESIDUE_DECISION_TREE_COMPRESSION",
+    "next_gate": "HOSTILE_REAUDIT_N404_INTRINSIC_RESIDUE_DECISION_TREE_COMPRESSION",
     "audit_focus": [
-      "source-lock integrity for the N403 hostile-audit receipt, N404 probe, and N404 RESULT",
+      "source-lock integrity for the N403 hostile-audit receipt, repaired N404 probe, and N404 RESULT",
       "exact reconstruction of the retained 97-block / 5459-survivor bounded population",
       "verify the frozen decision tree classifies all 97 blocks with zero parity conflicts",
       "verify exactly 13 leaves and maximum depth 10 with the retained leaf population multiset",
       "verify classification stream SHA256 d79f09a4d30e2193166a4ef5f93b5c12a1d453a6fad20ec3cb5c14e718516245",
+      "exactly replay the retained linear modular hash diagnostic: 184464 tested primitive/sign-canonical models and 0 deterministic",
+      "exactly replay the retained N403 block-modulus extension diagnostic: 21504 tested models, 15374 deterministic, best 73 classes at modulus 84 with (a,b,b-c) moduli (2,2,3)",
       "verify N403 baseline is 56 Cartesian quotient classes and N404 makes no optimality/minimality claim",
       "scope firewall: no transport beyond retained 97 blocks and no N399 terminal-rank re-enumeration",
       "ownership firewall: N400 MAIN handoff is not reopened and no MAIN subtraction occurs",
@@ -37,7 +39,10 @@
     "boundary_reason": "A materially distinct decision-tree representation compresses the same exact bounded parity partition from N403's 56 Cartesian quotient cells to 13 pure leaves without claiming minimality or transport.",
     "bounded_no_go_linear_hash_models": 184464,
     "bounded_no_go_linear_hash_deterministic_models": 0,
+    "n403_extended_block_modulus_tested_models": 21504,
+    "n403_extended_block_modulus_deterministic_models": 15374,
     "n403_extended_block_modulus_best_class_count": 73,
+    "n403_extended_block_modulus_best_block_modulus": 84,
     "n400_main_handoff_reopen": false,
     "n399_terminal_reenumeration_reopen": false,
     "n405_before_audit": false
@@ -45,13 +50,15 @@
   "source_result": {
     "result_blob": "9727400d59e003fffc6887c7c7dff6039d160aeb",
     "result_canonical_sha256": "0058981a8b0112f2de67daacecb5f96db854afec87b1a59fc46819ede715844c",
-    "probe_blob": "ba401fd8bdf9fd943ecd77fc6d1ff08b56ede09f",
-    "probe_payload_canonical_sha256": "c6d4bcd43efc95b312b0bdf22a5d2c6743096440ee3bce98addcebb06d6de466",
+    "probe_blob": "592dcdf696957f1bfa0a95dec8ee4bd096c020ac",
+    "probe_payload_canonical_sha256": "cdd0766e4ca6fa7a7f9edfd0ed9f7b0816d46e0fd47c00a53777cac5db969f20",
     "n403_audit_receipt_blob": "4630412fe09382de5368661cf9649f81ff60c9e1",
     "n403_audit_receipt_canonical": "dddb1125cab8b566c6d7771d03161d601c080e9c87d2a539b6ae5505e050f197"
   },
   "process_freshness": {
     "current_repository_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "prior_hostile_audit_review_id": 5204625038,
+    "prior_hostile_audit_status": "FAIL_EVIDENCE_CLOSURE_ONLY",
     "merge_ready_freshness": "NOT_GRANTED_BY_N404"
   },
   "firewalls": {
@@ -73,5 +80,5 @@
     "heavy_compute_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "d79840df05c86bac1c3c12bf53598acd7a0e16a22066ccfb0108707c8f75f688"
+  "canonical_sha256_without_this_field": "55e5ace0d5d54499cf166e6507e4682bef100ab2c690cd40b867db8f5bf42de0"
 }
