@@ -64,7 +64,7 @@ def main() -> None:
 
     r40 = json.loads(BC240.read_text())
     req(r40["audit"]["exact_head"] == "b3b16f3db20074e3dbdb1851ad123d5c2004b843", "BC2-40 audit head")
-    req(r40["audit"]["review_id"] == 5204245683 and r40["audit"]["hostile_audit_status"] if "hostile_audit_status" in r40["audit"] else True, "BC2-40 audit review")
+    req(r40["audit"]["review_id"] == 5204245683, "BC2-40 audit review")
     co = r40["consumption"]
     req(co["ex5_audited_known_parent_unsat_lower_bound_after"] == 7336, "audited 7336")
     req(co["remaining_unknown_count"] == 0 and co["sat_count"] == 0, "no unknown/sat")
