@@ -11,8 +11,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
-HPADJ07 = ROOT / "management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py"
+REPO = HERE.parents[3]
+HPADJ07 = REPO / "stages/stage32/management/hpadj-07/proof-chain/verify_general_type_adjunction_correction.py"
 N358_REL = Path("stages/stage32/32-01-178/nodes/N358/verify_n358_exact_incremental_census.py")
 N358_AUDITED_HEAD = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
 N358_BLOB = "c07a7e358a6253919194189377d6ed56f95e047a"
