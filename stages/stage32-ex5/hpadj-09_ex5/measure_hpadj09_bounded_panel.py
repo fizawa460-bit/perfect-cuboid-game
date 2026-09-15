@@ -2,9 +2,7 @@
 from __future__ import annotations
 
 import hashlib
-import itertools
 import json
-import math
 import sys
 from pathlib import Path
 
@@ -98,7 +96,6 @@ def verify_source_locks() -> tuple[dict, dict, dict, dict]:
     result = load_locked_json(RESULT, LOCKS["result_blob"], LOCKS["result_canonical"], "retained quotient result")
     interface = load_locked_json(INTERFACE, LOCKS["interface_blob"], LOCKS["interface_canonical"], "HPADJ interface")
     manifest = load_locked_json(MANIFEST, LOCKS["manifest_blob"], LOCKS["manifest_canonical"], "FULL178 manifest")
-
     for path, expected, label in [
         (FAMILY, LOCKS["family_blob"], "compressed terminal family"),
         (INDEXER, LOCKS["indexer_blob"], "compressed terminal indexer"),
@@ -107,7 +104,6 @@ def verify_source_locks() -> tuple[dict, dict, dict, dict]:
     ]:
         req(path.is_file(), f"missing {label}")
         req(git_blob(path) == expected, f"{label} blob drift")
-
     req(preflight.get("route_id") == "HPADJ-09_ex5", "preflight route drift")
     req(result.get("status") == "RETAINED_EXACT_STRICT_NONTRIVIAL_OBSTRUCTION_AUDIT_REQUIRED", "quotient result status drift")
     req(result.get("lattice", {}).get("fixed_image_size") == 2, "retained quotient image-size drift")
@@ -126,8 +122,7 @@ def ceil_div(a: int, b: int) -> int:
 
 
 def component_a(d: int, a: int) -> int:
-    h = d // 2
-    return min(13, d - a, d - 2 * a + 4, h + 5)
+    return min(13, d - a, d - 2 * a + 4, d // 2 + 5)
 
 
 def component3(d: int, b: int, c: int) -> int:
@@ -179,16 +174,16 @@ def manifest_rows(manifest: dict) -> set[str]:
 def anchor_starts(exceptional_count: int) -> list[int]:
     E = int(exceptional_count)
     req(E > MAX_SCAN_PER_ANCHOR, "panel source exceptional population unexpectedly small")
-    raw = [0, E // 4, E // 2, (3 * E) // 4, max(0, E - MAX_SCAN_PER_ANCHOR)]
+    raw = [0, E // 4, E // 2, (3 * E) // 4, E - MAX_SCAN_PER_ANCHOR]
     req(len(set(raw)) == ANCHOR_COUNT, "panel anchor collision")
     return raw
 
 
 def main() -> None:
-    _, retained_result, interface, manifest = verify_source_locks()
+    _, retained_result, _, manifest = verify_source_locks()
 
-    # Import repository executable dependencies only after every load-bearing
-    # source blob above has been checked. This is intentionally lock-before-exec.
+    # Lock-before-exec: load repository executable dependencies only after all
+    # load-bearing source blobs/canonicals above have passed.
     sys.path.insert(0, str(RESIDUAL))
     sys.path.insert(0, str(BUNDLE_DIR))
     from compressed_terminal_family import terminal_predicate
@@ -214,17 +209,14 @@ def main() -> None:
     oracle = PrefixMembershipOracle(transform, fixed_positions)
     check = oracle.checks[-1]
     req(check.depth == 11, "kernel depth drift")
-    req(check.modulus == 2, f"expected index-2 terminal kernel modulus, got {check.modulus}")
+    req(check.modulus == 8, f"expected exact terminal-kernel modulus 8, got {check.modulus}")
     req(check.hnf_sha256 == LOCKS["free_hnf_sha256"], "free HNF identity drift")
+    req(retained_result["lattice"]["free_hnf_sha256"] == check.hnf_sha256, "retained-result/free-HNF mismatch")
     coeff_rows = sorted(set(tuple(int(v) % check.modulus for v in row) for row in check.coefficients))
     req(coeff_rows, "terminal kernel has no active congruence rows")
-
-    parity_accept = 0
-    for bits in itertools.product(range(check.modulus), repeat=11):
-        parity_accept += int(check.feasible(bits))
-    req(parity_accept == 1024, f"unexpected accepted mod-2 classes: {parity_accept}")
-    reconstructed_mod8_accept = parity_accept * (8 // check.modulus) ** 11
-    req(reconstructed_mod8_accept == retained_result["residue_cube"]["accepted_classes"], "kernel does not reconstruct retained mod-8 accepted count")
+    coeff_rows_sha256 = hashlib.sha256(
+        json.dumps([list(row) for row in coeff_rows], sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
     rows = manifest_rows(manifest)
     per_stratum = []
@@ -250,8 +242,7 @@ def main() -> None:
         for anchor_index, start in enumerate(starts):
             found: list[int] = []
             scanned = 0
-            stop = min(E, start + MAX_SCAN_PER_ANCHOR)
-            for exceptional_rank in range(start, stop):
+            for exceptional_rank in range(start, min(E, start + MAX_SCAN_PER_ANCHOR)):
                 scanned += 1
                 if exceptional_rank in selected_set:
                     continue
@@ -278,8 +269,8 @@ def main() -> None:
 
         accepted = 0
         rejected = 0
-        parity_hist: dict[str, list[int]] = {}
-        for anchor_index, exceptional_rank in selected:
+        residue_hist: dict[str, list[int]] = {}
+        for _anchor_index, exceptional_rank in selected:
             for x4 in range(block):
                 rank = exceptional_rank * block + x4
                 values = idx.unrank(rank)
@@ -290,8 +281,8 @@ def main() -> None:
                 accepted += int(feasible)
                 rejected += int(not feasible)
                 rank_stream.update(f"{row_id}|{e}|{rank}|{int(feasible)}\n".encode())
-                residue = "".join(str(int(v) & 1) for v in values)
-                slot = parity_hist.setdefault(residue, [0, 0])
+                residue = ",".join(str(int(v) % 8) for v in values)
+                slot = residue_hist.setdefault(residue, [0, 0])
                 slot[0] += 1
                 slot[1] += int(feasible)
                 residue_stream.update(f"{row_id}|{e}|{residue}|{int(feasible)}\n".encode())
@@ -319,7 +310,7 @@ def main() -> None:
             "kernel_rejected_terminals": rejected,
             "bounded_rejected_fraction_num": rejected,
             "bounded_rejected_fraction_den": tested,
-            "observed_parity_signature_count": len(parity_hist),
+            "observed_mod8_signature_count": len(residue_hist),
         })
 
     req(aggregate_rejected > 0, "bounded panel produced no actual HPADJ rejection")
@@ -342,12 +333,12 @@ def main() -> None:
             "assigned_selected_positions_0based": fixed_positions,
             "modulus": check.modulus,
             "active_congruence_row_count": len(check.coefficients),
-            "unique_congruence_rows": [list(row) for row in coeff_rows],
+            "unique_congruence_row_count": len(coeff_rows),
+            "unique_congruence_rows_sha256": coeff_rows_sha256,
             "free_hnf_sha256": check.hnf_sha256,
-            "accepted_mod2_classes": parity_accept,
-            "total_mod2_classes": 2 ** 11,
-            "reconstructed_accepted_mod8_classes": reconstructed_mod8_accept,
-            "matches_retained_mod8_quotient": True,
+            "retained_fixed_image_size": retained_result["lattice"]["fixed_image_size"],
+            "retained_accepted_mod8_classes": retained_result["residue_cube"]["accepted_classes"],
+            "exact_oracle_matches_retained_free_hnf": True,
         },
         "panel_contract": {
             "kind": "DETERMINISTIC_LOW_DEGREE_EXACT_RANK_UNRANK_PANEL",
@@ -369,7 +360,7 @@ def main() -> None:
             "bounded_rejected_fraction_num": aggregate_rejected,
             "bounded_rejected_fraction_den": aggregate_tested,
             "rank_outcome_stream_sha256": rank_stream.hexdigest(),
-            "parity_outcome_stream_sha256": residue_stream.hexdigest(),
+            "mod8_outcome_stream_sha256": residue_stream.hexdigest(),
         },
         "semantics": {
             "claim": "At least one actual retained-HPADJ terminal in this explicitly bounded low-degree panel fails the exact retained mod-8 Picard64 completion necessary condition.",
