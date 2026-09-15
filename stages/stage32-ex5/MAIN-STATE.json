@@ -21,7 +21,7 @@
     "claim_registry_mutated": false,
     "existing_active_goal": "S32.FULL178.NUMERICAL_CENSUS.V1",
     "lane_role": "ATTACKS",
-    "last_trigger": "BC2_40_GENERATION4_REARM_AUDIT_PASS_CONSUMED",
+    "last_trigger": "BC2_40_GENERATION4_HOSTILE_AUDIT_PASS_CONSUMED",
     "main_promotion": false
   },
   "credit": {
@@ -30,7 +30,7 @@
     "effectivity_credit": false,
     "endpoint_credit": false,
     "final_milestone_credit": false,
-    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_39_AUDITED_BC2_40_RESUME_AUTHORIZED_NO_MAIN_CREDIT",
+    "level": "LOCAL_EXACT_FULL178_INTERFACE_OBSTRUCTION_PROGRESS_BC2_40_AUDITED_FIRST_E8_BLOCK_CLOSED_NO_MAIN_CREDIT",
     "n350_production_coverage_credit": false,
     "perfect_cuboid_credit": false,
     "receiver_credit": false,
@@ -40,7 +40,7 @@
   "cross_lane_routing": {
     "live_registry_blob_sha": "e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd",
     "live_registry_canonical": "a5a85f824ba8fe466dbd13a7118bc0e95220cd5925d2af273653d86746a71228",
-    "local_bc2_40_execution_may_continue": true,
+    "local_bc2_40_execution_may_continue": false,
     "open_ex5_producer_demand_count": 0,
     "satisfied_producer_demands": [
       "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1",
@@ -49,15 +49,15 @@
     "terminal_to_picard64_handoff_reopened": false
   },
   "current": {
-    "blocker": "BC2_40_RESUME_HEAVY_PENDING",
+    "blocker": "MAIN_ADAPTER_OR_MAIN_ACCEPTANCE_REQUIRED_FOR_SUBTRACTION",
     "breadth_cycle": "EX5_BREADTH_CYCLE_2",
-    "leaf": "BC2_40_REFINE_REMAINING_FRESH_UNKNOWN_SET",
-    "next_route": "BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS",
-    "objective": "Execute fresh generation 4 over the exact 23 hostile-audited BC2-39 UNKNOWN parents after operational hostile-audit PASS cleared the repaired event-range authorization prerequisite; carry no generation-3 outputs.",
+    "leaf": "BC2_40_GENERATION4_COMPLETE_AUDITED",
+    "next_route": "EX5_TO_MAIN_ADAPTER_OR_NEXT_INDEPENDENT_EX5_ROUTE",
+    "objective": "Consume the hostile-audit PASS for BC2-40 generation 4 into EX5 authority only; preserve all MAIN/FULL178/theorem/effectivity/endpoint firewalls.",
     "route_family": "FULL178_PICARD64_NODE_SUPPORT_OBSTRUCTION_INTERFACE",
     "route_id": "EX5R-FULL178-PICARD64-NODE-INTERFACE-001",
-    "status": "BC2_40_GENERATION4_REARMED_EXECUTION_AUTHORIZED",
-    "stop_semantics": "BOUNDED_BC2_40_RESUME_EXECUTION_ONLY_NO_MAIN_PROMOTION_NO_MERGE",
+    "status": "BC2_40_GENERATION4_HOSTILE_AUDIT_PASS_CONSUMED",
+    "stop_semantics": "EX5_AUDITED_7336_NO_MAIN_PROMOTION_NO_NEW_HEAVY_NO_MERGE",
     "policy_quarantine_active": true,
     "policy_quarantine_reason": "GENERATION3_HEAVY_AUTHORIZATION_USED_HEAD_CARET_INSTEAD_OF_GITHUB_EVENT_BEFORE"
   },
@@ -69,6 +69,8 @@
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation2-no-heavy-retry-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation3-policy-quarantine-receipt.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation4-rearm-audit-consumption.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-40-generation4-complete-candidate.json",
+    "stages/stage32-ex5/breadth-cycle-2/bc2-40-hostile-audit-pass-consumption.json",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_replay_parent_unit.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_aggregate.py",
     "stages/stage32-ex5/breadth-cycle-2/bc2_40_resume_execute.py",
@@ -83,9 +85,9 @@
     "heavy_scaleout_authorized": false,
     "main_command": "stage32ex5-mainbatch",
     "per_parent_timeout_ms": 180000,
-    "runkey_armed": true,
+    "runkey_armed": false,
     "workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
-    "new_generation_rearm_authorized": true,
+    "new_generation_rearm_authorized": false,
     "generation4_rearm_requires_hostile_audit": false
   },
   "firewalls": {
@@ -117,18 +119,24 @@
     "e8_bc2_39_remaining_unknown_count": 23,
     "e8_bc2_39_remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
     "e8_bc2_39_sat_count": 0,
-    "e8_bc2_40_execution_authorized": true,
-    "e8_bc2_40_executed": false,
+    "e8_bc2_40_execution_authorized": false,
+    "e8_bc2_40_executed": true,
     "e8_bc2_40_preflight_ready": true,
     "e8_bc2_40_target_unknown_count": 23,
     "e8_bc2_40_target_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
-    "e8_known_parent_unsat_count_lower_bound": 7313,
-    "e8_whole_first_block_unsat": false,
+    "e8_bc2_40_audited": true,
+    "e8_bc2_40_hostile_audit_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+    "e8_bc2_40_hostile_audit_review_id": 5204245683,
+    "e8_bc2_40_new_parent_unsat_count": 23,
+    "e8_bc2_40_remaining_unknown_count": 0,
+    "e8_bc2_40_sat_count": 0,
+    "e8_known_parent_unsat_count_lower_bound": 7336,
+    "e8_whole_first_block_unsat": true,
     "population_wide_main_consumable_result_complete": false,
     "qualified_independent_stage32_route_established": false,
     "whole_g1_d008_e4_stratum_closed": false,
     "e8_bc2_40_generation3_policy_credit_eligible": false,
-    "e8_bc2_40_generation4_rearm_authorized": true
+    "e8_bc2_40_generation4_rearm_authorized": false
   },
   "historical_credit_firewall": {
     "O210_recomputed_or_reopened": false,
@@ -138,11 +146,11 @@
     "historical_q602_residue_triple_promoted_as_current_survivors": false
   },
   "intermediate_audit_boundary": {
-    "bc2_40_execution_authorized": true,
+    "bc2_40_execution_authorized": false,
     "candidate_pr": 1776,
     "freeze_active": false,
-    "last_hostile_audit_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
-    "last_hostile_audit_review_id": 5193423203,
+    "last_hostile_audit_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+    "last_hostile_audit_review_id": 5204245683,
     "last_hostile_audit_status": "PASS",
     "merged": false,
     "new_audit_boundary_exists": false,
@@ -150,14 +158,14 @@
     "repository_policy": "docs/research-os/policies/hostile-audit-and-freshness.md"
   },
   "next_step": {
-    "bc2_40_runkey_armed": true,
-    "goal": "Execute fresh generation 4 over exactly all 23 parent-index units; generation-3 outputs remain quarantined noncredit and are not carried. On interruption retain only generation-4 complete certificates and issue the next monotone generation for the remaining parents.",
+    "bc2_40_runkey_armed": false,
+    "goal": "Keep EX5 audited authority at 7336 and prepare only a separately audited adapter/acceptance path before any Stage32 MAIN subtraction; do not start a new heavy generation from this consumed boundary.",
     "heavy_scaleout_authorized": false,
-    "id": "BC2_40_RESUME_EXECUTION",
+    "id": "BC2_40_AUDIT_PASS_CONSUMED",
     "main_promotion_authorized": false,
     "merge_authorized": false,
     "n350_registration_authorized": false,
-    "generation4_rearm_authorized": true,
+    "generation4_rearm_authorized": false,
     "hostile_audit_required_before_generation4": false
   },
   "prior_audited_authority": {
@@ -188,6 +196,12 @@
     "bc2_39_pr_1776": {
       "audit_checkpoint_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
       "hostile_audit_review_id": 5193423203,
+      "hostile_audit_status": "PASS",
+      "stage32_main_credit": false
+    },
+    "bc2_40_pr_1776": {
+      "audit_checkpoint_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+      "hostile_audit_review_id": 5204245683,
       "hostile_audit_status": "PASS",
       "stage32_main_credit": false
     }
@@ -221,9 +235,15 @@
     "bc2_40_generation4_rearm_audit_receipt_canonical": "8ccd42cf0b8fb43eae3f90b51f98fa1f809883679c6a39bac59b5b058f94187f",
     "bc2_40_generation4_rearm_audit_receipt_git_blob_sha": "07866a4ab965c432d94efd71d88bf98c65452ee4",
     "bc2_40_generation4_runkey_canonical": "acf01030540d310637c8a30395c3aec320eadfd95f0df015954df50fc8461daf",
-    "bc2_40_generation4_runkey_git_blob_sha": "6e26b2f1b1b39935d2f1735576124fe2786bd1fb"
+    "bc2_40_generation4_runkey_git_blob_sha": "6e26b2f1b1b39935d2f1735576124fe2786bd1fb",
+    "bc2_40_generation4_complete_candidate_canonical": "e60f3b862a031d402031d3e293208066189c06e5e77f8ed9198cadd692e50599",
+    "bc2_40_generation4_complete_candidate_git_blob_sha": "e7862c66ffa6f55c5bf51e7cd76c2e6671bcbeb0",
+    "bc2_40_hostile_audit_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+    "bc2_40_hostile_audit_review_id": 5204245683,
+    "bc2_40_known_parent_unsat_count_lower_bound": 7336,
+    "bc2_40_remaining_unknown_count": 0
   },
-  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION",
+  "schema": "STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED",
   "stage": "32EX5",
   "stage32_main_authority": {
     "authoritative_remaining_strata": 17128,
@@ -233,16 +253,16 @@
     "full178_numerical_census_complete": false,
     "hpadj07_main_pruning_credit": true,
     "live_coordination_head": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
-    "mainbatch_stop_gate": "NONE",
+    "mainbatch_stop_gate": "EX5_TO_MAIN_ADAPTER_OR_MAIN_ACCEPTANCE_REQUIRED",
     "remaining_terminal_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "reviewed_v24_exact_head": "3c5915dee248660a2821f2ebe9c24e20b0ad1647",
     "reviewed_v24_hostile_audit_review_id": 5191916561,
     "source": "LIVE-MAIN-COORDINATION-SYNC-20260915.json"
   },
-  "status": "BC2_40_GENERATION4_REARMED_EXECUTION_AUTHORIZED",
+  "status": "BC2_40_GENERATION4_HOSTILE_AUDIT_PASS_CONSUMED",
   "workflow_policy_quarantine": {
     "active": true,
-    "blocks_new_bc2_40_generation": false,
+    "blocks_new_bc2_40_generation": true,
     "generation3_credit_eligible": false,
     "generation3_carry_into_credited_generation_authorized": false,
     "generation3_exact_head": "7f82c49a07bb82d59603b47b436ff8e84a884fd5",
@@ -252,8 +272,8 @@
     "repaired_authorization_commit_range": "github.event.before..github.event.pull_request.head.sha",
     "hostile_audit_required_before_generation4": false,
     "audit_command": "stage32ex5-audit",
-    "mathematical_authority_changed": false,
-    "generation4_rearm_authorized": true,
+    "mathematical_authority_changed": true,
+    "generation4_rearm_authorized": false,
     "operational_hostile_audit_status": "PASS",
     "operational_hostile_audit_exact_head": "dd0a7339e6d40a8208b03e1263da192d139b00d7",
     "operational_hostile_audit_review_id": 5203808297,
