@@ -1,0 +1,145 @@
+{
+  "schema": "STAGE32_BRIDGE_BR101_SOURCE_TARGET_SEMANTIC_FREEZE_V1",
+  "status": "EXACT_FREEZE_BLOCKED_ON_TARGET_WIDE_PICARD64_INTERFACE_NO_CREDIT",
+  "node_id": "BR101",
+  "active_leaf": "BR101_MB104_TO_FULL178_GENERALIZATION_FEASIBILITY",
+  "repository_main_at_freeze": "c6284abbb29930255892d56f800da0ea1e34734b",
+  "source": {
+    "lane": "MB",
+    "pr": 1791,
+    "exact_head": "5263eedb652fc290440f4c69b4704da959694aec",
+    "pr_state": "DRAFT_OPEN_UNMERGED",
+    "last_full_hostile_audit_checkpoint": {
+      "exact_head": "160516b1c315c25c777797b88d53b356fb05e05a",
+      "status": "PASS"
+    },
+    "post_checkpoint_commit_count_to_frozen_source_head": 42,
+    "frozen_candidates": [
+      {
+        "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
+        "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-G-FOURIER-CHARACTER-CERTIFICATE.json",
+        "certificate_blob_sha1": "628ddcff0bf1754b8b49733d3d6c0b07a6edd99c",
+        "source_status": "RETAINED_EXACT_RESEARCH_SEED_ADDED_AFTER_LAST_FULL_HOSTILE_AUDIT_CHECKPOINT",
+        "hostile_audit_status_for_this_candidate": "NOT_ESTABLISHED_AT_FROZEN_SOURCE_HEAD",
+        "scope": {
+          "support_mask": "000707000f0f",
+          "case": "e=2",
+          "genus": 1,
+          "span": 5,
+          "balanced16": true,
+          "residual_group": "Grel=<beta1,beta2,beta3>~=(Z/2)^3",
+          "support_subgroup": "Hrel=<beta1,beta2>"
+        },
+        "retained_implication": {
+          "F_res": "8*l*K_res",
+          "K_res": "-E24+E25-E26+E27-E32+E33-E34+E35",
+          "K_res_square": -16,
+          "D_dot_K_res": "-16*l"
+        },
+        "explicit_nonclaims": [
+          "conductor transition computed",
+          "weighted cut bound proved",
+          "general FULL178 definition"
+        ]
+      },
+      {
+        "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
+        "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY-CERTIFICATE.json",
+        "certificate_blob_sha1": "0cec993c9d22e31fcf982985b37f0ae82c8cbce7",
+        "source_status": "RETAINED_EXACT_RESEARCH_SEED_ADDED_AFTER_LAST_FULL_HOSTILE_AUDIT_CHECKPOINT",
+        "hostile_audit_status_for_this_candidate": "NOT_ESTABLISHED_AT_FROZEN_SOURCE_HEAD",
+        "scope": {
+          "support_mask": "000707000f0f",
+          "case": "e=2",
+          "supported_node_count": 14,
+          "centered_allocation_variables": "d_j=2*x_j-8*l"
+        },
+        "retained_implication": {
+          "centered_y_formula": "168*l^2+(1/4)*sum_j d_j^2",
+          "weighted_cut_formula": "84*l^2+(1/8)*sum_j d_j^2",
+          "same_sheet_nonnegative_energy_bound": "sum_j d_j^2<=672*l^2+448*l"
+        },
+        "explicit_nonclaims": [
+          "individual conductor-pair map",
+          "branch-allocation geometry",
+          "general FULL178 energy identity"
+        ]
+      }
+    ]
+  },
+  "target": {
+    "authority_path": "stages/stage32/MAIN-STATE.json",
+    "authority_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals_upper_bound": 26876434389242951089388,
+    "remaining_terminal_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_complete": false,
+    "picard64_interface": {
+      "path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+      "blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+      "canonical_sha256": "cc6010f71e46cb21e7bf2fcf12dfe961cb09570454e43dddc0e9cf7fa04542e6",
+      "schema": "STAGE32EX5_HPADJ_FULL178_TERMINAL_TO_PICARD64_INTERFACE_V1",
+      "producer_lane": "EX5",
+      "covered_rows": 178,
+      "covered_population": "HPADJ01_CHARGED_POPULATION_ONLY",
+      "free_pairing_parameter_count": 53,
+      "integrality_congruence": "B_fixed*x11 + B_free*z53 == 0 (mod 8) coordinatewise",
+      "terminal_alone_asserts_completion_exists": false
+    }
+  },
+  "semantic_findings": {
+    "source_character_is_intrinsic_to_general_picard64_already": false,
+    "source_energy_is_intrinsic_to_general_picard64_already": false,
+    "reasons": [
+      "Both frozen source candidates are stated only for the genus-one span-five balanced16 000707 e=2 packet.",
+      "The residual character uses a source-specific quotient Grel/Hrel and named exceptional classes E24,E25,E26,E27,E32,E33,E34,E35; no source-locked adapter to the target retained Picard64 coordinate system is frozen here.",
+      "The energy identity uses fourteen source-specific supported-node allocation variables and source-specific A1/conductor geometry.",
+      "The current EX5 Picard64 interface is exact only on the HPADJ01 charged population, not on every current authoritative FULL178 survivor.",
+      "The target interface has 53 free completion coordinates and congruence conditions, so any target-visible bound would require minimization over the full allowed affine fiber after a valid semantic adapter exists."
+    ]
+  },
+  "blocker": {
+    "id": "BR101_MISSING_CURRENT_FULL178_WIDE_TERMINAL_TO_PICARD64_INTERFACE_AND_COORDINATE_SEMANTIC_ADAPTER",
+    "owner": "EX5_FOR_INTERFACE_PRODUCTION__BRIDGE_FOR_POST_INTERFACE_GENERALIZATION",
+    "description": "BRIDGE cannot enter BR102 as a population-wide claim because the available source-locked terminal-to-Picard64 interface certifies only the HPADJ01 charged population. It also cannot identify MB104 residual/support coordinates with general retained Picard64 coordinates without an explicit source-locked semantic adapter.",
+    "required_upstream_artifact": {
+      "population_scope": "every terminal in the current authoritative FULL178 target population for the claimed bridge scope",
+      "must_preserve": [
+        "row/stratum/terminal identity",
+        "exact rank/unrank or equivalent preimage semantics",
+        "all fixed terminal pairing coordinates",
+        "all hidden/free selected64 completion coordinates",
+        "integrality congruences",
+        "retained primitive Picard64 coordinate reconstruction",
+        "semantic dictionary sufficient to interpret the MB exceptional/support directions if such a dictionary exists"
+      ],
+      "must_not_assert": [
+        "effectivity",
+        "irreducibility",
+        "normalization genus",
+        "endpoint credit"
+      ]
+    }
+  },
+  "routing": {
+    "BR102_population_wide_entry_authorized": false,
+    "local_terminal_fallback_authorized": false,
+    "bounded_diagnostic_authorized": false,
+    "next_action": "STOP_ON_EXACT_UPSTREAM_BLOCKER_OR_ROUTE_A_PROPER_EX5_CROSS_LANE_DEMAND",
+    "candidate_status_change": "NONE__SOURCE_SEEDS_RETAINED_FOR_REENTRY"
+  },
+  "credit_firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
