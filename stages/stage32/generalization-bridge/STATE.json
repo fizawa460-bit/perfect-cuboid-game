@@ -2,12 +2,13 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR103",
-  "active_leaf": "BR103_C3_PICARD64_FIXED_PAIRING_EXTENDABILITY",
+  "current_node": "BR105",
+  "active_leaf": "BR105_C3_FULL178_POPULATION_ADAPTER",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR190-BREADTH-REDISCOVERY-C3-PREFLIGHT.json",
-    "status": "ACTIVE_EXACT_PREFLIGHT_NO_CREDIT",
-    "bridge_commit": "eb4eecef195d0fded97c45b829ba6f6e09335f5e",
+    "path": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
+    "status": "RETAINED_EXACT_BOUNDED_DIAGNOSTIC_NO_CREDIT",
+    "bridge_commit": "bd92580ac479b03008f41c3f63d6fb60dd400cda",
+    "c3_exact_result": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
     "prior_c1_result": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json"
   },
   "source_seed": {
@@ -39,6 +40,7 @@
     "known_interface": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
     "known_interface_scope_for_population_claims": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
     "known_affine_completion_model": "retained_picard64=(B_fixed*x11+B_free*z53)/8 with coordinatewise mod-8 integrality",
+    "retained_c3_condition": "x0+x4+x8+x10 == 0 (mod 2)",
     "ordinary_178_enumeration_owned_elsewhere": true
   },
   "candidate_ledger": [
@@ -54,16 +56,16 @@
     },
     {
       "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
-      "status": "ACTIVE_BR103_EXACT_EXTENDABILITY_TEST",
-      "description": "Breadth rediscovery after C1 no-go. Test whether the 11 terminal-fixed selected pairings have an intrinsic retained-Picard64 lattice congruence, independently of MB chi_res/conductor semantics, by exact PrefixMembershipOracle/HNF minimization over the remaining 53 pairing coordinates."
+      "status": "RETAINED_EXACT_ONE_BIT_PICARD64_CONGRUENCE_NO_CREDIT",
+      "description": "Exact HNF and independent Smith normal form show that the 11 terminal pairings satisfy exactly one intrinsic parity obstruction: x0+x4+x8+x10 == 0 (mod 2). BR104 proves a 49.963657%..50.036343% effect interval on the identical HPADJ01 charged population."
     }
   ],
   "next_obligation": {
-    "node_id": "BR103",
-    "title": "Decide exact C3 Picard64 fixed-pairing extendability",
-    "required_input": "Run the existing source-locked PrefixMembershipOracle in the exact terminal pairing order [95,99,103,102,49,97,94,101,93,98,96]. Inspect the depth-11 modulus, active congruence rows, quotient index, and independently cross-check the 11x64 forward projection with integer Smith normal form where useful.",
-    "success": "If the depth-11 projection has a nontrivial quotient, retain an intrinsic terminal-visible Picard64 congruence candidate and advance only within the certified interface scope before any bounded diagnostic or broader population claim.",
-    "no_go": "If modulus=1/no active congruence survives after minimizing over all 53 free pairing coordinates, retain exact C3 no-obstruction evidence and return to BR190. Do not fall back to terminal/block pruning."
+    "node_id": "BR105",
+    "title": "Decide C3 population-wide transport",
+    "required_input": "Source-lock the semantic relation between the general FULL178 compressed terminal tuple [95,99,103,102,49,97,94,101,93,98,96] and retained primitive Picard64 pairings independently of HPADJ01 membership. Decide whether every current-authority FULL178 candidate necessarily requires an integral Picard64 completion with those fixed pairings.",
+    "success": "Retain a source-locked FULL178/current-authority adapter candidate for the C3 parity. Do not subtract or claim MAIN credit; overlap/no-double-charge and current residual identity remain MAIN integration obligations.",
+    "no_go": "If the pairing-to-Picard64 necessity is only certified on HPADJ01 charged population, retain exact scope blocker and return to BR190. Do not reconstruct producer-owned mathematics or fall back to terminal/block pruning."
   },
   "routing": {
     "independent_specialist": true,
@@ -73,6 +75,8 @@
     "heavy_compute_armed": false,
     "BR102_population_wide_entry_authorized": true,
     "BR103_C3_exact_extendability_authorized": true,
+    "BR104_C3_bounded_diagnostic_complete": true,
+    "BR105_population_adapter_research_authorized": true,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
