@@ -1,18 +1,17 @@
 {
   "anti_duplication": {
     "hpadj09_and_td01_additively_stacked": false,
-    "hpadj09_mod8_route_duplicated": false,
     "main_authority_mutated": false,
     "n401_n405_closed_route_reopened": false
   },
-  "canonical_sha256_without_this_field": "14fe73361faaa8da88269e56c91e8abeccd637f293027edf93d66827a728cd5f",
+  "canonical_sha256_without_this_field": "8fd93bf7786cd5f5e9f79125a725530e1475a01df4db4d8889ae34da3757aaa2",
   "coarse_ratio_shortcut": {
-    "blocker": "current MAIN authority is a scalar certified upper bound; exact x4-complete envelope identity for scalar-minus-fudge is not source-locked",
     "blob_sha1": "3560d47322fac7b4786672e0bb5a147b722ae79a",
-    "hypothetical_post_bound_if_exact_envelope_identity_proved": 3453268626299532551531,
-    "minimum_block_rejection_fraction": "16/33",
+    "old_hypothetical_post_bound": 3453268626299532551531,
     "path": "stages/stage32/32-01-178/topdown-01/COARSE-PARITY-RATIO-PREFLIGHT.json",
-    "promotable_now": false
+    "promotable_without_audit": false,
+    "status": "SUPERSEDED_BY_EXACT_HISTORICAL_X4_COMPLETE_ENVELOPE_DERIVATION",
+    "superseding_exact_candidate_bound": 3453268626299532038131
   },
   "credit_firewall": {
     "effectivity_credit": false,
@@ -26,58 +25,82 @@
     "stage32_closed": false,
     "theorem_credit": false
   },
-  "full178_scaleout_prep": {
+  "exact_nonheavy_bound": {
+    "audit_required": true,
+    "candidate_td01_upper_bound": 3453268626299532038131,
+    "candidate_tightening_vs_current_main_if_audited_and_consumed": 3250135177693678063363,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "excluded_entire_g1_d008_e8_population": 858348,
+    "heavy_required_for_candidate": false,
+    "hpadj08_exact_square_rejected": 40886299509963924857401,
+    "hpadj08_exact_square_survivor_envelope": 6703403803993209250491,
+    "hpadj08_replay_domain_exact_cardinality": 47589703313957134107892,
+    "main_credit": false,
+    "n357_exact_x4_complete_remaining": 47598978285064933810198,
+    "n358_exact_x4_complete_remaining": 47589703313957134966240,
+    "packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+    "packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
+    "packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+    "per_block_max_retained_fraction": "17/33",
+    "verifier_blob_sha1": "c1300031041d3c18f986e7afc6f3246a6ef7864e",
+    "verifier_path": "stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py"
+  },
+  "full178_scaleout_fallback": {
     "aggregate_verifier_blob_sha1": "acce38dcb98ed53fd46ee409d95ab2ac0b192419",
     "aggregate_verifier_path": "stages/stage32/32-01-178/topdown-01/aggregate_td01_full178.py",
-    "all_eight_shards_required": true,
     "contract_blob_sha1": "ca1b195a3ee8e786707e1ef50b404ee8c19f1429",
-    "contract_canonical_sha256": "02a350a4c4c9b5c999767386be499edfa4e635189ff8f0e37db0bece7a00f660",
     "contract_path": "stages/stage32/32-01-178/topdown-01/FULL178-SCALEOUT-CONTRACT.json",
     "execution_armed": false,
     "heavy_authorized": false,
     "runkey_present": false,
+    "status": "RETAINED_FALLBACK_NOT_NEEDED_FOR_NONHEAVY_BOUND_AUDIT",
     "worker_blob_sha1": "7f160f3db3300a6f089064167394635e3e88a2e5",
     "worker_path": "stages/stage32/32-01-178/topdown-01/td01_full178_b_shard.py"
-  },
-  "retained_result": {
-    "blob_sha1": "d000363d1cb98f24a5ba797ce538400f802b1df1",
-    "bounded_additional_rejected": 5765698043645,
-    "bounded_grf02_plus_hpadj08_survivors": 5765607051141,
-    "bounded_hpadj08_survivors": 11531305094786,
-    "canonical_sha256": "d37bfdefba4bf4a242bbcd82fa06b166ee8b42c2a1d6eb1fc1d5af3983a5b14f",
-    "path": "stages/stage32/32-01-178/topdown-01/RESULT.json"
   },
   "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
   "routing": {
     "advance_allowed": false,
-    "audit_required": false,
+    "audit_required": true,
     "heavy_authorized": false,
     "main_credit_allowed": false,
     "merge_allowed": false,
-    "next_item": "AUTHORIZE_EXACT_TD01_FULL178_8_SHARD_COUNT_OR_PROVE_EXACT_X4_COMPLETE_ENVELOPE_IDENTITY",
+    "next_item": "INDEPENDENT_STAGE32_01_178_AUDIT_EXACT_X4_ENVELOPE_BOUND",
     "repair_required": false,
-    "stop_gate": "HEAVY_WORKFLOW_AUTHORIZATION_REQUIRED_FOR_EXACT_FULL178_COUNT"
+    "stop_gate": "EXTERNAL_HOSTILE_AUDIT_REQUIRED_BEFORE_MAIN_HANDOFF"
   },
-  "schema": "STAGE32_32_01_178_TD01_STATE_V4_EXACT_SHARED_CHARACTER",
+  "schema": "STAGE32_32_01_178_TD01_STATE_V5_EXACT_NONHEAVY_ENVELOPE_BOUND_AUDIT_REQUIRED",
   "shared_character": {
     "double_stack_forbidden": true,
     "equivalence_note_blob_sha1": "9825be2067c1dbd2ea4583e715cfedd991456c82",
     "equivalence_note_canonical_sha256": "0cabdf02524c1d5e976df863454c790fb7b89c7d585a9e9ba9f36757d13eafd7",
     "equivalence_note_path": "stages/stage32/32-01-178/topdown-01/HPADJ09-EQUIVALENCE-NOTE.json",
-    "ex5_panel_accepted": 17120,
-    "ex5_panel_rejected": 17120,
-    "ex5_panel_result_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
-    "ex5_panel_result_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115",
-    "ex5_panel_success_exact_head": "4be532bdddf76b66f390c4f49114bc8a707fb7e4",
-    "ex5_panel_tested": 34240,
-    "ex5_pr": 1814,
-    "grf02_mod2_row": [1,0,0,0,1,0,0,0,1,0,1],
-    "hpadj09_mod8_row": [4,0,0,0,4,0,0,0,4,0,4],
-    "hpadj09_unique_rows_sha256": "fa255af25e535fa5e60670d2ad6eb5e40a5e4f28476d8ec2afcab4fbb6b787e3",
-    "preferred_execution_surface": "TD01_SYMBOLIC_FULL178_COUNTER",
-    "same_completion_character": true,
-    "verifier_blob_sha1": "4256039872767b09f5c6ade4f9c8990c6168a8d7",
-    "verifier_path": "stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py"
+    "grf02_mod2_row": [
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      1,
+      0,
+      1
+    ],
+    "hpadj09_mod8_row": [
+      4,
+      0,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      4,
+      0,
+      4
+    ],
+    "same_completion_character": true
   },
   "source_main": {
     "authority_remaining_strata": 17128,
@@ -87,5 +110,5 @@
     "pr": 1808
   },
   "stage": 32,
-  "status": "EXACT_SHARED_CHARACTER_PROVED_FULL178_EXACT_SCALEOUT_HEAVY_GATE_BLOCKED"
+  "status": "EXACT_NONHEAVY_X4_ENVELOPE_BOUND_FROZEN_AUDIT_REQUIRED"
 }
