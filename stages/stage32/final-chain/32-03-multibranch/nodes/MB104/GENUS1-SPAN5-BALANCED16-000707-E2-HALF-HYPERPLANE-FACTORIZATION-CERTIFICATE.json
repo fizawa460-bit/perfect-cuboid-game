@@ -1,0 +1,121 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_HALF_HYPERPLANE_FACTORIZATION_V1",
+  "status": "RETAINED_CONDITIONAL_EFFECTIVE_CONJUGATE_HALF_HYPERPLANE_FACTORIZATION_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "depends_on_exact_picard_parity": true,
+    "depends_on_candidate_ambient_H1_linearization": true,
+    "conductor_pair_sign_computed": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-HALF-HYPERPLANE-FACTORIZATION.md",
+      "blob_sha1": "ba7ea7a7e21f0e4ca5d8b96c3dac1dbafbbddff6"
+    },
+    {
+      "id": "CARTIER_REFINEMENT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-PARITY-CARTIER-REFINEMENT-CERTIFICATE.json",
+      "blob_sha1": "e380c99ef818f6064d6da77615337eeee1cb4863"
+    },
+    {
+      "id": "PICARD_PARITY_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-PARITY-CERTIFICATE.json",
+      "blob_sha1": "7621932b87a7558d473bc99a09b46bcb04a433a0"
+    },
+    {
+      "id": "AMBIENT_H1_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-H1-TORSION-KILL-CERTIFICATE.json",
+      "blob_sha1": "480f452b75afed9d0f33dbb3e931feaca496d922"
+    },
+    {
+      "id": "ANTIINVARIANT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ANTIINVARIANT-CLASS-DECOMPOSITION-CERTIFICATE.json",
+      "blob_sha1": "727e332aa551313f7fb127c77145dc24535b6080"
+    },
+    {
+      "id": "ABSENT_HALF_FIBER_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD-CERTIFICATE.json",
+      "blob_sha1": "5fdae0e985be1875417442203835879a206312a8"
+    },
+    {
+      "id": "BOUNDARY_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md",
+      "blob_sha1": "aa9a7215467428b55b18ef296ced91b63ec4bf07"
+    }
+  ],
+  "effective_conjugate_divisors": {
+    "parity_substitution": "x_j=2*y_j",
+    "range": "0<=y_j<=4*l",
+    "G1": "C1+sum_j[y_j*E_j^+ +(4*l-y_j)*E_j^-]",
+    "G2": "C2+sum_j[(4*l-y_j)*E_j^+ +y_j*E_j^-]",
+    "G2_equals_tau_G1": true,
+    "difference": "G1-G2=(C1-C2)+sum_j(d_j/2)F_j",
+    "linearly_equivalent_conditional": true,
+    "both_effective": true
+  },
+  "allocation_free_sum": {
+    "carrier_class": "D_l=7*l*H-4*l*sum_supported E_j",
+    "supported_exceptional_pullback": "pi^*E_j=E_j^++E_j^-",
+    "carrier_pullback": "pi^*C=C1+C2",
+    "sum": "G1+G2~pi^*(7*l*H)",
+    "half_hyperplane": "2*G1~2*G2~pi^*(7*l*H)",
+    "allocation_disappears_from_doubled_class": true
+  },
+  "uniqueness": {
+    "PicY_two_torsion_trivial_conditional": true,
+    "half_hyperplane_square_root_unique": true,
+    "line_bundle_name": "Lambda_l=O_Y(G1)=O_Y(G2)",
+    "allocation_changes_effective_representative_not_line_bundle_class": true
+  },
+  "even_l": {
+    "substitution": "l=2*m",
+    "pure_pullback": "Lambda_(2m)~=pi^*O_S(7*m*H)",
+    "G1_G2_distinct_effective_members": true,
+    "defining_section_not_pure_deck_eigenvector": true,
+    "double_cover_pushforward": "pi_*O_Y=O_S direct_sum L_abs^(-1)",
+    "necessary_invariant_eigenspace": "H0(S,O_S(7*m*H))!=0",
+    "necessary_antiinvariant_eigenspace": "H0(S,O_S(7*m*H) tensor L_abs^(-1))!=0",
+    "antiinvariant_eigenspace_vanishing_claimed": false
+  },
+  "odd_l": {
+    "bezout_condition": "u*l+2*v=1",
+    "primitive_half_definition": "Lambda_*=u*Lambda_l+7*v*pi^*H",
+    "primitive_half_relation": "2*Lambda_*=7*pi^*H",
+    "scaling": "Lambda_l=l*Lambda_*",
+    "effectivity_of_primitive_half_claimed": false
+  },
+  "routing_consequence": {
+    "candidate_next_target": "compute downstairs eigensection classes/vanishing and identify the antiinvariant pencil generator with r_z or r_w up to k(B)^* before conductor specialization",
+    "individual_conductor_pair_map_materialized": false,
+    "weighted_cut_upper_bound_proved": false,
+    "balanced_allocation_excluded": false,
+    "e2_closed": false,
+    "active_leaf_unchanged": true
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_HALF_HYPERPLANE_FACTORIZATION_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "hostile_audit_claimed": false
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
