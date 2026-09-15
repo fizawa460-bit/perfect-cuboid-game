@@ -4,7 +4,7 @@
     "main_authority_mutated": false,
     "n401_n405_closed_route_reopened": false
   },
-  "canonical_sha256_without_this_field": "9b877679e7e81359e009c73725a0db4bd085519ed4136e67bef4b71972b9285b",
+  "canonical_sha256_without_this_field": "fdb6d9480f707863a53d70358abd960f3a29913c75eac4d06724580fe70921f2",
   "credit_firewall": {
     "effectivity_credit": false,
     "endpoint_credit": false,
@@ -17,6 +17,19 @@
     "stage32_closed": false,
     "theorem_credit": false
   },
+  "full178_scaleout_prep": {
+    "aggregate_verifier_blob_sha1": "acce38dcb98ed53fd46ee409d95ab2ac0b192419",
+    "aggregate_verifier_path": "stages/stage32/32-01-178/topdown-01/aggregate_td01_full178.py",
+    "all_eight_shards_required": true,
+    "contract_blob_sha1": "ca1b195a3ee8e786707e1ef50b404ee8c19f1429",
+    "contract_canonical_sha256": "02a350a4c4c9b5c999767386be499edfa4e635189ff8f0e37db0bece7a00f660",
+    "contract_path": "stages/stage32/32-01-178/topdown-01/FULL178-SCALEOUT-CONTRACT.json",
+    "execution_armed": false,
+    "heavy_authorized": false,
+    "runkey_present": false,
+    "worker_blob_sha1": "7f160f3db3300a6f089064167394635e3e88a2e5",
+    "worker_path": "stages/stage32/32-01-178/topdown-01/td01_full178_b_shard.py"
+  },
   "retained_result": {
     "blob_sha1": "d000363d1cb98f24a5ba797ce538400f802b1df1",
     "bounded_additional_rejected": 5765698043645,
@@ -27,16 +40,16 @@
   },
   "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
   "routing": {
-    "advance_allowed": true,
-    "after_prep": "STOP_BEFORE_HEAVY_EXECUTION_UNLESS_REPOSITORY_HEAVY_GATE_IS_SATISFIED",
+    "advance_allowed": false,
     "audit_required": false,
     "heavy_authorized": false,
     "main_credit_allowed": false,
     "merge_allowed": false,
-    "next_item": "PREPARE_FULL178_SHARDED_PARITY_REFINED_HPADJ08_WORKER_AND_SCALEOUT_CONTRACT",
-    "repair_required": false
+    "next_item": "HEAVY_GATE_AUTHORIZATION_BEFORE_FULL178_8_SHARD_EXECUTION",
+    "repair_required": false,
+    "stop_gate": "HEAVY_WORKFLOW_AUTHORIZATION_REQUIRED"
   },
-  "schema": "STAGE32_32_01_178_TD01_STATE_V1",
+  "schema": "STAGE32_32_01_178_TD01_STATE_V2_FULL178_PREPARED",
   "source_main": {
     "authority_remaining_strata": 17128,
     "authority_remaining_terminals_upper_bound": 6703403803993210101494,
@@ -45,5 +58,5 @@
     "pr": 1808
   },
   "stage": 32,
-  "status": "ACTIVE_BOUNDED_STRICT_GAIN_RETAINED_FULL178_SCALEOUT_PREP_NEXT"
+  "status": "FULL178_SCALEOUT_PREPARED_HEAVY_GATE_BLOCKED"
 }
