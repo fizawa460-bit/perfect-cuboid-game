@@ -1,0 +1,52 @@
+{
+  "schema": "STAGE32EX5_HPADJ08_FULL178_SCALEOUT_CONTRACT_V1",
+  "route_id": "HPADJ-08_ex5",
+  "status": "READY_FOR_BOUNDED_SHARDED_IMPLEMENTATION_NOT_ARMED",
+  "source_head": "4f63f2ee44a5623a457fbf0db72527bd398c710c",
+  "mathematical_scope": {
+    "rows": "FULL178: g0 even d=8..176 and g1 even d=8..192",
+    "hmax": 96,
+    "q_cap": 4992,
+    "overflow_bucket": 4993,
+    "statistic": "Qstored=sum(x_i^2 for the ten stored exceptional coordinates)",
+    "rejection": {
+      "g0": "8*Qstored>d^2+16*d+32",
+      "g1": "8*Qstored>d^2+16*d"
+    }
+  },
+  "execution_partition": {
+    "partition_key": "b interval in the retained (a,b,c) composition census",
+    "planned_shards": [[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]],
+    "exact_union": "disjoint b intervals cover 0..96 exactly",
+    "per_shard_output": "compact per-(g,d) old-Cauchy and exact-square candidate rejected terminal counts plus source locks and digest",
+    "carry_forward": "a shard is reusable only when source locks, b interval, q cap, row domain and deterministic digest validate",
+    "recovery": "recompute only missing or invalid shards; never rerun validated shards solely because another shard failed"
+  },
+  "scale_diagnostic": {
+    "bounded_h16_strict_gain_verified": true,
+    "h64_capped_q_lex_state_count_observed": 2184191,
+    "h64_capped_q_lex_build_seconds_observed": 12.28,
+    "h96_monolithic_capped_q_lex_build_completed_within_60s": false,
+    "interpretation": "monolithic H96 materialization is not accepted as the production representation; shard by b and retain compact row-count certificates"
+  },
+  "authorization": {
+    "heavy_run_armed": false,
+    "runkey_required_before_heavy_execution": true,
+    "workflow_created": false,
+    "artifact_production_authorized": false
+  },
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "23ab8ae0509754f94cdf7cc661e18e692ec2af3f20a2653d0d92c1a8ff5fa84b"
+}
