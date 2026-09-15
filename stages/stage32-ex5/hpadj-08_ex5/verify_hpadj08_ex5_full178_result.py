@@ -4,9 +4,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 RESULT_PATH = Path("stages/stage32-ex5/hpadj-08_ex5/FULL178-RESULT.json")
+ADAPTER_PATH = Path("stages/stage32-ex5/hpadj-08_ex5/CURRENT-MAIN-NO-DOUBLE-CHARGE-ADAPTER.json")
+ADAPTER_VERIFIER = Path("stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_current_main_adapter.py")
 PLANNED = ((0,11),(12,23),(24,35),(36,47),(48,59),(60,71),(72,83),(84,96))
 EXPECTED_SHARD_CANONICALS = (
     "185504dcbc7f77b8c4682934a83a0fa2e8f4f36bd7cf6b5b3089b8b483ebeb64",
@@ -95,6 +99,9 @@ def main() -> None:
     if ns.aggregate:
         aggregate = json.loads(Path(ns.aggregate).read_text(encoding="utf-8"))
         verify_aggregate(result, aggregate)
+    if ADAPTER_PATH.is_file():
+        req(ADAPTER_VERIFIER.is_file(), "current-MAIN adapter present without verifier")
+        subprocess.check_call([sys.executable, str(ADAPTER_VERIFIER)])
     print("HPADJ08_EX5_FULL178_RESULT_OK", result["canonical_sha256_without_this_field"], result["aggregate_candidate_canonical"])
 
 
