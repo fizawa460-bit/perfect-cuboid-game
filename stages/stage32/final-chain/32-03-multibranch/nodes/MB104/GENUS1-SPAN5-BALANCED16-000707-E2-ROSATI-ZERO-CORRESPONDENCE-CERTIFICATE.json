@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_ROSATI_ZERO_CORRESPONDENCE_V1",
+  "status": "RETAINED_CANDIDATE_ROSATI_SATURATION_FORCES_ZERO_JACOBIAN_CORRESPONDENCE_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "depends_on_product_correspondence_linearization_candidate": true,
+    "conductor_pair_sign_computed": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ROSATI-ZERO-CORRESPONDENCE.md",
+      "blob_sha1": "24cc729070ab685491fd2659d970da1a9f415891"
+    },
+    {
+      "id": "PRODUCT_LINEARIZATION_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PRODUCT-CORRESPONDENCE-LINEARIZATION-CERTIFICATE.json",
+      "blob_sha1": "ea8bd879093a5ec2054f560807fa05806f96a553"
+    }
+  ],
+  "retained_input": {
+    "projection_degree_each": "28*l",
+    "Zbar_self_intersection": "1568*l^2",
+    "jacobian_correspondence": "Phi_Z=(f2)_* f1^*"
+  },
+  "rosati_identity": {
+    "formula": "D^2=2*d1*d2-Tr_H1(Phi_D*Phi_D^dagger)",
+    "positivity": "Tr_H1(Phi*Phi^dagger)>=0 with equality iff Phi=0",
+    "diagonal_normalization_genus5": "2-Tr_H1(id)=2-10=-8=2-2g"
+  },
+  "deduction": {
+    "two_n_squared": "1568*l^2",
+    "rosati_trace": "0",
+    "Phi_Z": "0",
+    "hom_J_component_of_NS_class": "0",
+    "full_G_centralizer_membership_refined_to_zero_element": true
+  },
+  "routing": {
+    "new_global_constraint_materialized": true,
+    "individual_conductor_transition_materialized": false,
+    "weighted_cut_bound_proved": false,
+    "unrestricted_full_G_centralizer_search_dominated_for_element_identification": true,
+    "recommended_next_target": "factor-line-bundle/orbifold-descent class after zero Hom(J,J) component, or obstruction/classification of zero-trace degree-28l common etale covers with the 000707 support passport",
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ROSATI-ZERO-CORRESPONDENCE.md",
+    "human_note_blob_sha1": "24cc729070ab685491fd2659d970da1a9f415891",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_rosati_zero_correspondence.py",
+    "verifier_blob_sha1": "782511f68054f4ee19f71008a9d34a222e2c1a39"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_ROSATI_ZERO_CORRESPONDENCE_V1",
+    "coefficient_saturation_replay_independently_checked": true,
+    "correspondence_intersection_identity_requires_hostile_math_review": true,
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "hostile_audit_claimed": false,
+    "audit_instruction": "run the fail-closed verifier on the exact candidate head and independently check the product-correspondence intersection/Rosati normalization before consuming Phi_Z=0"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
