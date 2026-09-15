@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -12,6 +13,7 @@ ROOT = HERE.parents[3]
 PACKET = HERE / "EXACT-X4-ENVELOPE-BOUND.json"
 N358 = ROOT / "stages/stage32/management/N358-AUDITED-RESULT.json"
 EQUIV = HERE / "HPADJ09-EQUIVALENCE-NOTE.json"
+EQUIV_VERIFIER = HERE / "verify_hpadj09_grf02_character_equivalence.py"
 MAIN = ROOT / "stages/stage32/MAIN-STATE.json"
 
 PACKET_BLOB = "51271c11078459ad9171138c4fb6121d7a665c39"
@@ -20,6 +22,7 @@ N358_BLOB = "e42c2b6cc6128c4666372b0c3f3c172afc006d7f"
 N358_CANON = "383921ed9387693a8cfa300a9629f629f3a20ed4272979508441c7b13af5a287"
 EQUIV_BLOB = "9825be2067c1dbd2ea4583e715cfedd991456c82"
 EQUIV_CANON = "0cabdf02524c1d5e976df863454c790fb7b89c7d585a9e9ba9f36757d13eafd7"
+EQUIV_VERIFIER_BLOB = "0d9c2c506edb33d656f449593597c8befadd2e0d"
 MAIN_BLOB = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
 MAIN_CANON = "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21"
 
@@ -99,6 +102,15 @@ def verify_historical() -> None:
     req(hpadj["stored_exact_square_candidate_rejected_terminals"] == 40886299509963924857401, "HPADJ08 exact-square count drift")
 
 
+def replay_completion_character(*, historical: bool) -> None:
+    req(EQUIV_VERIFIER.is_file(), "missing GRF02/HPADJ09 equivalence verifier")
+    req(git_blob(EQUIV_VERIFIER) == EQUIV_VERIFIER_BLOB, "GRF02/HPADJ09 equivalence verifier blob drift")
+    cmd = [sys.executable, str(EQUIV_VERIFIER)]
+    if historical:
+        cmd.append("--historical-replay")
+    subprocess.check_call(cmd, cwd=ROOT)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--historical-replay", action="store_true", help="also fail-closed replay exact historical Git objects; fetch the listed commits first")
@@ -119,6 +131,10 @@ def main() -> None:
     req(equiv["character_identity"]["hash_match"] is True, "completion-character hash identity drift")
     req(equiv["character_identity"]["hpadj09_reconstructed_mod8_row"] == [4,0,0,0,4,0,0,0,4,0,4], "HPADJ09 character drift")
     req(packet["source_locks"]["completion_character"]["grf02_mod2_row"] == [1,0,0,0,1,0,0,0,1,0,1], "GRF02 character drift")
+
+    # Load-bearing character replay is part of this verifier, not a documentary
+    # side note.  Historical mode additionally source-locks PANEL-RESULT itself.
+    replay_completion_character(historical=ns.historical_replay)
 
     frontier = main_state["current_exact_frontier"]
     req(frontier["authoritative_remaining_terminals"] == 6703403803993210101494, "MAIN V30 numeric authority drift")
@@ -163,6 +179,8 @@ def main() -> None:
     print(json.dumps({
         "status": "PASS_TD01_EXACT_X4_ENVELOPE_BOUND_PACKET",
         "historical_replay": ns.historical_replay,
+        "completion_character_replayed": True,
+        "hpadj09_panel_source_locked": ns.historical_replay,
         "exact_hpadj08_survivor_envelope": survivors,
         "candidate_td01_upper_bound": combined,
         "candidate_tightening_vs_current_main": frontier["authoritative_remaining_terminals"] - combined,
