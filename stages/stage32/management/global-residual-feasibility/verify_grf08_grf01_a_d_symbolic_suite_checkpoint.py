@@ -10,7 +10,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[3]
 CERT = HERE / "GRF-08-GRF01-A-D-SYMBOLIC-SUITE-CHECKPOINT.json"
-MAIN_STATE = ROOT / "stages/stage32/MAIN-STATE.json"
+ARCHIVED_MAIN_STATE = ROOT / "stages/stage32/proof/historical-routing-blobs/b8df16056625db5fbb1947f1e927593de258f1ff.json"
 
 FILES = {
     HERE / "GRF-01-DESIGN.md": "7daa489d182e52401df9300acfe9899759515078",
@@ -26,7 +26,7 @@ FILES = {
     HERE / "verify_grf06_odd_prime_affine_column_image_kernel.py": "ff755901b7b55d978a3b523870865c1405035cdb",
     HERE / "GRF-07-COPRIME-CRT-LOCAL-SYSTEM-COMPOSITION-KERNEL.json": "9bec78e154cd903400035db1cab32f1358a2864d",
     HERE / "verify_grf07_coprime_crt_local_system_composition_kernel.py": "16c7245dce063fb7697d9a0619da6f756158e121",
-    MAIN_STATE: "b8df16056625db5fbb1947f1e927593de258f1ff",
+    ARCHIVED_MAIN_STATE: "b8df16056625db5fbb1947f1e927593de258f1ff",
 }
 EXPECTED_CERT_CANONICAL = "ca09e4a2cc5aec89ba1d0b26de45a37a0fa93b68a78ae54ce39e206249d61344"
 
@@ -100,7 +100,10 @@ def main() -> None:
     req(cert["milestone"]["natural_hostile_audit_checkpoint"],
         "checkpoint must remain audit-ready")
 
-    state = read_json(MAIN_STATE)
+    # GRF-08 is a retained V24 zero-credit checkpoint. Replay its authority
+    # firewall against the exact archived V24 MAIN state, not the mutable V25
+    # startup projection after N400 consumption.
+    state = read_json(ARCHIVED_MAIN_STATE)
     auth = cert["authority_firewall"]
     frontier = state["current_exact_frontier"]
     req(auth["authority_remaining_strata"] == frontier["authoritative_remaining_strata"],
