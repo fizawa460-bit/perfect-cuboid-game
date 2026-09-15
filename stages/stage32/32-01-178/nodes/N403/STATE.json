@@ -2,9 +2,9 @@
   "schema": "STAGE32_32_01_178_N403_STATE_V1",
   "stage": 32,
   "node_id": "N403",
-  "status": "PROVISIONAL_EXACT_RESULT_PENDING_REPO_CI",
-  "current_frontier": "N403_MODULAR_RESIDUE_QUOTIENT_COMPRESSION",
-  "route_status": "MATERIAL_BOUNDED_QUOTIENT_COMPRESSION_RETAINED_PENDING_EXACT_HEAD_REPLAY",
+  "status": "AUDIT_BOUNDARY_FROZEN",
+  "current_frontier": "N403_MODULAR_RESIDUE_QUOTIENT_COMPRESSION_CANDIDATE",
+  "route_status": "MATERIAL_BOUNDED_QUOTIENT_COMPRESSION_RETAINED_PENDING_HOSTILE_AUDIT",
   "result_summary": {
     "source_block_count": 97,
     "source_terminal_count": 10961,
@@ -27,18 +27,56 @@
     "additional_pruning_terminals": 0,
     "main_authority_subtraction_performed": false
   },
-  "next_gate": {
-    "gate": "EXACT_HEAD_REPO_CI_FOR_N403_THEN_HOSTILE_AUDIT_IF_PASS",
-    "requirements": [
-      "execute the source-locked N403 probe at the exact PR head",
-      "reproduce models=7056 and deterministic=1873",
-      "reproduce unique best quotient (a mod3,b mod2,(b-c) mod2,block mod42) with 56 classes and zero conflicts",
-      "preserve retained 97-block scope and N400 ownership firewall",
-      "if exact-head replay passes, freeze N403 audit boundary and invoke stage32-01-178-audit"
+  "audit_gate": {
+    "next_gate": "HOSTILE_AUDIT_N403_MODULAR_RESIDUE_QUOTIENT_COMPRESSION",
+    "audit_focus": [
+      "source-lock integrity for the N402 hostile-audit receipt, N403 probe, and N403 RESULT",
+      "exact reconstruction of the retained 97-block / 5,459-survivor bounded population",
+      "independent replay of all 7,056 quotient models and exactly 1,873 deterministic models",
+      "verify unique best quotient (a mod 3,b mod 2,(b-c) mod 2,block mod 42) has exactly 56 classes and zero parity conflicts",
+      "verify N402 baseline is 64 classes and N403 strictly improves 64 -> 56",
+      "verify minimum deterministic block modulus is 15 with best class count 84",
+      "scope firewall: no transport beyond retained 97 blocks and no terminal rank-stream re-enumeration",
+      "ownership firewall: N400 MAIN handoff is not reopened and no MAIN subtraction occurs",
+      "credit firewall: compression candidate only, zero new pruning and no numerical/MAIN/FULL178 credit",
+      "workflow lifecycle and current-main freshness"
     ]
+  },
+  "breadth_cycle": {
+    "boundary_reason": "N403 refines the hostile-audited N402 intrinsic classifier by quotienting the residue coordinates independently and strictly reduces the exact bounded parity partition from 64 to 56 conflict-free classes.",
+    "n400_main_handoff_reopen": false,
+    "n399_terminal_reenumeration_reopen": false,
+    "n404_before_audit": false
+  },
+  "source_result": {
+    "result_blob": "e5fb41a7f99ad312dc4a168771a05809003b87f3",
+    "result_canonical_sha256": "5a1385d44ab53d3b806bbdc98369ad1aac2bca01a5b8f91b42c5c20e3ee08398",
+    "probe_blob": "f17c5c607fa3edfd58b402b81c2a483e55d1f393",
+    "probe_payload_canonical_sha256": "aee046a1b1aa4492fc20ffaa3a6b9c4c84ed70f63ae11e18125520cd5478ae26",
+    "n402_audit_receipt_blob": "0c60cda38370333b4b1fb4393132809644d52edf",
+    "n402_audit_receipt_canonical": "fd37543ebe9e0f68205cfa92bba3d5816e823d4e0a60a1827bd83c411bcfd63e"
+  },
+  "final_exact_head_ci": {
+    "audited_candidate_head": "9ab786c763edcaf07b7550ec8fca22a74f6bd53e",
+    "claim_frontier_run": 34913834911,
+    "claim_frontier_conclusion": "SUCCESS",
+    "main_startup_run": 34913834915,
+    "main_startup_conclusion": "SUCCESS",
+    "stale_run_sweeper_run": 34913834910,
+    "stale_run_sweeper_conclusion": "SUCCESS",
+    "n403_probe_step_conclusion": "SUCCESS",
+    "final_check_expected_not_ready": true
+  },
+  "process_freshness": {
+    "current_repository_main": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "main_startup_authority": "SUCCESS",
+    "claim_frontier_integrity": "SUCCESS",
+    "stale_run_sweeper": "SUCCESS",
+    "merge_ready_freshness": "NOT_GRANTED_BY_N403"
   },
   "firewalls": {
     "candidate_only": true,
+    "bounded_terminal_family_compression_candidate": true,
     "numerical_leaf_compression_credit": false,
     "new_additional_pruning_credit": false,
     "main_pruning_credit": false,
@@ -55,13 +93,5 @@
     "heavy_compute_authorized": false,
     "merge_authorized": false
   },
-  "source_result": {
-    "result_blob": "e5fb41a7f99ad312dc4a168771a05809003b87f3",
-    "result_canonical_sha256": "5a1385d44ab53d3b806bbdc98369ad1aac2bca01a5b8f91b42c5c20e3ee08398",
-    "probe_blob": "f17c5c607fa3edfd58b402b81c2a483e55d1f393",
-    "probe_payload_canonical_sha256": "aee046a1b1aa4492fc20ffaa3a6b9c4c84ed70f63ae11e18125520cd5478ae26",
-    "n402_audit_receipt_blob": "0c60cda38370333b4b1fb4393132809644d52edf",
-    "n402_audit_receipt_canonical": "fd37543ebe9e0f68205cfa92bba3d5816e823d4e0a60a1827bd83c411bcfd63e"
-  },
-  "canonical_sha256_without_this_field": "f46bfef69be880e9e538117e6fe754de05fed242ad9788ce633db8a4135d4323"
+  "canonical_sha256_without_this_field": "93c3cf09109cd0ffe25f858de9f20519dfb4df50ec22c6385561eb36b062bb8f"
 }
