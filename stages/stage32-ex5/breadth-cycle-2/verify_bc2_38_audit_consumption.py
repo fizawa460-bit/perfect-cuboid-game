@@ -30,6 +30,7 @@ V31 = "STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION"
 V32 = "STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY"
 V33 = "STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT"
 V34 = "STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION"
+V35 = "STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED"
 
 
 def req(v: bool, msg: str) -> None:
@@ -52,9 +53,10 @@ def main() -> None:
     cp = json.loads(CHECKPOINT.read_text())
     req(cp["canonical_sha256_without_this_field"] == CP_CANON and canon(cp) == CP_CANON, "BC2-38 checkpoint canonical")
     r = cp["replay"]
-    req((r["parents_checked"], r["unsat_count"], r["unknown_count"], r["sat_count"]) == (34,4,30,0), "BC2-38 result partition")
+    req((r["parents_checked"], r["unsat_count"], r["unknown_count"], r["sat_count"]) == (34, 4, 30, 0), "BC2-38 result partition")
     req(r["unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 unknown30 hash")
     req(cp["credit"]["known_parent_unsat_count_lower_bound"] == 7306, "BC2-38 candidate lower bound")
+
     req(blob(RUNKEY) == RUNKEY_BLOB, "BC2-38 consumed runkey")
     rk = json.loads(RUNKEY.read_text())
     req(rk["armed"] is False and rk["generation"] == 1, "BC2-38 runkey state")
@@ -65,10 +67,11 @@ def main() -> None:
 
     state = json.loads(STATE.read_text())
     schema = state["schema"]
-    req(schema in {V31, V32, V33, V34}, "BC2-38 consumed live state schema")
-    sync_path = SYNC_V34 if schema == V34 else SYNC_V33
-    expected_sync_blob = SYNC_V34_BLOB if schema == V34 else SYNC_V33_BLOB
-    expected_sync_canon = SYNC_V34_CANON if schema == V34 else SYNC_V33_CANON
+    req(schema in {V31, V32, V33, V34, V35}, "BC2-38 consumed live state schema")
+
+    sync_path = SYNC_V34 if schema in {V34, V35} else SYNC_V33
+    expected_sync_blob = SYNC_V34_BLOB if schema in {V34, V35} else SYNC_V33_BLOB
+    expected_sync_canon = SYNC_V34_CANON if schema in {V34, V35} else SYNC_V33_CANON
     req(sync_path.is_file(), "live coordination sync missing")
     req(blob(sync_path) == expected_sync_blob, "live coordination sync blob")
     sync = json.loads(sync_path.read_text())
@@ -80,6 +83,7 @@ def main() -> None:
     req(pa["hostile_audit_status"] == "PASS" and pa["audit_checkpoint_exact_head"] == AUDIT_HEAD and pa["hostile_audit_review_id"] == AUDIT_REVIEW, "BC2-38 hostile-audit receipt")
     f = state["frontier"]
     a = state["intermediate_audit_boundary"]
+
     if schema == V31:
         req(f["e8_bc2_38_audited"] is True and f["e8_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_bc2_38_remaining_unknown_count"] == 30 and f["e8_bc2_38_remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 consumed frontier")
         req(f["e8_bc2_39_executed"] is False and f["e8_bc2_39_target_unknown_count"] == 30 and f["e8_bc2_39_target_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-39 target frontier")
@@ -88,7 +92,7 @@ def main() -> None:
         req(f["e8_bc2_38_audited"] is True and f["e8_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_bc2_38_remaining_unknown_count"] == 30 and f["e8_bc2_38_remaining_unknown_parent_indices_sha256"] == UNKNOWN_SHA, "BC2-38 consumed frontier")
         req(f["e8_bc2_39_executed"] is True and f["e8_bc2_39_audited"] is False and f["e8_bc2_39_new_parent_unsat_count"] == 7 and f["e8_bc2_39_remaining_unknown_count"] == 23 and f["e8_bc2_39_sat_count"] == 0 and f["e8_bc2_39_candidate_known_parent_unsat_count_lower_bound"] == 7313, "V32 BC2-39 quarantined frontier")
         req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == AUDIT_HEAD and a["last_hostile_audit_review_id"] == AUDIT_REVIEW and a["bc2_39_execution_authorized"] is False and a["freeze_active"] is True and a["new_audit_boundary_exists"] is True and a["re_audit_required"] is True, "V32 audit freeze")
-    else:
+    elif schema in {V33, V34}:
         req(f["e8_bc2_38_audited"] is True and f["e8_bc2_38_known_parent_unsat_count_lower_bound"] == 7306 and f["e8_known_parent_unsat_count_lower_bound"] == 7313, "BC2-38 retained authority")
         pa39 = state["prior_audited_authority"]["bc2_39_pr_1776"]
         req(pa39["hostile_audit_status"] == "PASS" and pa39["audit_checkpoint_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and pa39["hostile_audit_review_id"] == 5193423203, "BC2-39 hostile-audit receipt")
@@ -98,9 +102,19 @@ def main() -> None:
         if schema == V34:
             req(f["e8_bc2_40_executed"] is False, "V34 BC2-40 must be unexecuted at authorization boundary")
         req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and a["last_hostile_audit_review_id"] == 5193423203 and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "BC2-39 audit consumption state")
+    else:
+        req(f["e8_bc2_38_audited"] is True and f["e8_bc2_38_known_parent_unsat_count_lower_bound"] == 7306, "V35 BC2-38 retained authority")
+        pa39 = state["prior_audited_authority"]["bc2_39_pr_1776"]
+        pa40 = state["prior_audited_authority"]["bc2_40_pr_1776"]
+        req(pa39["hostile_audit_status"] == "PASS" and pa39["audit_checkpoint_exact_head"] == "4b974550d9ad030973fec99e19a090f6785f8aa8" and pa39["hostile_audit_review_id"] == 5193423203, "V35 BC2-39 hostile-audit receipt")
+        req(pa40["hostile_audit_status"] == "PASS" and pa40["audit_checkpoint_exact_head"] == "b3b16f3db20074e3dbdb1851ad123d5c2004b843" and pa40["hostile_audit_review_id"] == 5204245683, "V35 BC2-40 hostile-audit receipt")
+        req(f["e8_bc2_39_audited"] is True and f["e8_bc2_40_audited"] is True and f["e8_bc2_40_executed"] is True and f["e8_bc2_40_execution_authorized"] is False, "V35 BC2-40 consumed closure")
+        req(f["e8_bc2_40_remaining_unknown_count"] == 0 and f["e8_bc2_40_sat_count"] == 0 and f["e8_known_parent_unsat_count_lower_bound"] == 7336 and f["e8_whole_first_block_unsat"] is True, "V35 first e8 block closure")
+        req(a["last_hostile_audit_status"] == "PASS" and a["last_hostile_audit_exact_head"] == "b3b16f3db20074e3dbdb1851ad123d5c2004b843" and a["last_hostile_audit_review_id"] == 5204245683 and a["bc2_40_execution_authorized"] is False and a["freeze_active"] is False and a["new_audit_boundary_exists"] is False and a["re_audit_required"] is False, "V35 BC2-40 audit consumption state")
+        req(state["credit"]["stage32_main_credit"] is False and state["credit"]["FULL178_complete"] is False and state["firewalls"]["merge_authorized"] is False, "V35 credit firewall")
 
     print("PASS: BC2-38 hostile-audit PASS remains consumed into EX5 local authority")
-    print("audited_lower_bound=7306 bc2_39_audited_lower_bound=7313 main_credit=NO merge=NO")
+    print("audited_lower_bound=7306 retained_through_v35=YES current_e8_lower_bound=7336 main_credit=NO merge=NO")
 
 
 if __name__ == "__main__":
