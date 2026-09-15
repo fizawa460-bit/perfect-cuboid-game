@@ -4,7 +4,7 @@
     "main_authority_mutated": false,
     "n401_n405_closed_route_reopened": false
   },
-  "canonical_sha256_without_this_field": "8fd93bf7786cd5f5e9f79125a725530e1475a01df4db4d8889ae34da3757aaa2",
+  "canonical_sha256_without_this_field": "f860797b8816fc14d9d7956a878a40d613216c3579978f975839c8ae373a58ed",
   "coarse_ratio_shortcut": {
     "blob_sha1": "3560d47322fac7b4786672e0bb5a147b722ae79a",
     "old_hypothetical_post_bound": 3453268626299532551531,
@@ -42,8 +42,22 @@
     "packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
     "packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
     "per_block_max_retained_fraction": "17/33",
-    "verifier_blob_sha1": "c1300031041d3c18f986e7afc6f3246a6ef7864e",
+    "verifier_blob_sha1": "4d64db072093502df2a11dbedaa108ddfa0c69b7",
     "verifier_path": "stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py"
+  },
+  "failed_audit_repair": {
+    "blocker_1": "EXACT_HEAD_CI_MISSING_FOR_TD01_HISTORICAL_REPLAY",
+    "blocker_2": "HPADJ09_PANEL_RESULT_NOT_DIRECTLY_SOURCE_LOCKED_BY_CHARACTER_VERIFIER",
+    "blockers_repaired_in_code": true,
+    "equivalence_verifier_blob_sha1": "0d9c2c506edb33d656f449593597c8befadd2e0d",
+    "equivalence_verifier_path": "stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py",
+    "exact_head_ci_success_observed": false,
+    "hpadj09_panel_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
+    "hpadj09_panel_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115",
+    "hpadj09_panel_exact_ref": "fd14ff7e53dcd6f0c5ba9b38c45a27d30885f019",
+    "prior_audited_exact_head": "a90c208ff38c65e65d45d4a320d98d4e4d1d7106",
+    "prior_verdict": "FAIL_HOLD",
+    "required_exact_head_ci": "Stage32 claim frontier integrity / Verify TD01 exact x4-envelope historical replay"
   },
   "full178_scaleout_fallback": {
     "aggregate_verifier_blob_sha1": "acce38dcb98ed53fd46ee409d95ab2ac0b192419",
@@ -64,16 +78,17 @@
     "heavy_authorized": false,
     "main_credit_allowed": false,
     "merge_allowed": false,
-    "next_item": "INDEPENDENT_STAGE32_01_178_AUDIT_EXACT_X4_ENVELOPE_BOUND",
+    "next_item": "EXACT_HEAD_CI_SUCCESS_THEN_INDEPENDENT_STAGE32_01_178_REAUDIT",
     "repair_required": false,
-    "stop_gate": "EXTERNAL_HOSTILE_AUDIT_REQUIRED_BEFORE_MAIN_HANDOFF"
+    "stop_gate": "EXACT_HEAD_CI_AND_EXTERNAL_HOSTILE_REAUDIT_REQUIRED_BEFORE_MAIN_HANDOFF"
   },
-  "schema": "STAGE32_32_01_178_TD01_STATE_V5_EXACT_NONHEAVY_ENVELOPE_BOUND_AUDIT_REQUIRED",
+  "schema": "STAGE32_32_01_178_TD01_STATE_V6_AUDIT_REPAIR_EXACT_HEAD_CI_REQUIRED",
   "shared_character": {
     "double_stack_forbidden": true,
     "equivalence_note_blob_sha1": "9825be2067c1dbd2ea4583e715cfedd991456c82",
     "equivalence_note_canonical_sha256": "0cabdf02524c1d5e976df863454c790fb7b89c7d585a9e9ba9f36757d13eafd7",
     "equivalence_note_path": "stages/stage32/32-01-178/topdown-01/HPADJ09-EQUIVALENCE-NOTE.json",
+    "equivalence_verifier_blob_sha1": "0d9c2c506edb33d656f449593597c8befadd2e0d",
     "grf02_mod2_row": [
       1,
       0,
@@ -100,6 +115,8 @@
       0,
       4
     ],
+    "hpadj09_panel_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
+    "hpadj09_panel_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115",
     "same_completion_character": true
   },
   "source_main": {
@@ -110,5 +127,5 @@
     "pr": 1808
   },
   "stage": 32,
-  "status": "EXACT_NONHEAVY_X4_ENVELOPE_BOUND_FROZEN_AUDIT_REQUIRED"
+  "status": "AUDIT_REPAIR_APPLIED_EXACT_HEAD_CI_REQUIRED_NO_MAIN_CREDIT"
 }
