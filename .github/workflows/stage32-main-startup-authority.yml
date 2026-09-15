@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V25 H8C-03A consumed; replacement-head hostile re-audit required.
+# Current boundary: V25 H8C-03A hostile-audit PASS synchronized; FULL178 remains active incomplete.
 on:
   pull_request:
     paths:
@@ -112,15 +112,28 @@ jobs:
           python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_current_v24_rebase.py
           --pre-v25-root .stage32-pre-v25-main
 
-      - name: Verify H8C-03A V25 MAIN consumption
-        run: >-
-          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_main_consumption.py
-          --pre-v25-root .stage32-pre-v25-main
+      - name: Replay H8C-03A V25 pre-sync consumption and claim-DAG checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          live="stages/stage32/MAIN-STATE.json"
+          snapshot="stages/stage32/proof/historical-routing-blobs/e0c256916815220746b3d53a81044889d8444749.json"
+          test "$(git hash-object "$live")" = "0f8aa75df6246064afbd4977775097a5bb807612"
+          test "$(git hash-object "$snapshot")" = "e0c256916815220746b3d53a81044889d8444749"
+          tmp="$(mktemp)"
+          cp "$live" "$tmp"
+          cleanup() { cp "$tmp" "$live"; rm -f "$tmp"; }
+          trap cleanup EXIT
+          cp "$snapshot" "$live"
+          test "$(git hash-object "$live")" = "e0c256916815220746b3d53a81044889d8444749"
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_main_consumption.py --pre-v25-root .stage32-pre-v25-main
+          python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_claim_sync.py
+          cp "$tmp" "$live"
+          test "$(git hash-object "$live")" = "0f8aa75df6246064afbd4977775097a5bb807612"
+          trap - EXIT
+          rm -f "$tmp"
 
-      - name: Verify H8C-03A V25 claim-DAG synchronization checkpoint
-        run: python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_claim_sync.py
-
-      - name: Verify Stage32 MAIN V25 startup authority
+      - name: Verify Stage32 MAIN V25 audit-synced startup authority
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination at V25
         run: python stages/stage32/proof/verify_cross_lane_demands.py
