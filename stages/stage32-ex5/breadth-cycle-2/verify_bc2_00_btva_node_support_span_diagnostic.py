@@ -11,6 +11,7 @@ V31='STAGE32EX5_MAIN_COMPACT_STATE_V31_BC2_38_AUDIT_CONSUMED_BC2_39_EXECUTION'
 V32='STAGE32EX5_MAIN_COMPACT_STATE_V32_BC2_39_TARGETED_REPLAY_AUDIT_BOUNDARY'
 V33='STAGE32EX5_MAIN_COMPACT_STATE_V33_BC2_39_AUDIT_CONSUMED_BC2_40_PREFLIGHT'
 V34='STAGE32EX5_MAIN_COMPACT_STATE_V34_BC2_40_RESUME_RUNKEY_ARMED_EXECUTION'
+V35='STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED'
 
 def req(x,m):
     if not x: raise SystemExit('FAIL: '+m)
@@ -18,11 +19,18 @@ def req(x,m):
 def main():
     state=json.loads(LIVE_STATE.read_text()); schema=state['schema']
     allowed={
-      'STAGE32EX5_MAIN_COMPACT_STATE_V15_BC2_30_AUDIT_CONSUMED_BC2_31_RECOVERY_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V16_BC2_31_FRESH_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V17_BC2_31_AUDIT_CONSUMED_BC2_32_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V18_BC2_32_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V19_BC2_32_AUDIT_CONSUMED_BC2_33_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V20_BC2_33_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY',V31,V32,V33,V34}
+      'STAGE32EX5_MAIN_COMPACT_STATE_V15_BC2_30_AUDIT_CONSUMED_BC2_31_RECOVERY_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V16_BC2_31_FRESH_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V17_BC2_31_AUDIT_CONSUMED_BC2_32_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V18_BC2_32_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V19_BC2_32_AUDIT_CONSUMED_BC2_33_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V20_BC2_33_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V21_BC2_33_AUDIT_CONSUMED_BC2_34_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V22_BC2_34_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V23_BC2_34_AUDIT_CONSUMED_BC2_35_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V24_BC2_35_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V25_BC2_35_AUDIT_CONSUMED_BC2_36_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V26_BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V27_BC2_36_AUDIT_CONSUMED_BC2_37_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V28_BC2_37_TARGETED_REPLAY_AUDIT_BOUNDARY','STAGE32EX5_MAIN_COMPACT_STATE_V29_BC2_37_AUDIT_CONSUMED_BC2_38_EXECUTION','STAGE32EX5_MAIN_COMPACT_STATE_V30_BC2_38_TARGETED_REPLAY_AUDIT_BOUNDARY',V31,V32,V33,V34,V35}
     req(schema in allowed,'live EX5 schema drift')
     b=state['bootstrap']; req(b['active_work_pr']==1776 and b['work_branch']=='stage32ex5-bc2-25-boundary33-mainbatch' and b['merge_authorized'] is False,'work surface')
     a=state['intermediate_audit_boundary']; f=state['frontier']; cur=state['current']; req(a['last_hostile_audit_status']=='PASS','audit PASS missing')
-    if schema == V34:
+    if schema == V35:
+        req(a['last_hostile_audit_exact_head']=='b3b16f3db20074e3dbdb1851ad123d5c2004b843' and a['last_hostile_audit_review_id']==5204245683,'BC2-40 audit receipt drift')
+        req(a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False and a['bc2_40_execution_authorized'] is False,'BC2-40 V35 authority drift')
+        req(cur['status']=='BC2_40_GENERATION4_HOSTILE_AUDIT_PASS_CONSUMED' and cur['next_route']=='EX5_TO_MAIN_ADAPTER_OR_NEXT_INDEPENDENT_EX5_ROUTE' and cur['blocker']=='MAIN_ADAPTER_OR_MAIN_ACCEPTANCE_REQUIRED_FOR_SUBTRACTION','BC2-40 V35 route drift')
+        req(f['e8_bc2_40_audited'] is True and f['e8_bc2_40_executed'] is True and f['e8_bc2_40_new_parent_unsat_count']==23 and f['e8_bc2_40_remaining_unknown_count']==0 and f['e8_bc2_40_sat_count']==0 and f['e8_known_parent_unsat_count_lower_bound']==7336 and f['e8_whole_first_block_unsat'] is True and f['whole_g1_d008_e4_stratum_closed'] is False,'BC2-40 V35 frontier drift')
+        execution=state['execution']; req(execution['dedicated_runkey']=='stages/stage32-ex5/runkeys/bc2-40-fresh-unknown23-replay.json' and execution['runkey_armed'] is False and execution['new_generation_rearm_authorized'] is False and execution['heavy_scaleout_authorized'] is False,'BC2-40 V35 execution drift')
+        req(state['credit']['stage32_main_credit'] is False and state['credit']['FULL178_complete'] is False and state['credit']['theorem_credit'] is False and state['credit']['endpoint_credit'] is False,'BC2-40 V35 credit firewall')
+    elif schema == V34:
         req(a['last_hostile_audit_exact_head']=='4b974550d9ad030973fec99e19a090f6785f8aa8' and a['last_hostile_audit_review_id']==5193423203,'BC2-39 audit receipt drift')
         req(a['freeze_active'] is False and a['new_audit_boundary_exists'] is False and a['re_audit_required'] is False and a['bc2_40_execution_authorized'] is True,'BC2-40 V34 authority drift')
         req(cur['status']=='BC2_40_RESUME_RUNKEY_ARMED_EXECUTION_AUTHORIZED' and cur['next_route']=='BC2_40_RESUME_EXECUTE_MISSING_PARENT_UNITS' and cur['blocker']=='BC2_40_RESUME_HEAVY_PENDING','BC2-40 V34 route drift')
@@ -61,9 +69,11 @@ def main():
     elif schema.endswith('BC2_36_TARGETED_REPLAY_AUDIT_BOUNDARY'):
         req(a['freeze_active'] is True and f['e8_bc2_36_remaining_unknown_count']==41,'BC2-36 boundary drift')
 
-    if schema not in {V31,V32,V33,V34}:
+    if schema not in {V31,V32,V33,V34,V35}:
         req(f['e8_bc2_30_audited'] is True and f['e8_bc2_31_exact_remaining172_recovered'] is False and f['e8_bc2_19_unknown_parent_count']==236 and f['e8_bc2_30_unretained_unknown_identity_count']==172,'historical frontier drift')
-    req(f['FULL178_complete'] is False and f['e8_whole_first_block_unsat'] is False and state['credit']['stage32_main_credit'] is False,'local work promoted')
+    req(f['FULL178_complete'] is False and state['credit']['stage32_main_credit'] is False,'local work promoted')
+    if schema != V35:
+        req(f['e8_whole_first_block_unsat'] is False,'whole first block promoted before BC2-40 audit consumption')
 
     spec=importlib.util.spec_from_file_location('bc2_00_v4_frozen',FROZEN); req(spec is not None and spec.loader is not None,'cannot load frozen verifier')
     module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
