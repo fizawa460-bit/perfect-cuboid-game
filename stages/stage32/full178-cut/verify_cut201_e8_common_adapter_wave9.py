@@ -99,6 +99,7 @@ def run_v26_adapter_candidate():
  repo=HERE.parents[2]
  refs={
   'cut201':'8eed1449b325c3b990f90b61471bf7ecec0d89bc',
+  'main_v12':'6d63d798adb50dd4efc5f0d5abc553b3dfa23060',
   'main':'409767d0d4e51366afe17fcb600220b1f7627733',
   'certlift':'51c56b5c3ee15177c2975b966ab546d0b548c4af',
   'n400':'b1a950cbc6edf3cb85e1ea79473105c6f1f67b03',
@@ -111,6 +112,9 @@ def run_v26_adapter_candidate():
     p=Path(td)/name
     subprocess.run(['git','-C',str(repo),'worktree','add','--detach',str(p),sha],check=True)
     roots[name]=p
+   cut_main_state=roots['cut201']/'stages/stage32/MAIN-STATE.json'
+   v12_main_state=roots['main_v12']/'stages/stage32/MAIN-STATE.json'
+   cut_main_state.write_bytes(v12_main_state.read_bytes())
    subprocess.run([
     sys.executable,str(HERE/'verify_cut201_v26_current_authority_adapter.py'),
     '--cut201-root',str(roots['cut201']),
