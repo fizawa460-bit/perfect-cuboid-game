@@ -130,6 +130,9 @@ jobs:
           print('HPADJ12_CANONICAL=' + data['canonical_sha256_without_this_field'])
           print('HPADJ12_REFINED_UPPER=' + str(data['candidate_bound']['row_stratified_refined_survivor_upper_bound']))
           PY
+      - name: Verify HPADJ12 repaired audit boundary
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: python stages/stage32-ex5/hpadj-12_ex5/verify_hpadj12_audit_boundary.py
       - name: Checkout hostile-audited MAIN V31 target
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         uses: actions/checkout@v4
