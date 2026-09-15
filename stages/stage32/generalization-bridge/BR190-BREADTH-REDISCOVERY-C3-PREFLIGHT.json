@@ -1,0 +1,40 @@
+{
+  "schema": "STAGE32_BRIDGE_BR190_BREADTH_REDISCOVERY_C3_PREFLIGHT_V1",
+  "stage": 32,
+  "lane": "BRIDGE",
+  "status": "ACTIVE_EXACT_PREFLIGHT_NO_CREDIT",
+  "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+  "trigger": "BR190 route-exhaustion breadth audit after BR-C1 semantic no-generalization",
+  "question": "Do the 11 terminal-fixed selected pairings satisfy any intrinsic Picard64 lattice congruence before using MB104 chi_res or any conductor semantics?",
+  "exact_model": {
+    "selected_pairing_count": 64,
+    "terminal_fixed_pairing_count": 11,
+    "free_pairing_count": 53,
+    "terminal_pairing_labels_in_order": [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96],
+    "completion_formula": "retained_picard64=(B_fixed*x11+B_free*z53)/8",
+    "integrality_condition": "B_fixed*x11+B_free*z53 == 0 (mod 8) coordinatewise"
+  },
+  "exact_test": {
+    "engine": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py::PrefixMembershipOracle",
+    "criterion": "Build the depth-11 exact extendability check in terminal-pairing order. modulus=1 (equivalently no active congruence rows) proves every integer x11 extends to an integral primitive retained Picard64 class at raw lattice level; nontrivial modulus/rows gives an intrinsic terminal-visible congruence obstruction.",
+    "preferred_crosscheck": "Smith normal form of the 11x64 forward selected-pairing projection over Z"
+  },
+  "source_locks": {
+    "ex5_interface_path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "ex5_interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f",
+    "producer_path": "stages/stage32-ex5/hpadj-handoff/hpadj_full178_terminal_picard64_adapter.py",
+    "producer_blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
+    "pairing_prefix_engine_path": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+    "pairing_prefix_engine_blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "retained_picard_bundle_source_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "retained_picard_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+  },
+  "scope_firewall": {
+    "current_exact_interface_population": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "current_main_residual_population_identity_proved": false,
+    "effectivity_or_geometric_existence_inferred": false,
+    "main_pruning_credit": false,
+    "merge_authorized": false
+  }
+}

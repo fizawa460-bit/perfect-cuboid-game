@@ -1,0 +1,93 @@
+{
+  "schema": "STAGE32_BRIDGE_BR103_KRES_SEMANTIC_NO_GENERALIZATION_V1",
+  "stage": 32,
+  "lane": "BRIDGE",
+  "node": "BR103",
+  "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
+  "status": "EXACT_SOURCE_SEMANTIC_BLOCKER_NO_GENERALIZATION_NO_CREDIT",
+  "source_seed": {
+    "lane": "MB",
+    "pr": 1791,
+    "frozen_exact_head": "5263eedb652fc290440f4c69b4704da959694aec",
+    "source_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-G-FOURIER-CHARACTER.md",
+    "source_blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36",
+    "kres_formula": "-E24+E25-E26+E27-E32+E33-E34+E35"
+  },
+  "source_exact_scope": {
+    "packet": "000707000f0f",
+    "genus": 1,
+    "span": 5,
+    "balanced16": true,
+    "e": 2,
+    "residual_character": "chi_res(beta1^a beta2^b beta3^c)=c in F2",
+    "proved_fourier_identity": "F_res=8*l*K_res on the exact eight-class relative-G orbit",
+    "proved_kres_square": -16
+  },
+  "load_bearing_source_firewall": {
+    "source_does_not_identify_conductor_pair_with_relative_translate_intersection": true,
+    "source_does_not_convert_fourier_identity_to_conductor_sign_formula": true,
+    "source_does_not_assign_conductor_pair_to_relative_translate": true,
+    "source_does_not_assign_conductor_sign": true,
+    "source_does_not_prove_weighted_cut_upper_bound": true,
+    "source_does_not_assert_kres_equals_residual_kummer_divisor": true,
+    "source_remaining_required_adapter": "conductor normalization pair -> relative/full modular transition -> chi_res",
+    "source_rule_before_quantitative_use": "the missing semantic adapter must be source-locked before F_res or residual-coset budgets are used quantitatively on the weighted conductor cut"
+  },
+  "br102_algebraic_adapter": {
+    "path": "stages/stage32/generalization-bridge/BR102-KRES-PICARD64-COVECTOR-RESULT.json",
+    "blob_sha1": "d87d9c4d4a61496dfd07591876da2b0500108346",
+    "exact_48_node_bijection": true,
+    "kres_square_replayed": -16,
+    "hpadj_fixed_selected_pairings": 11,
+    "hpadj_free_selected_pairings": 53,
+    "ell_res_fixed_nonzero_count": 10,
+    "ell_res_free_nonzero_count": 48,
+    "interpretation": "This is an exact coordinate realization of the source class K_res on the retained Picard64 affine fiber. It is not, by itself, a theorem that a target completion carries the source residual-character/conductor semantics."
+  },
+  "target_boundary": {
+    "interface": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "certified_scope": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "full178_wide_current_residual_identity_claimed": false
+  },
+  "exact_logical_result": {
+    "target_character_applicability_proved": false,
+    "target_conductor_to_chi_res_map_proved": false,
+    "target_ell_res_necessary_condition_proved": false,
+    "target_ell_res_parity_condition_proved": false,
+    "target_ell_res_sign_condition_proved": false,
+    "target_ell_res_congruence_condition_proved": false,
+    "target_ell_res_lower_bound_proved": false,
+    "mod8_free_completion_minimization_run": false,
+    "mod8_minimization_reason_not_run": "The semantic premise needed to make ell_res a necessary target quantity fails before free-completion minimization. Optimizing an otherwise arbitrary lattice functional cannot create the missing implication.",
+    "conclusion": "NO_GENERALIZATION for BR-C1 under the currently retained MB104 theorem/candidate: K_res is an exact source-orbit Fourier class and an exact retained Picard64 covector, but no source-locked theorem maps general HPADJ/FULL178 target completions into the chi_res conductor channel."
+  },
+  "ownership_and_reentry": {
+    "missing_mathematics_owner": "MB/32-03 multibranch conductor semantics",
+    "bridge_must_not_rebuild_source_owned_math": true,
+    "cross_lane_demand_created_in_this_checkpoint": false,
+    "reopen_condition": "A source-locked MB-owned adapter proves a semantic map from the relevant target/conductor objects through the relative/full modular transition into chi_res, with hypotheses compatible with the claimed target population.",
+    "next_bridge_node": "BR190",
+    "next_bridge_action": "Retain the exact no-generalization/source-blocker handoff for hostile audit; do not descend to terminal/block pruning."
+  },
+  "independent_algebra_crosscheck": {
+    "wolfram_context_loaded": true,
+    "wolfram_modular_or_snf_calculation_used": false,
+    "reason": "The source-semantic gate failed before modular minimization became logically relevant."
+  },
+  "credit_firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "population_wide_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

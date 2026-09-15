@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32_BRIDGE_BR102_EXCEPTIONAL_INCIDENCE_FINGERPRINT_ADAPTER_V1",
+  "status": "RETAINED_EXACT_SEMANTIC_REDUCTION_NO_CREDIT",
+  "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
+  "purpose": "Recover the exact MB104 E0..E47 to retained Stoll/Testa exceptional-class correspondence without assuming the enumeration order of Magma Points(SingularSubscheme(S)).",
+  "source_locks": {
+    "mb104_source_head": "5263eedb652fc290440f4c69b4704da959694aec",
+    "mb104_node_action_source_note_blob_sha1": "cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693",
+    "mb104_node_model_verifier_blob_sha1": "0c5b460b76b69e41e6009be2e92b7c051f003c22",
+    "stoll_verification_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "stoll_cuboids_magma_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "pairing_prefix_engine_blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "retained_picard_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+  },
+  "exact_source_facts": {
+    "known_curves_count": 92,
+    "singular_points_count": 48,
+    "big_exceptional_indices_1based": "93..140",
+    "picard_rank": 64,
+    "retained_indlist_exceptional_count": 29,
+    "retained_indlist_curve_count": 35,
+    "retained_selected_coordinate_order": "29 exceptional basis classes first, then 35 curve basis classes",
+    "mb104_node_model": "48 exact projective Q(i) nodes with the same nine source-locked automorphism substitutions and generated node permutation group order 1536"
+  },
+  "mapping_algorithm": {
+    "step_1": "For each MB104 node P_i, evaluate incidence with the 35 retained known-curve basis classes indexed by INDLIST <= 92, using the exact Stoll/Testa curve equations and the exact MB104 Q(i) node coordinates.",
+    "step_2": "From the retained Picard64 Gram matrix, extract for each of the 29 retained exceptional basis classes its pairing row against the same 35 retained curve basis classes.",
+    "step_3": "Match the two exact 35-entry incidence fingerprints. This recovers retained exceptional labels to MB104 node labels without using or guessing Magma's singular-point enumeration order.",
+    "step_4": "For every MB104 exceptional E_i, form its 64 selected pairings: -2 against its own retained exceptional basis class when present, 0 against the other retained exceptionals, and its exact 35 curve incidences. Reconstruct its primitive retained Picard64 vector with RetainedBasisPairingTransform.",
+    "step_5": "Form K_res=-E24+E25-E26+E27-E32+E33-E34+E35 and verify K_res^2=-16 in the retained Gram lattice before any transport claim.",
+    "step_6": "Because selected=P*Gram is a row permutation of the retained primitive Gram basis, the coefficient row of ell_res(v)=<v,K_res> on selected pairing coordinates is exactly P*x_Kres, where x_Kres is the primitive Picard64 coordinate vector.",
+    "step_7": "Split that exact 64-coordinate functional into the HPADJ 11 fixed selected pairings and 53 free selected pairings. Free part zero means terminal-visible on the certified HPADJ interface scope; nonzero free part routes to BR103 exact congruence-aware cancellation/minimization."
+  },
+  "forbidden_shortcuts": [
+    "Do not identify E_i with Big[93+i] by offset.",
+    "Do not infer Magma Points(...) enumeration order from the MB104 node constructor.",
+    "Do not use raw coefficient dot products as the Picard intersection pairing.",
+    "Do not whole-fetch or line-range the permanent-denylist retained payload files.",
+    "Do not fall back to terminal-by-terminal pruning if this semantic adapter fails."
+  ],
+  "current_exact_boundary": {
+    "semantic_correspondence_problem_reduced_to": "29x35 retained exceptional/curve pairing fingerprints versus 48 exact MB104 node/curve incidence fingerprints",
+    "source_order_guess_required": false,
+    "new_cross_lane_demand_required": false,
+    "numerical_pruning_credit": false,
+    "population_wide_credit": false,
+    "heavy_compute_required": false
+  },
+  "next_exact_unit": "Implement/replay the compact fingerprint matcher using picard_base_rows_retained.load() only through the existing compact loader API, verify all retained exceptional matches and K_res^2=-16, then emit the fixed/free support of ell_res.",
+  "firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}

@@ -18,6 +18,8 @@ If the live MAIN authority identity cannot be resolved, or a lane-local mirror c
 - `stage32cut-audit` — hostile audit for an exact retained CUT checkpoint; PASS alone grants no MAIN credit.
 - `stage32mb-mainbatch` — independent 32-03 multibranch final-chain specialist; does not own MAIN promotion.
 - `stage32mb-audit` — hostile audit after a new exact retained MB checkpoint is frozen.
+- `stage32bridge-mainbatch` — cross-lane generalization-feasibility specialist. It tests whether an exact retained source-lane structure can be transported into a broad FULL178/Picard64 necessary condition without taking ownership of the source lane or ordinary FULL178 enumeration. Startup: `stages/stage32/generalization-bridge/MAIN-START-HERE.md`.
+- `stage32bridge-audit` — hostile audit for a frozen exact BRIDGE checkpoint; PASS alone grants no source-lane or MAIN credit.
 
 ## On-demand and historical surfaces
 
@@ -29,7 +31,7 @@ Mathematical authority: `MAIN-STATE explicit routing` > exact retained/audited e
 
 Operational scheduling inside that authority: `higher-priority applicable OPEN demand` > current lane route > historical roadmap text. The demand layer cannot change mathematical authority by itself.
 
-Stable ownership split: 178 = sustained FULL178 census/incidence/transport/completeness; EX5 = Picard64/node-support interface production/refinement; CUT = direct infeasibility/obstruction consuming exact producer interfaces; MB = 32-03 multibranch research; MAIN = authority, coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics. No two surfaces independently own the same semantic leaf without explicit MAIN reassignment.
+Stable ownership split: 178 = sustained FULL178 census/incidence/transport/completeness; EX5 = Picard64/node-support interface production/refinement; CUT = direct infeasibility/obstruction consuming exact producer interfaces; MB = 32-03 multibranch research; BRIDGE = exact source-lane-to-FULL178/Picard64 generalization feasibility and semantic adapter/no-go research; MAIN = authority, coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics. BRIDGE does not duplicate MB/EX5/178/CUT mathematics. No two surfaces independently own the same semantic leaf without explicit MAIN reassignment.
 
 ## Guards
 

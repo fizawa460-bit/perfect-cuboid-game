@@ -1,0 +1,105 @@
+{
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
+  "mission_id": "stage32-generalization-bridge",
+  "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+  "current_node": "BR190",
+  "active_leaf": "BR190_WAITING_HOSTILE_AUDIT",
+  "last_retained_result": {
+    "path": "stages/stage32/generalization-bridge/BR190-C3-RETAINED-AUDIT-HANDOFF.json",
+    "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+    "bridge_commit": "11793e2ad99fe2daa3c84822b7c7611d978c787e",
+    "br105_scope_blocker": "stages/stage32/generalization-bridge/BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json",
+    "c3_exact_result": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
+    "bounded_diagnostic": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
+    "prior_c1_result": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json"
+  },
+  "source_seed": {
+    "source_lane": "MB",
+    "source_pr": 1791,
+    "frozen_exact_head": "5263eedb652fc290440f4c69b4704da959694aec",
+    "last_full_hostile_audit_checkpoint": "160516b1c315c25c777797b88d53b356fb05e05a",
+    "candidate_family": [
+      "residual_G_over_H_character_to_Picard_Fourier_direction",
+      "A1_lift_square_energy_identity",
+      "intrinsic_Picard64_fixed_pairing_projection"
+    ],
+    "authority_status": "RETAINED_EXACT_RESEARCH_SEEDS_POST_LAST_FULL_HOSTILE_AUDIT_CHECKPOINT_NO_BRIDGE_AUTHORITY",
+    "source_specific_hypotheses_known_to_require_attention": [
+      "multibranch semantics",
+      "genus one",
+      "span five",
+      "balanced16",
+      "000707 support packet",
+      "e=2 residual split case",
+      "conductor/residual-sheet semantics"
+    ]
+  },
+  "target": {
+    "authority": "stages/stage32/MAIN-STATE.json",
+    "frontier": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "target_population": "current authoritative FULL178/Picard64 population",
+    "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "known_interface": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "known_interface_scope_for_population_claims": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "known_affine_completion_model": "retained_picard64=(B_fixed*x11+B_free*z53)/8 with coordinatewise mod-8 integrality",
+    "retained_c3_condition": "x0+x4+x8+x10 == 0 (mod 2)",
+    "ordinary_178_enumeration_owned_elsewhere": true
+  },
+  "candidate_ledger": [
+    {
+      "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
+      "status": "RETAINED_NO_GENERALIZATION_SOURCE_SEMANTIC_BLOCKER",
+      "description": "BR102 constructed the exact K_res Picard64 covector and found 48/53 nonzero free coefficients. BR103 rechecked the frozen MB104 source semantics and found the load-bearing conductor normalization pair -> relative/full modular transition -> chi_res adapter absent. No target ell_res necessary condition is currently justified."
+    },
+    {
+      "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
+      "status": "RETIRED_DUPLICATE_SPECIALIST_ROUTE",
+      "description": "Do not duplicate. FULL178 support-aware/exact stored-square strengthening is already owned by 178 H8C-02/H8C-03A and EX5 HPADJ-08 exact-square compression."
+    },
+    {
+      "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+      "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+      "description": "BR103 found one exact intrinsic Picard64 parity obstruction and BR104 bounded its effect on the identical HPADJ01 charged population. BR105 source-locked the general 11-label coordinate identity but found no source-locked proof that every current-authority FULL178 candidate must admit an integral retained Picard64 completion. BR190 freezes that exact scope blocker for hostile audit; no population-wide transport or MAIN credit is claimed."
+    }
+  ],
+  "next_obligation": {
+    "node_id": "BR190",
+    "title": "Wait for retained hostile audit",
+    "required_input": "Run stage32bridge-audit against the frozen BR190-C3-RETAINED-AUDIT-HANDOFF.json boundary and exact PR head. Ordinary bridge mainbatch must not append a new substantive route while this retained boundary is pending audit.",
+    "success": "Hostile audit accepts the exact no-generalization/scope blocker. Grant no MAIN pruning credit. After audit, re-enter only through explicit audit result/state synchronization.",
+    "reentry": "A future C3 population-wide attempt requires a new source-locked theorem or interface proving integral retained Picard64 completion necessity on the claimed current-authority FULL178 population."
+  },
+  "routing": {
+    "independent_specialist": true,
+    "source_lane_authority_mutation": false,
+    "main_credit_auto_promotion": false,
+    "terminal_by_terminal_fallback_forbidden": true,
+    "heavy_compute_armed": false,
+    "BR102_population_wide_entry_authorized": true,
+    "BR103_C3_exact_extendability_authorized": true,
+    "BR104_C3_bounded_diagnostic_complete": true,
+    "BR105_population_adapter_research_authorized": true,
+    "BR105_population_adapter_research_complete": true,
+    "BR105_population_wide_transport_established": false,
+    "BR190_hostile_audit_handoff_ready": true,
+    "BR190_hostile_audit_handoff_frozen": true,
+    "BR190_hostile_audit_pending": true,
+    "population_wide_credit_authorized": false,
+    "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
+    "cross_lane_demand_created_in_this_checkpoint": false,
+    "stop_reason": "BR190 retained boundary frozen; ordinary mainbatch stops pending stage32bridge-audit."
+  },
+  "credit_firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
