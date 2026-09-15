@@ -21,6 +21,7 @@ N358_AUDITED_HEAD = "462174f74d6470ec7c64f5b6d078757c7b3372fc"
 N358_BLOB = "c07a7e358a6253919194189377d6ed56f95e047a"
 CXX_BLOB = "65d554c53ffb6a3a3be4fa51a52e6dd16821b2dc"
 RESULT_BLOB = "248aaad49186b5efdf187114e9efd98db1f320ad"
+RESULT_CANONICAL = "e2fc7899f0546ae9739c1d8ad626d6e7992635dc814f424e41869b5a6bc9746e"
 H8C02_RESULT_BLOB = "81cfcbe8f9cb9c1c9750be3187e15f61ade3ea9d"
 EXPECTED_BC_CELLS = 97 * 97 * 8
 
@@ -33,6 +34,16 @@ def req(value: bool, message: str) -> None:
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
+
+def canonical_without_self_field(obj: dict) -> str:
+    payload = dict(obj)
+    stored = payload.pop("canonical_sha256_without_this_field", None)
+    req(stored == RESULT_CANONICAL, "H8C-03A stored canonical identity drift")
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
+    actual = hashlib.sha256(encoded).hexdigest()
+    req(actual == stored, "H8C-03A RESULT canonical SHA256 replay drift")
+    return actual
 
 
 def exact_head(root: Path) -> str:
@@ -59,14 +70,18 @@ def check_projection(path: Path, bc, hmax: int) -> tuple[int, str]:
     expected_cells = (hmax + 1) * (hmax + 1) * 8
     req(expected_cells == EXPECTED_BC_CELLS, "audited N358 HMAX/domain drift")
     seen = 0
-    stream = hashlib.sha256()
+    got_stream = hashlib.sha256()
+    expected_stream = hashlib.sha256()
     with path.open("rb") as fh:
         for b in range(hmax + 1):
             for c in range(hmax + 1):
                 for support in range(8):
                     raw = fh.readline()
                     req(bool(raw), f"truncated C++ BC projection at cell {seen}")
-                    stream.update(raw)
+                    got_stream.update(raw)
+                    expected_raw = f"{b}\t{c}\t{support}\t{bc[b][c][support]}\n".encode()
+                    expected_stream.update(expected_raw)
+                    req(raw == expected_raw, f"C++ BC stream != audited N358 build_bc_exact at {(b, c, support)}")
                     try:
                         fields = raw.decode("utf-8").rstrip("\n").split("\t")
                         got_b, got_c, got_s, got_value = map(int, fields)
@@ -77,7 +92,8 @@ def check_projection(path: Path, bc, hmax: int) -> tuple[int, str]:
                     seen += 1
         req(fh.readline() == b"", "C++ BC projection has trailing cells/data")
     req(seen == expected_cells, "C++ BC projection cell-count drift")
-    return seen, stream.hexdigest()
+    req(got_stream.hexdigest() == expected_stream.hexdigest(), "C++ BC projection stream hash != audited N358 stream hash")
+    return seen, got_stream.hexdigest()
 
 
 def check_rows(path: Path, result: dict, cpp: dict) -> tuple[int, str]:
@@ -134,6 +150,7 @@ def main() -> None:
     req(H8C02_RESULT.is_file() and git_blob(H8C02_RESULT) == H8C02_RESULT_BLOB, "H8C-02 RESULT source-lock drift")
     result = json.loads(RESULT.read_text())
     h8c02 = json.loads(H8C02_RESULT.read_text())
+    result_canonical = canonical_without_self_field(result)
 
     audited = args.audited_n358_root.resolve()
     req(audited.is_dir(), "missing audited N358 checkout")
@@ -166,7 +183,7 @@ def main() -> None:
         req(run.returncode == 0, "H8C-03A C++ execution failed: " + run.stderr[-2000:])
 
         # The C++ aggregate is not trusted until its entire reconstructed BC table
-        # has been checked cell-for-cell against audited N358 build_bc_exact().
+        # has been checked byte-for-byte and cell-for-cell against audited N358.
         cells, projection_sha = check_projection(projection_path, audited_bc, n358.HMAX)
 
         stdout_lines = [line for line in run.stdout.splitlines() if line.strip()]
@@ -210,6 +227,7 @@ def main() -> None:
         "audited_n358_head": N358_AUDITED_HEAD,
         "audited_n358_bc_cells_exact_match": cells,
         "bc_projection_sha256": projection_sha,
+        "result_canonical_sha256": result_canonical,
         "row_count": rows,
         "row_stream_sha256": row_sha,
         "h8c03a_rejected_terminals": cpp["h8c03a_rejected_terminals"],
