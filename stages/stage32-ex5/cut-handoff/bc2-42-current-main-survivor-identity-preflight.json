@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32EX5_BC2_42_CURRENT_MAIN_SURVIVOR_IDENTITY_PREFLIGHT_V1",
+  "stage": "32EX5",
+  "status": "BLOCKED_NO_CURRENT_MAIN_EXACT_IDENTITY_WITNESS",
+  "purpose": "Freeze the next CUT191-disjoint e8 block as a candidate only, while refusing computation or MAIN-credit claims until exact current-MAIN residual identity/no-double-charge is proved against all already-consumed MAIN pruning.",
+  "source_locks": {
+    "producer_pr": 1776,
+    "producer_head_before_preflight": "98f13bd5527e53c5e77e7f85c72b3fa46db19d9f",
+    "main_pr": 1808,
+    "main_head_observed": "8c732e983cdfb01b5936dac9af8a75d98dd93f05",
+    "main_state_blob_sha1": "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b",
+    "main_state_canonical_sha256": "39b66cb72dd60900158e60cbca9e0c8dbd15bff3d77f7d9ed2fd096e0f12b9dd",
+    "bc2_41_main_disposition_blob_sha1": "aea40bd4239fb49b8435b9892ce4dcfff9039cf6",
+    "bc2_41_main_disposition_canonical_sha256": "88f23dd5676157331c4f212eeae745ead0b51db4dddeacbedd1cf14f2749fd12",
+    "legacy_e8_population_preflight_blob_sha1": "b28539d9d0eafddc181d3bbf6d668261f2ff081e"
+  },
+  "current_main_authority": {
+    "remaining_strata": 17128,
+    "remaining_terminals_upper_bound": 26876434389242951083886,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "cut191_main_pruning_credit": true,
+    "n400_main_pruning_credit": true
+  },
+  "candidate": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "block_index": 1,
+    "terminal_rank_range": [113, 225],
+    "terminal_count": 113,
+    "cut191_rank_range": [0, 112],
+    "cut191_disjoint_by_rank": true,
+    "legacy_preflight_marks_first_disjoint_block": true,
+    "legacy_authority_ceiling": "AUDITED_N220_PLUS_AUDITED_N355_FULL_PREFIX;N356_CANDIDATE_NOT_CONSUMED",
+    "current_main_survival_proven": false,
+    "exact_current_main_subset_identity_proven": false,
+    "all_consumed_main_credit_no_overlap_proven": false
+  },
+  "blocker": {
+    "reason": "Current MAIN authority is an aggregate certified upper bound, not an exact residual identity set. CUT191-disjointness alone does not prove that ranks 113..225 survive all later consumed pruning, including the current V26/N400 boundary.",
+    "required_interface": "A source-locked MAIN-side exact residual identity or exact subset/no-double-charge witness for the candidate rank set against every already-consumed MAIN pruning credit.",
+    "may_infer_current_main_survival_from_aggregate_count": false,
+    "may_reuse_legacy_current_main_label_as_v26_identity_proof": false
+  },
+  "execution_gate": {
+    "heavy_authorized": false,
+    "runkey_authorized": false,
+    "parent_population_computation_authorized": false,
+    "next_heavy_may_start_only_after_exact_identity_gate": true
+  },
+  "credit_firewall": {
+    "stage32_main_pruning_credit": false,
+    "main_subtraction_authorized": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_action": "Obtain or build a MAIN-side exact current-residual subset/no-double-charge adapter for g1-d008/e8 block 1 ranks 113..225. If and only if it proves a nonempty live subset, source-lock that identity into EX5 before any BC2-42 heavy computation.",
+  "canonical_sha256_without_this_field": "0b54384b6f7e12b0840e04342aea8b9842134be70984085a439c567c27e42184"
+}
