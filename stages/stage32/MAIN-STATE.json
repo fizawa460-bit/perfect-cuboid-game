@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V29_HPADJ08_BOUND_REPLACEMENT_PENDING_REAUDIT",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V30_HPADJ08_AUDIT_SYNCED",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_v28_exact_head": "a105787a9d1934e371a1192495dcac92ea828e41",
-    "predecessor_v28_main_state_blob_sha1": "69dd727697ab3f8d464f8a48e7bc708739d6973a",
-    "predecessor_v28_main_state_canonical_sha256": "29859578ce1c4e2372379cd508595e767393d676c0b6429e7de3bc8691998fc9",
+    "predecessor_v29_exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+    "predecessor_v29_main_state_blob_sha1": "bd663e70864d7279063fa4eea9745fdfa479346d",
+    "predecessor_v29_main_state_canonical_sha256": "3cbaa6e0b6b54cd379ba8770cc8e45c56c8444c13814f325fb9737222e306ecc",
     "n400_main_pruning_credit_consumed": true,
     "cut201_main_pruning_credit_consumed": true,
     "hpadj08_ex5_main_numeric_bound_replacement_consumed": true,
@@ -14,14 +14,17 @@
     "hpadj08_ex5_audited_exact_head": "36eab50192cf80ec5ed48aba40f4a56076759fea",
     "hpadj08_ex5_hostile_audit_review_id": 5208789388,
     "hpadj08_ex5_hostile_audit_status": "PASS",
-    "merge_ready_freshness_at_transition": "NOT_A_MERGE_GATE__REPLACEMENT_HEAD_REAUDIT_REQUIRED"
+    "v29_hpadj08_replacement_exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+    "v29_hpadj08_replacement_hostile_audit_review_id": 5209163478,
+    "v29_hpadj08_replacement_hostile_audit_status": "PASS",
+    "merge_ready_freshness_at_audit": "CLEAR"
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
-    "next_exact_route": "HOSTILE_REAUDIT_THEN_FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
-    "stacked_candidate_audit_status": "HPADJ08_EX5_AUDITED_BOUND_REPLACEMENT_CONSUMED_V29_PENDING_HOSTILE_REAUDIT",
-    "stop_semantics": "V29 adopts the hostile-audited HPADJ08 independent certified upper bound only by min-composition against V28. N400/CUT201 and H8C-03A are not additively stacked. This replacement head must receive hostile-audit PASS before any further MAIN authority mutation or ordinary research re-entry."
+    "mainbatch_stop_gate": "NONE",
+    "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
+    "stacked_candidate_audit_status": "HPADJ08_V29_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED_MAIN_AUTHORITY_CURRENT",
+    "stop_semantics": "The V29 HPADJ08 MAIN bound-replacement head received exact-head hostile-audit PASS and is synchronized as the V30 MAIN authority boundary. V30 adds zero pruning credit and only releases the replacement-head audit freeze. FULL178 and all downstream credits remain incomplete."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -38,6 +41,9 @@
     "hpadj08_exact_incremental_rejected_set_vs_v28_claimed": false,
     "hpadj08_additive_subtraction_against_v28_performed": false,
     "hpadj08_double_charge": false,
+    "hpadj08_v29_replacement_hostile_audited": true,
+    "hpadj08_v29_replacement_audited_exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+    "hpadj08_v29_replacement_hostile_audit_review_id": 5209163478,
     "n400_incremental_rejected_terminals": 5502,
     "n400_main_pruning_credit": true,
     "n400_main_consumer_subtraction_performed": true,
@@ -60,11 +66,12 @@
     "cut201_v27_replacement_hostile_audit_review_id": 5207093455
   },
   "current_leaf_working_set": [
+    "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V30-HOSTILE-AUDIT-PASS-SYNC.json",
+    "stages/stage32/management/hpadj08-main-disposition/verify_hpadj08_v30_audit_sync.py",
     "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-MAIN-BOUND-REPLACEMENT.json",
-    "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-CLAIM-SYNC.json",
     "stages/stage32/management/hpadj08-main-disposition/verify_hpadj08_v29_main_bound_replacement.py",
     "stages/stage32/proof/verify_cross_lane_demands.py",
-    "stages/stage32/verify_main_startup_authority_v29_hpadj08_consumed.py"
+    "stages/stage32/verify_main_startup_authority_v30_hpadj08_audit_synced.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -83,7 +90,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": true,
+    "replacement_head_hostile_reaudit_required": false,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -97,13 +104,15 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "source_locks": {
-    "predecessor_v28": {
-      "exact_head": "a105787a9d1934e371a1192495dcac92ea828e41",
-      "main_state_blob_sha1": "69dd727697ab3f8d464f8a48e7bc708739d6973a",
-      "main_state_canonical_sha256": "29859578ce1c4e2372379cd508595e767393d676c0b6429e7de3bc8691998fc9",
-      "v28_verifier_blob_sha1": "06b4b54fd8fc21e09c7d5b8cb254252d6b0a3b7e",
-      "v28_startup_wrapper_blob_sha1": "7df53b89ebb683cb8194e9a0afabf58ab73504e4",
-      "cross_lane_verifier_blob_sha1": "b80fa8bfbaef389493e786719da751c56640febc"
+    "predecessor_v29": {
+      "exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+      "main_state_blob_sha1": "bd663e70864d7279063fa4eea9745fdfa479346d",
+      "main_state_canonical_sha256": "3cbaa6e0b6b54cd379ba8770cc8e45c56c8444c13814f325fb9737222e306ecc",
+      "v29_startup_verifier_blob_sha1": "5dbbe680a7c579dd498078486b693d7fc7341e6a",
+      "v29_bound_receipt_blob_sha1": "68a01142d0af4285d2a7801bf0e6808321ee689c",
+      "v29_bound_receipt_canonical_sha256": "9b7dde35f57960a1535b0dad5853ebeb75fe6d996902a653de1059fde0764f4d",
+      "v29_claim_sync_blob_sha1": "7a98c733ee4ace141c89e40826f717f2462ebf95",
+      "v29_claim_sync_canonical_sha256": "1f0f197f25d9fd059b52e8783d3615552edb9de5579eb6a66f00af879d312acb"
     },
     "hpadj08_ex5_audited_adapter": {
       "producer_pr": 1812,
@@ -115,15 +124,12 @@
       "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_current_main_adapter.py",
       "verifier_blob_sha1": "65ed09517e1d37c318ca8c8798f10294ed5c6270"
     },
-    "v29_bound_replacement": {
-      "path": "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-MAIN-BOUND-REPLACEMENT.json",
-      "blob_sha1": "68a01142d0af4285d2a7801bf0e6808321ee689c",
-      "canonical_sha256": "9b7dde35f57960a1535b0dad5853ebeb75fe6d996902a653de1059fde0764f4d"
-    },
-    "v29_claim_sync": {
-      "path": "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-CLAIM-SYNC.json",
-      "blob_sha1": "7a98c733ee4ace141c89e40826f717f2462ebf95",
-      "canonical_sha256": "1f0f197f25d9fd059b52e8783d3615552edb9de5579eb6a66f00af879d312acb"
+    "v30_audit_sync": {
+      "path": "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V30-HOSTILE-AUDIT-PASS-SYNC.json",
+      "blob_sha1": "45f636707149b05cbf18dd209194de515ee729f8",
+      "canonical_sha256": "c57e3614ef0111ba35490f48ea707cd7c47d34865e6b85fa336462794867a773",
+      "audited_exact_head": "cfc23c7c633fa4192c281c8ba6a356ec071fc305",
+      "hostile_audit_review_id": 5209163478
     },
     "claim_sync_unchanged": {
       "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
@@ -139,5 +145,5 @@
       "credited_incremental_rejected_terminals": 18758
     }
   },
-  "canonical_sha256_without_this_field": "3cbaa6e0b6b54cd379ba8770cc8e45c56c8444c13814f325fb9737222e306ecc"
+  "canonical_sha256_without_this_field": "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21"
 }

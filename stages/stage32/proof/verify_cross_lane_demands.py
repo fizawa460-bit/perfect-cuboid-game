@@ -14,8 +14,9 @@ REGISTRY_BLOB = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
 REGISTRY_CANON = "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74"
 MONITOR_BLOB = "53f286f78574cfad59fc397a9d3268d345331594"
 MONITOR_CANON = "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
-STATE_BLOB = "bd663e70864d7279063fa4eea9745fdfa479346d"
-STATE_CANON = "3cbaa6e0b6b54cd379ba8770cc8e45c56c8444c13814f325fb9737222e306ecc"
+STATE_BLOB = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
+STATE_CANON = "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21"
+AUDIT_REVIEW_ID = 5209163478
 
 def req(v: bool, msg: str) -> None:
     if not v:
@@ -64,14 +65,16 @@ def main() -> None:
     req(mon["credit_firewall"]["duplicate_pruning_credit_authorized"] is False, "monitor duplicate-credit firewall")
     req(mon["credit_firewall"]["merge_authorized"] is False, "monitor merge firewall")
 
-    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V29_HPADJ08_BOUND_REPLACEMENT_PENDING_REAUDIT", "V29 state schema")
-    req(state["current"]["mainbatch_stop_gate"] == "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED", "V29 audit stop gate")
-    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] == 6703403803993210101494, "V29 authority")
-    req(state["current_exact_frontier"]["hpadj08_additive_subtraction_against_v28_performed"] is False, "V29 additive double charge")
-    req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is True, "V29 audit firewall")
+    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V30_HPADJ08_AUDIT_SYNCED", "V30 state schema")
+    req(state["current"]["mainbatch_stop_gate"] == "NONE", "V30 stop gate")
+    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] == 6703403803993210101494, "V30 authority")
+    req(state["current_exact_frontier"]["hpadj08_additive_subtraction_against_v28_performed"] is False, "V30 additive double charge")
+    req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audited"] is True, "V29 audit not synchronized")
+    req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audit_review_id"] == AUDIT_REVIEW_ID, "V29 audit review")
+    req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is False, "V30 audit firewall")
 
-    print("PASS: Stage32 cross-lane demand coordination preserved at V29 HPADJ08 bound-replacement boundary")
-    print("PASS: no OPEN demand; no duplicate N400/CUT201/HPADJ08 subtraction; replacement-head hostile re-audit required")
+    print("PASS: Stage32 cross-lane demand coordination preserved at V30 HPADJ08 audit-synced boundary")
+    print("PASS: no OPEN demand; no duplicate N400/CUT201/HPADJ08 subtraction; MAIN stop gate NONE")
 
 if __name__ == "__main__":
     main()
