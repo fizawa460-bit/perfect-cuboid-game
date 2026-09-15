@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V4_CUT201_V27_CONSUMED",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V5_TD01_HPADJ10_AUDIT_WAIT",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists. CUT201 V26 adapter is now hostile-audited and consumed exactly once by MAIN V27; no CUT201 handoff remains pending.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists and expose the current TD01/HPADJ10 audit-pending MAIN handoffs without granting credit.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -35,31 +35,36 @@
       "lane": "32-01-178",
       "command": "stage32-01-178-mainbatch",
       "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
-      "expected_open_pr": 1797,
-      "state_resolution": "Resolve the current retained node/state selected by the live lane startup.",
+      "expected_open_pr": 1815,
+      "state_resolution": "Resolve the live TD01/top-down retained boundary selected by the current 178 startup and do not trust this PR hint without refreshing it.",
       "main_role": "FULL178 census/incidence/transport/completeness specialist",
-      "pending_main_handoff_ids": [],
-      "last_main_disposition": "N400 hostile-audited compact consumer handoff consumed exactly once by MAIN V25; producer subtraction forbidden."
+      "pending_main_handoff_ids": [
+        "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1"
+      ],
+      "last_main_disposition": "N400 was consumed once historically. Current TD01 is audit-pending and grants zero MAIN credit until hostile-audit PASS plus explicit MAIN min-composition consumption."
     },
     {
       "lane": "EX5",
       "command": "stage32ex5-mainbatch",
       "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
-      "expected_open_pr": 1776,
-      "state_resolution": "Read the live EX5 MAIN-STATE at the current PR head and exact retained/audited references.",
+      "expected_open_pr": 1814,
+      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10 boundaries even if the branch-local compact MAIN-STATE lags the successor research surface.",
       "main_role": "Picard64/node-support producer/refinement specialist",
-      "pending_main_handoff_ids": [],
-      "last_main_disposition": "No currently retained EX5 handoff is authorized for duplicate MAIN subtraction."
+      "pending_main_handoff_ids": [
+        "S32.DEMAND.HPADJ10.EX5.MAIN.AUDITED_POPULATION_HANDOFF.V1"
+      ],
+      "last_main_disposition": "HPADJ09 bounded diagnostic PASS is retained. HPADJ10 population count is audit-pending, grants zero MAIN credit, and is the same Picard64 parity character as TD01 so additive stacking is forbidden."
     },
     {
       "lane": "CUT",
       "command": "stage32cut-mainbatch",
       "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
-      "expected_open_pr": 1806,
-      "state_resolution": "Resolve the current CUT retained checkpoint and current PR head.",
+      "expected_open_pr": null,
+      "retained_pr": 1806,
+      "state_resolution": "Resolve any live CUT successor; otherwise treat closed/unmerged PR #1806 as retained audited CUT201 provenance only.",
       "main_role": "direct completion infeasibility/obstruction specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "CUT201 exact V26 adapter at 9b485b4e... / review 5206283218 was consumed exactly once by MAIN V27 for 18,758 terminals; producer subtraction remains forbidden; replacement MAIN head requires hostile re-audit."
+      "last_main_disposition": "CUT201 exact V26 adapter at 9b485b4e... / review 5206283218 was consumed exactly once by MAIN V27 for 18,758 terminals; producer subtraction remains forbidden."
     },
     {
       "lane": "MB",
@@ -71,6 +76,7 @@
       "pending_main_handoff_ids": []
     }
   ],
+  "supplementary_live_surface_rule": "Dedicated cross-lane research surfaces not enrolled as stable specialists, including BRIDGE when active, may be inspected in addition to this list; they do not silently acquire specialist ownership or MAIN credit.",
   "on_demand_not_counted_as_active_specialist": [
     "stage32certlift-mainbatch",
     "32-02 scalar producer experiment"
@@ -80,7 +86,8 @@
     "audit_pending_candidate_is_main_credit": false,
     "demand_status_is_main_credit": false,
     "duplicate_pruning_credit_authorized": false,
+    "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
+  "canonical_sha256_without_this_field": "9fb4e4123ca2107151a3b8ffec9c975251f2ea00e297805ccd0dfd1ba67ab2ad"
 }

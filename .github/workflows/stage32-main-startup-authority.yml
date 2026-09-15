@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V30 synchronization of hostile-audited V29 HPADJ08 certified-bound replacement.
+# Current boundary: V30 authority unchanged; live TD01/HPADJ10 audit-wait routing synchronized.
 on:
   pull_request:
     paths:
@@ -81,20 +81,20 @@ jobs:
           fi
           echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
-      - name: Verify V30 HPADJ08 audit-sync source identities
+      - name: Verify V30 authority and live audit-wait routing source identities
         run: |
           test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
           test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "8eb1f518b349569d03d65bc9d21a27c2009cc3c2"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "b645d3244b89acc638bb2137dabffaba36fd5e49"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v30_hpadj08_audit_synced.py)" = "2731ae6b37c9b411c89f47f1a6f352363684c7f4"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v30_hpadj08_audit_synced.py)" = "f5892117b023879eceaa1a94f3368e9f577885dd"
           test "$(git hash-object stages/stage32/management/hpadj08-main-disposition/HPADJ08-V30-HOSTILE-AUDIT-PASS-SYNC.json)" = "45f636707149b05cbf18dd209194de515ee729f8"
           test "$(git hash-object stages/stage32/management/hpadj08-main-disposition/verify_hpadj08_v30_audit_sync.py)" = "07839c5809bd3d43f409df396484a10870718af1"
           test "$(git hash-object stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-MAIN-BOUND-REPLACEMENT.json)" = "68a01142d0af4285d2a7801bf0e6808321ee689c"
           test "$(git hash-object stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-CLAIM-SYNC.json)" = "7a98c733ee4ace141c89e40826f717f2462ebf95"
           test "$(git hash-object stages/stage32/management/hpadj08-main-disposition/verify_hpadj08_v29_main_bound_replacement.py)" = "c56fbdab6a90bd2b2603e365c261e19bc52c40e1"
-          test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "53f286f78574cfad59fc397a9d3268d345331594"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "59a4ff83deac96d59b9633230e2ad4a24d2c089f"
+          test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "5cf674a9da2872fcea2dc1cc6e909fba59759bc2"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "213a8f4f9801f5a4f20c02ed7c74567ca7e447a9"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "4dce9ad4ad53a1dd99f4ef1a44062645e6d17d21"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/CLAIM-SYNC-CONTRACT.md)" = "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
@@ -125,7 +125,7 @@ jobs:
 
       - name: Verify Stage32 MAIN V30 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane demand coordination at V30
+      - name: Verify Stage32 cross-lane demand coordination and audit waits
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py

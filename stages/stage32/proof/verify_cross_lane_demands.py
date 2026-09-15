@@ -10,13 +10,17 @@ REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
 MONITOR = HERE / "ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
 STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 
-REGISTRY_BLOB = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
-REGISTRY_CANON = "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74"
-MONITOR_BLOB = "53f286f78574cfad59fc397a9d3268d345331594"
-MONITOR_CANON = "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
+REGISTRY_BLOB = "5cf674a9da2872fcea2dc1cc6e909fba59759bc2"
+REGISTRY_CANON = "70594e57118ba54d787b21fe6e2abb72090293d6406341f8ef6d746f2ee64eec"
+MONITOR_BLOB = "213a8f4f9801f5a4f20c02ed7c74567ca7e447a9"
+MONITOR_CANON = "9fb4e4123ca2107151a3b8ffec9c975251f2ea00e297805ccd0dfd1ba67ab2ad"
 STATE_BLOB = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
 STATE_CANON = "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21"
 AUDIT_REVIEW_ID = 5209163478
+
+TD01_DEMAND = "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1"
+HPADJ10_DEMAND = "S32.DEMAND.HPADJ10.EX5.MAIN.AUDITED_POPULATION_HANDOFF.V1"
+CHARACTER_KEY = "PICARD64_X0_X4_X8_X10_PARITY_V1"
 
 def req(v: bool, msg: str) -> None:
     if not v:
@@ -44,10 +48,10 @@ def main() -> None:
     mon = locked_json(MONITOR, MONITOR_BLOB, MONITOR_CANON)
     state = locked_json(STATE, STATE_BLOB, STATE_CANON)
 
-    req(reg["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V5_CUT201_V27_CONSUMED", "registry schema")
+    req(reg["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V6_TD01_HPADJ10_AUDIT_WAIT", "registry schema")
     byid = {d["demand_id"]: d for d in reg["demands"]}
     req(byid["S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"]["status"] == "SATISFIED", "CUT192 demand")
-    req(byid["S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"]["status"] == "SATISFIED", "HPADJ demand")
+    req(byid["S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"]["status"] == "SATISFIED", "historical HPADJ demand")
     req(byid["S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1"]["status"] == "OBSOLETE", "N398 demand")
     req(byid["S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1"]["status"] == "SATISFIED", "N400 demand")
     cut = byid["S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1"]
@@ -56,13 +60,51 @@ def main() -> None:
     req(sp["exact_incremental_rejected_terminals"] == 18758 and sp["exact_incremental_blocks"] == 166, "CUT201 increment")
     req(sp["certlift03_overlap_terminals"] == 6780 and sp["other_consumed_route_overlap_terminals"] == 0 and sp["double_charge"] is False, "CUT201 overlap")
     req(sp["producer_lane_main_authority_subtraction_performed"] is False, "producer subtraction")
-    req([d["demand_id"] for d in reg["demands"] if d["status"] == "OPEN"] == [], "unexpected OPEN demands")
 
-    req(mon["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V4_CUT201_V27_CONSUMED", "monitor schema")
+    open_ids = {d["demand_id"] for d in reg["demands"] if d["status"] == "OPEN"}
+    req(open_ids == {TD01_DEMAND, HPADJ10_DEMAND}, "unexpected OPEN-demand set")
+
+    td = byid[TD01_DEMAND]
+    req(td["producer_lane"] == "32-01-178" and td["consumer_lane"] == "MAIN", "TD01 routing")
+    req(td["producer_surface"]["producer_pr"] == 1815, "TD01 producer PR")
+    req(td["producer_surface"]["observed_exact_head"] == "54945927416a94a67533c7b06c59c5a24e50c4f1", "TD01 observed head")
+    req(td["producer_surface"]["audit_status"] == "HOSTILE_REAUDIT_REQUIRED", "TD01 audit gate")
+    tdc = td["candidate"]
+    req(tdc["exact_hpadj08_survivor_envelope"] == 6703403803993209250491, "TD01 envelope")
+    req(tdc["per_block_max_retained_fraction"] == "17/33", "TD01 retained fraction")
+    req(tdc["certified_upper_bound_candidate"] == 3453268626299532038131, "TD01 candidate bound")
+    req(tdc["potential_tightening_vs_current_main"] == 3250135177693678063363, "TD01 candidate tightening")
+    req(tdc["composition_rule"] == "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING", "TD01 composition")
+    req(tdc["same_completion_character_key"] == CHARACTER_KEY, "TD01 character key")
+    req(tdc["additive_stacking_authorized"] is False, "TD01 additive stacking")
+
+    hp = byid[HPADJ10_DEMAND]
+    req(hp["producer_lane"] == "EX5" and hp["consumer_lane"] == "MAIN", "HPADJ10 routing")
+    req(hp["producer_surface"]["producer_pr"] == 1814, "HPADJ10 producer PR")
+    req(hp["producer_surface"]["observed_exact_head"] == "ec087d394d577a893932e5bf05d7b530c285e5c6", "HPADJ10 observed head")
+    req(hp["producer_surface"]["audit_status"] == "HPADJ10_HOSTILE_AUDIT_REQUIRED", "HPADJ10 audit gate")
+    hps = hp["scope"]
+    req(hps["same_completion_character_key"] == CHARACTER_KEY, "HPADJ10 character key")
+    req(hps["parity_condition"] == "x0+x4+x8+x10 == 0 (mod 2)", "HPADJ10 parity")
+    req(hps["retained_population"] == "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS", "HPADJ10 population scope")
+    req(hps["charged_terminal_population"] == 27104321327305699275487, "HPADJ10 population")
+    req(hps["rejected_terminals"] == 13552161522724427676216, "HPADJ10 rejected count")
+    req(hps["accepted_terminals"] == 13552159804581271599271, "HPADJ10 accepted count")
+    req(hps["rejected_terminals"] + hps["accepted_terminals"] == hps["charged_terminal_population"], "HPADJ10 partition")
+    req(hps["full_stage32_residual_fraction_claimed"] is False, "HPADJ10 global fraction firewall")
+    req(hps["additive_stacking_with_td01_authorized"] is False, "HPADJ10/TD01 double-charge firewall")
+
+    req(mon["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V5_TD01_HPADJ10_AUDIT_WAIT", "monitor schema")
     lanes = {x["lane"]: x for x in mon["active_specialists"]}
-    req(set(lanes) == {"32-01-178", "EX5", "CUT", "MB"}, "monitor coverage")
-    req(lanes["CUT"]["pending_main_handoff_ids"] == [], "CUT pending handoff not cleared")
+    req(set(lanes) == {"32-01-178", "EX5", "CUT", "MB"}, "monitor stable-specialist coverage")
+    req(lanes["32-01-178"]["expected_open_pr"] == 1815, "178 live hint")
+    req(lanes["32-01-178"]["pending_main_handoff_ids"] == [TD01_DEMAND], "178 pending handoff")
+    req(lanes["EX5"]["expected_open_pr"] == 1814, "EX5 live hint")
+    req(lanes["EX5"]["pending_main_handoff_ids"] == [HPADJ10_DEMAND], "EX5 pending handoff")
+    req(lanes["CUT"]["pending_main_handoff_ids"] == [], "CUT pending handoff")
+    req(lanes["MB"]["pending_main_handoff_ids"] == [], "MB pending handoff")
     req(mon["credit_firewall"]["duplicate_pruning_credit_authorized"] is False, "monitor duplicate-credit firewall")
+    req(mon["credit_firewall"]["same_character_double_charge_authorized"] is False, "monitor same-character firewall")
     req(mon["credit_firewall"]["merge_authorized"] is False, "monitor merge firewall")
 
     req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V30_HPADJ08_AUDIT_SYNCED", "V30 state schema")
@@ -72,9 +114,10 @@ def main() -> None:
     req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audited"] is True, "V29 audit not synchronized")
     req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audit_review_id"] == AUDIT_REVIEW_ID, "V29 audit review")
     req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is False, "V30 audit firewall")
+    req(state["firewalls"]["merge_authorized"] is False, "MAIN merge firewall")
 
-    print("PASS: Stage32 cross-lane demand coordination preserved at V30 HPADJ08 audit-synced boundary")
-    print("PASS: no OPEN demand; no duplicate N400/CUT201/HPADJ08 subtraction; MAIN stop gate NONE")
+    print("PASS: Stage32 V30 authority unchanged; TD01 and HPADJ10 audit-pending handoffs are explicitly routed")
+    print("OPEN=TD01_178,HPADJ10_EX5 same_character=true additive_stacking=false MAIN_credit=0")
 
 if __name__ == "__main__":
     main()
