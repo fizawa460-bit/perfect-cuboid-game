@@ -12,6 +12,7 @@ on:
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
+      - 'stages/stage32/32-01-178/hpadj-08_cut/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -65,6 +66,13 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Checkout audited N358 head separately for H8C-02
+        uses: actions/checkout@v4
+        with:
+          ref: 462174f9ff5c7cda44edd3db9133a5dbef15a12e
+          path: .stage32-audited-n358
+      - name: Assert audited N358 head
+        run: test "$(git -C .stage32-audited-n358 rev-parse HEAD)" = "462174f9ff5c7cda44edd3db9133a5dbef15a12e"
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
@@ -78,6 +86,14 @@ jobs:
         run: python docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py
       - name: Verify repository-wide PR workflow trigger lifecycle
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+      - name: Verify H8C integer group square minimum
+        run: python stages/stage32/32-01-178/hpadj-08_cut/verify_integer_group_square_minimum.py
+      - name: Replay H8C-01 population at exact PR head
+        run: python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c01_population.py
+      - name: Replay H8C-02 support population against audited N358
+        run: >-
+          python stages/stage32/32-01-178/hpadj-08_cut/replay_h8c02_support_population.py
+          --audited-n358-root .stage32-audited-n358
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
