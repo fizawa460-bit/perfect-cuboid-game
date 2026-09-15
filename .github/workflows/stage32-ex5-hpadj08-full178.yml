@@ -176,7 +176,6 @@ jobs:
             --b-end ${{ matrix.b_end }} \
             --output "$RUNNER_TEMP/hpadj08-${{ matrix.b_start }}-${{ matrix.b_end }}.json"
       - name: Upload compact shard certificate
-        if: ${{ always() && hashFiles(format('{0}/hpadj08-{1}-{2}.json', runner.temp, matrix.b_start, matrix.b_end)) != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: hpadj08-shard-${{ matrix.b_start }}-${{ matrix.b_end }}-${{ github.event.pull_request.head.sha }}
