@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_32_01_178_H8C03A_V25_MAIN_CONSUMPTION_V1",
+  "stage": 32,
+  "surface": "32-01-178",
+  "leaf": "H8C-03A_V25_MAIN_CONSUMPTION",
+  "status": "CONSUMED_HOSTILE_AUDITED_CURRENT_V24_REBASE_PENDING_REPLACEMENT_HEAD_HOSTILE_REAUDIT",
+  "source_locks": {
+    "pre_consumption_main": {
+      "exact_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "main_state_path": "stages/stage32/MAIN-STATE.json",
+      "main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+      "main_state_canonical_sha256": "bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d"
+    },
+    "h8c03a_research": {
+      "audited_exact_head": "c656d49fbd210f530d927d19a543d944fbe6b003",
+      "hostile_audit_review_id": 5207037037,
+      "result_path": "stages/stage32/32-01-178/hpadj-08_cut/H8C-03A-RESULT.json",
+      "result_blob_sha1": "37cf76455dc9d29329a730f0facf6f413058712f",
+      "result_canonical_sha256": "1e5e0cb7b3ec873c550ca73f3993ab1a06a8da19db745007aa76cc4931cae11a"
+    },
+    "current_v24_rebase": {
+      "audited_exact_head": "4392eba5f9d350c4be6dbdd75dd9f320d1f3bc1f",
+      "hostile_audit_review_id": 5207422461,
+      "rebase_path": "stages/stage32/32-01-178/hpadj-08_cut/H8C-03A-CURRENT-V24-REBASE.json",
+      "rebase_blob_sha1": "0c34d080aa4d067d6cd02436574a14d83d81a5af",
+      "rebase_canonical_sha256": "a3d486a4c5c652e8d31b3abafe81d49f15164dc05253c3ac9fdd28a1db9735fe"
+    },
+    "hpadj07_v23_consumption": {
+      "path": "stages/stage32/management/hpadj-07/HPADJ07-V23-MAIN-CONSUMPTION.json",
+      "blob_sha1": "e942711b67ebc43b39a73ab55bc10862654059f8",
+      "canonical_sha256": "6fc1800b84de587e2218c372966e1424186405e57477586e8a284961f575f417"
+    },
+    "hpadj07_v24_audit_sync": {
+      "path": "stages/stage32/management/hpadj-07/HPADJ07-V24-HOSTILE-AUDIT-PASS-SYNC.json",
+      "blob_sha1": "37a1d7ed1af5d715220fd3c78e292f84eecbca72",
+      "canonical_sha256": "9594be3af8ed976adbbd513cd776652e76fc92285cc3c875617cd3a10604f56e"
+    }
+  },
+  "accounting": {
+    "pre_consumption_authoritative_remaining_strata": 17128,
+    "pre_consumption_authoritative_remaining_terminals_upper_bound": 26876434389242951089388,
+    "certified_incremental_rejected_terminals_lower_bound_consumed": 10129121337833359022099,
+    "post_consumption_authoritative_remaining_strata": 17128,
+    "post_consumption_certified_remaining_terminals_upper_bound": 16747313051409592067289,
+    "identity_check": "26876434389242951089388 - 10129121337833359022099 = 16747313051409592067289",
+    "remaining_terminal_authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "exact_current_residual_identity_set_claimed": false,
+    "stratum_count_change_claimed": false,
+    "current_authority_overlap_accounted": true,
+    "double_charge": false,
+    "double_charge_argument": "The hostile-audited V24 rebase proves V24 = V22 - HPADJ07_V22 and H8C03A increment = H8C03A_V22 - HPADJ07_V22 on the same corrected V22 population. Consuming only that replacement increment changes the certified upper bound to V22-H8C03A and does not charge the earlier CERTLIFT03 removal again."
+  },
+  "promotion": {
+    "main_pruning_credit_consumed": true,
+    "claim_sync_scope": "MAIN_STATE_NUMERIC_AUTHORITY_ONLY__CLAIM_CORE_UNCHANGED",
+    "claim_dag_changed": false,
+    "replacement_head_hostile_reaudit_required": true,
+    "further_main_consumption_before_reaudit_forbidden": true,
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "replacement exact-head CI and stage32-01-178-audit; no further authority mutation before hostile PASS",
+  "canonical_sha256_without_this_field": "71976ef4a38d45d1b06374828b16fe9bcf193b99a5c3dcef356f7242d52286a9"
+}
