@@ -93,4 +93,35 @@ def main():
  req(len(fresh_whole)+len(fresh_empty)+len(fresh_parent)==EXPECTED_CLOSED,'fresh replay closure accounting drift')
  req(handoff['result']['candidate_closed_block_count']==EXPECTED_CLOSED and handoff['result']['candidate_pruned_terminals']==EXPECTED_PRUNED and handoff['result']['residual_blocks']==EXPECTED_RESIDUAL,'handoff result drift'); req(handoff['audit']['hostile_audit_passed'] is False and handoff['audit']['required_command']=='stage32cut-audit','audit firewall drift')
  print(json.dumps({'status':'PASS_CUT201_EXACT_HEAD_AUDIT_VERIFIER','wave_blocks':255,'candidate_closed_blocks':EXPECTED_CLOSED,'candidate_pruned_terminals':EXPECTED_PRUNED,'fresh_whole_block_finite_ring_unsat':len(fresh_whole),'fresh_hnf_empty':len(fresh_empty),'fresh_all_hnf_parents_finite_ring_unsat_blocks':len(fresh_parent),'fresh_hnf_parents_checked':parent_checks,'timeout_partition_fallback_checks':fallback_checks,'timeout_partition_fallback_blocks':sorted(fallback_blocks),'unknown_checks_not_promoted':unknown_checks,'remaining_nonclosed_blocks':29,'stage32_main_pruning_credit':False,'hostile_audit_passed':False},sort_keys=True))
-if __name__=='__main__': main()
+
+def run_v26_adapter_candidate():
+ import subprocess,tempfile
+ repo=HERE.parents[2]
+ refs={
+  'cut201':'8eed1449b325c3b990f90b61471bf7ecec0d89bc',
+  'main':'409767d0d4e51366afe17fcb600220b1f7627733',
+  'certlift':'51c56b5c3ee15177c2975b966ab546d0b548c4af',
+  'n400':'b1a950cbc6edf3cb85e1ea79473105c6f1f67b03',
+ }
+ with tempfile.TemporaryDirectory(prefix='stage32-cut201-v26-') as td:
+  roots={}
+  try:
+   for name,sha in refs.items():
+    subprocess.run(['git','-C',str(repo),'fetch','--no-tags','--depth=1','origin',sha],check=True)
+    p=Path(td)/name
+    subprocess.run(['git','-C',str(repo),'worktree','add','--detach',str(p),sha],check=True)
+    roots[name]=p
+   subprocess.run([
+    sys.executable,str(HERE/'verify_cut201_v26_current_authority_adapter.py'),
+    '--cut201-root',str(roots['cut201']),
+    '--main-v26-root',str(roots['main']),
+    '--certlift-root',str(roots['certlift']),
+    '--n400-root',str(roots['n400']),
+   ],check=True)
+  finally:
+   for p in roots.values():
+    subprocess.run(['git','-C',str(repo),'worktree','remove','--force',str(p)],check=False)
+
+if __name__=='__main__':
+ main()
+ if (HERE/'CUT201-V26-current-authority-adapter-handoff.json').is_file(): run_v26_adapter_candidate()
