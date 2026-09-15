@@ -11,6 +11,7 @@ CAND=B2/'bc2-40-generation4-complete-candidate.json'
 PASSREC=B2/'bc2-40-hostile-audit-pass-consumption.json'
 V39=B2/'verify_bc2_39_targeted_replay_checkpoint.py'
 RESUME=B2/'verify_bc2_40_resume_first_contract.py'
+V41=B2/'verify_bc2_41_first_e8_block_main_subtraction_adapter_candidate.py'
 
 V35='STAGE32EX5_MAIN_COMPACT_STATE_V35_BC2_40_AUDIT_PASS_CONSUMED'
 MAIN='117310b6a9d40273683cab8c08cc9e5e0cc584d9'
@@ -93,8 +94,9 @@ def main():
 
     subprocess.run([sys.executable,str(V39)],check=True)
     subprocess.run([sys.executable,str(RESUME)],check=True)
+    subprocess.run([sys.executable,str(V41)],check=True)
 
-    print('PASS: Stage32EX5 BC2-40 hostile-audit PASS consumed; EX5 audited lower bound=7336; first e8 block Picard64 obstruction closed; MAIN credit=NO new heavy=NO merge=NO')
+    print('PASS: Stage32EX5 BC2-40 hostile-audit PASS consumed; EX5 audited lower bound=7336; first e8 block Picard64 obstruction closed; BC2-41 113-terminal MAIN subtraction candidate retained audit-required; MAIN credit=NO new heavy=NO merge=NO')
 
 if __name__=='__main__':
     main()
