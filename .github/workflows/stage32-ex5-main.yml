@@ -58,8 +58,24 @@ jobs:
           assert data['status'] == 'EXACT_INDEX2_TERMINAL_KERNEL_REDUCED_TO_PARITY'
           assert data['kernel']['reduced_modulus'] == 2
           assert data['kernel']['normal_coordinate_index'] == 4
+          assert data['canonical_sha256_without_this_field'] == 'c678a84a8bb8aa44db0063ca797dec0e174ff021893ae5e9631ac607f43f1598'
           print('HPADJ10_KERNEL_CANONICAL=' + data['canonical_sha256_without_this_field'])
           print('HPADJ10_PARITY=' + data['kernel']['accepted_terminal_condition'])
+          PY
+      - name: Count HPADJ10 exact kernel over retained HPADJ population
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py | tee /tmp/hpadj10-population.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj10-population.json').read_text())
+          assert data['status'] == 'EXACT_POPULATION_WIDE_COUNT_ON_RETAINED_HPADJ01_CANDIDATE_POPULATION_AUDIT_REQUIRED'
+          assert data['exact_count']['charged_terminal_lower_bound'] == 27104321327305699275487
+          assert data['exact_count']['kernel_accepted_terminals'] + data['exact_count']['kernel_rejected_terminals'] == data['exact_count']['charged_terminal_lower_bound']
+          print('HPADJ10_POPULATION_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ10_REJECTED=' + str(data['exact_count']['kernel_rejected_terminals']))
+          print('HPADJ10_ACCEPTED=' + str(data['exact_count']['kernel_accepted_terminals']))
           PY
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
