@@ -1,73 +1,52 @@
 {
-  "schema": "STAGE32EX5_HPADJ08_STATE_V5",
+  "schema": "STAGE32EX5_HPADJ08_STATE_V6_CURRENT_MAIN_ADAPTER",
   "route_id": "HPADJ-08_ex5",
-  "status": "FULL178_EXACT_SQUARE_CANDIDATE_RETAINED_AUDIT_BOUNDARY_FROZEN",
+  "status": "CURRENT_MAIN_NO_DOUBLE_CHARGE_ADAPTER_RETAINED_AUDIT_REQUIRED",
   "work_pr": 1812,
   "work_branch": "stage32ex5-hpadj-08-exact-square-compression",
-  "full178_result": {
-    "path": "stages/stage32-ex5/hpadj-08_ex5/FULL178-RESULT.json",
-    "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_full178_result.py",
-    "source_run_id": 34935380596,
-    "source_exact_head": "b11a9820af4a02148112a6ae235bc3a51d134ef2",
-    "all_8_shards_success": true,
-    "rows": 178,
+  "producer_boundary": {
+    "retained_result_exact_head": "799c7c8c836de996d8ace82fe0cb91fe5fc96e88",
+    "hostile_audited_exact_head": "ce8fd7d583175ffa12cec41fc1c6ccc16f264638",
+    "hostile_audit_status": "PASS",
+    "audit_report_provenance": "operator-supplied stage32ex5-audit result",
+    "producer_result_canonical": "625e289a1a9f086b5e02f247665a7f9ac4b7fe72eaacd3011fe73a0e96041953"
+  },
+  "current_main_source_lock": {
+    "current_main_exact_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "current_main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "current_main_authoritative_remaining_strata": 17128,
+    "current_main_authoritative_remaining_terminals": 26876434389242951089388,
+    "pr_base_parent": "cd7e2aab6e7471f956091e0d5105f6d249f5c8e5",
+    "main_drift_from_pr_base": "one non-pruning 32-02 scalar producer research handoff commit"
+  },
+  "adapter": {
+    "path": "stages/stage32-ex5/hpadj-08_ex5/CURRENT-MAIN-NO-DOUBLE-CHARGE-ADAPTER.json",
+    "canonical_sha256": "14de9512d0ad1449b80b89f660ccbfd6d9e0864702e9b711234e8697596ff7c1",
+    "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_current_main_adapter.py",
+    "kernel_binding_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_full178_result.py",
+    "adapter_retained_parent_head": "e4a53d7f157e21d245926675886feb66f972182f",
     "old_group_cauchy_candidate_rejected_terminals": 20713268924714183714810,
     "stored_exact_square_candidate_rejected_terminals": 40886299509963924857401,
-    "incremental_candidate_over_group_cauchy": 20173030585249741142591,
-    "strict_gain_ratio": 1.9739182481805249,
-    "row_stream_sha256": "d5d8ab364d122c4b3138d577442b383290ab7878e11629b3673058073690e5a1",
-    "aggregate_candidate_canonical": "9b6df7b5959d7afa996332bbdd2b3c0f661dfb2dc186767db8f29635fb0e028e",
-    "result_canonical": "625e289a1a9f086b5e02f247665a7f9ac4b7fe72eaacd3011fe73a0e96041953"
-  },
-  "scaleout": {
-    "heavy_concurrency_used": 4,
-    "source_workflow_run_id": 34935380596,
-    "runkey_generation": 3,
-    "runkey_armed": false,
-    "completed": true,
-    "par4_workflow": ".github/workflows/stage32-ex5-hpadj08-full178-par4.yml",
-    "par4_workflow_lifecycle": "RETIRED_MANUAL_ONLY"
-  },
-  "exact_head_ci_before_audit_boundary": {
-    "head": "799c7c8c836de996d8ace82fe0cb91fe5fc96e88",
-    "hpadj08_kernel": {
-      "run_id": 34950104219,
-      "status": "SUCCESS",
-      "includes_retained_result_verifier": true
-    },
-    "hpadj08_full178_cold_gate": {
-      "run_id": 34950105010,
-      "status": "SUCCESS",
-      "heavy_authorized": false
-    },
-    "stage32ex5_main_integrity": {
-      "run_id": 34950104418,
-      "status": "SUCCESS"
-    },
-    "claim_frontier": {
-      "run_id": 34950104134,
-      "status": "SUCCESS"
-    },
-    "stale_run_sweeper": {
-      "run_id": 34950104617,
-      "status": "SUCCESS"
-    }
-  },
-  "parent_main_state_sync": {
-    "deferred_until_hostile_audit_pass": true,
-    "reason": "MAIN-STATE remains the last hostile-audited EX5 authority boundary; the HPADJ-08 candidate must not replace it before hostile audit.",
-    "stage32_main_credit_changed": false
+    "raw_incremental_candidate_over_group_cauchy": 20173030585249741142591,
+    "post_v22_certlift03_overlap_upper_bound": 154697,
+    "exact_post_v22_overlap_computed": false,
+    "safe_current_main_incremental_rejected_terminals_lower_bound": 20173030585249740987894,
+    "candidate_post_adapter_remaining_terminals_upper_bound": 6703403803993210101494,
+    "no_double_charge_proved_for_stated_lower_bound": true,
+    "current_main_overlap_accounting_complete_for_safe_lower_bound": true,
+    "current_main_subtraction_prepared": true
   },
   "audit_boundary": {
     "freeze_active": true,
     "hostile_audit_required": true,
     "audit_command": "stage32ex5-audit",
-    "policy": "docs/research-os/policies/hostile-audit-and-freshness.md",
+    "audit_scope": "current-MAIN source lock, A subset B proof binding, inherited earlier CUT/N358 firewall, CERTLIFT03 worst-case overlap bound, arithmetic, verifier binding, firewalls",
     "producer_substantive_growth_allowed_before_audit": false,
-    "current_main_overlap_adapter_authorized_before_audit": false,
+    "additional_adapter_growth_allowed_before_audit": false,
+    "main_promotion_authorized": false,
     "merge_authorized": false
   },
-  "next_action": "Hostile-audit the frozen FULL178 retained result at the current PR exact head. Only after PASS, build a current-MAIN no-double-charge/overlap adapter before any positive MAIN subtraction.",
+  "next_action": "Run stage32ex5-audit on the resulting exact head. If PASS, hand the audited safe incremental lower bound to Stage32 MAIN for explicit authority consumption; EX5 must not self-promote.",
   "firewalls": {
     "stage32_main_pruning_credit": false,
     "current_main_incremental_credit": false,
@@ -82,5 +61,5 @@
     "heavy_run_armed": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "8b6cbd8f16828a6315e7427c2689ccd4df3fc88d24ce568f87fb9ac709499571"
+  "canonical_sha256_without_this_field": "c5b840323274ce3183bd135fc06dcda478e719bc6d186de9dc5e1c2b75de713d"
 }
