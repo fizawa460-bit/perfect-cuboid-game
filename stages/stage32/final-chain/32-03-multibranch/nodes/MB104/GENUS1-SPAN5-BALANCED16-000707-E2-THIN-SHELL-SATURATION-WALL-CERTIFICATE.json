@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE32_MB104_000707_E2_THIN_SHELL_SATURATION_WALL_V1",
-  "status": "RETAINED_EXACT_FORMAL_ALLOCATION_COUNTEREXAMPLE_SATURATION_ONLY_THIN_SHELL_CLOSURE_BLOCKED_E2_OPEN_NO_CREDIT",
+  "schema": "STAGE32_MB104_000707_E2_THIN_SHELL_SATURATION_WALL_V2",
+  "status": "RETAINED_EXACT_FORMAL_ALLOCATION_COUNTEREXAMPLE_SATURATION_PLUS_MOD4_CAN_REACH_DELTA_ZERO_E2_OPEN_NO_CREDIT",
   "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
   "source_locks": [
     {
       "id": "HUMAN_NOTE",
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-THIN-SHELL-SATURATION-WALL.md",
-      "blob_sha1": "c4ba207735791866517698f7b90535b4eab1d42b"
+      "blob_sha1": "406478902c7df02d761f5663b1fff382157f0773"
     },
     {
       "id": "NODE_ORBIT",
@@ -24,6 +24,16 @@
       "blob_sha1": "59a18a3c0f60c9fa47affe6d483ea892670ac938"
     },
     {
+      "id": "MOD4_WALL_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MOD4-THIN-SHELL-WALL.md",
+      "blob_sha1": "e57086abc3ba578b5792249fe903d591987269ca"
+    },
+    {
+      "id": "ZERO_QUARTIC_TORSION",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-TORSION-CONGRUENCES-CERTIFICATE.json",
+      "blob_sha1": "cf7d6ed10b2502ac976f1545af0a2f2e2e137899"
+    },
+    {
       "id": "CONDUCTOR_SCHEME",
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EVEN-NORM-FORM-CONDUCTOR-SCHEME-CERTIFICATE.json",
       "blob_sha1": "9fd4956f691d4f566e39894a0ac35d4939657e70"
@@ -35,6 +45,8 @@
     "q0_centered": "b0-b1+b2-b3-b24+b25-b26=0",
     "q1_centered": "b8+b9+b10+b11+b32+b33+b34=0",
     "b_range": "-4*m<=b_j<=4*m",
+    "mod4_q0": "x24+x25+x26=0 mod 4",
+    "mod4_q1": "x32+x33+x34=0 mod 4",
     "Q": "sum_j b_j^2",
     "delta_same": "336*m^2+112*m-2*Q"
   },
@@ -50,15 +62,22 @@
     "q0_original_rhs": -32,
     "q1_original_lhs": 224,
     "q1_original_rhs": 224,
+    "q0_mod4_sum": 64,
+    "q1_mod4_sum": 192,
     "Q": 2912,
     "Q_hodge_top": 2912,
     "delta_same": 0,
     "source_minus_target_lower": -884
   },
+  "strengthening": {
+    "previous_mod4_uniform_witness_delta": "112*m",
+    "new_specific_m4_delta": 0,
+    "retained_mod4_bits_satisfied": true
+  },
   "routing": {
     "formal_allocation_only": true,
     "geometric_realizability_claimed": false,
-    "saturation_only_universal_positive_delta_lower_bound_possible": false,
+    "saturation_plus_mod4_universal_positive_delta_lower_bound_possible": false,
     "thin_shell_closed": false,
     "global_modified_eigensection_evaluation_still_required": true,
     "individual_conductor_pair_map_materialized": false,
@@ -68,7 +87,6 @@
   },
   "verification": {
     "wolfram_exact_arithmetic_replay": true,
-    "wolfram_output": "{0,0,2912,2912,0,0,64,64,{0,64,0,16,8,56,0,0,0,0,32,64,64,64}}",
     "exact_head_CI_claimed": false,
     "automatic_workflow_required": false,
     "hostile_audit_claimed": false
