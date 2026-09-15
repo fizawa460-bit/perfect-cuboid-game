@@ -1,13 +1,14 @@
 {
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT",
+  "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
   "current_node": "BR190",
-  "active_leaf": "BR190_RETAINED_AUDIT_HANDOFF",
+  "active_leaf": "BR190_WAITING_HOSTILE_AUDIT",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json",
-    "status": "RETAINED_EXACT_SCOPE_BLOCKER_NO_CREDIT",
-    "bridge_commit": "0a9fc6122aa804eb495a24b32577594d7d3b317d",
+    "path": "stages/stage32/generalization-bridge/BR190-C3-RETAINED-AUDIT-HANDOFF.json",
+    "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+    "bridge_commit": "11793e2ad99fe2daa3c84822b7c7611d978c787e",
+    "br105_scope_blocker": "stages/stage32/generalization-bridge/BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json",
     "c3_exact_result": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
     "bounded_diagnostic": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
     "prior_c1_result": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json"
@@ -57,15 +58,15 @@
     },
     {
       "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
-      "status": "RETAINED_EXACT_SCOPE_BLOCKER_NO_CREDIT",
-      "description": "BR103 found one exact intrinsic Picard64 parity obstruction and BR104 bounded its effect on the identical HPADJ01 charged population. BR105 source-locked the general 11-label coordinate identity but found no source-locked proof that every current-authority FULL178 candidate must admit an integral retained Picard64 completion. The EX5 interface explicitly says terminal_alone_asserts_completion_exists=false and its producer requires hpadj_member(...), so population-wide C3 transport is not established."
+      "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+      "description": "BR103 found one exact intrinsic Picard64 parity obstruction and BR104 bounded its effect on the identical HPADJ01 charged population. BR105 source-locked the general 11-label coordinate identity but found no source-locked proof that every current-authority FULL178 candidate must admit an integral retained Picard64 completion. BR190 freezes that exact scope blocker for hostile audit; no population-wide transport or MAIN credit is claimed."
     }
   ],
   "next_obligation": {
     "node_id": "BR190",
-    "title": "Retained hostile-audit handoff",
-    "required_input": "Freeze BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json as the exact current scope blocker. Preserve the source locks proving coordinate identity and the explicit absence of population-wide completion necessity.",
-    "success": "Hostile audit accepts the retained exact no-generalization/scope blocker. Grant no MAIN pruning credit.",
+    "title": "Wait for retained hostile audit",
+    "required_input": "Run stage32bridge-audit against the frozen BR190-C3-RETAINED-AUDIT-HANDOFF.json boundary and exact PR head. Ordinary bridge mainbatch must not append a new substantive route while this retained boundary is pending audit.",
+    "success": "Hostile audit accepts the exact no-generalization/scope blocker. Grant no MAIN pruning credit. After audit, re-enter only through explicit audit result/state synchronization.",
     "reentry": "A future C3 population-wide attempt requires a new source-locked theorem or interface proving integral retained Picard64 completion necessity on the claimed current-authority FULL178 population."
   },
   "routing": {
@@ -81,10 +82,12 @@
     "BR105_population_adapter_research_complete": true,
     "BR105_population_wide_transport_established": false,
     "BR190_hostile_audit_handoff_ready": true,
+    "BR190_hostile_audit_handoff_frozen": true,
+    "BR190_hostile_audit_pending": true,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
-    "stop_reason": null
+    "stop_reason": "BR190 retained boundary frozen; ordinary mainbatch stops pending stage32bridge-audit."
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,
