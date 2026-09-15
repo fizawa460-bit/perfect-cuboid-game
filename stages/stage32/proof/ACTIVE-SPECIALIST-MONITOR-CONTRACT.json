@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V7_V31_AUDIT_SYNCED_HPADJ11_QUEUED",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V8_HPADJ11_V33_CONSUMED",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after V31 hostile-audit synchronization; HPADJ11 is a hostile-audited same-character refinement selected for separate MAIN evaluation, with zero credit until explicit consumption.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after explicit HPADJ11 V33 same-character bound replacement; no duplicate TD01/HPADJ10 charge is permitted.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -49,7 +49,7 @@
       "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10/HPADJ11 boundaries; refresh the PR/head rather than trusting this hint.",
       "main_role": "Picard64/node-support producer/refinement specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "HPADJ11 exact head 1c694f66... received hostile-audit PASS review 5216065509. MAIN V32 records it as the next audited same-character replacement candidate only; no V32 mathematical credit is granted and additive stacking with TD01/HPADJ10 is forbidden."
+      "last_main_disposition": "HPADJ11 exact head 1c694f66... / audit review 5216065509 is consumed exactly once by MAIN V33 as a stronger same-character certified upper-bound replacement. No additive subtraction or HPADJ10/TD01 re-charge is permitted."
     },
     {
       "lane": "CUT",
@@ -85,17 +85,19 @@
     "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
-  "selected_next_main_candidate": {
+  "canonical_sha256_without_this_field": "7b79bbc01cd2f501bfcf2cd737025ef13821a3bc72b4848aa8da8a5e576f0523",
+  "latest_main_consumption": {
     "source_lane": "EX5",
     "producer_pr": 1814,
     "audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
     "hostile_audit_review_id": 5216065509,
     "semantic_leaf": "HPADJ11_TD01_SAME_CHARACTER_UPPER_BOUND_REFINEMENT",
     "same_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
-    "candidate_upper_bound": 3360778813767800658369,
-    "main_consumed": false,
-    "cross_lane_demand_required_before_consumer_reentry": false,
-    "reason": "MAIN-STATE directly selects the audited result for the next explicit authority transition; no producer re-entry is required."
-  },
-  "canonical_sha256_without_this_field": "49eb62b32752726555d17ee302734ef983240080a1b8f0450a33d67cd9eae406"
+    "predecessor_upper_bound": 3453268626299532038131,
+    "replacement_upper_bound": 3360778813767800658369,
+    "tightening": 92489812531731379762,
+    "composition_rule": "MIN_OF_SAME_CHARACTER_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "main_consumed": true,
+    "double_charge": false
+  }
 }
