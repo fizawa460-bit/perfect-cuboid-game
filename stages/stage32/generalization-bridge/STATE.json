@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
+  "mission_id": "stage32-generalization-bridge",
+  "status": "ACTIVE_BOOTSTRAP_NO_CREDIT",
+  "current_node": "BR101",
+  "active_leaf": "BR101_MB104_TO_FULL178_GENERALIZATION_FEASIBILITY",
+  "source_seed": {
+    "source_lane": "MB",
+    "candidate_family": [
+      "residual_G_over_H_character_to_Picard_Fourier_direction",
+      "A1_lift_square_energy_identity"
+    ],
+    "authority_status": "RESEARCH_SEED_ONLY_UNTIL_EXACT_SOURCE_IDENTITY_AND_AUDIT_STATUS_VALIDATED",
+    "source_specific_hypotheses_known_to_require_attention": [
+      "multibranch semantics",
+      "genus one",
+      "span five",
+      "balanced16",
+      "000707 support packet",
+      "e=2 residual split case",
+      "conductor/residual-sheet semantics"
+    ]
+  },
+  "target": {
+    "authority": "stages/stage32/MAIN-STATE.json",
+    "frontier": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "target_population": "current authoritative FULL178/Picard64 population",
+    "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "required_picard64_interface_owner": "EX5",
+    "ordinary_178_enumeration_owned_elsewhere": true
+  },
+  "candidate_ledger": [
+    {
+      "candidate_id": "BR-C1-MB104-CHARACTER-PROJECTION",
+      "status": "LIVE",
+      "description": "Test whether an MB-style residual character/Fourier Picard direction has a source-independent formulation on general retained Picard64 completions and yields a nontrivial terminal-visible lower bound after minimizing over free completion coordinates."
+    },
+    {
+      "candidate_id": "BR-C2-MB104-SQUARE-ENERGY",
+      "status": "UNTESTED",
+      "description": "Test whether the MB A1 allocation square-energy mechanism has an intrinsic Picard/completion analogue beyond the source-specific multibranch packet."
+    }
+  ],
+  "next_obligation": {
+    "node_id": "BR101",
+    "title": "Freeze one exact MB104 source result and the current FULL178/Picard64 target semantics",
+    "required_input": "Resolve exact source identity and retained/audit status for the chosen MB104 seed; resolve the current source-locked FULL178 terminal-to-Picard64 completion interface; list every source-specific hypothesis before proposing an adapter.",
+    "success": "A source/target semantic map is explicit enough to enter BR102 without assuming any unproved identification.",
+    "no_go": "If the proposed quantity is definitionally tied to source-specific conductor or residual-sheet data with no target analogue, freeze NO_GENERALIZATION for that candidate and move to the next candidate ledger entry rather than descending to local terminal pruning."
+  },
+  "routing": {
+    "independent_specialist": true,
+    "source_lane_authority_mutation": false,
+    "main_credit_auto_promotion": false,
+    "terminal_by_terminal_fallback_forbidden": true,
+    "heavy_compute_armed": false,
+    "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json"
+  },
+  "credit_firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
