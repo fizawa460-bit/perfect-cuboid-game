@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32_BRIDGE_BR104_C3_HPADJ_IDENTICAL_POPULATION_BOUNDED_DIAGNOSTIC_V1",
+  "stage": 32,
+  "lane": "BRIDGE",
+  "status": "RETAINED_EXACT_BOUNDED_DIAGNOSTIC_NO_CREDIT",
+  "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+  "input_condition": {
+    "retained_result": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
+    "condition_labels": "x95+x49+x93+x96 == 0 (mod 2)",
+    "terminal_tuple_form": "x0+x4+x8+x10 == 0 (mod 2)",
+    "independent_bit_count": 1
+  },
+  "identical_population_scope": {
+    "population": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "interface_path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+    "interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f",
+    "producer_blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
+    "compressed_terminal_family_blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "affected_rows": 178,
+    "exceptional_prefix_stratum_instances": 19700993066083231249,
+    "charged_terminal_lower_bound": 27104321327305699275487
+  },
+  "exact_block_argument": {
+    "normal_variable": "x4",
+    "normal_budget": "N=19*d-5*e",
+    "normal_range": "0 <= x4 <= N",
+    "evenness": "HPADJ certified scope has even d and even e, hence N is even and every fixed exceptional-prefix/e block has N+1 odd-size x4 choices",
+    "parity_selection": "For each fixed exceptional-prefix/e block, the C3 condition fixes exactly one parity class of x4. Therefore the retained count in that block is either N/2 or N/2+1, and the rejected count is the complementary value.",
+    "materialization_required": false
+  },
+  "aggregate_exact_bounds": {
+    "notation": "T=charged terminal count, P=exceptional-prefix/e block count",
+    "T": 27104321327305699275487,
+    "P": 19700993066083231249,
+    "formula": "both surviving and rejected counts lie in [(T-P)/2,(T+P)/2] before resolving the required x4 parity distribution block-by-block",
+    "lower_count": 13542310167119808022119,
+    "upper_count": 13562011160185891253368,
+    "lower_fraction_percent": 49.96365709949314,
+    "upper_fraction_percent": 50.03634290050686,
+    "maximum_deviation_from_half_percentage_points": 0.03634290050686
+  },
+  "interpretation": "On the exact HPADJ01 charged population, the new intrinsic Picard64 parity has a rigorously bounded effect extremely close to a one-half cut. This is a usefulness diagnostic, not MAIN subtraction credit and not yet a statement about the current MAIN residual population.",
+  "next_route": {
+    "node": "BR105",
+    "obligation": "Determine whether the C3 parity condition is a necessary condition on the current authoritative FULL178/current-MAIN residual population rather than only the HPADJ01 charged interface scope. Preserve source locks and prove population identity/coverage before any pruning or overlap accounting.",
+    "ordinary_terminal_enumeration_forbidden": true,
+    "heavy_scaleout_authorized": false
+  },
+  "firewall": {
+    "current_main_residual_population_identity_proved": false,
+    "main_pruning_credit": false,
+    "overlap_or_double_charge_accounted": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
