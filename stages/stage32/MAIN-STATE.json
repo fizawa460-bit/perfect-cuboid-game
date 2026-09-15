@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V33_HPADJ11_BOUND_CONSUMED_PENDING_REAUDIT",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V34_HPADJ11_AUDIT_SYNCED_FULL178_REENTRY",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_process_head": "626359a9f981313f40bbed71129f17b664e2bd49",
+    "predecessor_process_head": "3c0c3b7b288853a2b5d4ebae47cc192d6089cbc6",
     "predecessor_v30_main_state_blob_sha1": "76bf5e3d9d97297ff5fbee2bf4826a78d125e171",
     "predecessor_v30_main_state_canonical_sha256": "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21",
     "n400_main_pruning_credit_consumed": true,
@@ -43,14 +43,20 @@
     "predecessor_v32_main_state_blob_sha1": "6fdcd15090d7951467675e0f732b6ce54c09d69d",
     "predecessor_v32_main_state_canonical_sha256": "7c318668df1c9fe5f1670ed52bedffed7a21c5b2f0d0fbbffc6f1fa73b5bfa47",
     "hpadj11_main_numeric_bound_replacement_consumed": true,
-    "hpadj11_consumption_rule": "MIN_OF_SAME_CHARACTER_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING"
+    "hpadj11_consumption_rule": "MIN_OF_SAME_CHARACTER_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "predecessor_v33_main_state_blob_sha1": "d67244969defc7da77dfc431346e0d045da0978d",
+    "predecessor_v33_main_state_canonical_sha256": "3ab94343566377b4a5a7646f1334b13968ba15f363c9f63fcb48a66e3b5b9398",
+    "v33_hpadj11_replacement_exact_head": "3c0c3b7b288853a2b5d4ebae47cc192d6089cbc6",
+    "v33_hpadj11_replacement_hostile_audit_review_id": 5216402010,
+    "v33_hpadj11_replacement_hostile_audit_status": "PASS",
+    "v33_hpadj11_replacement_merge_ready_freshness": "CLEAR"
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
-    "next_exact_route": "HPADJ11_V33_REPLACEMENT_HOSTILE_AUDIT_THEN_FULL178",
-    "stacked_candidate_audit_status": "HPADJ11_V33_BOUND_CONSUMED_REPLACEMENT_HEAD_PENDING_HOSTILE_REAUDIT",
-    "stop_semantics": "The hostile-audited HPADJ11 same-character refinement is consumed exactly once by non-additive min replacement. This V33 replacement MAIN head requires hostile re-audit before further authority consumption; FULL178 and downstream credits remain incomplete."
+    "mainbatch_stop_gate": "NONE",
+    "next_exact_route": "FULL178_VIA_ACTIVE_178_TD02_AND_SPECIALIST_MONITOR",
+    "stacked_candidate_audit_status": "HPADJ11_V33_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED",
+    "stop_semantics": "V33 HPADJ11 MAIN replacement received hostile-audit PASS and is synchronized with zero new pruning. Resume ordinary FULL178 integration; active 178 TD02 research is not yet a MAIN handoff and downstream credits remain incomplete."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -122,13 +128,20 @@
     "hpadj11_certified_numeric_bound_tightening_vs_v32": 92489812531731379762,
     "hpadj11_composition_rule": "MIN_OF_SAME_CHARACTER_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
     "hpadj11_exact_incremental_rejected_set_vs_v32_claimed": false,
-    "hpadj11_additive_subtraction_against_v32_performed": false
+    "hpadj11_additive_subtraction_against_v32_performed": false,
+    "v33_hpadj11_replacement_hostile_audited": true,
+    "v33_hpadj11_replacement_audited_exact_head": "3c0c3b7b288853a2b5d4ebae47cc192d6089cbc6",
+    "v33_hpadj11_replacement_hostile_audit_review_id": 5216402010,
+    "v33_hpadj11_replacement_merge_ready_freshness": "CLEAR",
+    "v34_additional_pruning": 0,
+    "live_178_td02_main_handoff_ready": false,
+    "live_ex5_hpadj11_postaudit_handoff_additional_credit": 0
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/hpadj11-main-disposition/HPADJ11-V33-MAIN-BOUND-REPLACEMENT.json",
-    "stages/stage32/management/hpadj11-main-disposition/verify_hpadj11_v33_main_bound_replacement.py",
+    "stages/stage32/management/hpadj11-main-disposition/HPADJ11-V34-HOSTILE-AUDIT-PASS-SYNC.json",
+    "stages/stage32/management/hpadj11-main-disposition/verify_hpadj11_v34_audit_sync.py",
     "stages/stage32/proof/verify_cross_lane_demands.py",
-    "stages/stage32/verify_main_startup_authority_v33_hpadj11_consumed.py"
+    "stages/stage32/verify_main_startup_authority_v34_hpadj11_audit_synced.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -147,7 +160,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": true,
+    "replacement_head_hostile_reaudit_required": false,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -222,7 +235,15 @@
       "main_state_canonical_sha256": "7c318668df1c9fe5f1670ed52bedffed7a21c5b2f0d0fbbffc6f1fa73b5bfa47",
       "audit_sync_receipt_blob_sha1": "79be8d2fddaaea656f015b1b858834ca48aeb960",
       "audit_sync_receipt_canonical_sha256": "0f504c054e951763580c7aadf293c38600c3cf201e4c8c6055006ee80f4a69bb"
+    },
+    "predecessor_v33": {
+      "exact_head": "3c0c3b7b288853a2b5d4ebae47cc192d6089cbc6",
+      "main_state_blob_sha1": "d67244969defc7da77dfc431346e0d045da0978d",
+      "main_state_canonical_sha256": "3ab94343566377b4a5a7646f1334b13968ba15f363c9f63fcb48a66e3b5b9398",
+      "hostile_audit_review_id": 5216402010,
+      "hostile_audit_status": "PASS",
+      "merge_ready_freshness": "CLEAR"
     }
   },
-  "canonical_sha256_without_this_field": "3ab94343566377b4a5a7646f1334b13968ba15f363c9f63fcb48a66e3b5b9398"
+  "canonical_sha256_without_this_field": "25e68a40148ce1ca4bb893ef47d23a0e213898aca8be3a76f497252cb2adc2eb"
 }
