@@ -20,6 +20,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Preserve the historical merge-ref behavior elsewhere, but hostile
+          # audit of #1814 requires replay of the literal PR head.
+          ref: ${{ github.head_ref == 'stage32ex5-hpadj09-successor-20260915' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
