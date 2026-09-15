@@ -22,6 +22,7 @@ on:
       - 'stages/stage32/32-01-178/nodes/N401/**'
       - 'stages/stage32/32-01-178/nodes/N402/**'
       - 'stages/stage32/32-01-178/nodes/N403/**'
+      - 'stages/stage32/32-01-178/nodes/N404/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -178,6 +179,8 @@ jobs:
         run: python stages/stage32/32-01-178/nodes/N402/probe_n402_intrinsic_block_congruence_wave_replacement.py
       - name: Probe N403 modular residue quotient compression
         run: python stages/stage32/32-01-178/nodes/N403/probe_n403_modular_residue_quotient_compression.py
+      - name: Probe N404 intrinsic residue decision-tree compression
+        run: python stages/stage32/32-01-178/nodes/N404/probe_n404_intrinsic_residue_decision_tree_compression.py
       - name: Verify live Q602 V3 claim synchronization
         run: python stages/stage32/proof/verify_stage32_q602_sync.py
       - name: Verify repo-wide hostile-audit and freshness governance
