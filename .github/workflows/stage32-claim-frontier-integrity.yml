@@ -115,6 +115,8 @@ jobs:
         run: >-
           python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_main_consumption.py
           --pre-v25-root .stage32-pre-v25-main
+      - name: Verify H8C-03A V25 claim-DAG synchronization checkpoint
+        run: python stages/stage32/32-01-178/hpadj-08_cut/verify_h8c03a_v25_claim_sync.py
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py
