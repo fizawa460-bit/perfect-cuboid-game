@@ -2,13 +2,14 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V1",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR105",
-  "active_leaf": "BR105_C3_FULL178_POPULATION_ADAPTER",
+  "current_node": "BR190",
+  "active_leaf": "BR190_RETAINED_AUDIT_HANDOFF",
   "last_retained_result": {
-    "path": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
-    "status": "RETAINED_EXACT_BOUNDED_DIAGNOSTIC_NO_CREDIT",
-    "bridge_commit": "bd92580ac479b03008f41c3f63d6fb60dd400cda",
+    "path": "stages/stage32/generalization-bridge/BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json",
+    "status": "RETAINED_EXACT_SCOPE_BLOCKER_NO_CREDIT",
+    "bridge_commit": "0a9fc6122aa804eb495a24b32577594d7d3b317d",
     "c3_exact_result": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
+    "bounded_diagnostic": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
     "prior_c1_result": "stages/stage32/generalization-bridge/BR103-KRES-SEMANTIC-NO-GENERALIZATION.json"
   },
   "source_seed": {
@@ -56,16 +57,16 @@
     },
     {
       "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
-      "status": "RETAINED_EXACT_ONE_BIT_PICARD64_CONGRUENCE_NO_CREDIT",
-      "description": "Exact HNF and independent Smith normal form show that the 11 terminal pairings satisfy exactly one intrinsic parity obstruction: x0+x4+x8+x10 == 0 (mod 2). BR104 proves a 49.963657%..50.036343% effect interval on the identical HPADJ01 charged population."
+      "status": "RETAINED_EXACT_SCOPE_BLOCKER_NO_CREDIT",
+      "description": "BR103 found one exact intrinsic Picard64 parity obstruction and BR104 bounded its effect on the identical HPADJ01 charged population. BR105 source-locked the general 11-label coordinate identity but found no source-locked proof that every current-authority FULL178 candidate must admit an integral retained Picard64 completion. The EX5 interface explicitly says terminal_alone_asserts_completion_exists=false and its producer requires hpadj_member(...), so population-wide C3 transport is not established."
     }
   ],
   "next_obligation": {
-    "node_id": "BR105",
-    "title": "Decide C3 population-wide transport",
-    "required_input": "Source-lock the semantic relation between the general FULL178 compressed terminal tuple [95,99,103,102,49,97,94,101,93,98,96] and retained primitive Picard64 pairings independently of HPADJ01 membership. Decide whether every current-authority FULL178 candidate necessarily requires an integral Picard64 completion with those fixed pairings.",
-    "success": "Retain a source-locked FULL178/current-authority adapter candidate for the C3 parity. Do not subtract or claim MAIN credit; overlap/no-double-charge and current residual identity remain MAIN integration obligations.",
-    "no_go": "If the pairing-to-Picard64 necessity is only certified on HPADJ01 charged population, retain exact scope blocker and return to BR190. Do not reconstruct producer-owned mathematics or fall back to terminal/block pruning."
+    "node_id": "BR190",
+    "title": "Retained hostile-audit handoff",
+    "required_input": "Freeze BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json as the exact current scope blocker. Preserve the source locks proving coordinate identity and the explicit absence of population-wide completion necessity.",
+    "success": "Hostile audit accepts the retained exact no-generalization/scope blocker. Grant no MAIN pruning credit.",
+    "reentry": "A future C3 population-wide attempt requires a new source-locked theorem or interface proving integral retained Picard64 completion necessity on the claimed current-authority FULL178 population."
   },
   "routing": {
     "independent_specialist": true,
@@ -77,6 +78,9 @@
     "BR103_C3_exact_extendability_authorized": true,
     "BR104_C3_bounded_diagnostic_complete": true,
     "BR105_population_adapter_research_authorized": true,
+    "BR105_population_adapter_research_complete": true,
+    "BR105_population_wide_transport_established": false,
+    "BR190_hostile_audit_handoff_ready": true,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
     "cross_lane_demand_created_in_this_checkpoint": false,
