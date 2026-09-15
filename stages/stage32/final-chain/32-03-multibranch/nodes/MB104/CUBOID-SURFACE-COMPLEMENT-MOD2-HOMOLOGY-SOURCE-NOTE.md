@@ -1,93 +1,110 @@
-# Stage32 MB104 source note — cuboid-surface complement mod-2 homology
+# Stage32 MB104 source note — cuboid-surface complement homology
 
 Status: **SOURCE LOCK / STANDARD TOPOLOGY + PUBLISHED CUBOID PICARD INPUT / NO STAGE32 CREDIT BY ITSELF**
 
 ## Sources
 
-1. Michael Stoll and Damiano Testa, *The surface parametrizing cuboids*, arXiv:1009.0388, Proposition 6 and Theorem 7. In particular the geometric Picard group of the minimal desingularization `S` is a free abelian group of rank `64`; Proposition 6 also records `h^1(S,O_S)=0` and proves absence of Picard torsion.
-2. Stacks Project, Étale Cohomology, Section 59.28, `Kummer theory`, tag `03PK`. For `n=2` over `C`, the Kummer sequence identifies the degree-one `mu_2` torsors on a proper connected variety with `Pic[2]`, since every nonzero complex constant has a square root, and injects `Pic/2Pic` into `H^2_et(-,mu_2)`.
-3. Stacks Project, Étale Cohomology, Section 59.5, `Feats of the étale topology`, tag `03N7`, for comparison of finite-coefficient étale and Betti cohomology over `C`.
-4. Allen Hatcher, *Algebraic Topology*, the long exact sequence of a pair together with excision, and the Thom isomorphism for a real rank-two normal disk bundle (Corollary 4D.9 in the online text). With `F_2` coefficients no orientation choice is required.
+1. Michael Stoll and Damiano Testa, *The surface parametrizing cuboids*, arXiv:1009.0388, Proposition 6 and Theorem 7. For the smooth minimal desingularization `S`, the geometric Picard group is free abelian of rank `64`; Proposition 6 also records `h^1(S,O_S)=0` and absence of Picard torsion.
+2. Stacks Project, Étale Cohomology, Section 59.28, `Kummer theory`, tag `03PK`, and Section 59.5, tag `03N7`, for Kummer and finite-coefficient étale/Betti comparison over `C`.
+3. Allen Hatcher, *Algebraic Topology*: long exact sequence of a pair, excision, universal coefficients, and Thom isomorphism. The complex normal line bundles of the exceptional curves are canonically oriented over `Z`.
 
 ## Locked specialization
 
-Let `S` be the smooth minimal desingularization of the cuboid surface and let
+Let
 
 ```text
-B_abs = E_16+...+E_23+E_40+...+E_47
-```
-
-be the union of the sixteen pairwise-disjoint absent-type exceptional `(-2)` curves. Put
-
-```text
+B_abs = E_16+...+E_23+E_40+...+E_47,
 U = S \ B_abs.
 ```
 
-The retained Stage32 half-branch relation is
+The sixteen `E_p` are pairwise-disjoint exceptional `(-2)` curves. The retained Stage32 half-branch relation is
 
 ```text
 2 L_abs ~ B_abs.
 ```
 
-The retained exact Picard64 computation in
+The retained exact Picard64 certificate computes the span of these sixteen classes in `Pic(S)/2Pic(S)` to have rank exactly `15`. Thus the all-ones relation supplied by `2L_abs~B_abs` is the unique mod-two relation.
+
+Because `Pic(S)` is torsion-free, `Pic(S)[2]=0`. Kummer and finite-coefficient comparison give
 
 ```text
-GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-PARITY-CERTIFICATE.json
+H^1(S,F_2)=0,
+H_1(S,F_2)=0.
 ```
 
-computes the span of these sixteen absent exceptional classes in `Pic(S)/2Pic(S)` to have rank exactly `15`.
-
-Because `Pic(S)` is torsion-free, `Pic(S)[2]=0`. Kummer plus finite-coefficient comparison therefore gives
+The integral statement is also zero. Indeed `h^1(S,O_S)=0` gives `b_1(S)=0`; torsion in `H_1(S,Z)` would, by universal coefficients, produce torsion in `H^2(S,Z)`, and the exponential sequence places such torsion in `Pic(S)`, which is torsion-free. Hence
 
 ```text
-H^1(S(C),F_2)=0,
+H_1(S,Z)=0.
 ```
 
-and the sixteen classes retain their rank `15` after passage from `Pic(S)/2Pic(S)` to `H^2(S(C),F_2)`. The relation `2L_abs~B_abs` supplies the all-ones relation among them, so it is the unique mod-two relation.
+## Complement calculation over F2
 
-For the pair `(S,U)`, excision to disjoint tubular neighborhoods of the sixteen exceptional curves and Thom give
+Excision and Thom for the pair `(S,U)` give
 
 ```text
 H_2(S,U;F_2) ~= F_2^16.
 ```
 
-The map
+The map `H_2(S;F_2)->F_2^16` records mod-two intersections with the sixteen exceptional curves. By Poincare duality its rank is the rank of their cohomology classes, namely `15`. Therefore the pair sequence gives
 
 ```text
-H_2(S;F_2) -> H_2(S,U;F_2)
+H_1(U;F_2) ~= F_2.
 ```
 
-is the vector of mod-two intersections with the sixteen exceptional curves. By Poincare duality its rank is the rank of their cohomology classes, namely `15`. Since `H_1(S;F_2)=0`, the long exact sequence of the pair gives
+Its intersection-map image is the even-weight hyperplane: `2L_abs~B_abs` forces every closed surface class to have even total intersection with `B_abs`, and both this hyperplane and the actual image have dimension `15`. Every absent meridian therefore represents the same nonzero class.
+
+## Integral refinement
+
+Integral excision and Thom give
 
 ```text
-H_1(U;F_2) ~= coker(H_2(S;F_2)->F_2^16) ~= F_2.
+H_2(S,U;Z) ~= Z^16.
 ```
 
-The basis vectors of `F_2^16` are the meridian disks; their boundaries are the sixteen deleted-divisor meridians in `U`.
-
-## Stage32 consequence allowed by this source lock
-
-The absent half-branch double cover on `U` has local monodromy `1` around every absent exceptional component. Hence its ambient character
+The sixteen exceptional classes are linearly independent over `Q`, since their intersection matrix is `-2 I_16`, so the integral intersection map has full rational rank and its cokernel is finite. Moreover the surface class `E_p` maps to `-2 e_p`; hence
 
 ```text
-alpha_abs : H_1(U,F_2) -> F_2
+2 Z^16 subset image(H_2(S,Z)->Z^16).
 ```
 
-is nonzero. Since `H_1(U,F_2)` is one-dimensional, `alpha_abs` is the unique nonzero character and is an isomorphism. In particular all sixteen absent meridians represent the same nonzero generator of `H_1(U,F_2)`.
-
-Therefore, for every conductor identification loop `lambda` from the active `e=2` leaf,
+Thus the cokernel has exponent at most `2`. Reducing modulo two, its dimension is exactly one by the preceding calculation. Consequently
 
 ```text
-alpha_abs(lambda)=0  <=> [lambda]=0 in H_1(U,F_2),
-alpha_abs(lambda)=1  <=> [lambda] is the unique nonzero class.
+H_1(U,Z) ~= Z/2,
+H_1(U,F_2) ~= F_2.
 ```
 
-This converts the residual-sheet evaluation into a mod-two null-homology test in the fixed complement `U`.
+All sixteen absent meridians are the unique nonzero integral class.
+
+## Linking-parity evaluator
+
+Since `H_1(S,Z)=0`, every loop `lambda` in `U` bounds an integral singular 2-chain `Gamma` in `S`. Define
+
+```text
+ell_abs(lambda) := Gamma . B_abs mod 2.
+```
+
+This is independent of the chosen bounding chain: two choices differ by a closed 2-cycle, whose intersection with `B_abs~2L_abs` is even. The meridian has value `1`, so
+
+```text
+ell_abs : H_1(U,Z) ~= Z/2 -> F_2
+```
+
+is the unique nonzero character.
+
+The absent half-branch double cover has local monodromy `1` around every absent exceptional component. Therefore its ambient Kummer character equals this linking character:
+
+```text
+alpha_abs(lambda)=ell_abs(lambda)=Gamma.B_abs mod 2.
+```
+
+For every Stage32 conductor-identification loop `lambda`, same/opposite residual sheet is therefore exactly the parity of the total intersection of any ambient bounding 2-chain with `B_abs`.
 
 ## Scope firewall
 
-- This source note does not compute the homology class of any Stage32 conductor loop.
-- It does not prove a numerical upper bound for the weighted opposite-sheet cut.
+- This note does not construct the bounding 2-chain for any Stage32 conductor loop.
+- It does not assign a conductor sign or prove a weighted-cut upper bound.
 - It does not close `e=2`, `e=4`, or `000707000f0f`.
 - It grants no MB104, receiver, effectivity, theorem, endpoint, or Perfect-Cuboid credit.
 - It authorizes no heavy compute, merge, or rebase.
