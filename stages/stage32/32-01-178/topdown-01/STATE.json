@@ -1,10 +1,19 @@
 {
   "anti_duplication": {
+    "hpadj09_and_td01_additively_stacked": false,
     "hpadj09_mod8_route_duplicated": false,
     "main_authority_mutated": false,
     "n401_n405_closed_route_reopened": false
   },
-  "canonical_sha256_without_this_field": "b48231ce0b8f100101994be479cf94c8888c4b3d28737f8d234748bddbed5436",
+  "canonical_sha256_without_this_field": "14fe73361faaa8da88269e56c91e8abeccd637f293027edf93d66827a728cd5f",
+  "coarse_ratio_shortcut": {
+    "blocker": "current MAIN authority is a scalar certified upper bound; exact x4-complete envelope identity for scalar-minus-fudge is not source-locked",
+    "blob_sha1": "3560d47322fac7b4786672e0bb5a147b722ae79a",
+    "hypothetical_post_bound_if_exact_envelope_identity_proved": 3453268626299532551531,
+    "minimum_block_rejection_fraction": "16/33",
+    "path": "stages/stage32/32-01-178/topdown-01/COARSE-PARITY-RATIO-PREFLIGHT.json",
+    "promotable_now": false
+  },
   "credit_firewall": {
     "effectivity_credit": false,
     "endpoint_credit": false,
@@ -45,21 +54,30 @@
     "heavy_authorized": false,
     "main_credit_allowed": false,
     "merge_allowed": false,
-    "next_item": "HEAVY_GATE_AUTHORIZATION_BEFORE_FULL178_8_SHARD_EXECUTION",
+    "next_item": "AUTHORIZE_EXACT_TD01_FULL178_8_SHARD_COUNT_OR_PROVE_EXACT_X4_COMPLETE_ENVELOPE_IDENTITY",
     "repair_required": false,
-    "stop_gate": "HEAVY_WORKFLOW_AUTHORIZATION_REQUIRED"
+    "stop_gate": "HEAVY_WORKFLOW_AUTHORIZATION_REQUIRED_FOR_EXACT_FULL178_COUNT"
   },
-  "schema": "STAGE32_32_01_178_TD01_STATE_V3_SHARED_HPADJ09_OBSTRUCTION",
-  "shared_obstruction": {
+  "schema": "STAGE32_32_01_178_TD01_STATE_V4_EXACT_SHARED_CHARACTER",
+  "shared_character": {
+    "double_stack_forbidden": true,
+    "equivalence_note_blob_sha1": "9825be2067c1dbd2ea4583e715cfedd991456c82",
+    "equivalence_note_canonical_sha256": "0cabdf02524c1d5e976df863454c790fb7b89c7d585a9e9ba9f36757d13eafd7",
     "equivalence_note_path": "stages/stage32/32-01-178/topdown-01/HPADJ09-EQUIVALENCE-NOTE.json",
+    "ex5_panel_accepted": 17120,
+    "ex5_panel_rejected": 17120,
+    "ex5_panel_result_blob_sha1": "8b01e8e63b402a38b33ec0eab4e669921870bf6c",
+    "ex5_panel_result_canonical_sha256": "7635e28de31e53161ee36b6b0d020a5127de2ddff73ca13ca591740758426115",
+    "ex5_panel_success_exact_head": "4be532bdddf76b66f390c4f49114bc8a707fb7e4",
+    "ex5_panel_tested": 34240,
     "ex5_pr": 1814,
-    "ex5_panel_run_id": 34971687575,
-    "ex5_panel_status": "FAIL_IMPLEMENTATION_ASSUMPTION_MODULUS_2_VS_RETAINED_MODULUS_8",
-    "same_fixed_matrix_sha256": "e8f4a9004177fc2a2023775431505d4ef39b7b808bd41cb517787c235ab170fe",
-    "same_free_matrix_sha256": "ad27fa86fbc98d55a97af5fd9d247fb880af9dac58d6429ca029d6b8ca4c288b",
-    "same_completion_obstruction": true,
+    "grf02_mod2_row": [1,0,0,0,1,0,0,0,1,0,1],
+    "hpadj09_mod8_row": [4,0,0,0,4,0,0,0,4,0,4],
+    "hpadj09_unique_rows_sha256": "fa255af25e535fa5e60670d2ad6eb5e40a5e4f28476d8ec2afcab4fbb6b787e3",
     "preferred_execution_surface": "TD01_SYMBOLIC_FULL178_COUNTER",
-    "reason": "HPADJ09 independently derives the same selected64 completion obstruction; TD01 already reduces it to the exact primitive parity character and has a population-wide bounded exact count."
+    "same_completion_character": true,
+    "verifier_blob_sha1": "4256039872767b09f5c6ade4f9c8990c6168a8d7",
+    "verifier_path": "stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py"
   },
   "source_main": {
     "authority_remaining_strata": 17128,
@@ -69,5 +87,5 @@
     "pr": 1808
   },
   "stage": 32,
-  "status": "FULL178_SCALEOUT_PREPARED_SHARED_OBSTRUCTION_HEAVY_GATE_BLOCKED"
+  "status": "EXACT_SHARED_CHARACTER_PROVED_FULL178_EXACT_SCALEOUT_HEAVY_GATE_BLOCKED"
 }
