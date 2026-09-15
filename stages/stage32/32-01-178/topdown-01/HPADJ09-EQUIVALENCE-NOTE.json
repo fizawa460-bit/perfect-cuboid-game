@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32_32_01_178_TD01_HPADJ09_EQUIVALENCE_NOTE_V1",
+  "stage": 32,
+  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
+  "status": "SOURCE_LOCKED_SAME_COMPLETION_OBSTRUCTION_DIFFERENT_EXECUTION_SURFACES",
+  "comparison": {
+    "td01_source": "Stage32 MAIN #1808 GRF-02 projected completion kernel",
+    "ex5_source": "Stage32EX5 #1814 HPADJ09 exact HNF quotient",
+    "assignment_labels_1based": [95,99,103,102,49,97,94,101,93,98,96],
+    "selected64_inverse_denominator": 8,
+    "inverse_integer_matrix_sha256": "7b4d0601585f011e168bf5c4b15086950b0e3e3e16c90826b7413cdbe183c233",
+    "fixed_matrix_sha256": "e8f4a9004177fc2a2023775431505d4ef39b7b808bd41cb517787c235ab170fe",
+    "free_matrix_sha256": "ad27fa86fbc98d55a97af5fd9d247fb880af9dac58d6429ca029d6b8ca4c288b",
+    "same_fixed_free_completion_problem": true,
+    "grf02_exact_theorem": "A fixed x11 extends to some integral z53 iff x0+x4+x8+x10 == 0 (mod 2).",
+    "grf02_primitive_row": [1,0,0,0,1,0,0,0,1,0,1],
+    "grf02_projected_fixed_image_order": 2,
+    "hpadj09_free_lattice": "col_Z(B_free,8*I_64)",
+    "hpadj09_all_lattice": "col_Z(B_free,B_fixed,8*I_64)",
+    "hpadj09_fixed_image_size": 2,
+    "hpadj09_residue_cube_total": 8589934592,
+    "hpadj09_residue_cube_accepted": 4294967296,
+    "conclusion": "Because both surfaces use the identical selected64 inverse and identical fixed/free matrices for the same extension problem, HPADJ09 HNF membership and the GRF-02 primitive parity equation define the same necessary completion gate. HPADJ09 is an independent exact derivation, not a stronger second filter to stack additively."
+  },
+  "execution_comparison": {
+    "td01": "symbolic FULL178 HPADJ08 histogram refinement carrying one required x4 parity bit; bounded population-wide panel already measured",
+    "hpadj09": "generic exact HNF/Picard64 completion derivation; current bounded-panel implementation attempted direct PrefixMembershipOracle replay",
+    "ex5_panel_run_id": 34971687575,
+    "ex5_panel_status": "FAIL_IMPLEMENTATION_ASSUMPTION",
+    "ex5_panel_failure": "measurement script assumed check.modulus==2; retained terminal check reports modulus 8 even though the quotient has index 2",
+    "mathematical_obstruction_invalidated_by_failure": false,
+    "preferred_population_counter": "TD01",
+    "reason": "TD01 has already reduced the same exact gate to the primitive parity character and measured it on the entire retained low-degree counting panel without per-terminal Picard replay."
+  },
+  "bounded_td01_evidence": {
+    "hpadj08_survivors": 11531305094786,
+    "additional_rejected_by_completion_gate": 5765698043645,
+    "combined_survivors": 5765607051141,
+    "additional_rejected_fraction": 0.5000039454555774
+  },
+  "selection_policy": {
+    "criterion": "Prefer the route that reaches an audited exact FULL178 upper bound fastest; if two routes encode the same obstruction, reuse the stronger derivation and the cheaper population-counting implementation rather than duplicate scaleout.",
+    "current_choice": "Use HPADJ09 as independent source-level confirmation and TD01 as the FULL178 counting implementation candidate.",
+    "future_stronger_ex5_gate": "If EX5 later proves a strictly stronger completion predicate than the GRF-02 parity character, compare exact retained survivor bounds and switch to the stronger route if its cost is acceptable."
+  },
+  "firewalls": {
+    "main_authority_changed": false,
+    "main_pruning_credit": false,
+    "double_counting_authorized": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
