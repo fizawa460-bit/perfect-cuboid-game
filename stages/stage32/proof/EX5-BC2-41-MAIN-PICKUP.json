@@ -1,0 +1,56 @@
+{
+  "schema": "STAGE32_MAIN_EX5_BC2_41_PICKUP_V1",
+  "stage": 32,
+  "producer_lane": "EX5",
+  "consumer_lane": "MAIN",
+  "status": "PICKUP_READY_AUDIT_PENDING_NO_MAIN_CREDIT",
+  "purpose": "Expose the audited EX5 first-e8-block closure as a MAIN-side pickup surface without granting subtraction or mathematical credit.",
+  "source_locks": {
+    "producer_pr": 1776,
+    "producer_head_at_pickup": "6322f11ea0ae868b78379b0c8b891fa65a7da21b",
+    "candidate_path": "stages/stage32-ex5/breadth-cycle-2/bc2-41-first-e8-block-main-subtraction-adapter-candidate.json",
+    "candidate_blob_sha1": "12791a4300afac6ce8b5324982d2ac63208dd4e7",
+    "candidate_canonical_sha256": "cd40eb0e9b380eb219d94fd75d44b457bcdb3d1edee83f1c9a56cac38415628a",
+    "bc2_40_hostile_audit_exact_head": "b3b16f3db20074e3dbdb1851ad123d5c2004b843",
+    "bc2_40_hostile_audit_review_id": 5204245683,
+    "repository_main_at_candidate": "117310b6a9d40273683cab8c08cc9e5e0cc584d9",
+    "main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "main_state_canonical_sha256": "bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d"
+  },
+  "candidate": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "block_index": 0,
+    "terminal_rank_range": [0, 112],
+    "terminal_count": 113,
+    "picard64_parent_population": 7336,
+    "exact_unsat_parent_count": 7336,
+    "remaining_unknown_count": 0,
+    "sat_count": 0,
+    "main_terminal_subtraction_candidate": 113
+  },
+  "main_pickup_contract": {
+    "mainbatch_should_detect": true,
+    "mainbatch_must_revalidate_source_locks": true,
+    "bc2_41_hostile_audit_required_before_main_acceptance": true,
+    "explicit_main_acceptance_required_before_subtraction": true,
+    "claim_sync_required_if_main_credit_changes": true,
+    "producer_may_not_self_grant_main_credit": true
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "main_terminal_subtraction_authorized": false,
+    "main_authority_mutated": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "canonical_sha256_without_this_field": "236ba2a19ba627404b52bf7d21c1ba5b5745bb8c8eb67e7f6b41ff0c48bf4fd9"
+}
