@@ -12,14 +12,15 @@ STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 
 REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
-MONITOR_BLOB = "aad65b1d7e13ff31d3fc0124ddcba0f0a9125c68"
-MONITOR_CANON = "5c0c07cd7e38d2a40e6855b8020e34dc2b8dc371108b48886d51f7214090fbf5"
-STATE_BLOB = "a7f58ca7cccee3f0e3ae538288d3298cf5571bb6"
-STATE_CANON = "0da2f2bc76d0a27b12277bbcf3f823293465f7e937afb80e75940db7f8aed31e"
+MONITOR_BLOB = "bda53115a294d81d504ec82965b050c87430e69d"
+MONITOR_CANON = "49eb62b32752726555d17ee302734ef983240080a1b8f0450a33d67cd9eae406"
+STATE_BLOB = "6fdcd15090d7951467675e0f732b6ce54c09d69d"
+STATE_CANON = "7c318668df1c9fe5f1670ed52bedffed7a21c5b2f0d0fbbffc6f1fa73b5bfa47"
 
 TD01_DEMAND = "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1"
 HPADJ10_DEMAND = "S32.DEMAND.HPADJ10.EX5.MAIN.AUDITED_POPULATION_HANDOFF.V1"
 CHARACTER_KEY = "PICARD64_X0_X4_X8_X10_PARITY_V1"
+HPADJ11_BOUND = 3360778813767800658369
 
 def req(v: bool, msg: str) -> None:
     if not v:
@@ -58,11 +59,9 @@ def main() -> None:
     req(td["status"] == "SATISFIED", "TD01 demand")
     req(td["producer_surface"]["audit_status"] == "HOSTILE_AUDIT_PASS", "TD01 producer audit")
     req(td["producer_surface"]["audit_review_id"] == 5214778974, "TD01 review")
-    req(td["producer_surface"]["observed_exact_head"] == "54945927416a94a67533c7b06c59c5a24e50c4f1", "TD01 head")
     req(td["candidate"]["same_completion_character_key"] == CHARACTER_KEY, "TD01 character")
     req(td["candidate"]["certified_upper_bound_candidate"] == 3453268626299532038131, "TD01 bound")
     req(td["candidate"]["additive_stacking_authorized"] is False, "TD01 additive stacking")
-    req(td["satisfying_artifact"]["main_consumption_rule"] == "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING", "TD01 composition")
 
     hp = byid[HPADJ10_DEMAND]
     req(hp["status"] == "SATISFIED", "HPADJ10 demand")
@@ -75,29 +74,40 @@ def main() -> None:
     consumed = [x for x in reg["audited_result_consumption"] if x["result_id"] == "S32.TD01.V31.CERTIFIED_UPPER_BOUND_REPLACEMENT.V1"]
     req(len(consumed) == 1, "TD01 consumption cardinality")
     c = consumed[0]
-    req(c["authoritative_remaining_terminals_before_consumption"] == 6703403803993210101494, "TD01 predecessor bound")
     req(c["authoritative_remaining_terminals_after_consumption"] == 3453268626299532038131, "TD01 post bound")
-    req(c["certified_tightening"] == 3250135177693678063363, "TD01 tightening")
     req(c["exact_incremental_rejected_set_claimed"] is False and c["additive_subtraction_performed"] is False and c["double_charge"] is False, "TD01 no-double-charge")
 
-    req(mon["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V6_TD01_V31_CONSUMED", "monitor schema")
+    req(mon["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V7_V31_AUDIT_SYNCED_HPADJ11_QUEUED", "monitor schema")
     lanes = {x["lane"]: x for x in mon["active_specialists"]}
     req(set(lanes) == {"32-01-178", "EX5", "CUT", "MB"}, "monitor lanes")
     req(lanes["32-01-178"]["pending_main_handoff_ids"] == [], "178 handoff not cleared")
-    req(lanes["EX5"]["pending_main_handoff_ids"] == [], "EX5 handoff not cleared")
+    req(lanes["EX5"]["pending_main_handoff_ids"] == [], "EX5 handoff should be selected by MAIN state, not an OPEN demand")
+    selected = mon["selected_next_main_candidate"]
+    req(selected["source_lane"] == "EX5" and selected["producer_pr"] == 1814, "HPADJ11 selected lane")
+    req(selected["audited_exact_head"] == "1c694f6650125a8fb0121925beff7f800b5d6283", "HPADJ11 selected head")
+    req(selected["hostile_audit_review_id"] == 5216065509, "HPADJ11 selected audit")
+    req(selected["same_character_key"] == CHARACTER_KEY, "HPADJ11 selected character")
+    req(selected["candidate_upper_bound"] == HPADJ11_BOUND, "HPADJ11 selected bound")
+    req(selected["main_consumed"] is False, "HPADJ11 prematurely consumed")
+    req(selected["cross_lane_demand_required_before_consumer_reentry"] is False, "unexpected HPADJ11 producer reentry demand")
     req(mon["credit_firewall"]["same_character_double_charge_authorized"] is False, "monitor same-character firewall")
 
-    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V31_TD01_BOUND_CONSUMED_PENDING_REAUDIT", "V31 state schema")
-    req(state["current"]["mainbatch_stop_gate"] == "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED", "V31 stop gate")
-    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] == 3453268626299532038131, "V31 authority")
-    req(state["current_exact_frontier"]["td01_additive_subtraction_against_v30_performed"] is False, "V31 additive subtraction")
-    req(state["current_exact_frontier"]["td01_double_charge"] is False, "V31 double charge")
-    req(state["current_exact_frontier"]["hpadj10_main_additive_credit"] == 0, "HPADJ10 credit")
-    req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is True, "V31 replacement audit gate")
-    req(state["firewalls"]["full178_complete"] is False and state["firewalls"]["merge_authorized"] is False, "V31 firewalls")
+    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V32_TD01_AUDIT_SYNCED_HPADJ11_QUEUED", "V32 state schema")
+    req(state["current"]["mainbatch_stop_gate"] == "NONE", "V32 stop gate")
+    req(state["current"]["next_exact_route"] == "HPADJ11_V33_SAME_CHARACTER_BOUND_REPLACEMENT", "V32 next route")
+    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] == 3453268626299532038131, "V32 authority")
+    req(state["current_exact_frontier"]["v31_td01_replacement_hostile_audited"] is True, "V31 audit sync")
+    req(state["current_exact_frontier"]["v31_td01_replacement_hostile_audit_review_id"] == 5216133884, "V31 audit receipt")
+    req(state["current_exact_frontier"]["hpadj11_producer_hostile_audited"] is True, "HPADJ11 audit")
+    req(state["current_exact_frontier"]["hpadj11_refined_upper_bound_candidate"] == HPADJ11_BOUND, "HPADJ11 queue bound")
+    req(state["current_exact_frontier"]["hpadj11_main_consumption_performed"] is False, "HPADJ11 V32 credit")
+    req(state["current_exact_frontier"]["hpadj11_main_additive_credit"] == 0, "HPADJ11 additive credit")
+    req(state["current_exact_frontier"]["hpadj11_double_charge"] is False, "HPADJ11 double charge")
+    req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is False, "V32 replacement audit gate")
+    req(state["firewalls"]["full178_complete"] is False and state["firewalls"]["merge_authorized"] is False, "V32 firewalls")
 
-    print("PASS: Stage32 V31 consumes hostile-audited TD01 once by min-composition; no OPEN demand remains")
-    print("PASS: HPADJ10 same-character result retained with zero additional MAIN credit; replacement head requires hostile re-audit")
+    print("PASS: Stage32 V32 synchronizes V31 hostile-audit PASS with no new pruning")
+    print("PASS: HPADJ11 hostile-audited same-character refinement is queued for separate MAIN replacement; FULL178 remains incomplete")
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 name: Stage32 MAIN startup authority
 
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V31 consumes hostile-audited TD01 certified upper bound; replacement MAIN head requires hostile re-audit.
+# Current boundary: V32 synchronizes hostile-audited V31 TD01 authority with zero new pruning; HPADJ11 is audited/queued for a separate transition.
 on:
   pull_request:
     paths:
@@ -47,41 +47,23 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Checkout V30 process predecessor
+      - name: Checkout hostile-audited V31 MAIN boundary
         uses: actions/checkout@v4
         with:
-          ref: 85c27501e4d5a5ffffe46f38d34949c8e265c735
-          path: .stage32-v30-process
+          ref: f5558f0d1b23c6dd48519207e1dc872ae66127d7
+          path: .stage32-audited-v31-main
           fetch-depth: 1
-      - name: Assert V30 process predecessor
-        run: test "$(git -C .stage32-v30-process rev-parse HEAD)" = "85c27501e4d5a5ffffe46f38d34949c8e265c735"
+      - name: Assert hostile-audited V31 MAIN boundary
+        run: test "$(git -C .stage32-audited-v31-main rev-parse HEAD)" = "f5558f0d1b23c6dd48519207e1dc872ae66127d7"
 
-      - name: Checkout hostile-audited TD01 producer
+      - name: Checkout hostile-audited HPADJ11 producer boundary
         uses: actions/checkout@v4
         with:
-          ref: 54945927416a94a67533c7b06c59c5a24e50c4f1
-          path: .stage32-audited-td01
+          ref: 1c694f6650125a8fb0121925beff7f800b5d6283
+          path: .stage32-audited-hpadj11
           fetch-depth: 1
-      - name: Assert hostile-audited TD01 producer
-        run: test "$(git -C .stage32-audited-td01 rev-parse HEAD)" = "54945927416a94a67533c7b06c59c5a24e50c4f1"
-
-      - name: Checkout hostile-audited V29 replacement boundary
-        uses: actions/checkout@v4
-        with:
-          ref: cfc23c7c633fa4192c281c8ba6a356ec071fc305
-          path: .stage32-audited-v29-main
-          fetch-depth: 1
-      - name: Assert hostile-audited V29 replacement boundary
-        run: test "$(git -C .stage32-audited-v29-main rev-parse HEAD)" = "cfc23c7c633fa4192c281c8ba6a356ec071fc305"
-
-      - name: Checkout hostile-audited HPADJ08 EX5 adapter boundary
-        uses: actions/checkout@v4
-        with:
-          ref: 36eab50192cf80ec5ed48aba40f4a56076759fea
-          path: .stage32-audited-hpadj08-ex5
-          fetch-depth: 1
-      - name: Assert hostile-audited HPADJ08 EX5 adapter boundary
-        run: test "$(git -C .stage32-audited-hpadj08-ex5 rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
+      - name: Assert hostile-audited HPADJ11 producer boundary
+        run: test "$(git -C .stage32-audited-hpadj11 rev-parse HEAD)" = "1c694f6650125a8fb0121925beff7f800b5d6283"
 
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
@@ -99,62 +81,50 @@ jobs:
           fi
           echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
-      - name: Verify V31 TD01 authority source identities
+      - name: Verify V32 audit-sync source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "a7f58ca7cccee3f0e3ae538288d3298cf5571bb6"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "6fdcd15090d7951467675e0f732b6ce54c09d69d"
           test "$(git hash-object stages/stage32/MAIN-START-HERE.md)" = "8eb1f518b349569d03d65bc9d21a27c2009cc3c2"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "fe6a18e25b3bcd32cdeb481cc57ee6f7098f8bb9"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v31_td01_consumed.py)" = "449ba5fedf2f0e65143f9a5d78636ebcf3ccfd76"
-          test "$(git hash-object stages/stage32/management/td01-main-disposition/TD01-V31-MAIN-BOUND-REPLACEMENT.json)" = "de382039b443147a48f93570b1fd8e344bc51edd"
-          test "$(git hash-object stages/stage32/management/td01-main-disposition/verify_td01_v31_main_bound_replacement.py)" = "fcd399b7126ad049f969677e9f3ec63c8559667f"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "48c5bd4272cd607c5aa50f27ce3044353608aaf4"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v32_td01_audit_synced.py)" = "d89270d34843c3d52037d036a74ef57130043712"
+          test "$(git hash-object stages/stage32/management/td01-main-disposition/TD01-V32-HOSTILE-AUDIT-PASS-SYNC.json)" = "79be8d2fddaaea656f015b1b858834ca48aeb960"
+          test "$(git hash-object stages/stage32/management/td01-main-disposition/verify_td01_v32_audit_sync.py)" = "bda8ae6ba16c43b54a022e7c80c83faaa47a4647"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "aad65b1d7e13ff31d3fc0124ddcba0f0a9125c68"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "f900700f3c20d27d9989a17ed23ae20903a96412"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json)" = "bda53115a294d81d504ec82965b050c87430e69d"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "72a9258edc25af1bccb9cb6078b20967c56ed7df"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/CLAIM-SYNC-CONTRACT.md)" = "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
           test "$(git hash-object stages/stage32/verify_command_surface.py)" = "69e6c295221bf504681648b2b4e3a61115520294"
 
-          test "$(git -C .stage32-v30-process hash-object stages/stage32/MAIN-STATE.json)" = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
-          test "$(git -C .stage32-v30-process hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "5cf674a9da2872fcea2dc1cc6e909fba59759bc2"
+          test "$(git -C .stage32-audited-v31-main hash-object stages/stage32/MAIN-STATE.json)" = "a7f58ca7cccee3f0e3ae538288d3298cf5571bb6"
+          test "$(git -C .stage32-audited-v31-main hash-object stages/stage32/verify_main_startup.py)" = "fe6a18e25b3bcd32cdeb481cc57ee6f7098f8bb9"
+          test "$(git -C .stage32-audited-v31-main hash-object stages/stage32/verify_main_startup_authority_v31_td01_consumed.py)" = "449ba5fedf2f0e65143f9a5d78636ebcf3ccfd76"
+          test "$(git -C .stage32-audited-v31-main hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "f900700f3c20d27d9989a17ed23ae20903a96412"
 
-          test "$(git -C .stage32-audited-td01 hash-object stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json)" = "51271c11078459ad9171138c4fb6121d7a665c39"
-          test "$(git -C .stage32-audited-td01 hash-object stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json)" = "c8d4e455e51ef21a13ade2812c4de5f3179aaf85"
-          test "$(git -C .stage32-audited-td01 hash-object stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py)" = "4d64db072093502df2a11dbedaa108ddfa0c69b7"
+          test "$(git -C .stage32-audited-hpadj11 hash-object stages/stage32-ex5/hpadj-11_ex5/REMOVED-BLOCK-CHECKPOINT.json)" = "81abb4aa2c626ec2a77b5b1e751e99f4299c55ba"
+          test "$(git -C .stage32-audited-hpadj11 hash-object stages/stage32-ex5/hpadj-11_ex5/refine_with_hpadj08_removed_blocks.py)" = "bda314b4ebbca59a209e2f4fd4d17dfc826cd17a"
 
-      - name: Set up pinned Python for TD01 producer replay
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10.x'
-      - name: Install exact TD01 verifier dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Reverify hostile-audited V31 MAIN boundary
+        run: python .stage32-audited-v31-main/stages/stage32/verify_main_startup.py
 
-      - name: Reverify hostile-audited TD01 producer boundary
-        run: python .stage32-audited-td01/stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py
-
-      - name: Reverify hostile-audited HPADJ08 producer boundary
-        run: python .stage32-audited-hpadj08-ex5/stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_current_main_adapter.py
-
-      - name: Reverify V30 process predecessor
-        run: python .stage32-v30-process/stages/stage32/verify_main_startup.py
-
-      - name: Verify TD01 V31 MAIN bound replacement
+      - name: Verify TD01 V32 hostile-audit synchronization
         run: >-
-          python stages/stage32/management/td01-main-disposition/verify_td01_v31_main_bound_replacement.py
-          --producer-root .stage32-audited-td01
+          python stages/stage32/management/td01-main-disposition/verify_td01_v32_audit_sync.py
+          --audited-v31-root .stage32-audited-v31-main
 
-      - name: Verify Stage32 MAIN V31 startup authority
+      - name: Verify Stage32 MAIN V32 startup authority
         run: python stages/stage32/verify_main_startup.py
-      - name: Verify Stage32 cross-lane coordination after TD01 consumption
+      - name: Verify Stage32 cross-lane coordination after V31 audit sync
         run: python stages/stage32/proof/verify_cross_lane_demands.py
       - name: Verify Stage32 final-chain 32-02 retained surface invariant source lock
         run: python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
       - name: Verify Stage32 final-chain 32-02 source-locked RR effectivity classifier
         run: python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
-      - name: Verify Stage32 claim-DAG integrity at V31
+      - name: Verify Stage32 claim-DAG integrity at V32
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
-      - name: Verify Stage32 active frontier remains incomplete at V31
+      - name: Verify Stage32 active frontier remains incomplete at V32
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Enforce startup-only scope

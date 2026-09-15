@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V6_TD01_V31_CONSUMED",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V7_V31_AUDIT_SYNCED_HPADJ11_QUEUED",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after TD01 V31 bound consumption; HPADJ10 is retained audited same-character provenance with zero additional V31 credit.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after V31 hostile-audit synchronization; HPADJ11 is a hostile-audited same-character refinement selected for separate MAIN evaluation, with zero credit until explicit consumption.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -46,10 +46,10 @@
       "command": "stage32ex5-mainbatch",
       "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
       "expected_open_pr": 1814,
-      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10 boundaries even if branch-local compact MAIN-STATE lags successor research.",
+      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10/HPADJ11 boundaries; refresh the PR/head rather than trusting this hint.",
       "main_role": "Picard64/node-support producer/refinement specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "HPADJ10 exact population result at ec087d39... received hostile-audit PASS review 5211248190. It is the same Picard64 parity character consumed through TD01 V31 and has zero additional V31 MAIN credit."
+      "last_main_disposition": "HPADJ11 exact head 1c694f66... received hostile-audit PASS review 5216065509. MAIN V32 records it as the next audited same-character replacement candidate only; no V32 mathematical credit is granted and additive stacking with TD01/HPADJ10 is forbidden."
     },
     {
       "lane": "CUT",
@@ -85,5 +85,17 @@
     "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "5c0c07cd7e38d2a40e6855b8020e34dc2b8dc371108b48886d51f7214090fbf5"
+  "selected_next_main_candidate": {
+    "source_lane": "EX5",
+    "producer_pr": 1814,
+    "audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+    "hostile_audit_review_id": 5216065509,
+    "semantic_leaf": "HPADJ11_TD01_SAME_CHARACTER_UPPER_BOUND_REFINEMENT",
+    "same_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+    "candidate_upper_bound": 3360778813767800658369,
+    "main_consumed": false,
+    "cross_lane_demand_required_before_consumer_reentry": false,
+    "reason": "MAIN-STATE directly selects the audited result for the next explicit authority transition; no producer re-entry is required."
+  },
+  "canonical_sha256_without_this_field": "49eb62b32752726555d17ee302734ef983240080a1b8f0450a33d67cd9eae406"
 }

@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V31_TD01_BOUND_CONSUMED_PENDING_REAUDIT",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V32_TD01_AUDIT_SYNCED_HPADJ11_QUEUED",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_process_head": "85c27501e4d5a5ffffe46f38d34949c8e265c735",
+    "predecessor_process_head": "f5558f0d1b23c6dd48519207e1dc872ae66127d7",
     "predecessor_v30_main_state_blob_sha1": "76bf5e3d9d97297ff5fbee2bf4826a78d125e171",
     "predecessor_v30_main_state_canonical_sha256": "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21",
     "n400_main_pruning_credit_consumed": true,
@@ -27,14 +27,26 @@
     "hpadj10_hostile_audit_review_id": 5211248190,
     "hpadj10_hostile_audit_status": "PASS",
     "hpadj10_additional_main_credit_after_td01_v31": 0,
-    "same_picard64_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1"
+    "same_picard64_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+    "predecessor_v31_main_state_blob_sha1": "a7f58ca7cccee3f0e3ae538288d3298cf5571bb6",
+    "predecessor_v31_main_state_canonical_sha256": "0da2f2bc76d0a27b12277bbcf3f823293465f7e937afb80e75940db7f8aed31e",
+    "v31_td01_replacement_exact_head": "f5558f0d1b23c6dd48519207e1dc872ae66127d7",
+    "v31_td01_replacement_hostile_audit_review_id": 5216133884,
+    "v31_td01_replacement_hostile_audit_status": "PASS",
+    "v31_td01_replacement_merge_ready_freshness": "CLEAR",
+    "hpadj11_producer_pr": 1814,
+    "hpadj11_audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+    "hpadj11_hostile_audit_review_id": 5216065509,
+    "hpadj11_hostile_audit_status": "PASS",
+    "hpadj11_same_character_refined_upper_bound": 3360778813767800658369,
+    "hpadj11_additional_main_credit_at_v32": 0
   },
   "current": {
     "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
-    "next_exact_route": "TD01_V31_REPLACEMENT_HOSTILE_AUDIT_THEN_FULL178",
-    "stacked_candidate_audit_status": "TD01_V31_BOUND_CONSUMED_REPLACEMENT_HEAD_PENDING_HOSTILE_REAUDIT",
-    "stop_semantics": "The hostile-audited TD01 producer bound is consumed by min-composition as the V31 numerical authority candidate. This replacement MAIN head itself requires exact-head hostile re-audit before further authority consumption. FULL178 and all downstream credits remain incomplete."
+    "mainbatch_stop_gate": "NONE",
+    "next_exact_route": "HPADJ11_V33_SAME_CHARACTER_BOUND_REPLACEMENT",
+    "stacked_candidate_audit_status": "TD01_V31_AUDIT_SYNCED__HPADJ11_AUDITED_QUEUED_ZERO_CREDIT",
+    "stop_semantics": "V31 TD01 replacement received hostile-audit PASS and is synchronized without new pruning. HPADJ11 is a hostile-audited same-character refinement queued for a separate explicit MAIN replacement transition; FULL178 and all downstream credits remain incomplete."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -89,13 +101,25 @@
     "cut201_producer_lane_subtraction_performed": false,
     "cut201_v27_replacement_hostile_audited": true,
     "cut201_v27_replacement_audited_exact_head": "3cf5df3dab8968bf20188ee94d8e4a0a834dc2bb",
-    "cut201_v27_replacement_hostile_audit_review_id": 5207093455
+    "cut201_v27_replacement_hostile_audit_review_id": 5207093455,
+    "v31_td01_replacement_hostile_audited": true,
+    "v31_td01_replacement_audited_exact_head": "f5558f0d1b23c6dd48519207e1dc872ae66127d7",
+    "v31_td01_replacement_hostile_audit_review_id": 5216133884,
+    "hpadj11_same_character": true,
+    "hpadj11_producer_hostile_audited": true,
+    "hpadj11_producer_audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+    "hpadj11_producer_hostile_audit_review_id": 5216065509,
+    "hpadj11_refined_upper_bound_candidate": 3360778813767800658369,
+    "hpadj11_improvement_vs_v31_upper_bound": 92489812531731379762,
+    "hpadj11_main_consumption_performed": false,
+    "hpadj11_main_additive_credit": 0,
+    "hpadj11_double_charge": false
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/td01-main-disposition/TD01-V31-MAIN-BOUND-REPLACEMENT.json",
-    "stages/stage32/management/td01-main-disposition/verify_td01_v31_main_bound_replacement.py",
+    "stages/stage32/management/td01-main-disposition/TD01-V32-HOSTILE-AUDIT-PASS-SYNC.json",
+    "stages/stage32/management/td01-main-disposition/verify_td01_v32_audit_sync.py",
     "stages/stage32/proof/verify_cross_lane_demands.py",
-    "stages/stage32/verify_main_startup_authority_v31_td01_consumed.py"
+    "stages/stage32/verify_main_startup_authority_v32_td01_audit_synced.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -114,7 +138,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": true,
+    "replacement_head_hostile_reaudit_required": false,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -161,7 +185,28 @@
       "lane_adapters_blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40",
       "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
       "status": "DECLARED_GOAL_ACTIVE_INCOMPLETE"
+    },
+    "predecessor_v31": {
+      "exact_head": "f5558f0d1b23c6dd48519207e1dc872ae66127d7",
+      "main_state_blob_sha1": "a7f58ca7cccee3f0e3ae538288d3298cf5571bb6",
+      "main_state_canonical_sha256": "0da2f2bc76d0a27b12277bbcf3f823293465f7e937afb80e75940db7f8aed31e",
+      "hostile_audit_review_id": 5216133884,
+      "hostile_audit_status": "PASS",
+      "merge_ready_freshness": "CLEAR"
+    },
+    "hpadj11_audited_same_character_refinement": {
+      "producer_pr": 1814,
+      "audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+      "hostile_audit_review_id": 5216065509,
+      "checkpoint_path": "stages/stage32-ex5/hpadj-11_ex5/REMOVED-BLOCK-CHECKPOINT.json",
+      "checkpoint_blob_sha1": "81abb4aa2c626ec2a77b5b1e751e99f4299c55ba",
+      "checkpoint_canonical_sha256": "0eff74f8adb64b3ecd8d2a3959d55686a64b57b52bcf6baabe62ac184cc1760d",
+      "refiner_path": "stages/stage32-ex5/hpadj-11_ex5/refine_with_hpadj08_removed_blocks.py",
+      "refiner_blob_sha1": "bda314b4ebbca59a209e2f4fd4d17dfc826cd17a",
+      "same_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+      "candidate_upper_bound": 3360778813767800658369,
+      "main_consumption_performed": false
     }
   },
-  "canonical_sha256_without_this_field": "0da2f2bc76d0a27b12277bbcf3f823293465f7e937afb80e75940db7f8aed31e"
+  "canonical_sha256_without_this_field": "7c318668df1c9fe5f1670ed52bedffed7a21c5b2f0d0fbbffc6f1fa73b5bfa47"
 }
