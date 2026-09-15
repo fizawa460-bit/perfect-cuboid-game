@@ -1,0 +1,119 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_ZERO_QUARTIC_TORSION_CONGRUENCES_V1",
+  "status": "RETAINED_CONDITIONAL_TWO_NEW_MOD4_BRANCH_CONGRUENCES_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-TORSION-CONGRUENCES.md",
+      "blob_sha1": "f3f3541c87bb5020155811886421932e177f7a2f"
+    },
+    {
+      "id": "HALF_HYPERPLANE_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-HALF-HYPERPLANE-FACTORIZATION-CERTIFICATE.json",
+      "blob_sha1": "b166657c08ec90c7b30d5c67ab0991978aa56381"
+    },
+    {
+      "id": "ZERO_QUARTIC_PIC0_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-CERTIFICATE.json",
+      "blob_sha1": "1a92336433816883757fee844b736181e6848813"
+    },
+    {
+      "id": "RESIDUAL_NODE_TABLE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+      "blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+    },
+    {
+      "id": "BOUNDARY_SATURATION",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md",
+      "blob_sha1": "aa9a7215467428b55b18ef296ced91b63ec4bf07"
+    },
+    {
+      "id": "AMBIENT_CHARACTER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-CHARACTER-FUNCTION.md",
+      "blob_sha1": "2bdb46e79be8a745880622c9c0643eb13ef20b26"
+    }
+  ],
+  "variables": {
+    "picard64_parity": "x_j even",
+    "y_j": "x_j/2",
+    "b_j": "x_j/2-2*l",
+    "d_j": "4*b_j"
+  },
+  "zero_quartics": {
+    "Q0": {
+      "nodes": [0,1,2,3,24,25,26,27],
+      "supported": [0,1,2,3,24,25,26],
+      "omitted": 27,
+      "orientation": {"0":1,"1":-1,"2":1,"3":-1,"24":-1,"25":1,"26":-1},
+      "degree_zero_equation": "b0-b1+b2-b3-b24+b25-b26=0",
+      "torsion_half": [24,25,26,27],
+      "torsion_condition": "b24+b25+b26=0 mod 2",
+      "mod4_condition": "x24+x25+x26=0 mod 4",
+      "equivalent_mod4_condition": "x0+x1+x2+x3=0 mod 4"
+    },
+    "Q1": {
+      "nodes": [8,9,10,11,32,33,34,35],
+      "supported": [8,9,10,11,32,33,34],
+      "omitted": 35,
+      "orientation": {"8":1,"9":1,"10":1,"11":1,"32":1,"33":1,"34":1},
+      "degree_zero_equation": "b8+b9+b10+b11+b32+b33+b34=0",
+      "torsion_half": [32,33,34,35],
+      "torsion_condition": "b32+b33+b34=0 mod 2",
+      "mod4_condition": "x32+x33+x34=0 mod 4",
+      "equivalent_mod4_condition": "x8+x9+x10+x11=0 mod 4"
+    }
+  },
+  "elliptic_torsion_test": {
+    "model": "z^2=x^2-y^2, w^2=x^2+y^2",
+    "first_four_nodes": "y=0 = Q[2] after choosing one as origin",
+    "second_four_nodes": "x=0 form one Q[2]-coset with common nonzero double",
+    "criterion": "for a degree-zero box-node divisor D, [D] in Pic0(Q)[2] iff the coefficient sum on the x=0 half is even"
+  },
+  "rank": {
+    "b_variable_count": 14,
+    "centered_saturation_rank_mod2": 2,
+    "new_torsion_rows": 2,
+    "combined_rank_mod2": 4,
+    "new_independent_bits": 2
+  },
+  "relation_to_prior_parity": {
+    "old_determinant_conditions": [
+      "x0+x1+x2+x3=0 mod 2",
+      "x8+x9+x10+x11=0 mod 2"
+    ],
+    "old_conditions_automatic_after_picard64_all_even": true,
+    "new_conditions_are_mod4_strengthening": true,
+    "balanced_x_j_equals_4l_survives": true
+  },
+  "routing": {
+    "individual_conductor_pair_map_materialized": false,
+    "weighted_cut_upper_bound_proved": false,
+    "e2_closed": false,
+    "active_leaf_unchanged": true,
+    "next_target": "combine the two zero-quartic torsion bits with thin-shell energy or with the conductor-preimage residual Kummer evaluation"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_ZERO_QUARTIC_TORSION_CONGRUENCES_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "hostile_audit_claimed": false
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}
