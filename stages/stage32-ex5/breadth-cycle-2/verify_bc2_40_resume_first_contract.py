@@ -12,16 +12,21 @@ HELPER=HERE/'bc2_40_resume_execute.py'
 WORKFLOW=ROOT/'.github/workflows/stage32-ex5-bc2-40-resume.yml'
 LEGACY_WORKFLOW=ROOT/'.github/workflows/stage32-ex5-main.yml'
 RUNKEY=HERE.parent/'runkeys'/'bc2-40-fresh-unknown23-replay.json'
+RETIRE=HERE/'bc2-40-workflow-retirement-receipt.json'
 
 CONTRACT_BLOB='220edb27584ea99899e7e3f129869f1a1b7719a2'
 CONTRACT_CANON='ff2106909f7d9e02c7300127f10463e7d4fc3415e300c10f1e8aad712b133ca1'
 WORKER_BLOB='a28061b99527c6585c3f4016992d1ef6e47b42de'
 AGG_BLOB='76c1d5e9f45d113ccb17e8149b2d840e2278b301'
 HELPER_BLOB='5b262f1c05d82ae3203a689522f476d83406dbb8'
-WORKFLOW_BLOB='425b0d72f1a654f53b16bf086c537e79335d6263'
+HISTORICAL_WORKFLOW_BLOB='425b0d72f1a654f53b16bf086c537e79335d6263'
+RETIRED_WORKFLOW_BLOB='fb113e1341756ed5e68fa370041b08ff764ddc49'
+RETIRE_CANON='39d063df47c9ffb3a291502162723d83f3a640c16c937b6f1e30700ddb832e39'
 TARGET_SHA='29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02'
 RUNKEY_V2='STAGE32EX5_BC2_40_RESUME_RUNKEY_V2'
 LEGACY_V1='STAGE32EX5_BC2_40_FRESH_UNKNOWN23_REPLAY_RUNKEY_V1'
+AUDIT_HEAD='b3b16f3db20074e3dbdb1851ad123d5c2004b843'
+AUDIT_REVIEW=5204245683
 
 def req(v,m):
     if not v: raise SystemExit('FAIL: '+m)
@@ -39,7 +44,7 @@ def main():
     req(blob(WORKER)==WORKER_BLOB and c['partition']['unit_worker_git_blob_sha']==WORKER_BLOB,'worker lock')
     req(blob(AGG)==AGG_BLOB and c['aggregation']['git_blob_sha']==AGG_BLOB,'aggregate lock')
     req(blob(HELPER)==HELPER_BLOB and c['execution_helper']['git_blob_sha']==HELPER_BLOB,'helper lock')
-    req(blob(WORKFLOW)==WORKFLOW_BLOB and c['workflow']['git_blob_sha']==WORKFLOW_BLOB,'workflow lock')
+    req(c['workflow']['git_blob_sha']==HISTORICAL_WORKFLOW_BLOB,'historical workflow lock in contract')
     req(c['partition']['key']=='parent_index' and c['partition']['expected_unit_count']==23 and c['partition']['finer_exact_partition_feasible'] is True,'partition')
     req(c['target']['audited_unknown_parent_indices_sha256']==TARGET_SHA,'target hash')
     req(c['execution_helper']['runkey_schema']==RUNKEY_V2 and c['execution_helper']['schedules_only_missing_parent_indices'] is True,'resume helper semantics')
@@ -53,25 +58,33 @@ def main():
     req(a['workflow_migrated'] is True and a['runkey_armed'] is False and a['heavy_execution_authorized'] is False and a['main_promotion_authorized'] is False and a['merge_authorized'] is False,'contract grants no execution authorization')
     req(all(v is False for v in c['firewalls'].values()),'credit firewalls')
 
+    # The active-auto workflow was valid for the historical resume frontier, then
+    # intentionally retired after BC2-40 generation4 hostile-audit consumption.
+    req(RETIRE.is_file(),'retirement receipt missing')
+    rr=json.loads(RETIRE.read_text())
+    req(rr.get('schema')=='STAGE32EX5_BC2_40_WORKFLOW_RETIREMENT_RECEIPT_V1','retirement schema')
+    req(rr.get('status')=='RETIRED_AFTER_HOSTILE_AUDIT_CONSUMPTION','retirement status')
+    req(rr.get('canonical_sha256_without_this_field')==RETIRE_CANON and canon(rr)==RETIRE_CANON,'retirement canonical')
+    rh=rr['historical_authority']; rt=rr['workflow_transition']
+    req(rh['hostile_audit_status']=='PASS' and rh['hostile_audit_exact_head']==AUDIT_HEAD and rh['hostile_audit_review_id']==AUDIT_REVIEW,'retirement audit authority')
+    req(rh['known_parent_unsat_lower_bound']==7336 and rh['first_e8_block_picard64_obstruction_closed'] is True,'retirement mathematical authority')
+    req(rh['stage32_main_credit'] is False,'retirement MAIN firewall')
+    req(rt['historical_active_auto_blob_sha1']==HISTORICAL_WORKFLOW_BLOB,'historical workflow provenance')
+    req(rt['retired_manual_blob_sha1']==RETIRED_WORKFLOW_BLOB and blob(WORKFLOW)==RETIRED_WORKFLOW_BLOB,'retired workflow lock')
+    req(rt['current_lifecycle']=='RETIRED' and rt['current_event']=='workflow_dispatch_only','retired workflow lifecycle')
+    req(rt['new_bc2_40_heavy_generation_authorized'] is False and rt['historical_mathematical_credit_revoked'] is False,'retirement execution/credit separation')
+    req(all(v is False for v in rr['firewalls'].values()),'retirement firewalls')
+
     if RUNKEY.exists():
         rk=json.loads(RUNKEY.read_text())
-        req(rk.get('schema')==RUNKEY_V2,'only V2 runkey may coexist with migrated workflow')
+        req(rk.get('schema')==RUNKEY_V2,'only V2 runkey may coexist with retained BC2-40 contract')
         req(rk.get('canonical_sha256_without_this_field')==canon(rk),'V2 runkey canonical')
 
     wf=WORKFLOW.read_text()
-    req('# Trigger lifecycle: ACTIVE_AUTO' in wf,'workflow lifecycle')
-    req(RUNKEY_V2 in wf and 'authorize-bc2-40-resume-v2:' in wf and '\n  bc2-40-resume-heavy:' in wf,'V2 semantic gate')
-    req('LIVE-MAIN-COORDINATION-SYNC-20260915.json' in wf,'V34 live-main sync path')
-    req(wf.count('ref: ${{ github.event.pull_request.head.sha }}')==3,'all BC2-40 jobs must checkout exact PR head')
-    req('BEFORE: ${{ github.event.before }}' in wf and 'HEAD_SHA: ${{ github.event.pull_request.head.sha }}' in wf,'event range env')
-    req("['git','diff','--name-only',before,head]" in wf and "['git','show',before+':'+str(key)]" in wf,'event range diff/old-key lookup')
-    req("['git','fetch','--no-tags','--depth=1','origin',before]" in wf,'event before fetch')
-    req('HEAD^' not in wf,'HEAD-caret delta must not authorize heavy')
-    req('bc2_40_resume_execute.py' in wf and 'bc2_40_replay_explicit_fresh_unknown23.py --output' not in wf,'resume helper replaces monolithic execution')
-    req(wf.count('if: always()')>=3,'salvage/failure steps must be always')
-    req(wf.count('retention-days: 2')==2,'artifact retention')
-    req('matrix:' not in wf,'no heavy matrix scaleout')
-    req("effective_heavy_concurrency')==1" in wf and "heavy_scaleout_authorized') is False" in wf,'semantic concurrency gate')
+    req('# Trigger lifecycle: RETIRED.' in wf,'retired workflow lifecycle marker')
+    req('workflow_dispatch:' in wf and 'pull_request:' not in wf,'retired workflow must be manual only')
+    req('bc2-40-resume-heavy:' not in wf and 'authorize-bc2-40-resume-v2:' not in wf,'retired workflow must contain no heavy authorization/runtime')
+    req('verify_bc2_40_resume_first_contract.py' in wf,'historical replay verifier retained')
 
     legacy=LEGACY_WORKFLOW.read_text()
     req('authorize-bc2-40-fresh-unknown23:' not in legacy and '\n  bc2-40-fresh-unknown23:' not in legacy,'legacy V1 runtime jobs must remain removed')
@@ -80,7 +93,7 @@ def main():
     req(w['legacy_v1_monolithic_gate']=='REMOVED_FROM_STAGE32_EX5_MAIN' and w['legacy_runtime_jobs_removed'] is True and w['legacy_workflow_path']=='.github/workflows/stage32-ex5-main.yml','legacy gate removal contract')
 
     subprocess.run([sys.executable,'-m','py_compile',str(WORKER),str(AGG),str(HELPER)],check=True)
-    print('PASS: BC2-40 resume-first V2 workflow uses exact github.event.before..PR-head runkey authorization; parent-index partition=23; contract arms no heavy execution')
+    print('PASS: BC2-40 historical resume contract preserved; active-auto workflow provenance locked; current workflow retired manual-only after audited consumption; no new BC2-40 heavy credit')
 
 if __name__=='__main__':
     main()
