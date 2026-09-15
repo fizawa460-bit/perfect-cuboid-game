@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32EX5_HPADJ08_STATE_V2",
+  "schema": "STAGE32EX5_HPADJ08_STATE_V3",
   "route_id": "HPADJ-08_ex5",
-  "status": "KERNEL_CI_ACTIVE_BC2_40_AUTO_RETIRED_HEAVY_NOT_ARMED",
+  "status": "EXACT_HEAD_EX5_CI_PASS_COLD_FULL178_GATE_PASS_HEAVY_NOT_ARMED",
   "work_pr": 1812,
   "work_branch": "stage32ex5-hpadj-08-exact-square-compression",
   "bounded_evidence": {
@@ -17,27 +17,39 @@
     "contract_canonical": "23ab8ae0509754f94cdf7cc661e18e692ec2af3f20a2653d0d92c1a8ff5fa84b",
     "worker_path": "stages/stage32-ex5/hpadj-08_ex5/hpadj08_ex5_full178_b_shard.py",
     "worker_blob_sha1": "c5fc340ea734dfc54436f124bb302c1ec6c5677c",
+    "aggregator_path": "stages/stage32-ex5/hpadj-08_ex5/aggregate_hpadj08_ex5_full178.py",
+    "aggregator_blob_sha1": "775f1423b7efe35bb3dfd3831fbf4a5c5140c4cc",
     "partition": "8 disjoint b-interval shards covering 0..96",
     "resume_first": true,
+    "runkey_path": "stages/stage32-ex5/runkeys/hpadj08-full178-scaleout.json",
+    "runkey_generation": 0,
+    "runkey_armed": false,
     "heavy_run_armed": false,
-    "full178_candidate_count_available": false
+    "full178_candidate_count_available": false,
+    "representative_shard_storage_measured": false
   },
-  "kernel_validation": {
-    "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_ex5_shard_kernel.py",
-    "verifier_added_commit": "15461470377fe3303f1c4a3dec8f463bc4bed448",
-    "workflow": ".github/workflows/stage32-ex5-hpadj08-kernel.yml",
-    "workflow_lifecycle": "ACTIVE_AUTO",
-    "first_run_id": 34925336594,
-    "exact_head_ci_pass": false,
-    "current_observed_status": "QUEUED_AT_DFEF20A"
+  "exact_head_ci": {
+    "verified_head_before_state_sync": "7b194f78c4039be70138d9127a2a95ee975e3327",
+    "stage32ex5_main_integrity": {"run_id": 34925871460, "status": "SUCCESS"},
+    "hpadj08_kernel": {"run_id": 34925871464, "status": "SUCCESS"},
+    "hpadj08_full178_cold": {"run_id": 34925871495, "status": "SUCCESS", "heavy_shards_authorized": false},
+    "claim_frontier": {"run_id": 34925871479, "status": "SUCCESS"},
+    "stale_run_sweeper": {"run_id": 34925871475, "status": "SUCCESS"}
   },
   "workflow_lifecycle": {
-    "retired_bc2_40_workflow": ".github/workflows/stage32-ex5-bc2-40-resume.yml",
-    "retired_bc2_40_class": "RETIRED_MANUAL_ONLY",
-    "retired_commit": "1a5f39383d337848a21de4fa4d02b032b8feb956",
-    "reason": "BC2-40 generation 4 is hostile-audited/consumed; automatic execution is no longer current frontier."
+    "hpadj08_kernel": "ACTIVE_AUTO",
+    "hpadj08_full178": "ACTIVE_AUTO_COLD_RUNKEY_GATED",
+    "bc2_40": "RETIRED_MANUAL_ONLY",
+    "inventory_synced": true,
+    "bc2_40_retirement_receipt": "stages/stage32-ex5/breadth-cycle-2/bc2-40-workflow-retirement-receipt.json",
+    "bc2_40_historical_mathematical_authority_revoked": false
   },
-  "next_action": "Wait only for current exact-head lightweight kernel CI observation; if PASS, add a cold/unarmed dedicated HPADJ-08 FULL178 runkey and runkey-gated resumable 8-shard workflow. Do not arm heavy execution before storage preflight and exact authorization gate are complete.",
+  "unrelated_repo_status": {
+    "stage32_main_startup_at_verified_head": "FAIL_MAIN_STATE_CANONICAL_DRIFT",
+    "stage36_at_verified_head": "FAIL",
+    "treated_as_hpadj08_failure": false
+  },
+  "next_action": "Measure one representative shard compact-certificate footprint under a bounded, explicitly authorized storage pilot; then, only if storage and exact authorization gates pass, advance the dedicated runkey from generation 0/armed=false to a fresh armed generation for resume-first FULL178 scaleout.",
   "firewalls": {
     "stage32_main_pruning_credit": false,
     "current_main_incremental_credit": false,
@@ -52,5 +64,5 @@
     "heavy_run_armed": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "f7703e64bab2899e839e5c577b55cf21c4c9459a0d709058930ea6c6604bc243"
+  "canonical_sha256_without_this_field": "648046655f66d552228cd5727037b212a714a7a086809a282016c8c9db4386fc"
 }
