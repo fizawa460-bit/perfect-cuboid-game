@@ -4,7 +4,7 @@
   "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
   "resume_policy": "RESUME_NOT_FEASIBLE",
   "resume_not_feasible_reason": "HPADJ20 is a source-locked monolithic exact LP replay whose current proof object is a single global aggregate. Introducing execution partitions before hostile audit would change the producer/evidence contract rather than merely resume the same audited computation.",
-  "cancellation_recovery": "Discard incomplete runner-local output and manually redispatch the workflow at the identical expected_head_sha from the beginning. Partial output grants no mathematical or merge credit.",
+  "cancellation_recovery": "Discard incomplete runner-local output and re-arm only by advancing the dedicated run-key generation, or manually redispatch the identical exact head when the workflow is dispatchable. Partial output grants no mathematical or merge credit.",
   "partition": {
     "partition_key": null,
     "expected_coverage": "ONE_MONOLITHIC_EXACT_REPLAY",
@@ -21,8 +21,8 @@
     "historical_artifacts_required_for_aggregation_mb": 0,
     "final_output_persistence": "GitHub Actions job log only; /tmp/hpadj20.json remains runner-local and is discarded with the runner.",
     "cleanup_point": "runner teardown",
-    "stop_condition": "No artifact upload is authorized; if the execution contract or producer lock drifts, fail before heavy compute.",
-    "authorization": "Manual workflow_dispatch with a required exact 40-hex expected_head_sha; checkout and HEAD equality are verified before compute."
+    "stop_condition": "No artifact upload is authorized; if the execution contract, run key, or producer lock drifts, fail before heavy compute.",
+    "authorization": "PR runs require the dedicated run-key file to change in the exact event before..head range, armed=true, and a strictly positive/advancing generation. Reopened events are cold. Manual dispatch requires an exact 40-hex expected_head_sha."
   },
   "credit_firewall": {
     "partial_output_credit": false,
