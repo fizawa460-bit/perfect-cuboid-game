@@ -14,11 +14,14 @@ ARCH = HERE / "proof" / "historical-routing-blobs"
 LANES = HERE / "proof" / "LANE-ADAPTERS.json"
 OLD_COMMANDS = ARCH / "COMMANDS-PRE-EX5-STARTUP-COLLAPSE.md"
 OLD_VERIFIER = ARCH / "VERIFY-COMMAND-SURFACE-PRE-EX5-STARTUP-COLLAPSE.py"
+OLD_MAIN_START = ARCH / "MAIN-START-HERE-PRE-ACTIVE-SPECIALIST-MONITOR.md"
 TMP_VERIFIER = HERE / ".verify_command_surface_pre_ex5_startup_collapse.py"
 LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
+LIVE_MAIN_START = HERE / "MAIN-START-HERE.md"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
 OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
+OLD_MAIN_START_BLOB = "2b659d7e7bde120de764de8b2c260faefe78a18e"
 OLD_EX5_START_BLOB = "47581a734da21dac3d2cabc4dc520d5be1310a49"
 RETIRED = (
     "README.md",
@@ -76,20 +79,34 @@ def main() -> None:
     req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
     req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
 
+    main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
+    req("ACTIVE-SPECIALIST-MONITOR-CONTRACT.json" in main_start,
+        "MAIN startup missing active-specialist monitor contract")
+    req("Mandatory live specialist sweep" in main_start,
+        "MAIN startup missing mandatory live specialist sweep")
+    req("S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1" in main_start,
+        "MAIN startup missing N398 handoff route")
+    req("PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json" in main_start,
+        "MAIN startup missing parity synthesis boundary")
+
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
+    req(blob(OLD_MAIN_START) == OLD_MAIN_START_BLOB, "pre-monitor MAIN startup snapshot drift")
     req(blob(ARCH_EX5 / "MAIN-START-HERE.md") == OLD_EX5_START_BLOB, "archived EX5 startup snapshot drift")
 
     live_commands = (HERE / "COMMANDS.md").read_bytes()
+    live_main_start = LIVE_MAIN_START.read_bytes()
     old_start = LEGACY_EX5_START.read_bytes() if LEGACY_EX5_START.exists() else None
     old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
     try:
         (HERE / "COMMANDS.md").write_bytes(OLD_COMMANDS.read_bytes())
+        LIVE_MAIN_START.write_bytes(OLD_MAIN_START.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
         TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
         (HERE / "COMMANDS.md").write_bytes(live_commands)
+        LIVE_MAIN_START.write_bytes(live_main_start)
         if old_start is None:
             if LEGACY_EX5_START.exists():
                 LEGACY_EX5_START.unlink()
@@ -102,10 +119,12 @@ def main() -> None:
             TMP_VERIFIER.write_bytes(old_tmp)
 
     req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
+    req(LIVE_MAIN_START.read_bytes() == live_main_start, "live MAIN startup restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
     print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
-    print("historical pre-collapse command contract replayed transiently with no live-path resurrection")
+    print("PASS: current MAIN active-specialist monitor contract present")
+    print("historical pre-collapse command/startup contract replayed transiently with no live-path resurrection")
 
 
 if __name__ == "__main__":

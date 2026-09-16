@@ -57,4 +57,8 @@ Earlier hostile-audit blockers on lock-before-exec and producer/protocol composi
 
 ## Resume rule
 
-If 32-02 effectivity research is reopened, start from this handoff and inspect PR #1790 / retained head `de53289859bec2b718f7066326e095f969875da0` rather than repeating the scalar-producer work from scratch. Re-establish current-main freshness and obtain a new exact-head hostile audit before any promotion or MAIN credit.
+32-02 is **PARKED / INCOMPLETE**, not finished.
+
+If the user says `32-02の研究途中から開始して`, `32-02を途中から再開`, or otherwise asks to resume 32-02, treat that as an explicit reopen request. Start from this handoff and inspect PR #1790 / retained head `de53289859bec2b718f7066326e095f969875da0` rather than repeating the scalar-producer work from scratch.
+
+Re-establish current-main freshness and obtain a new exact-head hostile audit before any promotion or MAIN credit. Do not infer that PARKED/INCOMPLETE means authority credit is pending automatically; it only records the research continuation point.

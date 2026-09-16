@@ -1,0 +1,76 @@
+{
+  "canonical_sha256_without_this_field": "70e6ecdf4c79ee51e843aea043a34e3deb4ad913822537e973be82d2c961114c",
+  "schema": "STAGE32_MAIN_GRF04_RATIONAL_QUADRATIC_LOWER_BOUND_KERNEL_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "node": "GRF-04",
+  "status": "EXACT_SYMBOLIC_SCHUR_COMPLEMENT_LOWER_BOUND_KERNEL_NO_CONCRETE_178_TARGET_NO_CREDIT",
+  "purpose": "Freeze the exact rational quadratic lower-bound kernel requested by GRF-01 elimination step C, after GRF-03 showed the norm-residue congruence alone is automatic.",
+  "source_locks": {
+    "grf01_contract_blob_sha1": "a81ebccfa0e235fe33926e16a0bd67bfcb29cbc0",
+    "grf01_contract_canonical_sha256": "18ce801f45bd95fec8e0a2f6001eff9fd80a9b6f6b416ccc9190d3b37adc3c43",
+    "grf01_design_blob_sha1": "7daa489d182e52401df9300acfe9899759515078",
+    "grf03_blob_sha1": "d6777200cadb6809dc3b46374c8f714cb6ebd6cd",
+    "grf03_canonical_sha256": "b7ff04666b5a29f7cca5da4df0fd9076a6e785702b594bda602cb4085d45c15d"
+  },
+  "mathematical_kernel": {
+    "ambient": "V=H^perp tensor Q with positive-definite form Q=-G|H^perp",
+    "constraints": "A*v=b over Q",
+    "rank_preprocessing": [
+      "Row-reduce the augmented matrix [A|b] exactly over Q.",
+      "If a row [0 ... 0 | nonzero] occurs, the affine system is empty.",
+      "Otherwise retain the nonzero A-rows as A0 with matching rhs b0; A0 has full row rank and defines the same affine solution set."
+    ],
+    "schur_matrix": "S=A0*Q^{-1}*A0^T",
+    "minimizer": "v_star=Q^{-1}*A0^T*S^{-1}*b0",
+    "minimum": "rho=b0^T*S^{-1}*b0",
+    "orthogonal_decomposition": "v^T*Q*v = rho + (v-v_star)^T*Q*(v-v_star) for every A*v=b",
+    "emptiness_rule": "If rho>B_g(d), then no rational solution satisfying A*v=b can satisfy N=v^T*Q*v<=B_g(d); hence no integral completion exists.",
+    "empty_constraint_case": "If there are no independent affine constraints, rho=0 and v_star=0.",
+    "affine_family_extension": "When b=b(u) is affine-linear in rational family parameters u and A,Q are fixed, rho(u)=b(u)^T*S^{-1}*b(u) is an exact rational quadratic form."
+  },
+  "fail_closed_semantics": {
+    "q_must_be_symmetric_positive_definite": true,
+    "inconsistent_affine_system_is_linear_empty": true,
+    "redundant_constraints_must_not_change_rho": true,
+    "strict_inequality_required_for_quadratic_lower_bound_empty": true,
+    "rho_leq_bound_proves_existence": false,
+    "rational_feasibility_proves_integral_feasibility": false,
+    "kernel_alone_selects_concrete_full178_population": false
+  },
+  "handoff_to_178": {
+    "main_delivers": [
+      "exact Schur-complement minimization kernel",
+      "rank-deficiency and inconsistency handling",
+      "source-locked theorem and no-credit certificate"
+    ],
+    "lane178_must_supply_before_any_population_claim": [
+      "concrete source-locked affine constraint matrix A and rhs b(u)",
+      "concrete FULL178 target identity/subset",
+      "proof that every target completion satisfies the chosen affine constraints",
+      "exact comparison rho(u)>B_g(d) on that target domain",
+      "subset certificate and overlap/accounting against current authority"
+    ]
+  },
+  "ownership": {
+    "concrete_row_or_stratum_selected": false,
+    "bounded_leaf_search_performed": false,
+    "population_replay_performed": false,
+    "concrete_application_owner": "stage32-01-178-mainbatch"
+  },
+  "credit_firewall": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_route": {
+    "main": "Only strengthen the symbolic global obstruction if a genuinely new MAIN-owned constraint family is identified; do not enumerate FULL178.",
+    "lane178": "Instantiate this kernel only after a source-locked semantic adapter provides A,b(u), target membership, and accounting."
+  }
+}

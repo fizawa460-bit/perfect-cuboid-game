@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_MAIN_GRF06_ODD_PRIME_AFFINE_COLUMN_IMAGE_KERNEL_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "node": "GRF-06",
+  "status": "EXACT_SYMBOLIC_ODD_PRIME_AFFINE_COLUMN_IMAGE_KERNEL_NO_CONCRETE_178_TARGET_NO_CREDIT",
+  "purpose": "Complete GRF-01 elimination step D at theorem-schema level: an exact odd-prime finite-ring obstruction for affine integer systems, without importing any concrete CUT population or granting pruning credit.",
+  "source_locks": {
+    "grf01_design_blob_sha1": "7daa489d182e52401df9300acfe9899759515078",
+    "predecessor_grf05_blob_sha1": "75e556dee57dff282232a57898924d7e1826a40c",
+    "predecessor_head": "f406006bb5b75926075e5c1c6932103cfb1d066d"
+  },
+  "mathematical_kernel": {
+    "domain": "M in Z^(r x n), c,b in Z^r, z in Z^n, q=p^e with p an odd prime and e>=1",
+    "system": "M*z + c == b (mod q)",
+    "exact_image": "I_q(M,c) = {c + M*z mod q : z in (Z/qZ)^n}",
+    "lattice_equivalence": "The system is solvable iff b-c belongs to M*Z^n + q*Z^r, equivalently iff b-c is in the integer column lattice of [M | q*I_r].",
+    "empty_rule": "If b mod q is not in I_q(M,c), then no integral lift z in Z^n can satisfy the source-locked affine equations; classify ODD_PRIME_COLUMN_IMAGE_EMPTY.",
+    "accepted_exact_methods": [
+      "exact HNF/SNF integer-lattice membership for [M | q*I_r]",
+      "exact finite-ring enumeration when the quotient is explicitly bounded and small",
+      "an equivalent exact source-locked column-image certificate"
+    ],
+    "sat_semantics": "Membership in the local image is only a passed necessary local condition. It does not prove an integral/global solution.",
+    "prime_power_semantics": "q may be an odd prime power. Reducing only modulo p is weaker than testing modulo p^e and must not be silently promoted."
+  },
+  "semantic_adapter_firewall": {
+    "concrete_family_equations_required": true,
+    "same_variable_map_required": true,
+    "same_offset_and_target_required": true,
+    "modulus_and_prime_power_exponent_source_locked": true,
+    "population_identity_required_before_concrete_pruning": true,
+    "cut_specific_incidence_or_cap_generalized": false,
+    "sat_grants_global_existence": false,
+    "unknown_grants_pruning": false
+  },
+  "ownership": {
+    "concrete_row_or_stratum_selected": false,
+    "bounded_leaf_search_performed": false,
+    "cut_population_replayed": false,
+    "concrete_application_owner": "stage32-01-178-mainbatch or stage32cut-mainbatch only after an explicit current semantic adapter"
+  },
+  "credit_firewall": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_route": {
+    "main": "Compose coprime local systems only through an exact CRT kernel; do not instantiate a concrete FULL178 subset.",
+    "specialists": "Supply source-locked family equations, current target identity, and exact subset/accounting before any pruning claim."
+  },
+  "canonical_sha256_without_this_field": "ecb750ab063adef5a489f14898e6736d6a850d18bdd04a5616bfc3f671a2aaaf"
+}

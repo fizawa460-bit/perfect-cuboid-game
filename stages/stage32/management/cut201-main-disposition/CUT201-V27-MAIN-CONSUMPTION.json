@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_MAIN_CUT201_V27_CONSUMPTION_V1",
+  "stage": 32,
+  "leaf": "CUT201_V26_ADAPTER_AUDITED_18758_MAIN_CONSUMPTION",
+  "status": "CONSUMED_ON_V27_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT",
+  "predecessor_main": {
+    "exact_head": "41f57132ca18d0b002e94d397210ac0c65e00f2e",
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_blob_sha1": "9242ffc2d44d68b7c6e3a3946fa26f18288fe51b",
+    "main_state_canonical_sha256": "39b66cb72dd60900158e60cbca9e0c8dbd15bff3d77f7d9ed2fd096e0f12b9dd",
+    "cross_lane_registry_blob_sha1": "619c4c415dee38c0539c9d91d6881a3d7b31d46c",
+    "cross_lane_registry_canonical_sha256": "9ace76a55e717dec9f39151e694e78a00250fa08a0a804373faded45196ab7e4"
+  },
+  "producer_audit": {
+    "producer_lane": "CUT",
+    "producer_pr": 1806,
+    "audited_exact_head": "9b485b4e643b7ed041629547fdb4a867e31c00cd",
+    "hostile_audit_review_id": 5206283218,
+    "hostile_audit_status": "PASS",
+    "bounded_cut_audited_exact_head": "8eed1449b325c3b990f90b61471bf7ecec0d89bc",
+    "bounded_cut_hostile_audit_review_id": 5204865930,
+    "adapter_handoff_path": "stages/stage32/full178-cut/CUT201-V26-current-authority-adapter-handoff.json",
+    "adapter_handoff_blob_sha1": "a4a5bad33e552e121ad83e8777641121375aeb94",
+    "adapter_handoff_canonical_sha256": "1c777be6bcce85c648b5c7a365cf9d4151bc72278438e738a58ef12b019e058a",
+    "adapter_verifier_path": "stages/stage32/full178-cut/verify_cut201_v26_current_authority_adapter.py",
+    "adapter_verifier_blob_sha1": "fb219371c3d80471b087c5057aa0584af3474b92"
+  },
+  "accounting": {
+    "authoritative_remaining_strata_before": 17128,
+    "authoritative_remaining_strata_after": 17128,
+    "pre_consumption_certified_remaining_terminals_upper_bound": 26876434389242951083886,
+    "source_candidate_terminals": 25538,
+    "certlift03_exact_overlap_terminals": 6780,
+    "certlift03_exact_overlap_blocks": 60,
+    "other_consumed_route_overlap_terminals": 0,
+    "credited_incremental_rejected_terminals": 18758,
+    "incremental_blocks": 166,
+    "incremental_block_stream_sha256": "7a67d7f5071853f3376e0a8c39eacefd89eed37855b3f5b59b91d38da0c6a099",
+    "incremental_rank_stream_sha256": "dc61b63b1ff6ade5762e5e5930cdcb1f17f9eaffee90750a143a8d84d5107e83",
+    "incremental_identity_stream_sha256": "0fa6f9ac49363d6506080a96b3ceb3857f4ef21bbbc24222158e2fb57766a097",
+    "double_charge": false,
+    "identity_check": "26876434389242951083886 - 18758 = 26876434389242951065128",
+    "post_consumption_certified_remaining_terminals_upper_bound": 26876434389242951065128,
+    "remaining_terminal_authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "stratum_count_change_claimed": false,
+    "consume_exactly_once": true,
+    "producer_lane_authority_subtraction_performed": false,
+    "main_consumer_authority_subtraction_performed": true
+  },
+  "cross_lane_sync": {
+    "demand_id": "S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1",
+    "demand_status_after": "SATISFIED",
+    "satisfying_adapter_audit_review_id": 5206283218,
+    "producer_main_authority_subtraction_forbidden": true,
+    "no_pending_cut201_to_main_handoff_after_consumption": true
+  },
+  "claim_sync": {
+    "trigger": "AUTHORITY_OR_AUDIT_TRANSITION_AND_MAIN_PROMOTION",
+    "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "claim_semantics_changed": false,
+    "claim_status_changed": false,
+    "frontier_status_after": "ACTIVE_INCOMPLETE",
+    "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
+    "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
+    "lane_adapters_blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40",
+    "note": "CUT201 consumption tightens only the certified remaining-terminal upper bound. The immutable FULL178 goal claim and ACTIVE_INCOMPLETE frontier remain unchanged."
+  },
+  "promotion": {
+    "main_pruning_credit_consumed": true,
+    "replacement_head_hostile_reaudit_required": true,
+    "further_main_consumption_before_reaudit_forbidden": true,
+    "producer_lane_subtraction_forbidden": true
+  },
+  "firewalls": {
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "canonical_sha256_without_this_field": "aa9a40c0514412444a15db8a59d54de4866de39345ff4a0dbd531c14eaced9f6"
+}
