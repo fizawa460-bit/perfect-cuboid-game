@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE32_BR203_PICARD_MU_16_STATE_BOUNDED_RESULT_V1",
+  "status": "PASS_ZERO_CREDIT",
+  "live_refresh": {
+    "repo_main_branch_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_declared_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "main_state_git_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "main_pointer_state_identity_match": false,
+    "pr": 1813,
+    "pr_state": "draft_open_unmerged",
+    "bridge_exact_head_with_green_br203_ci": "2f0c53811cd23997ef932fd771d5807f8704db38",
+    "br203_ci_run_id": 35105137702,
+    "research_issue": 1817
+  },
+  "source_locked_picard": {
+    "verifier": "stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py",
+    "verifier_git_blob_sha1": "56c932c90ce2adaf702956e0b600b0a958fd29fe",
+    "selected64_coordinate_source": "HperpIntegralPairingAdapter all140 pairing rows at pairing_prefix_engine.INDLIST",
+    "historical_bc2_18_exact_match": true,
+    "inverse_denominator": 8,
+    "inverse_integer_sha256": "00bb173ee80c8cd347fe8f378dffe1e89c88107fecca7cb1d5b62e3b04d63472",
+    "A_image_size": 8,
+    "BC_image_size": 16,
+    "terminal10_image_size": 32,
+    "free_exceptional_image_size": 16,
+    "free_exceptional_count": 19,
+    "mu_max": 2,
+    "mu_histogram": {"0": 1, "1": 7, "2": 8},
+    "mu_table_sha256": "f8570c9b045c204d55231cd855832648dbac1f26244c9581855f21cf4f8b6dbb",
+    "terminal_syndrome_sha256": "2456dba5d197737eaa6be0e0a83bbe8087dcea638d4a50c2f2ef737bfdbd6a31",
+    "terminal_identity_materialization": false
+  },
+  "bounded_intersection": {
+    "predecessor_result": "stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-BOUNDED-RESULT.json",
+    "predecessor_result_git_blob_sha1": "06d0d21e5543cd5b5195c93ae431fbc186edd6ba",
+    "kernel": "stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp",
+    "kernel_git_blob_sha1": "1feeae4a2f1ec39c919e35626153aba8af68266a",
+    "header_emitter": "stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py",
+    "header_emitter_git_blob_sha1": "26f1a0cb87140a5050b01fc1cd076f947091ac27",
+    "semantics": "BR202 K8 exact replay after within-q-level syndrome refinement, then require free-exceptional mu[target] <= e-a-b-c without changing the original BC K8 cutoff semantics",
+    "H10_d20": {
+      "A_refined_states": 152,
+      "BC_base_states": 3800,
+      "BC_assignments": 78945,
+      "BR202_K8": 1878715345,
+      "BR203_mu_K8": 1853108432,
+      "strict_tightening": 25606913
+    },
+    "H16_d32": {
+      "A_refined_states": 462,
+      "BC_base_states": 16781,
+      "BC_assignments": 1305021,
+      "BR202_K8": 230521553871,
+      "BR203_mu_K8": 229209796641,
+      "strict_tightening": 1311757230,
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT"
+    },
+    "scope": "BOUNDED_RESEARCH_ONLY_NOT_FULL178_AUTHORITY"
+  },
+  "transition_gate": {
+    "BR203_compactness_gate_passed": true,
+    "state_explosion": false,
+    "ready_for_BR204_light_preflight": true,
+    "FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false,
+    "live_main_freshness_blocker": "repo main pointer c6284abb... does not match MAIN-STATE declared current_repository_main 4c51b4ea...; do not classify a future FULL178 bridge value against live MAIN until this authority identity is coherent"
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
