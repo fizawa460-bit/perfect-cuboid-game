@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_FULL178_V37_SYNC_HANDOFF_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "route_id": "TD02-INTEGER-LATTICE-CAPACITY-FULL178-SCALEOUT",
+  "status": "HOSTILE_AUDIT_PASS_RECORDED__LIVE_V37_SYNCED__POST_SYNC_REPLAY_PASS__MAIN_HANDOFF_READY_NO_MAIN_CREDIT",
+  "audited_boundary": {
+    "audited_exact_head": "640195f158e2fa953ebd669820a794a56cef04fb",
+    "hostile_audit_status": "PASS",
+    "audit_review_id": 5218209619,
+    "producer_math_scope": "TD02 integer-lattice GRF04 FULL178 capacity scaleout"
+  },
+  "live_target_sync": {
+    "consumer_pr": 1808,
+    "live_target_branch": "stage32-main-grf04-rational-quadratic-kernel-20260914",
+    "live_target_head": "58e6a4bd5ee4aefd05df90a2b64949df6cdb7abd",
+    "initial_v37_sync_commit": "61531d0489c02afa72c562b03bb9984ccdcfcd0b",
+    "latest_startup_contract_sync_commit": "3aa7f73b6d89869a7d35cae22be5013466ac034e",
+    "live_target_base_freshness": "CLEAR",
+    "shared_authority_source": "LIVE_V37_TARGET_BASE",
+    "producer_subtrees_preserved_byte_exact_from_audited_boundary": [
+      "stages/stage32/32-01-178/topdown-01",
+      "stages/stage32/32-01-178/topdown-02"
+    ],
+    "main_state_mutated_by_specialist": false
+  },
+  "post_sync_replay": {
+    "replay_exact_head": "92c68646b0844953c6f9c895a180225bcf75ed17",
+    "run_id": 35054156118,
+    "job_id": 104660670863,
+    "conclusion": "SUCCESS",
+    "runtime_class": "NONHEAVY_UNDER_10_MINUTES",
+    "workflow_retired_commit": "0e0818fc0dde16ea78203fd66c63e7add8fbd660",
+    "bounded_replay_upper_floor": 394813297087,
+    "runner_result_canonical_sha256": "2f52c6542c47e35e2654c62fb89369b473086e51ac691196cd0be65eb7b21357",
+    "full178_row_stream_sha256": "26427424c90b715e02e5fcf670e5f1c87a25e945bdaa0d6f350c1b07f03e1214"
+  },
+  "candidate": {
+    "current_main_upper_bound": 195603649074545538415,
+    "exact_upper_numerator": 54911359641482799562031,
+    "exact_upper_denominator": 281,
+    "upper_floor": 195414091250828468192,
+    "floor_remainder": 79,
+    "potential_tightening_if_consumed": 189557823717070223,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "exact_incremental_rejected_set_claimed": false,
+    "additive_subtraction_performed": false
+  },
+  "consumer_contract": {
+    "active_missing_interface": "FULL178_INTEGER_LATTICE_CAPACITY_HANDOFF_AND_FINAL_MILESTONE_CHAIN",
+    "producer_ready_for_main_reentry": true,
+    "explicit_main_consumption_required": true,
+    "producer_main_authority_mutation": false,
+    "main_state_observation_writeback_owned_by_main": true
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_stage32_claim_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_operator_command": "stage32mainbatch",
+  "next_gate": "MAIN separately observes this synchronized hostile-audited producer and consumes or rejects the candidate through the current-authority MIN-composition transition.",
+  "canonical_sha256_without_this_field": "f81bccc6bbce2e0b5099f8e8d721399943a06f6772b69517c46413233535e301"
+}
