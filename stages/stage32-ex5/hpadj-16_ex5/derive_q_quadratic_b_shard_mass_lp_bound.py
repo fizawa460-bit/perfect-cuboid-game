@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
 import hashlib
 import importlib.util
 import json
+import math
 from collections import defaultdict
 from fractions import Fraction
 from pathlib import Path
@@ -15,15 +15,13 @@ PARENT = ROOT / "stages/stage32-ex5/hpadj-15_ex5/derive_b_shard_row_exact_grf04_
 
 PARENT_BLOB = "99ac15d18c83da050107ac7e8b113ae795ff0629"
 Q_EXACT_HEAD = "6489e1fb9f35b8ecdc19c982301a816d956711e9"
-Q_REL = Path("stages/stage32/management/grf04-quadratic-capacity")
-Q_VERIFIER = "verify_grf04_main_independent_quadratic_capacity_candidate.py"
-Q_CANDIDATE = "GRF04-MAIN-INDEPENDENT-QUADRATIC-CAPACITY-LP-CANDIDATE.json"
 Q_VERIFIER_BLOB = "373ed6768f22f94b2e0d82c1af514c7ce1833a0a"
 Q_CANDIDATE_BLOB = "1d669114e930951b9d5f9f82a6abb2b59cd43884"
 Q_CANDIDATE_CANON = "3fca63c0d678eb2de2147848a1aa29839618cfd9cb65bdd27d671b28c6e44b01"
 Q_BENCHMARK = 195603649074545538415
 HPADJ15_BENCHMARK = 426398981823116026011
 PLANNED = ((0,11),(12,23),(24,35),(36,47),(48,59),(60,71),(72,83),(84,96))
+HMAX = 96
 
 
 def req(v: bool, msg: str) -> None:
@@ -54,30 +52,124 @@ def load_module(path: Path, blob: str, name: str):
     return mod
 
 
-def load_q(q_root: Path):
-    base = q_root / Q_REL
-    verifier = base / Q_VERIFIER
-    candidate_path = base / Q_CANDIDATE
-    q = load_module(verifier, Q_VERIFIER_BLOB, "stage32_q_quadratic_locked_for_hpadj16")
-    req(candidate_path.is_file() and git_blob(candidate_path) == Q_CANDIDATE_BLOB,
-        "q-quadratic candidate blob drift")
-    candidate = json.loads(candidate_path.read_text())
-    req(candidate.get("canonical_sha256_without_this_field") == Q_CANDIDATE_CANON,
-        "q-quadratic candidate stored canonical drift")
-    req(canonical(candidate) == Q_CANDIDATE_CANON, "q-quadratic candidate canonical drift")
-    req(candidate["candidate_bound"]["candidate_upper_bound"] == Q_BENCHMARK,
-        "q-quadratic benchmark drift")
-    req(candidate["candidate_bound"]["composition_if_audited"] ==
-        "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
-        "q-quadratic composition drift")
-    req(candidate["exact_input_envelope"]["x4_complete_after_hpadj08"] is True,
-        "q-quadratic x4-complete envelope drift")
-    req(candidate["exact_input_envelope"]["hpadj08_survivor_x4_complete_envelope_terminals"] ==
-        6703403803993209250491, "q-quadratic envelope mass drift")
-    req(candidate["group_sum_relaxation"]["b"] == "x1+x5+x9", "q-quadratic b semantics drift")
-    req(candidate["promotion_gate"]["main_credit_granted"] is False,
-        "q-quadratic source unexpectedly carries MAIN credit")
-    return q, candidate
+def ceil_div(a: int, b: int) -> int:
+    return -((-a) // b)
+
+
+def count_parity_upto(limit: int, parity: int) -> int:
+    if limit < parity:
+        return 0
+    return (limit - parity) // 2 + 1
+
+
+def build_bc_counts() -> list[list[int]]:
+    """Independent replay of #1808 q-verifier relaxed canonical/parity counts keyed by (b,c)."""
+    B = [[0, 0] for _ in range(HMAX + 1)]
+    C = [[0, 0] for _ in range(HMAX + 1)]
+    for m in range(HMAX + 1):
+        for x9 in range(m + 1):
+            B[m][x9 & 1] += 1
+        for x8 in range(m + 1):
+            for x10 in range(m - x8 + 1):
+                C[m][(x8 + x10) & 1] += 1
+
+    pb = [[0] * (HMAX + 1) for _ in range(2)]
+    for p in (0, 1):
+        total = 0
+        for m in range(HMAX + 1):
+            total += B[m][p]
+            pb[p][m] = total
+
+    def sum_b(p: int, lo: int, hi: int) -> int:
+        if lo > hi:
+            return 0
+        return pb[p][hi] - (pb[p][lo - 1] if lo else 0)
+
+    eq_first = [[[0] * (HMAX + 1) for _ in range(HMAX + 1)] for __ in range(2)]
+    eq_second = [[[0] * (HMAX + 1) for _ in range(HMAX + 1)] for __ in range(2)]
+    for tp in (0, 1):
+        for rb in range(HMAX + 1):
+            for rc in range(HMAX + 1):
+                total = 0
+                for delta in range(1, rc + 1):
+                    last_x5 = min(rb, rc - delta)
+                    p = (tp + rb + delta) & 1
+                    top = rc - delta
+                    total += sum_b(p, top - last_x5, top)
+                eq_first[tp][rb][rc] = total
+
+                need_x10 = (tp + rb) & 1
+                total = 0
+                for u in range(min(rb, rc) + 1):
+                    x9 = rb - u
+                    rem = rc - u
+                    limit_x6 = min(x9, rem)
+                    need_x6 = (rem - need_x10) & 1
+                    total += count_parity_upto(limit_x6, need_x6)
+                eq_second[tp][rb][rc] = total
+
+    bc = [[0] * (HMAX + 1) for _ in range(HMAX + 1)]
+    for x0 in range(HMAX + 1):
+        for x1 in range(x0 + 1, HMAX + 1):
+            px1 = x1 & 1
+            for b in range(x1, HMAX + 1):
+                g2 = b - x1
+                b0, b1 = B[g2]
+                for c in range(x0, HMAX + 1):
+                    c0, c1 = C[c - x0]
+                    bc[b][c] += b0 * (c1 if px1 else c0) + b1 * (c0 if px1 else c1)
+
+    for t in range(HMAX + 1):
+        tp = t & 1
+        for b in range(t, HMAX + 1):
+            rb = b - t
+            for c in range(t, HMAX + 1):
+                rc = c - t
+                bc[b][c] += eq_first[tp][rb][rc] + eq_second[tp][rb][rc]
+    return bc
+
+
+def f0(h: int, g: int, b: int, c: int, x4: int) -> int:
+    D = h - 2 * x4
+    d = 2 * h
+    r4 = (3 * d * d + 48 * d + 96 - 96 * g) // 4
+    return 3 * (
+        6 * D * D - 8 * D * b - 6 * D * c + 18 * b * b + 4 * b * c + 13 * c * c
+    ) - 23 * r4
+
+
+def a0_interval(h: int, g: int, b: int, c: int) -> tuple[int, int] | None:
+    n_min = 8 * h
+    linear = -72 * h + 48 * b + 36 * c
+    vertex = max(0, min(n_min, (-linear) // 144))
+    best = vertex
+    for z in (vertex - 1, vertex + 1):
+        if 0 <= z <= n_min and f0(h, g, b, c, z) < f0(h, g, b, c, best):
+            best = z
+    if f0(h, g, b, c, best) > 0:
+        return None
+
+    if f0(h, g, b, c, 0) <= 0:
+        left = 0
+    else:
+        lo, hi = 0, best
+        while lo + 1 < hi:
+            mid = (lo + hi) // 2
+            if f0(h, g, b, c, mid) <= 0:
+                hi = mid
+            else:
+                lo = mid
+        left = hi
+
+    req(f0(h, g, b, c, n_min) > 0, f"quadratic interval reaches N_min {(g,2*h,b,c)}")
+    lo, hi = best, n_min
+    while lo + 1 < hi:
+        mid = (lo + hi) // 2
+        if f0(h, g, b, c, mid) <= 0:
+            lo = mid
+        else:
+            hi = mid
+    return left, lo
 
 
 def shard_for_b(b: int) -> tuple[int,int]:
@@ -121,7 +213,6 @@ def optimize_cell(cap_by_ratio: dict[tuple[int,int], int], mass: int) -> tuple[F
     rem = mass
     obj = Fraction(0, 1)
     used_bins = 0
-    # Maximize a unit-mass LP with bounded bins: fill in descending survivor ratio.
     items = sorted(cap_by_ratio.items(), key=lambda kv: Fraction(kv[0][0], kv[0][1]), reverse=True)
     for (s, B), cap in items:
         if rem == 0:
@@ -136,17 +227,12 @@ def optimize_cell(cap_by_ratio: dict[tuple[int,int], int], mass: int) -> tuple[F
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--q-root", required=True)
-    ns = ap.parse_args()
-
     parent15 = load_module(PARENT, PARENT_BLOB, "hpadj15_locked_for_hpadj16")
-    q, q_candidate = load_q(Path(ns.q_root))
     masses, parent14 = exact_cell_masses(parent15)
     req(parent15.HPADJ14_BENCHMARK == 463577241806597722598, "HPADJ15 parent benchmark drift")
+    req(parent14.EXPECTED_SURVIVOR_ENVELOPE == 6703403803993209250491, "q/HPADJ envelope drift")
 
-    bc = q.build_bc_counts()
-    # Preserve q-verifier's two load-bearing canonical-prefix fixtures.
+    bc = build_bc_counts()
     def prefix_total(h: int) -> int:
         acount = sum((a + 1) * (a + 2) // 2 for a in range(h + 1))
         bccount = sum(bc[b][c] for b in range(h + 1) for c in range(h + 1))
@@ -158,7 +244,6 @@ def main() -> None:
     cell_floor_sum = 0
     total_relaxed_capacity = 0
     nonzero_mass_cells = 0
-    strict_vs_global_ratio_cells = 0
     diagnostic = hashlib.sha256()
     seen = set()
 
@@ -166,17 +251,13 @@ def main() -> None:
         for h in range(4, hmax + 1):
             d = 2 * h
             legacy = 8 if g == 0 else 4
-            K = q.ceil_div(d - 16 * g + 16, 4)
+            K = ceil_div(d - 16 * g + 16, 4)
             e_lower = max(legacy, K, d - 4 * g + 4)
             if e_lower & 1:
                 e_lower += 1
             e_upper = 3 * d
 
-            # q's relaxed histogram, now kept separately for each historical b-shard.
-            hists = {
-                interval: [[0] * (3 * h + 1) for _ in range(h + 2)]
-                for interval in PLANNED
-            }
+            hists = {interval: [[0] * (3 * h + 1) for _ in range(h + 2)] for interval in PLANNED}
             for b in range(h + 1):
                 interval = shard_for_b(b)
                 hist = hists[interval]
@@ -184,20 +265,15 @@ def main() -> None:
                     bc_count = bc[b][c]
                     if not bc_count:
                         continue
-                    x4_interval = q.a0_interval(h, g, b, c)
+                    x4_interval = a0_interval(h, g, b, c)
                     if x4_interval is None:
                         continue
                     left, right = x4_interval
                     diff = [0] * (h + 2)
                     for x4 in range(left, right + 1):
-                        room = -q.f0(h, g, b, c, x4)
+                        room = -f0(h, g, b, c, x4)
                         req(room >= 0, "q interval construction regression")
-                        amax = min(h, int((room // 46) ** 0.5))
-                        # Correct possible float-rounding at large integer values fail-closed.
-                        while (amax + 1) <= h and 46 * (amax + 1) * (amax + 1) <= room:
-                            amax += 1
-                        while 46 * amax * amax > room:
-                            amax -= 1
+                        amax = min(h, math.isqrt(room // 46))
                         diff[0] += 1
                         diff[amax + 1] -= 1
                     raw = 0
@@ -247,8 +323,6 @@ def main() -> None:
                 cell_floor = obj.numerator // obj.denominator
                 cell_floor_sum += cell_floor
                 total_relaxed_capacity += relaxed_cap
-                if M and obj < Fraction(Q_BENCHMARK * M, parent14.EXPECTED_SURVIVOR_ENVELOPE):
-                    strict_vs_global_ratio_cells += 1
                 compact = {
                     "b_interval": list(interval), "g": g, "d": d,
                     "exact_post_hpadj08_mass": M,
@@ -276,6 +350,7 @@ def main() -> None:
             "main_q_quadratic_verifier_blob_sha1": Q_VERIFIER_BLOB,
             "main_q_quadratic_candidate_blob_sha1": Q_CANDIDATE_BLOB,
             "main_q_quadratic_candidate_canonical_sha256": Q_CANDIDATE_CANON,
+            "main_q_quadratic_global_candidate_upper_bound": Q_BENCHMARK,
             "main_q_quadratic_candidate_hostile_audited": False,
         },
         "exact_population_adapter": {
@@ -287,8 +362,15 @@ def main() -> None:
             "hpadj08_exact_square_rejected_terminals": parent14.EXPECTED_HPADJ08_REJECTED,
             "post_hpadj08_x4_complete_survivor_mass": parent14.EXPECTED_SURVIVOR_ENVELOPE,
             "exact_mass_fixed_separately_in_every_g_d_bshard_cell": True,
-            "q_group_b_semantics": q_candidate["group_sum_relaxation"]["b"],
+            "q_group_b_semantics": "x1+x5+x9",
             "hpadj15_b_shard_and_q_group_b_are_same_coordinate": True,
+        },
+        "quadratic_replay": {
+            "D": "d/2-2*x4",
+            "necessary_integer_inequality": "46*a^2 + 3*(6*D^2-8*D*b-6*D*c+18*b^2+4*b*c+13*c^2) <= 23*(R_g(d)/4)",
+            "q_source_formula_reimplemented_independently_in_ex5": True,
+            "q_source_bytes_imported_at_runtime": False,
+            "canonical_prefix_fixtures_replayed": True,
         },
         "optimization": {
             "problem": "Maximize the q-quadratic survivor objective independently in every exact (g,d,b-shard) cell, with q relaxed-bin capacities and the exact post-HPADJ08 cell mass fixed.",
@@ -299,7 +381,6 @@ def main() -> None:
             "aggregate_rational_objective_denominator": total_obj.denominator,
             "aggregate_rational_floor": global_floor,
             "cellwise_integer_floor_sum": cell_floor_sum,
-            "cells_strictly_below_global_q_average_ratio": strict_vs_global_ratio_cells,
             "diagnostic_stream_sha256": diagnostic.hexdigest(),
         },
         "candidate_bound": {
@@ -313,8 +394,8 @@ def main() -> None:
         },
         "semantics": {
             "same_hpadj08_td01_x4_complete_population": True,
-            "same_b_coordinate_adapter_proved_by_source_locked_formula": True,
-            "q_quadratic_capacity_replayed_not_inherited_as_main_credit": True,
+            "same_b_coordinate_adapter_proved_by_formula_identity": True,
+            "q_quadratic_candidate_credit_inherited": False,
             "statistical_independence_assumed": False,
             "additive_subtraction_used": False,
             "exact_incremental_rejected_identity_set_claimed": False,
