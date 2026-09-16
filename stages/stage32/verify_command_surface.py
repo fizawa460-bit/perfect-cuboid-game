@@ -85,31 +85,38 @@ def main() -> None:
     req(bridge["active_frontier_refs"] == ["S32.FULL178.NUMERICAL_CENSUS.V1"], "BRIDGE frontier drift")
 
     bridge_mission = json.loads((BRIDGE / "MISSION.json").read_text(encoding="utf-8"))
-    req(bridge_mission["status"] == "ACTIVE", "BRIDGE mission unexpectedly inactive")
+    req(bridge_mission["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE mission unexpectedly inactive")
+    req(bridge_mission["role"] == "ISSUE1817_P1_P2_FULL178_COMPRESSION_INTEGRATOR", "BRIDGE V2 role drift")
     req(bridge_mission["operator_commands"]["main"] == "stage32bridge-mainbatch", "BRIDGE command drift")
     req(bridge_mission["operator_commands"]["audit"] == "stage32bridge-audit", "BRIDGE audit command drift")
     req(bridge_mission["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "BRIDGE routing authority drift")
     req(bridge_mission["routing"]["current_main_credit_auto_promotion"] is False, "BRIDGE self-promotion enabled")
-    req(bridge_mission["route_safety"]["terminal_by_terminal_fallback_forbidden"] is True,
-        "BRIDGE top-down anti-fallback rule missing")
+    req(bridge_mission["execution"]["terminal_identity_materialization_forbidden"] is True,
+        "BRIDGE V2 terminal-identity fallback enabled")
+    req("178 terminal-by-terminal enumeration or ordinary local block pruning" in bridge_mission["ownership"]["does_not_own"],
+        "BRIDGE V2 top-down anti-fallback ownership boundary missing")
     req(bridge_mission["credit_firewall"]["stage32_main_pruning_credit"] is False,
         "BRIDGE mission starts with MAIN credit")
 
     bridge_state = json.loads((BRIDGE / "STATE.json").read_text(encoding="utf-8"))
-    req(bridge_state["current_node"] == "BR101", "BRIDGE initial node drift")
+    allowed_nodes = {row["node_id"] for row in bridge_mission["nodes"]}
+    req(bridge_state["current_node"] in allowed_nodes, "BRIDGE current node is outside V2 mission route")
+    req(bridge_state["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE state unexpectedly inactive")
     req(bridge_state["routing"]["source_lane_authority_mutation"] is False,
         "BRIDGE may mutate source-lane authority")
     req(bridge_state["routing"]["main_credit_auto_promotion"] is False,
         "BRIDGE state self-promotion enabled")
-    req(bridge_state["routing"]["terminal_by_terminal_fallback_forbidden"] is True,
-        "BRIDGE state lost top-down anti-fallback rule")
+    req(bridge_state["routing"]["terminal_identity_materialization_forbidden"] is True,
+        "BRIDGE state lost terminal-identity anti-fallback rule")
     req(bridge_state["credit_firewall"]["merge_authorized"] is False,
         "BRIDGE merge authorization leak")
     bridge_start = (BRIDGE / "MAIN-START-HERE.md").read_text(encoding="utf-8")
     req("stage32bridge-mainbatch" in bridge_start and "CROSS-LANE-DEMANDS.json" in bridge_start,
         "BRIDGE demand-aware startup missing")
-    req("NO GENERALIZATION" in bridge_start, "BRIDGE no-go path missing")
-    req("terminal-by-terminal" in bridge_start, "BRIDGE anti-local fallback boundary missing")
+    req("BRIDGE no longer performs open-ended cross-lane generalization search" in bridge_start,
+        "BRIDGE V2 bounded mission statement missing")
+    req("terminal identity" in bridge_start and "terminal-by-terminal" in bridge_start,
+        "BRIDGE V2 anti-local fallback boundary missing")
 
     state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
     req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
@@ -143,7 +150,7 @@ def main() -> None:
     req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
-    print("PASS: Stage32 shared command/startup contracts preserved; EX5 collapse and BRIDGE enrollment verified")
+    print("PASS: Stage32 shared command/startup contracts preserved; EX5 collapse and BRIDGE V2 enrollment verified")
     print("historical pre-collapse command contract replayed transiently with no live-path resurrection")
 
 
