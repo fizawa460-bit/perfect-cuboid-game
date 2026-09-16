@@ -133,18 +133,31 @@ def main() -> None:
         req(state["firewalls"][key] is False, f"firewall {key}")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
-    req(sweep["lane_178_head"] == "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea",
+    req(sweep["lane_178_head"] == "8fcfca2894200953dc6332b3918632155cc5ffaa",
         "178 live head")
     req("V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
         "178 audit-sync semantics")
-    req(sweep["ex5_head"] == "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
+    req(sweep["lane_178_pending_main_handoff"] == "NONE",
+        "178 unexpected pending MAIN handoff")
+    req(sweep["lane_178_semantic_leaf"] == "FIBRATION_NEF_RECOVERABILITY_PREFLIGHT",
+        "178 semantic leaf")
+    req("FOUND_16" in sweep["lane_178_blocking_reason"],
+        "178 ambiguity blocker")
+    req(sweep["ex5_head"] == "bd92b9f5204a78f6ccf3699f82dbdad4b08f00af",
         "EX5 live head")
     req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
         "EX5 credit firewall")
-    req(sweep["mb_head"] == "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
+    req(sweep["ex5_pending_main_handoff"] == "NONE" and
+        "HEAVY_REPLAY_IN_PROGRESS" in sweep["ex5_blocking_reason"],
+        "EX5 live heavy gate")
+    req(sweep["mb_head"] == "619808d05f8576fb0b6f53b00e85bbf0d7571bee",
         "MB live head")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
-    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
+    req(sweep["mb_pending_main_handoff"] == "NONE" and
+        sweep["mb_semantic_leaf"].endswith("000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP"),
+        "MB live retained leaf")
+    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE" and
+        sweep["cut_pending_main_handoff"] == "NONE",
         "CUT observation")
 
     sl = state["source_locks"]["v39_audit_sync_receipt"]
@@ -153,7 +166,7 @@ def main() -> None:
 
     print("PASS: Stage32 V39 synchronizes hostile-audit PASS for V38 with zero new pruning")
     print("PASS: replacement audit gate cleared; FULL178/final-milestone route resumes")
-    print("PASS: EX5 HPADJ20 and MB successors remain observational zero-credit inputs")
+    print("PASS: live 178/EX5/MB/CUT observations refreshed with zero authority mutation")
 
 if __name__ == "__main__":
     main()
