@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_ETALE_BASECHANGE_DETERMINANT_PASSPORT_V1",
+  "status": "RETAINED_CANDIDATE_ETALE_BASECHANGE_SIGN_PASSPORT_DETERMINANT_T_DISCREPANCY_ZERO_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "factor_degree": "n=28*l",
+    "conductor_pair_sign_computed": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ETALE-BASECHANGE-DETERMINANT-PASSPORT.md",
+      "blob_sha1": "d4e5c3b9c598299114f983594be1fac1b01d24d7"
+    },
+    {
+      "id": "EQUALITY_RIGIDITY",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-BEAUVILLE-EQUALITY-RIGIDITY.md",
+      "blob_sha1": "a20547082b1ea2f786b1272d1b76af3527508e9b"
+    },
+    {
+      "id": "H_QUOTIENT_MODEL",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+      "blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137"
+    },
+    {
+      "id": "NODE_ORBIT_TABLE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+      "blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+    },
+    {
+      "id": "BOUNDARY_SATURATION",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-BOUNDARY-FIBER-SATURATION.md",
+      "blob_sha1": "aa9a7215467428b55b18ef296ced91b63ec4bf07"
+    },
+    {
+      "id": "DET_ONE_BIT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-DETERMINANT-ONE-BIT.md",
+      "blob_sha1": "c0e89e66afee11bbba39fa8bce20019a664fa8dc"
+    }
+  ],
+  "basechange_passport": {
+    "normalization_identity": "Z=Norm(E x_R C8)",
+    "H_branch_value_count": 8,
+    "H_branch_loci": ["r^4=4", "r^4=-4"],
+    "residual_pairing": "r<->-r",
+    "psi_ramification_away_from_H_branch_values": false,
+    "psi_ramification_indices_over_H_branch_values": [1,2],
+    "total_simple_ramification": "2*n=56*l",
+    "total_unramified_points_over_eight_values": "4*n=112*l",
+    "supported_branch_count": "14*8*l=112*l",
+    "supported_branches_exhaust_unramified_budget": true
+  },
+  "determinant_sign": {
+    "epsilon_i": "det((f_i)_*O_Z)",
+    "local_sign_bit": "b_q=r_q mod 2=(nu_q/2) mod 2",
+    "residual_pair_signs_equal": true,
+    "T_invariant": true,
+    "epsilon_tensor_Tepsilon": "O_C8",
+    "preceding_kappa_option_realized": false,
+    "base_character_dimension_upper_bound": 2,
+    "determinant_class_count_upper_bound": 4
+  },
+  "factor_bits": {
+    "first_factor": {
+      "second_type_bit": 0,
+      "first_type_bit": "((x0+x1+x2+x3+x24+x25+x26)/2) mod 2"
+    },
+    "second_factor": {
+      "first_type_bit": 0,
+      "second_type_bit": "((x8-x9+x10-x11-x32+x33-x34)/2) mod 2"
+    }
+  },
+  "branch_allocation_congruences": [
+    "x0+x1+x2+x3 == 0 mod 2",
+    "x8+x9+x10+x11 == 0 mod 2"
+  ],
+  "routing": {
+    "determinant_to_pointwise_sheet_adapter_route_closed": true,
+    "reason": "the determinant residual discrepancy is forced zero while pointwise conductor gluing may still be nontrivial",
+    "pointwise_conductor_sheet_still_open": true,
+    "weighted_cut_bound_proved": false,
+    "recommended_next_target": "use the exact eight-value branch-cycle passport and the new parity congruences to constrain the singular-curve conductor/gluing character directly, rather than through det(f_*O_Z)",
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ETALE-BASECHANGE-DETERMINANT-PASSPORT.md",
+    "human_note_blob_sha1": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_etale_basechange_determinant_passport.py",
+    "verifier_blob_sha1": "7ad1a324f7204269bc76a5ef6d10c3a1770e87a0"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_ETALE_BASECHANGE_DETERMINANT_PASSPORT_V1",
+    "source_boundary_fail_closed": true,
+    "external_CAS_dependency": false,
+    "arithmetic_replay_independently_checked": true,
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "hostile_audit_claimed": false,
+    "audit_instruction": "run the fail-closed verifier and independently check the normalization/base-change argument, local ramification cancellation, and determinant-as-sign-local-system identification before consuming T^*epsilon=epsilon"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

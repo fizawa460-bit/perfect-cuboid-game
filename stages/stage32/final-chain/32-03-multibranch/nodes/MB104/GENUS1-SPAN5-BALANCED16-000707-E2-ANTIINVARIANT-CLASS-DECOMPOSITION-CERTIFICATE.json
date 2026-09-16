@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_ANTIINVARIANT_CLASS_DECOMPOSITION_V1",
+  "status": "RETAINED_EXACT_NUMERICAL_ANTIINVARIANT_REDUCTION_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "l_min": 1,
+    "claim_level": "numerical divisor-class decomposition only; no linear equivalence and no conductor-pair sign"
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ANTIINVARIANT-CLASS-DECOMPOSITION.md",
+      "blob_sha1": "8217f81e6ee176f4b760a5609a6048bf823b3721"
+    },
+    {
+      "id": "ENERGY_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY-CERTIFICATE.json",
+      "blob_sha1": "0cec993c9d22e31fcf982985b37f0ae82c8cbce7"
+    },
+    {
+      "id": "NODE_ORBIT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+      "blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+    },
+    {
+      "id": "SPLIT_HODGE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-SPLIT-HODGE-CONDUCTOR.md",
+      "blob_sha1": "b8f876f78fa23a64911baa4b9057f7920bfea014"
+    },
+    {
+      "id": "HALF_BRANCH",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md",
+      "blob_sha1": "e22de5a6f4be163268e699cde03d37e1e564d43b"
+    },
+    {
+      "id": "INTERMEDIATE_H",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+      "blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 6,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL"
+  },
+  "exact_numerical_decomposition": {
+    "support_nodes": [0,1,2,3,8,9,10,11,24,25,26,32,33,34],
+    "supported_exceptional_preimage": "E_j^+ disjoint_union E_j^-",
+    "E_j_plus_square": -2,
+    "E_j_minus_square": -2,
+    "F_j_definition": "E_j^+-E_j^-",
+    "F_j_square": -4,
+    "F_i_F_j_for_i_ne_j": 0,
+    "centered_variable": "d_j=2*x_j-8*l",
+    "v_definition": "C_1-C_2",
+    "v_E_j_plus": "d_j",
+    "v_E_j_minus": "-d_j",
+    "v_F_j": "2*d_j",
+    "v_square": "-sum_j d_j^2",
+    "exceptional_projection": "-sum_j (d_j/2)*F_j",
+    "exceptional_projection_square": "-sum_j d_j^2",
+    "numerical_remainder_square": 0,
+    "numerical_remainder_ample_pairing": 0,
+    "numerical_remainder": "0 by Hodge index",
+    "numerical_class": "C_1-C_2 == -sum_j (d_j/2)*(E_j^+-E_j^-)",
+    "equivalence_symbol_semantics": "numerical equivalence on Y"
+  },
+  "routing_consequence": {
+    "hidden_numerical_antiinvariant_direction_remaining": false,
+    "all_numerical_antiinvariant_norm_accounted_for_by_supported_split_exceptionals": true,
+    "future_numerical_test_reduces_to_linear_form_in_d_j": true,
+    "linear_equivalence_claimed": false,
+    "picard_torsion_evaluated": false,
+    "individual_conductor_pair_map_materialized": false,
+    "cusp_width_common_puncture_equality_proved": false,
+    "cusp_width_route_reentered": false,
+    "next_missing": "an independently known anti-invariant test pairing, an integral/divisibility or torsion refinement beyond numerical equivalence, or the actual conductor residual-sheet transition",
+    "e2_closed": false,
+    "active_leaf_unchanged": true
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ANTIINVARIANT-CLASS-DECOMPOSITION.md",
+    "human_note_blob_sha1": "8217f81e6ee176f4b760a5609a6048bf823b3721",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_antiinvariant_class_decomposition.py",
+    "verifier_blob_sha1": "27f519197760e6debf003badd31c7b3e464073b1"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_ANTIINVARIANT_CLASS_DECOMPOSITION_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on exact candidate head before hostile promotion"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

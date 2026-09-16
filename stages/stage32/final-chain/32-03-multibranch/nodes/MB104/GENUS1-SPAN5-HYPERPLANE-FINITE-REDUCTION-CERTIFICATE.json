@@ -1,0 +1,123 @@
+{
+  "schema": "STAGE32_MB104_GENUS1_SPAN5_HYPERPLANE_FINITE_REDUCTION_V1",
+  "status": "RETAINED_FINITE_AMBIENT_HYPERPLANE_REDUCTION_SPAN5_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
+      "blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563",
+      "use": "48-node normalization-profile interface"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-LOW-SUPPORT-FINITENESS-CERTIFICATE.json",
+      "blob_sha1": "248adcc01021ba087cb24e06e6492e837aca22ae",
+      "use": "potentially infinite genus-0/1 sector requires N>=14"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-SPAN-DEGREE-CERTIFICATE.json",
+      "blob_sha1": "dd174696c7391981d4d9a95e631b5df22d08500a",
+      "use": "genus-one hard support-span dimensions are 5 and 6"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-EFFECTIVITY-P5-CONIC-CERTIFICATE.json",
+      "blob_sha1": "7bef88be7a8a81bbcf022ef9fea4834c2dc2da39",
+      "use": "displayed c=0 F1-P5 ray is irreducibly obstructed and supplies the retained P5 example"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-HYPERPLANE-FINITE-REDUCTION.md",
+      "blob_sha1": "08eee3d3492db710c7161fdf17ce1eca35e50413",
+      "use": "human-readable proof checkpoint"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_hyperplane_finite_reduction.cpp",
+      "blob_sha1": "e4bb3c37661d6e8c80d75af987c277bc16959859",
+      "use": "exhaustive two-prime enumeration and exact Gaussian replay"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_hyperplane_finite_reduction.py",
+      "blob_sha1": "c8627b7e2a86578a4037f616f4d54484694637e9",
+      "use": "source-lock and compile-run wrapper"
+    }
+  ],
+  "node_model": {
+    "field": "Q(i)",
+    "coordinate_order": ["a1","a2","a3","b1","b2","b3","c"],
+    "total_box_nodes": 48,
+    "type_A_c_eq_1": 24,
+    "type_B_c_eq_0": 24
+  },
+  "exhaustive_method": {
+    "six_node_subsets": 12271512,
+    "primes": [
+      {"p": 1097, "sqrt_minus_one": 341},
+      {"p": 1153, "sqrt_minus_one": 140}
+    ],
+    "distinct_modular_hyperplanes_per_prime": 593735,
+    "modular_node_incidence_distribution_each_prime": {
+      "6": 372608,
+      "7": 114624,
+      "8": 61440,
+      "9": 32256,
+      "10": 8736,
+      "12": 1648,
+      "13": 768,
+      "14": 1248,
+      "15": 256,
+      "16": 27,
+      "19": 48,
+      "20": 48,
+      "24": 28
+    },
+    "exact_high_incidence_hyperplane_count": 1655,
+    "exact_high_incidence_distribution": {
+      "14": 1248,
+      "15": 256,
+      "16": 27,
+      "19": 48,
+      "20": 48,
+      "24": 28
+    },
+    "exact_support_replay_over_Qi": true,
+    "two_prime_exact_support_sets_equal": true,
+    "exact_support_fnv64": "ba8379b50029db53",
+    "c_eq_0_is_incidence_24_candidate": true
+  },
+  "characteristic_zero_completeness": {
+    "nonzero_minor_absolute_hadamard_bound": 216,
+    "nonzero_minor_gaussian_norm_bound": 46656,
+    "prime_product": 1264841,
+    "prime_product_exceeds_norm_bound": true,
+    "logic": "An exact rank-six six-node basis cannot drop rank modulo both primes because that would make both rational primes divide the nonzero Gaussian minor norm. Therefore every exact node-spanned hyperplane is detected by at least one enumeration; every >=14 candidate was replayed exactly."
+  },
+  "retained_reduction": {
+    "potentially_infinite_genus1_span5_implies_N_ge_14": true,
+    "span5_support_has_unique_ambient_P5": true,
+    "ambient_P5_must_contain_at_least_14_box_nodes": true,
+    "complete_ambient_P5_candidate_count": 1655,
+    "candidate_count_means_support_subset_count": false,
+    "whole_genus1_span5_sector_closed": false
+  },
+  "next_leaf": {
+    "id": "MB104-GENUS1-SPAN5-HYPERPLANE-COMPONENT-CLASSIFICATION",
+    "target": "Classify the 1655 exact ambient P5 hyperplanes by Aut(S) and surface-section component geometry; start with the 28 incidence-24 candidates and test orbitwise transport of the c=0 fixed-component obstruction."
+  },
+  "provenance_firewall": {
+    "independent_of_unmerged_historical_hyperplane_asset": true,
+    "historical_branch_used_as_proof_authority": false,
+    "local_exhaustive_replay_passed": true,
+    "exact_head_CI_claimed": false
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved_population_wide": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_STATIC_LANDING_AVOIDANCE_V1",
+  "status": "RETAINED_NEGATIVE_ROUTE_STATIC_LANDING_VALUES_DO_NOT_CLOSE_BALANCED16_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "scope": {
+    "support_frontier": "four balanced incidence-16 Aut(S) support orbits",
+    "divisor_ray": "D_l=7lH-4l sum E_i",
+    "formal_minimal_branch_packet_only": true,
+    "actual_global_curve_constructed": false
+  },
+  "source_locks": [
+    {
+      "id": "FORMAL_PICARD_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-CERTIFICATE.json",
+      "blob_sha1": "32a01bc272f14eca3e8ba3229f021f4140ab7260"
+    },
+    {
+      "id": "BALANCED_QUOTIENT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT-CERTIFICATE.json",
+      "blob_sha1": "f63d08b9005762a02935a727f35e6581ae52aaab"
+    },
+    {
+      "id": "LOCAL_JET_WALL",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MULTIFIBRATION-LOCAL-JET-WALL.md",
+      "blob_sha1": "8bccb386dbc949fa177f0e08750e040f8439ecde"
+    },
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BALANCED16-STATIC-LANDING-AVOIDANCE-WALL.md",
+      "blob_sha1": "71f52716b9cbdd0218aa73a138837f3b3891f412"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 4,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL"
+  },
+  "formal_packet": {
+    "k": "4l",
+    "supported_exceptional_mass": "M_i=2k=8l",
+    "branch_type": "FSM-minimal (A,B)=(1,1), m=1",
+    "supported_minimal_branches_per_node": "8l",
+    "landing_keys": "pairwise distinct and nonzero at each supported node"
+  },
+  "zero_quartic_static_avoidance": {
+    "orbit48a": {"zero_quartics": 4, "quartics_through_each_supported_node": 2},
+    "orbit48b": {"zero_quartics": 4, "quartics_through_each_supported_node": 2},
+    "orbit768a": {"zero_quartics": 2, "quartics_through_each_supported_node": 1},
+    "orbit768b": {"zero_quartics": 2, "quartics_through_each_supported_node": 1},
+    "static_forbidden_landing_points_per_node_upper": 2,
+    "finite_forbidden_set_only": true
+  },
+  "static_forbidden_landing_points_per_node_upper": 2,
+  "geometric_feasibility": {
+    "exceptional_landing_coordinate_available": true,
+    "geometric_characteristic_zero_field_infinite": true,
+    "for_every_finite_l_at_least_1_can_choose_8l_distinct_nonzero_landings_avoiding_at_most_2_fixed_points": true,
+    "global_simultaneous_curve_realization_claimed": false,
+    "first_tangential_jet_fixed_by_static_landing_value": false
+  },
+  "route_consequence": {
+    "static_landing_avoidance_alone_closes_balanced16": false,
+    "zero_pairing_quartics_still_supply_useful_global_constraints": true,
+    "next_required_input": "global tangent/first-jet compatibility, simultaneous algebraic gluing, or stronger Picard/effective-cone obstruction",
+    "direct_R8_alpha_lt_quarter_route_reopened": false
+  },
+  "verification": {
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_static_landing_wall.py",
+    "verifier_blob_sha1": "94cd5efc233acbefa310815962e124b033f1a72f",
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_STATIC_LANDING_AVOIDANCE_V1",
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "whole_span5_closed": false,
+    "balanced16_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

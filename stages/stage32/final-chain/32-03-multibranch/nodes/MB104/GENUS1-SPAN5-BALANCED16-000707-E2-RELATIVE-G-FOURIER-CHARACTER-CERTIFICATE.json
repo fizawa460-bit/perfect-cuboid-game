@@ -1,0 +1,122 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_RELATIVE_G_FOURIER_CHARACTER_V1",
+  "status": "RETAINED_EXACT_RELATIVE_G_CHARACTER_DECOMPOSITION_RESIDUAL_PICARD_CHANNEL_MATERIALIZED_CONDUCTOR_TRANSITION_OPEN_NO_CREDIT",
+  "active_support": "000707000f0f",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-G-FOURIER-CHARACTER.md",
+      "blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36"
+    },
+    {
+      "id": "FSM_COORD_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FREITAG-SALVATI-MANNI-RESIDUAL-KUMMER-COORDINATE-SOURCE-NOTE.md",
+      "blob_sha1": "a49f5b28b456dd88436c030e857cf771e5a1ba2f"
+    },
+    {
+      "id": "AUT_SOURCE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/AUTS-NODE-ACTION-SOURCE-NOTE.md",
+      "blob_sha1": "cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693"
+    },
+    {
+      "id": "MODULAR_CHARACTER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    },
+    {
+      "id": "RELATIVE_H_REFINEMENT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-H-SUPPORT-INTERSECTION.md",
+      "blob_sha1": "006ba1211b58c05f01aba2a14d3c2abb93f3257d"
+    },
+    {
+      "id": "NODE_MODEL_VERIFIER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_residual_node_orbit_table.py",
+      "blob_sha1": "ebecc69e32533c56926ccd104589a3a77cd93221"
+    },
+    {
+      "id": "SUPPORT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json",
+      "blob_sha1": "31695c6908cff73d04baab2ed11dfd04608a2464"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 7,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed",
+    "verifier_identity_bound_separately": true
+  },
+  "exact_character_refinement": {
+    "relative_group": "Grel=<beta1,beta2,beta3>~=(Z/2)^3",
+    "support_subgroup": "Hrel=<beta1,beta2>",
+    "residual_character_kernel": "c=0=<beta1,beta2>",
+    "orbit_picard_rank": 6,
+    "orbit_relations": [
+      "D000-D010-D100+D110=0",
+      "D001-D011-D101+D111=0"
+    ],
+    "H_nontrivial_overlap_by_element": {
+      "beta1": 13,
+      "beta2": 13,
+      "beta1beta2": 12
+    },
+    "residual_coset_overlap": 12,
+    "residual_coset_intersection_l2": 400,
+    "residual_coset_all_four_equal": true,
+    "F_res": "sum_g (-1)^c beta_g(D)=8*l*K_res",
+    "K_res": "-E24+E25-E26+E27-E32+E33-E34+E35",
+    "K_res_square": -16,
+    "D_dot_K_res": "-16*l",
+    "F_res_square": "-1024*l^2",
+    "D_dot_F_res": "-128*l^2",
+    "fourier_spectrum_l2": {
+      "000": 3072,
+      "001": -128,
+      "010": -64,
+      "011": -64,
+      "100": -64,
+      "101": -64,
+      "110": 0,
+      "111": 0
+    },
+    "conductor_transition_computed": false,
+    "weighted_cut_bound_proved": false
+  },
+  "routing": {
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "residual_character_picard_channel_materialized": true,
+    "branch_to_relative_translate_adapter_missing": true,
+    "residual_square_root_evaluation_still_sufficient": true,
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RELATIVE-G-FOURIER-CHARACTER.md",
+    "human_note_blob_sha1": "42b70776bde2259efce03d500d76fba837a5cf36",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_relative_g_fourier_character.py",
+    "verifier_blob_sha1": "1606bdcce3c4258d981d0cd664b5f95f34130b45"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_RELATIVE_G_FOURIER_CHARACTER_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on the exact candidate head"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

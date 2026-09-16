@@ -1,0 +1,93 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_RESIDUAL_DETERMINANT_ONE_BIT_V1",
+  "status": "RETAINED_CANDIDATE_RESIDUAL_DETERMINANT_SINGLE_KAPPA_BIT_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "depends_on_conductor_determinant_candidate": true,
+    "individual_conductor_pair_sign_computed": false
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-DETERMINANT-ONE-BIT.md",
+      "blob_sha1": "c0e89e66afee11bbba39fa8bce20019a664fa8dc"
+    },
+    {
+      "id": "CONDUCTOR_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-CONDUCTOR-DETERMINANT-REDUCTION-CERTIFICATE.json",
+      "blob_sha1": "1623eba91f97e9ed56db26cd6320c85c4e6b08a5"
+    },
+    {
+      "id": "EXPLICIT_BASIS_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-G-FIXED-JACOBIAN-EXPLICIT-BASIS-CERTIFICATE.json",
+      "blob_sha1": "bd9d35a06d97e10600471b90983295979ae89537"
+    },
+    {
+      "id": "G_FIXED_VERIFIER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_g_fixed_jacobian_torsion.py",
+      "blob_sha1": "07e54f9f5eb5c01f17dcdd099aada75ef6e95716"
+    }
+  ],
+  "residual_action": {
+    "H_fixed_dimension_F2": 6,
+    "G_fixed_dimension_F2": 5,
+    "rank_T_minus_1_on_H_fixed": 1,
+    "kernel_T_minus_1_size": 32,
+    "nonfixed_H_classes": 32,
+    "nontrivial_T_orbits": 16
+  },
+  "distinguished_image_class": {
+    "homology_numerator": [1,1,0,1,1,1,0,1,1,0],
+    "explicit_G_fixed_basis_expression": "tau1+tau5",
+    "name": "kappa",
+    "image_T_minus_1": "{0,kappa}"
+  },
+  "determinant_consequence": {
+    "for_any_H_fixed_epsilon": "epsilon tensor T^*epsilon in {O,kappa}",
+    "component_Z_to_TZ_determinant_difference_is_one_bit": true,
+    "factor_reference_term_is_G_invariant": true,
+    "half_discriminant_component_difference_class": "O or kappa"
+  },
+  "routing": {
+    "new_global_residual_bit_materialized": true,
+    "identified_with_pointwise_residual_sheet_character": false,
+    "adapter_to_weighted_conductor_transitions_proved": false,
+    "weighted_cut_bound_proved": false,
+    "recommended_next_target": "prove or refute an adapter from the determinant/sign local system residual bit {0,kappa} to the pointwise residual q:R=C8/H->S=C8/G conductor transitions",
+    "state_change_required": false,
+    "heavy_compute_required": false
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-DETERMINANT-ONE-BIT.md",
+    "human_note_blob_sha1": "c0e89e66afee11bbba39fa8bce20019a664fa8dc",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_residual_determinant_one_bit.py",
+    "verifier_blob_sha1": "33f454e63af0d27af89660392f966aa3ffcf72b3"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_RESIDUAL_DETERMINANT_ONE_BIT_V1",
+    "source_boundary_fail_closed": true,
+    "exact_F2_action_replay_checked": true,
+    "kappa_basis_expression_replayed": true,
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "hostile_audit_claimed": false
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_GAMMAQ_ORIENTATION_NUMERICAL_WALL_V1",
+  "status": "RETAINED_EXACT_NEGATIVE_ROUTING_RESULT_CONDUCTOR_COMPARISON_REQUIRED_NO_CREDIT",
+  "scope": {
+    "packet": "000707000f0f",
+    "component_degree_case": 2,
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP"
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GAMMAQ-ORIENTATION-NUMERICAL-WALL.md",
+      "blob_sha1": "b944377e95e138b71906a14e9e8d9ca47a9e53bc"
+    },
+    {
+      "id": "GAMMAQ_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-UNION-RESIDUAL-MONODROMY-CERTIFICATE.json",
+      "blob_sha1": "74c3cc7fb80207651899b025c067ee2375a2bbcd"
+    },
+    {
+      "id": "NODE_ORBIT_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE-CERTIFICATE.json",
+      "blob_sha1": "02c5c5b52ed18cc2850a01bab05c6dfac85a59f9"
+    },
+    {
+      "id": "PICARD_PARITY_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-PARITY-CERTIFICATE.json",
+      "blob_sha1": "7621932b87a7558d473bc99a09b46bcb04a433a0"
+    },
+    {
+      "id": "ZERO_QUARTIC_TORSION_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-TORSION-CONGRUENCES.md",
+      "blob_sha1": "544ded0d132dcf4dca0a5a3d52925a88c8c461e2"
+    },
+    {
+      "id": "A1_ENERGY_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY.md",
+      "blob_sha1": "3fb4152c35b88160f36730fac941f542566664a8"
+    }
+  ],
+  "q1_block": {
+    "nodes": [8,9,10,11,32,33,34],
+    "branches_per_node": "8*l",
+    "orientation_flip": "x_j -> 8*l-x_j",
+    "centered_definition": "d_j=2*x_j-8*l",
+    "centered_flip": "d_j -> -d_j"
+  },
+  "invariance": {
+    "q1_saturation": "sum_Q1 x_j=28*l is preserved",
+    "q1_centered_saturation": "sum_Q1 d_j=0 is sent to its negative",
+    "all_even_picard64": true,
+    "mod4_first_four": "sum(x8,x9,x10,x11)=0 mod4 preserved because complement sum differs by 32*l",
+    "mod4_last_three": "sum(x32,x33,x34)=0 mod4 preserved because complement sum differs by 24*l",
+    "square_energy": "sum_j d_j^2 preserved",
+    "a1_energy_cut": "84*l^2+(1/8)*sum_j d_j^2 preserved",
+    "same_sheet_defect": "84*l^2+56*l-(1/8)*sum_j d_j^2 preserved",
+    "q0_constraints_untouched": true
+  },
+  "wolfram_crosscheck": {
+    "sat_flip": "-sat",
+    "d_flip_plus_d": "zero_vector",
+    "energy_flip_minus_energy": 0,
+    "mod4_first_flip_plus_original": "32*l",
+    "mod4_last_flip_plus_original": "24*l"
+  },
+  "routing_consequence": {
+    "gamma_Q_is_genuine_geometric_generator": true,
+    "gamma_Q_orientation_alone_reduces_formal_allocation_set": false,
+    "current_numerical_package_distinguishes_q1_global_orientation": false,
+    "conductor_loop_comparison_still_required": true,
+    "next_required_input": "compare each actual conductor loop lambda_(p;i,j) with 0 versus gamma_Q, or compute equivalent B_abs linking / residual square-root transition"
+  },
+  "credit_firewall": {
+    "conductor_pair_map_complete": false,
+    "branch_allocation_computed": false,
+    "cross_sheet_upper_bound_proved": false,
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "mb104_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}

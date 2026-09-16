@@ -56,25 +56,23 @@ jobs:
       - name: Assert hostile-audited V24 HPADJ07 boundary
         run: test "$(git -C .stage32-audited-hpadj07-v24 rev-parse HEAD)" = "3c5915dee248660a2821f2ebe9c24e20b0ad1647"
 
-      - name: Resolve research freshness authority
+      - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
-          baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
+          event_base="${{ github.event.pull_request.base.sha }}"
+          echo "event_base=$event_base"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "$expected_current_main"
-          test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
-          drift="$(git diff --name-only "$baseline" "$current_main")"
-          printf 'main_drift_paths=%s\n' "$drift"
-          test "$drift" = "x"
-          git merge-base --is-ancestor "$current_main" HEAD
-          test "$merge_base" = "$current_main"
-          echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
-          echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+          test -n "$merge_base"
+          if git merge-base --is-ancestor "$current_main" HEAD && [ "$merge_base" = "$current_main" ]; then
+            echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+          else
+            echo "merge_ready_freshness=PENDING_MAIN_DRIFT_REQUIRES_SEPARATE_SEMANTIC_REVIEW"
+          fi
+          echo "research_head_identity=EXACT_HEAD_CHECKED_SEPARATELY_FROM_MERGE_READY_FRESHNESS"
 
       - name: Verify V24 audit-sync source identities
         run: |

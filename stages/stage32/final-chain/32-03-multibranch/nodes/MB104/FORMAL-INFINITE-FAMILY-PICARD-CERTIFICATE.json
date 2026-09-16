@@ -1,0 +1,133 @@
+{
+  "schema": "STAGE32_MB104_FORMAL_INFINITE_PICARD_REALIZABILITY_V1",
+  "status": "RETAINED_EXPLICIT_PICARD_SUBSEQUENCES_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "purpose": "Strengthen the retained hard-sector formal infinite families from packet feasibility to explicit integral Picard-class realizability on infinite arithmetic subsequences, without claiming effectivity or actual curves.",
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-FEASIBILITY-CERTIFICATE.json",
+      "blob_sha1": "8ec4a403d2485dbf061b8b16182aa06c62193c43",
+      "use": "retained 14-node supports, span dimensions, rank-3 block counts, degree/contact skeleton"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
+      "blob_sha1": "f852f66c67343b6a553b5c20e15dc0a0f55d5226",
+      "use": "H=K_S and exact adjunction/normalization-genus identity with unrestricted Delta_off"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/HODGE-EXCEPTIONAL-MASS-CERTIFICATE.json",
+      "blob_sha1": "3e1ea879f2b8368a6795f2e7faa1a4a08b608100",
+      "use": "intersection interface H^2=16, H.E_i=0, E_i.E_j=0, E_i^2=-2"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
+      "blob_sha1": "890f80ce208e402b14275d3e3279f9c02d5dc2fa",
+      "use": "S is the minimal resolution and E_i are the 48 exceptional divisor classes"
+    }
+  ],
+  "picard_interface": {
+    "class_template": "D=a*H-k*sum_{i in S14}E_i",
+    "support_size": 14,
+    "H_squared": 16,
+    "H_dot_E_i": 0,
+    "E_i_squared": -2,
+    "E_i_dot_E_j_i_ne_j": 0,
+    "degree": "H.D=16a",
+    "supported_exceptional_intersection": "E_i.D=2k",
+    "unsupported_exceptional_intersection": 0,
+    "self_intersection": "D^2=16a^2-28k^2"
+  },
+  "common_contact_skeleton": {
+    "N": 14,
+    "R": "28k",
+    "R8": "28k",
+    "M": "28k",
+    "r_odd": "28k",
+    "supported_M_i": "2k",
+    "branch_type": "all supported branches FSM-minimal (A,B)=(1,1), m=1",
+    "landing_keys": "distinct at each supported node as in retained formal skeleton"
+  },
+  "families": {
+    "F0-P6-PIC": {
+      "genus": 0,
+      "support_from": "F0-P6",
+      "support_span_dimension": 6,
+      "parameter": "l>=0",
+      "k": "4l+3",
+      "degree": "28k-4=112l+80",
+      "H_coefficient_a": "(7k-1)/4=7l+5",
+      "class": "D=(7l+5)H-(4l+3)sum_{i in S_P6}E_i",
+      "self_intersection": "21k^2-14k+1=336l^2+448l+148",
+      "required_Delta_total": "(21k^2+14k-1)/2=168l^2+280l+115",
+      "required_Delta_total_nonnegative_integer": true,
+      "rank3_block_node_counts": [3,3,2,2,2,2],
+      "rank3_fiber_intersections": ["11k-2","11k-2","12k-2","12k-2","12k-2","12k-2"],
+      "beauville_equality": "r_odd=d+4",
+      "gfu_degree": 0
+    },
+    "F1-P5-PIC": {
+      "genus": 1,
+      "support_from": "F1-P5",
+      "support_span_dimension": 5,
+      "parameter": "l>=1",
+      "k": "4l",
+      "degree": "28k=112l",
+      "H_coefficient_a": "7k/4=7l",
+      "class": "D=7l*H-4l*sum_{i in S_P5}E_i",
+      "self_intersection": "21k^2=336l^2",
+      "required_Delta_total": "(21k^2+28k)/2=168l^2+56l",
+      "required_Delta_total_nonnegative_integer": true,
+      "rank3_block_node_counts": [0,0,0,5,5,4],
+      "rank3_fiber_intersections": ["14k","14k","14k","9k","9k","10k"],
+      "beauville_equality": "r_odd=d",
+      "gfu_degree": 0
+    },
+    "F1-P6-PIC": {
+      "genus": 1,
+      "support_from": "F1-P6",
+      "support_span_dimension": 6,
+      "parameter": "l>=1",
+      "k": "4l",
+      "degree": "28k=112l",
+      "H_coefficient_a": "7k/4=7l",
+      "class": "D=7l*H-4l*sum_{i in S_P6}E_i",
+      "self_intersection": "21k^2=336l^2",
+      "required_Delta_total": "(21k^2+28k)/2=168l^2+56l",
+      "required_Delta_total_nonnegative_integer": true,
+      "rank3_block_node_counts": [3,3,2,2,2,2],
+      "rank3_fiber_intersections": ["11k","11k","12k","12k","12k","12k"],
+      "beauville_equality": "r_odd=d",
+      "gfu_degree": 0
+    }
+  },
+  "delta_adapter": {
+    "previous_packet_Delta_total_zero_carried_over": false,
+    "reason": "Fixing the explicit Picard class fixes D^2, so MB102 adjunction determines a positive Delta_total.",
+    "exceptional_landing_profile_forces_all_required_delta_exceptional": false,
+    "Delta_off_may_absorb_required_defect_under_MB102_contract": true,
+    "actual_singular_curve_realizing_required_delta_claimed": false
+  },
+  "route_consequence": {
+    "integral_picard_class_realizability_on_infinite_subsequences": true,
+    "picard_integrality_obstruction_closes_hard_sectors": false,
+    "effectivity_obstruction_tested": false,
+    "irreducible_carrier_existence_tested": false,
+    "normalization_genus_realized_by_actual_curve": false,
+    "preferred_next_route": "GLOBAL_EFFECTIVITY_IRREDUCIBLE_CARRIER_OR_INCIDENCE_CLASSIFICATION",
+    "direct_R8_alpha_lt_quarter_route_remains_frozen": true,
+    "MB104_complete": false
+  },
+  "credit_firewall": {
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

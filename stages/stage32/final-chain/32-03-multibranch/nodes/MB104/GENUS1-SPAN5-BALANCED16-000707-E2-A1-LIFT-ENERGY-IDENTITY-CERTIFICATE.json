@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_A1_LIFT_ENERGY_IDENTITY_V1",
+  "status": "RETAINED_EXACT_AGGREGATE_CONDUCTOR_FORMULA_HODGE_THRESHOLD_AUTOMATIC_E2_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "scope": {
+    "support_mask": "000707000f0f",
+    "case": "e=2",
+    "l_min": 1,
+    "claim_level": "aggregate cross-sheet intersection only; no individual conductor-pair sign"
+  },
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY.md",
+      "blob_sha1": "3fb4152c35b88160f36730fac941f542566664a8"
+    },
+    {
+      "id": "EQUALITY_RIGIDITY",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-P5-BEAUVILLE-EQUALITY-RIGIDITY.md",
+      "blob_sha1": "a20547082b1ea2f786b1272d1b76af3527508e9b"
+    },
+    {
+      "id": "INTERMEDIATE_H",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+      "blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137"
+    },
+    {
+      "id": "NODE_ORBIT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE.md",
+      "blob_sha1": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+    },
+    {
+      "id": "SPLIT_HODGE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-SPLIT-HODGE-CONDUCTOR.md",
+      "blob_sha1": "b8f876f78fa23a64911baa4b9057f7920bfea014"
+    },
+    {
+      "id": "A1_DELTA",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-WALL.md",
+      "blob_sha1": "a4de57f430aea249300c589aeeeaa3dbe67d5006"
+    }
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 6,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL"
+  },
+  "exact_identity": {
+    "support_nodes": [0,1,2,3,8,9,10,11,24,25,26,32,33,34],
+    "projection_degree_coefficient": 28,
+    "branches_per_supported_node_coefficient": 8,
+    "product_intersection_coefficient_l2": 1568,
+    "intermediate_intersection_coefficient_l2": 392,
+    "a1_exceptional_self_intersection": -2,
+    "node_resolution_correction": "x_j*(8*l-x_j)",
+    "y_formula": "392*l^2-sum_j x_j*(8*l-x_j)",
+    "centered_variable": "d_j=2*x_j-8*l",
+    "centered_y_formula": "168*l^2+(1/4)*sum_j d_j^2",
+    "weighted_cut_formula": "84*l^2+(1/8)*sum_j d_j^2",
+    "same_sheet_formula": "84*l^2+56*l-(1/8)*sum_j d_j^2",
+    "same_sheet_nonnegative_energy_bound": "sum_j d_j^2<=672*l^2+448*l",
+    "hodge_minimum_equality_condition": "x_j=4*l for every supported node"
+  },
+  "routing_consequence": {
+    "aggregate_weighted_cut_materialized": true,
+    "hodge_threshold_automatic_from_identity": true,
+    "hodge_route_can_exclude_e2_from_allocation_alone": false,
+    "individual_conductor_pair_map_materialized": false,
+    "branch_allocation_geometry_materialized": false,
+    "next_missing": "a global geometric constraint on the fourteen centered allocations d_j, or a different obstruction not mediated only by the retained Hodge lower bound",
+    "e2_closed": false,
+    "active_leaf_unchanged": true
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-A1-LIFT-ENERGY-IDENTITY.md",
+    "human_note_blob_sha1": "3fb4152c35b88160f36730fac941f542566664a8",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_a1_lift_energy_identity.py",
+    "verifier_blob_sha1": "51e6820397a42e5c4436cb004535d925a8b7e1d4"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_000707_E2_A1_LIFT_ENERGY_IDENTITY_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run fail-closed verifier directly on exact candidate head before hostile promotion"
+  },
+  "credit_firewall": {
+    "e2_closed": false,
+    "e4_closed": false,
+    "support_000707_closed": false,
+    "MB104_complete": false,
+    "span5_closed": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_armed": false,
+    "merge_authorized": false
+  }
+}

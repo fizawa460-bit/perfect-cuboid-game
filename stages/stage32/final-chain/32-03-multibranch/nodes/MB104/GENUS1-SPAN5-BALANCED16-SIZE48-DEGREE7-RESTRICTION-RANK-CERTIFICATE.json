@@ -1,0 +1,92 @@
+{
+  "schema": "STAGE32_MB104_BALANCED16_SIZE48_DEGREE7_RESTRICTION_RANK_V1",
+  "status": "RETAINED_EXACT_GOOD_PRIME_RESTRICTION_LOWER_BOUND_SIZE48_ZERO_QUARTICS_NONFIXED_ALL_L_BALANCED16_OPEN_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "source_locks": [
+    {"id":"HUMAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-SIZE48-DEGREE7-RESTRICTION-RANK.md","blob_sha1":"5107e872fedf670aa7908e4ba65413493c3f01da"},
+    {"id":"NULL_UNION_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-CERTIFICATE.json","blob_sha1":"e7c5be93372f653bb42d8528ab68bcfaa4d6de60"},
+    {"id":"STABILIZER_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json","blob_sha1":"31695c6908cff73d04baab2ed11dfd04608a2464"},
+    {"id":"FORMAL_PICARD","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md","blob_sha1":"de83fc169814681109bcbc1576ad24f67d6159e0"},
+    {"id":"KNOWN_QUOTIENT_VERIFIER","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_genus1_span5_known_conic_balanced_quotient.py","blob_sha1":"fe55e8a7bcd5b790f8d65419a9a88ba59106ba54"}
+  ],
+  "source_lock_contract": {
+    "declared_dependency_count": 5,
+    "verifier_checks_every_declared_dependency_before_math": true,
+    "mismatch_behavior": "fail closed with SOURCE_LOCK_FAIL",
+    "good_reduction_logic": "the jet evaluation map and its truncated local presentations are defined over Z[i]; at p=1097 the 48 nodes remain distinct and every m^4 local quotient has length16, so a nonzero modular minor gives a characteristic-zero rank lower bound"
+  },
+  "primitive_class": {
+    "A": "7H-4 sum_{i in Sigma}E_i",
+    "D_l": "l*A",
+    "chi_A": 120,
+    "size48_null_union_forces_h1_A_at_least": 4,
+    "H2_A": 0
+  },
+  "degree7_model": {
+    "surface_equations": 4,
+    "standard_basis_rule": "exponents of b1,b2,b3,c are <=1",
+    "degree7_basis_dimension": 344,
+    "supported_nodes": 14,
+    "local_m4_ambient_truncated_dimension": 84,
+    "local_surface_relation_rank": 68,
+    "local_m4_quotient_length": 16,
+    "nominal_jet_rows": 224
+  },
+  "finite_field": {
+    "prime": 1097,
+    "i_image": 341,
+    "i_square": -1,
+    "quartic_test_points_are_smooth_non_box_points": true
+  },
+  "finite_field_results": {
+    "0000770000ff": {"jet_rank_mod_p":220,"augmented_rank_mod_p":222,"restriction_rank_lower_bound_char0":2},
+    "00007b0000ff": {"jet_rank_mod_p":220,"augmented_rank_mod_p":222,"restriction_rank_lower_bound_char0":2}
+  },
+  "char0_consequence": {
+    "jet_rank_at_least_from_good_prime": 220,
+    "h0_A_upper_bound_from_rank": 124,
+    "h0_A_lower_bound_from_RR_and_null_union": 124,
+    "h0_A": 124,
+    "h1_A": 4,
+    "jet_rank_char0": 220,
+    "union_restriction_rank_lower_bound": 2,
+    "support_stabilizer_transitive_on_four_zero_quartics": true,
+    "all_four_zero_quartics_nonfixed_both_size48_orbits": true,
+    "nonfixedness_propagates_to_every_l_by_section_powers": true
+  },
+  "retained_consequence": {
+    "orbit_000077_zero_quartic_fixed_component_route_closed": true,
+    "orbit_00007b_zero_quartic_fixed_component_route_closed": true,
+    "orbit_000707_claimed_by_this_leaf": false,
+    "any_support_orbit_excluded": false,
+    "irreducible_genus1_carrier_constructed": false,
+    "balanced16_closed": false,
+    "next_required_lever": "global singularity/conductor realization; separately resolve primitive restriction rank for 000707"
+  },
+  "evidence": {
+    "human_note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-SIZE48-DEGREE7-RESTRICTION-RANK.md",
+    "human_note_blob_sha1": "5107e872fedf670aa7908e4ba65413493c3f01da",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_size48_degree7_restriction_rank.py",
+    "verifier_blob_sha1": "bca311f6ad643a3ee8a803871119e9d71e4b2ab0"
+  },
+  "verification": {
+    "pass_token": "PASS STAGE32_MB104_BALANCED16_SIZE48_DEGREE7_RESTRICTION_RANK_V1",
+    "exact_verifier_local_replay_claimed": false,
+    "exact_head_CI_claimed": false,
+    "automatic_workflow_required": false,
+    "audit_instruction": "run the fail-closed verifier directly on the exact candidate head; inspect the good-prime-to-characteristic-zero rank argument"
+  },
+  "credit_firewall": {
+    "MB104_complete": false,
+    "balanced16_closed": false,
+    "whole_span5_closed": false,
+    "arbitrary_unequal_picard_classes_closed": false,
+    "finite_degree_window_proved_population_wide": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

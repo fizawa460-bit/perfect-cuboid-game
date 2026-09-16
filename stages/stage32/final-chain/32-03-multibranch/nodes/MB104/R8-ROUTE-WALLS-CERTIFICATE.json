@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE32_MB104_R8_ROUTE_WALLS_V1",
+  "status": "RETAINED_ROUTE_WALLS_MB104_INCOMPLETE",
+  "receiver": "R29-LG2-MB",
+  "target": "R8<=alpha*d+beta with alpha<1/4 or an absolute R8 bound",
+  "local_a1_wall": {
+    "minimal_cusp_type": "(A,B)=(1,1)",
+    "exceptional_multiplicity": 1,
+    "landing_parameter": "arbitrary nonzero lambda",
+    "distinct_lambda_can_separate_after_resolution": true,
+    "local_data_imply_absolute_R8_bound": false
+  },
+  "gfu_wall": {
+    "symmetric_differential_degree": "-d+M+4g-4",
+    "smooth_at_nodes_corollary": "d<=4g+44",
+    "multibranch_term": "M=E.D",
+    "multi_differential_direction": "lower exceptional-incidence bounds",
+    "supplies_R8_upper_slope_lt_one_quarter": false
+  },
+  "rank3_fibration_wall": {
+    "rank3_quadric_count": 6,
+    "base_nodes_per_quadric": 8,
+    "singular_node_count": 48,
+    "base_sets_partition_48_nodes": true,
+    "fiber_class_formula": "2F_Q=H-sum_{i in B_Q}E_i",
+    "nef_block_inequality": "sum_{i in B_Q}M_i<=d",
+    "summed_inequality": "M<=6d",
+    "R8_consequence": "R8<=R<=M<=6d",
+    "slope": 6,
+    "required_slope_strictly_less_than": 0.25,
+    "closes_MB104": false
+  },
+  "full_28_fibration_firewall": {
+    "genus5_fibration_count": 28,
+    "decomposition": "6 rank3 + 2*11 rank4",
+    "simple_fiber_or_base_locus_intersection_closes_R8": false,
+    "new_branchwise_ramification_or_tangent_charging_lemma_required": true
+  },
+  "literature_ceiling": {
+    "stoll_testa_2026_low_genus_classification_question_open": true,
+    "rational_nonconic_lower_exceptional_incidence": 8,
+    "genus1_lower_exceptional_incidence": 4,
+    "btva_distinct_node_support_results_bound_R8_multiplicity": false
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
+      "blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563"
+    }
+  ],
+  "external_sources": [
+    {
+      "title": "Families of explicit quasi-hyperbolic and hyperbolic surfaces",
+      "authors": "Natalia Garcia-Fritz; Giancarlo Urzua",
+      "arxiv": "1804.07671",
+      "used": "Theorem 3.1; Corollaries 3.3, 3.6"
+    },
+    {
+      "title": "Curves on the surface of cuboids",
+      "authors": "Michael Stoll; Damiano Testa",
+      "doi": "10.1090/mcom/4238",
+      "used": "Lemma 3; Proposition 4; Section 5; low-genus question and Lemma 21"
+    },
+    {
+      "repository": "MichaelStollBayreuth/Verification",
+      "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+      "path": "Cuboids/Section5_fibrations.log",
+      "blob_sha1": "9cfef75aa58335655d6ae3e78597f5924b6c2433"
+    }
+  ],
+  "credit_firewall": {
+    "MB104_complete": false,
+    "finite_degree_window_proved": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
