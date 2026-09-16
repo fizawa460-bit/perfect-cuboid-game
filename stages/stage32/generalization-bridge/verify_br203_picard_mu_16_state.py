@@ -68,7 +68,12 @@ def load_module(path: Path, name: str):
     spec = importlib.util.spec_from_file_location(name, path)
     req(spec is not None and spec.loader is not None, f"cannot import {path}")
     mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    sys.modules[name] = mod
+    try:
+        spec.loader.exec_module(mod)
+    except BaseException:
+        sys.modules.pop(name, None)
+        raise
     return mod
 
 
@@ -185,9 +190,7 @@ def main() -> None:
     req(len(free_labels) == 19, "free selected exceptional count drift")
     pos_by_label = {label:j for j,label in enumerate(original_labels)}
     free_pos = [pos_by_label[label] for label in free_labels]
-    terminal_pos = [pos_by_label[label] for label in TERMINAL_EXCEPTIONAL_LABELS]
 
-    normal_hnf = full["hnf"]
     normal_index = full["quotient_index"]
     normal_plus_free_hnf = hnf_lattice(B, EXPECTED_DEN, normal_pos + free_pos, Matrix, hermite_normal_form)
     normal_plus_free_index = abs(int(normal_plus_free_hnf.det()))
