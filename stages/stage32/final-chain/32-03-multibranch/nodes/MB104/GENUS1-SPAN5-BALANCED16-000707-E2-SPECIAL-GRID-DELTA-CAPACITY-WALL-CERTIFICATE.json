@@ -1,0 +1,138 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_SPECIAL_GRID_DELTA_CAPACITY_WALL_V1",
+  "status": "RETAINED_EXACT_NEGATIVE_ROUTING_RESULT_BRANCH_COUNT_DELTA_ATTACK_REDUNDANT_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-SPECIAL-GRID-DELTA-CAPACITY-WALL.md",
+      "blob_sha1": "f7ae2dac5be3b15542471e5b4b0e50515c05537b"
+    },
+    {
+      "id": "LOW_BIDEGREE_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-LOW-BIDEGREE-BEZOUT-CAPACITY.md",
+      "blob_sha1": "60cd43c94b7d1ab2992f3cd502d1e49ac2c972e6"
+    },
+    {
+      "id": "LOW_BIDEGREE_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-LOW-BIDEGREE-BEZOUT-CAPACITY-CERTIFICATE.json",
+      "blob_sha1": "e06fe6ef76468e9c83c8bc8d1c1ed35a905f4b9a"
+    },
+    {
+      "id": "JOINT_PAIR",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY.md",
+      "blob_sha1": "53608cb51aa49ccde1603b1cb1d136ea497b2324"
+    },
+    {
+      "id": "RESIDUAL_NODE_CERT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-NODE-ORBIT-TABLE-CERTIFICATE.json",
+      "blob_sha1": "02c5c5b52ed18cc2850a01bab05c6dfac85a59f9"
+    }
+  ],
+  "verifier": {
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_special_grid_delta_capacity_wall.py",
+    "blob_sha1": "14f0420198b5c5f76f70cb1f810f069de17c9eeb",
+    "pass_token": "PASS stage32 MB104 000707 e2 special-grid delta-capacity wall"
+  },
+  "curve": {
+    "bidegree": [
+      "28*l",
+      "28*l"
+    ],
+    "normalization_genus": 1,
+    "total_delta": "784*l^2-56*l"
+  },
+  "block_saturation": {
+    "complement_pair_totals": [
+      "16*l",
+      "16*l",
+      "16*l",
+      "8*l"
+    ],
+    "selected_fibre_total": "28*l",
+    "exact_block_mass_square_max": "736*l^2",
+    "two_block_mass_square_max": "1472*l^2"
+  },
+  "delta_wall": {
+    "universal_local_lower": "delta_p >= binomial(r_p,2)",
+    "special_lower_expression": "S_special=sum_P binomial(w(P),2)",
+    "branch_count_only_upper_on_lower_bound": "S_special <= 736*l^2-56*l",
+    "total_delta_minus_branch_count_lower_bound_at_least": "48*l^2",
+    "closes_e2": false
+  },
+  "thin_shell_translation": {
+    "l": "2*m",
+    "Q": "sum_j b_j^2",
+    "X": "b0*b2+b1*b3+b8*b10+b9*b11+b24*b26+b32*b34",
+    "naive_delta_budget_condition": "Q+2*X <= 368*m^2",
+    "saturation_already_implies": "Q+2*X <= 320*m^2",
+    "delta_condition_redundant": true
+  },
+  "formal_survivor": {
+    "m": 5,
+    "l": 10,
+    "Q": 4480,
+    "X": 601,
+    "Q_plus_2X": 5682,
+    "saturation_bound": 8000,
+    "delta_budget_bound": 9200,
+    "branch_masses": [
+      8,
+      152,
+      48,
+      112,
+      0,
+      160,
+      0,
+      80,
+      44,
+      116,
+      156,
+      4,
+      78,
+      82,
+      2,
+      78
+    ],
+    "special_branch_count_delta_lower": 63768,
+    "total_delta": 77840,
+    "headroom": 14072,
+    "geometrically_realized": false
+  },
+  "routing_consequence": {
+    "retire_branch_count_only_delta_attack": true,
+    "still_live": [
+      "forced tangency/intersection multiplicity >1",
+      "intrinsic branch delta",
+      "forced non-special singularities",
+      "monodromy/Nielsen constraints",
+      "actual conductor loop 0 versus gamma_Q comparison"
+    ],
+    "active_leaf_changes": false
+  },
+  "wolfram_crosscheck": {
+    "scaled_block_maximum": 736,
+    "maximizing_vertex_example": [
+      0,
+      16,
+      12,
+      0
+    ]
+  },
+  "credit_firewall": {
+    "conductor_pair_map_complete": false,
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}
