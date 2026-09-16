@@ -30,6 +30,13 @@ V38_STATE_CANON = "e3d5039665c4920733488ac2934c32741cacdd7c77bb8bb5ecd033aeaa604
 AUDIT_REVIEW = 5218756566
 BOUND = 195414091250828468192
 
+LIVE_178_HEAD = "64c63c3d065dcfeb2e5e01d42813293615dcbf31"
+LIVE_EX5_HEAD = "630c44d2e8a5d6e7bd03df70ba0b2a14eb40ddb6"
+LIVE_MB_HEAD = "6bd511f5c0289b810c18bcac8facdfa3c62c2859"
+HPADJ20_AUDITED_HEAD = "4140e5eb2ebee0c32b22ec78fd531ab35fb7c3ff"
+HPADJ20_AUDIT_REVIEW = 5228477451
+HPADJ20_BOUND = 179119009547804181594
+
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
@@ -119,6 +126,17 @@ def main() -> None:
     req(f["v39_audit_sync_additional_pruning"] == 0, "V39 added pruning")
     req(f["full178_numerical_census_complete"] is False and f["stage32_closed"] is False,
         "closure firewall")
+    req(f["live_ex5_q_quadratic_refinement_main_handoff_ready"] is True,
+        "HPADJ20 MAIN handoff not observed")
+    req(f["live_ex5_hpadj20_hostile_audited"] is True and
+        f["live_ex5_hpadj20_hostile_audit_review_id"] == HPADJ20_AUDIT_REVIEW,
+        "HPADJ20 audit observation")
+    req(f["live_ex5_hpadj20_audited_exact_head"] == HPADJ20_AUDITED_HEAD,
+        "HPADJ20 audited head")
+    req(f["live_ex5_hpadj20_candidate_upper_bound"] == HPADJ20_BOUND,
+        "HPADJ20 observed bound")
+    req(f["live_ex5_hpadj20_main_credit_consumed"] is False,
+        "HPADJ20 was accidentally consumed")
 
     req(state["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(state["current"]["next_exact_route"] ==
@@ -133,25 +151,26 @@ def main() -> None:
         req(state["firewalls"][key] is False, f"firewall {key}")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
-    req(sweep["lane_178_head"] == "8fcfca2894200953dc6332b3918632155cc5ffaa",
-        "178 live head")
-    req("V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
-        "178 audit-sync semantics")
+    req(sweep["lane_178_head"] == LIVE_178_HEAD, "178 live head")
     req(sweep["lane_178_pending_main_handoff"] == "NONE",
         "178 unexpected pending MAIN handoff")
-    req(sweep["lane_178_semantic_leaf"] == "FIBRATION_NEF_RECOVERABILITY_PREFLIGHT",
+    req(sweep["lane_178_semantic_leaf"] == "FIBRATION_NEF_TD02_AGGREGATE_BRIDGE_PREFLIGHT",
         "178 semantic leaf")
-    req("FOUND_16" in sweep["lane_178_blocking_reason"],
-        "178 ambiguity blocker")
-    req(sweep["ex5_head"] == "bd92b9f5204a78f6ccf3699f82dbdad4b08f00af",
-        "EX5 live head")
-    req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
+    req("FIVE_BLOCK_INTEGER_PENALTY" in sweep["lane_178_blocking_reason"],
+        "178 next-step observation")
+
+    req(sweep["ex5_head"] == LIVE_EX5_HEAD, "EX5 live head")
+    req(sweep["ex5_latest_audited_head"] == HPADJ20_AUDITED_HEAD and
+        sweep["ex5_latest_audit_review_id"] == HPADJ20_AUDIT_REVIEW,
+        "EX5 HPADJ20 audit observation")
+    req("HPADJ20" in sweep["ex5_handoff"] and "ZERO_MAIN_CREDIT" in sweep["ex5_handoff"],
         "EX5 credit firewall")
-    req(sweep["ex5_pending_main_handoff"] == "NONE" and
-        "HEAVY_REPLAY_CANCELLED" in sweep["ex5_blocking_reason"],
-        "EX5 live heavy gate")
-    req(sweep["mb_head"] == "619808d05f8576fb0b6f53b00e85bbf0d7571bee",
-        "MB live head")
+    req("179119009547804181594" in sweep["ex5_pending_main_handoff"],
+        "EX5 pending MAIN preflight handoff")
+    req("FULL_QA_HISTOGRAM" in sweep["ex5_blocking_reason"],
+        "EX5 MAIN preflight blocker")
+
+    req(sweep["mb_head"] == LIVE_MB_HEAD, "MB live head")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
     req(sweep["mb_pending_main_handoff"] == "NONE" and
         sweep["mb_semantic_leaf"].endswith("000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP"),
@@ -160,13 +179,20 @@ def main() -> None:
         sweep["cut_pending_main_handoff"] == "NONE",
         "CUT observation")
 
+    h20 = state["source_locks"]["ex5_hpadj20_main_handoff"]
+    req(h20["audited_exact_head"] == HPADJ20_AUDITED_HEAD and
+        h20["hostile_audit_review_id"] == HPADJ20_AUDIT_REVIEW and
+        h20["candidate_upper_bound"] == HPADJ20_BOUND and
+        h20["main_credit_consumed"] is False,
+        "HPADJ20 handoff source lock")
+
     sl = state["source_locks"]["v39_audit_sync_receipt"]
     req(sl["blob_sha1"] == SYNC_BLOB and sl["canonical_sha256"] == SYNC_CANON,
         "state V39 sync receipt source lock")
 
-    print("PASS: Stage32 V39 synchronizes hostile-audit PASS for V38 with zero new pruning")
-    print("PASS: replacement audit gate cleared; FULL178/final-milestone route resumes")
-    print("PASS: live 178/EX5/MB/CUT observations refreshed with zero authority mutation")
+    print("PASS: Stage32 V39 authority remains the hostile-audited V38 numerical bound")
+    print("PASS: live 178/EX5/MB/CUT observations refreshed without authority mutation")
+    print("PASS: hostile-audited HPADJ20 handoff observed at 179119009547804181594 with zero MAIN credit")
 
 if __name__ == "__main__":
     main()
