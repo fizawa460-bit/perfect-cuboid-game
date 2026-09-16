@@ -186,7 +186,15 @@ jobs:
           spec=importlib.util.spec_from_file_location('hpadj20_worker_for_plan',worker_path)
           assert spec and spec.loader
           w=importlib.util.module_from_spec(spec); spec.loader.exec_module(w)
-          ctx=w.load_context(); rows=ctx[8]; buckets,loads=w.deterministic_partition(rows,178)
+          p14_path=Path('stages/stage32-ex5/hpadj-14_ex5/derive_row_exact_grf04_picard_capacity_bound.py')
+          assert w.git_blob(p14_path)=='16051646826c452d4385e49f2643ac0b394af3e0'
+          p14_spec=importlib.util.spec_from_file_location('hpadj14_for_recovery_plan',p14_path)
+          assert p14_spec and p14_spec.loader
+          p14=importlib.util.module_from_spec(p14_spec); p14_spec.loader.exec_module(p14)
+          counter=p14.load_counter()
+          manifest=counter.load_locked_json(p14.MANIFEST,p14.LOCKS['manifest_blob'],p14.LOCKS['manifest_canonical'],'FULL178 manifest')
+          rows=counter.manifest_rows(manifest); assert len(rows)==178
+          buckets,loads=w.deterministic_partition(rows,178)
           accepted={}; rejected=[]
           def candidates(unit):
               names=[f'hpadj20-shard-{unit}.json',f'hpadj20-row-{unit}.json']
