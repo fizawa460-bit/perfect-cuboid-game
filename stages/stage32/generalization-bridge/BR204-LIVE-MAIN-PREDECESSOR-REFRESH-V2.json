@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE32_BR204_LIVE_MAIN_PREDECESSOR_REFRESH_V2",
+  "status": "PASS_LIVE_MAIN_REFRESH_HEAVY_BLOCKED_BY_RUNKEY_AND_EXTERNAL_GOVERNANCE_ZERO_CREDIT",
+  "generated_at": "2026-09-17",
+  "node": "BR204",
+  "purpose": "Refresh the BR204 live MAIN predecessor and competing FULL178 candidate surface without starting heavy execution or mutating shared MAIN/source-lane authority.",
+  "bridge_snapshot": {
+    "pr": 1813,
+    "branch": "stage32bridge-mainbatch",
+    "pre_refresh_head": "d6a45dc48ffce07ee48dafd42a2cc9db6a6ad346",
+    "base_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "draft_open_unmerged": true
+  },
+  "live_main_predecessor": {
+    "pr": 1808,
+    "head": "2543fe4732c1409e013bf02d8c5802f85057ccbd",
+    "state_path": "stages/stage32/MAIN-STATE.json",
+    "state_schema": "STAGE32_MAIN_COMPACT_STATE_V39_FULL178_INTEGER_LATTICE_BOUND_AUDIT_SYNCED",
+    "state_canonical_sha256_without_field": "660c8e07093af9885372a53da35dbdfb7396a306afc09e2ffafaa9b8257fb179",
+    "authority_sync_current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "195414091250828468192",
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_numerical_census_complete": false,
+    "stage32_closed": false,
+    "effectivity_released": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "live_competing_full178_surface": {
+    "producer_lane": "EX5",
+    "producer_pr": 1814,
+    "result": "HPADJ20_FULL178_HEAVY_EXACT_UNION",
+    "hostile_audit_status": "PASS",
+    "hostile_audit_review_id": 5228477451,
+    "audited_exact_head": "4140e5eb2ebee0c32b22ec78fd531ab35fb7c3ff",
+    "candidate_upper_bound": "179119009547804181594",
+    "tightening_vs_current_main": "16295081703024286598",
+    "main_credit_consumed": false,
+    "main_status": "NUMERICAL_PREFLIGHT_REQUIRED_ZERO_MAIN_CREDIT"
+  },
+  "bridge_research_anchor_comparison": {
+    "br204_result_available": false,
+    "historical_issue1817_k8_scratch_anchor": "171016506358704660923",
+    "scratch_anchor_minus_ex5_candidate": "-8102503189099520671",
+    "interpretation": "The scratch K8 anchor is numerically below the audited EX5 candidate, so EX5 does not establish dominance over the unexecuted BR204 route. This is not a BR204 FULL178 result and grants no comparison credit.",
+    "candidate_classification_vs_live_predecessor": "NOT_YET_AVAILABLE"
+  },
+  "external_governance_boundary": {
+    "owner": "MAIN_SHARED_GOVERNANCE_NOT_BRIDGE",
+    "live_main_head_checked": "2543fe4732c1409e013bf02d8c5802f85057ccbd",
+    "claim_frontier_run": 35161509939,
+    "claim_frontier_job": 105013078915,
+    "first_observed_failure": "FAIL: 178 audit-sync semantics",
+    "failing_verifier": "stages/stage32/proof/verify_cross_lane_demands.py",
+    "source_mismatch": {
+      "live_state_lane_178_handoff": "TD02_FULL178_HANDOFF_ALREADY_CONSUMED_V38__NEW_FIBRATION_NEF_PREFLIGHT_ZERO_MAIN_CREDIT",
+      "verifier_requires_substrings": [
+        "MAIN_BOUND_CONSUMED_V38",
+        "V38_REPLACEMENT_AUDIT_PASS_SYNCED"
+      ],
+      "classification": "SHARED_VERIFIER_STALE_AGAINST_LIVE_MAIN_SWEEP"
+    },
+    "latent_source_level_staleness_after_first_failure": {
+      "verifier_hardcoded_ex5_head": "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
+      "live_state_ex5_head": "630c44d2e8a5d6e7bd03df70ba0b2a14eb40ddb6",
+      "verifier_hardcoded_mb_head": "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
+      "live_state_mb_head": "6bd511f5c0289b810c18bcac8facdfa3c62c2859",
+      "note": "These checks occur after the first observed 178 semantics failure; they are recorded as source-level stale expectations, not as separately observed runtime failures in this checkpoint."
+    },
+    "bridge_may_mutate_shared_verifier": false,
+    "governance_gate_green": false
+  },
+  "br204_execution_gate": {
+    "compact_producer_bounded_equivalence": "PASS",
+    "storage_preflight": "PASS_WITH_HARD_CAPS_FAIL_CLOSED",
+    "resume_unit": "single_b",
+    "unit_count": 97,
+    "shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
+    "dedicated_runkey_present": false,
+    "dedicated_runkey_armed": false,
+    "external_governance_gate_green": false,
+    "heavy_execution_authorized": false,
+    "heavy_compute_started": false
+  },
+  "remaining_blockers": [
+    "no dedicated BR204 heavy run-key is present or armed",
+    "MAIN/shared cross-lane governance verifier is stale against the current live MAIN specialist sweep"
+  ],
+  "next_action": "Remain fail-closed at BR204. Do not edit MAIN/shared governance from BRIDGE and do not launch FULL178 heavy execution. When the MAIN owner restores a green shared-governance boundary and a dedicated BR204 run-key is explicitly armed, refresh live MAIN again and then execute exactly eight compact b-shards with per-b resume and final coverage/disjointness/population-conservation verification.",
+  "firewall": {
+    "source_lane_authority_mutated": false,
+    "shared_main_governance_mutated": false,
+    "main_state_mutated": false,
+    "heavy_compute_started": false,
+    "raw_4_1M_state_artifact_persisted": false,
+    "main_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
