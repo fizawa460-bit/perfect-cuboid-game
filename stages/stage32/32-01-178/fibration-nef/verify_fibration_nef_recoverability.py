@@ -13,6 +13,7 @@ from sympy import Matrix
 ROOT = Path(__file__).resolve().parents[4]
 RES = ROOT / "stages" / "stage32" / "residual-32-01-production"
 ST33 = ROOT / "stages" / "stage33" / "33-07"
+N220_AUDITED = ROOT / "stages" / "stage32" / "32-01-178" / "nodes" / "N220" / "STATE-AUDITED.json"
 SOURCE_BASE = "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea"
 LOCKED = [
     "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
@@ -24,6 +25,7 @@ LOCKED = [
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
     "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+    "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
     "stages/stage33/33-07/stage32_picard_marking_retained.py",
     "stages/stage33/33-07/picard_base_rows_retained.py",
 ]
@@ -68,6 +70,26 @@ def lock_sources() -> None:
         ["git", "diff", "--quiet", SOURCE_BASE, "--", *LOCKED],
         cwd=ROOT, check=True,
     )
+
+
+def audited_total_exceptional_semantics() -> dict:
+    payload = json.loads(N220_AUDITED.read_text())
+    if payload.get("node_id") != "N220" or payload.get("status") != "DONE_AUDITED_EXACT_NECESSARY_PREFIX_PRUNING":
+        raise ValueError("N220 audited-state identity/status regression")
+    hostile = payload.get("hostile_audit", {})
+    predicate = payload.get("audited_predicate", {})
+    if hostile.get("result") != "PASS" or hostile.get("corrected_review_id") != 5159411821:
+        raise ValueError("N220 hostile-audit authority regression")
+    expected = "S10 + min(38, e-M10) >= ceil((d-16g+16)/4)"
+    if predicate.get("necessary_form") != expected or not predicate.get("zero_loss_necessary_pruning"):
+        raise ValueError("N220 exact remaining-exceptional-mass semantics regression")
+    return {
+        "authority": "AUDITED_N220_EXACT_REMAINING_EXCEPTIONAL_MASS",
+        "hostile_audit_review_id": 5159411821,
+        "necessary_form": expected,
+        "deduction": "the ten assigned exceptional coordinates have mass M10 and the remaining 38 have exact mass e-M10; hence sum_{j=93..140}<D,E_j>=e",
+        "E_total_pairing_value_in_each_stratum": "e",
+    }
 
 
 def source_zero_coordinates(record: dict) -> set[str]:
@@ -117,6 +139,7 @@ def span_profile(rows: list[Matrix], targets: list[Matrix]) -> dict:
 
 def main() -> None:
     lock_sources()
+    total_exceptional_semantics = audited_total_exceptional_semantics()
     sys.path.insert(0, str(RES))
     from hperp_integral_adapter import (  # noqa: E402
         HperpIntegralPairingAdapter, RETAINED_BASIS_KNOWN_LABELS_1BASED, _parse_hperp,
@@ -182,7 +205,7 @@ def main() -> None:
         Etotal += coords.row(lab - 1)
 
     base_profile = span_profile(base_rows, targets)
-    total_profile = span_profile(base_rows + [Etotal], targets)
+    exact_profile = span_profile(base_rows + [Etotal], targets)
 
     if set().union(*(set(x) for x in block_labels)) != set(range(93, 141)):
         raise ValueError("partition regression")
@@ -204,9 +227,9 @@ def main() -> None:
         })
 
     out = {
-        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V1",
+        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V2",
         "source_base_exact_head": SOURCE_BASE,
-        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression inputs",
+        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression/N220-audited inputs",
         "node_label_adapter": {
             "producer": "diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
             "az_anchor_reported_solution_count_was_not_deduplicated": bij["az_anchor_reported_solution_count_was_not_deduplicated"],
@@ -224,19 +247,20 @@ def main() -> None:
             "semantics": "H pairing (degree) plus the 11 retained assignment pairings",
             "profile": base_profile,
         },
-        "base_plus_exact_total_exceptional": {
-            "semantics": "base observables plus E_total=sum_{93..140} E_j, ONLY if current stratum e is proven to equal this exact pairing total",
-            "identity": "sum_Q L_Q = 6*degree - E_total",
-            "profile": total_profile,
+        "audited_exact_total_exceptional_observable": {
+            "semantics": total_exceptional_semantics,
+            "identity": "E_total=sum_{j=93..140} E_j and <D,E_total>=e",
+            "fibration_sum_identity": "sum_Q L_Q = 6*degree - e",
+            "profile": exact_profile,
         },
         "minimum_additional_arbitrary_linear_observables_over_Q": {
-            "without_E_total": base_profile["quotient_target_rank_over_Q"],
-            "with_exact_E_total": total_profile["quotient_target_rank_over_Q"],
+            "without_audited_E_total": base_profile["quotient_target_rank_over_Q"],
+            "with_audited_E_total": exact_profile["quotient_target_rank_over_Q"],
         },
         "producer_recommendation": (
-            "CURRENT_OBSERVABLES_SUFFICE"
-            if base_profile["all_targets_recoverable_over_Q"]
-            else "DO_NOT_RUN_BOUNDED_VIOLATION_CENSUS_YET__ADD_MINIMAL_TARGET_OBSERVABLES_OR_PROVE_EXACT_E_TOTAL_SEMANTICS"
+            "CURRENT_AUDITED_OBSERVABLES_SUFFICE"
+            if exact_profile["all_targets_recoverable_over_Q"]
+            else "DO_NOT_RUN_BOUNDED_VIOLATION_CENSUS_YET__ADD_MINIMAL_FIBRATION_BLOCK_OBSERVABLES"
         ),
         "bounded_violation_census_run": False,
         "main_credit_changed": False,
