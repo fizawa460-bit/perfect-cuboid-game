@@ -123,14 +123,6 @@ def load_rejected_rows() -> dict[tuple[int, int], int]:
     return out
 
 
-def even_values(lower: int, upper: int, excluded: set[int]) -> list[int]:
-    lo = lower if lower % 2 == 0 else lower + 1
-    hi = upper if upper % 2 == 0 else upper - 1
-    if lo > hi:
-        return []
-    return [e for e in range(lo, hi + 1, 2) if e not in excluded]
-
-
 def block_survivor_count(g: int, d: int) -> int:
     R = 3*d*d + 48*d + 96 - 96*g
     req(R >= 0 and R % 4 == 0, f"GRF04 R divisibility {(g,d)}")
@@ -201,11 +193,30 @@ def exact_pre_gde_caps(mod) -> tuple[list[dict], str]:
                             excluded.add(e_n358)
                         if g == 1 and d == 8:
                             excluded.add(8)
-                        for e in even_values(lower, upper, excluded):
-                            B = 19*d - 5*e + 1
-                            req(B > 0 and B % 2 == 1, f"normal block drift {(g,d,e,B)}")
-                            caps[e] += count
+                        lo = lower if lower % 2 == 0 else lower + 1
+                        hi = upper if upper % 2 == 0 else upper - 1
+                        if lo > hi:
+                            continue
+                        # Exact even-e interval range-add. This is algebraically
+                        # identical to enumerating every admissible e, but avoids
+                        # multiplying the 178-row census runtime by interval length.
+                        caps[lo] += count
+                        caps[hi + 2] -= count
+                        for ex in excluded:
+                            if lo <= ex <= hi and ex % 2 == 0:
+                                caps[ex] -= count
+                                caps[ex + 2] += count
 
+        running = 0
+        exact_caps: dict[int, int] = {}
+        if caps:
+            for e in range(min(caps), max(caps) + 1, 2):
+                running += caps.get(e, 0)
+                if running:
+                    B = 19*d - 5*e + 1
+                    req(B > 0 and B % 2 == 1, f"normal block drift {(g,d,e,B)}")
+                    exact_caps[e] = running
+        caps = exact_caps
         row_blocks = sum(caps.values())
         row_terms = sum(n * (19*d - 5*e + 1) for e, n in caps.items())
         req(row_blocks > 0 and row_terms > 0, f"empty pre row {row_id}")
