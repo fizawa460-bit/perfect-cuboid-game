@@ -22,11 +22,14 @@ LOCKED = [
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_Z_Wpair_support_cells.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py",
+    "stages/stage32/residual-32-01-production/diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
+    "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
     "stages/stage33/33-07/stage32_picard_marking_retained.py",
     "stages/stage33/33-07/picard_base_rows_retained.py",
 ]
 
 ASSIGNMENT_LABELS = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
+SOURCE_COORDINATE_NAMES = ("a1", "a2", "a3", "b1", "b2", "b3", "c")
 FIBRATIONS = [
     ("Q_a1_b1_c", ("a1", "b1", "c")),
     ("Q_a2_b2_c", ("a2", "b2", "c")),
@@ -65,6 +68,18 @@ def lock_sources() -> None:
         ["git", "diff", "--quiet", SOURCE_BASE, "--", *LOCKED],
         cwd=ROOT, check=True,
     )
+
+
+def source_zero_coordinates(record: dict) -> set[str]:
+    values = record["source_projective_coordinates_a1_a2_a3_b1_b2_b3_c"]
+    if len(values) != len(SOURCE_COORDINATE_NAMES):
+        raise ValueError("source projective coordinate length regression")
+    if any(x not in {"0", "1", "-1", "i", "-i"} for x in values):
+        raise ValueError("source projective coordinate alphabet regression")
+    return {
+        name for name, value in zip(SOURCE_COORDINATE_NAMES, values)
+        if value == "0"
+    }
 
 
 def span_profile(rows: list[Matrix], targets: list[Matrix]) -> dict:
@@ -126,9 +141,14 @@ def main() -> None:
     if int((H * gram * H.T)[0, 0]) != 16:
         raise ValueError("H=K square regression")
 
-    bij = run_json(RES / "diagnose_stage32_post1648az_full_48node_equivariant_bijection.py")
-    if not bij["explicit_48_node_bijection_obtained"] or bij["source_node_count"] != 48:
-        raise ValueError("48-node bijection regression")
+    bij = run_json(RES / "diagnose_stage32_post1648bd_cc_unique_node_bijection.py")
+    if (
+        not bij["unique_full_aut_plus_cc_bijection_obtained"]
+        or bij["source_node_count"] != 48
+        or bij["cc_equivariant_bijection_count"] != 1
+        or len(bij["records"]) != 48
+    ):
+        raise ValueError("unique Aut+cc 48-node bijection regression")
 
     node_rows = []
     block_labels = []
@@ -137,7 +157,7 @@ def main() -> None:
         labels = sorted(
             int(r["retained_exceptional_label_1based"])
             for r in bij["records"]
-            if set(triple).issubset(set(r["source_zero_coordinates"]))
+            if set(triple).issubset(source_zero_coordinates(r))
         )
         if len(labels) != 8:
             raise ValueError(f"{name}: expected 8 base nodes, got {len(labels)}")
@@ -187,6 +207,13 @@ def main() -> None:
         "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V1",
         "source_base_exact_head": SOURCE_BASE,
         "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression inputs",
+        "node_label_adapter": {
+            "producer": "diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
+            "az_anchor_reported_solution_count_was_not_deduplicated": bij["az_anchor_reported_solution_count_was_not_deduplicated"],
+            "aut_equivariant_distinct_bijection_count": bij["aut_equivariant_distinct_bijection_count"],
+            "cc_equivariant_bijection_count": bij["cc_equivariant_bijection_count"],
+            "unique_full_aut_plus_cc_bijection_obtained": bij["unique_full_aut_plus_cc_bijection_obtained"],
+        },
         "stoll_testa_divisor_identity": "D_Q=2F_Q=H-sum_{P in B_Q}E_P",
         "assignment_labels_1based": ASSIGNMENT_LABELS,
         "observed_exceptional_labels_1based": observed_exceptionals,
