@@ -15,11 +15,14 @@ REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
 MONITOR_BLOB = "2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
 MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
-BOUND = 195414091250828468192
-PREDECESSOR_BOUND = 195603649074545538415
+BOUND = 179119009547804181594
+V39_BOUND = 195414091250828468192
+V37_BOUND = 195603649074545538415
 FULL178_AUDIT_REVIEW = 5218209619
 V38_AUDIT_REVIEW = 5218756566
-TIGHTENING = 189557823717070223
+HPADJ20_AUDIT_REVIEW = 5228477451
+V38_TIGHTENING = 189557823717070223
+V40_TIGHTENING = 16295081703024286598
 
 def req(v, m):
     if not v:
@@ -67,11 +70,15 @@ def main():
         "ROOT_NATIVE_STAGE32_MAIN_ONLY", "orchestration mode")
     f = st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
-    req(f["predecessor_v37_authoritative_remaining_terminals"] == PREDECESSOR_BOUND,
+    req(f["predecessor_v37_authoritative_remaining_terminals"] == V37_BOUND,
         "V37 predecessor bound")
+    req(f["predecessor_v39_authoritative_remaining_terminals"] == V39_BOUND,
+        "V39 predecessor bound")
     req(f["authoritative_remaining_terminals"] == BOUND, "MAIN numerical authority")
-    req(f["v38_td02_full178_certified_numeric_bound_tightening_vs_v37"] == TIGHTENING,
+    req(f["v38_td02_full178_certified_numeric_bound_tightening_vs_v37"] == V38_TIGHTENING,
         "V38 tightening")
+    req(f["v40_hpadj20_certified_numeric_bound_tightening_vs_v39"] == V40_TIGHTENING,
+        "V40 tightening")
     req(f["live_178_td02_full178_capacity_hostile_audited"] is True,
         "178 FULL178 PASS missing")
     req(f["live_178_td02_full178_capacity_audit_review_id"] == FULL178_AUDIT_REVIEW,
@@ -82,15 +89,20 @@ def main():
         "V38 replacement audit not synced")
     req(f["v38_replacement_head_hostile_audit_review_id"] == V38_AUDIT_REVIEW,
         "V38 replacement audit review")
-    req(f["v39_audit_sync_additional_pruning"] == 0,
-        "V39 audit-sync added pruning")
+    req(f["live_ex5_hpadj20_hostile_audited"] is True and
+        f["live_ex5_hpadj20_hostile_audit_review_id"] == HPADJ20_AUDIT_REVIEW,
+        "HPADJ20 producer audit")
+    req(f["live_ex5_hpadj20_main_credit_consumed"] is True,
+        "HPADJ20 MAIN consumption boundary")
+    req(f["v40_replacement_head_hostile_audited"] is False,
+        "V40 replacement audit prematurely credited")
     req(f["full178_numerical_census_complete"] is False,
         "FULL178 numerical census overclaim")
 
-    req(st["current"]["mainbatch_stop_gate"] == "NONE",
-        "MAIN stop gate not cleared")
+    req(st["current"]["mainbatch_stop_gate"] == "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
+        "MAIN replacement audit stop gate")
     req(st["current"]["next_exact_route"] ==
-        "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
+        "HOSTILE_AUDIT_V40_HPADJ20_FULL178_BOUND_REPLACEMENT",
         "MAIN next route")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
@@ -105,31 +117,34 @@ def main():
     req(sweep["observed_repository_main"] == st["authority_sync"]["current_repository_main"],
         "repository-main observation drift")
     req(sweep["lane_178_pr"] == 1815 and
-        sweep["lane_178_full178_audit_review_id"] == FULL178_AUDIT_REVIEW,
+        sweep["lane_178_full178_audit_review_id"] == FULL178_AUDIT_REVIEW and
+        sweep["lane_178_head"] == "64c63c3d065dcfeb2e5e01d42813293615dcbf31",
         "178 live observation")
-    req("MAIN_BOUND_CONSUMED_V38" in sweep["lane_178_handoff"] and
-        "V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
-        "178 audit-sync semantics")
-    req(sweep["ex5_head"] == "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
-        "EX5 live observation stale")
-    req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
-        "EX5 HPADJ20 credit firewall")
+    req("CONSUMED_V38" in sweep["lane_178_handoff"],
+        "178 consumption semantics")
+    req(sweep["ex5_pr"] == 1814 and
+        sweep["ex5_head"] == "630c44d2e8a5d6e7bd03df70ba0b2a14eb40ddb6",
+        "EX5 live observation")
+    req("MAIN_REPLACEMENT_CONSUMED_V40" in sweep["ex5_handoff"],
+        "EX5 V40 consumption semantics")
+    req(sweep["ex5_pending_main_handoff"] == "NONE",
+        "EX5 handoff still pending after consumption")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
-    req(sweep["mb_head"] == "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
+    req(sweep["mb_head"] == "6bd511f5c0289b810c18bcac8facdfa3c62c2859",
         "MB live observation stale")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
 
-    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,
-        "replacement reaudit firewall not cleared")
+    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is True,
+        "replacement reaudit firewall not armed")
     for key in ("full178_complete", "effectivity_released", "receiver_credit",
                 "route_credit", "theorem_credit", "endpoint_credit", "stage32_closed",
                 "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN V39 has synchronized the hostile-audit PASS for V38 with zero new pruning")
-    print("PASS: current specialist observations are refreshed through EX5 HPADJ20 with zero EX5 MAIN credit")
+    print("PASS: Stage32 MAIN V40 consumed hostile-audited HPADJ20 as a non-additive certified upper-bound replacement")
+    print("PASS: live 178/EX5/MB/CUT observations are synchronized and V40 replacement reaudit remains fail-closed")
 
 if __name__ == "__main__":
     main()
