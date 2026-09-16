@@ -2,15 +2,20 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import runpy
+import subprocess
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ARCH = HERE / "archive" / "startup-surface-20260914"
 ARCH_VERIFIER = ARCH / "verify_main_state_v5_pre_startup_collapse.py"
 TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
+HPADJ15 = HERE / "hpadj-15_ex5" / "derive_b_shard_row_exact_grf04_picard_capacity_bound.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
+HPADJ15_BLOB = "99ac15d18c83da050107ac7e8b113ae795ff0629"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -36,6 +41,35 @@ def req(v: bool, msg: str) -> None:
 def blob(path: Path) -> str:
     data = path.read_bytes()
     return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
+
+
+def replay_hpadj15_if_present() -> None:
+    if not HPADJ15.exists():
+        return
+    req(blob(HPADJ15) == HPADJ15_BLOB, "HPADJ15 live verifier blob drift")
+    proc = subprocess.run([sys.executable, str(HPADJ15)], text=True, capture_output=True)
+    if proc.returncode != 0:
+        if proc.stdout:
+            print(proc.stdout, end="")
+        if proc.stderr:
+            print(proc.stderr, end="", file=sys.stderr)
+        raise SystemExit(proc.returncode)
+    lines = [line for line in proc.stdout.splitlines() if line.strip()]
+    req(lines, "HPADJ15 produced no output")
+    data = json.loads(lines[-1])
+    req(data["status"] == "B_SHARD_ROW_EXACT_GRF04_PICARD_CAPACITY_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+        "HPADJ15 status drift")
+    req(data["candidate_bound"]["hpadj15_candidate_upper_bound"] <= 463577241806597722598,
+        "HPADJ15 weakened HPADJ14")
+    req(data["semantics"]["statistical_independence_assumed"] is False,
+        "HPADJ15 independence firewall")
+    req(data["semantics"]["new_heavy_run_used"] is False,
+        "HPADJ15 heavy-run firewall")
+    req(data["firewalls"]["stage32_main_pruning_credit"] is False,
+        "HPADJ15 MAIN-credit firewall")
+    print("HPADJ15_CANONICAL=" + data["canonical_sha256_without_this_field"])
+    print("HPADJ15_UPPER=" + str(data["candidate_bound"]["hpadj15_candidate_upper_bound"]))
+    print("HPADJ15_IMPROVEMENT_VS_HPADJ14=" + str(data["candidate_bound"]["improvement_vs_hpadj14"]))
 
 
 def main() -> None:
@@ -70,6 +104,7 @@ def main() -> None:
 
     req(all(not (HERE / name).exists() for name in RETIRED),
         "retired EX5 startup surface leaked after V5 compatibility replay")
+    replay_hpadj15_if_present()
     print("PASS: retained EX5 V5 mathematical state replayed against archived startup projection only")
     print("live_startup=LANE-ADAPTERS -> stages/stage32-ex5/MAIN-STATE.json")
 
