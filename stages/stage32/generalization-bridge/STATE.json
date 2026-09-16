@@ -2,8 +2,8 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V2",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR201",
-  "active_leaf": "BR201_SOURCE_LOCK_AND_COMPACT_PRODUCER_REGRESSION",
+  "current_node": "BR202",
+  "active_leaf": "BR202_P1_K8_FULL_QA_INTEGRATION",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -51,17 +51,26 @@
     },
     "supersession_rule": "Treat the 16-state/mu<=8 derivation as the current stronger structural result; do not regress to rough mu<=133/image-size-unknown exploratory notes."
   },
+  "completed_nodes": {
+    "BR201": {
+      "status": "PASS_ZERO_CREDIT",
+      "handoff": "stages/stage32/generalization-bridge/BR201-SOURCE-LOCK-COMPACT-PRODUCER-HANDOFF.json",
+      "result": "stages/stage32/generalization-bridge/BR201-SOURCE-LOCK-COMPACT-PRODUCER-REGRESSION.json",
+      "live_main_at_close": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS"
+    }
+  },
   "next_obligation": {
-    "node_id": "BR201",
-    "title": "Source-lock and regression of the Issue1817 compact producer",
-    "required_input": "Refresh live MAIN and Issue #1817. Source-lock the exact production family plus the retained TD02/GRF04/Picard inputs actually needed. Reproduce small-H/bounded population and state identities for exact (b,c,t,support,r), K=8 qBC tiers, full qA, and the 16-state mu interface without terminal identity materialization.",
-    "success": "A deterministic compact producer specification and bounded regression package agrees with retained/direct fixtures, preserves exact population, and is ready for BR202 integration. Grant no MAIN credit.",
+    "node_id": "BR202",
+    "title": "P1 K=8 plus full qA compact integration",
+    "required_input": "Use the BR201 source-locked producer semantics to construct the exact compact state/capacity producer with support, exact r, K=8 low-qBC tiers, and the full qA histogram. Preserve the same bounded population and compare against the retained bounded P1 K=8 reference on identical semantics without terminal identity materialization.",
+    "success": "A deterministic bounded compact P1 K=8 + full-qA integration reproduces direct fixtures and yields an exact same-population candidate ready for BR203 syndrome integration. Grant no MAIN credit and do not scale to FULL178 here.",
     "stop_conditions": [
-      "population mismatch",
-      "source-lock ambiguity",
-      "support/r/q-tier multiplicity mismatch",
-      "16-state mu claim cannot be reproduced from retained source data",
-      "required semantic adapter changes the target population"
+      "population mismatch versus BR201 regression",
+      "support/r/K8/qA multiplicity mismatch",
+      "semantic adapter changes the target population",
+      "candidate is dominated or semantically incomparable to the live predecessor without a salvageable compact intermediate",
+      "terminal identity materialization becomes necessary"
     ]
   },
   "transition_policy": {
@@ -104,8 +113,9 @@
     "generic_odd_prime_probe_parked": true,
     "heavy_compute_armed": false,
     "BR200_charter_reset_complete": true,
-    "BR201_authorized": true,
-    "BR202_authorized": false,
+    "BR201_authorized": false,
+    "BR201_complete": true,
+    "BR202_authorized": true,
     "BR203_authorized": false,
     "BR204_FULL178_scaleout_authorized": false,
     "BR205_full_qBC_escalation_authorized": false,
