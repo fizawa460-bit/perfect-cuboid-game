@@ -18,18 +18,16 @@ MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6
 BOUND = 195414091250828468192
 PREDECESSOR_BOUND = 195603649074545538415
 FULL178_AUDIT_REVIEW = 5218209619
+V38_AUDIT_REVIEW = 5218756566
 TIGHTENING = 189557823717070223
-
 
 def req(v, m):
     if not v:
         raise SystemExit("FAIL: " + m)
 
-
 def blob(p):
     b = p.read_bytes()
     return hashlib.sha1(b"blob " + str(len(b)).encode() + b"\0" + b).hexdigest()
-
 
 def canon(o):
     x = dict(o)
@@ -38,7 +36,6 @@ def canon(o):
         json.dumps(x, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
 
-
 def lock(p, b, c):
     req(blob(p) == b, f"blob drift {p}")
     o = json.loads(p.read_text(encoding="utf-8"))
@@ -46,13 +43,11 @@ def lock(p, b, c):
         f"canonical drift {p}")
     return o
 
-
 def current_state():
     o = json.loads(STATE.read_text(encoding="utf-8"))
     stored = o.get("canonical_sha256_without_this_field")
     req(isinstance(stored, str) and canon(o) == stored, "current MAIN state canonical drift")
     return o
-
 
 def main():
     reg = lock(REGISTRY, REGISTRY_BLOB, REGISTRY_CANON)
@@ -81,20 +76,21 @@ def main():
         "178 FULL178 PASS missing")
     req(f["live_178_td02_full178_capacity_audit_review_id"] == FULL178_AUDIT_REVIEW,
         "178 FULL178 audit review")
-    req(f["live_178_td02_v37_sync_complete"] is True and
-        f["live_178_td02_postsync_replay_success"] is True,
-        "178 V37 sync/replay status")
-    req(f["live_178_td02_main_handoff_ready"] is True and
-        f["live_178_td02_main_credit_consumed"] is True,
+    req(f["live_178_td02_main_credit_consumed"] is True,
         "178 consumption boundary")
+    req(f["v38_replacement_head_hostile_audited"] is True,
+        "V38 replacement audit not synced")
+    req(f["v38_replacement_head_hostile_audit_review_id"] == V38_AUDIT_REVIEW,
+        "V38 replacement audit review")
+    req(f["v39_audit_sync_additional_pruning"] == 0,
+        "V39 audit-sync added pruning")
     req(f["full178_numerical_census_complete"] is False,
         "FULL178 numerical census overclaim")
 
-    req(st["current"]["mainbatch_stop_gate"] ==
-        "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
-        "MAIN replacement audit gate")
+    req(st["current"]["mainbatch_stop_gate"] == "NONE",
+        "MAIN stop gate not cleared")
     req(st["current"]["next_exact_route"] ==
-        "HOSTILE_AUDIT_V38_FULL178_INTEGER_LATTICE_BOUND_REPLACEMENT",
+        "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
         "MAIN next route")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
@@ -112,24 +108,27 @@ def main():
         sweep["lane_178_full178_audit_review_id"] == FULL178_AUDIT_REVIEW,
         "178 live observation")
     req("MAIN_BOUND_CONSUMED_V38" in sweep["lane_178_handoff"] and
-        "REPLACEMENT_REAUDIT_PENDING" in sweep["lane_178_handoff"],
-        "178 consumed handoff semantics")
+        "V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
+        "178 audit-sync semantics")
+    req(sweep["ex5_head"] == "626285adecb3f0b195515b39d1a5e11c82b75cad",
+        "EX5 live observation stale")
     req("NO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
+    req(sweep["mb_head"] == "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
+        "MB live observation stale")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
 
-    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is True,
-        "replacement reaudit firewall")
+    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,
+        "replacement reaudit firewall not cleared")
     for key in ("full178_complete", "effectivity_released", "receiver_credit",
                 "route_credit", "theorem_credit", "endpoint_credit", "stage32_closed",
                 "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN V38 consumed the 178 FULL178 certified upper bound exactly once by MIN composition")
-    print("PASS: specialist observations remain routing data; FULL178 census and downstream theorem credit remain incomplete")
-
+    print("PASS: Stage32 MAIN V39 has synchronized the hostile-audit PASS for V38 with zero new pruning")
+    print("PASS: current specialist observations are refreshed; FULL178/final-milestone route may resume")
 
 if __name__ == "__main__":
     main()
