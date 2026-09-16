@@ -136,6 +136,47 @@ def build_kernel(vf) -> Kernel:
     return Kernel(tuple(tuple(x) for x in blocks), observed, residual_supports, x_degrees, r_degrees, old_norm, center, penalty)
 
 
+def matrix_qstr(m: Matrix) -> list[list[str]]:
+    return [[str(sympy.factor(m[i, j])) for j in range(m.cols)] for i in range(m.rows)]
+
+
+def vector_qstr(v: Matrix) -> list[str]:
+    return [str(sympy.factor(v[i, 0])) for i in range(v.rows)]
+
+
+def td02_aggregate_bridge(kernel: Kernel) -> dict:
+    L = Matrix([
+        [0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+        [0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+        [1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+        [1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0],
+        [0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    ])
+    rank_l = int(L.rank())
+    req(rank_l == 5, f"TD02 aggregate map lost rank: {rank_l}")
+    gram = L * L.T
+    req(gram.det() != 0, "TD02 aggregate Gram singular")
+    factor = sympy.simplify(kernel.center * L.T * gram.inv())
+    combined_rank = int(Matrix.vstack(L, kernel.center).rank())
+    defect = sympy.simplify(kernel.center - factor * L)
+    req(defect == Matrix.zeros(5, 11),
+        f"conditional center does not factor through TD02 aggregates: rank(L)={rank_l}, rank([L;C])={combined_rank}")
+    d_shift = Matrix([
+        Rational(kernel.r_degrees[i], 16) - Rational(factor[i, 4], 4)
+        for i in range(5)
+    ])
+    return {
+        "aggregate_order": ["a", "b", "c", "t", "x4"],
+        "rank_L": rank_l,
+        "rank_L_stacked_C": combined_rank,
+        "exact_factorization_C_equals_F_L": True,
+        "F": matrix_qstr(factor),
+        "d_shift": vector_qstr(d_shift),
+        "mu_formula": "mu = F*(a,b,c,t,x4)^T + d*d_shift",
+        "eleven_coordinate_reinflation_required": False,
+    }
+
+
 def eval_quad(m: Matrix, v: Matrix) -> sympy.Expr:
     return sympy.factor((v.T * m * v)[0])
 
@@ -282,6 +323,7 @@ def main() -> None:
     semantics = vf.audited_total_exceptional_semantics()
     req(semantics["E_total_pairing_value_in_each_stratum"] == "e", "N220 E_total semantics regression")
     kernel = build_kernel(vf)
+    aggregate_bridge = td02_aggregate_bridge(kernel)
 
     regressions = []
     for e in (0, 2, 4, 6, 8):
@@ -326,6 +368,7 @@ def main() -> None:
             "exact_rational_arithmetic": True,
             "picard_integral_lattice_constraints_dropped_in_this_relaxation": True,
             "dropping_lattice_constraints_is_safe_for_rejection": True,
+            "td02_aggregate_bridge": aggregate_bridge,
         },
         "solver": {
             "dimension": 5,
