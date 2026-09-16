@@ -1,0 +1,77 @@
+{
+  "schema": "STAGE32_MAIN_PARALLEL_HPADJ20_FULL_QA_HISTOGRAM_PREFLIGHT_V1",
+  "route_id": "MAIN-PARALLEL-HPADJ20-FULL-QA-HISTOGRAM",
+  "status": "STRUCTURAL_DOMINANCE_PREFLIGHT__NUMERICAL_REPLAY_NOT_RUN__ZERO_MAIN_CREDIT",
+  "intent": {
+    "operator_requested_main_side_parallel_attack": true,
+    "specialist_lane_mutated": false,
+    "authority_mutated": false,
+    "purpose": "Exploit exact qA histogram information discarded by EX5 HPADJ20 two-tier compression while preserving the same ordered-triple population."
+  },
+  "sources": {
+    "observed_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_preflight_parent_head": "b4a45822282972c306f6ec280c048f148df38802",
+    "main_authoritative_remaining_strata": 17128,
+    "main_authoritative_remaining_terminal_upper_bound": 195414091250828468192,
+    "ex5_pr": 1814,
+    "ex5_live_head": "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
+    "hpadj20_producer_path": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
+    "hpadj20_producer_blob_sha1": "837d647cfcbc96bbe384e564f449cd7042a46d48",
+    "hpadj20_parent_hpadj19_blob_sha1": "fdf5c721121d549361b08a92694373f3df7d02c8"
+  },
+  "exact_combinatorial_preflight": {
+    "H": 96,
+    "group": "x2+x3+x7=a",
+    "ordered_nonnegative_triples_with_0_le_a_le_H": 156849,
+    "nonempty_a_support_classes": 286,
+    "classes_with_more_than_one_distinct_qA": 185,
+    "classes_with_more_than_two_distinct_qA": 182,
+    "minimum_qA_tier_tuple_count": 933,
+    "nonminimum_tuple_count": 155916,
+    "maximum_distinct_qA_bins_in_one_class": 628,
+    "maximum_bin_class": {
+      "a": 95,
+      "support": 3,
+      "tuple_count": 4371,
+      "qA_min": 3009,
+      "qA_max": 8651
+    },
+    "full_histogram_profile_sha256": "eca7baca3e0efa30baf861c0a911939bd947a9e2360ae18520122037f0b0ba21",
+    "multiplicity_identity": "For support s>0, sum_q hist[a,s,q] = C(3,s) C(a-1,s-1); for (a,s)=(0,0) it is 1."
+  },
+  "structural_dominance": {
+    "hpadj20_two_tier_rule": "Keep exact qA_min multiplicity; assign every nonminimum tuple the exact second-smallest qA as a common lower bound.",
+    "full_histogram_rule": "Keep every distinct exact qA with its exact multiplicity.",
+    "pointwise_fact": "For every nonminimum tuple, qA_exact >= qA_second, with strict inequality on tuples above the second qA level.",
+    "survivor_monotonicity": "For a fixed x4 parity capacity multiset, N_r(q)=#{cap>=q} is nonincreasing in q.",
+    "population_preserved_exactly": true,
+    "same_pre_domain_terminal_mass": true,
+    "same_post_mass_constraint": true,
+    "lp_dominance_argument": "Split each HPADJ20 second-tier ratio bin into exact-qA sub-bins. Their total capacity is unchanged and each refined survivor coefficient is no larger. Any refined feasible allocation maps to a coarse HPADJ20 allocation of the same mass with objective at least as large. Therefore every refined cell optimum is <= the HPADJ20 cell optimum.",
+    "full_histogram_cell_objective_no_larger_than_hpadj20": true,
+    "strict_global_improvement_proven": false,
+    "strictness_reason_not_yet_proven": "Threshold collapse or LP selection can make higher-qA distinctions inactive even though 182 classes contain more than two qA levels."
+  },
+  "next_exact_gate": {
+    "requires_hpadj20_exact_numeric_output": true,
+    "requires_full_histogram_numeric_replay": true,
+    "duplicate_main_heavy_run_started": false,
+    "reason": "EX5 already has an exact-head HPADJ20 heavy replay active; this MAIN preflight retains the independent strengthening without duplicating that compute.",
+    "consumption_rule_if_eventually_audited": "DIRECT_REFINEMENT_OF_SAME_POPULATION_LP__NO_ADDITIVE_SUBTRACTION"
+  },
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "exact_incremental_rejected_identity_set_claimed": false,
+    "statistical_independence_assumed": false,
+    "additive_subtraction_used": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "0191c14b3fc072a762d1b702408746691cd5fe315ce9f4a0a040b75183bd13a8"
+}

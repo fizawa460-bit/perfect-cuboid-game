@@ -137,9 +137,10 @@ def main() -> None:
         "178 live head")
     req("V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
         "178 audit-sync semantics")
-    req(sweep["ex5_head"] == "626285adecb3f0b195515b39d1a5e11c82b75cad",
+    req(sweep["ex5_head"] == "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
         "EX5 live head")
-    req("NO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
+    req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
+        "EX5 credit firewall")
     req(sweep["mb_head"] == "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
         "MB live head")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
@@ -152,7 +153,7 @@ def main() -> None:
 
     print("PASS: Stage32 V39 synchronizes hostile-audit PASS for V38 with zero new pruning")
     print("PASS: replacement audit gate cleared; FULL178/final-milestone route resumes")
-    print("PASS: EX5/MB live successors remain observational zero-credit inputs")
+    print("PASS: EX5 HPADJ20 and MB successors remain observational zero-credit inputs")
 
 if __name__ == "__main__":
     main()

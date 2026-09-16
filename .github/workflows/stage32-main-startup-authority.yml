@@ -118,7 +118,9 @@ jobs:
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "5da5bfe704f4eb28ea130e41092645e888925983"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v39_full178_integer_lattice_audit_synced.py)" = "989b05352b93da0a7095bf2d25b533d059a49f53"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V39-TD02-FULL178-INTEGER-LATTICE-AUDIT-SYNC.json)" = "1524215fd43e22c3e3cc31f98c5f912754b7b487"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py)" = "2f653575d0a7a62ae92ecb1c29a2933454052d19"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py)" = "81c3b47d35dd132686320c1c30e9f84c54b99764"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ20-FULL-QA-HISTOGRAM-MAIN-PARALLEL-PREFLIGHT.json)" = "0eb5672dea0712cbf5044d5376e60fe233e767c3"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_main_parallel_preflight.py)" = "ef20539f03f68eec8d64fb1d6d3c05f4ac363152"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V38-TD02-FULL178-INTEGER-LATTICE-MAIN-BOUND-REPLACEMENT.json)" = "f959b922129354f58c2fd0e1b182d723bfa174e2"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v38_td02_full178_integer_lattice_main_bound_replacement.py)" = "db25e786156906c1d2c51c39771e83329261ab32"
           test "$(git -C .stage32-v38 hash-object stages/stage32/MAIN-STATE.json)" = "d965cb5c5e1d17e56acbbf5d5fede2569f217a91"
@@ -167,6 +169,8 @@ jobs:
         run: python .stage32-v38/stages/stage32/verify_main_startup.py
       - name: Verify V39 audit synchronization
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py
+      - name: Verify MAIN parallel HPADJ20 full-qA histogram preflight
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_main_parallel_preflight.py
       - name: Verify Stage32 MAIN startup projection
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane coordination
