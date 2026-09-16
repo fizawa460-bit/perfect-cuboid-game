@@ -9,70 +9,114 @@ Read only, in this order:
 1. `AGENTS.md`;
 2. this file;
 3. current `stages/stage32/MAIN-STATE.json` from live Stage32 MAIN authority;
-4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json`;
-5. `stages/stage32/generalization-bridge/MISSION.json`;
-6. `stages/stage32/generalization-bridge/STATE.json`, focusing on the current node, active leaf, next obligation, source-lane boundary, target-population boundary, and credit firewall;
-7. only the exact source/evidence/interface paths required by the active leaf.
+4. current Issue `#1817` body and comments, treating them as research evidence only;
+5. `stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json`;
+6. `stages/stage32/generalization-bridge/MISSION.json`;
+7. `stages/stage32/generalization-bridge/STATE.json`, focusing on the current node, active leaf, next obligation, source locks, target-population boundary, and credit firewall;
+8. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json` only if the active leaf explicitly needs a cross-lane dependency;
+9. only the exact source/evidence/interface paths required by the active leaf.
 
-Do not preload MB history, FULL178 history, EX5 history, or unrelated Stage32 assets. Repository discovery remains search-first under root `AGENTS.md`.
+Do not preload MB history, EX5 history, CUT history, old BR101-BR190 history, or unrelated Stage32 assets. Historical retained Picard64/HNF/59D assets may be opened only when the current active leaf source-locks them as inputs. Repository discovery remains search-first under root `AGENTS.md`.
 
-Current `stages/stage32/MAIN-STATE.json` remains mathematical routing authority. `CROSS-LANE-DEMANDS.json` controls operational priority only. BRIDGE never self-promotes a source-lane result or a bridge result to MAIN credit.
+Current `stages/stage32/MAIN-STATE.json` remains mathematical routing authority. Issue #1817 is a zero-credit research queue, not authority. BRIDGE never self-promotes an Issue comment, scratch result, sibling result, or bridge result to MAIN credit.
 
-## Mission
+When Issue #1817 contains apparently conflicting research notes, use the strongest result that is logically established by the source-locked derivation, not merely the latest timestamp. In particular, the established **16-state Picard free-exceptional syndrome with `mu <= 8`** supersedes rougher exploratory notes that use `mu <= 133` or leave the syndrome image size unresolved.
 
-BRIDGE tests whether an exact retained structural result from another Stage32 lane can be transported into a **population-wide necessary condition** on the current authoritative FULL178/Picard64 population.
+## V2 mission
 
-The initial seed is the MB104 line of ideas that exposes residual-character/Fourier and square-energy structure. The seed is not authority merely because it exists on an unmerged or unaudited sibling branch. Before using any source result, BRIDGE must freeze its exact identity, audit/retained status, hypotheses, semantic scope, and the exact implication it proposes to transport.
+BRIDGE no longer performs open-ended cross-lane generalization search.
 
-BRIDGE is specifically allowed to answer **NO GENERALIZATION**. A clean no-go result is preferred over silently weakening hypotheses or inventing a cross-lane identification.
+Its sole active mission is to integrate the converged Issue #1817 route into one compact, replayable, same-population FULL178 upper-bound producer:
+
+```text
+exact (b,c,t) population
+  -> support + exact completion character r
+  -> low-qBC tiers, K=8 first
+  -> full qA histogram
+  -> 16-state Picard residual-mass mu syndrome
+  -> FULL178 compact b-sharded scaleout
+  -> full qBC histogram only if material slack remains
+  -> existing 59D solver only on late survivors
+```
+
+The primary objective is **compression and exact composition**, not discovery of a new unrelated obstruction.
+
+## Historical BR190 boundary
+
+The old `BR190-C3-RETAINED-AUDIT-HANDOFF.json` remains frozen, unaudited, unconsumed, and zero-credit. The V2 mission does not rely on its population-wide claim and does not convert it into authority.
+
+A future use of that exact BR190 result still requires its own hostile audit. Reusing source-locked historical Picard64/HNF/59D code or mathematics does not reactivate BR190 or any historical specialist lane.
 
 ## Ownership
 
-BRIDGE owns only:
+BRIDGE V2 owns only:
 
-- source-locked semantic adapters from an exact retained source-lane statement to the current FULL178/Picard64 objects;
-- proof that a proposed invariant/character/energy is well-defined for every target object in the claimed scope;
-- minimization over hidden/free completion coordinates needed to turn a source-lane quantity into a target-visible lower bound or necessary condition;
-- bounded diagnostics that estimate whether a proved target condition is materially useful before any scaleout;
-- exact no-go certificates showing that source-specific hypotheses, free completions, or semantic mismatch destroy the proposed population-wide cut.
+- exact source-locking of the Issue #1817 P1/P2 integration semantics;
+- compact `(b,c,t,support,r)` state production and exact multiplicities;
+- low-`qBC` tier production, beginning with K=8;
+- full `qA` histogram convolution;
+- exact 16-state Picard `mu` syndrome integration with `R=e-a-b-c`;
+- bounded exact regression against retained direct/enumerated fixtures;
+- FULL178 scaleout through the established eight `b` shards;
+- compact deterministic certificates, source locks, population-conservation checks, shard coverage/disjointness, and predecessor comparison;
+- a late-survivor handoff boundary to the already-retained 59D machinery.
 
-BRIDGE does **not** own:
+BRIDGE V2 does **not** own:
 
-- new 32-03 MB mathematics, conductor calculations, branch classification, or MB authority;
-- construction/repair of EX5 Picard64 producer interfaces;
-- 178 terminal enumeration, prefix/maxcut/block transport, or ordinary numerical-census research;
-- CUT direct completion infeasibility;
-- MAIN authority promotion, current-authority subtraction, claim-DAG mutation, final integration, or merge.
+- new MB mathematics or conductor/branch classification;
+- reactivation of EX5 as a research lane or repair of obsolete EX5 population claims;
+- ordinary 178 terminal-by-terminal enumeration, prefix/block pruning, or CUT work;
+- generic GRF06/GRF07 mod-3/5/7 probing without a new source-locked odd-primary cokernel adapter;
+- a global terminal-by-terminal 59D sweep;
+- MAIN authority promotion/subtraction, claim-DAG mutation, theorem/effectivity/receiver/endpoint credit, final integration, or merge.
 
-If the active bridge needs missing mathematics owned by MB, EX5, 178, CUT, or MAIN, stop at an exact blocker or create/use a proper cross-lane demand. Do not rebuild producer-owned mathematics inside BRIDGE.
+If a missing mathematical fact belongs to another active specialist lane, stop at an exact blocker or use a proper cross-lane demand. Do not silently rebuild producer-owned mathematics inside BRIDGE.
 
-## Initial route
+## Active route
 
-The initial route is deliberately top-down and must not fall back to terminal-by-terminal research merely because a global adapter is difficult:
+1. **BR200 — charter reset.** Seal BR190 as historical/unconsumed and adopt Issue #1817 as the V2 research queue.
+2. **BR201 — source-lock + compact-producer regression.** Freeze the current production-family/TD02/GRF04/Picard semantics. Reproduce the exact population identities required for `(b,c,t,support,r)`, low-qBC tiers and full qA. Small-H/bounded direct enumeration is allowed only as regression evidence.
+3. **BR202 — P1 K=8 + full qA integration.** Construct the compact same-population capacity producer. Preserve support, exact `r`, K=8 `qBC` tiers and the full A-side `qA` histogram.
+4. **BR203 — 16-state Picard `mu`.** Source-lock the 16-state syndrome/Cayley table, factor A/BC syndrome contributions, and apply `mu[sigma] <= e-a-b-c` inside the same producer.
+5. **BR204 — FULL178 b-sharded scaleout.** Evaluate the integrated producer over exactly eight established `b` shards. Retain compact totals/certificates and deterministic stream hashes; discard raw state streams.
+6. **BR205 — optional qBC escalation.** Increase tier depth or use a full qBC histogram only if BR204 quantifies material remaining slack. Do not pay the histogram cost merely because it exists.
+7. **BR206 — late 59D handoff.** Use the existing 59D solver only on a source-locked late-survivor boundary if the remaining population is small enough to justify it.
+8. **BR290 — retained hostile-audit handoff.** Freeze the exact candidate or blocker. Grant no MAIN credit.
 
-1. **BR101 — source/target semantic freeze.** Freeze the exact source-lane theorem/candidate and the exact current FULL178 target semantics. Identify which hypotheses are source-specific and which quantities are intrinsic enough to transport.
-2. **BR102 — general character/invariant definition.** Determine whether the MB-style residual-character/Picard direction, or an equivalent invariant, is definable on general target Picard64 completions. If it is only meaningful on the `000707`, genus-one, span-five, balanced16, `e=2`, multibranch packet, record `NO_GENERALIZATION` for that formulation rather than erasing those hypotheses.
-3. **BR103 — free-completion minimization.** Using the exact terminal-to-Picard64 interface, minimize the proposed character/energy over every allowed hidden/free completion coordinate and congruence. If the free coordinates can cancel the quantity completely on every terminal, freeze that as a no-go result. If a nontrivial lower bound survives, prove it with exact arithmetic.
-4. **BR104 — bounded population diagnostic.** Apply only the proved target condition to a bounded representative FULL178 slice. Measure strict gain against the current audited baseline on identical population semantics. Bounded evidence remains noncredit and is not a theorem outside its certified scope.
-5. **BR105 — full-population adapter candidate or no-go.** Only after BR102/BR103 prove a genuine target-wide condition may BRIDGE formulate a FULL178 adapter candidate. Scaleout is separate and must preserve current authority, overlap, and no-double-charge firewalls.
-6. **BR190 — retained handoff.** Freeze either a useful exact generalization candidate, a precise no-go theorem for the attempted transport, or a source-lane blocker for hostile audit and later MAIN decision.
+## Compression / scale rules
 
-## Anti-loop / top-down rule
+The H=96 routing surface already has about 4.1M `(b,c,support,t,r)` states. This is moderate for streaming but is **not** permission to persist a 4.1M-row JSON artifact.
 
-Do not respond to failure of BR102 or BR103 by descending into isolated terminal/block exclusions. BRIDGE exists to find or refute broad transferable structure. Local examples are permitted only to falsify a proposed universal adapter or to validate exact semantics.
+Use the established shard ranges:
 
-Do not multiply a BRIDGE saving with HPADJ/CUT/EX5/178 savings until exact overlap/double-charge accounting is proved by the owning MAIN integration surface.
+```text
+b=0..11
+b=12..23
+b=24..35
+b=36..47
+b=48..59
+b=60..71
+b=72..83
+b=84..96
+```
 
-## Cross-lane routing
+For each shard, stream exact states, evaluate/aggregate the bound, retain compact row/cell totals plus deterministic hashes/source locks, then discard the raw state stream. Final union verification must prove exact shard coverage, disjointness, and population conservation.
 
-Inspect only demands involving lane `BRIDGE`. A higher-priority OPEN demand where BRIDGE is producer preempts lower-priority local work. If BRIDGE is consumer of an OPEN demand, wait rather than duplicate producer mathematics. For SATISFIED re-entry, validate exact artifact identity, source locks, and target-population semantics before use.
+## Mathematical firewalls
 
-Demand status grants no mathematical credit. Source-lane PASS grants no BRIDGE transfer credit without the semantic adapter. BRIDGE hostile-audit PASS grants no MAIN pruning credit without explicit MAIN consumption.
+- Same-population refinements are replacements/MIN bounds unless an exact disjoint incremental rejected identity set is produced.
+- Never multiply savings or assume independence.
+- Bounded/sample ratios must not be extrapolated into FULL178 authority.
+- Issue #1817 scratch values are regression/research targets, not authority.
+- The completion bit `r` is a state refinement, not a factor-two claim; predecessor TD02 already used a parity-max fallback.
+- The Picard `mu` condition must be composed inside the same population producer, not applied as a raw-population percentage.
+- Historical retained assets may be reused only with exact source locks and current semantic adapters.
+- No MAIN/theorem/effectivity/receiver/endpoint/Perfect-Cuboid credit is granted by BRIDGE.
 
 ## Execution and audit
 
-Ordinary startup does not authorize heavy compute or artifact-producing scaleout. Any later heavy workflow must obey repository storage/runkey/resume rules and requires its own explicit authorization gate.
+Ordinary startup authorizes light research/regression only. It does not authorize a new heavy or artifact-producing workflow. Any heavy FULL178 scaleout must obey repository storage/runkey/resume rules and its explicit authorization gate.
 
-`stage32bridge-audit` is audit-only for a frozen exact retained BRIDGE boundary. It must verify source identity, target semantics, universal quantifiers, free-completion minimization, no-recharge, and all credit firewalls. It does not merge or self-promote.
+`stage32bridge-audit` is audit-only for a frozen exact retained BRIDGE boundary. It must verify exact source identities, population semantics, shard coverage/disjointness, deterministic replay, same-population replacement accounting, no double charging, and all credit firewalls. Audit PASS still grants no MAIN pruning credit without explicit MAIN consumption.
 
 Do not merge without explicit user authorization.
