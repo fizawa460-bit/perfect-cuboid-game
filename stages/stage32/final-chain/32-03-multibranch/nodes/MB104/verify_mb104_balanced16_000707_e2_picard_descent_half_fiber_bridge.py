@@ -6,7 +6,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CERT = HERE / "GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-HALF-FIBER-BRIDGE-CERTIFICATE.json"
-PASS = "PASS STAGE32_MB104_000707_E2_PICARD_DESCENT_HALF_FIBER_BRIDGE_V1"
+PASS = "PASS STAGE32_MB104_000707_E2_PICARD_DESCENT_HALF_FIBER_BRIDGE_V2"
 LOCKS = {
  "PICARD_BASE_RETAINED":("stages/stage33/33-07/picard_base_rows_retained.py","82e4d450a1d852e34f6615440fb88a029c6e54eb"),
  "PICARD_MARKING_RETAINED":("stages/stage33/33-07/stage32_picard_marking_retained.py","5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"),
@@ -14,7 +14,10 @@ LOCKS = {
  "DIRECT_BRIDGE":("stages/stage32/residual-32-01-production/direct_picard_slice_bridge.py","be48bd94304d0217727c5c3368761d347cb22eaa"),
  "PICARD_DESCENT_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-PICARD-DESCENT-PARITY-CERTIFICATE.json","7621932b87a7558d473bc99a09b46bcb04a433a0"),
  "HALF_FIBER_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD.md","b7221c44a7c9c4d8c16bb4045ed4cfff379699bc"),
- "HALF_FIBER_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD-CERTIFICATE.json","5fdae0e985be1875417442203835879a206312a8")}
+ "HALF_FIBER_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD-CERTIFICATE.json","5fdae0e985be1875417442203835879a206312a8"),
+ "HALF_BRANCH_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md","e22de5a6f4be163268e699cde03d37e1e564d43b"),
+ "HALF_BRANCH_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS-CERTIFICATE.json","28929222eb46b9d30be4fed9218143aa5fecaa78"),
+ "GENERALIZED_JACOBIAN_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md","b2816ce1a8554a9bee33acfb6cc76df066d73b74")}
 
 def req(v,msg):
  if not v: raise SystemExit("FAIL: "+msg)
@@ -58,11 +61,20 @@ def main():
  req(pc['interpretation']['canonical_conditions']=='x_j = 0 mod 2 for every supported node j','even allocations')
  note=(r/LOCKS['HALF_FIBER_NOTE'][0]).read_text()
  req('2 (Q_a-Q_b)' in note and 'sum_(p in T_b)E_p - sum_(p in T_a)E_p' in note,'half-fiber semantics')
+ hb=json.loads((r/LOCKS['HALF_BRANCH_CERT'][0]).read_text())
+ req(hb['half_branch']['relation']=='2*L_abs ~ B_abs','half-branch relation')
+ req(hb['carrier_restriction']['carrier_disjoint_from_B_abs'] is True and hb['carrier_restriction']['eta_equals_Delta_restriction'] is True,'half-branch restriction')
+ gj=(r/LOCKS['GENERALIZED_JACOBIAN_NOTE'][0]).read_text()
+ req('K_C[2] := Ker(Pic(C)[2] -> Pic(E)[2])' in gj and 'conductor/gluing character: kappa' in gj,'generalized Jacobian semantics')
+ fw=cert['interpretation_firewall']; req(fw['packet_to_half_fiber_adapter_materialized'] is False and fw['geometric_bridge_requires_packet_adapter'] is True,'packet firewall')
+ req(fw['unconditional_bridge']=='2*(M_a-M_b)=l*(E_b-E_a)','unconditional bridge')
+ gb=cert['geometric_bridge_conditional']
+ req(gb['singular_carrier_restriction_difference']=='kappa^l' and gb['normalization_only_evaluates_conductor'] is False,'singular bridge')
  h=cert['retained_hashes']; req(base['canonical_sha256']==h['picard_base_canonical_sha256'],'base canonical')
  req(mark['canonical_sha256']==h['marking_canonical_sha256'],'mark canonical')
  req(a.certificate['canonical_sha256_without_this_field']==h['adapter_canonical_sha256'],'adapter canonical')
  req(b.certificate['canonical_sha256_without_this_field']==h['bridge_canonical_sha256'],'bridge canonical')
  req(all(v is False for v in cert['credit_firewall'].values()),'credit firewall')
  print(PASS)
- print('absent_rank=15 H_corrections=2 halves_integral=true difference=l*Delta restriction=eta^l e2_closed=false')
+ print('absent_rank=15 H_corrections=2 halves_integral=true lattice_bridge=exact geometric_bridge=conditional singular_ratio=kappa^l e2_closed=false')
 if __name__=='__main__': main()
