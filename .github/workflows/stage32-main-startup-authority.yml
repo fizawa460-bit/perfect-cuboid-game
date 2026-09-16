@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V35 consumes the hostile-audited q-quadratic GRF04 capacity LP bound as numerical MAIN authority. Replacement-head hostile reaudit required.
+# Current boundary: V35 q-quadratic numerical authority has hostile-audit PASS; V36 is process-only audit sync with zero new pruning and FULL178 reentry.
 on:
   pull_request:
     paths:
@@ -75,16 +75,18 @@ jobs:
           echo "merge_base=$merge_base"
           test -n "$merge_base"
           if git merge-base --is-ancestor "$current_main" HEAD && [ "$merge_base" = "$current_main" ]; then echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"; else echo "merge_ready_freshness=PENDING_MAIN_DRIFT_REQUIRES_SEPARATE_SEMANTIC_REVIEW"; fi
-      - name: Verify retained authority source identities
+      - name: Verify retained audit-sync source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "9b460df0b49e70513a13e0ab09aecb8fab375f90"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "7dca09324e73d841f4a28bfcfaa82bf483666693"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v35_q_quadratic_consumed.py)" = "b88ffd5862cccbedb3c9ded4b1aebb85ae88dbb7"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "e5e490192706a4efcf5fb5e1300a9e7662c6e0b4"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "d037c8edf9bedf1e8b6ee0935a402126d7642e2a"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v36_q_quadratic_audit_synced.py)" = "eec58e1604a0faa2f5b089017e15ca8936488a25"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V36-Q-QUADRATIC-AUDIT-SYNC.json)" = "c5418f9ed2813f0a38b2342fd31e4f3ce23a017a"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v36_q_quadratic_audit_sync.py)" = "77987c84afa260cc330523aca70f73e141df9818"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V35-Q-QUADRATIC-MAIN-BOUND-REPLACEMENT.json)" = "b24731409f33a8e76d3924ee2f651fbfba86b044"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v35_q_quadratic_main_bound_replacement.py)" = "769ec6c3d3b6c53f06aa94a492971c0ea83c2bc9"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-MAIN-INDEPENDENT-QUADRATIC-CAPACITY-LP-CANDIDATE.json)" = "1d669114e930951b9d5f9f82a6abb2b59cd43884"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_independent_quadratic_capacity_candidate.py)" = "373ed6768f22f94b2e0d82c1af514c7ce1833a0a"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "b4de531ad3b37dde34e9599e786b2f49bb27c911"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "863b8e9900a58b677eeb70fb1103015a677ae407"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
@@ -105,9 +107,9 @@ jobs:
         run: python .stage32-audited-grf04/stages/stage32/management/global-residual-feasibility/verify_grf04_rational_quadratic_lower_bound_kernel.py
       - name: Reverify hostile-audited q-quadratic candidate mathematics
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_independent_quadratic_capacity_candidate.py --v34-root .stage32-v34 --td01-root .stage32-audited-td01 --grf04-root .stage32-audited-grf04 --hpadj08-root .stage32-audited-hpadj08 --td02-root .stage32-td02-source
-      - name: Verify V35 q-quadratic MAIN bound replacement
-        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v35_q_quadratic_main_bound_replacement.py
-      - name: Verify Stage32 MAIN V35 authority projection
+      - name: Verify V36 q-quadratic hostile-audit synchronization
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v36_q_quadratic_audit_sync.py
+      - name: Verify Stage32 MAIN V36 audit-synced authority projection
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane coordination
         run: python stages/stage32/proof/verify_cross_lane_demands.py
