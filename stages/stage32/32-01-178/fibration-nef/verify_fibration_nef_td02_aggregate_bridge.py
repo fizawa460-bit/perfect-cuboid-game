@@ -15,7 +15,7 @@ RECOVERABILITY = HERE / "verify_fibration_nef_recoverability.py"
 BNB = HERE / "verify_fibration_nef_branch_and_bound_preflight.py"
 LOCKS = {
     "recoverability": (RECOVERABILITY, "fbd8dad2194378a6bf77d12cc2c65ac03782f112"),
-    "branch_and_bound_preflight": (BNB, "5c93d54ff8244e86d5d1cb8b7d9eb322bea5a4f3"),
+    "branch_and_bound_preflight": (BNB, "6d4c79db4246b8b54cdc45bc6423f00d622740e6"),
 }
 
 
