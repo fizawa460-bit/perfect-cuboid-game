@@ -75,3 +75,25 @@ jobs:
           assert x['H16_d32']['tightening'] == 1311757230
           print('BR203 bounded mu intersection exact regression PASS')
           PY
+      - name: Run BR204 compact routing surface light preflight
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG \
+            stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp \
+            -o /tmp/verify_br204_compact_routing_surface_preflight
+          /tmp/verify_br204_compact_routing_surface_preflight \
+            > /tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json
+          cat /tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json
+          python - <<'PY'
+          import json
+          p='/tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json'
+          x=json.load(open(p))
+          assert x['status'] == 'PASS_ZERO_CREDIT'
+          assert x['H10_direct_equals_compact'] is True
+          assert x['H16_direct_equals_compact'] is True
+          assert x['H96']['refined_states'] == 4070710
+          assert x['H96']['bct_cells'] == 453937
+          assert x['H96']['assignment_mass'] == '174683387305'
+          assert x['shard_states'] == [249095,345921,409990,473976,537010,600154,663730,790834]
+          assert x['shard_cells'] == [31590,38598,45510,52422,59334,66246,73158,87079]
+          print('BR204 compact routing surface light preflight PASS')
+          PY
