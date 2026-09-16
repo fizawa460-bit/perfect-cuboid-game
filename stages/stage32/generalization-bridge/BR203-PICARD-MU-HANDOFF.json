@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_BR203_PICARD_MU_HANDOFF_V1",
+  "status": "PASS_READY_FOR_BR204_LIGHT_PREFLIGHT_ZERO_CREDIT",
+  "live_refresh": {
+    "repo_main_branch_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_declared_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "main_pointer_state_identity_match": false,
+    "pr": 1813,
+    "pr_state": "draft_open_unmerged",
+    "research_issue": 1817
+  },
+  "replay": {
+    "picard_verifier": "stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py",
+    "bounded_kernel": "stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp",
+    "header_emitter": "stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py",
+    "result": "stages/stage32/generalization-bridge/BR203-PICARD-MU-16-STATE-BOUNDED-RESULT.json",
+    "result_git_blob_sha1": "7a1cea32fcb1375a508f96437bff860fa143cbcb",
+    "green_ci_head": "2f0c53811cd23997ef932fd771d5807f8704db38",
+    "green_ci_run_id": 35105137702
+  },
+  "exact_interface": {
+    "A_image_size": 8,
+    "BC_image_size": 16,
+    "free_image_size": 16,
+    "mu_max": 2,
+    "mu_histogram": {"0": 1, "1": 7, "2": 8},
+    "mu_table_sha256": "f8570c9b045c204d55231cd855832648dbac1f26244c9581855f21cf4f8b6dbb",
+    "terminal_syndrome_sha256": "2456dba5d197737eaa6be0e0a83bbe8087dcea638d4a50c2f2ef737bfdbd6a31",
+    "H16_d32_BR202_K8": 230521553871,
+    "H16_d32_BR203_mu_K8": 229209796641,
+    "H16_d32_strict_tightening": 1311757230,
+    "terminal_identity_materialization": false
+  },
+  "decision": {
+    "BR203_success": true,
+    "compactness_gate_passed": true,
+    "next_node": "BR204_FULL178_B_SHARDED_SCALEOUT",
+    "light_preflight_allowed": true,
+    "FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false,
+    "required_before_heavy": [
+      "coherent live MAIN predecessor identity",
+      "exact same-population semantic adapter to the live predecessor",
+      "eight-shard stream contract with exact coverage and disjointness",
+      "run-key/storage/resume authorization under repository policy"
+    ],
+    "current_external_blocker": "MAIN startup freshness mismatch: actual main pointer c6284abb... versus MAIN-STATE declared current_repository_main 4c51b4ea..."
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
