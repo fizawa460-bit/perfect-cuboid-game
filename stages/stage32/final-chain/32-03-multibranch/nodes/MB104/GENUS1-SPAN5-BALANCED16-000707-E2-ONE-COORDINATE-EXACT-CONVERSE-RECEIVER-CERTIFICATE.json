@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_ONE_COORDINATE_EXACT_CONVERSE_RECEIVER_V1",
+  "status": "RETAINED_EXACT_ONE_COORDINATE_RECEIVER_POINTWISE_CONDUCTOR_EVALUATION_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "source_locks": [
+    {
+      "id": "INTERMEDIATE_H_QUOTIENT",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-INTERMEDIATE-H-QUOTIENT-MODEL.md",
+      "blob_sha1": "d2e3056137360a9e15ae7c820088d2977a5eb137"
+    },
+    {
+      "id": "CONDUCTOR_PAIR_RECEIVER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-CONDUCTOR-PAIR-INVOLUTION-QUOTIENT.md",
+      "blob_sha1": "3344d2f638b8f1373fc660202a5f3307dd30a51b"
+    },
+    {
+      "id": "MODULAR_RESIDUAL_CHARACTER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    }
+  ],
+  "verifier": {
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_one_coordinate_exact_converse_receiver.py",
+    "blob_sha1": "574d06c1125f51a204ed25f95320c86c94a5f668",
+    "pass_token": "PASS stage32 MB104 000707 e2 one-coordinate exact-converse receiver",
+    "source_lock_before_math": true
+  },
+  "base_receiver": {
+    "A_z": "2*(C+W3)/(W1-i*W2)",
+    "A_w": "2*(C+W3)/(W1+i*W2)",
+    "m": "2*Z3/(C-W3)",
+    "relations": [
+      "r_z^2=A_z",
+      "r_w^2=A_w",
+      "r_z*r_w=m"
+    ],
+    "right_hand_sides_rational_on_B": true,
+    "residual_deck_action": "(r_z,r_w)->(-r_z,-r_w)"
+  },
+  "one_coordinate_receiver": {
+    "delta": "delta_ij=r_z(x_j)/r_z(x_i)",
+    "domain": "etale overlap with nonzero residual Kummer generator",
+    "delta_squared": 1,
+    "exact_converse": {
+      "+1": "(r_z,r_w)(x_j)=(r_z,r_w)(x_i)",
+      "-1": "(r_z,r_w)(x_j)=(-r_z,-r_w)(x_i)"
+    },
+    "r_w_reconstruction": "r_w(x_j)=delta_ij*r_w(x_i)",
+    "chi_equals_delta": true,
+    "generator_rescaling_invariant": true,
+    "pair_swap_invariant": true,
+    "triple_cocycle": "delta_ij*delta_jk=delta_ik"
+  },
+  "arsenal_routing": {
+    "S35_PW02": "PROOF_PATTERN_CONSUMED_EXACT_CONVERSE_NO_STAGE35_CREDIT",
+    "stage35_source_load_bearing": false,
+    "stage35_credit_imported": false
+  },
+  "weighted_cut": {
+    "opposite_indicator": "(1-delta_ij)/2",
+    "global_formula": "y/2=sum_p sum_(i<j) I_ij*(1-delta_ij)/2",
+    "e2_hodge_threshold": ">=84*l^2"
+  },
+  "progress": {
+    "two_coordinate_receiver_reduced_to_one_intrinsic_mu2_scalar": true,
+    "full_pair_relation_reconstructed_from_delta": true,
+    "independent_r_w_sign_input_required": false,
+    "pointwise_conductor_delta_materialized": false,
+    "weighted_cut_upper_bound_proved": false
+  },
+  "next_target": "materialize_or_constrain one residual semi-invariant r_z or equivalent modular transition on high-intersection conductor pairs, evaluate delta, and force the weighted cut below 84*l^2 or obtain another exact contradiction",
+  "credit_firewall": {
+    "conductor_pair_pointwise_evaluated": false,
+    "weighted_cut_upper_bound_proved": false,
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}
