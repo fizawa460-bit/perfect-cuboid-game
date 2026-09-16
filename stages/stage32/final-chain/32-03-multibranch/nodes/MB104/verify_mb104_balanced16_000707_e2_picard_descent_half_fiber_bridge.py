@@ -17,7 +17,9 @@ LOCKS = {
  "HALF_FIBER_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD-CERTIFICATE.json","5fdae0e985be1875417442203835879a206312a8"),
  "HALF_BRANCH_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md","e22de5a6f4be163268e699cde03d37e1e564d43b"),
  "HALF_BRANCH_CERT":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS-CERTIFICATE.json","28929222eb46b9d30be4fed9218143aa5fecaa78"),
- "GENERALIZED_JACOBIAN_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md","b2816ce1a8554a9bee33acfb6cc76df066d73b74")}
+ "GENERALIZED_JACOBIAN_NOTE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md","b2816ce1a8554a9bee33acfb6cc76df066d73b74"),
+ "NODE_ORBIT_VERIFIER":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_residual_node_orbit_table.py","ebecc69e32533c56926ccd104589a3a77cd93221"),
+ "FIBRATION_SOURCE":("stages/stage32/final-chain/32-03-multibranch/nodes/MB104/STOLL-TESTA-G2-ISOTRIVIAL-FIBRATION-SOURCE-NOTE.md","b71225ac859eef5afefeebd019a97c403ed27655")}
 
 def req(v,msg):
  if not v: raise SystemExit("FAIL: "+msg)
@@ -70,11 +72,24 @@ def main():
  req(fw['unconditional_bridge']=='2*(M_a-M_b)=l*(E_b-E_a)','unconditional bridge')
  gb=cert['geometric_bridge_conditional']
  req(gb['singular_carrier_restriction_difference']=='kappa^l' and gb['normalization_only_evaluates_conductor'] is False,'singular bridge')
+ # Exact negative packet adapter for the displayed t-fibration.
+ s=importlib.util.spec_from_file_location('mb104_node_orbit',r/LOCKS['NODE_ORBIT_VERIFIER'][0]); req(s is not None and s.loader is not None,'node module')
+ nm=importlib.util.module_from_spec(s); s.loader.exec_module(nm); V=nm.nodes()
+ groups={-1j:[],1j:[]}
+ for k in list(range(16,24))+list(range(40,48)):
+  a1,a2,a3,b1,b2,b3,c=V[k]; req(b3==0,'absent node type')
+  t=(c+a1)/(a2+1j*a3); req(t in groups,'displayed bad value'); groups[t].append(k)
+ pa=set(range(16,24)); pb=set(range(40,48)); audit=cert['displayed_fibration_packet_audit']
+ req(groups[-1j]==audit['minus_i_nodes'] and groups[1j]==audit['plus_i_nodes'],'displayed half-fiber packets')
+ req(len(pa&set(groups[-1j]))==len(pa&set(groups[1j]))==4,'packet a mixed')
+ req(len(pb&set(groups[-1j]))==len(pb&set(groups[1j]))==4,'packet b mixed')
+ req(audit['canonical_packets_are_displayed_half_fibers'] is False and fw['displayed_fibration_packet_identification_refuted'] is True,'negative adapter')
+ fib=(r/LOCKS['FIBRATION_SOURCE'][0]).read_text(); req('t=(c+a1)/(a2+i*a3)' in fib and '0, infinity, +1, -1, +i, -i' in fib,'fibration semantics')
  h=cert['retained_hashes']; req(base['canonical_sha256']==h['picard_base_canonical_sha256'],'base canonical')
  req(mark['canonical_sha256']==h['marking_canonical_sha256'],'mark canonical')
  req(a.certificate['canonical_sha256_without_this_field']==h['adapter_canonical_sha256'],'adapter canonical')
  req(b.certificate['canonical_sha256_without_this_field']==h['bridge_canonical_sha256'],'bridge canonical')
  req(all(v is False for v in cert['credit_firewall'].values()),'credit firewall')
  print(PASS)
- print('absent_rank=15 H_corrections=2 halves_integral=true lattice_bridge=exact geometric_bridge=conditional singular_ratio=kappa^l e2_closed=false')
+ print('absent_rank=15 H_corrections=2 halves_integral=true displayed_half_fiber_match=false lattice_bridge=exact e2_closed=false')
 if __name__=='__main__': main()
