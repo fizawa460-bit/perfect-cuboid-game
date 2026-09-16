@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import runpy
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -11,8 +12,12 @@ ARCH = HERE / "archive" / "startup-surface-20260914"
 ARCH_VERIFIER = ARCH / "verify_main_state_v5_pre_startup_collapse.py"
 TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
 MAIN_STATE = HERE / "MAIN-STATE.json"
+HPADJ20_HANDOFF = HERE / "hpadj-20_ex5" / "MAIN-HANDOFF.json"
+HPADJ20_HANDOFF_VERIFIER = HERE / "hpadj-20_ex5" / "verify_main_handoff.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
+HPADJ20_HANDOFF_BLOB = "52ca73eeb52b7d930f905c42a85b62f044bda269"
+HPADJ20_HANDOFF_VERIFIER_BLOB = "404a7d2c362ca15db4bd655eb6022ebbade219d1"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -128,15 +133,33 @@ def verify_live_firewalls() -> None:
         req(firewalls.get(key) is False, f"live firewall drift: {key}")
 
 
+def verify_hpadj20_handoff_surface() -> None:
+    req(HPADJ20_HANDOFF.is_file() and blob(HPADJ20_HANDOFF) == HPADJ20_HANDOFF_BLOB,
+        "HPADJ20 audited MAIN handoff drift")
+    req(HPADJ20_HANDOFF_VERIFIER.is_file() and
+        blob(HPADJ20_HANDOFF_VERIFIER) == HPADJ20_HANDOFF_VERIFIER_BLOB,
+        "HPADJ20 MAIN handoff verifier drift")
+
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ20_HANDOFF_VERIFIER)]
+        runpy.run_path(str(HPADJ20_HANDOFF_VERIFIER), run_name="__main__")
+    finally:
+        sys.argv = old_argv
+
+
 def main() -> None:
     verify_archived_v5_projection()
     verify_live_firewalls()
+    verify_hpadj20_handoff_surface()
     print("PASS: retained EX5 V5 state and live credit/routing firewalls verified")
     print("producer_policy=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
     print("exact_replay_policy=HOSTILE_AUDIT_OR_ON_DEMAND")
     print("HPADJ20_SOURCE_LOCK=" + LOCKED_PRODUCERS[
         "hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py"
     ])
+    print("HPADJ20_MAIN_HANDOFF_BLOB=" + HPADJ20_HANDOFF_BLOB)
+    print("HPADJ20_MAIN_HANDOFF_VERIFIER_BLOB=" + HPADJ20_HANDOFF_VERIFIER_BLOB)
     print("live_startup=LANE-ADAPTERS -> stages/stage32-ex5/MAIN-STATE.json")
 
 
