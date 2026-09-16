@@ -49,3 +49,28 @@ jobs:
           print(json.dumps(x, sort_keys=True, separators=(',', ':')))
           print('BR203_RESULT_END')
           PY
+      - name: Bind exact mu result into bounded kernel
+        run: |
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py \
+            /tmp/BR203-PICARD-MU-16-STATE-RESULT.json \
+            /tmp/br203_mu_generated.hpp
+      - name: Run bounded BR202 K8 intersection with BR203 mu
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
+            stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp \
+            -o /tmp/verify_br203_bounded_mu_intersection_kernel
+          /tmp/verify_br203_bounded_mu_intersection_kernel \
+            > /tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json
+          cat /tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json
+          python - <<'PY'
+          import json
+          p='/tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json'
+          x=json.load(open(p))
+          assert x['status'] == 'PASS_ZERO_CREDIT'
+          assert x['H10_d20']['BR202_K8'] == 1878715345
+          assert x['H10_d20']['BR203_mu_K8'] == 69942600
+          assert x['H16_d32']['BR202_K8'] == 230521553871
+          assert x['H16_d32']['BR203_mu_K8'] == 6371063060
+          assert x['H16_d32']['tightening'] == 224150490811
+          print('BR203 bounded mu intersection exact regression PASS')
+          PY
