@@ -4,8 +4,23 @@ Operator entrypoint: `stage32bridge-mainbatch`.
 
 Canonical startup contract: `MAIN-START-HERE.md`.
 
-BRIDGE is a generalization-feasibility lane. It does not own MB, EX5, 178, CUT, or MAIN mathematics. Its job is to prove or refute exact semantic transport from a source-lane structural result to a broad FULL178/Picard64 necessary condition, then hand the result back for hostile audit and explicit MAIN decision.
+Current mission: **Issue #1817 P1→P2 compact FULL178 integration**.
 
-Current seed: MB104 residual-character/Fourier and square-energy structure. The seed is research input only until exact identity, audit status, source hypotheses, and target adapter are frozen.
+BRIDGE now owns the integration path
 
-No MAIN credit. No merge authorization.
+```text
+exact (b,c,t)
+-> support + exact r
+-> K=8 low-qBC tiers
+-> full qA histogram
+-> 16-state Picard mu syndrome
+-> compact b-sharded FULL178 scaleout
+-> optional deeper/full qBC only if justified
+-> 59D only on late survivors
+```
+
+It is not an open-ended generalization-search lane. It does not own MB, EX5, 178-local, CUT, or MAIN authority mathematics. Historical Picard64/HNF/59D assets may be reused only as source-locked inputs; this does not reactivate their old lane or old credit.
+
+The prior BR190 boundary remains frozen, unaudited, unconsumed, and zero-credit. V2 starts at BR200/BR201 and does not inherit BR190 credit.
+
+No MAIN/theorem/effectivity/receiver/endpoint/Perfect-Cuboid credit. No merge authorization.
