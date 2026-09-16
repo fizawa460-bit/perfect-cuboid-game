@@ -1,0 +1,125 @@
+{
+  "schema": "STAGE32_MB104_000707_E2_CONDUCTOR_PAIR_INVOLUTION_QUOTIENT_V1",
+  "status": "RETAINED_EXACT_RELATIVE_SHEET_RECEIVER_POINTWISE_CONDUCTOR_EVALUATION_OPEN_NO_CREDIT",
+  "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+  "source_locks": [
+    {
+      "id": "HUMAN_NOTE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-CONDUCTOR-PAIR-INVOLUTION-QUOTIENT.md",
+      "blob_sha1": "3344d2f638b8f1373fc660202a5f3307dd30a51b"
+    },
+    {
+      "id": "EXPLICIT_RESIDUAL_KUMMER",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EXPLICIT-RESIDUAL-KUMMER-COORDINATE.md",
+      "blob_sha1": "5017d7c137f6d4994a34cb1edac28aadcd832a2a"
+    },
+    {
+      "id": "AMBIENT_COMPLEMENT_H1",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-COMPLEMENT-H1-BIT.md",
+      "blob_sha1": "b0c212014615c47cbeaaa82a206e2b232ddd3686"
+    },
+    {
+      "id": "GAMMA_Q",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ZERO-QUARTIC-UNION-RESIDUAL-MONODROMY.md",
+      "blob_sha1": "2d08671a04932c7e18b914d64f813608d13354c2"
+    },
+    {
+      "id": "GENERALIZED_JACOBIAN_GLUE",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md",
+      "blob_sha1": "b2816ce1a8554a9bee33acfb6cc76df066d73b74"
+    },
+    {
+      "id": "AMBIENT_KUMMER_MONODROMY",
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-AMBIENT-KUMMER-MONODROMY.md",
+      "blob_sha1": "0edeb77294919b9a7ad0dcce3030739b630c1fd1"
+    }
+  ],
+  "verifier": {
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_conductor_pair_involution_quotient.py",
+    "blob_sha1": "6dd3403eb3bfa10727f7c1849e22a0bcd6d06713",
+    "pass_token": "PASS stage32 MB104 000707 e2 conductor-pair involution quotient",
+    "source_lock_before_math": true,
+    "local_full_replay_claimed": false,
+    "local_full_replay_note": "container network could not retrieve the exact-head repository files; GitHub connector blob identities were checked independently and Wolfram replayed the load-bearing algebra"
+  },
+  "residual_cover": {
+    "base_open": "U=S\\B_abs",
+    "degree": 2,
+    "kummer_equation": "r0^2=h=2*f_t",
+    "deck_action": "r0->-r0",
+    "etale_on_U": true
+  },
+  "pair_receiver": {
+    "equations": [
+      "r_i^2=h",
+      "r_j^2=h"
+    ],
+    "factorization": "(r_i-r_j)(r_i+r_j)=0",
+    "components": {
+      "Delta": "r_j=r_i",
+      "Gamma_tau": "r_j=-r_i"
+    },
+    "relative_coordinate": "chi_ij=r_i*r_j/h",
+    "chi_squared": 1,
+    "same_sheet_value": 1,
+    "opposite_sheet_value": -1,
+    "diagonal_deck_invariant": true,
+    "pair_swap_invariant": true,
+    "kummer_generator_independent": true
+  },
+  "conductor_adapter": {
+    "map": "CondPair(C)->R_U x_U R_U",
+    "relative_character": "chi_C:CondPair(C)->mu_2",
+    "pointwise_values_materialized": false,
+    "missing_input": "source-locked local conductor/preimage evaluation of psi"
+  },
+  "gamma_q_dictionary": {
+    "ambient_h1": "Z/2",
+    "gamma_Q_is_unique_nonzero": true,
+    "chi_plus_one_iff": "[lambda_(p;i,j)]=0",
+    "chi_minus_one_iff": "[lambda_(p;i,j)]=[gamma_Q]",
+    "formula": "chi_ij=(-1)^alpha_abs(lambda_(p;i,j))"
+  },
+  "weighted_cut": {
+    "opposite_indicator": "(1-chi_ij)/2",
+    "local_formula": "delta_cross,p=sum_(i<j) I_ij*(1-chi_ij)/2",
+    "global_formula": "y/2=sum_p sum_(i<j) I_ij*(1-chi_ij)/2",
+    "e2_hodge_threshold": ">=84*l^2"
+  },
+  "local_consistency": {
+    "chi_ii": 1,
+    "symmetric": true,
+    "triple_relation": "chi_ij*chi_jk=chi_ik"
+  },
+  "arsenal_routing": {
+    "S35_PW02": "APPLICABLE_PATTERN_ORDER_TWO_RECEIVER_QUOTIENT_WITH_EXACT_CONVERSE",
+    "S35_PW03": "NOT_LOAD_BEARING_SOURCE_LIFT_ALREADY_EXISTS_IN_E2",
+    "S36_PW04": "POINTWISE_VERSION_NOT_DIRECTLY_APPLICABLE_RELATIVE_CECH_TRANSITION_IDEA_ONLY",
+    "arsenal_credit_imported": false
+  },
+  "wolfram_crosscheck": {
+    "difference_factorization": "(r1-r2)(r1+r2)",
+    "chi_squared_under_r1sq_r2sq_eq_h": 1,
+    "simultaneous_deck_flip_difference": 0,
+    "component_values": [1, -1]
+  },
+  "next_target": "materialize_or_constrain_CondPair(C)_to_RUxU_RU_and_evaluate_chi_on_high_intersection_branch_pairs",
+  "credit_firewall": {
+    "conductor_pair_pointwise_evaluated": false,
+    "conductor_loop_assigned_zero_or_gamma_Q": false,
+    "weighted_cut_upper_bound_proved": false,
+    "e2_closed": false,
+    "e4_closed": false,
+    "mask_000707_closed": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "heavy_compute_authorized": false,
+    "merge_authorized": false
+  }
+}
