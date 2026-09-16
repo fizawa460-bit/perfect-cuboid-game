@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32_BR204_LIVE_MAIN_PREDECESSOR_REFRESH_V1",
+  "status": "PASS_LIVE_MAIN_IDENTITY_RUNKEY_GOVERNANCE_BLOCKED_ZERO_CREDIT",
+  "generated_at": "2026-09-17",
+  "node": "BR204",
+  "purpose": "Refresh the live Stage32 MAIN predecessor identity required by the BR204 FULL178 compact b-sharded scaleout contract without starting heavy execution or changing MAIN authority.",
+  "startup_contract": {
+    "path": "stages/stage32/generalization-bridge/MAIN-START-HERE.md",
+    "rule": "Refresh from the live Stage32 MAIN authority surface before every transition; do not treat a stale merged-main projection as the live authority when a newer live MAIN authority surface exists."
+  },
+  "bridge_snapshot": {
+    "pr": 1813,
+    "branch": "stage32bridge-mainbatch",
+    "pre_refresh_head": "7918758ee7174fa713139036304f5b8400224c50",
+    "merged_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b"
+  },
+  "live_main_predecessor": {
+    "pr": 1808,
+    "head": "04ecdbbec365fbe3cb4a30f4c8cd86f720e41814",
+    "state_path": "stages/stage32/MAIN-STATE.json",
+    "state_blob_sha1": "ec0b9d099bae9b86ab4b8fc68b235e9d0081f5a4",
+    "state_schema": "STAGE32_MAIN_COMPACT_STATE_V39_FULL178_INTEGER_LATTICE_BOUND_AUDIT_SYNCED",
+    "authority_sync_current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "observed_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "195414091250828468192",
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_numerical_census_complete": false,
+    "stage32_closed": false,
+    "effectivity_released": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "gate_evaluation": {
+    "compact_producer_exact_bounded_regression": "PASS",
+    "certificate_storage_preflight": "PASS_WITH_CAPS",
+    "resume_unit": "single_b",
+    "preferred_b_shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
+    "live_main_predecessor_identity": "PASS",
+    "old_merged_main_freshness_mismatch": "SUPERSEDED_BY_LIVE_MAIN_REFRESH",
+    "br204_dedicated_runkey_present": false,
+    "br204_dedicated_runkey_armed": false,
+    "repository_wide_governance_ci": "NOT_GREEN_AT_PRE_REFRESH_HEAD",
+    "heavy_execution_authorized": false
+  },
+  "classification": {
+    "full178_candidate_value_available": false,
+    "comparison_against_live_predecessor_performed": false,
+    "reason": "BR204 FULL178 heavy scaleout has not been authorized or executed; this checkpoint refreshes predecessor identity only.",
+    "main_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false
+  },
+  "remaining_blockers": [
+    "no dedicated BR204 heavy run-key is present or armed",
+    "repository-wide governance/freshness CI is not green at the pre-refresh BRIDGE head"
+  ],
+  "next_action": "Remain at the BR204 preflight boundary. Do not execute FULL178 heavy work until a dedicated BR204 run-key is explicitly armed and repository-policy governance gates are satisfied. Then execute exactly eight compact b-shards with per-b resume, coverage/disjointness/population-conservation verification, and comparison against this refreshed live predecessor semantics.",
+  "firewall": {
+    "source_lane_authority_mutated": false,
+    "main_state_mutated": false,
+    "heavy_compute_started": false,
+    "raw_4_1M_state_artifact_persisted": false,
+    "main_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}
