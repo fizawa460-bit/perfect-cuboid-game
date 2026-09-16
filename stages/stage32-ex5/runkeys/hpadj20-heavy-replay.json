@@ -1,29 +1,57 @@
 {
-  "schema": "STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V3",
-  "generation": 3,
+  "schema": "STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V4",
+  "generation": 4,
   "armed": true,
-  "purpose": "current-exact-head HPADJ20 hostile-audit replay with one durable checkpoint per FULL178 row",
+  "purpose": "Resume HPADJ20 exact replay from durable completed FULL178 rows under restored Research OS concurrency/headroom and resume-first contracts.",
   "shard_count": 178,
-  "max_parallel": 32,
-  "carry_run_id": null,
+  "max_parallel": 15,
+  "carry_run_id": 35072442270,
   "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
-  "row_shard_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
+  "row_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
   "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51",
-  "execution_contract_git_blob": "5c113f84c757efcd368e11d17a6bd37f714cdd53",
+  "execution_contract_git_blob": "904c6c890ee90807c5abdaa56171667710634b6b",
+  "representative_measurement": {
+    "source_run_id": 35072442270,
+    "unit": 1,
+    "assigned_row": [177, "g1-d190", 1, 190],
+    "raw_certificate_bytes": 5721,
+    "actions_artifact_zip_bytes": 2084,
+    "artifact_id": 10437870959,
+    "certificate_canonical": "6faeb1f379e6106f002b5d99f36974d81bd22ff86bef731392302bea0af0c0c7"
+  },
+  "known_completed_units_in_carry_run": [1, 8, 10],
   "recovery": {
     "resume_first": true,
     "durable_unit": "ONE_FULL178_ROW",
-    "recompute_only_missing_or_rejected_rows": true,
-    "next_recovery_instruction": "If this run is cancelled or times out, increment generation and set carry_run_id to this workflow run id. Every completed row artifact is validated and reused; only missing/rejected rows are recomputed."
+    "validate_inherited_bundle_and_completed_rows": true,
+    "schedule_only_missing_or_rejected_units": true,
+    "whole_parent_rerun_default": false,
+    "next_recovery_instruction": "If generation 4 is cancelled, times out or fails, increment generation and set carry_run_id to that failed run. Its inherited carry bundle plus every newly completed row artifact form the next validated recovery set."
+  },
+  "concurrency": {
+    "stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 15,
+    "reserved_stage_headroom": 3,
+    "other_intended_stage32_heavy_overlap_at_arm": 0,
+    "arm_observation": "User explicitly cancelled all live workflows before this rebuild. Stop rather than exceed the Stage32 <=18 effective-heavy-job cap if unexpected Stage32 heavy overlap appears."
+  },
+  "storage": {
+    "operating_budget_mb": 500,
+    "representative_measured_before_scaleout": true,
+    "row_raw_hard_cap_bytes": 65536,
+    "projected_peak_mb_upper_bound": 370,
+    "raw_exhaustive_output_persisted": false,
+    "compact_certificate_only": true
   },
   "credit": {
     "partial_output_credit": false,
     "stage32_main_credit": false,
     "full178_completion_credit": false,
-    "theorem_credit": false,
     "effectivity_credit": false,
     "receiver_credit": false,
+    "theorem_credit": false,
     "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
     "merge_authorized": false
   }
 }
