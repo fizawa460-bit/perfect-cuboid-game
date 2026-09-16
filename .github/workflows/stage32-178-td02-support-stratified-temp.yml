@@ -1,0 +1,25 @@
+name: Stage32 178 TD02 support-stratified temporary verification
+
+# lifecycle: ACTIVE_AUTO
+# Temporary branch-local research workflow for the current TD02 active frontier.
+# Remove after the exact-head research run is retained.
+on:
+  push:
+    branches:
+      - stage32-01-178-topdown-grf02-hpadj08
+    paths:
+      - stages/stage32/32-01-178/topdown-02/verify_td02_grf04_support_stratified_full178.py
+      - .github/workflows/stage32-178-td02-support-stratified-temp.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run TD02 support-stratified FULL178 verifier
+        run: python stages/stage32/32-01-178/topdown-02/verify_td02_grf04_support_stratified_full178.py
