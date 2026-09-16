@@ -280,8 +280,59 @@ def main() -> None:
             "missing_count": 8 - len(hit),
         })
 
+    # Construct an explicit minimum-size observable basis.  E_total already
+    # supplies one relation among the six block sums, so the quotient-rank
+    # lower bound is five.  Reuse every individually observed exceptional and
+    # request only the residual mass of the first five canonical blocks.  The
+    # sixth block mass is then E_total minus the first five complete masses.
+    observed_set = set(observed_exceptionals)
+    residual_supports = [
+        sorted(set(labels) - observed_set) for labels in block_labels[:5]
+    ]
+    expected_residual_supports = [
+        [100],
+        [104, 105, 106, 107, 108],
+        [109, 110, 111, 112, 113, 114, 115, 116],
+        [117, 118, 119, 120, 121, 122, 123, 124],
+        [125, 126, 127, 128, 129, 130, 131, 132],
+    ]
+    if residual_supports != expected_residual_supports:
+        raise ValueError("canonical residual fibration-block support regression")
+
+    residual_rows = []
+    residual_specs = []
+    for i, support in enumerate(residual_supports):
+        row = Matrix([[0] * 64])
+        for lab in support:
+            row += coords.row(lab - 1)
+        residual_rows.append(row)
+        residual_specs.append({
+            "observable_index": i,
+            "semantics": "sum of pairings on residual exceptional support",
+            "support_exceptional_labels_1based": support,
+            "support_size": len(support),
+            "completes_canonical_fibration_block_index": i,
+            "already_individually_observed_in_block": coverage[i]["observed_exceptional_labels_1based"],
+        })
+
+    constructive_profile = span_profile(
+        base_rows + [Etotal] + residual_rows,
+        targets,
+    )
+    deficiency = exact_profile["quotient_target_rank_over_Q"]
+    rank_gain = (
+        constructive_profile["observable_rank_over_Q"]
+        - exact_profile["observable_rank_over_Q"]
+    )
+    if deficiency != 5:
+        raise ValueError("exact fibration quotient-rank deficiency regression")
+    if len(residual_rows) != deficiency or rank_gain != deficiency:
+        raise ValueError("five residual observables are not independent modulo current audited observables")
+    if not constructive_profile["all_targets_recoverable_over_Q"] or constructive_profile["quotient_target_rank_over_Q"] != 0:
+        raise ValueError("five residual observables do not recover all six fibration divisors")
+
     out = {
-        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V3",
+        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V4",
         "source_base_exact_head": SOURCE_BASE,
         "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/AV/AW/compression/N220 raw+audited inputs",
         "fibration_block_adapter": block_adapter,
@@ -303,12 +354,26 @@ def main() -> None:
         },
         "minimum_additional_arbitrary_linear_observables_over_Q": {
             "without_audited_E_total": base_profile["quotient_target_rank_over_Q"],
-            "with_audited_E_total": exact_profile["quotient_target_rank_over_Q"],
+            "with_audited_E_total": deficiency,
+        },
+        "constructive_minimal_five_observable_certificate": {
+            "lower_bound_from_exact_quotient_rank": deficiency,
+            "observable_count": len(residual_specs),
+            "observable_support_sizes": [x["support_size"] for x in residual_specs],
+            "observables": residual_specs,
+            "reconstruction": {
+                "blocks_0_through_4": "complete each block mass by adding its already observed singleton pairings to the listed residual observable",
+                "block_5": "B5 = E_total - (B0+B1+B2+B3+B4)",
+                "fibration_divisors": "L_i = H - B_i for i=0..5",
+            },
+            "rank_gain_over_current_audited_observables": rank_gain,
+            "profile_after_adding_five": constructive_profile,
+            "minimal_over_Q": True,
         },
         "producer_recommendation": (
             "CURRENT_AUDITED_OBSERVABLES_SUFFICE"
             if exact_profile["all_targets_recoverable_over_Q"]
-            else "DO_NOT_RUN_BOUNDED_VIOLATION_CENSUS_YET__ADD_MINIMAL_FIBRATION_BLOCK_OBSERVABLES"
+            else "DO_NOT_RUN_BOUNDED_VIOLATION_CENSUS_YET__EXPOSE_THE_CERTIFIED_FIVE_RESIDUAL_BLOCK_SUMS"
         ),
         "bounded_violation_census_run": False,
         "main_credit_changed": False,
