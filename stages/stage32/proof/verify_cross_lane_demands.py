@@ -15,8 +15,10 @@ REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
 MONITOR_BLOB = "2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
 MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
-BOUND = 195603649074545538415
+BOUND = 195414091250828468192
+PREDECESSOR_BOUND = 195603649074545538415
 FULL178_AUDIT_REVIEW = 5218209619
+TIGHTENING = 189557823717070223
 
 
 def req(v, m):
@@ -70,8 +72,11 @@ def main():
         "ROOT_NATIVE_STAGE32_MAIN_ONLY", "orchestration mode")
     f = st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
+    req(f["predecessor_v37_authoritative_remaining_terminals"] == PREDECESSOR_BOUND,
+        "V37 predecessor bound")
     req(f["authoritative_remaining_terminals"] == BOUND, "MAIN numerical authority")
-    req(f["v37_routing_additional_pruning"] == 0, "V37 routing added pruning")
+    req(f["v38_td02_full178_certified_numeric_bound_tightening_vs_v37"] == TIGHTENING,
+        "V38 tightening")
     req(f["live_178_td02_full178_capacity_hostile_audited"] is True,
         "178 FULL178 PASS missing")
     req(f["live_178_td02_full178_capacity_audit_review_id"] == FULL178_AUDIT_REVIEW,
@@ -80,14 +85,16 @@ def main():
         f["live_178_td02_postsync_replay_success"] is True,
         "178 V37 sync/replay status")
     req(f["live_178_td02_main_handoff_ready"] is True and
-        f["live_178_td02_main_credit_consumed"] is False,
-        "178 handoff/credit boundary")
+        f["live_178_td02_main_credit_consumed"] is True,
+        "178 consumption boundary")
+    req(f["full178_numerical_census_complete"] is False,
+        "FULL178 numerical census overclaim")
 
     req(st["current"]["mainbatch_stop_gate"] ==
-        "SPECIALIST_178_FULL178_V37_SYNCED_REPLAY_PASS__MAIN_MIN_COMPOSITION_DECISION_PENDING",
-        "MAIN routing gate")
+        "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
+        "MAIN replacement audit gate")
     req(st["current"]["next_exact_route"] ==
-        "MAIN_EVALUATE_178_TD02_FULL178_V37_SYNC_HANDOFF_UNDER_MIN_COMPOSITION",
+        "HOSTILE_AUDIT_V38_FULL178_INTEGER_LATTICE_BOUND_REPLACEMENT",
         "MAIN next route")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
@@ -104,22 +111,24 @@ def main():
     req(sweep["lane_178_pr"] == 1815 and
         sweep["lane_178_full178_audit_review_id"] == FULL178_AUDIT_REVIEW,
         "178 live observation")
-    req("PRODUCER_READY_FOR_MAIN_REENTRY" in sweep["lane_178_handoff"] and
-        "NO_MAIN_CREDIT_YET" in sweep["lane_178_handoff"],
-        "178 handoff semantics")
+    req("MAIN_BOUND_CONSUMED_V38" in sweep["lane_178_handoff"] and
+        "REPLACEMENT_REAUDIT_PENDING" in sweep["lane_178_handoff"],
+        "178 consumed handoff semantics")
     req("NO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
     req("NO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
 
+    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is True,
+        "replacement reaudit firewall")
     for key in ("full178_complete", "effectivity_released", "receiver_credit",
                 "route_credit", "theorem_credit", "endpoint_credit", "stage32_closed",
                 "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN live specialist observations are current-state data, not frozen authority")
-    print("PASS: 178 handoff is ready for MAIN decision while numerical/theorem credit remains unchanged")
+    print("PASS: Stage32 MAIN V38 consumed the 178 FULL178 certified upper bound exactly once by MIN composition")
+    print("PASS: specialist observations remain routing data; FULL178 census and downstream theorem credit remain incomplete")
 
 
 if __name__ == "__main__":

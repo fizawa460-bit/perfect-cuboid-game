@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V37_FULL178_INTEGER_LATTICE_ROUTED_WAIT",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V38_FULL178_INTEGER_LATTICE_BOUND_CONSUMED_REAUDIT_PENDING",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_process_head": "384bb29a3428bf5fbd1db776f863d02cabda59c1",
-    "predecessor_authority_version": "V36_PROCESS_SYNC_ONLY",
-    "predecessor_main_state_blob_sha1": "e5e490192706a4efcf5fb5e1300a9e7662c6e0b4",
-    "predecessor_main_state_canonical_sha256": "c77ae807e3892303cff7e055cde2ad872eaf55c55d15c8b744cb4f7b76a33614",
+    "predecessor_process_head": "515adec9cde85e6d2285d71a590ab5c4e4d8c797",
+    "predecessor_authority_version": "V37_FULL178_INTEGER_LATTICE_ROUTED_WAIT",
+    "predecessor_main_state_blob_sha1": "ee1947fa9fd742fbadc484624283866abdbd5a68",
+    "predecessor_main_state_canonical_sha256": "0395d7a3f31da0cd05a6016ebd2811c0ce53b6eb4c809f4a89c998eff8c14c41",
     "q_quadratic_main_numeric_bound_replacement_consumed": true,
     "q_quadratic_candidate_audited_exact_head": "6489e1fb9f35b8ecdc19c982301a816d956711e9",
     "q_quadratic_candidate_hostile_audit_review_id": 5217623202,
@@ -19,25 +19,35 @@
     "q_quadratic_consumption_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
     "v36_audit_sync_additional_pruning": 0,
     "v37_routing_additional_pruning": 0,
+    "td02_full178_integer_lattice_main_numeric_bound_replacement_consumed": true,
+    "td02_full178_candidate_audited_exact_head": "640195f158e2fa953ebd669820a794a56cef04fb",
+    "td02_full178_candidate_hostile_audit_review_id": 5218209619,
+    "td02_full178_candidate_hostile_audit_status": "PASS",
+    "td02_full178_handoff_head": "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea",
+    "td02_full178_postsync_replay_exact_head": "92c68646b0844953c6f9c895a180225bcf75ed17",
+    "td02_full178_postsync_replay_run_id": 35054156118,
+    "td02_full178_consumption_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "v38_certified_numeric_bound_tightening_vs_v37": 189557823717070223,
     "retained_v36_t_stratified_candidate_consumed": false,
     "split_authority": {
       "orchestration_mode": "ROOT_NATIVE_STAGE32_MAIN_ONLY"
     }
   },
   "current": {
-    "active_missing_interface": "FULL178_INTEGER_LATTICE_CURRENT_V37_MAIN_CONSUMPTION_DECISION_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "SPECIALIST_178_FULL178_V37_SYNCED_REPLAY_PASS__MAIN_MIN_COMPOSITION_DECISION_PENDING",
-    "next_exact_route": "MAIN_EVALUATE_178_TD02_FULL178_V37_SYNC_HANDOFF_UNDER_MIN_COMPOSITION",
-    "stacked_candidate_audit_status": "Q_QUADRATIC_V35_AUTHORITY_AUDIT_SYNCED__178_FULL178_PRODUCER_AUDIT_PASS__V37_SYNC_AND_POSTSYNC_REPLAY_PASS__MAIN_CONSUMPTION_PENDING",
-    "stop_semantics": "The 32-01-178 TD02 integer-lattice FULL178 producer is hostile-audited at exact head 640195f158e2fa953ebd669820a794a56cef04fb (review 5218209619). The specialist branch has since synchronized to the live V37 MAIN surface and replayed the exact FULL178 verifier successfully at 92c68646b0844953c6f9c895a180225bcf75ed17, retaining handoff head df3b29d20ef0f7da1e34fa92beada6418ad3a4ea with producer_ready_for_MAIN_reentry=true. This observation grants no MAIN credit by itself. MAIN must now separately accept or reject the candidate using MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING; authority stays unchanged until that transition is audited."
+    "active_missing_interface": "FULL178_NUMERICAL_CENSUS_AND_FINAL_MILESTONE_CHAIN",
+    "mainbatch_stop_gate": "REPLACEMENT_HEAD_HOSTILE_REAUDIT_REQUIRED",
+    "next_exact_route": "HOSTILE_AUDIT_V38_FULL178_INTEGER_LATTICE_BOUND_REPLACEMENT",
+    "stacked_candidate_audit_status": "Q_QUADRATIC_V35_AUTHORITY_AUDIT_SYNCED__178_FULL178_BOUND_CONSUMED_V38__REPLACEMENT_HEAD_REAUDIT_PENDING",
+    "stop_semantics": "The hostile-audited TD02 integer-lattice FULL178 producer (review 5218209619 at 640195f158e2fa953ebd669820a794a56cef04fb) was synchronized to V37 and exact-replayed successfully at 92c68646b0844953c6f9c895a180225bcf75ed17. MAIN V38 consumes its certified upper floor 195414091250828468192 by MIN composition against V37 authority 195603649074545538415, tightening the numerical upper bound by 189557823717070223. This is an upper-bound replacement only: FULL178 numerical census, effectivity, receiver, theorem, endpoint and Stage32 closure remain incomplete. The replacement exact head requires independent hostile reaudit before further authority promotion."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": 195603649074545538415,
+    "authoritative_remaining_terminals": 195414091250828468192,
     "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "full178_numerical_census_complete": false,
     "stage32_closed": false,
     "predecessor_v34_authoritative_remaining_terminals": 3360778813767800658369,
+    "predecessor_v37_authoritative_remaining_terminals": 195603649074545538415,
     "v35_q_quadratic_candidate_bound": 195603649074545538415,
     "v35_q_quadratic_certified_numeric_bound_tightening_vs_v34": 3165175164693255119954,
     "v35_q_quadratic_candidate_hostile_audited": true,
@@ -64,7 +74,8 @@
     "live_178_td02_full178_capacity_audit_review_id": 5218209619,
     "live_178_td02_full178_capacity_audited_exact_head": "640195f158e2fa953ebd669820a794a56cef04fb",
     "live_178_td02_full178_candidate_upper_bound": 195414091250828468192,
-    "live_178_td02_full178_candidate_tightening_vs_current_main": 189557823717070223,
+    "live_178_td02_full178_candidate_tightening_vs_v37": 189557823717070223,
+    "live_178_td02_full178_candidate_tightening_vs_current_main": 0,
     "live_178_td02_v37_sync_complete": true,
     "live_178_td02_postsync_replay_success": true,
     "live_178_td02_postsync_replay_exact_head": "92c68646b0844953c6f9c895a180225bcf75ed17",
@@ -72,13 +83,17 @@
     "live_178_td02_current_handoff_head": "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea",
     "live_178_td02_producer_ready_for_main_reentry": true,
     "live_178_td02_main_handoff_ready": true,
-    "live_178_td02_main_credit_consumed": false,
+    "live_178_td02_main_credit_consumed": true,
+    "v38_td02_full178_bound_consumed": true,
+    "v38_td02_full178_certified_numeric_bound_tightening_vs_v37": 189557823717070223,
+    "v38_replacement_head_hostile_audited": false,
     "live_ex5_q_quadratic_refinement_main_handoff_ready": false
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/grf04-quadratic-capacity/GRF04-V37-FULL178-INTEGER-LATTICE-ROUTING.json",
+    "stages/stage32/management/grf04-quadratic-capacity/GRF04-V38-TD02-FULL178-INTEGER-LATTICE-MAIN-BOUND-REPLACEMENT.json",
+    "stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v38_td02_full178_integer_lattice_main_bound_replacement.py",
     "stages/stage32/proof/verify_cross_lane_demands.py",
-    "stages/stage32/verify_main_startup_authority_v37_full178_integer_lattice_routed.py"
+    "stages/stage32/verify_main_startup_authority_v38_full178_integer_lattice_consumed.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -97,7 +112,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": false,
+    "replacement_head_hostile_reaudit_required": true,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -111,10 +126,10 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "source_locks": {
-    "predecessor_v36": {
-      "exact_head": "384bb29a3428bf5fbd1db776f863d02cabda59c1",
-      "main_state_blob_sha1": "e5e490192706a4efcf5fb5e1300a9e7662c6e0b4",
-      "main_state_canonical_sha256": "c77ae807e3892303cff7e055cde2ad872eaf55c55d15c8b744cb4f7b76a33614"
+    "predecessor_v37": {
+      "exact_head": "515adec9cde85e6d2285d71a590ab5c4e4d8c797",
+      "main_state_blob_sha1": "ee1947fa9fd742fbadc484624283866abdbd5a68",
+      "main_state_canonical_sha256": "0395d7a3f31da0cd05a6016ebd2811c0ce53b6eb4c809f4a89c998eff8c14c41"
     },
     "q_quadratic_candidate": {
       "candidate_path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-MAIN-INDEPENDENT-QUADRATIC-CAPACITY-LP-CANDIDATE.json",
@@ -136,6 +151,26 @@
       "blob_sha1": "5e46668259fd6b162c7da43ee4dc21ede81ea158",
       "canonical_sha256": "33a5053eea96c9ed9aa3e66b82b6c0a5f596cc2f1731cb34442f2f1dd898540b"
     },
+    "v38_consumption_receipt": {
+      "path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-V38-TD02-FULL178-INTEGER-LATTICE-MAIN-BOUND-REPLACEMENT.json",
+      "blob_sha1": "f959b922129354f58c2fd0e1b182d723bfa174e2",
+      "canonical_sha256": "8adf31a03c6c1fd6538e25c50deb059b843d34cfaf174bc2993f078b4657a08b"
+    },
+    "td02_full178_handoff": {
+      "producer_pr": 1815,
+      "handoff_head": "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea",
+      "handoff_path": "stages/stage32/32-01-178/topdown-02/TD02-FULL178-V37-SYNC-HANDOFF.json",
+      "handoff_blob_sha1": "f05dc4f04f77594204298bdfd9784d9e95810eb3",
+      "handoff_canonical_sha256": "56b5c35c0343be327431977ecdde0426be923e7925052d8660ba97ae583630ab",
+      "audited_exact_head": "640195f158e2fa953ebd669820a794a56cef04fb",
+      "hostile_audit_review_id": 5218209619,
+      "audited_checkpoint_path": "stages/stage32/32-01-178/topdown-02/TD02-INTEGER-LATTICE-CAPACITY-FULL178-CHECKPOINT.json",
+      "audited_checkpoint_blob_sha1": "896eefd68ce7804db28a533d61cb490f14730b1c",
+      "audited_v1_verifier_blob_sha1": "e4adb6fd92d88f4d9c10923627cac9424425e467",
+      "audited_v2_verifier_blob_sha1": "331073833aee5ebe106d0bd5cd2370506284a27d",
+      "postsync_replay_exact_head": "92c68646b0844953c6f9c895a180225bcf75ed17",
+      "postsync_replay_run_id": 35054156118
+    },
     "claim_sync_unchanged": {
       "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
       "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
@@ -147,7 +182,7 @@
       "observed_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
       "lane_178_pr": 1815,
       "lane_178_head": "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea",
-      "lane_178_handoff": "FULL178_HOSTILE_AUDIT_PASS__V37_SYNC_COMPLETE__POSTSYNC_EXACT_REPLAY_SUCCESS__PRODUCER_READY_FOR_MAIN_REENTRY__NO_MAIN_CREDIT_YET",
+      "lane_178_handoff": "FULL178_HOSTILE_AUDIT_PASS__V37_SYNC_COMPLETE__POSTSYNC_EXACT_REPLAY_SUCCESS__MAIN_BOUND_CONSUMED_V38__REPLACEMENT_REAUDIT_PENDING",
       "lane_178_bounded_audit_review_id": 5217996434,
       "lane_178_full178_audit_review_id": 5218209619,
       "lane_178_full178_audited_exact_head": "640195f158e2fa953ebd669820a794a56cef04fb",
@@ -167,5 +202,5 @@
       "lane_178_latest_main_startup_contract_sync_head": "3aa7f73b6d89869a7d35cae22be5013466ac034e"
     }
   },
-  "canonical_sha256_without_this_field": "0395d7a3f31da0cd05a6016ebd2811c0ce53b6eb4c809f4a89c998eff8c14c41"
+  "canonical_sha256_without_this_field": "e3d5039665c4920733488ac2934c32741cacdd7c77bb8bb5ecd033aeaa604d18"
 }
