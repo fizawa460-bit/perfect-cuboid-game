@@ -1,50 +1,54 @@
 {
-  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V2",
+  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V3",
   "producer": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
   "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
   "row_shard_worker": "stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py",
   "row_shard_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
   "union_verifier": "stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py",
   "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51",
-  "resume_policy": "RESUME_FIRST_EXACT_FULL178_ROW_SHARDS",
+  "resume_policy": "RESUME_FIRST_EXACT_FULL178_ONE_ROW_UNITS",
   "partition": {
-    "shard_count": 16,
-    "partition_key": "FULL178 row index / (row_id,g,d)",
-    "assignment": "Deterministic greedy bin packing by weight (d/2+1)^3, tie-broken by shard index; rows inside each shard retain manifest order.",
+    "shard_count": 178,
+    "rows_per_shard": 1,
+    "partition_key": "one FULL178 row per durable unit",
+    "assignment": "Use the existing source-locked deterministic partition with shard_count=178. Since there are exactly 178 FULL178 rows, every shard receives exactly one row.",
     "expected_coverage": "All 178 FULL178 rows exactly once; each row contains every historical b-shard cell exactly once.",
-    "certificate": "One compact canonical JSON certificate per completed row shard.",
+    "certificate": "One compact canonical JSON certificate per completed FULL178 row.",
     "partial_outputs_reusable": true,
     "union_verifier_required": true,
-    "union_verification": "Reconstruct the source-locked deterministic partition; require shards 0..15 exactly once; reject row gaps/overlaps/source-lock drift; sum exact Fraction objectives and cellwise integer floors; reconstruct diagnostic stream in original row/b-shard order.",
+    "union_verification": "Reconstruct the source-locked deterministic partition; require row units 0..177 exactly once; reject row gaps/overlaps/source-lock drift; sum exact Fraction objectives and cellwise integer floors; reconstruct diagnostic stream in original row/b-shard order.",
     "mathematical_population_changed_by_partition": false
   },
   "carry_over": {
     "selector": "runkey carry_run_id",
-    "reuse_rule": "Download same-index certificate from carry_run_id; reuse only when canonical digest, producer blob, worker blob, shard index/count and assignment digest validate under the current locked worker. Otherwise recompute that shard.",
-    "missing_or_rejected_rule": "Compute only the missing or rejected shard; never rerun a validated carried shard.",
-    "cross_generation_requirement": "Producer, worker, partition algorithm and shard_count must remain byte/semantically locked. A drift invalidates carry-over and forces recomputation of affected certificates."
+    "reuse_rule": "Download the same-index one-row certificate from carry_run_id; reuse only when canonical digest, producer blob, worker blob, shard index/count and assignment digest validate under the current locked worker.",
+    "missing_or_rejected_rule": "Compute only the missing or rejected row. A validated completed row is never recomputed merely because another row timed out or the workflow was cancelled.",
+    "cross_generation_requirement": "Producer, worker, partition algorithm and shard_count=178 must remain byte/semantically locked. Drift invalidates incompatible carry-over rather than silently reusing it."
   },
   "cancellation_recovery": {
-    "completed_units": "Each completed shard uploads its certificate immediately before the job ends.",
-    "cancelled_or_timed_out_units": "No completion is inferred from a job container or partial file. Re-arm a fresh runkey generation with carry_run_id set to the cancelled/failed run; validated completed shards are salvaged and only unfinished shards are computed.",
+    "completed_units": "Each completed row uploads its compact certificate immediately when that row job completes.",
+    "cancelled_or_timed_out_units": "No completion is inferred for the currently running row. Re-arm a fresh runkey generation with carry_run_id set to the cancelled/failed run; validate and salvage every completed row artifact, then compute only missing/rejected rows.",
+    "salvage_granularity": "ONE_FULL178_ROW",
     "whole_parent_rerun_default": false
   },
   "progress": {
     "row_level_progress": true,
-    "format": "HPADJ20_SHARD_PROGRESS shard=i/16 row=k/n row_id=... d=... elapsed_s=... eta_s=..."
+    "durable_checkpoint_on_every_completed_row": true,
+    "format": "HPADJ20_SHARD_PROGRESS shard=i/178 row=1/1 row_id=... d=... elapsed_s=... eta_s=0.0"
   },
   "storage_preflight": {
     "operating_budget_mb": 500,
-    "planned_compute_shards": 16,
-    "planned_effective_heavy_concurrency": 16,
+    "planned_compute_units": 178,
+    "planned_effective_heavy_concurrency": 32,
     "raw_exhaustive_output_persisted": false,
-    "max_certificate_bytes_per_shard": 2000000,
+    "max_certificate_bytes_per_row": 1000000,
     "max_final_union_certificate_bytes": 2000000,
-    "projected_peak_actions_artifact_storage_mb_upper_bound": 34,
-    "shard_retention_days": 1,
+    "projected_peak_actions_artifact_storage_mb_upper_bound": 360,
+    "projection_includes_one_full_carry_generation_plus_one_full_current_generation": true,
+    "row_retention_days": 1,
     "final_union_retention_days": 7,
-    "cleanup_point": "Shard artifacts expire after one day; only the compact final union certificate is retained for the audit window.",
-    "stop_condition": "Fail before upload if any shard certificate exceeds 2,000,000 bytes or the final union certificate exceeds 2,000,000 bytes. No raw search state is uploaded."
+    "cleanup_point": "Row artifacts expire after one day; only the compact final union certificate is retained for the audit window.",
+    "stop_condition": "Fail before upload if any row certificate exceeds 1,000,000 bytes or the final union certificate exceeds 2,000,000 bytes. No raw search state is uploaded."
   },
   "authorization": {
     "method": "Fresh commit-range runkey generation gate",
