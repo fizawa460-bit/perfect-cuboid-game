@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32EX5_HPADJ21_FULL_QA_HISTOGRAM_PILOT_CHECKPOINT_V1",
+  "route_id": "HPADJ-21_ex5",
+  "status": "BOUNDED_EXACT_STRICTNESS_WITNESS_RETAINED__FULL178_SCALEOUT_JUSTIFIED__ZERO_MAIN_CREDIT",
+  "producer": {
+    "pr": 1818,
+    "exact_head": "af35c4d1da3dce13e9814d9a4abce0635e334438",
+    "workflow_run_id": 35161071359,
+    "workflow_job_id": 105011690767,
+    "producer_path": "stages/stage32-ex5/hpadj-21_ex5/strictness_pilot_bounded_exact.py",
+    "hpadj20_parent_blob_sha1": "837d647cfcbc96bbe384e564f449cd7042a46d48",
+    "pilot_output_canonical_sha256": "ddd139f47889ad1a32f4f0604a399a5b97757da9844ca34d5d22ba7c2b57e81e"
+  },
+  "bounded_exact_result": {
+    "max_d": 16,
+    "pilot_rows": 10,
+    "tested_exact_cells": 80,
+    "no_weaker_exact_cells": 80,
+    "strict_exact_cells": 6,
+    "classes_with_more_than_two_qA_bins": 6,
+    "tuples_above_second_qA_level": 51,
+    "strict_rows": [
+      ["g0-d012", 0, 12],
+      ["g1-d012", 1, 12],
+      ["g0-d014", 0, 14],
+      ["g1-d014", 1, 14],
+      ["g0-d016", 0, 16],
+      ["g1-d016", 1, 16]
+    ],
+    "representative_witness": {
+      "row_id": "g0-d016",
+      "b_interval": [0, 11],
+      "pre_mass": 6921043780,
+      "post_mass": 3998587205,
+      "hpadj20_objective": {"numerator": 985335686, "denominator": 7, "floor": 140762240},
+      "full_histogram_objective": {"numerator": 5063504113, "denominator": 37, "floor": 136851462},
+      "strict_rational_improvement": {"numerator": 1012891591, "denominator": 259}
+    }
+  },
+  "interpretation": {
+    "full_histogram_pointwise_dominates_hpadj20_two_tier": true,
+    "strict_lp_effect_observed_on_exact_cells": true,
+    "threshold_collapse_does_not_eliminate_all_refinement_gain": true,
+    "full178_numeric_improvement_not_yet_measured": true,
+    "full178_scaleout_is_next_gate": true,
+    "composition_rule": "DIRECT_REFINEMENT_OF_SAME_POPULATION_LP__NO_ADDITIVE_SUBTRACTION"
+  },
+  "firewalls": {
+    "bounded_pilot_is_full178_result": false,
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  }
+}
