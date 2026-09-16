@@ -16,12 +16,14 @@ HPADJ15 = HERE / "hpadj-15_ex5" / "derive_b_shard_row_exact_grf04_picard_capacit
 HPADJ16 = HERE / "hpadj-16_ex5" / "derive_q_quadratic_b_shard_mass_lp_bound.py"
 HPADJ17 = HERE / "hpadj-17_ex5" / "derive_q_quadratic_b_shard_e_capacity_lp_bound.py"
 HPADJ18 = HERE / "hpadj-18_ex5" / "derive_q_quadratic_exact_predomain_picard_parity_lp_bound.py"
+HPADJ19 = HERE / "hpadj-19_ex5" / "derive_exact_support_qa_predomain_picard_lp_bound.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
 HPADJ15_BLOB = "99ac15d18c83da050107ac7e8b113ae795ff0629"
 HPADJ16_BLOB = "61805f8b6d661c29805b6966e2453ed411d73189"
 HPADJ17_BLOB = "10c1a836136f66b716ad39f6ca74250e32f386a9"
 HPADJ18_BLOB = "09c3a97ca47f2602b547efc572a3ddfee1d3437f"
+HPADJ19_BLOB = "fdf5c721121d549361b08a92694373f3df7d02c8"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -156,6 +158,35 @@ def replay_hpadj18_if_present() -> bool:
     return True
 
 
+def replay_hpadj19_if_present() -> bool:
+    if not HPADJ19.exists():
+        return False
+    req(blob(HPADJ19) == HPADJ19_BLOB, "HPADJ19 live verifier blob drift")
+    data = run_json_script(HPADJ19)
+    req(data["status"] == "Q_QUADRATIC_EXACT_QA_SUPPORT_PREDOMAIN_PICARD_PARITY_LP_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+        "HPADJ19 status drift")
+    req(data["candidate_bound"]["hpadj19_candidate_upper_bound"] <= 195603649074545538415,
+        "HPADJ19 weakened MAIN q-quadratic candidate")
+    req(data["candidate_bound"]["hpadj19_candidate_upper_bound"] <= 426398981823116026011,
+        "HPADJ19 weakened HPADJ15")
+    req(data["candidate_bound"]["structurally_no_weaker_than_hpadj18"] is True,
+        "HPADJ19 parent-dominance firewall")
+    req(data["qA_refinement"]["exact_support_preserved"] is True,
+        "HPADJ19 exact-support drift")
+    req(data["semantics"]["per_exact_pre_block_q_survivor_capacity_no_larger_than_hpadj18"] is True,
+        "HPADJ19 per-block parent-dominance drift")
+    req(data["semantics"]["statistical_independence_assumed"] is False,
+        "HPADJ19 independence firewall")
+    req(data["semantics"]["new_heavy_run_used"] is False,
+        "HPADJ19 heavy-run firewall")
+    req(data["firewalls"]["stage32_main_pruning_credit"] is False,
+        "HPADJ19 MAIN-credit firewall")
+    print("HPADJ19_CANONICAL=" + data["canonical_sha256_without_this_field"])
+    print("HPADJ19_UPPER=" + str(data["candidate_bound"]["hpadj19_candidate_upper_bound"]))
+    print("HPADJ19_IMPROVEMENT_VS_MAIN_Q=" + str(data["candidate_bound"]["improvement_vs_main_q_quadratic_global"]))
+    return True
+
+
 def main() -> None:
     req(all(not (HERE / name).exists() for name in RETIRED),
         "retired EX5 startup surface leaked into live root before V5 replay")
@@ -188,10 +219,11 @@ def main() -> None:
 
     req(all(not (HERE / name).exists() for name in RETIRED),
         "retired EX5 startup surface leaked after V5 compatibility replay")
-    if not replay_hpadj18_if_present():
-        if not replay_hpadj17_if_present():
-            if not replay_hpadj16_if_present():
-                replay_hpadj15_if_present()
+    if not replay_hpadj19_if_present():
+        if not replay_hpadj18_if_present():
+            if not replay_hpadj17_if_present():
+                if not replay_hpadj16_if_present():
+                    replay_hpadj15_if_present()
     print("PASS: retained EX5 V5 mathematical state replayed against archived startup projection only")
     print("live_startup=LANE-ADAPTERS -> stages/stage32-ex5/MAIN-STATE.json")
 
