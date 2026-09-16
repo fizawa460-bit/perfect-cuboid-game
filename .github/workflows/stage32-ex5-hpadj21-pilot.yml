@@ -1,6 +1,6 @@
 name: Stage32EX5 HPADJ21 strictness pilot
 
-# Trigger lifecycle: ACTIVE_AUTO — current HPADJ21 successor-frontier bounded diagnostic.
+# Trigger lifecycle: ACTIVE_AUTO — temporary bounded diagnostic only; retire after representative-row measurement.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -12,10 +12,10 @@ permissions:
   contents: read
 
 jobs:
-  hpadj21-strictness-pilot:
+  hpadj21-bounded-diagnostics:
     if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,10 +31,32 @@ jobs:
           from pathlib import Path
           data = json.loads(Path('/tmp/hpadj21-pilot.json').read_text())
           assert data['route_id'] == 'HPADJ-21_ex5'
+          assert data['status'] == 'STRICT_WITNESS_FOUND'
           assert data['lp_check']['tested_exact_cells'] == data['lp_check']['no_weaker_exact_cells']
+          assert data['lp_check']['strict_exact_cell_count'] > 0
           assert data['semantics']['bounded_pilot_is_not_full178_numeric_replay'] is True
           assert data['firewalls']['stage32_main_pruning_credit'] is False
           print('HPADJ21_STATUS=' + data['status'])
           print('HPADJ21_STRICT_CELLS=' + str(data['lp_check']['strict_exact_cell_count']))
           print('HPADJ21_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          PY
+      - name: Measure one near-maximum FULL178 row exactly
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = '68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index 177 --output /tmp/hpadj21-row177.json | tee /tmp/hpadj21-row177-summary.json
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index 177 --verify-existing /tmp/hpadj21-row177.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('/tmp/hpadj21-row177.json'); data=json.loads(p.read_text())
+          assert data['row']['index']==177
+          assert data['row']['row_id']=='g1-d190'
+          assert data['row']['d']==190
+          assert data['totals']['hpadj21_cellwise_floor_sum'] <= data['totals']['hpadj20_cellwise_floor_sum']
+          assert data['credit_firewall']['stage32_main_credit'] is False
+          print('HPADJ21_ROW177_BYTES='+str(p.stat().st_size))
+          print('HPADJ21_ROW177_STRICT_CELLS='+str(data['totals']['strict_cell_count']))
+          print('HPADJ21_ROW177_FLOOR_IMPROVEMENT='+str(data['totals']['floor_improvement']))
+          print('HPADJ21_ROW177_CANONICAL='+data['canonical_sha256_without_this_field'])
           PY
