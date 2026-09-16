@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 WF_DIR = ROOT / ".github" / "workflows"
 INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+INVENTORY_ADDITIONS = Path(__file__).with_name("repo-workflow-trigger-inventory-additions-20260916.json")
 
 # Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
 # if they are present, they are intentionally automatic.
@@ -31,6 +32,7 @@ MANUAL = {
     ".github/workflows/stage32-root-cleanup-phase-b.yml",
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
     ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
+    ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
 }
 
 
@@ -141,12 +143,31 @@ def build_inventory(changed: list[str]) -> dict:
     }
 
 
+def effective_expected_classifications(inv: dict) -> dict[str, list[str]]:
+    expected = {k: list(inv.get("classifications", {}).get(k, [])) for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
+    if INVENTORY_ADDITIONS.is_file():
+        additions = json.loads(INVENTORY_ADDITIONS.read_text())
+        if additions.get("base_inventory") != INVENTORY.name:
+            raise SystemExit("workflow inventory additions base mismatch")
+        rows = additions.get("classifications", {})
+        seen = {p for values in expected.values() for p in values}
+        for cls in ("ACTIVE_AUTO", "MANUAL", "RETIRED"):
+            for path in rows.get(cls, []):
+                if path in seen:
+                    raise SystemExit(f"duplicate workflow lifecycle registration: {path}")
+                expected[cls].append(path)
+                seen.add(path)
+    for cls in expected:
+        expected[cls] = sorted(expected[cls])
+    return expected
+
+
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
     actual = build_inventory([])["classifications"]
-    expected = inv.get("classifications", {})
+    expected = effective_expected_classifications(inv)
     if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
+        failures.append("inventory is stale: classification/path set differs from .github/workflows plus registered additions")
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -185,10 +206,10 @@ def main() -> None:
     if failures:
         raise SystemExit("\n".join(failures))
 
-    c = inv["counts"]
+    c = generated["counts"]
     print("PASS repository-wide workflow trigger lifecycle inventory")
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
-    for name, row in inv["families"].items():
+    for name, row in generated["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
     print("historical_or_manual_automatic_triggers=0")
     print("mathematical_authority_changed=true")
