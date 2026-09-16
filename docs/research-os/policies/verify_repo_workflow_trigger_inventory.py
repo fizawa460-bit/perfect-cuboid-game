@@ -32,8 +32,25 @@ MANUAL = {
     ".github/workflows/stage32-root-cleanup-phase-b.yml",
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
     ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
-    ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
 }
+
+
+def load_additive_classes() -> dict[str, str]:
+    out: dict[str, str] = {}
+    if not INVENTORY_ADDITIONS.is_file():
+        return out
+    additions = json.loads(INVENTORY_ADDITIONS.read_text())
+    if additions.get("base_inventory") != INVENTORY.name:
+        raise SystemExit("workflow inventory additions base mismatch")
+    for cls in ("ACTIVE_AUTO", "MANUAL", "RETIRED"):
+        for path in additions.get("classifications", {}).get(cls, []):
+            if path in out:
+                raise SystemExit(f"duplicate additive workflow lifecycle registration: {path}")
+            out[path] = cls
+    return out
+
+
+ADDITIVE_CLASS_BY_PATH = load_additive_classes()
 
 
 def rel(path: Path) -> str:
@@ -57,6 +74,8 @@ def family(path: str) -> str:
 
 
 def classify(path: str) -> str:
+    if path in ADDITIVE_CLASS_BY_PATH:
+        return ADDITIVE_CLASS_BY_PATH[path]
     if path in ACTIVE_AUTO:
         return "ACTIVE_AUTO"
     if path in MANUAL:
@@ -131,7 +150,10 @@ def build_inventory(changed: list[str]) -> dict:
         "families": {k: dict(v) for k, v in sorted(fam.items())},
         "classifications": groups,
         "automatic_triggers_removed_by_migration": changed,
-        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
+        "branch_local_live_catalog": sorted(
+            p for p in set(ACTIVE_AUTO) | {q for q, cls in ADDITIVE_CLASS_BY_PATH.items() if cls == "ACTIVE_AUTO"}
+            if (ROOT / p).is_file()
+        ),
         "notes": [
             "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
             "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
@@ -145,18 +167,12 @@ def build_inventory(changed: list[str]) -> dict:
 
 def effective_expected_classifications(inv: dict) -> dict[str, list[str]]:
     expected = {k: list(inv.get("classifications", {}).get(k, [])) for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
-    if INVENTORY_ADDITIONS.is_file():
-        additions = json.loads(INVENTORY_ADDITIONS.read_text())
-        if additions.get("base_inventory") != INVENTORY.name:
-            raise SystemExit("workflow inventory additions base mismatch")
-        rows = additions.get("classifications", {})
-        seen = {p for values in expected.values() for p in values}
-        for cls in ("ACTIVE_AUTO", "MANUAL", "RETIRED"):
-            for path in rows.get(cls, []):
-                if path in seen:
-                    raise SystemExit(f"duplicate workflow lifecycle registration: {path}")
-                expected[cls].append(path)
-                seen.add(path)
+    seen = {p for values in expected.values() for p in values}
+    for path, cls in ADDITIVE_CLASS_BY_PATH.items():
+        if path in seen:
+            raise SystemExit(f"duplicate workflow lifecycle registration: {path}")
+        expected[cls].append(path)
+        seen.add(path)
     for cls in expected:
         expected[cls] = sorted(expected[cls])
     return expected
