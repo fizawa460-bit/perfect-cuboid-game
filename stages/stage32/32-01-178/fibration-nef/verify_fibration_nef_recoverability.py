@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import itertools
 import json
 import subprocess
 import sys
@@ -23,8 +24,6 @@ LOCKED = [
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648av_canonical_coordinate_hyperplane_recovery.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648aw_Z_Wpair_support_cells.py",
-    "stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py",
-    "stages/stage32/residual-32-01-production/diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
     "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
     "stages/stage32/32-01-178/nodes/N220/STATE.json",
     "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
@@ -33,15 +32,6 @@ LOCKED = [
 ]
 
 ASSIGNMENT_LABELS = [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96]
-SOURCE_COORDINATE_NAMES = ("a1", "a2", "a3", "b1", "b2", "b3", "c")
-FIBRATIONS = [
-    ("Q_a1_b1_c", ("a1", "b1", "c")),
-    ("Q_a2_b2_c", ("a2", "b2", "c")),
-    ("Q_a3_b3_c", ("a3", "b3", "c")),
-    ("Q_a2_a3_b1", ("a2", "a3", "b1")),
-    ("Q_a1_a3_b2", ("a1", "a3", "b2")),
-    ("Q_a1_a2_b3", ("a1", "a2", "b3")),
-]
 
 
 def load_retained(path: Path, name: str) -> dict:
@@ -102,15 +92,90 @@ def audited_total_exceptional_semantics() -> dict:
     }
 
 
-def source_zero_coordinates(record: dict) -> set[str]:
-    values = record["source_projective_coordinates_a1_a2_a3_b1_b2_b3_c"]
-    if len(values) != len(SOURCE_COORDINATE_NAMES):
-        raise ValueError("source projective coordinate length regression")
-    if any(x not in {"0", "1", "-1", "i", "-i"} for x in values):
-        raise ValueError("source projective coordinate alphabet regression")
-    return {
-        name for name, value in zip(SOURCE_COORDINATE_NAMES, values)
-        if value == "0"
+def recover_unordered_fibration_blocks() -> tuple[list[list[int]], dict]:
+    """Recover the six 8-node base loci without choosing individual node names.
+
+    Source support has Z=(b1,b2,b3) and W=(a1,a2,a3,c).  The six
+    fibration base loci are exactly the cells where one Z and one of the six
+    unordered W-pairs vanish.  Their three Z-rows are the three perfect
+    matchings of K4.  AW verifies this support design directly on retained
+    exceptional labels, so no 48-node semantic bijection is required.
+    """
+    av = run_json(RES / "diagnose_stage32_post1648av_canonical_coordinate_hyperplane_recovery.py")
+    zd = run_json(RES / "diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py")
+    aw = run_json(RES / "diagnose_stage32_post1648aw_Z_Wpair_support_cells.py")
+
+    covers = av["coordinate_W1_W2_W3_C_recovery"]["global_four_hyperplane_exact_covers"]
+    zparts = zd["retained"]["unordered_Z1_Z2_Z3_exact_partitions"]
+    survivors = aw["support_design_survivors"]
+    if len(covers) != 25 or len(zparts) != 1:
+        raise ValueError("AV/AW exact-cover or Z-partition count regression")
+    if aw.get("input_WC_exact_cover_count") != 25 or aw.get("support_design_survivor_count") != 1 or len(survivors) != 1:
+        raise ValueError("AW support-design uniqueness regression")
+
+    survivor = survivors[0]
+    wanted = tuple(survivor["candidate_indices_zero_based"])
+    selected = [c for c in covers if tuple(c["candidate_indices_zero_based"]) == wanted]
+    if len(selected) != 1:
+        raise ValueError("unique AW support-design cover lookup regression")
+
+    zblocks = [set(b["exceptional_labels_1based"]) for b in zparts[0]["blocks"]]
+    wblocks = [set(g["exceptional_labels_1based"]) for g in selected[0]["groups"]]
+    if len(zblocks) != 3 or len(wblocks) != 4:
+        raise ValueError("Z/W block count regression")
+    if any(len(z) != 16 for z in zblocks) or any(len(w) != 24 for w in wblocks):
+        raise ValueError("Z/W block size regression")
+
+    wpairs = list(itertools.combinations(range(4), 2))
+    blocks: list[list[int]] = []
+    cells = []
+    used_pairs = []
+    per_z_counts = []
+    for z_index, z in enumerate(zblocks):
+        row_counts = []
+        row_hits = 0
+        for i, j in wpairs:
+            labels = sorted(z & wblocks[i] & wblocks[j])
+            row_counts.append(len(labels))
+            if len(labels) == 8:
+                row_hits += 1
+                used_pairs.append((i, j))
+                blocks.append(labels)
+                cells.append({
+                    "unordered_Z_block_index": z_index,
+                    "unordered_W_pair_indices": [i, j],
+                    "exceptional_labels_1based": labels,
+                })
+            elif labels:
+                raise ValueError("surviving AW support cell has nonzero non-eight size")
+        if row_hits != 2 or sorted(row_counts) != [0, 0, 0, 0, 8, 8]:
+            raise ValueError("AW per-Z perfect-matching support regression")
+        per_z_counts.append(row_counts)
+
+    canonical_blocks = sorted(tuple(x) for x in blocks)
+    if len(canonical_blocks) != 6 or sorted(used_pairs) != wpairs:
+        raise ValueError("AW six-pair support regression")
+    flat = [x for block in canonical_blocks for x in block]
+    if len(flat) != 48 or len(set(flat)) != 48 or set(flat) != set(range(93, 141)):
+        raise ValueError("AW fibration cells do not partition all 48 exceptionals")
+
+    return [list(x) for x in canonical_blocks], {
+        "producer_chain": [
+            "diagnose_stage32_post1648av_canonical_coordinate_hyperplane_recovery.py",
+            "diagnose_stage32_post1648aw_boundary_Z_hyperplane_blocks.py",
+            "diagnose_stage32_post1648aw_Z_Wpair_support_cells.py",
+        ],
+        "individual_48node_semantic_bijection_required": False,
+        "ordered_coordinate_names_required": False,
+        "source_support_dictionary": "Z=(b1,b2,b3), W=(a1,a2,a3,c); six base loci are one Z plus one W-pair, with the three Z rows equal to the three perfect matchings of K4",
+        "input_WC_exact_cover_count": len(covers),
+        "unordered_Z_partition_count": len(zparts),
+        "support_design_survivor_count": len(survivors),
+        "selected_W_cover_candidate_indices_zero_based": list(wanted),
+        "selected_W_cover_exceptional_mass_sums": selected[0]["exceptional_mass_sums"],
+        "per_Z_Wpair_cell_sizes": per_z_counts,
+        "used_Wpairs_exactly_once": [list(x) for x in used_pairs],
+        "unordered_six_base_locus_cells": cells,
     }
 
 
@@ -150,6 +215,8 @@ def span_profile(rows: list[Matrix], targets: list[Matrix]) -> dict:
 def main() -> None:
     lock_sources()
     total_exceptional_semantics = audited_total_exceptional_semantics()
+    block_labels, block_adapter = recover_unordered_fibration_blocks()
+
     sys.path.insert(0, str(RES))
     from hperp_integral_adapter import (  # noqa: E402
         HperpIntegralPairingAdapter, RETAINED_BASIS_KNOWN_LABELS_1BASED, _parse_hperp,
@@ -174,40 +241,17 @@ def main() -> None:
     if int((H * gram * H.T)[0, 0]) != 16:
         raise ValueError("H=K square regression")
 
-    bij = run_json(RES / "diagnose_stage32_post1648bd_cc_unique_node_bijection.py")
-    if (
-        not bij["unique_full_aut_plus_cc_bijection_obtained"]
-        or bij["source_node_count"] != 48
-        or bij["cc_equivariant_bijection_count"] != 1
-        or len(bij["records"]) != 48
-    ):
-        raise ValueError("unique Aut+cc 48-node bijection regression")
-
-    node_rows = []
-    block_labels = []
-    all_labels = set()
-    for name, triple in FIBRATIONS:
-        labels = sorted(
-            int(r["retained_exceptional_label_1based"])
-            for r in bij["records"]
-            if set(triple).issubset(source_zero_coordinates(r))
-        )
-        if len(labels) != 8:
-            raise ValueError(f"{name}: expected 8 base nodes, got {len(labels)}")
-        node_rows.append({"name": name, "zero_coordinates": list(triple), "exceptional_labels_1based": labels})
-        block_labels.append(labels)
-        if all_labels.intersection(labels):
-            raise ValueError("rank-3 base loci are not disjoint")
-        all_labels.update(labels)
-    if all_labels != set(range(93, 141)):
-        raise ValueError("six base loci do not partition all 48 exceptional labels")
-
     targets = []
-    for labels in block_labels:
+    node_rows = []
+    for i, labels in enumerate(block_labels):
         D = H.copy()
         for lab in labels:
             D -= coords.row(lab - 1)
         targets.append(D)
+        node_rows.append({
+            "unordered_block_index": i,
+            "exceptional_labels_1based": labels,
+        })
 
     base_rows = [H] + [coords.row(lab - 1) for lab in ASSIGNMENT_LABELS]
     Etotal = Matrix([[0] * 64])
@@ -227,30 +271,24 @@ def main() -> None:
 
     observed_exceptionals = sorted(x for x in ASSIGNMENT_LABELS if x >= 93)
     coverage = []
-    for row in node_rows:
-        hit = sorted(set(row["exceptional_labels_1based"]) & set(observed_exceptionals))
+    for i, labels in enumerate(block_labels):
+        hit = sorted(set(labels) & set(observed_exceptionals))
         coverage.append({
-            "name": row["name"],
+            "unordered_block_index": i,
             "observed_exceptional_labels_1based": hit,
             "observed_count": len(hit),
             "missing_count": 8 - len(hit),
         })
 
     out = {
-        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V2",
+        "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V3",
         "source_base_exact_head": SOURCE_BASE,
-        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression/N220 raw+audited inputs",
-        "node_label_adapter": {
-            "producer": "diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
-            "az_anchor_reported_solution_count_was_not_deduplicated": bij["az_anchor_reported_solution_count_was_not_deduplicated"],
-            "aut_equivariant_distinct_bijection_count": bij["aut_equivariant_distinct_bijection_count"],
-            "cc_equivariant_bijection_count": bij["cc_equivariant_bijection_count"],
-            "unique_full_aut_plus_cc_bijection_obtained": bij["unique_full_aut_plus_cc_bijection_obtained"],
-        },
+        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/AV/AW/compression/N220 raw+audited inputs",
+        "fibration_block_adapter": block_adapter,
         "stoll_testa_divisor_identity": "D_Q=2F_Q=H-sum_{P in B_Q}E_P",
         "assignment_labels_1based": ASSIGNMENT_LABELS,
         "observed_exceptional_labels_1based": observed_exceptionals,
-        "six_rank3_base_loci": node_rows,
+        "six_rank3_base_loci_unordered": node_rows,
         "six_base_loci_partition_all_48_exceptionals": True,
         "coverage": coverage,
         "base_observables": {
