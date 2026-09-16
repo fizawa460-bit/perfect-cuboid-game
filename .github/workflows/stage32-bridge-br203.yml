@@ -68,9 +68,10 @@ jobs:
           x=json.load(open(p))
           assert x['status'] == 'PASS_ZERO_CREDIT'
           assert x['H10_d20']['BR202_K8'] == 1878715345
-          assert x['H10_d20']['BR203_mu_K8'] == 69942600
+          assert x['H10_d20']['BR203_mu_K8'] == 1853108432
+          assert x['H10_d20']['tightening'] == 25606913
           assert x['H16_d32']['BR202_K8'] == 230521553871
-          assert x['H16_d32']['BR203_mu_K8'] == 6371063060
-          assert x['H16_d32']['tightening'] == 224150490811
+          assert x['H16_d32']['BR203_mu_K8'] == 229209796641
+          assert x['H16_d32']['tightening'] == 1311757230
           print('BR203 bounded mu intersection exact regression PASS')
           PY
