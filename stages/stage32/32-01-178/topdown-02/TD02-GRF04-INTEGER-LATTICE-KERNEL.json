@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_GRF04_INTEGER_LATTICE_KERNEL_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "route": "TD02-GRF04-INTEGER-LATTICE-STRENGTHENING",
+  "status": "RETAINED_RESEARCH_KERNEL__NO_MAIN_CREDIT__FULL178_SCALEOUT_NOT_YET_RUN",
+  "purpose": "Strengthen the real (u,t) quadratic relaxation by retaining the integer/nonnegative split structure already present in the FULL178 exceptional multiplicities, without enumerating terminals and without duplicating MAIN's LP allocation.",
+  "source_identity": {
+    "td02_bounded_source_path": "stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bounded.py",
+    "td02_bounded_source_blob_sha1": "8dc7b6255b31a79aa7f51141f1ac5a5b8137efc0",
+    "td01_audited_envelope_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+    "td01_audited_envelope_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+    "td01_audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "td01_hostile_audit_review_id": 5214778974
+  },
+  "mathematics": {
+    "variables": {
+      "a": "x2+x3+x7",
+      "b": "x1+x5+x9",
+      "c": "x0+x8+x6+x10",
+      "t": "x0+x1+x6+x9",
+      "u": "x1+x9",
+      "D": "d/2-2*x4"
+    },
+    "source_grf04": "6*q + (D-t)^2 <= R_g(d)/4",
+    "exact_two_split_minimum": "min_{r+s=n, r,s>=0 integers}(r^2+s^2)=ceil(n^2/2)",
+    "exact_three_split_minimum": "min_{r+s+v=a, nonnegative integers}(r^2+s^2+v^2)=qmin3(a); 6*qmin3(a)=2*a^2 + (0 if a=0 mod 3 else 4)",
+    "integer_qbc_lower": "ceil(u^2/2)+(b-u)^2+ceil((t-u)^2/2)+ceil((c-t+u)^2/2)",
+    "integer_feasible_domain": "0<=t<=b+c and max(0,t-c)<=u<=min(b,t), u,t integers",
+    "real_main_bc_minimum": "3*(6*D^2-8*D*b-6*D*c+18*b^2+4*b*c+13*c^2)/23",
+    "real_u_center_at_fixed_t": "u0=(2*b+2*t-c)/5",
+    "fixed_t_real_difference": "qBC_real(u)-qBC_real(u0)=(5/2)*(u-u0)^2",
+    "integer_parity_correction": "qBC_integer-qBC_real=(parity(u)+parity(t-u)+parity(c-t+u))/2, hence lies in [0,3/2]",
+    "fast_u_minimizer": "For fixed (b,c,t), the exact integer relaxed minimum is attained among floor(u0),ceil(u0) clipped to the integer feasible interval. If u0 is outside, the nearest integer boundary suffices. Thus the u search is at most two candidates.",
+    "strength_relation": "The resulting integer-lattice GRF04 lower bound is globally >= the real quadratic lower bound because it minimizes a pointwise stronger objective over a smaller integer/nonnegative domain. Therefore failure of the integer-lattice condition safely excludes every completion excluded by the real relaxation and potentially more."
+  },
+  "independent_checks": {
+    "wolfram_real_quadratic_minimum_identity": true,
+    "wolfram_fixed_t_curvature_identity": true,
+    "wolfram_pair_split_minimum_s_0_through_192": true,
+    "production_fixed_t_fast_u_crosscheck": {
+      "b_range": [0, 96],
+      "c_range": [0, 96],
+      "states": 912673,
+      "fast_equals_full_u_enumeration": true
+    },
+    "bounded_real_vs_integer_probe": {
+      "b_range": [0, 16],
+      "c_range": [0, 16],
+      "D_range": [-32, 32],
+      "states": 18785,
+      "integer_not_weaker_states": 18785,
+      "strict_integer_gain_states": 18626,
+      "equal_states": 159,
+      "maximum_gap": "5120/23",
+      "maximum_gap_first_witness": [0, 0, -32]
+    }
+  },
+  "main_candidate_comparison": {
+    "role": "INFORMATIONAL_EXTERNAL_REFERENCE_ONLY__NO_AUTHORITY_OR_CREDIT_INHERITED",
+    "pr": 1808,
+    "exact_head": "6489e1fb9f35b8ecdc19c982301a816d956711e9",
+    "candidate_blob_sha1": "1d669114e930951b9d5f9f82a6abb2b59cd43884",
+    "candidate_upper_bound": 195603649074545538415,
+    "relation": "MAIN drops integrality/nonnegativity in the (u,t) minimization. This 178 kernel keeps those constraints at the lower-bound stage and also replaces a^2/3 by the exact integer three-split minimum. It does not rerun or claim MAIN's LP certificate."
+  },
+  "verifier": {
+    "path": "stages/stage32/32-01-178/topdown-02/verify_td02_grf04_integer_lattice_kernel.py",
+    "blob_sha1": "d51a8edbfc4fb2c8e46dc9ea788ca43a7587f054",
+    "exact_head_ci": false,
+    "replay_class": "LIGHTWEIGHT_DETERMINISTIC_KERNEL_REPLAY"
+  },
+  "next_route": {
+    "id": "TD02-INTEGER-LATTICE-CAPACITY-SCALEOUT",
+    "goal": "Replace the MAIN real quadratic lower bound by this integer-lattice lower bound inside a 178-owned compressed capacity census, using the at-most-two-u-candidate kernel and a cached t minimization. First run a bounded exact regression against the retained TD02 terminal/source census; only then consider FULL178 scaleout.",
+    "terminal_enumeration_required": false,
+    "duplicate_main_lp_forbidden": true,
+    "heavy_compute_armed": false
+  },
+  "credit": {
+    "main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false,
+    "merge": false
+  }
+}
