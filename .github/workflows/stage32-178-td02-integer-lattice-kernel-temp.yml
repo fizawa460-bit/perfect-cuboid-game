@@ -1,0 +1,26 @@
+name: Stage32 178 TD02 integer-lattice kernel temporary verification
+
+# lifecycle: ACTIVE_AUTO
+# Branch-local lightweight replay for the current 178 TD02 research frontier.
+# Remove after exact-head evidence is retained.
+on:
+  push:
+    branches:
+      - stage32-01-178-topdown-grf02-hpadj08
+    paths:
+      - stages/stage32/32-01-178/topdown-02/verify_td02_grf04_integer_lattice_kernel.py
+      - stages/stage32/32-01-178/topdown-02/TD02-GRF04-INTEGER-LATTICE-KERNEL.json
+      - .github/workflows/stage32-178-td02-integer-lattice-kernel-temp.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify TD02 GRF04 integer-lattice kernel
+        run: python stages/stage32/32-01-178/topdown-02/verify_td02_grf04_integer_lattice_kernel.py
