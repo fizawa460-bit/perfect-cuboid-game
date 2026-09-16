@@ -21,7 +21,8 @@
     "observed_repo_main_at_charter_reset": "c6284abbb29930255892d56f800da0ea1e34734b",
     "target_population": "current authoritative FULL178 population semantics as refreshed from live MAIN at each leaf",
     "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
-    "authority_is_upper_bound_not_exact_residual_identity_set": true
+    "authority_is_upper_bound_not_exact_residual_identity_set": true,
+    "hardcoded_research_anchor_is_live_authority": false
   },
   "research_seed": {
     "issue": 1817,
@@ -37,6 +38,7 @@
       "59D_only_on_late_survivors"
     ],
     "known_research_anchors": {
+      "anchor_semantics": "REGRESSION_ONLY_NOT_LIVE_AUTHORITY",
       "TD02_reference_upper_bound": "195414091250828468192",
       "FULL178_bct_low_qBC_K8_scratch_candidate": "171016506358704660923",
       "FULL178_K8_scratch_tightening_percent": 12.4851,
@@ -61,6 +63,36 @@
       "16-state mu claim cannot be reproduced from retained source data",
       "required semantic adapter changes the target population"
     ]
+  },
+  "transition_policy": {
+    "refresh_live_MAIN_before_every_transition": true,
+    "record_live_predecessor_identity_and_semantics": true,
+    "classify_candidate_against_live_predecessor": true,
+    "allowed_classifications": [
+      "STRICT_SAME_POPULATION_IMPROVEMENT",
+      "EQUAL_TO_LIVE_PREDECESSOR",
+      "DOMINATED_BY_LIVE_PREDECESSOR",
+      "SEMANTICALLY_INCOMPARABLE"
+    ],
+    "dominated_or_incomparable_blocks_expensive_downstream_scaleout": true,
+    "intermediate_candidate_salvage_allowed": true,
+    "BR203": {
+      "measure_A_side_syndrome_image_cardinality": true,
+      "measure_BC_side_syndrome_image_cardinality": true,
+      "measure_deduplicated_free_exceptional_mu_table": true,
+      "group_sum_invariance_required": false,
+      "linear_A_BC_syndrome_factorization_allowed": true,
+      "terminal_identity_materialization_forbidden": true,
+      "on_compact_state_explosion": "FREEZE_BR202_AND_STOP_OR_PARK_BR203"
+    },
+    "BR205": {
+      "gate": "BR204 exact slack attribution must show qBC tier truncation active on nonzero retained mass and a bounded same-population deeper-tier pilot must show strict improvement",
+      "otherwise": "SKIP_BR205"
+    },
+    "BR206": {
+      "gate": "exact compact survivor boundary + exact source-locked 59D adapter + deduplicated work-item count + workload/storage preflight",
+      "otherwise": "FREEZE_BEST_COMPACT_CANDIDATE_AND_DO_NOT_INVOKE_59D"
+    }
   },
   "routing": {
     "independent_specialist": true,
@@ -94,6 +126,13 @@
     "stop_reason": null
   },
   "deliverable_contract": {
+    "per_candidate_checkpoint": [
+      "live predecessor identity",
+      "same-population semantic adapter identity",
+      "candidate classification versus live predecessor",
+      "exact candidate value or exact blocker",
+      "source locks and deterministic replay identity"
+    ],
     "per_shard": [
       "exact compact state/population totals",
       "qBC tier and qA convolution summary",
