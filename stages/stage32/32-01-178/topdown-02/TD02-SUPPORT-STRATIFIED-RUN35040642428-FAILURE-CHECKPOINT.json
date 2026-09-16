@@ -1,0 +1,50 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_SUPPORT_STRATIFIED_FAILURE_CHECKPOINT_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "route": "TD02-FULL178-SUPPORT-STRATIFIED-AGGREGATE",
+  "status": "FAILED_FINAL_PANEL_EXPECTATION_AFTER_FULL_CENSUS__NO_RESULT_CREDIT",
+  "exact_head": "eaeec0ee9006a2720a6a1de1327579d353ae160a",
+  "ci": {
+    "run_id": 35040642428,
+    "job_id": 104619485794,
+    "conclusion": "FAILURE",
+    "verifier_blob_sha1": "efeec0168f418223bf5009ec6ed6267c8c9ef5ec",
+    "failure": "FAIL: exact HPADJ08 panel drift 47589703313957134107892"
+  },
+  "diagnosis": {
+    "verifier_expected_panel": 47589703313957134958895,
+    "observed_panel": 47589703313957134107892,
+    "difference": 851003,
+    "audited_td01_replay_domain_exact_cardinality": 47589703313957134107892,
+    "audited_hpadj08_exact_square_rejected": 40886299509963924857401,
+    "audited_td01_hpadj08_survivor_envelope": 6703403803993209250491,
+    "identity": "40886299509963924857401 + 6703403803993209250491 = 47589703313957134107892",
+    "stale_reference_upper_bound_used_by_expected_constant": 6703403803993210101494,
+    "stale_expected_identity": "40886299509963924857401 + 6703403803993210101494 = 47589703313957134958895",
+    "interpretation": "The full census reached the final panel assertion. The hard-coded expectation mixed the audited exact-square rejected mass with the older HPADJ08 V29 reference upper bound instead of the later hostile-audited TD01 exact replay-domain envelope. This checkpoint does not infer the unprinted survivor result."
+  },
+  "source_evidence": {
+    "td01_packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+    "td01_packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+    "td01_audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "td01_hostile_audit_review_id": 5214778974
+  },
+  "reopen_condition": {
+    "required_fix": "Source-lock the audited TD01 replay-domain packet and replace the stale panel expectation by 47589703313957134107892.",
+    "execution_rule": "Do not blindly repeat the 25-minute monolithic run. Resume only after a cheaper retained checkpoint/partition or a materially optimized support-table construction is available, unless repository heavy-workflow authorization explicitly permits the rerun.",
+    "survivor_bound_known": false
+  },
+  "rotation_reason": "The live MAIN q-quadratic candidate is already substantially stronger numerically than the predecessor TD02 aggregate. Rotate 178 to a materially distinct integer-lattice strengthening of the same source GRF04 inequality rather than duplicate the MAIN LP or immediately repeat this long census.",
+  "credit": {
+    "main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false,
+    "merge": false
+  }
+}
