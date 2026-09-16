@@ -2,8 +2,8 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V2",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR202",
-  "active_leaf": "BR202_P1_K8_FULL_QA_INTEGRATION",
+  "current_node": "BR203",
+  "active_leaf": "BR203_PICARD_MU_16_STATE_INTEGRATION",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -58,18 +58,26 @@
       "result": "stages/stage32/generalization-bridge/BR201-SOURCE-LOCK-COMPACT-PRODUCER-REGRESSION.json",
       "live_main_at_close": "c6284abbb29930255892d56f800da0ea1e34734b",
       "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS"
+    },
+    "BR202": {
+      "status": "PASS_ZERO_CREDIT",
+      "handoff": "stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-HANDOFF.json",
+      "result": "stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-BOUNDED-RESULT.json",
+      "live_main_at_close": "c6284abbb29930255892d56f800da0ea1e34734b",
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_K8": 230521553871
     }
   },
   "next_obligation": {
-    "node_id": "BR202",
-    "title": "P1 K=8 plus full qA compact integration",
-    "required_input": "Use the BR201 source-locked producer semantics to construct the exact compact state/capacity producer with support, exact r, K=8 low-qBC tiers, and the full qA histogram. Preserve the same bounded population and compare against the retained bounded P1 K=8 reference on identical semantics without terminal identity materialization.",
-    "success": "A deterministic bounded compact P1 K=8 + full-qA integration reproduces direct fixtures and yields an exact same-population candidate ready for BR203 syndrome integration. Grant no MAIN credit and do not scale to FULL178 here.",
+    "node_id": "BR203",
+    "title": "Picard mu 16-state integration",
+    "required_input": "Use the BR201 source-locked selected64/HNF semantics and BR202 compact A/BC producer. Rebuild the exact terminal-A, terminal-BC, and 19-free-exceptional syndrome maps modulo 8; measure exact A-side and BC-side syndrome image cardinalities; compute the exact deduplicated mu table on the 16 reachable free-exceptional syndrome states; then intersect mu[sigma_A+sigma_BC] <= e-a-b-c with the bounded BR202 K8 candidate without terminal identity materialization.",
+    "success": "An exact source-locked 16-state mu table plus bounded same-population P1 K8 intersection is reproduced with compact A/BC syndrome factorization and no state explosion. Grant no MAIN credit and do not scale to FULL178 here.",
     "stop_conditions": [
-      "population mismatch versus BR201 regression",
-      "support/r/K8/qA multiplicity mismatch",
-      "semantic adapter changes the target population",
-      "candidate is dominated or semantically incomparable to the live predecessor without a salvageable compact intermediate",
+      "source-lock ambiguity in the selected64/HNF coefficient system",
+      "free-exceptional reachable group is not exactly 16 states under the retained source",
+      "A/BC syndrome factorization fails exact regression",
+      "BC-side syndrome split causes prohibited compact-state explosion",
       "terminal identity materialization becomes necessary"
     ]
   },
@@ -115,8 +123,9 @@
     "BR200_charter_reset_complete": true,
     "BR201_authorized": false,
     "BR201_complete": true,
-    "BR202_authorized": true,
-    "BR203_authorized": false,
+    "BR202_authorized": false,
+    "BR202_complete": true,
+    "BR203_authorized": true,
     "BR204_FULL178_scaleout_authorized": false,
     "BR205_full_qBC_escalation_authorized": false,
     "BR206_late_59D_authorized": false,
