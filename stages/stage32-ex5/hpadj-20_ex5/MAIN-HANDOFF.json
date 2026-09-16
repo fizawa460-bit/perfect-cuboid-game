@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32EX5_HPADJ20_FULL178_MAIN_HANDOFF_V1",
+  "status": "HOSTILE_AUDITED_HEAVY_RESULT_READY_FOR_MAIN_NUMERICAL_PREFLIGHT__ZERO_MAIN_CREDIT",
+  "route_id": "HPADJ-20_ex5",
+  "producer": {
+    "pr": 1814,
+    "audited_exact_head": "4140e5eb2ebee0c32b22ec78fd531ab35fb7c3ff",
+    "hostile_audit_review_id": 5228477451,
+    "hostile_audit_verdict": "PASS",
+    "heavy_run": {
+      "run_id": 35077283028,
+      "conclusion": "success",
+      "artifact_name": "hpadj20-parallel-union",
+      "artifact_id": 10456339298,
+      "artifact_digest_sha256": "4083552fbe016f25bbb6b53a06e9abd6bef9f8fea63693032107919f3f03c8dd",
+      "union_canonical_sha256": "801999649a71700c369f0c2a32da9f7603b86e077212d3a4865ffbf1773822e7",
+      "execution_manifest_canonical_sha256": "b619d5c31115f5783b58b91978e33f5aa410470601e228aa72d1c6f337275e1e",
+      "recovery_snapshot_canonical_sha256": "e30c782edd67ac9057dc290f6d539d6bac3ddbd4370b741a934148e0c3915dec",
+      "full178_rows": 178,
+      "row_gap_count": 0,
+      "row_overlap_count": 0,
+      "carried_units": 3,
+      "computed_units": 175
+    },
+    "source_locks": {
+      "producer": {
+        "path": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
+        "blob_sha1": "837d647cfcbc96bbe384e564f449cd7042a46d48"
+      },
+      "row_worker": {
+        "path": "stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py",
+        "blob_sha1": "380c191b7dd3bcc6c1e290495c776203d4a92b63"
+      },
+      "union_aggregator": {
+        "path": "stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py",
+        "blob_sha1": "cfa58039f9cce06767a18b7594782dc620865e51"
+      },
+      "execution_contract": {
+        "path": "stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json",
+        "blob_sha1": "904c6c890ee90807c5abdaa56171667710634b6b"
+      }
+    }
+  },
+  "candidate_transition": {
+    "hpadj20_candidate_upper_bound": 179119009547804181594,
+    "replayed_hpadj19_candidate_upper_bound": 179245728231734014087,
+    "strict_improvement_vs_hpadj19": 126718683929832493,
+    "observed_current_main_upper_bound": 195414091250828468192,
+    "strict_improvement_vs_observed_current_main": 16295081703024286598,
+    "remaining_strata_if_consumed_as_valid_replacement": 17128,
+    "composition_rule": "DIRECT_REFINEMENT_OF_SAME_POPULATION_LP__NO_ADDITIVE_SUBTRACTION",
+    "same_hpadj08_td01_x4_complete_population": true,
+    "ordered_triple_population_preserved_exactly": true,
+    "exact_incremental_rejected_identity_set_available": false,
+    "additive_subtraction_authorized": false,
+    "ex5_main_authority_mutation_performed": false
+  },
+  "target_main": {
+    "pr": 1808,
+    "observed_head": "04ecdbbec365fbe3cb4a30f4c8cd86f720e41814",
+    "observed_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "observed_remaining_strata": 17128,
+    "observed_remaining_terminal_upper_bound": 195414091250828468192,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "parallel_preflight": {
+      "path": "stages/stage32/management/grf04-quadratic-capacity/HPADJ20-FULL-QA-HISTOGRAM-MAIN-PARALLEL-PREFLIGHT.json",
+      "canonical_sha256": "0191c14b3fc072a762d1b702408746691cd5fe315ce9f4a0a040b75183bd13a8",
+      "requires_hpadj20_exact_numeric_output": true,
+      "requires_full_histogram_numeric_replay": true,
+      "strict_global_improvement_over_hpadj20_preflight_proven": false
+    }
+  },
+  "consumer_preconditions": {
+    "consumer_must_source_lock_this_handoff_and_audited_producer_boundary": true,
+    "consumer_must_validate_heavy_union_or_equivalent_audited_receipt": true,
+    "consumer_must_preserve_exact_population_semantics": true,
+    "consumer_must_not_additively_subtract_hpadj20_improvement": true,
+    "consumer_must_treat_hpadj20_as_replacement_or_refinement_bound_only": true,
+    "main_full_qa_histogram_numeric_replay_is_next_strengthening_gate": true,
+    "resulting_main_authority_transition_requires_its_own_hostile_audit": true
+  },
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "main_consumption_performed": false,
+    "exact_incremental_rejected_identity_set_claimed": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "next_operator_action": "MAIN may now bind the audited HPADJ20 exact numeric output into its existing full-qA-histogram parallel preflight, run the full-histogram numerical replay without duplicating HPADJ20 heavy compute, then evaluate a separate non-additive MAIN replacement transition under hostile audit.",
+  "canonical_sha256_without_this_field": "826966a95f22c2235258c6499c9bc9c03b2521687d71dbf99d9728eaaaa6d3f5"
+}
