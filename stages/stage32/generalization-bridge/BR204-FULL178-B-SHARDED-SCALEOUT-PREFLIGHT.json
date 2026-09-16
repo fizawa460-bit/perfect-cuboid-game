@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_FULL178_B_SHARDED_SCALEOUT_PREFLIGHT_V1",
-  "status": "PASS_LIGHT_PREFLIGHT_HEAVY_NOT_ARMED_ZERO_CREDIT",
+  "schema": "STAGE32_BR204_FULL178_B_SHARDED_SCALEOUT_PREFLIGHT_V2",
+  "status": "PASS_LIGHT_PREFLIGHT_PRODUCER_GATE_PASS_HEAVY_BLOCKED_ZERO_CREDIT",
   "source_locks": {
     "compressed_terminal_family": {
       "path": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
@@ -21,6 +21,14 @@
     "br203_handoff": {
       "path": "stages/stage32/generalization-bridge/BR203-PICARD-MU-HANDOFF.json",
       "git_blob_sha1": "981c444a22308526fd191dff95dfaad6d6514f85"
+    },
+    "br204_compact_mu_equivalence": {
+      "path": "stages/stage32/generalization-bridge/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE-RESULT.json",
+      "git_blob_sha1": "a0d193e44f59c50a69586124e65903db4b4ed9ce",
+      "exact_head": "2fbbf8afe8735a7dbeb870698457774419477eae",
+      "ci_run": 35156251889,
+      "ci_job": 104996269918,
+      "conclusion": "SUCCESS"
     }
   },
   "scaleout_contract": {
@@ -60,12 +68,13 @@
   },
   "implementation_decision": {
     "bounded_nested_build_bc_reuse_for_H96": false,
-    "reason": "the BR202/BR203 bounded kernels enumerate seven BC coordinates directly and are regression kernels, not a FULL178 producer",
     "required_producer": "source-locked compact symbolic BC producer preserving (b,c,support,t,r), the first seven exact qBC levels plus the level-8 tail cutoff, and syndrome multiplicities within each retained q level",
-    "A_side": "DP/full histogram over (a,support,qA,A-syndrome); safe to precompute once and reuse across all b shards",
+    "producer_gate_status": "PASS",
+    "producer_gate_evidence": "H10/H16 compact producer reproduces direct K8 and BR203 mu final values exactly; H96 b=0 and b=96 streaming smoke tests pass",
+    "A_side": "DP/full histogram over (a,support,qA,A-syndrome); precompute once and reuse across all b shards",
     "mu_join": "for each A-syndrome and BC-syndrome bucket use exact 16-state mu table; raise the exceptional-mass lower bound from base_lower to max(base_lower,a+b+c+mu[target]) before x4 prefix summation",
     "terminal_identity_materialization": false,
-    "expected_streaming_property": "BC states are generated and aggregated shard-locally; no 4.1M-row JSON artifact is persisted"
+    "streaming": "precompute split kernels once, generate one b at a time, aggregate shard-local bins and hashes, discard per-b retained map"
   },
   "bounded_regression_anchor": {
     "H16_BR202_K8": 230521553871,
@@ -73,20 +82,39 @@
     "strict_tightening": 1311757230,
     "purpose": "mandatory pre-FULL178 semantic regression, not a scale extrapolation"
   },
+  "full178_light_surface": {
+    "refined_states": 4070710,
+    "bct_cells": 453937,
+    "assignment_mass": "174683387305",
+    "shard_state_counts": [249095, 345921, 409990, 473976, 537010, 600154, 663730, 790834],
+    "shard_cell_counts": [31590, 38598, 45510, 52422, 59334, 66246, 73158, 87079],
+    "raw_state_artifact_required": false
+  },
   "research_anchor_only": {
     "issue_1817_BR202_like_FULL178_K8_floor": "171016506358704660923",
     "issue_1817_BR202_like_FULL178_K8_exact": "113041910703103780870653/661",
     "issue_1817_K8_bins_sha256": "1fbe7ea835ec72a21ab74add8c7a7a2df236c4008c223eda71744c180beed0ef",
     "authority_status": "REGRESSION_TARGET_ONLY_NOT_BR204_RESULT"
   },
+  "live_freshness": {
+    "observed_repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_declared_current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "coherent": false,
+    "ownership": "MAIN_NOT_BRIDGE",
+    "rule": "BRIDGE must not mutate MAIN-STATE to manufacture freshness"
+  },
   "gates": {
     "BR203_compactness_gate": "PASS",
+    "BR204_compact_producer_gate": "PASS",
     "FULL178_scaleout_authorized": false,
     "heavy_compute_armed": false,
     "runkey_present": false,
     "main_freshness_coherent": false,
-    "main_freshness_detail": "actual main pointer c6284abb... differs from MAIN-STATE declared current_repository_main 4c51b4ea...",
-    "next_light_task": "implement a shard-local compact producer/verifier and prove H<=16 equality to the existing BR203 bounded kernel before requesting/arming FULL178 execution"
+    "blocking_reasons": [
+      "live repo main differs from MAIN-STATE declared current_repository_main",
+      "no BR204 heavy run-key has been issued"
+    ],
+    "next_light_task": "freeze BR203 transition/lifecycle; keep BR204 active at preflight boundary; do not execute eight-shard FULL178 until MAIN freshness and run-key gates are both satisfied"
   },
   "credit": {
     "stage32_main": false,
