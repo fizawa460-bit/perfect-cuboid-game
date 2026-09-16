@@ -123,3 +123,24 @@ jobs:
           assert x['H96_scale_smoke']['b96_parity_buckets'] == 1011820
           print('BR204 compact K8 syndrome light preflight PASS')
           PY
+      - name: Run BR204 compact mu bounded equivalence
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
+            stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp \
+            -o /tmp/verify_br204_compact_mu_bounded_equivalence
+          /tmp/verify_br204_compact_mu_bounded_equivalence \
+            > /tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json
+          cat /tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json
+          python - <<'PY'
+          import json
+          p='/tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json'
+          x=json.load(open(p))
+          assert x['status'] == 'PASS_ZERO_CREDIT'
+          assert x['H10']['BR202_K8'] == 1878715345
+          assert x['H10']['BR203_mu_K8'] == 1853108432
+          assert x['H10']['direct_reference_match'] is True
+          assert x['H16']['BR202_K8'] == 230521553871
+          assert x['H16']['BR203_mu_K8'] == 229209796641
+          assert x['H16']['direct_reference_match'] is True
+          print('BR204 compact mu bounded equivalence PASS')
+          PY
