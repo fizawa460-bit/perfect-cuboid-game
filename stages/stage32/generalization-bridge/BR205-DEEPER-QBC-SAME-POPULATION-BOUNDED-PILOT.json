@@ -1,0 +1,82 @@
+{
+  "schema": "STAGE32_BR205_DEEPER_QBC_SAME_POPULATION_BOUNDED_PILOT_V1",
+  "status": "PASS_STRICT_DEEPER_QBC_BOUNDED_ZERO_CREDIT",
+  "live_refresh": {
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "bridge_pr": 1813,
+    "bridge_pre_pilot_exact_head": "bf37f060b3686bfe385f6de14bd432727fb9b63a",
+    "pilot_source_commit": "b09dd6944458b4457c4ae6ba79a34cab5ec8bb2b",
+    "live_main_pr": 1808,
+    "live_main_head": "62b4737a0fed45cc184e206b856eff0ccb98dddb",
+    "live_main_schema": "STAGE32_MAIN_COMPACT_STATE_V40_HPADJ20_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
+    "live_main_authoritative_remaining_strata": 17128,
+    "live_main_authoritative_remaining_terminals": 179119009547804181594,
+    "live_main_terminal_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "live_main_v40_replacement_head_hostile_audited": false
+  },
+  "kernel": {
+    "path": "stages/stage32/generalization-bridge/verify_br205_deeper_qbc_same_population_bounded_pilot.cpp",
+    "scope": "H16_d_le_32",
+    "population": "BR202_P1_SAME_POPULATION",
+    "source_derivation": "BR202 exact bounded kernel with the identical A/BC population and e/x4 counting semantics; only the qBC tier cutoff is extended from K8 to K16, K32, and all exact q-levels",
+    "local_compile": "g++ -O3 -std=c++17",
+    "local_replay": "PASS"
+  },
+  "regression": {
+    "A_states": 196,
+    "BC_base_states": 16781,
+    "K1": 304596475910,
+    "K2": 290611516997,
+    "K4": 264256534379,
+    "K8": 230521553871,
+    "BR202_K8_exact_match": true
+  },
+  "deeper_qBC": {
+    "K16": 201104867976,
+    "K32": 191878707884,
+    "FULL": 191776755135,
+    "K8_minus_K16": 29416685895,
+    "K8_minus_K32": 38642845987,
+    "K8_minus_FULL": 38744798736,
+    "K8_to_K16_tightening_percent": 12.760926430099284,
+    "K8_to_K32_tightening_percent": 16.763224669492104,
+    "K8_to_FULL_tightening_percent": 16.807451661410198,
+    "classification": "STRICT_SAME_POPULATION_IMPROVEMENT"
+  },
+  "tail_activity": {
+    "max_qBC_levels": 80,
+    "BC_base_states_with_more_than_8_levels": 7840,
+    "active_K8_tail_evaluation_cells": 2396203,
+    "active_K8_tail_multiplicity": 931400934,
+    "qBC_K8_truncation_active_on_nonzero_retained_mass": true,
+    "aggregate_witness": "K8 > K16 > K32 > FULL"
+  },
+  "transition_gate": {
+    "bounded_same_population_deeper_tier_pilot_strict_improvement": true,
+    "bounded_qBC_truncation_nonzero_activity": true,
+    "BR205_gate_bounded_pilot_half_satisfied": true,
+    "BR205_authorized": false,
+    "remaining_required_condition": "BR204 exact FULL178 slack attribution must show qBC tier truncation active on nonzero retained mass on the BR204 compact survivor population",
+    "BR204_FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false,
+    "BR206_authorized": false
+  },
+  "interpretation": {
+    "bounded_evidence": "The K8 approximation leaves substantial exact qBC slack on the bounded H16/d<=32 population. Extending to K16 removes 29,416,685,895 survivors relative to K8, and exact all-level qBC removes 38,744,798,736 relative to K8.",
+    "full178_claim": false,
+    "main_comparison_claim": false,
+    "picard_mu_composed_in_this_pilot": false,
+    "reason_picard_mu_not_composed": "The source-locked BR203 generated syndrome header is a separate retained derivation; this pilot deliberately isolates the qBC-depth gate and does not infer or fabricate missing generated constants."
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
