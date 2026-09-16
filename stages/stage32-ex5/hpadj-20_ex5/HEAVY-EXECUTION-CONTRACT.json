@@ -1,28 +1,56 @@
 {
-  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V1",
+  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V2",
   "producer": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
   "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
-  "resume_policy": "RESUME_NOT_FEASIBLE",
-  "resume_not_feasible_reason": "HPADJ20 is a source-locked monolithic exact LP replay whose current proof object is a single global aggregate. Introducing execution partitions before hostile audit would change the producer/evidence contract rather than merely resume the same audited computation.",
-  "cancellation_recovery": "Discard incomplete runner-local output and re-arm only by advancing the dedicated run-key generation, or manually redispatch the identical exact head when the workflow is dispatchable. Partial output grants no mathematical or merge credit.",
+  "row_shard_worker": "stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py",
+  "row_shard_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
+  "union_verifier": "stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py",
+  "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51",
+  "resume_policy": "RESUME_FIRST_EXACT_FULL178_ROW_SHARDS",
   "partition": {
-    "partition_key": null,
-    "expected_coverage": "ONE_MONOLITHIC_EXACT_REPLAY",
-    "partial_outputs_reusable": false,
-    "union_verifier_required": false,
-    "reason": "No stable exact subunit certificate boundary exists in the current source-locked HPADJ20 producer."
+    "shard_count": 16,
+    "partition_key": "FULL178 row index / (row_id,g,d)",
+    "assignment": "Deterministic greedy bin packing by weight (d/2+1)^3, tie-broken by shard index; rows inside each shard retain manifest order.",
+    "expected_coverage": "All 178 FULL178 rows exactly once; each row contains every historical b-shard cell exactly once.",
+    "certificate": "One compact canonical JSON certificate per completed row shard.",
+    "partial_outputs_reusable": true,
+    "union_verifier_required": true,
+    "union_verification": "Reconstruct the source-locked deterministic partition; require shards 0..15 exactly once; reject row gaps/overlaps/source-lock drift; sum exact Fraction objectives and cellwise integer floors; reconstruct diagnostic stream in original row/b-shard order.",
+    "mathematical_population_changed_by_partition": false
+  },
+  "carry_over": {
+    "selector": "runkey carry_run_id",
+    "reuse_rule": "Download same-index certificate from carry_run_id; reuse only when canonical digest, producer blob, worker blob, shard index/count and assignment digest validate under the current locked worker. Otherwise recompute that shard.",
+    "missing_or_rejected_rule": "Compute only the missing or rejected shard; never rerun a validated carried shard.",
+    "cross_generation_requirement": "Producer, worker, partition algorithm and shard_count must remain byte/semantically locked. A drift invalidates carry-over and forces recomputation of affected certificates."
+  },
+  "cancellation_recovery": {
+    "completed_units": "Each completed shard uploads its certificate immediately before the job ends.",
+    "cancelled_or_timed_out_units": "No completion is inferred from a job container or partial file. Re-arm a fresh runkey generation with carry_run_id set to the cancelled/failed run; validated completed shards are salvaged and only unfinished shards are computed.",
+    "whole_parent_rerun_default": false
+  },
+  "progress": {
+    "row_level_progress": true,
+    "format": "HPADJ20_SHARD_PROGRESS shard=i/16 row=k/n row_id=... d=... elapsed_s=... eta_s=..."
   },
   "storage_preflight": {
     "operating_budget_mb": 500,
-    "planned_jobs": 1,
-    "planned_effective_heavy_concurrency": 1,
-    "persisted_artifact_uploads": 0,
-    "projected_peak_actions_artifact_storage_mb": 0,
-    "historical_artifacts_required_for_aggregation_mb": 0,
-    "final_output_persistence": "GitHub Actions job log only; /tmp/hpadj20.json remains runner-local and is discarded with the runner.",
-    "cleanup_point": "runner teardown",
-    "stop_condition": "No artifact upload is authorized; if the execution contract, run key, or producer lock drifts, fail before heavy compute.",
-    "authorization": "PR runs require the dedicated run-key file to change in the exact event before..head range, armed=true, and a strictly positive/advancing generation. Reopened events are cold. Manual dispatch requires an exact 40-hex expected_head_sha."
+    "planned_compute_shards": 16,
+    "planned_effective_heavy_concurrency": 16,
+    "raw_exhaustive_output_persisted": false,
+    "max_certificate_bytes_per_shard": 2000000,
+    "max_final_union_certificate_bytes": 2000000,
+    "projected_peak_actions_artifact_storage_mb_upper_bound": 34,
+    "shard_retention_days": 1,
+    "final_union_retention_days": 7,
+    "cleanup_point": "Shard artifacts expire after one day; only the compact final union certificate is retained for the audit window.",
+    "stop_condition": "Fail before upload if any shard certificate exceeds 2,000,000 bytes or the final union certificate exceeds 2,000,000 bytes. No raw search state is uploaded."
+  },
+  "authorization": {
+    "method": "Fresh commit-range runkey generation gate",
+    "automatic_event": "pull_request synchronize/opened only when the dedicated runkey path changed in the triggering range",
+    "reopened_is_cold": true,
+    "workflow_dispatch_after_default_branch_install": "Exact-head manual rerun remains available, still source/runkey locked."
   },
   "credit_firewall": {
     "partial_output_credit": false,
