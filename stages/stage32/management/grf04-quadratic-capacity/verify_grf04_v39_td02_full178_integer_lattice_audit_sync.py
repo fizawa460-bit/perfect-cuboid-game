@@ -148,7 +148,7 @@ def main() -> None:
     req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
         "EX5 credit firewall")
     req(sweep["ex5_pending_main_handoff"] == "NONE" and
-        "HEAVY_REPLAY_IN_PROGRESS" in sweep["ex5_blocking_reason"],
+        "HEAVY_REPLAY_CANCELLED" in sweep["ex5_blocking_reason"],
         "EX5 live heavy gate")
     req(sweep["mb_head"] == "619808d05f8576fb0b6f53b00e85bbf0d7571bee",
         "MB live head")
