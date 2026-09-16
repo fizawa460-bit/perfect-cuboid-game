@@ -1,0 +1,26 @@
+name: Stage32 178 TD02 integer-lattice FULL178 capacity temporary verification
+
+# lifecycle: ACTIVE_AUTO
+# Branch-local exact compressed FULL178 replay. Intended to remain below the
+# 10-minute heavy threshold; fail closed at the threshold and remove after
+# exact-head evidence is retained.
+on:
+  push:
+    branches:
+      - stage32-01-178-topdown-grf02-hpadj08
+    paths:
+      - stages/stage32/32-01-178/topdown-02/verify_td02_integer_lattice_capacity_full178.py
+      - .github/workflows/stage32-178-td02-integer-capacity-full178-temp.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify exact FULL178 integer-lattice capacity LP
+        run: python stages/stage32/32-01-178/topdown-02/verify_td02_integer_lattice_capacity_full178.py
