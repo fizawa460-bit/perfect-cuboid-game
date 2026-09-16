@@ -118,7 +118,9 @@ jobs:
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "5da5bfe704f4eb28ea130e41092645e888925983"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v39_full178_integer_lattice_audit_synced.py)" = "989b05352b93da0a7095bf2d25b533d059a49f53"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V39-TD02-FULL178-INTEGER-LATTICE-AUDIT-SYNC.json)" = "1524215fd43e22c3e3cc31f98c5f912754b7b487"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py)" = "81c3b47d35dd132686320c1c30e9f84c54b99764"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py)" = "0b23919222d011665c76ee12622ba348d0d126b9"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-MAIN-BC-QT-INTEGER-PROJECTION-PREFLIGHT.json)" = "45e1f112a8df9e34087a161a219c82323bbc4635"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py)" = "5a7d69c44665a8625f66204648c08dafe139a76a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ20-FULL-QA-HISTOGRAM-MAIN-PARALLEL-PREFLIGHT.json)" = "0eb5672dea0712cbf5044d5376e60fe233e767c3"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_main_parallel_preflight.py)" = "ef20539f03f68eec8d64fb1d6d3c05f4ac363152"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V38-TD02-FULL178-INTEGER-LATTICE-MAIN-BOUND-REPLACEMENT.json)" = "f959b922129354f58c2fd0e1b182d723bfa174e2"
@@ -169,6 +171,8 @@ jobs:
         run: python .stage32-v38/stages/stage32/verify_main_startup.py
       - name: Verify V39 audit synchronization
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py
+      - name: Verify MAIN exact integer BC-QT projection preflight
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py
       - name: Verify MAIN parallel HPADJ20 full-qA histogram preflight
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_main_parallel_preflight.py
       - name: Verify Stage32 MAIN startup projection
