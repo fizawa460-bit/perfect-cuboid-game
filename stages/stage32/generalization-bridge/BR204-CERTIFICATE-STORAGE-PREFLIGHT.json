@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_BR204_CERTIFICATE_STORAGE_PREFLIGHT_V1",
+  "status": "PASS_LIGHT_PREFLIGHT_ZERO_CREDIT",
+  "purpose": "Close only the BR204 persistent-evidence storage gate using commitment-only width sentinels and hard upload caps. This is not a FULL178 mathematical result and does not authorize heavy compute.",
+  "source_locks": {
+    "verifier": {
+      "path": "stages/stage32/generalization-bridge/verify_br204_certificate_storage_preflight.py",
+      "git_blob_sha1": "4e86b3e75d352371e3c959ea3ec43f7d8c1f7cf1"
+    },
+    "verifier_commit": "cae18a12584304651ee14ca9977dae38b457ee75",
+    "observed_repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_declared_current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "compressed_terminal_family_blob": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "full178_production_state_blob": "931e80ba892ec0d98f3e7b909ac2dd46660c116c",
+    "compact_producer_blob": "336285a0c204276e40da57a63ab634e88dae2b88",
+    "compact_mu_equivalence_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
+    "compact_equivalence_result_blob": "a0d193e44f59c50a69586124e65903db4b4ed9ce"
+  },
+  "canonical_population_regression": {
+    "H": 96,
+    "total_assignment_mass": 174683387305,
+    "total_bct_cells": 453937,
+    "b0": {
+      "assignment_mass": 76097,
+      "bct_cells": 2305
+    },
+    "b96": {
+      "assignment_mass": 6150481225,
+      "bct_cells": 7009
+    }
+  },
+  "representative_serialization": {
+    "per_b_width_sentinel_b": 96,
+    "per_b_measured_bytes": 1711,
+    "largest_shard_width_sentinel": "b=84..96",
+    "shard_summary_measured_bytes": 1744,
+    "parent_manifest_measured_bytes": 1898,
+    "note": "Width sentinels are storage-schema measurements, not FULL178 objective results. They use actual retained routing counts where available and conservative maximal-width numeric/hash fields."
+  },
+  "hard_upload_caps_bytes": {
+    "per_b_certificate": 16384,
+    "per_shard_summary": 32768,
+    "parent_manifest": 65536
+  },
+  "projected_new_peak_persistent_storage_bytes": 1916928,
+  "projected_new_peak_persistent_storage_mib": 1.828125,
+  "repository_operating_budget_bytes": 524288000,
+  "budget_fraction": 0.00365625,
+  "evidence_topology": {
+    "per_b_certificates": 97,
+    "shard_summaries": 8,
+    "parent_manifests": 1,
+    "raw_state_artifacts_uploaded": false,
+    "intermediate_retention_days": 1,
+    "upload_rule": "Fail closed before upload if any compact JSON exceeds its class hard cap."
+  },
+  "deterministic_result_sha256": "1ac123c4bfee650472823307483114cbc63b7dde5c5ed1394274624269965676",
+  "storage_gate": "PASS_WITH_HARD_CAPS",
+  "heavy_authorized": false,
+  "remaining_heavy_gates": [
+    "MAIN freshness identity synchronized by owner",
+    "dedicated fresh BR204 run-key explicitly armed"
+  ],
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
