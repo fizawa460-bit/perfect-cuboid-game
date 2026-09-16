@@ -12,7 +12,9 @@
     {"id":"HALF_FIBER_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ABSENT-HALF-FIBER-PICARD-CERTIFICATE.json","blob_sha1":"5fdae0e985be1875417442203835879a206312a8"},
     {"id":"HALF_BRANCH_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS.md","blob_sha1":"e22de5a6f4be163268e699cde03d37e1e564d43b"},
     {"id":"HALF_BRANCH_CERT","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-ONE-FACTOR-HALF-BRANCH-CLASS-CERTIFICATE.json","blob_sha1":"28929222eb46b9d30be4fed9218143aa5fecaa78"},
-    {"id":"GENERALIZED_JACOBIAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md","blob_sha1":"b2816ce1a8554a9bee33acfb6cc76df066d73b74"}
+    {"id":"GENERALIZED_JACOBIAN_NOTE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-GENERALIZED-JACOBIAN-GLUING-CHARACTER.md","blob_sha1":"b2816ce1a8554a9bee33acfb6cc76df066d73b74"},
+    {"id":"NODE_ORBIT_VERIFIER","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_e2_residual_node_orbit_table.py","blob_sha1":"ebecc69e32533c56926ccd104589a3a77cd93221"},
+    {"id":"FIBRATION_SOURCE","path":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/STOLL-TESTA-G2-ISOTRIVIAL-FIBRATION-SOURCE-NOTE.md","blob_sha1":"b71225ac859eef5afefeebd019a97c403ed27655"}
   ],
   "absent_packets": {"E_a_nodes":[16,17,18,19,20,21,22,23],"E_b_nodes":[40,41,42,43,44,45,46,47]},
   "exact_lattice_result": {
@@ -28,7 +30,8 @@
     "L_a_minus_L_b_coordinate_sha256": "d53ace983a256f44822cdb6c0a3ba5a6f3e248b71fddf805525edbd4787c7542",
     "twice_difference_identity": "2*(L_a-L_b)=E_b-E_a"
   },
-  "interpretation_firewall": {"solution_count_semantics":"two mod-2 correction supports with canonical representatives, not all integral lifts","packet_to_half_fiber_adapter_materialized":false,"unconditional_bridge":"2*(M_a-M_b)=l*(E_b-E_a)","geometric_bridge_requires_packet_adapter":true},
+  "interpretation_firewall": {"solution_count_semantics":"two mod-2 correction supports with canonical representatives, not all integral lifts","packet_to_half_fiber_adapter_materialized":false,"displayed_fibration_packet_identification_refuted":true,"unconditional_bridge":"2*(M_a-M_b)=l*(E_b-E_a)","geometric_bridge_requires_packet_adapter":true},
+  "displayed_fibration_packet_audit": {"parameter":"t=(c+a1)/(a2+i*a3)","bad_values":["-i","+i"],"minus_i_nodes":[16,17,18,19,40,41,42,43],"plus_i_nodes":[20,21,22,23,44,45,46,47],"canonical_packet_a_intersections":{"minus_i":4,"plus_i":4},"canonical_packet_b_intersections":{"minus_i":4,"plus_i":4},"canonical_packets_are_displayed_half_fibers":false},
   "geometric_bridge_conditional": {"condition":"E_a=sum_(p in T_a)E_p and E_b=sum_(p in T_b)E_p for two bad fibers in one displayed fibration, up to simultaneous interchange","half_fiber_relation":"2*(Q_a-Q_b)=sum_(p in T_b)E_p-sum_(p in T_a)E_p","Delta":"Q_a-Q_b","M_a":"(D'-l*E_a)/2","M_b":"(D'-l*E_b)/2","difference":"M_a-M_b=l*Delta","normalization_restriction_difference":"eta^l","singular_carrier_restriction_difference":"kappa^l","odd_l_consequence":"ratio on singular carrier is kappa","even_l_consequence":"ratio on singular carrier is trivial","normalization_only_evaluates_conductor":false},
   "retained_hashes": {"picard_base_canonical_sha256":"d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c","marking_canonical_sha256":"e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c","adapter_canonical_sha256":"fc695b9405ec4becfbcf19866c0c70fceed9372186a5aa4974879f302ee8ffe9","bridge_canonical_sha256":"51d11d6858a36b45ff13ed3108406d171f6d1397f379ecb96dc041100da74d72"},
   "stdout_policy": {"raw_picard64_payload_printed":false,"matrices_printed":false,"maximum_intended_lines":2},
