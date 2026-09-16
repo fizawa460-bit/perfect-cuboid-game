@@ -42,6 +42,16 @@ Run:
 
 The verifier checks the retained wiring/monitor contract. The operator/agent is still responsible for resolving live PR heads and live lane state on every startup; a retained verifier cannot prove a remote PR head has not advanced.
 
+## MAIN-STATE live-observation writeback
+
+`stage32mainbatch` is the sole ordinary owner of `stages/stage32/MAIN-STATE.json`. Specialist lanes must update their own lane state, retained evidence, PR, and audit surfaces; they must not write MAIN's `MAIN-STATE.json` merely to advertise progress.
+
+Whenever `stage32mainbatch` resolves specialist information newer than the observation currently recorded in `MAIN-STATE.json`, it must write that newer observation back to `MAIN-STATE.json` on the active Stage32 MAIN branch before the batch stops. At minimum, every newer specialist head, audit status/review, retained-result status, MAIN-handoff status, blocking reason, and semantic leaf that MAIN relied upon during the batch must be reflected in the existing MAIN-state observation surface. Do not create a second live-snapshot/state file for this purpose.
+
+This writeback is **observational synchronization only**. It must not by itself change authoritative remaining strata/terminals, pruning credit, theorem/effectivity/receiver/route/endpoint credit, Stage32 closure, or merge authorization. Those authority fields may change only through the separately required audited MAIN transition and applicable claim-sync/promotion gates. If updating the mutable MAIN projection requires refreshing its own verifier/source-lock metadata, perform that maintenance in the same MAIN batch rather than leaving a deliberately stale specialist observation in `MAIN-STATE.json`.
+
+Before an ordinary `stage32mainbatch` stops, it must therefore satisfy both conditions: (1) all mathematical/authority changes obey their normal audit gates, and (2) `MAIN-STATE.json` is not knowingly stale with respect to any newer specialist state actually resolved and relied upon during that run.
+
 ## Authority and routing
 
 `MAIN-STATE.json` is the current mutable ordinary-startup projection, not a proof certificate. Exact mathematical claims remain grounded in the audited certificates and source locks referenced by that state. `CROSS-LANE-DEMANDS.json` is operational dependency authority and cannot grant mathematical credit.
