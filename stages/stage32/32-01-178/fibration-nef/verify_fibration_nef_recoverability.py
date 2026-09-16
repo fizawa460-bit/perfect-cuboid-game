@@ -49,8 +49,13 @@ def load_retained(path: Path, name: str) -> dict:
 def run_json(path: Path) -> dict:
     p = subprocess.run(
         [sys.executable, "-B", str(path)],
-        cwd=ROOT, check=True, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True,
     )
+    if p.returncode != 0:
+        raise RuntimeError(
+            f"dependency failed: {path.name}; rc={p.returncode}; "
+            f"stdout={p.stdout[-4000:]!r}; stderr={p.stderr[-8000:]!r}"
+        )
     return json.loads(p.stdout)
 
 
