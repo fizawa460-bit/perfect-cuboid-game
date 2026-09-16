@@ -1,0 +1,44 @@
+{
+  "schema": "STAGE32_BR202_P1_K8_FULL_QA_HANDOFF_V1",
+  "status": "PASS_READY_FOR_BR203_ZERO_CREDIT",
+  "live_refresh": {
+    "repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "pr": 1813,
+    "pr_state": "draft_open_unmerged"
+  },
+  "replay": {
+    "kernel": "stages/stage32/generalization-bridge/verify_br202_p1_k8_full_qa_kernel.cpp",
+    "kernel_git_blob_sha1": "324256e61a550587cee5b839adc5dc1f86f21897",
+    "result": "stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-BOUNDED-RESULT.json",
+    "result_git_blob_sha1": "06d0d21e5543cd5b5195c93ae431fbc186edd6ba"
+  },
+  "bounded_exact": {
+    "H16_d32_K8": 230521553871,
+    "TD02_H16_d32_K8_predecessor": 313404515710,
+    "strict_tightening": 82882961839,
+    "classification": "STRICT_SAME_POPULATION_IMPROVEMENT",
+    "terminal_identity_materialization": false
+  },
+  "decision": {
+    "BR202_success": true,
+    "next_node": "BR203_PICARD_MU_16_STATE_INTEGRATION",
+    "next_required_measurements": [
+      "exact A-side syndrome image cardinality",
+      "exact BC-side syndrome image cardinality",
+      "exact deduplicated free-exceptional syndrome mu table",
+      "bounded P1 K8 intersection after mu filter"
+    ],
+    "FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
