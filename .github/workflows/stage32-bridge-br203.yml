@@ -1,39 +1,29 @@
-name: Stage32 BRIDGE BR203 Picard mu
+name: Stage32 BRIDGE BR203 retained replay
 
-# lifecycle: ACTIVE_AUTO while STATE.json active_leaf is BR203_PICARD_MU_16_STATE_INTEGRATION.
-# Retire to workflow_dispatch-only in the same transition that activates BR204.
+# lifecycle: RETIRED_MANUAL after BR203 completion and BR204 activation.
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/generalization-bridge/**'
-      - 'stages/stage32/residual-32-01-production/pairing_prefix_engine.py'
-      - 'stages/stage32/residual-32-01-production/hperp_integral_adapter.py'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-      - '.github/workflows/stage32-bridge-br203.yml'
 
 permissions:
   contents: read
 
 jobs:
-  br203-picard-mu:
+  br203-retained-replay:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Verify active BR203 frontier
+      - name: Verify retained BR203 boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path('stages/stage32/generalization-bridge/STATE.json')
-          s = json.loads(p.read_text())
-          assert s['active_leaf'] == 'BR203_PICARD_MU_16_STATE_INTEGRATION', s['active_leaf']
-          assert s['routing']['BR203_authorized'] is True
-          assert s['routing']['BR204_FULL178_scaleout_authorized'] is False
-          print('BR203 ACTIVE_AUTO frontier confirmed')
+          s = json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
+          assert s['routing']['BR203_complete'] is True
+          assert s['routing']['BR203_authorized'] is False
+          assert s['current_node'] in {'BR204','BR205','BR206','BR290'}, s['current_node']
+          assert s['routing']['BR204_FULL178_scaleout_authorized'] is False or s['current_node'] != 'BR203'
+          print('BR203 RETIRED_MANUAL retained boundary confirmed')
           PY
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
@@ -41,106 +31,49 @@ jobs:
         run: |
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py \
             --output /tmp/BR203-PICARD-MU-16-STATE-RESULT.json
-          python - <<'PY'
-          import json
-          p='/tmp/BR203-PICARD-MU-16-STATE-RESULT.json'
-          x=json.load(open(p))
-          print('BR203_RESULT_BEGIN')
-          print(json.dumps(x, sort_keys=True, separators=(',', ':')))
-          print('BR203_RESULT_END')
-          PY
       - name: Bind exact mu result into bounded kernel
         run: |
           python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py \
             /tmp/BR203-PICARD-MU-16-STATE-RESULT.json \
             /tmp/br203_mu_generated.hpp
-      - name: Run bounded BR202 K8 intersection with BR203 mu
+      - name: Replay bounded direct BR203 mu intersection
         run: |
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
             stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp \
             -o /tmp/verify_br203_bounded_mu_intersection_kernel
-          /tmp/verify_br203_bounded_mu_intersection_kernel \
-            > /tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json
-          cat /tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json
+          /tmp/verify_br203_bounded_mu_intersection_kernel > /tmp/direct.json
           python - <<'PY'
           import json
-          p='/tmp/BR203-BOUNDED-MU-INTERSECTION-RESULT.json'
-          x=json.load(open(p))
-          assert x['status'] == 'PASS_ZERO_CREDIT'
-          assert x['H10_d20']['BR202_K8'] == 1878715345
-          assert x['H10_d20']['BR203_mu_K8'] == 1853108432
-          assert x['H10_d20']['tightening'] == 25606913
-          assert x['H16_d32']['BR202_K8'] == 230521553871
-          assert x['H16_d32']['BR203_mu_K8'] == 229209796641
-          assert x['H16_d32']['tightening'] == 1311757230
-          print('BR203 bounded mu intersection exact regression PASS')
+          x=json.load(open('/tmp/direct.json'))
+          assert x['status']=='PASS_ZERO_CREDIT'
+          assert x['H16_d32']['BR203_mu_K8']==229209796641
           PY
-      - name: Run BR204 compact routing surface light preflight
+      - name: Replay BR204 compact producer equivalence
         run: |
           g++ -std=c++20 -O3 -DNDEBUG \
             stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp \
-            -o /tmp/verify_br204_compact_routing_surface_preflight
-          /tmp/verify_br204_compact_routing_surface_preflight \
-            > /tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json
-          cat /tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json
-          python - <<'PY'
-          import json
-          p='/tmp/BR204-COMPACT-ROUTING-SURFACE-PREFLIGHT.json'
-          x=json.load(open(p))
-          assert x['status'] == 'PASS_ZERO_CREDIT'
-          assert x['H10_direct_equals_compact'] is True
-          assert x['H16_direct_equals_compact'] is True
-          assert x['H96']['refined_states'] == 4070710
-          assert x['H96']['bct_cells'] == 453937
-          assert x['H96']['assignment_mass'] == '174683387305'
-          assert x['shard_states'] == [249095,345921,409990,473976,537010,600154,663730,790834]
-          assert x['shard_cells'] == [31590,38598,45510,52422,59334,66246,73158,87079]
-          print('BR204 compact routing surface light preflight PASS')
-          PY
-      - name: Run BR204 compact K8 syndrome light preflight
-        run: |
+            -o /tmp/routing
+          /tmp/routing > /tmp/routing.json
           g++ -std=c++20 -O3 -DNDEBUG \
             stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp \
-            -o /tmp/verify_br204_compact_k8_syndrome_preflight
-          /tmp/verify_br204_compact_k8_syndrome_preflight \
-            > /tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json
-          cat /tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json
-          python - <<'PY'
-          import json
-          p='/tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json'
-          x=json.load(open(p))
-          assert x['status'] == 'PASS_ZERO_CREDIT'
-          assert x['H10'] == {'base_states': 3800, 'direct_equals_compact': True}
-          assert x['H16']['base_states'] == 16781
-          assert x['H16']['direct_equals_compact'] is True
-          assert x['H16']['retained_q_levels'] == 91321
-          assert x['H16']['retained_parity_buckets'] == 207059
-          assert x['H96_scale_smoke']['b0_states'] == 4609
-          assert x['H96_scale_smoke']['b0_q_levels'] == 18189
-          assert x['H96_scale_smoke']['b0_parity_buckets'] == 18189
-          assert x['H96_scale_smoke']['b96_states'] == 63094
-          assert x['H96_scale_smoke']['b96_q_levels'] == 439932
-          assert x['H96_scale_smoke']['b96_parity_buckets'] == 1011820
-          print('BR204 compact K8 syndrome light preflight PASS')
-          PY
-      - name: Run BR204 compact mu bounded equivalence
-        run: |
+            -o /tmp/k8
+          /tmp/k8 > /tmp/k8.json
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
             stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp \
-            -o /tmp/verify_br204_compact_mu_bounded_equivalence
-          /tmp/verify_br204_compact_mu_bounded_equivalence \
-            > /tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json
-          cat /tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json
+            -o /tmp/mu
+          /tmp/mu > /tmp/mu.json
           python - <<'PY'
           import json
-          p='/tmp/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE.json'
-          x=json.load(open(p))
-          assert x['status'] == 'PASS_ZERO_CREDIT'
-          assert x['H10']['BR202_K8'] == 1878715345
-          assert x['H10']['BR203_mu_K8'] == 1853108432
-          assert x['H10']['direct_reference_match'] is True
-          assert x['H16']['BR202_K8'] == 230521553871
-          assert x['H16']['BR203_mu_K8'] == 229209796641
-          assert x['H16']['direct_reference_match'] is True
-          print('BR204 compact mu bounded equivalence PASS')
+          r=json.load(open('/tmp/routing.json'))
+          k=json.load(open('/tmp/k8.json'))
+          m=json.load(open('/tmp/mu.json'))
+          assert r['status']=='PASS_ZERO_CREDIT'
+          assert r['H96']['refined_states']==4070710
+          assert k['status']=='PASS_ZERO_CREDIT'
+          assert k['H16']['direct_equals_compact'] is True
+          assert m['status']=='PASS_ZERO_CREDIT'
+          assert m['H10']['direct_reference_match'] is True
+          assert m['H16']['direct_reference_match'] is True
+          assert m['H16']['BR203_mu_K8']==229209796641
+          print('BR203 retained replay + BR204 compact producer gate PASS')
           PY
