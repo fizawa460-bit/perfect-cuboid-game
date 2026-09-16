@@ -1,0 +1,23 @@
+name: Stage32 178 TD02 GRF04 FULL178 aggregate
+
+on:
+  push:
+    branches:
+      - stage32-01-178-topdown-grf02-hpadj08
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify TD02 GRF04 FULL178 aggregate upper bound
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run source-locked aggregate verifier
+        run: python stages/stage32/32-01-178/topdown-02/verify_td02_grf04_full178_aggregate.py
