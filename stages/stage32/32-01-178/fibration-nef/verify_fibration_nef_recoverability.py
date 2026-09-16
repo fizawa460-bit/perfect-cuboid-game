@@ -13,6 +13,7 @@ from sympy import Matrix
 ROOT = Path(__file__).resolve().parents[4]
 RES = ROOT / "stages" / "stage32" / "residual-32-01-production"
 ST33 = ROOT / "stages" / "stage33" / "33-07"
+N220_STATE = ROOT / "stages" / "stage32" / "32-01-178" / "nodes" / "N220" / "STATE.json"
 N220_AUDITED = ROOT / "stages" / "stage32" / "32-01-178" / "nodes" / "N220" / "STATE-AUDITED.json"
 SOURCE_BASE = "df3b29d20ef0f7da1e34fa92beada6418ad3a4ea"
 LOCKED = [
@@ -25,6 +26,7 @@ LOCKED = [
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648az_full_48node_equivariant_bijection.py",
     "stages/stage32/residual-32-01-production/diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
     "stages/stage32/32-21/post1473-v6-witness-body-recovered.json",
+    "stages/stage32/32-01-178/nodes/N220/STATE.json",
     "stages/stage32/32-01-178/nodes/N220/STATE-AUDITED.json",
     "stages/stage33/33-07/stage32_picard_marking_retained.py",
     "stages/stage33/33-07/picard_base_rows_retained.py",
@@ -73,7 +75,13 @@ def lock_sources() -> None:
 
 
 def audited_total_exceptional_semantics() -> dict:
+    raw = json.loads(N220_STATE.read_text())
     payload = json.loads(N220_AUDITED.read_text())
+    if raw.get("node_id") != "N220":
+        raise ValueError("N220 raw-state identity regression")
+    definitions = raw.get("retained_result", {}).get("definitions", {})
+    if definitions.get("remaining_exceptional_slot_count") != 38 or definitions.get("remaining_exceptional_mass") != "e-M10":
+        raise ValueError("N220 raw exact remaining-exceptional-mass semantics regression")
     if payload.get("node_id") != "N220" or payload.get("status") != "DONE_AUDITED_EXACT_NECESSARY_PREFIX_PRUNING":
         raise ValueError("N220 audited-state identity/status regression")
     hostile = payload.get("hostile_audit", {})
@@ -86,6 +94,8 @@ def audited_total_exceptional_semantics() -> dict:
     return {
         "authority": "AUDITED_N220_EXACT_REMAINING_EXCEPTIONAL_MASS",
         "hostile_audit_review_id": 5159411821,
+        "raw_remaining_exceptional_slot_count": 38,
+        "raw_remaining_exceptional_mass": "e-M10",
         "necessary_form": expected,
         "deduction": "the ten assigned exceptional coordinates have mass M10 and the remaining 38 have exact mass e-M10; hence sum_{j=93..140}<D,E_j>=e",
         "E_total_pairing_value_in_each_stratum": "e",
@@ -229,7 +239,7 @@ def main() -> None:
     out = {
         "schema": "STAGE32_32_01_178_FIBRATION_NEF_RECOVERABILITY_PREFLIGHT_V2",
         "source_base_exact_head": SOURCE_BASE,
-        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression/N220-audited inputs",
+        "source_lock": "git diff --quiet SOURCE_BASE over exact Picard64/node/compression/N220 raw+audited inputs",
         "node_label_adapter": {
             "producer": "diagnose_stage32_post1648bd_cc_unique_node_bijection.py",
             "az_anchor_reported_solution_count_was_not_deduplicated": bij["az_anchor_reported_solution_count_was_not_deduplicated"],
