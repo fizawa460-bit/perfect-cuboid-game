@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_GRF04_FULL178_AGGREGATE_CHECKPOINT_V1",
+  "route": "TD02-GRF04-FULL178-AGGREGATE",
+  "status": "RESEARCH_ONLY_EXACT_HEAD_CI_SUCCESS__HOSTILE_AUDIT_REQUIRED_BEFORE_ANY_CONSUMPTION",
+  "scope": {
+    "rows_total": 178,
+    "g0_d_even": [8, 176],
+    "g1_d_even": [8, 192],
+    "hmax": 96,
+    "per_terminal_enumeration": false
+  },
+  "mathematical_adapter": {
+    "rho": "q/2 + (d/2 - 2*x4 - t)^2/12",
+    "t": "x0+x1+x6+x9",
+    "aggregate_coordinates": {
+      "a": "x2+x3+x7",
+      "b": "x1+x5+x9",
+      "c": "x0+x6+x8+x10"
+    },
+    "bc_state": "exact canonical/parity assignment count plus exact minimum q at fixed (b,c)",
+    "a_state": "exact count C(a+2,2) plus exact balanced three-square minimum",
+    "canonical_t_envelope": "t == c (mod 2); lower=c mod 2 except c even and b>c gives 2; upper=c+2*floor(b/2) for b>=1, 0 for b=c=0, c-2 for b=0<c",
+    "support_relaxation": "replace actual support by min(3,a)+min(3,b)+min(4,c), drop qneed/srem feasibility and exact singleton e exclusions; this enlarges the counted panel",
+    "x4_clipping": "inactive for this relaxed census because e<=3d implies n=19d-5e>=4d while GRF04 radius gives raw x4 upper <4d for d>=8"
+  },
+  "result": {
+    "relaxed_panel_terminals": 71384787021929133241956,
+    "td02_independent_survivor_upper_bound": 1666897772020475143768,
+    "reference_hpadj08_v29_independent_upper_bound": 6703403803993210101494,
+    "numeric_upper_bound_tightening_vs_hpadj08_reference": 5036506031972734957726,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "row_stream_sha256": "bf091551094c774df62983d55916d2337fd7d4008188fc81baa8628a5c95eec6",
+    "result_canonical_sha256": "fbb352d55f7cd2173898ada25e2843fb15bd1911e580ee57032da4b807e3c019"
+  },
+  "bounded_regression": {
+    "relaxed_panel_terminals": 38076510118826,
+    "relaxed_survivor_upper_bound": 2080529210067,
+    "prior_exact_canonical_survivors": 611555346552,
+    "sanity": "relaxed upper remains above the exact bounded survivor count"
+  },
+  "crosschecks": {
+    "h16_exact_bc_count_and_qmin_all_cells": true,
+    "production_symbolic_exceptional_counts_e_0_through_96": true,
+    "concrete_hperp_schur_rank": 11,
+    "concrete_hperp_schur_determinant": "3072",
+    "wolfram_balanced_three_square_minimum_s_0_through_96": true,
+    "wolfram_radius_bound_3d2_plus_48d_plus_96_minus_96g_le_16d2_for_d_ge_8_g_0_1": true,
+    "wolfram_prior_canonical_t_interval_counterexample_search": "NONE"
+  },
+  "ci_evidence": {
+    "run_id": 35038168246,
+    "job_id": 104611842159,
+    "conclusion": "SUCCESS",
+    "exact_head": "f435624e49ba39da0e9eba6a32988c910ec5db0a",
+    "verifier_blob_sha1": "bf742845626fb3a0c9bc0f2e563885b98d646f7c",
+    "temporary_workflow_blob_sha1": "5bbf935a8fb5d8e31fed7c338a6191354bcaef62"
+  },
+  "source_locks": {
+    "compressed_terminal_family": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "prefix_checkpoint": "eb823cc2f99d74456d5701b4673f848f18ba3151",
+    "full178_manifest": "0a46b34e278688240656b4977e9cb7f589e90e06",
+    "corrected_adjunction": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+    "grf04": "f7c1073edbf895f498fd9923e59eedf5a4e981c8",
+    "full178_scaleout_contract": "ca1b195a3ee8e786707e1ef50b404ee8c19f1429",
+    "hperp_probe": "08528d746df7730f247fb461d034ee787ea86e08",
+    "bounded_bc_verifier": "3ce709a2afe9d1acb573cb7c4c1b2e7bff4b53ae",
+    "bounded_canonical_verifier": "17ca036da982583a0495220dc1ab9e23452f5506",
+    "hpadj08_v29": "68a01142d0af4285d2a7801bf0e6808321ee689c",
+    "external_hpadj08_full178_worker": "c5fc340ea734dfc54436f124bb302c1ec6c5677c",
+    "external_hpadj08_full178_result": "f9a01c3e673dc630a3446ac4560c72c4f76db812",
+    "external_hpadj08_audited_head": "36eab50192cf80ec5ed48aba40f4a56076759fea"
+  },
+  "firewalls": {
+    "main_credit": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false,
+    "merge_authorized": false
+  },
+  "next_route": {
+    "id": "TD02-FULL178-SUPPORT-STRATIFIED-AGGREGATE",
+    "goal": "retain exact support classes and safe q-range data inside the same compressed (a,b,c) approach to tighten the independent survivor upper bound without terminal expansion"
+  }
+}

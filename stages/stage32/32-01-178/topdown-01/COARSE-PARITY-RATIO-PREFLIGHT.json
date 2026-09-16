@@ -1,0 +1,60 @@
+{
+  "schema": "STAGE32_32_01_178_TD01_COARSE_PARITY_RATIO_PREFLIGHT_V1",
+  "stage": 32,
+  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
+  "status": "MATHEMATICALLY_VALID_BLOCK_RATIO_BUT_CURRENT_AUTHORITY_ENVELOPE_IDENTITY_UNPROVED",
+  "block_theorem": {
+    "normal_budget": "N = 19*d - 5*e",
+    "source_upper_e": "e <= 3*d",
+    "source_minimum_d": 8,
+    "parity": "d,e even imply N even",
+    "minimum_N": 32,
+    "normal_block_size": "N+1",
+    "minimum_rejected_values_per_block": "N/2",
+    "minimum_rejected_fraction": "16/33",
+    "maximum_retained_fraction": "17/33",
+    "proof": "For the required x4 parity, x4=0..N contains either N/2 or N/2+1 rejected values. Since N>=4*d>=32, N/(2*(N+1))>=16/33."
+  },
+  "tempting_scalar_composition": {
+    "current_main_upper_bound": 6703403803993210101494,
+    "certlift03_conservative_fudge": 154697,
+    "scalar_minus_fudge": 6703403803993209946797,
+    "if_scalar_minus_fudge_were_exact_x4_complete_hpadj08_survivor_envelope_then_rejection_lower_bound": 3250135177693677549963,
+    "if_envelope_identity_were_proved_then_post_parity_upper_bound_with_full_fudge_retained": 3453268626299532551531,
+    "strict_gain_if_promotable": 3250135177693677549963,
+    "promotable_now": false
+  },
+  "blocker": {
+    "current_main_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "reason": "A blockwise retained-fraction theorem cannot be applied directly to a scalar upper bound unless that scalar is source-locked as the cardinality of the same x4-complete envelope on which the parity gate acts.",
+    "v22_verifier_observation": "verify_hpadj01_current_v22_lower_bound.py source-locks V22_TERMINALS from MAIN-STATE and independently enumerates only the HPADJ rejected subset; it does not reconstruct the entire V22 denominator as the same x4-complete envelope.",
+    "therefore": "Do not multiply the current MAIN authority or scalar-minus-fudge by 17/33 and do not subtract the displayed hypothetical gain."
+  },
+  "reopen_conditions": [
+    "Produce a source-locked exact x4-complete envelope whose cardinality is the scalar-minus-fudge value and prove HPADJ08 survivor identity on that envelope.",
+    "Or execute the prepared TD01 parity-refined FULL178 census and obtain the exact additional rejected count directly."
+  ],
+  "source_locks": {
+    "main_v30_exact_head": "4f7889e79d9d967d410bfcf781ade8e215703a5d",
+    "main_v30_remaining_upper_bound": 6703403803993210101494,
+    "hpadj08_current_main_adapter_blob_sha1": "57bda3c27a9a2a7df2741e23a91c7a26ce3c7cc0",
+    "hpadj08_current_main_adapter_canonical_sha256": "14de9512d0ad1449b80b89f660ccbfd6d9e0864702e9b711234e8697596ff7c1",
+    "hpadj08_full178_result_blob_sha1": "f9a01c3e673dc630a3446ac4560c72c4f76db812",
+    "hpadj08_full178_result_canonical_sha256": "625e289a1a9f086b5e02f247665a7f9ac4b7fe72eaacd3011fe73a0e96041953",
+    "v22_hpadj_snapshot_blob_sha1": "a88e425f29d83919afd3048419c56f3689b457dd",
+    "v22_hpadj_verifier_blob_sha1": "b0253975ddf28c99b9d9898f54ada9a6842b2386",
+    "hpadj07_v23_consumption_blob_sha1": "e942711b67ebc43b39a73ab55bc10862654059f8"
+  },
+  "firewalls": {
+    "main_authority_changed": false,
+    "main_pruning_credit": false,
+    "hypothetical_bound_is_main_bound": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}

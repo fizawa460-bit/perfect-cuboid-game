@@ -1,0 +1,57 @@
+{
+  "schema": "STAGE32_32_01_178_TD01_AUDIT_HANDOFF_V3_PASS_RECORDED_MAIN_HANDOFF_READY",
+  "stage": 32,
+  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
+  "status": "HOSTILE_AUDIT_PASS_RECORDED_MAIN_HANDOFF_READY_NO_MAIN_CREDIT",
+  "audited_boundary": {
+    "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "hostile_audit_status": "PASS",
+    "audit_review_id": 5214778974,
+    "merge_ready_freshness": "CLEAR",
+    "exact_head_ci_run_id": 34979035686,
+    "exact_head_ci_job_id": 104414192160,
+    "exact_head_ci_conclusion": "SUCCESS"
+  },
+  "candidate": {
+    "current_main_upper_bound_at_audited_boundary": 6703403803993210101494,
+    "exact_hpadj08_survivor_envelope": 6703403803993209250491,
+    "per_block_max_retained_fraction": "17/33",
+    "td01_certified_upper_bound_candidate": 3453268626299532038131,
+    "potential_tightening_if_consumed": 3250135177693678063363,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "heavy_run_used": false
+  },
+  "producer_artifacts": {
+    "audit_pass_receipt_path": "stages/stage32/32-01-178/topdown-01/TD01-HOSTILE-AUDIT-PASS.json",
+    "audit_pass_receipt_blob_sha1": "cf00fb61435d198a1f033306190647331f9884f7",
+    "audit_pass_receipt_canonical_sha256": "9ae9e53c93c761aff3144443a9e63ee82dab71a9767eaaae1f5e3256220da41c",
+    "main_handoff_path": "stages/stage32/32-01-178/topdown-01/MAIN-HANDOFF.json",
+    "main_handoff_blob_sha1": "19d0ba1005ee149b405e87b97c10a42409e0998a",
+    "main_handoff_canonical_sha256": "09b1bb55b8bdfbe844258d8ad7d112d78c25c4397f08675c9c4c3b1f4a000469",
+    "state_path": "stages/stage32/32-01-178/topdown-01/STATE.json",
+    "state_blob_sha1": "26f55629483a843bc41d0be9b27a074908b4b8d2",
+    "state_canonical_sha256": "5175a23ee481c145171d50ac794e4e9c191c51b2695cafad7cc5d7cbe06a2108"
+  },
+  "consumer_contract": {
+    "consumer_pr": 1808,
+    "consumer_observed_head": "85c27501e4d5a5ffffe46f38d34949c8e265c735",
+    "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
+    "producer_ready_for_consumer_reentry": true,
+    "consumer_may_satisfy_demand": true,
+    "explicit_main_consumption_required": true,
+    "producer_main_authority_mutation": false
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_operator_command": "stage32mainbatch",
+  "next_gate": "MAIN consumes or rejects the hostile-audited TD01 bound under current-authority freshness and no-double-charge checks.",
+  "canonical_sha256_without_this_field": "fc20d86b534e1a49f30d7896137bd8657df837c28fc07d97219a97e08667f5b5"
+}

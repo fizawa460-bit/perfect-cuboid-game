@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_GRF04_BOUNDED_CHECKPOINT_V1",
+  "status": "RESEARCH_CHECKPOINT_ONLY",
+  "scope": "bounded canonical-interval GRF04 feasibility experiment; not a FULL178 or MAIN handoff",
+  "domain": {
+    "g": [0, 1],
+    "d_even": [8, 32],
+    "hmax": 16
+  },
+  "exact_hperp_probe": {
+    "evidence_run": 35035502355,
+    "evidence_job": 104603595068,
+    "evidence_head": "9a3324fc0a60dfd8c2c4a11d1e0dbc71cc7d69f7",
+    "labels_1based": [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96],
+    "a_shape": [11, 63],
+    "a_rank": 11,
+    "left_kernel_dimension": 0,
+    "q_determinant": 1073741824,
+    "s_determinant": 3072,
+    "s_positive_definite": true,
+    "s_eigenvalues_wolfram_independent_check": [6, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
+    "wolfram_check_role": "independent algebra check only; repository CI remains retained execution evidence"
+  },
+  "prior_bc_envelope": {
+    "panel_terminals": 37302011598273,
+    "hpadj08_rejected": 25770706503487,
+    "hpadj08_survivors": 11531305094786,
+    "bc_envelope_rejected": 36666878533193,
+    "bc_envelope_survivors": 635133065080,
+    "incremental_over_hpadj08": 10896172029706,
+    "row_stream_sha256": "9566c587ef7c49cb943801e20d09a009729803bb682e10ecfafbcfa5ec905733",
+    "evidence_run": 35031865587
+  },
+  "canonical_interval_envelope": {
+    "panel_terminals": 37302011598273,
+    "hpadj08_rejected": 25770706503487,
+    "hpadj08_survivors": 11531305094786,
+    "canonical_interval_rejected": 36690456251721,
+    "canonical_interval_survivors": 611555346552,
+    "incremental_over_hpadj08": 10919749748234,
+    "incremental_over_prior_bc_envelope": 23577718528,
+    "retained_fraction_of_hpadj08_survivors_approx": 0.05303435660795421,
+    "row_stream_sha256": "a6dac5f74684af90d8efce0972ff516a7d3c7348b0778063ebf584575d0b4a47",
+    "canonical_sha256_without_this_field": "b7374edb20cffca8fa28bae2d6ab00d241919be716ce7317103c55e693b4284d",
+    "evidence_run": 35035502355,
+    "evidence_job": 104603595068,
+    "evidence_head": "9a3324fc0a60dfd8c2c4a11d1e0dbc71cc7d69f7"
+  },
+  "canonical_t_interval_contract": {
+    "variables": "b=x1+x5+x9; c=x0+x6+x8+x10; t=x0+x1+x6+x9",
+    "parity": "t == c (mod 2)",
+    "lower": "c mod 2, except c even and b>c gives t>=2",
+    "upper": "if b>=1 then t<=c+2*floor(b/2); if b=0,c=0 then t=0; if b=0,c>0 then t<=c-2",
+    "verification": "counterexample search for each implication returned False in exact Wolfram Reduce over integers; CI uses the resulting safe interval envelope"
+  },
+  "source_locks": {
+    "canonical_interval_verifier_blob": "17ca036da982583a0495220dc1ab9e23452f5506",
+    "base_bc_envelope_verifier_blob": "3ce709a2afe9d1acb573cb7c4c1b2e7bff4b53ae",
+    "compressed_terminal_family_blob": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "prefix_checkpoint_blob": "eb823cc2f99d74456d5701b4673f848f18ba3151",
+    "corrected_adjunction_blob": "c90b41dcfbd5bd081629a6fa62d9447d43cb3d5e",
+    "grf04_blob": "f7c1073edbf895f498fd9923e59eedf5a4e981c8",
+    "full178_contract_blob": "ca1b195a3ee8e786707e1ef50b404ee8c19f1429"
+  },
+  "next_route": {
+    "id": "TD02-FULL178-SCALEOUT",
+    "goal": "transport the canonical-interval GRF04 envelope from the bounded d<=32 experiment to the full retained FULL178 compressed family without per-terminal enumeration",
+    "main_credit_before_hostile_audit": false
+  },
+  "credit": {
+    "main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

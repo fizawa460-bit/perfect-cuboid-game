@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE32_32_01_178_TD01_MAIN_HANDOFF_V1",
+  "stage": 32,
+  "route_id": "TD01_GRF02_HPADJ08_TOPDOWN_COMPOSITION",
+  "producer_lane": "32-01-178",
+  "producer_pr": 1815,
+  "status": "HOSTILE_AUDITED_PRODUCER_CANDIDATE_READY_FOR_MAIN_DISPOSITION",
+  "audited_boundary": {
+    "audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "hostile_audit_status": "PASS",
+    "audit_review_id": 5214778974,
+    "merge_ready_freshness_at_audit": "CLEAR",
+    "audit_pass_receipt_path": "stages/stage32/32-01-178/topdown-01/TD01-HOSTILE-AUDIT-PASS.json",
+    "audit_pass_receipt_blob_sha1": "cf00fb61435d198a1f033306190647331f9884f7",
+    "audit_pass_receipt_canonical_sha256": "9ae9e53c93c761aff3144443a9e63ee82dab71a9767eaaae1f5e3256220da41c",
+    "exact_head_ci_run_id": 34979035686,
+    "exact_head_ci_job_id": 104414192160,
+    "exact_head_ci_conclusion": "SUCCESS"
+  },
+  "candidate": {
+    "exact_hpadj08_survivor_envelope": 6703403803993209250491,
+    "per_block_max_retained_fraction": "17/33",
+    "certified_upper_bound_candidate": 3453268626299532038131,
+    "potential_tightening_vs_v30_main": 3250135177693678063363,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "same_completion_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+    "additive_stacking_authorized": false
+  },
+  "consumer_contract": {
+    "consumer_lane": "MAIN",
+    "consumer_pr": 1808,
+    "observed_consumer_head": "85c27501e4d5a5ffffe46f38d34949c8e265c735",
+    "demand_id": "S32.DEMAND.TD01.178.MAIN.AUDITED_BOUND_HANDOFF.V1",
+    "demand_may_now_be_satisfied_from_this_artifact": true,
+    "explicit_main_consumption_still_required": true,
+    "main_must_recheck_live_authority_freshness": true,
+    "main_must_not_additively_stack_same_character_routes": true,
+    "producer_subtraction_performed": false
+  },
+  "source_locks": {
+    "exact_bound_packet_path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+    "exact_bound_packet_blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39",
+    "exact_bound_packet_canonical_sha256": "f55bf17b7206fb81caccba46c4df7de441f5ef75fab9f422cc33148432a3242d",
+    "td01_verifier_blob_sha1": "4d64db072093502df2a11dbedaa108ddfa0c69b7",
+    "equivalence_verifier_blob_sha1": "0d9c2c506edb33d656f449593597c8befadd2e0d"
+  },
+  "credit_firewall": {
+    "main_authority_mutated": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "stage32mainbatch: satisfy the TD01 audited-bound handoff demand, verify current V30 freshness/min-composition/no-double-charge, and decide explicit MAIN consumption.",
+  "canonical_sha256_without_this_field": "09b1bb55b8bdfbe844258d8ad7d112d78c25c4397f08675c9c4c3b1f4a000469"
+}
