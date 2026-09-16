@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE32_BR204_COMPACT_MU_BOUNDED_EQUIVALENCE_V1",
+  "status": "PASS_ZERO_CREDIT",
+  "exact_head": "2fbbf8afe8735a7dbeb870698457774419477eae",
+  "ci": {
+    "workflow": "Stage32 BRIDGE BR203 Picard mu",
+    "run_id": 35156251889,
+    "job_id": 104996269918,
+    "conclusion": "SUCCESS",
+    "step": "Run BR204 compact mu bounded equivalence"
+  },
+  "source_locks": {
+    "mu_table_sha256": "f8570c9b045c204d55231cd855832648dbac1f26244c9581855f21cf4f8b6dbb",
+    "terminal_syndrome_sha256": "2456dba5d197737eaa6be0e0a83bbe8087dcea638d4a50c2f2ef737bfdbd6a31",
+    "compact_k8_preflight_blob_sha1": "336285a0c204276e40da57a63ab634e88dae2b88",
+    "compact_mu_equivalence_blob_sha1": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
+  },
+  "bounded_equivalence": {
+    "H10": {
+      "BR202_K8": 1878715345,
+      "BR203_mu_K8": 1853108432,
+      "direct_reference_match": true
+    },
+    "H16": {
+      "BR202_K8": 230521553871,
+      "BR203_mu_K8": 229209796641,
+      "direct_reference_match": true
+    }
+  },
+  "producer_semantics": "aggregate split kernels -> first8 qBC levels + all-level 7-bit parity mass -> exact 46-bit syndrome/mu tail reconstruction",
+  "full178_preflight": {
+    "routing_states_H96": 4070710,
+    "bct_cells_H96": 453937,
+    "assignment_mass_H96": "174683387305",
+    "shard_ranges": ["0..11", "12..23", "24..35", "36..47", "48..59", "60..71", "72..83", "84..96"],
+    "stream_one_b_at_a_time": true,
+    "raw_4_1M_state_artifact_required": false,
+    "heavy_scaleout_executed": false
+  },
+  "classification": "BR204_PRODUCER_GATE_PASS_BOUNDED_EXACT_FULL178_NOT_RUN",
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
