@@ -1,0 +1,140 @@
+{
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V1",
+  "status": "PREFLIGHT_ONLY_NOT_ARMED_ZERO_CREDIT",
+  "purpose": "Execution-only contract for eventual FULL178 compact K8+Picard-mu scaleout. This file does not authorize or launch heavy compute.",
+  "mathematical_population": {
+    "H": 96,
+    "full178_rows": 178,
+    "routing_state_count": 4070710,
+    "routing_bct_cells": 453937,
+    "routing_assignment_mass": "174683387305",
+    "same_population_replacement_only": true,
+    "terminal_identity_materialization": false
+  },
+  "source_locks": {
+    "compact_equivalence_result": {
+      "path": "stages/stage32/generalization-bridge/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE-RESULT.json",
+      "git_blob_sha1": "a0d193e44f59c50a69586124e65903db4b4ed9ce"
+    },
+    "compact_k8_producer": {
+      "path": "stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp",
+      "git_blob_sha1": "336285a0c204276e40da57a63ab634e88dae2b88"
+    },
+    "compact_mu_equivalence": {
+      "path": "stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp",
+      "git_blob_sha1": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
+    },
+    "mu_table_sha256": "f8570c9b045c204d55231cd855832648dbac1f26244c9581855f21cf4f8b6dbb",
+    "terminal_syndrome_sha256": "2456dba5d197737eaa6be0e0a83bbe8087dcea638d4a50c2f2ef737bfdbd6a31"
+  },
+  "resume_design": {
+    "finest_practical_exact_unit": "single integer b value",
+    "unit_count": 97,
+    "unit_ids": "b=0..96",
+    "scheduling_groups": [
+      {"shard": 0, "b_lo": 0, "b_hi": 11},
+      {"shard": 1, "b_lo": 12, "b_hi": 23},
+      {"shard": 2, "b_lo": 24, "b_hi": 35},
+      {"shard": 3, "b_lo": 36, "b_hi": 47},
+      {"shard": 4, "b_lo": 48, "b_hi": 59},
+      {"shard": 5, "b_lo": 60, "b_hi": 71},
+      {"shard": 6, "b_lo": 72, "b_hi": 83},
+      {"shard": 7, "b_lo": 84, "b_hi": 96}
+    ],
+    "completed_unit_certificate_required": true,
+    "carry_forward_validation": [
+      "unit b identity",
+      "all source locks exact",
+      "producer schema/version exact",
+      "K8 tier semantics exact",
+      "mu table and terminal syndrome hashes exact",
+      "deterministic compact certificate digest exact",
+      "unit completion flag true"
+    ],
+    "recovery_rule": "salvage every validated completed b-unit; schedule only missing or invalid b values",
+    "monolithic_full_rerun_forbidden_when_valid_units_exist": true
+  },
+  "per_b_certificate": {
+    "must_include": [
+      "b",
+      "compact state count",
+      "population multiplicity",
+      "K8 retained-level summary",
+      "Picard syndrome/mu summary",
+      "capacity-bin map commitment",
+      "BR202 baseline objective contribution data",
+      "BR203 mu-composed objective contribution data",
+      "deterministic stream hash",
+      "source-lock manifest",
+      "completion status"
+    ],
+    "raw_state_stream_persisted": false,
+    "raw_output_verified_before_discard": true
+  },
+  "union_verifier": {
+    "required": true,
+    "checks": [
+      "exact b coverage 0..96",
+      "no duplicate b unit",
+      "all 97 units complete",
+      "sum routing states = 4070710",
+      "sum routing assignment mass = 174683387305",
+      "eight scheduling groups cover exactly the same 97 units",
+      "BR203 result never exceeds BR202 baseline on retained aggregate semantics",
+      "final fractional-LP aggregation uses one coherent bin union"
+    ]
+  },
+  "artifact_and_storage": {
+    "repository_budget_mb": 500,
+    "raw_state_artifacts_uploaded": false,
+    "planned_persistent_evidence": "compact per-b certificates + eight shard summaries + one final parent manifest",
+    "representative_certificate_size_measured": false,
+    "largest_plausible_certificate_bytes": null,
+    "projected_peak_storage_bytes": null,
+    "intermediate_retention_days": 1,
+    "storage_gate": "BLOCKED_UNTIL_REPRESENTATIVE_CERTIFICATE_MEASURED_AND_PEAK_BOUND_RECORDED"
+  },
+  "runkey": {
+    "present": false,
+    "armed": false,
+    "required_semantics": [
+      "dedicated key path",
+      "strictly increasing generation/revision",
+      "armed=true",
+      "exact source locks",
+      "exact shard/unit partition",
+      "event before..head diff proves the key changed",
+      "reopened event alone cannot authorize"
+    ],
+    "authorization_gate": "BLOCKED"
+  },
+  "main_freshness": {
+    "repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_declared_current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "ancestry": "repo main is 7 commits ahead of the declared value with no divergence",
+    "coherent_identity": false,
+    "gate": "BLOCKED",
+    "bridge_may_mutate_main_state": false
+  },
+  "heavy_authorization": {
+    "FULL178_scaleout_authorized": false,
+    "heavy_compute_armed": false,
+    "workflow_creation_or_arming_authorized_by_this_contract": false,
+    "remaining_gates": [
+      "MAIN freshness identity synchronized by its owner",
+      "representative compact-certificate storage measurement",
+      "projected peak storage bound below repository budget",
+      "dedicated fresh run-key generation explicitly armed"
+    ]
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
