@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+from functools import lru_cache
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -67,6 +68,7 @@ def qmin_bruteforce(b: int, c: int, t: int) -> int | None:
     return best
 
 
+@lru_cache(maxsize=None)
 def qmin_fast(b: int, c: int, t: int) -> int | None:
     lo = max(0, t - c)
     hi = min(b, t)
@@ -83,7 +85,7 @@ def qmin_fast(b: int, c: int, t: int) -> int | None:
         # On one parity class the ceiling corrections are constant and the
         # remaining quadratic is strictly convex with vertex A/5.  The exact
         # minimizer is therefore the admissible parity point nearest A/5.
-        base = (A // 5)
+        base = A // 5
         candidates = {lp, up}
         for z in range(base - 4, base + 5):
             if lp <= z <= up and z % 2 == p:
@@ -97,6 +99,7 @@ def qmin_fast(b: int, c: int, t: int) -> int | None:
     return best
 
 
+@lru_cache(maxsize=None)
 def integer_t_interval(b: int, c: int, qbc: int) -> tuple[int, int] | None:
     vals = [t for t in range(b + c + 1) if qmin_fast(b, c, t) <= qbc]
     if not vals:
