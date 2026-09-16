@@ -1,70 +1,102 @@
 {
-  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V3",
-  "producer": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
-  "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
-  "row_shard_worker": "stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py",
-  "row_shard_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
-  "union_verifier": "stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py",
-  "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51",
+  "schema": "STAGE32EX5_HPADJ20_HEAVY_EXECUTION_CONTRACT_V4",
+  "route_id": "HPADJ-20_ex5",
+  "purpose": "Resume-first exact HPADJ20 replay with durable one-row checkpoints and strict Stage32 concurrency headroom.",
+  "source_locks": {
+    "producer": "stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py",
+    "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
+    "row_worker": "stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py",
+    "row_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
+    "union_verifier": "stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py",
+    "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51"
+  },
   "resume_policy": "RESUME_FIRST_EXACT_FULL178_ONE_ROW_UNITS",
   "partition": {
+    "durable_unit": "ONE_FULL178_ROW",
+    "unit_count": 178,
     "shard_count": 178,
-    "rows_per_shard": 1,
-    "partition_key": "one FULL178 row per durable unit",
-    "assignment": "Use the existing source-locked deterministic partition with shard_count=178. Since there are exactly 178 FULL178 rows, every shard receives exactly one row.",
-    "expected_coverage": "All 178 FULL178 rows exactly once; each row contains every historical b-shard cell exactly once.",
-    "certificate": "One compact canonical JSON certificate per completed FULL178 row.",
-    "partial_outputs_reusable": true,
-    "union_verifier_required": true,
-    "union_verification": "Reconstruct the source-locked deterministic partition; require row units 0..177 exactly once; reject row gaps/overlaps/source-lock drift; sum exact Fraction objectives and cellwise integer floors; reconstruct diagnostic stream in original row/b-shard order.",
-    "mathematical_population_changed_by_partition": false
+    "rows_per_unit": 1,
+    "assignment": "Source-locked deterministic greedy FULL178-row partition with shard_count=178; therefore every unit contains exactly one row.",
+    "expected_coverage": "FULL178 row indices 0..177 exactly once; every historical b-interval cell belonging to each row is computed inside that row unit.",
+    "finest_practical_boundary_rationale": "The locked worker already exposes one exact FULL178 row as an independently verifiable unit. Splitting below a row would require a new execution worker and repeat the expensive global H=96 profile/context initialization across each row's historical b-interval cells. A near-maximum d=190 one-row unit has already completed successfully, so one row is the current finest practical exact boundary without changing mathematical semantics.",
+    "mathematical_population_changed": false
+  },
+  "representative_measurement": {
+    "required_before_scaleout": true,
+    "source_run_id": 35072442270,
+    "source_head": "a57bfe384f6ecd52526e67f7b956b0b1fd9eed3d",
+    "unit": 1,
+    "assigned_row": [177, "g1-d190", 1, 190],
+    "raw_certificate_bytes": 5721,
+    "actions_artifact_zip_bytes": 2084,
+    "artifact_id": 10437870959,
+    "certificate_canonical": "6faeb1f379e6106f002b5d99f36974d81bd22ff86bef731392302bea0af0c0c7",
+    "note": "This is a successfully completed near-maximum-d FULL178 row from the cancelled generation-3 run, measured before the replacement scale-out."
   },
   "carry_over": {
     "selector": "runkey carry_run_id",
-    "reuse_rule": "Download the same-index one-row certificate from carry_run_id; reuse only when canonical digest, producer blob, worker blob, shard index/count and assignment digest validate under the current locked worker.",
-    "missing_or_rejected_rule": "Compute only the missing or rejected row. A validated completed row is never recomputed merely because another row timed out or the workflow was cancelled.",
-    "cross_generation_requirement": "Producer, worker, partition algorithm and shard_count=178 must remain byte/semantically locked. Drift invalidates incompatible carry-over rather than silently reusing it."
+    "chain_model": "Each generation first validates the previous run's carry bundle and newly completed row artifacts, consolidates every valid completed row into a new carry bundle, and schedules only rows absent from that validated bundle. Thus one immediate predecessor run carries the validated union of all earlier generations.",
+    "validation": "Reuse only a complete canonical row certificate whose producer/worker blobs, shard index/count, deterministic row assignment, assignment digest, completion status and no-credit firewalls validate under the current source-locked worker.",
+    "missing_or_rejected": "Only missing or rejected row units enter the heavy matrix. Valid carried rows do not receive a compute job.",
+    "partial_container_salvage": "A cancelled/failed prior workflow may still contribute every row artifact that completed before cancellation; no workflow-level success is inferred or required.",
+    "carry_bundle_artifact": "hpadj20-carry-bundle"
   },
   "cancellation_recovery": {
-    "completed_units": "Each completed row uploads its compact certificate immediately when that row job completes.",
-    "cancelled_or_timed_out_units": "No completion is inferred for the currently running row. Re-arm a fresh runkey generation with carry_run_id set to the cancelled/failed run; validate and salvage every completed row artifact, then compute only missing/rejected rows.",
-    "salvage_granularity": "ONE_FULL178_ROW",
-    "whole_parent_rerun_default": false
+    "row_completion": "A row is durable only after exact certificate validation, then its compact certificate is uploaded immediately as hpadj20-row-<unit> with if: always().",
+    "timeout_or_cancel": "Increment the runkey generation, set carry_run_id to the failed/cancelled run, validate that run's inherited carry bundle plus completed row artifacts, and schedule only the remaining rows.",
+    "running_partial_row": "Discard an interrupted row unless a complete certificate passes the same exact validation; file existence alone is not completion.",
+    "whole_parent_rerun_default": false,
+    "repeated_timeout_extension_default": false
   },
-  "progress": {
-    "row_level_progress": true,
-    "durable_checkpoint_on_every_completed_row": true,
-    "format": "HPADJ20_SHARD_PROGRESS shard=i/178 row=1/1 row_id=... d=... elapsed_s=... eta_s=0.0"
+  "union_verification": {
+    "required": true,
+    "rule": "Final aggregation requires exactly 178 source-locked row certificates, reconstructs the deterministic partition, rejects gaps/overlaps/source drift, sums exact Fraction objectives and cellwise integer floors, reconstructs diagnostic order, and reasserts all HPADJ20 <= HPADJ19/benchmark conditions.",
+    "hostile_audit_required": true
+  },
+  "concurrency_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 15,
+    "reserved_stage_headroom": 3,
+    "reference_precedent": "Stage32-18T capped effective heavy concurrency at 15 to preserve cross-Stage and audit headroom.",
+    "overlap_rule": "The 15 is this HPADJ20 matrix contribution. Before arming, other simultaneously runnable Stage32 heavy workloads must be counted; if their overlap could push Stage32 above 18, do not arm or reduce this workflow further.",
+    "arm_time_observation": "User cancelled all live workflows before this rebuild; no other intended Stage32 heavy production run is being deliberately co-launched with this generation.",
+    "stop_condition": "Cancel/stop if actual Stage32 heavy overlap can exceed 18."
   },
   "storage_preflight": {
     "operating_budget_mb": 500,
-    "planned_compute_units": 178,
-    "planned_effective_heavy_concurrency": 18,
-    "repository_parallel_cap": 18,
     "raw_exhaustive_output_persisted": false,
-    "max_certificate_bytes_per_row": 1000000,
-    "max_final_union_certificate_bytes": 2000000,
-    "projected_peak_actions_artifact_storage_mb_upper_bound": 360,
-    "projection_includes_one_full_carry_generation_plus_one_full_current_generation": true,
+    "compact_certificate_only": true,
+    "hard_raw_certificate_bytes_per_row": 65536,
+    "conservative_actions_artifact_budget_bytes_per_row": 1048576,
+    "row_artifact_count_max": 178,
+    "carry_bundle_raw_bytes_max": 11665408,
+    "carry_bundle_actions_budget_mb": 12,
+    "final_union_certificate_bytes_max": 2000000,
+    "recovery_snapshot_bytes_max": 1000000,
+    "projected_peak_mb_upper_bound": 370,
+    "projection_basis": "One complete predecessor generation of up to 178 one-MiB row artifacts + one current generation of up to 178 one-MiB row artifacts + <=12 MiB carry bundle + <=2 MB final union + <=1 MB recovery snapshot.",
+    "within_500mb_budget": true,
     "row_retention_days": 1,
+    "carry_bundle_retention_days": 1,
     "final_union_retention_days": 7,
-    "cleanup_point": "Row artifacts expire after one day; only the compact final union certificate is retained for the audit window.",
-    "stop_condition": "Fail before upload if any row certificate exceeds 1,000,000 bytes or the final union certificate exceeds 2,000,000 bytes. No raw search state is uploaded."
+    "stop_condition": "Fail closed before/at upload if any row certificate exceeds 65,536 raw bytes, if bundle/final bounds are exceeded, or if the 500 MB projected storage budget is no longer safe."
   },
   "authorization": {
-    "method": "Fresh commit-range runkey generation gate",
-    "automatic_event": "pull_request synchronize/opened only when the dedicated runkey path changed in the triggering range",
+    "method": "Fresh commit-range dedicated runkey generation gate before heavy compute.",
+    "non_runkey_sync_is_cold": true,
     "reopened_is_cold": true,
-    "workflow_dispatch_after_default_branch_install": "Exact-head manual rerun remains available, still source/runkey locked."
+    "initial_open_restricted": true,
+    "workflow_concurrency_group": "One HPADJ20 heavy generation per PR; cancel-in-progress=false so a newer synchronization cannot silently destroy durable work."
   },
   "credit_firewall": {
     "partial_output_credit": false,
     "stage32_main_credit": false,
     "full178_completion_credit": false,
-    "theorem_credit": false,
     "effectivity_credit": false,
     "receiver_credit": false,
+    "theorem_credit": false,
     "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
     "merge_authorized": false
   }
 }
