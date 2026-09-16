@@ -10,7 +10,7 @@ VERIFIER = HERE / "management/grf04-quadratic-capacity/verify_grf04_v37_full178_
 
 def main() -> None:
     runpy.run_path(str(VERIFIER), run_name="__main__")
-    print("PASS: Stage32 MAIN V37 keeps V35 q-quadratic authority unchanged and routes FULL178 integer-lattice scaleout to 32-01-178")
+    print("PASS: Stage32 MAIN V37 keeps numerical authority unchanged and records the V37-synced FULL178 handoff pending MAIN MIN-composition decision")
 
 
 if __name__ == "__main__":
