@@ -1,18 +1,20 @@
 {
-  "schema": "STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V2",
-  "generation": 2,
+  "schema": "STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V3",
+  "generation": 3,
   "armed": true,
-  "purpose": "current-exact-head HPADJ20 hostile-audit replay using resumable parallel FULL178 row shards",
-  "shard_count": 16,
+  "purpose": "current-exact-head HPADJ20 hostile-audit replay with one durable checkpoint per FULL178 row",
+  "shard_count": 178,
+  "max_parallel": 32,
   "carry_run_id": null,
   "producer_git_blob": "837d647cfcbc96bbe384e564f449cd7042a46d48",
   "row_shard_worker_git_blob": "380c191b7dd3bcc6c1e290495c776203d4a92b63",
   "union_verifier_git_blob": "cfa58039f9cce06767a18b7594782dc620865e51",
-  "execution_contract_git_blob": "cdd051aee69ae3412201c4c989d864fcb5666ecb",
+  "execution_contract_git_blob": "5c113f84c757efcd368e11d17a6bd37f714cdd53",
   "recovery": {
     "resume_first": true,
-    "recompute_only_missing_or_rejected_shards": true,
-    "next_recovery_instruction": "If this run is cancelled/times out after any shard artifacts are uploaded, increment generation and set carry_run_id to this workflow run id."
+    "durable_unit": "ONE_FULL178_ROW",
+    "recompute_only_missing_or_rejected_rows": true,
+    "next_recovery_instruction": "If this run is cancelled or times out, increment generation and set carry_run_id to this workflow run id. Every completed row artifact is validated and reused; only missing/rejected rows are recomputed."
   },
   "credit": {
     "partial_output_credit": false,
