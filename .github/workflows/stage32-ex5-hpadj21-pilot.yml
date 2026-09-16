@@ -1,0 +1,40 @@
+name: Stage32EX5 HPADJ21 strictness pilot
+
+# Trigger lifecycle: ACTIVE_AUTO — current HPADJ21 successor-frontier bounded diagnostic.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/hpadj-21_ex5/**'
+      - '.github/workflows/stage32-ex5-hpadj21-pilot.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  hpadj21-strictness-pilot:
+    if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Run bounded full-qA histogram strictness pilot
+        run: |
+          python stages/stage32-ex5/hpadj-21_ex5/strictness_pilot_full_qa_histogram.py | tee /tmp/hpadj21-pilot.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj21-pilot.json').read_text())
+          assert data['route_id'] == 'HPADJ-21_ex5'
+          assert data['lp_check']['tested_exact_cells'] == data['lp_check']['no_weaker_exact_cells']
+          assert data['semantics']['bounded_pilot_is_not_full178_numeric_replay'] is True
+          assert data['firewalls']['stage32_main_pruning_credit'] is False
+          print('HPADJ21_STATUS=' + data['status'])
+          print('HPADJ21_STRICT_CELLS=' + str(data['lp_check']['strict_exact_cell_count']))
+          print('HPADJ21_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          PY
