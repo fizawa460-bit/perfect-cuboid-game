@@ -97,3 +97,29 @@ jobs:
           assert x['shard_cells'] == [31590,38598,45510,52422,59334,66246,73158,87079]
           print('BR204 compact routing surface light preflight PASS')
           PY
+      - name: Run BR204 compact K8 syndrome light preflight
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG \
+            stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp \
+            -o /tmp/verify_br204_compact_k8_syndrome_preflight
+          /tmp/verify_br204_compact_k8_syndrome_preflight \
+            > /tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json
+          cat /tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json
+          python - <<'PY'
+          import json
+          p='/tmp/BR204-COMPACT-K8-SYNDROME-PREFLIGHT.json'
+          x=json.load(open(p))
+          assert x['status'] == 'PASS_ZERO_CREDIT'
+          assert x['H10'] == {'base_states': 3800, 'direct_equals_compact': True}
+          assert x['H16']['base_states'] == 16781
+          assert x['H16']['direct_equals_compact'] is True
+          assert x['H16']['retained_q_levels'] == 91321
+          assert x['H16']['retained_parity_buckets'] == 207059
+          assert x['H96_scale_smoke']['b0_states'] == 4609
+          assert x['H96_scale_smoke']['b0_q_levels'] == 18189
+          assert x['H96_scale_smoke']['b0_parity_buckets'] == 18189
+          assert x['H96_scale_smoke']['b96_states'] == 63094
+          assert x['H96_scale_smoke']['b96_q_levels'] == 439932
+          assert x['H96_scale_smoke']['b96_parity_buckets'] == 1011820
+          print('BR204 compact K8 syndrome light preflight PASS')
+          PY
