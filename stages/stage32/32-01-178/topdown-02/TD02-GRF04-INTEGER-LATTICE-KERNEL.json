@@ -3,7 +3,7 @@
   "stage": 32,
   "lane": "32-01-178",
   "route": "TD02-GRF04-INTEGER-LATTICE-STRENGTHENING",
-  "status": "RETAINED_RESEARCH_KERNEL__NO_MAIN_CREDIT__FULL178_SCALEOUT_NOT_YET_RUN",
+  "status": "RETAINED_HOSTILE_AUDIT_PASS__NO_MAIN_CREDIT__BOUNDED_CAPACITY_SUCCESSOR_AUDIT_PENDING",
   "purpose": "Strengthen the real (u,t) quadratic relaxation by retaining the integer/nonnegative split structure already present in the FULL178 exceptional multiplicities, without enumerating terminals and without duplicating MAIN's LP allocation.",
   "source_identity": {
     "td02_bounded_source_path": "stages/stage32/32-01-178/topdown-02/verify_td02_grf04_bounded.py",
@@ -67,15 +67,32 @@
   "verifier": {
     "path": "stages/stage32/32-01-178/topdown-02/verify_td02_grf04_integer_lattice_kernel.py",
     "blob_sha1": "d51a8edbfc4fb2c8e46dc9ea788ca43a7587f054",
-    "exact_head_ci": false,
+    "exact_head_ci": true,
+    "ci_research_exact_head": "05927ad9306e96752799b6cf4e390a438337a8bc",
+    "ci_run_id": 35045220415,
+    "ci_job_id": 104633469055,
+    "ci_conclusion": "SUCCESS",
     "replay_class": "LIGHTWEIGHT_DETERMINISTIC_KERNEL_REPLAY"
   },
+  "hostile_audit": {
+    "status": "PASS",
+    "audited_exact_head": "fd9b78e0d58bc1b05a565c75f8e2c0191586c62f",
+    "review_node_id": "PRR_kwDOTr52Y88AAAABNwAS_A",
+    "scope": "INTEGER_LATTICE_KERNEL_ONLY__NO_FULL178_NUMERIC_CAPACITY_CREDIT",
+    "merge_ready_freshness_at_audit": "BLOCKED_BY_LIVE_MAIN_BASE_DRIFT"
+  },
+  "successor_bounded_capacity": {
+    "checkpoint_path": "stages/stage32/32-01-178/topdown-02/TD02-INTEGER-LATTICE-CAPACITY-BOUNDED-CHECKPOINT.json",
+    "status": "EXACT_HEAD_CI_SUCCESS__HOSTILE_AUDIT_PENDING",
+    "full178_credit": false
+  },
   "next_route": {
-    "id": "TD02-INTEGER-LATTICE-CAPACITY-SCALEOUT",
-    "goal": "Replace the MAIN real quadratic lower bound by this integer-lattice lower bound inside a 178-owned compressed capacity census, using the at-most-two-u-candidate kernel and a cached t minimization. First run a bounded exact regression against the retained TD02 terminal/source census; only then consider FULL178 scaleout.",
+    "id": "TD02-INTEGER-LATTICE-CAPACITY-FULL178-SCALEOUT",
+    "goal": "After hostile audit of the retained bounded-capacity checkpoint, transport the audited integer-lattice capacity construction from d<=32 to all 178 FULL178 rows without terminal enumeration.",
     "terminal_enumeration_required": false,
     "duplicate_main_lp_forbidden": true,
-    "heavy_compute_armed": false
+    "heavy_compute_armed": false,
+    "gate": "BOUNDED_CAPACITY_HOSTILE_AUDIT_PASS"
   },
   "credit": {
     "main": false,
