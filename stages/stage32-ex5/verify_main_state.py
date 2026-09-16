@@ -30,8 +30,8 @@ RETIRED = (
 )
 
 # Normal EX5 integrity is deliberately source-lock-only for these research
-# producers.  Their exact mathematical replay is audit/on-demand work, not a
-# per-commit routing firewall.  In particular HPADJ20 is a large nested exact
+# producers. Their exact mathematical replay is audit/on-demand work, not a
+# per-commit routing firewall. In particular HPADJ20 is a large nested exact
 # LP replay and must not turn this lightweight integrity step into a heavy job.
 LOCKED_PRODUCERS = {
     "hpadj-15_ex5/derive_b_shard_row_exact_grf04_picard_capacity_bound.py": "99ac15d18c83da050107ac7e8b113ae795ff0629",
@@ -98,8 +98,10 @@ def verify_live_firewalls() -> None:
     authority = state.get("authority", {})
     req(authority.get("state_itself_grants_mathematical_credit") is False,
         "MAIN-STATE unexpectedly grants mathematical credit")
-    req(authority.get("ex5_auto_promotes_to_main", False) is False,
+    main_authority = state.get("stage32_main_authority", {})
+    req(main_authority.get("ex5_auto_promotes_to_main") is False,
         "EX5 auto-promotion firewall drift")
+
     credit = state.get("credit", {})
     for key in (
         "stage32_main_credit",
@@ -113,6 +115,17 @@ def verify_live_firewalls() -> None:
         "perfect_cuboid_credit",
     ):
         req(credit.get(key) is False, f"credit firewall drift: {key}")
+
+    firewalls = state.get("firewalls", {})
+    for key in (
+        "ex5_progress_auto_promoted_to_stage32_main",
+        "ex5_registered_into_n350_without_main_audit",
+        "sat_witness_promoted_to_effective_curve_existence",
+        "stage32_final_milestone_claimed",
+        "perfect_cuboid_existence_claim",
+        "perfect_cuboid_nonexistence_claim",
+    ):
+        req(firewalls.get(key) is False, f"live firewall drift: {key}")
 
 
 def main() -> None:
