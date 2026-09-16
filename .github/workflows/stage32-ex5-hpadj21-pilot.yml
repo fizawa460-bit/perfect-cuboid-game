@@ -40,23 +40,53 @@ jobs:
           print('HPADJ21_STRICT_CELLS=' + str(data['lp_check']['strict_exact_cell_count']))
           print('HPADJ21_CANONICAL=' + data['canonical_sha256_without_this_field'])
           PY
-      - name: Measure one near-maximum FULL178 row exactly
+      - name: Verify bounded direct-vs-sweep exact equivalence
         run: |
           set -euo pipefail
           test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = '68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
-          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index 177 --output /tmp/hpadj21-row177.json | tee /tmp/hpadj21-row177-summary.json
-          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index 177 --verify-existing /tmp/hpadj21-row177.json
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py)" = '0131c91b54bfc335f1bce3af18e9da2eaa51a7ba'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/verify_sweep_equivalence_bounded.py)" = '6225471e5920f1c34f4083889a00f259c699bd9b'
+          python stages/stage32-ex5/hpadj-21_ex5/verify_sweep_equivalence_bounded.py | tee /tmp/hpadj21-sweep-equivalence.json
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path('/tmp/hpadj21-row177.json'); data=json.loads(p.read_text())
+          d=json.loads(Path('/tmp/hpadj21-sweep-equivalence.json').read_text())
+          assert d['status']=='EXACT_BOUNDED_EQUIVALENCE_PASS'
+          assert len(d['rows'])==2
+          assert d['credit']['stage32_main_credit'] is False
+          PY
+      - name: Measure one near-maximum FULL178 row with exact sweep worker
+        id: representative
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py)" = '0131c91b54bfc335f1bce3af18e9da2eaa51a7ba'
+          START="$(date +%s)"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py --row-index 177 --output /tmp/hpadj21-sweep-row177.json | tee /tmp/hpadj21-sweep-row177-summary.json
+          END="$(date +%s)"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py --row-index 177 --verify-existing /tmp/hpadj21-sweep-row177.json
+          python - "$START" "$END" <<'PY'
+          import json,sys
+          from pathlib import Path
+          p=Path('/tmp/hpadj21-sweep-row177.json'); data=json.loads(p.read_text())
           assert data['row']['index']==177
           assert data['row']['row_id']=='g1-d190'
           assert data['row']['d']==190
           assert data['totals']['hpadj21_cellwise_floor_sum'] <= data['totals']['hpadj20_cellwise_floor_sum']
+          assert data['semantics']['even_e_difference_sweep_exact_rewrite'] is True
           assert data['credit_firewall']['stage32_main_credit'] is False
-          print('HPADJ21_ROW177_BYTES='+str(p.stat().st_size))
-          print('HPADJ21_ROW177_STRICT_CELLS='+str(data['totals']['strict_cell_count']))
-          print('HPADJ21_ROW177_FLOOR_IMPROVEMENT='+str(data['totals']['floor_improvement']))
-          print('HPADJ21_ROW177_CANONICAL='+data['canonical_sha256_without_this_field'])
+          print('HPADJ21_SWEEP_ROW177_BYTES='+str(p.stat().st_size))
+          print('HPADJ21_SWEEP_ROW177_STRICT_CELLS='+str(data['totals']['strict_cell_count']))
+          print('HPADJ21_SWEEP_ROW177_FLOOR_IMPROVEMENT='+str(data['totals']['floor_improvement']))
+          print('HPADJ21_SWEEP_ROW177_CANONICAL='+data['canonical_sha256_without_this_field'])
+          print('HPADJ21_SWEEP_ROW177_ELAPSED_S='+str(int(sys.argv[2])-int(sys.argv[1])))
           PY
+          cp /tmp/hpadj21-sweep-row177.json hpadj21-sweep-row177.json
+      - name: Upload representative sweep certificate
+        if: always() && steps.representative.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-sweep-row177-representative
+          path: hpadj21-sweep-row177.json
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 9
