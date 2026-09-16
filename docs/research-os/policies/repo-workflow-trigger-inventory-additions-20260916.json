@@ -4,14 +4,14 @@
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
   "scope": "post-snapshot repository workflow lifecycle registrations",
   "classifications": {
-    "ACTIVE_AUTO": [],
-    "MANUAL": [
+    "ACTIVE_AUTO": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml"
     ],
+    "MANUAL": [],
     "RETIRED": []
   },
   "notes": [
-    "HPADJ20 heavy replay is explicit workflow_dispatch-only audit/on-demand evidence production.",
+    "HPADJ20 heavy replay is PR-auto only behind a fresh dedicated run-key commit-range authorization gate, with manual dispatch retained for later exact-head reruns when dispatchable.",
     "This additive registry preserves the frozen 2026-09-11 base snapshot while making later workflow additions fail-closed and mechanically auditable."
   ]
 }
