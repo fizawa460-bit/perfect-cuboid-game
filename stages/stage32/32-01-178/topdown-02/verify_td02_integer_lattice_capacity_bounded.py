@@ -54,16 +54,18 @@ EXPECTED_INT_CUTOFF = (5, 209, 14_149_900_971, 79_016_894_385)
 EXPECTED_IMPROVEMENT_NUM = 237_873_228_261_431
 EXPECTED_IMPROVEMENT_DEN = 69_179
 EXPECTED_FLOOR_IMPROVEMENT = 3_438_517_877
-
+EXPECTED_POINTWISE_CELLS = 46_618
+EXPECTED_POINTWISE_STRICT = 8_186
+EXPECTED_POINTWISE_EQUAL = 38_432
+EXPECTED_POINTWISE_MAX_DROP = 2
+EXPECTED_POINTWISE_MAX_WITNESS = (1, 32, 8, 0, 0, 14, 12)
 
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
 
-
 def git_blob(raw: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
-
 
 def checked_raw(rel: str, expected: str) -> bytes:
     p = ROOT / rel
@@ -72,25 +74,23 @@ def checked_raw(rel: str, expected: str) -> bytes:
     req(git_blob(raw) == expected, f"source drift {rel}")
     return raw
 
-
 def load_module(name: str, rel: str, raw: bytes):
     mod = types.ModuleType(name)
     mod.__file__ = str(ROOT / rel)
     exec(compile(raw, str(ROOT / rel), "exec"), mod.__dict__)
     return mod
 
-
 def ceil_div(a: int, b: int) -> int:
     return -((-a) // b)
-
 
 def count_parity_upto(limit: int, parity: int) -> int:
     if limit < parity:
         return 0
     return (limit - parity) // 2 + 1
 
-
 def build_bc_counts() -> list[list[int]]:
+    # Exact relaxed canonical/parity prefix counts, same aggregate semantics
+    # as the V35 real-quadratic capacity construction, independently replayed.
     B = [[0, 0] for _ in range(HMAX + 1)]
     C = [[0, 0] for _ in range(HMAX + 1)]
     for m in range(HMAX + 1):
@@ -155,7 +155,6 @@ def build_bc_counts() -> list[list[int]]:
                 bc[b][c] += eq_first[tp][rb][rc] + eq_second[tp][rb][rc]
     return bc
 
-
 def real_f0(h: int, g: int, b: int, c: int, x4: int) -> int:
     D = h - 2 * x4
     d = 2 * h
@@ -165,7 +164,6 @@ def real_f0(h: int, g: int, b: int, c: int, x4: int) -> int:
         + 18 * b * b + 4 * b * c + 13 * c * c
     ) - 23 * r4
 
-
 def real_survivor_caps(h: int, g: int, b: int, c: int) -> list[int]:
     n_min = 8 * h
     out = []
@@ -174,9 +172,10 @@ def real_survivor_caps(h: int, g: int, b: int, c: int) -> list[int]:
             real_f0(h, g, b, c, x4) + 46 * a * a <= 0
             for x4 in range(n_min + 1)
         )
+        # The real quadratic feasible x4 set is an interval, so either
+        # completion parity retains at most ceil(raw/2).
         out.append((raw + 1) // 2)
     return out
-
 
 def integer_survivor_caps(kernel, h: int, g: int, b: int, c: int) -> list[int]:
     d = 2 * h
@@ -214,9 +213,48 @@ def integer_survivor_caps(kernel, h: int, g: int, b: int, c: int) -> list[int]:
     for a in range(h + 1):
         ce += diff_even[a]
         co += diff_odd[a]
+        # Actual TD01 completion character fixes one x4 parity per finer
+        # prefix. After aggregate forgetting, max(even,odd) is a safe cap
+        # even when the integer feasible x4 set is not contiguous.
         out.append(max(ce, co))
     return out
 
+
+def pointwise_cap_crosscheck(kernel):
+    strict = equal = total = 0
+    max_drop = -1
+    max_witness = None
+    for g in (0, 1):
+        for h in range(4, HMAX + 1):
+            d = 2 * h
+            for b in range(h + 1):
+                for c in range(h + 1):
+                    real = real_survivor_caps(h, g, b, c)
+                    integer = integer_survivor_caps(kernel, h, g, b, c)
+                    for a, (rv, iv) in enumerate(zip(real, integer)):
+                        req(iv <= rv, f"integer cap weakened real cap {(g,d,a,b,c,rv,iv)}")
+                        if iv < rv:
+                            strict += 1
+                            drop = rv - iv
+                            if drop > max_drop:
+                                max_drop = drop
+                                max_witness = (g, d, a, b, c, rv, iv)
+                        else:
+                            equal += 1
+                        total += 1
+    req(total == EXPECTED_POINTWISE_CELLS, f"pointwise cell count {total}")
+    req(strict == EXPECTED_POINTWISE_STRICT, f"pointwise strict count {strict}")
+    req(equal == EXPECTED_POINTWISE_EQUAL, f"pointwise equal count {equal}")
+    req(max_drop == EXPECTED_POINTWISE_MAX_DROP, f"pointwise max drop {max_drop}")
+    req(max_witness == EXPECTED_POINTWISE_MAX_WITNESS, f"pointwise max witness {max_witness}")
+    return {
+        "cells": total,
+        "strict_gain_cells": strict,
+        "equal_cells": equal,
+        "weakened_cells": 0,
+        "max_survivor_cap_drop": max_drop,
+        "max_drop_first_witness": list(max_witness),
+    }
 
 def build_bins(kernel, bc: list[list[int]], mode: str):
     bins: dict[tuple[int, int], int] = defaultdict(int)
@@ -280,7 +318,6 @@ def build_bins(kernel, bc: list[list[int]], mode: str):
             })
     return bins, rows
 
-
 def solve_fractional_lp(bins: dict[tuple[int, int], int], envelope: int):
     items = sorted(
         ((Fraction(s, B), cap, s, B) for (s, B), cap in bins.items()),
@@ -313,19 +350,18 @@ def solve_fractional_lp(bins: dict[tuple[int, int], int], envelope: int):
         "cutoff": cutoff,
     }
 
-
 def row_sha(rows) -> str:
     h = hashlib.sha256()
     for row in rows:
         h.update(json.dumps(row, sort_keys=True, separators=(",", ":")).encode() + b"\n")
     return h.hexdigest()
 
-
 def main() -> None:
     raws = {name: checked_raw(rel, sha) for name, (rel, sha) in LOCKS.items()}
     kernel = load_module("td02_integer_kernel", LOCKS["integer_kernel"][0], raws["integer_kernel"])
     bounded = load_module("td02_bounded_exact", LOCKS["bounded_exact"][0], raws["bounded_exact"])
 
+    # Fail closed on every source used by the hostile-audited integer kernel.
     for _name, (rel, sha) in kernel.LOCKS.items():
         checked_raw(rel, sha)
 
@@ -336,14 +372,14 @@ def main() -> None:
     req(bounded.EXPECTED_HPADJ08_SURVIVORS == ENVELOPE, "bounded HPADJ08 envelope identity")
 
     bc = build_bc_counts()
-
     def prefix_total(h: int) -> int:
         ac = sum((a + 1) * (a + 2) // 2 for a in range(h + 1))
         bcc = sum(bc[b][c] for b in range(h + 1) for c in range(h + 1))
         return ac * bcc
-
     req(prefix_total(4) == EXPECTED_PREFIX_H4, "h4 prefix fixture")
     req(prefix_total(16) == EXPECTED_PREFIX_H16, "h16 prefix fixture")
+
+    pointwise = pointwise_cap_crosscheck(kernel)
 
     real_bins, real_rows = build_bins(kernel, bc, "real")
     int_bins, int_rows = build_bins(kernel, bc, "integer")
@@ -398,10 +434,12 @@ def main() -> None:
             "cutoff": list(int_lp["cutoff"]),
             "row_stream_sha256": row_sha(int_rows),
         },
+        "pointwise_cap_crosscheck": pointwise,
         "strict_gain": {
             "exact_num": improvement.numerator,
             "exact_den": improvement.denominator,
             "floor_upper_improvement": EXPECTED_FLOOR_IMPROVEMENT,
+            "pointwise_strict_gain_cells": pointwise["strict_gain_cells"],
         },
         "semantics": {
             "allocation": "EXACT_CONTINUOUS_FRACTIONAL_CAPACITY_LP_BY_DESCENDING_EXACT_RATIONAL_s_over_B",
@@ -449,10 +487,10 @@ def main() -> None:
         "integer_lp_exact": f"{int_lp['value'].numerator}/{int_lp['value'].denominator}",
         "integer_lp_upper_floor": int_lp["upper_floor"],
         "floor_upper_improvement": EXPECTED_FLOOR_IMPROVEMENT,
+        "pointwise_strict_gain_cells": pointwise["strict_gain_cells"],
         "integer_over_real_approx": float(int_lp["value"] / real_lp["value"]),
         "canonical_sha256_without_this_field": result["canonical_sha256_without_this_field"],
     }, indent=2, sort_keys=True))
-
 
 if __name__ == "__main__":
     main()
