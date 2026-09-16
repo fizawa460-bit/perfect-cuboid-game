@@ -1,0 +1,48 @@
+name: Stage32EX5 HPADJ20 heavy replay
+
+# HPADJ20 is intentionally excluded from the ordinary EX5 integrity path.
+# Run this workflow explicitly when an exact-head HPADJ20 replay is needed for
+# hostile audit / handoff evidence.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay-hpadj20:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install HPADJ exact diagnostic dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+      - name: Replay HPADJ20 exact two-tier qA refinement
+        run: |
+          python stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py | tee /tmp/hpadj20.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path('/tmp/hpadj20.json').read_text())
+          assert data['status'] == 'Q_QUADRATIC_QA_TWO_TIER_EXACT_MULTIPLICITY_PREDOMAIN_PICARD_LP_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          assert data['candidate_bound']['hpadj20_candidate_upper_bound'] <= 195603649074545538415
+          assert data['candidate_bound']['hpadj20_candidate_upper_bound'] <= data['candidate_bound']['replayed_hpadj19_candidate_upper_bound']
+          assert data['candidate_bound']['structurally_no_weaker_than_hpadj19'] is True
+          assert data['qA_refinement']['exact_support_preserved'] is True
+          assert data['qA_refinement']['strict_two_tier_class_count'] > 0
+          assert data['semantics']['per_exact_pre_block_q_survivor_capacity_no_larger_than_hpadj19'] is True
+          assert data['semantics']['statistical_independence_assumed'] is False
+          assert data['semantics']['new_heavy_run_used'] is False
+          assert data['firewalls']['stage32_main_pruning_credit'] is False
+          print('HPADJ20_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ20_HPADJ19_REPLAY_UPPER=' + str(data['candidate_bound']['replayed_hpadj19_candidate_upper_bound']))
+          print('HPADJ20_UPPER=' + str(data['candidate_bound']['hpadj20_candidate_upper_bound']))
+          print('HPADJ20_IMPROVEMENT_VS_HPADJ19=' + str(data['candidate_bound']['improvement_vs_hpadj19_replay']))
+          print('HPADJ20_IMPROVEMENT_VS_MAIN_Q=' + str(data['candidate_bound']['improvement_vs_main_q_quadratic_global']))
+          PY
