@@ -24,6 +24,9 @@ Permanent whole-fetch denylist:
 - Before artifact-producing compute, conservatively preflight peak stored footprint. For a new high-mass workflow, measure a representative shard before scaling.
 - Keep raw exhaustive evidence runner-local when possible; persist compact deterministic certificates only after verification. Use bounded waves and short retention for necessary intermediates.
 - Storage risk, upload failure, or materially larger-than-estimated artifacts are stop/cancel conditions. Do not trade mathematical exactness for storage.
+- A single Stage's coordinated heavy workload must stay at **<=18 effective concurrent heavy jobs**, summed across all overlapping matrices, workflows, and PRs from that Stage. Splitting work across workflows/PRs does not reset the count.
+- **18 is a hard ceiling, not a target.** Preserve runner headroom for other Stages, reconnaissance, audits, and lightweight Actions; use fewer than 18 when overlap or capacity is uncertain.
+- Before arming a new or materially revised heavy workflow, record/verify `planned effective heavy concurrency <= 18`; if the overlap cannot be bounded confidently, reduce `max-parallel` until it can.
 - **On-demand trigger:** open `docs/research-os/policies/actions-storage-and-evidence-safety.md` only when designing, materially revising, authorizing, rerunning, or diagnosing an artifact-producing/heavy workflow.
 
 ## Pull-request workflow trigger lifecycle
