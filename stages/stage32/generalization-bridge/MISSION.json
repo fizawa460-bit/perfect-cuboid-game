@@ -57,7 +57,7 @@
     ]
   },
   "research_anchors": {
-    "issue1817_is_zero_credit": true,
+    "anchor_semantics": "REGRESSION_ONLY_NOT_LIVE_AUTHORITY",
     "FULL178_bct_low_qBC_K8_scratch_candidate": "171016506358704660923",
     "FULL178_bct_low_qBC_K8_relative_tightening_percent_vs_TD02_reference": 12.4851,
     "H96_refined_state_count_b_c_support_t_r": 4070710,
@@ -74,6 +74,30 @@
     "Picard_mu_residual_mass": "R = e-a-b-c",
     "Picard_mu_condition": "mu[sigma] <= R",
     "retained_historical_assets_policy": "Source-lock and reuse retained Picard64/HNF/59D assets as inputs only; do not reactivate their historical lane or population credit."
+  },
+  "transition_policy": {
+    "refresh_live_MAIN_before_every_node_transition": true,
+    "research_anchor_numbers_never_substitute_for_live_predecessor": true,
+    "required_candidate_classification": [
+      "STRICT_SAME_POPULATION_IMPROVEMENT",
+      "EQUAL_TO_LIVE_PREDECESSOR",
+      "DOMINATED_BY_LIVE_PREDECESSOR",
+      "SEMANTICALLY_INCOMPARABLE"
+    ],
+    "continue_expensive_downstream_work_only_after_live_dominance_recheck": true,
+    "intermediate_candidate_salvage_allowed": true,
+    "downstream_block_does_not_invalidate_source_locked_upstream_candidate": true,
+    "BR203_compactness_gate": {
+      "measure_exact_A_side_syndrome_image_cardinality": true,
+      "measure_exact_BC_side_syndrome_image_cardinality": true,
+      "measure_deduplicated_free_exceptional_syndrome_mu_table": true,
+      "group_sum_invariance_required": false,
+      "A_BC_linear_syndrome_factorization_allowed": true,
+      "terminal_identity_materialization_allowed": false,
+      "on_state_explosion": "FREEZE_BR202_CANDIDATE_AND_STOP_OR_PARK_BR203_WITH_MEASURED_BLOCKER"
+    },
+    "BR205_material_slack_gate": "BR204 must retain exact slack attribution showing qBC tier truncation is active on nonzero retained mass, and a bounded same-population deeper-tier pilot must show strict improvement; otherwise skip BR205.",
+    "BR206_late_survivor_gate": "Require an exact compact survivor boundary, an exact source-locked adapter into the retained 59D model, a deduplicated work-item count, and workload/storage preflight before any 59D invocation; otherwise freeze the best compact candidate."
   },
   "route_order": [
     "BR200_ISSUE1817_CHARTER_RESET",
@@ -104,27 +128,27 @@
     {
       "node_id": "BR203",
       "title": "Integrate 16-state Picard residual-mass syndrome",
-      "goal": "Source-lock the 16-state free-exceptional syndrome and exact mu table, factor A/BC syndrome contributions, and apply mu[sigma] <= e-a-b-c inside the same population producer."
+      "goal": "Source-lock the 16-state free-exceptional syndrome and exact mu table; measure exact A/BC syndrome image cardinalities, use the linear A/BC syndrome factorization even if coarse group-sum invariance fails, and apply mu[sigma] <= e-a-b-c inside the same compact population producer without terminal identity expansion."
     },
     {
       "node_id": "BR204",
       "title": "FULL178 compact b-sharded scaleout",
-      "goal": "Run/replay the integrated producer over the eight established b-shards, retain compact certificates/stream hashes, and produce a research-only FULL178 candidate with exact shard coverage/disjointness and population conservation."
+      "goal": "Run/replay the integrated producer over the eight established b-shards, retain compact certificates/stream hashes, classify the result against the refreshed live MAIN predecessor on identical semantics, and produce a research-only FULL178 candidate with exact shard coverage/disjointness and population conservation."
     },
     {
       "node_id": "BR205",
       "title": "Optional full qBC histogram escalation",
-      "goal": "Escalate beyond K=8 only if BR204 leaves material quantified slack. Prefer deeper finite tiers before a full histogram when they capture the gain cheaply."
+      "goal": "Escalate beyond K=8 only if BR204 proves qBC tier truncation is an active limiting relaxation and a bounded same-population deeper-tier pilot gives strict improvement. Prefer deeper finite tiers before a full histogram when they capture the gain cheaply."
     },
     {
       "node_id": "BR206",
       "title": "Late-survivor 59D handoff",
-      "goal": "Define a source-locked late boundary for the already-retained 59D machinery only if compressed survivors remain worth solving. Never launch a global terminal-by-terminal sweep."
+      "goal": "Define a source-locked exact compact late-survivor boundary and exact adapter to the retained 59D model, with deduplicated work-item count and workload/storage preflight. Never launch a global terminal-by-terminal sweep; if the gate fails, retain the best earlier compact candidate instead."
     },
     {
       "node_id": "BR290",
       "title": "Retained hostile-audit handoff",
-      "goal": "Freeze the exact integrated candidate or precise blocker for hostile audit. Grant no MAIN pruning credit and do not merge."
+      "goal": "Freeze the best exact integrated candidate or precise blocker, including a valid earlier BR202/BR203/BR204 candidate when a deeper optional step fails. Grant no MAIN pruning credit and do not merge."
     }
   ],
   "execution": {
