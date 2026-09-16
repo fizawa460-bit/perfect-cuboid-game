@@ -1,0 +1,135 @@
+{
+  "schema": "STAGE32_32_01_178_TD02_INTEGER_LATTICE_CAPACITY_FULL178_CHECKPOINT_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "route": "TD02-INTEGER-LATTICE-CAPACITY-FULL178-SCALEOUT",
+  "status": "RETAINED_FULL178_EXACT_HEAD_CI_SUCCESS__HOSTILE_AUDIT_REQUIRED_BEFORE_MAIN_HANDOFF",
+  "scope": {
+    "rows_total": 178,
+    "g0_d_even": [8, 176],
+    "g1_d_even": [8, 192],
+    "hmax": 96,
+    "terminal_enumeration": false,
+    "producer_numeric_scaleout_complete": true,
+    "stage32_full178_claim_complete": false
+  },
+  "predecessor_audit": {
+    "bounded_capacity_hostile_audit": "PASS",
+    "bounded_scope": "d<=32",
+    "audit_review_id": 5217996434,
+    "audited_exact_head": "23e53bfd145b722640481e34458fb689326e486a"
+  },
+  "source_locks": {
+    "full178_v1_verifier": {
+      "path": "stages/stage32/32-01-178/topdown-02/verify_td02_integer_lattice_capacity_full178.py",
+      "blob_sha1": "e4adb6fd92d88f4d9c10923627cac9424425e467"
+    },
+    "full178_v2_correction_wrapper": {
+      "path": "stages/stage32/32-01-178/topdown-02/verify_td02_integer_lattice_capacity_full178_v2.py",
+      "blob_sha1": "331073833aee5ebe106d0bd5cd2370506284a27d"
+    },
+    "integer_kernel_verifier": {
+      "path": "stages/stage32/32-01-178/topdown-02/verify_td02_grf04_integer_lattice_kernel.py",
+      "blob_sha1": "d51a8edbfc4fb2c8e46dc9ea788ca43a7587f054"
+    },
+    "bounded_capacity_verifier": {
+      "path": "stages/stage32/32-01-178/topdown-02/verify_td02_integer_lattice_capacity_bounded.py",
+      "blob_sha1": "ce9be3fa28c68f8f3f06177a0dc72ca7a107b14a"
+    },
+    "bounded_capacity_checkpoint": {
+      "path": "stages/stage32/32-01-178/topdown-02/TD02-INTEGER-LATTICE-CAPACITY-BOUNDED-CHECKPOINT.json",
+      "blob_sha1": "5dd8f37b3c46f3dc7c89ce3c915dc6b327b674b3"
+    },
+    "td01_audited_envelope": {
+      "path": "stages/stage32/32-01-178/topdown-01/EXACT-X4-ENVELOPE-BOUND.json",
+      "blob_sha1": "51271c11078459ad9171138c4fb6121d7a665c39"
+    }
+  },
+  "failed_v1_checkpoint": {
+    "purpose": "Retain the fail-closed correction history rather than hiding the first failed assertion.",
+    "exact_head": "915b8dd62f4ee7704c989f20edb340e657fb635d",
+    "run_id": 35050265688,
+    "job_id": 104648899596,
+    "conclusion": "FAILURE",
+    "failure": "fixed-t discrete convexity (b=0,c=2,t=1) had second difference 0 while V1 incorrectly required >=1",
+    "mathematical_effect": "NO_INVALIDATION_OF_CONVEX_ROUTE__ASSERTION_WAS_STRONGER_THAN_NEEDED",
+    "correction": "V2 requires the exact sufficient condition second_difference >= 0 and exhaustively fixes the production counts."
+  },
+  "convexity_certificate": {
+    "fixed_t_interior_states": 893856,
+    "negative_second_difference_states": 0,
+    "zero_second_difference_states": 282104,
+    "positive_second_difference_states": 611752,
+    "minimum_second_difference": 0,
+    "semantics": "The fixed-t integer profile is discrete convex, not necessarily strictly convex. This is sufficient for monotone exact argmin propagation in the squared infimal convolution."
+  },
+  "exact_head_ci": {
+    "exact_head": "e1928e6b772dd67f5c5efbdb97894794d6c35199",
+    "run_id": 35050523962,
+    "job_id": 104649674539,
+    "conclusion": "SUCCESS",
+    "runtime_class": "NONHEAVY_UNDER_10_MINUTES",
+    "observed_wall_clock": "approximately 1m48s"
+  },
+  "regression": {
+    "bounded_d_le_32_audited_integer_lattice_upper_floor": 394813297087,
+    "full178_engine_bounded_replay_upper_floor": 394813297087,
+    "exact_match": true
+  },
+  "full178_result": {
+    "hpadj08_x4_complete_envelope": 6703403803993209250491,
+    "exact_upper_numerator": 54911359641482799562031,
+    "exact_upper_denominator": 281,
+    "upper_floor": 195414091250828468192,
+    "floor_remainder": 79,
+    "bin_count": 74938,
+    "used_bin_count": 38455,
+    "fractional_cutoff": [30, 1405, 497698461330750018, 1108080065956486530],
+    "profile_states": 14458559,
+    "aggregate_cells": 38613358,
+    "row_stream_sha256": "26427424c90b715e02e5fcf670e5f1c87a25e945bdaa0d6f350c1b07f03e1214",
+    "runner_result_canonical_sha256": "2f52c6542c47e35e2654c62fb89369b473086e51ac691196cd0be65eb7b21357"
+  },
+  "live_main_snapshot_after_scaleout": {
+    "authority_version": "V37_FULL178_INTEGER_LATTICE_ROUTED_WAIT",
+    "observed_head": "f3b311312b74ad948a27cf250477b7d959822af6",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals_upper_bound": 195603649074545538415,
+    "active_missing_interface": "FULL178_INTEGER_LATTICE_CAPACITY_HANDOFF_AND_FINAL_MILESTONE_CHAIN",
+    "mainbatch_stop_gate": "SPECIALIST_178_FULL178_INTEGER_LATTICE_SCALEOUT_PENDING",
+    "main_authority_mutated_by_this_producer": false
+  },
+  "candidate_comparison": {
+    "current_main_upper_bound_snapshot": 195603649074545538415,
+    "producer_full178_upper_floor": 195414091250828468192,
+    "potential_tightening": 189557823717070223,
+    "relative_tightening_approx": "0.00096909144902930097770690479044055497",
+    "composition": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "exact_incremental_rejected_set_claimed": false,
+    "additive_subtraction_performed": false
+  },
+  "independent_checks": {
+    "wolfram_exact_floor": 195414091250828468192,
+    "wolfram_remainder": 79,
+    "wolfram_tightening": 189557823717070223,
+    "wolfram_division_identity": true
+  },
+  "audit_boundary": {
+    "full178_result_hostile_audited": false,
+    "main_handoff_ready": false,
+    "next_operator": "stage32-01-178-audit",
+    "after_audit_pass": "stage32mainbatch for explicit current-authority MIN-composition consumption"
+  },
+  "firewalls": {
+    "main_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
