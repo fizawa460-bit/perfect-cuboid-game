@@ -126,7 +126,10 @@ jobs:
       - name: Reverify hostile-audited q-quadratic candidate mathematics
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_independent_quadratic_capacity_candidate.py --v34-root .stage32-v34 --td01-root .stage32-audited-td01 --grf04-root .stage32-audited-grf04 --hpadj08-root .stage32-audited-hpadj08 --td02-root .stage32-td02-source
       - name: Reverify V36 q-quadratic hostile-audit synchronization
-        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v36_q_quadratic_audit_sync.py
+        run: |
+          git worktree add --detach .stage32-v36 384bb29a3428bf5fbd1db776f863d02cabda59c1
+          test "$(git -C .stage32-v36 rev-parse HEAD)" = "384bb29a3428bf5fbd1db776f863d02cabda59c1"
+          python .stage32-v36/stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v36_q_quadratic_audit_sync.py
       - name: Verify V37 FULL178 integer-lattice specialist routing
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v37_full178_integer_lattice_routing.py
       - name: Verify Stage32 MAIN V37 routing projection
