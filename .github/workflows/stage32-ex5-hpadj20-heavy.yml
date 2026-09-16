@@ -1,13 +1,21 @@
 name: Stage32EX5 HPADJ20 heavy replay
 
+# Lifecycle: MANUAL — exact-head hostile-audit/on-demand replay only.
 # HPADJ20 is intentionally excluded from the ordinary EX5 integrity path.
-# Run this workflow explicitly when an exact-head HPADJ20 replay is needed for
-# hostile audit / handoff evidence.
 on:
   workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact 40-hex PR head to replay
+        required: true
+        type: string
 
 permissions:
   contents: read
+
+concurrency:
+  group: stage32ex5-hpadj20-${{ inputs.expected_head_sha }}
+  cancel-in-progress: false
 
 jobs:
   replay-hpadj20:
@@ -16,14 +24,67 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ inputs.expected_head_sha }}
+          fetch-depth: 1
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+
+      - name: Verify exact-head, source locks, resume waiver, and storage preflight
+        env:
+          EXPECTED_HEAD_SHA: ${{ inputs.expected_head_sha }}
+        run: |
+          set -euo pipefail
+          case "$EXPECTED_HEAD_SHA" in
+            [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;;
+            *) echo "expected_head_sha must be exactly 40 lowercase hex characters" >&2; exit 2 ;;
+          esac
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD_SHA"
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          producer = Path('stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py')
+          contract = Path('stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json')
+
+          def git_blob(path: Path) -> str:
+              raw = path.read_bytes()
+              return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+          assert git_blob(producer) == '837d647cfcbc96bbe384e564f449cd7042a46d48'
+          assert git_blob(contract) == '6e8d84d736ff4e1fde5f374e1027b72f825be127'
+          data = json.loads(contract.read_text())
+          assert data['resume_policy'] == 'RESUME_NOT_FEASIBLE'
+          assert data['partition']['partial_outputs_reusable'] is False
+          assert data['storage_preflight']['operating_budget_mb'] == 500
+          assert data['storage_preflight']['planned_jobs'] == 1
+          assert data['storage_preflight']['planned_effective_heavy_concurrency'] == 1
+          assert data['storage_preflight']['persisted_artifact_uploads'] == 0
+          assert data['storage_preflight']['projected_peak_actions_artifact_storage_mb'] == 0
+          assert data['credit_firewall']['partial_output_credit'] is False
+          assert data['credit_firewall']['stage32_main_credit'] is False
+          assert data['credit_firewall']['merge_authorized'] is False
+          print('RESUME_POLICY=' + data['resume_policy'])
+          print('RESUME_REASON=' + data['resume_not_feasible_reason'])
+          print('CANCELLATION_RECOVERY=' + data['cancellation_recovery'])
+          print('STORAGE_PREFLIGHT=PASS jobs=1 concurrency=1 artifact_uploads=0 projected_actions_storage_mb=0 budget_mb=500')
+          PY
+          {
+            echo '## HPADJ20 heavy execution contract'
+            echo '- Resume policy: `RESUME_NOT_FEASIBLE`'
+            echo '- Cancellation recovery: restart from the identical exact SHA; incomplete local output is non-credit.'
+            echo '- Storage preflight: 1 job, concurrency 1, no artifact uploads, projected Actions artifact storage increment 0 MB / 500 MB budget.'
+            echo "- Exact head: \`$EXPECTED_HEAD_SHA\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Install HPADJ exact diagnostic dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+
       - name: Replay HPADJ20 exact two-tier qA refinement
         run: |
+          set -euo pipefail
           python stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py | tee /tmp/hpadj20.json
           python - <<'PY'
           import json
