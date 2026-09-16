@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V36_Q_QUADRATIC_AUDIT_SYNCED_FULL178_REENTRY",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V37_FULL178_INTEGER_LATTICE_ROUTED_WAIT",
   "stage": 32,
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
   "authority_sync": {
     "current_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "predecessor_process_head": "872e30bbdf089f39223031efc7a2daa4600aa5da",
-    "predecessor_authority_version": "V35",
-    "predecessor_main_state_blob_sha1": "9b460df0b49e70513a13e0ab09aecb8fab375f90",
-    "predecessor_main_state_canonical_sha256": "987e6d33b86170c78a3c9de3bfb0b39875314afb1f129160c8a2dfd97e3eabaa",
+    "predecessor_process_head": "384bb29a3428bf5fbd1db776f863d02cabda59c1",
+    "predecessor_authority_version": "V36_PROCESS_SYNC_ONLY",
+    "predecessor_main_state_blob_sha1": "e5e490192706a4efcf5fb5e1300a9e7662c6e0b4",
+    "predecessor_main_state_canonical_sha256": "c77ae807e3892303cff7e055cde2ad872eaf55c55d15c8b744cb4f7b76a33614",
     "q_quadratic_main_numeric_bound_replacement_consumed": true,
     "q_quadratic_candidate_audited_exact_head": "6489e1fb9f35b8ecdc19c982301a816d956711e9",
     "q_quadratic_candidate_hostile_audit_review_id": 5217623202,
@@ -18,17 +18,18 @@
     "q_quadratic_replacement_merge_ready_freshness": "CLEAR",
     "q_quadratic_consumption_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
     "v36_audit_sync_additional_pruning": 0,
+    "v37_routing_additional_pruning": 0,
     "retained_v36_t_stratified_candidate_consumed": false,
     "split_authority": {
       "orchestration_mode": "ROOT_NATIVE_STAGE32_MAIN_ONLY"
     }
   },
   "current": {
-    "active_missing_interface": "FULL178_AND_FINAL_MILESTONE_CHAIN",
-    "mainbatch_stop_gate": "NONE",
-    "next_exact_route": "FULL178_VIA_ACTIVE_SPECIALIST_MONITOR",
-    "stacked_candidate_audit_status": "Q_QUADRATIC_V35_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED",
-    "stop_semantics": "V35 q-quadratic numerical MAIN authority received independent hostile-audit PASS and V36 synchronizes that audit metadata with zero new pruning. Resume ordinary FULL178 integration subject to the mandatory live specialist sweep; current 178 and EX5 successors remain zero-credit until their own audit/handoff gates close."
+    "active_missing_interface": "FULL178_INTEGER_LATTICE_CAPACITY_HANDOFF_AND_FINAL_MILESTONE_CHAIN",
+    "mainbatch_stop_gate": "SPECIALIST_178_FULL178_INTEGER_LATTICE_SCALEOUT_PENDING",
+    "next_exact_route": "178_TD02_INTEGER_LATTICE_FULL178_SCALEOUT_THEN_AUDITED_MAIN_HANDOFF",
+    "stacked_candidate_audit_status": "Q_QUADRATIC_V35_AUTHORITY_AUDIT_SYNCED__178_BOUNDED_INTEGER_LATTICE_PASS_ONLY__FULL178_PENDING",
+    "stop_semantics": "The d<=32 integer-lattice capacity strengthening is hostile-audited and promising but is not a global FULL178 result. Sustained FULL178 capacity census belongs to 32-01-178; MAIN must not duplicate that same census or extrapolate the bounded ratio. Resume MAIN numerical promotion only after a source-locked all-178-row producer result receives independent hostile audit and an explicit MAIN handoff. Orthogonal MAIN research remains possible only if it does not duplicate an active specialist leaf."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -55,14 +56,17 @@
     "v35_replacement_head_hostile_audit_review_id": 5217772644,
     "v35_replacement_head_merge_ready_freshness": "CLEAR",
     "v36_audit_sync_additional_pruning": 0,
+    "v37_routing_additional_pruning": 0,
+    "live_178_td02_bounded_capacity_hostile_audited": true,
+    "live_178_td02_bounded_capacity_audit_review_id": 5217996434,
+    "live_178_td02_bounded_scope": "d<=32",
     "live_178_td02_main_handoff_ready": false,
     "live_ex5_q_quadratic_refinement_main_handoff_ready": false
   },
   "current_leaf_working_set": [
-    "stages/stage32/management/grf04-quadratic-capacity/GRF04-V36-Q-QUADRATIC-AUDIT-SYNC.json",
-    "stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v36_q_quadratic_audit_sync.py",
+    "stages/stage32/management/grf04-quadratic-capacity/GRF04-V37-FULL178-INTEGER-LATTICE-ROUTING.json",
     "stages/stage32/proof/verify_cross_lane_demands.py",
-    "stages/stage32/verify_main_startup_authority_v36_q_quadratic_audit_synced.py"
+    "stages/stage32/verify_main_startup_authority_v37_full178_integer_lattice_routed.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -95,16 +99,10 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "source_locks": {
-    "predecessor_v35": {
-      "exact_head": "872e30bbdf089f39223031efc7a2daa4600aa5da",
-      "main_state_blob_sha1": "9b460df0b49e70513a13e0ab09aecb8fab375f90",
-      "main_state_canonical_sha256": "987e6d33b86170c78a3c9de3bfb0b39875314afb1f129160c8a2dfd97e3eabaa",
-      "replacement_receipt_blob_sha1": "b24731409f33a8e76d3924ee2f651fbfba86b044",
-      "replacement_receipt_canonical_sha256": "c04bf60efdd92f7af245e307167fffffd1d0d4a087a676ded5b01e5110298748",
-      "replacement_verifier_blob_sha1": "769ec6c3d3b6c53f06aa94a492971c0ea83c2bc9",
-      "hostile_audit_review_id": 5217772644,
-      "hostile_audit_status": "PASS",
-      "merge_ready_freshness": "CLEAR"
+    "predecessor_v36": {
+      "exact_head": "384bb29a3428bf5fbd1db776f863d02cabda59c1",
+      "main_state_blob_sha1": "e5e490192706a4efcf5fb5e1300a9e7662c6e0b4",
+      "main_state_canonical_sha256": "c77ae807e3892303cff7e055cde2ad872eaf55c55d15c8b744cb4f7b76a33614"
     },
     "q_quadratic_candidate": {
       "candidate_path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-MAIN-INDEPENDENT-QUADRATIC-CAPACITY-LP-CANDIDATE.json",
@@ -121,6 +119,11 @@
       "blob_sha1": "c5418f9ed2813f0a38b2342fd31e4f3ce23a017a",
       "canonical_sha256": "b30400705423b2c3c060f58ae9085d9442fc07c88dddad10ffa27e1f41c0ff59"
     },
+    "v37_routing_receipt": {
+      "path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-V37-FULL178-INTEGER-LATTICE-ROUTING.json",
+      "blob_sha1": "416a590a87c9ef0a4fb9295cbd09f3e8b580b80a",
+      "canonical_sha256": "282c3076307158fec79aaac8e313dab8182b2177810a12e13a430e34a9435c36"
+    },
     "claim_sync_unchanged": {
       "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
       "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
@@ -130,13 +133,14 @@
     },
     "live_specialist_sweep": {
       "lane_178_head": "23e53bfd145b722640481e34458fb689326e486a",
-      "lane_178_handoff": "INTEGER_LATTICE_KERNEL_AUDIT_PASS__BOUNDED_CAPACITY_AUDIT_PENDING__NO_MAIN_CREDIT",
+      "lane_178_handoff": "BOUNDED_D32_CAPACITY_HOSTILE_AUDIT_PASS__FULL178_SCALEOUT_NOT_RUN__NO_MAIN_CREDIT",
+      "lane_178_bounded_audit_review_id": 5217996434,
       "ex5_head": "dbd3a191bfdd33c3413a2abc41331feb651f0830",
-      "ex5_handoff": "HPADJ18_HEAD_UNAUDITED_OR_NOT_MAIN_HANDED_OFF__NO_MAIN_CREDIT",
+      "ex5_handoff": "HPADJ18_SCRIPT_PRESENT__NUMERIC_RESULT_UNFROZEN_UNAUDITED__NO_MAIN_CREDIT",
       "cut_handoff": "NONE",
       "mb_head": "4b6bdd7957033ace15d9e924ac8ff787066a5ff8",
       "mb_handoff": "NONE"
     }
   },
-  "canonical_sha256_without_this_field": "c77ae807e3892303cff7e055cde2ad872eaf55c55d15c8b744cb4f7b76a33614"
+  "canonical_sha256_without_this_field": "c05f1b195e30c112b14c7ec57899a03990d406e4f6230eecad762b4e81a9faf7"
 }
