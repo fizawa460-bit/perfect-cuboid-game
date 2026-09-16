@@ -1,114 +1,146 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_MISSION_V1",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_MISSION_V2",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE",
-  "role": "CROSS_LANE_GENERALIZATION_FEASIBILITY_SPECIALIST",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT",
+  "role": "ISSUE1817_P1_P2_FULL178_COMPRESSION_INTEGRATOR",
   "operator_commands": {
     "main": "stage32bridge-mainbatch",
     "audit": "stage32bridge-audit"
   },
   "routing": {
     "authority": "stages/stage32/MAIN-STATE.json",
+    "research_queue": "https://github.com/fizawa460-bit/perfect-cuboid-game/issues/1817",
     "cross_lane_demands": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "must_sync_before_each_leaf": true,
+    "must_sync_live_MAIN_before_each_leaf": true,
+    "must_refresh_issue1817_before_each_leaf": true,
     "source_lane_authority_never_mutated_here": true,
     "current_main_credit_auto_promotion": false,
-    "unmerged_source_result_is_research_seed_only": true
+    "research_comments_are_seed_evidence_not_authority": true
   },
-  "objective": "Test whether exact structural results discovered in specialist Stage32 lanes can be transported, with all hypotheses preserved, into broad population-wide necessary conditions on the current authoritative FULL178/Picard64 population. Produce either an exact transferable adapter candidate or an exact no-generalization/blocker result without descending into ordinary terminal-by-terminal pruning.",
-  "initial_seed": {
-    "source_lane": "MB",
-    "theme": "MB104 residual-character/Fourier and A1 square-energy structure",
-    "candidate_transport": "general Picard64 character or energy lower bound visible from the FULL178 terminal/completion interface",
-    "seed_authority": false,
-    "required_before_consumption": [
-      "exact source identity",
-      "retained/audit status",
-      "hypothesis and semantic-scope freeze",
-      "explicit source-to-target adapter"
-    ]
+  "objective": "Integrate the converged Issue #1817 P1->P2 route into a source-locked deterministic compact/sharded same-population FULL178 upper-bound producer: exact (b,c,t) population, support, exact completion character r, low-qBC tiers beginning at K=8, full qA histogram, and the 16-state Picard residual-mass mu syndrome. Avoid terminal identity materialization; use the existing 59D solver only on late survivors if compact filters leave material slack.",
+  "charter_reset": {
+    "artifact": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
+    "prior_BR190_status": "FROZEN_UNAUDITED_UNCONSUMED_NO_CREDIT",
+    "prior_BR190_consumed_by_v2": false,
+    "rule": "The old BR190 boundary remains sealed. V2 may use source-locked historical software/mathematical assets but may not inherit BR190 credit or its unaudited population claim."
   },
+  "canonical_pipeline": [
+    "EXACT_BCT_POPULATION",
+    "SUPPORT_PLUS_EXACT_R",
+    "LOW_QBC_TIERS_K8_FIRST",
+    "FULL_QA_HISTOGRAM",
+    "PICARD_MU_16_STATE_SYNDROME",
+    "FULL178_COMPACT_B_SHARDED_SCALEOUT",
+    "FULL_QBC_HISTOGRAM_ONLY_IF_MATERIAL_SLACK_REMAINS",
+    "59D_ONLY_ON_LATE_SURVIVORS"
+  ],
   "ownership": {
     "owns": [
-      "source-lane to FULL178/Picard64 semantic generalization feasibility",
-      "exact definition of transported invariants on the target completion space",
-      "minimization over hidden/free Picard64 completion coordinates and congruence constraints",
-      "proof of nontrivial target-visible lower bounds or exact cancellation/no-go",
-      "bounded identical-population diagnostics after a universal target condition is proved",
-      "retained source-locked adapter or blocker handoff for hostile audit and MAIN decision"
+      "Issue1817 P1/P2 integration semantics",
+      "exact compact state producer design",
+      "support/r/K8-qBC/full-qA/16-state-mu composition",
+      "bounded exact regression and population-conservation checks",
+      "FULL178 compact b-sharded research scaleout",
+      "compact deterministic certificates and stream hashes",
+      "comparison against the current authoritative predecessor on identical population semantics",
+      "late-survivor handoff boundary to retained 59D machinery"
     ],
     "does_not_own": [
-      "new MB 32-03 conductor/branch/Picard mathematics",
-      "EX5 Picard64 interface production or repair",
-      "178 ordinary FULL178 enumeration, prefix, maxcut, block transport, or local pruning",
-      "CUT direct completion infeasibility",
-      "MAIN authority promotion, current-authority subtraction, overlap accounting, claim-DAG mutation, final integration, or merge"
+      "open-ended bridge discovery unrelated to Issue1817",
+      "new MB conductor/branch mathematics",
+      "reactivation of EX5 as a research lane or repair of obsolete EX5 producer claims",
+      "178 terminal-by-terminal enumeration or ordinary local block pruning",
+      "CUT direct local completion research",
+      "generic GRF06/GRF07 odd-prime probing without a new source-locked odd-primary adapter",
+      "global terminal-by-terminal 59D sweep",
+      "MAIN authority promotion/subtraction, theorem/effectivity/receiver/endpoint credit, claim-DAG mutation, final integration, or merge"
     ]
+  },
+  "research_anchors": {
+    "issue1817_is_zero_credit": true,
+    "FULL178_bct_low_qBC_K8_scratch_candidate": "171016506358704660923",
+    "FULL178_bct_low_qBC_K8_relative_tightening_percent_vs_TD02_reference": 12.4851,
+    "H96_refined_state_count_b_c_support_t_r": 4070710,
+    "bounded_d32_identity_preserving_P1_K8": 230521553871,
+    "Picard_mu_syndrome_states": 16,
+    "Picard_mu_upper_bound": 8,
+    "mu_filter_nontrivial_only_for_R_le_7": true,
+    "supersession_note": "The 16-state/mu<=8 result supersedes rougher later notes that mention mu<=133 or unresolved syndrome image size."
   },
   "target_interfaces": {
     "full178_authority": "stages/stage32/MAIN-STATE.json",
     "full178_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
-    "picard64_interface_owner": "EX5",
-    "known_interface_family": "FULL178 terminal -> retained primitive Picard64 completion",
-    "free_completion_issue": "A terminal fixes only part of the selected64 pairing data; any bridge bound must hold after minimization over every allowed hidden/free completion unless a stronger exact adapter is proved."
+    "completion_character": "r = x0+x8+x10 mod 2 with x4 congruent to r mod 2",
+    "Picard_mu_residual_mass": "R = e-a-b-c",
+    "Picard_mu_condition": "mu[sigma] <= R",
+    "retained_historical_assets_policy": "Source-lock and reuse retained Picard64/HNF/59D assets as inputs only; do not reactivate their historical lane or population credit."
   },
   "route_order": [
-    "BR101_SOURCE_TARGET_SEMANTIC_FREEZE",
-    "BR102_GENERAL_CHARACTER_OR_INVARIANT_DEFINITION",
-    "BR103_FREE_COMPLETION_MINIMIZATION",
-    "BR104_BOUNDED_IDENTICAL_POPULATION_DIAGNOSTIC",
-    "BR105_FULL_POPULATION_ADAPTER_CANDIDATE_OR_NO_GO",
-    "BR190_RETAINED_AUDIT_HANDOFF"
+    "BR200_ISSUE1817_CHARTER_RESET",
+    "BR201_SOURCE_LOCK_AND_COMPACT_PRODUCER_REGRESSION",
+    "BR202_P1_K8_FULL_QA_INTEGRATION",
+    "BR203_PICARD_MU_16_STATE_INTEGRATION",
+    "BR204_FULL178_B_SHARDED_SCALEOUT",
+    "BR205_OPTIONAL_FULL_QBC_ESCALATION",
+    "BR206_LATE_59D_HANDOFF",
+    "BR290_RETAINED_AUDIT_HANDOFF"
   ],
   "nodes": [
     {
-      "node_id": "BR101",
-      "title": "Freeze source theorem/candidate and target population semantics",
-      "goal": "Identify one exact source result, its source locks/audit status/hypotheses, and the exact current FULL178/Picard64 target semantics. Separate intrinsic quantities from source-specific packet data before attempting any transfer."
+      "node_id": "BR200",
+      "title": "Issue1817 integration charter reset",
+      "goal": "Seal BR190 as unaudited/unconsumed history and reset BRIDGE to the concrete Issue1817 integration mission without importing prior credit."
     },
     {
-      "node_id": "BR102",
-      "title": "Define the transported character/invariant on general target completions",
-      "goal": "Prove that the proposed source-lane character, Fourier direction, energy, or equivalent invariant is well-defined on every target object in the claimed scope. If source-specific hypotheses cannot be removed by proof, freeze NO_GENERALIZATION for that formulation."
+      "node_id": "BR201",
+      "title": "Source-lock and regression of compact producer semantics",
+      "goal": "Freeze exact production-family, TD02/GRF04/Picard semantics and reproduce the bounded/H96 population identities needed for (b,c,t,support,r), qBC tiers and full qA. No FULL178 credit."
     },
     {
-      "node_id": "BR103",
-      "title": "Minimize over hidden/free completion coordinates",
-      "goal": "Compute an exact lower bound over all allowed free Picard64 completions and congruence conditions. A useful bridge requires a nontrivial target-visible bound; complete cancellation is a valid exact no-go result."
+      "node_id": "BR202",
+      "title": "P1 K=8 plus full qA compact integration",
+      "goal": "Construct the exact compact state/capacity producer using support, exact r, K=8 low-qBC tiers and the full qA histogram, with bounded direct regressions and no identity materialization."
     },
     {
-      "node_id": "BR104",
-      "title": "Bounded identical-population diagnostic",
-      "goal": "After a universal target condition is proved, test a bounded representative slice on exactly the same population semantics as the audited baseline. Measure strict gain only as noncredit diagnostic evidence."
+      "node_id": "BR203",
+      "title": "Integrate 16-state Picard residual-mass syndrome",
+      "goal": "Source-lock the 16-state free-exceptional syndrome and exact mu table, factor A/BC syndrome contributions, and apply mu[sigma] <= e-a-b-c inside the same population producer."
     },
     {
-      "node_id": "BR105",
-      "title": "Full-population adapter candidate or exact no-go",
-      "goal": "Formulate a source-locked FULL178 adapter candidate only if the universal quantifiers and free-completion minimization are proved. Otherwise freeze the exact reason the route cannot generalize."
+      "node_id": "BR204",
+      "title": "FULL178 compact b-sharded scaleout",
+      "goal": "Run/replay the integrated producer over the eight established b-shards, retain compact certificates/stream hashes, and produce a research-only FULL178 candidate with exact shard coverage/disjointness and population conservation."
     },
     {
-      "node_id": "BR190",
+      "node_id": "BR205",
+      "title": "Optional full qBC histogram escalation",
+      "goal": "Escalate beyond K=8 only if BR204 leaves material quantified slack. Prefer deeper finite tiers before a full histogram when they capture the gain cheaply."
+    },
+    {
+      "node_id": "BR206",
+      "title": "Late-survivor 59D handoff",
+      "goal": "Define a source-locked late boundary for the already-retained 59D machinery only if compressed survivors remain worth solving. Never launch a global terminal-by-terminal sweep."
+    },
+    {
+      "node_id": "BR290",
       "title": "Retained hostile-audit handoff",
-      "goal": "Freeze an exact transferable adapter candidate, an exact no-generalization theorem/blocker, or an upstream demand. Grant no MAIN pruning credit."
+      "goal": "Freeze the exact integrated candidate or precise blocker for hostile audit. Grant no MAIN pruning credit and do not merge."
     }
   ],
-  "route_safety": {
-    "policy": "docs/research-os/policies/cycle-exploration-safety-protocol.md",
-    "candidate_ledger_required": true,
+  "execution": {
     "default_single_active_route": true,
-    "terminal_by_terminal_fallback_forbidden": true,
-    "local_examples_allowed_only_for": [
-      "universal-adapter falsification",
-      "semantic validation",
-      "bounded post-proof diagnostic"
-    ]
-  },
-  "research_credit_firewalls": {
-    "policy": "docs/research-os/policies/research-credit-and-promotion-firewalls.md",
-    "inherited": true,
-    "stage_local_overrides_may_weaken": false
+    "terminal_identity_materialization_forbidden": true,
+    "persist_4_1M_raw_state_rows_forbidden": true,
+    "preferred_sharding": ["b=0..11", "b=12..23", "b=24..35", "b=36..47", "b=48..59", "b=60..71", "b=72..83", "b=84..96"],
+    "retain_per_shard": ["compact totals", "capacity bins/cutoff data", "deterministic stream hash", "source locks"],
+    "heavy_compute_authorized_by_startup": false,
+    "automatic_workflow_required": false,
+    "first_active_leaf": "BR201_SOURCE_LOCK_AND_COMPACT_PRODUCER_REGRESSION"
   },
   "credit_firewall": {
+    "same_population_refinement_is_replacement_or_MIN_only": true,
+    "additive_double_charge_forbidden": true,
+    "bounded_to_FULL178_ratio_extrapolation_forbidden": true,
     "source_lane_credit_mutated": false,
     "stage32_main_pruning_credit": false,
     "full178_complete": false,
@@ -119,11 +151,5 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
-  },
-  "execution": {
-    "heavy_compute_authorized_by_startup": false,
-    "automatic_workflow_required": false,
-    "parallel_child_fanout": false,
-    "first_leaf": "BR101_SOURCE_TARGET_SEMANTIC_FREEZE"
   }
 }
