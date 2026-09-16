@@ -83,6 +83,20 @@ If a missing mathematical fact belongs to another active specialist lane, stop a
 7. **BR206 — late 59D handoff.** Use the existing 59D solver only on a source-locked late-survivor boundary if the remaining population is small enough to justify it.
 8. **BR290 — retained hostile-audit handoff.** Freeze the exact candidate or blocker. Grant no MAIN credit.
 
+## Transition, dominance, and salvage gates
+
+Before every node transition after BR201, refresh the live MAIN authority and Issue #1817. Every retained candidate must record the live predecessor identity actually compared against, the exact same-population semantic adapter, and whether the candidate is a strict upper-bound improvement, equal, dominated, or semantically incomparable. Hard-coded Issue/charter numbers are regression anchors only and never substitute for the live predecessor.
+
+If MAIN advances while BRIDGE is working, do not continue an expensive downstream step merely because an older scratch percentage looked attractive. Re-evaluate the candidate against the new live predecessor first. If the bridge candidate is dominated or the population semantics no longer match exactly, stop and record that status before further scaleout.
+
+Valid intermediate work is salvageable. A BR202, BR203, or BR204 candidate may be frozen and handed to BR290 even when a deeper optional step blocks. Failure of Picard integration, qBC escalation, or the 59D handoff does not invalidate an already source-locked earlier same-population candidate.
+
+BR203 has an explicit compactness gate. Before joining Picard `mu` into the P1 producer, measure the exact image cardinalities of the A-side and BC-side syndrome maps and the deduplicated free-exceptional syndrome/`mu` table used by the target tier. Testing whether `mu` factors through coarse group sums is useful but not required: failure of group-sum invariance is not a kill condition when the syndrome factors exactly across the existing A/BC split. Advance only if the syndrome join remains a finite compact-state augmentation and does not require terminal-identity materialization. If it causes genuine state explosion, freeze the BR202 candidate and stop/park BR203 with the measured blocker.
+
+BR205's `material slack` gate is evidence-based, not discretionary. Escalation beyond K=8 is allowed only when BR204 retains exact slack attribution showing that qBC tier truncation is an active limiting relaxation on nonzero retained mass **and** a bounded same-population deeper-tier pilot gives strict improvement. Otherwise skip BR205.
+
+BR206's `late survivors` gate is also evidence-based. The 59D solver may be invoked only after BRIDGE has an exact compact survivor boundary, an exact source-locked adapter from that boundary into the retained 59D model, a deduplicated survivor/work-item count, and a repository-policy-compliant workload/storage preflight. If any of those are missing, do not invoke 59D; freeze the best compact candidate instead.
+
 ## Compression / scale rules
 
 The H=96 routing surface already has about 4.1M `(b,c,support,t,r)` states. This is moderate for streaming but is **not** permission to persist a 4.1M-row JSON artifact.
