@@ -110,9 +110,10 @@ def main():
     req("MAIN_BOUND_CONSUMED_V38" in sweep["lane_178_handoff"] and
         "V38_REPLACEMENT_AUDIT_PASS_SYNCED" in sweep["lane_178_handoff"],
         "178 audit-sync semantics")
-    req(sweep["ex5_head"] == "626285adecb3f0b195515b39d1a5e11c82b75cad",
+    req(sweep["ex5_head"] == "bd1beaa5d91cf71f8a028527efd00aeb3558347d",
         "EX5 live observation stale")
-    req("NO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
+    req("HPADJ20" in sweep["ex5_handoff"] and "NO_MAIN_CREDIT" in sweep["ex5_handoff"],
+        "EX5 HPADJ20 credit firewall")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
     req(sweep["mb_head"] == "c034cd52c8dc30842733b5aa0ca002b10c3a7732",
@@ -128,7 +129,7 @@ def main():
         req(st["firewalls"][key] is False, f"firewall {key}")
 
     print("PASS: Stage32 MAIN V39 has synchronized the hostile-audit PASS for V38 with zero new pruning")
-    print("PASS: current specialist observations are refreshed; FULL178/final-milestone route may resume")
+    print("PASS: current specialist observations are refreshed through EX5 HPADJ20 with zero EX5 MAIN credit")
 
 if __name__ == "__main__":
     main()
