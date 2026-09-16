@@ -41,6 +41,21 @@ PACKET: E_a=sum_(p in T_a)E_p and E_b=sum_(p in T_b)E_p,
 
 up to simultaneous interchange of `a,b`.
 
+For the retained displayed fibration
+
+```text
+t=(c+a1)/(a2+i*a3),
+```
+
+an exact replay of the retained 48-node ordering shows
+
+```text
+t=-i : {16,17,18,19,40,41,42,43},
+t=+i : {20,21,22,23,44,45,46,47}.
+```
+
+Each canonical lattice packet therefore meets each displayed half-fiber packet in four nodes.  In particular `(PACKET)` is **false for this displayed fibration**.  A different fibration identification would need its own executable adapter; none is currently retained.
+
 ## 2. Exact retained-lattice computation
 
 Using the saturated retained Picard64 marking—not displayed ambient coefficients—the verifier proves
@@ -87,7 +102,7 @@ are integral Picard classes.  Their unconditional exact lattice relation is
 2(M_a-M_b)=l(E_b-E_a).                         (LATTICE-BRIDGE)
 ```
 
-Conditional on `(PACKET)`, their difference is
+Only under the presently unmaterialized condition `(PACKET)`, their difference would be
 
 ```text
 M_a-M_b
@@ -101,7 +116,7 @@ by `(HF)`.  Put `Delta=Q_a-Q_b`.  The two canonical representatives then obey
 M_a-M_b=l Delta.
 ```
 
-This is a conditional bridge to the retained residual character
+This unavailable conditional bridge would lead to the retained residual character
 
 ```text
 eta = O_E(Delta|_E) in Pic^0(E)[2].
@@ -133,7 +148,7 @@ The carrier is disjoint from every absent exceptional curve, so `O_C(Delta|_C) ~
 kappa in Ker(Pic(C)[2] -> Pic(E)[2]).
 ```
 
-Consequently, conditional on `(PACKET)`,
+Consequently, if a future independent adapter established `(PACKET)` for another fibration, then
 
 ```text
 O_C((M_a-M_b)|_C) ~= kappa^l.                 (SINGULAR-BRIDGE)
@@ -143,7 +158,7 @@ For odd `l` the ratio of the two canonical half-lifts on `C` is exactly `kappa`;
 
 ## Route consequence
 
-The Picard/2 correction support is no longer an unspecified `15`-dimensional absent span: it has the two canonical numerical representatives `M_a,M_b`.  Conditional on `(PACKET)`, their geometric difference is
+The Picard/2 correction support is no longer an unspecified `15`-dimensional absent span: it has the two canonical numerical representatives `M_a,M_b`.  Their identification with the two half-fibers of the displayed fibration is now exactly refuted.  Conditional on a future different-fibration adapter satisfying `(PACKET)`, their geometric difference would be
 
 ```text
 M_a  <->  M_b=M_a-l Delta.
@@ -151,12 +166,13 @@ M_a  <->  M_b=M_a-l Delta.
 
 The normalization restriction difference is `eta^l`, but normalization forgets the load-bearing gluing class `kappa`.  The useful next calculation is instead a descent/linearization comparison on the **singular carrier** for odd `l`, or directly the retained one-coordinate conductor evaluator.  Both require branch-specific conductor data.  Repeating a blind mod-4 descent is not justified.
 
-This bridge does not evaluate an individual conductor pair.  It narrows the global obstruction feeding that evaluation to the same single residual half-fiber class already controlling the conductor sheet.
+Thus the current lattice bridge does not evaluate an individual conductor pair and does not narrow it to the displayed residual half-fiber class.  The viable continuation remains direct branch-specific conductor descent: an exact `r_z` ratio or mod-eight transition on actual conductor pairs.
 
 ## Firewalls
 
 - No second Picard descent or mod-4 divisibility is assumed.
 - No numerical packet is unconditionally identified with an ordered geometric half-fiber packet.
+- The canonical packets are proved not to be the two half-fiber packets of the displayed `t`-fibration.
 - No claim that all integral lifts form a two-element set.
 - No individual conductor loop is assigned `0` or `gamma_Q`.
 - No weighted-cut upper bound is proved.
