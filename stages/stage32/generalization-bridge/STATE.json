@@ -2,8 +2,8 @@
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V2",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
-  "current_node": "BR203",
-  "active_leaf": "BR203_PICARD_MU_16_STATE_INTEGRATION",
+  "current_node": "BR204",
+  "active_leaf": "BR204_FULL178_B_SHARDED_SCALEOUT_PREFLIGHT_BLOCKED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -46,10 +46,10 @@
       "H96_nonempty_b_c_t_cells": 453937,
       "bounded_d32_P1_K8": 230521553871,
       "Picard_mu_syndrome_states": 16,
-      "Picard_mu_upper_bound": 8,
-      "mu_nontrivial_only_for_R_le_7": true
+      "Picard_mu_exact_max": 2,
+      "Picard_mu_histogram": {"0": 1, "1": 7, "2": 8}
     },
-    "supersession_rule": "Treat the 16-state/mu<=8 derivation as the current stronger structural result; do not regress to rough mu<=133/image-size-unknown exploratory notes."
+    "supersession_rule": "Use the exact source-locked 16-state mu table with max mu=2; older rough mu<=8 or mu<=133 notes are historical research anchors only."
   },
   "completed_nodes": {
     "BR201": {
@@ -66,19 +66,36 @@
       "live_main_at_close": "c6284abbb29930255892d56f800da0ea1e34734b",
       "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
       "H16_d32_K8": 230521553871
+    },
+    "BR203": {
+      "status": "PASS_ZERO_CREDIT",
+      "handoff": "stages/stage32/generalization-bridge/BR203-PICARD-MU-HANDOFF.json",
+      "result": "stages/stage32/generalization-bridge/BR203-PICARD-MU-16-STATE-BOUNDED-RESULT.json",
+      "compact_equivalence": "stages/stage32/generalization-bridge/BR204-COMPACT-MU-BOUNDED-EQUIVALENCE-RESULT.json",
+      "exact_green_head": "2fbbf8afe8735a7dbeb870698457774419477eae",
+      "ci_run": 35156251889,
+      "ci_job": 104996269918,
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_BR202_K8": 230521553871,
+      "H16_d32_BR203_mu_K8": 229209796641
     }
   },
   "next_obligation": {
-    "node_id": "BR203",
-    "title": "Picard mu 16-state integration",
-    "required_input": "Use the BR201 source-locked selected64/HNF semantics and BR202 compact A/BC producer. Rebuild the exact terminal-A, terminal-BC, and 19-free-exceptional syndrome maps modulo 8; measure exact A-side and BC-side syndrome image cardinalities; compute the exact deduplicated mu table on the 16 reachable free-exceptional syndrome states; then intersect mu[sigma_A+sigma_BC] <= e-a-b-c with the bounded BR202 K8 candidate without terminal identity materialization.",
-    "success": "An exact source-locked 16-state mu table plus bounded same-population P1 K8 intersection is reproduced with compact A/BC syndrome factorization and no state explosion. Grant no MAIN credit and do not scale to FULL178 here.",
+    "node_id": "BR204",
+    "title": "FULL178 b-sharded scaleout gate",
+    "required_input": "Use the retained compact producer that exactly reproduces H10/H16 direct BR203 results. Before any heavy execution, require coherent live MAIN predecessor identity and a repository-policy-compliant run-key/storage/resume authorization. Once both external gates are satisfied, evaluate exactly eight b shards, stream one b at a time, retain only compact shard totals/hashes/bins, and verify final coverage/disjointness/population conservation.",
+    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, and yield one same-population replacement upper bound compared against a coherent live predecessor. Grant no MAIN credit.",
+    "current_blockers": [
+      "repo main c6284abbb29930255892d56f800da0ea1e34734b differs from MAIN-STATE authority_sync.current_repository_main 4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+      "no BR204 heavy run-key is present"
+    ],
     "stop_conditions": [
-      "source-lock ambiguity in the selected64/HNF coefficient system",
-      "free-exceptional reachable group is not exactly 16 states under the retained source",
-      "A/BC syndrome factorization fails exact regression",
-      "BC-side syndrome split causes prohibited compact-state explosion",
-      "terminal identity materialization becomes necessary"
+      "MAIN freshness remains incoherent",
+      "run-key/storage/resume authorization absent",
+      "compact producer fails exact bounded regression",
+      "shard coverage/disjointness or population conservation fails",
+      "candidate becomes dominated or semantically incomparable to the refreshed live predecessor",
+      "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
     ]
   },
   "transition_policy": {
@@ -94,13 +111,17 @@
     "dominated_or_incomparable_blocks_expensive_downstream_scaleout": true,
     "intermediate_candidate_salvage_allowed": true,
     "BR203": {
-      "measure_A_side_syndrome_image_cardinality": true,
-      "measure_BC_side_syndrome_image_cardinality": true,
-      "measure_deduplicated_free_exceptional_mu_table": true,
-      "group_sum_invariance_required": false,
-      "linear_A_BC_syndrome_factorization_allowed": true,
-      "terminal_identity_materialization_forbidden": true,
-      "on_compact_state_explosion": "FREEZE_BR202_AND_STOP_OR_PARK_BR203"
+      "status": "COMPLETE",
+      "exact_mu_state_count": 16,
+      "exact_mu_max": 2,
+      "terminal_identity_materialization_forbidden": true
+    },
+    "BR204": {
+      "compact_producer_gate": "PASS",
+      "heavy_requires_main_freshness": true,
+      "heavy_requires_runkey": true,
+      "raw_4_1M_state_artifact_forbidden": true,
+      "stream_one_b_at_a_time": true
     },
     "BR205": {
       "gate": "BR204 exact slack attribution must show qBC tier truncation active on nonzero retained mass and a bounded same-population deeper-tier pilot must show strict improvement",
@@ -125,7 +146,10 @@
     "BR201_complete": true,
     "BR202_authorized": false,
     "BR202_complete": true,
-    "BR203_authorized": true,
+    "BR203_authorized": false,
+    "BR203_complete": true,
+    "BR204_light_preflight_complete": true,
+    "BR204_compact_producer_gate_passed": true,
     "BR204_FULL178_scaleout_authorized": false,
     "BR205_full_qBC_escalation_authorized": false,
     "BR206_late_59D_authorized": false,
@@ -142,7 +166,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": null
+    "stop_reason": "BR204 heavy blocked on MAIN freshness mismatch and missing run-key"
   },
   "deliverable_contract": {
     "per_candidate_checkpoint": [
@@ -155,7 +179,7 @@
     "per_shard": [
       "exact compact state/population totals",
       "qBC tier and qA convolution summary",
-      "Picard mu syndrome summary once BR203 is active",
+      "Picard mu syndrome summary",
       "capacity bins/cutoff data",
       "deterministic stream hash",
       "source-lock manifest"
