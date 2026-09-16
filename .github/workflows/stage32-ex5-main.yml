@@ -20,9 +20,217 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Preserve the historical merge-ref behavior elsewhere, but hostile
+          # audit of the HPADJ successor branch requires literal PR-head replay.
+          ref: ${{ github.head_ref == 'stage32ex5-hpadj09-successor-20260915' && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+      - name: Install HPADJ exact diagnostic dependency
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+      - name: Replay HPADJ09 retained mod-8 quotient at exact head
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: python stages/stage32-ex5/hpadj-09_ex5/verify_hpadj09_mod8_quotient.py
+      - name: Replay HPADJ09 bounded actual-terminal panel at exact head
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-09_ex5/measure_hpadj09_bounded_panel.py | tee /tmp/hpadj09-panel.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj09-panel.json').read_text())
+          assert data['status'] == 'NONZERO_ACTUAL_HPADJ_TERMINAL_REJECTION_ON_BOUNDED_PANEL'
+          assert data['aggregate']['tested_actual_hpadj_terminals'] == 34240
+          assert data['aggregate']['kernel_rejected_terminals'] == 17120
+          assert data['aggregate']['kernel_accepted_terminals'] == 17120
+          print('HPADJ09_PANEL_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          PY
+      - name: Derive HPADJ10 exact symbolic terminal kernel
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-10_ex5/derive_terminal_kernel.py | tee /tmp/hpadj10-kernel.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj10-kernel.json').read_text())
+          assert data['status'] == 'EXACT_INDEX2_TERMINAL_KERNEL_REDUCED_TO_PARITY'
+          assert data['kernel']['reduced_modulus'] == 2
+          assert data['kernel']['normal_coordinate_index'] == 4
+          assert data['canonical_sha256_without_this_field'] == 'c678a84a8bb8aa44db0063ca797dec0e174ff021893ae5e9631ac607f43f1598'
+          print('HPADJ10_KERNEL_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ10_PARITY=' + data['kernel']['accepted_terminal_condition'])
+          PY
+      - name: Count HPADJ10 exact kernel over retained HPADJ population
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py | tee /tmp/hpadj10-population.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj10-population.json').read_text())
+          assert data['status'] == 'EXACT_POPULATION_WIDE_COUNT_ON_RETAINED_HPADJ01_CANDIDATE_POPULATION_AUDIT_REQUIRED'
+          assert data['exact_count']['charged_terminal_lower_bound'] == 27104321327305699275487
+          assert data['exact_count']['kernel_accepted_terminals'] + data['exact_count']['kernel_rejected_terminals'] == data['exact_count']['charged_terminal_lower_bound']
+          print('HPADJ10_POPULATION_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ10_REJECTED=' + str(data['exact_count']['kernel_rejected_terminals']))
+          print('HPADJ10_ACCEPTED=' + str(data['exact_count']['kernel_accepted_terminals']))
+          PY
+      - name: Refine TD01 envelope by exact pre-HPADJ08 x4 block census
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-11_ex5/count_td01_envelope_block_upper_bound.py | tee /tmp/hpadj11-envelope.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj11-envelope.json').read_text())
+          assert data['status'] == 'EXACT_PRE_HPADJ08_BLOCK_CENSUS_WITH_CONSERVATIVE_SAME_CHARACTER_ENVELOPE_BOUND_AUDIT_REQUIRED'
+          assert data['exact_replay']['replay_domain_terminal_total_exact_match'] is True
+          assert data['exact_replay']['pre_hpadj08_replay_domain_terminals'] == 47589703313957134107892
+          assert data['canonical_sha256_without_this_field'] == '86c909a6892bcad290d383c1397e7f889ed0911e33bd1d8f9c698137b1d8798c'
+          print('HPADJ11_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ11_PRE_BLOCKS=' + str(data['exact_replay']['pre_hpadj08_x4_complete_blocks']))
+          print('HPADJ11_REFINED_UPPER=' + str(data['same_character_bound']['block_count_refined_survivor_upper_bound']))
+          print('HPADJ11_IMPROVEMENT_VS_TD01=' + str(data['same_character_bound']['improvement_vs_td01_upper_bound']))
+          PY
+      - name: Strengthen HPADJ11 using retained HPADJ08 whole-block removal
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-11_ex5/refine_with_hpadj08_removed_blocks.py | tee /tmp/hpadj11-removed-blocks.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj11-removed-blocks.json').read_text())
+          assert data['status'] == 'STRICTER_TD01_SAME_CHARACTER_UPPER_BOUND_AUDIT_REQUIRED'
+          assert data['block_geometry']['maximum_possible_block_size'] == 2689
+          assert data['block_geometry']['hpadj08_removed_terminals'] == 40886299509963924857401
+          assert data['candidate_bound']['removed_block_refined_survivor_upper_bound'] == 3360778813767800658369
+          assert data['candidate_bound']['strict_improvement'] is True
+          print('HPADJ11_REMOVED_BLOCK_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ11_REMOVED_BLOCK_UPPER=' + str(data['candidate_bound']['removed_block_refined_survivor_upper_bound']))
+          print('HPADJ11_REMOVED_BLOCK_IMPROVEMENT_VS_TD01=' + str(data['candidate_bound']['improvement_vs_td01_upper_bound']))
+          PY
+      - name: Refine HPADJ12 by row-stratified archived HPADJ08 removal
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-12_ex5/derive_row_stratified_removed_block_bound.py | tee /tmp/hpadj12-row.json
+          cmp /tmp/hpadj12-row.json stages/stage32-ex5/hpadj-12_ex5/ROW-STRATIFIED-RESULT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj12-row.json').read_text())
+          assert data['status'] == 'STRICTER_ROW_STRATIFIED_TD01_SAME_CHARACTER_UPPER_BOUND_AUDIT_REQUIRED'
+          assert data['canonical_sha256_without_this_field'] == '2b710888bd332e4c402f086ae0e5177acfd96a003a6bb30991b2f67e131b2e74'
+          assert data['block_geometry']['row_stratified_removed_complete_block_lower_bound'] == 17071409609395633850
+          assert data['candidate_bound']['row_stratified_refined_survivor_upper_bound'] == 3359845619098834326170
+          assert data['candidate_bound']['improvement_vs_hpadj11_upper_bound'] == 933194668966332199
+          assert data['semantics']['new_heavy_run_used'] is False
+          assert data['semantics']['main_consumption_performed'] is False
+          print('HPADJ12_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ12_REFINED_UPPER=' + str(data['candidate_bound']['row_stratified_refined_survivor_upper_bound']))
+          PY
+      - name: Checkout hostile-audited HPADJ08 source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 36eab50192cf80ec5ed48aba40f4a56076759fea
+          path: _hpadj08-audit
+          fetch-depth: 1
+      - name: Verify HPADJ12 repaired audit boundary
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          test "$(git -C _hpadj08-audit rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
+          python stages/stage32-ex5/hpadj-12_ex5/verify_hpadj12_audit_boundary.py --hpadj08-root _hpadj08-audit
+      - name: Checkout exact MAIN GRF04 V35 candidate source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 9cc20024e7842918a45210d8a7d5e2428f5f85f3
+          path: _main-v35-grf04
+          fetch-depth: 1
+      - name: Checkout V34 MAIN predecessor for GRF04 dependency replay
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 8ec716abbaebbdf91d8452f19145a66c310bd222
+          path: _main-v34
+          fetch-depth: 1
+      - name: Checkout hostile-audited TD01 envelope for GRF04 dependency replay
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 54945927416a94a67533c7b06c59c5a24e50c4f1
+          path: _td01-audit
+          fetch-depth: 1
+      - name: Checkout hostile-audited symbolic GRF04 kernel
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: d534e107bfcf68ab1d687366afd3671a152f6e2b
+          path: _grf04-audit
+          fetch-depth: 1
+      - name: Checkout exact TD02 concrete formula source
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe
+          path: _td02-source
+          fetch-depth: 1
+      - name: Reverify MAIN GRF04 V35 candidate dependencies inside EX5
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          test "$(git -C _main-v35-grf04 rev-parse HEAD)" = "9cc20024e7842918a45210d8a7d5e2428f5f85f3"
+          test "$(git -C _main-v34 rev-parse HEAD)" = "8ec716abbaebbdf91d8452f19145a66c310bd222"
+          test "$(git -C _td01-audit rev-parse HEAD)" = "54945927416a94a67533c7b06c59c5a24e50c4f1"
+          test "$(git -C _grf04-audit rev-parse HEAD)" = "d534e107bfcf68ab1d687366afd3671a152f6e2b"
+          test "$(git -C _td02-source rev-parse HEAD)" = "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe"
+          python _main-v35-grf04/stages/stage32/management/grf04-uniform-bound/verify_grf04_v35_uniform_block_bound_candidate.py \
+            --v34-root _main-v34 \
+            --td01-root _td01-audit \
+            --grf04-root _grf04-audit \
+            --td02-root _td02-source
+      - name: Derive HPADJ13 joint GRF04 Picard parity bound
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          python stages/stage32-ex5/hpadj-13_ex5/derive_grf04_picard_parity_bound.py --grf-root _main-v35-grf04 | tee /tmp/hpadj13-joint.json
+          cmp /tmp/hpadj13-joint.json stages/stage32-ex5/hpadj-13_ex5/RESULT.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('/tmp/hpadj13-joint.json').read_text())
+          assert data['status'] == 'STRICTER_JOINT_GRF04_PICARD_PARITY_7_OVER_33_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          assert data['canonical_sha256_without_this_field'] == '0113356fcbd759a002ca73fba697b84f762231f4e1ee823e52629e7af8b93c81'
+          assert data['joint_block_proof']['uniform_retained_fraction'] == '7/33'
+          assert data['candidate_bound']['joint_survivor_upper_bound'] == 1421934140240983780407
+          assert data['candidate_bound']['improvement_vs_current_audited_main'] == 1938844673526816877962
+          assert data['semantics']['same_x4_direct_intersection_not_independence_assumption'] is True
+          assert data['semantics']['hpadj11_audited_bridge_used_for_envelope_parity_applicability'] is True
+          assert data['semantics']['grf04_v35_source_candidate_is_audit_pending'] is True
+          assert data['sources']['hpadj11_hostile_audit_review_id'] == 5216065509
+          assert data['firewalls']['stage32_main_pruning_credit'] is False
+          print('HPADJ13_CANONICAL=' + data['canonical_sha256_without_this_field'])
+          print('HPADJ13_JOINT_UPPER=' + str(data['candidate_bound']['joint_survivor_upper_bound']))
+          PY
+      - name: Checkout hostile-audited MAIN V31 target
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: f5558f0d1b23c6dd48519207e1dc872ae66127d7
+          path: _main-v31
+          fetch-depth: 1
+      - name: Verify HPADJ11 MAIN handoff against audited V31 target
+        if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
+        run: |
+          test "$(git -C _main-v31 rev-parse HEAD)" = "f5558f0d1b23c6dd48519207e1dc872ae66127d7"
+          python stages/stage32-ex5/hpadj-11_ex5/verify_main_handoff.py --main-root _main-v31
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
       - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
