@@ -11,7 +11,7 @@ import sympy
 from sympy import Matrix
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[4]
+ROOT = HERE.parents[3]
 RES = ROOT / "stages" / "stage32" / "residual-32-01-production"
 ST33 = ROOT / "stages" / "stage33" / "33-07"
 RECOVERABILITY = HERE / "verify_fibration_nef_recoverability.py"
