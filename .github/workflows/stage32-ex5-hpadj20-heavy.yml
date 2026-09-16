@@ -1,8 +1,8 @@
 name: Stage32EX5 HPADJ20 heavy replay
 
-# Lifecycle: ACTIVE_AUTO, but heavy compute is fail-closed behind the dedicated
-# run-key commit-range gate below. workflow_dispatch remains available after the
-# workflow exists on the default branch for exact-head audit reruns.
+# Lifecycle: ACTIVE_AUTO. Heavy compute is fail-closed behind a fresh dedicated
+# run-key commit-range gate. HPADJ20 is partitioned into exact resumable FULL178
+# row shards; completed shard certificates may be carried into a recovery run.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -18,6 +18,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   authorize:
@@ -26,6 +27,8 @@ jobs:
     outputs:
       authorized: ${{ steps.gate.outputs.authorized }}
       exact_sha: ${{ steps.gate.outputs.exact_sha }}
+      carry_run_id: ${{ steps.gate.outputs.carry_run_id }}
+      shard_count: ${{ steps.gate.outputs.shard_count }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,94 +51,108 @@ jobs:
           if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
             HEAD_SHA="$DISPATCH_SHA"
           fi
-          if ! [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+          emit_cold() {
             echo 'authorized=false' >> "$GITHUB_OUTPUT"
-            echo 'exact_sha=' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'carry_run_id=' >> "$GITHUB_OUTPUT"
+            echo 'shard_count=16' >> "$GITHUB_OUTPUT"
+          }
+          if ! [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            emit_cold
             echo 'invalid exact head sha' >&2
             exit 0
           fi
           test "$(git rev-parse HEAD)" = "$HEAD_SHA"
 
-          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
+          validate_new_key() {
             python - "$KEY" <<'PY'
           import json, sys
           from pathlib import Path
           key = json.loads(Path(sys.argv[1]).read_text())
-          assert key['schema'] == 'STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V1'
+          assert key['schema'] == 'STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V2'
           assert key['armed'] is True
           assert int(key['generation']) > 0
+          assert int(key['shard_count']) == 16
+          carry = key.get('carry_run_id')
+          assert carry is None or (isinstance(carry, int) and carry > 0)
           assert key['producer_git_blob'] == '837d647cfcbc96bbe384e564f449cd7042a46d48'
-          assert key['execution_contract_git_blob'] == '051e54bd554eb15a8c50c949751b1778f0a5940a'
+          assert key['row_shard_worker_git_blob'] == '380c191b7dd3bcc6c1e290495c776203d4a92b63'
+          assert key['union_verifier_git_blob'] == 'cfa58039f9cce06767a18b7594782dc620865e51'
+          assert key['execution_contract_git_blob'] == 'cdd051aee69ae3412201c4c989d864fcb5666ecb'
           PY
+          }
+          validate_new_key
+          CARRY_RUN_ID="$(python - "$KEY" <<'PY'
+          import json, sys
+          from pathlib import Path
+          x = json.loads(Path(sys.argv[1]).read_text()).get('carry_run_id')
+          print('' if x is None else int(x))
+          PY
+          )"
+
+          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
             echo 'authorized=true' >> "$GITHUB_OUTPUT"
             echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo "carry_run_id=$CARRY_RUN_ID" >> "$GITHUB_OUTPUT"
+            echo 'shard_count=16' >> "$GITHUB_OUTPUT"
             echo 'authorization=MANUAL_EXACT_HEAD_WITH_LOCKED_RUNKEY'
             exit 0
           fi
 
           if [ "$PR_ACTION" = 'reopened' ]; then
-            echo 'authorized=false' >> "$GITHUB_OUTPUT"
-            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            emit_cold
             echo 'authorization=COLD_REOPEN'
             exit 0
           fi
-
           if [ "$PR_ACTION" = 'opened' ]; then
             BEFORE="$PR_BASE"
           else
             BEFORE="$EVENT_BEFORE"
           fi
           if ! [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]]; then
-            echo 'authorized=false' >> "$GITHUB_OUTPUT"
-            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            emit_cold
             echo 'authorization=NO_VERIFIABLE_BEFORE'
             exit 0
           fi
           git fetch --no-tags --depth=1 origin "$BEFORE" || true
           if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
-            echo 'authorized=false' >> "$GITHUB_OUTPUT"
-            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            emit_cold
             echo 'authorization=BEFORE_FETCH_FAILED'
             exit 0
           fi
           if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
-            echo 'authorized=false' >> "$GITHUB_OUTPUT"
-            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            emit_cold
             echo 'authorization=RUNKEY_NOT_CHANGED_IN_EVENT_RANGE'
             exit 0
           fi
 
           python - "$BEFORE" "$KEY" <<'PY'
-          import json
-          import subprocess
-          import sys
+          import json, subprocess, sys
           from pathlib import Path
-
           before, key_path = sys.argv[1:]
           new = json.loads(Path(key_path).read_text())
-          assert new['schema'] == 'STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V1'
-          assert new['armed'] is True
           generation = int(new['generation'])
-          assert generation > 0
-          assert new['producer_git_blob'] == '837d647cfcbc96bbe384e564f449cd7042a46d48'
-          assert new['execution_contract_git_blob'] == '051e54bd554eb15a8c50c949751b1778f0a5940a'
-          prior = subprocess.run(
-              ['git', 'show', f'{before}:{key_path}'],
-              text=True, capture_output=True,
-          )
+          prior = subprocess.run(['git', 'show', f'{before}:{key_path}'], text=True, capture_output=True)
           if prior.returncode == 0:
               old = json.loads(prior.stdout)
               assert generation > int(old['generation'])
           PY
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
           echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo "carry_run_id=$CARRY_RUN_ID" >> "$GITHUB_OUTPUT"
+          echo 'shard_count=16' >> "$GITHUB_OUTPUT"
           echo 'authorization=FRESH_RUNKEY_EVENT_RANGE_PASS'
 
-  replay-hpadj20:
+  shard:
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     runs-on: ubuntu-24.04
-    timeout-minutes: 330
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -146,80 +163,162 @@ jobs:
         with:
           python-version: '3.10.6'
 
-      - name: Verify exact-head, source locks, resume waiver, and storage preflight
+      - name: Verify exact-head, source locks, resume contract, and storage bound
         env:
           EXPECTED_HEAD_SHA: ${{ needs.authorize.outputs.exact_sha }}
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD_SHA"
+          test "$(git hash-object stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py)" = '837d647cfcbc96bbe384e564f449cd7042a46d48'
+          test "$(git hash-object stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py)" = '380c191b7dd3bcc6c1e290495c776203d4a92b63'
+          test "$(git hash-object stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py)" = 'cfa58039f9cce06767a18b7594782dc620865e51'
+          test "$(git hash-object stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json)" = 'cdd051aee69ae3412201c4c989d864fcb5666ecb'
           python - <<'PY'
-          import hashlib
           import json
           from pathlib import Path
-
-          producer = Path('stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py')
-          contract = Path('stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json')
-          runkey = Path('stages/stage32-ex5/runkeys/hpadj20-heavy-replay.json')
-
-          def git_blob(path: Path) -> str:
-              raw = path.read_bytes()
-              return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
-
-          assert git_blob(producer) == '837d647cfcbc96bbe384e564f449cd7042a46d48'
-          assert git_blob(contract) == '051e54bd554eb15a8c50c949751b1778f0a5940a'
-          key = json.loads(runkey.read_text())
-          assert key['armed'] is True and int(key['generation']) > 0
-          assert key['producer_git_blob'] == git_blob(producer)
-          assert key['execution_contract_git_blob'] == git_blob(contract)
-          data = json.loads(contract.read_text())
-          assert data['resume_policy'] == 'RESUME_NOT_FEASIBLE'
-          assert data['partition']['partial_outputs_reusable'] is False
-          assert data['storage_preflight']['operating_budget_mb'] == 500
-          assert data['storage_preflight']['planned_jobs'] == 1
-          assert data['storage_preflight']['planned_effective_heavy_concurrency'] == 1
-          assert data['storage_preflight']['persisted_artifact_uploads'] == 0
-          assert data['storage_preflight']['projected_peak_actions_artifact_storage_mb'] == 0
+          data = json.loads(Path('stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json').read_text())
+          assert data['resume_policy'] == 'RESUME_FIRST_EXACT_FULL178_ROW_SHARDS'
+          assert data['partition']['shard_count'] == 16
+          assert data['partition']['partial_outputs_reusable'] is True
+          assert data['partition']['union_verifier_required'] is True
+          assert data['cancellation_recovery']['whole_parent_rerun_default'] is False
+          s = data['storage_preflight']
+          assert s['operating_budget_mb'] == 500
+          assert s['planned_effective_heavy_concurrency'] == 16
+          assert s['max_certificate_bytes_per_shard'] == 2000000
+          assert s['projected_peak_actions_artifact_storage_mb_upper_bound'] <= 34
           assert data['credit_firewall']['partial_output_credit'] is False
           assert data['credit_firewall']['stage32_main_credit'] is False
           assert data['credit_firewall']['merge_authorized'] is False
-          print('RESUME_POLICY=' + data['resume_policy'])
-          print('RESUME_REASON=' + data['resume_not_feasible_reason'])
-          print('CANCELLATION_RECOVERY=' + data['cancellation_recovery'])
-          print('STORAGE_PREFLIGHT=PASS jobs=1 concurrency=1 artifact_uploads=0 projected_actions_storage_mb=0 budget_mb=500')
+          print('RESUME_POLICY=PASS exact row shards=16 carry-over enabled')
+          print('STORAGE_PREFLIGHT=PASS hard_cap_per_shard_bytes=2000000 projected_peak_mb<=34 budget_mb=500')
           PY
-          {
-            echo '## HPADJ20 heavy execution contract'
-            echo '- Resume policy: `RESUME_NOT_FEASIBLE`'
-            echo '- Cancellation recovery: re-arm by fresh run-key generation; incomplete local output is non-credit.'
-            echo '- Storage preflight: 1 job, concurrency 1, no artifact uploads, projected Actions artifact storage increment 0 MB / 500 MB budget.'
-            echo "- Exact head: \`$EXPECTED_HEAD_SHA\`"
-          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Try carried completed shard
+        if: needs.authorize.outputs.carry_run_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj20-shard-${{ matrix.shard }}
+          path: carry
+          github-token: ${{ github.token }}
+          run-id: ${{ needs.authorize.outputs.carry_run_id }}
+
+      - name: Validate carry-over certificate
+        id: reuse
+        env:
+          SHARD: ${{ matrix.shard }}
+          SHARD_COUNT: ${{ needs.authorize.outputs.shard_count }}
+          CARRY_RUN_ID: ${{ needs.authorize.outputs.carry_run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          reused=false
+          CANDIDATE="carry/hpadj20-shard-${SHARD}.json"
+          if [ -n "$CARRY_RUN_ID" ] && [ -f "$CANDIDATE" ]; then
+            if python stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py \
+              --shard-index "$SHARD" --shard-count "$SHARD_COUNT" --verify-existing "$CANDIDATE"; then
+              cp "$CANDIDATE" "out/hpadj20-shard-${SHARD}.json"
+              reused=true
+              echo "HPADJ20_SHARD_REUSED shard=$SHARD carry_run_id=$CARRY_RUN_ID"
+            fi
+          fi
+          echo "reused=$reused" >> "$GITHUB_OUTPUT"
+
+      - name: Install HPADJ exact diagnostic dependency
+        if: steps.reuse.outputs.reused != 'true'
+        run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
+
+      - name: Compute exact HPADJ20 row shard
+        if: steps.reuse.outputs.reused != 'true'
+        env:
+          SHARD: ${{ matrix.shard }}
+          SHARD_COUNT: ${{ needs.authorize.outputs.shard_count }}
+        run: |
+          set -euo pipefail
+          python stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py \
+            --shard-index "$SHARD" --shard-count "$SHARD_COUNT" \
+            --output "out/hpadj20-shard-${SHARD}.json"
+
+      - name: Validate completed shard and enforce compact certificate cap
+        env:
+          SHARD: ${{ matrix.shard }}
+          SHARD_COUNT: ${{ needs.authorize.outputs.shard_count }}
+        run: |
+          set -euo pipefail
+          CERT="out/hpadj20-shard-${SHARD}.json"
+          python stages/stage32-ex5/hpadj-20_ex5/run_row_shard.py \
+            --shard-index "$SHARD" --shard-count "$SHARD_COUNT" --verify-existing "$CERT"
+          BYTES="$(wc -c < "$CERT")"
+          test "$BYTES" -le 2000000
+          echo "HPADJ20_SHARD_CERTIFICATE_BYTES=$BYTES"
+
+      - name: Upload completed compact shard certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj20-shard-${{ matrix.shard }}
+          path: out/hpadj20-shard-${{ matrix.shard }}.json
+          if-no-files-found: error
+          retention-days: 1
+          compression-level: 9
+
+  aggregate:
+    needs: [authorize, shard]
+    if: needs.authorize.outputs.authorized == 'true' && needs.shard.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
 
       - name: Install HPADJ exact diagnostic dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
 
-      - name: Replay HPADJ20 exact two-tier qA refinement
+      - name: Download all current-run shard certificates
+        uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj20-shard-*
+          path: certs
+          merge-multiple: true
+
+      - name: Verify exact disjoint union and aggregate HPADJ20 bound
+        env:
+          SHARD_COUNT: ${{ needs.authorize.outputs.shard_count }}
         run: |
           set -euo pipefail
-          python stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py | tee /tmp/hpadj20.json
+          python stages/stage32-ex5/hpadj-20_ex5/aggregate_row_shards.py \
+            --cert-dir certs --shard-count "$SHARD_COUNT" \
+            --output /tmp/hpadj20-parallel-union.json
+          BYTES="$(wc -c < /tmp/hpadj20-parallel-union.json)"
+          test "$BYTES" -le 2000000
           python - <<'PY'
           import json
           from pathlib import Path
-
-          data = json.loads(Path('/tmp/hpadj20.json').read_text())
-          assert data['status'] == 'Q_QUADRATIC_QA_TWO_TIER_EXACT_MULTIPLICITY_PREDOMAIN_PICARD_LP_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          data = json.loads(Path('/tmp/hpadj20-parallel-union.json').read_text())
+          assert data['status'] == 'Q_QUADRATIC_QA_TWO_TIER_PARALLEL_EXACT_UNION_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          assert data['partition']['exact_disjoint_union_verified'] is True
+          assert data['partition']['row_gap_count'] == 0
+          assert data['partition']['row_overlap_count'] == 0
           assert data['candidate_bound']['hpadj20_candidate_upper_bound'] <= 195603649074545538415
           assert data['candidate_bound']['hpadj20_candidate_upper_bound'] <= data['candidate_bound']['replayed_hpadj19_candidate_upper_bound']
           assert data['candidate_bound']['structurally_no_weaker_than_hpadj19'] is True
-          assert data['qA_refinement']['exact_support_preserved'] is True
-          assert data['qA_refinement']['strict_two_tier_class_count'] > 0
-          assert data['semantics']['per_exact_pre_block_q_survivor_capacity_no_larger_than_hpadj19'] is True
-          assert data['semantics']['statistical_independence_assumed'] is False
-          assert data['semantics']['new_heavy_run_used'] is False
+          assert data['resume_evidence']['recompute_only_missing_or_rejected_shards'] is True
           assert data['firewalls']['stage32_main_pruning_credit'] is False
-          print('HPADJ20_CANONICAL=' + data['canonical_sha256_without_this_field'])
-          print('HPADJ20_HPADJ19_REPLAY_UPPER=' + str(data['candidate_bound']['replayed_hpadj19_candidate_upper_bound']))
-          print('HPADJ20_UPPER=' + str(data['candidate_bound']['hpadj20_candidate_upper_bound']))
-          print('HPADJ20_IMPROVEMENT_VS_HPADJ19=' + str(data['candidate_bound']['improvement_vs_hpadj19_replay']))
-          print('HPADJ20_IMPROVEMENT_VS_MAIN_Q=' + str(data['candidate_bound']['improvement_vs_main_q_quadratic_global']))
+          print('HPADJ20_PARALLEL_AUDIT_CANDIDATE=' + data['canonical_sha256_without_this_field'])
           PY
+          cp /tmp/hpadj20-parallel-union.json ./hpadj20-parallel-union.json
+
+      - name: Upload compact final union certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj20-parallel-union
+          path: hpadj20-parallel-union.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 9
