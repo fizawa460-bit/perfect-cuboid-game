@@ -1,0 +1,23 @@
+name: Stage32 32-01-178 fibration nef recoverability preflight
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Exact fibration-nef recoverability preflight
+        run: python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_recoverability.py
