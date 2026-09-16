@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
 import base64
 import hashlib
 import importlib.util
@@ -22,6 +21,9 @@ CERT_PAYLOAD_SHA = "f47da29590aaf4141516593867c14d48c51703503f107825a9ee4f04231c
 SOURCE_RUN_ID = 34935380596
 SOURCE_HEAD = "b11a9820af4a02148112a6ae235bc3a51d134ef2"
 AUDITED_HPADJ08_HEAD = "36eab50192cf80ec5ed48aba40f4a56076759fea"
+V35_SOURCE_HEAD = "a01dfd4173ae46c7d51e4f6f9ecdad8b4755f90c"
+V35_BLOB = "a203df7b15a9cc655b78aa70b849933b98404a2d"
+V35_CANON = "221f7bc44989130de39b639d4a0a0af85a056ea0ab9461e61a1cb24be907d5b5"
 HPADJ14_BENCHMARK = 463577241806597722598
 PLANNED = ((0,11),(12,23),(24,35),(36,47),(48,59),(60,71),(72,83),(84,96))
 
@@ -55,8 +57,7 @@ def load_parent():
 
 
 def load_certificate(parent) -> dict[tuple[tuple[int,int], int, int], int]:
-    req(CERT.is_file(), "missing HPADJ08 b-shard certificate")
-    req(git_blob(CERT) == CERT_BLOB, "HPADJ08 b-shard certificate blob drift")
+    req(CERT.is_file() and git_blob(CERT) == CERT_BLOB, "HPADJ08 b-shard certificate blob drift")
     cert = json.loads(CERT.read_text())
     req(cert.get("canonical_sha256_without_this_field") == CERT_CANON, "certificate stored canonical drift")
     req(canonical(cert) == CERT_CANON, "certificate canonical drift")
@@ -73,7 +74,7 @@ def load_certificate(parent) -> dict[tuple[tuple[int,int], int, int], int]:
     data = json.loads(raw)
     row_keys = [tuple(map(int, x)) for x in data["row_keys"]]
     req(len(row_keys) == 178 and len(set(row_keys)) == 178, "certificate row-key coverage")
-    out: dict[tuple[tuple[int,int], int, int], int] = {}
+    out = {}
     shard_totals = {}
     for shard in data["rejected_by_shard"]:
         interval = tuple(map(int, shard["b_interval"]))
@@ -108,8 +109,7 @@ def exact_pre_shard_caps(parent, counter):
     H = max(d // 2 for _, _, d in rows)
     BC = counter.build_bc_exact_parity(H)
     result = []
-    total_terms = 0
-    total_blocks = 0
+    total_terms = total_blocks = 0
 
     for row_id, g, d in rows:
         h = d // 2
@@ -117,10 +117,8 @@ def exact_pre_shard_caps(parent, counter):
         K = counter.ceil_div(d - 16*g + 16, 4)
         A = [[counter.triple_free_count(a, sa) for sa in range(4)] for a in range(h + 1)]
         diffs = {interval: defaultdict(int) for interval in PLANNED}
-
         for b in range(h + 1):
-            interval = shard_for_b(b)
-            diff = diffs[interval]
+            diff = diffs[shard_for_b(b)]
             for c in range(h + 1):
                 bcv = BC[b][c]
                 if not any(any(pair) for pair in bcv):
@@ -145,7 +143,6 @@ def exact_pre_shard_caps(parent, counter):
                         for sa, right in enumerate(avec):
                             if right:
                                 scount[sbc + sa] += left * right
-
                     for support, count in enumerate(scount):
                         if not count:
                             continue
@@ -156,7 +153,7 @@ def exact_pre_shard_caps(parent, counter):
                         upper = min((19*d)//5, 3*d, 3*d - (b-c))
                         if lower > upper:
                             continue
-                        excluded: set[int] = set()
+                        excluded = set()
                         e_n358 = 3*d - (b-c)
                         if b <= h - 5 and support + srem == K and e_n358 - M >= srem:
                             excluded.add(e_n358)
@@ -172,10 +169,9 @@ def exact_pre_shard_caps(parent, counter):
                             if lo <= ex <= hi and ex % 2 == 0:
                                 diff[ex] -= count
                                 diff[ex + 2] += count
-
         for interval in PLANNED:
             diff = diffs[interval]
-            caps: dict[int,int] = {}
+            caps = {}
             running = 0
             if diff:
                 for e in range(min(diff), max(diff) + 1, 2):
@@ -188,16 +184,8 @@ def exact_pre_shard_caps(parent, counter):
             pre_terms = sum(n * (19*d - 5*e + 1) for e, n in caps.items())
             total_blocks += pre_blocks
             total_terms += pre_terms
-            result.append({
-                "row_id": row_id,
-                "g": g,
-                "d": d,
-                "b_interval": interval,
-                "pre_blocks": pre_blocks,
-                "pre_terms": pre_terms,
-                "caps": caps,
-            })
-
+            result.append({"row_id":row_id,"g":g,"d":d,"b_interval":interval,
+                           "pre_blocks":pre_blocks,"pre_terms":pre_terms,"caps":caps})
     req(len(result) == 178 * len(PLANNED), "pre shard-row count")
     req(total_terms == parent.EXPECTED_PRE_TERMS, "pre terminal aggregate")
     req(total_blocks == parent.EXPECTED_PRE_BLOCKS, "pre block aggregate")
@@ -205,156 +193,100 @@ def exact_pre_shard_caps(parent, counter):
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--v35-root", required=True)
-    ns = ap.parse_args()
-
     parent = load_parent()
+    req(parent.V35_BENCHMARK == 511195899564352597589, "HPADJ14 V35 benchmark drift")
+    req(parent.LOCKS["v35_blob"] == V35_BLOB, "HPADJ14 V35 blob lock drift")
+    req(parent.LOCKS["v35_canonical"] == V35_CANON, "HPADJ14 V35 canonical lock drift")
     rejected = load_certificate(parent)
     counter = parent.load_counter()
     pre = exact_pre_shard_caps(parent, counter)
 
-    # Revalidate the same V35 benchmark/source semantics that HPADJ14 consumes.
-    v35 = parent.locked_json(
-        Path(ns.v35_root) / parent.V35_REL,
-        parent.LOCKS["v35_blob"], parent.LOCKS["v35_canonical"], "latest MAIN V35 candidate"
-    )
-    req(v35["candidate_bound"]["candidate_upper_bound"] == parent.V35_BENCHMARK, "V35 benchmark drift")
-    req(v35["exact_input_envelope"]["x4_complete_after_hpadj08"] is True, "V35 x4-complete drift")
-
-    aggregate_survivor_mass = 0
-    aggregate_block_upper = 0
-    aggregate_greedy = 0
-    aggregate_removed = 0
-    aggregate_candidate = 0
-    strict_greedy = 0
-    strict_removed = 0
-    nonempty_shards = 0
+    survivor_mass = block_upper = greedy_total = removed_total = candidate = 0
+    strict_greedy = strict_removed = nonempty = 0
     diagnostic = hashlib.sha256()
     seen = set()
-
     for rec in pre:
-        g = int(rec["g"])
-        d = int(rec["d"])
+        g, d = int(rec["g"]), int(rec["d"])
         interval = tuple(rec["b_interval"])
         key = (interval, g, d)
         req(key in rejected, f"missing rejection certificate key {key}")
         seen.add(key)
         R = int(rejected[key])
-        pre_terms = int(rec["pre_terms"])
-        pre_blocks = int(rec["pre_blocks"])
+        pre_terms, pre_blocks = int(rec["pre_terms"]), int(rec["pre_blocks"])
         req(0 <= R <= pre_terms, f"rejection exceeds pre mass {key}")
         M = pre_terms - R
-        aggregate_survivor_mass += M
-
+        survivor_mass += M
         if pre_blocks == 0:
             req(R == 0 and M == 0 and not rec["caps"], f"empty shard mismatch {key}")
-            greedy_blocks = removed_blocks_upper = row_block_upper = 0
+            greedy = removed = upper = 0
         else:
-            nonempty_shards += 1
-            greedy_blocks, used_mass = parent.greedy_max_blocks_for_mass(rec["caps"], d, M)
-            req(used_mass <= M, f"greedy mass overflow {key}")
+            nonempty += 1
+            greedy, used = parent.greedy_max_blocks_for_mass(rec["caps"], d, M)
+            req(used <= M, f"greedy mass overflow {key}")
             bmax = max(19*d - 5*int(e) + 1 for e, cap in rec["caps"].items() if int(cap) > 0)
-            removed_block_lb = (R + bmax - 1) // bmax
-            removed_blocks_upper = pre_blocks - removed_block_lb
-            req(removed_blocks_upper >= 0, f"negative removed-block cap {key}")
-            row_block_upper = min(greedy_blocks, removed_blocks_upper)
-            if greedy_blocks < removed_blocks_upper:
-                strict_greedy += 1
-            elif removed_blocks_upper < greedy_blocks:
-                strict_removed += 1
-
+            removed = pre_blocks - (R + bmax - 1) // bmax
+            req(removed >= 0, f"negative removed-block cap {key}")
+            upper = min(greedy, removed)
+            strict_greedy += int(greedy < removed)
+            strict_removed += int(removed < greedy)
         c = parent.block_survivor_count(g, d)
-        row_candidate = c * row_block_upper
-        aggregate_candidate += row_candidate
-        aggregate_block_upper += row_block_upper
-        aggregate_greedy += greedy_blocks
-        aggregate_removed += removed_blocks_upper
-        compact = {
-            "b_interval": list(interval), "g": g, "d": d,
-            "pre_terms": pre_terms, "pre_blocks": pre_blocks,
-            "rejected_terms": R, "survivor_mass": M,
-            "greedy_block_upper": greedy_blocks,
-            "removed_terminal_block_upper": removed_blocks_upper,
-            "combined_block_upper": row_block_upper,
-            "grf04_picard_survivors_per_block_upper": c,
-            "candidate_upper": row_candidate,
-        }
+        row_candidate = c * upper
+        candidate += row_candidate
+        block_upper += upper
+        greedy_total += greedy
+        removed_total += removed
+        compact = {"b_interval":list(interval),"g":g,"d":d,"pre_terms":pre_terms,
+                   "pre_blocks":pre_blocks,"rejected_terms":R,"survivor_mass":M,
+                   "greedy_block_upper":greedy,"removed_terminal_block_upper":removed,
+                   "combined_block_upper":upper,"grf04_picard_survivors_per_block_upper":c,
+                   "candidate_upper":row_candidate}
         diagnostic.update(json.dumps(compact, sort_keys=True, separators=(",", ":")).encode() + b"\n")
 
     req(seen == set(rejected), "certificate/pre key-set mismatch")
-    req(aggregate_survivor_mass == parent.EXPECTED_SURVIVOR_ENVELOPE, "post-HPADJ08 survivor aggregate")
-    req(aggregate_candidate <= HPADJ14_BENCHMARK, "b-shard refinement weakened HPADJ14")
-
+    req(survivor_mass == parent.EXPECTED_SURVIVOR_ENVELOPE, "post-HPADJ08 survivor aggregate")
+    req(candidate <= HPADJ14_BENCHMARK, "b-shard refinement weakened HPADJ14")
     out = {
-        "schema": "STAGE32EX5_HPADJ15_B_SHARD_ROW_EXACT_GRF04_PICARD_CAPACITY_BOUND_V1",
-        "status": "B_SHARD_ROW_EXACT_GRF04_PICARD_CAPACITY_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
-        "route_id": "HPADJ-15_ex5",
-        "source_locks": {
-            "hpadj14_parent_blob_sha1": PARENT_BLOB,
-            "hpadj08_b_shard_certificate_blob_sha1": CERT_BLOB,
-            "hpadj08_b_shard_certificate_canonical_sha256": CERT_CANON,
-            "hpadj08_source_run_id": SOURCE_RUN_ID,
-            "hpadj08_source_exact_head": SOURCE_HEAD,
-            "hpadj08_hostile_audited_head": AUDITED_HPADJ08_HEAD,
-            "main_v35_exact_source_head": "a01dfd4173ae46c7d51e4f6f9ecdad8b4755f90c",
-            "main_v35_candidate_canonical_sha256": parent.LOCKS["v35_canonical"],
-        },
-        "exact_population_adapter": {
-            "full178_rows": 178,
-            "historical_b_shards": len(PLANNED),
-            "row_shard_cells": 178 * len(PLANNED),
-            "nonempty_pre_shard_cells": nonempty_shards,
-            "pre_hpadj08_replay_domain_terminals": parent.EXPECTED_PRE_TERMS,
-            "pre_hpadj08_x4_complete_blocks": parent.EXPECTED_PRE_BLOCKS,
-            "hpadj08_exact_square_rejected_terminals": parent.EXPECTED_HPADJ08_REJECTED,
-            "post_hpadj08_x4_complete_survivor_mass": aggregate_survivor_mass,
-            "rejection_mass_known_exactly_by_g_d_and_b_shard": True,
-            "pre_hpadj08_g_d_bshard_e_capacities_recomputed_exactly": True,
-        },
-        "optimization": {
-            "problem": "For each exact (g,d,b-shard) cell, maximize surviving complete x4-block count subject to exact post-HPADJ08 cell terminal mass and exact pre-HPADJ08 per-e block capacities.",
-            "relaxation": "Within each cell use the exact integer cardinality optimum for weighted mass <= exact survivor mass, then intersect with the independent whole-block rejection lower bound.",
-            "aggregate_greedy_mass_block_upper": aggregate_greedy,
-            "aggregate_removed_terminal_block_upper": aggregate_removed,
-            "aggregate_combined_block_upper": aggregate_block_upper,
-            "cells_where_greedy_mass_is_stricter": strict_greedy,
-            "cells_where_removed_terminal_cap_is_stricter": strict_removed,
-            "diagnostic_stream_sha256": diagnostic.hexdigest(),
-        },
-        "candidate_bound": {
-            "current_audited_main_upper_bound": parent.V34_AUDITED_MAIN,
-            "main_v35_candidate_upper_bound": parent.V35_BENCHMARK,
-            "hpadj14_candidate_upper_bound": HPADJ14_BENCHMARK,
-            "hpadj15_candidate_upper_bound": aggregate_candidate,
-            "improvement_vs_hpadj14": HPADJ14_BENCHMARK - aggregate_candidate,
-            "strict_improvement_vs_hpadj14": aggregate_candidate < HPADJ14_BENCHMARK,
-            "composition_if_consumed": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_SUBTRACTION",
-        },
-        "semantics": {
-            "same_x4_direct_grf04_picard_intersection": True,
-            "statistical_independence_assumed": False,
-            "hpadj08_rejection_used_as_whole_x4_blocks": True,
-            "b_shard_rejection_mass_is_historical_exact_evidence": True,
-            "e_level_rejection_identity_claimed": False,
-            "surviving_identity_set_claimed": False,
-            "main_consumption_performed": False,
-            "hostile_audit_required_before_main_handoff_or_consumption": True,
-            "heavy_run_required": False,
-            "new_heavy_run_used": False,
-        },
-        "firewalls": {
-            "stage32_main_pruning_credit": False,
-            "current_main_incremental_credit": False,
-            "full178_complete": False,
-            "effectivity_credit": False,
-            "receiver_credit": False,
-            "theorem_credit": False,
-            "endpoint_credit": False,
-            "perfect_cuboid_credit": False,
-            "heavy_run_armed": False,
-            "merge_authorized": False,
-        },
+        "schema":"STAGE32EX5_HPADJ15_B_SHARD_ROW_EXACT_GRF04_PICARD_CAPACITY_BOUND_V1",
+        "status":"B_SHARD_ROW_EXACT_GRF04_PICARD_CAPACITY_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+        "route_id":"HPADJ-15_ex5",
+        "source_locks":{"hpadj14_parent_blob_sha1":PARENT_BLOB,
+                        "hpadj08_b_shard_certificate_blob_sha1":CERT_BLOB,
+                        "hpadj08_b_shard_certificate_canonical_sha256":CERT_CANON,
+                        "hpadj08_source_run_id":SOURCE_RUN_ID,"hpadj08_source_exact_head":SOURCE_HEAD,
+                        "hpadj08_hostile_audited_head":AUDITED_HPADJ08_HEAD,
+                        "main_v35_exact_source_head":V35_SOURCE_HEAD,"main_v35_candidate_blob_sha1":V35_BLOB,
+                        "main_v35_candidate_canonical_sha256":V35_CANON},
+        "exact_population_adapter":{"full178_rows":178,"historical_b_shards":len(PLANNED),
+                                    "row_shard_cells":178*len(PLANNED),"nonempty_pre_shard_cells":nonempty,
+                                    "pre_hpadj08_replay_domain_terminals":parent.EXPECTED_PRE_TERMS,
+                                    "pre_hpadj08_x4_complete_blocks":parent.EXPECTED_PRE_BLOCKS,
+                                    "hpadj08_exact_square_rejected_terminals":parent.EXPECTED_HPADJ08_REJECTED,
+                                    "post_hpadj08_x4_complete_survivor_mass":survivor_mass,
+                                    "rejection_mass_known_exactly_by_g_d_and_b_shard":True,
+                                    "pre_hpadj08_g_d_bshard_e_capacities_recomputed_exactly":True},
+        "optimization":{"aggregate_greedy_mass_block_upper":greedy_total,
+                        "aggregate_removed_terminal_block_upper":removed_total,
+                        "aggregate_combined_block_upper":block_upper,
+                        "cells_where_greedy_mass_is_stricter":strict_greedy,
+                        "cells_where_removed_terminal_cap_is_stricter":strict_removed,
+                        "diagnostic_stream_sha256":diagnostic.hexdigest()},
+        "candidate_bound":{"current_audited_main_upper_bound":parent.V34_AUDITED_MAIN,
+                           "main_v35_candidate_upper_bound":parent.V35_BENCHMARK,
+                           "hpadj14_candidate_upper_bound":HPADJ14_BENCHMARK,
+                           "hpadj15_candidate_upper_bound":candidate,
+                           "improvement_vs_hpadj14":HPADJ14_BENCHMARK-candidate,
+                           "strict_improvement_vs_hpadj14":candidate<HPADJ14_BENCHMARK,
+                           "composition_if_consumed":"MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_SUBTRACTION"},
+        "semantics":{"same_x4_direct_grf04_picard_intersection":True,"statistical_independence_assumed":False,
+                     "hpadj08_rejection_used_as_whole_x4_blocks":True,
+                     "b_shard_rejection_mass_is_historical_exact_evidence":True,
+                     "e_level_rejection_identity_claimed":False,"surviving_identity_set_claimed":False,
+                     "main_consumption_performed":False,"hostile_audit_required_before_main_handoff_or_consumption":True,
+                     "heavy_run_required":False,"new_heavy_run_used":False},
+        "firewalls":{"stage32_main_pruning_credit":False,"current_main_incremental_credit":False,
+                     "full178_complete":False,"effectivity_credit":False,"receiver_credit":False,
+                     "theorem_credit":False,"endpoint_credit":False,"perfect_cuboid_credit":False,
+                     "heavy_run_armed":False,"merge_authorized":False}
     }
     out["canonical_sha256_without_this_field"] = canonical(out)
     print(json.dumps(out, sort_keys=True, separators=(",", ":"), ensure_ascii=False))
