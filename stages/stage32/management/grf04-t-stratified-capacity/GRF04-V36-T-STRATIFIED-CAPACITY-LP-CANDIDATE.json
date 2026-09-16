@@ -1,0 +1,87 @@
+{
+  "schema": "STAGE32_MAIN_V36_T_STRATIFIED_GRF04_CAPACITY_LP_CANDIDATE_V1",
+  "status": "ZERO_CREDIT_INDEPENDENT_MAIN_CANDIDATE_HOSTILE_AUDIT_REQUIRED",
+  "stage": 32,
+  "route_id": "MAIN-V36-T-STRATIFIED-GRF04-CAPACITY",
+  "authority": {
+    "current_authority_version": "V34_HPADJ11_AUDIT_SYNCED",
+    "current_audited_remaining_strata": 17128,
+    "current_audited_remaining_terminals_upper_bound": 3360778813767800658369,
+    "authority_mutated": false,
+    "main_credit_granted": false
+  },
+  "source_boundary": {
+    "v35_candidate_blob_sha1": "a203df7b15a9cc655b78aa70b849933b98404a2d",
+    "v35_candidate_canonical_sha256": "221f7bc44989130de39b639d4a0a0af85a056ea0ab9461e61a1cb24be907d5b5",
+    "v35_verifier_blob_sha1": "10979e2e7fb49405606c646f2f02d54cf91513b1",
+    "td01_audited_exact_head": "54945927416a94a67533c7b06c59c5a24e50c4f1",
+    "td01_hostile_audit_review_id": 5214778974,
+    "grf04_symbolic_audited_exact_head": "d534e107bfcf68ab1d687366afd3671a152f6e2b",
+    "grf04_symbolic_hostile_audit_review_id": 5194832346,
+    "hpadj08_audited_exact_head": "36eab50192cf80ec5ed48aba40f4a56076759fea",
+    "td02_formula_exact_source_head": "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe",
+    "v35_hostile_audited": false,
+    "v35_credit_inherited": false
+  },
+  "exact_input_envelope": {
+    "hpadj08_survivor_x4_complete_envelope_terminals": 6703403803993209250491,
+    "x4_complete_after_hpadj08": true,
+    "required_completion_character": "x4 == x0+x8+x10 (mod 2)",
+    "compressed_family_parity": "x1+x8+x9+x10 == 0 (mod 2)",
+    "equivalent_completion_parity": "x4 == x0+x1+x9 (mod 2)"
+  },
+  "refinement": {
+    "retained_td02_coordinate": "t = 2*x0 + x6 + x9",
+    "refined_capacity_key": "(h,t,x4_parity)",
+    "coarse_gde_bins": 17127,
+    "refined_gde_t_parity_types": 4264678,
+    "relaxed_total_terminal_capacity": 97368698704158830018099,
+    "v35_relaxed_capacity_preserved_exactly": true,
+    "pointwise_survivor_formula": "count x4 in [0,B-1], x4 mod 2=p4, with |d/2-t-2*x4|<=floor(sqrt((3*d^2+48*d+96-96*g)/4))",
+    "q_term_dropped_conservatively": true,
+    "pointwise_refinement_never_exceeds_v35_coarse_block_cap": true,
+    "maximum_refined_block_ratio": "5/33"
+  },
+  "capacity_lp_certificate": {
+    "dual_threshold": "46/903",
+    "capacity_strictly_above_threshold": 6701544661867342326214,
+    "capacity_at_or_above_threshold": 6704500123334151445174,
+    "ratio_groups_strictly_above_threshold": 7594,
+    "equal_threshold_ratio_groups": 1,
+    "threshold_brackets_envelope": true,
+    "exact_dual_value_numerator": 361903153489481765536400,
+    "exact_dual_value_denominator": 903,
+    "exact_dual_floor_remainder": 725
+  },
+  "candidate_bound": {
+    "v35_candidate_upper_bound": 511195899564352597589,
+    "v36_candidate_upper_bound": 400778686034863527725,
+    "improvement_vs_v35_candidate": 110417213529489069864,
+    "improvement_vs_current_audited_v34": 2960000127732937130644,
+    "composition_if_consumed": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "exact_incremental_rejected_identity_set_claimed": false,
+    "additive_subtraction_performed": false
+  },
+  "semantics": {
+    "direct_same_x4_grf04_picard_intersection": true,
+    "statistical_independence_assumed": false,
+    "current_main_upper_bound_treated_as_exact_identity_set": false,
+    "continuous_mass_lp_is_relaxation_of_complete_block_allocation": true,
+    "later_support_total_mass_n358_square_restrictions_omitted_from_capacity": true,
+    "omissions_can_only_increase_capacity": true,
+    "hostile_audit_required_before_promotion": true
+  },
+  "firewalls": {
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_credit": false,
+    "heavy_compute_required": false,
+    "heavy_run_armed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "d777ecd239a26dc4436bedd1e1438146139fc74b751defeffc77210e6f39a1bf"
+}

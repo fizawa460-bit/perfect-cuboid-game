@@ -1,80 +1,88 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib
-import json
+import hashlib,json
 from pathlib import Path
 
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
-MONITOR = HERE / "ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
-STATE = ROOT / "stages/stage32/MAIN-STATE.json"
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parents[2]
+REGISTRY=HERE/"CROSS-LANE-DEMANDS.json"
+MONITOR=HERE/"ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
+STATE=ROOT/"stages/stage32/MAIN-STATE.json"
 
-REGISTRY_BLOB = "e14bea1a62ec287710064a96f80abe57f8b0c3f4"
-REGISTRY_CANON = "9a30646b5567adb30f0192b43f89a8d8a01d1464199b2f0a0d19e1138a7d9c74"
-MONITOR_BLOB = "53f286f78574cfad59fc397a9d3268d345331594"
-MONITOR_CANON = "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
-STATE_BLOB = "76bf5e3d9d97297ff5fbee2bf4826a78d125e171"
-STATE_CANON = "bfa2441840bcf60ca70ef6cb288f8721310cdcc78e9f0724a197d35e60e79b21"
-AUDIT_REVIEW_ID = 5209163478
+REGISTRY_BLOB="68a02f31431ad658b42ad695f9553c67fd6cff01"
+REGISTRY_CANON="aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
+MONITOR_BLOB="2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
+MONITOR_CANON="f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
+STATE_BLOB="3abc129c319b48d90ff42be2e1e4a23e552bf4a4"
+STATE_CANON="3b75bf45e1129667345f41ccaedbc92847ac215b352722dffb30502aa9fc8f98"
+OLD_BOUND=3360778813767800658369
+BOUND=195603649074545538415
+AUDIT_REVIEW=5217772644
+BOUNDED_AUDIT_REVIEW=5217996434
 
-def req(v: bool, msg: str) -> None:
-    if not v:
-        raise SystemExit("FAIL: " + msg)
+def req(v,m):
+    if not v: raise SystemExit("FAIL: "+m)
 
-def blob(path: Path) -> str:
-    raw = path.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+def blob(p):
+    b=p.read_bytes()
+    return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
 
-def canon(obj: dict) -> str:
-    cp = dict(obj)
-    cp.pop("canonical_sha256_without_this_field", None)
-    return hashlib.sha256(json.dumps(cp, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest()
+def canon(o):
+    x=dict(o); x.pop("canonical_sha256_without_this_field",None)
+    return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
 
-def locked_json(path: Path, expected_blob: str, expected_canon: str) -> dict:
-    req(path.is_file(), f"missing {path}")
-    req(blob(path) == expected_blob, f"blob drift {path}")
-    obj = json.loads(path.read_text(encoding="utf-8"))
-    req(obj.get("canonical_sha256_without_this_field") == expected_canon, f"stored canonical drift {path}")
-    req(canon(obj) == expected_canon, f"canonical drift {path}")
-    return obj
+def lock(p,b,c):
+    req(blob(p)==b,f"blob drift {p}")
+    o=json.loads(p.read_text())
+    req(o.get("canonical_sha256_without_this_field")==c and canon(o)==c,f"canonical drift {p}")
+    return o
 
-def main() -> None:
-    reg = locked_json(REGISTRY, REGISTRY_BLOB, REGISTRY_CANON)
-    mon = locked_json(MONITOR, MONITOR_BLOB, MONITOR_CANON)
-    state = locked_json(STATE, STATE_BLOB, STATE_CANON)
+def main():
+    reg=lock(REGISTRY,REGISTRY_BLOB,REGISTRY_CANON)
+    mon=lock(MONITOR,MONITOR_BLOB,MONITOR_CANON)
+    st=lock(STATE,STATE_BLOB,STATE_CANON)
 
-    req(reg["schema"] == "STAGE32_CROSS_LANE_DEMANDS_V5_CUT201_V27_CONSUMED", "registry schema")
-    byid = {d["demand_id"]: d for d in reg["demands"]}
-    req(byid["S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"]["status"] == "SATISFIED", "CUT192 demand")
-    req(byid["S32.DEMAND.HPADJ.EX5.FULL178_PICARD64.V1"]["status"] == "SATISFIED", "HPADJ demand")
-    req(byid["S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1"]["status"] == "OBSOLETE", "N398 demand")
-    req(byid["S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1"]["status"] == "SATISFIED", "N400 demand")
-    cut = byid["S32.DEMAND.CUT201.CUT.MAIN.V26_CURRENT_AUTHORITY_ADAPTER.V1"]
-    req(cut["status"] == "SATISFIED", "CUT201 demand")
-    sp = cut["source_population_semantics"]
-    req(sp["exact_incremental_rejected_terminals"] == 18758 and sp["exact_incremental_blocks"] == 166, "CUT201 increment")
-    req(sp["certlift03_overlap_terminals"] == 6780 and sp["other_consumed_route_overlap_terminals"] == 0 and sp["double_charge"] is False, "CUT201 overlap")
-    req(sp["producer_lane_main_authority_subtraction_performed"] is False, "producer subtraction")
-    req([d["demand_id"] for d in reg["demands"] if d["status"] == "OPEN"] == [], "unexpected OPEN demands")
+    req([d["demand_id"] for d in reg["demands"] if d["status"]=="OPEN"]==[],"unexpected OPEN demand")
 
-    req(mon["schema"] == "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V4_CUT201_V27_CONSUMED", "monitor schema")
-    lanes = {x["lane"]: x for x in mon["active_specialists"]}
-    req(set(lanes) == {"32-01-178", "EX5", "CUT", "MB"}, "monitor coverage")
-    req(lanes["CUT"]["pending_main_handoff_ids"] == [], "CUT pending handoff not cleared")
-    req(mon["credit_firewall"]["duplicate_pruning_credit_authorized"] is False, "monitor duplicate-credit firewall")
-    req(mon["credit_firewall"]["merge_authorized"] is False, "monitor merge firewall")
+    # Retained monitor heads are discovery hints only. V37 freezes this
+    # invocation's live sweep and the explicit bounded/global disposition.
+    req(mon["schema"]=="STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V9_V33_AUDIT_SYNCED_FULL178_REENTRY","monitor schema")
+    ls=mon["last_live_sweep"]
+    req(ls["lane_178"]["semantic_leaf"]=="TD02_GRF04_BOUNDED_PROBE","retained 178 monitor")
+    req(ls["mb"]["semantic_leaf"]=="MB104_ACTIVE_INCOMPLETE","retained MB monitor")
+    c=mon["latest_main_consumption"]
+    req(c["replacement_upper_bound"]==OLD_BOUND and c["main_consumed"] is True and c["double_charge"] is False,"historical V33 consumption")
+    req(c["replacement_head_hostile_audited"] is True and c["replacement_head_hostile_audit_review_id"]==5216402010,"historical V33 audit")
 
-    req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V30_HPADJ08_AUDIT_SYNCED", "V30 state schema")
-    req(state["current"]["mainbatch_stop_gate"] == "NONE", "V30 stop gate")
-    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] == 6703403803993210101494, "V30 authority")
-    req(state["current_exact_frontier"]["hpadj08_additive_subtraction_against_v28_performed"] is False, "V30 additive double charge")
-    req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audited"] is True, "V29 audit not synchronized")
-    req(state["current_exact_frontier"]["hpadj08_v29_replacement_hostile_audit_review_id"] == AUDIT_REVIEW_ID, "V29 audit review")
-    req(state["firewalls"]["replacement_head_hostile_reaudit_required"] is False, "V30 audit firewall")
+    req(st["schema"]=="STAGE32_MAIN_COMPACT_STATE_V37_FULL178_INTEGER_LATTICE_ROUTED_WAIT","state schema")
+    req(st["authority_sync"]["split_authority"]["orchestration_mode"]=="ROOT_NATIVE_STAGE32_MAIN_ONLY","orchestration mode")
+    req(st["current_exact_frontier"]["authoritative_remaining_terminals"]==BOUND,"V35 numerical authority")
+    req(st["current_exact_frontier"]["predecessor_v34_authoritative_remaining_terminals"]==OLD_BOUND,"V34 predecessor")
+    req(st["current_exact_frontier"]["v35_replacement_head_hostile_audited"] is True,"V35 replacement audit flag")
+    req(st["current_exact_frontier"]["v35_replacement_head_hostile_audit_review_id"]==AUDIT_REVIEW,"V35 replacement audit review")
+    req(st["current_exact_frontier"]["v37_routing_additional_pruning"]==0,"V37 routing added pruning")
+    req(st["current_exact_frontier"]["live_178_td02_bounded_capacity_hostile_audited"] is True,"178 bounded PASS missing")
+    req(st["current_exact_frontier"]["live_178_td02_bounded_capacity_audit_review_id"]==BOUNDED_AUDIT_REVIEW,"178 bounded audit review")
+    req(st["current"]["mainbatch_stop_gate"]=="SPECIALIST_178_FULL178_INTEGER_LATTICE_SCALEOUT_PENDING","V37 routing gate")
+    req(st["current"]["next_exact_route"]=="178_TD02_INTEGER_LATTICE_FULL178_SCALEOUT_THEN_AUDITED_MAIN_HANDOFF","V37 next route")
+    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,"replacement firewall")
+    req(st["current_exact_frontier"]["live_178_td02_main_handoff_ready"] is False,"178 bounded result silently consumed")
+    req(st["current_exact_frontier"]["live_ex5_q_quadratic_refinement_main_handoff_ready"] is False,"EX5 successor silently consumed")
+    req(st["firewalls"]["full178_complete"] is False and st["firewalls"]["merge_authorized"] is False,"firewalls")
 
-    print("PASS: Stage32 cross-lane demand coordination preserved at V30 HPADJ08 audit-synced boundary")
-    print("PASS: no OPEN demand; no duplicate N400/CUT201/HPADJ08 subtraction; MAIN stop gate NONE")
+    sweep=st["source_locks"]["live_specialist_sweep"]
+    req(sweep["lane_178_head"]=="23e53bfd145b722640481e34458fb689326e486a" and
+        sweep["lane_178_handoff"]=="BOUNDED_D32_CAPACITY_HOSTILE_AUDIT_PASS__FULL178_SCALEOUT_NOT_RUN__NO_MAIN_CREDIT" and
+        sweep["lane_178_bounded_audit_review_id"]==BOUNDED_AUDIT_REVIEW,
+        "live 178 refresh")
+    req(sweep["ex5_head"]=="dbd3a191bfdd33c3413a2abc41331feb651f0830" and
+        sweep["ex5_handoff"]=="HPADJ18_SCRIPT_PRESENT__NUMERIC_RESULT_UNFROZEN_UNAUDITED__NO_MAIN_CREDIT",
+        "live EX5 refresh")
+    req(sweep["cut_handoff"]=="NONE","CUT refresh")
+    req(sweep["mb_head"]=="4b6bdd7957033ace15d9e924ac8ff787066a5ff8" and sweep["mb_handoff"]=="NONE","MB refresh")
 
-if __name__ == "__main__":
+    print("PASS: Stage32 V37 records the audited d<=32 integer-lattice signal without bounded-to-global promotion")
+    print("PASS: same-route FULL178 scaleout remains owned by 178; MAIN numerical authority and specialist credit stay unchanged")
+
+if __name__=="__main__":
     main()

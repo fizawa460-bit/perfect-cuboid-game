@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V4_CUT201_V27_CONSUMED",
+  "schema": "STAGE32_ACTIVE_SPECIALIST_MONITOR_CONTRACT_V9_V33_AUDIT_SYNCED_FULL178_REENTRY",
   "stage": 32,
-  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists. CUT201 V26 adapter is now hostile-audited and consumed exactly once by MAIN V27; no CUT201 handoff remains pending.",
+  "purpose": "Require ordinary Stage32 MAIN startup to inspect live active specialists after V33 HPADJ11 authority received hostile-audit PASS and V34 audit-sync; FULL178 remains incomplete and no duplicate credit is permitted.",
   "authority": {
     "mathematical_authority": "stages/stage32/MAIN-STATE.json",
     "operational_dependency_authority": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
@@ -35,31 +35,37 @@
       "lane": "32-01-178",
       "command": "stage32-01-178-mainbatch",
       "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
-      "expected_open_pr": 1797,
-      "state_resolution": "Resolve the current retained node/state selected by the live lane startup.",
+      "expected_open_pr": 1815,
+      "state_resolution": "Resolve the live TD01/top-down retained boundary selected by current 178 startup; refresh the PR/head rather than trusting this hint.",
       "main_role": "FULL178 census/incidence/transport/completeness specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "N400 hostile-audited compact consumer handoff consumed exactly once by MAIN V25; producer subtraction forbidden."
+      "last_main_disposition": "TD01 bound remains consumed once by MAIN V31. Live producer has advanced six commits into TD02/GRF04 bounded probes; no audited TD02 MAIN handoff is present, so MAIN credit remains zero for TD02.",
+      "last_observed_live_head_hint": "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe",
+      "last_observed_live_leaf": "TD02_GRF04_BOUNDED_PROBE"
     },
     {
       "lane": "EX5",
       "command": "stage32ex5-mainbatch",
       "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
-      "expected_open_pr": 1776,
-      "state_resolution": "Read the live EX5 MAIN-STATE at the current PR head and exact retained/audited references.",
+      "expected_open_pr": 1814,
+      "state_resolution": "Resolve the live EX5 successor surface and retained HPADJ09/HPADJ10/HPADJ11 boundaries; refresh the PR/head rather than trusting this hint.",
       "main_role": "Picard64/node-support producer/refinement specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "No currently retained EX5 handoff is authorized for duplicate MAIN subtraction."
+      "last_main_disposition": "HPADJ11 audited mathematical boundary 1c694f66... is already consumed once by MAIN V33. Live EX5 adds a MAIN-HANDOFF package for the same bound; this is process provenance only and grants zero additional credit.",
+      "last_observed_live_head_hint": "a09cc7f77f021ff800374861671c4c6577a8b3f3",
+      "last_observed_live_leaf": "HPADJ11_POSTAUDIT_MAIN_HANDOFF_PACKAGE"
     },
     {
       "lane": "CUT",
       "command": "stage32cut-mainbatch",
       "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
-      "expected_open_pr": 1806,
-      "state_resolution": "Resolve the current CUT retained checkpoint and current PR head.",
+      "expected_open_pr": null,
+      "retained_pr": 1806,
+      "state_resolution": "Resolve any live CUT successor; otherwise treat closed/unmerged PR #1806 as retained audited CUT201 provenance only.",
       "main_role": "direct completion infeasibility/obstruction specialist",
       "pending_main_handoff_ids": [],
-      "last_main_disposition": "CUT201 exact V26 adapter at 9b485b4e... / review 5206283218 was consumed exactly once by MAIN V27 for 18,758 terminals; producer subtraction remains forbidden; replacement MAIN head requires hostile re-audit."
+      "last_main_disposition": "CUT201 exact V26 adapter at 9b485b4e... / review 5206283218 was consumed exactly once by MAIN V27 for 18,758 terminals; producer subtraction remains forbidden.",
+      "last_observed_live_head_hint": null
     },
     {
       "lane": "MB",
@@ -68,9 +74,13 @@
       "expected_open_pr": 1791,
       "state_resolution": "Read the live MB STATE selected by lane startup.",
       "main_role": "32-03 multibranch specialist",
-      "pending_main_handoff_ids": []
+      "pending_main_handoff_ids": [],
+      "last_observed_live_head_hint": "7b2a5c2ae8614269f7d0b1464b7e1839b900566a",
+      "last_observed_live_leaf": "MB104_ACTIVE_INCOMPLETE",
+      "last_main_disposition": "Live MB remains MB104 active/incomplete with no current MAIN handoff or downstream credit."
     }
   ],
+  "supplementary_live_surface_rule": "Dedicated cross-lane research surfaces not enrolled as stable specialists, including BRIDGE when active, may be inspected in addition to this list; they do not silently acquire specialist ownership or MAIN credit.",
   "on_demand_not_counted_as_active_specialist": [
     "stage32certlift-mainbatch",
     "32-02 scalar producer experiment"
@@ -80,7 +90,58 @@
     "audit_pending_candidate_is_main_credit": false,
     "demand_status_is_main_credit": false,
     "duplicate_pruning_credit_authorized": false,
+    "same_character_double_charge_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "48a0f92b1325e80507594c25e8d78dd28a0f0bf5d624bc1afd6d9d43be56e32c"
+  "canonical_sha256_without_this_field": "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e",
+  "latest_main_consumption": {
+    "source_lane": "EX5",
+    "producer_pr": 1814,
+    "audited_exact_head": "1c694f6650125a8fb0121925beff7f800b5d6283",
+    "hostile_audit_review_id": 5216065509,
+    "semantic_leaf": "HPADJ11_TD01_SAME_CHARACTER_UPPER_BOUND_REFINEMENT",
+    "same_character_key": "PICARD64_X0_X4_X8_X10_PARITY_V1",
+    "predecessor_upper_bound": 3453268626299532038131,
+    "replacement_upper_bound": 3360778813767800658369,
+    "tightening": 92489812531731379762,
+    "composition_rule": "MIN_OF_SAME_CHARACTER_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "main_consumed": true,
+    "double_charge": false,
+    "replacement_head_hostile_audited": true,
+    "replacement_head_hostile_audit_review_id": 5216402010,
+    "replacement_head_audit_synced_by_v34": true,
+    "v34_additional_pruning": 0
+  },
+  "last_live_sweep": {
+    "main_exact_predecessor": "3c0c3b7b288853a2b5d4ebae47cc192d6089cbc6",
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "lane_178": {
+      "pr": 1815,
+      "live_head": "f305d4f270a708051c9a2b3b04f7ab25f6cdfdbe",
+      "semantic_leaf": "TD02_GRF04_BOUNDED_PROBE",
+      "main_handoff": "NONE"
+    },
+    "ex5": {
+      "pr": 1814,
+      "live_head": "a09cc7f77f021ff800374861671c4c6577a8b3f3",
+      "semantic_leaf": "HPADJ11_POSTAUDIT_MAIN_HANDOFF_PACKAGE",
+      "additional_main_credit": 0
+    },
+    "cut": {
+      "open_successor": false,
+      "retained_pr": 1806,
+      "main_handoff": "NONE"
+    },
+    "mb": {
+      "pr": 1791,
+      "live_head": "7b2a5c2ae8614269f7d0b1464b7e1839b900566a",
+      "semantic_leaf": "MB104_ACTIVE_INCOMPLETE",
+      "main_handoff": "NONE"
+    },
+    "bridge": {
+      "pr": 1813,
+      "live_head": "4cc3e9edb7286be9ad44a570511ad63807cd10f8",
+      "main_credit": 0
+    }
+  }
 }

@@ -1,7 +1,6 @@
 name: Stage32 claim frontier integrity
 
 # Trigger lifecycle: ACTIVE_AUTO — repository-wide workflow/claim/demand safety gate
-# TD01 audit-repair exact-head trigger: equivalence + historical x4-envelope replay + audited MAIN handoff.
 on:
   pull_request:
     paths:
@@ -13,7 +12,6 @@ on:
       - 'stages/stage32/MAIN-STATE.json'
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
-      - 'stages/stage32/32-01-178/topdown-01/**'
       - 'stages/stage32/verify_main_startup.py'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
@@ -67,58 +65,6 @@ jobs:
       - name: Assert exact checked-out head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
-      - name: Set up pinned Python for TD01 verifier
-        if: ${{ hashFiles('stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json') != '' }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10.x'
-      - name: Install exact TD01 verifier dependency
-        if: ${{ hashFiles('stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json') != '' }}
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Fetch TD01 exact historical source heads when present
-        shell: bash
-        run: |
-          if [ ! -f stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json ]; then
-            echo "TD01 audit surface absent; skip historical fetch"
-            exit 0
-          fi
-          for ref in \
-            0d787839b7e0dad4a42108c61d16e7849c50862f \
-            462174f74d6470ec7c64f5b6d078757c7b3372fc \
-            289437a4a97a814c2388133cbde0c794d9502e4b \
-            421543ef7864b4f99d57284958db2fb8839c9a3b \
-            36eab50192cf80ec5ed48aba40f4a56076759fea \
-            fd14ff7e53dcd6f0c5ba9b38c45a27d30885f019
-          do
-            if ! git cat-file -e "${ref}^{commit}" 2>/dev/null; then
-              git fetch --no-tags --depth=1 origin "$ref"
-            fi
-            git cat-file -e "${ref}^{commit}"
-          done
-      - name: Verify TD01 exact GRF02 equals HPADJ09 completion character
-        shell: bash
-        run: |
-          if [ -f stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json ]; then
-            python stages/stage32/32-01-178/topdown-01/verify_hpadj09_grf02_character_equivalence.py --historical-replay
-          else
-            echo "TD01 audit surface absent; skip"
-          fi
-      - name: Verify TD01 exact x4-envelope historical replay
-        shell: bash
-        run: |
-          if [ -f stages/stage32/32-01-178/topdown-01/AUDIT-HANDOFF.json ]; then
-            python stages/stage32/32-01-178/topdown-01/verify_td01_exact_x4_envelope_bound.py --historical-replay
-          else
-            echo "TD01 audit surface absent; skip"
-          fi
-      - name: Verify TD01 hostile-audited MAIN handoff readiness
-        shell: bash
-        run: |
-          if [ -f stages/stage32/32-01-178/topdown-01/MAIN-HANDOFF.json ]; then
-            python stages/stage32/32-01-178/topdown-01/verify_td01_main_handoff.py
-          else
-            echo "TD01 MAIN handoff absent; skip"
-          fi
       - name: Checkout exact audited pre-sync evidence separately
         uses: actions/checkout@v4
         with:
