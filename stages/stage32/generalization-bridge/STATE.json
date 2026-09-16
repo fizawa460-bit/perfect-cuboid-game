@@ -3,7 +3,7 @@
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_FULL178_B_SHARDED_SCALEOUT_RUNKEY_GOVERNANCE_BLOCKED",
+  "active_leaf": "BR204_FULL178_B_SHARDED_SCALEOUT_RUNKEY_EXTERNAL_GOVERNANCE_BLOCKED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -81,29 +81,34 @@
     }
   },
   "live_main_refresh": {
-    "path": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH.json",
-    "status": "PASS_LIVE_MAIN_IDENTITY_RUNKEY_GOVERNANCE_BLOCKED_ZERO_CREDIT",
+    "path": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V2.json",
+    "status": "PASS_LIVE_MAIN_REFRESH_HEAVY_BLOCKED_BY_RUNKEY_AND_EXTERNAL_GOVERNANCE_ZERO_CREDIT",
     "live_main_pr": 1808,
-    "live_main_head": "04ecdbbec365fbe3cb4a30f4c8cd86f720e41814",
+    "live_main_head": "2543fe4732c1409e013bf02d8c5802f85057ccbd",
     "live_main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V39_FULL178_INTEGER_LATTICE_BOUND_AUDIT_SYNCED",
+    "live_main_state_canonical_sha256": "660c8e07093af9885372a53da35dbdfb7396a306afc09e2ffafaa9b8257fb179",
     "live_main_authority_repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
     "authoritative_remaining_strata": 17128,
     "authoritative_remaining_terminals": "195414091250828468192",
-    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "live_ex5_hpadj20_candidate_upper_bound": "179119009547804181594",
+    "live_ex5_hpadj20_hostile_audited": true,
+    "live_ex5_hpadj20_main_credit_consumed": false,
+    "shared_governance_first_failure": "FAIL: 178 audit-sync semantics"
   },
   "next_obligation": {
     "node_id": "BR204",
     "title": "FULL178 b-sharded scaleout gate",
-    "required_input": "The live MAIN predecessor identity gate is refreshed and coherent. Before any heavy execution, require a repository-policy-compliant dedicated BR204 run-key plus green/accepted governance lifecycle authority. Once those external gates are satisfied, evaluate exactly eight b shards, stream one b at a time, retain only compact shard totals/hashes/bins, and verify final coverage/disjointness/population conservation.",
-    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, and yield one same-population replacement upper bound compared against the refreshed live predecessor. Grant no MAIN credit.",
+    "required_input": "The live MAIN predecessor identity is refreshed at PR #1808 head 2543fe4732c1409e013bf02d8c5802f85057ccbd. Before any heavy execution, require a dedicated policy-compliant BR204 run-key and a green/accepted MAIN-owned shared-governance boundary. Once both external gates are satisfied, refresh live MAIN again, evaluate exactly eight b shards, stream one b at a time, retain only compact shard totals/hashes/bins, and verify final coverage/disjointness/population conservation.",
+    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, and yield one same-population replacement upper bound compared against the refreshed live predecessor and current competing FULL178 surface. Grant no MAIN credit.",
     "current_blockers": [
       "no dedicated BR204 heavy run-key is present or armed",
-      "repository-wide governance/freshness CI is not green at the pre-refresh BRIDGE head"
+      "MAIN/shared verify_cross_lane_demands.py fails against the live V39 specialist sweep at 178 audit-sync semantics"
     ],
     "stop_conditions": [
       "live MAIN predecessor identity loses coherence before execution",
       "run-key/storage/resume authorization absent",
-      "repository-policy governance lifecycle authority is not green or explicitly accepted",
+      "MAIN-owned shared-governance boundary is not green or explicitly accepted",
       "compact producer fails exact bounded regression",
       "shard coverage/disjointness or population conservation fails",
       "candidate becomes dominated or semantically incomparable to the refreshed live predecessor",
@@ -131,10 +136,12 @@
     "BR204": {
       "compact_producer_gate": "PASS",
       "live_main_predecessor_identity_gate": "PASS",
-      "live_main_predecessor_refresh": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH.json",
+      "live_main_predecessor_refresh": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V2.json",
       "heavy_requires_main_freshness": true,
       "heavy_requires_runkey": true,
       "heavy_requires_repository_policy_governance": true,
+      "external_governance_owner": "MAIN_SHARED_NOT_BRIDGE",
+      "external_governance_gate": "BLOCKED_178_AUDIT_SYNC_SEMANTICS",
       "raw_4_1M_state_artifact_forbidden": true,
       "stream_one_b_at_a_time": true
     },
@@ -183,7 +190,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "BR204 heavy blocked on missing dedicated run-key and repository-wide governance/freshness CI"
+    "stop_reason": "BR204 heavy blocked on missing dedicated run-key and MAIN-owned shared cross-lane governance verifier staleness"
   },
   "deliverable_contract": {
     "per_candidate_checkpoint": [
