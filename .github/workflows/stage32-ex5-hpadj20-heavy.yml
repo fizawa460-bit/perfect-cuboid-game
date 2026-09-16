@@ -1,30 +1,145 @@
 name: Stage32EX5 HPADJ20 heavy replay
 
-# Lifecycle: MANUAL — exact-head hostile-audit/on-demand replay only.
-# HPADJ20 is intentionally excluded from the ordinary EX5 integrity path.
+# Lifecycle: ACTIVE_AUTO, but heavy compute is fail-closed behind the dedicated
+# run-key commit-range gate below. workflow_dispatch remains available after the
+# workflow exists on the default branch for exact-head audit reruns.
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj20-heavy-replay.json'
+      - '.github/workflows/stage32-ex5-hpadj20-heavy.yml'
   workflow_dispatch:
     inputs:
       expected_head_sha:
-        description: Exact 40-hex PR head to replay
+        description: Exact 40-hex head to replay
         required: true
         type: string
 
 permissions:
   contents: read
 
-concurrency:
-  group: stage32ex5-hpadj20-${{ inputs.expected_head_sha }}
-  cancel-in-progress: false
-
 jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 1
+
+      - name: Fresh run-key / exact-head authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          DISPATCH_SHA: ${{ inputs.expected_head_sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/hpadj20-heavy-replay.json'
+          HEAD_SHA="$PR_HEAD"
+          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
+            HEAD_SHA="$DISPATCH_SHA"
+          fi
+          if ! [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo 'exact_sha=' >> "$GITHUB_OUTPUT"
+            echo 'invalid exact head sha' >&2
+            exit 0
+          fi
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+
+          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
+            python - "$KEY" <<'PY'
+          import json, sys
+          from pathlib import Path
+          key = json.loads(Path(sys.argv[1]).read_text())
+          assert key['schema'] == 'STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V1'
+          assert key['armed'] is True
+          assert int(key['generation']) > 0
+          assert key['producer_git_blob'] == '837d647cfcbc96bbe384e564f449cd7042a46d48'
+          assert key['execution_contract_git_blob'] == '051e54bd554eb15a8c50c949751b1778f0a5940a'
+          PY
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'authorization=MANUAL_EXACT_HEAD_WITH_LOCKED_RUNKEY'
+            exit 0
+          fi
+
+          if [ "$PR_ACTION" = 'reopened' ]; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'authorization=COLD_REOPEN'
+            exit 0
+          fi
+
+          if [ "$PR_ACTION" = 'opened' ]; then
+            BEFORE="$PR_BASE"
+          else
+            BEFORE="$EVENT_BEFORE"
+          fi
+          if ! [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]]; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'authorization=NO_VERIFIABLE_BEFORE'
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          if ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'authorization=BEFORE_FETCH_FAILED'
+            exit 0
+          fi
+          if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'authorization=RUNKEY_NOT_CHANGED_IN_EVENT_RANGE'
+            exit 0
+          fi
+
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          before, key_path = sys.argv[1:]
+          new = json.loads(Path(key_path).read_text())
+          assert new['schema'] == 'STAGE32EX5_HPADJ20_HEAVY_RUNKEY_V1'
+          assert new['armed'] is True
+          generation = int(new['generation'])
+          assert generation > 0
+          assert new['producer_git_blob'] == '837d647cfcbc96bbe384e564f449cd7042a46d48'
+          assert new['execution_contract_git_blob'] == '051e54bd554eb15a8c50c949751b1778f0a5940a'
+          prior = subprocess.run(
+              ['git', 'show', f'{before}:{key_path}'],
+              text=True, capture_output=True,
+          )
+          if prior.returncode == 0:
+              old = json.loads(prior.stdout)
+              assert generation > int(old['generation'])
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo 'authorization=FRESH_RUNKEY_EVENT_RANGE_PASS'
+
   replay-hpadj20:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.expected_head_sha }}
+          ref: ${{ needs.authorize.outputs.exact_sha }}
           fetch-depth: 1
 
       - uses: actions/setup-python@v5
@@ -33,13 +148,9 @@ jobs:
 
       - name: Verify exact-head, source locks, resume waiver, and storage preflight
         env:
-          EXPECTED_HEAD_SHA: ${{ inputs.expected_head_sha }}
+          EXPECTED_HEAD_SHA: ${{ needs.authorize.outputs.exact_sha }}
         run: |
           set -euo pipefail
-          case "$EXPECTED_HEAD_SHA" in
-            [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]) ;;
-            *) echo "expected_head_sha must be exactly 40 lowercase hex characters" >&2; exit 2 ;;
-          esac
           test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD_SHA"
           python - <<'PY'
           import hashlib
@@ -48,13 +159,18 @@ jobs:
 
           producer = Path('stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py')
           contract = Path('stages/stage32-ex5/hpadj-20_ex5/HEAVY-EXECUTION-CONTRACT.json')
+          runkey = Path('stages/stage32-ex5/runkeys/hpadj20-heavy-replay.json')
 
           def git_blob(path: Path) -> str:
               raw = path.read_bytes()
               return hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
 
           assert git_blob(producer) == '837d647cfcbc96bbe384e564f449cd7042a46d48'
-          assert git_blob(contract) == '6e8d84d736ff4e1fde5f374e1027b72f825be127'
+          assert git_blob(contract) == '051e54bd554eb15a8c50c949751b1778f0a5940a'
+          key = json.loads(runkey.read_text())
+          assert key['armed'] is True and int(key['generation']) > 0
+          assert key['producer_git_blob'] == git_blob(producer)
+          assert key['execution_contract_git_blob'] == git_blob(contract)
           data = json.loads(contract.read_text())
           assert data['resume_policy'] == 'RESUME_NOT_FEASIBLE'
           assert data['partition']['partial_outputs_reusable'] is False
@@ -74,7 +190,7 @@ jobs:
           {
             echo '## HPADJ20 heavy execution contract'
             echo '- Resume policy: `RESUME_NOT_FEASIBLE`'
-            echo '- Cancellation recovery: restart from the identical exact SHA; incomplete local output is non-credit.'
+            echo '- Cancellation recovery: re-arm by fresh run-key generation; incomplete local output is non-credit.'
             echo '- Storage preflight: 1 job, concurrency 1, no artifact uploads, projected Actions artifact storage increment 0 MB / 500 MB budget.'
             echo "- Exact head: \`$EXPECTED_HEAD_SHA\`"
           } >> "$GITHUB_STEP_SUMMARY"
