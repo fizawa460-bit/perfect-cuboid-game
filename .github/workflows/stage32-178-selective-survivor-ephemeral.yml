@@ -1,0 +1,33 @@
+name: Stage32 178 selective survivor exact replay
+# Trigger lifecycle: ACTIVE_AUTO_EPHEMERAL — current 178 successor research only; delete after this exact replay.
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-178-selective-survivor-ephemeral.yml'
+      - 'stages/stage32/32-01-178/fibration-nef/**'
+permissions:
+  contents: read
+concurrency:
+  group: stage32-178-selective-survivor-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  selective-survivor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Assert exact PR head
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Install exact math dependency
+        run: python -m pip install 'sympy==1.13.3'
+      - name: Replay selective weighted survivor preflight
+        run: python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_selective_weighted_survivor_preflight.py
