@@ -26,6 +26,10 @@ def req(v, m):
         raise SystemExit("FAIL: " + m)
 
 
+def is_sha1(v):
+    return isinstance(v, str) and len(v) == 40 and all(c in "0123456789abcdef" for c in v)
+
+
 def blob(p):
     b = p.read_bytes()
     return hashlib.sha1(b"blob " + str(len(b)).encode() + b"\0" + b).hexdigest()
@@ -94,22 +98,28 @@ def main():
     sweep = st["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == st["authority_sync"]["current_repository_main"],
         "repository-main observation drift")
-    req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "b873cad47968150b1bf6ca36359d6506399b290e" and
+
+    # Exact remote heads are mutable observations. stage32mainbatch resolves them live and
+    # writes them into MAIN-STATE; this retained verifier checks shape and credit/audit
+    # firewalls rather than pretending an old source lock proves remote freshness.
+    req(sweep["lane_178_pr"] == 1821 and is_sha1(sweep["lane_178_head"]) and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
-    req(sweep["lane_178_current_head_audit_status"] ==
-        "CURRENT_HEAD_RESEARCH_ONLY__FRESH_EXACT_REPLAY_AND_HOSTILE_AUDIT_PENDING", "178 audit gate")
-    req(sweep["ex5_pr"] == 1818 and
-        sweep["ex5_head"] == "d4bb013da65a91545dfd9833c278dafb27618b00" and
+    req("ZERO_MAIN_CREDIT" in sweep["lane_178_handoff"], "178 credit firewall")
+    req("RESEARCH_ONLY" in sweep["lane_178_current_head_audit_status"] and
+        sweep["lane_178_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "178 audit gate")
+
+    req(sweep["ex5_pr"] == 1818 and is_sha1(sweep["ex5_head"]) and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
-    req(sweep["ex5_current_head_audit_status"] ==
-        "FULL178_BCHUNK_RECOVERY_RUNNING__HOSTILE_AUDIT_PENDING", "EX5 audit gate")
+    req(sweep["ex5_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "EX5 audit gate")
+
     req(sweep["cut_open_successor"] is False and
         sweep["cut_handoff"] == "NONE" and
         sweep["cut_pending_main_handoff"] == "NONE", "CUT observation")
-    req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "ef09e1dfb69ab9fbe9198b9fa22d3c01c03a4de6" and
+
+    req(sweep["mb_pr"] == 1819 and is_sha1(sweep["mb_head"]) and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live observation")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
     req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
@@ -124,7 +134,7 @@ def main():
         req(st["firewalls"][key] is False, f"firewall {key}")
 
     print("PASS: Stage32 MAIN V41 synchronizes V40 hostile-audit PASS and resumes FULL178 routing")
-    print("PASS: live 178/EX5/MB/CUT observations refreshed with no new MAIN handoff or credit")
+    print("PASS: live specialist observation shapes/firewalls verified; remote exact-head freshness remains an operator startup obligation")
 
 
 if __name__ == "__main__":
