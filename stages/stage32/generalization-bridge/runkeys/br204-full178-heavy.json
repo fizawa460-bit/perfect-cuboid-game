@@ -14,11 +14,13 @@
   "source_locks": {
     "worker_blob": "71081e34c03eee756ea970e6632716121e951f54",
     "aggregator_blob": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
-    "execution_contract_blob": "d13e385a367245bc1612e5eb52ca41e8e72df857",
+    "execution_contract_blob": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
     "audited_numeric_main_review_id": 5231559824,
-    "live_control_successor_head": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
     "bridge_predecessor_audited_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
     "bridge_predecessor_audit_review_id": 5231786735
   },
@@ -36,9 +38,9 @@
     "fixed_overhead_bytes": 20971520
   },
   "arm_contract": {
-    "required_transition": "armed false->true and generation strictly increases in one later semantic arm commit",
+    "required_transition": "armed false->true and generation strictly increases in one later runkey-only semantic arm commit",
     "dispatch_exact_head_required": true,
-    "dispatch_head_parent_diff_must_include_this_runkey": true,
+    "dispatch_head_parent_diff_must_include_only_this_runkey": true,
     "cold_non_arm_commits_do_not_authorize": true,
     "audited_doorstep_head": null,
     "audited_doorstep_review_id": null
