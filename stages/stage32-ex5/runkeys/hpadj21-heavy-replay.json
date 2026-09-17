@@ -1,11 +1,11 @@
 {
   "schema": "STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V2",
-  "generation": 2,
+  "generation": 3,
   "armed": true,
-  "purpose": "Resume HPADJ21 exact FULL178 full-qA-histogram replay from validated generation-1 durable row checkpoints; schedule only missing or rejected rows.",
+  "purpose": "Resume HPADJ21 exact FULL178 full-qA-histogram replay from generation-2 validated 100-row carry bundle plus its durable newly completed row checkpoints; schedule only missing or rejected rows.",
   "unit_count": 178,
   "max_parallel": 15,
-  "carry_run_id": 35165240018,
+  "carry_run_id": 35207795739,
   "row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
   "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a",
   "execution_contract_git_blob": "d590d125907df16a647809de761d26dcdbd617f1",
@@ -22,7 +22,7 @@
     "planned_effective_heavy_concurrency": 15,
     "reserved_stage_headroom": 3,
     "other_intended_stage32_heavy_overlap_at_arm": 0,
-    "arm_observation": "Generation-1 run 35165240018 was cancelled after producing 171 total artifacts, including durable row checkpoints. Immediately before generation-2 arm, the repository had two in-progress workflows visible; the Stage32 MAIN startup authority run was lightweight authority verification, and no other intended Stage32 heavy matrix workload was observed. Resume-first carry is therefore armed at max-parallel 15 with three Stage32 heavy slots reserved."
+    "arm_observation": "Immediately before generation-3 arm, repository in-progress workflow count was 0. Generation-2 run 35207795739 retained 75 artifacts: one validated 100-row carry bundle, one recovery snapshot, and 73 durable newly completed row checkpoints. Chaining from that run keeps predecessor artifact enumeration below 100 while preserving resume-first validation; expected pre-validation carry is 173 rows and the plan remains fail-closed on any rejected row."
   },
   "storage": {
     "operating_budget_mb": 500,
