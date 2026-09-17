@@ -20,13 +20,16 @@ V39_BOUND = 195414091250828468192
 V40_TIGHTENING = 16295081703024286598
 V40_AUDIT_REVIEW = 5231559824
 
+
 def req(v, m):
     if not v:
         raise SystemExit("FAIL: " + m)
 
+
 def blob(p):
     b = p.read_bytes()
     return hashlib.sha1(b"blob " + str(len(b)).encode() + b"\0" + b).hexdigest()
+
 
 def canon(o):
     x = dict(o)
@@ -35,6 +38,7 @@ def canon(o):
         json.dumps(x, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
 
+
 def lock(p, b, c):
     req(blob(p) == b, f"blob drift {p}")
     o = json.loads(p.read_text(encoding="utf-8"))
@@ -42,11 +46,13 @@ def lock(p, b, c):
         f"canonical drift {p}")
     return o
 
+
 def current_state():
     o = json.loads(STATE.read_text(encoding="utf-8"))
     stored = o.get("canonical_sha256_without_this_field")
     req(isinstance(stored, str) and canon(o) == stored, "current MAIN state canonical drift")
     return o
+
 
 def main():
     reg = lock(REGISTRY, REGISTRY_BLOB, REGISTRY_CANON)
@@ -89,7 +95,7 @@ def main():
     req(sweep["observed_repository_main"] == st["authority_sync"]["current_repository_main"],
         "repository-main observation drift")
     req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "20055be2499edb816b1b1fac3649d50b20822ebc" and
+        sweep["lane_178_head"] == "24bd91cfdd741db57d80a2763f123e80b5f1b492" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sweep["lane_178_current_head_audit_status"] ==
         "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
@@ -119,6 +125,7 @@ def main():
 
     print("PASS: Stage32 MAIN V41 synchronizes V40 hostile-audit PASS and resumes FULL178 routing")
     print("PASS: live 178/EX5/MB/CUT observations refreshed with no new MAIN handoff or credit")
+
 
 if __name__ == "__main__":
     main()
