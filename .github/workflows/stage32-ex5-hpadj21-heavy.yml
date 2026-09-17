@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           KEY='stages/stage32-ex5/runkeys/hpadj21-heavy-replay.json'
-          RECEIPT='stages/stage32-ex5/hpadj-21_ex5/SWEEP-REPRESENTATIVE-MEASUREMENT.json'
+          RECEIPT='stages/stage32-ex5/hpadj-21_ex5/REPRESENTATIVE-MEASUREMENT.json'
           HEAD_SHA="$PR_HEAD"
           if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
           cold() {
@@ -63,13 +63,14 @@ jobs:
           import json,sys
           from pathlib import Path
           k=json.loads(Path(sys.argv[1]).read_text())
-          assert k['schema']=='STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V1'
+          assert k['schema']=='STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V2'
           assert int(k['generation'])>=0
           assert isinstance(k['armed'],bool)
           assert int(k['unit_count'])==178 and int(k['max_parallel'])==15
-          assert k['sweep_worker_git_blob']=='0131c91b54bfc335f1bce3af18e9da2eaa51a7ba'
-          assert k['union_verifier_git_blob']=='2f9e0d605304a124d36b88680d71a6f5d2aca243'
-          assert k['execution_contract_git_blob']=='3318e40e864ec4e7fecb2c802023a8cdf226b0a2'
+          assert k['row_worker_git_blob']=='68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
+          assert k['union_verifier_git_blob']=='a8b175e8a03356937957149088e0c003fa82eb4a'
+          assert k['execution_contract_git_blob']=='d590d125907df16a647809de761d26dcdbd617f1'
+          assert k['representative_measurement_git_blob']=='c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43'
           assert k['concurrency']['stage_heavy_cap']==18
           assert k['concurrency']['planned_effective_heavy_concurrency']==15
           assert k['concurrency']['reserved_stage_headroom']==3
@@ -84,20 +85,19 @@ jobs:
           PY
           )"
           [ "$ARMED" = true ] || { cold; exit 0; }
-          python - "$KEY" "$RECEIPT" <<'PY'
-          import json,re,subprocess,sys
+          test "$(git hash-object "$RECEIPT")" = 'c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43'
+          python - "$RECEIPT" <<'PY'
+          import json,sys
           from pathlib import Path
-          k=json.loads(Path(sys.argv[1]).read_text()); p=Path(sys.argv[2])
-          assert p.is_file()
-          want=k.get('sweep_measurement_receipt_git_blob')
-          assert isinstance(want,str) and re.fullmatch(r'[0-9a-f]{40}',want)
-          got=subprocess.check_output(['git','hash-object',str(p)],text=True).strip(); assert got==want
-          r=json.loads(p.read_text())
-          assert r['status']=='SWEEP_NEAR_MAX_EXACT_SUCCESS__SCALEOUT_READY__ZERO_MAIN_CREDIT'
+          r=json.loads(Path(sys.argv[1]).read_text())
+          assert r['status']=='REPRESENTATIVE_NEAR_MAX_ROW_EXACT_SUCCESS__SCALEOUT_PREFLIGHT_READY__ZERO_MAIN_CREDIT'
+          assert r['producer']['row_worker_git_blob']=='68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
           assert r['measurement']['row_index']==177 and r['measurement']['row_id']=='g1-d190'
-          assert r['measurement']['strict_cells']>0
-          assert r['measurement']['floor_improvement_vs_hpadj20']>0
-          assert r['source']['sweep_worker_git_blob']==k['sweep_worker_git_blob']
+          assert r['measurement']['strict_cells']==8
+          assert r['measurement']['floor_improvement_vs_hpadj20']==1312541087822068106
+          assert r['measurement']['raw_certificate_bytes']==4128
+          assert r['scaleout_preflight']['planned_max_parallel']==15
+          assert r['scaleout_preflight']['projected_peak_mb_upper_bound']<=500
           assert r['firewalls']['stage32_main_pruning_credit'] is False
           PY
           emit_hot() {
@@ -155,15 +155,18 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = '${{ needs.authorize.outputs.exact_sha }}'
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py)" = '0131c91b54bfc335f1bce3af18e9da2eaa51a7ba'
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows_sweep.py)" = '2f9e0d605304a124d36b88680d71a6f5d2aca243'
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json)" = '3318e40e864ec4e7fecb2c802023a8cdf226b0a2'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = '68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py)" = 'a8b175e8a03356937957149088e0c003fa82eb4a'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json)" = 'd590d125907df16a647809de761d26dcdbd617f1'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/REPRESENTATIVE-MEASUREMENT.json)" = 'c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43'
           python - <<'PY'
           import json
           from pathlib import Path
           x=json.loads(Path('stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json').read_text())
+          assert x['schema']=='STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V2'
           assert x['resume_policy']=='RESUME_FIRST_EXACT_FULL178_ONE_ROW_UNITS'
           assert x['partition']['unit_count']==178
+          assert x['representative_measurement']['measurement_satisfied'] is True
           assert x['concurrency_preflight']['planned_effective_heavy_concurrency']==15
           assert x['concurrency_preflight']['reserved_stage_headroom']==3
           assert x['storage_preflight']['projected_peak_mb_upper_bound']<=500
@@ -200,10 +203,10 @@ jobs:
           python - "$GITHUB_OUTPUT" <<'PY'
           import hashlib,importlib.util,json,os,sys
           from pathlib import Path
-          wp=Path('stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py')
-          spec=importlib.util.spec_from_file_location('hpadj21_sweep_for_plan',wp); assert spec and spec.loader
+          wp=Path('stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py')
+          spec=importlib.util.spec_from_file_location('hpadj21_direct_for_plan',wp); assert spec and spec.loader
           w=importlib.util.module_from_spec(spec); spec.loader.exec_module(w)
-          direct=w.load_direct(); p=direct.load_pilot(); h20=p.load_parent(); h19=h20.load_parent(); h18=h19.load_parent(); h17=h18.load_parent(); h16=h17.load_parent()
+          p=w.load_pilot(); h20=p.load_parent(); h19=h20.load_parent(); h18=h19.load_parent(); h17=h18.load_parent(); h16=h17.load_parent()
           p15=h16.load_module(h16.PARENT,h16.PARENT_BLOB,'hpadj15_for_hpadj21_recovery'); p14=p15.load_parent(); counter=p14.load_counter()
           manifest=counter.load_locked_json(p14.MANIFEST,p14.LOCKS['manifest_blob'],p14.LOCKS['manifest_canonical'],'FULL178 manifest')
           rows=counter.manifest_rows(manifest); assert len(rows)==178
@@ -224,7 +227,7 @@ jobs:
                   except (Exception,SystemExit) as e:
                       rejected.append({'unit':unit,'source':str(f),'reason':str(e)})
           missing=[u for u in range(178) if u not in accepted]
-          snapshot={'schema':'STAGE32EX5_HPADJ21_RECOVERY_SNAPSHOT_V1','status':'RECOVERY_PLAN_COMPLETE_NO_MATHEMATICAL_CREDIT','carry_run_id':None if not os.environ.get('CARRY_RUN_ID') else int(os.environ['CARRY_RUN_ID']),'partition':{'unit_count':178,'durable_unit':'ONE_FULL178_ROW'},'carried_count':len(accepted),'carried_units':sorted(accepted),'missing_count':len(missing),'missing_units':missing,'accepted':{str(k):v for k,v in sorted(accepted.items())},'rejected_candidates':rejected,'concurrency':{'stage_heavy_cap':18,'planned_effective_heavy_concurrency':15,'reserved_stage_headroom':3},'storage':{'row_raw_hard_cap':65536,'projected_peak_mb_upper_bound':370,'within_500mb_budget':True},'credit':{'partial_output_credit':False,'stage32_main_credit':False,'full178_completion_credit':False,'merge_authorized':False}}
+          snapshot={'schema':'STAGE32EX5_HPADJ21_RECOVERY_SNAPSHOT_V1','status':'RECOVERY_PLAN_COMPLETE_NO_MATHEMATICAL_CREDIT','carry_run_id':None if not os.environ.get('CARRY_RUN_ID') else int(os.environ['CARRY_RUN_ID']),'partition':{'unit_count':178,'durable_unit':'ONE_FULL178_ROW'},'carried_count':len(accepted),'carried_units':sorted(accepted),'missing_count':len(missing),'missing_units':missing,'accepted':{str(k):v for k,v in sorted(accepted.items())},'rejected_candidates':rejected,'concurrency':{'stage_heavy_cap':18,'planned_effective_heavy_concurrency':15,'reserved_stage_headroom':3},'storage':{'representative_raw_bytes':4128,'row_raw_hard_cap':65536,'projected_peak_mb_upper_bound':370,'within_500mb_budget':True},'credit':{'partial_output_credit':False,'stage32_main_credit':False,'full178_completion_credit':False,'merge_authorized':False}}
           body=dict(snapshot); snapshot['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
           Path('recovery-snapshot.json').write_text(json.dumps(snapshot,sort_keys=True,separators=(',',':'))+'\n')
           with open(sys.argv[1],'a') as out:
@@ -277,11 +280,11 @@ jobs:
           UNIT: ${{ matrix.unit }}
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py)" = '0131c91b54bfc335f1bce3af18e9da2eaa51a7ba'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = '68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
           mkdir -p out
           CERT="out/hpadj21-row-${UNIT}.json"
-          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py --row-index "$UNIT" --output "$CERT"
-          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py --row-index "$UNIT" --verify-existing "$CERT"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index "$UNIT" --output "$CERT"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py --row-index "$UNIT" --verify-existing "$CERT"
           BYTES="$(wc -c < "$CERT")"; test "$BYTES" -le 65536
           echo "HPADJ21_ROW_CHECKPOINT_COMPLETE unit=$UNIT bytes=$BYTES"
       - name: Upload durable completed row checkpoint
@@ -331,8 +334,8 @@ jobs:
       - name: Verify exact FULL178 union and HPADJ21 bound
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows_sweep.py)" = '2f9e0d605304a124d36b88680d71a6f5d2aca243'
-          python stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows_sweep.py certs --output hpadj21-parallel-union.json
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py)" = 'a8b175e8a03356937957149088e0c003fa82eb4a'
+          python stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py certs --output hpadj21-parallel-union.json
           test "$(wc -c < hpadj21-parallel-union.json)" -le 2000000
           python - <<'PY'
           import json
