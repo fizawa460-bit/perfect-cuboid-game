@@ -70,6 +70,8 @@ BRIDGE V2 does **not** own:
 - a global terminal-by-terminal 59D sweep;
 - MAIN authority promotion/subtraction, claim-DAG mutation, theorem/effectivity/receiver/endpoint credit, final integration, or merge.
 
+In particular, BRIDGE must never materialize terminal identity data as a fallback to terminal-by-terminal pruning or enumeration.
+
 If a missing mathematical fact belongs to another active specialist lane, stop at an exact blocker or use a proper cross-lane demand. Do not silently rebuild producer-owned mathematics inside BRIDGE.
 
 ## Active route
