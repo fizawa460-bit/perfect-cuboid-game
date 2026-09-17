@@ -95,14 +95,18 @@ jobs:
 
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
+
       - name: Verify V24 HPADJ07 hostile-audit PASS synchronization
         run: >-
           python stages/stage32/management/hpadj-07/verify_hpadj07_v24_audit_sync.py
           --audited-v24-root .stage32-audited-hpadj07-v24
+
       - name: Verify frozen GRF-02 selected64 projected symbolic kernel
         run: python stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py
+
       - name: Verify GRF-03 norm-ladder residue collapse no-go
         run: python stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py
+
       - name: Verify Stage32 MAIN startup authority after V24 audit sync
         run: python stages/stage32/verify_main_startup.py
       - name: Verify Stage32 cross-lane demand coordination after V24 audit sync
