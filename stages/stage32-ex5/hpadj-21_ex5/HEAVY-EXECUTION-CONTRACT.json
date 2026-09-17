@@ -10,7 +10,9 @@
     "row_assembler": "stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py",
     "row_assembler_git_blob": "82510e4e478e9145317e07c237ce08b8d189c306",
     "union_verifier": "stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py",
-    "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a"
+    "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a",
+    "cross_run_resume_receipt": "stages/stage32-ex5/hpadj-21_ex5/BCHUNK-CROSS-RUN-RESUME-RECEIPT.json",
+    "cross_run_resume_receipt_git_blob": "0d6a5faac5fdf4fd27e12b603323daa6d1c46bbd"
   },
   "mathematical_semantics": {
     "same_population_as_hpadj20": true,
@@ -22,10 +24,19 @@
     "statistical_independence_assumed": false
   },
   "bounded_equivalence_gate": {
-    "workflow_run_id": 35277092874,
+    "workflow_run_id": 35279286433,
     "status": "EXACT_BOUNDED_DIRECT_VS_BCHUNK_EQUIVALENCE_SUCCESS",
     "direct_vs_assembled_dictionary_equality_required": true,
     "credit_granted": false
+  },
+  "cross_run_resume_gate": {
+    "producer_run_id": 35278668203,
+    "consumer_run_id": 35279286433,
+    "consumer_job_id": 105397244229,
+    "receipt_schema": "STAGE32EX5_HPADJ21_CROSS_RUN_RESUME_RECEIPT_V1",
+    "required_status": "EXACT_CROSS_RUN_RESUME_PASS_NO_RECOMPUTE",
+    "required_before_arm": true,
+    "rule": "A completed exact b-chunk from a prior workflow run must be downloaded, source-locked, validated through --verify-existing, and accepted without recomputation before production scaleout may be armed."
   },
   "resume_policy": "RESUME_FIRST_EXACT_FULL178_B_RANGE_UNITS",
   "complete_row_carry": {
@@ -44,7 +55,8 @@
     "coverage_rule": "For each target row with h=d/2, partition integer b=0..h into disjoint inclusive consecutive chunks of width at most 8, exactly once.",
     "mathematical_population_changed": false,
     "maximum_chunk_count_bound": 60,
-    "artifact_population_below_100_for_this_recovery": true
+    "artifact_population_below_100_for_this_recovery": true,
+    "chunk_timeout_minutes": 180
   },
   "chunk_completion": {
     "certificate_schema": "STAGE32EX5_HPADJ21_FULL_QA_BCHUNK_CERT_V1",
@@ -75,15 +87,6 @@
     "mismatch_action": "FAIL_CLOSED_BEFORE_RECOMPUTATION",
     "this_recovery_uses_single_named_173_row_carry_bundle": true,
     "this_recovery_chunk_count_below_100": true
-  },
-  "representative_chunk_preflight": {
-    "workflow_run_id": 35277292112,
-    "target": {"row_index": 171, "b_start": 0, "b_stop": 7},
-    "required_before_arm": true,
-    "required_conclusion": "success",
-    "timeout_minutes_for_preflight": 60,
-    "hard_certificate_bytes": 2097152,
-    "arm_rule": "Do not arm scaleout until this representative chunk has completed and validated within these bounds."
   },
   "concurrency_preflight": {
     "repo_stage_heavy_cap": 18,
