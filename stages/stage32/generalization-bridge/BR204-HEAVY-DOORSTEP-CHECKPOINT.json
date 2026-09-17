@@ -1,60 +1,78 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V1",
-  "status": "COLD_PREPARED__HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V2",
+  "status": "COLD_DOORSTEP_FROZEN__HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
   "predecessor": {
     "head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
     "hostile_audit_review_id": 5231786735,
     "status": "PASS"
   },
   "live_main_refresh": {
-    "path": "BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V4.json",
-    "git_blob_sha1": "09151b2fd5275df8a314c92efb839fc8fcd8e85a",
-    "main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
-    "main_hostile_audit_review_id": 5231559824,
-    "authority": "179119009547804181594"
+    "numerical_authority_path": "BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V4.json",
+    "numerical_authority_blob": "09151b2fd5275df8a314c92efb839fc8fcd8e85a",
+    "audited_numeric_main_pr": 1808,
+    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "audited_numeric_main_review_id": 5231559824,
+    "live_control_successor_pr": 1820,
+    "live_control_successor_head": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
+    "live_control_successor_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "live_control_successor_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "live_control_successor_semantics": "V41_PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
+    "live_control_successor_startup_run": 35188659682,
+    "live_control_successor_startup_status": "SUCCESS",
+    "authority": "179119009547804181594",
+    "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "interpretation": "Use audited V40 exact head as the numerical comparison source; V41 #1820 is the current process/control successor and explicitly adds zero pruning."
   },
   "execution_surface": {
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "199632bbf53c943cf07824c2f0a2c0324b8d9bca",
+    "contract_blob": "93d8487b73a2f89566e40edca4f498023a9f8f20",
     "worker_path": "run_br204_full178_b_unit.cpp",
-    "worker_blob": "922a257559d0d5a69d56f110442b6a911820db7f",
+    "worker_blob": "f51c6815cb176c486358465dfb9b764b3a682d04",
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "97f975c5959db3513a086d75976ca0012766a2fd",
     "workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "workflow_blob": "b26eee5c53123a92a34e0af45dc2fd13deb6d7a9",
+    "workflow_blob": "396b941ec294bbab95a49bb2ff11bffcd440a271",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob_at_cold_generation0": "67064d245866058caf1bc91bc9892b839bd7a042"
+    "runkey_blob_at_cold_generation0": "e6408d18d34ef49d81fe83163443e18f2a31554b",
+    "retained_replay_run_before_freeze": 35195455723,
+    "retained_replay_status_before_freeze": "SUCCESS"
   },
   "operational_state": {
     "runkey_generation": 0,
     "runkey_armed": false,
     "workflow_lifecycle": "MANUAL",
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
     "heavy_compute_authorized": false,
     "heavy_compute_started": false,
     "pilot_runs_started": false,
-    "reason_for_manual_lifecycle": "Do not compete with the currently running EX5 heavy; explicit manual dispatch occurs only after a later audited-parent arm commit."
+    "reason_for_manual_lifecycle": "Heavy must remain cold until this exact doorstep head is hostile-audited; later authorization is a distinct semantic run-key arm commit and manual dispatch."
   },
   "exactness": {
     "durable_unit": "b",
     "coverage": "0..96 exactly once after validated carry reuse",
+    "unit_count": 97,
     "logical_shards": 8,
     "max_parallel": 8,
     "global_lp_rule": "merge all exact per-b (s,B) capacities before one exact rational LP; per-b LP floors are forbidden",
     "mu_composition": "BR203 exact 16-state mu table with current exact maximum mu=2",
     "qbc_tail_attribution": "retain tail capacity per global bin and compute a forced-selected tail lower bound at the exact global LP cutoff"
   },
-  "storage": {
+  "storage_resume": {
     "compact_certificate_preflight_still_valid": true,
     "bin_stream_storage_is_separate": true,
     "arm_time_pilot_b": 96,
     "pilot_reused_as_durable_unit": true,
     "per_b_gzip_hard_cap_bytes": 4000000,
     "pre_fanout_projection_gate": "97 * pilot_gzip_bytes * 2 + 20 MiB <= 500 MiB",
+    "repository_operating_budget_bytes": 524288000,
+    "intermediate_retention_days": 1,
+    "resume_rule": "validate carried complete b-unit artifacts against exact source locks and recompute missing units only",
     "raw_4_1m_state_stream_persistence": false
   },
   "next_gate": {
-    "required": "HOSTILE_AUDIT_THIS_EXACT_DOORSTEP_HEAD",
-    "after_pass": "keep cold until EX5 heavy is finished; then create exactly one semantic run-key arm commit with audited doorstep head/review written into the key, and manually dispatch at that exact arm head",
+    "required": "HOSTILE_AUDIT_THIS_EXACT_DOORSTEP_HEAD_AFTER_EXACT_HEAD_RETAINED_REPLAY_SUCCESS",
+    "after_pass": "STOP COLD. Do not arm or dispatch. A later explicit execution request may create exactly one semantic run-key arm commit with this audited doorstep head/review written into the key, then manually dispatch at that exact arm head.",
     "br205_authorized": false
   },
   "credit": {
