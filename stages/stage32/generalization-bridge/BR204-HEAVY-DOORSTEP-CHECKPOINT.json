@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V3",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V4",
   "status": "COLD_DOORSTEP_IMPLEMENTATION_COMPLETE__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
   "audited_predecessor": {
     "head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
@@ -10,10 +10,11 @@
     "audited_numeric_pr": 1808,
     "audited_numeric_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
     "audited_numeric_review_id": 5231559824,
-    "live_control_successor_pr": 1820,
-    "live_control_successor_head": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
-    "live_control_successor_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
-    "live_control_successor_semantics": "V41_PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
+    "merged_v41_pr": 1820,
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "v41_semantics": "PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
     "authority": "179119009547804181594",
     "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
   },
@@ -23,15 +24,15 @@
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "d13e385a367245bc1612e5eb52ca41e8e72df857",
+    "contract_blob": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "5c0d1a7204492b0f699a3efc46df84cfcc97ccdf",
+    "qbc_tail_addendum_blob": "03b4c46f17a1b3c544d413b7006690788c249d03",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "a058c1d74f090b02b23717938c98a3755e32ea9d",
+    "heavy_workflow_blob": "0b3cb0cf3a259e745c22bf52da215a322cc7dd96",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "6f47cb20e427ea8cd2ffd91ef0582dcec9cf3a9b",
+    "retained_replay_blob": "a2e0bce85e01a0f4b82fe90019c5a739420e5e5c",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "d8d25bd6673650d94379e6b79544d66fa6df64b3",
+    "runkey_blob": "f02458dd56765502f8e06b82bbf1aa4bd59b51c0",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
   },
   "audit_repair_delta": {
@@ -42,6 +43,7 @@
       "make qBC L>8 and K8 level-8-plus tail-slot certificate fields explicit in the same b-unit pass",
       "group equal exact s/B ratios before global forced-tail attribution so BR205 evidence is order independent",
       "accept exact LP envelope exhaustion at a full ratio-class boundary",
+      "bind manual heavy authorization to the exact merged-V41 repository main head and MAIN-STATE blob",
       "relock runkey, manual heavy workflow, retained replay, execution contract and qBC-tail addendum"
     ],
     "exact_head_replay_after_repairs": "REQUIRED_NOT_YET_RECORDED",
