@@ -1,13 +1,15 @@
 {
-  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V1",
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V2",
   "status": "PREFLIGHT_ONLY_ZERO_CREDIT_NOT_HEAVY_AUTHORIZATION",
-  "purpose": "Extend the eventual BR204 compact FULL178 certificate shape so the BR205 qBC gate can be decided without retaining raw states or rerunning BR204 merely to recover tail occupancy.",
+  "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same b-unit traversal, so BR205 can be decided without persisting raw states or rerunning BR204 merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "4a005320bc74b7483f1886c2de6ddfb0767a5814",
-    "bounded_qbc_pilot_path": "stages/stage32/generalization-bridge/BR205-DEEPER-QBC-SAME-POPULATION-BOUNDED-PILOT.json",
+    "heavy_execution_contract_git_blob_sha1": "d13e385a367245bc1612e5eb52ca41e8e72df857",
+    "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
+    "heavy_worker_git_blob_sha1": "71081e34c03eee756ea970e6632716121e951f54",
+    "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
+    "global_aggregator_git_blob_sha1": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
     "bounded_qbc_pilot_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
-    "bounded_slack_attribution_path": "stages/stage32/generalization-bridge/BR205-QBC-SLACK-ATTRIBUTION-BOUNDED-PREFLIGHT.json",
     "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213"
   },
   "bounded_regression": {
@@ -21,51 +23,56 @@
     "K8_minus_FULL_from_L_gt_8": 38744798736,
     "strict_same_population_improvement": true
   },
-  "per_b_certificate_required_additions": [
-    "qBC level-count histogram or equivalent exact commitment sufficient to recover counts for L<=8 and L>8",
-    "qBC-tail compact base-state count for L>8",
-    "qBC-tail compact population multiplicity for L>8",
-    "qBC-tail retained evaluation-cell count after the BR204 routing/support/capacity filters",
-    "qBC-tail retained multiplicity after the same filters",
-    "BR202 K8 objective contribution restricted to L>8",
-    "deterministic qBC-tail attribution digest bound to b and the existing source-lock manifest"
+  "tail_slot_semantics": {
+    "L_gt_8_state": "compact BC state with more than eight exact qBC levels",
+    "K8_tail_slot": "for L>8, K8 parts 1..7 are exact and part 8 contains exact level 8 plus every deeper-level multiplicity evaluated at q8",
+    "warning": "tail-slot multiplicity is not identical to multiplicity from levels strictly greater than 8; the L>8 state predicate is what localizes possible K8-vs-FULL slack"
+  },
+  "per_b_required_fields": [
+    "base_states_L_gt_8",
+    "base_states_L_le_8",
+    "tail_slot_assignment_mass",
+    "tail_slot_evaluation_cells",
+    "k8_L_gt_8_raw_objective",
+    "k8_tail_slot_raw_objective",
+    "mu_L_gt_8_raw_objective",
+    "mu_tail_slot_raw_objective",
+    "k8_L_gt_8_positive_capacity",
+    "k8_tail_slot_positive_capacity",
+    "mu_L_gt_8_positive_capacity",
+    "mu_tail_slot_positive_capacity",
+    "qbc_tail_attribution_digest_sha256"
   ],
   "per_b_invariants": [
-    "all qBC-tail fields are computed in the same streamed b unit before raw state data are discarded",
-    "L<=8 and L>8 partition the compact BC base states exactly",
-    "all L<=8 states use exact qBC levels under K8 and therefore have zero K8-vs-FULL truncation slack by construction",
+    "all attribution fields are computed in the same streamed b unit before raw state data are discarded",
+    "L<=8 and L>8 partition compact BC base states exactly",
+    "all L<=8 states are exact under K8 and therefore have zero K8-vs-FULL truncation slack by construction",
+    "mu attribution is a subset of the corresponding K8 attribution",
     "no terminal identity is materialized",
-    "no raw 4.1M-state stream is persisted",
-    "the addendum must not cause a second BR204 population traversal when the fields can be accumulated in the existing pass"
+    "no raw 4.1M-state stream is persisted"
   ],
-  "shard_summary_required_additions": [
-    "sum qBC-tail base-state count",
-    "sum qBC-tail population multiplicity",
-    "sum qBC-tail retained evaluation-cell count",
-    "sum qBC-tail retained multiplicity",
-    "sum BR202 K8 objective contribution restricted to L>8",
-    "ordered commitment to all member-b qBC-tail attribution digests"
-  ],
-  "union_verifier_required_additions": [
-    "qBC-tail fields sum exactly from 97 b units through eight shards to the parent manifest",
-    "L<=8 plus L>8 compact partition agrees with the BR204 compact population census",
-    "qBC-tail retained multiplicity is nonnegative and source-locked",
-    "BR202 K8 objective contribution restricted to L>8 is nonnegative and source-locked",
-    "formal BR205 tail-activity half-gate is true only if exact FULL178 qBC-tail retained multiplicity is positive and exact FULL178 K8 tail objective contribution is positive",
-    "bounded strict-improvement evidence remains a separate prerequisite and is never extrapolated numerically to FULL178"
+  "parent_union_requirements": [
+    "sum every attribution field exactly across all 97 b units",
+    "prove 97-unit coverage and H96 refined-state/assignment-mass conservation",
+    "retain deterministic per-b stream digests and one global bin-stream digest",
+    "solve one exact rational LP only after unioning all b-unit capacities",
+    "group equal exact s/B ratios before forced-tail computation so tail activity cannot depend on bin ordering"
   ],
   "BR205_gate_semantics": {
     "bounded_half": "PASS_PREPARATORY_EVIDENCE: deeper qBC strictly improves the identical bounded population and all bounded K8-vs-FULL slack is localized to L>8",
-    "full178_half": "PENDING_BR204_HEAVY: exact compact BR204 certificate must show positive L>8 retained mass and positive K8 tail objective contribution",
+    "full178_raw_half_candidate": "positive exact FULL178 L>8 base/mass evidence plus positive K8 L>8 and tail-slot raw objective contribution",
+    "full178_stronger_candidate": "raw half candidate plus positive forced-selected tail-slot capacity after equal-ratio classes are merged in the exact global mu LP",
     "formal_BR205_gate_passed": false,
+    "promotion_rule": "Neither candidate authorizes BR205 until the BR204 heavy result is hostile-audited and the transition is explicitly recorded.",
     "full_qBC_scaleout_authorized": false
   },
   "execution": {
-    "BR204_runkey_present": false,
+    "BR204_runkey_present": true,
+    "BR204_runkey_generation": 0,
     "BR204_runkey_armed": false,
     "heavy_compute_authorized_by_this_addendum": false,
-    "workflow_creation_or_arming_authorized_by_this_addendum": false,
-    "storage_rule": "use compact integer counters/digests only; remain under existing per-b/shard/parent hard caps"
+    "workflow_arming_authorized_by_this_addendum": false,
+    "storage_rule": "persist compact b-unit bin streams/counters only under the execution-contract pilot and hard caps"
   },
   "credit": {
     "stage32_main": false,
