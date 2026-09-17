@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V2",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V3",
   "status": "COLD_DOORSTEP_READY_FOR_HOSTILE_AUDIT__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define the exact resume-first BR204 FULL178 execution surface without starting heavy compute. Operational heavy authorization is exclusively a later semantic arm of the dedicated run-key followed by exact-head manual dispatch.",
+  "purpose": "Define the exact resume-first BR204 FULL178 execution surface without starting heavy compute. Operational authorization is exclusively a later semantic run-key arm commit followed by exact-head manual dispatch.",
   "audited_predecessor": {
     "bridge_pr": 1813,
     "audited_exact_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
@@ -10,16 +10,15 @@
     "scope": "BR204 light preflight plus compact producer/equivalence only; FULL178 heavy excluded"
   },
   "live_main_refresh": {
-    "main_pr": 1808,
-    "head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
-    "hostile_audit_review_id": 5231559824,
-    "hostile_audit_status": "PASS",
-    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "audited_numeric_main_pr": 1808,
+    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "audited_numeric_main_review_id": 5231559824,
+    "live_control_successor_pr": 1820,
+    "live_control_successor_head": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
+    "live_control_successor_semantics": "V41_PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
     "authoritative_remaining_strata": 17128,
     "authoritative_remaining_terminals": "179119009547804181594",
-    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
-    "main_state_blob": "a22cb78a4b8a495f1abb93b20d4a8048dbd98df4",
-    "main_state_canonical_sha256": "10eb99bcf609dc9e8c65707398a0a57b0f7f1f48c631dc666d93cb7dcad4e817"
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
   },
   "population": {
     "H": 96,
@@ -28,16 +27,7 @@
     "refined_routing_states": 4070710,
     "bct_cells": 453937,
     "bc_assignment_mass": "174683387305",
-    "logical_shards": [
-      "0..11",
-      "12..23",
-      "24..35",
-      "36..47",
-      "48..59",
-      "60..71",
-      "72..83",
-      "84..96"
-    ]
+    "logical_shards": ["0..11", "12..23", "24..35", "36..47", "48..59", "60..71", "72..83", "84..96"]
   },
   "source_locks": {
     "compact_mu_bounded_equivalence": {
@@ -46,11 +36,11 @@
     },
     "heavy_b_unit_worker": {
       "path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
-      "git_blob_sha1": "f51c6815cb176c486358465dfb9b764b3a682d04"
+      "git_blob_sha1": "71081e34c03eee756ea970e6632716121e951f54"
     },
     "global_bin_aggregator": {
       "path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
-      "git_blob_sha1": "97f975c5959db3513a086d75976ca0012766a2fd"
+      "git_blob_sha1": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16"
     },
     "certificate_storage_preflight": {
       "path": "stages/stage32/generalization-bridge/BR204-CERTIFICATE-STORAGE-PREFLIGHT.json",
@@ -60,23 +50,50 @@
   "objective_semantics": {
     "same_population_replacement_only": true,
     "additive_pruning": false,
-    "per_unit_output": "exact merged (s,B,capacity) bins for BR202 K8 and BR203 mu; mu bins additionally carry qBC-tail capacity attribution",
-    "global_composition": "union exact capacities for all b=0..96 first, then solve one descending exact-rational s/B fractional LP against the retained HPADJ08 envelope",
+    "per_unit_output": "exact merged (s,B,capacity) bins for BR202 K8 and BR203 mu plus exact L>8/K8-tail-slot counters; mu bins carry tail-slot capacity attribution",
+    "k8_tail_slot_semantics": "For a compact BC state with more than eight exact qBC levels, parts 1..7 are exact and part 8 is the K8 relaxed slot containing exact level 8 plus all deeper-level mass evaluated at q8. Do not reinterpret the slot as only qBC levels >8.",
+    "global_composition": "union exact capacities for all b=0..96 first, group bins by exact rational ratio s/B, then solve one descending exact-rational ratio-class LP against the retained envelope",
+    "equal_ratio_rule": "Forced tail selection is computed only after summing capacity and tail-slot capacity over every bin with the same exact Fraction(s,B), so attribution is representation/order independent.",
     "envelope": "6703403803993209250491",
-    "forbidden": "sum or average per-b LP floors; materialize raw 4.1M routing-state JSON; terminal-identity fallback"
+    "forbidden": "sum or average per-b LP floors; order equal-ratio bins to manufacture tail activity; materialize raw 4.1M routing-state JSON; terminal-identity fallback"
+  },
+  "qbc_tail_certificate": {
+    "same_pass_required": true,
+    "per_b_fields": [
+      "base_states_L_gt_8",
+      "base_states_L_le_8",
+      "tail_slot_assignment_mass",
+      "tail_slot_evaluation_cells",
+      "k8_L_gt_8_raw_objective",
+      "k8_tail_slot_raw_objective",
+      "mu_L_gt_8_raw_objective",
+      "mu_tail_slot_raw_objective",
+      "k8_L_gt_8_positive_capacity",
+      "k8_tail_slot_positive_capacity",
+      "mu_L_gt_8_positive_capacity",
+      "mu_tail_slot_positive_capacity"
+    ],
+    "per_b_commitment": "SHA256 of the complete validated per-b stream, which includes b/source locks and all TAIL fields",
+    "global_checks": [
+      "L<=8 plus L>8 base-state partition equals H96 compact-state census",
+      "TAIL/META tail-slot assignment mass equality",
+      "mu tail-slot capacities are subsets of mu capacities and mu<=K8",
+      "global ratio-class forced-tail attribution is exact and order independent"
+    ],
+    "br205_gate_firewall": "Heavy result may emit raw and stronger tail-activity candidates, but formal BR205 gate remains false until the heavy result is hostile-audited and separately promoted."
   },
   "resume_contract": {
     "durable_unit": "single integer b",
     "unit_count": 97,
     "max_parallel": 8,
-    "reuse_rule": "accept a carried b unit only after exact worker/base source-lock validation and deterministic parse; compute missing units only",
+    "reuse_rule": "accept a carried b unit only after exact worker/base source-lock validation, complete TAIL record validation, and deterministic parse; compute missing units only",
     "failure_rule": "retain already uploaded valid b-unit aggregate streams for one day and resume from them by explicit carry_run_id",
     "reopened_or_non_arm_behavior": "cold/manual; no heavy execution"
   },
   "storage_contract": {
     "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
     "bin_stream_note": "The earlier 1.83 MiB preflight covered compact certificates, not transient exact bin streams required by the coherent global LP.",
-    "high_mass_scaleout_gate": "A single b=96 pilot is executed after authorization but before fan-out; it is also reused as durable unit 96.",
+    "high_mass_scaleout_gate": "A single b=96 pilot is executed only after authorization and before fan-out; it is reused as durable unit 96.",
     "per_b_gzip_hard_cap_bytes": 4000000,
     "projection_rule": "97 * measured_pilot_gzip_bytes * 2 + 20 MiB must be <= 500 MiB before fan-out",
     "repository_operating_budget_bytes": 524288000,
@@ -87,6 +104,8 @@
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
     "workflow_lifecycle": "MANUAL",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
     "current_generation": 0,
     "current_armed": false,
     "later_arm_rule": "A distinct post-audit commit must change the run-key from armed=false to armed=true and strictly increase generation. Manual dispatch must target that exact arm commit and the workflow verifies HEAD^..HEAD contains the run-key.",
@@ -100,10 +119,11 @@
       "H96 BC assignment-mass conservation",
       "global mu LP <= global K8 LP",
       "deterministic global bin-stream hash",
-      "qBC-tail forced-selected attribution"
+      "exact L<=8/L>8 and tail-slot counters",
+      "ratio-class qBC-tail forced-selected attribution"
     ],
     "br205_authorized_now": false,
-    "br205_gate": "Only after the heavy result establishes positive exact qBC-tail objective participation under the same-population global LP and that result is hostile-audited.",
+    "br205_gate": "Only after the heavy result establishes exact FULL178 L>8/tail-slot activity and, for the stronger diagnostic, positive forced-selected tail-slot capacity under the order-independent global LP; any formal BR205 authorization additionally requires hostile audit.",
     "main_credit": "requires separate hostile audit and MAIN MIN/replacement consumption; never automatic"
   },
   "credit": {
