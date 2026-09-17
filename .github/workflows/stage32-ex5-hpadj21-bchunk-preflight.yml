@@ -1,0 +1,29 @@
+name: Stage32EX5 HPADJ21 b-chunk preflight
+
+# Lifecycle: ACTIVE_AUTO lightweight equivalence gate; no heavy compute.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py'
+      - 'stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py'
+      - 'stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py'
+      - '.github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-equivalence:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Syntax check
+        run: python -m py_compile stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py
+      - name: Exact bounded direct-vs-bchunk equivalence
+        run: python stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py
