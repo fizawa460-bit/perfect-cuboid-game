@@ -1,41 +1,93 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V2_B_D_BANDS",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold placeholder only. Do not execute heavy at generation 0.",
+  "purpose": "Cold placeholder for finer resume. Do not execute heavy at generation 0.",
   "carry_run_id": null,
   "execution": {
-    "unit_count": 97,
+    "b_unit_count": 97,
+    "durable_subunit_count": 250,
+    "d_bands": [
+      [
+        8,
+        54
+      ],
+      [
+        56,
+        100
+      ],
+      [
+        102,
+        146
+      ],
+      [
+        148,
+        192
+      ]
+    ],
     "max_parallel": 8,
-    "pilot_b": 96,
+    "pilot_subunits": [
+      {
+        "b": 0,
+        "d_lo": 8,
+        "d_hi": 54
+      },
+      {
+        "b": 96,
+        "d_lo": 148,
+        "d_hi": 192
+      }
+    ],
     "envelope": "6703403803993209250491",
     "main_bound_snapshot": "179119009547804181594"
   },
   "source_locks": {
-    "worker_blob": "71081e34c03eee756ea970e6632716121e951f54",
-    "aggregator_blob": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
-    "execution_contract_blob": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
+    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
+    "execution_contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
     "audited_numeric_main_review_id": 5231559824,
     "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
     "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
     "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
-    "bridge_predecessor_audited_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
-    "bridge_predecessor_audit_review_id": 5231786735
+    "bridge_predecessor_audited_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
+    "bridge_predecessor_audit_review_id": 5242485845
   },
   "resume": {
-    "durable_unit": "single_b",
-    "reuse_validated_units": true,
+    "durable_unit": "b_x_d_band",
+    "d_bands": [
+      [
+        8,
+        54
+      ],
+      [
+        56,
+        100
+      ],
+      [
+        102,
+        146
+      ],
+      [
+        148,
+        192
+      ]
+    ],
+    "expected_subunit_count": 250,
+    "reuse_validated_subunits": true,
     "compute_missing_only": true,
     "require_complete_tail_record": true,
+    "require_exact_band_identity": true,
+    "repeated_static_metadata_must_match_within_b": true,
     "intermediate_retention_days": 1
   },
   "storage": {
-    "per_b_gzip_hard_cap_bytes": 4000000,
+    "per_subunit_gzip_hard_cap_bytes": 1800000,
     "budget_bytes": 524288000,
     "pilot_projection_safety_multiplier": 2,
-    "fixed_overhead_bytes": 20971520
+    "fixed_overhead_bytes": 20971520,
+    "absolute_peak_bound_bytes": 470971520
   },
   "arm_contract": {
     "required_transition": "armed false->true and generation strictly increases in one later runkey-only semantic arm commit",
