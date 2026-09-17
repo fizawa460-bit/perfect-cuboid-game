@@ -111,9 +111,9 @@ jobs:
       - name: Compile heavy doorstep worker and exact-LP aggregator without running FULL178
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "922a257559d0d5a69d56f110442b6a911820db7f"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "f51c6815cb176c486358465dfb9b764b3a682d04"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "97f975c5959db3513a086d75976ca0012766a2fd"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "199632bbf53c943cf07824c2f0a2c0324b8d9bca"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "93d8487b73a2f89566e40edca4f498023a9f8f20"
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
             stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp \
             -o /tmp/br204-heavy-worker
@@ -125,9 +125,9 @@ jobs:
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
           assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
           assert rk['generation'] >= 0
-          assert rk['source_locks']['worker_blob']=='922a257559d0d5a69d56f110442b6a911820db7f'
+          assert rk['source_locks']['worker_blob']=='f51c6815cb176c486358465dfb9b764b3a682d04'
           assert rk['source_locks']['aggregator_blob']=='97f975c5959db3513a086d75976ca0012766a2fd'
-          assert rk['source_locks']['execution_contract_blob']=='199632bbf53c943cf07824c2f0a2c0324b8d9bca'
+          assert rk['source_locks']['execution_contract_blob']=='93d8487b73a2f89566e40edca4f498023a9f8f20'
           assert all(v is False for v in rk['credit'].values())
           print('BR204 heavy doorstep compile/self-test PASS; armed=', rk['armed'])
           PY
