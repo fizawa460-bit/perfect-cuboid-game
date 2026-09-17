@@ -144,6 +144,8 @@ def main() -> None:
     req(f["v41_audit_sync_additional_pruning"] == 0, "V41 state pruning")
     req(f["full178_numerical_census_complete"] is False and f["stage32_closed"] is False,
         "closure firewall")
+    req("CANDIDATE_BOUND_177806468459973221208__ZERO_MAIN_CREDIT" in
+        f["main_hpadj21_known_strict_subset_candidate_status"], "HPADJ21 preflight status")
 
     req(state["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(state["current"]["next_exact_route"] ==
@@ -159,7 +161,7 @@ def main() -> None:
     sweep = state["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
     req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "20055be2499edb816b1b1fac3649d50b20822ebc" and
+        sweep["lane_178_head"] == "24bd91cfdd741db57d80a2763f123e80b5f1b492" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
     req(sweep["lane_178_current_head_audit_status"] ==
         "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
@@ -198,7 +200,7 @@ def main() -> None:
     req(V39_BOUND - BOUND == TIGHTENING, "V40 authority arithmetic")
     print("PASS: Stage32 V41 synchronizes the hostile-audited V40 numerical authority with zero new pruning")
     print("PASS: V40 audit gate cleared; FULL178 resumes with downstream/merge firewalls unchanged")
-    print("PASS: live 178/EX5/CUT/MB plus BRIDGE observations refreshed; no new MAIN handoff consumed")
+    print("PASS: live 178/EX5/CUT/MB plus BRIDGE observations refreshed; HPADJ21 strict-subset preflight retained at zero credit")
 
 if __name__ == "__main__":
     main()
