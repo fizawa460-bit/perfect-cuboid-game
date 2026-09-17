@@ -4,7 +4,7 @@
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same b-unit traversal, so BR205 can be decided without persisting raw states or rerunning BR204 merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "d13e385a367245bc1612e5eb52ca41e8e72df857",
+    "heavy_execution_contract_git_blob_sha1": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
     "heavy_worker_git_blob_sha1": "71081e34c03eee756ea970e6632716121e951f54",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
@@ -28,36 +28,9 @@
     "K8_tail_slot": "for L>8, K8 parts 1..7 are exact and part 8 contains exact level 8 plus every deeper-level multiplicity evaluated at q8",
     "warning": "tail-slot multiplicity is not identical to multiplicity from levels strictly greater than 8; the L>8 state predicate is what localizes possible K8-vs-FULL slack"
   },
-  "per_b_required_fields": [
-    "base_states_L_gt_8",
-    "base_states_L_le_8",
-    "tail_slot_assignment_mass",
-    "tail_slot_evaluation_cells",
-    "k8_L_gt_8_raw_objective",
-    "k8_tail_slot_raw_objective",
-    "mu_L_gt_8_raw_objective",
-    "mu_tail_slot_raw_objective",
-    "k8_L_gt_8_positive_capacity",
-    "k8_tail_slot_positive_capacity",
-    "mu_L_gt_8_positive_capacity",
-    "mu_tail_slot_positive_capacity",
-    "qbc_tail_attribution_digest_sha256"
-  ],
-  "per_b_invariants": [
-    "all attribution fields are computed in the same streamed b unit before raw state data are discarded",
-    "L<=8 and L>8 partition compact BC base states exactly",
-    "all L<=8 states are exact under K8 and therefore have zero K8-vs-FULL truncation slack by construction",
-    "mu attribution is a subset of the corresponding K8 attribution",
-    "no terminal identity is materialized",
-    "no raw 4.1M-state stream is persisted"
-  ],
-  "parent_union_requirements": [
-    "sum every attribution field exactly across all 97 b units",
-    "prove 97-unit coverage and H96 refined-state/assignment-mass conservation",
-    "retain deterministic per-b stream digests and one global bin-stream digest",
-    "solve one exact rational LP only after unioning all b-unit capacities",
-    "group equal exact s/B ratios before forced-tail computation so tail activity cannot depend on bin ordering"
-  ],
+  "per_b_required_fields": ["base_states_L_gt_8", "base_states_L_le_8", "tail_slot_assignment_mass", "tail_slot_evaluation_cells", "k8_L_gt_8_raw_objective", "k8_tail_slot_raw_objective", "mu_L_gt_8_raw_objective", "mu_tail_slot_raw_objective", "k8_L_gt_8_positive_capacity", "k8_tail_slot_positive_capacity", "mu_L_gt_8_positive_capacity", "mu_tail_slot_positive_capacity", "qbc_tail_attribution_digest_sha256"],
+  "per_b_invariants": ["all attribution fields are computed in the same streamed b unit before raw state data are discarded", "L<=8 and L>8 partition compact BC base states exactly", "all L<=8 states are exact under K8 and therefore have zero K8-vs-FULL truncation slack by construction", "mu attribution is a subset of the corresponding K8 attribution", "no terminal identity is materialized", "no raw 4.1M-state stream is persisted"],
+  "parent_union_requirements": ["sum every attribution field exactly across all 97 b units", "prove 97-unit coverage and H96 refined-state/assignment-mass conservation", "retain deterministic per-b stream digests and one global bin-stream digest", "solve one exact rational LP only after unioning all b-unit capacities", "group equal exact s/B ratios before forced-tail computation so tail activity cannot depend on bin ordering"],
   "BR205_gate_semantics": {
     "bounded_half": "PASS_PREPARATORY_EVIDENCE: deeper qBC strictly improves the identical bounded population and all bounded K8-vs-FULL slack is localized to L>8",
     "full178_raw_half_candidate": "positive exact FULL178 L>8 base/mass evidence plus positive K8 L>8 and tail-slot raw objective contribution",
@@ -70,6 +43,7 @@
     "BR204_runkey_present": true,
     "BR204_runkey_generation": 0,
     "BR204_runkey_armed": false,
+    "repository_main_head_at_cold_doorstep": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
     "heavy_compute_authorized_by_this_addendum": false,
     "workflow_arming_authorized_by_this_addendum": false,
     "storage_rule": "persist compact b-unit bin streams/counters only under the execution-contract pilot and hard caps"
