@@ -1,6 +1,7 @@
 // Stage32 BR204 FULL178 durable b-unit producer.
 // Heavy-only execution surface. This translation unit reuses the hostile-audited
-// bounded BR204 semantics and adds exact per-b global-LP bin emission.
+// bounded BR204 semantics and adds exact per-b global-LP bin emission plus
+// qBC K8-tail attribution required by the BR205 transition gate.
 #define main br204_bounded_replay_main
 #include "verify_br204_compact_mu_bounded_equivalence.cpp"
 #undef main
@@ -16,7 +17,7 @@ struct WBC {
     Base key;
     std::vector<K8Part> parts;
     i64 total_mult = 0;
-    bool has_tail = false;
+    bool has_tail = false; // exact qBC level count > 8; final K8 part is the level-8+ relaxed slot.
 };
 
 static std::string arg_value(int argc, char** argv, const std::string& key) {
@@ -28,6 +29,10 @@ static std::string arg_value(int argc, char** argv, const std::string& key) {
 
 static i128 cap_product(i64 a, i64 b, int B) {
     return (i128)a * (i128)b * (i128)B;
+}
+
+static i128 obj_product(i64 a, i64 b, int s) {
+    return (i128)a * (i128)b * (i128)s;
 }
 
 static std::string dec_i128(i128 v) {
@@ -69,7 +74,8 @@ int main(int argc, char** argv) {
     std::vector<WBC> BC;
     BC.reserve(raw.size());
     i64 bc_assignment_mass = 0;
-    i64 bc_tail_assignment_mass = 0;
+    i64 bc_tail_slot_assignment_mass = 0;
+    i64 bc_tail_base_states = 0;
     for (const auto& [key, R] : raw) {
         WBC w;
         w.key = key;
@@ -83,8 +89,10 @@ int main(int argc, char** argv) {
         for (const auto& p : w.parts) reconstructed += p.total_mult;
         req(reconstructed == w.total_mult, "K8 part reconstruction changed BC mass");
         if (w.has_tail) {
-            req(w.parts.size() == 8, "tail without eight K8 parts");
-            bc_tail_assignment_mass += w.parts.back().total_mult;
+            req(w.parts.size() == 8, "L>8 state without eight K8 parts");
+            ++bc_tail_base_states;
+            // The last K8 part contains exact level 8 plus all deeper levels, evaluated at q8.
+            bc_tail_slot_assignment_mass += w.parts.back().total_mult;
         }
         bc_assignment_mass += w.total_mult;
         BC.push_back(std::move(w));
@@ -93,12 +101,22 @@ int main(int argc, char** argv) {
     using Key = std::pair<int,int>; // (survivor count s, normal-block size B)
     std::map<Key, i128> k8_bins;
     std::map<Key, i128> mu_bins;
-    std::map<Key, i128> mu_tail_bins;
+    std::map<Key, i128> mu_tail_slot_bins;
 
     i128 k8_positive_capacity = 0;
     i128 mu_positive_capacity = 0;
-    i128 mu_tail_positive_capacity = 0;
+    i128 mu_tail_slot_positive_capacity = 0;
     unsigned long long evaluated_state_parts = 0;
+    unsigned long long tail_slot_evaluation_cells = 0;
+
+    i128 k8_lgt8_raw_objective = 0;
+    i128 k8_tail_slot_raw_objective = 0;
+    i128 mu_lgt8_raw_objective = 0;
+    i128 mu_tail_slot_raw_objective = 0;
+    i128 k8_lgt8_positive_capacity = 0;
+    i128 k8_tail_slot_positive_capacity = 0;
+    i128 mu_lgt8_positive_capacity = 0;
+    i128 mu_tail_slot_positive_capacity_check = 0;
 
     for (int g : {0, 1}) {
         for (int d = 8; d <= 2 * BR204_H; d += 2) {
@@ -143,7 +161,9 @@ int main(int argc, char** argv) {
                             const auto& part = W.parts[pi];
                             ++evaluated_state_parts;
                             int q = AR.q + part.q;
-                            bool is_tail = W.has_tail && (pi + 1 == W.parts.size());
+                            bool is_lgt8_state = W.has_tail;
+                            bool is_tail_slot = W.has_tail && (pi + 1 == W.parts.size());
+                            if (is_tail_slot) ++tail_slot_evaluation_cells;
 
                             int lo0 = (base_lower & 1) ? base_lower + 1 : base_lower;
                             for (int e = lo0; e <= upper; e += 2) {
@@ -153,8 +173,17 @@ int main(int argc, char** argv) {
                                 int block = 19*d - 5*e + 1;
                                 req(block > 0, "nonpositive normal block");
                                 i128 cap = cap_product(AR.mult, part.total_mult, block);
+                                i128 obj = obj_product(AR.mult, part.total_mult, s);
                                 k8_bins[{s, block}] += cap;
                                 k8_positive_capacity += cap;
+                                if (is_lgt8_state) {
+                                    k8_lgt8_raw_objective += obj;
+                                    k8_lgt8_positive_capacity += cap;
+                                }
+                                if (is_tail_slot) {
+                                    k8_tail_slot_raw_objective += obj;
+                                    k8_tail_slot_positive_capacity += cap;
+                                }
                             }
 
                             i64 mu_mass_sum = 0;
@@ -174,11 +203,18 @@ int main(int argc, char** argv) {
                                     int block = 19*d - 5*e + 1;
                                     req(block > 0, "nonpositive normal block");
                                     i128 cap = cap_product(AR.mult, mult, block);
+                                    i128 obj = obj_product(AR.mult, mult, s);
                                     mu_bins[{s, block}] += cap;
                                     mu_positive_capacity += cap;
-                                    if (is_tail) {
-                                        mu_tail_bins[{s, block}] += cap;
-                                        mu_tail_positive_capacity += cap;
+                                    if (is_lgt8_state) {
+                                        mu_lgt8_raw_objective += obj;
+                                        mu_lgt8_positive_capacity += cap;
+                                    }
+                                    if (is_tail_slot) {
+                                        mu_tail_slot_bins[{s, block}] += cap;
+                                        mu_tail_slot_positive_capacity += cap;
+                                        mu_tail_slot_raw_objective += obj;
+                                        mu_tail_slot_positive_capacity_check += cap;
                                     }
                                 }
                             }
@@ -189,21 +225,27 @@ int main(int argc, char** argv) {
         }
     }
 
+    req(mu_tail_slot_positive_capacity == mu_tail_slot_positive_capacity_check,
+        "tail-slot capacity counter drift");
     for (const auto& [key, cap] : mu_bins) {
         auto it = k8_bins.find(key);
         req(it != k8_bins.end() && cap <= it->second, "mu bin exceeds K8 bin");
     }
-    for (const auto& [key, cap] : mu_tail_bins) {
+    for (const auto& [key, cap] : mu_tail_slot_bins) {
         auto it = mu_bins.find(key);
-        req(it != mu_bins.end() && cap <= it->second, "tail bin exceeds mu bin");
+        req(it != mu_bins.end() && cap <= it->second, "tail-slot bin exceeds mu bin");
     }
+    req(mu_lgt8_raw_objective <= k8_lgt8_raw_objective, "mu L>8 raw objective exceeds K8");
+    req(mu_tail_slot_raw_objective <= k8_tail_slot_raw_objective, "mu tail-slot raw objective exceeds K8");
+    req(mu_lgt8_positive_capacity <= k8_lgt8_positive_capacity, "mu L>8 capacity exceeds K8");
+    req(mu_tail_slot_positive_capacity <= k8_tail_slot_positive_capacity, "mu tail-slot capacity exceeds K8");
 
     std::ofstream out(out_path, std::ios::binary);
     req((bool)out, "cannot open --out");
     out << "META\t" << only_b
         << "\t" << raw.size()
         << "\t" << bc_assignment_mass
-        << "\t" << bc_tail_assignment_mass
+        << "\t" << bc_tail_slot_assignment_mass
         << "\t" << worker_blob
         << "\t" << BR204_BASE_BLOB
         << "\t" << BR203_MU_TABLE_SHA256
@@ -214,20 +256,34 @@ int main(int argc, char** argv) {
         out << "K\t" << key.first << "\t" << key.second << "\t" << dec_i128(cap) << "\n";
     for (const auto& [key, cap] : mu_bins) {
         i128 tail = 0;
-        auto ti = mu_tail_bins.find(key);
-        if (ti != mu_tail_bins.end()) tail = ti->second;
+        auto ti = mu_tail_slot_bins.find(key);
+        if (ti != mu_tail_slot_bins.end()) tail = ti->second;
         out << "M\t" << key.first << "\t" << key.second << "\t"
             << dec_i128(cap) << "\t" << dec_i128(tail) << "\n";
     }
+    out << "TAIL\t" << bc_tail_base_states
+        << "\t" << ((i64)raw.size() - bc_tail_base_states)
+        << "\t" << bc_tail_slot_assignment_mass
+        << "\t" << tail_slot_evaluation_cells
+        << "\t" << dec_i128(k8_lgt8_raw_objective)
+        << "\t" << dec_i128(k8_tail_slot_raw_objective)
+        << "\t" << dec_i128(mu_lgt8_raw_objective)
+        << "\t" << dec_i128(mu_tail_slot_raw_objective)
+        << "\t" << dec_i128(k8_lgt8_positive_capacity)
+        << "\t" << dec_i128(k8_tail_slot_positive_capacity)
+        << "\t" << dec_i128(mu_lgt8_positive_capacity)
+        << "\t" << dec_i128(mu_tail_slot_positive_capacity)
+        << "\n";
     out << "SUM\t" << dec_i128(k8_positive_capacity) << "\t"
         << dec_i128(mu_positive_capacity) << "\t"
-        << dec_i128(mu_tail_positive_capacity) << "\n";
+        << dec_i128(mu_tail_slot_positive_capacity) << "\n";
     out.close();
     req((bool)out, "write failure");
 
     std::cerr << "BR204_B_UNIT_COMPLETE b=" << only_b
               << " states=" << raw.size()
               << " assignments=" << bc_assignment_mass
+              << " tail_states=" << bc_tail_base_states
               << " Kbins=" << k8_bins.size()
               << " Mbins=" << mu_bins.size()
               << "\n";
