@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32_MAIN_GRF04_V36_Q_QUADRATIC_AUDIT_SYNC_V1",
+  "stage": 32,
+  "route": "GRF04_V36_Q_QUADRATIC_AUDIT_SYNC",
+  "status": "V35_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED__ZERO_NEW_PRUNING",
+  "purpose": "Synchronize the independent hostile-audit PASS for the V35 q-quadratic numerical MAIN replacement without changing the already-consumed numerical authority, logical FULL178 claim statement, or downstream credit.",
+  "predecessor_v35": {
+    "exact_head": "872e30bbdf089f39223031efc7a2daa4600aa5da",
+    "state_path": "stages/stage32/MAIN-STATE.json",
+    "state_blob_sha1": "9b460df0b49e70513a13e0ab09aecb8fab375f90",
+    "state_canonical_sha256": "987e6d33b86170c78a3c9de3bfb0b39875314afb1f129160c8a2dfd97e3eabaa",
+    "replacement_receipt_path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-V35-Q-QUADRATIC-MAIN-BOUND-REPLACEMENT.json",
+    "replacement_receipt_blob_sha1": "b24731409f33a8e76d3924ee2f651fbfba86b044",
+    "replacement_receipt_canonical_sha256": "c04bf60efdd92f7af245e307167fffffd1d0d4a087a676ded5b01e5110298748",
+    "replacement_verifier_path": "stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v35_q_quadratic_main_bound_replacement.py",
+    "replacement_verifier_blob_sha1": "769ec6c3d3b6c53f06aa94a492971c0ea83c2bc9"
+  },
+  "hostile_audit": {
+    "status": "PASS",
+    "audited_exact_head": "872e30bbdf089f39223031efc7a2daa4600aa5da",
+    "review_id": 5217772644,
+    "current_main_at_audit": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "merge_ready_freshness": "CLEAR",
+    "scope": "V35_Q_QUADRATIC_NUMERICAL_MAIN_AUTHORITY_REPLACEMENT_ONLY",
+    "audit_does_not_self_sync": true
+  },
+  "sync": {
+    "authority_version": "V36_PROCESS_SYNC_ONLY",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 195603649074545538415,
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "additional_pruning": 0,
+    "numeric_authority_changed": false,
+    "logical_claim_statement_changed": false,
+    "claim_registry_mutated": false,
+    "active_frontier_mutated": false,
+    "lane_adapters_mutated": false,
+    "replacement_head_hostile_reaudit_required_after_sync": false,
+    "full178_resumes": true,
+    "composition_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "retained_v36_t_stratified_candidate_consumed": false
+  },
+  "live_specialist_sweep": {
+    "repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "lane_178": {
+      "pr": 1815,
+      "live_head": "23e53bfd145b722640481e34458fb689326e486a",
+      "semantic_leaf": "TD02_INTEGER_LATTICE_CAPACITY_BOUNDED_AUDIT_BOUNDARY",
+      "audit_gate": "INTEGER_LATTICE_KERNEL_PASS__BOUNDED_CAPACITY_SUCCESSOR_AUDIT_PENDING",
+      "main_handoff": "NO_MAIN_CREDIT"
+    },
+    "ex5": {
+      "pr": 1814,
+      "live_head": "dbd3a191bfdd33c3413a2abc41331feb651f0830",
+      "semantic_leaf": "HPADJ18_SUCCESSOR_REFINEMENT",
+      "audit_gate": "CURRENT_HEAD_NOT_ESTABLISHED_AS_AUDITED_MAIN_HANDOFF",
+      "main_handoff": "NO_MAIN_CREDIT"
+    },
+    "cut": {
+      "open_successor": false,
+      "retained_pr": 1806,
+      "main_handoff": "NONE"
+    },
+    "mb": {
+      "pr": 1791,
+      "live_head": "4b6bdd7957033ace15d9e924ac8ff787066a5ff8",
+      "semantic_leaf": "MB104_ACTIVE_INCOMPLETE",
+      "main_handoff": "NONE"
+    }
+  },
+  "firewalls": {
+    "additional_pruning": false,
+    "exact_incremental_rejected_identity_set_claimed": false,
+    "additive_subtraction_performed": false,
+    "double_charge": false,
+    "full178_complete": false,
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "b30400705423b2c3c060f58ae9085d9442fc07c88dddad10ffa27e1f41c0ff59"
+}

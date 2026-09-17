@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_MAIN_GRF04_V35_Q_QUADRATIC_MAIN_BOUND_REPLACEMENT_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "status": "AUDITED_CANDIDATE_BOUND_CONSUMED__REPLACEMENT_HEAD_PENDING_HOSTILE_REAUDIT",
+  "purpose": "Consume the independently hostile-audited q-quadratic GRF04 capacity LP upper bound as the V35 numerical MAIN authority without additive stacking or identity-set claims.",
+  "predecessor_authority": {
+    "version": "V34",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 3360778813767800658369,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "state_blob_sha1": "ec0243cb998c5c58340100d8151559516c474193",
+    "state_canonical_sha256": "25e68a40148ce1ca4bb893ef47d23a0e213898aca8be3a76f497252cb2adc2eb"
+  },
+  "consumed_candidate": {
+    "path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-MAIN-INDEPENDENT-QUADRATIC-CAPACITY-LP-CANDIDATE.json",
+    "blob_sha1": "1d669114e930951b9d5f9f82a6abb2b59cd43884",
+    "canonical_sha256": "3fca63c0d678eb2de2147848a1aa29839618cfd9cb65bdd27d671b28c6e44b01",
+    "verifier_path": "stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_independent_quadratic_capacity_candidate.py",
+    "verifier_blob_sha1": "373ed6768f22f94b2e0d82c1af514c7ce1833a0a",
+    "audited_exact_head": "6489e1fb9f35b8ecdc19c982301a816d956711e9",
+    "hostile_audit_review_id": 5217623202,
+    "hostile_audit_status": "PASS",
+    "candidate_upper_bound": 195603649074545538415,
+    "dual_threshold": "29/1357",
+    "dual_numerator": 265434151794158295629351,
+    "dual_denominator": 1357,
+    "dual_floor_remainder": 196
+  },
+  "replacement": {
+    "authority_version": "V35",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": 195603649074545538415,
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "tightening_vs_v34": 3165175164693255119954,
+    "composition_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "exact_incremental_rejected_identity_set_claimed": false,
+    "additive_subtraction_performed": false,
+    "double_charge": false,
+    "full178_complete": false,
+    "stage32_closed": false
+  },
+  "claim_sync": {
+    "logical_claim_statement_changed": false,
+    "claim_registry_mutated": false,
+    "active_frontier_mutated": false,
+    "lane_adapters_mutated": false,
+    "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "claim_status": "DECLARED_GOAL_ACTIVE_INCOMPLETE",
+    "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
+    "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
+    "lane_adapters_blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40"
+  },
+  "live_specialist_refresh": {
+    "lane_178": {
+      "head": "fd9b78e0d58bc1b05a565c75f8e2c0191586c62f",
+      "status": "AUDIT_PENDING_NO_MAIN_CREDIT"
+    },
+    "ex5": {
+      "head": "47033b64c529426afe62050e78be02cd0619b6b6",
+      "status": "AUDIT_PENDING_NO_MAIN_CREDIT"
+    },
+    "cut": {
+      "status": "NO_NEW_AUDITED_SUCCESSOR"
+    },
+    "mb": {
+      "head": "4b6bdd7957033ace15d9e924ac8ff787066a5ff8",
+      "status": "ACTIVE_INCOMPLETE_NO_MAIN_HANDOFF"
+    }
+  },
+  "firewalls": {
+    "replacement_head_hostile_reaudit_required": true,
+    "main_pruning_authority_changed": true,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "Independent hostile audit of this replacement exact head. Until PASS, ordinary FULL178 integration is stopped and no further authority promotion is allowed.",
+  "canonical_sha256_without_this_field": "c04bf60efdd92f7af245e307167fffffd1d0d4a087a676ded5b01e5110298748"
+}

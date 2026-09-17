@@ -9,17 +9,19 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 EX5 = REPO / "stages" / "stage32-ex5"
-BRIDGE = HERE / "generalization-bridge"
 ARCH_EX5 = EX5 / "archive" / "startup-surface-20260914"
 ARCH = HERE / "proof" / "historical-routing-blobs"
 LANES = HERE / "proof" / "LANE-ADAPTERS.json"
 OLD_COMMANDS = ARCH / "COMMANDS-PRE-EX5-STARTUP-COLLAPSE.md"
 OLD_VERIFIER = ARCH / "VERIFY-COMMAND-SURFACE-PRE-EX5-STARTUP-COLLAPSE.py"
+OLD_MAIN_START = ARCH / "MAIN-START-HERE-PRE-ACTIVE-SPECIALIST-MONITOR.md"
 TMP_VERIFIER = HERE / ".verify_command_surface_pre_ex5_startup_collapse.py"
 LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
+LIVE_MAIN_START = HERE / "MAIN-START-HERE.md"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
 OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
+OLD_MAIN_START_BLOB = "2b659d7e7bde120de764de8b2c260faefe78a18e"
 OLD_EX5_START_BLOB = "47581a734da21dac3d2cabc4dc520d5be1310a49"
 RETIRED = (
     "README.md",
@@ -50,7 +52,6 @@ def main() -> None:
         "stage32ex5-mainbatch", "stage32ex5-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
         "stage32mb-mainbatch", "stage32mb-audit",
-        "stage32bridge-mainbatch", "stage32bridge-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
     req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
@@ -74,68 +75,38 @@ def main() -> None:
     req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
 
-    bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
-    req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
-    bridge = bridge_rows[0]
-    req(bridge["state_path"] == "stages/stage32/generalization-bridge/STATE.json", "BRIDGE state path drift")
-    req(bridge["startup_path"] == "stages/stage32/generalization-bridge/MAIN-START-HERE.md", "BRIDGE startup path drift")
-    req(bridge["demand_state_path"] is None, "BRIDGE unexpected local demand mirror")
-    req(bridge["lane_status"] == "ACTIVE_GENERALIZATION_FEASIBILITY_SPECIALIST", "BRIDGE lane status drift")
-    req(bridge["demand_role"] == "ROUTABLE", "BRIDGE demand role drift")
-    req(bridge["active_frontier_refs"] == ["S32.FULL178.NUMERICAL_CENSUS.V1"], "BRIDGE frontier drift")
-
-    bridge_mission = json.loads((BRIDGE / "MISSION.json").read_text(encoding="utf-8"))
-    req(bridge_mission["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE mission unexpectedly inactive")
-    req(bridge_mission["role"] == "ISSUE1817_P1_P2_FULL178_COMPRESSION_INTEGRATOR", "BRIDGE V2 role drift")
-    req(bridge_mission["operator_commands"]["main"] == "stage32bridge-mainbatch", "BRIDGE command drift")
-    req(bridge_mission["operator_commands"]["audit"] == "stage32bridge-audit", "BRIDGE audit command drift")
-    req(bridge_mission["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "BRIDGE routing authority drift")
-    req(bridge_mission["routing"]["current_main_credit_auto_promotion"] is False, "BRIDGE self-promotion enabled")
-    req(bridge_mission["execution"]["terminal_identity_materialization_forbidden"] is True,
-        "BRIDGE V2 terminal-identity fallback enabled")
-    req("178 terminal-by-terminal enumeration or ordinary local block pruning" in bridge_mission["ownership"]["does_not_own"],
-        "BRIDGE V2 top-down anti-fallback ownership boundary missing")
-    req(bridge_mission["credit_firewall"]["stage32_main_pruning_credit"] is False,
-        "BRIDGE mission starts with MAIN credit")
-
-    bridge_state = json.loads((BRIDGE / "STATE.json").read_text(encoding="utf-8"))
-    allowed_nodes = {row["node_id"] for row in bridge_mission["nodes"]}
-    req(bridge_state["current_node"] in allowed_nodes, "BRIDGE current node is outside V2 mission route")
-    req(bridge_state["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE state unexpectedly inactive")
-    req(bridge_state["routing"]["source_lane_authority_mutation"] is False,
-        "BRIDGE may mutate source-lane authority")
-    req(bridge_state["routing"]["main_credit_auto_promotion"] is False,
-        "BRIDGE state self-promotion enabled")
-    req(bridge_state["routing"]["terminal_identity_materialization_forbidden"] is True,
-        "BRIDGE state lost terminal-identity anti-fallback rule")
-    req(bridge_state["credit_firewall"]["merge_authorized"] is False,
-        "BRIDGE merge authorization leak")
-    bridge_start = (BRIDGE / "MAIN-START-HERE.md").read_text(encoding="utf-8")
-    req("stage32bridge-mainbatch" in bridge_start and "CROSS-LANE-DEMANDS.json" in bridge_start,
-        "BRIDGE demand-aware startup missing")
-    req("BRIDGE no longer performs open-ended cross-lane generalization search" in bridge_start,
-        "BRIDGE V2 bounded mission statement missing")
-    req("terminal identity" in bridge_start and "terminal-by-terminal" in bridge_start,
-        "BRIDGE V2 anti-local fallback boundary missing")
-
     state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
     req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
     req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
 
+    main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
+    req("ACTIVE-SPECIALIST-MONITOR-CONTRACT.json" in main_start,
+        "MAIN startup missing active-specialist monitor contract")
+    req("Mandatory live specialist sweep" in main_start,
+        "MAIN startup missing mandatory live specialist sweep")
+    req("S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1" in main_start,
+        "MAIN startup missing N398 handoff route")
+    req("PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json" in main_start,
+        "MAIN startup missing parity synthesis boundary")
+
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
+    req(blob(OLD_MAIN_START) == OLD_MAIN_START_BLOB, "pre-monitor MAIN startup snapshot drift")
     req(blob(ARCH_EX5 / "MAIN-START-HERE.md") == OLD_EX5_START_BLOB, "archived EX5 startup snapshot drift")
 
     live_commands = (HERE / "COMMANDS.md").read_bytes()
+    live_main_start = LIVE_MAIN_START.read_bytes()
     old_start = LEGACY_EX5_START.read_bytes() if LEGACY_EX5_START.exists() else None
     old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
     try:
         (HERE / "COMMANDS.md").write_bytes(OLD_COMMANDS.read_bytes())
+        LIVE_MAIN_START.write_bytes(OLD_MAIN_START.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
         TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
         (HERE / "COMMANDS.md").write_bytes(live_commands)
+        LIVE_MAIN_START.write_bytes(live_main_start)
         if old_start is None:
             if LEGACY_EX5_START.exists():
                 LEGACY_EX5_START.unlink()
@@ -148,10 +119,12 @@ def main() -> None:
             TMP_VERIFIER.write_bytes(old_tmp)
 
     req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
+    req(LIVE_MAIN_START.read_bytes() == live_main_start, "live MAIN startup restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
-    print("PASS: Stage32 shared command/startup contracts preserved; EX5 collapse and BRIDGE V2 enrollment verified")
-    print("historical pre-collapse command contract replayed transiently with no live-path resurrection")
+    print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
+    print("PASS: current MAIN active-specialist monitor contract present")
+    print("historical pre-collapse command/startup contract replayed transiently with no live-path resurrection")
 
 
 if __name__ == "__main__":

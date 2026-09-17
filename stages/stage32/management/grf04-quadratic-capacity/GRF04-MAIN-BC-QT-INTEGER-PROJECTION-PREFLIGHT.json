@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_MAIN_GRF04_BC_QT_INTEGER_PROJECTION_PREFLIGHT_V1",
+  "status": "RESEARCH_PREFLIGHT_ONLY_ZERO_MAIN_CREDIT",
+  "purpose": "Strengthen the MAIN-owned BC q-t projection by replacing its real SOS lower bound with the exact integer minimum of qBC at fixed (b,c,t), without terminal identity assumptions or additive stacking.",
+  "variables": {
+    "b": "x1+x5+x9",
+    "c": "x0+x8+x6+x10",
+    "t": "x0+x1+x6+x9",
+    "u": "x1+x9",
+    "v": "t-u=x0+x6",
+    "qBC": "x0^2+x1^2+x5^2+x6^2+x8^2+x9^2+x10^2"
+  },
+  "exact_integer_minimum": {
+    "domain": "L=max(0,t-c) <= u <= U=min(b,t), u integer",
+    "separable_formula": "qBC_min(b,c,t)=min_u [ceil(u^2/2)+(b-u)^2+ceil((t-u)^2/2)+ceil((c-t+u)^2/2)]",
+    "reason": "For fixed u, x1+x9=u and x0+x6=t-u; each two-variable square sum is minimized by the most balanced integer split, while x5=b-u and x8+x10=c-t+u.",
+    "parity_quadratic": "For parity p=u mod 2, 2*qBC_min candidate = 5*u^2-2*A*u+C+eps_p with A=2*b+2*t-c, C=2*b^2+t^2+(c-t)^2, eps_p=p+((t-p) mod 2)+((c-t+p) mod 2).",
+    "finite_candidate_rule": "Within each parity class p, minimize |5*u-A| over u in [L,U] with u≡p (mod 2); because the quadratic coefficient is positive, the nearest admissible u to A/5 is exact.",
+    "necessary_projection": "A BC histogram cell (b,c,qBC) permits only t with qBC_min(b,c,t)<=qBC.",
+    "dominance_over_real_sos": "The exact integer minimum is at least the previous real Schur/SOS lower bound, so the integer t-set is a subset of the prior BC-QT projected t interval."
+  },
+  "bounded_preflight": {
+    "domain": {
+      "g": [0, 1],
+      "d_even": [8, 20],
+      "hmax": 10
+    },
+    "panel_terminals": 204729820492,
+    "bc_envelope_rejected": 198808166494,
+    "bc_qt_real_projection_rejected": 199725549465,
+    "bc_qt_integer_projection_rejected": 199744626374,
+    "bc_qt_real_projection_survivors": 5004271027,
+    "bc_qt_integer_projection_survivors": 4985194118,
+    "incremental_rejected_over_real_projection": 19076909,
+    "relative_reduction_of_real_projection_survivors": 0.0038121254618450145,
+    "strict_projection_cells": 530964,
+    "row_stream_sha256": "90e547ecb1999e7f660843a8c3fd8c549f35202c9ea86520d64398bb43956e44"
+  },
+  "source_locks": {
+    "parent_bc_qt_preflight_artifact_blob_sha1": "a3bc30b05ccd7ae31558e1fa1fcf8b255ad6f293"
+  },
+  "research_interpretation": {
+    "main_owned_symbolic_strengthening": true,
+    "full178_scaleout_not_run": true,
+    "current_main_numerical_authority_changed": false,
+    "promotion_required": "FULL178 replay, independent source locks, hostile audit, and MIN-composition/no-double-charge proof before MAIN numerical credit."
+  },
+  "credit": {
+    "main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false,
+    "merge": false
+  },
+  "canonical_sha256_without_this_field": "08c4fd287d4630ff786994cf29e866c816a3e8668cce3cf46c7a11e8bd6c739f"
+}

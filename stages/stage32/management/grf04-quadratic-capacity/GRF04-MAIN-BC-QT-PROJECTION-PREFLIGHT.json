@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE32_MAIN_GRF04_BC_QT_PROJECTION_PREFLIGHT_V1",
+  "status": "RESEARCH_PREFLIGHT_ONLY_ZERO_MAIN_CREDIT",
+  "purpose": "Use the retained BC q-histogram to infer a narrower necessary interval for t=x0+x1+x6+x9 before terminal-level or exact-(q,t) enumeration, then feed that interval into GRF04.",
+  "variables": {
+    "b": "x1+x5+x9",
+    "c": "x0+x8+x6+x10",
+    "u": "x1+x9",
+    "t": "x0+x1+x6+x9",
+    "qBC": "x0^2+x1^2+x5^2+x6^2+x8^2+x9^2+x10^2"
+  },
+  "exact_integer_sos_identity": "60*qBC-20*b^2-15*c^2-(6*t-4*b-3*c)^2 = 30*((x1-x9)^2+(x0-x6)^2+(x8-x10)^2)+6*(5*u-2*b-2*t+c)^2 >= 0",
+  "necessary_projection": "(6*t-4*b-3*c)^2 <= 60*qBC-20*b^2-15*c^2",
+  "equivalent_real_lower_bound": "qBC >= b^2/3+c^2/4+(3/5)*(t-(4*b+3*c)/6)^2",
+  "integer_interval_rule": {
+    "radius_sq": "R=60*qBC-20*b^2-15*c^2",
+    "reject_if": "R<0",
+    "radius": "r=floor_sqrt(R)",
+    "t_lo": "max(0,ceil((4*b+3*c-r)/6))",
+    "t_hi": "min(b+c,floor((4*b+3*c+r)/6))"
+  },
+  "dominance": {
+    "baseline": "TD02 BC envelope using only 0<=t<=b+c",
+    "proof": "The projected interval is intersected with [0,b+c], so every x4 surviving the projected envelope also survives the baseline BC envelope. No independence assumption or additive stacking is used.",
+    "relation": "BC_QT_PROJECTION_SURVIVORS_SUBSET_OF_BC_ENVELOPE_SURVIVORS"
+  },
+  "bounded_preflight": {
+    "domain": {
+      "g": [0, 1],
+      "d_even": [8, 20],
+      "hmax": 10
+    },
+    "panel_terminals": 204729820492,
+    "hpadj08_rejected": 108290859347,
+    "bc_envelope_rejected": 198808166494,
+    "bc_envelope_survivors": 5921653998,
+    "bc_qt_projection_rejected": 199725549465,
+    "bc_qt_projection_survivors": 5004271027,
+    "incremental_rejected_over_bc_envelope": 917382971,
+    "relative_reduction_of_bc_envelope_survivors": 0.15492005634065079,
+    "row_stream_sha256": "c0544548f5f7ef5d83e4fecf55f77ab5c3aa70934b51a796c73f292da8c5aa93"
+  },
+  "source_locks": {
+    "compressed_terminal_family_blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "grf04_kernel_blob_sha1": "f7c1073edbf895f498fd9923e59eedf5a4e981c8",
+    "verifier_blob_sha1": "66dfd1082c119f86ec8d249389e039358277daa6"
+  },
+  "research_interpretation": {
+    "top_down_role": "Aggregate qBC cells can be pruned or x4-capacity-tightened before exact t histogram or terminal expansion.",
+    "overlap_with_ex5_allowed": true,
+    "full178_authority_changed": false,
+    "current_main_numerical_authority_changed": false,
+    "promotion_required": "FULL178 replay plus hostile audit and no-double-charge accounting before any MAIN numerical credit"
+  },
+  "credit": {
+    "main": false,
+    "theorem": false,
+    "effectivity": false,
+    "endpoint": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false,
+    "merge": false
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ08_V29_BOUND_REPLACEMENT_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "leaf": "HPADJ08_EX5_V29_MAIN_BOUND_REPLACEMENT",
+  "status": "CONSUMED_AUDITED_EX5_V24_BOUND_BY_MIN_COMPOSITION_PENDING_REPLACEMENT_HEAD_HOSTILE_REAUDIT",
+  "source_locks": {
+    "predecessor_v28_main": {
+      "exact_head": "a105787a9d1934e371a1192495dcac92ea828e41",
+      "main_state_path": "stages/stage32/MAIN-STATE.json",
+      "main_state_blob_sha1": "69dd727697ab3f8d464f8a48e7bc708739d6973a",
+      "main_state_canonical_sha256": "29859578ce1c4e2372379cd508595e767393d676c0b6429e7de3bc8691998fc9"
+    },
+    "current_repository_main": {
+      "exact_head": "c6284abbb29930255892d56f800da0ea1e34734b"
+    },
+    "hpadj08_ex5_current_main_adapter": {
+      "producer_pr": 1812,
+      "audited_exact_head": "36eab50192cf80ec5ed48aba40f4a56076759fea",
+      "hostile_audit_review_id": 5208789388,
+      "hostile_audit_status": "PASS",
+      "adapter_path": "stages/stage32-ex5/hpadj-08_ex5/CURRENT-MAIN-NO-DOUBLE-CHARGE-ADAPTER.json",
+      "adapter_blob_sha1": "57bda3c27a9a2a7df2741e23a91c7a26ce3c7cc0",
+      "adapter_canonical_sha256": "14de9512d0ad1449b80b89f660ccbfd6d9e0864702e9b711234e8697596ff7c1",
+      "verifier_path": "stages/stage32-ex5/hpadj-08_ex5/verify_hpadj08_current_main_adapter.py",
+      "verifier_blob_sha1": "65ed09517e1d37c318ca8c8798f10294ed5c6270"
+    }
+  },
+  "accounting": {
+    "pre_transition_v28_remaining_strata": 17128,
+    "pre_transition_v28_remaining_terminals_upper_bound": 26876434389242951065128,
+    "hpadj08_source_v24_remaining_terminals_upper_bound": 26876434389242951089388,
+    "hpadj08_safe_v24_incremental_rejected_terminals_lower_bound": 20173030585249740987894,
+    "hpadj08_independent_post_adapter_remaining_terminals_upper_bound": 6703403803993210101494,
+    "composition_rule": "MIN_OF_INDEPENDENT_CERTIFIED_UPPER_BOUNDS__NO_ADDITIVE_STACKING",
+    "post_transition_remaining_strata": 17128,
+    "post_transition_certified_remaining_terminals_upper_bound": 6703403803993210101494,
+    "certified_numeric_bound_tightening_vs_v28": 20173030585249740963634,
+    "exact_incremental_rejected_set_vs_v28_claimed": false,
+    "additive_subtraction_from_v28_performed": false,
+    "n400_or_cut201_subtracted_again_against_hpadj08_bound": false,
+    "h8c03a_subtracted_against_hpadj08_bound": false,
+    "remaining_terminal_authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "exact_current_residual_identity_set_claimed": false,
+    "stratum_count_change_claimed": false,
+    "double_charge": false,
+    "double_charge_argument": "The V29 authority is min(V28 certified upper bound, audited HPADJ08 independent V24-derived upper bound). No V28/N400/CUT201 rejected set and no H8C-03A increment is added to or subtracted from the HPADJ08 bound. Unknown overlaps therefore cannot be double charged."
+  },
+  "promotion": {
+    "main_numeric_bound_replacement_consumed": true,
+    "exact_incremental_main_pruning_credit_consumed": false,
+    "claim_sync_scope": "MAIN_STATE_NUMERIC_AUTHORITY_ONLY__CLAIM_CORE_UNCHANGED",
+    "claim_dag_changed": false,
+    "replacement_head_hostile_reaudit_required": true,
+    "further_main_authority_mutation_before_reaudit_forbidden": true,
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_gate": "Run exact-head Stage32 MAIN CI, then stage32audit on the V29 replacement head. No further MAIN authority mutation before hostile PASS.",
+  "canonical_sha256_without_this_field": "9b7dde35f57960a1535b0dad5853ebeb75fe6d996902a653de1059fde0764f4d"
+}

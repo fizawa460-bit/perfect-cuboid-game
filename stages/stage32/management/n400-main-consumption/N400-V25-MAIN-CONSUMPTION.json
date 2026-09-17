@@ -1,0 +1,86 @@
+{
+  "schema": "STAGE32_MAIN_N400_V25_CONSUMPTION_V1",
+  "stage": 32,
+  "leaf": "N400_HOSTILE_AUDITED_5502_MAIN_CONSUMPTION",
+  "status": "CONSUMED_ON_REPLACEMENT_MAIN_HEAD_PENDING_HOSTILE_REAUDIT",
+  "predecessor_main": {
+    "exact_head": "23a6512e0e14b98439e4c04d0c4367fb779359a5",
+    "main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "main_state_canonical_sha256": "bdaab3df8871e656652e5c1f78f972405081a45b8d5e421cc4a9bacddef3bf5d",
+    "cross_lane_registry_blob_sha1": "2476c316db30251c21d5c98a5a9599eb2a90d459",
+    "cross_lane_registry_canonical_sha256": "0ba500be9566fbda6e24c87a5ed8f83f481498b67d99f4498e9e9fc8cfc4d777"
+  },
+  "producer_audit": {
+    "producer_lane": "32-01-178",
+    "producer_pr": 1797,
+    "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+    "hostile_audit_review_id": 5203374607,
+    "hostile_audit_status": "PASS",
+    "retained_main_audit_receipt_path": "stages/stage32/management/n400-main-consumption/N400-HOSTILE-AUDIT-PASS-RECEIPT.json",
+    "retained_main_audit_receipt_blob_sha1": "c43a50a417cb62228860c0c230a27110939ed6e7",
+    "retained_main_audit_receipt_canonical_sha256": "201422333dd02f1e15c8fc9bb59b332651905f8b21c2d4cd9fa8c67005f1ccbb"
+  },
+  "n400_source_locks": {
+    "result_blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+    "result_canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb",
+    "state_blob_sha1": "c6fb6f55e026be9c87f5e825a18d114ce0dd3d23",
+    "state_canonical_sha256": "eabea6689d7fc92542eb5a417e1467dba4bf3ce7cb69613fd6dff4d5e52fd342",
+    "verifier_blob_sha1": "6898ea22458d2156944569dc598eb5b7ebb0048e",
+    "rejected_terminal_rank_stream_sha256": "6648c3a246b71f74dec275012f0218d8a44477cd756229e6e3bc3eda965ca262"
+  },
+  "accounting": {
+    "authoritative_remaining_strata_before": 17128,
+    "authoritative_remaining_strata_after": 17128,
+    "pre_consumption_certified_remaining_terminals_upper_bound": 26876434389242951089388,
+    "credited_incremental_rejected_terminals": 5502,
+    "prior_consumed_v24_overlap_terminal_count": 0,
+    "double_charge": false,
+    "identity_check": "26876434389242951089388 - 5502 = 26876434389242951083886",
+    "post_consumption_certified_remaining_terminals_upper_bound": 26876434389242951083886,
+    "remaining_terminal_authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "stratum_count_change_claimed": false,
+    "consume_exactly_once": true,
+    "producer_lane_authority_subtraction_performed": false,
+    "main_consumer_authority_subtraction_performed": true
+  },
+  "cross_lane_sync": {
+    "superseded_demand_id": "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1",
+    "superseded_demand_new_status": "OBSOLETE",
+    "satisfying_demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+    "satisfying_demand_status": "SATISFIED",
+    "updated_registry_blob_sha1": "454eca60149ae5c3121f79567d6b4a782d373369",
+    "updated_registry_canonical_sha256": "600e877e1d0764c4ac0687282d2836707e06b55d6248cf7a0c6fe5b845842161",
+    "active_specialist_monitor_blob_sha1": "344aeaccb0c655f2e1def290eb68dab834aa5105",
+    "parity_synthesis_blob_sha1": "e41ee562f8a940ad5041d2d5e64228f2ada7a207",
+    "no_pending_178_to_main_handoff_after_consumption": true
+  },
+  "claim_sync": {
+    "trigger": "EX_TO_MAIN_PROMOTION_AND_AUTHORITY_METADATA_TRANSITION",
+    "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "claim_semantics_changed": false,
+    "claim_status_changed": false,
+    "frontier_status_after": "ACTIVE_INCOMPLETE",
+    "claim_registry_blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862",
+    "active_frontier_blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4",
+    "claim_sync_contract_blob_sha1": "bbab1b565afbd2e767fc6cc4325c5167d42919b4",
+    "note": "N400 consumption tightens the certified remaining-terminal upper bound but does not complete or alter the immutable FULL178 goal claim core. Claim registry/frontier therefore remain byte-identical and are source-locked at this synchronization checkpoint."
+  },
+  "promotion": {
+    "main_pruning_credit_consumed": true,
+    "replacement_head_hostile_reaudit_required": true,
+    "further_main_consumption_before_reaudit_forbidden": true,
+    "producer_lane_subtraction_forbidden": true
+  },
+  "firewalls": {
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "merge_authorized": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "receiver_credit": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "canonical_sha256_without_this_field": "2b6d8d3c3f6eec99def1ee29d65e9a53d610c2c4696de4301d16ec37241ff205"
+}

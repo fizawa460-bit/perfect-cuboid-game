@@ -1,0 +1,107 @@
+{
+  "canonical_sha256_without_this_field": "20defc105e39fedaaf5243de55bf0c496ffa997566fec582595847da5a02c2ca",
+  "credit_firewall": {
+    "coordinate_equivalence_proved": false,
+    "effectivity_credit": false,
+    "endpoint_credit": false,
+    "ex5_main_credit": false,
+    "full178_complete": false,
+    "grf09_main_pruning_credit": false,
+    "merge_authorized": false,
+    "n398_main_pruning_credit": false,
+    "population_equivalence_proved": false,
+    "shared_parity_theorem_proved": false,
+    "stage32_closed": false,
+    "theorem_credit": false
+  },
+  "purpose": "Historical comparison boundary for N398/GRF-09/EX5 parity observations. It is superseded as a MAIN re-entry blocker by the hostile-audited N400 compact consumption handoff; unresolved cross-population comparisons remain NOT_PROVED and are not used for the N400 bounded 5,502-terminal consumption.",
+  "required_comparisons": [
+    {
+      "id": "POPULATION_IDENTITY",
+      "question": "Do the N398 and GRF-09 populations intersect, embed, or merely share a common parent parameterization?",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "COORDINATE_LABEL_ADAPTER",
+      "question": "Map N398 labels x49/x93/x96/x98 and GRF-09 assignment labels 49/99/98 to exact Picard64/HNF coordinates or dual covectors with source locks.",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "AFFINE_RELATION_SPACE",
+      "question": "After an exact coordinate adapter exists, compare the GF(2) affine relation spaces and mod-8 lifting semantics; do not identify formulas by label coincidence alone.",
+      "status": "NOT_PROVED"
+    },
+    {
+      "id": "EX5_STRUCTURAL_ORIGIN",
+      "question": "Determine whether the same relation follows from the audited EX5 Picard64/node-support constraint system, or whether the three observations are genuinely distinct.",
+      "status": "NOT_PROVED"
+    }
+  ],
+  "routing": {
+    "cut_state_must_not_be_mutated_by_main_synthesis": true,
+    "ex5_state_must_not_be_mutated_by_main_synthesis": true,
+    "main_may_prepare_noncredit_comparison_before_n398_audit": false,
+    "main_must_not_claim_cross_population_equivalence_without_exact_adapter": true,
+    "n398_demand_id": "S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1",
+    "n398_demand_status": "OBSOLETE",
+    "superseding_demand_id": "S32.DEMAND.N400.178.MAIN.COMPACT_CONSUMPTION.V1",
+    "superseding_audit_review_id": 5203374607,
+    "superseding_audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+    "n400_consumption_does_not_require_grf09_population_equivalence": true
+  },
+  "schema": "STAGE32_PICARD64_PARITY_CROSS_LANE_SYNTHESIS_V2_SUPERSEDED_BY_N400",
+  "sources": {
+    "ex5_picard64": {
+      "current_route": "BC2-40 preflight; execution not armed",
+      "hostile_audit_review_id": 5193423203,
+      "hostile_audited_boundary": "BC2-39",
+      "hostile_audited_exact_head": "4b974550d9ad030973fec99e19a090f6785f8aa8",
+      "known_parent_unsat_lower_bound": 7313,
+      "producer_pr": 1776,
+      "remaining_unknown_parent_count": 23,
+      "remaining_unknown_parent_indices_sha256": "29cba46b566de1e0ccad58e0f16897a1fd9fab60d06109e73772628170d68c02",
+      "role_in_synthesis": "Historical comparison input only; no N400 consumption credit derives from this source."
+    },
+    "grf09_main": {
+      "affine_model_count": 4,
+      "checkpoint_blob_sha1": "432a15f3c899f33e7d96cebde2247ae257318c46",
+      "checkpoint_path": "stages/stage32/management/global-residual-feasibility/GRF-09-CUT201-E8-PICARD-PARITY-CHECKPOINT.json",
+      "current_main_residual_subset_identity_proved": false,
+      "diagnostic_sat_terminals": 14478,
+      "diagnostic_unsat_terminals": 14337,
+      "population": "CUT201 survivor offsets 2041..2295; 255 blocks x 113 = 28,815 terminals; corrected raw block indices 2713..3247",
+      "producer_pr": 1808,
+      "relations": [
+        "assignment label 49 parity = assignment label 99 parity XOR assignment label 98 parity"
+      ],
+      "verifier_blob_sha1": "55c1de5a90bb66322ee139a6334a5fc8ebaec4ea"
+    },
+    "n398_178": {
+      "audit_status": "PASS_RETAINED_HISTORICAL_INPUT",
+      "audited_exact_head": "71f078a7521b265e300a450ab129370f077ef6a1",
+      "hostile_audit_review_id": 5198108138,
+      "population": "97 retained blocks / 10,961 terminal identities from the N395/N396 retained route",
+      "producer_pr": 1797,
+      "relations": [
+        "x49 = x93 + x96 (mod 2)",
+        "x49 + x98 = 1 (mod 2)"
+      ],
+      "result_canonical_sha256": "611632cedd9ff3515bb374a608020dd06079240db5224bb15f90845c7b90cad7",
+      "state_canonical_sha256": "f1146a2fda26d4d747e710b90ab829dd27b09118471a4d385046a1cb1215fcd1"
+    },
+    "n400_178": {
+      "audit_status": "PASS",
+      "audited_exact_head": "b1a950cbc6edf3cb85e1ea79473105c6f1f67b03",
+      "hostile_audit_review_id": 5203374607,
+      "producer_pr": 1797,
+      "result_blob_sha1": "485c9a0380788bedd25cde5a47204e2c8c62472e",
+      "result_canonical_sha256": "8459cd213cca964718b36c4bce7006439c85a2527943441ede1f286a7eb56dcb",
+      "rejected_terminal_count": 5502,
+      "prior_consumed_v24_overlap_terminal_count": 0,
+      "double_charge": false,
+      "producer_main_subtraction": false
+    }
+  },
+  "stage": 32,
+  "status": "SUPERSEDED_BY_AUDITED_N400_MAIN_CONSUMPTION"
+}
