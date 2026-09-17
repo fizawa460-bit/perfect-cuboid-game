@@ -141,6 +141,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V40-HPADJ20-FULL178-MAIN-BOUND-REPLACEMENT.json)" = "f9d984f64d2c428481e082be622848e33407baf1"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v40_hpadj20_full178_main_bound_replacement.py)" = "dd3073cd83ab8079d1fa16dd506e453a2d632ff7"
           test "$(git -C .stage32-v39 hash-object stages/stage32/MAIN-STATE.json)" = "187e34e2be989c7de674d2f5448e9dcebf0820c9"
+          test "$(git -C .stage32-v39 hash-object stages/stage32/verify_main_startup_authority_v39_full178_integer_lattice_audit_synced.py)" = "989b05352b93da0a7095bf2d25b533d059a49f53"
           test "$(git -C .stage32-v39 hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v39_td02_full178_integer_lattice_audit_sync.py)" = "e894053e4ab4c373c75e0b88e77b09517aab5f75"
           test "$(git -C .stage32-ex5-hpadj20-handoff hash-object stages/stage32-ex5/hpadj-20_ex5/MAIN-HANDOFF.json)" = "52ca73eeb52b7d930f905c42a85b62f044bda269"
           test "$(git -C .stage32-ex5-hpadj20-audited hash-object stages/stage32-ex5/hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py)" = "837d647cfcbc96bbe384e564f449cd7042a46d48"
@@ -197,8 +198,8 @@ jobs:
           python .stage32-v37/stages/stage32/verify_main_startup.py
       - name: Reverify hostile-audited V38 replacement boundary
         run: python .stage32-v38/stages/stage32/verify_main_startup.py
-      - name: Reverify exact V39 predecessor projection
-        run: python .stage32-v39/stages/stage32/verify_main_startup.py
+      - name: Reverify exact V39 predecessor authority projection
+        run: python .stage32-v39/stages/stage32/verify_main_startup_authority_v39_full178_integer_lattice_audit_synced.py
       - name: Verify MAIN exact integer BC-QT projection preflight
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py
       - name: Verify MAIN parallel HPADJ20 full-qA histogram preflight
