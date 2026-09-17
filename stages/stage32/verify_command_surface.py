@@ -9,6 +9,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 EX5 = REPO / "stages" / "stage32-ex5"
+BRIDGE = HERE / "generalization-bridge"
 ARCH_EX5 = EX5 / "archive" / "startup-surface-20260914"
 ARCH = HERE / "proof" / "historical-routing-blobs"
 LANES = HERE / "proof" / "LANE-ADAPTERS.json"
@@ -52,6 +53,7 @@ def main() -> None:
         "stage32ex5-mainbatch", "stage32ex5-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
         "stage32mb-mainbatch", "stage32mb-audit",
+        "stage32bridge-mainbatch", "stage32bridge-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
     req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
@@ -74,6 +76,50 @@ def main() -> None:
     req(ex5["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 state path drift")
     req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
+
+    bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
+    req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
+    bridge = bridge_rows[0]
+    req(bridge["state_path"] == "stages/stage32/generalization-bridge/STATE.json", "BRIDGE state path drift")
+    req(bridge["startup_path"] == "stages/stage32/generalization-bridge/MAIN-START-HERE.md", "BRIDGE startup path drift")
+    req(bridge["demand_state_path"] is None, "BRIDGE unexpected local demand mirror")
+    req(bridge["lane_status"] == "ACTIVE_GENERALIZATION_FEASIBILITY_SPECIALIST", "BRIDGE lane status drift")
+    req(bridge["demand_role"] == "ROUTABLE", "BRIDGE demand role drift")
+    req(bridge["active_frontier_refs"] == ["S32.FULL178.NUMERICAL_CENSUS.V1"], "BRIDGE frontier drift")
+
+    bridge_mission = json.loads((BRIDGE / "MISSION.json").read_text(encoding="utf-8"))
+    req(bridge_mission["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE mission unexpectedly inactive")
+    req(bridge_mission["role"] == "ISSUE1817_P1_P2_FULL178_COMPRESSION_INTEGRATOR", "BRIDGE V2 role drift")
+    req(bridge_mission["operator_commands"]["main"] == "stage32bridge-mainbatch", "BRIDGE command drift")
+    req(bridge_mission["operator_commands"]["audit"] == "stage32bridge-audit", "BRIDGE audit command drift")
+    req(bridge_mission["routing"]["authority"] == "stages/stage32/MAIN-STATE.json", "BRIDGE routing authority drift")
+    req(bridge_mission["routing"]["current_main_credit_auto_promotion"] is False, "BRIDGE self-promotion enabled")
+    req(bridge_mission["execution"]["terminal_identity_materialization_forbidden"] is True,
+        "BRIDGE V2 terminal-identity fallback enabled")
+    req("178 terminal-by-terminal enumeration or ordinary local block pruning" in bridge_mission["ownership"]["does_not_own"],
+        "BRIDGE V2 top-down anti-fallback ownership boundary missing")
+    req(bridge_mission["credit_firewall"]["stage32_main_pruning_credit"] is False,
+        "BRIDGE mission starts with MAIN credit")
+
+    bridge_state = json.loads((BRIDGE / "STATE.json").read_text(encoding="utf-8"))
+    allowed_nodes = {row["node_id"] for row in bridge_mission["nodes"]}
+    req(bridge_state["current_node"] in allowed_nodes, "BRIDGE current node is outside V2 mission route")
+    req(bridge_state["status"] == "ACTIVE_RESEARCH_NO_CREDIT", "BRIDGE state unexpectedly inactive")
+    req(bridge_state["routing"]["source_lane_authority_mutation"] is False,
+        "BRIDGE may mutate source-lane authority")
+    req(bridge_state["routing"]["main_credit_auto_promotion"] is False,
+        "BRIDGE state self-promotion enabled")
+    req(bridge_state["routing"]["terminal_identity_materialization_forbidden"] is True,
+        "BRIDGE state lost terminal-identity anti-fallback rule")
+    req(bridge_state["credit_firewall"]["merge_authorized"] is False,
+        "BRIDGE merge authorization leak")
+    bridge_start = (BRIDGE / "MAIN-START-HERE.md").read_text(encoding="utf-8")
+    req("stage32bridge-mainbatch" in bridge_start and "CROSS-LANE-DEMANDS.json" in bridge_start,
+        "BRIDGE demand-aware startup missing")
+    req("BRIDGE no longer performs open-ended cross-lane generalization search" in bridge_start,
+        "BRIDGE V2 bounded mission statement missing")
+    req("terminal identity" in bridge_start and "terminal-by-terminal" in bridge_start,
+        "BRIDGE V2 anti-local fallback boundary missing")
 
     state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
     req(state["schema"] == "STAGE32EX5_MAIN_COMPACT_STATE_V5_POST_1765_MERGE", "EX5 retained V5 state drift")
@@ -122,7 +168,7 @@ def main() -> None:
     req(LIVE_MAIN_START.read_bytes() == live_main_start, "live MAIN startup restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
-    print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
+    print("PASS: Stage32 shared command/startup contracts preserved; EX5 collapse and BRIDGE V2 enrollment verified")
     print("PASS: current MAIN active-specialist monitor contract present")
     print("historical pre-collapse command/startup contract replayed transiently with no live-path resurrection")
 
