@@ -21,5 +21,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install sympy
+      - name: Exact compact-signature factorization
+        run: python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_signature_factorization.py
       - name: Exact direct numerical Picard production endpoint panel
         run: python stages/stage32/32-01-178/fibration-nef/verify_direct_numerical_picard_leaf_compression.py --panel-size 2
