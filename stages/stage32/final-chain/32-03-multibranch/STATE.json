@@ -2,19 +2,17 @@
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
   "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
   "mb101": {
     "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
     "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/verify_mb101_normalization_profile.py",
     "status": "RETAINED_NO_CREDIT",
-    "exact_population_adapter": true,
-    "normalization_profile_adapter": true,
-    "unibranch_176_192_cap_imported": false,
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
@@ -23,29 +21,59 @@
     "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
     "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/verify_mb102_delta_genus.py",
     "status": "RETAINED_NO_CREDIT",
-    "local_delta_ledger": true,
-    "global_genus_correction": true,
-    "delta_inferred_from_counts": false,
     "finite_degree_window_proved": false,
     "receiver_credit": false
   },
+  "mb103": {
+    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/RESULT.md",
+    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/CERTIFICATE.json",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB103/verify_mb103_aut_profile_quotient.py",
+    "status": "RETAINED_NO_CREDIT",
+    "aut_s_group_order": 1536,
+    "exact_geometric_profile_quotient": true,
+    "complete_packet_transport": true,
+    "node_permutation_table_materialized_in_repo": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false
+  },
+  "mb104_restart": {
+    "status": "ACTIVE_UNIFORM_CLOSURE_RESTART_NO_CREDIT",
+    "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
+    "entrypoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/README-UNIFORM-CLOSURE-PR.md",
+    "search_ledger": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-UNIFORM-CLOSURE-RESTART-20260917.md",
+    "split_manifest": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-PR-SPLIT-MANIFEST-20260917.json",
+    "historical_archive_pr": 1791,
+    "historical_archive_branch": "stage32mb-mainbatch-20260912",
+    "historical_archive_exact_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "historical_archive_may_be_closed": true,
+    "historical_archive_branch_must_be_retained": true,
+    "repeat_archived_searches": false,
+    "finite_degree_window_proved": false
+  },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
+    "node_id": "MB104",
+    "title": "Uniform closure of the balanced MB104 ray without repeating archived searches",
+    "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
+    "required_input": "Resolve live MAIN authority drift first; then use the retained restart ledger and search only U1-U7 or a genuinely distinct global closure mechanism",
+    "success_shapes": [
+      "all-l exclusion for the exact balanced MB104 ray",
+      "explicit large-l exclusion leaving finite 1<=l<=L backend"
+    ],
+    "must_not_repeat": [
+      "conductor residual-sheet recovery as primary route without a new source-locked adapter",
+      "Armstrong H1/Picard rank/minor replay without fixed-element source-completeness and a new bridge",
+      "cusp-width without exact support equality",
+      "counting-only RH/Bezout/fixed-jet recombinations",
+      "direct Stage34/A2 fixed finite-cover transplant",
+      "Picard integrality as the sole obstruction"
     ]
   },
   "routing": {
     "independent_of_full178_execution": true,
     "main_credit_auto_promotion": false,
     "finite_picard_enumeration_released": false,
-    "hostile_audit_target_available": true
+    "hostile_audit_target_available": true,
+    "authority_drift_must_be_resolved_before_credit_bearing_research": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
