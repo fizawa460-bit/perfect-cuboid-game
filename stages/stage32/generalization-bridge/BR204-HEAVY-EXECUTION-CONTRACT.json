@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V4",
-  "status": "COLD_DOORSTEP_READY_FOR_HOSTILE_AUDIT__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define the exact resume-first BR204 FULL178 execution surface without starting heavy compute. Operational authorization is exclusively a later semantic run-key arm commit followed by exact-head manual dispatch.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V5_B_D_BAND_RESUME",
+  "status": "COLD_DOORSTEP_RESUME_REFINED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define the exact resume-first BR204 FULL178 execution surface with durable (b,d-band) checkpoints. Heavy remains cold; operational authorization is exclusively a later post-audit semantic run-key arm commit followed by exact-head manual dispatch.",
   "audited_predecessor": {
     "bridge_pr": 1813,
-    "audited_exact_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
-    "hostile_audit_review_id": 5231786735,
+    "audited_exact_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
+    "hostile_audit_review_id": 5242485845,
     "hostile_audit_status": "PASS",
-    "scope": "BR204 light preflight plus compact producer/equivalence only; FULL178 heavy excluded"
+    "scope": "BR204 cold heavy doorway before finer b x d-band resume refinement; current execution-only refinement requires fresh exact-head replay and separate hostile audit before arming"
   },
   "live_main_refresh": {
     "audited_numeric_main_pr": 1808,
@@ -31,7 +31,23 @@
     "refined_routing_states": 4070710,
     "bct_cells": 453937,
     "bc_assignment_mass": "174683387305",
-    "logical_shards": ["0..11", "12..23", "24..35", "36..47", "48..59", "60..71", "72..83", "84..96"]
+    "logical_shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250
   },
   "source_locks": {
     "compact_mu_bounded_equivalence": {
@@ -40,11 +56,11 @@
     },
     "heavy_b_unit_worker": {
       "path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
-      "git_blob_sha1": "71081e34c03eee756ea970e6632716121e951f54"
+      "git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc"
     },
     "global_bin_aggregator": {
       "path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
-      "git_blob_sha1": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16"
+      "git_blob_sha1": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c"
     },
     "certificate_storage_preflight": {
       "path": "stages/stage32/generalization-bridge/BR204-CERTIFICATE-STORAGE-PREFLIGHT.json",
@@ -54,37 +70,67 @@
   "objective_semantics": {
     "same_population_replacement_only": true,
     "additive_pruning": false,
-    "per_unit_output": "exact merged (s,B,capacity) bins for BR202 K8 and BR203 mu plus exact L>8/K8-tail-slot counters; mu bins carry tail-slot capacity attribution",
+    "per_unit_output": "Each durable (b,d-band) subunit emits exact merged (s,B,capacity) bins for BR202 K8 and BR203 mu plus d-dependent L>8/K8-tail-slot counters. Static BC state/mass metadata are repeated per band, must agree byte-semantically within b, and are counted once per b by the aggregator.",
     "k8_tail_slot_semantics": "For a compact BC state with more than eight exact qBC levels, parts 1..7 are exact and part 8 is the K8 relaxed slot containing exact level 8 plus all deeper-level mass evaluated at q8. Do not reinterpret the slot as only qBC levels >8.",
-    "global_composition": "union exact capacities for all b=0..96 first, group bins by exact rational ratio s/B, then solve one descending exact-rational ratio-class LP against the retained envelope",
+    "global_composition": "validate exact coverage of the approved 250 (b,d-band) subunits; count static BC population once per b; union all d-dependent exact capacities across subunits; group bins by exact rational ratio s/B; then solve one descending exact-rational ratio-class LP against the retained envelope",
     "equal_ratio_rule": "Forced tail selection is computed only after summing capacity and tail-slot capacity over every bin with the same exact Fraction(s,B), so attribution is representation/order independent.",
     "envelope": "6703403803993209250491",
     "forbidden": "sum or average per-b LP floors; order equal-ratio bins to manufacture tail activity; materialize raw 4.1M routing-state JSON; terminal-identity fallback"
   },
   "qbc_tail_certificate": {
     "same_pass_required": true,
-    "per_b_fields": ["base_states_L_gt_8", "base_states_L_le_8", "tail_slot_assignment_mass", "tail_slot_evaluation_cells", "k8_L_gt_8_raw_objective", "k8_tail_slot_raw_objective", "mu_L_gt_8_raw_objective", "mu_tail_slot_raw_objective", "k8_L_gt_8_positive_capacity", "k8_tail_slot_positive_capacity", "mu_L_gt_8_positive_capacity", "mu_tail_slot_positive_capacity"],
-    "per_b_commitment": "SHA256 of the complete validated per-b stream, which includes b/source locks and all TAIL fields",
-    "global_checks": ["L<=8 plus L>8 base-state partition equals H96 compact-state census", "TAIL/META tail-slot assignment mass equality", "mu tail-slot capacities are subsets of mu capacities and mu<=K8", "global ratio-class forced-tail attribution is exact and order independent"],
+    "per_b_static_fields": [
+      "base_states_L_gt_8",
+      "base_states_L_le_8",
+      "tail_slot_assignment_mass"
+    ],
+    "per_subunit_dynamic_fields": [
+      "tail_slot_evaluation_cells",
+      "k8_L_gt_8_raw_objective",
+      "k8_tail_slot_raw_objective",
+      "mu_L_gt_8_raw_objective",
+      "mu_tail_slot_raw_objective",
+      "k8_L_gt_8_positive_capacity",
+      "k8_tail_slot_positive_capacity",
+      "mu_L_gt_8_positive_capacity",
+      "mu_tail_slot_positive_capacity"
+    ],
+    "per_subunit_commitment": "SHA256 of the complete validated (b,d-band) stream, including b/d-band/source locks and TAIL fields",
+    "global_checks": [
+      "approved d bands are pairwise disjoint and cover every admissible even d exactly once for each b",
+      "all repeated static state/mass/tail metadata agree across bands of the same b and are counted exactly once per b",
+      "L<=8 plus L>8 static base-state partition equals H96 compact-state census",
+      "mu tail-slot capacities are subsets of mu capacities and mu<=K8",
+      "global ratio-class forced-tail attribution is exact and order independent"
+    ],
     "br205_gate_firewall": "Heavy result may emit raw and stronger tail-activity candidates, but formal BR205 gate remains false until the heavy result is hostile-audited and separately promoted."
   },
   "resume_contract": {
-    "durable_unit": "single integer b",
-    "unit_count": 97,
+    "durable_unit": "(b,d_band)",
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "expected_subunit_count": 250,
+    "b_unit_count": 97,
     "max_parallel": 8,
-    "reuse_rule": "accept a carried b unit only after exact worker/base source-lock validation, complete TAIL record validation, and deterministic parse; compute missing units only",
-    "failure_rule": "retain already uploaded valid b-unit aggregate streams for one day and resume from them by explicit carry_run_id",
+    "matrix_limit_note": "Two pilot subunits are computed first, leaving at most 248 missing subunits; the fan-out therefore stays below GitHub Actions' 256-job matrix limit.",
+    "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic digest validation; current-run validated subunits override carry duplicates; compute missing subunits only",
+    "failure_rule": "retain already uploaded valid subunit aggregate streams for one day and resume from them by explicit carry_run_id; a failed band is recomputed without discarding other completed bands for the same b",
     "reopened_or_non_arm_behavior": "cold/manual; no heavy execution"
   },
   "storage_contract": {
     "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
-    "bin_stream_note": "The earlier 1.83 MiB preflight covered compact certificates, not transient exact bin streams required by the coherent global LP.",
-    "high_mass_scaleout_gate": "A single b=96 pilot is executed only after authorization and before fan-out; it is reused as durable unit 96.",
-    "per_b_gzip_hard_cap_bytes": 4000000,
-    "projection_rule": "97 * measured_pilot_gzip_bytes * 2 + 20 MiB must be <= 500 MiB before fan-out",
+    "bin_stream_note": "Transient exact bin streams are now persisted per (b,d-band) durable subunit, never as raw routing-state streams.",
+    "high_mass_scaleout_gate": "Two representative pilots, (b=0,d=8..54) and (b=96,d=148..192), execute only after authorization and are reused as durable subunits.",
+    "projection_rule": "250 * max(two pilot gzip sizes) * 2 + 20 MiB must also be <= 500 MiB before fan-out",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
-    "raw_state_artifacts_uploaded": false
+    "raw_state_artifacts_uploaded": false,
+    "per_subunit_gzip_hard_cap_bytes": 1800000,
+    "absolute_peak_rule": "250 * 1,800,000 bytes + 20 MiB <= 500 MiB, so even every retained subunit at the hard cap remains within the repository operating budget."
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
@@ -99,7 +145,17 @@
     "heavy_started": false
   },
   "post_run_gates": {
-    "required_checks": ["97-unit exact coverage/disjointness", "H96 refined-state census", "H96 BC assignment-mass conservation", "global mu LP <= global K8 LP", "deterministic global bin-stream hash", "exact L<=8/L>8 and tail-slot counters", "ratio-class qBC-tail forced-selected attribution"],
+    "required_checks": [
+      "250-subunit exact coverage/disjointness over approved b x d-band units",
+      "every admissible even d covered exactly once per b",
+      "repeated per-b static metadata agrees across all retained bands",
+      "H96 refined-state census counted once per b",
+      "H96 BC assignment-mass conservation counted once per b",
+      "global mu LP <= global K8 LP",
+      "deterministic global bin-stream hash",
+      "exact L<=8/L>8 and tail-slot counters",
+      "ratio-class qBC-tail forced-selected attribution"
+    ],
     "br205_authorized_now": false,
     "br205_gate": "Only after the heavy result establishes exact FULL178 L>8/tail-slot activity and, for the stronger diagnostic, positive forced-selected tail-slot capacity under the order-independent global LP; any formal BR205 authorization additionally requires hostile audit.",
     "main_credit": "requires separate hostile audit and MAIN MIN/replacement consumption; never automatic"
