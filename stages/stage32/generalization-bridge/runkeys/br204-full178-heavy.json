@@ -1,0 +1,54 @@
+{
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold placeholder only. Do not execute heavy at generation 0.",
+  "carry_run_id": null,
+  "execution": {
+    "unit_count": 97,
+    "max_parallel": 8,
+    "pilot_b": 96,
+    "envelope": "6703403803993209250491",
+    "main_bound_snapshot": "179119009547804181594"
+  },
+  "source_locks": {
+    "worker_blob": "922a257559d0d5a69d56f110442b6a911820db7f",
+    "aggregator_blob": "97f975c5959db3513a086d75976ca0012766a2fd",
+    "execution_contract_blob": "199632bbf53c943cf07824c2f0a2c0324b8d9bca",
+    "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
+    "live_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "live_main_audit_review_id": 5231559824,
+    "bridge_predecessor_audited_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
+    "bridge_predecessor_audit_review_id": 5231786735
+  },
+  "resume": {
+    "durable_unit": "single_b",
+    "reuse_validated_units": true,
+    "compute_missing_only": true,
+    "intermediate_retention_days": 1
+  },
+  "storage": {
+    "per_b_gzip_hard_cap_bytes": 4000000,
+    "budget_bytes": 524288000,
+    "pilot_projection_safety_multiplier": 2,
+    "fixed_overhead_bytes": 20971520
+  },
+  "arm_contract": {
+    "required_transition": "armed false->true and generation strictly increases in one later semantic arm commit",
+    "dispatch_exact_head_required": true,
+    "dispatch_head_parent_diff_must_include_this_runkey": true,
+    "cold_non_arm_commits_do_not_authorize": true,
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

@@ -2,12 +2,14 @@
   "schema_version": 1,
   "scope": "branch-local supplement to repo-workflow-trigger-inventory-20260911.json",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
-  "reason": "PR #1813 retains BR203 as workflow_dispatch-only provenance and adds the current BR204 exact-head retained replay as the active BRIDGE frontier gate.",
+  "reason": "PR #1813 retains BR203 as workflow_dispatch-only provenance, keeps BR204 retained replay as the active automatic frontier gate, and adds a cold workflow_dispatch-only BR204 FULL178 heavy surface. The heavy surface is MANUAL and cannot run until a distinct audited-parent run-key arm commit.",
   "classifications": {
     "ACTIVE_AUTO": [
       ".github/workflows/stage32-bridge-br204-retained-replay.yml"
     ],
-    "MANUAL": [],
+    "MANUAL": [
+      ".github/workflows/br204-stage32-bridge-heavy.yml"
+    ],
     "RETIRED": [
       ".github/workflows/stage32-bridge-br203.yml"
     ]

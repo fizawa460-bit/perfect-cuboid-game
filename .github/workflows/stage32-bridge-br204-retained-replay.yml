@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - '.github/workflows/stage32-bridge-br204-retained-replay.yml'
+      - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - 'stages/stage32/generalization-bridge/**'
       - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
       - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
@@ -20,7 +21,7 @@ concurrency:
 jobs:
   retained-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
@@ -31,7 +32,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Freeze BRIDGE retained boundary and credit firewall
+      - name: Freeze BRIDGE retained mathematical boundary and credit firewall
         run: |
           python - <<'PY'
           import json
@@ -47,7 +48,7 @@ jobs:
           assert s['routing']['heavy_compute_armed'] is False
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
-          print('BRIDGE retained boundary frozen at BR204; heavy and BR205 escalation unauthorized')
+          print('BRIDGE retained math boundary frozen; operational heavy authorization is separate run-key state')
           PY
 
       - name: Verify repository workflow lifecycle composite inventory
@@ -107,9 +108,33 @@ jobs:
           print('BR204 compact retained replay PASS')
           PY
 
+      - name: Compile heavy doorstep worker and exact-LP aggregator without running FULL178
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "922a257559d0d5a69d56f110442b6a911820db7f"
+          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "97f975c5959db3513a086d75976ca0012766a2fd"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "199632bbf53c943cf07824c2f0a2c0324b8d9bca"
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
+            stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp \
+            -o /tmp/br204-heavy-worker
+          /tmp/br204-heavy-worker --self-test > /tmp/br204-heavy-worker-selftest.json
+          python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
+          assert rk['generation'] >= 0
+          assert rk['source_locks']['worker_blob']=='922a257559d0d5a69d56f110442b6a911820db7f'
+          assert rk['source_locks']['aggregator_blob']=='97f975c5959db3513a086d75976ca0012766a2fd'
+          assert rk['source_locks']['execution_contract_blob']=='199632bbf53c943cf07824c2f0a2c0324b8d9bca'
+          assert all(v is False for v in rk['credit'].values())
+          print('BR204 heavy doorstep compile/self-test PASS; armed=', rk['armed'])
+          PY
+
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
         run: python stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py
 
-      - name: Diff check audit-repair delta
+      - name: Diff check from last hostile-audited exact head
         if: github.event_name == 'pull_request'
-        run: git -c core.whitespace=-blank-at-eof diff --check cbe76b978608b08ac1078a8e8c5c626d88df7f49 "${{ github.event.pull_request.head.sha }}"
+        run: git -c core.whitespace=-blank-at-eof diff --check c780c05fb6ae8405dd609ba4a2331d4565331510 "${{ github.event.pull_request.head.sha }}"
