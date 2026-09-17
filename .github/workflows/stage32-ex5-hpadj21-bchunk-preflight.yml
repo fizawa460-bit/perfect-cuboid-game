@@ -1,6 +1,6 @@
 name: Stage32EX5 HPADJ21 b-chunk preflight
 
-# Lifecycle: ACTIVE_AUTO lightweight equivalence gate; no heavy compute.
+# Lifecycle: ACTIVE_AUTO bounded equivalence/measurement gate; no scaleout.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -27,3 +27,31 @@ jobs:
         run: python -m py_compile stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py
       - name: Exact bounded direct-vs-bchunk equivalence
         run: python stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py
+
+  representative-chunk:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Measure row171 b0-7 exact chunk
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          START="$(date +%s)"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index 171 --b-start 0 --b-stop 7 --output out/hpadj21-bchunk-171-0-7.json
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index 171 --b-start 0 --b-stop 7 --verify-existing out/hpadj21-bchunk-171-0-7.json
+          END="$(date +%s)"
+          BYTES="$(wc -c < out/hpadj21-bchunk-171-0-7.json)"
+          echo "HPADJ21_BCHUNK_REP_SECONDS=$((END-START))"
+          echo "HPADJ21_BCHUNK_REP_BYTES=$BYTES"
+          test "$BYTES" -le 2097152
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-bchunk-representative
+          path: out/hpadj21-bchunk-171-0-7.json
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 9
