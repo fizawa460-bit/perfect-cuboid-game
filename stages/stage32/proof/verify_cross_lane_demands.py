@@ -95,7 +95,7 @@ def main():
     req(sweep["observed_repository_main"] == st["authority_sync"]["current_repository_main"],
         "repository-main observation drift")
     req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "24bd91cfdd741db57d80a2763f123e80b5f1b492" and
+        sweep["lane_178_head"] == "017e9ae8433a7ca0bfb2f96e9cb71fb16ea5dc39" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sweep["lane_178_current_head_audit_status"] ==
         "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
