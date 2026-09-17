@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
+
 import hashlib
 import json
 import runpy
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-RECEIPT = HERE / "management/grf04-quadratic-capacity/GRF04-V40-HPADJ20-FULL178-MAIN-BOUND-REPLACEMENT.json"
+SYNC = HERE / "management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json"
 
 def canonical(obj: dict) -> str:
     body = dict(obj)
@@ -16,15 +17,15 @@ def canonical(obj: dict) -> str:
     ).hexdigest()
 
 def main() -> None:
-    obj = json.loads(RECEIPT.read_text(encoding="utf-8"))
-    print("V40_HPADJ20_REPLACEMENT_CANONICAL_DIAGNOSTIC=" + canonical(obj))
-    print("V40_HPADJ20_REPLACEMENT_STORED_CANONICAL=" + str(obj.get("canonical_sha256_without_this_field")))
+    obj = json.loads(SYNC.read_text(encoding="utf-8"))
+    print("V41_HPADJ20_AUDIT_SYNC_CANONICAL_DIAGNOSTIC=" + canonical(obj))
+    print("V41_HPADJ20_AUDIT_SYNC_STORED_CANONICAL=" + str(obj.get("canonical_sha256_without_this_field")))
     runpy.run_path(
-        str(HERE / "verify_main_startup_authority_v40_hpadj20_full178_bound_consumed.py"),
+        str(HERE / "verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py"),
         run_name="__main__",
     )
     runpy.run_path(str(HERE / "verify_command_surface.py"), run_name="__main__")
-    print("PASS: Stage32 MAIN V40 HPADJ20 replacement is current; hostile reaudit gate remains fail-closed")
+    print("PASS: Stage32 MAIN V41 audit synchronization is current; FULL178 route resumed")
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()
