@@ -21,8 +21,10 @@ env:
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
   WORKER_BLOB: 71081e34c03eee756ea970e6632716121e951f54
   AGGREGATOR_BLOB: ef11a1ce7c8249f76ddf19fd0e43a415a7592b16
-  CONTRACT_BLOB: d13e385a367245bc1612e5eb52ca41e8e72df857
+  CONTRACT_BLOB: 93fe60e4ebb6392d6b199733b6dcc83f1734d376
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
+  REPOSITORY_MAIN_HEAD: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
+  MAIN_STATE_BLOB: dd7dba27eb062e6a6ad4d440094ba26c290900d7
   ENVELOPE: '6703403803993209250491'
   MAIN_BOUND: '179119009547804181594'
 
@@ -36,7 +38,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 2
-      - name: Verify exact source locks and semantic arm commit
+      - name: Verify exact sources, live main, and semantic arm commit
         id: auth
         env:
           GH_TOKEN: ${{ github.token }}
@@ -47,6 +49,9 @@ jobs:
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
           test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$REPOSITORY_MAIN_HEAD"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
           python - <<'PY'
           import json, os, subprocess
           from pathlib import Path
@@ -55,11 +60,14 @@ jobs:
           assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
           assert cur['armed'] is True and cur['generation'] > 0
           assert cur['execution']['unit_count']==97 and cur['execution']['max_parallel']==8
+          assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           locks=cur['source_locks']
           assert locks['worker_blob']==os.environ['WORKER_BLOB']
           assert locks['aggregator_blob']==os.environ['AGGREGATOR_BLOB']
           assert locks['execution_contract_blob']==os.environ['CONTRACT_BLOB']
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
+          assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
+          assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
           parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
           assert cur['arm_contract']['audited_doorstep_head']==parent
           review=cur['arm_contract']['audited_doorstep_review_id']
@@ -73,8 +81,7 @@ jobs:
           gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
           python - <<'PY'
           import json
-          a=json.load(open('/tmp/auth.json'))
-          rs=json.load(open('/tmp/reviews.json'))
+          a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
           m=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
           assert m, 'audited doorstep review/head pair not found'
           body=m[0].get('body') or ''
@@ -112,10 +119,8 @@ jobs:
           import json
           from pathlib import Path
           p=Path('/tmp/pilot/br204-b-96.tsv.gz')
-          size=p.stat().st_size
-          projected=size*97*2 + 20_971_520
-          assert size <= 4_000_000
-          assert projected <= 524_288_000
+          size=p.stat().st_size; projected=size*97*2 + 20_971_520
+          assert size <= 4_000_000 and projected <= 524_288_000
           Path('/tmp/pilot-storage.json').write_text(json.dumps({'pilot_b':96,'gzip_bytes':size,'projection_bytes':projected,'budget_bytes':524288000},sort_keys=True,indent=2)+'\n')
           PY
       - uses: actions/upload-artifact@v4
