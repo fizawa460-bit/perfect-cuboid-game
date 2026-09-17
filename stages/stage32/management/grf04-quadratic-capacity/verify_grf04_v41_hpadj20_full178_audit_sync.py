@@ -29,6 +29,7 @@ FRONTIER_BLOB = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
 ADAPTERS_BLOB = "c0ef34e5838e27046a20fed77063593009c56f40"
 AUDIT_REVIEW = 5231559824
 MAIN_AT_AUDIT = "c6284abbb29930255892d56f800da0ea1e34734b"
+CURRENT_REPO_MAIN = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
 BOUND = 179119009547804181594
 V39_BOUND = 195414091250828468192
 TIGHTENING = 16295081703024286598
@@ -124,6 +125,7 @@ def main() -> None:
     req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V41_HPADJ20_FULL178_BOUND_AUDIT_SYNCED",
         "state schema")
     a = state["authority_sync"]
+    req(a["current_repository_main"] == CURRENT_REPO_MAIN, "state current repository main")
     req(a["predecessor_process_head"] == V40_HEAD, "state predecessor head")
     req(a["v40_replacement_hostile_audit_status"] == "PASS", "state V40 audit status")
     req(a["v40_replacement_hostile_audit_review_id"] == AUDIT_REVIEW, "state V40 audit review")
@@ -155,20 +157,39 @@ def main() -> None:
         req(state["firewalls"][key] is False, f"firewall {key}")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == MAIN_AT_AUDIT, "repository-main observation")
-    req(sweep["lane_178_pr"] == 1815 and
-        sweep["lane_178_head"] == "bec18f891f1012de21110e71998aa4874edc20b9" and
+    req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
+    req(sweep["lane_178_pr"] == 1821 and
+        sweep["lane_178_head"] == "20055be2499edb816b1b1fac3649d50b20822ebc" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
+    req(sweep["lane_178_current_head_audit_status"] ==
+        "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
     req(sweep["ex5_pr"] == 1818 and
         sweep["ex5_head"] == "669468c01bbb1f7c3b8bc46b934658765984f0b8" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 successor live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
+    req(sweep["ex5_current_head_audit_status"] ==
+        "PENDING_FULL178_SCALEOUT_AND_HOSTILE_AUDIT", "EX5 audit gate")
+    req(sweep["ex5_representative_result"] ==
+        "G1_D190_QA_FLOOR_IMPROVEMENT_1312541087822068106__REPRESENTATIVE_ONLY",
+        "EX5 representative result")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT live sweep")
     req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "4661f139b0c7ad0cb85d72506d628f671dbc69ed" and
+        sweep["mb_head"] == "52af788baa5b23b8fa57e6d5a75bc7d12d3a1b40" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
+    req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
+        "MB audit gate")
+    req(sweep["bridge_pr"] == 1813 and
+        sweep["bridge_head"] == "a182e95544cd8381a385ce360c9211240acd3741" and
+        sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE live sweep")
+    req("ZERO_MAIN_CREDIT" in sweep["bridge_handoff"], "BRIDGE credit firewall")
+    req(sweep["bridge_current_head_audit_status"] == "CURRENT_HEAD_NOT_HOSTILE_AUDITED",
+        "BRIDGE audit gate")
+    req(sweep["bridge_latest_hostile_audit_pass_head"] ==
+        "c780c05fb6ae8405dd609ba4a2331d4565331510" and
+        sweep["bridge_latest_hostile_audit_review_id"] == 5231786735,
+        "BRIDGE retained audited boundary")
 
     sl = state["source_locks"]["v41_audit_sync_receipt"]
     req(sl["blob_sha1"] == SYNC_BLOB and sl["canonical_sha256"] == SYNC_CANON,
@@ -177,7 +198,7 @@ def main() -> None:
     req(V39_BOUND - BOUND == TIGHTENING, "V40 authority arithmetic")
     print("PASS: Stage32 V41 synchronizes the hostile-audited V40 numerical authority with zero new pruning")
     print("PASS: V40 audit gate cleared; FULL178 resumes with downstream/merge firewalls unchanged")
-    print("PASS: live 178/EX5/CUT/MB observations refreshed; no new MAIN handoff consumed")
+    print("PASS: live 178/EX5/CUT/MB plus BRIDGE observations refreshed; no new MAIN handoff consumed")
 
 if __name__ == "__main__":
     main()
