@@ -12,18 +12,21 @@ STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 CANDIDATE = HERE / "GRF04-V42-HPADJ20-LOW-D-FULL-QA-HYBRID-CANDIDATE.json"
 V40 = HERE / "GRF04-V40-HPADJ20-FULL178-MAIN-BOUND-REPLACEMENT.json"
 V41 = HERE / "GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json"
+PREFLIGHT = HERE / "HPADJ20-FULL-QA-HISTOGRAM-MAIN-PARALLEL-PREFLIGHT.json"
 PILOT = HERE / "HPADJ20-FULL-QA-HISTOGRAM-LOW-D-NUMERICAL-PILOT.json"
 PILOT_VERIFIER = HERE / "verify_hpadj20_full_qa_histogram_low_d_numerical_pilot.py"
 REGISTRY = ROOT / "stages/stage32/proof/CLAIM-REGISTRY.json"
 FRONTIER = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
 ADAPTERS = ROOT / "stages/stage32/proof/LANE-ADAPTERS.json"
 
-CANDIDATE_BLOB = "7b8e626141dd998c05c8f87e32d97cc0eb8ab89b"
-CANDIDATE_CANON = "8605cb18a31d0c00eae6ee14d4af2af907ff18ac44d1a7467dca21834d15f462"
+CANDIDATE_BLOB = "c333040911a8f0fdadc72adc29788590681fe3bf"
+CANDIDATE_CANON = "6fa80592291d0dbc99207ece94ef00146127cb6ea7489e236ad57c7d1f3c6a2d"
 V40_BLOB = "f9d984f64d2c428481e082be622848e33407baf1"
 V40_CANON = "f330348d1d6aee5417df20e119479c3c2b6b045a2ce96f7d6e4e54ac9a88d53d"
 V41_BLOB = "ee6639e2b4a4ad5dd48e964d6a6b055f551e7bd1"
 V41_CANON = "ac52c7d4598eba4ef165bed05c5ff12931777052a2b8582c65286ff8067400c7"
+PREFLIGHT_BLOB = "0eb5672dea0712cbf5044d5376e60fe233e767c3"
+PREFLIGHT_CANON = "0191c14b3fc072a762d1b702408746691cd5fe315ce9f4a0a040b75183bd13a8"
 PILOT_BLOB = "ae4449029818f7e2c510e745c6572de72d844371"
 PILOT_CANON = "ebc454e2805cf737570ccdf2f50f64595f947b9dbaf15ca39cde9e3c5b905406"
 PILOT_VERIFIER_BLOB = "0197f7062df96777396bead619bcff4a7ba4063a"
@@ -82,6 +85,7 @@ def main() -> None:
     candidate = lock_json(CANDIDATE, CANDIDATE_BLOB, CANDIDATE_CANON, "V42 candidate receipt")
     v40 = lock_json(V40, V40_BLOB, V40_CANON, "V40 replacement receipt")
     v41 = lock_json(V41, V41_BLOB, V41_CANON, "V41 audit-sync receipt")
+    preflight = lock_json(PREFLIGHT, PREFLIGHT_BLOB, PREFLIGHT_CANON, "full-qA structural preflight")
     pilot = lock_json(PILOT, PILOT_BLOB, PILOT_CANON, "full-qA low-d pilot")
     req(blob(PILOT_VERIFIER) == PILOT_VERIFIER_BLOB, "full-qA low-d pilot verifier drift")
     req(blob(REGISTRY) == REGISTRY_BLOB, "claim registry drift")
@@ -132,6 +136,16 @@ def main() -> None:
         "V40 composition drift")
     req(v41["sync"]["authoritative_remaining_terminals"] == BASE_BOUND, "V41 bound drift")
     req(v41["hostile_audit"]["status"] == "PASS", "V41 predecessor audit not PASS")
+
+    dom = preflight["structural_dominance"]
+    req(dom["population_preserved_exactly"] is True and dom["same_pre_domain_terminal_mass"] is True,
+        "full-qA preflight population identity drift")
+    req(dom["same_post_mass_constraint"] is True, "full-qA preflight post-mass drift")
+    req(dom["full_histogram_cell_objective_no_larger_than_hpadj20"] is True,
+        "full-qA preflight dominance drift")
+    req(preflight["next_exact_gate"]["consumption_rule_if_eventually_audited"] ==
+        "DIRECT_REFINEMENT_OF_SAME_POPULATION_LP__NO_ADDITIVE_SUBTRACTION",
+        "full-qA preflight composition drift")
 
     rows = pilot["rows"]
     expected_rows = [
