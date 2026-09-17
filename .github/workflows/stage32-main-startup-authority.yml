@@ -104,7 +104,7 @@ jobs:
           python stages/stage32/proof/verify_stage32_active_frontier.py
 
       - name: Enforce V41 process-sync-only scope
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'stage32-main-v41-audit-sync-20260917'
         run: |
           changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
           printf '%s\n' "$changed"
