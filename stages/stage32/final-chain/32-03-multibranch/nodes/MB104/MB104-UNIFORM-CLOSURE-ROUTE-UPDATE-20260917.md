@@ -54,6 +54,23 @@ U9 branch-value Hurwitz redistribution:
 
 U10 non-arithmetic commensurator degree bound:
   BLOCKED. C8=X(8) lies in the arithmetic (2,3,8) triangle commensurability class, so discrete finite-index commensurator arguments cannot uniformly bound the etale correspondence degree n=14el.
+
+U11 GFU equality-face / GFU x BTVA order-two surplus-zero route:
+  BLOCKED_WITH_CURRENT_ORDER2_DATA.
+  On the balanced ray the published GFU Theorem 3.1 degree is exactly
+  -112l+112l+0=0, not negative. The four Lemma-3.4 enhanced GFU sections
+  have exact genus-one restriction degrees (56l,56l,48l,64l), all positive.
+  A degree-zero rescue would require a separately source-locked surplus zero
+  on the elliptic normalization. The retained finite order-two landing/jet data
+  do not force such a zero because the local landing parameter remains free
+  away from finitely many cancellation directions.
+```
+
+The exact packet replay for U11 is recorded in
+
+```text
+MB104-U11-GFU-EQUALITY-FACE-WALL-20260917.md
+verify_mb104_u11_gfu_equality_face.py
 ```
 
 ## Product-correspondence boundary
@@ -82,7 +99,7 @@ U4 = a genuine large-l theorem yielding an explicit L and a finite backend
      for 1<=l<=L.
 ```
 
-A new route is admissible only if it does not reduce to the parked conductor-sign, counting-only, fixed-jet, ordinary-effectivity, or generic-correspondence arguments.
+A new route is admissible only if it does not reduce to the parked conductor-sign, counting-only, fixed-jet, ordinary-effectivity, generic-correspondence, or GFU/BTVA-order-two arguments.
 
 One still-unresolved arithmetic variant is the **packet-sensitive arithmetic correspondence index/passport problem**: not merely whether arithmetic etale correspondences of large degree exist, but whether one can realize degree `14el` together with the exact fixed quotient/node-stabilizer passport. This is `UNTESTED`, not a claimed obstruction.
 
