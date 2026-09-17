@@ -1,20 +1,28 @@
 {
-  "schema": "STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V2",
-  "generation": 3,
+  "schema": "STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V3",
+  "generation": 4,
   "armed": true,
-  "purpose": "Resume HPADJ21 exact FULL178 full-qA-histogram replay from generation-2 validated 100-row carry bundle plus its durable newly completed row checkpoints; schedule only missing or rejected rows.",
-  "unit_count": 178,
+  "purpose": "Resume HPADJ21 from exactly 173 validated complete rows; compute only missing exact b-range chunks for rows 20,21,44,88,171; preserve every validated chunk across workflow runs and reassemble the five rows before the FULL178 union verifier.",
+  "target_rows": [20, 21, 44, 88, 171],
+  "chunk_b_width": 8,
+  "chunk_timeout_minutes": 180,
   "max_parallel": 15,
-  "carry_run_id": 35207795739,
-  "row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+  "full_row_carry_run_id": 35275839413,
+  "chunk_carry_run_id": null,
+  "direct_row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+  "bchunk_worker_git_blob": "76087962f8fc464a74ad60121f9522c6bf9b19cb",
+  "row_assembler_git_blob": "82510e4e478e9145317e07c237ce08b8d189c306",
   "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a",
-  "execution_contract_git_blob": "d590d125907df16a647809de761d26dcdbd617f1",
-  "representative_measurement_git_blob": "c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43",
+  "execution_contract_git_blob": "871aaade9aaa85d24db362e094a8c1b5fc71ac6c",
+  "cross_run_resume_receipt_git_blob": "0d6a5faac5fdf4fd27e12b603323daa6d1c46bbd",
   "recovery": {
     "resume_first": true,
-    "durable_unit": "ONE_FULL178_ROW",
-    "validate_inherited_bundle_and_completed_rows": true,
-    "schedule_only_missing_or_rejected_units": true,
+    "durable_unit": "ONE_ROW_CONTIGUOUS_B_RANGE",
+    "validated_full_row_carry_count": 173,
+    "expected_missing_rows": [20, 21, 44, 88, 171],
+    "cross_run_resume_proven": true,
+    "schedule_only_missing_or_rejected_chunks": true,
+    "whole_row_rerun_default": false,
     "whole_parent_rerun_default": false
   },
   "concurrency": {
@@ -22,15 +30,17 @@
     "planned_effective_heavy_concurrency": 15,
     "reserved_stage_headroom": 3,
     "other_intended_stage32_heavy_overlap_at_arm": 0,
-    "arm_observation": "Immediately before generation-3 arm, repository in-progress workflow count was 0. Generation-2 run 35207795739 retained 75 artifacts: one validated 100-row carry bundle, one recovery snapshot, and 73 durable newly completed row checkpoints. Chaining from that run keeps predecessor artifact enumeration below 100 while preserving resume-first validation; expected pre-validation carry is 173 rows and the plan remains fail-closed on any rejected row."
+    "arm_observation": "Immediately before generation-4 arm, repository in-progress workflow count was 1 and it was the lightweight HPADJ21 b-chunk preflight only; no other Stage32 heavy workload was in progress. Cross-run resume was proven by consumer run 35279286433 reading producer run 35278668203 without recomputation."
   },
   "storage": {
     "operating_budget_mb": 500,
-    "representative_raw_bytes": 4128,
-    "row_raw_hard_cap_bytes": 65536,
-    "projected_peak_mb_upper_bound": 370,
+    "maximum_chunk_count_bound": 60,
+    "chunk_artifact_hard_cap_bytes": 2097152,
+    "projected_chunk_artifact_peak_mb_upper_bound": 120,
+    "existing_173_row_carry_bundle_bytes": 263665,
     "raw_exhaustive_output_persisted": false,
-    "compact_certificate_only": true
+    "compact_certificate_only": true,
+    "single_page_population_over_100_forbidden": true
   },
   "credit": {
     "partial_output_credit": false,
