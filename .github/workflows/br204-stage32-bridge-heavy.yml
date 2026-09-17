@@ -19,9 +19,9 @@ env:
   WORKER: stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
-  WORKER_BLOB: f51c6815cb176c486358465dfb9b764b3a682d04
-  AGGREGATOR_BLOB: 97f975c5959db3513a086d75976ca0012766a2fd
-  CONTRACT_BLOB: 93d8487b73a2f89566e40edca4f498023a9f8f20
+  WORKER_BLOB: 71081e34c03eee756ea970e6632716121e951f54
+  AGGREGATOR_BLOB: ef11a1ce7c8249f76ddf19fd0e43a415a7592b16
+  CONTRACT_BLOB: d13e385a367245bc1612e5eb52ca41e8e72df857
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   ENVELOPE: '6703403803993209250491'
   MAIN_BOUND: '179119009547804181594'
@@ -30,15 +30,12 @@ jobs:
   authorize:
     runs-on: ubuntu-latest
     outputs:
-      generation: ${{ steps.auth.outputs.generation }}
       carry_run_id: ${{ steps.auth.outputs.carry_run_id }}
     steps:
-      - name: Checkout exact dispatch head
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 2
-
       - name: Verify exact source locks and semantic arm commit
         id: auth
         env:
@@ -50,53 +47,40 @@ jobs:
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
           test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
-
           python - <<'PY'
           import json, os, subprocess
           from pathlib import Path
-          p=Path(os.environ["RUNKEY"])
+          p=Path(os.environ['RUNKEY'])
           cur=json.loads(p.read_text())
-          assert cur["schema"]=="STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1"
-          assert cur["armed"] is True
-          assert cur["generation"] > 0
-          assert cur["source_locks"]["worker_blob"]==os.environ["WORKER_BLOB"]
-          assert cur["source_locks"]["aggregator_blob"]==os.environ["AGGREGATOR_BLOB"]
-          assert cur["source_locks"]["execution_contract_blob"]==os.environ["CONTRACT_BLOB"]
-          assert cur["source_locks"]["compact_mu_base_blob"]==os.environ["BASE_BLOB"]
-          assert cur["execution"]["unit_count"]==97
-          assert cur["execution"]["max_parallel"]==8
-          parent=subprocess.check_output(["git","rev-parse","HEAD^"], text=True).strip()
-          assert cur["arm_contract"]["audited_doorstep_head"]==parent
-          assert isinstance(cur["arm_contract"]["audited_doorstep_review_id"], int)
-          old=json.loads(subprocess.check_output(["git","show",f"{parent}:{p.as_posix()}"], text=True))
-          assert old["armed"] is False
-          assert cur["generation"] > old["generation"]
-          changed=subprocess.check_output(["git","diff","--name-only",parent,"HEAD"], text=True).splitlines()
-          assert p.as_posix() in changed
-          Path("/tmp/auth.json").write_text(json.dumps({
-              "generation":cur["generation"],
-              "carry_run_id":cur.get("carry_run_id"),
-              "parent":parent,
-              "review":cur["arm_contract"]["audited_doorstep_review_id"],
-          }))
+          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
+          assert cur['armed'] is True and cur['generation'] > 0
+          assert cur['execution']['unit_count']==97 and cur['execution']['max_parallel']==8
+          locks=cur['source_locks']
+          assert locks['worker_blob']==os.environ['WORKER_BLOB']
+          assert locks['aggregator_blob']==os.environ['AGGREGATOR_BLOB']
+          assert locks['execution_contract_blob']==os.environ['CONTRACT_BLOB']
+          assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert cur['arm_contract']['audited_doorstep_head']==parent
+          review=cur['arm_contract']['audited_doorstep_review_id']
+          assert isinstance(review,int)
+          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'],text=True))
+          assert old['armed'] is False and cur['generation'] > old['generation']
+          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'],text=True).splitlines()
+          assert changed == [p.as_posix()], 'arm commit must mutate only dedicated run-key'
+          Path('/tmp/auth.json').write_text(json.dumps({'parent':parent,'review':review}))
           PY
-
-          review="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["review"])')"
-          parent="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["parent"])')"
           gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
           python - <<'PY'
-          import json, os
-          a=json.load(open("/tmp/auth.json"))
-          reviews=json.load(open("/tmp/reviews.json"))
-          matches=[r for r in reviews if r.get("id")==a["review"] and r.get("commit_id")==a["parent"]]
-          assert matches, "audited doorstep review/head pair not found"
-          body=matches[0].get("body") or ""
-          assert "HOSTILE AUDIT: PASS" in body and "VERDICT: PASS" in body, "doorstep review is not PASS"
+          import json
+          a=json.load(open('/tmp/auth.json'))
+          rs=json.load(open('/tmp/reviews.json'))
+          m=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
+          assert m, 'audited doorstep review/head pair not found'
+          body=m[0].get('body') or ''
+          assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
           PY
-
-          generation="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["generation"])')"
           carry="$(python -c 'import json;print(json.load(open("'"$RUNKEY"'")).get("carry_run_id") or "")')"
-          echo "generation=$generation" >> "$GITHUB_OUTPUT"
           echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
 
   pilot:
@@ -104,65 +88,43 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 330
     steps:
-      - name: Checkout authorized exact head
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-
-      - name: Install exact algebra dependency
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-
-      - name: Generate source-locked BR203 mu header
-        run: |
-          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py \
-            --output /tmp/BR203-PICARD-MU-16-STATE-RESULT.json
-          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py \
-            /tmp/BR203-PICARD-MU-16-STATE-RESULT.json \
-            /tmp/br203_mu_generated.hpp
-
-      - name: Compile and self-test BR204 heavy surfaces
+      - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Compile exact source-locked worker
         run: |
           set -euo pipefail
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$WORKER" -o /tmp/br204-worker
-          /tmp/br204-worker --self-test > /tmp/br204-worker-selftest.json
+          /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python "$AGGREGATOR" self-test
-
-      - name: Run representative b=96 storage pilot and durable unit
+      - name: Run b96 storage pilot and durable unit
         run: |
           set -euo pipefail
           mkdir -p /tmp/pilot
-          /tmp/br204-worker --b 96 --worker-blob "$WORKER_BLOB" \
-            --out /tmp/pilot/br204-b-96.tsv
+          /tmp/br204-worker --b 96 --worker-blob "$WORKER_BLOB" --out /tmp/pilot/br204-b-96.tsv
           gzip -9 -n /tmp/pilot/br204-b-96.tsv
           python - <<'PY'
-          import json, os
+          import json
           from pathlib import Path
-          p=Path("/tmp/pilot/br204-b-96.tsv.gz")
+          p=Path('/tmp/pilot/br204-b-96.tsv.gz')
           size=p.stat().st_size
-          hard=4_000_000
-          budget=524_288_000
           projected=size*97*2 + 20_971_520
-          assert size <= hard, f"pilot gzip {size} exceeds per-b hard cap {hard}"
-          assert projected <= budget, f"projected peak {projected} exceeds budget {budget}"
-          Path("/tmp/pilot-storage.json").write_text(json.dumps({
-              "pilot_b":96,"gzip_bytes":size,"projection_bytes":projected,
-              "budget_bytes":budget,"safety_multiplier":2
-          },sort_keys=True,indent=2)+"\n")
-          print(Path("/tmp/pilot-storage.json").read_text())
+          assert size <= 4_000_000
+          assert projected <= 524_288_000
+          Path('/tmp/pilot-storage.json').write_text(json.dumps({'pilot_b':96,'gzip_bytes':size,'projection_bytes':projected,'budget_bytes':524288000},sort_keys=True,indent=2)+'\n')
           PY
-
-      - name: Upload pilot durable unit
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: br204-b-96
           path: /tmp/pilot/br204-b-96.tsv.gz
           retention-days: 1
           if-no-files-found: error
-
-      - name: Upload worker runtime and pilot storage receipt
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: br204-worker-runtime
           path: |
@@ -176,47 +138,34 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
-      missing_count: ${{ steps.plan.outputs.missing_count }}
     steps:
-      - name: Checkout exact head
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-
-      - name: Download current pilot unit
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           name: br204-b-96
           path: /tmp/current
-
-      - name: Download prior carried units
+      - uses: actions/download-artifact@v4
         if: needs.authorize.outputs.carry_run_id != ''
-        uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
           pattern: br204-b-*
           path: /tmp/prior
           merge-multiple: true
-
-      - name: Validate carry and emit missing durable units
-        id: plan
+      - id: plan
         run: |
           set -euo pipefail
-          python "$AGGREGATOR" plan \
-            --input-dir /tmp/current --input-dir /tmp/prior \
-            --worker-blob "$WORKER_BLOB" --out /tmp/plan.json > /tmp/missing.json
+          python "$AGGREGATOR" plan --input-dir /tmp/current --input-dir /tmp/prior --worker-blob "$WORKER_BLOB" --out /tmp/plan.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
-          p=json.load(open("/tmp/plan.json"))
-          m=p["missing_units"]
-          print("matrix="+json.dumps(m if m else [-1],separators=(",",":")))
-          print("missing_count="+str(len(m)))
+          m=json.load(open('/tmp/plan.json'))['missing_units']
+          print('matrix='+json.dumps(m if m else [-1],separators=(',',':')))
           PY
-          cat /tmp/plan.json
 
   units:
-    needs: [authorize, pilot, plan]
+    needs: [pilot, plan]
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
@@ -225,28 +174,22 @@ jobs:
       matrix:
         b: ${{ fromJSON(needs.plan.outputs.matrix) }}
     steps:
-      - name: Download worker runtime
+      - uses: actions/download-artifact@v4
         if: matrix.b != -1
-        uses: actions/download-artifact@v4
         with:
           name: br204-worker-runtime
           path: /tmp/runtime
-
       - name: Compute one missing durable b unit
         if: matrix.b != -1
         run: |
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
           mkdir -p /tmp/unit
-          /tmp/runtime/br204-worker --b "${{ matrix.b }}" --worker-blob "$WORKER_BLOB" \
-            --out "/tmp/unit/br204-b-${{ matrix.b }}.tsv"
+          /tmp/runtime/br204-worker --b "${{ matrix.b }}" --worker-blob "$WORKER_BLOB" --out "/tmp/unit/br204-b-${{ matrix.b }}.tsv"
           gzip -9 -n "/tmp/unit/br204-b-${{ matrix.b }}.tsv"
-          size="$(stat -c %s "/tmp/unit/br204-b-${{ matrix.b }}.tsv.gz")"
-          test "$size" -le 4000000
-
-      - name: Upload durable b unit
+          test "$(stat -c %s "/tmp/unit/br204-b-${{ matrix.b }}.tsv.gz")" -le 4000000
+      - uses: actions/upload-artifact@v4
         if: matrix.b != -1
-        uses: actions/upload-artifact@v4
         with:
           name: br204-b-${{ matrix.b }}
           path: /tmp/unit/br204-b-${{ matrix.b }}.tsv.gz
@@ -259,40 +202,28 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Checkout exact head
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-
-      - name: Download current-run durable units
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v4
         with:
           pattern: br204-b-*
           path: /tmp/current
           merge-multiple: true
-
-      - name: Download prior carried units
+      - uses: actions/download-artifact@v4
         if: needs.authorize.outputs.carry_run_id != ''
-        uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
           pattern: br204-b-*
           path: /tmp/prior
           merge-multiple: true
-
-      - name: Exact union, one global rational LP, and tail attribution
+      - name: Exact union, one ratio-class rational LP, and tail attribution
         run: |
           set -euo pipefail
-          python "$AGGREGATOR" aggregate \
-            --input-dir /tmp/current --input-dir /tmp/prior \
-            --worker-blob "$WORKER_BLOB" \
-            --envelope "$ENVELOPE" --main-bound "$MAIN_BOUND" \
-            --out /tmp/BR204-FULL178-HEAVY-RESULT.json
+          python "$AGGREGATOR" aggregate --input-dir /tmp/current --input-dir /tmp/prior --worker-blob "$WORKER_BLOB" --envelope "$ENVELOPE" --main-bound "$MAIN_BOUND" --out /tmp/BR204-FULL178-HEAVY-RESULT.json
           cat /tmp/BR204-FULL178-HEAVY-RESULT.json
-
-      - name: Upload compact parent result
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: br204-full178-parent-result
           path: /tmp/BR204-FULL178-HEAVY-RESULT.json
