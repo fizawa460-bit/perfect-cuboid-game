@@ -1,6 +1,7 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V41 synchronizes hostile-audit PASS for the exact V40 HPADJ20 numerical replacement with zero new pruning.
+# Current boundary: V42 retains a strict low-d full-qA hybrid candidate pending hostile audit.
+# Numerical MAIN authority remains the hostile-audited/synchronized V41 value until a separate transition.
 on:
   pull_request:
     paths:
@@ -47,6 +48,22 @@ jobs:
           test "$(git -C .stage32-v40 hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V40-HPADJ20-FULL178-MAIN-BOUND-REPLACEMENT.json)" = "f9d984f64d2c428481e082be622848e33407baf1"
           test "$(git -C .stage32-v40 hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v40_hpadj20_full178_main_bound_replacement.py)" = "dd3073cd83ab8079d1fa16dd506e453a2d632ff7"
 
+      - name: Checkout exact V41 predecessor
+        uses: actions/checkout@v4
+        with:
+          ref: 2a9fa0ca243d7bbe75d7539ab574d632fdc44981
+          path: .stage32-v41
+          fetch-depth: 1
+
+      - name: Assert fixed V41 predecessor
+        run: |
+          test "$(git -C .stage32-v41 rev-parse HEAD)" = "2a9fa0ca243d7bbe75d7539ab574d632fdc44981"
+          test "$(git -C .stage32-v41 hash-object stages/stage32/MAIN-STATE.json)" = "dd7dba27eb062e6a6ad4d440094ba26c290900d7"
+          test "$(git -C .stage32-v41 hash-object stages/stage32/verify_main_startup.py)" = "d12c7d5c86a2a3d5b95fed6c02321d21bbbee2d8"
+          test "$(git -C .stage32-v41 hash-object stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py)" = "302b1819fe3e7e8f6330fb9d02d28ada0acfbbc6"
+          test "$(git -C .stage32-v41 hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json)" = "ee6639e2b4a4ad5dd48e964d6a6b055f551e7bd1"
+          test "$(git -C .stage32-v41 hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py)" = "908bb4ce8a2ca80070537f69118145d4fc65bbed"
+
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
@@ -62,11 +79,16 @@ jobs:
             echo "merge_ready_freshness=PENDING_MAIN_DRIFT_REQUIRES_SEPARATE_SEMANTIC_REVIEW"
           fi
 
-      - name: Verify V41 retained source identities
+      - name: Verify V42 retained source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "dd7dba27eb062e6a6ad4d440094ba26c290900d7"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "d12c7d5c86a2a3d5b95fed6c02321d21bbbee2d8"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py)" = "302b1819fe3e7e8f6330fb9d02d28ada0acfbbc6"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "d9a882463fb72f7481a13f3df29ea96743612353"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "fcd7470d63366b1a1cb5cb7243e3f2bda0648c27"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v42_hpadj20_low_d_full_qa_hybrid_candidate.py)" = "e067e31376180af65d2357b9bb81d29a77705c10"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ20-LOW-D-FULL-QA-HYBRID-CANDIDATE.json)" = "c333040911a8f0fdadc72adc29788590681fe3bf"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj20_low_d_full_qa_hybrid_candidate.py)" = "ff3295c37d63050b80318f75b1796db55bdc4b9d"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ20-FULL-QA-HISTOGRAM-MAIN-PARALLEL-PREFLIGHT.json)" = "0eb5672dea0712cbf5044d5376e60fe233e767c3"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ20-FULL-QA-HISTOGRAM-LOW-D-NUMERICAL-PILOT.json)" = "ae4449029818f7e2c510e745c6572de72d844371"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_low_d_numerical_pilot.py)" = "0197f7062df96777396bead619bcff4a7ba4063a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json)" = "ee6639e2b4a4ad5dd48e964d6a6b055f551e7bd1"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py)" = "908bb4ce8a2ca80070537f69118145d4fc65bbed"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "2443eb00f08b6d271cbb350f629bd78e91241d5b"
@@ -83,8 +105,17 @@ jobs:
       - name: Replay exact hostile-audited V40 authority projection
         run: python .stage32-v40/stages/stage32/verify_main_startup.py
 
-      - name: Verify V41 audit synchronization against exact V40 source
-        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py --v40-root .stage32-v40
+      - name: Replay exact V41 audit synchronization against V40
+        run: python .stage32-v41/stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py --v40-root .stage32-v40
+
+      - name: Replay exact V41 startup projection
+        run: python .stage32-v41/stages/stage32/verify_main_startup.py
+
+      - name: Verify retained low-d full-qA pilot
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_hpadj20_full_qa_histogram_low_d_numerical_pilot.py
+
+      - name: Verify V42 hybrid candidate against exact V41 source
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj20_low_d_full_qa_hybrid_candidate.py --v41-root .stage32-v41
 
       - name: Verify Stage32 MAIN startup projection
         run: python stages/stage32/verify_main_startup.py
@@ -103,7 +134,7 @@ jobs:
           python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
           python stages/stage32/proof/verify_stage32_active_frontier.py
 
-      - name: Enforce V41 process-sync-only scope
+      - name: Enforce V41 sync plus V42 candidate bounded scope
         if: github.event_name == 'pull_request'
         run: |
           changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
@@ -111,8 +142,17 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py) ;;
-              *) echo "unexpected V41 sync path: $p"; exit 1 ;;
+              .github/workflows/stage32-main-startup-authority.yml|\
+              stages/stage32/MAIN-STATE.json|\
+              stages/stage32/verify_main_startup.py|\
+              stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py|\
+              stages/stage32/verify_main_startup_authority_v42_hpadj20_low_d_full_qa_hybrid_candidate.py|\
+              stages/stage32/proof/verify_cross_lane_demands.py|\
+              stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|\
+              stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|\
+              stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ20-LOW-D-FULL-QA-HYBRID-CANDIDATE.json|\
+              stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj20_low_d_full_qa_hybrid_candidate.py) ;;
+              *) echo "unexpected V41/V42 bounded-scope path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
 
