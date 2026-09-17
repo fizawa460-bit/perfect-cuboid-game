@@ -163,10 +163,20 @@ def main() -> None:
     weighted = load_module(WEIGHTED, "stage32_178_parity_quotient_weighted")
     weighted.lock_sources_before_import()
 
-    # Algebraic identity behind the quotient.  These coefficients encode
-    # c+t-(x1+x8+x9+x10)=2*x0+2*x6 exactly.
-    req((2, 0, 0, 0, 0, 2, 0) == (2, 0, 0, 0, 0, 2, 0),
-        "parity identity regression")
+    # Exhaust the parity classes themselves: the identity
+    # c+t-(x1+x8+x9+x10)=2*x0+2*x6 implies exact equivalence of the two tests.
+    for x0 in (0, 1):
+        for x1 in (0, 1):
+            for x6 in (0, 1):
+                for x8 in (0, 1):
+                    for x9 in (0, 1):
+                        for x10 in (0, 1):
+                            c = x0 + x6 + x8 + x10
+                            t = x0 + x1 + x6 + x9
+                            retained_even = ((x1 + x8 + x9 + x10) & 1) == 0
+                            quotient_even = ((c - t) & 1) == 0
+                            req(retained_even == quotient_even,
+                                "parity quotient identity regression")
 
     regressions = []
     for e in range(0, 15):
