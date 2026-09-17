@@ -1,8 +1,8 @@
 {
   "schema": "STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V2",
-  "generation": 0,
-  "armed": false,
-  "purpose": "Cold registration for HPADJ21 exact FULL178 full-qA-histogram replay using the measured direct row worker.",
+  "generation": 1,
+  "armed": true,
+  "purpose": "Execute HPADJ21 exact FULL178 full-qA-histogram replay using the measured direct row worker under resume-first one-row checkpoints.",
   "unit_count": 178,
   "max_parallel": 15,
   "carry_run_id": null,
@@ -21,7 +21,8 @@
     "stage_heavy_cap": 18,
     "planned_effective_heavy_concurrency": 15,
     "reserved_stage_headroom": 3,
-    "other_intended_stage32_heavy_overlap_at_arm": null
+    "other_intended_stage32_heavy_overlap_at_arm": 0,
+    "arm_observation": "No other in-progress Stage32 heavy workload was present immediately before generation-1 arm; ordinary integrity/audit jobs are not counted as heavy matrix work."
   },
   "storage": {
     "operating_budget_mb": 500,
