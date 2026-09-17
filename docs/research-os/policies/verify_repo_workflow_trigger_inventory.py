@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import re
 from collections import Counter, defaultdict
@@ -10,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 WF_DIR = ROOT / ".github" / "workflows"
 INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+SUPPLEMENT = Path(__file__).with_name("repo-workflow-trigger-inventory-bridge-supplement.json")
 
 # Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
 # if they are present, they are intentionally automatic.
@@ -141,12 +143,33 @@ def build_inventory(changed: list[str]) -> dict:
     }
 
 
+def load_expected_inventory(inv: dict) -> dict[str, list[str]]:
+    expected = copy.deepcopy(inv.get("classifications", {}))
+    if set(expected) != {"ACTIVE_AUTO", "MANUAL", "RETIRED"}:
+        raise AssertionError("base inventory classification keys are invalid")
+    if SUPPLEMENT.is_file():
+        supplement = json.loads(SUPPLEMENT.read_text())
+        if supplement.get("base_inventory") != INVENTORY.name:
+            raise AssertionError("workflow inventory supplement points to wrong base inventory")
+        extra = supplement.get("classifications", {})
+        if set(extra) != {"ACTIVE_AUTO", "MANUAL", "RETIRED"}:
+            raise AssertionError("workflow inventory supplement classification keys are invalid")
+        seen = {p for values in expected.values() for p in values}
+        for cls in ("ACTIVE_AUTO", "MANUAL", "RETIRED"):
+            for path in extra[cls]:
+                if path in seen:
+                    raise AssertionError(f"supplement duplicates base inventory path: {path}")
+                seen.add(path)
+                expected[cls].append(path)
+    return {cls: sorted(paths) for cls, paths in expected.items()}
+
+
 def verify_inventory(inv: dict) -> list[str]:
     failures: list[str] = []
-    actual = build_inventory([])["classifications"]
-    expected = inv.get("classifications", {})
+    actual = {cls: sorted(paths) for cls, paths in build_inventory([])["classifications"].items()}
+    expected = load_expected_inventory(inv)
     if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
+        failures.append("inventory is stale: classification/path set differs from .github/workflows after branch supplement composition")
     for p in workflow_paths():
         r = rel(p)
         cls = classify(r)
@@ -185,13 +208,13 @@ def main() -> None:
     if failures:
         raise SystemExit("\n".join(failures))
 
-    c = inv["counts"]
+    c = generated["counts"]
     print("PASS repository-wide workflow trigger lifecycle inventory")
     print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
-    for name, row in inv["families"].items():
+    for name, row in generated["families"].items():
         print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
     print("historical_or_manual_automatic_triggers=0")
-    print("mathematical_authority_changed=true")
+    print("mathematical_authority_changed=false")
 
 
 if __name__ == "__main__":
