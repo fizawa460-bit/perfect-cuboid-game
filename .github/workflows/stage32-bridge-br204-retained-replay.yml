@@ -52,6 +52,13 @@ jobs:
           print('BR204 remains cold; no heavy or BR205 authorization')
           PY
 
+      - name: Verify live merged V41 main snapshot
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "dd7dba27eb062e6a6ad4d440094ba26c290900d7"
+
       - name: Verify repository workflow lifecycle composite inventory
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
 
@@ -94,7 +101,7 @@ jobs:
           set -euo pipefail
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "71081e34c03eee756ea970e6632716121e951f54"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "d13e385a367245bc1612e5eb52ca41e8e72df857"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "93fe60e4ebb6392d6b199733b6dcc83f1734d376"
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
@@ -104,7 +111,9 @@ jobs:
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
           assert rk['source_locks']['worker_blob']=='71081e34c03eee756ea970e6632716121e951f54'
           assert rk['source_locks']['aggregator_blob']=='ef11a1ce7c8249f76ddf19fd0e43a415a7592b16'
-          assert rk['source_locks']['execution_contract_blob']=='d13e385a367245bc1612e5eb52ca41e8e72df857'
+          assert rk['source_locks']['execution_contract_blob']=='93fe60e4ebb6392d6b199733b6dcc83f1734d376'
+          assert rk['source_locks']['repository_main_head']=='37bb811b95399d73cc46fe899badcfa8eb5fca7d'
+          assert rk['source_locks']['repository_main_state_blob']=='dd7dba27eb062e6a6ad4d440094ba26c290900d7'
           assert rk['generation']==0 and rk['armed'] is False
           src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
           agg=Path('stages/stage32/generalization-bridge/aggregate_br204_full178.py').read_text()
