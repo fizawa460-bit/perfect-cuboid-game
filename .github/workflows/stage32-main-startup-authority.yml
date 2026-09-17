@@ -74,18 +74,18 @@ jobs:
 
       - name: Verify V41 retained source identities
         run: |
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "cf4ad81e386d594fe12aea4f3c7b422e99cb6583"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "9eaaefebd5ce7907937ae18f23483f49338a3222"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "f1cf731589fcf3c2c904960b796393666fd9ed78"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py)" = "302b1819fe3e7e8f6330fb9d02d28ada0acfbbc6"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json)" = "ee6639e2b4a4ad5dd48e964d6a6b055f551e7bd1"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py)" = "d1335a9db8caf44a40cd46f24185e1f5e58d8743"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py)" = "6052a34a8d6e9148f4a303a742bc8189e2e45a5f"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json)" = "c3949f06501debcd062dca2d8fc3962f725e337e"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py)" = "e1d21297b2c9cb43df595d319c8b41db82375848"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py)" = "d786a2acdddec79ce1f072476a1da28df35b6dd2"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py)" = "eda1baab64ffeaf41f03dbf810c2b24beb31bced"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py)" = "c335eb8c1e3394055c25c344227d712c21588eff"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json)" = "3be18571c912b8c6bf2bfe1739b8bd10e5357b0a"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py)" = "40f69b27db8e9947bd6770585c6de9dda7853fd5"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json)" = "e1bd30ab8c6ec61ad60f4ed499ec246cd6d8e420"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py)" = "faa4e6f2fbdead6fedb4986b4cab04e8a6f9c6ba"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "9fb1399e4cdb6e7983d18ebca3ce5b2ce6416c5e"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
