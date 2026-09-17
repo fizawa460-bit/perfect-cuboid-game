@@ -3,7 +3,7 @@
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_FULL178_B_SHARDED_SCALEOUT_RUNKEY_EXTERNAL_GOVERNANCE_BLOCKED",
+  "active_leaf": "BR204_FULL178_B_SHARDED_SCALEOUT_RUNKEY_EXTERNAL_GOVERNANCE_BLOCKED__BR205_QBC_ATTRIBUTION_PREFLIGHT_READY",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -81,29 +81,58 @@
     }
   },
   "live_main_refresh": {
-    "path": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V2.json",
-    "status": "PASS_LIVE_MAIN_REFRESH_HEAVY_BLOCKED_BY_RUNKEY_AND_EXTERNAL_GOVERNANCE_ZERO_CREDIT",
+    "path": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V3.json",
+    "path_git_blob_sha1": "33a0b862b17d89941eb2a9d2cccfe69eca0ffa94",
+    "status": "PASS_V40_LIVE_MAIN_REFRESH__BR205_BOUNDED_ATTRIBUTION_READY__HEAVY_BLOCKED_ZERO_CREDIT",
     "live_main_pr": 1808,
-    "live_main_head": "2543fe4732c1409e013bf02d8c5802f85057ccbd",
-    "live_main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V39_FULL178_INTEGER_LATTICE_BOUND_AUDIT_SYNCED",
-    "live_main_state_canonical_sha256": "660c8e07093af9885372a53da35dbdfb7396a306afc09e2ffafaa9b8257fb179",
+    "live_main_head": "fc842ff364b7e24d9275ba19f4a756b471696e92",
+    "live_main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V40_HPADJ20_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
+    "live_main_state_git_blob_sha1": "56d121fc11b4f0000ca5a139bbae7e777201e3d5",
+    "live_main_state_canonical_sha256": "10eb99bcf609dc9e8c65707398a0a57b0f7f1f48c631dc666d93cb7dcad4e817",
     "live_main_authority_repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": "195414091250828468192",
+    "authoritative_remaining_terminals": "179119009547804181594",
     "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "live_ex5_hpadj20_candidate_upper_bound": "179119009547804181594",
     "live_ex5_hpadj20_hostile_audited": true,
-    "live_ex5_hpadj20_main_credit_consumed": false,
-    "shared_governance_first_failure": "FAIL: 178 audit-sync semantics"
+    "live_ex5_hpadj20_main_credit_consumed": true,
+    "v40_replacement_head_hostile_reaudit_required": true,
+    "v40_replacement_head_hostile_audited": false,
+    "shared_governance_first_failure": "Stage32 MAIN startup authority: Adapter at GRF04-V40 equality"
+  },
+  "br205_bounded_preflight": {
+    "pilot": "stages/stage32/generalization-bridge/BR205-DEEPER-QBC-SAME-POPULATION-BOUNDED-PILOT.json",
+    "attribution": "stages/stage32/generalization-bridge/BR205-QBC-SLACK-ATTRIBUTION-BOUNDED-PREFLIGHT.json",
+    "attribution_verifier": "stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py",
+    "br204_certificate_addendum": "stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
+    "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
+    "K8": 230521553871,
+    "K16": 201104867976,
+    "K32": 191878707884,
+    "FULL_qBC": 191776755135,
+    "K8_minus_FULL_qBC": 38744798736,
+    "K8_minus_FULL_fraction": 0.168077763205463,
+    "BC_base_states_total": 16781,
+    "BC_base_states_L_le_8": 8941,
+    "BC_base_states_L_gt_8": 7840,
+    "active_K8_tail_evaluation_cells": 2396203,
+    "active_K8_tail_retained_multiplicity": 931400934,
+    "K8_minus_FULL_from_L_le_8": 0,
+    "K8_minus_FULL_from_L_gt_8": 38744798736,
+    "all_bounded_K8_qBC_slack_localized_to_L_gt_8": true,
+    "bounded_same_population_deeper_qBC_strict_improvement": true,
+    "bounded_half_of_BR205_gate_prepared": true,
+    "formal_BR205_gate_passed": false
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "FULL178 b-sharded scaleout gate",
-    "required_input": "The live MAIN predecessor identity is refreshed at PR #1808 head 2543fe4732c1409e013bf02d8c5802f85057ccbd. Before any heavy execution, require a dedicated policy-compliant BR204 run-key and a green/accepted MAIN-owned shared-governance boundary. Once both external gates are satisfied, refresh live MAIN again, evaluate exactly eight b shards, stream one b at a time, retain only compact shard totals/hashes/bins, and verify final coverage/disjointness/population conservation.",
-    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, and yield one same-population replacement upper bound compared against the refreshed live predecessor and current competing FULL178 surface. Grant no MAIN credit.",
+    "title": "FULL178 b-sharded scaleout gate with qBC-tail attribution",
+    "required_input": "Live MAIN is refreshed at V40 PR #1808 head fc842ff364b7e24d9275ba19f4a756b471696e92. Before any heavy execution, require a dedicated policy-compliant BR204 run-key, a green/accepted MAIN-owned shared-governance boundary, and refresh live MAIN again. Once external gates are satisfied, evaluate exactly eight b shards, stream one b at a time, retain only compact shard totals/hashes/bins plus qBC-tail attribution counters, and verify final coverage/disjointness/population conservation.",
+    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, emit qBC-tail activity/objective attribution, and yield one same-population replacement upper bound compared against the refreshed live predecessor. Then evaluate the formal BR205 gate. Grant no MAIN credit.",
     "current_blockers": [
       "no dedicated BR204 heavy run-key is present or armed",
-      "MAIN/shared verify_cross_lane_demands.py fails against the live V39 specialist sweep at 178 audit-sync semantics"
+      "MAIN/shared V40 startup workflow is not green; first observed failing step is Adapter at GRF04-V40 equality",
+      "V40 MAIN replacement exact head still requires independent hostile re-audit before further MAIN authority promotion"
     ],
     "stop_conditions": [
       "live MAIN predecessor identity loses coherence before execution",
@@ -135,18 +164,24 @@
     },
     "BR204": {
       "compact_producer_gate": "PASS",
-      "live_main_predecessor_identity_gate": "PASS",
-      "live_main_predecessor_refresh": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V2.json",
+      "live_main_predecessor_identity_gate": "PASS_V40_REFRESHED",
+      "live_main_predecessor_refresh": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V3.json",
+      "qBC_slack_attribution_certificate_addendum": "stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
+      "qBC_slack_attribution_fields_preflighted": true,
       "heavy_requires_main_freshness": true,
       "heavy_requires_runkey": true,
       "heavy_requires_repository_policy_governance": true,
       "external_governance_owner": "MAIN_SHARED_NOT_BRIDGE",
-      "external_governance_gate": "BLOCKED_178_AUDIT_SYNC_SEMANTICS",
+      "external_governance_gate": "BLOCKED_V40_GR04_ADAPTER_EQUALITY",
       "raw_4_1M_state_artifact_forbidden": true,
       "stream_one_b_at_a_time": true
     },
     "BR205": {
-      "gate": "BR204 exact slack attribution must show qBC tier truncation active on nonzero retained mass and a bounded same-population deeper-tier pilot must show strict improvement",
+      "gate": "BR204 exact FULL178 qBC-tail attribution must show qBC tier truncation active on nonzero retained mass/objective contribution and the bounded same-population deeper-tier pilot must show strict improvement",
+      "bounded_strict_improvement_preflight": "PASS",
+      "bounded_slack_localization_preflight": "PASS_ALL_K8_MINUS_FULL_SLACK_ON_L_GT_8",
+      "full178_tail_activity_half": "PENDING_BR204_HEAVY",
+      "formal_gate_passed": false,
       "otherwise": "SKIP_BR205"
     },
     "BR206": {
@@ -174,7 +209,10 @@
     "BR204_compact_producer_gate_passed": true,
     "BR204_live_main_predecessor_refresh_complete": true,
     "BR204_live_main_predecessor_identity_gate_passed": true,
+    "BR204_qBC_slack_attribution_fields_preflighted": true,
     "BR204_FULL178_scaleout_authorized": false,
+    "BR205_bounded_deeper_qBC_preflight_complete": true,
+    "BR205_bounded_slack_attribution_preflight_complete": true,
     "BR205_full_qBC_escalation_authorized": false,
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
@@ -190,7 +228,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "BR204 heavy blocked on missing dedicated run-key and MAIN-owned shared cross-lane governance verifier staleness"
+    "stop_reason": "BR204 heavy blocked on missing dedicated run-key and MAIN-owned V40 startup/governance boundary; bounded BR205 qBC strict-improvement/slack-attribution preparation is complete"
   },
   "deliverable_contract": {
     "per_candidate_checkpoint": [
@@ -204,6 +242,7 @@
       "exact compact state/population totals",
       "qBC tier and qA convolution summary",
       "Picard mu syndrome summary",
+      "qBC L>8 tail retained mass/objective attribution",
       "capacity bins/cutoff data",
       "deterministic stream hash",
       "source-lock manifest"
@@ -213,6 +252,7 @@
       "exact shard disjointness",
       "population conservation",
       "predecessor comparison on identical semantics",
+      "qBC-tail exact activity/slack attribution for the BR205 gate",
       "compact replayable certificate",
       "zero-credit retained handoff"
     ]
