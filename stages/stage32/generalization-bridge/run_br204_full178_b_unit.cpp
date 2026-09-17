@@ -11,6 +11,7 @@
 #include <string>
 
 static constexpr int BR204_H = 96;
+static constexpr std::pair<int,int> BR204_D_BANDS[] = {{8,54}, {56,100}, {102,146}, {148,192}};
 static constexpr const char* BR204_BASE_BLOB = "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1";
 
 struct WBC {
@@ -54,13 +55,22 @@ int main(int argc, char** argv) {
     }
 
     std::string b_s = arg_value(argc, argv, "--b");
+    std::string d_lo_s = arg_value(argc, argv, "--d-lo");
+    std::string d_hi_s = arg_value(argc, argv, "--d-hi");
     std::string out_path = arg_value(argc, argv, "--out");
     std::string worker_blob = arg_value(argc, argv, "--worker-blob");
     req(!b_s.empty(), "missing --b");
+    req(!d_lo_s.empty() && !d_hi_s.empty(), "missing --d-lo/--d-hi");
     req(!out_path.empty(), "missing --out");
     req(worker_blob.size() == 40, "missing/invalid --worker-blob");
     int only_b = std::stoi(b_s);
+    int d_lo = std::stoi(d_lo_s), d_hi = std::stoi(d_hi_s);
     req(0 <= only_b && only_b <= BR204_H, "b outside 0..96");
+    bool approved_band = false;
+    for (const auto& band : BR204_D_BANDS)
+        if (band.first == d_lo && band.second == d_hi) approved_band = true;
+    req(approved_band, "d range is not an approved BR204 resume band");
+    req(d_hi >= std::max(8, 2 * only_b), "d band has no admissible d for this b");
 
     auto S = build_strict(BR204_H);
     auto E = build_equal(BR204_H);
@@ -119,7 +129,7 @@ int main(int argc, char** argv) {
     i128 mu_tail_slot_positive_capacity_check = 0;
 
     for (int g : {0, 1}) {
-        for (int d = 8; d <= 2 * BR204_H; d += 2) {
+        for (int d = d_lo; d <= d_hi; d += 2) {
             int h = d / 2;
             if (only_b > h) continue;
             int legacy = (g == 0) ? 8 : 4;
@@ -243,6 +253,8 @@ int main(int argc, char** argv) {
     std::ofstream out(out_path, std::ios::binary);
     req((bool)out, "cannot open --out");
     out << "META\t" << only_b
+        << "\t" << d_lo
+        << "\t" << d_hi
         << "\t" << raw.size()
         << "\t" << bc_assignment_mass
         << "\t" << bc_tail_slot_assignment_mass
