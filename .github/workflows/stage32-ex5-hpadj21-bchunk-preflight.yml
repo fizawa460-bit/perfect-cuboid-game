@@ -77,3 +77,26 @@ jobs:
           test -s recovered/hpadj21-bchunk-resume-seed.json
           python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index 0 --b-start 0 --b-stop 0 --verify-existing recovered/hpadj21-bchunk-resume-seed.json
           echo HPADJ21_RESUME_READBACK_PASS_NO_RECOMPUTE
+
+  cross-run-resume-readback:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download checkpoint from prior completed workflow run
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-bchunk-resume-seed
+          path: recovered-prior-run
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 35278668203
+      - name: Verify prior-run checkpoint without recomputation
+        run: |
+          set -euo pipefail
+          test -s recovered-prior-run/hpadj21-bchunk-resume-seed.json
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index 0 --b-start 0 --b-stop 0 --verify-existing recovered-prior-run/hpadj21-bchunk-resume-seed.json
+          echo HPADJ21_CROSS_RUN_RESUME_PASS_NO_RECOMPUTE source_run=35278668203
