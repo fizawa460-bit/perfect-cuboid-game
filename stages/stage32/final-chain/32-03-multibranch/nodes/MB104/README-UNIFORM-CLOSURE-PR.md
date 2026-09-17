@@ -5,7 +5,9 @@ Ordinary `stage32mb-mainbatch` startup remains governed by `MAIN-START-HERE.md`.
 After ordinary startup and resolution of the recorded live-MAIN authority drift, read:
 
 1. `MB104-UNIFORM-CLOSURE-RESTART-20260917.md`
-2. `MB104-PR-SPLIT-MANIFEST-20260917.json`
+2. `MB104-UNIFORM-CLOSURE-ROUTE-UPDATE-20260917.md`
+3. `MB104-U3-U4-U12-PORTFOLIO-GATE-20260917.md`
+4. `MB104-PR-SPLIT-MANIFEST-20260917.json`
 
 Do not preload the archived `#1791` history. Fetch old MB104 artifacts only by the immutable exact head recorded in the restart ledger and only when a selected replacement-theorem route needs them.
 
