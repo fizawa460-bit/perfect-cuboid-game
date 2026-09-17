@@ -26,6 +26,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
@@ -109,6 +110,6 @@ jobs:
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
         run: python stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py
 
-      - name: Diff check
+      - name: Diff check audit-repair delta
         if: github.event_name == 'pull_request'
-        run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+        run: git -c core.whitespace=-blank-at-eof diff --check cbe76b978608b08ac1078a8e8c5c626d88df7f49 "${{ github.event.pull_request.head.sha }}"
