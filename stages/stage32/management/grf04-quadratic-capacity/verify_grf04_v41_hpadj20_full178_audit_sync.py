@@ -161,16 +161,16 @@ def main() -> None:
     sweep = state["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
     req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "bb55c4933b42753ebc1f0651ed7f062f2dbd139a" and
+        sweep["lane_178_head"] == "b873cad47968150b1bf6ca36359d6506399b290e" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
     req(sweep["lane_178_current_head_audit_status"] ==
-        "CURRENT_HEAD_EXACT_PREFLIGHTS_RESEARCH_ONLY__HOSTILE_AUDIT_PENDING", "178 audit gate")
+        "CURRENT_HEAD_RESEARCH_ONLY__FRESH_EXACT_REPLAY_AND_HOSTILE_AUDIT_PENDING", "178 audit gate")
     req(sweep["ex5_pr"] == 1818 and
-        sweep["ex5_head"] == "3d4b9e190aa6d9feba596e60c8a6cecfa325b5d0" and
+        sweep["ex5_head"] == "d4bb013da65a91545dfd9833c278dafb27618b00" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 successor live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
     req(sweep["ex5_current_head_audit_status"] ==
-        "FULL178_HEAVY_REPLAY_QUEUED__HOSTILE_AUDIT_PENDING", "EX5 audit gate")
+        "FULL178_BCHUNK_RECOVERY_RUNNING__HOSTILE_AUDIT_PENDING", "EX5 audit gate")
     req(sweep["ex5_representative_result"] ==
         "G1_D190_QA_FLOOR_IMPROVEMENT_1312541087822068106__REPRESENTATIVE_ONLY",
         "EX5 representative result")
@@ -183,7 +183,7 @@ def main() -> None:
     req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
         "MB audit gate")
     req(sweep["bridge_pr"] == 1813 and
-        sweep["bridge_head"] == "a182e95544cd8381a385ce360c9211240acd3741" and
+        sweep["bridge_head"] == "05615dbf311727ca66dd71ab6bac9f222438db9e" and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["bridge_handoff"], "BRIDGE credit firewall")
     req(sweep["bridge_current_head_audit_status"] == "CURRENT_HEAD_NOT_HOSTILE_AUDITED",
