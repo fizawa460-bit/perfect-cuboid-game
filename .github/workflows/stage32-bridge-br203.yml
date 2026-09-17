@@ -1,0 +1,79 @@
+name: Stage32 BRIDGE BR203 retained replay
+
+# lifecycle: RETIRED_MANUAL after BR203 completion and BR204 activation.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  br203-retained-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify retained BR203 boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          s = json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
+          assert s['routing']['BR203_complete'] is True
+          assert s['routing']['BR203_authorized'] is False
+          assert s['current_node'] in {'BR204','BR205','BR206','BR290'}, s['current_node']
+          assert s['routing']['BR204_FULL178_scaleout_authorized'] is False or s['current_node'] != 'BR203'
+          print('BR203 RETIRED_MANUAL retained boundary confirmed')
+          PY
+      - name: Install exact algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Run source-locked BR203 16-state verifier
+        run: |
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py \
+            --output /tmp/BR203-PICARD-MU-16-STATE-RESULT.json
+      - name: Bind exact mu result into bounded kernel
+        run: |
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py \
+            /tmp/BR203-PICARD-MU-16-STATE-RESULT.json \
+            /tmp/br203_mu_generated.hpp
+      - name: Replay bounded direct BR203 mu intersection
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
+            stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp \
+            -o /tmp/verify_br203_bounded_mu_intersection_kernel
+          /tmp/verify_br203_bounded_mu_intersection_kernel > /tmp/direct.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/direct.json'))
+          assert x['status']=='PASS_ZERO_CREDIT'
+          assert x['H16_d32']['BR203_mu_K8']==229209796641
+          PY
+      - name: Replay BR204 compact producer equivalence
+        run: |
+          g++ -std=c++20 -O3 -DNDEBUG \
+            stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp \
+            -o /tmp/routing
+          /tmp/routing > /tmp/routing.json
+          g++ -std=c++20 -O3 -DNDEBUG \
+            stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp \
+            -o /tmp/k8
+          /tmp/k8 > /tmp/k8.json
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
+            stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp \
+            -o /tmp/mu
+          /tmp/mu > /tmp/mu.json
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/routing.json'))
+          k=json.load(open('/tmp/k8.json'))
+          m=json.load(open('/tmp/mu.json'))
+          assert r['status']=='PASS_ZERO_CREDIT'
+          assert r['H96']['refined_states']==4070710
+          assert k['status']=='PASS_ZERO_CREDIT'
+          assert k['H16']['direct_equals_compact'] is True
+          assert m['status']=='PASS_ZERO_CREDIT'
+          assert m['H10']['direct_reference_match'] is True
+          assert m['H16']['direct_reference_match'] is True
+          assert m['H16']['BR203_mu_K8']==229209796641
+          print('BR203 retained replay + BR204 compact producer gate PASS')
+          PY
