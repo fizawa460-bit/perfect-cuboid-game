@@ -6,7 +6,8 @@
   "classifications": {
     "ACTIVE_AUTO": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
-      ".github/workflows/stage32-ex5-hpadj21-heavy.yml"
+      ".github/workflows/stage32-ex5-hpadj21-heavy.yml",
+      ".github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml"
     ],
     "MANUAL": [],
     "RETIRED": []
@@ -14,7 +15,7 @@
   "notes": [
     "HPADJ20 heavy replay is PR-auto only behind a fresh dedicated run-key commit-range authorization gate, with manual dispatch retained for later exact-head reruns when dispatchable.",
     "HPADJ21 heavy replay is the active successor scaleout surface. Its PR trigger enters only a cheap gate; heavy compute remains cold unless the dedicated HPADJ21 runkey advances semantically and is explicitly armed with a source-locked representative sweep receipt.",
-    "The temporary HPADJ21 pilot workflow was deleted after its bounded equivalence and representative-measurement role; it is not retained as an automatic historical leaf.",
+    "HPADJ21 b-chunk preflight is an ACTIVE_AUTO bounded equivalence/resume-plumbing gate. It performs only tiny checkpoint tests and grants no mathematical or production credit.",
     "This additive registry preserves the frozen 2026-09-11 base snapshot while making later workflow additions fail-closed and mechanically auditable."
   ]
 }
