@@ -5,16 +5,22 @@
   "source_locks": {
     "verifier": {
       "path": "stages/stage32/generalization-bridge/verify_br204_certificate_storage_preflight.py",
-      "git_blob_sha1": "4e86b3e75d352371e3c959ea3ec43f7d8c1f7cf1"
+      "git_blob_sha1": "44af6cafc07e524b3fd9e77b8ee38b53347da21a"
     },
-    "verifier_commit": "cae18a12584304651ee14ca9977dae38b457ee75",
+    "verifier_commit": "99f266ad7c15b877d0ed4cb86a911323ba2f98af",
     "observed_repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
-    "main_state_declared_current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "main_state_declared_current_repository_main_at_measurement": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
     "compressed_terminal_family_blob": "90ff82ed312dcc0cb32cf207935945f550e29170",
     "full178_production_state_blob": "931e80ba892ec0d98f3e7b909ac2dd46660c116c",
     "compact_producer_blob": "336285a0c204276e40da57a63ab634e88dae2b88",
     "compact_mu_equivalence_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "compact_equivalence_result_blob": "a0d193e44f59c50a69586124e65903db4b4ed9ce"
+  },
+  "source_lock_repair": {
+    "prior_recorded_verifier_blob": "4e86b3e75d352371e3c959ea3ec43f7d8c1f7cf1",
+    "prior_recorded_verifier_commit": "cae18a12584304651ee14ca9977dae38b457ee75",
+    "repair_reason": "Prior verifier blob/commit were unresolvable. Repository path history proves the verifier was created once at commit 99f266ad7c15b877d0ed4cb86a911323ba2f98af with blob 44af6cafc07e524b3fd9e77b8ee38b53347da21a and has not changed since.",
+    "recomputed_from_exact_verifier": true
   },
   "canonical_population_regression": {
     "H": 96,
@@ -54,13 +60,14 @@
     "intermediate_retention_days": 1,
     "upload_rule": "Fail closed before upload if any compact JSON exceeds its class hard cap."
   },
-  "deterministic_result_sha256": "1ac123c4bfee650472823307483114cbc63b7dde5c5ed1394274624269965676",
+  "deterministic_result_sha256": "625c36b3b371e105ef80c448c72a523f194761f0f9aa339d2840eeb9379d1576",
   "storage_gate": "PASS_WITH_HARD_CAPS",
   "heavy_authorized": false,
-  "remaining_heavy_gates": [
+  "remaining_heavy_gates_at_measurement": [
     "MAIN freshness identity synchronized by owner",
     "dedicated fresh BR204 run-key explicitly armed"
   ],
+  "current_main_freshness_is_tracked_separately": true,
   "credit": {
     "stage32_main": false,
     "theorem": false,
