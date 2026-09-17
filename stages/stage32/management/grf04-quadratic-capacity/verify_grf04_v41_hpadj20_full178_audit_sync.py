@@ -34,13 +34,20 @@ BOUND = 179119009547804181594
 V39_BOUND = 195414091250828468192
 TIGHTENING = 16295081703024286598
 
+
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
 
+
+def is_sha1(v: object) -> bool:
+    return isinstance(v, str) and len(v) == 40 and all(c in "0123456789abcdef" for c in v)
+
+
 def blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
 
 def canon(obj: dict) -> str:
     body = dict(obj)
@@ -48,6 +55,7 @@ def canon(obj: dict) -> str:
     return hashlib.sha256(
         json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
+
 
 def lock_json(path: Path, expected_blob: str, expected_canon: str, label: str) -> dict:
     req(path.is_file(), f"missing {label}")
@@ -58,11 +66,13 @@ def lock_json(path: Path, expected_blob: str, expected_canon: str, label: str) -
     req(canon(obj) == expected_canon, f"{label} canonical drift")
     return obj
 
+
 def current_state() -> dict:
     obj = json.loads(STATE.read_text(encoding="utf-8"))
     stored = obj.get("canonical_sha256_without_this_field")
     req(isinstance(stored, str) and canon(obj) == stored, "current MAIN state canonical drift")
     return obj
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -160,30 +170,39 @@ def main() -> None:
 
     sweep = state["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
-    req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "b873cad47968150b1bf6ca36359d6506399b290e" and
+
+    # Live heads are mutable observations, not retained mathematical source identities.
+    # Ordinary stage32mainbatch resolves their exact freshness remotely and writes them
+    # into MAIN-STATE. This verifier checks shape/firewalls so a specialist head advance
+    # does not force an unrelated V41 proof-certificate rewrite.
+    req(sweep["lane_178_pr"] == 1821 and is_sha1(sweep["lane_178_head"]) and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
-    req(sweep["lane_178_current_head_audit_status"] ==
-        "CURRENT_HEAD_RESEARCH_ONLY__FRESH_EXACT_REPLAY_AND_HOSTILE_AUDIT_PENDING", "178 audit gate")
-    req(sweep["ex5_pr"] == 1818 and
-        sweep["ex5_head"] == "d4bb013da65a91545dfd9833c278dafb27618b00" and
+    req("ZERO_MAIN_CREDIT" in sweep["lane_178_handoff"], "178 credit firewall")
+    req("RESEARCH_ONLY" in sweep["lane_178_current_head_audit_status"] and
+        sweep["lane_178_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "178 audit gate")
+    req(isinstance(sweep["lane_178_semantic_leaf"], str) and sweep["lane_178_semantic_leaf"],
+        "178 semantic leaf")
+
+    req(sweep["ex5_pr"] == 1818 and is_sha1(sweep["ex5_head"]) and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 successor live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
-    req(sweep["ex5_current_head_audit_status"] ==
-        "FULL178_BCHUNK_RECOVERY_RUNNING__HOSTILE_AUDIT_PENDING", "EX5 audit gate")
+    req(sweep["ex5_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "EX5 audit gate")
     req(sweep["ex5_representative_result"] ==
         "G1_D190_QA_FLOOR_IMPROVEMENT_1312541087822068106__REPRESENTATIVE_ONLY",
         "EX5 representative result")
-    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
-        "CUT live sweep")
-    req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "ef09e1dfb69ab9fbe9198b9fa22d3c01c03a4de6" and
+
+    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE" and
+        sweep["cut_pending_main_handoff"] == "NONE", "CUT live sweep")
+
+    req(sweep["mb_pr"] == 1819 and is_sha1(sweep["mb_head"]) and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
     req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
         "MB audit gate")
-    req(sweep["bridge_pr"] == 1813 and
-        sweep["bridge_head"] == "05615dbf311727ca66dd71ab6bac9f222438db9e" and
+
+    req(sweep["bridge_pr"] == 1813 and is_sha1(sweep["bridge_head"]) and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["bridge_handoff"], "BRIDGE credit firewall")
     req(sweep["bridge_current_head_audit_status"] == "CURRENT_HEAD_NOT_HOSTILE_AUDITED",
@@ -200,7 +219,8 @@ def main() -> None:
     req(V39_BOUND - BOUND == TIGHTENING, "V40 authority arithmetic")
     print("PASS: Stage32 V41 synchronizes the hostile-audited V40 numerical authority with zero new pruning")
     print("PASS: V40 audit gate cleared; FULL178 resumes with downstream/merge firewalls unchanged")
-    print("PASS: live 178/EX5/CUT/MB plus BRIDGE observations refreshed; HPADJ21 strict-subset preflight retained at zero credit")
+    print("PASS: live specialist observation shapes/firewalls verified; remote exact-head freshness remains an operator startup obligation")
+
 
 if __name__ == "__main__":
     main()
