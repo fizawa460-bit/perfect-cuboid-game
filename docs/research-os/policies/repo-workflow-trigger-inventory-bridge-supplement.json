@@ -2,9 +2,11 @@
   "schema_version": 1,
   "scope": "branch-local supplement to repo-workflow-trigger-inventory-20260911.json",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
-  "reason": "PR #1813 retains the BR203 replay workflow for provenance; it is workflow_dispatch-only and classified RETIRED.",
+  "reason": "PR #1813 retains BR203 as workflow_dispatch-only provenance and adds the current BR204 exact-head retained replay as the active BRIDGE frontier gate.",
   "classifications": {
-    "ACTIVE_AUTO": [],
+    "ACTIVE_AUTO": [
+      ".github/workflows/stage32-bridge-br204-retained-replay.yml"
+    ],
     "MANUAL": [],
     "RETIRED": [
       ".github/workflows/stage32-bridge-br203.yml"
