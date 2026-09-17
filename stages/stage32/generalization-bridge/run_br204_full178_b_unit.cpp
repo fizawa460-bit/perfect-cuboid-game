@@ -5,12 +5,9 @@
 #include "verify_br204_compact_mu_bounded_equivalence.cpp"
 #undef main
 
-#include <boost/multiprecision/cpp_int.hpp>
 #include <fstream>
 #include <sstream>
 #include <string>
-
-using boost::multiprecision::cpp_int;
 
 static constexpr int BR204_H = 96;
 static constexpr const char* BR204_BASE_BLOB = "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1";
@@ -29,8 +26,21 @@ static std::string arg_value(int argc, char** argv, const std::string& key) {
     return "";
 }
 
-static cpp_int cap_product(i64 a, i64 b, int B) {
-    return cpp_int(a) * cpp_int(b) * cpp_int(B);
+static i128 cap_product(i64 a, i64 b, int B) {
+    return (i128)a * (i128)b * (i128)B;
+}
+
+static std::string dec_i128(i128 v) {
+    req(v >= 0, "negative i128 serialization");
+    if (v == 0) return "0";
+    std::string s;
+    while (v > 0) {
+        int digit = (int)(v % 10);
+        s.push_back((char)('0' + digit));
+        v /= 10;
+    }
+    std::reverse(s.begin(), s.end());
+    return s;
 }
 
 int main(int argc, char** argv) {
@@ -81,13 +91,13 @@ int main(int argc, char** argv) {
     }
 
     using Key = std::pair<int,int>; // (survivor count s, normal-block size B)
-    std::map<Key, cpp_int> k8_bins;
-    std::map<Key, cpp_int> mu_bins;
-    std::map<Key, cpp_int> mu_tail_bins;
+    std::map<Key, i128> k8_bins;
+    std::map<Key, i128> mu_bins;
+    std::map<Key, i128> mu_tail_bins;
 
-    cpp_int k8_positive_capacity = 0;
-    cpp_int mu_positive_capacity = 0;
-    cpp_int mu_tail_positive_capacity = 0;
+    i128 k8_positive_capacity = 0;
+    i128 mu_positive_capacity = 0;
+    i128 mu_tail_positive_capacity = 0;
     unsigned long long evaluated_state_parts = 0;
 
     for (int g : {0, 1}) {
@@ -142,7 +152,7 @@ int main(int argc, char** argv) {
                                 if (!s) continue;
                                 int block = 19*d - 5*e + 1;
                                 req(block > 0, "nonpositive normal block");
-                                cpp_int cap = cap_product(AR.mult, part.total_mult, block);
+                                i128 cap = cap_product(AR.mult, part.total_mult, block);
                                 k8_bins[{s, block}] += cap;
                                 k8_positive_capacity += cap;
                             }
@@ -163,7 +173,7 @@ int main(int argc, char** argv) {
                                     if (!s) continue;
                                     int block = 19*d - 5*e + 1;
                                     req(block > 0, "nonpositive normal block");
-                                    cpp_int cap = cap_product(AR.mult, mult, block);
+                                    i128 cap = cap_product(AR.mult, mult, block);
                                     mu_bins[{s, block}] += cap;
                                     mu_positive_capacity += cap;
                                     if (is_tail) {
@@ -201,16 +211,17 @@ int main(int argc, char** argv) {
         << "\t" << evaluated_state_parts
         << "\n";
     for (const auto& [key, cap] : k8_bins)
-        out << "K\t" << key.first << "\t" << key.second << "\t" << cap << "\n";
+        out << "K\t" << key.first << "\t" << key.second << "\t" << dec_i128(cap) << "\n";
     for (const auto& [key, cap] : mu_bins) {
-        cpp_int tail = 0;
+        i128 tail = 0;
         auto ti = mu_tail_bins.find(key);
         if (ti != mu_tail_bins.end()) tail = ti->second;
-        out << "M\t" << key.first << "\t" << key.second << "\t" << cap << "\t" << tail << "\n";
+        out << "M\t" << key.first << "\t" << key.second << "\t"
+            << dec_i128(cap) << "\t" << dec_i128(tail) << "\n";
     }
-    out << "SUM\t" << k8_positive_capacity << "\t"
-        << mu_positive_capacity << "\t"
-        << mu_tail_positive_capacity << "\n";
+    out << "SUM\t" << dec_i128(k8_positive_capacity) << "\t"
+        << dec_i128(mu_positive_capacity) << "\t"
+        << dec_i128(mu_tail_positive_capacity) << "\n";
     out.close();
     req((bool)out, "write failure");
 
