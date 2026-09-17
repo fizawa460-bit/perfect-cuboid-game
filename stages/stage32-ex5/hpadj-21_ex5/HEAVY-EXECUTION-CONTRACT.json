@@ -1,22 +1,21 @@
 {
-  "schema": "STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V1",
+  "schema": "STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V2",
   "route_id": "HPADJ-21_ex5",
-  "purpose": "Resume-first exact FULL178 full-qA-histogram sweep replay with durable one-row checkpoints.",
+  "purpose": "Resume-first exact FULL178 full-qA-histogram replay with the measured direct row worker and durable one-row checkpoints.",
   "source_locks": {
-    "direct_reference_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py",
-    "direct_reference_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
-    "sweep_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row_sweep.py",
-    "sweep_worker_git_blob": "0131c91b54bfc335f1bce3af18e9da2eaa51a7ba",
-    "bounded_equivalence_verifier": "stages/stage32-ex5/hpadj-21_ex5/verify_sweep_equivalence_bounded.py",
-    "bounded_equivalence_verifier_git_blob": "6225471e5920f1c34f4083889a00f259c699bd9b",
-    "union_verifier": "stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows_sweep.py",
-    "union_verifier_git_blob": "2f9e0d605304a124d36b88680d71a6f5d2aca243"
+    "row_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py",
+    "row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "union_verifier": "stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py",
+    "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a",
+    "representative_measurement": "stages/stage32-ex5/hpadj-21_ex5/REPRESENTATIVE-MEASUREMENT.json",
+    "representative_measurement_git_blob": "c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43",
+    "optional_sweep_worker_git_blob": "0131c91b54bfc335f1bce3af18e9da2eaa51a7ba",
+    "optional_sweep_bounded_equivalence_git_blob": "6225471e5920f1c34f4083889a00f259c699bd9b"
   },
   "mathematical_semantics": {
     "same_population_as_hpadj20": true,
     "same_post_mass_constraints_as_hpadj20": true,
     "full_qA_histogram_exact_multiplicity": true,
-    "sweep_is_execution_only_exact_rewrite": true,
     "additive_subtraction_used": false,
     "statistical_independence_assumed": false
   },
@@ -29,25 +28,23 @@
     "assignment": "unit index equals canonical FULL178 manifest row index",
     "mathematical_population_changed": false
   },
-  "representative_measurement_gate": {
-    "required_before_arm": true,
-    "near_max_row": [177, "g1-d190", 1, 190],
-    "direct_reference_success_run_id": 35161346565,
-    "direct_reference_exact_head": "3e9f726546f87925f678ba567d08d4aee25f1d22",
-    "direct_reference_raw_certificate_bytes": 4128,
-    "direct_reference_wall_seconds_approx": 1945.2,
-    "direct_reference_strict_cells": 8,
-    "direct_reference_floor_improvement": 1312541087822068106,
-    "direct_reference_canonical": "7da39b4427f1f164c8b484216ec67b32287ecd8215006f36d24421eac5962c7a",
-    "sweep_bounded_exact_equivalence_required": true,
-    "sweep_near_max_exact_measurement_required": true,
-    "sweep_measurement_receipt_path": "stages/stage32-ex5/hpadj-21_ex5/SWEEP-REPRESENTATIVE-MEASUREMENT.json",
-    "arm_before_sweep_measurement_receipt": false
+  "representative_measurement": {
+    "required_before_scaleout": true,
+    "source_run_id": 35161346565,
+    "source_job_id": 105012563736,
+    "source_head": "3e9f726546f87925f678ba567d08d4aee25f1d22",
+    "row": [177, "g1-d190", 1, 190],
+    "wall_seconds_approx": 1945.2,
+    "raw_certificate_bytes": 4128,
+    "strict_cells": 8,
+    "floor_improvement_vs_hpadj20": 1312541087822068106,
+    "certificate_canonical": "7da39b4427f1f164c8b484216ec67b32287ecd8215006f36d24421eac5962c7a",
+    "measurement_satisfied": true
   },
   "carry_over": {
     "selector": "runkey carry_run_id",
     "chain_model": "Validate inherited carry bundle plus completed predecessor row artifacts, consolidate valid rows, schedule only missing/rejected row indices.",
-    "validation": "Each carried row must validate under the source-locked sweep worker and match the canonical FULL178 manifest identity for its row index.",
+    "validation": "Each carried row must validate under the source-locked direct worker and match the canonical FULL178 manifest identity for its row index.",
     "partial_container_salvage": true,
     "carry_bundle_artifact": "hpadj21-carry-bundle"
   },
