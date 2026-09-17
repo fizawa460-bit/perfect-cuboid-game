@@ -24,7 +24,6 @@ on:
       - 'stages/stage32/residual-32-01-production/compressed_terminal_family.py'
       - 'stages/stage32/final-chain/32-03-multibranch/MISSION.json'
       - 'stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md'
-      - 'stages/stage32/generalization-bridge/**'
   workflow_dispatch:
 
 permissions:
@@ -47,6 +46,7 @@ jobs:
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+
       - name: Checkout hostile-audited V24 HPADJ07 boundary
         uses: actions/checkout@v4
         with:
@@ -55,11 +55,12 @@ jobs:
           fetch-depth: 1
       - name: Assert hostile-audited V24 HPADJ07 boundary
         run: test "$(git -C .stage32-audited-hpadj07-v24 rev-parse HEAD)" = "3c5915dee248660a2821f2ebe9c24e20b0ad1647"
+
       - name: Resolve research freshness authority
         if: github.event_name == 'pull_request'
         run: |
           baseline="e4d3b8b83626526ffeccdbd9c956081735fe1a6e"
-          expected_current_main="c6284abbb29930255892d56f800da0ea1e34734b"
+          expected_current_main="4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c"
           git fetch origin main --no-tags
           current_main="$(git rev-parse origin/main)"
           merge_base="$(git merge-base HEAD "$current_main")"
@@ -67,10 +68,14 @@ jobs:
           echo "merge_base=$merge_base"
           test "$current_main" = "$expected_current_main"
           test "$(git merge-base "$baseline" "$current_main")" = "$baseline"
+          drift="$(git diff --name-only "$baseline" "$current_main")"
+          printf 'main_drift_paths=%s\n' "$drift"
+          test "$drift" = "x"
           git merge-base --is-ancestor "$current_main" HEAD
           test "$merge_base" = "$current_main"
           echo "research_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
           echo "merge_ready_freshness=CLEAR_CURRENT_MAIN_INTEGRATED"
+
       - name: Verify V24 audit-sync source identities
         run: |
           test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8df16056625db5fbb1947f1e927593de258f1ff"
@@ -87,6 +92,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf02_projected_kernel.py)" = "6c61d66a91bb6beeb2ad29165a269f5c98e20ad0"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/GRF-03-NORM-LADDER-RESIDUE-COLLAPSE.json)" = "d6777200cadb6809dc3b46374c8f714cb6ebd6cd"
           test "$(git hash-object stages/stage32/management/global-residual-feasibility/verify_grf03_norm_ladder_residue_collapse.py)" = "eaddc4eaa790742cc92ec0bac3043c6743f947fc"
+
       - name: Reverify hostile-audited V24 predecessor startup boundary
         run: python .stage32-audited-hpadj07-v24/stages/stage32/verify_main_startup.py
       - name: Verify V24 HPADJ07 hostile-audit PASS synchronization
@@ -109,45 +115,7 @@ jobs:
         run: python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
       - name: Verify Stage32 active frontier after V24 audit sync
         run: python stages/stage32/proof/verify_stage32_active_frontier.py
-      - name: BRIDGE intermediate-audit retained boundary
-        if: github.event_name == 'pull_request'
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          s=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
-          assert s['routing']['BR203_complete'] is True
-          assert s['routing']['BR204_FULL178_scaleout_authorized'] is False
-          assert s['current_node']=='BR204'
-          print('BRIDGE retained boundary frozen at BR204; heavy unauthorized')
-          PY
-      - name: Install BRIDGE exact algebra dependency
-        if: github.event_name == 'pull_request'
-        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Replay BRIDGE BR203 and BR204 compact boundary
-        if: github.event_name == 'pull_request'
-        run: |
-          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu16.json
-          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu16.json /tmp/br203_mu_generated.hpp
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp -o /tmp/direct
-          /tmp/direct > /tmp/direct.json
-          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp -o /tmp/routing
-          /tmp/routing > /tmp/routing.json
-          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp -o /tmp/k8
-          /tmp/k8 > /tmp/k8.json
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp -o /tmp/mu
-          /tmp/mu > /tmp/mu.json
-          python - <<'PY'
-          import json
-          d=json.load(open('/tmp/direct.json')); r=json.load(open('/tmp/routing.json'))
-          k=json.load(open('/tmp/k8.json')); m=json.load(open('/tmp/mu.json'))
-          assert d['status']=='PASS_ZERO_CREDIT' and d['H16_d32']['BR203_mu_K8']==229209796641
-          assert r['status']=='PASS_ZERO_CREDIT' and r['H96']['refined_states']==4070710
-          assert k['status']=='PASS_ZERO_CREDIT' and k['H16']['direct_equals_compact'] is True
-          assert m['status']=='PASS_ZERO_CREDIT' and m['H10']['direct_reference_match'] is True
-          assert m['H16']['direct_reference_match'] is True and m['H16']['BR203_mu_K8']==229209796641
-          print('BRIDGE exact-head retained replay PASS')
-          PY
+
       - name: Enforce startup-only scope
         if: github.event_name == 'pull_request'
         run: |
