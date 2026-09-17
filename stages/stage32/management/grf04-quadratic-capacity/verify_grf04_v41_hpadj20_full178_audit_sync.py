@@ -161,7 +161,7 @@ def main() -> None:
     sweep = state["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
     req(sweep["lane_178_pr"] == 1821 and
-        sweep["lane_178_head"] == "017e9ae8433a7ca0bfb2f96e9cb71fb16ea5dc39" and
+        sweep["lane_178_head"] == "59c229bf10020d1d103916329b0262d7b4930f7c" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
     req(sweep["lane_178_current_head_audit_status"] ==
         "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
@@ -177,7 +177,7 @@ def main() -> None:
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT live sweep")
     req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "12ad04f57a6dcb0fd1587673ff83282a4033fd49" and
+        sweep["mb_head"] == "ef09e1dfb69ab9fbe9198b9fa22d3c01c03a4de6" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
     req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
