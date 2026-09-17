@@ -1,26 +1,365 @@
-name: Stage32EX5 HPADJ21 heavy replay
+name: Stage32EX5 HPADJ21 b-chunk recovery
 
-# Lifecycle: MANUAL/COLD while the recovery worker is being repartitioned.
+# Lifecycle: ACTIVE_AUTO, but heavy compute is fail-closed behind a fresh
+# commit-range V3 runkey arm. Ordinary synchronizations stay cold.
 on:
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize, reopened]
     paths:
+      - 'stages/stage32-ex5/runkeys/hpadj21-heavy-replay.json'
       - '.github/workflows/stage32-ex5-hpadj21-heavy.yml'
   workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact 40-hex head to replay
+        required: true
+        type: string
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
-  group: stage32ex5-hpadj21-heavy-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: stage32ex5-hpadj21-bchunk-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  cancellation-fence:
+  authorize:
     runs-on: ubuntu-24.04
-    timeout-minutes: 5
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+      full_carry_run_id: ${{ steps.gate.outputs.full_carry_run_id }}
+      chunk_carry_run_id: ${{ steps.gate.outputs.chunk_carry_run_id }}
     steps:
-      - run: |
-          echo 'HPADJ21 heavy is intentionally cold.'
-          echo 'Previous ONE_FULL178_ROW recovery is retired because timed-out rows had no intra-row checkpoint.'
-          echo 'No mathematical credit is granted.'
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Fresh V3 runkey and exact-head authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          DISPATCH_SHA: ${{ inputs.expected_head_sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/hpadj21-heavy-replay.json'
+          CONTRACT='stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json'
+          MEASURE='stages/stage32-ex5/hpadj-21_ex5/BCHUNK-REPRESENTATIVE-MEASUREMENT.json'
+          HEAD_SHA="$PR_HEAD"
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
+          cold() {
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+            echo 'full_carry_run_id=' >> "$GITHUB_OUTPUT"
+            echo 'chunk_carry_run_id=' >> "$GITHUB_OUTPUT"
+          }
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { cold; exit 0; }
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          test -f "$KEY" || { cold; exit 0; }
+          python - "$KEY" "$CONTRACT" "$MEASURE" <<'PY'
+          import hashlib,json,subprocess,sys
+          from pathlib import Path
+          keyp,contractp,measurep=map(Path,sys.argv[1:])
+          k=json.loads(keyp.read_text())
+          assert k['schema']=='STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V3'
+          assert int(k['generation'])>=4 and k['armed'] is True
+          assert k['target_rows']==[20,21,44,88,171]
+          assert int(k['chunk_b_width'])==8 and int(k['max_parallel'])==15
+          assert int(k['full_row_carry_run_id'])==35275839413
+          cc=k.get('chunk_carry_run_id'); assert cc is None or (isinstance(cc,int) and cc>0)
+          assert k['direct_row_worker_git_blob']=='68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
+          assert k['bchunk_worker_git_blob']=='76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          assert k['row_assembler_git_blob']=='82510e4e478e9145317e07c237ce08b8d189c306'
+          assert k['union_verifier_git_blob']=='a8b175e8a03356937957149088e0c003fa82eb4a'
+          assert k['execution_contract_git_blob']=='a6ee8712b1faa3023d5cbd0168cb9cc8766a7e1e'
+          assert k['representative_measurement_git_blob']==subprocess.check_output(['git','hash-object',str(measurep)],text=True).strip()
+          c=json.loads(contractp.read_text()); assert c['schema']=='STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V3'
+          assert c['resume_policy']=='RESUME_FIRST_EXACT_FULL178_B_RANGE_UNITS'
+          assert c['complete_row_carry']['expected_valid_row_count']==173
+          assert c['complete_row_carry']['expected_missing_rows']==[20,21,44,88,171]
+          assert c['partition']['chunk_b_width']==8 and c['partition']['maximum_chunk_count_bound']<100
+          assert c['artifact_enumeration_safety']['single_page_default_listing_for_populations_over_100_forbidden'] is True
+          m=json.loads(measurep.read_text())
+          assert m['schema']=='STAGE32EX5_HPADJ21_BCHUNK_REPRESENTATIVE_MEASUREMENT_V1'
+          assert m['status']=='EXACT_REPRESENTATIVE_BCHUNK_SUCCESS_SCALEOUT_READY_ZERO_CREDIT'
+          assert m['measurement']['row_index']==171 and m['measurement']['b_start']==0 and m['measurement']['b_stop']==7
+          assert int(m['measurement']['wall_seconds'])<=3600 and int(m['measurement']['certificate_bytes'])<=2097152
+          assert m['source_locks']['bchunk_worker_git_blob']=='76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          assert k['credit']['stage32_main_credit'] is False and k['credit']['merge_authorized'] is False
+          PY
+          emit_hot() {
+            python - "$KEY" "$GITHUB_OUTPUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          k=json.loads(Path(sys.argv[1]).read_text())
+          with open(sys.argv[2],'a') as f:
+              f.write('authorized=true\n')
+              f.write('full_carry_run_id='+str(int(k['full_row_carry_run_id']))+'\n')
+              cc=k.get('chunk_carry_run_id')
+              f.write('chunk_carry_run_id='+('' if cc is None else str(int(cc)))+'\n')
+          PY
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          }
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then emit_hot; exit 0; fi
+          if [ "$PR_ACTION" = reopened ]; then cold; exit 0; fi
+          BEFORE="$EVENT_BEFORE"; if [ "$PR_ACTION" = opened ]; then BEFORE="$PR_BASE"; fi
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || { cold; exit 0; }
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || { cold; exit 0; }
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || { cold; exit 0; }
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          before,path=sys.argv[1:]; new=json.loads(Path(path).read_text())
+          p=subprocess.run(['git','show',f'{before}:{path}'],text=True,capture_output=True)
+          if p.returncode==0:
+              old=json.loads(p.stdout)
+              assert int(new['generation'])>int(old.get('generation',-1))
+          else:
+              assert int(new['generation'])>0
+          PY
+          emit_hot
+
+  plan:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      matrix_units: ${{ steps.plan.outputs.matrix_units }}
+      missing_count: ${{ steps.plan.outputs.missing_count }}
+      carried_chunk_count: ${{ steps.plan.outputs.carried_chunk_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Verify execution locks
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = '${{ needs.authorize.outputs.exact_sha }}'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = '68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py)" = '76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py)" = '82510e4e478e9145317e07c237ce08b8d189c306'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py)" = 'a8b175e8a03356937957149088e0c003fa82eb4a'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json)" = 'a6ee8712b1faa3023d5cbd0168cb9cc8766a7e1e'
+      - name: Download validated 173-row carry bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: carry-rows
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.authorize.outputs.full_carry_run_id }}
+      - name: Download inherited b-chunk carry bundle
+        if: needs.authorize.outputs.chunk_carry_run_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-bchunk-carry-bundle
+          path: prior-chunk-bundle
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.authorize.outputs.chunk_carry_run_id }}
+      - name: Download completed b-chunks from predecessor run
+        if: needs.authorize.outputs.chunk_carry_run_id != ''
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj21-bchunk-row-*
+          path: prior-chunks
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.authorize.outputs.chunk_carry_run_id }}
+      - name: Validate carry and schedule only missing chunks
+        id: plan
+        env:
+          CHUNK_CARRY_RUN_ID: ${{ needs.authorize.outputs.chunk_carry_run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p validated-chunk-carry
+          python - "$GITHUB_OUTPUT" <<'PY'
+          import hashlib,importlib.util,json,os,sys
+          from pathlib import Path
+          HERE=Path('stages/stage32-ex5/hpadj-21_ex5')
+          def load(path,name):
+              s=importlib.util.spec_from_file_location(name,path); assert s and s.loader
+              m=importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
+          direct=load(HERE/'run_full_hist_row.py','hpadj21_direct_plan_v3')
+          chunk=load(HERE/'run_full_hist_bchunk.py','hpadj21_chunk_plan_v3')
+          p=direct.load_pilot(); h20=p.load_parent(); h19=h20.load_parent(); h18=h19.load_parent(); h17=h18.load_parent(); h16=h17.load_parent()
+          p15=h16.load_module(h16.PARENT,h16.PARENT_BLOB,'hpadj15_plan_v3'); p14=p15.load_parent(); counter=p14.load_counter()
+          manifest=counter.load_locked_json(p14.MANIFEST,p14.LOCKS['manifest_blob'],p14.LOCKS['manifest_canonical'],'FULL178 manifest')
+          rows=counter.manifest_rows(manifest); assert len(rows)==178
+          carried={}
+          for f in sorted(Path('carry-rows').rglob('hpadj21-row-*.json')):
+              raw=json.loads(f.read_text()); idx=int(raw['row']['index']); d=direct.validate(f,idx)
+              row_id,g,dv=rows[idx]; assert d['row']['row_id']==row_id and int(d['row']['g'])==int(g) and int(d['row']['d'])==int(dv)
+              assert idx not in carried; carried[idx]=f
+          expected_missing={20,21,44,88,171}
+          assert len(carried)==173, f'expected 173 carried rows, got {len(carried)}'
+          assert set(range(178))-set(carried)==expected_missing, f'carried-row missing set drift: {sorted(set(range(178))-set(carried))}'
+          expected=[]
+          for idx in sorted(expected_missing):
+              h=int(rows[idx][2])//2
+              for start in range(0,h+1,8): expected.append((idx,start,min(h,start+7)))
+          assert len(expected)<100 and len(expected)<=60
+          accepted={}; rejected=[]
+          for idx,start,stop in expected:
+              candidates=[]
+              for base in [Path('prior-chunks'),Path('prior-chunk-bundle')]:
+                  if base.exists(): candidates.extend(sorted(base.rglob(f'hpadj21-bchunk-{idx}-{start}-{stop}.json')))
+              for f in candidates:
+                  try:
+                      d=chunk.validate(f,idx,start,stop)
+                      target=Path('validated-chunk-carry')/f'hpadj21-bchunk-{idx}-{start}-{stop}.json'; target.write_bytes(f.read_bytes())
+                      accepted[(idx,start,stop)]={'source':str(f),'canonical':d['canonical_sha256_without_this_field'],'bytes':f.stat().st_size}
+                      break
+                  except (Exception,SystemExit) as e:
+                      rejected.append({'unit':[idx,start,stop],'source':str(f),'reason':str(e)})
+          missing=[{'row':i,'start':s,'stop':t} for i,s,t in expected if (i,s,t) not in accepted]
+          snapshot={'schema':'STAGE32EX5_HPADJ21_BCHUNK_RECOVERY_SNAPSHOT_V1','status':'EXACT_RECOVERY_PLAN_NO_MATHEMATICAL_CREDIT','full_row_carry_count':len(carried),'target_rows':sorted(expected_missing),'expected_chunk_count':len(expected),'carried_chunk_count':len(accepted),'missing_chunk_count':len(missing),'missing_chunks':missing,'rejected_candidates':rejected,'artifact_population_below_100':len(expected)<100,'credit':{'partial_output_credit':False,'stage32_main_credit':False,'full178_completion_credit':False,'merge_authorized':False}}
+          body=dict(snapshot); snapshot['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          Path('bchunk-recovery-snapshot.json').write_text(json.dumps(snapshot,sort_keys=True,separators=(',',':'))+'\n')
+          with open(sys.argv[1],'a') as out:
+              out.write('matrix_units='+json.dumps(missing,separators=(',',':'))+'\n')
+              out.write('missing_count='+str(len(missing))+'\n')
+              out.write('carried_chunk_count='+str(len(accepted))+'\n')
+          print('HPADJ21_VALIDATED_FULL_ROWS=173')
+          print('HPADJ21_EXPECTED_BCHUNKS='+str(len(expected)))
+          print('HPADJ21_CARRIED_BCHUNKS='+str(len(accepted)))
+          print('HPADJ21_MISSING_BCHUNKS='+str(len(missing)))
+          PY
+      - name: Upload recovery snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-bchunk-recovery-snapshot
+          path: bchunk-recovery-snapshot.json
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 9
+      - name: Upload validated inherited b-chunk carry bundle
+        if: steps.plan.outputs.carried_chunk_count != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-bchunk-carry-bundle
+          path: validated-chunk-carry/
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 9
+
+  chunk:
+    needs: [authorize, plan]
+    if: needs.authorize.outputs.authorized == 'true' && needs.plan.outputs.missing_count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix:
+        unit: ${{ fromJSON(needs.plan.outputs.matrix_units) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Compute and validate one durable b-chunk
+        env:
+          ROW: ${{ matrix.unit.row }}
+          START: ${{ matrix.unit.start }}
+          STOP: ${{ matrix.unit.stop }}
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py)" = '76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          mkdir -p out
+          CERT="out/hpadj21-bchunk-${ROW}-${START}-${STOP}.json"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index "$ROW" --b-start "$START" --b-stop "$STOP" --output "$CERT"
+          python stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py --row-index "$ROW" --b-start "$START" --b-stop "$STOP" --verify-existing "$CERT"
+          BYTES="$(wc -c < "$CERT")"; test "$BYTES" -le 2097152
+          echo "HPADJ21_BCHUNK_CHECKPOINT_COMPLETE row=$ROW start=$START stop=$STOP bytes=$BYTES"
+      - name: Upload durable completed b-chunk checkpoint
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-bchunk-row-${{ matrix.unit.row }}-b-${{ matrix.unit.start }}-${{ matrix.unit.stop }}
+          path: out/hpadj21-bchunk-${{ matrix.unit.row }}-${{ matrix.unit.start }}-${{ matrix.unit.stop }}.json
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 9
+
+  assemble-and-aggregate:
+    needs: [authorize, plan, chunk]
+    if: always() && needs.authorize.outputs.authorized == 'true' && needs.plan.result == 'success' && (needs.chunk.result == 'success' || needs.chunk.result == 'skipped')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download validated 173-row carry bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: carry-rows
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.authorize.outputs.full_carry_run_id }}
+      - name: Download inherited validated b-chunk carry
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-bchunk-carry-bundle
+          path: all-chunks
+      - name: Download current completed b-chunks
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj21-bchunk-row-*
+          path: all-chunks
+          merge-multiple: true
+      - name: Assemble five rows and verify exact FULL178 union
+        run: |
+          set -euo pipefail
+          mkdir -p assembled all-rows out
+          python - <<'PY'
+          import importlib.util,json,shutil
+          from pathlib import Path
+          directp=Path('stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py')
+          s=importlib.util.spec_from_file_location('hpadj21_direct_final_v3',directp); assert s and s.loader
+          d=importlib.util.module_from_spec(s); s.loader.exec_module(d)
+          carried={}
+          for f in sorted(Path('carry-rows').rglob('hpadj21-row-*.json')):
+              raw=json.loads(f.read_text()); idx=int(raw['row']['index']); d.validate(f,idx); assert idx not in carried; carried[idx]=f
+          assert len(carried)==173 and set(range(178))-set(carried)=={20,21,44,88,171}
+          for idx,f in carried.items(): shutil.copy2(f,Path('all-rows')/f'hpadj21-row-{idx}.json')
+          PY
+          for ROW in 20 21 44 88 171; do
+            python stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py --row-index "$ROW" --chunks-dir all-chunks --output "assembled/hpadj21-row-${ROW}.json"
+            cp "assembled/hpadj21-row-${ROW}.json" "all-rows/hpadj21-row-${ROW}.json"
+          done
+          test "$(find all-rows -maxdepth 1 -name 'hpadj21-row-*.json' | wc -l)" -eq 178
+          python stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py all-rows --output out/hpadj21-full178-aggregate.json
+      - name: Upload exact FULL178 aggregate candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-full178-bchunk-recovery-aggregate
+          path: out/hpadj21-full178-aggregate.json
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 9
