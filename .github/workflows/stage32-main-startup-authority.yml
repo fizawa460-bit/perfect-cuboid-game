@@ -83,6 +83,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py)" = "e1d21297b2c9cb43df595d319c8b41db82375848"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py)" = "d786a2acdddec79ce1f072476a1da28df35b6dd2"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py)" = "eda1baab64ffeaf41f03dbf810c2b24beb31bced"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py)" = "c335eb8c1e3394055c25c344227d712c21588eff"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "9fb1399e4cdb6e7983d18ebca3ce5b2ce6416c5e"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
@@ -109,6 +110,9 @@ jobs:
       - name: Verify HPADJ21 event-compiled capacity preflight
         run: python stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py --source-root .stage32-hpadj21
 
+      - name: Independently replay HPADJ21 known-strict measurements
+        run: python stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py --source-root .stage32-hpadj21
+
       - name: Verify Stage32 MAIN startup projection
         run: python stages/stage32/verify_main_startup.py
 
@@ -134,7 +138,7 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py) ;;
+              .github/workflows/stage32-main-startup-authority.yml|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v41_hpadj20_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py) ;;
               *) echo "unexpected V41/preflight path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
