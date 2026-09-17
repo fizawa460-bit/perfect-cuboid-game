@@ -166,18 +166,18 @@ def main() -> None:
     req(sweep["lane_178_current_head_audit_status"] ==
         "PENDING_FRESH_EXACT_HEAD_REPLAY_AUDIT", "178 audit gate")
     req(sweep["ex5_pr"] == 1818 and
-        sweep["ex5_head"] == "669468c01bbb1f7c3b8bc46b934658765984f0b8" and
+        sweep["ex5_head"] == "3d4b9e190aa6d9feba596e60c8a6cecfa325b5d0" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 successor live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
     req(sweep["ex5_current_head_audit_status"] ==
-        "PENDING_FULL178_SCALEOUT_AND_HOSTILE_AUDIT", "EX5 audit gate")
+        "FULL178_HEAVY_REPLAY_QUEUED__HOSTILE_AUDIT_PENDING", "EX5 audit gate")
     req(sweep["ex5_representative_result"] ==
         "G1_D190_QA_FLOOR_IMPROVEMENT_1312541087822068106__REPRESENTATIVE_ONLY",
         "EX5 representative result")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT live sweep")
     req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "52af788baa5b23b8fa57e6d5a75bc7d12d3a1b40" and
+        sweep["mb_head"] == "12ad04f57a6dcb0fd1587673ff83282a4033fd49" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
     req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
