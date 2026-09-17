@@ -3,7 +3,7 @@
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_INTERMEDIATE_AUDIT_REPAIR__FULL178_SCALEOUT_STILL_EXTERNAL_GOVERNANCE_AND_RUNKEY_BLOCKED",
+  "active_leaf": "BR204_AUDIT_REPAIR_COMPLETE__REAUDIT_REQUIRED_BEFORE_SUBSTANTIVE_WORK",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -111,13 +111,20 @@
     "latest_observed_main_state_canonical_sha256": "10eb99bcf609dc9e8c65707398a0a57b0f7f1f48c631dc666d93cb7dcad4e817",
     "latest_observed_main_authoritative_remaining_strata": 17128,
     "latest_observed_main_authoritative_remaining_terminals": "179119009547804181594",
-    "latest_main_hostile_audit_status": "FAIL_HOLD",
-    "latest_main_shared_governance_first_failure": "Stage32 MAIN startup authority / Verify retained authority source identities: verify_cross_lane_demands.py actual blob 584696fc9052a51a027eede725067b4b4d4d0d26 but workflow expected 584ff716bb75002e15e042a8fe16b1d320831cf2",
+    "latest_main_hostile_audit_status": "FAIL_HOLD_REAUDIT_REQUIRED",
+    "prior_main_shared_governance_first_failure": "Stage32 MAIN startup authority / Verify retained authority source identities: verify_cross_lane_demands.py actual blob 584696fc9052a51a027eede725067b4b4d4d0d26 but workflow expected 584ff716bb75002e15e042a8fe16b1d320831cf2",
     "bridge_branch_freshness_gate_repair": "REMOVE_STALE_HARDCODED_MAIN_SHA_AND_REQUIRE_CURRENT_MAIN_AS_EXACT_MERGE_BASE_ANCESTOR",
     "bridge_repo_workflow_lifecycle_repair": "BASE_INVENTORY_PLUS_FAIL_CLOSED_BRANCH_SUPPLEMENT",
     "bridge_br203_workflow_lifecycle": "RETIRED_WORKFLOW_DISPATCH_ONLY",
     "bridge_br204_exact_head_replay_workflow": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
     "bridge_retained_boundary": "BR204_LIGHT_PREFLIGHT_AND_COMPACT_EQUIVALENCE_ONLY__NO_FULL178_HEAVY",
+    "repair_green_predecessor_head": "3d71bb43e5ae6392cf2414a9cdcf823ca3665d92",
+    "bridge_main_startup_authority_run": 35182678325,
+    "bridge_main_startup_authority_status": "SUCCESS",
+    "bridge_br204_retained_replay_run": 35182678256,
+    "bridge_br204_retained_replay_status": "SUCCESS",
+    "repair_status": "REPAIRED_AND_FROZEN_FOR_HOSTILE_REAUDIT",
+    "hostile_reaudit_required_before_substantive_retained_growth": true,
     "heavy_authorized": false,
     "BR205_authorized": false,
     "main_credit": false,
@@ -149,15 +156,16 @@
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "FULL178 b-sharded scaleout gate with qBC-tail attribution",
-    "required_input": "Latest observed live MAIN is V40 PR #1808 head 2155722908acfefefd0fa33ff474c6b9ac0caf38 with unchanged V40 numerical state but an independent hostile-audit HOLD caused by the MAIN-owned cross-lane verifier source-lock mismatch. Before any heavy execution, require a dedicated policy-compliant BR204 run-key, a green/accepted MAIN-owned shared-governance boundary, and refresh live MAIN again.",
-    "success": "All eight FULL178 shards produce exact compact certificates, reproduce the BR202 K8 baseline before mu composition, apply BR203 mu inside the same population producer, emit qBC-tail activity/objective attribution, and yield one same-population replacement upper bound compared against the refreshed live predecessor. Then evaluate the formal BR205 gate. Grant no MAIN credit.",
+    "title": "hostile re-audit of repaired BR204 light boundary before FULL178 scaleout",
+    "required_input": "BRIDGE repair predecessor head 3d71bb43e5ae6392cf2414a9cdcf823ca3665d92 has green MAIN startup authority run 35182678325 and green BR204 retained replay run 35182678256. Current MAIN PR #1808 remains at head 2155722908acfefefd0fa33ff474c6b9ac0caf38 and independently requires hostile re-audit. Freeze this repaired BRIDGE boundary and re-audit before any substantive retained growth. After PASS, refresh live MAIN again and require a dedicated policy-compliant BR204 run-key before heavy execution.",
+    "success": "Hostile audit accepts the repaired BRIDGE boundary. Only after that PASS may BR204 return to its FULL178 eight-shard scaleout gate, still requiring live-MAIN refresh and an explicit policy-compliant run-key. Grant no MAIN credit.",
     "current_blockers": [
+      "BRIDGE repaired boundary requires hostile re-audit before further substantive retained mathematical work",
       "no dedicated BR204 heavy run-key is present or armed",
-      "MAIN/shared V40 startup authority is independently FAIL/HOLD on verify_cross_lane_demands.py source-lock mismatch; this is MAIN-owned external governance, not a BRIDGE mathematics defect",
       "V40 MAIN replacement exact head still requires independent hostile re-audit before further MAIN authority promotion"
     ],
     "stop_conditions": [
+      "hostile re-audit of the repaired BRIDGE boundary is not PASS",
       "live MAIN predecessor identity loses coherence before execution",
       "run-key/storage/resume authorization absent",
       "MAIN-owned shared-governance boundary is not green or explicitly accepted",
@@ -187,7 +195,7 @@
     },
     "BR204": {
       "compact_producer_gate": "PASS",
-      "live_main_predecessor_identity_gate": "PASS_V40_REFRESHED_BUT_EXTERNAL_MAIN_GOVERNANCE_HOLD",
+      "live_main_predecessor_identity_gate": "PASS_V40_REFRESHED__BRIDGE_SHARED_STARTUP_GREEN__MAIN_REAUDIT_PENDING",
       "live_main_predecessor_refresh": "stages/stage32/generalization-bridge/BR204-LIVE-MAIN-PREDECESSOR-REFRESH-V3.json",
       "qBC_slack_attribution_certificate_addendum": "stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
       "qBC_slack_attribution_fields_preflighted": true,
@@ -195,7 +203,7 @@
       "heavy_requires_runkey": true,
       "heavy_requires_repository_policy_governance": true,
       "external_governance_owner": "MAIN_SHARED_NOT_BRIDGE",
-      "external_governance_gate": "BLOCKED_V40_CROSS_LANE_VERIFIER_SOURCE_LOCK_MISMATCH__MAIN_OWNED",
+      "external_governance_gate": "BRIDGE_EXACT_HEAD_SHARED_STARTUP_GREEN__INDEPENDENT_MAIN_REAUDIT_REQUIRED",
       "raw_4_1M_state_artifact_forbidden": true,
       "stream_one_b_at_a_time": true
     },
@@ -251,7 +259,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "BR204 heavy remains blocked on missing dedicated run-key and MAIN-owned V40 cross-lane verifier source-lock governance HOLD; BRIDGE lifecycle/replay audit repair is being closed without granting credit"
+    "stop_reason": "Audit repair is complete and exact-head CI is green; substantive retained work remains frozen pending hostile re-audit. BR204 heavy also remains blocked on a dedicated run-key and independent MAIN re-audit."
   },
   "deliverable_contract": {
     "per_candidate_checkpoint": [
