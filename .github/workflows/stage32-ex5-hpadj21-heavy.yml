@@ -50,7 +50,7 @@ jobs:
           set -euo pipefail
           KEY='stages/stage32-ex5/runkeys/hpadj21-heavy-replay.json'
           CONTRACT='stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json'
-          MEASURE='stages/stage32-ex5/hpadj-21_ex5/BCHUNK-REPRESENTATIVE-MEASUREMENT.json'
+          RECEIPT='stages/stage32-ex5/hpadj-21_ex5/BCHUNK-CROSS-RUN-RESUME-RECEIPT.json'
           HEAD_SHA="$PR_HEAD"
           if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
           cold() {
@@ -62,35 +62,53 @@ jobs:
           [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { cold; exit 0; }
           test "$(git rev-parse HEAD)" = "$HEAD_SHA"
           test -f "$KEY" || { cold; exit 0; }
-          python - "$KEY" "$CONTRACT" "$MEASURE" <<'PY'
-          import hashlib,json,subprocess,sys
+          if ! python - "$KEY" <<'PY'
+          import json,sys
           from pathlib import Path
-          keyp,contractp,measurep=map(Path,sys.argv[1:])
+          k=json.loads(Path(sys.argv[1]).read_text())
+          ok=(k.get('schema')=='STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V3' and int(k.get('generation',-1))>=4 and k.get('armed') is True)
+          raise SystemExit(0 if ok else 1)
+          PY
+          then
+            cold
+            exit 0
+          fi
+          python - "$KEY" "$CONTRACT" "$RECEIPT" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          keyp,contractp,receiptp=map(Path,sys.argv[1:])
           k=json.loads(keyp.read_text())
           assert k['schema']=='STAGE32EX5_HPADJ21_HEAVY_RUNKEY_V3'
           assert int(k['generation'])>=4 and k['armed'] is True
           assert k['target_rows']==[20,21,44,88,171]
           assert int(k['chunk_b_width'])==8 and int(k['max_parallel'])==15
+          assert int(k['chunk_timeout_minutes'])==180
           assert int(k['full_row_carry_run_id'])==35275839413
           cc=k.get('chunk_carry_run_id'); assert cc is None or (isinstance(cc,int) and cc>0)
           assert k['direct_row_worker_git_blob']=='68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7'
           assert k['bchunk_worker_git_blob']=='76087962f8fc464a74ad60121f9522c6bf9b19cb'
           assert k['row_assembler_git_blob']=='82510e4e478e9145317e07c237ce08b8d189c306'
           assert k['union_verifier_git_blob']=='a8b175e8a03356937957149088e0c003fa82eb4a'
-          assert k['execution_contract_git_blob']=='a6ee8712b1faa3023d5cbd0168cb9cc8766a7e1e'
-          assert k['representative_measurement_git_blob']==subprocess.check_output(['git','hash-object',str(measurep)],text=True).strip()
+          assert k['execution_contract_git_blob']=='871aaade9aaa85d24db362e094a8c1b5fc71ac6c'
+          assert k['cross_run_resume_receipt_git_blob']=='0d6a5faac5fdf4fd27e12b603323daa6d1c46bbd'
+          assert subprocess.check_output(['git','hash-object',str(contractp)],text=True).strip()==k['execution_contract_git_blob']
+          assert subprocess.check_output(['git','hash-object',str(receiptp)],text=True).strip()==k['cross_run_resume_receipt_git_blob']
           c=json.loads(contractp.read_text()); assert c['schema']=='STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V3'
           assert c['resume_policy']=='RESUME_FIRST_EXACT_FULL178_B_RANGE_UNITS'
           assert c['complete_row_carry']['expected_valid_row_count']==173
           assert c['complete_row_carry']['expected_missing_rows']==[20,21,44,88,171]
           assert c['partition']['chunk_b_width']==8 and c['partition']['maximum_chunk_count_bound']<100
+          assert int(c['partition']['chunk_timeout_minutes'])==180
+          assert c['source_locks']['cross_run_resume_receipt_git_blob']=='0d6a5faac5fdf4fd27e12b603323daa6d1c46bbd'
           assert c['artifact_enumeration_safety']['single_page_default_listing_for_populations_over_100_forbidden'] is True
-          m=json.loads(measurep.read_text())
-          assert m['schema']=='STAGE32EX5_HPADJ21_BCHUNK_REPRESENTATIVE_MEASUREMENT_V1'
-          assert m['status']=='EXACT_REPRESENTATIVE_BCHUNK_SUCCESS_SCALEOUT_READY_ZERO_CREDIT'
-          assert m['measurement']['row_index']==171 and m['measurement']['b_start']==0 and m['measurement']['b_stop']==7
-          assert int(m['measurement']['wall_seconds'])<=3600 and int(m['measurement']['certificate_bytes'])<=2097152
-          assert m['source_locks']['bchunk_worker_git_blob']=='76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          r=json.loads(receiptp.read_text())
+          assert r['schema']=='STAGE32EX5_HPADJ21_CROSS_RUN_RESUME_RECEIPT_V1'
+          assert r['status']=='EXACT_CROSS_RUN_RESUME_PASS_NO_RECOMPUTE'
+          assert int(r['producer_run_id'])==35278668203 and int(r['consumer_run_id'])==35279286433
+          assert r['consumer_path']=='--verify-existing'
+          assert r['source_locks']['bchunk_worker_git_blob']=='76087962f8fc464a74ad60121f9522c6bf9b19cb'
+          assert r['production_implication']['completed_chunk_is_durable_across_runs'] is True
+          assert r['production_implication']['validated_completed_chunk_is_not_recomputed'] is True
           assert k['credit']['stage32_main_credit'] is False and k['credit']['merge_authorized'] is False
           PY
           emit_hot() {
@@ -151,7 +169,8 @@ jobs:
           test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py)" = '76087962f8fc464a74ad60121f9522c6bf9b19cb'
           test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py)" = '82510e4e478e9145317e07c237ce08b8d189c306'
           test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py)" = 'a8b175e8a03356937957149088e0c003fa82eb4a'
-          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json)" = 'a6ee8712b1faa3023d5cbd0168cb9cc8766a7e1e'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/HEAVY-EXECUTION-CONTRACT.json)" = '871aaade9aaa85d24db362e094a8c1b5fc71ac6c'
+          test "$(git hash-object stages/stage32-ex5/hpadj-21_ex5/BCHUNK-CROSS-RUN-RESUME-RECEIPT.json)" = '0d6a5faac5fdf4fd27e12b603323daa6d1c46bbd'
       - name: Download validated 173-row carry bundle
         uses: actions/download-artifact@v4
         with:
@@ -267,7 +286,7 @@ jobs:
       matrix:
         unit: ${{ fromJSON(needs.plan.outputs.matrix_units) }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
         with:
