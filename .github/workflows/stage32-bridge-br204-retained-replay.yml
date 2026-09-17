@@ -23,8 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - name: Checkout exact PR head
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
@@ -32,7 +31,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Freeze BRIDGE retained mathematical boundary and credit firewall
+      - name: Freeze retained math and credit firewall
         run: |
           python - <<'PY'
           import json
@@ -48,7 +47,9 @@ jobs:
           assert s['routing']['heavy_compute_armed'] is False
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
-          print('BRIDGE retained math boundary frozen; operational heavy authorization is separate run-key state')
+          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
+          assert rk['generation']==0 and rk['armed'] is False
+          print('BR204 remains cold; no heavy or BR205 authorization')
           PY
 
       - name: Verify repository workflow lifecycle composite inventory
@@ -57,19 +58,11 @@ jobs:
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
 
-      - name: Replay BR203 exact 16-state Picard mu source lock
+      - name: Replay BR203 exact mu and bounded direct reference
         run: |
-          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py \
-            --output /tmp/BR203-PICARD-MU-16-STATE-RESULT.json
-          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py \
-            /tmp/BR203-PICARD-MU-16-STATE-RESULT.json \
-            /tmp/br203_mu_generated.hpp
-
-      - name: Replay BR203 direct bounded same-population intersection
-        run: |
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
-            stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp \
-            -o /tmp/br203-direct
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp -o /tmp/br203-direct
           /tmp/br203-direct > /tmp/br203-direct.json
           python - <<'PY'
           import json
@@ -78,58 +71,47 @@ jobs:
           assert x['H16_d32']['BR203_mu_K8']==229209796641
           PY
 
-      - name: Replay BR204 compact routing and K8 syndrome equivalence
+      - name: Replay BR204 compact routing and bounded equivalence
         run: |
-          g++ -std=c++20 -O3 -DNDEBUG \
-            stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp \
-            -o /tmp/br204-routing
-          /tmp/br204-routing > /tmp/br204-routing.json
-          g++ -std=c++20 -O3 -DNDEBUG \
-            stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp \
-            -o /tmp/br204-k8
-          /tmp/br204-k8 > /tmp/br204-k8.json
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
-            stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp \
-            -o /tmp/br204-mu
-          /tmp/br204-mu > /tmp/br204-mu.json
+          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp -o /tmp/routing
+          /tmp/routing > /tmp/routing.json
+          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp -o /tmp/k8
+          /tmp/k8 > /tmp/k8.json
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp -o /tmp/mu-eq
+          /tmp/mu-eq > /tmp/mu-eq.json
           python - <<'PY'
           import json
-          r=json.load(open('/tmp/br204-routing.json'))
-          k=json.load(open('/tmp/br204-k8.json'))
-          m=json.load(open('/tmp/br204-mu.json'))
-          assert r['status']=='PASS_ZERO_CREDIT'
-          assert r['H96']['refined_states']==4070710
-          assert k['status']=='PASS_ZERO_CREDIT'
-          assert k['H16']['direct_equals_compact'] is True
+          r=json.load(open('/tmp/routing.json')); k=json.load(open('/tmp/k8.json')); m=json.load(open('/tmp/mu-eq.json'))
+          assert r['status']=='PASS_ZERO_CREDIT' and r['H96']['refined_states']==4070710
+          assert k['status']=='PASS_ZERO_CREDIT' and k['H16']['direct_equals_compact'] is True
           assert m['status']=='PASS_ZERO_CREDIT'
-          assert m['H10']['direct_reference_match'] is True
-          assert m['H16']['direct_reference_match'] is True
+          assert m['H10']['direct_reference_match'] is True and m['H16']['direct_reference_match'] is True
           assert m['H16']['BR203_mu_K8']==229209796641
-          print('BR204 compact retained replay PASS')
           PY
 
-      - name: Compile heavy doorstep worker and exact-LP aggregator without running FULL178
+      - name: Compile and self-test cold heavy surfaces without FULL178 execution
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "f51c6815cb176c486358465dfb9b764b3a682d04"
-          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "97f975c5959db3513a086d75976ca0012766a2fd"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "93d8487b73a2f89566e40edca4f498023a9f8f20"
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp \
-            stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp \
-            -o /tmp/br204-heavy-worker
-          /tmp/br204-heavy-worker --self-test > /tmp/br204-heavy-worker-selftest.json
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "71081e34c03eee756ea970e6632716121e951f54"
+          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "d13e385a367245bc1612e5eb52ca41e8e72df857"
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
+          /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
           python - <<'PY'
           import json
           from pathlib import Path
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
-          assert rk['generation'] >= 0
-          assert rk['source_locks']['worker_blob']=='f51c6815cb176c486358465dfb9b764b3a682d04'
-          assert rk['source_locks']['aggregator_blob']=='97f975c5959db3513a086d75976ca0012766a2fd'
-          assert rk['source_locks']['execution_contract_blob']=='93d8487b73a2f89566e40edca4f498023a9f8f20'
-          assert all(v is False for v in rk['credit'].values())
-          print('BR204 heavy doorstep compile/self-test PASS; armed=', rk['armed'])
+          assert rk['source_locks']['worker_blob']=='71081e34c03eee756ea970e6632716121e951f54'
+          assert rk['source_locks']['aggregator_blob']=='ef11a1ce7c8249f76ddf19fd0e43a415a7592b16'
+          assert rk['source_locks']['execution_contract_blob']=='d13e385a367245bc1612e5eb52ca41e8e72df857'
+          assert rk['generation']==0 and rk['armed'] is False
+          src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
+          agg=Path('stages/stage32/generalization-bridge/aggregate_br204_full178.py').read_text()
+          assert 'TAIL\\t' in src
+          assert 'Equal-ratio bins must be treated as one ratio class' in agg
+          assert 'formal_br205_gate_passed' in agg
+          print('cold heavy surfaces compile/self-test PASS; heavy remains unarmed')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
