@@ -1,64 +1,89 @@
 {
-  "schema": "STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V2",
+  "schema": "STAGE32EX5_HPADJ21_HEAVY_EXECUTION_CONTRACT_V3",
   "route_id": "HPADJ-21_ex5",
-  "purpose": "Resume-first exact FULL178 full-qA-histogram replay with the measured direct row worker and durable one-row checkpoints.",
+  "purpose": "Resume HPADJ21 exact FULL178 replay from 173 validated complete rows and compute only the five incomplete rows using durable contiguous b-range checkpoints.",
   "source_locks": {
-    "row_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py",
-    "row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "direct_row_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py",
+    "direct_row_worker_git_blob": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "bchunk_worker": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py",
+    "bchunk_worker_git_blob": "76087962f8fc464a74ad60121f9522c6bf9b19cb",
+    "row_assembler": "stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py",
+    "row_assembler_git_blob": "82510e4e478e9145317e07c237ce08b8d189c306",
     "union_verifier": "stages/stage32-ex5/hpadj-21_ex5/aggregate_full_hist_rows.py",
-    "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a",
-    "representative_measurement": "stages/stage32-ex5/hpadj-21_ex5/REPRESENTATIVE-MEASUREMENT.json",
-    "representative_measurement_git_blob": "c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43",
-    "optional_sweep_worker_git_blob": "0131c91b54bfc335f1bce3af18e9da2eaa51a7ba",
-    "optional_sweep_bounded_equivalence_git_blob": "6225471e5920f1c34f4083889a00f259c699bd9b"
+    "union_verifier_git_blob": "a8b175e8a03356937957149088e0c003fa82eb4a"
   },
   "mathematical_semantics": {
     "same_population_as_hpadj20": true,
     "same_post_mass_constraints_as_hpadj20": true,
     "full_qA_histogram_exact_multiplicity": true,
+    "b_partition_is_execution_only": true,
+    "assembled_row_schema_equals_direct_row_schema": true,
     "additive_subtraction_used": false,
     "statistical_independence_assumed": false
   },
-  "resume_policy": "RESUME_FIRST_EXACT_FULL178_ONE_ROW_UNITS",
+  "bounded_equivalence_gate": {
+    "workflow_run_id": 35277092874,
+    "status": "EXACT_BOUNDED_DIRECT_VS_BCHUNK_EQUIVALENCE_SUCCESS",
+    "direct_vs_assembled_dictionary_equality_required": true,
+    "credit_granted": false
+  },
+  "resume_policy": "RESUME_FIRST_EXACT_FULL178_B_RANGE_UNITS",
+  "complete_row_carry": {
+    "source_run_id": 35275839413,
+    "artifact_name": "hpadj21-carry-bundle",
+    "artifact_id": 10519913594,
+    "artifact_digest": "sha256:366e93ff132652d830e86ab4a46392a1e0fd90185110863a9805fa0ef97f4499",
+    "expected_valid_row_count": 173,
+    "expected_missing_rows": [20, 21, 44, 88, 171],
+    "validation": "Validate every carried row with the locked direct row worker and locked FULL178 manifest; fail closed unless count is exactly 173 and missing set is exactly the five listed rows."
+  },
   "partition": {
-    "durable_unit": "ONE_FULL178_ROW",
-    "unit_count": 178,
-    "row_indices": "0..177 exactly once",
-    "rows_per_unit": 1,
-    "assignment": "unit index equals canonical FULL178 manifest row index",
-    "mathematical_population_changed": false
+    "durable_unit": "ONE_ROW_CONTIGUOUS_B_RANGE",
+    "target_rows": [20, 21, 44, 88, 171],
+    "chunk_b_width": 8,
+    "coverage_rule": "For each target row with h=d/2, partition integer b=0..h into disjoint inclusive consecutive chunks of width at most 8, exactly once.",
+    "mathematical_population_changed": false,
+    "maximum_chunk_count_bound": 60,
+    "artifact_population_below_100_for_this_recovery": true
   },
-  "representative_measurement": {
-    "required_before_scaleout": true,
-    "source_run_id": 35161346565,
-    "source_job_id": 105012563736,
-    "source_head": "3e9f726546f87925f678ba567d08d4aee25f1d22",
-    "row": [177, "g1-d190", 1, 190],
-    "wall_seconds_approx": 1945.2,
-    "raw_certificate_bytes": 4128,
-    "strict_cells": 8,
-    "floor_improvement_vs_hpadj20": 1312541087822068106,
-    "certificate_canonical": "7da39b4427f1f164c8b484216ec67b32287ecd8215006f36d24421eac5962c7a",
-    "measurement_satisfied": true
+  "chunk_completion": {
+    "certificate_schema": "STAGE32EX5_HPADJ21_FULL_QA_BCHUNK_CERT_V1",
+    "validate_before_upload": true,
+    "upload_immediately_after_validation": true,
+    "retention_days": 1,
+    "partial_chunk_credit": false,
+    "cancelled_or_timed_out_chunk": "Discard only that chunk; preserve all previously completed validated chunks."
   },
-  "carry_over": {
-    "selector": "runkey carry_run_id",
-    "chain_model": "Validate inherited carry bundle plus completed predecessor row artifacts, consolidate valid rows, schedule only missing/rejected row indices.",
-    "validation": "Each carried row must validate under the source-locked direct worker and match the canonical FULL178 manifest identity for its row index.",
-    "partial_container_salvage": true,
-    "carry_bundle_artifact": "hpadj21-carry-bundle"
-  },
-  "cancellation_recovery": {
-    "row_completion": "A row is durable only after exact certificate validation and immediate compact upload.",
-    "timeout_or_cancel": "Advance runkey generation, set carry_run_id to the incomplete run, salvage validated complete rows, schedule only the remainder.",
-    "running_partial_row": "Discard unless a complete certificate passes exact validation.",
-    "whole_parent_rerun_default": false,
-    "repeated_timeout_extension_default": false
+  "row_reassembly": {
+    "require_exact_contiguous_b_coverage": true,
+    "reject_gap_or_overlap": true,
+    "emit_existing_direct_row_schema": "STAGE32EX5_HPADJ21_FULL_QA_ROW_CERT_V1",
+    "validate_with_locked_direct_worker_after_assembly": true,
+    "required_assembled_rows": [20, 21, 44, 88, 171]
   },
   "union_verification": {
     "required": true,
+    "complete_row_count": 178,
+    "composition": "173 validated carried direct rows plus five validated assembled rows",
     "rule": "Require exactly 178 canonical manifest rows, reject gaps/overlaps/source drift, replay HPADJ20 aggregate floor 179119009547804181594, require HPADJ21 pointwise no-weaker and strict globally.",
     "hostile_audit_required": true
+  },
+  "artifact_enumeration_safety": {
+    "single_page_default_listing_for_populations_over_100_forbidden": true,
+    "full_pagination_or_source_locked_manifest_bundle_required": true,
+    "known_predecessor_success_count_must_match_retrieved_candidate_count": true,
+    "mismatch_action": "FAIL_CLOSED_BEFORE_RECOMPUTATION",
+    "this_recovery_uses_single_named_173_row_carry_bundle": true,
+    "this_recovery_chunk_count_below_100": true
+  },
+  "representative_chunk_preflight": {
+    "workflow_run_id": 35277292112,
+    "target": {"row_index": 171, "b_start": 0, "b_stop": 7},
+    "required_before_arm": true,
+    "required_conclusion": "success",
+    "timeout_minutes_for_preflight": 60,
+    "hard_certificate_bytes": 2097152,
+    "arm_rule": "Do not arm scaleout until this representative chunk has completed and validated within these bounds."
   },
   "concurrency_preflight": {
     "repo_stage_heavy_cap": 18,
@@ -69,27 +94,23 @@
   },
   "storage_preflight": {
     "operating_budget_mb": 500,
-    "raw_exhaustive_output_persisted": false,
-    "compact_certificate_only": true,
-    "hard_raw_certificate_bytes_per_row": 65536,
-    "conservative_actions_artifact_budget_bytes_per_row": 1048576,
-    "row_artifact_count_max": 178,
-    "carry_bundle_raw_bytes_max": 11665408,
-    "carry_bundle_actions_budget_mb": 12,
+    "persist_compact_certificates_only": true,
+    "chunk_count_upper_bound": 60,
+    "hard_certificate_bytes_per_chunk": 2097152,
+    "conservative_chunk_artifact_peak_mb_upper_bound": 120,
+    "existing_173_row_carry_bundle_bytes": 263665,
     "final_union_certificate_bytes_max": 2000000,
-    "recovery_snapshot_bytes_max": 1000000,
-    "projected_peak_mb_upper_bound": 370,
     "within_500mb_budget": true,
-    "row_retention_days": 1,
+    "chunk_retention_days": 1,
     "carry_bundle_retention_days": 1,
     "final_union_retention_days": 7
   },
   "authorization": {
-    "method": "Fresh commit-range dedicated HPADJ21 runkey generation gate before heavy compute.",
+    "method": "Fresh commit-range dedicated HPADJ21 V3 runkey generation gate before heavy compute.",
     "non_runkey_sync_is_cold": true,
     "reopened_is_cold": true,
     "initial_open_restricted": true,
-    "workflow_concurrency_cancel_in_progress": false
+    "arm_in_distinct_final_commit": true
   },
   "credit_firewall": {
     "partial_output_credit": false,
