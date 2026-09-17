@@ -1,0 +1,36 @@
+{
+  "schema": "STAGE32EX5_HPADJ21_CROSS_RUN_RESUME_RECEIPT_V1",
+  "status": "EXACT_CROSS_RUN_RESUME_PASS_NO_RECOMPUTE",
+  "purpose": "Prove that a completed exact b-chunk checkpoint survives workflow termination and is consumed by a later workflow run through validation only, without recomputing the chunk.",
+  "producer_run_id": 35278668203,
+  "consumer_run_id": 35279286433,
+  "consumer_job_id": 105397244229,
+  "artifact_name": "hpadj21-bchunk-resume-seed",
+  "artifact_digest": "sha256:af74c7391012bbfed54e27893b7f82d017381e4e649db65caa8dc08ec32bfdfb",
+  "test_unit": {
+    "row_index": 0,
+    "b_start": 0,
+    "b_stop": 0
+  },
+  "consumer_path": "--verify-existing",
+  "consumer_log_markers": [
+    "VALID_HPADJ21_BCHUNK",
+    "HPADJ21_CROSS_RUN_RESUME_PASS_NO_RECOMPUTE source_run=35278668203"
+  ],
+  "source_locks": {
+    "bchunk_worker_git_blob": "76087962f8fc464a74ad60121f9522c6bf9b19cb"
+  },
+  "production_implication": {
+    "completed_chunk_is_durable_across_runs": true,
+    "validated_completed_chunk_is_not_recomputed": true,
+    "planner_must_schedule_only_missing_or_rejected_chunks": true,
+    "partial_incomplete_chunk_credit": false
+  },
+  "credit": {
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
