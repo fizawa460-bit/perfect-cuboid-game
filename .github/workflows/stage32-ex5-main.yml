@@ -23,10 +23,26 @@ jobs:
         with:
           # Preserve the historical merge-ref behavior elsewhere, but hostile
           # audit of the HPADJ successor branch requires literal PR-head replay.
-          ref: ${{ github.head_ref == 'stage32ex5-hpadj09-successor-20260915' && github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ (github.head_ref == 'stage32ex5-hpadj09-successor-20260915' || github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917') && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+      - name: Verify HPADJ21 FULL178 checkpoint and MAIN handoff preflight at exact head
+        if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
+        run: python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py
+      - name: Checkout exact Stage32 MAIN V41 HPADJ20 authority
+        if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
+          path: _main-v41-hpadj20
+          fetch-depth: 1
+      - name: Replay HPADJ21 handoff preflight against exact MAIN V41
+        if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
+        run: |
+          test "$(git -C _main-v41-hpadj20 rev-parse HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
+          python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py --main-root _main-v41-hpadj20
       - name: Install HPADJ exact diagnostic dependency
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
