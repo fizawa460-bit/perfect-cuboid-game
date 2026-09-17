@@ -1,0 +1,82 @@
+{
+  "canonical_sha256_without_this_field": "b468fdcd24a481a63df03ccf56823f4386d7ab51ffacc9202a24a69488b85ca7",
+  "schema": "STAGE32_MAIN_GRF05_INTEGRAL_FINITE_QUOTIENT_LOWER_BOUND_KERNEL_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "node": "GRF-05",
+  "status": "EXACT_SYMBOLIC_INTEGRAL_FINITE_QUOTIENT_LOWER_BOUND_KERNEL_NO_CONCRETE_178_TARGET_NO_CREDIT",
+  "purpose": "Extract the source-locked reusable integrality-loss lower-bound theorem behind S32-PW04 and compose it with the GRF-04 rational minimum without importing any concrete residual population, dimension, Smith diagonal, generator orders, or class count.",
+  "source_locks": {
+    "grf04_blob_sha1": "f7c1073edbf895f498fd9923e59eedf5a4e981c8",
+    "arsenal_card_s32_pw04_blob_sha1": "c7912f776853bb273797de68d1e683857b7347f9",
+    "direct_picard_integral_coset_bound_blob_sha1": "9276a75e00970851f1d27b043492257ca5c1d3f1",
+    "predecessor_hostile_audited_head": "d534e107bfcf68ab1d687366afd3671a152f6e2b",
+    "predecessor_hostile_audit_review": "PRR_kwDOTr52Y88AAAABNaLZ2g"
+  },
+  "mathematical_kernel": {
+    "adapter_hypothesis": "After exact affine/lattice elimination, every integral completion under study is represented in exact integral lattice coordinates z in Z^n, and its quadratic objective decomposes as rho(u)+(z-w(u))^T*B*(z-w(u)), with B symmetric positive definite over Q and w(u) rational affine-linear in integral family parameters u.",
+    "integrality_loss": "delta(u)=min_{z in Z^n}(z-w(u))^T*B*(z-w(u))",
+    "coordinate_cauchy": "For y=z-w(u), y_i^2 <= (y^T*B*y)*(B^-1)_{ii}.",
+    "safe_lower_bound": "lambda(u)=max_i dist(w_i(u),Z)^2/(B^-1)_{ii} <= delta(u)",
+    "finite_quotient": "If all coefficients of w(u)=L*u+c have denominators dividing q, then lambda(u) depends only on u mod q. Exact HNF/SNF may compress this residue box to the actually reachable finite image, but compression is not required for validity.",
+    "combined_integral_minimum": "Every integral completion has quadratic objective >= rho(u)+lambda(u).",
+    "emptiness_rule": "If rho(u)+lambda(u)>B_g(d) for every admissible parameter class/domain point covered by the exact semantic adapter, then no integral completion exists.",
+    "zero_loss_case": "lambda(u)=0 is allowed and gives no strengthening beyond GRF-04.",
+    "no_cvp_claim": "lambda is a rigorous lower bound only; it need not equal the closest-vector loss delta."
+  },
+  "source_specialization_not_imported": {
+    "fixed_dimension_61": false,
+    "smith_diagonal_1_2_2": false,
+    "generator_orders_20_20_40": false,
+    "reachable_class_count_640": false,
+    "prior_slice_count_2018569": false,
+    "reason": "Those values belong to the source residual producer specialization and are not a generic MAIN theorem."
+  },
+  "fail_closed_semantics": {
+    "exact_integral_lattice_adapter_required": true,
+    "q_must_be_symmetric_positive_definite": true,
+    "shift_map_must_be_exact_rational": true,
+    "floating_only_bounds_forbidden": true,
+    "wrong_sign_or_indefinite_form_forbidden": true,
+    "finite_quotient_class_must_be_reachable_under_adapter": true,
+    "lambda_is_exact_cvp_value": false,
+    "rho_plus_lambda_leq_bound_proves_existence": false,
+    "kernel_alone_selects_concrete_full178_population": false
+  },
+  "handoff_to_178": {
+    "main_delivers": [
+      "source-locked finite-quotient integrality-loss lower-bound theorem",
+      "exact coordinate Cauchy lower-bound formula",
+      "safe composition rule rho+lambda with GRF-04",
+      "fail-closed adapter requirements"
+    ],
+    "lane178_must_supply_before_any_population_claim": [
+      "concrete source-locked integral lattice parameterization",
+      "concrete rational shift map w(u) and SPD residual form B",
+      "concrete target identity/subset and proof every target completion is represented",
+      "exact reachable quotient/domain and comparison rho(u)+lambda(u)>B_g(d)",
+      "subset certificate and overlap/accounting against current authority"
+    ]
+  },
+  "ownership": {
+    "concrete_row_or_stratum_selected": false,
+    "bounded_leaf_search_performed": false,
+    "population_replay_performed": false,
+    "concrete_application_owner": "stage32-01-178-mainbatch"
+  },
+  "credit_firewall": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_route": {
+    "main": "Do not instantiate residual populations. Further MAIN work requires another genuinely source-locked global obstruction theorem or cross-lane synthesis need.",
+    "lane178": "Instantiate GRF-05 only through an exact semantic adapter and retain all target/subset/accounting responsibility."
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "STAGE32_MAIN_GRF09_CUT201_E8_PICARD_PARITY_CHECKPOINT_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "node": "GRF-09",
+  "status": "SOURCE_LOCKED_CUT201_SURVIVOR_SLICE_EXACT_PARITY_DIAGNOSTIC_NO_MAIN_CREDIT",
+  "purpose": "Freeze the corrected GRF-09 exact output for the source-locked CUT201 g1-d008 e=8 survivor-offset slice after repairing survivor-offset versus raw-block-index identity.",
+  "source_locks": {
+    "grf09_probe_blob_sha1": "ff3c5037e720561c35fe44649f2faf4dc8c6ef8e",
+    "cut201_exact_head": "118c1df8f33759cc2e4da7e53fb8c8d7463a5bb0",
+    "cut201_preflight_blob_sha1": "87b2f139b576b3b8bddea336396c8c2da30014b1",
+    "cut201_adapter_blob_sha1": "6026d2c8b4a2eb69c453a2bd38c5923f46d6d74f",
+    "interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "compressed_family_blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
+    "compressed_indexer_blob_sha1": "4fb0a8dd34909494bd62646373e42877ed7a3c9e",
+    "pairing_prefix_blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "retained_picard_bundle_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb"
+  },
+  "population_identity": {
+    "row_id": "g1-d008",
+    "g": 1,
+    "d": 8,
+    "e": 8,
+    "source_survivor_block_count": 7596,
+    "survivor_offset_range": [2041, 2295],
+    "block_count": 255,
+    "normal_coordinate_width": 113,
+    "terminal_count": 28815,
+    "actual_block_index_minmax": [2713, 3247],
+    "actual_block_index_stream_sha256": "650efc176a9e756e29d19fcf66b625c782f5331d673ccc4f105661853da94361"
+  },
+  "exact_result": {
+    "completion_modulus": 8,
+    "mask_distribution": {
+      "0x55": 198,
+      "0xaa": 57
+    },
+    "affine_gf2_model_count": 4,
+    "selected_affine_gf2_coefficients": {
+      "constant": 0,
+      "x0": 0,
+      "x1": 1,
+      "x2": 0,
+      "x3": 0,
+      "x5": 0,
+      "x6": 0,
+      "x7": 0,
+      "x8": 0,
+      "x9": 1,
+      "x10": 0
+    },
+    "selected_model_coordinate_identity": "coordinate_index_4_mod2 = coordinate_index_1_mod2 XOR coordinate_index_9_mod2",
+    "selected_model_assignment_label_identity": "assignment_label_49_mod2 = assignment_label_99_mod2 XOR assignment_label_98_mod2",
+    "coordinate_index_to_assignment_label": {
+      "0": 95,
+      "1": 99,
+      "2": 103,
+      "3": 102,
+      "4": 49,
+      "5": 97,
+      "6": 94,
+      "7": 101,
+      "8": 93,
+      "9": 98,
+      "10": 96
+    },
+    "sat_terminal_count": 14478,
+    "unsat_terminal_count": 14337,
+    "unsat_fraction": [14337, 28815]
+  },
+  "evidence": {
+    "exact_head_before_checkpoint_freeze": "b062223de633d5b26d3f08c7a2e38663793f5b5a",
+    "main_startup_run_id": 34846805437,
+    "artifact_id": 10348590786,
+    "artifact_name": "stage32-grf09-exact-output",
+    "artifact_sha256": "9888da70a917d6f0c3c55e0cad3d8b27bae556621a411127bb8a7f31274ea483",
+    "probe_pass_marker": "PASS_GRF09_CUT201_E8_PICARD_COMPLETION_PARITY_PROBE"
+  },
+  "independent_arithmetic_cross_check": {
+    "engine": "Wolfram",
+    "proof_authority": false,
+    "identity": "for E even-parity blocks and O=255-E odd-parity blocks: SAT=57E+56O=14280+E; UNSAT=56E+57O=14535-E",
+    "inputs": {
+      "E": 198,
+      "O": 57
+    },
+    "result": {
+      "sat": 14478,
+      "unsat": 14337,
+      "total": 28815
+    }
+  },
+  "credit_firewall": {
+    "independent_main_route_only": true,
+    "cut201_survivor_offset_identity_proved": true,
+    "current_main_residual_subset_identity_proved": false,
+    "authority_changed_by_checkpoint": false,
+    "main_pruning_credit": false,
+    "double_charge_authorized": false,
+    "full178_complete": false,
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_route": {
+    "main": "Treat GRF-09 as a zero-credit exact parity diagnostic. Any promotion requires exact current-MAIN subset identity plus overlap/double-charge accounting and hostile audit. A separate family-level generalization may be researched only as an explicitly labeled source-locked independent route.",
+    "audit": "Recompute or compare the source-locked probe output against this checkpoint; do not infer MAIN subtraction from the 14,337 diagnostic UNSAT terminals."
+  },
+  "canonical_sha256_without_this_field": "ddb7787190a8c37d8a913bcd81c39cff471828fd553b91f5268ed4f56dba5646"
+}

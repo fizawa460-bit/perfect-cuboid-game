@@ -1,0 +1,71 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ08_V29_CLAIM_SYNC_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "trigger": "EX_TO_MAIN_PROMOTION_AND_AUTHORITY_OR_AUDIT_TRANSITION",
+  "status": "SYNCHRONIZED_NO_CLAIM_CORE_MUTATION__NUMERIC_BOUND_REPLACEMENT_PENDING_REPLACEMENT_HEAD_HOSTILE_REAUDIT",
+  "relevant_claim_ids": [
+    "S32.FULL178.NUMERICAL_CENSUS.V1"
+  ],
+  "decision": {
+    "mathematical_claim_core_changed": false,
+    "claim_registry_mutated": false,
+    "active_frontier_mutated": false,
+    "lane_adapter_mutated": false,
+    "main_state_numeric_authority_changed": true,
+    "reason": "The hostile-audited EX5 HPADJ08 adapter supplies a stronger certified upper bound on the same necessary-condition solution population. MAIN adopts only the minimum of independent certified upper bounds. This changes only the numeric upper-bound authority; it does not complete FULL178, identify an exact residual set, change statement/quantifiers/model, or alter ACTIVE_INCOMPLETE semantics."
+  },
+  "source_locks": {
+    "claim_sync_contract": {
+      "path": "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md",
+      "blob_sha1": "bbab1b565afbd2e767fc6cc4325c5167d42919b4"
+    },
+    "claim_registry": {
+      "path": "stages/stage32/proof/CLAIM-REGISTRY.json",
+      "blob_sha1": "f3a884adc1c82aace81cb73d049ff14720ace862"
+    },
+    "active_frontier": {
+      "path": "stages/stage32/proof/ACTIVE-FRONTIER.json",
+      "blob_sha1": "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
+    },
+    "lane_adapters": {
+      "path": "stages/stage32/proof/LANE-ADAPTERS.json",
+      "blob_sha1": "c0ef34e5838e27046a20fed77063593009c56f40"
+    },
+    "v29_bound_replacement": {
+      "path": "stages/stage32/management/hpadj08-main-disposition/HPADJ08-V29-MAIN-BOUND-REPLACEMENT.json",
+      "blob_sha1": "68a01142d0af4285d2a7801bf0e6808321ee689c",
+      "canonical_sha256": "9b7dde35f57960a1535b0dad5853ebeb75fe6d996902a653de1059fde0764f4d"
+    },
+    "hpadj08_ex5_audit": {
+      "producer_pr": 1812,
+      "audited_exact_head": "36eab50192cf80ec5ed48aba40f4a56076759fea",
+      "hostile_audit_review_id": 5208789388
+    }
+  },
+  "authority_boundary": {
+    "remaining_strata": 17128,
+    "remaining_terminals_upper_bound": 6703403803993210101494,
+    "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_complete": false,
+    "replacement_head_hostile_reaudit_required": true
+  },
+  "verification": {
+    "claim_dag_integrity_required": true,
+    "active_frontier_integrity_required": true,
+    "cross_lane_demand_integrity_required": true,
+    "main_startup_integrity_required": true,
+    "producer_adapter_exact_replay_required": true
+  },
+  "firewalls": {
+    "new_claim_credit": false,
+    "full178_credit": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "1f0f197f25d9fd059b52e8783d3615552edb9de5579eb6a66f00af879d312acb"
+}
