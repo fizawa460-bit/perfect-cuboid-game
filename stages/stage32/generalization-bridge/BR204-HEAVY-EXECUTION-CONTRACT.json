@@ -148,7 +148,7 @@
     "expected_outer_recovery_slot_count": 250,
     "expected_exact_restart_quantum_count": 4743,
     "b_unit_count": 97,
-    "max_parallel": 8,
+    "max_parallel": 12,
     "soft_deadline_seconds": 13500,
     "hard_job_timeout_minutes": 330,
     "single_d_timeout_seconds": 3600,
@@ -197,10 +197,10 @@
       "commit_range_rule": "github.event.before..github.event.pull_request.head.sha must be fetchable and the dedicated runkey must be the only changed path in the arm commit"
     },
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
-    "planned_effective_heavy_concurrency": 8,
+    "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
-    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
-    "overlap_rule": "Each arm/resume runkey must record observed_other_stage32_heavy_concurrency_at_arm <= 10; 8 + observed_other <= 18. If overlap cannot be bounded, authorization is false.",
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6,
+    "overlap_rule": "Each arm/resume runkey must record observed_other_stage32_heavy_concurrency_at_arm <= 6; 12 + observed_other <= 18. If overlap cannot be bounded, authorization is false.",
     "current_generation": 0,
     "current_armed": false,
     "initial_execution_rule": "After fresh hostile-audit PASS on the rebuilt cold doorstep, one distinct runkey-only synchronize commit changes generation 0->1 and armed false->true, records the audited doorstep head/review and Stage32 overlap observation, and may authorize heavy.",
@@ -256,6 +256,7 @@
     "defect": "Generation-1 used outer b x d-band durability only; hours spent inside an incomplete band could be discarded on timeout. Rebuild now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload before recovery.",
     "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
     "status": "MATERIAL_RESEARCH_OS_RECOVERY_RECONCILIATION_AND_SAFE_UPLOAD_REPAIR_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
-    "repair_status": "BLOCKER1_EXPECTED_DURABLE_RECONCILIATION_IMPLEMENTED__BLOCKER2_UPLOAD_SAFE_FINALIZER_IMPLEMENTED__WORKFLOW_SOURCE_LOCK_RESYNC_AND_NEGATIVE_REPLAY_PENDING"
+    "repair_status": "BLOCKER1_EXPECTED_DURABLE_RECONCILIATION_IMPLEMENTED__BLOCKER2_UPLOAD_SAFE_FINALIZER_IMPLEMENTED__WORKFLOW_SOURCE_LOCK_RESYNC_AND_NEGATIVE_REPLAY_PENDING",
+    "concurrency_change": "User-authorized cold change from BR204 max_parallel 8 to 12. Stage32 ceiling remains 18, so arm-time other Stage32 heavy concurrency must be <=6. Fresh replay and hostile audit required before generation 1."
   }
 }
