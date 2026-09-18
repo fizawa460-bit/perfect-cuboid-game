@@ -1,6 +1,6 @@
 # Stage32EX5 HPADJ22 — exact HPADJ08 deletion-correlation refinement
 
-Status: **BOUNDED FORMALIZATION / ZERO MAIN CREDIT**
+Status: **BOUNDED GATE PASS / FULL178 SCALEOUT PREFLIGHT / ZERO MAIN CREDIT**
 
 Parent audited producer boundary:
 
@@ -49,6 +49,22 @@ Before any FULL178 scaleout:
 6. retain zero MAIN credit until hostile audit of any later FULL178 result.
 
 The earlier private bounded measurements are motivation only and are not repository authority.
+
+
+## Retained bounded result
+
+Exact-head CI run `35292495419` on head `77858ca5f8dde4ad93338e8a0e5a2bae798b120a` established:
+
+- 26 / 26 bounded rows (`d<=32`) are strict versus HPADJ21;
+- 208 exact cells are all no-weaker; 36 cells are strict;
+- HPADJ08 exact-square rejected mass is reproduced exactly as `25,770,706,503,487`;
+- every cell satisfies exact pre/rejected/post conservation against the retained HPADJ21 post-mass certificate;
+- HPADJ21 bounded floor sum: `323,299,108,813`;
+- HPADJ22 exact correlated survivor sum: `287,982,138,108`;
+- bounded strict improvement: `35,316,970,705`;
+- retained canonical: `b3387e3f07a02a30bfc5558ad72859c72c25a5289320abd22ac1947bf53b3d77`.
+
+This remains bounded evidence only. The next gate is an exact b-chunk worker with bounded direct-vs-chunk equivalence and representative cost measurement before any FULL178 arm.
 
 ## Firewalls
 

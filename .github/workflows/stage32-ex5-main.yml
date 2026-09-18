@@ -48,14 +48,17 @@ jobs:
           assert d['status']=='STRICT_BOUNDED_REFINEMENT_FOUND__FULL178_NOT_RUN'
           assert d['bounded_scope']['row_count']==26
           assert d['exact_identity_checks']['hpadj08_exact_square_rejected_terminals']==25770706503487
-          assert d['candidate']['strict_improvement']>0
-          assert d['candidate']['strict_row_count']>0
+          assert d['candidate']['strict_improvement']==35316970705
+          assert d['candidate']['strict_row_count']==26
+          assert d['candidate']['strict_cell_count']==36
           assert d['candidate']['all_cells_no_weaker'] is True
           assert all(v is False for v in d['firewalls'].values())
           print('HPADJ22_BOUNDED_CANONICAL='+d['canonical_sha256_without_this_field'])
           print('HPADJ22_BOUNDED_GAIN='+str(d['candidate']['strict_improvement']))
           print('HPADJ22_STRICT_ROWS='+str(d['candidate']['strict_row_count']))
           PY
+          cmp /tmp/hpadj22-bounded.json stages/stage32-ex5/hpadj-22_ex5/BOUNDED-RESULT.json
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bounded_result.py
       - name: Verify HPADJ21 FULL178 checkpoint and MAIN handoff preflight at exact head
         if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
         run: python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py
