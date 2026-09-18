@@ -1,8 +1,14 @@
 name: Stage32 MAIN BTVA static7 normalmass bounded panel
 
-# Trigger lifecycle: RETIRED/MANUAL — bounded zero-credit experiment only.
+# Trigger lifecycle: ACTIVE_AUTO — one-shot e12 BTVA-to-HPADJ21 overlap diagnostic.
+# Restricted to this workflow file on the active MAIN research branch; retire after artifact retention.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - stage32-main-v44-btva-static7-20260918
+    paths:
+      - '.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml'
 
 permissions:
   contents: read
@@ -13,6 +19,7 @@ concurrency:
 
 jobs:
   bounded-panel:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -76,5 +83,317 @@ jobs:
         with:
           name: stage32-main-btva-static7-normalmass-bounded-panel
           path: ${{ runner.temp }}/btva-static7-normalmass-panel.json
+          retention-days: 7
+          compression-level: 9
+
+
+  e12-hpadj21-overlap:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact MAIN research head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Checkout exact HPADJ21 source
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21
+          fetch-depth: 1
+
+      - name: Assert exact overlap sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json)" = "613d8b60ca194598a991a58ac6ec5a38dc62b3b9"
+          test "$(git hash-object stages/stage32/residual-32-01-production/compressed_terminal_indexer.py)" = "4fb0a8dd34909494bd62646373e42877ed7a3c9e"
+          test "$(git -C .stage32-ex5-hpadj21 rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"
+          test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py)" = "eebeb47f91df22461c33e9974d63aceca4da3b52"
+
+      - name: Set up pinned Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+
+      - name: Run exact e12 overlap and adversarial LP diagnostic
+        shell: bash
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-hpadj21-overlap.json" <<'PY'
+          from __future__ import annotations
+          import hashlib,importlib.util,json,sys
+          from collections import Counter,defaultdict
+          from fractions import Fraction
+          from pathlib import Path
+
+          ROOT=Path.cwd()
+          EX5=ROOT/".stage32-ex5-hpadj21"
+          REF=ROOT/"stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json"
+          INDEXER=ROOT/"stages/stage32/residual-32-01-production/compressed_terminal_indexer.py"
+          ROW_WORKER=EX5/"stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py"
+          TARGET_ROW_INDEX=23
+          E=12; D=8; G=0; H=4; B=93
+
+          def req(v,msg):
+              if not v: raise SystemExit("FAIL: "+msg)
+          def csha(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          def load_module(path,name):
+              spec=importlib.util.spec_from_file_location(name,path)
+              req(spec is not None and spec.loader is not None,"module spec "+str(path))
+              mod=importlib.util.module_from_spec(spec);sys.modules[name]=mod;spec.loader.exec_module(mod);return mod
+
+          ref=json.loads(REF.read_text())
+          stored=ref["canonical_sha256_without_this_field"]; body=dict(ref);body.pop("canonical_sha256_without_this_field")
+          req(csha(body)==stored=="9b9a8b03347411c026a4219d0e914e86df96f5b416512c6c731ffd9551f384c5","V3 reference canonical")
+          pilot=ref["e12_top16_retained_basis_pilot"]
+          req(pilot["unsat_base4_count"]==16 and pilot["unknown_base4_count"]==0,"top16 exact UNSAT boundary")
+          top16={tuple(int(v) for v in r["base4"]) for r in ref.get("e12_census",{}).get("top16",[])}
+          # V3 intentionally compacts away the row list; use the V2 top16 set fixed by the retained digest.
+          if not top16:
+              top16={
+                (4,4,4,4),(4,5,3,5),(5,3,4,4),(5,4,3,5),
+                (3,5,4,6),(3,4,5,5),(6,3,3,3),(6,4,2,4),
+                (4,4,4,6),(4,3,5,3),(3,6,3,7),(3,3,6,4),
+                (4,3,5,5),(4,6,2,6),(2,6,4,6),(2,5,5,5),
+              }
+          req(len(top16)==16,"top16 key count")
+
+          idxmod=load_module(INDEXER,"s32_e12_overlap_indexer")
+          indexer=idxmod.CompressedTerminalIndexer(E,D)
+          req(indexer.normal_budget==92 and int(indexer.exceptional_count)==164282,"e12 indexer boundary")
+
+          rw=load_module(ROW_WORKER,"s32_e12_overlap_hpadj21_row")
+          p=rw.load_pilot()
+          h20=p.load_parent(); h19=h20.load_parent(); h18=h19.load_parent(); h17=h18.load_parent(); h16=h17.load_parent()
+          p15=h16.load_module(h16.PARENT,h16.PARENT_BLOB,"s32_e12_overlap_hpadj15")
+          p14=p15.load_parent(); counter=p14.load_counter()
+          manifest=counter.load_locked_json(p14.MANIFEST,p14.LOCKS["manifest_blob"],p14.LOCKS["manifest_canonical"],"FULL178 manifest")
+          rows=counter.manifest_rows(manifest)
+          row_id,g,d=rows[TARGET_ROW_INDEX]
+          req((row_id,int(g),int(d))==("g0-d008",0,8),"HPADJ row identity")
+
+          cells,BC=p.exact_pilot_cells(p15,p14,counter,[(row_id,0,8)])
+          two_profiles,_,_,_=h20.build_two_tier_profiles(H,counter,h19)
+          full_profiles,_,_=p.full_profiles(H,counter,h19)
+          A=[[sum(mult for _,mult in full_profiles[a][sa]) for sa in range(4)] for a in range(H+1)]
+          full_caps={interval:defaultdict(int) for interval in p15.PLANNED}
+          exact_block_count_by_interval_e=defaultdict(int)
+
+          K=counter.ceil_div(D-16*G+16,4)
+          for b in range(H+1):
+              interval=p15.shard_for_b(b)
+              for c in range(H+1):
+                  bcv=BC[b][c]
+                  if not any(any(pair) for pair in bcv): continue
+                  c3=counter.component3(D,b,c)
+                  if c3<0: continue
+                  exact_surv=p.full_survivors(h16,full_profiles,H,G,b,c)
+                  for a in range(H+1):
+                      if not any(A[a]): continue
+                      M=a+b+c; ca=counter.component_a(D,a)
+                      if ca<0: continue
+                      srem=min(16,D)+ca+c3
+                      for sbc,pair in enumerate(bcv):
+                          for parity in (0,1):
+                              left=int(pair[parity])
+                              if not left: continue
+                              for sa,right in enumerate(A[a]):
+                                  if not right: continue
+                                  fi=exact_surv[a][sa]; req(fi is not None,"missing exact q profile")
+                                  support=sbc+sa; qneed=K-support
+                                  if qneed>0 and srem<qneed: continue
+                                  lower=max(8,K,D-4*G+4,M,M+max(0,qneed))
+                                  upper=min((19*D)//5,3*D,3*D-(b-c))
+                                  if lower>upper: continue
+                                  lo=lower if lower%2==0 else lower+1
+                                  hi=upper if upper%2==0 else upper-1
+                                  for e in range(lo,hi+1,2):
+                                      normal_block=19*D-5*e+1
+                                      req(normal_block>0 and normal_block%2==1,"normal block")
+                                      exact_block_count_by_interval_e[(interval,e)] += left*int(right)
+                                      for s0,s1,mult in fi["tiers"]:
+                                          qs=s0 if parity==0 else s1
+                                          full_caps[interval][(int(qs),normal_block)] += left*int(mult)*normal_block
+
+          for interval in p15.PLANNED:
+              info=cells[(interval,0,8)]
+              req(sum(full_caps[interval].values())==int(info["pre_mass"]),"full-cap/pre-mass replay")
+              for e,term_cap in info["pre_e_term_caps"].items():
+                  normal_block=19*D-5*int(e)+1
+                  req(exact_block_count_by_interval_e[(interval,int(e))]*normal_block==int(term_cap),"e-cap replay")
+
+          # Directly enumerate the compressed exceptional states and retain only
+          # top16 BTVA-UNSAT base4 states that are actually admitted by the HPADJ21
+          # g0,d8,e12 pre-domain. a,b,c are exactly the first three BTVA base4 coordinates.
+          overlap_blocks=Counter()
+          overlap_by_key=Counter()
+          support_hist=Counter()
+          all_top16_blocks=Counter()
+          for erank in range(int(indexer.exceptional_count)):
+              x=tuple(int(v) for v in indexer.unrank(erank*93))
+              req(x[4]==0,"x4 stride")
+              a=x[2]+x[3]+x[7]
+              b=x[1]+x[5]+x[9]
+              c=x[0]+x[6]+x[8]+x[10]
+              t=x[0]+x[1]+x[6]+x[9]
+              key=(a,b,c,t)
+              if key not in top16: continue
+              all_top16_blocks[key]+=1
+              if not (0<=a<=H and 0<=b<=H and 0<=c<=H): continue
+              c3=counter.component3(D,b,c)
+              ca=counter.component_a(D,a)
+              if c3<0 or ca<0: continue
+              support=sum(1 for j,v in enumerate(x) if j!=4 and v>0)
+              srem=min(16,D)+ca+c3
+              qneed=K-support
+              if qneed>0 and srem<qneed: continue
+              M=a+b+c
+              lower=max(8,K,D-4*G+4,M,M+max(0,qneed))
+              upper=min((19*D)//5,3*D,3*D-(b-c))
+              if not (lower<=E<=upper): continue
+              interval=p15.shard_for_b(b)
+              overlap_blocks[(interval,E)] += 1
+              overlap_by_key[key] += 1
+              support_hist[support]+=1
+
+          total_overlap_blocks=sum(overlap_blocks.values())
+          total_overlap_terms=total_overlap_blocks*B
+          req(total_overlap_blocks>0,"top16 has no HPADJ21 e12 overlap")
+          first=(0,11)
+          req(set(k[0] for k in overlap_blocks)=={first},"d8 top16 overlap escaped first b shard")
+          hp_e12_terms=int(cells[(first,0,8)]["pre_e_term_caps"].get(E,0))
+          req(total_overlap_terms<=hp_e12_terms,"BTVA overlap exceeds HPADJ e12 pre-cap")
+
+          # Conservative integration: actual BTVA-removed ratio bins are not yet
+          # reconstructed, so remove the certified overlap from the LOWEST s/B
+          # e12 bins. This is adversarially optimal for preserving the HPADJ21 objective.
+          baseline_floor=0; joint_floor=0
+          per_interval=[]
+          for interval in p15.PLANNED:
+              info=cells[(interval,0,8)]
+              P=int(info["pre_mass"]); Mpost=int(info["post_mass"])
+              caps=dict(full_caps[interval])
+              bobj,_,_,_=h18.optimize_cell_exact_predomain(caps,Mpost)
+              bf=bobj.numerator//bobj.denominator
+              baseline_floor+=bf
+              removal=int(overlap_blocks.get((interval,E),0))*B
+              remaining=removal
+              removed_by_ratio=[]
+              for (s,den),cap in sorted([(k,v) for k,v in caps.items() if k[1]==B],key=lambda kv:Fraction(kv[0][0],kv[0][1])):
+                  if not remaining: break
+                  take=min(int(cap),remaining)
+                  if take:
+                      caps[(s,den)]-=take
+                      removed_by_ratio.append({"s":int(s),"B":int(den),"removed_terminal_capacity":take})
+                      remaining-=take
+              req(remaining==0,f"cannot place conservative BTVA removal {interval}")
+              newP=P-removal
+              newM=min(Mpost,newP)
+              req(sum(caps.values())==newP,"joint pre capacity conservation")
+              jobj,_,_,_=h18.optimize_cell_exact_predomain(caps,newM)
+              jf=jobj.numerator//jobj.denominator
+              joint_floor+=jf
+              per_interval.append({
+                "b_interval":list(interval),"pre_mass":P,"post_mass":Mpost,
+                "btva_overlap_removed_terminal_mass":removal,
+                "adversarial_joint_post_mass":newM,
+                "baseline_hpadj21_floor":bf,"joint_conservative_floor":jf,
+                "floor_improvement":bf-jf,"removed_from_lowest_ratio_bins":removed_by_ratio
+              })
+
+          req(baseline_floor==448431,"baseline HPADJ21 row floor drift")
+          req(joint_floor<=baseline_floor,"joint conservative bound weakened baseline")
+          out={
+            "schema":"STAGE32_MAIN_BTVA_D8_E12_HPADJ21_EXACT_OVERLAP_CONSERVATIVE_LP_V1",
+            "stage":32,"status":"EXACT_PREOVERLAP_AND_CONSERVATIVE_JOINT_LP_ZERO_CREDIT",
+            "target":{"row_id":"g0-d008","row_index":23,"g":0,"d":8,"e":12},
+            "coordinate_bridge":{
+              "btva_base4":["x2+x3+x7","x1+x5+x9","x0+x6+x8+x10","x0+x1+x6+x9"],
+              "hpadj_a_equals_btva_base4_0":True,
+              "hpadj_b_equals_btva_base4_1":True,
+              "hpadj_c_equals_btva_base4_2":True,
+              "btva_t_is_additional_refinement_axis":True,
+              "compressed_terminal_family_reused_exactly":True,
+            },
+            "overlap":{
+              "top16_raw_terminal_mass":1248525,
+              "top16_raw_block_count":sum(all_top16_blocks.values()),
+              "hpadj21_e12_pre_terminal_mass_first_interval":hp_e12_terms,
+              "btva_top16_hpadj21_pre_overlap_block_count":total_overlap_blocks,
+              "btva_top16_hpadj21_pre_overlap_terminal_mass":total_overlap_terms,
+              "overlap_by_base4":[{"base4":list(k),"blocks":v,"terminals":v*B} for k,v in sorted(overlap_by_key.items())],
+              "support_histogram":[{"support":k,"blocks":v} for k,v in sorted(support_hist.items())],
+            },
+            "joint_lp":{
+              "baseline_hpadj21_row_floor":baseline_floor,
+              "conservative_joint_row_floor":joint_floor,
+              "certified_floor_improvement_candidate":baseline_floor-joint_floor,
+              "unknown_hpadj08_removed_identity_handled_adversarially":True,
+              "unknown_btva_q_ratio_distribution_handled_adversarially":True,
+              "btva_removal_allocated_to_lowest_survivor_ratio_first":True,
+              "per_interval":per_interval,
+            },
+            "semantics":{
+              "btva_unsat_source_exact":True,
+              "overlap_count_exact_on_hpadj21_predomain":True,
+              "joint_lp_is_upper_bound_not_exact_survivor_identity":True,
+              "no_statistical_independence_assumed":True,
+              "no_additive_subtraction_used":True,
+              "direct_raw_e12_mass_subtraction_from_448431_forbidden":True,
+            },
+            "source_locks":{
+              "main_e12_reference_blob_sha1":"613d8b60ca194598a991a58ac6ec5a38dc62b3b9",
+              "hpadj21_head":"33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
+              "hpadj21_row_worker_blob_sha1":"68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+              "hpadj10_counter_blob_sha1":"eebeb47f91df22461c33e9974d63aceca4da3b52",
+              "compressed_terminal_indexer_blob_sha1":"4fb0a8dd34909494bd62646373e42877ed7a3c9e",
+            },
+            "firewalls":{
+              "main_pruning_credit":False,"receiver_credit":False,"effectivity_credit":False,
+              "theorem_credit":False,"endpoint_credit":False,"full178_complete":False,
+              "stage32_closed":False,"merge_authorized":False,"hostile_audit_required_before_promotion":True
+            }
+          }
+          out["canonical_sha256_without_this_field"]=csha(out)
+          Path(sys.argv[1]).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print("BTVA_E12_HPADJ21_OVERLAP_SUMMARY="+json.dumps({
+            "overlap_blocks":total_overlap_blocks,
+            "overlap_terminals":total_overlap_terms,
+            "baseline_floor":baseline_floor,
+            "joint_floor":joint_floor,
+            "candidate_improvement":baseline_floor-joint_floor,
+            "canonical":out["canonical_sha256_without_this_field"],
+          },sort_keys=True))
+          PY
+
+      - name: Validate overlap diagnostic
+        shell: bash
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-hpadj21-overlap.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_HPADJ21_EXACT_OVERLAP_CONSERVATIVE_LP_V1"
+          assert p["joint_lp"]["baseline_hpadj21_row_floor"]==448431
+          assert p["joint_lp"]["conservative_joint_row_floor"]<=448431
+          assert p["semantics"]["no_additive_subtraction_used"] is True
+          assert p["semantics"]["direct_raw_e12_mass_subtraction_from_448431_forbidden"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          print(json.dumps({"overlap":p["overlap"]["btva_top16_hpadj21_pre_overlap_terminal_mass"],"joint":p["joint_lp"]["conservative_joint_row_floor"],"improvement":p["joint_lp"]["certified_floor_improvement_candidate"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload compact overlap evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-hpadj21-overlap
+          path: ${{ runner.temp }}/btva-e12-hpadj21-overlap.json
           retention-days: 7
           compression-level: 9
