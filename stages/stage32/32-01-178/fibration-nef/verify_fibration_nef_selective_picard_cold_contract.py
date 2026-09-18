@@ -5,15 +5,15 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CONTRACT = HERE / "SELECTIVE-PICARD-RESUME-CONTRACT.json"
-CONTRACT_BLOB = "9faa2792f0e507ebeb6ce9af3597a43e31236d16"
+CONTRACT_BLOB = "59454ea4b3f3766145753705f62cfeec25b1cba9"
 RUNKEY = HERE / "SELECTIVE-PICARD-RUNKEY.json"
 RUNKEY_BLOB = "c73b15a9ac5be6af15890b9d3db89c3de6f39f28"
 WORKER = HERE / "run_fibration_nef_selective_picard_workunit.py"
 WORKER_BLOB = "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5"
 RESUME = HERE / "verify_fibration_nef_selective_picard_resume.py"
-RESUME_BLOB = "f6fe66583bf81a68563bbbf7f7b8c22531db98ba"
+RESUME_BLOB = "bf17305df21a1da966decf4e5689df0789757cc6"
 SELECTOR = HERE / "verify_fibration_nef_selective_picard_pilot_selector.py"
-SELECTOR_BLOB = "e29abd7c8d653fa1cc2809fca99307f9beeda372"
+SELECTOR_BLOB = "5bfea1e78161ea7810d777d253607c48baf1852b"
 
 def req(v, m):
     if not v: raise SystemExit("FAIL: " + m)
