@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V10_BRANCH_PUSH_12WAY_SAFE_UPLOAD",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "purpose": "Cold BR204 FULL178 Research OS heavy runkey. Branch-local push launcher verifies the actual github.event.before..github.sha range, requires runkey-only armed generation commits, fresh hostile-audit review/head binding, exact source/main locks, recovery reconciliation, upload-safe checkpoints, and 12-way Stage32 concurrency within the hard <=18 ceiling.",
   "carry_run_id": null,
   "execution": {
@@ -143,8 +143,8 @@
     "failed_generation_requires_recovery_summary_resume_eligible": true,
     "cancelled_or_timed_out_generation_may_salvage_paginated_completed_and_partial_artifacts": true,
     "single_d_timeout_blocks_blind_resume": true,
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null
+    "audited_doorstep_head": "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8",
+    "audited_doorstep_review_id": 5247726057
   },
   "credit": {
     "stage32_main": false,
@@ -163,16 +163,18 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
     "repair": "Audit 5247651937 blocker 1 repaired: arm_contract now exactly matches branch-local push / dedicated_runkey_push semantics. Recovery/upload-safe repairs remain retained.",
-    "status": "AUDIT_5247651937_BLOCKER1_REPAIRED__BLOCKER2_AND_EXACT_HEAD_REPLAY_PENDING",
+    "status": "HOSTILE_AUDIT_PASS_5247726057__GENERATION1_ARMED",
     "launcher_repair": "Branch-only pull_request workflow could not self-trigger before merge. Rebuilt as branch push gated by actual before..head runkey diff; armed commits remain runkey-only.",
     "latest_hold_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
-    "latest_hold_review_id": 5247651937
+    "latest_hold_review_id": 5247651937,
+    "latest_pass_exact_head": "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8",
+    "latest_pass_review_id": 5247726057
   },
   "resource_preflight": {
     "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 6,
-    "observed_other_stage32_heavy_concurrency_at_arm": null,
+    "observed_other_stage32_heavy_concurrency_at_arm": 0,
     "overlap_rule": "Arm/resume commit must replace null with an observed integer 0..6; authorize requires 12 + observed_other <= 18. Unknown overlap fails closed.",
     "artifact_recovery_slot_count_upper_bound": 250,
     "per_outer_recovery_slot_hard_cap_bytes": 900000,
