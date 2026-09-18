@@ -1,0 +1,117 @@
+{
+  "schema": "STAGE32_MB104_H8_LOG_BOUNDARY_INEQUALITY_GATE_V1",
+  "status": "H8_SHALLOW_FAIL_PARKED_NO_CREDIT",
+  "route": "H8 logarithmic boundary inequality",
+  "exact_ray": {
+    "divisor": "D_l=7*l*H-4*l*sum_(p in Sigma)E_p",
+    "support_size": 14,
+    "intersections": {
+      "K^2": 16,
+      "K.D_l": "112*l",
+      "D_l^2": "336*l^2",
+      "E_i^2": -2,
+      "K.E_i": 0,
+      "D_l.E_i": "8*l"
+    },
+    "total_genus_defect": "delta=168*l^2+56*l"
+  },
+  "formal_compatibility_witness": {
+    "asserted_actual_carrier": false,
+    "off_exceptional_singularity_model": "delta ordinary nodes, all away from the exceptional boundary",
+    "normalization_genus": 1,
+    "exceptional_contacts": "for each of 14 E_i, 8*l distinct transverse smooth intersections",
+    "reason_allowed_by_retained_interface": "current retained packet fixes the exceptional contacts and total delta but does not classify the off-exceptional analytic singularity types"
+  },
+  "orbifold_boundary": {
+    "notation": "B=a*C+sum_i b_i*E_i",
+    "coefficient_range": "0<=a,b_i<=1; published orbifold coefficients are a subset",
+    "sum_b": "S1=sum_i b_i",
+    "sum_b2": "S2=sum_i b_i^2",
+    "orbifold_euler": "e_orb=80-2*S1+8*l*a*S1+a^2*delta",
+    "log_square": "(K+B)^2=16+224*a*l+336*a^2*l^2+16*a*l*S1-2*S2",
+    "bmy_slack": "3*e_orb-(K+B)^2=224-6*S1+2*S2+8*a*l*S1-224*a*l+168*a^2*l^2+168*a^2*l"
+  },
+  "positivity_proof": {
+    "x": "x=a*l>=0",
+    "per_exceptional_quadratic": "q_x(b)=2*b^2+(8*x-6)*b",
+    "minimum_piecewise": [
+      {
+        "region": "0<=x<=1/4",
+        "min_q": "8*x-4",
+        "base_slack_lower_bound": "168*x^2-112*x+168 >= 301/2"
+      },
+      {
+        "region": "1/4<=x<=3/4",
+        "min_q": "-(8*x-6)^2/8",
+        "base_slack_lower_bound": "7*(8*x^2-8*x+23) >= 147"
+      },
+      {
+        "region": "x>=3/4",
+        "min_q": "0",
+        "base_slack_lower_bound": "168*x^2-224*x+224 >= 301/2"
+      }
+    ],
+    "omitted_term": "168*a^2*l>=0",
+    "global_slack_lower_bound": "3*e_orb-(K+B)^2 >= 147",
+    "consequence": "the formal nodal distribution satisfies the orbifold BMY inequality strictly for every l>=1 and every coefficient choice in [0,1]"
+  },
+  "decision": {
+    "shallow_gate": "FAIL",
+    "roadmap_action": "PARK_H8",
+    "strongest_safe_claim": "The fourteen exceptional boundary components and exact 8*l transverse contacts do not by themselves create a quadratic log-BMY obstruction. The retained interface admits a nodal off-exceptional defect distribution for which every admissible boundary-weight choice has uniform positive BMY slack.",
+    "missing_lemma": "A new source-complete theorem forcing off-exceptional singularity types or local orbifold corrections outside the nodal-compatible regime, or a stronger log inequality using data not present in the retained packet.",
+    "next_shallow_gate": "H5_ETALE_CORRESPONDENCE_QUOTIENT_RIGIDITY",
+    "finite_degree_window_proved": false
+  },
+  "score": {
+    "before": {
+      "closure": 3,
+      "coverage": 3,
+      "adapter": 1,
+      "cheap_test": 3,
+      "reuse": 2,
+      "anti_tunnel": 3,
+      "total": 15
+    },
+    "after": {
+      "closure": 1,
+      "coverage": 1,
+      "adapter": 0,
+      "cheap_test": 3,
+      "reuse": 2,
+      "anti_tunnel": 3,
+      "total": 10
+    }
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-UNIFORM-CLOSURE-RESTART-20260917.md",
+      "blob_sha1": "3e9fb440ea8a9c491ad58c9846d880fbd3373f66"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md",
+      "blob_sha1": "aa7192b4391b35e28c7f12efe5eef398d2144194"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H8-LOG-BMY-SOURCE-NOTE-20260918.md",
+      "blob_sha1": "3a18c5f67474bd4cd413472039924607e32dd9ec"
+    }
+  ],
+  "historical_source": {
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md",
+    "exact_archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "blob_sha1": "de83fc169814681109bcbc1576ad24f67d6159e0",
+    "use": "confirms the retained interface permits the required quadratic delta to lie off the exceptional contacts; no actual curve existence is claimed"
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
