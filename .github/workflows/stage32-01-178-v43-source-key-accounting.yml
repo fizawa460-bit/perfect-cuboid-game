@@ -1,0 +1,54 @@
+name: Stage32 32-01-178 V43 source-key accounting replay
+
+# lifecycle: ACTIVE_AUTO
+# Current 178 frontier only; remove immediately after exact-head replay.
+on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - 'stages/stage32/32-01-178/fibration-nef/V43-SOURCE-KEY-ACCOUNTING-E32.json'
+      - 'stages/stage32/32-01-178/fibration-nef/verify_v43_source_key_accounting_e32.py'
+      - '.github/workflows/stage32-01-178-v43-source-key-accounting.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-01-178-v43-source-key-accounting-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Materialize exact current-MAIN and HPADJ21 source locks
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/s32acct
+          git fetch --no-tags origin 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
+          git show 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49:stages/stage32/MAIN-STATE.json > /tmp/s32acct/MAIN-STATE.json
+          git show 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49:stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json > /tmp/s32acct/V42.json
+          git fetch --no-tags origin 265fbef0a67014494fcf773af6c3a9f1b095ef95
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py > /tmp/s32acct/run_full_hist_row.py
+      - name: Download retained HPADJ21 173-row carry bundle
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: /tmp/s32acct/carry
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 35275839413
+      - name: Verify exact V43 source-key accounting
+        run: |
+          set -euo pipefail
+          test -f /tmp/s32acct/carry/hpadj21-row-22.json
+          python stages/stage32/32-01-178/fibration-nef/verify_v43_source_key_accounting_e32.py             --main-state /tmp/s32acct/MAIN-STATE.json             --v42-receipt /tmp/s32acct/V42.json             --row-worker /tmp/s32acct/run_full_hist_row.py             --row-cert /tmp/s32acct/carry/hpadj21-row-22.json
+      - name: Diff hygiene
+        run: git diff --check
