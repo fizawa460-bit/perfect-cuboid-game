@@ -18,7 +18,7 @@
     ],
     "scope": "BOUNDED_SELECTED_SLICE_RESUMABLE_PILOT_NOT_FULL_ROW_NOT_FULL178"
   },
-  "worker_blob_sha1": "15a94deeaac2a7bbd56ecf3a2a2a3265e7e1203f",
+  "worker_blob_sha1": "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5",
   "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729",
   "plan_certificate_producer_blob_sha1": "37745be7877f32a1804a350d8ebbeedc893d4a5b",
   "authorized_workunit_ids": [],
@@ -26,7 +26,7 @@
   "representative_receipt_bytes": 0,
   "projected_peak_storage_bytes": 0,
   "commit_range_authorization_required": true,
-  "authorization_rule": "Future workflow must verify this runkey path changed in github.event.before..head, generation strictly advanced, armed=true, source locks match, and each scheduled workunit id is explicitly authorized.",
+  "authorization_rule": "Future workflow must verify this runkey path changed in github.event.before..head and generation strictly advanced. PILOT_MEASURE may authorize exactly one unit at concurrency=1 to measure receipt size; PRODUCTION_WAVE additionally requires a prior measured receipt size, source locks, explicit unit ids, bounded storage, and concurrency<=18.",
   "storage_budget_bytes": 524288000,
   "hard_stage_heavy_concurrency_ceiling": 18,
   "firewalls": {
@@ -36,5 +36,6 @@
     "theorem_credit_changed": false,
     "endpoint_credit_changed": false,
     "merge": false
-  }
+  },
+  "mode": "COLD"
 }
