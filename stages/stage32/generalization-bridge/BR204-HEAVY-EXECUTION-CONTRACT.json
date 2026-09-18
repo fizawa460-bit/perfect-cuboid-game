@@ -1,0 +1,197 @@
+{
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V7_PUSH_TRIGGER_RESUME",
+  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution with 250 durable (b,d-band) checkpoints, transitive recovery prefixes, independent pilot salvage, and automatic execution only from a dedicated runkey-only push after audit.",
+  "audited_predecessor": {
+    "bridge_pr": 1813,
+    "audited_exact_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
+    "hostile_audit_status": "PASS",
+    "scope": "previous manual-dispatch cold doorstep; launcher topology is now being redesigned to runkey-push and therefore requires a fresh audit before generation 1"
+  },
+  "live_main_refresh": {
+    "audited_numeric_main_pr": 1808,
+    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "audited_numeric_main_review_id": 5231559824,
+    "merged_v41_pr": 1820,
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "v41_head_before_merge": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
+    "v41_semantics": "PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "179119009547804181594",
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "execution_freshness_rule": "Heavy authorize must fetch origin/main and require this exact repository_main_head and MAIN-STATE blob. Any later main movement fails closed and requires a new cold doorstep refresh before execution."
+  },
+  "population": {
+    "H": 96,
+    "b_units": 97,
+    "rows": 178,
+    "refined_routing_states": 4070710,
+    "bct_cells": 453937,
+    "bc_assignment_mass": "174683387305",
+    "logical_shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250
+  },
+  "source_locks": {
+    "compact_mu_bounded_equivalence": {
+      "path": "stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp",
+      "git_blob_sha1": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
+    },
+    "heavy_b_unit_worker": {
+      "path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
+      "git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc"
+    },
+    "global_bin_aggregator": {
+      "path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
+      "git_blob_sha1": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
+    },
+    "certificate_storage_preflight": {
+      "path": "stages/stage32/generalization-bridge/BR204-CERTIFICATE-STORAGE-PREFLIGHT.json",
+      "git_blob_sha1": "3156c12ccb32dfac6a767456b1d6a74763c6f98e"
+    }
+  },
+  "objective_semantics": {
+    "same_population_replacement_only": true,
+    "additive_pruning": false,
+    "per_unit_output": "Each durable (b,d-band) subunit emits exact merged (s,B,capacity) bins for BR202 K8 and BR203 mu plus d-dependent L>8/K8-tail-slot counters. Static BC state/mass metadata are repeated per band, must agree byte-semantically within b, and are counted once per b by the aggregator.",
+    "k8_tail_slot_semantics": "For a compact BC state with more than eight exact qBC levels, parts 1..7 are exact and part 8 is the K8 relaxed slot containing exact level 8 plus all deeper-level mass evaluated at q8. Do not reinterpret the slot as only qBC levels >8.",
+    "global_composition": "validate exact coverage of the approved 250 (b,d-band) subunits; count static BC population once per b; union all d-dependent exact capacities across subunits; group bins by exact rational ratio s/B; then solve one descending exact-rational ratio-class LP against the retained envelope",
+    "equal_ratio_rule": "Forced tail selection is computed only after summing capacity and tail-slot capacity over every bin with the same exact Fraction(s,B), so attribution is representation/order independent.",
+    "envelope": "6703403803993209250491",
+    "forbidden": "sum or average per-b LP floors; order equal-ratio bins to manufacture tail activity; materialize raw 4.1M routing-state JSON; terminal-identity fallback"
+  },
+  "qbc_tail_certificate": {
+    "same_pass_required": true,
+    "per_b_static_fields": [
+      "base_states_L_gt_8",
+      "base_states_L_le_8",
+      "tail_slot_assignment_mass"
+    ],
+    "per_subunit_dynamic_fields": [
+      "tail_slot_evaluation_cells",
+      "k8_L_gt_8_raw_objective",
+      "k8_tail_slot_raw_objective",
+      "mu_L_gt_8_raw_objective",
+      "mu_tail_slot_raw_objective",
+      "k8_L_gt_8_positive_capacity",
+      "k8_tail_slot_positive_capacity",
+      "mu_L_gt_8_positive_capacity",
+      "mu_tail_slot_positive_capacity"
+    ],
+    "per_subunit_commitment": "SHA256 of the complete validated (b,d-band) stream, including b/d-band/source locks and TAIL fields",
+    "global_checks": [
+      "approved d bands are pairwise disjoint and cover every admissible even d exactly once for each b",
+      "all repeated static state/mass/tail metadata agree across bands of the same b and are counted exactly once per b",
+      "L<=8 plus L>8 static base-state partition equals H96 compact-state census",
+      "mu tail-slot capacities are subsets of mu capacities and mu<=K8",
+      "global ratio-class forced-tail attribution is exact and order independent"
+    ],
+    "br205_gate_firewall": "Heavy result may emit raw and stronger tail-activity candidates, but formal BR205 gate remains false until the heavy result is hostile-audited and separately promoted."
+  },
+  "resume_contract": {
+    "durable_unit": "(b,d_band)",
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "expected_subunit_count": 250,
+    "b_unit_count": 97,
+    "max_parallel": 8,
+    "generation_start_recovery": "For generation >=2, the immediately previous failed/cancelled/timed-out BR204 run id is carried in the runkey. Recover its br204-prefix plus all completed br204-u-* artifacts, validate their exact union, re-emit one current prefix, and only then compute missing subunits.",
+    "cancellation_semantics": "A failed generation leaves one inherited validated prefix plus every independently uploaded completed subunit. The next runkey-only generation commit names that immediately previous BR204 run id, so only true missing work is recomputed.",
+    "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic raw-stream digest validation; conflicting duplicates fail closed; compute only units absent from the re-emitted prefix/current artifacts",
+    "pilot_salvage": "The two representative pilots are separate jobs and each uploads its own durable subunit immediately. If one fails, a completed sibling remains reusable.",
+    "cleanup_rule": "Only after the new recovery prefix is successfully uploaded, delete the superseded prior run's BR204 recovery artifacts. Cleanup failure is a hard execution stop before new heavy compute.",
+    "reopened_or_non_arm_behavior": "A runkey push whose commit message is not the dedicated execution prefix is skipped before authorize. Cold audit/setup commits never start heavy compute."
+  },
+  "storage_contract": {
+    "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
+    "bin_stream_note": "Transient exact bin streams are now persisted per (b,d-band) durable subunit, never as raw routing-state streams.",
+    "high_mass_scaleout_gate": "Two representative pilots, (b=0,d=8..54) and (b=96,d=148..192), execute only after authorization and are reused as durable subunits.",
+    "projection_rule": "250 * max(two independently available pilot gzip sizes) * 2 + 20 MiB must be <= 500 MiB before fan-out",
+    "repository_operating_budget_bytes": 524288000,
+    "intermediate_retention_days": 1,
+    "raw_state_artifacts_uploaded": false,
+    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "absolute_peak_rule": "At generation rollover, at most one prior recovery union and one newly re-emitted prefix coexist: 2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB. After fail-closed cleanup, current prefix plus newly completed missing units still represent at most 250 subunits.",
+    "recovery_retention": "All BR204 recovery artifacts use 1-day retention, but superseded prior recovery artifacts are actively deleted after successful prefix re-emission so repeated generations do not accumulate one-day copies."
+  },
+  "authorization": {
+    "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
+    "workflow_lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "execution_commit_message_prefix": "stage32 BR204 execute generation "
+    },
+    "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
+    "current_generation": 0,
+    "current_armed": false,
+    "initial_execution_rule": "After fresh hostile-audit PASS on the cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited doorstep head/review, uses the dedicated execution commit-message prefix, and its push automatically starts heavy.",
+    "recovery_execution_rule": "After a generation >=1 heavy run fails/cancels/times out, a runkey-only child commit keeps armed=true, increments generation by exactly one, supplies carry_run_id for the immediately previous generation run, preserves all execution/source/resume/storage/credit locks, and its push automatically resumes missing work only.",
+    "manual_dispatch_required": false,
+    "heavy_authorized_now": false,
+    "heavy_started": false
+  },
+  "post_run_gates": {
+    "required_checks": [
+      "250-subunit exact coverage/disjointness over approved b x d-band units",
+      "every admissible even d covered exactly once per b",
+      "repeated per-b static metadata agrees across retained bands",
+      "multi-generation recovery prefix validates and re-emits the exact union before new compute",
+      "both pilot subunits are independently durable/salvageable",
+      "H96 refined-state census counted once per b",
+      "H96 BC assignment-mass conservation counted once per b",
+      "global mu LP <= global K8 LP",
+      "deterministic global bin-stream hash",
+      "exact L<=8/L>8 and tail-slot counters",
+      "ratio-class qBC-tail forced-selected attribution"
+    ],
+    "br205_authorized_now": false,
+    "br205_gate": "Only after the heavy result establishes exact FULL178 L>8/tail-slot activity and, for the stronger diagnostic, positive forced-selected tail-slot capacity under the order-independent global LP; any formal BR205 authorization additionally requires hostile audit.",
+    "main_credit": "requires separate hostile audit and MAIN MIN/replacement consumption; never automatic"
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "effectivity": false,
+    "receiver": false,
+    "route": false,
+    "theorem": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  },
+  "audit_hold": {
+    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "previous_manual_design_review_id": 5242897044,
+    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED",
+    "mathematical_population_changed": false,
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true
+  }
+}

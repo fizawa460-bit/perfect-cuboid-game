@@ -1,0 +1,66 @@
+{
+  "schema": "STAGE32_BR205_QBC_SLACK_ATTRIBUTION_BOUNDED_PREFLIGHT_V1",
+  "status": "PASS_SOURCE_LOCKED_STRUCTURAL_ATTRIBUTION_ZERO_CREDIT",
+  "scope": {
+    "H": 16,
+    "max_d": 32,
+    "population": "BR202_P1_SAME_POPULATION",
+    "not_full178_authority": true
+  },
+  "source_locks": {
+    "bounded_pilot_kernel_path": "stages/stage32/generalization-bridge/verify_br205_deeper_qbc_same_population_bounded_pilot.cpp",
+    "bounded_pilot_kernel_git_blob_sha1": "ef6e5b41ed11421d8c48cfbe30be79634bf707b5",
+    "bounded_pilot_result_path": "stages/stage32/generalization-bridge/BR205-DEEPER-QBC-SAME-POPULATION-BOUNDED-PILOT.json",
+    "bounded_pilot_result_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
+    "attribution_verifier_path": "stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py",
+    "attribution_verifier_git_blob_sha1": "cdcd03de2b34a641db7bba28c40dece1604d7920"
+  },
+  "partition": {
+    "BC_base_states_total": 16781,
+    "BC_base_states_L_le_8": 8941,
+    "BC_base_states_L_gt_8": 7840
+  },
+  "slack_attribution": {
+    "K8": 230521553871,
+    "FULL_qBC": 191776755135,
+    "K8_minus_FULL_global": 38744798736,
+    "K8_minus_FULL_from_L_le_8": 0,
+    "K8_minus_FULL_from_L_gt_8": 38744798736,
+    "tail_fraction_of_global_tightening": 1.0,
+    "active_tail_evaluation_cells": 2396203,
+    "active_tail_retained_multiplicity": 931400934,
+    "classification": "ALL_BOUNDED_K8_QBC_SLACK_IS_LOCALIZED_TO_L_GT_8"
+  },
+  "proof_semantics": {
+    "source_locked_fact_1": "FULL accumulates ep[L], the exact contribution from all qBC levels.",
+    "source_locked_fact_2": "For a K-tier with L<=K, the tier contribution is exactly ep[L].",
+    "deduction": "For K=8, every BC base state with L<=8 has K8 contribution equal to FULL contribution. Therefore all aggregate K8-minus-FULL slack is localized to L>8.",
+    "bounded_deeper_tier_strict_improvement": true,
+    "qBC_tier_truncation_active_on_nonzero_retained_mass": true
+  },
+  "verification": {
+    "mode": "SOURCE_LOCKED_STRUCTURAL_DERIVATION",
+    "dedicated_ci_run": null,
+    "note": "The verifier is fail-closed on both retained source blobs. This record does not claim a dedicated exact-head CI execution."
+  },
+  "transition": {
+    "bounded_slack_attribution_machinery_ready_for_BR204_certificate_shape": true,
+    "bounded_deeper_qBC_strict_improvement_already_passed": true,
+    "formal_BR205_gate_passed": false,
+    "formal_BR205_remaining_condition": "BR204 exact FULL178 compact survivor certificate must emit the same qBC-tail attribution on its exact population",
+    "BR204_FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false,
+    "BR206_authorized": false
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

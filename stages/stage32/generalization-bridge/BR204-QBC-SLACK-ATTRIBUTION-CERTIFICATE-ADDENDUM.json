@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V5_PUSH_RESUME",
+  "status": "PREFLIGHT_ONLY_ZERO_CREDIT_NOT_HEAVY_AUTHORIZATION",
+  "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
+  "source_locks": {
+    "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
+    "heavy_execution_contract_git_blob_sha1": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
+    "heavy_worker_git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
+    "global_aggregator_git_blob_sha1": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
+    "bounded_qbc_pilot_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
+    "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213"
+  },
+  "bounded_regression": {
+    "population": "H16_d_le_32_BR202_P1_SAME_POPULATION",
+    "K8": 230521553871,
+    "FULL_qBC": 191776755135,
+    "K8_minus_FULL": 38744798736,
+    "BC_base_states_L_gt_8": 7840,
+    "BC_base_states_L_le_8": 8941,
+    "K8_minus_FULL_from_L_le_8": 0,
+    "K8_minus_FULL_from_L_gt_8": 38744798736,
+    "strict_same_population_improvement": true
+  },
+  "tail_slot_semantics": {
+    "L_gt_8_state": "compact BC state with more than eight exact qBC levels",
+    "K8_tail_slot": "for L>8, K8 parts 1..7 are exact and part 8 contains exact level 8 plus every deeper-level multiplicity evaluated at q8",
+    "warning": "tail-slot multiplicity is not identical to multiplicity from levels strictly greater than 8; the L>8 state predicate is what localizes possible K8-vs-FULL slack"
+  },
+  "parent_union_requirements": [
+    "prove exact coverage/disjointness of all 250 expected (b,d-band) units",
+    "prove every admissible even d is covered exactly once for each b",
+    "count static H96 refined-state/assignment-mass data once per b after cross-band equality validation",
+    "sum every dynamic attribution field exactly across all 250 subunits",
+    "retain deterministic per-subunit stream digests and one global bin-stream digest",
+    "solve one exact rational LP only after unioning all subunit capacities",
+    "group equal exact s/B ratios before forced-tail computation so tail activity cannot depend on bin ordering"
+  ],
+  "BR205_gate_semantics": {
+    "bounded_half": "PASS_PREPARATORY_EVIDENCE: deeper qBC strictly improves the identical bounded population and all bounded K8-vs-FULL slack is localized to L>8",
+    "full178_raw_half_candidate": "positive exact FULL178 L>8 base/mass evidence plus positive K8 L>8 and tail-slot raw objective contribution",
+    "full178_stronger_candidate": "raw half candidate plus positive forced-selected tail-slot capacity after equal-ratio classes are merged in the exact global mu LP",
+    "formal_BR205_gate_passed": false,
+    "promotion_rule": "Neither candidate authorizes BR205 until the BR204 heavy result is hostile-audited and the transition is explicitly recorded.",
+    "full_qBC_scaleout_authorized": false
+  },
+  "execution": {
+    "BR204_runkey_present": true,
+    "BR204_runkey_generation": 0,
+    "BR204_runkey_armed": false,
+    "repository_main_head_at_cold_doorstep": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "heavy_compute_authorized_by_this_addendum": false,
+    "workflow_arming_authorized_by_this_addendum": false,
+    "storage_rule": "Per-subunit gzip hard cap is 900,000 bytes; rollover peak uses at most one prior recovery union plus one re-emitted prefix before fail-closed cleanup.",
+    "resume_durable_unit": "b_x_d_band",
+    "expected_subunit_count": 250,
+    "resume_recovery": "Generation >=2 names the immediately prior failed/cancelled/timed-out heavy run. Its prefix plus completed subunits are validated and re-emitted before missing-only computation.",
+    "launcher_trigger": "A dedicated runkey-only push on stage32bridge-mainbatch starts heavy only after the audited-parent authorization gate passes; no user workflow_dispatch is required."
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  },
+  "per_b_static_fields": [
+    "base_states_L_gt_8",
+    "base_states_L_le_8",
+    "tail_slot_assignment_mass"
+  ],
+  "per_subunit_dynamic_fields": [
+    "tail_slot_evaluation_cells",
+    "k8_L_gt_8_raw_objective",
+    "k8_tail_slot_raw_objective",
+    "mu_L_gt_8_raw_objective",
+    "mu_tail_slot_raw_objective",
+    "k8_L_gt_8_positive_capacity",
+    "k8_tail_slot_positive_capacity",
+    "mu_L_gt_8_positive_capacity",
+    "mu_tail_slot_positive_capacity",
+    "qbc_tail_attribution_digest_sha256"
+  ],
+  "subunit_invariants": [
+    "approved d bands are 8..54, 56..100, 102..146, 148..192 and are disjoint",
+    "only bands containing at least one admissible d>=2b are durable units, giving exactly 250 units",
+    "static BC state/mass/tail metadata are identical across retained bands of the same b and are counted once per b",
+    "all dynamic attribution fields are computed in the same streamed (b,d-band) unit before raw state data are discarded",
+    "all L<=8 states are exact under K8 and therefore have zero K8-vs-FULL truncation slack by construction",
+    "mu attribution is a subset of the corresponding K8 attribution",
+    "no terminal identity is materialized",
+    "no raw 4.1M-state stream is persisted"
+  ]
+}

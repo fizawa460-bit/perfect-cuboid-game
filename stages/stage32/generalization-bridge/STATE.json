@@ -1,0 +1,304 @@
+{
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V6_PUSH_TRIGGER_RESUME",
+  "mission_id": "stage32-generalization-bridge",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT",
+  "current_node": "BR204",
+  "active_leaf": "BR204_PUSH_TRIGGER_COLD_DOORSTEP_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
+  "charter_reset": {
+    "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
+    "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
+    "research_queue_issue": 1817
+  },
+  "historical_boundary": {
+    "path": "stages/stage32/generalization-bridge/BR190-C3-RETAINED-AUDIT-HANDOFF.json",
+    "status": "FROZEN_UNAUDITED_UNCONSUMED_NO_CREDIT",
+    "consumed_by_v2": false,
+    "rule": "Historical BR101-BR190 and earlier BR204 repair receipts remain evidence only; current execution authority is the cold-doorstep surface below."
+  },
+  "target": {
+    "authority": "stages/stage32/MAIN-STATE.json",
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "main_version": "V41_PROCESS_ONLY_AUDIT_SYNC",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "179119009547804181594",
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "target_population": "current authoritative FULL178 population semantics",
+    "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+    "authority_is_upper_bound_not_exact_residual_identity_set": true
+  },
+  "research_seed": {
+    "issue": 1817,
+    "authority_status": "ZERO_CREDIT_RESEARCH_QUEUE",
+    "pipeline": [
+      "exact_(b,c,t)_population",
+      "support_plus_exact_r",
+      "low_qBC_tiers_K8_first",
+      "full_qA_histogram",
+      "16_state_Picard_mu_syndrome",
+      "FULL178_compact_b_sharded_scaleout",
+      "full_qBC_histogram_if_material_slack_remains",
+      "59D_only_on_late_survivors"
+    ],
+    "known_research_anchors": {
+      "H96_refined_state_count_b_c_support_t_r": 4070710,
+      "H96_nonempty_b_c_t_cells": 453937,
+      "Picard_mu_syndrome_states": 16,
+      "Picard_mu_exact_max": 2,
+      "Picard_mu_histogram": {
+        "0": 1,
+        "1": 7,
+        "2": 8
+      }
+    },
+    "supersession_rule": "Use the exact source-locked 16-state mu table with max mu=2; older rough mu<=8 or mu<=133 notes are historical only."
+  },
+  "completed_nodes": {
+    "BR201": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS"
+    },
+    "BR202": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_K8": 230521553871
+    },
+    "BR203": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_BR202_K8": 230521553871,
+      "H16_d32_BR203_mu_K8": 229209796641
+    }
+  },
+  "audited_predecessor": {
+    "bridge_pr": 1813,
+    "exact_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
+    "hostile_audit_status": "PASS",
+    "scope": "previous BR204 cold doorstep with manual workflow_dispatch launcher; current push-trigger launcher is post-audit and requires fresh hostile audit"
+  },
+  "live_main_refresh": {
+    "status": "PASS_MERGED_V41_NUMERICAL_AUTHORITY_UNCHANGED",
+    "audited_numeric_main_pr": 1808,
+    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "audited_numeric_main_review_id": 5231559824,
+    "merged_v41_pr": 1820,
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "179119009547804181594",
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "v41_additional_pruning": 0
+  },
+  "cold_heavy_doorstep": {
+    "checkpoint": "stages/stage32/generalization-bridge/BR204-HEAVY-DOORSTEP-CHECKPOINT.json",
+    "checkpoint_blob_before_state_sync": "082f59b0deb3b145bfb9684b527e13158faa3cf7",
+    "execution_contract": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
+    "execution_contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
+    "heavy_workflow_blob": "c917f726739d8aa1c8e9ad924d2b60de78b7db34",
+    "retained_replay_blob": "ec492b2667dd6233450a80c345dd86d16141d0e8",
+    "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+    "runkey_generation": 0,
+    "runkey_armed": false,
+    "heavy_compute_authorized": false,
+    "heavy_compute_started": false,
+    "pilot_runs_started": false,
+    "logical_shards": 8,
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
+    "global_lp_rule": "validate exact 250-subunit coverage; count repeated static BC population once per b; union all dynamic subunit bins; merge equal exact s/B ratio classes; solve one exact rational LP",
+    "resume_rule": "Generation >=2 names the immediately previous failed/cancelled/timed-out BR204 run in carry_run_id; validate its prefix plus completed subunits, re-emit one current prefix, and compute only true missing b x d-band subunits.",
+    "storage_rule": "per-subunit gzip <=900,000 bytes; generation rollover prior union + re-emitted prefix + 20 MiB <=500 MiB; superseded prior recovery artifacts are deleted only after successful re-emission and cleanup failure stops before compute",
+    "qbc_tail_addendum_blob": "49fdd0ae8032fd47b9436b7536e296a3ff939bb1",
+    "runkey_blob": "da9929d76c6b4f7824cc02978ec1d60b838f683a",
+    "b_units": 97,
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250,
+    "subunit_coverage": "all admissible even d>=max(8,2b) through 192 exactly once after validated carry reuse",
+    "pilot_subunits": [
+      "independent durable job b=0,d=8..54",
+      "independent durable job b=96,d=148..192"
+    ],
+    "multi_generation_recovery": true,
+    "single_previous_run_suffices": true,
+    "launcher": {
+      "lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "execution_commit_message_prefix": "stage32 BR204 execute generation ",
+      "user_ui_action_required": false
+    }
+  },
+  "br205_bounded_preflight": {
+    "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
+    "K8": 230521553871,
+    "K16": 201104867976,
+    "K32": 191878707884,
+    "FULL_qBC": 191776755135,
+    "K8_minus_FULL_qBC": 38744798736,
+    "BC_base_states_total": 16781,
+    "BC_base_states_L_le_8": 8941,
+    "BC_base_states_L_gt_8": 7840,
+    "all_bounded_K8_qBC_slack_localized_to_L_gt_8": true,
+    "bounded_same_population_deeper_qBC_strict_improvement": true,
+    "bounded_half_of_BR205_gate_prepared": true,
+    "formal_BR205_gate_passed": false
+  },
+  "next_obligation": {
+    "node_id": "BR204",
+    "title": "replay and separately audit the push-trigger cold doorstep",
+    "required_input": "Exact-head BR204 retained replay and shared Stage32 gates must succeed with generation 0 / armed false after the launcher redesign.",
+    "success": "Exact-head replay green here; later separate HOSTILE AUDIT PASS on this unchanged cold head before any generation-1 execution push.",
+    "current_blockers": [
+      "exact-head retained replay/shared gates must be green",
+      "push-trigger cold head requires separate hostile audit",
+      "runkey must remain generation 0 / armed false until audit PASS"
+    ],
+    "stop_conditions": [
+      "heavy workflow starts from a non-execution cold/setup commit",
+      "generation-1 commit is not runkey-only child of the audited cold head",
+      "generation >=2 carry run is not the immediately previous failed/cancelled/timed-out BR204 generation",
+      "recovery prefix/pilot/storage fail-closed guarantees regress",
+      "repository main/source locks move",
+      "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
+    ]
+  },
+  "transition_policy": {
+    "refresh_live_MAIN_before_every_transition": true,
+    "record_live_predecessor_identity_and_semantics": true,
+    "classify_candidate_against_live_predecessor": true,
+    "BR203": {
+      "status": "COMPLETE",
+      "exact_mu_state_count": 16,
+      "exact_mu_max": 2,
+      "terminal_identity_materialization_forbidden": true
+    },
+    "BR204": {
+      "compact_producer_gate": "PASS",
+      "live_main_predecessor_identity_gate": "PASS_MERGED_V41",
+      "qBC_slack_attribution_fields_preflighted": true,
+      "heavy_requires_main_freshness": true,
+      "heavy_requires_runkey": true,
+      "heavy_requires_repository_policy_governance": true,
+      "raw_4_1M_state_artifact_forbidden": true,
+      "resume_partition": "250 durable (b,d-band) subunits over four approved even-d bands",
+      "resume_completed_subunits": true,
+      "recompute_missing_only": true,
+      "repeated_static_metadata_counted_once_per_b": true,
+      "stream_one_b_d_band_at_a_time": true,
+      "generation_start_prefix_reemit": true,
+      "single_previous_run_suffices": true,
+      "pilots_independently_durable": true,
+      "cleanup_failure_hard_stop": true,
+      "per_subunit_gzip_hard_cap_bytes": 900000,
+      "heavy_trigger": "ACTIVE_AUTO_RUNKEY_PUSH",
+      "initial_generation_requires_fresh_hostile_audit": true,
+      "generation_one_runkey_only": true,
+      "recovery_generation_runkey_only": true,
+      "recovery_requires_immediately_previous_failed_run": true
+    },
+    "BR205": {
+      "bounded_strict_improvement_preflight": "PASS",
+      "bounded_slack_localization_preflight": "PASS_ALL_K8_MINUS_FULL_SLACK_ON_L_GT_8",
+      "full178_tail_activity_half": "PENDING_BR204_HEAVY",
+      "formal_gate_passed": false,
+      "otherwise": "SKIP_BR205"
+    },
+    "BR206": {
+      "status": "NOT_AUTHORIZED",
+      "otherwise": "FREEZE_BEST_COMPACT_CANDIDATE_AND_DO_NOT_INVOKE_59D"
+    }
+  },
+  "routing": {
+    "independent_specialist": true,
+    "source_lane_authority_mutation": false,
+    "main_credit_auto_promotion": false,
+    "same_population_replacement_only": true,
+    "terminal_identity_materialization_forbidden": true,
+    "global_terminal_by_terminal_59D_forbidden": true,
+    "generic_odd_prime_probe_parked": true,
+    "heavy_compute_armed": false,
+    "BR200_charter_reset_complete": true,
+    "BR201_authorized": false,
+    "BR201_complete": true,
+    "BR202_authorized": false,
+    "BR202_complete": true,
+    "BR203_authorized": false,
+    "BR203_complete": true,
+    "BR204_light_preflight_complete": true,
+    "BR204_compact_producer_gate_passed": true,
+    "BR204_live_main_predecessor_refresh_complete": true,
+    "BR204_live_main_predecessor_identity_gate_passed": true,
+    "BR204_qBC_slack_attribution_fields_preflighted": true,
+    "BR204_FULL178_scaleout_authorized": false,
+    "BR205_bounded_deeper_qBC_preflight_complete": true,
+    "BR205_bounded_slack_attribution_preflight_complete": true,
+    "BR205_full_qBC_escalation_authorized": false,
+    "BR206_late_59D_authorized": false,
+    "population_wide_credit_authorized": false,
+    "preferred_b_shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
+    "raw_4_1M_state_artifact_forbidden": true,
+    "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
+    "stop_reason": "Push-trigger launcher and resume topology are prepared at generation 0 / armed false. Heavy is cold; exact-head replay and a separate hostile audit are required before generation 1."
+  },
+  "deliverable_contract": {
+    "per_shard": [
+      "exact compact state/population totals counted once per b after cross-band equality checks",
+      "d-dependent qBC tier and qA convolution summaries per durable subunit",
+      "Picard mu syndrome summary",
+      "qBC L>8/tail-slot attribution",
+      "capacity bins/cutoff data",
+      "deterministic subunit stream hashes",
+      "source-lock manifest"
+    ],
+    "final_union": [
+      "exact 250-subunit coverage/disjointness",
+      "every admissible even d covered exactly once per b",
+      "repeated static metadata equality and one-count-per-b population conservation",
+      "same-population predecessor comparison",
+      "order-independent global ratio-class LP",
+      "qBC-tail activity attribution",
+      "compact replayable certificate",
+      "zero-credit retained handoff"
+    ]
+  },
+  "credit_firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "audit_hold": {
+    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "previous_manual_design_review_id": 5242897044,
+    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED",
+    "mathematical_population_changed": false,
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true
+  }
+}

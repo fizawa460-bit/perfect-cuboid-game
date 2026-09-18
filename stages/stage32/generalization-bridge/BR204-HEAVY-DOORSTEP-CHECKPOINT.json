@@ -1,0 +1,130 @@
+{
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V7_PUSH_TRIGGER_RESUME",
+  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "audited_predecessor": {
+    "head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
+    "status": "PASS",
+    "scope": "previous cold doorstep with manual workflow_dispatch launcher; push-trigger redesign requires fresh audit"
+  },
+  "live_main": {
+    "audited_numeric_pr": 1808,
+    "audited_numeric_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "audited_numeric_review_id": 5231559824,
+    "merged_v41_pr": 1820,
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
+    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "v41_semantics": "PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
+    "authority": "179119009547804181594",
+    "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
+  },
+  "execution_surface": {
+    "worker_path": "run_br204_full178_b_unit.cpp",
+    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "aggregator_path": "aggregate_br204_full178.py",
+    "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
+    "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
+    "contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
+    "qbc_tail_addendum_blob": "49fdd0ae8032fd47b9436b7536e296a3ff939bb1",
+    "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
+    "heavy_workflow_blob": "c917f726739d8aa1c8e9ad924d2b60de78b7db34",
+    "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
+    "retained_replay_blob": "ec492b2667dd6233450a80c345dd86d16141d0e8",
+    "runkey_path": "runkeys/br204-full178-heavy.json",
+    "runkey_blob": "da9929d76c6b4f7824cc02978ec1d60b838f683a",
+    "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
+    "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
+    "bridge_workflow_inventory_supplement_blob": "8a59a2f2f905328f094fe6bbcc27b83904962708"
+  },
+  "audit_repair_delta": {
+    "prior_audited_manual_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "prior_audit_review_id": 5242897044,
+    "launcher_redesign": [
+      "replace workflow_dispatch-only launcher with branch-scoped push trigger on the dedicated BR204 runkey path",
+      "cold/setup runkey pushes are skipped unless the commit message uses the dedicated execution-generation prefix",
+      "generation 1 remains a post-audit runkey-only child of the hostile-audited cold doorstep and binds the exact review receipt",
+      "generation >=2 recovery remains runkey-only, increments by exactly one, and carries the immediately previous failed/cancelled/timed-out BR204 run",
+      "250 b x d-band durable subunits, transitive recovery prefix, independent pilots, and 900,000-byte subunit cap are unchanged"
+    ],
+    "mathematical_population_changed": false,
+    "authority_or_credit_changed": false,
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true,
+    "exact_head_replay_after_redesign": "REQUIRED_NOT_YET_RECORDED",
+    "hostile_audit_after_redesign": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1"
+  },
+  "heavy_shape": {
+    "rows": 178,
+    "b_units": 97,
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250,
+    "subunit_coverage": "every admissible even d>=max(8,2b) through 192 is covered exactly once after validated carry reuse",
+    "logical_shards": 8,
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
+    "pilot_subunits": [
+      "independent job: b=0,d=8..54",
+      "independent job: b=96,d=148..192"
+    ],
+    "global_lp": "union all exact subunit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
+    "resume": "Generation >=2 recovers the immediately previous failed/cancelled/timed-out BR204 run's validated prefix plus independently completed subunits, re-emits one current prefix, then computes only true missing (b,d-band) units."
+  },
+  "storage": {
+    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "rollover_peak_gate": "2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB",
+    "pilot_projection_gate": "2 * 250 * max(two independently durable pilot gzip sizes) + 20 MiB <= 500 MiB",
+    "superseded_recovery_cleanup": "required after successful prefix re-emission; failure stops before new heavy compute",
+    "repository_operating_budget_bytes": 524288000,
+    "intermediate_retention_days": 1,
+    "raw_4_1m_state_stream_persistence": false
+  },
+  "operational_state": {
+    "runkey_generation": 0,
+    "runkey_armed": false,
+    "heavy_workflow_lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+    "heavy_compute_authorized": false,
+    "heavy_compute_started": false,
+    "pilot_runs_started": false,
+    "BR205_authorized": false,
+    "execution_trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "commit_message_prefix": "stage32 BR204 execute generation "
+    }
+  },
+  "next_gate": {
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
+    "after_pass": "STOP COLD. After a separate hostile-audit PASS, a later runkey-only generation-1 execution commit will automatically launch heavy; no user UI action is required."
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "effectivity": false,
+    "receiver": false,
+    "route": false,
+    "theorem": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  },
+  "audit_hold": {
+    "audited_exact_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "hostile_audit_review_id": 5242654911,
+    "verdict": "FAIL_HOLD",
+    "blockers": [
+      "multi-generation carry union was not durable under one carry_run_id",
+      "two pilot subunits were not independently salvageable"
+    ],
+    "repair_status": "IMPLEMENTED_PENDING_EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT"
+  }
+}

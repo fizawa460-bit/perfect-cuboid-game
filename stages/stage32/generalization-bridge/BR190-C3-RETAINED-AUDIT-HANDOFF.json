@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE32_BRIDGE_BR190_RETAINED_AUDIT_HANDOFF_V1",
+  "stage": 32,
+  "lane": "BRIDGE",
+  "status": "FROZEN_PENDING_HOSTILE_AUDIT_NO_CREDIT",
+  "pr": 1813,
+  "branch": "stage32bridge-mainbatch",
+  "handoff_created_from_head": "16932a93eb5cc605ca447bc789af69f76176f742",
+  "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+  "retained_result": {
+    "path": "stages/stage32/generalization-bridge/BR105-C3-FULL178-POPULATION-ADAPTER-NO-GO.json",
+    "blob_sha1": "2e0f6a1a3f989086054ba71799b5d489a9b885a9",
+    "status": "RETAINED_EXACT_SCOPE_BLOCKER_NO_CREDIT",
+    "decision": "NO_GENERALIZATION_AT_CURRENT_SOURCE_LOCKS"
+  },
+  "supporting_bridge_artifacts": {
+    "c3_exact_result": {
+      "path": "stages/stage32/generalization-bridge/BR103-C3-PICARD64-FIXED-PAIRING-PROJECTION-RESULT.json",
+      "blob_sha1": "c9cec83ab4b61476fccaf86c3f892fa0addaa2cc"
+    },
+    "bounded_hpadj_diagnostic": {
+      "path": "stages/stage32/generalization-bridge/BR104-C3-HPADJ-IDENTICAL-POPULATION-BOUNDED-DIAGNOSTIC.json",
+      "blob_sha1": "d8d751aabcb7c609e628386e3f246d429673aa26"
+    }
+  },
+  "live_authority_sync": {
+    "live_repository_main_head": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "main_state_path": "stages/stage32/MAIN-STATE.json",
+    "main_state_blob_sha1": "b8df16056625db5fbb1947f1e927593de258f1ff",
+    "main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V24_HPADJ07_AUDIT_SYNCED",
+    "main_state_embedded_current_repository_main": "4c51b4ea90a84f9a22a90f194c6d8ecadd9f0d1c",
+    "cross_lane_demands_path": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
+    "cross_lane_demands_blob_sha1": "e2949866d41a78ff9169bdb23a2fcefb6d0f5dcd",
+    "bridge_producer_open_demand": false,
+    "note": "Live main advanced beyond the MAIN-STATE embedded repository-head field. This handoff grants no credit and does not treat that metadata mismatch as a mathematical bridge result; hostile audit should report research validity and merge-ready freshness separately."
+  },
+  "load_bearing_source_locks": {
+    "general_terminal_family": {
+      "path": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
+      "blob_sha1": "90ff82ed312dcc0cb32cf207935945f550e29170",
+      "assignment_order_1based": [95,99,103,102,49,97,94,101,93,98,96]
+    },
+    "ex5_picard64_interface": {
+      "path": "stages/stage32-ex5/hpadj-handoff/INTERFACE.json",
+      "blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+      "population_scope": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+      "terminal_alone_asserts_completion_exists": false,
+      "assignment_order_1based": [95,99,103,102,49,97,94,101,93,98,96]
+    },
+    "ex5_interface_producer": {
+      "exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f",
+      "path": "stages/stage32-ex5/hpadj-handoff/hpadj_full178_terminal_picard64_adapter.py",
+      "blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
+      "terminal_identity_guard": "req(hpadj_member(...), 'terminal is not in retained HPADJ population')"
+    },
+    "pairing_prefix_engine": {
+      "path": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+      "blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
+    }
+  },
+  "claim_boundary_for_audit": {
+    "proved": [
+      "The general compressed terminal tuple and the EX5 Picard64 interface use the same ordered 11 selected-pairing labels.",
+      "Conditional on an integral retained primitive Picard64 completion, BR103 gives the intrinsic parity x0+x4+x8+x10 == 0 (mod 2).",
+      "On the exact HPADJ01 charged population, BR104 gives only a bounded noncredit usefulness diagnostic."
+    ],
+    "not_proved": [
+      "Every current-authority FULL178 candidate admits or is required to admit an integral retained primitive Picard64 completion represented by the EX5 interface.",
+      "The C3 parity is a necessary condition on the full current MAIN residual population.",
+      "Any MAIN pruning, FULL178 completion, effectivity, theorem, endpoint, or perfect-cuboid conclusion."
+    ],
+    "exact_no_go": "Population-wide C3 transport requires completion necessity, not only coordinate identity. The retained EX5 interface explicitly withholds terminal-alone completion existence and the frozen producer enforces HPADJ membership, so the universal FULL178 implication is not source-locked."
+  },
+  "hostile_audit_checklist": [
+    "Verify BR105 blob identity and that its decision is NO_GENERALIZATION_AT_CURRENT_SOURCE_LOCKS.",
+    "Verify the 11-label assignment order agrees between the general terminal family and EX5 interface.",
+    "Verify INTERFACE.json retains terminal_alone_asserts_completion_exists=false and HPADJ01 population semantics.",
+    "Verify the exact producer head/blob and terminal_identity hpadj_member(...) guard.",
+    "Verify BR103 C3 parity is interpreted only conditional on integral retained Picard64 completion.",
+    "Verify no MAIN/pruning/effectivity/theorem/endpoint credit is promoted by BR190.",
+    "Report hostile-audit result separately from current-main merge-ready freshness."
+  ],
+  "reentry_condition": "A future population-wide C3 route may reopen only after a new source-locked theorem or interface proves integral retained Picard64 completion necessity on the claimed current-authority FULL178 population, with an exact semantic adapter if population semantics have changed.",
+  "execution": {
+    "heavy_compute_used": false,
+    "wolfram_used": false,
+    "reason_wolfram_not_used": "The retained blocker is semantic/source-scope, not an unresolved algebraic computation."
+  },
+  "firewall": {
+    "source_lane_credit_mutated": false,
+    "stage32_main_pruning_credit": false,
+    "full178_complete": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "bbb175abcceb41badc919928e82f7d3ef5b99071a2b614782628961b0f74e94e"
+}

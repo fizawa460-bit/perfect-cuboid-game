@@ -1,0 +1,56 @@
+{
+  "schema": "STAGE32_BR201_SOURCE_LOCK_COMPACT_PRODUCER_HANDOFF_V1",
+  "status": "PASS_READY_FOR_BR202_ZERO_CREDIT",
+  "live_refresh": {
+    "repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "research_issue": 1817,
+    "issue_state": "open",
+    "issue_comment_count": 21,
+    "issue_updated_at": "2026-09-16T10:08:53Z",
+    "latest_issue_note": "A/BC Picard syndrome factors linearly across the existing 3+7 split; terminal identity materialization is unnecessary"
+  },
+  "replay": {
+    "verifier": "stages/stage32/generalization-bridge/verify_br201_source_lock_compact_producer_regression.py",
+    "verifier_git_blob_sha1": "a5fb7683f639778ca8c515c3d2337f03cca247b3",
+    "result": "stages/stage32/generalization-bridge/BR201-SOURCE-LOCK-COMPACT-PRODUCER-REGRESSION.json",
+    "result_git_blob_sha1": "2f401f28b22e2d0b5fde2f0be9e3fa8ab5e1f9f0",
+    "result_head": "8b7c921b4ad8e5d16c9e7c1acee139c6e33c226d"
+  },
+  "bounded_regression": {
+    "H": 10,
+    "bc_direct_assignment_count": 78945,
+    "bc_compact_full_state_count": 18294,
+    "bc_direct_equals_compact_with_multiplicity": true,
+    "bc_key": ["b", "c", "BC_support", "t", "r", "qBC"],
+    "K8_base_state_count": 3800,
+    "K8_direct_equals_compact": true,
+    "A_direct_assignment_count": 286,
+    "A_full_state_count": 66,
+    "A_full_qA_direct_equals_dp": true
+  },
+  "picard_mu_interface": {
+    "normal_quotient_index": "2^169",
+    "normal_plus_19_free_exceptional_quotient_index": "2^165",
+    "reachable_syndrome_states": 16,
+    "additional_bits_above_existing_picard_parity": 4,
+    "mu_universal_upper_bound": 8,
+    "statewise_mu_table_deferred_to": "BR203"
+  },
+  "decision": {
+    "BR201_success": true,
+    "population_semantics_changed": false,
+    "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS",
+    "next_node": "BR202_P1_K8_FULL_QA_INTEGRATION",
+    "heavy_compute_authorized": false,
+    "FULL178_scaleout_authorized": false
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "schema": "STAGE32_BR204_LIVE_MAIN_PREDECESSOR_REFRESH_V3",
+  "status": "PASS_V40_LIVE_MAIN_REFRESH__BR205_BOUNDED_ATTRIBUTION_READY__HEAVY_BLOCKED_ZERO_CREDIT",
+  "bridge": {
+    "pr": 1813,
+    "branch": "stage32bridge-mainbatch",
+    "checkpoint_prewrite_head": "0b318e8b699b7e82427a8f08603ab39a572fb25f",
+    "state": "DRAFT_OPEN_UNMERGED"
+  },
+  "repository_main": {
+    "branch": "main",
+    "head": "c6284abbb29930255892d56f800da0ea1e34734b"
+  },
+  "live_main": {
+    "pr": 1808,
+    "head": "fc842ff364b7e24d9275ba19f4a756b471696e92",
+    "state_schema": "STAGE32_MAIN_COMPACT_STATE_V40_HPADJ20_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
+    "state_git_blob_sha1": "56d121fc11b4f0000ca5a139bbae7e777201e3d5",
+    "state_canonical_sha256_without_field": "10eb99bcf609dc9e8c65707398a0a57b0f7f1f48c631dc666d93cb7dcad4e817",
+    "authority_repository_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "179119009547804181594",
+    "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_numerical_census_complete": false,
+    "stage32_closed": false,
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "v40_hpadj20": {
+    "predecessor_v39_bound": "195414091250828468192",
+    "v40_bound": "179119009547804181594",
+    "tightening_vs_v39": "16295081703024286598",
+    "same_population_nonadditive_replacement_consumed": true,
+    "producer_pr": 1814,
+    "producer_audited_exact_head": "4140e5eb2ebee0c32b22ec78fd531ab35fb7c3ff",
+    "producer_hostile_audit_review_id": 5228477451,
+    "producer_hostile_audit_status": "PASS",
+    "v40_replacement_head_hostile_reaudit_required": true,
+    "v40_replacement_head_hostile_audited": false
+  },
+  "main_external_governance": {
+    "startup_workflow_run_id": 35165001306,
+    "startup_workflow_job_id": 105024003943,
+    "startup_workflow_status": "FAILURE",
+    "first_observed_failing_step": "Adapter at GRF04-V40 equality",
+    "owner": "MAIN_SHARED_NOT_BRIDGE",
+    "bridge_may_mutate": false
+  },
+  "br205_bounded_preparation": {
+    "pilot_path": "stages/stage32/generalization-bridge/BR205-DEEPER-QBC-SAME-POPULATION-BOUNDED-PILOT.json",
+    "pilot_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
+    "attribution_path": "stages/stage32/generalization-bridge/BR205-QBC-SLACK-ATTRIBUTION-BOUNDED-PREFLIGHT.json",
+    "attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213",
+    "certificate_addendum_path": "stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
+    "H16_d32_K8": "230521553871",
+    "H16_d32_FULL_qBC": "191776755135",
+    "H16_d32_K8_minus_FULL_qBC": "38744798736",
+    "H16_d32_tightening_fraction": 0.168077763205463,
+    "BC_base_states_total": 16781,
+    "BC_base_states_qBC_levels_le_8": 8941,
+    "BC_base_states_qBC_levels_gt_8": 7840,
+    "active_K8_tail_evaluation_cells": 2396203,
+    "active_K8_tail_retained_multiplicity": 931400934,
+    "bounded_K8_minus_FULL_from_L_le_8": "0",
+    "bounded_K8_minus_FULL_from_L_gt_8": "38744798736",
+    "all_bounded_K8_qBC_slack_localized_to_L_gt_8": true,
+    "bounded_same_population_deeper_qBC_strict_improvement": true,
+    "formal_BR205_gate_passed": false,
+    "formal_BR205_remaining_condition": "BR204 exact FULL178 compact certificate must show positive qBC-tail retained mass/objective contribution under the exact same population semantics"
+  },
+  "br204_execution_gate": {
+    "compact_producer_bounded_equivalence": "PASS",
+    "storage_preflight": "PASS_WITH_HARD_CAPS_FAIL_CLOSED",
+    "resume_unit": "single_b",
+    "unit_count": 97,
+    "preferred_shards": ["0..11","12..23","24..35","36..47","48..59","60..71","72..83","84..96"],
+    "dedicated_runkey_present": false,
+    "dedicated_runkey_armed": false,
+    "external_governance_green": false,
+    "heavy_compute_authorized": false,
+    "heavy_compute_started": false,
+    "qBC_slack_attribution_fields_preflighted": true
+  },
+  "transition": {
+    "BR204_FULL178_scaleout_authorized": false,
+    "BR205_full_qBC_scaleout_authorized": false,
+    "BR206_late_59D_authorized": false,
+    "next_exact_step_if_external_gates_clear": "Refresh live MAIN once more, run BR204 eight b-shards with qBC-tail attribution counters in the same streamed pass, verify union coverage/disjointness/population conservation, reproduce BR202 K8 before mu composition, apply BR203 mu, then evaluate the formal BR205 tail-activity gate.",
+    "light_research_state": "BOUNDED_BR205_STRICT_IMPROVEMENT_AND_SLACK_ATTRIBUTION_PREPARED"
+  },
+  "credit": {
+    "stage32_main": false,
+    "source_lane": false,
+    "full178_complete": false,
+    "effectivity": false,
+    "receiver": false,
+    "theorem": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

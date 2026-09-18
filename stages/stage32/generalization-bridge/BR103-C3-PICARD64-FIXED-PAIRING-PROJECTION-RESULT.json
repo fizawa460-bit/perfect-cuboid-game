@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32_BRIDGE_BR103_C3_PICARD64_FIXED_PAIRING_PROJECTION_RESULT_V1",
+  "stage": 32,
+  "lane": "BRIDGE",
+  "status": "RETAINED_EXACT_ONE_BIT_PICARD64_CONGRUENCE_NO_CREDIT",
+  "candidate_id": "BR-C3-PICARD64-FIXED-PAIRING-PROJECTION",
+  "exact_replay": {
+    "head_sha": "153d4eff81a2a60fdbfb0f12624769b0b6c97fb8",
+    "workflow_run_id": 34977389818,
+    "job_id": 104408494895,
+    "conclusion": "SUCCESS",
+    "terminal_pairing_labels": [95, 99, 103, 102, 49, 97, 94, 101, 93, 98, 96],
+    "selected_coordinate_indices_0based": [2, 6, 9, 8, 61, 4, 1, 7, 0, 5, 3],
+    "inverse_denominator": 8
+  },
+  "source_locks": {
+    "interface_blob_sha1": "8a30e3aa30777460f344eb19836dc725dd442329",
+    "pairing_prefix_engine_blob_sha1": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "producer_exact_head": "91daf88a16ca823e2b22583e47adc3b081fce30f",
+    "producer_blob_sha1": "756a859a5949b5054202228d9df005b6c55a20fc",
+    "retained_bundle_source_blob_sha1": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "retained_bundle_canonical_sha256": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c"
+  },
+  "hnf_result": {
+    "modulus": 8,
+    "active_congruence_rows": 16,
+    "canonical_repeated_row": [4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 4],
+    "congruence_rows_sha256": "f48afb24c3ec7bbf96995b8beb0a537f9e8c214037939fa877895f258ff8d3bb",
+    "hnf_sha256": "a5d494b72bd4fa8335fe2199df8f938851139308fb77b0253f564d959754072e",
+    "raw_condition": "4*(x95+x49+x93+x96) == 0 (mod 8)",
+    "simplified_condition": "x95+x49+x93+x96 == 0 (mod 2)",
+    "terminal_tuple_form": "x0+x4+x8+x10 == 0 (mod 2)"
+  },
+  "independent_snf_crosscheck": {
+    "shape": [11, 64],
+    "rank": 11,
+    "nonzero_invariant_factors": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    "image_index_in_Z11": 2,
+    "cokernel": "Z/2Z",
+    "projection_surjective_Z": false,
+    "projection_matrix_sha256": "8f882742415cd7411140d89c2290852e9fc4f6538c003aa9e5b88a558fbc30c4",
+    "smith_matrix_sha256": "544ae45e4b6a20be557acd7e66ecde305f5843fee5002f186eefd725532d326f"
+  },
+  "exact_conclusion": "The 11 terminal-fixed selected pairings are not the full Z^11 projection of the retained primitive Picard64 lattice. They satisfy exactly one independent parity obstruction, x0+x4+x8+x10 == 0 (mod 2).",
+  "scope": {
+    "current_exact_interface_population": "HPADJ01_CHARGED_POPULATION_ONLY_ACROSS_178_ROWS",
+    "current_main_residual_population_identity_proved": false,
+    "full178_population_wide_adapter_proved": false
+  },
+  "next_route": "BR104 bounded identical-population diagnostic before any BR105 broader population claim",
+  "firewall": {
+    "source_lane_credit_mutated": false,
+    "main_pruning_credit": false,
+    "geometric_effectivity_inferred": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}

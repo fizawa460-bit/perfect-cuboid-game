@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_BR202_P1_K8_FULL_QA_BOUNDED_RESULT_V1",
+  "status": "PASS_ZERO_CREDIT",
+  "live_refresh": {
+    "repo_main": "c6284abbb29930255892d56f800da0ea1e34734b",
+    "bridge_predecessor_head": "8dfd1e8beff55bbadba265d5451ac2b11be554d7",
+    "pr": 1813,
+    "pr_state": "draft_open_unmerged",
+    "research_issue": 1817
+  },
+  "kernel": {
+    "path": "stages/stage32/generalization-bridge/verify_br202_p1_k8_full_qa_kernel.cpp",
+    "git_blob_sha1": "324256e61a550587cee5b839adc5dc1f86f21897",
+    "semantics": "exact compact BC identity (b,c,support,t,r) with low-qBC tier multiplicities, full A-side qA histogram, GRF04 x4 interval, and exact Picard parity x4=r mod 2",
+    "terminal_identity_materialization": false
+  },
+  "bounded_regressions": {
+    "H10_d20": {
+      "A_states": 66,
+      "BC_base_states": 3800,
+      "BC_assignments": 78945,
+      "K1": 2499907264,
+      "K2": 2315905432,
+      "K4": 2059154207,
+      "K8": 1878715345,
+      "retained_issue_K1_reference": 2499907264,
+      "reference_match": true
+    },
+    "H16_d32": {
+      "A_states": 196,
+      "BC_base_states": 16781,
+      "BC_assignments": 1305021,
+      "K1": 304596475910,
+      "K2": 290611516997,
+      "K4": 264256534379,
+      "K8": 230521553871,
+      "retained_issue_values_match_all_K": true
+    }
+  },
+  "same_population_comparison": {
+    "domain": "g in {0,1}, even d=8..32, H=16",
+    "predecessor": "TD02 exact-t K8 low-q tier bounded research reference",
+    "predecessor_value": 313404515710,
+    "candidate": "P1 identity-preserving K8 + full qA + exact r",
+    "candidate_value": 230521553871,
+    "strict_tightening": 82882961839,
+    "classification": "STRICT_SAME_POPULATION_IMPROVEMENT",
+    "scope": "BOUNDED_RESEARCH_ONLY_NOT_FULL178_AUTHORITY"
+  },
+  "live_main_comparison": {
+    "authority_value": "195414091250828468192",
+    "authority_semantics": "FULL178 certified upper bound, not exact residual identity set",
+    "numeric_comparison_authorized": false,
+    "reason": "BR202 is bounded d<=32/H16 only; FULL178 scaleout remains gated"
+  },
+  "decision": {
+    "BR202_success": true,
+    "population_semantics_changed": false,
+    "ready_for_BR203": true,
+    "BR203_goal": "integrate exact 16-state Picard syndrome/mu interface on the same compact A/BC factorization and measure state-image cardinalities plus exact deduplicated mu table",
+    "FULL178_scaleout_authorized": false,
+    "heavy_compute_authorized": false
+  },
+  "credit": {
+    "stage32_main": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "full178_complete": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
