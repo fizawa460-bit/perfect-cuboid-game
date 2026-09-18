@@ -1,0 +1,173 @@
+{
+  "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_D_V1",
+  "status": "ROUND_D_COMPLETE_ALL_DROPPED_NO_CREDIT",
+  "target": {
+    "support_mask": "000707000f0f",
+    "support_size": 14,
+    "divisor": "D_l=7*l*H-4*l*sum_(p in Sigma)E_p",
+    "normalization_genus": 1,
+    "supported_branches_per_node": "8*l",
+    "total_supported_branches": "112*l"
+  },
+  "results": {
+    "W16_MINIMAL_CAYLEY_BACHARACH_SUBCLUSTER": {
+      "disposition": "DROP",
+      "cheap_test": "the canonical source-complete landing cluster is a tautological complete intersection",
+      "boundary_divisor": "B_E=sum_(p in Sigma)E_p",
+      "intersections": {
+        "D_l.B_E": "112*l",
+        "B_E^2": -28,
+        "(D_l+B_E)^2": "336*l^2+224*l-28"
+      },
+      "complete_intersection_cluster_length": "112*l",
+      "serre_bundle": "O_S(D_l) direct_sum O_S(B_E)",
+      "c1": "D_l+B_E",
+      "c2": "112*l",
+      "bogomolov_discriminant": "336*l^2-224*l-28",
+      "sign_for_l_ge_1": "POSITIVE",
+      "reason": "The obvious linear-size Cayley-Bacharach cluster is C intersect B_E, but its Serre bundle is already split, so instability only recovers the two input divisors. A proper smaller nontrivial CB subcluster is not canonically supplied by the retained packet and would require a new theorem."
+    },
+    "W17_SUPPORT_STABILIZER_DICHOTOMY": {
+      "disposition": "DROP",
+      "cheap_test": "both invariant and non-invariant carrier branches are packet-compatible",
+      "stabilizer_order": 2,
+      "nonidentity_action": "[a1,a2,a3,b1,b2,b3,c] -> [a2,a1,a3,b2,b1,b3,c]",
+      "supported_node_pairs": [
+        [
+          0,
+          8
+        ],
+        [
+          1,
+          9
+        ],
+        [
+          2,
+          10
+        ],
+        [
+          3,
+          11
+        ],
+        [
+          24,
+          32
+        ],
+        [
+          25,
+          33
+        ],
+        [
+          26,
+          34
+        ]
+      ],
+      "fixed_supported_nodes": [],
+      "invariant_case": {
+        "supported_preimages_pair_without_fixed_points": true,
+        "involution_RH_options": "genus-1 quotient with 0 fixed points or genus-0 quotient with 4 fixed points",
+        "contradiction": false
+      },
+      "noninvariant_case": {
+        "global_intersection": "C.sigma(C)=D_l^2=336*l^2",
+        "retained_forced_local_intersection_at_supported_nodes": 0,
+        "reason": "landing sets at paired exceptionals can be disjoint in the retained local interface"
+      },
+      "reason": "Neither half of the dichotomy supplies a native contradiction from the exact packet."
+    },
+    "W18_ELLIPTIC_PROJECTION_SECANT_CENTER": {
+      "disposition": "DROP",
+      "cheap_test": "linear dimension count for fourteen 8l-point collision clusters",
+      "line_bundle_degree": "d=112*l",
+      "h0_on_elliptic": "112*l",
+      "ordered_section_parameter_dimension": "7*d=784*l",
+      "cluster_size": "m=8*l",
+      "conditions_per_fixed_target_cluster_at_most": "6*m=48*l",
+      "total_conditions_at_most": "14*6*m=672*l",
+      "raw_linear_slack": "112*l",
+      "slack_after_GL7_basis_change": "112*l-49",
+      "sign_for_l_ge_1": "POSITIVE",
+      "reason": "The simultaneous secant/collision conditions do not overdetermine a seven-section presentation even at the naive linear level. A deeper special-position theorem would be required."
+    },
+    "W19_ADAPTIVE_WRONSKIAN_UNBOUNDED_JET": {
+      "disposition": "DROP",
+      "cheap_test": "Plucker/Wronskian weight versus actual forced ramification",
+      "series": "g^6_(112*l)",
+      "total_wronskian_weight": "7*(112*l)=784*l",
+      "supported_preimages": "112*l",
+      "forced_ramification_weight_from_equal_images": 0,
+      "optimistic_one_unit_per_supported_preimage": "112*l",
+      "reason": "Distinct normalization points mapping to one box node do not force local ramification. Even an artificial one-unit charge consumes only one seventh of the available Wronskian budget."
+    },
+    "W20_SUPPORT_HYPERPLANE_RESIDUE_ABEL": {
+      "disposition": "DROP",
+      "cheap_test": "elliptic Riemann-Roch for ratios by the saturated support hyperplane",
+      "support_hyperplane_zero_divisor_degree": "112*l",
+      "line_bundle": "L=O_E(B_support)",
+      "h0_L": "112*l",
+      "ambient_ratio_functions_needed": 6,
+      "principal_part_space_scale": "O(112*l)",
+      "retained_local_freedom": "exceptional landing value and first tangential jet are not fixed by the node label",
+      "retained_stronger_comparison": "sheet-selected e=2 Abel-Jacobi already reduces one special divisor difference to E[2] but does not close the frontier",
+      "reason": "The basic Abel relation is tautological from div(h)=B_support, while residue/principal-part data are not fixed by the support labels. There is no native rank overload."
+    }
+  },
+  "round_summary": {
+    "scanned": [
+      "W16",
+      "W17",
+      "W18",
+      "W19",
+      "W20"
+    ],
+    "drop": [
+      "W16",
+      "W17",
+      "W18",
+      "W19",
+      "W20"
+    ],
+    "pass_to_second_scan": [],
+    "deep_candidate": false,
+    "archive_semantic_precheck_performed": true,
+    "next_action": "Generate and shallow-screen only genuinely new Round-E mechanisms after semantic archive precheck; do not deepen any Round-D route."
+  },
+  "historical_sources": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/A1-CONDUCTOR-BRANCH-DELTA-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "a4de57f430aea249300c589aeeeaa3dbe67d5006"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-JOINT-PAIR-BIRATIONALITY-CERTIFICATE.json",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "8fb4578029037c088c17b6cfb219955c9d0dc4d6"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BALANCED16-STATIC-LANDING-AVOIDANCE-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "71f52716b9cbdd0218aa73a138837f3b3891f412"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ADAPTIVE-CANCELLATION-JET-BUDGET.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "0cbe49c719362fcfc3eb0492833e02a551dcd1fe"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-SHEET-SELECTED-FIBER-ABEL-JACOBI.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "76ef6c5638b9a601fd01ca28bb01531d7279c180"
+    }
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
