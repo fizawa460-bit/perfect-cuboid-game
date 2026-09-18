@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V4_B_D_BAND_RESUME",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V5_DURABLE_PREFIX_RECOVERY",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_B_D_BAND_RESUME_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
+  "active_leaf": "BR204_AUDIT_HOLD_RECOVERY_REPAIRS_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT_REQUIRED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -93,13 +93,13 @@
   },
   "cold_heavy_doorstep": {
     "checkpoint": "stages/stage32/generalization-bridge/BR204-HEAVY-DOORSTEP-CHECKPOINT.json",
-    "checkpoint_blob_before_state_sync": "9d5204005c36dab04d541ec27415071191799061",
+    "checkpoint_blob_before_state_sync": "abd9b154b69122ce38fb66b60d17064418a8f0b1",
     "execution_contract": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "execution_contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
+    "execution_contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
     "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
-    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
-    "heavy_workflow_blob": "9a88492a3c7f3d013b9818d17072b1be8f8f4f29",
-    "retained_replay_blob": "b332478cc9da47035493fdc964d3fef754014a5e",
+    "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
+    "heavy_workflow_blob": "4f2caf00fe0209067f91037d91d37093aec339b3",
+    "retained_replay_blob": "a80aae85bbd106c3576ebb1167a02031f5ad5027",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "runkey_generation": 0,
     "runkey_armed": false,
@@ -110,10 +110,10 @@
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
     "global_lp_rule": "validate exact 250-subunit coverage; count repeated static BC population once per b; union all dynamic subunit bins; merge equal exact s/B ratio classes; solve one exact rational LP",
-    "resume_rule": "validate carried complete (b,d-band) streams under exact source locks and approved band identity; compute missing subunits only",
-    "storage_rule": "each gzip subunit <=1,800,000 bytes; absolute 250-unit hard-cap peak plus 20 MiB <=500 MiB; two-pilot projection must also pass",
-    "qbc_tail_addendum_blob": "67aa65924a5e266ba26c396ea92b387562f3eb99",
-    "runkey_blob": "d34ef5540ef87222c61a63eed5e8d50ed12fced2",
+    "resume_rule": "Before any new heavy compute, recover the immediately supplied prior run's br204-prefix plus all completed br204-u-* artifacts, validate their exact union, re-emit one current br204-prefix, then compute only missing subunits.",
+    "storage_rule": "per-subunit gzip <=900,000 bytes; generation rollover prior union + re-emitted prefix + 20 MiB <=500 MiB; superseded prior recovery artifacts are deleted only after successful re-emission and cleanup failure stops before compute",
+    "qbc_tail_addendum_blob": "67a530a17429f15b8655244a53bdec91de48877b",
+    "runkey_blob": "8a0161ba7155efb069fd6589016fb7123a914ca5",
     "b_units": 97,
     "d_bands": [
       "8..54",
@@ -124,9 +124,11 @@
     "durable_subunits": 250,
     "subunit_coverage": "all admissible even d>=max(8,2b) through 192 exactly once after validated carry reuse",
     "pilot_subunits": [
-      "b=0,d=8..54",
-      "b=96,d=148..192"
-    ]
+      "independent durable job b=0,d=8..54",
+      "independent durable job b=96,d=148..192"
+    ],
+    "multi_generation_recovery": true,
+    "single_previous_run_suffices": true
   },
   "br205_bounded_preflight": {
     "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
@@ -145,20 +147,20 @@
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "replay and separately audit finer BR204 resume doorway",
-    "required_input": "Exact-head Stage32 MAIN startup authority and BR204 retained replay must succeed after the b x d-band execution-only refinement. Hostile audit is intentionally deferred to a separate audit chat.",
-    "success": "Exact-head replay PASS here; later separate HOSTILE AUDIT PASS before any runkey arm or heavy dispatch.",
+    "title": "replay recovery-audit repairs, then separately re-audit",
+    "required_input": "Exact-head BR204 retained replay and shared Stage32 gates must succeed after the two recovery blocker repairs. Hostile re-audit remains a separate chat task.",
+    "success": "Replay green here; later HOSTILE AUDIT PASS on the unchanged repaired head before any arm/dispatch.",
     "current_blockers": [
-      "post-refinement exact-head retained replay/MAIN startup must be green",
-      "finer-resume exact head requires a separate hostile audit before arming",
-      "runkey must remain generation 0 / armed false until that audit and a later explicit execution request"
+      "post-repair exact-head retained replay and MAIN/shared gates must be green",
+      "repaired exact head requires a separate hostile re-audit",
+      "runkey remains generation 0 / armed false"
     ],
     "stop_conditions": [
-      "exact-head replay or MAIN startup is not PASS",
-      "repository main moves away from the source-locked V41 head before audit/arming",
-      "source-lock or lifecycle verification fails",
-      "b x d-band coverage/disjointness or repeated-static-metadata validation fails",
-      "runkey/storage/resume contract loses fail-closed behavior",
+      "recovery prefix cannot be re-emitted before new compute",
+      "pilot units are not independently salvageable",
+      "cleanup/storage rollover cannot remain fail-closed under 500 MiB",
+      "exact-head replay or shared Stage32 gate fails",
+      "repository main/source-lock changes",
       "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
     ]
   },
@@ -184,7 +186,12 @@
       "resume_completed_subunits": true,
       "recompute_missing_only": true,
       "repeated_static_metadata_counted_once_per_b": true,
-      "stream_one_b_d_band_at_a_time": true
+      "stream_one_b_d_band_at_a_time": true,
+      "generation_start_prefix_reemit": true,
+      "single_previous_run_suffices": true,
+      "pilots_independently_durable": true,
+      "cleanup_failure_hard_stop": true,
+      "per_subunit_gzip_hard_cap_bytes": 900000
     },
     "BR205": {
       "bounded_strict_improvement_preflight": "PASS",
@@ -237,7 +244,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "BR204 heavy execution is refined to 250 durable b x d-band checkpoints. Heavy remains unarmed; exact-head replay is required now and hostile audit is deferred to a separate audit chat."
+    "stop_reason": "Audit HOLD recovery blockers have been repaired in code/contracts. Heavy remains cold at generation 0; exact-head replay is required now and hostile re-audit stays in a separate chat."
   },
   "deliverable_contract": {
     "per_shard": [
@@ -272,5 +279,15 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
+  },
+  "audit_hold": {
+    "head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "review_id": 5242654911,
+    "verdict": "FAIL_HOLD",
+    "blockers": [
+      "single carry_run_id did not preserve multi-generation durable union",
+      "two pilots were not independently salvageable"
+    ],
+    "repair_status": "IMPLEMENTED_PENDING_REPLAY_AND_REAUDIT"
   }
 }
