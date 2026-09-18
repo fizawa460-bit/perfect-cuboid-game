@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V5_B_D_BAND_RESUME",
-  "status": "COLD_DOORSTEP_RESUME_REFINED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define the exact resume-first BR204 FULL178 execution surface with durable (b,d-band) checkpoints. Heavy remains cold; operational authorization is exclusively a later post-audit semantic run-key arm commit followed by exact-head manual dispatch.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V6_DURABLE_PREFIX_RECOVERY",
+  "status": "AUDIT_HOLD_RECOVERY_REPAIR_IMPLEMENTATION__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution with durable (b,d-band) checkpoints and a validated recovery prefix re-emitted at the start of every generation before any new heavy compute.",
   "audited_predecessor": {
     "bridge_pr": 1813,
     "audited_exact_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
@@ -60,7 +60,7 @@
     },
     "global_bin_aggregator": {
       "path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
-      "git_blob_sha1": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c"
+      "git_blob_sha1": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
     },
     "certificate_storage_preflight": {
       "path": "stages/stage32/generalization-bridge/BR204-CERTIFICATE-STORAGE-PREFLIGHT.json",
@@ -116,21 +116,24 @@
     "expected_subunit_count": 250,
     "b_unit_count": 97,
     "max_parallel": 8,
-    "matrix_limit_note": "Two pilot subunits are computed first, leaving at most 248 missing subunits; the fan-out therefore stays below GitHub Actions' 256-job matrix limit.",
-    "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic digest validation; current-run validated subunits override carry duplicates; compute missing subunits only",
-    "failure_rule": "retain already uploaded valid subunit aggregate streams for one day and resume from them by explicit carry_run_id; a failed band is recomputed without discarding other completed bands for the same b",
+    "generation_start_recovery": "Before runtime/pilot/unit jobs, download the immediately supplied carry_run_id's prior br204-prefix plus all br204-u-* artifacts, validate their exact union, and re-emit one current-run br204-prefix. No new heavy compute depends on a carry-forward failure.",
+    "cancellation_semantics": "Because the inherited prefix is re-emitted before new compute, a cancelled run contains that prefix plus every independently uploaded new subunit completed before cancellation. The next generation needs only that run id to recover the complete validated union.",
+    "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic raw-stream digest validation; conflicting duplicates fail closed; compute only units absent from the re-emitted prefix/current artifacts",
+    "pilot_salvage": "The two representative pilots are separate jobs and each uploads its own durable subunit immediately. If one fails, a completed sibling remains reusable.",
+    "cleanup_rule": "Only after the new recovery prefix is successfully uploaded, delete the superseded prior run's BR204 recovery artifacts. Cleanup failure is a hard execution stop before new heavy compute.",
     "reopened_or_non_arm_behavior": "cold/manual; no heavy execution"
   },
   "storage_contract": {
     "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
     "bin_stream_note": "Transient exact bin streams are now persisted per (b,d-band) durable subunit, never as raw routing-state streams.",
     "high_mass_scaleout_gate": "Two representative pilots, (b=0,d=8..54) and (b=96,d=148..192), execute only after authorization and are reused as durable subunits.",
-    "projection_rule": "250 * max(two pilot gzip sizes) * 2 + 20 MiB must also be <= 500 MiB before fan-out",
+    "projection_rule": "250 * max(two independently available pilot gzip sizes) * 2 + 20 MiB must be <= 500 MiB before fan-out",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_state_artifacts_uploaded": false,
-    "per_subunit_gzip_hard_cap_bytes": 1800000,
-    "absolute_peak_rule": "250 * 1,800,000 bytes + 20 MiB <= 500 MiB, so even every retained subunit at the hard cap remains within the repository operating budget."
+    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "absolute_peak_rule": "At generation rollover, at most one prior recovery union and one newly re-emitted prefix coexist: 2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB. After fail-closed cleanup, current prefix plus newly completed missing units still represent at most 250 subunits.",
+    "recovery_retention": "All BR204 recovery artifacts use 1-day retention, but superseded prior recovery artifacts are actively deleted after successful prefix re-emission so repeated generations do not accumulate one-day copies."
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
@@ -148,7 +151,9 @@
     "required_checks": [
       "250-subunit exact coverage/disjointness over approved b x d-band units",
       "every admissible even d covered exactly once per b",
-      "repeated per-b static metadata agrees across all retained bands",
+      "repeated per-b static metadata agrees across retained bands",
+      "multi-generation recovery prefix validates and re-emits the exact union before new compute",
+      "both pilot subunits are independently durable/salvageable",
       "H96 refined-state census counted once per b",
       "H96 BC assignment-mass conservation counted once per b",
       "global mu LP <= global K8 LP",
@@ -172,5 +177,15 @@
     "stage32_closed": false,
     "perfect_cuboid": false,
     "merge": false
+  },
+  "audit_hold": {
+    "audited_exact_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "hostile_audit_review_id": 5242654911,
+    "verdict": "FAIL_HOLD",
+    "blockers": [
+      "single carry_run_id did not preserve a complete multi-generation union",
+      "two pilot subunits were computed in one shell step and were not independently salvageable"
+    ],
+    "repair_scope_only": true
   }
 }
