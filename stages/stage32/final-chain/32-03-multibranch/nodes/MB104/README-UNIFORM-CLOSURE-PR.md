@@ -10,7 +10,8 @@ After ordinary startup and resolution of the recorded live-MAIN authority drift,
 4. `MB104-U12-CONGRUENCE-CONTINUITY-GATE-20260917.md`
 5. `MB104-U12-DYADIC-FRATTINI-SOURCE-WALL-20260918.md`
 6. `MB104-U12-P6-VALUE-GATE-20260918.md`
-7. `MB104-PR-SPLIT-MANIFEST-20260917.json`
+7. `MB104-GLOBAL-REPLACEMENT-PORTFOLIO-EXHAUSTION-20260918.md`
+8. `MB104-PR-SPLIT-MANIFEST-20260917.json`
 
 Do not preload the archived `#1791` history. Fetch old MB104 artifacts only by the immutable exact head recorded in the restart ledger and only when a selected replacement-theorem route needs them.
 
