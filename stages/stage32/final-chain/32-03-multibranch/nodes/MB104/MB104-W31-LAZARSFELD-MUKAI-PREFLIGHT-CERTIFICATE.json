@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE32_MB104_W31_LAZARSFELD_MUKAI_PREFLIGHT_V1",
+  "status": "PROMOTE_TO_SECOND_SCAN_NO_CREDIT",
+  "target": {
+    "mask": "000707000f0f",
+    "hypothetical_carrier": "integral Cartier divisor C in |D_l| with normalization genus 1 and retained packet",
+    "D2": "336*l^2",
+    "H_D": "112*l",
+    "H": "K_S",
+    "canonical_sections": 7
+  },
+  "construction": {
+    "A": "O_C(H)",
+    "V": "H0(S,O_S(H)), dim V=7",
+    "global_generation": "O_S(H) is basepoint-free canonical morphism; hence V tensor O_S -> i_*A is surjective",
+    "exact_sequence": "0 -> F -> V tensor O_S -> i_*A -> 0",
+    "local_freeness": "C is Cartier and A is invertible on C; locally the quotient is R/(f), so the kernel of a surjection R^7 -> R/(f) is free of rank 7",
+    "E": "F^vee",
+    "rank": 7,
+    "c1_E": "D_l",
+    "c2_E": "deg A = H.D_l =112*l"
+  },
+  "discriminant": {
+    "convention": "Delta_BG(E)=2*r*c2-(r-1)*c1^2",
+    "formula": "14*(112*l)-6*(336*l^2) = -224*l*(9*l-7)",
+    "negative_for_all_l_ge_1": true,
+    "consequence": "E cannot be slope-semistable with respect to an ample polarization; it has a nontrivial Harder-Narasimhan destabilizing subsheaf"
+  },
+  "why_promote": [
+    "The bundle is canonically produced from every hypothetical carrier; no branch-to-product-cover adapter is needed.",
+    "The discriminant has a uniform strictly negative sign for every l>=1.",
+    "Instability produces new global divisor/sheaf data rather than another counting identity.",
+    "The elementary-transform presentation F subset O_S^7 gives extra structure that may constrain destabilizing determinants."
+  ],
+  "second_scan_only": {
+    "questions": [
+      "Let G be the maximal destabilizing subsheaf of F or E. Determine rank and determinant inequalities from F subset O_S^7 and mu_H.",
+      "Use the exact Picard lattice and known zero-quartic/rank-3-fibration intersections to test whether any destabilizing determinant class can exist.",
+      "Check whether the support-hyperplane section forces a specific elementary-transform subobject, which could identify rather than merely bound the HN class."
+    ],
+    "no_full_HN_enumeration_yet": true,
+    "no_heavy_compute": true
+  },
+  "archive_semantic_precheck": {
+    "searched_terms": [
+      "Lazarsfeld",
+      "Mukai",
+      "evaluation bundle",
+      "kernel bundle",
+      "Butler"
+    ],
+    "retained_MB104_match": false
+  },
+  "historical_sources": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/STOLL-CANONICAL-C0-SOURCE-NOTE.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "e344290d5241c3f7f165ea3027cfc778abec3360"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FORMAL-INFINITE-FAMILY-PICARD-REALIZABILITY.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "de83fc169814681109bcbc1576ad24f67d6159e0"
+    }
+  ],
+  "external_theorem": "Bogomolov-Gieseker inequality for slope-semistable torsion-free sheaves on a smooth projective surface in characteristic zero",
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
