@@ -7,7 +7,7 @@ HERE = Path(__file__).resolve().parent
 WORKER = HERE / "run_fibration_nef_selective_picard_workunit.py"
 WORKER_BLOB = "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5"
 RESUME = HERE / "verify_fibration_nef_selective_picard_resume.py"
-RESUME_BLOB = "f6fe66583bf81a68563bbbf7f7b8c22531db98ba"
+RESUME_BLOB = "bf17305df21a1da966decf4e5689df0789757cc6"
 
 def req(v, m):
     if not v: raise SystemExit("FAIL: " + m)
