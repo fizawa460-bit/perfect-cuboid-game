@@ -64,7 +64,7 @@ def main() -> None:
 
     cur = state["current"]
     req(cur["latest_main_native_research"] ==
-        "V44_BTVA_STATIC7_NORMALMASS_SUCCESSOR__ZERO_MAIN_CREDIT",
+        "V44_BTVA_BASE4_FULL343_V3_DIAGNOSTIC_RECOVERY__ZERO_MAIN_CREDIT",
         "V44 research successor routing drift")
     req(cur["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(cur["next_exact_route"] ==
@@ -75,20 +75,26 @@ def main() -> None:
     req(blob(RELAXED) == RELAXED_BLOB, "relaxed predecessor blob drift")
     req("stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py" in state["current_leaf_working_set"],
         "normalmass successor missing from working set")
+    req("stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py" in state["current_leaf_working_set"],
+        "full343 recovery worker missing from working set")
+    req("stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json" in state["current_leaf_working_set"],
+        "full343 V3 preflight missing from working set")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == CURRENT_MAIN, "live main observation drift")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
-        "e60f03cf5105bc6e26cb4615acabd6fe0c07625c" and
+        "bf5173ff96b97f266e810ebd7747d14de6a28727" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sweep["ex5_pr"] == 1818 and sweep["ex5_head"] ==
         "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and
         sweep["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
     req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "f573508a6d6b50f2234607bd41c6214f045733f1" and
+        "6d5d6c77fd2d347dc8e43aaa183b794075201fcd" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "802d82ca5240338b1c74c98bad8ec2da7f30e031" and
+        "74d49b08b1924c2edcfbd7d0fa26f308e23c3ba4" and
+        sweep["bridge_audited_doorstep_head"] == "48bf75ea1fe79afe08d4349799bc699da651ce04" and
+        sweep["bridge_audited_doorstep_review_id"] == 5243659462 and
         sweep["bridge_runkey_generation"] == 0 and
         sweep["bridge_runkey_armed"] is False and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
