@@ -50,8 +50,13 @@ jobs:
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
           assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
           assert rk['generation']==0 and rk['armed'] is False
-          assert rk['execution']['durable_subunit_count']==250\n          assert rk['execution']['exact_inner_checkpoint_count']==4743
-          assert rk['resume']['durable_outer_unit']=='b_x_d_band'\n          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'\n          assert rk['resume']['soft_deadline_seconds']==13500\n          assert rk['resume']['single_d_timeout_seconds']==3600\n          assert rk['resume']['paginated_artifact_retrieval_required'] is True
+          assert rk['execution']['durable_subunit_count']==250
+          assert rk['execution']['exact_inner_checkpoint_count']==4743
+          assert rk['resume']['durable_outer_unit']=='b_x_d_band'
+          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'
+          assert rk['resume']['soft_deadline_seconds']==13500
+          assert rk['resume']['single_d_timeout_seconds']==3600
+          assert rk['resume']['paginated_artifact_retrieval_required'] is True
           assert rk['resume']['generation_start_prefix_reemit'] is True
           assert rk['resume']['recover_partial_slice_bundle'] is True
           assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
@@ -133,13 +138,18 @@ jobs:
           assert rk['source_locks']['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
           assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
           assert rk['generation']==0 and rk['armed'] is False
-          assert rk['execution']['durable_subunit_count']==250\n          assert rk['execution']['exact_inner_checkpoint_count']==4743
+          assert rk['execution']['durable_subunit_count']==250
+          assert rk['execution']['exact_inner_checkpoint_count']==4743
           assert rk['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
-          assert rk['resume']['durable_outer_unit']=='b_x_d_band'\n          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'\n          assert rk['resume']['soft_deadline_seconds']==13500\n          assert rk['resume']['single_d_timeout_seconds']==3600\n          assert rk['resume']['paginated_artifact_retrieval_required'] is True
+          assert rk['resume']['durable_outer_unit']=='b_x_d_band'
+          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'
+          assert rk['resume']['soft_deadline_seconds']==13500
+          assert rk['resume']['single_d_timeout_seconds']==3600
+          assert rk['resume']['paginated_artifact_retrieval_required'] is True
           assert rk['resume']['generation_start_prefix_reemit'] is True
           assert rk['resume']['recover_partial_slice_bundle'] is True
           assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
-          assert rk['storage']['per_subunit_gzip_hard_cap_bytes']==900000
+          assert rk['storage']['per_outer_recovery_slot_hard_cap_bytes']==900000
           assert rk['storage']['absolute_rollover_peak_bound_bytes'] <= 524288000
           src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
           agg=Path('stages/stage32/generalization-bridge/aggregate_br204_full178.py').read_text()
