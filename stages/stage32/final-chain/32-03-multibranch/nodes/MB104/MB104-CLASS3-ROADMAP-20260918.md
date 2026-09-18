@@ -328,3 +328,19 @@ the orbifold-BMY slack of this witness satisfies
 for every `l>=1` and every choice of the fourteen exceptional weights. Thus the exact `8l` contacts on the supported exceptional curves do not by themselves yield a quadratic log-BMY obstruction. H8 may be reopened only with a new theorem forcing the off-exceptional analytic singularity types or stronger local orbifold data.
 
 Cycle-2 routing now advances to **H5 exact etale-correspondence quotient rigidity**. H6 remains queued after H5.
+
+
+### Cycle 2 run 2 disposition — H5
+
+H5 exact etale-correspondence quotient rigidity: **FAIL / PARKED**.
+
+The retained equality geometry does provide a bare equal-degree finite etale self-correspondence of `C8` from any actual balanced carrier. That is not enough for a finite reduction.
+
+Two independent blockers were recorded:
+
+1. `C8=X(8)` is the Wiman genus-five curve, whose full automorphism quotient has signature `(2,3,8)`; this triangle group is arithmetic. The corresponding compact surface group therefore has dense commensurator, so finite etale self-correspondences of the fixed target are not an ambient finite/bounded universe.
+2. The exact MB104 packet is not source-completely transported to product-cover fixed lifts. The historical per-node concentration `u_q=8l*m_q` was retracted, and the current `000707` e=2 passport retains aggregate exhaustion/parity while explicitly leaving the pointwise branch/residual-lift transition unresolved.
+
+Thus H5 has a valid forward adapter only to the bare correspondence, not to the finite equivariant object required for closure, and its reverse adapter also fails.
+
+Cycle-2 routing advances to **H6 finite monodromy / Nielsen-passport obstruction**. H6 must first test whether a source-complete Nielsen object can be defined without reintroducing the same concentration/lift assumption.
