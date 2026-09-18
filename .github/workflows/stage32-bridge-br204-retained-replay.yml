@@ -60,7 +60,7 @@ jobs:
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE'
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM'
           assert rk['generation']==0 and rk['armed'] is False and rk['carry_run_id'] is None
           assert rk['execution']['durable_subunit_count']==250
           assert rk['execution']['exact_inner_checkpoint_count']==4743
@@ -73,9 +73,17 @@ jobs:
           assert rk['resume']['single_d_timeout_seconds']==3600
           assert rk['resume']['single_d_timeout_requires_finer_partition'] is True
           assert rk['resume']['paginated_artifact_retrieval_required'] is True
-          assert rk['execution']['trigger']['event']=='push'
-          assert rk['execution']['trigger']['branch']=='stage32bridge-mainbatch'
-          assert rk['execution']['trigger']['execution_commit_message_prefix']=='stage32 BR204 execute generation '
+          assert rk['execution']['trigger']['event']=='pull_request'
+          assert rk['execution']['trigger']['base_branch']=='main'
+          assert rk['execution']['trigger']['head_branch']=='stage32bridge-mainbatch'
+          assert rk['execution']['trigger']['automatic_arm_action']=='synchronize'
+          assert rk['execution']['trigger']['commit_range_runkey_change_required'] is True
+          assert rk['execution']['trigger']['runkey_only_arm_commit_required'] is True
+          rp=rk['resource_preflight']
+          assert rp['planned_effective_heavy_concurrency']==8
+          assert rp['repository_stage_concurrency_ceiling']==18
+          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==10
+          assert rp['observed_other_stage32_heavy_concurrency_at_arm'] is None
           assert rk['arm_contract']['audited_doorstep_head'] is None
           assert rk['arm_contract']['audited_doorstep_review_id'] is None
           print('BR204 rebuilt surface is cold, generation 0, zero credit')
@@ -85,7 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          test "$(git rev-parse FETCH_HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
           test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
 
       - name: Verify repository workflow lifecycle composite inventory
@@ -133,8 +141,8 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "0680132cab6da3e06a13f15c55993ed9b84f9a27"
           test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "1a80ed29bd50e31b125173231f05b2ec8f6e28d2"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "fe26df8aef1c4779763a78822ab184129f081781"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "0e4c9b2818233dfc641ea890903f3633ef6a701c"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "a8dd5ab3256662e267e9abd6ac7a08814c74e210"
           python - <<'PY'
           import json,subprocess
           from pathlib import Path
@@ -145,8 +153,9 @@ jobs:
           assert locks['resumable_band_runner_blob']=='0680132cab6da3e06a13f15c55993ed9b84f9a27'
           assert locks['band_checkpoint_finalizer_blob']=='e8e9219a6697e017efcf28ccdf8a6eaf5e181519'
           assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert locks['execution_contract_blob']=='1a80ed29bd50e31b125173231f05b2ec8f6e28d2'
-          assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
+          assert locks['execution_contract_blob']=='0e4c9b2818233dfc641ea890903f3633ef6a701c'
+          assert locks['heavy_workflow_blob']=='a8dd5ab3256662e267e9abd6ac7a08814c74e210'
+          assert locks['repository_main_head']=='37bb811b95399d73cc46fe899badcfa8eb5fca7d'
           assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
           PY
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
@@ -215,12 +224,23 @@ jobs:
           from pathlib import Path
           wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
           contract=json.loads(Path('stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json').read_text())
+          assert '# Lifecycle: ACTIVE_AUTO' in wf
+          assert 'pull_request:' in wf
+          assert 'PR_ACTION' in wf and 'BEFORE' in wf and 'HEAD_SHA' in wf
+          assert 'git diff --name-only "$BEFORE" "$HEAD_SHA"' in wf
+          assert "changed==[os.environ['RUNKEY']]" in wf
+          assert "if: needs.authorize.outputs.authorized == 'true'" in wf
           assert 'gh api --paginate' in wf
           assert 'if: always() && matrix.b != -1' in wf
           assert 'finalize_br204_band_checkpoint.py' in wf
           assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
           runner=Path('stages/stage32/generalization-bridge/run_br204_resumable_band.py').read_text()
           assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in runner
+          assert contract['authorization']['workflow_lifecycle']=='ACTIVE_AUTO'
+          assert contract['authorization']['trigger']['event']=='pull_request'
+          assert contract['authorization']['trigger']['automatic_arm_action']=='synchronize'
+          assert contract['authorization']['planned_effective_heavy_concurrency']==8
+          assert contract['authorization']['maximum_other_stage32_heavy_concurrency_at_arm']==10
           rc=contract['resume_contract']
           assert rc['soft_deadline_seconds']==13500
           assert rc['hard_job_timeout_minutes']==330
@@ -228,7 +248,7 @@ jobs:
           assert 'always()' in rc['artifact_salvage_rule']
           assert 'catastrophic runner loss' in rc['cancellation_rule']
           assert contract['credit']['stage32_main'] is False
-          print('Research OS d-checkpoint/always-salvage/pagination contract PASS; heavy remains cold')
+          print('Research OS PR-arm/d-checkpoint/always-salvage/pagination contract PASS; heavy remains cold')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
