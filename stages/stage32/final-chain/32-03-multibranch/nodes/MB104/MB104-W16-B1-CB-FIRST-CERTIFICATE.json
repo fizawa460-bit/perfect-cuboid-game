@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_MB104_W16_B1_CB_FIRST_V1",
+  "status": "W16_B1_NARROWED_TO_CONDUCTOR_DESCENT_OPEN_NO_CREDIT",
+  "predecessor_head": "348c91e8207d0c0906f1adecaed28e5159d51a53",
+  "surface_restriction": {
+    "q_S": 0,
+    "exact_sequence": "0 -> O_S -> O_S(D_l) -> O_C(D_l) -> 0",
+    "consequence": "H0(S,O(D_l)) -> H0(C,O_C(D_l)) is surjective",
+    "cb_reduction": "CB(|D_l|) for Z_red is exactly CB for the conductor-descended subspace H0(C,O_C(D_l)) evaluated on Z_red"
+  },
+  "factor_line_package": {
+    "maps": "phi_i:E->P1, i=1,2",
+    "degree_each": "56*l",
+    "lines": "M_i=phi_i^*O(1)",
+    "full_G_branch_divisor_degree": 6,
+    "supported_divisor": "U=sum of the 112*l supported normalization branches",
+    "ramification": "R_i reduced, deg(R_i)=112*l",
+    "pullback_branch_identity": "phi_i^*(B_6)=U+2R_i",
+    "RH_line": "O_E(R_i)=M_i^2",
+    "supported_line": "O_E(U)=M_i^2",
+    "relative_torsion": "delta=M_1 tensor M_2^(-1) in Pic^0(E)[2]"
+  },
+  "canonical_hyperplane": {
+    "identity": "nu^*O_S(H)=M_1 tensor M_2",
+    "source_basis": [
+      "Freitag-Salvati Manni Theorem 2.4: box degree-one coordinates are invariant products of the five one-factor theta coordinates",
+      "their five independent holomorphic differentials identify the one-factor theta projective line bundle with K_C8",
+      "full G quotient C8->P1 has six order-two branch values, so Riemann-Hurwitz gives K_C8=pi_G^*O(1)"
+    ]
+  },
+  "active_line_bundle": {
+    "identity_factor1": "nu^*O_C(D_l)=M_1^(6*l) tensor delta^l",
+    "identity_factor2": "nu^*O_C(D_l)=M_2^(6*l) tensor delta^l",
+    "ramification_form": "nu^*O_C(D_l)=O_E(3*l*R_i) tensor delta^l",
+    "degree": "336*l^2"
+  },
+  "normalization_CB_test": {
+    "R_i_reduced": true,
+    "for_each_p_in_R": {
+      "deg_L_minus_R_plus_p": "336*l^2-112*l+1",
+      "deg_L_minus_R": "336*l^2-112*l",
+      "both_positive_for_l_ge_1": true,
+      "elliptic_RR_difference_h0": 1,
+      "conclusion": "there exists a normalization section vanishing on R_i\\{p} but not at p"
+    },
+    "conclusion": "R_i is not Cayley-Bacharach for the full normalization linear system H0(E,nu^*O_C(D_l)) for any l>=1"
+  },
+  "remaining_gate": {
+    "statement": "surface CB can only arise because the conductor/gluing descent subspace H0(C,O_C(D_l)) excludes every normalization one-point-separating section, possibly together with collisions under nu",
+    "ramification_geometry_alone_forces_CB": false,
+    "exact_conductor_evaluation_map_materialized": false
+  },
+  "disposition": "B1_CONDUCTOR_DESCENT_ONLY_OPEN",
+  "W16_closed_negatively": false,
+  "next_internal_solo": "W16-H-HILBERT-QUOT-CONDUCTOR-DESCENT",
+  "credit_firewall": {
+    "surface_CB_proved": false,
+    "surface_CB_disproved": false,
+    "canonical_proper_CB_subcluster_proved": false,
+    "locally_free_serre_extension_proved": false,
+    "l_ge_2_excluded": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
