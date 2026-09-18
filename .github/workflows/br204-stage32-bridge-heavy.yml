@@ -1,13 +1,16 @@
 name: Stage32 BRIDGE BR204 FULL178 heavy
 
-# Lifecycle: ACTIVE_AUTO_RUNKEY_PUSH.
-# Heavy compute starts only from a dedicated semantic runkey-only push.
+# Lifecycle: ACTIVE_AUTO — current BR204 FULL178 heavy producer surface.
+# Research OS heavy authorization is fail-closed behind one dedicated runkey-only
+# pull_request synchronize commit. opened/reopened and ordinary synchronizations are cold.
 on:
-  push:
+  pull_request:
     branches:
-      - stage32bridge-mainbatch
+      - main
+    types: [opened, synchronize, reopened]
     paths:
       - 'stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
+      - '.github/workflows/br204-stage32-bridge-heavy.yml'
 
 permissions:
   contents: read
@@ -15,7 +18,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: stage32-bridge-br204-heavy-${{ github.ref }}
+  group: stage32-bridge-br204-heavy-${{ github.event.pull_request.number }}
   cancel-in-progress: false
 
 env:
@@ -31,9 +34,9 @@ env:
   BAND_RUNNER_BLOB: 0680132cab6da3e06a13f15c55993ed9b84f9a27
   FINALIZER_BLOB: e8e9219a6697e017efcf28ccdf8a6eaf5e181519
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
-  CONTRACT_BLOB: 1a80ed29bd50e31b125173231f05b2ec8f6e28d2
+  CONTRACT_BLOB: 0e4c9b2818233dfc641ea890903f3633ef6a701c
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
-  REPOSITORY_MAIN_HEAD: 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
+  REPOSITORY_MAIN_HEAD: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
   MAIN_STATE_BLOB: 232732e29f72b55c34d540bf1c7cfcc4a626851c
   ENVELOPE: '6703403803993209250491'
   MAIN_BOUND: '157570677819451133507'
@@ -43,52 +46,99 @@ env:
 
 jobs:
   authorize:
-    if: "${{ startsWith(github.event.head_commit.message, 'stage32 BR204 execute generation ') }}"
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+      exact_sha: ${{ steps.auth.outputs.exact_sha }}
       carry_run_id: ${{ steps.auth.outputs.carry_run_id }}
       generation: ${{ steps.auth.outputs.generation }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
-          fetch-depth: 2
-      - name: Verify exact sources, live main, audit arm, and recovery eligibility
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Research OS commit-range runkey authorization gate
         id: auth
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
-          test "$(git hash-object "$COMBINER")" = "$COMBINER_BLOB"
-          test "$(git hash-object "$BAND_RUNNER")" = "$BAND_RUNNER_BLOB"
-          test "$(git hash-object "$FINALIZER")" = "$FINALIZER_BLOB"
-          test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
-          test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
-          git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "$REPOSITORY_MAIN_HEAD"
-          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo 'carry_run_id=' >> "$GITHUB_OUTPUT"
+          echo 'generation=0' >> "$GITHUB_OUTPUT"
+
+          [ "$EVENT_NAME" = pull_request ] || exit 0
+          [ "$BASE_REF" = main ] || exit 0
+          [ "$HEAD_REF" = stage32bridge-mainbatch ] || exit 0
+          [ "$PR_NUMBER" = 1813 ] || exit 0
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+
+          # opened/reopened are deliberately cold. Only synchronize may arm.
+          [ "$PR_ACTION" = synchronize ] || exit 0
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+
+          # The event commit range itself, not cumulative PR paths, must contain the key.
+          git diff --name-only "$BEFORE" "$HEAD_SHA" > /tmp/changed-paths.txt
+          grep -Fxq "$RUNKEY" /tmp/changed-paths.txt || exit 0
+          git show "$BEFORE:$RUNKEY" > /tmp/old-key.json 2>/dev/null || exit 1
+
           python - <<'PY'
-          import json,os,subprocess
+          import json, os, subprocess
           from pathlib import Path
-          p=Path(os.environ['RUNKEY']); cur=json.loads(p.read_text())
-          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
-          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'],text=True))
-          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'],text=True).splitlines()
-          assert changed==[p.as_posix()], 'execution commit must mutate only the dedicated runkey'
-          assert cur['schema']==old['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE'
-          assert cur['armed'] is True
-          assert cur['generation']==old['generation']+1 and cur['generation']>0
+          old=json.loads(Path('/tmp/old-key.json').read_text())
+          cur=json.loads(Path(os.environ['RUNKEY']).read_text())
+          schema='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM'
+          assert old['schema']==cur['schema']==schema
+
+          old_g=int(old['generation']); new_g=int(cur['generation'])
+          old_a=bool(old['armed']); new_a=bool(cur['armed'])
+          if not new_a:
+              # Cold source-lock/setup refresh is allowed only while still generation 0.
+              assert old_g==new_g==0 and old_a is False
+              Path('/tmp/auth-mode.json').write_text(json.dumps({'mode':'cold','generation':new_g}))
+              raise SystemExit(0)
+
+          changed=Path('/tmp/changed-paths.txt').read_text().splitlines()
+          assert changed==[os.environ['RUNKEY']], 'arm/resume synchronize commit must mutate only the dedicated runkey'
+          assert new_g==old_g+1 and new_g>0
           for k in ('execution','source_locks','resume','storage','credit'):
               assert cur[k]==old[k], f'{k} drift in execution commit'
+
+          rp=cur['resource_preflight']
+          assert rp['planned_effective_heavy_concurrency']==8
+          assert rp['repository_stage_concurrency_ceiling']==18
+          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==10
+          observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
+          assert isinstance(observed,int) and not isinstance(observed,bool) and 0<=observed<=10
+          assert 8+observed<=18
+
           assert cur['execution']['b_unit_count']==97
           assert cur['execution']['durable_subunit_count']==250
           assert cur['execution']['exact_inner_checkpoint_count']==4743
           assert cur['execution']['max_parallel']==8
           assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
+          trig=cur['execution']['trigger']
+          assert trig['event']=='pull_request'
+          assert trig['automatic_arm_action']=='synchronize'
+          assert trig['base_branch']=='main'
+          assert trig['head_branch']=='stage32bridge-mainbatch'
+          assert trig['runkey_only_arm_commit_required'] is True
+          assert trig['commit_range_runkey_change_required'] is True
+
           locks=cur['source_locks']
           assert locks['worker_blob']==os.environ['WORKER_BLOB']
           assert locks['d_slice_combiner_blob']==os.environ['COMBINER_BLOB']
@@ -99,44 +149,66 @@ jobs:
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
           assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
           assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
+          actual_wf=subprocess.check_output(['git','hash-object','.github/workflows/br204-stage32-bridge-heavy.yml'],text=True).strip()
+          assert locks['heavy_workflow_blob']==actual_wf
+
           assert cur['resume']['exact_restart_quantum']=='b_x_d'
           assert cur['resume']['checkpoint_after_each_completed_d'] is True
           assert cur['resume']['always_path_checkpoint_finalizer'] is True
           assert cur['resume']['always_path_artifact_upload'] is True
           assert cur['resume']['soft_deadline_seconds']==int(os.environ['SOFT_SECONDS'])
           assert cur['resume']['single_d_timeout_seconds']==int(os.environ['SLICE_TIMEOUT_SECONDS'])
-          if old['armed'] is False:
-              assert old['generation']==0 and cur['generation']==1
+
+          if not old_a:
+              assert old_g==0 and new_g==1
               assert cur.get('carry_run_id') is None
-              assert cur['arm_contract']['audited_doorstep_head']==parent
+              assert cur['arm_contract']['audited_doorstep_head']==os.environ['BEFORE']
               assert isinstance(cur['arm_contract']['audited_doorstep_review_id'],int)
               mode='initial'
           else:
-              assert old['armed'] is True and cur['generation']>=2
+              assert old_a is True and new_g>=2
               assert isinstance(cur.get('carry_run_id'),int)
               assert cur['arm_contract']==old['arm_contract']
               mode='resume'
-          Path('/tmp/auth.json').write_text(json.dumps({'mode':mode,'parent':parent,'generation':cur['generation'],'review':cur['arm_contract']['audited_doorstep_review_id'],'carry_run_id':cur.get('carry_run_id')}))
+          Path('/tmp/auth-mode.json').write_text(json.dumps({
+              'mode':mode,'parent':os.environ['BEFORE'],'generation':new_g,
+              'review':cur['arm_contract']['audited_doorstep_review_id'],
+              'carry_run_id':cur.get('carry_run_id')
+          }))
           PY
-          mode="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["mode"])')"
+
+          mode="$(python -c 'import json;print(json.load(open("/tmp/auth-mode.json"))["mode"])')"
+          [ "$mode" != cold ] || exit 0
+
+          # Fail closed if live MAIN moved after the audited cold-doorstep locks.
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$REPOSITORY_MAIN_HEAD"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
+          test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
+          test "$(git hash-object "$COMBINER")" = "$COMBINER_BLOB"
+          test "$(git hash-object "$BAND_RUNNER")" = "$BAND_RUNNER_BLOB"
+          test "$(git hash-object "$FINALIZER")" = "$FINALIZER_BLOB"
+          test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
+          test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
+
           if [ "$mode" = initial ]; then
             gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
             python - <<'PY'
           import json
-          a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
+          a=json.load(open('/tmp/auth-mode.json')); rs=json.load(open('/tmp/reviews.json'))
           hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
-          assert hit, 'audited rebuilt doorstep review/head pair not found'
+          assert hit, 'fresh hostile-audit review/head pair not found'
           body=hit[0].get('body') or ''
           assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
           PY
           else
-            carry="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["carry_run_id"])')"
+            carry="$(python -c 'import json;print(json.load(open("/tmp/auth-mode.json"))["carry_run_id"])')"
             gh api "repos/$REPO/actions/runs/$carry" > /tmp/carry-run.json
             gh api --paginate "repos/$REPO/actions/runs/$carry/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/carry-artifacts.tsv
             python - <<'PY'
           import json,os,subprocess,zipfile
           from pathlib import Path
-          a=json.load(open('/tmp/auth.json')); r=json.load(open('/tmp/carry-run.json'))
+          a=json.load(open('/tmp/auth-mode.json')); r=json.load(open('/tmp/carry-run.json'))
           assert r.get('head_sha')==a['parent'], 'carry run must belong to immediate previous generation head'
           assert r.get('path')=='.github/workflows/br204-stage32-bridge-heavy.yml'
           assert r.get('status')=='completed'
@@ -153,15 +225,18 @@ jobs:
               assert s['resume_eligible'] is True, 'prior failure contains a hard-stop d slice; finer partition required'
           PY
           fi
+
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
-          a=json.load(open('/tmp/auth.json'))
+          a=json.load(open('/tmp/auth-mode.json'))
+          print('authorized=true')
           print('carry_run_id='+('' if a['carry_run_id'] is None else str(a['carry_run_id'])))
           print('generation='+str(a['generation']))
           PY
 
   carry:
     needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     outputs:
       prefix_count: ${{ steps.recover.outputs.prefix_count }}
@@ -172,7 +247,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Recover every artifact page and validate complete plus partial work
         id: recover
         env:
@@ -299,7 +374,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Compile and self-test exact checkpoint-aware runtime
         run: |
@@ -472,7 +547,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/download-artifact@v4
         if: needs.carry.outputs.prefix_count != '0'
         with:
@@ -647,7 +722,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/download-artifact@v4
         if: needs.carry.outputs.prefix_count != '0'
         with:
