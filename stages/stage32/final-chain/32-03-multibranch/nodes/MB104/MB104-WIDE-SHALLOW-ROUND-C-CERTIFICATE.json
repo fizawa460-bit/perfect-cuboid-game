@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_C_V1",
-  "status": "ROUND_C_COMPLETE_W14_SECOND_SCAN_SURVIVOR_NO_CREDIT",
+  "status": "ROUND_C_COMPLETE_ALL_DROPPED_NO_CREDIT",
   "target": {
     "support_mask": "000707000f0f",
     "divisor": "D_l=7*l*H-4*l*sum E",
@@ -45,23 +45,16 @@
       "reason": "Within the source-complete known curve library, only the zero quartics can be fixed without negative pairing. Thus the direct stable-factorization test reduces exactly to W14; any other fixed divisor needs a new effective-cone theorem."
     },
     "W14_ZERO_QUARTIC_RESTRICTION": {
-      "disposition": "PASS_TO_SECOND_SCAN",
-      "cheap_test": "active degree-7 good-prime jet/restriction rank",
-      "p1097": {
-        "jet_rank": 220,
-        "q0": 221,
-        "q1": 221,
-        "both": 221
+      "disposition": "DROP_ALREADY_RETAINED",
+      "cheap_test": "archive-wide semantic check after modular preflight",
+      "retained_result": {
+        "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md",
+        "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+        "h0_A": 124,
+        "char0_jet_rank": 220,
+        "q0_q1_nonfixed_all_l": true
       },
-      "char0_jet_rank_options": [
-        220,
-        221
-      ],
-      "consequence_if_220": "both zero quartics nonfixed at l=1 by symmetry; powers give nonfixedness for all l",
-      "consequence_if_221": "preflight does not decide",
-      "exploratory_ten_prime_pattern": "220/221/221/221 at every tested prime; not theorem evidence",
-      "next_test": "one exact characteristic-zero rank certification only",
-      "deep_candidate": false
+      "reason": "The exact W14 ambiguity was already solved in the retained archive. Explicit characteristic-zero sections prove nonzero zero-quartic restriction and nonfixedness for all multiples."
     }
   },
   "round_summary": {
@@ -76,22 +69,21 @@
       "W7",
       "W9",
       "W12",
-      "W13"
-    ],
-    "pass_to_second_scan": [
+      "W13",
       "W14"
     ],
+    "pass_to_second_scan": [],
     "deep_candidate": false,
-    "next_action": "Round D remains broad: give W14 one exact char0 rank test and shallow-screen 4 newly generated direct mechanisms; do not turn W14 into an adapter subproject."
+    "next_action": "Round D must use archive-semantic precheck before promotion and shallow-screen only genuinely untested direct-closing mechanisms."
   },
   "source_locks": [
     {
       "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W14-000707-DEGREE7-RESTRICTION-PREFLIGHT-CERTIFICATE.json",
-      "blob_sha1": "9aaa1b73638b7311d8a1d95c64813e52452f2ecc"
+      "blob_sha1": "b2f3192462d745e98eabe20aec94c69cd273e12d"
     },
     {
-      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w14_000707_degree7_restriction_preflight.py",
-      "blob_sha1": "2663e199fc86faac8426bc6619000c8c8a889914"
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md",
+      "blob_sha1": "6b973691df9c835d14ac388082111d202a07d8c7"
     }
   ],
   "historical_sources": [
