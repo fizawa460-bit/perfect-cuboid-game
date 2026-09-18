@@ -1,0 +1,57 @@
+name: Stage32 32-01-178 active e192 strict witness V2 replay
+
+# lifecycle: ACTIVE_AUTO
+# Current 178 frontier only; retire immediately after exact-head replay.
+on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - 'stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_active_e192_strict_witness.py'
+      - 'stages/stage32/32-01-178/fibration-nef/CURRENT-SOURCE-DOMAIN-CORRECTION.json'
+      - '.github/workflows/stage32-01-178-active-e192-strict-witness-v2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-active-e192-strict-witness-v2-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Materialize exact audited HPADJ sources
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/s32e192/stages/stage32-ex5/hpadj-21_ex5
+          mkdir -p /tmp/s32e192/stages/stage32-ex5/hpadj-16_ex5
+          mkdir -p /tmp/s32e192/stages/stage32-ex5/hpadj-15_ex5
+          mkdir -p /tmp/s32e192/stages/stage32-ex5/hpadj-14_ex5
+          mkdir -p /tmp/s32e192/stages/stage32-ex5/hpadj-10_ex5
+          git fetch --no-tags origin 265fbef0a67014494fcf773af6c3a9f1b095ef95
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py > /tmp/s32e192/stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py > /tmp/s32e192/stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-15_ex5/derive_b_shard_row_exact_grf04_picard_capacity_bound.py > /tmp/s32e192/stages/stage32-ex5/hpadj-15_ex5/derive_b_shard_row_exact_grf04_picard_capacity_bound.py
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-14_ex5/derive_row_exact_grf04_picard_capacity_bound.py > /tmp/s32e192/stages/stage32-ex5/hpadj-14_ex5/derive_row_exact_grf04_picard_capacity_bound.py
+          git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py > /tmp/s32e192/stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py
+      - name: Exact active e192 current-source strict witness
+        run: |
+          python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_active_e192_strict_witness.py \
+            --row-worker /tmp/s32e192/stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py \
+            --hpadj14 /tmp/s32e192/stages/stage32-ex5/hpadj-14_ex5/derive_row_exact_grf04_picard_capacity_bound.py \
+            --hpadj15 /tmp/s32e192/stages/stage32-ex5/hpadj-15_ex5/derive_b_shard_row_exact_grf04_picard_capacity_bound.py \
+            --hpadj16 /tmp/s32e192/stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py \
+            --hpadj10 /tmp/s32e192/stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py
+      - name: Diff hygiene
+        run: git diff --check
