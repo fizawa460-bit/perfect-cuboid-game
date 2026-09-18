@@ -306,3 +306,25 @@ The retained ordinary one-curve Miyaoka inequality leaves the ray open. Test a g
 Stop before any heavy computation if the log inequality reproduces the already-satisfied ordinary BMY polynomial, if admissibility of the boundary coefficients fails, or if the packet contacts cannot enter the theorem with an exact F/R adapter.
 
 Initial cycle-2 order is H8, then H5, then H6. This order may be changed only by a new source-complete theorem or an operational cross-lane demand.
+
+
+### Cycle 2 run 1 disposition — H8
+
+H8 logarithmic-boundary inequality: **FAIL / PARKED**.
+
+The exact exceptional-boundary calculation admits a retained-data-compatible formal witness in which the full off-exceptional defect `168l^2+56l` is assigned to ordinary nodes. For boundary
+
+```
+B=aC+sum_i b_i E_i,
+0<=a,b_i<=1,
+```
+
+the orbifold-BMY slack of this witness satisfies
+
+```
+3 e_orb(S,B) - (K_S+B)^2 >= 147
+```
+
+for every `l>=1` and every choice of the fourteen exceptional weights. Thus the exact `8l` contacts on the supported exceptional curves do not by themselves yield a quadratic log-BMY obstruction. H8 may be reopened only with a new theorem forcing the off-exceptional analytic singularity types or stronger local orbifold data.
+
+Cycle-2 routing now advances to **H5 exact etale-correspondence quotient rigidity**. H6 remains queued after H5.
