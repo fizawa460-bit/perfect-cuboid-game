@@ -51,9 +51,9 @@
     "repeat_archived_searches": false,
     "finite_degree_window_proved": false,
     "class3_roadmap": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md",
-    "class3_latest_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H6-FINITE-MONODROMY-NIELSEN-PASSPORT-GATE-20260918.md",
+    "class3_latest_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-WIDE-SHALLOW-ROUND-A-20260918.md",
     "class3_h1_status": "PARKED_AFTER_SHALLOW_FAIL",
-    "class3_next_shallow_gate": "WIDE_SCAN_ROUND_A_W1_W2_W3_W4_W6",
+    "class3_next_shallow_gate": "WIDE_SCAN_ROUND_B_PLUS_W4_SECOND_SCAN",
     "class3_h2_status": "PARKED_AFTER_SHALLOW_FAIL",
     "class3_h3_status": "CONDITIONAL_NOT_RELEASED_H2_FAILED",
     "class3_h4_status": "PARKED_AFTER_SHALLOW_FAIL",
@@ -74,13 +74,23 @@
     ],
     "class3_wide_scan_status": "ACTIVE_USER_DIRECTED",
     "class3_wide_scan": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-WIDE-SHALLOW-CLOSURE-SCAN-20260918.md",
-    "class3_cycle_3_status": "PAUSED_BY_WIDE_SCAN_OVERRIDE"
+    "class3_cycle_3_status": "PAUSED_BY_WIDE_SCAN_OVERRIDE",
+    "class3_wide_scan_round_a_status": "COMPLETE",
+    "class3_wide_scan_round_a_drop": [
+      "W1",
+      "W2",
+      "W3",
+      "W6"
+    ],
+    "class3_wide_scan_round_a_second_scan": [
+      "W4"
+    ]
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 wide shallow closure scan — Round A",
+    "title": "MB104 wide shallow closure scan — Round B + W4 second scan",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "Do not continue sequential H9/H10/H11 and do not build missing adapters. In one mainbatch invocation shallow-screen W1 Bogomolov-Reider superabundance, W2 symbolic/Waldschmidt effectivity, W3 Aut(S)-norm invariant sections, W4 2026 Stoll-Testa K3 quotient pushdown, and W6 modular-form valence on X(8)xX(8). For each route perform only one cheap numerical/source kill test and classify PASS-TO-SECOND-SCAN, DROP, or UNCLEAR. Prefer native all-l/large-l closure strength over adapter completeness.",
+    "required_input": "Round A is complete: W1/W2/W3/W6 dropped; W4 K3 quotient is the only second-scan survivor and is not DEEP. In one mainbatch invocation shallow-screen W5 higher symmetric differentials, W8 simultaneous sign-quotient genus budget, W10 ambient fat-point Hilbert function, W11 elliptic-normalization linear-series collapse, plus exactly one W4 second kill-test against the fixed rank-20 K3 Picard/(-2)-curve/15-elliptic-fibration inventory. One cheap test each. Do not reopen W1/W2/W3/W6 and do not build adapters.",
     "success_shapes": [
       "all-l exclusion for the exact balanced MB104 ray",
       "explicit large-l exclusion leaving finite 1<=l<=L backend"
