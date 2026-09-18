@@ -183,7 +183,16 @@ def authorize(runkey_path, ident):
     peak = int(key.get("projected_peak_storage_bytes", 0))
     req(0 < peak < 500 * 1024 * 1024, "invalid projected peak storage")
     measured = int(key.get("representative_receipt_bytes", 0))
-    req(measured > 0, "representative receipt size not measured")
+    mode = key.get("mode")
+    if mode == "PILOT_MEASURE":
+        req(concurrency == 1, "measurement pilot must use concurrency=1")
+        req(len(key.get("authorized_workunit_ids", [])) == 1, "measurement pilot must authorize exactly one unit")
+        req(peak <= 8 * 1024 * 1024, "measurement pilot storage projection too large")
+        req(measured == 0, "measurement pilot must not claim a prior receipt measurement")
+    elif mode == "PRODUCTION_WAVE":
+        req(measured > 0, "production wave requires measured representative receipt size")
+    else:
+        req(False, "runkey mode is not executable")
     req(key.get("commit_range_authorization_required") is True, "commit-range authorization flag missing")
     return key
 
