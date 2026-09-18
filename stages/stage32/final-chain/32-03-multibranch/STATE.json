@@ -348,27 +348,34 @@
       "result": "multiplicity-preserving different/conductor/Fitting descent fails already in the nodal two-simple-ramification model, but W16 only needs a length upper bound: the reduced scheme-theoretic image Z_red=(nu(R_phi))_red is a canonical nonempty finite reduced lci subscheme of the smooth surface with length <=112l. CB(|D_l|) remains completely open."
     },
     "w16_internal_completed": [
-      "A2"
+      "A2",
+      "B2"
     ],
     "w16_internal_queue": [
-      "B2",
       "A3",
       "A1",
       "B1",
       "H",
       "C"
     ],
-    "w16_internal_active": "B2"
+    "w16_internal_active": "A3",
+    "w16_b2": {
+      "status": "NO_INDEPENDENT_BYPASS_ABSORBED_BY_CB_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_b2_ext_serre_first.py",
+      "result": "local-to-global Ext identifies possible local Serre residue vectors with the annihilator of the |D_l| evaluation image on Z_red. Local freeness means every local coordinate is nonzero, which is exactly the Cayley-Bacharach condition. Ramification data supply support/multiplicity but no retained canonical class in omega_Z tensor O_Z(-D_l), so Ext-first does not bypass CB."
+    }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16-B2 solo — Ext / Serre-first",
+    "title": "MB104 W16-A3 solo — ambient differential / determinantal degeneracy",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W16-A2 passed the surface lci descent gate: for the retained degree-56l residual base map phi:E->P1, the reduced image Z_red=(nu(R_phi))_red is canonical relative to phi, nonempty, zero-dimensional lci on the smooth surface, and has length <=112l. Multiplicity-preserving different/conductor/Fitting descent is not exact at singular points, but multiplicities are unnecessary for the Bogomolov length bound. The only missing load-bearing condition for this candidate is CB(|D_l|), equivalently a locally-free Hartshorne-Serre extension. Work B2 only: try to construct the nonzero locally-free extension class directly from normalization/conductor/ramification duality, or prove that the relevant Ext class necessarily lands in the non-locally-free/split part.",
+    "required_input": "W16-B2 is complete: Ext-first is not an independent bypass of Cayley-Bacharach. For Z_red, local-to-global Ext shows global locally-free Serre extensions correspond to annihilating local residue vectors with every point-coordinate nonzero, exactly CB(|D_l|). Ramification data currently do not supply such a vector. Work A3 only: use the explicit residual map phi (or its ambient rational-function/pencil presentation) to realize the ramification image as an ambient differential, Wronskian, Jacobian, or determinantal degeneracy scheme on S. The target is a canonical lci scheme of length <=112l whose determinantal origin forces CB or a locally-free Serre extension.",
     "success_shapes": [
-      "construct a canonical locally-free non-split extension 0->O(K)->E->I_Zred(D_l)->0 directly from ramification/conductor data, thereby proving CB and giving l>=2 Bogomolov input",
-      "construct such an extension for a canonical proper subscheme Z subseteq Z_red with explicit linear length bound",
-      "prove the normalization/conductor-derived Ext class cannot be locally free for Z_red or any canonical linear-size ramification image, closing B2 negatively"
+      "construct an ambient rank-drop/Wronskian scheme equal to or containing Z_red with length <=112l and a source-complete CB/Serre consequence",
+      "construct a canonical proper lci subcluster of the differential degeneracy scheme with explicit O(l) length and CB",
+      "prove every ambient differential realization necessarily acquires a quadratic conductor/base-locus excess or is a tautological complete intersection, closing A3 negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
