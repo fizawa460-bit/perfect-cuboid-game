@@ -1,0 +1,61 @@
+name: Stage32EX5 HPADJ22 fast band0 full-range scratch pilot
+on:
+  push:
+    branches: [stage32ex5-hpadj22-speedup-scratch-20260918]
+    paths:
+      - 'stages/stage32-ex5/hpadj-22_ex5/assemble_fast_band.py'
+      - '.github/workflows/stage32-ex5-hpadj22-fast-band0-full-pilot.yml'
+permissions:
+  contents: read
+  actions: read
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.10.6'}
+      - name: Verify source artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35351798268/artifacts?per_page=100" > /tmp/cert.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35303482505/artifacts?per_page=100" > /tmp/carry.json
+          python - <<'PY'
+          import json
+          c=json.load(open('/tmp/cert.json')); b=json.load(open('/tmp/carry.json'))
+          x=[a for a in c['artifacts'] if a['name']=='hpadj21-full178-cell-cert-scratch' and not a.get('expired',False)]
+          assert len(x)==1 and x[0]['id']==10550390276 and x[0]['digest']=='sha256:cf318865a035a65bfd6b499086a6d23e87027d235361e62346ef8cda8c51005d'
+          x=[a for a in b['artifacts'] if a['name']=='hpadj22-band-0' and not a.get('expired',False)]
+          assert len(x)==1 and x[0]['id']==10539272536 and x[0]['digest']=='sha256:db73298fb4c6af746aa611ebdcccbadec07eaf57e0753a50682b6bf346fb1833'
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-full178-cell-cert-scratch
+          path: cert
+          run-id: 35351798268
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-0
+          path: carry
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - name: Compute band0 remaining rows with fast worker
+        run: |
+          mkdir -p fast
+          python stages/stage32-ex5/hpadj-22_ex5/run_fast_row_range.py \
+            --band-position 0 --row-start 8 --row-stop 177 \
+            --h21-cert cert/HPADJ21-FULL178-CELL-CERT.json --output-dir fast | tee /tmp/fast-band0.log
+      - name: Assemble exact complete band0
+        run: |
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/assemble_fast_band.py \
+            --band-position 0 --carry-dir carry --fast-dir fast --output-dir out | tee /tmp/assemble.log
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py --band-position 0 --output-dir out --verify-complete out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-fast-band0-complete-scratch
+          path: out/
+          retention-days: 3
