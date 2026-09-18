@@ -4,7 +4,7 @@ import hashlib,importlib.util,json,time
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
 BASE=HERE/"run_full_bband.py"; FAST=HERE/"run_full_bband_fast.py"
-BASE_BLOB="2c998a190baaf5f29b33a91fd9efedbb036cef46"; FAST_BLOB="172f003f34d95cceb3d3cbbda949bce6e58b7380"
+BASE_BLOB="2c998a190baaf5f29b33a91fd9efedbb036cef46"; FAST_BLOB="bf96761f1b8917da87efe968539ca6cf08416b03"
 OLD_SECONDS=321.0967
 
 def req(v,m):

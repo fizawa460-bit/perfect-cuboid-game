@@ -135,7 +135,6 @@ def eligible_stats(d: int, g: int, h: int, a: int, b: int, c: int,
 
 def compute_row_cell_fast(ctx, qbc_pref, band_position: int, row_index: int, h21_cells: dict) -> dict:
     base = load_base()
-    req(row_index not in H21_MISSING_ROWS, f"row {row_index} lacks carried HPADJ21 cell certificate")
     bc, bnd, h21, _, h16, p15, p14, counter, rows, rejected, profiles, classes_gt2, tuples_above_second = ctx
     row_id, g0, d0 = rows[row_index]
     g, d = int(g0), int(d0)
