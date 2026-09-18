@@ -1,0 +1,133 @@
+{
+  "authorization": {
+    "current_armed": false,
+    "current_generation": 0,
+    "future_commit_range_gate_required": true,
+    "future_semantic_arm_requires": [
+      "generation strictly increases",
+      "armed=true",
+      "worker/plan source locks match",
+      "each scheduled workunit id explicitly listed",
+      "planned effective heavy concurrency in 1..18",
+      "representative receipt size measured",
+      "projected peak storage below 500MB"
+    ],
+    "ordinary_mainbatch_authorizes_heavy": false,
+    "runkey_path": "stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-RUNKEY.json",
+    "runkey_schema": "STAGE32_32_01_178_SELECTIVE_PICARD_RUNKEY_V1"
+  },
+  "canonical_sha256_without_this_field": "8cd4b7caf590fdf750a7f253ef9239598b0533686ab348a74b5683fcf130bd09",
+  "carry_validation": {
+    "completed_unit_reexecution_required": false,
+    "coverage_verifier": "verify_fibration_nef_selective_picard_resume.py",
+    "rejected_receipt_reuse_allowed": false,
+    "required": [
+      "expected workunit identity",
+      "worker/source locks",
+      "receipt schema",
+      "completed key count",
+      "key evidence stream digest",
+      "aggregate mass consistency",
+      "receipt canonical digest",
+      "credit firewalls"
+    ]
+  },
+  "firewalls": {
+    "artifact_production_authorized": false,
+    "endpoint_credit_changed": false,
+    "full178_census_claimed": false,
+    "full_row_census_claimed": false,
+    "heavy_execution_authorized": false,
+    "main_credit_changed": false,
+    "merge": false,
+    "selected_slice_result_claimed": false,
+    "theorem_credit_changed": false
+  },
+  "partition": {
+    "canonical_static_key_order": [
+      "a",
+      "b",
+      "c",
+      "t"
+    ],
+    "expected_coverage": "regenerate exact depth2 survivor keys from the locked plan producer for every selected x4 slice, then partition each ordered slice into consecutive chunks of at most 256 keys",
+    "no_overlap_rule": "consecutive half-open index ranges within one x4 slice; distinct x4 is disjoint by identity",
+    "partition_key": [
+      "x4",
+      "canonical_survivor_index_chunk"
+    ],
+    "per_unit_identity_fields": [
+      "workunit_id",
+      "x4",
+      "start_index",
+      "stop_index_exclusive",
+      "static_key_count",
+      "static_key_stream_sha256"
+    ],
+    "workunit_size_ceiling": 256
+  },
+  "purpose": "Freeze exact resume-first execution semantics for the bounded selected-slice selective Picard workunit pilot before any heavy/artifact-producing run is authorized.",
+  "recovery": {
+    "after_timeout_or_cancellation": "preserve complete atomic receipts, run the resume verifier, schedule only missing workunit ids, never rerun validated completed ids",
+    "monolithic_rerun_default": false,
+    "recovery_snapshot_classes": [
+      "complete",
+      "missing",
+      "rejected"
+    ],
+    "resume_not_feasible": false
+  },
+  "schema": "STAGE32_32_01_178_SELECTIVE_PICARD_RESUME_CONTRACT_V1",
+  "source_locks": {
+    "plan_certificate_producer_blob_sha1": "37745be7877f32a1804a350d8ebbeedc893d4a5b",
+    "resume_verifier_blob_sha1": "7e77d78c8f94d7f25f59deb839c64c662f44475e",
+    "resume_verifier_path": "stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_selective_picard_resume.py",
+    "selective_weighted_survivor_blob_sha1": "9e5b662d1e26a20afdf8621b131ffbac60b31b07",
+    "worker_blob_sha1": "15a94deeaac2a7bbd56ecf3a2a2a3265e7e1203f",
+    "worker_path": "stages/stage32/32-01-178/fibration-nef/run_fibration_nef_selective_picard_workunit.py",
+    "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729"
+  },
+  "status": "COLD_NOT_ARMED__RESUME_ARCHITECTURE_READY",
+  "storage_and_concurrency": {
+    "future_artifact_retention_days": "1_TO_3_EXPLICIT",
+    "future_partial_output_upload": "complete receipts should be salvaged on failure/cancellation via an equivalent fail-safe path",
+    "hard_stage_effective_heavy_concurrency_ceiling": 18,
+    "must_measure_representative_unit_before_arm": true,
+    "persisted_intermediate": "COMPLETE_COMPACT_WORKUNIT_RECEIPT_ONLY",
+    "planned_effective_heavy_concurrency": null,
+    "projected_peak_storage_bytes": null,
+    "raw_exact_search_output_persistence": "RUNNER_LOCAL_ONLY",
+    "repository_storage_budget_bytes": 524288000,
+    "representative_receipt_bytes": null
+  },
+  "target": {
+    "absolute_qcap": 4992,
+    "d": 192,
+    "e": 32,
+    "g": 1,
+    "row_id": "g1-d192",
+    "scope": "BOUNDED_SELECTED_SLICE_RESUMABLE_PILOT_NOT_FULL_ROW_NOT_FULL178",
+    "selected_x4_slices": [
+      0,
+      24,
+      48,
+      72,
+      96
+    ]
+  },
+  "unit_receipt": {
+    "atomic_write": true,
+    "emitted_only_after_complete_unit": true,
+    "includes_exact_picard_threshold_and_weighted_mass_per_key": true,
+    "includes_key_evidence_rows": true,
+    "includes_key_evidence_stream_sha256": true,
+    "partial_unit_receipt_reusable": false,
+    "schema": "STAGE32_32_01_178_SELECTIVE_PICARD_WORKUNIT_RECEIPT_V1",
+    "unknown_count_required": 0
+  },
+  "workflow_lifecycle": {
+    "future_trigger_class_if_controller_does_not_explicitly_authorize_active_auto": "MANUAL",
+    "pull_request_paths_alone_is_authorization": false,
+    "workflow_retained_now": false
+  }
+}
