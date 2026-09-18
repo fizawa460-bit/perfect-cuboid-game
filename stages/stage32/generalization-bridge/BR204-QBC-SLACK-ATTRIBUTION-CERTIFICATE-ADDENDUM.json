@@ -4,7 +4,7 @@
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "1a80ed29bd50e31b125173231f05b2ec8f6e28d2",
+    "heavy_execution_contract_git_blob_sha1": "0e4c9b2818233dfc641ea890903f3633ef6a701c",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
     "heavy_worker_git_blob_sha1": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
@@ -67,7 +67,9 @@
     "soft_deadline_seconds": 13500,
     "single_d_timeout_seconds": 3600,
     "checkpoint_after_each_completed_d": true,
-    "always_path_checkpoint_finalizer": true
+    "always_path_checkpoint_finalizer": true,
+    "workflow_lifecycle": "ACTIVE_AUTO",
+    "authorization": "pull_request synchronize before..head dedicated runkey generation gate; heavy remains cold at generation 0"
   },
   "credit": {
     "stage32_main": false,
