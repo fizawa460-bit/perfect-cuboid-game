@@ -1,23 +1,14 @@
 name: Stage32 MAIN BTVA static7 bounded panel
 
+# Trigger lifecycle: RETIRED — bounded evidence retained; replay manually only
 on:
-  pull_request:
-    types: [opened, synchronize]
-    paths:
-      - 'stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py'
-      - 'stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json'
-      - 'stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py'
-      - 'stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json'
-      - 'stages/stage32/residual-32-01-production/full178-manifest.json'
-      - 'stages/stage33/33-07/picard_base_rows_retained.py'
-      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
-      - '.github/workflows/stage32-main-btva-static7-bounded-panel.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: stage32-main-btva-static7-${{ github.event.pull_request.number }}
+  group: stage32-main-btva-static7-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -28,7 +19,7 @@ jobs:
       - name: Checkout exact PR head
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
 
       - name: Checkout exact 178 source
         uses: actions/checkout@v4
@@ -40,7 +31,7 @@ jobs:
       - name: Assert exact source locks
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py)" = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"
           test "$(git hash-object stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py)" = "6b4c3514b5b4cbccd8e66cbffc7f61f8830d1633"
           test "$(git hash-object stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json)" = "2a14a683e8ec38ec993eb711841c466f2be6eb06"
