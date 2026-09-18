@@ -66,11 +66,12 @@ int main(int argc, char** argv) {
     int only_b = std::stoi(b_s);
     int d_lo = std::stoi(d_lo_s), d_hi = std::stoi(d_hi_s);
     req(0 <= only_b && only_b <= BR204_H, "b outside 0..96");
+    req(d_lo <= d_hi && (d_lo % 2) == 0 && (d_hi % 2) == 0, "invalid even d range");
     bool approved_band = false;
     for (const auto& band : BR204_D_BANDS)
-        if (band.first == d_lo && band.second == d_hi) approved_band = true;
-    req(approved_band, "d range is not an approved BR204 resume band");
-    req(d_hi >= std::max(8, 2 * only_b), "d band has no admissible d for this b");
+        if (band.first <= d_lo && d_hi <= band.second) approved_band = true;
+    req(approved_band, "d range is not contained in one approved BR204 resume band");
+    req(d_hi >= std::max(8, 2 * only_b), "d range has no admissible d for this b");
 
     auto S = build_strict(BR204_H);
     auto E = build_equal(BR204_H);
