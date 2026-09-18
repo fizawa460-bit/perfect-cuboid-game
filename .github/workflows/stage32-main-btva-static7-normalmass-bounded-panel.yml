@@ -1,14 +1,9 @@
 name: Stage32 MAIN BTVA static7 normalmass bounded panel
 
-# Trigger lifecycle: ACTIVE_AUTO — one-shot e12 BTVA-to-HPADJ21 exact-qbin diagnostic; retire immediately after evidence capture.
+# Trigger lifecycle: RETIRED — workflow_dispatch-only after exact e12 q-bin evidence retention.
 # Restricted to this workflow file on the active MAIN research branch; retire after artifact retention.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - stage32-main-v44-btva-static7-20260918
-    paths:
-      - '.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml'
 
 permissions:
   contents: read
