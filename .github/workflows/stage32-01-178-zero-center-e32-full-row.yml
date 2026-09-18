@@ -8,6 +8,8 @@ on:
       - stage32-01-178-post-td02-fibration-nef
     paths:
       - 'stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_zero_center_e32_full_x4_row.py'
+      - 'stages/stage32/32-01-178/fibration-nef/ZERO-CENTER-E32-FULL-X4-ROW-CHECKPOINT.json'
+      - 'stages/stage32/32-01-178/fibration-nef/verify_zero_center_e32_full_x4_row_checkpoint.py'
       - '.github/workflows/stage32-01-178-zero-center-e32-full-row.yml'
   workflow_dispatch:
 
@@ -32,5 +34,7 @@ jobs:
       - run: pip install sympy
       - name: Exact complete g1-d192 e32 x4 row via zero-center closed form
         run: python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_zero_center_e32_full_x4_row.py
+      - name: Verify frozen e32 full-row checkpoint
+        run: python stages/stage32/32-01-178/fibration-nef/verify_zero_center_e32_full_x4_row_checkpoint.py
       - name: Diff hygiene
         run: git diff --check
