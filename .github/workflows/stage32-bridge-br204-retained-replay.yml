@@ -318,7 +318,9 @@ jobs:
           assert rc['soft_deadline_seconds']==13500
           assert rc['hard_job_timeout_minutes']==330
           assert rc['single_d_timeout_seconds']==3600
-          assert 'always()' in rc['artifact_salvage_rule']
+          assert 'upload_safe=true' in rc['artifact_salvage_rule']
+          assert 'finalizer outcome success' in rc['artifact_salvage_rule']
+          assert 'never the recovery payload' in rc['artifact_salvage_rule']
           assert 'catastrophic runner loss' in rc['cancellation_rule']
           assert contract['credit']['stage32_main'] is False
           print('Research OS PR-arm/reconciled-recovery/upload-safe/d-checkpoint contract PASS; heavy remains cold')
