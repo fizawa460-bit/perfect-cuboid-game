@@ -1,0 +1,130 @@
+{
+  "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_F_V1",
+  "status": "ROUND_F_COMPLETE_NO_PROMOTE_NO_CREDIT",
+  "target": {
+    "mask": "000707000f0f",
+    "D2": "336*l^2",
+    "K_D": "112*l",
+    "chi_O_S": 8,
+    "K2": 16,
+    "pg": 7,
+    "q": 0,
+    "g_norm": 1
+  },
+  "results": {
+    "W26": {
+      "route": "equisingular T-smoothness / Severi regularity",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "active_picard_rank": "not rank one; retained lattice is high-rank",
+        "D_proportional_to_K": false,
+        "known_direct_theorem_scopes": [
+          "Chiantini-Sernesi: C numerically pK in the general-type result",
+          "Keilen Theorem 2.1: NS(S)=Z.L, Picard rank one"
+        ],
+        "superabundance_target": "active genus-one ray requires large speciality rather than ordinary expected-codimension behavior"
+      },
+      "reason": "The readily available T-smoothness theorems do not apply to the MB104 divisor lattice. Direct import is invalid.",
+      "remaining_open": "A cuboid-specific extension of Bogomolov/Keilen regularity to the high-rank lattice could directly contradict the retained superabundance and is therefore a meaningful soft-park."
+    },
+    "W27": {
+      "route": "semiregularity map / obstruction-space squeeze",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "pg": 7,
+        "normal_degree_for_immersed_elliptic_normalization": "-112*l",
+        "h1_normal_if_line_bundle": "112*l",
+        "semiregularity_target_dimension": "h2(O_S)=7"
+      },
+      "reason": "The classical semiregularity map H1(N)->H2(O_S) cannot be injective when h1(N)=112l>7. Thus the simple semiregularity-unobstructedness route is unavailable; large obstruction space is compatible with existence.",
+      "remaining_open": "A reduced obstruction theory, cosection, or special normal-complex calculation could still annihilate the relevant obstruction subspace."
+    },
+    "W28": {
+      "route": "multiplier-ideal / connectedness obstruction",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "canonical_sign": "K_S is big and nef",
+        "divisor_sign": "D_l is effective and big",
+        "connectedness_required_shape": "-(K_S+B) nef and big (or equivalent log-Fano positivity) for the standard non-klt connectedness mechanism",
+        "actual_sign": "K_S+B is positive in the H direction for effective B built from the carrier"
+      },
+      "reason": "The standard connectedness/Nadel architecture runs with the wrong sign on this general-type surface. It cannot force the 14 packet centers to connect.",
+      "remaining_open": "Multiplier ideals used for vanishing/interpolation rather than log-Fano connectedness remain possible."
+    },
+    "W29": {
+      "route": "cotangent semistability on elliptic normalization",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "pullback_degree": "deg f^*Omega_S = K.D_l =112*l",
+        "immersion_conormal_sequence": "0 -> N_f^* -> f^*Omega_S -> Omega_E -> 0",
+        "degrees": [
+          "deg N_f^*=112*l",
+          "deg Omega_E=0"
+        ]
+      },
+      "reason": "The exact degree split is perfectly compatible with generic nefness/semipositivity of the cotangent bundle; no negative quotient is forced.",
+      "remaining_open": "A strong stability theorem for Omega_S whose restriction applies to this special carrier could prohibit a degree-zero quotient, but generic restriction theorems do not automatically apply to the special MB104 curve."
+    },
+    "W30": {
+      "route": "Wahl/Gaussian-map dimension obstruction for the ambient g^6_d",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "ambient_subspace_dimension": 7,
+        "wedge2_dimension": 21,
+        "gaussian_target": "H0(E,L^2) with dimension 2d=224*l",
+        "dimension_relation": "21 << 224*l"
+      },
+      "reason": "There is no dimension overload: the Gaussian map from the seven ambient sections can occupy only a tiny subspace of the available target. Failure of surjectivity is expected and cannot exclude the embedding/projection.",
+      "remaining_open": "A specific Gaussian-map identity forced by a canonical complete-intersection surface, rather than a dimension count, could still be restrictive."
+    }
+  },
+  "round_summary": {
+    "scanned": [
+      "W26",
+      "W27",
+      "W28",
+      "W29",
+      "W30"
+    ],
+    "tested_architecture_hard_drop": [
+      "W26",
+      "W27",
+      "W28",
+      "W29",
+      "W30"
+    ],
+    "broader_direction_soft_park": [
+      "W26",
+      "W27",
+      "W28",
+      "W29",
+      "W30"
+    ],
+    "promote": [],
+    "unclear": [],
+    "high_value_soft_additions": [
+      "W26"
+    ],
+    "next_action": "Continue broad search only if new mechanisms remain semantically distinct. Keep W26 as a higher-value soft park because a valid T-smoothness theorem would directly attack the retained superabundance."
+  },
+  "external_sources": [
+    "Chiantini-Sernesi, Nodal curves on surfaces of general type, 1996/1997",
+    "Keilen, Smoothness of Equisingular Families of Curves, 2003"
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
