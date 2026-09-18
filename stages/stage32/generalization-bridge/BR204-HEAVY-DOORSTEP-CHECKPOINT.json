@@ -165,6 +165,13 @@
     "previous_hostile_audit_review_id": 5243659462,
     "verdict": "HOLD_BLOCKERS_REPAIRED_IN_CODE__FRESH_REPLAY_AND_HOSTILE_AUDIT_REQUIRED",
     "blocker": "Previous audit found missing predecessor expected-count reconciliation and unsafe partial-upload gating when finalizer fails. Both are repaired but require exact-head replay and independent hostile audit.",
-    "repair_status": "IMPLEMENTED_IN_CODE_AND_SOURCE_LOCKS__NEGATIVE_REGRESSIONS_ADDED__CI_AND_SEPARATE_HOSTILE_AUDIT_PENDING"
+    "repair_status": "IMPLEMENTED_IN_CODE_AND_SOURCE_LOCKS__NEGATIVE_REGRESSIONS_ADDED__CI_AND_SEPARATE_HOSTILE_AUDIT_PENDING",
+    "latest_hold_exact_head": "74d49b08b1924c2edcfbd7d0fa26f308e23c3ba4",
+    "latest_hold_review_id": 5245019356,
+    "latest_hold_blockers": [
+      "predecessor expected/completed durable artifact inventory was not reconciled before missing-work planning",
+      "finalizer failure could leave complete unset and still route an unsafe partial payload into upload"
+    ],
+    "latest_hold_blockers_repaired_in_current_cold_surface": true
   }
 }
