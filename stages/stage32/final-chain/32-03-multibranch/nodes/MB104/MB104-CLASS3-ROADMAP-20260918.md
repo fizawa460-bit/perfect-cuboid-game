@@ -463,3 +463,36 @@ During wide-scan mode:
 
 Initial Round A is W1/W2/W3/W4/W6:
 Bogomolov--Reider superabundance, symbolic/Waldschmidt effectivity, Aut-norm invariant sections, K3 quotient pushdown, and modular-form valence.
+
+
+### Wide scan Round A disposition
+
+Round A checkpoint:
+
+```
+MB104-WIDE-SHALLOW-ROUND-A-20260918.md
+```
+
+Five routes were screened with one cheap kill-test each:
+
+```
+W1 Bogomolov--Reider                 DROP
+W2 symbolic/Waldschmidt effectivity DROP
+W3 Aut(S)-norm invariant section    DROP
+W4 K3 quotient pushdown             PASS-TO-SECOND-SCAN
+W6 modular-form valence             DROP
+```
+
+No route is DEEP.  W4 receives exactly one second shallow test, in parallel with Round B.
+
+Next invocation scans:
+
+```
+W4-second  fixed K3 lattice / (-2)-curve / elliptic-fibration test
+W5         higher symmetric differentials
+W8         simultaneous sign-quotient genus budget
+W10        ambient fat-point Hilbert function
+W11        elliptic-normalization linear-series collapse
+```
+
+Do not reopen W1/W2/W3/W6 during this round.
