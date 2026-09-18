@@ -14,12 +14,11 @@ ROOT = Path(__file__).resolve().parents[4]
 HERE = Path(__file__).resolve().parent
 PREFLIGHT = HERE / "BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json"
 
-PREFLIGHT_BLOB = "86dfdb2c1e800c2415c578d9eb5badcb3766eab1"
-PREFLIGHT_CANON = "19e4149e9171df4d024d49f343882611bf2a54e0e30dfed37d1e0b92f6d796ee"
+PREFLIGHT_BLOB = "5d3237597e19f28e4a5e5027c56d219080857231"
+PREFLIGHT_CANON = "7bbf11fb551f90f7be8408b88b832967347096427d0c04ab0ed92f18d3616867"
 LANE178_HEAD = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
 
 LOCAL_LOCKS = {
-    "main_state": ("stages/stage32/MAIN-STATE.json", "1f4af0d2d1aff5ecd94669d6dc9ea2fef445f630"),
     "btva_diagnostic": ("stages/stage32-ex5/breadth-cycle-2/bc2-00-btva-node-support-span-diagnostic.json", "554f8626e0ea225ffb7e6a5b6fe40ee41a7448ee"),
     "runtime_node_bridge": ("stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json", "2a14a683e8ec38ec993eb711841c466f2be6eb06"),
     "old_support_blocker": ("stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-support-reconstruction-preflight.json", "68d47f8ad2a3ff8eff13324a700bd96b3c22fbac"),
@@ -117,6 +116,21 @@ def main() -> None:
         "eager hyperplane enumeration unexpectedly required")
     for k, v in p["credit_firewalls"].items():
         req(v is False, "credit firewall " + k)
+
+    # Current MAIN state is intentionally NOT blob-locked here.  This verifier
+    # is a zero-credit research consumer and must survive later zero-credit
+    # MAIN writebacks.  Verify canonical integrity and authority semantics
+    # instead; historical V43/V42 boundaries are locked by startup CI.
+    state_path = ROOT / "stages/stage32/MAIN-STATE.json"
+    state = json.loads(state_path.read_text(encoding="utf-8"))
+    stored_state_canon = state.get("canonical_sha256_without_this_field")
+    req(isinstance(stored_state_canon, str) and canon(state) == stored_state_canon,
+        "current MAIN state canonical drift")
+    req(state["current_exact_frontier"]["authoritative_remaining_terminals"] ==
+        157570677819451133507, "current MAIN authority drift")
+    req(state["current_exact_frontier"]["full178_numerical_census_complete"] is False,
+        "FULL178 completion overclaim")
+    req(state["firewalls"]["merge_authorized"] is False, "merge firewall")
 
     for label, (rel, expected) in LOCAL_LOCKS.items():
         path = ROOT / rel
