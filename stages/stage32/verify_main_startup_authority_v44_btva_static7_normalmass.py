@@ -112,28 +112,24 @@ def main() -> None:
     req(locks["btva_d8_all140_receiver_semantics"]["blob_sha1"] == ALL140_BLOB, "all140 state lock")
     req(locks["btva_d8_conic_exception"]["blob_sha1"] == CONIC_BLOB, "conic state lock")
     sw = locks["live_specialist_sweep"]
-    if cur["mainbatch_stop_gate"] == "NONE":
-        # Transitional compatibility for the immediately preceding V44 state-sync parent.
-        req(cur["latest_main_native_research"] == "V44_BTVA_D8_FULL343_RECEIVER_STRUCTURAL_CLOSURE__ZERO_MAIN_CREDIT", "V44 parent routing drift")
-        req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "f263548c2968e8e14cfc14a80e5c779053e81724", "178 parent observation")
-        req(sw["ex5_pr"] == 1818 and sw["ex5_head"] == "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2", "EX5 parent observation")
-        req(sw["mb_pr"] == 1819 and sw["mb_head"] == "5d113826cc36d2c0600ccad4795e7684f35879e5", "MB parent observation")
-        req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "aba66e35ad0c76205acbb99e9c3af5ce0bb00b42", "BRIDGE parent observation")
-    else:
-        req(cur["mainbatch_stop_gate"] == "HOSTILE_AUDIT_CHECKPOINT_REQUIRED", "unexpected MAIN stop gate")
-        req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_RATIO_WAVE4_PARTIAL__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
-        w4 = locks["btva_d8_e12_wave4_panel"]
-        req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
-        req(w4["workflow_run_id"] == 35405380332 and w4["artifact_id"] == 10571698422, "wave4 artifact identity drift")
-        req(w4["artifact_canonical_sha256"] == "0b5528b4ab2eebb99bcdc5a83ce26ccc2aecb9669a2f7b074a6c223fd1a90a76", "wave4 canonical drift")
-        req((w4["unsat_base4_count"], w4["unknown_base4_count"], w4["compatible_sat_base4_count"]) == (27, 5, 0), "wave4 outcome drift")
-        req(w4["all_selected_unsat"] is False and w4["main_pruning_credit"] is False, "wave4 firewall drift")
-        req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
-        req(sw["lane_178_latest_audited_exact_head"] == "8a8efc48866f8008d253c21ebd272e698d18dc44" and sw["lane_178_latest_audit_review_id"] == 5245717271, "178 audited-boundary observation")
-        req(sw["ex5_pr"] == 1823 and sw["ex5_head"] == "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and sw["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
-        req(sw["mb_pr"] == 1819 and sw["mb_head"] == "a2462236a1f483b836c8695e23018d5e423fffc7" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
-        req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "ee755bbfd46f405ca83e4930b354ee63459ad362" and sw["bridge_runkey_generation"] == 1 and sw["bridge_runkey_armed"] is True and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE live observation")
-        req(sw["bridge_latest_audited_doorstep_head"] == "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8" and sw["bridge_latest_audit_review_id"] == 5247726057, "BRIDGE audited-doorstep observation")
+    req(cur["mainbatch_stop_gate"] == "NONE", "historical MAIN stop gate drift")
+    req(cur["research_os_checkpoint_gate"] == "HOSTILE_AUDIT_CHECKPOINT_REQUIRED", "Research OS checkpoint gate drift")
+    req(cur["research_os_checkpoint_audit_status"] == "FAIL_HOLD__PROCESS_COMPATIBILITY_REPAIR_ALLOWED__REAUDIT_REQUIRED", "Research OS checkpoint audit status drift")
+    req(cur["research_os_checkpoint_audit_review_id"] == 5253517625, "Research OS checkpoint review drift")
+    req(cur["research_os_checkpoint_audited_exact_head"] == "639b3fa4b8fa6cb366c64962b25dd45abd52e663", "Research OS checkpoint audited head drift")
+    req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_RATIO_WAVE4_PARTIAL__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
+    w4 = locks["btva_d8_e12_wave4_panel"]
+    req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
+    req(w4["workflow_run_id"] == 35405380332 and w4["artifact_id"] == 10571698422, "wave4 artifact identity drift")
+    req(w4["artifact_canonical_sha256"] == "0b5528b4ab2eebb99bcdc5a83ce26ccc2aecb9669a2f7b074a6c223fd1a90a76", "wave4 canonical drift")
+    req((w4["unsat_base4_count"], w4["unknown_base4_count"], w4["compatible_sat_base4_count"]) == (27, 5, 0), "wave4 outcome drift")
+    req(w4["all_selected_unsat"] is False and w4["main_pruning_credit"] is False, "wave4 firewall drift")
+    req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
+    req(sw["lane_178_latest_audited_exact_head"] == "8a8efc48866f8008d253c21ebd272e698d18dc44" and sw["lane_178_latest_audit_review_id"] == 5245717271, "178 audited-boundary observation")
+    req(sw["ex5_pr"] == 1823 and sw["ex5_head"] == "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and sw["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
+    req(sw["mb_pr"] == 1819 and sw["mb_head"] == "a2462236a1f483b836c8695e23018d5e423fffc7" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
+    req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "ee755bbfd46f405ca83e4930b354ee63459ad362" and sw["bridge_runkey_generation"] == 1 and sw["bridge_runkey_armed"] is True and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE live observation")
+    req(sw["bridge_latest_audited_doorstep_head"] == "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8" and sw["bridge_latest_audit_review_id"] == 5247726057, "BRIDGE audited-doorstep observation")
     req(sw["cut_open_successor"] is False and sw["cut_handoff"] == "NONE", "CUT observation")
 
     for obj in (full["firewalls"], all140["firewalls"], state["firewalls"]):
