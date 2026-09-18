@@ -93,7 +93,7 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
+          test "$(git rev-parse FETCH_HEAD)" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
           test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
 
       - name: Verify repository workflow lifecycle composite inventory
@@ -141,8 +141,8 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "0680132cab6da3e06a13f15c55993ed9b84f9a27"
           test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "0e4c9b2818233dfc641ea890903f3633ef6a701c"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "a8dd5ab3256662e267e9abd6ac7a08814c74e210"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "eb7774ac8fc0d892d7ed67f30b1295adcc26519f"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "b3f445a266cf8e53fd78346cb07175b270cf7dc7"
           python - <<'PY'
           import json,subprocess
           from pathlib import Path
@@ -153,9 +153,9 @@ jobs:
           assert locks['resumable_band_runner_blob']=='0680132cab6da3e06a13f15c55993ed9b84f9a27'
           assert locks['band_checkpoint_finalizer_blob']=='e8e9219a6697e017efcf28ccdf8a6eaf5e181519'
           assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert locks['execution_contract_blob']=='0e4c9b2818233dfc641ea890903f3633ef6a701c'
-          assert locks['heavy_workflow_blob']=='a8dd5ab3256662e267e9abd6ac7a08814c74e210'
-          assert locks['repository_main_head']=='37bb811b95399d73cc46fe899badcfa8eb5fca7d'
+          assert locks['execution_contract_blob']=='eb7774ac8fc0d892d7ed67f30b1295adcc26519f'
+          assert locks['heavy_workflow_blob']=='b3f445a266cf8e53fd78346cb07175b270cf7dc7'
+          assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
           assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
           PY
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
