@@ -1,10 +1,11 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V4",
-  "status": "COLD_DOORSTEP_IMPLEMENTATION_COMPLETE__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V5_B_D_BAND_RESUME",
+  "status": "COLD_DOORSTEP_RESUME_REFINED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
   "audited_predecessor": {
-    "head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
-    "hostile_audit_review_id": 5231786735,
-    "status": "PASS"
+    "head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
+    "hostile_audit_review_id": 5242485845,
+    "status": "PASS",
+    "scope": "previous cold b-unit doorstep; current finer resume refinement is post-audit and requires separate re-audit before arming"
   },
   "live_main": {
     "audited_numeric_pr": 1808,
@@ -20,49 +21,62 @@
   },
   "execution_surface": {
     "worker_path": "run_br204_full178_b_unit.cpp",
-    "worker_blob": "71081e34c03eee756ea970e6632716121e951f54",
+    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
     "aggregator_path": "aggregate_br204_full178.py",
-    "aggregator_blob": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
+    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
+    "contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "03b4c46f17a1b3c544d413b7006690788c249d03",
+    "qbc_tail_addendum_blob": "67aa65924a5e266ba26c396ea92b387562f3eb99",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "0b3cb0cf3a259e745c22bf52da215a322cc7dd96",
+    "heavy_workflow_blob": "9a88492a3c7f3d013b9818d17072b1be8f8f4f29",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "a2e0bce85e01a0f4b82fe90019c5a739420e5e5c",
+    "retained_replay_blob": "b332478cc9da47035493fdc964d3fef754014a5e",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "f02458dd56765502f8e06b82bbf1aa4bd59b51c0",
+    "runkey_blob": "d34ef5540ef87222c61a63eed5e8d50ed12fced2",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
   },
   "audit_repair_delta": {
-    "prior_green_retained_replay_head": "a182e95544cd8381a385ce360c9211240acd3741",
-    "prior_green_retained_replay_run": 35195455723,
-    "prior_green_retained_replay_status": "SUCCESS",
-    "repairs_after_that_run": [
-      "make qBC L>8 and K8 level-8-plus tail-slot certificate fields explicit in the same b-unit pass",
-      "group equal exact s/B ratios before global forced-tail attribution so BR205 evidence is order independent",
-      "accept exact LP envelope exhaustion at a full ratio-class boundary",
-      "bind manual heavy authorization to the exact merged-V41 repository main head and MAIN-STATE blob",
-      "relock runkey, manual heavy workflow, retained replay, execution contract and qBC-tail addendum"
+    "prior_audited_cold_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
+    "prior_audit_review_id": 5242485845,
+    "execution_only_refinement_after_that_audit": [
+      "split each b computation into approved exact d bands 8..54, 56..100, 102..146, 148..192",
+      "retain only bands containing at least one admissible d>=2b, giving 250 durable subunits",
+      "validate repeated static BC state/mass metadata across bands and count it once per b",
+      "sum dynamic LP bins and qBC-tail counters across every exact subunit",
+      "reuse validated carried subunits and recompute only missing (b,d-band) work",
+      "use two durable representative pilots so fan-out has at most 248 matrix jobs"
     ],
-    "exact_head_replay_after_repairs": "REQUIRED_NOT_YET_RECORDED",
-    "hostile_audit_after_repairs": "REQUIRED_NOT_YET_RECORDED"
+    "mathematical_population_changed": false,
+    "authority_or_credit_changed": false,
+    "exact_head_replay_after_refinement": "REQUIRED_NOT_YET_RECORDED",
+    "hostile_audit_after_refinement": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_ARMING"
   },
   "heavy_shape": {
     "rows": 178,
-    "durable_b_units": 97,
-    "b_coverage": "0..96 exactly once after validated carry reuse",
+    "b_units": 97,
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250,
+    "subunit_coverage": "every admissible even d>=max(8,2b) through 192 is covered exactly once after validated carry reuse",
     "logical_shards": 8,
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
-    "pilot_b": 96,
-    "global_lp": "union all exact b-unit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume": "validate carried complete b-unit streams under exact current source locks; compute missing units only"
+    "pilot_subunits": [
+      "b=0,d=8..54",
+      "b=96,d=148..192"
+    ],
+    "global_lp": "union all exact subunit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
+    "resume": "validate carried complete (b,d-band) streams under exact current source locks; compute missing subunits only"
   },
   "storage": {
-    "per_b_gzip_hard_cap_bytes": 4000000,
-    "pilot_projection_gate": "97 * pilot_gzip_bytes * 2 + 20 MiB <= 500 MiB",
+    "per_subunit_gzip_hard_cap_bytes": 1800000,
+    "absolute_peak_gate": "250 * 1,800,000 bytes + 20 MiB <= 500 MiB",
+    "pilot_projection_gate": "250 * max(two pilot gzip sizes) * 2 + 20 MiB <= 500 MiB",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_4_1m_state_stream_persistence": false
@@ -77,8 +91,8 @@
     "BR205_authorized": false
   },
   "next_gate": {
-    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_HOSTILE_AUDIT_PASS",
-    "after_pass": "STOP COLD. Do not arm or dispatch in the preparation phase. A later explicit execution request may make exactly one run-key-only semantic arm commit whose parent is the hostile-audited doorstep head, then manually dispatch BR204 heavy at that exact arm head."
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
+    "after_pass": "STOP COLD. Do not arm or dispatch during this implementation chat. A later explicit execution request may arm only after the finer-resume exact head receives hostile-audit PASS in a separate audit."
   },
   "credit": {
     "stage32_main": false,
