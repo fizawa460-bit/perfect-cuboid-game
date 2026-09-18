@@ -1,0 +1,137 @@
+{
+  "schema": "STAGE32_MB104_W4_THIRD_DEPTH_ROOT_WALL_V1",
+  "status": "W4_THIRD_DEPTH_COMPLETE_CLOSED_NEGATIVE_NO_CREDIT",
+  "predecessor_head": "fddbb2cc33e2a915ff933018d6eaf5378bd895fc",
+  "primitive_pushdowns": {
+    "a1": {
+      "square": 1344,
+      "M": 224,
+      "degree_bound_sq": "8/3",
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "a2": {
+      "square": 1344,
+      "M": 224,
+      "degree_bound_sq": "8/3",
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "a3": {
+      "square": 1376,
+      "M": 192,
+      "degree_bound_sq": "96/43",
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "b1": {
+      "square": 1152,
+      "M": 416,
+      "degree_bound_sq": "52/9",
+      "node_weights": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "b2": {
+      "square": 1152,
+      "M": 416,
+      "degree_bound_sq": "52/9",
+      "node_weights": [
+        2,
+        2,
+        2,
+        1
+      ],
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "b3": {
+      "square": 736,
+      "M": 832,
+      "degree_bound_sq": "416/23",
+      "node_weights": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        1,
+        2,
+        1
+      ],
+      "special_hyperplane": "c-a1-a2-i*a3=0",
+      "component_weight_sums": [
+        7,
+        7
+      ],
+      "result": "ROOT_WALL_NONNEGATIVE"
+    },
+    "c": {
+      "square": 1312,
+      "M": 256,
+      "degree_bound_sq": "128/41",
+      "result": "ROOT_WALL_NONNEGATIVE"
+    }
+  },
+  "universal": {
+    "H2": 8,
+    "H_P": 112,
+    "decomposition": "V=P-14H",
+    "negative_root_bound": "d^2 < 16*(1568-P^2)/P^2"
+  },
+  "kc_type": {
+    "coordinates": [
+      "a1",
+      "a2",
+      "a3",
+      "c"
+    ],
+    "source_even_degree": true,
+    "source_picard_rank": 20,
+    "conclusion": "no positive-degree negative root satisfies the bound"
+  },
+  "kb_type": {
+    "coordinates": [
+      "b1",
+      "b2",
+      "b3"
+    ],
+    "singular_node_count": 16,
+    "line_exists": false,
+    "no_line_argument": "factorization of w^2=u^2+v^2 for restricted linear forms"
+  },
+  "b3_hyperplane": {
+    "equation": "c-a1-a2-i*a3=0",
+    "factorization": "a1^2+a2^2+a3^2-c^2=-2*(a1+i*a3)*(a2+i*a3)",
+    "reduced_components": [
+      "Q_A",
+      "Q_B"
+    ],
+    "component_degrees": [
+      2,
+      2
+    ],
+    "component_weight_sums": [
+      7,
+      7
+    ],
+    "outside_hyperplane_lower_bound": "P.R>=6*d"
+  },
+  "disposition": "CLOSED_NEGATIVE",
+  "remaining_user_selected_solo_routes": [
+    "W5",
+    "W20",
+    "W16"
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
