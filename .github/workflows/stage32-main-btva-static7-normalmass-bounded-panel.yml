@@ -1,9 +1,14 @@
 name: Stage32 MAIN BTVA static7 normalmass bounded panel
 
-# Trigger lifecycle: RETIRED — workflow_dispatch-only after exact e12 q-bin evidence retention.
+# Trigger lifecycle: ACTIVE_AUTO — one-shot e12 ratio selector; retire immediately after evidence capture.
 # Restricted to this workflow file on the active MAIN research branch; retire after artifact retention.
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - stage32-main-v44-btva-static7-20260918
+    paths:
+      - '.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml'
 
 permissions:
   contents: read
@@ -82,7 +87,7 @@ jobs:
           compression-level: 9
 
 
-  e12-hpadj21-exact-qbin:
+  e12-ratio-directed-selector:
     if: github.event_name == 'push'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -100,13 +105,13 @@ jobs:
           path: .stage32-ex5-hpadj21
           fetch-depth: 1
 
-      - name: Assert exact q-bin sources
+      - name: Assert exact ratio-selector sources
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py)" = "24d5382b9fc392be79f4c66a525d6a80bc97a305"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json)" = "c7c01eb27c4e80598d32261cb498fdccc7264ba9"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py)" = "4160b8cf04e41ed467a04d481779a49928f0376c"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json)" = "35b94bf7aa6635130938327eb316e4cf6fc30495"
           test "$(git -C .stage32-ex5-hpadj21 rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
           test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"
 
@@ -115,43 +120,34 @@ jobs:
         with:
           python-version: '3.11.x'
 
-      - name: Run exact e12 q-bin joint diagnostic
+      - name: Run exact e12 ratio-directed selector
         shell: bash
         run: |
-          python stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py \
+          python stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py \
             --hpadj21-root .stage32-ex5-hpadj21 \
-            --output "$RUNNER_TEMP/btva-e12-hpadj21-exact-qbin.json"
+            --output "$RUNNER_TEMP/btva-e12-ratio-directed-selector.json"
 
-      - name: Validate exact q-bin diagnostic
+      - name: Validate ratio-directed selector
         shell: bash
         run: |
-          python - "$RUNNER_TEMP/btva-e12-hpadj21-exact-qbin.json" <<'PY'
+          python - "$RUNNER_TEMP/btva-e12-ratio-directed-selector.json" <<'PY'
           import hashlib,json,sys
           p=json.load(open(sys.argv[1]))
           stored=p.pop("canonical_sha256_without_this_field")
           calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
           assert stored==calc
-          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_HPADJ21_EXACT_QBIN_JOINT_LP_V1"
-          assert p["overlap"]["exact_overlap_block_count"]==1389
-          assert p["overlap"]["exact_overlap_terminal_mass"]==129177
-          assert p["joint_lp"]["baseline_hpadj21_row_floor"]==448431
-          assert p["joint_lp"]["joint_exact_qbin_conservative_row_floor"]<=448431
-          assert p["joint_lp"]["btva_removal_ratio_bins_reconstructed_exactly"] is True
-          assert p["semantics"]["prior_hpadj08_removed_identity_still_unknown"] is True
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_V1"
+          assert p["baseline"]["top16_exact_qbin_row_floor"]==448261
+          assert len(p["selected"])==16
+          assert p["semantics"]["selector_is_not_unsat_proof"] is True
           assert p["firewalls"]["main_pruning_credit"] is False
-          print(json.dumps({
-            "qbin_hist":p["overlap"]["exact_q_survivor_histogram"],
-            "baseline":p["joint_lp"]["baseline_hpadj21_row_floor"],
-            "joint":p["joint_lp"]["joint_exact_qbin_conservative_row_floor"],
-            "improvement":p["joint_lp"]["certified_floor_improvement_candidate"],
-            "canonical":stored
-          },sort_keys=True))
+          print(json.dumps({"selected":[r["base4"] for r in p["selected"]],"hypothetical":p["hypothetical_if_all_selected_unsat"],"canonical":stored},sort_keys=True))
           PY
 
-      - name: Upload compact exact q-bin evidence
+      - name: Upload compact ratio-selector evidence
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-main-btva-e12-hpadj21-exact-qbin
+          name: stage32-main-btva-e12-ratio-directed-selector
           path: ${{ runner.temp }}/btva-e12-hpadj21-exact-qbin.json
           retention-days: 7
           compression-level: 9
