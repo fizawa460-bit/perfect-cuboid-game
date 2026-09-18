@@ -250,3 +250,102 @@ may have rank one or satisfy a fixed relation forced by the section geometry. A 
 First shallow gate: only after W14 shows both individual maps can be nonzero, test the joint rank at `l=1`.
 
 Priority: **HIGH CONDITIONAL ON W14**.
+
+
+## Archive semantic precheck rule after Round C
+
+Before promoting any new wide-scan candidate, search the retained MB104 archive semantically, not only by remembered filename.  The W14 restriction-map idea was independently rediscovered even though the retained archive already contained the exact primitive-rank resolution.
+
+A rediscovered route is marked `DROP_ALREADY_RETAINED`, not promoted.
+
+## Round D genuinely untested candidates
+
+The archive filename/semantic precheck found no retained MB104 leaf explicitly implementing the mechanisms below.
+
+### W16 — minimal Cayley--Bacharach conductor subcluster
+
+W1 failed only because the **full** genus-defect cluster has too large a `c2` for Bogomolov instability.
+
+New idea: use the adjoint/conductor Cayley--Bacharach property of a normalization-genus-one integral curve to extract a *minimal obstructing subcluster* whose length may be much smaller than the full
+`Delta=168l^2+56l`.
+
+Numerical shallow gate: determine whether standard Cayley--Bacharach/Serre construction can force a subcluster length below
+
+```
+(D_l-K)^2/4
+ =84l^2-56l+4.
+```
+
+If no theorem gives such a source-complete subcluster, DROP immediately.  Do not construct the subcluster ad hoc.
+
+Priority: **HIGH**.
+
+### W17 — support-stabilizer carrier dichotomy
+
+The active support stabilizer has order two.
+
+Split a hypothetical carrier into:
+
+```
+sigma(C)=C
+or
+sigma(C)!=C.
+```
+
+If invariant, `sigma` acts on the genus-one normalization and exact Riemann--Hurwitz/quotient geometry becomes available.
+
+If non-invariant, compare `C` with the same-class translate `sigma(C)` and ask whether the exact 14-node / 8l-branch packet forces more local intersection than
+
+```
+C.sigma(C)=D_l^2=336l^2.
+```
+
+First shallow gate: check whether retained landing freedom already gives a compatibility witness with zero forced strict-transform intersection. If yes, DROP the non-invariant half; if the invariant half also has a compatible involution type, DROP the route.
+
+Priority: **MEDIUM-HIGH**.
+
+### W18 — elliptic projection / secant-center capacity
+
+The normalization line bundle
+
+```
+L=nu^*O_S(H)
+```
+
+has degree `112l`, while the 7 ambient coordinates define only a `g^6_{112l}`.
+
+At each supported box node, `8l` distinct normalization points are identified by this linear series.
+
+Interpret the map as a projection of the complete elliptic normal curve in `P^(112l-1)`.  Each identified cluster forces the projection center to meet a corresponding secant span.
+
+First shallow gate: dimension-count the simultaneous secant-center conditions for fourteen clusters of size `8l`.  If the Grassmannian of projection centers still has positive linear-in-`l` slack, DROP without geometry.
+
+Priority: **MEDIUM**.
+
+### W19 — adaptive Wronskian / unbounded-jet budget
+
+The fixed-jet wall only kills bounded jet depth.  Test an order/depth growing with `l`.
+
+For the genus-one `g^6_{112l}`, the total ramification weight of a basepoint-free linear series is linear in degree.  Compare the maximal global Wronskian/jet budget with the amount required to distinguish or regularize `8l` minimal branches at 14 nodes.
+
+First shallow gate: leading-coefficient comparison only.  If the available Wronskian budget is at least the required branch cost with positive slack, DROP.  No explicit high-order differential is built.
+
+Priority: **MEDIUM-HIGH**.
+
+### W20 — support-hyperplane residue / Abel relation
+
+The unique support hyperplane cuts the normalization in exactly the `112l` supported points, with no residual degree.
+
+Take ratios of the remaining ambient coordinate sections to this saturated hyperplane section. Their poles are exactly those `112l` points.  Residue/Abel constraints group the poles into fourteen fibers over fixed box nodes.
+
+First shallow gate: compute the rank of the first residue-moment relations from the exact 14-node configuration. If the nullspace still has dimension growing with `l` or the relations reduce to ordinary Abel's theorem already built into `O_E(B)`, DROP.
+
+Priority: **MEDIUM**.
+
+Round D order:
+
+```
+W16, W17, W18, W19, W20
+```
+
+One cheap test each; no adapter subprojects.
