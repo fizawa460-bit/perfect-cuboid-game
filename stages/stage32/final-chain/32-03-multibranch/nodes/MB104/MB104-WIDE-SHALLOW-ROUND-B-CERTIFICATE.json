@@ -1,0 +1,160 @@
+{
+  "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_B_V1",
+  "status": "ROUND_B_COMPLETE_ALL_DROPPED_NO_CREDIT",
+  "target": {
+    "support_mask": "000707000f0f",
+    "support_size": 14,
+    "divisor": "D_l=7*l*H-4*l*sum_(p in Sigma)E_p",
+    "degree": "112*l",
+    "normalization_genus": 1
+  },
+  "results": {
+    "W4_K3_QUOTIENT_SECOND_SCAN": {
+      "disposition": "DROP",
+      "cheap_test": "published K3 inventory plus rank-3 fibration pullback pairings",
+      "active_support_block_counts": [
+        4,
+        4,
+        0,
+        3,
+        3,
+        0
+      ],
+      "six_rank3_surface_fiber_pairings": [
+        "40*l",
+        "40*l",
+        "56*l",
+        "44*l",
+        "44*l",
+        "56*l"
+      ],
+      "k3_published_inventory": {
+        "picard_rank": 20,
+        "elliptic_fibrations": 15,
+        "rank3_fibrations": 3,
+        "rank4_fibrations": 12,
+        "low_degree_integral_curve_classification": "degree 2 and 4 only",
+        "active_pushdown_degree": "112*l"
+      },
+      "reason": "The second cheap test gives no negative elliptic-fiber pairing and the published K3 curve classification is far below the active degree. Continuing requires an explicit full rank-20 lattice expansion/nef-cone computation for the seven pushdown rays, so W4 does not survive the wide-scan two-test rule."
+    },
+    "W5_HIGHER_SYMMETRIC_DIFFERENTIALS": {
+      "disposition": "DROP",
+      "cheap_test": "retained explicit 13-form principal-part and fixed-finite-jet walls",
+      "order2_space_dimension": 13,
+      "principal_part_rank_each_node": 3,
+      "local_saturation": "three distinct landing directions exhaust the binary-quadratic principal part; further branches add no order-2 condition",
+      "active_branch_count_per_node": "8*l",
+      "published_asymptotic_support_boundary": "BTVA finiteness applies to curves through at most 13 singularities; active support has 14",
+      "reason": "The known independent forms and their finite products/finite jets do not scale with branch multiplicity. A genuinely new unbounded-order differential theorem would be new research rather than a surviving native closure mechanism."
+    },
+    "W8_SIMULTANEOUS_SIGN_QUOTIENT_GENUS": {
+      "disposition": "DROP",
+      "cheap_test": "support invariance under the seven coordinate-sign involutions",
+      "overlaps_with_sigma_support": {
+        "a1": 7,
+        "a2": 7,
+        "a3": 8,
+        "b1": 13,
+        "b2": 13,
+        "b3": 12,
+        "c": 6
+      },
+      "support_size": 14,
+      "invariant_coordinate_sign_involution_count": 0,
+      "reason": "If a carrier with exact support Sigma were invariant under a coordinate-sign involution, Sigma would be invariant. None of the seven involutions preserves Sigma, so none induces an involution of the carrier normalization. Simultaneous Riemann-Hurwitz on the genus-one normalization therefore has no source object."
+    },
+    "W10_AMBIENT_FAT_POINT_HILBERT": {
+      "disposition": "DROP",
+      "cheap_test": "exact line-bundle Hilbert lower bound from Riemann-Roch",
+      "chi": "168*l^2-56*l+8",
+      "h2_zero": true,
+      "h0_lower_bound": "168*l^2-56*l+8",
+      "l1_lower_bound": 120,
+      "l2_lower_bound": 568,
+      "reason": "Any exact fat-point/valuation model equivalent to O_S(D_l) has nonzero graded pieces for every l>=1. Therefore a uniform zero-Hilbert or initial-ideal vanishing certificate cannot exist for the exact active ray."
+    },
+    "W11_ELLIPTIC_NORMALIZATION_LINEAR_SERIES": {
+      "disposition": "DROP",
+      "cheap_test": "support-hyperplane saturation plus elliptic Riemann-Roch",
+      "hyperplane_degree": "deg L=H.C=112*l",
+      "supported_normalization_points": "14*(8*l)=112*l",
+      "consequence": "the unique support hyperplane cuts exactly the supported branch divisor, with no residual degree",
+      "elliptic_h0": "h0(E,L)=112*l",
+      "ambient_section_subspace_dimension_at_most": 7,
+      "retained_cross_checks": [
+        "zero-pairing quartic restrictions of the primitive ray are trivial in Pic^0",
+        "even half-hyperplane invariant/anti-invariant ambient eigensection systems are automatically nonzero"
+      ],
+      "reason": "The saturated divisor is completely compatible with a degree-112l line bundle on an elliptic curve; the ambient 7-dimensional section space is tiny compared with h0(L). No linear-series dimension or Abel-Jacobi collapse follows without an additional special relation, which is already the content of parked product-cover/eigensection routes."
+    }
+  },
+  "round_summary": {
+    "scanned": [
+      "W4-second",
+      "W5",
+      "W8",
+      "W10",
+      "W11"
+    ],
+    "drop": [
+      "W4",
+      "W5",
+      "W8",
+      "W10",
+      "W11"
+    ],
+    "pass_to_second_scan": [],
+    "deep_candidate": false,
+    "next_action": "Round C: shallow-screen W7 cyclic/abelian-cover BMY, W9 finite-characteristic specialization, W12 receiver-preserving degeneration, and add 2-3 newly generated direct-closing candidates before choosing any second scan."
+  },
+  "current_sources": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-WIDE-W4-K3-QUOTIENT-SOURCE-NOTE-20260918.md",
+      "blob_sha1": "ff61ae6c06549af194b4f1af611c7d4ea46d0dff"
+    }
+  ],
+  "historical_sources": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/BTVA-13FORM-PRINCIPAL-PART.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "1080c5da761fe328d3047f9829fd46cc3e7aabb0"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/FINITE-JET-MULTIPLICITY-SATURATION-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "934bc0a66f920b6d14f9dffd7ccf335edb007417"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-EFFECTIVITY-P5-CONIC-OBSTRUCTION.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "5ea5ccd96f759887c73d676a3a5c53c55b6773b5"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-PIC0-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "260da960d17e9b756c2e27b056f33603e3b58d9d"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-EVEN-HALF-HYPERPLANE-EIGENSECTION-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "e1297a4a1b46fd52b78db4b5be80665a0ed8beeb"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MULTIFIBRATION-RH-CAPACITY-WALL.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "86c05fb14915e3959dc17926fa86c0b133fc4496"
+    }
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
