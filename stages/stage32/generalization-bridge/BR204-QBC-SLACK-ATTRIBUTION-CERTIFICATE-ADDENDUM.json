@@ -1,18 +1,18 @@
 {
-  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V6_D_SLICE_RESUME",
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V7_ROLLED_PARTIAL_RESUME",
   "status": "PREFLIGHT_ONLY_ZERO_CREDIT__D_SLICE_RESUME_REBUILD__FRESH_AUDIT_REQUIRED",
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "f3cff578e2970df1246239ae7735564509d4dae3",
+    "heavy_execution_contract_git_blob_sha1": "31592b08692aa156e92ca1acd900993fc94743dc",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
     "heavy_worker_git_blob_sha1": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
     "global_aggregator_git_blob_sha1": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "bounded_qbc_pilot_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
     "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213",
-    "d_slice_combiner_git_blob_sha1": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
-    "resumable_band_runner_git_blob_sha1": "93f80d3d95e48d24843e92fd03972179dabeca5a"
+    "d_slice_combiner_git_blob_sha1": "7fde22790c562d837cffbef85385b1e3c2387555",
+    "resumable_band_runner_git_blob_sha1": "5296c7361efc9fca98a9d1080825fa512bb7cc72"
   },
   "bounded_regression": {
     "population": "H16_d_le_32_BR202_P1_SAME_POPULATION",
@@ -56,10 +56,10 @@
     "repository_main_head_at_cold_doorstep": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
     "heavy_compute_authorized_by_this_addendum": false,
     "workflow_arming_authorized_by_this_addendum": false,
-    "storage_rule": "Each complete or partial outer-band recovery slot is capped at 900000 compressed bytes; representative pilots measure both final-band and full single-d-slice footprints before scaleout.",
-    "resume_durable_unit": "b_x_d_band_outer__b_x_d_inner_checkpoint",
+    "storage_rule": "Each complete or rolled-partial outer-band recovery slot is capped at 900000 compressed bytes; no per-d artifact population persists across runs.",
+    "resume_durable_unit": "b_x_d_band_outer__runner_local_b_x_d_checkpoint__rolled_partial_band_artifact",
     "expected_subunit_count": 250,
-    "resume_recovery": "Generation >=2 paginates every predecessor artifact page, re-emits complete outer-unit prefix plus validated single-d partial bundle, and computes only missing d values inside incomplete bands. SINGLE_D_TIMEOUT is a hard stop requiring a finer partition.",
+    "resume_recovery": "Generation >=2 paginates every predecessor artifact page, re-emits complete outer-unit prefix plus validated rolled partial-band bundle, and computes only missing d values inside incomplete bands. SINGLE_D_TIMEOUT remains a hard stop requiring finer partition.",
     "launcher_trigger": "Dedicated runkey-only push remains the only heavy launcher; rebuilt cold head requires fresh hostile audit before generation 1.",
     "expected_single_d_checkpoint_count": 4743,
     "soft_deadline_seconds": 13500,
