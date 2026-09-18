@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE32EX5_HPADJ22_PRODUCTION_RUNKEY_V1",
+  "route_id": "HPADJ-22_ex5",
+  "generation": 1,
+  "armed": true,
+  "carry_run_id": 0,
+  "carry_exact_head": null,
+  "source_locks": {
+    "band_worker": {"path": "stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py", "blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46"},
+    "aggregate": {"path": "stages/stage32-ex5/hpadj-22_ex5/aggregate_full178_bands.py", "blob_sha1": "f8bec24ab6d524aac05eb8cde9979250f260809c"},
+    "recovery_snapshot": {"path": "stages/stage32-ex5/hpadj-22_ex5/build_recovery_snapshot.py", "blob_sha1": "52359e8e8074c8bf0db369b49285bf1b927fb33c"},
+    "band_bounded_equivalence": {"path": "stages/stage32-ex5/hpadj-22_ex5/verify_bband_bounded.py", "blob_sha1": "ae11c29ed14a326ca91e58c08ee16a5546a65535"},
+    "production_workflow": {"path": ".github/workflows/stage32-ex5-hpadj22-production.yml", "blob_sha1": "eb3b96469ae5b504415c767ae37d6a91a4eb95cc"},
+    "production_preflight": {"path": "stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py", "blob_sha1": "d5b39ebdbea6c7111636e46162112b93e58b8412"},
+    "production_contract": {"path": "stages/stage32-ex5/hpadj-22_ex5/PRODUCTION-EXECUTION-CONTRACT.json", "blob_sha1": "8560d234d9a98d5b0f31624fc5ba8b0ab63058fa"}
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 8,
+    "repo_stage_heavy_cap": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "observed_other_stage32_heavy_concurrency_at_arm": 0,
+    "artifact_count_upper_bound_per_run": 10,
+    "artifact_hard_cap_bytes_per_band": 2097152,
+    "projected_peak_artifact_mb": 24,
+    "repository_operating_budget_mb": 500
+  },
+  "authorization": {
+    "commit_range_runkey_change_required": true,
+    "generation_must_increase": true,
+    "synchronize_only_for_automatic_arm": true,
+    "ordinary_sync_is_cold": true,
+    "reopened_is_cold": true,
+    "arm_commit_must_change_only_or_explicitly_include_this_runkey": true
+  },
+  "credit": {
+    "partial_output_credit": false,
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "df250a59636646c5c72e6dfc6989f1edd7f229f4e23a9e25c4ae57da17f32447"
+}

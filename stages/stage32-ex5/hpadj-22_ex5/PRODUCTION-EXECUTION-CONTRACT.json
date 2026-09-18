@@ -1,0 +1,114 @@
+{
+  "schema": "STAGE32EX5_HPADJ22_PRODUCTION_EXECUTION_CONTRACT_V1",
+  "route_id": "HPADJ-22_ex5",
+  "status": "READY_COLD__EXPLICIT_ARM_REQUIRED",
+  "purpose": "Run the exact FULL178 HPADJ22 deletion-correlation refinement using the eight retained HPADJ15 b-bands, with durable row checkpoints and resume-only recovery.",
+  "source_locks": {
+    "band_worker": {"path": "stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py", "blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46"},
+    "aggregate": {"path": "stages/stage32-ex5/hpadj-22_ex5/aggregate_full178_bands.py", "blob_sha1": "f8bec24ab6d524aac05eb8cde9979250f260809c"},
+    "recovery_snapshot": {"path": "stages/stage32-ex5/hpadj-22_ex5/build_recovery_snapshot.py", "blob_sha1": "52359e8e8074c8bf0db369b49285bf1b927fb33c"},
+    "band_bounded_equivalence": {"path": "stages/stage32-ex5/hpadj-22_ex5/verify_bband_bounded.py", "blob_sha1": "ae11c29ed14a326ca91e58c08ee16a5546a65535"},
+    "production_workflow": {"path": ".github/workflows/stage32-ex5-hpadj22-production.yml", "blob_sha1": "eb3b96469ae5b504415c767ae37d6a91a4eb95cc"},
+    "production_preflight": {"path": "stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py", "blob_sha1": "d5b39ebdbea6c7111636e46162112b93e58b8412"},
+    "bchunk_worker": {"path": "stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py", "blob_sha1": "3fc6e7e4aff539be5b60528d1d1b2e41529ddc03"},
+    "bounded_result": {"path": "stages/stage32-ex5/hpadj-22_ex5/BOUNDED-RESULT.json", "blob_sha1": "837ae21d2ef80a58d5d61bbfbedf5e4277ff5d0e"},
+    "bchunk_equivalence_receipt": {"path": "stages/stage32-ex5/hpadj-22_ex5/BCHUNK-EQUIVALENCE-RECEIPT.json", "blob_sha1": "b773ccadd0ae0c0aadb1074199d2f4c1d31fc95b"}
+  },
+  "mathematical_semantics": {
+    "same_pre_domain_population_as_hpadj21": true,
+    "same_picard_qA_rule_as_hpadj21": true,
+    "exact_hpadj08_deletion_location_retained": true,
+    "joint_qA_qBC_required_picard_parity": true,
+    "audited_hpadj21_full178_upper_bound": 157570677819451133507,
+    "audited_hpadj08_exact_square_rejected_terminals": 40886299509963924857401,
+    "aggregate_must_reproduce_both_audited_totals": true,
+    "additive_subtraction_used": false,
+    "statistical_independence_assumed": false
+  },
+  "bounded_gates": {
+    "bounded_result_canonical": "b3387e3f07a02a30bfc5558ad72859c72c25a5289320abd22ac1947bf53b3d77",
+    "bounded_rows": 26,
+    "bounded_cells": 208,
+    "strict_rows": 26,
+    "strict_cells": 36,
+    "bounded_improvement": 35316970705,
+    "bchunk_equivalence_canonical": "02ecf8fe47ee8e7a6ec18bbbe784ab3527f9d0e8c1046ea0caf653a088f2554b",
+    "band_worker_bounded_equivalence_required_before_arm": true
+  },
+  "comparable_execution_preflight": {
+    "basis": "COMPARABLE_PRIOR_HPADJ21_BCHUNK_AND_HPADJ08_BBAND_RUNS",
+    "new_representative_measurement_required": false,
+    "hpadj21_bchunk_run_id": 35279651998,
+    "hpadj21_artifact_count": 59,
+    "hpadj21_max_measured_chunk_artifact_bytes": 482162,
+    "hpadj08_full178_run_id": 34935380596,
+    "hpadj08_band_artifact_count": 8,
+    "hpadj08_max_measured_band_artifact_bytes": 6611,
+    "discarded_noncredit_measurement_run_id": 35293574861,
+    "discard_reason": "User requested no additional heavy production while other heavy workflows are in use; existing comparable prior runs are sufficient for storage preflight."
+  },
+  "partition": {
+    "b_bands": [[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]],
+    "band_count": 8,
+    "row_count": 178,
+    "exact_cell_count": 1424,
+    "durable_checkpoint_unit": "ONE_BAND_ONE_FULL178_ROW_CELL",
+    "rows_checkpointed_per_band": 178,
+    "band_artifact_contains": "validated row JSON checkpoints plus BAND-COMPLETE.json",
+    "complete_band_coverage_rule": "Every band contains manifest rows 0..177 exactly once."
+  },
+  "resume_policy": {
+    "mode": "RESUME_FIRST_ROW_CHECKPOINTS_WITHIN_EACH_BAND",
+    "carry_run_id_supported": true,
+    "carry_exact_head_required": true,
+    "carry_run_must_use_same_band_worker_blob": true,
+    "prior_artifact_enumeration_limit": "<100 artifacts, checked explicitly",
+    "complete_band_recompute_forbidden": true,
+    "partial_band_recovery": "validate every completed row checkpoint and compute only missing rows",
+    "worker_step_timeout_minutes": 330,
+    "job_timeout_minutes": 350,
+    "partial_artifact_upload_after_worker_failure_or_timeout": true
+  },
+  "concurrency_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 8,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "arm_rule": "Record current overlapping Stage32 heavy concurrency in the runkey and require observed+8<=18.",
+    "current_arm_authorized": false
+  },
+  "storage_preflight": {
+    "repository_operating_budget_mb": 500,
+    "band_artifact_count": 8,
+    "artifact_hard_cap_bytes_per_band": 2097152,
+    "band_artifact_peak_mb_upper_bound": 16,
+    "recovery_snapshot_and_final_upper_bound_mb": 8,
+    "projected_peak_artifact_mb": 24,
+    "band_retention_days": 1,
+    "recovery_snapshot_retention_days": 3,
+    "final_candidate_retention_days": 7,
+    "within_500mb_budget": true
+  },
+  "authorization": {
+    "dedicated_runkey": "stages/stage32-ex5/runkeys/hpadj22-production.json",
+    "synchronize_requires_runkey_path_in_before_to_head_diff": true,
+    "generation_must_increase": true,
+    "armed_must_be_true": true,
+    "ordinary_source_docs_or_bookkeeping_sync_is_cold": true,
+    "reopened_is_cold": true,
+    "first_production_arm_must_be_a_distinct_followup_commit": true
+  },
+  "credit_firewall": {
+    "partial_output_credit": false,
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_completion_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f9d81ca361e893e7ebd3de8a3568e82772564a9c3747ef66af0d8fd6100bf59a"
+}

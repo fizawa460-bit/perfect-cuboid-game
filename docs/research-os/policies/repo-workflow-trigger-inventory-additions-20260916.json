@@ -1,21 +1,28 @@
 {
   "schema_version": 1,
-  "generated_on": "2026-09-17",
+  "generated_on": "2026-09-18",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
   "scope": "post-snapshot repository workflow lifecycle registrations",
   "classifications": {
     "ACTIVE_AUTO": [
+      ".github/workflows/stage32-ex5-hpadj22-production.yml",
+      ".github/workflows/stage32-ex5-hpadj22-band7-recovery.yml"
+    ],
+    "MANUAL": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml"
     ],
-    "MANUAL": [],
-    "RETIRED": []
+    "RETIRED": [
+      ".github/workflows/stage32-ex5-hpadj22-measurement.yml"
+    ]
   },
   "notes": [
-    "HPADJ20 heavy replay is PR-auto only behind a fresh dedicated run-key commit-range authorization gate, with manual dispatch retained for later exact-head reruns when dispatchable.",
-    "HPADJ21 heavy replay is the active successor scaleout surface. Its PR trigger enters only a cheap gate; heavy compute remains cold unless the dedicated HPADJ21 runkey advances semantically and is explicitly armed with a source-locked representative sweep receipt.",
-    "HPADJ21 b-chunk preflight is an ACTIVE_AUTO bounded equivalence/resume-plumbing gate. It performs only tiny checkpoint tests and grants no mathematical or production credit.",
-    "This additive registry preserves the frozen 2026-09-11 base snapshot while making later workflow additions fail-closed and mechanically auditable."
+    "HPADJ20 and HPADJ21 heavy/preflight workflows remain MANUAL historical replay surfaces after the audited HPADJ21 checkpoint.",
+    "HPADJ22 representative measurement is RETIRED after its exact result is retained as source-locked preflight evidence.",
+    "HPADJ22 FULL178 production is the current ACTIVE_AUTO producer surface. Ordinary synchronizations enter only the cheap authorization gate; eight heavy band jobs require a fresh semantic production runkey arm.",
+    "HPADJ22 production uses 8 exact HPADJ15 b-bands with row-level durable checkpoints inside each band, <=8 band artifacts plus compact recovery/final artifacts, max-parallel 8, and explicit arm-time Stage32 overlap accounting under the <=18 cap.",
+    "This additive registry preserves the frozen base snapshot while keeping post-snapshot workflow lifecycle mechanically auditable.",
+    "HPADJ22 band7 parallel recovery is an ACTIVE_AUTO one-shot recovery surface. It reuses exact rows 0..44 from run 35303482505 and computes only rows 45..177 in five disjoint row-range jobs, then fail-closes on exact 178-row reassembly."
   ]
 }

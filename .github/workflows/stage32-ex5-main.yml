@@ -23,10 +23,88 @@ jobs:
         with:
           # Preserve the historical merge-ref behavior elsewhere, but hostile
           # audit of the HPADJ successor branch requires literal PR-head replay.
-          ref: ${{ (github.head_ref == 'stage32ex5-hpadj09-successor-20260915' || github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917') && github.event.pull_request.head.sha || github.sha }}
+          ref: ${{ (github.head_ref == 'stage32ex5-hpadj09-successor-20260915' || github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917' || github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918') && github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+      - name: Checkout hostile-audited HPADJ08 source for HPADJ22
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        uses: actions/checkout@v4
+        with:
+          repository: fizawa460-bit/perfect-cuboid-game
+          ref: 36eab50192cf80ec5ed48aba40f4a56076759fea
+          path: _hpadj08-audit-h22
+          fetch-depth: 1
+      - name: Run HPADJ22 bounded exact deletion-correlation gate
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          test "$(git -C _hpadj08-audit-h22 rev-parse HEAD)" = "36eab50192cf80ec5ed48aba40f4a56076759fea"
+          python stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py \
+            --hpadj08-root _hpadj08-audit-h22 | tee /tmp/hpadj22-bounded.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/hpadj22-bounded.json').read_text())
+          assert d['status']=='STRICT_BOUNDED_REFINEMENT_FOUND__FULL178_NOT_RUN'
+          assert d['bounded_scope']['row_count']==26
+          assert d['exact_identity_checks']['hpadj08_exact_square_rejected_terminals']==25770706503487
+          assert d['candidate']['strict_improvement']==35316970705
+          assert d['candidate']['strict_row_count']==26
+          assert d['candidate']['strict_cell_count']==36
+          assert d['candidate']['all_cells_no_weaker'] is True
+          assert all(v is False for v in d['firewalls'].values())
+          print('HPADJ22_BOUNDED_CANONICAL='+d['canonical_sha256_without_this_field'])
+          print('HPADJ22_BOUNDED_GAIN='+str(d['candidate']['strict_improvement']))
+          print('HPADJ22_STRICT_ROWS='+str(d['candidate']['strict_row_count']))
+          PY
+          cmp /tmp/hpadj22-bounded.json stages/stage32-ex5/hpadj-22_ex5/BOUNDED-RESULT.json
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bounded_result.py
+      - name: Verify HPADJ22 bounded b-chunk direct equivalence
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bchunk_equivalence_bounded.py | tee /tmp/hpadj22-bchunk-equiv.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/hpadj22-bchunk-equiv.json').read_text())
+          assert d['status']=='EXACT_DIRECT_VS_BCHUNK_EQUIVALENCE_PASS'
+          assert len(d['targets'])==2
+          assert d['checks']['single_full_b_chunk_vs_split_chunks_dictionary_equal'] is True
+          assert d['checks']['retained_bounded_rows_reproduced'] is True
+          assert d['firewalls']['heavy_run_armed'] is False
+          print('HPADJ22_BCHUNK_EQUIV_CANONICAL='+d['canonical_sha256_without_this_field'])
+          PY
+      - name: Verify HPADJ22 band worker against retained bounded result
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bband_bounded.py | tee /tmp/hpadj22-band-equiv.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/hpadj22-band-equiv.json').read_text())
+          assert d['status']=='EXACT_BAND_WORKER_BOUNDED_EQUIVALENCE_PASS'
+          assert d['checks']['row_count']==10
+          assert d['checks']['hpadj08_rejection_reproduced'] is True
+          assert d['checks']['hpadj21_floor_reproduced'] is True
+          assert d['checks']['hpadj22_exact_reproduced'] is True
+          assert d['checks']['all_rows_strict'] is True
+          assert d['firewalls']['heavy_run_armed'] is False
+          print('HPADJ22_BAND_EQUIV_CANONICAL='+d['canonical_sha256_without_this_field'])
+          PY
+      - name: Verify HPADJ22 production surface source locks and cold/armed state
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          if python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          raise SystemExit(0 if d['armed'] is True else 1)
+          PY
+          then
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py --require-armed
+          else
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py
+          fi
       - name: Verify HPADJ21 FULL178 checkpoint and MAIN handoff preflight at exact head
         if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
         run: python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py

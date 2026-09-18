@@ -1,0 +1,155 @@
+name: Stage32EX5 HPADJ22 band7 parallel recovery
+
+# Lifecycle: ACTIVE_AUTO — one-shot band7 recovery surface; heavy jobs require fresh runkey arm.
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj22-band7-recovery.json'
+      - '.github/workflows/stage32-ex5-hpadj22-band7-recovery.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32ex5-hpadj22-band7-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: gate
+        name: Fresh band7 recovery authorization gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/hpadj22-band7-recovery.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+          git show "$BEFORE:$KEY" > /tmp/old.json 2>/dev/null || exit 0
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old.json').read_text())
+          new=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-band7-recovery.json').read_text())
+          assert old['schema']==new['schema']=='STAGE32EX5_HPADJ22_BAND7_PARALLEL_RECOVERY_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          assert new['carry_run_id']==35303482505
+          assert new['carry_exact_head']=='c066f8dbb3312a5626e47554ec83530c42288465'
+          assert new['carry_artifact_name']=='hpadj22-band-7'
+          assert new['ranges']==[[45,71],[72,98],[99,125],[126,152],[153,177]]
+          assert new['resource_preflight']['planned_effective_heavy_concurrency']==5
+          assert new['resource_preflight']['user_parallel_budget']==10
+          for k,v in new['credit'].items(): assert v is False
+          for key,rec in new['source_locks'].items():
+              p=Path(rec['path']); raw=p.read_bytes()
+              blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+              assert blob==rec['blob_sha1'],(key,blob,rec['blob_sha1'])
+          PY
+          carry_head="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/35303482505" --jq .head_sha)"
+          test "$carry_head" = "c066f8dbb3312a5626e47554ec83530c42288465"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35303482505/artifacts?per_page=100" > /tmp/a.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/a.json'))
+          m=[a for a in d['artifacts'] if a['name']=='hpadj22-band-7' and not a.get('expired',False)]
+          assert len(m)==1 and m[0]['id']==10539362184
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  shards:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        include:
+          - { shard: 0, start: 45, stop: 71 }
+          - { shard: 1, start: 72, stop: 98 }
+          - { shard: 2, start: 99, stop: 125 }
+          - { shard: 3, start: 126, stop: 152 }
+          - { shard: 4, start: 153, stop: 177 }
+    runs-on: ubuntu-24.04
+    timeout-minutes: 305
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Compute exact band7 row range
+        timeout-minutes: 290
+        run: |
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/run_band7_row_range.py \
+            --row-start ${{ matrix.start }} --row-stop ${{ matrix.stop }} --output-dir out
+      - name: Enforce shard artifact footprint
+        if: always()
+        run: |
+          test -d out
+          bytes="$(du -sb out | awk '{print $1}')"
+          echo "bytes=$bytes"
+          test "$bytes" -le 2097152
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: hpadj22-band7-shard-${{ matrix.shard }}
+          path: out/
+          retention-days: 2
+          if-no-files-found: error
+
+  assemble:
+    needs: [authorize, shards]
+    if: always() && needs.authorize.result == 'success' && needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7
+          path: carry
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj22-band7-shard-*
+          path: shards
+          merge-multiple: false
+      - name: Assemble exact complete band7
+        run: |
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/assemble_band7_parallel.py \
+            --carry-dir carry --shards-root shards --output-dir out
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py \
+            --band-position 7 --output-dir out --verify-complete out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: out/
+          retention-days: 3

@@ -1,0 +1,271 @@
+name: Stage32EX5 HPADJ22 FULL178 production
+
+# Lifecycle: ACTIVE_AUTO — current HPADJ22 FULL178 producer surface.
+# Heavy work is fail-closed behind a fresh dedicated production runkey arm.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj22-production.json'
+      - '.github/workflows/stage32-ex5-hpadj22-production.yml'
+  workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact 40-hex head for an explicitly authorized replay
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32ex5-hpadj22-production-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+      carry_run_id: ${{ steps.gate.outputs.carry_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Fresh HPADJ22 production authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/hpadj22-production.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          echo 'carry_run_id=0' >> "$GITHUB_OUTPUT"
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py --require-armed
+          else
+            [ "$EVENT_NAME" = pull_request ] || exit 0
+            [ "$PR_ACTION" = synchronize ] || exit 0
+            [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+            git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+            git show "$BEFORE:$KEY" > /tmp/old-key.json 2>/dev/null || exit 0
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old-key.json').read_text())
+          new=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          assert old['schema']==new['schema']=='STAGE32EX5_HPADJ22_PRODUCTION_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          PY
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py --require-armed
+          fi
+
+          carry="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          print(int(d['carry_run_id']))
+          PY
+          )"
+          if [ "$carry" != 0 ]; then
+            expected_carry_head="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          print(d['carry_exact_head'])
+          PY
+            )"
+            actual_carry_head="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$carry" --jq .head_sha)"
+            test "$actual_carry_head" = "$expected_carry_head"
+            git fetch --no-tags --depth=1 origin "$actual_carry_head"
+            carry_worker_blob="$(git show "$actual_carry_head:stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py" | git hash-object --stdin)"
+            expected_worker_blob="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          print(d['source_locks']['band_worker']['blob_sha1'])
+          PY
+            )"
+            test "$carry_worker_blob" = "$expected_worker_blob"
+          fi
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
+
+  bands:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        band: [0,1,2,3,4,5,6,7]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Locate validated predecessor band artifact
+        id: carry
+        if: needs.authorize.outputs.carry_run_id != '0'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CARRY_RUN_ID: ${{ needs.authorize.outputs.carry_run_id }}
+          BAND: ${{ matrix.band }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" > /tmp/artifacts.json
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads(Path('/tmp/artifacts.json').read_text())
+          assert int(d['total_count']) < 100, 'carry artifact enumeration must remain below one page'
+          name=f"hpadj22-band-{os.environ['BAND']}"
+          matches=[a for a in d['artifacts'] if a['name']==name and not a.get('expired',False)]
+          assert len(matches)<=1, f'duplicate carry artifact {name}'
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('found=' + ('true' if matches else 'false') + '\n')
+          PY
+
+      - uses: actions/download-artifact@v4
+        if: needs.authorize.outputs.carry_run_id != '0' && steps.carry.outputs.found == 'true'
+        with:
+          name: hpadj22-band-${{ matrix.band }}
+          path: carry
+          run-id: ${{ needs.authorize.outputs.carry_run_id }}
+          github-token: ${{ github.token }}
+
+      - name: Compute or resume exact HPADJ22 band
+        id: compute
+        timeout-minutes: 330
+        env:
+          BAND: ${{ matrix.band }}
+        run: |
+          set -euo pipefail
+          mkdir -p "out/band-$BAND"
+          args=(--band-position "$BAND" --output-dir "out/band-$BAND")
+          if [ -d carry ]; then args+=(--resume-dir carry); fi
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py "${args[@]}"
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py             --band-position "$BAND"             --output-dir "out/band-$BAND"             --verify-complete "out/band-$BAND"
+
+      - name: Enforce compact band artifact footprint
+        id: footprint
+        if: always()
+        env:
+          BAND: ${{ matrix.band }}
+        run: |
+          set -euo pipefail
+          test -d "out/band-$BAND"
+          bytes="$(du -sb "out/band-$BAND" | awk '{print $1}')"
+          echo "bytes=$bytes"
+          test "$bytes" -le 2097152
+
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.footprint.outcome == 'success'
+        with:
+          name: hpadj22-band-${{ matrix.band }}
+          path: out/band-${{ matrix.band }}/
+          retention-days: 1
+          if-no-files-found: error
+
+  snapshot:
+    needs: [authorize, bands]
+    if: always() && needs.authorize.result == 'success' && needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      all_complete: ${{ steps.snap.outputs.all_complete }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj22-band-*
+          path: bands
+          merge-multiple: false
+      - name: Build exact recovery snapshot
+        id: snap
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/build_recovery_snapshot.py             --artifacts-root bands             --output out/RECOVERY-SNAPSHOT.json | tee /tmp/snapshot-summary.json
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          d=json.loads(Path('out/RECOVERY-SNAPSHOT.json').read_text())
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('all_complete=' + ('true' if d['all_bands_complete'] else 'false') + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-recovery-snapshot
+          path: out/RECOVERY-SNAPSHOT.json
+          retention-days: 3
+
+  aggregate:
+    needs: [authorize, snapshot]
+    if: needs.authorize.outputs.authorized == 'true' && needs.snapshot.outputs.all_complete == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj22-band-*
+          path: bands
+          merge-multiple: false
+      - name: Aggregate exact FULL178 HPADJ22 candidate
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/aggregate_full178_bands.py             --bands-root bands             --output out/FULL178-CANDIDATE.json | tee /tmp/hpadj22-full178-summary.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('out/FULL178-CANDIDATE.json').read_text())
+          assert d['status']=='EXACT_FULL178_DELETION_CORRELATION_CANDIDATE_HOSTILE_AUDIT_REQUIRED'
+          assert d['coverage']['received_rows']==178
+          assert d['coverage']['received_bands']==8
+          assert d['coverage']['received_cells']==1424
+          assert d['totals']['hpadj21_cellwise_floor_sum']==157570677819451133507
+          assert d['totals']['rejected_mass']==40886299509963924857401
+          assert d['totals']['hpadj22_exact_survivor_sum'] < d['totals']['hpadj21_cellwise_floor_sum']
+          assert d['firewalls']['stage32_main_pruning_credit'] is False
+          assert d['firewalls']['full178_producer_candidate_only'] is True
+          print('HPADJ22_FULL178_CANONICAL='+d['canonical_sha256_without_this_field'])
+          print('HPADJ22_FULL178_CANDIDATE='+str(d['totals']['hpadj22_exact_survivor_sum']))
+          print('HPADJ22_FULL178_GAIN='+str(d['totals']['improvement_vs_hpadj21']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-full178-candidate
+          path: out/FULL178-CANDIDATE.json
+          retention-days: 7
