@@ -5,13 +5,13 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 CONTRACT = HERE / "SELECTIVE-PICARD-RESUME-CONTRACT.json"
-CONTRACT_BLOB = "01edd7c7b8afabf5ae73eee2208d83e9a03d3931"
+CONTRACT_BLOB = "563b254b86fcbef00c0229f4763e85c9205df28d"
 RUNKEY = HERE / "SELECTIVE-PICARD-RUNKEY.json"
-RUNKEY_BLOB = "1c5b1c11aa3c089164d68171238a1e3b46915ca8"
+RUNKEY_BLOB = "c73b15a9ac5be6af15890b9d3db89c3de6f39f28"
 WORKER = HERE / "run_fibration_nef_selective_picard_workunit.py"
-WORKER_BLOB = "15a94deeaac2a7bbd56ecf3a2a2a3265e7e1203f"
+WORKER_BLOB = "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5"
 RESUME = HERE / "verify_fibration_nef_selective_picard_resume.py"
-RESUME_BLOB = "7e77d78c8f94d7f25f59deb839c64c662f44475e"
+RESUME_BLOB = "071eaf97eff187e60aee2606f90d08ab3bca1c9d"
 
 def req(v, m):
     if not v: raise SystemExit("FAIL: " + m)
@@ -59,7 +59,7 @@ def main():
 
     auth = contract["authorization"]
     req(auth["current_generation"] == 0 and auth["current_armed"] is False, "contract is not cold")
-    req(runkey["generation"] == 0 and runkey["armed"] is False, "runkey is not cold")
+    req(runkey["generation"] == 0 and runkey["armed"] is False, "runkey is not cold")\n    req(runkey.get("mode") == "COLD", "runkey mode is not COLD")\n    req(auth.get("current_mode") == "COLD", "contract mode is not COLD")
     req(runkey["authorized_workunit_ids"] == [], "cold runkey authorizes work")
     req(runkey["planned_effective_heavy_concurrency"] == 0, "cold runkey has heavy concurrency")
     req(runkey["representative_receipt_bytes"] == 0, "cold runkey claims measured receipt")
@@ -81,7 +81,7 @@ def main():
       "resume_verifier_blob_sha1":RESUME_BLOB,
       "selected_x4_slices":list(worker.SELECTED_X4),
       "workunit_size_ceiling":worker.WORKUNIT_SIZE,
-      "cold_runkey_generation":0,
+      "cold_runkey_generation":0,\n      "cold_runkey_mode":"COLD",\n      "measurement_pilot_defined":True,\n      "production_wave_requires_prior_measurement":True,
       "heavy_execution_authorized":False,
       "workflow_retained":False,
       "ready_for_future_measure_then_arm":True,
