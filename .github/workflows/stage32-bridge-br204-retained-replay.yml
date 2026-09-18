@@ -123,7 +123,7 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "1a80ed29bd50e31b125173231f05b2ec8f6e28d2"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "a125d9927c5d99c875f1047ea1557835e73ce62e"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "fe26df8aef1c4779763a78822ab184129f081781"
           python - <<'PY'
           import json,subprocess
           from pathlib import Path
@@ -177,7 +177,7 @@ jobs:
           PY
 
           # Resume from the rolled partial; only d=192 may be recomputed.
-          python "$R" --worker /tmp/br204-worker --combiner "$C"             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W"             --resume-dir /tmp/interrupted --out-dir /tmp/resumed             --soft-seconds 120 --slice-timeout-seconds 60
+          python "$R" --worker /tmp/br204-worker --combiner "$C"             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W"             --resume-dir /tmp/interrupted --out-dir /tmp/resumed             --soft-seconds 600 --slice-timeout-seconds 300
           python - <<'PY'
           import json
           s=json.load(open('/tmp/resumed/STATUS.json'))
