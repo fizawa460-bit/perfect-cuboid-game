@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V3_DURABLE_PREFIX",
-  "generation": 1,
-  "armed": true,
-  "purpose": "Generation 1 explicit BR204 FULL178 heavy execution arm. Dispatch only this exact arm head.",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold audit-doorstep placeholder for automatic runkey-push execution. Do not execute heavy until a fresh hostile-audit PASS is bound by a later runkey-only generation-1 commit.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -39,12 +39,18 @@
       }
     ],
     "envelope": "6703403803993209250491",
-    "main_bound_snapshot": "179119009547804181594"
+    "main_bound_snapshot": "179119009547804181594",
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "execution_commit_message_prefix": "stage32 BR204 execute generation "
+    }
   },
   "source_locks": {
     "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
+    "execution_contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
     "audited_numeric_main_review_id": 5231559824,
@@ -97,12 +103,14 @@
     "absolute_rollover_peak_bound_bytes": 470971520
   },
   "arm_contract": {
-    "required_transition": "armed false->true and generation strictly increases in one later runkey-only semantic arm commit",
+    "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only commit",
+    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, and set carry_run_id to the immediately previous failed/cancelled/timed-out BR204 heavy run",
+    "execution_commit_message_prefix": "stage32 BR204 execute generation ",
     "dispatch_exact_head_required": true,
-    "dispatch_head_parent_diff_must_include_only_this_runkey": true,
-    "cold_non_arm_commits_do_not_authorize": true,
-    "audited_doorstep_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "audited_doorstep_review_id": 5242897044
+    "execution_head_parent_diff_must_include_only_this_runkey": true,
+    "cold_non_execution_commits_do_not_authorize": true,
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null
   },
   "credit": {
     "stage32_main": false,
@@ -115,9 +123,8 @@
     "merge": false
   },
   "audit_hold": {
-    "head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
-    "review_id": 5242654911,
-    "status": "RESOLVED_BY_HOSTILE_AUDIT_PASS_2730779C",
-    "resolving_review_id": 5242897044
+    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "previous_manual_design_review_id": 5242897044,
+    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED"
   }
 }
