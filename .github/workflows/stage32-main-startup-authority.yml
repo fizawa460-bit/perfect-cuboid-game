@@ -80,11 +80,11 @@ jobs:
       - name: Verify V43 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "cef2e1ce9d80924d8dcb1d6b410542390e6b8a16"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "61569d45af53a7cb34beb4ad886de4c9053158fe"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "a1ea5681a516ec2b0b405c086af810790b5e7e45"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py)" = "ad96a89ed52598b6d4f12c12ef63a119aa0dd961"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
-          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "0ce17ea71e723a69581e613e36c03445f99963ea"
+          test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "4c92b15084f5b736415784a26b6c713b9dbe51aa"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "1043197ba322a1b0529e248e02be36725735cd34"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
