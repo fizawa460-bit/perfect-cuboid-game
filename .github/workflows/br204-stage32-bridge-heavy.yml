@@ -26,10 +26,10 @@ env:
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
   WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
-  COMBINER_BLOB: 3869a397cefdccb343434a0e23bc0f6e4ed37c16
-  BAND_RUNNER_BLOB: 93f80d3d95e48d24843e92fd03972179dabeca5a
+  COMBINER_BLOB: 7fde22790c562d837cffbef85385b1e3c2387555
+  BAND_RUNNER_BLOB: 5296c7361efc9fca98a9d1080825fa512bb7cc72
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
-  CONTRACT_BLOB: f3cff578e2970df1246239ae7735564509d4dae3
+  CONTRACT_BLOB: 31592b08692aa156e92ca1acd900993fc94743dc
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   REPOSITORY_MAIN_HEAD: 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
   MAIN_STATE_BLOB: 232732e29f72b55c34d540bf1c7cfcc4a626851c
@@ -158,7 +158,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       prefix_count: ${{ steps.recover.outputs.prefix_count }}
-      partial_slice_count: ${{ steps.recover.outputs.partial_slice_count }}
+      partial_band_count: ${{ steps.recover.outputs.partial_band_count }}
       pilot_low_present: ${{ steps.recover.outputs.pilot_low_present }}
       pilot_high_present: ${{ steps.recover.outputs.pilot_high_present }}
       discovered_artifact_count: ${{ steps.recover.outputs.discovered_artifact_count }}
@@ -199,7 +199,7 @@ jobs:
           import json,shutil
           from pathlib import Path
           dst=Path('/tmp/reemit-meta'); dst.mkdir(exist_ok=True)
-          for root in (Path('/tmp/prior-meta'),Path('/tmp/prior-units')):
+          for root in (Path('/tmp/prior-meta'),Path('/tmp/prior-units'),Path('/tmp/prior-partials')):
               if not root.exists(): continue
               for pat in ('PILOT-MEASUREMENT-*.json','PILOT-STORAGE-PREFLIGHT.json'):
                   for p in root.rglob(pat):
@@ -217,7 +217,7 @@ jobs:
             'discovered_complete_unit_artifact_count':sum(1 for r in rows if r[1].startswith('br204-u-')),
             'discovered_partial_band_artifact_count':sum(1 for r in rows if r[1].startswith('br204-p-')),
             'validated_carried_outer_unit_count':complete['validated_subunit_count'],
-            'validated_carried_single_d_slice_count':partial['validated_unique_slice_count'],
+            'validated_carried_partial_band_count':partial['validated_partial_band_count'],
           }
           (dst/'RECOVERY-DISCOVERY.json').write_text(json.dumps(inv,sort_keys=True,indent=2)+'\n')
           PY
@@ -242,7 +242,7 @@ jobs:
           d=json.loads(Path('/tmp/reemit-meta/RECOVERY-DISCOVERY.json').read_text())
           units={(x['b'],x['d_lo'],x['d_hi']) for x in c['subunits']}
           print('prefix_count='+str(c['validated_subunit_count']))
-          print('partial_slice_count='+str(p['validated_unique_slice_count']))
+          print('partial_band_count='+str(p['validated_partial_band_count']))
           print('pilot_low_present='+str((0,8,54) in units).lower())
           print('pilot_high_present='+str((96,148,192) in units).lower())
           print('discovered_artifact_count='+str(d['discovered_artifact_count']))
@@ -255,7 +255,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: "${{ steps.recover.outputs.partial_slice_count != '0' }}"
+        if: "${{ steps.recover.outputs.partial_band_count != '0' }}"
         with:
           name: br204-partials
           path: /tmp/reemit-partials
@@ -335,7 +335,7 @@ jobs:
           name: br204-worker-runtime
           path: /tmp/runtime
       - uses: actions/download-artifact@v4
-        if: needs.carry.outputs.partial_slice_count != '0'
+        if: needs.carry.outputs.partial_band_count != '0'
         with:
           name: br204-partials
           path: /tmp/partials
@@ -351,14 +351,14 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
+          payload_bytes=int(s['rollup_payload_gzip_bytes'])
+          assert payload_bytes<=900000
           final=Path('/tmp/band/br204-u-b0-d8-54.tsv.gz')
           final_bytes=final.stat().st_size if final.exists() else 0
-          assert slice_bytes<=900000
           if final.exists(): assert final_bytes<=900000
-          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V1','b':0,'band':[8,54],'complete':s['complete'],'slice_gzip_sum_bytes':slice_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V2_ROLLED_PARTIAL','b':0,'band':[8,54],'complete':s['complete'],'recovery_slot_payload_bytes':payload_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
           Path('/tmp/band/PILOT-MEASUREMENT-b0.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
-          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(slice_bytes)); print('final_bytes='+str(final_bytes))
+          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(payload_bytes)); print('final_bytes='+str(final_bytes))
           PY
       - uses: actions/upload-artifact@v4
         if: steps.measure.outputs.complete == 'true'
@@ -374,7 +374,7 @@ jobs:
         with:
           name: br204-p-b0-d8-54
           path: |
-            /tmp/band/slices
+            /tmp/band/br204-partial-*
             /tmp/band/STATUS.json
             /tmp/band/PILOT-MEASUREMENT-b0.json
           retention-days: 1
@@ -398,7 +398,7 @@ jobs:
           name: br204-worker-runtime
           path: /tmp/runtime
       - uses: actions/download-artifact@v4
-        if: needs.carry.outputs.partial_slice_count != '0'
+        if: needs.carry.outputs.partial_band_count != '0'
         with:
           name: br204-partials
           path: /tmp/partials
@@ -414,14 +414,14 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
+          payload_bytes=int(s['rollup_payload_gzip_bytes'])
+          assert payload_bytes<=900000
           final=Path('/tmp/band/br204-u-b96-d148-192.tsv.gz')
           final_bytes=final.stat().st_size if final.exists() else 0
-          assert slice_bytes<=900000
           if final.exists(): assert final_bytes<=900000
-          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V1','b':96,'band':[148,192],'complete':s['complete'],'slice_gzip_sum_bytes':slice_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V2_ROLLED_PARTIAL','b':96,'band':[148,192],'complete':s['complete'],'recovery_slot_payload_bytes':payload_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
           Path('/tmp/band/PILOT-MEASUREMENT-b96.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
-          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(slice_bytes)); print('final_bytes='+str(final_bytes))
+          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(payload_bytes)); print('final_bytes='+str(final_bytes))
           PY
       - uses: actions/upload-artifact@v4
         if: steps.measure.outputs.complete == 'true'
@@ -437,7 +437,7 @@ jobs:
         with:
           name: br204-p-b96-d148-192
           path: |
-            /tmp/band/slices
+            /tmp/band/br204-partial-*
             /tmp/band/STATUS.json
             /tmp/band/PILOT-MEASUREMENT-b96.json
           retention-days: 1
@@ -487,7 +487,7 @@ jobs:
                   if b in found: assert found[b]==x, f'conflicting pilot measurement b={b}'
                   found[b]=x
           assert set(found)=={0,96}, found
-          slots={b:max(int(x['slice_gzip_sum_bytes']),int(x['final_band_gzip_bytes'])) for b,x in found.items()}
+          slots={b:max(int(x['recovery_slot_payload_bytes']),int(x['final_band_gzip_bytes'])) for b,x in found.items()}
           hard=900000; budget=524288000; overhead=20971520
           assert all(v<=hard for v in slots.values())
           measured=2*250*max(slots.values())+overhead
@@ -529,7 +529,7 @@ jobs:
           name: br204-worker-runtime
           path: /tmp/runtime
       - uses: actions/download-artifact@v4
-        if: matrix.b != -1 && needs.carry.outputs.partial_slice_count != '0'
+        if: matrix.b != -1 && needs.carry.outputs.partial_band_count != '0'
         with:
           name: br204-partials
           path: /tmp/partials
@@ -548,14 +548,14 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
-          assert slice_bytes<=900000, ('partial recovery slot too large',slice_bytes)
+          payload_bytes=int(s['rollup_payload_gzip_bytes'])
+          assert payload_bytes<=900000, ('recovery slot too large',payload_bytes)
           final=Path(f"/tmp/band/br204-u-b{s['b']}-d{s['band'][0]}-{s['band'][1]}.tsv.gz")
           final_bytes=final.stat().st_size if final.exists() else 0
           if final.exists(): assert final_bytes<=900000
           print('complete='+str(s['complete']).lower())
           print('stop_reason='+s['stop_reason'])
-          print('slice_bytes='+str(slice_bytes))
+          print('slice_bytes='+str(payload_bytes))
           print('final_bytes='+str(final_bytes))
           PY
       - uses: actions/upload-artifact@v4
@@ -570,7 +570,7 @@ jobs:
         with:
           name: br204-p-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
           path: |
-            /tmp/band/slices
+            /tmp/band/br204-partial-*
             /tmp/band/STATUS.json
           retention-days: 1
           if-no-files-found: error
