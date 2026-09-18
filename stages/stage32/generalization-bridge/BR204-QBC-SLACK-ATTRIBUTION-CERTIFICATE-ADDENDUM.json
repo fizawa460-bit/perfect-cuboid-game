@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V4_DURABLE_PREFIX",
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V5_PUSH_RESUME",
   "status": "PREFLIGHT_ONLY_ZERO_CREDIT_NOT_HEAVY_AUTHORIZATION",
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
+    "heavy_execution_contract_git_blob_sha1": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
     "heavy_worker_git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
@@ -55,7 +55,8 @@
     "storage_rule": "Per-subunit gzip hard cap is 900,000 bytes; rollover peak uses at most one prior recovery union plus one re-emitted prefix before fail-closed cleanup.",
     "resume_durable_unit": "b_x_d_band",
     "expected_subunit_count": 250,
-    "resume_recovery": "At generation start, validate prior prefix plus completed subunits, re-emit one current prefix before any new compute, then calculate only missing (b,d-band) units. Pilots are independent durable units."
+    "resume_recovery": "Generation >=2 names the immediately prior failed/cancelled/timed-out heavy run. Its prefix plus completed subunits are validated and re-emitted before missing-only computation.",
+    "launcher_trigger": "A dedicated runkey-only push on stage32bridge-mainbatch starts heavy only after the audited-parent authorization gate passes; no user workflow_dispatch is required."
   },
   "credit": {
     "stage32_main": false,
