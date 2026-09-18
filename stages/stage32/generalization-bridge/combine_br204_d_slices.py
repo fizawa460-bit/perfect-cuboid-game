@@ -125,7 +125,7 @@ def find_partial(input_dirs:list[Path], b:int, lo:int, hi:int, worker_blob:str) 
     canon={(json.dumps(h[0],sort_keys=True,separators=(',',':')),h[1]["sha256"]) for h in hits}
     req(len(canon)==1, f"conflicting partial band state b={b} band={lo}..{hi}")
     st,pay,sp,pp=hits[0]
-    req(st["schema"]=="STAGE32_BR204_PARTIAL_BAND_STATE_V1","partial state schema")
+    req(st["schema"]=="STAGE32_BR204_PARTIAL_BAND_STATE_V2_LINEAGE","partial state schema")
     req(st["worker_blob"]==worker_blob,"partial worker blob")
     req(pay["b"]==b and pay["d_lo"]==lo and pay["d_hi"]==hi,"partial payload identity")
     req(st["aggregate_raw_sha256"]==pay["sha256"],"partial raw digest")
@@ -179,7 +179,13 @@ def cmd_rollup(a) -> None:
     else:
         payload_name,state_name=partial_names(b,lo,hi)
         gz=out/payload_name; gzip_deterministic(plain,gz); plain.unlink()
-        state={"schema":"STAGE32_BR204_PARTIAL_BAND_STATE_V1","b":b,"band":[lo,hi],"completed_d":completed,"missing_d":sorted(set(exp)-set(completed)),"worker_blob":a.worker_blob,"aggregate_raw_sha256":agg["sha256"],"aggregate_gzip_sha256":hashlib.sha256(gz.read_bytes()).hexdigest(),"payload_gzip_bytes":gz.stat().st_size}
+        parent_raw_sha=None
+        parent_completed=[]
+        if prior is not None:
+            pst,ppay,_,_=prior
+            parent_raw_sha=ppay["sha256"]
+            parent_completed=[int(d) for d in pst["completed_d"]]
+        state={"schema":"STAGE32_BR204_PARTIAL_BAND_STATE_V2_LINEAGE","b":b,"band":[lo,hi],"completed_d":completed,"missing_d":sorted(set(exp)-set(completed)),"worker_blob":a.worker_blob,"aggregate_raw_sha256":agg["sha256"],"aggregate_gzip_sha256":hashlib.sha256(gz.read_bytes()).hexdigest(),"payload_gzip_bytes":gz.stat().st_size,"parent_aggregate_raw_sha256":parent_raw_sha,"parent_completed_d":parent_completed}
         (out/state_name).write_text(json.dumps(state,sort_keys=True,indent=2)+"\n")
         status={"schema":"STAGE32_BR204_ROLLUP_STATUS_V1","b":b,"band":[lo,hi],"completed_d":completed,"missing_d":state["missing_d"],"complete":False,"payload":gz.name,"payload_gzip_bytes":gz.stat().st_size,"aggregate_raw_sha256":agg["sha256"],"state":state_name}
     (out/"ROLLUP-STATUS.json").write_text(json.dumps(status,sort_keys=True,indent=2)+"\n")
@@ -187,6 +193,12 @@ def cmd_rollup(a) -> None:
 
 def cmd_bundle(a) -> None:
     out=Path(a.out_dir); out.mkdir(parents=True,exist_ok=True)
+    complete=set()
+    if a.complete_manifest:
+        p=Path(a.complete_manifest)
+        if p.exists():
+            m=json.loads(p.read_text())
+            complete={(int(x["b"]),int(x["d_lo"]),int(x["d_hi"])) for x in m.get("subunits",[])}
     chosen={}; discovered=0
     roots=[Path(x) for x in a.input_dir]
     for root in roots:
@@ -194,14 +206,36 @@ def cmd_bundle(a) -> None:
         for sp in sorted(root.rglob("br204-partial-state-b*-d*-*.json")):
             m=STATE_RE.match(sp.name); req(m is not None,f"bad state filename {sp}")
             b,lo,hi=map(int,m.groups()); discovered+=1
+            if (b,lo,hi) in complete: continue
             hit=find_partial([sp.parent],b,lo,hi,a.worker_blob); req(hit is not None,f"unreadable partial {sp}")
             st,pay,_,pp=hit; key=(b,lo,hi)
             sig=(json.dumps(st,sort_keys=True,separators=(',',':')),pay["sha256"])
-            if key in chosen: req(chosen[key][0]==sig,f"conflicting partial band {key}")
+            cand=(sig,st,pay,pp,sp)
+            if key not in chosen:
+                chosen[key]=cand
             else:
-                chosen[key]=(sig,st,pay,pp)
-                shutil.copy2(sp,out/sp.name); shutil.copy2(pp,out/pp.name)
-    manifest={"schema":"STAGE32_BR204_PARTIAL_BAND_BUNDLE_V2","discovered_partial_state_count":discovered,"validated_partial_band_count":len(chosen),"partial_bands":[{"b":k[0],"d_lo":k[1],"d_hi":k[2],"completed_d":v[1]["completed_d"],"missing_d":v[1]["missing_d"],"aggregate_raw_sha256":v[2]["sha256"],"payload_gzip_bytes":v[3].stat().st_size} for k,v in sorted(chosen.items())]}
+                old=chosen[key]
+                if old[0]==sig:
+                    continue
+                old_st,old_pay=old[1],old[2]
+                old_set=set(map(int,old_st["completed_d"])); new_set=set(map(int,st["completed_d"]))
+                if old_set < new_set:
+                    req(st.get("parent_aggregate_raw_sha256")==old_pay["sha256"],
+                        f"advanced partial lacks direct parent digest {key}")
+                    req(set(map(int,st.get("parent_completed_d",[])))==old_set,
+                        f"advanced partial parent coverage drift {key}")
+                    chosen[key]=cand
+                elif new_set < old_set:
+                    req(old_st.get("parent_aggregate_raw_sha256")==pay["sha256"],
+                        f"existing advanced partial lacks direct parent digest {key}")
+                    req(set(map(int,old_st.get("parent_completed_d",[])))==new_set,
+                        f"existing advanced parent coverage drift {key}")
+                else:
+                    raise SystemExit(f"FAIL: non-lineage conflicting partial band {key}")
+    for k,v in sorted(chosen.items()):
+        _,st,pay,pp,sp=v
+        shutil.copy2(sp,out/sp.name); shutil.copy2(pp,out/pp.name)
+    manifest={"schema":"STAGE32_BR204_PARTIAL_BAND_BUNDLE_V3_LINEAGE","discovered_partial_state_count":discovered,"validated_partial_band_count":len(chosen),"partial_bands":[{"b":k[0],"d_lo":k[1],"d_hi":k[2],"completed_d":v[1]["completed_d"],"missing_d":v[1]["missing_d"],"aggregate_raw_sha256":v[2]["sha256"],"payload_gzip_bytes":v[3].stat().st_size,"parent_aggregate_raw_sha256":v[1].get("parent_aggregate_raw_sha256")} for k,v in sorted(chosen.items())]}
     Path(a.manifest).write_text(json.dumps(manifest,sort_keys=True,indent=2)+"\n")
     print(json.dumps(manifest,sort_keys=True))
 
@@ -210,7 +244,7 @@ def main() -> None:
     p=sp.add_parser("validate-slice"); p.add_argument("--path",required=True); p.add_argument("--b",type=int,required=True); p.add_argument("--d",type=int,required=True); p.add_argument("--worker-blob",required=True); p.set_defaults(fn=cmd_validate_slice)
     p=sp.add_parser("inspect-partial"); p.add_argument("--input-dir",action="append",default=[]); p.add_argument("--b",type=int,required=True); p.add_argument("--band-lo",type=int,required=True); p.add_argument("--band-hi",type=int,required=True); p.add_argument("--worker-blob",required=True); p.set_defaults(fn=cmd_inspect_partial)
     p=sp.add_parser("rollup"); p.add_argument("--prior-dir",action="append",default=[]); p.add_argument("--slice-dir",action="append",default=[]); p.add_argument("--b",type=int,required=True); p.add_argument("--band-lo",type=int,required=True); p.add_argument("--band-hi",type=int,required=True); p.add_argument("--worker-blob",required=True); p.add_argument("--out-dir",required=True); p.set_defaults(fn=cmd_rollup)
-    p=sp.add_parser("bundle"); p.add_argument("--input-dir",action="append",default=[]); p.add_argument("--out-dir",required=True); p.add_argument("--manifest",required=True); p.add_argument("--worker-blob",required=True); p.set_defaults(fn=cmd_bundle)
+    p=sp.add_parser("bundle"); p.add_argument("--input-dir",action="append",default=[]); p.add_argument("--out-dir",required=True); p.add_argument("--manifest",required=True); p.add_argument("--worker-blob",required=True); p.add_argument("--complete-manifest"); p.set_defaults(fn=cmd_bundle)
     p=sp.add_parser("self-test"); p.set_defaults(fn=lambda a: print(json.dumps({"status":"PASS","expected_single_d_checkpoints":sum(len(expected_ds(b,lo,hi)) for b in range(97) for lo,hi in D_BANDS if hi>=max(8,2*b))},sort_keys=True)))
     a=ap.parse_args(); a.fn(a)
 
