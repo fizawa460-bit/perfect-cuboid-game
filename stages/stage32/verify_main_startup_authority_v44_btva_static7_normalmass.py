@@ -12,7 +12,7 @@ ALL140 = HERE / "management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTI
 CONIC = HERE / "management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json"
 DIAG = HERE / "management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py"
 NORMALMASS = HERE / "management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py"
-RELAXED = HERE / "management/btva-compressed-lift/run_btva_static7_bounded_panel.py"
+RELAXED = HERE / "management/btva-compressed-lift/run_btva_static7_bounded_panel.py"\nWAVE4_SELECTOR = HERE / "management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json"\nWAVE4_SOLVER = HERE / "management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py"\nWAVE3_QBIN = HERE / "management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json"
 
 CURRENT_MAIN = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
 BOUND = 157570677819451133507
@@ -25,7 +25,7 @@ ALL140_CANON = "6561ddcf40b27ca433563635446d6d614ce36f4c26640c11d5ae61bf46abcff8
 CONIC_BLOB = "75d384c194c678ff6158ea793e943bce91741bb8"
 DIAG_BLOB = "1dc8650e8bf1029828c7971411c9bcb5212e040b"
 NORMALMASS_BLOB = "971cf6bab500eefd04bbef870807f1badc8b07c4"
-RELAXED_BLOB = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"
+RELAXED_BLOB = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"\nWAVE4_SELECTOR_BLOB = "2e340d1605f6b86b5e8bcc681871e1e9656e545c"\nWAVE4_SOLVER_BLOB = "5160318e0d3fbe616636e115e63434226e7016f6"\nWAVE3_QBIN_BLOB = "fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"\nWAVE3_QBIN_CANON = "edbd101483a9dc08a28203847db11c48919550eb7fe3ea25c5fe5a30d48c188c"
 
 
 def req(v: bool, msg: str) -> None:
@@ -71,7 +71,7 @@ def main() -> None:
     req(conic["separation"]["target_hyperplane_degree"] == 8 and conic["separation"]["plane_conic_hyperplane_degree"] == 2, "conic degree separation")
     req(blob(DIAG) == DIAG_BLOB, "all140 diagnostic blob drift")
     req(blob(NORMALMASS) == NORMALMASS_BLOB, "normalmass solver drift")
-    req(blob(RELAXED) == RELAXED_BLOB, "relaxed solver drift")
+    req(blob(RELAXED) == RELAXED_BLOB, "relaxed solver drift")\n    req(blob(WAVE4_SELECTOR) == WAVE4_SELECTOR_BLOB, "wave4 selector drift")\n    req(blob(WAVE4_SOLVER) == WAVE4_SOLVER_BLOB, "wave4 solver drift")\n    wave3_qbin = load(WAVE3_QBIN, WAVE3_QBIN_BLOB, WAVE3_QBIN_CANON)\n    req(wave3_qbin["result"]["wave3_partial_exact_qbin_row_floor"] == 425610, "wave3 qbin floor drift")\n    req(wave3_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 22821, "wave3 qbin tightening drift")
 
     r = full["result"]
     req(full["target"]["base4_key_count"] == 343 and full["target"]["terminal_mass"] == 1278934, "full343 population drift")
@@ -95,17 +95,33 @@ def main() -> None:
     req(all140["execution"]["diagnostic_canonical_sha256"] == "4dfea2684f3ec750643b7aabd404a73ff97a4fedda9327117624cd603e3f2ffc", "diagnostic identity drift")
 
     cur = state["current"]
-    req(cur["latest_main_native_research"] == "V44_BTVA_D8_FULL343_RECEIVER_STRUCTURAL_CLOSURE__ZERO_MAIN_CREDIT", "V44 routing drift")
-    req(cur["mainbatch_stop_gate"] == "NONE", "unexpected MAIN stop gate")
     locks = state["source_locks"]
     req(locks["btva_d8_full343_retained"]["blob_sha1"] == FULL_BLOB, "full343 state lock")
     req(locks["btva_d8_all140_receiver_semantics"]["blob_sha1"] == ALL140_BLOB, "all140 state lock")
     req(locks["btva_d8_conic_exception"]["blob_sha1"] == CONIC_BLOB, "conic state lock")
     sw = locks["live_specialist_sweep"]
-    req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "f263548c2968e8e14cfc14a80e5c779053e81724" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
-    req(sw["ex5_pr"] == 1818 and sw["ex5_head"] == "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and sw["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
-    req(sw["mb_pr"] == 1819 and sw["mb_head"] == "5d113826cc36d2c0600ccad4795e7684f35879e5" and sw["mb_pending_main_handoff"] == "NONE", "MB observation")
-    req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "aba66e35ad0c76205acbb99e9c3af5ce0bb00b42" and sw["bridge_runkey_generation"] == 0 and sw["bridge_runkey_armed"] is False and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
+    if cur["mainbatch_stop_gate"] == "NONE":
+        # Transitional compatibility for the immediately preceding V44 state-sync parent.
+        req(cur["latest_main_native_research"] == "V44_BTVA_D8_FULL343_RECEIVER_STRUCTURAL_CLOSURE__ZERO_MAIN_CREDIT", "V44 parent routing drift")
+        req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "f263548c2968e8e14cfc14a80e5c779053e81724", "178 parent observation")
+        req(sw["ex5_pr"] == 1818 and sw["ex5_head"] == "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2", "EX5 parent observation")
+        req(sw["mb_pr"] == 1819 and sw["mb_head"] == "5d113826cc36d2c0600ccad4795e7684f35879e5", "MB parent observation")
+        req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "aba66e35ad0c76205acbb99e9c3af5ce0bb00b42", "BRIDGE parent observation")
+    else:
+        req(cur["mainbatch_stop_gate"] == "HOSTILE_AUDIT_CHECKPOINT_REQUIRED", "unexpected MAIN stop gate")
+        req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_RATIO_WAVE4_PARTIAL__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
+        w4 = locks["btva_d8_e12_wave4_panel"]
+        req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
+        req(w4["workflow_run_id"] == 35405380332 and w4["artifact_id"] == 10571698422, "wave4 artifact identity drift")
+        req(w4["artifact_canonical_sha256"] == "0b5528b4ab2eebb99bcdc5a83ce26ccc2aecb9669a2f7b074a6c223fd1a90a76", "wave4 canonical drift")
+        req((w4["unsat_base4_count"], w4["unknown_base4_count"], w4["compatible_sat_base4_count"]) == (27, 5, 0), "wave4 outcome drift")
+        req(w4["all_selected_unsat"] is False and w4["main_pruning_credit"] is False, "wave4 firewall drift")
+        req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
+        req(sw["lane_178_latest_audited_exact_head"] == "8a8efc48866f8008d253c21ebd272e698d18dc44" and sw["lane_178_latest_audit_review_id"] == 5245717271, "178 audited-boundary observation")
+        req(sw["ex5_pr"] == 1823 and sw["ex5_head"] == "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and sw["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
+        req(sw["mb_pr"] == 1819 and sw["mb_head"] == "a2462236a1f483b836c8695e23018d5e423fffc7" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
+        req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "ee755bbfd46f405ca83e4930b354ee63459ad362" and sw["bridge_runkey_generation"] == 1 and sw["bridge_runkey_armed"] is True and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE live observation")
+        req(sw["bridge_latest_audited_doorstep_head"] == "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8" and sw["bridge_latest_audit_review_id"] == 5247726057, "BRIDGE audited-doorstep observation")
     req(sw["cut_open_successor"] is False and sw["cut_handoff"] == "NONE", "CUT observation")
 
     for obj in (full["firewalls"], all140["firewalls"], state["firewalls"]):
