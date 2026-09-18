@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V5_B_D_BAND_RESUME",
-  "status": "COLD_DOORSTEP_RESUME_REFINED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V6_DURABLE_PREFIX_RECOVERY",
+  "status": "AUDIT_HOLD_RECOVERY_BLOCKERS_REPAIRED__EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
   "audited_predecessor": {
     "head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
     "hostile_audit_review_id": 5242485845,
@@ -23,34 +23,35 @@
     "worker_path": "run_br204_full178_b_unit.cpp",
     "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
     "aggregator_path": "aggregate_br204_full178.py",
-    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
+    "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
+    "contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "67aa65924a5e266ba26c396ea92b387562f3eb99",
+    "qbc_tail_addendum_blob": "67a530a17429f15b8655244a53bdec91de48877b",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "9a88492a3c7f3d013b9818d17072b1be8f8f4f29",
+    "heavy_workflow_blob": "4f2caf00fe0209067f91037d91d37093aec339b3",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "b332478cc9da47035493fdc964d3fef754014a5e",
+    "retained_replay_blob": "a80aae85bbd106c3576ebb1167a02031f5ad5027",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "d34ef5540ef87222c61a63eed5e8d50ed12fced2",
+    "runkey_blob": "8a0161ba7155efb069fd6589016fb7123a914ca5",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
   },
   "audit_repair_delta": {
-    "prior_audited_cold_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
-    "prior_audit_review_id": 5242485845,
-    "execution_only_refinement_after_that_audit": [
-      "split each b computation into approved exact d bands 8..54, 56..100, 102..146, 148..192",
-      "retain only bands containing at least one admissible d>=2b, giving 250 durable subunits",
-      "validate repeated static BC state/mass metadata across bands and count it once per b",
-      "sum dynamic LP bins and qBC-tail counters across every exact subunit",
-      "reuse validated carried subunits and recompute only missing (b,d-band) work",
-      "use two durable representative pilots so fan-out has at most 248 matrix jobs"
+    "failed_audit_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "failed_audit_review_id": 5242654911,
+    "repairs": [
+      "re-emit one validated recovery prefix at the start of every generation before runtime/pilot/unit compute",
+      "recover prior prefix plus independently completed subunit artifacts from the immediately supplied carry_run_id",
+      "record recovery lineage and pre-clean superseded ancestors; cleanup failure is a hard stop",
+      "delete superseded prior recovery artifacts only after the new prefix upload succeeds",
+      "split the two representative pilots into independent jobs with immediate durable uploads",
+      "skip a pilot when its exact subunit is already present in the recovered prefix",
+      "reduce per-subunit gzip hard cap to 900,000 bytes so rollover prior-union plus new-prefix peak is <=500 MiB"
     ],
     "mathematical_population_changed": false,
     "authority_or_credit_changed": false,
-    "exact_head_replay_after_refinement": "REQUIRED_NOT_YET_RECORDED",
-    "hostile_audit_after_refinement": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_ARMING"
+    "exact_head_replay_after_repairs": "REQUIRED_NOT_YET_RECORDED",
+    "hostile_audit_after_repairs": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_ARMING"
   },
   "heavy_shape": {
     "rows": 178,
@@ -67,16 +68,17 @@
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
     "pilot_subunits": [
-      "b=0,d=8..54",
-      "b=96,d=148..192"
+      "independent job: b=0,d=8..54",
+      "independent job: b=96,d=148..192"
     ],
     "global_lp": "union all exact subunit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume": "validate carried complete (b,d-band) streams under exact current source locks; compute missing subunits only"
+    "resume": "At generation start, validate prior prefix plus completed (b,d-band) artifacts and re-emit a current prefix before any new compute; then compute only missing subunits. A cancelled run remains recoverable from its current prefix plus independently uploaded new subunits."
   },
   "storage": {
-    "per_subunit_gzip_hard_cap_bytes": 1800000,
-    "absolute_peak_gate": "250 * 1,800,000 bytes + 20 MiB <= 500 MiB",
-    "pilot_projection_gate": "250 * max(two pilot gzip sizes) * 2 + 20 MiB <= 500 MiB",
+    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "rollover_peak_gate": "2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB",
+    "pilot_projection_gate": "2 * 250 * max(two independently durable pilot gzip sizes) + 20 MiB <= 500 MiB",
+    "superseded_recovery_cleanup": "required after successful prefix re-emission; failure stops before new heavy compute",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_4_1m_state_stream_persistence": false
@@ -91,8 +93,8 @@
     "BR205_authorized": false
   },
   "next_gate": {
-    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
-    "after_pass": "STOP COLD. Do not arm or dispatch during this implementation chat. A later explicit execution request may arm only after the finer-resume exact head receives hostile-audit PASS in a separate audit."
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_REAUDIT",
+    "after_pass": "STOP COLD. Do not arm or dispatch in this repair chat. The repaired exact head must receive a fresh hostile audit in a separate audit chat before generation 1."
   },
   "credit": {
     "stage32_main": false,
@@ -106,5 +108,15 @@
     "stage32_closed": false,
     "perfect_cuboid": false,
     "merge": false
+  },
+  "audit_hold": {
+    "audited_exact_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "hostile_audit_review_id": 5242654911,
+    "verdict": "FAIL_HOLD",
+    "blockers": [
+      "multi-generation carry union was not durable under one carry_run_id",
+      "two pilot subunits were not independently salvageable"
+    ],
+    "repair_status": "IMPLEMENTED_PENDING_EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT"
   }
 }
