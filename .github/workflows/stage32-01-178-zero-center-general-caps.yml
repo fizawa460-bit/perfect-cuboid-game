@@ -1,0 +1,36 @@
+name: Stage32 32-01-178 zero-center general caps replay
+
+# lifecycle: ACTIVE_AUTO
+# Current 178 frontier only; retire immediately after exact-head replay.
+on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - 'stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_zero_center_general_caps.py'
+      - '.github/workflows/stage32-01-178-zero-center-general-caps.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-zero-center-general-caps-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Exact zero-center residual minimum with active caps and positive sum lower bound
+        run: python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_zero_center_general_caps.py
+      - name: Diff hygiene
+        run: git diff --check
