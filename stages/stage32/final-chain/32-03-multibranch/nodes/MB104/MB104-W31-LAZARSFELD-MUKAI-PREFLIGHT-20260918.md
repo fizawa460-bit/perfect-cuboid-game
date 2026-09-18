@@ -1,188 +1,103 @@
-# Stage32 MB104 — W31 Lazarsfeld--Mukai elementary-transform preflight — 2026-09-18
+# Stage32 MB104 — W31 Lazarsfeld--Mukai elementary-transform audit — corrected — 2026-09-18
 
-Status: **PROMOTE TO SECOND SHALLOW SCAN / FIRST POSITIVE WIDE-SCAN PRESSURE / NO CREDIT**
+Status: **TESTED ARCHITECTURE HARD-DROP / TAUTOLOGICAL DESTABILIZER / BROADER LM DIRECTION SOFT-PARK / NO CREDIT**
 
-## 1. Input from a hypothetical carrier
+## Construction
 
-Assume the active dangerous carrier exists:
-
-```
-C in |D_l|,
-D_l=7lH-4l sum_(p in Sigma)E_p,
-D_l^2=336l^2,
-H.D_l=112l.
-```
-
-The canonical/hyperplane line bundle `O_S(H)` is globally generated and has seven canonical coordinate sections.
-
-Put
+For a hypothetical carrier `C in |D_l|`, put
 
 ```
 A=O_C(H),
 V=H0(S,O_S(H)), dim V=7.
 ```
 
-Since `O_S(H)` is globally generated, the restriction evaluation is surjective:
+The elementary transform is
 
 ```
-V tensor O_S -> i_*A -> 0.
-```
-
-Define
-
-```
-0 -> F -> V tensor O_S -> i_*A -> 0.       (LM)
-```
-
-Here `C` is Cartier on the smooth resolution and `A` is invertible on `C`.  Locally, after trivializing `A`, the quotient is `R/(f)`; a surjection `R^7 -> R/(f)` has free kernel of rank seven.  Hence `F` is a vector bundle.  Put
-
-```
+0 -> F -> V tensor O_S -> i_*A -> 0,
 E=F^vee.
 ```
 
-This construction uses only the actual carrier and ambient canonical sections.  It does not use residual-sheet or branch-lift data.
-
-## 2. Chern classes
-
-For the elementary transform along a Cartier curve,
+It has
 
 ```
 rank(E)=7,
 c1(E)=D_l,
-c2(E)=deg A=H.D_l=112l.
+c2(E)=H.D_l=112l,
+Delta_BG(E)=-224l(9l-7)<0.
 ```
 
-Thus the Bogomolov discriminant is
+The first preflight therefore correctly detected slope instability.
+
+## Structural resolution
+
+However, `A` is not an intrinsic new line bundle on the carrier: it is the restriction of the globally generated surface line bundle `O_S(H)`.
+
+Use the ambient evaluation sequence
 
 ```
-Delta_BG(E)
- =2*7*c2(E)-6*c1(E)^2
- =14*(112l)-6*(336l^2)
- =-224l(9l-7).
+0 -> M_H -> V tensor O_S -> O_S(H) -> 0.
 ```
 
-Therefore
+The kernel of
 
 ```
-Delta_BG(E)<0
+O_S(H) -> i_*O_C(H)
 ```
 
-for every `l>=1`.
-
-By Bogomolov--Gieseker, a slope-semistable torsion-free sheaf on a smooth projective surface in characteristic zero has nonnegative discriminant.  Hence every hypothetical carrier canonically creates a **slope-unstable rank-seven bundle**.
-
-This is qualitatively different from the previous cheap failures: a genuine new global object is forced, and its Harder--Narasimhan filtration supplies new determinant classes.
-
-## 3. Why this is PROMOTE rather than closure
-
-Negative discriminant alone does not contradict existence.  It proves only that `E` or equivalently the elementary transform `F` has a destabilizing subsheaf.
-
-For
+is
 
 ```
-mu_H(E)=H.D_l/7=16l,
-mu_H(F)=-16l,
+O_S(H-D_l).
 ```
 
-a maximal destabilizing factor must cross one of these slopes.
-
-The useful additional structure is
+Comparing the two evaluation sequences gives
 
 ```
-F subset O_S^7.
+0 -> M_H -> F -> O_S(H-D_l) -> 0.
 ```
 
-A saturated subsheaf of a trivial bundle has determinant constrained by an effective divisor after taking exterior powers.  Combined with the exact Picard lattice, this can potentially reduce the HN determinant to a finite numerical cone problem.
+Dualizing gives the explicit extension
 
-That reduction has **not** yet been proved.
+```
+0 -> O_S(D_l-H) -> E -> M_H^vee -> 0.       (*)
+```
 
-## 4. Second shallow scan target
+Thus the putative Bogomolov destabilizer is already visible before any instability theorem.
 
-Do not launch a large HN enumeration yet.
+Its `H`-slope is
 
-The next test is only:
+```
+H.(D_l-H)=112l-16,
+```
 
-1. take a maximal destabilizing saturated subsheaf `G subset F` of rank `r=1,...,6`;
-2. write `det G=O_S(-B)` using the injection into a trivial bundle;
-3. derive the slope window from
-   ```
-   -16l < mu_H(G) <= 0;
-   ```
-4. combine with the known zero-quartic and rank-3 fibration pairings;
-5. ask whether **any** effective determinant class `B` can satisfy the resulting inequalities.
+whereas
 
-If the cone is empty, W31 closes the carrier. If it is large, W31 returns to SOFT-PARK. If it collapses to a small explicit family, only then deepen.
+```
+mu_H(E)=H.D_l/7=16l.
+```
+
+For every `l>=1`,
+
+```
+112l-16 > 16l.
+```
+
+So `O_S(D_l-H)` is an explicit destabilizing line subbundle of `E`.
+
+The earlier second-scan numerical witness `B=H` was precisely this subbundle written as `D_l-B`.
 
 ## Decision
 
+The rank-seven ambient-hyperplane LM construction produces **no new geometric datum**.  Its negative discriminant merely rediscovers the tautological extension `(*)`.
+
 ```
-tested_architecture_status = PROMOTE
-broader_direction_status   = PROMOTE
-second_scan_required       = true
+tested_architecture_status = HARD-DROP
+broader_direction_status   = SOFT-PARK
+PROMOTE                     = false
 DEEP                        = false
 ```
 
-No MB104 or downstream credit is claimed.
+A non-tautological LM/coherent-system route would need a line bundle or subsystem on the carrier that does not simply extend from a globally generated line bundle on `S`.
 
-
-## 5. Second shallow scan — determinant cone is nonempty
-
-The first scan proves genuine Bogomolov instability.  The scheduled second scan asks only whether slope + determinant effectivity + retained intersection inequalities already make the destabilizing determinant impossible.
-
-Work with the elementary transform
-
-```
-F subset O_S^7,
-c1(F)=-D_l,
-mu_H(F)=-16l.
-```
-
-For a saturated destabilizing subsheaf `G subset F` of rank `r<7`, exterior powers give
-
-```
-det G = O_S(-B)
-```
-
-for an effective divisor class `B`.  Destabilization requires
-
-```
--H.B/r > -16l,
-```
-
-equivalently
-
-```
-H.B < 16lr.
-```
-
-This numerical cone is **not empty**.  The canonical class itself supplies an explicit witness:
-
-```
-B=H,
-r=2,
-H.B=16,
-mu_H(det G)/r=-8>-16l
-```
-
-for every `l>=1`.
-
-On a supported exceptional `E_i`, the canonical bundle is trivial because `H.E_i=0`; the elementary transform along the `8l` transverse carrier contacts is compatible with the splitting pattern
-
-```
-F|E_i ~= O_E^6 direct_sum O_E(-8l).
-```
-
-Thus the basic determinant restriction `B.E_i>=0` is also compatible with `B=H`.
-
-So the second shallow gate does **not** collapse the HN determinant cone.
-
-### Revised decision
-
-```
-first architecture:  PROMOTE (genuine uniform instability)
-second cone test:    HARD-DROP
-broader direction:   SOFT-PARK, HIGH VALUE
-DEEP:                false
-```
-
-A future revisit must use the actual map `G -> F -> O_S^7`, the seven canonical sections, or the nodewise evaluation hyperplanes.  Pure slope/Picard-cone enumeration should not be run.
+No credit changes.
