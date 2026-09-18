@@ -85,17 +85,17 @@ def main():
     req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
         "repository main observation")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
-        "f263548c2968e8e14cfc14a80e5c779053e81724" and
+        "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 observation")
-    req(sweep["ex5_pr"] == 1818 and sweep["ex5_head"] ==
-        "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and
-        sweep["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
+    req(sweep["ex5_pr"] == 1823 and sweep["ex5_head"] ==
+        "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
+        sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
     req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "5d113826cc36d2c0600ccad4795e7684f35879e5" and
+        "a2462236a1f483b836c8695e23018d5e423fffc7" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "aba66e35ad0c76205acbb99e9c3af5ce0bb00b42" and
-        sweep["bridge_runkey_generation"] == 0 and sweep["bridge_runkey_armed"] is False and
+        "ee755bbfd46f405ca83e4930b354ee63459ad362" and
+        sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
