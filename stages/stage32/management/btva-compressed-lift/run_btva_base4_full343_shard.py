@@ -268,7 +268,7 @@ def main() -> None:
         write_checkpoint(global_index, row)
         rows.append(row)
 
-    unsat = [r for r in rows if r["result"] == "UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER"]
+    unsat_rows = [r for r in rows if r["result"] == "UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER"]
     satrows = [r for r in rows if r["result"] == "SAT_BTVA_COMPATIBLE_BASE4_LIFT"]
     unknowns = [r for r in rows if r["result"] == "UNKNOWN"]
 
@@ -306,12 +306,12 @@ def main() -> None:
         "rows": rows,
         "summary": {
             "key_count": len(rows),
-            "unsat_base4_fibers": len(unsat),
+            "unsat_base4_fibers": len(unsat_rows),
             "compatible_sat_base4_fibers": len(satrows),
             "unknown_base4_fibers": len(unknowns),
-            "static7_keys_covered_by_unsat_fibers": len(unsat) * X4_VALUES,
+            "static7_keys_covered_by_unsat_fibers": len(unsat_rows) * X4_VALUES,
             "terminal_mass_covered_by_unsat_fibers":
-                sum(int(r["terminal_mass_covered_if_unsat"]) for r in unsat),
+                sum(int(r["terminal_mass_covered_if_unsat"]) for r in unsat_rows),
         },
         "firewalls": {
             "main_pruning_credit": False,
