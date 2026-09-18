@@ -219,7 +219,8 @@ jobs:
           assert 'if: always() && matrix.b != -1' in wf
           assert 'finalize_br204_band_checkpoint.py' in wf
           assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
-          assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in wf
+          runner=Path('stages/stage32/generalization-bridge/run_br204_resumable_band.py').read_text()
+          assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in runner
           rc=contract['resume_contract']
           assert rc['soft_deadline_seconds']==13500
           assert rc['hard_job_timeout_minutes']==330
