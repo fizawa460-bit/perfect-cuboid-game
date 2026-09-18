@@ -1,0 +1,70 @@
+name: Stage32EX5 HPADJ22 reconstruct HPADJ21 cell certificate scratch
+
+on:
+  push:
+    branches:
+      - stage32ex5-hpadj22-speedup-scratch-20260918
+    paths:
+      - 'stages/stage32-ex5/hpadj-22_ex5/derive_h21_full_cell_certificate.py'
+      - '.github/workflows/stage32-ex5-hpadj22-h21-cert-scratch.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  reconstruct:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Verify source artifact populations
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35275839413/artifacts?per_page=100" > /tmp/carry.json
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35279651998/artifacts?per_page=100" > /tmp/recovery.json
+          python - <<'PY'
+          import json
+          c=json.load(open('/tmp/carry.json')); r=json.load(open('/tmp/recovery.json'))
+          m=[a for a in c['artifacts'] if a['name']=='hpadj21-carry-bundle' and not a.get('expired',False)]
+          assert len(m)==1 and m[0]['id']==10519913594
+          assert m[0]['digest']=='sha256:366e93ff132652d830e86ab4a46392a1e0fd90185110863a9805fa0ef97f4499'
+          chunks=[a for a in r['artifacts'] if a['name'].startswith('hpadj21-bchunk-row-') and not a.get('expired',False)]
+          assert len(chunks)==57, len(chunks)
+          rows={int(a['name'].split('-')[3]) for a in chunks}
+          assert rows=={20,21,44,88,171}, rows
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: h21/carry
+          run-id: 35275839413
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj21-bchunk-row-*
+          path: h21/chunks
+          merge-multiple: false
+          run-id: 35279651998
+          github-token: ${{ github.token }}
+      - name: Reassemble five missing HPADJ21 row certificates
+        run: |
+          mkdir -p h21/missing
+          for i in 20 21 44 88 171; do
+            python stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py \
+              --row-index "$i" --chunks-dir h21/chunks --output "h21/missing/hpadj21-row-$i.json"
+          done
+      - name: Derive compact FULL178 HPADJ21 cell-floor certificate
+        run: |
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/derive_h21_full_cell_certificate.py \
+            --carry-dir h21/carry --missing-dir h21/missing --output out/HPADJ21-FULL178-CELL-CERT.json | tee /tmp/derive.log
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj21-full178-cell-cert-scratch
+          path: out/HPADJ21-FULL178-CELL-CERT.json
+          retention-days: 3
