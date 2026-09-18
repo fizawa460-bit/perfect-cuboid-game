@@ -125,6 +125,25 @@ jobs:
           grep -Fq '"expected_single_d_slices": 4743' /tmp/combiner-selftest.json
           python -m py_compile stages/stage32/generalization-bridge/combine_br204_d_slices.py stages/stage32/generalization-bridge/run_br204_resumable_band.py
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
+          mkdir -p /tmp/dslice /tmp/resume /tmp/resumed
+          /tmp/br204-worker --b 96 --d-lo 192 --d-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/dslice/br204-s-b96-d192.tsv
+          python stages/stage32/generalization-bridge/combine_br204_d_slices.py validate-slice --path /tmp/dslice/br204-s-b96-d192.tsv --b 96 --d 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+          gzip -9 -n -c /tmp/dslice/br204-s-b96-d192.tsv > /tmp/resume/br204-s-b96-d192.tsv.gz
+          python stages/stage32/generalization-bridge/combine_br204_d_slices.py combine --input-dir /tmp/resume --b 96 --band-lo 148 --band-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/combined.tsv
+          /tmp/br204-worker --b 96 --d-lo 148 --d-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/direct-band.tsv
+          cmp /tmp/combined.tsv /tmp/direct-band.tsv
+          python stages/stage32/generalization-bridge/run_br204_resumable_band.py --worker /tmp/br204-worker --combiner stages/stage32/generalization-bridge/combine_br204_d_slices.py --b 96 --band-lo 148 --band-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --resume-dir /tmp/resume --out-dir /tmp/resumed --soft-seconds 1 --slice-timeout-seconds 30
+          python - <<'PY'
+          import gzip,json
+          from pathlib import Path
+          s=json.loads(Path('/tmp/resumed/STATUS.json').read_text())
+          assert s['complete'] is True and s['recovered_d']==[192] and s['missing_d']==[]
+          assert gzip.decompress(Path('/tmp/resumed/br204-u-b96-d148-192.tsv.gz').read_bytes())==Path('/tmp/direct-band.tsv').read_bytes()
+          wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
+          assert 'gh api --paginate' in wf
+          assert 'br204-partials' in wf
+          assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
+          PY
           python - <<'PY'
           import json
           from pathlib import Path
