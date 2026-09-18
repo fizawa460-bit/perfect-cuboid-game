@@ -38,7 +38,7 @@ env:
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
   RECOVERY_VERIFIER_BLOB: 8854ca99df52a31e6639e6aa65cef73ffdf9ec18
   POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
-  CONTRACT_BLOB: d9e37d037b12570e2e36e82d1add2ab3cfa6f91a
+  CONTRACT_BLOB: ca0cab3960ab3ecb50e053f7ccf6a53ab71460ee
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   REPOSITORY_MAIN_HEAD: 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
   MAIN_STATE_BLOB: 232732e29f72b55c34d540bf1c7cfcc4a626851c
@@ -123,17 +123,17 @@ jobs:
               assert cur[k]==old[k], f'{k} drift in execution commit'
 
           rp=cur['resource_preflight']
-          assert rp['planned_effective_heavy_concurrency']==8
+          assert rp['planned_effective_heavy_concurrency']==12
           assert rp['repository_stage_concurrency_ceiling']==18
-          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==10
+          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==6
           observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
-          assert isinstance(observed,int) and not isinstance(observed,bool) and 0<=observed<=10
-          assert 8+observed<=18
+          assert isinstance(observed,int) and not isinstance(observed,bool) and 0<=observed<=6
+          assert 12+observed<=18
 
           assert cur['execution']['b_unit_count']==97
           assert cur['execution']['durable_subunit_count']==250
           assert cur['execution']['exact_inner_checkpoint_count']==4743
-          assert cur['execution']['max_parallel']==8
+          assert cur['execution']['max_parallel']==12
           assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           trig=cur['execution']['trigger']
@@ -684,7 +684,7 @@ jobs:
     timeout-minutes: 330
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
         include: ${{ fromJSON(needs.plan.outputs.matrix) }}
     steps:
