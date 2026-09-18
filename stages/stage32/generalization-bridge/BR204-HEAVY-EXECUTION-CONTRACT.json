@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V10_D_CHECKPOINT_ALWAYS_SALVAGE",
-  "status": "COLD_D_CHECKPOINT_ALWAYS_SALVAGE_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define BR204 FULL178 resume-first execution with 250 b x d-band outer recovery slots, exact single-d restart quanta, cumulative rolled partial state refreshed after every completed d, best-effort always-path artifact salvage on interruption, explicit artifact pagination, and fresh-audit-only runkey execution.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V11_RESEARCH_OS_PR_ARM_D_CHECKPOINT_ALWAYS_SALVAGE",
+  "status": "COLD_RESEARCH_OS_PR_ARM_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution under the repository Research OS heavy-workflow contract: ACTIVE_AUTO pull-request lifecycle, before..head dedicated-runkey authorization, generation/armed semantic gating, exact source/main locks, Stage32 concurrency headroom, 250 b x d-band recovery slots, exact single-d restart quanta, cumulative rolled partial state after every completed d, paginated carry recovery, bounded storage, and fresh-audit-only execution.",
   "audited_predecessor": {
     "bridge_pr": 1813,
     "audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
@@ -14,14 +14,14 @@
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
     "merged_v43_pr": 1822,
-    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
     "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
     "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
     "v43_semantics": "HPADJ21_SAME_POPULATION_REPLACEMENT_AUDIT_SYNCED",
     "authoritative_remaining_strata": 17128,
     "authoritative_remaining_terminals": "157570677819451133507",
     "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
-    "execution_freshness_rule": "Heavy authorize must fetch origin/main and require this exact repository_main_head and MAIN-STATE blob. Any later main movement fails closed and requires a new cold doorstep refresh before execution."
+    "execution_freshness_rule": "Heavy authorize must fetch origin/main and require repository_main_head=37bb811b95399d73cc46fe899badcfa8eb5fca7d plus MAIN-STATE blob 232732e29f72b55c34d540bf1c7cfcc4a626851c. Any later main movement fails closed and requires a new cold doorstep refresh before execution."
   },
   "population": {
     "H": 96,
@@ -170,20 +170,29 @@
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "workflow_lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+    "workflow_lifecycle": "ACTIVE_AUTO",
     "trigger": {
-      "event": "push",
-      "branch": "stage32bridge-mainbatch",
+      "event": "pull_request",
+      "base_branch": "main",
+      "types": [
+        "opened",
+        "synchronize",
+        "reopened"
+      ],
       "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
-      "execution_commit_message_prefix": "stage32 BR204 execute generation "
+      "automatic_arm_action": "synchronize",
+      "commit_range_rule": "github.event.before..github.event.pull_request.head.sha must be fetchable and the dedicated runkey must be the only changed path in the arm commit"
     },
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "overlap_rule": "Each arm/resume runkey must record observed_other_stage32_heavy_concurrency_at_arm <= 10; 8 + observed_other <= 18. If overlap cannot be bounded, authorization is false.",
     "current_generation": 0,
     "current_armed": false,
-    "initial_execution_rule": "After fresh hostile-audit PASS on this rebuilt cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited rebuilt doorstep head/review, and auto-starts heavy.",
-    "recovery_execution_rule": "A runkey-only child may resume only an immediate prior recovery-eligible BR204 run. SOFT_DEADLINE and ordinary interruption/cancellation may resume from validated complete/partial artifacts. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION or source/validation failure blocks blind resume.",
+    "initial_execution_rule": "After fresh hostile-audit PASS on the rebuilt cold doorstep, one distinct runkey-only synchronize commit changes generation 0->1 and armed false->true, records the audited doorstep head/review and Stage32 overlap observation, and may authorize heavy.",
+    "recovery_execution_rule": "A later runkey-only synchronize commit increments generation by exactly one, refreshes the overlap observation, and may resume only an immediate prior recovery-eligible BR204 run. SOFT_DEADLINE and ordinary interruption/cancellation may resume from validated complete/partial artifacts. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION or source/validation failure blocks blind resume.",
+    "cold_event_rule": "opened, reopened, workflow/source/docs/controller/status synchronizations, or any synchronize event without a semantic runkey generation advance are cold and must emit authorized=false before heavy jobs.",
     "manual_dispatch_required": false,
     "heavy_authorized_now": false,
     "heavy_started": false
@@ -229,7 +238,7 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Generation-1 used outer b x d-band durability only; hours spent inside an incomplete band could be discarded on timeout. Rebuild now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload before recovery.",
     "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
-    "status": "PREVIOUS_AUDIT_SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN__FRESH_HOSTILE_AUDIT_REQUIRED",
-    "repair_status": "IMPLEMENTED_IN_CODE__SOURCE_LOCK_RESYNC_AND_EXACT_HEAD_REPLAY_PENDING__FRESH_HOSTILE_AUDIT_REQUIRED"
+    "status": "MATERIAL_RESEARCH_OS_LAUNCHER_AND_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
+    "repair_status": "D_CHECKPOINT_REPAIR_RETAINED__LAUNCHER_REBUILT_TO_RESEARCH_OS_PR_COMMIT_RANGE_GATE__SOURCE_LOCK_RESYNC_AND_EXACT_HEAD_REPLAY_PENDING__FRESH_HOSTILE_AUDIT_REQUIRED"
   }
 }
