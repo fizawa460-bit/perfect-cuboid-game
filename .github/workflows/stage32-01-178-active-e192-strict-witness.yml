@@ -42,6 +42,9 @@ jobs:
           git show 265fbef0a67014494fcf773af6c3a9f1b095ef95:stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py > /tmp/s32w/stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py
       - name: Exact active e192 strict witness
         run: |
-          python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_active_e192_strict_witness.py             --row-worker /tmp/s32w/run_full_hist_row.py             --hpadj16 /tmp/s32w/hpadj16.py             --hpadj10 /tmp/s32w/hpadj10.py
+          python stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_active_e192_strict_witness.py \
+            --row-worker /tmp/s32w/stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py \
+            --hpadj16 /tmp/s32w/stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py \
+            --hpadj10 /tmp/s32w/stages/stage32-ex5/hpadj-10_ex5/count_hpadj_kernel_population.py
       - name: Diff hygiene
         run: git diff --check
