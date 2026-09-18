@@ -54,21 +54,17 @@ def main() -> None:
     req(rt["kernel"].penalty == fast.EXPECTED_PENALTY, "separable penalty drift")
     req(int(rt["cert"]["membership_modulus"]) == 2, "Picard modulus drift")
 
-    rows, _ = rt["sel"].survivor_rows(
-        sf=rt["sf"], depth2=rt["depth2"], depth1=rt["depth1"],
-        sigmod=rt["sigmod"], prefix=rt["prefix"], bnb=rt["bnb"],
-        kernel=rt["kernel"], cert=rt["cert"], static_keys=rt["static_keys"],
-        g=rt["g"], d=rt["d"], e=rt["e"], x4_values=(TARGET_X4,),
-    )
-    req(len(rows) == 1 and rows[0][0] == TARGET_X4, "single-slice reconstruction drift")
-    _, survivors, thresholds = rows[0]
-    ordered = tuple(sorted(survivors))
-    req(len(ordered) == len(set(ordered)), "duplicate survivor key")
-
+    # Important: do NOT reconstruct the old depth2-survivor set.  The new exact
+    # minimum is cheaper than the old two-coordinate lower-envelope pass, so
+    # apply it directly to every retained static key and materialize A/H
+    # q-polynomials only when the exact threshold can admit min_q.
     a_cache = {}
     h_cache = {}
     evidence_hash = hashlib.sha256()
-    envelope_total = 0
+    static_total = len(rt["static_keys"])
+    structural = 0
+    exact_threshold_pruned = 0
+    exact_threshold_survivors = 0
     exact_total = 0
     no_picard = 0
     zero_mass = 0
@@ -77,17 +73,19 @@ def main() -> None:
     unique_parity_class_counts = set()
     exact_threshold_min = None
     exact_threshold_max = None
+    a_materialized = set()
+    h_materialized = set()
 
-    for a, b, c, t in ordered:
-        envelope_threshold = int(thresholds[(a, b, c, t)])
+    for a, b, c, t, min_q in rt["static_keys"]:
         problem = rt["sigmod"].signature_problem(
             rt["bnb"], rt["kernel"], g=rt["g"], d=rt["d"], e=rt["e"],
             sig=(a, b, c, t, TARGET_X4, 0),
         )
-        req(not problem.get("structurally_infeasible"),
-            "depth2 survivor became structurally infeasible")
-        static_values = (a, b, c, t, TARGET_X4, rt["e"], rt["d"])
+        if problem.get("structurally_infeasible"):
+            structural += 1
+            continue
 
+        static_values = (a, b, c, t, TARGET_X4, rt["e"], rt["d"])
         minimum, witness, meta = fast.fast_simplex_minimum(
             problem, rt["cert"], static_values, rt["kernel"].penalty
         )
@@ -99,48 +97,52 @@ def main() -> None:
         _cut, exact_threshold = rt["qthr"].qexc_threshold(
             g=rt["g"], d=rt["d"], t=t, x4=TARGET_X4, min_penalty=minimum
         )
-        aq = a_cache.setdefault(a, rt["sel"].a_poly_for_key(a, rt["qcap"]))
-        hk = (b, c, t)
-        hq = h_cache.setdefault(hk, rt["sel"].h_poly_for_key(b, c, t, rt["qcap"]))
-        req(aq and hq, "selective polynomial missing key")
-        envelope_mass = rt["sel"].cumulative_product(
-            aq, hq, min(rt["qcap"], envelope_threshold)
-        )
-
         if exact_threshold is None:
-            exact_mass = 0
             no_picard += 1
-        else:
-            exact_threshold = int(exact_threshold)
-            req(exact_threshold <= envelope_threshold,
-                "exact threshold exceeds depth2 envelope")
-            exact_threshold_min = exact_threshold if exact_threshold_min is None else min(exact_threshold_min, exact_threshold)
-            exact_threshold_max = exact_threshold if exact_threshold_max is None else max(exact_threshold_max, exact_threshold)
-            exact_mass = rt["sel"].cumulative_product(
-                aq, hq, min(rt["qcap"], exact_threshold)
-            )
+            exact_threshold_pruned += 1
+            continue
 
-        req(exact_mass <= envelope_mass, "exact mass enlarged envelope")
+        exact_threshold = int(exact_threshold)
+        exact_threshold_min = exact_threshold if exact_threshold_min is None else min(exact_threshold_min, exact_threshold)
+        exact_threshold_max = exact_threshold if exact_threshold_max is None else max(exact_threshold_max, exact_threshold)
+        if int(min_q) > exact_threshold:
+            exact_threshold_pruned += 1
+            continue
+
+        exact_threshold_survivors += 1
+        if a not in a_cache:
+            a_cache[a] = rt["sel"].a_poly_for_key(a, rt["qcap"])
+            a_materialized.add(a)
+        hk = (b, c, t)
+        if hk not in h_cache:
+            h_cache[hk] = rt["sel"].h_poly_for_key(b, c, t, rt["qcap"])
+            h_materialized.add(hk)
+        aq = a_cache[a]
+        hq = h_cache[hk]
+        req(aq and hq, "selective polynomial missing exact-threshold survivor key")
+
+        exact_mass = rt["sel"].cumulative_product(
+            aq, hq, min(rt["qcap"], exact_threshold)
+        )
         if exact_mass == 0:
             zero_mass += 1
-        envelope_total += envelope_mass
         exact_total += exact_mass
 
         evidence = {
             "static_key": [a, b, c, t],
-            "depth2_envelope_threshold": envelope_threshold,
+            "static_min_q": int(min_q),
             "exact_picard_threshold": exact_threshold,
-            "exact_picard_minimum": None if minimum is None else str(minimum),
+            "exact_picard_minimum": str(minimum),
             "exact_picard_witness": None if witness is None else list(witness),
             "marginal_steps": steps,
-            "depth2_envelope_weighted_mass": str(envelope_mass),
             "exact_picard_weighted_mass": str(exact_mass),
         }
         stream_hash_update(evidence_hash, evidence)
 
-    req(exact_total <= envelope_total, "aggregate exact mass enlarged envelope")
+    req(structural + exact_threshold_pruned + exact_threshold_survivors == static_total,
+        "static-key accounting mismatch")
     out = {
-        "schema": "STAGE32_32_01_178_LOWMASS_SEPARABLE_X4_0000_V1",
+        "schema": "STAGE32_32_01_178_LOWMASS_SEPARABLE_X4_0000_V2",
         "role": "EXACT_SELECTED_SLICE_NUMERICAL_RESEARCH__ZERO_MAIN_CREDIT",
         "source_locks": {
             "worker_blob_sha1": WORKER_BLOB,
@@ -157,27 +159,33 @@ def main() -> None:
             "scope": "ONE_COMPLETE_SELECTED_X4_SLICE_NOT_FULL_ROW_NOT_FULL178",
         },
         "exact_algorithm": {
+            "entry_population": "all retained static support/min-q keys before depth2",
+            "old_depth2_survivor_pass_used": False,
             "picard_residual_minimum": "fixed-parity separable-convex marginal allocation",
             "five_dimensional_branch_and_bound_used": False,
+            "A_H_polynomials_materialized_only_after_exact_threshold": True,
             "runkey_used": False,
             "heavy_execution_armed": False,
             "artifact_production_armed": False,
         },
         "result": {
-            "depth2_survivor_static_keys": len(ordered),
-            "depth2_envelope_weighted_mass": str(envelope_total),
+            "static_keys_before_exact_picard": static_total,
+            "structurally_infeasible_static_keys": structural,
+            "exact_threshold_pruned_static_keys": exact_threshold_pruned,
+            "exact_threshold_surviving_static_keys": exact_threshold_survivors,
             "exact_picard_weighted_mass": str(exact_total),
-            "exact_picard_tightening": str(envelope_total - exact_total),
             "no_picard_feasible_residual_static_keys": no_picard,
             "zero_exact_weighted_mass_static_keys": zero_mass,
+            "A_keys_materialized": len(a_materialized),
+            "H_keys_materialized": len(h_materialized),
             "total_marginal_steps": total_marginal_steps,
             "max_marginal_steps_per_key": max_marginal_steps,
             "observed_parity_class_counts": sorted(unique_parity_class_counts),
             "exact_threshold_min": exact_threshold_min,
             "exact_threshold_max": exact_threshold_max,
-            "key_evidence_stream_sha256": evidence_hash.hexdigest(),
+            "survivor_evidence_stream_sha256": evidence_hash.hexdigest(),
         },
-        "next_exact_step": "if this complete slice replay is successful and runtime remains lightweight, extend the identical exact consumer to x4=24,48,72,96 and freeze a five-slice checkpoint before considering wider low-mass row coverage",
+        "next_exact_step": "if this direct all-static-key replay succeeds, generalize the same exact consumer over x4=24,48,72,96 and freeze a five-slice exact checkpoint; only then assess extension from selected slices to the complete e=32 x4 range",
         "firewalls": {
             "full_row_census_claimed": False,
             "full178_census_claimed": False,
@@ -188,12 +196,15 @@ def main() -> None:
         },
     }
     print("LOWMASS_SEPARABLE_X4_0000_SUMMARY=" + json.dumps({
-        "keys": len(ordered),
-        "envelope_mass": str(envelope_total),
+        "static_keys": static_total,
+        "structural": structural,
+        "threshold_pruned": exact_threshold_pruned,
+        "threshold_survivors": exact_threshold_survivors,
         "exact_mass": str(exact_total),
-        "tightening": str(envelope_total - exact_total),
         "no_picard": no_picard,
         "zero_mass": zero_mass,
+        "A_keys": len(a_materialized),
+        "H_keys": len(h_materialized),
         "marginal_steps": total_marginal_steps,
         "max_steps": max_marginal_steps,
     }, sort_keys=True))
