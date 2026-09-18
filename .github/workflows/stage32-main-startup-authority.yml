@@ -97,7 +97,7 @@ jobs:
       - name: Verify V44 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "642f3b6ec6044e91e69d855390412ac120b89c7e"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "0bedeac33ed394bbdf6e814223646f78f70671aa"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "84db5ac98414883cea9d8c66ee1e5e4bb44e56bd"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "48a30561633c70ce04acb4bad6db9be2ea1c143b"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
