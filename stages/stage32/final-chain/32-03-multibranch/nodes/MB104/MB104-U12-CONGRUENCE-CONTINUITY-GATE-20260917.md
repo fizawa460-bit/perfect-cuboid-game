@@ -1,6 +1,6 @@
 # Stage32 MB104 — U12 congruence-continuity gate — 2026-09-17
 
-Status: **LEVEL-2 COMMON DESCENT REJECTED / DEEPER DYADIC LEVEL HOLD / P167 PREMATURE / NO CREDIT**
+Status: **HOSTILE-CORRECTED LEVEL-2 CONDITIONAL ONLY / DEEPER DYADIC LEVEL UNKNOWN / P167 PREMATURE / NO CREDIT**
 
 ## Scope and correction check
 
@@ -47,9 +47,9 @@ N = P Q_B^1(2),
 W = Hom(Gamma/N,F2),                          dim W=2.
 ```
 
-The principal level subgroup `N` is normalized by the Bolza level symmetry,
-so, after source-locking the retained marking, the injection `W->V` is
-`S4`-equivariant.  The exact six-Weierstrass replay gives
+Conditionally, if the principal level subgroup, the Bolza `S4` action and the
+named theta marking are identified by one source-locked equivariant injection,
+then `W->V` is `S4`-equivariant.  The abstract six-Weierstrass replay gives
 
 ```text
 V - {0} = orbit_3 disjoint_union orbit_12.
@@ -68,14 +68,16 @@ is an adjacent-edge class in the twelve-element orbit.  Hence
 delta notin W.
 ```
 
-Consequently the two retained spin splittings cannot both descend from one
-common level-two metaplectic extension: the difference of two such descended
-splittings would lie in `W`.
+Under that marked-equivariance hypothesis, the two retained spin splittings
+cannot both descend from one common level-two metaplectic extension: the
+difference of two such descended splittings would lie in `W`.
 
-This proves only the scoped rejection
+The current repository does not source-lock that hypothesis.  In particular,
+the archived absolute-marking chain explicitly leaves the source-to-retained
+`J[2]` conjugacy ambiguous.  Therefore the current retained verdict is
 
 ```text
-U12_COMMON_LEVEL2_SPIN_DESCENT=REJECT.
+U12_COMMON_LEVEL2_SPIN_DESCENT=HOLD_MARKING_MISSING.
 ```
 
 It does not prove that `delta` remains outside every deeper level.  For
@@ -100,8 +102,9 @@ W_infinity = image(Hom_cont(closure_dyadic(Gamma),F2) -> V)
 from the Frattini quotients of the dyadic division-unit filtration until the
 image stabilizes.
 
-- If `dim W_infinity=2`, then `delta` is outside every dyadic congruence level;
-  common fixed-level spin descent is excluded for all `k`.
+- If `dim W_infinity=2` and the named marking and necessity lemma are supplied,
+  then `delta` is outside every dyadic congruence level; common fixed-level
+  character descent is excluded for all `k`.
 - If `dim W_infinity=4`, deeper level can see the adjacent class and U12
   remains live, subject to the affine metaplectic conjugation law.
 - If the image or its marking cannot be source-locked, stop rather than infer
@@ -153,7 +156,7 @@ numerical threshold (`D_l^2=336l^2` versus a lower bound asymptotic to
 ## Updated frontier
 
 ```text
-U12_COMMON_LEVEL2_SPIN_DESCENT=REJECT
+U12_COMMON_LEVEL2_SPIN_DESCENT=HOLD_MARKING_MISSING
 U12_FIXED_DYADIC_LEVEL_ALL_K=HOLD
 U12_P167_FINITE_REDUCTION_MATERIALIZED=true
 U12_P167_SECOND_LEG_MATERIALIZED=false
