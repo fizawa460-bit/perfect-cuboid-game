@@ -1,0 +1,270 @@
+# Stage32 MB104 — Class-3 hypothesis roadmap — 2026-09-18
+
+Status: **ROADMAP ONLY / FOUR HYPOTHESES / NO MATHEMATICAL CREDIT**
+
+## Purpose
+
+MB104 should no longer advance by choosing the next technically available
+calculation. Each run must first test whether a proposed route can close the
+whole MB104 obligation.
+
+The exact success target remains one of:
+
+1. exclude the exact balanced dangerous ray for every `l >= 1`; or
+2. exclude it uniformly for `l > L`, with an explicit finite and exact backend
+   for `1 <= l <= L`.
+
+A calculation on one mask, one prime, one local lift, or finitely many values
+of `l` is evidence only. It closes MB104 only after the forward adapter,
+uniform theorem, reverse adapter, and any finite backend are all proved.
+
+## What every successful proof must contain
+
+Every route must supply all four blocks below.
+
+| Block | Required statement |
+|---|---|
+| F — forward adapter | Every hypothetical integral genus-one MB104 carrier, for every surviving orbit and allowed `e`, produces the exact object used by the route. |
+| U — uniform engine | The route excludes all `l >= 1`, or gives an explicit effective bound `l <= L`. |
+| R — reverse adapter | The route's vanishing, invariance, nilpotence, or classification conclusion really contradicts the original carrier; no formal-class/existence substitution is allowed. |
+| B — bounded backend | If U leaves `1 <= l <= L`, every surviving orbit and allowed `e` is checked by an exact certificate. |
+
+Failure of F or R is a route failure, not a request for a deeper computation.
+
+## Known numerical pressure
+
+For `D_l = 7lH - 4l sum_{p in Sigma} E_p`, the retained calculation gives
+
+```text
+chi(O_S(D_l)) = 168l^2 - 56l + 8,
+delta_required = 168l^2 + 56l.
+```
+
+After cancellation the apparent pressure is `112l - 8`. This does **not**
+itself prove nonexistence: the archived equigeneric/conductor computation
+exhibits superabundance of size `112l`. Any route that merely repackages the
+same expected-dimension subtraction is to be stopped.
+
+## Portfolio
+
+### H1 — symmetry-amplified translate overlap
+
+**Hypothesis.** For every carrier `C`, some automorphism outside the support
+stabilizer makes the packet force
+`I(C,gC) > D_l . gD_l` unless `C = gC`. Invariance would then descend to a
+marked elliptic normalization, whose finite-order automorphisms are
+incompatible with the two typed degree-`56l` divisors and saturated-fibre
+passport.
+
+**Why it could close MB104.** The intersection comparison is quadratic and
+uniform in `l`; the remaining elliptic automorphism types are finite
+(translation or orders 2, 3, 4, 6).
+
+**First shallow gate.** Over all relevant `Aut(S)` double cosets outside the
+support stabilizer, compute only scheme-theoretic local multiplicity lower
+bounds that do not use residual sheet signs or unnamed tangent labels. Compare
+their `l^2` coefficient with the exact cross-class intersection.
+
+**Promote when.** At least one double coset reaches or exceeds the exact
+intersection for every surviving support orbit, using source-valid packet
+data. Equality cases may receive one tangent-character refinement.
+
+**Stop when.** Every translate has a fixed quadratic deficit; the comparison
+needs the archived conductor-sheet labels; or invariant elliptic passports
+form an unbounded scalable family.
+
+**Depth cap.** One finite group/double-coset preflight, then at most one
+elliptic-classification leaf.
+
+### H2 — graded incidence / finite-generation reduction
+
+**Hypothesis.** The exact packet and geometric-genus-one condition define a
+saturated graded incidence module `M_Sigma` over the section/Cox ring
+`R = direct_sum_l H^0(S,O_S(D_l))`, and `M_Sigma` is finite length (strongly,
+zero). Equivalently, a finite regularity or nilpotence certificate reduces all
+`l` to finitely many degrees.
+
+**Why it could close MB104.** An actual carrier gives a nonzero homogeneous
+class in `M_{Sigma,l}`; finite length gives an explicit `L`, after which an
+exact bounded backend handles the remainder. This is the clearest route from
+an infinite ray to finite verification.
+
+**First shallow gate.** Do not compute large degrees. First prove or refute
+that normalization, integrality, geometric genus one, the balanced packet, and
+the passport can be encoded scheme-theoretically (for example by incidence,
+Fitting/discriminant, and saturation conditions) with both F and R adapters.
+
+**Second gate only after the first passes.** Compute degrees `l=1,2`, and only
+if needed `3`: initial Hilbert values, multiplication closure, minimal
+generators, and equivariant pieces.
+
+**Promote when.** The exact incidence is Noetherian and source-complete, and
+the truncated Hilbert data is compatible with zero-dimensional support or a
+provable regularity bound.
+
+**Stop when.** The incidence has positive-degree support/positive Hilbert
+polynomial; a non-torsion class survives multiplication; new generators grow
+as a genuine section ring; or the genus-one condition cannot be encoded with
+a reverse adapter.
+
+**Depth cap.** One adapter-design run, one `l=1,2` run, one optional
+`l=3`/regularity run.
+
+### H3 — packet-specific equisingular rank slope
+
+**Hypothesis.** After parameter motion and the known `h^1` superabundance are
+included exactly, the *actual* packet-imposed tangent codimension still
+eventually exceeds the section dimension. Equivalently, the packet defines
+universal schemes `Z_{P,l}` for which
+`H^0(S,O_S(D_l) tensor I_{Z_{P,l}})=0` for `l > L`, with a finite backend
+below `L`.
+
+**Why it could close MB104.** It attacks carrier nonexistence directly and
+could turn the residual linear `112l - 8` pressure into a theorem.
+
+**First shallow gate.** Audit the exact parameter freedom before any rank
+calculation: fixed/finite, `O(l)`, or `Theta(l^2)`. Then evaluate the exact
+tangent/jet matrix only at `l=1`, and `l=2` only if the first result is
+informative, across all representative surviving masks.
+
+**Promote when.** Moving parameters cost `cl` with a justified `c < 112`, the
+rank deficit does not consume the linear margin, and a multiplication or
+regularity theorem can plausibly make the estimate uniform.
+
+**Stop when.** Motion is `Theta(l^2)`; no source-valid universal ideal exists;
+rank loss is at least `112l`; or the argument collapses to the archived naive
+Severi/conductor count.
+
+**Depth cap.** One freedom audit and one small-degree rank experiment. H3
+cannot become DEEP unless H2's exact incidence adapter has already passed.
+
+### H4 — infinite-family forces global geometry
+
+**Hypothesis.** Carriers for unbounded `l` cannot remain unrelated isolated
+sections: finite generation or bounded-genus geometry forces a fixed
+component, a positive-dimensional subsystem, or a genus-one fibration. The
+forced global object is then incompatible with the retained intersection and
+packet data.
+
+**Why it could close MB104.** A contradiction for any unbounded sequence
+would yield `l <= L`, leaving a finite backend, without classifying each degree
+separately.
+
+**First shallow gate.** Prove or refute the compactness/specialization bridge:
+does the existence of carriers for infinitely many `l` actually produce one
+fixed geometric structure? No fibration calculation begins before that
+implication is established.
+
+**Promote when.** A precise theorem turns an unbounded carrier sequence into a
+fixed component, finitely generated subsystem, bounded Chow/Hilbert stratum,
+or fibration with explicit packet inheritance.
+
+**Stop when.** The carriers may occupy infinitely many isolated graded
+pieces; packet data is lost under specialization; or the route reduces to the
+already-rejected generic fibration/bounded-genus argument.
+
+**Depth cap.** One theorem-source/derivation gate, then one numerical
+contradiction gate.
+
+## Initial portfolio score
+
+Each axis is scored 0–3. “Adapter” means closeness to a complete F/R bridge;
+“anti-tunnel” means ability to remain shallow and globally relevant.
+
+| Route | closure | coverage | adapter | cheap test | reuse | anti-tunnel | total | initial state |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| H1 symmetry overlap | 2 | 2 | 1 | 3 | 2 | 3 | 13 | ACTIVE preflight |
+| H2 graded incidence | 3 | 3 | 1 | 2 | 3 | 3 | 15 | ACTIVE adapter gate |
+| H3 rank slope | 2 | 2 | 1 | 3 | 2 | 2 | 12 | CONDITIONAL on H2 adapter |
+| H4 global geometry | 3 | 3 | 0 | 2 | 3 | 3 | 14 | PREFLIGHT |
+
+Scores rank experiments; they are not evidence for a theorem.
+
+## Run protocol
+
+One invocation of `stage32mb-mainbatch` performs **one shallow gate**, not an
+open-ended proof search.
+
+Per run:
+
+- one primary hypothesis;
+- at most one new load-bearing lemma;
+- `l=1,2` only, with `l=3` permitted solely by a recorded promotion gate;
+- at most one individual mask or prime as a diagnostic, never as closure;
+- no heavy workflow until an explicit finite certificate target and storage
+  estimate exist;
+- end with `PASS`, `FAIL`, or `HOLD`, never an inflated theorem claim.
+
+A route becomes a DEEP candidate only when closure and coverage are each at
+least 2, its shallow gate passes, and its total score is at least 12. Only one
+route may be DEEP at a time. The same missing premise producing two HOLDs parks
+the route. A counterexample or quantifier failure rejects it.
+
+Every three runs, return to the top level and rescore the full portfolio.
+
+Each run must record:
+
+```text
+route_id / hypothesis
+exact_MB104_target
+covered_l / covered_orbits / covered_e
+forward_adapter
+uniform_engine
+reverse_adapter
+bounded_backend
+one_turn_gate
+evidence_and_counterevidence
+PASS | FAIL | HOLD
+strongest_safe_claim
+missing_lemma
+score_before / score_after
+depth_count
+next_action
+revisit_condition
+```
+
+## Recommended first cycle
+
+1. **Run 1 — H1 translate-overlap preflight.** It is the cheapest genuinely
+   different kill-test. If no double coset reaches the intersection budget,
+   reject H1 immediately.
+2. **Run 2 — H2 exact-incidence adapter gate.** Decide whether the nonlinear
+   genus-one and packet conditions admit a saturated graded object with both
+   adapters. Do not compute Hilbert functions until this passes.
+3. **Run 3 — H4 infinite-family bridge gate.** Decide whether “unbounded `l`”
+   forces a fixed global geometry. Reject it if this is only the old fibration
+   route in new language.
+4. **Portfolio review.** If H2 passed, choose between H2 finite-generation and
+   the conditional H3 rank test. If none passed, record a genuine theorem
+   block rather than opening a fifth lateral tunnel.
+
+## Archived-route firewall
+
+Until a materially new adapter is proved, keep these parked:
+
+- conductor residual-sheet recovery and sign enumeration;
+- ambient `H^1`, Picard torsion, or integrality as sole obstruction;
+- U12 spin/`P^6`, isolated `p=167`, or unnamed dyadic marking;
+- fixed finite-cover compression;
+- counting-only Riemann–Hurwitz, Bezout, Severi, or jet recombinations;
+- generic fibration/foliation/web and ordinary effectivity searches.
+
+H1 must stop before residual-sheet labels. H3 must stop if it reproduces the
+`112l` superabundance wall. H4 must stop before generic fibration analysis
+unless its infinite-family bridge has first been proved.
+
+## Credit firewall
+
+This roadmap proves no exclusion, no finite degree window, and no MB104
+closure. A passed shallow gate authorizes only the next stated gate.
+
+```text
+MB104_complete=false
+all_l_exclusion_proved=false
+finite_degree_window_proved=false
+theorem_credit=false
+effectivity_credit=false
+receiver_credit=false
+endpoint_credit=false
+merge_authorized=false
+```
