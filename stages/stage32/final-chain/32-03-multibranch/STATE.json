@@ -186,7 +186,7 @@
       "W30",
       "W31"
     ],
-    "class3_softpark_second_depth_status": "ACTIVE_USER_DIRECTED",
+    "class3_softpark_second_depth_status": "FROZEN_COMPLETE",
     "class3_softpark_second_depth_round_1": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R1-20260918.md",
     "class3_softpark_second_depth_round_1_result": {
       "advance_for_third_depth": [
@@ -201,13 +201,6 @@
         "W31"
       ]
     },
-    "class3_softpark_second_depth_next": [
-      "W3",
-      "W7",
-      "W9",
-      "W12",
-      "W25"
-    ],
     "class3_softpark_second_depth_round_2": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R2-20260918.md",
     "class3_softpark_second_depth_round_2_result": {
       "advance_for_third_depth": [
@@ -245,9 +238,30 @@
         "W5"
       ],
       "reserve": [
+        "W12",
         "W13",
         "W17",
         "W23"
+      ],
+      "park": [
+        "W1",
+        "W3",
+        "W6",
+        "W7",
+        "W9",
+        "W11",
+        "W18",
+        "W19",
+        "W21",
+        "W22",
+        "W24",
+        "W25",
+        "W26",
+        "W27",
+        "W28",
+        "W29",
+        "W30",
+        "W31"
       ]
     },
     "class3_softpark_second_depth_round_4": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R4-20260918.md",
@@ -261,16 +275,37 @@
         "W27",
         "W28"
       ]
-    }
+    },
+    "class3_softpark_second_depth_round_5": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R5-FREEZE-20260918.md",
+    "class3_softpark_second_depth_round_5_result": {
+      "advance_for_third_depth": [],
+      "reserve": [
+        "W12"
+      ],
+      "park": [
+        "W3",
+        "W7",
+        "W9",
+        "W25"
+      ]
+    },
+    "class3_softpark_second_depth_freeze": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R5-FREEZE-CERTIFICATE.json",
+    "class3_third_depth_status": "READY",
+    "class3_third_depth_order": [
+      "W4",
+      "W20",
+      "W16"
+    ],
+    "class3_third_depth_active": "W4"
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 SOFT-PARK second-depth screening — Round 5",
+    "title": "MB104 third-depth Pass A — W4 exact K3 root-wall",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "Round 4 advances no new route. W1 and W28 are absorbed by W16's proper canonical CB/adjoint subcluster problem; W21 remains coefficient-inadequate even under an idealized rank-two polar capacity; W22 and W27 do not turn virtual/semiregularity unobstructedness into actual nonexistence; W24 is blocked by the sharp linear A1 conductor minimum. Cumulative third-depth candidates remain W4,W16,W20; W5 high reserve; W13,W17,W23 reserve. Continue the final second-depth round with W3,W7,W9,W12,W25, then freeze and compare survivors.",
+    "required_input": "The complete 26-direction SOFT-PARK second-depth portfolio is frozen. Third-depth candidates are W4,W16,W20; execution order is W4,W20,W16. Begin W4 by materializing each of the seven primitive coordinate-sign K3 pushdown rays in the exact Stoll-Testa rank-20 Picard lattice and test against a source-complete effective (-2)-root wall. A negative effective root with P.R<0 gives an all-l fixed-component contradiction for that quotient; if all seven primitive rays are nef against the complete effective root wall, close W4 negatively. Do not reopen second-depth W generation.",
     "success_shapes": [
-      "all-l exclusion for the exact balanced MB104 ray",
-      "explicit large-l exclusion leaving finite 1<=l<=L backend"
+      "one coordinate K3 pushdown ray has a source-complete effective (-2)-root with negative intersection, yielding all-l exclusion through that quotient",
+      "all seven primitive pushdown rays pass the complete effective-root wall, closing W4 negatively and routing to W20"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
