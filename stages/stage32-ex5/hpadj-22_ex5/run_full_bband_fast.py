@@ -27,11 +27,15 @@ def git_blob(path: Path) -> str:
 
 
 def load_base():
+    global _BASE_CACHE
+    if _BASE_CACHE is not None:
+        return _BASE_CACHE
     req(BASE.is_file() and git_blob(BASE) == BASE_BLOB, "base worker blob drift")
     spec = importlib.util.spec_from_file_location("hpadj22_base_locked_for_fast", BASE)
     req(spec is not None and spec.loader is not None, "cannot load base worker")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
+    _BASE_CACHE = mod
     return mod
 
 
@@ -92,6 +96,39 @@ def qbc_count_le(rec, limit: int) -> int:
     qs, ps, _ = rec
     i = bisect.bisect_right(qs, limit)
     return 0 if i == 0 else int(ps[i - 1])
+
+
+def eligible_stats(d: int, g: int, h: int, a: int, b: int, c: int,
+                   support: int, srem: int, K: int):
+    legacy = 8 if g == 0 else 4
+    qneed = K - support
+    if qneed > 0 and srem < qneed:
+        return None
+    M = a + b + c
+    lower = max(legacy, K, d - 4*g + 4, M, M + max(0, qneed))
+    upper = min((19*d)//5, 3*d, 3*d - (b-c))
+    if lower > upper:
+        return None
+    lo = lower if lower % 2 == 0 else lower + 1
+    hi = upper if upper % 2 == 0 else upper - 1
+    if lo > hi:
+        return None
+    n = (hi - lo)//2 + 1
+    sum_e = n * (lo + hi) // 2
+    normal_sum = n * (19*d + 1) - 5 * sum_e
+    excluded = set()
+    e_n358 = 3*d - (b-c)
+    if b <= h - 5 and support + srem == K and e_n358 - M >= srem:
+        excluded.add(e_n358)
+    if g == 1 and d == 8:
+        excluded.add(8)
+    for ex in excluded:
+        if lo <= ex <= hi and ex % 2 == 0:
+            n -= 1
+            normal_sum -= 19*d - 5*ex + 1
+    if n <= 0:
+        return None
+    return normal_sum, n
 
 
 def compute_row_cell_fast(ctx, qbc_pref, band_position: int, row_index: int, h21_cells: dict) -> dict:
@@ -157,12 +194,9 @@ def compute_row_cell_fast(ctx, qbc_pref, band_position: int, row_index: int, h21
                 # eligible_e is independent of Picard parity r and depends on sbc+sa only.
                 support_stats = {}
                 for support in range(11):
-                    es = base.load_bchunk().load_bound().eligible_e(counter, d, g, h, a, b, c, support, srem, K)
-                    if es:
-                        support_stats[support] = (
-                            sum(19*d - 5*e + 1 for e in es),
-                            len(es),
-                        )
+                    stats = eligible_stats(d, g, h, a, b, c, support, srem, K)
+                    if stats is not None:
+                        support_stats[support] = stats
 
                 for sbc in range(8):
                     for sa in range(4):
