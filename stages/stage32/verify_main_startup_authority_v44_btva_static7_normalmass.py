@@ -73,7 +73,7 @@ def main() -> None:
 
     req(blob(NORMALMASS) == NORMALMASS_BLOB, "normalmass successor blob drift")
     req(blob(RELAXED) == RELAXED_BLOB, "relaxed predecessor blob drift")
-    req(str(NORMALMASS.relative_to(HERE)) in state["current_leaf_working_set"],
+    req("stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py" in state["current_leaf_working_set"],
         "normalmass successor missing from working set")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
