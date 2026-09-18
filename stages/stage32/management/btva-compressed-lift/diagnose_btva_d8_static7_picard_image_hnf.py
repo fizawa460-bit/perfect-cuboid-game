@@ -22,6 +22,7 @@ R1_RETAINED_CANON = "99b0294b87df9d6b41e52b186af0b079eda5c3f37f5d94fc215aca7d435
 LANE_AGG_REL = Path("stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py")
 LANE_AGG_BLOB = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
 LANE_HEAD = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+RERUN_GENERATION = 2
 
 DEGREE = 8
 EXCEPTIONAL_MASS = 8
