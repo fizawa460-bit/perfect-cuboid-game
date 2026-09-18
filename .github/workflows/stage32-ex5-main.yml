@@ -43,6 +43,9 @@ jobs:
         run: |
           test "$(git -C _main-v41-hpadj20 rev-parse HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
           python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py --main-root _main-v41-hpadj20
+      - name: Verify hostile-audited HPADJ21 MAIN handoff
+        if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
+        run: python stages/stage32-ex5/hpadj-21_ex5/verify_main_handoff.py --main-root _main-v41-hpadj20
       - name: Install HPADJ exact diagnostic dependency
         if: github.head_ref == 'stage32ex5-hpadj09-successor-20260915'
         run: python -m pip install --disable-pip-version-check 'sympy==1.13.3'
