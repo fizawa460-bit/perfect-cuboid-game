@@ -338,17 +338,37 @@
       "W20": "CLOSED_NEGATIVE_AS_FINITE_E2_BRIDGE",
       "W16": "SURVIVES_ONLY_AS_RAMIFICATION_TO_CB_DESCENT",
       "selected_next": "W16"
-    }
+    },
+    "w16_internal_status": "SOLO_BRANCHES_ACTIVE",
+    "w16_a2": {
+      "status": "PASS_LCI_DESCENT_CB_OPEN_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A2-DIFFERENT-CONDUCTOR-DESCENT-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A2-DIFFERENT-CONDUCTOR-DESCENT-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_a2_different_conductor_descent.py",
+      "result": "multiplicity-preserving different/conductor/Fitting descent fails already in the nodal two-simple-ramification model, but W16 only needs a length upper bound: the reduced scheme-theoretic image Z_red=(nu(R_phi))_red is a canonical nonempty finite reduced lci subscheme of the smooth surface with length <=112l. CB(|D_l|) remains completely open."
+    },
+    "w16_internal_completed": [
+      "A2"
+    ],
+    "w16_internal_queue": [
+      "B2",
+      "A3",
+      "A1",
+      "B1",
+      "H",
+      "C"
+    ],
+    "w16_internal_active": "B2"
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16 continuation — conductor-subtracted ramification descent",
+    "title": "MB104 W16-B2 solo — Ext / Serre-first",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "The four requested solo deepening passes are complete. W4 is closed negatively; W5 order two is exhausted with primitive/twisted higher order still open; W20 finite-E[2] bridge is closed negatively; W16 survives with the most concrete remaining object. The retained residual base map phi:E->P1 has degree 56l and exact normalization ramification divisor R_phi of degree 112l. The canonical different on the singular carrier pulls back to conductor_divisor + R_phi and has quadratic degree 336l^2+224l. Continue W16 only by constructing or ruling out a canonical conductor-subtracted descent of R_phi to a zero-dimensional lci scheme Z_l on the smooth surface, and prove/falsify CB(|D_l|). Do not silently push forward a normalization divisor as a surface scheme.",
+    "required_input": "W16-A2 passed the surface lci descent gate: for the retained degree-56l residual base map phi:E->P1, the reduced image Z_red=(nu(R_phi))_red is canonical relative to phi, nonempty, zero-dimensional lci on the smooth surface, and has length <=112l. Multiplicity-preserving different/conductor/Fitting descent is not exact at singular points, but multiplicities are unnecessary for the Bogomolov length bound. The only missing load-bearing condition for this candidate is CB(|D_l|), equivalently a locally-free Hartshorne-Serre extension. Work B2 only: try to construct the nonzero locally-free extension class directly from normalization/conductor/ramification duality, or prove that the relevant Ext class necessarily lands in the non-locally-free/split part.",
     "success_shapes": [
-      "construct canonical Z_l subset S with length <=112l, lci and CB(|D_l|), giving Hartshorne-Serre/Bogomolov exclusion for l>=2",
-      "construct a weaker conductor-subtracted lci CB scheme of O(l) length with an explicit finite cutoff",
-      "prove that the normalization ramification divisor cannot admit any canonical surface-lci CB descent under the retained carrier/conductor structure, closing W16 negatively"
+      "construct a canonical locally-free non-split extension 0->O(K)->E->I_Zred(D_l)->0 directly from ramification/conductor data, thereby proving CB and giving l>=2 Bogomolov input",
+      "construct such an extension for a canonical proper subscheme Z subseteq Z_red with explicit linear length bound",
+      "prove the normalization/conductor-derived Ext class cannot be locally free for Z_red or any canonical linear-size ramification image, closing B2 negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
