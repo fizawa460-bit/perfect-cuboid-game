@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import json
 import sys
+import traceback
 from collections import Counter
 from pathlib import Path
 
@@ -75,12 +76,30 @@ def main() -> None:
     ap.add_argument("--solver-timeout-ms", type=int, default=1500)
     ap.add_argument("--max-flat-cuts", type=int, default=16)
     ap.add_argument("--output", type=Path, required=True)
+    ap.add_argument("--checkpoint-dir", type=Path)
     args = ap.parse_args()
 
     req(args.shard_count == 8, "approved shard-count drift")
     req(0 <= args.shard_index < args.shard_count, "shard index")
     req(0 < args.solver_timeout_ms <= 5000, "solver timeout outside approved bounded range")
     req(0 < args.max_flat_cuts <= 32, "flat-cut bound outside approved range")
+    checkpoint_dir = args.checkpoint_dir
+    if checkpoint_dir is not None:
+        checkpoint_dir.mkdir(parents=True, exist_ok=True)
+
+    def write_checkpoint(global_index: int, payload: dict) -> None:
+        if checkpoint_dir is None:
+            return
+        p = checkpoint_dir / f"base4-{global_index:03d}.json"
+        body = dict(payload)
+        body["checkpoint_schema"] = "STAGE32_MAIN_BTVA_BASE4_FULL343_ROW_CHECKPOINT_V1"
+        body["shard_index"] = args.shard_index
+        body["global_base4_index"] = global_index
+        body["source_worker_blob_expected"] = "PENDING_RELOCK"
+        body["canonical_sha256_without_this_field"] = csha({
+            k: v for k, v in body.items() if k != "canonical_sha256_without_this_field"
+        })
+        p.write_text(json.dumps(body, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     req(blob(PARENT) == PARENT_BLOB, "base4 bounded parent drift")
     census = load_canonical(CENSUS_RECEIPT, CENSUS_RECEIPT_CANON)
@@ -176,7 +195,20 @@ def main() -> None:
 
         while iterations <= args.max_flat_cuts:
             iterations += 1
-            result = solver.check()
+            try:
+                result = solver.check()
+            except BaseException as exc:
+                err = {
+                    "base4": list(base4),
+                    "exceptional_multiplicity_per_x4": int(counts[base4]),
+                    "result": "EXECUTION_ERROR",
+                    "solver_iterations": iterations,
+                    "error_type": type(exc).__name__,
+                    "error_message": str(exc),
+                    "traceback_tail": traceback.format_exc().splitlines()[-12:],
+                }
+                write_checkpoint(global_index, err)
+                raise
             if result == unsat:
                 result_status = "UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER"
                 break
@@ -219,7 +251,7 @@ def main() -> None:
             reason_unknown = "max_flat_cuts_exhausted"
 
         multiplicity = int(counts[base4])
-        rows.append({
+        row = {
             "global_base4_index": global_index,
             "base4": list(base4),
             "exceptional_multiplicity_per_x4": multiplicity,
@@ -231,7 +263,9 @@ def main() -> None:
             "compatible_support": compatible,
             "static7_keys_covered_if_unsat": X4_VALUES,
             "terminal_mass_covered_if_unsat": multiplicity * X4_VALUES,
-        })
+        }
+        write_checkpoint(global_index, row)
+        rows.append(row)
 
     unsat = [r for r in rows if r["result"] == "UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER"]
     satrows = [r for r in rows if r["result"] == "SAT_BTVA_COMPATIBLE_BASE4_LIFT"]
