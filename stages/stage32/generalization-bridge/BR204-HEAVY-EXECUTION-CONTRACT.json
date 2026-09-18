@@ -1,26 +1,25 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V7_PUSH_TRIGGER_RESUME",
-  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define BR204 FULL178 resume-first execution with 250 durable (b,d-band) checkpoints, transitive recovery prefixes, independent pilot salvage, and automatic execution only from a dedicated runkey-only push after audit.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V8_D_SLICE_CHECKPOINT_RESUME",
+  "status": "COLD_D_SLICE_CHECKPOINT_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution with 250 durable (b,d-band) outer units, exact single-d inner checkpoints, soft-deadline partial preservation, paginated recovery, transitive complete-prefix carry, partial-slice carry bundles, and automatic execution only from a dedicated runkey-only push after fresh audit.",
   "audited_predecessor": {
     "bridge_pr": 1813,
-    "audited_exact_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "hostile_audit_review_id": 5242897044,
+    "audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "hostile_audit_review_id": 5243659462,
     "hostile_audit_status": "PASS",
-    "scope": "previous manual-dispatch cold doorstep; launcher topology is now being redesigned to runkey-push and therefore requires a fresh audit before generation 1"
+    "scope": "previous push-trigger cold doorstep; superseded because generation-1 execution exposed a Research OS resume defect: in-progress b x d-band work was not checkpointed below the outer unit"
   },
   "live_main_refresh": {
-    "audited_numeric_main_pr": 1808,
-    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
-    "audited_numeric_main_review_id": 5231559824,
-    "merged_v41_pr": 1820,
-    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
-    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
-    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
-    "v41_head_before_merge": "2a9fa0ca243d7bbe75d7539ab574d632fdc44981",
-    "v41_semantics": "PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
+    "audited_numeric_main_pr": 1822,
+    "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
+    "audited_numeric_main_review_id": null,
+    "merged_v43_pr": 1822,
+    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
+    "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
+    "v43_semantics": "HPADJ21_SAME_POPULATION_REPLACEMENT_AUDIT_SYNCED",
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": "179119009547804181594",
+    "authoritative_remaining_terminals": "157570677819451133507",
     "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "execution_freshness_rule": "Heavy authorize must fetch origin/main and require this exact repository_main_head and MAIN-STATE blob. Any later main movement fails closed and requires a new cold doorstep refresh before execution."
   },
@@ -56,7 +55,7 @@
     },
     "heavy_b_unit_worker": {
       "path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
-      "git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc"
+      "git_blob_sha1": "0d5ee8e1013cab6120e957707a363e86b3c0d41e"
     },
     "global_bin_aggregator": {
       "path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
@@ -65,6 +64,14 @@
     "certificate_storage_preflight": {
       "path": "stages/stage32/generalization-bridge/BR204-CERTIFICATE-STORAGE-PREFLIGHT.json",
       "git_blob_sha1": "3156c12ccb32dfac6a767456b1d6a74763c6f98e"
+    },
+    "d_slice_combiner": {
+      "path": "stages/stage32/generalization-bridge/combine_br204_d_slices.py",
+      "git_blob_sha1": "3869a397cefdccb343434a0e23bc0f6e4ed37c16"
+    },
+    "resumable_band_runner": {
+      "path": "stages/stage32/generalization-bridge/run_br204_resumable_band.py",
+      "git_blob_sha1": "93f80d3d95e48d24843e92fd03972179dabeca5a"
     }
   },
   "objective_semantics": {
@@ -106,34 +113,54 @@
     "br205_gate_firewall": "Heavy result may emit raw and stronger tail-activity candidates, but formal BR205 gate remains false until the heavy result is hostile-audited and separately promoted."
   },
   "resume_contract": {
-    "durable_unit": "(b,d_band)",
+    "durable_outer_unit": "(b,d_band)",
+    "exact_inner_checkpoint_unit": "(b,d)",
     "d_bands": [
-      "8..54",
-      "56..100",
-      "102..146",
-      "148..192"
+      [
+        8,
+        54
+      ],
+      [
+        56,
+        100
+      ],
+      [
+        102,
+        146
+      ],
+      [
+        148,
+        192
+      ]
     ],
-    "expected_subunit_count": 250,
+    "expected_outer_subunit_count": 250,
+    "expected_exact_single_d_slice_count": 4743,
     "b_unit_count": 97,
     "max_parallel": 8,
-    "generation_start_recovery": "For generation >=2, the immediately previous failed/cancelled/timed-out BR204 run id is carried in the runkey. Recover its br204-prefix plus all completed br204-u-* artifacts, validate their exact union, re-emit one current prefix, and only then compute missing subunits.",
-    "cancellation_semantics": "A failed generation leaves one inherited validated prefix plus every independently uploaded completed subunit. The next runkey-only generation commit names that immediately previous BR204 run id, so only true missing work is recomputed.",
-    "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic raw-stream digest validation; conflicting duplicates fail closed; compute only units absent from the re-emitted prefix/current artifacts",
-    "pilot_salvage": "The two representative pilots are separate jobs and each uploads its own durable subunit immediately. If one fails, a completed sibling remains reusable.",
-    "cleanup_rule": "Only after the new recovery prefix is successfully uploaded, delete the superseded prior run's BR204 recovery artifacts. Cleanup failure is a hard execution stop before new heavy compute.",
-    "reopened_or_non_arm_behavior": "A runkey push whose commit message is not the dedicated execution prefix is skipped before authorize. Cold audit/setup commits never start heavy compute."
+    "soft_deadline_seconds": 13500,
+    "hard_job_timeout_minutes": 330,
+    "single_d_timeout_seconds": 3600,
+    "checkpoint_rule": "Execute one exact admissible even d at a time. After every completed d, persist a source-locked single-d compact certificate in runner-local recovery state. Before the GitHub hard timeout, stop starting new d work at the soft deadline, upload every completed single-d slice as the partial checkpoint for that outer band, and deliberately mark the job incomplete so the generation is recovery-eligible.",
+    "partial_artifact_rule": "At most one partial recovery artifact per incomplete outer band; it contains only validated completed single-d slice certificates plus STATUS.json. The total compressed slice footprint for one partial band is hard-capped at the same 900000-byte recovery-slot cap used by complete outer units.",
+    "generation_start_recovery": "For generation >=2, recover the immediately previous BR204 run's complete prefix, completed br204-u-* outer units, inherited br204-partials bundle, and current br204-p-* partial-band artifacts. Validate and re-emit complete and partial recovery unions before any new compute.",
+    "reuse_rule": "A complete outer unit is reused only after exact existing aggregator validation. A partial slice is reused only after worker/base/source-lock, b, single-d identity, TAIL/SUM invariants, and raw SHA validation. Conflicting duplicates fail closed. Each resumed band computes only missing d values.",
+    "timeout_rule": "SOFT_DEADLINE partials are normal recovery. A SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION status is a hard stop: do not blindly rerun or extend timeout; introduce a finer exact execution-only partition before another heavy generation.",
+    "cancellation_semantics": "Completed outer-unit artifacts survive independently. Manual cancellation may lose only runner-local work since the last uploaded outer/partial checkpoint; automatic hard timeout is guarded by the soft deadline and must not be the normal checkpoint path.",
+    "pilot_salvage": "The two representative pilots use the same single-d checkpoint runner and each uploads either a complete outer unit or a reusable partial-band checkpoint.",
+    "cleanup_rule": "Only after both the complete prefix and any partial-slice carry bundle are successfully re-emitted may superseded prior BR204 recovery artifacts be deleted. Cleanup failure is a hard stop before new heavy compute."
   },
   "storage_contract": {
-    "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
-    "bin_stream_note": "Transient exact bin streams are now persisted per (b,d-band) durable subunit, never as raw routing-state streams.",
-    "high_mass_scaleout_gate": "Two representative pilots, (b=0,d=8..54) and (b=96,d=148..192), execute only after authorization and are reused as durable subunits.",
-    "projection_rule": "250 * max(two independently available pilot gzip sizes) * 2 + 20 MiB must be <= 500 MiB before fan-out",
+    "persistent_compact_certificate_preflight": "PENDING_FRESH_PILOT_MEASUREMENT_AFTER_D_SLICE_REBUILD",
+    "bin_stream_note": "Complete outer units remain compact merged band certificates. Incomplete outer units persist only validated single-d compact slices, never raw routing-state streams.",
+    "high_mass_scaleout_gate": "Both representative pilots must complete under the exact single-d checkpoint runner. Measure both final band gzip size and the sum of all pilot single-d slice gzip sizes; use the larger per-band recovery-slot measurement for the scaleout projection.",
+    "projection_rule": "For each outer band, max(complete-band gzip, sum(single-d slice gzip recovery footprint)) must be <=900000 bytes. Recovery generations allow at most one prior 250-slot recovery union plus one re-emitted/current 250-slot union: 2 * 250 * 900000 + 20 MiB <= 500 MiB.",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_state_artifacts_uploaded": false,
     "per_subunit_gzip_hard_cap_bytes": 900000,
-    "absolute_peak_rule": "At generation rollover, at most one prior recovery union and one newly re-emitted prefix coexist: 2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB. After fail-closed cleanup, current prefix plus newly completed missing units still represent at most 250 subunits.",
-    "recovery_retention": "All BR204 recovery artifacts use 1-day retention, but superseded prior recovery artifacts are actively deleted after successful prefix re-emission so repeated generations do not accumulate one-day copies."
+    "absolute_peak_rule": "Each of the 250 outer bands occupies at most one <=900000-byte recovery slot, complete or partial. At generation rollover at most one prior recovery union and one re-emitted/current recovery union coexist, plus 20 MiB fixed overhead.",
+    "recovery_retention": "All BR204 recovery artifacts use 1-day retention, but superseded prior recovery artifacts are actively deleted after successful prefix re-emission so repeated generations do not accumulate one-day copies.",
+    "partial_band_recovery_hard_cap_bytes": 900000
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
@@ -149,19 +176,20 @@
     "repository_stage_concurrency_ceiling": 18,
     "current_generation": 0,
     "current_armed": false,
-    "initial_execution_rule": "After fresh hostile-audit PASS on the cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited doorstep head/review, uses the dedicated execution commit-message prefix, and its push automatically starts heavy.",
-    "recovery_execution_rule": "After a generation >=1 heavy run fails/cancels/times out, a runkey-only child commit keeps armed=true, increments generation by exactly one, supplies carry_run_id for the immediately previous generation run, preserves all execution/source/resume/storage/credit locks, and its push automatically resumes missing work only.",
+    "initial_execution_rule": "After fresh hostile-audit PASS on this rebuilt cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited rebuilt doorstep head/review, and auto-starts heavy.",
+    "recovery_execution_rule": "After a recovery-eligible generation fails/cancels/times out because of ordinary interruption or explicit SOFT_DEADLINE partial jobs, a runkey-only child names that immediate prior run and resumes validated complete units plus single-d partial checkpoints. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION is not eligible for blind resume.",
     "manual_dispatch_required": false,
     "heavy_authorized_now": false,
     "heavy_started": false
   },
   "post_run_gates": {
     "required_checks": [
-      "250-subunit exact coverage/disjointness over approved b x d-band units",
+      "250 outer-unit exact coverage/disjointness over approved b x d-band units",
       "every admissible even d covered exactly once per b",
-      "repeated per-b static metadata agrees across retained bands",
-      "multi-generation recovery prefix validates and re-emits the exact union before new compute",
-      "both pilot subunits are independently durable/salvageable",
+      "every recovered partial single-d checkpoint source-locks to the current worker and exact d identity",
+      "recovery discovery counts distinguish artifact enumeration from mathematical missing work",
+      "complete prefix plus partial-slice carry bundle re-emits before new compute",
+      "both pilots measure complete-band and single-d partial recovery footprints below the 900000-byte slot cap",
       "H96 refined-state census counted once per b",
       "H96 BC assignment-mass conservation counted once per b",
       "global mu LP <= global K8 LP",
@@ -187,11 +215,12 @@
     "merge": false
   },
   "audit_hold": {
-    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "previous_manual_design_review_id": 5242897044,
-    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED",
-    "mathematical_population_changed": false,
-    "resume_topology_changed": false,
-    "launcher_topology_changed": true
+    "previous_pass_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "previous_review_id": 5243659462,
+    "cancelled_generation1_run_id": 35299814222,
+    "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
+    "defect": "Outer b x d-band units were durable only after full completion; work completed inside a long-running outer unit was not checkpointed before hard timeout.",
+    "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
+    "status": "PREVIOUS_AUDIT_SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN__FRESH_HOSTILE_AUDIT_REQUIRED"
   }
 }
