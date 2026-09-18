@@ -1,0 +1,107 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_COMPRESSED_PICARD_LIFT_INTERSECTION_PREFLIGHT_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "status": "STRUCTURAL_ADAPTER_PASS__BOUNDED_EXECUTION_NOT_RUN__ZERO_MAIN_CREDIT",
+  "purpose": "Bypass per-terminal 59D witness materialization for the genus-0 nonconic BTVA necessary condition by asking directly whether any integral Picard64 lift of one retained compressed fibration/Picard observable state has exceptional support spanning P6.",
+  "ownership": {
+    "main_native_route": "BTVA_COMPRESSED_LIFT_RECEIVER_INTERSECTION",
+    "bridge_issue1817_p0_p1_p2_duplicated": false,
+    "lane178_fibration_nef_algorithm_duplicated": false,
+    "ex5_historical_terminal_by_terminal_bc2_duplicated": false,
+    "relation": "MAIN consumes exact infrastructure from historical EX5 and the live 178 compressed-observable interface, but the new decision problem is existential support compatibility on the compressed key rather than terminal witness materialization."
+  },
+  "source_locks": {
+    "main_v43": {
+      "exact_head": "e771d7be5bd170b0f8eb1bbd7b39847b5d4d6be2",
+      "state_blob_sha1": "1f4af0d2d1aff5ecd94669d6dc9ea2fef445f630",
+      "authority_bound": 157570677819451133507
+    },
+    "lane178": {
+      "pr": 1821,
+      "exact_head": "e60f03cf5105bc6e26cb4615acabd6fe0c07625c",
+      "aggregate_picard_preflight_path": "stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py",
+      "aggregate_picard_preflight_blob_sha1": "5fa9f1d67d6411cb550230b62398aff7bd6488ff",
+      "recoverability_path": "stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_recoverability.py",
+      "recoverability_blob_sha1": "fbd8dad2194378a6bf77d12cc2c65ac03782f112"
+    },
+    "historical_ex5": {
+      "btva_diagnostic_path": "stages/stage32-ex5/breadth-cycle-2/bc2-00-btva-node-support-span-diagnostic.json",
+      "btva_diagnostic_blob_sha1": "554f8626e0ea225ffb7e6a5b6fe40ee41a7448ee",
+      "runtime_node_bridge_path": "stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json",
+      "runtime_node_bridge_blob_sha1": "2a14a683e8ec38ec993eb711841c466f2be6eb06",
+      "old_support_blocker_path": "stages/stage32-ex5/breadth-cycle-2/bc2-02-full178-support-reconstruction-preflight.json",
+      "old_support_blocker_blob_sha1": "68d47f8ad2a3ff8eff13324a700bd96b3c22fbac",
+      "selected64_pairing_solver_path": "stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_pairing_coordinate_completion.py",
+      "selected64_pairing_solver_blob_sha1": "a82d56d0e9649b0cdd332b7eacc49bc364e2ffd0"
+    },
+    "stage34_arsenal": {
+      "path": "docs/stage34-arsenal-promotion.md",
+      "blob_sha1": "5703f6fe8e9b2de6a0bd167ffdee33d15cfd3f1a",
+      "weapon": "S34-W03_RECEIVER_RESTRICTED_INTERSECTION_EXCLUSION",
+      "workflow": "S34-WF01_CLASS3_RECEIVER_REPLACEMENT_THEOREM_PIPELINE",
+      "use_here": "method pattern only; Stage34 receiver theorem and StageA2 family theorem are not transferred"
+    }
+  },
+  "exact_interface": {
+    "compressed_observable_order": ["a", "b", "c", "t", "x4", "e", "d", "r0", "r1", "r2", "r3", "r4"],
+    "lane178_fact": "The 12 observables are exact integral linear forms on retained Picard64 and their image-lattice extendability is certified exactly by HNF congruences.",
+    "picard_variable": "x in Z^64 retained Picard basis",
+    "exceptional_pairings": "y_k = <E_k,x> for the 48 exceptional classes, k=0..47, using all140 slots 92..139 and BC2-01B node identity.",
+    "safe_relaxed_effective_curve_conditions": [
+      "the twelve compressed observables equal the requested static/residual key",
+      "y_k >= 0 for every exceptional node",
+      "sum_k y_k = e",
+      "x is integral Picard64"
+    ],
+    "all140_normal_nonnegativity_required_for_this_preflight": false,
+    "why_relaxed_is_safe": "Dropping nonexceptional all140 positivity only enlarges the lift set. UNSAT after adding BTVA is therefore still a sound exclusion of an actual curve; SAT grants no curve/effectivity credit."
+  },
+  "btva_genus0_nonconic": {
+    "theorem_locator": "Bruin-Thomas-Varilly-Alvarado, Theorem 1.2",
+    "necessary_condition": "support has at least seven singular nodes and those nodes span P6, excluding the separately handled 32 plane conics",
+    "support_definition": "support(x) = {k : y_k > 0}",
+    "integer_equivalence": "because y_k are nonnegative integers, k is outside support iff y_k=0 and positive support outside a set is equivalent to the corresponding sum being at least one",
+    "known_conic_exception_must_be_separate": true,
+    "genus1_claimed": false
+  },
+  "lazy_flat_separation": {
+    "algorithm": [
+      "Solve the exact integral Picard64 lift system for the fixed compressed observable key.",
+      "If UNSAT, the compressed key is impossible even before BTVA.",
+      "If SAT, compute the exact Q(i)-linear rank of canonical coordinates of nodes with y_k>0.",
+      "If rank is 7, a BTVA-compatible support lift exists and this route does not reject the key.",
+      "If rank is <7, let F be all of the 48 canonical nodes lying in the exact projective linear span of that support.",
+      "Add the exact integer cut sum_{k notin F} y_k >= 1 and solve again.",
+      "Retain all prior flat cuts. Repeat until rank 7 is found or the system is UNSAT."
+    ],
+    "cut_soundness": "Every support spanning P6 must contain a node outside every proper flat F. Thus each cut removes only lifts whose support is contained in a BTVA-forbidden proper flat.",
+    "finite_termination": "Only finitely many closures F occur on a fixed 48-node configuration; each newly added cut permanently excludes one previously realized closure.",
+    "preenumerate_593735_node_hyperplanes_required": false,
+    "binary_support_variables_required": false,
+    "per_terminal_identity_required": false,
+    "per_terminal_59d_witness_required": false
+  },
+  "relation_to_old_blocker": {
+    "old_blocker": "current retained FULL178 census lacked a 59-entry witness or directly verified 48-support certificate per candidate",
+    "bypass": "The proposed consumer never asks for a retained support certificate per terminal. It existentially quantifies the full integral Picard64 lift inside each compressed observable fiber and asks only whether some BTVA-compatible support exists.",
+    "support_invariance_theorem_required": false
+  },
+  "credit_firewalls": {
+    "bounded_execution_run": false,
+    "full178_execution_run": false,
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_exact_step": "Implement one bounded genus-0 real-production panel by replacing the historical terminal-equality block in the selected64/Picard64 QF_LIA solver with the live 178 twelve-observable equalities, then add lazy exact node-flat cuts. Measure UNSAT keys and solver iterations only; no population credit until a source-locked multiplicity adapter and hostile audit exist.",
+  "canonical_sha256_without_this_field": "19e4149e9171df4d024d49f343882611bf2a54e0e30dfed37d1e0b92f6d796ee"
+}
