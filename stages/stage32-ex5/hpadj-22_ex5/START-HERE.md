@@ -1,0 +1,49 @@
+# Stage32EX5 HPADJ22 — exact HPADJ08 deletion-correlation refinement
+
+Status: **BOUNDED FORMALIZATION / ZERO MAIN CREDIT**
+
+Parent audited producer boundary:
+
+- PR #1818
+- HPADJ21 audited exact head: `265fbef0a67014494fcf773af6c3a9f1b095ef95`
+- HPADJ21 post-audit MAIN handoff head: `33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2`
+- HPADJ21 hostile-audit review: `5242670540`
+- HPADJ21 audited candidate upper bound: `157570677819451133507`
+- composition: same-population non-additive refinement
+
+## Route objective
+
+HPADJ21 retains the exact full `q_A` histogram but still relaxes the location of the HPADJ08 whole-block deletions by using post-mass constraints at cell level.
+
+HPADJ22 will test a strictly finer same-population bound by retaining/recomputing the exact HPADJ08 deletion correlation:
+
+`q_A + q_{BC} <= cutoff_g(d)`
+
+and applying the HPADJ21 q/Picard survivor count only to blocks that survive that exact HPADJ08 necessary condition.
+
+This route is a refinement/replacement candidate, **not** an additive subtraction route.
+
+## First exact gate
+
+Before any FULL178 scaleout:
+
+1. formalize the joint `(q_A,q_{BC},support,required parity)` bounded replay;
+2. reproduce the frozen HPADJ08 bounded exact-square rejection total on the same scope;
+3. reproduce the HPADJ21 bounded objective on the same cells;
+4. prove/check pointwise `HPADJ22 <= HPADJ21`;
+5. require at least one strict bounded witness;
+6. retain zero MAIN credit until hostile audit of any later FULL178 result.
+
+The earlier private bounded measurements are motivation only and are not repository authority.
+
+## Firewalls
+
+- Stage32 MAIN pruning credit: false
+- MAIN consumption performed: false
+- additive subtraction: false
+- exact incremental rejected identity set claimed: false
+- FULL178 complete: false
+- effectivity / receiver / route / theorem / endpoint / Perfect Cuboid credit: false
+- merge authorization: false
+
+Do not merge. Continue on this PR as the delta-bounded successor to closed PR #1818.
