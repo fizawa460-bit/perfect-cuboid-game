@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ21_KNOWN_STRICT_SUBSET_PREFLIGHT_V1",
+  "stage": 32,
+  "status": "STRUCTURAL_MONOTONICITY_PLUS_MEASURED_STRICT_SUBSET_CANDIDATE__ZERO_MAIN_CREDIT",
+  "purpose": "Record the immediately certified-looking tightening candidate obtained from the HPADJ21 exact-qA refinement using only already measured strict cells/rows, while leaving all unmeasured FULL178 cells at their HPADJ20 values.",
+  "current_authority": {
+    "authority_version": "V41_HPADJ20_FULL178_BOUND_AUDIT_SYNCED",
+    "authoritative_remaining_terminals": 179119009547804181594,
+    "authoritative_remaining_strata": 17128,
+    "composition_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
+  },
+  "source_locks": {
+    "ex5_pr": 1818,
+    "ex5_live_head_observed": "669468c01bbb1f7c3b8bc46b934658765984f0b8",
+    "hpadj20_parent_blob_sha1": "837d647cfcbc96bbe384e564f449cd7042a46d48",
+    "hpadj18_lp_blob_sha1": "09c3a97ca47f2602b547efc572a3ddfee1d3437f",
+    "bounded_pilot_checkpoint_blob_sha1": "0b51a223b71a9260f463be2179ff1af0d203d423",
+    "bounded_pilot_producer_exact_head": "af35c4d1da3dce13e9814d9a4abce0635e334438",
+    "bounded_pilot_workflow_run_id": 35161071359,
+    "bounded_pilot_output_canonical_sha256": "ddd139f47889ad1a32f4f0604a399a5b97757da9844ca34d5d22ba7c2b57e81e",
+    "representative_measurement_blob_sha1": "c17f1fc80e67439e04f6d2eed7dfbd28b8b54b43",
+    "representative_producer_exact_head": "3e9f726546f87925f678ba567d08d4aee25f1d22",
+    "representative_workflow_run_id": 35161346565,
+    "representative_certificate_canonical_sha256": "7da39b4427f1f164c8b484216ec67b32287ecd8215006f36d24421eac5962c7a"
+  },
+  "structural_monotonicity": {
+    "coarse_rule": "HPADJ20 keeps exact minimum qA and assigns every remaining tuple the exact second-smallest qA as a common lower bound.",
+    "refined_rule": "HPADJ21 keeps every exact qA bin with exact multiplicity.",
+    "survivor_monotonicity": "For fixed parity cap multiset, survivor_count(q)=#caps>=q is nonincreasing in q. Therefore every HPADJ21 exact-qA tuple has survivor ratio no larger than the corresponding HPADJ20 two-tier tuple.",
+    "lp_monotonicity": "The exact-predomain LP maximizes a fixed post mass by greedily filling capacities in decreasing survivor/B ratio. Moving capacity only to equal-or-lower ratios cannot increase that optimum.",
+    "population_change": false,
+    "post_mass_change": false,
+    "same_picard_character": true,
+    "additive_independence_assumed": false,
+    "consequence": "Every unmeasured FULL178 cell may conservatively retain its HPADJ20 objective while measured strict cells/rows replace only their same-cell HPADJ20 objective."
+  },
+  "measured_strict_subset": {
+    "bounded_low_d_cells": [
+      {"row_id":"g0-d016","b_interval":[0,11],"hpadj20_floor":140762240,"full_hist_floor":136851462,"floor_improvement":3910778},
+      {"row_id":"g1-d016","b_interval":[0,11],"hpadj20_floor":131566445,"full_hist_floor":128162327,"floor_improvement":3404118},
+      {"row_id":"g0-d012","b_interval":[0,11],"hpadj20_floor":11900366,"full_hist_floor":11784236,"floor_improvement":116130},
+      {"row_id":"g1-d012","b_interval":[0,11],"hpadj20_floor":11097422,"full_hist_floor":10976320,"floor_improvement":121102},
+      {"row_id":"g0-d014","b_interval":[0,11],"hpadj20_floor":43219165,"full_hist_floor":42512379,"floor_improvement":706786},
+      {"row_id":"g1-d014","b_interval":[0,11],"hpadj20_floor":40225506,"full_hist_floor":39592140,"floor_improvement":633366}
+    ],
+    "bounded_low_d_floor_improvement_sum": 8892280,
+    "near_max_row": {
+      "row_index": 177,
+      "row_id": "g1-d190",
+      "strict_cells": 8,
+      "floor_improvement_vs_hpadj20": 1312541087822068106
+    },
+    "known_measured_floor_improvement_sum": 1312541087830960386
+  },
+  "candidate": {
+    "candidate_upper_bound": 177806468459973221208,
+    "candidate_tightening_vs_v41": 1312541087830960386,
+    "full178_numeric_replay_complete": false,
+    "all_other_cells_conservatively_left_at_hpadj20": true,
+    "exact_rejected_identity_set_claimed": false,
+    "composition_rule": "SAME_POPULATION_SAME_CELL_REPLACEMENT_ONLY__NO_ADDITIVE_STACKING"
+  },
+  "promotion_requirements": [
+    "independent replay/source-lock verification of the two retained EX5 measurements",
+    "hostile audit of the structural survivor/LP monotonicity argument against the exact HPADJ20/HPADJ21 source semantics",
+    "MAIN replacement transition using min(current_authority,candidate_upper_bound), not additive subtraction",
+    "claim-sync/audit gate before any authority credit"
+  ],
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  }
+}

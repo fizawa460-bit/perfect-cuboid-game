@@ -29,17 +29,25 @@ FRONTIER_BLOB = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
 ADAPTERS_BLOB = "c0ef34e5838e27046a20fed77063593009c56f40"
 AUDIT_REVIEW = 5231559824
 MAIN_AT_AUDIT = "c6284abbb29930255892d56f800da0ea1e34734b"
+CURRENT_REPO_MAIN = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
 BOUND = 179119009547804181594
 V39_BOUND = 195414091250828468192
 TIGHTENING = 16295081703024286598
+
 
 def req(v: bool, msg: str) -> None:
     if not v:
         raise SystemExit("FAIL: " + msg)
 
+
+def is_sha1(v: object) -> bool:
+    return isinstance(v, str) and len(v) == 40 and all(c in "0123456789abcdef" for c in v)
+
+
 def blob(path: Path) -> str:
     raw = path.read_bytes()
     return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
 
 def canon(obj: dict) -> str:
     body = dict(obj)
@@ -47,6 +55,7 @@ def canon(obj: dict) -> str:
     return hashlib.sha256(
         json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
     ).hexdigest()
+
 
 def lock_json(path: Path, expected_blob: str, expected_canon: str, label: str) -> dict:
     req(path.is_file(), f"missing {label}")
@@ -57,11 +66,13 @@ def lock_json(path: Path, expected_blob: str, expected_canon: str, label: str) -
     req(canon(obj) == expected_canon, f"{label} canonical drift")
     return obj
 
+
 def current_state() -> dict:
     obj = json.loads(STATE.read_text(encoding="utf-8"))
     stored = obj.get("canonical_sha256_without_this_field")
     req(isinstance(stored, str) and canon(obj) == stored, "current MAIN state canonical drift")
     return obj
+
 
 def main() -> None:
     ap = argparse.ArgumentParser()
@@ -124,6 +135,7 @@ def main() -> None:
     req(state["schema"] == "STAGE32_MAIN_COMPACT_STATE_V41_HPADJ20_FULL178_BOUND_AUDIT_SYNCED",
         "state schema")
     a = state["authority_sync"]
+    req(a["current_repository_main"] == CURRENT_REPO_MAIN, "state current repository main")
     req(a["predecessor_process_head"] == V40_HEAD, "state predecessor head")
     req(a["v40_replacement_hostile_audit_status"] == "PASS", "state V40 audit status")
     req(a["v40_replacement_hostile_audit_review_id"] == AUDIT_REVIEW, "state V40 audit review")
@@ -142,6 +154,8 @@ def main() -> None:
     req(f["v41_audit_sync_additional_pruning"] == 0, "V41 state pruning")
     req(f["full178_numerical_census_complete"] is False and f["stage32_closed"] is False,
         "closure firewall")
+    req("CANDIDATE_BOUND_177806468459973221208__ZERO_MAIN_CREDIT" in
+        f["main_hpadj21_known_strict_subset_candidate_status"], "HPADJ21 preflight status")
 
     req(state["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(state["current"]["next_exact_route"] ==
@@ -155,20 +169,48 @@ def main() -> None:
         req(state["firewalls"][key] is False, f"firewall {key}")
 
     sweep = state["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == MAIN_AT_AUDIT, "repository-main observation")
-    req(sweep["lane_178_pr"] == 1815 and
-        sweep["lane_178_head"] == "bec18f891f1012de21110e71998aa4874edc20b9" and
+    req(sweep["observed_repository_main"] == CURRENT_REPO_MAIN, "repository-main observation")
+
+    # Live heads are mutable observations, not retained mathematical source identities.
+    # Ordinary stage32mainbatch resolves their exact freshness remotely and writes them
+    # into MAIN-STATE. This verifier checks shape/firewalls so a specialist head advance
+    # does not force an unrelated V41 proof-certificate rewrite.
+    req(sweep["lane_178_pr"] == 1821 and is_sha1(sweep["lane_178_head"]) and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 live sweep")
-    req(sweep["ex5_pr"] == 1818 and
-        sweep["ex5_head"] == "669468c01bbb1f7c3b8bc46b934658765984f0b8" and
+    req("ZERO_MAIN_CREDIT" in sweep["lane_178_handoff"], "178 credit firewall")
+    req("RESEARCH_ONLY" in sweep["lane_178_current_head_audit_status"] and
+        sweep["lane_178_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "178 audit gate")
+    req(isinstance(sweep["lane_178_semantic_leaf"], str) and sweep["lane_178_semantic_leaf"],
+        "178 semantic leaf")
+
+    req(sweep["ex5_pr"] == 1818 and is_sha1(sweep["ex5_head"]) and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 successor live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["ex5_handoff"], "EX5 credit firewall")
-    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
-        "CUT live sweep")
-    req(sweep["mb_pr"] == 1819 and
-        sweep["mb_head"] == "4661f139b0c7ad0cb85d72506d628f671dbc69ed" and
+    req(sweep["ex5_current_head_audit_status"].endswith("HOSTILE_AUDIT_PENDING"),
+        "EX5 audit gate")
+    req(sweep["ex5_representative_result"] ==
+        "G1_D190_QA_FLOOR_IMPROVEMENT_1312541087822068106__REPRESENTATIVE_ONLY",
+        "EX5 representative result")
+
+    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE" and
+        sweep["cut_pending_main_handoff"] == "NONE", "CUT live sweep")
+
+    req(sweep["mb_pr"] == 1819 and is_sha1(sweep["mb_head"]) and
         sweep["mb_pending_main_handoff"] == "NONE", "MB live sweep")
     req("ZERO_MAIN_CREDIT" in sweep["mb_handoff"], "MB credit firewall")
+    req(sweep["mb_current_head_audit_status"] == "PENDING_CURRENT_HEAD_AUDIT",
+        "MB audit gate")
+
+    req(sweep["bridge_pr"] == 1813 and is_sha1(sweep["bridge_head"]) and
+        sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE live sweep")
+    req("ZERO_MAIN_CREDIT" in sweep["bridge_handoff"], "BRIDGE credit firewall")
+    req(sweep["bridge_current_head_audit_status"] == "CURRENT_HEAD_NOT_HOSTILE_AUDITED",
+        "BRIDGE audit gate")
+    req(sweep["bridge_latest_hostile_audit_pass_head"] ==
+        "c780c05fb6ae8405dd609ba4a2331d4565331510" and
+        sweep["bridge_latest_hostile_audit_review_id"] == 5231786735,
+        "BRIDGE retained audited boundary")
 
     sl = state["source_locks"]["v41_audit_sync_receipt"]
     req(sl["blob_sha1"] == SYNC_BLOB and sl["canonical_sha256"] == SYNC_CANON,
@@ -177,7 +219,8 @@ def main() -> None:
     req(V39_BOUND - BOUND == TIGHTENING, "V40 authority arithmetic")
     print("PASS: Stage32 V41 synchronizes the hostile-audited V40 numerical authority with zero new pruning")
     print("PASS: V40 audit gate cleared; FULL178 resumes with downstream/merge firewalls unchanged")
-    print("PASS: live 178/EX5/CUT/MB observations refreshed; no new MAIN handoff consumed")
+    print("PASS: live specialist observation shapes/firewalls verified; remote exact-head freshness remains an operator startup obligation")
+
 
 if __name__ == "__main__":
     main()
