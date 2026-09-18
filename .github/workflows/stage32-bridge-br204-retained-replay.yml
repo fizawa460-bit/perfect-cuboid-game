@@ -48,25 +48,25 @@ jobs:
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION'
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
           assert rk['generation']==0 and rk['armed'] is False
-          assert rk['execution']['durable_subunit_count']==250
-          assert rk['resume']['durable_unit']=='b_x_d_band'
+          assert rk['execution']['durable_subunit_count']==250\n          assert rk['execution']['exact_inner_checkpoint_count']==4743
+          assert rk['resume']['durable_outer_unit']=='b_x_d_band'\n          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'\n          assert rk['resume']['soft_deadline_seconds']==13500\n          assert rk['resume']['single_d_timeout_seconds']==3600\n          assert rk['resume']['paginated_artifact_retrieval_required'] is True
           assert rk['resume']['generation_start_prefix_reemit'] is True
-          assert rk['resume']['single_previous_run_suffices'] is True
-          assert rk['resume']['pilots_independently_durable'] is True
+          assert rk['resume']['recover_partial_slice_bundle'] is True
+          assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
           assert rk['execution']['trigger']['event']=='push'
           assert rk['execution']['trigger']['branch']=='stage32bridge-mainbatch'
           assert rk['execution']['trigger']['execution_commit_message_prefix']=='stage32 BR204 execute generation '
           print('BR204 remains cold; push-trigger durable-prefix recovery is configured; no heavy or BR205 authorization')
           PY
 
-      - name: Verify live merged V41 main snapshot
+      - name: Verify live merged V43 main snapshot
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
-          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "dd7dba27eb062e6a6ad4d440094ba26c290900d7"
+          test "$(git rev-parse FETCH_HEAD)" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
 
       - name: Verify repository workflow lifecycle composite inventory
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
@@ -108,29 +108,37 @@ jobs:
       - name: Compile and self-test cold heavy surfaces without FULL178 execution
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "b180c71ae32f8da4a85daec30cc6a03bf57278fc"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "0d5ee8e1013cab6120e957707a363e86b3c0d41e"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "f3cff578e2970df1246239ae7735564509d4dae3"
+          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_d_slices.py)" = "3869a397cefdccb343434a0e23bc0f6e4ed37c16"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "93f80d3d95e48d24843e92fd03972179dabeca5a"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "93d9c9787b6cc86a1a27a5984d778958f51385fb"
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
+          python stages/stage32/generalization-bridge/combine_br204_d_slices.py self-test > /tmp/combiner-selftest.json
+          grep -Fq '"expected_single_d_slices": 4743' /tmp/combiner-selftest.json
+          python -m py_compile stages/stage32/generalization-bridge/combine_br204_d_slices.py stages/stage32/generalization-bridge/run_br204_resumable_band.py
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
           python - <<'PY'
           import json
           from pathlib import Path
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['source_locks']['worker_blob']=='b180c71ae32f8da4a85daec30cc6a03bf57278fc'
+          assert rk['source_locks']['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
+          assert rk['source_locks']['d_slice_combiner_blob']=='3869a397cefdccb343434a0e23bc0f6e4ed37c16'
+          assert rk['source_locks']['resumable_band_runner_blob']=='93f80d3d95e48d24843e92fd03972179dabeca5a'
           assert rk['source_locks']['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert rk['source_locks']['execution_contract_blob']=='b8ccbfd5ba3430982dc0d60744770ab9efb71b7f'
-          assert rk['source_locks']['repository_main_head']=='37bb811b95399d73cc46fe899badcfa8eb5fca7d'
-          assert rk['source_locks']['repository_main_state_blob']=='dd7dba27eb062e6a6ad4d440094ba26c290900d7'
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION'
+          assert rk['source_locks']['execution_contract_blob']=='f3cff578e2970df1246239ae7735564509d4dae3'
+          assert rk['source_locks']['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
+          assert rk['source_locks']['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
           assert rk['generation']==0 and rk['armed'] is False
-          assert rk['execution']['durable_subunit_count']==250
+          assert rk['execution']['durable_subunit_count']==250\n          assert rk['execution']['exact_inner_checkpoint_count']==4743
           assert rk['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
-          assert rk['resume']['durable_unit']=='b_x_d_band'
+          assert rk['resume']['durable_outer_unit']=='b_x_d_band'\n          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'\n          assert rk['resume']['soft_deadline_seconds']==13500\n          assert rk['resume']['single_d_timeout_seconds']==3600\n          assert rk['resume']['paginated_artifact_retrieval_required'] is True
           assert rk['resume']['generation_start_prefix_reemit'] is True
-          assert rk['resume']['single_previous_run_suffices'] is True
-          assert rk['resume']['pilots_independently_durable'] is True
+          assert rk['resume']['recover_partial_slice_bundle'] is True
+          assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
           assert rk['storage']['per_subunit_gzip_hard_cap_bytes']==900000
           assert rk['storage']['absolute_rollover_peak_bound_bytes'] <= 524288000
           src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
@@ -139,7 +147,7 @@ jobs:
           assert 'TAIL\\t' in src
           assert 'Equal-ratio bins must be treated as one ratio class' in agg
           assert 'formal_br205_gate_passed' in agg
-          print('cold heavy surfaces compile/self-test PASS; push launcher, multi-generation durable-prefix recovery, and independent pilots verified; heavy remains unarmed')
+          print('cold heavy surfaces compile/self-test PASS; exact single-d checkpoints, paginated recovery, soft-deadline partial salvage, and cold launcher verified; heavy remains unarmed')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
@@ -147,4 +155,4 @@ jobs:
 
       - name: Diff check from last hostile-audited exact head
         if: github.event_name == 'pull_request'
-        run: git -c core.whitespace=-blank-at-eof diff --check c780c05fb6ae8405dd609ba4a2331d4565331510 "${{ github.event.pull_request.head.sha }}"
+        run: git -c core.whitespace=-blank-at-eof diff --check 48bf75ea1fe79afe08d4349799bc699da651ce04 "${{ github.event.pull_request.head.sha }}"
