@@ -1,0 +1,130 @@
+{
+  "schema": "STAGE32_MB104_SOFTPARK_SECOND_DEPTH_R3_V1",
+  "status": "ROUND3_COMPLETE_SELECTION_NO_CREDIT",
+  "predecessor_head": "4e6469532ea1e8c7aa68cf98f177ff3b51f0b77c",
+  "target": {
+    "mask": "000707000f0f",
+    "D2": "336*l^2",
+    "K_D": "112*l"
+  },
+  "W17": {
+    "disposition": "RESERVE",
+    "stabilizer": "(a1,a2,a3,b1,b2,b3,c)->(a2,a1,a3,b2,b1,b3,c)",
+    "fixed_components": [
+      "F+",
+      "F-"
+    ],
+    "fixed_component_H_degree": 4,
+    "fixed_box_nodes": [
+      16,
+      19,
+      20,
+      23
+    ],
+    "active_support": [
+      0,
+      1,
+      2,
+      3,
+      8,
+      9,
+      10,
+      11,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ],
+    "fixed_nodes_in_active_support": [],
+    "intersection_each": "28*l",
+    "intersection_total": "56*l",
+    "closure": false
+  },
+  "W18": {
+    "disposition": "PARK_DOMINATED_BY_W20",
+    "d": "112*l",
+    "h0_L": "112*l",
+    "support_blocks": 14,
+    "block_value_dimension": 14,
+    "elliptic_evaluation_image_codimension": 1,
+    "generic_block_intersection_dimension_lower": 13,
+    "required_ambient_restriction_dimension": 6,
+    "residual_linear_room_lower": 7
+  },
+  "W19": {
+    "disposition": "PARK_DOMINATED_BY_W23",
+    "wronskian_total": "784*l",
+    "forced_ramification_from_point_collisions": 0,
+    "closure": false
+  },
+  "W23": {
+    "disposition": "RESERVE",
+    "bidegree": [
+      "28*l",
+      "28*l"
+    ],
+    "total_delta": "784*l^2-56*l",
+    "branch_count_capacity_upper": "736*l^2-56*l",
+    "extra_contact_gap": "48*l^2",
+    "tangency_test": "I>=2 iff A_i^2=A_j^2 at the same special point",
+    "A_degree_upper": "84*l",
+    "collision_lower_bound_proved": false,
+    "closure": false
+  },
+  "W29": {
+    "disposition": "PARK_STRUCTURALLY_SPLIT",
+    "quotient_line": "O_E(-R)",
+    "kernel_degree": "112*l+deg(R)",
+    "ext_group": "H^1(E,K_f(R))",
+    "ext_line_degree": "112*l+2*deg(R)",
+    "ext_vanishes": true,
+    "split": "f^*Omega_S ~= K_f direct_sum O_E(-R)",
+    "semistability_route_possible": false
+  },
+  "selection": {
+    "advance_for_third_depth": [],
+    "reserve": [
+      "W17",
+      "W23"
+    ],
+    "park": [
+      "W18",
+      "W19",
+      "W29"
+    ],
+    "cumulative_advance": [
+      "W4",
+      "W16",
+      "W20"
+    ],
+    "high_reserve": [
+      "W5"
+    ],
+    "cumulative_reserve": [
+      "W13",
+      "W17",
+      "W23"
+    ],
+    "next_second_depth_round": [
+      "W1",
+      "W21",
+      "W22",
+      "W24",
+      "W27",
+      "W28"
+    ]
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
