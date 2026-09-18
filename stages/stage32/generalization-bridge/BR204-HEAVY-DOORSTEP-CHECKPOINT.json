@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V12_BRANCH_PUSH_12WAY_SAFE_UPLOAD",
-  "status": "COLD_BRANCH_PUSH_12WAY_SAFE_UPLOAD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_AUTHORIZED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V13_AUDIT5247651937_REPAIRED",
+  "status": "COLD_BRANCH_PUSH_12WAY__AUDIT_5247651937_BLOCKERS_REPAIRED__EXACT_HEAD_REPLAY_AND_REAUDIT_REQUIRED__ZERO_CREDIT",
   "audited_predecessor": {
     "head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
     "hostile_audit_review_id": 5243659462,
@@ -31,13 +31,13 @@
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
     "contract_blob": "796e7fc649ba0482eeae4b602d41278b5f1402fb",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "3f6568190857206ca21316750e70df554bd6b251",
+    "qbc_tail_addendum_blob": "f520ea76d7ee7f0786dded29c24dd9be7ed06f7b",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
     "heavy_workflow_blob": "2244e45456af23f0b6ff0d78a80b51b72c7cf40e",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "c41df09c092b3fc0e117c44c0d4f52fb406e88e7",
+    "retained_replay_blob": "76ce16b9d95c5d3317927c6b4f975dfb7ba948d2",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "a24922de51ee4f4eb2e95bd3f520c2e519c8310b",
+    "runkey_blob": "3f11bf8e8b7dce76952813c25cc9dd3638095720",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
     "bridge_workflow_inventory_supplement_blob": "e75f570c93265c3d8d9de28bbcebc0cdc819c563",
@@ -49,41 +49,13 @@
     "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
   },
   "audit_repair_delta": {
-    "previous_audited_push_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
-    "previous_audit_review_id": 5243659462,
-    "cancelled_generation1": {
-      "run_id": 35299814222,
-      "head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
-      "conclusion": "cancelled"
-    },
-    "research_os_defect": "Generation-1 wrote an outer b x d-band certificate only after the whole band finished, so a hard timeout could discard hours of exact d work.",
-    "repair": [
-      "keep 250 outer b x d-band recovery slots so matrix fan-out remains <=248 after pilots",
-      "expose one admissible even d as the exact restart quantum",
-      "after every completed d, refresh one cumulative rolled partial-band certificate on runner-local storage",
-      "use a 13,500-second soft deadline inside a 330-minute job so normal timeout exits through checkpoint/upload rather than the hard wall",
-      "run an always-path finalizer and artifact upload so ordinary interruption/cancellation can preserve the last completed-d rollup when post-steps can execute",
-      "resume from the validated rolled partial and compute only missing d values",
-      "treat any single-d 3,600-second timeout as a hard finer-partition gate rather than blind rerun or timeout extension",
-      "paginate predecessor/current artifact APIs explicitly and download by artifact id; never infer mathematical missing work from a one-page retrieval",
-      "record discovered artifact count separately from validated carried complete-unit and partial-band counts",
-      "record the catastrophic runner-loss limitation explicitly: runner-local state cannot be uploaded after the host disappears, while already uploaded recovery objects remain durable",
-      "replace the custom push/commit-message launcher with Research OS ACTIVE_AUTO pull_request lifecycle and a cheap before..head synchronize authorization gate",
-      "require the dedicated runkey to be the only changed path in any semantic arm/resume commit; opened/reopened/non-arm syncs remain cold",
-      "record Stage32 overlap at arm/resume and require 8 + observed_other_heavy_concurrency <= 18",
-      "paginate predecessor Jobs as well as artifacts and derive expected durable uploads from successful named upload steps",
-      "reconcile expected durable artifact names and direct/prior complete/partial identities against retrieved nonexpired artifacts and validated manifests before plan",
-      "finalizer emits upload_safe only after actual payload revalidation and <=900000-byte cap; recovery uploads require successful finalizer plus upload_safe",
-      "exact-head replay includes omitted-expected-artifact, oversize-partial, and corrupt-partial negative regressions"
-    ],
-    "mathematical_population_changed": false,
-    "authority_or_credit_changed": false,
-    "resume_topology_changed": true,
-    "launcher_topology_changed": true,
-    "exact_head_replay_after_rebuild": "REQUIRED_AFTER_BRANCH_PUSH_12WAY_REBUILD",
-    "hostile_audit_after_rebuild": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1",
-    "concurrency_change": "Cold-only change: BR204 max_parallel 8 -> 12 by user authorization. Repository Stage32 ceiling remains 18; arm gate requires observed other Stage32 heavy concurrency <=6.",
-    "launcher_repair": "Branch-only pull_request launcher was non-runnable before merge. Rebuilt as branch-local push, gated by actual github.event.before..github.sha and runkey-only armed commits; no commit-message authorization."
+    "audited_hold_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
+    "audited_hold_review_id": 5247651937,
+    "blocker1_repair": "Runkey arm_contract now uses branch-local push / dedicated_runkey_push / runkey-only parent diff semantics.",
+    "blocker2_repair": "qBC attribution addendum is relocked to execution contract 796e7fc6... and finalizer 5724929d..., with branch-push 12-way authorization text.",
+    "replay_strengthening": "Retained replay now asserts arm_contract branch-push fields and qBC addendum exact source locks.",
+    "concurrency_rule": "BR204 max_parallel=12; repository Stage32 ceiling=18; arm-time observed other Stage32 heavy concurrency must be <=6.",
+    "mathematical_population_changed": false
   },
   "heavy_shape": {
     "rows": 178,
@@ -140,8 +112,8 @@
     }
   },
   "next_gate": {
-    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_AFTER_BRANCH_PUSH_12WAY_REBUILD_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
-    "after_pass": "STOP COLD. Only a later runkey-only push child of the freshly audited repaired doorstep may set generation 1 / armed true and launch heavy."
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_AFTER_AUDIT_5247651937_REPAIRS_THEN_SEPARATE_HOSTILE_REAUDIT_PASS",
+    "after_pass": "STOP COLD. Only a later runkey-only push child of the freshly re-audited repaired doorstep may set generation 1 / armed true and launch heavy."
   },
   "credit": {
     "stage32_main": false,
@@ -157,17 +129,12 @@
     "merge": false
   },
   "audit_hold": {
-    "previous_audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
-    "previous_hostile_audit_review_id": 5243659462,
-    "verdict": "HOLD_SUPERSEDED_BY_BRANCH_PUSH_12WAY_REBUILD__FRESH_REPLAY_AND_HOSTILE_AUDIT_REQUIRED",
-    "blocker": "Previous audit found missing predecessor expected-count reconciliation and unsafe partial-upload gating when finalizer fails. Both are repaired but require exact-head replay and independent hostile audit.",
-    "repair_status": "IMPLEMENTED_IN_CODE_AND_SOURCE_LOCKS__NEGATIVE_REGRESSIONS_ADDED__CI_AND_SEPARATE_HOSTILE_AUDIT_PENDING",
+    "previous_audited_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
+    "previous_hostile_audit_review_id": 5247651937,
+    "verdict": "HOLD_BLOCKERS_REPAIRED__FRESH_REPLAY_AND_REAUDIT_REQUIRED",
+    "blocker": "Audit 5247651937 found stale runkey arm_contract launcher semantics and stale qBC addendum contract/finalizer source locks.",
+    "repair_status": "IMPLEMENTED__REPLAY_STRENGTHENED__EXACT_HEAD_CI_AND_SEPARATE_REAUDIT_PENDING",
     "latest_hold_exact_head": "74d49b08b1924c2edcfbd7d0fa26f308e23c3ba4",
-    "latest_hold_review_id": 5245019356,
-    "latest_hold_blockers": [
-      "predecessor expected/completed durable artifact inventory was not reconciled before missing-work planning",
-      "finalizer failure could leave complete unset and still route an unsafe partial payload into upload"
-    ],
-    "latest_hold_blockers_repaired_in_current_cold_surface": true
+    "latest_hold_review_id": 5245019356
   }
 }
