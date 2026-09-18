@@ -11,6 +11,20 @@ Parent audited producer boundary:
 - HPADJ21 audited candidate upper bound: `157570677819451133507`
 - composition: same-population non-additive refinement
 
+## Research OS inheritance
+
+This successor remains governed by the repository-wide Research OS policies, including
+`docs/research-os/policies/hostile-audit-and-freshness.md` section 7 for long-lived shared research PRs.
+
+In particular, retained growth on this new PR is measured from this PR's starting boundary / latest hostile-audited checkpoint:
+
+- around 90 unaudited retained commits: enter the warning zone and plan the next intermediate hostile-audit checkpoint;
+- no later than the first retained checkpoint at or beyond 100 unaudited retained commits: freeze an exact head and run an intermediate hostile audit before appending further substantive retained research;
+- after PASS, the same PR may continue with a fresh audit-debt count from that audited checkpoint;
+- scratch/off-PR work does not count until retained into this shared PR.
+
+This is inherited governance only; it grants no mathematical or MAIN credit.
+
 ## Route objective
 
 HPADJ21 retains the exact full `q_A` histogram but still relaxes the location of the HPADJ08 whole-block deletions by using post-mass constraints at cell level.
