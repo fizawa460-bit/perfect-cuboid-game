@@ -1,9 +1,13 @@
 name: Stage32 BRIDGE BR204 FULL178 heavy
 
-# Trigger lifecycle: MANUAL — expensive BR204 scaleout. A distinct audited-parent
-# run-key arm commit is mandatory; this workflow never auto-runs on PR synchronization.
+# Trigger lifecycle: ACTIVE_AUTO — only a dedicated runkey push on the BRIDGE branch
+# can enter heavy execution. Audit/source/generation gates fail closed before compute.
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - stage32bridge-mainbatch
+    paths:
+      - 'stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
 
 permissions:
   contents: read
@@ -21,7 +25,7 @@ env:
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
   WORKER_BLOB: b180c71ae32f8da4a85daec30cc6a03bf57278fc
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
-  CONTRACT_BLOB: d9a7546f10049f915bfa29b32e3528bedf06c5ae
+  CONTRACT_BLOB: b8ccbfd5ba3430982dc0d60744770ab9efb71b7f
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   REPOSITORY_MAIN_HEAD: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
   MAIN_STATE_BLOB: dd7dba27eb062e6a6ad4d440094ba26c290900d7
@@ -30,15 +34,17 @@ env:
 
 jobs:
   authorize:
+    if: "${{ startsWith(github.event.head_commit.message, 'stage32 BR204 execute generation ') }}"
     runs-on: ubuntu-latest
     outputs:
       carry_run_id: ${{ steps.auth.outputs.carry_run_id }}
+      generation: ${{ steps.auth.outputs.generation }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
           fetch-depth: 2
-      - name: Verify exact sources, live main, and semantic arm commit
+      - name: Verify exact sources, live main, and generation transition
         id: auth
         env:
           GH_TOKEN: ${{ github.token }}
@@ -57,12 +63,22 @@ jobs:
           from pathlib import Path
           p=Path(os.environ['RUNKEY'])
           cur=json.loads(p.read_text())
-          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V3_DURABLE_PREFIX'
-          assert cur['armed'] is True and cur['generation'] > 0
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'], text=True).strip()
+          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'], text=True))
+          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'], text=True).splitlines()
+          assert changed == [p.as_posix()], 'execution commit must mutate only the dedicated runkey'
+          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION'
+          assert old['schema']==cur['schema']
+          assert cur['armed'] is True
+          assert cur['generation']==old['generation']+1 and cur['generation']>0
+          assert cur['execution']==old['execution']
+          assert cur['source_locks']==old['source_locks']
+          assert cur['resume']==old['resume']
+          assert cur['storage']==old['storage']
+          assert cur['credit']==old['credit']
           assert cur['execution']['b_unit_count']==97
-          assert cur['execution']['durable_subunit_count']==250 and cur['execution']['max_parallel']==8
-          assert cur['resume']['generation_start_prefix_reemit'] is True
-          assert cur['resume']['single_previous_run_suffices'] is True
+          assert cur['execution']['durable_subunit_count']==250
+          assert cur['execution']['max_parallel']==8
           assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           locks=cur['source_locks']
@@ -72,28 +88,54 @@ jobs:
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
           assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
           assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
-          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
-          assert cur['arm_contract']['audited_doorstep_head']==parent
-          review=cur['arm_contract']['audited_doorstep_review_id']
-          assert isinstance(review,int)
-          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'],text=True))
-          assert old['armed'] is False and cur['generation'] > old['generation']
-          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'],text=True).splitlines()
-          assert changed == [p.as_posix()], 'arm commit must mutate only dedicated run-key'
-          Path('/tmp/auth.json').write_text(json.dumps({'parent':parent,'review':review}))
+          if old['armed'] is False:
+              assert old['generation']==0 and cur['generation']==1
+              assert cur.get('carry_run_id') is None
+              assert cur['arm_contract']['audited_doorstep_head']==parent
+              assert isinstance(cur['arm_contract']['audited_doorstep_review_id'], int)
+              mode='initial'
+          else:
+              assert old['armed'] is True and cur['generation']>=2
+              assert isinstance(cur.get('carry_run_id'), int)
+              assert cur['arm_contract']==old['arm_contract']
+              mode='resume'
+          Path('/tmp/auth.json').write_text(json.dumps({
+              'mode':mode,
+              'parent':parent,
+              'generation':cur['generation'],
+              'review':cur['arm_contract']['audited_doorstep_review_id'],
+              'carry_run_id':cur.get('carry_run_id'),
+          }))
           PY
-          gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
-          python - <<'PY'
+          mode="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["mode"])')"
+          if [ "$mode" = initial ]; then
+            gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
+            python - <<'PY'
           import json
           a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
-          m=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
-          assert m, 'audited doorstep review/head pair not found'
-          body=m[0].get('body') or ''
+          hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
+          assert hit, 'audited doorstep review/head pair not found'
+          body=hit[0].get('body') or ''
           assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
           PY
-          carry="$(python -c 'import json;print(json.load(open("'"$RUNKEY"'")).get("carry_run_id") or "")')"
-          echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
-
+          else
+            carry="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["carry_run_id"])')"
+            gh api "repos/$REPO/actions/runs/$carry" > /tmp/carry-run.json
+            python - <<'PY'
+          import json
+          a=json.load(open('/tmp/auth.json')); r=json.load(open('/tmp/carry-run.json'))
+          assert r.get('head_sha')==a['parent'], 'carry run must belong to the immediately previous generation head'
+          assert r.get('path')=='.github/workflows/br204-stage32-bridge-heavy.yml'
+          assert r.get('status')=='completed'
+          assert r.get('conclusion') in {'failure','cancelled','timed_out'}
+          PY
+          fi
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          a=json.load(open('/tmp/auth.json'))
+          print('carry_run_id='+('' if a['carry_run_id'] is None else str(a['carry_run_id'])))
+          print('generation='+str(a['generation']))
+          PY
 
   carry:
     needs: authorize
@@ -106,7 +148,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-      - name: Recover prior durable union and pre-clean superseded ancestors
+      - name: Recover and validate prior durable union
         id: recover
         env:
           GH_TOKEN: ${{ github.token }}
@@ -115,76 +157,81 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p /tmp/prior-prefix /tmp/prior-units /tmp/reemit
-          delete_recovery_artifacts() {
-            local rid="$1"
-            [ -n "$rid" ] || return 0
-            gh api --paginate "repos/$REPO/actions/runs/$rid/artifacts?per_page=100"               --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id'               > "/tmp/delete-$rid.ids"
-            while IFS= read -r aid; do
-              [ -n "$aid" ] || continue
-              gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
-            done < "/tmp/delete-$rid.ids"
-          }
           if [ -n "$CARRY_RUN_ID" ]; then
-            names="$(gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" --jq '.artifacts[].name')"
-            if printf '%s
-' "$names" | grep -Fxq 'br204-prefix'; then
+            gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" --jq '.artifacts[].name' > /tmp/carry-artifact-names.txt
+            if grep -Fxq 'br204-prefix' /tmp/carry-artifact-names.txt; then
               gh run download "$CARRY_RUN_ID" -n br204-prefix -D /tmp/prior-prefix
             fi
-            if printf '%s
-' "$names" | grep -Eq '^br204-u-'; then
+            if grep -Eq '^br204-u-' /tmp/carry-artifact-names.txt; then
               gh run download "$CARRY_RUN_ID" -p 'br204-u-*' -D /tmp/prior-units
             fi
-            python - <<'PY' > /tmp/ancestor-runs.txt
+          fi
+          python "$AGGREGATOR" checkpoint \
+            --input-dir /tmp/prior-units \
+            --input-dir /tmp/prior-prefix \
+            --worker-blob "$WORKER_BLOB" \
+            --out-dir /tmp/reemit \
+            --manifest /tmp/reemit/RECOVERY-MANIFEST.json
+          python - <<'PY' > /tmp/ancestor-runs.txt
           import json
           from pathlib import Path
           ids=set()
           for p in Path('/tmp/prior-prefix').rglob('RECOVERY-LINEAGE.json'):
               x=json.loads(p.read_text())
-              for rid in x.get('superseded_run_ids', []):
-                  ids.add(int(rid))
-          for rid in sorted(ids):
-              print(rid)
+              ids.update(int(v) for v in x.get('superseded_run_ids', []))
+          for v in sorted(ids): print(v)
           PY
-            while IFS= read -r rid; do
-              [ -n "$rid" ] || continue
-              delete_recovery_artifacts "$rid"
-            done < /tmp/ancestor-runs.txt
+          if [ -n "$CARRY_RUN_ID" ]; then
+            python -c 'import json,os; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V2","superseded_run_ids":[int(os.environ["CARRY_RUN_ID"])]},sort_keys=True,indent=2)+"\n")'
+          else
+            python -c 'import json; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V2","superseded_run_ids":[]},sort_keys=True,indent=2)+"\n")'
           fi
-          python "$AGGREGATOR" checkpoint             --input-dir /tmp/prior-units             --input-dir /tmp/prior-prefix             --worker-blob "$WORKER_BLOB"             --out-dir /tmp/reemit             --manifest /tmp/reemit/RECOVERY-MANIFEST.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
-          import json, os
+          import json
           from pathlib import Path
           m=json.loads(Path('/tmp/reemit/RECOVERY-MANIFEST.json').read_text())
           units={(x['b'],x['d_lo'],x['d_hi']) for x in m['subunits']}
-          print(f"prefix_count={m['validated_subunit_count']}")
-          print("pilot_low_present="+str((0,8,54) in units).lower())
-          print("pilot_high_present="+str((96,148,192) in units).lower())
-          carry=os.environ.get('CARRY_RUN_ID','').strip()
-          Path('/tmp/reemit/RECOVERY-LINEAGE.json').write_text(json.dumps({
-              'schema':'STAGE32_BR204_RECOVERY_LINEAGE_V1',
-              'superseded_run_ids':[int(carry)] if carry else [],
-          },sort_keys=True,indent=2)+'\n')
+          print('prefix_count='+str(m['validated_subunit_count']))
+          print('pilot_low_present='+str((0,8,54) in units).lower())
+          print('pilot_high_present='+str((96,148,192) in units).lower())
           PY
+      - name: Delete already-superseded ancestor recovery artifacts
+        if: "${{ needs.authorize.outputs.carry_run_id != '' }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r rid; do
+            [ -n "$rid" ] || continue
+            gh api --paginate "repos/$REPO/actions/runs/$rid/artifacts?per_page=100" \
+              --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id' > "/tmp/delete-$rid.ids"
+            while IFS= read -r aid; do
+              [ -n "$aid" ] || continue
+              gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
+            done < "/tmp/delete-$rid.ids"
+          done < /tmp/ancestor-runs.txt
       - uses: actions/upload-artifact@v4
-        if: steps.recover.outputs.prefix_count != '0'
+        if: "${{ steps.recover.outputs.prefix_count != '0' }}"
         with:
           name: br204-prefix
           path: /tmp/reemit
           retention-days: 1
           if-no-files-found: error
-      - name: Delete superseded prior recovery artifacts after prefix re-emission
-        if: needs.authorize.outputs.carry_run_id != '' && steps.recover.outputs.prefix_count != '0'
+      - name: Delete directly superseded carry recovery artifacts
+        if: "${{ needs.authorize.outputs.carry_run_id != '' && steps.recover.outputs.prefix_count != '0' }}"
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           CARRY_RUN_ID: ${{ needs.authorize.outputs.carry_run_id }}
         run: |
           set -euo pipefail
-          gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100"             --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id'             > /tmp/delete-current-carry.ids
+          gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id' > /tmp/delete-carry.ids
           while IFS= read -r aid; do
             [ -n "$aid" ] || continue
             gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
-          done < /tmp/delete-current-carry.ids
+          done < /tmp/delete-carry.ids
 
   runtime:
     needs: [authorize, carry]
