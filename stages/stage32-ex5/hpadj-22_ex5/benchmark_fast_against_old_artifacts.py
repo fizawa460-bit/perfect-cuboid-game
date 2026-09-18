@@ -7,7 +7,7 @@ HERE=Path(__file__).resolve().parent
 BASE=HERE/"run_full_bband.py"
 FAST=HERE/"run_full_bband_fast.py"
 BASE_BLOB="2c998a190baaf5f29b33a91fd9efedbb036cef46"
-FAST_BLOB="79a99b63f517f69e162f44a4fc203e4907193078"
+FAST_BLOB="172f003f34d95cceb3d3cbbda949bce6e58b7380"
 TARGETS=[
   {"band":0,"row":3,"old_seconds":321.0967},
   {"band":6,"row":19,"old_seconds":675.5013},
