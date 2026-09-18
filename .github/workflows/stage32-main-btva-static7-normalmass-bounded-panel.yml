@@ -132,6 +132,7 @@ jobs:
           from pathlib import Path
 
           ROOT=Path.cwd()
+          sys.path.insert(0,str(ROOT/"stages/stage32/residual-32-01-production"))
           EX5=ROOT/".stage32-ex5-hpadj21"
           REF=ROOT/"stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json"
           INDEXER=ROOT/"stages/stage32/residual-32-01-production/compressed_terminal_indexer.py"
