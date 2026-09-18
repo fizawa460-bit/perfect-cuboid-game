@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_W14_000707_DEGREE7_RESTRICTION_PREFLIGHT_V1",
-  "status": "PASS_TO_SECOND_SCAN_ONE_BIT_CHAR0_RANK_AMBIGUITY_NO_CREDIT",
+  "status": "SUPERSEDED_BY_RETAINED_PRIMITIVE_RANK_DROP_NO_CREDIT",
   "support_mask": "000707000f0f",
   "primitive_class": "A=7H-4 sum_(p in Sigma)E_p",
   "finite_field": {
@@ -48,11 +48,10 @@
     "individual_restriction_ranks_equal": true
   },
   "decision": {
-    "disposition": "PASS_TO_SECOND_SCAN",
-    "if_char0_jet_rank_220": "individual restriction is nonzero; both zero quartics are nonfixed for l=1, hence by powers for all l>=1",
-    "if_char0_jet_rank_221": "finite-field preflight alone does not decide restriction",
-    "next_test": "certify characteristic-zero primitive jet rank exactly 220 or certify augmented characteristic-zero rank at least 222",
-    "deep_candidate": false
+    "disposition": "DROP_ALREADY_RETAINED",
+    "reason": "The W14 one-bit ambiguity was already resolved in the retained archive. Explicit characteristic-zero sections F,G prove h0(A)=124 and jet rank 220; F restricts nontrivially to Q0, symmetry gives Q1, and powers give nonfixedness for all l>=1.",
+    "deep_candidate": false,
+    "second_scan_required": false
   },
   "exploratory_cross_prime_pattern": {
     "primes": [
@@ -97,5 +96,23 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
+  },
+  "retained_archive_resolution": {
+    "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md",
+    "blob_sha1": "6b973691df9c835d14ac388082111d202a07d8c7",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_000707_primitive_rank.py",
+    "verifier_blob_sha1": "51e3ab3df3dbdf30305085f07fdbb7deca0d27cf",
+    "exact_result": {
+      "h0_A": 124,
+      "h1_A": 4,
+      "char0_jet_rank": 220,
+      "explicit_sections": [
+        "F",
+        "G"
+      ],
+      "q0_restriction_nonzero": true,
+      "q0_q1_nonfixed_all_l": true
+    }
   }
 }
