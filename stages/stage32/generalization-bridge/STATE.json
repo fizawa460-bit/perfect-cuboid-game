@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V9_RESEARCH_OS_PR_ARM_ALWAYS_SALVAGE",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V10_RECOVERY_RECONCILED_SAFE_UPLOAD",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_RESEARCH_OS_PR_ARM_ALWAYS_SALVAGE_COLD_REBUILD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
+  "active_leaf": "BR204_RECOVERY_RECONCILED_SAFE_UPLOAD_COLD_REBUILD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -93,19 +93,19 @@
   },
   "cold_heavy_doorstep": {
     "checkpoint": "stages/stage32/generalization-bridge/BR204-HEAVY-DOORSTEP-CHECKPOINT.json",
-    "checkpoint_blob_before_state_sync": "cc8b9217ad199490f9c556d9636b0af51ae1f157",
+    "checkpoint_blob_before_state_sync": "c5c91f19fcf4908bfce87c494e91dc22e7a95f69",
     "execution_contract": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "execution_contract_blob": "eb7774ac8fc0d892d7ed67f30b1295adcc26519f",
+    "execution_contract_blob": "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a",
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
-    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519",
+    "band_checkpoint_finalizer_blob": "5724929d739ebc61ca1841ec34caef4de04752c7",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "heavy_workflow_blob": "b3f445a266cf8e53fd78346cb07175b270cf7dc7",
-    "retained_replay_blob": "5b29f7f8add77bfc1b1a506827d1ac391d96103a",
+    "heavy_workflow_blob": "f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5",
+    "retained_replay_blob": "8ea834e03611f6627c793a547e3ea7a809dfff28",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
-    "runkey_blob": "d1c6ac733e812ef359519615cc1b639cefa4b552",
-    "qbc_tail_addendum_blob": "d44f1bfab8e071fc0b5f300a95820326a56b3f5d",
+    "runkey_blob": "c21b832cc16d96629db9d5544a3e1a0eddc58f3f",
+    "qbc_tail_addendum_blob": "3f6568190857206ca21316750e70df554bd6b251",
     "runkey_generation": 0,
     "runkey_armed": false,
     "heavy_compute_authorized": false,
@@ -141,7 +141,14 @@
       "user_ui_action_required": false
     },
     "maximum_other_stage32_heavy_concurrency_at_arm": 10,
-    "observed_other_stage32_heavy_concurrency_at_arm": null
+    "observed_other_stage32_heavy_concurrency_at_arm": null,
+    "recovery_inventory_verifier_blob": "8854ca99df52a31e6639e6aa65cef73ffdf9ec18",
+    "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea",
+    "predecessor_jobs_paginated": true,
+    "expected_durable_uploads_reconciled_before_plan": true,
+    "unexplained_missing_or_expired_expected_artifact_hard_stop": true,
+    "finalizer_upload_safe_required": true,
+    "unsafe_finalizer_recovery_payload_upload_forbidden": true
   },
   "br205_bounded_preflight": {
     "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
@@ -160,12 +167,12 @@
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "replay and separately audit the Research OS PR-arm d-slice-resumable cold doorstep",
-    "required_input": "Exact-head retained replay and shared Stage32 gates must succeed with generation 0 / armed false after the Research OS PR authorization + resume rebuild.",
-    "success": "Exact-head replay green; then a separate HOSTILE AUDIT PASS on the unchanged cold head before any generation-1 runkey-only synchronize arm.",
+    "title": "replay and separately audit the recovery-reconciled/upload-safe BR204 cold doorstep",
+    "required_input": "Exact-head retained replay must pass the omitted-expected-artifact, oversize-partial, and corrupt-partial negative regressions with generation 0 / armed false.",
+    "success": "Exact-head replay green; then a separate HOSTILE AUDIT PASS on the unchanged repaired cold head before any generation-1 runkey-only synchronize arm.",
     "current_blockers": [
-      "exact-head retained replay/shared gates must be green",
-      "rebuilt Research OS PR-arm cold head requires separate hostile audit",
+      "exact-head retained replay/shared gates must be green after the two Research OS blocker repairs",
+      "repaired cold head requires separate hostile audit",
       "runkey must remain generation 0 / armed false until audit PASS"
     ],
     "stop_conditions": [
@@ -176,7 +183,9 @@
       "partial single-d checkpoints are not source-lock validated before reuse",
       "SINGLE_D_TIMEOUT is blindly retried without a finer exact partition",
       "repository main/source locks move",
-      "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
+      "raw 4.1M-state persistence or terminal identity materialization becomes necessary",
+      "predecessor expected durable artifact count/identity cannot be reconciled with paginated retrieved and validated recovery evidence",
+      "finalizer failure or upload_safe=false can reach a complete/partial recovery payload upload"
     ]
   },
   "transition_policy": {
@@ -222,7 +231,9 @@
       "initial_generation_requires_fresh_hostile_audit": true,
       "generation_one_runkey_only": true,
       "recovery_generation_runkey_only": true,
-      "recovery_requires_immediately_previous_recovery_eligible_run": true
+      "recovery_requires_immediately_previous_recovery_eligible_run": true,
+      "predecessor_inventory_reconciliation": "REQUIRED_BEFORE_PLAN",
+      "recovery_payload_upload_gate": "FINALIZER_SUCCESS_AND_UPLOAD_SAFE_TRUE"
     },
     "BR205": {
       "bounded_strict_improvement_preflight": "PASS",
@@ -322,10 +333,10 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Outer b x d-band work was durable only at full-band completion; elapsed work inside a timed-out unit could be lost.",
     "repair": "After every completed d, refresh cumulative local exact rollup. Use always-path finalizer/upload for ordinary interruption/cancellation, soft deadline before hard timeout, explicit pagination, and finer-partition hard stop on single-d timeout.",
-    "status": "PREVIOUS_AUDIT_SUPERSEDED_BY_MATERIAL_RESUME_AND_RESEARCH_OS_PR_ARM_REDESIGN__FRESH_HOSTILE_AUDIT_REQUIRED",
+    "status": "PREVIOUS_HOLD_BLOCKERS_REPAIRED__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED",
     "mathematical_population_changed": false,
     "resume_topology_changed": true,
     "launcher_topology_changed": false,
-    "repair_status": "IMPLEMENTED_IN_CODE__SOURCE_LOCKS_SYNCED__EXACT_HEAD_REPLAY_PENDING__FRESH_HOSTILE_AUDIT_REQUIRED"
+    "repair_status": "RECOVERY_INVENTORY_RECONCILIATION_AND_UPLOAD_SAFE_NEGATIVE_TESTS_ADDED__CI_PENDING"
   }
 }
