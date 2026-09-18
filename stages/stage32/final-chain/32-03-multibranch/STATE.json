@@ -296,7 +296,7 @@
       "W20",
       "W16"
     ],
-    "class3_third_depth_active": "W20",
+    "class3_third_depth_active": "W16",
     "class3_third_depth_w4": {
       "status": "COMPLETE_CLOSED_NEGATIVE_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W4-THIRD-DEPTH-ROOT-WALL-20260918.md",
@@ -306,10 +306,10 @@
     },
     "class3_third_depth_completed": [
       "W4",
-      "W5_ORDER2"
+      "W5_ORDER2",
+      "W20_FINITE_E2"
     ],
     "class3_solo_deepening_queue": [
-      "W20",
       "W16"
     ],
     "class3_third_depth_w5": {
@@ -318,17 +318,24 @@
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W5-SOLO-ORDER2-ACTIVE-SUPPORT-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w5_solo_order2_active_support.py",
       "result": "the explicit 13-dimensional order-two BTVA space has stacked active-14 principal-part rank 12; the unique common regular line is exactly (z-x1-x2-i*x3)*eta, so order two gives no new intrinsic-regularity improvement beyond the retained support-hyperplane architecture; primitive/twisted higher order remains open"
+    },
+    "class3_third_depth_w20": {
+      "status": "SOLO_FINITE_E2_BRIDGE_CLOSED_NEGATIVE_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W20-SOLO-FINITE-E2-GAUGE-WALL-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W20-SOLO-FINITE-E2-GAUGE-WALL-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w20_solo_finite_e2_gauge_wall.py",
+      "result": "the retained factor-line/passport interface is invariant under M2 -> M2 tensor tau for arbitrary tau in Pic^0(E)[2], while delta_fac shifts simply transitively; eta is an independent normalization Kummer class and kappa lives in the normalization kernel, so the finite E[2] bridge cannot select delta_fac or bound the conductor cut"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 solo deepening — W20 finite E[2] Abel/conductor bridge",
+    "title": "MB104 solo deepening — W16 canonical non-split CB subcluster",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W5 solo is complete at order two: stacking the exact active fourteen-node principal-part conditions on the explicit 13-dimensional BTVA order-two space has rank 12 and leaves exactly the support-hyperplane line (z-x1-x2-i*x3)*eta. Thus order two is exhausted but W5 is not closed negatively because genuinely primitive/twisted higher order m>=4 remains open. Do not advance W5 further in this invocation sequence. Next work W20 only: compute or source-lock the finite Pic^0(E)[2] factor-line class delta_fac=O_E(D_z^+-D_w^+) and relate it to eta or the ambient/generalized-Jacobian conductor character. Do not advance W16 in the same invocation.",
+    "required_input": "W20 solo is complete and closed negatively as a finite-E[2] bridge: the retained factor-line/passport identities are invariant under M2 tensor tau for any tau in Pic^0(E)[2], while delta_fac moves through all four possibilities; eta is a separate normalization Kummer class and the Hodge-relevant conductor class kappa lies in Ker(Pic(C)[2]->Pic(E)[2]). Do not reopen W20 unless branch-specific conductor-preimage lift/descent data are added. Next work W16 only: search for a canonical proper lci Cayley-Bacharach subscheme Z_l of O(l) length forced by every hypothetical carrier, with a non-split Serre extension. The target remains length(Z_l)<=112l, which would make the Bogomolov discriminant positive for all l>=2 and leave only l=1 for a finite backend.",
     "success_shapes": [
-      "source-complete equality or explicit affine relation between delta_fac and eta/conductor character reducing e=2 to a finite E[2] compatibility test",
-      "independent computation proving delta_fac nonzero while e=2 forces the linked class zero, excluding e=2 uniformly in l",
-      "source-complete proof that current factor-line data do not determine the conductor class, closing this W20 bridge negatively"
+      "source-complete canonical proper CB scheme of length <=112l with non-split Serre extension, yielding l>=2 exclusion",
+      "weaker explicit O(l) canonical CB scheme with a computable cutoff L",
+      "source-complete proof that every currently available canonical O(l) cluster is split or fails CB, closing the present W16 architecture negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
