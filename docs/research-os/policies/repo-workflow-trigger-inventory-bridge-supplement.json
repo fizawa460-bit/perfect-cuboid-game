@@ -2,7 +2,7 @@
   "schema_version": 1,
   "scope": "branch-local supplement to repo-workflow-trigger-inventory-20260911.json",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
-  "reason": "PR #1813 retains BR203 as workflow_dispatch-only provenance, keeps BR204 retained replay as the automatic audit/replay gate, and classifies BR204 FULL178 heavy as an automatic runkey-push surface. The heavy workflow only performs compute when an exact audited-parent runkey-only execution commit passes its authorization gate.",
+  "reason": "PR #1813 retains BR203 as workflow_dispatch-only provenance, keeps BR204 retained replay as the ACTIVE_AUTO audit/replay gate, and classifies BR204 FULL178 heavy as ACTIVE_AUTO with a Research OS pull_request synchronize commit-range runkey authorization gate. opened/reopened and non-arm synchronizations are cold; heavy compute is permitted only after a semantic runkey generation advance in a dedicated runkey-only commit.",
   "classifications": {
     "ACTIVE_AUTO": [
       ".github/workflows/stage32-bridge-br204-retained-replay.yml",
