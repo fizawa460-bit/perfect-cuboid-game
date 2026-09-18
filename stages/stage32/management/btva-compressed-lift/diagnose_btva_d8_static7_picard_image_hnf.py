@@ -87,7 +87,7 @@ def main() -> None:
     req(old.LANE178_HEAD==LANE_HEAD,"lane178 head identity drift")
     req(old.LANE178_AGG_BLOB==LANE_AGG_BLOB,"lane178 aggregate identity drift")
 
-    lane_script=args.lane178_root / LANE_AGG_REL
+    lane_script=(args.lane178_root / LANE_AGG_REL).resolve()
     req(lane_script.is_file() and blob(lane_script)==LANE_AGG_BLOB,"lane178 aggregate script drift")
     proc=subprocess.run(
         [sys.executable,str(lane_script)],

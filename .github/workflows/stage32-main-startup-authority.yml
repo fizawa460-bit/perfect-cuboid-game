@@ -332,7 +332,7 @@ jobs:
       - name: Run V44 BTVA d8 static Picard HNF diagnostic
         if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
         run: |
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py)" = "1de16e2885644f967310df4b49e59e1997ffc953"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py)" = "282fa98ae3cc19c883402cb3cfead4a3bc324276"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json)" = "e1c4b0e04fa7f291cdbb42b3aafd62c869f47220"
           python stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py \
