@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V6_ROLLED_PARTIAL_RESUME",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold BR204 FULL178 rebuild after cancelled generation 1. Exact b x d checkpoints are rolled into one compact partial-band recovery slot per incomplete outer band; fresh exact-head replay and hostile audit required before re-arm.",
+  "purpose": "Cold BR204 FULL178 rebuild after cancelled generation 1. Each completed d refreshes a cumulative local exact rollup; an always-path finalizer uploads the latest complete or partial outer-band recovery slot before any recovery generation. Fresh exact-head replay and hostile audit are required before re-arm.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -51,7 +51,7 @@
   "source_locks": {
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "31592b08692aa156e92ca1acd900993fc94743dc",
+    "execution_contract_blob": "1a80ed29bd50e31b125173231f05b2ec8f6e28d2",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
@@ -60,12 +60,13 @@
     "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
     "bridge_predecessor_audited_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
     "bridge_predecessor_audit_review_id": 5242897044,
-    "d_slice_combiner_blob": "7fde22790c562d837cffbef85385b1e3c2387555",
-    "resumable_band_runner_blob": "5296c7361efc9fca98a9d1080825fa512bb7cc72"
+    "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
+    "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
+    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
   },
   "resume": {
-    "durable_outer_unit": "b_x_d_band",
-    "exact_inner_checkpoint_unit": "b_x_d_runner_local__rolled_to_partial_band_artifact",
+    "durable_outer_recovery_slot": "b_x_d_band_complete_or_rolled_partial",
+    "exact_restart_quantum": "b_x_d",
     "d_bands": [
       [
         8,
@@ -84,46 +85,51 @@
         192
       ]
     ],
-    "expected_outer_subunit_count": 250,
-    "expected_exact_inner_checkpoint_count": 4743,
+    "expected_outer_recovery_slot_count": 250,
+    "expected_exact_restart_quantum_count": 4743,
     "generation_start_prefix_reemit": true,
     "recover_prefix_plus_completed_units": true,
+    "recover_rolled_partial_band_bundle": true,
+    "precompute_reemit_required": true,
     "paginated_artifact_retrieval_required": true,
     "record_discovered_artifact_count": true,
-    "precompute_reemit_required": true,
     "cleanup_superseded_prior_recovery_artifacts": true,
     "cleanup_failure_is_hard_stop": true,
     "reuse_validated_complete_units": true,
+    "reuse_validated_rolled_partial_bands": true,
     "compute_missing_d_only_inside_incomplete_band": true,
+    "checkpoint_after_each_completed_d": true,
+    "always_path_checkpoint_finalizer": true,
+    "always_path_artifact_upload": true,
     "soft_deadline_seconds": 13500,
     "hard_job_timeout_minutes": 330,
     "single_d_timeout_seconds": 3600,
     "single_d_timeout_requires_finer_partition": true,
     "blind_timeout_extension_forbidden": true,
     "pilots_use_same_checkpoint_runner": true,
-    "intermediate_retention_days": 1,
-    "recover_rolled_partial_band_bundle": true,
-    "reuse_validated_rolled_partial_bands": true
+    "catastrophic_runner_loss_cannot_upload_runner_local_state": true,
+    "previously_uploaded_recovery_objects_survive_runner_loss": true,
+    "intermediate_retention_days": 1
   },
   "storage": {
     "per_outer_recovery_slot_hard_cap_bytes": 900000,
     "complete_band_gzip_hard_cap_bytes": 900000,
+    "rolled_partial_gzip_hard_cap_bytes": 900000,
     "budget_bytes": 524288000,
     "pilot_projection_safety_multiplier": 2,
     "fixed_overhead_bytes": 20971520,
     "absolute_rollover_peak_bound_bytes": 470971520,
-    "representative_pilots_must_measure_complete_and_slice_footprints": false,
-    "partial_band_rollup_gzip_hard_cap_bytes": 900000,
     "representative_pilots_must_measure_recovery_slot_payload": true
   },
   "arm_contract": {
     "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only commit",
-    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediately previous recovery-eligible BR204 heavy run, and preserve all execution/source/resume/storage/credit locks",
+    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediate previous recovery-eligible BR204 run, and preserve execution/source/resume/storage/credit locks",
     "execution_commit_message_prefix": "stage32 BR204 execute generation ",
     "execution_head_parent_diff_must_include_only_this_runkey": true,
     "cold_non_execution_commits_do_not_authorize": true,
     "failed_generation_requires_recovery_summary_resume_eligible": true,
     "cancelled_or_timed_out_generation_may_salvage_paginated_completed_and_partial_artifacts": true,
+    "single_d_timeout_blocks_blind_resume": true,
     "audited_doorstep_head": null,
     "audited_doorstep_review_id": null
   },
@@ -143,6 +149,7 @@
     "cancelled_generation1_run_id": 35299814222,
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
-    "status": "MATERIAL_RESUME_REBUILD_REQUIRES_FRESH_HOSTILE_AUDIT"
+    "repair": "after every completed d, refresh cumulative local rollup; always-path finalizer/upload preserves latest exact partial whenever post-steps can run; explicit soft deadline prevents normal hard timeout",
+    "status": "MATERIAL_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
   }
 }
