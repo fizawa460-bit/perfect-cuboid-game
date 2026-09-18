@@ -12,7 +12,10 @@ ALL140 = HERE / "management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTI
 CONIC = HERE / "management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json"
 DIAG = HERE / "management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py"
 NORMALMASS = HERE / "management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py"
-RELAXED = HERE / "management/btva-compressed-lift/run_btva_static7_bounded_panel.py"\nWAVE4_SELECTOR = HERE / "management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json"\nWAVE4_SOLVER = HERE / "management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py"\nWAVE3_QBIN = HERE / "management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json"
+RELAXED = HERE / "management/btva-compressed-lift/run_btva_static7_bounded_panel.py"
+WAVE4_SELECTOR = HERE / "management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json"
+WAVE4_SOLVER = HERE / "management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py"
+WAVE3_QBIN = HERE / "management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json"
 
 CURRENT_MAIN = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
 BOUND = 157570677819451133507
@@ -25,7 +28,11 @@ ALL140_CANON = "6561ddcf40b27ca433563635446d6d614ce36f4c26640c11d5ae61bf46abcff8
 CONIC_BLOB = "75d384c194c678ff6158ea793e943bce91741bb8"
 DIAG_BLOB = "1dc8650e8bf1029828c7971411c9bcb5212e040b"
 NORMALMASS_BLOB = "971cf6bab500eefd04bbef870807f1badc8b07c4"
-RELAXED_BLOB = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"\nWAVE4_SELECTOR_BLOB = "2e340d1605f6b86b5e8bcc681871e1e9656e545c"\nWAVE4_SOLVER_BLOB = "5160318e0d3fbe616636e115e63434226e7016f6"\nWAVE3_QBIN_BLOB = "fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"\nWAVE3_QBIN_CANON = "edbd101483a9dc08a28203847db11c48919550eb7fe3ea25c5fe5a30d48c188c"
+RELAXED_BLOB = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"
+WAVE4_SELECTOR_BLOB = "2e340d1605f6b86b5e8bcc681871e1e9656e545c"
+WAVE4_SOLVER_BLOB = "5160318e0d3fbe616636e115e63434226e7016f6"
+WAVE3_QBIN_BLOB = "fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"
+WAVE3_QBIN_CANON = "edbd101483a9dc08a28203847db11c48919550eb7fe3ea25c5fe5a30d48c188c"
 
 
 def req(v: bool, msg: str) -> None:
@@ -71,7 +78,12 @@ def main() -> None:
     req(conic["separation"]["target_hyperplane_degree"] == 8 and conic["separation"]["plane_conic_hyperplane_degree"] == 2, "conic degree separation")
     req(blob(DIAG) == DIAG_BLOB, "all140 diagnostic blob drift")
     req(blob(NORMALMASS) == NORMALMASS_BLOB, "normalmass solver drift")
-    req(blob(RELAXED) == RELAXED_BLOB, "relaxed solver drift")\n    req(blob(WAVE4_SELECTOR) == WAVE4_SELECTOR_BLOB, "wave4 selector drift")\n    req(blob(WAVE4_SOLVER) == WAVE4_SOLVER_BLOB, "wave4 solver drift")\n    wave3_qbin = load(WAVE3_QBIN, WAVE3_QBIN_BLOB, WAVE3_QBIN_CANON)\n    req(wave3_qbin["result"]["wave3_partial_exact_qbin_row_floor"] == 425610, "wave3 qbin floor drift")\n    req(wave3_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 22821, "wave3 qbin tightening drift")
+    req(blob(RELAXED) == RELAXED_BLOB, "relaxed solver drift")
+    req(blob(WAVE4_SELECTOR) == WAVE4_SELECTOR_BLOB, "wave4 selector drift")
+    req(blob(WAVE4_SOLVER) == WAVE4_SOLVER_BLOB, "wave4 solver drift")
+    wave3_qbin = load(WAVE3_QBIN, WAVE3_QBIN_BLOB, WAVE3_QBIN_CANON)
+    req(wave3_qbin["result"]["wave3_partial_exact_qbin_row_floor"] == 425610, "wave3 qbin floor drift")
+    req(wave3_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 22821, "wave3 qbin tightening drift")
 
     r = full["result"]
     req(full["target"]["base4_key_count"] == 343 and full["target"]["terminal_mass"] == 1278934, "full343 population drift")
