@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import os
 import sys
 import traceback
 from collections import Counter
@@ -331,4 +332,19 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except BaseException as exc:
+        target = os.environ.get("BTVA_BOOTSTRAP_ERROR_PATH")
+        if target:
+            p = Path(target)
+            p.parent.mkdir(parents=True, exist_ok=True)
+            payload = {
+                "schema": "STAGE32_MAIN_BTVA_BASE4_FULL343_BOOTSTRAP_ERROR_V1",
+                "error_type": type(exc).__name__,
+                "error_message": str(exc),
+                "traceback": traceback.format_exc().splitlines(),
+            }
+            payload["canonical_sha256_without_this_field"] = csha(payload)
+            p.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        raise
