@@ -110,7 +110,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py)" = "a94ddadfd9fd2188031155ec5d5d21675505c6b5"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py)" = "24d5382b9fc392be79f4c66a525d6a80bc97a305"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json)" = "c7c01eb27c4e80598d32261cb498fdccc7264ba9"
           test "$(git -C .stage32-ex5-hpadj21 rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
           test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"

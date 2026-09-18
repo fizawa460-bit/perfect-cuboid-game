@@ -74,7 +74,8 @@ def exact_s_for_block(h16, x: tuple[int, ...]) -> tuple[int, int, int, int, int,
     sa = int(x[2] > 0) + int(x[3] > 0) + int(x[7] > 0)
     qA = x[2] * x[2] + x[3] * x[3] + x[7] * x[7]
     xr = h16.a0_interval(H, G, b, c)
-    req(xr is not None, f"missing a0 interval {(a,b,c,t)}")
+    if xr is None:
+        return a, b, c, t, r, sa, qA, -1
     caps = [[], []]
     left, right = xr
     for xx4 in range(left, right + 1):
@@ -216,6 +217,7 @@ def main() -> None:
             continue
         if not (0 <= a <= H and 0 <= b <= H and 0 <= c <= H):
             continue
+        req(s >= 0, "missing q-bin on admitted coordinate range")
         c3 = counter.component3(D, b, c)
         ca = counter.component_a(D, a)
         if c3 < 0 or ca < 0:
