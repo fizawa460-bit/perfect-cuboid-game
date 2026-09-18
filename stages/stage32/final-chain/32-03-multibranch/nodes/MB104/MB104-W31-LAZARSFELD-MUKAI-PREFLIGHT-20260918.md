@@ -123,3 +123,66 @@ DEEP                        = false
 ```
 
 No MB104 or downstream credit is claimed.
+
+
+## 5. Second shallow scan — determinant cone is nonempty
+
+The first scan proves genuine Bogomolov instability.  The scheduled second scan asks only whether slope + determinant effectivity + retained intersection inequalities already make the destabilizing determinant impossible.
+
+Work with the elementary transform
+
+```
+F subset O_S^7,
+c1(F)=-D_l,
+mu_H(F)=-16l.
+```
+
+For a saturated destabilizing subsheaf `G subset F` of rank `r<7`, exterior powers give
+
+```
+det G = O_S(-B)
+```
+
+for an effective divisor class `B`.  Destabilization requires
+
+```
+-H.B/r > -16l,
+```
+
+equivalently
+
+```
+H.B < 16lr.
+```
+
+This numerical cone is **not empty**.  The canonical class itself supplies an explicit witness:
+
+```
+B=H,
+r=2,
+H.B=16,
+mu_H(det G)/r=-8>-16l
+```
+
+for every `l>=1`.
+
+On a supported exceptional `E_i`, the canonical bundle is trivial because `H.E_i=0`; the elementary transform along the `8l` transverse carrier contacts is compatible with the splitting pattern
+
+```
+F|E_i ~= O_E^6 direct_sum O_E(-8l).
+```
+
+Thus the basic determinant restriction `B.E_i>=0` is also compatible with `B=H`.
+
+So the second shallow gate does **not** collapse the HN determinant cone.
+
+### Revised decision
+
+```
+first architecture:  PROMOTE (genuine uniform instability)
+second cone test:    HARD-DROP
+broader direction:   SOFT-PARK, HIGH VALUE
+DEEP:                false
+```
+
+A future revisit must use the actual map `G -> F -> O_S^7`, the seven canonical sections, or the nodewise evaluation hyperplanes.  Pure slope/Picard-cone enumeration should not be run.
