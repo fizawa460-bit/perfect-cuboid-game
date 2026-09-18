@@ -9,7 +9,7 @@ CERT=Path(__file__).with_name("MB104-H8-LOG-BOUNDARY-INEQUALITY-CERTIFICATE.json
 
 LOCKS={
 "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-UNIFORM-CLOSURE-RESTART-20260917.md":"3e9fb440ea8a9c491ad58c9846d880fbd3373f66",
-"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md":"aa7192b4391b35e28c7f12efe5eef398d2144194",
+"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md":"fbbfebee3bb696bfbae6da262e0f5585d9f4994a",
 "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H8-LOG-BMY-SOURCE-NOTE-20260918.md":"3a18c5f67474bd4cd413472039924607e32dd9ec",
 }
 
