@@ -8,9 +8,10 @@
     "runkey_schema": "STAGE32_32_01_178_SELECTIVE_PICARD_RUNKEY_V1",
     "current_mode": "COLD",
     "pilot_measure_semantics": "generation>=1, armed=true, mode=PILOT_MEASURE, exactly one authorized workunit, concurrency=1, projected peak storage<=8MB; representative_receipt_bytes remains 0 and is measured from the completed pilot receipt",
-    "production_wave_semantics": "later strictly higher generation, armed=true, mode=PRODUCTION_WAVE, explicit authorized workunit ids, concurrency in 1..18, representative_receipt_bytes>0 from a prior pilot, projected peak storage below 500MB"
+    "production_wave_semantics": "later strictly higher generation, armed=true, mode=PRODUCTION_WAVE, explicit authorized workunit ids, concurrency in 1..18, representative_receipt_bytes>0 from a prior pilot, projected peak storage below 500MB",
+    "pilot_selector": "verify_fibration_nef_selective_picard_pilot_selector.py"
   },
-  "canonical_sha256_without_this_field": "25714b552b962ee64cfc8d8905e1d3aa622945a140caf10abe196b025e36d2ab",
+  "canonical_sha256_without_this_field": "02b2d9a1573ded628d180c48881c86921b49862239daa14f802e961897016dde",
   "carry_validation": {
     "completed_unit_reexecution_required": false,
     "coverage_verifier": "verify_fibration_nef_selective_picard_resume.py",
@@ -79,7 +80,9 @@
     "selective_weighted_survivor_blob_sha1": "9e5b662d1e26a20afdf8621b131ffbac60b31b07",
     "worker_blob_sha1": "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5",
     "worker_path": "stages/stage32/32-01-178/fibration-nef/run_fibration_nef_selective_picard_workunit.py",
-    "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729"
+    "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729",
+    "pilot_selector_path": "stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_selective_picard_pilot_selector.py",
+    "pilot_selector_blob_sha1": "e29abd7c8d653fa1cc2809fca99307f9beeda372"
   },
   "status": "COLD_NOT_ARMED__RESUME_ARCHITECTURE_READY",
   "storage_and_concurrency": {
