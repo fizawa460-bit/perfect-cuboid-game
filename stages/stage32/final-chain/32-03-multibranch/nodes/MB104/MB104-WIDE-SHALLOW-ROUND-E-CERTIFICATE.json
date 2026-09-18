@@ -1,0 +1,125 @@
+{
+  "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_E_V1",
+  "status": "ROUND_E_COMPLETE_NO_PROMOTE_NO_CREDIT",
+  "target": {
+    "mask": "000707000f0f",
+    "D2": "336*l^2",
+    "K_D": "112*l",
+    "delta": "168*l^2+56*l",
+    "c2_S": 80,
+    "g": 1
+  },
+  "results": {
+    "W21": {
+      "route": "first-jet / polar singularity capacity",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "jet_sequence": "0 -> Omega_S^1 tensor L -> J1(L) -> L -> 0",
+        "rank_J1": 3,
+        "surface_dimension": 2,
+        "c2_J1": "c2(S)+2*K.L+3*L^2 = 80+224*l+1008*l^2",
+        "required_delta": "168*l^2+56*l"
+      },
+      "reason": "Zeros of j1(s) are zeros of a rank-3 bundle section on a surface, so c2(J1(L)) is not a top-Chern zero count for singular points. Even as a rough capacity it is much larger than the required defect. The proposed scalar c2 capacity test cannot exclude the carrier.",
+      "remaining_open": "Polar/degeneracy loci or a lower-rank quotient of J1(L) adapted to the cuboid equations could still give a genuine cycle-class obstruction."
+    },
+    "W22": {
+      "route": "stable-map virtual dimension / normal sheaf negativity",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "expected_dimension_genus1_no_marks": "-K.D_l = -112*l",
+        "normal_degree_for_immersed_normalization": "deg N_f = -K.D_l = -112*l"
+      },
+      "reason": "Negative expected dimension or negative normal degree implies obstruction/rigidity, not nonexistence. Isolated obstructed genus-one maps can exist.",
+      "remaining_open": "A cuboid-specific unobstructedness, semiregularity, cosection, or normal-sheaf theorem could convert negativity into exclusion."
+    },
+    "W23": {
+      "route": "Castelnuovo-Severi on retained joint factor pair",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "e2_degrees": [
+          "28*l",
+          "28*l"
+        ],
+        "e4_degrees": [
+          "56*l",
+          "56*l"
+        ],
+        "inequality": "g(E) <= (d1-1)(d2-1) since both targets are P1 and the pair has no common factor",
+        "lhs": 1,
+        "rhs_e2": "(28*l-1)^2",
+        "rhs_e4": "(56*l-1)^2"
+      },
+      "reason": "The inequality is an upper bound and is enormously compatible with genus one for every l>=1. It cannot exclude the retained birational pair.",
+      "remaining_open": "Special bidegree-(n,n) geometry, singularity distribution, or cuboid-grid restrictions on the image curve in P1xP1 remain open."
+    },
+    "W24": {
+      "route": "dualizing conductor / different identity",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "adjunction_degree": "deg nu^*omega_C = (K+D_l).D_l = 336*l^2+112*l",
+        "normalization_canonical_degree": 0,
+        "different_conductor_degree": "2*delta = 336*l^2+112*l"
+      },
+      "reason": "The proposed degree comparison is exactly the arithmetic-genus/adjunction identity already encoded in delta. It adds no independent inequality.",
+      "remaining_open": "A distributional conductor theorem, local different lower bounds tied to cuboid branch types, or a conductor divisor constrained by ambient geometry could still strengthen the identity."
+    },
+    "W25": {
+      "route": "Lefschetz-pencil singular-fiber budget",
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "cheap_test": {
+        "generic_lefschetz_critical_count": "3*D_l^2 + 2*K.D_l + c2(S) = 1008*l^2+224*l+80",
+        "carrier_defect": "delta = 168*l^2+56*l",
+        "coefficient_ratio_asymptotic": 6
+      },
+      "reason": "The total generic pencil singularity budget is about six times the carrier defect and hence provides no overload. Moreover a pencil containing the prescribed highly singular member need not itself be Lefschetz at that fiber.",
+      "remaining_open": "Monodromy, slope, or special-pencil constraints stronger than the total Euler budget remain possible."
+    }
+  },
+  "round_summary": {
+    "scanned": [
+      "W21",
+      "W22",
+      "W23",
+      "W24",
+      "W25"
+    ],
+    "tested_architecture_hard_drop": [
+      "W21",
+      "W22",
+      "W23",
+      "W24",
+      "W25"
+    ],
+    "broader_direction_soft_park": [
+      "W21",
+      "W22",
+      "W23",
+      "W24",
+      "W25"
+    ],
+    "promote": [],
+    "unclear": [],
+    "next_action": "Continue broad search. Do not deepen Round E. Generate Round F only from mechanisms not semantically present in the retained archive."
+  },
+  "external_checks": [
+    "Castelnuovo-Severi inequality: g <= d1*g1+d2*g2+(d1-1)(d2-1)",
+    "generic Lefschetz pencil on a surface: critical-point count 3L^2+2K.L+c2(S)"
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
