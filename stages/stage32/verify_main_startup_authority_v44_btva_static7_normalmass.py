@@ -102,7 +102,7 @@ def main() -> None:
     req(locks["btva_d8_all140_receiver_semantics"]["blob_sha1"] == ALL140_BLOB, "all140 state lock")
     req(locks["btva_d8_conic_exception"]["blob_sha1"] == CONIC_BLOB, "conic state lock")
     sw = locks["live_specialist_sweep"]
-    req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "e720348268e7c2490207c95a0de239ba9c263cb1" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
+    req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "f263548c2968e8e14cfc14a80e5c779053e81724" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sw["ex5_pr"] == 1818 and sw["ex5_head"] == "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and sw["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
     req(sw["mb_pr"] == 1819 and sw["mb_head"] == "5d113826cc36d2c0600ccad4795e7684f35879e5" and sw["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "aba66e35ad0c76205acbb99e9c3af5ce0bb00b42" and sw["bridge_runkey_generation"] == 0 and sw["bridge_runkey_armed"] is False and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
