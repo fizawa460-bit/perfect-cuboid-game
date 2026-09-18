@@ -1,42 +1,271 @@
 {
-  "schema": "STAGE32_MAIN_BTVA_D8_V43_HPADJ21_ROW_REFERENCE_V1",
+  "schema": "STAGE32_MAIN_BTVA_D8_V43_HPADJ21_SCOPE_CORRECTION_AND_E12_CENSUS_V2",
   "stage": 32,
-  "status": "RETAINED_CURRENT_AUTHORITY_ROW_REFERENCE_ZERO_CREDIT",
-  "purpose": "Freeze the exact V43 HPADJ21 g0-d008 row contribution needed for a non-additive same-row BTVA replacement adapter.",
-  "source": {
-    "producer_pr": 1818,
-    "producer_head": "d4bb013da65a91545dfd9833c278dafb27618b00",
-    "hostile_audited_producer_head": "265fbef0a67014494fcf773af6c3a9f1b095ef95",
-    "hostile_audit_review_id": 5242670540,
-    "full178_checkpoint_blob_sha1": "2161c2dedf94fa2124231453dd56e4047ebd8707",
-    "full178_checkpoint_canonical_sha256": "f92ccd5296ef9f5ee041baac44cd4933662d9413ea17b4ca1f59a18bf219a961",
-    "heavy_run_id": 35279651998,
-    "artifact_id": 10524680156,
-    "artifact_digest_sha256": "af8cca787274c1d3db53e8586fd2b287cea8e74e19ecac1f02e8388173742e25",
-    "aggregate_canonical_sha256": "82d9dcd44eca1ead942ee300d0a66f2aaf895184482b308691a5544240877769",
-    "row_certificate_stream_sha256": "f3da144730bd68d8dec7743e282e8dffb06229e5e6443fee7ea73fa9f0b33b1d"
+  "status": "RETAINED_SCOPE_CORRECTION_AND_CURRENT_DOMAIN_E12_CENSUS_ZERO_CREDIT",
+  "purpose": "Correct the prior V1 same-row interpretation: BTVA e=8 is outside the HPADJ21 g0-d008 pre-domain. Retain the exact smallest structurally admitted e=12 compressed census for current-authority-compatible research, without claiming direct row-floor replacement.",
+  "supersedes": {
+    "previous_blob_sha1": "3cfaf3fe61ffac17094202818cfed40f003fb73e",
+    "previous_schema": "STAGE32_MAIN_BTVA_D8_V43_HPADJ21_ROW_REFERENCE_V1",
+    "invalidated_interpretation": "BTVA e=8 survivor mass may directly replace the HPADJ21 g0-d008 row floor by min.",
+    "authority_was_changed_by_v1": false
   },
-  "row": {
-    "row_id": "g0-d008",
-    "row_index": 23,
-    "g": 0,
-    "d": 8,
-    "hpadj20_floor": 448431,
-    "hpadj21_floor": 448431,
-    "floor_improvement": 0,
-    "strict_cells": 0,
-    "row_canonical_sha256": "4e5083f1977ca78f8616712f111ee7ff5d7a5bc740888a430b988efb05bc298d"
+  "hpadj21": {
+    "producer_pr": 1818,
+    "producer_head": "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
+    "row_worker_blob_sha1": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "row": {
+      "row_id": "g0-d008",
+      "row_index": 23,
+      "g": 0,
+      "d": 8,
+      "hpadj21_floor": 448431,
+      "row_canonical_sha256": "4e5083f1977ca78f8616712f111ee7ff5d7a5bc740888a430b988efb05bc298d"
+    },
+    "predomain": {
+      "lower_formula_contains": "max(legacy,K,d-4*g+4,M,M+max(0,qneed))",
+      "structural_lower_d_minus_4g_plus_4": 12,
+      "e8_admitted": false,
+      "e12_smallest_even_structurally_admitted": true,
+      "note": "Cell-specific M/qneed terms may raise the lower bound further; e=12 is not asserted to occur in every HPADJ21 cell."
+    }
+  },
+  "e12_census": {
+    "workflow_run_id": 35348878768,
+    "exact_head": "f5ab00db2c2a6b0e0308a1c3cf80bff090bb52e2",
+    "workflow_blob_sha1": "1d9837c113b29793d851b538ac546757315e0be2",
+    "artifact_id": 10549345031,
+    "artifact_name": "stage32-main-btva-d8-e12-static7-census",
+    "artifact_digest_sha256": "280e282a66d0068d62950009d1dfdc5578c3b73348c4f7c26196b39c532aae52",
+    "canonical_sha256": "5b2d1b6d09e1c3fd9f4e86b4125ed392d0dfaadf10c6f139b8693f5ba30e8e0a",
+    "ordered_base4_rows_sha256": "a16ef16a636f69a60542bf4e494ce83ab804e5748453c49027320c23eab9e779",
+    "multiplicity_histogram_sha256": "85fbe3092ff5cb9451f9c67220d36115a8d1a54f8a79f1ee5ee5285e071741d7",
+    "exceptional_state_count": 164282,
+    "x4_value_count": 93,
+    "terminal_count": 15278226,
+    "base4_key_count": 1415,
+    "static7_key_count": 131595,
+    "full_terminal_materialization_performed": false,
+    "top16_selection_rule": "descending exceptional_multiplicity_per_x4, then lexicographic base4",
+    "top16_rows_sha256": "157633161cb1a40d5f622b430303d128a58f2b9286ed754e2f09358b27a41a43",
+    "top16_terminal_mass": 1248525,
+    "top16": [
+      {
+        "base4": [
+          4,
+          4,
+          4,
+          4
+        ],
+        "exceptional_multiplicity_per_x4": 975,
+        "representative_exceptional_rank": 191,
+        "representative_terminal_rank_x4_0": 17763,
+        "terminal_mass": 90675
+      },
+      {
+        "base4": [
+          4,
+          5,
+          3,
+          5
+        ],
+        "exceptional_multiplicity_per_x4": 960,
+        "representative_exceptional_rank": 3194,
+        "representative_terminal_rank_x4_0": 297042,
+        "terminal_mass": 89280
+      },
+      {
+        "base4": [
+          5,
+          3,
+          4,
+          4
+        ],
+        "exceptional_multiplicity_per_x4": 945,
+        "representative_exceptional_rank": 150,
+        "representative_terminal_rank_x4_0": 13950,
+        "terminal_mass": 87885
+      },
+      {
+        "base4": [
+          5,
+          4,
+          3,
+          5
+        ],
+        "exceptional_multiplicity_per_x4": 945,
+        "representative_exceptional_rank": 3153,
+        "representative_terminal_rank_x4_0": 293229,
+        "terminal_mass": 87885
+      },
+      {
+        "base4": [
+          3,
+          5,
+          4,
+          6
+        ],
+        "exceptional_multiplicity_per_x4": 920,
+        "representative_exceptional_rank": 3198,
+        "representative_terminal_rank_x4_0": 297414,
+        "terminal_mass": 85560
+      },
+      {
+        "base4": [
+          3,
+          4,
+          5,
+          5
+        ],
+        "exceptional_multiplicity_per_x4": 890,
+        "representative_exceptional_rank": 195,
+        "representative_terminal_rank_x4_0": 18135,
+        "terminal_mass": 82770
+      },
+      {
+        "base4": [
+          6,
+          3,
+          3,
+          3
+        ],
+        "exceptional_multiplicity_per_x4": 868,
+        "representative_exceptional_rank": 144,
+        "representative_terminal_rank_x4_0": 13392,
+        "terminal_mass": 80724
+      },
+      {
+        "base4": [
+          6,
+          4,
+          2,
+          4
+        ],
+        "exceptional_multiplicity_per_x4": 840,
+        "representative_exceptional_rank": 3147,
+        "representative_terminal_rank_x4_0": 292671,
+        "terminal_mass": 78120
+      },
+      {
+        "base4": [
+          4,
+          4,
+          4,
+          6
+        ],
+        "exceptional_multiplicity_per_x4": 825,
+        "representative_exceptional_rank": 3158,
+        "representative_terminal_rank_x4_0": 293694,
+        "terminal_mass": 76725
+      },
+      {
+        "base4": [
+          4,
+          3,
+          5,
+          3
+        ],
+        "exceptional_multiplicity_per_x4": 795,
+        "representative_exceptional_rank": 9107,
+        "representative_terminal_rank_x4_0": 846951,
+        "terminal_mass": 73935
+      },
+      {
+        "base4": [
+          3,
+          6,
+          3,
+          7
+        ],
+        "exceptional_multiplicity_per_x4": 760,
+        "representative_exceptional_rank": 12972,
+        "representative_terminal_rank_x4_0": 1206396,
+        "terminal_mass": 70680
+      },
+      {
+        "base4": [
+          3,
+          3,
+          6,
+          4
+        ],
+        "exceptional_multiplicity_per_x4": 750,
+        "representative_exceptional_rank": 9111,
+        "representative_terminal_rank_x4_0": 847323,
+        "terminal_mass": 69750
+      },
+      {
+        "base4": [
+          4,
+          3,
+          5,
+          5
+        ],
+        "exceptional_multiplicity_per_x4": 750,
+        "representative_exceptional_rank": 155,
+        "representative_terminal_rank_x4_0": 14415,
+        "terminal_mass": 69750
+      },
+      {
+        "base4": [
+          4,
+          6,
+          2,
+          6
+        ],
+        "exceptional_multiplicity_per_x4": 750,
+        "representative_exceptional_rank": 12968,
+        "representative_terminal_rank_x4_0": 1206024,
+        "terminal_mass": 69750
+      },
+      {
+        "base4": [
+          2,
+          6,
+          4,
+          6
+        ],
+        "exceptional_multiplicity_per_x4": 732,
+        "representative_exceptional_rank": 3229,
+        "representative_terminal_rank_x4_0": 300297,
+        "terminal_mass": 68076
+      },
+      {
+        "base4": [
+          2,
+          5,
+          5,
+          5
+        ],
+        "exceptional_multiplicity_per_x4": 720,
+        "representative_exceptional_rank": 226,
+        "representative_terminal_rank_x4_0": 21018,
+        "terminal_mass": 66960
+      }
+    ]
+  },
+  "composition": {
+    "direct_min_with_hpadj21_row_floor_authorized": false,
+    "reason": "The e=12 census is one raw compressed terminal slice, while HPADJ21 448431 is a post-constraint row upper bound aggregated across admitted e and cells.",
+    "valid_next_routes": [
+      "derive an exact BTVA-to-HPADJ21 cell/profile population adapter and rerun the row optimization",
+      "or certify an independent upper bound for the entire identical g0-d008 HPADJ21 row population that is below 448431"
+    ]
   },
   "authority": {
     "v43_global_upper_bound": "157570677819451133507",
-    "composition": "HPADJ21 global authority is the sum of certified row/cell floors; a stronger certified bound on the identical g0-d008 row may replace this row contribution by min, not additive stack."
+    "authority_changed": false,
+    "additional_main_pruning_credit": 0
   },
   "firewalls": {
     "main_pruning_credit": false,
-    "authority_changed": false,
-    "additive_subtraction_authorized": false,
-    "hostile_audit_bypassed": false,
-    "merge_authorized": false
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "additive_subtraction_authorized": false
   },
-  "canonical_sha256_without_this_field": "c0548df16d036c1304326cab6218017bcd5ffe4a944d5f5650555ac55442e0e8"
+  "canonical_sha256_without_this_field": "c3dadf206e3b06961ed8499f551c4ef2773b8f2ee5f4fb0a28eab91a40beb616"
 }

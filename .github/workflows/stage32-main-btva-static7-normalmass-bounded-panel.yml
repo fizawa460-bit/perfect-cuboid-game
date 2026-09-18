@@ -1,15 +1,8 @@
 name: Stage32 MAIN BTVA static7 normalmass bounded panel
 
-# Trigger lifecycle: ACTIVE_AUTO — one-shot current-authority-compatible e=12 census.
-# The push trigger is restricted to this workflow file on the active MAIN branch.
-# After the evidence artifact is retained, return this workflow to workflow_dispatch-only.
+# Trigger lifecycle: RETIRED/MANUAL — bounded zero-credit experiment only.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - stage32-main-v44-btva-static7-20260918
-    paths:
-      - '.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml'
 
 permissions:
   contents: read
@@ -20,7 +13,6 @@ concurrency:
 
 jobs:
   bounded-panel:
-    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -84,170 +76,5 @@ jobs:
         with:
           name: stage32-main-btva-static7-normalmass-bounded-panel
           path: ${{ runner.temp }}/btva-static7-normalmass-panel.json
-          retention-days: 7
-          compression-level: 9
-
-
-  e12-census:
-    if: github.event_name == 'push'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    steps:
-      - name: Checkout exact MAIN research head
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-
-      - name: Checkout hostile-audited HPADJ21 producer source
-        uses: actions/checkout@v4
-        with:
-          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
-          path: .stage32-ex5-hpadj21-source
-          fetch-depth: 1
-
-      - name: Assert exact e12 census source locks
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object stages/stage32/residual-32-01-production/compressed_terminal_indexer.py)" = "4fb0a8dd34909494bd62646373e42877ed7a3c9e"
-          test "$(git hash-object stages/stage32/residual-32-01-production/compressed_terminal_family.py)" = "90ff82ed312dcc0cb32cf207935945f550e29170"
-          test "$(git -C .stage32-ex5-hpadj21-source rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
-          test "$(git -C .stage32-ex5-hpadj21-source hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"
-
-      - name: Set up pinned Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11.x'
-
-      - name: Run exact g0-d008-e12 static7 census
-        shell: bash
-        run: |
-          python - "$RUNNER_TEMP/btva-d8-e12-static7-census.json" <<'PY'
-          import hashlib,json,sys
-          from collections import Counter
-          from pathlib import Path
-          ROOT=Path.cwd()
-          sys.path.insert(0,str(ROOT/"stages/stage32/residual-32-01-production"))
-          from compressed_terminal_indexer import CompressedTerminalIndexer
-
-          E=12; D=8; G=0; BUDGET=92; STRIDE=93
-          EXPECTED_EXCEPTIONAL=164282
-          EXPECTED_TERMINALS=15278226
-          L4=(
-            (0,0,1,1,0,0,0,1,0,0,0),
-            (0,1,0,0,0,1,0,0,0,1,0),
-            (1,0,0,0,0,0,1,0,1,0,1),
-            (1,1,0,0,0,0,1,0,0,1,0),
-          )
-          def csha(x):
-              return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
-          def base4(x):
-              return tuple(sum(int(row[j])*int(x[j]) for j in range(11)) for row in L4)
-
-          assert D-4*G+4==12
-          idx=CompressedTerminalIndexer(E,D)
-          assert idx.normal_budget==BUDGET
-          assert int(idx.exceptional_count)==EXPECTED_EXCEPTIONAL
-          assert int(idx.terminal_count)==EXPECTED_TERMINALS
-          counts=Counter()
-          rep={}
-          for erank in range(int(idx.exceptional_count)):
-              tr=erank*STRIDE
-              x=tuple(int(v) for v in idx.unrank(tr))
-              assert x[4]==0
-              assert idx.rank(x)==tr
-              k=base4(x)
-              counts[k]+=1
-              rep.setdefault(k,erank)
-          assert sum(counts.values())==EXPECTED_EXCEPTIONAL
-          keys=sorted(counts)
-          assert sum(counts[k]*STRIDE for k in keys)==EXPECTED_TERMINALS
-          hist=Counter(int(v) for v in counts.values())
-          rows=[{
-              "base4":list(k),
-              "exceptional_multiplicity_per_x4":int(counts[k]),
-              "representative_exceptional_rank":int(rep[k]),
-              "representative_terminal_rank_x4_0":int(rep[k]*STRIDE),
-          } for k in keys]
-          p={
-            "schema":"STAGE32_MAIN_BTVA_D8_E12_STATIC7_KEY_CENSUS_V1",
-            "stage":32,
-            "status":"EXACT_CURRENT_AUTHORITY_COMPATIBLE_G0_D008_E12_STATIC7_KEY_CENSUS_ZERO_CREDIT",
-            "source_locks":{
-              "compressed_terminal_indexer_blob_sha1":"4fb0a8dd34909494bd62646373e42877ed7a3c9e",
-              "compressed_terminal_family_blob_sha1":"90ff82ed312dcc0cb32cf207935945f550e29170",
-              "hpadj21_row_worker_blob_sha1":"68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
-              "hpadj21_producer_head":"33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
-            },
-            "authority_compatibility":{
-              "genus":0,"degree":8,
-              "hpadj21_structural_lower_formula":"d-4*g+4",
-              "hpadj21_structural_lower":12,
-              "e8_in_current_hpadj21_g0_d008_predomain":False,
-              "e12_is_smallest_even_structurally_admitted_e":True,
-              "row_floor_direct_min_replacement_not_claimed":True,
-            },
-            "target":{
-              "row_id":"g0-d008","degree":8,"exceptional_mass":12,
-              "normal_budget":BUDGET,"exceptional_state_count":EXPECTED_EXCEPTIONAL,
-              "x4_value_count":STRIDE,"terminal_count":EXPECTED_TERMINALS,
-            },
-            "factorization":{
-              "x4_is_independent_in_terminal_indexer":True,
-              "x4_range_inclusive":[0,BUDGET],
-              "enumerated_exceptional_states_only":EXPECTED_EXCEPTIONAL,
-              "full_terminal_materialization_performed":False,
-              "base4_key_count":len(keys),
-              "static7_key_count":len(keys)*STRIDE,
-              "reconstructed_terminal_mass":EXPECTED_TERMINALS,
-            },
-            "base4_keys":rows,
-            "multiplicity_histogram":[{"multiplicity":m,"base4_key_count":hist[m]} for m in sorted(hist)],
-            "firewalls":{
-              "main_pruning_credit":False,"receiver_credit":False,"effectivity_credit":False,
-              "theorem_credit":False,"endpoint_credit":False,"full178_complete":False,
-              "stage32_closed":False,"merge_authorized":False,
-            },
-          }
-          p["canonical_sha256_without_this_field"]=csha(p)
-          out=Path(sys.argv[1])
-          out.write_text(json.dumps(p,indent=2,sort_keys=True)+"\n",encoding="utf-8")
-          print("BTVA_D8_E12_CENSUS_SUMMARY="+json.dumps({
-              "exceptional_states":EXPECTED_EXCEPTIONAL,
-              "base4_keys":len(keys),
-              "x4_values":STRIDE,
-              "static7_keys":len(keys)*STRIDE,
-              "terminal_count":EXPECTED_TERMINALS,
-              "output_bytes":out.stat().st_size,
-              "canonical":p["canonical_sha256_without_this_field"],
-          },sort_keys=True))
-          PY
-
-      - name: Validate exact e12 census
-        shell: bash
-        run: |
-          python - "$RUNNER_TEMP/btva-d8-e12-static7-census.json" <<'PY'
-          import hashlib,json,sys
-          p=json.load(open(sys.argv[1]))
-          stored=p.pop("canonical_sha256_without_this_field")
-          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
-          assert stored==calc
-          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_STATIC7_KEY_CENSUS_V1"
-          assert p["authority_compatibility"]["e8_in_current_hpadj21_g0_d008_predomain"] is False
-          assert p["authority_compatibility"]["e12_is_smallest_even_structurally_admitted_e"] is True
-          assert p["target"]["terminal_count"]==15278226
-          assert p["factorization"]["reconstructed_terminal_mass"]==15278226
-          assert p["firewalls"]["main_pruning_credit"] is False
-          assert p["firewalls"]["merge_authorized"] is False
-          print(json.dumps({"base4_keys":p["factorization"]["base4_key_count"],"static7_keys":p["factorization"]["static7_key_count"],"canonical":stored},sort_keys=True))
-          PY
-
-      - name: Upload compact e12 census evidence
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage32-main-btva-d8-e12-static7-census
-          path: ${{ runner.temp }}/btva-d8-e12-static7-census.json
           retention-days: 7
           compression-level: 9
