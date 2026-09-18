@@ -1,13 +1,13 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V6_DURABLE_PREFIX_RECOVERY",
-  "status": "AUDIT_HOLD_RECOVERY_REPAIR_IMPLEMENTATION__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define BR204 FULL178 resume-first execution with durable (b,d-band) checkpoints and a validated recovery prefix re-emitted at the start of every generation before any new heavy compute.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V7_PUSH_TRIGGER_RESUME",
+  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution with 250 durable (b,d-band) checkpoints, transitive recovery prefixes, independent pilot salvage, and automatic execution only from a dedicated runkey-only push after audit.",
   "audited_predecessor": {
     "bridge_pr": 1813,
-    "audited_exact_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
-    "hostile_audit_review_id": 5242485845,
+    "audited_exact_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
     "hostile_audit_status": "PASS",
-    "scope": "BR204 cold heavy doorway before finer b x d-band resume refinement; current execution-only refinement requires fresh exact-head replay and separate hostile audit before arming"
+    "scope": "previous manual-dispatch cold doorstep; launcher topology is now being redesigned to runkey-push and therefore requires a fresh audit before generation 1"
   },
   "live_main_refresh": {
     "audited_numeric_main_pr": 1808,
@@ -22,7 +22,7 @@
     "authoritative_remaining_strata": 17128,
     "authoritative_remaining_terminals": "179119009547804181594",
     "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
-    "execution_freshness_rule": "Manual heavy authorize must fetch origin/main and require this exact repository_main_head and MAIN-STATE blob. Any later main movement fails closed and requires a new cold doorstep refresh before arming."
+    "execution_freshness_rule": "Heavy authorize must fetch origin/main and require this exact repository_main_head and MAIN-STATE blob. Any later main movement fails closed and requires a new cold doorstep refresh before execution."
   },
   "population": {
     "H": 96,
@@ -116,12 +116,12 @@
     "expected_subunit_count": 250,
     "b_unit_count": 97,
     "max_parallel": 8,
-    "generation_start_recovery": "Before runtime/pilot/unit jobs, download the immediately supplied carry_run_id's prior br204-prefix plus all br204-u-* artifacts, validate their exact union, and re-emit one current-run br204-prefix. No new heavy compute depends on a carry-forward failure.",
-    "cancellation_semantics": "Because the inherited prefix is re-emitted before new compute, a cancelled run contains that prefix plus every independently uploaded new subunit completed before cancellation. The next generation needs only that run id to recover the complete validated union.",
+    "generation_start_recovery": "For generation >=2, the immediately previous failed/cancelled/timed-out BR204 run id is carried in the runkey. Recover its br204-prefix plus all completed br204-u-* artifacts, validate their exact union, re-emit one current prefix, and only then compute missing subunits.",
+    "cancellation_semantics": "A failed generation leaves one inherited validated prefix plus every independently uploaded completed subunit. The next runkey-only generation commit names that immediately previous BR204 run id, so only true missing work is recomputed.",
     "reuse_rule": "accept a carried (b,d-band) subunit only after exact worker/base source-lock validation, approved-band identity validation, complete TAIL/SUM parse, and deterministic raw-stream digest validation; conflicting duplicates fail closed; compute only units absent from the re-emitted prefix/current artifacts",
     "pilot_salvage": "The two representative pilots are separate jobs and each uploads its own durable subunit immediately. If one fails, a completed sibling remains reusable.",
     "cleanup_rule": "Only after the new recovery prefix is successfully uploaded, delete the superseded prior run's BR204 recovery artifacts. Cleanup failure is a hard execution stop before new heavy compute.",
-    "reopened_or_non_arm_behavior": "cold/manual; no heavy execution"
+    "reopened_or_non_arm_behavior": "A runkey push whose commit message is not the dedicated execution prefix is skipped before authorize. Cold audit/setup commits never start heavy compute."
   },
   "storage_contract": {
     "persistent_compact_certificate_preflight": "PASS_WITH_HARD_CAPS",
@@ -137,13 +137,21 @@
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "workflow_lifecycle": "MANUAL",
+    "workflow_lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "execution_commit_message_prefix": "stage32 BR204 execute generation "
+    },
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
     "current_generation": 0,
     "current_armed": false,
-    "later_arm_rule": "A distinct post-audit commit must change only the run-key from armed=false to armed=true, strictly increase generation, and name the hostile-audited doorstep parent/review. Manual dispatch targets that exact arm head.",
+    "initial_execution_rule": "After fresh hostile-audit PASS on the cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited doorstep head/review, uses the dedicated execution commit-message prefix, and its push automatically starts heavy.",
+    "recovery_execution_rule": "After a generation >=1 heavy run fails/cancels/times out, a runkey-only child commit keeps armed=true, increments generation by exactly one, supplies carry_run_id for the immediately previous generation run, preserves all execution/source/resume/storage/credit locks, and its push automatically resumes missing work only.",
+    "manual_dispatch_required": false,
     "heavy_authorized_now": false,
     "heavy_started": false
   },
@@ -179,13 +187,11 @@
     "merge": false
   },
   "audit_hold": {
-    "audited_exact_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
-    "hostile_audit_review_id": 5242654911,
-    "verdict": "FAIL_HOLD",
-    "blockers": [
-      "single carry_run_id did not preserve a complete multi-generation union",
-      "two pilot subunits were computed in one shell step and were not independently salvageable"
-    ],
-    "repair_scope_only": true
+    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "previous_manual_design_review_id": 5242897044,
+    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED",
+    "mathematical_population_changed": false,
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true
   }
 }
