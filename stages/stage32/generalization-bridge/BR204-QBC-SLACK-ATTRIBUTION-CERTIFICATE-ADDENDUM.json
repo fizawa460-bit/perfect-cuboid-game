@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V8_ALWAYS_SALVAGE_RESUME",
-  "status": "PREFLIGHT_ONLY_ZERO_CREDIT__D_CHECKPOINT_ALWAYS_SALVAGE_REBUILD__FRESH_AUDIT_REQUIRED",
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V9_BRANCH_PUSH_12WAY",
+  "status": "PREFLIGHT_ONLY_ZERO_CREDIT__BRANCH_PUSH_12WAY_SOURCE_LOCKED__FRESH_REPLAY_AND_AUDIT_REQUIRED",
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a",
+    "heavy_execution_contract_git_blob_sha1": "796e7fc649ba0482eeae4b602d41278b5f1402fb",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
     "heavy_worker_git_blob_sha1": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
@@ -13,7 +13,7 @@
     "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213",
     "d_slice_combiner_git_blob_sha1": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_git_blob_sha1": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
-    "band_checkpoint_finalizer_git_blob_sha1": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
+    "band_checkpoint_finalizer_git_blob_sha1": "5724929d739ebc61ca1841ec34caef4de04752c7"
   },
   "bounded_regression": {
     "population": "H16_d_le_32_BR202_P1_SAME_POPULATION",
@@ -62,16 +62,19 @@
     "resume_durable_unit": "b_x_d_band_complete_or_rolled_partial",
     "expected_subunit_count": 250,
     "resume_recovery": "Generation >=2 explicitly paginates every predecessor artifact page, re-emits complete outer-unit prefix plus validated rolled-partial bundle, and computes only missing d values. Each completed d refreshes a cumulative local exact rollup; always-path finalization/upload is used when post-steps can run. SINGLE_D_TIMEOUT remains a hard finer-partition gate.",
-    "launcher_trigger": "Dedicated runkey-only push remains the only heavy launcher; rebuilt cold head requires fresh hostile audit before generation 1.",
+    "launcher_trigger": "Dedicated runkey-only branch push is the only heavy launcher; authorization inspects github.event.before..github.sha and requires a fresh exact-head hostile-audit PASS before generation 1.",
     "expected_single_d_checkpoint_count": 4743,
     "soft_deadline_seconds": 13500,
     "single_d_timeout_seconds": 3600,
     "checkpoint_after_each_completed_d": true,
     "always_path_checkpoint_finalizer": true,
     "workflow_lifecycle": "ACTIVE_AUTO",
-    "authorization": "pull_request synchronize before..head dedicated runkey generation gate; heavy remains cold at generation 0",
+    "authorization": "branch-local push before..head dedicated runkey generation gate; generation-1 and recovery commits must be runkey-only; heavy remains cold at generation 0",
     "recovery_inventory_reconciled_before_plan": true,
-    "recovery_payload_upload_requires_explicit_upload_safe": true
+    "recovery_payload_upload_requires_explicit_upload_safe": true,
+    "max_parallel": 12,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6
   },
   "credit": {
     "stage32_main": false,
@@ -110,5 +113,12 @@
     "mu attribution is a subset of the corresponding K8 attribution",
     "no terminal identity is materialized",
     "no raw 4.1M-state stream is persisted"
-  ]
+  ],
+  "audit_hold": {
+    "latest_hold_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
+    "latest_hold_review_id": 5247651937,
+    "repaired_blocker": "Refresh qBC attribution source locks from stale execution-contract/finalizer blobs to current branch-push 12-way execution surface and align authorization text.",
+    "fresh_exact_head_replay_required": true,
+    "separate_hostile_audit_required": true
+  }
 }
