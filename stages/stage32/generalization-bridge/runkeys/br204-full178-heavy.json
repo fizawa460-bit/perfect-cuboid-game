@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V6_ROLLED_PARTIAL_RESUME",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold rebuilt BR204 FULL178 heavy runkey after cancellation of generation 1. Exact single-d inner checkpoints and soft-deadline partial recovery are required; fresh exact-head replay and hostile audit must PASS before re-arming.",
+  "purpose": "Cold BR204 FULL178 rebuild after cancelled generation 1. Exact b x d checkpoints are rolled into one compact partial-band recovery slot per incomplete outer band; fresh exact-head replay and hostile audit required before re-arm.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -51,7 +51,7 @@
   "source_locks": {
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "f3cff578e2970df1246239ae7735564509d4dae3",
+    "execution_contract_blob": "31592b08692aa156e92ca1acd900993fc94743dc",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
@@ -60,12 +60,12 @@
     "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
     "bridge_predecessor_audited_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
     "bridge_predecessor_audit_review_id": 5242897044,
-    "d_slice_combiner_blob": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
-    "resumable_band_runner_blob": "93f80d3d95e48d24843e92fd03972179dabeca5a"
+    "d_slice_combiner_blob": "7fde22790c562d837cffbef85385b1e3c2387555",
+    "resumable_band_runner_blob": "5296c7361efc9fca98a9d1080825fa512bb7cc72"
   },
   "resume": {
     "durable_outer_unit": "b_x_d_band",
-    "exact_inner_checkpoint_unit": "b_x_d",
+    "exact_inner_checkpoint_unit": "b_x_d_runner_local__rolled_to_partial_band_artifact",
     "d_bands": [
       [
         8,
@@ -88,14 +88,12 @@
     "expected_exact_inner_checkpoint_count": 4743,
     "generation_start_prefix_reemit": true,
     "recover_prefix_plus_completed_units": true,
-    "recover_partial_slice_bundle": true,
     "paginated_artifact_retrieval_required": true,
     "record_discovered_artifact_count": true,
     "precompute_reemit_required": true,
     "cleanup_superseded_prior_recovery_artifacts": true,
     "cleanup_failure_is_hard_stop": true,
     "reuse_validated_complete_units": true,
-    "reuse_validated_single_d_slices": true,
     "compute_missing_d_only_inside_incomplete_band": true,
     "soft_deadline_seconds": 13500,
     "hard_job_timeout_minutes": 330,
@@ -103,17 +101,20 @@
     "single_d_timeout_requires_finer_partition": true,
     "blind_timeout_extension_forbidden": true,
     "pilots_use_same_checkpoint_runner": true,
-    "intermediate_retention_days": 1
+    "intermediate_retention_days": 1,
+    "recover_rolled_partial_band_bundle": true,
+    "reuse_validated_rolled_partial_bands": true
   },
   "storage": {
     "per_outer_recovery_slot_hard_cap_bytes": 900000,
     "complete_band_gzip_hard_cap_bytes": 900000,
-    "partial_band_single_d_gzip_sum_hard_cap_bytes": 900000,
     "budget_bytes": 524288000,
     "pilot_projection_safety_multiplier": 2,
     "fixed_overhead_bytes": 20971520,
     "absolute_rollover_peak_bound_bytes": 470971520,
-    "representative_pilots_must_measure_complete_and_slice_footprints": true
+    "representative_pilots_must_measure_complete_and_slice_footprints": false,
+    "partial_band_rollup_gzip_hard_cap_bytes": 900000,
+    "representative_pilots_must_measure_recovery_slot_payload": true
   },
   "arm_contract": {
     "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only commit",
