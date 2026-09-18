@@ -642,3 +642,58 @@ broader_direction_status
 ```
 
 A cheap-test failure may hard-drop only the tested architecture while leaving the broader direction soft-parked.
+
+
+### Wide scan Rounds E/F + W31 portfolio checkpoint
+
+Round E:
+
+```
+W21 first-jet/polar capacity              architecture HARD / direction SOFT
+W22 stable-map virtual dimension          architecture HARD / direction SOFT
+W23 Castelnuovo--Severi                   architecture HARD / direction SOFT
+W24 dualizing conductor identity          architecture HARD / direction SOFT
+W25 Lefschetz-pencil Euler budget         architecture HARD / direction SOFT
+```
+
+Round F:
+
+```
+W26 equisingular T-smoothness             architecture HARD / direction SOFT (higher value)
+W27 semiregularity                        architecture HARD / direction SOFT
+W28 multiplier connectedness              architecture HARD / direction SOFT
+W29 cotangent semistability               architecture HARD / direction SOFT
+W30 Wahl/Gaussian dimension               architecture HARD / direction SOFT
+```
+
+W31 ambient-hyperplane Lazarsfeld--Mukai was initially promising because its rank-seven bundle has negative Bogomolov discriminant.  Structural replay shows that the instability is tautological:
+
+```
+0 -> O_S(D_l-H) -> E -> M_H^vee -> 0.
+```
+
+So W31 architecture is HARD-DROP; generalized non-tautological LM/coherent-system ideas remain SOFT-PARK.
+
+Current broader-direction portfolio:
+
+```
+31 architectures scanned
+HARD-DROP = 5
+SOFT-PARK = 26
+PROMOTE   = 0
+UNCLEAR   = 0
+```
+
+Broader HARD set remains exactly:
+
+```
+W2 W8 W10 W14 W15
+```
+
+Higher-value SOFT set:
+
+```
+W4 W5 W6 W13 W16 W18 W26
+```
+
+Do not manufacture new W labels for small variants of an existing architecture.
