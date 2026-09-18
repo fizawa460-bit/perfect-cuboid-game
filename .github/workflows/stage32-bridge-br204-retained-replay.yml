@@ -87,9 +87,9 @@ jobs:
           assert rk['execution']['trigger']['commit_range_runkey_change_required'] is True
           assert rk['execution']['trigger']['runkey_only_arm_commit_required'] is True
           rp=rk['resource_preflight']
-          assert rp['planned_effective_heavy_concurrency']==8
+          assert rp['planned_effective_heavy_concurrency']==12
           assert rp['repository_stage_concurrency_ceiling']==18
-          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==10
+          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==6
           assert rp['observed_other_stage32_heavy_concurrency_at_arm'] is None
           assert rk['arm_contract']['audited_doorstep_head'] is None
           assert rk['arm_contract']['audited_doorstep_review_id'] is None
@@ -164,8 +164,8 @@ jobs:
           assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
           assert locks['recovery_inventory_verifier_blob']=='8854ca99df52a31e6639e6aa65cef73ffdf9ec18'
           assert locks['heavy_checkpoint_policy_blob']=='893d5c0b6a415382904ac1ab32219d0f0f4fd5ea'
-          assert locks['execution_contract_blob']=='d9e37d037b12570e2e36e82d1add2ab3cfa6f91a'
-          assert locks['heavy_workflow_blob']=='f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5'
+          assert locks['execution_contract_blob']=='ca0cab3960ab3ecb50e053f7ccf6a53ab71460ee'
+          assert locks['heavy_workflow_blob']=='fcdf6559500271d790f06e2c86b6ee346b0c1558'
           assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
           assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
           PY
@@ -307,13 +307,14 @@ jobs:
           assert 'if: always() && matrix.b != -1' in wf
           assert 'finalize_br204_band_checkpoint.py' in wf
           assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
+          assert 'max-parallel: 12' in wf
           runner=Path('stages/stage32/generalization-bridge/run_br204_resumable_band.py').read_text()
           assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in runner
           assert contract['authorization']['workflow_lifecycle']=='ACTIVE_AUTO'
           assert contract['authorization']['trigger']['event']=='pull_request'
           assert contract['authorization']['trigger']['automatic_arm_action']=='synchronize'
-          assert contract['authorization']['planned_effective_heavy_concurrency']==8
-          assert contract['authorization']['maximum_other_stage32_heavy_concurrency_at_arm']==10
+          assert contract['authorization']['planned_effective_heavy_concurrency']==12
+          assert contract['authorization']['maximum_other_stage32_heavy_concurrency_at_arm']==6
           rc=contract['resume_contract']
           assert rc['soft_deadline_seconds']==13500
           assert rc['hard_job_timeout_minutes']==330
