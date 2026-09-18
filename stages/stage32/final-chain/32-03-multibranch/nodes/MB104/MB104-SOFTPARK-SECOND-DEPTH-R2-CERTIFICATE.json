@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE32_MB104_SOFTPARK_SECOND_DEPTH_R2_V1",
+  "status": "ROUND2_COMPLETE_SELECTION_NO_CREDIT",
+  "predecessor_head": "4b35c70d421f006d7b3ce7f326d145ecd6785098",
+  "target": {
+    "mask": "000707000f0f",
+    "degree": "112*l",
+    "success_shapes": [
+      "ALL_L_EXCLUSION",
+      "LARGE_L_EXCLUSION_PLUS_FINITE_BACKEND"
+    ]
+  },
+  "W5": {
+    "disposition": "HIGH_RESERVE",
+    "surface_invariants": {
+      "K2": 16,
+      "c2": 80,
+      "A1_count": 48
+    },
+    "smooth_sym_power_leading": "(K2-c2)/6 = -32/3",
+    "A1_chi1_leading_each": "4/27",
+    "A1_total_leading": "64/9",
+    "standard_lower_bound_net_leading": "-32/9",
+    "net_positive": false,
+    "retained_pure_power_ratio": {
+      "available": "1/2",
+      "required": "1/2"
+    },
+    "external_source": "Bruin-Ilten-Xu, EpiGA 9 (2025), DOI 10.46298/epiga.2025.12665",
+    "next_gate": "Explicit finite-order/twisted differential with better exceptional valuation or intrinsic regularity on the active support."
+  },
+  "W6": {
+    "disposition": "PARK_DOMINATED_BY_W20",
+    "image_bidegree": [
+      "28*l",
+      "28*l"
+    ],
+    "divisor_capacity": "28*l*(a+b)",
+    "total_special_mass": "112*l",
+    "raw_capacity_nontrivial_only_when": "a+b<4",
+    "archive_exhausted_bidegrees": [
+      "(1,0)",
+      "(0,1)",
+      "(1,1)",
+      "(1,2)",
+      "(2,1)"
+    ],
+    "stronger_needed": "character/monodromy/Abel data"
+  },
+  "W11": {
+    "disposition": "PARK_DOMINATED_BY_W20",
+    "L_degree": "112*l",
+    "V_dimension_upper": 7,
+    "Sym2V_dimension_upper": 28,
+    "L2_h0": "224*l",
+    "fixed_quadric_relations_at_least": 4,
+    "dimension_overload": false
+  },
+  "W20": {
+    "disposition": "ADVANCE_FOR_THIRD_DEPTH",
+    "branch_scope": "e=2",
+    "factor_degrees": [
+      "28*l",
+      "28*l"
+    ],
+    "delta_fac": "O_E(D_z^+-D_w^+) in Pic^0(E)[2]",
+    "candidate_count_upper": 4,
+    "eta": "residual half-branch class in Pic^0(E)[2]; e=2 iff eta=0",
+    "missing_bridge": "Compute delta_fac from ambient restrictions and relate it source-completely to eta or generalized-Jacobian conductor descent.",
+    "strongest_conditional_shape": "delta_fac=eta plus independently nonzero delta_fac would exclude e=2 uniformly in l"
+  },
+  "W30": {
+    "disposition": "PARK_DOMINATED_BY_W20",
+    "gaussian_source_dimension_upper": 21,
+    "target_dimension": "224*l",
+    "fixed_quadric_count": 4,
+    "reason": "quadric differential identities are tautological conormal relations until packet residues/principal parts are inserted"
+  },
+  "selection": {
+    "advance_for_third_depth": [
+      "W20"
+    ],
+    "high_reserve": [
+      "W5"
+    ],
+    "park": [
+      "W6",
+      "W11",
+      "W30"
+    ],
+    "next_second_depth_round": [
+      "W17",
+      "W18",
+      "W19",
+      "W23",
+      "W29"
+    ]
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
