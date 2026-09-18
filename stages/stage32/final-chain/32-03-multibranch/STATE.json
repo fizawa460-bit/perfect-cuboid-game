@@ -349,33 +349,40 @@
     },
     "w16_internal_completed": [
       "A2",
-      "B2"
+      "B2",
+      "A3"
     ],
     "w16_internal_queue": [
-      "A3",
       "A1",
       "B1",
       "H",
       "C"
     ],
-    "w16_internal_active": "A3",
+    "w16_internal_active": "A1",
     "w16_b2": {
       "status": "NO_INDEPENDENT_BYPASS_ABSORBED_BY_CB_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-20260918.md",
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_b2_ext_serre_first.py",
       "result": "local-to-global Ext identifies possible local Serre residue vectors with the annihilator of the |D_l| evaluation image on Z_red. Local freeness means every local coordinate is nonzero, which is exactly the Cayley-Bacharach condition. Ramification data supply support/multiplicity but no retained canonical class in omega_Z tensor O_Z(-D_l), so Ext-first does not bypass CB."
+    },
+    "w16_a3": {
+      "status": "CLOSED_NEGATIVE_AS_INDEPENDENT_DIFFERENTIAL_ROUTE_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A3-AMBIENT-WRONSKIAN-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A3-AMBIENT-WRONSKIAN-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_a3_ambient_wronskian.py",
+      "result": "even under the strongest favorable literal-pencil assumption, the normalization Wronskian is 2B+R_phi with degrees 112l+112l, while the singular-carrier dualizing Wronskian acquires the full conductor A_cond of degree 336l^2+112l. Keeping the determinant is quadratic; stripping conductor/base returns to A2 Z_red and loses any automatic CB consequence."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16-A3 solo — ambient differential / determinantal degeneracy",
+    "title": "MB104 W16-A1 solo — direct ramification-image descent",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W16-B2 is complete: Ext-first is not an independent bypass of Cayley-Bacharach. For Z_red, local-to-global Ext shows global locally-free Serre extensions correspond to annihilating local residue vectors with every point-coordinate nonzero, exactly CB(|D_l|). Ramification data currently do not supply such a vector. Work A3 only: use the explicit residual map phi (or its ambient rational-function/pencil presentation) to realize the ramification image as an ambient differential, Wronskian, Jacobian, or determinantal degeneracy scheme on S. The target is a canonical lci scheme of length <=112l whose determinantal origin forces CB or a locally-free Serre extension.",
+    "required_input": "W16-A3 is complete and closed negatively as an independent differential route. Even granting a literal ambient canonical pencil for phi, the normalization Wronskian factors as 2B+R_phi, but the singular-carrier differential acquires the full conductor A_cond, making the ambient degeneracy quadratic. Removing A_cond and 2B returns exactly to the A2 reduced ramification image Z_red and does not force CB. Work A1 only: analyze the direct scheme-theoretic descent/pushforward of R_phi and Z_red through nu:E->C->S, including collisions of ramification points over singular carrier points, and decide whether a canonical direct image can carry additional structure (orientation, multiplicity, trace, norm, or residue) that strengthens Z_red toward CB without reintroducing quadratic conductor excess.",
     "success_shapes": [
-      "construct an ambient rank-drop/Wronskian scheme equal to or containing Z_red with length <=112l and a source-complete CB/Serre consequence",
-      "construct a canonical proper lci subcluster of the differential degeneracy scheme with explicit O(l) length and CB",
-      "prove every ambient differential realization necessarily acquires a quadratic conductor/base-locus excess or is a tautological complete intersection, closing A3 negatively"
+      "construct a canonical direct-image lci scheme of length <=112l with extra trace/residue structure yielding CB or a locally-free Serre extension",
+      "construct a canonical proper subcluster of the ramification image with explicit O(l) length and a source-complete dependency",
+      "prove all direct-image enhancements either collapse to A2 reduced support, inflate beyond the linear budget, or depend on noncanonical branch choices, closing A1 negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
