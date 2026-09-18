@@ -351,14 +351,14 @@
       "A2",
       "B2",
       "A3",
-      "A1"
+      "A1",
+      "B1"
     ],
     "w16_internal_queue": [
-      "B1",
       "H",
       "C"
     ],
-    "w16_internal_active": "B1",
+    "w16_internal_active": "H",
     "w16_b2": {
       "status": "NO_INDEPENDENT_BYPASS_ABSORBED_BY_CB_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-20260918.md",
@@ -379,17 +379,24 @@
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A1-DIRECT-RAMIFICATION-PUSHFORWARD-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_a1_direct_ramification_pushforward.py",
       "result": "the exact finite pushforward M=nu_*O_Rphi preserves length 112l but is noncyclic at collisions and hence is not O_Z. Ann/Fitt schemes either collapse branch data or thicken/non-lci; algebra trace and norm factor through ordinary reduced point evaluation and add no CB dependency. The only canonical automatically-lci direct image remains A2 Z_red."
+    },
+    "w16_b1": {
+      "status": "NARROWED_TO_CONDUCTOR_DESCENT_ONLY_OPEN_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B1-CB-FIRST-20260919.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B1-CB-FIRST-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_b1_cb_first.py",
+      "result": "q(S)=0 makes surface restriction to the carrier surjective. The common six-branch factor passport gives O(U)=O(R_i)=M_i^2 and delta=M1 M2^-1 in E[2]; theta/canonical descent gives nu^*H=M1 M2, hence nu^*D_l=M_i^(6l) tensor delta^l=O_E(3l R_i) tensor delta^l. On elliptic E the full normalization linear system separates every ramification point from all the others, so ramification geometry alone is not CB. Surface CB can only be created by the singular conductor/gluing descent subspace."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16-B1 solo — Cayley-Bacharach first",
+    "title": "MB104 W16-H solo — Hilbert/Quot materialization of the conductor descent map",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W16-A1 is complete and closed negatively as a direct-image enhancement. The exact module nu_*O_Rphi retains length 112l but is noncyclic at collisions; canonical Ann/Fitt schemes either collapse to reduced support or become thicker/non-lci, and trace/norm provide no new reduced evaluation dependency. The A2 object Z_red=(nu(R_phi))_red remains the unique canonical automatically-lci linear-size candidate. Work B1 only: analyze CB(|D_l|) directly for Z_red. Use the exact sequence 0->O_S->O_S(D_l)->O_C(D_l)->0, normalization/conductor duality, restriction to E, and the special origin of Z_red as the reduced ramification image. Seek either a source-complete all-points evaluation dependency, a canonical proper CB subcluster of O(l) length, or a proof that Z_red cannot be CB.",
+    "required_input": "W16-B1 is complete as a direct CB analysis and leaves exactly one missing mechanism. The surface restriction map is surjective because q(S)=0. On the elliptic normalization, with M_i=phi_i^*O(1), the six-branch passport gives O(U)=O(R_i)=M_i^2 and delta=M1 M2^-1 in E[2]; canonical theta descent gives nu^*H=M1 M2, so nu^*O_C(D_l)=M_i^(6l) tensor delta^l=O_E(3l R_i) tensor delta^l. The full normalization linear system separates every p in R_i from R_i\\{p}, hence any surface CB must be caused entirely by the conductor/gluing descent H0(C,O_C(D_l)) subset H0(E,nu^*O_C(D_l)). Work H only: materialize that descent map as a finite conductor quotient / Quot / Hilbert-compatible linear map and test it on the one-point-separating subspaces. Do not merely repackage nu_*O_Rphi as in A1.",
     "success_shapes": [
-      "prove Z_red is CB(|D_l|), yielding the locally-free Hartshorne-Serre extension and l>=2 Bogomolov input",
-      "construct a canonical proper subset Z subseteq Z_red with explicit O(l) length that is CB(|D_l|)",
-      "prove the evaluation map separates at least one point of every possible Z_red from the retained ramification geometry, closing the current W16 candidate negatively"
+      "construct the exact conductor quotient map on H0(E,nu^*O_C(D_l)) and prove it kills every one-point-separating section, establishing CB",
+      "construct one explicit conductor-compatible separating section, disproving CB for Z_red",
+      "prove the currently retained conductor data are insufficient to determine the restriction of the descent map on the ramification-separating subspaces, closing H negatively and leaving only the final no-go/required-new-input statement"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
