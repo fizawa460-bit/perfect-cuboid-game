@@ -55,7 +55,7 @@ def main():
     req(locks["worker_blob_sha1"] == WORKER_BLOB, "contract worker lock mismatch")
     req(locks["resume_verifier_blob_sha1"] == RESUME_BLOB, "contract resume lock mismatch")
     req(locks["workunit_preflight_blob_sha1"] == worker.WORKUNIT_BLOB, "contract workunit lock mismatch")
-    req(locks["plan_certificate_producer_blob_sha1"] == worker.PLAN_BLOB, "contract plan lock mismatch")\n    req(locks["pilot_selector_blob_sha1"] == SELECTOR_BLOB, "contract pilot selector lock mismatch")\n    req(auth.get("pilot_selector") == SELECTOR.name, "contract pilot selector path mismatch")
+    req(locks["plan_certificate_producer_blob_sha1"] == worker.PLAN_BLOB, "contract plan lock mismatch")\n    req(locks["pilot_selector_blob_sha1"] == SELECTOR_BLOB, "contract pilot selector lock mismatch")\n    req(contract["authorization"].get("pilot_selector") == SELECTOR.name, "contract pilot selector path mismatch")
 
     auth = contract["authorization"]
     req(auth["current_generation"] == 0 and auth["current_armed"] is False, "contract is not cold")
