@@ -90,8 +90,16 @@ jobs:
           assert rp['repository_stage_concurrency_ceiling']==18
           assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==6
           assert rp['observed_other_stage32_heavy_concurrency_at_arm'] is None
-          assert rk['arm_contract']['audited_doorstep_head'] is None
-          assert rk['arm_contract']['audited_doorstep_review_id'] is None
+          ac=rk['arm_contract']
+          assert ac['required_initial_transition']=='generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the audited cold doorstep'
+          assert ac['automatic_arm_action']=='dedicated_runkey_push'
+          assert ac['event']=='push'
+          assert ac['branch']=='stage32bridge-mainbatch'
+          assert ac['commit_range_runkey_change_required'] is True
+          assert ac['execution_head_parent_diff_must_include_only_this_runkey'] is True
+          assert ac['cold_unarmed_or_nonkey_push_does_not_authorize'] is True
+          assert ac['audited_doorstep_head'] is None
+          assert ac['audited_doorstep_review_id'] is None
           print('BR204 rebuilt surface is cold, generation 0, zero credit')
           PY
 
@@ -151,6 +159,7 @@ jobs:
           test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "796e7fc649ba0482eeae4b602d41278b5f1402fb"
           test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "2244e45456af23f0b6ff0d78a80b51b72c7cf40e"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json)" = "f520ea76d7ee7f0786dded29c24dd9be7ed06f7b"
           python - <<'PY'
           import json,subprocess
           from pathlib import Path
@@ -167,6 +176,15 @@ jobs:
           assert locks['heavy_workflow_blob']=='2244e45456af23f0b6ff0d78a80b51b72c7cf40e'
           assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
           assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
+          add=json.loads(Path('stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json').read_text())
+          al=add['source_locks']
+          assert add['schema']=='STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V9_BRANCH_PUSH_12WAY'
+          assert al['heavy_execution_contract_git_blob_sha1']=='796e7fc649ba0482eeae4b602d41278b5f1402fb'
+          assert al['band_checkpoint_finalizer_git_blob_sha1']=='5724929d739ebc61ca1841ec34caef4de04752c7'
+          assert add['execution']['authorization']=='branch-local push before..head dedicated runkey generation gate; generation-1 and recovery commits must be runkey-only; heavy remains cold at generation 0'
+          assert add['execution']['max_parallel']==12
+          assert add['execution']['repository_stage_concurrency_ceiling']==18
+          assert add['execution']['maximum_other_stage32_heavy_concurrency_at_arm']==6
           PY
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
           python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
@@ -289,6 +307,8 @@ jobs:
           from pathlib import Path
           wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
           contract=json.loads(Path('stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json').read_text())
+          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
+          add=json.loads(Path('stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json').read_text())
           assert '# Lifecycle: ACTIVE_AUTO' in wf
           assert 'push:' in wf
           assert 'BEFORE' in wf and 'HEAD_SHA' in wf and 'HEAD_REF' in wf
@@ -315,6 +335,12 @@ jobs:
           assert contract['authorization']['trigger']['automatic_arm_action']=='dedicated_runkey_push'
           assert contract['authorization']['planned_effective_heavy_concurrency']==12
           assert contract['authorization']['maximum_other_stage32_heavy_concurrency_at_arm']==6
+          assert rk['arm_contract']['automatic_arm_action']=='dedicated_runkey_push'
+          assert rk['arm_contract']['event']=='push'
+          assert rk['arm_contract']['branch']=='stage32bridge-mainbatch'
+          assert add['source_locks']['heavy_execution_contract_git_blob_sha1']=='796e7fc649ba0482eeae4b602d41278b5f1402fb'
+          assert add['source_locks']['band_checkpoint_finalizer_git_blob_sha1']=='5724929d739ebc61ca1841ec34caef4de04752c7'
+          assert add['execution']['authorization'].startswith('branch-local push before..head dedicated runkey generation gate')
           rc=contract['resume_contract']
           assert rc['soft_deadline_seconds']==13500
           assert rc['hard_job_timeout_minutes']==330
