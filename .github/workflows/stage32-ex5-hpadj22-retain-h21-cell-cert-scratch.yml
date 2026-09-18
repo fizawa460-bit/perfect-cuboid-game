@@ -1,0 +1,61 @@
+name: Stage32EX5 HPADJ22 retain compact HPADJ21 cell cert scratch
+on:
+  push:
+    branches: [stage32ex5-hpadj22-speedup-scratch-20260918]
+    paths:
+      - '.github/workflows/stage32-ex5-hpadj22-retain-h21-cell-cert-scratch.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Verify exact source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35351798268/artifacts?per_page=100" > /tmp/a.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/a.json'))
+          m=[a for a in d['artifacts'] if a['name']=='hpadj21-full178-cell-cert-scratch' and not a.get('expired',False)]
+          assert len(m)==1
+          a=m[0]
+          assert a['id']==10550390276
+          assert a['digest']=='sha256:cf318865a035a65bfd6b499086a6d23e87027d235361e62346ef8cda8c51005d'
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-full178-cell-cert-scratch
+          path: cert
+          run-id: 35351798268
+          github-token: ${{ github.token }}
+      - name: Verify and retain compact exact certificate
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('cert/HPADJ21-FULL178-CELL-CERT.json')
+          d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32EX5_HPADJ21_FULL178_CELL_FLOOR_CERT_V1'
+          assert d['coverage']=={'cells':1424,'rows':178}
+          assert d['hpadj21_full178_cellwise_floor_sum']==157570677819451133507
+          body=dict(d); got=body.pop('canonical_sha256_without_this_field')
+          calc=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert got==calc=='fd276094f4647ecdc348e18a376e2d61313b782cdb23659890707726707ed13a'
+          out=Path('stages/stage32-ex5/hpadj-22_ex5/HPADJ21-FULL178-CELL-CERT.json')
+          out.write_bytes(p.read_bytes())
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stages/stage32-ex5/hpadj-22_ex5/HPADJ21-FULL178-CELL-CERT.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Stage32EX5 HPADJ22 scratch: retain compact HPADJ21 FULL178 cell cert"
+          git push origin HEAD:stage32ex5-hpadj22-speedup-scratch-20260918
