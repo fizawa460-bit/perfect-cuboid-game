@@ -268,3 +268,41 @@ receiver_credit=false
 endpoint_credit=false
 merge_authorized=false
 ```
+
+
+## Cycle 1 disposition after H1 / H2 / H4
+
+The first three shallow runs are complete.
+
+| Route | shallow result | disposition |
+|---|---|---|
+| H1 symmetry overlap | FAIL | PARKED; non-stabilizer translates retain a positive quadratic cross-intersection deficit. |
+| H2 graded incidence | FAIL | PARKED; exact carrier semantics are not preserved by section-ring multiplication, so the proposed graded-module F/R adapter fails. |
+| H3 rank slope | NOT RELEASED | Remains conditional on an exact incidence adapter; H2 did not supply one. |
+| H4 infinite-family global geometry | FAIL | PARKED; the classes have unbounded Hilbert/Chow data, the carriers are degreewise equigenerically rigid, and no flat-family/fixed-fibration bridge is forced by the retained data. |
+
+Cycle-1 conclusion: none of H1--H4 is a DEEP candidate. Do not deepen H3 merely because H1/H2/H4 are parked.
+
+### Cycle 2 candidate routes
+
+These are hypotheses only; they receive no credit until their own shallow gates pass.
+
+#### H5 — exact etale-correspondence quotient rigidity
+
+Use the retained Beauville equality geometry only after an exact carrier reaches it. Test whether the equal-bidegree etale correspondence in the fixed product cover, together with the fixed quotient action and supported-node type data, has a finite or explicitly bounded equivariant classification. The shallow gate is an F/R classification adapter, not a generic correspondence-degree bound.
+
+Stop if the correspondence problem admits scalable families with the required quotient semantics or if the packet cannot be transported to the product cover without the parked conductor-sheet data.
+
+#### H6 — finite monodromy / Nielsen-passport obstruction
+
+Encode the supported branch packet in the fixed modular quotient as an exact permutation/monodromy problem. The shallow gate is to prove that every hypothetical carrier supplies a source-complete Nielsen datum and that every datum accepted by the finite problem reconstructs the required carrier-level packet. Do not reuse the retracted per-branch-value divisibility assumption.
+
+Stop if branch-to-fixed-point concentration is again required, if the number of branch points or cycle data grows freely with l, or if the reverse adapter loses the carrier semantics.
+
+#### H8 — logarithmic boundary inequality
+
+The retained ordinary one-curve Miyaoka inequality leaves the ray open. Test a genuinely different log/orbifold pair using the fourteen supported exceptional curves and the exact balanced contact data. The shallow gate is symbolic: derive the exact l-dependent log Chern/intersection expression and check whether its leading coefficient can ever have the sign needed for an all-l or large-l exclusion.
+
+Stop before any heavy computation if the log inequality reproduces the already-satisfied ordinary BMY polynomial, if admissibility of the boundary coefficients fails, or if the packet contacts cannot enter the theorem with an exact F/R adapter.
+
+Initial cycle-2 order is H8, then H5, then H6. This order may be changed only by a new source-complete theorem or an operational cross-lane demand.
