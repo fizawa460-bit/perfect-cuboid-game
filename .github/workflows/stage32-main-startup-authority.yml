@@ -327,7 +327,7 @@ jobs:
 
       - name: Install V44 BTVA d8 static Picard HNF dependencies
         if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
-        run: python -m pip install 'sympy==1.14.0'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
 
       - name: Run V44 BTVA d8 static Picard HNF diagnostic
         if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
