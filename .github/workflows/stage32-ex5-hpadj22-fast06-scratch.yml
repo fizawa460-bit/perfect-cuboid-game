@@ -74,12 +74,6 @@ jobs:
         with: {python-version: '3.10.6'}
       - uses: actions/download-artifact@v4
         with:
-          name: hpadj21-full178-cell-cert-scratch
-          path: cert
-          run-id: 35351798268
-          github-token: ${{ github.token }}
-      - uses: actions/download-artifact@v4
-        with:
           name: hpadj22-band-${{ matrix.band }}
           path: carry
           run-id: 35303482505
@@ -89,7 +83,7 @@ jobs:
           mkdir -p fast
           python stages/stage32-ex5/hpadj-22_ex5/run_fast_row_range.py \
             --band-position ${{ matrix.band }} --row-start ${{ matrix.start }} --row-stop 177 \
-            --h21-cert cert/HPADJ21-FULL178-CELL-CERT.json --output-dir fast
+            --output-dir fast
       - name: Assemble complete exact band
         run: |
           mkdir -p out

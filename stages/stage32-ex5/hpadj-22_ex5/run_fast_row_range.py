@@ -11,6 +11,8 @@ FAST_BLOB="bf96761f1b8917da87efe968539ca6cf08416b03"
 CERT_SCHEMA="STAGE32EX5_HPADJ21_FULL178_CELL_FLOOR_CERT_V1"
 CERT_CANON="fd276094f4647ecdc348e18a376e2d61313b782cdb23659890707726707ed13a"
 EXPECTED_TOTAL=157570677819451133507
+CERT=HERE/"HPADJ21-FULL178-CELL-CERT.json"
+CERT_BLOB="54fb3e1d110a789d61e9fde2c7a3c6e9d6eb6ab0"
 
 def req(v,m):
     if not v: raise SystemExit("FAIL: "+m)
@@ -46,13 +48,13 @@ def main():
     ap.add_argument("--band-position",type=int,required=True)
     ap.add_argument("--row-start",type=int,required=True)
     ap.add_argument("--row-stop",type=int,required=True)
-    ap.add_argument("--h21-cert",type=Path,required=True)
     ap.add_argument("--output-dir",type=Path,required=True)
     a=ap.parse_args()
     req(0<=a.band_position<8,"band")
     req(0<=a.row_start<=a.row_stop<178,"row range")
     base=load(BASE,BASE_BLOB,"base_fast_range"); fast=load(FAST,FAST_BLOB,"fast_range")
-    cells=load_cert(a.h21_cert,base)
+    req(CERT.is_file() and blob(CERT)==CERT_BLOB,"retained HPADJ21 cell cert blob drift")
+    cells=load_cert(CERT,base)
     ctx=base.source_context(); bc=ctx[0]; b0,b1=base.PLANNED[a.band_position]
     t=time.perf_counter(); joint=bc.build_joint_bc_shard(base.HMAX,b0,b1); joint_s=time.perf_counter()-t
     t=time.perf_counter(); pref=fast.build_qbc_prefix(joint,b0,b1,base.HMAX); prefix_s=time.perf_counter()-t
@@ -64,7 +66,7 @@ def main():
         done.append(idx)
         print(json.dumps({"band":a.band_position,"row_index":idx,"row_id":d["row"]["row_id"],"gain":d["totals"]["improvement"],"completed":len(done)},sort_keys=True),flush=True)
     rows_s=time.perf_counter()-t
-    receipt={"schema":"STAGE32EX5_HPADJ22_FAST_ROW_RANGE_SCRATCH_V1","status":"EXACT_FAST_RANGE_COMPLETE_ZERO_CREDIT","band_position":a.band_position,"b_interval":list(base.PLANNED[a.band_position]),"row_start":a.row_start,"row_stop":a.row_stop,"row_count":len(done),"timing":{"joint_seconds":joint_s,"prefix_seconds":prefix_s,"rows_seconds":rows_s},"source_locks":{"base_blob":BASE_BLOB,"fast_blob":FAST_BLOB,"h21_cert_canonical":CERT_CANON},"credit":{"stage32_main_credit":False,"full178_completion_credit":False,"merge_authorized":False}}
+    receipt={"schema":"STAGE32EX5_HPADJ22_FAST_ROW_RANGE_SCRATCH_V1","status":"EXACT_FAST_RANGE_COMPLETE_ZERO_CREDIT","band_position":a.band_position,"b_interval":list(base.PLANNED[a.band_position]),"row_start":a.row_start,"row_stop":a.row_stop,"row_count":len(done),"timing":{"joint_seconds":joint_s,"prefix_seconds":prefix_s,"rows_seconds":rows_s},"source_locks":{"base_blob":BASE_BLOB,"fast_blob":FAST_BLOB,"h21_cert_blob":CERT_BLOB,"h21_cert_canonical":CERT_CANON},"credit":{"stage32_main_credit":False,"full178_completion_credit":False,"merge_authorized":False}}
     (a.output_dir/"RANGE-RECEIPT.json").write_text(json.dumps(receipt,sort_keys=True,separators=(",",":"))+"\n")
     print("RECEIPT="+json.dumps(receipt,sort_keys=True,separators=(",",":")))
 if __name__=="__main__": main()
