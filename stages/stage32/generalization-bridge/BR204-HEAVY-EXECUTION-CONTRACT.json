@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V11_RESEARCH_OS_PR_ARM_D_CHECKPOINT_ALWAYS_SALVAGE",
-  "status": "COLD_RESEARCH_OS_PR_ARM_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define BR204 FULL178 resume-first execution under the repository Research OS heavy-workflow contract: ACTIVE_AUTO pull-request lifecycle, before..head dedicated-runkey authorization, generation/armed semantic gating, exact source/main locks, Stage32 concurrency headroom, 250 b x d-band recovery slots, exact single-d restart quanta, cumulative rolled partial state after every completed d, paginated carry recovery, bounded storage, and fresh-audit-only execution.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V12_RESEARCH_OS_RECOVERY_RECONCILED_SAFE_UPLOAD",
+  "status": "COLD_RESEARCH_OS_RECOVERY_RECONCILED_SAFE_UPLOAD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution under current Research OS: ACTIVE_AUTO pull-request commit-range runkey authorization, exact source/main locks, Stage32 concurrency headroom, paginated predecessor recovery with expected-vs-retrieved-vs-validated durable inventory reconciliation, exact single-d restart quanta, cumulative rolled partial checkpoints, upload-safe-only persistence after validation and hard size caps, and fresh-audit-only execution.",
   "audited_predecessor": {
     "bridge_pr": 1813,
     "audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
@@ -75,7 +75,15 @@
     },
     "band_checkpoint_finalizer": {
       "path": "stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py",
-      "git_blob_sha1": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
+      "git_blob_sha1": "5724929d739ebc61ca1841ec34caef4de04752c7"
+    },
+    "current_heavy_checkpoint_policy": {
+      "path": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
+      "git_blob_sha1": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
+    },
+    "recovery_inventory_verifier": {
+      "path": "stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py",
+      "git_blob_sha1": "8854ca99df52a31e6639e6aa65cef73ffdf9ec18"
     }
   },
   "objective_semantics": {
@@ -145,7 +153,7 @@
     "hard_job_timeout_minutes": 330,
     "single_d_timeout_seconds": 3600,
     "checkpoint_rule": "Execute one admissible even d at a time. After each exact d completes and validates, refresh a cumulative rolled partial-band certificate on runner-local storage. Thus the local recovery payload always commits to every completed d in that outer band.",
-    "artifact_salvage_rule": "The classify/finalize and artifact-upload steps are guarded by always(). On ordinary worker failure, soft deadline, or cancellation where the runner remains available for post-steps, they validate and upload the latest complete-band or rolled-partial checkpoint. The artifact is the cross-run durable recovery object; raw single-d files are not retained across runs.",
+    "artifact_salvage_rule": "Finalizer emits upload_safe=true only after payload identity/digest/coverage revalidation and both 900000-byte hard caps pass. Complete/partial recovery upload steps require finalizer outcome success AND upload_safe=true. Unsafe finalization may persist only a small diagnostic, never the recovery payload.",
     "soft_deadline_rule": "Stop starting new d work after 13,500 seconds inside a 330-minute job, leaving a large upload/cleanup margin. Emit SOFT_DEADLINE and deliberately fail the outer job only after the rolled partial has been uploaded, forcing a recovery generation rather than a blind full-band rerun.",
     "recovery_rule": "Generation >=2 explicitly paginates every artifact page from the immediate previous recovery-eligible run, validates/re-emits complete outer units and rolled partial bands, records discovered artifact count separately from validated carry counts, then computes only missing d values.",
     "reuse_rule": "A complete outer unit is reused only after the existing exact aggregator validates it. A partial band is reused only after source locks, band identity, completed/missing-d coverage, lineage digest, TAIL/SUM invariants, and aggregate raw digest validate. Conflicting or non-lineage partials fail closed.",
@@ -153,7 +161,9 @@
     "cancellation_rule": "Ordinary cancellation uses the always-path best-effort salvage of the latest runner-local rolled checkpoint. A catastrophic runner loss can make the current job's not-yet-uploaded local rollup unavailable; this cannot be recovered from a vanished host, but previously uploaded complete/partial recovery objects remain durable and must be reused. Do not claim otherwise.",
     "pilot_rule": "Both pilots use the identical single-d runner, after-each-d local rollup, finalizer, upload, and recovery semantics used by production units.",
     "cleanup_rule": "Delete superseded recovery artifacts only after complete-prefix, partial-bundle, and recovery-metadata re-emission succeeds. Cleanup failure is a hard stop before new heavy compute.",
-    "pagination_rule": "100 or more possible predecessor artifacts requires gh api --paginate plus artifact-id download. Never treat unseen artifacts as missing mathematics."
+    "pagination_rule": "100 or more possible predecessor artifacts requires gh api --paginate plus artifact-id download. Never treat unseen artifacts as missing mathematics.",
+    "predecessor_inventory_rule": "For carry_run_id != null, paginate predecessor jobs and artifacts; derive every expected durable artifact from successful named upload steps; compare expected artifact names and direct unit identities against retrieved nonexpired artifacts and validated complete/partial manifests, including prior prefix/bundle manifests. Any unexplained missing, expired, duplicate, corrupt, or identity-mismatched durable artifact fails closed before plan/missing-work scheduling.",
+    "recovery_snapshot_counts": "Record discovered_artifact_count, expected_durable_artifact_count, retrieved_live_expected_durable_artifact_count, expected direct/prior complete+partial identity counts, and validated carried complete+partial counts."
   },
   "storage_contract": {
     "persistent_compact_certificate_preflight": "PENDING_FRESH_PILOT_MEASUREMENT_AFTER_ALWAYS_SALVAGE_REBUILD",
@@ -166,7 +176,10 @@
     "per_subunit_gzip_hard_cap_bytes": 900000,
     "absolute_peak_rule": "Each of the 250 outer bands occupies at most one <=900000-byte recovery slot, complete or partial. At generation rollover at most one prior recovery union and one re-emitted/current recovery union coexist, plus 20 MiB fixed overhead.",
     "recovery_retention": "All BR204 recovery artifacts use 1-day retention, but superseded prior recovery artifacts are actively deleted after successful prefix re-emission so repeated generations do not accumulate one-day copies.",
-    "partial_band_recovery_hard_cap_bytes": 900000
+    "partial_band_recovery_hard_cap_bytes": 900000,
+    "verify_before_persist": true,
+    "unsafe_finalizer_payload_upload_forbidden": true,
+    "recovery_slot_upload_requires_explicit_upload_safe": true
   },
   "authorization": {
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
@@ -212,7 +225,11 @@
       "global mu LP <= global K8 LP",
       "deterministic global bin-stream hash",
       "exact L<=8/L>8 and tail-slot counters",
-      "ratio-class qBC-tail forced-selected attribution"
+      "ratio-class qBC-tail forced-selected attribution",
+      "paginated predecessor jobs+artifacts reconciliation rejects any expected durable artifact omission before recovery planning",
+      "expected/retrieved/validated durable counts are frozen in RECOVERY-RECONCILIATION.json",
+      "oversize or corrupt partial finalization never marks recovery payload upload-safe",
+      "complete/partial recovery artifact upload requires finalizer success and upload_safe=true"
     ],
     "br205_authorized_now": false,
     "br205_gate": "Only after the heavy result establishes exact FULL178 L>8/tail-slot activity and, for the stronger diagnostic, positive forced-selected tail-slot capacity under the order-independent global LP; any formal BR205 authorization additionally requires hostile audit.",
@@ -238,7 +255,7 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Generation-1 used outer b x d-band durability only; hours spent inside an incomplete band could be discarded on timeout. Rebuild now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload before recovery.",
     "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
-    "status": "MATERIAL_RESEARCH_OS_LAUNCHER_AND_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
-    "repair_status": "D_CHECKPOINT_REPAIR_RETAINED__LAUNCHER_REBUILT_TO_RESEARCH_OS_PR_COMMIT_RANGE_GATE__SOURCE_LOCK_RESYNC_AND_EXACT_HEAD_REPLAY_PENDING__FRESH_HOSTILE_AUDIT_REQUIRED"
+    "status": "MATERIAL_RESEARCH_OS_RECOVERY_RECONCILIATION_AND_SAFE_UPLOAD_REPAIR_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
+    "repair_status": "BLOCKER1_EXPECTED_DURABLE_RECONCILIATION_IMPLEMENTED__BLOCKER2_UPLOAD_SAFE_FINALIZER_IMPLEMENTED__WORKFLOW_SOURCE_LOCK_RESYNC_AND_NEGATIVE_REPLAY_PENDING"
   }
 }
