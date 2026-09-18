@@ -1,0 +1,48 @@
+name: Stage32EX5 HPADJ22 speedup scratch benchmark
+
+on:
+  push:
+    branches:
+      - stage32ex5-hpadj22-speedup-scratch-20260918
+    paths:
+      - 'stages/stage32-ex5/hpadj-22_ex5/run_full_bband_fast.py'
+      - 'stages/stage32-ex5/hpadj-22_ex5/benchmark_bband_fast.py'
+      - '.github/workflows/stage32-ex5-hpadj22-speedup-scratch.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Verify audited HPADJ21 carry artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/35275839413/artifacts?per_page=100" > /tmp/a.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/a.json'))
+          m=[a for a in d['artifacts'] if a['name']=='hpadj21-carry-bundle' and not a.get('expired',False)]
+          assert len(m)==1
+          a=m[0]
+          assert a['id']==10519913594
+          assert a['digest']=='sha256:366e93ff132652d830e86ab4a46392a1e0fd90185110863a9805fa0ef97f4499'
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: h21
+          run-id: 35275839413
+          github-token: ${{ github.token }}
+      - name: Benchmark old vs fast exact worker
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/benchmark_bband_fast.py --h21-dir h21 | tee /tmp/bench.log
+          grep '^FINAL=' /tmp/bench.log
