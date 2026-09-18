@@ -101,16 +101,17 @@ jobs:
           old=json.loads(Path('/tmp/old-key.json').read_text())
           cur=json.loads(Path(os.environ['RUNKEY']).read_text())
           schema='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM'
-          assert old['schema']==cur['schema']==schema
+          assert cur['schema']==schema
 
           old_g=int(old['generation']); new_g=int(cur['generation'])
           old_a=bool(old['armed']); new_a=bool(cur['armed'])
           if not new_a:
-              # Cold source-lock/setup refresh is allowed only while still generation 0.
+              # Cold source-lock/schema migration is allowed only while still generation 0.
               assert old_g==new_g==0 and old_a is False
               Path('/tmp/auth-mode.json').write_text(json.dumps({'mode':'cold','generation':new_g}))
               raise SystemExit(0)
 
+          assert old['schema']==cur['schema']==schema
           changed=Path('/tmp/changed-paths.txt').read_text().splitlines()
           assert changed==[os.environ['RUNKEY']], 'arm/resume synchronize commit must mutate only the dedicated runkey'
           assert new_g==old_g+1 and new_g>0
