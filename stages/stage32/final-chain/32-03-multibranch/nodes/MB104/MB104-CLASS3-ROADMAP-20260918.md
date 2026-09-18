@@ -496,3 +496,38 @@ W11        elliptic-normalization linear-series collapse
 ```
 
 Do not reopen W1/W2/W3/W6 during this round.
+
+
+### Wide scan Round B disposition
+
+Round B checkpoint:
+
+```
+MB104-WIDE-SHALLOW-ROUND-B-20260918.md
+```
+
+Five route instances were screened:
+
+```
+W4-second K3 quotient lattice/fibration     DROP
+W5         higher symmetric differentials  DROP
+W8         simultaneous sign-quotient RH   DROP
+W10        ambient fat-point Hilbert        DROP
+W11        elliptic normalization series    DROP
+```
+
+No route is DEEP and no second-scan survivor remains.
+
+The broad scan remains active.  Round C is:
+
+```
+W7   cyclic/abelian-cover BMY amplification
+W9   finite-characteristic specialization
+W12  receiver-preserving explicit degeneration
+W14  zero-quartic restriction-map obstruction
+W13  stable factorization / fixed-component section-ring theorem
+```
+
+W15 simultaneous zero-quartic restriction rank is conditional on W14 showing that both individual restriction maps can be nonzero.
+
+W14/W13 are prioritized because they attack irreducibility directly and require no branch-to-product-cover adapter.
