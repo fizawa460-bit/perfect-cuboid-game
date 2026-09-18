@@ -1,16 +1,18 @@
 {
-  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V5_PUSH_RESUME",
-  "status": "PREFLIGHT_ONLY_ZERO_CREDIT_NOT_HEAVY_AUTHORIZATION",
+  "schema": "STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V6_D_SLICE_RESUME",
+  "status": "PREFLIGHT_ONLY_ZERO_CREDIT__D_SLICE_RESUME_REBUILD__FRESH_AUDIT_REQUIRED",
   "purpose": "Bind the eventual BR204 FULL178 compact certificate to exact L>8/K8-tail-slot evidence in the same (b,d-band) traversal, so BR205 can be decided without persisting raw states or rerunning completed bands merely for attribution.",
   "source_locks": {
     "heavy_execution_contract_path": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "heavy_execution_contract_git_blob_sha1": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "heavy_execution_contract_git_blob_sha1": "f3cff578e2970df1246239ae7735564509d4dae3",
     "heavy_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp",
-    "heavy_worker_git_blob_sha1": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "heavy_worker_git_blob_sha1": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "global_aggregator_path": "stages/stage32/generalization-bridge/aggregate_br204_full178.py",
     "global_aggregator_git_blob_sha1": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "bounded_qbc_pilot_git_blob_sha1": "4b5e650bf1b95857959b66dc886ef53319c09d2b",
-    "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213"
+    "bounded_slack_attribution_git_blob_sha1": "1105685230e813887af95732e63cf88031428213",
+    "d_slice_combiner_git_blob_sha1": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
+    "resumable_band_runner_git_blob_sha1": "93f80d3d95e48d24843e92fd03972179dabeca5a"
   },
   "bounded_regression": {
     "population": "H16_d_le_32_BR202_P1_SAME_POPULATION",
@@ -29,13 +31,15 @@
     "warning": "tail-slot multiplicity is not identical to multiplicity from levels strictly greater than 8; the L>8 state predicate is what localizes possible K8-vs-FULL slack"
   },
   "parent_union_requirements": [
-    "prove exact coverage/disjointness of all 250 expected (b,d-band) units",
+    "prove exact coverage/disjointness of all 250 complete outer units at final aggregation",
     "prove every admissible even d is covered exactly once for each b",
+    "validate every carried single-d checkpoint against b,d,worker/base locks and TAIL/SUM invariants before resume",
+    "record paginated discovered artifact count separately from validated carried complete-unit and single-d counts",
     "count static H96 refined-state/assignment-mass data once per b after cross-band equality validation",
-    "sum every dynamic attribution field exactly across all 250 subunits",
-    "retain deterministic per-subunit stream digests and one global bin-stream digest",
-    "solve one exact rational LP only after unioning all subunit capacities",
-    "group equal exact s/B ratios before forced-tail computation so tail activity cannot depend on bin ordering"
+    "sum every dynamic attribution field exactly across complete outer units",
+    "retain deterministic per-unit streams and final global bin-stream digest",
+    "solve one exact rational LP only after unioning all completed outer-unit capacities",
+    "group equal exact s/B ratios before forced-tail computation"
   ],
   "BR205_gate_semantics": {
     "bounded_half": "PASS_PREPARATORY_EVIDENCE: deeper qBC strictly improves the identical bounded population and all bounded K8-vs-FULL slack is localized to L>8",
@@ -49,14 +53,17 @@
     "BR204_runkey_present": true,
     "BR204_runkey_generation": 0,
     "BR204_runkey_armed": false,
-    "repository_main_head_at_cold_doorstep": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    "repository_main_head_at_cold_doorstep": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
     "heavy_compute_authorized_by_this_addendum": false,
     "workflow_arming_authorized_by_this_addendum": false,
-    "storage_rule": "Per-subunit gzip hard cap is 900,000 bytes; rollover peak uses at most one prior recovery union plus one re-emitted prefix before fail-closed cleanup.",
-    "resume_durable_unit": "b_x_d_band",
+    "storage_rule": "Each complete or partial outer-band recovery slot is capped at 900000 compressed bytes; representative pilots measure both final-band and full single-d-slice footprints before scaleout.",
+    "resume_durable_unit": "b_x_d_band_outer__b_x_d_inner_checkpoint",
     "expected_subunit_count": 250,
-    "resume_recovery": "Generation >=2 names the immediately prior failed/cancelled/timed-out heavy run. Its prefix plus completed subunits are validated and re-emitted before missing-only computation.",
-    "launcher_trigger": "A dedicated runkey-only push on stage32bridge-mainbatch starts heavy only after the audited-parent authorization gate passes; no user workflow_dispatch is required."
+    "resume_recovery": "Generation >=2 paginates every predecessor artifact page, re-emits complete outer-unit prefix plus validated single-d partial bundle, and computes only missing d values inside incomplete bands. SINGLE_D_TIMEOUT is a hard stop requiring a finer partition.",
+    "launcher_trigger": "Dedicated runkey-only push remains the only heavy launcher; rebuilt cold head requires fresh hostile audit before generation 1.",
+    "expected_single_d_checkpoint_count": 4743,
+    "soft_deadline_seconds": 13500,
+    "single_d_timeout_seconds": 3600
   },
   "credit": {
     "stage32_main": false,
