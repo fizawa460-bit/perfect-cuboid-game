@@ -1,59 +1,71 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V7_PUSH_TRIGGER_RESUME",
-  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V8_D_SLICE_RESUME",
+  "status": "COLD_D_SLICE_RESUME_REBUILD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_AUTHORIZED__ZERO_CREDIT",
   "audited_predecessor": {
-    "head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "hostile_audit_review_id": 5242897044,
-    "status": "PASS",
-    "scope": "previous cold doorstep with manual workflow_dispatch launcher; push-trigger redesign requires fresh audit"
+    "head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "hostile_audit_review_id": 5243659462,
+    "status": "PASS_SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN",
+    "scope": "previous push-trigger cold doorstep. Generation-1 run 35299814222 was cancelled after discovering that in-progress outer units did not preserve completed inner work."
   },
   "live_main": {
-    "audited_numeric_pr": 1808,
-    "audited_numeric_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
-    "audited_numeric_review_id": 5231559824,
-    "merged_v41_pr": 1820,
-    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
-    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
-    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
-    "v41_semantics": "PROCESS_ONLY_AUDIT_SYNC__ZERO_NEW_PRUNING__NUMERICAL_AUTHORITY_UNCHANGED",
-    "authority": "179119009547804181594",
+    "audited_numeric_pr": 1822,
+    "audited_numeric_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
+    "audited_numeric_review_id": null,
+    "merged_v43_pr": 1822,
+    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
+    "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
+    "v43_semantics": "HPADJ21_SAME_POPULATION_REPLACEMENT_AUDIT_SYNCED",
+    "authority": "157570677819451133507",
     "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET"
   },
   "execution_surface": {
     "worker_path": "run_br204_full178_b_unit.cpp",
-    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
+    "d_slice_combiner_path": "combine_br204_d_slices.py",
+    "d_slice_combiner_blob": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
+    "resumable_band_runner_path": "run_br204_resumable_band.py",
+    "resumable_band_runner_blob": "93f80d3d95e48d24843e92fd03972179dabeca5a",
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "contract_blob": "f3cff578e2970df1246239ae7735564509d4dae3",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "49fdd0ae8032fd47b9436b7536e296a3ff939bb1",
+    "qbc_tail_addendum_blob": "334ba2e727a1c9ee71a354f851828abea823c529",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "c917f726739d8aa1c8e9ad924d2b60de78b7db34",
+    "heavy_workflow_blob": "93d9c9787b6cc86a1a27a5984d778958f51385fb",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "ec492b2667dd6233450a80c345dd86d16141d0e8",
+    "retained_replay_blob": "a717b964f3a44c5da5f659b81a6b6d62b54a3100",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "da9929d76c6b4f7824cc02978ec1d60b838f683a",
+    "runkey_blob": "55a1ea80439776cf19dd96cb534e937aef51b15b",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
     "bridge_workflow_inventory_supplement_blob": "8a59a2f2f905328f094fe6bbcc27b83904962708"
   },
   "audit_repair_delta": {
-    "prior_audited_manual_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "prior_audit_review_id": 5242897044,
-    "launcher_redesign": [
-      "replace workflow_dispatch-only launcher with branch-scoped push trigger on the dedicated BR204 runkey path",
-      "cold/setup runkey pushes are skipped unless the commit message uses the dedicated execution-generation prefix",
-      "generation 1 remains a post-audit runkey-only child of the hostile-audited cold doorstep and binds the exact review receipt",
-      "generation >=2 recovery remains runkey-only, increments by exactly one, and carries the immediately previous failed/cancelled/timed-out BR204 run",
-      "250 b x d-band durable subunits, transitive recovery prefix, independent pilots, and 900,000-byte subunit cap are unchanged"
+    "previous_audited_push_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "previous_audit_review_id": 5243659462,
+    "cancelled_generation1": {
+      "run_id": 35299814222,
+      "head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
+      "conclusion": "cancelled"
+    },
+    "research_os_defect": "A b x d-band worker wrote its certificate only after the full band finished. A hard timeout could discard hours of already-completed d work inside that outer unit.",
+    "repair": [
+      "keep 250 b x d-band outer recovery slots so matrix fan-out remains <=248 after pilots",
+      "expose exact single-d worker ranges and checkpoint every admissible d independently",
+      "use a 13,500-second soft deadline inside a 330-minute job so partial checkpoints upload before the hard timeout",
+      "resume an incomplete outer band from validated single-d slices and compute only its missing d values",
+      "treat a single-d 3,600-second timeout as a hard stop requiring a finer partition rather than blind rerun/timeout extension",
+      "paginate predecessor/current artifact APIs explicitly and download artifacts by id; do not rely on a one-page helper for 100+ artifacts",
+      "record discovered artifact count separately from validated carried complete-unit and single-d counts"
     ],
     "mathematical_population_changed": false,
     "authority_or_credit_changed": false,
-    "resume_topology_changed": false,
-    "launcher_topology_changed": true,
-    "exact_head_replay_after_redesign": "REQUIRED_NOT_YET_RECORDED",
-    "hostile_audit_after_redesign": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1"
+    "resume_topology_changed": true,
+    "launcher_topology_changed": false,
+    "exact_head_replay_after_rebuild": "REQUIRED_NOT_YET_RECORDED",
+    "hostile_audit_after_rebuild": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1"
   },
   "heavy_shape": {
     "rows": 178,
@@ -64,23 +76,25 @@
       "102..146",
       "148..192"
     ],
-    "durable_subunits": 250,
-    "subunit_coverage": "every admissible even d>=max(8,2b) through 192 is covered exactly once after validated carry reuse",
+    "durable_outer_subunits": 250,
+    "exact_inner_single_d_checkpoints": 4743,
+    "outer_coverage": "every admissible even d>=max(8,2b) through 192 belongs to exactly one outer b x d-band",
+    "inner_checkpoint_coverage": "inside an incomplete outer band, every completed admissible d is independently source-locked and resumable",
     "logical_shards": 8,
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
     "pilot_subunits": [
-      "independent job: b=0,d=8..54",
-      "independent job: b=96,d=148..192"
+      "b=0,d=8..54 under the same d-slice runner",
+      "b=96,d=148..192 under the same d-slice runner"
     ],
-    "global_lp": "union all exact subunit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume": "Generation >=2 recovers the immediately previous failed/cancelled/timed-out BR204 run's validated prefix plus independently completed subunits, re-emits one current prefix, then computes only true missing (b,d-band) units."
+    "global_lp": "only complete outer-band certificates enter the final union; merge equal exact s/B ratio classes, then solve one exact rational LP",
+    "resume": "Generation >=2 explicitly paginates the immediate predecessor's complete prefix, completed outer units, partial bundle, and per-band partial artifacts; validates/re-emits them; then computes only missing d values inside incomplete bands."
   },
   "storage": {
-    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "complete_or_partial_outer_recovery_slot_hard_cap_bytes": 900000,
     "rollover_peak_gate": "2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB",
-    "pilot_projection_gate": "2 * 250 * max(two independently durable pilot gzip sizes) + 20 MiB <= 500 MiB",
-    "superseded_recovery_cleanup": "required after successful prefix re-emission; failure stops before new heavy compute",
+    "pilot_projection_gate": "measure max(final band gzip, sum of all exact single-d slice gzip files) for both representative pilots before scaleout",
+    "superseded_recovery_cleanup": "required only after complete-prefix and partial-bundle re-emission; cleanup failure stops before compute",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_4_1m_state_stream_persistence": false
@@ -93,6 +107,7 @@
     "heavy_compute_started": false,
     "pilot_runs_started": false,
     "BR205_authorized": false,
+    "cancelled_generation1_run_id": 35299814222,
     "execution_trigger": {
       "event": "push",
       "branch": "stage32bridge-mainbatch",
@@ -102,7 +117,7 @@
   },
   "next_gate": {
     "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
-    "after_pass": "STOP COLD. After a separate hostile-audit PASS, a later runkey-only generation-1 execution commit will automatically launch heavy; no user UI action is required."
+    "after_pass": "STOP COLD. Only a later runkey-only generation-1 child of the freshly audited rebuilt doorstep may launch heavy."
   },
   "credit": {
     "stage32_main": false,
@@ -118,13 +133,10 @@
     "merge": false
   },
   "audit_hold": {
-    "audited_exact_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
-    "hostile_audit_review_id": 5242654911,
-    "verdict": "FAIL_HOLD",
-    "blockers": [
-      "multi-generation carry union was not durable under one carry_run_id",
-      "two pilot subunits were not independently salvageable"
-    ],
+    "previous_audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "previous_hostile_audit_review_id": 5243659462,
+    "verdict": "SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN",
+    "blocker": "Research OS partial-completion recovery was incomplete below the outer b x d-band unit.",
     "repair_status": "IMPLEMENTED_PENDING_EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT"
   }
 }
