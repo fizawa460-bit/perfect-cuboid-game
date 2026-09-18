@@ -19,9 +19,9 @@ env:
   WORKER: stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
-  WORKER_BLOB: 71081e34c03eee756ea970e6632716121e951f54
-  AGGREGATOR_BLOB: ef11a1ce7c8249f76ddf19fd0e43a415a7592b16
-  CONTRACT_BLOB: 93fe60e4ebb6392d6b199733b6dcc83f1734d376
+  WORKER_BLOB: b180c71ae32f8da4a85daec30cc6a03bf57278fc
+  AGGREGATOR_BLOB: 383558fbf8b16b1dae1bfebf101d4d5a0b994f9c
+  CONTRACT_BLOB: 97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   REPOSITORY_MAIN_HEAD: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
   MAIN_STATE_BLOB: dd7dba27eb062e6a6ad4d440094ba26c290900d7
@@ -57,9 +57,11 @@ jobs:
           from pathlib import Path
           p=Path(os.environ['RUNKEY'])
           cur=json.loads(p.read_text())
-          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V1'
+          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V2_B_D_BANDS'
           assert cur['armed'] is True and cur['generation'] > 0
-          assert cur['execution']['unit_count']==97 and cur['execution']['max_parallel']==8
+          assert cur['execution']['b_unit_count']==97
+          assert cur['execution']['durable_subunit_count']==250 and cur['execution']['max_parallel']==8
+          assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           locks=cur['source_locks']
           assert locks['worker_blob']==os.environ['WORKER_BLOB']
@@ -109,24 +111,48 @@ jobs:
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$WORKER" -o /tmp/br204-worker
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python "$AGGREGATOR" self-test
-      - name: Run b96 storage pilot and durable unit
+      - name: Run representative storage pilots and durable subunits
         run: |
           set -euo pipefail
           mkdir -p /tmp/pilot
-          /tmp/br204-worker --b 96 --worker-blob "$WORKER_BLOB" --out /tmp/pilot/br204-b-96.tsv
-          gzip -9 -n /tmp/pilot/br204-b-96.tsv
+          /tmp/br204-worker --b 0 --d-lo 8 --d-hi 54 --worker-blob "$WORKER_BLOB" --out /tmp/pilot/br204-u-b0-d8-54.tsv
+          /tmp/br204-worker --b 96 --d-lo 148 --d-hi 192 --worker-blob "$WORKER_BLOB" --out /tmp/pilot/br204-u-b96-d148-192.tsv
+          gzip -9 -n /tmp/pilot/br204-u-b0-d8-54.tsv
+          gzip -9 -n /tmp/pilot/br204-u-b96-d148-192.tsv
           python - <<'PY'
           import json
           from pathlib import Path
-          p=Path('/tmp/pilot/br204-b-96.tsv.gz')
-          size=p.stat().st_size; projected=size*97*2 + 20_971_520
-          assert size <= 4_000_000 and projected <= 524_288_000
-          Path('/tmp/pilot-storage.json').write_text(json.dumps({'pilot_b':96,'gzip_bytes':size,'projection_bytes':projected,'budget_bytes':524288000},sort_keys=True,indent=2)+'\n')
+          ps=[
+              Path('/tmp/pilot/br204-u-b0-d8-54.tsv.gz'),
+              Path('/tmp/pilot/br204-u-b96-d148-192.tsv.gz'),
+          ]
+          sizes={p.name:p.stat().st_size for p in ps}
+          hard_cap=1_800_000
+          budget=524_288_000
+          overhead=20_971_520
+          assert all(x <= hard_cap for x in sizes.values())
+          absolute_peak=250*hard_cap + overhead
+          projected=max(sizes.values())*250*2 + overhead
+          assert absolute_peak <= budget
+          assert projected <= budget
+          Path('/tmp/pilot-storage.json').write_text(json.dumps({
+              'pilot_subunits':sizes,
+              'per_subunit_hard_cap_bytes':hard_cap,
+              'absolute_peak_bound_bytes':absolute_peak,
+              'projection_bytes':projected,
+              'budget_bytes':budget,
+          },sort_keys=True,indent=2)+'\n')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: br204-b-96
-          path: /tmp/pilot/br204-b-96.tsv.gz
+          name: br204-u-b0-d8-54
+          path: /tmp/pilot/br204-u-b0-d8-54.tsv.gz
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-u-b96-d148-192
+          path: /tmp/pilot/br204-u-b96-d148-192.tsv.gz
           retention-days: 1
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
@@ -149,14 +175,15 @@ jobs:
           ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         with:
-          name: br204-b-96
+          pattern: br204-u-*
           path: /tmp/current
+          merge-multiple: true
       - uses: actions/download-artifact@v4
         if: needs.authorize.outputs.carry_run_id != ''
         with:
           github-token: ${{ github.token }}
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
-          pattern: br204-b-*
+          pattern: br204-u-*
           path: /tmp/prior
           merge-multiple: true
       - id: plan
@@ -166,7 +193,8 @@ jobs:
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           m=json.load(open('/tmp/plan.json'))['missing_units']
-          print('matrix='+json.dumps(m if m else [-1],separators=(',',':')))
+          sentinel=[{'b':-1,'d_lo':-1,'d_hi':-1}]
+          print('matrix='+json.dumps(m if m else sentinel,separators=(',',':')))
           PY
 
   units:
@@ -177,27 +205,28 @@ jobs:
       fail-fast: false
       max-parallel: 8
       matrix:
-        b: ${{ fromJSON(needs.plan.outputs.matrix) }}
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
     steps:
       - uses: actions/download-artifact@v4
         if: matrix.b != -1
         with:
           name: br204-worker-runtime
           path: /tmp/runtime
-      - name: Compute one missing durable b unit
+      - name: Compute one missing durable b x d-band subunit
         if: matrix.b != -1
         run: |
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
           mkdir -p /tmp/unit
-          /tmp/runtime/br204-worker --b "${{ matrix.b }}" --worker-blob "$WORKER_BLOB" --out "/tmp/unit/br204-b-${{ matrix.b }}.tsv"
-          gzip -9 -n "/tmp/unit/br204-b-${{ matrix.b }}.tsv"
-          test "$(stat -c %s "/tmp/unit/br204-b-${{ matrix.b }}.tsv.gz")" -le 4000000
+          out="/tmp/unit/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv"
+          /tmp/runtime/br204-worker --b "${{ matrix.b }}" --d-lo "${{ matrix.d_lo }}" --d-hi "${{ matrix.d_hi }}" --worker-blob "$WORKER_BLOB" --out "$out"
+          gzip -9 -n "$out"
+          test "$(stat -c %s "$out.gz")" -le 1800000
       - uses: actions/upload-artifact@v4
         if: matrix.b != -1
         with:
-          name: br204-b-${{ matrix.b }}
-          path: /tmp/unit/br204-b-${{ matrix.b }}.tsv.gz
+          name: br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
+          path: /tmp/unit/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv.gz
           retention-days: 1
           if-no-files-found: error
 
@@ -212,7 +241,7 @@ jobs:
           ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         with:
-          pattern: br204-b-*
+          pattern: br204-u-*
           path: /tmp/current
           merge-multiple: true
       - uses: actions/download-artifact@v4
@@ -220,7 +249,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
-          pattern: br204-b-*
+          pattern: br204-u-*
           path: /tmp/prior
           merge-multiple: true
       - name: Exact union, one ratio-class rational LP, and tail attribution
