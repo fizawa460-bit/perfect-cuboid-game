@@ -140,7 +140,8 @@ def main():
                         "completed_unit_reexecution_required":False},
       "partial_aggregate":{"depth2_envelope_weighted_mass_of_complete_units":str(aggregate_env),
                            "exact_picard_weighted_mass_of_complete_units":str(aggregate_exact),
-                           "creditable_as_full_selected_slice_result":len(missing)==0 and len(rejected)==0},
+                           "selected_slice_coverage_complete":len(missing)==0 and len(rejected)==0,
+                           "mathematical_credit_granted":False},
       "firewalls":{"selected_slice_only":True,"full_row_census_claimed":False,"full178_census_claimed":False,
                    "main_credit_changed":False,"theorem_credit_changed":False,"endpoint_credit_changed":False,"merge":False}}
     snapshot["canonical_sha256_without_this_field"] = csha(snapshot)
