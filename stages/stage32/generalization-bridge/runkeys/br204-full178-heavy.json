@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold BR204 FULL178 rebuild after cancelled generation 1. Each completed d refreshes a cumulative local exact rollup; an always-path finalizer uploads the latest complete or partial outer-band recovery slot before any recovery generation. Fresh exact-head replay and hostile audit are required before re-arm.",
+  "purpose": "Cold BR204 FULL178 Research OS heavy-workflow rebuild. Automatic compute may start only from a pull_request synchronize event whose before..head range is a dedicated runkey-only semantic generation arm, after fresh exact-head replay and hostile audit. Resume remains single-d checkpointed and always-salvage.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -41,28 +41,36 @@
     "envelope": "6703403803993209250491",
     "main_bound_snapshot": "157570677819451133507",
     "trigger": {
-      "event": "push",
-      "branch": "stage32bridge-mainbatch",
-      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
-      "execution_commit_message_prefix": "stage32 BR204 execute generation "
+      "event": "pull_request",
+      "base_branch": "main",
+      "head_branch": "stage32bridge-mainbatch",
+      "types": [
+        "opened",
+        "synchronize",
+        "reopened"
+      ],
+      "automatic_arm_action": "synchronize",
+      "commit_range_runkey_change_required": true,
+      "runkey_only_arm_commit_required": true
     },
     "exact_inner_checkpoint_count": 4743
   },
   "source_locks": {
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "1a80ed29bd50e31b125173231f05b2ec8f6e28d2",
+    "execution_contract_blob": "0e4c9b2818233dfc641ea890903f3633ef6a701c",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
-    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
     "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
     "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
     "bridge_predecessor_audited_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
     "bridge_predecessor_audit_review_id": 5242897044,
     "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
-    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
+    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519",
+    "heavy_workflow_blob": "a8dd5ab3256662e267e9abd6ac7a08814c74e210"
   },
   "resume": {
     "durable_outer_recovery_slot": "b_x_d_band_complete_or_rolled_partial",
@@ -122,11 +130,12 @@
     "representative_pilots_must_measure_recovery_slot_payload": true
   },
   "arm_contract": {
-    "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only commit",
-    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediate previous recovery-eligible BR204 run, and preserve execution/source/resume/storage/credit locks",
-    "execution_commit_message_prefix": "stage32 BR204 execute generation ",
+    "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only pull_request synchronize commit",
+    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediate previous recovery-eligible BR204 run, refresh observed_other_stage32_heavy_concurrency_at_arm, and preserve execution/source/resume/storage/credit locks",
+    "automatic_arm_action": "synchronize",
+    "commit_range_runkey_change_required": true,
     "execution_head_parent_diff_must_include_only_this_runkey": true,
-    "cold_non_execution_commits_do_not_authorize": true,
+    "cold_opened_reopened_or_nonkey_sync_do_not_authorize": true,
     "failed_generation_requires_recovery_summary_resume_eligible": true,
     "cancelled_or_timed_out_generation_may_salvage_paginated_completed_and_partial_artifacts": true,
     "single_d_timeout_blocks_blind_resume": true,
@@ -149,7 +158,17 @@
     "cancelled_generation1_run_id": 35299814222,
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
-    "repair": "after every completed d, refresh cumulative local rollup; always-path finalizer/upload preserves latest exact partial whenever post-steps can run; explicit soft deadline prevents normal hard timeout",
-    "status": "MATERIAL_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
+    "repair": "single-d checkpoint/always-salvage resume retained; launcher replaced by ACTIVE_AUTO pull_request before..head runkey gate; main/workflow/contract locks refreshed; heavy remains generation 0 armed false",
+    "status": "MATERIAL_RESEARCH_OS_LAUNCHER_AND_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 8,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "observed_other_stage32_heavy_concurrency_at_arm": null,
+    "overlap_rule": "Arm/resume commit must replace null with an observed integer 0..10; authorize requires 8 + observed_other <= 18. Unknown overlap fails closed.",
+    "artifact_recovery_slot_count_upper_bound": 250,
+    "per_outer_recovery_slot_hard_cap_bytes": 900000,
+    "repository_operating_budget_bytes": 524288000
   }
 }
