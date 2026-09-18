@@ -99,7 +99,10 @@ jobs:
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
           assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
           assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
-          assert cur['resume']['exact_restart_quantum']=='b_x_d'\n          assert cur['resume']['checkpoint_after_each_completed_d'] is True\n          assert cur['resume']['always_path_checkpoint_finalizer'] is True\n          assert cur['resume']['always_path_artifact_upload'] is True
+          assert cur['resume']['exact_restart_quantum']=='b_x_d'
+          assert cur['resume']['checkpoint_after_each_completed_d'] is True
+          assert cur['resume']['always_path_checkpoint_finalizer'] is True
+          assert cur['resume']['always_path_artifact_upload'] is True
           assert cur['resume']['soft_deadline_seconds']==int(os.environ['SOFT_SECONDS'])
           assert cur['resume']['single_d_timeout_seconds']==int(os.environ['SLICE_TIMEOUT_SECONDS'])
           if old['armed'] is False:
