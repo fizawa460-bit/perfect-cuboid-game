@@ -601,3 +601,44 @@ W25 Lefschetz-pencil singular-fiber budget
 ```
 
 One cheap test each.  Do not construct adapters or deepen any Round-D route.
+
+
+### W1--W20 hard/soft reclassification audit
+
+Audit checkpoint:
+
+```
+MB104-W1-W20-RECLASSIFICATION-AUDIT-20260918.md
+```
+
+The earlier broad-scan word `DROP` was too coarse.  Existing calculations were retained, but their logical scope was re-audited.
+
+Final classification:
+
+```
+HARD-DROP = W2, W8, W10, W14, W15
+SOFT-PARK = W1, W3, W4, W5, W6, W7, W9, W11, W12,
+            W13, W16, W17, W18, W19, W20
+PROMOTE   = none
+UNCLEAR   = none
+```
+
+Higher-value soft parks for possible later revisit:
+
+```
+W4  K3 full lattice / nef-effective cone
+W5  adaptive higher symmetric differentials
+W6  coupled two-factor modular relation
+W13 complete effective-cone / stable-base theorem
+W16 nontrivial canonical Cayley--Bacharach subcluster
+W18 cuboid-specific secant defect
+```
+
+Future wide scans must record separately:
+
+```
+tested_architecture_status
+broader_direction_status
+```
+
+A cheap-test failure may hard-drop only the tested architecture while leaving the broader direction soft-parked.
