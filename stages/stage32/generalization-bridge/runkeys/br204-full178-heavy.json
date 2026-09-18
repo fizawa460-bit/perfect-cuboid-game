@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V2_B_D_BANDS",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V3_DURABLE_PREFIX",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold placeholder for finer resume. Do not execute heavy at generation 0.",
+  "purpose": "Cold placeholder for multi-generation durable-prefix recovery. Do not execute heavy at generation 0.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -43,8 +43,8 @@
   },
   "source_locks": {
     "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
-    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
-    "execution_contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
+    "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
+    "execution_contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
     "audited_numeric_main_review_id": 5231559824,
@@ -75,19 +75,26 @@
       ]
     ],
     "expected_subunit_count": 250,
+    "generation_start_prefix_reemit": true,
+    "single_previous_run_suffices": true,
+    "recover_prefix_plus_completed_units": true,
+    "precompute_reemit_required": true,
+    "cleanup_superseded_prior_recovery_artifacts": true,
+    "cleanup_failure_is_hard_stop": true,
     "reuse_validated_subunits": true,
     "compute_missing_only": true,
     "require_complete_tail_record": true,
     "require_exact_band_identity": true,
     "repeated_static_metadata_must_match_within_b": true,
+    "pilots_independently_durable": true,
     "intermediate_retention_days": 1
   },
   "storage": {
-    "per_subunit_gzip_hard_cap_bytes": 1800000,
+    "per_subunit_gzip_hard_cap_bytes": 900000,
     "budget_bytes": 524288000,
     "pilot_projection_safety_multiplier": 2,
     "fixed_overhead_bytes": 20971520,
-    "absolute_peak_bound_bytes": 470971520
+    "absolute_rollover_peak_bound_bytes": 470971520
   },
   "arm_contract": {
     "required_transition": "armed false->true and generation strictly increases in one later runkey-only semantic arm commit",
@@ -106,5 +113,10 @@
     "endpoint": false,
     "perfect_cuboid": false,
     "merge": false
+  },
+  "audit_hold": {
+    "head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
+    "review_id": 5242654911,
+    "status": "FAIL_HOLD_RECOVERY_REPAIR_REQUIRED"
   }
 }
