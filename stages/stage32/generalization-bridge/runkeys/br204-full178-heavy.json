@@ -1,8 +1,8 @@
 {
   "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V3_DURABLE_PREFIX",
-  "generation": 0,
-  "armed": false,
-  "purpose": "Cold placeholder for multi-generation durable-prefix recovery. Do not execute heavy at generation 0.",
+  "generation": 1,
+  "armed": true,
+  "purpose": "Generation 1 explicit BR204 FULL178 heavy execution arm. Dispatch only this exact arm head.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -51,8 +51,8 @@
     "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
     "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
     "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
-    "bridge_predecessor_audited_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
-    "bridge_predecessor_audit_review_id": 5242485845
+    "bridge_predecessor_audited_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "bridge_predecessor_audit_review_id": 5242897044
   },
   "resume": {
     "durable_unit": "b_x_d_band",
@@ -101,8 +101,8 @@
     "dispatch_exact_head_required": true,
     "dispatch_head_parent_diff_must_include_only_this_runkey": true,
     "cold_non_arm_commits_do_not_authorize": true,
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null
+    "audited_doorstep_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "audited_doorstep_review_id": 5242897044
   },
   "credit": {
     "stage32_main": false,
@@ -117,6 +117,7 @@
   "audit_hold": {
     "head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
     "review_id": 5242654911,
-    "status": "FAIL_HOLD_RECOVERY_REPAIR_REQUIRED"
+    "status": "RESOLVED_BY_HOSTILE_AUDIT_PASS_2730779C",
+    "resolving_review_id": 5242897044
   }
 }
