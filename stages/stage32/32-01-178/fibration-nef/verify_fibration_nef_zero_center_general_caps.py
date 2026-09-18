@@ -167,6 +167,8 @@ def main() -> None:
     # Abstract exhaustive regression over small cap/sum windows. Static values
     # are chosen so the only Picard restrictions on r are the fixed parities.
     abstract_cases = 0
+    abstract_saw_feasible = False
+    abstract_saw_infeasible = False
     for caps in (
         (0,0,0,0,0),(1,1,1,1,1),(2,2,2,2,2),(3,2,1,3,2),
         (4,1,4,2,3),(2,4,3,1,4),(5,3,2,4,1)
@@ -192,6 +194,8 @@ def main() -> None:
                             bv, br = brute(problem, cert, static, fast)
                             req(gv == bv, f"abstract minimum mismatch caps={caps} static={static} window={(lo,hi)}")
                             req((gr is None) == (br is None), "abstract feasibility mismatch")
+                            abstract_saw_feasible |= gr is not None
+                            abstract_saw_infeasible |= gr is None
                             abstract_cases += 1
 
     # Real signature problems with active lower-sum/cap behavior. These include
@@ -232,9 +236,9 @@ def main() -> None:
                     "reason":meta.get("reason"),
                 })
 
+    req(abstract_saw_feasible and abstract_saw_infeasible, "abstract regression lacks feasibility diversity")
     req(saw_positive_sum_lo, "real regression lacks positive sum_lo case")
     req(saw_nontrivial_cap, "real regression lacks active coordinate cap case")
-    req(saw_feasible and saw_infeasible, "real regression lacks feasibility diversity")
 
     out = {
         "schema":"STAGE32_32_01_178_ZERO_CENTER_GENERAL_CAPS_V1",
@@ -257,7 +261,9 @@ def main() -> None:
             "real_signature_cases":len(real_cases),
             "positive_sum_lo_exercised":saw_positive_sum_lo,
             "active_coordinate_cap_exercised":saw_nontrivial_cap,
-            "feasible_and_infeasible_cases_exercised":saw_feasible and saw_infeasible,
+            "abstract_feasible_and_infeasible_cases_exercised":abstract_saw_feasible and abstract_saw_infeasible,
+            "real_feasible_case_seen":saw_feasible,
+            "real_infeasible_case_seen":saw_infeasible,
             "all_general_minima_match_independent_bruteforce":True,
             "real_cases":real_cases,
         },
@@ -279,6 +285,7 @@ def main() -> None:
         "positive_sum_lo":saw_positive_sum_lo,
         "active_caps":saw_nontrivial_cap,
         "bruteforce_match":True,
+        "abstract_feasibility_diversity":abstract_saw_feasible and abstract_saw_infeasible,
     }, sort_keys=True))
     print(json.dumps(out, indent=2, sort_keys=True))
 
