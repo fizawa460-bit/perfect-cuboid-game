@@ -48,8 +48,11 @@ jobs:
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V2_B_D_BANDS'
           assert rk['generation']==0 and rk['armed'] is False
-          print('BR204 remains cold; no heavy or BR205 authorization')
+          assert rk['execution']['durable_subunit_count']==250
+          assert rk['resume']['durable_unit']=='b_x_d_band'
+          print('BR204 remains cold; finer b x d-band resume is configured; no heavy or BR205 authorization')
           PY
 
       - name: Verify live merged V41 main snapshot
@@ -99,9 +102,9 @@ jobs:
       - name: Compile and self-test cold heavy surfaces without FULL178 execution
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "71081e34c03eee756ea970e6632716121e951f54"
-          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "93fe60e4ebb6392d6b199733b6dcc83f1734d376"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "b180c71ae32f8da4a85daec30cc6a03bf57278fc"
+          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b"
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
@@ -109,18 +112,23 @@ jobs:
           import json
           from pathlib import Path
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['source_locks']['worker_blob']=='71081e34c03eee756ea970e6632716121e951f54'
-          assert rk['source_locks']['aggregator_blob']=='ef11a1ce7c8249f76ddf19fd0e43a415a7592b16'
-          assert rk['source_locks']['execution_contract_blob']=='93fe60e4ebb6392d6b199733b6dcc83f1734d376'
+          assert rk['source_locks']['worker_blob']=='b180c71ae32f8da4a85daec30cc6a03bf57278fc'
+          assert rk['source_locks']['aggregator_blob']=='383558fbf8b16b1dae1bfebf101d4d5a0b994f9c'
+          assert rk['source_locks']['execution_contract_blob']=='97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b'
           assert rk['source_locks']['repository_main_head']=='37bb811b95399d73cc46fe899badcfa8eb5fca7d'
           assert rk['source_locks']['repository_main_state_blob']=='dd7dba27eb062e6a6ad4d440094ba26c290900d7'
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V2_B_D_BANDS'
           assert rk['generation']==0 and rk['armed'] is False
+          assert rk['execution']['durable_subunit_count']==250
+          assert rk['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
+          assert rk['resume']['durable_unit']=='b_x_d_band'
+          assert rk['storage']['per_subunit_gzip_hard_cap_bytes']==1800000
           src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
           agg=Path('stages/stage32/generalization-bridge/aggregate_br204_full178.py').read_text()
           assert 'TAIL\\t' in src
           assert 'Equal-ratio bins must be treated as one ratio class' in agg
           assert 'formal_br205_gate_passed' in agg
-          print('cold heavy surfaces compile/self-test PASS; heavy remains unarmed')
+          print('cold heavy surfaces compile/self-test PASS; b x d-band resume verified; heavy remains unarmed')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
