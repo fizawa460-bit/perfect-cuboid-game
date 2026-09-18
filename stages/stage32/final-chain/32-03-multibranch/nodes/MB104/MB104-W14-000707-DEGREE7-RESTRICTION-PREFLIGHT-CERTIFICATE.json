@@ -1,0 +1,101 @@
+{
+  "schema": "STAGE32_MB104_W14_000707_DEGREE7_RESTRICTION_PREFLIGHT_V1",
+  "status": "PASS_TO_SECOND_SCAN_ONE_BIT_CHAR0_RANK_AMBIGUITY_NO_CREDIT",
+  "support_mask": "000707000f0f",
+  "primitive_class": "A=7H-4 sum_(p in Sigma)E_p",
+  "finite_field": {
+    "p": 1097,
+    "i": 341,
+    "q0_point": [
+      1,
+      1,
+      341,
+      0,
+      0,
+      407,
+      1
+    ],
+    "q1_point": [
+      756,
+      1,
+      1,
+      407,
+      0,
+      0,
+      1
+    ],
+    "jet_rank": 220,
+    "jet_plus_q0_rank": 221,
+    "jet_plus_q1_rank": 221,
+    "jet_plus_q0_q1_rank": 221
+  },
+  "char0_bounds": {
+    "degree7_ambient_dimension": 344,
+    "chi_A": 120,
+    "null_union_h1_lower_bound": 3,
+    "h2_A": 0,
+    "h0_A_lower_bound": 123,
+    "jet_rank_lower_bound_from_good_prime": 220,
+    "jet_rank_upper_bound_from_RR": 221,
+    "exact_remaining_options": [
+      220,
+      221
+    ]
+  },
+  "symmetry": {
+    "zero_quartics": 2,
+    "support_stabilizer_transitive_on_zero_quartics": true,
+    "individual_restriction_ranks_equal": true
+  },
+  "decision": {
+    "disposition": "PASS_TO_SECOND_SCAN",
+    "if_char0_jet_rank_220": "individual restriction is nonzero; both zero quartics are nonfixed for l=1, hence by powers for all l>=1",
+    "if_char0_jet_rank_221": "finite-field preflight alone does not decide restriction",
+    "next_test": "certify characteristic-zero primitive jet rank exactly 220 or certify augmented characteristic-zero rank at least 222",
+    "deep_candidate": false
+  },
+  "exploratory_cross_prime_pattern": {
+    "primes": [
+      1009,
+      1013,
+      1021,
+      1033,
+      1049,
+      1061,
+      1093,
+      1097,
+      1109,
+      1129
+    ],
+    "all_observed": "jet=220, +Q0=221, +Q1=221, +Q0+Q1=221",
+    "theorem_use": false
+  },
+  "historical_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_balanced16_size48_degree7_restriction_rank.py",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "bca311f6ad643a3ee8a803871119e9d71e4b2ab0"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-NULL-UNION-COHOMOLOGY-CERTIFICATE.json",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "e7c5be93372f653bb42d8528ab68bcfaa4d6de60"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-ZERO-QUARTIC-STABILIZER-UNION-CERTIFICATE.json",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "31695c6908cff73d04baab2ed11dfd04608a2464"
+    }
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
