@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V5_DURABLE_PREFIX_RECOVERY",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V6_PUSH_TRIGGER_RESUME",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_AUDIT_HOLD_RECOVERY_REPAIRS_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT_REQUIRED",
+  "active_leaf": "BR204_PUSH_TRIGGER_COLD_DOORSTEP_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -73,10 +73,10 @@
   },
   "audited_predecessor": {
     "bridge_pr": 1813,
-    "exact_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
-    "hostile_audit_review_id": 5242485845,
+    "exact_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
     "hostile_audit_status": "PASS",
-    "scope": "previous BR204 cold heavy doorway using single-b durable units; current finer execution-only resume refinement is post-audit"
+    "scope": "previous BR204 cold doorstep with manual workflow_dispatch launcher; current push-trigger launcher is post-audit and requires fresh hostile audit"
   },
   "live_main_refresh": {
     "status": "PASS_MERGED_V41_NUMERICAL_AUTHORITY_UNCHANGED",
@@ -93,13 +93,13 @@
   },
   "cold_heavy_doorstep": {
     "checkpoint": "stages/stage32/generalization-bridge/BR204-HEAVY-DOORSTEP-CHECKPOINT.json",
-    "checkpoint_blob_before_state_sync": "abd9b154b69122ce38fb66b60d17064418a8f0b1",
+    "checkpoint_blob_before_state_sync": "082f59b0deb3b145bfb9684b527e13158faa3cf7",
     "execution_contract": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "execution_contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
+    "execution_contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
     "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "heavy_workflow_blob": "4f2caf00fe0209067f91037d91d37093aec339b3",
-    "retained_replay_blob": "a80aae85bbd106c3576ebb1167a02031f5ad5027",
+    "heavy_workflow_blob": "c917f726739d8aa1c8e9ad924d2b60de78b7db34",
+    "retained_replay_blob": "ec492b2667dd6233450a80c345dd86d16141d0e8",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "runkey_generation": 0,
     "runkey_armed": false,
@@ -110,10 +110,10 @@
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
     "global_lp_rule": "validate exact 250-subunit coverage; count repeated static BC population once per b; union all dynamic subunit bins; merge equal exact s/B ratio classes; solve one exact rational LP",
-    "resume_rule": "Before any new heavy compute, recover the immediately supplied prior run's br204-prefix plus all completed br204-u-* artifacts, validate their exact union, re-emit one current br204-prefix, then compute only missing subunits.",
+    "resume_rule": "Generation >=2 names the immediately previous failed/cancelled/timed-out BR204 run in carry_run_id; validate its prefix plus completed subunits, re-emit one current prefix, and compute only true missing b x d-band subunits.",
     "storage_rule": "per-subunit gzip <=900,000 bytes; generation rollover prior union + re-emitted prefix + 20 MiB <=500 MiB; superseded prior recovery artifacts are deleted only after successful re-emission and cleanup failure stops before compute",
-    "qbc_tail_addendum_blob": "67a530a17429f15b8655244a53bdec91de48877b",
-    "runkey_blob": "8a0161ba7155efb069fd6589016fb7123a914ca5",
+    "qbc_tail_addendum_blob": "49fdd0ae8032fd47b9436b7536e296a3ff939bb1",
+    "runkey_blob": "da9929d76c6b4f7824cc02978ec1d60b838f683a",
     "b_units": 97,
     "d_bands": [
       "8..54",
@@ -128,7 +128,15 @@
       "independent durable job b=96,d=148..192"
     ],
     "multi_generation_recovery": true,
-    "single_previous_run_suffices": true
+    "single_previous_run_suffices": true,
+    "launcher": {
+      "lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "execution_commit_message_prefix": "stage32 BR204 execute generation ",
+      "user_ui_action_required": false
+    }
   },
   "br205_bounded_preflight": {
     "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
@@ -147,20 +155,20 @@
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "replay recovery-audit repairs, then separately re-audit",
-    "required_input": "Exact-head BR204 retained replay and shared Stage32 gates must succeed after the two recovery blocker repairs. Hostile re-audit remains a separate chat task.",
-    "success": "Replay green here; later HOSTILE AUDIT PASS on the unchanged repaired head before any arm/dispatch.",
+    "title": "replay and separately audit the push-trigger cold doorstep",
+    "required_input": "Exact-head BR204 retained replay and shared Stage32 gates must succeed with generation 0 / armed false after the launcher redesign.",
+    "success": "Exact-head replay green here; later separate HOSTILE AUDIT PASS on this unchanged cold head before any generation-1 execution push.",
     "current_blockers": [
-      "post-repair exact-head retained replay and MAIN/shared gates must be green",
-      "repaired exact head requires a separate hostile re-audit",
-      "runkey remains generation 0 / armed false"
+      "exact-head retained replay/shared gates must be green",
+      "push-trigger cold head requires separate hostile audit",
+      "runkey must remain generation 0 / armed false until audit PASS"
     ],
     "stop_conditions": [
-      "recovery prefix cannot be re-emitted before new compute",
-      "pilot units are not independently salvageable",
-      "cleanup/storage rollover cannot remain fail-closed under 500 MiB",
-      "exact-head replay or shared Stage32 gate fails",
-      "repository main/source-lock changes",
+      "heavy workflow starts from a non-execution cold/setup commit",
+      "generation-1 commit is not runkey-only child of the audited cold head",
+      "generation >=2 carry run is not the immediately previous failed/cancelled/timed-out BR204 generation",
+      "recovery prefix/pilot/storage fail-closed guarantees regress",
+      "repository main/source locks move",
       "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
     ]
   },
@@ -191,7 +199,12 @@
       "single_previous_run_suffices": true,
       "pilots_independently_durable": true,
       "cleanup_failure_hard_stop": true,
-      "per_subunit_gzip_hard_cap_bytes": 900000
+      "per_subunit_gzip_hard_cap_bytes": 900000,
+      "heavy_trigger": "ACTIVE_AUTO_RUNKEY_PUSH",
+      "initial_generation_requires_fresh_hostile_audit": true,
+      "generation_one_runkey_only": true,
+      "recovery_generation_runkey_only": true,
+      "recovery_requires_immediately_previous_failed_run": true
     },
     "BR205": {
       "bounded_strict_improvement_preflight": "PASS",
@@ -244,7 +257,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Audit HOLD recovery blockers have been repaired in code/contracts. Heavy remains cold at generation 0; exact-head replay is required now and hostile re-audit stays in a separate chat."
+    "stop_reason": "Push-trigger launcher and resume topology are prepared at generation 0 / armed false. Heavy is cold; exact-head replay and a separate hostile audit are required before generation 1."
   },
   "deliverable_contract": {
     "per_shard": [
@@ -281,13 +294,11 @@
     "merge_authorized": false
   },
   "audit_hold": {
-    "head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
-    "review_id": 5242654911,
-    "verdict": "FAIL_HOLD",
-    "blockers": [
-      "single carry_run_id did not preserve multi-generation durable union",
-      "two pilots were not independently salvageable"
-    ],
-    "repair_status": "IMPLEMENTED_PENDING_REPLAY_AND_REAUDIT"
+    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "previous_manual_design_review_id": 5242897044,
+    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED",
+    "mathematical_population_changed": false,
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true
   }
 }
