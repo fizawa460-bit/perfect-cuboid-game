@@ -1,0 +1,99 @@
+name: Stage32EX5 HPADJ22 fast bands0-6 scratch recovery
+on:
+  push:
+    branches: [stage32ex5-hpadj22-speedup-scratch-20260918]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj22-fast06-scratch.json'
+      - '.github/workflows/stage32-ex5-hpadj22-fast06-scratch.yml'
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: stage32ex5-hpadj22-fast06-scratch
+  cancel-in-progress: false
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      sha: ${{ steps.gate.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - id: gate
+        env:
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          KEY='stages/stage32-ex5/runkeys/hpadj22-fast06-scratch.json'
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git show "$BEFORE:$KEY" > /tmp/old.json 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+          python - <<'PY'
+          import json
+          old=json.load(open('/tmp/old.json')); new=json.load(open('stages/stage32-ex5/runkeys/hpadj22-fast06-scratch.json'))
+          assert old['schema']==new['schema']=='STAGE32EX5_HPADJ22_FAST06_SCRATCH_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          assert new['resource']['max_parallel']==7
+          assert new['resource']['user_parallel_budget']==10
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  bands:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 7
+      matrix:
+        include:
+          - {band: 0, start: 8}
+          - {band: 1, start: 8}
+          - {band: 2, start: 8}
+          - {band: 3, start: 8}
+          - {band: 4, start: 8}
+          - {band: 5, start: 9}
+          - {band: 6, start: 20}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.sha }}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.10.6'}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-full178-cell-cert-scratch
+          path: cert
+          run-id: 35351798268
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-${{ matrix.band }}
+          path: carry
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - name: Compute fast remaining rows
+        run: |
+          mkdir -p fast
+          python stages/stage32-ex5/hpadj-22_ex5/run_fast_row_range.py \
+            --band-position ${{ matrix.band }} --row-start ${{ matrix.start }} --row-stop 177 \
+            --h21-cert cert/HPADJ21-FULL178-CELL-CERT.json --output-dir fast
+      - name: Assemble complete exact band
+        run: |
+          mkdir -p out
+          python stages/stage32-ex5/hpadj-22_ex5/assemble_fast_band.py \
+            --band-position ${{ matrix.band }} --carry-dir carry --fast-dir fast --output-dir out
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py \
+            --band-position ${{ matrix.band }} --output-dir out --verify-complete out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-fast-band-${{ matrix.band }}-complete-scratch
+          path: out/
+          retention-days: 3
