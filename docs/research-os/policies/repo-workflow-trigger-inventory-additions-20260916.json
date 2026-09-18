@@ -5,19 +5,22 @@
   "scope": "post-snapshot repository workflow lifecycle registrations",
   "classifications": {
     "ACTIVE_AUTO": [
-      ".github/workflows/stage32-ex5-hpadj22-measurement.yml"
+      ".github/workflows/stage32-ex5-hpadj22-production.yml"
     ],
     "MANUAL": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml"
     ],
-    "RETIRED": []
+    "RETIRED": [
+      ".github/workflows/stage32-ex5-hpadj22-measurement.yml"
+    ]
   },
   "notes": [
-    "HPADJ20 and HPADJ21 heavy/preflight workflows are retained as MANUAL historical replay surfaces after HPADJ21 hostile-audit PASS and PR #1818 closure.",
-    "HPADJ22 representative measurement is the current ACTIVE_AUTO scaleout preflight. Its heavy job is fail-closed behind a synchronize-only dedicated runkey generation gate; ordinary source/docs/bookkeeping syncs remain cold.",
-    "HPADJ22 measurement is one exact b-chunk at concurrency 1 with a 2 MiB certificate hard cap, 1-day retention, zero mathematical credit, and 17 jobs of Stage32 headroom under the <=18 policy.",
+    "HPADJ20 and HPADJ21 heavy/preflight workflows remain MANUAL historical replay surfaces after the audited HPADJ21 checkpoint.",
+    "HPADJ22 representative measurement is RETIRED after its exact result is retained as source-locked preflight evidence.",
+    "HPADJ22 FULL178 production is the current ACTIVE_AUTO producer surface. Ordinary synchronizations enter only the cheap authorization gate; eight heavy band jobs require a fresh semantic production runkey arm.",
+    "HPADJ22 production uses 8 exact HPADJ15 b-bands with row-level durable checkpoints inside each band, <=8 band artifacts plus compact recovery/final artifacts, max-parallel 8, and explicit arm-time Stage32 overlap accounting under the <=18 cap.",
     "This additive registry preserves the frozen base snapshot while keeping post-snapshot workflow lifecycle mechanically auditable."
   ]
 }

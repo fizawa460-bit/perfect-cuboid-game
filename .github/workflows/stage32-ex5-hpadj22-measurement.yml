@@ -1,14 +1,8 @@
 name: Stage32EX5 HPADJ22 representative b-chunk measurement
 
-# Lifecycle: ACTIVE_AUTO — current HPADJ22 scaleout preflight only.
-# Heavy compute is fail-closed behind a fresh semantic runkey generation.
+# Lifecycle: RETIRED — representative measurement consumed into retained HPADJ22 preflight evidence.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32-ex5/runkeys/hpadj22-measurement.json'
-      - 'stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py'
-      - '.github/workflows/stage32-ex5-hpadj22-measurement.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read

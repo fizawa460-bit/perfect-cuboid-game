@@ -74,6 +74,37 @@ jobs:
           assert d['firewalls']['heavy_run_armed'] is False
           print('HPADJ22_BCHUNK_EQUIV_CANONICAL='+d['canonical_sha256_without_this_field'])
           PY
+      - name: Verify HPADJ22 band worker against retained bounded result
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bband_bounded.py | tee /tmp/hpadj22-band-equiv.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/hpadj22-band-equiv.json').read_text())
+          assert d['status']=='EXACT_BAND_WORKER_BOUNDED_EQUIVALENCE_PASS'
+          assert d['checks']['row_count']==10
+          assert d['checks']['hpadj08_rejection_reproduced'] is True
+          assert d['checks']['hpadj21_floor_reproduced'] is True
+          assert d['checks']['hpadj22_exact_reproduced'] is True
+          assert d['checks']['all_rows_strict'] is True
+          assert d['firewalls']['heavy_run_armed'] is False
+          print('HPADJ22_BAND_EQUIV_CANONICAL='+d['canonical_sha256_without_this_field'])
+          PY
+      - name: Verify HPADJ22 production surface source locks and cold/armed state
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          if python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-production.json').read_text())
+          raise SystemExit(0 if d['armed'] is True else 1)
+          PY
+          then
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py --require-armed
+          else
+            python stages/stage32-ex5/hpadj-22_ex5/verify_production_preflight.py
+          fi
       - name: Verify HPADJ21 FULL178 checkpoint and MAIN handoff preflight at exact head
         if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
         run: python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py

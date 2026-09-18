@@ -1,6 +1,6 @@
 # Stage32EX5 HPADJ22 — exact HPADJ08 deletion-correlation refinement
 
-Status: **BOUNDED GATE PASS / FULL178 SCALEOUT PREFLIGHT / ZERO MAIN CREDIT**
+Status: **FULL178 PRODUCTION READY / COLD / ZERO MAIN CREDIT**
 
 Parent audited producer boundary:
 
@@ -64,7 +64,20 @@ Exact-head CI run `35292495419` on head `77858ca5f8dde4ad93338e8a0e5a2bae798b120
 - bounded strict improvement: `35,316,970,705`;
 - retained canonical: `b3387e3f07a02a30bfc5558ad72859c72c25a5289320abd22ac1947bf53b3d77`.
 
-This remains bounded evidence only. The exact b-chunk worker now passes direct-vs-split equivalence on both genus-0 and genus-1 d=16 rows (canonical `02ecf8fe47ee8e7a6ec18bbbe784ab3527f9d0e8c1046ea0caf653a088f2554b`). The next gate is a single source-locked representative d=192 b-chunk cost/artifact measurement before any FULL178 arm.
+This remains bounded evidence only. The exact b-chunk worker passes direct-vs-split equivalence on both genus-0 and genus-1 d=16 rows (canonical `02ecf8fe47ee8e7a6ec18bbbe784ab3527f9d0e8c1046ea0caf653a088f2554b`).
+
+The FULL178 producer surface is now prepared but intentionally cold:
+
+- exact HPADJ15 b-bands: `[0..11],[12..23],[24..35],[36..47],[48..59],[60..71],[72..83],[84..96]`;
+- 178 durable row checkpoints inside each band, so timeout/cancellation resumes only missing rows;
+- eight band artifacts maximum, plus compact recovery/final artifacts;
+- production max-parallel: 8, with arm-time requirement `other Stage32 heavy concurrency <= 10`;
+- final aggregate must reproduce audited HPADJ21 `157570677819451133507` and audited HPADJ08 rejection `40886299509963924857401` exactly before accepting any HPADJ22 candidate;
+- production runkey starts at `generation=0, armed=false`.
+
+Storage preflight uses comparable completed evidence instead of requiring a new heavy diagnostic: HPADJ21 run `35279651998` had 59 artifacts with maximum measured chunk artifact `482162` bytes; HPADJ08 run `34935380596` used exactly 8 band artifacts with maximum `6611` bytes. The incomplete noncredit HPADJ22 representative measurement run `35293574861` is discarded/retired and grants no credit.
+
+The only remaining execution action is a distinct production-runkey arm commit after heavy-workflow overlap is acceptable.
 
 ## Firewalls
 
