@@ -350,15 +350,15 @@
     "w16_internal_completed": [
       "A2",
       "B2",
-      "A3"
+      "A3",
+      "A1"
     ],
     "w16_internal_queue": [
-      "A1",
       "B1",
       "H",
       "C"
     ],
-    "w16_internal_active": "A1",
+    "w16_internal_active": "B1",
     "w16_b2": {
       "status": "NO_INDEPENDENT_BYPASS_ABSORBED_BY_CB_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B2-EXT-SERRE-FIRST-20260918.md",
@@ -372,17 +372,24 @@
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A3-AMBIENT-WRONSKIAN-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_a3_ambient_wronskian.py",
       "result": "even under the strongest favorable literal-pencil assumption, the normalization Wronskian is 2B+R_phi with degrees 112l+112l, while the singular-carrier dualizing Wronskian acquires the full conductor A_cond of degree 336l^2+112l. Keeping the determinant is quadratic; stripping conductor/base returns to A2 Z_red and loses any automatic CB consequence."
+    },
+    "w16_a1": {
+      "status": "CLOSED_NEGATIVE_AS_DIRECT_IMAGE_ENHANCEMENT_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A1-DIRECT-RAMIFICATION-PUSHFORWARD-20260919.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-A1-DIRECT-RAMIFICATION-PUSHFORWARD-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_a1_direct_ramification_pushforward.py",
+      "result": "the exact finite pushforward M=nu_*O_Rphi preserves length 112l but is noncyclic at collisions and hence is not O_Z. Ann/Fitt schemes either collapse branch data or thicken/non-lci; algebra trace and norm factor through ordinary reduced point evaluation and add no CB dependency. The only canonical automatically-lci direct image remains A2 Z_red."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16-A1 solo — direct ramification-image descent",
+    "title": "MB104 W16-B1 solo — Cayley-Bacharach first",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W16-A3 is complete and closed negatively as an independent differential route. Even granting a literal ambient canonical pencil for phi, the normalization Wronskian factors as 2B+R_phi, but the singular-carrier differential acquires the full conductor A_cond, making the ambient degeneracy quadratic. Removing A_cond and 2B returns exactly to the A2 reduced ramification image Z_red and does not force CB. Work A1 only: analyze the direct scheme-theoretic descent/pushforward of R_phi and Z_red through nu:E->C->S, including collisions of ramification points over singular carrier points, and decide whether a canonical direct image can carry additional structure (orientation, multiplicity, trace, norm, or residue) that strengthens Z_red toward CB without reintroducing quadratic conductor excess.",
+    "required_input": "W16-A1 is complete and closed negatively as a direct-image enhancement. The exact module nu_*O_Rphi retains length 112l but is noncyclic at collisions; canonical Ann/Fitt schemes either collapse to reduced support or become thicker/non-lci, and trace/norm provide no new reduced evaluation dependency. The A2 object Z_red=(nu(R_phi))_red remains the unique canonical automatically-lci linear-size candidate. Work B1 only: analyze CB(|D_l|) directly for Z_red. Use the exact sequence 0->O_S->O_S(D_l)->O_C(D_l)->0, normalization/conductor duality, restriction to E, and the special origin of Z_red as the reduced ramification image. Seek either a source-complete all-points evaluation dependency, a canonical proper CB subcluster of O(l) length, or a proof that Z_red cannot be CB.",
     "success_shapes": [
-      "construct a canonical direct-image lci scheme of length <=112l with extra trace/residue structure yielding CB or a locally-free Serre extension",
-      "construct a canonical proper subcluster of the ramification image with explicit O(l) length and a source-complete dependency",
-      "prove all direct-image enhancements either collapse to A2 reduced support, inflate beyond the linear budget, or depend on noncanonical branch choices, closing A1 negatively"
+      "prove Z_red is CB(|D_l|), yielding the locally-free Hartshorne-Serre extension and l>=2 Bogomolov input",
+      "construct a canonical proper subset Z subseteq Z_red with explicit O(l) length that is CB(|D_l|)",
+      "prove the evaluation map separates at least one point of every possible Z_red from the retained ramification geometry, closing the current W16 candidate negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
