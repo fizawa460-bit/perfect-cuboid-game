@@ -114,6 +114,8 @@ def main():
     for path in sorted(a.receipts_dir.glob("*.json")):
         try:
             receipt = json.loads(path.read_text())
+            if receipt.get("schema") == SCHEMA:
+                continue
             wid, exact, env, digest = validate_receipt(worker, rt, receipt, expected)
             if wid in complete:
                 raise ValueError("duplicate completed workunit")
