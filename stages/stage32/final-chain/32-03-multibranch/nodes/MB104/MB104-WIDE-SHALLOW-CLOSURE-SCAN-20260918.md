@@ -196,3 +196,57 @@ No missing adapter may receive its own research branch during this phase.
 ## Credit firewall
 
 This document is a search portfolio only. It proves no exclusion and changes no mathematical credit.
+
+
+## Newly generated direct-closing candidates after Round B
+
+### W13 — stable factorization / fixed-component section-ring theorem
+
+W10 showed that the ray is effective, so vanishing of the whole graded piece is impossible.  A stronger direct target is instead:
+
+```
+every section of O_S(lD_1) factors through a fixed known curve/component
+```
+
+for every `l>=1`.
+
+This would exclude an irreducible carrier even though `h^0(lD_1)` is large.
+
+First shallow gate: test whether the known zero-pairing quartics or another explicit curve has zero restriction for the entire `l=1` system. If not, drop the stable-factorization architecture before any section-ring computation.
+
+Priority: **HIGH**.
+
+### W14 — zero-quartic restriction-map obstruction
+
+For every active balanced support and every zero-pairing elliptic quartic `Q`, retained work proves
+
+```
+D_1.Q=0,
+O_Q(D_1) ~= O_Q.
+```
+
+What is not known is the map
+
+```
+H^0(S,O_S(lD_1)) -> H^0(Q,O_Q) ~= C.
+```
+
+If this map is zero, `Q` is a fixed component of every effective divisor in `|lD_1|`, directly excluding an integral carrier. If it is nonzero, this particular fixed-component route dies cleanly.
+
+First shallow gate: use the exact sequence for `D_1-Q` and Riemann--Roch/intersection data to determine the `l=1` restriction map or reduce it to one exact cohomology dimension.  No branch-lift data are required.
+
+Priority: **VERY HIGH**.
+
+### W15 — simultaneous zero-quartic restriction rank
+
+The active `000707` support has two zero-pairing quartics. Even if each individual restriction map is nonzero, the joint map
+
+```
+H^0(S,O_S(lD_1)) -> C^2
+```
+
+may have rank one or satisfy a fixed relation forced by the section geometry. A rank defect that forces one quartic component in every divisor would again close irreducibility directly.
+
+First shallow gate: only after W14 shows both individual maps can be nonzero, test the joint rank at `l=1`.
+
+Priority: **HIGH CONDITIONAL ON W14**.
