@@ -110,7 +110,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json)" = "613d8b60ca194598a991a58ac6ec5a38dc62b3b9"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json)" = "c7c01eb27c4e80598d32261cb498fdccc7264ba9"
           test "$(git hash-object stages/stage32/residual-32-01-production/compressed_terminal_indexer.py)" = "4fb0a8dd34909494bd62646373e42877ed7a3c9e"
           test "$(git -C .stage32-ex5-hpadj21 rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
           test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"
@@ -150,7 +150,7 @@ jobs:
 
           ref=json.loads(REF.read_text())
           stored=ref["canonical_sha256_without_this_field"]; body=dict(ref);body.pop("canonical_sha256_without_this_field")
-          req(csha(body)==stored=="9b9a8b03347411c026a4219d0e914e86df96f5b416512c6c731ffd9551f384c5","V3 reference canonical")
+          req(csha(body)==stored=="53e9dd57501b4ed10cd1a60e172c7ac1e255eba46a7b4d592847ba5387a2341d","V3 reference canonical")
           pilot=ref["e12_top16_retained_basis_pilot"]
           req(pilot["unsat_base4_count"]==16 and pilot["unknown_base4_count"]==0,"top16 exact UNSAT boundary")
           top16={tuple(int(v) for v in r["base4"]) for r in ref.get("e12_census",{}).get("top16",[])}
@@ -348,7 +348,7 @@ jobs:
               "direct_raw_e12_mass_subtraction_from_448431_forbidden":True,
             },
             "source_locks":{
-              "main_e12_reference_blob_sha1":"613d8b60ca194598a991a58ac6ec5a38dc62b3b9",
+              "main_e12_reference_blob_sha1":"c7c01eb27c4e80598d32261cb498fdccc7264ba9",
               "hpadj21_head":"33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
               "hpadj21_row_worker_blob_sha1":"68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
               "hpadj10_counter_blob_sha1":"eebeb47f91df22461c33e9974d63aceca4da3b52",
