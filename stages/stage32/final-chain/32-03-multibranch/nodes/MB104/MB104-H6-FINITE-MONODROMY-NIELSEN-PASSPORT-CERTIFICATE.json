@@ -1,0 +1,94 @@
+{
+  "schema": "STAGE32_MB104_H6_FINITE_MONODROMY_NIELSEN_PASSPORT_GATE_V1",
+  "status": "H6_SHALLOW_FAIL_PARKED_NO_CREDIT",
+  "route": "H6 finite monodromy / Nielsen-passport obstruction",
+  "frontier": {
+    "support_mask": "000707000f0f",
+    "e_case_used_for_falsification": 2,
+    "map_degree": "n=28*l",
+    "branch_values": 8,
+    "local_cycle_type": "2^(r_q) 1^(u_q)",
+    "fiber_relation": "u_q+2*r_q=28*l",
+    "total_unramified": "sum u_q=112*l",
+    "total_ramification": "sum r_q=56*l"
+  },
+  "first_factor_pair_totals": {
+    "pair_a": "32*l",
+    "pair_b": "24*l",
+    "pair_u0": "56*l",
+    "pair_v0": "0"
+  },
+  "explicit_interface_admissible_family": {
+    "parameters": "0<=i,j<=12*l",
+    "assignments": [
+      "u_(+a)=4*l+2*i",
+      "u_(-a)=28*l-2*i",
+      "u_(+b)=2*j",
+      "u_(-b)=24*l-2*j",
+      "u_(+u0)=28*l",
+      "u_(-u0)=28*l",
+      "u_(+v0)=0",
+      "u_(-v0)=0"
+    ],
+    "constraints_checked": [
+      "0<=u_q<=28*l",
+      "u_q even",
+      "pair totals 32*l,24*l,56*l,0",
+      "sum u_q=112*l",
+      "sum r_q=56*l",
+      "residual T-pair sign parity b_q=b_-q"
+    ],
+    "distinct_aggregate_cycle_type_count": "(12*l+1)^2",
+    "grows_unboundedly_with_l": true,
+    "actual_cover_realization_claimed": false
+  },
+  "adapters": {
+    "carrier_to_degree_l_nielsen_tuple": "PASS_IN_PRINCIPLE_AFTER_CHOOSING_FULL_BRANCH_CYCLES",
+    "aggregate_packet_to_l_independent_finite_nielsen_object": "FAIL",
+    "reason_forward": "The retained aggregate cycle-type space already grows at least quadratically in l; eliminating these choices requires new branch-to-fixed-lift data or a new monodromy theorem.",
+    "reverse_adapter": "FAIL",
+    "reason_reverse": "Any compression that forgets the branch-to-product-lift allocation identifies carrier-level configurations that the retained data do not prove equivalent; nonexistence of one reduced passport is therefore not source-completely reversible."
+  },
+  "decision": {
+    "shallow_gate": "FAIL",
+    "roadmap_action": "PARK_H6",
+    "cycle_2_status": "COMPLETE_NO_DEEP_CANDIDATE",
+    "strongest_safe_claim": "The active e=2 retained interface does not admit an l-independent finite Nielsen/passport reduction. Before choosing actual permutations, the allowed aggregate branch-cycle types already number at least (12*l+1)^2, and the missing branch-to-fixed-lift semantics are exactly what would be needed to compress them source-completely.",
+    "missing_lemma": "Either a source-complete branch-to-fixed-product-lift adapter, or a new monodromy theorem collapsing the growing aggregate cycle-type family while preserving an exact reverse adapter.",
+    "next_shallow_gate": "H9_UNIFORM_STABLE_BASE_ZARISKI_RAY",
+    "finite_degree_window_proved": false
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-UNIFORM-CLOSURE-RESTART-20260917.md",
+      "blob_sha1": "3e9fb440ea8a9c491ad58c9846d880fbd3373f66"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md",
+      "blob_sha1": "3e21d1c1a7f5d388f2fe524bf91d27947c55d888"
+    }
+  ],
+  "historical_source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-ETALE-BASECHANGE-DETERMINANT-PASSPORT.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "d4e5c3b9c598299114f983594be1fac1b01d24d7"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-BALANCED16-000707-E2-MODULAR-CONDUCTOR-DECK-CHARACTER.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+    }
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
