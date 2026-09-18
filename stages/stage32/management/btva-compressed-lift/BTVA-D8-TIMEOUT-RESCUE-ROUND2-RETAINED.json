@@ -1,0 +1,48 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_D8_TIMEOUT_RESCUE_ROUND2_RETAINED_V1",
+  "stage": 32,
+  "status": "RETAINED_NO_ADDITIONAL_RESCUE_ZERO_CREDIT",
+  "target": {
+    "row_id": "g0-d008",
+    "source_unknown_count": 14,
+    "source_survivor_terminal_mass": 231424,
+    "selected_terminal_mass": 111079
+  },
+  "execution": {
+    "workflow_run_id": 35335079586,
+    "exact_head": "a222931110d74a2efb9d5d998b161be72c365837",
+    "artifact_id": 10542661958,
+    "artifact_name": "stage32-main-btva-d8-timeout-rescue-round2",
+    "artifact_zip_sha256": "5f4c57d58f9bd6181f6219694219b81329838db6ed790c8391a6f6106eddd049",
+    "diagnostic_canonical_sha256": "7a57343dcd3c0e5a42567f2c46e3308d25219e4259641029b15e8d0b255f1497",
+    "solver_timeout_ms": 10000,
+    "max_flat_cuts": 64
+  },
+  "source_locks": {
+    "round2_script_blob_sha1": "979131845585d73c3e4caacde9aa71b4162fab90",
+    "round1_retained_blob_sha1": "e1c4b0e04fa7f291cdbb42b3aafd62c869f47220",
+    "round1_retained_canonical_sha256": "99b0294b87df9d6b41e52b186af0b079eda5c3f37f5d94fc215aca7d435b2ad4"
+  },
+  "result": {
+    "rescued_unsat_count": 0,
+    "rescued_unsat_terminal_mass": 0,
+    "compatible_sat_count": 0,
+    "remaining_unknown_count": 14,
+    "candidate_d8_survivor_terminal_mass_after_round2": 231424
+  },
+  "conclusion": {
+    "further_plain_timeout_extension_recommended": false,
+    "reason": "All 14 round-1 residual timeout fibers still timed out before any lazy-flat cut after doubling timeout from 5s to 10s; change method rather than timeout."
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "ae647aaecf768b74df2fb7be881ff7220867acc6700f9f8cae38dbdb7ff4e2fe"
+}
