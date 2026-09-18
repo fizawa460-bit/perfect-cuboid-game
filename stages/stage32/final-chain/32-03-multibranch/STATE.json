@@ -290,22 +290,38 @@
       ]
     },
     "class3_softpark_second_depth_freeze": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R5-FREEZE-CERTIFICATE.json",
-    "class3_third_depth_status": "READY",
+    "class3_third_depth_status": "USER_SOLO_DEEPENING",
     "class3_third_depth_order": [
       "W4",
       "W20",
       "W16"
     ],
-    "class3_third_depth_active": "W4"
+    "class3_third_depth_active": "W5",
+    "class3_third_depth_w4": {
+      "status": "COMPLETE_CLOSED_NEGATIVE_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W4-THIRD-DEPTH-ROOT-WALL-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W4-THIRD-DEPTH-ROOT-WALL-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w4_third_depth_root_wall.py",
+      "result": "all seven primitive coordinate pushdown rays have nonnegative effective (-2)-root walls; W4 supplies no all-l fixed-component obstruction"
+    },
+    "class3_third_depth_completed": [
+      "W4"
+    ],
+    "class3_solo_deepening_queue": [
+      "W5",
+      "W20",
+      "W16"
+    ]
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 third-depth Pass A — W4 exact K3 root-wall",
+    "title": "MB104 solo deepening — W5 higher symmetric differentials",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "The complete 26-direction SOFT-PARK second-depth portfolio is frozen. Third-depth candidates are W4,W16,W20; execution order is W4,W20,W16. Begin W4 by materializing each of the seven primitive coordinate-sign K3 pushdown rays in the exact Stoll-Testa rank-20 Picard lattice and test against a source-complete effective (-2)-root wall. A negative effective root with P.R<0 gives an all-l fixed-component contradiction for that quotient; if all seven primitive rays are nef against the complete effective root wall, close W4 negatively. Do not reopen second-depth W generation.",
+    "required_input": "W4 solo is complete and closed negatively: all seven coordinate K3 pushdown root walls are nonnegative. Do not reopen W4 unless a non-root-wall K3 mechanism is introduced. The user requested independent solo deepening of W5,W20,W16. Next work W5 only: use the 2025 Bruin-Ilten-Xu exact A_n local-Euler/extension machinery to search for an explicit finite-order or twisted symmetric differential whose exceptional regularization ratio beats the retained 1/2 saturation or is intrinsically regular on a large part of the active fourteen-node support. Do not advance W20 or W16 in the same invocation.",
     "success_shapes": [
-      "one coordinate K3 pushdown ray has a source-complete effective (-2)-root with negative intersection, yielding all-l exclusion through that quotient",
-      "all seven primitive pushdown rays pass the complete effective-root wall, closing W4 negatively and routing to W20"
+      "explicit W5 section/twist with source-complete exceptional valuations yielding all-l exclusion",
+      "explicit W5 asymptotic improvement yielding a finite large-l cutoff",
+      "source-complete proof that the currently available W5 machinery cannot beat the cuboid regularization budget, closing W5 negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
