@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V9_D_CHECKPOINT_ROLLED_PARTIAL",
-  "status": "COLD_D_SLICE_CHECKPOINT_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
-  "purpose": "Define BR204 FULL178 resume-first execution with 250 durable (b,d-band) outer units, exact single-d inner checkpoints, soft-deadline partial preservation, paginated recovery, transitive complete-prefix carry, partial-slice carry bundles, and automatic execution only from a dedicated runkey-only push after fresh audit.",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V10_D_CHECKPOINT_ALWAYS_SALVAGE",
+  "status": "COLD_D_CHECKPOINT_ALWAYS_SALVAGE_REBUILD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "purpose": "Define BR204 FULL178 resume-first execution with 250 b x d-band outer recovery slots, exact single-d restart quanta, cumulative rolled partial state refreshed after every completed d, best-effort always-path artifact salvage on interruption, explicit artifact pagination, and fresh-audit-only runkey execution.",
   "audited_predecessor": {
     "bridge_pr": 1813,
     "audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
@@ -67,11 +67,15 @@
     },
     "d_slice_combiner": {
       "path": "stages/stage32/generalization-bridge/combine_br204_d_slices.py",
-      "git_blob_sha1": "7fde22790c562d837cffbef85385b1e3c2387555"
+      "git_blob_sha1": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432"
     },
     "resumable_band_runner": {
       "path": "stages/stage32/generalization-bridge/run_br204_resumable_band.py",
-      "git_blob_sha1": "5296c7361efc9fca98a9d1080825fa512bb7cc72"
+      "git_blob_sha1": "0680132cab6da3e06a13f15c55993ed9b84f9a27"
+    },
+    "band_checkpoint_finalizer": {
+      "path": "stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py",
+      "git_blob_sha1": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
     }
   },
   "objective_semantics": {
@@ -113,8 +117,8 @@
     "br205_gate_firewall": "Heavy result may emit raw and stronger tail-activity candidates, but formal BR205 gate remains false until the heavy result is hostile-audited and separately promoted."
   },
   "resume_contract": {
-    "durable_outer_unit": "(b,d_band)",
-    "exact_inner_checkpoint_unit": "(b,d)",
+    "durable_outer_recovery_slot": "(b,d_band)",
+    "exact_restart_quantum": "(b,d)",
     "d_bands": [
       [
         8,
@@ -133,27 +137,29 @@
         192
       ]
     ],
-    "expected_outer_subunit_count": 250,
-    "expected_exact_single_d_slice_count": 4743,
+    "expected_outer_recovery_slot_count": 250,
+    "expected_exact_restart_quantum_count": 4743,
     "b_unit_count": 97,
     "max_parallel": 8,
     "soft_deadline_seconds": 13500,
     "hard_job_timeout_minutes": 330,
     "single_d_timeout_seconds": 3600,
-    "checkpoint_rule": "Execute one exact admissible even d at a time. After every completed d, persist a source-locked single-d compact certificate in runner-local recovery state. Before the GitHub hard timeout, stop starting new d work at the soft deadline, upload every completed single-d slice as the partial checkpoint for that outer band, and deliberately mark the job incomplete so the generation is recovery-eligible.",
-    "partial_artifact_rule": "At most one compact rolled partial-band certificate plus state JSON per incomplete outer band. Exact single-d slices are runner-local checkpoints and are folded into that cumulative partial before upload; later generations resume from the rolled aggregate and compute only missing d values.",
-    "generation_start_recovery": "For generation >=2, recover the immediately previous BR204 run's complete prefix, completed br204-u-* outer units, inherited br204-partials bundle, and current br204-p-* rolled partial-band artifacts. Validate and re-emit complete and partial recovery unions before new compute.",
-    "reuse_rule": "A complete outer unit is reused only after exact existing aggregator validation. A rolled partial band is reused only after source locks, band identity, completed/missing-d coverage, TAIL/SUM invariants, and aggregate raw digest validation. New work computes only missing d values and rolls them into the prior partial aggregate.",
-    "timeout_rule": "SOFT_DEADLINE partials are normal recovery. A SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION status is a hard stop: do not blindly rerun or extend timeout; introduce a finer exact execution-only partition before another heavy generation.",
-    "cancellation_semantics": "Completed outer-unit artifacts survive independently. Manual cancellation may lose only runner-local work since the last uploaded outer/partial checkpoint; automatic hard timeout is guarded by the soft deadline and must not be the normal checkpoint path.",
-    "pilot_salvage": "The two representative pilots use the same single-d checkpoint runner and each uploads either a complete outer unit or a reusable partial-band checkpoint.",
-    "cleanup_rule": "Only after both the complete prefix and any partial-slice carry bundle are successfully re-emitted may superseded prior BR204 recovery artifacts be deleted. Cleanup failure is a hard stop before new heavy compute."
+    "checkpoint_rule": "Execute one admissible even d at a time. After each exact d completes and validates, refresh a cumulative rolled partial-band certificate on runner-local storage. Thus the local recovery payload always commits to every completed d in that outer band.",
+    "artifact_salvage_rule": "The classify/finalize and artifact-upload steps are guarded by always(). On ordinary worker failure, soft deadline, or cancellation where the runner remains available for post-steps, they validate and upload the latest complete-band or rolled-partial checkpoint. The artifact is the cross-run durable recovery object; raw single-d files are not retained across runs.",
+    "soft_deadline_rule": "Stop starting new d work after 13,500 seconds inside a 330-minute job, leaving a large upload/cleanup margin. Emit SOFT_DEADLINE and deliberately fail the outer job only after the rolled partial has been uploaded, forcing a recovery generation rather than a blind full-band rerun.",
+    "recovery_rule": "Generation >=2 explicitly paginates every artifact page from the immediate previous recovery-eligible run, validates/re-emits complete outer units and rolled partial bands, records discovered artifact count separately from validated carry counts, then computes only missing d values.",
+    "reuse_rule": "A complete outer unit is reused only after the existing exact aggregator validates it. A partial band is reused only after source locks, band identity, completed/missing-d coverage, lineage digest, TAIL/SUM invariants, and aggregate raw digest validate. Conflicting or non-lineage partials fail closed.",
+    "single_d_timeout_rule": "If one exact d exceeds 3,600 seconds, emit SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION. That run is not eligible for blind resume of the same topology; introduce a finer exact execution-only partition first.",
+    "cancellation_rule": "Ordinary cancellation uses the always-path best-effort salvage of the latest runner-local rolled checkpoint. A catastrophic runner loss can make the current job's not-yet-uploaded local rollup unavailable; this cannot be recovered from a vanished host, but previously uploaded complete/partial recovery objects remain durable and must be reused. Do not claim otherwise.",
+    "pilot_rule": "Both pilots use the identical single-d runner, after-each-d local rollup, finalizer, upload, and recovery semantics used by production units.",
+    "cleanup_rule": "Delete superseded recovery artifacts only after complete-prefix, partial-bundle, and recovery-metadata re-emission succeeds. Cleanup failure is a hard stop before new heavy compute.",
+    "pagination_rule": "100 or more possible predecessor artifacts requires gh api --paginate plus artifact-id download. Never treat unseen artifacts as missing mathematics."
   },
   "storage_contract": {
-    "persistent_compact_certificate_preflight": "PENDING_FRESH_PILOT_MEASUREMENT_AFTER_D_SLICE_REBUILD",
-    "bin_stream_note": "Complete outer units persist compact merged band certificates. Incomplete outer units persist one compact rolled partial-band certificate plus coverage state; raw routing-state streams and per-d artifacts are not persisted across runs.",
-    "high_mass_scaleout_gate": "Both representative pilots must complete under the exact single-d checkpoint runner. Measure both final band gzip size and the sum of all pilot single-d slice gzip sizes; use the larger per-band recovery-slot measurement for the scaleout projection.",
-    "projection_rule": "Each of the 250 outer bands occupies at most one recovery slot: either one complete-band gzip or one rolled-partial gzip, each <=900000 bytes. At rollover at most two 250-slot unions coexist, plus 20 MiB.",
+    "persistent_compact_certificate_preflight": "PENDING_FRESH_PILOT_MEASUREMENT_AFTER_ALWAYS_SALVAGE_REBUILD",
+    "bin_stream_note": "Each outer band occupies at most one cross-run recovery slot: either one complete-band gzip or one rolled-partial gzip plus small state JSON. Exact per-d files are runner-local and folded into the rolled partial before upload.",
+    "high_mass_scaleout_gate": "Both representative pilots must run through the same exact-d checkpoint/rollup/finalizer path. Measure max(final-band gzip, rolled-partial recovery payload) and require each recovery slot <=900000 bytes before fan-out.",
+    "projection_rule": "At most 250 recovery slots per generation, each <=900000 compressed bytes. At rollover allow one prior recovery union and one re-emitted/current recovery union plus 20 MiB: 2*250*900000 + 20 MiB <=500 MiB.",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
     "raw_state_artifacts_uploaded": false,
@@ -177,19 +183,21 @@
     "current_generation": 0,
     "current_armed": false,
     "initial_execution_rule": "After fresh hostile-audit PASS on this rebuilt cold doorstep, one runkey-only commit changes generation 0->1 and armed false->true, binds the audited rebuilt doorstep head/review, and auto-starts heavy.",
-    "recovery_execution_rule": "After a recovery-eligible generation fails/cancels/times out because of ordinary interruption or explicit SOFT_DEADLINE partial jobs, a runkey-only child names that immediate prior run and resumes validated complete units plus single-d partial checkpoints. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION is not eligible for blind resume.",
+    "recovery_execution_rule": "A runkey-only child may resume only an immediate prior recovery-eligible BR204 run. SOFT_DEADLINE and ordinary interruption/cancellation may resume from validated complete/partial artifacts. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION or source/validation failure blocks blind resume.",
     "manual_dispatch_required": false,
     "heavy_authorized_now": false,
     "heavy_started": false
   },
   "post_run_gates": {
     "required_checks": [
-      "250 outer-unit exact coverage/disjointness over approved b x d-band units",
+      "250 complete outer-unit exact coverage/disjointness over approved b x d-band units",
       "every admissible even d covered exactly once per b",
-      "every recovered partial single-d checkpoint source-locks to the current worker and exact d identity",
-      "recovery discovery counts distinguish artifact enumeration from mathematical missing work",
-      "complete prefix plus partial-slice carry bundle re-emits before new compute",
-      "both pilots measure complete-band and single-d partial recovery footprints below the 900000-byte slot cap",
+      "after-each-d local rollup path replayed and validated",
+      "always-path finalizer can recover a complete or rolled-partial checkpoint when STATUS is absent",
+      "predecessor artifact enumeration is explicitly paginated and discovered count is recorded separately from validated carry counts",
+      "complete prefix plus rolled-partial bundle re-emits before new compute",
+      "both pilots measure complete-band/rolled-partial recovery slots below 900000 bytes",
+      "single-d timeout is a hard finer-partition gate, never a blind timeout extension",
       "H96 refined-state census counted once per b",
       "H96 BC assignment-mass conservation counted once per b",
       "global mu LP <= global K8 LP",
@@ -219,8 +227,9 @@
     "previous_review_id": 5243659462,
     "cancelled_generation1_run_id": 35299814222,
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
-    "defect": "Outer b x d-band units were durable only after full completion; work completed inside a long-running outer unit was not checkpointed before hard timeout.",
+    "defect": "Generation-1 used outer b x d-band durability only; hours spent inside an incomplete band could be discarded on timeout. Rebuild now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload before recovery.",
     "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
-    "status": "PREVIOUS_AUDIT_SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN__FRESH_HOSTILE_AUDIT_REQUIRED"
+    "status": "PREVIOUS_AUDIT_SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN__FRESH_HOSTILE_AUDIT_REQUIRED",
+    "repair_status": "IMPLEMENTED_IN_CODE__SOURCE_LOCK_RESYNC_AND_EXACT_HEAD_REPLAY_PENDING__FRESH_HOSTILE_AUDIT_REQUIRED"
   }
 }
