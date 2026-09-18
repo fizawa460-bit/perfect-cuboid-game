@@ -59,6 +59,21 @@ jobs:
           PY
           cmp /tmp/hpadj22-bounded.json stages/stage32-ex5/hpadj-22_ex5/BOUNDED-RESULT.json
           python stages/stage32-ex5/hpadj-22_ex5/verify_bounded_result.py
+      - name: Verify HPADJ22 bounded b-chunk direct equivalence
+        if: github.head_ref == 'stage32ex5-hpadj22-exact-deletion-correlation-20260918'
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/verify_bchunk_equivalence_bounded.py | tee /tmp/hpadj22-bchunk-equiv.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('/tmp/hpadj22-bchunk-equiv.json').read_text())
+          assert d['status']=='EXACT_DIRECT_VS_BCHUNK_EQUIVALENCE_PASS'
+          assert len(d['targets'])==2
+          assert d['checks']['single_full_b_chunk_vs_split_chunks_dictionary_equal'] is True
+          assert d['checks']['retained_bounded_rows_reproduced'] is True
+          assert d['firewalls']['heavy_run_armed'] is False
+          print('HPADJ22_BCHUNK_EQUIV_CANONICAL='+d['canonical_sha256_without_this_field'])
+          PY
       - name: Verify HPADJ21 FULL178 checkpoint and MAIN handoff preflight at exact head
         if: github.head_ref == 'stage32ex5-hpadj21-full-qa-histogram-20260917'
         run: python stages/stage32-ex5/hpadj-21_ex5/verify_full178_main_handoff_preflight.py
