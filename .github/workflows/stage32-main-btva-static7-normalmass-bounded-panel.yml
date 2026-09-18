@@ -1,14 +1,8 @@
 name: Stage32 MAIN BTVA static7 normalmass bounded panel
 
-# Trigger lifecycle: ACTIVE_AUTO — one-shot e12 ratio selector; retire immediately after evidence capture.
-# Restricted to this workflow file on the active MAIN research branch; retire after artifact retention.
+# Trigger lifecycle: RETIRED — retained for reproducibility; workflow_dispatch only.
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - stage32-main-v44-btva-static7-20260918
-    paths:
-      - '.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml'
 
 permissions:
   contents: read
