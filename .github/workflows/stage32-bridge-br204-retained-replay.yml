@@ -21,17 +21,18 @@ concurrency:
 jobs:
   retained-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
+
       - name: Assert exact PR head
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Freeze retained math and credit firewall
+      - name: Freeze rebuilt cold runkey and credit firewall
         run: |
           python - <<'PY'
           import json
@@ -48,22 +49,25 @@ jobs:
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
-          assert rk['generation']==0 and rk['armed'] is False
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE'
+          assert rk['generation']==0 and rk['armed'] is False and rk['carry_run_id'] is None
           assert rk['execution']['durable_subunit_count']==250
           assert rk['execution']['exact_inner_checkpoint_count']==4743
-          assert rk['resume']['durable_outer_unit']=='b_x_d_band'
-          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'
+          assert rk['resume']['durable_outer_recovery_slot']=='b_x_d_band_complete_or_rolled_partial'
+          assert rk['resume']['exact_restart_quantum']=='b_x_d'
+          assert rk['resume']['checkpoint_after_each_completed_d'] is True
+          assert rk['resume']['always_path_checkpoint_finalizer'] is True
+          assert rk['resume']['always_path_artifact_upload'] is True
           assert rk['resume']['soft_deadline_seconds']==13500
           assert rk['resume']['single_d_timeout_seconds']==3600
+          assert rk['resume']['single_d_timeout_requires_finer_partition'] is True
           assert rk['resume']['paginated_artifact_retrieval_required'] is True
-          assert rk['resume']['generation_start_prefix_reemit'] is True
-          assert rk['resume']['recover_partial_slice_bundle'] is True
-          assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
           assert rk['execution']['trigger']['event']=='push'
           assert rk['execution']['trigger']['branch']=='stage32bridge-mainbatch'
           assert rk['execution']['trigger']['execution_commit_message_prefix']=='stage32 BR204 execute generation '
-          print('BR204 remains cold; push-trigger durable-prefix recovery is configured; no heavy or BR205 authorization')
+          assert rk['arm_contract']['audited_doorstep_head'] is None
+          assert rk['arm_contract']['audited_doorstep_review_id'] is None
+          print('BR204 rebuilt surface is cold, generation 0, zero credit')
           PY
 
       - name: Verify live merged V43 main snapshot
@@ -110,73 +114,109 @@ jobs:
           assert m['H16']['BR203_mu_K8']==229209796641
           PY
 
-      - name: Compile and self-test cold heavy surfaces without FULL178 execution
+      - name: Verify exact source locks and compile rebuilt heavy runtime
         run: |
           set -euo pipefail
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "0d5ee8e1013cab6120e957707a363e86b3c0d41e"
+          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_d_slices.py)" = "4571f04f8a1f44c5e6aa19f25763569f2ccd4432"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "0680132cab6da3e06a13f15c55993ed9b84f9a27"
+          test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "f3cff578e2970df1246239ae7735564509d4dae3"
-          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_d_slices.py)" = "3869a397cefdccb343434a0e23bc0f6e4ed37c16"
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "93f80d3d95e48d24843e92fd03972179dabeca5a"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "93d9c9787b6cc86a1a27a5984d778958f51385fb"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "1a80ed29bd50e31b125173231f05b2ec8f6e28d2"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "a125d9927c5d99c875f1047ea1557835e73ce62e"
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
+          locks=rk['source_locks']
+          assert locks['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
+          assert locks['d_slice_combiner_blob']=='4571f04f8a1f44c5e6aa19f25763569f2ccd4432'
+          assert locks['resumable_band_runner_blob']=='0680132cab6da3e06a13f15c55993ed9b84f9a27'
+          assert locks['band_checkpoint_finalizer_blob']=='e8e9219a6697e017efcf28ccdf8a6eaf5e181519'
+          assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
+          assert locks['execution_contract_blob']=='1a80ed29bd50e31b125173231f05b2ec8f6e28d2'
+          assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
+          assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
+          PY
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python stages/stage32/generalization-bridge/combine_br204_d_slices.py self-test > /tmp/combiner-selftest.json
-          grep -Fq '"expected_single_d_slices": 4743' /tmp/combiner-selftest.json
-          python -m py_compile stages/stage32/generalization-bridge/combine_br204_d_slices.py stages/stage32/generalization-bridge/run_br204_resumable_band.py
+          grep -Fq '"expected_single_d_checkpoints": 4743' /tmp/combiner-selftest.json
+          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
-          mkdir -p /tmp/dslice /tmp/resume /tmp/resumed
-          /tmp/br204-worker --b 96 --d-lo 192 --d-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/dslice/br204-s-b96-d192.tsv
-          python stages/stage32/generalization-bridge/combine_br204_d_slices.py validate-slice --path /tmp/dslice/br204-s-b96-d192.tsv --b 96 --d 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e
-          gzip -9 -n -c /tmp/dslice/br204-s-b96-d192.tsv > /tmp/resume/br204-s-b96-d192.tsv.gz
-          python stages/stage32/generalization-bridge/combine_br204_d_slices.py combine --input-dir /tmp/resume --b 96 --band-lo 148 --band-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/combined.tsv
-          /tmp/br204-worker --b 96 --d-lo 148 --d-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --out /tmp/direct-band.tsv
-          cmp /tmp/combined.tsv /tmp/direct-band.tsv
-          python stages/stage32/generalization-bridge/run_br204_resumable_band.py --worker /tmp/br204-worker --combiner stages/stage32/generalization-bridge/combine_br204_d_slices.py --b 96 --band-lo 148 --band-hi 192 --worker-blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e --resume-dir /tmp/resume --out-dir /tmp/resumed --soft-seconds 1 --slice-timeout-seconds 30
+
+      - name: Replay partial interruption, always finalizer, and missing-d resume exactly
+        run: |
+          set -euo pipefail
+          C=stages/stage32/generalization-bridge/combine_br204_d_slices.py
+          R=stages/stage32/generalization-bridge/run_br204_resumable_band.py
+          F=stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
+          W=0d5ee8e1013cab6120e957707a363e86b3c0d41e
+          mkdir -p /tmp/d190 /tmp/prior-roll /tmp/interrupted /tmp/resumed
+
+          /tmp/br204-worker --b 95 --d-lo 190 --d-hi 190 --worker-blob "$W" --out /tmp/d190/br204-s-b95-d190.tsv
+          python "$C" validate-slice --path /tmp/d190/br204-s-b95-d190.tsv --b 95 --d 190 --worker-blob "$W"
+          gzip -9 -n -c /tmp/d190/br204-s-b95-d190.tsv > /tmp/d190/br204-s-b95-d190.tsv.gz
+
+          python "$C" rollup             --slice-dir /tmp/d190 --b 95 --band-lo 148 --band-hi 192             --worker-blob "$W" --out-dir /tmp/prior-roll
+          cp /tmp/prior-roll/br204-partial-b95-d148-192.tsv.gz /tmp/interrupted/
+          cp /tmp/prior-roll/br204-partial-state-b95-d148-192.json /tmp/interrupted/
+
+          # Simulate interruption after a completed d but before STATUS.json exists.
+          python "$F" --combiner "$C" --out-dir /tmp/interrupted             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" > /tmp/finalized.json
           python - <<'PY'
-          import gzip,json
-          from pathlib import Path
-          s=json.loads(Path('/tmp/resumed/STATUS.json').read_text())
-          assert s['complete'] is True and s['recovered_d']==[192] and s['missing_d']==[]
-          assert gzip.decompress(Path('/tmp/resumed/br204-u-b96-d148-192.tsv.gz').read_bytes())==Path('/tmp/direct-band.tsv').read_bytes()
-          wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
-          assert 'gh api --paginate' in wf
-          assert 'br204-partials' in wf
-          assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
+          import json
+          x=json.load(open('/tmp/finalized.json'))
+          assert x['complete'] is False
+          assert x['has_partial'] is True
+          assert x['stop_reason']=='INTERRUPTED_AFTER_LAST_D_CHECKPOINT'
+          s=json.load(open('/tmp/interrupted/STATUS.json'))
+          assert s['completed_d']==[190] and s['missing_d']==[192]
           PY
+
+          # Resume from the rolled partial; only d=192 may be recomputed.
+          python "$R" --worker /tmp/br204-worker --combiner "$C"             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W"             --resume-dir /tmp/interrupted --out-dir /tmp/resumed             --soft-seconds 120 --slice-timeout-seconds 60
+          python - <<'PY'
+          import json
+          s=json.load(open('/tmp/resumed/STATUS.json'))
+          assert s['complete'] is True
+          assert s['recovered_d']==[190]
+          assert s['completed_d']==[190,192]
+          assert s['missing_d']==[]
+          assert s['checkpoint_after_each_completed_d'] is True
+          PY
+
+          /tmp/br204-worker --b 95 --d-lo 148 --d-hi 192 --worker-blob "$W" --out /tmp/direct-band.tsv
+          python - <<'PY'
+          import gzip
+          from pathlib import Path
+          got=gzip.decompress(Path('/tmp/resumed/br204-u-b95-d148-192.tsv.gz').read_bytes())
+          want=Path('/tmp/direct-band.tsv').read_bytes()
+          assert got==want, 'resumed exact band differs from direct band'
+          PY
+
+      - name: Verify Research OS recovery mechanics are fail-closed
+        run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['source_locks']['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
-          assert rk['source_locks']['d_slice_combiner_blob']=='3869a397cefdccb343434a0e23bc0f6e4ed37c16'
-          assert rk['source_locks']['resumable_band_runner_blob']=='93f80d3d95e48d24843e92fd03972179dabeca5a'
-          assert rk['source_locks']['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert rk['source_locks']['execution_contract_blob']=='f3cff578e2970df1246239ae7735564509d4dae3'
-          assert rk['source_locks']['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
-          assert rk['source_locks']['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
-          assert rk['generation']==0 and rk['armed'] is False
-          assert rk['execution']['durable_subunit_count']==250
-          assert rk['execution']['exact_inner_checkpoint_count']==4743
-          assert rk['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
-          assert rk['resume']['durable_outer_unit']=='b_x_d_band'
-          assert rk['resume']['exact_inner_checkpoint_unit']=='b_x_d'
-          assert rk['resume']['soft_deadline_seconds']==13500
-          assert rk['resume']['single_d_timeout_seconds']==3600
-          assert rk['resume']['paginated_artifact_retrieval_required'] is True
-          assert rk['resume']['generation_start_prefix_reemit'] is True
-          assert rk['resume']['recover_partial_slice_bundle'] is True
-          assert rk['resume']['pilots_use_same_checkpoint_runner'] is True
-          assert rk['storage']['per_outer_recovery_slot_hard_cap_bytes']==900000
-          assert rk['storage']['absolute_rollover_peak_bound_bytes'] <= 524288000
-          src=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
-          agg=Path('stages/stage32/generalization-bridge/aggregate_br204_full178.py').read_text()
           wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
-          assert 'TAIL\\t' in src
-          assert 'Equal-ratio bins must be treated as one ratio class' in agg
-          assert 'formal_br205_gate_passed' in agg
-          print('cold heavy surfaces compile/self-test PASS; exact single-d checkpoints, paginated recovery, soft-deadline partial salvage, and cold launcher verified; heavy remains unarmed')
+          contract=json.loads(Path('stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json').read_text())
+          assert 'gh api --paginate' in wf
+          assert 'if: always() && matrix.b != -1' in wf
+          assert 'finalize_br204_band_checkpoint.py' in wf
+          assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
+          assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in wf
+          rc=contract['resume_contract']
+          assert rc['soft_deadline_seconds']==13500
+          assert rc['hard_job_timeout_minutes']==330
+          assert rc['single_d_timeout_seconds']==3600
+          assert 'always()' in rc['artifact_salvage_rule']
+          assert 'catastrophic runner loss' in rc['cancellation_rule']
+          assert contract['credit']['stage32_main'] is False
+          print('Research OS d-checkpoint/always-salvage/pagination contract PASS; heavy remains cold')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
