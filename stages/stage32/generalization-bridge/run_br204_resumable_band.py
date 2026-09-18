@@ -47,7 +47,13 @@ def main():
     if completed:
         rr=subprocess.run(roll,text=True,capture_output=True); req(rr.returncode==0,rr.stderr.strip())
         roll_status=json.loads((out/"rollup"/"ROLLUP-STATUS.json").read_text())
-        completed= set(roll_status["completed_d"])
+        completed=set(roll_status["completed_d"])
+        import shutil
+        payload=out/"rollup"/roll_status["payload"]
+        shutil.copy2(payload,out/payload.name)
+        state_name=roll_status.get("state")
+        if state_name:
+            shutil.copy2(out/"rollup"/state_name,out/state_name)
     else:
         roll_status={"complete":False,"completed_d":[],"missing_d":ds,"payload":None,"payload_gzip_bytes":0}
     missing=sorted(set(ds)-completed); complete=not missing
