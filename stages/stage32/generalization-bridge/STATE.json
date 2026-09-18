@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V3_COLD_BR204_DOORSTEP",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V4_B_D_BAND_RESUME",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_COLD_DOORSTEP_IMPLEMENTATION_COMPLETE__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED",
+  "active_leaf": "BR204_B_D_BAND_RESUME_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -46,21 +46,37 @@
       "H96_nonempty_b_c_t_cells": 453937,
       "Picard_mu_syndrome_states": 16,
       "Picard_mu_exact_max": 2,
-      "Picard_mu_histogram": {"0": 1, "1": 7, "2": 8}
+      "Picard_mu_histogram": {
+        "0": 1,
+        "1": 7,
+        "2": 8
+      }
     },
     "supersession_rule": "Use the exact source-locked 16-state mu table with max mu=2; older rough mu<=8 or mu<=133 notes are historical only."
   },
   "completed_nodes": {
-    "BR201": {"status": "PASS_ZERO_CREDIT", "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS"},
-    "BR202": {"status": "PASS_ZERO_CREDIT", "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY", "H16_d32_K8": 230521553871},
-    "BR203": {"status": "PASS_ZERO_CREDIT", "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY", "H16_d32_BR202_K8": 230521553871, "H16_d32_BR203_mu_K8": 229209796641}
+    "BR201": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "REGRESSION_EQUIVALENT_SOURCE_SEMANTICS"
+    },
+    "BR202": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_K8": 230521553871
+    },
+    "BR203": {
+      "status": "PASS_ZERO_CREDIT",
+      "classification": "STRICT_SAME_POPULATION_IMPROVEMENT_BOUNDED_ONLY",
+      "H16_d32_BR202_K8": 230521553871,
+      "H16_d32_BR203_mu_K8": 229209796641
+    }
   },
   "audited_predecessor": {
     "bridge_pr": 1813,
-    "exact_head": "c780c05fb6ae8405dd609ba4a2331d4565331510",
-    "hostile_audit_review_id": 5231786735,
+    "exact_head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
+    "hostile_audit_review_id": 5242485845,
     "hostile_audit_status": "PASS",
-    "scope": "BR204 light preflight plus compact producer/equivalence only; FULL178 heavy excluded"
+    "scope": "previous BR204 cold heavy doorway using single-b durable units; current finer execution-only resume refinement is post-audit"
   },
   "live_main_refresh": {
     "status": "PASS_MERGED_V41_NUMERICAL_AUTHORITY_UNCHANGED",
@@ -77,28 +93,40 @@
   },
   "cold_heavy_doorstep": {
     "checkpoint": "stages/stage32/generalization-bridge/BR204-HEAVY-DOORSTEP-CHECKPOINT.json",
-    "checkpoint_blob_before_state_sync": "f670378051a994d04135844c90b60b918ef01e49",
+    "checkpoint_blob_before_state_sync": "9d5204005c36dab04d541ec27415071191799061",
     "execution_contract": "stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "execution_contract_blob": "93fe60e4ebb6392d6b199733b6dcc83f1734d376",
-    "worker_blob": "71081e34c03eee756ea970e6632716121e951f54",
-    "aggregator_blob": "ef11a1ce7c8249f76ddf19fd0e43a415a7592b16",
-    "heavy_workflow_blob": "0b3cb0cf3a259e745c22bf52da215a322cc7dd96",
-    "retained_replay_blob": "a2e0bce85e01a0f4b82fe90019c5a739420e5e5c",
+    "execution_contract_blob": "97bd0fcfef05dafc9b30e566f5833b6b2b3cc90b",
+    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "aggregator_blob": "383558fbf8b16b1dae1bfebf101d4d5a0b994f9c",
+    "heavy_workflow_blob": "9a88492a3c7f3d013b9818d17072b1be8f8f4f29",
+    "retained_replay_blob": "b332478cc9da47035493fdc964d3fef754014a5e",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "runkey_generation": 0,
     "runkey_armed": false,
     "heavy_compute_authorized": false,
     "heavy_compute_started": false,
     "pilot_runs_started": false,
-    "durable_b_units": 97,
-    "b_coverage": "0..96 exactly once after validated carry reuse",
     "logical_shards": 8,
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
-    "pilot_b": 96,
-    "global_lp_rule": "union all exact b-unit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume_rule": "validate carried complete b-unit streams under exact source locks; compute missing units only",
-    "storage_rule": "b=96 pilot must satisfy 97 * gzip_bytes * 2 + 20 MiB <= 500 MiB before fan-out"
+    "global_lp_rule": "validate exact 250-subunit coverage; count repeated static BC population once per b; union all dynamic subunit bins; merge equal exact s/B ratio classes; solve one exact rational LP",
+    "resume_rule": "validate carried complete (b,d-band) streams under exact source locks and approved band identity; compute missing subunits only",
+    "storage_rule": "each gzip subunit <=1,800,000 bytes; absolute 250-unit hard-cap peak plus 20 MiB <=500 MiB; two-pilot projection must also pass",
+    "qbc_tail_addendum_blob": "67aa65924a5e266ba26c396ea92b387562f3eb99",
+    "runkey_blob": "d34ef5540ef87222c61a63eed5e8d50ed12fced2",
+    "b_units": 97,
+    "d_bands": [
+      "8..54",
+      "56..100",
+      "102..146",
+      "148..192"
+    ],
+    "durable_subunits": 250,
+    "subunit_coverage": "all admissible even d>=max(8,2b) through 192 exactly once after validated carry reuse",
+    "pilot_subunits": [
+      "b=0,d=8..54",
+      "b=96,d=148..192"
+    ]
   },
   "br205_bounded_preflight": {
     "scope": "H16_D_LE_32_SAME_BR202_P1_POPULATION_ZERO_CREDIT",
@@ -117,18 +145,19 @@
   },
   "next_obligation": {
     "node_id": "BR204",
-    "title": "freeze exact cold BR204 heavy doorstep",
-    "required_input": "Exact-head Stage32 MAIN startup authority and BR204 retained replay must both succeed on the V41-synchronized branch, then hostile-audit that same exact head.",
-    "success": "HOSTILE AUDIT PASS on the exact cold doorstep. Stop cold after PASS; do not arm or dispatch heavy during preparation.",
+    "title": "replay and separately audit finer BR204 resume doorway",
+    "required_input": "Exact-head Stage32 MAIN startup authority and BR204 retained replay must succeed after the b x d-band execution-only refinement. Hostile audit is intentionally deferred to a separate audit chat.",
+    "success": "Exact-head replay PASS here; later separate HOSTILE AUDIT PASS before any runkey arm or heavy dispatch.",
     "current_blockers": [
-      "exact-head retained replay/MAIN startup must be green after the final state synchronization",
-      "cold doorstep exact head requires hostile audit PASS",
-      "runkey must remain generation 0 / armed false until a later explicit execution request"
+      "post-refinement exact-head retained replay/MAIN startup must be green",
+      "finer-resume exact head requires a separate hostile audit before arming",
+      "runkey must remain generation 0 / armed false until that audit and a later explicit execution request"
     ],
     "stop_conditions": [
       "exact-head replay or MAIN startup is not PASS",
       "repository main moves away from the source-locked V41 head before audit/arming",
       "source-lock or lifecycle verification fails",
+      "b x d-band coverage/disjointness or repeated-static-metadata validation fails",
       "runkey/storage/resume contract loses fail-closed behavior",
       "raw 4.1M-state persistence or terminal identity materialization becomes necessary"
     ]
@@ -137,7 +166,12 @@
     "refresh_live_MAIN_before_every_transition": true,
     "record_live_predecessor_identity_and_semantics": true,
     "classify_candidate_against_live_predecessor": true,
-    "BR203": {"status": "COMPLETE", "exact_mu_state_count": 16, "exact_mu_max": 2, "terminal_identity_materialization_forbidden": true},
+    "BR203": {
+      "status": "COMPLETE",
+      "exact_mu_state_count": 16,
+      "exact_mu_max": 2,
+      "terminal_identity_materialization_forbidden": true
+    },
     "BR204": {
       "compact_producer_gate": "PASS",
       "live_main_predecessor_identity_gate": "PASS_MERGED_V41",
@@ -146,7 +180,11 @@
       "heavy_requires_runkey": true,
       "heavy_requires_repository_policy_governance": true,
       "raw_4_1M_state_artifact_forbidden": true,
-      "stream_one_b_at_a_time": true
+      "resume_partition": "250 durable (b,d-band) subunits over four approved even-d bands",
+      "resume_completed_subunits": true,
+      "recompute_missing_only": true,
+      "repeated_static_metadata_counted_once_per_b": true,
+      "stream_one_b_d_band_at_a_time": true
     },
     "BR205": {
       "bounded_strict_improvement_preflight": "PASS",
@@ -155,7 +193,10 @@
       "formal_gate_passed": false,
       "otherwise": "SKIP_BR205"
     },
-    "BR206": {"status": "NOT_AUTHORIZED", "otherwise": "FREEZE_BEST_COMPACT_CANDIDATE_AND_DO_NOT_INVOKE_59D"}
+    "BR206": {
+      "status": "NOT_AUTHORIZED",
+      "otherwise": "FREEZE_BEST_COMPACT_CANDIDATE_AND_DO_NOT_INVOKE_59D"
+    }
   },
   "routing": {
     "independent_specialist": true,
@@ -184,14 +225,40 @@
     "BR205_full_qBC_escalation_authorized": false,
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
-    "preferred_b_shards": ["0..11", "12..23", "24..35", "36..47", "48..59", "60..71", "72..83", "84..96"],
+    "preferred_b_shards": [
+      "0..11",
+      "12..23",
+      "24..35",
+      "36..47",
+      "48..59",
+      "60..71",
+      "72..83",
+      "84..96"
+    ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Cold BR204 heavy doorway is implementation-complete and V41-synchronized; heavy remains unarmed pending exact-head replay and hostile audit."
+    "stop_reason": "BR204 heavy execution is refined to 250 durable b x d-band checkpoints. Heavy remains unarmed; exact-head replay is required now and hostile audit is deferred to a separate audit chat."
   },
   "deliverable_contract": {
-    "per_shard": ["exact compact state/population totals", "qBC tier and qA convolution summary", "Picard mu syndrome summary", "qBC L>8/tail-slot attribution", "capacity bins/cutoff data", "deterministic stream hash", "source-lock manifest"],
-    "final_union": ["exact coverage/disjointness", "population conservation", "same-population predecessor comparison", "order-independent global ratio-class LP", "qBC-tail activity attribution", "compact replayable certificate", "zero-credit retained handoff"]
+    "per_shard": [
+      "exact compact state/population totals counted once per b after cross-band equality checks",
+      "d-dependent qBC tier and qA convolution summaries per durable subunit",
+      "Picard mu syndrome summary",
+      "qBC L>8/tail-slot attribution",
+      "capacity bins/cutoff data",
+      "deterministic subunit stream hashes",
+      "source-lock manifest"
+    ],
+    "final_union": [
+      "exact 250-subunit coverage/disjointness",
+      "every admissible even d covered exactly once per b",
+      "repeated static metadata equality and one-count-per-b population conservation",
+      "same-population predecessor comparison",
+      "order-independent global ratio-class LP",
+      "qBC-tail activity attribution",
+      "compact replayable certificate",
+      "zero-credit retained handoff"
+    ]
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,
