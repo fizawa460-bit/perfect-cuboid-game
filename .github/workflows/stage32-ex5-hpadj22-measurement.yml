@@ -1,0 +1,142 @@
+name: Stage32EX5 HPADJ22 representative b-chunk measurement
+
+# Lifecycle: ACTIVE_AUTO — current HPADJ22 scaleout preflight only.
+# Heavy compute is fail-closed behind a fresh semantic runkey generation.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32-ex5/runkeys/hpadj22-measurement.json'
+      - 'stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py'
+      - '.github/workflows/stage32-ex5-hpadj22-measurement.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32ex5-hpadj22-measurement-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+      row_index: ${{ steps.gate.outputs.row_index }}
+      b_start: ${{ steps.gate.outputs.b_start }}
+      b_stop: ${{ steps.gate.outputs.b_stop }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Fresh HPADJ22 measurement runkey authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32-ex5/runkeys/hpadj22-measurement.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          [ "$EVENT_NAME" = pull_request ] || exit 0
+          [ "$PR_ACTION" = synchronize ] || exit 0
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+          git show "$BEFORE:$KEY" > /tmp/old-key.json 2>/dev/null || exit 0
+          python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old-key.json').read_text())
+          new=json.loads(Path('stages/stage32-ex5/runkeys/hpadj22-measurement.json').read_text())
+          assert old['schema']==new['schema']=='STAGE32EX5_HPADJ22_MEASUREMENT_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          s=new['source_locks']
+          p=Path(s['bchunk_worker_path']); raw=p.read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          assert blob==s['bchunk_worker_blob_sha1']=='3fc6e7e4aff539be5b60528d1d1b2e41529ddc03'
+          assert s['assembler_blob_sha1']=='16c204bc64ed1cf7f30571fb6987eab9f0a13b38'
+          assert s['bounded_result_blob_sha1']=='837ae21d2ef80a58d5d61bbfbedf5e4277ff5d0e'
+          assert s['bchunk_equivalence_receipt_blob_sha1']=='b773ccadd0ae0c0aadb1074199d2f4c1d31fc95b'
+          m=new['measurement']
+          assert (m['row_index'],m['expected_row_id'],m['b_start'],m['b_stop'],m['chunk_width'])==(22,'g1-d192',48,55,8)
+          r=new['resource_preflight']
+          assert r['planned_jobs']==1 and r['planned_effective_heavy_concurrency']==1
+          assert r['repo_stage_heavy_cap']==18 and r['artifact_hard_cap_bytes']==2097152
+          assert r['projected_peak_artifact_bytes']<=2*1024*1024
+          assert r['repository_operating_budget_mb']==500 and r['retention_days']==1
+          assert all(v is False for v in new['credit'].values())
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('authorized=true\n')
+              f.write(f"row_index={m['row_index']}\n")
+              f.write(f"b_start={m['b_start']}\n")
+              f.write(f"b_stop={m['b_stop']}\n")
+          PY
+
+  measure:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Run one exact representative HPADJ22 b-chunk
+        env:
+          EXACT_SHA: ${{ needs.authorize.outputs.exact_sha }}
+          ROW_INDEX: ${{ needs.authorize.outputs.row_index }}
+          B_START: ${{ needs.authorize.outputs.b_start }}
+          B_STOP: ${{ needs.authorize.outputs.b_stop }}
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          start="$(date +%s)"
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py \
+            --row-index "$ROW_INDEX" --b-start "$B_START" --b-stop "$B_STOP" \
+            --output out/hpadj22-measurement-chunk.json
+          elapsed="$(( $(date +%s) - start ))"
+          python stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py \
+            --row-index "$ROW_INDEX" --b-start "$B_START" --b-stop "$B_STOP" \
+            --verify-existing out/hpadj22-measurement-chunk.json
+          bytes="$(stat -c%s out/hpadj22-measurement-chunk.json)"
+          test "$bytes" -le 2097152
+          ELAPSED="$elapsed" BYTES="$bytes" python - <<'PY'
+          import hashlib,json,os
+          from pathlib import Path
+          cert=json.loads(Path('out/hpadj22-measurement-chunk.json').read_text())
+          d={
+            'schema':'STAGE32EX5_HPADJ22_REPRESENTATIVE_MEASUREMENT_V1',
+            'status':'EXACT_REPRESENTATIVE_BCHUNK_MEASURED_ZERO_CREDIT',
+            'exact_head':os.environ['EXACT_SHA'],
+            'row':cert['row'],
+            'b_range':cert['b_range'],
+            'elapsed_seconds':int(os.environ['ELAPSED']),
+            'certificate_bytes':int(os.environ['BYTES']),
+            'certificate_canonical':cert['canonical_sha256_without_this_field'],
+            'source_locks':cert['source_locks'],
+            'credit':{'stage32_main_credit':False,'full178_completion_credit':False,'merge_authorized':False},
+          }
+          body=dict(d)
+          d['canonical_sha256_without_this_field']=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          Path('out/measurement.json').write_text(json.dumps(d,sort_keys=True,separators=(',',':'))+'\n')
+          print(json.dumps(d,sort_keys=True,separators=(',',':')))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hpadj22-representative-r22-b48-55
+          path: out/
+          retention-days: 1

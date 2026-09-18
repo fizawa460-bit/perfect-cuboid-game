@@ -1,14 +1,7 @@
 name: Stage32EX5 HPADJ21 b-chunk preflight
 
-# Lifecycle: ACTIVE_AUTO bounded equivalence/resume-plumbing gate; no scaleout.
+# Lifecycle: MANUAL — HPADJ21 is audited/consumed; retained only for explicit replay.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32-ex5/hpadj-21_ex5/run_full_hist_bchunk.py'
-      - 'stages/stage32-ex5/hpadj-21_ex5/assemble_full_hist_row_from_bchunks.py'
-      - 'stages/stage32-ex5/hpadj-21_ex5/verify_bchunk_equivalence_bounded.py'
-      - '.github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml'
   workflow_dispatch:
 
 permissions:

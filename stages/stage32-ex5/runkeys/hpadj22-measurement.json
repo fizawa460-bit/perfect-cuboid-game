@@ -1,0 +1,49 @@
+{
+  "schema": "STAGE32EX5_HPADJ22_MEASUREMENT_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "route_id": "HPADJ-22_ex5",
+  "source_locks": {
+    "bchunk_worker_path": "stages/stage32-ex5/hpadj-22_ex5/run_full_bchunk.py",
+    "bchunk_worker_blob_sha1": "3fc6e7e4aff539be5b60528d1d1b2e41529ddc03",
+    "assembler_blob_sha1": "16c204bc64ed1cf7f30571fb6987eab9f0a13b38",
+    "bounded_result_blob_sha1": "837ae21d2ef80a58d5d61bbfbedf5e4277ff5d0e",
+    "bounded_result_canonical_sha256": "b3387e3f07a02a30bfc5558ad72859c72c25a5289320abd22ac1947bf53b3d77",
+    "bchunk_equivalence_receipt_blob_sha1": "b773ccadd0ae0c0aadb1074199d2f4c1d31fc95b",
+    "bchunk_equivalence_receipt_canonical_sha256": "02ecf8fe47ee8e7a6ec18bbbe784ab3527f9d0e8c1046ea0caf653a088f2554b"
+  },
+  "measurement": {
+    "row_index": 22,
+    "expected_row_id": "g1-d192",
+    "b_start": 48,
+    "b_stop": 55,
+    "chunk_width": 8,
+    "timeout_minutes": 180
+  },
+  "resource_preflight": {
+    "planned_jobs": 1,
+    "planned_effective_heavy_concurrency": 1,
+    "repo_stage_heavy_cap": 18,
+    "observed_other_stage32_heavy_jobs_at_planning": 0,
+    "reserved_runner_headroom": 17,
+    "artifact_hard_cap_bytes": 2097152,
+    "projected_peak_artifact_bytes": 2097152,
+    "repository_operating_budget_mb": 500,
+    "retention_days": 1,
+    "cleanup_rule": "Measurement artifact is transient; retain only compact receipt/source locks before expiry if used for production planning."
+  },
+  "authorization": {
+    "commit_range_runkey_change_required": true,
+    "synchronize_only": true,
+    "reopened_is_cold": true,
+    "ordinary_source_or_docs_sync_is_cold": true
+  },
+  "credit": {
+    "partial_chunk_credit": false,
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}

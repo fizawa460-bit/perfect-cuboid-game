@@ -1,13 +1,7 @@
 name: Stage32EX5 HPADJ21 b-chunk recovery
 
-# Lifecycle: ACTIVE_AUTO, but heavy compute is fail-closed behind a fresh
-# commit-range V3 runkey arm. Ordinary synchronizations stay cold.
+# Lifecycle: MANUAL — audited/consumed historical HPADJ21 heavy replay; no automatic PR trigger.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32-ex5/runkeys/hpadj21-heavy-replay.json'
-      - '.github/workflows/stage32-ex5-hpadj21-heavy.yml'
   workflow_dispatch:
     inputs:
       expected_head_sha:

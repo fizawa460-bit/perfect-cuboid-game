@@ -1,13 +1,7 @@
 name: Stage32EX5 HPADJ20 heavy replay
 
-# Lifecycle: ACTIVE_AUTO. The automatic event is only an entry gate; heavy work
-# stays cold unless the dedicated runkey changed semantically in this event.
+# Lifecycle: MANUAL — audited/consumed historical HPADJ20 heavy replay; no automatic PR trigger.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32-ex5/runkeys/hpadj20-heavy-replay.json'
-      - '.github/workflows/stage32-ex5-hpadj20-heavy.yml'
   workflow_dispatch:
     inputs:
       expected_head_sha:

@@ -1,21 +1,23 @@
 {
   "schema_version": 1,
-  "generated_on": "2026-09-17",
+  "generated_on": "2026-09-18",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
   "scope": "post-snapshot repository workflow lifecycle registrations",
   "classifications": {
     "ACTIVE_AUTO": [
+      ".github/workflows/stage32-ex5-hpadj22-measurement.yml"
+    ],
+    "MANUAL": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-heavy.yml",
       ".github/workflows/stage32-ex5-hpadj21-bchunk-preflight.yml"
     ],
-    "MANUAL": [],
     "RETIRED": []
   },
   "notes": [
-    "HPADJ20 heavy replay is PR-auto only behind a fresh dedicated run-key commit-range authorization gate, with manual dispatch retained for later exact-head reruns when dispatchable.",
-    "HPADJ21 heavy replay is the active successor scaleout surface. Its PR trigger enters only a cheap gate; heavy compute remains cold unless the dedicated HPADJ21 runkey advances semantically and is explicitly armed with a source-locked representative sweep receipt.",
-    "HPADJ21 b-chunk preflight is an ACTIVE_AUTO bounded equivalence/resume-plumbing gate. It performs only tiny checkpoint tests and grants no mathematical or production credit.",
-    "This additive registry preserves the frozen 2026-09-11 base snapshot while making later workflow additions fail-closed and mechanically auditable."
+    "HPADJ20 and HPADJ21 heavy/preflight workflows are retained as MANUAL historical replay surfaces after HPADJ21 hostile-audit PASS and PR #1818 closure.",
+    "HPADJ22 representative measurement is the current ACTIVE_AUTO scaleout preflight. Its heavy job is fail-closed behind a synchronize-only dedicated runkey generation gate; ordinary source/docs/bookkeeping syncs remain cold.",
+    "HPADJ22 measurement is one exact b-chunk at concurrency 1 with a 2 MiB certificate hard cap, 1-day retention, zero mathematical credit, and 17 jobs of Stage32 headroom under the <=18 policy.",
+    "This additive registry preserves the frozen base snapshot while keeping post-snapshot workflow lifecycle mechanically auditable."
   ]
 }

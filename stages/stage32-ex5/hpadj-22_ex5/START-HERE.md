@@ -64,7 +64,7 @@ Exact-head CI run `35292495419` on head `77858ca5f8dde4ad93338e8a0e5a2bae798b120
 - bounded strict improvement: `35,316,970,705`;
 - retained canonical: `b3387e3f07a02a30bfc5558ad72859c72c25a5289320abd22ac1947bf53b3d77`.
 
-This remains bounded evidence only. The next gate is an exact b-chunk worker with bounded direct-vs-chunk equivalence and representative cost measurement before any FULL178 arm.
+This remains bounded evidence only. The exact b-chunk worker now passes direct-vs-split equivalence on both genus-0 and genus-1 d=16 rows (canonical `02ecf8fe47ee8e7a6ec18bbbe784ab3527f9d0e8c1046ea0caf653a088f2554b`). The next gate is a single source-locked representative d=192 b-chunk cost/artifact measurement before any FULL178 arm.
 
 ## Firewalls
 
