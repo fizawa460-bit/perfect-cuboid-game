@@ -296,7 +296,7 @@
       "W20",
       "W16"
     ],
-    "class3_third_depth_active": "W5",
+    "class3_third_depth_active": "W20",
     "class3_third_depth_w4": {
       "status": "COMPLETE_CLOSED_NEGATIVE_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W4-THIRD-DEPTH-ROOT-WALL-20260918.md",
@@ -305,23 +305,30 @@
       "result": "all seven primitive coordinate pushdown rays have nonnegative effective (-2)-root walls; W4 supplies no all-l fixed-component obstruction"
     },
     "class3_third_depth_completed": [
-      "W4"
+      "W4",
+      "W5_ORDER2"
     ],
     "class3_solo_deepening_queue": [
-      "W5",
       "W20",
       "W16"
-    ]
+    ],
+    "class3_third_depth_w5": {
+      "status": "SOLO_ORDER2_EXHAUSTED_HIGHER_ORDER_OPEN_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W5-SOLO-ORDER2-ACTIVE-SUPPORT-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W5-SOLO-ORDER2-ACTIVE-SUPPORT-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w5_solo_order2_active_support.py",
+      "result": "the explicit 13-dimensional order-two BTVA space has stacked active-14 principal-part rank 12; the unique common regular line is exactly (z-x1-x2-i*x3)*eta, so order two gives no new intrinsic-regularity improvement beyond the retained support-hyperplane architecture; primitive/twisted higher order remains open"
+    }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 solo deepening — W5 higher symmetric differentials",
+    "title": "MB104 solo deepening — W20 finite E[2] Abel/conductor bridge",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W4 solo is complete and closed negatively: all seven coordinate K3 pushdown root walls are nonnegative. Do not reopen W4 unless a non-root-wall K3 mechanism is introduced. The user requested independent solo deepening of W5,W20,W16. Next work W5 only: use the 2025 Bruin-Ilten-Xu exact A_n local-Euler/extension machinery to search for an explicit finite-order or twisted symmetric differential whose exceptional regularization ratio beats the retained 1/2 saturation or is intrinsically regular on a large part of the active fourteen-node support. Do not advance W20 or W16 in the same invocation.",
+    "required_input": "W5 solo is complete at order two: stacking the exact active fourteen-node principal-part conditions on the explicit 13-dimensional BTVA order-two space has rank 12 and leaves exactly the support-hyperplane line (z-x1-x2-i*x3)*eta. Thus order two is exhausted but W5 is not closed negatively because genuinely primitive/twisted higher order m>=4 remains open. Do not advance W5 further in this invocation sequence. Next work W20 only: compute or source-lock the finite Pic^0(E)[2] factor-line class delta_fac=O_E(D_z^+-D_w^+) and relate it to eta or the ambient/generalized-Jacobian conductor character. Do not advance W16 in the same invocation.",
     "success_shapes": [
-      "explicit W5 section/twist with source-complete exceptional valuations yielding all-l exclusion",
-      "explicit W5 asymptotic improvement yielding a finite large-l cutoff",
-      "source-complete proof that the currently available W5 machinery cannot beat the cuboid regularization budget, closing W5 negatively"
+      "source-complete equality or explicit affine relation between delta_fac and eta/conductor character reducing e=2 to a finite E[2] compatibility test",
+      "independent computation proving delta_fac nonzero while e=2 forces the linked class zero, excluding e=2 uniformly in l",
+      "source-complete proof that current factor-line data do not determine the conductor class, closing this W20 bridge negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
