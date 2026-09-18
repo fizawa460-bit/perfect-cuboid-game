@@ -1,166 +1,78 @@
-# Stage32 MB104 — wide shallow closure scan Round C — 2026-09-18
+# Stage32 MB104 — wide shallow closure scan Round C — corrected — 2026-09-18
 
-Status: **ROUND C COMPLETE / W14 ONLY SECOND-SCAN SURVIVOR / NO MATHEMATICAL CREDIT**
+Status: **ROUND C COMPLETE / ALL FIVE DROP / NO MATHEMATICAL CREDIT**
 
-## Result
+## Corrected result
 
 ```
 W7   cyclic/abelian-cover BMY       DROP
 W9   finite-characteristic route    DROP
 W12  explicit degeneration          DROP
-W13  stable factorization           DROP / MERGED INTO W14
-W14  zero-quartic restriction map   PASS-TO-SECOND-SCAN
+W13  stable factorization           DROP / merged into W14
+W14  zero-quartic restriction map   DROP / already retained and resolved
 ```
 
-No route is DEEP.
+No route is DEEP and no second-scan survivor remains.
 
-## W7 — cyclic/abelian-cover BMY: DROP
+## W7
 
-For a smooth cyclic `n`-fold cover branched along a smooth divisor `C=nL` on `S`,
-
-```
-K_Y^2=n(K_S+(n-1)L)^2,
-c2(Y)=n c2(S)-(n-1)e(C).
-```
-
-Using
-
-```
-K_S^2=16,
-c2(S)=12 chi(O_S)-K_S^2=80,
-C^2=336l^2,
-K_S.C=112l,
-```
-
-the BMY slack is
+The smooth cyclic-cover BMY slack is
 
 ```
 3c2(Y)-K_Y^2
  =224n
   +112(n-1)l
-  +336 (n-1)(2n+1)/n * l^2.
+  +336 (n-1)(2n+1)/n * l^2 >0
 ```
 
-It is strictly positive for every `n>=2,l>=1`.
+for every `n>=2,l>=1`. A contradiction would need new singular cover corrections of quadratic size. DROP.
 
-Thus cover amplification does not naturally reverse the H8 sign. A contradiction would have to come from detailed singular branch-cover corrections of quadratic size, not from the native cyclic-cover Chern slope.
+## W9
 
-**DROP.**
+The exact ray is already effective in characteristic zero. Bare specialization does not preserve the integral normalization-genus-one multibranch receiver strongly enough; an exclusion would need a compactified receiver/stable-map adapter. DROP.
 
-## W9 — finite-characteristic specialization: DROP
+## W12
 
-The exact ray is already effective in characteristic zero for every `l>=1`.
+Flat degeneration preserves Hilbert polynomial, not integrality, normalization genus, or the exact branch packet. Nonexistence of the same integral carrier shape on a special fiber is not reversible. DROP.
 
-For a flat model, dimensions of section spaces can jump upward on special fibers, not provide a new zero-section obstruction against this known generic effectivity.
+## W13
 
-More importantly, the actual MB104 target is not mere effectivity: it is an integral curve with normalization genus one and an exact multibranch packet. Under specialization an integral curve may acquire reducible/nonreduced components and the normalization branches may collide. Nonexistence of the same geometric shape on one special fiber is therefore not reversible without a proper compactified receiver.
+In the retained low-degree curve library, known conics pair positively with the active ray and the only null curves are the zero-pairing elliptic quartics. Thus stable factorization reduces to W14 unless a new effective-cone theorem is introduced. DROP as an independent route.
 
-That would be adapter construction, which wide-scan mode forbids.
+## W14 correction — already solved in retained archive
 
-**DROP.**
-
-## W12 — explicit degeneration: DROP
-
-A flat degeneration preserves the Hilbert polynomial/arithmetic genus, but does not preserve:
+The initial wide scan independently reproduced the old modular pattern and temporarily left
 
 ```
-integrality,
-geometric genus of normalization,
-the 14-node / 8l-branch packet,
-distinct exceptional landing data.
+rank_Q(i)(jet_4) in {220,221}.
 ```
 
-So a hypothetical carrier may have a reducible or nonreduced stable limit. Proving that the special fiber has no *integral carrier of the same shape* would not exclude the original curve.
-
-Again, repairing this needs a dedicated stable-map/packet compactification rather than a native closing theorem.
-
-**DROP.**
-
-## W13 — stable factorization: DROP / MERGED INTO W14
-
-For the active balanced support, the retained explicit curve library gives
+An archive-wide semantic check then found the retained leaf
 
 ```
-known conic:           D_l.Q >= 6l >0,
-elliptic quartic:      D_l.Q >=0.
+GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md
 ```
 
-Equality occurs precisely on the active zero-pairing quartics.
-
-Therefore among the source-complete known low-degree curves, the only plausible fixed components not already forced by negative intersection are exactly the W14 zero quartics.
-
-A different universal fixed divisor would require a new effective-cone theorem.
-
-So W13 is not an independent route at this stage.
-
-**DROP / merge into W14.**
-
-## W14 — zero-quartic restriction map: PASS TO SECOND SCAN
-
-The historical size-48 computation had already settled the two size-48 orbits, but intentionally left active `000707` open.
-
-The same exact degree-7 A1 four-jet algorithm was applied to
+at archive head
 
 ```
-Sigma=000707000f0f
+ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11.
 ```
 
-over the good prime
+It already proves exactly
 
 ```
-p=1097, i=341.
+h0(A)=124,
+h1(A)=4,
+rank_Q(i)(jet_4)=220.
 ```
 
-Result:
+Two explicit characteristic-zero degree-seven sections `F,G` supplement the 122-dimensional support-hyperplane multiple space.  Moreover `F|Q0` is explicitly nonzero.  By the support-stabilizer symmetry, both active zero quartics are nonfixed; powers give this for every `l>=1`.
 
-```
-rank(jet)=220
-rank(jet+Q0 evaluation)=221
-rank(jet+Q1 evaluation)=221
-rank(jet+Q0+Q1)=221.
-```
+Therefore W14 is completely exhausted and is **not** a second-scan candidate.
 
-The good-prime minor gives
+## Process correction
 
-```
-rank_0(jet)>=220.
-```
+Before any future wide-scan candidate is promoted, perform a semantic archive check against retained MB104 leaves. Filename-only recall was insufficient here and caused one rediscovery.
 
-On the other hand
-
-```
-chi(O(A))=120,
-h2(A)=0,
-h1(A)>=3
-```
-
-from the retained connected null-union cohomology, so
-
-```
-h0(A)>=123,
-rank_0(jet)<=344-123=221.
-```
-
-Hence the entire direct restriction problem is now:
-
-```
-rank_0(jet)=220 or 221?
-```
-
-If it is `220`, the augmented rank lower bound `221` proves a nonzero restriction. The support stabilizer is transitive on `Q0,Q1`, so both zero quartics are nonfixed; powers propagate this to every `l>=1`.
-
-If it is `221`, the present preflight does not decide.
-
-The same `220/221/221/221` pattern appeared at ten tested primes, but that repetition is exploratory and is not used as a characteristic-zero proof.
-
-**PASS TO ONE SECOND SHALLOW TEST.**
-
-## Round C disposition
-
-Round C leaves exactly one narrow direct question, not an adapter:
-
-```
-exact characteristic-zero primitive jet rank = 220 or 221?
-```
-
-W14 gets one second shallow test in Round D, while Round D must still screen several new routes in parallel.
+Round D must contain only genuinely untested direct-closing mechanisms.
