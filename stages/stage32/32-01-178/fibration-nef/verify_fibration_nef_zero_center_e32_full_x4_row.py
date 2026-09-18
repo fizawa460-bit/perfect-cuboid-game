@@ -22,6 +22,8 @@ SUPPORT=HERE/"verify_fibration_nef_zero_center_x4_support_bound.py"
 SUPPORT_BLOB="58eb122b0c0154bd798d33ecbd7bedd9b30c2483"
 WEIGHTED=HERE/"verify_fibration_nef_weighted_signature_counter_preflight.py"
 WEIGHTED_BLOB="be2817633e1ef60e0415927889e1d589bec99aa4"
+INDEXER=HERE.parents[3]/"stages/stage32/residual-32-01-production/compressed_terminal_indexer.py"
+INDEXER_BLOB="4fb0a8dd34909494bd62646373e42877ed7a3c9e"
 
 
 def req(v:bool,msg:str)->None:
@@ -71,14 +73,21 @@ def main()->None:
       "worker":(WORKER,WORKER_BLOB),"closed":(FAST,FAST_BLOB),
       "x4one":(ONE,ONE_BLOB),"selected5":(SELECTED5,SELECTED5_BLOB),
       "support":(SUPPORT,SUPPORT_BLOB),"weighted":(WEIGHTED,WEIGHTED_BLOB),
+      "compressed_terminal_indexer":(INDEXER,INDEXER_BLOB),
     }
     for name,(path,sha) in locks.items():
         req(path.is_file() and git_blob(path)==sha,f"source drift {name}")
     weighted_text=WEIGHTED.read_text()
+    indexer_text=INDEXER.read_text()
     req('"x4_independent_of_exceptional_family": True' in weighted_text,
         "x4 independence source drift")
     req('stride = indexer.normal_budget + 1' in weighted_text,
         "canonical x4 stride source drift")
+    req("return 19 * self.d - 5 * self.e" in indexer_text, "normal-budget formula drift")
+    req("exceptional_rank, x4 = divmod(rank, self.normal_budget + 1)" in indexer_text,
+        "canonical unrank x4 stride drift")
+    req("rank = exceptional_rank * (self.normal_budget + 1) + x[4]" in indexer_text,
+        "canonical rank x4 stride drift")
 
     worker=load_module(WORKER,"stage32_178_e32_worker")
     fast=load_module(FAST,"stage32_178_e32_closed")
