@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V8_D_SLICE_RESUME",
-  "status": "COLD_D_SLICE_RESUME_REBUILD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_AUTHORIZED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V9_ALWAYS_SALVAGE",
+  "status": "COLD_ALWAYS_SALVAGE_REBUILD__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_AUTHORIZED__ZERO_CREDIT",
   "audited_predecessor": {
     "head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
     "hostile_audit_review_id": 5243659462,
@@ -23,24 +23,26 @@
     "worker_path": "run_br204_full178_b_unit.cpp",
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "d_slice_combiner_path": "combine_br204_d_slices.py",
-    "d_slice_combiner_blob": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
+    "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_path": "run_br204_resumable_band.py",
-    "resumable_band_runner_blob": "93f80d3d95e48d24843e92fd03972179dabeca5a",
+    "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "f3cff578e2970df1246239ae7735564509d4dae3",
+    "contract_blob": "1a80ed29bd50e31b125173231f05b2ec8f6e28d2",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "334ba2e727a1c9ee71a354f851828abea823c529",
+    "qbc_tail_addendum_blob": "3c7d44631de33bdbc235208babc4e7936cc8bf65",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "93d9c9787b6cc86a1a27a5984d778958f51385fb",
+    "heavy_workflow_blob": "a125d9927c5d99c875f1047ea1557835e73ce62e",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "9bc8721df8e80c02b460cb4810ed2d9ffa9241fa",
+    "retained_replay_blob": "f3faa662c6c76b4d1c682bee13622b711bb64a83",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "55a1ea80439776cf19dd96cb534e937aef51b15b",
+    "runkey_blob": "1f2f40ba9b2f1043d0d35c489f0eab9db400cef8",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
-    "bridge_workflow_inventory_supplement_blob": "8a59a2f2f905328f094fe6bbcc27b83904962708"
+    "bridge_workflow_inventory_supplement_blob": "8a59a2f2f905328f094fe6bbcc27b83904962708",
+    "band_checkpoint_finalizer_path": "finalize_br204_band_checkpoint.py",
+    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
   },
   "audit_repair_delta": {
     "previous_audited_push_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
@@ -50,15 +52,18 @@
       "head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
       "conclusion": "cancelled"
     },
-    "research_os_defect": "A b x d-band worker wrote its certificate only after the full band finished. A hard timeout could discard hours of already-completed d work inside that outer unit.",
+    "research_os_defect": "Generation-1 wrote an outer b x d-band certificate only after the whole band finished, so a hard timeout could discard hours of exact d work.",
     "repair": [
-      "keep 250 b x d-band outer recovery slots so matrix fan-out remains <=248 after pilots",
-      "expose exact single-d worker ranges and checkpoint every admissible d independently",
-      "use a 13,500-second soft deadline inside a 330-minute job so partial checkpoints upload before the hard timeout",
-      "resume an incomplete outer band from validated single-d slices and compute only its missing d values",
-      "treat a single-d 3,600-second timeout as a hard stop requiring a finer partition rather than blind rerun/timeout extension",
-      "paginate predecessor/current artifact APIs explicitly and download artifacts by id; do not rely on a one-page helper for 100+ artifacts",
-      "record discovered artifact count separately from validated carried complete-unit and single-d counts"
+      "keep 250 outer b x d-band recovery slots so matrix fan-out remains <=248 after pilots",
+      "expose one admissible even d as the exact restart quantum",
+      "after every completed d, refresh one cumulative rolled partial-band certificate on runner-local storage",
+      "use a 13,500-second soft deadline inside a 330-minute job so normal timeout exits through checkpoint/upload rather than the hard wall",
+      "run an always-path finalizer and artifact upload so ordinary interruption/cancellation can preserve the last completed-d rollup when post-steps can execute",
+      "resume from the validated rolled partial and compute only missing d values",
+      "treat any single-d 3,600-second timeout as a hard finer-partition gate rather than blind rerun or timeout extension",
+      "paginate predecessor/current artifact APIs explicitly and download by artifact id; never infer mathematical missing work from a one-page retrieval",
+      "record discovered artifact count separately from validated carried complete-unit and partial-band counts",
+      "record the catastrophic runner-loss limitation explicitly: runner-local state cannot be uploaded after the host disappears, while already uploaded recovery objects remain durable"
     ],
     "mathematical_population_changed": false,
     "authority_or_credit_changed": false,
@@ -79,7 +84,7 @@
     "durable_outer_subunits": 250,
     "exact_inner_single_d_checkpoints": 4743,
     "outer_coverage": "every admissible even d>=max(8,2b) through 192 belongs to exactly one outer b x d-band",
-    "inner_checkpoint_coverage": "inside an incomplete outer band, every completed admissible d is independently source-locked and resumable",
+    "inner_checkpoint_coverage": "Inside an incomplete outer band, every completed admissible d refreshes a cumulative exact rolled partial. Only the rolled partial crosses runs; single-d files remain runner-local.",
     "logical_shards": 8,
     "planned_effective_heavy_concurrency": 8,
     "repository_stage_concurrency_ceiling": 18,
@@ -88,12 +93,12 @@
       "b=96,d=148..192 under the same d-slice runner"
     ],
     "global_lp": "only complete outer-band certificates enter the final union; merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume": "Generation >=2 explicitly paginates the immediate predecessor's complete prefix, completed outer units, partial bundle, and per-band partial artifacts; validates/re-emits them; then computes only missing d values inside incomplete bands."
+    "resume": "Generation >=2 explicitly paginates the immediate predecessor's complete prefix, completed outer units, rolled-partial bundle, and per-band partial artifacts; validates/re-emits them; then computes only missing d values."
   },
   "storage": {
     "complete_or_partial_outer_recovery_slot_hard_cap_bytes": 900000,
     "rollover_peak_gate": "2 * 250 * 900,000 bytes + 20 MiB <= 500 MiB",
-    "pilot_projection_gate": "measure max(final band gzip, sum of all exact single-d slice gzip files) for both representative pilots before scaleout",
+    "pilot_projection_gate": "measure max(final band gzip, rolled-partial recovery payload) for both representative pilots before scaleout",
     "superseded_recovery_cleanup": "required only after complete-prefix and partial-bundle re-emission; cleanup failure stops before compute",
     "repository_operating_budget_bytes": 524288000,
     "intermediate_retention_days": 1,
@@ -135,8 +140,8 @@
   "audit_hold": {
     "previous_audited_exact_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
     "previous_hostile_audit_review_id": 5243659462,
-    "verdict": "SUPERSEDED_BY_MATERIAL_RESUME_REDESIGN",
-    "blocker": "Research OS partial-completion recovery was incomplete below the outer b x d-band unit.",
-    "repair_status": "IMPLEMENTED_PENDING_EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT"
+    "verdict": "SUPERSEDED_BY_MATERIAL_ALWAYS_SALVAGE_RESUME_REDESIGN",
+    "blocker": "Prior audited design did not preserve elapsed work below an incomplete outer band. Rebuilt design requires exact-head replay and a fresh independent hostile audit.",
+    "repair_status": "IMPLEMENTED_IN_CODE_AND_SOURCE_LOCKS__CI_AND_SEPARATE_HOSTILE_AUDIT_PENDING"
   }
 }
