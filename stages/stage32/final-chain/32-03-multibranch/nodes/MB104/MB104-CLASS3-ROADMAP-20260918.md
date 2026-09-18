@@ -439,3 +439,27 @@ First shallow gate: prove the localization statement itself from source-locked g
 Stop if arbitrary off-grid ordinary nodes remain compatible; that would reduce to the already parked H8/U1/special-grid counting walls.
 
 Initial Cycle-3 order: **H9, H10, H11**.
+
+
+## Wide-scan override — user-directed 2026-09-18
+
+The sequential Cycle-3 order `H9 -> H10 -> H11` is **paused**.
+
+Reason: after two cycles of route-by-route work, the research process was drifting toward construction of missing adapters rather than broad search for native MB104-closing mechanisms.
+
+Authoritative wide-scan portfolio:
+
+```
+stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-WIDE-SHALLOW-CLOSURE-SCAN-20260918.md
+```
+
+During wide-scan mode:
+
+- inspect 4--6 materially different closure mechanisms per mainbatch invocation;
+- prefer routes whose native theorem attacks effectivity, low normalization genus, or the exact ray directly;
+- do not create a subproject to construct a missing adapter;
+- an adapter-dependent route may be marked promising, but adapter construction is deferred;
+- only candidates surviving two independent shallow kill tests may return to DEEP consideration.
+
+Initial Round A is W1/W2/W3/W4/W6:
+Bogomolov--Reider superabundance, symbolic/Waldschmidt effectivity, Aut-norm invariant sections, K3 quotient pushdown, and modular-form valence.
