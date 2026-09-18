@@ -1,0 +1,120 @@
+{
+  "schema": "STAGE32_MB104_WIDE_SHALLOW_ROUND_C_V1",
+  "status": "ROUND_C_COMPLETE_W14_SECOND_SCAN_SURVIVOR_NO_CREDIT",
+  "target": {
+    "support_mask": "000707000f0f",
+    "divisor": "D_l=7*l*H-4*l*sum E",
+    "degree": "112*l",
+    "normalization_genus": 1
+  },
+  "results": {
+    "W7_CYCLIC_ABELIAN_COVER_BMY": {
+      "disposition": "DROP",
+      "cheap_test": "smooth cyclic-cover Chern slope before singular corrections",
+      "surface_invariants": {
+        "K2": 16,
+        "c2": 80
+      },
+      "formula": "3*c2(Y)-K_Y^2 = 224*n + (n-1)*(K.C) + ((n-1)*(2*n+1)/n)*(C^2)",
+      "substitution": "224*n +112*(n-1)*l +336*((n-1)*(2*n+1)/n)*l^2",
+      "sign": "STRICTLY_POSITIVE for n>=2,l>=1",
+      "reason": "Even the optimistic smooth-branch cyclic cover has large positive BMY slack. Any contradiction would have to come from detailed singular branch-cover corrections of quadratic size, which are not supplied by the retained packet; H8 already shows nodal-compatible orbifold slack remains positive."
+    },
+    "W9_FINITE_CHARACTERISTIC_SPECIALIZATION": {
+      "disposition": "DROP",
+      "cheap_test": "specialization direction and retained effectivity",
+      "effectivity": "h0(D_l)>0 in characteristic zero for every l>=1, so a flat good reduction cannot provide a zero-section obstruction by semicontinuity",
+      "genus_packet": "integrality, normalization genus one, and the exact branch packet may degenerate to reducible/nonreduced limits or lose branch separation",
+      "reason": "The properties needed to close MB104 are not preserved strongly enough by bare specialization. A proper stable-map/packet compactification would be an adapter project, outside wide-scan mode."
+    },
+    "W12_EXPLICIT_DEGENERATION": {
+      "disposition": "DROP",
+      "cheap_test": "flat-limit preservation",
+      "arithmetic_genus_preserved": true,
+      "irreducibility_preserved": false,
+      "normalization_genus_preserved": false,
+      "exact_multibranch_packet_preserved": false,
+      "reason": "A hypothetical integral genus-one carrier can specialize to a reducible/nonreduced cycle while preserving Hilbert polynomial. Nonexistence of the same carrier shape on a special fiber is therefore not reversible without a dedicated compactified receiver."
+    },
+    "W13_STABLE_FACTORIZATION": {
+      "disposition": "DROP_MERGED_INTO_W14",
+      "cheap_test": "retained explicit low-degree test-curve library",
+      "known_conic_min_pairing": "6*l >0",
+      "known_elliptic_quartic_min_pairing": "0",
+      "null_curves": "the active zero-pairing elliptic quartics",
+      "reason": "Within the source-complete known curve library, only the zero quartics can be fixed without negative pairing. Thus the direct stable-factorization test reduces exactly to W14; any other fixed divisor needs a new effective-cone theorem."
+    },
+    "W14_ZERO_QUARTIC_RESTRICTION": {
+      "disposition": "PASS_TO_SECOND_SCAN",
+      "cheap_test": "active degree-7 good-prime jet/restriction rank",
+      "p1097": {
+        "jet_rank": 220,
+        "q0": 221,
+        "q1": 221,
+        "both": 221
+      },
+      "char0_jet_rank_options": [
+        220,
+        221
+      ],
+      "consequence_if_220": "both zero quartics nonfixed at l=1 by symmetry; powers give nonfixedness for all l",
+      "consequence_if_221": "preflight does not decide",
+      "exploratory_ten_prime_pattern": "220/221/221/221 at every tested prime; not theorem evidence",
+      "next_test": "one exact characteristic-zero rank certification only",
+      "deep_candidate": false
+    }
+  },
+  "round_summary": {
+    "scanned": [
+      "W7",
+      "W9",
+      "W12",
+      "W13",
+      "W14"
+    ],
+    "drop": [
+      "W7",
+      "W9",
+      "W12",
+      "W13"
+    ],
+    "pass_to_second_scan": [
+      "W14"
+    ],
+    "deep_candidate": false,
+    "next_action": "Round D remains broad: give W14 one exact char0 rank test and shallow-screen 4 newly generated direct mechanisms; do not turn W14 into an adapter subproject."
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W14-000707-DEGREE7-RESTRICTION-PREFLIGHT-CERTIFICATE.json",
+      "blob_sha1": "9aaa1b73638b7311d8a1d95c64813e52452f2ecc"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w14_000707_degree7_restriction_preflight.py",
+      "blob_sha1": "2663e199fc86faac8426bc6619000c8c8a889914"
+    }
+  ],
+  "historical_sources": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GLOBAL-EFFECTIVITY-P5-CONIC-OBSTRUCTION.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "5ea5ccd96f759887c73d676a3a5c53c55b6773b5"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/GENUS1-SPAN5-KNOWN-CONIC-BALANCED-QUOTIENT.md",
+      "archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "blob_sha1": "1dfafccb9559c98ccf71cc4b98449d784941d48f"
+    }
+  ],
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
