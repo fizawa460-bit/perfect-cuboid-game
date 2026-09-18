@@ -11,7 +11,9 @@ RUNKEY_BLOB = "c73b15a9ac5be6af15890b9d3db89c3de6f39f28"
 WORKER = HERE / "run_fibration_nef_selective_picard_workunit.py"
 WORKER_BLOB = "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5"
 RESUME = HERE / "verify_fibration_nef_selective_picard_resume.py"
-RESUME_BLOB = "f6fe66583bf81a68563bbbf7f7b8c22531db98ba"\nSELECTOR = HERE / "verify_fibration_nef_selective_picard_pilot_selector.py"\nSELECTOR_BLOB = "e29abd7c8d653fa1cc2809fca99307f9beeda372"
+RESUME_BLOB = "f6fe66583bf81a68563bbbf7f7b8c22531db98ba"
+SELECTOR = HERE / "verify_fibration_nef_selective_picard_pilot_selector.py"
+SELECTOR_BLOB = "e29abd7c8d653fa1cc2809fca99307f9beeda372"
 
 def req(v, m):
     if not v: raise SystemExit("FAIL: " + m)
@@ -32,7 +34,8 @@ def load_module(path, name):
 def main():
     for path, expected, label in (
         (CONTRACT, CONTRACT_BLOB, "contract"), (RUNKEY, RUNKEY_BLOB, "cold runkey"),
-        (WORKER, WORKER_BLOB, "worker"), (RESUME, RESUME_BLOB, "resume verifier"),\n        (SELECTOR, SELECTOR_BLOB, "pilot selector")):
+        (WORKER, WORKER_BLOB, "worker"), (RESUME, RESUME_BLOB, "resume verifier"),
+        (SELECTOR, SELECTOR_BLOB, "pilot selector")):
         req(path.is_file(), f"missing {label}")
         req(git_blob(path) == expected, f"{label} source drift")
 
@@ -55,11 +58,15 @@ def main():
     req(locks["worker_blob_sha1"] == WORKER_BLOB, "contract worker lock mismatch")
     req(locks["resume_verifier_blob_sha1"] == RESUME_BLOB, "contract resume lock mismatch")
     req(locks["workunit_preflight_blob_sha1"] == worker.WORKUNIT_BLOB, "contract workunit lock mismatch")
-    req(locks["plan_certificate_producer_blob_sha1"] == worker.PLAN_BLOB, "contract plan lock mismatch")\n    req(locks["pilot_selector_blob_sha1"] == SELECTOR_BLOB, "contract pilot selector lock mismatch")\n    req(contract["authorization"].get("pilot_selector") == SELECTOR.name, "contract pilot selector path mismatch")
+    req(locks["plan_certificate_producer_blob_sha1"] == worker.PLAN_BLOB, "contract plan lock mismatch")
+    req(locks["pilot_selector_blob_sha1"] == SELECTOR_BLOB, "contract pilot selector lock mismatch")
+    req(contract["authorization"].get("pilot_selector") == SELECTOR.name, "contract pilot selector path mismatch")
 
     auth = contract["authorization"]
     req(auth["current_generation"] == 0 and auth["current_armed"] is False, "contract is not cold")
-    req(runkey["generation"] == 0 and runkey["armed"] is False, "runkey is not cold")\n    req(runkey.get("mode") == "COLD", "runkey mode is not COLD")\n    req(auth.get("current_mode") == "COLD", "contract mode is not COLD")
+    req(runkey["generation"] == 0 and runkey["armed"] is False, "runkey is not cold")
+    req(runkey.get("mode") == "COLD", "runkey mode is not COLD")
+    req(auth.get("current_mode") == "COLD", "contract mode is not COLD")
     req(runkey["authorized_workunit_ids"] == [], "cold runkey authorizes work")
     req(runkey["planned_effective_heavy_concurrency"] == 0, "cold runkey has heavy concurrency")
     req(runkey["representative_receipt_bytes"] == 0, "cold runkey claims measured receipt")
@@ -78,10 +85,14 @@ def main():
       "contract_canonical_sha256":canon,
       "runkey_blob_sha1":RUNKEY_BLOB,
       "worker_blob_sha1":WORKER_BLOB,
-      "resume_verifier_blob_sha1":RESUME_BLOB,\n      "pilot_selector_blob_sha1":SELECTOR_BLOB,
+      "resume_verifier_blob_sha1":RESUME_BLOB,
+      "pilot_selector_blob_sha1":SELECTOR_BLOB,
       "selected_x4_slices":list(worker.SELECTED_X4),
       "workunit_size_ceiling":worker.WORKUNIT_SIZE,
-      "cold_runkey_generation":0,\n      "cold_runkey_mode":"COLD",\n      "measurement_pilot_defined":True,\n      "production_wave_requires_prior_measurement":True,
+      "cold_runkey_generation":0,
+      "cold_runkey_mode":"COLD",
+      "measurement_pilot_defined":True,
+      "production_wave_requires_prior_measurement":True,
       "heavy_execution_authorized":False,
       "workflow_retained":False,
       "ready_for_future_measure_then_arm":True,
