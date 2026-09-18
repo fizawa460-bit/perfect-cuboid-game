@@ -1,0 +1,46 @@
+name: Stage32EX5 HPADJ22 fast-only artifact equivalence benchmark
+
+on:
+  push:
+    branches:
+      - stage32ex5-hpadj22-speedup-scratch-20260918
+    paths:
+      - 'stages/stage32-ex5/hpadj-22_ex5/benchmark_fast_against_old_artifacts.py'
+      - '.github/workflows/stage32-ex5-hpadj22-fastonly-scratch.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj21-carry-bundle
+          path: h21
+          run-id: 35275839413
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-0
+          path: old0
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-6
+          path: old6
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - name: Benchmark fast worker against retained old exact rows
+        run: |
+          python stages/stage32-ex5/hpadj-22_ex5/benchmark_fast_against_old_artifacts.py \
+            --h21-dir h21 --old0-dir old0 --old6-dir old6 | tee /tmp/bench.log
+          grep '^FINAL=' /tmp/bench.log
