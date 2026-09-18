@@ -1,16 +1,14 @@
 name: Stage32 BRIDGE BR204 FULL178 heavy
 
 # Lifecycle: ACTIVE_AUTO — current BR204 FULL178 heavy producer surface.
-# Research OS heavy authorization is fail-closed behind one dedicated runkey-only
-# pull_request synchronize commit. opened/reopened and ordinary synchronizations are cold.
+# Branch-local workflow: only a dedicated runkey push can enter authorization.
+# Heavy authorization is fail-closed on the actual github.event.before..github.sha range.
 on:
-  pull_request:
+  push:
     branches:
-      - main
-    types: [opened, synchronize, reopened]
+      - stage32bridge-mainbatch
     paths:
       - 'stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
-      - '.github/workflows/br204-stage32-bridge-heavy.yml'
 
 permissions:
   contents: read
@@ -18,7 +16,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: stage32-bridge-br204-heavy-${{ github.event.pull_request.number }}
+  group: stage32-bridge-br204-heavy-${{ github.ref }}
   cancel-in-progress: false
 
 env:
@@ -38,7 +36,7 @@ env:
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
   RECOVERY_VERIFIER_BLOB: 8854ca99df52a31e6639e6aa65cef73ffdf9ec18
   POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
-  CONTRACT_BLOB: ca0cab3960ab3ecb50e053f7ccf6a53ab71460ee
+  CONTRACT_BLOB: 796e7fc649ba0482eeae4b602d41278b5f1402fb
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   REPOSITORY_MAIN_HEAD: 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
   MAIN_STATE_BLOB: 232732e29f72b55c34d540bf1c7cfcc4a626851c
@@ -60,7 +58,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - name: Research OS commit-range runkey authorization gate
         id: auth
@@ -68,12 +66,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           EVENT_NAME: ${{ github.event_name }}
-          PR_ACTION: ${{ github.event.action }}
           BEFORE: ${{ github.event.before }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          BASE_REF: ${{ github.event.pull_request.base.ref }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.sha }}
+          HEAD_REF: ${{ github.ref_name }}
         run: |
           set -euo pipefail
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
@@ -81,16 +76,14 @@ jobs:
           echo 'carry_run_id=' >> "$GITHUB_OUTPUT"
           echo 'generation=0' >> "$GITHUB_OUTPUT"
 
-          [ "$EVENT_NAME" = pull_request ] || exit 0
-          [ "$BASE_REF" = main ] || exit 0
+          [ "$EVENT_NAME" = push ] || exit 0
           [ "$HEAD_REF" = stage32bridge-mainbatch ] || exit 0
-          [ "$PR_NUMBER" = 1813 ] || exit 0
           [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 1
           test "$(git rev-parse HEAD)" = "$HEAD_SHA"
 
-          # opened/reopened are deliberately cold. Only synchronize may arm.
-          [ "$PR_ACTION" = synchronize ] || exit 0
+          # Only an actual branch push carrying the dedicated runkey may arm.
           [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          [ "$BEFORE" != "0000000000000000000000000000000000000000" ] || exit 0
           git fetch --no-tags --depth=1 origin "$BEFORE" || true
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
 
@@ -104,7 +97,7 @@ jobs:
           from pathlib import Path
           old=json.loads(Path('/tmp/old-key.json').read_text())
           cur=json.loads(Path(os.environ['RUNKEY']).read_text())
-          schema='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V9_RECOVERY_RECONCILED_SAFE_UPLOAD'
+          schema='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V10_BRANCH_PUSH_12WAY_SAFE_UPLOAD'
           assert cur['schema']==schema
 
           old_g=int(old['generation']); new_g=int(cur['generation'])
@@ -117,7 +110,7 @@ jobs:
 
           assert old['schema']==cur['schema']==schema
           changed=Path('/tmp/changed-paths.txt').read_text().splitlines()
-          assert changed==[os.environ['RUNKEY']], 'arm/resume synchronize commit must mutate only the dedicated runkey'
+          assert changed==[os.environ['RUNKEY']], 'arm/resume push commit must mutate only the dedicated runkey'
           assert new_g==old_g+1 and new_g>0
           for k in ('execution','source_locks','resume','storage','credit'):
               assert cur[k]==old[k], f'{k} drift in execution commit'
@@ -137,10 +130,9 @@ jobs:
           assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           trig=cur['execution']['trigger']
-          assert trig['event']=='pull_request'
-          assert trig['automatic_arm_action']=='synchronize'
-          assert trig['base_branch']=='main'
-          assert trig['head_branch']=='stage32bridge-mainbatch'
+          assert trig['event']=='push'
+          assert trig['automatic_arm_action']=='dedicated_runkey_push'
+          assert trig['branch']=='stage32bridge-mainbatch'
           assert trig['runkey_only_arm_commit_required'] is True
           assert trig['commit_range_runkey_change_required'] is True
 
@@ -256,7 +248,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
       - name: Recover every artifact page and validate complete plus partial work
         id: recover
         env:
@@ -405,7 +397,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
       - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Compile and self-test exact checkpoint-aware runtime
         run: |
@@ -620,7 +612,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         if: needs.carry.outputs.prefix_count != '0'
         with:
@@ -815,7 +807,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.sha }}
       - uses: actions/download-artifact@v4
         if: needs.carry.outputs.prefix_count != '0'
         with:
