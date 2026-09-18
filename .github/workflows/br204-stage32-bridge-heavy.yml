@@ -1,7 +1,7 @@
 name: Stage32 BRIDGE BR204 FULL178 heavy
 
-# Trigger lifecycle: ACTIVE_AUTO — only a dedicated runkey push on the BRIDGE branch
-# can enter heavy execution. Audit/source/generation gates fail closed before compute.
+# Lifecycle: ACTIVE_AUTO_RUNKEY_PUSH.
+# Heavy compute starts only from a dedicated semantic runkey-only push.
 on:
   push:
     branches:
@@ -21,16 +21,23 @@ concurrency:
 env:
   RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json
   WORKER: stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp
+  COMBINER: stages/stage32/generalization-bridge/combine_br204_d_slices.py
+  BAND_RUNNER: stages/stage32/generalization-bridge/run_br204_resumable_band.py
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
-  WORKER_BLOB: b180c71ae32f8da4a85daec30cc6a03bf57278fc
+  WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+  COMBINER_BLOB: 3869a397cefdccb343434a0e23bc0f6e4ed37c16
+  BAND_RUNNER_BLOB: 93f80d3d95e48d24843e92fd03972179dabeca5a
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
-  CONTRACT_BLOB: b8ccbfd5ba3430982dc0d60744770ab9efb71b7f
+  CONTRACT_BLOB: f3cff578e2970df1246239ae7735564509d4dae3
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
-  REPOSITORY_MAIN_HEAD: 37bb811b95399d73cc46fe899badcfa8eb5fca7d
-  MAIN_STATE_BLOB: dd7dba27eb062e6a6ad4d440094ba26c290900d7
+  REPOSITORY_MAIN_HEAD: 83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49
+  MAIN_STATE_BLOB: 232732e29f72b55c34d540bf1c7cfcc4a626851c
   ENVELOPE: '6703403803993209250491'
-  MAIN_BOUND: '179119009547804181594'
+  MAIN_BOUND: '157570677819451133507'
+  RECOVERY_SLOT_CAP: '900000'
+  SOFT_SECONDS: '13500'
+  SLICE_TIMEOUT_SECONDS: '3600'
 
 jobs:
   authorize:
@@ -44,7 +51,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 2
-      - name: Verify exact sources, live main, and generation transition
+      - name: Verify exact sources, live main, audit arm, and recovery eligibility
         id: auth
         env:
           GH_TOKEN: ${{ github.token }}
@@ -53,59 +60,56 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
+          test "$(git hash-object "$COMBINER")" = "$COMBINER_BLOB"
+          test "$(git hash-object "$BAND_RUNNER")" = "$BAND_RUNNER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
           test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
           git fetch --no-tags --depth=1 origin main
           test "$(git rev-parse FETCH_HEAD)" = "$REPOSITORY_MAIN_HEAD"
           test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
           python - <<'PY'
-          import json, os, subprocess
+          import json,os,subprocess
           from pathlib import Path
-          p=Path(os.environ['RUNKEY'])
-          cur=json.loads(p.read_text())
-          parent=subprocess.check_output(['git','rev-parse','HEAD^'], text=True).strip()
-          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'], text=True))
-          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'], text=True).splitlines()
-          assert changed == [p.as_posix()], 'execution commit must mutate only the dedicated runkey'
-          assert cur['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION'
-          assert old['schema']==cur['schema']
+          p=Path(os.environ['RUNKEY']); cur=json.loads(p.read_text())
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'],text=True))
+          changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'],text=True).splitlines()
+          assert changed==[p.as_posix()], 'execution commit must mutate only the dedicated runkey'
+          assert cur['schema']==old['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME'
           assert cur['armed'] is True
           assert cur['generation']==old['generation']+1 and cur['generation']>0
-          assert cur['execution']==old['execution']
-          assert cur['source_locks']==old['source_locks']
-          assert cur['resume']==old['resume']
-          assert cur['storage']==old['storage']
-          assert cur['credit']==old['credit']
+          for k in ('execution','source_locks','resume','storage','credit'):
+              assert cur[k]==old[k], f'{k} drift in execution commit'
           assert cur['execution']['b_unit_count']==97
           assert cur['execution']['durable_subunit_count']==250
+          assert cur['execution']['exact_inner_checkpoint_count']==4743
           assert cur['execution']['max_parallel']==8
           assert cur['execution']['d_bands']==[[8,54],[56,100],[102,146],[148,192]]
           assert cur['execution']['main_bound_snapshot']==os.environ['MAIN_BOUND']
           locks=cur['source_locks']
           assert locks['worker_blob']==os.environ['WORKER_BLOB']
+          assert locks['d_slice_combiner_blob']==os.environ['COMBINER_BLOB']
+          assert locks['resumable_band_runner_blob']==os.environ['BAND_RUNNER_BLOB']
           assert locks['aggregator_blob']==os.environ['AGGREGATOR_BLOB']
           assert locks['execution_contract_blob']==os.environ['CONTRACT_BLOB']
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
           assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
           assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
+          assert cur['resume']['exact_inner_checkpoint_unit']=='b_x_d'
+          assert cur['resume']['soft_deadline_seconds']==int(os.environ['SOFT_SECONDS'])
+          assert cur['resume']['single_d_timeout_seconds']==int(os.environ['SLICE_TIMEOUT_SECONDS'])
           if old['armed'] is False:
               assert old['generation']==0 and cur['generation']==1
               assert cur.get('carry_run_id') is None
               assert cur['arm_contract']['audited_doorstep_head']==parent
-              assert isinstance(cur['arm_contract']['audited_doorstep_review_id'], int)
+              assert isinstance(cur['arm_contract']['audited_doorstep_review_id'],int)
               mode='initial'
           else:
               assert old['armed'] is True and cur['generation']>=2
-              assert isinstance(cur.get('carry_run_id'), int)
+              assert isinstance(cur.get('carry_run_id'),int)
               assert cur['arm_contract']==old['arm_contract']
               mode='resume'
-          Path('/tmp/auth.json').write_text(json.dumps({
-              'mode':mode,
-              'parent':parent,
-              'generation':cur['generation'],
-              'review':cur['arm_contract']['audited_doorstep_review_id'],
-              'carry_run_id':cur.get('carry_run_id'),
-          }))
+          Path('/tmp/auth.json').write_text(json.dumps({'mode':mode,'parent':parent,'generation':cur['generation'],'review':cur['arm_contract']['audited_doorstep_review_id'],'carry_run_id':cur.get('carry_run_id')}))
           PY
           mode="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["mode"])')"
           if [ "$mode" = initial ]; then
@@ -114,20 +118,32 @@ jobs:
           import json
           a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
           hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
-          assert hit, 'audited doorstep review/head pair not found'
+          assert hit, 'audited rebuilt doorstep review/head pair not found'
           body=hit[0].get('body') or ''
           assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
           PY
           else
             carry="$(python -c 'import json;print(json.load(open("/tmp/auth.json"))["carry_run_id"])')"
             gh api "repos/$REPO/actions/runs/$carry" > /tmp/carry-run.json
+            gh api --paginate "repos/$REPO/actions/runs/$carry/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/carry-artifacts.tsv
             python - <<'PY'
-          import json
+          import json,os,subprocess,zipfile
+          from pathlib import Path
           a=json.load(open('/tmp/auth.json')); r=json.load(open('/tmp/carry-run.json'))
-          assert r.get('head_sha')==a['parent'], 'carry run must belong to the immediately previous generation head'
+          assert r.get('head_sha')==a['parent'], 'carry run must belong to immediate previous generation head'
           assert r.get('path')=='.github/workflows/br204-stage32-bridge-heavy.yml'
           assert r.get('status')=='completed'
-          assert r.get('conclusion') in {'failure','cancelled','timed_out'}
+          conclusion=r.get('conclusion')
+          assert conclusion in {'failure','cancelled','timed_out'}
+          if conclusion=='failure':
+              rows=[ln.split('\t') for ln in Path('/tmp/carry-artifacts.tsv').read_text().splitlines() if ln]
+              hits=[row for row in rows if row[1]=='br204-recovery-summary' and row[2]=='false']
+              assert len(hits)==1, 'failed generation requires exactly one nonexpired recovery summary'
+              aid=hits[0][0]
+              subprocess.run(['gh','api','-H','Accept: application/vnd.github+json',f'repos/{os.environ["REPO"]}/actions/artifacts/{aid}/zip'],check=True,stdout=open('/tmp/summary.zip','wb'))
+              with zipfile.ZipFile('/tmp/summary.zip') as z: z.extractall('/tmp/summary')
+              s=json.loads(next(Path('/tmp/summary').rglob('RECOVERY-SUMMARY.json')).read_text())
+              assert s['resume_eligible'] is True, 'prior failure contains a hard-stop d slice; finer partition required'
           PY
           fi
           python - <<'PY' >> "$GITHUB_OUTPUT"
@@ -142,13 +158,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       prefix_count: ${{ steps.recover.outputs.prefix_count }}
+      partial_slice_count: ${{ steps.recover.outputs.partial_slice_count }}
       pilot_low_present: ${{ steps.recover.outputs.pilot_low_present }}
       pilot_high_present: ${{ steps.recover.outputs.pilot_high_present }}
+      discovered_artifact_count: ${{ steps.recover.outputs.discovered_artifact_count }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
-      - name: Recover and validate prior durable union
+      - name: Recover every artifact page and validate complete plus partial work
         id: recover
         env:
           GH_TOKEN: ${{ github.token }}
@@ -156,61 +174,79 @@ jobs:
           CARRY_RUN_ID: ${{ needs.authorize.outputs.carry_run_id }}
         run: |
           set -euo pipefail
-          mkdir -p /tmp/prior-prefix /tmp/prior-units /tmp/reemit
+          mkdir -p /tmp/prior-prefix /tmp/prior-units /tmp/prior-partials /tmp/prior-meta /tmp/reemit /tmp/reemit-partials /tmp/reemit-meta
+          : > /tmp/carry-artifacts.tsv
           if [ -n "$CARRY_RUN_ID" ]; then
-            gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" --jq '.artifacts[].name' > /tmp/carry-artifact-names.txt
-            if grep -Fxq 'br204-prefix' /tmp/carry-artifact-names.txt; then
-              gh run download "$CARRY_RUN_ID" -n br204-prefix -D /tmp/prior-prefix
-            fi
-            if grep -Eq '^br204-u-' /tmp/carry-artifact-names.txt; then
-              gh run download "$CARRY_RUN_ID" -p 'br204-u-*' -D /tmp/prior-units
-            fi
+            gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100"               --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/carry-artifacts.tsv
+            while IFS=$'\t' read -r aid name expired; do
+              [ -n "$aid" ] || continue
+              [ "$expired" = false ] || continue
+              case "$name" in
+                br204-prefix) dest=/tmp/prior-prefix ;;
+                br204-partials|br204-p-*) dest=/tmp/prior-partials ;;
+                br204-u-*) dest=/tmp/prior-units ;;
+                br204-recovery-meta|br204-plan) dest=/tmp/prior-meta ;;
+                *) continue ;;
+              esac
+              mkdir -p "$dest/artifact-$aid"
+              gh api -H 'Accept: application/vnd.github+json'                 "repos/$REPO/actions/artifacts/$aid/zip" > "/tmp/a-$aid.zip"
+              unzip -q "/tmp/a-$aid.zip" -d "$dest/artifact-$aid"
+            done < /tmp/carry-artifacts.tsv
           fi
-          python "$AGGREGATOR" checkpoint \
-            --input-dir /tmp/prior-units \
-            --input-dir /tmp/prior-prefix \
-            --worker-blob "$WORKER_BLOB" \
-            --out-dir /tmp/reemit \
-            --manifest /tmp/reemit/RECOVERY-MANIFEST.json
+          python "$AGGREGATOR" checkpoint             --input-dir /tmp/prior-units             --input-dir /tmp/prior-prefix             --worker-blob "$WORKER_BLOB"             --out-dir /tmp/reemit             --manifest /tmp/reemit/RECOVERY-MANIFEST.json
+          python "$COMBINER" bundle             --input-dir /tmp/prior-partials             --input-dir /tmp/prior-meta             --input-dir /tmp/prior-units             --out-dir /tmp/reemit-partials             --manifest /tmp/reemit-partials/PARTIAL-MANIFEST.json             --worker-blob "$WORKER_BLOB"
+          python - <<'PY'
+          import json,shutil
+          from pathlib import Path
+          dst=Path('/tmp/reemit-meta'); dst.mkdir(exist_ok=True)
+          for root in (Path('/tmp/prior-meta'),Path('/tmp/prior-units')):
+              if not root.exists(): continue
+              for pat in ('PILOT-MEASUREMENT-*.json','PILOT-STORAGE-PREFLIGHT.json'):
+                  for p in root.rglob(pat):
+                      q=dst/p.name
+                      if q.exists():
+                          assert q.read_bytes()==p.read_bytes(), f'conflicting recovery metadata {p.name}'
+                      else: shutil.copy2(p,q)
+          complete=json.loads(Path('/tmp/reemit/RECOVERY-MANIFEST.json').read_text())
+          partial=json.loads(Path('/tmp/reemit-partials/PARTIAL-MANIFEST.json').read_text())
+          rows=[ln.split('\t') for ln in Path('/tmp/carry-artifacts.tsv').read_text().splitlines() if ln]
+          inv={
+            'schema':'STAGE32_BR204_RECOVERY_DISCOVERY_V1',
+            'carry_run_id':None if not rows else int(__import__('os').environ['CARRY_RUN_ID']),
+            'discovered_artifact_count':len(rows),
+            'discovered_complete_unit_artifact_count':sum(1 for r in rows if r[1].startswith('br204-u-')),
+            'discovered_partial_band_artifact_count':sum(1 for r in rows if r[1].startswith('br204-p-')),
+            'validated_carried_outer_unit_count':complete['validated_subunit_count'],
+            'validated_carried_single_d_slice_count':partial['validated_unique_slice_count'],
+          }
+          (dst/'RECOVERY-DISCOVERY.json').write_text(json.dumps(inv,sort_keys=True,indent=2)+'\n')
+          PY
           python - <<'PY' > /tmp/ancestor-runs.txt
           import json
           from pathlib import Path
           ids=set()
           for p in Path('/tmp/prior-prefix').rglob('RECOVERY-LINEAGE.json'):
-              x=json.loads(p.read_text())
-              ids.update(int(v) for v in x.get('superseded_run_ids', []))
+              ids.update(int(v) for v in json.loads(p.read_text()).get('superseded_run_ids',[]))
           for v in sorted(ids): print(v)
           PY
           if [ -n "$CARRY_RUN_ID" ]; then
-            python -c 'import json,os; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V2","superseded_run_ids":[int(os.environ["CARRY_RUN_ID"])]},sort_keys=True,indent=2)+"\n")'
+            CARRY_RUN_ID="$CARRY_RUN_ID" python -c 'import json,os; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V3","superseded_run_ids":[int(os.environ["CARRY_RUN_ID"])]},sort_keys=True,indent=2)+"\n")'
           else
-            python -c 'import json; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V2","superseded_run_ids":[]},sort_keys=True,indent=2)+"\n")'
+            python -c 'import json; from pathlib import Path; Path("/tmp/reemit/RECOVERY-LINEAGE.json").write_text(json.dumps({"schema":"STAGE32_BR204_RECOVERY_LINEAGE_V3","superseded_run_ids":[]},sort_keys=True,indent=2)+"\n")'
           fi
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           from pathlib import Path
-          m=json.loads(Path('/tmp/reemit/RECOVERY-MANIFEST.json').read_text())
-          units={(x['b'],x['d_lo'],x['d_hi']) for x in m['subunits']}
-          print('prefix_count='+str(m['validated_subunit_count']))
+          c=json.loads(Path('/tmp/reemit/RECOVERY-MANIFEST.json').read_text())
+          p=json.loads(Path('/tmp/reemit-partials/PARTIAL-MANIFEST.json').read_text())
+          d=json.loads(Path('/tmp/reemit-meta/RECOVERY-DISCOVERY.json').read_text())
+          units={(x['b'],x['d_lo'],x['d_hi']) for x in c['subunits']}
+          print('prefix_count='+str(c['validated_subunit_count']))
+          print('partial_slice_count='+str(p['validated_unique_slice_count']))
           print('pilot_low_present='+str((0,8,54) in units).lower())
           print('pilot_high_present='+str((96,148,192) in units).lower())
+          print('discovered_artifact_count='+str(d['discovered_artifact_count']))
           PY
-      - name: Delete already-superseded ancestor recovery artifacts
-        if: "${{ needs.authorize.outputs.carry_run_id != '' }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
-          REPO: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          while IFS= read -r rid; do
-            [ -n "$rid" ] || continue
-            gh api --paginate "repos/$REPO/actions/runs/$rid/artifacts?per_page=100" \
-              --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id' > "/tmp/delete-$rid.ids"
-            while IFS= read -r aid; do
-              [ -n "$aid" ] || continue
-              gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
-            done < "/tmp/delete-$rid.ids"
-          done < /tmp/ancestor-runs.txt
       - uses: actions/upload-artifact@v4
         if: "${{ steps.recover.outputs.prefix_count != '0' }}"
         with:
@@ -218,20 +254,37 @@ jobs:
           path: /tmp/reemit
           retention-days: 1
           if-no-files-found: error
-      - name: Delete directly superseded carry recovery artifacts
-        if: "${{ needs.authorize.outputs.carry_run_id != '' && steps.recover.outputs.prefix_count != '0' }}"
+      - uses: actions/upload-artifact@v4
+        if: "${{ steps.recover.outputs.partial_slice_count != '0' }}"
+        with:
+          name: br204-partials
+          path: /tmp/reemit-partials
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-recovery-meta
+          path: /tmp/reemit-meta
+          retention-days: 1
+          if-no-files-found: error
+      - name: Delete superseded recovery artifacts only after re-emission
+        if: "${{ needs.authorize.outputs.carry_run_id != '' }}"
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
           CARRY_RUN_ID: ${{ needs.authorize.outputs.carry_run_id }}
         run: |
           set -euo pipefail
-          gh api --paginate "repos/$REPO/actions/runs/$CARRY_RUN_ID/artifacts?per_page=100" \
-            --jq '.artifacts[] | select(.name=="br204-prefix" or (.name|startswith("br204-u-"))) | .id' > /tmp/delete-carry.ids
-          while IFS= read -r aid; do
-            [ -n "$aid" ] || continue
-            gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
-          done < /tmp/delete-carry.ids
+          delete_run_artifacts() {
+            rid="$1"
+            gh api --paginate "repos/$REPO/actions/runs/$rid/artifacts?per_page=100"               --jq '.artifacts[] | select(.name=="br204-prefix" or .name=="br204-partials" or .name=="br204-recovery-meta" or .name=="br204-plan" or .name=="br204-recovery-summary" or (.name|startswith("br204-u-")) or (.name|startswith("br204-p-"))) | .id' > "/tmp/delete-$rid.ids"
+            while IFS= read -r aid; do
+              [ -n "$aid" ] || continue
+              gh api -X DELETE "repos/$REPO/actions/artifacts/$aid"
+            done < "/tmp/delete-$rid.ids"
+          }
+          while IFS= read -r rid; do [ -n "$rid" ] && delete_run_artifacts "$rid"; done < /tmp/ancestor-runs.txt
+          delete_run_artifacts "$CARRY_RUN_ID"
 
   runtime:
     needs: [authorize, carry]
@@ -241,21 +294,29 @@ jobs:
         with:
           ref: ${{ github.sha }}
       - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
-      - name: Compile exact source-locked worker and recovery-aware aggregator
+      - name: Compile and self-test exact checkpoint-aware runtime
         run: |
           set -euo pipefail
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
+          test "$(git hash-object "$COMBINER")" = "$COMBINER_BLOB"
+          test "$(git hash-object "$BAND_RUNNER")" = "$BAND_RUNNER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
           test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
           python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$WORKER" -o /tmp/br204-worker
-          /tmp/br204-worker --self-test > /tmp/worker-selftest.json
+          mkdir -p /tmp/runtime
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$WORKER" -o /tmp/runtime/br204-worker
+          cp "$COMBINER" /tmp/runtime/
+          cp "$BAND_RUNNER" /tmp/runtime/
+          /tmp/runtime/br204-worker --self-test > /tmp/worker-selftest.json
+          python /tmp/runtime/combine_br204_d_slices.py self-test | tee /tmp/combiner-selftest.json
+          grep -Fq '"expected_single_d_slices": 4743' /tmp/combiner-selftest.json
+          python -m py_compile /tmp/runtime/combine_br204_d_slices.py /tmp/runtime/run_br204_resumable_band.py
           python "$AGGREGATOR" self-test
       - uses: actions/upload-artifact@v4
         with:
           name: br204-worker-runtime
-          path: /tmp/br204-worker
+          path: /tmp/runtime
           retention-days: 1
           if-no-files-found: error
 
@@ -264,50 +325,126 @@ jobs:
     if: needs.carry.outputs.pilot_low_present != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 330
+    outputs:
+      complete: ${{ steps.measure.outputs.complete }}
+      final_bytes: ${{ steps.measure.outputs.final_bytes }}
+      slice_bytes: ${{ steps.measure.outputs.slice_bytes }}
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: br204-worker-runtime
           path: /tmp/runtime
-      - name: Compute and immediately preserve pilot b0 d8..54
+      - uses: actions/download-artifact@v4
+        if: needs.carry.outputs.partial_slice_count != '0'
+        with:
+          name: br204-partials
+          path: /tmp/partials
+      - name: Run resumable pilot b0 d8..54
         run: |
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
-          mkdir -p /tmp/unit
-          /tmp/runtime/br204-worker --b 0 --d-lo 8 --d-hi 54 --worker-blob "$WORKER_BLOB" --out /tmp/unit/br204-u-b0-d8-54.tsv
-          gzip -9 -n /tmp/unit/br204-u-b0-d8-54.tsv
-          test "$(stat -c %s /tmp/unit/br204-u-b0-d8-54.tsv.gz)" -le 900000
+          python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b 0 --band-lo 8 --band-hi 54             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
+      - name: Measure pilot recovery slot
+        id: measure
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
+          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
+          final=Path('/tmp/band/br204-u-b0-d8-54.tsv.gz')
+          final_bytes=final.stat().st_size if final.exists() else 0
+          assert slice_bytes<=900000
+          if final.exists(): assert final_bytes<=900000
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V1','b':0,'band':[8,54],'complete':s['complete'],'slice_gzip_sum_bytes':slice_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          Path('/tmp/band/PILOT-MEASUREMENT-b0.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
+          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(slice_bytes)); print('final_bytes='+str(final_bytes))
+          PY
       - uses: actions/upload-artifact@v4
+        if: steps.measure.outputs.complete == 'true'
         with:
           name: br204-u-b0-d8-54
-          path: /tmp/unit/br204-u-b0-d8-54.tsv.gz
+          path: |
+            /tmp/band/br204-u-b0-d8-54.tsv.gz
+            /tmp/band/PILOT-MEASUREMENT-b0.json
           retention-days: 1
           if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: steps.measure.outputs.complete != 'true'
+        with:
+          name: br204-p-b0-d8-54
+          path: |
+            /tmp/band/slices
+            /tmp/band/STATUS.json
+            /tmp/band/PILOT-MEASUREMENT-b0.json
+          retention-days: 1
+          if-no-files-found: error
+      - name: Require complete pilot or mark generation recovery-required
+        if: steps.measure.outputs.complete != 'true'
+        run: exit 1
 
   pilot_high:
     needs: [carry, runtime]
     if: needs.carry.outputs.pilot_high_present != 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 330
+    outputs:
+      complete: ${{ steps.measure.outputs.complete }}
+      final_bytes: ${{ steps.measure.outputs.final_bytes }}
+      slice_bytes: ${{ steps.measure.outputs.slice_bytes }}
     steps:
       - uses: actions/download-artifact@v4
         with:
           name: br204-worker-runtime
           path: /tmp/runtime
-      - name: Compute and immediately preserve pilot b96 d148..192
+      - uses: actions/download-artifact@v4
+        if: needs.carry.outputs.partial_slice_count != '0'
+        with:
+          name: br204-partials
+          path: /tmp/partials
+      - name: Run resumable pilot b96 d148..192
         run: |
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
-          mkdir -p /tmp/unit
-          /tmp/runtime/br204-worker --b 96 --d-lo 148 --d-hi 192 --worker-blob "$WORKER_BLOB" --out /tmp/unit/br204-u-b96-d148-192.tsv
-          gzip -9 -n /tmp/unit/br204-u-b96-d148-192.tsv
-          test "$(stat -c %s /tmp/unit/br204-u-b96-d148-192.tsv.gz)" -le 900000
+          python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b 96 --band-lo 148 --band-hi 192             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
+      - name: Measure pilot recovery slot
+        id: measure
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
+          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
+          final=Path('/tmp/band/br204-u-b96-d148-192.tsv.gz')
+          final_bytes=final.stat().st_size if final.exists() else 0
+          assert slice_bytes<=900000
+          if final.exists(): assert final_bytes<=900000
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V1','b':96,'band':[148,192],'complete':s['complete'],'slice_gzip_sum_bytes':slice_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          Path('/tmp/band/PILOT-MEASUREMENT-b96.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
+          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(slice_bytes)); print('final_bytes='+str(final_bytes))
+          PY
       - uses: actions/upload-artifact@v4
+        if: steps.measure.outputs.complete == 'true'
         with:
           name: br204-u-b96-d148-192
-          path: /tmp/unit/br204-u-b96-d148-192.tsv.gz
+          path: |
+            /tmp/band/br204-u-b96-d148-192.tsv.gz
+            /tmp/band/PILOT-MEASUREMENT-b96.json
           retention-days: 1
           if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: steps.measure.outputs.complete != 'true'
+        with:
+          name: br204-p-b96-d148-192
+          path: |
+            /tmp/band/slices
+            /tmp/band/STATUS.json
+            /tmp/band/PILOT-MEASUREMENT-b96.json
+          retention-days: 1
+          if-no-files-found: error
+      - name: Require complete pilot or mark generation recovery-required
+        if: steps.measure.outputs.complete != 'true'
+        run: exit 1
 
   plan:
     needs: [authorize, carry, runtime, pilot_low, pilot_high]
@@ -331,39 +468,38 @@ jobs:
           pattern: br204-u-*
           path: /tmp/current
           merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: br204-recovery-meta
+          path: /tmp/meta
       - id: plan
         run: |
           set -euo pipefail
-          python "$AGGREGATOR" plan             --input-dir /tmp/current             --input-dir /tmp/prefix             --worker-blob "$WORKER_BLOB"             --out /tmp/plan.json
+          python "$AGGREGATOR" plan             --input-dir /tmp/current --input-dir /tmp/prefix             --worker-blob "$WORKER_BLOB" --out /tmp/plan.json
           python - <<'PY'
           import json
           from pathlib import Path
-          names=['br204-u-b0-d8-54.tsv.gz','br204-u-b96-d148-192.tsv.gz']
-          sizes={}
-          for name in names:
-              hits=list(Path('/tmp').rglob(name))
-              assert len(hits)==1, (name,hits)
-              sizes[name]=hits[0].stat().st_size
-          hard_cap=900_000
-          budget=524_288_000
-          overhead=20_971_520
-          assert all(x <= hard_cap for x in sizes.values())
-          absolute_rollover_peak=2*250*hard_cap + overhead
-          projected=2*250*max(sizes.values()) + overhead
-          assert absolute_rollover_peak <= budget
-          assert projected <= budget
-          Path('/tmp/pilot-storage.json').write_text(json.dumps({
-              'pilot_subunits':sizes,
-              'per_subunit_hard_cap_bytes':hard_cap,
-              'absolute_rollover_peak_bytes':absolute_rollover_peak,
-              'projection_bytes':projected,
-              'budget_bytes':budget,
-          },sort_keys=True,indent=2)+'\n')
+          found={}
+          for root in (Path('/tmp/current'),Path('/tmp/meta')):
+              if not root.exists(): continue
+              for p in root.rglob('PILOT-MEASUREMENT-b*.json'):
+                  x=json.loads(p.read_text()); b=int(x['b'])
+                  if b in found: assert found[b]==x, f'conflicting pilot measurement b={b}'
+                  found[b]=x
+          assert set(found)=={0,96}, found
+          slots={b:max(int(x['slice_gzip_sum_bytes']),int(x['final_band_gzip_bytes'])) for b,x in found.items()}
+          hard=900000; budget=524288000; overhead=20971520
+          assert all(v<=hard for v in slots.values())
+          measured=2*250*max(slots.values())+overhead
+          absolute=2*250*hard+overhead
+          assert measured<=budget and absolute<=budget
+          out={'schema':'STAGE32_BR204_PILOT_STORAGE_PREFLIGHT_V2_D_SLICE','pilot_measurements':found,'recovery_slot_bytes':slots,'hard_cap_bytes':hard,'measured_rollover_projection_bytes':measured,'absolute_rollover_peak_bytes':absolute,'budget_bytes':budget}
+          Path('/tmp/PILOT-STORAGE-PREFLIGHT.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
           PY
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           m=json.load(open('/tmp/plan.json'))['missing_units']
-          assert len(m) <= 248
+          assert len(m)<=248
           sentinel=[{'b':-1,'d_lo':-1,'d_hi':-1}]
           print('matrix='+json.dumps(m if m else sentinel,separators=(',',':')))
           print('missing_count='+str(len(m)))
@@ -373,12 +509,12 @@ jobs:
           name: br204-plan
           path: |
             /tmp/plan.json
-            /tmp/pilot-storage.json
+            /tmp/PILOT-STORAGE-PREFLIGHT.json
           retention-days: 1
           if-no-files-found: error
 
   units:
-    needs: [runtime, plan]
+    needs: [carry, runtime, plan]
     runs-on: ubuntu-latest
     timeout-minutes: 330
     strategy:
@@ -392,26 +528,102 @@ jobs:
         with:
           name: br204-worker-runtime
           path: /tmp/runtime
-      - name: Compute one missing durable b x d-band subunit
+      - uses: actions/download-artifact@v4
+        if: matrix.b != -1 && needs.carry.outputs.partial_slice_count != '0'
+        with:
+          name: br204-partials
+          path: /tmp/partials
+      - name: Resume only missing exact d slices inside one b x d-band
+        id: compute
         if: matrix.b != -1
         run: |
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
-          mkdir -p /tmp/unit
-          out="/tmp/unit/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv"
-          /tmp/runtime/br204-worker --b "${{ matrix.b }}" --d-lo "${{ matrix.d_lo }}" --d-hi "${{ matrix.d_hi }}" --worker-blob "$WORKER_BLOB" --out "$out"
-          gzip -9 -n "$out"
-          test "$(stat -c %s "$out.gz")" -le 900000
-      - uses: actions/upload-artifact@v4
+          python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b "${{ matrix.b }}" --band-lo "${{ matrix.d_lo }}" --band-hi "${{ matrix.d_hi }}"             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
+      - name: Classify and cap recovery slot
+        id: classify
         if: matrix.b != -1
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
+          slice_bytes=sum(p.stat().st_size for p in Path('/tmp/band/slices').glob('*.gz'))
+          assert slice_bytes<=900000, ('partial recovery slot too large',slice_bytes)
+          final=Path(f"/tmp/band/br204-u-b{s['b']}-d{s['band'][0]}-{s['band'][1]}.tsv.gz")
+          final_bytes=final.stat().st_size if final.exists() else 0
+          if final.exists(): assert final_bytes<=900000
+          print('complete='+str(s['complete']).lower())
+          print('stop_reason='+s['stop_reason'])
+          print('slice_bytes='+str(slice_bytes))
+          print('final_bytes='+str(final_bytes))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: matrix.b != -1 && steps.classify.outputs.complete == 'true'
         with:
           name: br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
-          path: /tmp/unit/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv.gz
+          path: /tmp/band/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv.gz
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: matrix.b != -1 && steps.classify.outputs.complete != 'true'
+        with:
+          name: br204-p-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
+          path: |
+            /tmp/band/slices
+            /tmp/band/STATUS.json
+          retention-days: 1
+          if-no-files-found: error
+      - name: Require complete outer unit or force recovery generation
+        if: matrix.b != -1 && steps.classify.outputs.complete != 'true'
+        run: exit 1
+
+  recovery_summary:
+    needs: [authorize, carry, pilot_low, pilot_high, plan, units]
+    if: ${{ always() && needs.authorize.result == 'success' && needs.carry.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Paginate current artifacts and classify partial reasons
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/partials /tmp/out
+          gh api --paginate "repos/$REPO/actions/runs/$RUN_ID/artifacts?per_page=100"             --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/current-artifacts.tsv
+          while IFS=$'\t' read -r aid name expired; do
+            [ "$expired" = false ] || continue
+            case "$name" in br204-p-*) ;; *) continue ;; esac
+            mkdir -p "/tmp/partials/$aid"
+            gh api -H 'Accept: application/vnd.github+json' "repos/$REPO/actions/artifacts/$aid/zip" > "/tmp/p-$aid.zip"
+            unzip -q "/tmp/p-$aid.zip" -d "/tmp/partials/$aid"
+          done < /tmp/current-artifacts.tsv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          statuses=[json.loads(p.read_text()) for p in Path('/tmp/partials').rglob('STATUS.json')]
+          hard=[s for s in statuses if s.get('stop_reason') not in {'SOFT_DEADLINE'}]
+          out={
+            'schema':'STAGE32_BR204_RECOVERY_SUMMARY_V1',
+            'discovered_artifact_count':len(Path('/tmp/current-artifacts.tsv').read_text().splitlines()),
+            'partial_band_status_count':len(statuses),
+            'soft_deadline_partial_count':sum(s.get('stop_reason')=='SOFT_DEADLINE' for s in statuses),
+            'hard_stop_statuses':[{'b':s.get('b'),'band':s.get('band'),'reason':s.get('stop_reason'),'failed_d':s.get('failed_d')} for s in hard],
+            'resume_eligible':not hard,
+          }
+          Path('/tmp/out/RECOVERY-SUMMARY.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-recovery-summary
+          path: /tmp/out/RECOVERY-SUMMARY.json
           retention-days: 1
           if-no-files-found: error
 
   aggregate:
-    if: ${{ always() && needs.authorize.result == 'success' && needs.carry.result == 'success' && needs.plan.result == 'success' && needs.units.result == 'success' }}
+    if: ${{ always() && needs.authorize.result == 'success' && needs.carry.result == 'success' && needs.plan.result == 'success' && needs.units.result == 'success' && (needs.pilot_low.result == 'success' || needs.pilot_low.result == 'skipped') && (needs.pilot_high.result == 'success' || needs.pilot_high.result == 'skipped') }}
     needs: [authorize, carry, pilot_low, pilot_high, plan, units]
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -424,16 +636,26 @@ jobs:
         with:
           name: br204-prefix
           path: /tmp/prefix
-      - uses: actions/download-artifact@v4
-        if: needs.plan.outputs.missing_count != '0' || needs.pilot_low.result == 'success' || needs.pilot_high.result == 'success'
-        with:
-          pattern: br204-u-*
-          path: /tmp/current
-          merge-multiple: true
-      - name: Exact union, one ratio-class rational LP, and tail attribution
+      - name: Paginate and download every current complete outer unit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
         run: |
           set -euo pipefail
-          python "$AGGREGATOR" aggregate             --input-dir /tmp/current             --input-dir /tmp/prefix             --worker-blob "$WORKER_BLOB"             --envelope "$ENVELOPE"             --main-bound "$MAIN_BOUND"             --out /tmp/BR204-FULL178-HEAVY-RESULT.json
+          mkdir -p /tmp/current
+          gh api --paginate "repos/$REPO/actions/runs/$RUN_ID/artifacts?per_page=100"             --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/current-artifacts.tsv
+          while IFS=$'\t' read -r aid name expired; do
+            [ "$expired" = false ] || continue
+            case "$name" in br204-u-*) ;; *) continue ;; esac
+            mkdir -p "/tmp/current/$aid"
+            gh api -H 'Accept: application/vnd.github+json' "repos/$REPO/actions/artifacts/$aid/zip" > "/tmp/u-$aid.zip"
+            unzip -q "/tmp/u-$aid.zip" -d "/tmp/current/$aid"
+          done < /tmp/current-artifacts.tsv
+      - name: Exact 250-unit union, ratio-class LP, and tail attribution
+        run: |
+          set -euo pipefail
+          python "$AGGREGATOR" aggregate             --input-dir /tmp/current --input-dir /tmp/prefix             --worker-blob "$WORKER_BLOB" --envelope "$ENVELOPE"             --main-bound "$MAIN_BOUND" --out /tmp/BR204-FULL178-HEAVY-RESULT.json
           cat /tmp/BR204-FULL178-HEAVY-RESULT.json
       - uses: actions/upload-artifact@v4
         with:
