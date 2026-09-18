@@ -275,7 +275,7 @@ jobs:
             "firewalls":{"main_pruning_credit":False,"receiver_credit":False,"effectivity_credit":False,"theorem_credit":False,"endpoint_credit":False,"full178_complete":False,"stage32_closed":False,"merge_authorized":False}
           }
           out["canonical_sha256_without_this_field"]=csha(out)
-          Path("$RUNNER_TEMP/btva-d8-e12-basis-pairing-top16.json").write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          Path(sys.argv[1]).write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
           print("BTVA_D8_E12_TOP16_SUMMARY="+json.dumps(out["summary"],sort_keys=True))
           print("BTVA_D8_E12_TOP16_CANONICAL="+out["canonical_sha256_without_this_field"])
           PY
