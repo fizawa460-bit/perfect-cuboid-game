@@ -5,6 +5,7 @@ import argparse
 import gzip
 import hashlib
 import json
+import shutil
 from fractions import Fraction
 from pathlib import Path
 
@@ -152,9 +153,10 @@ def discover(input_dirs: list[Path], worker_blob: str) -> dict[tuple[int, int, i
             if key not in out:
                 out[key] = u
                 source_rank[key] = rank
-            elif source_rank[key] == rank:
-                req(out[key]["sha256"] == u["sha256"], f"conflicting duplicate subunit={key} in same input priority")
-            # A later input directory is carry-only fallback; a validated current subunit wins.
+            else:
+                req(out[key]["sha256"] == u["sha256"],
+                    f"conflicting duplicate subunit={key} across recovery inputs")
+            # Identical duplicates are harmless; the first validated source path is retained.
     return out
 def solve_lp(bins: dict[tuple[int, int], int], envelope: int,
              tail_bins: dict[tuple[int, int], int] | None = None) -> dict:
@@ -221,6 +223,45 @@ def solve_lp(bins: dict[tuple[int, int], int], envelope: int,
         "forced_tail_selected_capacity": forced_tail,
         "selected_ratio_classes_total_tail_capacity": selected_classes_total_tail_capacity,
     }
+
+
+
+def command_checkpoint(args) -> None:
+    units = discover([Path(x) for x in args.input_dir], args.worker_blob)
+    out_dir = Path(args.out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    rows = []
+    total_gzip_bytes = 0
+    for key in sorted(units):
+        u = units[key]
+        src = Path(u["source_path"])
+        req(src.suffix == ".gz", f"recovery subunit must be gzip: {src}")
+        b, d_lo, d_hi = key
+        dst = out_dir / f"br204-u-b{b}-d{d_lo}-{d_hi}.tsv.gz"
+        shutil.copyfile(src, dst)
+        size = dst.stat().st_size
+        total_gzip_bytes += size
+        rows.append({
+            "b": b,
+            "d_lo": d_lo,
+            "d_hi": d_hi,
+            "raw_stream_sha256": u["sha256"],
+            "gzip_bytes": size,
+        })
+    manifest = {
+        "schema": "STAGE32_BR204_RECOVERY_PREFIX_V1",
+        "worker_blob": args.worker_blob,
+        "validated_subunit_count": len(rows),
+        "complete": len(rows) == EXPECTED_SUBUNITS,
+        "total_gzip_bytes": total_gzip_bytes,
+        "subunits": rows,
+    }
+    Path(args.manifest).write_text(json.dumps(manifest, sort_keys=True, indent=2) + "\n")
+    print(json.dumps({
+        "validated_subunit_count": len(rows),
+        "complete": manifest["complete"],
+        "total_gzip_bytes": total_gzip_bytes,
+    }, sort_keys=True))
 
 
 def command_plan(args) -> None:
@@ -445,6 +486,12 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
 
+    cp = sub.add_parser("checkpoint")
+    cp.add_argument("--input-dir", action="append", default=[])
+    cp.add_argument("--worker-blob", required=True)
+    cp.add_argument("--out-dir", required=True)
+    cp.add_argument("--manifest", required=True)
+
     p = sub.add_parser("plan")
     p.add_argument("--input-dir", action="append", default=[])
     p.add_argument("--worker-blob", required=True)
@@ -459,7 +506,9 @@ def main() -> None:
 
     sub.add_parser("self-test")
     args = ap.parse_args()
-    if args.cmd == "plan":
+    if args.cmd == "checkpoint":
+        command_checkpoint(args)
+    elif args.cmd == "plan":
         command_plan(args)
     elif args.cmd == "aggregate":
         command_aggregate(args)
