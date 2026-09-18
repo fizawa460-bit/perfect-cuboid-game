@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V4_PUSH_EXECUTION",
-  "generation": 1,
-  "armed": true,
-  "purpose": "Generation 1 BR204 FULL178 heavy execution. Auto-launch by this exact runkey-only push.",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V5_D_SLICE_RESUME",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold rebuilt BR204 FULL178 heavy runkey after cancellation of generation 1. Exact single-d inner checkpoints and soft-deadline partial recovery are required; fresh exact-head replay and hostile audit must PASS before re-arming.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -39,29 +39,33 @@
       }
     ],
     "envelope": "6703403803993209250491",
-    "main_bound_snapshot": "179119009547804181594",
+    "main_bound_snapshot": "157570677819451133507",
     "trigger": {
       "event": "push",
       "branch": "stage32bridge-mainbatch",
       "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
       "execution_commit_message_prefix": "stage32 BR204 execute generation "
-    }
+    },
+    "exact_inner_checkpoint_count": 4743
   },
   "source_locks": {
-    "worker_blob": "b180c71ae32f8da4a85daec30cc6a03bf57278fc",
+    "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
+    "execution_contract_blob": "f3cff578e2970df1246239ae7735564509d4dae3",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
-    "audited_numeric_main_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
-    "audited_numeric_main_review_id": 5231559824,
-    "repository_main_head": "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
-    "repository_main_state_blob": "dd7dba27eb062e6a6ad4d440094ba26c290900d7",
-    "repository_main_state_canonical_sha256": "b9886a12fc479acae53de4bdff84ee452a208dfb641eec3ea199ee876cb6898c",
+    "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
+    "audited_numeric_main_review_id": null,
+    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
+    "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
     "bridge_predecessor_audited_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "bridge_predecessor_audit_review_id": 5242897044
+    "bridge_predecessor_audit_review_id": 5242897044,
+    "d_slice_combiner_blob": "3869a397cefdccb343434a0e23bc0f6e4ed37c16",
+    "resumable_band_runner_blob": "93f80d3d95e48d24843e92fd03972179dabeca5a"
   },
   "resume": {
-    "durable_unit": "b_x_d_band",
+    "durable_outer_unit": "b_x_d_band",
+    "exact_inner_checkpoint_unit": "b_x_d",
     "d_bands": [
       [
         8,
@@ -80,37 +84,47 @@
         192
       ]
     ],
-    "expected_subunit_count": 250,
+    "expected_outer_subunit_count": 250,
+    "expected_exact_inner_checkpoint_count": 4743,
     "generation_start_prefix_reemit": true,
-    "single_previous_run_suffices": true,
     "recover_prefix_plus_completed_units": true,
+    "recover_partial_slice_bundle": true,
+    "paginated_artifact_retrieval_required": true,
+    "record_discovered_artifact_count": true,
     "precompute_reemit_required": true,
     "cleanup_superseded_prior_recovery_artifacts": true,
     "cleanup_failure_is_hard_stop": true,
-    "reuse_validated_subunits": true,
-    "compute_missing_only": true,
-    "require_complete_tail_record": true,
-    "require_exact_band_identity": true,
-    "repeated_static_metadata_must_match_within_b": true,
-    "pilots_independently_durable": true,
+    "reuse_validated_complete_units": true,
+    "reuse_validated_single_d_slices": true,
+    "compute_missing_d_only_inside_incomplete_band": true,
+    "soft_deadline_seconds": 13500,
+    "hard_job_timeout_minutes": 330,
+    "single_d_timeout_seconds": 3600,
+    "single_d_timeout_requires_finer_partition": true,
+    "blind_timeout_extension_forbidden": true,
+    "pilots_use_same_checkpoint_runner": true,
     "intermediate_retention_days": 1
   },
   "storage": {
-    "per_subunit_gzip_hard_cap_bytes": 900000,
+    "per_outer_recovery_slot_hard_cap_bytes": 900000,
+    "complete_band_gzip_hard_cap_bytes": 900000,
+    "partial_band_single_d_gzip_sum_hard_cap_bytes": 900000,
     "budget_bytes": 524288000,
     "pilot_projection_safety_multiplier": 2,
     "fixed_overhead_bytes": 20971520,
-    "absolute_rollover_peak_bound_bytes": 470971520
+    "absolute_rollover_peak_bound_bytes": 470971520,
+    "representative_pilots_must_measure_complete_and_slice_footprints": true
   },
   "arm_contract": {
     "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only commit",
-    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, and set carry_run_id to the immediately previous failed/cancelled/timed-out BR204 heavy run",
+    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediately previous recovery-eligible BR204 heavy run, and preserve all execution/source/resume/storage/credit locks",
     "execution_commit_message_prefix": "stage32 BR204 execute generation ",
-    "dispatch_exact_head_required": true,
     "execution_head_parent_diff_must_include_only_this_runkey": true,
     "cold_non_execution_commits_do_not_authorize": true,
-    "audited_doorstep_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
-    "audited_doorstep_review_id": 5243659462
+    "failed_generation_requires_recovery_summary_resume_eligible": true,
+    "cancelled_or_timed_out_generation_may_salvage_paginated_completed_and_partial_artifacts": true,
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null
   },
   "credit": {
     "stage32_main": false,
@@ -123,8 +137,11 @@
     "merge": false
   },
   "audit_hold": {
-    "previous_manual_design_pass_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
-    "previous_manual_design_review_id": 5242897044,
-    "status": "SUPERSEDED_BY_PUSH_TRIGGER_REDESIGN__FRESH_AUDIT_REQUIRED"
+    "previous_pass_head": "48bf75ea1fe79afe08d4349799bc699da651ce04",
+    "previous_review_id": 5243659462,
+    "cancelled_generation1_run_id": 35299814222,
+    "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
+    "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
+    "status": "MATERIAL_RESUME_REBUILD_REQUIRES_FRESH_HOSTILE_AUDIT"
   }
 }
