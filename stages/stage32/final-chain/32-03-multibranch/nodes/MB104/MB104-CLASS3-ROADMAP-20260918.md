@@ -568,3 +568,36 @@ W20 support-hyperplane residue / Abel relation
 ```
 
 One cheap test each.  No missing-adapter construction.
+
+
+### Wide scan Round D disposition
+
+Round D checkpoint:
+
+```
+MB104-WIDE-SHALLOW-ROUND-D-20260918.md
+```
+
+Archive-semantic precheck was performed.  All five candidates drop:
+
+```
+W16 Cayley--Bacharach subcluster     DROP
+W17 support-stabilizer dichotomy     DROP
+W18 elliptic secant-center capacity  DROP
+W19 adaptive Wronskian budget        DROP
+W20 support-hyperplane Abel/residue  DROP
+```
+
+No second-scan survivor and no DEEP candidate.
+
+Round E remains broad and contains only archive-prechecked mechanisms:
+
+```
+W21 first-jet / polar singularity capacity
+W22 stable-map virtual dimension / normal sheaf
+W23 Castelnuovo--Severi on joint factor pair
+W24 dualizing conductor / different identity
+W25 Lefschetz-pencil singular-fiber budget
+```
+
+One cheap test each.  Do not construct adapters or deepen any Round-D route.
