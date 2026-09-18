@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE32_MB104_SOFTPARK_SECOND_DEPTH_R1_V1",
+  "status": "ROUND1_COMPLETE_SELECTION_NO_CREDIT",
+  "audited_predecessor_head": "2054f616bbb1f4c4228737779d7753c3b15cb427",
+  "target": {
+    "support_mask": "000707000f0f",
+    "D2": "336*l^2",
+    "K_D": "112*l",
+    "delta": "168*l^2+56*l",
+    "success_shapes": [
+      "ALL_L_EXCLUSION",
+      "LARGE_L_EXCLUSION_PLUS_FINITE_BACKEND"
+    ]
+  },
+  "W4": {
+    "disposition": "ADVANCE_FOR_THIRD_DEPTH",
+    "pushdown_square_coefficients": {
+      "a1": 1344,
+      "a2": 1344,
+      "a3": 1376,
+      "b1": 1152,
+      "b2": 1152,
+      "b3": 736,
+      "c": 1312
+    },
+    "degree_coefficient": 112,
+    "exact_next_gate": "For each primitive K3 pushdown ray P, decide P.R>=0 for every effective (-2)-root R in the exact rank-20 quotient Picard lattice.",
+    "closure_if_negative_root": true,
+    "root_wall_uniform_in_l": true
+  },
+  "W13": {
+    "disposition": "RESERVE",
+    "primitive_ray_homogeneous": true,
+    "known_null_quartics_nonfixed_all_l": true,
+    "exact_next_gate": "Source-complete D1-negative/null effective-curve inventory in rank-64 Pic(S).",
+    "reason": "Valid all-l fixed-component shape, but source-complete cone problem is substantially larger than W4."
+  },
+  "W16": {
+    "disposition": "ADVANCE_FOR_THIRD_DEPTH",
+    "L_square": "336*l^2-224*l+16",
+    "target_cluster_length_upper_bound": "112*l",
+    "conditional_discriminant_lower_bound": "336*l^2-672*l+16",
+    "positive_for_all_l_ge": 2,
+    "finite_backend_if_adapter_proved": [
+      1
+    ],
+    "required_new_input": "Canonical proper lci Cayley-Bacharach Z_l of O(l) length with non-split Serre extension, produced by every hypothetical carrier.",
+    "forbidden_reuse": "C intersect B_E split complete-intersection Serre bundle"
+  },
+  "W26": {
+    "disposition": "PARK_DOMINATED_BY_W16",
+    "diagnostic": "ordinary-node optimistic Keilen-shaped leading coefficient",
+    "lhs_leading": "168*(1+alpha)^2",
+    "rhs_leading": "336*alpha",
+    "difference_rhs_minus_lhs": "-168*(1+alpha^2)",
+    "can_close_with_same_constants": false,
+    "reopen_only_if": "packet-specific theorem changes coefficient/structure rather than merely removing Picard-rank hypothesis"
+  },
+  "W31": {
+    "disposition": "PARK_NO_CURRENT_INTRINSIC_SYSTEM",
+    "retained_tautological_extension": "0 -> O_S(D_l-H) -> E -> M_H^vee -> 0",
+    "current_all_carrier_nonextendable_coherent_system": false,
+    "reopen_only_if": "source-complete intrinsic carrier/normalization coherent system not induced by a globally generated surface bundle"
+  },
+  "selection": {
+    "advance_for_third_depth": [
+      "W4",
+      "W16"
+    ],
+    "reserve": [
+      "W13"
+    ],
+    "park": [
+      "W26",
+      "W31"
+    ],
+    "next_second_depth_round": [
+      "W5",
+      "W6",
+      "W11",
+      "W20",
+      "W30"
+    ]
+  },
+  "credit_firewall": {
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
