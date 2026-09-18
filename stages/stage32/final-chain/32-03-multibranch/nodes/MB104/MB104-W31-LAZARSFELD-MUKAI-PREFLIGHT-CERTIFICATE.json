@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_W31_LAZARSFELD_MUKAI_PREFLIGHT_V1",
-  "status": "SECOND_SCAN_COMPLETE_HIGH_VALUE_SOFT_PARK_NO_CREDIT",
+  "status": "ARCHITECTURE_HARD_DROP_TAUTOLOGICAL_DESTABILIZER_NO_CREDIT",
   "target": {
     "mask": "000707000f0f",
     "hypothetical_carrier": "integral Cartier divisor C in |D_l| with normalization genus 1 and retained packet",
@@ -75,26 +75,22 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "second_scan_result": {
-    "status": "NUMERICAL_DETERMINANT_CONE_NONEMPTY",
-    "setup": "For F subset O_S^7, a saturated destabilizing subsheaf G of rank r has det G=O(-B) with B effective and -H.B/r > -16*l, i.e. H.B < 16*l*r.",
-    "exact_witness_family": {
-      "B": "H",
-      "rank_r": 2,
-      "H_B": 16,
-      "slope_det_over_rank": -8,
-      "inequality": "-8 > -16*l for every l>=1",
-      "known_curve_pairings": "H has nonnegative intersections with retained effective test curves and is itself effective/canonical"
+  "structural_resolution": {
+    "ambient_evaluation": "0 -> M_H -> V tensor O_S -> O_S(H) -> 0",
+    "carrier_restriction_kernel": "0 -> M_H -> F -> O_S(H-D_l) -> 0",
+    "dual_extension": "0 -> O_S(D_l-H) -> E -> M_H^vee -> 0",
+    "explicit_destabilizer": {
+      "line_bundle": "O_S(D_l-H)",
+      "H_slope": "H.(D_l-H)=112*l-16",
+      "E_slope": "mu_H(E)=16*l",
+      "inequality": "112*l-16 > 16*l for every l>=1"
     },
-    "supported_exceptional_restriction": {
-      "statement": "On a supported exceptional E_i, H|E_i is trivial and the elementary transform restricts as O_E^6 plus O_E(-8*l).",
-      "consequence": "A determinant condition B.E_i>=0 is compatible with B=H, since H.E_i=0."
-    },
+    "consequence": "The Bogomolov instability detected in the preflight is tautological: the destabilizing line subbundle is already forced by the fact that A=O_C(H) extends from the surface.",
     "decision": {
-      "tested_second_architecture_status": "HARD-DROP",
-      "broader_direction_status": "SOFT-PARK_HIGH_VALUE",
-      "reason": "Bogomolov instability is genuine, but slope/effectivity/intersection inequalities alone leave an explicit determinant witness B=H at rank 2 for every l. Any continuation must use the actual embedding G->F/evaluation geometry, not only the Picard cone.",
-      "promote_to_deep": false
+      "tested_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK",
+      "promote_to_deep": false,
+      "reason": "No new divisor/sheaf datum is produced. A genuinely new LM route would need a carrier line bundle/coherent system not obtained by restricting a globally generated surface line bundle in this tautological way."
     }
   }
 }
