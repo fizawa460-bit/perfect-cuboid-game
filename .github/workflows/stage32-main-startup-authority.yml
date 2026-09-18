@@ -567,7 +567,7 @@ jobs:
           print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
           PY
 
-      - name: Gate V44 BTVA full343 V3 diagnostic runkey
+      - name: Gate V44 BTVA full343 V3 resume scaleout runkey
         id: btva_full343_v3_gate
         if: github.event_name == 'pull_request'
         shell: bash
@@ -597,37 +597,47 @@ jobs:
           old=json.loads(subprocess.check_output(["git","show",f"{before}:{path}"],text=True))
           assert cur["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_RUNKEY_V3"
           assert old["schema"]==cur["schema"]
-          assert cur["generation"]==old["generation"]+1 and cur["generation"]>0
-          assert cur["armed"] is True
-          assert cur["target_shards"]==[0]
-          if old["generation"]==0:
-              assert old["armed"] is False
-              assert cur["generation"]==1
-              assert cur["carry_run_id"] is None
-          else:
-              assert old["armed"] is True
-              assert isinstance(cur["carry_run_id"], int) and cur["carry_run_id"]>0
+          assert old["generation"]==2 and old["armed"] is True
+          assert cur["generation"]==3 and cur["armed"] is True
+          assert cur["target_shards"]==[1,2,3,4,5,6,7]
+          assert cur["carry_run_id"]==35315823446
           assert cur["execution"]==old["execution"]
-          assert cur["source_locks"]["preflight_blob_sha1"]=="354e9e55bfb550f5dbc8276041b54d2c9e78be72"
+          for key in ("worker_blob_sha1","aggregator_blob_sha1","conic_separation_blob_sha1","repository_main_head","authority_bound"):
+              assert cur["source_locks"][key]==old["source_locks"][key]
+          assert cur["source_locks"]["preflight_blob_sha1"]=="fe79c6df5d981e8add3aebf5818b51aeea1aabab"
           assert cur["source_locks"]["worker_blob_sha1"]=="63321a54f565b2da38efbef756caf8db148f0063"
           assert cur["source_locks"]["aggregator_blob_sha1"]=="d7099df483bfd12b71969ec2ae7ce7b36534122a"
           assert cur["source_locks"]["conic_separation_blob_sha1"]=="75d384c194c678ff6158ea793e943bce91741bb8"
           assert cur["source_locks"]["repository_main_head"]=="83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
           assert cur["source_locks"]["authority_bound"]=="157570677819451133507"
+          assert cur["execution"]["effective_concurrency"]==1
+          assert cur["execution"]["solver_timeout_ms_per_key"]==1500
+          assert cur["execution"]["max_flat_cuts_per_key"]==16
+          assert cur["execution"]["checkpoint_per_base4"] is True
           assert cur["execution"]["bootstrap_error_capture"] is True
           assert cur["zero_credit"] is True
           assert cur["merge_authorized"] is False
           PY
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json)" = "354e9e55bfb550f5dbc8276041b54d2c9e78be72"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json)" = "fe79c6df5d981e8add3aebf5818b51aeea1aabab"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "63321a54f565b2da38efbef756caf8db148f0063"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py)" = "d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          echo "carry_run_id=35315823446" >> "$GITHUB_OUTPUT"
           echo "run=true" >> "$GITHUB_OUTPUT"
 
-      - name: Install V44 full343 V3 diagnostic dependencies
+      - name: Carry retained V44 full343 shard0 artifact
+        if: steps.btva_full343_v3_gate.outputs.run == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-v3-diagnostic
+          path: /tmp/btva-full343-v3-carry
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.btva_full343_v3_gate.outputs.carry_run_id }}
+
+      - name: Install V44 full343 V3 scaleout dependencies
         if: steps.btva_full343_v3_gate.outputs.run == 'true'
         run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
 
-      - name: Run V44 full343 V3 diagnostic shard0
+      - name: Run V44 full343 V3 missing shards sequentially
         id: btva_full343_v3_run
         if: steps.btva_full343_v3_gate.outputs.run == 'true'
         shell: bash
@@ -635,48 +645,96 @@ jobs:
           BTVA_BOOTSTRAP_ERROR_PATH: /tmp/btva-full343-v3-diagnostic/bootstrap-error.json
         run: |
           set -euo pipefail
-          mkdir -p /tmp/btva-full343-v3-shards /tmp/btva-full343-v3-checkpoints/shard0 /tmp/btva-full343-v3-diagnostic
-          python stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py \
-            --retained stages/stage33/33-07/picard_base_rows_retained.py \
-            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
-            --lane178-root .stage32-178-btva-source \
-            --shard-index 0 \
-            --shard-count 8 \
-            --solver-timeout-ms 1500 \
-            --max-flat-cuts 16 \
-            --checkpoint-dir /tmp/btva-full343-v3-checkpoints/shard0 \
-            --output /tmp/btva-full343-v3-shards/btva-base4-full343-shard-0.json
-          test "$(stat -c %s /tmp/btva-full343-v3-shards/btva-base4-full343-shard-0.json)" -le 262144
-          test "$(find /tmp/btva-full343-v3-checkpoints/shard0 -type f -name 'base4-*.json' | wc -l)" -eq 43
+          mkdir -p /tmp/btva-full343-v3-shards /tmp/btva-full343-v3-checkpoints /tmp/btva-full343-v3-diagnostic
+          for shard in 1 2 3 4 5 6 7; do
+            mkdir -p "/tmp/btva-full343-v3-checkpoints/shard$shard"
+            python stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --lane178-root .stage32-178-btva-source \
+              --shard-index "$shard" \
+              --shard-count 8 \
+              --solver-timeout-ms 1500 \
+              --max-flat-cuts 16 \
+              --checkpoint-dir "/tmp/btva-full343-v3-checkpoints/shard$shard" \
+              --output "/tmp/btva-full343-v3-shards/btva-base4-full343-shard-$shard.json"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          for shard in range(1,8):
+              out=Path(f"/tmp/btva-full343-v3-shards/btva-base4-full343-shard-{shard}.json")
+              assert out.is_file() and out.stat().st_size <= 262144
+              got=len(list(Path(f"/tmp/btva-full343-v3-checkpoints/shard{shard}").glob("base4-*.json")))
+              expect=len(range(shard,343,8))
+              assert got==expect,(shard,got,expect)
+          PY
 
-      - name: Preserve V44 full343 V3 diagnostics
-        if: always() && steps.btva_full343_v3_gate.outputs.run == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage32-main-btva-base4-full343-v3-diagnostic
-          path: |
-            /tmp/btva-full343-v3-shards
-            /tmp/btva-full343-v3-checkpoints
-            /tmp/btva-full343-v3-diagnostic
-          retention-days: 1
-          compression-level: 9
-          if-no-files-found: warn
-
-      - name: Validate V44 full343 V3 pilot shard
+      - name: Validate V44 full343 V3 missing shards
         if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_run.conclusion == 'success'
         run: |
-          python - /tmp/btva-full343-v3-shards/btva-base4-full343-shard-0.json <<'PY'
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          for shard in range(1,8):
+              path=Path(f"/tmp/btva-full343-v3-shards/btva-base4-full343-shard-{shard}.json")
+              p=json.load(open(path))
+              stored=p.pop("canonical_sha256_without_this_field")
+              calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+              assert stored==calc
+              assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_SHARD_V1"
+              assert p["execution"]["shard_index"]==shard and p["execution"]["shard_count"]==8
+              assert p["summary"]["key_count"]==len(range(shard,343,8))
+              assert p["firewalls"]["main_pruning_credit"] is False
+              assert p["firewalls"]["merge_authorized"] is False
+              print(json.dumps({"shard":shard,"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Aggregate V44 full343 V3 carried plus missing shards
+        id: btva_full343_v3_aggregate
+        if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_run.conclusion == 'success'
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/btva-full343-v3-parent
+          python stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py \
+            --input-dir /tmp/btva-full343-v3-carry \
+            --input-dir /tmp/btva-full343-v3-shards \
+            --output /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json
+          test "$(stat -c %s /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json)" -le 524288
+
+      - name: Validate V44 full343 V3 exact union
+        if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_aggregate.conclusion == 'success'
+        run: |
+          python - /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json <<'PY'
           import hashlib,json,sys
           p=json.load(open(sys.argv[1]))
           stored=p.pop("canonical_sha256_without_this_field")
           calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
           assert stored==calc
-          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_SHARD_V1"
-          assert p["execution"]["shard_index"]==0
-          assert p["summary"]["key_count"]==43
+          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_AGGREGATE_V1"
+          assert p["execution"]["coverage_complete"] is True
+          assert len(p["execution"]["shard_digests"])==8
+          assert p["population"]["base4_key_count"]==343
+          assert p["population"]["terminal_mass"]==1278934
+          assert p["firewalls"]["bounded_solver_timeout_means_unknown_is_not_unsat"] is True
           assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
           print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
           PY
+
+      - name: Preserve V44 full343 V3 resume evidence
+        if: always() && steps.btva_full343_v3_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-v3-diagnostic
+          path: |
+            /tmp/btva-full343-v3-carry
+            /tmp/btva-full343-v3-shards
+            /tmp/btva-full343-v3-checkpoints
+            /tmp/btva-full343-v3-parent
+            /tmp/btva-full343-v3-diagnostic
+          retention-days: 1
+          compression-level: 9
+          if-no-files-found: warn
 
       - name: Enforce V44 successor scope
         if: github.event_name == 'pull_request'
@@ -687,7 +745,7 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
+              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
               *) echo "unexpected V44 successor path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
