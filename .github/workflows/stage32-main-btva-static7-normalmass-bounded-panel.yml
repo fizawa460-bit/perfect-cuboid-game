@@ -87,7 +87,7 @@ jobs:
           compression-level: 9
 
 
-  e12-ratio-directed-selector:
+  e12-ratio-directed-btva-panel:
     if: github.event_name == 'push'
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -105,13 +105,13 @@ jobs:
           path: .stage32-ex5-hpadj21
           fetch-depth: 1
 
-      - name: Assert exact ratio-selector sources
+      - name: Assert exact ratio-panel sources
         shell: bash
         run: |
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "${{ github.sha }}"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py)" = "4160b8cf04e41ed467a04d481779a49928f0376c"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json)" = "35b94bf7aa6635130938327eb316e4cf6fc30495"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py)" = "69907e11347709baca6ffa9e980ab696b2e2f7e8"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json)" = "6a8a73d1bca01d0ef9f34b089254e7a98a5e44e0"
           test "$(git -C .stage32-ex5-hpadj21 rev-parse HEAD)" = "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
           test "$(git -C .stage32-ex5-hpadj21 hash-object stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py)" = "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7"
 
@@ -120,34 +120,41 @@ jobs:
         with:
           python-version: '3.11.x'
 
-      - name: Run exact e12 ratio-directed selector
+      - name: Run exact e12 ratio-directed BTVA panel
         shell: bash
         run: |
-          python stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py \
-            --hpadj21-root .stage32-ex5-hpadj21 \
-            --output "$RUNNER_TEMP/btva-e12-ratio-directed-selector.json"
+          python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+          git clone --quiet --no-checkout . .stage32-178-panel
+          git -C .stage32-178-panel checkout --quiet e60f03cf5105bc6e26cb4615acabd6fe0c07625c
+          python stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-panel \
+            --solver-timeout-ms 2500 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-directed-panel.json"
 
-      - name: Validate ratio-directed selector
+      - name: Validate ratio-directed BTVA panel
         shell: bash
         run: |
-          python - "$RUNNER_TEMP/btva-e12-ratio-directed-selector.json" <<'PY'
+          python - "$RUNNER_TEMP/btva-e12-ratio-directed-panel.json" <<'PY'
           import hashlib,json,sys
           p=json.load(open(sys.argv[1]))
           stored=p.pop("canonical_sha256_without_this_field")
           calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
           assert stored==calc
-          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_V1"
-          assert p["baseline"]["top16_exact_qbin_row_floor"]==448261
-          assert len(p["selected"])==16
-          assert p["semantics"]["selector_is_not_unsat_proof"] is True
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_BASIS_PAIRING_PANEL_V1"
+          assert p["target"]["selected_count"]==16
+          assert p["summary"]["unsat_base4_count"]+p["summary"]["compatible_sat_base4_count"]+p["summary"]["unknown_base4_count"]==16
           assert p["firewalls"]["main_pruning_credit"] is False
-          print(json.dumps({"selected":[r["base4"] for r in p["selected"]],"hypothetical":p["hypothetical_if_all_selected_unsat"],"canonical":stored},sort_keys=True))
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
           PY
 
-      - name: Upload compact ratio-selector evidence
+      - name: Upload compact ratio-panel evidence
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-main-btva-e12-ratio-directed-selector
-          path: ${{ runner.temp }}/btva-e12-ratio-directed-selector.json
+          name: stage32-main-btva-e12-ratio-directed-panel
+          path: ${{ runner.temp }}/btva-e12-ratio-directed-panel.json
           retention-days: 7
           compression-level: 9
