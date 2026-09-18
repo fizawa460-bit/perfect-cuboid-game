@@ -386,26 +386,59 @@
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-B1-CB-FIRST-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_b1_cb_first.py",
       "result": "q(S)=0 makes surface restriction to the carrier surjective. The common six-branch factor passport gives O(U)=O(R_i)=M_i^2 and delta=M1 M2^-1 in E[2]; theta/canonical descent gives nu^*H=M1 M2, hence nu^*D_l=M_i^(6l) tensor delta^l=O_E(3l R_i) tensor delta^l. On elliptic E the full normalization linear system separates every ramification point from all the others, so ramification geometry alone is not CB. Surface CB can only be created by the singular conductor/gluing descent subspace."
+    },
+    "population_wide_z_scan": {
+      "status": "ACTIVE_USER_DIRECTED_BREADTH_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUNDS-1-2-20260919.md",
+      "scope": "WHOLE_R29_LG2_MB_POPULATION_NOT_ONLY_BALANCED_000707",
+      "target": "POPULATION_WIDE_FINITE_DEGREE_OR_EQUIVALENT_FINITE_PICARD_INTERSECTION_WINDOW",
+      "planned_routes": 30,
+      "batch_size": 5,
+      "rounds_complete": [
+        "Z1-Z5",
+        "Z6-Z10"
+      ],
+      "promising": [
+        "Z2"
+      ],
+      "soft_park": [
+        "Z3",
+        "Z4_GLOBAL_LOCALIZATION_REFINEMENT",
+        "Z5_PACKET_SENSITIVE_ARITHMETIC_REFINEMENT"
+      ],
+      "hard_or_absorbed_tested": [
+        "Z1",
+        "Z4",
+        "Z5",
+        "Z6",
+        "Z7",
+        "Z8",
+        "Z9",
+        "Z10"
+      ],
+      "next_batch": "Z11-Z15",
+      "deepen_before_breadth_complete": false,
+      "w16_h_paused": true,
+      "finite_degree_window_proved": false,
+      "receiver_credit": false
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 W16-H solo — Hilbert/Quot materialization of the conductor descent map",
-    "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W16-B1 is complete as a direct CB analysis and leaves exactly one missing mechanism. The surface restriction map is surjective because q(S)=0. On the elliptic normalization, with M_i=phi_i^*O(1), the six-branch passport gives O(U)=O(R_i)=M_i^2 and delta=M1 M2^-1 in E[2]; canonical theta descent gives nu^*H=M1 M2, so nu^*O_C(D_l)=M_i^(6l) tensor delta^l=O_E(3l R_i) tensor delta^l. The full normalization linear system separates every p in R_i from R_i\\{p}, hence any surface CB must be caused entirely by the conductor/gluing descent H0(C,O_C(D_l)) subset H0(E,nu^*O_C(D_l)). Work H only: materialize that descent map as a finite conductor quotient / Quot / Hilbert-compatible linear map and test it on the one-point-separating subspaces. Do not merely repackage nu_*O_Rphi as in A1.",
+    "title": "MB104 population-wide Z scan Round 3 — Z11 to Z15",
+    "active_leaf": "MB104-POPULATION-WIDE-FINITE-WINDOW-BREADTH-SCAN",
+    "required_input": "Rounds Z1-Z10 are complete at shallow depth. Z2 is the only PROMISING route so far but must not be deepened yet. Generate five materially distinct population-wide finite-window mechanisms Z11-Z15, test one cheap kill gate each against the full R29-LG2-MB receiver and the balanced 000707 hostile case, preserve genuinely distinct soft refinements, and do not descend into W16-H.",
     "success_shapes": [
-      "construct the exact conductor quotient map on H0(E,nu^*O_C(D_l)) and prove it kills every one-point-separating section, establishing CB",
-      "construct one explicit conductor-compatible separating section, disproving CB for Z_red",
-      "prove the currently retained conductor data are insufficient to determine the restriction of the descent map on the ramification-separating subspaces, closing H negatively and leaving only the final no-go/required-new-input statement"
+      "identify a new population-wide theorem shape that can force d<=D or an equivalent finite Picard/intersection window and survives its shallow kill test",
+      "prove a proposed architecture is hard/absorbed by an earlier Z route with an exact structural reduction",
+      "finish Z11-Z15 with no new survivor while preserving Z2 and any explicit soft refinements for the final six-round comparison"
     ],
     "must_not_repeat": [
-      "conductor residual-sheet recovery as primary route without a new source-locked adapter",
-      "Armstrong H1/Picard rank/minor replay without fixed-element source-completeness and a new bridge",
-      "cusp-width without exact support equality",
-      "counting-only RH/Bezout/fixed-jet recombinations",
-      "direct Stage34/A2 fixed finite-cover transplant",
-      "Picard integrality or ordinary non-effectivity as the sole obstruction",
-      "generic correspondence-degree or non-arithmetic commensurator bounds on C8"
+      "W16 conductor/CB deepening during the breadth phase",
+      "balanced-000707-only statements promoted to the whole R29-LG2-MB population",
+      "generic product-cover or Castelnuovo-Severi bounds already killed by Z5/Z6",
+      "aggregate-only delta/BMY arguments already killed by Z4",
+      "smooth-resolution big-cotangent criteria already killed by Z1"
     ]
   },
   "routing": {
