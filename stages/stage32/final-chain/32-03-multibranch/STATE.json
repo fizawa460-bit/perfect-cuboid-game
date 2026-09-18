@@ -53,7 +53,7 @@
     "class3_roadmap": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md",
     "class3_latest_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H6-FINITE-MONODROMY-NIELSEN-PASSPORT-GATE-20260918.md",
     "class3_h1_status": "PARKED_AFTER_SHALLOW_FAIL",
-    "class3_next_shallow_gate": "H9_UNIFORM_STABLE_BASE_ZARISKI_RAY",
+    "class3_next_shallow_gate": "WIDE_SCAN_ROUND_A_W1_W2_W3_W4_W6",
     "class3_h2_status": "PARKED_AFTER_SHALLOW_FAIL",
     "class3_h3_status": "CONDITIONAL_NOT_RELEASED_H2_FAILED",
     "class3_h4_status": "PARKED_AFTER_SHALLOW_FAIL",
@@ -71,13 +71,16 @@
       "H9_UNIFORM_STABLE_BASE_ZARISKI_RAY",
       "H10_RECEIVER_PRESERVING_EXPLICIT_DEGENERATION",
       "H11_OFF_EXCEPTIONAL_SINGULARITY_LOCALIZATION"
-    ]
+    ],
+    "class3_wide_scan_status": "ACTIVE_USER_DIRECTED",
+    "class3_wide_scan": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-WIDE-SHALLOW-CLOSURE-SCAN-20260918.md",
+    "class3_cycle_3_status": "PAUSED_BY_WIDE_SCAN_OVERRIDE"
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Class-3 H9 uniform stable-base/Zariski-ray shallow gate for MB104 uniform closure",
+    "title": "MB104 wide shallow closure scan — Round A",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "Cycle 2 is complete with H8, H5 and H6 all parked and no DEEP candidate. H6 specifically shows that the retained e=2 aggregate branch-cycle space already has at least (12*l+1)^2 admissible cycle-type vectors before actual permutations are chosen, while the branch-to-product-lift data needed for exact compression and reverse reconstruction remain missing. Next test H9 only: work directly with D_l=lD_1 and determine whether a source-complete negative-curve/fibration inventory forces a nonzero fixed component in every effective member of |lD_1|. Do not enumerate sections. Stop if all known intersections are nonnegative and the negative-curve inventory is not source-complete, or if the only proposed fixed components are already known not to occur on the active incidence-16 survivors.",
+    "required_input": "Do not continue sequential H9/H10/H11 and do not build missing adapters. In one mainbatch invocation shallow-screen W1 Bogomolov-Reider superabundance, W2 symbolic/Waldschmidt effectivity, W3 Aut(S)-norm invariant sections, W4 2026 Stoll-Testa K3 quotient pushdown, and W6 modular-form valence on X(8)xX(8). For each route perform only one cheap numerical/source kill test and classify PASS-TO-SECOND-SCAN, DROP, or UNCLEAR. Prefer native all-l/large-l closure strength over adapter completeness.",
     "success_shapes": [
       "all-l exclusion for the exact balanced MB104 ray",
       "explicit large-l exclusion leaving finite 1<=l<=L backend"
