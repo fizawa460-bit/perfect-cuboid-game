@@ -85,16 +85,16 @@ def main():
     req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
         "repository main observation")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
-        "e60f03cf5105bc6e26cb4615acabd6fe0c07625c" and
+        "bf5173ff96b97f266e810ebd7747d14de6a28727" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 observation")
     req(sweep["ex5_pr"] == 1818 and sweep["ex5_head"] ==
         "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and
         sweep["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
     req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "f573508a6d6b50f2234607bd41c6214f045733f1" and
+        "6d5d6c77fd2d347dc8e43aaa183b794075201fcd" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "802d82ca5240338b1c74c98bad8ec2da7f30e031" and
+        "74d49b08b1924c2edcfbd7d0fa26f308e23c3ba4" and
         sweep["bridge_runkey_generation"] == 0 and sweep["bridge_runkey_armed"] is False and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
