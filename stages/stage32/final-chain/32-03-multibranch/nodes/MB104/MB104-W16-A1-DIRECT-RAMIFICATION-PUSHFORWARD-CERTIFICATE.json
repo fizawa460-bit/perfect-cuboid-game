@@ -1,0 +1,88 @@
+{
+  "schema": "STAGE32_MB104_W16_A1_DIRECT_RAMIFICATION_PUSHFORWARD_V1",
+  "status": "W16_A1_CLOSED_NEGATIVE_AS_DIRECT_IMAGE_ENHANCEMENT_NO_CREDIT",
+  "predecessor_head": "ca9bbb649db7778a318c4096f283098a7b8395d2",
+  "global_module": {
+    "definition": "M := nu_* O_{R_phi}, viewed as a finite O_C- and O_S-module",
+    "length": "112*l",
+    "support": "nu(Supp R_phi)",
+    "canonical": true,
+    "exact_length_preserved_by_finite_pushforward": true,
+    "obstacle": "at a collision of two or more ramification preimages over one carrier point, M is not cyclic and hence is not O_Z for a zero-dimensional subscheme Z"
+  },
+  "local_two_branch_model": {
+    "surface_ring": "R=k[[x,y]]",
+    "carrier_ring": "A=R/(xy)",
+    "branch_modules": [
+      "R/(y,x^m)",
+      "R/(x,y^n)"
+    ],
+    "direct_module": "M_mn=R/(y,x^m) direct_sum R/(x,y^n)",
+    "module_length": "m+n",
+    "minimal_generators_at_origin": 2,
+    "cyclic": false,
+    "annihilator": {
+      "ideal": "(xy,x^m,y^n)",
+      "quotient_length": "m+n-1",
+      "lci_if": "min(m,n)=1",
+      "generally_lci": false
+    },
+    "fitting0": {
+      "ideal": "(xy,x^(m+1),y^(n+1))",
+      "quotient_length": "m+n+1",
+      "generally_lci": false
+    },
+    "reduced_support": {
+      "ideal": "(x,y)",
+      "quotient_length": 1,
+      "lci": true,
+      "loses_branch_and_multiplicity_data": true
+    }
+  },
+  "simple_collision": {
+    "m": 1,
+    "n": 1,
+    "module_length": 2,
+    "annihilator_scheme_length": 1,
+    "fitting0_scheme_length": 3,
+    "reduced_scheme_length": 1,
+    "conclusion": "even two reduced ramification preimages over one node cannot be represented canonically by a length-two lci direct-image scheme"
+  },
+  "trace_norm": {
+    "local_ramification_algebra": "prod_i k[t_i]/(t_i^(m_i))",
+    "algebra_trace_on_surface_function": "Tr(s)=sum_i m_i * s(p)",
+    "algebra_norm_on_surface_function": "Nm(s)=s(p)^(sum_i m_i)",
+    "consequence": "trace and norm factor through ordinary reduced point evaluation and do not supply a new linear dependency for CB(|D_l|)",
+    "trace_zero_part": "stores branch/nilpotent differences but the reduced-value evaluation relevant to Z_red maps diagonally and does not extract a canonical all-nonzero Serre residue vector"
+  },
+  "jet_residue_wall": {
+    "residue_functionals_can_see_branch_jets": true,
+    "reduced_CB_uses_point_values_not_branch_jets": true,
+    "canonical_lci_union_of_multiple_branch_jets_available": false,
+    "direct_union_ideal": "(xy,x^m,y^n)",
+    "issue": "when both branch lengths exceed one it is three-generated in the 2-dimensional regular local ring and is not lci; choosing one branch is noncanonical"
+  },
+  "source_locks": {
+    "fitting": "Stacks tag 07ZA: Fitt_0(M) subset Ann(M), same support; direct sums multiply Fitt_0",
+    "fitting_schemes": "Stacks tag 0C3C: zeroth Fitting subscheme has same underlying support as the module but can be thicker",
+    "normalization_gluing": "retained STACKS-NORMALIZATION-PICARD-GLUING-SOURCE-NOTE.md"
+  },
+  "disposition": "A1_CLOSED_NEGATIVE_COLLAPSES_TO_A2_OR_NONLCI_MODULE",
+  "W16_closed_negatively": false,
+  "next_internal_solo": "W16-B1-CB-FIRST",
+  "credit_firewall": {
+    "cb_proved": false,
+    "canonical_enhanced_lci_scheme_beyond_Zred_proved": false,
+    "locally_free_serre_extension_proved": false,
+    "l_ge_2_excluded": false,
+    "mb104_complete": false,
+    "finite_degree_window_proved": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}
