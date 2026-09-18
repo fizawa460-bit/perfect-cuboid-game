@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V6_DURABLE_PREFIX_RECOVERY",
-  "status": "AUDIT_HOLD_RECOVERY_BLOCKERS_REPAIRED__EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_DOORSTEP_CHECKPOINT_V7_PUSH_TRIGGER_RESUME",
+  "status": "COLD_PUSH_TRIGGER_REDESIGN__EXACT_HEAD_REPLAY_AND_SEPARATE_HOSTILE_AUDIT_REQUIRED__HEAVY_NOT_STARTED__ZERO_CREDIT",
   "audited_predecessor": {
-    "head": "90d0e2ea0659866dcc76dd0258ad0107ddc929fb",
-    "hostile_audit_review_id": 5242485845,
+    "head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "hostile_audit_review_id": 5242897044,
     "status": "PASS",
-    "scope": "previous cold b-unit doorstep; current finer resume refinement is post-audit and requires separate re-audit before arming"
+    "scope": "previous cold doorstep with manual workflow_dispatch launcher; push-trigger redesign requires fresh audit"
   },
   "live_main": {
     "audited_numeric_pr": 1808,
@@ -25,33 +25,35 @@
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "d9a7546f10049f915bfa29b32e3528bedf06c5ae",
+    "contract_blob": "b8ccbfd5ba3430982dc0d60744770ab9efb71b7f",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
-    "qbc_tail_addendum_blob": "67a530a17429f15b8655244a53bdec91de48877b",
+    "qbc_tail_addendum_blob": "49fdd0ae8032fd47b9436b7536e296a3ff939bb1",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "4f2caf00fe0209067f91037d91d37093aec339b3",
+    "heavy_workflow_blob": "c917f726739d8aa1c8e9ad924d2b60de78b7db34",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "a80aae85bbd106c3576ebb1167a02031f5ad5027",
+    "retained_replay_blob": "ec492b2667dd6233450a80c345dd86d16141d0e8",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "8a0161ba7155efb069fd6589016fb7123a914ca5",
-    "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1"
+    "runkey_blob": "da9929d76c6b4f7824cc02978ec1d60b838f683a",
+    "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
+    "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
+    "bridge_workflow_inventory_supplement_blob": "8a59a2f2f905328f094fe6bbcc27b83904962708"
   },
   "audit_repair_delta": {
-    "failed_audit_head": "3b11d360cc4be655c08f593a7eff793cad93dd6b",
-    "failed_audit_review_id": 5242654911,
-    "repairs": [
-      "re-emit one validated recovery prefix at the start of every generation before runtime/pilot/unit compute",
-      "recover prior prefix plus independently completed subunit artifacts from the immediately supplied carry_run_id",
-      "record recovery lineage and pre-clean superseded ancestors; cleanup failure is a hard stop",
-      "delete superseded prior recovery artifacts only after the new prefix upload succeeds",
-      "split the two representative pilots into independent jobs with immediate durable uploads",
-      "skip a pilot when its exact subunit is already present in the recovered prefix",
-      "reduce per-subunit gzip hard cap to 900,000 bytes so rollover prior-union plus new-prefix peak is <=500 MiB"
+    "prior_audited_manual_head": "2730779c1033900460b88b3f1acdca41fd9f1a47",
+    "prior_audit_review_id": 5242897044,
+    "launcher_redesign": [
+      "replace workflow_dispatch-only launcher with branch-scoped push trigger on the dedicated BR204 runkey path",
+      "cold/setup runkey pushes are skipped unless the commit message uses the dedicated execution-generation prefix",
+      "generation 1 remains a post-audit runkey-only child of the hostile-audited cold doorstep and binds the exact review receipt",
+      "generation >=2 recovery remains runkey-only, increments by exactly one, and carries the immediately previous failed/cancelled/timed-out BR204 run",
+      "250 b x d-band durable subunits, transitive recovery prefix, independent pilots, and 900,000-byte subunit cap are unchanged"
     ],
     "mathematical_population_changed": false,
     "authority_or_credit_changed": false,
-    "exact_head_replay_after_repairs": "REQUIRED_NOT_YET_RECORDED",
-    "hostile_audit_after_repairs": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_ARMING"
+    "resume_topology_changed": false,
+    "launcher_topology_changed": true,
+    "exact_head_replay_after_redesign": "REQUIRED_NOT_YET_RECORDED",
+    "hostile_audit_after_redesign": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1"
   },
   "heavy_shape": {
     "rows": 178,
@@ -72,7 +74,7 @@
       "independent job: b=96,d=148..192"
     ],
     "global_lp": "union all exact subunit bins, merge equal exact s/B ratio classes, then solve one exact rational LP",
-    "resume": "At generation start, validate prior prefix plus completed (b,d-band) artifacts and re-emit a current prefix before any new compute; then compute only missing subunits. A cancelled run remains recoverable from its current prefix plus independently uploaded new subunits."
+    "resume": "Generation >=2 recovers the immediately previous failed/cancelled/timed-out BR204 run's validated prefix plus independently completed subunits, re-emits one current prefix, then computes only true missing (b,d-band) units."
   },
   "storage": {
     "per_subunit_gzip_hard_cap_bytes": 900000,
@@ -86,15 +88,21 @@
   "operational_state": {
     "runkey_generation": 0,
     "runkey_armed": false,
-    "heavy_workflow_lifecycle": "MANUAL",
+    "heavy_workflow_lifecycle": "ACTIVE_AUTO_RUNKEY_PUSH",
     "heavy_compute_authorized": false,
     "heavy_compute_started": false,
     "pilot_runs_started": false,
-    "BR205_authorized": false
+    "BR205_authorized": false,
+    "execution_trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
+      "commit_message_prefix": "stage32 BR204 execute generation "
+    }
   },
   "next_gate": {
-    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_REAUDIT",
-    "after_pass": "STOP COLD. Do not arm or dispatch in this repair chat. The repaired exact head must receive a fresh hostile audit in a separate audit chat before generation 1."
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
+    "after_pass": "STOP COLD. After a separate hostile-audit PASS, a later runkey-only generation-1 execution commit will automatically launch heavy; no user UI action is required."
   },
   "credit": {
     "stage32_main": false,
