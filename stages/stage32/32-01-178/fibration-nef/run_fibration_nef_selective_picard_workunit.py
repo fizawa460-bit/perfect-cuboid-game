@@ -8,6 +8,8 @@ WORKUNIT = HERE / "verify_fibration_nef_selective_picard_workunit_preflight.py"
 WORKUNIT_BLOB = "0ee1c21df1b765e91937587903e873f83ec06729"
 PLAN = HERE / "verify_fibration_nef_selective_workunit_plan_certificate.py"
 PLAN_BLOB = "37745be7877f32a1804a350d8ebbeedc893d4a5b"
+RUNKEY = HERE / "SELECTIVE-PICARD-RUNKEY.json"
+RUNKEY_SCHEMA = "STAGE32_32_01_178_SELECTIVE_PICARD_RUNKEY_V1"
 SELECTED_X4 = (0, 24, 48, 72, 96)
 WORKUNIT_SIZE = 256
 SCHEMA = "STAGE32_32_01_178_SELECTIVE_PICARD_WORKUNIT_RECEIPT_V1"
@@ -165,13 +167,35 @@ def execute(rt, ident, chunk, thresholds):
     receipt["canonical_sha256_without_this_field"] = csha(receipt)
     return receipt
 
+def authorize(runkey_path, ident):
+    req(runkey_path.resolve() == RUNKEY.resolve(), "unexpected runkey path")
+    req(runkey_path.is_file(), "missing dedicated runkey")
+    key = json.loads(runkey_path.read_text())
+    req(key.get("schema") == RUNKEY_SCHEMA, "runkey schema mismatch")
+    req(int(key.get("generation", -1)) >= 1, "runkey generation is not armed")
+    req(key.get("armed") is True, "runkey is cold")
+    req(key.get("worker_blob_sha1") == git_blob(Path(__file__)), "runkey worker lock mismatch")
+    req(key.get("workunit_preflight_blob_sha1") == WORKUNIT_BLOB, "runkey workunit lock mismatch")
+    req(key.get("plan_certificate_producer_blob_sha1") == PLAN_BLOB, "runkey plan lock mismatch")
+    req(ident["workunit_id"] in key.get("authorized_workunit_ids", []), "workunit not authorized by runkey")
+    concurrency = int(key.get("planned_effective_heavy_concurrency", 0))
+    req(1 <= concurrency <= 18, "invalid planned effective heavy concurrency")
+    peak = int(key.get("projected_peak_storage_bytes", 0))
+    req(0 < peak < 500 * 1024 * 1024, "invalid projected peak storage")
+    measured = int(key.get("representative_receipt_bytes", 0))
+    req(measured > 0, "representative receipt size not measured")
+    req(key.get("commit_range_authorization_required") is True, "commit-range authorization flag missing")
+    return key
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--x4", type=int, required=True); p.add_argument("--unit-ordinal", type=int, required=True)
     p.add_argument("--output", type=Path); p.add_argument("--identity-only", action="store_true")
+    p.add_argument("--runkey", type=Path, default=RUNKEY)
     a = p.parse_args(); rt = load_runtime(); ident, chunk, thresholds = unit_for(rt, a.x4, a.unit_ordinal)
     if a.identity_only:
         print(json.dumps(ident, indent=2, sort_keys=True)); return
+    authorize(a.runkey, ident)
     receipt = execute(rt, ident, chunk, thresholds)
     if a.output: atomic_write(a.output, receipt)
     print("SELECTIVE_PICARD_WORKUNIT_RECEIPT_SUMMARY=" + json.dumps({
