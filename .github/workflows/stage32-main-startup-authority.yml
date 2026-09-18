@@ -97,9 +97,9 @@ jobs:
       - name: Verify V44 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "ea2a688d471440c337673c5d2ce287fa899bab8f"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "22b6904af0eecf1db7b37d0313e0d4f0cd90c7c0"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "84db5ac98414883cea9d8c66ee1e5e4bb44e56bd"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "7f78c1c5be9d1cd106876c784a9a0b312927bdd3"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "32d81d299ab5e74a06bd3a212fef04c78eadfc69"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
           test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "29a66a60534353d47fb508cb10d0121c93f9ef09"
@@ -597,14 +597,19 @@ jobs:
           old=json.loads(subprocess.check_output(["git","show",f"{before}:{path}"],text=True))
           assert cur["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_RUNKEY_V3"
           assert old["schema"]==cur["schema"]
-          assert old["generation"]==0 and old["armed"] is False
-          assert cur["generation"]==1 and cur["armed"] is True
+          assert cur["generation"]==old["generation"]+1 and cur["generation"]>0
+          assert cur["armed"] is True
           assert cur["target_shards"]==[0]
-          assert cur["carry_run_id"] is None
+          if old["generation"]==0:
+              assert old["armed"] is False
+              assert cur["generation"]==1
+              assert cur["carry_run_id"] is None
+          else:
+              assert old["armed"] is True
+              assert isinstance(cur["carry_run_id"], int) and cur["carry_run_id"]>0
           assert cur["execution"]==old["execution"]
-          assert cur["source_locks"]==old["source_locks"]
-          assert cur["source_locks"]["preflight_blob_sha1"]=="f8fd633e895e6007ffdac854365e8ebec72d5f40"
-          assert cur["source_locks"]["worker_blob_sha1"]=="c2733f45962ca9d23f4c113b20a8dec95f99f72a"
+          assert cur["source_locks"]["preflight_blob_sha1"]=="354e9e55bfb550f5dbc8276041b54d2c9e78be72"
+          assert cur["source_locks"]["worker_blob_sha1"]=="63321a54f565b2da38efbef756caf8db148f0063"
           assert cur["source_locks"]["aggregator_blob_sha1"]=="d7099df483bfd12b71969ec2ae7ce7b36534122a"
           assert cur["source_locks"]["conic_separation_blob_sha1"]=="75d384c194c678ff6158ea793e943bce91741bb8"
           assert cur["source_locks"]["repository_main_head"]=="83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
@@ -613,8 +618,8 @@ jobs:
           assert cur["zero_credit"] is True
           assert cur["merge_authorized"] is False
           PY
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json)" = "f8fd633e895e6007ffdac854365e8ebec72d5f40"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "c2733f45962ca9d23f4c113b20a8dec95f99f72a"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json)" = "354e9e55bfb550f5dbc8276041b54d2c9e78be72"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "63321a54f565b2da38efbef756caf8db148f0063"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py)" = "d7099df483bfd12b71969ec2ae7ce7b36534122a"
           echo "run=true" >> "$GITHUB_OUTPUT"
 
