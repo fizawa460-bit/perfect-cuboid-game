@@ -26,7 +26,7 @@ env:
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
   WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
-  COMBINER_BLOB: 7fde22790c562d837cffbef85385b1e3c2387555
+  COMBINER_BLOB: 4571f04f8a1f44c5e6aa19f25763569f2ccd4432
   BAND_RUNNER_BLOB: 5296c7361efc9fca98a9d1080825fa512bb7cc72
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
   CONTRACT_BLOB: 31592b08692aa156e92ca1acd900993fc94743dc
@@ -194,12 +194,12 @@ jobs:
             done < /tmp/carry-artifacts.tsv
           fi
           python "$AGGREGATOR" checkpoint             --input-dir /tmp/prior-units             --input-dir /tmp/prior-prefix             --worker-blob "$WORKER_BLOB"             --out-dir /tmp/reemit             --manifest /tmp/reemit/RECOVERY-MANIFEST.json
-          python "$COMBINER" bundle             --input-dir /tmp/prior-partials             --input-dir /tmp/prior-meta             --input-dir /tmp/prior-units             --out-dir /tmp/reemit-partials             --manifest /tmp/reemit-partials/PARTIAL-MANIFEST.json             --worker-blob "$WORKER_BLOB"
+          python "$COMBINER" bundle             --input-dir /tmp/prior-partials             --input-dir /tmp/prior-meta             --input-dir /tmp/prior-units             --out-dir /tmp/reemit-partials             --manifest /tmp/reemit-partials/PARTIAL-MANIFEST.json             --complete-manifest /tmp/reemit/RECOVERY-MANIFEST.json             --worker-blob "$WORKER_BLOB"
           python - <<'PY'
           import json,shutil
           from pathlib import Path
           dst=Path('/tmp/reemit-meta'); dst.mkdir(exist_ok=True)
-          for root in (Path('/tmp/prior-meta'),Path('/tmp/prior-units'),Path('/tmp/prior-partials')):
+          for root in (Path('/tmp/prior-meta'),Path('/tmp/prior-units')):
               if not root.exists(): continue
               for pat in ('PILOT-MEASUREMENT-*.json','PILOT-STORAGE-PREFLIGHT.json'):
                   for p in root.rglob(pat):
@@ -310,7 +310,7 @@ jobs:
           cp "$BAND_RUNNER" /tmp/runtime/
           /tmp/runtime/br204-worker --self-test > /tmp/worker-selftest.json
           python /tmp/runtime/combine_br204_d_slices.py self-test | tee /tmp/combiner-selftest.json
-          grep -Fq '"expected_single_d_slices": 4743' /tmp/combiner-selftest.json
+          grep -Fq '"expected_single_d_checkpoints": 4743' /tmp/combiner-selftest.json
           python -m py_compile /tmp/runtime/combine_br204_d_slices.py /tmp/runtime/run_br204_resumable_band.py
           python "$AGGREGATOR" self-test
       - uses: actions/upload-artifact@v4
