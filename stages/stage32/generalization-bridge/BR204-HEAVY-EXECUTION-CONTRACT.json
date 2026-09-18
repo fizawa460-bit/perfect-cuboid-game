@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V12_RESEARCH_OS_RECOVERY_RECONCILED_SAFE_UPLOAD",
-  "status": "COLD_RESEARCH_OS_RECOVERY_RECONCILED_SAFE_UPLOAD__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_HEAVY_EXECUTION_CONTRACT_V13_BRANCH_PUSH_COMMIT_RANGE_12WAY",
+  "status": "COLD_BRANCH_PUSH_COMMIT_RANGE_12WAY__FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED__NOT_ARMED__ZERO_CREDIT",
   "purpose": "Define BR204 FULL178 resume-first execution under current Research OS: ACTIVE_AUTO pull-request commit-range runkey authorization, exact source/main locks, Stage32 concurrency headroom, paginated predecessor recovery with expected-vs-retrieved-vs-validated durable inventory reconciliation, exact single-d restart quanta, cumulative rolled partial checkpoints, upload-safe-only persistence after validation and hard size caps, and fresh-audit-only execution.",
   "audited_predecessor": {
     "bridge_pr": 1813,
@@ -185,27 +185,22 @@
     "workflow": ".github/workflows/br204-stage32-bridge-heavy.yml",
     "workflow_lifecycle": "ACTIVE_AUTO",
     "trigger": {
-      "event": "pull_request",
-      "base_branch": "main",
-      "types": [
-        "opened",
-        "synchronize",
-        "reopened"
-      ],
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
       "path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
-      "automatic_arm_action": "synchronize",
-      "commit_range_rule": "github.event.before..github.event.pull_request.head.sha must be fetchable and the dedicated runkey must be the only changed path in the arm commit"
+      "automatic_arm_action": "dedicated_runkey_push",
+      "commit_range_rule": "github.event.before..github.sha must be fetchable; the dedicated runkey must appear in that actual push range, and any armed generation commit must change only the dedicated runkey"
     },
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json",
     "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 6,
-    "overlap_rule": "Each arm/resume runkey must record observed_other_stage32_heavy_concurrency_at_arm <= 6; 12 + observed_other <= 18. If overlap cannot be bounded, authorization is false.",
+    "overlap_rule": "Each arm/resume runkey records observed_other_stage32_heavy_concurrency_at_arm in 0..6; 12 + observed_other <= 18. Current expectation is 0 because no other Stage32 heavy is intended to overlap, but execution still verifies the hard repository ceiling.",
     "current_generation": 0,
     "current_armed": false,
-    "initial_execution_rule": "After fresh hostile-audit PASS on the rebuilt cold doorstep, one distinct runkey-only synchronize commit changes generation 0->1 and armed false->true, records the audited doorstep head/review and Stage32 overlap observation, and may authorize heavy.",
-    "recovery_execution_rule": "A later runkey-only synchronize commit increments generation by exactly one, refreshes the overlap observation, and may resume only an immediate prior recovery-eligible BR204 run. SOFT_DEADLINE and ordinary interruption/cancellation may resume from validated complete/partial artifacts. SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION or source/validation failure blocks blind resume.",
-    "cold_event_rule": "opened, reopened, workflow/source/docs/controller/status synchronizations, or any synchronize event without a semantic runkey generation advance are cold and must emit authorized=false before heavy jobs.",
+    "initial_execution_rule": "After fresh hostile-audit PASS on the rebuilt cold doorstep, one distinct runkey-only push commit changes generation 0->1 and armed false->true, records audited doorstep head/review plus observed Stage32 overlap, and may authorize heavy.",
+    "recovery_execution_rule": "A later runkey-only push commit increments generation by exactly one, records current Stage32 overlap, and may resume only an immediate prior recovery-eligible BR204 run.",
+    "cold_event_rule": "Any runkey push without a semantic armed generation advance remains cold; non-runkey source/docs/controller/status pushes do not trigger this heavy workflow.",
     "manual_dispatch_required": false,
     "heavy_authorized_now": false,
     "heavy_started": false
@@ -256,7 +251,8 @@
     "defect": "Generation-1 used outer b x d-band durability only; hours spent inside an incomplete band could be discarded on timeout. Rebuild now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload before recovery.",
     "research_os_policy": "docs/research-os/policies/heavy-checkpoint-and-resume.md",
     "status": "MATERIAL_RESEARCH_OS_RECOVERY_RECONCILIATION_AND_SAFE_UPLOAD_REPAIR_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
-    "repair_status": "BLOCKER1_EXPECTED_DURABLE_RECONCILIATION_IMPLEMENTED__BLOCKER2_UPLOAD_SAFE_FINALIZER_IMPLEMENTED__WORKFLOW_SOURCE_LOCK_RESYNC_AND_NEGATIVE_REPLAY_PENDING",
-    "concurrency_change": "User-authorized cold change from BR204 max_parallel 8 to 12. Stage32 ceiling remains 18, so arm-time other Stage32 heavy concurrency must be <=6. Fresh replay and hostile audit required before generation 1."
+    "repair_status": "RECOVERY_BLOCKERS_FIXED__12_WAY_CONCURRENCY_APPLIED__BRANCH_PUSH_COMMIT_RANGE_LAUNCHER_REBUILT__FRESH_REPLAY_AND_HOSTILE_AUDIT_REQUIRED",
+    "concurrency_change": "User-authorized cold change from BR204 max_parallel 8 to 12. Stage32 ceiling remains 18, so arm-time other Stage32 heavy concurrency must be <=6. Fresh replay and hostile audit required before generation 1.",
+    "launcher_change": "Replaced non-runnable branch-local pull_request launcher with branch-local push launcher. Authorization uses actual github.event.before..github.sha, runkey-only armed commits, fresh hostile-audit review/head binding, exact source/main locks, and 12-way concurrency cap."
   }
 }
