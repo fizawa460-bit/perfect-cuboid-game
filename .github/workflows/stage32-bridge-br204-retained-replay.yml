@@ -60,7 +60,7 @@ jobs:
           assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
           assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM'
+          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V9_RECOVERY_RECONCILED_SAFE_UPLOAD'
           assert rk['generation']==0 and rk['armed'] is False and rk['carry_run_id'] is None
           assert rk['execution']['durable_subunit_count']==250
           assert rk['execution']['exact_inner_checkpoint_count']==4743
@@ -73,6 +73,13 @@ jobs:
           assert rk['resume']['single_d_timeout_seconds']==3600
           assert rk['resume']['single_d_timeout_requires_finer_partition'] is True
           assert rk['resume']['paginated_artifact_retrieval_required'] is True
+          assert rk['resume']['predecessor_jobs_paginated'] is True
+          assert rk['resume']['expected_durable_uploads_reconciled_before_plan'] is True
+          assert rk['resume']['unexplained_missing_or_expired_expected_artifact_hard_stop'] is True
+          assert rk['resume']['finalizer_upload_safe_required'] is True
+          assert rk['resume']['unsafe_finalizer_recovery_payload_upload_forbidden'] is True
+          assert rk['source_locks']['recovery_inventory_verifier_blob']=='8854ca99df52a31e6639e6aa65cef73ffdf9ec18'
+          assert rk['source_locks']['heavy_checkpoint_policy_blob']=='893d5c0b6a415382904ac1ab32219d0f0f4fd5ea'
           assert rk['execution']['trigger']['event']=='pull_request'
           assert rk['execution']['trigger']['base_branch']=='main'
           assert rk['execution']['trigger']['head_branch']=='stage32bridge-mainbatch'
@@ -139,10 +146,12 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "0d5ee8e1013cab6120e957707a363e86b3c0d41e"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_d_slices.py)" = "4571f04f8a1f44c5e6aa19f25763569f2ccd4432"
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "0680132cab6da3e06a13f15c55993ed9b84f9a27"
-          test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "e8e9219a6697e017efcf28ccdf8a6eaf5e181519"
+          test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "5724929d739ebc61ca1841ec34caef4de04752c7"
           test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "eb7774ac8fc0d892d7ed67f30b1295adcc26519f"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "b3f445a266cf8e53fd78346cb07175b270cf7dc7"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py)" = "8854ca99df52a31e6639e6aa65cef73ffdf9ec18"
+          test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5"
           python - <<'PY'
           import json,subprocess
           from pathlib import Path
@@ -151,10 +160,12 @@ jobs:
           assert locks['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
           assert locks['d_slice_combiner_blob']=='4571f04f8a1f44c5e6aa19f25763569f2ccd4432'
           assert locks['resumable_band_runner_blob']=='0680132cab6da3e06a13f15c55993ed9b84f9a27'
-          assert locks['band_checkpoint_finalizer_blob']=='e8e9219a6697e017efcf28ccdf8a6eaf5e181519'
+          assert locks['band_checkpoint_finalizer_blob']=='5724929d739ebc61ca1841ec34caef4de04752c7'
           assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert locks['execution_contract_blob']=='eb7774ac8fc0d892d7ed67f30b1295adcc26519f'
-          assert locks['heavy_workflow_blob']=='b3f445a266cf8e53fd78346cb07175b270cf7dc7'
+          assert locks['recovery_inventory_verifier_blob']=='8854ca99df52a31e6639e6aa65cef73ffdf9ec18'
+          assert locks['heavy_checkpoint_policy_blob']=='893d5c0b6a415382904ac1ab32219d0f0f4fd5ea'
+          assert locks['execution_contract_blob']=='d9e37d037b12570e2e36e82d1add2ab3cfa6f91a'
+          assert locks['heavy_workflow_blob']=='f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5'
           assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
           assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
           PY
@@ -164,8 +175,9 @@ jobs:
           /tmp/br204-worker --self-test > /tmp/worker-selftest.json
           python stages/stage32/generalization-bridge/combine_br204_d_slices.py self-test > /tmp/combiner-selftest.json
           grep -Fq '"expected_single_d_checkpoints": 4743' /tmp/combiner-selftest.json
-          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
+          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py             stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
           python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
+          python stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py --self-test
 
       - name: Replay partial interruption, always finalizer, and missing-d resume exactly
         run: |
@@ -190,6 +202,7 @@ jobs:
           import json
           x=json.load(open('/tmp/finalized.json'))
           assert x['complete'] is False
+          assert x['upload_safe'] is True
           assert x['has_partial'] is True
           assert x['stop_reason']=='INTERRUPTED_AFTER_LAST_D_CHECKPOINT'
           s=json.load(open('/tmp/interrupted/STATUS.json'))
@@ -217,6 +230,42 @@ jobs:
           assert got==want, 'resumed exact band differs from direct band'
           PY
 
+      - name: Negative replay unsafe finalizer and missing predecessor artifact
+        run: |
+          set -euo pipefail
+          C=stages/stage32/generalization-bridge/combine_br204_d_slices.py
+          F=stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
+          V=stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
+          W=0d5ee8e1013cab6120e957707a363e86b3c0d41e
+
+          # Oversize status must fail before any payload can become upload-safe.
+          mkdir -p /tmp/oversize
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          Path('/tmp/oversize/STATUS.json').write_text(json.dumps({
+            'schema':'STAGE32_BR204_RESUMABLE_BAND_STATUS_V3_DURABLE_LOCAL_ROLLUP',
+            'b':95,'band':[148,192],'complete':False,
+            'completed_d':[190],'missing_d':[192],
+            'checkpoint_after_each_completed_d':True,
+            'rollup_payload':'br204-partial-b95-d148-192.tsv.gz',
+            'rollup_payload_gzip_bytes':900001,
+          }))
+          PY
+          if python "$F" --combiner "$C" --out-dir /tmp/oversize --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" >/tmp/oversize.json 2>/tmp/oversize.err; then
+            echo "oversize finalizer unexpectedly succeeded" >&2; exit 1
+          fi
+
+          # Corrupt a real partial payload; validation must fail.
+          rm -rf /tmp/corrupt && cp -a /tmp/interrupted /tmp/corrupt
+          printf 'not-a-valid-gzip' > /tmp/corrupt/br204-partial-b95-d148-192.tsv.gz
+          if python "$F" --combiner "$C" --out-dir /tmp/corrupt --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" >/tmp/corrupt.json 2>/tmp/corrupt.err; then
+            echo "corrupt partial finalizer unexpectedly succeeded" >&2; exit 1
+          fi
+
+          # Verifier self-test includes deliberate omission of one expected durable artifact.
+          python "$V" --self-test
+
       - name: Verify Research OS recovery mechanics are fail-closed
         run: |
           python - <<'PY'
@@ -230,6 +279,13 @@ jobs:
           assert 'git diff --name-only "$BEFORE" "$HEAD_SHA"' in wf
           assert "changed==[os.environ['RUNKEY']]" in wf
           assert "if: needs.authorize.outputs.authorized == 'true'" in wf
+          assert 'actions/runs/$CARRY_RUN_ID/jobs?per_page=100' in wf
+          assert 'verify_br204_recovery_inventory.py' in wf
+          assert 'expected_durable_artifact_count' in wf
+          assert "steps.classify.outcome == 'success'" in wf
+          assert "steps.classify.outputs.upload_safe == 'true'" in wf
+          assert "steps.measure.outcome == 'success'" in wf
+          assert "steps.measure.outputs.upload_safe == 'true'" in wf
           assert 'gh api --paginate' in wf
           assert 'if: always() && matrix.b != -1' in wf
           assert 'finalize_br204_band_checkpoint.py' in wf
@@ -248,7 +304,7 @@ jobs:
           assert 'always()' in rc['artifact_salvage_rule']
           assert 'catastrophic runner loss' in rc['cancellation_rule']
           assert contract['credit']['stage32_main'] is False
-          print('Research OS PR-arm/d-checkpoint/always-salvage/pagination contract PASS; heavy remains cold')
+          print('Research OS PR-arm/reconciled-recovery/upload-safe/d-checkpoint contract PASS; heavy remains cold')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
