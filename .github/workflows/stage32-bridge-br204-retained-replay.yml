@@ -238,23 +238,40 @@ jobs:
           V=stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
           W=0d5ee8e1013cab6120e957707a363e86b3c0d41e
 
-          # Oversize status must fail before any payload can become upload-safe.
+          # Construct a syntactically valid >900000-byte partial; validation passes,
+          # then the hard recovery-slot cap must fail before upload eligibility.
           mkdir -p /tmp/oversize
-          python - <<'PY'
-          import json
+          W="$W" python - <<'PY'
+          import gzip,hashlib,json,os,random
           from pathlib import Path
-          Path('/tmp/oversize/STATUS.json').write_text(json.dumps({
-            'schema':'STAGE32_BR204_RESUMABLE_BAND_STATUS_V3_DURABLE_LOCAL_ROLLUP',
-            'b':95,'band':[148,192],'complete':False,
-            'completed_d':[190],'missing_d':[192],
-            'checkpoint_after_each_completed_d':True,
-            'rollup_payload':'br204-partial-b95-d148-192.tsv.gz',
-            'rollup_payload_gzip_bytes':900001,
-          }))
+          out=Path('/tmp/oversize')
+          rng=random.Random(1)
+          rows=[f"META\t95\t148\t192\t1\t1\t0\t{os.environ['W']}\tb7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1\tmu\tterminal\t1\n"]
+          total=0
+          for _ in range(60000):
+              s=rng.randrange(10**9,10**10); B=rng.randrange(10**9,10**10); cap=rng.randrange(1,10**9)
+              total+=cap; rows.append(f"K\t{s}\t{B}\t{cap}\n")
+          rows.append("TAIL\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n")
+          rows.append(f"SUM\t{total}\t0\t0\n")
+          raw=''.join(rows).encode()
+          payload=out/'br204-partial-b95-d148-192.tsv.gz'
+          with payload.open('wb') as fp:
+              with gzip.GzipFile(filename='',mode='wb',fileobj=fp,compresslevel=9,mtime=0) as z: z.write(raw)
+          assert payload.stat().st_size>900000, payload.stat().st_size
+          state={
+            'schema':'STAGE32_BR204_PARTIAL_BAND_STATE_V2_LINEAGE',
+            'b':95,'band':[148,192],'completed_d':[190],'missing_d':[192],
+            'worker_blob':os.environ['W'],'aggregate_raw_sha256':hashlib.sha256(raw).hexdigest(),
+            'aggregate_gzip_sha256':hashlib.sha256(payload.read_bytes()).hexdigest(),
+            'payload_gzip_bytes':payload.stat().st_size,
+            'parent_aggregate_raw_sha256':None,'parent_completed_d':[],
+          }
+          (out/'br204-partial-state-b95-d148-192.json').write_text(json.dumps(state,sort_keys=True,indent=2)+'\n')
           PY
           if python "$F" --combiner "$C" --out-dir /tmp/oversize --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" >/tmp/oversize.json 2>/tmp/oversize.err; then
             echo "oversize finalizer unexpectedly succeeded" >&2; exit 1
           fi
+          grep -Fq 'recovery slot too large' /tmp/oversize.err
 
           # Corrupt a real partial payload; validation must fail.
           rm -rf /tmp/corrupt && cp -a /tmp/interrupted /tmp/corrupt
