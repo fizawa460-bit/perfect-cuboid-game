@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_32_01_178_FIBRATION_NEF_COLD_STOP_V1",
+  "status": "BLOCKED_EXECUTION_AUTHORIZATION_REQUIRED",
+  "purpose": "Freeze the exact non-heavy completion boundary for the post-TD02 fibration-nef selective-Picard route. Ordinary stage32-01-178-mainbatch must not keep adding representation layers once the resumable execution contract is ready and the dedicated runkey remains cold.",
+  "observed_live_main": {
+    "head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "authority_version": "V43",
+    "authoritative_remaining_terminals": "157570677819451133507",
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_complete": false
+  },
+  "fixed_main_btva_source_boundary": {
+    "lane178_source_head": "e60f03cf5105bc6e26cb4615acabd6fe0c07625c",
+    "meaning": "MAIN V43 checks out this exact historical 178 source separately for BTVA structural preflight; later successor commits do not mutate that boundary."
+  },
+  "current_lane_boundary": {
+    "pre_stop_head": "7dc78631e8e447cffd2a4da8c5f39783dcf9b8f1",
+    "semantic_leaf": "FIBRATION_NEF_SELECTIVE_PICARD_RESUME_PREPARATION",
+    "current_main_merge_ready_freshness": "PENDING_V43_NOT_INTEGRATED",
+    "merge_or_rebase_performed": false
+  },
+  "locked_execution_contract": {
+    "resume_contract_path": "stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-RESUME-CONTRACT.json",
+    "resume_contract_blob_sha1": "59454ea4b3f3766145753705f62cfeec25b1cba9",
+    "resume_contract_canonical_sha256": "767c3001a386816f4b6c34d41f87a001dd7eeace215c63157c3adc597c5dc04e",
+    "runkey_path": "stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-RUNKEY.json",
+    "runkey_blob_sha1": "c73b15a9ac5be6af15890b9d3db89c3de6f39f28",
+    "runkey_generation": 0,
+    "runkey_mode": "COLD",
+    "runkey_armed": false,
+    "worker_blob_sha1": "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5",
+    "resume_verifier_blob_sha1": "bf17305df21a1da966decf4e5689df0789757cc6",
+    "pilot_selector_blob_sha1": "5bfea1e78161ea7810d777d253607c48baf1852b",
+    "cold_contract_verifier_blob_sha1": "d927edff870f2ebe50832d08c1dea94675592335"
+  },
+  "nonheavy_boundary_complete": [
+    "static support/min-q before weighted qexc materialization",
+    "depth-2 Schur lower-envelope survivor projection",
+    "selective A/H q-polynomial generation",
+    "deterministic <=256-key workunit partition",
+    "atomic complete-unit receipt schema",
+    "resume verifier with complete/missing/rejected classification",
+    "cold runkey and two-stage PILOT_MEASURE -> PRODUCTION_WAVE authorization semantics",
+    "deterministic receipt-size measurement pilot selector",
+    "contract canonical/source-lock self-consistency"
+  ],
+  "blocker": {
+    "exact_reason": "The next information-producing step is exact Picard workunit execution. Repository policy and the lane startup contract require separate heavy/artifact authorization; ordinary mainbatch does not arm it.",
+    "numerical_progress_without_execution": false,
+    "additional_representation_rewrite_required": false,
+    "heavy_or_artifact_execution_currently_authorized": false
+  },
+  "reopen_conditions": [
+    {
+      "id": "PILOT_MEASURE_AUTHORIZED",
+      "condition": "Dedicated runkey advances in a fresh commit range to generation>=1, mode=PILOT_MEASURE, armed=true, exactly one selector-proposed workunit, effective heavy concurrency=1, and bounded storage projection."
+    },
+    {
+      "id": "MAIN_REASSIGNS_178",
+      "condition": "Live MAIN routing or a higher-priority OPEN cross-lane demand explicitly reassigns the 178 semantic leaf."
+    },
+    {
+      "id": "NEW_NONHEAVY_MATHEMATICAL_WEAPON",
+      "condition": "A materially distinct exact nonheavy method is found that can tighten or classify the current FULL178 population without executing the retained Picard workunits and without duplicating MAIN/BRIDGE/EX5 ownership."
+    }
+  ],
+  "next_action_if_reopened": "Regenerate the locked plan, run the deterministic pilot selector, arm only the authorized pilot unit through the dedicated runkey/commit-range gate, validate the atomic receipt, then measure receipt size before any production wave.",
+  "firewalls": {
+    "selected_slice_only": true,
+    "full_row_census_claimed": false,
+    "full178_census_claimed": false,
+    "main_credit_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "stage32_closed": false,
+    "perfect_cuboid_claim": false,
+    "merge": false
+  },
+  "canonical_sha256_without_this_field": "0cc8f4733e909a2b0c44aa3edc1f83ec07d8b7cedbc30b5e8fea4e484a1c40d2"
+}
