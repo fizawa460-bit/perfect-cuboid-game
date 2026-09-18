@@ -349,3 +349,107 @@ W16, W17, W18, W19, W20
 ```
 
 One cheap test each; no adapter subprojects.
+
+
+## Round D disposition
+
+Round D screened five archive-prechecked routes:
+
+```
+W16 minimal Cayley--Bacharach conductor subcluster  DROP
+W17 support-stabilizer carrier dichotomy            DROP
+W18 elliptic projection / secant-center capacity    DROP
+W19 adaptive Wronskian / unbounded-jet budget       DROP
+W20 support-hyperplane residue / Abel relation      DROP
+```
+
+No second-scan or DEEP candidate remains.
+
+Key shallow reasons:
+
+- W16: the canonical linear-size landing cluster is the complete intersection `C intersect B_E`; its Serre bundle is the tautological split bundle `O(D_l) direct_sum O(B_E)`.
+- W17: the unique support involution pairs all fourteen supported nodes with no fixed supported node; both invariant and non-invariant carrier branches remain packet-compatible.
+- W18: simultaneous collision constraints leave at least `112l` raw linear parameters, or `112l-49>0` after target-basis quotient.
+- W19: equal images of distinct normalization points force no ramification; even an artificial unit charge uses only `112l` of total Wronskian weight `784l`.
+- W20: the support-hyperplane divisor is tautologically the divisor of one section of a degree-`112l` elliptic line bundle; principal parts remain free.
+
+## Round E candidates — archive semantic precheck passed
+
+Repository semantic searches found no retained MB104 leaf explicitly carrying these mechanisms.
+
+### W21 — first-jet bundle / polar singularity capacity
+
+For a divisor section of `L=O_S(D_l)`, singular points are zeros of its first jet.  The first jet bundle `J^1(L)` has rank three and an exact Chern class computable from
+
+```
+K^2=16,
+c2(S)=80,
+K.D_l=112l,
+D_l^2=336l^2.
+```
+
+First shallow gate: compare `c2(J^1(L))` with the required total defect `168l^2+56l`.  If the jet-bundle capacity is much larger, DROP immediately; no polar scheme is constructed.
+
+Priority: **HIGH** because it attacks the full singularity budget globally.
+
+### W22 — stable-map virtual dimension / normal-sheaf negativity
+
+For a genus-one normalization map `f:E->S` in class `D_l`, the expected stable-map dimension and the degree of `f^*T_S` are controlled by `-K.D_l=-112l`.
+
+First shallow gate: determine whether this negativity is an actual nonexistence theorem or only an obstruction/rigidity statement.  If negative virtual dimension merely means isolated obstructed maps can occur, DROP.
+
+Priority: **MEDIUM**.
+
+### W23 — Castelnuovo--Severi on the retained joint factor pair
+
+The retained equality geometry gives a birational map
+
+```
+E -> P1 x P1
+```
+
+of bidegree
+
+```
+(28l,28l) or (56l,56l).
+```
+
+First shallow gate: apply Castelnuovo--Severi / arithmetic-genus inequalities in both directions and ask whether genus one is incompatible with birationality plus those degrees.  If the inequalities are only upper bounds permitting genus one, DROP without passport work.
+
+Priority: **MEDIUM-HIGH**.
+
+### W24 — dualizing conductor / different identity
+
+For an integral Gorenstein divisor `C in |D_l|`, adjunction gives
+
+```
+omega_C ~= (K_S+C)|_C.
+```
+
+Pull this to the elliptic normalization and compare the different/conductor degree with
+
+```
+(K_S+D_l).D_l
+```
+
+and the exact defect `2 Delta`.
+
+First shallow gate: check whether the resulting equality is stronger than the genus formula or merely restates it.  If tautological, DROP.
+
+Priority: **MEDIUM**.
+
+### W25 — Lefschetz-pencil singular-fiber budget
+
+Embed a hypothetical genus-one member inside a pencil of `|D_l|` and compare its defect with the total topological singular-fiber budget after blowing up the `D_l^2` base points.
+
+First shallow gate: compute only the total Euler/Lefschetz budget coefficient and compare it with `Delta=168l^2+56l`.  If one genus-one fiber fits comfortably inside the total budget, DROP.
+
+Priority: **MEDIUM**.
+
+Round E order:
+
+```
+W21, W22, W23, W24, W25
+```
+
+One cheap test each; no adapter construction and no deep continuation inside the same round.
