@@ -51,9 +51,9 @@
     "repeat_archived_searches": false,
     "finite_degree_window_proved": false,
     "class3_roadmap": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-CLASS3-ROADMAP-20260918.md",
-    "class3_latest_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H5-ETALE-CORRESPONDENCE-QUOTIENT-RIGIDITY-GATE-20260918.md",
+    "class3_latest_checkpoint": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-H6-FINITE-MONODROMY-NIELSEN-PASSPORT-GATE-20260918.md",
     "class3_h1_status": "PARKED_AFTER_SHALLOW_FAIL",
-    "class3_next_shallow_gate": "H6_FINITE_MONODROMY_NIELSEN_PASSPORT",
+    "class3_next_shallow_gate": "H9_UNIFORM_STABLE_BASE_ZARISKI_RAY",
     "class3_h2_status": "PARKED_AFTER_SHALLOW_FAIL",
     "class3_h3_status": "CONDITIONAL_NOT_RELEASED_H2_FAILED",
     "class3_h4_status": "PARKED_AFTER_SHALLOW_FAIL",
@@ -64,13 +64,20 @@
       "H6_FINITE_MONODROMY_NIELSEN_PASSPORT"
     ],
     "class3_h8_status": "PARKED_AFTER_SHALLOW_FAIL",
-    "class3_h5_status": "PARKED_AFTER_SHALLOW_FAIL"
+    "class3_h5_status": "PARKED_AFTER_SHALLOW_FAIL",
+    "class3_h6_status": "PARKED_AFTER_SHALLOW_FAIL",
+    "class3_cycle_2_status": "COMPLETE_NO_DEEP_CANDIDATE",
+    "class3_cycle_3_order": [
+      "H9_UNIFORM_STABLE_BASE_ZARISKI_RAY",
+      "H10_RECEIVER_PRESERVING_EXPLICIT_DEGENERATION",
+      "H11_OFF_EXCEPTIONAL_SINGULARITY_LOCALIZATION"
+    ]
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "Class-3 H6 finite-monodromy/Nielsen-passport shallow gate for MB104 uniform closure",
+    "title": "Class-3 H9 uniform stable-base/Zariski-ray shallow gate for MB104 uniform closure",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "H5 is parked. The carrier-to-bare equal-degree etale correspondence adapter is retained, but the fixed C8 target does not give a finite/bounded correspondence universe: C8=X(8) is the Wiman curve with arithmetic (2,3,8) uniformizing commensurability, hence an infinite arithmetic commensurator. More importantly, the exact MB104 packet is not source-completely attached to product-cover fixed lifts: the historical per-node concentration u_q=8*l*m_q is retracted, the current e=2 passport gives aggregate exhaustion/parity only, and the pointwise branch/residual-lift transition remains missing. Next test H6 only: determine whether a source-complete finite monodromy/Nielsen object can be defined from the retained aggregate current-frontier data without reintroducing that concentration/lift assumption, and whether its reverse adapter reconstructs the carrier packet. No enumeration until this adapter passes.",
+    "required_input": "Cycle 2 is complete with H8, H5 and H6 all parked and no DEEP candidate. H6 specifically shows that the retained e=2 aggregate branch-cycle space already has at least (12*l+1)^2 admissible cycle-type vectors before actual permutations are chosen, while the branch-to-product-lift data needed for exact compression and reverse reconstruction remain missing. Next test H9 only: work directly with D_l=lD_1 and determine whether a source-complete negative-curve/fibration inventory forces a nonzero fixed component in every effective member of |lD_1|. Do not enumerate sections. Stop if all known intersections are nonnegative and the negative-curve inventory is not source-complete, or if the only proposed fixed components are already known not to occur on the active incidence-16 survivors.",
     "success_shapes": [
       "all-l exclusion for the exact balanced MB104 ray",
       "explicit large-l exclusion leaving finite 1<=l<=L backend"
