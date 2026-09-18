@@ -78,7 +78,7 @@ jobs:
           old=json.loads(subprocess.check_output(['git','show',f'{parent}:{p.as_posix()}'],text=True))
           changed=subprocess.check_output(['git','diff','--name-only',parent,'HEAD'],text=True).splitlines()
           assert changed==[p.as_posix()], 'execution commit must mutate only the dedicated runkey'
-          assert cur['schema']==old['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V6_ROLLED_PARTIAL_RESUME'
+          assert cur['schema']==old['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V7_D_CHECKPOINT_ALWAYS_SALVAGE'
           assert cur['armed'] is True
           assert cur['generation']==old['generation']+1 and cur['generation']>0
           for k in ('execution','source_locks','resume','storage','credit'):
@@ -99,7 +99,7 @@ jobs:
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
           assert locks['repository_main_head']==os.environ['REPOSITORY_MAIN_HEAD']
           assert locks['repository_main_state_blob']==os.environ['MAIN_STATE_BLOB']
-          assert cur['resume']['exact_inner_checkpoint_unit']=='b_x_d_runner_local__rolled_to_partial_band_artifact'
+          assert cur['resume']['exact_restart_quantum']=='b_x_d'\n          assert cur['resume']['checkpoint_after_each_completed_d'] is True\n          assert cur['resume']['always_path_checkpoint_finalizer'] is True\n          assert cur['resume']['always_path_artifact_upload'] is True
           assert cur['resume']['soft_deadline_seconds']==int(os.environ['SOFT_SECONDS'])
           assert cur['resume']['single_d_timeout_seconds']==int(os.environ['SLICE_TIMEOUT_SECONDS'])
           if old['armed'] is False:
