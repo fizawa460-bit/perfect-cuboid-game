@@ -531,3 +531,40 @@ W13  stable factorization / fixed-component section-ring theorem
 W15 simultaneous zero-quartic restriction rank is conditional on W14 showing that both individual restriction maps can be nonzero.
 
 W14/W13 are prioritized because they attack irreducibility directly and require no branch-to-product-cover adapter.
+
+
+### Wide scan Round C corrected disposition
+
+Round C checkpoint:
+
+```
+MB104-WIDE-SHALLOW-ROUND-C-20260918.md
+```
+
+Corrected result after archive semantic replay:
+
+```
+W7   cyclic/abelian-cover BMY       DROP
+W9   finite-characteristic route    DROP
+W12  explicit degeneration          DROP
+W13  stable factorization           DROP
+W14  zero-quartic restriction map   DROP_ALREADY_RETAINED
+```
+
+W14 was a rediscovery.  The retained archive leaf
+`GENUS1-SPAN5-BALANCED16-000707-PRIMITIVE-RANK.md`
+already proves `h0(A)=124`, characteristic-zero primitive jet rank `220`, explicit nonzero restriction to `Q0`, and nonfixedness of both active zero quartics for every `l>=1`.
+
+No Round-C route is DEEP and there is no second-scan survivor.
+
+Round D is archive-prechecked and remains broad:
+
+```
+W16 minimal Cayley--Bacharach conductor subcluster
+W17 support-stabilizer carrier dichotomy
+W18 elliptic projection / secant-center capacity
+W19 adaptive Wronskian / unbounded-jet budget
+W20 support-hyperplane residue / Abel relation
+```
+
+One cheap test each.  No missing-adapter construction.
