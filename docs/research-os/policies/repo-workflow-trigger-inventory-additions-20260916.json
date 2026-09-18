@@ -5,7 +5,8 @@
   "scope": "post-snapshot repository workflow lifecycle registrations",
   "classifications": {
     "ACTIVE_AUTO": [
-      ".github/workflows/stage32-ex5-hpadj22-production.yml"
+      ".github/workflows/stage32-ex5-hpadj22-production.yml",
+      ".github/workflows/stage32-ex5-hpadj22-band7-recovery.yml"
     ],
     "MANUAL": [
       ".github/workflows/stage32-ex5-hpadj20-heavy.yml",
@@ -21,6 +22,7 @@
     "HPADJ22 representative measurement is RETIRED after its exact result is retained as source-locked preflight evidence.",
     "HPADJ22 FULL178 production is the current ACTIVE_AUTO producer surface. Ordinary synchronizations enter only the cheap authorization gate; eight heavy band jobs require a fresh semantic production runkey arm.",
     "HPADJ22 production uses 8 exact HPADJ15 b-bands with row-level durable checkpoints inside each band, <=8 band artifacts plus compact recovery/final artifacts, max-parallel 8, and explicit arm-time Stage32 overlap accounting under the <=18 cap.",
-    "This additive registry preserves the frozen base snapshot while keeping post-snapshot workflow lifecycle mechanically auditable."
+    "This additive registry preserves the frozen base snapshot while keeping post-snapshot workflow lifecycle mechanically auditable.",
+    "HPADJ22 band7 parallel recovery is an ACTIVE_AUTO one-shot recovery surface. It reuses exact rows 0..44 from run 35303482505 and computes only rows 45..177 in five disjoint row-range jobs, then fail-closes on exact 178-row reassembly."
   ]
 }

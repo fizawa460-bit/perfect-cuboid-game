@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE32EX5_HPADJ22_BAND7_PARALLEL_RECOVERY_RUNKEY_V1",
+  "route_id": "HPADJ-22_ex5",
+  "generation": 0,
+  "armed": false,
+  "carry_run_id": 35303482505,
+  "carry_exact_head": "c066f8dbb3312a5626e47554ec83530c42288465",
+  "carry_artifact_name": "hpadj22-band-7",
+  "carry_artifact_id": 10539362184,
+  "source_locks": {
+    "base_band_worker": {
+      "path": "stages/stage32-ex5/hpadj-22_ex5/run_full_bband.py",
+      "blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46"
+    },
+    "row_range_worker": {
+      "path": "stages/stage32-ex5/hpadj-22_ex5/run_band7_row_range.py",
+      "blob_sha1": "35c8dc88a5b4edfc1152349658910270acaad7b0"
+    },
+    "assembler": {
+      "path": "stages/stage32-ex5/hpadj-22_ex5/assemble_band7_parallel.py",
+      "blob_sha1": "8cd88552cd3712a5793eeb38a9b8195c68b72a4b"
+    }
+  },
+  "ranges": [
+    [
+      45,
+      71
+    ],
+    [
+      72,
+      98
+    ],
+    [
+      99,
+      125
+    ],
+    [
+      126,
+      152
+    ],
+    [
+      153,
+      177
+    ]
+  ],
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 5,
+    "repo_stage_heavy_cap": 18,
+    "user_parallel_budget": 10,
+    "observed_other_stage32_heavy_concurrency_at_cold_setup": null,
+    "artifact_count_upper_bound": 7,
+    "artifact_hard_cap_bytes_per_shard": 2097152,
+    "retention_days": 2
+  },
+  "credit": {
+    "partial_output_credit": false,
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "merge_authorized": false
+  }
+}
