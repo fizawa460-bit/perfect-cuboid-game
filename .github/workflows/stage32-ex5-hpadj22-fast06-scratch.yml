@@ -33,6 +33,11 @@ jobs:
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
           git show "$BEFORE:$KEY" > /tmp/old.json 2>/dev/null || exit 0
           git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+          python - <<'PY' || exit 0
+          import json
+          d=json.load(open('stages/stage32-ex5/runkeys/hpadj22-fast06-scratch.json'))
+          raise SystemExit(0 if d.get('armed') is True else 1)
+          PY
           python - <<'PY'
           import json
           old=json.load(open('/tmp/old.json')); new=json.load(open('stages/stage32-ex5/runkeys/hpadj22-fast06-scratch.json'))
