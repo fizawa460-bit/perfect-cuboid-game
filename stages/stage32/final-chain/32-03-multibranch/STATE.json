@@ -290,7 +290,7 @@
       ]
     },
     "class3_softpark_second_depth_freeze": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SOFTPARK-SECOND-DEPTH-R5-FREEZE-CERTIFICATE.json",
-    "class3_third_depth_status": "USER_SOLO_DEEPENING",
+    "class3_third_depth_status": "POST_SOLO_W16_SELECTED",
     "class3_third_depth_order": [
       "W4",
       "W20",
@@ -307,11 +307,10 @@
     "class3_third_depth_completed": [
       "W4",
       "W5_ORDER2",
-      "W20_FINITE_E2"
+      "W20_FINITE_E2",
+      "W16_RAMIFICATION_GATE"
     ],
-    "class3_solo_deepening_queue": [
-      "W16"
-    ],
+    "class3_solo_deepening_queue": [],
     "class3_third_depth_w5": {
       "status": "SOLO_ORDER2_EXHAUSTED_HIGHER_ORDER_OPEN_NO_CREDIT",
       "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W5-SOLO-ORDER2-ACTIVE-SUPPORT-20260918.md",
@@ -325,17 +324,31 @@
       "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W20-SOLO-FINITE-E2-GAUGE-WALL-CERTIFICATE.json",
       "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w20_solo_finite_e2_gauge_wall.py",
       "result": "the retained factor-line/passport interface is invariant under M2 -> M2 tensor tau for arbitrary tau in Pic^0(E)[2], while delta_fac shifts simply transitively; eta is an independent normalization Kummer class and kappa lives in the normalization kernel, so the finite E[2] bridge cannot select delta_fac or bound the conductor cut"
+    },
+    "class3_third_depth_w16": {
+      "status": "SOLO_NARROWED_RAMIFICATION_DESCENT_OPEN_NO_CREDIT",
+      "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-SOLO-RAMIFICATION-CB-GATE-20260918.md",
+      "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-W16-SOLO-RAMIFICATION-CB-GATE-CERTIFICATE.json",
+      "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_w16_solo_ramification_cb_gate.py",
+      "result": "the universal residual base map phi:E->P1 has degree 56l, hence its normalization ramification divisor has exact degree 112l; however the canonical descended different on the singular carrier includes the conductor and has degree 336l^2+224l, so the missing bridge is a conductor-subtracted descent to a surface lci CB scheme"
+    },
+    "class3_solo_comparison": {
+      "W4": "CLOSED_NEGATIVE",
+      "W5": "ORDER2_EXHAUSTED_HIGHER_ORDER_OPEN",
+      "W20": "CLOSED_NEGATIVE_AS_FINITE_E2_BRIDGE",
+      "W16": "SURVIVES_ONLY_AS_RAMIFICATION_TO_CB_DESCENT",
+      "selected_next": "W16"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 solo deepening — W16 canonical non-split CB subcluster",
+    "title": "MB104 W16 continuation — conductor-subtracted ramification descent",
     "active_leaf": "MB104-UNIFORM-CLOSURE-REPLACEMENT-THEOREM",
-    "required_input": "W20 solo is complete and closed negatively as a finite-E[2] bridge: the retained factor-line/passport identities are invariant under M2 tensor tau for any tau in Pic^0(E)[2], while delta_fac moves through all four possibilities; eta is a separate normalization Kummer class and the Hodge-relevant conductor class kappa lies in Ker(Pic(C)[2]->Pic(E)[2]). Do not reopen W20 unless branch-specific conductor-preimage lift/descent data are added. Next work W16 only: search for a canonical proper lci Cayley-Bacharach subscheme Z_l of O(l) length forced by every hypothetical carrier, with a non-split Serre extension. The target remains length(Z_l)<=112l, which would make the Bogomolov discriminant positive for all l>=2 and leave only l=1 for a finite backend.",
+    "required_input": "The four requested solo deepening passes are complete. W4 is closed negatively; W5 order two is exhausted with primitive/twisted higher order still open; W20 finite-E[2] bridge is closed negatively; W16 survives with the most concrete remaining object. The retained residual base map phi:E->P1 has degree 56l and exact normalization ramification divisor R_phi of degree 112l. The canonical different on the singular carrier pulls back to conductor_divisor + R_phi and has quadratic degree 336l^2+224l. Continue W16 only by constructing or ruling out a canonical conductor-subtracted descent of R_phi to a zero-dimensional lci scheme Z_l on the smooth surface, and prove/falsify CB(|D_l|). Do not silently push forward a normalization divisor as a surface scheme.",
     "success_shapes": [
-      "source-complete canonical proper CB scheme of length <=112l with non-split Serre extension, yielding l>=2 exclusion",
-      "weaker explicit O(l) canonical CB scheme with a computable cutoff L",
-      "source-complete proof that every currently available canonical O(l) cluster is split or fails CB, closing the present W16 architecture negatively"
+      "construct canonical Z_l subset S with length <=112l, lci and CB(|D_l|), giving Hartshorne-Serre/Bogomolov exclusion for l>=2",
+      "construct a weaker conductor-subtracted lci CB scheme of O(l) length with an explicit finite cutoff",
+      "prove that the normalization ramification divisor cannot admit any canonical surface-lci CB descent under the retained carrier/conductor structure, closing W16 negatively"
     ],
     "must_not_repeat": [
       "conductor residual-sheet recovery as primary route without a new source-locked adapter",
