@@ -344,3 +344,98 @@ Two independent blockers were recorded:
 Thus H5 has a valid forward adapter only to the bare correspondence, not to the finite equivariant object required for closure, and its reverse adapter also fails.
 
 Cycle-2 routing advances to **H6 finite monodromy / Nielsen-passport obstruction**. H6 must first test whether a source-complete Nielsen object can be defined without reintroducing the same concentration/lift assumption.
+
+
+### Cycle 2 run 3 disposition — H6
+
+H6 finite monodromy / Nielsen-passport obstruction: **FAIL / PARKED**.
+
+For the active `000707` e=2 factor map, the retained passport has degree
+
+```
+n=28l
+```
+
+and eight branch values.  At each branch value the local branch-cycle type is
+
+```
+2^(r_q) 1^(u_q),
+u_q+2r_q=28l,
+u_q even.
+```
+
+For the first factor, the four residual-pair totals are fixed by the retained node table as
+
+```
+32l, 24l, 56l, 0.
+```
+
+The `56l` pair is forced to split as `28l+28l`, and the zero pair is fixed.  But the first pair permits
+
+```
+u_(+a)=4l+2i,
+u_(-a)=28l-2i,
+0<=i<=12l,
+```
+
+while the second permits
+
+```
+u_(+b)=2j,
+u_(-b)=24l-2j,
+0<=j<=12l.
+```
+
+Every such choice satisfies the retained degree, evenness, pair-total, Riemann--Hurwitz and residual-pair sign-parity constraints.  Therefore the retained aggregate interface alone permits at least
+
+```
+(12l+1)^2
+```
+
+distinct aggregate cycle-type passports before any full permutation tuple is chosen.  This grows without bound with `l`.
+
+A genuine Nielsen tuple lives in `S_(28l)^8` and carries still more information. Compressing these growing cycle data to a fixed finite object requires exactly the branch-to-fixed-product-lift information that remains missing. If that information is discarded, different carrier-level allocations map to the same reduced passport and the reverse adapter fails.
+
+Thus H6 reaches the roadmap stop condition: cycle data grow freely with `l`, and the finite compression would reintroduce the same source-incomplete concentration/lift assumption rejected in H5.
+
+### Cycle 2 portfolio review
+
+Cycle 2 is complete.
+
+| Route | result | disposition |
+|---|---|---|
+| H8 log boundary | FAIL | PARKED; exact exceptional packet admits uniform positive orbifold-BMY slack. |
+| H5 etale correspondence rigidity | FAIL | PARKED; ambient correspondence universe is unbounded and packet-to-fixed-lift adapter is missing. |
+| H6 finite Nielsen passport | FAIL | PARKED; aggregate cycle-type space already grows at least `(12l+1)^2`, and reverse adapter loses branch-lift semantics. |
+
+No Cycle-2 route is a DEEP candidate. H3 remains unreleased.
+
+### Cycle 3 candidate routes
+
+These are hypotheses only; no credit is assigned.
+
+#### H9 — uniform stable-base / Zariski-ray obstruction
+
+Work directly with the exact active divisor ray `D_l=lD_1`.  Instead of asking whether the integral Picard class exists, compute whether the source-complete negative-curve/fibration inventory forces a nonzero fixed component in every effective member of `|lD_1|`.  A forced component would contradict an integral carrier uniformly in `l`.
+
+First shallow gate: compute the exact intersections of `D_1` with the retained source-complete negative-curve classes and decide whether a Zariski/stable-base witness is actually complete enough for an F/R proof.  Do not enumerate sections.
+
+Stop if all known tests are nonnegative and the negative-curve inventory is not source-complete, or if the proposed fixed component is one already known not to occur on the active incidence-16 survivors.
+
+#### H10 — receiver-preserving explicit degeneration
+
+Construct one specific algebraic degeneration of the cuboid surface and the ray `D_l` to a computable boundary model, with a proved specialization adapter for an integral normalization-genus-one carrier and the balanced packet.
+
+First shallow gate: prove the degeneration preserves enough of the receiver to make nonexistence on the special fibre reversible.  Do not perform special-fibre enumeration before that gate passes.
+
+Stop if integrality, geometric genus, or the exact branch packet can disappear into components/embedded points under specialization, or if only generic Hilbert compactness is available (already rejected by H4).
+
+#### H11 — off-exceptional singularity localization theorem
+
+The unresolved quadratic defect is largely off the fourteen exceptional contacts.  Test whether the cuboid equations/product-cover geometry force those singularities onto a fixed finite union of special divisors or grids with an exact global capacity smaller than `168l^2+56l`.
+
+First shallow gate: prove the localization statement itself from source-locked geometry.  No Bezout/capacity arithmetic begins unless every off-exceptional singularity of a hypothetical carrier is captured.
+
+Stop if arbitrary off-grid ordinary nodes remain compatible; that would reduce to the already parked H8/U1/special-grid counting walls.
+
+Initial Cycle-3 order: **H9, H10, H11**.
