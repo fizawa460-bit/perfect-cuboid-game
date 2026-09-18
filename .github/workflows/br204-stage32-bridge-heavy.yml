@@ -23,11 +23,13 @@ env:
   WORKER: stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp
   COMBINER: stages/stage32/generalization-bridge/combine_br204_d_slices.py
   BAND_RUNNER: stages/stage32/generalization-bridge/run_br204_resumable_band.py
+  FINALIZER: stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
   AGGREGATOR: stages/stage32/generalization-bridge/aggregate_br204_full178.py
   CONTRACT: stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json
   WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
   COMBINER_BLOB: 4571f04f8a1f44c5e6aa19f25763569f2ccd4432
-  BAND_RUNNER_BLOB: 5296c7361efc9fca98a9d1080825fa512bb7cc72
+  BAND_RUNNER_BLOB: 0680132cab6da3e06a13f15c55993ed9b84f9a27
+  FINALIZER_BLOB: e8e9219a6697e017efcf28ccdf8a6eaf5e181519
   AGGREGATOR_BLOB: 3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee
   CONTRACT_BLOB: 31592b08692aa156e92ca1acd900993fc94743dc
   BASE_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
@@ -62,6 +64,7 @@ jobs:
           test "$(git hash-object "$WORKER")" = "$WORKER_BLOB"
           test "$(git hash-object "$COMBINER")" = "$COMBINER_BLOB"
           test "$(git hash-object "$BAND_RUNNER")" = "$BAND_RUNNER_BLOB"
+          test "$(git hash-object "$FINALIZER")" = "$FINALIZER_BLOB"
           test "$(git hash-object "$AGGREGATOR")" = "$AGGREGATOR_BLOB"
           test "$(git hash-object "$CONTRACT")" = "$CONTRACT_BLOB"
           git fetch --no-tags --depth=1 origin main
@@ -90,6 +93,7 @@ jobs:
           assert locks['worker_blob']==os.environ['WORKER_BLOB']
           assert locks['d_slice_combiner_blob']==os.environ['COMBINER_BLOB']
           assert locks['resumable_band_runner_blob']==os.environ['BAND_RUNNER_BLOB']
+          assert locks['band_checkpoint_finalizer_blob']==os.environ['FINALIZER_BLOB']
           assert locks['aggregator_blob']==os.environ['AGGREGATOR_BLOB']
           assert locks['execution_contract_blob']==os.environ['CONTRACT_BLOB']
           assert locks['compact_mu_base_blob']==os.environ['BASE_BLOB']
@@ -308,10 +312,11 @@ jobs:
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$WORKER" -o /tmp/runtime/br204-worker
           cp "$COMBINER" /tmp/runtime/
           cp "$BAND_RUNNER" /tmp/runtime/
+          cp "$FINALIZER" /tmp/runtime/
           /tmp/runtime/br204-worker --self-test > /tmp/worker-selftest.json
           python /tmp/runtime/combine_br204_d_slices.py self-test | tee /tmp/combiner-selftest.json
           grep -Fq '"expected_single_d_checkpoints": 4743' /tmp/combiner-selftest.json
-          python -m py_compile /tmp/runtime/combine_br204_d_slices.py /tmp/runtime/run_br204_resumable_band.py
+          python -m py_compile /tmp/runtime/combine_br204_d_slices.py /tmp/runtime/run_br204_resumable_band.py /tmp/runtime/finalize_br204_band_checkpoint.py
           python "$AGGREGATOR" self-test
       - uses: actions/upload-artifact@v4
         with:
@@ -344,24 +349,28 @@ jobs:
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
           python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b 0 --band-lo 8 --band-hi 54             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
-      - name: Measure pilot recovery slot
+      - name: Finalize pilot checkpoint on every outcome
         id: measure
+        if: always()
         run: |
+          set -euo pipefail
+          python /tmp/runtime/finalize_br204_band_checkpoint.py \
+            --combiner /tmp/runtime/combine_br204_d_slices.py \
+            --out-dir /tmp/band --b 0 --band-lo 8 --band-hi 54 \
+            --worker-blob "$WORKER_BLOB" > /tmp/finalize.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           from pathlib import Path
-          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          payload_bytes=int(s['rollup_payload_gzip_bytes'])
-          assert payload_bytes<=900000
-          final=Path('/tmp/band/br204-u-b0-d8-54.tsv.gz')
-          final_bytes=final.stat().st_size if final.exists() else 0
-          if final.exists(): assert final_bytes<=900000
-          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V2_ROLLED_PARTIAL','b':0,'band':[8,54],'complete':s['complete'],'recovery_slot_payload_bytes':payload_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          x=json.loads(Path('/tmp/finalize.json').read_text())
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V3_ALWAYS_CHECKPOINT','b':0,'band':[8,54],'complete':x['complete'],'recovery_slot_payload_bytes':x['payload_bytes'],'final_band_gzip_bytes':x['final_bytes'],'stop_reason':x['stop_reason'],'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
           Path('/tmp/band/PILOT-MEASUREMENT-b0.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
-          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(payload_bytes)); print('final_bytes='+str(final_bytes))
+          print('complete='+str(x['complete']).lower())
+          print('slice_bytes='+str(x['payload_bytes']))
+          print('final_bytes='+str(x['final_bytes']))
+          print('stop_reason='+str(x['stop_reason']))
           PY
       - uses: actions/upload-artifact@v4
-        if: steps.measure.outputs.complete == 'true'
+        if: always() && steps.measure.outputs.complete == 'true'
         with:
           name: br204-u-b0-d8-54
           path: |
@@ -370,7 +379,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: steps.measure.outputs.complete != 'true'
+        if: always() && steps.measure.outputs.complete != 'true'
         with:
           name: br204-p-b0-d8-54
           path: |
@@ -407,24 +416,28 @@ jobs:
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
           python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b 96 --band-lo 148 --band-hi 192             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
-      - name: Measure pilot recovery slot
+      - name: Finalize pilot checkpoint on every outcome
         id: measure
+        if: always()
         run: |
+          set -euo pipefail
+          python /tmp/runtime/finalize_br204_band_checkpoint.py \
+            --combiner /tmp/runtime/combine_br204_d_slices.py \
+            --out-dir /tmp/band --b 96 --band-lo 148 --band-hi 192 \
+            --worker-blob "$WORKER_BLOB" > /tmp/finalize.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
           from pathlib import Path
-          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          payload_bytes=int(s['rollup_payload_gzip_bytes'])
-          assert payload_bytes<=900000
-          final=Path('/tmp/band/br204-u-b96-d148-192.tsv.gz')
-          final_bytes=final.stat().st_size if final.exists() else 0
-          if final.exists(): assert final_bytes<=900000
-          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V2_ROLLED_PARTIAL','b':96,'band':[148,192],'complete':s['complete'],'recovery_slot_payload_bytes':payload_bytes,'final_band_gzip_bytes':final_bytes,'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
+          x=json.loads(Path('/tmp/finalize.json').read_text())
+          m={'schema':'STAGE32_BR204_PILOT_RECOVERY_MEASUREMENT_V3_ALWAYS_CHECKPOINT','b':96,'band':[148,192],'complete':x['complete'],'recovery_slot_payload_bytes':x['payload_bytes'],'final_band_gzip_bytes':x['final_bytes'],'stop_reason':x['stop_reason'],'worker_blob':'0d5ee8e1013cab6120e957707a363e86b3c0d41e'}
           Path('/tmp/band/PILOT-MEASUREMENT-b96.json').write_text(json.dumps(m,sort_keys=True,indent=2)+'\n')
-          print('complete='+str(s['complete']).lower()); print('slice_bytes='+str(payload_bytes)); print('final_bytes='+str(final_bytes))
+          print('complete='+str(x['complete']).lower())
+          print('slice_bytes='+str(x['payload_bytes']))
+          print('final_bytes='+str(x['final_bytes']))
+          print('stop_reason='+str(x['stop_reason']))
           PY
       - uses: actions/upload-artifact@v4
-        if: steps.measure.outputs.complete == 'true'
+        if: always() && steps.measure.outputs.complete == 'true'
         with:
           name: br204-u-b96-d148-192
           path: |
@@ -433,7 +446,7 @@ jobs:
           retention-days: 1
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: steps.measure.outputs.complete != 'true'
+        if: always() && steps.measure.outputs.complete != 'true'
         with:
           name: br204-p-b96-d148-192
           path: |
@@ -540,33 +553,33 @@ jobs:
           set -euo pipefail
           chmod +x /tmp/runtime/br204-worker
           python /tmp/runtime/run_br204_resumable_band.py             --worker /tmp/runtime/br204-worker             --combiner /tmp/runtime/combine_br204_d_slices.py             --b "${{ matrix.b }}" --band-lo "${{ matrix.d_lo }}" --band-hi "${{ matrix.d_hi }}"             --worker-blob "$WORKER_BLOB" --resume-dir /tmp/partials             --out-dir /tmp/band --soft-seconds "$SOFT_SECONDS"             --slice-timeout-seconds "$SLICE_TIMEOUT_SECONDS"
-      - name: Classify and cap recovery slot
+      - name: Finalize checkpoint on every outcome
         id: classify
-        if: matrix.b != -1
+        if: always() && matrix.b != -1
         run: |
+          set -euo pipefail
+          python /tmp/runtime/finalize_br204_band_checkpoint.py \
+            --combiner /tmp/runtime/combine_br204_d_slices.py \
+            --out-dir /tmp/band --b "${{ matrix.b }}" \
+            --band-lo "${{ matrix.d_lo }}" --band-hi "${{ matrix.d_hi }}" \
+            --worker-blob "$WORKER_BLOB" > /tmp/finalize.json
           python - <<'PY' >> "$GITHUB_OUTPUT"
           import json
-          from pathlib import Path
-          s=json.loads(Path('/tmp/band/STATUS.json').read_text())
-          payload_bytes=int(s['rollup_payload_gzip_bytes'])
-          assert payload_bytes<=900000, ('recovery slot too large',payload_bytes)
-          final=Path(f"/tmp/band/br204-u-b{s['b']}-d{s['band'][0]}-{s['band'][1]}.tsv.gz")
-          final_bytes=final.stat().st_size if final.exists() else 0
-          if final.exists(): assert final_bytes<=900000
-          print('complete='+str(s['complete']).lower())
-          print('stop_reason='+s['stop_reason'])
-          print('slice_bytes='+str(payload_bytes))
-          print('final_bytes='+str(final_bytes))
+          x=json.load(open('/tmp/finalize.json'))
+          print('complete='+str(x['complete']).lower())
+          print('stop_reason='+str(x['stop_reason']))
+          print('slice_bytes='+str(x['payload_bytes']))
+          print('final_bytes='+str(x['final_bytes']))
           PY
       - uses: actions/upload-artifact@v4
-        if: matrix.b != -1 && steps.classify.outputs.complete == 'true'
+        if: always() && matrix.b != -1 && steps.classify.outputs.complete == 'true'
         with:
           name: br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
           path: /tmp/band/br204-u-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}.tsv.gz
           retention-days: 1
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
-        if: matrix.b != -1 && steps.classify.outputs.complete != 'true'
+        if: always() && matrix.b != -1 && steps.classify.outputs.complete != 'true'
         with:
           name: br204-p-b${{ matrix.b }}-d${{ matrix.d_lo }}-${{ matrix.d_hi }}
           path: |
@@ -603,7 +616,8 @@ jobs:
           import json
           from pathlib import Path
           statuses=[json.loads(p.read_text()) for p in Path('/tmp/partials').rglob('STATUS.json')]
-          hard=[s for s in statuses if s.get('stop_reason') not in {'SOFT_DEADLINE'}]
+          resumable={'SOFT_DEADLINE','INTERRUPTED_AFTER_LAST_D_CHECKPOINT','INTERRUPTED_WITHOUT_DURABLE_D_CHECKPOINT'}
+          hard=[s for s in statuses if s.get('stop_reason') not in resumable]
           out={
             'schema':'STAGE32_BR204_RECOVERY_SUMMARY_V1',
             'discovered_artifact_count':len(Path('/tmp/current-artifacts.tsv').read_text().splitlines()),
