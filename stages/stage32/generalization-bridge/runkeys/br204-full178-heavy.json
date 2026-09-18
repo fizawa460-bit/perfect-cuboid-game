@@ -132,12 +132,14 @@
     "representative_pilots_must_measure_recovery_slot_payload": true
   },
   "arm_contract": {
-    "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only pull_request synchronize commit",
-    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one, set carry_run_id to the immediate previous recovery-eligible BR204 run, refresh observed_other_stage32_heavy_concurrency_at_arm, and preserve execution/source/resume/storage/credit locks",
-    "automatic_arm_action": "synchronize",
+    "required_initial_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the audited cold doorstep",
+    "required_recovery_transition": "for generation >=2, keep armed=true, increment generation by exactly one in a runkey-only push commit, set carry_run_id to the immediate previous recovery-eligible BR204 run, refresh observed_other_stage32_heavy_concurrency_at_arm, and preserve execution/source/resume/storage/credit locks",
+    "automatic_arm_action": "dedicated_runkey_push",
+    "event": "push",
+    "branch": "stage32bridge-mainbatch",
     "commit_range_runkey_change_required": true,
     "execution_head_parent_diff_must_include_only_this_runkey": true,
-    "cold_opened_reopened_or_nonkey_sync_do_not_authorize": true,
+    "cold_unarmed_or_nonkey_push_does_not_authorize": true,
     "failed_generation_requires_recovery_summary_resume_eligible": true,
     "cancelled_or_timed_out_generation_may_salvage_paginated_completed_and_partial_artifacts": true,
     "single_d_timeout_blocks_blind_resume": true,
@@ -160,9 +162,11 @@
     "cancelled_generation1_run_id": 35299814222,
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
-    "repair": "BLOCKER1: paginate predecessor jobs+artifacts and fail closed on expected durable artifact/count/identity loss before plan. BLOCKER2: explicit upload_safe only after payload revalidation and size caps; recovery uploads require successful finalizer+upload_safe; unsafe path emits diagnostic only.",
-    "status": "BRANCH_PUSH_12WAY_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
-    "launcher_repair": "Branch-only pull_request workflow could not self-trigger before merge. Rebuilt as branch push gated by actual before..head runkey diff; armed commits remain runkey-only."
+    "repair": "Audit 5247651937 blocker 1 repaired: arm_contract now exactly matches branch-local push / dedicated_runkey_push semantics. Recovery/upload-safe repairs remain retained.",
+    "status": "AUDIT_5247651937_BLOCKER1_REPAIRED__BLOCKER2_AND_EXACT_HEAD_REPLAY_PENDING",
+    "launcher_repair": "Branch-only pull_request workflow could not self-trigger before merge. Rebuilt as branch push gated by actual before..head runkey diff; armed commits remain runkey-only.",
+    "latest_hold_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
+    "latest_hold_review_id": 5247651937
   },
   "resource_preflight": {
     "planned_effective_heavy_concurrency": 12,
