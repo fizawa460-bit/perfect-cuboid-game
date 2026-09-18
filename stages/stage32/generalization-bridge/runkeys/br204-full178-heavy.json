@@ -2,7 +2,7 @@
   "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V9_RECOVERY_RECONCILED_SAFE_UPLOAD",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold BR204 FULL178 Research OS heavy-workflow rebuild after hostile-audit HOLD. Recovery now reconciles predecessor successful durable uploads against paginated retrieved/nonexpired artifacts and validated manifests before planning; checkpoint payloads are upload-eligible only after finalizer success, exact payload validation, and hard size caps. Heavy remains generation 0 / armed false pending fresh exact-head replay and hostile audit.",
+  "purpose": "Cold BR204 FULL178 Research OS heavy-workflow rebuild after hostile-audit HOLD. Recovery now reconciles predecessor successful durable uploads against paginated retrieved/nonexpired artifacts and validated manifests before planning; checkpoint payloads are upload-eligible only after finalizer success, exact payload validation, and hard size caps. Heavy remains generation 0 / armed false pending fresh exact-head replay and hostile audit. Cold parallelism updated by user authorization: BR204 max_parallel=12; Stage32 ceiling remains 18.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -25,7 +25,7 @@
         192
       ]
     ],
-    "max_parallel": 8,
+    "max_parallel": 12,
     "pilot_subunits": [
       {
         "b": 0,
@@ -58,7 +58,7 @@
   "source_locks": {
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a",
+    "execution_contract_blob": "ca0cab3960ab3ecb50e053f7ccf6a53ab71460ee",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
@@ -70,7 +70,7 @@
     "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
     "band_checkpoint_finalizer_blob": "5724929d739ebc61ca1841ec34caef4de04752c7",
-    "heavy_workflow_blob": "f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5",
+    "heavy_workflow_blob": "fcdf6559500271d790f06e2c86b6ee346b0c1558",
     "recovery_inventory_verifier_blob": "8854ca99df52a31e6639e6aa65cef73ffdf9ec18",
     "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
   },
@@ -170,11 +170,11 @@
     "status": "RESEARCH_OS_RECOVERY_RECONCILIATION_AND_SAFE_UPLOAD_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
   },
   "resource_preflight": {
-    "planned_effective_heavy_concurrency": 8,
+    "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
-    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6,
     "observed_other_stage32_heavy_concurrency_at_arm": null,
-    "overlap_rule": "Arm/resume commit must replace null with an observed integer 0..10; authorize requires 8 + observed_other <= 18. Unknown overlap fails closed.",
+    "overlap_rule": "Arm/resume commit must replace null with an observed integer 0..6; authorize requires 12 + observed_other <= 18. Unknown overlap fails closed.",
     "artifact_recovery_slot_count_upper_bound": 250,
     "per_outer_recovery_slot_hard_cap_bytes": 900000,
     "repository_operating_budget_bytes": 524288000
