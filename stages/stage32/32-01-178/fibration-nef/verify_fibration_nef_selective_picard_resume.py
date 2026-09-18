@@ -5,7 +5,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 WORKER = HERE / "run_fibration_nef_selective_picard_workunit.py"
-WORKER_BLOB = "15a94deeaac2a7bbd56ecf3a2a2a3265e7e1203f"
+WORKER_BLOB = "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5"
 PLAN = HERE / "verify_fibration_nef_selective_workunit_plan_certificate.py"
 PLAN_BLOB = "37745be7877f32a1804a350d8ebbeedc893d4a5b"
 SCHEMA = "STAGE32_32_01_178_SELECTIVE_PICARD_RECOVERY_SNAPSHOT_V1"
