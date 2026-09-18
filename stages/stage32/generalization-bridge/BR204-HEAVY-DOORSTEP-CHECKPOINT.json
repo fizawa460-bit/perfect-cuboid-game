@@ -29,15 +29,15 @@
     "aggregator_path": "aggregate_br204_full178.py",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
     "contract_path": "BR204-HEAVY-EXECUTION-CONTRACT.json",
-    "contract_blob": "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a",
+    "contract_blob": "ca0cab3960ab3ecb50e053f7ccf6a53ab71460ee",
     "qbc_tail_addendum_path": "BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json",
     "qbc_tail_addendum_blob": "3f6568190857206ca21316750e70df554bd6b251",
     "heavy_workflow_path": ".github/workflows/br204-stage32-bridge-heavy.yml",
-    "heavy_workflow_blob": "f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5",
+    "heavy_workflow_blob": "fcdf6559500271d790f06e2c86b6ee346b0c1558",
     "retained_replay_path": ".github/workflows/stage32-bridge-br204-retained-replay.yml",
-    "retained_replay_blob": "9e30411d8d7f1dc68a169380bc363b5113bc3640",
+    "retained_replay_blob": "fac7836c44ddeb868f6eb48d7a1bd8ace74ec601",
     "runkey_path": "runkeys/br204-full178-heavy.json",
-    "runkey_blob": "c21b832cc16d96629db9d5544a3e1a0eddc58f3f",
+    "runkey_blob": "0d45c1fc8522c5fc43c125791dae8c4da3e665bb",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "workflow_lifecycle_verifier_blob": "94ca6e780dc859a1b32a85054b37d45d4c6ecf9d",
     "bridge_workflow_inventory_supplement_blob": "e75f570c93265c3d8d9de28bbcebc0cdc819c563",
@@ -80,8 +80,9 @@
     "authority_or_credit_changed": false,
     "resume_topology_changed": true,
     "launcher_topology_changed": true,
-    "exact_head_replay_after_rebuild": "REQUIRED_NOT_YET_RECORDED_AFTER_STALE_ASSERTION_REPAIR",
-    "hostile_audit_after_rebuild": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1"
+    "exact_head_replay_after_rebuild": "REQUIRED_AFTER_12_WAY_CONCURRENCY_CHANGE",
+    "hostile_audit_after_rebuild": "REQUIRED_IN_SEPARATE_AUDIT_CHAT_BEFORE_GENERATION_1",
+    "concurrency_change": "Cold-only change: BR204 max_parallel 8 -> 12 by user authorization. Repository Stage32 ceiling remains 18; arm gate requires observed other Stage32 heavy concurrency <=6."
   },
   "heavy_shape": {
     "rows": 178,
@@ -124,9 +125,9 @@
     "pilot_runs_started": false,
     "BR205_authorized": false,
     "cancelled_generation1_run_id": 35299814222,
-    "planned_effective_heavy_concurrency": 8,
+    "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
-    "maximum_other_stage32_heavy_concurrency_at_arm": 10,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6,
     "observed_other_stage32_heavy_concurrency_at_arm": null,
     "execution_trigger": {
       "event": "pull_request",
@@ -144,7 +145,7 @@
     }
   },
   "next_gate": {
-    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_WITH_RECOVERY_NEGATIVES_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
+    "required": "EXACT_HEAD_RETAINED_REPLAY_SUCCESS_AFTER_12_WAY_CHANGE_THEN_SEPARATE_HOSTILE_AUDIT_PASS",
     "after_pass": "STOP COLD. Only a later runkey-only pull_request synchronize child of the freshly audited repaired doorstep may set generation 1 / armed true and launch heavy."
   },
   "credit": {
