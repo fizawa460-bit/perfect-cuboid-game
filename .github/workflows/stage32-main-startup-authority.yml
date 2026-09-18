@@ -50,6 +50,20 @@ jobs:
           test "$(git -C .stage32-v42 hash-object stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py)" = "52940cf924cc239584a7d1cb39b55fdc9c9d9289"
           test "$(git -C .stage32-v42 hash-object stages/stage32/verify_main_startup.py)" = "7f2d8f1c84db40a33afaea43326a38395491715c"
 
+      - name: Checkout live 178 compressed-Picard source
+        uses: actions/checkout@v4
+        with:
+          ref: e60f03cf5105bc6e26cb4615acabd6fe0c07625c
+          path: .stage32-178-btva-source
+          fetch-depth: 0
+
+      - name: Assert fixed 178 compressed-Picard source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-178-btva-source rev-parse HEAD)" = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+          test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_recoverability.py)" = "fbd8dad2194378a6bf77d12cc2c65ac03782f112"
+
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
@@ -66,7 +80,7 @@ jobs:
       - name: Verify V43 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "1f4af0d2d1aff5ecd94669d6dc9ea2fef445f630"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "47497061957b0b20313d730a40e7cd6266cc8587"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "a1ea5681a516ec2b0b405c086af810790b5e7e45"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py)" = "ad96a89ed52598b6d4f12c12ef63a119aa0dd961"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
@@ -76,6 +90,8 @@ jobs:
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "86dfdb2c1e800c2415c578d9eb5badcb3766eab1"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "cb537c71c7b57753edfe405618ce73a1e4744349"
 
       - name: Set up pinned Python
         uses: actions/setup-python@v5
@@ -93,6 +109,9 @@ jobs:
 
       - name: Verify Stage32 cross-lane coordination
         run: python stages/stage32/proof/verify_cross_lane_demands.py
+
+      - name: Verify MAIN compressed BTVA Picard-lift intersection preflight
+        run: python stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py --lane178-root .stage32-178-btva-source
 
       - name: Verify Stage32 final-chain 32-02 retained checks
         run: |
@@ -114,7 +133,7 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py) ;;
+              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py) ;;
               *) echo "unexpected V43 sync path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
