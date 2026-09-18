@@ -8,21 +8,19 @@ def req(x,m):
 def main():
  c=json.loads(CERT.read_text())
  req(c["schema"]=="STAGE32_MB104_W31_LAZARSFELD_MUKAI_PREFLIGHT_V1","schema")
- req(c["status"]=="SECOND_SCAN_COMPLETE_HIGH_VALUE_SOFT_PARK_NO_CREDIT","status")
+ req(c["status"]=="ARCHITECTURE_HARD_DROP_TAUTOLOGICAL_DESTABILIZER_NO_CREDIT","status")
  for l in range(1,100):
   disc=14*(112*l)-6*(336*l*l)
-  req(disc==-224*l*(9*l-7) and disc<0,f"BG l={l}")
-  req(-8 > -16*l,f"B=H rank2 slope witness l={l}")
-  req(16 < 32*l,f"det cone witness l={l}")
- s=c["second_scan_result"]
- req(s["status"]=="NUMERICAL_DETERMINANT_CONE_NONEMPTY","second status")
- req(s["exact_witness_family"]["B"]=="H" and s["exact_witness_family"]["rank_r"]==2,"witness")
- d=s["decision"]
- req(d["tested_second_architecture_status"]=="HARD-DROP","second hard")
- req(d["broader_direction_status"]=="SOFT-PARK_HIGH_VALUE","broader soft")
+  req(disc==-224*l*(9*l-7) and disc<0,f"disc l={l}")
+  req(112*l-16 > 16*l,f"explicit destabilizer slope l={l}")
+ r=c["structural_resolution"]
+ req(r["dual_extension"]=="0 -> O_S(D_l-H) -> E -> M_H^vee -> 0","dual extension")
+ d=r["decision"]
+ req(d["tested_architecture_status"]=="HARD-DROP","hard")
+ req(d["broader_direction_status"]=="SOFT-PARK","soft")
  req(d["promote_to_deep"] is False,"no deep")
  for k,v in c["credit_firewall"].items(): req(v is False,"credit "+k)
- print("PASS STAGE32_MB104_W31_LAZARSFELD_MUKAI_SECOND_SCAN_V1")
- print("uniform_BG_instability=true determinant_cone_witness=(B=H,r=2)")
- print("W31=HIGH_VALUE_SOFT_PARK no_deep no_credit")
+ print("PASS STAGE32_MB104_W31_LM_TAUTOLOGICAL_DESTABILIZER_V1")
+ print("explicit_subline=O(D_l-H) slope=112l-16 > 16l")
+ print("W31 architecture=HARD broader=SOFT no_credit")
 if __name__=="__main__": main()
