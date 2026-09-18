@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_W31_LAZARSFELD_MUKAI_PREFLIGHT_V1",
-  "status": "PROMOTE_TO_SECOND_SCAN_NO_CREDIT",
+  "status": "SECOND_SCAN_COMPLETE_HIGH_VALUE_SOFT_PARK_NO_CREDIT",
   "target": {
     "mask": "000707000f0f",
     "hypothetical_carrier": "integral Cartier divisor C in |D_l| with normalization genus 1 and retained packet",
@@ -74,5 +74,27 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
+  },
+  "second_scan_result": {
+    "status": "NUMERICAL_DETERMINANT_CONE_NONEMPTY",
+    "setup": "For F subset O_S^7, a saturated destabilizing subsheaf G of rank r has det G=O(-B) with B effective and -H.B/r > -16*l, i.e. H.B < 16*l*r.",
+    "exact_witness_family": {
+      "B": "H",
+      "rank_r": 2,
+      "H_B": 16,
+      "slope_det_over_rank": -8,
+      "inequality": "-8 > -16*l for every l>=1",
+      "known_curve_pairings": "H has nonnegative intersections with retained effective test curves and is itself effective/canonical"
+    },
+    "supported_exceptional_restriction": {
+      "statement": "On a supported exceptional E_i, H|E_i is trivial and the elementary transform restricts as O_E^6 plus O_E(-8*l).",
+      "consequence": "A determinant condition B.E_i>=0 is compatible with B=H, since H.E_i=0."
+    },
+    "decision": {
+      "tested_second_architecture_status": "HARD-DROP",
+      "broader_direction_status": "SOFT-PARK_HIGH_VALUE",
+      "reason": "Bogomolov instability is genuine, but slope/effectivity/intersection inequalities alone leave an explicit determinant witness B=H at rank 2 for every l. Any continuation must use the actual embedding G->F/evaluation geometry, not only the Picard cone.",
+      "promote_to_deep": false
+    }
   }
 }
