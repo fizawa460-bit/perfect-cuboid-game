@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V8_RESEARCH_OS_PR_ARM",
+  "schema": "STAGE32_BR204_FULL178_HEAVY_RUNKEY_V9_RECOVERY_RECONCILED_SAFE_UPLOAD",
   "generation": 0,
   "armed": false,
-  "purpose": "Cold BR204 FULL178 Research OS heavy-workflow rebuild. Automatic compute may start only from a pull_request synchronize event whose before..head range is a dedicated runkey-only semantic generation arm, after fresh exact-head replay and hostile audit. Resume remains single-d checkpointed and always-salvage.",
+  "purpose": "Cold BR204 FULL178 Research OS heavy-workflow rebuild after hostile-audit HOLD. Recovery now reconciles predecessor successful durable uploads against paginated retrieved/nonexpired artifacts and validated manifests before planning; checkpoint payloads are upload-eligible only after finalizer success, exact payload validation, and hard size caps. Heavy remains generation 0 / armed false pending fresh exact-head replay and hostile audit.",
   "carry_run_id": null,
   "execution": {
     "b_unit_count": 97,
@@ -58,7 +58,7 @@
   "source_locks": {
     "worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "aggregator_blob": "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee",
-    "execution_contract_blob": "eb7774ac8fc0d892d7ed67f30b1295adcc26519f",
+    "execution_contract_blob": "d9e37d037b12570e2e36e82d1add2ab3cfa6f91a",
     "compact_mu_base_blob": "b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1",
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
@@ -69,8 +69,10 @@
     "bridge_predecessor_audit_review_id": 5242897044,
     "d_slice_combiner_blob": "4571f04f8a1f44c5e6aa19f25763569f2ccd4432",
     "resumable_band_runner_blob": "0680132cab6da3e06a13f15c55993ed9b84f9a27",
-    "band_checkpoint_finalizer_blob": "e8e9219a6697e017efcf28ccdf8a6eaf5e181519",
-    "heavy_workflow_blob": "b3f445a266cf8e53fd78346cb07175b270cf7dc7"
+    "band_checkpoint_finalizer_blob": "5724929d739ebc61ca1841ec34caef4de04752c7",
+    "heavy_workflow_blob": "f775f4fab10f0d107c58d7b2ec6089c24f3fc4e5",
+    "recovery_inventory_verifier_blob": "8854ca99df52a31e6639e6aa65cef73ffdf9ec18",
+    "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
   },
   "resume": {
     "durable_outer_recovery_slot": "b_x_d_band_complete_or_rolled_partial",
@@ -117,7 +119,13 @@
     "pilots_use_same_checkpoint_runner": true,
     "catastrophic_runner_loss_cannot_upload_runner_local_state": true,
     "previously_uploaded_recovery_objects_survive_runner_loss": true,
-    "intermediate_retention_days": 1
+    "intermediate_retention_days": 1,
+    "predecessor_jobs_paginated": true,
+    "expected_durable_uploads_reconciled_before_plan": true,
+    "unexplained_missing_or_expired_expected_artifact_hard_stop": true,
+    "recovery_inventory_verifier_blob": "8854ca99df52a31e6639e6aa65cef73ffdf9ec18",
+    "finalizer_upload_safe_required": true,
+    "unsafe_finalizer_recovery_payload_upload_forbidden": true
   },
   "storage": {
     "per_outer_recovery_slot_hard_cap_bytes": 900000,
@@ -158,8 +166,8 @@
     "cancelled_generation1_run_id": 35299814222,
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "in-progress outer-unit work was not persisted below the b x d-band boundary",
-    "repair": "single-d checkpoint/always-salvage resume retained; launcher replaced by ACTIVE_AUTO pull_request before..head runkey gate; main/workflow/contract locks refreshed; heavy remains generation 0 armed false",
-    "status": "MATERIAL_RESEARCH_OS_LAUNCHER_AND_RESUME_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
+    "repair": "BLOCKER1: paginate predecessor jobs+artifacts and fail closed on expected durable artifact/count/identity loss before plan. BLOCKER2: explicit upload_safe only after payload revalidation and size caps; recovery uploads require successful finalizer+upload_safe; unsafe path emits diagnostic only.",
+    "status": "RESEARCH_OS_RECOVERY_RECONCILIATION_AND_SAFE_UPLOAD_REBUILD_REQUIRES_FRESH_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT"
   },
   "resource_preflight": {
     "planned_effective_heavy_concurrency": 8,
