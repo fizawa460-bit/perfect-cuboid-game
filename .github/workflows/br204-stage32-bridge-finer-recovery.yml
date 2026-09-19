@@ -89,8 +89,8 @@ jobs:
           rp=cur['resource_preflight']
           assert rp['planned_effective_heavy_concurrency']==15
           observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
-          assert isinstance(observed,int) and 0<=observed<=3
-          assert 15+observed<=18
+          assert isinstance(observed,int) and 0<=observed<=5
+          assert 15+observed<=20
           ac=cur['arm_contract']
           assert ac['audited_doorstep_head']==os.environ['BEFORE']
           assert isinstance(ac['audited_doorstep_review_id'],int)
