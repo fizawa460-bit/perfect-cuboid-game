@@ -398,7 +398,8 @@
         "Z1-Z5",
         "Z6-Z10",
         "Z11-Z15",
-        "Z16-Z20"
+        "Z16-Z20",
+        "Z21-Z25"
       ],
       "promising": [
         "Z2"
@@ -407,7 +408,8 @@
         "Z3",
         "Z4_GLOBAL_LOCALIZATION_REFINEMENT",
         "Z5_PACKET_SENSITIVE_ARITHMETIC_REFINEMENT",
-        "Z12_ADAPTIVE_HIGHER_ORDER_SYMMETRIC_DIFFERENTIALS"
+        "Z12_ADAPTIVE_HIGHER_ORDER_SYMMETRIC_DIFFERENTIALS",
+        "Z21_EXCEPTIONAL_ROOT_LATTICE_HODGE_PARTIAL_WINDOW"
       ],
       "hard_or_absorbed_tested": [
         "Z1",
@@ -426,9 +428,13 @@
         "Z17",
         "Z18",
         "Z19",
-        "Z20"
+        "Z20",
+        "Z22",
+        "Z23",
+        "Z24",
+        "Z25"
       ],
-      "next_batch": "Z21-Z25",
+      "next_batch": "Z26-Z30",
       "deepen_before_breadth_complete": false,
       "w16_h_paused": true,
       "finite_degree_window_proved": false,
@@ -437,24 +443,39 @@
       "note_round4": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-4-20260919.md",
       "conditional_only": [
         "Z16_VOJTA_BOUNDED_GONALITY_CANONICAL_DEGREE"
-      ]
+      ],
+      "note_round5": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-5-20260919.md",
+      "round5_partial_window": {
+        "route": "Z21_EXCEPTIONAL_ROOT_LATTICE_HODGE",
+        "result": "PARTIAL_POSITIVE_N_LE_7_ONLY_BALANCED_EQUALITY_WALL",
+        "inequality": "D2 + (1/2)sum(M_i^2) <= d^2/16; hence D2 + M^2/(2N) <= d^2/16",
+        "genus1_N_lt_8_bound": "d <= 16N/(8-N)",
+        "genus0_bounds": {
+          "N<=4": "IMPOSSIBLE_POSITIVE_D",
+          "N=5": "d<=6",
+          "N=6": "d<=17",
+          "N=7": "d<=49"
+        },
+        "balanced_000707": "EXACT_HODGE_AND_CAUCHY_EQUALITY_N14_M_EQ_D_MI_EQ_8l"
+      }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 population-wide Z scan Round 5 — Z21 to Z25",
+    "title": "MB104 population-wide Z scan Round 6 — Z26 to Z30",
     "active_leaf": "MB104-POPULATION-WIDE-FINITE-WINDOW-BREADTH-SCAN",
-    "required_input": "Rounds Z1-Z20 are complete at shallow depth. Z2 remains PROMISING; Z3/Z4'/Z5'/Z12 remain SOFT; Z16 is conditional-only. Generate five materially distinct population-wide finite-window mechanisms Z21-Z25, test one cheap kill gate each against the whole R29-LG2-MB population and the balanced 000707 hostile case, and do not deepen survivors yet.",
+    "required_input": "Rounds Z1-Z25 are complete at shallow depth. Z2 remains PROMISING; Z3/Z4'/Z5'/Z12 remain SOFT; Z21 adds a genuine N<=7 finite subwindow but the balanced 000707 ray is exact Hodge/Cauchy equality. Generate five materially distinct population-wide finite-window mechanisms Z26-Z30, test one cheap kill gate each against the whole R29-LG2-MB population and balanced 000707, and do not deepen survivors until the breadth scan is complete.",
     "success_shapes": [
       "identify a genuinely new population-wide theorem shape surviving its shallow hostile test",
       "show a proposed route is hard or structurally absorbed by an earlier Z route",
-      "complete Z21-Z25 with no new survivor while sharpening the global diagnosis before the final breadth round"
+      "complete the planned Z1-Z30 breadth phase and then compare all survivors without deepening inside Round 6"
     ],
     "must_not_repeat": [
       "W16 conductor/CB deepening during breadth phase",
+      "Z21 root-lattice Hodge projection as a new route rather than using it only as a hostile checksum",
       "generic smooth-curve canonical-degree bounds that ignore singularity defect",
-      "negative-self-intersection finiteness promoted to positive-square hostile classes",
-      "fixed foliation arguments without a universal carrier-invariance adapter",
+      "finite Picard/discriminant congruence filters promoted to degree bounds",
+      "lct/multiplier severity arguments without a theorem forcing aggregate defect localization",
       "generic function-field abc/truncated counting already absorbed by Z11/Z12"
     ]
   },
