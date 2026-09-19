@@ -148,7 +148,39 @@ def main():
         req(g7["degree10_improves_40"] is False, "degree10 closure")
         req(g7["size768_global_fibration_minimum"] == 36, "global fibration minimum")
         req(g7["rank3_pairings"] == [4,4,6,4,4,6], "genus7/rank3 pairings")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-DEG4-MAP-CONDUCTOR-DIFFERENT", "post-audit active leaf")
+        four=d["retained_frontier"]["rank3_fourmap_b3_quotient"]
+        req(four["source_ref"] == EXPECTED["predecessor_boundary"], "fourmap source ref")
+        req(four["source_six_fibration_note_blob"] == "533757a857887b776d2ad9cdefb5b95133d27df2", "six-fibration source lock")
+        req(four["source_full28_verifier_blob"] == "544c85cd468e84671650adaaee84e59d72333243", "full28 source lock")
+        req(four["selected_rank3_indices"] == [0,1,3,4], "selected rank3 maps")
+        blocks=[set(range(0,8)),set(range(8,16)),set(range(24,32)),set(range(32,40))]
+        req([sorted(x) for x in blocks] == four["selected_base_blocks_0based"], "selected base blocks")
+        contracted=sorted(set(range(48))-set().union(*blocks))
+        req(contracted == list(range(16,24))+list(range(40,48)), "fourmap contracted exceptional set")
+        req(contracted == four["common_contracted_exceptional_nodes_0based"], "fourmap contracted exceptional certificate")
+        support=set(four["support_nodes_0based"])
+        req(support == {0,1,2,3,8,9,10,11,24,25,26,32,33,34}, "fourmap support")
+        req(not (support & set(contracted)), "contracted exceptionals avoid support")
+        req(four["common_contracted_exceptionals_meeting_support"] == 0, "carrier avoids contracted exceptionals")
+        sigma={0:1,1:0,2:3,3:2,4:5,5:4,6:7,7:6,
+               8:9,9:8,10:11,11:10,12:13,13:12,14:15,15:14,
+               16:16,17:17,18:18,19:19,20:20,21:21,22:22,23:23,
+               24:25,25:24,26:27,27:26,28:29,29:28,30:31,31:30,
+               32:33,33:32,34:35,35:34,36:37,37:36,38:39,39:38,
+               40:40,41:41,42:42,43:43,44:44,45:45,46:46,47:47}
+        sigsupp={sigma[i] for i in support}
+        req(sorted(sigsupp) == four["sigma_support_nodes_0based"], "b3 sign support image")
+        req(len(support & sigsupp) == four["sigma_support_intersection_size"] == 12, "support overlap under b3 sign")
+        req(support != sigsupp and four["support_sigma_invariant"] is False, "support not b3 invariant")
+        req(49*16 - 32*len(support & sigsupp) == four["P_dot_sigmaP"] == 400, "P dot sigmaP")
+        req(four["omitted_coordinate"] == "b3" and four["generic_degree_to_fourmap_image"] == 2, "b3 quotient degree")
+        req(four["nonexceptional_common_contracted_curves"] == 0, "nonexceptional common contraction")
+        req(four["carrier_invariant_under_sigma"] is False and four["carrier_to_quotient_generic_degree"] == 1, "carrier quotient degree")
+        req(all(x is False for x in four["firewalls"].values()), "fourmap credit firewall")
+        req(routing["current_leaf_uses_finite_b3_quotient"] is True, "b3 quotient route")
+        req(routing["single_pair_stein_correction_still_open"] is True, "single-pair Stein firewall")
+        req(routing["fourmap_common_vertical_meets_carrier"] is False, "fourmap carrier finiteness")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-B3-QUOTIENT-CONDUCTOR-COLLISION", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
