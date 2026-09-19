@@ -71,6 +71,7 @@ def parse(p: Path, worker_blob: str) -> dict:
 def main() -> None:
     ap=argparse.ArgumentParser()
     ap.add_argument("--input-dir",action="append",default=[])
+    ap.add_argument("--validate-path")
     ap.add_argument("--b",type=int,required=True)
     ap.add_argument("--d",type=int,required=True)
     ap.add_argument("--shard-count",type=int,default=16)
@@ -78,6 +79,13 @@ def main() -> None:
     ap.add_argument("--out",required=True)
     a=ap.parse_args()
     req(a.shard_count>1,"shard-count must exceed one")
+    if a.validate_path:
+        x=parse(Path(a.validate_path),a.worker_blob)
+        req(x["b"]==a.b and x["d"]==a.d,"validated shard b/d mismatch")
+        req(x["count"]==a.shard_count,"validated shard count mismatch")
+        print(json.dumps({"status":"PASS","b":x["b"],"d":x["d"],"idx":x["idx"],
+                          "count":x["count"],"sha256":x["sha256"]},sort_keys=True))
+        return
     found={}
     for root in map(Path,a.input_dir):
         if not root.exists(): continue
