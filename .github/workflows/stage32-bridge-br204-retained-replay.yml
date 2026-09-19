@@ -166,7 +166,15 @@ jobs:
           test "$(git hash-object .github/workflows/br204-stage32-bridge-finer-recovery.yml)" = "$G2_FINER_WORKFLOW_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json)" = "$G2_FINER_RUNKEY_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json)" = "$GEN2_PREFLIGHT_BLOB"
-          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_bc_shards.py             stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py             stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
+          python -m py_compile \
+            stages/stage32/generalization-bridge/combine_br204_bc_shards.py \
+            stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py \
+            stages/stage32/generalization-bridge/run_br204_resumable_bc_shards.py \
+            stages/stage32/generalization-bridge/finalize_br204_bc_shard_checkpoint.py \
+            stages/stage32/generalization-bridge/combine_br204_d_slices.py \
+            stages/stage32/generalization-bridge/run_br204_resumable_band.py \
+            stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py \
+            stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
 
       - name: Verify cold generation2 finer recovery doorway
         run: |
