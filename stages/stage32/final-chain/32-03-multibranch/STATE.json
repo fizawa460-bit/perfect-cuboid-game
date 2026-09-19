@@ -78,29 +78,100 @@
       "verifier_blob": "36b2057fd3923ea02f33b47256e49c5d9ee7b85e",
       "result": "historical F1-P6 support orbit size 1536 has a five-node known conic and is fixed-component excluded; a different exact 14-node full-span support survives all retained 32 conics and 12 elliptic quartics",
       "whole_P6_closed": false
+    },
+    "p6b_known_curve_kc_quotient": {
+      "status": "PRE_AUDIT_EXACT_FINITE_GATE_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6B-KNOWN-CURVE-KC-QUOTIENT-GATE-20260919.md",
+      "note_blob": "4056fae8d4129d82df47bb0e0de2efa9400a9ae8",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6B-KNOWN-CURVE-KC-QUOTIENT-CERTIFICATE.json",
+      "certificate_blob": "6713ec219456783180bb7966cf3a8420307accff",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6b_known_curve_kc_quotient_gate.py",
+      "verifier_blob": "71920c0c7e60042340a88f6e3c06ac80a317d891",
+      "result": "all 92 known surface curves pair positively with the hostile support ray; all four Kc coordinate quotients have no negative effective (-2)-root; Kb residual reduced to finite conic/cubic cases"
+    },
+    "p6c_kb_finite_root": {
+      "status": "PRE_AUDIT_EXACT_FINITE_GATE_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6C-KB-FINITE-ROOT-GATE-20260919.md",
+      "note_blob": "a85122b2199881a0547494e79a85eeeb6347ece7",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6C-KB-FINITE-ROOT-CERTIFICATE.json",
+      "certificate_blob": "fbbf357fddb9a482385e30098649bdaf0d64a3eb",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6c_kb_finite_root_gate.py",
+      "verifier_blob": "21155f7af648c95d052a76b541eece0d7a5c4940",
+      "result": "Kb conic/cubic residual is excluded by exact quotient-node weighted-span ranks; all seven coordinate-sign quotient negative-root routes close negatively on the hostile support"
+    },
+    "p6d_full_deck_passport": {
+      "status": "PRE_AUDIT_CONDITIONAL_REDUCTION_SUPERSEDED_IN_PART_BY_P6D2_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6D-FULL-DECK-EQUALITY-PASSPORT-20260919.md",
+      "note_blob": "efd3334a22603a971d72ab2d858be4e5d25f4b99",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6D-FULL-DECK-EQUALITY-PASSPORT-CERTIFICATE.json",
+      "certificate_blob": "04fc76c79cc5c1e0c8092bf203828484e1c8d1d8",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6d_full_deck_equality_passport.py",
+      "verifier_blob": "d2c5bd1844e72127648cc34abf9e26a7160d7900",
+      "result": "conditional full-deck/six-value passport sharpened; P6D2 proves the needed odd-contact equality and m=1 package is automatic for any genus-one carrier on this exact ray, but does not prove R8=d or all (A,B)=(1,1)"
+    },
+    "p6d2_automatic_odd_equality": {
+      "status": "PRE_AUDIT_EXACT_NECESSARY_GEOMETRY_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6D2-AUTOMATIC-ODD-EQUALITY-20260919.md",
+      "note_blob": "1194fdd228c394d79262579df3930b4d8f619cf9",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6D2-AUTOMATIC-ODD-EQUALITY-CERTIFICATE.json",
+      "certificate_blob": "3924212bb64e2f377dc8be2311ed6e15ba764cbf",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6d2_automatic_odd_equality.py",
+      "verifier_blob": "b11345d40e297e37d16a94277586d99d80246805",
+      "result": "for every hypothetical genus-one C in |lP| on support 0000093f442e, class M=d plus FSM R8>0 and Beauville r_odd>=d force r_odd=R=M=d and every exceptional contact m=1; all three node types then force connected full deck e=4 and the six-value pair totals (48,16,48)l"
+    },
+    "p6e_hostile_survivor_nef": {
+      "status": "PRE_AUDIT_EXACT_GLOBAL_NEF_REDUCTION_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6E-HOSTILE-SURVIVOR-NEF-GATE-20260919.md",
+      "note_blob": "09a59668e5a91e20c314b82331e9a902b6b2bdce",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6E-HOSTILE-SURVIVOR-NEF-CERTIFICATE.json",
+      "certificate_blob": "9579b0c2b909310b426cd4a1539b3d4c2ede0248",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6e_hostile_survivor_nef_gate.py",
+      "verifier_blob": "96cfd2c9c217773b2863efc8c65ba3ad7d3869e9",
+      "result": "P=7H-4 sum_Sigma E is nef and big (P^2=336); every nonexceptional integral curve spanning P5/P6 pairs strictly positively via the robust 30-hyperplane certificate, while low span is covered by Stoll-Testa; negative-test-curve strategy is exhausted"
+    },
+    "p6f_equigeneric_rigidity": {
+      "status": "PRE_AUDIT_SOURCE_COMPLETE_GLOBAL_RIGIDITY_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6F-BIG-NEF-EQUIGENERIC-RIGIDITY-GATE-20260919.md",
+      "note_blob": "e89426128010ae97a10fbd908346f6cf07fff109",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6F-BIG-NEF-EQUIGENERIC-RIGIDITY-CERTIFICATE.json",
+      "certificate_blob": "d5bb3b7282ed825eaa63f53f5d2d843481d67550",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6f_big_nef_equigeneric_rigidity.py",
+      "verifier_blob": "841a5b25769a71909742757f2a0379107ae0480e",
+      "result": "Dedieu-Sernesi adjoint deformation theory gives deg(omega_E tensor phi^*omega_S^-1)=-112l, hence H0=0: any hypothetical genus-one carrier is locally equigenerically isolated and has zero equisingular tangent space; existence remains open"
+    },
+    "p6g_hurwitz_feasibility": {
+      "status": "PRE_AUDIT_EXACT_ALL_L_PASSPORT_ONLY_NO_GO_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6G-SIX-VALUE-HURWITZ-FEASIBILITY-WALL-20260919.md",
+      "note_blob": "fbc404c24bc3c3c194d1296422679e39178228c7",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6G-SIX-VALUE-HURWITZ-FEASIBILITY-CERTIFICATE.json",
+      "certificate_blob": "0139b814d2cfdb18e3a066903ae3b8a626bff9c3",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6g_six_value_hurwitz_feasibility.py",
+      "verifier_blob": "9b1204cd05fb676095cc49595c39745493b08e24",
+      "result": "explicit transitive involution monodromy realizes the necessary one-factor six-value passport in degree 56l for every l>=1; passport/Riemann-Hurwitz counts alone cannot exclude the hostile ray"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 P6B full-span survivor test-curve/effective-cone gate",
-    "active_leaf": "MB104-P6B-FULLSPAN-SURVIVOR-TEST-CURVE-CONE",
-    "required_input": "Use the P6A survivor support mask 0000093f442e as a hostile exact packet. First look only for already-retained or source-lockable test-curve/effective-cone assets strictly larger than the 32-conic + 12-quartic library.",
+    "title": "MB104 P6H two-factor modular common-cover coupling",
+    "active_leaf": "MB104-P6H-TWO-FACTOR-MODULAR-COMMON-COVER-COUPLING",
+    "required_input": "Use only the exact hostile support 0000093f442e. P6D2 forces m=1, r_odd=R=M=d, connected full-deck e=4, and two etale degree-56l projections Z->C8. P6F says any genus-one carrier is equigenerically isolated. P6G proves every one-factor scalar six-value passport is abstractly realizable, so the next invariant must couple both factor maps through the same G-stable Z.",
     "success_shapes": [
-      "find an exact larger low-degree/effective test-curve library and show a negative pairing on the P6A survivor ray",
-      "derive a support-independent fixed-component/effective-cone obstruction that does not assume uniform exceptional coefficients",
-      "if no retained larger library exists or the survivor remains nef against it, freeze the exact test-curve wall and switch to a different global invariant such as singularity/conductor geometry"
+      "derive an exact two-factor/common-G-cover compatibility invariant that excludes all l or reduces the hostile ray to a finite exact residual",
+      "source-lock an existing 000707 common-cover/product-correspondence weapon and prove an exact P6 adapter before using it",
+      "construct an all-l compatible two-factor abstract modular packet, in which case park this route and switch to a different packet-sensitive global invariant"
     ],
     "must_not_repeat": [
-      "retest only the same 32 conics and 12 quartics",
-      "assume the uniform P6 ray represents arbitrary unequal exceptional coefficients",
-      "infer irreducible genus-one existence from Riemann-Roch effectivity",
-      "fixed finite jet-depth or finite forbidden lambda arguments",
+      "one-factor six-value Hurwitz or Nielsen scalar feasibility",
+      "bare etale-correspondence degree/index finiteness",
+      "old U12 unsquared-spin argument without a proved 56l full-fiber saturation",
+      "infer a cuboid carrier from the abstract P6G branched cover",
+      "upgrade automatic m=1 to automatic (A,B)=(1,1) or R8=d",
+      "fixed finite jet-depth or finite forbidden-lambda arguments",
       "return to N10",
-      "reopen bare X(8) etale correspondence finiteness or Bolza degree-index routes",
-      "read archive-only sources from current ROOT without explicit exact-head archive root",
+      "read archive-only sources from current ROOT without an explicit exact-head archive root",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If no larger exact test-curve/effective-cone asset is retained, park this route instead of constructing an open-ended curve catalog; continue with a distinct P6 global invariant."
+    "fallback_after_gate": "If no exact P6 adapter exists from the retained two-factor/common-cover assets, freeze that interface wall rather than reopening the long 000707 chain; switch to another isolated-carrier invariant."
   },
   "routing": {
     "independent_of_full178_execution": true,
@@ -108,7 +179,8 @@
     "finite_picard_enumeration_released": false,
     "hostile_audit_target_available": true,
     "current_branch_is_compact_restart": true,
-    "predecessor_pr_is_archive_only": true
+    "predecessor_pr_is_archive_only": true,
+    "current_branch_head_observed_before_state_sync": "49ee5964e76b07028666564f8209a20ccc21c26f"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
