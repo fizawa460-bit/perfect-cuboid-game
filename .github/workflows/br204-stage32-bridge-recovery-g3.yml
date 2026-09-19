@@ -94,6 +94,23 @@ jobs:
               assert cur[k]==old[k], f'{k} drift in arm commit'
           assert cur['carry_generation2_run_id']==35445118788
           assert cur['generation2_execution_head']=='cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029'
+          sl=cur['source_locks']
+          assert sl['generation2_recovery_checkpoint_blob']==os.environ['G2_CHECKPOINT_BLOB']
+          assert sl['generation2_checkpoint_verifier_blob']==os.environ['G2_CHECKPOINT_VERIFIER_BLOB']
+          assert sl['generation3_targets_blob']==os.environ['TARGETS_BLOB']
+          assert sl['audited_generation1_worker_blob']==os.environ['AUDITED_WORKER_BLOB']
+          assert sl['bc_shard_worker_blob']==os.environ['SHARD_WORKER_BLOB']
+          assert sl['bc_shard_combiner_blob']==os.environ['BC_COMBINER_BLOB']
+          assert sl['bc64_to_bc16_parent_combiner_blob']==os.environ['BC64_GROUP_COMBINER_BLOB']
+          assert sl['flat16_runner_blob']==os.environ['FLAT_RUNNER_BLOB']
+          assert sl['hierarchical_bc64_runner_blob']==os.environ['HIER_RUNNER_BLOB']
+          assert sl['generation3_finalizer_blob']==os.environ['G3_FINALIZER_BLOB']
+          assert sl['hierarchical_equivalence_verifier_blob']==os.environ['HIER_EQUIV_BLOB']
+          assert sl['heavy_checkpoint_policy_blob']==os.environ['POLICY_BLOB']
+          assert sl['actions_storage_policy_blob']==os.environ['STORAGE_POLICY_BLOB']
+          assert sl['repository_main_head']==os.environ['V45_MAIN']
+          assert sl['repository_main_state_blob']==os.environ['V45_MAIN_STATE_BLOB']
+          Path('/tmp/g3-workflow-blob.txt').write_text(sl['generation3_workflow_blob'])
           rp=cur['resource_preflight']
           assert rp['planned_effective_heavy_concurrency']==15
           assert rp['repository_stage_concurrency_ceiling']==18
@@ -120,6 +137,7 @@ jobs:
           test "$(git hash-object "$HIER_RUNNER")" = "$HIER_RUNNER_BLOB"
           test "$(git hash-object "$G3_FINALIZER")" = "$G3_FINALIZER_BLOB"
           test "$(git hash-object "$HIER_EQUIV")" = "$HIER_EQUIV_BLOB"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-recovery-g3.yml)" = "$(cat /tmp/g3-workflow-blob.txt)"
           test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "$POLICY_BLOB"
           test "$(git hash-object docs/research-os/policies/actions-storage-and-evidence-safety.md)" = "$STORAGE_POLICY_BLOB"
           python "$G2_CHECKPOINT_VERIFIER"
