@@ -33,6 +33,9 @@ WAVE4_SELECTOR_BLOB = "2e340d1605f6b86b5e8bcc681871e1e9656e545c"
 WAVE4_SOLVER_BLOB = "5160318e0d3fbe616636e115e63434226e7016f6"
 WAVE3_QBIN_BLOB = "fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"
 WAVE3_QBIN_CANON = "edbd101483a9dc08a28203847db11c48919550eb7fe3ea25c5fe5a30d48c188c"
+WAVE4_QBIN = HERE / "management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json"
+WAVE4_QBIN_BLOB = "4ccbdbe4172eee02fdebf73d2d17c1deb5492525"
+WAVE4_QBIN_CANON = "8f4d67b63ed3afb4fb8907344eeb1feb8ea8b0a84d7cfd8c313408702c044920"
 
 
 def req(v: bool, msg: str) -> None:
@@ -69,6 +72,11 @@ def main() -> None:
     req(f["predecessor_v41_authoritative_remaining_terminals"] == V41_BOUND, "V41 bound drift")
     req(f["v42_hpadj21_certified_numeric_bound_tightening_vs_v41"] == TIGHTENING, "V42 tightening drift")
     req(f["full178_numerical_census_complete"] is False and f["stage32_closed"] is False, "authority overclaim")
+    req(f["v44_wave4_exact_27_unsat_qbin_reoptimization_complete"] is True, "wave4 qbin completion state")
+    req(f["v44_wave4_exact_27_unsat_qbin_row_floor"] == 418504, "wave4 qbin state floor")
+    req(f["v44_wave4_candidate_total_tightening_vs_hpadj21"] == 29927, "wave4 qbin state tightening")
+    req(f["v44_wave4_candidate_global_upper_bound_if_promoted"] == "157570677819451103580", "wave4 qbin state candidate bound")
+    req(f["v44_wave4_candidate_main_credit"] is False, "wave4 qbin state credit firewall")
 
     full = load(FULL, FULL_BLOB, FULL_CANON)
     all140 = load(ALL140, ALL140_BLOB, ALL140_CANON)
@@ -84,6 +92,12 @@ def main() -> None:
     wave3_qbin = load(WAVE3_QBIN, WAVE3_QBIN_BLOB, WAVE3_QBIN_CANON)
     req(wave3_qbin["result"]["wave3_partial_exact_qbin_row_floor"] == 425610, "wave3 qbin floor drift")
     req(wave3_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 22821, "wave3 qbin tightening drift")
+    wave4_qbin = load(WAVE4_QBIN, WAVE4_QBIN_BLOB, WAVE4_QBIN_CANON)
+    req(wave4_qbin["result"]["wave4_27unsat_exact_qbin_row_floor"] == 418504, "wave4 qbin floor drift")
+    req(wave4_qbin["result"]["additional_tightening_beyond_wave3_partial"] == 7106, "wave4 incremental tightening drift")
+    req(wave4_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 29927, "wave4 total tightening drift")
+    req(wave4_qbin["authority_candidate"]["candidate_global_upper_bound_if_promoted"] == "157570677819451103580", "wave4 candidate bound drift")
+    req(wave4_qbin["composition"]["five_wave4_unknown_keys_left_adversarially_present"] is True, "wave4 UNKNOWN firewall drift")
 
     r = full["result"]
     req(full["target"]["base4_key_count"] == 343 and full["target"]["terminal_mass"] == 1278934, "full343 population drift")
@@ -111,13 +125,19 @@ def main() -> None:
     req(locks["btva_d8_full343_retained"]["blob_sha1"] == FULL_BLOB, "full343 state lock")
     req(locks["btva_d8_all140_receiver_semantics"]["blob_sha1"] == ALL140_BLOB, "all140 state lock")
     req(locks["btva_d8_conic_exception"]["blob_sha1"] == CONIC_BLOB, "conic state lock")
+    qlock = locks["btva_d8_e12_wave4_27unsat_qbin"]
+    req(qlock["retained_blob_sha1"] == WAVE4_QBIN_BLOB, "wave4 qbin state blob lock")
+    req(qlock["artifact_canonical_sha256"] == WAVE4_QBIN_CANON, "wave4 qbin state canonical lock")
+    req(qlock["workflow_run_id"] == 35408417941 and qlock["artifact_id"] == 10572768864, "wave4 qbin artifact identity")
+    req(qlock["wave4_27unsat_exact_qbin_row_floor"] == 418504 and qlock["candidate_total_tightening_vs_hpadj21"] == 29927, "wave4 qbin state result")
+    req(qlock["main_pruning_credit"] is False and qlock["five_unknown_left_adversarial"] is True, "wave4 qbin state firewall")
     sw = locks["live_specialist_sweep"]
     req(cur["mainbatch_stop_gate"] == "NONE", "historical MAIN stop gate drift")
     req(cur["research_os_checkpoint_gate"] == "NONE", "Research OS checkpoint gate drift")
     req(cur["research_os_checkpoint_audit_status"] == "PASS", "Research OS checkpoint audit status drift")
     req(cur["research_os_checkpoint_audit_review_id"] == 5253605587, "Research OS checkpoint review drift")
     req(cur["research_os_checkpoint_audited_exact_head"] == "e1795ad7ad47f45ca46e435dfd204e3bba8d6064", "Research OS checkpoint audited head drift")
-    req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_RATIO_WAVE4_PARTIAL__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
+    req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_WAVE4_27UNSAT_EXACT_QBIN__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
     w4 = locks["btva_d8_e12_wave4_panel"]
     req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
     req(w4["workflow_run_id"] == 35405380332 and w4["artifact_id"] == 10571698422, "wave4 artifact identity drift")
