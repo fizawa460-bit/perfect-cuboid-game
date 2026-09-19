@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_RESTRICTION_V1",
+  "status": "PRE_AUDIT_EXACT_NUMERICAL_REDUCTION_ZERO_CREDIT",
+  "data": {
+    "H_G": 12,
+    "P_G": 36,
+    "H_F": 8,
+    "P_F": 40,
+    "G_F": 4,
+    "P2": 336,
+    "H_P": 112
+  },
+  "formulas": {
+    "Q_G_over_l": "144/r-36",
+    "Q_F_over_l": "160/r-40",
+    "Q_H_over_l": "768/r-112",
+    "Q2_over_l2": "11520/r^2+336-5760/r"
+  },
+  "excluded": {
+    "r4": {
+      "reason": "effective residual orthogonal to both finite-map rulings forces Q=0, but H-degree contradicts P=10G+9F"
+    },
+    "r3": {
+      "Q_H_over_l": 144,
+      "Q2_over_l2": -304,
+      "pa": "1-152*l^2+72*l",
+      "reason": "negative arithmetic genus"
+    }
+  },
+  "remaining": [
+    1,
+    2
+  ],
+  "ramification": {
+    "class": "H+2G+2F",
+    "P_dot": 264,
+    "carrier_dot_over_l": 264
+  },
+  "firewalls": {
+    "mb104_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
