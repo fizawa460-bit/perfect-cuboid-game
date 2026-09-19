@@ -25,6 +25,7 @@ ACTIVE_AUTO = {
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-bridge-br204-retained-replay.yml",
     ".github/workflows/br204-stage32-bridge-heavy.yml",
+    ".github/workflows/br204-stage32-bridge-finer-recovery.yml",
     ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
