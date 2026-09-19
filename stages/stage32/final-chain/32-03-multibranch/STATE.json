@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "FROZEN_POST_AUDIT_APPEND_REAUDIT_REQUIRED_NO_CREDIT",
+  "status": "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT",
   "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
@@ -38,42 +38,28 @@
       "result": "shallow portfolio found no deep winner; no finite window or credit"
     },
     "isotropic_shell_preflight": {
-      "status": "POST_AUDIT_APPEND_FROZEN_FOR_REAUDIT_NO_NUMERICAL_CREDIT",
+      "status": "ARCHIVED_COLD_PREFLIGHT_NO_EXECUTION_NO_CREDIT",
       "note_blob": "c65e9daa8f29a4ba525742116c9995cdc9cc504d",
       "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
       "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
       "numerical_execution_completed": false,
-      "result": "pilot workflow moved to MANUAL/dispatch-only and runkey disarmed; no numerical result or execution credit; current #1827 head requires hostile re-audit before any execution",
-      "cold_preflight_runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
-      "pilot_runkey_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json",
-      "pilot_runkey_generation": 3,
-      "pilot_shell_index": 0,
-      "pilot_attempts": [
-        {
-          "generation": 1,
-          "workflow_run_id": 35471271923,
-          "outcome": "EXECUTION_GATE_WIRING_FAILURE_BEFORE_MAGMA",
-          "numerical_execution_completed": false,
-          "artifact_id": 10592439089,
-          "artifact_contains": "failure manifest only"
-        }
-      ]
+      "result": "four cold Picard64 isotropic shells retained only as predecessor preflight; no current-branch pilot workflow/runkey, no numerical result, zero credit"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 post-audit append hostile re-audit checkpoint",
-    "active_leaf": "MB104-POST-AUDIT-APPEND-REAUDIT-CHECKPOINT",
-    "required_input": "Hostile-audit current PR #1827 exact head after the post-70c2 isotropic-shell pilot/lifecycle append. Audit must use active_surface.pr_number=1827 and must not inspect closed PR #1825 as the current target.",
+    "title": "MB104 compact hostile re-audit after pilot-surface rollback",
+    "active_leaf": "MB104-COMPACT-HOSTILE-REAUDIT-RESTART",
+    "required_input": "Hostile-audit the current exact head of active PR #1827 after restoring the audited compact surface. Closed PR #1825 is archive-only. Require exact-head Stage32 startup/claim/stale-run CI and do not resume substantive MB104 research before PASS.",
     "success_shapes": [
       "hostile audit PASS on one unchanged exact #1827 head, after which ordinary MB104 research may resume",
       "hostile audit FAIL with bounded repair items only"
     ],
     "must_not_repeat": [
       "select closed/superseded PR #1825 as the current MB audit target",
-      "append new substantive MB104 mathematics before current #1827 head receives hostile-audit PASS",
-      "execute isotropic-shell heavy compute before re-audit PASS",
-      "inherit the 70c2 PASS to later heads",
+      "append new substantive MB104 mathematics before PASS",
+      "recreate or arm isotropic-shell pilot workflow/runkey before PASS",
+      "inherit the 70c2 PASS to a later exact head",
       "merge or rebase"
     ]
   },
@@ -85,13 +71,12 @@
     "current_branch_is_compact_audit_restart": true,
     "predecessor_pr_is_archive_only": true,
     "substantive_research_append_blocked_until_reaudit_pass": true,
-    "ordinary_mb104_research_released_by_review": 5257816963,
-    "isotropic_shell_pilot_authorized": false,
-    "isotropic_shell_scaleout_authorized": false,
     "active_pr_number": 1827,
     "active_branch": "stage32mb-audit-restart-20260920",
     "latest_audited_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
-    "current_head_reaudit_required": true
+    "current_head_reaudit_required": true,
+    "isotropic_shell_pilot_authorized": false,
+    "isotropic_shell_scaleout_authorized": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
@@ -112,48 +97,27 @@
       "stages/stage32/final-chain/32-03-multibranch/STATE.json",
       "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
     ],
-    "post_boundary_changes_must_be_bounded_audit_repairs_only": true,
-    "released_by_hostile_audit_review": 5257816963,
-    "release_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f"
-  },
-  "audit_release": {
-    "hostile_audit_status": "PASS_AT_OLDER_EXACT_HEAD_ONLY",
-    "audited_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
-    "hostile_audit_review_id": 5257816963,
-    "current_main_at_audit": "659ba93b9eba657b49a728f549c6bb6028398e08",
-    "merge_ready_freshness": "CLEAR_AT_AUDITED_HEAD_ONLY",
-    "grants": "ORDINARY_MB104_RESEARCH_RESUME_FROM_70C2_ONLY",
-    "current_head_inherits_pass": false,
-    "numerical_shell_credit": false,
-    "theorem_credit": false,
-    "merge_authorized": false
+    "post_boundary_changes_must_be_bounded_audit_repairs_only": true
   },
   "active_surface": {
     "pr_number": 1827,
     "branch": "stage32mb-audit-restart-20260920",
     "predecessor_archive_pr": 1825,
     "predecessor_archive_status": "CLOSED_SUPERSEDED",
-    "command_binding": "stage32mb-mainbatch and stage32mb-audit MUST resolve to this active_surface while PR #1827 remains open; closed predecessor PRs are archive-only",
-    "alternate_open_mb_pr_allowed": false
+    "alternate_open_mb_pr_allowed": false,
+    "command_resolution": "current MB mainbatch/audit surface is PR #1827; closed PR #1825 is source-locked archive only"
   },
-  "post_audit_append": {
-    "observed_head_before_routing_repair": "3890b15390e6434c9ad34ffada776a59d3d9076b",
-    "commits_after_last_audited_head": 1,
-    "substantive_files_added_or_changed": [
-      ".github/workflows/stage32-mb104-isotropic-shell-pilot.yml",
-      "docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json",
-      "docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json",
-      "docs/research-os/policies/verify_repo_workflow_trigger_inventory.py",
-      "docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py",
-      "stages/stage32/final-chain/32-03-multibranch/STATE.json",
-      "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json",
-      "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
-    ],
-    "audit_status": "UNAUDITED_POST_PASS_APPEND",
-    "ordinary_research_blocked_until_reaudit_pass": true,
-    "heavy_execution_blocked_until_reaudit_pass": true,
-    "pilot_workflow_lifecycle": "MANUAL_WORKFLOW_DISPATCH_ONLY",
-    "pilot_runkey_generation": 3,
-    "pilot_runkey_armed": false
+  "audit_history": {
+    "prior_pass": {
+      "exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
+      "review_id": 5257816963,
+      "scope": "compact audit restart before later pilot/lifecycle append"
+    },
+    "latest_fail": {
+      "exact_head": "b8596b038a6687bdec8f400d987bd8a680fea018",
+      "review_id": 5257833251,
+      "reason": "post-PASS pilot/lifecycle append exceeded V44 successor-scope contract"
+    },
+    "current_head_inherits_prior_pass": false
   }
 }
