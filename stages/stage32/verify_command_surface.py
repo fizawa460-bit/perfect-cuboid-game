@@ -51,7 +51,7 @@ def main() -> None:
         "stage32-01-178-mainbatch", "stage32-01-178-audit",
         "stage32ex5-mainbatch", "stage32ex5-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
-        "stage32mb-mainbatch", "stage32mb-fib", "stage32mb-audit",
+        "stage32mb-mainbatch", "stage32mb-fib", "stage32mb-fib-audit", "stage32mb-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
     req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
@@ -81,6 +81,8 @@ def main() -> None:
     fib_state = json.loads((REPO / "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
     req(fib_state["schema"] == "STAGE32_MB_FIB_STATE_V1", "MB-FIB state schema drift")
     req(fib_state["command"] == "stage32mb-fib", "MB-FIB command drift")
+    req(fib_state["audit_command"] == "stage32mb-fib-audit", "MB-FIB audit command drift")
+    req(fib_state["command_modes"]["audit"]["invocation"] == "stage32mb-fib-audit", "MB-FIB audit invocation drift")
     req(fib_state["consumer_lane"] == "MB", "MB-FIB consumer drift")
     req(fib_state["routing"]["registered_lane_adapter"] is False, "MB-FIB unexpectedly registered as claim lane")
     req(fib_state["routing"]["ordinary_mb_mainbatch_preloads_this_lane"] is False, "MB-FIB leaked into ordinary MB startup")
