@@ -44,11 +44,15 @@
       "The 16-shard union must reproduce the ordinary unsharded fixed-(b,d) payload byte-for-byte after canonical sorting/serialization in a bounded regression before execution authorization."
     ],
     "rationale": "The heavy fixed-(b,d) loop is additive over the BC records. Partitioning only that loop leaves the A-side, g/e logic, qBC/K8/Picard-mu semantics and final global LP unchanged while reducing the wall time of a single d quantum.",
-    "fallback": "If any individual BC shard still reaches the hard timeout, STOP again and introduce a second exact execution-only partition below the BC shard. Do not raise the timeout as the primary recovery action."
+    "fallback": "If any individual BC shard still reaches the hard timeout, STOP again and introduce a second exact execution-only partition below the BC shard. Do not raise the timeout as the primary recovery action.",
+    "audited_generation1_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
+    "finer_partition_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp",
+    "finer_partition_worker_blob": "ee152cccd3eaa6740202036d8d25ffb0d6a0fa84"
   },
   "carry_compatibility_gate": {
     "generation1_math_subunits_may_be_carried": true,
     "conditions": [
+      "The audited generation-1 worker file remains byte-exact at blob 0d5ee8e1013cab6120e957707a363e86b3c0d41e; finer partition is implemented in a separate worker.",
       "Generation-1 worker/base/mu/terminal source identities match the generation-2 producer semantics for already completed d slices.",
       "Generation-1 complete and partial artifacts are validated through the frozen recovery checkpoint/manifest, not inferred from job status.",
       "V45 MAIN is used only as the refreshed comparison predecessor; no MAIN-bound value is embedded into carried bin arithmetic.",
@@ -57,7 +61,7 @@
     "current_authorization": false
   },
   "implementation_obligations": [
-    "Add a source-locked worker mode for exact BC-shard selection without changing the default unsharded output semantics.",
+    "Use a separate source-locked BC-shard worker; keep the audited generation-1 worker byte-exact.",
     "Add an exact 16-shard combiner that rejects gaps, overlaps, duplicate shard IDs, source drift and inconsistent static metadata.",
     "Add bounded direct-vs-16-shard byte-equivalence regression.",
     "Extend recovery manifests so partially completed finer shards are durable and only missing shard IDs are recomputed.",
