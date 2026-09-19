@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_BR204_FINER_RECOVERY_G2_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold generation-2 BR204 finer recovery wave. After fresh hostile audit, one runkey-only child may arm exactly 69 unfinished fixed-(b,d) targets into 16 exact BC shards each. This wave produces canonical d slices and recovery evidence only; no FULL178 or MAIN credit.",
+  "carry_generation1_run_id": 35344605175,
+  "generation1_execution_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
+  "execution": {
+    "target_count": 69,
+    "bc_shard_count": 16,
+    "max_parallel": 12,
+    "shard_timeout_seconds": 1200,
+    "soft_seconds": 13500,
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json",
+      "runkey_only_arm_commit_required": true
+    },
+    "output": "canonical fixed-(b,d) slices plus durable validated BC-shard recovery objects; no FULL178 aggregation"
+  },
+  "source_locks": {
+    "audited_generation1_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
+    "finer_targets_blob": "7b1ade20bcb3408bd7d66581033902a54ac90592",
+    "bc_shard_worker_blob": "ee152cccd3eaa6740202036d8d25ffb0d6a0fa84",
+    "bc_shard_combiner_blob": "efcbcc3e2b31604acea8f83bbf9524e5180e5139",
+    "bc_shard_runner_blob": "15dcf1e21979d3de155c57a01f6a5922dddc1ba3",
+    "bc_shard_finalizer_blob": "953f70ef3f9396249743f4fdcd68f1990d917b69",
+    "finer_workflow_blob": "e81360aff130a50b27c58c5874af1e20cda7a8e8",
+    "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea",
+    "repository_main_head": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "repository_main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+  },
+  "recovery_policy": {
+    "checkpoint_after_each_validated_bc_shard": true,
+    "always_path_checkpoint_finalizer": true,
+    "always_path_artifact_upload": true,
+    "per_target_bundle_hard_cap_bytes": 900000,
+    "blind_rerun_forbidden": true,
+    "recovery_generation_automatic": false,
+    "on_incomplete_wave": "Freeze paginated summary and retained per-target shard artifacts. Before any later generation, validate/reuse completed shard IDs and obtain any audit required by changed recovery topology.",
+    "on_single_bc_shard_timeout": "Hard stop; introduce a finer exact partition below BC shard before more compute."
+  },
+  "storage": {
+    "per_target_bundle_hard_cap_bytes": 900000,
+    "target_count": 69,
+    "absolute_target_payload_bound_bytes": 62100000,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 12,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6,
+    "observed_other_stage32_heavy_concurrency_at_arm": null
+  },
+  "arm_contract": {
+    "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold doorstep",
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null,
+    "generation_greater_than_1_forbidden_without_new_recovery_audit": true
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
