@@ -1,0 +1,1389 @@
+{
+  "schema": "STAGE32_BR204_GENERATION3_RECOVERY_TARGETS_V1",
+  "status": "RECOVERY_TARGETS_ONLY__NO_MATHEMATICAL_CREDIT__NO_BLIND_RERUN",
+  "predecessor": {
+    "generation2_run_id": 35445118788,
+    "execution_head": "cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029",
+    "recovery_checkpoint_blob": "8f8cf85df79e31953dffcb563affec638caddd99"
+  },
+  "target_count": 69,
+  "classes": {
+    "retention_replay_flat16_count": 36,
+    "d148_hierarchical_bc64_count": 33,
+    "retained_generation2_parent_bc16_count": 1,
+    "retained_generation2_parent_bc16": [
+      {
+        "b": 2,
+        "d": 148,
+        "index": 0
+      }
+    ]
+  },
+  "semantics": {
+    "retention_replay": "Only targets whose generation2 computation reached 16/16 but whose payload was rejected by the 900000-byte retention cap are recomputed. Mathematical worker/partition semantics remain unchanged.",
+    "hierarchical_recovery": "Only unfinished BC16 parents are subdivided. A BC16 parent p is the exact disjoint union of BC64 child indices p,p+16,p+32,p+48. Any retained validated BC16 parent is carried without recomputation.",
+    "exact_union_required": true,
+    "terminal_identity_materialization": false,
+    "blind_generation2_rerun": false
+  },
+  "targets": [
+    {
+      "b": 0,
+      "d": 148,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 1,
+      "d": 148,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 2,
+      "d": 110,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 2,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b2-d148",
+      "retained_parent_bc16_shards": [
+        0
+      ],
+      "missing_parent_bc16_shards": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 3,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 3,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b3-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 4,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 4,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b4-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 5,
+      "d": 108,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 5,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b5-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 6,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 6,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b6-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 7,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 7,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b7-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 8,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 8,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b8-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 9,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 9,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b9-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 10,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 10,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b10-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 11,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 11,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b11-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 12,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 12,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b12-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 13,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 13,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b13-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 14,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 14,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b14-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 15,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 15,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b15-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 16,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 16,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b16-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 17,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 17,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b17-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 18,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 18,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b18-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 19,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 19,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b19-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 20,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 20,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b20-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 21,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 21,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b21-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 22,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 22,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b22-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 23,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 23,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b23-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 24,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 24,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b24-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 25,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 25,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b25-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 26,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 26,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b26-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 27,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 27,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b27-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 28,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 28,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b28-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 29,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 29,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b29-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 30,
+      "d": 104,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 30,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b30-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 31,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 31,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b31-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 32,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 32,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b32-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 33,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 33,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b33-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 34,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    },
+    {
+      "b": 34,
+      "d": 148,
+      "mode": "D148_HIERARCHICAL_BC64",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": "br204-g2-f-b34-d148",
+      "retained_parent_bc16_shards": [],
+      "missing_parent_bc16_shards": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "child_partition": {
+        "parent_count": 16,
+        "child_count": 64,
+        "children_per_missing_parent": 4
+      }
+    },
+    {
+      "b": 35,
+      "d": 102,
+      "mode": "RETENTION_REPLAY_FLAT16",
+      "predecessor_run_id": 35445118788,
+      "predecessor_artifact": null,
+      "reason": "GENERATION2_COMPUTE_COMPLETE_16_OF_16_BUT_NO_DURABLE_ARTIFACT_DUE_900000_BYTE_CAP",
+      "shard_count": 16
+    }
+  ],
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
