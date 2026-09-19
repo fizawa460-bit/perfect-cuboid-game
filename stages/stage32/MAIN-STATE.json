@@ -2,8 +2,8 @@
   "authority_sync": {
     "current_repository_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
     "hpadj21_consumption_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__HPADJ21_SAME_POPULATION_REFINEMENT__NO_ADDITIVE_STACKING",
-    "predecessor_authority_version": "V42_HPADJ21_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
-    "predecessor_process_head": "e4311c4ec31d5768c57308681ae60679987e2ced",
+    "predecessor_authority_version": "V43_HPADJ21_FULL178_BOUND_AUDIT_SYNCED",
+    "predecessor_process_head": "e24488f1394abae25d9b0f9d099c8efd84e03a2a",
     "split_authority": {
       "orchestration_mode": "ROOT_NATIVE_STAGE32_MAIN_ONLY"
     },
@@ -14,24 +14,30 @@
     "v42_replacement_hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABOILpPw",
     "v42_replacement_hostile_audit_status": "PASS",
     "v42_replacement_merge_ready_freshness": "CLEAR",
-    "v43_audit_sync_additional_pruning": 0
+    "v43_audit_sync_additional_pruning": 0,
+    "hpadj22_full178_main_numeric_bound_replacement_consumed": true,
+    "hpadj22_candidate_audited_exact_head": "e24488f1394abae25d9b0f9d099c8efd84e03a2a",
+    "hpadj22_candidate_hostile_audit_review_id": 5254762142,
+    "hpadj22_candidate_hostile_audit_status": "PASS",
+    "hpadj22_consumption_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__HPADJ22_SAME_POPULATION_REFINEMENT__NO_ADDITIVE_STACKING",
+    "v44_certified_numeric_bound_tightening_vs_v43": "18917938018800540013"
   },
   "current": {
     "active_missing_interface": "FULL178_NUMERICAL_CENSUS_AND_FINAL_MILESTONE_CHAIN",
-    "latest_main_native_research": "V44_HPADJ22_DIRECT_FULL178__ZERO_MAIN_CREDIT",
-    "latest_main_native_research_scope": "FULL178_8_BANDS_178_ROWS_1424_CELLS__DIRECT_HPADJ22_BOUND_138652739800650593494__TIGHTENING_18917938018800540013__ZERO_MAIN_CREDIT",
+    "latest_main_native_research": "V44_HPADJ22_DIRECT_FULL178_REPLACEMENT_CONSUMED__PENDING_HOSTILE_REAUDIT",
+    "latest_main_native_research_scope": "FULL178_8_BANDS_178_ROWS_1424_CELLS__AUDITED_DIRECT_HPADJ22__NONADDITIVE_MIN_REPLACEMENT",
     "mainbatch_stop_gate": "NONE",
     "research_os_checkpoint_gate": "NONE",
     "research_os_checkpoint_audit_status": "PASS",
     "research_os_checkpoint_audit_review_id": 5253605587,
     "research_os_checkpoint_audited_exact_head": "e1795ad7ad47f45ca46e435dfd204e3bba8d6064",
-    "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
-    "stacked_candidate_audit_status": "V42_HPADJ21_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED__V44_HPADJ22_DIRECT_FULL178_AUDIT_PENDING_ZERO_CREDIT",
-    "stop_semantics": "Exact HPADJ22 direct FULL178 aggregate completed at run 35417929266 / execution head 2c44be9798635bc9d4938d9573d6ebd86e618d7f. All 8 b-bands x 178 rows = 1424 cells are covered exactly once with 0 gaps/0 overlaps; bands 0..6 use the exact direct-count worker and retained complete band7 is reused. The exact survivor-sum candidate is 138652739800650593494, tightening 18917938018800540013 versus the current HPADJ21 authority 157570677819451133507. Composition is MIN on the same population, with no additive subtraction or independence assumption. This is retained zero-credit evidence pending hostile audit and explicit MAIN promotion; authoritative V43 bound remains unchanged."
+    "next_exact_route": "HOSTILE_AUDIT_V44_HPADJ22_FULL178_BOUND_REPLACEMENT",
+    "stacked_candidate_audit_status": "V44_HPADJ22_CANDIDATE_HOSTILE_AUDIT_PASS__MAIN_REPLACEMENT_CONSUMED__REPLACEMENT_HEAD_REAUDIT_PENDING",
+    "stop_semantics": "The HPADJ22 direct FULL178 candidate 138652739800650593494 was hostile-audited PASS at exact head e24488f1394abae25d9b0f9d099c8efd84e03a2a / review 5254762142 and is now consumed as V44 numerical MAIN authority by same-population MIN replacement. Tightening versus V43 is 18917938018800540013. No additive subtraction or independence assumption is used. The replacement head itself now requires independent hostile re-audit; FULL178 and all downstream milestones remain incomplete."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": 157570677819451133507,
+    "authoritative_remaining_terminals": 138652739800650593494,
     "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "full178_numerical_census_complete": false,
     "live_ex5_hpadj21_full178_rows": 178,
@@ -40,6 +46,7 @@
     "live_ex5_hpadj21_row_overlap_count": 0,
     "live_ex5_hpadj21_strict_cell_count": 796,
     "predecessor_v41_authoritative_remaining_terminals": 179119009547804181594,
+    "predecessor_v43_authoritative_remaining_terminals": 157570677819451133507,
     "stage32_closed": false,
     "v42_hpadj21_certified_numeric_bound_tightening_vs_v41": 21548331728353048087,
     "v42_replacement_head_audited_exact_head": "e4311c4ec31d5768c57308681ae60679987e2ced",
@@ -66,7 +73,11 @@
     "v44_hpadj22_direct_full178_upper_bound": "138652739800650593494",
     "v44_hpadj22_candidate_tightening_vs_hpadj21": "18917938018800540013",
     "v44_hpadj22_candidate_global_upper_bound_if_promoted": "138652739800650593494",
-    "v44_hpadj22_candidate_main_credit": false
+    "v44_hpadj22_main_numeric_bound_replacement_consumed": true,
+    "v44_hpadj22_replacement_composition_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__HPADJ22_SAME_POPULATION_REFINEMENT__NO_ADDITIVE_STACKING",
+    "v44_hpadj22_additive_subtraction_performed": false,
+    "v44_hpadj22_exact_incremental_rejected_identity_set_claimed": false,
+    "v44_hpadj22_candidate_main_credit": true
   },
   "current_leaf_working_set": [
     "stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json",
@@ -116,7 +127,7 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "receiver_credit": false,
-    "replacement_head_hostile_reaudit_required": false,
+    "replacement_head_hostile_reaudit_required": true,
     "route_credit": false,
     "stage32_closed": false,
     "theorem_credit": false
@@ -130,7 +141,7 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V43_HPADJ21_FULL178_BOUND_AUDIT_SYNCED",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V44_HPADJ22_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
   "source_locks": {
     "btva_compressed_lift_preflight": {
       "blob_sha1": "68108dfb110c4ea1d9dc0d74564a431bbbffbbde",
@@ -241,12 +252,12 @@
       "lane_178_pending_main_handoff": "NONE",
       "lane_178_pr": 1821,
       "lane_178_semantic_leaf": "POST_TD02_FIBRATION_NEF_SUCCESSOR_RESEARCH",
-      "mb_current_head_audit_status": "COMPACT_RESTART_FROM_HOSTILE_AUDIT_PASS_PREDECESSOR__CURRENT_HEAD_ZERO_MAIN_CREDIT",
+      "mb_current_head_audit_status": "COMPACT_RESTART_FROM_HOSTILE_AUDIT_PASS_PREDECESSOR__Z33A_SIMPLE_CONTACT_CURRENT_HEAD_ZERO_MAIN_CREDIT",
       "mb_handoff": "NONE",
-      "mb_head": "c179ab4858a4d565d3c460a00d0756414b1d6504",
+      "mb_head": "4d199f193255a1c43d755a3dcdb921a9e4280ba4",
       "mb_pending_main_handoff": "NONE",
       "mb_pr": 1825,
-      "mb_semantic_leaf": "MB104_Z33_SPAN5_HYPERPLANE_ORBIT_SIMPLE_CONTACT",
+      "mb_semantic_leaf": "MB104_Z33A_SIMPLE_CONTACT_EXACT_VERIFIER",
       "observed_repository_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
       "sweep_date": "2026-09-19",
       "mb_latest_audit_review_id": 5254494158,
@@ -290,8 +301,17 @@
       "exact_tightening_if_promoted": "18917938018800540013",
       "main_pruning_credit": false,
       "hostile_audit_required_before_promotion": true
+    },
+    "v44_hpadj22_main_bound_replacement": {
+      "path": "stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json",
+      "blob_sha1": "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4",
+      "canonical_sha256": "cef45672a180124ce46972fed6ead43bb94b16e552496c6101a8e5dfa1b8a7b9",
+      "audited_candidate_exact_head": "e24488f1394abae25d9b0f9d099c8efd84e03a2a",
+      "hostile_audit_review_id": 5254762142,
+      "hostile_audit_status": "PASS",
+      "replacement_head_hostile_reaudit_required": true
     }
   },
   "stage": 32,
-  "canonical_sha256_without_this_field": "fd80eea92a14827186edc71767880f4c7f7bc9a8ea206ca2a19e0ee756224abf"
+  "canonical_sha256_without_this_field": "9198f8aebff1705caec3a02d3593e48578b9ce76a09a7d19394deacf83119969"
 }

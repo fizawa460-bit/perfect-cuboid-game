@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: merged hostile-audited V43 authority; V44 BTVA static7 normal-mass research successor carries zero new pruning.
+# Current boundary: V44 hostile-audited HPADJ22 FULL178 candidate consumed as numerical MAIN replacement; replacement head requires hostile re-audit.
 on:
   pull_request:
     paths:
@@ -67,6 +67,22 @@ jobs:
           test "$(git -C .stage32-v43 hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
           test "$(git -C .stage32-v43 hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
 
+      - name: Checkout hostile-audited V44 HPADJ22 candidate boundary
+        uses: actions/checkout@v4
+        with:
+          ref: e24488f1394abae25d9b0f9d099c8efd84e03a2a
+          path: .stage32-v44-candidate
+          fetch-depth: 1
+
+      - name: Assert fixed V44 HPADJ22 candidate boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v44-candidate rev-parse HEAD)" = "e24488f1394abae25d9b0f9d099c8efd84e03a2a"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/MAIN-STATE.json)" = "bb37bee4d433921e4bbdb2a9fdd5b74042b3282f"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/verify_main_startup.py)" = "3af851faed82912e4fb138bce8779435b6e76f80"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json)" = "60ca65208b774cc79c646c46c6780e7028a29845"
+
       - name: Checkout live 178 compressed-Picard source
         uses: actions/checkout@v4
         with:
@@ -97,12 +113,14 @@ jobs:
       - name: Verify V44 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "bb37bee4d433921e4bbdb2a9fdd5b74042b3282f"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "3af851faed82912e4fb138bce8779435b6e76f80"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "186bdeff0494d564c88c5cd9bd4903cd14dcde20"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "c8b90c33c31f212e05837421f9ce975b1b605fba"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "125f4ab43a81aeab6869482d4bd6fdc6264a36c1"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "5a202f5c2a7ea8fbed4b0b50c2aec62a2b964252"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
@@ -126,7 +144,13 @@ jobs:
       - name: Replay hostile-audited merged V43 boundary
         run: python .stage32-v43/stages/stage32/verify_main_startup.py
 
-      - name: Verify Stage32 MAIN V44 startup projection
+      - name: Replay hostile-audited V44 HPADJ22 candidate boundary
+        run: python .stage32-v44-candidate/stages/stage32/verify_main_startup.py
+
+      - name: Verify V44 HPADJ22 replacement against audited candidate root
+        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py --audited-root .stage32-v44-candidate
+
+      - name: Verify Stage32 MAIN V44 HPADJ22 replacement startup projection
         run: python stages/stage32/verify_main_startup.py
 
       - name: Verify Stage32 cross-lane coordination

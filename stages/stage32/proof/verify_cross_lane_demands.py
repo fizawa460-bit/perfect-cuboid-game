@@ -15,7 +15,9 @@ REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
 MONITOR_BLOB = "2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
 MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
-BOUND = 157570677819451133507
+BOUND = 138652739800650593494
+V43_BOUND = 157570677819451133507
+V44_TIGHTENING = 18917938018800540013
 V41_BOUND = 179119009547804181594
 V42_TIGHTENING = 21548331728353048087
 
@@ -62,7 +64,7 @@ def main():
     req(mon["credit_firewall"]["monitor_observation_is_mathematical_credit"] is False,
         "monitor observation credit firewall")
 
-    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V43_HPADJ21_FULL178_BOUND_AUDIT_SYNCED",
+    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V44_HPADJ22_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
         "MAIN state schema")
     f = st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
@@ -73,13 +75,17 @@ def main():
         "V42 tightening")
     req(f["v42_replacement_head_hostile_audited"] is True, "V42 hostile audit not synced")
     req(f["v43_audit_sync_additional_pruning"] == 0, "V43 added pruning")
+    req(f["predecessor_v43_authoritative_remaining_terminals"] == V43_BOUND, "V43 predecessor authority")
+    req(f["v44_hpadj22_main_numeric_bound_replacement_consumed"] is True, "V44 replacement not consumed")
+    req(f["v44_hpadj22_candidate_main_credit"] is True, "V44 MAIN credit")
+    req(f["v44_hpadj22_candidate_tightening_vs_hpadj21"] == str(V44_TIGHTENING), "V44 tightening")
     req(f["full178_numerical_census_complete"] is False, "FULL178 overclaim")
 
     req(st["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(st["current"]["next_exact_route"] ==
-        "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS", "MAIN next route")
-    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,
-        "replacement audit firewall still armed")
+        "HOSTILE_AUDIT_V44_HPADJ22_FULL178_BOUND_REPLACEMENT", "MAIN next route")
+    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is True,
+        "replacement hostile re-audit gate missing")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
     req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
@@ -91,7 +97,7 @@ def main():
         "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
     req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
-        "c179ab4858a4d565d3c460a00d0756414b1d6504" and
+        "4d199f193255a1c43d755a3dcdb921a9e4280ba4" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["mb_latest_audited_exact_head"] ==
         "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
@@ -110,8 +116,8 @@ def main():
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN V43 audit sync clears the V42 replacement stop gate with zero new pruning")
-    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations are refreshed for V44 research successor")
+    print("PASS: Stage32 MAIN V44 HPADJ22 numerical replacement is synchronized; replacement head hostile re-audit is required")
+    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB Z33A head with zero MAIN credit")
     print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
 
 
