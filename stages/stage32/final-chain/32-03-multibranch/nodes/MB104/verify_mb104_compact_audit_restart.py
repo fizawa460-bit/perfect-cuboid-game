@@ -277,7 +277,38 @@ def main():
         req(routing["z12_current_main_btva_adapter_available"] is False, "Z12 MAIN adapter absent")
         req(routing["H_polarized_subcanonical_bridge_exact"] is True, "subcanonical bridge routing")
         req(routing["ACM_section_ring_gate_live"] is True, "ACM gate live")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-H-POLARIZED-ACM-SECTION-RING-PREFLIGHT", "post-audit active leaf")
+        pc=d["retained_frontier"]["projective_ci_conductor_regularity"]
+        req(pc["source_z41_tricanonical_blob"] == "19a7f6dfb82efbaaa68fbd47e45c91eacc7acfd5", "projective CI Z41 source")
+        req(pc["source_z48_conductor_blob"] == "69b3e039ebc967c84f7c64d4946a114f09d07fba", "projective CI Z48 source")
+        req(pc["source_z48b_hypothesis_wall_blob"] == "ed97e80bdae255d68e2684bc805a3d229ee2f26e", "projective CI Z48B source")
+        req(pc["external_theorem"]["arxiv"] == "1302.5752" and pc["external_theorem"]["locator"] == "Theorem 3.1", "Eisenbud-Ulrich source")
+        cm=pc["canonical_model"]
+        req(cm["projective_curve"] == "Cbar=CI(2,2,2,2,7l)", "canonical-model CI carrier")
+        nr=pc["normalization_ring"]
+        req(nr["A1_dimension"] == 7 and nr["indeg_B_over_A"] == 1, "normalization indeg")
+        nodes=pc["supported_A1_nodes"]
+        req(nodes["count"] == 14, "supported A1 count")
+        tot=pc["total_projective_conductor"]
+        for l in (1,2,3,7):
+            req(16*7*l == 112*l, "CI degree")
+            req(1 + ((7*l+1)*112*l)//2 == 392*l*l+56*l+1, "CI arithmetic genus")
+            req((392*l*l+56*l+1)-(168*l*l+56*l+1) == 224*l*l, "node genus delta")
+            req(14*16*l*l == 224*l*l, "node delta replay")
+            req((168*l*l+56*l)+(224*l*l) == 392*l*l+56*l, "total delta replay")
+            req(2*(392*l*l+56*l) == 784*l*l+112*l, "total different replay")
+            req((7*l+4)-1-1 == 7*l+2, "Eisenbud-Ulrich regularity")
+            req(112*l-7 > 0, "B/A degree-one dimension")
+        req(tot["reg_X_ideal_formula"] == "7*l+4", "CI reg X")
+        req(tot["conductor_ambient_ideal_regularity_formula"] == "7*l+2", "conductor reg")
+        req(tot["highest_degree_fifth_syzygy_count_formula"] == "112*l-7", "top syzygy count")
+        req(pc["firewalls"]["projective_Cbar_AG"] is True and pc["firewalls"]["normalization_ring_CM"] is True and pc["firewalls"]["eisenbud_ulrich_applicable"] is True, "EU hypotheses")
+        req(pc["firewalls"]["conductor_geometry_contradiction"] is False, "no premature conductor contradiction")
+
+        req(routing["ACM_section_ring_gate_live"] is False, "old ACM gate closed")
+        req(routing["projective_CI_carrier_adapter_exact"] is True, "projective CI adapter")
+        req(routing["eisenbud_ulrich_conductor_regularity_live"] is True, "EU route live")
+        req(routing["projective_conductor_decomposition_leaf_live"] is True, "projective conductor leaf")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-PROJECTIVE-CONDUCTOR-REGULARITY-DECOMPOSITION", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()

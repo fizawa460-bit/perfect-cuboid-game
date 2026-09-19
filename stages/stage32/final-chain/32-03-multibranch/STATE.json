@@ -506,24 +506,103 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
+      },
+      "source_z41_tricanonical_blob": "19a7f6dfb82efbaaa68fbd47e45c91eacc7acfd5",
+      "provenance_note": "effective divisor decomposition is already contained in retained Z41; the new consumption here is the exact restriction/adjunction corollary O_C(P)=O_C(3H), omega_C=O_C((3l+1)H)"
+    },
+    "projective_ci_conductor_regularity": {
+      "status": "POST_AUDIT_EXACT_PROJECTIVE_COMPLETE_INTERSECTION_CONDUCTOR_REGULARITY_ZERO_EXCLUSION_CREDIT",
+      "source_z41_tricanonical_blob": "19a7f6dfb82efbaaa68fbd47e45c91eacc7acfd5",
+      "source_z48_conductor_blob": "69b3e039ebc967c84f7c64d4946a114f09d07fba",
+      "source_z48b_hypothesis_wall_blob": "ed97e80bdae255d68e2684bc805a3d229ee2f26e",
+      "external_theorem": {
+        "authors": "David Eisenbud and Bernd Ulrich",
+        "title": "The Regularity of the Conductor",
+        "locator": "Theorem 3.1",
+        "arxiv": "1302.5752",
+        "hypothesis": "reduced projective X with Gorenstein homogeneous coordinate ring A; graded Cohen-Macaulay A subset B subset normalization(A)",
+        "formula": "reg(conductor_ambient_ideal)=reg(X)-1-indeg(B/A)"
+      },
+      "canonical_model": {
+        "surface": "Sbar=CI(2,2,2,2) in P6",
+        "resolution_map": "pi:S->Sbar",
+        "total_transform_formula": "pi^*(Cbar)=C+4l*sum_support(E_i)",
+        "projective_curve": "Cbar=CI(2,2,2,2,7l)",
+        "integral": true,
+        "degree_formula": "112*l",
+        "canonical_formula": "omega_Cbar=O_Cbar(7l+1)",
+        "arithmetic_genus_formula": "392*l^2+56*l+1",
+        "strict_transform_arithmetic_genus_formula": "168*l^2+56*l+1",
+        "node_contraction_delta_total_formula": "224*l^2"
+      },
+      "normalization_ring": {
+        "normalization": "E elliptic",
+        "O1_pullback_degree_formula": "112*l",
+        "B1_dimension_formula": "112*l",
+        "A1_dimension": 7,
+        "indeg_B_over_A": 1,
+        "B_Cohen_Macaulay_reason": "graded normalization is a normal 2-dimensional domain, hence S2/Cohen-Macaulay"
+      },
+      "supported_A1_nodes": {
+        "count": 14,
+        "exceptional_total_transform_coefficient_formula": "4*l",
+        "simple_branch_count_per_node_formula": "8*l",
+        "delta_per_node_formula": "16*l^2",
+        "normalization_different_coefficient_per_branch_formula": "4*l",
+        "different_degree_per_node_formula": "32*l^2",
+        "delta_all_nodes_formula": "224*l^2",
+        "different_all_nodes_formula": "448*l^2"
+      },
+      "interior_conductor": {
+        "delta_formula": "168*l^2+56*l",
+        "different_degree_formula": "336*l^2+112*l",
+        "support": "smooth interior; disjoint from exceptional and P-null quartics"
+      },
+      "total_projective_conductor": {
+        "delta_formula": "392*l^2+56*l",
+        "different_degree_formula": "784*l^2+112*l",
+        "reg_X_ideal_formula": "7*l+4",
+        "conductor_ambient_ideal_regularity_formula": "7*l+2",
+        "conductor_quotient_regularity_formula": "7*l+1",
+        "codim_X": 5,
+        "conductor_ambient_codim": 6,
+        "highest_degree_fifth_syzygy_count_formula": "112*l-7",
+        "highest_degree_fifth_syzygy_degree_formula": "7*l+7"
+      },
+      "theorem_wall_removed": "Z48B's missing projectively-Gorenstein/CM normalization hypothesis is removed for the canonical-model image Cbar by the complete-intersection adapter",
+      "current_result": "exact regularity/syzygy control obtained, but scalar regularity alone has not yet contradicted the supported-node plus interior conductor geometry",
+      "firewalls": {
+        "projective_Cbar_AG": true,
+        "normalization_ring_CM": true,
+        "eisenbud_ulrich_applicable": true,
+        "projective_conductor_regularity_exact": true,
+        "conductor_geometry_contradiction": false,
+        "carrier_excluded": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "000707 H-polarized ACM / section-ring gate",
-    "active_leaf": "MB104-000707-H-POLARIZED-ACM-SECTION-RING-PREFLIGHT",
-    "required_input": "Use the exact effective null divisor D=H-sum_support E=2QA+2QB+E27+E35 and C disjoint D to retain omega_C=O_C((3l+1)H). Determine whether the H-polarized Cartier carrier section ring, or the exact canonical-model projective image after accounting for exceptional contractions, satisfies the Cohen-Macaulay/Gorenstein hypotheses needed by Eisenbud-Ulrich conductor regularity. Do not identify the smooth-resolution carrier with its P6 image without an exact contraction/conductor adapter.",
+    "title": "projective conductor regularity vs node/interior decomposition",
+    "active_leaf": "MB104-000707-PROJECTIVE-CONDUCTOR-REGULARITY-DECOMPOSITION",
+    "required_input": "Use the exact canonical-model CI carrier Cbar=CI(2,2,2,2,7l), Eisenbud-Ulrich reg(conductor)=7l+2, and the exact decomposition of conductor delta into fourteen supported A1 node contributions 16l^2 each plus smooth-interior delta 168l^2+56l. Test whether hyperplane residuals, local conductor powers/different exponents, or the exact 112l-7 highest-degree fifth-syzygy count force an incompatibility. Keep the strict-transform interior conductor Z_cond distinct from the full projective conductor scheme.",
     "success_shapes": [
-      "source-complete ACM plus projective/section-ring adapter, enabling a valid Eisenbud-Ulrich regularity computation",
-      "exact cohomological obstruction showing the relevant ring is not ACM, permanently closing this conductor-regularity route",
-      "bounded theorem/interface wall reducing ACM to a finite explicit cohomology or multiplication-map test"
+      "exact lower bound on projective conductor regularity exceeding 7l+2 for all or all-but-finitely-many l",
+      "exact top-syzygy/type contradiction using the fourteen A1 local conductor pieces plus nonempty interior conductor",
+      "source-complete no-go showing the Eisenbud-Ulrich regularity package is compatible, with a narrower next global route"
     ],
     "must_not_repeat": [
-      "reopen anti-invariant first-jet without genuinely new marked lift data",
-      "consume current MAIN genus0 D8 BTVA diagnostics as an MB Z12 general-m adapter",
-      "claim H-subcanonical alone implies arithmetically Gorenstein",
-      "identify the resolution carrier with its P6 image without an adapter",
+      "claim the smooth-interior conductor scheme equals the full projective conductor scheme",
+      "reuse the old Z48B projectively-Gorenstein hypothesis wall",
+      "identify the resolution carrier with its P6 image without the total-transform adapter",
+      "consume current MAIN genus0 BTVA diagnostics as an MB Z12 adapter",
+      "reopen anti-invariant first-jet without new marked lift data",
       "search for P.F<36",
       "arm isotropic-shell heavy compute",
       "merge or rebase"
@@ -558,7 +637,10 @@
     "anti_invariant_conductor_route": "PARKED_BOUNDED_SOURCE_WALL",
     "z12_current_main_btva_adapter_available": false,
     "H_polarized_subcanonical_bridge_exact": true,
-    "ACM_section_ring_gate_live": true
+    "ACM_section_ring_gate_live": false,
+    "projective_CI_carrier_adapter_exact": true,
+    "eisenbud_ulrich_conductor_regularity_live": true,
+    "projective_conductor_decomposition_leaf_live": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
