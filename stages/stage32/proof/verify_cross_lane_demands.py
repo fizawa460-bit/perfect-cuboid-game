@@ -103,15 +103,15 @@ def main():
         "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
     req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
-        "81ac5f243c08fb7c16a2b7cb2f09653fff78f65e" and
+        "003ccd4391107cd90d44cc8cd82cf00dc06fd14e" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["mb_latest_audited_exact_head"] ==
         "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
         sweep["mb_latest_audit_review_id"] == 5254494158,
         "MB audited predecessor observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "ee755bbfd46f405ca83e4930b354ee63459ad362" and
-        sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
+        "16e98ecc8f0e56fccadf343f57f67e993eb45a6c" and
+        sweep["bridge_runkey_generation"] == 0 and sweep["bridge_runkey_armed"] is False and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
@@ -123,7 +123,7 @@ def main():
         req(st["firewalls"][key] is False, f"firewall {key}")
 
     print("PASS: Stage32 MAIN V46 adopts merged hostile-audited V45 authority with zero new pruning")
-    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB P6B head with zero MAIN credit")
+    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB Z49B and BRIDGE generation2 cold heads with zero MAIN credit")
     print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
 
 
