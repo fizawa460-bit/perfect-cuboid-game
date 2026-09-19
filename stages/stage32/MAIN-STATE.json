@@ -34,8 +34,8 @@
   },
   "current": {
     "active_missing_interface": "FULL178_NUMERICAL_CENSUS_AND_FINAL_MILESTONE_CHAIN",
-    "latest_main_native_research": "V46_POSTMERGE_SUCCESSOR_SYNCED",
-    "latest_main_native_research_scope": "ADOPT_MERGED_V45_AUTHORITY_REFRESH_LIVE_SPECIALISTS_ZERO_NEW_PRUNING",
+    "latest_main_native_research": "V46_BR204_CURRENT_AUTHORITY_CONSUMER_PREFLIGHT",
+    "latest_main_native_research_scope": "BR204_FUTURE_FULL178_SAME_POPULATION_MIN_COMPARISON_GATE__NO_CANDIDATE_YET_ZERO_CREDIT",
     "mainbatch_stop_gate": "NONE",
     "research_os_checkpoint_gate": "NONE",
     "research_os_checkpoint_audit_status": "PASS",
@@ -43,7 +43,7 @@
     "research_os_checkpoint_audited_exact_head": "e1795ad7ad47f45ca46e435dfd204e3bba8d6064",
     "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
     "stacked_candidate_audit_status": "V45_MERGED_HOSTILE_AUDIT_PASS__V46_SUCCESSOR_ACTIVE",
-    "stop_semantics": "V45 was hostile-audited at exact head 5aa6e63923946e201f51c8070cf9466029073d5e / review 5254811573 and merged as current main 659ba93b9eba657b49a728f549c6bb6028398e08. V46 adopts that merged authority with zero new pruning and refreshes the live specialist sweep. FULL178 and all downstream milestones remain incomplete."
+    "stop_semantics": "V46 is synchronized to merged V45 authority 138652739800650593494. A MAIN-native BR204 consumer preflight now binds the shared envelope 6703403803993209250491 but explicitly does not infer population identity from mass equality alone. BR204 generation-1 run 35344605175 is still incomplete and has no MAIN handoff; no candidate or credit is consumed. MAIN may continue only nonduplicative research while the producer runs."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -129,6 +129,8 @@
     "stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py",
     "stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json",
     "stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py",
+    "stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json",
+    "stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py",
     "stages/stage32/management/hpadj22-direct-full178/run_direct_band.py",
     "stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py",
     "stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py"
@@ -246,8 +248,11 @@
     },
     "live_specialist_sweep": {
       "bridge_current_head_audit_status": "AUDITED_PARENT_PASS__GENERATION1_EXECUTION_HEAD_ACTIVE__ZERO_MAIN_CREDIT",
-      "bridge_execution_note": "Generation 1 is live/recovery-producing; observed SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION and SOFT_DEADLINE safety stops must not be promoted as mathematical rejection.",
+      "bridge_execution_note": "Generation 1 run 35344605175 remains live/recovery-producing. Operational snapshot: 254 jobs; 35 completed success, 93 completed failure, 12 in progress, 114 queued; 65 artifacts discovered. Failures may be checkpointed SOFT_DEADLINE/SINGLE_D_TIMEOUT recovery states and are not mathematical rejection. No MAIN handoff exists.",
       "bridge_generation1_run_id": 35344605175,
+      "bridge_runtime_snapshot_is_mathematical_credit": false,
+      "bridge_runtime_snapshot_total_jobs": 254,
+      "bridge_runtime_snapshot_discovered_artifacts": 65,
       "bridge_handoff": "NONE",
       "bridge_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
       "bridge_latest_audit_review_id": 5247726057,
@@ -353,8 +358,22 @@
       "audited_v45_exact_head": "5aa6e63923946e201f51c8070cf9466029073d5e",
       "hostile_audit_review_id": 5254811573,
       "additional_pruning": 0
+    },
+    "br204_v46_consumer_preflight": {
+      "path": "stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json",
+      "blob_sha1": "281b94981f2de336575b32776d47fd3ea1efe890",
+      "canonical_sha256": "922a1a331bf871d3fe3837a67b7f168cd5612f50fcf741bfeee1bfa9388168bc",
+      "verifier_blob_sha1": "a287c2b362064495edbd592356076234240b97cd",
+      "bridge_source_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
+      "bridge_state_blob_sha1": "6f12ff6efff4c435fafe322cdd12d5e8978a8cbb",
+      "bridge_runkey_blob_sha1": "95bfe7aca936ff60d840d10761c20a42fc7480b0",
+      "bridge_execution_contract_blob_sha1": "796e7fc649ba0482eeae4b602d41278b5f1402fb",
+      "bridge_generation1_run_id": 35344605175,
+      "common_envelope": "6703403803993209250491",
+      "current_candidate_upper_bound": null,
+      "main_pruning_credit": false
     }
   },
   "stage": 32,
-  "canonical_sha256_without_this_field": "82f1d0d219fb7d87b8efce23acb9d75ffe2e4d0f287ccb559f104680ef1258c5"
+  "canonical_sha256_without_this_field": "330f529e2b8b331ae836347a7907170ae11604cf45acc1a157fee84292179aa8"
 }
