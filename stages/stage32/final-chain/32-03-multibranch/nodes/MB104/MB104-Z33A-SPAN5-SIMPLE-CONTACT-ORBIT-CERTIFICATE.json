@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE32_MB104_Z33A_SPAN5_SIMPLE_CONTACT_ORBITS_V1",
+  "status": "PRE_AUDIT_EXACT_FINITE_ORBIT_SCAN_NO_CREDIT",
+  "audited_predecessor_head": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
+  "historical_archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+  "orbit_table": [
+    ["I24-O4",24,4,"0000ffffff00",0,[24,0,0],"SURVIVES"],
+    ["I24-O24",24,24,"005a5affa5a5",0,[24,0,0],"SURVIVES"],
+    ["I20-O48",20,48,"0000ff33330f",0,[8,8,4],"SURVIVES"],
+    ["I19-O48",19,48,"003c3c163333",3,[16,0,0],"SURVIVES_ON_16_ELIGIBLE"],
+    ["I16-O3",16,3,"0000ff0000ff",0,[0,0,16],"SURVIVES_T_EQ_0"],
+    ["I16-O24",16,24,"000f0f000f0f",0,[0,16,0],"SURVIVES_ONE_FIXED_BIN"],
+    ["I15-O256",15,256,"111919162121",0,[9,6,0],"SURVIVES"],
+    ["I14-O96",14,96,"0000185aa566",2,[12,0,0],"EXCLUDED_UNBOUNDED_Z33"],
+    ["I14-O192A",14,192,"00033c123303",0,[14,0,0],"SURVIVES"],
+    ["I14-O192B",14,192,"00033c123330",0,[14,0,0],"SURVIVES"],
+    ["I14-O384A",14,384,"0005185aa524",0,[10,4,0],"SURVIVES"],
+    ["I14-O384B",14,384,"0005185aa581",0,[10,4,0],"SURVIVES"]
+  ],
+  "orbit_table_columns": ["id","incidence","orbit_size","support_mask","order_ge_2_nodes","fixed_forbidden_counts_0_1_2","disposition"],
+  "z14_adapter": {
+    "T": "non-diagonal m=1 branch count",
+    "q": "surviving fixed landing bins on actual support",
+    "collision_bound": "Delta_exc >= T^2/(2q)-T/2 for q>0; q=0 forces T=0",
+    "I20": "q<=24; q_max(N)=min(N+8,24)",
+    "I16_O3": "q=0",
+    "I16_O24": "q=N",
+    "I15": "q_max(N)=N+9 for N=14,15",
+    "I14_O384": "q=24 on the full 14-node support"
+  },
+  "exact_consequence": {
+    "incidence14_orbit96_unbounded_z33_eliminated": true,
+    "reason": "BTVA requires N>=14 for an unbounded genus-one family, but only 12 nodes remain Z33-eligible",
+    "whole_span5_closed": false
+  },
+  "source_blobs": {
+    "z33_note": "65656518d30f69ab3a4a892c8d4ae1d5ed72670e",
+    "revived_z": "1ea3003c1587d94a9301fe08f50c0c97a529b85f",
+    "orbit_note": "c3bcc580b5bd43b7805c7227c7420445f14c4b8c",
+    "orbit_certificate": "3bc4453affce96e87a60864c99f745bb4c28c794",
+    "section_note": "593868a09e41ebfd1ad7f0f4c1aa83f6ca5cd923",
+    "section_certificate": "9c36555e495df0d8d6b816f1c0dc7d4c35b55848",
+    "known_conic_note": "1dfafccb9559c98ccf71cc4b98449d784941d48f",
+    "known_conic_certificate": "f63d08b9005762a02935a727f35e6581ae52aaab",
+    "aut_source": "cbe21fdbacb975a726d0c2c8a1ab8fd3b21d0693",
+    "aut_cpp": "0c5b460b76b69e41e6009be2e92b7c051f003c22",
+    "satake_boundary": "bea35571b1b8ad8fc14c9a5a9a7342e63fe2c398",
+    "a1_adapter": "512fcc70afb1acf16956fd4b7a2b9b935a052150"
+  },
+  "credit_firewall": {
+    "finite_degree_window_proved": false,
+    "MB104_complete": false,
+    "R29_LG2_MB_discharged": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  }
+}

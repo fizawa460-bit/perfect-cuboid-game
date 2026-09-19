@@ -1,0 +1,81 @@
+# lifecycle: ACTIVE_AUTO while MB104 Z40 is the active leaf.
+# artifact/storage: zero uploaded artifacts; one lightweight job after cheap arm gate.
+name: Stage32 MB Z40 Picard64
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-mb-z40-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.ref == 'stage32mb-z33-span5-restart-20260919'
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      mode: ${{ steps.gate.outputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-PICARD64.json'
+          authorized=false
+          mode=''
+          if [ "${{ github.event_name }}" = workflow_dispatch ]; then
+            if [ -f "$KEY" ]; then
+              mode="$(python -c 'import json;print(json.load(open("'"$KEY"'"))["mode"])')"
+            fi
+            echo "authorized=false" >> "$GITHUB_OUTPUT"
+            echo "mode=$mode" >> "$GITHUB_OUTPUT"
+            echo "manual dispatch is cold unless a future manual authorization contract is added"
+            exit 0
+          fi
+          BEFORE='${{ github.event.before }}'
+          HEAD='${{ github.event.pull_request.head.sha }}'
+          test -n "$BEFORE"
+          git cat-file -e "$BEFORE^{commit}"
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$KEY"
+          python - "$BEFORE" "$KEY" <<'PY' > gate.json
+import json, subprocess, sys
+before,key=sys.argv[1:]
+new=json.load(open(key))
+try:
+    old=json.loads(subprocess.check_output(["git","show",f"{before}:{key}"],text=True))
+except subprocess.CalledProcessError:
+    old={"generation":0}
+ok=(new.get("armed") is True
+    and new.get("leaf")=="MB104-Z40-P-NULL-PICARD64-FINITE-ENUMERATION"
+    and isinstance(new.get("generation"),int)
+    and new["generation"]>int(old.get("generation",0))
+    and new.get("marking_blob")=="5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"
+    and new.get("helper_blob")=="010db3767b8f932c71ac5722b50ccb64a8c79f9d")
+print(json.dumps({"authorized":ok,"mode":new.get("mode","")}))
+PY
+          authorized="$(python -c 'import json;print(str(json.load(open("gate.json"))["authorized"]).lower())')"
+          mode="$(python -c 'import json;print(json.load(open("gate.json"))["mode"])')"
+          echo "authorized=$authorized" >> "$GITHUB_OUTPUT"
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          test "$authorized" = true
+
+  run:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect retained Picard marking structure
+        if: needs.authorize.outputs.mode == 'inspect'
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/inspect_mb104_z40_picard64_retained.py
+      - name: Reject unsupported mode
+        if: needs.authorize.outputs.mode != 'inspect'
+        run: |
+          echo "unsupported mode: ${{ needs.authorize.outputs.mode }}"
+          exit 1
