@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V1",
+  "stage": 32,
+  "generation": 0,
+  "armed": false,
+  "objective": "Exact same-population GRF04 x HPADJ22 FULL178 joint survivor count over 32 resumable b-chunk parents; cold setup only.",
+  "source_locks": {
+    "production_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
+    "aggregator_blob_sha1": "546b8285ab90e2f9ebf4f3ddaead132565fb950b",
+    "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
+    "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+  },
+  "benchmark_gate": {
+    "run_id": 35437525466,
+    "aggregate_artifact_id": 10583850457,
+    "aggregate_canonical_sha256": "7f1acd8a9033ce0c45674f96a816357e7784630cf4e6f77828102abc5a53f3dc",
+    "row177_band7_baseline": "236901807892797077",
+    "row177_band7_joint": "210109102000552262",
+    "exact_improvement": "26792705892244815",
+    "strict": true
+  },
+  "partition": {
+    "bands": [
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
+    ],
+    "chunks_per_band": 4,
+    "parents": 32,
+    "rows": 178,
+    "computed_row_chunk_certificates": 2967,
+    "computed_row_chunk_counts_by_band": [
+      698,
+      612,
+      516,
+      420,
+      324,
+      228,
+      132,
+      37
+    ],
+    "parent_artifact_count": 32,
+    "parent_certificate_rule": "Each parent covers all 178 rows exactly once as either computed row certificate when floor(d/2)>=b_start, or exact implicit zero otherwise."
+  },
+  "resume_contract": {
+    "durable_unit": "ROW_CHUNK_CERTIFICATE",
+    "parent_artifact_upload_on_failure": true,
+    "carry_validation": "schema + canonical + parent/row identity + production worker/helper/source locks + joint<=baseline",
+    "recovery": "validate all complete carried row certificates, copy valid certificates into new parent output, recompute missing rows only",
+    "duplicate_valid_carry": "FAIL_CLOSED",
+    "rejected_carry": "record and recompute",
+    "aggregate_requires_all_32_parent_complete_manifests": true
+  },
+  "resource_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 4,
+    "parent_jobs": 32,
+    "artifact_count_upper_bound": 33,
+    "artifact_bytes_upper_bound_each": 1048576,
+    "projected_peak_artifact_mb_upper_bound": 40,
+    "retention_days_parent": 2,
+    "retention_days_aggregate": 3,
+    "job_timeout_minutes": 90,
+    "compute_soft_timeout_minutes": 78
+  },
+  "authorization": {
+    "synchronize_only": true,
+    "commit_range_runkey_change_required": true,
+    "cold_setup_generation": 0,
+    "first_armed_generation": 1
+  },
+  "carry": {
+    "predecessor_run_id": 0,
+    "expected_predecessor_parent_artifacts": 0
+  },
+  "credit": {
+    "main": false,
+    "full178": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "route": false,
+    "endpoint": false,
+    "merge": false
+  }
+}
