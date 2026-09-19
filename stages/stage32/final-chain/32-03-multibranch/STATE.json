@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT",
+  "status": "ACTIVE_POST_AUDIT_ZERO_CREDIT",
   "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
@@ -38,27 +38,32 @@
       "result": "shallow portfolio found no deep winner; no finite window or credit"
     },
     "isotropic_shell_preflight": {
-      "status": "ARCHIVED_COLD_PREFLIGHT_NO_EXECUTION_NO_CREDIT",
+      "status": "AUDIT_RELEASED_PILOT_ARMED_NO_NUMERICAL_RESULT",
       "note_blob": "c65e9daa8f29a4ba525742116c9995cdc9cc504d",
       "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
       "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
       "numerical_execution_completed": false,
-      "result": "four cold Picard64 isotropic shells retained only as preflight; no numerical result"
+      "result": "shell0 pilot armed after hostile-audit PASS; no numerical result yet; shells1-3 remain unauthorized",
+      "cold_preflight_runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
+      "pilot_runkey_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json",
+      "pilot_runkey_generation": 1,
+      "pilot_shell_index": 0
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 compact hostile re-audit restart",
-    "active_leaf": "MB104-COMPACT-HOSTILE-REAUDIT-RESTART",
-    "required_input": "Audit this compact current-main branch against the immutable predecessor boundary d13afbb1..., verify source-lock semantics and exact-head CI/lifecycle replay, and do not resume substantive MB104 research before PASS.",
+    "title": "size768 degree10/12 isotropic-shell pilot",
+    "active_leaf": "MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT",
+    "required_input": "Execute and verify only shell_index=0 from the retained four-shell fibration-improvement preflight. This is an auxiliary fibration bound computation, not MB105 carrier Picard enumeration.",
     "success_shapes": [
-      "hostile audit PASS on this compact exact head, after which ordinary MB104 research may resume",
-      "hostile audit FAIL with bounded repair items only"
+      "verified shell0 compact certificate with measured certificate size and exact candidate counts",
+      "transport/runtime/storage resource wall recorded with zero mathematical credit"
     ],
     "must_not_repeat": [
-      "append new substantive MB104 mathematics before PASS",
-      "promote any pair-map restriction degree or orbit exclusion",
-      "arm or execute isotropic-shell heavy compute",
+      "run shell_index=1,2,3 before shell0 pilot is measured and verified",
+      "treat shell0 emptiness as proof that all four shells are empty",
+      "promote known140 nonnegativity to effectivity or semiampleness",
+      "promote zero candidates to global min P.F=40 without the retained degree reduction and a new audited composition",
       "merge or rebase"
     ]
   },
@@ -69,7 +74,10 @@
     "hostile_audit_target_available": true,
     "current_branch_is_compact_audit_restart": true,
     "predecessor_pr_is_archive_only": true,
-    "substantive_research_append_blocked_until_reaudit_pass": true
+    "substantive_research_append_blocked_until_reaudit_pass": false,
+    "ordinary_mb104_research_released_by_review": 5257816963,
+    "isotropic_shell_pilot_authorized": true,
+    "isotropic_shell_scaleout_authorized": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
@@ -90,6 +98,19 @@
       "stages/stage32/final-chain/32-03-multibranch/STATE.json",
       "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
     ],
-    "post_boundary_changes_must_be_bounded_audit_repairs_only": true
+    "post_boundary_changes_must_be_bounded_audit_repairs_only": true,
+    "released_by_hostile_audit_review": 5257816963,
+    "release_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f"
+  },
+  "audit_release": {
+    "hostile_audit_status": "PASS",
+    "audited_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
+    "hostile_audit_review_id": 5257816963,
+    "current_main_at_audit": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "merge_ready_freshness": "CLEAR",
+    "grants": "ORDINARY_MB104_RESEARCH_RESUME_ONLY",
+    "numerical_shell_credit": false,
+    "theorem_credit": false,
+    "merge_authorized": false
   }
 }

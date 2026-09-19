@@ -1,0 +1,223 @@
+name: Stage32 MB104 isotropic shell pilot
+# Trigger lifecycle: ACTIVE_AUTO — current MB104 zero-credit pilot leaf; shell0 only.
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-mb104-isotropic-shell-pilot.yml'
+      - 'stages/stage32/final-chain/32-03-multibranch/STATE.json'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py'
+      - 'docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json'
+      - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
+      - 'docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json'
+      - 'docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py'
+  workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact armed head SHA
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-mb104-isotropic-shell-pilot-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Exact runkey / state authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          DISPATCH_SHA: ${{ inputs.expected_head_sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
+          STATE='stages/stage32/final-chain/32-03-multibranch/STATE.json'
+          WF='.github/workflows/stage32-mb104-isotropic-shell-pilot.yml'
+          HEAD_SHA="$PR_HEAD"
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          test -f "$KEY"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py
+          python - "$KEY" "$STATE" "$WF" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          key,state,wf=sys.argv[1:]
+          k=json.loads(Path(key).read_text())
+          s=json.loads(Path(state).read_text())
+          assert k["schema"]=="STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1"
+          assert k["generation"]==1 and k["mode"]=="PILOT" and k["armed"] is True
+          assert k["leaf"]=="MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT"
+          assert k["pilot"]["shell_index"]==0 and k["pilot"]["measured"] is False
+          assert k["execution_gate"]["pilot_only"] is True
+          assert k["execution_gate"]["scaleout_authorized"] is False
+          assert k["execution_gate"]["hostile_audit_review_id"]==5257816963
+          assert k["concurrency"]["planned_effective_heavy_concurrency"]==1
+          assert k["concurrency"]["stage_heavy_cap"]==18
+          assert k["storage"]["repository_operating_budget_mb"]==500
+          assert k["storage"]["raw_magma_stdout_persisted"] is False
+          assert k["storage"]["retention_days_if_executed"]==1
+          assert all(v is False for v in k["credit"].values())
+          assert s["status"]=="ACTIVE_POST_AUDIT_ZERO_CREDIT"
+          assert s["audit_release"]["hostile_audit_status"]=="PASS"
+          assert s["audit_release"]["audited_exact_head"]=="70c2fe772df63362d82df537ea889658eb03f58f"
+          assert s["audit_release"]["hostile_audit_review_id"]==5257816963
+          assert s["next_obligation"]["active_leaf"]=="MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT"
+          assert subprocess.check_output(["git","hash-object",state],text=True).strip()==k["source_locks"]["current_state_git_blob"]
+          assert subprocess.check_output(["git","hash-object",wf],text=True).strip()==k["source_locks"]["workflow_git_blob"]
+          PY
+          if [ "$EVENT_NAME" = pull_request ]; then
+            [ "$PR_ACTION" = synchronize ] || exit 0
+            BEFORE="$EVENT_BEFORE"
+            [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+            git fetch --no-tags --depth=1 origin "$BEFORE" || true
+            git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+            git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+            python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          before,path=sys.argv[1:]
+          new=json.loads(Path(path).read_text())
+          p=subprocess.run(["git","show",f"{before}:{path}"],text=True,capture_output=True)
+          if p.returncode==0:
+              old=json.loads(p.stdout)
+              assert int(new["generation"])>int(old["generation"])
+          else:
+              assert int(new["generation"])==1
+          PY
+          fi
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  pilot-shell0:
+    name: MB104 isotropic shell0 pilot
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: d13afbb1a693a5547bebd31ec6fbcc04a7648f05
+          path: .mb104-isotropic-source
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact source locks
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = '${{ needs.authorize.outputs.exact_sha }}'
+          test "$(git -C .mb104-isotropic-source rev-parse HEAD)" = 'd13afbb1a693a5547bebd31ec6fbcc04a7648f05'
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          key=json.loads(Path('stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json').read_text())
+          root='.mb104-isotropic-source'
+          paths={
+            'runner_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_isotropic_shells.py',
+            'parent_verifier_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_isotropic_shells.py',
+            'workunit_runner_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_isotropic_shell_workunit.py',
+            'workunit_verifier_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_isotropic_shell_workunit.py',
+            'stage33_stoll_helper_blob':'stages/stage33/33-07/stoll_cuboid_source.py',
+            'stage33_picard_marking_blob':'stages/stage33/33-07/stage32_picard_marking_retained.py',
+          }
+          for field,path in paths.items():
+              got=subprocess.check_output(['git','-C',root,'hash-object',path],text=True).strip()
+              assert got==key['source_locks'][field],(field,got,key['source_locks'][field])
+          assert key['source_locks']['predecessor_boundary']=='d13afbb1a693a5547bebd31ec6fbcc04a7648f05'
+          PY
+      - name: Execute exact shell0
+        id: compute
+        continue-on-error: true
+        run: |
+          python .mb104-isotropic-source/stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_isotropic_shell_workunit.py \
+            --shell-index 0 \
+            --output "$RUNNER_TEMP/mb104-isotropic-shell0.json" \
+            --timeout 600
+      - name: Verify and compact pilot outcome
+        if: always()
+        env:
+          EXEC_OUTCOME: ${{ steps.compute.outcome }}
+          EXACT_SHA: ${{ needs.authorize.outputs.exact_sha }}
+        run: |
+          python - "$RUNNER_TEMP/mb104-isotropic-shell0.json" "$RUNNER_TEMP/mb104-isotropic-pilot-manifest.json" <<'PY'
+          import hashlib,json,os,subprocess,sys
+          from pathlib import Path
+          cert=Path(sys.argv[1]); manifest=Path(sys.argv[2])
+          out={
+            "schema":"STAGE32_MB104_000707_ISOTROPIC_SHELL0_PILOT_MANIFEST_V1",
+            "execution_head":os.environ["EXACT_SHA"],
+            "predecessor_boundary":"d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+            "hostile_audit_review_id":5257816963,
+            "shell_index":0,
+            "execution_outcome":os.environ.get("EXEC_OUTCOME",""),
+            "credit":False,
+          }
+          rc=0
+          if out["execution_outcome"]!="success" or not cert.is_file():
+              out["status"]="EXECUTION_FAILED_NO_NUMERICAL_RESULT"
+              rc=1
+          else:
+              verifier=Path(".mb104-isotropic-source/stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_isotropic_shell_workunit.py")
+              p=subprocess.run([sys.executable,str(verifier),"--certificate",str(cert),"--shell-index","0"],text=True,capture_output=True)
+              out["verifier_returncode"]=p.returncode
+              if p.returncode:
+                  out["status"]="VERIFIER_FAILED_NO_CREDIT"
+                  rc=1
+              else:
+                  size=cert.stat().st_size
+                  out["certificate_bytes"]=size
+                  out["certificate_sha256"]=hashlib.sha256(cert.read_bytes()).hexdigest()
+                  if size>100*1024*1024:
+                      out["status"]="ARTIFACT_SIZE_STOP_NO_CREDIT"
+                      cert.unlink()
+                      rc=1
+                  else:
+                      d=json.loads(cert.read_text())
+                      out["status"]="VERIFIED_PILOT_COMPLETE_ZERO_CREDIT"
+                      out["canonical"]=d["canonical_sha256_without_this_field"]
+                      out["candidate_count"]=d["summary"]["total_primitive_known140_nonnegative_candidate_count"]
+                      out["raw_affine_close_vector_count"]=d["support"]["shells"][0]["raw_affine_close_vector_count"]
+                      out["integral_picard_class_count"]=d["support"]["shells"][0]["integral_picard_class_count"]
+                      out["known140_nonnegative_count"]=d["support"]["shells"][0]["known140_nonnegative_count"]
+          manifest.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
+          print(json.dumps(out,sort_keys=True))
+          raise SystemExit(rc)
+          PY
+      - name: Upload compact pilot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32mb-isotropic-shell0-pilot
+          path: |
+            ${{ runner.temp }}/mb104-isotropic-shell0.json
+            ${{ runner.temp }}/mb104-isotropic-pilot-manifest.json
+          retention-days: 1
+          if-no-files-found: warn
+          compression-level: 9
