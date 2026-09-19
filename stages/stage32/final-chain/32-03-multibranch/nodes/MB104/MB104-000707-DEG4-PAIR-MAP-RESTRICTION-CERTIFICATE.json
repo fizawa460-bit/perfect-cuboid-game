@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_RESTRICTION_V1",
-  "status": "PRE_AUDIT_EXACT_NUMERICAL_REDUCTION_ZERO_CREDIT",
+  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN",
   "data": {
     "H_G": 12,
     "P_G": 36,
@@ -18,13 +18,15 @@
   },
   "excluded": {
     "r4": {
-      "reason": "effective residual orthogonal to both finite-map rulings forces Q=0, but H-degree contradicts P=10G+9F"
+      "reason": "effective residual orthogonal to both finite-map rulings forces Q=0, but H-degree contradicts P=10G+9F",
+      "promoted": false
     },
     "r3": {
       "Q_H_over_l": 144,
       "Q2_over_l2": -304,
       "pa": "1-152*l^2+72*l",
-      "reason": "negative arithmetic genus"
+      "reason": "negative arithmetic genus",
+      "promoted": false
     }
   },
   "remaining": [
@@ -41,5 +43,9 @@
     "theorem_credit": false,
     "endpoint_credit": false,
     "merge_authorized": false
+  },
+  "common_vertical_correction_required": true,
+  "source_gate": {
+    "stein_factor_common_vertical_audited": false
   }
 }
