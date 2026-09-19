@@ -1,6 +1,6 @@
 {
   "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_DISCRIMINANT_EXCLUSION_V1",
-  "status": "PRE_AUDIT_EXACT_DISCRIMINANT_RESULTANT_EXCLUSION_ZERO_CREDIT",
+  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN",
   "support_mask": "000707000f0f",
   "pair_map": {
     "degree": 4,
@@ -14,39 +14,40 @@
   },
   "restriction_cases": {
     "r4": {
-      "excluded": true,
+      "excluded": false,
       "source": "previous_pair_map_reduction"
     },
     "r3": {
-      "excluded": true,
+      "excluded": false,
       "source": "previous_pair_map_reduction"
     },
     "r2": {
       "C_dot_Q_over_l2": 1104,
       "two_C_dot_Q_over_l2": 2208,
       "discriminant_degree_over_l": 688,
-      "excluded": true
+      "excluded": false
     },
     "r1": {
       "C_dot_Q_over_l2": 2544,
       "two_C_dot_Q_over_l2": 5088,
       "discriminant_degree_over_l": 1376,
-      "excluded": true
+      "excluded": false
     }
   },
   "discriminant_formula": "disc(fg)=disc(f)disc(g)Res(f,g)^2",
   "conclusion": {
-    "excluded_orbit": "000707000f0f",
+    "excluded_orbit": null,
     "excluded_orbit_size": 768,
     "remaining_orbits": [
       "0000770000ff",
       "00007b0000ff"
     ],
-    "remaining_support_count": 96
+    "remaining_support_count": 864
   },
   "source_gate": {
     "finite_flat_base_change_hostile_audited": false,
-    "resultant_intersection_hostile_audited": false
+    "resultant_intersection_hostile_audited": false,
+    "stein_factor_common_vertical_audited": false
   },
   "firewalls": {
     "mb104_complete": false,
@@ -54,5 +55,6 @@
     "theorem_credit": false,
     "endpoint_credit": false,
     "merge_authorized": false
-  }
+  },
+  "common_vertical_correction_required": true
 }
