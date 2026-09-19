@@ -1,9 +1,9 @@
 {
   "authority_sync": {
-    "current_repository_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "current_repository_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
     "hpadj21_consumption_rule": "MIN_OF_CERTIFIED_UPPER_BOUNDS__HPADJ21_SAME_POPULATION_REFINEMENT__NO_ADDITIVE_STACKING",
-    "predecessor_authority_version": "V44_HPADJ22_FULL178_BOUND_CONSUMED_REAUDIT_PENDING",
-    "predecessor_process_head": "142b50757b345971218c953db6a15ddd09974172",
+    "predecessor_authority_version": "V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
+    "predecessor_process_head": "5aa6e63923946e201f51c8070cf9466029073d5e",
     "split_authority": {
       "orchestration_mode": "ROOT_NATIVE_STAGE32_MAIN_ONLY"
     },
@@ -25,20 +25,25 @@
     "v44_replacement_hostile_audit_review_id": 5254793258,
     "v44_replacement_hostile_audit_status": "PASS",
     "v44_replacement_merge_ready_freshness": "CLEAR",
-    "v45_audit_sync_additional_pruning": 0
+    "v45_audit_sync_additional_pruning": 0,
+    "v45_merge_pr": 1824,
+    "v45_merge_commit": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "v45_final_audited_exact_head": "5aa6e63923946e201f51c8070cf9466029073d5e",
+    "v45_final_hostile_audit_review_id": 5254811573,
+    "v46_postmerge_sync_additional_pruning": 0
   },
   "current": {
     "active_missing_interface": "FULL178_NUMERICAL_CENSUS_AND_FINAL_MILESTONE_CHAIN",
-    "latest_main_native_research": "V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
-    "latest_main_native_research_scope": "V44_HPADJ22_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNC__ZERO_NEW_PRUNING",
+    "latest_main_native_research": "V46_POSTMERGE_SUCCESSOR_SYNCED",
+    "latest_main_native_research_scope": "ADOPT_MERGED_V45_AUTHORITY_REFRESH_LIVE_SPECIALISTS_ZERO_NEW_PRUNING",
     "mainbatch_stop_gate": "NONE",
     "research_os_checkpoint_gate": "NONE",
     "research_os_checkpoint_audit_status": "PASS",
     "research_os_checkpoint_audit_review_id": 5253605587,
     "research_os_checkpoint_audited_exact_head": "e1795ad7ad47f45ca46e435dfd204e3bba8d6064",
     "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
-    "stacked_candidate_audit_status": "V44_HPADJ22_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED__V45_ZERO_NEW_PRUNING",
-    "stop_semantics": "V45 process-sync records hostile-audit PASS for the V44 HPADJ22 MAIN replacement at exact head 142b50757b345971218c953db6a15ddd09974172 / review 5254793258. Numerical authority remains 138652739800650593494 with zero additional pruning in the sync transition. FULL178 and all downstream milestones remain incomplete."
+    "stacked_candidate_audit_status": "V45_MERGED_HOSTILE_AUDIT_PASS__V46_SUCCESSOR_ACTIVE",
+    "stop_semantics": "V45 was hostile-audited at exact head 5aa6e63923946e201f51c8070cf9466029073d5e / review 5254811573 and merged as current main 659ba93b9eba657b49a728f549c6bb6028398e08. V46 adopts that merged authority with zero new pruning and refreshes the live specialist sweep. FULL178 and all downstream milestones remain incomplete."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -86,7 +91,10 @@
     "v44_replacement_head_hostile_audited": true,
     "v44_replacement_head_audited_exact_head": "142b50757b345971218c953db6a15ddd09974172",
     "v44_replacement_head_hostile_audit_review_id": 5254793258,
-    "v45_audit_sync_additional_pruning": 0
+    "v45_audit_sync_additional_pruning": 0,
+    "v45_merged_main_synced": true,
+    "v45_merge_commit": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "v46_postmerge_sync_additional_pruning": 0
   },
   "current_leaf_working_set": [
     "stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json",
@@ -119,6 +127,8 @@
     "stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py",
     "stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json",
     "stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py",
+    "stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json",
+    "stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py",
     "stages/stage32/management/hpadj22-direct-full178/run_direct_band.py",
     "stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py",
     "stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py"
@@ -154,7 +164,7 @@
     "proof_path": "stages/stage32/STAGE32-PROOF-PATH.md"
   },
   "role": "ORDINARY_MAIN_STARTUP_PROJECTION_NOT_A_PROOF_CERTIFICATE",
-  "schema": "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
+  "schema": "STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR",
   "source_locks": {
     "btva_compressed_lift_preflight": {
       "blob_sha1": "68108dfb110c4ea1d9dc0d74564a431bbbffbbde",
@@ -271,7 +281,7 @@
       "mb_pending_main_handoff": "NONE",
       "mb_pr": 1825,
       "mb_semantic_leaf": "MB104_P6B_FULLSPAN_SURVIVOR_TEST_CURVE_CONE",
-      "observed_repository_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+      "observed_repository_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
       "sweep_date": "2026-09-19",
       "mb_latest_audit_review_id": 5254494158,
       "mb_latest_audited_exact_head": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
@@ -333,8 +343,18 @@
       "hostile_audit_review_id": 5254793258,
       "hostile_audit_status": "PASS",
       "additional_pruning": 0
+    },
+    "v46_postmerge_successor": {
+      "path": "stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json",
+      "blob_sha1": "0ebbf672c432cb3cb1b2927bf03d660567eb417c",
+      "canonical_sha256": "61b40b3a98bbc1be7a59e90225086e3bc21ff6dd35f9c96bc9cbcfcf5bb348d6",
+      "verifier_blob_sha1": "15e373e3edc360d422e9f1465033d3fa708190ee",
+      "merged_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
+      "audited_v45_exact_head": "5aa6e63923946e201f51c8070cf9466029073d5e",
+      "hostile_audit_review_id": 5254811573,
+      "additional_pruning": 0
     }
   },
   "stage": 32,
-  "canonical_sha256_without_this_field": "58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
+  "canonical_sha256_without_this_field": "82f1d0d219fb7d87b8efce23acb9d75ffe2e4d0f287ccb559f104680ef1258c5"
 }
