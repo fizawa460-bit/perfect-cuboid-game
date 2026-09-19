@@ -1,51 +1,75 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "status": "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
-  "mb101": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/verify_mb101_normalization_profile.py",
-    "status": "RETAINED_NO_CREDIT",
-    "exact_population_adapter": true,
-    "normalization_profile_adapter": true,
-    "unibranch_176_192_cap_imported": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "restart_boundary": {
+    "base_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "predecessor_pr": 1825,
+    "predecessor_branch": "stage32mb-z33-span5-restart-20260919",
+    "predecessor_retained_boundary": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+    "predecessor_latest_reaudit_status": "FAIL",
+    "predecessor_latest_reaudit_review_node_id": "PRR_kwDOTr52Y88AAAABOWIiSg",
+    "historical_archive_pr": 1791,
+    "historical_archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "local_history_copied": false
   },
-  "mb102": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/verify_mb102_delta_genus.py",
-    "status": "RETAINED_NO_CREDIT",
-    "local_delta_ledger": true,
-    "global_genus_correction": true,
-    "delta_inferred_from_counts": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "retained_frontier": {
+    "pair_map": {
+      "status": "ARCHIVED_PRE_AUDIT_ZERO_EXCLUSION_CREDIT",
+      "support_mask": "000707000f0f",
+      "restriction_certificate_blob": "7b65e7845e0a5028f61afbd85777c541d9eff305",
+      "restriction_note_blob": "186173988d6d3d99839d39b7c6b07863e31ba894",
+      "discriminant_certificate_blob": "3ee982baf491ecce19b1e49707e66e1edacf812f",
+      "discriminant_note_blob": "0e1f7d60276c4e8aa23d1a3236149454cecec7b0",
+      "verifier_blob": "6238d8f6c1977dbe88ff78ade09cb5bc5f4b019b",
+      "result": "all r=1,2,3,4 remain OPEN; no orbit excluded; balanced support count remains 864; Stein/common-vertical correction mandatory"
+    },
+    "r4": {
+      "status": "ARCHIVED_PRE_AUDIT_NO_CREDIT",
+      "note_blob": "7fbe74fbab2a0b4c848a1c5c1910b603f72b0adf",
+      "certificate_blob": "024ac0e4f1b1caed527e01becd60cea41c27409b",
+      "verifier_blob": "df5355623736f188059d0f1c04ce718eef0ef3f6",
+      "result": "shallow portfolio found no deep winner; no finite window or credit"
+    },
+    "isotropic_shell_preflight": {
+      "status": "ARCHIVED_COLD_PREFLIGHT_NO_EXECUTION_NO_CREDIT",
+      "note_blob": "c65e9daa8f29a4ba525742116c9995cdc9cc504d",
+      "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
+      "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
+      "numerical_execution_completed": false,
+      "result": "four cold Picard64 isotropic shells retained only as preflight; no numerical result"
+    }
   },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
+    "node_id": "MB104",
+    "title": "MB104 compact hostile re-audit restart",
+    "active_leaf": "MB104-COMPACT-HOSTILE-REAUDIT-RESTART",
+    "required_input": "Audit this compact current-main branch against the immutable predecessor boundary d13afbb1..., verify source-lock semantics and exact-head CI/lifecycle replay, and do not resume substantive MB104 research before PASS.",
+    "success_shapes": [
+      "hostile audit PASS on this compact exact head, after which ordinary MB104 research may resume",
+      "hostile audit FAIL with bounded repair items only"
+    ],
+    "must_not_repeat": [
+      "append new substantive MB104 mathematics before PASS",
+      "promote any pair-map restriction degree or orbit exclusion",
+      "arm or execute isotropic-shell heavy compute",
+      "merge or rebase"
     ]
   },
   "routing": {
     "independent_of_full178_execution": true,
     "main_credit_auto_promotion": false,
     "finite_picard_enumeration_released": false,
-    "hostile_audit_target_available": true
+    "hostile_audit_target_available": true,
+    "current_branch_is_compact_audit_restart": true,
+    "predecessor_pr_is_archive_only": true,
+    "substantive_research_append_blocked_until_reaudit_pass": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
