@@ -255,3 +255,75 @@ theorem_credit=false
 endpoint_credit=false
 merge_authorized=false
 ```
+
+
+## 5. Direct application of Sabatino Theorem 1.1(i)
+
+The boundedness corollary above is not the strongest source-valid statement available. Sabatino
+Theorem 1.1(i) itself requires only that `K_S+D` be Q-effective and applies to an arbitrary
+irreducible curve; it does not require `K_S+D` to be nef and does not require a singularity
+classification of the carrier.
+
+For a reduced exceptional boundary `D`, let
+
+```text
+r = number of exceptional components in D,
+t = number of those components lying over the 14 supported nodes.
+```
+
+Then
+
+```text
+0 <= t <= 14,
+t <= r <= 34+t.
+```
+
+For the balanced carrier `C=lP`, Z33 gives multiplicity one on every exceptional branch, so
+
+```text
+C^2 = 336l^2,
+(K+D).C = (112+8t)l,
+e_(C\D) = -8tl,
+(K+D)^2 = 16-2r,
+e_(S\D) = 80-2r.
+```
+
+Substituting into Sabatino Theorem 1.1(i) gives, for every `alpha in [0,1]`,
+
+```text
+F(alpha)
+ = 168 l(l+1) alpha^2
+   - (224-8t) l alpha
+   + 224-4r
+ >= 0.
+```
+
+For fixed `l,t`, the smallest constant term occurs at the maximal legal boundary
+`r=34+t`. The quadratic vertex is
+
+```text
+alpha_* = (28-t)/(42(l+1)),
+```
+
+which always lies in `[0,1]`. Therefore
+
+```text
+F_min
+ = 88-4t
+   - ((224-8t)^2/672) * l/(l+1)
+
+ > 88-4t - (224-8t)^2/672
+
+ = 2(189-(t-7)^2)/21
+
+ >= 40/3.
+```
+
+Hence the full source-valid orbibundle inequality is not merely unavailable through its later
+boundedness corollary: it is **strictly satisfied with a uniform positive margin** for every
+`l>=1`, every exceptional-boundary subset, and every `alpha in [0,1]`.
+
+So Z2 is now a source-complete all-l no-go on this balanced ray. The remaining normal-model
+Langer route still needs local orbifold Euler data, but it cannot be justified as a likely stronger
+degree cutter merely from the favorable ambient A1 orbifold Chern numbers.
+
