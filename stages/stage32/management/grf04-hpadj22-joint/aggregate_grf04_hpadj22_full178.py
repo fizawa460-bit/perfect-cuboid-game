@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,hashlib,json
 from pathlib import Path
 
-WORKER_BLOB="58a853ccbcc1f3920c3fe686bca407221d8b16c5"
+WORKER_BLOB="c9fbf71242581f096718ebf0dbc9ac88878c91f1"
 HELPER_BLOB="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
 SOURCE_HEAD="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
 PARENT_SCHEMA="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_PARENT_V1"
