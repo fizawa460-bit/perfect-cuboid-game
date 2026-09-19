@@ -17,7 +17,8 @@ If the live MAIN authority identity cannot be resolved, or a lane-local mirror c
 - `stage32cut-mainbatch` — direct completion infeasibility/obstruction consumer/research specialist; never self-promotes to MAIN authority.
 - `stage32cut-audit` — hostile audit for an exact retained CUT checkpoint; PASS alone grants no MAIN credit.
 - `stage32mb-mainbatch` — independent 32-03 multibranch final-chain specialist; does not own MAIN promotion.
-- `stage32mb-fib` — auxiliary MB104 fibration/Picard64 producer subroute inside the MB domain, not a separate claim-DAG lane. Startup: `stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md`. It is operationally independent from `stage32mb-mainbatch`: ordinary MB startup does not preload MB-FIB, and an MB-FIB audit/heavy freeze does not freeze MB mainbatch unless MB explicitly consumes a frozen MB-FIB handoff or a shared Stage32 authority gate fails. The same short command is used for audit intent as `stage32mb-fib 監査`; there is no separate canonical `stage32mb-fib-audit` command.
+- `stage32mb-fib` — auxiliary MB104 fibration/Picard64 producer subroute inside the MB domain, not a separate claim-DAG lane. Startup: `stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md`. It is operationally independent from `stage32mb-mainbatch`: ordinary MB startup does not preload MB-FIB, and an MB-FIB audit/heavy freeze does not freeze MB mainbatch unless MB explicitly consumes a frozen MB-FIB handoff or a shared Stage32 authority gate fails.
+- `stage32mb-fib-audit` — hostile audit for one frozen exact MB-FIB producer boundary. It audits only the dedicated MB-FIB surface and never grants MB/MAIN/theorem/endpoint credit by itself.
 - `stage32mb-audit` — hostile audit after a new exact retained MB checkpoint is frozen.
 
 ## On-demand and historical surfaces
