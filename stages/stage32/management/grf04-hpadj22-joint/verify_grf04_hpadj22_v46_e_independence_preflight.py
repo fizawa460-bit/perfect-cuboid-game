@@ -64,7 +64,8 @@ def main():
         req(v is False,"firewall "+k)
     print(f"PASS: GRF04 x4 interval e-independence verified over {checked} finite (d,e) pairs")
     print("PASS: exact rewrite may count x4 intersection once and multiply by eligible-e count")
-    print("PASS: retained historical source-lock identities are bound; exact source checkout replay is delegated to the high-d benchmark job")\n    print("PASS: bounded strict pilot retained with zero MAIN credit; high-d benchmark remains next gate")
+    print("PASS: retained historical source-lock identities are bound; exact source checkout replay is delegated to the high-d benchmark job")
+    print("PASS: bounded strict pilot retained with zero MAIN credit; high-d benchmark remains next gate")
 
 if __name__=="__main__":
     main()
