@@ -542,24 +542,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z56-MAXIMAL-IDEAL-FIRST-NORMAL-GENERATOR-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z56_maximal_ideal_first_normal_generator.py",
       "result": "O_D(-F) has h0=3 while embdim=4; the fourth tangent generator is exactly invisible on D and lies in the F+D vs 2F central-A5 strip. In intrinsic coordinates the only tangent bit is q2=yz+c*xw with c=0 iff T0 and c!=0 iff T1."
+    },
+    "z57_a5_curvette_monomials_select_t0": {
+      "status": "PRE_AUDIT_EXACT_TANGENT_BIT_SELECTION_T0_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57-A5-CURVETTE-MONOMIALS-SELECT-T0-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57-A5-CURVETTE-MONOMIALS-SELECT-T0-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z57_a5_curvette_monomials_select_t0.py",
+      "result": "Contracting the fixed central A5 chain gives uv=s^6 with the elliptic endpoints as opposite curvettes. The four functions us,vs,s^2,s^3 form tangent generators; x^2=s^6 and yz=s^8 both lie in m^3 by the exact F-adic filtration, so the quadratic initial ideal is (x^2,yz). Actual tangent type T0 and c=0 are proved."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z57 central A5 first-normal multiplication",
-    "active_leaf": "MB104-Z57-CENTRAL-A5-FIRST-NORMAL-MULTIPLICATION",
-    "required_input": "Use F=(1,2,2,2,2,2,1), D=(1,...,1), the explicit canonical-cover plumbing, and the decomposition m/m2 = H0(D,O_D(-F)) plus one F+D first-normal generator. Compute the degree-two multiplication class of yz in the unique xw direction modulo m^3, equivalently decide c=0 or c!=0.",
+    "title": "MB104 Z58 T0 higher-jet mu3-equivariant ICIS",
+    "active_leaf": "MB104-Z58-T0-HIGHER-JET-MU3-EQUIVARIANT-ICIS",
+    "required_input": "Use the exact tangent generators y=us,z=vs,w=s^2,x=s^3 on the partial A5 model uv=s^6, the T0 initial ideal (x^2,yz), the unique canonical mu3 cover, and mu=31. Determine the first higher-order ICIS terms and deck characters far enough to obtain an equivariant Milnor/Tjurina receiver.",
     "success_shapes": [
-      "prove c=0 -> T0",
-      "prove c!=0 -> T1",
-      "derive a one-dimensional Rees/transition formula for c with all remaining constants source-explicit"
+      "explicit equations through the first isolating higher-order jet with mu3 weights",
+      "exact mu3 character decomposition of a proof-capable quotient of the Milnor/Tjurina algebra",
+      "source-valid local correction for the downstairs index3 point"
     ],
     "must_not_repeat": [
-      "full local-equation classification",
-      "symmetry-only inference",
-      "identifying the Picard H1 class with c without an explicit multiplication adapter"
+      "reopen T0/T1",
+      "use total mu=31 as equivariant data",
+      "assume weighted homogeneity without deriving it"
     ],
-    "fallback_after_gate": "Compute the central-A5 transition cocycle for O(-F) and O(-F-D) from the explicit A2 resolution charts, and express c as its single Cech product coefficient."
+    "fallback_after_gate": "Compute the deck characters of u,v,s and of the four tangent generators from the canonical cover construction; then enumerate only monomials compatible with both valuation filtration and mu3 invariance through the first degree that can isolate the ICIS."
   },
   "routing": {
     "independent_of_full178_execution": true,
