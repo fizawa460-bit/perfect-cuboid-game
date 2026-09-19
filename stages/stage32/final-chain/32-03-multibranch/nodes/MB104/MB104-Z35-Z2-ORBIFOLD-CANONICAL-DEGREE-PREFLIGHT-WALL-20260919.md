@@ -36,6 +36,74 @@ Therefore a Langer local-orbifold calculation cannot presently be evaluated at t
 
 This is not a theorem failure; it is a missing local-input interface.
 
+
+## 1b. Exact log-canonicity scaling on the contracted A1 model
+
+There is an additional structural obstruction to extracting a degree bound from the normal-pair route.
+
+Let
+
+```text
+pi : S -> Sbar
+```
+
+be the crepant minimal resolution and let `C_l` be a balanced carrier with strict-transform class
+
+```text
+C_l = 7l H - 4l sum_(i in Sigma) E_i.
+```
+
+Its image `Cbar_l` on the canonical model is Cartier-linearly equivalent to
+
+```text
+Cbar_l ~ 7l H.
+```
+
+At every supported A1 point the total transform is
+
+```text
+pi^* Cbar_l = C_l + 4l E_i.
+```
+
+Because the A1 resolution is crepant,
+
+```text
+K_S = pi^* K_Sbar.
+```
+
+Hence for the boundary pair `(Sbar, alpha Cbar_l)` the discrepancy of the exceptional divisor is
+
+```text
+a(E_i; Sbar, alpha Cbar_l) = -4 alpha l.
+```
+
+Log canonicity therefore forces
+
+```text
+alpha <= 1/(4l).
+```
+
+Write `beta=alpha*l`, so `0<=beta<=1/4`. Since `K_Sbar=H` and `H^2=16`,
+
+```text
+(K_Sbar + alpha Cbar_l)^2
+ = (1+7 alpha l)^2 H^2
+ = 16 (1+7 beta)^2.
+```
+
+Thus the left-hand side of a log/orbifold BMY inequality is **scale-invariant in l** throughout the admissible log-canonical range. A fixed positive `alpha` cannot be used as `l->infinity`.
+
+Consequently any degree-cutting strength would have to come from the local orbifold Euler corrections of the pair. Those corrections depend on the actual multibranch/tangent singularity package and on the off-exceptional singularities, exactly the data not source-locked by P6M.
+
+This strengthens the interface wall:
+
+```text
+ambient orbifold Chern positivity alone
+  does not produce an l-growth contradiction
+  on the current balanced ray.
+```
+
+
 ## 2. Sabatino open-surface route
 
 Pietro Sabatino,
