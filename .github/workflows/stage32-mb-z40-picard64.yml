@@ -2,14 +2,7 @@
 # artifact/storage: zero uploaded artifacts; one lightweight job after cheap arm gate.
 name: Stage32 MB Z40 Picard64
 on:
-  pull_request:
-    types: [synchronize]
-    paths:
-      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-PICARD64.json'
-      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/inspect_mb104_z40_picard64_retained.py'
-      - '.github/workflows/stage32-mb-z40-picard64.yml'
   workflow_dispatch:
-
 permissions:
   contents: read
 
