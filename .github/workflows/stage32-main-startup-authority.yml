@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V45 process-sync of hostile-audited V44 HPADJ22 numerical MAIN authority; zero new pruning.
+# Current boundary: V46 successor synced to merged hostile-audited V45 authority; zero new pruning.
 on:
   pull_request:
     paths:
@@ -99,6 +99,38 @@ jobs:
           test "$(git -C .stage32-v44-replacement hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
           test "$(git -C .stage32-v44-replacement hash-object stages/stage32/verify_main_startup.py)" = "c8b90c33c31f212e05837421f9ce975b1b605fba"
 
+      - name: Checkout hostile-audited merged V45 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 659ba93b9eba657b49a728f549c6bb6028398e08
+          path: .stage32-v45-merged
+          fetch-depth: 1
+
+      - name: Assert fixed merged V45 boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v45-merged rev-parse HEAD)" = "659ba93b9eba657b49a728f549c6bb6028398e08"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/MAIN-STATE.json)" = "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/verify_main_startup.py)" = "9460290b475c7d08622fd94c21782133d40ac6cd"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8e55c5026ab7d3ea9b7c390d5d2562562d396c10"
+
+      - name: Checkout BR204 generation1 source
+        uses: actions/checkout@v4
+        with:
+          ref: ee755bbfd46f405ca83e4930b354ee63459ad362
+          path: .stage32-bridge-br204-source
+          fetch-depth: 1
+
+      - name: Assert fixed BR204 generation1 source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-bridge-br204-source rev-parse HEAD)" = "ee755bbfd46f405ca83e4930b354ee63459ad362"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/STATE.json)" = "6f12ff6efff4c435fafe322cdd12d5e8978a8cbb"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json)" = "95bfe7aca936ff60d840d10761c20a42fc7480b0"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "796e7fc649ba0482eeae4b602d41278b5f1402fb"
+
       - name: Checkout live 178 compressed-Picard source
         uses: actions/checkout@v4
         with:
@@ -122,19 +154,30 @@ jobs:
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          test "$current_main" = "659ba93b9eba657b49a728f549c6bb6028398e08"
           test "$merge_base" = "$current_main"
           git merge-base --is-ancestor "$current_main" HEAD
 
-      - name: Verify V45 retained source identities
+      - name: Verify V46 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "9460290b475c7d08622fd94c21782133d40ac6cd"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "e4f637216e8be4575dbf55c745462557c462da4d"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "ad21e3de62c07a8fcf346c95af617b298c828128"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8e55c5026ab7d3ea9b7c390d5d2562562d396c10"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "16edd3c8fbf18cb5bbb9986a330ad5eee7f49399"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json)" = "0ebbf672c432cb3cb1b2927bf03d660567eb417c"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py)" = "15e373e3edc360d422e9f1465033d3fa708190ee"
+          test "$(git hash-object stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json)" = "281b94981f2de336575b32776d47fd3ea1efe890"
+          test "$(git hash-object stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py)" = "a287c2b362064495edbd592356076234240b97cd"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json)" = "6b0bceeb562433045449f928343ad5fcd9073af4"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json)" = "3498cd0656f86c1289b65cc4a8c6ab0318d69628"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py)" = "582432a2995d523c247808d39e0ff5ff14611c2a"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "7007272ae29955717da5e43d967991261e398d6b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py)" = "233f8ff186a4a0e691e5eef55668bfc042b784e4"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
@@ -156,6 +199,73 @@ jobs:
         with:
           python-version: '3.11.x'
 
+      - name: Gate V46 GRF04 x HPADJ22 bounded pilot
+        id: grf04_h22_joint_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py)" = "71742d4272b0a7356bdb2ac6a63a9da534bb26b2"
+            python - "$target" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_INTEGER_PILOT_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["script_blob_sha1"]=="71742d4272b0a7356bdb2ac6a63a9da534bb26b2"
+          assert p["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["max_d"]==16
+          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          PY
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout exact HPADJ22 source for V46 GRF04 joint pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-v46-joint
+          fetch-depth: 1
+
+      - name: Run V46 GRF04 integer projection x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py \
+            --source-root .stage32-ex5-hpadj22-v46-joint \
+            --output "$RUNNER_TEMP/v46-grf04-hpadj22-bounded.json"
+
+      - name: Validate V46 GRF04 x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/v46-grf04-hpadj22-bounded.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_INTEGER_PROJECTION_X_HPADJ22_BOUNDED_PILOT_V1"
+          assert p["scope"]["max_d"]==16
+          assert p["result"]["joint_bounded_exact_survivors"]<=p["result"]["hpadj22_bounded_exact_survivors"]
+          assert p["construction"]["min_of_counts_used"] is False
+          assert p["construction"]["raw_terminal_identity_materialized"] is False
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"result":p["result"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V46 GRF04 x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-bounded-pilot
+          path: ${{ runner.temp }}/v46-grf04-hpadj22-bounded.json
+          retention-days: 3
+          compression-level: 9
+
       - name: Replay hostile-audited V42 authority projection
         run: python .stage32-v42/stages/stage32/verify_main_startup.py
 
@@ -168,10 +278,19 @@ jobs:
       - name: Replay hostile-audited V44 HPADJ22 replacement boundary
         run: python .stage32-v44-replacement/stages/stage32/verify_main_startup.py
 
-      - name: Verify V45 HPADJ22 audit sync against audited V44 root
-        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py --v44-root .stage32-v44-replacement
+      - name: Replay hostile-audited merged V45 boundary
+        run: python .stage32-v45-merged/stages/stage32/verify_main_startup.py
 
-      - name: Verify Stage32 MAIN V45 audit-sync startup projection
+      - name: Verify V46 postmerge successor against merged V45 root
+        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py --v45-root .stage32-v45-merged
+
+      - name: Verify BR204 V46 current-authority consumer preflight
+        run: python stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py --bridge-root .stage32-bridge-br204-source
+
+      - name: Verify GRF04 x HPADJ22 e-independence preflight
+        run: python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py
+
+      - name: Verify Stage32 MAIN V46 successor startup projection
         run: python stages/stage32/verify_main_startup.py
 
       - name: Verify Stage32 cross-lane coordination
@@ -1903,7 +2022,7 @@ jobs:
           retention-days: 3
           compression-level: 9
 
-      - name: Enforce V44 successor scope
+      - name: Enforce V46 successor scope
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
@@ -1912,7 +2031,7 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json|stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json|stages/stage32/management/hpadj22-direct-full178/run_direct_band.py|stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py|stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
+              .github/workflows/stage32-main-startup-authority.yml|.github/workflows/stage32-main-grf04-hpadj22-full178.yml|docs/research-os/policies/verify_repo_workflow_trigger_inventory.py|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178.py|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json|stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json|stages/stage32/management/hpadj22-direct-full178/run_direct_band.py|stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py|stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py|stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json|stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
               *) echo "unexpected V44 successor path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
@@ -2590,3 +2709,153 @@ jobs:
           retention-days: 3
           compression-level: 9
 
+
+  grf04-h22-highd-authorize:
+    name: GRF04 x HPADJ22 high-d chunk authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          git show "$before:$key" > "$RUNNER_TEMP/highd-old.json"
+          python - "$RUNNER_TEMP/highd-old.json" "$key" <<'PY'
+          import json,sys
+          old=json.load(open(sys.argv[1])); p=json.load(open(sys.argv[2]))
+          assert old["schema"]==p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1"
+          assert old["generation"]==7
+          assert p["generation"]==8 and p["generation"]>old["generation"] and p["armed"] is True
+          assert p["execution_mode"]=="ROW177_BAND7_FOUR_BCHUNK_EXACT_AGGREGATE"
+          assert p["chunk_worker_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          assert p["aggregator_blob_sha1"]=="69213b46a56a0bff19ff5d20337443e591e832b0"
+          assert p["chunks"]==[[84,87],[88,90],[91,93],[94,96]]
+          assert p["row_index"]==177 and p["band_position"]==7
+          assert p["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==4
+          assert p["resource_preflight"]["artifact_count_upper_bound"]==5
+          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  grf04-h22-highd-chunks:
+    name: GRF04 x HPADJ22 high-d chunk ${{ matrix.chunk }} b${{ matrix.b_start }}-${{ matrix.b_stop }}
+    needs: grf04-h22-highd-authorize
+    if: needs.grf04-h22-highd-authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - chunk: 0
+            b_start: 84
+            b_stop: 87
+          - chunk: 1
+            b_start: 88
+            b_stop: 90
+          - chunk: 2
+            b_start: 91
+            b_stop: 93
+          - chunk: 3
+            b_start: 94
+            b_stop: 96
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-v46-highd-chunk
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Run exact high-d b-chunk
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py \
+            --source-root .stage32-ex5-hpadj22-v46-highd-chunk \
+            --b-start ${{ matrix.b_start }} --b-stop ${{ matrix.b_stop }} \
+            --output "$RUNNER_TEMP/highd-chunk-${{ matrix.chunk }}.json"
+      - name: Validate exact b-chunk certificate
+        run: |
+          python - "$RUNNER_TEMP/highd-chunk-${{ matrix.chunk }}.json" ${{ matrix.b_start }} ${{ matrix.b_stop }} <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1])); bs=int(sys.argv[2]); be=int(sys.argv[3])
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_BCHUNK_V1"
+          assert p["target"]["b_chunk"]==[bs,be]
+          assert p["result"]["partial_joint_exact_survivors"]<=p["result"]["partial_hpadj22_exact_survivors"]
+          assert p["firewalls"]["main_pruning_credit"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-highd-chunk-${{ matrix.chunk }}
+          path: ${{ runner.temp }}/highd-chunk-${{ matrix.chunk }}.json
+          retention-days: 2
+          compression-level: 9
+
+  grf04-h22-highd-aggregate:
+    name: GRF04 x HPADJ22 high-d exact aggregate
+    needs: grf04-h22-highd-chunks
+    if: needs.grf04-h22-highd-chunks.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-v46-grf04-hpadj22-highd-chunk-*
+          path: highd-chunks
+          merge-multiple: true
+      - name: Aggregate exact row177 band7 chunks
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py \
+            --chunks-root highd-chunks \
+            --output "$RUNNER_TEMP/highd-aggregate.json"
+      - name: Validate exact aggregate
+        run: |
+          python - "$RUNNER_TEMP/highd-aggregate.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["result"]["hpadj22_exact_survivors"]==236901807892797077
+          assert p["result"]["joint_exact_survivors"]<=p["result"]["hpadj22_exact_survivors"]
+          assert p["coverage"]=={"chunk_count":4,"expected_chunks":[[84,87],[88,90],[91,93],[94,96]],"gaps":0,"overlaps":0}
+          assert p["firewalls"]["main_pruning_credit"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-highd-bchunk-aggregate
+          path: ${{ runner.temp }}/highd-aggregate.json
+          retention-days: 3
+          compression-level: 9

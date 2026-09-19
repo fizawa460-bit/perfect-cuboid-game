@@ -1,0 +1,252 @@
+name: Stage32 MAIN GRF04 x HPADJ22 FULL178
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-main-grf04-hpadj22-full178.yml'
+      - 'stages/stage32/management/grf04-hpadj22-joint/**'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-main-grf04-hpadj22-full178-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  authorize:
+    name: FULL178 authorize
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+      carry_run_id: ${{ steps.gate.outputs.carry_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          echo "carry_run_id=0" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          git show "$before:$key" > "$RUNNER_TEMP/old-runkey.json" || true
+          python - "$RUNNER_TEMP/old-runkey.json" "$key" <<'PY'
+          import json,sys,pathlib
+          oldp=pathlib.Path(sys.argv[1])
+          p=json.load(open(sys.argv[2]))
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V1"
+          assert p["generation"]>=1 and p["armed"] is True
+          if oldp.exists() and oldp.stat().st_size:
+              old=json.load(open(oldp))
+              assert old["schema"]==p["schema"]
+              assert p["generation"]>old["generation"]
+          else:
+              assert p["generation"]==1
+          s=p["source_locks"]
+          assert s["production_worker_blob_sha1"]=="c9fbf71242581f096718ebf0dbc9ac88878c91f1"
+          assert s["aggregator_blob_sha1"]=="546b8285ab90e2f9ebf4f3ddaead132565fb950b"
+          assert s["highd_helper_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          assert s["highd_generation8_retained_blob_sha1"]=="d154b3cff576c2d5a2853be88e77cf6d195e7490"
+          assert s["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["benchmark_gate"]["strict"] is True
+          assert p["benchmark_gate"]["aggregate_canonical_sha256"]=="7f1acd8a9033ce0c45674f96a816357e7784630cf4e6f77828102abc5a53f3dc"
+          assert p["partition"]["parents"]==32
+          assert p["partition"]["computed_row_chunk_certificates"]==2967
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==4 <= p["resource_preflight"]["repo_stage_heavy_cap"]
+          assert p["resource_preflight"]["artifact_count_upper_bound"]==33 < 100
+          assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=40
+          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          print("carry_run_id="+str(int(p["carry"]["predecessor_run_id"])))
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178.py)" = "546b8285ab90e2f9ebf4f3ddaead132565fb950b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json)" = "d154b3cff576c2d5a2853be88e77cf6d195e7490"
+          carry="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["predecessor_run_id"]))')"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+          echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
+
+  parents:
+    name: FULL178 parent b${{ matrix.band }} c${{ matrix.chunk }}
+    needs: authorize
+    if: needs.authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - band: 0
+            chunk: 0
+          - band: 0
+            chunk: 1
+          - band: 0
+            chunk: 2
+          - band: 0
+            chunk: 3
+          - band: 1
+            chunk: 0
+          - band: 1
+            chunk: 1
+          - band: 1
+            chunk: 2
+          - band: 1
+            chunk: 3
+          - band: 2
+            chunk: 0
+          - band: 2
+            chunk: 1
+          - band: 2
+            chunk: 2
+          - band: 2
+            chunk: 3
+          - band: 3
+            chunk: 0
+          - band: 3
+            chunk: 1
+          - band: 3
+            chunk: 2
+          - band: 3
+            chunk: 3
+          - band: 4
+            chunk: 0
+          - band: 4
+            chunk: 1
+          - band: 4
+            chunk: 2
+          - band: 4
+            chunk: 3
+          - band: 5
+            chunk: 0
+          - band: 5
+            chunk: 1
+          - band: 5
+            chunk: 2
+          - band: 5
+            chunk: 3
+          - band: 6
+            chunk: 0
+          - band: 6
+            chunk: 1
+          - band: 6
+            chunk: 2
+          - band: 6
+            chunk: 3
+          - band: 7
+            chunk: 0
+          - band: 7
+            chunk: 1
+          - band: 7
+            chunk: 2
+          - band: 7
+            chunk: 3
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Fetch predecessor parent carry artifact
+        if: needs.authorize.outputs.carry_run_id != '0'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-parent-${{ matrix.band }}-${{ matrix.chunk }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.carry_run_id }}
+          github-token: ${{ github.token }}
+      - name: Run resumable exact parent with soft wall
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/full178-parent"
+          carry=()
+          if [ -d carry-parent ]; then carry=(--carry-root carry-parent); fi
+          set +e
+          timeout --signal=TERM --kill-after=60s 78m \
+            python stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py \
+              --source-root .stage32-ex5-hpadj22-full178 \
+              --band-position ${{ matrix.band }} \
+              --chunk-position ${{ matrix.chunk }} \
+              --output-dir "$RUNNER_TEMP/full178-parent" \
+              --expected-worker-blob c9fbf71242581f096718ebf0dbc9ac88878c91f1 \
+              "${carry[@]}"
+          code=$?
+          set -e
+          if [ "$code" -ne 0 ]; then
+            echo "parent compute incomplete code=$code; completed row certificates will still be uploaded"
+            exit "$code"
+          fi
+      - name: Upload parent checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-parent-${{ matrix.band }}-${{ matrix.chunk }}
+          path: ${{ runner.temp }}/full178-parent
+          if-no-files-found: warn
+          retention-days: 2
+          compression-level: 9
+
+  aggregate:
+    name: FULL178 exact aggregate
+    needs: parents
+    if: needs.parents.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-v46-grf04-hpadj22-full178-parent-*
+          path: full178-parents
+      - name: Aggregate exact 32-parent union
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178.py \
+            --parents-root full178-parents \
+            --output "$RUNNER_TEMP/grf04-hpadj22-full178.json"
+      - name: Validate aggregate firewalls
+        run: |
+          python - "$RUNNER_TEMP/grf04-hpadj22-full178.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_AGGREGATE_V1"
+          assert p["coverage"]["parents"]==32 and p["coverage"]["row_chunk_certificates"]==2967
+          assert p["coverage"]["gaps"]==0 and p["coverage"]["overlaps"]==0
+          assert p["totals"]["hpadj22_exact_survivors"]=="138652739800650593494"
+          assert int(p["totals"]["joint_exact_survivors"])<=int(p["totals"]["hpadj22_exact_survivors"])
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["hostile_audit_required_before_promotion"] is True
+          assert p["firewalls"]["merge_authorized"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-aggregate
+          path: ${{ runner.temp }}/grf04-hpadj22-full178.json
+          retention-days: 3
+          compression-level: 9
