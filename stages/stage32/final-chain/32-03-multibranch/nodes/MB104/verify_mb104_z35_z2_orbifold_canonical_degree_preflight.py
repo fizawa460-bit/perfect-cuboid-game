@@ -21,6 +21,16 @@ assert s["nef_for_nonempty_boundary"] is False
 assert l["normal_log_pair_generality"] is True
 assert l["local_orbifold_terms_required"] is True
 assert l["current_local_correction_source_complete"] is False
+sc=l["log_canonicity_scaling"]
+assert sc["strict_transform_class"]=="7lH-4l*sum_E"
+assert sc["total_transform_exceptional_coefficient"]=="4l"
+assert sc["exceptional_discrepancy"]=="-4*alpha*l"
+assert sc["alpha_upper_bound"]=="1/(4l)"
+assert sc["beta_definition"]=="beta=alpha*l"
+assert sc["beta_upper_bound"]=="1/4"
+assert sc["log_pair_square"]=="16*(1+7*beta)^2"
+assert sc["log_pair_square_independent_of_l"] is True
+assert sc["degree_cutting_requires_controlled_local_orbifold_terms"] is True
 assert d["disposition"]=="PARK_Z2_AT_NUMERICAL_POSITIVITY_AND_LOCAL_ORBIFOLD_INPUT_WALLS"
 assert d["next_leaf"]=="MB104-Z36-Z4P-FORCED-ORDINARY-SINGULARITY-LOCALIZATION-PREFLIGHT"
 assert all(v is False for v in d["firewalls"].values())
@@ -29,3 +39,4 @@ print("PASS: Z35/Z2 orbifold/open canonical-degree theorem preflight")
 print("for every exceptional boundary subset: (K+D)^2-e(S\\D)=-64")
 print("nonempty exceptional boundary also makes K+D non-nef")
 print("normal-pair Langer route returns to missing local orbifold correction data")
+print("lc scaling: alpha<=1/(4l), so (K+alpha*C)^2=16*(1+7*beta)^2 with beta=alpha*l")
