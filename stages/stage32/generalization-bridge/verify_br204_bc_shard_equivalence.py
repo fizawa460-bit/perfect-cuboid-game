@@ -21,6 +21,7 @@ def main() -> None:
     ap.add_argument("--b",type=int,default=0)
     ap.add_argument("--d",type=int,default=8)
     ap.add_argument("--shard-count",type=int,default=16)
+    ap.add_argument("--include-dir",action="append",default=[])
     a=ap.parse_args()
     req(a.shard_count==16,"retained preflight requires exactly 16 BC shards")
     source=Path(a.worker_source); combiner=Path(a.combiner)
@@ -29,7 +30,10 @@ def main() -> None:
     req(len(worker_blob)==40,"worker blob")
     with tempfile.TemporaryDirectory() as td:
         root=Path(td); exe=root/"worker"; shards=root/"shards"; shards.mkdir()
-        run(["g++","-O2","-std=c++20",str(source),"-o",str(exe)])
+        cc=["g++","-O2","-std=c++20"]
+        for inc in a.include_dir: cc += ["-I",inc]
+        cc += [str(source),"-o",str(exe)]
+        run(cc)
         direct=root/"direct.tsv"
         run([str(exe),"--b",str(a.b),"--d-lo",str(a.d),"--d-hi",str(a.d),
              "--worker-blob",worker_blob,"--out",str(direct)])
