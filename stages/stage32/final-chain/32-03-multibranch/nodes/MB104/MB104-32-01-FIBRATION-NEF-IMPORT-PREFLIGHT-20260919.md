@@ -31,16 +31,23 @@ retained rank-64 Picard marking,
 H^perp exact quadratic form,
 Aut(S) action,
 six recovered fibration base-locus cells,
-the six isotropic divisor classes
-F_j = H - sum_(i in B_j) E_i,
+the six rank-3 aggregate classes
+D_j = H - sum_(i in B_j) E_i,
+with true genus-5 fiber class G_j satisfying 2G_j=D_j,
 Picard image-lattice / HNF machinery.
 ```
 
 For every cell `B_j`, `|B_j|=8`, so on the degree-16 cuboid resolution
 
 ```text
-F_j^2 = 16 - 2*8 = 0,
-H.F_j = 16.
+D_j^2 = 16 - 2*8 = 0,
+H.D_j = 16,
+G_j^2=0,
+H.G_j=8.
+
+Source correction: Stoll--Testa Section 5 states explicitly that for each rank-3 quadric
+twice the fiber class is the hyperplane class minus the eight exceptional curves in the base locus.
+The 32-01 aggregate class D_j is therefore 2G_j, not G_j itself.
 ```
 
 The six cells partition the 48 exceptional curves.
@@ -131,16 +138,17 @@ P^2=336,
 H.P=112,
 ```
 
-and one fibration class
+and one rank-3 aggregate class
 
 ```text
-F_j = H - sum_(i in B_j) E_i,
+D_j = H - sum_(i in B_j) E_i = 2G_j,
 ```
 
 we have
 
 ```text
-P.F_j = 7*16 - 8*k_j = 112 - 8*k_j.          (FIB-DEG)
+P.D_j = 112 - 8*k_j,
+P.G_j = 56 - 4*k_j.                            (FIB-DEG)
 ```
 
 Hence for a hypothetical carrier
@@ -160,7 +168,7 @@ f_j:E -> P1
 of degree
 
 ```text
-deg(f_j)=l(112-8k_j).
+deg(f_j)=l(56-4k_j).
 ```
 
 ### size48 support pair
@@ -168,15 +176,15 @@ deg(f_j)=l(112-8k_j).
 For `(8,0,0,6,0,0)`:
 
 ```text
-(P.F_0,...,P.F_5)
+(P.G_0,...,P.G_5)
 =
-(48,112,112,64,112,112).
+(24,56,56,32,56,56).
 ```
 
 Thus the six elliptic-cover degrees are
 
 ```text
-(48l,112l,112l,64l,112l,112l).
+(24l,56l,56l,32l,56l,56l).
 ```
 
 ### size768 survivor
@@ -184,15 +192,15 @@ Thus the six elliptic-cover degrees are
 For `(4,4,0,3,3,0)`:
 
 ```text
-(P.F_0,...,P.F_5)
+(P.G_0,...,P.G_5)
 =
-(80,80,112,88,88,112).
+(40,40,56,44,44,56).
 ```
 
 Thus
 
 ```text
-(80l,80l,112l,88l,88l,112l).
+(40l,40l,56l,44l,44l,56l).
 ```
 
 These are genuinely new exact MB observables imported from the 32-01 fibration geometry.
@@ -266,7 +274,7 @@ ramification divisor of the chosen projection/fibration.
 For the imported fibration `f_j:E->P1`, Riemann--Hurwitz on the elliptic normalization gives
 
 ```text
-deg R_j = 2 deg(f_j) = 2l(P.F_j).
+deg R_j = 2 deg(f_j) = 2l(P.G_j).
 ```
 
 Therefore the candidate exact global relation has degree
@@ -274,17 +282,17 @@ Therefore the candidate exact global relation has degree
 ```text
 deg(Polar_j|E)
 =
-336l^2+112l + 2l(P.F_j).                       (POLAR-DEG)
+336l^2+112l + 2l(P.G_j).                       (POLAR-DEG)
 ```
 
 The smallest ramification budgets are:
 
 ```text
 size48:
-  min_j deg R_j = 96l;
+  min_j deg R_j = 48l;
 
 size768:
-  min_j deg R_j = 160l.
+  min_j deg R_j = 80l.
 ```
 
 This is a qualitatively new asymptotic separation:
@@ -376,7 +384,7 @@ Any of A/B/C would be a real 32-01 -> 32-03 mathematical import.
 ### HIGH
 
 ```text
-six fibration classes F_j
+six true fiber classes G_j
 +
 Z48 conductor/different
 +
@@ -441,3 +449,20 @@ endpoint_credit_changed=false
 MB104_complete=false
 merge_authorized=false
 ```
+
+
+## Source correction / extension discovered in the continuation pass
+
+Stoll--Testa Section 5 gives a larger source-complete fibration inventory:
+
+```text
+6 rank-3-quadric genus-5 fibrations
++
+2*11 rank-4-quadric genus-5 fibrations
+=
+28 fibrations total.
+```
+
+For the six rank-3 fibrations used above, the correction `2G_j=D_j` is now applied throughout.
+The remaining 22 rank-4 fibrations are not yet included in the numerical profile above and are the
+next import target.
