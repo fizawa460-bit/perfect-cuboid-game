@@ -228,26 +228,36 @@
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6o_modular_fixed_point_branch_label_adapter_preflight.py",
       "verifier_blob": "71f9a7064e49f763d8251b73ba6b9c601c60b792",
       "result": "Freitag--Salvati Manni identifies the three diagonal X(2) cusp/stabilizer types but the inspected source does not supply an exact Stage32 node-index to ordered factorwise X(4) branch-value table; producing one requires a new modular cusp computation, so P6N incidence remains parked"
+    },
+    "p6p_elliptic_two_pencil_wronskian_rigidity_preflight": {
+      "status": "PRE_AUDIT_EXACT_INPUT_STRENGTH_WALL_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6P-ELLIPTIC-TWO-PENCIL-WRONSKIAN-RIGIDITY-PREFLIGHT-WALL-20260919.md",
+      "note_blob": "1d61fc62a0e5824917f339ba76caa30f6931ef08",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6P-ELLIPTIC-TWO-PENCIL-WRONSKIAN-RIGIDITY-PREFLIGHT-CERTIFICATE.json",
+      "certificate_blob": "3e4adc51259067319bd23388a75eb6459b2f6752",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6p_elliptic_two_pencil_wronskian_rigidity_preflight.py",
+      "verifier_blob": "7b91f17297857ce193362e6be93418ed7df5455e",
+      "result": "on the elliptic normalization every pencil in the common line bundle M has full ramification divisor class M^2; P6H/P6K provide only full/typewise divisor-class data, not equality of actual Wronskian divisors, so no finite or automorphism-related pencil classification follows"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 P6P elliptic two-pencil Wronskian rigidity preflight",
-    "active_leaf": "MB104-P6P-ELLIPTIC-TWO-PENCIL-WRONSKIAN-RIGIDITY-PREFLIGHT",
-    "required_input": "Use P6H/P6K only: the two degree-56l maps psi1,psi2:E->P1 live in the same line bundle M on the elliptic normalization, with typewise ramification divisor classes matched. Determine whether a source-complete Wronskian/ramification theorem makes the pair finite or automorphism-related.",
+    "title": "MB104 P6Q two-pencil Nielsen coupling preflight",
+    "active_leaf": "MB104-P6Q-TWO-PENCIL-NIELSEN-COUPLING-PREFLIGHT",
+    "required_input": "Use the exact P6D2/P6H common-cover package: the two degree-56l six-branch maps psi1,psi2:E->P1 reconstruct the same labelled G=(Z/2)^3 cover Z->E. Determine whether this gives a simultaneous Nielsen-class constraint stronger than the three character square classes already frozen in P6K.",
     "success_shapes": [
-      "derive a finite or automorphism-related classification of compatible pencils from the shared M and retained ramification data",
-      "show the relevant Wronski map has positive-dimensional fibres or the retained data are too weak, record the wall, and rotate",
-      "derive a packet-sensitive extra divisor constraint strictly stronger than P6H/P6K"
+      "derive an exact coupled monodromy invariant that rules out the hostile passport or reduces it to a finite exact family",
+      "show simultaneous Nielsen compatibility is equivalent to the already-retained labelled character subcovers/square classes and park the route",
+      "identify a new packet-sensitive finite datum that can be computed without factorwise branch labels"
     ],
     "must_not_repeat": [
-      "assume equal line bundles imply equal pencils",
-      "replace ramification divisor-class equality by pointwise divisor equality",
-      "reopen one-factor Hurwitz counts",
-      "reopen branch-value labels without a new modular adapter",
+      "one-factor passport enumeration already closed negatively by P6G",
+      "repackage the three P6K square-class equalities as a new invariant",
+      "guess individual branch-value labels",
+      "assume equal line bundles imply equal monodromy",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If generic dimension or an explicit family shows shared M plus ramification-class data allow unbounded pencil pairs, freeze P6P without deeper Brill-Noether classification."
+    "fallback_after_gate": "If the common-cover Nielsen condition has no invariant beyond the labelled character subcovers already retained, freeze P6Q immediately."
   },
   "routing": {
     "independent_of_full178_execution": true,
