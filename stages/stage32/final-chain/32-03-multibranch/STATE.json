@@ -479,25 +479,32 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z48-EXPLICIT-NEGATIVE-ELLIPTIC-NEIGHBORHOOD-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z48_explicit_negative_elliptic_neighborhood.py",
       "result": "all retained (-4) elliptic quartics have exact j=1728 and N_Q/S=O_Q(-H)=O_Q(-4p); negative component neighborhoods reduce to explicit linearized models, shrinking Z43 analytic ambiguity to marked plumbing/gluing"
+    },
+    "z49_canonical_cover_discriminant_character": {
+      "status": "PRE_AUDIT_EXACT_TOPOLOGICAL_CLASS_GROUP_COVER_REDUCTION_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z49-CANONICAL-COVER-DISCRIMINANT-CHARACTER-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z49-CANONICAL-COVER-DISCRIMINANT-CHARACTER-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z49_canonical_cover_discriminant_character.py",
+      "result": "size48 discriminant group Z/24 and size768 Z/33; exact canonical discrepancy class has order3, giving a unique degree-three discriminant-cover direction up to deck inversion; analytic holomorphic lift remains to be fixed"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z49 explicit plumbing canonical-cover preflight",
-    "active_leaf": "MB104-Z49-EXPLICIT-PLUMBING-CANONICAL-COVER-PREFLIGHT",
-    "required_input": "Start with one size-48 Q-E-Q contraction component. Use the explicit j=1728 elliptic equations, N=O(-4p), one marked attachment point per elliptic component, the -2 bridge, and exact index-3 discrepancy data. Determine the remaining plumbing moduli and whether the local canonical algebra/index-one cover can be explicitly reconstructed.",
+    "title": "MB104 Z49B size48 plumbing index3 holomorphic lift",
+    "active_leaf": "MB104-Z49B-SIZE48-PLUMBING-INDEX3-HOLOMORPHIC-LIFT",
+    "required_input": "Use one size48 Q-E-Q component with j=1728, N_Q=O(-4p), P1(-2) bridge, exact one-point attachments and equal nonzero Z/3 meridian character. Write explicit plumbing transitions and classify holomorphic lifts of the unique topological degree-three canonical cover.",
     "success_shapes": [
-      "source-complete explicit local canonical algebra and degree-three cover model",
-      "finite explicit plumbing modulus set with a bounded exact follow-up",
-      "proof that a named residual plumbing modulus remains and identification of the exact extra source datum needed"
+      "unique holomorphic lift and explicit canonical-cover local model",
+      "finite list of holomorphic lifts with exact cuboid selection rule",
+      "one named residual modulus with an exact formula from transition functions"
     ],
     "must_not_repeat": [
-      "infer analytic type from graph alone",
-      "import quotient/lc/klt local Euler formulas",
-      "restate generic canonical-cover existence",
-      "return to formal Picard restriction of O(P)"
+      "graph-only analytic classification",
+      "generic canonical-cover existence",
+      "local Euler formula before holomorphic lift is fixed",
+      "formal Picard restriction of O(P)"
     ],
-    "fallback_after_gate": "If size48 plumbing retains an uncontrolled modulus, compute and name it exactly; then test whether the explicit cuboid quartic/bridge equations fix it before parking."
+    "fallback_after_gate": "If a residual modulus remains, compute its parameter space and identify the exact cuboid coordinate datum that evaluates it."
   },
   "routing": {
     "independent_of_full178_execution": true,
