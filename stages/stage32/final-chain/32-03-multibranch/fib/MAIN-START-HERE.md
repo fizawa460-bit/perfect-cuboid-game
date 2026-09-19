@@ -2,7 +2,7 @@
 
 This is the single startup contract for the short operator command `stage32mb-fib`.
 
-MB-FIB is an auxiliary producer for 32-03 multibranch / MB104. It is not the ordinary MB controller. Its purpose is to run bounded fibration/Picard64 work in parallel without moving, freezing, or auditing the `stage32mb-mainbatch` active leaf.
+MB-FIB is an MB-local auxiliary producer subroute for 32-03 multibranch / MB104. It is intentionally not a separate Stage32 claim-DAG lane. It is not the ordinary MB controller. Its purpose is to run bounded fibration/Picard64 work in parallel without moving, freezing, or auditing the `stage32mb-mainbatch` active leaf.
 
 ## Command modes
 
@@ -22,7 +22,7 @@ Read only, in this order:
 1. `AGENTS.md`;
 2. this file;
 3. current `stages/stage32/MAIN-STATE.json`;
-4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json`, restricted to demands involving lane `MB-FIB`;
+4. current `stages/stage32/proof/CROSS-LANE-DEMANDS.json`, restricted to MB demands that explicitly overlap this fibration-shell semantic route or impose a shared Stage32 safety block;
 5. `stages/stage32/final-chain/32-03-multibranch/fib/STATE.json`;
 6. only the exact source/evidence paths named by the active MB-FIB leaf.
 
@@ -30,7 +30,7 @@ Do not preload the ordinary MB STATE or MB history. Read the MB lane only when t
 
 ## Ownership boundary
 
-MB-FIB owns only the auxiliary fibration/Picard64 producer route selected by its own STATE. It may import exact mathematics or source-locked code from archived MB or 32-01 assets, but it does not inherit their operational authority.
+MB-FIB owns only the auxiliary fibration/Picard64 producer subroute selected by its own STATE. It is not enrolled in `LANE-ADAPTERS.json` and therefore does not create a new claim-DAG lane identity. It may import exact mathematics or source-locked code from archived MB or 32-01 assets, but it does not inherit their operational authority.
 
 MB-FIB does not own:
 
