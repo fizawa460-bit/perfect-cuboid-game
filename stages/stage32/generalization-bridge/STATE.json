@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V12_AUDIT5247651937_REPAIRED",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V13_BR204_GENERATION2_FINER_PARTITION_PREFLIGHT",
   "mission_id": "stage32-generalization-bridge",
   "status": "ACTIVE_RESEARCH_NO_CREDIT",
   "current_node": "BR204",
-  "active_leaf": "BR204_AUDIT5247651937_BLOCKERS_REPAIRED__EXACT_HEAD_REPLAY_AND_SEPARATE_REAUDIT_REQUIRED",
+  "active_leaf": "BR204_GENERATION2_BC_SHARD_FINER_PARTITION_IMPLEMENTATION__AUDIT_REQUIRED_BEFORE_ARM",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -79,15 +79,15 @@
     "scope": "previous push-trigger cold doorstep; generation-1 run 35299814222 was cancelled after discovering missing intra-unit checkpoint durability"
   },
   "live_main_refresh": {
-    "status": "PASS_MERGED_V43_HPADJ21_NUMERICAL_AUTHORITY",
+    "status": "PASS_REFRESHED_TO_V45_HPADJ22_NUMERICAL_AUTHORITY_FOR_GENERATION2_PREFLIGHT",
     "audited_numeric_main_pr": 1822,
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
     "merged_v43_pr": 1822,
     "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
-    "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
+    "repository_main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c",
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": "157570677819451133507",
+    "authoritative_remaining_terminals": "138652739800650600000",
     "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "v43_additional_pruning": 0
   },
@@ -160,26 +160,14 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "node_id": "BR204",
-    "title": "replay and separately re-audit the BR204 cold doorstep after audit 5247651937 blocker repairs",
-    "required_input": "Exact-head retained replay must pass with generation 0 / armed false and must assert the branch-push arm_contract plus current qBC addendum contract/finalizer source locks.",
-    "success": "Exact-head replay green; then separate HOSTILE AUDIT PASS on unchanged repaired cold head before generation-1 runkey-only push.",
-    "current_blockers": [
-      "exact-head retained replay/shared gates must be green after audit 5247651937 repairs",
-      "repaired cold head requires separate hostile re-audit",
-      "runkey must remain generation 0 / armed false until re-audit PASS"
-    ],
-    "stop_conditions": [
-      "heavy workflow starts from a non-execution cold/setup commit",
-      "generation-1 push commit is not a dedicated runkey-only child of the audited rebuilt cold head",
-      "arm/resume runkey does not record Stage32 overlap or 12 + observed_other_heavy_concurrency exceeds 18",
-      "artifact retrieval does not explicitly paginate when predecessor/current population may exceed one page",
-      "partial single-d checkpoints are not source-lock validated before reuse",
-      "SINGLE_D_TIMEOUT is blindly retried without a finer exact partition",
-      "repository main/source locks move",
-      "raw 4.1M-state persistence or terminal identity materialization becomes necessary",
-      "predecessor expected durable artifact count/identity cannot be reconciled with paginated retrieved and validated recovery evidence",
-      "finalizer failure or upload_safe=false can reach a complete/partial recovery payload upload"
+    "id": "BR204_GENERATION2_FINER_PARTITION_IMPLEMENTATION",
+    "status": "OPEN",
+    "requirements": [
+      "Implement exact 16-way BC shard worker selection and fail-closed shard union.",
+      "Add direct-vs-sharded fixed-(b,d) byte-equivalence regression.",
+      "Make finer-shard recovery durable and missing-shard-only.",
+      "Refresh execution/runkey/workflow source locks to V45 without arming heavy compute.",
+      "Obtain exact-head retained replay SUCCESS and hostile audit PASS before generation-2 arm."
     ]
   },
   "transition_policy": {
@@ -336,5 +324,20 @@
     "latest_hold_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
     "latest_hold_review_id": 5247651937,
     "latest_hold_blockers_repaired_in_current_cold_surface": true
+  },
+  "generation1_recovery_checkpoint": {
+    "path": "stages/stage32/generalization-bridge/BR204-GENERATION1-RECOVERY-CHECKPOINT.json",
+    "blob": "50927eedc565e148f95ddf17406bfb94a37f0e64",
+    "run_id": 35344605175,
+    "execution_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
+    "status": "FROZEN_DURABLE_EVIDENCE__FINER_PARTITION_REQUIRED__ZERO_CREDIT"
+  },
+  "generation2_finer_partition_preflight": {
+    "path": "stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json",
+    "status": "PREFLIGHT_ONLY__NOT_IMPLEMENTED__NOT_AUDITED__HEAVY_UNAUTHORIZED",
+    "child_quantum": "b_x_d_x_bc_shard",
+    "bc_shard_count": 16,
+    "exact_union_required": true,
+    "direct_vs_sharded_byte_equivalence_required": true
   }
 }
