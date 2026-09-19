@@ -189,7 +189,7 @@ def main():
                 "full_b_interval":list(FULL_INTERVAL),"b_chunk":[a.b_start,a.b_stop]},
       "source_locks":{"hpadj22_source_head":SOURCE_HEAD,"direct_count_blob_sha1":DIRECT_BLOB,
         "integer_projection_verifier_blob_sha1":PROJECTION_BLOB,
-        "e_independence_verifier_blob_sha1":E_VERIFY,"old_hpadj22_worker_blob_sha1":direct.OLD_BLOB},
+        "e_independence_verifier_blob_sha1":E_VERIFY_BLOB,"old_hpadj22_worker_blob_sha1":direct.OLD_BLOB},
       "exactness":{"partial_b_partition_only":True,"hpadj22_partial_exact":True,
         "integer_t_sublevel_contiguity_checked":True,"x4_intersection_exact":True,
         "e_independence_used":True,"qbc_weighted_intersection_cached_outside_a_loop":True,
