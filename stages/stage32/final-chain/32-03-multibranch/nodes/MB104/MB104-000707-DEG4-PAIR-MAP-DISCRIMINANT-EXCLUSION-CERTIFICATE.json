@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_DISCRIMINANT_EXCLUSION_V1",
-  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN",
+  "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_DISCRIMINANT_EXCLUSION_V2",
+  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN_ZERO_EXCLUSION_CREDIT",
   "support_mask": "000707000f0f",
   "pair_map": {
     "degree": 4,
@@ -15,33 +15,39 @@
   "restriction_cases": {
     "r4": {
       "excluded": false,
-      "source": "previous_pair_map_reduction"
+      "source": "corrected_pair_map_restriction_v2"
     },
     "r3": {
       "excluded": false,
-      "source": "previous_pair_map_reduction"
+      "source": "corrected_pair_map_restriction_v2"
     },
     "r2": {
       "C_dot_Q_over_l2": 1104,
       "two_C_dot_Q_over_l2": 2208,
-      "discriminant_degree_over_l": 688,
+      "conditional_discriminant_degree_over_l": 688,
       "excluded": false
     },
     "r1": {
       "C_dot_Q_over_l2": 2544,
       "two_C_dot_Q_over_l2": 5088,
-      "discriminant_degree_over_l": 1376,
+      "conditional_discriminant_degree_over_l": 1376,
       "excluded": false
     }
   },
   "discriminant_formula": "disc(fg)=disc(f)disc(g)Res(f,g)^2",
   "conclusion": {
     "excluded_orbit": null,
-    "excluded_orbit_size": 768,
+    "excluded_orbit_size": 0,
     "remaining_orbits": [
       "0000770000ff",
-      "00007b0000ff"
+      "00007b0000ff",
+      "000707000f0f"
     ],
+    "remaining_orbit_sizes": {
+      "0000770000ff": 48,
+      "00007b0000ff": 48,
+      "000707000f0f": 768
+    },
     "remaining_support_count": 864
   },
   "source_gate": {
