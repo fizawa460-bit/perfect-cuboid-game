@@ -44,29 +44,40 @@
       "finite_reduction_certificate_blob": "b6035b2e525a08ab0fc028e1e1f81519548e1a5b",
       "orbit_note_blob": "c3bcc580b5bd43b7805c7227c7420445f14c4b8c",
       "orbit_certificate_blob": "3bc4453affce96e87a60864c99f745bb4c28c794"
+    },
+    "z33a_simple_contact": {
+      "status": "PRE_AUDIT_EXACT_FINITE_ORBIT_SCAN_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z33A-SPAN5-SIMPLE-CONTACT-ORBIT-SCAN-20260919.md",
+      "note_blob": "2483de9c5c4da33e331f0b5b75ceb96f7304411d",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z33A-SPAN5-SIMPLE-CONTACT-ORBIT-CERTIFICATE.json",
+      "certificate_blob": "fc66b5df676660798417e11f194b68e950f3bc98",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z33a_span5_simple_contact_orbits.py",
+      "verifier_blob": "c685a01cd2b9ef48e254c7dbbae4975f1f84c936",
+      "result": "all 12 archived span-five hyperplane orbits scanned exactly for Z33 simple-contact compatibility; incidence-14 orbit size 96 is excluded from the unbounded Z33 sector; incidence-16 size-3 forces T=0 and all branches (A,B)=(1,1); remaining orbits survive this gate",
+      "whole_span5_closed": false
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z33 span-five simple-contact hyperplane-orbit gate",
-    "active_leaf": "MB104-Z33-SPAN5-HYPERPLANE-ORBIT-SIMPLE-CONTACT",
-    "required_input": "Use the audited predecessor Z33 equality package through exact source ref b28adadc... and consume archived span-five orbit geometry only through exact archive head ae6ce8e... . Begin with the two incidence-24 eight-conic hyperplane orbits.",
+    "title": "MB104 Z33B span-five survivor global-compatibility gate",
+    "active_leaf": "MB104-Z33B-SPAN5-SURVIVOR-GLOBAL-COMPATIBILITY",
+    "required_input": "Consume Z33A only after replay against exact audited predecessor b28adadc... and archive ae6ce8e... . Start from the strongest surviving packets: incidence-16 size-3 (all branches diagonal (1,1)) and incidence-16 size-24 (one surviving fixed bin per node).",
     "success_shapes": [
-      "materialize the local A1 chart adapter from an incidence-24 hyperplane representative to the two fixed non-diagonal landing directions and classify which directions survive Z33 equality",
-      "derive an orbitwise surviving-bin bound and combine it with Z14 collision/delta accounting",
-      "derive an irreducibility/component obstruction for arbitrary unequal M_i=r_i with sum M_i=d using the eight-conic section geometry",
-      "freeze an exact feasible incidence-24 packet and continue through incidence 20,19,16,15,14 without generic N-by-N search"
+      "derive a genuinely global compatibility obstruction from the all-diagonal / one-fixed-bin survivor packets without treating finitely many forbidden lambda values as a contradiction",
+      "connect Z33 reduced node divisor and section-component orthogonality to primitive support-Hilbert growth or another population-wide invariant",
+      "if no global strengthening appears at the shallow gate, freeze the exact span-five survivor wall and route to the genus-one full-span P6 sector"
     ],
     "must_not_repeat": [
       "finite forbidden lambda values as a contradiction",
+      "fixed finite jet-depth arguments",
       "assume arbitrary local landing choices globalize",
       "reopen bare X(8) etale correspondence finiteness or Bolza degree-index routes",
       "assume uniform exceptional coefficients",
-      "fixed finite jet-depth arguments",
+      "return to N10",
       "read archive-only sources from current ROOT without explicit exact-head archive root",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If all span-five hyperplane orbits remain feasible under simple-contact geometry, retain the exact wall and return to primitive graded support-Hilbert growth or the genus-one full-span P6 sector. Do not return to N10."
+    "fallback_after_gate": "If the strongest incidence-16 survivor packets still admit arbitrary diagonal lambda at the global-compatibility gate, park span-five simple-contact and move to genus-one full-span P6; primitive graded support-Hilbert growth remains the only span-five reopen trigger."
   },
   "routing": {
     "independent_of_full178_execution": true,
