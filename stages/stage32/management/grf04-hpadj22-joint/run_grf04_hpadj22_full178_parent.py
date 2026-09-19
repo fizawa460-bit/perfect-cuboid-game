@@ -53,7 +53,7 @@ def validate_carry(p:Path,*,worker_blob:str,band:int,chunk:int,b0:int,b1:int,row
     if int(r.get("joint_exact_survivors",-1))>int(r.get("hpadj22_exact_survivors",-2)):return None
     return d0
 
-def compute_row(hd,old,ctx,joint,*,worker_blob,band,chunk,b0,b1,row_index):
+def compute_row(hd,old,ctx,joint,shared_intervals,*,worker_blob,band,chunk,b0,b1,row_index):
     bc,bnd,h21,h18,h16,p15,p14,counter,rows,rejected,profiles,classes_gt2,tuples_above_second=ctx
     row_id,g0,d0=rows[row_index];g,d=int(g0),int(d0);h=d//2
     req(h>=b0,"compute_row called for implicit-zero row")
@@ -89,9 +89,8 @@ def compute_row(hd,old,ctx,joint,*,worker_blob,band,chunk,b0,b1,row_index):
         if c3<0:continue
 
         tp=time.perf_counter()
-        intervals=hd.interval_table(hd.load(hd.PROJECTION,hd.PROJECTION_BLOB,"v46_full178_proj_tmp"),b,c,qkeys) if False else None
-        # projection module is attached by caller after load; avoid repeated imports.
-        intervals=hd.interval_table(hd._full178_projection,b,c,qkeys);interval_keys+=len(intervals)
+        intervals=shared_intervals[(b,c)]
+        interval_keys+=sum(1 for q in qkeys if q in intervals)
         points=hd.x4_points(h16,h,g,b,c)
         eligible={};picard={}
         for parity in (0,1):
@@ -207,10 +206,25 @@ def main():
     t0=time.perf_counter()
     joint=ctx[0].build_joint_bc_shard(old.HMAX,b0,b1)
     build_s=time.perf_counter()-t0
+
+    # Execution-only optimization: exact qBC->integer-t sublevel intervals depend on
+    # (b,c,qBC), not on the FULL178 row. Build them once per parent and reuse.
+    shared_intervals={}
+    ti=time.perf_counter()
+    for b in range(b0,b1+1):
+      for c in range(old.HMAX+1):
+        qkeys=set()
+        jbc=joint[b][c]
+        for sbc in range(8):
+          for parity in (0,1):
+            hist=jbc[sbc][parity]
+            if hist:qkeys.update(int(q) for q,v in hist.items() if int(v))
+        shared_intervals[(b,c)]=hd.interval_table(proj,b,c,qkeys) if qkeys else {}
+    interval_build_s=time.perf_counter()-ti
     completed=dict(carried)
     for i in expected:
       if i in completed:continue
-      d=compute_row(hd,old,ctx,joint,worker_blob=a.expected_worker_blob,band=a.band_position,
+      d=compute_row(hd,old,ctx,joint,shared_intervals,worker_blob=a.expected_worker_blob,band=a.band_position,
         chunk=a.chunk_position,b0=b0,b1=b1,row_index=i)
       p=a.output_dir/f"row-{i:03d}.json"
       tmp=p.with_suffix(".tmp")
@@ -236,7 +250,7 @@ def main():
         "rejected_carry_count":len(rejected_carry),"gaps":0,"overlaps":0},
       "result":{"hpadj22_exact_survivors":baseline,"joint_exact_survivors":joint_total,
         "exact_improvement":baseline-joint_total,"strict":joint_total<baseline},
-      "timing_seconds":{"joint_bc_build":round(build_s,6)},
+      "timing_seconds":{"joint_bc_build":round(build_s,6),"shared_integer_interval_build":round(interval_build_s,6)},
       "row_canonicals":[{"row_index":i,"canonical":completed[i]["canonical_sha256_without_this_field"]} for i in expected],
       "firewalls":{"main_pruning_credit":False,"full178_complete":False,"merge_authorized":False}
     }
