@@ -503,28 +503,61 @@
         "genus1": "M-d<=7 and 2d(M-d)+(M-d)^2+8V8<=16d",
         "genus0": "M-(d+4)<=3 and 2(u-4)d+(u+4)^2+8V8<=32 with u=M-(d+4)",
         "meaning": "any unbounded N=8 tail lies in a near-uniform exceptional-contact tube"
+      },
+      "revived_z_deepening_pass2": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-REVIVED-DEEPENING-PASS-2-20260919.md",
+      "revived_z_deepening_pass2_verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z_revived_pass2.py",
+      "revived_z_deepening_pass2_status": "PRE_AUDIT_NO_CREDIT",
+      "revived_z_overlay": {
+        "Z16_Z21": "REVIVED_COMPOSITION_PRE_AUDIT__UNBOUNDED_G_LE_1_IMPLIES_N_GE_10",
+        "Z6": "REVIVED_AUXILIARY_PRE_AUDIT__ODD_BRANCH_COUNT_O_GE_D_MINUS_4G_PLUS_4",
+        "Z14": "REVIVED_COMPOSITION_TOOL__NONDIAGONAL_COLLISION_DELTA_LOWER_BOUND",
+        "Z25": "CONDITIONAL_HELPER_AFTER_TANGENT_COLLISION",
+        "Z7": "RECHECKED_NOT_REVIVED",
+        "Z9_Z30": "NO_INDEPENDENT_REVIVAL_ABSORBED_BY_Z2_Z16"
+      },
+      "pre_audit_partial_window_pass2": {
+        "genus1": {
+          "N_le_7": "retain earlier Z21 stronger bounds",
+          "N8": "d<=336 from Miyaoka1.3(ii)+Z21",
+          "N9": "d<=1512 from Miyaoka1.3(ii)+Z21"
+        },
+        "genus0": {
+          "delta0": "smooth rational d<=219 via Miyaoka Remark A",
+          "N_le_7": "retain earlier Z21 stronger bounds",
+          "N8": "integer d<=275 from Miyaoka1.3(i)+Z21",
+          "N9": "integer d<=1263 from Miyaoka1.3(i)+Z21"
+        },
+        "unbounded_consequence": "N>=10",
+        "credit": "PRE_AUDIT_NO_CREDIT"
+      },
+      "N10_structural_reduction": {
+        "Z6_aux": "O>=d for g=1; O>=d+4 for g=0",
+        "Z14_collision": "Delta_exc>=T^2/(4N)-T/2 for T non-diagonal branches",
+        "forced_minimal_asymptotic": "at N=10, FSM-minimal (A,B)=(1,1) branches have lower asymptotic density coefficient 3/2-sqrt(15/14)=0.4649016609... relative to d",
+        "remaining_gap": "global restriction on free nonzero landing lambda / first jets"
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 non-HARD survivor deepening B1 — Z21/Z4' N=8 contact-rigidity gate",
-    "active_leaf": "MB104-Z21-Z4-B1-N8-CONTACT-RIGIDITY",
-    "required_input": "Use the retained Z21 N<=7 finite window and the new N=8 near-equality inequalities. Search only for an exact cuboid-specific constraint on landing/contact/packet data that forces either M-d (or M-(d+4)) outside the allowed constant tube, variance V8 larger than the Z21 allowance, or a quadratic delta lower bound contradicting the Z21 Hodge upper bound.",
+    "title": "MB104 revived-Z N10 landing gate — global restriction on FSM-minimal free lambda",
+    "active_leaf": "MB104-ZREV-N10-FSM-MINIMAL-LANDING-GLOBAL-GATE",
+    "required_input": "Use the pre-audit Z16+Z21 N<=9 finite-window composition and Z6 auxiliary branch-count inequality only as no-credit research inputs. At N=10, test whether actual global cuboid geometry restricts the linearly many FSM-minimal (A,B)=(1,1) landing values lambda in C* or their first jets strongly enough to force repeated/opposite/tangent collisions or otherwise a quadratic delta contribution.",
     "success_shapes": [
-      "prove N=8 has a finite degree bound",
-      "reduce every unbounded N=8 tail to one explicit exact packet/equality configuration",
-      "prove the available cuboid packet data cannot strengthen the N=8 tube and close this B1 gate negatively"
+      "prove a uniform/sublinear capacity bound for allowed lambda/jet values and combine with Z14-COLL to obtain a degree bound",
+      "derive an exact global algebraic relation among the lambda values that forces enough collisions/tangencies for Z25/Langer or Z14",
+      "prove the retained global data leave lambda freely variable at this interface, close this revived-Z landing gate negatively, and fall back to Z12-C1"
     ],
     "must_not_repeat": [
-      "generic branch pigeonhole without controlling landing lambda",
-      "infer delta from M_i or r_i alone",
-      "formal c2_orb substitution into Miyaoka 2008",
-      "generic arithmetic correspondence theory without a marked-packet adapter",
+      "plain pigeonhole on 48 nodes without landing control",
+      "lambda->-lambda involution alone; retained AS already shows it does not force opposite pairs",
+      "infer delta from M_i, r_i, or O alone",
+      "formal c2_orb substitution into a smooth theorem",
+      "generic product correspondence boundedness without packet/landing input",
       "return to W16-H",
-      "claim receiver/theorem/endpoint credit"
+      "claim N<=9 theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_B1": "Z12-C1 exact order-4 active-support regularity computation"
+    "fallback_after_gate": "Z12-C1 exact order-4 active-support regularity computation"
   },
   "routing": {
     "independent_of_full178_execution": true,
