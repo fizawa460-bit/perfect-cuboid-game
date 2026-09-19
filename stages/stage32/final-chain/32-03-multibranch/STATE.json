@@ -198,26 +198,36 @@
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6l_low_genus_miyaoka_bogomolov_preflight.py",
       "verifier_blob": "a4288ed431e6c18583f295cdc943e1f203948040",
       "result": "for the hostile singular genus-one ray, K^2=16,c2=80 and the irreducible-curve Miyaoka inequality gives lhs=-50176*l^2-75264*l<0 for every l>=1; the tempting smooth elliptic KC<=224 corollary is inapplicable"
+    },
+    "p6m_singularity_type_log_bmy_correction_preflight": {
+      "status": "PRE_AUDIT_SOURCE_INCOMPLETE_CORRECTION_TERM_WALL_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6M-SINGULARITY-TYPE-LOG-BMY-CORRECTION-PREFLIGHT-WALL-20260919.md",
+      "note_blob": "f1b0037a7207c6bb137a72ab1f337f2f2eb52e18",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6M-SINGULARITY-TYPE-LOG-BMY-CORRECTION-PREFLIGHT-CERTIFICATE.json",
+      "certificate_blob": "59aeedc2a9ee0970fa552a2d08fdc67e0f81c4e0",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6m_singularity_type_log_bmy_correction_preflight.py",
+      "verifier_blob": "9a3794d614fe0ca94fe3fc6c1d3f1d21a9f4e19a",
+      "result": "delta(C)=168*l^2+56*l is exact, but source-locked exceptional-contact information is only 112*l with m=1 and does not classify the quadratic singularity mass; refined log/orbifold BMY correction terms are therefore not source-complete and no finite window is claimed"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 P6M singularity-type log-BMY correction preflight",
-    "active_leaf": "MB104-P6M-SINGULARITY-TYPE-LOG-BMY-CORRECTION-PREFLIGHT",
-    "required_input": "Use MB102/P6D2/P6F retained local geometry and the hostile ray delta budget. Determine whether the exact singularity types of the integral carrier are controlled strongly enough to feed a refined log/orbifold BMY inequality with a better quadratic coefficient than the general irreducible-curve bound.",
+    "title": "MB104 P6N full-G branch-value pair incidence preflight",
+    "active_leaf": "MB104-P6N-FULL-G-BRANCH-VALUE-PAIR-INCIDENCE-PREFLIGHT",
+    "required_input": "Use the exact 48-node modular model and hostile support 0000093f442e. For each of the three inertia types, identify the two individual branch values in each C8/G factor and determine the exact 2x2 branch-value pair incidence of supported box nodes. Do not infer the split from type totals alone.",
     "success_shapes": [
-      "source-lock a singularity-type correction and derive a strict large-l exclusion or explicit finite l cutoff",
-      "prove the retained local data forces only ordinary singularities and evaluate the refined inequality exactly",
-      "show retained data controls only total delta/contact mass, not the correction term needed by any stronger theorem, and park the route"
+      "derive an exact packet-specific 2x2 incidence matrix for each inertia type and transport it to row/column or diagonal/off-diagonal constraints on the two degree-56l pencils",
+      "show the retained node model does not source-lock individual factor branch values strongly enough for the incidence split, record the interface wall, and stop",
+      "derive a finite compatible incidence family that is strictly stronger than the scalar six-value passport"
     ],
     "must_not_repeat": [
-      "apply smooth-curve Miyaoka corollaries to a singular carrier",
-      "replace total delta by an ordinary-node count without proof",
-      "assume singularities are confined to exceptional contacts",
-      "reopen common-cover square-class or centralizer-only routes",
+      "replace individual branch-value incidence by the already-known type totals (48,16,48)l",
+      "assume the two factor pencils are equal from M1~=M2",
+      "reopen one-factor Hurwitz counting",
+      "guess modular cusp labels not fixed by an exact adapter",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If singularity-type data are not source-complete at the coefficient level, freeze P6M immediately and return to a different packet-sensitive global mechanism."
+    "fallback_after_gate": "If exact branch-value labels cannot be recovered from the retained 48-node product model without guessing, freeze P6N at that interface rather than descending into conductor-sheet work."
   },
   "routing": {
     "independent_of_full178_execution": true,
