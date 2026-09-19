@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse,hashlib,importlib.util,json,math,sys,time
+import argparse,bisect,hashlib,importlib.util,json,math,sys,time
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[4]
@@ -107,7 +107,8 @@ def main():
                 req(all(19*d-5*int(e)>=4*d for e in es),f"eligible e lower n regression {(b,c,aa,sbc,sa)}")
                 for qa0,va0 in tiers:
                   qa,va=int(qa0),int(va0)
-                  picard=sum(1 for _,cap in points[r] if cap>=qa)
+                  eligible_x4=[x4 for x4,cap in points[r] if cap>=qa]
+                  picard=len(eligible_x4)
                   survive_bc=0
                   joint_weighted=0
                   for qb0,vb0 in hist.items():
@@ -121,7 +122,7 @@ def main():
                       if gi is None: cnt=0
                       else:
                         lo,hi=gi
-                        cnt=sum(1 for x4,cap in points[r] if cap>=qa and lo<=x4<=hi)
+                        cnt=bisect.bisect_right(eligible_x4,hi)-bisect.bisect_left(eligible_x4,lo)
                       req(cnt<=picard,f"joint escaped Picard {(b,c,r,qa,qb,cnt,picard)}")
                       cache[key]=cnt
                     tested_pairs+=1
@@ -139,7 +140,7 @@ def main():
       "schema":SCHEMA,"stage":32,"status":"HIGHD_EXACT_BENCHMARK_COMPLETE_ZERO_CREDIT",
       "target":{"row_index":ROW_INDEX,"row_id":row_id,"g":g,"d":d,"band_position":BAND,"b_interval":[b0,b1]},
       "source_locks":{"hpadj22_source_head":SOURCE_HEAD,"direct_count_blob_sha1":DIRECT_BLOB,"integer_projection_verifier_blob_sha1":PROJECTION_BLOB,"e_independence_verifier_blob_sha1":E_VERIFY_BLOB,"old_hpadj22_worker_blob_sha1":direct.OLD_BLOB},
-      "exactness":{"hpadj22_exact_rebuilt":True,"x4_intersection_exact":True,"e_independence_used":True,"min_of_counts_used":False,"additive_subtraction":False,"raw_terminal_identity_materialized":False},
+      "exactness":{"hpadj22_exact_rebuilt":True,"x4_intersection_exact":True,"e_independence_used":True,"x4_interval_count_method":"BINARY_SEARCH_ON_SORTED_EXACT_PICARD_X4_SET","min_of_counts_used":False,"additive_subtraction":False,"raw_terminal_identity_materialized":False},
       "result":{"hpadj22_exact_survivors":baseline,"joint_exact_survivors":joint_exact,"exact_improvement":improvement,"strict":joint_exact<baseline,"tested_qA_qBC_pairs":tested_pairs,"strict_qA_qBC_pairs":strict_pairs,"cached_intersection_cells":len(cache)},
       "timing_seconds":{"joint_bc_build":round(t1-t0,6),"hpadj22_direct_row":round(t2-t1,6),"joint_exact_row":round(t3-t2,6),"total":round(t3-t0,6)},
       "decision":{"full178_scaleout_authorized":False,"if_strict_and_operationally_bounded":"prepare separate resumable FULL178 scaleout contract/runkey; do not grant MAIN credit until exact aggregate hostile audit","if_not_strict":"stop this route"},
