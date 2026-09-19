@@ -2,6 +2,7 @@
 import json
 import re
 import subprocess
+import sympy as sp
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[6]
@@ -205,7 +206,27 @@ def main():
         req(all(x is False for x in qc["firewalls"].values()), "quotient collision firewalls")
         req(routing["b3_quotient_genus_collision_route"] == "CLOSED_AS_EXACT_EQUALITY", "quotient genus route closed")
         req(routing["b3_split_branch_condition_live"] is True, "split branch route live")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-B3-SPLIT-BRANCH-CONDUCTOR", "post-audit active leaf")
+        g2=d["retained_frontier"]["genus7_second_explicit_fiber"]
+        req(g2["source_cuboids_commit"] == "51233ed5ef2bf228fac9416c66db9adc0ebcaadd", "second fiber source commit")
+        req(g2["source_cuboids_blob"] == "0422b69847f2afb97cb7b3ed02ebef91279f61b1", "second fiber source blob")
+        req(g2["exceptional_bridges"] == [28,29,36,37,40,44], "second fiber bridges")
+        M=sp.Matrix(g2["intersection_matrix"])
+        one=sp.ones(10,1)
+        req(M*one == sp.zeros(10,1), "second fiber positive kernel")
+        req(M.rank() == 9, "second fiber corank one")
+        req((one.T*M*one)[0] == 0, "second fiber square")
+        req(sum(g2["H_intersections"]) == 12, "second fiber H degree")
+        x=g2["cross_with_original_positive"]
+        req(x["ambient_scheme_degrees"] == x["shared_A1_node_counts"], "second fiber disjoint positive strict transforms")
+        req(x["strict_transform_intersections_all_zero"] is True, "second fiber strict disjointness")
+        req(g2["second_bridges_meet_original_G"] is False, "second bridge disjointness")
+        req(g2["conclusions"]["G_dot_G2"] == 0 and g2["conclusions"]["same_f7_fiber"] is True, "second fiber f7 membership")
+        req(g2["conclusions"]["distinct_from_displayed_fiber"] is True and g2["conclusions"]["explicit_second_fiber_obtained"] is True, "explicit second fiber")
+        req(all(x is False for x in g2["firewalls"].values()), "second fiber firewalls")
+        req(routing["b3_split_branch_condition_live"] is False, "b3 direct split route closed")
+        req(routing["genus7_second_fiber_explicit"] is True, "second fiber routing")
+        req(routing["genus7_rational_function_explicit"] is False, "f7 function remains open")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-F7-EXPLICIT-PENCIL-FIRST-JET", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
