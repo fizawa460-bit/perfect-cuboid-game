@@ -64,7 +64,7 @@ def main():
     req(mon["credit_firewall"]["monitor_observation_is_mathematical_credit"] is False,
         "monitor observation credit firewall")
 
-    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
+    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR",
         "MAIN state schema")
     f = st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
@@ -83,6 +83,8 @@ def main():
     req(f["v44_replacement_head_audited_exact_head"] == "142b50757b345971218c953db6a15ddd09974172", "V44 audited head")
     req(f["v44_replacement_head_hostile_audit_review_id"] == 5254793258, "V44 audit review")
     req(f["v45_audit_sync_additional_pruning"] == 0, "V45 added pruning")
+    req(f["v45_merged_main_synced"] is True and f["v45_merge_commit"] == "659ba93b9eba657b49a728f549c6bb6028398e08", "V45 merge not synced")
+    req(f["v46_postmerge_sync_additional_pruning"] == 0, "V46 added pruning")
     req(f["full178_numerical_census_complete"] is False, "FULL178 overclaim")
 
     req(st["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
@@ -92,7 +94,7 @@ def main():
         "replacement hostile re-audit gate still armed")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    req(sweep["observed_repository_main"] == "659ba93b9eba657b49a728f549c6bb6028398e08",
         "repository main observation")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
         "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and
@@ -120,7 +122,7 @@ def main():
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN V45 audit-sync records hostile-audited V44 HPADJ22 authority with zero new pruning")
+    print("PASS: Stage32 MAIN V46 adopts merged hostile-audited V45 authority with zero new pruning")
     print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB P6B head with zero MAIN credit")
     print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
 
