@@ -397,7 +397,8 @@
       "rounds_complete": [
         "Z1-Z5",
         "Z6-Z10",
-        "Z11-Z15"
+        "Z11-Z15",
+        "Z16-Z20"
       ],
       "promising": [
         "Z2"
@@ -420,32 +421,41 @@
         "Z11",
         "Z13",
         "Z14",
-        "Z15"
+        "Z15",
+        "Z16",
+        "Z17",
+        "Z18",
+        "Z19",
+        "Z20"
       ],
-      "next_batch": "Z16-Z20",
+      "next_batch": "Z21-Z25",
       "deepen_before_breadth_complete": false,
       "w16_h_paused": true,
       "finite_degree_window_proved": false,
       "receiver_credit": false,
-      "note_round3": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-3-20260919.md"
+      "note_round3": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-3-20260919.md",
+      "note_round4": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-4-20260919.md",
+      "conditional_only": [
+        "Z16_VOJTA_BOUNDED_GONALITY_CANONICAL_DEGREE"
+      ]
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 population-wide Z scan Round 4 — Z16 to Z20",
+    "title": "MB104 population-wide Z scan Round 5 — Z21 to Z25",
     "active_leaf": "MB104-POPULATION-WIDE-FINITE-WINDOW-BREADTH-SCAN",
-    "required_input": "Rounds Z1-Z15 are complete at shallow depth. Z2 remains the only PROMISING route; Z12 is a distinct higher-order SOFT route. Generate five materially distinct population-wide finite-window mechanisms Z16-Z20, test one cheap kill gate each against the whole R29-LG2-MB population and the balanced 000707 hostile case, and do not deepen Z2/Z12 or W16-H yet.",
+    "required_input": "Rounds Z1-Z20 are complete at shallow depth. Z2 remains PROMISING; Z3/Z4'/Z5'/Z12 remain SOFT; Z16 is conditional-only. Generate five materially distinct population-wide finite-window mechanisms Z21-Z25, test one cheap kill gate each against the whole R29-LG2-MB population and the balanced 000707 hostile case, and do not deepen survivors yet.",
     "success_shapes": [
-      "identify a new population-wide theorem shape surviving its first hostile test",
-      "show a proposed route is structurally absorbed by an earlier Z route",
-      "finish Z16-Z20 with no new survivor while preserving the current portfolio for the final comparison"
+      "identify a genuinely new population-wide theorem shape surviving its shallow hostile test",
+      "show a proposed route is hard or structurally absorbed by an earlier Z route",
+      "complete Z21-Z25 with no new survivor while sharpening the global diagnosis before the final breadth round"
     ],
     "must_not_repeat": [
       "W16 conductor/CB deepening during breadth phase",
-      "García-Fritz raw d<=M+4g-4 inequality without a new strict improvement",
-      "generic fixed-product or Castelnuovo-Severi bounds killed by Z5/Z6",
-      "finite-node pigeonhole without a finite landing/jet theorem",
-      "projective arithmetic-genus bounds promoted to normalization-genus bounds"
+      "generic smooth-curve canonical-degree bounds that ignore singularity defect",
+      "negative-self-intersection finiteness promoted to positive-square hostile classes",
+      "fixed foliation arguments without a universal carrier-invariance adapter",
+      "generic function-field abc/truncated counting already absorbed by Z11/Z12"
     ]
   },
   "routing": {
