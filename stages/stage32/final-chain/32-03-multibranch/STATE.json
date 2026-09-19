@@ -218,26 +218,36 @@
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6n_full_g_branch_value_pair_incidence_preflight.py",
       "verifier_blob": "87c7f0b230e947bb3dc6a8e9e5a630e858df4e02",
       "result": "the retained 48-node coordinates and Aut(S) action identify only the three b1/b2/b3 stabilizer types; no source-locked node-to-(factor1 branch value,factor2 branch value) adapter exists, so the desired typewise 2x2 incidence cannot be inferred from block/c=0/sign heuristics"
+    },
+    "p6o_modular_fixed_point_branch_label_adapter_preflight": {
+      "status": "PRE_AUDIT_BOUNDED_EXTERNAL_SOURCE_INTERFACE_WALL_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6O-MODULAR-FIXED-POINT-BRANCH-LABEL-ADAPTER-PREFLIGHT-WALL-20260919.md",
+      "note_blob": "1783cb053f3cafb97be26200e75598ccb70bcd59",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6O-MODULAR-FIXED-POINT-BRANCH-LABEL-ADAPTER-PREFLIGHT-CERTIFICATE.json",
+      "certificate_blob": "d42489feae560eb8a54a20592bec07f32aa1dd73",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6o_modular_fixed_point_branch_label_adapter_preflight.py",
+      "verifier_blob": "71f9a7064e49f763d8251b73ba6b9c601c60b792",
+      "result": "Freitag--Salvati Manni identifies the three diagonal X(2) cusp/stabilizer types but the inspected source does not supply an exact Stage32 node-index to ordered factorwise X(4) branch-value table; producing one requires a new modular cusp computation, so P6N incidence remains parked"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 P6O modular fixed-point branch-label adapter preflight",
-    "active_leaf": "MB104-P6O-MODULAR-FIXED-POINT-BRANCH-LABEL-ADAPTER-PREFLIGHT",
-    "required_input": "Inspect the source-locked modular/theta description of C8 and C8/G. Determine whether the six branch values and the fixed-point orbits above them can be matched factorwise to the explicit 48 Stage32 box-node coordinates. The output must be an exact node -> (factor1 branch value, factor2 branch value) adapter or an explicit source wall.",
+    "title": "MB104 P6P elliptic two-pencil Wronskian rigidity preflight",
+    "active_leaf": "MB104-P6P-ELLIPTIC-TWO-PENCIL-WRONSKIAN-RIGIDITY-PREFLIGHT",
+    "required_input": "Use P6H/P6K only: the two degree-56l maps psi1,psi2:E->P1 live in the same line bundle M on the elliptic normalization, with typewise ramification divisor classes matched. Determine whether a source-complete Wronskian/ramification theorem makes the pair finite or automorphism-related.",
     "success_shapes": [
-      "construct a source-complete factorwise branch-label adapter and return to P6N to compute exact 2x2 incidence matrices",
-      "recover only one-factor branch-value orbit labels but not their identification with the Stage32 node coordinates, record the remaining interface",
-      "show the published/retained formulas do not determine the needed factorwise labels without substantial new modular computation, park the incidence route"
+      "derive a finite or automorphism-related classification of compatible pencils from the shared M and retained ramification data",
+      "show the relevant Wronski map has positive-dimensional fibres or the retained data are too weak, record the wall, and rotate",
+      "derive a packet-sensitive extra divisor constraint strictly stronger than P6H/P6K"
     ],
     "must_not_repeat": [
-      "guess branch labels from c=0 versus c!=0",
-      "identify the two eight-node blocks with individual factor branch values without proof",
-      "use stabilizer type as if it were a branch-value label",
-      "reopen one-factor scalar passport counting",
+      "assume equal line bundles imply equal pencils",
+      "replace ramification divisor-class equality by pointwise divisor equality",
+      "reopen one-factor Hurwitz counts",
+      "reopen branch-value labels without a new modular adapter",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If no source-complete factorwise label map is available at shallow depth, freeze P6O and rotate to a different isolated-carrier invariant."
+    "fallback_after_gate": "If generic dimension or an explicit family shows shared M plus ramification-class data allow unbounded pencil pairs, freeze P6P without deeper Brill-Noether classification."
   },
   "routing": {
     "independent_of_full178_execution": true,
