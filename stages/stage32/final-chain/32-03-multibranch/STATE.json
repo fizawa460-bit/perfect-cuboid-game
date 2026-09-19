@@ -500,25 +500,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z50-SIZE48-CANONICAL-COVER-RESOLUTION-GRAPH-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z50_size48_canonical_cover_resolution_graph.py",
       "result": "resolving the two A2 plumbing points gives a seven-component all-minus2 chain with elliptic endpoints; fundamental cycle has pa=2, canonical cycle Z_K=2Z, and all discrepancies are -2"
+    },
+    "z51_size48_even_gorenstein_type_iia": {
+      "status": "PRE_AUDIT_SOURCE_CLASSIFIED_EVEN_GORENSTEIN_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z51-SIZE48-EVEN-GORENSTEIN-TYPE-IIA-CLASSIFICATION-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z51-SIZE48-EVEN-GORENSTEIN-TYPE-IIA-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z51_size48_even_gorenstein_type_iia.py",
+      "result": "Konno classification: exact cover graph is even Gorenstein type (ii.a) with A5 fixed chain, pf=pa=2, pg=3, maximal ideal cycle Z+A5, multiplicity4, embedding dimension4; codimension-two Gorenstein implies local complete intersection"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z51 size48 Gorenstein germ classification preflight",
-    "active_leaf": "MB104-Z51-SIZE48-GORENSTEIN-GERM-CLASSIFICATION-PREFLIGHT",
-    "required_input": "Use the exact size48 canonical-cover resolution type: seven-component -2 chain with elliptic endpoints, j=1728 component models, fundamental cycle pa=2 and canonical cycle Z_K=2Z. Search for a source-complete Gorenstein analytic classification/normal form or an explicit equation family for exactly this marked resolution data.",
+    "title": "MB104 Z52 size48 quadratic CI tangent-cone preflight",
+    "active_leaf": "MB104-Z52-SIZE48-QUADRATIC-CI-TANGENT-CONE-PREFLIGHT",
+    "required_input": "Use the exact local package mult=4, embdim=4, codim-two Gorenstein complete intersection, together with Z48 j=1728 marked elliptic plumbing. Determine the initial orders and tangent quadratic pencil, then test whether the marked plumbing fixes a finite analytic normal form.",
     "success_shapes": [
-      "explicit source-complete normal form and local-Chern/Euler computable model",
-      "finite-dimensional named moduli family with cuboid j=1728/marked-point specialization reducing it finitely",
-      "proof that no available classification determines the germ, with an exact residual modulus"
+      "prove (2,2) initial regular sequence and finite tangent-quadrics classification",
+      "derive an explicit or finite normal-form family compatible with the cuboid marked plumbing",
+      "identify the residual analytic modulus after the quadratic tangent pencil is fixed"
     ],
     "must_not_repeat": [
-      "call the graph rational A7",
-      "infer hypersurface or splice type from graph alone",
-      "reuse lc/klt/quotient local Euler formulas",
-      "return to generic index-one cover existence"
+      "identify the germ with a Konno sample equation solely by type",
+      "treat weighted canonical model of Z as the local surface equation without adapter",
+      "apply local Euler correction before analytic hypotheses are source-complete"
     ],
-    "fallback_after_gate": "If the analytic class has moduli, identify them exactly and evaluate as many as possible from the cuboid quartic and attachment coordinates."
+    "fallback_after_gate": "If tangent quadrics leave moduli, express them in an exact normal form and evaluate the j=1728/attachment constraints."
   },
   "routing": {
     "independent_of_full178_execution": true,
