@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 2,
+  "generation": 3,
   "armed": true,
-  "objective": "Resume the generation-1 exact row certificates and continue the same-population GRF04 x HPADJ22 FULL178 joint count using 96 row-window parents.",
+  "objective": "Resume the cancelled generation-2 row-window checkpoints and continue the same-population GRF04 x HPADJ22 FULL178 joint count with effective heavy concurrency 14.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -33,20 +33,53 @@
   },
   "partition": {
     "bands": [
-      [0, 11],
-      [12, 23],
-      [24, 35],
-      [36, 47],
-      [48, 59],
-      [60, 71],
-      [72, 83],
-      [84, 96]
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
     ],
     "chunks_per_band": 4,
     "row_windows": [
-      [0, 59],
-      [60, 119],
-      [120, 177]
+      [
+        0,
+        59
+      ],
+      [
+        60,
+        119
+      ],
+      [
+        120,
+        177
+      ]
     ],
     "parents": 96,
     "rows": 178,
@@ -69,11 +102,11 @@
   },
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
-    "planned_effective_heavy_concurrency": 6,
+    "planned_effective_heavy_concurrency": 14,
     "parent_jobs": 96,
     "artifact_count_upper_bound": 97,
     "artifact_bytes_upper_bound_each": 1048576,
-    "predecessor_artifact_count_observed": 28,
+    "predecessor_artifact_count_observed": 4,
     "projected_peak_artifact_mb_upper_bound": 130,
     "retention_days_parent": 2,
     "retention_days_recovery_snapshot": 2,
@@ -88,9 +121,9 @@
     "first_windowed_generation": 2
   },
   "carry": {
-    "predecessor_run_id": 35442892171,
-    "predecessor_topology": "V1_FULL_PARENT",
-    "expected_predecessor_parent_artifacts": 28
+    "predecessor_run_id": 35468873266,
+    "predecessor_topology": "V2_ROW_WINDOW",
+    "expected_predecessor_parent_artifacts": 4
   },
   "credit": {
     "main": false,
@@ -101,5 +134,12 @@
     "route": false,
     "endpoint": false,
     "merge": false
+  },
+  "generation2_incident": {
+    "run_id": 35468873266,
+    "status": "USER_CANCELLED_AFTER_WINDOWED_RECOVERY_VALIDATION",
+    "retained_parent_window_checkpoint_artifacts": 4,
+    "mathematical_failure": false,
+    "main_credit": false
   }
 }
