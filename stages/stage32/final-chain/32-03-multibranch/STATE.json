@@ -399,7 +399,8 @@
         "Z6-Z10",
         "Z11-Z15",
         "Z16-Z20",
-        "Z21-Z25"
+        "Z21-Z25",
+        "Z26-Z30"
       ],
       "promising": [
         "Z2"
@@ -432,9 +433,14 @@
         "Z22",
         "Z23",
         "Z24",
-        "Z25"
+        "Z25",
+        "Z26",
+        "Z27",
+        "Z28",
+        "Z29",
+        "Z30_SMOOTH_VERSION"
       ],
-      "next_batch": "Z26-Z30",
+      "next_batch": null,
       "deepen_before_breadth_complete": false,
       "w16_h_paused": true,
       "finite_degree_window_proved": false,
@@ -457,26 +463,54 @@
           "N=7": "d<=49"
         },
         "balanced_000707": "EXACT_HODGE_AND_CAUCHY_EQUALITY_N14_M_EQ_D_MI_EQ_8l"
+      },
+      "note_round6": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-ROUND-6-20260919.md",
+      "breadth_complete": true,
+      "survivor_comparison": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-WIDE-FINITE-WINDOW-SURVIVOR-COMPARISON-20260919.md",
+      "post_breadth_survivors": {
+        "primary": [
+          "Z2_CANONICAL_ORBIFOLD_CANONICAL_DEGREE"
+        ],
+        "secondary": [
+          "Z21_EXCEPTIONAL_ROOT_LATTICE_HODGE_PARTIAL_WINDOW",
+          "Z4_GLOBAL_LOCALIZATION_REFINEMENT"
+        ],
+        "tertiary": [
+          "Z12_ADAPTIVE_HIGHER_ORDER_SYMMETRIC_DIFFERENTIALS"
+        ],
+        "reserves": [
+          "Z5_PACKET_SENSITIVE_ARITHMETIC_REFINEMENT",
+          "Z3"
+        ],
+        "conditional_only": [
+          "Z16_VOJTA_BOUNDED_GONALITY_CANONICAL_DEGREE"
+        ]
+      },
+      "round6_disposition": {
+        "Z26": "HARD_GENERIC_PACKET_REFINEMENT_ABSORBED_BY_Z5",
+        "Z27": "HARD",
+        "Z28": "HARD_GENERIC_SPECIAL_REFINEMENT_ABSORBED_BY_Z12",
+        "Z29": "HARD",
+        "Z30": "HARD_SMOOTH_ORBIFOLD_VERSION_ABSORBED_BY_Z2"
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 population-wide Z scan Round 6 — Z26 to Z30",
-    "active_leaf": "MB104-POPULATION-WIDE-FINITE-WINDOW-BREADTH-SCAN",
-    "required_input": "Rounds Z1-Z25 are complete at shallow depth. Z2 remains PROMISING; Z3/Z4'/Z5'/Z12 remain SOFT; Z21 adds a genuine N<=7 finite subwindow but the balanced 000707 ray is exact Hodge/Cauchy equality. Generate five materially distinct population-wide finite-window mechanisms Z26-Z30, test one cheap kill gate each against the whole R29-LG2-MB population and balanced 000707, and do not deepen survivors until the breadth scan is complete.",
+    "title": "MB104 post-Z30 survivor gate A1 — Z2 orbifold theorem applicability audit",
+    "active_leaf": "MB104-POST-BREADTH-Z2-A1-SOURCE-APPLICABILITY",
+    "required_input": "Z1-Z30 breadth is complete. Do not return to W16-H. First test only whether an established Miyaoka/McQuillan/Langer/Sakai/orbifold canonical-degree or aggregate low-genus theorem applies to the canonical cuboid surface with 48 A1 quotient singularities and multibranch curves through the singular locus, with a coefficient strictly strong enough to beat the balanced slope K.C = 2 deg K_orb(source).",
     "success_shapes": [
-      "identify a genuinely new population-wide theorem shape surviving its shallow hostile test",
-      "show a proposed route is hard or structurally absorbed by an earlier Z route",
-      "complete the planned Z1-Z30 breadth phase and then compare all survivors without deepening inside Round 6"
+      "find a proved theorem whose exact hypotheses cover the canonical A1 orbifold and multibranch carrier and yield coefficient A<2 or a fixed aggregate canonical-degree bound",
+      "prove that the strongest available theorem necessarily reintroduces a contact term that is saturated by balanced 000707 and therefore kill Z2-A1 cleanly",
+      "reduce applicability to one explicit missing hypothesis without constructing a new theorem yet"
     ],
     "must_not_repeat": [
-      "W16 conductor/CB deepening during breadth phase",
-      "Z21 root-lattice Hodge projection as a new route rather than using it only as a hostile checksum",
-      "generic smooth-curve canonical-degree bounds that ignore singularity defect",
-      "finite Picard/discriminant congruence filters promoted to degree bounds",
-      "lct/multiplier severity arguments without a theorem forcing aggregate defect localization",
-      "generic function-field abc/truncated counting already absorbed by Z11/Z12"
+      "generic smooth-resolution Miyaoka theorem with c2=80 as if it were orbifold c2=8",
+      "formal substitution c2_orb into a smooth theorem",
+      "W16 conductor/CB deepening",
+      "Z12 differential construction before Z2-A1 is disposed",
+      "claiming any receiver/theorem/endpoint credit from a source-theorem preflight"
     ]
   },
   "routing": {
