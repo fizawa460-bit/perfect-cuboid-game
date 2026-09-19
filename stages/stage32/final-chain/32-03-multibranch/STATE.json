@@ -486,25 +486,39 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z49-CANONICAL-COVER-DISCRIMINANT-CHARACTER-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z49_canonical_cover_discriminant_character.py",
       "result": "size48 discriminant group Z/24 and size768 Z/33; exact canonical discrepancy class has order3, giving a unique degree-three discriminant-cover direction up to deck inversion; analytic holomorphic lift remains to be fixed"
+    },
+    "z49b_size48_unique_holomorphic_lift": {
+      "status": "PRE_AUDIT_EXACT_HOLOMORPHIC_LIFT_UNIQUENESS_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z49B-SIZE48-UNIQUE-HOLOMORPHIC-CANONICAL-COVER-LIFT-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z49B-SIZE48-UNIQUE-HOLOMORPHIC-CANONICAL-COVER-LIFT-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z49b_size48_unique_holomorphic_canonical_cover_lift.py",
+      "result": "unique holomorphic etale lift of the exact topological Z/3 cover and unique normal extension; local models x=t^3 and xy=t^3 (A2), no residual holomorphic-lift modulus"
+    },
+    "z50_size48_canonical_cover_resolution_graph": {
+      "status": "PRE_AUDIT_EXACT_GORENSTEIN_COVER_RESOLUTION_GRAPH_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z50-SIZE48-CANONICAL-COVER-RESOLUTION-GRAPH-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z50-SIZE48-CANONICAL-COVER-RESOLUTION-GRAPH-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z50_size48_canonical_cover_resolution_graph.py",
+      "result": "resolving the two A2 plumbing points gives a seven-component all-minus2 chain with elliptic endpoints; fundamental cycle has pa=2, canonical cycle Z_K=2Z, and all discrepancies are -2"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z49B size48 plumbing index3 holomorphic lift",
-    "active_leaf": "MB104-Z49B-SIZE48-PLUMBING-INDEX3-HOLOMORPHIC-LIFT",
-    "required_input": "Use one size48 Q-E-Q component with j=1728, N_Q=O(-4p), P1(-2) bridge, exact one-point attachments and equal nonzero Z/3 meridian character. Write explicit plumbing transitions and classify holomorphic lifts of the unique topological degree-three canonical cover.",
+    "title": "MB104 Z51 size48 Gorenstein germ classification preflight",
+    "active_leaf": "MB104-Z51-SIZE48-GORENSTEIN-GERM-CLASSIFICATION-PREFLIGHT",
+    "required_input": "Use the exact size48 canonical-cover resolution type: seven-component -2 chain with elliptic endpoints, j=1728 component models, fundamental cycle pa=2 and canonical cycle Z_K=2Z. Search for a source-complete Gorenstein analytic classification/normal form or an explicit equation family for exactly this marked resolution data.",
     "success_shapes": [
-      "unique holomorphic lift and explicit canonical-cover local model",
-      "finite list of holomorphic lifts with exact cuboid selection rule",
-      "one named residual modulus with an exact formula from transition functions"
+      "explicit source-complete normal form and local-Chern/Euler computable model",
+      "finite-dimensional named moduli family with cuboid j=1728/marked-point specialization reducing it finitely",
+      "proof that no available classification determines the germ, with an exact residual modulus"
     ],
     "must_not_repeat": [
-      "graph-only analytic classification",
-      "generic canonical-cover existence",
-      "local Euler formula before holomorphic lift is fixed",
-      "formal Picard restriction of O(P)"
+      "call the graph rational A7",
+      "infer hypersurface or splice type from graph alone",
+      "reuse lc/klt/quotient local Euler formulas",
+      "return to generic index-one cover existence"
     ],
-    "fallback_after_gate": "If a residual modulus remains, compute its parameter space and identify the exact cuboid coordinate datum that evaluates it."
+    "fallback_after_gate": "If the analytic class has moduli, identify them exactly and evaluate as many as possible from the cuboid quartic and attachment coordinates."
   },
   "routing": {
     "independent_of_full178_execution": true,
