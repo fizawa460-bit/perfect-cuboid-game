@@ -1,17 +1,15 @@
 # Stage32 MB-FIB startup
 
-This is the single startup contract for the short operator command `stage32mb-fib`.
+This is the single startup contract for the paired operator commands `stage32mb-fib` and `stage32mb-fib-audit`.
 
 MB-FIB is an MB-local auxiliary producer subroute for 32-03 multibranch / MB104. It is intentionally not a separate Stage32 claim-DAG lane. It is not the ordinary MB controller. Its purpose is to run bounded fibration/Picard64 work in parallel without moving, freezing, or auditing the `stage32mb-mainbatch` active leaf.
 
 ## Command modes
 
-Use only the short base command:
+Use the same naming pattern as the other Stage32 specialist surfaces:
 
 - `stage32mb-fib` — ordinary producer research / bounded computation;
-- `stage32mb-fib 監査` — exact-head hostile audit of the dedicated MB-FIB surface.
-
-There is intentionally no separate canonical `stage32mb-fib-audit` command.
+- `stage32mb-fib-audit` — exact-head hostile audit of the dedicated MB-FIB surface.
 
 Audit intent never changes mathematical authority. If the dedicated STATE is not frozen to one exact audit head, audit mode fails closed instead of guessing a target.
 
