@@ -549,24 +549,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57-A5-CURVETTE-MONOMIALS-SELECT-T0-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z57_a5_curvette_monomials_select_t0.py",
       "result": "Correction: the central A5 valuation table uv=s^6 is valid only locally near the partial contraction. The local monomials us,vs,s^2,s^3 do not automatically globalize around elliptic endpoints with N_E=O_E(-2p); therefore the previous T0/c=0 inference is withdrawn. T0 vs T1 remains open."
+    },
+    "z57r_endpoint_globalization_exact_restrictions": {
+      "status": "PRE_AUDIT_EXACT_ENDPOINT_GLOBALIZATION_REDUCTION_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57R-ENDPOINT-GLOBALIZATION-EXACT-RESTRICTIONS-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57R-ENDPOINT-GLOBALIZATION-EXACT-RESTRICTIONS-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z57r_endpoint_globalization_exact_restrictions.py",
+      "result": "For each elliptic endpoint, O(-F)|E=O, O(-F-D)|E=O(p), and O(-2F)|E=O. The 2F->F+D map gives the unique section vanishing at p, so no endpoint continuous modulus survives; the fourth tangent class modulo m2 is detected only on the central A5 chain. The T0/T1 bit reduces to Konno's global six-to-four section image and its degree-two multiplication."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z57R endpoint globalization of maximal-ideal sections",
-    "active_leaf": "MB104-Z57R-ENDPOINT-GLOBALIZATION-OF-MAXIMAL-IDEAL-SECTIONS",
-    "required_input": "Use each endpoint model (E_1728,p,N_E=O_E(-2p)) and the central A5 local model uv=s^6. Construct global sections of O_X(-F) and the one first-normal tangent section through the complete elliptic endpoint neighborhoods, match their attachment jets to the A5 basis, and evaluate the single coefficient c in yz+c*xw mod m^3.",
+    "title": "MB104 Z58 Konno six-to-four tangent-image multiplication",
+    "active_leaf": "MB104-Z58-KONNO-SIX-TO-FOUR-TANGENT-IMAGE-MULTIPLICATION",
+    "required_input": "Use Konno Lemma 5.6 exactly: h0(Z_K,-F)=6, the two-dimensional kernel giving embdim4, R(Z_K,-F) generated in degree1, plus the exact endpoint restrictions and central A5 model. Construct the four-dimensional tangent image and compute the kernel of Sym^2(m/m2)->m2/m3, deciding yz versus yz+xw.",
     "success_shapes": [
-      "globalized maximal-ideal basis with c=0 -> T0",
-      "globalized maximal-ideal basis with c!=0 -> T1",
-      "an exact endpoint Cech/jet formula for c in terms of one source-explicit transition constant"
+      "exact tangent type T0",
+      "exact tangent type T1",
+      "a finite 6x? multiplication matrix with one unresolved source-explicit scalar"
     ],
     "must_not_repeat": [
-      "promote local A5 coordinates to global contraction functions without endpoint gluing",
-      "symmetry-only tangent-bit inference",
-      "use the naive non-isolated monomial CI as the actual germ"
+      "globalize local A5 monomials without endpoint extension",
+      "search endpoint moduli already proved absent",
+      "reopen generic two-quadric classification"
     ],
-    "fallback_after_gate": "Compute the endpoint transition cocycle from N_E=O_E(-2p) in the explicit j=1728 quartic coordinates and match its first attachment jet to the central A5 transverse parameter."
+    "fallback_after_gate": "Translate Konno's exact sequences in Lemma 5.6 into explicit bases on Z, Gamma, and Z_K=2Z; compute multiplication with rational-chain Cech coordinates before introducing any cuboid-specific scalar."
   },
   "routing": {
     "independent_of_full178_execution": true,
