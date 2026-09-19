@@ -122,7 +122,7 @@ for every finite n>=1.
 ## 4. Birkar semiampleness criterion
 
 Caucher Birkar, *The augmented base locus of real divisors over arbitrary fields*,
-Math. Ann. 368 (2017), Theorem 1.5, proves:
+Math. Ann. 368 (2017), Theorem 1.4, proves:
 
 for a nef Q-Cartier divisor L on a projective scheme, there exists a closed subscheme Z whose
 reduced scheme is the exceptional/null locus E(L), such that
@@ -148,7 +148,7 @@ P|Z is trivial,
 
 in particular semiample.
 
-Birkar's criterion therefore gives
+Birkar Theorem 1.4 therefore gives
 
 ```text
 P is semiample
@@ -195,7 +195,7 @@ Repository:
 External:
 - C. Birkar, Math. Ann. 368 (2017), 905--921,
   *The augmented base locus of real divisors over arbitrary fields*,
-  Theorem 1.5.
+  Theorem 1.4.
 
 ## Firewalls
 
