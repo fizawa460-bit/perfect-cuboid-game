@@ -1,212 +1,72 @@
-# MB104 — 000707 degree-four pair-map discriminant exclusion — 2026-09-20
+# MB104 — 000707 degree-four pair-map discriminant preflight — corrected 2026-09-20
 
-Status: PRE-AUDIT DISCRIMINANT/RESULTANT CANDIDATE / FINITENESS CORRECTION OPEN / ZERO CREDIT / NO MERGE
+Status: PRE-AUDIT NUMERICAL PREFLIGHT / STEIN CORRECTION OPEN / ZERO EXCLUSION CREDIT / NO MERGE
 
 ## Setup
 
-Use the new genus-seven fibration class G and a rank-three genus-five fiber F with
+Use the retained classes G and F with
 
-H.G=12,
-P.G=36,
-H.F=8,
-P.F=40,
+H.G=12, P.G=36,
+H.F=8,  P.F=40,
 G.F=4.
 
-The product morphism
+The product map pi=(f_G,f_F):S->P1xP1 is generically degree four, but it contracts common vertical curves on the smooth resolution. Therefore the finite-cover discriminant/resultant argument cannot be applied directly on S.
 
-pi=(f_G,f_F): S -> Y=P1 x P1
+Numerically,
 
-is generically finite of degree four. On the smooth resolution it contracts the common vertical null locus of G and F, so a finite-cover discriminant argument requires Stein contraction and correction terms.
+R_pi = H+2G+2F,
+H.R_pi = 56.
 
-Its ramification divisor is
-
-R_pi = K_S - pi^*K_Y
-     = H + 2G + 2F.
-
-The discriminant/branch divisor B_pi on Y is the divisorial discriminant of the finite cover.
-For a target curve D not contained in B_pi,
-
-deg Disc(pi_D)
- = B_pi.D
- = R_pi.pi^*D
-
-by the discriminant/different description and projection formula.
-
-Let C in |lP| be a hypothetical integral MB carrier and D=pi(C). Let r=deg(C->D).
-The previous pair-map reduction excludes r=3,4, so only r=1,2 remain.
-
-The projection degrees of C are
-
-C.G=36l,
-C.F=40l.
-
-Hence D has bidegree
-
-(40l/r,36l/r),
-
-and
-
-pi^*D = l[(40/r)G+(36/r)F].
-
-Write the effective residual divisor
-
-Q=pi^*D-C.
-
-The carrier C cannot be a component of the fixed ramification divisor: H.C=112l, while
-H.R_pi=56. Thus the generic factor corresponding to C is separable and D is not a branch
-component through C. Also the bidegrees below exceed the total branch bidegree in a ruling, so
-D itself is not a component of B_pi.
-
-After base change to the normalization of D, the degree-four finite algebra is finite flat.
-The factorization into the C-part and the residual Q-part gives the standard discriminant
-factorization
-
-disc(fg)=disc(f) disc(g) Res(f,g)^2.
-
-The cross resultant divisor is the scheme-theoretic intersection of the two horizontal factors.
-Therefore
-
-2 C.Q <= deg Disc(pi_D).                         (DISC-BOUND)
-
-Internal ramification terms are effective and only increase the discriminant.
-
-## r=2
+For a hypothetical carrier C in |lP| and D=pi(C), put r=deg(C->D). The corrected restriction-degree note keeps all r=1,2,3,4 OPEN.
 
 For r=2,
 
-pi^*D = l(20G+18F).
+pi^*D=l(20G+18F),
+Q=l(20G+18F-P),
+C.Q=1104l^2,
+2C.Q=2208l^2.
 
-The residual class is
-
-Q=l(20G+18F-P).
-
-Intersection with C gives
-
-C.Q
- = l^2 P.(20G+18F-P)
- = l^2(20*36+18*40-336)
- = 1104 l^2.
-
-Thus the left side of (DISC-BOUND) is
-
-2C.Q = 2208 l^2.
-
-The discriminant degree is
-
-R_pi.pi^*D
-=(H+2G+2F).l(20G+18F)
-=688 l.
-
-Hence (DISC-BOUND) would require
-
-2208 l^2 <= 688 l,
-
-which is impossible for every integer l>=1.
-
-Therefore r != 2.
-
-## r=1
+The naive finite-cover discriminant degree would be 688l.
 
 For r=1,
 
 pi^*D=l(40G+36F),
+Q=l(40G+36F-P),
+C.Q=2544l^2,
+2C.Q=5088l^2,
 
-Q=l(40G+36F-P).
+while the naive finite-cover discriminant degree would be 1376l.
 
-Then
+Thus the finite model would have a very large quadratic-versus-linear margin. This is only a **conditional numerical signal**. On S, common contracted curves can alter the horizontal/residual intersection bookkeeping, so neither r=1 nor r=2 is excluded.
 
-C.Q
-=l^2 P.(40G+36F-P)
-=l^2(40*36+36*40-336)
-=2544 l^2.
+The classical identity
 
-So
+disc(fg)=disc(f)disc(g)Res(f,g)^2
 
-2C.Q=5088 l^2.
+remains the intended finite-model mechanism, but the exact geometric adapter is missing.
 
-The discriminant degree is
+## Required adapter
 
-R_pi.pi^*D
-=(H+2G+2F).l(40G+36F)
-=1376 l.
+Before any exclusion can be promoted:
 
-Thus one would need
+1. construct the Stein factorization S -> X -> P1xP1;
+2. identify every common vertical curve contracted by the pair map;
+3. identify the horizontal carrier factor and residual factor on X;
+4. prove how C.Q on S differs from the resultant intersection on X;
+5. prove the discriminant/different degree on X with all correction terms;
+6. show that the corrected upper bound is still smaller than the quadratic cross-intersection.
 
-5088 l^2 <= 1376 l,
+## Correct retained conclusion
 
-again impossible for every l>=1.
+No orbit is excluded.
 
-Therefore r != 1.
+Remaining balanced orbits:
+- 0000770000ff, size 48;
+- 00007b0000ff, size 48;
+- 000707000f0f, size 768.
 
-## Conclusion
+Remaining balanced support count: 864.
 
-Conditional on controlling the Stein-contraction correction, the numerical argument would exclude all four restriction degrees:
+The size-768 orbit is **not** excluded at this boundary. The pair-map route remains a pre-audit, zero-credit numerical preflight until the Stein/common-vertical adapter is complete.
 
-r=4: finite-map residual orthogonality / H-degree contradiction.
-r=3: residual curve has negative arithmetic genus.
-r=2: discriminant-resultant cross-intersection contradiction.
-r=1: discriminant-resultant cross-intersection contradiction.
-
-Therefore the orbit exclusion is NOT YET PROMOTED. The remaining load-bearing gate is to pass to the finite Stein factor and bound the contribution from common contracted curves before concluding that no integral carrier can exist on
-
-000707000f0f
-
-for any l>=1.
-
-By Aut(S) transport, the entire size-768 orbit is excluded.
-
-Balanced hard core update:
-
-before this route:
-  0000770000ff   size 48 survives
-  00007b0000ff   size 48 survives
-  000707000f0f  size768 survives
-
-after:
-  0000770000ff   size48 survives
-  00007b0000ff   size48 survives
-  000707000f0f   size768 excluded PRE-AUDIT
-
-remaining balanced supports: 96 in two Aut(S) orbits.
-
-## Source gate
-
-The load-bearing external algebra is the classical multiplicativity formula
-
-disc(fg)=disc(f)disc(g)Res(f,g)^2,
-
-applied after normalization/base change of D to the finite flat degree-four cover.
-For geometric finite covers, the discriminant divisor is the pushforward of the different /
-ramification divisor in characteristic zero, and projection formula gives its degree on D.
-
-This note remains PRE-AUDIT until the finite-flat base-change and resultant/intersection
-identification are hostile source-checked in the exact geometric setting.
-
-## Firewalls
-
-excluded_orbit_pre_audit=000707000f0f
-excluded_support_count_pre_audit=768
-remaining_balanced_support_count_pre_audit=96
-whole_MB104_closed=false
-receiver_credit=false
-theorem_credit=false
-endpoint_credit=false
-merge_authorized=false
-
-
-## Hostile correction discovered after this draft
-
-The product map on the smooth resolution is not finite: many exceptional curves are vertical for
-both fibrations.  Thus the statements above identifying the discriminant degree directly on S and
-asserting absence of vertical residual components are too strong as written.
-
-Required repair:
-
-1. form the Stein factorization S -> X -> P1xP1, where X is normal and X->P1xP1 is finite degree 4;
-2. identify the complete common vertical exceptional locus;
-3. bound the discrepancy between intersections on S and the discriminant/resultant intersection
-   on X;
-4. only then use the quadratic-vs-linear inequality.
-
-The large numerical margins remain promising, but no orbit exclusion credit is valid before this
-repair.
+No MB104, receiver, theorem, endpoint, Perfect-Cuboid, or merge credit is granted.
