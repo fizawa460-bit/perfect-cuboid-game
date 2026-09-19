@@ -58,8 +58,6 @@ def main():
 
     freeze = d["audit_freeze"]
     req(freeze["substantive_boundary_head"] == EXPECTED["substantive_freeze_boundary"], "substantive freeze boundary")
-    req(freeze["boundary_semantics"] == "COMPACT_RESTART_SUBSTANTIVE_CONTENT_FROZEN", "freeze semantics")
-    req(freeze["post_boundary_changes_must_be_bounded_audit_repairs_only"] is True, "bounded audit repair rule")
     allowed = {
         "stages/stage32/final-chain/32-03-multibranch/STATE.json",
         "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py",
@@ -81,7 +79,14 @@ def main():
         if x
     }
     if d["status"] == "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT":
+        req(freeze["boundary_semantics"] == "COMPACT_RESTART_SUBSTANTIVE_CONTENT_FROZEN", "freeze semantics")
+        req(freeze["post_boundary_changes_must_be_bounded_audit_repairs_only"] is True, "bounded audit repair rule")
         req(changed <= allowed, "post-freeze substantive path detected: " + ",".join(sorted(changed - allowed)))
+    else:
+        req(freeze["boundary_semantics"] == "AUDITED_COMPACT_RESTART_BOUNDARY__POST_AUDIT_RESEARCH_RELEASED", "post-audit boundary semantics")
+        req(freeze["post_boundary_changes_must_be_bounded_audit_repairs_only"] is False, "post-audit research release")
+        req(set(freeze["post_audit_research_path_allowlist"]) == allowed, "post-audit research path allowlist")
+        req(changed <= allowed, "post-audit path detected outside compact research surface: " + ",".join(sorted(changed - allowed)))
 
     rb = d["restart_boundary"]
     req(rb["base_main"] == EXPECTED["base_main"], "base main")
@@ -204,8 +209,40 @@ def main():
             req(delta_c+extra == delta_d, "quotient collision identity")
         req(all(x is False for x in qc["firewalls"].values()), "quotient collision firewalls")
         req(routing["b3_quotient_genus_collision_route"] == "CLOSED_AS_EXACT_EQUALITY", "quotient genus route closed")
-        req(routing["b3_split_branch_condition_live"] is True, "split branch route live")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-B3-SPLIT-BRANCH-CONDUCTOR", "post-audit active leaf")
+        sb=d["retained_frontier"]["b3_split_branch_conductor_nogo"]
+        req(sb["source_w4_k3_note_blob"] == "ff61ae6c06549af194b4f1af611c7d4ea46d0dff", "split source lock")
+        req(sb["conductor_abel_note_blob"] == "02eb62f926f3f7192e5c642b2a5d874d6086e35a", "conductor Abel source lock")
+        req(sb["theta_ratio_nogo_note_blob"] == "bf1d6b96ae6674abe50f42e9a147fb040812c81e", "theta no-go source lock")
+        req(sb["ambient_square_root"] == "q^*(a1^2+a2^2)=b3^2", "ambient b3 square root")
+        req(sb["branch_half_line"] == "O_E(Z)=H_E", "branch half line")
+        req(sb["support_divisor_line"] == "O_E(B_node)=H_E", "support line")
+        req(sb["conductor_line"] == "O_E(Delta)=H_E^(3l+1)", "conductor line")
+        req(sb["support_nodes_have_b3_nonzero"] is True and sb["Z_disjoint_from_supported_node_divisor"] is True, "b3/support disjointness")
+        req(sb["fibration_functions_can_detect_beauville_sheet"] is False, "box functions sheet blind")
+        req(all(x is False for x in sb["firewalls"].values()), "split-branch firewalls")
+
+        eta=d["retained_frontier"]["absent_eta_character_line"]
+        req(eta["source_exact_grid_note_blob"] == "cf7048489a4bd9c7588ac32c58bb05abbe1c942c", "eta grid source lock")
+        req(eta["source_support_factorization_note_blob"] == "3096203416a621e90bfb4d2fc57e038063358edc", "eta support factorization lock")
+        req(eta["source_ratio_nogo_note_blob"] == "bf1d6b96ae6674abe50f42e9a147fb040812c81e", "eta ratio no-go lock")
+        req(eta["source_fullG_character_note_blob"] == "cbc8307689ae91b08f547fe1c69606086d06dec1", "eta full-G source lock")
+        req(eta["factor1_unramified_per_l"] == [32,24,56,0,0,0], "eta factor1 passport")
+        req(eta["factor2_unramified_per_l"] == [56,0,24,32,0,0], "eta factor2 passport")
+        req(eta["intrinsic_branch_divisors"]["b1_type"] == "U1=B_w=phi_2^(-1)(1)", "eta U1")
+        req(eta["intrinsic_branch_divisors"]["b2_type"] == "U2=B_z=phi_1^(-1)(i)", "eta U2")
+        req(eta["intrinsic_branch_divisors"]["b3_type"] == "U3=0", "eta U3")
+        req(eta["relations"] == ["M^2=H_E","N1^2=M","N2^2=M","eta=N3","eta^2=O_E","N1*N2*eta=M","eta=N1/N2"], "eta line relations")
+        req(eta["eta_nontrivial"] is True, "eta nontrivial")
+        req(eta["abstract_G_cover_building_data_obstructed"] is False, "eta building data feasible")
+        req(all(x is False for x in eta["firewalls"].values()), "eta firewalls")
+
+        req(routing["b3_split_branch_condition_live"] is False, "split branch no longer live")
+        req(routing["b3_split_branch_route"] == "CLOSED_TAUTOLOGICAL_BY_AMBIENT_B3", "split branch closure")
+        req(routing["absent_eta_character_line_route"] == "CLOSED_FEASIBLE_AT_LINE_BUNDLE_LEVEL", "eta line closure")
+        req(routing["anti_invariant_conductor_first_jet_live"] is True, "anti-invariant jet route live")
+        req(routing["box_surface_functions_are_sheet_blind"] is True, "box sheet blindness")
+        req(routing["f7_second_section_not_a_sheet_detector"] is True, "f7 sheet firewall")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-ANTI-INVARIANT-CONDUCTOR-FIRST-JET", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
