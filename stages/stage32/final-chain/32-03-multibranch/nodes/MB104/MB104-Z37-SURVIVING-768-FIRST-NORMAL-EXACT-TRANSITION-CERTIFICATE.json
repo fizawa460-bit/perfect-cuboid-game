@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32_MB104_Z37_SURVIVING768_FIRST_NORMAL_EXACT_TRANSITION_V1",
+  "status": "PRE_AUDIT_EXACT_FIRST_NORMAL_VANISHING_NO_CREDIT",
+  "support": "000707000f0f",
+  "source_locks": {
+    "note_blob": "87ee5db44a7784a2d1e64a9effe4fbe3bd525c66",
+    "stoll_testa_repo": "MichaelStollBayreuth/Verification",
+    "stoll_testa_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "stoll_testa_cuboids_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "z33g_note_blob": "14c1661c5a3b1975474c1f983ed08b29c2150731",
+    "z33g_certificate_blob": "62374fbb19092a2a4a5630fb86b37ddb4924ca29",
+    "z33h_note_blob": "a52a101290c9b2b7024be03858eebd69f67d206d"
+  },
+  "intersections": [
+    "r_plus=(1,1,i,0,0,+sqrt(2),1)",
+    "r_minus=(1,1,i,0,0,-sqrt(2),1)"
+  ],
+  "local_coordinates": {
+    "x": "b1",
+    "y": "b2",
+    "a1": "sqrt(1-x^2)",
+    "a2": "sqrt(1-y^2)",
+    "a3": "i*sqrt(1-x^2-y^2)",
+    "b3": "s*sqrt(1-(x^2+y^2)/2)",
+    "A": "x=0",
+    "B": "y=0",
+    "U": "xy=0"
+  },
+  "transition": {
+    "LA": "b3+i*y-2*a2",
+    "LB": "-x+i*b3-2*a3",
+    "g": "(LB/LA)*(a2^4/a3^4)",
+    "g_at_each_intersection": "i",
+    "normalized_G": "g/i",
+    "conductor_normalization": "Ghat=G(x,y)/(G(x,0)*G(0,y))"
+  },
+  "derivative_table": {
+    "LA_x": 0,
+    "LA_y": "i",
+    "LA_xy": 0,
+    "LB_x": -1,
+    "LB_y": 0,
+    "LB_xy": 0,
+    "log_a2_xy": 0,
+    "log_a3_xy": 0,
+    "log_g_xy": 0
+  },
+  "first_normal": {
+    "c_plus": 0,
+    "c_minus": 0,
+    "cycle_vector": [
+      0,
+      0
+    ],
+    "obstruction": false
+  },
+  "disposition": {
+    "surviving_768_excluded": false,
+    "higher_formal_obstruction_computed": false,
+    "next_if_Z3_continues": "higher-order formal gluing only"
+  },
+  "credit_firewall": {
+    "finite_degree_window_proved": false,
+    "MB104_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  }
+}
