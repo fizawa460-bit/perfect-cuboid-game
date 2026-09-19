@@ -2182,7 +2182,7 @@ jobs:
           import json,sys
           p=json.load(open(sys.argv[1]))
           assert p["schema"]=="STAGE32_MAIN_HPADJ22_DIRECT_COUNT_BENCHMARK_RUNKEY_V1"
-          assert p["generation"]==1 and p["armed"] is True and p["independent_parallel_route"] is True
+          assert p["generation"]==2 and p["armed"] is True and p["independent_parallel_route"] is True
           assert p["source_locks"]["direct_worker_blob_sha1"]=="e965ab0a6ea51938006882ca2110016f48b3768e"
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==1
           assert p["resource_preflight"]["conservative_total_if_bridge_starts"]==13 <= 18
@@ -2344,13 +2344,13 @@ jobs:
           import json,sys
           p=json.load(open(sys.argv[1]))
           assert p["schema"]=="STAGE32_MAIN_HPADJ22_SALVAGE_ADAPTER_RUNKEY_V1"
-          assert p["generation"]==1 and p["armed"] is True
-          assert p["source_locks"]["adapter_script_blob_sha1"]=="e61656fa20238e56f42d6848e579d6ac3b98362a"
+          assert p["generation"]==2 and p["armed"] is True
+          assert p["source_locks"]["adapter_script_blob_sha1"]=="2ab380459b545d15816405cb7b018b3dc0e44238"
           assert p["evidence"]["validated_partial_cells"]==114
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==0
           assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["producer_partial_credit_not_overridden"] is True
           PY
-          test "$(git hash-object stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py)" = "e61656fa20238e56f42d6848e579d6ac3b98362a"
+          test "$(git hash-object stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py)" = "2ab380459b545d15816405cb7b018b3dc0e44238"
           sed -i '$d' "$GITHUB_OUTPUT"; echo "run=true" >> "$GITHUB_OUTPUT"
 
   hpadj22-salvage-adapter:

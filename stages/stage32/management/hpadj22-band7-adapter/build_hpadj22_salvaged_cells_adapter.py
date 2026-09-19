@@ -48,7 +48,7 @@ def main():
     req(snap.get("canonical_sha256_without_this_field")==SNAP_CANON,"recovery snapshot stored canonical drift")
     req(canon(snap)==SNAP_CANON,"recovery snapshot canonical drift")
     req(snap.get("all_bands_complete") is False,"unexpected original production completion")
-    req(int(snap.get("validated_rows",-1))==114,"original validated-row count drift")
+    req(int(snap.get("validated_carried_row_units",-1))==114,"original validated-row count drift")
 
     partial={}
     per_band_partial={}
