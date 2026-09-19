@@ -76,17 +76,13 @@ def main() -> None:
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
 
     fib_rows = [row for row in lanes["lanes"] if row.get("lane") == "MB-FIB"]
-    req(len(fib_rows) == 1, "MB-FIB lane adapter missing or duplicated")
-    fib = fib_rows[0]
-    req(fib["state_path"] == "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json", "MB-FIB state path drift")
-    req(fib["startup_path"] == "stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md", "MB-FIB startup path drift")
-    req(fib["demand_role"] == "PRODUCER" and fib["consumer_lane"] == "MB", "MB-FIB producer/consumer routing drift")
-    req(fib["promotion_blocked_without_active_claim"] is True, "MB-FIB promotion firewall drift")
+    req(len(fib_rows) == 0, "MB-FIB must remain outside the Stage32 claim-lane adapter registry")
 
     fib_state = json.loads((REPO / "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
     req(fib_state["schema"] == "STAGE32_MB_FIB_STATE_V1", "MB-FIB state schema drift")
     req(fib_state["command"] == "stage32mb-fib", "MB-FIB command drift")
     req(fib_state["consumer_lane"] == "MB", "MB-FIB consumer drift")
+    req(fib_state["routing"]["registered_lane_adapter"] is False, "MB-FIB unexpectedly registered as claim lane")
     req(fib_state["routing"]["ordinary_mb_mainbatch_preloads_this_lane"] is False, "MB-FIB leaked into ordinary MB startup")
     req(fib_state["routing"]["fib_freeze_blocks_mb_mainbatch"] is False, "MB-FIB freeze incorrectly blocks MB mainbatch")
     req(fib_state["execution"]["heavy_armed"] is False, "MB-FIB bootstrap unexpectedly arms heavy compute")
