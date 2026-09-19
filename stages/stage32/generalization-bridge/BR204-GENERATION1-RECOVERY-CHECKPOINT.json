@@ -1,0 +1,1219 @@
+{
+  "schema": "STAGE32_BR204_GENERATION1_RECOVERY_CHECKPOINT_V1",
+  "status": "RUN_35344605175_CANCELLED__DURABLE_EVIDENCE_FROZEN__FINER_PARTITION_REQUIRED__LIVE_MAIN_V45_REFRESH_REQUIRED__ZERO_CREDIT",
+  "bridge": {
+    "pr": 1813,
+    "branch": "stage32bridge-mainbatch",
+    "execution_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
+    "run_id": 35344605175,
+    "run_conclusion": "cancelled"
+  },
+  "live_main_at_recovery": {
+    "repository_main_head": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c",
+    "main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "138652739800650593494",
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "predecessor_lock_changed_since_generation1": true
+  },
+  "generation1_inventory": {
+    "total_workflow_jobs": 256,
+    "outer_unit_jobs": 248,
+    "outer_unit_conclusions": {
+      "failure": 100,
+      "success": 29,
+      "cancelled": 119
+    },
+    "api_artifact_count_including_recovery_summary": 76,
+    "recovery_summary_discovered_artifact_count_excluding_itself": 75,
+    "durable_outer_artifact_count": 72,
+    "complete_outer_artifact_count": 31,
+    "partial_outer_artifact_count": 41,
+    "partial_status_count": 41,
+    "soft_deadline_partial_count": 31,
+    "failed_outer_jobs_without_durable_outer_payload_count": 66
+  },
+  "exact_hard_stops_with_persisted_status": [
+    {
+      "b": 2,
+      "band": [
+        102,
+        146
+      ],
+      "failed_d": 110,
+      "reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+    },
+    {
+      "b": 5,
+      "band": [
+        102,
+        146
+      ],
+      "failed_d": 108,
+      "reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+    },
+    {
+      "b": 30,
+      "band": [
+        102,
+        146
+      ],
+      "failed_d": 104,
+      "reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+    }
+  ],
+  "no_payload_failure_classification": {
+    "rule": "These jobs are execution-resource failures with no durable band payload. Their ~3600s durations are consistent with the single-d timeout path; the checkpoint does not convert that operational pattern into a mathematical result.",
+    "representative_logs_verified": [
+      {
+        "job_id": 105598877921,
+        "b": 0,
+        "band": [
+          148,
+          192
+        ],
+        "failed_d": 148,
+        "stop_reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+      },
+      {
+        "job_id": 105598877934,
+        "b": 3,
+        "band": [
+          102,
+          146
+        ],
+        "failed_d": 102,
+        "stop_reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+      },
+      {
+        "job_id": 105598879406,
+        "b": 6,
+        "band": [
+          148,
+          192
+        ],
+        "failed_d": 148,
+        "stop_reason": "SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION"
+      }
+    ],
+    "failed_jobs_without_payload": [
+      {
+        "job_id": 105598877874,
+        "b": 1,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598877921,
+        "b": 0,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598877934,
+        "b": 3,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598878005,
+        "b": 4,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598878025,
+        "b": 2,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598878034,
+        "b": 3,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598878072,
+        "b": 4,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598879227,
+        "b": 5,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598879406,
+        "b": 6,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598879435,
+        "b": 6,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3608
+      },
+      {
+        "job_id": 105598879659,
+        "b": 7,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598879877,
+        "b": 7,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598880422,
+        "b": 8,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598880423,
+        "b": 8,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598880848,
+        "b": 9,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598880868,
+        "b": 9,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598881209,
+        "b": 10,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598881547,
+        "b": 10,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598881733,
+        "b": 11,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598881844,
+        "b": 11,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598882374,
+        "b": 12,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598882448,
+        "b": 12,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598882941,
+        "b": 13,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598883089,
+        "b": 13,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598883373,
+        "b": 14,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598883385,
+        "b": 14,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598883991,
+        "b": 15,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598884356,
+        "b": 15,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598884874,
+        "b": 16,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598884927,
+        "b": 16,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598885334,
+        "b": 17,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598885422,
+        "b": 17,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598886088,
+        "b": 18,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598886125,
+        "b": 18,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598886451,
+        "b": 19,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598886503,
+        "b": 19,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598886815,
+        "b": 20,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598887344,
+        "b": 20,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598887496,
+        "b": 21,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598887551,
+        "b": 21,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598887928,
+        "b": 22,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598888013,
+        "b": 22,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598888546,
+        "b": 23,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598888579,
+        "b": 23,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598888918,
+        "b": 24,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598889137,
+        "b": 24,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598889185,
+        "b": 25,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598889624,
+        "b": 25,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598890010,
+        "b": 26,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598890081,
+        "b": 26,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598890442,
+        "b": 27,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598890445,
+        "b": 27,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598890912,
+        "b": 28,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598891245,
+        "b": 28,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598891335,
+        "b": 29,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598891425,
+        "b": 29,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598891592,
+        "b": 30,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598892022,
+        "b": 31,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598892334,
+        "b": 31,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598892419,
+        "b": 32,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598892630,
+        "b": 32,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3607
+      },
+      {
+        "job_id": 105598892905,
+        "b": 33,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3606
+      },
+      {
+        "job_id": 105598893111,
+        "b": 33,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3605
+      },
+      {
+        "job_id": 105598893243,
+        "b": 34,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3604
+      },
+      {
+        "job_id": 105598893437,
+        "b": 34,
+        "band": [
+          148,
+          192
+        ],
+        "elapsed_seconds": 3603
+      },
+      {
+        "job_id": 105598893734,
+        "b": 35,
+        "band": [
+          102,
+          146
+        ],
+        "elapsed_seconds": 3605
+      }
+    ]
+  },
+  "durable_outer_artifacts": [
+    {
+      "name": "br204-p-b0-d102-146",
+      "artifact_id": 10557008549,
+      "size_bytes": 671434,
+      "digest": "sha256:8d8b8b706b7286796b585a40c7b27d8f6c1ea2e3ac5a2b71554e51bd67a5cd4c",
+      "expires_at": "2026-09-19T16:27:48Z"
+    },
+    {
+      "name": "br204-p-b1-d102-146",
+      "artifact_id": 10557102197,
+      "size_bytes": 498327,
+      "digest": "sha256:3ae1ffe6b37c75aae5986eb742dbd7726c28af985abc3cee557107a50fc3a767",
+      "expires_at": "2026-09-19T16:20:55Z"
+    },
+    {
+      "name": "br204-p-b10-d56-100",
+      "artifact_id": 10567574286,
+      "size_bytes": 318388,
+      "digest": "sha256:3af51e50f2de8674203b1ce5fdd7dcd548b579777ad45e6700b9bd4b5b129725",
+      "expires_at": "2026-09-19T21:26:17Z"
+    },
+    {
+      "name": "br204-p-b11-d56-100",
+      "artifact_id": 10567726952,
+      "size_bytes": 299607,
+      "digest": "sha256:144cefdfb7ad3f58c2976802617eee200720eb55ab8e50fbb0ce8c89b0332545",
+      "expires_at": "2026-09-19T21:22:38Z"
+    },
+    {
+      "name": "br204-p-b12-d56-100",
+      "artifact_id": 10568964167,
+      "size_bytes": 316154,
+      "digest": "sha256:c13babf2a81a287a95984f9be42664fc1536b3a09f8df2a815cd7971207c2b23",
+      "expires_at": "2026-09-19T22:08:01Z"
+    },
+    {
+      "name": "br204-p-b13-d56-100",
+      "artifact_id": 10571381696,
+      "size_bytes": 296953,
+      "digest": "sha256:4a84132bfeb0bbf2475e945a4d36961d7a2d80412264791853aaf01e141579ef",
+      "expires_at": "2026-09-19T22:37:56Z"
+    },
+    {
+      "name": "br204-p-b14-d56-100",
+      "artifact_id": 10571865333,
+      "size_bytes": 332882,
+      "digest": "sha256:c4c51cf758e98f47d08e348f97d857d2fa7db513e492b3e408f9ccfc5e87305b",
+      "expires_at": "2026-09-19T22:57:01Z"
+    },
+    {
+      "name": "br204-p-b15-d56-100",
+      "artifact_id": 10571738216,
+      "size_bytes": 294318,
+      "digest": "sha256:19ae433dac6790efd09de1c65ab5478c6c830c0c02df501c5046f83984431a15",
+      "expires_at": "2026-09-19T23:21:20Z"
+    },
+    {
+      "name": "br204-p-b16-d56-100",
+      "artifact_id": 10572497898,
+      "size_bytes": 309236,
+      "digest": "sha256:fa7a57dd36b260af139dfd53df756299c9540a4fbbeffc7772f746962d4888e8",
+      "expires_at": "2026-09-19T23:52:58Z"
+    },
+    {
+      "name": "br204-p-b17-d56-100",
+      "artifact_id": 10574131300,
+      "size_bytes": 288859,
+      "digest": "sha256:526e3b47d45756f2c9b2e50fef513567e152d4e0afbe486b80467814ca722984",
+      "expires_at": "2026-09-20T00:42:03Z"
+    },
+    {
+      "name": "br204-p-b18-d56-100",
+      "artifact_id": 10574348187,
+      "size_bytes": 286585,
+      "digest": "sha256:6cbb1c18a2ceece3d40b969f90b89db4c2634a60c9f31d1f426e75c3a7eeb577",
+      "expires_at": "2026-09-20T01:05:54Z"
+    },
+    {
+      "name": "br204-p-b19-d56-100",
+      "artifact_id": 10575171141,
+      "size_bytes": 283651,
+      "digest": "sha256:4de6b077b3dec1951fbc53fbe0e0bcc2d1c2c8004254cb6d2b8248ed129a5511",
+      "expires_at": "2026-09-20T01:41:43Z"
+    },
+    {
+      "name": "br204-p-b2-d102-146",
+      "artifact_id": 10558457280,
+      "size_bytes": 365350,
+      "digest": "sha256:d12027b3ad98eb71a25b064c9c81aaacbfee2ad58f2d0e287f76f1e2bb3e04dd",
+      "expires_at": "2026-09-19T16:50:38Z"
+    },
+    {
+      "name": "br204-p-b2-d56-100",
+      "artifact_id": 10557291251,
+      "size_bytes": 411135,
+      "digest": "sha256:1ffc2554397c35746aad9273574fc60a2fc012558751717057f4b86786e2e451",
+      "expires_at": "2026-09-19T16:17:04Z"
+    },
+    {
+      "name": "br204-p-b20-d56-100",
+      "artifact_id": 10574763485,
+      "size_bytes": 280492,
+      "digest": "sha256:7b08a772a0b93718a5847ea1cc067f2bf8b3deccac285a04b72e1f2b9cdd9075",
+      "expires_at": "2026-09-20T02:04:03Z"
+    },
+    {
+      "name": "br204-p-b21-d56-100",
+      "artifact_id": 10576510611,
+      "size_bytes": 276781,
+      "digest": "sha256:70ad9998c77bbb1598bd6121547432f727ceccdce72b25333bd6ef48af8f3cef",
+      "expires_at": "2026-09-20T02:39:33Z"
+    },
+    {
+      "name": "br204-p-b22-d56-100",
+      "artifact_id": 10577060059,
+      "size_bytes": 291031,
+      "digest": "sha256:6cf62ed541803c330ea4f22fcd2ce9a6ba01097c2159d6c713403baa09370cc9",
+      "expires_at": "2026-09-20T03:20:26Z"
+    },
+    {
+      "name": "br204-p-b23-d56-100",
+      "artifact_id": 10576712126,
+      "size_bytes": 287183,
+      "digest": "sha256:55b9406a6ab808e9a7af39523de8c39ba42fe9c9f2f77c594a2a1031c89758e1",
+      "expires_at": "2026-09-20T03:53:21Z"
+    },
+    {
+      "name": "br204-p-b24-d56-100",
+      "artifact_id": 10577901130,
+      "size_bytes": 282594,
+      "digest": "sha256:be78ded444da03409ad2b506d5ed357e976f3ad0ed1c427915dcbef3052d09cb",
+      "expires_at": "2026-09-20T04:04:46Z"
+    },
+    {
+      "name": "br204-p-b25-d56-100",
+      "artifact_id": 10578265131,
+      "size_bytes": 278351,
+      "digest": "sha256:b9b332dcaaf982c7931ced23d0fd65081a1008e09ab007c21feed9d61edf4115",
+      "expires_at": "2026-09-20T04:53:31Z"
+    },
+    {
+      "name": "br204-p-b26-d56-100",
+      "artifact_id": 10578921535,
+      "size_bytes": 309827,
+      "digest": "sha256:624ae4ba973809a5bb2d15ab8086b7573831b226a2adf7f2ade8d89837ff3760",
+      "expires_at": "2026-09-20T05:35:12Z"
+    },
+    {
+      "name": "br204-p-b27-d56-100",
+      "artifact_id": 10578886351,
+      "size_bytes": 286804,
+      "digest": "sha256:8327e0a9cc0ce523746beb808fcc30f132b61c96718f112ee3167f4da2c53725",
+      "expires_at": "2026-09-20T05:29:13Z"
+    },
+    {
+      "name": "br204-p-b28-d56-100",
+      "artifact_id": 10579216043,
+      "size_bytes": 281246,
+      "digest": "sha256:a4b2f31f4d9d0024a7748a7be510bc660ed26dbfba99c5cc29ac8573b63c7f98",
+      "expires_at": "2026-09-20T06:22:39Z"
+    },
+    {
+      "name": "br204-p-b29-d56-100",
+      "artifact_id": 10580040256,
+      "size_bytes": 275072,
+      "digest": "sha256:f7b1b2219294b17bc896672d0812b99e5fe0b9b20e0b2792932be399d5623f19",
+      "expires_at": "2026-09-20T06:50:43Z"
+    },
+    {
+      "name": "br204-p-b3-d56-100",
+      "artifact_id": 10556874594,
+      "size_bytes": 359173,
+      "digest": "sha256:f62f1e17044f34be35f35a9a60bfa700bcb46dd24d0863c2cb83ddf1eadfde6a",
+      "expires_at": "2026-09-19T16:31:45Z"
+    },
+    {
+      "name": "br204-p-b30-d102-146",
+      "artifact_id": 10578456577,
+      "size_bytes": 84934,
+      "digest": "sha256:95101e03d347e47f02db0251c5438536ad65f9cb5164427ce1305f38bd1c21b9",
+      "expires_at": "2026-09-20T05:16:28Z"
+    },
+    {
+      "name": "br204-p-b30-d56-100",
+      "artifact_id": 10579931462,
+      "size_bytes": 268253,
+      "digest": "sha256:f9fb0317c359b559d63c8582195cab0382417c02e6c42ada676242f24e0c57a5",
+      "expires_at": "2026-09-20T07:12:25Z"
+    },
+    {
+      "name": "br204-p-b31-d56-100",
+      "artifact_id": 10579986587,
+      "size_bytes": 317787,
+      "digest": "sha256:b31edbafffce0084c763214c732212316eba3aeb759ca69ac9d20ed7a2db976b",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b32-d56-100",
+      "artifact_id": 10579589068,
+      "size_bytes": 236772,
+      "digest": "sha256:c35cda52a2493b760030bb70b0d248eda2a9fcd9e3f2995f6d131de7cb8cd039",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b33-d56-100",
+      "artifact_id": 10579294464,
+      "size_bytes": 213127,
+      "digest": "sha256:d1015d667f6c49fbc7586dc7fd6b814244eaddc1c55c5c7870a3ab7815982127",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b34-d56-100",
+      "artifact_id": 10579184573,
+      "size_bytes": 190522,
+      "digest": "sha256:3e216f859006ad9e40ae1d0b12bc03af3dcf078136e9113da5e48987c34b3d47",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b35-d56-100",
+      "artifact_id": 10579274538,
+      "size_bytes": 183411,
+      "digest": "sha256:09a53586fdd9d4d528318247ca1316cd0b4d12cb0c5448d1df142b4ec2cc24c0",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b36-d56-100",
+      "artifact_id": 10579639253,
+      "size_bytes": 123445,
+      "digest": "sha256:044bd93adc6556a67f60e39f58671348d372f443648dc43a623421d51c3496fa",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b37-d56-100",
+      "artifact_id": 10579274540,
+      "size_bytes": 92686,
+      "digest": "sha256:86c215795ff8cfc427fffcc42b27354f67d45e9ed45dd01a74a1172aeef18d6a",
+      "expires_at": "2026-09-20T07:15:34Z"
+    },
+    {
+      "name": "br204-p-b4-d56-100",
+      "artifact_id": 10559057999,
+      "size_bytes": 382096,
+      "digest": "sha256:1f6e633f79270ef9ed6d0aba734cf80b53336db5d8cfdc1661f9ddbd40a994c4",
+      "expires_at": "2026-09-19T17:23:59Z"
+    },
+    {
+      "name": "br204-p-b5-d102-146",
+      "artifact_id": 10558474783,
+      "size_bytes": 279805,
+      "digest": "sha256:c6045109d46fc580c28f9b58f0b840b643a22ed72612450d9330c48dd9916bab",
+      "expires_at": "2026-09-19T17:05:02Z"
+    },
+    {
+      "name": "br204-p-b5-d56-100",
+      "artifact_id": 10559619496,
+      "size_bytes": 329639,
+      "digest": "sha256:61874655b017eb2161d9cfc2d67a64e5e46b288ee502bcca1eb4d6835a4b9659",
+      "expires_at": "2026-09-19T17:35:52Z"
+    },
+    {
+      "name": "br204-p-b6-d56-100",
+      "artifact_id": 10562345800,
+      "size_bytes": 368624,
+      "digest": "sha256:e5db6cc87f0c6c890361bbd5220db4eca4da61347c27b65debf66c663d26a456",
+      "expires_at": "2026-09-19T18:42:16Z"
+    },
+    {
+      "name": "br204-p-b7-d56-100",
+      "artifact_id": 10563725554,
+      "size_bytes": 315108,
+      "digest": "sha256:3cb0f0c9b4ebfe86f973f2f72dbebfefecbb77dbaec7623efcae1ff5b71f7781",
+      "expires_at": "2026-09-19T19:08:57Z"
+    },
+    {
+      "name": "br204-p-b8-d56-100",
+      "artifact_id": 10566026542,
+      "size_bytes": 354405,
+      "digest": "sha256:067314d9668ce26108f62bdc97ce37561ce274f5d2b18e09d0f4e5216ab9fc04",
+      "expires_at": "2026-09-19T20:16:02Z"
+    },
+    {
+      "name": "br204-p-b9-d56-100",
+      "artifact_id": 10566726645,
+      "size_bytes": 319046,
+      "digest": "sha256:f38b39174d0d64a796bffc939da4a2aacb0e01ee3062663a6fbd040813eef55b",
+      "expires_at": "2026-09-19T20:48:45Z"
+    },
+    {
+      "name": "br204-u-b0-d56-100",
+      "artifact_id": 10548171325,
+      "size_bytes": 394372,
+      "digest": "sha256:4497f3bef11f431979ace5366705e82dbf5ca42e01916879b7cb854b747c6b58",
+      "expires_at": "2026-09-19T13:12:20Z"
+    },
+    {
+      "name": "br204-u-b0-d8-54",
+      "artifact_id": 10546293819,
+      "size_bytes": 97634,
+      "digest": "sha256:c74df51026e1822bcba0187d8232db988c6fe6ef08cca9b4d8bd563114902e41",
+      "expires_at": "2026-09-19T12:28:05Z"
+    },
+    {
+      "name": "br204-u-b1-d56-100",
+      "artifact_id": 10553892439,
+      "size_bytes": 414418,
+      "digest": "sha256:7a5132345d53fd60f27b7f2e347b8c94043bdabf7333d52d98f61a36be3498aa",
+      "expires_at": "2026-09-19T15:00:44Z"
+    },
+    {
+      "name": "br204-u-b1-d8-54",
+      "artifact_id": 10546795769,
+      "size_bytes": 106456,
+      "digest": "sha256:c0bd7ff62062f8dbdbeb7c6cc8999a1adf8704b2e7307882b9306e05f238a00c",
+      "expires_at": "2026-09-19T12:35:54Z"
+    },
+    {
+      "name": "br204-u-b10-d8-54",
+      "artifact_id": 10558704071,
+      "size_bytes": 111731,
+      "digest": "sha256:77f9e2aea5196bc8ef523295fc26255625354526f221591643f19d799d8573f5",
+      "expires_at": "2026-09-19T17:03:11Z"
+    },
+    {
+      "name": "br204-u-b11-d8-54",
+      "artifact_id": 10560141188,
+      "size_bytes": 110044,
+      "digest": "sha256:c7b6381431fe27bbcadf5e2a93c3c016d402a3edba5a6fa9f694eda6ab073cde",
+      "expires_at": "2026-09-19T17:41:58Z"
+    },
+    {
+      "name": "br204-u-b12-d8-54",
+      "artifact_id": 10560143377,
+      "size_bytes": 108007,
+      "digest": "sha256:482d30d3f9cb91d1213196d4a130edee5022766dadd949b4a1e5657d739d69bd",
+      "expires_at": "2026-09-19T17:55:17Z"
+    },
+    {
+      "name": "br204-u-b13-d8-54",
+      "artifact_id": 10562100553,
+      "size_bytes": 105710,
+      "digest": "sha256:40520ddfd960de381ce9e3031cb5ac9a5b8cf2e54e53e56ad053b36348802f7e",
+      "expires_at": "2026-09-19T18:38:01Z"
+    },
+    {
+      "name": "br204-u-b14-d8-54",
+      "artifact_id": 10563182147,
+      "size_bytes": 103153,
+      "digest": "sha256:4a24b39cea0a45341d21286cbed1d69e9dd203e24d0940477999ddcc545703dd",
+      "expires_at": "2026-09-19T18:50:58Z"
+    },
+    {
+      "name": "br204-u-b15-d8-54",
+      "artifact_id": 10564120277,
+      "size_bytes": 100286,
+      "digest": "sha256:8042a5645cf04f15986985e1defc4496e25ec16f3e262e294b6ba3625e717c4a",
+      "expires_at": "2026-09-19T19:19:17Z"
+    },
+    {
+      "name": "br204-u-b16-d8-54",
+      "artifact_id": 10564979268,
+      "size_bytes": 97483,
+      "digest": "sha256:7d2db25de3409f83df73d51a24458fb158b66e4a62d4ec153e2e66d4556ae128",
+      "expires_at": "2026-09-19T20:02:23Z"
+    },
+    {
+      "name": "br204-u-b17-d8-54",
+      "artifact_id": 10567110799,
+      "size_bytes": 94161,
+      "digest": "sha256:3eaed2b850374c8f54144c60d7580330ea0c1a97109a1b398abab24b8a4b64c7",
+      "expires_at": "2026-09-19T20:49:14Z"
+    },
+    {
+      "name": "br204-u-b18-d8-54",
+      "artifact_id": 10568195607,
+      "size_bytes": 91315,
+      "digest": "sha256:963b4b3dbc56b31d2ef9665e39b1eb18d703acc2625bfc736685b8c1f4ed27c5",
+      "expires_at": "2026-09-19T21:16:50Z"
+    },
+    {
+      "name": "br204-u-b19-d8-54",
+      "artifact_id": 10569000883,
+      "size_bytes": 87284,
+      "digest": "sha256:4c6a9df66fde34eaaf50fb70fc217bc4c2276b1e5308bf4e3b586ef4f5f24ac8",
+      "expires_at": "2026-09-19T21:36:30Z"
+    },
+    {
+      "name": "br204-u-b2-d8-54",
+      "artifact_id": 10546708300,
+      "size_bytes": 111847,
+      "digest": "sha256:97d142ffe7cc1fb4a0c3b467762a2fde92a192462a856711b405fdb213d7bbbd",
+      "expires_at": "2026-09-19T12:31:57Z"
+    },
+    {
+      "name": "br204-u-b20-d8-54",
+      "artifact_id": 10570760389,
+      "size_bytes": 84091,
+      "digest": "sha256:627cb3695b3581b2b816f1fb8b8b861d0964b71ed4d7298187d58e940f82d9c3",
+      "expires_at": "2026-09-19T22:17:22Z"
+    },
+    {
+      "name": "br204-u-b21-d8-54",
+      "artifact_id": 10570894061,
+      "size_bytes": 80300,
+      "digest": "sha256:f3828d1a6ba2706e5fbaffb0d1ca007783df63cfc299b64d0e60b9a357e7b1e6",
+      "expires_at": "2026-09-19T22:46:38Z"
+    },
+    {
+      "name": "br204-u-b22-d8-54",
+      "artifact_id": 10571513579,
+      "size_bytes": 76528,
+      "digest": "sha256:f07cdb7af5f6bf7730ef9f634c4b549b3b1162dc4df09b75adc9006549ce7cd7",
+      "expires_at": "2026-09-19T23:01:44Z"
+    },
+    {
+      "name": "br204-u-b23-d8-54",
+      "artifact_id": 10572064107,
+      "size_bytes": 72682,
+      "digest": "sha256:9d8df5836aaf150df87767ba1ee7bbd3afad83faae1fa0b84a800f7c15e39ebd",
+      "expires_at": "2026-09-19T23:29:37Z"
+    },
+    {
+      "name": "br204-u-b24-d8-54",
+      "artifact_id": 10572942044,
+      "size_bytes": 58561,
+      "digest": "sha256:cf300ec7ea18c20c73942e9f93456290d48e26153b51eab0498e9b5bc11f42bf",
+      "expires_at": "2026-09-19T23:57:14Z"
+    },
+    {
+      "name": "br204-u-b25-d8-54",
+      "artifact_id": 10574221560,
+      "size_bytes": 44824,
+      "digest": "sha256:6a01c28e9d572ff446ad1d06b88b56f71ab45b20eb782a2c0e3867fe0de28f94",
+      "expires_at": "2026-09-20T00:46:23Z"
+    },
+    {
+      "name": "br204-u-b26-d8-54",
+      "artifact_id": 10574668227,
+      "size_bytes": 28051,
+      "digest": "sha256:d5f0d1f2b6fc4b1906745576de6c622b9cdf59b825e11bf4931e31df2c8845f4",
+      "expires_at": "2026-09-20T01:08:57Z"
+    },
+    {
+      "name": "br204-u-b27-d8-54",
+      "artifact_id": 10573764829,
+      "size_bytes": 12954,
+      "digest": "sha256:e765e51f88f612635361123ed5565e4901be584f31f4b5b794fdba96f829d7bd",
+      "expires_at": "2026-09-20T01:43:25Z"
+    },
+    {
+      "name": "br204-u-b3-d8-54",
+      "artifact_id": 10546761058,
+      "size_bytes": 113396,
+      "digest": "sha256:9c71bab3ac5bcb21fbcc8b6181fcecd7f89ce8b1f7d995347d33080bb40542e4",
+      "expires_at": "2026-09-19T12:35:19Z"
+    },
+    {
+      "name": "br204-u-b4-d8-54",
+      "artifact_id": 10549891111,
+      "size_bytes": 114353,
+      "digest": "sha256:a8c02da8a305eec72a5faa8bc2cc38457725f02d1faaf2eacc46b391ade2ea95",
+      "expires_at": "2026-09-19T13:20:37Z"
+    },
+    {
+      "name": "br204-u-b5-d8-54",
+      "artifact_id": 10549038802,
+      "size_bytes": 115482,
+      "digest": "sha256:bbe9d3f6d17a3c8d7e48d569e9bbb4bc6f23bb8965cc44cdc7a525feb7b9c93e",
+      "expires_at": "2026-09-19T13:35:35Z"
+    },
+    {
+      "name": "br204-u-b6-d8-54",
+      "artifact_id": 10552765308,
+      "size_bytes": 115558,
+      "digest": "sha256:0da2a55a84c5d53eb9fe38559788fd6ebc80af00476a1d7f2d326db0650bfc69",
+      "expires_at": "2026-09-19T14:36:02Z"
+    },
+    {
+      "name": "br204-u-b7-d8-54",
+      "artifact_id": 10553609371,
+      "size_bytes": 115390,
+      "digest": "sha256:2999b24ee9a1382db0ab0f275d33dd34e9aa94c2fa3835f21f6172fbdce760fb",
+      "expires_at": "2026-09-19T15:13:21Z"
+    },
+    {
+      "name": "br204-u-b8-d8-54",
+      "artifact_id": 10557238766,
+      "size_bytes": 114781,
+      "digest": "sha256:3895843ab25124e121c1a2b38d4e3c5beb2f309c637bf6aa00eaa5e965a6cc12",
+      "expires_at": "2026-09-19T16:29:45Z"
+    },
+    {
+      "name": "br204-u-b9-d8-54",
+      "artifact_id": 10557916487,
+      "size_bytes": 113380,
+      "digest": "sha256:9321151cc9cda16769eda7b20e7b509667b9ae5d6c9a4081097a58b049ccd216",
+      "expires_at": "2026-09-19T16:45:20Z"
+    },
+    {
+      "name": "br204-u-b96-d148-192",
+      "artifact_id": 10546308599,
+      "size_bytes": 766,
+      "digest": "sha256:552118bde115a9ce61f282d474f29a351f9d43939d19ea96bac79d43119d8214",
+      "expires_at": "2026-09-19T12:27:23Z"
+    }
+  ],
+  "required_next_action": [
+    "Do not blind-rerun generation 1 and do not merely raise the single-d timeout.",
+    "Introduce an exact sub-d partition with durable carry-over below the b_x_d restart quantum.",
+    "Refresh the generation-2 live-main predecessor lock to repository main V45 and prove source/population compatibility before carrying generation-1 mathematical subunits.",
+    "Hostile-audit the changed recovery/execution topology before any generation-2 runkey-only arm commit."
+  ],
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
