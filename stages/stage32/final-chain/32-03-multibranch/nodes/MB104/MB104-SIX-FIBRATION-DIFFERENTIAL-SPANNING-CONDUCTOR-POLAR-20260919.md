@@ -44,13 +44,26 @@ f5 = [b3:a3:c],    c^2=a3^2+b3^2.
 
 Each target conic is isomorphic to P1.
 
-On the minimal resolution, the corresponding divisor class is
+On the minimal resolution, write
 
 ```text
-F_j = H - sum_(i in B_j) E_i,
-F_j^2=0,
-H.F_j=16.
+D_j = H - sum_(i in B_j) E_i.
 ```
+
+Stoll--Testa Section 5 gives the crucial half-class relation
+
+```text
+2G_j = D_j,
+```
+
+where G_j is the actual genus-5 fiber class.  Hence
+
+```text
+G_j^2=0,
+H.G_j=8.
+```
+
+The earlier draft conflated D_j with G_j; all degree bounds below use the corrected true fiber class.
 
 The previous import preflight computed the restrictions to an MB balanced carrier
 `C in |lP|`.
@@ -189,7 +202,7 @@ collide at the same singular point of C.
 Riemann--Hurwitz on the elliptic normalization gives
 
 ```text
-deg R_j = 2 deg g_j = 2l(P.F_j).
+deg R_j = 2 deg g_j = 2l(P.G_j).
 ```
 
 The previous import preflight computed:
@@ -197,35 +210,35 @@ The previous import preflight computed:
 ### size48 supports
 
 ```text
-P.F_j = (48,112,112,64,112,112),
+P.G_j = (24,56,56,32,56,56),
 ```
 
 so
 
 ```text
-deg A <= min_j deg R_j = 96l.
+deg A <= min_j deg R_j = 48l.
 ```
 
 ### surviving size768 support
 
 ```text
-P.F_j = (80,80,112,88,88,112),
+P.G_j = (40,40,56,44,44,56),
 ```
 
 so
 
 ```text
-deg A <= 160l.
+deg A <= 80l.
 ```
 
 Hence:
 
 ```text
 sum_(normalization branches q) (m_q-1)
-<= 96l   for the two size48 orbits,
+<= 48l   for the two size48 orbits,
 
 sum_(normalization branches q) (m_q-1)
-<= 160l  for the surviving size768 orbit.       (BRANCH-DEFECT)
+<= 80l   for the surviving size768 orbit.       (BRANCH-DEFECT)
 ```
 
 This is a genuine new MB constraint imported from 32-01 geometry.
@@ -260,9 +273,9 @@ The degree check is exact:
 ```text
 deg Delta + deg R_j
 =
-(336l^2+112l) + 2l(P.F_j)
+(336l^2+112l) + 2l(P.G_j)
 =
-C.(C+K_S+2F_j).
+C.(C+K_S+2G_j).
 ```
 
 Thus the line-bundle degree is precisely the relative-polar degree.
@@ -417,7 +430,7 @@ strictness.
 six explicit conic fibrations;
 combined differential injective on S_smooth away from the 48 nodes;
 min_j ramification order on a branch = branch multiplicity - 1;
-deg common ramification gcd <=96l (size48) or <=160l (size768).
+deg common ramification gcd <=48l (size48) or <=80l (size768).
 ```
 
 ### SOURCE-GATED but well-supported
@@ -455,3 +468,27 @@ endpoint_credit=false
 MB104_complete=false
 merge_authorized=false
 ```
+
+
+## 11. Extension beyond the six rank-3 fibrations
+
+The continuation pass checked Stoll--Testa Section 5 and the public verification log.
+
+The cuboid surface carries
+
+```text
+6 rank-3 genus-5 fibrations
++
+22 rank-4 genus-5 fibrations
+=
+28 total.
+```
+
+Each of the eleven rank-4 quadrics yields two complementary fiber classes whose sum is H.
+Therefore the six-map differential result above is only the first layer of the available
+fibration arsenal.
+
+The next exact import task is to materialize the 22 rank-4 fiber classes in the retained Picard64
+basis and compute `P.G` for each of the three surviving balanced support orbits.  A rank-4
+fiber with `P.G<24` on a size48 support or `P.G<40` on the size768 support would strictly
+improve every ramification/polar budget above.
