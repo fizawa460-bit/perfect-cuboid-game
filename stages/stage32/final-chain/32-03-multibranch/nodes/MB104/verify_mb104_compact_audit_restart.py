@@ -57,7 +57,7 @@ def main():
     req(d["mission_id"]=="stage32-32-03-multibranch","mission")
     req(d["current_node"]=="MB104","current node")
     req(d["completed_retained_nodes"]==["MB101","MB102","MB103"],"completed nodes")
-    req(d["status"] in {"FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT","ACTIVE_POST_AUDIT_ZERO_CREDIT"},"state mode")
+    req(d["status"] in {"FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT","ACTIVE_POST_AUDIT_ZERO_CREDIT","FROZEN_POST_AUDIT_APPEND_REAUDIT_REQUIRED_NO_CREDIT"},"state mode")
 
     freeze=d["audit_freeze"]
     req(freeze["substantive_boundary_head"]==EXPECTED["substantive_freeze_boundary"],"substantive freeze boundary")
@@ -102,6 +102,43 @@ def main():
         changed={x for x in subprocess.check_output(["git","diff","--name-only",EXPECTED["substantive_freeze_boundary"]+".."+head],cwd=ROOT,text=True).splitlines() if x}
         req(changed<=allowed,"post-freeze substantive path detected: "+",".join(sorted(changed-allowed)))
         mode="FROZEN"
+    elif d["status"]=="FROZEN_POST_AUDIT_APPEND_REAUDIT_REQUIRED_NO_CREDIT":
+        ar=d["audit_release"]
+        req(ar["hostile_audit_status"]=="PASS_AT_OLDER_EXACT_HEAD_ONLY","older-head audit status")
+        req(ar["audited_exact_head"]==EXPECTED["audit_release_head"],"older audit head")
+        req(ar["hostile_audit_review_id"]==EXPECTED["audit_review_id"],"older audit review")
+        req(ar["current_head_inherits_pass"] is False,"current head must not inherit audit")
+        req(routing["substantive_research_append_blocked_until_reaudit_pass"] is True,"reaudit research freeze")
+        req(routing["isotropic_shell_pilot_authorized"] is False,"pilot must be blocked")
+        req(routing["isotropic_shell_scaleout_authorized"] is False,"scaleout must be blocked")
+        req(routing["current_head_reaudit_required"] is True,"current-head reaudit required")
+        req(routing["latest_audited_exact_head"]==EXPECTED["audit_release_head"],"latest audited head")
+        req(routing["active_pr_number"]==1827,"active PR")
+        req(routing["active_branch"]=="stage32mb-audit-restart-20260920","active branch")
+        req(d["active_surface"]["pr_number"]==1827,"active surface PR")
+        req(d["active_surface"]["predecessor_archive_pr"]==1825,"archive predecessor")
+        req(d["next_obligation"]["active_leaf"]=="MB104-POST-AUDIT-APPEND-REAUDIT-CHECKPOINT","reaudit leaf")
+        req(iso["status"]=="POST_AUDIT_APPEND_FROZEN_FOR_REAUDIT_NO_NUMERICAL_CREDIT","isotropic reaudit freeze")
+        req(iso["pilot_runkey_generation"]==3 and iso["pilot_shell_index"]==0,"cold pilot generation")
+        req(iso["numerical_execution_completed"] is False,"no numerical execution")
+        req(RUNKEY.is_file() and WORKFLOW.is_file(),"frozen pilot files")
+        k=json.loads(RUNKEY.read_text())
+        req(k["schema"]=="STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1","runkey schema")
+        req(k["generation"]==3 and k["mode"]=="COLD" and k["armed"] is False,"runkey cold")
+        req(k["leaf"]=="MB104-POST-AUDIT-APPEND-REAUDIT-CHECKPOINT","runkey reaudit leaf")
+        req(k["pilot"]["shell_index"]==0 and k["pilot"]["measured"] is False,"pilot remains unmeasured")
+        req(k["execution_gate"]["workflow_class"]=="MANUAL","manual workflow class")
+        req(k["execution_gate"]["automatic_execution_authorized"] is False,"automatic execution blocked")
+        req(k["execution_gate"]["current_head_execution_blocked"] is True,"current-head execution blocked")
+        req(k["execution_gate"]["scaleout_authorized"] is False,"scaleout blocked")
+        req(k["execution_gate"]["shells_1_2_3_authorized"] is False,"remaining shells blocked")
+        req(k["source_locks"]["current_state_git_blob"] is None,"cold runkey state lock must be null")
+        req(k["source_locks"]["workflow_git_blob"] is None,"cold runkey workflow lock must be null")
+        req(all(v is False for v in k["credit"].values()),"cold runkey credit firewall")
+        w=WORKFLOW.read_text()
+        req("workflow_dispatch:" in w,"manual workflow dispatch")
+        req("pull_request:" not in w,"manual workflow must not auto-trigger on PR")
+        mode="POST_AUDIT_APPEND_REAUDIT_FROZEN"
     else:
         ar=d["audit_release"]
         req(ar["hostile_audit_status"]=="PASS","audit release status")
