@@ -544,29 +544,29 @@
       "result": "O_D(-F) has h0=3 while embdim=4; the fourth tangent generator is exactly invisible on D and lies in the F+D vs 2F central-A5 strip. In intrinsic coordinates the only tangent bit is q2=yz+c*xw with c=0 iff T0 and c!=0 iff T1."
     },
     "z57_a5_curvette_monomials_select_t0": {
-      "status": "PRE_AUDIT_EXACT_TANGENT_BIT_SELECTION_T0_NO_CREDIT",
+      "status": "CORRECTED_PRE_AUDIT_LOCAL_ONLY_T0_WITHDRAWN_NO_CREDIT",
       "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57-A5-CURVETTE-MONOMIALS-SELECT-T0-20260919.md",
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z57-A5-CURVETTE-MONOMIALS-SELECT-T0-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z57_a5_curvette_monomials_select_t0.py",
-      "result": "Contracting the fixed central A5 chain gives uv=s^6 with the elliptic endpoints as opposite curvettes. The four functions us,vs,s^2,s^3 form tangent generators; x^2=s^6 and yz=s^8 both lie in m^3 by the exact F-adic filtration, so the quadratic initial ideal is (x^2,yz). Actual tangent type T0 and c=0 are proved."
+      "result": "Correction: the central A5 valuation table uv=s^6 is valid only locally near the partial contraction. The local monomials us,vs,s^2,s^3 do not automatically globalize around elliptic endpoints with N_E=O_E(-2p); therefore the previous T0/c=0 inference is withdrawn. T0 vs T1 remains open."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z58 T0 higher-jet mu3-equivariant ICIS",
-    "active_leaf": "MB104-Z58-T0-HIGHER-JET-MU3-EQUIVARIANT-ICIS",
-    "required_input": "Use the exact tangent generators y=us,z=vs,w=s^2,x=s^3 on the partial A5 model uv=s^6, the T0 initial ideal (x^2,yz), the unique canonical mu3 cover, and mu=31. Determine the first higher-order ICIS terms and deck characters far enough to obtain an equivariant Milnor/Tjurina receiver.",
+    "title": "MB104 Z57R endpoint globalization of maximal-ideal sections",
+    "active_leaf": "MB104-Z57R-ENDPOINT-GLOBALIZATION-OF-MAXIMAL-IDEAL-SECTIONS",
+    "required_input": "Use each endpoint model (E_1728,p,N_E=O_E(-2p)) and the central A5 local model uv=s^6. Construct global sections of O_X(-F) and the one first-normal tangent section through the complete elliptic endpoint neighborhoods, match their attachment jets to the A5 basis, and evaluate the single coefficient c in yz+c*xw mod m^3.",
     "success_shapes": [
-      "explicit equations through the first isolating higher-order jet with mu3 weights",
-      "exact mu3 character decomposition of a proof-capable quotient of the Milnor/Tjurina algebra",
-      "source-valid local correction for the downstairs index3 point"
+      "globalized maximal-ideal basis with c=0 -> T0",
+      "globalized maximal-ideal basis with c!=0 -> T1",
+      "an exact endpoint Cech/jet formula for c in terms of one source-explicit transition constant"
     ],
     "must_not_repeat": [
-      "reopen T0/T1",
-      "use total mu=31 as equivariant data",
-      "assume weighted homogeneity without deriving it"
+      "promote local A5 coordinates to global contraction functions without endpoint gluing",
+      "symmetry-only tangent-bit inference",
+      "use the naive non-isolated monomial CI as the actual germ"
     ],
-    "fallback_after_gate": "Compute the deck characters of u,v,s and of the four tangent generators from the canonical cover construction; then enumerate only monomials compatible with both valuation filtration and mu3 invariance through the first degree that can isolate the ICIS."
+    "fallback_after_gate": "Compute the endpoint transition cocycle from N_E=O_E(-2p) in the explicit j=1728 quartic coordinates and match its first attachment jet to the central A5 transverse parameter."
   },
   "routing": {
     "independent_of_full178_execution": true,
