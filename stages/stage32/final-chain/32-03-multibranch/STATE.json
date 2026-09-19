@@ -566,34 +566,46 @@
         "balanced_alignment": "retained balanced 000707 hostile family has N=14 and sits at the first BTVA-uncontrolled support",
         "explicit_degree_cap_for_n_le_13": false,
         "receiver_credit": false
+      },
+      "z31_product_cover_cubic_ceiling": {
+        "status": "RESEARCH_CHECKPOINT_PRE_AUDIT_NO_CREDIT",
+        "note": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z31-PRODUCT-COVER-CUBIC-CEILING-20260919.md",
+        "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z31_product_cover_cubic_ceiling.py",
+        "product": "X(8)xX(8)",
+        "diagonal_group": "G0=(Z/2)^3 order 8",
+        "product_symdiff_cubic": "32/3",
+        "quotient_reflexive_symdiff_cubic": "4/3",
+        "n14_full_extension_cost_cubic": "77/54",
+        "n14_deficit": "5/54",
+        "global_h1_cubic_surplus_route": "CLOSED_NEGATIVE",
+        "fsm_minimal_branch_resource": "R8>=d/4 for g=1; R8>=d/4+4 for g=0",
+        "remaining_gap": "prove cubic-order dependence/saving in extension conditions at the 14 met nodes using actual branch/landing/jet geometry"
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z31 N14 adaptive BTVA / global branch gate",
-    "active_leaf": "MB104-Z31-N14-ADAPTIVE-BTVA-GATE",
-    "required_input": "Use BTVA abstract finiteness for N<=13 only to remove those supports from the unbounded tail; do not treat it as an explicit degree cap. At N=14 ordinary BTVA has exact cubic deficit -5/54 and remains negative for every m>=3. Combine MB101/102 branch/landing data and revived Z6/Z14/Z16/Z21 only through a mechanism that changes cubic-order extension accounting.",
+    "title": "MB104 Z31 N14 carrier-adapted extension-dependence gate",
+    "active_leaf": "MB104-Z31-N14-CARRIER-ADAPTED-EXTENSION-DEPENDENCE",
+    "required_input": "BTVA gives abstract finiteness through N<=13. The product-cover calculation fixes the full reflexive symmetric-differential cubic supply at 4/3, so no hidden global-H1 cubic surplus can pay the N14 shortfall 5/54. FSM-MB simultaneously forces R8>=d/4+O(1) minimal branches in every unbounded family. Use those actual branch/landing/jet data only to seek dependence or savings among the 14 met-node extension conditions.",
     "success_shapes": [
-      "construct a carrier-adapted reflexive/symmetric-differential subspace with branchwise regularity savings exceeding (5/54)m^3+O(m^2) at N=14",
-      "derive an adaptive local depth k(m)>=c*m on enough met exceptional components from global branch/landing constraints",
-      "derive a global conductor/intersection charge equivalent to cubic-order extension credit",
-      "force every N=14 unbounded sequence into a strict algebraic/resultant/foliated sublocus and reduce that sublocus independently",
-      "prove weighted/adaptive BTVA cannot obtain cubic credit from retained MB data and route to a genuinely different global mechanism"
+      "derive a branch-adapted local codimension formula and prove total N14 extension cost has cubic coefficient <4/3",
+      "prove dependencies among full A1 extension conditions at the 14 met nodes saving >5/54*m^3+O(m^2)",
+      "derive an adaptive jet/conductor energy theorem that converts R8>=d/4+O(1) into the required cubic extension saving",
+      "force every N14 unbounded family into a proper global resultant/foliation sublocus and classify or finitely reduce that sublocus",
+      "prove all carrier-adapted extension savings are only lower order and route to a genuinely different global mechanism"
     ],
     "must_not_repeat": [
-      "treat N=10 as the first possible unbounded support after BTVA N<=13 finiteness is available",
-      "claim BTVA abstract finiteness supplies an explicit Dmax",
-      "finite forbidden landing values",
+      "search for a hidden positive cubic term in global H1/reflexive section supply; product-cover cubic coefficient is already 4/3",
+      "treat BTVA N<=13 abstract finiteness as an explicit Dmax",
+      "fixed finite lambda lists",
       "fixed finite jet depth",
-      "fixed local principal-part rank counting",
-      "ordinary BTVA r=34 at another fixed symmetric order",
-      "assume distinct lambda values imply holomorphic extension across an exceptional curve",
-      "automatic multifibration ramification",
-      "unlabeled discriminant/glue candidates as actual Picard glue",
+      "ordinary BTVA r=34 at another symmetric order",
+      "assume branchwise regularity equals full extension without a codimension proof",
+      "formal effective-node interpolation without exact local extension semantics",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If Z31 is blocked at cubic order, re-run the surviving genuinely global Z routes against the sharpened N>=14 frontier; do not return to N10-local finite-jet experiments."
+    "fallback_after_gate": "If the N14 extension-dependence route is cubic-order blocked, broaden only to genuinely different global mechanisms on the sharpened N>=14 frontier; retain BTVA and product-cover ceiling as no-replay walls."
   },
   "routing": {
     "independent_of_full178_execution": true,
