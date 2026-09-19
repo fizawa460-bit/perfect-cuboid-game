@@ -40,7 +40,7 @@ def main():
     d = json.loads(STATE.read_text())
     req(d["schema"] == "STAGE32_32_03_MULTIBRANCH_STATE_V1", "state schema")
     req(d["mission_id"] == "stage32-32-03-multibranch", "mission")
-    req(d["status"] == "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT", "state freeze")
+    req(d["status"] in {"FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT","ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT"}, "state mode")
     req(d["current_node"] == "MB104", "current node")
     req(d["completed_retained_nodes"] == ["MB101","MB102","MB103"], "completed nodes")
     surf = d["active_surface"]
@@ -80,7 +80,8 @@ def main():
         ).splitlines()
         if x
     }
-    req(changed <= allowed, "post-freeze substantive path detected: " + ",".join(sorted(changed - allowed)))
+    if d["status"] == "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT":
+        req(changed <= allowed, "post-freeze substantive path detected: " + ",".join(sorted(changed - allowed)))
 
     rb = d["restart_boundary"]
     req(rb["base_main"] == EXPECTED["base_main"], "base main")
@@ -128,6 +129,26 @@ def main():
     req(routing["isotropic_shell_pilot_authorized"] is False, "pilot blocked")
     req(routing["isotropic_shell_scaleout_authorized"] is False, "scaleout blocked")
 
+    if d["status"] == "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT":
+        ar = d["audit_release"]
+        req(ar["hostile_audit_status"] == "PASS", "post-audit PASS")
+        req(ar["audited_exact_head"] == "37727ad09b62c49b49cfb2e1e428b5a2d4826e88", "post-audit exact head")
+        req(ar["hostile_audit_review_id"] == 5258058107, "corrected PASS receipt")
+        req(ar["corrected_prior_hold_review_id"] == 5257998935, "corrected prior HOLD receipt")
+        req(ar["isotropic_shell_execution_authorized"] is False, "heavy shell remains blocked")
+        req(routing["substantive_research_append_blocked_until_reaudit_pass"] is False, "research released")
+        req(routing["current_head_reaudit_required"] is False, "ordinary research mode")
+        req(routing["ordinary_mb104_research_released_by_review"] == 5258058107, "research release receipt")
+        req(routing["fibration_search_below_36_closed"] is True, "fibration lower route closed")
+        g7=d["retained_frontier"]["genus7_fibration"]
+        req(g7["source_ref"] == EXPECTED["predecessor_boundary"], "genus7 source ref")
+        req(g7["note_blob"] == "9f167d28d5945462e436397c1a244133cf6b6a51", "genus7 note lock")
+        req(g7["certificate_blob"] == "f3b158df6b9105d863d8174340ba1adb075a7f1a", "genus7 certificate lock")
+        req(g7["verifier_blob"] == "fcfa76f662e9575daef87b2da7042159d972a896", "genus7 verifier lock")
+        req(g7["degree10_improves_40"] is False, "degree10 closure")
+        req(g7["size768_global_fibration_minimum"] == 36, "global fibration minimum")
+        req(g7["rank3_pairings"] == [4,4,6,4,4,6], "genus7/rank3 pairings")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-DEG4-MAP-CONDUCTOR-DIFFERENT", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()

@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT",
+  "status": "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT",
   "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
@@ -44,22 +44,45 @@
       "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
       "numerical_execution_completed": false,
       "result": "four cold Picard64 isotropic shells retained only as predecessor preflight; no current-branch pilot workflow/runkey, no numerical result, zero credit"
+    },
+    "genus7_fibration": {
+      "status": "POST_AUDIT_CONSUMED_EXACT_ARCHIVE_RESULT_ZERO_CREDIT",
+      "source_ref": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GENUS7-FIBRATION-20260920.md",
+      "note_blob": "9f167d28d5945462e436397c1a244133cf6b6a51",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GENUS7-FIBRATION-CERTIFICATE.json",
+      "certificate_blob": "f3b158df6b9105d863d8174340ba1adb075a7f1a",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_genus7_fibration.py",
+      "verifier_blob": "fcfa76f662e9575daef87b2da7042159d972a896",
+      "result": "degree10 improving fibrations are exactly excluded; an explicit primitive basepoint-free genus-7 fibration has H.F=12 and P.F=36; together with Z40B and degree8 exhaustiveness this gives the global fibration minimum P.F=36 on support 000707000f0f",
+      "degree10_improves_40": false,
+      "size768_global_fibration_minimum": 36,
+      "rank3_pairings": [
+        4,
+        4,
+        6,
+        4,
+        4,
+        6
+      ],
+      "current_branch_heavy_execution_required": false
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 compact hostile re-audit after pilot-surface rollback",
-    "active_leaf": "MB104-COMPACT-HOSTILE-REAUDIT-RESTART",
-    "required_input": "Hostile-audit the current exact head of active PR #1827 after restoring the audited compact surface. Closed PR #1825 is archive-only. Require exact-head Stage32 startup/claim/stale-run CI and do not resume substantive MB104 research before PASS.",
+    "title": "000707 degree-4 surface-map conductor/different gate",
+    "active_leaf": "MB104-000707-DEG4-MAP-CONDUCTOR-DIFFERENT",
+    "required_input": "Use the exact genus-7 fibration f7 together with the four rank-3 fibrations having G.F_j=4. Combine the resulting degree-4 maps (f7,f_j):S->P1xP1 with retained Z48 conductor/different data to seek an exact simultaneous branch-collision or polar-jet obstruction. Prefer a finite/lightweight argument; do not arm isotropic-shell heavy enumeration.",
     "success_shapes": [
-      "hostile audit PASS on one unchanged exact #1827 head, after which ordinary MB104 research may resume",
-      "hostile audit FAIL with bounded repair items only"
+      "exact finite conductor/collision obstruction for the surviving size768 support",
+      "source-complete reduction to a smaller explicit local/jet configuration",
+      "documented wall showing the degree-4 map route adds no obstruction, with zero credit"
     ],
     "must_not_repeat": [
-      "select closed/superseded PR #1825 as the current MB audit target",
-      "append new substantive MB104 mathematics before PASS",
-      "recreate or arm isotropic-shell pilot workflow/runkey or execute isotropic-shell heavy compute before PASS",
-      "inherit the 70c2 PASS to a later exact head",
+      "search for a fibration with P.F<36 on support 000707000f0f",
+      "rerun the degree10 residual census",
+      "arm or execute isotropic-shell heavy compute without a separate live authorization",
+      "promote known-curve nonnegativity to effectivity",
       "merge or rebase"
     ]
   },
@@ -70,13 +93,15 @@
     "hostile_audit_target_available": true,
     "current_branch_is_compact_audit_restart": true,
     "predecessor_pr_is_archive_only": true,
-    "substantive_research_append_blocked_until_reaudit_pass": true,
+    "substantive_research_append_blocked_until_reaudit_pass": false,
     "active_pr_number": 1827,
     "active_branch": "stage32mb-audit-restart-20260920",
-    "latest_audited_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
-    "current_head_reaudit_required": true,
+    "latest_audited_exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+    "current_head_reaudit_required": false,
     "isotropic_shell_pilot_authorized": false,
-    "isotropic_shell_scaleout_authorized": false
+    "isotropic_shell_scaleout_authorized": false,
+    "ordinary_mb104_research_released_by_review": 5258058107,
+    "fibration_search_below_36_closed": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
@@ -118,6 +143,22 @@
       "review_id": 5257949069,
       "reason": "post-PASS pilot/lifecycle append exceeded V44 successor-scope contract"
     },
-    "current_head_inherits_prior_pass": false
+    "current_head_inherits_prior_pass": false,
+    "corrected_pass": {
+      "exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+      "review_id": 5258058107,
+      "supersedes_receipt_typo_review_id": 5258024135,
+      "prior_hold_review_id": 5257998935
+    }
+  },
+  "audit_release": {
+    "hostile_audit_status": "PASS",
+    "audited_exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+    "hostile_audit_review_id": 5258058107,
+    "corrected_prior_hold_review_id": 5257998935,
+    "current_main_at_audit": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "grants": "ORDINARY_MB104_RESEARCH_RESUME_ONLY",
+    "isotropic_shell_execution_authorized": false,
+    "merge_authorized": false
   }
 }
