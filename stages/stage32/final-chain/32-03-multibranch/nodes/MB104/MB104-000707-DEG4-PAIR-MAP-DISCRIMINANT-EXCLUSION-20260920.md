@@ -1,6 +1,6 @@
 # MB104 — 000707 degree-four pair-map discriminant exclusion — 2026-09-20
 
-Status: PRE-AUDIT EXACT DISCRIMINANT/RESULTANT EXCLUSION / ZERO CREDIT / NO MERGE
+Status: PRE-AUDIT DISCRIMINANT/RESULTANT CANDIDATE / FINITENESS CORRECTION OPEN / ZERO CREDIT / NO MERGE
 
 ## Setup
 
@@ -16,7 +16,7 @@ The product morphism
 
 pi=(f_G,f_F): S -> Y=P1 x P1
 
-is finite of degree four.
+is generically finite of degree four. On the smooth resolution it contracts the common vertical null locus of G and F, so a finite-cover discriminant argument requires Stein contraction and correction terms.
 
 Its ramification divisor is
 
@@ -140,14 +140,14 @@ Therefore r != 1.
 
 ## Conclusion
 
-All four possible restriction degrees are excluded:
+Conditional on controlling the Stein-contraction correction, the numerical argument would exclude all four restriction degrees:
 
 r=4: finite-map residual orthogonality / H-degree contradiction.
 r=3: residual curve has negative arithmetic genus.
 r=2: discriminant-resultant cross-intersection contradiction.
 r=1: discriminant-resultant cross-intersection contradiction.
 
-Hence no integral carrier C in |lP| can exist on the balanced support orbit
+Therefore the orbit exclusion is NOT YET PROMOTED. The remaining load-bearing gate is to pass to the finite Stein factor and bound the contribution from common contracted curves before concluding that no integral carrier can exist on
 
 000707000f0f
 
@@ -192,3 +192,21 @@ receiver_credit=false
 theorem_credit=false
 endpoint_credit=false
 merge_authorized=false
+
+
+## Hostile correction discovered after this draft
+
+The product map on the smooth resolution is not finite: many exceptional curves are vertical for
+both fibrations.  Thus the statements above identifying the discriminant degree directly on S and
+asserting absence of vertical residual components are too strong as written.
+
+Required repair:
+
+1. form the Stein factorization S -> X -> P1xP1, where X is normal and X->P1xP1 is finite degree 4;
+2. identify the complete common vertical exceptional locus;
+3. bound the discrepancy between intersections on S and the discriminant/resultant intersection
+   on X;
+4. only then use the quadratic-vs-linear inequality.
+
+The large numerical margins remain promising, but no orbit exclusion credit is valid before this
+repair.
