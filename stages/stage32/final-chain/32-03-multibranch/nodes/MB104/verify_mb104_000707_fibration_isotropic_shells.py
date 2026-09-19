@@ -95,10 +95,10 @@ for sh in s["shells"]:
     assert pc == aa * pf - bb * 112
     assert 7 * e - 4 * sm == pf
     assert sh["raw_affine_close_vector_count"] >= sh["integral_picard_class_count"]
-    assert sh["integral_picard_class_count"] >= sh["nef_known140_count"]
-    assert sh["nef_known140_count"] >= sh["primitive_nef_candidate_count"]
-    assert sh["primitive_nef_candidate_count"] == len(sh["primitive_nef_candidates"])
-    for rec in sh["primitive_nef_candidates"]:
+    assert sh["integral_picard_class_count"] >= sh["known140_nonnegative_count"]
+    assert sh["known140_nonnegative_count"] >= sh["primitive_known140_nonnegative_candidate_count"]
+    assert sh["primitive_known140_nonnegative_candidate_count"] == len(sh["primitive_known140_nonnegative_candidates"])
+    for rec in sh["primitive_known140_nonnegative_candidates"]:
         coords = rec["picard_basis_coordinates"]
         assert len(coords) == 64
         assert gcd_all(coords) == 1
@@ -110,17 +110,17 @@ for sh in s["shells"]:
         assert key not in seen_coords
         seen_coords.add(key)
     if e == 10:
-        deg10 += sh["primitive_nef_candidate_count"]
+        deg10 += sh["primitive_known140_nonnegative_candidate_count"]
     elif e == 12:
-        deg12 += sh["primitive_nef_candidate_count"]
+        deg12 += sh["primitive_known140_nonnegative_candidate_count"]
     else:
         raise AssertionError("unexpected degree")
 
 assert got == SHELLS
 summary = d["summary"]
-assert summary["degree10_primitive_nef_candidate_count"] == deg10
-assert summary["degree12_primitive_nef_candidate_count"] == deg12
-assert summary["total_primitive_nef_candidate_count"] == deg10 + deg12
+assert summary["degree10_primitive_known140_nonnegative_candidate_count"] == deg10
+assert summary["degree12_primitive_known140_nonnegative_candidate_count"] == deg12
+assert summary["total_primitive_known140_nonnegative_candidate_count"] == deg10 + deg12
 assert summary["fibration_improvement_shells_numerically_empty_candidate"] == (deg10 + deg12 == 0)
 assert summary["geometric_effectivity_or_semiampleness_proved"] is False
 assert summary["global_min_P_dot_F_40_proved"] is False
