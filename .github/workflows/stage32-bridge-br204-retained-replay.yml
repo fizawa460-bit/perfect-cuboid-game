@@ -70,7 +70,7 @@ jobs:
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
 
           assert state['current_node']=='BR204'
-          assert state['active_leaf']=='BR204_GENERATION2_BC_SHARD_FINER_PARTITION_IMPLEMENTATION__AUDIT_REQUIRED_BEFORE_ARM'
+          assert state['active_leaf']=='BR204_GENERATION2_COLD_DOORSTEP_AUDIT'
           assert state['live_main_refresh']['repository_main_head']==os.environ['ACTUAL_V45_MAIN']
           assert state['live_main_refresh']['repository_main_state_blob']==os.environ['V45_MAIN_STATE_BLOB']
           assert state['live_main_refresh']['authoritative_remaining_terminals']=='138652739800650593494'
