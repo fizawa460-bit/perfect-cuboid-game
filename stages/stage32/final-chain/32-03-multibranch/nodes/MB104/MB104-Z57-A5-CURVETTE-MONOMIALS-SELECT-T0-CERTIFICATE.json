@@ -1,19 +1,7 @@
 {
-  "schema": "STAGE32_MB104_Z57_A5_CURVETTE_MONOMIALS_SELECT_T0_V1",
-  "status": "PRE_AUDIT_EXACT_TANGENT_BIT_SELECTION_T0_NO_CREDIT",
-  "graph": {
-    "central_rdp": "A5",
-    "F": [
-      1,
-      2,
-      2,
-      2,
-      2,
-      2,
-      1
-    ]
-  },
-  "a5": {
+  "schema": "STAGE32_MB104_Z57R_A5_LOCAL_ONLY_GLOBALIZATION_CORRECTION_V1",
+  "status": "CORRECTED_PRE_AUDIT_LOCAL_ONLY_T0_WITHDRAWN_NO_CREDIT",
+  "local_a5": {
     "equation": "u*v=s^6",
     "val_s": [
       1,
@@ -41,87 +29,38 @@
       4,
       5,
       6
-    ]
+    ],
+    "valuation_table_valid": true
   },
-  "generators": {
-    "y": "u*s",
-    "z": "v*s",
-    "w": "s^2",
-    "x": "s^3",
-    "val_y": [
-      7,
-      6,
-      5,
-      4,
-      3,
-      2,
-      1
-    ],
-    "val_z": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7
-    ],
-    "val_w": [
-      2,
-      2,
-      2,
-      2,
-      2,
-      2,
-      2
-    ],
-    "val_x": [
-      3,
-      3,
-      3,
-      3,
-      3,
-      3,
-      3
-    ],
-    "tangent_basis": true
+  "endpoint": {
+    "normal_bundle": "O_E(-2p)",
+    "transverse_parameter_globally_principal": false,
+    "globalization_adapter_required": true
   },
-  "filtration": {
-    "twoF": [
-      2,
-      4,
-      4,
-      4,
-      4,
-      4,
-      2
-    ],
-    "threeF": [
-      3,
-      6,
-      6,
-      6,
-      6,
-      6,
-      3
-    ],
-    "x2": "s^6",
-    "yz": "s^8",
-    "x2_in_m3": true,
-    "yz_in_m3": true
+  "withdrawn": {
+    "global_generators_from_us_vs_s2_s3": false,
+    "tangent_type_T0": false,
+    "mixed_coefficient_c_zero": false
   },
-  "conclusion": {
-    "tangent_type": "T0",
-    "quadratic_initial_ideal": [
-      "x^2",
-      "y*z"
+  "contradiction_check": {
+    "naive_equations": [
+      "x^2-w^3",
+      "y*z-w^4"
     ],
-    "mixed_coefficient_c": 0,
-    "determinant_identically_zero": true,
-    "rank4_quadric_exists": false
+    "naive_model_isolated": false,
+    "actual_germ_isolated": true
+  },
+  "retained": {
+    "tangent_candidates": [
+      "T0",
+      "T1"
+    ],
+    "q1": "x^2",
+    "q2": "y*z + c*x*w",
+    "c_known": false
   },
   "result": {
-    "next_leaf": "MB104-Z58-T0-HIGHER-JET-MU3-EQUIVARIANT-ICIS"
+    "next_leaf": "MB104-Z57R-ENDPOINT-GLOBALIZATION-OF-MAXIMAL-IDEAL-SECTIONS"
   },
   "credit": {
     "finite_degree_window": false,
