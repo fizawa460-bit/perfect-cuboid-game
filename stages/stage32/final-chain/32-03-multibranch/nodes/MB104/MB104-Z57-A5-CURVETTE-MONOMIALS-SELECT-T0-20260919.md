@@ -1,256 +1,175 @@
-# MB104 Z57 — A5 curvette monomials select tangent type T0 — 2026-09-19
+# MB104 Z57 — A5 curvette monomial preflight / endpoint-globalization correction — 2026-09-19
 
-Status: **PRE-AUDIT EXACT TANGENT-BIT SELECTION / T0 PROVED / NO DOWNSTREAM CREDIT**
+Status: **CORRECTED PRE-AUDIT LOCAL-ONLY CALCULATION / T0 NOT PROVED / NO CREDIT**
 
-## Input
+## Correction
 
-Z50/Z51 identify the canonical-cover resolution chain
+An earlier pre-audit version incorrectly promoted the local A5 monomials to functions on the final
+contracted germ and concluded tangent type T0.
+
+That promotion is withdrawn.
+
+The error is precise: after contracting only the central A5 chain, the standard local coordinates
 
 ```
-E_L -- C1 -- C2 -- C3 -- C4 -- C5 -- E_R
+uv=s^6
 ```
 
-with all self-intersections -2, elliptic endpoints, and fixed rational-double-point chain
+exist near the A5 point, but `u,v,s` are only local functions near that point.  The final
+contraction also collapses the two full elliptic endpoint curves.  A local function near the
+attachment does not automatically extend around an entire elliptic endpoint neighborhood.
+
+In fact Z51 gives the exact endpoint normal bundle
+
+```
+N_E ~= O_E(-2p),
+```
+
+which is nontrivial.  Thus a local transverse parameter `s` cannot be treated as a globally
+defined principal equation for E on its full negative neighborhood without an additional
+trivialization/transition adapter.
+
+Therefore the former statements
+
+```
+y=us, z=vs, w=s^2, x=s^3 are global maximal-ideal generators,
+x^2,yz in m^3 globally,
+actual tangent type=T0
+```
+
+are **not retained**.
+
+## 1. What remains exact locally
+
+The central fixed chain
 
 ```
 Gamma=C1+...+C5
 ```
 
-of Dynkin type A5.
+is an A5 rational-double-point chain.
 
-The maximal ideal cycle is
-
-```
-F=(1,2,2,2,2,2,1).
-```
-
-Z54/Z55 reduce the tangent cone to
+After contracting Gamma alone, one may choose local analytic coordinates
 
 ```
-T0=(x^2,yz)
-or
-T1=(x^2,yz+xw).
+uv=s^6.
 ```
 
-Z56 identifies x as the first-normal tangent generator.
-
-## 1. Contract only the A5 chain
-
-Contract Gamma while leaving the two elliptic endpoint curves uncontracted.
-
-By the analytic classification of rational double points, the resulting A5 germ has coordinates
+The two elliptic endpoint branches are opposite-end curvettes.  The divisorial valuations on the
+seven-component resolution are locally
 
 ```
-u v = s^6.                                      (A5)
+val(s)=(1,1,1,1,1,1,1),
+val(u)=(6,5,4,3,2,1,0),
+val(v)=(0,1,2,3,4,5,6),
 ```
 
-The strict transforms of the two endpoint elliptic curves meet opposite end components C1 and C5
-transversely once.  Hence, after analytic coordinate choice, their images are the two opposite
-curvettes
+after orientation.
+
+Consequently the local monomials
 
 ```
-U: u=s=0,
-V: v=s=0.
+us, vs, s^2, s^3
 ```
 
-At a generic point of U, v is a unit and u=s^6/v, so
+have exactly the valuation patterns that would produce T0 **if** they globalized to four
+maximal-ideal generators on the complete elliptic plumbing.
+
+That implication is conditional only.
+
+## 2. Exact missing adapter
+
+For an endpoint E with marked attachment p,
 
 ```
-ord_U(s,u,v)=(1,6,0).
+N_E ~= O_E(-2p).
 ```
 
-At V,
+Choose two analytic charts on E and local transverse coordinates t_i.  On overlaps
 
 ```
-ord_V(s,u,v)=(1,0,6).
+t_j = g_ij t_i + O(t_i^2),
 ```
 
-On the A5 exceptional chain the standard divisorial valuations are, after orienting C1 adjacent
-to U,
+where `{g_ij}` are transition functions for the nontrivial normal bundle.
+
+The local A5 coordinate `s` agrees with a transverse parameter near p.  To globalize `s^k`
+around E requires the corresponding transition class in
 
 ```
-ord_Ci(s)=1,
-ord_Ci(u)=6-i,
-ord_Ci(v)=i,
-i=1,...,5.
+N_E^{-k} ~= O_E(2kp)
 ```
 
-Therefore the full seven-component valuation vectors are
+to be represented by a compatible holomorphic section with the required attachment jet.
+
+Hence the actual Z55 tangent bit depends on a **global endpoint transition/gluing calculation**,
+not merely the A5 valuation semigroup.
+
+## 3. Why the contradiction check catches the error
+
+If the four local expressions were blindly promoted to global generators, they would satisfy
 
 ```
-val(s)  =(1,1,1,1,1,1,1),
-val(u)  =(6,5,4,3,2,1,0),
-val(v)  =(0,1,2,3,4,5,6).
+x^2=w^3,
+yz=w^4.
 ```
 
-They satisfy `val(u)+val(v)=6 val(s)`, as required by uv=s^6.
-
-## 2. Four explicit functions descending to the final contraction
-
-Consider
+The resulting codimension-two germ
 
 ```
-y = u s,
-z = v s,
-w = s^2,
-x = s^3.
+(x^2-w^3, yz-w^4)
 ```
 
-Their valuations are
+has a non-isolated singular locus along the y/z axes when x=w=0.
+
+But Z51/Z52 establish that the actual canonical-cover surface germ is an isolated normal
+surface singularity.
+
+This contradiction confirms that the local A5 monomials cannot by themselves be the complete
+global minimal generator system.
+
+## 4. Correct route
+
+The valid retained state is still
 
 ```
-val(y)=(7,6,5,4,3,2,1),
-val(z)=(1,2,3,4,5,6,7),
-val(w)=(2,2,2,2,2,2,2),
-val(x)=(3,3,3,3,3,3,3).
+T0 or T1,
+q1=x^2,
+q2=yz+c xw,
+c=0 versus c!=0 unknown.
 ```
 
-Each vector dominates F, so all four functions vanish on every component contracted by the final
-map.  They are therefore holomorphic functions on the final singularity germ.
+Z56 remains useful: it identifies one first-normal tangent direction beyond the three sections
+visible on the reduced exceptional divisor.
 
-None lies in `m^2`, because none of the four valuation vectors dominates
+The next calculation must globalize sections across both elliptic endpoint neighborhoods using
+their exact normal bundles and the attachment-point jets.
 
-```
-2F=(2,4,4,4,4,4,2).
-```
-
-Their leading restrictions are independent:
-
-- y survives on the right arm;
-- z survives on the left arm;
-- w survives on the central reduced A5 strip;
-- x is the unique first-normal direction of Z56.
-
-Since `dim m/m^2=4`, their classes form a basis of the tangent space.
-
-## 3. Quadratic products
-
-The A5 equation gives exact identities
+## 5. New active leaf
 
 ```
-x^2 = s^6 = uv,
-yz  = (us)(vs) = uv s^2 = s^8.
+MB104-Z57R-ENDPOINT-GLOBALIZATION-OF-MAXIMAL-IDEAL-SECTIONS
 ```
 
-Now
+Target:
 
-```
-3F=(3,6,6,6,6,6,3).
-```
+1. use `E_1728`, marked p and `N_E=O_E(-2p)`;
+2. construct the global sections of `O_X(-F)` and the unique first-normal tangent section through
+   the endpoint formal neighborhoods;
+3. match them to the central A5 local basis;
+4. evaluate the single product coefficient `c` in
+   `yz+c xw` modulo m^3.
 
-The valuation vectors are
-
-```
-val(s^6)=(6,6,6,6,6,6,6) >= 3F,
-val(s^8)=(8,8,8,8,8,8,8) >= 3F.
-```
-
-Konno Lemma 5.6 for type (II), m=1 gives the maximal-ideal-adic identification
-
-```
-m^n = pi_* O_X(-nF)
-```
-
-for every n>0.
-
-Hence
-
-```
-x^2 in m^3,
-yz  in m^3.
-```
-
-Therefore in degree two of the associated graded ring,
-
-```
-in_2(x^2)=0,
-in_2(yz)=0.
-```
-
-Since Z52 already proves that the tangent cone is a codimension-two complete intersection of two
-quadrics, these are the two independent quadratic initial relations.
-
-Thus
-
-```
-gr_m O
-  has quadratic ideal (x^2,yz).
-```
-
-## 4. T0/T1 decision
-
-Comparing with Z54,
-
-```
-T0=(x^2,yz),
-T1=(x^2,yz+xw),
-```
-
-we obtain
-
-```
-actual tangent type = T0.
-```
-
-Equivalently:
-
-```
-DET_PENCIL_IDENTICALLY_ZERO = true,
-rank-four tangent quadric exists = false,
-embdim at the two-line intersection point = 3.
-```
-
-The mixed coefficient is exactly
-
-```
-c=0.
-```
-
-## 5. Why this is not a symmetry inference
-
-No sign-change symmetry is used to force c=0.
-
-The decision comes from:
-
-1. the source-classified A5 fixed chain;
-2. the standard analytic A5 equation uv=s^6;
-3. the opposite-end curvette geometry of the actual elliptic endpoints;
-4. explicit divisorial valuations;
-5. Konno's exact identification of the m-adic filtration by nF.
-
-## 6. New next interface
-
-The tangent-cone ambiguity is closed.
-
-The size48 canonical cover now has exact leading algebra
-
-```
-C[x,y,z,w]/(x^2,yz)
-```
-
-with total Milnor number 31.
-
-The next useful task is not another tangent-cone classification.  It is to determine the first
-higher-order terms that make the ICIS isolated and carry the canonical mu_3 action.
-
-A bounded target is:
-
-```
-MB104-Z58-T0-HIGHER-JET-MU3-EQUIVARIANT-ICIS
-```
-
-Compute the defining relations modulo m^4/m^5 using the A5 monomial basis above and the deck
-character.  Test whether this already determines the mu_3 representation on the Tjurina/Milnor
-algebra sufficiently for a downstairs local correction.
+The local A5 valuation table is allowed only as the central matching condition.
 
 ## Firewalls
 
 ```
-actual_tangent_type_T0=true
-mixed_coefficient_c_zero=true
-tangent_pencil_determinant_identically_zero=true
-higher_order_ICIS_terms_known=false
-mu3_vanishing_character_known=false
+local_A5_valuation_table_valid=true
+local_A5_monomials_global_generators=false
+actual_tangent_type_T0=false
+actual_tangent_type_T1=false
+mixed_coefficient_c_known=false
 downstairs_local_correction_computed=false
 finite_degree_window_proved=false
 MB104_complete=false
