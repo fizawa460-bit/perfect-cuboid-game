@@ -1,13 +1,9 @@
 name: Stage32 BRIDGE BR204 generation2 finer recovery
 
-# Lifecycle: ACTIVE_AUTO — cheap branch-push authorization gate only.
-# Heavy execution is permitted solely by a post-audit runkey-only arm commit.
+# Lifecycle: MANUAL — generation2 execution is frozen historical recovery evidence.
+# Any historical replay must be invoked explicitly; generation3 owns the active recovery frontier.
 on:
-  push:
-    branches:
-      - stage32bridge-mainbatch
-    paths:
-      - 'stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json'
+  workflow_dispatch:
 
 permissions:
   contents: read
