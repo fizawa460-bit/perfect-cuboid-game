@@ -36,9 +36,10 @@ env:
   AUDITED_REVIEW: '5247726057'
   AUDITED_WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
   BC_SHARD_WORKER_BLOB: ee152cccd3eaa6740202036d8d25ffb0d6a0fa84
-  BC_COMBINER_BLOB: f31a979e97e9a64c030c34324aae1df9fe1a18c1
+  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
   BC_EQUIV_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
-  GEN2_PREFLIGHT_BLOB: e82b5c7d88fdf3c32c3b79dd07e8e601de2c977c
+  GEN2_PREFLIGHT_BLOB: 0ec4dc02cec16bd396b4ac17794747b079126d47
+  BC_RESUME_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
 
 jobs:
   retained-replay:
@@ -155,6 +156,7 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp)" = "$BC_SHARD_WORKER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$BC_COMBINER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py)" = "$BC_EQUIV_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_bc_shards.py)" = "$BC_RESUME_RUNNER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json)" = "$GEN2_PREFLIGHT_BLOB"
           python -m py_compile             stages/stage32/generalization-bridge/combine_br204_bc_shards.py             stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py             stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
 
