@@ -378,26 +378,37 @@
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z39_complete_p_null_curve_finite_degree_reduction.py",
       "verifier_blob": "859d894ba156e9afb1adbbbacf0de244e0ee35f3",
       "result": "for any nonexceptional integral P-null curve, P.R=0 plus Z21 Hodge, Cauchy on the 14 support nodes, and adjunction give 3e^2<=64e+128 and 4|e; hence e is one of 4,8,12,16,20"
+    },
+    "z40_p_null_picard64_enumeration_preflight": {
+      "status": "PRE_AUDIT_EXACT_17_SHELL_EXECUTABLE_PREFLIGHT_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z40-P-NULL-PICARD64-FINITE-ENUMERATION-PREFLIGHT-20260919.md",
+      "note_blob": "49d047cc0f1cc1e4a558f1abe0c45993aa66b8d1",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z40-P-NULL-PICARD64-FINITE-ENUMERATION-PREFLIGHT-CERTIFICATE.json",
+      "certificate_blob": "c375c69c1640e6300d96d974c2a12cef05e117ed",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z40_p_null_picard64_finite_enumeration_preflight.py",
+      "verifier_blob": "22f4c0b5194a9bba54c1a5e50c8765470f5515b6",
+      "result": "Z39 reduces nonexceptional P-null curves to degrees 4,8,12,16,20; adjunction/Hodge leave exactly 17 Picard64 close-vector shells. Current main retains the rank-64 Picard marking and pinned Stoll Magma helper; compact node indices will be matched to Stoll points by exact projective coordinates rather than assumed ordering. Enumeration itself remains active and uncredited."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z40 P-null Picard64 finite enumeration",
+    "title": "MB104 Z40 P-null Picard64 finite enumeration execution",
     "active_leaf": "MB104-Z40-P-NULL-PICARD64-FINITE-ENUMERATION",
-    "required_input": "Use the retained Stage33-07 rank-64 Picard marking on current main and the pinned Stoll source. For each of the three surviving balanced support representatives, match the compact 48-node coordinates to Stoll pts[1..48] exactly, construct P=7H-4 sum E_i, and enumerate every integral Picard class R with H.R in {4,8,12,16,20}, P.R=0, p_a(R)>=0, and the exact Hodge shell. Filter unknown classes by nonnegative intersection with the 140 retained known curves; keep known curves separately.",
+    "required_input": "Execute the 17 exact close-vector shells for each of the three surviving balanced supports 0000770000ff, 00007b0000ff, 000707000f0f. First match all 48 compact node coordinates bijectively to Stoll pts over Q(i), then construct each support-specific P. Enumerate integral Picard classes, require P.R=0 and the shell genus/self-intersection, retain known classes separately, and apply the 140-known-curve nonnegative-intersection filter only to unknown classes.",
     "success_shapes": [
-      "prove the complete nonexceptional P-null numerical class list is exactly the already-known zero elliptic quartics, completing the null locus numerically",
-      "find additional finite P-null numerical classes and record their degrees/genus/intersection fingerprints for geometric effectivity follow-up",
-      "show the retained Picard64 marking is insufficient to identify compact node-mask indices with Stoll exceptional indices, record that exact adapter wall without guessing"
+      "complete enumeration leaves only already-known P-null curves, giving numerical completeness of the null locus",
+      "enumeration finds additional finite P-null numerical classes and records exact fingerprints for effectivity follow-up",
+      "execution exposes a concrete source/runtime blocker; record it without weakening the exact 17-shell reduction"
     ],
     "must_not_repeat": [
-      "assume the 12 retained elliptic quartics are the complete null locus",
-      "identify compact node indices with Magma pts ordering by position alone",
-      "treat a numerically effective lattice class as an effective integral curve",
-      "claim semiampleness or contraction before null-locus completeness",
+      "assume compact and Stoll point orderings coincide",
+      "skip any of the 17 shells",
+      "discard a class because it has negative intersection with itself when it is one of the retained known curves",
+      "promote numerical-effectivity survival to geometric effectivity",
+      "claim semiampleness/contraction before null-locus completeness",
       "claim receiver/theorem credit before hostile audit"
     ],
-    "fallback_after_gate": "If node-order matching is the only missing interface, derive it from exact projective coordinates or the 92-known-curve incidence fingerprints before any lattice enumeration."
+    "fallback_after_gate": "If the public Magma transport cannot execute the 17-shell enumeration reliably, preserve the exact shell certificate and isolate the runtime issue rather than reopening unbounded curve classification."
   },
   "routing": {
     "independent_of_full178_execution": true,
