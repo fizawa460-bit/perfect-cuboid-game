@@ -4,20 +4,7 @@ name: Stage32 MB Z40 P-null Picard64 enumeration
 # The automatic event is only an entry gate; exact enumeration stays cold
 # unless the dedicated runkey changed semantically in the triggering range.
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-P-NULL-PICARD64-V1.json'
-      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_z40_p_null_picard64_finite_enumeration.py'
-      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z40_p_null_picard64_finite_enumeration.py'
-      - '.github/workflows/stage32-mb-z40-p-null-picard64.yml'
   workflow_dispatch:
-    inputs:
-      expected_head_sha:
-        description: Exact 40-hex head to replay
-        required: true
-        type: string
-
 permissions:
   contents: read
   actions: read
