@@ -173,8 +173,8 @@ jobs:
           test "$(git hash-object stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py)" = "a287c2b362064495edbd592356076234240b97cd"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json)" = "6b0bceeb562433045449f928343ad5fcd9073af4"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json)" = "3bbfd8d4e69a46d32e00dd8147e6892ce34a79c7"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py)" = "bcb7c6d438f6f1ce936a2e9d668d1fde9d19fc8f"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "03c73ee1a73c210098622248a3d006d89dc342d5"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py)" = "1504493caed9aaeadca49d812e81b6b7f307e579"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "41243a8842eba8ad585e86283ba143bfe57fef28"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
@@ -2728,13 +2728,13 @@ jobs:
           target="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json"
           changed="$(git diff --name-only HEAD^ HEAD)"
           if printf '%s\n' "$changed" | grep -Fxq "$target"; then
-            test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "03c73ee1a73c210098622248a3d006d89dc342d5"
+            test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "41243a8842eba8ad585e86283ba143bfe57fef28"
             python - "$target" <<'PY'
           import json,sys
           p=json.load(open(sys.argv[1]))
           assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1"
-          assert p["generation"]==2 and p["armed"] is True
-          assert p["script_blob_sha1"]=="03c73ee1a73c210098622248a3d006d89dc342d5"
+          assert p["generation"]==3 and p["armed"] is True
+          assert p["script_blob_sha1"]=="41243a8842eba8ad585e86283ba143bfe57fef28"
           assert p["row_index"]==177 and p["band_position"]==7
           assert p["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
           assert p["credit"]["main"] is False and p["credit"]["merge"] is False
