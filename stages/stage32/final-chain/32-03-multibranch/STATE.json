@@ -521,24 +521,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z53-SIZE48-TANGENT-CONE-SUPPORT-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z53_size48_tangent_cone_support.py",
       "result": "Konno maximal ideal cycle F=Z+A5 gives -F degree vector (0,1,0,0,0,1,0); only two rational components map nontrivially under maximal-ideal blow-up, reducing the degree-4 (2,2) tangent cone to a nonreduced scheme supported on at most two degree-one components. Equivariant Milnor character remains blocked without equivariant smoothing."
+    },
+    "z54_quadratic_tangent_two_normal_forms": {
+      "status": "PRE_AUDIT_EXACT_FINITE_TANGENT_CONE_REDUCTION_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z54-FIRST-NORMAL-TO-QUADRATIC-TANGENT-TWO-NORMAL-FORMS-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z54-QUADRATIC-TANGENT-TWO-NORMAL-FORMS-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z54_quadratic_tangent_two_normal_forms.py",
+      "result": "Konno maximal-ideal sections separate the elliptic endpoints, so the tangent reduced support is two distinct intersecting lines. Any (2,2) CI with exactly this support is projectively equivalent to T0=(x^2,yz) or T1=(x^2,yz+xw); the continuous first-normal parameter collapses to a discrete zero/nonzero tangent bit."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z54 first-normal to quadratic initial-form adapter",
-    "active_leaf": "MB104-Z54-FIRST-NORMAL-TO-QUADRATIC-INITIAL-FORM-ADAPTER",
-    "required_input": "Use the exact one-dimensional first-normal residual, endpoint models E_1728 with O(-2p), the seven-chain plumbing, and maximal ideal cycle F=Z+A5. Construct local generators of O(-F) and compute how the first-normal transition coefficient enters the quadratic initial relations q1,q2.",
+    "title": "MB104 Z55 T0 versus T1 cuboid tangent bit",
+    "active_leaf": "MB104-Z55-T0-VS-T1-CUBOID-TANGENT-BIT",
+    "required_input": "Use actual cuboid/canonical-cover local coordinates to evaluate the single mixed coefficient distinguishing T0=(x^2,yz) from T1=(x^2,yz+xw). Search only for the local generator/transition datum needed for this bit.",
     "success_shapes": [
-      "explicit q1(lambda),q2(lambda) with projective classification of the tangent pencil",
-      "proof the tangent scheme is lambda-independent",
-      "cuboid coordinate evaluation fixing lambda or a finite set of lambda"
+      "prove T0",
+      "prove T1",
+      "derive an equivalent exact rank-four-quadric or mixed-normal criterion computable from retained cuboid equations"
     ],
     "must_not_repeat": [
+      "generic tangent-pencil classification",
       "smooth elliptic tangent-cone identification",
-      "total Milnor number used as equivariant data",
-      "generic complete-intersection classification without the first-normal adapter"
+      "unadapted historical e=2 local coordinates"
     ],
-    "fallback_after_gate": "If local generators cannot be reconstructed from retained data, name the missing generator-normalization/transition coefficient and search only the exact cuboid source equation that supplies it."
+    "fallback_after_gate": "If retained equations do not expose the bit, write the exact local coefficient formula in terms of cuboid coordinates so a bounded symbolic computation can evaluate it."
   },
   "routing": {
     "independent_of_full178_execution": true,
