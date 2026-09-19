@@ -37,7 +37,7 @@ env:
   BC64_GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
   FLAT_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
   HIER_RUNNER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
-  G3_FINALIZER_BLOB: 04f574c4e40d7c6651439f9e7da5d940749b485a
+  G3_FINALIZER_BLOB: 8a16933efd185a65376cf11f3d6984e2656b1588
   HIER_EQUIV_BLOB: 3148a180d4e41d5a2910d373a8c4cae065a0b3c3
   POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
   STORAGE_POLICY_BLOB: 69f23db9b280504c1c6c12a58af52182bb052215
@@ -222,7 +222,7 @@ jobs:
           name: br204-g3-runtime
           path: /tmp/runtime
       - name: Download generation2 durable partial for hierarchical target
-        if: matrix.mode == 'D148_HIERARCHICAL_BC64'
+        if: matrix.mode == 'D148_HIERARCHICAL_BC64' && matrix.b == 2 && matrix.d == 148
         uses: actions/download-artifact@v4
         with:
           name: br204-g2-f-b${{ matrix.b }}-d${{ matrix.d }}
@@ -322,7 +322,7 @@ jobs:
               x=json.loads(p.read_text()); key=(int(x['b']),int(x['d']))
               assert key in expected and key not in found, f'duplicate/unexpected {key}'
               assert x['mode']==('flat16' if expected[key]=='RETENTION_REPLAY_FLAT16' else 'hier64')
-              canonical=(p.parent/f"br204-s-b{key[0]}-d{key[1]}.tsv").is_file()
+              canonical=(p.parent/f"br204-s-b{key[0]}-d{key[1]}.tsv.gz").is_file()
               found[key]={'complete':bool(x['complete']),'canonical':canonical,'stop_reason':x['stop_reason'],'persisted_bytes':x['persisted_bytes']}
               if x['complete']: assert canonical, f'complete target missing canonical {key}'
               else: partial.append({'b':key[0],'d':key[1],'stop_reason':x['stop_reason']})
