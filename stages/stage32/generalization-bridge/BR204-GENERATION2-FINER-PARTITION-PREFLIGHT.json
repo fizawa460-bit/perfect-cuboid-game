@@ -47,7 +47,13 @@
     "fallback": "If any individual BC shard still reaches the hard timeout, STOP again and introduce a second exact execution-only partition below the BC shard. Do not raise the timeout as the primary recovery action.",
     "audited_generation1_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "finer_partition_worker_path": "stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp",
-    "finer_partition_worker_blob": "ee152cccd3eaa6740202036d8d25ffb0d6a0fa84"
+    "finer_partition_worker_blob": "ee152cccd3eaa6740202036d8d25ffb0d6a0fa84",
+    "bc_shard_combiner_path": "stages/stage32/generalization-bridge/combine_br204_bc_shards.py",
+    "bc_shard_combiner_blob": "efcbcc3e2b31604acea8f83bbf9524e5180e5139",
+    "resumable_bc_shard_runner_path": "stages/stage32/generalization-bridge/run_br204_resumable_bc_shards.py",
+    "resumable_bc_shard_runner_blob": "15dcf1e21979d3de155c57a01f6a5922dddc1ba3",
+    "equivalence_verifier_path": "stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py",
+    "equivalence_verifier_blob": "e77d033dd375b7a2db319b647d45d56354b9b2b8"
   },
   "carry_compatibility_gate": {
     "generation1_math_subunits_may_be_carried": true,
@@ -64,7 +70,7 @@
     "Use a separate source-locked BC-shard worker; keep the audited generation-1 worker byte-exact.",
     "Add an exact 16-shard combiner that rejects gaps, overlaps, duplicate shard IDs, source drift and inconsistent static metadata.",
     "Add bounded direct-vs-16-shard byte-equivalence regression.",
-    "Extend recovery manifests so partially completed finer shards are durable and only missing shard IDs are recomputed.",
+    "Integrate the source-locked resumable BC-shard runner into the heavy workflow so validated finer shards are uploaded on the always path and only missing shard IDs are recomputed.",
     "Refresh heavy workflow/runkey/execution-contract/source locks to V45 and the finer-partition surface.",
     "Run exact-head retained replay and obtain a fresh hostile audit before any generation-2 runkey-only arm commit."
   ],
@@ -77,5 +83,13 @@
     "endpoint": false,
     "perfect_cuboid": false,
     "merge": false
+  },
+  "implementation_progress": {
+    "separate_finer_worker": "IMPLEMENTED_SOURCE_LOCKED",
+    "exact_shard_union_combiner": "IMPLEMENTED_SOURCE_LOCKED",
+    "direct_vs_16_shard_regression": "IMPLEMENTED_AWAITING_EXACT_HEAD_CI",
+    "resumable_single_d_bc_shards": "IMPLEMENTED_SOURCE_LOCKED_AWAITING_WORKFLOW_INTEGRATION_AND_CI",
+    "heavy_workflow_integration": "OPEN",
+    "generation2_runkey_arm": "FORBIDDEN_PENDING_HOSTILE_AUDIT"
   }
 }
