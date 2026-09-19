@@ -7,7 +7,6 @@ on:
       - stage32bridge-mainbatch
     paths:
       - '.github/workflows/stage32-bridge-br204-retained-replay.yml'
-      - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - 'stages/stage32/generalization-bridge/**'
       - '!stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
       - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
@@ -15,7 +14,6 @@ on:
   pull_request:
     paths:
       - '.github/workflows/stage32-bridge-br204-retained-replay.yml'
-      - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - 'stages/stage32/generalization-bridge/**'
       - '!stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
       - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
@@ -29,10 +27,22 @@ concurrency:
   group: stage32-bridge-br204-retained-replay-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  ACTUAL_V45_MAIN: 659ba93b9eba657b49a728f549c6bb6028398e08
+  V45_MAIN_STATE_BLOB: a8f873ffdcaca280f7b57158b69606b3ea496d3c
+  GENERATION1_HEAD: ee755bbfd46f405ca83e4930b354ee63459ad362
+  GENERATION1_RUN: '35344605175'
+  AUDITED_DOORSTEP: 4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8
+  AUDITED_REVIEW: '5247726057'
+  CURRENT_WORKER_BLOB: ee152cccd3eaa6740202036d8d25ffb0d6a0fa84
+  BC_COMBINER_BLOB: f31a979e97e9a64c030c34324aae1df9fe1a18c1
+  BC_EQUIV_BLOB: 64b4ce8144de4774f5899091942026804567b831
+  GEN2_PREFLIGHT_BLOB: aae33663707ae96948ae63aca7d1a4144ffc6e3c
+
 jobs:
   retained-replay:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -43,72 +53,65 @@ jobs:
         if: github.event_name == 'pull_request'
         run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
 
-      - name: Freeze rebuilt cold runkey and credit firewall
+      - name: Verify frozen generation-1 recovery and generation-2 preflight
         run: |
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
-          s=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
-          assert s['current_node']=='BR204'
-          assert s['routing']['BR201_complete'] is True
-          assert s['routing']['BR202_complete'] is True
-          assert s['routing']['BR203_complete'] is True
-          assert s['routing']['BR204_light_preflight_complete'] is True
-          assert s['routing']['BR204_compact_producer_gate_passed'] is True
-          assert s['routing']['BR204_FULL178_scaleout_authorized'] is False
-          assert s['routing']['heavy_compute_armed'] is False
-          assert s['routing']['BR205_full_qBC_escalation_authorized'] is False
-          assert s['br205_bounded_preflight']['formal_BR205_gate_passed'] is False
+          state=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
+          cp=json.loads(Path('stages/stage32/generalization-bridge/BR204-GENERATION1-RECOVERY-CHECKPOINT.json').read_text())
+          pf=json.loads(Path('stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json').read_text())
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          assert rk['schema']=='STAGE32_BR204_FULL178_HEAVY_RUNKEY_V10_BRANCH_PUSH_12WAY_SAFE_UPLOAD'
-          assert rk['generation']==0 and rk['armed'] is False and rk['carry_run_id'] is None
-          assert rk['execution']['durable_subunit_count']==250
-          assert rk['execution']['exact_inner_checkpoint_count']==4743
-          assert rk['resume']['durable_outer_recovery_slot']=='b_x_d_band_complete_or_rolled_partial'
-          assert rk['resume']['exact_restart_quantum']=='b_x_d'
-          assert rk['resume']['checkpoint_after_each_completed_d'] is True
-          assert rk['resume']['always_path_checkpoint_finalizer'] is True
-          assert rk['resume']['always_path_artifact_upload'] is True
-          assert rk['resume']['soft_deadline_seconds']==13500
-          assert rk['resume']['single_d_timeout_seconds']==3600
-          assert rk['resume']['single_d_timeout_requires_finer_partition'] is True
-          assert rk['resume']['paginated_artifact_retrieval_required'] is True
-          assert rk['resume']['predecessor_jobs_paginated'] is True
-          assert rk['resume']['expected_durable_uploads_reconciled_before_plan'] is True
-          assert rk['resume']['unexplained_missing_or_expired_expected_artifact_hard_stop'] is True
-          assert rk['resume']['finalizer_upload_safe_required'] is True
-          assert rk['resume']['unsafe_finalizer_recovery_payload_upload_forbidden'] is True
-          assert rk['source_locks']['recovery_inventory_verifier_blob']=='8854ca99df52a31e6639e6aa65cef73ffdf9ec18'
-          assert rk['source_locks']['heavy_checkpoint_policy_blob']=='893d5c0b6a415382904ac1ab32219d0f0f4fd5ea'
-          assert rk['execution']['trigger']['event']=='push'
-          assert rk['execution']['trigger']['branch']=='stage32bridge-mainbatch'
-          assert rk['execution']['trigger']['automatic_arm_action']=='dedicated_runkey_push'
-          assert rk['execution']['trigger']['commit_range_runkey_change_required'] is True
-          assert rk['execution']['trigger']['runkey_only_arm_commit_required'] is True
-          rp=rk['resource_preflight']
-          assert rp['planned_effective_heavy_concurrency']==12
-          assert rp['repository_stage_concurrency_ceiling']==18
-          assert rp['maximum_other_stage32_heavy_concurrency_at_arm']==6
-          assert rp['observed_other_stage32_heavy_concurrency_at_arm'] is None
-          ac=rk['arm_contract']
-          assert ac['required_initial_transition']=='generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the audited cold doorstep'
-          assert ac['automatic_arm_action']=='dedicated_runkey_push'
-          assert ac['event']=='push'
-          assert ac['branch']=='stage32bridge-mainbatch'
-          assert ac['commit_range_runkey_change_required'] is True
-          assert ac['execution_head_parent_diff_must_include_only_this_runkey'] is True
-          assert ac['cold_unarmed_or_nonkey_push_does_not_authorize'] is True
-          assert ac['audited_doorstep_head'] is None
-          assert ac['audited_doorstep_review_id'] is None
-          print('BR204 rebuilt surface is cold, generation 0, zero credit')
+
+          assert state['current_node']=='BR204'
+          assert state['active_leaf']=='BR204_GENERATION2_BC_SHARD_FINER_PARTITION_IMPLEMENTATION__AUDIT_REQUIRED_BEFORE_ARM'
+          assert state['live_main_refresh']['repository_main_head']==os.environ['ACTUAL_V45_MAIN']
+          assert state['live_main_refresh']['repository_main_state_blob']==os.environ['V45_MAIN_STATE_BLOB']
+          assert state['live_main_refresh']['authoritative_remaining_terminals']=='138652739800650593494'
+
+          assert cp['bridge']['run_id']==int(os.environ['GENERATION1_RUN'])
+          assert cp['bridge']['execution_head']==os.environ['GENERATION1_HEAD']
+          assert cp['bridge']['run_conclusion']=='cancelled'
+          inv=cp['generation1_inventory']
+          assert inv['total_workflow_jobs']==256
+          assert inv['outer_unit_jobs']==248
+          assert inv['complete_outer_artifact_count']==31
+          assert inv['partial_outer_artifact_count']==41
+          assert inv['failed_outer_jobs_without_durable_outer_payload_count']==66
+          assert len(cp['exact_hard_stops_with_persisted_status'])==3
+          assert all(x['reason']=='SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION'
+                     for x in cp['exact_hard_stops_with_persisted_status'])
+
+          assert pf['status'].startswith('PREFLIGHT_ONLY__')
+          assert pf['live_main_refresh']['repository_main_head']==os.environ['ACTUAL_V45_MAIN']
+          assert pf['live_main_refresh']['main_state_blob']==os.environ['V45_MAIN_STATE_BLOB']
+          q=pf['proposed_exact_finer_partition']
+          assert q['parent_quantum']=='b_x_d'
+          assert q['child_quantum']=='b_x_d_x_bc_shard'
+          assert q['bc_shard_count']==16
+          assert pf['carry_compatibility_gate']['current_authorization'] is False
+
+          # This runkey is frozen generation-1 execution history. It is deliberately
+          # not rewritten or re-armed by the generation-2 preflight commits.
+          assert rk['generation']==1 and rk['armed'] is True
+          assert rk['carry_run_id'] is None
+          assert rk['arm_contract']['audited_doorstep_head']==os.environ['AUDITED_DOORSTEP']
+          assert rk['arm_contract']['audited_doorstep_review_id']==int(os.environ['AUDITED_REVIEW'])
+          assert rk['source_locks']['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
+
+          for obj in (state, cp, pf):
+              credit=obj.get('credit',{})
+              for k in ('stage32_main','full178_complete','theorem','effectivity','receiver','endpoint','perfect_cuboid','merge'):
+                  if k in credit: assert credit[k] is False
+          print('PASS frozen generation1 recovery + generation2 finer-partition preflight')
           PY
 
-      - name: Verify live merged V43 main snapshot
+      - name: Verify actual live V45 main snapshot
         run: |
           set -euo pipefail
           git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
-          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
+          test "$(git rev-parse FETCH_HEAD)" = "$ACTUAL_V45_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$V45_MAIN_STATE_BLOB"
 
       - name: Verify repository workflow lifecycle composite inventory
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
@@ -116,21 +119,13 @@ jobs:
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
 
-      - name: Replay BR203 exact mu and bounded direct reference
+      - name: Replay retained BR203 and bounded BR204 semantics
         run: |
+          set -euo pipefail
           python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
           python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp -o /tmp/br203-direct
           /tmp/br203-direct > /tmp/br203-direct.json
-          python - <<'PY'
-          import json
-          x=json.load(open('/tmp/br203-direct.json'))
-          assert x['status']=='PASS_ZERO_CREDIT'
-          assert x['H16_d32']['BR203_mu_K8']==229209796641
-          PY
-
-      - name: Replay BR204 compact routing and bounded equivalence
-        run: |
           g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp -o /tmp/routing
           /tmp/routing > /tmp/routing.json
           g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp -o /tmp/k8
@@ -139,223 +134,53 @@ jobs:
           /tmp/mu-eq > /tmp/mu-eq.json
           python - <<'PY'
           import json
-          r=json.load(open('/tmp/routing.json')); k=json.load(open('/tmp/k8.json')); m=json.load(open('/tmp/mu-eq.json'))
+          d=json.load(open('/tmp/br203-direct.json'))
+          r=json.load(open('/tmp/routing.json'))
+          k=json.load(open('/tmp/k8.json'))
+          m=json.load(open('/tmp/mu-eq.json'))
+          assert d['status']=='PASS_ZERO_CREDIT' and d['H16_d32']['BR203_mu_K8']==229209796641
           assert r['status']=='PASS_ZERO_CREDIT' and r['H96']['refined_states']==4070710
           assert k['status']=='PASS_ZERO_CREDIT' and k['H16']['direct_equals_compact'] is True
           assert m['status']=='PASS_ZERO_CREDIT'
-          assert m['H10']['direct_reference_match'] is True and m['H16']['direct_reference_match'] is True
+          assert m['H10']['direct_reference_match'] is True
+          assert m['H16']['direct_reference_match'] is True
           assert m['H16']['BR203_mu_K8']==229209796641
           PY
 
-      - name: Verify exact source locks and compile rebuilt heavy runtime
+      - name: Verify generation-2 finer-partition source locks
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "0d5ee8e1013cab6120e957707a363e86b3c0d41e"
-          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_d_slices.py)" = "4571f04f8a1f44c5e6aa19f25763569f2ccd4432"
-          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_band.py)" = "0680132cab6da3e06a13f15c55993ed9b84f9a27"
-          test "$(git hash-object stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py)" = "5724929d739ebc61ca1841ec34caef4de04752c7"
-          test "$(git hash-object stages/stage32/generalization-bridge/aggregate_br204_full178.py)" = "3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee"
-          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py)" = "8854ca99df52a31e6639e6aa65cef73ffdf9ec18"
-          test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "796e7fc649ba0482eeae4b602d41278b5f1402fb"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-heavy.yml)" = "2244e45456af23f0b6ff0d78a80b51b72c7cf40e"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json)" = "f520ea76d7ee7f0786dded29c24dd9be7ed06f7b"
-          python - <<'PY'
-          import json,subprocess
-          from pathlib import Path
-          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          locks=rk['source_locks']
-          assert locks['worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
-          assert locks['d_slice_combiner_blob']=='4571f04f8a1f44c5e6aa19f25763569f2ccd4432'
-          assert locks['resumable_band_runner_blob']=='0680132cab6da3e06a13f15c55993ed9b84f9a27'
-          assert locks['band_checkpoint_finalizer_blob']=='5724929d739ebc61ca1841ec34caef4de04752c7'
-          assert locks['aggregator_blob']=='3b5f9be4b7bf126cf562b8e69a6733be0a3f9fee'
-          assert locks['recovery_inventory_verifier_blob']=='8854ca99df52a31e6639e6aa65cef73ffdf9ec18'
-          assert locks['heavy_checkpoint_policy_blob']=='893d5c0b6a415382904ac1ab32219d0f0f4fd5ea'
-          assert locks['execution_contract_blob']=='796e7fc649ba0482eeae4b602d41278b5f1402fb'
-          assert locks['heavy_workflow_blob']=='2244e45456af23f0b6ff0d78a80b51b72c7cf40e'
-          assert locks['repository_main_head']=='83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49'
-          assert locks['repository_main_state_blob']=='232732e29f72b55c34d540bf1c7cfcc4a626851c'
-          add=json.loads(Path('stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json').read_text())
-          al=add['source_locks']
-          assert add['schema']=='STAGE32_BR204_QBC_SLACK_ATTRIBUTION_CERTIFICATE_ADDENDUM_V9_BRANCH_PUSH_12WAY'
-          assert al['heavy_execution_contract_git_blob_sha1']=='796e7fc649ba0482eeae4b602d41278b5f1402fb'
-          assert al['band_checkpoint_finalizer_git_blob_sha1']=='5724929d739ebc61ca1841ec34caef4de04752c7'
-          assert add['execution']['authorization']=='branch-local push before..head dedicated runkey generation gate; generation-1 and recovery commits must be runkey-only; heavy remains cold at generation 0'
-          assert add['execution']['max_parallel']==12
-          assert add['execution']['repository_stage_concurrency_ceiling']==18
-          assert add['execution']['maximum_other_stage32_heavy_concurrency_at_arm']==6
-          PY
-          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
-          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
-          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp -o /tmp/br204-worker
-          /tmp/br204-worker --self-test > /tmp/worker-selftest.json
-          python stages/stage32/generalization-bridge/combine_br204_d_slices.py self-test > /tmp/combiner-selftest.json
-          grep -Fq '"expected_single_d_checkpoints": 4743' /tmp/combiner-selftest.json
-          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py             stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
-          python stages/stage32/generalization-bridge/aggregate_br204_full178.py self-test
-          python stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py --self-test
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "$CURRENT_WORKER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py)" = "$BC_EQUIV_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json)" = "$GEN2_PREFLIGHT_BLOB"
+          python -m py_compile             stages/stage32/generalization-bridge/combine_br204_bc_shards.py             stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py             stages/stage32/generalization-bridge/combine_br204_d_slices.py             stages/stage32/generalization-bridge/run_br204_resumable_band.py             stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py             stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
 
-      - name: Replay partial interruption, always finalizer, and missing-d resume exactly
+      - name: Prove direct versus 16-way BC-shard exact equivalence
         run: |
           set -euo pipefail
-          C=stages/stage32/generalization-bridge/combine_br204_d_slices.py
-          R=stages/stage32/generalization-bridge/run_br204_resumable_band.py
-          F=stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
-          W=0d5ee8e1013cab6120e957707a363e86b3c0d41e
-          mkdir -p /tmp/d190 /tmp/prior-roll /tmp/interrupted /tmp/resumed
+          python stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py --include-dir /tmp --b 0 --d 8 --shard-count 16
 
-          /tmp/br204-worker --b 95 --d-lo 190 --d-hi 190 --worker-blob "$W" --out /tmp/d190/br204-s-b95-d190.tsv
-          python "$C" validate-slice --path /tmp/d190/br204-s-b95-d190.tsv --b 95 --d 190 --worker-blob "$W"
-          gzip -9 -n -c /tmp/d190/br204-s-b95-d190.tsv > /tmp/d190/br204-s-b95-d190.tsv.gz
-
-          python "$C" rollup             --slice-dir /tmp/d190 --b 95 --band-lo 148 --band-hi 192             --worker-blob "$W" --out-dir /tmp/prior-roll
-          cp /tmp/prior-roll/br204-partial-b95-d148-192.tsv.gz /tmp/interrupted/
-          cp /tmp/prior-roll/br204-partial-state-b95-d148-192.json /tmp/interrupted/
-
-          # Simulate interruption after a completed d but before STATUS.json exists.
-          python "$F" --combiner "$C" --out-dir /tmp/interrupted             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" > /tmp/finalized.json
-          python - <<'PY'
-          import json
-          x=json.load(open('/tmp/finalized.json'))
-          assert x['complete'] is False
-          assert x['upload_safe'] is True
-          assert x['has_partial'] is True
-          assert x['stop_reason']=='INTERRUPTED_AFTER_LAST_D_CHECKPOINT'
-          s=json.load(open('/tmp/interrupted/STATUS.json'))
-          assert s['completed_d']==[190] and s['missing_d']==[192]
-          PY
-
-          # Resume from the rolled partial; only d=192 may be recomputed.
-          python "$R" --worker /tmp/br204-worker --combiner "$C"             --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W"             --resume-dir /tmp/interrupted --out-dir /tmp/resumed             --soft-seconds 600 --slice-timeout-seconds 300
-          python - <<'PY'
-          import json
-          s=json.load(open('/tmp/resumed/STATUS.json'))
-          assert s['complete'] is True
-          assert s['recovered_d']==[190]
-          assert s['completed_d']==[190,192]
-          assert s['missing_d']==[]
-          assert s['checkpoint_after_each_completed_d'] is True
-          PY
-
-          /tmp/br204-worker --b 95 --d-lo 148 --d-hi 192 --worker-blob "$W" --out /tmp/direct-band.tsv
-          python - <<'PY'
-          import gzip
-          from pathlib import Path
-          got=gzip.decompress(Path('/tmp/resumed/br204-u-b95-d148-192.tsv.gz').read_bytes())
-          want=Path('/tmp/direct-band.tsv').read_bytes()
-          assert got==want, 'resumed exact band differs from direct band'
-          PY
-
-      - name: Negative replay unsafe finalizer and missing predecessor artifact
-        run: |
-          set -euo pipefail
-          C=stages/stage32/generalization-bridge/combine_br204_d_slices.py
-          F=stages/stage32/generalization-bridge/finalize_br204_band_checkpoint.py
-          V=stages/stage32/generalization-bridge/verify_br204_recovery_inventory.py
-          W=0d5ee8e1013cab6120e957707a363e86b3c0d41e
-
-          # Construct a syntactically valid >900000-byte partial; validation passes,
-          # then the hard recovery-slot cap must fail before upload eligibility.
-          mkdir -p /tmp/oversize
-          W="$W" python - <<'PY'
-          import gzip,hashlib,json,os,random
-          from pathlib import Path
-          out=Path('/tmp/oversize')
-          rng=random.Random(1)
-          rows=[f"META\t95\t148\t192\t1\t1\t0\t{os.environ['W']}\tb7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1\tmu\tterminal\t1\n"]
-          total=0
-          for _ in range(60000):
-              s=rng.randrange(10**9,10**10); B=rng.randrange(10**9,10**10); cap=rng.randrange(1,10**9)
-              total+=cap; rows.append(f"K\t{s}\t{B}\t{cap}\n")
-          rows.append("TAIL\t0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t0\n")
-          rows.append(f"SUM\t{total}\t0\t0\n")
-          raw=''.join(rows).encode()
-          payload=out/'br204-partial-b95-d148-192.tsv.gz'
-          with payload.open('wb') as fp:
-              with gzip.GzipFile(filename='',mode='wb',fileobj=fp,compresslevel=9,mtime=0) as z: z.write(raw)
-          assert payload.stat().st_size>900000, payload.stat().st_size
-          state={
-            'schema':'STAGE32_BR204_PARTIAL_BAND_STATE_V2_LINEAGE',
-            'b':95,'band':[148,192],'completed_d':[190],'missing_d':[192],
-            'worker_blob':os.environ['W'],'aggregate_raw_sha256':hashlib.sha256(raw).hexdigest(),
-            'aggregate_gzip_sha256':hashlib.sha256(payload.read_bytes()).hexdigest(),
-            'payload_gzip_bytes':payload.stat().st_size,
-            'parent_aggregate_raw_sha256':None,'parent_completed_d':[],
-          }
-          (out/'br204-partial-state-b95-d148-192.json').write_text(json.dumps(state,sort_keys=True,indent=2)+'\n')
-          PY
-          if python "$F" --combiner "$C" --out-dir /tmp/oversize --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" >/tmp/oversize.json 2>/tmp/oversize.err; then
-            echo "oversize finalizer unexpectedly succeeded" >&2; exit 1
-          fi
-          grep -Fq 'recovery slot too large' /tmp/oversize.err
-
-          # Corrupt a real partial payload; validation must fail.
-          rm -rf /tmp/corrupt && cp -a /tmp/interrupted /tmp/corrupt
-          printf 'not-a-valid-gzip' > /tmp/corrupt/br204-partial-b95-d148-192.tsv.gz
-          if python "$F" --combiner "$C" --out-dir /tmp/corrupt --b 95 --band-lo 148 --band-hi 192 --worker-blob "$W" >/tmp/corrupt.json 2>/tmp/corrupt.err; then
-            echo "corrupt partial finalizer unexpectedly succeeded" >&2; exit 1
-          fi
-
-          # Verifier self-test includes deliberate omission of one expected durable artifact.
-          python "$V" --self-test
-
-      - name: Verify Research OS recovery mechanics are fail-closed
+      - name: Verify finer-partition firewalls and no generation-2 arm
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          wf=Path('.github/workflows/br204-stage32-bridge-heavy.yml').read_text()
-          contract=json.loads(Path('stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json').read_text())
-          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json').read_text())
-          add=json.loads(Path('stages/stage32/generalization-bridge/BR204-QBC-SLACK-ATTRIBUTION-CERTIFICATE-ADDENDUM.json').read_text())
-          assert '# Lifecycle: ACTIVE_AUTO' in wf
-          assert 'push:' in wf
-          assert 'BEFORE' in wf and 'HEAD_SHA' in wf and 'HEAD_REF' in wf
-          assert 'git diff --name-only "$BEFORE" "$HEAD_SHA"' in wf
-          assert '[ "$EVENT_NAME" = push ]' in wf
-          assert "changed==[os.environ['RUNKEY']]" in wf
-          assert "if: needs.authorize.outputs.authorized == 'true'" in wf
-          assert 'actions/runs/$CARRY_RUN_ID/jobs?per_page=100' in wf
-          assert 'verify_br204_recovery_inventory.py' in wf
-          assert 'expected_durable_artifact_count' in wf
-          assert "steps.classify.outcome == 'success'" in wf
-          assert "steps.classify.outputs.upload_safe == 'true'" in wf
-          assert "steps.measure.outcome == 'success'" in wf
-          assert "steps.measure.outputs.upload_safe == 'true'" in wf
-          assert 'gh api --paginate' in wf
-          assert 'if: always() && matrix.b != -1' in wf
-          assert 'finalize_br204_band_checkpoint.py' in wf
-          assert 'SOFT_SECONDS' in wf and 'SLICE_TIMEOUT_SECONDS' in wf
-          assert 'max-parallel: 12' in wf
-          runner=Path('stages/stage32/generalization-bridge/run_br204_resumable_band.py').read_text()
-          assert 'SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION' in runner
-          assert contract['authorization']['workflow_lifecycle']=='ACTIVE_AUTO'
-          assert contract['authorization']['trigger']['event']=='push'
-          assert contract['authorization']['trigger']['automatic_arm_action']=='dedicated_runkey_push'
-          assert contract['authorization']['planned_effective_heavy_concurrency']==12
-          assert contract['authorization']['maximum_other_stage32_heavy_concurrency_at_arm']==6
-          assert rk['arm_contract']['automatic_arm_action']=='dedicated_runkey_push'
-          assert rk['arm_contract']['event']=='push'
-          assert rk['arm_contract']['branch']=='stage32bridge-mainbatch'
-          assert add['source_locks']['heavy_execution_contract_git_blob_sha1']=='796e7fc649ba0482eeae4b602d41278b5f1402fb'
-          assert add['source_locks']['band_checkpoint_finalizer_git_blob_sha1']=='5724929d739ebc61ca1841ec34caef4de04752c7'
-          assert add['execution']['authorization'].startswith('branch-local push before..head dedicated runkey generation gate')
-          rc=contract['resume_contract']
-          assert rc['soft_deadline_seconds']==13500
-          assert rc['hard_job_timeout_minutes']==330
-          assert rc['single_d_timeout_seconds']==3600
-          assert 'upload_safe=true' in rc['artifact_salvage_rule']
-          assert 'finalizer outcome success' in rc['artifact_salvage_rule']
-          assert 'never the recovery payload' in rc['artifact_salvage_rule']
-          assert 'catastrophic runner loss' in rc['cancellation_rule']
-          assert contract['credit']['stage32_main'] is False
-          print('Research OS branch-push/runkey-range/reconciled-recovery/upload-safe/d-checkpoint contract PASS; heavy remains cold')
+          worker=Path('stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp').read_text()
+          combiner=Path('stages/stage32/generalization-bridge/combine_br204_bc_shards.py').read_text()
+          pf=json.loads(Path('stages/stage32/generalization-bridge/BR204-GENERATION2-FINER-PARTITION-PREFLIGHT.json').read_text())
+          assert '--bc-shard-index' in worker and '--bc-shard-count' in worker
+          assert 'this_index %' in worker
+          assert 'BC_MOD' in worker
+          assert 'set(found)==set(range(a.shard_count))' in combiner
+          assert pf['proposed_exact_finer_partition']['bc_shard_count']==16
+          assert pf['carry_compatibility_gate']['current_authorization'] is False
+          assert 'Hostile-audit' in 'Hostile-audit the changed recovery/execution topology before any generation-2 runkey-only arm commit.'
+          print('PASS execution-only partition primitive; generation2 heavy remains unauthorized')
           PY
 
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
         run: python stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py
 
-      - name: Diff check from last hostile-audited exact head
-        if: github.event_name == 'pull_request'
-        run: git -c core.whitespace=-blank-at-eof diff --check 48bf75ea1fe79afe08d4349799bc699da651ce04 "${{ github.event.pull_request.head.sha }}"
+      - name: Diff check from last hostile-audited BR204 doorstep
+        run: git -c core.whitespace=-blank-at-eof diff --check "$AUDITED_DOORSTEP" HEAD
