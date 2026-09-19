@@ -38,12 +38,12 @@ env:
   BC_SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
   BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
   BC_EQUIV_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
-  GEN2_PREFLIGHT_BLOB: e913410bfc6e3bf7282a8fac845d7f1d2fbff664
+  GEN2_PREFLIGHT_BLOB: d6005307ce778d8d6a1895b38c0ca75b8e58118c
   BC_RESUME_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
   BC_FINALIZER_BLOB: 953f70ef3f9396249743f4fdcd68f1990d917b69
   FINER_TARGETS_BLOB: 7b1ade20bcb3408bd7d66581033902a54ac90592
-  G2_FINER_WORKFLOW_BLOB: 0ae90aa9a4664067da9f495bae79861613cd0c3b
-  G2_FINER_RUNKEY_BLOB: e30a35ad68f6bf11b1b3b5317308c11ec8b27597
+  G2_FINER_WORKFLOW_BLOB: f935f6c1fafbb224b725a8dd886fcf7d4d1fe89f
+  G2_FINER_RUNKEY_BLOB: 2f2046f77d8cfa1174e0d9ae788133083560b17a
 
 jobs:
   retained-replay:
@@ -193,7 +193,7 @@ jobs:
           assert rk['carry_generation1_run_id']==35344605175
           assert rk['execution']['max_parallel']==15
           assert rk['resource_preflight']['planned_effective_heavy_concurrency']==15
-          assert rk['resource_preflight']['maximum_other_stage32_heavy_concurrency_at_arm']==3
+          assert rk['resource_preflight']['maximum_other_stage32_heavy_concurrency_at_arm']==5
           assert rk['source_locks']['finer_workflow_blob']==os.environ['G2_FINER_WORKFLOW_BLOB']
           assert rk['source_locks']['bc_shard_worker_blob']==os.environ['BC_SHARD_WORKER_BLOB']
           assert rk['source_locks']['audited_generation1_worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
