@@ -53,7 +53,7 @@ def main():
     req(hist["prior_pass"]["exact_head"] == "70c2fe772df63362d82df537ea889658eb03f58f", "prior pass head")
     req(hist["prior_pass"]["review_id"] == 5257816963, "prior pass review")
     req(hist["latest_fail"]["exact_head"] == "b8596b038a6687bdec8f400d987bd8a680fea018", "latest fail head")
-    req(hist["latest_fail"]["review_id"] == 5257833251, "latest fail review")
+    req(hist["latest_fail"]["review_id"] == 5257949069, "latest fail review")
     req(hist["current_head_inherits_prior_pass"] is False, "no audit inheritance")
 
     freeze = d["audit_freeze"]
