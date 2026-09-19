@@ -535,24 +535,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z55-T0-T1-EXACT-DISCRIMINATORS-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z55_t0_t1_exact_discriminators.py",
       "result": "T0 and T1 now have three exact equivalent binary tests: rank-four quadric existence, tangent-pencil determinant, and local embedding dimension 3 vs 2 at the line intersection. The underlying cuboid A1 equation and two zero-quartic branches are explicit; only the adapter to canonical-cover maximal-ideal generators remains."
+    },
+    "z56_maximal_ideal_first_normal_generator": {
+      "status": "PRE_AUDIT_EXACT_GENERATOR_DECOMPOSITION_ONE_SCALAR_RECEIVER_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z56-MAXIMAL-IDEAL-FIRST-NORMAL-GENERATOR-DECOMPOSITION-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z56-MAXIMAL-IDEAL-FIRST-NORMAL-GENERATOR-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z56_maximal_ideal_first_normal_generator.py",
+      "result": "O_D(-F) has h0=3 while embdim=4; the fourth tangent generator is exactly invisible on D and lies in the F+D vs 2F central-A5 strip. In intrinsic coordinates the only tangent bit is q2=yz+c*xw with c=0 iff T0 and c!=0 iff T1."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z56 bounded maximal-ideal generator reconstruction",
-    "active_leaf": "MB104-Z56-BOUNDED-MAXIMAL-IDEAL-GENERATOR-RECONSTRUCTION",
-    "required_input": "At one size48 omitted node, start from the exact cuboid A1 chart a1^2+b1^2-c^2=0 and branches b1=0,a1=±c. Track them through the A1 resolution, unique cyclic index3 cover, two A2 resolutions and contraction. Materialize four maximal-ideal generators with exceptional divisor >=F=(1,2,2,2,2,2,1), then compute the two quadratic relations mod m^3 and only the pencil determinant bit.",
+    "title": "MB104 Z57 central A5 first-normal multiplication",
+    "active_leaf": "MB104-Z57-CENTRAL-A5-FIRST-NORMAL-MULTIPLICATION",
+    "required_input": "Use F=(1,2,2,2,2,2,1), D=(1,...,1), the explicit canonical-cover plumbing, and the decomposition m/m2 = H0(D,O_D(-F)) plus one F+D first-normal generator. Compute the degree-two multiplication class of yz in the unique xw direction modulo m^3, equivalently decide c=0 or c!=0.",
     "success_shapes": [
-      "DET_PENCIL_IDENTICALLY_ZERO -> T0",
-      "DET_PENCIL_NONZERO -> T1",
-      "an exact finite symbolic system whose only unresolved variables are explicitly listed cuboid transition constants"
+      "prove c=0 -> T0",
+      "prove c!=0 -> T1",
+      "derive a one-dimensional Rees/transition formula for c with all remaining constants source-explicit"
     ],
     "must_not_repeat": [
-      "general tangent-cone classification",
-      "symmetry-only bit inference",
-      "full ICIS normal-form search before the binary determinant is known"
+      "full local-equation classification",
+      "symmetry-only inference",
+      "identifying the Picard H1 class with c without an explicit multiplication adapter"
     ],
-    "fallback_after_gate": "If contraction generators cannot be written directly, compute the Rees/valuation semigroup for F on the explicit plumbing and extract gr_m degree 1 and 2 multiplication."
+    "fallback_after_gate": "Compute the central-A5 transition cocycle for O(-F) and O(-F-D) from the explicit A2 resolution charts, and express c as its single Cech product coefficient."
   },
   "routing": {
     "independent_of_full178_execution": true,
