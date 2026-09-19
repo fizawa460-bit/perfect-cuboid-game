@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE32_32_01_178_SELECTIVE_PICARD_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Dedicated cold runkey for selective Picard workunit execution. Advancing this file is required but not by itself sufficient for any future heavy workflow authorization.",
+  "target": {
+    "row_id": "g1-d192",
+    "g": 1,
+    "d": 192,
+    "e": 32,
+    "absolute_qcap": 4992,
+    "selected_x4_slices": [
+      0,
+      24,
+      48,
+      72,
+      96
+    ],
+    "scope": "BOUNDED_SELECTED_SLICE_RESUMABLE_PILOT_NOT_FULL_ROW_NOT_FULL178"
+  },
+  "worker_blob_sha1": "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5",
+  "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729",
+  "plan_certificate_producer_blob_sha1": "37745be7877f32a1804a350d8ebbeedc893d4a5b",
+  "authorized_workunit_ids": [],
+  "planned_effective_heavy_concurrency": 0,
+  "representative_receipt_bytes": 0,
+  "projected_peak_storage_bytes": 0,
+  "commit_range_authorization_required": true,
+  "authorization_rule": "Future workflow must verify this runkey path changed in github.event.before..head and generation strictly advanced. PILOT_MEASURE may authorize exactly one unit at concurrency=1 to measure receipt size; PRODUCTION_WAVE additionally requires a prior measured receipt size, source locks, explicit unit ids, bounded storage, and concurrency<=18.",
+  "storage_budget_bytes": 524288000,
+  "hard_stage_heavy_concurrency_ceiling": 18,
+  "firewalls": {
+    "heavy_execution_authorized": false,
+    "artifact_production_authorized": false,
+    "main_credit_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge": false
+  },
+  "mode": "COLD"
+}

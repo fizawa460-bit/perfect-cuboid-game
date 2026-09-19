@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE32_32_01_178_CURRENT_SOURCE_DOMAIN_CORRECTION_V1",
+  "status": "CORRECTED_TO_HPADJ14_15_CURRENT_PREDOMAIN__ZERO_CREDIT",
+  "issue": {
+    "transient_misclassification": "Applied the historical HPADJ10 quadratic filter 8*a^2+8*b^2+6*c^2 > 3*d^2+96 to the current HPADJ21 source population.",
+    "why_wrong": "HPADJ21 current authority is built on the source-locked HPADJ14/15 exact pre-domain. HPADJ14 exact_pre_gde_caps does not contain that historical quadratic filter and uses the e-window/support predicates directly.",
+    "invalid_transient_run_ids": [
+      35333239696
+    ],
+    "invalid_transient_claims": [
+      "g1-d192 current active even e floor is 208",
+      "e192 current HPADJ source population is empty"
+    ],
+    "credit_from_invalid_transient_claims": 0
+  },
+  "corrected_authority": {
+    "hpadj21_audited_exact_head": "265fbef0a67014494fcf773af6c3a9f1b095ef95",
+    "hpadj14_exact_predomain_blob_sha1": "16051646826c452d4385e49f2643ac0b394af3e0",
+    "hpadj15_b_shard_blob_sha1": "99ac15d18c83da050107ac7e8b113ae795ff0629",
+    "row_id": "g1-d192",
+    "structural_e_lower": "d-4*g+4 = 192",
+    "exact_active_even_e_floor": 192,
+    "e192_current_source_nonempty": true,
+    "restoring_verifier": "stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_active_e192_strict_witness.py"
+  },
+  "retained_valid_research": {
+    "zero_center_general_cap_theorem_run_id": 35325259659,
+    "zero_center_general_cap_theorem_status": "SUCCESS",
+    "e32_route_local_audited_result_still_valid": true,
+    "e32_current_main_overlap_still_zero": true,
+    "reason": "The e32 route remains below the current HPADJ14 structural lower e=192 even after the source-definition correction."
+  },
+  "firewalls": {
+    "main_credit_changed": false,
+    "main_bound_replacement_authorized": false,
+    "full178_complete": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge": false
+  }
+}

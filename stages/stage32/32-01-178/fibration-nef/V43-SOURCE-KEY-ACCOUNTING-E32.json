@@ -1,0 +1,67 @@
+{
+  "schema": "STAGE32_32_01_178_V43_SOURCE_KEY_ACCOUNTING_E32_V1",
+  "status": "EXACT_NO_OVERLAP__ZERO_CURRENT_MAIN_CREDIT__PIVOT_REQUIRED",
+  "purpose": "Reconcile the hostile-audited g1-d192/e32 zero-center result against current V43 HPADJ21 authority before any MAIN consumption.",
+  "producer": {
+    "pr": 1821,
+    "audited_exact_head": "8a8efc48866f8008d253c21ebd272e698d18dc44",
+    "hostile_audit_status": "PASS",
+    "hostile_audit_review_node_id": "PRR_kwDOTr52Y88AAAABOKtLFw",
+    "hostile_audit_comment_id": 5245717271,
+    "checkpoint_path": "stages/stage32/32-01-178/fibration-nef/ZERO-CENTER-E32-FULL-X4-ROW-CHECKPOINT.json",
+    "route_row_id": "g1-d192",
+    "route_g": 1,
+    "route_d": 192,
+    "route_e": 32,
+    "route_exact_weighted_mass": "41498727425"
+  },
+  "current_authority": {
+    "repository_main_exact_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "authority_version": "V43",
+    "authoritative_remaining_terminals": "157570677819451133507",
+    "authority_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "hpadj21_v42_receipt_path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json",
+    "hpadj21_v42_receipt_blob_sha1": "3072d84981eaec239ba55a5e5e25a3481d37406b",
+    "hpadj21_audited_producer_head": "265fbef0a67014494fcf773af6c3a9f1b095ef95",
+    "hpadj21_row_worker_path": "stages/stage32-ex5/hpadj-21_ex5/run_full_hist_row.py",
+    "hpadj21_row_worker_blob_sha1": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "hpadj21_carry_run_id": 35275839413,
+    "hpadj21_carry_artifact_id": 10519913594,
+    "hpadj21_carry_artifact_digest_sha256": "366e93ff132652d830e86ab4a46392a1e0fd90185110863a9805fa0ef97f4499",
+    "g1_d192_row_index": 22,
+    "g1_d192_row_certificate_canonical_sha256": "ba356db05dfb3699c7a13b59698d30cad9599a32e3bf409f6e6d5de45c42ddca",
+    "g1_d192_current_hpadj21_floor": "10295799819832396278"
+  },
+  "source_key_accounting": {
+    "canonical_terminal_degree_symbol": "e",
+    "hpadj21_lower_formula": "lower=max(legacy,K,d-4*g+4,M,M+max(0,qneed))",
+    "current_row_constant_lower_component": "d-4*g+4",
+    "current_row_constant_lower_value": 192,
+    "current_hpadj21_e_domain_statement": "Every source key contributing to current g1-d192 HPADJ21 authority has e>=192.",
+    "audited_route_e": 32,
+    "route_e_below_current_domain": true,
+    "exact_current_source_key_overlap_count": 0,
+    "overlap_semantics": "DISJOINT_BY_CANONICAL_E_COORDINATE",
+    "current_main_incremental_rejected_terminals_credit": "0",
+    "additive_subtraction_authorized": false,
+    "main_numeric_bound_replacement_authorized": false,
+    "double_charge": false,
+    "no_double_charge_reason": "The audited e=32 result lies outside the current HPADJ21 source population. It cannot remove any terminal currently counted by V43, so zero credit is the only valid current-authority accounting."
+  },
+  "pivot": {
+    "active_row_id": "g1-d192",
+    "active_current_e_lower": 192,
+    "required_research": "GENERALIZE_ZERO_CENTER_FIXED_PARITY_RESIDUAL_MINIMUM_TO_ACTIVE_NEF_CAPS_AND_POSITIVE_SUM_LOWER_BOUND",
+    "mathematical_observation": "The conditional center remains zero and the residual penalty remains positive diagonal outside the low-mass e=32 slice. Only the residual caps and sum_lo become active.",
+    "proposed_exact_method": "Use r_i=p_i+2*z_i with fixed Picard parity. Determine the least feasible total residual mass >=sum_lo, then allocate the required +2 increments by globally increasing separable convex marginal costs subject to coordinate caps.",
+    "heavy_runkey_required_for_mathematical_generalization": false
+  },
+  "firewalls": {
+    "main_credit_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge": false
+  }
+}
