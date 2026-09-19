@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_BR204_FINER_RECOVERY_G2_RUNKEY_V1",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "purpose": "Cold generation-2 BR204 finer recovery wave. After fresh hostile audit, one runkey-only child may arm exactly 69 unfinished fixed-(b,d) targets into 16 exact BC shards each. This wave produces canonical d slices and recovery evidence only; no FULL178 or MAIN credit.",
   "carry_generation1_run_id": 35344605175,
   "generation1_execution_head": "ee755bbfd46f405ca83e4930b354ee63459ad362",
@@ -51,12 +51,12 @@
     "planned_effective_heavy_concurrency": 15,
     "repository_stage_concurrency_ceiling": 20,
     "maximum_other_stage32_heavy_concurrency_at_arm": 5,
-    "observed_other_stage32_heavy_concurrency_at_arm": null
+    "observed_other_stage32_heavy_concurrency_at_arm": 4
   },
   "arm_contract": {
     "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold doorstep",
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null,
+    "audited_doorstep_head": "8dae39f68e3b0f087e2f4ea8ab6295d6c703f372",
+    "audited_doorstep_review_id": 5255840221,
     "generation_greater_than_1_forbidden_without_new_recovery_audit": true
   },
   "credit": {
