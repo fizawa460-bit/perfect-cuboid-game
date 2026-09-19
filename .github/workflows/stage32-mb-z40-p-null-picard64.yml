@@ -1,0 +1,175 @@
+name: Stage32 MB Z40 P-null Picard64 enumeration
+
+# Lifecycle: ACTIVE_AUTO. This is the current MB104 active leaf.
+# The automatic event is only an entry gate; exact enumeration stays cold
+# unless the dedicated runkey changed semantically in the triggering range.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-P-NULL-PICARD64-V1.json'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_z40_p_null_picard64_finite_enumeration.py'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z40_p_null_picard64_finite_enumeration.py'
+      - '.github/workflows/stage32-mb-z40-p-null-picard64.yml'
+  workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact 40-hex head to replay
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-mb-z40-p-null-picard64-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - name: Fresh runkey / exact-head authorization gate
+        id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          DISPATCH_SHA: ${{ inputs.expected_head_sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-P-NULL-PICARD64-V1.json'
+          HEAD_SHA="$PR_HEAD"
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
+          cold() {
+            echo 'authorized=false' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          }
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || { cold; exit 0; }
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          [ -f "$KEY" ] || { cold; exit 0; }
+
+          validate_key() {
+            python - "$KEY" <<'PY'
+          import json,sys
+          from pathlib import Path
+          k=json.loads(Path(sys.argv[1]).read_text())
+          assert k['schema']=='STAGE32_MB104_Z40_P_NULL_PICARD64_RUNKEY_V1'
+          assert k['armed'] is True and int(k['generation'])>0
+          assert k['active_leaf']=='MB104-Z40-P-NULL-PICARD64-FINITE-ENUMERATION'
+          assert int(k['support_count'])==3
+          assert int(k['shell_count_per_support'])==17
+          assert int(k['total_shell_count'])==51
+          assert int(k['max_parallel'])==1
+          c=k['concurrency']
+          assert c['stage_heavy_cap']==18
+          assert c['planned_effective_heavy_concurrency']==1
+          assert c['reserved_stage_headroom']>=1
+          s=k['storage']
+          assert s['operating_budget_mb']==500
+          assert s['raw_exhaustive_output_persisted'] is False
+          assert s['projected_peak_mb_upper_bound']<=1
+          assert k['credit']['merge_authorized'] is False
+          PY
+          }
+          emit_hot() {
+            echo 'authorized=true' >> "$GITHUB_OUTPUT"
+            echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          }
+
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then
+            validate_key; emit_hot; exit 0
+          fi
+          if [ "$PR_ACTION" = reopened ]; then cold; exit 0; fi
+          BEFORE="$EVENT_BEFORE"
+          if [ "$PR_ACTION" = opened ]; then BEFORE="$PR_BASE"; fi
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || { cold; exit 0; }
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || { cold; exit 0; }
+          git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || { cold; exit 0; }
+          validate_key
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          before,path=sys.argv[1:]
+          new=json.loads(Path(path).read_text())
+          p=subprocess.run(['git','show',f'{before}:{path}'],text=True,capture_output=True)
+          if p.returncode==0:
+              old=json.loads(p.stdout)
+              assert int(new['generation'])>int(old['generation'])
+          PY
+          emit_hot
+
+  enumerate:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify exact execution locks
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = '${{ needs.authorize.outputs.exact_sha }}'
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          key=Path('stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/Z40-P-NULL-PICARD64-V1.json')
+          k=json.loads(key.read_text())
+          paths={
+            'runner_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_z40_p_null_picard64_finite_enumeration.py',
+            'verifier_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z40_p_null_picard64_finite_enumeration.py',
+            'workflow_git_blob':'.github/workflows/stage32-mb-z40-p-null-picard64.yml',
+            'stage33_stoll_helper_git_blob':'stages/stage33/33-07/stoll_cuboid_source.py',
+            'stage33_picard_marking_git_blob':'stages/stage33/33-07/stage32_picard_marking_retained.py',
+          }
+          for field,path in paths.items():
+              got=subprocess.check_output(['git','hash-object',path],text=True).strip()
+              assert got==k[field],(field,got,k[field])
+          PY
+      - name: Execute all 51 exact rank-62 shells
+        run: |
+          set -euo pipefail
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_z40_p_null_picard64_finite_enumeration.py \
+            --output z40-p-null-picard64-execution.json --timeout 900
+      - name: Verify compact execution certificate
+        run: |
+          set -euo pipefail
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z40_p_null_picard64_finite_enumeration.py \
+            --certificate z40-p-null-picard64-execution.json
+          BYTES="$(wc -c < z40-p-null-picard64-execution.json)"
+          test "$BYTES" -le 1000000
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('z40-p-null-picard64-execution.json').read_text())
+          print('Z40_CANONICAL='+d['canonical_sha256_without_this_field'])
+          print('Z40_UNKNOWN_NONNEG='+str(d['summary']['unknown_nonnegative_class_occurrences']))
+          print('Z40_KNOWN_KEPT='+str(d['summary']['known_kept_class_occurrences']))
+          print('Z40_NUMERICAL_COMPLETENESS_CANDIDATE='+str(d['summary']['numerical_null_locus_complete_candidate']).lower())
+          PY
+      - name: Upload compact exact certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32mb-z40-p-null-picard64
+          path: z40-p-null-picard64-execution.json
+          retention-days: 1
+          if-no-files-found: error
+          compression-level: 9
