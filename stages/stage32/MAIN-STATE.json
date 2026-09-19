@@ -16,19 +16,18 @@
     "v42_replacement_merge_ready_freshness": "CLEAR",
     "v43_audit_sync_additional_pruning": 0
   },
-  "canonical_sha256_without_this_field": "2473d33afcaf7346b29a574cb872f4440aac3197f09ae1ca18588183c9155380",
   "current": {
     "active_missing_interface": "FULL178_NUMERICAL_CENSUS_AND_FINAL_MILESTONE_CHAIN",
-    "latest_main_native_research": "V44_BTVA_D8_E12_WAVE4_27UNSAT_EXACT_QBIN__ZERO_MAIN_CREDIT",
-    "latest_main_native_research_scope": "GENUS0_D8_E12__WAVE4_27_EXACT_UNSAT_QBIN_FLOOR_418504__TOTAL_TIGHTENING_CANDIDATE_29927__ZERO_MAIN_CREDIT",
+    "latest_main_native_research": "V44_HPADJ22_DIRECT_FULL178__ZERO_MAIN_CREDIT",
+    "latest_main_native_research_scope": "FULL178_8_BANDS_178_ROWS_1424_CELLS__DIRECT_HPADJ22_BOUND_138652739800650593494__TIGHTENING_18917938018800540013__ZERO_MAIN_CREDIT",
     "mainbatch_stop_gate": "NONE",
     "research_os_checkpoint_gate": "NONE",
     "research_os_checkpoint_audit_status": "PASS",
     "research_os_checkpoint_audit_review_id": 5253605587,
     "research_os_checkpoint_audited_exact_head": "e1795ad7ad47f45ca46e435dfd204e3bba8d6064",
     "next_exact_route": "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS",
-    "stacked_candidate_audit_status": "V42_HPADJ21_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED__V44_WAVE4_27UNSAT_QBIN_AUDIT_PENDING_ZERO_CREDIT",
-    "stop_semantics": "Exact q-bin reoptimization using only the 27 proved wave4 UNSAT keys completed at run 35408417941 / head 0fd10507f6df11ecd5511ee4f85eaba2e00982f5. The g0-d008 row-floor candidate is 418504, improving 7106 beyond the wave3-partial floor 425610 and 29927 versus the HPADJ21 baseline 448431. All five wave4 UNKNOWN keys remain adversarially present; no additive subtraction or independence assumption is used. This is retained zero-credit evidence pending hostile audit and explicit MAIN promotion; authoritative V43 bound remains unchanged."
+    "stacked_candidate_audit_status": "V42_HPADJ21_REPLACEMENT_HOSTILE_AUDIT_PASS_SYNCED__V44_HPADJ22_DIRECT_FULL178_AUDIT_PENDING_ZERO_CREDIT",
+    "stop_semantics": "Exact HPADJ22 direct FULL178 aggregate completed at run 35417929266 / execution head 2c44be9798635bc9d4938d9573d6ebd86e618d7f. All 8 b-bands x 178 rows = 1424 cells are covered exactly once with 0 gaps/0 overlaps; bands 0..6 use the exact direct-count worker and retained complete band7 is reused. The exact survivor-sum candidate is 138652739800650593494, tightening 18917938018800540013 versus the current HPADJ21 authority 157570677819451133507. Composition is MIN on the same population, with no additive subtraction or independence assumption. This is retained zero-credit evidence pending hostile audit and explicit MAIN promotion; authoritative V43 bound remains unchanged."
   },
   "current_exact_frontier": {
     "authoritative_remaining_strata": 17128,
@@ -59,7 +58,15 @@
     "v44_wave4_candidate_main_credit": false,
     "v44_wave4_exact_unsat_count": 27,
     "v44_wave4_selected_count": 32,
-    "v44_wave4_unknown_count": 5
+    "v44_wave4_unknown_count": 5,
+    "v44_hpadj22_direct_full178_aggregate_complete": true,
+    "v44_hpadj22_direct_full178_cells": 1424,
+    "v44_hpadj22_direct_full178_gaps": 0,
+    "v44_hpadj22_direct_full178_overlaps": 0,
+    "v44_hpadj22_direct_full178_upper_bound": "138652739800650593494",
+    "v44_hpadj22_candidate_tightening_vs_hpadj21": "18917938018800540013",
+    "v44_hpadj22_candidate_global_upper_bound_if_promoted": "138652739800650593494",
+    "v44_hpadj22_candidate_main_credit": false
   },
   "current_leaf_working_set": [
     "stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json",
@@ -86,7 +93,11 @@
     "stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json",
     "stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py",
     "stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json",
-    "stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json"
+    "stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json",
+    "stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json",
+    "stages/stage32/management/hpadj22-direct-full178/run_direct_band.py",
+    "stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py",
+    "stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py"
   ],
   "current_target": {
     "O210_is_current_attack_target": false,
@@ -230,14 +241,18 @@
       "lane_178_pending_main_handoff": "NONE",
       "lane_178_pr": 1821,
       "lane_178_semantic_leaf": "POST_TD02_FIBRATION_NEF_SUCCESSOR_RESEARCH",
-      "mb_current_head_audit_status": "CURRENT_HEAD_RESEARCH_ONLY__ACTIVE_RETAINED_CHECKPOINT__POPULATION_WIDE_FINITE_WINDOW_BREADTH_SCAN__ZERO_MAIN_CREDIT",
+      "mb_current_head_audit_status": "COMPACT_RESTART_FROM_HOSTILE_AUDIT_PASS_PREDECESSOR__CURRENT_HEAD_ZERO_MAIN_CREDIT",
       "mb_handoff": "NONE",
-      "mb_head": "dfcfc56f0f652e2a2a072102ec2d469870ccdcba",
+      "mb_head": "c179ab4858a4d565d3c460a00d0756414b1d6504",
       "mb_pending_main_handoff": "NONE",
-      "mb_pr": 1819,
-      "mb_semantic_leaf": "MB104_POPULATION_WIDE_FINITE_WINDOW_BREADTH_SCAN",
+      "mb_pr": 1825,
+      "mb_semantic_leaf": "MB104_Z33_SPAN5_HYPERPLANE_ORBIT_SIMPLE_CONTACT",
       "observed_repository_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
-      "sweep_date": "2026-09-19"
+      "sweep_date": "2026-09-19",
+      "mb_latest_audit_review_id": 5254494158,
+      "mb_latest_audited_exact_head": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
+      "mb_predecessor_archive_pr": 1819,
+      "mb_predecessor_archive_head": "b28adadc95776762754e1415a0ecab0da1d4cd8e"
     },
     "predecessor_v42": {
       "exact_head": "e4311c4ec31d5768c57308681ae60679987e2ced",
@@ -254,7 +269,29 @@
       "canonical_sha256": "7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e",
       "path": "stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json",
       "verifier_blob_sha1": "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
+    },
+    "hpadj22_direct_full178_retained": {
+      "path": "stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json",
+      "retained_blob_sha1": "60ca65208b774cc79c646c46c6780e7028a29845",
+      "artifact_canonical_sha256": "285def36fd8d05557a73ab324ed56178116d5d51fbf6323a33a5f6ecaf6c8805",
+      "workflow_run_id": 35417929266,
+      "execution_head": "2c44be9798635bc9d4938d9573d6ebd86e618d7f",
+      "artifact_id": 10579080716,
+      "artifact_zip_digest_sha256": "67e57bceb3f7c2e3289adb2d6a1a227ee40ad8c4c5ab907449221455f8b3de23",
+      "artifact_file_sha256": "aab300f7201d6feb2abdb321ecbe0a532d7015ec16fa99bd1c3cfa62016798ca",
+      "direct_band_worker_blob_sha1": "26746a68dc53b53d4ed28aef7c65954759094ae7",
+      "direct_count_blob_sha1": "e965ab0a6ea51938006882ca2110016f48b3768e",
+      "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+      "old_band_worker_blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46",
+      "coverage_cells": 1424,
+      "coverage_gaps": 0,
+      "coverage_overlaps": 0,
+      "candidate_global_upper_bound_if_promoted": "138652739800650593494",
+      "exact_tightening_if_promoted": "18917938018800540013",
+      "main_pruning_credit": false,
+      "hostile_audit_required_before_promotion": true
     }
   },
-  "stage": 32
+  "stage": 32,
+  "canonical_sha256_without_this_field": "fd80eea92a14827186edc71767880f4c7f7bc9a8ea206ca2a19e0ee756224abf"
 }

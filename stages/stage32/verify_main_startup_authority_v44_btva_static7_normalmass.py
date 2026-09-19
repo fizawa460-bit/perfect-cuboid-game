@@ -36,6 +36,9 @@ WAVE3_QBIN_CANON = "edbd101483a9dc08a28203847db11c48919550eb7fe3ea25c5fe5a30d48c
 WAVE4_QBIN = HERE / "management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json"
 WAVE4_QBIN_BLOB = "4ccbdbe4172eee02fdebf73d2d17c1deb5492525"
 WAVE4_QBIN_CANON = "8f4d67b63ed3afb4fb8907344eeb1feb8ea8b0a84d7cfd8c313408702c044920"
+HPADJ22_DIRECT = HERE / "management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json"
+HPADJ22_DIRECT_BLOB = "60ca65208b774cc79c646c46c6780e7028a29845"
+HPADJ22_DIRECT_CANON = "285def36fd8d05557a73ab324ed56178116d5d51fbf6323a33a5f6ecaf6c8805"
 
 
 def req(v: bool, msg: str) -> None:
@@ -77,6 +80,11 @@ def main() -> None:
     req(f["v44_wave4_candidate_total_tightening_vs_hpadj21"] == 29927, "wave4 qbin state tightening")
     req(f["v44_wave4_candidate_global_upper_bound_if_promoted"] == "157570677819451103580", "wave4 qbin state candidate bound")
     req(f["v44_wave4_candidate_main_credit"] is False, "wave4 qbin state credit firewall")
+    req(f["v44_hpadj22_direct_full178_aggregate_complete"] is True, "HPADJ22 FULL178 aggregate completion state")
+    req(f["v44_hpadj22_direct_full178_cells"] == 1424 and f["v44_hpadj22_direct_full178_gaps"] == 0 and f["v44_hpadj22_direct_full178_overlaps"] == 0, "HPADJ22 FULL178 coverage state")
+    req(f["v44_hpadj22_direct_full178_upper_bound"] == "138652739800650593494", "HPADJ22 FULL178 bound state")
+    req(f["v44_hpadj22_candidate_tightening_vs_hpadj21"] == "18917938018800540013", "HPADJ22 tightening state")
+    req(f["v44_hpadj22_candidate_main_credit"] is False, "HPADJ22 state credit firewall")
 
     full = load(FULL, FULL_BLOB, FULL_CANON)
     all140 = load(ALL140, ALL140_BLOB, ALL140_CANON)
@@ -98,6 +106,16 @@ def main() -> None:
     req(wave4_qbin["result"]["total_tightening_vs_hpadj21_baseline"] == 29927, "wave4 total tightening drift")
     req(wave4_qbin["authority_candidate"]["candidate_global_upper_bound_if_promoted"] == "157570677819451103580", "wave4 candidate bound drift")
     req(wave4_qbin["composition"]["five_wave4_unknown_keys_left_adversarially_present"] is True, "wave4 UNKNOWN firewall drift")
+    h22 = load(HPADJ22_DIRECT, HPADJ22_DIRECT_BLOB, HPADJ22_DIRECT_CANON)
+    req(h22["coverage"] == {"bands": 8, "cells": 1424, "gaps": 0, "new_direct_bands": [0,1,2,3,4,5,6], "overlaps": 0, "retained_complete_bands": [7], "rows_per_band": 178}, "HPADJ22 FULL178 coverage drift")
+    req(h22["totals"]["rejected_mass"] == "40886299509963924857401", "HPADJ22 retained HPADJ08 reject total drift")
+    req(h22["totals"]["post_mass"] == "6703403803993209250491", "HPADJ22 post-mass drift")
+    req(h22["totals"]["hpadj22_exact_survivor_sum"] == "138652739800650593494", "HPADJ22 survivor sum drift")
+    req(h22["result"]["current_authority"] == str(BOUND), "HPADJ22 current-authority identity drift")
+    req(h22["result"]["candidate_global_upper_bound_if_promoted"] == "138652739800650593494", "HPADJ22 candidate bound drift")
+    req(h22["result"]["exact_tightening_if_promoted"] == "18917938018800540013", "HPADJ22 tightening drift")
+    req(h22["composition"]["all_1424_cells_covered_exactly_once"] is True and h22["composition"]["additive_subtraction"] is False and h22["composition"]["statistical_independence"] is False, "HPADJ22 composition firewall drift")
+    req(h22["firewalls"]["main_pruning_credit"] is False and h22["firewalls"]["hostile_audit_required_before_promotion"] is True, "HPADJ22 credit firewall drift")
 
     r = full["result"]
     req(full["target"]["base4_key_count"] == 343 and full["target"]["terminal_mass"] == 1278934, "full343 population drift")
@@ -137,7 +155,7 @@ def main() -> None:
     req(cur["research_os_checkpoint_audit_status"] == "PASS", "Research OS checkpoint audit status drift")
     req(cur["research_os_checkpoint_audit_review_id"] == 5253605587, "Research OS checkpoint review drift")
     req(cur["research_os_checkpoint_audited_exact_head"] == "e1795ad7ad47f45ca46e435dfd204e3bba8d6064", "Research OS checkpoint audited head drift")
-    req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_WAVE4_27UNSAT_EXACT_QBIN__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
+    req(cur["latest_main_native_research"] == "V44_HPADJ22_DIRECT_FULL178__ZERO_MAIN_CREDIT", "V44 HPADJ22 routing drift")
     w4 = locks["btva_d8_e12_wave4_panel"]
     req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
     req(w4["workflow_run_id"] == 35405380332 and w4["artifact_id"] == 10571698422, "wave4 artifact identity drift")
@@ -147,10 +165,17 @@ def main() -> None:
     req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sw["lane_178_latest_audited_exact_head"] == "8a8efc48866f8008d253c21ebd272e698d18dc44" and sw["lane_178_latest_audit_review_id"] == 5245717271, "178 audited-boundary observation")
     req(sw["ex5_pr"] == 1823 and sw["ex5_head"] == "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and sw["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
-    req(sw["mb_pr"] == 1819 and sw["mb_head"] == "dfcfc56f0f652e2a2a072102ec2d469870ccdcba" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
+    req(sw["mb_pr"] == 1825 and sw["mb_head"] == "c179ab4858a4d565d3c460a00d0756414b1d6504" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
+    req(sw["mb_latest_audited_exact_head"] == "b28adadc95776762754e1415a0ecab0da1d4cd8e" and sw["mb_latest_audit_review_id"] == 5254494158, "MB audited predecessor observation")
     req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "ee755bbfd46f405ca83e4930b354ee63459ad362" and sw["bridge_runkey_generation"] == 1 and sw["bridge_runkey_armed"] is True and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE live observation")
     req(sw["bridge_latest_audited_doorstep_head"] == "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8" and sw["bridge_latest_audit_review_id"] == 5247726057, "BRIDGE audited-doorstep observation")
     req(sw["cut_open_successor"] is False and sw["cut_handoff"] == "NONE", "CUT observation")
+    h22lock = locks["hpadj22_direct_full178_retained"]
+    req(h22lock["retained_blob_sha1"] == HPADJ22_DIRECT_BLOB and h22lock["artifact_canonical_sha256"] == HPADJ22_DIRECT_CANON, "HPADJ22 state retained lock")
+    req(h22lock["workflow_run_id"] == 35417929266 and h22lock["artifact_id"] == 10579080716, "HPADJ22 artifact identity")
+    req(h22lock["coverage_cells"] == 1424 and h22lock["coverage_gaps"] == 0 and h22lock["coverage_overlaps"] == 0, "HPADJ22 state coverage lock")
+    req(h22lock["candidate_global_upper_bound_if_promoted"] == "138652739800650593494" and h22lock["exact_tightening_if_promoted"] == "18917938018800540013", "HPADJ22 state result lock")
+    req(h22lock["main_pruning_credit"] is False and h22lock["hostile_audit_required_before_promotion"] is True, "HPADJ22 state promotion firewall")
 
     for obj in (full["firewalls"], all140["firewalls"], state["firewalls"]):
         for key in ("main_pruning_credit", "receiver_credit", "effectivity_credit", "theorem_credit", "endpoint_credit", "full178_complete", "stage32_closed", "merge_authorized"):
@@ -158,6 +183,7 @@ def main() -> None:
                 req(obj[key] is False, "firewall " + key)
     print("PASS: V44 d=8 full343 result retained exactly with 255 UNSAT / 88 timeout / 0 SAT")
     print("PASS: d=8 all140 nonnegativity receiver necessity and plane-conic separation are structurally closed")
+    print("PASS: HPADJ22 direct FULL178 retained 1424/1424 cells with candidate 138652739800650593494 and zero credit pending audit")
     print("PASS: V43 numerical authority remains unchanged; V44 carries zero MAIN/theorem/effectivity/endpoint credit")
 
 

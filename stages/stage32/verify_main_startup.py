@@ -31,7 +31,7 @@ def main() -> None:
     print("V43_HPADJ21_AUDIT_SYNC_STORED_CANONICAL=" + str(obj.get("canonical_sha256_without_this_field")), flush=True)
     replay(AUTHORITY)
     replay(COMMAND_SURFACE)
-    print("PASS: Stage32 MAIN V44 zero-credit BTVA successor preserves merged hostile-audited V43 authority")
+    print("PASS: Stage32 MAIN V44 zero-credit HPADJ22 FULL178 candidate preserves merged hostile-audited V43 authority")
 
 
 if __name__ == "__main__":
