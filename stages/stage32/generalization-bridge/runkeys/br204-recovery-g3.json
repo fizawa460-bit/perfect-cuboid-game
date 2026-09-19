@@ -1,0 +1,94 @@
+{
+  "schema": "STAGE32_BR204_RECOVERY_G3_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold generation-3 BR204 recovery. Recompute only 36 generation-2 compute-complete-but-undurable targets with compact complete persistence, and recover only 33 d=148 unfinished BC16 parents through exact BC64 children while carrying validated predecessor parents. Zero mathematical/MAIN credit.",
+  "carry_generation2_run_id": 35445118788,
+  "generation2_execution_head": "cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029",
+  "execution": {
+    "target_count": 69,
+    "retention_replay_flat16_count": 36,
+    "d148_hierarchical_bc64_count": 33,
+    "parent_bc_shard_count": 16,
+    "child_bc_shard_count": 64,
+    "children_per_missing_parent": 4,
+    "max_parallel": 15,
+    "child_timeout_seconds": 1200,
+    "soft_seconds": 13500,
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json",
+      "runkey_only_arm_commit_required": true
+    },
+    "output": "canonical fixed-(b,d) slices plus compact complete evidence; incomplete hierarchical targets retain only validated recovery payloads"
+  },
+  "source_locks": {
+    "generation2_recovery_checkpoint_blob": "8f8cf85df79e31953dffcb563affec638caddd99",
+    "generation2_checkpoint_verifier_blob": "df9ce800fa8e44b12d6618965c0997897eaeb819",
+    "generation3_targets_blob": "975fadbe0f3ee0dfd7c792be7807c154421dec20",
+    "audited_generation1_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
+    "bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
+    "bc_shard_combiner_blob": "efcbcc3e2b31604acea8f83bbf9524e5180e5139",
+    "bc64_to_bc16_parent_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23",
+    "flat16_runner_blob": "15dcf1e21979d3de155c57a01f6a5922dddc1ba3",
+    "hierarchical_bc64_runner_blob": "ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45",
+    "generation3_finalizer_blob": "04f574c4e40d7c6651439f9e7da5d940749b485a",
+    "hierarchical_equivalence_verifier_blob": "3148a180d4e41d5a2910d373a8c4cae065a0b3c3",
+    "generation3_workflow_blob": "5fc7e6040aa03b702b53c6ba990f3359920f6b04",
+    "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea",
+    "actions_storage_policy_blob": "69f23db9b280504c1c6c12a58af52182bb052215",
+    "repository_main_head": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "repository_main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+  },
+  "recovery_policy": {
+    "blind_generation2_rerun_forbidden": true,
+    "carry_validated_generation2_parent_bc16": true,
+    "retained_generation2_parent_bc16": [
+      {
+        "b": 2,
+        "d": 148,
+        "index": 0
+      }
+    ],
+    "checkpoint_status_refreshed_after_each_validated_child_or_parent": true,
+    "always_path_finalizer_and_upload": true,
+    "complete_targets_compact_after_validation": true,
+    "incomplete_targets_preserve_validated_recovery_payloads": true,
+    "on_bc64_child_timeout": "Hard stop; introduce a finer exact partition below BC64 child before more compute.",
+    "recovery_generation_automatic": false,
+    "generation_greater_than_1_forbidden_without_new_recovery_audit": true
+  },
+  "storage": {
+    "per_target_persisted_hard_cap_bytes": 5000000,
+    "target_count": 69,
+    "absolute_target_payload_bound_bytes": 345000000,
+    "repository_operating_budget_bytes": 524288000,
+    "generation2_observed_complete_raw_bundle_max_bytes": 2646760,
+    "complete_target_compaction": "delete raw shard payloads after validation; persist canonical slice plus manifest/status",
+    "retention_days_target": 1,
+    "retention_days_summary": 3
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 15,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 3,
+    "observed_other_stage32_heavy_concurrency_at_arm": null
+  },
+  "arm_contract": {
+    "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold generation3 doorstep",
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null,
+    "fresh_hostile_audit_required": true
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
