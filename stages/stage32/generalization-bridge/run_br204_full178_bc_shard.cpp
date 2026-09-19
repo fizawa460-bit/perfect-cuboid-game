@@ -98,6 +98,7 @@ int main(int argc, char** argv) {
     for (const auto& [key, R] : raw) {
         std::size_t this_index = raw_index++;
         if ((int)(this_index % (std::size_t)bc_shard_count) != bc_shard_index) continue;
+        ++shard_raw_states;
         WBC w;
         w.key = key;
         for (const auto& [bits, mult] : R.total) w.total_mult += mult;
