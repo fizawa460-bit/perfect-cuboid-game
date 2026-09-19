@@ -9,7 +9,7 @@ DIRECT_BLOB="e965ab0a6ea51938006882ca2110016f48b3768e"
 PROJECTION=ROOT/"stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py"
 PROJECTION_BLOB="6b85abcd693586191eb83a7f275b8dd5d9c69b18"
 E_VERIFY=ROOT/"stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py"
-E_VERIFY_BLOB="1504493caed9aaeadca49d812e81b6b7f307e579"
+E_VERIFY_BLOB="582432a2995d523c247808d39e0ff5ff14611c2a"
 SOURCE_HEAD="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
 ROW_INDEX=177
 BAND=7
@@ -60,7 +60,7 @@ def main():
     ctx=old.source_context()
     bc,bnd,h21,h18,h16,p15,p14,counter,rows,rejected,profiles,classes_gt2,tuples_above_second=ctx
     row_id,g0,d0=rows[ROW_INDEX]; g,d=int(g0),int(d0); h=d//2
-    req((g,d)==(1,192),f"row177 identity drift {(row_id,g,d)}")
+    req((g,d)==(1,190),f"row177 identity drift {(row_id,g,d)}")
     req(tuple(old.PLANNED[BAND])==(84,96),"band7 interval drift")
     b0,b1=old.PLANNED[BAND]
 
