@@ -1,51 +1,80 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "status": "ACTIVE_COMPACT_RESTART_NO_CREDIT",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
-  "mb101": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/verify_mb101_normalization_profile.py",
-    "status": "RETAINED_NO_CREDIT",
-    "exact_population_adapter": true,
-    "normalization_profile_adapter": true,
-    "unibranch_176_192_cap_imported": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "restart_boundary": {
+    "base_main": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "predecessor_pr": 1819,
+    "predecessor_branch": "stage32mb-uniform-closure-20260917",
+    "audited_predecessor_head": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
+    "hostile_audit_review_id": 5254494158,
+    "hostile_audit_status": "PASS",
+    "historical_archive_branch": "stage32mb-mainbatch-20260912",
+    "historical_archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "local_history_copied": false,
+    "archive_consumers_require_exact_root": true
   },
-  "mb102": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/verify_mb102_delta_genus.py",
-    "status": "RETAINED_NO_CREDIT",
-    "local_delta_ledger": true,
-    "global_genus_correction": true,
-    "delta_inferred_from_counts": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "retained_frontier": {
+    "handoff": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z33-RESTART-HANDOFF-20260919.md",
+    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z33_restart_boundary.py",
+    "predecessor_z33": {
+      "status": "HOSTILE_AUDITED_PREDECESSOR_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z33-SPAN5-HYPERPLANE-CONTACT-EQUALITY-20260919.md",
+      "source_ref": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
+      "note_blob": "65656518d30f69ab3a4a892c8d4ae1d5ed72670e",
+      "verifier_blob": "7ba0b4eb4fffda7fe1b88b958d952276c8af271b",
+      "result": "genus1 span5 unbounded tail has M=R=O=d; every box-node branch has m=1; hyperplane pullback divisor is exactly reduced node-preimage divisor"
+    },
+    "archived_span5": {
+      "source_ref": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+      "high_incidence_hyperplanes": 1655,
+      "aut_orbits": 12,
+      "incidence24_orbits": [
+        4,
+        24
+      ],
+      "incidence24_section_geometry": "eight smooth conics; each of 24 box nodes lies on exactly two",
+      "finite_reduction_blob": "08eee3d3492db710c7161fdf17ce1eca35e50413",
+      "finite_reduction_certificate_blob": "b6035b2e525a08ab0fc028e1e1f81519548e1a5b",
+      "orbit_note_blob": "c3bcc580b5bd43b7805c7227c7420445f14c4b8c",
+      "orbit_certificate_blob": "3bc4453affce96e87a60864c99f745bb4c28c794"
+    }
   },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
-    ]
+    "node_id": "MB104",
+    "title": "MB104 Z33 span-five simple-contact hyperplane-orbit gate",
+    "active_leaf": "MB104-Z33-SPAN5-HYPERPLANE-ORBIT-SIMPLE-CONTACT",
+    "required_input": "Use the audited predecessor Z33 equality package through exact source ref b28adadc... and consume archived span-five orbit geometry only through exact archive head ae6ce8e... . Begin with the two incidence-24 eight-conic hyperplane orbits.",
+    "success_shapes": [
+      "materialize the local A1 chart adapter from an incidence-24 hyperplane representative to the two fixed non-diagonal landing directions and classify which directions survive Z33 equality",
+      "derive an orbitwise surviving-bin bound and combine it with Z14 collision/delta accounting",
+      "derive an irreducibility/component obstruction for arbitrary unequal M_i=r_i with sum M_i=d using the eight-conic section geometry",
+      "freeze an exact feasible incidence-24 packet and continue through incidence 20,19,16,15,14 without generic N-by-N search"
+    ],
+    "must_not_repeat": [
+      "finite forbidden lambda values as a contradiction",
+      "assume arbitrary local landing choices globalize",
+      "reopen bare X(8) etale correspondence finiteness or Bolza degree-index routes",
+      "assume uniform exceptional coefficients",
+      "fixed finite jet-depth arguments",
+      "read archive-only sources from current ROOT without explicit exact-head archive root",
+      "claim theorem/receiver credit before hostile audit"
+    ],
+    "fallback_after_gate": "If all span-five hyperplane orbits remain feasible under simple-contact geometry, retain the exact wall and return to primitive graded support-Hilbert growth or the genus-one full-span P6 sector. Do not return to N10."
   },
   "routing": {
     "independent_of_full178_execution": true,
     "main_credit_auto_promotion": false,
     "finite_picard_enumeration_released": false,
-    "hostile_audit_target_available": true
+    "hostile_audit_target_available": true,
+    "current_branch_is_compact_restart": true,
+    "predecessor_pr_is_archive_only": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
