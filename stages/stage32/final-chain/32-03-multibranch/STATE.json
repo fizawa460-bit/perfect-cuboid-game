@@ -492,26 +492,39 @@
         "Z28": "HARD_GENERIC_SPECIAL_REFINEMENT_ABSORBED_BY_Z12",
         "Z29": "HARD",
         "Z30": "HARD_SMOOTH_ORBIFOLD_VERSION_ABSORBED_BY_Z2"
+      },
+      "survivor_deepening_pass1": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-SURVIVOR-DEEPENING-PASS-1-20260919.md",
+      "survivor_deepening_pass1_status": "COMPLETE_NO_CREDIT",
+      "source_correction": {
+        "Z16_Miyaoka_2008": "Theorem 1.1 allows irreducible singular curves via geometric genus; the retained failure is smooth-ambient K2=16,c2=80, not curve singularity.",
+        "Z2_Langer_normal_pair": "normal A1 ambient is allowed, but lc pullback forces alpha*M_i<=2, hence alpha=O(1/d) on unbounded sequences and the fixed-alpha BMY route does not yield a degree cutoff."
+      },
+      "z21_N8_refinement": {
+        "genus1": "M-d<=7 and 2d(M-d)+(M-d)^2+8V8<=16d",
+        "genus0": "M-(d+4)<=3 and 2(u-4)d+(u+4)^2+8V8<=32 with u=M-(d+4)",
+        "meaning": "any unbounded N=8 tail lies in a near-uniform exceptional-contact tube"
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 post-Z30 survivor gate A1 — Z2 orbifold theorem applicability audit",
-    "active_leaf": "MB104-POST-BREADTH-Z2-A1-SOURCE-APPLICABILITY",
-    "required_input": "Z1-Z30 breadth is complete. Do not return to W16-H. First test only whether an established Miyaoka/McQuillan/Langer/Sakai/orbifold canonical-degree or aggregate low-genus theorem applies to the canonical cuboid surface with 48 A1 quotient singularities and multibranch curves through the singular locus, with a coefficient strictly strong enough to beat the balanced slope K.C = 2 deg K_orb(source).",
+    "title": "MB104 non-HARD survivor deepening B1 — Z21/Z4' N=8 contact-rigidity gate",
+    "active_leaf": "MB104-Z21-Z4-B1-N8-CONTACT-RIGIDITY",
+    "required_input": "Use the retained Z21 N<=7 finite window and the new N=8 near-equality inequalities. Search only for an exact cuboid-specific constraint on landing/contact/packet data that forces either M-d (or M-(d+4)) outside the allowed constant tube, variance V8 larger than the Z21 allowance, or a quadratic delta lower bound contradicting the Z21 Hodge upper bound.",
     "success_shapes": [
-      "find a proved theorem whose exact hypotheses cover the canonical A1 orbifold and multibranch carrier and yield coefficient A<2 or a fixed aggregate canonical-degree bound",
-      "prove that the strongest available theorem necessarily reintroduces a contact term that is saturated by balanced 000707 and therefore kill Z2-A1 cleanly",
-      "reduce applicability to one explicit missing hypothesis without constructing a new theorem yet"
+      "prove N=8 has a finite degree bound",
+      "reduce every unbounded N=8 tail to one explicit exact packet/equality configuration",
+      "prove the available cuboid packet data cannot strengthen the N=8 tube and close this B1 gate negatively"
     ],
     "must_not_repeat": [
-      "generic smooth-resolution Miyaoka theorem with c2=80 as if it were orbifold c2=8",
-      "formal substitution c2_orb into a smooth theorem",
-      "W16 conductor/CB deepening",
-      "Z12 differential construction before Z2-A1 is disposed",
-      "claiming any receiver/theorem/endpoint credit from a source-theorem preflight"
-    ]
+      "generic branch pigeonhole without controlling landing lambda",
+      "infer delta from M_i or r_i alone",
+      "formal c2_orb substitution into Miyaoka 2008",
+      "generic arithmetic correspondence theory without a marked-packet adapter",
+      "return to W16-H",
+      "claim receiver/theorem/endpoint credit"
+    ],
+    "fallback_after_B1": "Z12-C1 exact order-4 active-support regularity computation"
   },
   "routing": {
     "independent_of_full178_execution": true,
