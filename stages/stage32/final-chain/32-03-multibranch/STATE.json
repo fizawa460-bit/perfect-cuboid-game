@@ -589,25 +589,32 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-COMPOSITION-SCAN-A-B-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_composition_scan_ab.py",
       "result": "Piene's finite-lci normalization theorem makes the local conductor/Jacobian adapter source-valid, and six relative polars generate the local Jacobian ideal because the six fibration differentials span cotangent directions. However two-polar coefficient counts do not beat the quadratic conductor. Separately, a local cusp counterexample closes any delta bound based only on individual ramification orders; the surviving six-map route must use high-order jet cancellations between projection functions."
+    },
+    "shallow_six_map_jet_cancellation_scan": {
+      "status": "PRE_AUDIT_SHALLOW_SCAN_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-SIX-MAP-JET-CANCELLATION-SCAN-RESULT-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-SIX-MAP-JET-CANCELLATION-SCAN-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_six_map_jet_cancellation_scan.py",
+      "result": "Fixed bounded-degree difference orders cannot uniformly dominate plane-branch conductor; generic-polar/minor data detect the right quadratic singularity scale but the global polar degree ties the different at leading coefficient and leaves 80l ramification slack. No cuboid quadratic identity removing that slack was found. Rotate to global Jacobian/Tjurina zero-scheme bounds rather than deepen six-map jets."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 shallow cuboid six-map jet-cancellation scan",
-    "active_leaf": "MB104-SHALLOW-SIX-MAP-JET-CANCELLATION-SCAN",
-    "required_input": "Using the six fixed cuboid fibration maps only as measurement coordinates, identify bounded-degree algebraic combinations (differences after affine charts, cross-products, 2x2 minors, or cuboid quadratic syzygies) whose vanishing order detects the high-order cancellation invisible to individual ramification orders. Compare several such combination families shallowly and ask whether their total divisor degrees are O(l) with a coefficient capable of controlling conductor/contact. Do not classify new fibrations.",
+    "title": "MB104 shallow fresh-weapon comparison after six-map jet scan",
+    "active_leaf": "MB104-SHALLOW-JACOBIAN-TJURINA-VS-FRESH-WEAPON-SCAN",
+    "required_input": "Do not deepen the six-map jet route. Compare at equal shallow depth: (A) global Jacobian/Tjurina zero-scheme bounds for C in |lP|, using six-polar generation only as an ideal generator fact; (B) one unrelated fresh top-down weapon not already exhausted by the 100-commit review, preferably a secant/self-intersection, Gaussian-map, or normalization-map invariant with direct quadratic-vs-linear coefficient control. Require a visible finite-l coefficient before depth.",
     "success_shapes": [
-      "a finite family of explicit combination sections whose local orders dominate branch conductor/contact and whose total degrees sum O(l)",
-      "a source-valid local inequality reducing conductor/contact to valuations of bounded-degree cuboid combinations",
-      "a bounded symbolic test showing the best possible coefficient is too weak, allowing this route to be parked"
+      "A yields an upper bound on total Tjurina length with leading coefficient below the source-valid local lower bound",
+      "B yields a direct finite-l inequality or finite shell",
+      "both fail shallowly, producing a clean rotation rather than depth"
     ],
     "must_not_repeat": [
-      "individual ramification-order bounds",
-      "generic two-projection Bezout without cuboid relations",
-      "degree10/12 fibration classification from 32-01",
-      "size48 local analytic chain"
+      "six-map order/cancellation analysis",
+      "32-01 fibration classification",
+      "size48 local analytic chain",
+      "generic conductor regularity without a new theorem"
     ],
-    "fallback_after_gate": "If all bounded-degree combination families have too-large global degree or fail a local domination test, record the no-go and rotate to a fresh top-down composition."
+    "fallback_after_gate": "If A and B both lack a favorable coefficient at shallow depth, record the no-go and rotate again."
   },
   "routing": {
     "independent_of_full178_execution": true,
