@@ -59,12 +59,16 @@ int main(int argc, char** argv) {
     std::string d_hi_s = arg_value(argc, argv, "--d-hi");
     std::string out_path = arg_value(argc, argv, "--out");
     std::string worker_blob = arg_value(argc, argv, "--worker-blob");
+    std::string bc_shard_index_s = arg_value(argc, argv, "--bc-shard-index");
+    std::string bc_shard_count_s = arg_value(argc, argv, "--bc-shard-count");
     req(!b_s.empty(), "missing --b");
     req(!d_lo_s.empty() && !d_hi_s.empty(), "missing --d-lo/--d-hi");
     req(!out_path.empty(), "missing --out");
     req(worker_blob.size() == 40, "missing/invalid --worker-blob");
     int only_b = std::stoi(b_s);
     int d_lo = std::stoi(d_lo_s), d_hi = std::stoi(d_hi_s);
+    int bc_shard_count = bc_shard_count_s.empty() ? 1 : std::stoi(bc_shard_count_s);
+    int bc_shard_index = bc_shard_index_s.empty() ? 0 : std::stoi(bc_shard_index_s);
     req(0 <= only_b && only_b <= BR204_H, "b outside 0..96");
     req(d_lo <= d_hi && (d_lo % 2) == 0 && (d_hi % 2) == 0, "invalid even d range");
     bool approved_band = false;
@@ -72,6 +76,8 @@ int main(int argc, char** argv) {
         if (band.first <= d_lo && d_hi <= band.second) approved_band = true;
     req(approved_band, "d range is not contained in one approved BR204 resume band");
     req(d_hi >= std::max(8, 2 * only_b), "d range has no admissible d for this b");
+    req(bc_shard_count >= 1 && bc_shard_count <= 256, "invalid --bc-shard-count");
+    req(0 <= bc_shard_index && bc_shard_index < bc_shard_count, "invalid --bc-shard-index");
 
     auto S = build_strict(BR204_H);
     auto E = build_equal(BR204_H);
@@ -87,7 +93,10 @@ int main(int argc, char** argv) {
     i64 bc_assignment_mass = 0;
     i64 bc_tail_slot_assignment_mass = 0;
     i64 bc_tail_base_states = 0;
+    std::size_t raw_index = 0;
     for (const auto& [key, R] : raw) {
+        std::size_t this_index = raw_index++;
+        if ((int)(this_index % (std::size_t)bc_shard_count) != bc_shard_index) continue;
         WBC w;
         w.key = key;
         for (const auto& [bits, mult] : R.total) w.total_mult += mult;
@@ -265,6 +274,8 @@ int main(int argc, char** argv) {
         << "\t" << BR203_TERMINAL_SHA256
         << "\t" << evaluated_state_parts
         << "\n";
+    if (bc_shard_count > 1)
+        out << "PART\tBC_MOD\t" << bc_shard_index << "\t" << bc_shard_count << "\n";
     for (const auto& [key, cap] : k8_bins)
         out << "K\t" << key.first << "\t" << key.second << "\t" << dec_i128(cap) << "\n";
     for (const auto& [key, cap] : mu_bins) {
@@ -299,6 +310,7 @@ int main(int argc, char** argv) {
               << " tail_states=" << bc_tail_base_states
               << " Kbins=" << k8_bins.size()
               << " Mbins=" << mu_bins.size()
+              << " bc_shard=" << bc_shard_index << "/" << bc_shard_count
               << "\n";
     return 0;
 }
