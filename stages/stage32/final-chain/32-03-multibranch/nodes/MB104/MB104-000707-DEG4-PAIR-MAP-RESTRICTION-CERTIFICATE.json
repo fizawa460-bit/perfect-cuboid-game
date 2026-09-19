@@ -1,12 +1,14 @@
 {
-  "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_RESTRICTION_V1",
-  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN",
+  "schema": "STAGE32_MB104_000707_DEG4_PAIR_MAP_RESTRICTION_V2",
+  "status": "PRE_AUDIT_NUMERICAL_PREFLIGHT_COMMON_VERTICAL_CORRECTION_OPEN_ZERO_EXCLUSION_CREDIT",
+  "support_mask": "000707000f0f",
   "data": {
     "H_G": 12,
     "P_G": 36,
     "H_F": 8,
     "P_F": 40,
     "G_F": 4,
+    "pair_map_generic_degree": 4,
     "P2": 336,
     "H_P": 112
   },
@@ -16,36 +18,40 @@
     "Q_H_over_l": "768/r-112",
     "Q2_over_l2": "11520/r^2+336-5760/r"
   },
-  "excluded": {
+  "restriction_degrees": {
     "r4": {
-      "reason": "effective residual orthogonal to both finite-map rulings forces Q=0, but H-degree contradicts P=10G+9F",
-      "promoted": false
+      "conditional_signal": "horizontal residual would be numerically zero against both rulings, while Q=0 would contradict H.P=112 versus H.(10G+9F)=192",
+      "excluded": false
     },
     "r3": {
       "Q_H_over_l": 144,
       "Q2_over_l2": -304,
-      "pa": "1-152*l^2+72*l",
-      "reason": "negative arithmetic genus",
-      "promoted": false
+      "conditional_horizontal_pa": "1-152*l^2+72*l",
+      "conditional_signal": "horizontal residual would have negative arithmetic genus if no common vertical correction were present",
+      "excluded": false
+    },
+    "r2": {
+      "excluded": false
+    },
+    "r1": {
+      "excluded": false
     }
   },
-  "remaining": [
-    1,
-    2
-  ],
+  "unexcluded_restriction_degrees": [1, 2, 3, 4],
   "ramification": {
     "class": "H+2G+2F",
     "P_dot": 264,
     "carrier_dot_over_l": 264
   },
-  "firewalls": {
-    "mb104_complete": false,
-    "theorem_credit": false,
-    "endpoint_credit": false,
-    "merge_authorized": false
-  },
   "common_vertical_correction_required": true,
   "source_gate": {
     "stein_factor_common_vertical_audited": false
+  },
+  "firewalls": {
+    "mb104_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
   }
 }
