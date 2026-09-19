@@ -596,25 +596,33 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-SIX-MAP-JET-CANCELLATION-SCAN-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_six_map_jet_cancellation_scan.py",
       "result": "Fixed bounded-degree difference orders cannot uniformly dominate plane-branch conductor; generic-polar/minor data detect the right quadratic singularity scale but the global polar degree ties the different at leading coefficient and leaves 80l ramification slack. No cuboid quadratic identity removing that slack was found. Rotate to global Jacobian/Tjurina zero-scheme bounds rather than deepen six-map jets."
+    },
+    "shallow_jacobian_tjurina_vs_fresh_weapon_scan": {
+      "status": "PRE_AUDIT_SHALLOW_TOPDOWN_SCAN_NEW_LOG_TANGENT_INTERFACE_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-JACOBIAN-TJURINA-VS-FRESH-WEAPON-SCAN-20260920.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-JACOBIAN-TJURINA-VS-FRESH-WEAPON-SCAN-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_jacobian_tjurina_vs_fresh_weapon_scan.py",
+      "result": "Globalizing total Tjurina through T_S(-log C) and using Almiron's mu/tau<4/3 theorem gives the exact cancellation Delta_log < 304-112*l+3*B, where B=sum(r_p-1). The l^2 term cancels completely. This is live only for one more shallow gate: bound B linearly and/or source-lock log-tangent semistability/destabilizing geometry. Generic plane Tjurina and secant/self-intersection routes have coefficients too large or no visible finite-l coefficient."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 shallow fresh-weapon comparison after six-map jet scan",
-    "active_leaf": "MB104-SHALLOW-JACOBIAN-TJURINA-VS-FRESH-WEAPON-SCAN",
-    "required_input": "Do not deepen the six-map jet route. Compare at equal shallow depth: (A) global Jacobian/Tjurina zero-scheme bounds for C in |lP|, using six-polar generation only as an ideal generator fact; (B) one unrelated fresh top-down weapon not already exhausted by the 100-commit review, preferably a secant/self-intersection, Gaussian-map, or normalization-map invariant with direct quadratic-vs-linear coefficient control. Require a visible finite-l coefficient before depth.",
+    "title": "MB104 shallow log-tangent gates versus unrelated fresh weapon",
+    "active_leaf": "MB104-SHALLOW-LOG-TANGENT-GATES-VS-FRESH-WEAPON",
+    "required_input": "At equal shallow depth: (A) test whether existing MB geometry gives an O(l) bound on B=sum_p(r_p-1), especially through multi-branch collision data without redoing six-map jet analysis; (B) test source-valid semistability/stability of T_S(-log C), or whether Bogomolov destabilization forces a divisor class already excluded by retained Picard/P-null geometry; (C) test one unrelated fresh top-down weapon. Do not deepen log tangent unless A or B shows a visible finite-l return.",
     "success_shapes": [
-      "A yields an upper bound on total Tjurina length with leading coefficient below the source-valid local lower bound",
-      "B yields a direct finite-l inequality or finite shell",
-      "both fail shallowly, producing a clean rotation rather than depth"
+      "B <= beta*l+O(1) with beta<112/3 together with a valid discriminant consequence",
+      "semistability or destabilizing-divisor classification turns Delta_log<304-112*l+3B into l<=L",
+      "unrelated weapon yields a shorter finite-l route",
+      "all fail shallowly and log tangent is parked"
     ],
     "must_not_repeat": [
-      "six-map order/cancellation analysis",
+      "six-map individual ramification or jet-cancellation scans",
       "32-01 fibration classification",
-      "size48 local analytic chain",
-      "generic conductor regularity without a new theorem"
+      "generic plane Tjurina bounds",
+      "size48 local analytic chain"
     ],
-    "fallback_after_gate": "If A and B both lack a favorable coefficient at shallow depth, record the no-go and rotate again."
+    "fallback_after_gate": "If branch excess and stability both remain uncontrolled, park log tangent immediately and rotate to a fresh weapon family."
   },
   "routing": {
     "independent_of_full178_execution": true,
