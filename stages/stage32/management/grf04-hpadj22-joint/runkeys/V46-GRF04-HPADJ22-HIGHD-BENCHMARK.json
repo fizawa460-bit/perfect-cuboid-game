@@ -1,10 +1,10 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1",
-  "generation": 7,
+  "generation": 8,
   "armed": true,
-  "purpose": "Run the exact row177/band7 GRF04 x HPADJ22 high-d benchmark as four disjoint b-chunks and exact aggregate, superseding generation6 only as an operational execution refinement with zero mathematical credit from the cancelled monolithic diagnostic.",
+  "purpose": "Re-run the same exact four disjoint row177/band7 b-chunks after repairing certificate serialization only; mathematical population, predicate, partition, and aggregation semantics are unchanged from generation7.",
   "execution_mode": "ROW177_BAND7_FOUR_BCHUNK_EXACT_AGGREGATE",
-  "chunk_worker_blob_sha1": "7be7b75da426c99484e8ebb44c4d40217d361e37",
+  "chunk_worker_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
   "aggregator_blob_sha1": "69213b46a56a0bff19ff5d20337443e591e832b0",
   "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
   "row_index": 177,
@@ -53,7 +53,7 @@
   "authorization": {
     "synchronize_only": true,
     "commit_range_runkey_change_required": true,
-    "prior_generation_required": 6
+    "prior_generation_required": 7
   },
   "decision_rule": {
     "strict_and_operationally_bounded": "retain benchmark and design a resumable FULL178 contract; still zero MAIN credit",
@@ -69,10 +69,16 @@
     "endpoint": false,
     "merge": false
   },
-  "previous_generation": 6,
-  "previous_generation_head": "3354c5ecc67796e45322efae3d1a50d6015b391b",
-  "previous_generation_run_id": 35431457414,
+  "previous_generation": 7,
+  "previous_generation_head": "4c77f5525533eb534bcff656212cb5c1407b2098",
+  "previous_generation_run_id": 35435353192,
   "previous_generation_job_id": 105866824120,
-  "previous_generation_disposition": "SUPERSEDED_OPERATIONAL_DIAGNOSTIC_ZERO_CREDIT",
-  "previous_generation_reason": "generation6 remained operationally coarse for one full band row; generation7 preserves the same exact population and predicate while partitioning b into four disjoint execution chunks with exact reaggregation"
+  "previous_generation_disposition": "EXECUTION_FAILURE_AFTER_EXACT_COMPUTE_BEFORE_CERTIFICATE_SERIALIZATION_ZERO_CREDIT",
+  "previous_generation_reason": "All four chunks reached final certificate construction after approximately 33-35 minutes, then failed because a pathlib.Path object was placed in source_locks.e_independence_verifier_blob_sha1. Generation8 changes only that field to the already-locked verifier blob SHA string.",
+  "previous_generation_jobs": [
+    105877100428,
+    105877100381,
+    105877100391,
+    105877100417
+  ]
 }
