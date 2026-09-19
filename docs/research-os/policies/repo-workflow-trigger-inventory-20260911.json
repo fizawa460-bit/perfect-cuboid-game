@@ -4,8 +4,8 @@
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 10,
-    "MANUAL": 2,
+    "ACTIVE_AUTO": 9,
+    "MANUAL": 3,
     "RETIRED": 519,
     "TOTAL": 531
   },
@@ -25,8 +25,8 @@
     "Stage32": {
       "RETIRED": 256,
       "TOTAL": 262,
-      "MANUAL": 2,
-      "ACTIVE_AUTO": 4
+      "MANUAL": 3,
+      "ACTIVE_AUTO": 3
     },
     "Stage32EX": {
       "RETIRED": 4,
@@ -61,7 +61,6 @@
       ".github/workflows/stage32-claim-frontier-integrity.yml",
       ".github/workflows/stage32-ex5-main.yml",
       ".github/workflows/stage32-main-startup-authority.yml",
-      ".github/workflows/stage32-mb104-isotropic-shell-pilot.yml",
       ".github/workflows/stage32-stale-run-sweeper.yml",
       ".github/workflows/stage35-35-01-to-09-audit.yml",
       ".github/workflows/stage36-bootstrap-audit.yml",
@@ -69,6 +68,7 @@
     ],
     "MANUAL": [
       ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+      ".github/workflows/stage32-mb104-isotropic-shell-pilot.yml",
       ".github/workflows/stage32-root-cleanup-phase-b.yml"
     ],
     "RETIRED": [
@@ -602,7 +602,6 @@
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-mb104-isotropic-shell-pilot.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     ".github/workflows/stage36-bootstrap-audit.yml",
@@ -615,6 +614,6 @@
     "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
     "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
     "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
-    "Stage32 MB104 isotropic-shell shell0 pilot is ACTIVE_AUTO only while the generation-1 pilot leaf is current; runkey commit-range authorization keeps scaleout cold."
+    "Stage32 MB104 isotropic-shell pilot is MANUAL/dispatch-only while PR #1827 current head is frozen for hostile re-audit."
   ]
 }

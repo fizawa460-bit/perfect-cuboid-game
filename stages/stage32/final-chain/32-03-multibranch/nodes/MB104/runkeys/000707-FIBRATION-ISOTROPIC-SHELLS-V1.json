@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1",
-  "generation": 2,
-  "mode": "PILOT",
-  "armed": true,
-  "leaf": "MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT",
+  "generation": 3,
+  "mode": "COLD",
+  "armed": false,
+  "leaf": "MB104-POST-AUDIT-APPEND-REAUDIT-CHECKPOINT",
   "support_mask": "000707000f0f",
   "workunits": [
     {
@@ -41,7 +41,7 @@
     "reason": "norm-400 shell is the conservative representative for runtime and compact-certificate size",
     "measured": false,
     "retry_of_generation": 1,
-    "retry_reason": "generation 1 authorized correctly but exact_sha output was removed before the pilot job; no Magma execution occurred"
+    "retry_reason": "DISARMED: current PR head is later than hostile-audited 70c2 boundary and requires re-audit before any shell execution"
   },
   "resume": {
     "partition_key": "shell_index",
@@ -74,14 +74,14 @@
     "stoll_cuboids_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
     "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
     "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
-    "current_state_git_blob": "f885668be10e0b8a6c0179f7d33fe7d2f707ab55",
-    "workflow_git_blob": "e4b41d5ed60310b4ec82bf8c1198cb24b7fb84c4"
+    "current_state_git_blob": null,
+    "workflow_git_blob": null
   },
   "execution_gate": {
-    "workflow_class": "ACTIVE_AUTO",
-    "automatic_execution_authorized": true,
+    "workflow_class": "MANUAL",
+    "automatic_execution_authorized": false,
     "state_transition_recorded": true,
-    "hostile_audit_status": "PASS",
+    "hostile_audit_status": "REAUDIT_REQUIRED_CURRENT_HEAD",
     "hostile_audit_exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
     "hostile_audit_review_id": 5257816963,
     "commit_range_runkey_change_required": true,
@@ -91,7 +91,8 @@
     "scope": "AUXILIARY_FIBRATION_OPTIMIZATION_SHELL_NOT_MB105_CARRIER_PICARD_ENUMERATION",
     "previous_generation_run_id": 35471271923,
     "previous_generation_numerical_execution_completed": false,
-    "retry_missing_shell0_only": true
+    "retry_missing_shell0_only": false,
+    "current_head_execution_blocked": true
   },
   "credit": {
     "numerical_fibration_shell_credit": false,
