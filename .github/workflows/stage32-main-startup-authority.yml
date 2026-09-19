@@ -1866,7 +1866,7 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
+              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
               *) echo "unexpected V44 successor path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
@@ -1874,3 +1874,197 @@ jobs:
       - name: Diff check
         if: github.event_name == 'pull_request'
         run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+
+  grf04-x4-top20-authorize:
+    name: GRF04 x4 top20 authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_GRF04_X4_TOP20_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["target"]["row_count"]==20
+          assert p["source_locks"]["manifest_blob_sha1"]=="d4e38ed1e0b400ab8ca2ce54a0385092d3bb839c"
+          assert p["source_locks"]["worker_blob_sha1"]=="d4dfd574f988f941553b92b2a19dbbef19f7c942"
+          assert p["source_locks"]["aggregator_blob_sha1"]=="904b7b1ff039d398c887349fba329d1d05d462e5"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==4
+          assert p["resource_preflight"]["conservative_total"]==17 <= p["resource_preflight"]["repo_stage_heavy_cap"]
+          assert p["resource_preflight"]["projected_peak_mb_upper_bound"]<=1
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json)" = "d4e38ed1e0b400ab8ca2ce54a0385092d3bb839c"
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py)" = "d4dfd574f988f941553b92b2a19dbbef19f7c942"
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py)" = "904b7b1ff039d398c887349fba329d1d05d462e5"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  grf04-x4-top20:
+    name: GRF04 x4 top20 row ${{ matrix.row_index }} ${{ matrix.row_id }}
+    needs: grf04-x4-top20-authorize
+    if: needs.grf04-x4-top20-authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - row_index: 89
+            row_id: g1-d188
+            g: 1
+            d: 188
+          - row_index: 22
+            row_id: g1-d192
+            g: 1
+            d: 192
+          - row_index: 176
+            row_id: g1-d186
+            g: 1
+            d: 186
+          - row_index: 45
+            row_id: g1-d184
+            g: 1
+            d: 184
+          - row_index: 177
+            row_id: g1-d190
+            g: 1
+            d: 190
+          - row_index: 175
+            row_id: g1-d182
+            g: 1
+            d: 182
+          - row_index: 88
+            row_id: g1-d180
+            g: 1
+            d: 180
+          - row_index: 174
+            row_id: g1-d178
+            g: 1
+            d: 178
+          - row_index: 21
+            row_id: g1-d176
+            g: 1
+            d: 176
+          - row_index: 173
+            row_id: g1-d174
+            g: 1
+            d: 174
+          - row_index: 87
+            row_id: g1-d172
+            g: 1
+            d: 172
+          - row_index: 66
+            row_id: g0-d172
+            g: 0
+            d: 172
+          - row_index: 172
+            row_id: g1-d170
+            g: 1
+            d: 170
+          - row_index: 10
+            row_id: g0-d176
+            g: 0
+            d: 176
+          - row_index: 130
+            row_id: g0-d170
+            g: 0
+            d: 170
+          - row_index: 44
+            row_id: g1-d168
+            g: 1
+            d: 168
+          - row_index: 33
+            row_id: g0-d168
+            g: 0
+            d: 168
+          - row_index: 131
+            row_id: g0-d174
+            g: 0
+            d: 174
+          - row_index: 171
+            row_id: g1-d166
+            g: 1
+            d: 166
+          - row_index: 129
+            row_id: g0-d166
+            g: 0
+            d: 166
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-global-x4-top20
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 8a8efc48866f8008d253c21ebd272e698d18dc44
+          path: .stage32-178-global-x4-top20
+          fetch-depth: 1
+      - name: Compute exact same-population top20 row
+        run: |
+          python stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py \
+            --hpadj21-root .stage32-ex5-hpadj21-global-x4-top20 \
+            --lane178-root .stage32-178-global-x4-top20 \
+            --row-index ${{ matrix.row_index }} \
+            --output "$RUNNER_TEMP/row-${{ matrix.row_index }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-grf04-x4-top20-row-${{ matrix.row_index }}
+          path: ${{ runner.temp }}/row-${{ matrix.row_index }}.json
+          retention-days: 3
+          compression-level: 9
+
+  grf04-x4-top20-aggregate:
+    name: GRF04 x4 top20 aggregate
+    needs: grf04-x4-top20
+    if: needs.grf04-x4-top20.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-grf04-x4-top20-row-*
+          path: top20-results
+          merge-multiple: true
+      - name: Aggregate exact top20 replacement candidate
+        run: |
+          python stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py \
+            --input-dir top20-results \
+            --output "$RUNNER_TEMP/grf04-x4-top20-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-grf04-x4-top20-aggregate
+          path: ${{ runner.temp }}/grf04-x4-top20-aggregate.json
+          retention-days: 3
+          compression-level: 9
+
