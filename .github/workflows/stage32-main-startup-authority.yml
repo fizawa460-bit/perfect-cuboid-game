@@ -176,7 +176,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py)" = "582432a2995d523c247808d39e0ff5ff14611c2a"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "7007272ae29955717da5e43d967991261e398d6b"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py)" = "233f8ff186a4a0e691e5eef55668bfc042b784e4"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "7be7b75da426c99484e8ebb44c4d40217d361e37"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
@@ -2740,10 +2740,10 @@ jobs:
           import json,sys
           old=json.load(open(sys.argv[1])); p=json.load(open(sys.argv[2]))
           assert old["schema"]==p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1"
-          assert old["generation"]==6
-          assert p["generation"]==7 and p["generation"]>old["generation"] and p["armed"] is True
+          assert old["generation"]==7
+          assert p["generation"]==8 and p["generation"]>old["generation"] and p["armed"] is True
           assert p["execution_mode"]=="ROW177_BAND7_FOUR_BCHUNK_EXACT_AGGREGATE"
-          assert p["chunk_worker_blob_sha1"]=="7be7b75da426c99484e8ebb44c4d40217d361e37"
+          assert p["chunk_worker_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
           assert p["aggregator_blob_sha1"]=="69213b46a56a0bff19ff5d20337443e591e832b0"
           assert p["chunks"]==[[84,87],[88,90],[91,93],[94,96]]
           assert p["row_index"]==177 and p["band_position"]==7
@@ -2752,7 +2752,7 @@ jobs:
           assert p["resource_preflight"]["artifact_count_upper_bound"]==5
           assert p["credit"]["main"] is False and p["credit"]["merge"] is False
           PY
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "7be7b75da426c99484e8ebb44c4d40217d361e37"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
           sed -i '$d' "$GITHUB_OUTPUT"
           echo "run=true" >> "$GITHUB_OUTPUT"
