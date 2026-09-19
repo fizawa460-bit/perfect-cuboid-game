@@ -38,12 +38,12 @@ env:
   BC_SHARD_WORKER_BLOB: ee152cccd3eaa6740202036d8d25ffb0d6a0fa84
   BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
   BC_EQUIV_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
-  GEN2_PREFLIGHT_BLOB: 9157fa58bf9d89d4ed62cd9d63bb1bbd87a8432c
+  GEN2_PREFLIGHT_BLOB: 16bca3f86043e10fb4574ca199d4f38d19e3549e
   BC_RESUME_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
   BC_FINALIZER_BLOB: 953f70ef3f9396249743f4fdcd68f1990d917b69
   FINER_TARGETS_BLOB: 7b1ade20bcb3408bd7d66581033902a54ac90592
-  G2_FINER_WORKFLOW_BLOB: e81360aff130a50b27c58c5874af1e20cda7a8e8
-  G2_FINER_RUNKEY_BLOB: c161125755fdb8850263790e9630f07738f1c9de
+  G2_FINER_WORKFLOW_BLOB: e0441ae839fae00bc4a0302b9c10f75427686d7c
+  G2_FINER_RUNKEY_BLOB: 5add938726e35fdaa850dfe1e80018344ceea1f4
 
 jobs:
   retained-replay:
@@ -190,6 +190,9 @@ jobs:
           assert rk['arm_contract']['audited_doorstep_head'] is None
           assert rk['arm_contract']['audited_doorstep_review_id'] is None
           assert rk['carry_generation1_run_id']==35344605175
+          assert rk['execution']['max_parallel']==15
+          assert rk['resource_preflight']['planned_effective_heavy_concurrency']==15
+          assert rk['resource_preflight']['maximum_other_stage32_heavy_concurrency_at_arm']==3
           assert rk['source_locks']['audited_generation1_worker_blob']=='0d5ee8e1013cab6120e957707a363e86b3c0d41e'
           assert rk['source_locks']['repository_main_head']=='659ba93b9eba657b49a728f549c6bb6028398e08'
           assert rk['source_locks']['repository_main_state_blob']=='a8f873ffdcaca280f7b57158b69606b3ea496d3c'
