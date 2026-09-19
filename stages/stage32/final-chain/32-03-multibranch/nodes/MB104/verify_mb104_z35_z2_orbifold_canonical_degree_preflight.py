@@ -1,42 +1,56 @@
 #!/usr/bin/env python3
+from fractions import Fraction
 import json
 from pathlib import Path
+
 d=json.loads(Path(__file__).with_name(
  "MB104-Z35-Z2-ORBIFOLD-CANONICAL-DEGREE-PREFLIGHT-CERTIFICATE.json").read_text())
-s=d["sabatino_boundary_family"]; l=d["langer"]; r=d["retained"]
 
+assert d["schema"]=="STAGE32_MB104_Z35_Z2_ORBIFOLD_CANONICAL_DEGREE_PREFLIGHT_V2"
+r=d["retained"]
 assert r["K2"]==16 and r["c2"]==80
-for n in range(49):
-    lhs=16-2*n
-    eopen=80-2*n
-    assert lhs-eopen==-64
-    assert not (lhs>eopen)
-    if n>0:
-        # (K+D).E_i = E_i^2 = -2
-        assert -2 < 0
 
+s=d["sabatino_boundary_family"]
+for n in range(49):
+    assert (16-2*n)-(80-2*n)==-64
 assert s["difference"]=="-64"
-assert s["strict_positivity_hypothesis_satisfied"] is False
-assert s["nef_for_nonempty_boundary"] is False
-assert l["normal_log_pair_generality"] is True
-assert l["local_orbifold_terms_required"] is True
-assert l["current_local_correction_source_complete"] is False
-sc=l["log_canonicity_scaling"]
-assert sc["strict_transform_class"]=="7lH-4l*sum_E"
-assert sc["total_transform_exceptional_coefficient"]=="4l"
-assert sc["exceptional_discrepancy"]=="-4*alpha*l"
+
+x=d["sabatino_theorem11i"]
+assert x["applicable_with_KplusD_Q_effective"] is True
+assert x["curve_singularity_classification_required"] is False
+assert x["inequality_polynomial"]=="168*l*(l+1)*alpha^2-(224-8*t)*l*alpha+224-4*r"
+assert x["vertex_alpha"]=="(28-t)/(42*(l+1))"
+assert x["uniform_minimum_lower_bound"]==">40/3"
+
+for t in range(15):
+    # Worst legal boundary r=34+t.
+    lim=Fraction(88-4*t)-Fraction((224-8*t)**2,672)
+    assert lim == Fraction(2*(189-(t-7)**2),21)
+    assert lim >= Fraction(40,3)
+    for l in range(1,101):
+        a=Fraction(28-t,42*(l+1))
+        assert 0 <= a <= 1
+        A=168*l*(l+1)
+        B=-(224-8*t)*l
+        C=88-4*t
+        fmin=Fraction(C)-Fraction(B*B,4*A)
+        assert fmin > Fraction(40,3)
+
+assert x["all_l_all_exceptional_boundaries_strictly_satisfied"] is True
+
+la=d["langer"]
+assert la["normal_log_pair_generality"] is True
+assert la["local_orbifold_terms_required"] is True
+assert la["current_local_correction_source_complete"] is False
+sc=la["log_canonicity_scaling"]
 assert sc["alpha_upper_bound"]=="1/(4l)"
-assert sc["beta_definition"]=="beta=alpha*l"
-assert sc["beta_upper_bound"]=="1/4"
-assert sc["log_pair_square"]=="16*(1+7*beta)^2"
 assert sc["log_pair_square_independent_of_l"] is True
-assert sc["degree_cutting_requires_controlled_local_orbifold_terms"] is True
-assert d["disposition"]=="PARK_Z2_AT_NUMERICAL_POSITIVITY_AND_LOCAL_ORBIFOLD_INPUT_WALLS"
-assert d["next_leaf"]=="MB104-Z36-Z4P-FORCED-ORDINARY-SINGULARITY-LOCALIZATION-PREFLIGHT"
+
+assert d["disposition"]=="PARK_Z2_AS_SOURCE_COMPLETE_ALL_L_THEOREM_NO_GO"
+assert d["next_leaf"]=="MB104-Z37-SURVIVING-768-FIRST-NORMAL-EXACT-TRANSITION-REOPEN-PREFLIGHT"
 assert all(v is False for v in d["firewalls"].values())
 
-print("PASS: Z35/Z2 orbifold/open canonical-degree theorem preflight")
-print("for every exceptional boundary subset: (K+D)^2-e(S\\D)=-64")
-print("nonempty exceptional boundary also makes K+D non-nef")
-print("normal-pair Langer route returns to missing local orbifold correction data")
-print("lc scaling: alpha<=1/(4l), so (K+alpha*C)^2=16*(1+7*beta)^2 with beta=alpha*l")
+print("PASS: Z35/Z2 source-valid theorem application")
+print("Sabatino Theorem 1.1(i): F=168*l*(l+1)*a^2-(224-8*t)*l*a+224-4*r")
+print("all legal exceptional boundaries and alpha in [0,1]: F > 40/3")
+print("Z2 is an exact all-l no-go on the balanced N14 ray")
