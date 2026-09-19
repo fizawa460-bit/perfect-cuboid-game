@@ -43,18 +43,28 @@
       "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
       "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
       "numerical_execution_completed": false,
-      "result": "shell0 pilot armed after hostile-audit PASS; no numerical result yet; shells1-3 remain unauthorized",
+      "result": "shell0 pilot retry generation 2 armed after generation 1 workflow-output wiring failure; no numerical execution yet; shells1-3 remain unauthorized",
       "cold_preflight_runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
       "pilot_runkey_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json",
-      "pilot_runkey_generation": 1,
-      "pilot_shell_index": 0
+      "pilot_runkey_generation": 2,
+      "pilot_shell_index": 0,
+      "pilot_attempts": [
+        {
+          "generation": 1,
+          "workflow_run_id": 35471271923,
+          "outcome": "EXECUTION_GATE_WIRING_FAILURE_BEFORE_MAGMA",
+          "numerical_execution_completed": false,
+          "artifact_id": 10592439089,
+          "artifact_contains": "failure manifest only"
+        }
+      ]
     }
   },
   "next_obligation": {
     "node_id": "MB104",
     "title": "size768 degree10/12 isotropic-shell pilot",
     "active_leaf": "MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT",
-    "required_input": "Execute and verify only shell_index=0 from the retained four-shell fibration-improvement preflight. This is an auxiliary fibration bound computation, not MB105 carrier Picard enumeration.",
+    "required_input": "Retry only shell_index=0 after repairing exact_sha workflow output wiring. Generation 1 did not reach Magma. This remains an auxiliary fibration bound computation, not MB105 carrier Picard enumeration.",
     "success_shapes": [
       "verified shell0 compact certificate with measured certificate size and exact candidate counts",
       "transport/runtime/storage resource wall recorded with zero mathematical credit"
