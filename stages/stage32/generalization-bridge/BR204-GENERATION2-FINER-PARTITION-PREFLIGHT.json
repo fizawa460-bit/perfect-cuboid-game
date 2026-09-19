@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE32_BR204_GENERATION2_FINER_PARTITION_PREFLIGHT_V1",
+  "status": "PREFLIGHT_ONLY__EXECUTION_TOPOLOGY_NOT_YET_IMPLEMENTED__HOSTILE_AUDIT_REQUIRED_BEFORE_GENERATION2__ZERO_CREDIT",
+  "bridge": {
+    "pr": 1813,
+    "branch": "stage32bridge-mainbatch",
+    "current_head_before_preflight": "cb6be1ea7014f6f873ea6c05d414a4e5d8292e43",
+    "generation1_checkpoint_path": "stages/stage32/generalization-bridge/BR204-GENERATION1-RECOVERY-CHECKPOINT.json",
+    "generation1_checkpoint_blob": "50927eedc565e148f95ddf17406bfb94a37f0e64",
+    "generation1_run_id": 35344605175,
+    "generation1_execution_head": "ee755bbfd46f405ca83e4930b354ee63459ad362"
+  },
+  "generation1_frozen_inventory": {
+    "total_workflow_jobs": 256,
+    "outer_unit_jobs": 248,
+    "complete_outer_artifact_count": 31,
+    "partial_outer_artifact_count": 41,
+    "failed_outer_jobs_without_durable_outer_payload_count": 66,
+    "persisted_single_d_hard_stop_count": 3,
+    "rule": "These are recovery/execution facts only; no mathematical rejection or pruning credit is inferred."
+  },
+  "live_main_refresh": {
+    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c",
+    "main_state_schema": "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
+    "authoritative_remaining_strata": 17128,
+    "authoritative_remaining_terminals": "138652739800650600000",
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "comparison_rule": "BR204 candidate remains a same-population replacement/MIN candidate only; V45 predecessor movement changes comparison authority, not already source-locked producer arithmetic."
+  },
+  "proposed_exact_finer_partition": {
+    "trigger": "Only for a (b,d) quantum that cannot finish within the existing single-d timeout or is explicitly marked finer-partition-required by the frozen generation-1 recovery evidence.",
+    "parent_quantum": "b_x_d",
+    "child_quantum": "b_x_d_x_bc_shard",
+    "bc_shard_count": 16,
+    "assignment": "Build the existing deterministic BC vector for fixed b exactly as before; enumerate it in its source-locked deterministic order and assign BC record index i to shard (i mod 16).",
+    "exact_union_conditions": [
+      "Every BC record index belongs to exactly one shard 0..15.",
+      "All 16 shard IDs must be present exactly once before a d slice is accepted.",
+      "Shard source locks, b, d, mu table identity, terminal-syndrome identity and partition count must agree.",
+      "Static BC state count, assignment mass and tail-slot assignment mass are summed across shards.",
+      "K8 bins, mu bins, mu-tail bins, raw objectives, positive capacities and evaluation counters are summed exactly across shards.",
+      "The 16-shard union must reproduce the ordinary unsharded fixed-(b,d) payload byte-for-byte after canonical sorting/serialization in a bounded regression before execution authorization."
+    ],
+    "rationale": "The heavy fixed-(b,d) loop is additive over the BC records. Partitioning only that loop leaves the A-side, g/e logic, qBC/K8/Picard-mu semantics and final global LP unchanged while reducing the wall time of a single d quantum.",
+    "fallback": "If any individual BC shard still reaches the hard timeout, STOP again and introduce a second exact execution-only partition below the BC shard. Do not raise the timeout as the primary recovery action."
+  },
+  "carry_compatibility_gate": {
+    "generation1_math_subunits_may_be_carried": true,
+    "conditions": [
+      "Generation-1 worker/base/mu/terminal source identities match the generation-2 producer semantics for already completed d slices.",
+      "Generation-1 complete and partial artifacts are validated through the frozen recovery checkpoint/manifest, not inferred from job status.",
+      "V45 MAIN is used only as the refreshed comparison predecessor; no MAIN-bound value is embedded into carried bin arithmetic.",
+      "Any changed execution-only finer-partition code is proven equivalent on complete fixed-(b,d) unions before carried and new d slices are aggregated together."
+    ],
+    "current_authorization": false
+  },
+  "implementation_obligations": [
+    "Add a source-locked worker mode for exact BC-shard selection without changing the default unsharded output semantics.",
+    "Add an exact 16-shard combiner that rejects gaps, overlaps, duplicate shard IDs, source drift and inconsistent static metadata.",
+    "Add bounded direct-vs-16-shard byte-equivalence regression.",
+    "Extend recovery manifests so partially completed finer shards are durable and only missing shard IDs are recomputed.",
+    "Refresh heavy workflow/runkey/execution-contract/source locks to V45 and the finer-partition surface.",
+    "Run exact-head retained replay and obtain a fresh hostile audit before any generation-2 runkey-only arm commit."
+  ],
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
