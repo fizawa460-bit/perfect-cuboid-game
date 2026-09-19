@@ -11,10 +11,6 @@ ART_CANON="9892eda3ae91f2388b62571e4d6aee69afaa456dcd8214397d122a798e2ba805"
 PILOT=HERE/"GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json"
 PILOT_BLOB="6b0bceeb562433045449f928343ad5fcd9073af4"
 PILOT_CANON="713cb7725bf9ddf0fb38f7efba5c8e2ac6f5a25757b3e9f7ac4347e3827c4db9"
-H16=ROOT/"stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py"
-H16_BLOB="61805f8b6d661c29805b6966e2453ed411d73189"
-H22=ROOT/"stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py"
-H22_BLOB="98d84c925af74c35b99001b08d8428f997ab63ea"
 PROJ=ROOT/"stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py"
 PROJ_BLOB="6b85abcd693586191eb83a7f275b8dd5d9c69b18"
 
@@ -39,20 +35,14 @@ def locked_json(p,b,c,label):
 def main():
     art=locked_json(ART,ART_BLOB,ART_CANON,"e-independence preflight")
     pilot=locked_json(PILOT,PILOT_BLOB,PILOT_CANON,"bounded pilot")
-    req(H16.is_file() and blob(H16)==H16_BLOB,"HPADJ16 source drift")
-    req(H22.is_file() and blob(H22)==H22_BLOB,"HPADJ22 bounded gate drift")
     req(PROJ.is_file() and blob(PROJ)==PROJ_BLOB,"integer projection verifier drift")
-
-    h16=H16.read_text(encoding="utf-8")
-    h22=H22.read_text(encoding="utf-8")
-    for token in [
-        "n_min = 8 * h",
-        "req(f0(h, g, b, c, n_min) > 0",
-        "return left, lo",
-    ]:
-        req(token in h16,"HPADJ16 a0_interval source token drift: "+token)
-    req("upper = min((19*d)//5, 3*d, 3*d - (b-c))" in h22,
-        "HPADJ22 eligible_e upper-bound source token drift")
+    locks=art["source_locks"]
+    req(locks["hpadj16_source_blob_sha1"]=="61805f8b6d661c29805b6966e2453ed411d73189","retained HPADJ16 source lock")
+    req(locks["hpadj22_bounded_gate_blob_sha1"]=="98d84c925af74c35b99001b08d8428f997ab63ea","retained HPADJ22 gate source lock")
+    req(locks["integer_projection_verifier_blob_sha1"]==PROJ_BLOB,"retained projection source lock")
+    req(pilot["source_locks"]["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2","pilot source head")
+    req(pilot["source_locks"]["direct_count_blob_sha1"]=="e965ab0a6ea51938006882ca2110016f48b3768e","pilot direct-count source")
+    req(pilot["source_locks"]["old_hpadj22_worker_blob_sha1"]=="2c998a190baaf5f29b33a91fd9efedbb036cef46","pilot HPADJ22 worker source")
 
     checked=0
     for d in range(8,193,2):
@@ -74,7 +64,7 @@ def main():
         req(v is False,"firewall "+k)
     print(f"PASS: GRF04 x4 interval e-independence verified over {checked} finite (d,e) pairs")
     print("PASS: exact rewrite may count x4 intersection once and multiply by eligible-e count")
-    print("PASS: bounded strict pilot retained with zero MAIN credit; high-d benchmark remains next gate")
+    print("PASS: retained historical source-lock identities are bound; exact source checkout replay is delegated to the high-d benchmark job")\n    print("PASS: bounded strict pilot retained with zero MAIN credit; high-d benchmark remains next gate")
 
 if __name__=="__main__":
     main()
