@@ -208,26 +208,36 @@
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6m_singularity_type_log_bmy_correction_preflight.py",
       "verifier_blob": "9a3794d614fe0ca94fe3fc6c1d3f1d21a9f4e19a",
       "result": "delta(C)=168*l^2+56*l is exact, but source-locked exceptional-contact information is only 112*l with m=1 and does not classify the quadratic singularity mass; refined log/orbifold BMY correction terms are therefore not source-complete and no finite window is claimed"
+    },
+    "p6n_full_g_branch_value_pair_incidence_preflight": {
+      "status": "PRE_AUDIT_EXACT_RETAINED_INTERFACE_WALL_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6N-FULL-G-BRANCH-VALUE-PAIR-INCIDENCE-PREFLIGHT-WALL-20260919.md",
+      "note_blob": "08f10d13fa682baf106933b0578b57d19b069fc1",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-P6N-FULL-G-BRANCH-VALUE-PAIR-INCIDENCE-PREFLIGHT-CERTIFICATE.json",
+      "certificate_blob": "095c352dceddb2a625f1efe57226fb37972ea567",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_p6n_full_g_branch_value_pair_incidence_preflight.py",
+      "verifier_blob": "87c7f0b230e947bb3dc6a8e9e5a630e858df4e02",
+      "result": "the retained 48-node coordinates and Aut(S) action identify only the three b1/b2/b3 stabilizer types; no source-locked node-to-(factor1 branch value,factor2 branch value) adapter exists, so the desired typewise 2x2 incidence cannot be inferred from block/c=0/sign heuristics"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 P6N full-G branch-value pair incidence preflight",
-    "active_leaf": "MB104-P6N-FULL-G-BRANCH-VALUE-PAIR-INCIDENCE-PREFLIGHT",
-    "required_input": "Use the exact 48-node modular model and hostile support 0000093f442e. For each of the three inertia types, identify the two individual branch values in each C8/G factor and determine the exact 2x2 branch-value pair incidence of supported box nodes. Do not infer the split from type totals alone.",
+    "title": "MB104 P6O modular fixed-point branch-label adapter preflight",
+    "active_leaf": "MB104-P6O-MODULAR-FIXED-POINT-BRANCH-LABEL-ADAPTER-PREFLIGHT",
+    "required_input": "Inspect the source-locked modular/theta description of C8 and C8/G. Determine whether the six branch values and the fixed-point orbits above them can be matched factorwise to the explicit 48 Stage32 box-node coordinates. The output must be an exact node -> (factor1 branch value, factor2 branch value) adapter or an explicit source wall.",
     "success_shapes": [
-      "derive an exact packet-specific 2x2 incidence matrix for each inertia type and transport it to row/column or diagonal/off-diagonal constraints on the two degree-56l pencils",
-      "show the retained node model does not source-lock individual factor branch values strongly enough for the incidence split, record the interface wall, and stop",
-      "derive a finite compatible incidence family that is strictly stronger than the scalar six-value passport"
+      "construct a source-complete factorwise branch-label adapter and return to P6N to compute exact 2x2 incidence matrices",
+      "recover only one-factor branch-value orbit labels but not their identification with the Stage32 node coordinates, record the remaining interface",
+      "show the published/retained formulas do not determine the needed factorwise labels without substantial new modular computation, park the incidence route"
     ],
     "must_not_repeat": [
-      "replace individual branch-value incidence by the already-known type totals (48,16,48)l",
-      "assume the two factor pencils are equal from M1~=M2",
-      "reopen one-factor Hurwitz counting",
-      "guess modular cusp labels not fixed by an exact adapter",
+      "guess branch labels from c=0 versus c!=0",
+      "identify the two eight-node blocks with individual factor branch values without proof",
+      "use stabilizer type as if it were a branch-value label",
+      "reopen one-factor scalar passport counting",
       "claim theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "If exact branch-value labels cannot be recovered from the retained 48-node product model without guessing, freeze P6N at that interface rather than descending into conductor-sheet work."
+    "fallback_after_gate": "If no source-complete factorwise label map is available at shallow depth, freeze P6O and rotate to a different isolated-carrier invariant."
   },
   "routing": {
     "independent_of_full178_execution": true,
