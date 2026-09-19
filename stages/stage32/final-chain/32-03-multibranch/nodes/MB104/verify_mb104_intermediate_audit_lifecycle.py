@@ -7,6 +7,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[6]
 INV = ROOT / "docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json"
 STATE = ROOT / "stages/stage32/final-chain/32-03-multibranch/STATE.json"
+HERE = Path(__file__).resolve().parent
+FREEZE = HERE / "MB104-INTERMEDIATE-HOSTILE-REAUDIT-FREEZE.json"
 WF_DIR = ROOT / ".github/workflows"
 AUDIT_WF = ".github/workflows/stage32-mb-intermediate-audit-checkpoint.yml"
 RETIRED_Z40 = {
@@ -20,6 +22,9 @@ def req(ok, msg):
 
 def git_blob(rel):
     return subprocess.check_output(["git", "hash-object", str(ROOT / rel)], text=True).strip()
+
+def git(*args):
+    return subprocess.check_output(["git", *args], text=True).strip()
 
 def event_names(text):
     lines = text.splitlines()
@@ -43,6 +48,27 @@ def event_names(text):
     return set()
 
 def main():
+    freeze = json.loads(FREEZE.read_text())
+    req(freeze["schema"] == "STAGE32_MB104_INTERMEDIATE_HOSTILE_REAUDIT_FREEZE_V1", "freeze schema")
+    boundary = freeze["retained_boundary_sha"]
+    req(re.fullmatch(r"[0-9a-f]{40}", boundary) is not None, "freeze sha")
+    subprocess.run(["git", "merge-base", "--is-ancestor", boundary, "HEAD"], check=True)
+
+    allowed = set(freeze["allowed_post_boundary_repair_paths"])
+    changed = set(filter(None, git("diff", "--name-only", f"{boundary}..HEAD").splitlines()))
+    unauthorized = changed - allowed
+    req(not unauthorized, f"post-freeze substantive/unapproved paths: {sorted(unauthorized)}")
+
+    # Explicitly include and freeze the isotropic-shell preflight that was appended before d13.
+    base = "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/"
+    for rel, expected in freeze["isotropic_shell_assets"].items():
+        req(git_blob(base + rel) == expected, f"isotropic-shell frozen blob {rel}")
+    req(freeze["scope"]["isotropic_shell_preflight_included"] is True, "isotropic preflight in scope")
+    req(freeze["scope"]["isotropic_shell_execution_result_included"] is False, "no isotropic execution result")
+    req(freeze["scope"]["isotropic_shell_credit"] is False, "no isotropic credit")
+    req(freeze["scope"]["substantive_research_after_boundary_authorized"] is False, "freeze authority")
+    req(all(v is False for v in freeze["firewalls"].values()), "freeze credit firewalls")
+
     inv = json.loads(INV.read_text())
     cls = {k: set(v) for k, v in inv["classifications"].items()}
     req(set(cls) == {"ACTIVE_AUTO", "MANUAL", "RETIRED"}, "classification keys")
@@ -75,6 +101,8 @@ def main():
         req("Lifecycle: RETIRED" in txt, f"retired prose mismatch {rel}")
         req(event_names(txt) == {"workflow_dispatch"}, f"Z40 dispatch-only {rel}")
 
+    # STATE remains the controller selecting the audit leaf. The immutable exact retained
+    # boundary is deliberately kept in the small freeze manifest because STATE is >64 KiB.
     st = json.loads(STATE.read_text())
     req(st["status"] == "FROZEN_FOR_INTERMEDIATE_HOSTILE_REAUDIT_NO_CREDIT", "STATE freeze")
     req(st["next_obligation"]["active_leaf"] == "MB104-INTERMEDIATE-HOSTILE-REAUDIT-REPAIR-CHECKPOINT", "STATE audit leaf")
@@ -84,23 +112,23 @@ def main():
     pm = st["retained_frontier"]["pair_map_audit_repair"]
     req(pm["status"] == "PRE_AUDIT_CORRECTED_ZERO_EXCLUSION_CREDIT_FROZEN_FOR_REAUDIT", "pair-map state status")
     for field in ("restriction_certificate", "restriction_note", "discriminant_certificate", "discriminant_note", "verifier"):
-        path_key = field + "_path"
-        blob_key = field + "_blob"
-        req(git_blob(pm[path_key]) == pm[blob_key], f"pair-map blob lock {field}")
+        req(git_blob(pm[field + "_path"]) == pm[field + "_blob"], f"pair-map blob lock {field}")
 
     r4 = st["retained_frontier"]["shallow_fresh_weapon_portfolio_r4"]
     req(r4["status"] == "POST_FAIL_RETAINED_BUT_FROZEN_PRE_AUDIT_NO_CREDIT", "R4 frozen status")
     for field in ("note", "certificate", "verifier"):
-        path_key = field + "_path"
-        blob_key = field + "_blob"
-        req(git_blob(r4[path_key]) == r4[blob_key], f"R4 blob lock {field}")
+        req(git_blob(r4[field + "_path"]) == r4[field + "_blob"], f"R4 blob lock {field}")
 
     req(all(v is False for v in st["credit_firewall"].values()), "STATE credit firewall")
 
     print("PASS: MB104 intermediate audit lifecycle/controller boundary")
+    print("retained freeze boundary", boundary)
+    print("post-boundary changed paths", sorted(changed))
+    print("all post-boundary paths are bounded audit repairs")
     print(f"workflow inventory total={len(actual)} active={len(cls['ACTIVE_AUTO'])} manual={len(cls['MANUAL'])} retired={len(cls['RETIRED'])}")
     print("MANUAL/RETIRED definitions are dispatch-only")
-    print("STATE frozen and pair-map/R4 source locks exact")
+    print("isotropic-shell preflight included at frozen boundary with zero execution/credit")
+    print("STATE remains frozen; pair-map/R4 source locks exact")
 
 if __name__ == "__main__":
     main()
