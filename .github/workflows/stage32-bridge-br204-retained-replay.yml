@@ -181,6 +181,7 @@ jobs:
         run: |
           python - <<'PY'
           import json
+          import os
           from pathlib import Path
           rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json').read_text())
           t=json.loads(Path('stages/stage32/generalization-bridge/BR204-GENERATION1-FINER-TARGETS.json').read_text())
