@@ -94,6 +94,7 @@ int main(int argc, char** argv) {
     i64 bc_tail_slot_assignment_mass = 0;
     i64 bc_tail_base_states = 0;
     std::size_t raw_index = 0;
+    i64 shard_raw_states = 0;
     for (const auto& [key, R] : raw) {
         std::size_t this_index = raw_index++;
         if ((int)(this_index % (std::size_t)bc_shard_count) != bc_shard_index) continue;
@@ -265,7 +266,7 @@ int main(int argc, char** argv) {
     out << "META\t" << only_b
         << "\t" << d_lo
         << "\t" << d_hi
-        << "\t" << raw.size()
+        << "\t" << shard_raw_states
         << "\t" << bc_assignment_mass
         << "\t" << bc_tail_slot_assignment_mass
         << "\t" << worker_blob
@@ -286,7 +287,7 @@ int main(int argc, char** argv) {
             << dec_i128(cap) << "\t" << dec_i128(tail) << "\n";
     }
     out << "TAIL\t" << bc_tail_base_states
-        << "\t" << ((i64)raw.size() - bc_tail_base_states)
+        << "\t" << (shard_raw_states - bc_tail_base_states)
         << "\t" << bc_tail_slot_assignment_mass
         << "\t" << tail_slot_evaluation_cells
         << "\t" << dec_i128(k8_lgt8_raw_objective)
@@ -305,7 +306,7 @@ int main(int argc, char** argv) {
     req((bool)out, "write failure");
 
     std::cerr << "BR204_B_UNIT_COMPLETE b=" << only_b
-              << " states=" << raw.size()
+              << " states=" << shard_raw_states
               << " assignments=" << bc_assignment_mass
               << " tail_states=" << bc_tail_base_states
               << " Kbins=" << k8_bins.size()
