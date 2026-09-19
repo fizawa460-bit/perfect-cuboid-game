@@ -1,51 +1,310 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "ACTIVE_RETAINED_CHECKPOINT",
-  "current_node": "MB103",
+  "status": "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT",
+  "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
-    "MB102"
+    "MB102",
+    "MB103"
   ],
-  "mb101": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/verify_mb101_normalization_profile.py",
-    "status": "RETAINED_NO_CREDIT",
-    "exact_population_adapter": true,
-    "normalization_profile_adapter": true,
-    "unibranch_176_192_cap_imported": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "restart_boundary": {
+    "base_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "predecessor_pr": 1825,
+    "predecessor_branch": "stage32mb-z33-span5-restart-20260919",
+    "predecessor_retained_boundary": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+    "predecessor_latest_reaudit_status": "FAIL",
+    "predecessor_latest_reaudit_review_node_id": "PRR_kwDOTr52Y88AAAABOWIiSg",
+    "historical_archive_pr": 1791,
+    "historical_archive_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "local_history_copied": false
   },
-  "mb102": {
-    "result": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/RESULT.md",
-    "certificate": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/CERTIFICATE.json",
-    "verifier": "stages/stage32/final-chain/32-03-multibranch/nodes/MB102/verify_mb102_delta_genus.py",
-    "status": "RETAINED_NO_CREDIT",
-    "local_delta_ledger": true,
-    "global_genus_correction": true,
-    "delta_inferred_from_counts": false,
-    "finite_degree_window_proved": false,
-    "receiver_credit": false
+  "retained_frontier": {
+    "pair_map": {
+      "status": "ARCHIVED_PRE_AUDIT_ZERO_EXCLUSION_CREDIT",
+      "support_mask": "000707000f0f",
+      "restriction_certificate_blob": "7b65e7845e0a5028f61afbd85777c541d9eff305",
+      "restriction_note_blob": "186173988d6d3d99839d39b7c6b07863e31ba894",
+      "discriminant_certificate_blob": "3ee982baf491ecce19b1e49707e66e1edacf812f",
+      "discriminant_note_blob": "0e1f7d60276c4e8aa23d1a3236149454cecec7b0",
+      "verifier_blob": "6238d8f6c1977dbe88ff78ade09cb5bc5f4b019b",
+      "result": "all r=1,2,3,4 remain OPEN; no orbit excluded; balanced support count remains 864; Stein/common-vertical correction mandatory"
+    },
+    "r4": {
+      "status": "ARCHIVED_PRE_AUDIT_NO_CREDIT",
+      "note_blob": "7fbe74fbab2a0b4c848a1c5c1910b603f72b0adf",
+      "certificate_blob": "024ac0e4f1b1caed527e01becd60cea41c27409b",
+      "verifier_blob": "df5355623736f188059d0f1c04ce718eef0ef3f6",
+      "result": "shallow portfolio found no deep winner; no finite window or credit"
+    },
+    "isotropic_shell_preflight": {
+      "status": "ARCHIVED_COLD_PREFLIGHT_NO_EXECUTION_NO_CREDIT",
+      "note_blob": "c65e9daa8f29a4ba525742116c9995cdc9cc504d",
+      "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
+      "runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
+      "numerical_execution_completed": false,
+      "result": "four cold Picard64 isotropic shells retained only as predecessor preflight; no current-branch pilot workflow/runkey, no numerical result, zero credit"
+    },
+    "genus7_fibration": {
+      "status": "POST_AUDIT_CONSUMED_EXACT_ARCHIVE_RESULT_ZERO_CREDIT",
+      "source_ref": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GENUS7-FIBRATION-20260920.md",
+      "note_blob": "9f167d28d5945462e436397c1a244133cf6b6a51",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GENUS7-FIBRATION-CERTIFICATE.json",
+      "certificate_blob": "f3b158df6b9105d863d8174340ba1adb075a7f1a",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_genus7_fibration.py",
+      "verifier_blob": "fcfa76f662e9575daef87b2da7042159d972a896",
+      "result": "degree10 improving fibrations are exactly excluded; an explicit primitive basepoint-free genus-7 fibration has H.F=12 and P.F=36; together with Z40B and degree8 exhaustiveness this gives the global fibration minimum P.F=36 on support 000707000f0f",
+      "degree10_improves_40": false,
+      "size768_global_fibration_minimum": 36,
+      "rank3_pairings": [
+        4,
+        4,
+        6,
+        4,
+        4,
+        6
+      ],
+      "current_branch_heavy_execution_required": false
+    },
+    "rank3_fourmap_b3_quotient": {
+      "status": "POST_AUDIT_EXACT_FINITE_ALONG_CARRIER_REDUCTION_ZERO_CREDIT",
+      "source_ref": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+      "source_six_fibration_note_blob": "533757a857887b776d2ad9cdefb5b95133d27df2",
+      "source_full28_verifier_blob": "544c85cd468e84671650adaaee84e59d72333243",
+      "selected_rank3_indices": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "selected_base_blocks_0based": [
+        [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        [
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        [
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        [
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ]
+      ],
+      "explicit_maps": [
+        "f0=[b1:a2:a3]",
+        "f1=[b2:a1:a3]",
+        "f3=[b1:a1:c]",
+        "f4=[b2:a2:c]"
+      ],
+      "omitted_coordinate": "b3",
+      "involution": "sigma_b3: b3 -> -b3",
+      "generic_degree_to_fourmap_image": 2,
+      "nonexceptional_common_contracted_curves": 0,
+      "common_contracted_exceptional_nodes_0based": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "support_mask": "000707000f0f",
+      "support_nodes_0based": [
+        0,
+        1,
+        2,
+        3,
+        8,
+        9,
+        10,
+        11,
+        24,
+        25,
+        26,
+        32,
+        33,
+        34
+      ],
+      "common_contracted_exceptionals_meeting_support": 0,
+      "sigma_support_nodes_0based": [
+        0,
+        1,
+        2,
+        3,
+        8,
+        9,
+        10,
+        11,
+        24,
+        25,
+        27,
+        32,
+        33,
+        35
+      ],
+      "sigma_support_intersection_size": 12,
+      "support_sigma_invariant": false,
+      "P_dot_sigmaP": 400,
+      "carrier_invariant_under_sigma": false,
+      "carrier_to_quotient_generic_degree": 1,
+      "conclusion": "the four-map morphism factors through the b3-sign quotient; its only positive-dimensional contracted locus is the 16 unsupported exceptional curves over b3-fixed nodes, hence it is quasi-finite along every hypothetical carrier C in |lP|; no single-pair Stein/common-vertical correction is imported as solved",
+      "firewalls": {
+        "pair_map_r1_excluded": false,
+        "pair_map_r2_excluded": false,
+        "pair_map_r3_excluded": false,
+        "pair_map_r4_excluded": false,
+        "quotient_carrier_excluded": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
+    },
+    "b3_quotient_collision_accounting": {
+      "status": "POST_AUDIT_EXACT_DOUBLE_COVER_COLLISION_IDENTITY_NO_EXCLUSION_CREDIT",
+      "source_w4_k3_note_ref": "b28adadc95776762754e1415a0ecab0da1d4cd8e",
+      "source_w4_k3_note_blob": "ff61ae6c06549af194b4f1af611c7d4ea46d0dff",
+      "source_w4_root_wall_blob": "b28fbeb260250ec2cb97ee45aaaf1933a886909a",
+      "quotient": "K_b3",
+      "quotient_is_K3": true,
+      "quotient_generic_degree": 2,
+      "pushdown_class": {
+        "name": "Q=q_*P",
+        "H_K_square": 8,
+        "H_K_dot_Q": 112,
+        "Q_square": 736,
+        "support_quotient_node_weights": [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2,
+          1,
+          1
+        ]
+      },
+      "image_curve": {
+        "class": "lQ",
+        "integral": true,
+        "normalization_genus": 1,
+        "arithmetic_genus_formula": "1+368*l^2",
+        "delta_formula": "368*l^2"
+      },
+      "carrier": {
+        "delta_formula": "168*l^2+56*l",
+        "P_dot_sigmaP": 400,
+        "sigma_invariant": false,
+        "quotient_restriction_generic_degree": 1
+      },
+      "branch": {
+        "class": "2H_K",
+        "D_dot_branch_over_l": 224,
+        "pullback_branch_divisor_even": true,
+        "normalization_half_branch_degree_over_l": 112,
+        "meaning": "on the normalization E, the restricted branch section is a square; B|_E=2Z with deg(Z)=112l"
+      },
+      "collision_identity": {
+        "C_dot_sigmaC_formula": "400*l^2",
+        "branch_part_of_C_dot_sigmaC_formula": "112*l",
+        "off_branch_C_dot_sigmaC_formula": "400*l^2-112*l",
+        "quotient_added_delta_formula": "200*l^2-56*l",
+        "check": "(168*l^2+56*l)+(200*l^2-56*l)=368*l^2",
+        "conclusion": "pure arithmetic-genus/double-cover collision accounting is an exact equality and gives no exclusion"
+      },
+      "firewalls": {
+        "quotient_genus_contradiction": false,
+        "finite_l_window": false,
+        "split_branch_condition_excluded": false,
+        "carrier_excluded": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
+    }
   },
   "next_obligation": {
-    "node_id": "MB103",
-    "title": "Aut(S) node-profile quotient and orbit invariants",
-    "required_input": "MB101 node profile plus MB102 resolved landing/delta ledger",
-    "must_preserve": [
-      "48-node exceptional incidence semantics",
-      "branch multiplicities m_ij",
-      "resolved landing partitions",
-      "delta ledger values",
-      "multibranch membership"
+    "node_id": "MB104",
+    "title": "000707 b3 split-branch / conductor compatibility",
+    "active_leaf": "MB104-000707-B3-SPLIT-BRANCH-CONDUCTOR",
+    "required_input": "Exploit the finite b3-sign quotient beyond the now-closed genus-count identity. A carrier forces the K3 image D in |lQ| to have genus-one normalization and the fixed branch divisor B in |2H_K| to restrict as an actual even divisor B|E=2Z, deg Z=112l. Combine this split condition with the retained conductor identity O_E(Delta)=H_E^(3l+1), deg Delta=336l^2+112l, and forbidden conductor support. Test exact Abel/jet/tangency compatibility; do not reuse the arithmetic-genus identity as an obstruction.",
+    "success_shapes": [
+      "exact incompatibility between split branch divisor and conductor/Abel support data",
+      "finite l-window from branch tangency plus conductor jets",
+      "source-complete proof that the split condition is also tautological, with a narrower next route"
+    ],
+    "must_not_repeat": [
+      "claim the quotient arithmetic-genus equality is a contradiction",
+      "treat a single degree-4 pair-map as finite",
+      "search for P.F<36",
+      "arm isotropic-shell heavy compute",
+      "merge or rebase"
     ]
   },
   "routing": {
     "independent_of_full178_execution": true,
     "main_credit_auto_promotion": false,
     "finite_picard_enumeration_released": false,
-    "hostile_audit_target_available": true
+    "hostile_audit_target_available": true,
+    "current_branch_is_compact_audit_restart": true,
+    "predecessor_pr_is_archive_only": true,
+    "substantive_research_append_blocked_until_reaudit_pass": false,
+    "active_pr_number": 1827,
+    "active_branch": "stage32mb-audit-restart-20260920",
+    "latest_audited_exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+    "current_head_reaudit_required": false,
+    "isotropic_shell_pilot_authorized": false,
+    "isotropic_shell_scaleout_authorized": false,
+    "ordinary_mb104_research_released_by_review": 5258058107,
+    "fibration_search_below_36_closed": true,
+    "current_leaf_uses_finite_b3_quotient": true,
+    "single_pair_stein_correction_still_open": true,
+    "fourmap_common_vertical_meets_carrier": false,
+    "b3_quotient_genus_collision_route": "CLOSED_AS_EXACT_EQUALITY",
+    "b3_split_branch_condition_live": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
@@ -57,6 +316,52 @@
     "endpoint_credit": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "audit_freeze": {
+    "substantive_boundary_head": "37e70e06635892ff29970e58f26efec0f498432b",
+    "boundary_semantics": "COMPACT_RESTART_SUBSTANTIVE_CONTENT_FROZEN",
+    "allowed_post_boundary_paths": [
+      "stages/stage32/final-chain/32-03-multibranch/STATE.json",
+      "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
+    ],
+    "post_boundary_changes_must_be_bounded_audit_repairs_only": true
+  },
+  "active_surface": {
+    "pr_number": 1827,
+    "branch": "stage32mb-audit-restart-20260920",
+    "predecessor_archive_pr": 1825,
+    "predecessor_archive_status": "CLOSED_SUPERSEDED",
+    "alternate_open_mb_pr_allowed": false,
+    "command_resolution": "current MB mainbatch/audit surface is PR #1827; closed PR #1825 is source-locked archive only"
+  },
+  "audit_history": {
+    "prior_pass": {
+      "exact_head": "70c2fe772df63362d82df537ea889658eb03f58f",
+      "review_id": 5257816963,
+      "scope": "compact audit restart before later pilot/lifecycle append"
+    },
+    "latest_fail": {
+      "exact_head": "b8596b038a6687bdec8f400d987bd8a680fea018",
+      "review_id": 5257949069,
+      "reason": "post-PASS pilot/lifecycle append exceeded V44 successor-scope contract"
+    },
+    "current_head_inherits_prior_pass": false,
+    "corrected_pass": {
+      "exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+      "review_id": 5258058107,
+      "supersedes_receipt_typo_review_id": 5258024135,
+      "prior_hold_review_id": 5257998935
+    }
+  },
+  "audit_release": {
+    "hostile_audit_status": "PASS",
+    "audited_exact_head": "37727ad09b62c49b49cfb2e1e428b5a2d4826e88",
+    "hostile_audit_review_id": 5258058107,
+    "corrected_prior_hold_review_id": 5257998935,
+    "current_main_at_audit": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "grants": "ORDINARY_MB104_RESEARCH_RESUME_ONLY",
+    "isotropic_shell_execution_authorized": false,
     "merge_authorized": false
   }
 }
