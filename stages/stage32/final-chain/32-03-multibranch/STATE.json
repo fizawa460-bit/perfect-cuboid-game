@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_32_03_MULTIBRANCH_STATE_V1",
   "mission_id": "stage32-32-03-multibranch",
-  "status": "ACTIVE_COMPACT_RESTART_NO_CREDIT",
+  "status": "FROZEN_FOR_INTERMEDIATE_HOSTILE_REAUDIT_NO_CREDIT",
   "current_node": "MB104",
   "completed_retained_nodes": [
     "MB101",
@@ -617,26 +617,49 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-FRESH-WEAPON-PORTFOLIO-R3-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_fresh_weapon_portfolio_r3.py",
       "result": "R3 found no depth winner. Seven-section elliptic syzygies impose only fixed-size conditions, not l-growing obstruction. Canonical-degree/Bogomolov theorem species would be powerful but fail exact hypotheses: S has second Segre -64 and Y is non-lc index3. No l-independent finite receiver was found."
+    },
+    "pair_map_audit_repair": {
+      "status": "PRE_AUDIT_CORRECTED_ZERO_EXCLUSION_CREDIT_FROZEN_FOR_REAUDIT",
+      "support_mask": "000707000f0f",
+      "restriction_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-DEG4-PAIR-MAP-RESTRICTION-CERTIFICATE.json",
+      "restriction_certificate_blob": "7b65e7845e0a5028f61afbd85777c541d9eff305",
+      "restriction_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-DEG4-PAIR-MAP-RESTRICTION-REDUCTION-20260920.md",
+      "restriction_note_blob": "186173988d6d3d99839d39b7c6b07863e31ba894",
+      "discriminant_certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-DEG4-PAIR-MAP-DISCRIMINANT-EXCLUSION-CERTIFICATE.json",
+      "discriminant_certificate_blob": "3ee982baf491ecce19b1e49707e66e1edacf812f",
+      "discriminant_note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-DEG4-PAIR-MAP-DISCRIMINANT-EXCLUSION-20260920.md",
+      "discriminant_note_blob": "0e1f7d60276c4e8aa23d1a3236149454cecec7b0",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_deg4_pair_map_audit_boundary.py",
+      "verifier_blob": "6238d8f6c1977dbe88ff78ade09cb5bc5f4b019b",
+      "result": "all restriction degrees r=1,2,3,4 remain OPEN; excluded orbit count 0; balanced support count remains 864; Stein/common-vertical correction mandatory"
+    },
+    "shallow_fresh_weapon_portfolio_r4": {
+      "status": "POST_FAIL_RETAINED_BUT_FROZEN_PRE_AUDIT_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-FRESH-WEAPON-PORTFOLIO-R4-RESULT-20260920.md",
+      "note_blob": "7fbe74fbab2a0b4c848a1c5c1910b603f72b0adf",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-FRESH-WEAPON-PORTFOLIO-R4-CERTIFICATE.json",
+      "certificate_blob": "024ac0e4f1b1caed527e01becd60cea41c27409b",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_fresh_weapon_portfolio_r4.py",
+      "verifier_blob": "df5355623736f188059d0f1c04ce718eef0ef3f6",
+      "result": "R4 shallow portfolio records no deep winner and zero credit; it was retained after the hostile-audit FAIL and is frozen pending re-audit"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 shallow fresh weapon portfolio R4",
-    "active_leaf": "MB104-SHALLOW-FRESH-WEAPON-PORTFOLIO-R4",
-    "required_input": "Compare at equal shallow depth on 000707: (A) foliation/web tangency inequalities for the six fixed cuboid fibrations considered as a global web, without repeating individual ramification/jet scans; (B) fixed-surface Hilbert/Chow boundedness theorems for integral curves of fixed geometric genus; (C) arithmetic specialization / good-prime finite-field obstruction for the carrier Hilbert problem. Require a visible finite-l coefficient or finite-state receiver before any depth allocation.",
+    "title": "MB104 intermediate hostile re-audit checkpoint",
+    "active_leaf": "MB104-INTERMEDIATE-HOSTILE-REAUDIT-REPAIR-CHECKPOINT",
+    "required_input": "Freeze the corrected retained head. Verify pair-map/discriminant V2 with exact source locks; verify R4 zero-credit retention; obtain exact-head CI and workflow-lifecycle replay; hostile re-audit before any further substantive MB104 research.",
     "success_shapes": [
-      "web tangency/discriminant theorem yields l<=L",
-      "fixed-surface boundedness theorem applies to this exact S or Y and bounds H.C",
-      "good-prime specialization produces an l-uniform contradiction or finite residue-state receiver",
-      "all fail shallowly and rotate again"
+      "hostile re-audit PASS on the corrected exact head, after which shallow top-down research may resume",
+      "hostile re-audit FAIL with bounded repair items only"
     ],
     "must_not_repeat": [
-      "six-map individual ramification or bounded-degree jet scan",
-      "log-tangent route",
-      "32-01 fibration classification",
-      "size48 local analytic chain"
+      "append new substantive MB104 research before hostile re-audit PASS",
+      "promote any pair-map restriction degree or orbit exclusion",
+      "treat R4 as audited credit",
+      "merge or rebase"
     ],
-    "fallback_after_gate": "Record exact no-go reasons and continue top-down rotation; do not deepen the least-bad candidate."
+    "fallback_after_gate": "Repair only the re-audit findings; do not resume research until PASS."
   },
   "routing": {
     "independent_of_full178_execution": true,
@@ -645,7 +668,12 @@
     "hostile_audit_target_available": true,
     "current_branch_is_compact_restart": true,
     "predecessor_pr_is_archive_only": true,
-    "current_branch_head_observed_before_state_sync": "49ee5964e76b07028666564f8209a20ccc21c26f"
+    "current_branch_head_observed_before_state_sync": "0ddb3927a6985e7686322049a873b9ef62828c87",
+    "intermediate_audit_freeze": true,
+    "latest_hostile_audit_fail_head": "8a129c8a48571b8a9a548e92ebc1e77f35bd31ac",
+    "latest_hostile_audit_fail_review_id": "PRR_kwDOTr52Y88AAAABOWFtWQ",
+    "latest_hostile_audit_fail_status": "FAIL",
+    "substantive_research_append_blocked_until_reaudit_pass": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
