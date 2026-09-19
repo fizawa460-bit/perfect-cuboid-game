@@ -114,22 +114,22 @@ def main():
     req("no numerical result" in iso["result"], "isotropic no result")
 
     nxt = d["next_obligation"]
-    req(nxt["active_leaf"] == "MB104-COMPACT-HOSTILE-REAUDIT-RESTART", "audit leaf")
-    req(any("new substantive MB104 mathematics" in x for x in nxt["must_not_repeat"]), "research freeze text")
-    req(any("isotropic-shell heavy compute" in x for x in nxt["must_not_repeat"]), "heavy freeze text")
-
     routing = d["routing"]
     req(routing["current_branch_is_compact_audit_restart"] is True, "compact restart route")
     req(routing["predecessor_pr_is_archive_only"] is True, "predecessor archive only")
-    req(routing["substantive_research_append_blocked_until_reaudit_pass"] is True, "research blocked")
     req(routing["active_pr_number"] == 1827, "routing active PR")
     req(routing["active_branch"] == "stage32mb-audit-restart-20260920", "routing active branch")
-    req(routing["latest_audited_exact_head"] == "70c2fe772df63362d82df537ea889658eb03f58f", "routing last audited head")
-    req(routing["current_head_reaudit_required"] is True, "current-head reaudit")
     req(routing["isotropic_shell_pilot_authorized"] is False, "pilot blocked")
     req(routing["isotropic_shell_scaleout_authorized"] is False, "scaleout blocked")
 
-    if d["status"] == "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT":
+    if d["status"] == "FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT":
+        req(nxt["active_leaf"] == "MB104-COMPACT-HOSTILE-REAUDIT-RESTART", "audit leaf")
+        req(any("new substantive MB104 mathematics" in x for x in nxt["must_not_repeat"]), "research freeze text")
+        req(any("isotropic-shell heavy compute" in x for x in nxt["must_not_repeat"]), "heavy freeze text")
+        req(routing["substantive_research_append_blocked_until_reaudit_pass"] is True, "research blocked")
+        req(routing["latest_audited_exact_head"] == "70c2fe772df63362d82df537ea889658eb03f58f", "routing last audited head")
+        req(routing["current_head_reaudit_required"] is True, "current-head reaudit")
+    elif d["status"] == "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT":
         ar = d["audit_release"]
         req(ar["hostile_audit_status"] == "PASS", "post-audit PASS")
         req(ar["audited_exact_head"] == "37727ad09b62c49b49cfb2e1e428b5a2d4826e88", "post-audit exact head")
@@ -174,7 +174,8 @@ def main():
     print("predecessor retained boundary", EXPECTED["predecessor_boundary"])
     print("pair-map: all r open, no excluded orbit, 864 supports")
     print("R4 and isotropic-shell preflight: archived zero-credit only")
-    print("substantive research and heavy compute remain blocked until hostile-audit PASS")
+    print("mode", d["status"])
+    print("isotropic-shell heavy compute remains blocked; ordinary research follows live STATE")
 
 if __name__ == "__main__":
     main()
