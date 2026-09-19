@@ -100,12 +100,12 @@ for cp in compact do
   Append(~compactToPts, hits[1]);
 end for;
 assert #Seqset(compactToPts) eq 48;
-printf "FIBSHELL_MAP=%o\\n", compactToPts;
+printf "FIBSHELL_MAP=%o\n", compactToPts;
 
 supportCompact := {compact};
 supportPts := [compactToPts[j] : j in supportCompact];
 assert #supportPts eq 14 and #Seqset(supportPts) eq 14;
-printf "FIBSHELL_SUPPORT_PTS=%o\\n", supportPts;
+printf "FIBSHELL_SUPPORT_PTS=%o\n", supportPts;
 
 EsumPic := &+[qPic(Big.(#Cs+j)) : j in supportPts];
 PPic := 7*HinPic - 4*EsumPic;
@@ -225,7 +225,7 @@ for sh in shells do
           if g eq 1 and not F in cands then
             Append(~cands,F);
             zeros := [j : j in [1..bdim] | allpairs[j] eq 0];
-            printf "FIBSHELL_KEEP|%o|%o|%o|%o|%o|%o\\n",
+            printf "FIBSHELL_KEEP|%o|%o|%o|%o|%o|%o\n",
                    e,pf,expectedM,Min(allpairs),zeros,Eltseq(F);
           end if;
         end if;
@@ -233,11 +233,11 @@ for sh in shells do
     end for;
   end if;
 
-  printf "FIBSHELL_SHELL|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o\\n",
+  printf "FIBSHELL_SHELL|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o\n",
          e,pf,expectedM,aa,bb,nrm,pc,rawCount,integralCount,nefCount,#cands;
 end for;
-printf "FIBSHELL_KERNEL_RANK=62\\n";
-printf "FIBSHELL_DONE\\n";
+printf "FIBSHELL_KERNEL_RANK=62\n";
+printf "FIBSHELL_DONE\n";
 """
 
 
@@ -262,7 +262,7 @@ def parse_run(stdout: str, code_sha: str, magma_attempt: int) -> dict:
 
     rows: dict[tuple[int, int], dict] = {}
     shell_re = re.compile(
-        r"^FIBSHELL_SHELL\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(-?\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)$",
+        r"^FIBSHELL_SHELL\|(\d+)\|(\d+)\|(\d+)\|(\d+)\|(\d+)\|(\d+)\|(-?\d+)\|(\d+)\|(\d+)\|(\d+)\|(\d+)$",
         re.M,
     )
     for m in shell_re.finditer(stdout):
@@ -283,7 +283,7 @@ def parse_run(stdout: str, code_sha: str, magma_attempt: int) -> dict:
         }
 
     keep_re = re.compile(
-        r"^FIBSHELL_KEEP\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(-?\\d+)\\|(\\[[^\\n]*\\])\\|(\\[[^\\n]*\\])$",
+        r"^FIBSHELL_KEEP\|(\d+)\|(\d+)\|(\d+)\|(-?\d+)\|(\[[^\n]*\])\|(\[[^\n]*\])$",
         re.M,
     )
     for m in keep_re.finditer(stdout):
@@ -342,7 +342,7 @@ def main() -> None:
     if blob != SOURCE_BLOB:
         raise SystemExit(f"pinned Stoll blob moved: {blob}")
 
-    code = "SetColumns(0);\\nquick := true;\\n" + core + "\\n" + build_extra()
+    code = "SetColumns(0);\nquick := true;\n" + core + "\n" + build_extra()
     code_sha = hashlib.sha256(code.encode()).hexdigest()
     stdout, magma_attempt = run_magma(
         code,
@@ -441,7 +441,7 @@ def main() -> None:
     }
     out["canonical_sha256_without_this_field"] = csha(out)
     Path(args.output).write_text(
-        json.dumps(out, indent=2, sort_keys=True) + "\\n", encoding="utf-8"
+        json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     print(
         json.dumps(
