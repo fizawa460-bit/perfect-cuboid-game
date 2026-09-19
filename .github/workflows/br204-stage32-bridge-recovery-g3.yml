@@ -1,0 +1,354 @@
+name: Stage32 BRIDGE BR204 generation3 recovery
+
+on:
+  push:
+    branches:
+      - stage32bridge-mainbatch
+    paths:
+      - 'stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json'
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+concurrency:
+  group: stage32-bridge-br204-recovery-g3-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json
+  TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json
+  G2_CHECKPOINT: stages/stage32/generalization-bridge/BR204-GENERATION2-RECOVERY-CHECKPOINT.json
+  G2_CHECKPOINT_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation2_recovery_checkpoint.py
+  SHARD_WORKER: stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp
+  BC_COMBINER: stages/stage32/generalization-bridge/combine_br204_bc_shards.py
+  BC64_GROUP_COMBINER: stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py
+  FLAT_RUNNER: stages/stage32/generalization-bridge/run_br204_resumable_bc_shards.py
+  HIER_RUNNER: stages/stage32/generalization-bridge/run_br204_resumable_bc64_hierarchical.py
+  G3_FINALIZER: stages/stage32/generalization-bridge/finalize_br204_generation3_target.py
+  HIER_EQUIV: stages/stage32/generalization-bridge/verify_br204_bc64_hierarchical_equivalence.py
+  AUDITED_WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+  TARGETS_BLOB: 975fadbe0f3ee0dfd7c792be7807c154421dec20
+  G2_CHECKPOINT_BLOB: 8f8cf85df79e31953dffcb563affec638caddd99
+  G2_CHECKPOINT_VERIFIER_BLOB: df9ce800fa8e44b12d6618965c0997897eaeb819
+  SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
+  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
+  BC64_GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
+  FLAT_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
+  HIER_RUNNER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
+  G3_FINALIZER_BLOB: 04f574c4e40d7c6651439f9e7da5d940749b485a
+  HIER_EQUIV_BLOB: 3148a180d4e41d5a2910d373a8c4cae065a0b3c3
+  POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
+  STORAGE_POLICY_BLOB: 69f23db9b280504c1c6c12a58af52182bb052215
+  V45_MAIN: 659ba93b9eba657b49a728f549c6bb6028398e08
+  V45_MAIN_STATE_BLOB: a8f873ffdcaca280f7b57158b69606b3ea496d3c
+  G2_RUN_ID: '35445118788'
+  WORKER_STAMP: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+  CHILD_TIMEOUT_SECONDS: '1200'
+  SOFT_SECONDS: '13500'
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+      - id: auth
+        name: Fail-closed generation3 recovery authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          [ "$BEFORE" != "0000000000000000000000000000000000000000" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" > /tmp/changed.txt
+          grep -Fxq "$RUNKEY" /tmp/changed.txt || exit 0
+          git show "$BEFORE:$RUNKEY" > /tmp/old.json 2>/dev/null || exit 0
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old.json').read_text())
+          cur=json.loads(Path(os.environ['RUNKEY']).read_text())
+          assert old['schema']==cur['schema']=='STAGE32_BR204_RECOVERY_G3_RUNKEY_V1'
+          if not cur['armed']:
+              assert old['generation']==cur['generation']==0
+              assert old['armed'] is False
+              raise SystemExit(0)
+          changed=Path('/tmp/changed.txt').read_text().splitlines()
+          assert changed==[os.environ['RUNKEY']], 'arm commit must be runkey-only'
+          assert old['generation']==0 and old['armed'] is False
+          assert cur['generation']==1 and cur['armed'] is True
+          for k in ('execution','source_locks','storage','credit','recovery_policy'):
+              assert cur[k]==old[k], f'{k} drift in arm commit'
+          assert cur['carry_generation2_run_id']==35445118788
+          assert cur['generation2_execution_head']=='cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029'
+          rp=cur['resource_preflight']
+          assert rp['planned_effective_heavy_concurrency']==15
+          assert rp['repository_stage_concurrency_ceiling']==18
+          observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
+          assert isinstance(observed,int) and 0<=observed<=3
+          assert 15+observed<=18
+          ac=cur['arm_contract']
+          assert ac['audited_doorstep_head']==os.environ['BEFORE']
+          assert isinstance(ac['audited_doorstep_review_id'],int)
+          Path('/tmp/auth.json').write_text(json.dumps({'review':ac['audited_doorstep_review_id'],'parent':os.environ['BEFORE']}))
+          PY
+          [ -f /tmp/auth.json ] || exit 0
+
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$V45_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$V45_MAIN_STATE_BLOB"
+          test "$(git hash-object "$TARGETS")" = "$TARGETS_BLOB"
+          test "$(git hash-object "$G2_CHECKPOINT")" = "$G2_CHECKPOINT_BLOB"
+          test "$(git hash-object "$G2_CHECKPOINT_VERIFIER")" = "$G2_CHECKPOINT_VERIFIER_BLOB"
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$BC64_GROUP_COMBINER")" = "$BC64_GROUP_COMBINER_BLOB"
+          test "$(git hash-object "$FLAT_RUNNER")" = "$FLAT_RUNNER_BLOB"
+          test "$(git hash-object "$HIER_RUNNER")" = "$HIER_RUNNER_BLOB"
+          test "$(git hash-object "$G3_FINALIZER")" = "$G3_FINALIZER_BLOB"
+          test "$(git hash-object "$HIER_EQUIV")" = "$HIER_EQUIV_BLOB"
+          test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "$POLICY_BLOB"
+          test "$(git hash-object docs/research-os/policies/actions-storage-and-evidence-safety.md)" = "$STORAGE_POLICY_BLOB"
+          python "$G2_CHECKPOINT_VERIFIER"
+
+          gh api "repos/$REPO/actions/runs/$G2_RUN_ID" > /tmp/g2run.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/g2run.json'))
+          assert x['head_sha']=='cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029'
+          assert x['status']=='completed' and x['conclusion']=='failure'
+          PY
+          gh api "repos/$REPO/actions/runs/$G2_RUN_ID/artifacts?per_page=100" > /tmp/g2arts.json
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/g2arts.json'))['artifacts']
+          hit=[a for a in x if a['id']==10588869870 and a['name']=='br204-g2-finer-recovery-summary' and not a['expired']]
+          assert len(hit)==1, 'generation2 summary artifact unavailable'
+          PY
+
+          gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
+          hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
+          assert len(hit)==1, 'fresh hostile-audit review/head pair not found'
+          body=hit[0].get('body') or ''
+          assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  runtime:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Compile and verify source-locked generation3 runtime
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$BC64_GROUP_COMBINER")" = "$BC64_GROUP_COMBINER_BLOB"
+          test "$(git hash-object "$FLAT_RUNNER")" = "$FLAT_RUNNER_BLOB"
+          test "$(git hash-object "$HIER_RUNNER")" = "$HIER_RUNNER_BLOB"
+          test "$(git hash-object "$G3_FINALIZER")" = "$G3_FINALIZER_BLOB"
+          python -m py_compile "$BC_COMBINER" "$BC64_GROUP_COMBINER" "$FLAT_RUNNER" "$HIER_RUNNER" "$G3_FINALIZER" "$HIER_EQUIV"
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
+          mkdir -p /tmp/runtime
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$SHARD_WORKER" -o /tmp/runtime/br204-bc-shard-worker
+          cp "$BC_COMBINER" "$BC64_GROUP_COMBINER" "$FLAT_RUNNER" "$HIER_RUNNER" "$G3_FINALIZER" /tmp/runtime/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-g3-runtime
+          path: /tmp/runtime
+          retention-days: 1
+          if-no-files-found: error
+
+  plan:
+    needs: [authorize, runtime]
+    if: needs.runtime.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      target_count: ${{ steps.plan.outputs.target_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - id: plan
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json'))
+          rows=[{'b':int(t['b']),'d':int(t['d']),'mode':t['mode']} for t in x['targets']]
+          assert x['target_count']==69==len(rows)
+          assert len({(r['b'],r['d']) for r in rows})==69
+          assert sum(r['mode']=='RETENTION_REPLAY_FLAT16' for r in rows)==36
+          assert sum(r['mode']=='D148_HIERARCHICAL_BC64' for r in rows)==33
+          print('matrix='+json.dumps(rows,separators=(',',':')))
+          print('target_count=69')
+          PY
+
+  units:
+    name: g3 b${{ matrix.b }} d${{ matrix.d }} ${{ matrix.mode }}
+    needs: [authorize, runtime, plan]
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: br204-g3-runtime
+          path: /tmp/runtime
+      - name: Download generation2 durable partial for hierarchical target
+        if: matrix.mode == 'D148_HIERARCHICAL_BC64'
+        uses: actions/download-artifact@v4
+        with:
+          name: br204-g2-f-b${{ matrix.b }}-d${{ matrix.d }}
+          path: /tmp/resume
+          repository: ${{ github.repository }}
+          run-id: ${{ env.G2_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Execute exact generation3 target
+        id: compute
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x /tmp/runtime/br204-bc-shard-worker
+          if [ "${{ matrix.mode }}" = "RETENTION_REPLAY_FLAT16" ]; then
+            python /tmp/runtime/run_br204_resumable_bc_shards.py \
+              --shard-worker /tmp/runtime/br204-bc-shard-worker \
+              --combiner /tmp/runtime/combine_br204_bc_shards.py \
+              --worker-blob "$WORKER_STAMP" \
+              --b "${{ matrix.b }}" --d "${{ matrix.d }}" \
+              --shard-count 16 --out-dir /tmp/fine \
+              --shard-timeout-seconds "$CHILD_TIMEOUT_SECONDS" --soft-seconds "$SOFT_SECONDS"
+          else
+            python /tmp/runtime/run_br204_resumable_bc64_hierarchical.py \
+              --shard-worker /tmp/runtime/br204-bc-shard-worker \
+              --combiner /tmp/runtime/combine_br204_bc_shards.py \
+              --group-combiner /tmp/runtime/combine_br204_bc64_to_bc16_parent.py \
+              --worker-blob "$WORKER_STAMP" \
+              --b "${{ matrix.b }}" --d "${{ matrix.d }}" \
+              --resume-dir /tmp/resume --out-dir /tmp/fine \
+              --child-timeout-seconds "$CHILD_TIMEOUT_SECONDS" --soft-seconds "$SOFT_SECONDS"
+          fi
+      - name: Validate and compact generation3 checkpoint
+        id: finalize
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ matrix.mode }}" = "RETENTION_REPLAY_FLAT16" ]; then mode=flat16; else mode=hier64; fi
+          python /tmp/runtime/finalize_br204_generation3_target.py \
+            --mode "$mode" --combiner /tmp/runtime/combine_br204_bc_shards.py \
+            --out-dir /tmp/fine --b "${{ matrix.b }}" --d "${{ matrix.d }}" \
+            --worker-blob "$WORKER_STAMP" > /tmp/finalize.json
+          cat /tmp/finalize.json
+          cp /tmp/finalize.json /tmp/fine/GEN3-FINALIZER-STDOUT.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('/tmp/finalize.json'))
+          print('complete='+str(x['complete']).lower())
+          print('persisted_bytes='+str(x['persisted_bytes']))
+          print('stop_reason='+str(x['stop_reason']))
+          PY
+      - name: Upload validated generation3 recovery object
+        uses: actions/upload-artifact@v4
+        if: always() && steps.finalize.outcome == 'success'
+        with:
+          name: br204-g3-f-b${{ matrix.b }}-d${{ matrix.d }}
+          path: /tmp/fine
+          retention-days: 1
+          if-no-files-found: error
+      - name: Require canonical d-slice completion
+        if: always() && (steps.finalize.outcome != 'success' || steps.finalize.outputs.complete != 'true')
+        run: exit 1
+
+  summary:
+    needs: [authorize, plan, units]
+    if: always() && needs.authorize.result == 'success' && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Paginate and reconcile generation3 target artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/all /tmp/out
+          gh api --paginate "repos/$REPO/actions/runs/$RUN_ID/artifacts?per_page=100" \
+            --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/artifacts.tsv
+          while IFS=$'\t' read -r aid name expired; do
+            [ "$expired" = false ] || continue
+            case "$name" in br204-g3-f-*) ;; *) continue ;; esac
+            mkdir -p "/tmp/all/$aid"
+            gh api -H 'Accept: application/vnd.github+json' "repos/$REPO/actions/artifacts/$aid/zip" > "/tmp/a-$aid.zip"
+            unzip -q "/tmp/a-$aid.zip" -d "/tmp/all/$aid"
+          done < /tmp/artifacts.tsv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          targets=json.load(open('stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json'))['targets']
+          expected={(int(x['b']),int(x['d'])):x['mode'] for x in targets}
+          found={}; partial=[]
+          for p in Path('/tmp/all').rglob('GEN3-FINALIZER.json'):
+              x=json.loads(p.read_text()); key=(int(x['b']),int(x['d']))
+              assert key in expected and key not in found, f'duplicate/unexpected {key}'
+              assert x['mode']==('flat16' if expected[key]=='RETENTION_REPLAY_FLAT16' else 'hier64')
+              canonical=(p.parent/f"br204-s-b{key[0]}-d{key[1]}.tsv").is_file()
+              found[key]={'complete':bool(x['complete']),'canonical':canonical,'stop_reason':x['stop_reason'],'persisted_bytes':x['persisted_bytes']}
+              if x['complete']: assert canonical, f'complete target missing canonical {key}'
+              else: partial.append({'b':key[0],'d':key[1],'stop_reason':x['stop_reason']})
+          missing=sorted(set(expected)-set(found))
+          complete=sorted([list(k) for k,v in found.items() if v['complete'] and v['canonical']])
+          out={
+            'schema':'STAGE32_BR204_GENERATION3_RECOVERY_SUMMARY_V1',
+            'generation2_run_id':35445118788,
+            'expected_target_count':69,
+            'validated_target_artifact_count':len(found),
+            'complete_canonical_d_count':len(complete),
+            'partial_target_count':len(partial),
+            'missing_target_count':len(missing),
+            'complete_targets':complete,
+            'partial_targets':partial,
+            'missing_targets':[list(x) for x in missing],
+            'wave_complete':len(complete)==69 and not partial and not missing,
+            'resume_rule':'Never rerun blindly. Carry validated incomplete parent/child payloads and schedule only unfinished exact subunits.',
+            'credit':{'stage32_main':False,'full178_complete':False,'theorem':False,'effectivity':False,'receiver':False,'endpoint':False,'perfect_cuboid':False,'merge':False}
+          }
+          Path('/tmp/out/BR204-G3-RECOVERY-SUMMARY.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-g3-recovery-summary
+          path: /tmp/out/BR204-G3-RECOVERY-SUMMARY.json
+          retention-days: 3
+          if-no-files-found: error
