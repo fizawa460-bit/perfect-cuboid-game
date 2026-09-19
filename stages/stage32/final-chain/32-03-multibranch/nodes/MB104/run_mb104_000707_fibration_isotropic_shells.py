@@ -126,6 +126,8 @@ LKP := LatticeWithGram(pospmKP);
 KPMod := RSpace(Integers(), 62);
 KPtoH := hom<KPMod -> HperpMod | Basis(KP)>;
 ARat := ChangeRing(pospmKP, Rationals());
+pairingGcd := GCD([Abs(Integers()!z) : z in prow | z ne 0]);
+assert pairingGcd gt 0;
 
 function BezoutSolution(row, target)
   coeff := [Integers()!0 : j in [1..#row]];
@@ -163,7 +165,13 @@ for sh in shells do
   // x = aa*F - bb*H lies in H^perp.
   // Its P-pairing is fixed by P.F and P.H=112.
   pc := aa*pf - bb*112;
+  if pc mod pairingGcd ne 0 then
+    printf "FIBSHELL_SHELL|%o|%o|%o|%o|%o|%o|%o|0|0|0|0\n",
+           e,pf,expectedM,aa,bb,nrm,pc;
+    continue;
+  end if;
   vseq, pgcd := BezoutSolution(prow, pc);
+  assert pgcd eq pairingGcd;
   vH := HperpMod!vseq;
   vLH := LH!Eltseq(vH);
 
