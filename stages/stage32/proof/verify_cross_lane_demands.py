@@ -91,7 +91,7 @@ def main():
         "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
     req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "a2462236a1f483b836c8695e23018d5e423fffc7" and
+        "dfcfc56f0f652e2a2a072102ec2d469870ccdcba" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
         "ee755bbfd46f405ca83e4930b354ee63459ad362" and

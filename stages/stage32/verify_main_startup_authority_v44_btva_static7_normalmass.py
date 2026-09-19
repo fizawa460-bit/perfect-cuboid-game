@@ -113,10 +113,10 @@ def main() -> None:
     req(locks["btva_d8_conic_exception"]["blob_sha1"] == CONIC_BLOB, "conic state lock")
     sw = locks["live_specialist_sweep"]
     req(cur["mainbatch_stop_gate"] == "NONE", "historical MAIN stop gate drift")
-    req(cur["research_os_checkpoint_gate"] == "HOSTILE_AUDIT_CHECKPOINT_REQUIRED", "Research OS checkpoint gate drift")
-    req(cur["research_os_checkpoint_audit_status"] == "FAIL_HOLD__PROCESS_COMPATIBILITY_REPAIR_ALLOWED__REAUDIT_REQUIRED", "Research OS checkpoint audit status drift")
-    req(cur["research_os_checkpoint_audit_review_id"] == 5253517625, "Research OS checkpoint review drift")
-    req(cur["research_os_checkpoint_audited_exact_head"] == "639b3fa4b8fa6cb366c64962b25dd45abd52e663", "Research OS checkpoint audited head drift")
+    req(cur["research_os_checkpoint_gate"] == "NONE", "Research OS checkpoint gate drift")
+    req(cur["research_os_checkpoint_audit_status"] == "PASS", "Research OS checkpoint audit status drift")
+    req(cur["research_os_checkpoint_audit_review_id"] == 5253605587, "Research OS checkpoint review drift")
+    req(cur["research_os_checkpoint_audited_exact_head"] == "e1795ad7ad47f45ca46e435dfd204e3bba8d6064", "Research OS checkpoint audited head drift")
     req(cur["latest_main_native_research"] == "V44_BTVA_D8_E12_RATIO_WAVE4_PARTIAL__ZERO_MAIN_CREDIT", "V44 wave4 routing drift")
     w4 = locks["btva_d8_e12_wave4_panel"]
     req(w4["exact_head"] == "01a4ba3ab34df2ece9cf9c3236c7ebe2b3eb54a7", "wave4 exact-head drift")
@@ -127,7 +127,7 @@ def main() -> None:
     req(sw["lane_178_pr"] == 1821 and sw["lane_178_head"] == "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and sw["lane_178_pending_main_handoff"] == "NONE", "178 live observation")
     req(sw["lane_178_latest_audited_exact_head"] == "8a8efc48866f8008d253c21ebd272e698d18dc44" and sw["lane_178_latest_audit_review_id"] == 5245717271, "178 audited-boundary observation")
     req(sw["ex5_pr"] == 1823 and sw["ex5_head"] == "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and sw["ex5_pending_main_handoff"] == "NONE", "EX5 live observation")
-    req(sw["mb_pr"] == 1819 and sw["mb_head"] == "a2462236a1f483b836c8695e23018d5e423fffc7" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
+    req(sw["mb_pr"] == 1819 and sw["mb_head"] == "dfcfc56f0f652e2a2a072102ec2d469870ccdcba" and sw["mb_pending_main_handoff"] == "NONE", "MB live observation")
     req(sw["bridge_pr"] == 1813 and sw["bridge_head"] == "ee755bbfd46f405ca83e4930b354ee63459ad362" and sw["bridge_runkey_generation"] == 1 and sw["bridge_runkey_armed"] is True and sw["bridge_pending_main_handoff"] == "NONE", "BRIDGE live observation")
     req(sw["bridge_latest_audited_doorstep_head"] == "4a84fc8c09bb2ccb35aab965797aeaefd3b6efe8" and sw["bridge_latest_audit_review_id"] == 5247726057, "BRIDGE audited-doorstep observation")
     req(sw["cut_open_successor"] is False and sw["cut_handoff"] == "NONE", "CUT observation")

@@ -97,12 +97,12 @@ jobs:
       - name: Verify V44 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "184be2ea2c0eccad159f789b24a948ae2a627232"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "073a8972be6c30fb859bc2005d1cc3fa8c9ac4e5"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "84db5ac98414883cea9d8c66ee1e5e4bb44e56bd"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "48a30561633c70ce04acb4bad6db9be2ea1c143b"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0898eee11d4090c302015ddd70ad8562513836f8"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "676c9e64b1b0f81276a7cd2023c4edfb1397a78b"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "762ebbc21def5ee22a0285b3ecd0d77633fba587"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
