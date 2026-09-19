@@ -1,0 +1,294 @@
+name: Stage32 BRIDGE BR204 generation2 finer recovery
+
+# Lifecycle: ACTIVE_AUTO — cheap branch-push authorization gate only.
+# Heavy execution is permitted solely by a post-audit runkey-only arm commit.
+on:
+  push:
+    branches:
+      - stage32bridge-mainbatch
+    paths:
+      - 'stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json'
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+concurrency:
+  group: stage32-bridge-br204-finer-g2-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json
+  TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION1-FINER-TARGETS.json
+  SHARD_WORKER: stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp
+  BC_COMBINER: stages/stage32/generalization-bridge/combine_br204_bc_shards.py
+  BC_RUNNER: stages/stage32/generalization-bridge/run_br204_resumable_bc_shards.py
+  BC_FINALIZER: stages/stage32/generalization-bridge/finalize_br204_bc_shard_checkpoint.py
+  AUDITED_WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+  TARGETS_BLOB: 7b1ade20bcb3408bd7d66581033902a54ac90592
+  SHARD_WORKER_BLOB: ee152cccd3eaa6740202036d8d25ffb0d6a0fa84
+  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
+  BC_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
+  BC_FINALIZER_BLOB: 953f70ef3f9396249743f4fdcd68f1990d917b69
+  POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
+  V45_MAIN: 659ba93b9eba657b49a728f549c6bb6028398e08
+  V45_MAIN_STATE_BLOB: a8f873ffdcaca280f7b57158b69606b3ea496d3c
+  SHARD_COUNT: '16'
+  SHARD_TIMEOUT_SECONDS: '1200'
+  SOFT_SECONDS: '13500'
+  RECOVERY_CAP_BYTES: '900000'
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+      - id: auth
+        name: Fail-closed generation2 finer-wave authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          [ "$BEFORE" != "0000000000000000000000000000000000000000" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" > /tmp/changed.txt
+          grep -Fxq "$RUNKEY" /tmp/changed.txt || exit 0
+          git show "$BEFORE:$RUNKEY" > /tmp/old.json 2>/dev/null || exit 0
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old.json').read_text())
+          cur=json.loads(Path(os.environ['RUNKEY']).read_text())
+          schema='STAGE32_BR204_FINER_RECOVERY_G2_RUNKEY_V1'
+          assert old['schema']==cur['schema']==schema
+          if not cur['armed']:
+              assert old['generation']==cur['generation']==0
+              assert old['armed'] is False
+              raise SystemExit(0)
+          changed=Path('/tmp/changed.txt').read_text().splitlines()
+          assert changed==[os.environ['RUNKEY']], 'arm commit must be runkey-only'
+          assert old['generation']==0 and old['armed'] is False
+          assert cur['generation']==1 and cur['armed'] is True
+          for k in ('execution','source_locks','storage','credit','recovery_policy'):
+              assert cur[k]==old[k], f'{k} drift in arm commit'
+          assert cur['carry_generation1_run_id']==35344605175
+          assert cur['generation1_execution_head']=='ee755bbfd46f405ca83e4930b354ee63459ad362'
+          rp=cur['resource_preflight']
+          assert rp['planned_effective_heavy_concurrency']==12
+          observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
+          assert isinstance(observed,int) and 0<=observed<=6
+          assert 12+observed<=18
+          ac=cur['arm_contract']
+          assert ac['audited_doorstep_head']==os.environ['BEFORE']
+          assert isinstance(ac['audited_doorstep_review_id'],int)
+          Path('/tmp/auth.json').write_text(json.dumps({
+              'review':ac['audited_doorstep_review_id'],'parent':os.environ['BEFORE']
+          }))
+          PY
+          [ -f /tmp/auth.json ] || exit 0
+
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$V45_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$V45_MAIN_STATE_BLOB"
+          test "$(git hash-object "$TARGETS")" = "$TARGETS_BLOB"
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$BC_RUNNER")" = "$BC_RUNNER_BLOB"
+          test "$(git hash-object "$BC_FINALIZER")" = "$BC_FINALIZER_BLOB"
+          test "$(git hash-object docs/research-os/policies/heavy-checkpoint-and-resume.md)" = "$POLICY_BLOB"
+
+          gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
+          hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
+          assert len(hit)==1, 'fresh hostile-audit review/head pair not found'
+          body=hit[0].get('body') or ''
+          assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  runtime:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Compile source-locked finer worker
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$BC_RUNNER")" = "$BC_RUNNER_BLOB"
+          test "$(git hash-object "$BC_FINALIZER")" = "$BC_FINALIZER_BLOB"
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
+          mkdir -p /tmp/runtime
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$SHARD_WORKER" -o /tmp/runtime/br204-bc-shard-worker
+          cp "$BC_COMBINER" /tmp/runtime/
+          cp "$BC_RUNNER" /tmp/runtime/
+          cp "$BC_FINALIZER" /tmp/runtime/
+          python -m py_compile /tmp/runtime/combine_br204_bc_shards.py /tmp/runtime/run_br204_resumable_bc_shards.py /tmp/runtime/finalize_br204_bc_shard_checkpoint.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-g2-runtime
+          path: /tmp/runtime
+          retention-days: 1
+          if-no-files-found: error
+
+  plan:
+    needs: [authorize, runtime]
+    if: needs.runtime.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      target_count: ${{ steps.plan.outputs.target_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - id: plan
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('stages/stage32/generalization-bridge/BR204-GENERATION1-FINER-TARGETS.json'))
+          rows=[{'b':int(t['b']),'d':int(t['d']),'band_lo':int(t['band'][0]),'band_hi':int(t['band'][1])} for t in x['targets']]
+          assert x['target_count']==69==len(rows)
+          assert len({(r['b'],r['d']) for r in rows})==69
+          print('matrix='+json.dumps(rows,separators=(',',':')))
+          print('target_count=69')
+          PY
+
+  units:
+    name: finer b${{ matrix.b }} d${{ matrix.d }}
+    needs: [authorize, runtime, plan]
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: br204-g2-runtime
+          path: /tmp/runtime
+      - name: Run exact 16-way BC finer partition
+        id: compute
+        continue-on-error: true
+        run: |
+          chmod +x /tmp/runtime/br204-bc-shard-worker
+          python /tmp/runtime/run_br204_resumable_bc_shards.py             --shard-worker /tmp/runtime/br204-bc-shard-worker             --combiner /tmp/runtime/combine_br204_bc_shards.py             --worker-blob "$AUDITED_WORKER_BLOB"             --b "${{ matrix.b }}" --d "${{ matrix.d }}"             --shard-count "$SHARD_COUNT"             --out-dir /tmp/fine             --shard-timeout-seconds "$SHARD_TIMEOUT_SECONDS"             --soft-seconds "$SOFT_SECONDS"
+
+      - name: Validate finer checkpoint on every outcome
+        id: finalize
+        if: always()
+        run: |
+          set -euo pipefail
+          python /tmp/runtime/finalize_br204_bc_shard_checkpoint.py             --combiner /tmp/runtime/combine_br204_bc_shards.py             --out-dir /tmp/fine --b "${{ matrix.b }}" --d "${{ matrix.d }}"             --shard-count "$SHARD_COUNT" --worker-blob "$AUDITED_WORKER_BLOB"             > /tmp/finalize.json
+          cat /tmp/finalize.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          x=json.load(open('/tmp/finalize.json'))
+          print('upload_safe='+str(x['upload_safe']).lower())
+          print('complete='+str(x['complete']).lower())
+          print('stop_reason='+str(x['stop_reason']))
+          PY
+
+      - name: Upload validated finer recovery object
+        uses: actions/upload-artifact@v4
+        if: always() && steps.finalize.outcome == 'success' && steps.finalize.outputs.upload_safe == 'true'
+        with:
+          name: br204-g2-f-b${{ matrix.b }}-d${{ matrix.d }}
+          path: |
+            /tmp/fine/shards
+            /tmp/fine/BC-SHARD-STATUS.json
+            /tmp/fine/br204-s-b${{ matrix.b }}-d${{ matrix.d }}.tsv
+            /tmp/finalize.json
+          retention-days: 1
+          if-no-files-found: warn
+
+      - name: Require canonical d-slice completion
+        if: always() && (steps.finalize.outcome != 'success' || steps.finalize.outputs.complete != 'true')
+        run: exit 1
+
+  summary:
+    needs: [authorize, plan, units]
+    if: always() && needs.authorize.result == 'success' && needs.plan.result == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Paginate and validate finer-wave artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/all /tmp/out
+          gh api --paginate "repos/$REPO/actions/runs/$RUN_ID/artifacts?per_page=100"             --jq '.artifacts[] | [.id,.name,(.expired|tostring)] | @tsv' > /tmp/artifacts.tsv
+          while IFS=$'\t' read -r aid name expired; do
+            [ "$expired" = false ] || continue
+            case "$name" in br204-g2-f-*) ;; *) continue ;; esac
+            mkdir -p "/tmp/all/$aid"
+            gh api -H 'Accept: application/vnd.github+json' "repos/$REPO/actions/artifacts/$aid/zip" > "/tmp/a-$aid.zip"
+            unzip -q "/tmp/a-$aid.zip" -d "/tmp/all/$aid"
+          done < /tmp/artifacts.tsv
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          targets=json.load(open('stages/stage32/generalization-bridge/BR204-GENERATION1-FINER-TARGETS.json'))['targets']
+          expected={(int(x['b']),int(x['d'])) for x in targets}
+          found={}; partial=[]
+          for p in Path('/tmp/all').rglob('BC-SHARD-STATUS.json'):
+              s=json.loads(p.read_text()); key=(int(s['b']),int(s['d']))
+              assert key in expected and key not in found, f'duplicate/unexpected status {key}'
+              canonical=p.parent/f"br204-s-b{key[0]}-d{key[1]}.tsv"
+              found[key]={'complete':bool(s['complete']),'stop_reason':s['stop_reason'],'completed_shards':s['completed_shards'],'canonical':canonical.is_file()}
+              if not s['complete']: partial.append({'b':key[0],'d':key[1],'stop_reason':s['stop_reason'],'completed_shards':s['completed_shards']})
+              else: assert canonical.is_file(), f'complete target missing canonical slice {key}'
+          missing=sorted(expected-set(found))
+          complete=sorted([list(k) for k,v in found.items() if v['complete'] and v['canonical']])
+          out={
+            'schema':'STAGE32_BR204_GENERATION2_FINER_RECOVERY_SUMMARY_V1',
+            'generation1_run_id':35344605175,
+            'expected_target_count':69,
+            'validated_target_artifact_count':len(found),
+            'complete_canonical_d_count':len(complete),
+            'partial_target_count':len(partial),
+            'missing_target_count':len(missing),
+            'complete_targets':complete,
+            'partial_targets':partial,
+            'missing_targets':[list(x) for x in missing],
+            'wave_complete':len(complete)==69 and not partial and not missing,
+            'resume_rule':'Never rerun this wave blindly. Preserve validated shard artifacts; if incomplete, freeze this summary and design/audit the next carry generation to reuse completed shard IDs only.',
+            'credit':{'stage32_main':False,'full178_complete':False,'theorem':False,'effectivity':False,'receiver':False,'endpoint':False,'perfect_cuboid':False,'merge':False}
+          }
+          Path('/tmp/out/BR204-G2-FINER-RECOVERY-SUMMARY.json').write_text(json.dumps(out,sort_keys=True,indent=2)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-g2-finer-recovery-summary
+          path: /tmp/out/BR204-G2-FINER-RECOVERY-SUMMARY.json
+          retention-days: 3
+          if-no-files-found: error
