@@ -63,14 +63,14 @@ def c3_rep_pair():
     # The two G3 components differ only in the sign of the sqrt(2)a1 +/- b3 equation.
     # Their node supports can be tested without evaluating sqrt(2), because at box nodes
     # the relevant support is recovered from the retained exact equations.
-    import math
-    s=math.sqrt(2)
     outs=[]
-    for e2 in (1,-1):
+    for _e2 in (1,-1):
         ids=[]
         for j,x in enumerate(V):
             a1,a2,a3,b1,b2,b3,c=x
-            ok=(abs(a1+a2)<1e-12 and abs(b1-b2)<1e-12 and abs(s*a1+e2*b3)<1e-12)
+            # On the exact 48-node model, sqrt(2)*a1 +/- b3=0 can hold
+            # in this representative fiber only when a1=b3=0.
+            ok=(a1+a2==0 and b1-b2==0 and a1==0 and b3==0)
             if ok: ids.append(j)
         outs.append(frozenset(ids))
     assert len(outs[0])==4 and outs[0]==outs[1]
