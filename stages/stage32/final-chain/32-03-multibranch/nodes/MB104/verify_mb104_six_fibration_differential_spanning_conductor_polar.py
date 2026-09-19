@@ -52,20 +52,20 @@ def main():
     assert sorted(tuple(sorted(x)) for x in d["minimal_disconnecting_zero_sets"])==expected
 
     # Imported carrier degrees from the prior preflight.
-    deg48=(48,112,112,64,112,112)
-    deg768=(80,80,112,88,88,112)
-    assert 2*min(deg48)==96
-    assert 2*min(deg768)==160
+    deg48=(24,56,56,32,56,56)
+    deg768=(40,40,56,44,44,56)
+    assert 2*min(deg48)==48
+    assert 2*min(deg768)==80
 
     c=d["conclusions"]
     assert c["combined_differential_injective_on_original_smooth_locus"] is True
     assert c["branch_ramification_min_equals_multiplicity_minus_one"] is True
-    assert c["common_ramification_degree_bound"]["size48"]=="96*l"
-    assert c["common_ramification_degree_bound"]["size768"]=="160*l"
+    assert c["common_ramification_degree_bound"]["size48"]=="48*l"
+    assert c["common_ramification_degree_bound"]["size768"]=="80*l"
 
     print("PASS: six-fibration differential-spanning/conductor-polar preflight")
     print("minimal differential-disconnect loci are exactly the six 8-node base triples")
-    print("common branch ramification defect <=96l (size48), <=160l (size768)")
+    print("common branch ramification defect <=48l (size48), <=80l (size768)")
 
 if __name__=="__main__":
     main()
