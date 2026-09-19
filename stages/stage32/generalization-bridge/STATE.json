@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V14_BR204_GENERATION2_COLD_DOORSTEP",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__COLD_DOORSTEP_READY",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__GENERATION3_COLD_DOORSTEP_READY",
   "current_node": "BR204",
-  "active_leaf": "BR204_GENERATION2_COLD_DOORSTEP_AUDIT",
+  "active_leaf": "BR204_GENERATION3_COLD_DOORSTEP_AUDIT",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -162,13 +162,13 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_GENERATION2_COLD_DOORSTEP_AUDIT",
+    "id": "BR204_GENERATION3_COLD_DOORSTEP_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Exact-head retained replay must prove audited generation1 worker byte identity and direct-vs-16-shard canonical equality.",
-      "Lifecycle inventory must include the dedicated generation2 finer-recovery workflow.",
-      "Cold generation2 runkey must remain generation 0 / armed false and produce no heavy compute.",
-      "Fresh hostile audit must bind the unchanged cold exact head before any runkey-only arm commit."
+      "Exact-head retained replay must verify the frozen generation2 recovery checkpoint and its 36 retention-only / 33 d148 hierarchical classification.",
+      "Source locks must bind the generation3 target manifest, BC64-to-BC16 parent combiner, hierarchical runner, compact finalizer, workflow and equivalence verifier.",
+      "Generation3 runkey must remain generation 0 / armed false and lifecycle inventory must classify generation3 recovery ACTIVE_AUTO while generation2 finer recovery is MANUAL.",
+      "Fresh hostile audit must bind the unchanged generation3 cold exact head before any runkey-only arm commit."
     ]
   },
   "transition_policy": {
@@ -356,5 +356,42 @@
     "planned_effective_heavy_concurrency": 15,
     "repository_stage_concurrency_ceiling": 20,
     "maximum_other_stage32_heavy_concurrency_at_arm": 5
+  },
+  "generation2_execution_checkpoint": {
+    "path": "stages/stage32/generalization-bridge/BR204-GENERATION2-RECOVERY-CHECKPOINT.json",
+    "blob": "8f8cf85df79e31953dffcb563affec638caddd99",
+    "run_id": 35445118788,
+    "execution_head": "cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029",
+    "status": "FROZEN_GENERATION2_EXECUTION_RECONCILED__RECOVERY_REQUIRED__ZERO_CREDIT",
+    "reconciled_targets": 69,
+    "compute_complete_but_undurable_cap_reject_count": 36,
+    "durable_partial_bc16_timeout_count": 33,
+    "retained_generation2_parent_bc16": [{"b": 2, "d": 148, "index": 0}],
+    "summary_artifact_id": 10588869870,
+    "summary_raw_json_sha256": "b5a4558d66fbbfe86deb93c6d392b2730a708b4396cbce912640796af4eaacab"
+  },
+  "generation3_recovery_preflight": {
+    "status": "COLD_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_ARM",
+    "targets_path": "stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json",
+    "targets_blob": "975fadbe0f3ee0dfd7c792be7807c154421dec20",
+    "workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g3.yml",
+    "workflow_blob": "5fc7e6040aa03b702b53c6ba990f3359920f6b04",
+    "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json",
+    "runkey_blob": "c5db6eaa834b0e24c07a3307fcdaf27200b99f50",
+    "bc64_to_bc16_parent_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23",
+    "hierarchical_bc64_runner_blob": "ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45",
+    "generation3_finalizer_blob": "04f574c4e40d7c6651439f9e7da5d940749b485a",
+    "hierarchical_equivalence_verifier_blob": "3148a180d4e41d5a2910d373a8c4cae065a0b3c3",
+    "target_count": 69,
+    "retention_replay_flat16_count": 36,
+    "d148_hierarchical_bc64_count": 33,
+    "parent_bc_shard_count": 16,
+    "child_bc_shard_count": 64,
+    "generation3_runkey_generation": 0,
+    "generation3_runkey_armed": false,
+    "planned_effective_heavy_concurrency": 15,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 3,
+    "heavy_compute_authorized": false
   }
 }
