@@ -194,7 +194,7 @@ for sh in shells do
 
   rawCount := 0;
   integralCount := 0;
-  nefCount := 0;
+  nonnegCount := 0;
   cands := [];
 
   if distq ge 0 then
@@ -227,7 +227,7 @@ for sh in shells do
         assert msum eq expectedM;
         allpairs := [(F,gensinPicL[j]) : j in [1..bdim]];
         if Min(allpairs) ge 0 then
-          nefCount +:= 1;
+          nonnegCount +:= 1;
           fseq := [Integers()!z : z in Eltseq(F)];
           g := GCD([Abs(z) : z in fseq]);
           if g eq 1 and not F in cands then
@@ -242,7 +242,7 @@ for sh in shells do
   end if;
 
   printf "FIBSHELL_SHELL|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o|%o\n",
-         e,pf,expectedM,aa,bb,nrm,pc,rawCount,integralCount,nefCount,#cands;
+         e,pf,expectedM,aa,bb,nrm,pc,rawCount,integralCount,nonnegCount,#cands;
 end for;
 printf "FIBSHELL_KERNEL_RANK=62\n";
 printf "FIBSHELL_DONE\n";
@@ -285,9 +285,9 @@ def parse_run(stdout: str, code_sha: str, magma_attempt: int) -> dict:
             "hperp_p_pairing": pc,
             "raw_affine_close_vector_count": raw,
             "integral_picard_class_count": integral,
-            "nef_known140_count": nef,
-            "primitive_nef_candidate_count": kept,
-            "primitive_nef_candidates": [],
+            "known140_nonnegative_count": nef,
+            "primitive_known140_nonnegative_candidate_count": kept,
+            "primitive_known140_nonnegative_candidates": [],
         }
 
     keep_re = re.compile(
@@ -303,7 +303,7 @@ def parse_run(stdout: str, code_sha: str, magma_attempt: int) -> dict:
         zeros = [int(x) for x in ast.literal_eval(zeros_s)]
         if len(coords) != 64:
             raise SystemExit("Picard coordinate length mismatch")
-        row["primitive_nef_candidates"].append(
+        row["primitive_known140_nonnegative_candidates"].append(
             {
                 "picard_basis_coordinates": coords,
                 "minimum_known140_pairing": int(minpair),
@@ -315,13 +315,13 @@ def parse_run(stdout: str, code_sha: str, magma_attempt: int) -> dict:
     if set(rows) != expected:
         raise SystemExit(f"shell coverage mismatch: {sorted(rows)}")
     for row in rows.values():
-        if row["primitive_nef_candidate_count"] != len(row["primitive_nef_candidates"]):
+        if row["primitive_known140_nonnegative_candidate_count"] != len(row["primitive_known140_nonnegative_candidates"]):
             raise SystemExit("candidate count mismatch")
         if not (
             row["raw_affine_close_vector_count"]
             >= row["integral_picard_class_count"]
-            >= row["nef_known140_count"]
-            >= row["primitive_nef_candidate_count"]
+            >= row["known140_nonnegative_count"]
+            >= row["primitive_known140_nonnegative_candidate_count"]
         ):
             raise SystemExit("filter counts are not monotone")
 
@@ -361,15 +361,15 @@ def main() -> None:
     support_result = parse_run(stdout, code_sha, magma_attempt)
 
     total_candidates = sum(
-        sh["primitive_nef_candidate_count"] for sh in support_result["shells"]
+        sh["primitive_known140_nonnegative_candidate_count"] for sh in support_result["shells"]
     )
     deg10_candidates = sum(
-        sh["primitive_nef_candidate_count"]
+        sh["primitive_known140_nonnegative_candidate_count"]
         for sh in support_result["shells"]
         if sh["degree"] == 10
     )
     deg12_candidates = sum(
-        sh["primitive_nef_candidate_count"]
+        sh["primitive_known140_nonnegative_candidate_count"]
         for sh in support_result["shells"]
         if sh["degree"] == 12
     )
@@ -424,9 +424,9 @@ def main() -> None:
         },
         "support": support_result,
         "summary": {
-            "degree10_primitive_nef_candidate_count": deg10_candidates,
-            "degree12_primitive_nef_candidate_count": deg12_candidates,
-            "total_primitive_nef_candidate_count": total_candidates,
+            "degree10_primitive_known140_nonnegative_candidate_count": deg10_candidates,
+            "degree12_primitive_known140_nonnegative_candidate_count": deg12_candidates,
+            "total_primitive_known140_nonnegative_candidate_count": total_candidates,
             "fibration_improvement_shells_numerically_empty_candidate": total_candidates == 0,
             "geometric_effectivity_or_semiampleness_proved": False,
             "global_min_P_dot_F_40_proved": False,
