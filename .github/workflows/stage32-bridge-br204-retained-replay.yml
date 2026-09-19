@@ -38,7 +38,7 @@ env:
   BC_SHARD_WORKER_BLOB: ee152cccd3eaa6740202036d8d25ffb0d6a0fa84
   BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
   BC_EQUIV_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
-  GEN2_PREFLIGHT_BLOB: 3a481b683688553ec73f1c4e193f7e7bc52e6271
+  GEN2_PREFLIGHT_BLOB: 2300477fc205f33ae4ddab81e9f17175114a1319
   BC_RESUME_RUNNER_BLOB: 15dcf1e21979d3de155c57a01f6a5922dddc1ba3
   BC_FINALIZER_BLOB: 953f70ef3f9396249743f4fdcd68f1990d917b69
   FINER_TARGETS_BLOB: 7b1ade20bcb3408bd7d66581033902a54ac90592
@@ -88,7 +88,7 @@ jobs:
           assert all(x['reason']=='SINGLE_D_TIMEOUT_REQUIRES_FINER_PARTITION'
                      for x in cp['exact_hard_stops_with_persisted_status'])
 
-          assert pf['status'].startswith('PREFLIGHT_ONLY__')
+          assert pf['status']=='COLD_EXECUTION_TOPOLOGY_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_GENERATION2__ZERO_CREDIT'
           assert pf['live_main_refresh']['repository_main_head']==os.environ['ACTUAL_V45_MAIN']
           assert pf['live_main_refresh']['main_state_blob']==os.environ['V45_MAIN_STATE_BLOB']
           q=pf['proposed_exact_finer_partition']
