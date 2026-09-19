@@ -1,0 +1,34 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ22_SALVAGE_ADAPTER_RUNKEY_V1",
+  "stage": 32,
+  "generation": 1,
+  "armed": true,
+  "purpose": "salvage all validated HPADJ22 row-band cells from failed production plus completed band7, without new heavy compute",
+  "source_locks": {
+    "adapter_script_blob_sha1": "e61656fa20238e56f42d6848e579d6ac3b98362a",
+    "hpadj22_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "band_worker_blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46",
+    "snapshot_builder_blob_sha1": "52359e8e8074c8bf0db369b49285bf1b927fb33c",
+    "aggregate_blob_sha1": "f8bec24ab6d524aac05eb8cde9979250f260809c",
+    "current_main_state_blob_sha1": "ca613fd51623ee8846369bb4f68507f7a85ba49f"
+  },
+  "evidence": {
+    "production_run_id": 35303482505,
+    "snapshot_artifact_id": 10539776526,
+    "validated_partial_cells": 114,
+    "band7_recovery_run_id": 35336162597,
+    "band7_complete_artifact_id": 10552562060
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 0,
+    "artifact_count_upper_bound": 1,
+    "artifact_bytes_upper_bound": 262144,
+    "retention_days": 3
+  },
+  "firewalls": {
+    "zero_credit": true,
+    "producer_partial_credit_not_overridden": true,
+    "hostile_audit_required": true,
+    "merge_authorized": false
+  }
+}
