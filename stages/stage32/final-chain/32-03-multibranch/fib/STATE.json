@@ -5,7 +5,7 @@
   "command": "stage32mb-fib",
   "status": "READY_FOR_DEDICATED_RESEARCH_PR_NO_CREDIT",
   "consumer_lane": "MB",
-  "purpose": "Auxiliary MB104 fibration/Picard64 producer that can run in parallel without moving or freezing the ordinary MB active leaf.",
+  "purpose": "MB-local auxiliary MB104 fibration/Picard64 producer subroute that can run in parallel without moving or freezing the ordinary MB active leaf.",
   "routing": {
     "ordinary_mb_mainbatch_preloads_this_lane": false,
     "fib_freeze_blocks_mb_mainbatch": false,
@@ -13,7 +13,10 @@
     "main_credit_auto_promotion": false,
     "dedicated_research_pr_required_for_retained_execution": true,
     "one_open_retained_fib_pr_at_a_time": true,
-    "recommended_branch_prefix": "stage32mb-fib-"
+    "recommended_branch_prefix": "stage32mb-fib-",
+    "registered_lane_adapter": false,
+    "claim_dag_lane": false,
+    "cross_lane_demand_identity": "MB"
   },
   "command_modes": {
     "research": {
@@ -124,7 +127,6 @@
     "resume_first": true
   },
   "handoff_contract": {
-    "producer_lane": "MB-FIB",
     "consumer_lane": "MB",
     "required_fields": [
       "producer_pr",
@@ -134,7 +136,8 @@
       "source_population_semantics",
       "result_scope"
     ],
-    "consumer_must_explicitly_accept": true
+    "consumer_must_explicitly_accept": true,
+    "producer_surface": "MB-FIB"
   },
   "credit_firewall": {
     "numerical_shell_credit": false,
