@@ -507,24 +507,31 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z51-SIZE48-EVEN-GORENSTEIN-TYPE-IIA-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z51_size48_even_gorenstein_type_iia.py",
       "result": "Konno classification: exact cover graph is even Gorenstein type (ii.a) with A5 fixed chain, pf=pa=2, pg=3, maximal ideal cycle Z+A5, multiplicity4, embedding dimension4; codimension-two Gorenstein implies local complete intersection"
+    },
+    "z52_size48_quadratic_ci_milnor31": {
+      "status": "PRE_AUDIT_EXACT_LOCAL_CI_NUMERICS_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z52-SIZE48-QUADRATIC-CI-MILNOR31-20260919.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z52-SIZE48-QUADRATIC-CI-MILNOR31-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_z52_size48_quadratic_ci_milnor31.py",
+      "result": "size48 canonical cover is a codim2 ICIS in C4 with both defining equations of order2, tangent cone a (2,2) CI quartic scheme, and Laufer-Steenbrink Milnor number mu=31"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 Z52 size48 quadratic CI tangent-cone preflight",
-    "active_leaf": "MB104-Z52-SIZE48-QUADRATIC-CI-TANGENT-CONE-PREFLIGHT",
-    "required_input": "Use the exact local package mult=4, embdim=4, codim-two Gorenstein complete intersection, together with Z48 j=1728 marked elliptic plumbing. Determine the initial orders and tangent quadratic pencil, then test whether the marked plumbing fixes a finite analytic normal form.",
+    "title": "MB104 Z53 size48 quadratic pencil and equivariant Milnor preflight",
+    "active_leaf": "MB104-Z53-SIZE48-QUADRATIC-PENCIL-AND-EQUIVARIANT-MILNOR-PREFLIGHT",
+    "required_input": "Use the exact type-(ii.a) maximal ideal cycle, (2,2) tangent complete intersection, mu=31, explicit j=1728 endpoint neighborhoods, and canonical mu3 plumbing cover. Determine either the tangent quadratic-pencil degeneration type or the mu3 action on vanishing cohomology sufficiently to compute a downstairs local correction.",
     "success_shapes": [
-      "prove (2,2) initial regular sequence and finite tangent-quadrics classification",
-      "derive an explicit or finite normal-form family compatible with the cuboid marked plumbing",
-      "identify the residual analytic modulus after the quadratic tangent pencil is fixed"
+      "finite/exact tangent quadratic pencil compatible with the marked cuboid plumbing",
+      "exact mu3 character decomposition of Milnor vanishing cohomology",
+      "source-valid local correction exceeding the remaining size48 Z45 margin"
     ],
     "must_not_repeat": [
-      "identify the germ with a Konno sample equation solely by type",
-      "treat weighted canonical model of Z as the local surface equation without adapter",
-      "apply local Euler correction before analytic hypotheses are source-complete"
+      "identify tangent-cone quartic with exceptional cuboid quartic by degree/genus alone",
+      "use total Milnor number as an equivariant correction without deck-character decomposition",
+      "import quotient/lc correction formulas"
     ],
-    "fallback_after_gate": "If tangent quadrics leave moduli, express them in an exact normal form and evaluate the j=1728/attachment constraints."
+    "fallback_after_gate": "If neither pencil nor equivariant Milnor representation is source-determined, name the first missing map from explicit plumbing coordinates to the local CI generators."
   },
   "routing": {
     "independent_of_full178_execution": true,
