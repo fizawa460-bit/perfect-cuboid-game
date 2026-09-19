@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_BR204_RECOVERY_G3_RUNKEY_V1",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "purpose": "Cold generation-3 BR204 recovery. Recompute only 36 generation-2 compute-complete-but-undurable targets with compact complete persistence, and recover only 33 d=148 unfinished BC16 parents through exact BC64 children while carrying validated predecessor parents. Zero mathematical/MAIN credit.",
   "carry_generation2_run_id": 35445118788,
   "generation2_execution_head": "cc8c65a13b806b7c96be23dd9f04cd6bf7ec3029",
@@ -73,12 +73,12 @@
     "planned_effective_heavy_concurrency": 15,
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 3,
-    "observed_other_stage32_heavy_concurrency_at_arm": null
+    "observed_other_stage32_heavy_concurrency_at_arm": 0
   },
   "arm_contract": {
     "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold generation3 doorstep",
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null,
+    "audited_doorstep_head": "f30d33e3992c3bbecb171f14d60086424f017d8c",
+    "audited_doorstep_review_id": 5258072731,
     "fresh_hostile_audit_required": true
   },
   "credit": {
