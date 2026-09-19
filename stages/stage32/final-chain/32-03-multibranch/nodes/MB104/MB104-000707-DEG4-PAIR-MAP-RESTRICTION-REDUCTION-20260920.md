@@ -1,6 +1,6 @@
 # MB104 — 000707 degree-four pair-map restriction-degree reduction — 2026-09-20
 
-Status: PRE-AUDIT EXACT NUMERICAL REDUCTION / ZERO CREDIT / NO MERGE
+Status: PRE-AUDIT NUMERICAL PREFLIGHT / COMMON-VERTICAL CORRECTION OPEN / ZERO CREDIT / NO MERGE
 
 Use the new genus-seven fibration class G and one of the rank-three genus-five fiber classes F with
 
@@ -14,7 +14,7 @@ The product map
 
 pi=(f_G,f_F): S -> P1 x P1
 
-is finite of degree 4.
+is generically finite of degree 4, but not finite on the smooth resolution because common vertical curves are contracted.
 
 Let C be a hypothetical integral MB carrier in |lP| with elliptic normalization, and let D=pi(C).
 Write r for the degree of C -> D. Since pi has degree four,
@@ -82,7 +82,7 @@ Intersecting with H gives
 
 contradiction.
 
-Thus r != 4.
+This does not yet exclude r=4: Q may be supported on common vertical curves contracted by the product map.
 
 ## r=3 is impossible
 
@@ -109,15 +109,11 @@ For every l>=1,
 
 impossible for an effective integral curve.
 
-Therefore r != 3.
+This does not yet exclude r=3: Q may contain common vertical components, so the total divisor cannot be treated as one integral curve without a Stein-factor correction.
 
 ## Remaining cases
 
-Only
-
-r in {1,2}
-
-remain.
+No restriction degree is promoted as excluded until the common-vertical locus is contracted and its correction is bounded.
 
 For reference:
 
@@ -170,3 +166,10 @@ MB104_COMPLETE = false
 THEOREM_CREDIT = false
 ENDPOINT_CREDIT = false
 MERGE_AUTHORIZED = false
+
+
+## Hostile correction
+
+The product map is only generically finite.  All restriction-degree exclusions in this note are
+now treated as conditional numerical signals, not conclusions.  Required next step: exact common
+vertical locus + Stein-factor correction.
