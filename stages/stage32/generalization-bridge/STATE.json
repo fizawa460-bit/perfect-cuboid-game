@@ -162,14 +162,13 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_GENERATION2_FINER_PARTITION_IMPLEMENTATION",
+    "id": "BR204_GENERATION2_COLD_DOORSTEP_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Implement exact 16-way BC shard worker selection and fail-closed shard union.",
-      "Add direct-vs-sharded fixed-(b,d) byte-equivalence regression.",
-      "Make finer-shard recovery durable and missing-shard-only.",
-      "Refresh execution/runkey/workflow source locks to V45 without arming heavy compute.",
-      "Obtain exact-head retained replay SUCCESS and hostile audit PASS before generation-2 arm."
+      "Exact-head retained replay must prove audited generation1 worker byte identity and direct-vs-16-shard canonical equality.",
+      "Lifecycle inventory must include the dedicated generation2 finer-recovery workflow.",
+      "Cold generation2 runkey must remain generation 0 / armed false and produce no heavy compute.",
+      "Fresh hostile audit must bind the unchanged cold exact head before any runkey-only arm commit."
     ]
   },
   "transition_policy": {
@@ -347,6 +346,12 @@
     "bc_shard_combiner_blob": "efcbcc3e2b31604acea8f83bbf9524e5180e5139",
     "resumable_bc_shard_runner_blob": "15dcf1e21979d3de155c57a01f6a5922dddc1ba3",
     "equivalence_verifier_blob": "e77d033dd375b7a2db319b647d45d56354b9b2b8",
-    "implementation_status": "PRIMITIVES_IMPLEMENTED__HEAVY_WORKFLOW_INTEGRATION_OPEN__CI_AND_AUDIT_REQUIRED"
+    "implementation_status": "COLD_FINER_RECOVERY_WORKFLOW_READY__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_ARM",
+    "finer_recovery_workflow_path": ".github/workflows/br204-stage32-bridge-finer-recovery.yml",
+    "finer_recovery_workflow_blob": "e81360aff130a50b27c58c5874af1e20cda7a8e8",
+    "finer_recovery_runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-finer-recovery-g2.json",
+    "finer_recovery_runkey_blob": "c161125755fdb8850263790e9630f07738f1c9de",
+    "generation2_runkey_generation": 0,
+    "generation2_runkey_armed": false
   }
 }
