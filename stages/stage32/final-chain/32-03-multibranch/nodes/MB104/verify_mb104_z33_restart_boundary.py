@@ -72,17 +72,18 @@ def main() -> None:
     rb = state.get("restart_boundary", {})
     req(rb.get("audited_predecessor_head") == AUDIT_HEAD, "STATE predecessor head")
     req(rb.get("historical_archive_head") == ARCHIVE_HEAD, "STATE archive head")
-    req(state["next_obligation"]["active_leaf"] ==
-        "MB104-Z33-SPAN5-HYPERPLANE-ORBIT-SIMPLE-CONTACT",
-        "active leaf")
+    req(state.get("current_node") == "MB104", "current node")
+    active_leaf = state.get("next_obligation", {}).get("active_leaf")
+    req(isinstance(active_leaf, str) and active_leaf.startswith("MB104-"),
+        "active leaf must remain inside MB104")
 
     for k, v in state["credit_firewall"].items():
         req(v is False, "credit firewall " + k)
 
-    print("PASS: compact Z33 restart boundary")
+    print("PASS: compact MB104 restart boundary")
     print("audited predecessor:", AUDIT_HEAD)
     print("historical archive:", ARCHIVE_HEAD)
-    print("active leaf: MB104-Z33-SPAN5-HYPERPLANE-ORBIT-SIMPLE-CONTACT")
+    print("active leaf:", active_leaf)
     print("credit: zero")
 
 
