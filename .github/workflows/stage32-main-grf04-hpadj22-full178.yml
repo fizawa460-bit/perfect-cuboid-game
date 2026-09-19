@@ -75,9 +75,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json)" = "d154b3cff576c2d5a2853be88e77cf6d195e7490"
           carry="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["predecessor_run_id"]))')"
-          sed -i '$d' "$GITHUB_OUTPUT"
           echo "run=true" >> "$GITHUB_OUTPUT"
-          sed -i '$d' "$GITHUB_OUTPUT"
           echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
 
   parents:
