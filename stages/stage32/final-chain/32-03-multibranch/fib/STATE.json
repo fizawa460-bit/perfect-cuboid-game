@@ -24,8 +24,8 @@
       "rule": "Continue the dedicated MB-FIB producer STATE/PR. Do not mutate ordinary MB active-leaf state."
     },
     "audit": {
-      "invocation": "stage32mb-fib 監査",
-      "rule": "Audit only the exact head frozen in this lane's audit target. If no exact target is frozen, fail closed."
+      "invocation": "stage32mb-fib-audit",
+      "rule": "Audit only the exact head frozen in this subroute's audit target. If no exact target is frozen, fail closed."
     }
   },
   "active_surface": {
@@ -152,5 +152,6 @@
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
-  }
+  },
+  "audit_command": "stage32mb-fib-audit"
 }
