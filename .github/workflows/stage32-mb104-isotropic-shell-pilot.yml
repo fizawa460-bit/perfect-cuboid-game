@@ -67,7 +67,7 @@ jobs:
           k=json.loads(Path(key).read_text())
           s=json.loads(Path(state).read_text())
           assert k["schema"]=="STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1"
-          assert k["generation"]==1 and k["mode"]=="PILOT" and k["armed"] is True
+          assert k["generation"]==2 and k["mode"]=="PILOT" and k["armed"] is True
           assert k["leaf"]=="MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PILOT"
           assert k["pilot"]["shell_index"]==0 and k["pilot"]["measured"] is False
           assert k["execution_gate"]["pilot_only"] is True
@@ -104,11 +104,11 @@ jobs:
               old=json.loads(p.stdout)
               assert int(new["generation"])>int(old["generation"])
           else:
-              assert int(new["generation"])==1
+              assert int(new["generation"])>=1
           PY
           fi
-          sed -i '$d' "$GITHUB_OUTPUT"
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
 
   pilot-shell0:
     name: MB104 isotropic shell0 pilot
