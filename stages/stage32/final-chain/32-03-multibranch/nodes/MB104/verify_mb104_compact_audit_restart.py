@@ -242,7 +242,42 @@ def main():
         req(routing["anti_invariant_conductor_first_jet_live"] is True, "anti-invariant jet route live")
         req(routing["box_surface_functions_are_sheet_blind"] is True, "box sheet blindness")
         req(routing["f7_second_section_not_a_sheet_detector"] is True, "f7 sheet firewall")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-ANTI-INVARIANT-CONDUCTOR-FIRST-JET", "post-audit active leaf")
+        aw=d["retained_frontier"]["anti_invariant_conductor_source_wall"]
+        req(aw["source_ambient_theta_note_blob"] == "de6e17164f0478703bd98f49cd5cd25639753849", "anti-invariant theta source")
+        req(aw["source_post_conductor_reaudit_blob"] == "4d931b66f2c0bae598ec70bddc6cca110c435413", "post-conductor re-audit source")
+        req(aw["route_disposition"] == "PARK_UNTIL_NEW_ANTI_INVARIANT_MARKED_LIFT_DATA", "anti-invariant source wall")
+        req(all(x is False for x in aw["firewalls"].values()), "anti-invariant wall firewalls")
+
+        z12=d["retained_frontier"]["z12_current_main_btva_adapter_check"]
+        req(z12["current_main_observed"] == "da573f048a82a63e459be1343fb002e663b60875", "Z12 current-main observation")
+        req(z12["main_btva_preflight_blob"] == "68108dfb110c4ea1d9dc0d74564a431bbbffbbde", "MAIN BTVA source")
+        req(z12["exact_adapter_exists"] is False, "Z12 adapter mismatch")
+        req(z12["firewalls"]["main_btva_credit_imported"] is False, "no MAIN BTVA import")
+
+        sc=d["retained_frontier"]["support_hyperplane_subcanonical_bridge"]
+        req(sc["source_complete_null_locus_note_blob"] == "4bf6e651755183d5d5856b7cc3706839f4fe9880", "subcanonical null-locus source")
+        req(sc["source_big_nef_note_blob"] == "30885461425a725a5ad8b928686aef0b91d60b89", "subcanonical big-nef source")
+        req(sc["source_z33g_gluing_note_blob"] == "14c1661c5a3b1975474c1f983ed08b29c2150731", "subcanonical Z33G source")
+        req(sc["source_conductor_regularitiy_preflight_blob"] == "ed97e80bdae255d68e2684bc805a3d229ee2f26e", "conductor regularity source")
+        support=set(sc["support_nodes_0based"])
+        incidence=set(sc["incidence16_nodes_0based"])
+        omitted=set(sc["omitted_incidence_nodes_0based"])
+        req(incidence-support == omitted == {27,35}, "incidence/support omitted nodes")
+        req(sc["hyperplane_section_on_canonical_surface"] == "2QA+2QB", "size768 doubled quartic section")
+        rd=sc["resolution_divisor"]
+        req(rd["effective_decomposition"] == "2QA+2QB+E27+E35", "effective D decomposition")
+        req(rd["H_dot"] == 16 and rd["square"] == -12 and rd["P_dot"] == 0, "D numerics")
+        req(sc["carrier"]["class"] == "C=lP" and sc["carrier"]["C_dot_D"] == 0 and sc["carrier"]["disjoint_from_D"] is True, "carrier disjoint D")
+        req(sc["exact_restriction_identities"] == ["O_C(D)=O_C","P=3H+4D","O_C(P)=O_C(3H)","O_C(C)=O_C(3lH)","omega_C=O_C((3l+1)H)"], "subcanonical identities")
+        req(sc["firewalls"]["carrier_H_subcanonical"] is True, "H-subcanonical exact")
+        req(sc["firewalls"]["carrier_ACM_proved"] is False and sc["firewalls"]["projective_image_AG_proved"] is False, "ACM/AG firewall")
+
+        req(routing["anti_invariant_conductor_first_jet_live"] is False, "anti-invariant no longer live")
+        req(routing["anti_invariant_conductor_route"] == "PARKED_BOUNDED_SOURCE_WALL", "anti-invariant parked")
+        req(routing["z12_current_main_btva_adapter_available"] is False, "Z12 MAIN adapter absent")
+        req(routing["H_polarized_subcanonical_bridge_exact"] is True, "subcanonical bridge routing")
+        req(routing["ACM_section_ring_gate_live"] is True, "ACM gate live")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-H-POLARIZED-ACM-SECTION-RING-PREFLIGHT", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
