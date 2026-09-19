@@ -172,8 +172,8 @@ jobs:
 
   summarize:
     name: FULL178 generation recovery summary
-    needs: parents
-    if: always() && needs.authorize.result == 'success'
+    needs: [authorize, parents]
+    if: always() && needs.authorize.result == 'success' && needs.authorize.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     outputs:
