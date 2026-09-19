@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_RETAINED_V1",
+  "stage": 32,
+  "status": "RETAINED_EXACT_SELECTOR_ZERO_CREDIT",
+  "target": {
+    "row_id": "g0-d008",
+    "row_index": 23,
+    "g": 0,
+    "d": 8,
+    "e": 12,
+    "selected_count": 16
+  },
+  "execution": {
+    "workflow_run_id": 35352460285,
+    "exact_head": "4cf1c825a90c587de2df41e10b297de0c5a07850",
+    "artifact_id": 10550415817,
+    "artifact_name": "stage32-main-btva-e12-ratio-directed-selector",
+    "artifact_digest_sha256": "a4f0bb3c8b31ba3b5d5415dc0a4e5a261b596d537134f3007685d5bec4cf4dfd",
+    "artifact_canonical_sha256": "0440d0474f5840f748424b373c2cdf31a018353d1c4a1fbbd55700ba5241dd68"
+  },
+  "baseline": {
+    "top16_exact_qbin_row_floor": 448261,
+    "top16_tightening_candidate": 170
+  },
+  "selected_base4_in_order": [
+    [3,2,4,2],[4,2,2,2],[3,3,3,3],[3,3,4,4],
+    [3,4,3,5],[4,3,3,3],[2,3,4,4],[4,3,4,4],
+    [4,4,3,5],[3,4,2,4],[2,4,4,4],[4,4,2,4],
+    [3,2,4,4],[3,4,4,4],[4,2,3,3],[4,2,4,2]
+  ],
+  "hypothetical_if_all_selected_unsat": {
+    "row_floor": 444329,
+    "additional_tightening_beyond_top16": 3932,
+    "total_tightening_vs_hpadj21_baseline": 4102,
+    "selected_raw_terminal_mass": 591480,
+    "selected_hpadj21_predomain_overlap_terminal_mass": 576693
+  },
+  "selection_semantics": {
+    "rule": "Greedy maximize exact rational HPADJ21 objective decrease after retained top16 exact-qbin removal; tie by integer floor decrease, exact HPADJ predomain overlap mass, raw e12 mass, then base4.",
+    "selector_is_not_unsat_proof": true,
+    "hypothetical_floor_requires_all_selected_keys_to_later_prove_btva_unsat": true,
+    "prior_hpadj08_removed_identity_handled_adversarially": true,
+    "no_statistical_independence_assumed": true,
+    "no_additive_subtraction_used": true
+  },
+  "source_locks": {
+    "selector_script_blob_sha1": "4160b8cf04e41ed467a04d481779a49928f0376c",
+    "qbin_retained_blob_sha1": "35b94bf7aa6635130938327eb316e4cf6fc30495",
+    "qbin_retained_canonical_sha256": "f264f0f57e0e566227928ce5359cf4698f951764423a88a60421571ebfa6f72e"
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}

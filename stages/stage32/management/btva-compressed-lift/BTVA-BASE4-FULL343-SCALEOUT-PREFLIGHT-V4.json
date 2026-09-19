@@ -1,0 +1,107 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_BASE4_FULL343_SCALEOUT_PREFLIGHT_V4",
+  "stage": 32,
+  "status": "EXECUTION_SCALEOUT_PREFLIGHT_PASS_ZERO_CREDIT",
+  "retained_pilot": {
+    "run_id": 35315823446,
+    "head": "bf3b7d7c61c83d0219946111d7bea3df1070d230",
+    "artifact_id": 10535880646,
+    "artifact_name": "stage32-main-btva-base4-full343-v3-diagnostic",
+    "artifact_size_bytes": 29055,
+    "shard_index": 0,
+    "shard_canonical_sha256": "17605f8743e556b64d2a4e66fb204f3ed0c1a9c8df41384416aa3cce86ad8362",
+    "shard_json_size_bytes": 22609,
+    "summary": {
+      "key_count": 43,
+      "unsat_base4_fibers": 32,
+      "unknown_base4_fibers": 11,
+      "compatible_sat_base4_fibers": 0,
+      "static7_keys_covered_by_unsat_fibers": 3616,
+      "terminal_mass_covered_by_unsat_fibers": 143397
+    },
+    "unknown_reason_histogram": {
+      "timeout": 11
+    },
+    "completed_shards": [
+      0
+    ],
+    "reusable_completed_shards": 1
+  },
+  "target": {
+    "row_id": "g0-d008",
+    "degree": 8,
+    "exceptional_mass": 8,
+    "normal_mass": 112,
+    "base4_key_count": 343,
+    "x4_values_per_base4": 113,
+    "static7_key_count": 38759,
+    "terminal_mass": 1278934
+  },
+  "resume_plan": {
+    "carry_run_id": 35315823446,
+    "carry_artifact_name": "stage32-main-btva-base4-full343-v3-diagnostic",
+    "validate_carried_canonical_and_cross_shard_source_locks": true,
+    "completed_shards": [
+      0
+    ],
+    "missing_shards": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "recompute_completed_shards": false,
+    "aggregate_only_after_exact_shard_union": true
+  },
+  "execution": {
+    "solver": "Z3_QF_LIA",
+    "solver_timeout_ms_per_key": 1500,
+    "max_flat_cuts_per_key": 16,
+    "logical_shards": 8,
+    "effective_heavy_concurrency": 1,
+    "production_wave_targets": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "checkpoint_per_base4": true,
+    "repository_stage_concurrency_ceiling": 18
+  },
+  "storage": {
+    "measured_pilot_artifact_bytes": 29055,
+    "projected_eight_shard_bundle_bytes_under": 4194304,
+    "repository_budget_bytes": 524288000,
+    "retention_days": 1,
+    "compact_json_only": true
+  },
+  "source_locks": {
+    "worker_blob_sha1": "63321a54f565b2da38efbef756caf8db148f0063",
+    "aggregator_blob_sha1": "d7099df483bfd12b71969ec2ae7ce7b36534122a",
+    "base4_bounded_worker_blob_sha1": "29114c0cd8a2c604d24b2a9ad3418fc2b5200171",
+    "census_receipt_canonical_sha256": "b975417fe28296a53f7877e9a02ce230a8852dfbc26fe29c428aeddff209719c",
+    "conic_separation_blob_sha1": "75d384c194c678ff6158ea793e943bce91741bb8",
+    "lane178_head": "e60f03cf5105bc6e26cb4615acabd6fe0c07625c",
+    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
+    "authority_bound": "157570677819451133507"
+  },
+  "firewalls": {
+    "scaleout_success_is_main_pruning_credit": false,
+    "known_32_plane_conics_closed_for_d8": true,
+    "all140_effective_pairing_semantics_promoted": false,
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_D8_V43_HPADJ21_SCOPE_CORRECTION_AND_E12_CENSUS_V3",
+  "stage": 32,
+  "status": "RETAINED_SCOPE_CORRECTION_E12_CENSUS_AND_TOP16_EXACT_UNSAT_ZERO_CREDIT",
+  "purpose": "Correct the e=8/HPADJ21 scope mismatch, retain the smallest structurally admitted e=12 compressed census, and retain a bounded top16 exact retained-basis Picard/all140 UNSAT pilot. No direct HPADJ21 row-floor replacement is authorized.",
+  "supersedes": {
+    "v1_blob_sha1": "3cfaf3fe61ffac17094202818cfed40f003fb73e",
+    "v2_blob_sha1": "386a3f8f9e279ebd9608d7ac21a47715b1a964fc",
+    "invalidated_v1_interpretation": "BTVA e=8 survivor mass may directly replace the HPADJ21 g0-d008 row floor by min.",
+    "authority_was_changed_by_prior_versions": false
+  },
+  "hpadj21": {
+    "producer_pr": 1818,
+    "producer_head": "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
+    "row_worker_blob_sha1": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "row": {
+      "row_id": "g0-d008",
+      "row_index": 23,
+      "g": 0,
+      "d": 8,
+      "hpadj21_floor": 448431,
+      "row_canonical_sha256": "4e5083f1977ca78f8616712f111ee7ff5d7a5bc740888a430b988efb05bc298d"
+    },
+    "predomain": {
+      "lower_formula_contains": "max(legacy,K,d-4*g+4,M,M+max(0,qneed))",
+      "structural_lower_d_minus_4g_plus_4": 12,
+      "e8_admitted": false,
+      "e12_smallest_even_structurally_admitted": true,
+      "cell_specific_lower_may_exceed_12": true
+    }
+  },
+  "e12_census": {
+    "workflow_run_id": 35348878768,
+    "exact_head": "f5ab00db2c2a6b0e0308a1c3cf80bff090bb52e2",
+    "artifact_id": 10549345031,
+    "artifact_digest_sha256": "280e282a66d0068d62950009d1dfdc5578c3b73348c4f7c26196b39c532aae52",
+    "artifact_canonical_sha256": "5b2d1b6d09e1c3fd9f4e86b4125ed392d0dfaadf10c6f139b8693f5ba30e8e0a",
+    "exceptional_state_count": 164282,
+    "x4_value_count": 93,
+    "terminal_count": 15278226,
+    "base4_key_count": 1415,
+    "static7_key_count": 131595,
+    "full_terminal_materialization_performed": false,
+    "top16_terminal_mass": 1248525,
+    "top16_fraction_of_raw_slice": "1248525/15278226"
+  },
+  "e12_top16_retained_basis_pilot": {
+    "workflow_run_id": 35349505981,
+    "exact_head": "31f26d4c8eea2ca4bdfb3037b57942de172dce23",
+    "workflow_blob_sha1": "220fa4c4a85302c4f84ce19886227422253d53fc",
+    "artifact_id": 10548626955,
+    "artifact_name": "stage32-main-btva-d8-e12-basis-pairing-top16",
+    "artifact_digest_sha256": "952d7c6eacbb87817dbfebabdd11860ffe8a748ffa8412bd14bc6d37fbf706b6",
+    "artifact_canonical_sha256": "88b9963c68907f656639577c1699a8124f8f27ad534bf350d9ac70e04bf71d3a",
+    "algorithm_reference_blob_sha1": "cba3a0d797ffcc829ef24922830c83afd83d982e",
+    "selected_base4_count": 16,
+    "selected_terminal_mass": 1248525,
+    "unsat_base4_count": 16,
+    "unsat_terminal_mass": 1248525,
+    "compatible_sat_base4_count": 0,
+    "compatible_sat_terminal_mass": 0,
+    "unknown_base4_count": 0,
+    "unknown_terminal_mass": 0,
+    "max_lazy_flat_cut_count": 0,
+    "all_unsat_on_first_solver_check": true,
+    "coordinate_change": {
+      "variables": "64 retained-basis curve pairings u=Gram*x",
+      "gram_determinant_abs": 268435456,
+      "gram_hnf_membership_modulus": 8,
+      "gram_hnf_active_congruence_rows": 23,
+      "gram_lattice_membership_exact_for_integral_picard64": true
+    },
+    "semantics": {
+      "all140_nonnegativity_used_as_d8_necessary_condition": true,
+      "known_plane_conic_exception_separated_by_d8_degree": true,
+      "unsat_safe_only_within_selected_e12_raw_compressed_slice": true,
+      "no_effectivity_credit": true
+    }
+  },
+  "composition": {
+    "direct_min_with_hpadj21_row_floor_authorized": false,
+    "additive_subtraction_from_hpadj21_floor_authorized": false,
+    "reason": "The e=12 BTVA pilot classifies a raw compressed slice. HPADJ21 448431 is a post-constraint row upper bound formed from cell/profile LPs across admitted e; exact overlap must be mapped before any current-authority tightening.",
+    "next_load_bearing_step": "derive exact BTVA-to-HPADJ21 cell/profile population overlap and rerun or tighten the same row optimization; do not scale raw-slice UNSAT credit directly"
+  },
+  "authority": {
+    "v43_global_upper_bound": "157570677819451133507",
+    "authority_changed": false,
+    "additional_main_pruning_credit": 0
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "additive_subtraction_authorized": false
+  },
+  "canonical_sha256_without_this_field": "53e9dd57501b4ed10cd1a60e172c7ac1e255eba46a7b4d592847ba5387a2341d"
+}

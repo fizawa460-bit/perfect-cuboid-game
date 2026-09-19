@@ -15,7 +15,9 @@ REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
 MONITOR_BLOB = "2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
 MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
-BOUND = 157570677819451133507
+BOUND = 138652739800650593494
+V43_BOUND = 157570677819451133507
+V44_TIGHTENING = 18917938018800540013
 V41_BOUND = 179119009547804181594
 V42_TIGHTENING = 21548331728353048087
 
@@ -62,7 +64,7 @@ def main():
     req(mon["credit_firewall"]["monitor_observation_is_mathematical_credit"] is False,
         "monitor observation credit firewall")
 
-    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V43_HPADJ21_FULL178_BOUND_AUDIT_SYNCED",
+    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
         "MAIN state schema")
     f = st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
@@ -73,28 +75,40 @@ def main():
         "V42 tightening")
     req(f["v42_replacement_head_hostile_audited"] is True, "V42 hostile audit not synced")
     req(f["v43_audit_sync_additional_pruning"] == 0, "V43 added pruning")
+    req(f["predecessor_v43_authoritative_remaining_terminals"] == V43_BOUND, "V43 predecessor authority")
+    req(f["v44_hpadj22_main_numeric_bound_replacement_consumed"] is True, "V44 replacement not consumed")
+    req(f["v44_hpadj22_candidate_main_credit"] is True, "V44 MAIN credit")
+    req(f["v44_hpadj22_candidate_tightening_vs_hpadj21"] == str(V44_TIGHTENING), "V44 tightening")
+    req(f["v44_replacement_head_hostile_audited"] is True, "V44 replacement audit not synced")
+    req(f["v44_replacement_head_audited_exact_head"] == "142b50757b345971218c953db6a15ddd09974172", "V44 audited head")
+    req(f["v44_replacement_head_hostile_audit_review_id"] == 5254793258, "V44 audit review")
+    req(f["v45_audit_sync_additional_pruning"] == 0, "V45 added pruning")
     req(f["full178_numerical_census_complete"] is False, "FULL178 overclaim")
 
     req(st["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
     req(st["current"]["next_exact_route"] ==
         "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS", "MAIN next route")
     req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,
-        "replacement audit firewall still armed")
+        "replacement hostile re-audit gate still armed")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == "37bb811b95399d73cc46fe899badcfa8eb5fca7d",
+    req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
         "repository main observation")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
-        "e60f03cf5105bc6e26cb4615acabd6fe0c07625c" and
+        "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and
         sweep["lane_178_pending_main_handoff"] == "NONE", "178 observation")
-    req(sweep["ex5_pr"] == 1818 and sweep["ex5_head"] ==
-        "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2" and
-        sweep["ex5_pending_main_handoff"] == "NONE__CONSUMED_BY_V42", "EX5 observation")
-    req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "ebbbeacd73500866569f93e94983912a52e18c70" and
+    req(sweep["ex5_pr"] == 1823 and sweep["ex5_head"] ==
+        "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
+        sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
+    req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
+        "81ac5f243c08fb7c16a2b7cb2f09653fff78f65e" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
+    req(sweep["mb_latest_audited_exact_head"] ==
+        "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
+        sweep["mb_latest_audit_review_id"] == 5254494158,
+        "MB audited predecessor observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "b5d687711d74cbfe8a0c5135dae8162988a40f9a" and
+        "ee755bbfd46f405ca83e4930b354ee63459ad362" and
         sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
@@ -106,8 +120,8 @@ def main():
                 "merge_authorized"):
         req(st["firewalls"][key] is False, f"firewall {key}")
 
-    print("PASS: Stage32 MAIN V43 audit sync clears the V42 replacement stop gate with zero new pruning")
-    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations are current for this checkpoint")
+    print("PASS: Stage32 MAIN V45 audit-sync records hostile-audited V44 HPADJ22 authority with zero new pruning")
+    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB P6B head with zero MAIN credit")
     print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
 
 

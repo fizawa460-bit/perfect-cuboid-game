@@ -88,7 +88,9 @@ def main() -> None:
     req(isinstance(stored_state_canon, str) and canon(state) == stored_state_canon,
         "current MAIN state canonical drift")
     req(state["current_exact_frontier"]["authoritative_remaining_terminals"] ==
-        157570677819451133507, "current MAIN authority drift")
+        138652739800650593494, "current MAIN authority drift")
+    req(state["current_exact_frontier"]["predecessor_v43_authoritative_remaining_terminals"] ==
+        157570677819451133507, "V43 preflight source authority drift")
     req(state["current_exact_frontier"]["full178_numerical_census_complete"] is False,
         "FULL178 completion overclaim")
     req(state["firewalls"]["merge_authorized"] is False, "merge firewall")

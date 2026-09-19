@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V43 synchronizes hostile-audit PASS for V42 HPADJ21 numerical replacement; zero new pruning and FULL178 research resumed.
+# Current boundary: V45 process-sync of hostile-audited V44 HPADJ22 numerical MAIN authority; zero new pruning.
 on:
   pull_request:
     paths:
@@ -50,6 +50,55 @@ jobs:
           test "$(git -C .stage32-v42 hash-object stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py)" = "52940cf924cc239584a7d1cb39b55fdc9c9d9289"
           test "$(git -C .stage32-v42 hash-object stages/stage32/verify_main_startup.py)" = "7f2d8f1c84db40a33afaea43326a38395491715c"
 
+      - name: Checkout hostile-audited merged V43 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2
+          path: .stage32-v43
+          fetch-depth: 1
+
+      - name: Assert fixed V43 boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v43 rev-parse HEAD)" = "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2"
+          test "$(git -C .stage32-v43 hash-object stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
+          test "$(git -C .stage32-v43 hash-object stages/stage32/verify_main_startup.py)" = "a1ea5681a516ec2b0b405c086af810790b5e7e45"
+          test "$(git -C .stage32-v43 hash-object stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py)" = "ad96a89ed52598b6d4f12c12ef63a119aa0dd961"
+          test "$(git -C .stage32-v43 hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
+          test "$(git -C .stage32-v43 hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
+
+      - name: Checkout hostile-audited V44 HPADJ22 candidate boundary
+        uses: actions/checkout@v4
+        with:
+          ref: e24488f1394abae25d9b0f9d099c8efd84e03a2a
+          path: .stage32-v44-candidate
+          fetch-depth: 1
+
+      - name: Assert fixed V44 HPADJ22 candidate boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v44-candidate rev-parse HEAD)" = "e24488f1394abae25d9b0f9d099c8efd84e03a2a"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/MAIN-STATE.json)" = "bb37bee4d433921e4bbdb2a9fdd5b74042b3282f"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/verify_main_startup.py)" = "3af851faed82912e4fb138bce8779435b6e76f80"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
+          test "$(git -C .stage32-v44-candidate hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json)" = "60ca65208b774cc79c646c46c6780e7028a29845"
+
+      - name: Checkout hostile-audited V44 HPADJ22 replacement boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 142b50757b345971218c953db6a15ddd09974172
+          path: .stage32-v44-replacement
+          fetch-depth: 1
+
+      - name: Assert fixed V44 HPADJ22 replacement boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v44-replacement rev-parse HEAD)" = "142b50757b345971218c953db6a15ddd09974172"
+          test "$(git -C .stage32-v44-replacement hash-object stages/stage32/MAIN-STATE.json)" = "cd9273321afc95f4861a78873ef4ef1393849390"
+          test "$(git -C .stage32-v44-replacement hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
+          test "$(git -C .stage32-v44-replacement hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
+          test "$(git -C .stage32-v44-replacement hash-object stages/stage32/verify_main_startup.py)" = "c8b90c33c31f212e05837421f9ce975b1b605fba"
+
       - name: Checkout live 178 compressed-Picard source
         uses: actions/checkout@v4
         with:
@@ -73,25 +122,34 @@ jobs:
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "37bb811b95399d73cc46fe899badcfa8eb5fca7d"
+          test "$current_main" = "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
           test "$merge_base" = "$current_main"
           git merge-base --is-ancestor "$current_main" HEAD
 
-      - name: Verify V43 retained source identities
+      - name: Verify V45 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "232732e29f72b55c34d540bf1c7cfcc4a626851c"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "a1ea5681a516ec2b0b405c086af810790b5e7e45"
-          test "$(git hash-object stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py)" = "ad96a89ed52598b6d4f12c12ef63a119aa0dd961"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "9460290b475c7d08622fd94c21782133d40ac6cd"
+          test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "1043197ba322a1b0529e248e02be36725735cd34"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8e55c5026ab7d3ea9b7c390d5d2562562d396c10"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
           test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
           test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
           test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "68108dfb110c4ea1d9dc0d74564a431bbbffbbde"
-          test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "f483ae0d6fa53d286289b53d4f4ace3929bfe023"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "8787d03e273513298c5d8ecfbc469f89342817f3"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json)" = "60ca65208b774cc79c646c46c6780e7028a29845"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json)" = "c4c94fc8e2b45ee51660fe3665160fde98659056"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py)" = "1dc8650e8bf1029828c7971411c9bcb5212e040b"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json)" = "75d384c194c678ff6158ea793e943bce91741bb8"
 
       - name: Set up pinned Python
         uses: actions/setup-python@v5
@@ -101,10 +159,19 @@ jobs:
       - name: Replay hostile-audited V42 authority projection
         run: python .stage32-v42/stages/stage32/verify_main_startup.py
 
-      - name: Verify V43 audit synchronization against exact V42 source
-        run: python stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py --v42-root .stage32-v42
+      - name: Replay hostile-audited merged V43 boundary
+        run: python .stage32-v43/stages/stage32/verify_main_startup.py
 
-      - name: Verify Stage32 MAIN startup projection
+      - name: Replay hostile-audited V44 HPADJ22 candidate boundary
+        run: python .stage32-v44-candidate/stages/stage32/verify_main_startup.py
+
+      - name: Replay hostile-audited V44 HPADJ22 replacement boundary
+        run: python .stage32-v44-replacement/stages/stage32/verify_main_startup.py
+
+      - name: Verify V45 HPADJ22 audit sync against audited V44 root
+        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py --v44-root .stage32-v44-replacement
+
+      - name: Verify Stage32 MAIN V45 audit-sync startup projection
         run: python stages/stage32/verify_main_startup.py
 
       - name: Verify Stage32 cross-lane coordination
@@ -124,7 +191,1719 @@ jobs:
           python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
           python stages/stage32/proof/verify_stage32_active_frontier.py
 
-      - name: Enforce V43 process-sync scope
+      - name: Gate V44 BTVA all140 receiver nonnegativity diagnostic
+        id: btva_all140_receiver_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA all140 receiver diagnostic dependencies
+        if: steps.btva_all140_receiver_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA all140 receiver nonnegativity diagnostic
+        if: steps.btva_all140_receiver_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py)" = "1dc8650e8bf1029828c7971411c9bcb5212e040b"
+          python stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --output "$RUNNER_TEMP/btva-all140-receiver-nonnegativity.json"
+
+      - name: Validate V44 BTVA all140 receiver diagnostic
+        if: steps.btva_all140_receiver_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-all140-receiver-nonnegativity.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_ALL140_RECEIVER_NONNEGATIVITY_DIAGNOSTIC_V1"
+          assert p["target"]["degree"]==8
+          assert p["reconstruction"]["all140_count"]==140
+          assert p["reconstruction"]["target_degree_equal_row_count"]==0
+          assert p["receiver_semantics"]["all140_nonnegativity_is_necessary_for_d8_integral_curve_receiver"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"status":p["status"],"reconstruction":p["reconstruction"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA all140 receiver diagnostic
+        if: steps.btva_all140_receiver_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-all140-receiver-nonnegativity
+          path: ${{ runner.temp }}/btva-all140-receiver-nonnegativity.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 timeout rescue top16
+        id: btva_d8_rescue_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 timeout rescue dependencies
+        if: steps.btva_d8_rescue_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 timeout rescue top16
+        if: steps.btva_d8_rescue_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py)" = "f7268058ec2124a90f161c34cc94287dff64f843"
+          python stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 5000 \
+            --max-flat-cuts 32 \
+            --output "$RUNNER_TEMP/btva-d8-timeout-rescue-top16.json"
+
+      - name: Validate V44 BTVA d8 timeout rescue top16
+        if: steps.btva_d8_rescue_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-timeout-rescue-top16.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_TIMEOUT_RESCUE_TOP16_V1"
+          assert p["target"]["selected_terminal_mass"]==128029
+          assert p["summary"]["selected_count"]==16
+          assert p["summary"]["candidate_d8_survivor_terminal_mass_after_rescue"]<=248374
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 timeout rescue top16
+        if: steps.btva_d8_rescue_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-timeout-rescue-top16
+          path: ${{ runner.temp }}/btva-d8-timeout-rescue-top16.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 timeout rescue round2
+        id: btva_d8_rescue_r2_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 timeout rescue round2 dependencies
+        if: steps.btva_d8_rescue_r2_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 timeout rescue round2
+        if: steps.btva_d8_rescue_r2_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py)" = "979131845585d73c3e4caacde9aa71b4162fab90"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json)" = "e1c4b0e04fa7f291cdbb42b3aafd62c869f47220"
+          python stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 10000 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-d8-timeout-rescue-round2.json"
+
+      - name: Validate V44 BTVA d8 timeout rescue round2
+        if: steps.btva_d8_rescue_r2_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-timeout-rescue-round2.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_TIMEOUT_RESCUE_ROUND2_V1"
+          assert p["target"]["selected_terminal_mass"]==111079
+          assert p["summary"]["selected_count"]==14
+          assert p["summary"]["candidate_d8_survivor_terminal_mass_after_round2"]<=231424
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 timeout rescue round2
+        if: steps.btva_d8_rescue_r2_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-timeout-rescue-round2
+          path: ${{ runner.temp }}/btva-d8-timeout-rescue-round2.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 static Picard HNF diagnostic
+        id: btva_d8_static_hnf_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 static Picard HNF dependencies
+        if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 static Picard HNF diagnostic
+        if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py)" = "19fbf7ebfc15d8c9b69d14f26c0615096b2964c5"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json)" = "e1c4b0e04fa7f291cdbb42b3aafd62c869f47220"
+          python stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py \
+            --lane178-root .stage32-178-btva-source \
+            --output "$RUNNER_TEMP/btva-d8-static-picard-hnf.json"
+
+      - name: Validate V44 BTVA d8 static Picard HNF diagnostic
+        if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-static-picard-hnf.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_STATIC7_PICARD_IMAGE_HNF_DIAGNOSTIC_V1"
+          assert p["target"]["source_after_r1_survivor_terminal_mass"]==231424
+          assert p["summary"]["candidate_d8_survivor_terminal_mass_after_static_picard_hnf"]<=231424
+          assert p["certificate"]["rule_exact_for_linear_picard_lattice_extendability"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          print(json.dumps({"summary":p["summary"],"certificate":{k:p["certificate"][k] for k in ("membership_modulus","active_congruence_rows","image_lattice_index_in_Zm")},"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 static Picard HNF diagnostic
+        if: steps.btva_d8_static_hnf_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-static-picard-hnf
+          path: ${{ runner.temp }}/btva-d8-static-picard-hnf.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 residual-block Picard HNF diagnostic
+        id: btva_d8_residual_hnf_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 residual-block HNF dependencies
+        if: steps.btva_d8_residual_hnf_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 residual-block Picard HNF diagnostic
+        if: steps.btva_d8_residual_hnf_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py)" = "f616f5ea428c76e558c2c94cab0169c7cd19ac76"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json)" = "5fae19f1aec2eff43e47aea137f512d0a87a11e1"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json)" = "4330fde6607c5119806ed114b45362e9790dc247"
+          python stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py \
+            --lane178-root .stage32-178-btva-source \
+            --output "$RUNNER_TEMP/btva-d8-residual-block-picard-hnf.json"
+
+      - name: Validate V44 BTVA d8 residual-block Picard HNF diagnostic
+        if: steps.btva_d8_residual_hnf_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-residual-block-picard-hnf.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_RESIDUAL_BLOCK_PICARD_HNF_DIAGNOSTIC_V1"
+          assert p["target"]["source_survivor_terminal_mass"]==231424
+          assert p["target"]["source_base4_survivor_count"]==86
+          assert p["certificate"]["rule_exact_for_linear_picard_lattice_extendability"] is True
+          assert p["summary"]["candidate_d8_survivor_terminal_mass_after_residual_picard_hnf"]<=231424
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"certificate":{k:p["certificate"][k] for k in ("membership_modulus","active_congruence_rows","image_lattice_index_in_Zm")},"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 residual-block Picard HNF diagnostic
+        if: steps.btva_d8_residual_hnf_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-residual-block-picard-hnf
+          path: ${{ runner.temp }}/btva-d8-residual-block-picard-hnf.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 exceptional support-only diagnostic
+        id: btva_d8_support_only_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 exceptional support-only dependencies
+        if: steps.btva_d8_support_only_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 exceptional support-only diagnostic
+        if: steps.btva_d8_support_only_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py)" = "822aa6e9497ab6c1d1c7fd5bea02a7e4c4b1133d"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json)" = "8f111c209b8863419b190702cfe40fe26ea43407"
+          python stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py \
+            --solver-timeout-ms 5000 \
+            --max-flat-cuts 256 \
+            --output "$RUNNER_TEMP/btva-d8-exceptional-support-only.json"
+
+      - name: Validate V44 BTVA d8 exceptional support-only diagnostic
+        if: steps.btva_d8_support_only_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-exceptional-support-only.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_EXCEPTIONAL_SUPPORT_ONLY_DIAGNOSTIC_V1"
+          assert p["target"]["source_base4_survivor_count"]==86
+          assert p["target"]["source_terminal_mass"]==231424
+          assert p["summary"]["candidate_d8_survivor_terminal_mass_after_support_only_filter"]<=231424
+          assert p["semantics"]["support_only_unsat_is_safe_receiver_rejection"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 exceptional support-only diagnostic
+        if: steps.btva_d8_support_only_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-exceptional-support-only
+          path: ${{ runner.temp }}/btva-d8-exceptional-support-only.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA d8 retained-basis pairing pilot
+        id: btva_d8_basis_pairing_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install V44 BTVA d8 retained-basis pairing dependencies
+        if: steps.btva_d8_basis_pairing_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA d8 retained-basis pairing pilot
+        if: steps.btva_d8_basis_pairing_gate.outputs.run == 'true'
+        run: |
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py)" = "cba3a0d797ffcc829ef24922830c83afd83d982e"
+          python stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 2000 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-d8-retained-basis-pairing-pilot.json"
+
+      - name: Validate V44 BTVA d8 retained-basis pairing pilot
+        if: steps.btva_d8_basis_pairing_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-d8-retained-basis-pairing-pilot.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_RETAINED_BASIS_PAIRING_PILOT_V1"
+          assert p["target"]["selected_terminal_mass"]==111079
+          assert len(p["target"]["base4_indices"])==14
+          assert p["coordinate_change"]["all140_pairings_reconstructed_as_integral_class_coordinates_times_u"] is True
+          assert p["coordinate_change"]["gram_lattice_membership_exact_for_integral_picard64"] is True
+          assert p["summary"]["unsat_terminal_mass"]+p["summary"]["compatible_sat_terminal_mass"]+p["summary"]["unknown_terminal_mass"]==111079
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"coordinate_change":{k:p["coordinate_change"][k] for k in ("gram_determinant_abs","gram_hnf_membership_modulus","gram_hnf_active_congruence_rows")},"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA d8 retained-basis pairing pilot
+        if: steps.btva_d8_basis_pairing_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-d8-retained-basis-pairing-pilot
+          path: ${{ runner.temp }}/btva-d8-retained-basis-pairing-pilot.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA normalmass bounded runkey
+        id: btva_normalmass_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json"
+          if [ ! -f "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_STATIC7_NORMALMASS_RUNKEY_V1"
+          assert p["generation"]==1
+          assert p["armed"] is True
+          assert p["row_id"]=="g0-d008"
+          assert p["degree"]==8 and p["exceptional_mass"]==8 and p["normal_mass"]==112
+          assert p["authority_bound"]=="157570677819451133507"
+          assert p["zero_credit"] is True
+          assert p["merge_authorized"] is False
+          PY
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 BTVA bounded solver dependencies
+        if: steps.btva_normalmass_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA static7 normalmass bounded panel
+        if: steps.btva_normalmass_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 10000 \
+            --max-flat-cuts 32 \
+            --output "$RUNNER_TEMP/btva-static7-normalmass-panel.json"
+
+      - name: Validate V44 BTVA normalmass zero-credit result
+        if: steps.btva_normalmass_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-static7-normalmass-panel.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_STATIC7_NORMALMASS_BOUNDED_PANEL_V1"
+          assert p["target"]["normal_mass"]==112
+          assert p["target"]["exceptional_mass"]==8
+          assert p["decision_problem"]["all140_pairings_nonnegative"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["known_32_plane_conics_closed"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":p["canonical_sha256_without_this_field"]},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA normalmass bounded evidence
+        if: steps.btva_normalmass_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-static7-normalmass-bounded-panel
+          path: ${{ runner.temp }}/btva-static7-normalmass-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA static7 key census runkey
+        id: btva_key_census_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json"
+          if [ ! -f "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_STATIC7_KEY_CENSUS_RUNKEY_V1"
+          assert p["generation"]==1
+          assert p["armed"] is True
+          assert p["row_id"]=="g0-d008"
+          assert p["degree"]==8 and p["exceptional_mass"]==8
+          assert p["authority_bound"]=="157570677819451133507"
+          assert p["zero_credit"] is True
+          assert p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py)" = "111796cc524925487b3ff8e8c6e651a89efc0339"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Run V44 BTVA static7 exact key census
+        if: steps.btva_key_census_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py \
+            --output "$RUNNER_TEMP/btva-static7-key-census.json"
+
+      - name: Validate V44 BTVA static7 key census
+        if: steps.btva_key_census_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-static7-key-census.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_STATIC7_KEY_CENSUS_V1"
+          assert p["target"]["row_id"]=="g0-d008"
+          assert p["target"]["terminal_count"]==1278934
+          assert p["factorization"]["full_terminal_materialization_performed"] is False
+          assert p["factorization"]["reconstructed_terminal_mass"]==1278934
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({
+              "base4_keys":len(p["base4_keys"]),
+              "static7_keys":p["factorization"]["static7_key_count"],
+              "canonical":p["canonical_sha256_without_this_field"]
+          },sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA static7 key census
+        if: steps.btva_key_census_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-static7-key-census
+          path: ${{ runner.temp }}/btva-static7-key-census.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA base4 bounded runkey
+        id: btva_base4_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json"
+          if [ ! -f "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_NORMALMASS_RUNKEY_V1"
+          assert p["generation"]==1
+          assert p["armed"] is True
+          assert p["row_id"]=="g0-d008"
+          assert p["degree"]==8 and p["exceptional_mass"]==8 and p["normal_mass"]==112
+          assert p["authority_bound"]=="157570677819451133507"
+          assert p["zero_credit"] is True
+          assert p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py)" = "29114c0cd8a2c604d24b2a9ad3418fc2b5200171"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 BTVA base4 solver dependencies
+        if: steps.btva_base4_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 BTVA base4 normalmass bounded panel
+        if: steps.btva_base4_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 10000 \
+            --max-flat-cuts 32 \
+            --output "$RUNNER_TEMP/btva-base4-normalmass-panel.json"
+
+      - name: Validate V44 BTVA base4 zero-credit result
+        if: steps.btva_base4_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-base4-normalmass-panel.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_NORMALMASS_BOUNDED_PANEL_V1"
+          assert p["target"]["base4_total_population"]==343
+          assert p["target"]["x4_values_per_base4"]==113
+          assert p["target"]["terminal_total_population"]==1278934
+          assert p["decision_problem"]["x4_existential"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":p["canonical_sha256_without_this_field"]},sort_keys=True))
+          PY
+
+      - name: Upload V44 BTVA base4 bounded evidence
+        if: steps.btva_base4_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-normalmass-bounded-panel
+          path: ${{ runner.temp }}/btva-base4-normalmass-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 BTVA full343 runkey
+        id: btva_full343_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json"
+          before="${{ github.event.before }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          if [ ! -f "$runkey" ] || [ -z "$before" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$before" || true
+          if ! git cat-file -e "$before^{commit}" 2>/dev/null; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only "$before" "$head")"
+          if [ "$changed" != "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$before" "$runkey" <<'PY' > /tmp/full343-auth.json
+          import json,subprocess,sys
+          before,path=sys.argv[1:]
+          cur=json.load(open(path))
+          old=json.loads(subprocess.check_output(["git","show",f"{before}:{path}"],text=True))
+          assert cur["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_RUNKEY_V1"
+          assert old["schema"]==cur["schema"]
+          assert old["generation"]==0 and old["armed"] is False
+          assert cur["generation"]==1 and cur["armed"] is True
+          assert cur["carry_run_id"] is None
+          assert cur["target_shards"]==list(range(8))
+          assert cur["execution"]==old["execution"]
+          assert cur["source_locks"]==old["source_locks"]
+          assert cur["source_locks"]["preflight_blob_sha1"]=="3d5bcd158ad784f746fe47fe54816527ef63c8d4"
+          assert cur["source_locks"]["worker_blob_sha1"]=="30ed066431e47105faf5aff3d8dea18d5e418d51"
+          assert cur["source_locks"]["aggregator_blob_sha1"]=="d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          assert cur["source_locks"]["repository_main_head"]=="83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          assert cur["source_locks"]["authority_bound"]=="157570677819451133507"
+          assert cur["execution"]["effective_concurrency"]==1
+          assert cur["execution"]["logical_shards"]==8
+          assert cur["execution"]["solver_timeout_ms_per_key"]==1500
+          assert cur["execution"]["max_flat_cuts_per_key"]==16
+          assert cur["zero_credit"] is True
+          assert cur["merge_authorized"] is False
+          print(json.dumps({"run":True,"targets":cur["target_shards"]},sort_keys=True))
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json)" = "3d5bcd158ad784f746fe47fe54816527ef63c8d4"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "30ed066431e47105faf5aff3d8dea18d5e418d51"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py)" = "d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+      - name: Install V44 full343 solver dependencies
+        if: steps.btva_full343_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 full343 exact shards sequentially
+        id: btva_full343_run
+        if: steps.btva_full343_gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/btva-full343-shards
+          for shard in 0 1 2 3 4 5 6 7; do
+            out="/tmp/btva-full343-shards/btva-base4-full343-shard-$shard.json"
+            python stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --lane178-root .stage32-178-btva-source \
+              --shard-index "$shard" \
+              --shard-count 8 \
+              --solver-timeout-ms 1500 \
+              --max-flat-cuts 16 \
+              --output "$out"
+            test "$(stat -c %s "$out")" -le 262144
+          done
+
+      - name: Preserve V44 full343 shard bundle
+        if: always() && steps.btva_full343_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-shards
+          path: /tmp/btva-full343-shards
+          retention-days: 1
+          compression-level: 9
+          if-no-files-found: warn
+
+      - name: Aggregate V44 full343 exact coverage
+        if: steps.btva_full343_gate.outputs.run == 'true' && steps.btva_full343_run.conclusion == 'success'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py \
+            --input-dir /tmp/btva-full343-shards \
+            --output "$RUNNER_TEMP/BTVA-BASE4-FULL343-AGGREGATE.json"
+          test "$(stat -c %s "$RUNNER_TEMP/BTVA-BASE4-FULL343-AGGREGATE.json")" -le 524288
+
+      - name: Upload V44 full343 parent result
+        if: steps.btva_full343_gate.outputs.run == 'true' && steps.btva_full343_run.conclusion == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-parent
+          path: ${{ runner.temp }}/BTVA-BASE4-FULL343-AGGREGATE.json
+          retention-days: 3
+          compression-level: 9
+          if-no-files-found: error
+
+      - name: Gate V44 BTVA full343 V2 pilot runkey
+        id: btva_full343_v2_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json"
+          before="${{ github.event.before }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          if [ ! -f "$runkey" ] || [ -z "$before" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$before" || true
+          if ! git cat-file -e "$before^{commit}" 2>/dev/null; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only "$before" "$head")"
+          if [ "$changed" != "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$before" "$runkey" <<'PY' > /tmp/full343-v2-auth.json
+          import json,subprocess,sys
+          before,path=sys.argv[1:]
+          cur=json.load(open(path))
+          old=json.loads(subprocess.check_output(["git","show",f"{before}:{path}"],text=True))
+          assert cur["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_RUNKEY_V2"
+          assert old["schema"]==cur["schema"]
+          assert cur["generation"]==old["generation"]+1 and cur["generation"]>0
+          assert cur["armed"] is True
+          assert cur["target_shards"]==[0]
+          if old["generation"]==0:
+              assert old["armed"] is False
+              assert cur["generation"]==1
+              assert cur["carry_run_id"] is None
+          else:
+              assert old["armed"] is True
+              assert isinstance(cur["carry_run_id"], int) and cur["carry_run_id"]>0
+          assert cur["execution"]==old["execution"]
+          assert cur["source_locks"]==old["source_locks"]
+          assert cur["source_locks"]["preflight_blob_sha1"]=="0f2aba9973640ecf619936e1fe59a1864efec3f3"
+          assert cur["source_locks"]["worker_blob_sha1"]=="0f98ebd7f1ad9148728a422989bfc9d01190f4da"
+          assert cur["source_locks"]["aggregator_blob_sha1"]=="d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          assert cur["source_locks"]["conic_separation_blob_sha1"]=="75d384c194c678ff6158ea793e943bce91741bb8"
+          assert cur["source_locks"]["repository_main_head"]=="83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          assert cur["source_locks"]["authority_bound"]=="157570677819451133507"
+          assert cur["execution"]["effective_concurrency"]==1
+          assert cur["execution"]["solver_timeout_ms_per_key"]==1500
+          assert cur["execution"]["max_flat_cuts_per_key"]==16
+          assert cur["execution"]["checkpoint_per_base4"] is True
+          assert cur["zero_credit"] is True
+          assert cur["merge_authorized"] is False
+          print(json.dumps({"run":True,"targets":cur["target_shards"]},sort_keys=True))
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json)" = "0f2aba9973640ecf619936e1fe59a1864efec3f3"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "0f98ebd7f1ad9148728a422989bfc9d01190f4da"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py)" = "d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json)" = "75d384c194c678ff6158ea793e943bce91741bb8"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 full343 V2 pilot dependencies
+        if: steps.btva_full343_v2_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 full343 V2 checkpointed shard0 pilot
+        id: btva_full343_v2_run
+        if: steps.btva_full343_v2_gate.outputs.run == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/btva-full343-v2-shards /tmp/btva-full343-v2-checkpoints/shard0
+          python stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --shard-index 0 \
+            --shard-count 8 \
+            --solver-timeout-ms 1500 \
+            --max-flat-cuts 16 \
+            --checkpoint-dir /tmp/btva-full343-v2-checkpoints/shard0 \
+            --output /tmp/btva-full343-v2-shards/btva-base4-full343-shard-0.json
+          test "$(stat -c %s /tmp/btva-full343-v2-shards/btva-base4-full343-shard-0.json)" -le 262144
+          test "$(find /tmp/btva-full343-v2-checkpoints/shard0 -type f -name 'base4-*.json' | wc -l)" -eq 43
+
+      - name: Preserve V44 full343 V2 pilot checkpoints
+        if: always() && steps.btva_full343_v2_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-v2-pilot
+          path: |
+            /tmp/btva-full343-v2-shards
+            /tmp/btva-full343-v2-checkpoints
+          retention-days: 1
+          compression-level: 9
+          if-no-files-found: warn
+
+      - name: Validate V44 full343 V2 pilot shard
+        if: steps.btva_full343_v2_gate.outputs.run == 'true' && steps.btva_full343_v2_run.conclusion == 'success'
+        run: |
+          python - /tmp/btva-full343-v2-shards/btva-base4-full343-shard-0.json <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_SHARD_V1"
+          assert p["execution"]["shard_index"]==0 and p["execution"]["shard_count"]==8
+          assert p["summary"]["key_count"]==43
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Gate V44 BTVA full343 V3 resume scaleout runkey
+        id: btva_full343_v3_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json"
+          before="${{ github.event.before }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          if [ ! -f "$runkey" ] || [ -z "$before" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags --depth=1 origin "$before" || true
+          if ! git cat-file -e "$before^{commit}" 2>/dev/null; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only "$before" "$head")"
+          if [ "$changed" != "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$before" "$runkey" <<'PY'
+          import json,subprocess,sys
+          before,path=sys.argv[1:]
+          cur=json.load(open(path))
+          old=json.loads(subprocess.check_output(["git","show",f"{before}:{path}"],text=True))
+          assert cur["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_RUNKEY_V3"
+          assert old["schema"]==cur["schema"]
+          assert old["generation"]==2 and old["armed"] is True
+          assert cur["generation"]==3 and cur["armed"] is True
+          assert cur["target_shards"]==[1,2,3,4,5,6,7]
+          assert cur["carry_run_id"]==35315823446
+          assert cur["execution"]==old["execution"]
+          for key in ("worker_blob_sha1","aggregator_blob_sha1","conic_separation_blob_sha1","repository_main_head","authority_bound"):
+              assert cur["source_locks"][key]==old["source_locks"][key]
+          assert cur["source_locks"]["preflight_blob_sha1"]=="fe79c6df5d981e8add3aebf5818b51aeea1aabab"
+          assert cur["source_locks"]["worker_blob_sha1"]=="63321a54f565b2da38efbef756caf8db148f0063"
+          assert cur["source_locks"]["aggregator_blob_sha1"]=="d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          assert cur["source_locks"]["conic_separation_blob_sha1"]=="75d384c194c678ff6158ea793e943bce91741bb8"
+          assert cur["source_locks"]["repository_main_head"]=="83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49"
+          assert cur["source_locks"]["authority_bound"]=="157570677819451133507"
+          assert cur["execution"]["effective_concurrency"]==1
+          assert cur["execution"]["solver_timeout_ms_per_key"]==1500
+          assert cur["execution"]["max_flat_cuts_per_key"]==16
+          assert cur["execution"]["checkpoint_per_base4"] is True
+          assert cur["execution"]["bootstrap_error_capture"] is True
+          assert cur["zero_credit"] is True
+          assert cur["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json)" = "fe79c6df5d981e8add3aebf5818b51aeea1aabab"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py)" = "63321a54f565b2da38efbef756caf8db148f0063"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py)" = "d7099df483bfd12b71969ec2ae7ce7b36534122a"
+          echo "carry_run_id=35315823446" >> "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Carry retained V44 full343 shard0 artifact
+        if: steps.btva_full343_v3_gate.outputs.run == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-v3-diagnostic
+          path: /tmp/btva-full343-v3-carry
+          github-token: ${{ github.token }}
+          run-id: ${{ steps.btva_full343_v3_gate.outputs.carry_run_id }}
+
+      - name: Install V44 full343 V3 scaleout dependencies
+        if: steps.btva_full343_v3_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 full343 V3 missing shards sequentially
+        id: btva_full343_v3_run
+        if: steps.btva_full343_v3_gate.outputs.run == 'true'
+        shell: bash
+        env:
+          BTVA_BOOTSTRAP_ERROR_PATH: /tmp/btva-full343-v3-diagnostic/bootstrap-error.json
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/btva-full343-v3-shards /tmp/btva-full343-v3-checkpoints /tmp/btva-full343-v3-diagnostic
+          for shard in 1 2 3 4 5 6 7; do
+            mkdir -p "/tmp/btva-full343-v3-checkpoints/shard$shard"
+            python stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py \
+              --retained stages/stage33/33-07/picard_base_rows_retained.py \
+              --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+              --lane178-root .stage32-178-btva-source \
+              --shard-index "$shard" \
+              --shard-count 8 \
+              --solver-timeout-ms 1500 \
+              --max-flat-cuts 16 \
+              --checkpoint-dir "/tmp/btva-full343-v3-checkpoints/shard$shard" \
+              --output "/tmp/btva-full343-v3-shards/btva-base4-full343-shard-$shard.json"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          for shard in range(1,8):
+              out=Path(f"/tmp/btva-full343-v3-shards/btva-base4-full343-shard-{shard}.json")
+              assert out.is_file() and out.stat().st_size <= 262144
+              got=len(list(Path(f"/tmp/btva-full343-v3-checkpoints/shard{shard}").glob("base4-*.json")))
+              expect=len(range(shard,343,8))
+              assert got==expect,(shard,got,expect)
+          PY
+
+      - name: Validate V44 full343 V3 missing shards
+        if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_run.conclusion == 'success'
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          for shard in range(1,8):
+              path=Path(f"/tmp/btva-full343-v3-shards/btva-base4-full343-shard-{shard}.json")
+              p=json.load(open(path))
+              stored=p.pop("canonical_sha256_without_this_field")
+              calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+              assert stored==calc
+              assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_SHARD_V1"
+              assert p["execution"]["shard_index"]==shard and p["execution"]["shard_count"]==8
+              assert p["summary"]["key_count"]==len(range(shard,343,8))
+              assert p["firewalls"]["main_pruning_credit"] is False
+              assert p["firewalls"]["merge_authorized"] is False
+              print(json.dumps({"shard":shard,"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Aggregate V44 full343 V3 carried plus missing shards
+        id: btva_full343_v3_aggregate
+        if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_run.conclusion == 'success'
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/btva-full343-v3-parent
+          python stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py \
+            --input-dir /tmp/btva-full343-v3-carry \
+            --input-dir /tmp/btva-full343-v3-shards \
+            --output /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json
+          test "$(stat -c %s /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json)" -le 524288
+
+      - name: Validate V44 full343 V3 exact union
+        if: steps.btva_full343_v3_gate.outputs.run == 'true' && steps.btva_full343_v3_aggregate.conclusion == 'success'
+        run: |
+          python - /tmp/btva-full343-v3-parent/BTVA-BASE4-FULL343-AGGREGATE.json <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_BASE4_FULL343_AGGREGATE_V1"
+          assert p["execution"]["coverage_complete"] is True
+          assert len(p["execution"]["shard_digests"])==8
+          assert p["population"]["base4_key_count"]==343
+          assert p["population"]["terminal_mass"]==1278934
+          assert p["firewalls"]["bounded_solver_timeout_means_unknown_is_not_unsat"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Preserve V44 full343 V3 resume evidence
+        if: always() && steps.btva_full343_v3_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-base4-full343-v3-diagnostic
+          path: |
+            /tmp/btva-full343-v3-carry
+            /tmp/btva-full343-v3-shards
+            /tmp/btva-full343-v3-checkpoints
+            /tmp/btva-full343-v3-parent
+            /tmp/btva-full343-v3-diagnostic
+          retention-days: 1
+          compression-level: 9
+          if-no-files-found: warn
+
+      - name: Gate V44 e12 ratio-directed BTVA panel runkey
+        id: btva_e12_ratio_panel_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_DIRECTED_PANEL_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["selected_count"]==16
+          assert p["selector_blob_sha1"]=="6a8a73d1bca01d0ef9f34b089254e7a98a5e44e0"
+          assert p["solver_blob_sha1"]=="69907e11347709baca6ffa9e980ab696b2e2f7e8"
+          assert p["lane178_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["solver_timeout_ms"]==2500 and p["max_flat_cuts"]==64
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json)" = "6a8a73d1bca01d0ef9f34b089254e7a98a5e44e0"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py)" = "69907e11347709baca6ffa9e980ab696b2e2f7e8"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 e12 ratio-directed BTVA panel dependencies
+        if: steps.btva_e12_ratio_panel_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 e12 ratio-directed BTVA panel
+        if: steps.btva_e12_ratio_panel_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 2500 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-directed-panel.json"
+
+      - name: Validate V44 e12 ratio-directed BTVA panel
+        if: steps.btva_e12_ratio_panel_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-directed-panel.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_BASIS_PAIRING_PANEL_V1"
+          assert p["target"]["selected_count"]==16
+          assert p["summary"]["unsat_base4_count"]+p["summary"]["compatible_sat_base4_count"]+p["summary"]["unknown_base4_count"]==16
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed BTVA panel
+        if: steps.btva_e12_ratio_panel_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-directed-panel-v2
+          path: ${{ runner.temp }}/btva-e12-ratio-directed-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave2 selector
+        id: btva_e12_wave2_selector_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE2_SELECTOR_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["proved_base4_count"]==32 and p["select_count"]==16
+          assert p["wave1_retained_blob_sha1"]=="09c2955347b849445a2be1fa4d2b955767d43af2"
+          assert p["selector_script_blob_sha1"]=="4298fc8b7636c6b6e61a03b47adbc958a100829a"
+          assert p["hpadj21_head"]=="33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json)" = "09c2955347b849445a2be1fa4d2b955767d43af2"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py)" = "4298fc8b7636c6b6e61a03b47adbc958a100829a"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact HPADJ21 source for V44 e12 wave2 selector
+        if: steps.btva_e12_wave2_selector_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-wave2
+          fetch-depth: 1
+
+      - name: Run V44 e12 ratio-directed wave2 selector
+        if: steps.btva_e12_wave2_selector_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py \
+            --hpadj21-root .stage32-ex5-hpadj21-wave2 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave2-selector.json"
+
+      - name: Validate V44 e12 ratio-directed wave2 selector
+        if: steps.btva_e12_wave2_selector_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave2-selector.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_WAVE2_V1"
+          assert p["target"]["selected_count"]==16
+          assert p["baseline"]["proved_base4_count"]==32
+          assert p["baseline"]["wave1_exact_qbin_row_floor"]==444329
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"baseline":p["baseline"],"hypothetical":p["hypothetical_if_all_selected_unsat"],"selected":[r["base4"] for r in p["selected"]],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave2 selector
+        if: steps.btva_e12_wave2_selector_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave2-selector
+          path: ${{ runner.temp }}/btva-e12-ratio-wave2-selector.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave2 BTVA panel
+        id: btva_e12_wave2_panel_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE2_PANEL_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["selected_count"]==16
+          assert p["selector_retained_blob_sha1"]=="a44c00caf11bd0b72d22cbef0a11098a333ce8d5"
+          assert p["solver_blob_sha1"]=="1d2698e86fcef7707e55079cebde0584cb79241a"
+          assert p["lane178_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["solver_timeout_ms"]==2500 and p["max_flat_cuts"]==64
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json)" = "a44c00caf11bd0b72d22cbef0a11098a333ce8d5"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py)" = "1d2698e86fcef7707e55079cebde0584cb79241a"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 e12 ratio-directed wave2 BTVA dependencies
+        if: steps.btva_e12_wave2_panel_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 e12 ratio-directed wave2 BTVA panel
+        if: steps.btva_e12_wave2_panel_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 2500 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave2-panel.json"
+
+      - name: Validate V44 e12 ratio-directed wave2 BTVA panel
+        if: steps.btva_e12_wave2_panel_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave2-panel.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_BASIS_PAIRING_PANEL_WAVE2_V1"
+          assert p["target"]["selected_count"]==16
+          assert p["summary"]["unsat_base4_count"]+p["summary"]["compatible_sat_base4_count"]+p["summary"]["unknown_base4_count"]==16
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"hypothetical":p["hypothetical_selector_effect_if_all_unsat"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave2 BTVA panel
+        if: steps.btva_e12_wave2_panel_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave2-panel
+          path: ${{ runner.temp }}/btva-e12-ratio-wave2-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave3 selector
+        id: btva_e12_wave3_selector_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE3_SELECTOR_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["proved_base4_count"]==48 and p["select_count"]==32
+          assert p["wave2_retained_blob_sha1"]=="22d21ba084057a498be30be4371c0fa488fe9443"
+          assert p["selector_script_blob_sha1"]=="9c26eb7bdff3f350848858189f0b3044433f91ed"
+          assert p["hpadj21_head"]=="33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json)" = "22d21ba084057a498be30be4371c0fa488fe9443"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py)" = "9c26eb7bdff3f350848858189f0b3044433f91ed"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact HPADJ21 source for V44 e12 wave3 selector
+        if: steps.btva_e12_wave3_selector_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-wave3
+          fetch-depth: 1
+
+      - name: Run V44 e12 ratio-directed wave3 selector
+        if: steps.btva_e12_wave3_selector_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py \
+            --hpadj21-root .stage32-ex5-hpadj21-wave3 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave3-selector.json"
+
+      - name: Validate V44 e12 ratio-directed wave3 selector
+        if: steps.btva_e12_wave3_selector_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave3-selector.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_WAVE3_V1"
+          assert p["target"]["selected_count"]==32
+          assert p["baseline"]["proved_base4_count"]==48
+          assert p["baseline"]["wave2_exact_qbin_row_floor"]==438674
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"baseline":p["baseline"],"hypothetical":p["hypothetical_if_all_selected_unsat"],"selected":[r["base4"] for r in p["selected"]],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave3 selector
+        if: steps.btva_e12_wave3_selector_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave3-selector
+          path: ${{ runner.temp }}/btva-e12-ratio-wave3-selector.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave3 BTVA panel
+        id: btva_e12_wave3_panel_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE3_PANEL_RUNKEY_V1"
+          assert p["generation"]==3 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["selected_count"]==32
+          assert p["selector_retained_blob_sha1"]=="782e0198a34eda7f13949b83a6ac7fe0ea3b7f6d"
+          assert p["solver_blob_sha1"]=="abf620cc84a75726e3b16527cfab925dfb9369eb"
+          assert p["lane178_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["solver_timeout_ms"]==5000 and p["max_flat_cuts"]==64
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json)" = "782e0198a34eda7f13949b83a6ac7fe0ea3b7f6d"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py)" = "abf620cc84a75726e3b16527cfab925dfb9369eb"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 e12 ratio-directed wave3 BTVA dependencies
+        if: steps.btva_e12_wave3_panel_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 e12 ratio-directed wave3 BTVA panel
+        if: steps.btva_e12_wave3_panel_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 5000 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave3-panel.json"
+
+      - name: Validate V44 e12 ratio-directed wave3 BTVA panel
+        if: steps.btva_e12_wave3_panel_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave3-panel.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_BASIS_PAIRING_PANEL_WAVE3_V1"
+          assert p["target"]["selected_count"]==32
+          assert p["summary"]["unsat_base4_count"]+p["summary"]["compatible_sat_base4_count"]+p["summary"]["unknown_base4_count"]==32
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"hypothetical":p["hypothetical_selector_effect_if_all_unsat"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave3 BTVA panel
+        if: steps.btva_e12_wave3_panel_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave3-panel
+          path: ${{ runner.temp }}/btva-e12-ratio-wave3-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 wave3 partial exact-qbin floor
+        id: btva_e12_wave3_partial_qbin_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_WAVE3_PARTIAL_QBIN_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["wave3_exact_unsat_count"]==29 and p["wave3_unknown_count"]==3
+          assert p["partial_retained_blob_sha1"]=="3864c723d77fa4f8827ec999cb4743a8b0761961"
+          assert p["derivation_script_blob_sha1"]=="a29a2ad2212653e0a427d9e9b0e8e4f319a00993"
+          assert p["hpadj21_head"]=="33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          assert p["baseline_wave2_row_floor"]==438674
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json)" = "3864c723d77fa4f8827ec999cb4743a8b0761961"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py)" = "a29a2ad2212653e0a427d9e9b0e8e4f319a00993"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact HPADJ21 source for V44 e12 wave3 partial qbin
+        if: steps.btva_e12_wave3_partial_qbin_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-wave3-partial
+          fetch-depth: 1
+
+      - name: Run V44 e12 wave3 partial exact-qbin floor
+        if: steps.btva_e12_wave3_partial_qbin_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py \
+            --hpadj21-root .stage32-ex5-hpadj21-wave3-partial \
+            --output "$RUNNER_TEMP/btva-e12-wave3-partial-qbin-floor.json"
+
+      - name: Validate V44 e12 wave3 partial exact-qbin floor
+        if: steps.btva_e12_wave3_partial_qbin_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-wave3-partial-qbin-floor.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_WAVE3_PARTIAL_EXACT_QBIN_FLOOR_V1"
+          assert p["proof_population"]["wave3_exact_unsat_count"]==29
+          assert p["proof_population"]["wave3_unknown_count"]==3
+          assert p["result"]["wave2_exact_qbin_row_floor"]==438674
+          assert p["result"]["wave3_partial_exact_qbin_row_floor"]<=438674
+          assert p["composition"]["three_timeout_keys_left_adversarially_present"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"result":p["result"],"authority_candidate":p["authority_candidate"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 wave3 partial exact-qbin floor
+        if: steps.btva_e12_wave3_partial_qbin_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-wave3-partial-qbin-floor
+          path: ${{ runner.temp }}/btva-e12-wave3-partial-qbin-floor.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave4 selector
+        id: btva_e12_wave4_selector_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE4_SELECTOR_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["proved_base4_count"]==77 and p["reserved_timeout_base4_count"]==3 and p["select_count"]==32
+          assert p["baseline_row_floor"]==425610
+          assert p["selector_script_blob_sha1"]=="b56cc4264f8867fa7b59a6fd7f903d561cd532a2"
+          assert p["partial_qbin_retained_blob_sha1"]=="fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"
+          assert p["hpadj21_head"]=="33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py)" = "b56cc4264f8867fa7b59a6fd7f903d561cd532a2"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json)" = "fd6cdc5386bc8b3b30a20aa6c641d7e4a7cb54e7"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact HPADJ21 source for V44 e12 wave4 selector
+        if: steps.btva_e12_wave4_selector_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-wave4
+          fetch-depth: 1
+
+      - name: Run V44 e12 ratio-directed wave4 selector
+        if: steps.btva_e12_wave4_selector_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py \
+            --hpadj21-root .stage32-ex5-hpadj21-wave4 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave4-selector.json"
+
+      - name: Validate V44 e12 ratio-directed wave4 selector
+        if: steps.btva_e12_wave4_selector_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave4-selector.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_SELECTOR_WAVE4_V1"
+          assert p["target"]["selected_count"]==32
+          assert p["baseline"]["proved_base4_count"]==77
+          assert p["baseline"]["reserved_timeout_base4_count"]==3
+          assert p["baseline"]["wave3_partial_exact_qbin_row_floor"]==425610
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"baseline":p["baseline"],"hypothetical":p["hypothetical_if_all_selected_unsat"],"selected":p["selected_base4_in_order"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave4 selector
+        if: steps.btva_e12_wave4_selector_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave4-selector
+          path: ${{ runner.temp }}/btva-e12-ratio-wave4-selector.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 ratio-directed wave4 BTVA panel
+        id: btva_e12_wave4_panel_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_RATIO_WAVE4_PANEL_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["row_id"]=="g0-d008" and p["g"]==0 and p["degree"]==8 and p["exceptional_mass"]==12
+          assert p["selected_count"]==32
+          assert p["selector_retained_blob_sha1"]=="2e340d1605f6b86b5e8bcc681871e1e9656e545c"
+          assert p["solver_blob_sha1"]=="5160318e0d3fbe616636e115e63434226e7016f6"
+          assert p["lane178_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["solver_timeout_ms"]==2500 and p["max_flat_cuts"]==64
+          assert p["zero_credit"] is True and p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json)" = "2e340d1605f6b86b5e8bcc681871e1e9656e545c"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py)" = "5160318e0d3fbe616636e115e63434226e7016f6"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install V44 e12 ratio-directed wave4 BTVA dependencies
+        if: steps.btva_e12_wave4_panel_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run V44 e12 ratio-directed wave4 BTVA panel
+        if: steps.btva_e12_wave4_panel_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 2500 \
+            --max-flat-cuts 64 \
+            --output "$RUNNER_TEMP/btva-e12-ratio-wave4-panel.json"
+
+      - name: Validate V44 e12 ratio-directed wave4 BTVA panel
+        if: steps.btva_e12_wave4_panel_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-ratio-wave4-panel.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_BASIS_PAIRING_PANEL_WAVE4_V1"
+          assert p["target"]["selected_count"]==32
+          assert p["summary"]["unsat_base4_count"]+p["summary"]["compatible_sat_base4_count"]+p["summary"]["unknown_base4_count"]==32
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"summary":p["summary"],"hypothetical":p["hypothetical_selector_effect_if_all_unsat"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 ratio-directed wave4 BTVA panel
+        if: steps.btva_e12_wave4_panel_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-ratio-wave4-panel
+          path: ${{ runner.temp }}/btva-e12-ratio-wave4-panel.json
+          retention-days: 7
+          compression-level: 9
+
+      - name: Gate V44 e12 wave4 27-UNSAT exact-qbin reoptimization
+        id: btva_e12_wave4_27_qbin_gate
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_BTVA_E12_WAVE4_27UNSAT_QBIN_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["target"]=={"row_id":"g0-d008","row_index":23,"g":0,"d":8,"e":12}
+          assert p["source_locks"]["derive_script_blob_sha1"]=="e1978506af706d165bf7c5eb08ce66346aad32c9"
+          assert p["source_locks"]["wave4_partial_retained_blob_sha1"]=="91c891e7e91f18713c5155b9b4e885ce0f88e1bd"
+          assert p["source_locks"]["hpadj21_head"]=="33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2"
+          assert p["execution"]["effective_concurrency"]==1
+          assert p["execution"]["expected_artifact_bytes_upper_bound"]<=16384
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py)" = "e1978506af706d165bf7c5eb08ce66346aad32c9"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json)" = "91c891e7e91f18713c5155b9b4e885ce0f88e1bd"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact HPADJ21 source for V44 e12 wave4 27-UNSAT qbin
+        if: steps.btva_e12_wave4_27_qbin_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-wave4-qbin
+          fetch-depth: 1
+
+      - name: Run V44 e12 wave4 27-UNSAT exact-qbin reoptimization
+        if: steps.btva_e12_wave4_27_qbin_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py \
+            --hpadj21-root .stage32-ex5-hpadj21-wave4-qbin \
+            --output "$RUNNER_TEMP/btva-e12-wave4-27unsat-qbin-floor.json"
+
+      - name: Validate V44 e12 wave4 27-UNSAT exact-qbin reoptimization
+        if: steps.btva_e12_wave4_27_qbin_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/btva-e12-wave4-27unsat-qbin-floor.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_BTVA_D8_E12_WAVE4_27UNSAT_EXACT_QBIN_FLOOR_V1"
+          assert p["proof_population"]["wave4_exact_unsat_count"]==27
+          assert p["proof_population"]["wave4_unknown_count"]==5
+          assert p["result"]["wave3_partial_exact_qbin_row_floor"]==425610
+          assert p["result"]["wave4_27unsat_exact_qbin_row_floor"]<=425610
+          assert p["composition"]["five_wave4_unknown_keys_left_adversarially_present"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"result":p["result"],"authority_candidate":p["authority_candidate"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 e12 wave4 27-UNSAT exact-qbin result
+        if: steps.btva_e12_wave4_27_qbin_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-e12-wave4-27unsat-qbin-floor
+          path: ${{ runner.temp }}/btva-e12-wave4-27unsat-qbin-floor.json
+          retention-days: 3
+          compression-level: 9
+
+      - name: Gate V44 global GRF04 x4 top-row pilot
+        id: grf04_x4_toprow_gate
+        if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          authorized=false
+          if [ -n "$before" ]; then
+            git fetch --no-tags --depth=1 origin "$before" || true
+            if git cat-file -e "$before^{commit}" 2>/dev/null \
+              && git diff --name-only "$before" "$head" | grep -Fxq "$key"; then
+              authorized=true
+            fi
+          fi
+          if [ "$authorized" != true ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_GRF04_X4_TOPROW_PILOT_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["target"]=={"row_index":89,"row_id":"g1-d188","expected_old_hpadj21_row_floor":"11511285976831233688"}
+          assert p["source_locks"]["pilot_script_blob_sha1"]=="dc5727f694e9937a7a10ede064bee85e17f88e05"
+          assert p["execution"]["class"]=="BOUNDED_PILOT"
+          assert p["execution"]["effective_concurrency"]==1
+          assert p["execution"]["expected_units"]==1
+          assert p["execution"]["expected_artifact_bytes_upper_bound"]<=32768
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py)" = "dc5727f694e9937a7a10ede064bee85e17f88e05"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout audited HPADJ21 source for global GRF04 x4 pilot
+        if: steps.grf04_x4_toprow_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-global-x4
+          fetch-depth: 1
+
+      - name: Checkout audited 178 GRF04 x4 source for global pilot
+        if: steps.grf04_x4_toprow_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 8a8efc48866f8008d253c21ebd272e698d18dc44
+          path: .stage32-178-global-x4
+          fetch-depth: 1
+
+      - name: Run V44 global GRF04 x4 top-row pilot
+        if: steps.grf04_x4_toprow_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py \
+            --hpadj21-root .stage32-ex5-hpadj21-global-x4 \
+            --lane178-root .stage32-178-global-x4 \
+            --row-index 89 \
+            --expected-row-id g1-d188 \
+            --expected-old-floor 11511285976831233688 \
+            --output "$RUNNER_TEMP/grf04-x4-toprow-g1-d188.json"
+
+      - name: Validate V44 global GRF04 x4 top-row pilot
+        if: steps.grf04_x4_toprow_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/grf04-x4-toprow-g1-d188.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_GRF04_X4_SUPPORT_HPADJ21_ROW_PILOT_V1"
+          assert p["target"]=={"row_index":89,"row_id":"g1-d188","g":1,"d":188}
+          assert p["result"]["old_hpadj21_row_floor"]==11511285976831233688
+          assert p["result"]["new_grf04_x4_support_row_floor"]<=p["result"]["old_hpadj21_row_floor"]
+          assert p["composition"]["same_hpadj21_pre_domain_population"] is True
+          assert p["composition"]["same_certified_post_mass"] is True
+          assert p["firewalls"]["main_pruning_credit"] is False
+          print(json.dumps({"result":p["result"],"theorem":p["theorem"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V44 global GRF04 x4 top-row pilot
+        if: steps.grf04_x4_toprow_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-grf04-x4-toprow-g1-d188
+          path: ${{ runner.temp }}/grf04-x4-toprow-g1-d188.json
+          retention-days: 3
+          compression-level: 9
+
+      - name: Enforce V44 successor scope
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
@@ -133,11 +1912,681 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml) ;;
-              *) echo "unexpected V43 sync path: $p"; exit 1 ;;
+              .github/workflows/stage32-main-startup-authority.yml|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json|stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json|stages/stage32/management/hpadj22-direct-full178/run_direct_band.py|stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py|stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
+              *) echo "unexpected V44 successor path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
 
       - name: Diff check
         if: github.event_name == 'pull_request'
         run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+
+  grf04-x4-top20-authorize:
+    name: GRF04 x4 top20 authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_GRF04_X4_TOP20_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["target"]["row_count"]==20
+          assert p["source_locks"]["manifest_blob_sha1"]=="d4e38ed1e0b400ab8ca2ce54a0385092d3bb839c"
+          assert p["source_locks"]["worker_blob_sha1"]=="d4dfd574f988f941553b92b2a19dbbef19f7c942"
+          assert p["source_locks"]["aggregator_blob_sha1"]=="904b7b1ff039d398c887349fba329d1d05d462e5"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==4
+          assert p["resource_preflight"]["conservative_total"]==17 <= p["resource_preflight"]["repo_stage_heavy_cap"]
+          assert p["resource_preflight"]["projected_peak_mb_upper_bound"]<=1
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json)" = "d4e38ed1e0b400ab8ca2ce54a0385092d3bb839c"
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py)" = "d4dfd574f988f941553b92b2a19dbbef19f7c942"
+          test "$(git hash-object stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py)" = "904b7b1ff039d398c887349fba329d1d05d462e5"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  grf04-x4-top20:
+    name: GRF04 x4 top20 row ${{ matrix.row_index }} ${{ matrix.row_id }}
+    needs: grf04-x4-top20-authorize
+    if: needs.grf04-x4-top20-authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - row_index: 89
+            row_id: g1-d188
+            g: 1
+            d: 188
+          - row_index: 22
+            row_id: g1-d192
+            g: 1
+            d: 192
+          - row_index: 176
+            row_id: g1-d186
+            g: 1
+            d: 186
+          - row_index: 45
+            row_id: g1-d184
+            g: 1
+            d: 184
+          - row_index: 177
+            row_id: g1-d190
+            g: 1
+            d: 190
+          - row_index: 175
+            row_id: g1-d182
+            g: 1
+            d: 182
+          - row_index: 88
+            row_id: g1-d180
+            g: 1
+            d: 180
+          - row_index: 174
+            row_id: g1-d178
+            g: 1
+            d: 178
+          - row_index: 21
+            row_id: g1-d176
+            g: 1
+            d: 176
+          - row_index: 173
+            row_id: g1-d174
+            g: 1
+            d: 174
+          - row_index: 87
+            row_id: g1-d172
+            g: 1
+            d: 172
+          - row_index: 66
+            row_id: g0-d172
+            g: 0
+            d: 172
+          - row_index: 172
+            row_id: g1-d170
+            g: 1
+            d: 170
+          - row_index: 10
+            row_id: g0-d176
+            g: 0
+            d: 176
+          - row_index: 130
+            row_id: g0-d170
+            g: 0
+            d: 170
+          - row_index: 44
+            row_id: g1-d168
+            g: 1
+            d: 168
+          - row_index: 33
+            row_id: g0-d168
+            g: 0
+            d: 168
+          - row_index: 131
+            row_id: g0-d174
+            g: 0
+            d: 174
+          - row_index: 171
+            row_id: g1-d166
+            g: 1
+            d: 166
+          - row_index: 129
+            row_id: g0-d166
+            g: 0
+            d: 166
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2
+          path: .stage32-ex5-hpadj21-global-x4-top20
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 8a8efc48866f8008d253c21ebd272e698d18dc44
+          path: .stage32-178-global-x4-top20
+          fetch-depth: 1
+      - name: Compute exact same-population top20 row
+        run: |
+          python stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py \
+            --hpadj21-root .stage32-ex5-hpadj21-global-x4-top20 \
+            --lane178-root .stage32-178-global-x4-top20 \
+            --row-index ${{ matrix.row_index }} \
+            --output "$RUNNER_TEMP/row-${{ matrix.row_index }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-grf04-x4-top20-row-${{ matrix.row_index }}
+          path: ${{ runner.temp }}/row-${{ matrix.row_index }}.json
+          retention-days: 3
+          compression-level: 9
+
+  grf04-x4-top20-aggregate:
+    name: GRF04 x4 top20 aggregate
+    needs: grf04-x4-top20
+    if: needs.grf04-x4-top20.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-grf04-x4-top20-row-*
+          path: top20-results
+          merge-multiple: true
+      - name: Aggregate exact top20 replacement candidate
+        run: |
+          python stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py \
+            --input-dir top20-results \
+            --output "$RUNNER_TEMP/grf04-x4-top20-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-grf04-x4-top20-aggregate
+          path: ${{ runner.temp }}/grf04-x4-top20-aggregate.json
+          retention-days: 3
+          compression-level: 9
+
+  hpadj22-fast-authorize:
+    name: HPADJ22 fast benchmark authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_HPADJ22_FAST_BENCHMARK_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["independent_parallel_route"] is True
+          assert p["source_locks"]["fast_worker_blob_sha1"]=="a6cba14e22137eb6806053619445eed363f0fec1"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==1
+          assert p["resource_preflight"]["conservative_total_if_bridge_starts"]==13 <= 18
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["specialist_state_mutated"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py)" = "a6cba14e22137eb6806053619445eed363f0fec1"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  hpadj22-fast-benchmark:
+    name: HPADJ22 fast exact-equivalence benchmark
+    needs: hpadj22-fast-authorize
+    if: needs.hpadj22-fast-authorize.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-fast
+          fetch-depth: 1
+      - name: Download retained complete band7 baseline
+        uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: baseline-band7
+          run-id: 35336162597
+          github-token: ${{ github.token }}
+      - name: Locate retained row 177
+        id: baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          p="$(find baseline-band7 -type f -name 'row-177.json' -print -quit)"
+          test -n "$p"
+          echo "path=$p" >> "$GITHUB_OUTPUT"
+      - name: Run exact-equivalent optimized row
+        run: |
+          python stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py \
+            --source-root .stage32-ex5-hpadj22-fast \
+            --baseline-row "${{ steps.baseline.outputs.path }}" \
+            --band-position 7 --row-index 177 \
+            --output "$RUNNER_TEMP/hpadj22-fast-benchmark.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-fast-benchmark
+          path: ${{ runner.temp }}/hpadj22-fast-benchmark.json
+          retention-days: 2
+          compression-level: 9
+
+  hpadj22-direct-authorize:
+    name: HPADJ22 direct-count benchmark authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_HPADJ22_DIRECT_COUNT_BENCHMARK_RUNKEY_V1"
+          assert p["generation"]==2 and p["armed"] is True and p["independent_parallel_route"] is True
+          assert p["source_locks"]["direct_worker_blob_sha1"]=="e965ab0a6ea51938006882ca2110016f48b3768e"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==1
+          assert p["resource_preflight"]["conservative_total_if_bridge_starts"]==13 <= 18
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["specialist_state_mutated"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py)" = "e965ab0a6ea51938006882ca2110016f48b3768e"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  hpadj22-direct-benchmark:
+    name: HPADJ22 direct-count exact-equivalence benchmark
+    needs: hpadj22-direct-authorize
+    if: needs.hpadj22-direct-authorize.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-direct
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: baseline-band7-direct
+          run-id: 35336162597
+          github-token: ${{ github.token }}
+      - id: baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          p="$(find baseline-band7-direct -type f -name 'row-177.json' -print -quit)"
+          test -n "$p"
+          echo "path=$p" >> "$GITHUB_OUTPUT"
+      - name: Run exact HPADJ22 direct count
+        run: |
+          python stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py \
+            --source-root .stage32-ex5-hpadj22-direct \
+            --baseline-row "${{ steps.baseline.outputs.path }}" \
+            --band-position 7 --row-index 177 \
+            --output "$RUNNER_TEMP/hpadj22-direct-benchmark.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-direct-count-benchmark
+          path: ${{ runner.temp }}/hpadj22-direct-benchmark.json
+          retention-days: 2
+          compression-level: 9
+
+  hpadj22-band7-adapter-authorize:
+    name: HPADJ22 band7 MAIN adapter authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_HPADJ22_BAND7_ADAPTER_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["source_locks"]["adapter_script_blob_sha1"]=="4e91ed85c5d493559a143987ac7b41c565a1fa61"
+          assert p["source_locks"]["current_main_state_blob_sha1"]=="bb37bee4d433921e4bbdb2a9fdd5b74042b3282f"
+          assert p["evidence"]["artifact_id"]==10552562060
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==0
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["producer_partial_credit_not_overridden"] is True
+          PY
+          test "$(git hash-object stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py)" = "4e91ed85c5d493559a143987ac7b41c565a1fa61"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  hpadj22-band7-adapter:
+    name: HPADJ22 band7 current-authority adapter
+    needs: hpadj22-band7-adapter-authorize
+    if: needs.hpadj22-band7-adapter-authorize.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-band7-adapter
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: band7-complete
+          run-id: 35336162597
+          github-token: ${{ github.token }}
+      - id: band
+        shell: bash
+        run: |
+          set -euo pipefail
+          p="$(find band7-complete -type f -name BAND-COMPLETE.json -print -quit)"
+          test -n "$p"
+          echo "dir=$(dirname "$p")" >> "$GITHUB_OUTPUT"
+      - name: Build exact zero-credit band7 MAIN adapter
+        run: |
+          python stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py \
+            --repo-root . \
+            --hpadj22-root .stage32-ex5-hpadj22-band7-adapter \
+            --band-dir "${{ steps.band.outputs.dir }}" \
+            --output "$RUNNER_TEMP/hpadj22-band7-main-adapter.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-band7-current-authority-adapter
+          path: ${{ runner.temp }}/hpadj22-band7-main-adapter.json
+          retention-days: 3
+          compression-level: 9
+
+  hpadj22-salvage-authorize:
+    name: HPADJ22 salvage MAIN adapter authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json"
+          before='${{ github.event.before }}'; head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"; git fetch --no-tags --depth=1 origin "$before" || true; git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_HPADJ22_SALVAGE_ADAPTER_RUNKEY_V1"
+          assert p["generation"]==2 and p["armed"] is True
+          assert p["source_locks"]["adapter_script_blob_sha1"]=="2ab380459b545d15816405cb7b018b3dc0e44238"
+          assert p["evidence"]["validated_partial_cells"]==114
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==0
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["producer_partial_credit_not_overridden"] is True
+          PY
+          test "$(git hash-object stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py)" = "2ab380459b545d15816405cb7b018b3dc0e44238"
+          sed -i '$d' "$GITHUB_OUTPUT"; echo "run=true" >> "$GITHUB_OUTPUT"
+
+  hpadj22-salvage-adapter:
+    name: HPADJ22 salvaged disjoint-cell current-authority adapter
+    needs: hpadj22-salvage-authorize
+    if: needs.hpadj22-salvage-authorize.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-salvage
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: hpadj22-band-*
+          path: original-partials
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-recovery-snapshot
+          path: original-snapshot
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: complete-band7
+          run-id: 35336162597
+          github-token: ${{ github.token }}
+      - id: locate
+        shell: bash
+        run: |
+          set -euo pipefail
+          snap="$(find original-snapshot -type f -name 'RECOVERY-SNAPSHOT.json' -print -quit)"
+          band="$(find complete-band7 -type f -name 'BAND-COMPLETE.json' -print -quit)"
+          test -n "$snap"; test -n "$band"
+          echo "snap=$snap" >> "$GITHUB_OUTPUT"
+          echo "banddir=$(dirname "$band")" >> "$GITHUB_OUTPUT"
+      - name: Build exact zero-credit salvage adapter
+        run: |
+          python stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py \
+            --repo-root . --hpadj22-root .stage32-ex5-hpadj22-salvage \
+            --partial-root original-partials \
+            --complete-band7-dir "${{ steps.locate.outputs.banddir }}" \
+            --snapshot-json "${{ steps.locate.outputs.snap }}" \
+            --output "$RUNNER_TEMP/hpadj22-salvage-adapter.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-salvaged-cells-adapter
+          path: ${{ runner.temp }}/hpadj22-salvage-adapter.json
+          retention-days: 3
+          compression-level: 9
+
+  hpadj22-direct-full178-authorize:
+    name: HPADJ22 direct FULL178 authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json"
+          before='${{ github.event.before }}'; head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          python - "$key" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_HPADJ22_DIRECT_FULL178_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["source_locks"]["direct_band_worker_blob_sha1"]=="26746a68dc53b53d4ed28aef7c65954759094ae7"
+          assert p["source_locks"]["aggregator_blob_sha1"]=="687076cc35b5b82c7c5d64cbf38bf0f23427a81d"
+          assert p["source_locks"]["current_main_state_blob_sha1"]=="bb37bee4d433921e4bbdb2a9fdd5b74042b3282f"
+          assert p["partition"]=={"new_bands":[0,1,2,3,4,5,6],"rows_per_band":178,"retained_band7_recomputed":False}
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==5
+          assert p["resource_preflight"]["conservative_total_if_bridge_starts"]==17 <= 18
+          assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=3
+          assert p["firewalls"]["zero_credit"] is True and p["firewalls"]["specialist_state_mutated"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/run_direct_band.py)" = "26746a68dc53b53d4ed28aef7c65954759094ae7"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py)" = "687076cc35b5b82c7c5d64cbf38bf0f23427a81d"
+          sed -i '$d' "$GITHUB_OUTPUT"; echo "run=true" >> "$GITHUB_OUTPUT"
+
+  hpadj22-direct-full178-bands:
+    name: HPADJ22 direct FULL178 band ${{ matrix.band }}
+    needs: hpadj22-direct-full178-authorize
+    if: needs.hpadj22-direct-full178-authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        band: [0,1,2,3,4,5,6]
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-direct-full
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-${{ matrix.band }}
+          path: retained-partial
+          run-id: 35303482505
+          github-token: ${{ github.token }}
+      - name: Compute exact direct band
+        run: |
+          python stages/stage32/management/hpadj22-direct-full178/run_direct_band.py \
+            --repo-root . \
+            --source-root .stage32-ex5-hpadj22-direct-full \
+            --partial-root retained-partial \
+            --band-position ${{ matrix.band }} \
+            --output "$RUNNER_TEMP/band-${{ matrix.band }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-direct-band-${{ matrix.band }}
+          path: ${{ runner.temp }}/band-${{ matrix.band }}.json
+          retention-days: 2
+          compression-level: 9
+
+  hpadj22-direct-full178-aggregate:
+    name: HPADJ22 direct FULL178 aggregate
+    needs: hpadj22-direct-full178-bands
+    if: needs.hpadj22-direct-full178-bands.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-direct-full-agg
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-hpadj22-direct-band-*
+          path: direct-bands
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: hpadj22-band-7-complete
+          path: retained-band7
+          run-id: 35336162597
+          github-token: ${{ github.token }}
+      - id: band7
+        shell: bash
+        run: |
+          set -euo pipefail
+          p="$(find retained-band7 -type f -name BAND-COMPLETE.json -print -quit)"
+          test -n "$p"
+          echo "dir=$(dirname "$p")" >> "$GITHUB_OUTPUT"
+      - name: Aggregate exact FULL178 direct count
+        run: |
+          python stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py \
+            --repo-root . \
+            --source-root .stage32-ex5-hpadj22-direct-full-agg \
+            --direct-root direct-bands \
+            --band7-dir "${{ steps.band7.outputs.dir }}" \
+            --output "$RUNNER_TEMP/hpadj22-direct-full178.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-hpadj22-direct-full178
+          path: ${{ runner.temp }}/hpadj22-direct-full178.json
+          retention-days: 3
+          compression-level: 9
+
