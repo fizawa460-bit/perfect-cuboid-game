@@ -90,9 +90,13 @@ def main():
     req(sweep["ex5_pr"] == 1823 and sweep["ex5_head"] ==
         "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
-    req(sweep["mb_pr"] == 1819 and sweep["mb_head"] ==
-        "dfcfc56f0f652e2a2a072102ec2d469870ccdcba" and
+    req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
+        "c179ab4858a4d565d3c460a00d0756414b1d6504" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
+    req(sweep["mb_latest_audited_exact_head"] ==
+        "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
+        sweep["mb_latest_audit_review_id"] == 5254494158,
+        "MB audited predecessor observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
         "ee755bbfd46f405ca83e4930b354ee63459ad362" and
         sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
