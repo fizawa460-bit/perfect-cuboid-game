@@ -603,26 +603,33 @@
       "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-JACOBIAN-TJURINA-VS-FRESH-WEAPON-SCAN-CERTIFICATE.json",
       "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_jacobian_tjurina_vs_fresh_weapon_scan.py",
       "result": "Globalizing total Tjurina through T_S(-log C) and using Almiron's mu/tau<4/3 theorem gives the exact cancellation Delta_log < 304-112*l+3*B, where B=sum(r_p-1). The l^2 term cancels completely. This is live only for one more shallow gate: bound B linearly and/or source-lock log-tangent semistability/destabilizing geometry. Generic plane Tjurina and secant/self-intersection routes have coefficients too large or no visible finite-l coefficient."
+    },
+    "shallow_log_tangent_gates_vs_fresh_weapon": {
+      "status": "PRE_AUDIT_SHALLOW_GATE_CHECK_LOG_TANGENT_PARKED_NO_CREDIT",
+      "note_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-LOG-TANGENT-GATES-VS-FRESH-WEAPON-RESULT-20260920.md",
+      "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-SHALLOW-LOG-TANGENT-GATES-VS-FRESH-WEAPON-CERTIFICATE.json",
+      "verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_shallow_log_tangent_gates_vs_fresh_weapon.py",
+      "result": "The log-tangent cancellation is exact but neither required gate closes: B=sum(r_p-1) has no retained O(l) bound, and available log-tangent semistability theorems require lc/normal-crossing hypotheses not retained. A fresh Bogomolov quasi-hyperbolicity check on the contraction Y is numerically attractive (K_Y^2=112/3 vs e(Y_reg)=16) but not source-valid across the non-lc index-three contraction; on smooth S the second Segre number is -64. Log tangent is parked."
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 shallow log-tangent gates versus unrelated fresh weapon",
-    "active_leaf": "MB104-SHALLOW-LOG-TANGENT-GATES-VS-FRESH-WEAPON",
-    "required_input": "At equal shallow depth: (A) test whether existing MB geometry gives an O(l) bound on B=sum_p(r_p-1), especially through multi-branch collision data without redoing six-map jet analysis; (B) test source-valid semistability/stability of T_S(-log C), or whether Bogomolov destabilization forces a divisor class already excluded by retained Picard/P-null geometry; (C) test one unrelated fresh top-down weapon. Do not deepen log tangent unless A or B shows a visible finite-l return.",
+    "title": "MB104 fresh top-down weapon portfolio round",
+    "active_leaf": "MB104-SHALLOW-FRESH-WEAPON-PORTFOLIO-R3",
+    "required_input": "Compare at equal shallow depth three fresh shapes on 000707: (A) elliptic normalization linear-series/syzygy constraints for the seven canonical-coordinate sections and four cuboid quadrics, including support-hyperplane data; (B) a source-valid pluricanonical low-genus theorem for fixed Q-Gorenstein general-type models that genuinely tolerates the non-lc index-three contraction or works on Y_reg; (C) a finite-receiver/elimination construction mapping every hostile carrier to bounded discrete data independent of l. Do not deepen before all three are scored.",
     "success_shapes": [
-      "B <= beta*l+O(1) with beta<112/3 together with a valid discriminant consequence",
-      "semistability or destabilizing-divisor classification turns Delta_log<304-112*l+3B into l<=L",
-      "unrelated weapon yields a shorter finite-l route",
-      "all fail shallowly and log tangent is parked"
+      "A gives an l-dependent contradiction or finite l from genus-one linear-series syzygies",
+      "B gives an effective bound on l for genus-one normalization in |3lK_Y| with source-valid hypotheses",
+      "C gives a bounded finite receiver with a reverse adapter to carrier nonexistence",
+      "all fail shallowly and rotate again"
     ],
     "must_not_repeat": [
+      "log-tangent destabilizing-divisor classification",
       "six-map individual ramification or jet-cancellation scans",
       "32-01 fibration classification",
-      "generic plane Tjurina bounds",
       "size48 local analytic chain"
     ],
-    "fallback_after_gate": "If branch excess and stability both remain uncontrolled, park log tangent immediately and rotate to a fresh weapon family."
+    "fallback_after_gate": "If all three fail, record exact no-go reasons and rotate to another fresh portfolio rather than deepening the least-bad candidate."
   },
   "routing": {
     "independent_of_full178_execution": true,
