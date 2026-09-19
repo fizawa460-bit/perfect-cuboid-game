@@ -1,15 +1,59 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1",
-  "generation": 6,
+  "generation": 7,
   "armed": true,
-  "purpose": "Run the same exact row177/band7 GRF04 x HPADJ22 high-d benchmark with an exact per-(b,c) integer-qBC interval table and qA-weighted intersection cache; supersede generation5 execution only, with no mathematical credit from the cancelled diagnostic.",
-  "script_blob_sha1": "233f8ff186a4a0e691e5eef55668bfc042b784e4",
+  "purpose": "Run the exact row177/band7 GRF04 x HPADJ22 high-d benchmark as four disjoint b-chunks and exact aggregate, superseding generation6 only as an operational execution refinement with zero mathematical credit from the cancelled monolithic diagnostic.",
+  "execution_mode": "ROW177_BAND7_FOUR_BCHUNK_EXACT_AGGREGATE",
+  "chunk_worker_blob_sha1": "7be7b75da426c99484e8ebb44c4d40217d361e37",
+  "aggregator_blob_sha1": "69213b46a56a0bff19ff5d20337443e591e832b0",
   "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
   "row_index": 177,
   "band_position": 7,
   "expected_row": {
     "g": 1,
     "d": 190
+  },
+  "chunks": [
+    [
+      84,
+      87
+    ],
+    [
+      88,
+      90
+    ],
+    [
+      91,
+      93
+    ],
+    [
+      94,
+      96
+    ]
+  ],
+  "expected_hpadj22_full_band_baseline": "236901807892797077",
+  "exactness": {
+    "b_partition_disjoint_and_exhaustive": true,
+    "exact_partial_hpadj22_rebuild": true,
+    "exact_qmin_threshold_table": true,
+    "exact_x4_intersection": true,
+    "e_independence": true,
+    "additive_subtraction": false,
+    "min_of_counts": false
+  },
+  "resource_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 4,
+    "artifact_count_upper_bound": 5,
+    "artifact_bytes_upper_bound_each": 262144,
+    "projected_peak_artifact_mb_upper_bound": 2,
+    "retention_days_chunks": 2,
+    "retention_days_aggregate": 3
+  },
+  "authorization": {
+    "synchronize_only": true,
+    "commit_range_runkey_change_required": true,
+    "prior_generation_required": 6
   },
   "decision_rule": {
     "strict_and_operationally_bounded": "retain benchmark and design a resumable FULL178 contract; still zero MAIN credit",
@@ -25,15 +69,10 @@
     "endpoint": false,
     "merge": false
   },
-  "previous_generation": 5,
-  "previous_generation_head": "73b1d7e713eafdc496ac0569f26f26576ef4e67b",
-  "previous_generation_run_id": 35429121561,
-  "previous_generation_job_id": 105860468317,
+  "previous_generation": 6,
+  "previous_generation_head": "3354c5ecc67796e45322efae3d1a50d6015b391b",
+  "previous_generation_run_id": 35431457414,
+  "previous_generation_job_id": 105866824120,
   "previous_generation_disposition": "SUPERSEDED_OPERATIONAL_DIAGNOSTIC_ZERO_CREDIT",
-  "optimization": {
-    "exact_integer_t_threshold_table_per_bc": true,
-    "qbc_weighted_intersection_cache_outside_a_loop": true,
-    "semantics_changed": false,
-    "population_changed": false
-  }
+  "previous_generation_reason": "generation6 remained operationally coarse for one full band row; generation7 preserves the same exact population and predicate while partitioning b into four disjoint execution chunks with exact reaggregation"
 }
