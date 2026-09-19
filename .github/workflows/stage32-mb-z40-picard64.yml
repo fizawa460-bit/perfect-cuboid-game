@@ -1,4 +1,4 @@
-# lifecycle: ACTIVE_AUTO while MB104 Z40 is the active leaf.
+# Lifecycle: RETIRED. Manual replay only; Z40 is not the current MB104 active leaf.
 # artifact/storage: zero uploaded artifacts; one lightweight job after cheap arm gate.
 name: Stage32 MB Z40 Picard64
 on:
@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   authorize:
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.ref == 'stage32mb-z33-span5-restart-20260919'
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     outputs:
       authorized: ${{ steps.gate.outputs.authorized }}
