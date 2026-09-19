@@ -535,29 +535,52 @@
         "Z14_collision": "Delta_exc>=T^2/(4N)-T/2 for T non-diagonal branches",
         "forced_minimal_asymptotic": "at N=10, FSM-minimal (A,B)=(1,1) branches have lower asymptotic density coefficient 3/2-sqrt(15/14)=0.4649016609... relative to d",
         "remaining_gap": "global restriction on free nonzero landing lambda / first jets"
+      },
+      "revived_z_n10_archive_wall_check": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-Z-REVIVED-N10-ARCHIVE-WALL-CHECK-20260919.md",
+      "revived_z_n10_archive_wall_status": "COMPLETE_PRE_AUDIT_NO_CREDIT",
+      "z24_conditional_reentry": {
+        "status": "BLOCKED_BY_ACTUAL_LABELED_GLUE_ADAPTER",
+        "purpose": "N10 exceptional parity/support filter only; not a degree bound",
+        "retained_blockers": [
+          "actual_labeled_glue_subgroup_identified=false",
+          "actual_labeled_glue_generator_set_identified=false",
+          "actual_index512_glue_identified=false"
+        ]
+      },
+      "n10_local_no_go": {
+        "finite_forbidden_lambda_list": "NO",
+        "fixed_finite_jet_depth": "NO",
+        "fixed_local_principal_part_rank_counter": "NO",
+        "automatic_multifibration_ramification": "NO",
+        "remaining": "global algebraic lambda compatibility; adaptive/unbounded jets; global intersection/conductor charge; conditional Z24 support filter"
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "MB104 revived-Z N10 landing gate — global restriction on FSM-minimal free lambda",
-    "active_leaf": "MB104-ZREV-N10-FSM-MINIMAL-LANDING-GLOBAL-GATE",
-    "required_input": "Use the pre-audit Z16+Z21 N<=9 finite-window composition and Z6 auxiliary branch-count inequality only as no-credit research inputs. At N=10, test whether actual global cuboid geometry restricts the linearly many FSM-minimal (A,B)=(1,1) landing values lambda in C* or their first jets strongly enough to force repeated/opposite/tangent collisions or otherwise a quadratic delta contribution.",
+    "title": "MB104 revived-Z N10 global/adaptive landing gate",
+    "active_leaf": "MB104-ZREV-N10-GLOBAL-ADAPTIVE-LANDING-GATE",
+    "required_input": "Use the pre-audit N<=9 Miyaoka+Z21 window and N=10 structural reduction only as no-credit research inputs. Historical exact-head walls rule out finite forbidden landing sets, fixed finite jet depth, fixed local principal-part rank counting, and automatic multifibration ramification. Search only for a genuinely global algebraic relation among the linearly many FSM-minimal lambda/first-jet data, an adaptive/unbounded jet construction with a global dimension estimate, or a global intersection/conductor charge. In parallel, Z24 may be used only if an exact labeled actual-geometry glue/support adapter is first established.",
     "success_shapes": [
-      "prove a uniform/sublinear capacity bound for allowed lambda/jet values and combine with Z14-COLL to obtain a degree bound",
-      "derive an exact global algebraic relation among the lambda values that forces enough collisions/tangencies for Z25/Langer or Z14",
-      "prove the retained global data leave lambda freely variable at this interface, close this revived-Z landing gate negatively, and fall back to Z12-C1"
+      "derive a global relation/capacity bound on lambda or first jets that combines with Z14-COLL to bound d",
+      "derive an adaptive/unbounded jet/differential inequality with asymptotic gain over the N10 minimal-branch density",
+      "derive a global conductor/intersection charge for high-order branch agreement",
+      "materialize an exact labeled actual Picard glue/support code and use it to exclude or restrict N10 support",
+      "prove all retained global data still permit the N10 minimal free-lambda sector and route to Z12-C1"
     ],
     "must_not_repeat": [
-      "plain pigeonhole on 48 nodes without landing control",
-      "lambda->-lambda involution alone; retained AS already shows it does not force opposite pairs",
-      "infer delta from M_i, r_i, or O alone",
-      "formal c2_orb substitution into a smooth theorem",
-      "generic product correspondence boundedness without packet/landing input",
+      "plain 48-node pigeonhole",
+      "finite forbidden landing values",
+      "fixed finite jet depth",
+      "fixed local symmetric-order rank counting without adaptive/global input",
+      "lambda->-lambda involution alone",
+      "automatic ramification in every incident genus-5 fibration",
+      "unlabeled endpoint-compatible discriminant candidates treated as actual Picard glue",
+      "formal c2_orb substitution",
       "return to W16-H",
       "claim N<=9 theorem/receiver credit before hostile audit"
     ],
-    "fallback_after_gate": "Z12-C1 exact order-4 active-support regularity computation"
+    "fallback_after_gate": "Z12-C1 exact order-4 active-support regularity computation, interpreted only as the first adaptive/global differential experiment rather than a generic finite-jet multiplicity counter"
   },
   "routing": {
     "independent_of_full178_execution": true,
