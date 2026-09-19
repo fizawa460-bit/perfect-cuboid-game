@@ -180,7 +180,32 @@ def main():
         req(routing["current_leaf_uses_finite_b3_quotient"] is True, "b3 quotient route")
         req(routing["single_pair_stein_correction_still_open"] is True, "single-pair Stein firewall")
         req(routing["fourmap_common_vertical_meets_carrier"] is False, "fourmap carrier finiteness")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-B3-QUOTIENT-CONDUCTOR-COLLISION", "post-audit active leaf")
+        qc=d["retained_frontier"]["b3_quotient_collision_accounting"]
+        req(qc["source_w4_k3_note_ref"] == "b28adadc95776762754e1415a0ecab0da1d4cd8e", "W4 K3 source ref")
+        req(qc["source_w4_k3_note_blob"] == "ff61ae6c06549af194b4f1af611c7d4ea46d0dff", "W4 K3 source blob")
+        req(qc["source_w4_root_wall_blob"] == "b28fbeb260250ec2cb97ee45aaaf1933a886909a", "W4 root-wall source blob")
+        q=qc["pushdown_class"]
+        req(q["H_K_square"] == 8 and q["H_K_dot_Q"] == 112 and q["Q_square"] == 736, "b3 pushdown numerics")
+        req(q["support_quotient_node_weights"] == [2,2,2,2,2,2,1,1], "b3 quotient weights")
+        req(1568-32*sum(x*x for x in q["support_quotient_node_weights"]) == 736, "b3 pushdown square replay")
+        req(qc["image_curve"]["arithmetic_genus_formula"] == "1+368*l^2", "K3 image arithmetic genus")
+        req(qc["image_curve"]["delta_formula"] == "368*l^2", "K3 image delta")
+        req(qc["branch"]["class"] == "2H_K" and qc["branch"]["D_dot_branch_over_l"] == 224, "double-cover branch class")
+        req(qc["branch"]["pullback_branch_divisor_even"] is True and qc["branch"]["normalization_half_branch_degree_over_l"] == 112, "split branch condition")
+        req(qc["carrier"]["P_dot_sigmaP"] == 400 and qc["carrier"]["sigma_invariant"] is False, "carrier conjugate data")
+        req(qc["collision_identity"]["C_dot_sigmaC_formula"] == "400*l^2", "conjugate intersection")
+        req(qc["collision_identity"]["branch_part_of_C_dot_sigmaC_formula"] == "112*l", "branch intersection contribution")
+        req(qc["collision_identity"]["off_branch_C_dot_sigmaC_formula"] == "400*l^2-112*l", "off-branch intersection")
+        req(qc["collision_identity"]["quotient_added_delta_formula"] == "200*l^2-56*l", "added quotient delta")
+        for l in (1,2,3,7):
+            delta_c=168*l*l+56*l
+            extra=(400*l*l-112*l)//2
+            delta_d=368*l*l
+            req(delta_c+extra == delta_d, "quotient collision identity")
+        req(all(x is False for x in qc["firewalls"].values()), "quotient collision firewalls")
+        req(routing["b3_quotient_genus_collision_route"] == "CLOSED_AS_EXACT_EQUALITY", "quotient genus route closed")
+        req(routing["b3_split_branch_condition_live"] is True, "split branch route live")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-B3-SPLIT-BRANCH-CONDUCTOR", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
