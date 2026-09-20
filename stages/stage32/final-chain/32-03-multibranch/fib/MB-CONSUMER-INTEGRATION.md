@@ -70,20 +70,26 @@ A valid B1 handoff must determine `delta_ij` for actual conductor pairs, or prov
 
 ### FIB-B2: global consumer bridge avoiding pointwise conductor signs
 
-Independently of B1, use the fibration/Picard divisor classes to attack the retained global product-correspondence consequence
+The MB consumer has already sharpened the product route beyond a generic centralizer condition:
 
 ```
 Zbar ~ Tdiag(Zbar),
-Phi_Z in End(J(C8))^G.
+Phi_Z = 0,
+J(C8)^G ~= (Z/2)^5,
+|Pic^(28l)(C8)^G| = 32.
 ```
 
-A valid B2 handoff is an exact contradiction to the existence of the required degree-`28l` etale self-correspondence with the retained support passport. Acceptable forms include:
+Hence the surviving external-product line bundle is reduced to exactly `32 x 32 = 1024` ordered invariant factor-class labels. The missing adapter is algebraic: the five fixed 2-torsion generators are known in exact homology coordinates but are not yet realized as algebraic divisor/theta/modular classes that can be evaluated against the `000707` support passport or residual conductor character.
 
-1. an exact divisor-class calculation of `O_{C8 x C8}(Zbar)` incompatible with `Zbar~Tdiag(Zbar)`;
-2. an exact Jacobian decomposition / endomorphism-ring restriction excluding the required integral full-`G` centralizer element;
-3. a fibration-induced intersection or residual-geometry identity forcing a contradiction with the retained product-image genus/singularity budget.
+A valid B2 handoff should therefore use FIB/Picard64 data to do one of the following:
 
-B2 is useful specifically because it can close e=2 without evaluating every `delta_ij`.
+1. realize the five fixed Jacobian 2-torsion generators algebraically and enumerate the 1024 factor pairs against the support passport;
+2. identify an exact ambient/fibration restriction class whose pullback supplies those factor-line labels;
+3. prove directly that no external-product divisor `p_1^*A tensor p_2^*B` among the 1024 labels can have the retained irreducible degree-`28l` common-etale normalization and product-image singularity budget.
+
+A generic endomorphism-ring search is no longer the target because Rosati already forces `Phi_Z=0`.
+
+The retained Stoll--Testa fibration package currently has **no exact adapter** identifying its surface fiber classes with the factor lines on `C8`. Matching genus, degree, or modular provenance is not enough. FIB-B2 must construct that adapter rather than assume it.
 
 ## Decision tree
 
@@ -106,3 +112,9 @@ Every consumer handoff must include:
 - explicit firewalls for all stronger claims.
 
 MB-FIB does not close MB104, Stage32-03, MAIN, theorem, endpoint, or Perfect-Cuboid claims by itself.
+
+## Current execution gate
+
+At PR #1830 head `b429079d619c340641e07a57e3703816eed31700`, the shared Stage32 MAIN startup workflow fails before any MB-FIB mathematics at the merge-ready freshness check: current `main` is `da573f048a82a63e459be1343fb002e663b60875` while the workflow still requires predecessor `659ba93b9eba657b49a728f549c6bb6028398e08`. Claim-frontier integrity passes.
+
+This is a shared process/safety gate, not a fibration result. Heavy MB-FIB execution remains unarmed until that MAIN startup freshness lock is repaired and passes.
