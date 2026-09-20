@@ -9,6 +9,7 @@ RECEIPT=HERE/"HPADJ22-V46-POSTMERGE-SUCCESSOR.json"
 RECEIPT_BLOB="0ebbf672c432cb3cb1b2927bf03d660567eb417c"
 RECEIPT_CANON="61b40b3a98bbc1be7a59e90225086e3bc21ff6dd35f9c96bc9cbcfcf5bb348d6"
 MERGED_MAIN="659ba93b9eba657b49a728f549c6bb6028398e08"
+CURRENT_REPOSITORY_MAIN="da573f048a82a63e459be1343fb002e663b60875"
 AUDITED_HEAD="5aa6e63923946e201f51c8070cf9466029073d5e"
 AUDIT_REVIEW=5254811573
 BOUND=138652739800650593494
@@ -44,12 +45,12 @@ def main():
         req(blob(root/"stages/stage32/proof/verify_cross_lane_demands.py")==V45_CROSS_BLOB,"V45 cross drift")
     st=json.loads(STATE.read_text(encoding="utf-8"));req(canon(st)==st.get("canonical_sha256_without_this_field"),"state canonical")
     req(st["schema"]=="STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR","schema")
-    req(st["authority_sync"]["current_repository_main"]==MERGED_MAIN,"current main")
+    req(st["authority_sync"]["current_repository_main"]==CURRENT_REPOSITORY_MAIN,"current main")
     req(st["authority_sync"]["predecessor_process_head"]==AUDITED_HEAD,"predecessor head")
     req(st["authority_sync"]["v45_merge_commit"]==MERGED_MAIN and st["authority_sync"]["v45_merge_pr"]==1824 and st["authority_sync"]["v45_final_hostile_audit_review_id"]==AUDIT_REVIEW,"merge metadata")
     req(st["authority_sync"]["v46_postmerge_sync_additional_pruning"]==0,"V46 pruning")
     f=st["current_exact_frontier"];req(f["authoritative_remaining_strata"]==17128 and f["authoritative_remaining_terminals"]==BOUND,"authority");req(f["v45_merged_main_synced"] is True and f["v46_postmerge_sync_additional_pruning"]==0,"frontier sync")
-    req(st["source_locks"]["live_specialist_sweep"]["observed_repository_main"]==MERGED_MAIN,"live main")
+    req(st["source_locks"]["live_specialist_sweep"]["observed_repository_main"]==CURRENT_REPOSITORY_MAIN,"live main")
     req(st["current"]["next_exact_route"]=="FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS","route")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
     print("PASS: Stage32 MAIN V46 adopts merged hostile-audited V45 authority with zero new pruning")
