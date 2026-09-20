@@ -118,3 +118,50 @@ MB-FIB does not close MB104, Stage32-03, MAIN, theorem, endpoint, or Perfect-Cub
 At PR #1830 head `b429079d619c340641e07a57e3703816eed31700`, the shared Stage32 MAIN startup workflow fails before any MB-FIB mathematics at the merge-ready freshness check: current `main` is `da573f048a82a63e459be1343fb002e663b60875` while the workflow still requires predecessor `659ba93b9eba657b49a728f549c6bb6028398e08`. Claim-frontier integrity passes.
 
 This is a shared process/safety gate, not a fibration result. Heavy MB-FIB execution remains unarmed until that MAIN startup freshness lock is repaired and passes.
+
+## Refined B1 exact target
+
+The MB consumer already has both pieces of ambient residual-cover geometry:
+
+```
+local product cover: (p,q) -> (p,q)/{+-1}, with residual sheet involution
+    (p,q) <-> (-p,-q),
+
+explicit residual Kummer generator:
+    r0 = theta10(w)/theta10(2w),
+    r0^2 = 2*f_t,
+    deck: r0 -> -r0.
+```
+
+Therefore B1 does **not** need to rediscover the double cover or a Kummer square class. The exact missing object is only the hypothetical carrier germ inside the invariant A1 coordinates
+
+```
+x=p^2, y=pq, z=q^2, xz=y^2.
+```
+
+For an actual normalization branch
+
+```
+p(s)=a*s+O(s^2),
+q(s)=b*s+O(s^2),
+```
+
+B1 must source-lock enough local carrier/fibration equations to recover the lifted leading pair `(a,b)` at both conductor preimages and hence decide whether the conductor identification transports
+
+```
+(a,b) -> (a,b)
+```
+
+or
+
+```
+(a,b) -> (-a,-b).
+```
+
+Equivalently it may evaluate the already explicit `r0 o psi` at those paired normalization preimages.
+
+### Fibration relevance criterion
+
+A Picard64/fibration candidate is useful to B1 only if its local defining section or residual divisor cuts the A1 germ strongly enough to determine the normalized branch lift/orientation above. Merely knowing `H.F`, `P.F`, support mass, nefness, or ramification degree is insufficient.
+
+The six known genus-five fibrations already span cotangent directions away from the nodes, but that differential information does not determine the simultaneous sign `(a,b)~(-a,-b)`. Any new degree-10/12 fibration must add genuine first-jet or local-equation information at the supported A1 nodes to count as B1 progress.
