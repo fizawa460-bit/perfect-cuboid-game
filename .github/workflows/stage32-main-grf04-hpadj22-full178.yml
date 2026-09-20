@@ -24,6 +24,7 @@ jobs:
       run: ${{ steps.gate.outputs.run }}
       carry_run_id: ${{ steps.gate.outputs.carry_run_id }}
       carry_topology: ${{ steps.gate.outputs.carry_topology }}
+      fallback_run_id: ${{ steps.gate.outputs.fallback_run_id }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -39,6 +40,7 @@ jobs:
           echo "run=false" >> "$GITHUB_OUTPUT"
           echo "carry_run_id=0" >> "$GITHUB_OUTPUT"
           echo "carry_topology=NONE" >> "$GITHUB_OUTPUT"
+          echo "fallback_run_id=0" >> "$GITHUB_OUTPUT"
           test -n "$before"
           git fetch --no-tags --depth=1 origin "$before" || true
           git cat-file -e "$before^{commit}"
@@ -79,8 +81,11 @@ jobs:
           carry=p["carry"]
           assert carry["predecessor_run_id"]>0
           assert carry["predecessor_topology"] in ("V1_FULL_PARENT","V2_ROW_WINDOW")
+          assert carry.get("fallback_predecessor_run_id",0)>0
+          assert int(carry["fallback_predecessor_run_id"]) != int(carry["predecessor_run_id"])
           print("carry_run_id="+str(int(carry["predecessor_run_id"])))
           print("carry_topology="+carry["predecessor_topology"])
+          print("fallback_run_id="+str(int(carry["fallback_predecessor_run_id"])))
           PY
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "d62c7d05097c6dba4a6275658db75f75a2e091d4"
@@ -89,9 +94,11 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json)" = "d154b3cff576c2d5a2853be88e77cf6d195e7490"
           carry="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["predecessor_run_id"]))')"
           topology="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["predecessor_topology"])')"
+          fallback="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["fallback_predecessor_run_id"]))')"
           echo "run=true" >> "$GITHUB_OUTPUT"
           echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
           echo "carry_topology=$topology" >> "$GITHUB_OUTPUT"
+          echo "fallback_run_id=$fallback" >> "$GITHUB_OUTPUT"
 
   parents:
     name: FULL178 checkpoint b${{ matrix.band }} c${{ matrix.chunk }} w${{ matrix.window }}
@@ -128,7 +135,8 @@ jobs:
           path: carry-parent
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
           github-token: ${{ github.token }}
-      - name: Fetch V2 predecessor carry artifact
+      - id: primary_v2_carry
+        name: Fetch V2 predecessor carry artifact
         if: needs.authorize.outputs.carry_topology == 'V2_ROW_WINDOW'
         continue-on-error: true
         uses: actions/download-artifact@v4
@@ -136,6 +144,15 @@ jobs:
           name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
           path: carry-parent
           run-id: ${{ needs.authorize.outputs.carry_run_id }}
+          github-token: ${{ github.token }}
+      - name: Fetch V2 fallback predecessor carry artifact
+        if: needs.authorize.outputs.carry_topology == 'V2_ROW_WINDOW' && steps.primary_v2_carry.outcome != 'success'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.fallback_run_id }}
           github-token: ${{ github.token }}
       - id: compute
         name: Run resumable exact row-window with soft wall
