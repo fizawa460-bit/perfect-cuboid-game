@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 9,
+  "generation": 10,
   "armed": true,
-  "objective": "Resume generation-3 exact row-window checkpoints after V46 successor verifier separated historical V45 merge authority from current repository main and all corresponding startup blob locks were refreshed; validate and carry 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
+  "objective": "Resume generation-3 exact row-window checkpoints with FULL178 effective heavy concurrency raised to 16 after user stopped all other heavy work; preserve generation-3 96-artifact predecessor carry, validate exact row certificates, and recompute only missing rows/windows.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -102,7 +102,7 @@
   },
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
-    "planned_effective_heavy_concurrency": 3,
+    "planned_effective_heavy_concurrency": 16,
     "parent_jobs": 96,
     "artifact_count_upper_bound": 97,
     "artifact_bytes_upper_bound_each": 1048576,
@@ -112,7 +112,8 @@
     "retention_days_recovery_snapshot": 2,
     "retention_days_aggregate": 3,
     "job_timeout_minutes": 90,
-    "compute_soft_timeout_minutes": 78
+    "compute_soft_timeout_minutes": 78,
+    "observed_other_stage32_heavy_concurrency_at_arm": 0
   },
   "authorization": {
     "synchronize_only": true,
@@ -183,6 +184,13 @@
   "generation8_incident": {
     "status": "SUPERSEDED_BEFORE_CREDIT",
     "reason": "generation-8 arm exposed a stale V46 postmerge verifier that conflated historical V45 merge authority with current repository main after MB-FIB #1828. The verifier was repaired and source-lock refreshed. No generation-8 mathematical result or credit is consumed.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation9_incident": {
+    "status": "USER_CANCELLED_ZERO_CREDIT",
+    "reason": "User stopped generation-9 to reallocate Stage32 heavy capacity. Run 35501107348 produced 4 checkpoint artifacts before cancellation, but it is not used as the sole predecessor because it lacks the full 96-window artifact surface; generation-3 run 35469124811 remains the complete predecessor carry source.",
+    "produced_checkpoint_artifacts": 4,
     "mathematical_failure": false,
     "main_credit": false
   }
