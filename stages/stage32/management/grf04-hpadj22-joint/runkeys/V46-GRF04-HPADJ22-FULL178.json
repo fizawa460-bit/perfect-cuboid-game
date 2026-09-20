@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 10,
+  "generation": 11,
   "armed": true,
-  "objective": "Resume generation-3 exact row-window checkpoints with FULL178 effective heavy concurrency raised to 16 after user stopped all other heavy work; preserve generation-3 96-artifact predecessor carry, validate exact row certificates, and recompute only missing rows/windows.",
+  "objective": "Resume FULL178 from generation-10's 95 surviving V2 row-window artifacts at effective heavy concurrency 16, with generation-3 run 35469124811 as per-window fallback only where generation-10 artifact is absent; recompute only the missing/incomplete exact rows.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -106,7 +106,7 @@
     "parent_jobs": 96,
     "artifact_count_upper_bound": 97,
     "artifact_bytes_upper_bound_each": 1048576,
-    "predecessor_artifact_count_observed": 96,
+    "predecessor_artifact_count_observed": 95,
     "projected_peak_artifact_mb_upper_bound": 227,
     "retention_days_parent": 2,
     "retention_days_recovery_snapshot": 2,
@@ -122,9 +122,13 @@
     "first_windowed_generation": 2
   },
   "carry": {
-    "predecessor_run_id": 35469124811,
+    "predecessor_run_id": 35501853750,
     "predecessor_topology": "V2_ROW_WINDOW",
-    "expected_predecessor_parent_artifacts": 96
+    "expected_predecessor_parent_artifacts": 95,
+    "fallback_predecessor_run_id": 35469124811,
+    "fallback_predecessor_topology": "V2_ROW_WINDOW",
+    "expected_fallback_parent_artifacts": 96,
+    "fallback_rule": "Use generation-10 artifact when present; only if that exact parent-window artifact is absent, download the same V2 parent-window from generation-3."
   },
   "credit": {
     "main": false,
@@ -193,5 +197,22 @@
     "produced_checkpoint_artifacts": 4,
     "mathematical_failure": false,
     "main_credit": false
+  },
+  "generation10_incident": {
+    "status": "CHECKPOINTED_95_OF_96__ONE_PARENT_CANCELLED_ZERO_CREDIT",
+    "run_id": 35501853750,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 95,
+    "parent_jobs_cancelled": 1,
+    "discovered_parent_artifacts": 95,
+    "missing_parent_window": "b3-c3-w0",
+    "missing_parent_job_id": 106054915103,
+    "missing_parent_compute_started_at": "2026-09-20T11:53:25Z",
+    "missing_parent_job_completed_at": "2026-09-20T13:28:16Z",
+    "summary_status": "FAILED_EXPECTED_96_FOUND_95",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "The 95 uploaded row-window artifacts remain valid zero-credit carry. The missing b3-c3-w0 artifact was cancelled before upload; generation-11 falls back to generation-3 for that exact window only."
   }
 }
