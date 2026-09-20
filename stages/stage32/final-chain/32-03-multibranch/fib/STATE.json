@@ -3,7 +3,7 @@
   "stage": 32,
   "lane_id": "MB-FIB",
   "command": "stage32mb-fib",
-  "status": "READY_FOR_DEDICATED_RESEARCH_PR_NO_CREDIT",
+  "status": "DEDICATED_RESEARCH_PR_PREPARED_CONSUMER_TARGET_BOUND_NO_CREDIT",
   "consumer_lane": "MB",
   "purpose": "MB-local auxiliary MB104 fibration/Picard64 producer subroute that can run in parallel without moving or freezing the ordinary MB active leaf.",
   "routing": {
@@ -30,8 +30,8 @@
   },
   "active_surface": {
     "research_pr_number": null,
-    "research_branch": null,
-    "exact_head": null,
+    "research_branch": "stage32mb-fib-consumer-integration-20260920",
+    "exact_head": "a8f16d0b080734f15ff83f09a42dc9dae54d8d75",
     "bootstrap_merge_pr_is_not_research_surface": true
   },
   "audit": {
@@ -105,9 +105,9 @@
         "hperp_norm": 144
       }
     ],
-    "first_action": "Create/continue the dedicated retained MB-FIB research PR, port the source-locked bounded runner, freeze and audit the execution surface, then run shell0 pilot only.",
-    "zero_candidate_handoff": "Produce an audited exact enumeration certificate only. The MB consumer must compose it with Z40B and degree-8 exhaustiveness before asserting min_ALL fibrations P.F=40.",
-    "nonzero_candidate_handoff": "Retain exact candidates; degree10 goes to residual sextic configurations, degree12 to QA+QB+degree4 residual geometry.",
+    "first_action": "Create/continue the dedicated retained MB-FIB research PR; preserve the four-shell exact census as FIB-A, and in the same proof route target FIB-B1 (delta_ij/local lift) or FIB-B2 (global product-correspondence contradiction). Port/freeze/audit the source-locked runner before shell0 pilot.",
+    "zero_candidate_handoff": "Produce an audited exact enumeration certificate, compose separately with Z40B and degree-8 exhaustiveness if justified, then test whether the resulting global fibration optimum yields FIB-B2. Zero shell hits alone do not close e=2 or MB104.",
+    "nonzero_candidate_handoff": "Retain exact candidates; degree10 residual sextic and degree12 QA+QB+degree4 geometry feed both FIB-B1 local delta_ij extraction and FIB-B2 global product-correspondence obstruction.",
     "forbidden_drift": [
       "do not reopen 32-01 terminal pruning as the objective",
       "do not treat known140 nonnegativity as effectivity or semiampleness",
@@ -134,7 +134,9 @@
       "hostile_audit_receipt",
       "certificate_blob_or_canonical_hash",
       "source_population_semantics",
-      "result_scope"
+      "result_scope",
+      "consumer_statement_released",
+      "route_phase_A_B1_or_B2"
     ],
     "consumer_must_explicitly_accept": true,
     "producer_surface": "MB-FIB"
@@ -153,5 +155,28 @@
     "perfect_cuboid_nonexistence_claim": false,
     "merge_authorized": false
   },
-  "audit_command": "stage32mb-fib-audit"
+  "audit_command": "stage32mb-fib-audit",
+  "consumer_target": {
+    "source_branch": "stage32mb-mainbatch-20260912",
+    "observed_head": "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11",
+    "active_leaf": "MB104-GENUS1-SPAN5-BALANCED16-000707-E2-RESIDUAL-LIFT-CONDUCTOR-PAIR-MAP",
+    "retained_progress": [
+      "complete Armstrong fixed-point normal closure",
+      "H1(X_H,Z)=0",
+      "Pic^tau(Y)=0",
+      "w~0",
+      "Gamma~tau Gamma",
+      "Zbar~Tdiag(Zbar)",
+      "Phi_Z in End(J(C8))^G"
+    ],
+    "exact_missing_direct_datum": "branch-specific conductor transition delta_ij=r_z(x_j)/r_z(x_i) in mu_2 at actual conductor-identified normalization preimages",
+    "weighted_cut_target": "prove y/2 < 84*l^2, or replace pointwise conductor evaluation by an exact global contradiction excluding the required product correspondence",
+    "integration_note": "stages/stage32/final-chain/32-03-multibranch/fib/MB-CONSUMER-INTEGRATION.md"
+  },
+  "proof_route": {
+    "phase_A": "exact low-degree Picard64 fibration shell census",
+    "phase_B1": "for geometrically promotable shell candidates, construct normalization-to-product/Kummer specialization and evaluate or constrain delta_ij on certified conductor pairs",
+    "phase_B2": "use fibration/Picard divisor data to contradict Zbar~Tdiag(Zbar) or the required integral full-G Jacobian-centralizer correspondence without pointwise conductor signs",
+    "completion_rule": "A alone is producer evidence. MB-consumable progress requires an audited B1 or B2 handoff, or a separately audited composition showing the global fibration optimum yields such a contradiction."
+  }
 }
