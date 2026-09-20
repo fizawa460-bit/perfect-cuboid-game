@@ -339,11 +339,35 @@ def main():
             dd=112*l
             coeff=[1,dd-7,21-5*dd,10*dd-35,35-10*dd,5*dd-21,7-dd,-1]
             req(coeff[1] > 0 and coeff[2] < 0 and coeff[3] > 0 and coeff[4] < 0 and coeff[5] > 0 and coeff[6] < 0, "Hilbert numerator alternating signs")
-        req(nb["candidate_pattern_status"] == "HILBERT_NUMERATOR_COMPATIBLE_ONLY_NOT_YET_PROVED_MINIMAL_RESOLUTION", "Betti firewall")
-        req(all(x is False for x in nb["firewalls"].values()), "Betti preflight firewalls")
-        req(routing["normalization_module_betti_leaf_live"] is True, "Betti leaf live")
+        req(nb["candidate_pattern_status"] == "PROVED_UNIQUE_MINIMAL_S_FREE_RESOLUTION_SHAPE", "Betti resolution proved")
+        req(nb["regularity_proof"]["result"] == "reg_S(B)=2", "Betti regularity")
+        req(nb["canonical_module_proof"]["result"] == "omega_B=B", "Betti canonical module")
+        req(nb["canonical_module_proof"]["local_duality"] == "Ext^5_S(B,S(-7))=B", "Betti local duality")
+        req(nb["canonical_module_proof"]["betti_symmetry"] == "beta_(i,j)=beta_(5-i,7-j)", "Betti symmetry")
+        bt=nb["forced_betti_table"]
+        req(bt["F0"] == ["S","S(-1)^(d-7)"], "Betti F0")
+        req(bt["F1"] == ["S(-2)^(5d-21)"], "Betti F1")
+        req(bt["F2"] == ["S(-3)^(10d-35)"], "Betti F2")
+        req(bt["F3"] == ["S(-4)^(10d-35)"], "Betti F3")
+        req(bt["F4"] == ["S(-5)^(5d-21)"], "Betti F4")
+        req(bt["F5"] == ["S(-6)^(d-7)","S(-7)"], "Betti F5")
+        req(nb["compatibility_checks"]["all_multiplicities_positive_for_l_ge_1"] is True, "Betti positivity")
+        req(nb["compatibility_checks"]["contradiction"] is False, "Betti no contradiction")
+        req(nb["compatibility_checks"]["bounded_receiver_obtained"] is False, "Betti not bounded")
+        req(nb["firewalls"]["candidate_betti_table_proved"] is True and nb["firewalls"]["graded_self_duality_shift_proved"] is True, "Betti proof firewalls")
+        req(nb["firewalls"]["carrier_excluded"] is False and nb["firewalls"]["finite_degree_window"] is False, "Betti zero exclusion")
+
+        els=d["retained_frontier"]["elliptic_linear_series_syzygy_shallow"]
+        req(els["section_space_dimension"] == 7 and els["supported_fibers"] == 14, "linear-series packet")
+        req(els["common_support_section"] == "h", "linear-series common section")
+        req(els["firewalls"]["new_linear_series_obstruction"] is False, "linear-series no-go")
+
+        req(routing["normalization_module_betti_leaf_live"] is False, "Betti leaf closed")
+        req(routing["normalization_module_betti_route"] == "CLOSED_FORCED_COMPATIBLE_SELF_DUAL_RESOLUTION", "Betti route closure")
+        req(routing["elliptic_linear_series_shallow_route"] == "CLOSED_EQUIVALENT_DOMINATED", "linear-series closure")
+        req(routing["finite_receiver_blind_scan_live"] is True, "finite receiver scan live")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-NORMALIZATION-MODULE-BETTI-PREFLIGHT", "post-audit active leaf")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-FINITE-RECEIVER-BLIND-SCAN", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()

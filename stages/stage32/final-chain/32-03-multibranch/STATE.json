@@ -623,7 +623,7 @@
         {
           "name": "elliptic linear-series degree-one collapse",
           "status": "EQUIVALENT",
-          "reason": "fourteen 8l-point fibers reduce to the known fourteen support landing hyperplanes after quotienting the common support section"
+          "reason": "degree-one collapse is exactly the known support landing configuration; quadratic and higher shallow syzygy data are absorbed by the CI and forced normalization-module resolution"
         },
         {
           "name": "quadratic linear-series relations",
@@ -637,8 +637,8 @@
         },
         {
           "name": "finite normalization-module Betti receiver",
-          "status": "LIVE",
-          "reason": "canonical-model CI plus elliptic normalization gives an exact finite graded S-module Hilbert numerator and self-duality test not yet audited"
+          "status": "BLOCKED_NO_NEW_INFORMATION",
+          "reason": "forced almost-linear self-dual Betti table is compatible; multiplicities grow linearly with l, so it is not an l-independent finite receiver"
         },
         {
           "name": "generic finite replacement receiver beyond graded module",
@@ -647,20 +647,20 @@
         }
       ],
       "cycle_fields": {
-        "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
-        "CYCLE_ACTIVE_RECEIVER": "normalization ring B as a codimension-5 graded CM S=k[x0..x6]-module over the CI carrier",
-        "CYCLE_LIVE_CANDIDATES": 1,
+        "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
+        "CYCLE_ACTIVE_RECEIVER": "000707 carrier with exact CI image and compatible forced normalization-module resolution",
+        "CYCLE_LIVE_CANDIDATES": 0,
         "CYCLE_UNTESTED_CANDIDATES": 1,
         "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
         "CYCLE_BLIND_REDISCOVERY": true,
         "CYCLE_SPLIT_TRIGGERED": false,
         "CYCLE_PARKING_AUDIT_COMPLETE": false,
-        "CYCLE_NEW_VIEW": "normalization-module Hilbert numerator and Gorenstein self-dual Betti constraints",
+        "CYCLE_NEW_VIEW": "forced almost-linear self-dual normalization resolution; compatible but not bounded",
         "CYCLE_NEW_VIEW_SOURCE": "BLIND"
       }
     },
     "normalization_module_betti_preflight": {
-      "status": "POST_AUDIT_EXACT_HILBERT_NUMERATOR_PREFLIGHT_ZERO_CREDIT",
+      "status": "POST_AUDIT_EXACT_FORCED_SELF_DUAL_BETTI_TABLE_COMPATIBLE_NO_GO_NO_CREDIT",
       "base_field": "characteristic zero",
       "polynomial_ring": "S=k[x0,...,x6]",
       "module": "B=direct_sum_{n>=0} H^0(E,nH_E)",
@@ -693,13 +693,99 @@
           "S(-7)"
         ]
       },
-      "candidate_pattern_status": "HILBERT_NUMERATOR_COMPATIBLE_ONLY_NOT_YET_PROVED_MINIMAL_RESOLUTION",
-      "objective": "determine whether CM + canonical-module/self-duality + degree generation forces this Betti table, or instead permits additional paired Betti cancellations; test for any impossibility or new finite invariant",
+      "candidate_pattern_status": "PROVED_UNIQUE_MINIMAL_S_FREE_RESOLUTION_SHAPE",
+      "objective": "closed: the normalization module has a forced compatible almost-linear self-dual resolution; no parity/divisibility impossibility and no l-independent finite receiver result",
       "firewalls": {
-        "candidate_betti_table_proved": false,
-        "graded_self_duality_shift_proved": false,
+        "candidate_betti_table_proved": true,
+        "graded_self_duality_shift_proved": true,
         "carrier_excluded": false,
         "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      },
+      "regularity_proof": {
+        "sheaf": "nu_*O_E on P6",
+        "section_module_saturated": true,
+        "cohomology": [
+          "H^1(E,O_E)=1",
+          "H^1(E,nH_E)=0 for n>=1",
+          "higher sheaf cohomology vanishes because E is a curve"
+        ],
+        "result": "reg_S(B)=2"
+      },
+      "canonical_module_proof": {
+        "formula": "omega_B=direct_sum_{n>=0} H^0(E,omega_E tensor nH_E)",
+        "elliptic_canonical": "omega_E=O_E",
+        "result": "omega_B=B",
+        "local_duality": "Ext^5_S(B,S(-7))=B",
+        "betti_symmetry": "beta_(i,j)=beta_(5-i,7-j)"
+      },
+      "degree_generator_proof": {
+        "B0_dimension": 1,
+        "B1_dimension_formula": "d",
+        "S1_times_B0_dimension": 7,
+        "minimal_degree1_generators_formula": "d-7",
+        "possible_degree2_generators_symbol": "q"
+      },
+      "minimality_elimination": [
+        "reg<=2 permits only shifts j-i<=2",
+        "nondegeneracy gives beta_1,1=0 and minimality gives beta_2,2=0",
+        "self-duality writes beta_3,3=e, beta_4,4=b, beta_5,5=q",
+        "minimal differential F3->F2 has no lower-shift target for S(-3)^e, hence e=0",
+        "then F4->F3 has no lower-shift target for S(-4)^b, hence b=0",
+        "then F5->F4 has no lower-shift target for S(-5)^q, hence q=0",
+        "Hilbert numerator then forces the remaining Betti numbers uniquely"
+      ],
+      "forced_betti_table": {
+        "F0": [
+          "S",
+          "S(-1)^(d-7)"
+        ],
+        "F1": [
+          "S(-2)^(5d-21)"
+        ],
+        "F2": [
+          "S(-3)^(10d-35)"
+        ],
+        "F3": [
+          "S(-4)^(10d-35)"
+        ],
+        "F4": [
+          "S(-5)^(5d-21)"
+        ],
+        "F5": [
+          "S(-6)^(d-7)",
+          "S(-7)"
+        ]
+      },
+      "compatibility_checks": {
+        "all_multiplicities_positive_for_l_ge_1": true,
+        "hilbert_numerator_replayed": true,
+        "self_dual_shift7": true,
+        "regularity": 2,
+        "contradiction": false,
+        "bounded_receiver_obtained": false,
+        "reason_not_bounded": "matrix ranks and Betti multiplicities grow linearly with d=112l"
+      }
+    },
+    "elliptic_linear_series_syzygy_shallow": {
+      "status": "POST_AUDIT_SHALLOW_EQUIVALENCE_DOMINATION_NO_GO_NO_CREDIT",
+      "normalization_line_degree_formula": "112*l",
+      "section_space_dimension": 7,
+      "supported_fibers": 14,
+      "fiber_degree_formula": "8*l",
+      "common_support_section": "h",
+      "degree1_reduction": "after quotienting <h>, each supported fiber gives one hyperplane in a 6-dimensional space; this is exactly the retained 14-node landing/support configuration",
+      "quadratic_reduction": "the four degree-two relations are exactly the fixed cuboid CI(2,2,2,2) equations",
+      "higher_graded_reduction": "the normalization-module Betti calculation gives the compatible almost-linear resolution; its ranks grow with l and do not form a bounded discrete receiver",
+      "result": "the shallow elliptic-linear-series/syzygy view is equivalent/dominated by the retained support geometry plus the projective CI/normalization-module package",
+      "firewalls": {
+        "new_linear_series_obstruction": false,
+        "finite_degree_window": false,
+        "carrier_excluded": false,
         "MB104_complete": false,
         "receiver_credit": false,
         "theorem_credit": false,
@@ -710,18 +796,19 @@
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "normalization-module Betti/self-duality preflight",
-    "active_leaf": "MB104-000707-NORMALIZATION-MODULE-BETTI-PREFLIGHT",
-    "required_input": "For S=k[x0,...,x6] and the hypothetical canonical-model CI carrier, use B=⊕H0(E,nH_E), deg H_E=112l, H_B=1+112l*t/(1-t)^2. Source-lock the canonical module/Ext self-duality of B as a codimension-5 CM S-module and determine whether the displayed almost-linear self-dual Betti table is forced. If extra paired Betti cancellations are legal, classify exactly what remains free. Seek a contradiction or bounded discrete invariant; do not treat the candidate table as proved from the Hilbert numerator alone.",
+    "title": "fresh finite-receiver elimination geometry scan",
+    "active_leaf": "MB104-000707-FINITE-RECEIVER-BLIND-SCAN",
+    "required_input": "The conductor-regularity, normalization-module Betti, shallow elliptic-linear-series, log-tangent, current BTVA, null/formal, and existing common-G invariant routes are compatible or blocked. Run a bounded blind scan for a genuinely l-independent finite receiver. Prefer exact discrete objects attached to every carrier (finite monodromy/landing type, low-degree residual, finite torsion/character packet, or finite contraction datum). Reject any candidate that merely repackages the existing support, CI, Kummer, conductor, or Picard data.",
     "success_shapes": [
-      "forced self-dual Betti table with an impossible Betti number/divisibility/parity condition",
-      "forced compatible Betti table yielding a new finite algebraic receiver for the conductor",
-      "source-complete proof that arbitrary paired cancellations remain and the Betti route has no exclusion power"
+      "new l-independent finite exact receiver with a reverse adapter to carrier nonexistence",
+      "new theorem-shaped equality-breaking invariant with a visible all-l or finite-l payoff",
+      "parking audit showing no generated LIVE candidate and preserving named UNTESTED candidates without claiming impossibility"
     ],
     "must_not_repeat": [
-      "reuse scalar conductor regularity as a contradiction",
-      "infer a Betti table from the Hilbert numerator without minimal-resolution/self-duality proof",
-      "consume MAIN genus0 D8 BTVA as MB Z12",
+      "reopen scalar conductor regularity or normalization Betti tables",
+      "reopen degree-one support landing or four cuboid quadrics as new syzygy information",
+      "reopen log-tangent without a branch-excess/stability theorem",
+      "consume current MAIN genus0 BTVA as MB Z12",
       "reopen anti-invariant first-jet without new marked lift data",
       "search for P.F<36",
       "arm isotropic-shell heavy compute",
@@ -762,9 +849,12 @@
     "eisenbud_ulrich_conductor_regularity_live": false,
     "projective_conductor_decomposition_leaf_live": false,
     "projective_conductor_regularity_route": "CLOSED_EXACT_COMPATIBILITY_NO_GO",
-    "normalization_module_betti_leaf_live": true,
+    "normalization_module_betti_leaf_live": false,
     "cycle_exhaustive_view_audit_complete": true,
-    "cycle_blind_rediscovery_complete": true
+    "cycle_blind_rediscovery_complete": true,
+    "normalization_module_betti_route": "CLOSED_FORCED_COMPATIBLE_SELF_DUAL_RESOLUTION",
+    "elliptic_linear_series_shallow_route": "CLOSED_EQUIVALENT_DOMINATED",
+    "finite_receiver_blind_scan_live": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
