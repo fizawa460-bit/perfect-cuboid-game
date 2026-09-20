@@ -511,7 +511,7 @@
       "provenance_note": "effective divisor decomposition is already contained in retained Z41; the new consumption here is the exact restriction/adjunction corollary O_C(P)=O_C(3H), omega_C=O_C((3l+1)H)"
     },
     "projective_ci_conductor_regularity": {
-      "status": "POST_AUDIT_EXACT_PROJECTIVE_COMPLETE_INTERSECTION_CONDUCTOR_REGULARITY_ZERO_EXCLUSION_CREDIT",
+      "status": "POST_AUDIT_EXACT_PROJECTIVE_CONDUCTOR_REGULARITY_COMPATIBILITY_NO_GO_NO_CREDIT",
       "source_z41_tricanonical_blob": "19a7f6dfb82efbaaa68fbd47e45c91eacc7acfd5",
       "source_z48_conductor_blob": "69b3e039ebc967c84f7c64d4946a114f09d07fba",
       "source_z48b_hypothesis_wall_blob": "ed97e80bdae255d68e2684bc805a3d229ee2f26e",
@@ -570,7 +570,7 @@
         "highest_degree_fifth_syzygy_degree_formula": "7*l+7"
       },
       "theorem_wall_removed": "Z48B's missing projectively-Gorenstein/CM normalization hypothesis is removed for the canonical-model image Cbar by the complete-intersection adapter",
-      "current_result": "exact regularity/syzygy control obtained, but scalar regularity alone has not yet contradicted the supported-node plus interior conductor geometry",
+      "current_result": "the old hypothesis wall is genuinely removed, but the resulting exact regularity package is compatible and closes as a no-go rather than an exclusion",
       "firewalls": {
         "projective_Cbar_AG": true,
         "normalization_ring_CM": true,
@@ -584,24 +584,144 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
+      },
+      "regularity_decomposition_closure": {
+        "total_different_identity": "Delta_total=4l*B_node+Delta_int",
+        "B_node_line": "O_E(B_node)=H_E",
+        "interior_different_line": "O_E(Delta_int)=H_E^(3l+1)",
+        "total_different_line": "O_E(Delta_total)=H_E^(7l+1)=nu^*omega_Cbar",
+        "minimal_conductor_section_degree_formula": "7*l+1",
+        "conductor_ideal_regularity_formula": "7*l+2",
+        "null_quartic_residual_degree": 4,
+        "null_quartic_residual_line": "H|Q",
+        "top_syzygy_interpretation": "112l-7 equals dim(B_1/A_1), the degree-one normalization defect",
+        "conclusion": "Eisenbud-Ulrich regularity, node multiplicity, interior conductor, and zero-quartic residual data are mutually compatible; this route gives no exclusion or finite l-window"
+      }
+    },
+    "cycle_breadth_audit_20260920": {
+      "status": "POST_AUDIT_EXHAUSTIVE_VIEW_AND_BLIND_REDISCOVERY_LEDGER_ZERO_CREDIT",
+      "receiver": "000707000f0f balanced genus-one carrier C in |lP| for all l>=1",
+      "exhaustive_view_audit": true,
+      "blind_rediscovery": true,
+      "split_triggered": false,
+      "candidates": [
+        {
+          "name": "projective conductor regularity decomposition",
+          "status": "BLOCKED_NO_NEW_INFORMATION",
+          "reason": "exact EU regularity 7l+2 matches 4l node different plus (3l+1)H_E interior different and H|Q quartic residual"
+        },
+        {
+          "name": "Z12 general-m support-specific BTVA",
+          "status": "BLOCKED",
+          "reason": "published perfect-cuboid execution is m=2; no source-locked variable-m support-specific graded interface; current MAIN genus0 D8 assets are semantic mismatch"
+        },
+        {
+          "name": "log-tangent/Tjurina cancellation",
+          "status": "BLOCKED",
+          "reason": "archived shallow second round already fails at branch-excess O(l) bound and source-valid semistability"
+        },
+        {
+          "name": "elliptic linear-series degree-one collapse",
+          "status": "EQUIVALENT",
+          "reason": "fourteen 8l-point fibers reduce to the known fourteen support landing hyperplanes after quotienting the common support section"
+        },
+        {
+          "name": "quadratic linear-series relations",
+          "status": "DOMINATED",
+          "reason": "the four quadratic relations are exactly the fixed cuboid CI(2,2,2,2) equations already consumed by the canonical-model adapter"
+        },
+        {
+          "name": "singular pluricanonical low-genus theorem",
+          "status": "BLOCKED",
+          "reason": "retained Z41-Z47 surface has a non-lc index-3 point and no source-valid theorem excluding genus-one normalizations in all |3lK_Y|"
+        },
+        {
+          "name": "finite normalization-module Betti receiver",
+          "status": "LIVE",
+          "reason": "canonical-model CI plus elliptic normalization gives an exact finite graded S-module Hilbert numerator and self-duality test not yet audited"
+        },
+        {
+          "name": "generic finite replacement receiver beyond graded module",
+          "status": "UNTESTED",
+          "reason": "preserved as a distinct fallback; no bounded discrete adapter selected yet"
+        }
+      ],
+      "cycle_fields": {
+        "CYCLE_ROUTE_STATUS": "PASS_NEW_GATE_FROM_STRONGER_VIEW",
+        "CYCLE_ACTIVE_RECEIVER": "normalization ring B as a codimension-5 graded CM S=k[x0..x6]-module over the CI carrier",
+        "CYCLE_LIVE_CANDIDATES": 1,
+        "CYCLE_UNTESTED_CANDIDATES": 1,
+        "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
+        "CYCLE_BLIND_REDISCOVERY": true,
+        "CYCLE_SPLIT_TRIGGERED": false,
+        "CYCLE_PARKING_AUDIT_COMPLETE": false,
+        "CYCLE_NEW_VIEW": "normalization-module Hilbert numerator and Gorenstein self-dual Betti constraints",
+        "CYCLE_NEW_VIEW_SOURCE": "BLIND"
+      }
+    },
+    "normalization_module_betti_preflight": {
+      "status": "POST_AUDIT_EXACT_HILBERT_NUMERATOR_PREFLIGHT_ZERO_CREDIT",
+      "base_field": "characteristic zero",
+      "polynomial_ring": "S=k[x0,...,x6]",
+      "module": "B=direct_sum_{n>=0} H^0(E,nH_E)",
+      "support_curve": "Cbar=CI(2,2,2,2,7l)",
+      "H_E_degree_formula": "d=112*l",
+      "B_hilbert_series": "1+d*t/(1-t)^2",
+      "B_hilbert_numerator": "1+(d-7)t+(21-5d)t^2+(10d-35)t^3+(35-10d)t^4+(5d-21)t^5+(7-d)t^6-t^7",
+      "codimension_over_S": 5,
+      "Cohen_Macaulay": true,
+      "canonical_module_relation": "omega_B is B up to the standard grading dictated by K_E=O_E; exact S-module self-duality shift must be verified before Betti-table promotion",
+      "candidate_almost_linear_betti_pattern": {
+        "F0": [
+          "S",
+          "S(-1)^(d-7)"
+        ],
+        "F1": [
+          "S(-2)^(5d-21)"
+        ],
+        "F2": [
+          "S(-3)^(10d-35)"
+        ],
+        "F3": [
+          "S(-4)^(10d-35)"
+        ],
+        "F4": [
+          "S(-5)^(5d-21)"
+        ],
+        "F5": [
+          "S(-6)^(d-7)",
+          "S(-7)"
+        ]
+      },
+      "candidate_pattern_status": "HILBERT_NUMERATOR_COMPATIBLE_ONLY_NOT_YET_PROVED_MINIMAL_RESOLUTION",
+      "objective": "determine whether CM + canonical-module/self-duality + degree generation forces this Betti table, or instead permits additional paired Betti cancellations; test for any impossibility or new finite invariant",
+      "firewalls": {
+        "candidate_betti_table_proved": false,
+        "graded_self_duality_shift_proved": false,
+        "carrier_excluded": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "projective conductor regularity vs node/interior decomposition",
-    "active_leaf": "MB104-000707-PROJECTIVE-CONDUCTOR-REGULARITY-DECOMPOSITION",
-    "required_input": "Use the exact canonical-model CI carrier Cbar=CI(2,2,2,2,7l), Eisenbud-Ulrich reg(conductor)=7l+2, and the exact decomposition of conductor delta into fourteen supported A1 node contributions 16l^2 each plus smooth-interior delta 168l^2+56l. Test whether hyperplane residuals, local conductor powers/different exponents, or the exact 112l-7 highest-degree fifth-syzygy count force an incompatibility. Keep the strict-transform interior conductor Z_cond distinct from the full projective conductor scheme.",
+    "title": "normalization-module Betti/self-duality preflight",
+    "active_leaf": "MB104-000707-NORMALIZATION-MODULE-BETTI-PREFLIGHT",
+    "required_input": "For S=k[x0,...,x6] and the hypothetical canonical-model CI carrier, use B=⊕H0(E,nH_E), deg H_E=112l, H_B=1+112l*t/(1-t)^2. Source-lock the canonical module/Ext self-duality of B as a codimension-5 CM S-module and determine whether the displayed almost-linear self-dual Betti table is forced. If extra paired Betti cancellations are legal, classify exactly what remains free. Seek a contradiction or bounded discrete invariant; do not treat the candidate table as proved from the Hilbert numerator alone.",
     "success_shapes": [
-      "exact lower bound on projective conductor regularity exceeding 7l+2 for all or all-but-finitely-many l",
-      "exact top-syzygy/type contradiction using the fourteen A1 local conductor pieces plus nonempty interior conductor",
-      "source-complete no-go showing the Eisenbud-Ulrich regularity package is compatible, with a narrower next global route"
+      "forced self-dual Betti table with an impossible Betti number/divisibility/parity condition",
+      "forced compatible Betti table yielding a new finite algebraic receiver for the conductor",
+      "source-complete proof that arbitrary paired cancellations remain and the Betti route has no exclusion power"
     ],
     "must_not_repeat": [
-      "claim the smooth-interior conductor scheme equals the full projective conductor scheme",
-      "reuse the old Z48B projectively-Gorenstein hypothesis wall",
-      "identify the resolution carrier with its P6 image without the total-transform adapter",
-      "consume current MAIN genus0 BTVA diagnostics as an MB Z12 adapter",
+      "reuse scalar conductor regularity as a contradiction",
+      "infer a Betti table from the Hilbert numerator without minimal-resolution/self-duality proof",
+      "consume MAIN genus0 D8 BTVA as MB Z12",
       "reopen anti-invariant first-jet without new marked lift data",
       "search for P.F<36",
       "arm isotropic-shell heavy compute",
@@ -639,8 +759,12 @@
     "H_polarized_subcanonical_bridge_exact": true,
     "ACM_section_ring_gate_live": false,
     "projective_CI_carrier_adapter_exact": true,
-    "eisenbud_ulrich_conductor_regularity_live": true,
-    "projective_conductor_decomposition_leaf_live": true
+    "eisenbud_ulrich_conductor_regularity_live": false,
+    "projective_conductor_decomposition_leaf_live": false,
+    "projective_conductor_regularity_route": "CLOSED_EXACT_COMPATIBILITY_NO_GO",
+    "normalization_module_betti_leaf_live": true,
+    "cycle_exhaustive_view_audit_complete": true,
+    "cycle_blind_rediscovery_complete": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,

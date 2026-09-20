@@ -306,9 +306,44 @@ def main():
 
         req(routing["ACM_section_ring_gate_live"] is False, "old ACM gate closed")
         req(routing["projective_CI_carrier_adapter_exact"] is True, "projective CI adapter")
-        req(routing["eisenbud_ulrich_conductor_regularity_live"] is True, "EU route live")
-        req(routing["projective_conductor_decomposition_leaf_live"] is True, "projective conductor leaf")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-PROJECTIVE-CONDUCTOR-REGULARITY-DECOMPOSITION", "post-audit active leaf")
+        req(routing["eisenbud_ulrich_conductor_regularity_live"] is False, "EU route closed")
+        req(routing["projective_conductor_decomposition_leaf_live"] is False, "projective conductor leaf closed")
+        req(routing["projective_conductor_regularity_route"] == "CLOSED_EXACT_COMPATIBILITY_NO_GO", "projective conductor no-go")
+        cl=pc["regularity_decomposition_closure"]
+        req(cl["total_different_identity"] == "Delta_total=4l*B_node+Delta_int", "different decomposition")
+        req(cl["B_node_line"] == "O_E(B_node)=H_E", "node divisor line")
+        req(cl["interior_different_line"] == "O_E(Delta_int)=H_E^(3l+1)", "interior different line")
+        req(cl["total_different_line"] == "O_E(Delta_total)=H_E^(7l+1)=nu^*omega_Cbar", "total different line")
+        req(cl["minimal_conductor_section_degree_formula"] == "7*l+1", "minimal conductor degree")
+        req(cl["conductor_ideal_regularity_formula"] == "7*l+2", "regularity compatibility")
+        req(cl["null_quartic_residual_degree"] == 4 and cl["null_quartic_residual_line"] == "H|Q", "quartic residual")
+        req(cl["top_syzygy_interpretation"] == "112l-7 equals dim(B_1/A_1), the degree-one normalization defect", "top syzygy interpretation")
+
+        cyc=d["retained_frontier"]["cycle_breadth_audit_20260920"]
+        req(cyc["exhaustive_view_audit"] is True and cyc["blind_rediscovery"] is True, "cycle breadth audit")
+        req(cyc["split_triggered"] is False, "cycle no split")
+        statuses={x["name"]:x["status"] for x in cyc["candidates"]}
+        req(statuses["projective conductor regularity decomposition"] == "BLOCKED_NO_NEW_INFORMATION", "cycle conductor status")
+        req(statuses["finite normalization-module Betti receiver"] == "LIVE", "cycle live Betti receiver")
+        req(statuses["generic finite replacement receiver beyond graded module"] == "UNTESTED", "cycle untested fallback")
+        cf=cyc["cycle_fields"]
+        req(cf["CYCLE_EXHAUSTIVE_VIEW_AUDIT"] is True and cf["CYCLE_BLIND_REDISCOVERY"] is True, "cycle fields audit")
+        req(cf["CYCLE_NEW_VIEW"] == "normalization-module Hilbert numerator and Gorenstein self-dual Betti constraints", "cycle new view")
+
+        nb=d["retained_frontier"]["normalization_module_betti_preflight"]
+        req(nb["codimension_over_S"] == 5 and nb["Cohen_Macaulay"] is True, "normalization module CM codim")
+        req(nb["H_E_degree_formula"] == "d=112*l", "normalization degree")
+        req(nb["B_hilbert_series"] == "1+d*t/(1-t)^2", "normalization Hilbert series")
+        req(nb["B_hilbert_numerator"] == "1+(d-7)t+(21-5d)t^2+(10d-35)t^3+(35-10d)t^4+(5d-21)t^5+(7-d)t^6-t^7", "normalization Hilbert numerator")
+        for l in (1,2,3,7):
+            dd=112*l
+            coeff=[1,dd-7,21-5*dd,10*dd-35,35-10*dd,5*dd-21,7-dd,-1]
+            req(coeff[1] > 0 and coeff[2] < 0 and coeff[3] > 0 and coeff[4] < 0 and coeff[5] > 0 and coeff[6] < 0, "Hilbert numerator alternating signs")
+        req(nb["candidate_pattern_status"] == "HILBERT_NUMERATOR_COMPATIBLE_ONLY_NOT_YET_PROVED_MINIMAL_RESOLUTION", "Betti firewall")
+        req(all(x is False for x in nb["firewalls"].values()), "Betti preflight firewalls")
+        req(routing["normalization_module_betti_leaf_live"] is True, "Betti leaf live")
+        req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-NORMALIZATION-MODULE-BETTI-PREFLIGHT", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
