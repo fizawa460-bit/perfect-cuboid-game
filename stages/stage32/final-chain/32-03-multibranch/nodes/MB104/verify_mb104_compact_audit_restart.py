@@ -365,9 +365,42 @@ def main():
         req(routing["normalization_module_betti_leaf_live"] is False, "Betti leaf closed")
         req(routing["normalization_module_betti_route"] == "CLOSED_FORCED_COMPATIBLE_SELF_DUAL_RESOLUTION", "Betti route closure")
         req(routing["elliptic_linear_series_shallow_route"] == "CLOSED_EQUIVALENT_DOMINATED", "linear-series closure")
-        req(routing["finite_receiver_blind_scan_live"] is True, "finite receiver scan live")
+
+        nu=d["retained_frontier"]["null_union_ambient_lift_shallow"]
+        req(nu["source_z33e_note_blob"] == "57fa113b33ed827fd8b5d619b232ec16cdf85a8c", "null-union Z33E source")
+        req(nu["source_z33g_note_blob"] == "14c1661c5a3b1975474c1f983ed08b29c2150731", "null-union Z33G source")
+        req(nu["union_ideal_regularity_upper_bound"] == 3, "null-union regularity")
+        req("surjective for every n>=2" in nu["ambient_restriction_statement"], "null-union ambient surjectivity")
+        req(nu["firewalls"]["new_ambient_lift_invariant"] is False, "null-union no new invariant")
+
+        sr=d["retained_frontier"]["equigeneric_semiregularity_preflight"]
+        req(sr["source_p6f_note_blob"] == "e89426128010ae97a10fbd908346f6cf07fff109", "semiregularity P6F source")
+        req(sr["degree_on_E_formula"] == "deg(phi^*omega_S^(-1))=-112*l", "semiregularity degree")
+        req(sr["h0_formula"] == "0" and sr["h1_formula"] == "112*l", "semiregularity cohomology")
+        req(sr["target_dimension"] == 7, "semiregularity target dimension")
+        req(sr["source_valid_injectivity_known"] is False, "semiregularity injectivity firewall")
+        req(sr["route_disposition"] == "LIVE_ONE_SHALLOW_THEOREM_GATE", "semiregularity live disposition")
+        req(all(x is False for x in sr["firewalls"].values()), "semiregularity firewalls")
+
+        cc=d["retained_frontier"]["compact_C8_etale_correspondence_preflight"]
+        req("degree-56l" in cc["retained_input"], "compact correspondence degree")
+        req(cc["route_disposition"] == "UNTESTED_HIGH_BUILD_COST_FALLBACK", "compact correspondence fallback")
+        req(all(x is False for x in cc["firewalls"].values()), "compact correspondence firewalls")
+
+        statuses={x["name"]:x["status"] for x in cyc["candidates"]}
+        req(statuses["null-union ambient hypersurface lift"] == "EQUIVALENT", "cycle null-union status")
+        req(statuses["equigeneric conductor-normal semiregularity"] == "LIVE", "cycle semiregularity live")
+        req(statuses["compact C8 etale-correspondence arithmetic double coset"] == "UNTESTED", "cycle compact correspondence untested")
+        req(cyc["cycle_fields"]["CYCLE_LIVE_CANDIDATES"] == 1, "cycle live count")
+        req(cyc["cycle_fields"]["CYCLE_UNTESTED_CANDIDATES"] == 2, "cycle untested count")
+
+        req(routing["finite_receiver_blind_scan_live"] is False, "finite receiver blind scan transition")
+        req(routing["equigeneric_semiregularity_leaf_live"] is True, "semiregularity leaf live")
+        req(routing["null_union_ambient_lift_route"] == "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G", "null-union route closed")
+        req(routing["compact_C8_commensurator_candidate"] == "UNTESTED_HIGH_BUILD_COST", "compact correspondence routing")
+        req(routing["finite_receiver_scan_status"] == "NEW_THEOREM_PATTERN_ISOLATED", "finite receiver scan status")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-FINITE-RECEIVER-BLIND-SCAN", "post-audit active leaf")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-EQUIGENERIC-SEMIREGULARITY-PREFLIGHT", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()

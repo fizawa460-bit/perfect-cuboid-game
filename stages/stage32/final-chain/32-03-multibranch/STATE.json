@@ -643,19 +643,34 @@
         {
           "name": "generic finite replacement receiver beyond graded module",
           "status": "UNTESTED",
-          "reason": "preserved as a distinct fallback; no bounded discrete adapter selected yet"
+          "reason": "preserved as generic fallback; the current selected theorem-shaped refinement is the equigeneric semiregularity gate"
+        },
+        {
+          "name": "null-union ambient hypersurface lift",
+          "status": "EQUIVALENT",
+          "reason": "QA,QB are 3-regular as a union up to the standard union bound; degree-7l ambient restriction is surjective, so Z33G gluing already captures this condition"
+        },
+        {
+          "name": "equigeneric conductor-normal semiregularity",
+          "status": "LIVE",
+          "reason": "Dedieu-Sernesi gives h1(A tensor O_C(C))=112l exactly; an injective map to H2(O_S) of dimension7 would close all l, but injectivity needs a source-valid theorem"
+        },
+        {
+          "name": "compact C8 etale-correspondence arithmetic double coset",
+          "status": "UNTESTED",
+          "reason": "genuinely discrete and distinct from P6J Jacobian centralizer, but requires an exact compact uniformizer/G-centralizing commensurator adapter before degree arithmetic is legal"
         }
       ],
       "cycle_fields": {
         "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
-        "CYCLE_ACTIVE_RECEIVER": "000707 carrier with exact CI image and compatible forced normalization-module resolution",
-        "CYCLE_LIVE_CANDIDATES": 0,
-        "CYCLE_UNTESTED_CANDIDATES": 1,
+        "CYCLE_ACTIVE_RECEIVER": "equigeneric conductor-normal obstruction H1 of dimension 112l versus fixed surface H2(O_S) dimension 7",
+        "CYCLE_LIVE_CANDIDATES": 1,
+        "CYCLE_UNTESTED_CANDIDATES": 2,
         "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
         "CYCLE_BLIND_REDISCOVERY": true,
         "CYCLE_SPLIT_TRIGGERED": false,
         "CYCLE_PARKING_AUDIT_COMPLETE": false,
-        "CYCLE_NEW_VIEW": "forced almost-linear self-dual normalization resolution; compatible but not bounded",
+        "CYCLE_NEW_VIEW": "equigeneric conductor-normal semiregularity dimension gate",
         "CYCLE_NEW_VIEW_SOURCE": "BLIND"
       }
     },
@@ -792,22 +807,91 @@
         "endpoint_credit": false,
         "merge_authorized": false
       }
+    },
+    "null_union_ambient_lift_shallow": {
+      "status": "POST_AUDIT_EXACT_AMBIENT_RESTRICTION_SURJECTIVITY_NO_GO_NO_CREDIT",
+      "source_z33e_note_blob": "57fa113b33ed827fd8b5d619b232ec16cdf85a8c",
+      "source_z33g_note_blob": "14c1661c5a3b1975474c1f983ed08b29c2150731",
+      "union": "U=QA union QB",
+      "component_geometry": "each QA,QB is a smooth elliptic quartic CI(2,2) in its P3, hence its ideal in P6 is CI(1,1,1,2,2) and 3-regular",
+      "intersection": "QA cap QB consists of the two reduced smooth points r_+,r_-",
+      "union_ideal_regularity_upper_bound": 3,
+      "ambient_restriction_statement": "H0(P6,O(n))->H0(U,O_U(n)) is surjective for every n>=2, in particular n=7l",
+      "carrier_restriction_rigidity": "on each zero quartic the degree-7l carrier restriction is forced by the seven supported hyperflex nodes up to scalar, and Z33G's trivial holonomy is exactly the two-point gluing condition",
+      "conclusion": "once the retained Z33G gluing passes, no further obstruction arises merely from lifting the forced pair of restrictions to an ambient degree-7l hypersurface",
+      "firewalls": {
+        "carrier_excluded": false,
+        "finite_degree_window": false,
+        "new_ambient_lift_invariant": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
+    },
+    "equigeneric_semiregularity_preflight": {
+      "status": "POST_AUDIT_EXACT_LINEAR_OBSTRUCTION_DIMENSION_THEOREM_INTERFACE_NO_CREDIT",
+      "source_p6f_note_blob": "e89426128010ae97a10fbd908346f6cf07fff109",
+      "external_source": "Dedieu-Sernesi, Equigeneric and equisingular families of curves on surfaces, Lemma 3.1 and Proposition 3.2",
+      "sheaf": "A tensor O_C(C), where A is the adjoint/conductor ideal",
+      "exact_identification": "H^i(C,A tensor O_C(C)) = H^i(E,omega_E tensor phi^*omega_S^(-1)) for i=0,1",
+      "normalization_genus": 1,
+      "degree_on_E_formula": "deg(phi^*omega_S^(-1))=-112*l",
+      "h0_formula": "0",
+      "h1_formula": "112*l",
+      "surface_semiregularity_target": "H^2(S,O_S)",
+      "target_dimension": 7,
+      "tempting_implication": "an injective equigeneric semiregularity/obstruction map H1(A tensor O_C(C))->H2(O_S) would contradict 112l>7 for every l>=1",
+      "source_valid_injectivity_known": false,
+      "firewall_reason": "classical divisor semiregularity concerns the ordinary normal sheaf/embedded divisor obstruction map; no retained theorem identifies it with an injective map on the equigeneric conductor-normal H1 above",
+      "route_disposition": "LIVE_ONE_SHALLOW_THEOREM_GATE",
+      "firewalls": {
+        "semiregularity_injectivity_proved": false,
+        "carrier_excluded": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
+    },
+    "compact_C8_etale_correspondence_preflight": {
+      "status": "POST_AUDIT_UNTESTED_DISCRETE_ARITHMETIC_RECEIVER_ZERO_CREDIT",
+      "retained_input": "connected G-stable curve Z with two etale degree-56l maps to compact genus-5 C8=X(8), quotient Z/G=E",
+      "distinction_from_P6J": "P6J classifies only the complex-linear G-centralizer on J(C8); this candidate instead asks for the compact uniformizing-lattice commensurator/double-coset class of the two etale coverings",
+      "required_adapter": "source-complete compact uniformizer of C8, realization of retained diagonal G inside its automorphism/triangle group, and a theorem translating G-stable correspondence into a constrained arithmetic double coset",
+      "possible_payoff": "a degree congruence/divisibility restriction on 56l or a bounded local double-coset type",
+      "current_status_reason": "X(8) is highly symmetric/arithmetic, so unbounded Hecke-type correspondences are possible in principle; no degree contradiction is claimed without the exact G-centralizing adapter",
+      "route_disposition": "UNTESTED_HIGH_BUILD_COST_FALLBACK",
+      "firewalls": {
+        "compact_commensurator_adapter_proved": false,
+        "degree_congruence_proved": false,
+        "carrier_excluded": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "fresh finite-receiver elimination geometry scan",
-    "active_leaf": "MB104-000707-FINITE-RECEIVER-BLIND-SCAN",
-    "required_input": "The conductor-regularity, normalization-module Betti, shallow elliptic-linear-series, log-tangent, current BTVA, null/formal, and existing common-G invariant routes are compatible or blocked. Run a bounded blind scan for a genuinely l-independent finite receiver. Prefer exact discrete objects attached to every carrier (finite monodromy/landing type, low-degree residual, finite torsion/character packet, or finite contraction datum). Reject any candidate that merely repackages the existing support, CI, Kummer, conductor, or Picard data.",
+    "title": "equigeneric conductor-normal semiregularity gate",
+    "active_leaf": "MB104-000707-EQUIGENERIC-SEMIREGULARITY-PREFLIGHT",
+    "required_input": "Use the exact Dedieu-Sernesi identification h0(A tensor O_C(C))=0 and h1(A tensor O_C(C))=112l. Search only for a source-valid obstruction/semiregularity theorem that maps this equigeneric conductor-normal H1 injectively, or with uniformly bounded kernel, into fixed-dimensional surface cohomology such as H2(O_S) (dimension 7). Distinguish this from classical divisor semiregularity for the ordinary normal sheaf. If no such theorem applies to an arbitrary integral planar-singular carrier, park immediately.",
     "success_shapes": [
-      "new l-independent finite exact receiver with a reverse adapter to carrier nonexistence",
-      "new theorem-shaped equality-breaking invariant with a visible all-l or finite-l payoff",
-      "parking audit showing no generated LIVE candidate and preserving named UNTESTED candidates without claiming impossibility"
+      "source-valid injectivity or uniformly bounded-kernel theorem giving an all-l contradiction from 112l versus fixed surface cohomology",
+      "exact comparison sequence showing the equigeneric H1 has a large unavoidable kernel, closing the semiregularity route",
+      "bounded theorem-interface wall with no unsupported transfer from ordinary divisor semiregularity"
     ],
     "must_not_repeat": [
+      "treat classical divisor semiregularity as automatic injectivity on A tensor O_C(C)",
+      "reopen null-union ambient lifting after the 3-regularity surjectivity no-go",
       "reopen scalar conductor regularity or normalization Betti tables",
-      "reopen degree-one support landing or four cuboid quadrics as new syzygy information",
-      "reopen log-tangent without a branch-excess/stability theorem",
       "consume current MAIN genus0 BTVA as MB Z12",
       "reopen anti-invariant first-jet without new marked lift data",
       "search for P.F<36",
@@ -854,7 +938,11 @@
     "cycle_blind_rediscovery_complete": true,
     "normalization_module_betti_route": "CLOSED_FORCED_COMPATIBLE_SELF_DUAL_RESOLUTION",
     "elliptic_linear_series_shallow_route": "CLOSED_EQUIVALENT_DOMINATED",
-    "finite_receiver_blind_scan_live": true
+    "finite_receiver_blind_scan_live": false,
+    "equigeneric_semiregularity_leaf_live": true,
+    "null_union_ambient_lift_route": "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G",
+    "compact_C8_commensurator_candidate": "UNTESTED_HIGH_BUILD_COST",
+    "finite_receiver_scan_status": "NEW_THEOREM_PATTERN_ISOLATED"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
