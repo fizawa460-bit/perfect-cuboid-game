@@ -3,7 +3,7 @@
   "stage": 32,
   "lane_id": "MB-FIB",
   "command": "stage32mb-fib",
-  "status": "DEDICATED_RESEARCH_PR_PREPARED_CONSUMER_TARGET_BOUND_NO_CREDIT",
+  "status": "BLOCKED_BY_SHARED_MAIN_STARTUP_FRESHNESS__SCRATCH_ROUTING_ONLY_NO_HEAVY_NO_CREDIT",
   "consumer_lane": "MB",
   "purpose": "MB-local auxiliary MB104 fibration/Picard64 producer subroute that can run in parallel without moving or freezing the ordinary MB active leaf.",
   "routing": {
@@ -105,7 +105,7 @@
         "hperp_norm": 144
       }
     ],
-    "first_action": "Create/continue the dedicated retained MB-FIB research PR; preserve the four-shell exact census as FIB-A, and in the same proof route target FIB-B1 (delta_ij/local lift) or FIB-B2 (global product-correspondence contradiction). Port/freeze/audit the source-locked runner before shell0 pilot.",
+    "first_action": "Shared MAIN startup freshness gate must first be repaired/pass. Until then keep heavy unarmed. After pass: freeze/audit the MB-FIB execution surface and run shell0 pilot; interpret FIB-A only through B1 delta_ij extraction or the refined B2 1024 factor-class adapter.",
     "zero_candidate_handoff": "Produce an audited exact enumeration certificate, compose separately with Z40B and degree-8 exhaustiveness if justified, then test whether the resulting global fibration optimum yields FIB-B2. Zero shell hits alone do not close e=2 or MB104.",
     "nonzero_candidate_handoff": "Retain exact candidates; degree10 residual sextic and degree12 QA+QB+degree4 geometry feed both FIB-B1 local delta_ij extraction and FIB-B2 global product-correspondence obstruction.",
     "forbidden_drift": [
@@ -124,7 +124,17 @@
     "stage_heavy_cap": 18,
     "repository_storage_budget_mb": 500,
     "raw_stdout_persisted": false,
-    "resume_first": true
+    "resume_first": true,
+    "shared_main_startup_gate": {
+      "status": "FAIL",
+      "pr_head_observed": "b429079d619c340641e07a57e3703816eed31700",
+      "run_id": 35500193933,
+      "failing_step": "Resolve research-head and merge-ready freshness separately",
+      "current_main": "da573f048a82a63e459be1343fb002e663b60875",
+      "workflow_expected_main": "659ba93b9eba657b49a728f549c6bb6028398e08",
+      "mathematical_result": false,
+      "heavy_execution_allowed": false
+    }
   },
   "handoff_contract": {
     "consumer_lane": "MB",
@@ -176,7 +186,7 @@
   "proof_route": {
     "phase_A": "exact low-degree Picard64 fibration shell census",
     "phase_B1": "for geometrically promotable shell candidates, construct normalization-to-product/Kummer specialization and evaluate or constrain delta_ij on certified conductor pairs",
-    "phase_B2": "use fibration/Picard divisor data to contradict Zbar~Tdiag(Zbar) or the required integral full-G Jacobian-centralizer correspondence without pointwise conductor signs",
+    "phase_B2": "Rosati already gives Phi_Z=0 and J(C8)^G=(Z/2)^5, reducing to 1024 invariant factor-class pairs. Use FIB/Picard64 only if it supplies an exact algebraic restriction/theta/modular adapter for the five fixed 2-torsion generators or directly excludes all factor pairs; do not reopen a generic endomorphism-centralizer search.",
     "completion_rule": "A alone is producer evidence. MB-consumable progress requires an audited B1 or B2 handoff, or a separately audited composition showing the global fibration optimum yields such a contradiction."
   }
 }
