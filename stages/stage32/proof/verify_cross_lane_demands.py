@@ -94,7 +94,7 @@ def main():
         "replacement hostile re-audit gate still armed")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == "659ba93b9eba657b49a728f549c6bb6028398e08",
+    req(sweep["observed_repository_main"] == "da573f048a82a63e459be1343fb002e663b60875",
         "repository main observation")
     req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
         "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and
@@ -102,16 +102,19 @@ def main():
     req(sweep["ex5_pr"] == 1823 and sweep["ex5_head"] ==
         "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
         sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
-    req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
-        "003ccd4391107cd90d44cc8cd82cf00dc06fd14e" and
+    req(sweep["mb_pr"] == 1827 and sweep["mb_head"] ==
+        "31d088c8573a7271fd4e3ce944cf12d15f4210db" and
         sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
     req(sweep["mb_latest_audited_exact_head"] ==
-        "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
-        sweep["mb_latest_audit_review_id"] == 5254494158,
+        "37727ad09b62c49b49cfb2e1e428b5a2d4826e88" and
+        sweep["mb_latest_audit_review_id"] == 5258058107,
         "MB audited predecessor observation")
     req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "16e98ecc8f0e56fccadf343f57f67e993eb45a6c" and
-        sweep["bridge_runkey_generation"] == 0 and sweep["bridge_runkey_armed"] is False and
+        "065b610d84e414d488cf36e299efb2ca67722ae4" and
+        sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
+        sweep["bridge_latest_audited_doorstep_head"] ==
+        "f30d33e3992c3bbecb171f14d60086424f017d8c" and
+        sweep["bridge_latest_audit_review_id"] == 5258072731 and
         sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
     req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
         "CUT observation")
@@ -123,7 +126,7 @@ def main():
         req(st["firewalls"][key] is False, f"firewall {key}")
 
     print("PASS: Stage32 MAIN V46 adopts merged hostile-audited V45 authority with zero new pruning")
-    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB Z49B and BRIDGE generation2 cold heads with zero MAIN credit")
+    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB parked successor and BRIDGE generation3 armed recovery head with zero MAIN credit")
     print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
 
 
