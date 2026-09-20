@@ -652,25 +652,25 @@
         },
         {
           "name": "equigeneric conductor-normal semiregularity",
-          "status": "LIVE",
-          "reason": "Dedieu-Sernesi gives h1(A tensor O_C(C))=112l exactly; an injective map to H2(O_S) of dimension7 would close all l, but injectivity needs a source-valid theorem"
+          "status": "BLOCKED",
+          "reason": "Dedieu-Sernesi gives h1=112l, but semiregularity literature only annihilates obstruction classes or assumes injectivity; no source-valid injection/bounded-kernel theorem for the conductor-normal H1"
         },
         {
           "name": "compact C8 etale-correspondence arithmetic double coset",
-          "status": "UNTESTED",
-          "reason": "genuinely discrete and distinct from P6J Jacobian centralizer, but requires an exact compact uniformizer/G-centralizing commensurator adapter before degree arithmetic is legal"
+          "status": "LIVE",
+          "reason": "promoted for one shallow preflight after semiregularity direction mismatch; genuinely distinct from P6J Jacobian centralizer"
         }
       ],
       "cycle_fields": {
         "CYCLE_ROUTE_STATUS": "BLOCKED_NEW_PATTERN_ISOLATED",
-        "CYCLE_ACTIVE_RECEIVER": "equigeneric conductor-normal obstruction H1 of dimension 112l versus fixed surface H2(O_S) dimension 7",
+        "CYCLE_ACTIVE_RECEIVER": "compact C8=X(8) G-stable etale correspondence double-coset/commensurator class",
         "CYCLE_LIVE_CANDIDATES": 1,
-        "CYCLE_UNTESTED_CANDIDATES": 2,
+        "CYCLE_UNTESTED_CANDIDATES": 1,
         "CYCLE_EXHAUSTIVE_VIEW_AUDIT": true,
         "CYCLE_BLIND_REDISCOVERY": true,
         "CYCLE_SPLIT_TRIGGERED": false,
         "CYCLE_PARKING_AUDIT_COMPLETE": false,
-        "CYCLE_NEW_VIEW": "equigeneric conductor-normal semiregularity dimension gate",
+        "CYCLE_NEW_VIEW": "compact C8 arithmetic etale-correspondence preflight",
         "CYCLE_NEW_VIEW_SOURCE": "BLIND"
       }
     },
@@ -831,7 +831,7 @@
       }
     },
     "equigeneric_semiregularity_preflight": {
-      "status": "POST_AUDIT_EXACT_LINEAR_OBSTRUCTION_DIMENSION_THEOREM_INTERFACE_NO_CREDIT",
+      "status": "POST_AUDIT_SOURCE_COMPLETE_SEMIREGULARITY_DIRECTION_NO_GO_NO_CREDIT",
       "source_p6f_note_blob": "e89426128010ae97a10fbd908346f6cf07fff109",
       "external_source": "Dedieu-Sernesi, Equigeneric and equisingular families of curves on surfaces, Lemma 3.1 and Proposition 3.2",
       "sheaf": "A tensor O_C(C), where A is the adjoint/conductor ideal",
@@ -845,7 +845,7 @@
       "tempting_implication": "an injective equigeneric semiregularity/obstruction map H1(A tensor O_C(C))->H2(O_S) would contradict 112l>7 for every l>=1",
       "source_valid_injectivity_known": false,
       "firewall_reason": "classical divisor semiregularity concerns the ordinary normal sheaf/embedded divisor obstruction map; no retained theorem identifies it with an injective map on the equigeneric conductor-normal H1 above",
-      "route_disposition": "LIVE_ONE_SHALLOW_THEOREM_GATE",
+      "route_disposition": "PARK_SOURCE_COMPLETE_DIRECTION_MISMATCH",
       "firewalls": {
         "semiregularity_injectivity_proved": false,
         "carrier_excluded": false,
@@ -855,7 +855,20 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
-      }
+      },
+      "literature_audit": {
+        "findings": [
+          "Bloch/Buchweitz-Flenner semiregularity is a map from ordinary embedded-deformation obstruction spaces; injectivity is an extra semiregularity property, not automatic",
+          "Iacono-Manetti and Pridham prove semiregularity maps annihilate obstruction classes; this is the opposite logical direction from the needed injection of the full equigeneric conductor-normal H1",
+          "no source located identifies H1(C,A tensor O_C(C)) from Dedieu-Sernesi with an automatically injective semiregularity map for arbitrary integral planar-singular curves"
+        ],
+        "sources": [
+          "Iacono-Manetti, Semiregularity and obstructions of complete intersections, arXiv:1112.0425",
+          "Pridham, Semiregularity via derived deformation theory, arXiv:1112.6001",
+          "Buchweitz-Flenner, The Atiyah-Chern Character yields the Semiregularity Map as well as the Infinitesimal Abel-Jacobi Map, arXiv:math/9907004"
+        ]
+      },
+      "conclusion": "the exact 112l-dimensional equigeneric obstruction-side H1 does not contradict p_g(S)=7: known semiregularity theorems annihilate actual obstruction classes or require semiregularity/injectivity as an additional hypothesis; no bounded-kernel theorem for this conductor-normal H1 is source-locked"
     },
     "compact_C8_etale_correspondence_preflight": {
       "status": "POST_AUDIT_UNTESTED_DISCRETE_ARITHMETIC_RECEIVER_ZERO_CREDIT",
@@ -864,7 +877,7 @@
       "required_adapter": "source-complete compact uniformizer of C8, realization of retained diagonal G inside its automorphism/triangle group, and a theorem translating G-stable correspondence into a constrained arithmetic double coset",
       "possible_payoff": "a degree congruence/divisibility restriction on 56l or a bounded local double-coset type",
       "current_status_reason": "X(8) is highly symmetric/arithmetic, so unbounded Hecke-type correspondences are possible in principle; no degree contradiction is claimed without the exact G-centralizing adapter",
-      "route_disposition": "UNTESTED_HIGH_BUILD_COST_FALLBACK",
+      "route_disposition": "LIVE_ONE_SHALLOW_ARITHMETIC_PREFLIGHT",
       "firewalls": {
         "compact_commensurator_adapter_proved": false,
         "degree_congruence_proved": false,
@@ -875,25 +888,26 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
-      }
+      },
+      "current_question": "source-lock the compact uniformizing/Fuchsian group of C8=X(8) and test whether the retained diagonal G-stability forces the two degree-56l etale covers into a finite or congruence-restricted commensurator/double-coset class; stop if arithmetic Hecke families remain unbounded or the G adapter is unavailable"
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "equigeneric conductor-normal semiregularity gate",
-    "active_leaf": "MB104-000707-EQUIGENERIC-SEMIREGULARITY-PREFLIGHT",
-    "required_input": "Use the exact Dedieu-Sernesi identification h0(A tensor O_C(C))=0 and h1(A tensor O_C(C))=112l. Search only for a source-valid obstruction/semiregularity theorem that maps this equigeneric conductor-normal H1 injectively, or with uniformly bounded kernel, into fixed-dimensional surface cohomology such as H2(O_S) (dimension 7). Distinguish this from classical divisor semiregularity for the ordinary normal sheaf. If no such theorem applies to an arbitrary integral planar-singular carrier, park immediately.",
+    "title": "compact C8 arithmetic étale-correspondence preflight",
+    "active_leaf": "MB104-000707-C8-ETALE-CORRESPONDENCE-ARITHMETIC-PREFLIGHT",
+    "required_input": "Use the necessary full-deck packet: connected G-stable Z with two etale degree-56l maps to compact C8=X(8), G=(Z/2)^3, Z/G=E. Source-lock a compact uniformizing/Fuchsian description of C8 and the retained G action, then test whether G-stable correspondences are constrained by an arithmetic commensurator/Hecke double-coset law strongly enough to force a finite local type or a congruence/divisibility condition on 56l. Do not use punctured Gamma(8) as the compact surface group without an exact adapter, and do not infer degree bounds from the Jacobian centralizer alone.",
     "success_shapes": [
-      "source-valid injectivity or uniformly bounded-kernel theorem giving an all-l contradiction from 112l versus fixed surface cohomology",
-      "exact comparison sequence showing the equigeneric H1 has a large unavoidable kernel, closing the semiregularity route",
-      "bounded theorem-interface wall with no unsupported transfer from ordinary divisor semiregularity"
+      "exact finite/congruence double-coset receiver for every hostile carrier, with reverse adapter",
+      "source-complete proof that arithmetic Hecke-type families remain unbounded in degree and this route has no finite-l power",
+      "bounded interface wall identifying the exact missing compact-uniformizer/G-action adapter"
     ],
     "must_not_repeat": [
-      "treat classical divisor semiregularity as automatic injectivity on A tensor O_C(C)",
-      "reopen null-union ambient lifting after the 3-regularity surjectivity no-go",
+      "reopen semiregularity without a new injectivity/bounded-kernel theorem",
+      "identify the compact genus-5 uniformizing lattice with punctured modular Gamma(8) without proof",
+      "promote P6J complex Jacobian centralizer to an integral correspondence classification",
       "reopen scalar conductor regularity or normalization Betti tables",
       "consume current MAIN genus0 BTVA as MB Z12",
-      "reopen anti-invariant first-jet without new marked lift data",
       "search for P.F<36",
       "arm isotropic-shell heavy compute",
       "merge or rebase"
@@ -939,10 +953,11 @@
     "normalization_module_betti_route": "CLOSED_FORCED_COMPATIBLE_SELF_DUAL_RESOLUTION",
     "elliptic_linear_series_shallow_route": "CLOSED_EQUIVALENT_DOMINATED",
     "finite_receiver_blind_scan_live": false,
-    "equigeneric_semiregularity_leaf_live": true,
+    "equigeneric_semiregularity_leaf_live": false,
     "null_union_ambient_lift_route": "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G",
-    "compact_C8_commensurator_candidate": "UNTESTED_HIGH_BUILD_COST",
-    "finite_receiver_scan_status": "NEW_THEOREM_PATTERN_ISOLATED"
+    "compact_C8_commensurator_candidate": "LIVE_ONE_SHALLOW_PREFLIGHT",
+    "finite_receiver_scan_status": "NEW_THEOREM_PATTERN_ISOLATED",
+    "equigeneric_semiregularity_route": "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
