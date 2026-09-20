@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 6,
+  "generation": 7,
   "armed": true,
-  "objective": "Resume generation-3 exact row-window checkpoints after current-main sync, execution-contract repair, and MAIN-STATE canonical refresh; validate and carry 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
+  "objective": "Resume generation-3 exact row-window checkpoints after restoring exact 18+ digit MAIN authority, refreshing its canonical/blob locks, and preserving current-main/observation sync; validate and carry 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -165,6 +165,12 @@
   "generation5_incident": {
     "status": "SUPERSEDED_BEFORE_CREDIT",
     "reason": "generation-5 arm preceded the required MAIN-STATE canonical refresh discovered by exact-head cold-sync CI; no mathematical result or MAIN credit is consumed from generation 5.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation6_incident": {
+    "status": "CANCELLED_BY_SUCCESSOR_SYNCHRONIZATION_BEFORE_CREDIT",
+    "reason": "generation-6 was queued when exact-head CI exposed that MAIN-STATE had been numerically rounded by an unsafe JSON rewrite. The state was restored from the last healthy boundary with exact integer authority, then canonical/blob locks were refreshed. No generation-6 mathematical result or credit is consumed.",
     "mathematical_failure": false,
     "main_credit": false
   }
