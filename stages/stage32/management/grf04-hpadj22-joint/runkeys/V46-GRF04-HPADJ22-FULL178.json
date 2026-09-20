@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 4,
+  "generation": 5,
   "armed": true,
-  "objective": "Resume generation-3 exact row-window checkpoints; validate and carry its 582 persisted row certificates across 9 complete parent windows, then recompute only missing rows/windows with effective MAIN heavy concurrency 3 so overlap with a possible 15-job BRIDGE generation-3 workload remains within the repository Stage32 ceiling 18.",
+  "objective": "Resume generation-3 exact row-window checkpoints after restoring PR-trigger viability on current main da573f048a82a63e459be1343fb002e663b60875; validate and carry the 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -153,6 +153,12 @@
     "expected_row_certificates": 2967,
     "recovery_snapshot_artifact_id": 10599462625,
     "recovery_snapshot_canonical_sha256": "a3133752812fe581b3b46be56bda780032ee4e491d8204bebeca801d3e4f8c48",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation4_incident": {
+    "status": "NOT_EXECUTED_AS_HEAVY_RUN",
+    "reason": "generation-4 runkey was committed while PR #1826 was merge-conflicted against current main; no pull_request workflow run existed for that arm commit. Subsequent cold workflow/resource-contract repair and branch sync invalidate generation-4 as an execution generation.",
     "mathematical_failure": false,
     "main_credit": false
   }
