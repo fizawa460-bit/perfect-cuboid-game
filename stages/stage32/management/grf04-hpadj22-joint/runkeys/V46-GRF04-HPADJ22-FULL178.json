@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 5,
+  "generation": 6,
   "armed": true,
-  "objective": "Resume generation-3 exact row-window checkpoints after restoring PR-trigger viability on current main da573f048a82a63e459be1343fb002e663b60875; validate and carry the 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
+  "objective": "Resume generation-3 exact row-window checkpoints after current-main sync, execution-contract repair, and MAIN-STATE canonical refresh; validate and carry 582 persisted row certificates and recompute only missing rows/windows with effective MAIN heavy concurrency 3.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -159,6 +159,12 @@
   "generation4_incident": {
     "status": "NOT_EXECUTED_AS_HEAVY_RUN",
     "reason": "generation-4 runkey was committed while PR #1826 was merge-conflicted against current main; no pull_request workflow run existed for that arm commit. Subsequent cold workflow/resource-contract repair and branch sync invalidate generation-4 as an execution generation.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation5_incident": {
+    "status": "SUPERSEDED_BEFORE_CREDIT",
+    "reason": "generation-5 arm preceded the required MAIN-STATE canonical refresh discovered by exact-head cold-sync CI; no mathematical result or MAIN credit is consumed from generation 5.",
     "mathematical_failure": false,
     "main_credit": false
   }
