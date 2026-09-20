@@ -385,25 +385,43 @@ def main():
 
         cc=d["retained_frontier"]["compact_C8_etale_correspondence_preflight"]
         req("degree-56l" in cc["retained_input"], "compact correspondence degree")
-        req(cc["route_disposition"] == "LIVE_ONE_SHALLOW_ARITHMETIC_PREFLIGHT", "compact correspondence live")
-        req("compact uniformizing" in cc["current_question"], "compact correspondence question")
+        req(cc["arithmeticity_alone_degree_bound"] is False, "arithmeticity no degree bound")
+        req(cc["unbounded_hecke_family_exists_in_ambient_arithmetic_commensurator"] is True, "ambient arithmetic Hecke unbounded")
+        req(cc["required_G_centralizing_adapter_source_locked"] is False, "G-centralizing adapter wall")
+        cmr=cc["size48_CM_reuse"]
+        req(cmr["source_cm_adapter_blob"] == "24d48dfc50aca285d8808b95b2685b196511c666", "CM adapter source")
+        req(cmr["source_size48_obstruction_blob"] == "5e1f7d4d6db10cd823532b1ac44290621ee2aa99", "size48 obstruction source")
+        req(cmr["type_counts_nodes"] == [6,2,6], "mixed node types")
+        req(cmr["supported_branches_by_type"] == ["48*l","16*l","48*l"], "branch counts by type")
+        req(cmr["fix_Z_by_type"] == ["192*l","64*l","192*l"], "fixed points by type")
+        req(cmr["quotient_genera"] == ["64*l+1","96*l+1","64*l+1"], "quotient genera")
+        req(cmr["equal_degree_CM_isogeny_pair_available"] is False, "size48 CM nonportable")
+        req(cc["route_disposition"] == "PARK_ARITHMETICITY_UNBOUNDED_AND_G_ADAPTER_MISSING", "compact correspondence parked")
         req(all(x is False for x in cc["firewalls"].values()), "compact correspondence firewalls")
 
         statuses={x["name"]:x["status"] for x in cyc["candidates"]}
         req(statuses["null-union ambient hypersurface lift"] == "EQUIVALENT", "cycle null-union status")
         req(statuses["equigeneric conductor-normal semiregularity"] == "BLOCKED", "cycle semiregularity blocked")
-        req(statuses["compact C8 etale-correspondence arithmetic double coset"] == "LIVE", "cycle compact correspondence live")
-        req(cyc["cycle_fields"]["CYCLE_LIVE_CANDIDATES"] == 1, "cycle live count")
+        req(statuses["compact C8 etale-correspondence arithmetic double coset"] == "BLOCKED", "cycle compact correspondence blocked")
+        req(statuses["generic finite replacement receiver beyond graded module"] == "UNTESTED", "cycle generic fallback retained")
+        req(cyc["cycle_fields"]["CYCLE_LIVE_CANDIDATES"] == 0, "cycle live count")
         req(cyc["cycle_fields"]["CYCLE_UNTESTED_CANDIDATES"] == 1, "cycle untested count")
+        req(cyc["cycle_fields"]["CYCLE_PARKING_AUDIT_COMPLETE"] is True, "cycle parking audit")
+
+        park=d["retained_frontier"]["parking_reopen_contract"]
+        req(park["status"] == "POST_AUDIT_PARKED_NO_LIVE_EXECUTABLE_CANDIDATE_ZERO_CREDIT", "parking status")
+        req(len(park["reopen_triggers"]) >= 6, "parking reopen triggers")
+        req("size48 inert-7 CM obstruction on the 000707 mixed-type support" in park["must_not_reopen_without_trigger"], "CM no-reopen firewall")
 
         req(routing["finite_receiver_blind_scan_live"] is False, "finite receiver blind scan transition")
         req(routing["equigeneric_semiregularity_leaf_live"] is False, "semiregularity leaf closed")
         req(routing["equigeneric_semiregularity_route"] == "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH", "semiregularity route closure")
         req(routing["null_union_ambient_lift_route"] == "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G", "null-union route closed")
-        req(routing["compact_C8_commensurator_candidate"] == "LIVE_ONE_SHALLOW_PREFLIGHT", "compact correspondence routing")
-        req(routing["finite_receiver_scan_status"] == "NEW_THEOREM_PATTERN_ISOLATED", "finite receiver scan status")
+        req(routing["compact_C8_commensurator_candidate"] == "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING", "compact correspondence routing")
+        req(routing["finite_receiver_scan_status"] == "PARKED_NO_LIVE_EXECUTABLE_CANDIDATE", "finite receiver scan parked")
+        req(routing["mb104_parking_audit_complete"] is True and routing["mb104_parked_await_new_adapter"] is True, "MB104 parking")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-C8-ETALE-CORRESPONDENCE-ARITHMETIC-PREFLIGHT", "post-audit active leaf")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-PARKED-AWAIT-NEW-ADAPTER", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
