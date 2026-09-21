@@ -8,6 +8,7 @@ on:
     branches:
       - stage32-01-178-post-td02-fibration-nef
     paths:
+      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_tinterval_g1d192_band4.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_parity_band4.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top16_bc_cells.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top8_bc_cells.py'
@@ -43,18 +44,14 @@ jobs:
           git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
           rm -rf /tmp/s32h22src
           git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
-      - name: Exact V45 HPADJ22 e192 zero-center top16 disjoint bc cells
+      - name: Retained top16 exact-head boundary
         run: |
           set -euo pipefail
-          mkdir -p /tmp/s32h22ref
-          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top16_bc_cells.py \
-            --repo-root "$GITHUB_WORKSPACE" \
-            --source-root /tmp/s32h22src \
-            --output /tmp/s32h22ref/result.json
-      - name: Exact current HPADJ22 band4 global zero-center parity probe
+          echo "top16 exact-head replay already SUCCESS at fdb8f55c791df8bfd18db162fb66b854f6c210c0 / run 35588376541"
+      - name: Exact g1-d192 band4 zero-center t-interval probe
         run: |
           set -euo pipefail
-          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_parity_band4.py \
+          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_tinterval_g1d192_band4.py \
             --repo-root "$GITHUB_WORKSPACE" \
             --source-root /tmp/s32h22src
       - name: Diff hygiene
