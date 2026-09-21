@@ -121,6 +121,20 @@ def bc_t_q_lower(b: int, c: int, t: int) -> int:
     )
 
 
+def bc_t_q_lower_bruteforce(b: int, c: int, t: int) -> int:
+    lo = max(0, int(t) - int(c))
+    hi = min(int(b), int(t))
+    if lo > hi:
+        return INF
+    return min(
+        pair_square_min(p)
+        + (int(b) - p) * (int(b) - p)
+        + pair_square_min(int(t) - p)
+        + pair_square_min(int(c) - int(t) + p)
+        for p in range(lo, hi + 1)
+    )
+
+
 def aggregate_q_lower(b: int, c: int, t: int, support: int) -> int:
     return max(
         support_q_lower(int(b) + int(c), int(t), int(support)),
@@ -210,6 +224,17 @@ def abstract_regression() -> int:
             f"bc/t q lower bound exceeded exact q {xs}",
         )
         checked += 1
+
+    # Independent bounded regression of the parity-lattice convex minimizer
+    # against a literal scan over every admissible p.
+    for b in range(13):
+        for c in range(13):
+            for t in range(b + c + 1):
+                req(
+                    bc_t_q_lower(b, c, t) == bc_t_q_lower_bruteforce(b, c, t),
+                    f"bc/t convex minimizer mismatch {(b,c,t)}",
+                )
+                checked += 1
     return checked
 
 
