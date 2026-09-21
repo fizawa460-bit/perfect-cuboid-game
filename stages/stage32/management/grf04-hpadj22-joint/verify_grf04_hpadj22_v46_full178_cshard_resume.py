@@ -70,7 +70,15 @@ def main():
     req(len(w.c_ranges_for_h(82))==11 and w.c_ranges_for_h(82)[-1]==(80,82),"row65 partition drift")
 
     key=json.loads(RUNKEY.read_text());req(key["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME","runkey schema drift")
-    req(key["generation"]==13 and key["armed"] is False,"repair runkey must remain generation13 disarmed")
+    generation=int(key["generation"]);armed=bool(key["armed"])
+    if generation==13:
+        req(armed is False,"repair generation13 must remain disarmed")
+    else:
+        req(generation>=14 and armed is True,"post-audit execution generation must be >=14 and armed")
+        auth=key["authorization"]
+        req(auth["hostile_audit_pass_exact_head"]=="7424625b9280f790e2f5723be8932c6b2795fdad","generation14 hostile-audit PASS head drift")
+        req(auth["next_heavy_arm_requires_hostile_audit_pass"] is True,"hostile-audit arm gate drift")
+        req(key["local_retained_rows"]["recompute_forbidden"] is True,"retained local rows must remain recompute-forbidden")
     req(key["source_locks"]["recovery_snapshot_builder_blob_sha1"]==SNAPSHOT_BUILDER_BLOB,"runkey recovery snapshot builder lock drift")
     req(key["resource_preflight"]["artifact_count_upper_bound"]==98,"artifact upper bound must include 96 parents + snapshot + aggregate")
     req(key["resume_contract"]["recovery_snapshot_missing_artifacts_nonfatal"] is True,"missing-artifact snapshot contract drift")
