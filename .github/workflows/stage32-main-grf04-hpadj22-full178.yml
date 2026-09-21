@@ -74,6 +74,10 @@ jobs:
           assert p["partition"]["parents"]==96
           assert p["partition"]["row_windows"]==[[0,59],[60,119],[120,177]]
           assert p["partition"]["computed_row_chunk_certificates"]==2967
+          assert p["resource_preflight"]["parent_jobs"]==95
+          assert p["external_hold"]["parent_window"]==[4,0,1]
+          assert p["external_hold"]["owner"]=="codex-local"
+          assert p["external_hold"]["excluded_from_generation12_matrix"] is True
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==16 <= p["resource_preflight"]["repo_stage_heavy_cap"]
           assert p["resource_preflight"]["artifact_count_upper_bound"]==97 < 100
           assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=227
