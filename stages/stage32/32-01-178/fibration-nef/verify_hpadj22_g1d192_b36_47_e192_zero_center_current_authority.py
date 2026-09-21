@@ -111,9 +111,18 @@ def main() -> None:
 
     h0, h1, hh = grouped_h(e192)
     for r, subset in enumerate((h0, h1)):
+        # HPADJ22 stores qBC exactly only through QCAP=4992; every larger
+        # value is represented by the single overflow key 4993.  The e192
+        # zero-center source intentionally keeps exact qH, so compare the
+        # embedding after applying the producer's qcap map.  Later survival
+        # tests still use exact qH; overflow can never survive the HPADJ22
+        # cutoff because qa>=0 and threshold8/8=4992 for d=192.
+        folded = Counter()
+        for q, mult in subset.items():
+            folded[int(bc.qcap(int(q)))] += int(mult)
         full = Counter({int(q): int(v) for q, v in joint[TARGET["b"]][TARGET["c"]][TARGET["sbc"]][r].items() if int(v)})
-        req(all(int(mult) <= int(full.get(q, 0)) for q, mult in subset.items()),
-            f"unequal H subset not embedded in HPADJ22 joint histogram parity={r}")
+        req(all(int(mult) <= int(full.get(q, 0)) for q, mult in folded.items()),
+            f"unequal H subset not embedded in HPADJ22 qcap joint histogram parity={r}")
 
     g, d, e = TARGET["g"], TARGET["d"], TARGET["e"]
     h = d // 2
