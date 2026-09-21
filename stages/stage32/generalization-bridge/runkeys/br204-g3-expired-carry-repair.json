@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_BR204_G3_EXPIRED_CARRY_REPAIR_RUNKEY_V1",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "purpose": "Cold one-parent repair only: replace the expired generation-2 b=2,d=148,BC16 parent0 carry by recomputing exactly its four BC64 children and exact union. No broader recovery and no mathematical/MAIN credit.",
   "execution": {
     "target": {
@@ -59,12 +59,12 @@
     "planned_effective_heavy_concurrency": 1,
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 15,
-    "observed_other_stage32_heavy_concurrency_at_arm": null
+    "observed_other_stage32_heavy_concurrency_at_arm": 0
   },
   "arm_contract": {
     "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold repair doorstep",
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null,
+    "audited_doorstep_head": "53fbcf6ce756324862435b5158d00e9e29e33a64",
+    "audited_doorstep_review_id": 5264121071,
     "fresh_hostile_audit_required": true
   },
   "credit": {
