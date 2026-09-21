@@ -8,6 +8,7 @@ on:
     branches:
       - stage32-01-178-post-td02-fibration-nef
     paths:
+      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top16_bc_cells.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top8_bc_cells.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_all_a_all_unequal_support7_family.py'
       - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_all_unequal_support7_family.py'
@@ -41,11 +42,11 @@ jobs:
           git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
           rm -rf /tmp/s32h22src
           git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
-      - name: Exact V45 HPADJ22 e192 zero-center top8 disjoint bc cells
+      - name: Exact V45 HPADJ22 e192 zero-center top16 disjoint bc cells
         run: |
           set -euo pipefail
           mkdir -p /tmp/s32h22ref
-          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top8_bc_cells.py \
+          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top16_bc_cells.py \
             --repo-root "$GITHUB_WORKSPACE" \
             --source-root /tmp/s32h22src \
             --output /tmp/s32h22ref/result.json
