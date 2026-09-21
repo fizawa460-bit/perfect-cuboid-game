@@ -83,7 +83,7 @@ jobs:
           assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
           assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
           assert s["window_aggregator_blob_sha1"]=="f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
-          assert s["cshard_resume_verifier_blob_sha1"]=="85c16fa4da010acc9f1fee9d023788d00f2a79d4"
+          assert s["cshard_resume_verifier_blob_sha1"]=="1b12b3dd17ad326c7d31c3fcefed00ae51c0f6d6"\n          assert s["recovery_snapshot_builder_blob_sha1"]=="75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e"
           assert len(s["workflow_blob_sha1"])==40
           assert s["highd_helper_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
           assert s["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
@@ -92,7 +92,7 @@ jobs:
           assert p["resume_contract"]["durable_unit"]=="ROW_CSHARD_CERTIFICATE_OR_VALID_LEGACY_COMPLETE_ROW"
           assert p["resume_contract"]["legacy_complete_rows_recomputed"] is False
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==16 <= p["resource_preflight"]["repo_stage_heavy_cap"]
-          assert p["resource_preflight"]["artifact_count_upper_bound"]==97 < 100
+          assert p["resource_preflight"]["artifact_count_upper_bound"]==98 < 100
           assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=430
           assert p["credit"]["main"] is False and p["credit"]["theorem"] is False and p["credit"]["effectivity"] is False
           assert p["credit"]["receiver"] is False and p["credit"]["route"] is False and p["credit"]["endpoint"] is False and p["credit"]["merge"] is False
@@ -116,7 +116,7 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "8592f978538fd4bc8e7091d248a52084382d8962"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "85c16fa4da010acc9f1fee9d023788d00f2a79d4"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "1b12b3dd17ad326c7d31c3fcefed00ae51c0f6d6"\n          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py)" = "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e"
           expected_workflow="$(python -c 'import json;print(json.load(open("'"$key"'"))["source_locks"]["workflow_blob_sha1"])')"
           test "$(git hash-object .github/workflows/stage32-main-grf04-hpadj22-full178.yml)" = "$expected_workflow"
           armed="$(python -c 'import json;print("true" if json.load(open("'"$key"'"))["armed"] else "false")')"
@@ -252,40 +252,57 @@ jobs:
           retention-days: 2
           compression-level: 9
 
+
   summarize:
     name: FULL178 generation recovery summary
     needs: [authorize, parents]
     if: always() && needs.authorize.result == 'success' && needs.authorize.outputs.run == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     outputs:
       complete: ${{ steps.scan.outputs.complete }}
       complete_parents: ${{ steps.scan.outputs.complete_parents }}
       row_certificates: ${{ steps.scan.outputs.row_certificates }}
       c_shard_certificates: ${{ steps.scan.outputs.c_shard_certificates }}
+      missing_parents: ${{ steps.scan.outputs.missing_parents }}
+      rejected_parents: ${{ steps.scan.outputs.rejected_parents }}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Fetch all available parent-window checkpoints
+        continue-on-error: true
+        uses: actions/download-artifact@v4
         with:
           pattern: stage32-main-v46-grf04-hpadj22-full178-window-*
           path: full178-parents
       - id: scan
+        name: Build validated recovery inventory even with missing artifacts
         shell: bash
         run: |
-          python - <<'PY'
-          import hashlib,json,os,pathlib
-          root=pathlib.Path("full178-parents");artifact_dirs=[p for p in root.iterdir() if p.is_dir()]
-          if len(artifact_dirs)!=96: raise SystemExit(f"FAIL: expected 96 parent-window artifacts, found {len(artifact_dirs)}")
-          complete=list(root.rglob("PARENT-WINDOW-COMPLETE.json"));rows=list(root.rglob("row-???.json"));cshards=list(root.rglob("row-???-c???-???.json"));full_complete=(len(complete)==96)
-          out={"schema":"STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RECOVERY_SNAPSHOT_V3_CSHARD_RESUME","stage":32,"status":"GENERATION_COMPLETE" if full_complete else "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT","coverage":{"expected_parent_windows":96,"scheduled_parent_windows":96,"discovered_parent_artifacts":len(artifact_dirs),"complete_parent_windows":len(complete),"incomplete_parent_windows":96-len(complete),"persisted_row_certificates":len(rows),"persisted_c_shard_certificates":len(cshards)},"firewalls":{"main_pruning_credit":False,"full178_complete":False,"theorem_credit":False,"effectivity_credit":False,"receiver_credit":False,"route_credit":False,"endpoint_credit":False,"merge_authorized":False}}
-          canon=hashlib.sha256(json.dumps(out,sort_keys=True,separators=(",",":")).encode()).hexdigest();out["canonical_sha256_without_this_field"]=canon;pathlib.Path("RECOVERY-SNAPSHOT.json").write_text(json.dumps(out,sort_keys=True,separators=(",",":"))+"\n")
-          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
-              f.write(f"complete={'true' if full_complete else 'false'}\n");f.write(f"complete_parents={len(complete)}\n");f.write(f"row_certificates={len(rows)}\n");f.write(f"c_shard_certificates={len(cshards)}\n")
-          print(json.dumps(out,sort_keys=True))
-          PY
-      - uses: actions/upload-artifact@v4
+          set -euo pipefail
+          mkdir -p full178-parents
+          python stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py \
+            --parents-root full178-parents \
+            --source-root .stage32-ex5-hpadj22-full178 \
+            --output RECOVERY-SNAPSHOT.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Upload recovery inventory
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
           name: stage32-main-v46-grf04-hpadj22-full178-recovery-snapshot
           path: RECOVERY-SNAPSHOT.json
+          if-no-files-found: error
           retention-days: 2
           compression-level: 9
 
