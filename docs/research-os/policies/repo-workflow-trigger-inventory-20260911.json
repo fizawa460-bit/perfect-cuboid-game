@@ -4,10 +4,10 @@
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 10,
+    "ACTIVE_AUTO": 9,
     "MANUAL": 2,
-    "RETIRED": 519,
-    "TOTAL": 531
+    "RETIRED": 521,
+    "TOTAL": 532
   },
   "families": {
     "REPO": {
@@ -23,15 +23,15 @@
       "TOTAL": 1
     },
     "Stage32": {
-      "RETIRED": 256,
-      "TOTAL": 262,
+      "ACTIVE_AUTO": 3,
+      "TOTAL": 263,
       "MANUAL": 2,
-      "ACTIVE_AUTO": 4
+      "RETIRED": 258
     },
     "Stage32EX": {
-      "RETIRED": 4,
+      "ACTIVE_AUTO": 1,
       "TOTAL": 5,
-      "ACTIVE_AUTO": 1
+      "RETIRED": 4
     },
     "Stage33": {
       "RETIRED": 131,
@@ -58,8 +58,6 @@
     "ACTIVE_AUTO": [
       ".github/workflows/pages.yml",
       ".github/workflows/research-arsenal.yml",
-      ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
-      ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
       ".github/workflows/stage32-claim-frontier-integrity.yml",
       ".github/workflows/stage32-ex5-main.yml",
       ".github/workflows/stage32-main-startup-authority.yml",
@@ -78,6 +76,7 @@
       ".github/workflows/stage29-num2-n2-1e9.yml",
       ".github/workflows/stage29-num3-m2-census.yml",
       ".github/workflows/stage31-01-magma-quartic.yml",
+      ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
       ".github/workflows/stage32-01-178-n230-filtered-indexer.yml",
       ".github/workflows/stage32-01-178-n240-filtered-execution-adapter.yml",
       ".github/workflows/stage32-01-178-n250-post-n220-block-census.yml",
@@ -109,6 +108,7 @@
       ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
       ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml",
       ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
+      ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
       ".github/workflows/stage32-18-d16-aut-canonical.yml",
       ".github/workflows/stage32-18a-certify-d16-traversal.yml",
       ".github/workflows/stage32-18aa-d16-b16-tail-x64-rescue.yml",
@@ -595,13 +595,12 @@
     ]
   },
   "automatic_triggers_removed_by_migration": [
-    ".github/workflows/stage32-main-btva-static7-bounded-panel.yml"
+    ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
+    ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml"
   ],
   "branch_local_live_catalog": [
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
-    ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
-    ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
@@ -616,6 +615,7 @@
     "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
     "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
     "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-    "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only."
+    "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
+    "Stage32 32-01-178 e192 zero-center and qBC t-interval probe workflows are historical after the selective Picard successor pilot; both are RETIRED and workflow_dispatch-only."
   ]
-}\n
+}

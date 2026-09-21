@@ -1,22 +1,9 @@
 name: Stage32 32-01-178 HPADJ22 e192 zero-center current-authority replay
 
-# lifecycle: ACTIVE_AUTO
-# Current 178 frontier: one bounded V45 HPADJ22 current-authority subset refinement.
+# lifecycle: RETIRED
+# Historical bounded 178 probe retained for provenance; manual replay only.
 # This is a single exact verifier, not heavy/artifact-producing production compute.
 on:
-  push:
-    branches:
-      - stage32-01-178-post-td02-fibration-nef
-    paths:
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_tinterval_g1d192_band4.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_parity_band4.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top16_bc_cells.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_top8_bc_cells.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_all_a_all_unequal_support7_family.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_all_unequal_support7_family.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_fixed_h_family.py'
-      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_e192_zero_center_single_witness.py'
-      - '.github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml'
   workflow_dispatch:
 
 permissions:
