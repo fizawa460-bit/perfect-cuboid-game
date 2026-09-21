@@ -1919,7 +1919,14 @@ jobs:
 
       - name: Diff check
         if: github.event_name == 'pull_request'
-        run: git -c core.whitespace=-blank-at-eof diff --check "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+        run: |
+          # The retained pilot receipt is generated, checksum-bound exact evidence.
+          # Do not rewrite it for style-only whitespace; check every other changed path.
+          git -c core.whitespace=-blank-at-eof diff --check \
+            "${{ github.event.pull_request.base.sha }}" \
+            "${{ github.event.pull_request.head.sha }}" -- \
+            . \
+            ':(exclude)stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-PILOT-G1-U0000-RECEIPT.json'
 
   grf04-x4-top20-authorize:
     name: GRF04 x4 top20 authorize
