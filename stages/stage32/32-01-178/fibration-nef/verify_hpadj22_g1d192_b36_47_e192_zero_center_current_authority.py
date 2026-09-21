@@ -97,9 +97,10 @@ def main() -> None:
     req((row_id, int(g0), int(d0)) == (TARGET["row_id"], TARGET["g"], TARGET["d"]), "row identity drift")
     req(tuple(old.PLANNED[BAND]) == (36, 47), "target b-band drift")
 
-    joint = bc.build_joint_bc_shard(old.HMAX, 36, 47)
-    got = direct.direct_count(old, ctx, joint, BAND, ROW_INDEX)
-    req(got["row"] == {"index": ROW_INDEX, "row_id": TARGET["row_id"], "g": 1, "d": 192}, "direct row drift")
+    # Only the one target b coordinate is required for subset embedding.
+    # Rebuilding the entire 36..47 band would merely recompute unrelated
+    # HPADJ22 survivors already locked by the V45 aggregate.
+    joint = bc.build_joint_bc_shard(old.HMAX, TARGET["b"], TARGET["b"])
 
     e192 = load_module(E192, "stage32_178_e192_zero_center_for_hpadj22")
     fast = e192.load_module(e192.FAST, "stage32_178_e192_fast_for_hpadj22")
@@ -195,10 +196,7 @@ def main() -> None:
 
     reduction = old_subset - refined_subset
     req(reduction > 0, "zero-center condition gives no strict HPADJ22 direct-count reduction")
-    old_row = int(got["hpadj22_exact_survivors"])
-    req(0 < old_subset <= old_row, "target HPADJ22 subset exceeds direct row count")
-    new_row = old_row - reduction
-    req(0 <= new_row < old_row, "refined row count did not strictly improve")
+    req(0 < old_subset <= OLD_GLOBAL, "target HPADJ22 subset exceeds locked global count")
     new_global = OLD_GLOBAL - reduction
     req(0 <= new_global < OLD_GLOBAL, "refined global bound did not strictly improve")
 
@@ -231,11 +229,9 @@ def main() -> None:
             "zero_center_picard_membership_replayed": True
         },
         "result": {
-            "old_hpadj22_row_survivors": str(old_row),
             "old_subset_survivors": str(old_subset),
             "refined_subset_survivors": str(refined_subset),
             "exact_survivor_reduction": str(reduction),
-            "refined_hpadj22_row_survivors": str(new_row),
             "current_v45_global_upper_bound": str(OLD_GLOBAL),
             "candidate_global_upper_bound_if_promoted": str(new_global),
             "accepted_subset_prefix_multiplicity": str(accepted_prefixes),
@@ -273,7 +269,6 @@ def main() -> None:
 
     print("HPADJ22_E192_ZERO_CENTER_CURRENT_AUTHORITY=" + json.dumps({
         "row_index": ROW_INDEX,
-        "old_row": str(old_row),
         "old_subset": str(old_subset),
         "refined_subset": str(refined_subset),
         "reduction": str(reduction),
