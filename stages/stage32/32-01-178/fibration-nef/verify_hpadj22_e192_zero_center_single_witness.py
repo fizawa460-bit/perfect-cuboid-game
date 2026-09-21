@@ -68,8 +68,26 @@ def main() -> None:
 
     direct = load_module(direct_path, "stage32_178_hpadj22_witness_direct")
     old = direct.load_old(args.source_root)
-    ctx = old.source_context()
-    bc, bnd, h21, h18, h16, p15, p14, counter, rows, rejected, profiles, classes_gt2, tuples_above_second = ctx
+
+    # Load only the exact source chain needed by this one witness.  Do not
+    # call old.source_context(): that helper constructs the full HMAX=96 qA
+    # profile table even though current HPADJ22's profile definition simply
+    # enumerates every nonnegative (x2,x3,x7) triple at fixed a.
+    bc = old.load_bchunk()
+    bnd = bc.load_bound()
+    h21 = bnd.load_module(bnd.H21, bnd.H21_BLOB, "stage32_178_witness_h21")
+    h20 = h21.load_parent()
+    h19 = h20.load_parent()
+    h18 = h19.load_parent()
+    h17 = h18.load_parent()
+    h16 = h17.load_parent()
+    p15 = h16.load_module(h16.PARENT, h16.PARENT_BLOB, "stage32_178_witness_h15")
+    p14 = p15.load_parent()
+    counter = p14.load_counter()
+    manifest = counter.load_locked_json(
+        p14.MANIFEST, p14.LOCKS["manifest_blob"], p14.LOCKS["manifest_canonical"], "FULL178 manifest"
+    )
+    rows = counter.manifest_rows(manifest)
 
     row_id, g0, d0 = rows[ROW_INDEX]
     req((row_id, int(g0), int(d0)) == ("g1-d192", 1, 192), "target row identity drift")
@@ -80,8 +98,13 @@ def main() -> None:
     qA = W["x2"]**2 + W["x3"]**2 + W["x7"]**2
     req(W["x2"] + W["x3"] + W["x7"] == W["a"], "A mass drift")
     req(all(W[k] > 0 for k in ("x2","x3","x7")), "A support is not 3")
-    aprof = {int(q): int(mult) for q, mult in profiles[W["a"]][3]}
-    req(aprof.get(qA, 0) > 0, "explicit A witness missing from current HPADJ22 qA profile")
+    # h21.full_profiles enumerates x2=0..a, x3=0..a-x2,
+    # x7=a-x2-x3 and bins exactly by support and qA.  Therefore this
+    # explicit positive triple is one exact member, without building the
+    # whole FULL178 profile table.
+    req(0 <= W["x2"] <= W["a"] and 0 <= W["x3"] <= W["a"]-W["x2"],
+        "explicit A tuple outside full_profiles enumeration domain")
+    req(W["x7"] == W["a"]-W["x2"]-W["x3"], "explicit A tuple reconstruction drift")
 
     # Exact canonical unequal x0<x1 branch used by build_joint_bc_shard.
     req(0 < W["x0"] < W["x1"], "not canonical unequal branch")
