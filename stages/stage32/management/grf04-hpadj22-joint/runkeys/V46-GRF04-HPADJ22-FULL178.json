@@ -11,7 +11,7 @@
     "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
     "cshard_resume_verifier_blob_sha1": "1b12b3dd17ad326c7d31c3fcefed00ae51c0f6d6",
     "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
-    "workflow_blob_sha1": "083a6ae5832eca0bd9961a04f7dfb0998e94449b",
+    "workflow_blob_sha1": "87823d5752e56d8d0f8850a48276dac7670d60e8",
     "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
     "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -19,7 +19,17 @@
     "cshard_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py",
     "legacy_row_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py",
     "recovery_snapshot_builder_blob_sha1": "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e",
-    "recovery_snapshot_builder_path": "stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py"
+    "recovery_snapshot_builder_path": "stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py",
+    "retained_local_rows_manifest_blob_sha1": "df54d3a73fec673c926f23bc251756df299a2102",
+    "retained_local_rows_verifier_blob_sha1": "8ca6c545e53ee27b979b544b8d28623f58a4577f",
+    "retained_local_row_blobs": {
+      "B6-C0-W1-ROW089": "97835fc992926193a0f7e6605d9d343211cb0ea8",
+      "B6-C0-W2-ROW177": "3e083d0177a7acf35c8cd5d8db9265d3c7763bca",
+      "B6-C1-W2-ROW175": "bcebae2f1717406451ed185dc4b73d55ae2a3a8b",
+      "B6-C1-W2-ROW177": "83526f8c64e970745108304dce33bb4974324cbc",
+      "B6-C2-W2-ROW177": "152dba550dab657b4ed08878c7cc301bac51e8db",
+      "B6-C3-W2-ROW177": "0d1c4dd626c9180670384553946cd03fc9759bf0"
+    }
   },
   "benchmark_gate": {
     "run_id": 35437525466,
@@ -116,7 +126,7 @@
     "parent_artifact_upload_on_soft_timeout": true,
     "parent_artifact_upload_step_condition": "always()",
     "soft_timeout_is_operational_checkpoint_not_mathematical_failure": true,
-    "recovery": "For each parent-window use generation13 first, then generation12, then generation11, then the generation10 b4c0w1 special seed; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing c-shards.",
+    "recovery": "For each parent-window use generation13 first, then generation12, then generation11, then the generation10 b4c0w1 special seed; inject source-locked retained local complete rows for their exact parent identities; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing exact c-shards.",
     "artifact_job_conclusion_is_not_completion_authority": true,
     "duplicate_valid_carry": "FAIL_CLOSED",
     "rejected_carry": "record and recompute only the rejected/missing exact subunit",
@@ -127,7 +137,9 @@
     "recovery_snapshot_missing_artifacts_nonfatal": true,
     "recovery_snapshot_inventory_replayable": true,
     "recovery_snapshot_inventory": "All 96 parent-window identities are classified COMPLETE/PARTIAL/MISSING/REJECTED; validated row and c-shard identities plus canonical commitments are recorded; invalid files are surfaced instead of aborting snapshot creation.",
-    "aggregate_gate": "Aggregate remains blocked unless the recovery inventory reports all 96 parent windows COMPLETE with validated complete manifests and no rejected carry."
+    "aggregate_gate": "Aggregate remains blocked unless the recovery inventory reports all 96 parent windows COMPLETE with validated complete manifests and no rejected carry.",
+    "retained_local_complete_rows_recomputed": false,
+    "retained_local_row_conflict_rule": "If an artifact carry already contains the same retained row identity, require exact baseline/joint/improvement equality before replacing it with the source-locked retained certificate; any conflict fails closed."
   },
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
@@ -175,7 +187,7 @@
       0,
       1
     ],
-    "precedence_rule": "generation13 artifact if present; else generation12; else generation11; b4c0w1 may fall back to generation10; inject retained row65 and reject any conflict"
+    "precedence_rule": "generation13 artifact if present; else generation12; else generation11; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows for their exact parent identities (including retained row65) and reject any exact-result conflict"
   },
   "local_seed": {
     "parent_window": [
@@ -354,5 +366,19 @@
     "repair": "Disarm generation13; replace row-only recovery with exact width-8 c-range certificates inside each unfinished row; preserve legacy completed rows unchanged.",
     "mathematical_failure": false,
     "main_credit": false
+  },
+  "retained_local_rows": {
+    "status": "EXACT_COMPLETE_ROWS_ZERO_CREDIT",
+    "source_commit": "f02c821f98b224652dab743d665743a0be7a00c2",
+    "manifest_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-LOCAL-ROWS-RETAINED.json",
+    "verifier_path": "stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py",
+    "certificate_count": 6,
+    "selected_exact_improvement": "157151676541230906",
+    "research_only_candidate_upper_bound_if_separately_audited": "138495588124109362588",
+    "action_carry_overlap_at_retention": 0,
+    "recompute_forbidden": true,
+    "main_credit": false,
+    "full178_credit": false,
+    "hostile_audit_required_before_promotion": true
   }
 }
