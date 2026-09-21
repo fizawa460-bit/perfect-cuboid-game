@@ -14,7 +14,7 @@ def main():
  started=time.monotonic(); recovered=[]; completed=[]; failed=None; stop=None
  def row(q,i): return {"idx":i,"name":q.name,"gzip_bytes":q.stat().st_size,"gzip_sha256":hashlib.sha256(q.read_bytes()).hexdigest()}
  def ck(done=False):
-  cr=[] 
+  cr=[]
   for i in expected:
    q=children/shard_name(a.b,a.d,i,CHILD_COUNT)
    if q.is_file(): cr.append(row(q,i))
