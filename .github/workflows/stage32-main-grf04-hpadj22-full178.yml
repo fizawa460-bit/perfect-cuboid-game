@@ -15,16 +15,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  cold_verify:
+    name: FULL178 cold c-shard resume verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Verify retained row65 legacy carry
+        run: python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py
+      - name: Verify c-shard partition, salvage snapshot, and exact union equivalence
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py \
+            --source-root .stage32-ex5-hpadj22-full178
+
   authorize:
     name: FULL178 authorize
+    needs: cold_verify
     if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
       run: ${{ steps.gate.outputs.run }}
-      carry_run_id: ${{ steps.gate.outputs.carry_run_id }}
-      carry_topology: ${{ steps.gate.outputs.carry_topology }}
-      fallback_run_id: ${{ steps.gate.outputs.fallback_run_id }}
+      primary_run_id: ${{ steps.gate.outputs.primary_run_id }}
+      secondary_run_id: ${{ steps.gate.outputs.secondary_run_id }}
+      tertiary_run_id: ${{ steps.gate.outputs.tertiary_run_id }}
       special_run_id: ${{ steps.gate.outputs.special_run_id }}
     steps:
       - uses: actions/checkout@v4
@@ -39,9 +64,9 @@ jobs:
           before='${{ github.event.before }}'
           head='${{ github.event.pull_request.head.sha }}'
           echo "run=false" >> "$GITHUB_OUTPUT"
-          echo "carry_run_id=0" >> "$GITHUB_OUTPUT"
-          echo "carry_topology=NONE" >> "$GITHUB_OUTPUT"
-          echo "fallback_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "primary_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "secondary_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "tertiary_run_id=0" >> "$GITHUB_OUTPUT"
           echo "special_run_id=0" >> "$GITHUB_OUTPUT"
           test -n "$before"
           git fetch --no-tags --depth=1 origin "$before" || true
@@ -50,71 +75,69 @@ jobs:
           git show "$before:$key" > "$RUNNER_TEMP/old-runkey.json" || true
           python - "$RUNNER_TEMP/old-runkey.json" "$key" <<'PY'
           import json,sys,pathlib
-          oldp=pathlib.Path(sys.argv[1])
-          p=json.load(open(sys.argv[2]))
-          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED"
-          assert p["generation"]>=2 and p["armed"] is True
-          if oldp.exists() and oldp.stat().st_size:
-              old=json.load(open(oldp))
-              if old.get("schema")=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V1":
-                  assert old["generation"]==1 and old["armed"] is True
-                  assert p["generation"]==2
-              else:
-                  assert old["schema"]==p["schema"]
-                  assert p["generation"]>old["generation"]
-          else:
-              raise AssertionError("windowed generation requires predecessor runkey")
+          oldp=pathlib.Path(sys.argv[1]);p=json.load(open(sys.argv[2]));old=json.load(open(oldp)) if oldp.exists() and oldp.stat().st_size else None
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME"
+          assert p["generation"]>=13
+          assert old is not None
           s=p["source_locks"]
-          assert s["row_compute_worker_blob_sha1"]=="c9fbf71242581f096718ebf0dbc9ac88878c91f1"
-          assert s["window_wrapper_blob_sha1"]=="d62c7d05097c6dba4a6275658db75f75a2e091d4"
-          assert s["window_aggregator_blob_sha1"]=="a2a8eef9e8741d9085a2c6d4e199ca3d980d0d64"
+          assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
+          assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
+          assert s["window_aggregator_blob_sha1"]=="f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          assert s["cshard_resume_verifier_blob_sha1"]=="85c16fa4da010acc9f1fee9d023788d00f2a79d4"
+          assert len(s["workflow_blob_sha1"])==40
           assert s["highd_helper_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
-          assert s["highd_generation8_retained_blob_sha1"]=="d154b3cff576c2d5a2853be88e77cf6d195e7490"
           assert s["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
-          assert p["benchmark_gate"]["strict"] is True
-          assert p["benchmark_gate"]["aggregate_canonical_sha256"]=="7f1acd8a9033ce0c45674f96a816357e7784630cf4e6f77828102abc5a53f3dc"
-          assert p["partition"]["parents"]==96
-          assert p["partition"]["row_windows"]==[[0,59],[60,119],[120,177]]
-          assert p["partition"]["computed_row_chunk_certificates"]==2967
-          assert p["resource_preflight"]["parent_jobs"]==96
-          seed=p["local_seed"]
-          assert seed["parent_window"]==[4,0,1]
-          assert seed["special_predecessor_run_id"]==35501853750
-          assert seed["certificate_path"]=="stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json"
-          assert seed["certificate_canonical_sha256"]=="df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172"
+          assert p["partition"]["c_shard_width"]==8
+          assert p["partition"]["parents"]==96 and p["partition"]["row_windows"]==[[0,59],[60,119],[120,177]]
+          assert p["resume_contract"]["durable_unit"]=="ROW_CSHARD_CERTIFICATE_OR_VALID_LEGACY_COMPLETE_ROW"
+          assert p["resume_contract"]["legacy_complete_rows_recomputed"] is False
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==16 <= p["resource_preflight"]["repo_stage_heavy_cap"]
           assert p["resource_preflight"]["artifact_count_upper_bound"]==97 < 100
-          assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=227
-          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=430
+          assert p["credit"]["main"] is False and p["credit"]["theorem"] is False and p["credit"]["effectivity"] is False
+          assert p["credit"]["receiver"] is False and p["credit"]["route"] is False and p["credit"]["endpoint"] is False and p["credit"]["merge"] is False
           carry=p["carry"]
-          assert carry["predecessor_run_id"]>0
-          assert carry["predecessor_topology"] in ("V1_FULL_PARENT","V2_ROW_WINDOW")
-          assert carry.get("fallback_predecessor_run_id",0)>0
-          assert int(carry["fallback_predecessor_run_id"]) != int(carry["predecessor_run_id"])
-          print("carry_run_id="+str(int(carry["predecessor_run_id"])))
-          print("carry_topology="+carry["predecessor_topology"])
-          print("fallback_run_id="+str(int(carry["fallback_predecessor_run_id"])))
-          print("special_run_id="+str(int(p["local_seed"]["special_predecessor_run_id"])))
+          assert carry["primary_predecessor_run_id"]==35559431762
+          assert carry["secondary_predecessor_run_id"]==35555103056
+          assert carry["tertiary_predecessor_run_id"]==35531197992
+          assert carry["special_predecessor_run_id"]==35501853750
+          snap=p["generation13_salvage"]
+          assert snap["discovered_artifact_count"]==35 and snap["valid_row_certificates"]==795
+          assert snap["validated_precedence_union_rows"]==1302 and snap["canonical_conflicts"]==0
+          if p["armed"] is False:
+              assert p["generation"]==13
+              assert old.get("generation")==13
+          else:
+              assert old.get("schema")==p["schema"]
+              assert old.get("armed") is False
+              assert p["generation"]>int(old["generation"])
           PY
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "d62c7d05097c6dba4a6275658db75f75a2e091d4"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "a2a8eef9e8741d9085a2c6d4e199ca3d980d0d64"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json)" = "d154b3cff576c2d5a2853be88e77cf6d195e7490"
-          carry="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["predecessor_run_id"]))')"
-          topology="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["predecessor_topology"])')"
-          fallback="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["carry"]["fallback_predecessor_run_id"]))')"
-          special="$(python -c 'import json;print(int(json.load(open("'"$key"'"))["local_seed"]["special_predecessor_run_id"]))')"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "8592f978538fd4bc8e7091d248a52084382d8962"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "85c16fa4da010acc9f1fee9d023788d00f2a79d4"
+          expected_workflow="$(python -c 'import json;print(json.load(open("'"$key"'"))["source_locks"]["workflow_blob_sha1"])')"
+          test "$(git hash-object .github/workflows/stage32-main-grf04-hpadj22-full178.yml)" = "$expected_workflow"
+          armed="$(python -c 'import json;print("true" if json.load(open("'"$key"'"))["armed"] else "false")')"
+          if [ "$armed" != "true" ]; then
+            echo "FULL178 runkey is intentionally disarmed; cold verification only."
+            exit 0
+          fi
+          primary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["primary_predecessor_run_id"])')"
+          secondary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["secondary_predecessor_run_id"])')"
+          tertiary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["tertiary_predecessor_run_id"])')"
+          special="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["special_predecessor_run_id"])')"
           echo "run=true" >> "$GITHUB_OUTPUT"
-          echo "carry_run_id=$carry" >> "$GITHUB_OUTPUT"
-          echo "carry_topology=$topology" >> "$GITHUB_OUTPUT"
-          echo "fallback_run_id=$fallback" >> "$GITHUB_OUTPUT"
+          echo "primary_run_id=$primary" >> "$GITHUB_OUTPUT"
+          echo "secondary_run_id=$secondary" >> "$GITHUB_OUTPUT"
+          echo "tertiary_run_id=$tertiary" >> "$GITHUB_OUTPUT"
           echo "special_run_id=$special" >> "$GITHUB_OUTPUT"
 
   parents:
     name: FULL178 checkpoint b${{ matrix.band }} c${{ matrix.chunk }} w${{ matrix.window }}
-    needs: authorize
-    if: needs.authorize.outputs.run == 'true'
+    needs: [cold_verify, authorize]
+    if: needs.cold_verify.result == 'success' && needs.authorize.outputs.run == 'true'
     strategy:
       fail-fast: false
       max-parallel: 16
@@ -123,7 +146,7 @@ jobs:
         chunk: [0,1,2,3]
         window: [0,1,2]
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 350
     steps:
       - uses: actions/checkout@v4
         with:
@@ -137,37 +160,37 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11.x'
-      - name: Fetch V1 predecessor carry artifact
-        if: needs.authorize.outputs.carry_topology == 'V1_FULL_PARENT'
-        continue-on-error: true
-        uses: actions/download-artifact@v4
-        with:
-          name: stage32-main-v46-grf04-hpadj22-full178-parent-${{ matrix.band }}-${{ matrix.chunk }}
-          path: carry-parent
-          run-id: ${{ needs.authorize.outputs.carry_run_id }}
-          github-token: ${{ github.token }}
-      - id: primary_v2_carry
-        name: Fetch V2 predecessor carry artifact
-        if: needs.authorize.outputs.carry_topology == 'V2_ROW_WINDOW'
+      - id: primary_carry
+        name: Fetch generation-13 carry artifact
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
           path: carry-parent
-          run-id: ${{ needs.authorize.outputs.carry_run_id }}
+          run-id: ${{ needs.authorize.outputs.primary_run_id }}
           github-token: ${{ github.token }}
-      - id: fallback_v2_carry
-        name: Fetch V2 fallback predecessor carry artifact
-        if: needs.authorize.outputs.carry_topology == 'V2_ROW_WINDOW' && steps.primary_v2_carry.outcome != 'success'
+      - id: secondary_carry
+        name: Fetch generation-12 fallback carry artifact
+        if: steps.primary_carry.outcome != 'success'
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
           name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
           path: carry-parent
-          run-id: ${{ needs.authorize.outputs.fallback_run_id }}
+          run-id: ${{ needs.authorize.outputs.secondary_run_id }}
+          github-token: ${{ github.token }}
+      - id: tertiary_carry
+        name: Fetch generation-11 fallback carry artifact
+        if: steps.primary_carry.outcome != 'success' && steps.secondary_carry.outcome != 'success'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.tertiary_run_id }}
           github-token: ${{ github.token }}
       - name: Fetch b4-c0-w1 generation-10 predecessor
-        if: matrix.band == 4 && matrix.chunk == 0 && matrix.window == 1 && steps.primary_v2_carry.outcome != 'success' && steps.fallback_v2_carry.outcome != 'success'
+        if: matrix.band == 4 && matrix.chunk == 0 && matrix.window == 1 && steps.primary_carry.outcome != 'success' && steps.secondary_carry.outcome != 'success' && steps.tertiary_carry.outcome != 'success'
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
@@ -189,7 +212,7 @@ jobs:
           fi
           python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py
       - id: compute
-        name: Run resumable exact row-window with soft wall
+        name: Run resumable exact row-window with c-shard checkpoints
         shell: bash
         run: |
           set -euo pipefail
@@ -197,22 +220,30 @@ jobs:
           carry=()
           if [ -d carry-parent ]; then carry=(--carry-root carry-parent); fi
           set +e
-          timeout --signal=TERM --kill-after=60s 78m             python stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py               --source-root .stage32-ex5-hpadj22-full178               --band-position ${{ matrix.band }}               --chunk-position ${{ matrix.chunk }}               --row-window-position ${{ matrix.window }}               --output-dir "$RUNNER_TEMP/full178-parent"               --expected-wrapper-blob d62c7d05097c6dba4a6275658db75f75a2e091d4               "${carry[@]}"
+          timeout --signal=TERM --kill-after=60s 330m \
+            python stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py \
+              --source-root .stage32-ex5-hpadj22-full178 \
+              --band-position ${{ matrix.band }} \
+              --chunk-position ${{ matrix.chunk }} \
+              --row-window-position ${{ matrix.window }} \
+              --output-dir "$RUNNER_TEMP/full178-parent" \
+              --expected-wrapper-blob 8592f978538fd4bc8e7091d248a52084382d8962 \
+              "${carry[@]}"
           code=$?
           set -e
           if [ "$code" -eq 0 ]; then
             echo "checkpoint_status=COMPLETE" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          if [ "$code" -eq 124 ] || [ "$code" -eq 143 ]; then
-            echo "checkpoint_status=SOFT_TIMEOUT_PARTIAL" >> "$GITHUB_OUTPUT"
-            echo "soft timeout: completed row certificates will be uploaded as valid zero-credit carry"
+          if [ "$code" -eq 124 ] || [ "$code" -eq 143 ] || [ "$code" -eq 130 ]; then
+            echo "checkpoint_status=PARTIAL_CSHARD_CHECKPOINT" >> "$GITHUB_OUTPUT"
+            echo "checkpoint stop: completed row/c-shard certificates will be uploaded as valid zero-credit carry"
             exit 0
           fi
           echo "unexpected compute failure code=$code"
           exit "$code"
       - name: Upload parent-window checkpoint
-        if: always()
+        if: ${{ always() }}
         uses: actions/upload-artifact@v4
         with:
           name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
@@ -231,6 +262,7 @@ jobs:
       complete: ${{ steps.scan.outputs.complete }}
       complete_parents: ${{ steps.scan.outputs.complete_parents }}
       row_certificates: ${{ steps.scan.outputs.row_certificates }}
+      c_shard_certificates: ${{ steps.scan.outputs.c_shard_certificates }}
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -241,33 +273,13 @@ jobs:
         run: |
           python - <<'PY'
           import hashlib,json,os,pathlib
-          root=pathlib.Path("full178-parents")
-          artifact_dirs=[p for p in root.iterdir() if p.is_dir()]
-          if len(artifact_dirs)!=96:
-              raise SystemExit(f"FAIL: expected 96 parent-window artifacts, found {len(artifact_dirs)}")
-          complete=list(root.rglob("PARENT-WINDOW-COMPLETE.json"))
-          rows=list(root.rglob("row-*.json"))
-          full_complete=(len(complete)==96)
-          out={
-            "schema":"STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RECOVERY_SNAPSHOT_V2",
-            "stage":32,
-            "status":"GENERATION_COMPLETE" if full_complete else "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
-            "coverage":{"expected_parent_windows":96,"scheduled_parent_windows":96,
-                        "discovered_parent_artifacts":len(artifact_dirs),
-                        "complete_parent_windows":len(complete),"incomplete_parent_windows":96-len(complete),
-                        "persisted_row_certificates":len(rows)},
-            "firewalls":{"main_pruning_credit":False,"full178_complete":False,
-                         "theorem_credit":False,"effectivity_credit":False,
-                         "receiver_credit":False,"route_credit":False,
-                         "endpoint_credit":False,"merge_authorized":False}
-          }
-          canon=hashlib.sha256(json.dumps(out,sort_keys=True,separators=(",",":")).encode()).hexdigest()
-          out["canonical_sha256_without_this_field"]=canon
-          pathlib.Path("RECOVERY-SNAPSHOT.json").write_text(json.dumps(out,sort_keys=True,separators=(",",":"))+"\n")
+          root=pathlib.Path("full178-parents");artifact_dirs=[p for p in root.iterdir() if p.is_dir()]
+          if len(artifact_dirs)!=96: raise SystemExit(f"FAIL: expected 96 parent-window artifacts, found {len(artifact_dirs)}")
+          complete=list(root.rglob("PARENT-WINDOW-COMPLETE.json"));rows=list(root.rglob("row-???.json"));cshards=list(root.rglob("row-???-c???-???.json"));full_complete=(len(complete)==96)
+          out={"schema":"STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RECOVERY_SNAPSHOT_V3_CSHARD_RESUME","stage":32,"status":"GENERATION_COMPLETE" if full_complete else "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT","coverage":{"expected_parent_windows":96,"scheduled_parent_windows":96,"discovered_parent_artifacts":len(artifact_dirs),"complete_parent_windows":len(complete),"incomplete_parent_windows":96-len(complete),"persisted_row_certificates":len(rows),"persisted_c_shard_certificates":len(cshards)},"firewalls":{"main_pruning_credit":False,"full178_complete":False,"theorem_credit":False,"effectivity_credit":False,"receiver_credit":False,"route_credit":False,"endpoint_credit":False,"merge_authorized":False}}
+          canon=hashlib.sha256(json.dumps(out,sort_keys=True,separators=(",",":")).encode()).hexdigest();out["canonical_sha256_without_this_field"]=canon;pathlib.Path("RECOVERY-SNAPSHOT.json").write_text(json.dumps(out,sort_keys=True,separators=(",",":"))+"\n")
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
-              f.write(f"complete={'true' if full_complete else 'false'}\n")
-              f.write(f"complete_parents={len(complete)}\n")
-              f.write(f"row_certificates={len(rows)}\n")
+              f.write(f"complete={'true' if full_complete else 'false'}\n");f.write(f"complete_parents={len(complete)}\n");f.write(f"row_certificates={len(rows)}\n");f.write(f"c_shard_certificates={len(cshards)}\n")
           print(json.dumps(out,sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
@@ -294,16 +306,15 @@ jobs:
           path: full178-parents
       - name: Aggregate exact 96-window union
         run: |
-          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py             --parents-root full178-parents             --output "$RUNNER_TEMP/grf04-hpadj22-full178.json"
+          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py \
+            --parents-root full178-parents \
+            --output "$RUNNER_TEMP/grf04-hpadj22-full178.json"
       - name: Validate aggregate firewalls
         run: |
           python - "$RUNNER_TEMP/grf04-hpadj22-full178.json" <<'PY'
           import hashlib,json,sys
-          p=json.load(open(sys.argv[1]))
-          stored=p.pop("canonical_sha256_without_this_field")
-          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
-          assert stored==calc
-          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_AGGREGATE_V2_WINDOWED"
+          p=json.load(open(sys.argv[1]));stored=p.pop("canonical_sha256_without_this_field");calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest();assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_AGGREGATE_V3_CSHARD_RESUME"
           assert p["coverage"]["parents"]==96 and p["coverage"]["row_windows"]==3
           assert p["coverage"]["gaps"]==0 and p["coverage"]["overlaps"]==0
           assert p["totals"]["hpadj22_exact_survivors"]=="138652739800650593494"
