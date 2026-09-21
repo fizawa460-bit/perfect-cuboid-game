@@ -29,7 +29,13 @@ def canonical(value: dict) -> str:
     ).hexdigest()
 
 
+def blob(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+
 def load_worker():
+    require(blob(WORKER) == WORKER_BLOB, "production worker blob drift")
     spec = importlib.util.spec_from_file_location("v46_row65_retained_worker", WORKER)
     require(spec is not None and spec.loader is not None, "cannot load production worker")
     module = importlib.util.module_from_spec(spec)
@@ -40,7 +46,6 @@ def load_worker():
 
 def main() -> None:
     worker = load_worker()
-    require(worker.blob(WORKER) == WORKER_BLOB, "production worker blob drift")
     certificate = json.loads(CERTIFICATE.read_text(encoding="utf-8"))
     require(canonical(certificate) == CERTIFICATE_CANONICAL, "certificate canonical drift")
     accepted = worker.validate_carry(
