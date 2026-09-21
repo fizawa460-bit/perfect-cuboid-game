@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME",
   "stage": 32,
-  "generation": 13,
-  "armed": false,
-  "objective": "Cold repair only: salvage generation-13/12/11/10 valid complete rows, introduce exact width-8 c-range subshards inside unfinished rows, preserve every validated completed subunit, and require hostile audit before any generation-14 heavy re-arm. No mathematical credit changes.",
+  "generation": 14,
+  "armed": true,
+  "objective": "Generation-14 resume-first FULL178 execution after hostile-audit PASS at exact head 7424625b9280f790e2f5723be8932c6b2795fdad. Reuse generation-13/12/11/10 validated carry plus 6 retained local exact rows; compute only missing exact c-shards. No mathematical credit until complete aggregate plus subsequent hostile audit.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
     "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
@@ -155,8 +155,10 @@
     "compute_soft_timeout_minutes": 330,
     "c_shards_are_files_inside_parent_artifacts": true,
     "observed_other_stage32_heavy_concurrency_at_repair": 4,
+    "observed_other_stage32_heavy_concurrency_at_generation14_arm": 2,
     "note": "No heavy run is armed by this repair. Maximum artifact topology is 96 parent artifacts + 1 recovery snapshot + 1 aggregate = 98 (<100 pagination trigger). Width-8 c-shard files remain nested inside parent-window artifacts. At repair time MB-FIB run 35568958576 had 4 heavy jobs in progress, so MAIN max-parallel 16 must not be armed until the live concurrency gate clears or the audited parallelism is reduced.",
     "observed_other_stage32_heavy_run_id": 35568958576,
+    "generation14_arm_effective_total_concurrency": 18,
     "prearm_live_concurrency_recheck_required": true,
     "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed."
   },
@@ -167,7 +169,9 @@
     "repair_generation_disarmed": true,
     "next_heavy_generation_minimum": 14,
     "next_heavy_arm_requires_hostile_audit_pass": true,
-    "rearm_rule": "After hostile-audit PASS, a later synchronize commit must set armed=true and strictly advance generation beyond 13. This repair commit itself must produce authorize run=false.",
+    "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
+    "hostile_audit_pass_submitted_at": "2026-09-21T08:01:47Z",
+    "rearm_rule": "Satisfied for generation14: hostile-audit PASS exists at exact head 7424625b9280f790e2f5723be8932c6b2795fdad; this later synchronize commit sets armed=true and advances generation 13->14.",
     "prearm_live_concurrency_recheck_required": true,
     "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
   },
