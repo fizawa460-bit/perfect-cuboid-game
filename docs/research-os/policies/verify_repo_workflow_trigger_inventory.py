@@ -17,6 +17,7 @@ ACTIVE_AUTO = {
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
+    ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
