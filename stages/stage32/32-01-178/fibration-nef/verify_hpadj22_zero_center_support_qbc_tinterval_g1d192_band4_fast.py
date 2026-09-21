@@ -50,17 +50,7 @@ def min_square_sum_positive(total: int, positive_parts: int) -> int:
 
 
 def support_q_lower(total_mass: int, t: int, support: int) -> int:
-    """Exact qBC minimum under only (m,t,total H support).
-
-    Split the seven H coordinates into
-      T=(x0,x1,x6,x9), sum=t, size=4
-      U=(x5,x8,x10), sum=m-t, size=3.
-    If k of T and s-k of U are positive, balanced positive compositions
-    minimize the sum of squares.  Minimize over every feasible k.
-
-    Current canonical/order restrictions are deliberately relaxed.  Therefore
-    this is a lower bound for every actual current HPADJ22 H tuple.
-    """
+    """Exact qBC minimum under only (m,t,total H support)."""
     m = int(total_mass)
     t = int(t)
     s = int(support)
@@ -75,20 +65,84 @@ def support_q_lower(total_mass: int, t: int, support: int) -> int:
     return best
 
 
+def pair_square_min(total: int) -> int:
+    """Exact min u^2+v^2 over nonnegative u+v=total."""
+    total = int(total)
+    q, r = divmod(total, 2)
+    return (2 - r) * q * q + r * (q + 1) * (q + 1)
+
+
+def parity_nearest_candidates(lo: int, hi: int, parity: int, center_num: int):
+    """Exact candidates nearest center_num/5 on one parity lattice."""
+    parity &= 1
+    first = lo + ((parity - lo) & 1)
+    last = hi - ((hi - parity) & 1)
+    if first > last:
+        return ()
+    vals = {first, last}
+    # p = parity + 2k, continuous center p0=center_num/5.
+    # Hence k0=(center_num-5*parity)/10.
+    k0 = (center_num - 5 * parity) // 10
+    for k in (k0 - 1, k0, k0 + 1, k0 + 2):
+        p = parity + 2 * k
+        if first <= p <= last:
+            vals.add(p)
+    return tuple(sorted(vals))
+
+
+def bc_t_q_lower(b: int, c: int, t: int) -> int:
+    """Exact qBC minimum under only fixed (b,c,t), canonical order relaxed.
+
+    Put p=x1+x9. Then
+      x5=b-p,
+      x0+x6=t-p,
+      x8+x10=c-t+p.
+    For fixed p the three two-coordinate groups have exact balanced square
+    minima.  The resulting objective is a convex quadratic plus a parity-class
+    constant, so the exact integer minimum is attained at the nearest point to
+    the continuous center on each parity lattice (with interval endpoints).
+    """
+    b, c, t = int(b), int(c), int(t)
+    lo = max(0, t - c)
+    hi = min(b, t)
+    if lo > hi:
+        return INF
+    center_num = 2 * b - c + 2 * t  # continuous center = center_num/5
+    candidates = set()
+    for parity in (0, 1):
+        candidates.update(parity_nearest_candidates(lo, hi, parity, center_num))
+    req(bool(candidates), f"empty bc/t minimizer domain {(b,c,t)}")
+    return min(
+        pair_square_min(p)
+        + (b - p) * (b - p)
+        + pair_square_min(t - p)
+        + pair_square_min(c - t + p)
+        for p in candidates
+    )
+
+
+def aggregate_q_lower(b: int, c: int, t: int, support: int) -> int:
+    return max(
+        support_q_lower(int(b) + int(c), int(t), int(support)),
+        bc_t_q_lower(int(b), int(c), int(t)),
+    )
+
+
 @lru_cache(maxsize=None)
-def support_envelope(total_mass: int, support: int, parity: int):
+def support_envelope(b: int, c: int, support: int, parity: int):
     """Cumulative parity interval for qBC >= support_q_lower.
 
     The hull between cumulative min/max t is a deliberate relaxation; holes
     are filled rather than rejected.  That makes the resulting z-distance a
     safe lower bound while keeping lookup O(log m).
     """
-    m = int(total_mass)
+    b, c = int(b), int(c)
+    m = b + c
     s = int(support)
     parity = int(parity) & 1
     rows = []
     for t in range(parity, m + 1, 2):
-        q = support_q_lower(m, t, s)
+        q = aggregate_q_lower(b, c, t, s)
         if q < INF:
             rows.append((q, t))
     rows.sort()
@@ -114,7 +168,7 @@ def support_envelope(total_mass: int, support: int, parity: int):
 def support_t_interval(*, b: int, c: int, support: int, qbc: int) -> tuple[int, int]:
     m = int(b) + int(c)
     parity = int(c) & 1
-    cuts, lows, highs = support_envelope(m, int(support), parity)
+    cuts, lows, highs = support_envelope(int(b), int(c), int(support), parity)
     pos = bisect.bisect_right(cuts, int(qbc)) - 1
     req(pos >= 0, f"nonempty current qBC bin violates support lower bound {(b,c,support,qbc)}")
     lo, hi = int(lows[pos]), int(highs[pos])
@@ -146,6 +200,14 @@ def abstract_regression() -> int:
         req(
             q >= support_q_lower(m, t, support),
             f"support q lower bound exceeded exact q {xs}",
+        )
+        x0, x1, x5, x6, x8, x9, x10 = xs
+        b = x1 + x5 + x9
+        c = x0 + x6 + x8 + x10
+        tt = x0 + x1 + x6 + x9
+        req(
+            q >= bc_t_q_lower(b, c, tt),
+            f"bc/t q lower bound exceeded exact q {xs}",
         )
         checked += 1
     return checked
@@ -428,6 +490,9 @@ def main() -> None:
             "support_split": "k positives in the four-coordinate t-group and sbc-k positives in the three-coordinate complement",
             "balanced_positive_square_minimum": "for N over k positive integers, N=kq+r gives min sum squares=(k-r)q^2+r(q+1)^2",
             "support_q_lower": "min_k minsq_positive(t,k)+minsq_positive(b+c-t,sbc-k)",
+            "bc_t_q_lower": "min_p pairmin(p)+(b-p)^2+pairmin(t-p)+pairmin(c-t+p), p=x1+x9",
+            "combined_q_lower": "max(support_q_lower,bc_t_q_lower)",
+            "bc_t_minimizer": "exact nearest-point search on each parity lattice around p=(2b-c+2t)/5",
             "canonical_order_relaxed": True,
             "retained_H_parity": "t==c (mod2)",
             "support_interval_is_parity_hull_of_all_t_with_support_q_lower<=qBC": True,
