@@ -4,60 +4,78 @@
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 9,
+    "ACTIVE_AUTO": 10,
     "MANUAL": 2,
-    "RETIRED": 521,
+    "RETIRED": 520,
     "TOTAL": 532
   },
   "families": {
     "REPO": {
+      "TOTAL": 3,
       "ACTIVE_AUTO": 3,
-      "TOTAL": 3
+      "MANUAL": 0,
+      "RETIRED": 0
     },
     "Stage29": {
-      "RETIRED": 4,
-      "TOTAL": 4
+      "TOTAL": 4,
+      "ACTIVE_AUTO": 0,
+      "MANUAL": 0,
+      "RETIRED": 4
     },
     "Stage31": {
-      "RETIRED": 1,
-      "TOTAL": 1
+      "TOTAL": 1,
+      "ACTIVE_AUTO": 0,
+      "MANUAL": 0,
+      "RETIRED": 1
     },
     "Stage32": {
-      "ACTIVE_AUTO": 3,
       "TOTAL": 263,
+      "ACTIVE_AUTO": 4,
       "MANUAL": 2,
-      "RETIRED": 258
+      "RETIRED": 257
     },
     "Stage32EX": {
-      "ACTIVE_AUTO": 1,
       "TOTAL": 5,
+      "ACTIVE_AUTO": 1,
+      "MANUAL": 0,
       "RETIRED": 4
     },
     "Stage33": {
-      "RETIRED": 131,
-      "TOTAL": 131
+      "TOTAL": 131,
+      "ACTIVE_AUTO": 0,
+      "MANUAL": 0,
+      "RETIRED": 131
     },
     "Stage34": {
-      "RETIRED": 56,
-      "TOTAL": 56
+      "TOTAL": 56,
+      "ACTIVE_AUTO": 0,
+      "MANUAL": 0,
+      "RETIRED": 56
     },
     "Stage35": {
+      "TOTAL": 1,
       "ACTIVE_AUTO": 1,
-      "TOTAL": 1
+      "MANUAL": 0,
+      "RETIRED": 0
     },
     "Stage35EX": {
-      "RETIRED": 67,
-      "TOTAL": 67
+      "TOTAL": 67,
+      "ACTIVE_AUTO": 0,
+      "MANUAL": 0,
+      "RETIRED": 67
     },
     "Stage36": {
+      "TOTAL": 1,
       "ACTIVE_AUTO": 1,
-      "TOTAL": 1
+      "MANUAL": 0,
+      "RETIRED": 0
     }
   },
   "classifications": {
     "ACTIVE_AUTO": [
       ".github/workflows/pages.yml",
       ".github/workflows/research-arsenal.yml",
+      ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
       ".github/workflows/stage32-claim-frontier-integrity.yml",
       ".github/workflows/stage32-ex5-main.yml",
       ".github/workflows/stage32-main-startup-authority.yml",
@@ -108,7 +126,6 @@
       ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
       ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml",
       ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
-      ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
       ".github/workflows/stage32-18-d16-aut-canonical.yml",
       ".github/workflows/stage32-18a-certify-d16-traversal.yml",
       ".github/workflows/stage32-18aa-d16-b16-tail-x64-rescue.yml",
@@ -595,12 +612,12 @@
     ]
   },
   "automatic_triggers_removed_by_migration": [
-    ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml",
-    ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml"
+    ".github/workflows/stage32-01-178-e192-zero-center-partial-cell.yml"
   ],
   "branch_local_live_catalog": [
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
+    ".github/workflows/stage32-01-178-qbc-tinterval-probe.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
@@ -616,6 +633,6 @@
     "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
     "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
     "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
-    "Stage32 32-01-178 e192 zero-center and qBC t-interval probe workflows are historical after the selective Picard successor pilot; both are RETIRED and workflow_dispatch-only."
+    "Stage32 32-01-178 e192 partial-cell replay remains RETIRED; the qBC t-interval workflow is ACTIVE_AUTO only for the current exact aggregation-optimized successor probe."
   ]
 }
