@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 12,
+  "generation": 13,
   "armed": true,
-  "objective": "Resume the 95 non-Codex FULL178 parent-windows from generation-11 at effective heavy concurrency 16 while holding b4-c0-w1 exclusively for Codex Local; preserve exact carry, recompute only missing rows, and emit a recovery snapshot while the external hold remains unresolved.",
+  "objective": "Resume FULL178 from generation-12 retained checkpoints with generation-11 fallback, reintroduce b4-c0-w1 using generation-10 rows60-64 plus the retained exact local row65 certificate, and recompute only still-missing exact rows at effective heavy concurrency 16.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -103,10 +103,10 @@
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
     "planned_effective_heavy_concurrency": 16,
-    "parent_jobs": 95,
+    "parent_jobs": 96,
     "artifact_count_upper_bound": 97,
     "artifact_bytes_upper_bound_each": 1048576,
-    "predecessor_artifact_count_observed": 95,
+    "predecessor_artifact_count_observed": 19,
     "projected_peak_artifact_mb_upper_bound": 227,
     "retention_days_parent": 2,
     "retention_days_recovery_snapshot": 2,
@@ -122,19 +122,24 @@
     "first_windowed_generation": 2
   },
   "carry": {
-    "predecessor_run_id": 35531197992,
+    "predecessor_run_id": 35555103056,
     "predecessor_topology": "V2_ROW_WINDOW",
-    "expected_predecessor_parent_artifacts": 95,
-    "fallback_predecessor_run_id": 35469124811,
+    "expected_predecessor_parent_artifacts": 19,
+    "fallback_predecessor_run_id": 35531197992,
     "fallback_predecessor_topology": "V2_ROW_WINDOW",
-    "expected_fallback_parent_artifacts": 96,
-    "fallback_rule": "For each scheduled generation-12 parent-window, use generation-11 artifact when present; only if that exact scheduled artifact is absent, download the same V2 parent-window from generation-3. The externally held b4-c0-w1 window is not scheduled."
+    "expected_fallback_parent_artifacts": 95,
+    "fallback_rule": "Use generation-12 artifact when present; otherwise use the same generation-11 V2 row-window. The b4-c0-w1 window is specially seeded from generation-10 plus the retained exact local row65 certificate."
   },
-  "external_hold": {
+  "local_seed": {
     "parent_window": [4, 0, 1],
-    "owner": "codex-local",
-    "reason": "Local exact row65 profiling/computation is already in progress outside GitHub Actions; avoid duplicate heavy work and branch-level worker conflicts.",
-    "excluded_from_generation12_matrix": true,
+    "special_predecessor_run_id": 35501853750,
+    "special_predecessor_expected_rows": [60, 61, 62, 63, 64],
+    "certificate_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json",
+    "certificate_blob_sha1": "39bec9d6a323172dcdebfb839d4b4b568f318b5f",
+    "certificate_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
+    "profile_blob_sha1": "9a77ce7c018b741bb109974288621c8da864239b",
+    "verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
+    "production_validate_carry_accepted": true,
     "main_credit": false
   },
   "credit": {
@@ -240,5 +245,20 @@
     "mathematical_failure": false,
     "main_credit": false,
     "note": "Generation-11 nearly doubled persisted exact row certificates from generation-3 (582 to 1156). b4-c0-w1 is assigned to Codex Local; generation-12 excludes that one parent-window and resumes the other 95."
+  },
+  "generation12_incident": {
+    "status": "USER_SUPERSEDED_BY_CODEX_RESULT_PUSH_ZERO_CREDIT",
+    "run_id": 35555103056,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 3,
+    "parent_jobs_cancelled": 92,
+    "retained_parent_window_artifacts": 19,
+    "external_hold_parent_window": "b4-c0-w1",
+    "codex_result_commit": "7ad68e647b91b5b90d267738ac79b3db03c1ae52",
+    "retained_local_row65_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "Generation-12 was interrupted by the Codex result push. Its 19 uploaded V2 row-window artifacts remain valid zero-credit primary carry for generation-13; generation-11 supplies the fallback surface."
   }
 }
