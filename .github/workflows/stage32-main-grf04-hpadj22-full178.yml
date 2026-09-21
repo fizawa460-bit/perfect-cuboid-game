@@ -111,6 +111,10 @@ jobs:
         band: [0,1,2,3,4,5,6,7]
         chunk: [0,1,2,3]
         window: [0,1,2]
+        exclude:
+          - band: 4
+            chunk: 0
+            window: 1
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -209,15 +213,26 @@ jobs:
           import hashlib,json,os,pathlib
           root=pathlib.Path("full178-parents")
           artifact_dirs=[p for p in root.iterdir() if p.is_dir()]
-          if len(artifact_dirs)!=96:
-              raise SystemExit(f"FAIL: expected 96 parent-window artifacts, found {len(artifact_dirs)}")
+          external_hold={(4,0,1)}
+          expected_internal={(b,c,w) for b in range(8) for c in range(4) for w in range(3)}-external_hold
+          def ident(p):
+              parts=p.name.rsplit("-",3)
+              if len(parts)!=4:
+                  raise SystemExit(f"FAIL: unexpected artifact directory name {p.name}")
+              return tuple(map(int,parts[1:]))
+          observed={ident(p) for p in artifact_dirs}
+          if observed!=expected_internal:
+              raise SystemExit(f"FAIL: internal parent artifact identity drift missing={sorted(expected_internal-observed)} extra={sorted(observed-expected_internal)}")
           complete=list(root.rglob("PARENT-WINDOW-COMPLETE.json"))
           rows=list(root.rglob("row-*.json"))
+          full_complete=(len(complete)==96 and not external_hold)
           out={
             "schema":"STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RECOVERY_SNAPSHOT_V2",
             "stage":32,
-            "status":"GENERATION_COMPLETE" if len(complete)==96 else "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
-            "coverage":{"expected_parent_windows":96,"discovered_parent_artifacts":len(artifact_dirs),
+            "status":"GENERATION_COMPLETE" if full_complete else "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
+            "coverage":{"expected_parent_windows":96,"scheduled_parent_windows":95,
+                        "external_hold_parent_windows":[[4,0,1]],
+                        "discovered_parent_artifacts":len(artifact_dirs),
                         "complete_parent_windows":len(complete),"incomplete_parent_windows":96-len(complete),
                         "persisted_row_certificates":len(rows)},
             "firewalls":{"main_pruning_credit":False,"full178_complete":False,
@@ -229,7 +244,7 @@ jobs:
           out["canonical_sha256_without_this_field"]=canon
           pathlib.Path("RECOVERY-SNAPSHOT.json").write_text(json.dumps(out,sort_keys=True,separators=(",",":"))+"\n")
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
-              f.write(f"complete={'true' if len(complete)==96 else 'false'}\n")
+              f.write(f"complete={'true' if full_complete else 'false'}\n")
               f.write(f"complete_parents={len(complete)}\n")
               f.write(f"row_certificates={len(rows)}\n")
           print(json.dumps(out,sort_keys=True))
