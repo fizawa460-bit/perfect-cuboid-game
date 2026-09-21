@@ -1,0 +1,80 @@
+{
+  "schema": "STAGE32_BR204_G3_EXPIRED_CARRY_REPAIR_RUNKEY_V1",
+  "generation": 0,
+  "armed": false,
+  "purpose": "Cold one-parent repair only: replace the expired generation-2 b=2,d=148,BC16 parent0 carry by recomputing exactly its four BC64 children and exact union. No broader recovery and no mathematical/MAIN credit.",
+  "execution": {
+    "target": {
+      "b": 2,
+      "d": 148,
+      "parent_bc16_index": 0
+    },
+    "exact_child64_indices": [
+      0,
+      16,
+      32,
+      48
+    ],
+    "max_parallel": 1,
+    "child_timeout_seconds": 1200,
+    "soft_seconds": 5400,
+    "trigger": {
+      "event": "push",
+      "branch": "stage32bridge-mainbatch",
+      "path": "stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json",
+      "runkey_only_arm_commit_required": true
+    }
+  },
+  "source_locks": {
+    "generation3_cancellation_checkpoint_blob": "f8e8ff8c469eea73f08beeb2dcb6fa17911aba30",
+    "generation3_checkpoint_verifier_blob": "bdef488aa29f73da1134cd0f39e5f14e3466cf1c",
+    "repair_target_blob": "73bf49fb82ba0256fe870e235cfbde7ee036cba0",
+    "repair_runner_blob": "1dc29de6b7af6e547a01be5666ffaab8387377b3",
+    "hierarchical_helper_blob": "ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45",
+    "bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
+    "bc_shard_combiner_blob": "efcbcc3e2b31604acea8f83bbf9524e5180e5139",
+    "bc64_to_bc16_parent_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23",
+    "repair_workflow_blob": "48b49646a6461961284967df42a81c16c8b07ead",
+    "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea",
+    "actions_storage_policy_blob": "69f23db9b280504c1c6c12a58af52182bb052215",
+    "repository_main_head": "da573f048a82a63e459be1343fb002e663b60875",
+    "repository_main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+  },
+  "recovery_policy": {
+    "expired_generation2_parent_bytes_reused": false,
+    "broader_generation3_or_generation4_wave_forbidden": true,
+    "only_parent_bc16_index0_recomputed": true,
+    "exact_bc64_union_required": true,
+    "checkpoint_after_each_validated_child": true,
+    "always_path_upload": true,
+    "on_child_timeout": "Hard stop and preserve validated children; do not extend timeout blindly.",
+    "replacement_carry_must_be_retained_before_broader_recovery": true
+  },
+  "storage": {
+    "persisted_hard_cap_bytes": 5000000,
+    "retention_days_replacement_carry": 30,
+    "repository_operating_budget_bytes": 524288000
+  },
+  "resource_preflight": {
+    "planned_effective_heavy_concurrency": 1,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 15,
+    "observed_other_stage32_heavy_concurrency_at_arm": null
+  },
+  "arm_contract": {
+    "required_transition": "generation 0->1 and armed false->true in one post-audit runkey-only push commit whose parent is the hostile-audited cold repair doorstep",
+    "audited_doorstep_head": null,
+    "audited_doorstep_review_id": null,
+    "fresh_hostile_audit_required": true
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}

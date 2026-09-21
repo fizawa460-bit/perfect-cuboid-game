@@ -1,0 +1,194 @@
+name: Stage32 BRIDGE BR204 expired carry repair
+
+# Lifecycle: ACTIVE_AUTO — current BR204 recovery frontier. Heavy work is one exact BC16 parent only.
+on:
+  push:
+    branches: [stage32bridge-mainbatch]
+    paths:
+      - 'stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json'
+
+permissions:
+  contents: read
+  actions: read
+  pull-requests: read
+
+concurrency:
+  group: stage32-bridge-br204-expired-carry-repair-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json
+  TARGET: stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json
+  G3_CHECKPOINT: stages/stage32/generalization-bridge/BR204-GENERATION3-CANCELLATION-CHECKPOINT.json
+  G3_CHECKPOINT_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation3_cancellation_checkpoint.py
+  REPAIR_RUNNER: stages/stage32/generalization-bridge/run_br204_single_bc16_parent_via_bc64.py
+  HIER_HELPER: stages/stage32/generalization-bridge/run_br204_resumable_bc64_hierarchical.py
+  SHARD_WORKER: stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp
+  BC_COMBINER: stages/stage32/generalization-bridge/combine_br204_bc_shards.py
+  GROUP_COMBINER: stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py
+  TARGET_BLOB: 73bf49fb82ba0256fe870e235cfbde7ee036cba0
+  G3_CHECKPOINT_BLOB: f8e8ff8c469eea73f08beeb2dcb6fa17911aba30
+  G3_CHECKPOINT_VERIFIER_BLOB: bdef488aa29f73da1134cd0f39e5f14e3466cf1c
+  REPAIR_RUNNER_BLOB: 1dc29de6b7af6e547a01be5666ffaab8387377b3
+  HIER_HELPER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
+  SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
+  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
+  GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
+  POLICY_BLOB: 893d5c0b6a415382904ac1ab32219d0f0f4fd5ea
+  STORAGE_POLICY_BLOB: 69f23db9b280504c1c6c12a58af52182bb052215
+  CURRENT_MAIN: da573f048a82a63e459be1343fb002e663b60875
+  MAIN_STATE_BLOB: a8f873ffdcaca280f7b57158b69606b3ea496d3c
+  CHILD_TIMEOUT_SECONDS: '1200'
+  SOFT_SECONDS: '5400'
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      authorized: ${{ steps.auth.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+      - id: auth
+        name: Fail-closed single-parent repair authorization
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          [ "$BEFORE" != "0000000000000000000000000000000000000000" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD_SHA" > /tmp/changed.txt
+          grep -Fxq "$RUNKEY" /tmp/changed.txt || exit 0
+          git show "$BEFORE:$RUNKEY" > /tmp/old.json 2>/dev/null || exit 0
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          old=json.loads(Path('/tmp/old.json').read_text()); cur=json.loads(Path(os.environ['RUNKEY']).read_text())
+          assert old['schema']==cur['schema']=='STAGE32_BR204_G3_EXPIRED_CARRY_REPAIR_RUNKEY_V1'
+          if not cur['armed']:
+              assert old['generation']==cur['generation']==0 and old['armed'] is False
+              raise SystemExit(0)
+          assert Path('/tmp/changed.txt').read_text().splitlines()==[os.environ['RUNKEY']]
+          assert old['generation']==0 and old['armed'] is False and cur['generation']==1 and cur['armed'] is True
+          for k in ('execution','source_locks','storage','credit','recovery_policy'): assert cur[k]==old[k], f'{k} drift'
+          assert cur['execution']['target']=={'b':2,'d':148,'parent_bc16_index':0}
+          rp=cur['resource_preflight']; observed=rp['observed_other_stage32_heavy_concurrency_at_arm']
+          assert rp['planned_effective_heavy_concurrency']==1 and rp['repository_stage_concurrency_ceiling']==18
+          assert isinstance(observed,int) and 0<=observed<=15 and 1+observed<=18
+          ac=cur['arm_contract']; assert ac['audited_doorstep_head']==os.environ['BEFORE'] and isinstance(ac['audited_doorstep_review_id'],int)
+          Path('/tmp/auth.json').write_text(json.dumps({'review':ac['audited_doorstep_review_id'],'parent':os.environ['BEFORE']}))
+          PY
+          [ -f /tmp/auth.json ] || exit 0
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
+          test "$(git hash-object "$TARGET")" = "$TARGET_BLOB"
+          test "$(git hash-object "$G3_CHECKPOINT")" = "$G3_CHECKPOINT_BLOB"
+          test "$(git hash-object "$G3_CHECKPOINT_VERIFIER")" = "$G3_CHECKPOINT_VERIFIER_BLOB"
+          test "$(git hash-object "$REPAIR_RUNNER")" = "$REPAIR_RUNNER_BLOB"
+          test "$(git hash-object "$HIER_HELPER")" = "$HIER_HELPER_BLOB"
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$GROUP_COMBINER")" = "$GROUP_COMBINER_BLOB"
+          python "$G3_CHECKPOINT_VERIFIER"
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          rk=json.loads(Path(os.environ['RUNKEY']).read_text())
+          assert rk['source_locks']['repair_workflow_blob']==subprocess.check_output(['git','hash-object','.github/workflows/br204-stage32-bridge-g3-carry-repair.yml'],text=True).strip()
+          PY
+          gh api "repos/$REPO/pulls/1813/reviews" --paginate > /tmp/reviews.json
+          python - <<'PY'
+          import json
+          a=json.load(open('/tmp/auth.json')); rs=json.load(open('/tmp/reviews.json'))
+          hit=[r for r in rs if r.get('id')==a['review'] and r.get('commit_id')==a['parent']]
+          assert len(hit)==1
+          body=hit[0].get('body') or ''
+          assert 'HOSTILE AUDIT: PASS' in body and 'VERDICT: PASS' in body
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  runtime:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: ${{ github.sha }}}
+      - run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Build source-locked repair runtime
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$REPAIR_RUNNER")" = "$REPAIR_RUNNER_BLOB"
+          test "$(git hash-object "$HIER_HELPER")" = "$HIER_HELPER_BLOB"
+          test "$(git hash-object "$SHARD_WORKER")" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object "$BC_COMBINER")" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object "$GROUP_COMBINER")" = "$GROUP_COMBINER_BLOB"
+          python "$G3_CHECKPOINT_VERIFIER"
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
+          mkdir -p /tmp/runtime
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp "$SHARD_WORKER" -o /tmp/runtime/br204-bc-shard-worker
+          cp "$REPAIR_RUNNER" "$HIER_HELPER" "$BC_COMBINER" "$GROUP_COMBINER" /tmp/runtime/
+          python -m py_compile /tmp/runtime/*.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: br204-g3-carry-repair-runtime
+          path: /tmp/runtime
+          retention-days: 1
+          if-no-files-found: error
+
+  repair:
+    needs: [authorize,runtime]
+    if: needs.runtime.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {name: br204-g3-carry-repair-runtime, path: /tmp/runtime}
+      - name: Recompute only expired b2 d148 BC16 parent0
+        id: compute
+        continue-on-error: true
+        run: |
+          chmod +x /tmp/runtime/br204-bc-shard-worker
+          python /tmp/runtime/run_br204_single_bc16_parent_via_bc64.py --shard-worker /tmp/runtime/br204-bc-shard-worker --combiner /tmp/runtime/combine_br204_bc_shards.py --group-combiner /tmp/runtime/combine_br204_bc64_to_bc16_parent.py --worker-blob "ca0a4985e788455432eb59d603da54fc3c703ea6" --b 2 --d 148 --parent-index 0 --out-dir /tmp/repair --child-timeout-seconds "$CHILD_TIMEOUT_SECONDS" --soft-seconds "$SOFT_SECONDS"
+      - name: Validate repair checkpoint and storage cap
+        id: validate
+        if: always()
+        run: |
+          set -euo pipefail
+          test -f /tmp/repair/SINGLE-PARENT-REPAIR-STATUS.json
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          from pathlib import Path
+          x=json.loads(Path('/tmp/repair/SINGLE-PARENT-REPAIR-STATUS.json').read_text())
+          assert x['schema']=='STAGE32_BR204_SINGLE_EXPIRED_PARENT_REPAIR_V1'
+          assert (x['b'],x['d'],x['parent_index'])==(2,148,0) and x['expected_child64_indices']==[0,16,32,48]
+          assert all(v is False for v in x['credit'].values())
+          total=sum(p.stat().st_size for p in Path('/tmp/repair').rglob('*') if p.is_file()); assert total<=5000000
+          if x['complete']:
+              assert x['completed_child64_indices']==[0,16,32,48] and x['missing_child64_indices']==[]
+              assert x['validated_parent_payload'] is not None
+              assert Path('/tmp/repair/parents/br204-f-b2-d148-bc0of16.tsv.gz').is_file()
+          print('complete='+str(x['complete']).lower()); print('persisted_bytes='+str(total)); print('stop_reason='+str(x['stop_reason']))
+          PY
+      - name: Upload durable replacement carry evidence
+        uses: actions/upload-artifact@v4
+        if: always() && steps.validate.outcome == 'success'
+        with:
+          name: br204-g3-replacement-b2-d148-bc0of16
+          path: /tmp/repair
+          retention-days: 30
+          if-no-files-found: error
+      - name: Require exact parent completion
+        if: always() && (steps.validate.outcome != 'success' || steps.validate.outputs.complete != 'true')
+        run: exit 1

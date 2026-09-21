@@ -1,11 +1,8 @@
 name: Stage32 BRIDGE BR204 generation3 recovery
 
+# Lifecycle: MANUAL — historical execution surface; current BR204 frontier moved forward.
 on:
-  push:
-    branches:
-      - stage32bridge-mainbatch
-    paths:
-      - 'stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json'
+  workflow_dispatch:
 
 permissions:
   contents: read

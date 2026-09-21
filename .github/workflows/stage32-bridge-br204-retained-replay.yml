@@ -1,23 +1,7 @@
 name: Stage32 BRIDGE BR204 retained replay
 
-# Trigger lifecycle: ACTIVE_AUTO — current BRIDGE frontier exact-head audit/replay gate.
+# Lifecycle: MANUAL — historical execution surface; current BR204 frontier moved forward.
 on:
-  push:
-    branches:
-      - stage32bridge-mainbatch
-    paths:
-      - '.github/workflows/stage32-bridge-br204-retained-replay.yml'
-      - 'stages/stage32/generalization-bridge/**'
-      - '!stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
-      - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
-      - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
-  pull_request:
-    paths:
-      - '.github/workflows/stage32-bridge-br204-retained-replay.yml'
-      - 'stages/stage32/generalization-bridge/**'
-      - '!stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
-      - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
-      - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
   workflow_dispatch:
 
 permissions:

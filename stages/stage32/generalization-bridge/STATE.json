@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V14_BR204_GENERATION2_COLD_DOORSTEP",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V15_G3_CANCELLED_CARRY_REPAIR_COLD",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__GENERATION3_COLD_DOORSTEP_READY",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G3_CANCELLED__EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_READY",
   "current_node": "BR204",
-  "active_leaf": "BR204_GENERATION3_COLD_DOORSTEP_AUDIT",
+  "active_leaf": "BR204_G3_EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_AUDIT",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -79,12 +79,12 @@
     "scope": "previous push-trigger cold doorstep; generation-1 run 35299814222 was cancelled after discovering missing intra-unit checkpoint durability"
   },
   "live_main_refresh": {
-    "status": "PASS_REFRESHED_TO_V45_HPADJ22_NUMERICAL_AUTHORITY_FOR_GENERATION2_PREFLIGHT",
+    "status": "PASS_REFRESHED_TO_CURRENT_MAIN__MAIN_STATE_BLOB_UNCHANGED__NO_MATH_AUTHORITY_CHANGE",
     "audited_numeric_main_pr": 1822,
     "audited_numeric_main_head": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2",
     "audited_numeric_main_review_id": null,
     "merged_v43_pr": 1822,
-    "repository_main_head": "659ba93b9eba657b49a728f549c6bb6028398e08",
+    "repository_main_head": "da573f048a82a63e459be1343fb002e663b60875",
     "repository_main_state_blob": "a8f873ffdcaca280f7b57158b69606b3ea496d3c",
     "authoritative_remaining_strata": 17128,
     "authoritative_remaining_terminals": "138652739800650593494",
@@ -162,13 +162,15 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_GENERATION3_COLD_DOORSTEP_AUDIT",
+    "id": "BR204_G3_EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Exact-head retained replay must verify the frozen generation2 recovery checkpoint and its 36 retention-only / 33 d148 hierarchical classification.",
-      "Source locks must bind the generation3 target manifest, BC64-to-BC16 parent combiner, hierarchical runner, compact finalizer, workflow and equivalence verifier.",
-      "Generation3 runkey must remain generation 0 / armed false and lifecycle inventory must classify generation3 recovery ACTIVE_AUTO while generation2 finer recovery is MANUAL.",
-      "Fresh hostile audit must bind the unchanged generation3 cold exact head before any runkey-only arm commit."
+      "Freeze cancelled generation3 run 35473398160 and exact 0 complete / 1 zero-subunit partial / 68 missing reconciliation.",
+      "Treat expired generation2 b=2,d=148,BC16 parent0 bytes as unavailable and non-reusable.",
+      "Verify single-parent repair recomputes only BC16 parent0 from BC64 children 0,16,32,48.",
+      "Historical G1/G2/G3 and pre-arm replay must be MANUAL; current replay and single-parent repair only ACTIVE_AUTO.",
+      "Current exact-head recovery replay must pass before fresh hostile audit.",
+      "Do not arm repair until hostile-audit PASS binds unchanged cold doorstep."
     ]
   },
   "transition_policy": {
@@ -270,7 +272,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Generation-1 run 35299814222 was cancelled after a Research OS resume defect was found. Rebuilt BR204 now refreshes a cumulative exact rollup after every completed d and uses an always-path finalizer/upload. The surface is cold at generation 0; exact-head replay and separate hostile audit are required before any new heavy launch."
+    "stop_reason": "Generation-3 run 35473398160 was cancelled with 0 complete targets, one b=3,d=148 partial containing no validated BC16/BC64 mathematical subunit, and 68 missing targets. The only intended G2 carry b=2,d=148,BC16#0 expired and is forbidden for reuse. Current frontier is a cold, audit-gated one-parent repair that recomputes only that exact parent from BC64 children 0,16,32,48 before any broader recovery."
   },
   "deliverable_contract": {
     "per_shard": [
@@ -317,13 +319,13 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Outer b x d-band work was durable only at full-band completion; elapsed work inside a timed-out unit could be lost.",
     "repair": "After every completed d, refresh cumulative local exact rollup. Use always-path finalizer/upload for ordinary interruption/cancellation, soft deadline before hard timeout, explicit pagination, and finer-partition hard stop on single-d timeout.",
-    "status": "AUDIT_5247651937_FAIL_HOLD__BLOCKERS_REPAIRED__FRESH_EXACT_HEAD_REPLAY_AND_REAUDIT_REQUIRED",
+    "status": "AUDIT_5263490758_FAIL_HOLD__FOUR_BLOCKERS_REPAIRED_TO_COLD_SINGLE_PARENT_REPAIR_DOORSTEP__FRESH_REPLAY_AND_REAUDIT_REQUIRED",
     "mathematical_population_changed": false,
     "resume_topology_changed": true,
     "launcher_topology_changed": true,
     "repair_status": "RUNKEY_ARM_CONTRACT_AND_QBC_ADDENDUM_LOCKS_REPAIRED__REPLAY_STRENGTHENED__EXACT_HEAD_CI_AND_SEPARATE_REAUDIT_REQUIRED",
-    "latest_hold_exact_head": "500b6bb8590b2ce8583746fe66c47ac699f6281a",
-    "latest_hold_review_id": 5247651937,
+    "latest_hold_exact_head": "065b610d84e414d488cf36e299efb2ca67722ae4",
+    "latest_hold_review_id": 5263490758,
     "latest_hold_blockers_repaired_in_current_cold_surface": true
   },
   "generation1_recovery_checkpoint": {
@@ -366,12 +368,18 @@
     "reconciled_targets": 69,
     "compute_complete_but_undurable_cap_reject_count": 36,
     "durable_partial_bc16_timeout_count": 33,
-    "retained_generation2_parent_bc16": [{"b": 2, "d": 148, "index": 0}],
+    "retained_generation2_parent_bc16": [
+      {
+        "b": 2,
+        "d": 148,
+        "index": 0
+      }
+    ],
     "summary_artifact_id": 10588869870,
     "summary_raw_json_sha256": "b5a4558d66fbbfe86deb93c6d392b2730a708b4396cbce912640796af4eaacab"
   },
   "generation3_recovery_preflight": {
-    "status": "COLD_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_ARM",
+    "status": "EXECUTED_CANCELLED__FROZEN_BY_GENERATION3_CANCELLATION_CHECKPOINT__ZERO_CREDIT",
     "targets_path": "stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json",
     "targets_blob": "975fadbe0f3ee0dfd7c792be7807c154421dec20",
     "workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g3.yml",
@@ -387,11 +395,63 @@
     "d148_hierarchical_bc64_count": 33,
     "parent_bc_shard_count": 16,
     "child_bc_shard_count": 64,
-    "generation3_runkey_generation": 0,
-    "generation3_runkey_armed": false,
+    "generation3_runkey_generation": 1,
+    "generation3_runkey_armed": true,
     "planned_effective_heavy_concurrency": 15,
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 3,
-    "heavy_compute_authorized": false
+    "heavy_compute_authorized": false,
+    "execution_run_id": 35473398160,
+    "execution_head": "065b610d84e414d488cf36e299efb2ca67722ae4",
+    "execution_conclusion": "cancelled"
+  },
+  "generation3_execution_checkpoint": {
+    "path": "stages/stage32/generalization-bridge/BR204-GENERATION3-CANCELLATION-CHECKPOINT.json",
+    "blob": "f8e8ff8c469eea73f08beeb2dcb6fa17911aba30",
+    "verifier_path": "stages/stage32/generalization-bridge/verify_br204_generation3_cancellation_checkpoint.py",
+    "verifier_blob": "bdef488aa29f73da1134cd0f39e5f14e3466cf1c",
+    "run_id": 35473398160,
+    "execution_head": "065b610d84e414d488cf36e299efb2ca67722ae4",
+    "status": "FROZEN_POST_CANCELLATION__0_COMPLETE__1_ZERO_SUBUNIT_PARTIAL__68_MISSING__ZERO_CREDIT",
+    "complete_target_count": 0,
+    "partial_target_count": 1,
+    "missing_target_count": 68,
+    "reusable_g3_completed_subunit_count": 0,
+    "expired_generation2_carry": {
+      "b": 2,
+      "d": 148,
+      "parent_bc16_index": 0,
+      "artifact_id": 10585955606,
+      "reusable": false
+    }
+  },
+  "generation3_expired_carry_repair_preflight": {
+    "status": "COLD_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_ARM",
+    "target_path": "stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json",
+    "target_blob": "73bf49fb82ba0256fe870e235cfbde7ee036cba0",
+    "runner_path": "stages/stage32/generalization-bridge/run_br204_single_bc16_parent_via_bc64.py",
+    "runner_blob": "1dc29de6b7af6e547a01be5666ffaab8387377b3",
+    "workflow_path": ".github/workflows/br204-stage32-bridge-g3-carry-repair.yml",
+    "workflow_blob": "48b49646a6461961284967df42a81c16c8b07ead",
+    "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json",
+    "runkey_blob": "ff50c2cf70f5a8e37083e6486a130db44c06daaf",
+    "target": {
+      "b": 2,
+      "d": 148,
+      "parent_bc16_index": 0,
+      "exact_child64_indices": [
+        0,
+        16,
+        32,
+        48
+      ]
+    },
+    "generation": 0,
+    "armed": false,
+    "planned_effective_heavy_concurrency": 1,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 15,
+    "heavy_compute_authorized": false,
+    "broader_69_target_recovery_authorized": false
   }
 }

@@ -1,14 +1,8 @@
 name: Stage32 BRIDGE BR204 FULL178 heavy
 
-# Lifecycle: ACTIVE_AUTO — current BR204 FULL178 heavy producer surface.
-# Branch-local workflow: only a dedicated runkey push can enter authorization.
-# Heavy authorization is fail-closed on the actual github.event.before..github.sha range.
+# Lifecycle: MANUAL — historical execution surface; current BR204 frontier moved forward.
 on:
-  push:
-    branches:
-      - stage32bridge-mainbatch
-    paths:
-      - 'stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json'
+  workflow_dispatch:
 
 permissions:
   contents: read
