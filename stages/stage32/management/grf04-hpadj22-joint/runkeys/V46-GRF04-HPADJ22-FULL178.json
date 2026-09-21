@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V2_WINDOWED",
   "stage": 32,
-  "generation": 11,
+  "generation": 12,
   "armed": true,
-  "objective": "Resume FULL178 from generation-10's 95 surviving V2 row-window artifacts at effective heavy concurrency 16, with generation-3 run 35469124811 as per-window fallback only where generation-10 artifact is absent; recompute only the missing/incomplete exact rows.",
+  "objective": "Resume the 95 non-Codex FULL178 parent-windows from generation-11 at effective heavy concurrency 16 while holding b4-c0-w1 exclusively for Codex Local; preserve exact carry, recompute only missing rows, and emit a recovery snapshot while the external hold remains unresolved.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "d62c7d05097c6dba4a6275658db75f75a2e091d4",
@@ -103,7 +103,7 @@
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
     "planned_effective_heavy_concurrency": 16,
-    "parent_jobs": 96,
+    "parent_jobs": 95,
     "artifact_count_upper_bound": 97,
     "artifact_bytes_upper_bound_each": 1048576,
     "predecessor_artifact_count_observed": 95,
@@ -122,13 +122,20 @@
     "first_windowed_generation": 2
   },
   "carry": {
-    "predecessor_run_id": 35501853750,
+    "predecessor_run_id": 35531197992,
     "predecessor_topology": "V2_ROW_WINDOW",
     "expected_predecessor_parent_artifacts": 95,
     "fallback_predecessor_run_id": 35469124811,
     "fallback_predecessor_topology": "V2_ROW_WINDOW",
     "expected_fallback_parent_artifacts": 96,
-    "fallback_rule": "Use generation-10 artifact when present; only if that exact parent-window artifact is absent, download the same V2 parent-window from generation-3."
+    "fallback_rule": "For each scheduled generation-12 parent-window, use generation-11 artifact when present; only if that exact scheduled artifact is absent, download the same V2 parent-window from generation-3. The externally held b4-c0-w1 window is not scheduled."
+  },
+  "external_hold": {
+    "parent_window": [4, 0, 1],
+    "owner": "codex-local",
+    "reason": "Local exact row65 profiling/computation is already in progress outside GitHub Actions; avoid duplicate heavy work and branch-level worker conflicts.",
+    "excluded_from_generation12_matrix": true,
+    "main_credit": false
   },
   "credit": {
     "main": false,
@@ -214,5 +221,24 @@
     "mathematical_failure": false,
     "main_credit": false,
     "note": "The 95 uploaded row-window artifacts remain valid zero-credit carry. The missing b3-c3-w0 artifact was cancelled before upload; generation-11 falls back to generation-3 for that exact window only."
+  },
+  "generation11_incident": {
+    "status": "CHECKPOINTED_21_COMPLETE_74_PARTIAL__ONE_EXTERNALIZED_WINDOW_ZERO_CREDIT",
+    "run_id": 35531197992,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 95,
+    "parent_jobs_cancelled": 1,
+    "discovered_parent_artifacts": 95,
+    "complete_parent_windows": 21,
+    "partial_parent_windows": 74,
+    "missing_parent_window": "b4-c0-w1",
+    "missing_parent_job_id": 106132013320,
+    "persisted_row_certificates": 1156,
+    "expected_row_certificates": 2967,
+    "summary_status": "FAILED_EXPECTED_96_FOUND_95",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "Generation-11 nearly doubled persisted exact row certificates from generation-3 (582 to 1156). b4-c0-w1 is assigned to Codex Local; generation-12 excludes that one parent-window and resumes the other 95."
   }
 }
