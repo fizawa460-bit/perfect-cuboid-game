@@ -8,13 +8,12 @@ HERE=Path(__file__).resolve().parent
 WORKER=HERE/"run_grf04_hpadj22_full178_parent_cshard.py"
 WRAPPER=HERE/"run_grf04_hpadj22_full178_parent_window.py"
 AGGREGATOR=HERE/"aggregate_grf04_hpadj22_full178_windowed.py"
-SNAPSHOT=HERE/"GRF04-HPADJ22-V46-FULL178-GEN13-RECOVERY-SNAPSHOT.json"
+RUNKEY=HERE/"runkeys/V46-GRF04-HPADJ22-FULL178.json"
 ROW65=HERE/"GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json"
 WORKER_BLOB="611300610f8300f919c60ff1b0a234fd90d30ec3"
 WRAPPER_BLOB="8592f978538fd4bc8e7091d248a52084382d8962"
 AGGREGATOR_BLOB="f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
 LEGACY_WORKER_BLOB="c9fbf71242581f096718ebf0dbc9ac88878c91f1"
-SNAPSHOT_CANONICAL="67f1c14d4d199004be19d8ec7075ffff933cfd8a3b5bfce2a73677445756643d"
 ROW65_CANONICAL="df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172"
 
 
@@ -60,9 +59,11 @@ def main():
         req(flat==list(range(h+1)),f"c-shard coverage drift h={h}")
     req(len(w.c_ranges_for_h(82))==11 and w.c_ranges_for_h(82)[-1]==(80,82),"row65 partition drift")
 
-    snap=json.loads(SNAPSHOT.read_text());req(snap.get("canonical_sha256_without_this_field")==SNAPSHOT_CANONICAL==canon(snap),"recovery snapshot canonical drift")
-    g13=snap["generation13"];req((g13["run_id"],g13["discovered_artifact_count"],g13["valid_row_certificates"],g13["complete_parent_windows"],g13["invalid_row_certificates"],g13["valid_c_shard_certificates"])==(35559431762,35,795,4,0,0),"generation13 salvage counts drift")
-    union=snap["validated_precedence_union"];req(union["resolved_parent_windows"]==96 and union["selected_valid_row_certificates_total"]==1302 and union["canonical_conflicts"]==0,"precedence union drift")
+    key=json.loads(RUNKEY.read_text());req(key["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME","runkey schema drift")
+    req(key["generation"]==13 and key["armed"] is False,"repair runkey must remain generation13 disarmed")
+    g13=key["generation13_salvage"]
+    req((g13["run_id"],g13["discovered_artifact_count"],g13["valid_row_certificates"],g13["complete_parent_windows"],g13["invalid_row_certificates"],g13["valid_c_shard_certificates"])==(35559431762,35,795,4,0,0),"generation13 salvage counts drift")
+    req(g13["validated_precedence_union_windows"]==96 and g13["validated_precedence_union_rows"]==1302 and g13["canonical_conflicts"]==0,"precedence union drift")
 
     row65=json.loads(ROW65.read_text());req(row65.get("canonical_sha256_without_this_field")==ROW65_CANONICAL==canon(row65),"row65 canonical drift")
     accepted=w.validate_carry(row65,worker_blob=WORKER_BLOB,worker_blobs=(LEGACY_WORKER_BLOB,),band=4,chunk=0,b0=48,b1=50,row_index=65,row_id="g0-d164",g=0,d=164)
