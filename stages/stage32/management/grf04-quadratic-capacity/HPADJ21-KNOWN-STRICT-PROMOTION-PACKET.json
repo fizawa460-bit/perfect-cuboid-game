@@ -1,0 +1,63 @@
+{
+  "schema": "STAGE32_MAIN_HPADJ21_KNOWN_STRICT_PROMOTION_PACKET_V1",
+  "status": "AUDIT_READY_ZERO_MAIN_CREDIT",
+  "purpose": "Bind the hostile-audit surface for the known strict HPADJ21 replacement candidate without promoting MAIN authority.",
+  "current_authority": {
+    "hostile_audited_v40_head": "dc4dfdf7bea41116aa63d69a5bbd17fa053e741c",
+    "remaining_strata": 17128,
+    "authoritative_remaining_terminals": 179119009547804181594
+  },
+  "retained_hpadj21_source": {
+    "exact_head": "3d4b9e190aa6d9feba596e60c8a6cecfa325b5d0",
+    "row_worker_blob_sha1": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "bounded_pilot_blob_sha1": "266c7eb92fc971df24733f651c245cd14a32e494",
+    "hpadj20_parent_blob_sha1": "837d647cfcbc96bbe384e564f449cd7042a46d48"
+  },
+  "main_chain_blobs": {
+    "v41_audit_sync_record_blob_sha1": "ee6639e2b4a4ad5dd48e964d6a6b055f551e7bd1",
+    "v41_audit_sync_verifier_blob_sha1": "65f058cc0c9db23ad2d0ce0cefc30af94bdf55a1",
+    "known_strict_preflight_record_blob_sha1": "c3949f06501debcd062dca2d8fc3962f725e337e",
+    "known_strict_preflight_verifier_blob_sha1": "e1d21297b2c9cb43df595d319c8b41db82375848",
+    "structural_refinement_verifier_blob_sha1": "d786a2acdddec79ce1f072476a1da28df35b6dd2",
+    "event_compiler_verifier_blob_sha1": "eda1baab64ffeaf41f03dbf810c2b24beb31bced",
+    "known_strict_independent_replay_blob_sha1": "c335eb8c1e3394055c25c344227d712c21588eff"
+  },
+  "measured_replacement": {
+    "bounded_low_d_six_cell_improvement": 8892280,
+    "g1_d190_row_improvement": 1312541087822068106,
+    "known_measured_improvement_sum": 1312541087830960386,
+    "candidate_upper_bound": 177806468459973221208
+  },
+  "replacement_semantics": {
+    "parent": "hostile-audited HPADJ20 FULL178 numerical upper bound",
+    "child": "HPADJ21 exact-qA refinement on only the independently replayed strict cells/row; every other cell remains at HPADJ20",
+    "same_population": true,
+    "same_cell_partition": true,
+    "strict_measurements_are_distinct_cells_or_rows": true,
+    "cross_route_additive_subtraction": false,
+    "transition_rule_after_hostile_audit": "min(current_authority, candidate_upper_bound)",
+    "exact_rejected_identity_set_claimed": false
+  },
+  "audit_obligations": [
+    "Confirm every source/blob lock is fail-closed before load-bearing imports.",
+    "Confirm the structural qA refinement implies nonincreasing survivor ratios and fixed-post-mass LP objective cellwise.",
+    "Confirm event-compiled capacity assembly is extensionally equal to the retained direct worker on locked calibration rows.",
+    "Confirm the independent replay reproduces all six low-d strict-cell improvements and the g1-d190 row improvement from the locked HPADJ21 source boundary.",
+    "Confirm the measured replacements occupy distinct cells/rows in the HPADJ20 decomposition and therefore replace, rather than double-charge, parent objective mass.",
+    "Confirm candidate arithmetic and that no unmeasured FULL178 cell receives HPADJ21 credit.",
+    "If and only if the exact packet passes hostile audit, perform a separate MAIN authority replacement transition and claim-sync audit."
+  ],
+  "firewalls": {
+    "stage32_main_pruning_credit": false,
+    "current_main_incremental_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_or_nonexistence_credit": false,
+    "merge_authorized": false
+  }
+}

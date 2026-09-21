@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_D8_E12_RATIO_DIRECTED_WAVE1_RETAINED_V1",
+  "stage": 32,
+  "status": "RETAINED_CURRENT_ROW_TIGHTENING_CANDIDATE_ZERO_CREDIT",
+  "target": {
+    "row_id": "g0-d008",
+    "row_index": 23,
+    "g": 0,
+    "d": 8,
+    "e": 12,
+    "selected_count": 16
+  },
+  "execution": {
+    "workflow_run_id": 35357867213,
+    "exact_head": "9aac1804d4477608e3114959f14d2549b5617076",
+    "artifact_id": 10553440533,
+    "artifact_name": "stage32-main-btva-e12-ratio-directed-panel-v2",
+    "artifact_digest_sha256": "13622b38ada2f10dba9a7d1b4577873ebe1537412c47c061f99013c8168e30e3",
+    "artifact_canonical_sha256": "dbb2c0409727846a3552b72411da0ec36020fd7312a7b3e1080d7bdf98be1e5e",
+    "solver_timeout_ms": 2500,
+    "max_flat_cuts": 64
+  },
+  "source_locks": {
+    "selector_retained_blob_sha1": "6a8a73d1bca01d0ef9f34b089254e7a98a5e44e0",
+    "selector_retained_canonical_sha256": "0440d0474f5840f748424b373c2cdf31a018353d1c4a1fbbd55700ba5241dd68",
+    "solver_blob_sha1": "69907e11347709baca6ffa9e980ab696b2e2f7e8",
+    "qbin_retained_blob_sha1": "35b94bf7aa6635130938327eb316e4cf6fc30495",
+    "qbin_retained_canonical_sha256": "f264f0f57e0e566227928ce5359cf4698f951764423a88a60421571ebfa6f72e"
+  },
+  "result": {
+    "unsat_base4_count": 16,
+    "compatible_sat_base4_count": 0,
+    "unknown_base4_count": 0,
+    "all_selected_unsat": true,
+    "all_unsat_on_first_solver_check": true,
+    "selected_raw_terminal_mass": 591480,
+    "selected_hpadj21_predomain_overlap_terminal_mass": 576693,
+    "baseline_hpadj21_row_floor": 448431,
+    "prior_top16_qbin_row_floor": 448261,
+    "exact_wave1_joint_row_floor": 444329,
+    "row_floor_tightening_vs_hpadj21": 4102,
+    "additional_tightening_beyond_prior_top16": 3932
+  },
+  "authority_candidate": {
+    "current_v43_global_upper_bound": "157570677819451133507",
+    "candidate_global_upper_bound_if_promoted": "157570677819451129405",
+    "candidate_tightening": 4102,
+    "authority_changed": false,
+    "additional_main_pruning_credit": 0
+  },
+  "composition": {
+    "same_hpadj21_row": true,
+    "exact_qbin_selector": true,
+    "every_selected_key_exactly_btva_unsat": true,
+    "no_additive_subtraction_used": true,
+    "statistical_independence_assumed": false,
+    "candidate_composition": "REPLACE_G0_D008_HPADJ21_ROW_FLOOR_448431_WITH_444329_AFTER_HOSTILE_AUDIT_AND_MAIN_PROMOTION"
+  },
+  "next_exact_step": "Select the next ratio-directed e12 base4 wave against the already-proved top16 plus wave1 q-bin removals; keep zero credit until hostile audit and explicit MAIN promotion.",
+  "firewalls": {
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "a56df6d9cae23937e53b5a3b6ab4bc1544ea4831fc6817b5e47d5b54f87fcf2b"
+}

@@ -26,6 +26,20 @@ Incomplete containers may still contain reusable completed subunits. Recovery mu
 
 Never infer completion from job success alone when a certificate exists. Never reuse a partial unit merely because output files exist.
 
+### Large predecessor artifact sets
+
+Recovery must not assume that an artifact-list/download helper returns every predecessor artifact in one page. Before relying on per-unit artifacts, determine whether the predecessor can exceed the helper/API page size; **100 or more expected artifacts is an explicit trigger for paginated retrieval or a compact carry-bundle/manifest design**.
+
+For predecessor runs at or above that threshold:
+
+- enumerate all artifact pages explicitly, or consume a deterministic carry bundle whose manifest names every retained unit;
+- compare the predecessor's expected/completed-unit count with the number of retrieved and validated unit certificates before scheduling recovery;
+- if the counts disagree and the difference is not explicitly explained by rejected/expired artifacts, fail closed instead of treating unseen artifacts as missing compute;
+- never convert a retrieval truncation into recomputation work;
+- keep the validated unit manifest/carry bundle below the relevant retrieval limit when chaining generations, or prove that the retrieval path itself is fully paginated.
+
+The recovery snapshot must record both `discovered_artifact_count` and `validated_carried_unit_count` (or equivalent fields) when the predecessor may contain 100 or more artifacts, so an artifact-enumeration truncation cannot masquerade as unfinished mathematics.
+
 ## Timeout and cancellation recovery
 
 After timeout/cancellation/resource-wall failure:

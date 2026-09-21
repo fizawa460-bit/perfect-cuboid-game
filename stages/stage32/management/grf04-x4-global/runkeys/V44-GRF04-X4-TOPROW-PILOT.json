@@ -1,0 +1,33 @@
+{
+  "schema": "STAGE32_MAIN_GRF04_X4_TOPROW_PILOT_RUNKEY_V1",
+  "stage": 32,
+  "generation": 1,
+  "armed": true,
+  "target": {
+    "row_index": 89,
+    "row_id": "g1-d188",
+    "expected_old_hpadj21_row_floor": "11511285976831233688"
+  },
+  "source_locks": {
+    "pilot_script_blob_sha1": "dc5727f694e9937a7a10ede064bee85e17f88e05",
+    "hpadj21_head": "33f63a4c0bb3dde9d56efd895f4e8eb19d9217e2",
+    "hpadj21_row_worker_blob_sha1": "68a3edcf5be71bb75ed97959fcc5f56a2fcecbd7",
+    "lane178_audited_head": "8a8efc48866f8008d253c21ebd272e698d18dc44",
+    "x4_support_verifier_blob_sha1": "58eb122b0c0154bd798d33ecbd7bedd9b30c2483",
+    "td02_grf04_aggregate_blob_sha1": "4e2ccf5f9f8d25f117e4e9792d3b54ec31a0799b"
+  },
+  "execution": {
+    "class": "BOUNDED_PILOT",
+    "effective_concurrency": 1,
+    "partition_key": "single FULL178 row index",
+    "expected_units": 1,
+    "artifact_retention_days": 3,
+    "expected_artifact_bytes_upper_bound": 32768,
+    "resume_rule": "single row certificate is the exact unit; rerun only if no complete validated artifact exists"
+  },
+  "firewalls": {
+    "zero_credit": true,
+    "full178_complete": false,
+    "merge_authorized": false
+  }
+}

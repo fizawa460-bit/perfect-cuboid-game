@@ -1,0 +1,90 @@
+name: Stage32 MAIN BTVA static7 bounded panel
+
+# Trigger lifecycle: RETIRED — bounded evidence retained; replay manually only
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-main-btva-static7-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bounded-panel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Checkout exact 178 source
+        uses: actions/checkout@v4
+        with:
+          ref: e60f03cf5105bc6e26cb4615acabd6fe0c07625c
+          path: .stage32-178-btva-panel
+          fetch-depth: 1
+
+      - name: Assert exact source locks
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${{ github.sha }}"
+          test "$(git hash-object stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py)" = "e44bec7ad9c0b7a4d8d7d87a455f181a681035c6"
+          test "$(git hash-object stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py)" = "6b4c3514b5b4cbccd8e66cbffc7f61f8830d1633"
+          test "$(git hash-object stages/stage32-ex5/breadth-cycle-2/bc2-01b-runtime-node-coordinate-bridge.json)" = "2a14a683e8ec38ec993eb711841c466f2be6eb06"
+          test "$(git hash-object stages/stage32/residual-32-01-production/full178-manifest.json)" = "0a46b34e278688240656b4977e9cb7f589e90e06"
+          test "$(git -C .stage32-178-btva-panel rev-parse HEAD)" = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          test "$(git -C .stage32-178-btva-panel hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+
+      - name: Set up exact solver Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Install exact solver dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Run bounded BTVA static7 panel
+        run: |
+          python stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py             --retained stages/stage33/33-07/picard_base_rows_retained.py             --marking stages/stage33/33-07/stage32_picard_marking_retained.py             --lane178-root .stage32-178-btva-panel             --solver-timeout-ms 3000             --max-flat-cuts 24             --output "$RUNNER_TEMP/btva-static7-panel.json"
+
+      - name: Validate zero-credit bounded result
+        run: |
+          python - "$RUNNER_TEMP/btva-static7-panel.json" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p['schema']=='STAGE32_MAIN_BTVA_STATIC7_BOUNDED_PANEL_V1'
+          assert p['target']['row_id']=='g0-d008'
+          assert p['target']['genus']==0
+          assert p['target']['degree']==8
+          assert p['target']['exceptional_mass']==8
+          assert p['target']['unique_static_key_count']>=1
+          assert p['decision_problem']['static_observables_fixed']==7
+          assert p['decision_problem']['residual_observables_left_existential']==5
+          assert p['decision_problem']['normal_all140_nonnegativity_imposed'] is False
+          assert all(x['result'] in {
+              'SAT_BTVA_COMPATIBLE_RELAXED_LIFT',
+              'UNSAT_NONCONIC_BTVA_RELAXED_FIBER',
+              'UNKNOWN'
+          } for x in p['panel'])
+          assert all(x['known_32_plane_conics_not_excluded'] is True for x in p['panel'])
+          f=p['firewalls']
+          assert f['main_pruning_credit'] is False
+          assert f['known_32_plane_conics_closed'] is False
+          assert f['full178_complete'] is False
+          assert f['receiver_credit'] is False
+          assert f['theorem_credit'] is False
+          assert f['merge_authorized'] is False
+          print(json.dumps({'summary':p['summary'],'canonical':p['canonical_sha256_without_this_field']},sort_keys=True))
+          PY
+
+      - name: Upload bounded panel evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-btva-static7-bounded-panel
+          path: ${{ runner.temp }}/btva-static7-panel.json
+          retention-days: 7
+          compression-level: 9

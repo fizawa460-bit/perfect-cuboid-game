@@ -1,0 +1,61 @@
+{
+  "schema": "STAGE32_MAIN_BTVA_BASE4_NORMALMASS_BOUNDED_PANEL_V1",
+  "stage": 32,
+  "route": "BTVA_COMPRESSED_PICARD_LIFT_RECEIVER_INTERSECTION",
+  "status": "BOUNDED_BASE4_PANEL_COMPLETE_ZERO_CREDIT",
+  "census_receipt_canonical_sha256": "b975417fe28296a53f7877e9a02ce230a8852dfbc26fe29c428aeddff209719c",
+  "run_provenance": {
+    "workflow_run_id": 35308831566,
+    "job_id": 105486444408,
+    "head": "d6bda860c2f7e6afbd9cf99cd788047277ea83c8",
+    "artifact_id": 10531774991,
+    "artifact_digest": "sha256:59294435e78d92db33d465b1c7c97125fc45d80e5c9cf98e8a45f78b67263f6d"
+  },
+  "target": {
+    "row_id": "g0-d008",
+    "degree": 8,
+    "exceptional_mass": 8,
+    "normal_mass": 112,
+    "base4_total_population": 343,
+    "x4_values_per_base4": 113,
+    "static7_total_population": 38759,
+    "terminal_total_population": 1278934
+  },
+  "decision_problem": {
+    "fixed_observables": ["a", "b", "c", "t", "e", "d"],
+    "x4_existential": true,
+    "residual_r0_to_r4_existential": true,
+    "all140_pairings_nonnegative": true,
+    "normal_pairing_sum": 112,
+    "exceptional_pairing_sum": 8,
+    "btva_nonconic_p6_span_required": true
+  },
+  "panel": [
+    {"base4":[0,1,1,1],"compatible_support":null,"exceptional_multiplicity_per_x4":4,"lazy_flat_cuts":[],"reason_unknown":"timeout","result":"UNKNOWN","solver_iterations":1,"terminal_mass_covered_if_unsat":452,"x4_values_covered_if_unsat":113},
+    {"base4":[0,4,4,8],"compatible_support":null,"exceptional_multiplicity_per_x4":15,"lazy_flat_cuts":[],"reason_unknown":null,"result":"UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER","solver_iterations":1,"terminal_mass_covered_if_unsat":1695,"x4_values_covered_if_unsat":113},
+    {"base4":[0,6,2,6],"compatible_support":null,"exceptional_multiplicity_per_x4":50,"lazy_flat_cuts":[],"reason_unknown":null,"result":"UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER","solver_iterations":1,"terminal_mass_covered_if_unsat":5650,"x4_values_covered_if_unsat":113},
+    {"base4":[1,2,2,2],"compatible_support":null,"exceptional_multiplicity_per_x4":39,"lazy_flat_cuts":[],"reason_unknown":"timeout","result":"UNKNOWN","solver_iterations":1,"terminal_mass_covered_if_unsat":4407,"x4_values_covered_if_unsat":113},
+    {"base4":[1,3,3,3],"compatible_support":null,"exceptional_multiplicity_per_x4":93,"lazy_flat_cuts":[],"reason_unknown":null,"result":"UNSAT_BASE4_BTVA_EFFECTIVE_PAIRING_FIBER","solver_iterations":1,"terminal_mass_covered_if_unsat":10509,"x4_values_covered_if_unsat":113}
+  ],
+  "summary": {
+    "sample_base4_keys": 5,
+    "unsat_base4_fibers": 3,
+    "compatible_sat_base4_fibers": 0,
+    "unknown_base4_fibers": 2,
+    "static7_keys_covered_by_unsat_fibers": 339,
+    "terminal_mass_covered_by_unsat_fibers": 17854
+  },
+  "firewalls": {
+    "sample_only": true,
+    "main_pruning_credit": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "full178_complete": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "next_exact_step": "Shard the 343 exact base4 keys and solve with x4 existential before any per-x4 fallback.",
+  "canonical_sha256_without_this_field": "a24f51bf0b4dc1f389ab3428b18395a3bb1e3b45cb92145e6ca3ac7fdc7e1dee"
+}
