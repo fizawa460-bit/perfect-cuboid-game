@@ -114,8 +114,16 @@ jobs:
               assert old.get("generation")==13
           else:
               assert old.get("schema")==p["schema"]
-              assert old.get("armed") is False
-              assert p["generation"]>int(old["generation"])
+              if old.get("armed") is False:
+                  assert p["generation"]>int(old["generation"])
+              else:
+                  repair=p.get("generation14_preheavy_arm_repair")
+                  assert p["generation"]==int(old["generation"])==14
+                  assert repair is not None
+                  assert repair["hostile_audit_pass_exact_head"]=="7424625b9280f790e2f5723be8932c6b2795fdad"
+                  assert repair["parent_matrix_started"] is False
+                  assert repair["failed_preheavy_run_ids"]==[35576243792,35576417826,35576524874,35576638637]
+                  assert repair["scope"]=="COLD_OR_AUTHORIZE_ONLY_SOURCE_LOCK_REPAIR"
           PY
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
