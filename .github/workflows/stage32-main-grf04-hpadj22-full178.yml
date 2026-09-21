@@ -308,7 +308,7 @@ jobs:
           name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
           path: ${{ runner.temp }}/full178-parent
           if-no-files-found: error
-          retention-days: 2
+          retention-days: 7
           compression-level: 9
 
 
@@ -362,7 +362,7 @@ jobs:
           name: stage32-main-v46-grf04-hpadj22-full178-recovery-snapshot
           path: RECOVERY-SNAPSHOT.json
           if-no-files-found: error
-          retention-days: 2
+          retention-days: 7
           compression-level: 9
 
   aggregate:
@@ -403,5 +403,5 @@ jobs:
         with:
           name: stage32-main-v46-grf04-hpadj22-full178-aggregate
           path: ${{ runner.temp }}/grf04-hpadj22-full178.json
-          retention-days: 3
+          retention-days: 7
           compression-level: 9
