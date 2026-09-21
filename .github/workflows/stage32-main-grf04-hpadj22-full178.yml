@@ -81,9 +81,9 @@ jobs:
           assert old is not None
           s=p["source_locks"]
           assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
-          assert s["window_wrapper_blob_sha1"]=="fd25714bda6cedb968348e71f8b67f0ce6e56e2c"
-          assert s["window_aggregator_blob_sha1"]=="fa6e85cd55fef7e721e56ae1736a6025f15e3362"
-          assert s["cshard_resume_verifier_blob_sha1"]=="f2e99bb41ee22126a36f9219ff8bf717ca27573d"
+          assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
+          assert s["window_aggregator_blob_sha1"]=="f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          assert s["cshard_resume_verifier_blob_sha1"]=="475da684f892f511dddf552e8521a98eba87d557"
           assert s["gen13_recovery_snapshot_blob_sha1"]=="4669f58976fea3857082283b7649ad4537f8deb8"
           assert len(s["workflow_blob_sha1"])==40
           assert s["highd_helper_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
@@ -113,10 +113,11 @@ jobs:
               assert old.get("armed") is False
               assert p["generation"]>int(old["generation"])
           PY
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "fd25714bda6cedb968348e71f8b67f0ce6e56e2c"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "fa6e85cd55fef7e721e56ae1736a6025f15e3362"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "f2e99bb41ee22126a36f9219ff8bf717ca27573d"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "8592f978538fd4bc8e7091d248a52084382d8962"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "475da684f892f511dddf552e8521a98eba87d557"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-GEN13-RECOVERY-SNAPSHOT.json)" = "4669f58976fea3857082283b7649ad4537f8deb8"
           expected_workflow="$(python -c 'import json;print(json.load(open("'"$key"'"))["source_locks"]["workflow_blob_sha1"])')"
           test "$(git hash-object .github/workflows/stage32-main-grf04-hpadj22-full178.yml)" = "$expected_workflow"
@@ -228,7 +229,7 @@ jobs:
               --chunk-position ${{ matrix.chunk }} \
               --row-window-position ${{ matrix.window }} \
               --output-dir "$RUNNER_TEMP/full178-parent" \
-              --expected-wrapper-blob fd25714bda6cedb968348e71f8b67f0ce6e56e2c \
+              --expected-wrapper-blob 8592f978538fd4bc8e7091d248a52084382d8962 \
               "${carry[@]}"
           code=$?
           set -e

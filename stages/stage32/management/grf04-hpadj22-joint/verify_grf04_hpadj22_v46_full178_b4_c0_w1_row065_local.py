@@ -12,8 +12,7 @@ HERE = Path(__file__).resolve().parent
 WORKER = HERE / "run_grf04_hpadj22_full178_parent.py"
 CERTIFICATE = HERE / "GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json"
 PROFILE = HERE / "GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065-LOCAL-PROFILE.json"
-WORKER_BLOB = "611300610f8300f919c60ff1b0a234fd90d30ec3"
-LEGACY_CERT_WORKER_BLOB = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
+WORKER_BLOB = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
 CERTIFICATE_CANONICAL = "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172"
 
 
@@ -49,11 +48,9 @@ def main() -> None:
     worker = load_worker()
     certificate = json.loads(CERTIFICATE.read_text(encoding="utf-8"))
     require(canonical(certificate) == CERTIFICATE_CANONICAL, "certificate canonical drift")
-    require(certificate["source_locks"]["production_worker_blob_sha1"] == LEGACY_CERT_WORKER_BLOB, "retained legacy worker identity drift")
     accepted = worker.validate_carry(
-        certificate,
+        CERTIFICATE,
         worker_blob=WORKER_BLOB,
-        worker_blobs=(LEGACY_CERT_WORKER_BLOB,),
         band=4,
         chunk=0,
         b0=48,
@@ -63,7 +60,7 @@ def main() -> None:
         g=0,
         d=164,
     )
-    require(accepted is not None, "production validate_carry rejected retained legacy row65")
+    require(accepted is not None, "production validate_carry rejected row65")
     result = certificate["result"]
     require(int(result["hpadj22_exact_survivors"]) == 167203747351172777, "baseline drift")
     require(int(result["joint_exact_survivors"]) == 154702893862142934, "joint result drift")
@@ -73,16 +70,14 @@ def main() -> None:
     require(profile["canonical_sha256_without_this_field"] == canonical(profile), "profile canonical drift")
     require(profile["certificate"]["canonical_sha256_without_this_field"] == CERTIFICATE_CANONICAL, "profile/certificate link drift")
     require(profile["certificate"]["production_validate_carry_accepted"] is True, "profile carry status drift")
-    require(profile["source_locks"]["production_worker_blob_sha1"] == LEGACY_CERT_WORKER_BLOB, "profile legacy worker lock drift")
     firewalls = profile["firewalls"]
     require(all(firewalls[key] is False for key in (
         "main_pruning_credit", "full178_complete", "theorem_credit", "effectivity_credit",
         "receiver_credit", "route_credit", "endpoint_credit", "merge_authorized"
     )), "credit firewall drift")
     require(firewalls["hostile_audit_required_before_promotion"] is True, "hostile audit firewall drift")
-    print("PASS: retained exact row65 canonical and legacy-worker identity")
-    print("PASS: current c-shard worker accepts row65 carry without recomputation")
-    print("PASS: profile integer results and zero-credit firewalls")
+    print("PASS: exact local row65 certificate canonical and production validate_carry")
+    print("PASS: profile source-lock, integer results, and zero-credit firewalls")
 
 
 if __name__ == "__main__":

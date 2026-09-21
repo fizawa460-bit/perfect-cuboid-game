@@ -4,7 +4,7 @@ import argparse,hashlib,importlib.util,json,sys,time
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[4]
-ROW_WORKER=ROOT/"stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py"
+ROW_WORKER=ROOT/"stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py"
 ROW_WORKER_BLOB="611300610f8300f919c60ff1b0a234fd90d30ec3"
 LEGACY_ROW_WORKER_BLOBS=("c9fbf71242581f096718ebf0dbc9ac88878c91f1",)
 WINDOW_SCHEMA="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_PARENT_WINDOW_V3_CSHARD_RESUME"
