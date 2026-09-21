@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME",
   "stage": 32,
-  "generation": 14,
+  "generation": 15,
   "armed": true,
-  "objective": "Generation-14 resume-first FULL178 execution after hostile-audit PASS at exact head 7424625b9280f790e2f5723be8932c6b2795fdad. Reuse generation-13/12/11/10 validated carry plus 6 retained local exact rows; compute only missing exact c-shards. No mathematical credit until complete aggregate plus subsequent hostile audit.",
+  "objective": "Generation-15 resume-first FULL178 continuation at max-parallel 14. Reuse generation-14 c-shard/row checkpoints first, then generation-13 and generation-11 fallbacks plus generation-10 special seed; compute only missing exact c-shards. No mathematical credit until complete aggregate plus hostile audit.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
     "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
@@ -11,7 +11,7 @@
     "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
     "cshard_resume_verifier_blob_sha1": "7664b33b45832baf651b2e9deb3a585a72fabd1b",
     "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
-    "workflow_blob_sha1": "92ce04e670af0e0e1d1093e8d0a63f2dc0efb624",
+    "workflow_blob_sha1": "acad98f09fcc08b93a4c3131d56956f5c15871fc",
     "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
     "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -143,7 +143,7 @@
   },
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
-    "planned_effective_heavy_concurrency": 16,
+    "planned_effective_heavy_concurrency": 14,
     "parent_jobs": 96,
     "artifact_count_upper_bound": 98,
     "artifact_bytes_upper_bound_each": 4194304,
@@ -156,32 +156,34 @@
     "c_shards_are_files_inside_parent_artifacts": true,
     "observed_other_stage32_heavy_concurrency_at_repair": 4,
     "observed_other_stage32_heavy_concurrency_at_generation14_arm": 2,
-    "note": "No heavy run is armed by this repair. Maximum artifact topology is 96 parent artifacts + 1 recovery snapshot + 1 aggregate = 98 (<100 pagination trigger). Width-8 c-shard files remain nested inside parent-window artifacts. At repair time MB-FIB run 35568958576 had 4 heavy jobs in progress, so MAIN max-parallel 16 must not be armed until the live concurrency gate clears or the audited parallelism is reduced.",
+    "note": "Generation15 uses max-parallel 14. Pre-arm live check observed 4 other Stage32 active jobs, so effective total concurrency is 18, exactly the repo Stage cap. Mathematical worker/c-shard width are unchanged; generation14 artifacts are first-precedence carry.",
     "observed_other_stage32_heavy_run_id": 35568958576,
     "generation14_arm_effective_total_concurrency": 18,
     "prearm_live_concurrency_recheck_required": true,
-    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed."
+    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed.",
+    "observed_other_stage32_heavy_concurrency_at_generation15_arm": 4,
+    "generation15_arm_effective_total_concurrency": 18
   },
   "authorization": {
     "synchronize_only": true,
     "commit_range_runkey_change_required": true,
     "repair_generation": 13,
     "repair_generation_disarmed": true,
-    "next_heavy_generation_minimum": 14,
+    "next_heavy_generation_minimum": 15,
     "next_heavy_arm_requires_hostile_audit_pass": true,
     "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
     "hostile_audit_pass_submitted_at": "2026-09-21T08:01:47Z",
-    "rearm_rule": "Satisfied for generation14: hostile-audit PASS exists at exact head 7424625b9280f790e2f5723be8932c6b2795fdad; this later synchronize commit sets armed=true and advances generation 13->14.",
+    "rearm_rule": "Generation15 is an execution-only resume successor after generation14 was cancelled by the retention-policy synchronize commit. Mathematical worker and c-shard semantics are unchanged; generation14 valid checkpoints are first-precedence carry. Pre-arm live concurrency rechecked at 4 other Stage32 jobs, so 14+4=18.",
     "prearm_live_concurrency_recheck_required": true,
     "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
   },
   "carry": {
-    "primary_predecessor_run_id": 35559431762,
-    "primary_predecessor_topology": "V2_ROW_WINDOW",
-    "expected_primary_parent_artifacts": 35,
-    "secondary_predecessor_run_id": 35555103056,
+    "primary_predecessor_run_id": 35576827846,
+    "primary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
+    "expected_primary_parent_artifacts": 54,
+    "secondary_predecessor_run_id": 35559431762,
     "secondary_predecessor_topology": "V2_ROW_WINDOW",
-    "expected_secondary_parent_artifacts": 19,
+    "expected_secondary_parent_artifacts": 35,
     "tertiary_predecessor_run_id": 35531197992,
     "tertiary_predecessor_topology": "V2_ROW_WINDOW",
     "expected_tertiary_parent_artifacts": 95,
@@ -191,7 +193,7 @@
       0,
       1
     ],
-    "precedence_rule": "generation13 artifact if present; else generation12; else generation11; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows for their exact parent identities (including retained row65) and reject any exact-result conflict"
+    "precedence_rule": "generation14 artifact if present; else generation13; else generation11; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows and reject any exact-result conflict"
   },
   "local_seed": {
     "parent_window": [
@@ -398,5 +400,25 @@
     "main_credit": false,
     "full178_credit": false,
     "hostile_audit_required_before_promotion": true
+  },
+  "generation14_incident": {
+    "run_id": 35576827846,
+    "workflow_conclusion": "cancelled",
+    "status": "CANCELLED_BY_RETENTION_POLICY_SYNCHRONIZE_ZERO_CREDIT",
+    "cancellation_trigger_commit": "ca2c69e36ece09a1370df7635dff8ab6e0971cee",
+    "cancellation_trigger_reason": "Changing Actions artifact retention from 2/3 days to 7 days synchronized PR #1826 while cancel-in-progress was enabled.",
+    "retained_parent_window_artifacts": 54,
+    "recovery_snapshot_artifacts": 1,
+    "complete_parent_windows": 12,
+    "partial_parent_windows": 42,
+    "missing_parent_windows": 42,
+    "validated_row_certificates": 1871,
+    "validated_c_shard_certificates": 6851,
+    "rejected_row_files": 0,
+    "rejected_c_shard_files": 0,
+    "recovery_snapshot_artifact_id": 10668218004,
+    "recovery_snapshot_canonical_sha256": "748e81f3065a889f949664ce08f332d3386d699e7518f6b6d6532fe63ab03332",
+    "mathematical_failure": false,
+    "main_credit": false
   }
 }
