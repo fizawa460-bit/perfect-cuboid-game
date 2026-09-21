@@ -1,0 +1,46 @@
+name: Stage32 32-01-178 qBC t-interval zero-center probe
+
+# lifecycle: ACTIVE_AUTO
+# Bounded current-authority research probe. Zero MAIN credit.
+on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - 'stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_qbc_tinterval_g1d192_band4.py'
+      - '.github/workflows/stage32-01-178-qbc-tinterval-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-qbc-tinterval-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Materialize exact HPADJ22 producer source
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          rm -rf /tmp/s32h22src
+          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+      - name: Exact qBC-conditioned t-interval zero-center probe
+        run: |
+          set -euo pipefail
+          python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_qbc_tinterval_g1d192_band4.py \
+            --repo-root "$GITHUB_WORKSPACE" \
+            --source-root /tmp/s32h22src
+      - name: Diff hygiene
+        run: git diff --check
