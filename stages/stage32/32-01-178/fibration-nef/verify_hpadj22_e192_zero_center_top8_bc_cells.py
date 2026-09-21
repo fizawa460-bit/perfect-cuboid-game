@@ -12,6 +12,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 PARENT = HERE / "verify_hpadj22_e192_zero_center_all_a_all_unequal_support7_family.py"
 PARENT_BLOB = "7d988aeb3c3895358d754d1dbb41cfd8a22668bd"
+SINGLE = HERE / "verify_hpadj22_e192_zero_center_single_witness.py"
+SINGLE_BLOB = "5e54175ac7ef5983d639f1657f7878142d3bd5dc"
 
 EXPECTED = (
     {"b":49,"c":48,"amax":57,"H":5428920,"Hbins":60884,"Hsha":"5ea0967cd7a85711e357c04850bb6757324be224faea825e2d7775e872145655","Asha":"c5d92268c4ca4ce13ff5240a3e4f7bc80c2d90bfdf7e24b10431944291f49bcd","current":7199513851467,"refined":3344045626622,"reduction":3855468224845},
@@ -57,7 +59,7 @@ def load_module(path: Path, name: str):
     return mod
 
 
-def evaluate_cell(*, p, direct, old, bnd, h16, counter, fast, cert, rec: dict) -> dict:
+def evaluate_cell(*, p, single, direct, old, bnd, h16, p15, counter, fast, cert, rec: dict) -> dict:
     b, c = int(rec["b"]), int(rec["c"])
     d, g, e, h = 192, 1, 192, 96
     threshold_q = 4992
@@ -72,7 +74,9 @@ def evaluate_cell(*, p, direct, old, bnd, h16, counter, fast, cert, rec: dict) -
 
     c3 = counter.component3(d, b, c)
     req(c3 == 9, f"component3 no longer maximal {(b,c,c3)}")
-    req(tuple(old.PLANNED[p.p.BAND]) == (36,47) if False else True, "unreachable")
+    interval = tuple(p15.shard_for_b(b))
+    expected_interval = (36,47) if b <= 47 else (48,59)
+    req(interval == expected_interval, f"current b-shard drift {(b,c,interval)}")
     req(b <= 59, f"selected b escaped intended bounded search {(b,c)}")
 
     by_a_hist: dict[int,Counter[int]] = {}
@@ -188,9 +192,11 @@ def main() -> None:
     args = ap.parse_args()
 
     req(PARENT.is_file() and blob(PARENT)==PARENT_BLOB,"all-a parent drift")
+    req(SINGLE.is_file() and blob(SINGLE)==SINGLE_BLOB,"single-witness parent drift")
     p = load_module(PARENT,"stage32_178_hpadj22_top8_parent")
-    direct_path = args.repo_root / p.p.DIRECT_REL
-    req(direct_path.is_file() and blob(direct_path)==p.p.DIRECT_BLOB,"current direct source drift")
+    single = load_module(SINGLE,"stage32_178_hpadj22_top8_single")
+    direct_path = args.repo_root / single.DIRECT_REL
+    req(direct_path.is_file() and blob(direct_path)==single.DIRECT_BLOB,"current direct source drift")
     direct = load_module(direct_path,"stage32_178_hpadj22_top8_direct")
     old = direct.load_old(args.source_root)
 
@@ -202,11 +208,11 @@ def main() -> None:
     p14=p15.load_parent(); counter=p14.load_counter()
     manifest=counter.load_locked_json(p14.MANIFEST,p14.LOCKS["manifest_blob"],p14.LOCKS["manifest_canonical"],"FULL178 manifest")
     rows=counter.manifest_rows(manifest)
-    row_id,g0,d0=rows[p.p.ROW_INDEX]
+    row_id,g0,d0=rows[single.ROW_INDEX]
     req((row_id,int(g0),int(d0))==("g1-d192",1,192),"target row identity drift")
     req(bc.QCAP==4992 and bc.OVERFLOW==4993,"qBC cap drift")
 
-    fast=load_module(p.p.FAST,"stage32_178_hpadj22_top8_fast")
+    fast=load_module(single.FAST,"stage32_178_hpadj22_top8_fast")
     cert=fast.load_certificate()
 
     seen=set()
@@ -215,7 +221,7 @@ def main() -> None:
         key=(int(rec["b"]),int(rec["c"]))
         req(key not in seen,f"duplicate selected cell {key}")
         seen.add(key)
-        cells.append(evaluate_cell(p=p,direct=direct,old=old,bnd=bnd,h16=h16,counter=counter,fast=fast,cert=cert,rec=rec))
+        cells.append(evaluate_cell(p=p,single=single,direct=direct,old=old,bnd=bnd,h16=h16,p15=p15,counter=counter,fast=fast,cert=cert,rec=rec))
 
     current=sum(int(x["current_hpadj22_survivors"]) for x in cells)
     refined=sum(int(x["zero_center_survivors"]) for x in cells)
@@ -223,7 +229,7 @@ def main() -> None:
     req(current==EXPECTED_CURRENT,"top8 current aggregate drift")
     req(refined==EXPECTED_REFINED,"top8 refined aggregate drift")
     req(reduction==EXPECTED_REDUCTION and current-refined==reduction,"top8 reduction aggregate drift")
-    candidate=p.p.OLD_GLOBAL-reduction
+    candidate=single.OLD_GLOBAL-reduction
     req(candidate==EXPECTED_CANDIDATE,"candidate global bound drift")
 
     out={
@@ -231,13 +237,14 @@ def main() -> None:
         "status":"EXACT_CURRENT_HPADJ22_TOP8_DISJOINT_BC_CELL_REFINEMENT__ZERO_MAIN_CREDIT__HOSTILE_AUDIT_REQUIRED",
         "source_locks":{
             "all_a_parent_blob_sha1":PARENT_BLOB,
-            "current_direct_count_blob_sha1":p.p.DIRECT_BLOB,
-            "hpadj22_source_head":p.p.HPADJ22_SOURCE_HEAD,
+            "single_witness_parent_blob_sha1":SINGLE_BLOB,
+            "current_direct_count_blob_sha1":single.DIRECT_BLOB,
+            "hpadj22_source_head":single.HPADJ22_SOURCE_HEAD,
             "historical_hpadj22_worker_blob_sha1":direct.OLD_BLOB,
-            "zero_center_picard_source_blob_sha1":p.p.FAST_BLOB,
+            "zero_center_picard_source_blob_sha1":single.FAST_BLOB,
         },
         "target":{
-            "row_index":p.p.ROW_INDEX,"row_id":row_id,"g":1,"d":192,"e":192,
+            "row_index":single.ROW_INDEX,"row_id":row_id,"g":1,"d":192,"e":192,
             "selected_bc_cells":[[int(x["b"]),int(x["c"])] for x in EXPECTED],
             "A_support":3,"H_support":7,"canonical_H_branch":"x0<x1",
         },
@@ -246,7 +253,7 @@ def main() -> None:
             "current_hpadj22_survivors":current,
             "zero_center_survivors":refined,
             "exact_survivor_reduction":reduction,
-            "current_v45_global_upper_bound":str(p.p.OLD_GLOBAL),
+            "current_v45_global_upper_bound":str(single.OLD_GLOBAL),
             "candidate_global_upper_bound_if_promoted":str(candidate),
         },
         "cells":cells,
@@ -280,7 +287,7 @@ def main() -> None:
         args.output.write_text(json.dumps(out,sort_keys=True,separators=(",",":"))+"\n")
     print("HPADJ22_E192_ZERO_CENTER_TOP8="+json.dumps({
         "cells":len(cells),"current":current,"refined":refined,"reduction":reduction,
-        "old_global":str(p.p.OLD_GLOBAL),"candidate_global":str(candidate),
+        "old_global":str(single.OLD_GLOBAL),"candidate_global":str(candidate),
         "canonical":out["canonical_sha256_without_this_field"],
     },sort_keys=True))
     print(json.dumps(out,indent=2,sort_keys=True))
