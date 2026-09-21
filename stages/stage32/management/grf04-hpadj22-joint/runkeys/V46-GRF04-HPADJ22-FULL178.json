@@ -9,15 +9,17 @@
     "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
     "window_wrapper_blob_sha1": "8592f978538fd4bc8e7091d248a52084382d8962",
     "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
-    "cshard_resume_verifier_blob_sha1": "85c16fa4da010acc9f1fee9d023788d00f2a79d4",
+    "cshard_resume_verifier_blob_sha1": "1b12b3dd17ad326c7d31c3fcefed00ae51c0f6d6",
     "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
-    "workflow_blob_sha1": "2bf81b02b41de7f0dcce9a9d548bc8568a42f4d6",
+    "workflow_blob_sha1": "f3626696c9650c8a4bc2c18f92d2abdc68185bca",
     "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
     "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
     "cshard_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
     "cshard_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py",
-    "legacy_row_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py"
+    "legacy_row_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py",
+    "recovery_snapshot_builder_blob_sha1": "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e",
+    "recovery_snapshot_builder_path": "stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py"
   },
   "benchmark_gate": {
     "run_id": 35437525466,
@@ -121,13 +123,17 @@
     "aggregate_requires_all_96_parent_window_complete_manifests": true,
     "legacy_worker_and_row65_verifier_identity_preserved": true,
     "legacy_worker_path_unchanged": true,
-    "cshard_worker_is_separate_file": true
+    "cshard_worker_is_separate_file": true,
+    "recovery_snapshot_missing_artifacts_nonfatal": true,
+    "recovery_snapshot_inventory_replayable": true,
+    "recovery_snapshot_inventory": "All 96 parent-window identities are classified COMPLETE/PARTIAL/MISSING/REJECTED; validated row and c-shard identities plus canonical commitments are recorded; invalid files are surfaced instead of aborting snapshot creation.",
+    "aggregate_gate": "Aggregate remains blocked unless the recovery inventory reports all 96 parent windows COMPLETE with validated complete manifests and no rejected carry."
   },
   "resource_preflight": {
     "repo_stage_heavy_cap": 18,
     "planned_effective_heavy_concurrency": 16,
     "parent_jobs": 96,
-    "artifact_count_upper_bound": 97,
+    "artifact_count_upper_bound": 98,
     "artifact_bytes_upper_bound_each": 4194304,
     "projected_peak_artifact_mb_upper_bound": 430,
     "retention_days_parent": 2,
@@ -136,8 +142,11 @@
     "job_timeout_minutes": 350,
     "compute_soft_timeout_minutes": 330,
     "c_shards_are_files_inside_parent_artifacts": true,
-    "observed_other_stage32_heavy_concurrency_at_repair": null,
-    "note": "No heavy run is armed by this repair. Storage bound keeps the same 97 Actions-artifact topology; width-8 c-shard files are nested inside parent-window artifacts."
+    "observed_other_stage32_heavy_concurrency_at_repair": 4,
+    "note": "No heavy run is armed by this repair. Maximum artifact topology is 96 parent artifacts + 1 recovery snapshot + 1 aggregate = 98 (<100 pagination trigger). Width-8 c-shard files remain nested inside parent-window artifacts. At repair time MB-FIB run 35568958576 had 4 heavy jobs in progress, so MAIN max-parallel 16 must not be armed until the live concurrency gate clears or the audited parallelism is reduced.",
+    "observed_other_stage32_heavy_run_id": 35568958576,
+    "prearm_live_concurrency_recheck_required": true,
+    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed."
   },
   "authorization": {
     "synchronize_only": true,
@@ -146,7 +155,9 @@
     "repair_generation_disarmed": true,
     "next_heavy_generation_minimum": 14,
     "next_heavy_arm_requires_hostile_audit_pass": true,
-    "rearm_rule": "After hostile-audit PASS, a later synchronize commit must set armed=true and strictly advance generation beyond 13. This repair commit itself must produce authorize run=false."
+    "rearm_rule": "After hostile-audit PASS, a later synchronize commit must set armed=true and strictly advance generation beyond 13. This repair commit itself must produce authorize run=false.",
+    "prearm_live_concurrency_recheck_required": true,
+    "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
   },
   "carry": {
     "primary_predecessor_run_id": 35559431762,
