@@ -1,0 +1,109 @@
+{
+  "schema": "STAGE32_32_01_178_SELECTIVE_PICARD_PILOT_RETAINED_V1",
+  "status": "EXACT_PILOT_MEASURE_WORKUNIT_COMPLETE_ZERO_CREDIT",
+  "purpose": "Retain the first exact selective-Picard measurement workunit, its compact execution provenance, and its zero-credit audit boundary without arming a production wave.",
+  "target": {
+    "row_id": "g1-d192",
+    "g": 1,
+    "d": 192,
+    "e": 32,
+    "absolute_qcap": 4992,
+    "x4": 0,
+    "scope": "BOUNDED_SELECTED_SLICE_SINGLE_WORKUNIT_NOT_FULL_ROW_NOT_FULL178"
+  },
+  "workunit_identity": {
+    "workunit_id": "g1-d192-e032-x4-0000-u0000",
+    "start_index": 0,
+    "stop_index_exclusive": 256,
+    "static_key_count": 256,
+    "static_key_stream_sha256": "5f6dd5f2196ed46f853d6459b868d91d14ce93bb42f3c16de8726e3633ea027c"
+  },
+  "selection": {
+    "selector_schema": "STAGE32_32_01_178_SELECTIVE_PICARD_PILOT_SELECTOR_V1",
+    "expected_workunit_count": 990,
+    "maximum_static_key_count": 256,
+    "maximum_size_candidate_count": 985,
+    "rule": "maximum static_key_count, then lexicographically smallest workunit_id",
+    "runtime_worst_case_claimed": false,
+    "receipt_size_representative_claim_only": true
+  },
+  "authorization": {
+    "base_pr_head": "0c5d0457a100b55a8f4979552715c724c7445e8d",
+    "local_authorization_commit": "c3d00d13c260bc9979aed968020f11ce6b69508a",
+    "runkey_generation": 1,
+    "runkey_mode": "PILOT_MEASURE",
+    "authorized_workunit_ids": [
+      "g1-d192-e032-x4-0000-u0000"
+    ],
+    "planned_effective_heavy_concurrency": 1,
+    "projected_peak_storage_bytes": 8388608,
+    "production_wave_armed": false
+  },
+  "source_locks": {
+    "worker_blob_sha1": "3bbc4ba84f7ba5bf7188929d56c4a273ca0532f5",
+    "workunit_preflight_blob_sha1": "0ee1c21df1b765e91937587903e873f83ec06729",
+    "workunit_plan_certificate_producer_blob_sha1": "37745be7877f32a1804a350d8ebbeedc893d4a5b",
+    "selective_weighted_survivor_blob_sha1": "9e5b662d1e26a20afdf8621b131ffbac60b31b07",
+    "resume_verifier_blob_sha1": "bf17305df21a1da966decf4e5689df0789757cc6"
+  },
+  "receipt": {
+    "path": "stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-PILOT-G1-U0000-RECEIPT.json",
+    "schema": "STAGE32_32_01_178_SELECTIVE_PICARD_WORKUNIT_RECEIPT_V1",
+    "role": "COMPLETE_EXACT_WORKUNIT_RECEIPT__NO_MAIN_CREDIT",
+    "bytes": 126528,
+    "file_sha256": "ddd6e644f1ec9acf0e467d7f678b7fb0a6325cf7cd0c6040169e0b21b86dd328",
+    "git_blob_sha1": "67df76f9454765040cba31583733b75379e35653",
+    "canonical_sha256_without_this_field": "5da442edd1eeeeb4a580923934739d364bc370c4f630026414e1f7b84afcd8da",
+    "key_evidence_stream_sha256": "3a6a28b62c6683a3acb163568dbadd0ee71b380c958c9b96a7691ca39dfa9513",
+    "key_evidence_rows": 256
+  },
+  "exact_result": {
+    "depth2_envelope_weighted_mass": "3007",
+    "exact_picard_weighted_mass": "3007",
+    "exact_picard_tightening": "0",
+    "no_picard_feasible_residual_static_keys": 0,
+    "zero_exact_weighted_mass_static_keys": 0,
+    "aggregate_exact_picard_minimum_nodes": 14216,
+    "completed_key_count": 256,
+    "unknown_count": 0
+  },
+  "timing_and_resources": {
+    "selector_wall_seconds_from_log_timestamps": 3566.419,
+    "worker_started_at": "2026-09-21T23:49:05.2084161+09:00",
+    "atomic_receipt_mtime": "2026-09-22T00:01:45.2098434+09:00",
+    "worker_wall_seconds_from_start_to_atomic_receipt": 760.001,
+    "resume_verifier_wall_seconds_from_log_timestamps": 3492.053,
+    "worker_cpu_seconds": null,
+    "worker_max_rss_bytes": null,
+    "resource_note": "CPU time and peak RSS were not retained by the launcher; initial observed RSS was approximately 57.3 MiB. Wall times are derived from recorded process start and durable log/receipt timestamps."
+  },
+  "verification": {
+    "command": "python verify_fibration_nef_selective_picard_resume.py --receipts-dir <receipt-directory>",
+    "result": "PASS",
+    "expected_workunit_count": 990,
+    "complete_workunit_count": 1,
+    "missing_workunit_count": 989,
+    "rejected_receipt_count": 0,
+    "completed_unit_reexecution_required": false,
+    "recovery_snapshot_canonical_sha256": "829e778beb9b7bad0e8fe30c4f6449bc40b1259362a4c34b6560530701eff167"
+  },
+  "disposition": {
+    "exact_workunit_complete": true,
+    "receipt_size_measurement_complete": true,
+    "selected_slice_coverage_complete": false,
+    "full_row_complete": false,
+    "full178_complete": false,
+    "hostile_audit_required_before_any_credit": true,
+    "next_heavy_wave_authorized": false
+  },
+  "firewalls": {
+    "selected_slice_only": true,
+    "mathematical_credit_granted": false,
+    "main_credit_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "perfect_cuboid_credit_changed": false,
+    "merge": false
+  },
+  "canonical_sha256_without_this_field": "7321003d1575bcaff33059dcc676348688101ebe38262c78ab315df5e9c1bce3"
+}
