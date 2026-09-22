@@ -79,8 +79,9 @@ jobs:
           import json,sys,pathlib
           oldp=pathlib.Path(sys.argv[1]);p=json.load(open(sys.argv[2]));old=json.load(open(oldp)) if oldp.exists() and oldp.stat().st_size else None
           assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME"
-          assert p["generation"]>=13
-          assert old is not None
+          assert old is not None and old.get("schema")==p["schema"]
+          gen=int(p["generation"]); oldgen=int(old["generation"])
+          assert gen in (15,16)
           s=p["source_locks"]
           assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
           assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
@@ -99,41 +100,52 @@ jobs:
           assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==14 <= p["resource_preflight"]["repo_stage_heavy_cap"]
           assert p["resource_preflight"]["artifact_count_upper_bound"]==98 < 100
           assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=430
-          assert p["credit"]["main"] is False and p["credit"]["theorem"] is False and p["credit"]["effectivity"] is False
+          assert p["credit"]["main"] is False and p["credit"]["full178"] is False
+          assert p["credit"]["theorem"] is False and p["credit"]["effectivity"] is False
           assert p["credit"]["receiver"] is False and p["credit"]["route"] is False and p["credit"]["endpoint"] is False and p["credit"]["merge"] is False
           carry=p["carry"]
-          assert carry["primary_predecessor_run_id"]==35576827846
-          assert carry["secondary_predecessor_run_id"]==35559431762
-          assert carry["tertiary_predecessor_run_id"]==35531197992
           assert carry["special_predecessor_run_id"]==35501853750
-          snap=p["generation13_salvage"]
-          assert snap["discovered_artifact_count"]==35 and snap["valid_row_certificates"]==795
-          assert snap["validated_precedence_union_rows"]==1302 and snap["canonical_conflicts"]==0
-          if p["armed"] is False:
-              assert p["generation"]==13
-              assert old.get("generation")==13
+          if gen==15:
+              assert carry["primary_predecessor_run_id"]==35576827846
+              assert carry["secondary_predecessor_run_id"]==35559431762
+              assert carry["tertiary_predecessor_run_id"]==35531197992
+              assert oldgen==15
+              repair=p.get("generation16_preheavy_repair")
+              assert repair is not None
+              assert repair["scope"]=="COLD_AUTHORIZATION_SOURCE_LOCK_REPAIR"
+              assert repair["generation15_run_id"]==35665219375
+              assert repair["generation15_complete_parent_windows"]==76
+              assert repair["generation15_partial_parent_windows"]==20
+              assert repair["generation15_validated_row_certificates"]==2885
+              assert repair["generation15_expected_row_certificates"]==2967
+              assert repair["generation15_validated_c_shard_certificates"]==6015
+              assert repair["generation15_rejected_row_files"]==0
+              assert repair["generation15_rejected_c_shard_files"]==0
+              assert repair["heavy_arm_authorized"] is False
+              assert repair["mathematical_worker_changed"] is False
           else:
-              assert old.get("schema")==p["schema"]
-              if old.get("armed") is False:
-                  assert p["generation"]>int(old["generation"])
-              else:
-                  if p["generation"]>int(old["generation"]):
-                      assert int(old["generation"])==14 and p["generation"]==15
-                      incident=p.get("generation14_incident")
-                      assert incident is not None
-                      assert incident["run_id"]==35576827846
-                      assert incident["workflow_conclusion"]=="cancelled"
-                      assert incident["retained_parent_window_artifacts"]==54
-                      assert incident["recovery_snapshot_artifacts"]==1
-                      assert incident["mathematical_failure"] is False
-                  else:
-                      repair=p.get("generation14_preheavy_arm_repair")
-                      assert p["generation"]==int(old["generation"])==14
-                      assert repair is not None
-                      assert repair["hostile_audit_pass_exact_head"]=="7424625b9280f790e2f5723be8932c6b2795fdad"
-                      assert repair["parent_matrix_started"] is False
-                      assert repair["failed_preheavy_run_ids"]==[35576243792,35576417826,35576524874,35576638637]
-                      assert repair["scope"]=="COLD_OR_AUTHORIZE_ONLY_SOURCE_LOCK_REPAIR"
+              assert gen==16 and oldgen==15
+              assert p["armed"] is True
+              assert carry["primary_predecessor_run_id"]==35665219375
+              assert carry["expected_primary_parent_artifacts"]==96
+              assert carry["secondary_predecessor_run_id"]==35576827846
+              assert carry["tertiary_predecessor_run_id"]==35531197992
+              incident=p.get("generation15_incident")
+              assert incident is not None
+              assert incident["run_id"]==35665219375
+              assert incident["workflow_conclusion"]=="success"
+              assert incident["status"]=="CHECKPOINTED_INCOMPLETE_ZERO_CREDIT"
+              assert incident["discovered_parent_artifacts"]==96
+              assert incident["complete_parent_windows"]==76
+              assert incident["partial_parent_windows"]==20
+              assert incident["validated_row_certificates"]==2885
+              assert incident["expected_row_certificates"]==2967
+              assert incident["validated_c_shard_certificates"]==6015
+              assert incident["rejected_row_files"]==0
+              assert incident["rejected_c_shard_files"]==0
+              assert incident["recovery_snapshot_artifact_id"]==10712310702
+              assert incident["recovery_snapshot_canonical_sha256"]=="c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2"
+              assert incident["mathematical_failure"] is False and incident["main_credit"] is False
           PY
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
@@ -151,6 +163,11 @@ jobs:
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C3-W2-ROW177.json)" = "0d1c4dd626c9180670384553946cd03fc9759bf0"
           expected_workflow="$(python -c 'import json;print(json.load(open("'"$key"'"))["source_locks"]["workflow_blob_sha1"])')"
           test "$(git hash-object .github/workflows/stage32-main-grf04-hpadj22-full178.yml)" = "$expected_workflow"
+          cold_repair="$(python -c 'import json;p=json.load(open("'"$key"'"));print("true" if int(p["generation"])==15 and p.get("generation16_preheavy_repair",{}).get("heavy_arm_authorized") is False else "false")')"
+          if [ "$cold_repair" = "true" ]; then
+            echo "Generation-16 preheavy repair is cold-only; no parent matrix authorized."
+            exit 0
+          fi
           armed="$(python -c 'import json;print("true" if json.load(open("'"$key"'"))["armed"] else "false")')"
           if [ "$armed" != "true" ]; then
             echo "FULL178 runkey is intentionally disarmed; cold verification only."
@@ -193,7 +210,7 @@ jobs:
         with:
           python-version: '3.11.x'
       - id: primary_carry
-        name: Fetch generation-14 carry artifact
+        name: Fetch primary predecessor carry artifact
         continue-on-error: true
         uses: actions/download-artifact@v4
         with:
@@ -202,7 +219,7 @@ jobs:
           run-id: ${{ needs.authorize.outputs.primary_run_id }}
           github-token: ${{ github.token }}
       - id: secondary_carry
-        name: Fetch generation-13 fallback carry artifact
+        name: Fetch secondary fallback carry artifact
         if: steps.primary_carry.outcome != 'success'
         continue-on-error: true
         uses: actions/download-artifact@v4
@@ -212,7 +229,7 @@ jobs:
           run-id: ${{ needs.authorize.outputs.secondary_run_id }}
           github-token: ${{ github.token }}
       - id: tertiary_carry
-        name: Fetch generation-11 fallback carry artifact
+        name: Fetch tertiary fallback carry artifact
         if: steps.primary_carry.outcome != 'success' && steps.secondary_carry.outcome != 'success'
         continue-on-error: true
         uses: actions/download-artifact@v4
@@ -320,7 +337,6 @@ jobs:
           if-no-files-found: error
           retention-days: 7
           compression-level: 9
-
 
   summarize:
     name: FULL178 generation recovery summary
