@@ -87,6 +87,20 @@ authorized generation after validation, never automatic recovery by rerun.
 Use a detached execution worktree to keep the armed head immutable while
 retaining later evidence on PR #1821. Monitor only this local process hourly.
 
+Launched 2026-09-22 13:44:48 JST, supervisor PID12440, first worker PIDs
+14480 (row22,b60) and1256 (row177,b60). Durable wave directory:
+`C:\CodexWorktrees\stage32-support-wave-20260922`.
+Frozen execution worktree: `C:\CodexWorktrees\stage32-support-wave-exec`.
+Execution head: db38260589a096dc89b77b5f9d447d508436b508.
+Cold authorization-before: de6ea5d03dbb7c5f5a924f0549b19fa5c1674a4c.
+Generation1 worker blob:37e72735125c232e534d92c6e24c7afc0a0f4f24.
+Heartbeat `pr1821-local-support-qbc-wave-monitor` monitors only this local
+wave hourly; it must not restart, modify, or rearm any job.
+Initial source/authorization gates passed and worker CPU counters advanced.
+The research branch key is now cold again. This does not alter the frozen
+execution authorization or cancel workers; it prevents the latest research
+head from being mistaken for an authorization of another wave.
+
 ## Accounting and promotion
 
 The row,b key is disjoint in the locked HPADJ22 population. A partial consumer
