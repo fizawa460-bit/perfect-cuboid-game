@@ -257,6 +257,7 @@ def main() -> None:
     def git(*words):
         return subprocess.check_output(["git", "-C", str(args.repo_root), *words], text=True).strip()
     req(args.head == git("rev-parse", "HEAD"), "execution head drift")
+    git("merge-base", "--is-ancestor", args.before, args.head)
     req(rel in git("diff", "--name-only", args.before, args.head).splitlines(), "no fresh runkey arm")
     key = json.loads(git("show", args.head + ":" + rel))
     old_key = json.loads(git("show", args.before + ":" + rel))
@@ -264,6 +265,8 @@ def main() -> None:
     req(key["armed"] and key["generation"] > old_key["generation"], "cold or stale generation")
     req(key["worker_blob_sha1"] == blob(Path(__file__)), "worker lock drift")
     req(key["local_only"] is True and key["planned_local_concurrency"] == 1, "execution scope drift")
+    req(key["row_id"] == "g1-d192", "runkey row drift")
+    req(all(key[k] is False for k in ("main_credit_changed", "theorem_credit_changed", "endpoint_credit_changed")), "credit firewall drift")
     req(args.b in key["authorized_b"] and not 48 <= args.b <= 59, "unauthorized or remote-overlap b")
     req(not args.output.exists(), "existing receipt: validate and carry, never overwrite")
     print(json.dumps({"event": "AUTHORIZED", "b": args.b, "head": args.head}), flush=True)
@@ -325,6 +328,7 @@ def main() -> None:
     strict_bc = 0
     strict_vs_parent_bc = 0
     bc_records = []
+    all_bc_records = []
     qbc_bins_seen = x4_qbc_pairs = 0
     support_interval_queries = strict_support_intervals = 0
     current_limit_states = parent_limit_states = refined_limit_states = 0
@@ -479,6 +483,7 @@ def main() -> None:
             current += bc_cur
             parent_refined += bc_parent
             refined += bc_ref
+            all_bc_records.append({"b": b, "c": c, "current": str(bc_cur), "parent_refined": str(bc_parent), "refined": str(bc_ref)})
             print(json.dumps({"event": "BC_COMPLETE", "b": b, "c": c, "current": str(bc_cur), "refined": str(bc_ref), "wall_seconds": time.perf_counter()-started}), flush=True)
             if bc_ref < bc_cur:
                 strict_bc += 1
@@ -515,8 +520,8 @@ def main() -> None:
             "d": d,
             "band_position": band,
             "b_interval": [b0, b1],
-            "full_band4_interval": [full_b0, full_b1],
-            "full_band4_execution": full_band,
+            "containing_band_interval": [full_b0, full_b1],
+            "full_band_execution": full_band,
         },
         "source_locks": {
             "local_worker_blob_sha1": blob(Path(__file__)),
@@ -588,6 +593,7 @@ def main() -> None:
             "shard_result_requires_disjoint_full-band_recomposition_before_any_full-band_claim": not full_band,
         },
         "strict_cells": bc_records,
+        "visited_cells": all_bc_records,
         "firewalls": {
             "main_credit_changed": False,
             "full178_complete": False,
