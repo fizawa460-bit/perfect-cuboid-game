@@ -55,3 +55,14 @@ worktree and durable directory; cool research key after verified launch.
 No existing running-source changes, no duplicate work, no push/merge/rebase.
 MAIN/theorem/endpoint/Perfect-Cuboid credit stays zero pending independent
 hostile audit and a current-target exact MAIN adapter/consumption.
+
+Launched2026-09-23 07:05:34 JST: supervisor10228; initial workers5764
+(row22,b76) and14048(row177,b76). Frozen execution head
+fb0bf2b63bf284a9f0a7abb0f93ccefe8e437e69, cold-before
+c0a57606537981f75692074770d39b6f402b7c17.
+Execution C:\CodexWorktrees\stage32-support-wave-g4-exec;
+durable C:\CodexWorktrees\stage32-support-wave-g4-20260923.
+All336 carried receipts validated before dispatch; status RUNNING,
+stderr empty, free RAM1533136896 bytes. Existing hourly monitor retargeted
+to generation4 following official scheduled-task guidance (OpenAI Docs).
+Research key cooled without changing the immutable execution key.
