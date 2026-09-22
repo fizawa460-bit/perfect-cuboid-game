@@ -45,3 +45,13 @@ Cold commit then generation2 arm; execute in a NEW detached worktree and
 durable directory. No automatic retry through anomaly. No push from this
 scheduled task; keep results locally. Independent hostile audit and a
 same-population MAIN accounting adapter remain necessary before promotion.
+
+Launch confirmed2026-09-22 19:53:39 JST, supervisor11308, initial workers17104
+(row177,b47) and272 (row89,b47). Execution head
+4d3f1fda7cc00cff7a42ca9cdfbdfc566e10ffee; cold-before
+780b9bcc63cd896adaa9b0d53f87fa79fe1e8657.
+Immutable execution worktree C:\CodexWorktrees\stage32-support-wave-g2-exec;
+durable directory C:\CodexWorktrees\stage32-support-wave-g2-20260922.
+Carry validation completed before the launch sentinel and initial dispatch;
+status RUNNING, no failure, stderr empty. Hourly monitor updated to this wave.
+Research checkout key returned cold; the fixed execution checkout is unchanged.
