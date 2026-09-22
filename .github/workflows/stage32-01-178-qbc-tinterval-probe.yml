@@ -20,6 +20,14 @@ concurrency:
 
 jobs:
   verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        shard:
+          - { b_lo: 48, b_hi: 50 }
+          - { b_lo: 51, b_hi: 53 }
+          - { b_lo: 54, b_hi: 56 }
+          - { b_lo: 57, b_hi: 59 }
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
@@ -36,11 +44,13 @@ jobs:
           git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
           rm -rf /tmp/s32h22src
           git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
-      - name: Exact fast support-conditioned qBC t-interval zero-center probe
+      - name: Exact fast support-conditioned qBC t-interval zero-center probe ${{ matrix.shard.b_lo }}-${{ matrix.shard.b_hi }}
         run: |
           set -euo pipefail
           python stages/stage32/32-01-178/fibration-nef/verify_hpadj22_zero_center_support_qbc_tinterval_g1d192_band4_fast.py \
             --repo-root "$GITHUB_WORKSPACE" \
-            --source-root /tmp/s32h22src
+            --source-root /tmp/s32h22src \
+            --b-lo "${{ matrix.shard.b_lo }}" \
+            --b-hi "${{ matrix.shard.b_hi }}"
       - name: Diff hygiene
         run: git diff --check
