@@ -3,7 +3,7 @@
   "stage": 32,
   "generation": 15,
   "armed": true,
-  "objective": "Generation-15 resume-first FULL178 continuation at max-parallel 14. Reuse generation-14 c-shard/row checkpoints first, then generation-13 and generation-11 fallbacks plus generation-10 special seed; compute only missing exact c-shards. No mathematical credit until complete aggregate plus hostile audit.",
+  "objective": "Generation-15 is complete as a zero-credit checkpoint. This same-generation record is a cold-only source-lock and authorization repair preparing an execution-only generation-16 successor; it must not authorize parent-matrix execution.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
     "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
@@ -11,7 +11,7 @@
     "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
     "cshard_resume_verifier_blob_sha1": "7664b33b45832baf651b2e9deb3a585a72fabd1b",
     "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
-    "workflow_blob_sha1": "acad98f09fcc08b93a4c3131d56956f5c15871fc",
+    "workflow_blob_sha1": "44bd3708796fd556c8c8ac56f2ccbacce552183f",
     "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
     "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -51,55 +51,9 @@
     "main_credit": false
   },
   "partition": {
-    "bands": [
-      [
-        0,
-        11
-      ],
-      [
-        12,
-        23
-      ],
-      [
-        24,
-        35
-      ],
-      [
-        36,
-        47
-      ],
-      [
-        48,
-        59
-      ],
-      [
-        60,
-        71
-      ],
-      [
-        72,
-        83
-      ],
-      [
-        84,
-        96
-      ]
-    ],
+    "bands": [[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]],
     "chunks_per_band": 4,
-    "row_windows": [
-      [
-        0,
-        59
-      ],
-      [
-        60,
-        119
-      ],
-      [
-        120,
-        177
-      ]
-    ],
+    "row_windows": [[0,59],[60,119],[120,177]],
     "parents": 96,
     "rows": 178,
     "computed_row_chunk_certificates": 2967,
@@ -126,7 +80,7 @@
     "parent_artifact_upload_on_soft_timeout": true,
     "parent_artifact_upload_step_condition": "always()",
     "soft_timeout_is_operational_checkpoint_not_mathematical_failure": true,
-    "recovery": "For each parent-window use generation13 first, then generation12, then generation11, then the generation10 b4c0w1 special seed; inject source-locked retained local complete rows for their exact parent identities; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing exact c-shards.",
+    "recovery": "Generation-15 remains the completed checkpoint authority while generation-16 authorization is prepared cold. Future generation-16 carry precedence is generation15 first, then generation14, then generation11, with the generation10 b4c0w1 special seed and source-locked retained local rows as fallbacks.",
     "artifact_job_conclusion_is_not_completion_authority": true,
     "duplicate_valid_carry": "FAIL_CLOSED",
     "rejected_carry": "record and recompute only the rejected/missing exact subunit",
@@ -148,32 +102,31 @@
     "artifact_count_upper_bound": 98,
     "artifact_bytes_upper_bound_each": 4194304,
     "projected_peak_artifact_mb_upper_bound": 430,
-    "retention_days_parent": 2,
-    "retention_days_recovery_snapshot": 2,
-    "retention_days_aggregate": 3,
+    "retention_days_parent": 7,
+    "retention_days_recovery_snapshot": 7,
+    "retention_days_aggregate": 7,
     "job_timeout_minutes": 350,
     "compute_soft_timeout_minutes": 330,
     "c_shards_are_files_inside_parent_artifacts": true,
-    "observed_other_stage32_heavy_concurrency_at_repair": 4,
+    "observed_other_stage32_heavy_concurrency_at_repair": 0,
     "observed_other_stage32_heavy_concurrency_at_generation14_arm": 2,
-    "note": "Generation15 uses max-parallel 14. Pre-arm live check observed 4 other Stage32 active jobs, so effective total concurrency is 18, exactly the repo Stage cap. Mathematical worker/c-shard width are unchanged; generation14 artifacts are first-precedence carry.",
-    "observed_other_stage32_heavy_run_id": 35568958576,
-    "generation14_arm_effective_total_concurrency": 18,
-    "prearm_live_concurrency_recheck_required": true,
-    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed.",
     "observed_other_stage32_heavy_concurrency_at_generation15_arm": 4,
-    "generation15_arm_effective_total_concurrency": 18
+    "generation14_arm_effective_total_concurrency": 18,
+    "generation15_arm_effective_total_concurrency": 18,
+    "prearm_live_concurrency_recheck_required": true,
+    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain cold.",
+    "note": "Generation-16 preheavy repair observed no in-progress workflow runs before the workflow-only cold repair. This is not an arm-time concurrency authorization; generation-16 must recheck immediately before its runkey arm."
   },
   "authorization": {
     "synchronize_only": true,
     "commit_range_runkey_change_required": true,
-    "repair_generation": 13,
-    "repair_generation_disarmed": true,
-    "next_heavy_generation_minimum": 15,
+    "repair_generation": 15,
+    "repair_generation_disarmed": false,
+    "next_heavy_generation_minimum": 16,
     "next_heavy_arm_requires_hostile_audit_pass": true,
     "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
     "hostile_audit_pass_submitted_at": "2026-09-21T08:01:47Z",
-    "rearm_rule": "Generation15 is an execution-only resume successor after generation14 was cancelled by the retention-policy synchronize commit. Mathematical worker and c-shard semantics are unchanged; generation14 valid checkpoints are first-precedence carry. Pre-arm live concurrency rechecked at 4 other Stage32 jobs, so 14+4=18.",
+    "rearm_rule": "Generation-16 may be an execution-only resume successor only after this cold-only same-generation repair passes exact-head cold/startup checks. It must preserve all mathematical worker/source locks, record generation-15 exact recovery metrics, use generation-15 as first-precedence carry, and recheck live Stage32 heavy concurrency immediately before arming.",
     "prearm_live_concurrency_recheck_required": true,
     "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
   },
@@ -188,27 +141,13 @@
     "tertiary_predecessor_topology": "V2_ROW_WINDOW",
     "expected_tertiary_parent_artifacts": 95,
     "special_predecessor_run_id": 35501853750,
-    "special_parent_window": [
-      4,
-      0,
-      1
-    ],
-    "precedence_rule": "generation14 artifact if present; else generation13; else generation11; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows and reject any exact-result conflict"
+    "special_parent_window": [4,0,1],
+    "precedence_rule": "This generation-15 cold repair does not execute. Generation-16 will promote run 35665219375 to first-precedence carry after an explicit runkey arm."
   },
   "local_seed": {
-    "parent_window": [
-      4,
-      0,
-      1
-    ],
+    "parent_window": [4,0,1],
     "special_predecessor_run_id": 35501853750,
-    "special_predecessor_expected_rows": [
-      60,
-      61,
-      62,
-      63,
-      64
-    ],
+    "special_predecessor_expected_rows": [60,61,62,63,64],
     "certificate_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json",
     "certificate_blob_sha1": "39bec9d6a323172dcdebfb839d4b4b568f318b5f",
     "certificate_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
@@ -341,12 +280,7 @@
   "generation14_preheavy_arm_repair": {
     "scope": "COLD_OR_AUTHORIZE_ONLY_SOURCE_LOCK_REPAIR",
     "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
-    "failed_preheavy_run_ids": [
-      35576243792,
-      35576417826,
-      35576524874,
-      35576638637
-    ],
+    "failed_preheavy_run_ids": [35576243792,35576417826,35576524874,35576638637],
     "parent_matrix_started": false,
     "mathematical_failure": false,
     "main_credit": false,
@@ -420,5 +354,28 @@
     "recovery_snapshot_canonical_sha256": "748e81f3065a889f949664ce08f332d3386d699e7518f6b6d6532fe63ab03332",
     "mathematical_failure": false,
     "main_credit": false
+  },
+  "generation16_preheavy_repair": {
+    "scope": "COLD_AUTHORIZATION_SOURCE_LOCK_REPAIR",
+    "generation15_run_id": 35665219375,
+    "generation15_workflow_conclusion": "success",
+    "generation15_recovery_snapshot_artifact_id": 10712310702,
+    "generation15_recovery_snapshot_canonical_sha256": "c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2",
+    "generation15_parent_inventory_commitment_sha256": "1fc30878b6ab1da98b98894b01352ea4d335f2fd564d1624d622ec4c6ee5aaf6",
+    "generation15_validated_carry_commitment_sha256": "60be1777d272fb6d275944191cbb21e99d5af6da4d7246f361dbb69f693f2b62",
+    "generation15_complete_parent_windows": 76,
+    "generation15_partial_parent_windows": 20,
+    "generation15_missing_parent_windows": 0,
+    "generation15_validated_row_certificates": 2885,
+    "generation15_expected_row_certificates": 2967,
+    "generation15_remaining_row_certificates": 82,
+    "generation15_validated_c_shard_certificates": 6015,
+    "generation15_rejected_row_files": 0,
+    "generation15_rejected_c_shard_files": 0,
+    "new_workflow_blob_sha1": "44bd3708796fd556c8c8ac56f2ccbacce552183f",
+    "mathematical_worker_changed": false,
+    "heavy_arm_authorized": false,
+    "main_credit": false,
+    "note": "Cold-only repair. The generation remains 15 and the carry surface remains unchanged in this commit. A later generation-16 runkey-only arm may promote generation-15 run 35665219375 to primary carry after exact-head cold/startup checks and a fresh live-concurrency recheck."
   }
 }
