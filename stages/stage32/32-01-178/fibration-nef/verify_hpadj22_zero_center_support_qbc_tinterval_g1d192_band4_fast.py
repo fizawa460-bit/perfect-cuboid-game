@@ -242,6 +242,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo-root", type=Path, required=True)
     ap.add_argument("--source-root", type=Path, required=True)
+    ap.add_argument("--b-lo", type=int)
+    ap.add_argument("--b-hi", type=int)
     args = ap.parse_args()
 
     req(
@@ -276,7 +278,11 @@ def main() -> None:
 
     regression_cases = abstract_regression()
 
-    b0, b1 = old.PLANNED[q.BAND]
+    full_b0, full_b1 = old.PLANNED[q.BAND]
+    b0 = full_b0 if args.b_lo is None else int(args.b_lo)
+    b1 = full_b1 if args.b_hi is None else int(args.b_hi)
+    req(full_b0 <= b0 <= b1 <= full_b1, f"invalid band4 shard {(b0,b1)}")
+    full_band = (b0, b1) == (full_b0, full_b1)
     joint = bc.build_joint_bc_shard(old.HMAX, b0, b1)
 
     ca = [counter.component_a(d, a) for a in range(h + 1)]
@@ -464,10 +470,11 @@ def main() -> None:
                     "additional_reduction_vs_parent_qbc": str(bc_parent - bc_ref),
                 })
 
-    req(
-        current == fp.EXPECTED_CURRENT,
-        f"same-population row-band identity drift {current}!={fp.EXPECTED_CURRENT}",
-    )
+    if full_band:
+        req(
+            current == fp.EXPECTED_CURRENT,
+            f"same-population row-band identity drift {current}!={fp.EXPECTED_CURRENT}",
+        )
     req(refined <= parent_refined <= current, "aggregate refinement order drift")
     parent_reduction = current - parent_refined
     reduction = current - refined
@@ -485,6 +492,8 @@ def main() -> None:
             "d": d,
             "band_position": q.BAND,
             "b_interval": [b0, b1],
+            "full_band4_interval": [full_b0, full_b1],
+            "full_band4_execution": full_band,
         },
         "source_locks": {
             "fast_qbc_parent_blob_sha1": FAST_PARENT_BLOB,
@@ -532,6 +541,8 @@ def main() -> None:
             "x4_qbc_pairs": x4_qbc_pairs,
             "support_interval_queries": support_interval_queries,
             "strict_support_interval_states": strict_support_intervals,
+        "b_interval": [b0, b1],
+        "full_band": full_band,
             "current_limit_states": current_limit_states,
             "parent_limit_states": parent_limit_states,
             "support_refined_limit_states": refined_limit_states,
@@ -548,6 +559,7 @@ def main() -> None:
             "statistical_independence": False,
             "all_non_target_current_hpadj22_survivors_unchanged": True,
             "main_consumption_performed": False,
+            "shard_result_requires_disjoint_full-band_recomposition_before_any_full-band_claim": not full_band,
         },
         "strict_cells": bc_records,
         "firewalls": {
