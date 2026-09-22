@@ -3,6 +3,7 @@
 import argparse
 import ctypes
 import json
+import hashlib
 import os
 from pathlib import Path
 import shutil
@@ -47,6 +48,17 @@ def main():
     key = json.loads((HERE/'SUPPORT-QBC-LOCAL-WAVE-RUNKEY.json').read_text())
     assert key['armed'] and key['local_only'] and key['github_artifact_upload_bytes'] == 0
     assert 1 <= key['planned_local_concurrency'] <= 4
+    if key.get('carry_manifest'):
+        mp = HERE/key['carry_manifest']
+        assert hashlib.sha256(mp.read_bytes()).hexdigest() == key['carry_manifest_sha256']
+        manifest = json.loads(mp.read_text())
+        carried = []
+        for item in manifest['receipts']:
+            result = validate(HERE/item['path'], args.source_root)
+            assert result == item['verified']
+            carried.append((result['row_index'], result['b']))
+        assert len(carried) == len(set(carried)) == manifest['validated_carried_unit_count']
+        assert set(carried) == {tuple(u) for u in key['excluded_completed_units']}
     args.durable.mkdir(parents=True, exist_ok=True)
     # Persistent launch sentinel: even an abnormal dispatcher exit never silently reruns.
     with (args.durable/'launch.lock').open('x') as f:
@@ -89,8 +101,9 @@ def main():
         ram = available_ram()
         disk = shutil.disk_usage(args.durable).free
         evidence_bytes = sum(p.stat().st_size for p in args.durable.iterdir() if p.is_file())
-        if saving >= int(key['stop_new_dispatch_at_exact_reduction']):
-            reason = reason or 'ONE_PERCENT_EXACT_CANDIDATE_REACHED'
+        threshold = key['stop_new_dispatch_at_exact_reduction']
+        if threshold is not None and saving >= int(threshold):
+            reason = reason or 'EXACT_REDUCTION_MILESTONE_REACHED'
         if elapsed >= key['max_elapsed_hours']*3600:
             reason = reason or 'DISPATCH_TIME_BUDGET_REACHED'
         if disk < 2*1024**3 or evidence_bytes > key['projected_local_evidence_bytes']:
