@@ -49,3 +49,12 @@ worktree and durable directory preserve old source/authorization receipts.
 Everything remains zero credit pending independent hostile audit and exact
 MAIN intersection accounting. Do not add this saving to GRF04 savings.
 No push, new PR, merge, rebase, workflow or MAIN changes in this task.
+
+Launched2026-09-23 04:00:10 JST: supervisor7248; first workers12316(row22,b72)
+and9848(row177,b72). Frozen head0af98720506ebb60dc72d9f77db5103777d4f6e4;
+cold-before1ab2ea43e006eebb28482e3045c7005412b2ec41.
+Execution C:\CodexWorktrees\stage32-support-wave-g3-exec;
+durable C:\CodexWorktrees\stage32-support-wave-g3-20260923.
+All288 carry receipts validated before dispatch. Initial status RUNNING,
+stderr empty, available RAM about1.52GiB. Hourly monitor now follows this wave.
+Research key cooled again without altering the frozen execution head.
