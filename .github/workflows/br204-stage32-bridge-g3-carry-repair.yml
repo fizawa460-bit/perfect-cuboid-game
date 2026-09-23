@@ -1,11 +1,8 @@
 name: Stage32 BRIDGE BR204 expired carry repair
 
-# Lifecycle: ACTIVE_AUTO — current BR204 recovery frontier. Heavy work is one exact BC16 parent only.
+# Lifecycle: MANUAL/HISTORICAL — consumed single-parent repair. Do not re-arm; retained for execution provenance.
 on:
-  push:
-    branches: [stage32bridge-mainbatch]
-    paths:
-      - 'stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json'
+  workflow_dispatch:
 
 permissions:
   contents: read
