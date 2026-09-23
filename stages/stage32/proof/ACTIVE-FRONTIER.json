@@ -3,7 +3,7 @@
   "stage": 32,
   "base_registry": "stages/stage32/proof/CLAIM-REGISTRY.json",
   "inherits_claim_schema": "stages/stage32/proof/CLAIM-REGISTRY.schema.json",
-  "migration_scope": "post-1730 audited Q602 V3 geometric-realization exclusion authority consumption",
+  "migration_scope": "post-FULL178 hostile-audit authority sync; historical V1 goals retained in supporting_claims",
   "migration_base_main_sha": "56ce8213ffe90635aaa499c46639971c952724f1",
   "status_contract": {
     "AUDITED_TRUE": "The exact registered statement has hostile-audit PASS and may supply audited credit only within PROVES/DOES_NOT_PROVE.",
@@ -314,6 +314,118 @@
         "review_id": 5149462285,
         "exact_head": "6487de765b0d35e05d81018aeaff902af9b7d21a"
       }
+    },
+    {
+      "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+      "kind": "mathematical_claim",
+      "statement": "The exact FULL178 residual unibranch numerical-orbit census over the frozen Stage32 d<=176/d<=192 windows is complete, including the required numerical Picard leaf checks, with FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true.",
+      "scope_key": "S32.MAIN.CLOSURE",
+      "scope": {
+        "population": "FULL178 residual unibranch production population",
+        "windows": [
+          "d<=176",
+          "d<=192"
+        ],
+        "target_flag": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true"
+      },
+      "proves": [
+        "The Stage32 32-01 numerical census component is complete once this claim is AUDITED.",
+        "The finite FULL178 numerical population has no unprocessed numerical leaf once this claim is AUDITED."
+      ],
+      "does_not_prove": [
+        "FULL_178_ROW_SWEEP_AUTHORIZED=true is not completion.",
+        "Exact terminal-family indexing is not numerical Picard completion.",
+        "It does not discharge effectivity or the multibranch ledger.",
+        "It does not prove Stage32 closure."
+      ],
+      "requires": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "source_locks": [
+        {
+          "path": "stages/stage32/residual-32-01-production/state.json",
+          "blob_sha1": "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
+        },
+        {
+          "path": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
+          "blob_sha1": "336d6680af220a1eacce9b24d08a96ace12c4848"
+        }
+      ],
+      "replay_verifier": null,
+      "authority_status": "DECLARED_GOAL",
+      "audit_receipt": {
+        "status": "NOT_AUDITED_GOAL",
+        "review_id": null,
+        "exact_head": null
+      },
+      "frontier_status": "ACTIVE_INCOMPLETE",
+      "blockers": [
+        "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS is currently false.",
+        "numerical_picard_leaf_checks_complete is currently false.",
+        "The exact indexed terminal family is finite but current brute-force scale is operationally infeasible; exact compression/pruning work remains."
+      ],
+      "lane_links": [
+        {
+          "lane": "MAIN",
+          "role": "OWNER"
+        },
+        {
+          "lane": "EX5",
+          "role": "ATTACKS"
+        }
+      ],
+      "claim_core_sha256": "e2967c770724e8473aa39bae06b45bc574fe7554feed1a928b44373cf107e4e6"
+    },
+    {
+      "claim_id": "S32.GOAL.STAGE32_CLOSURE.V1",
+      "kind": "mathematical_claim",
+      "statement": "Stage32 reaches its own audited closure only after the exact numerical census, effectivity/carrier disposal, multibranch ledger, integrated low-genus synthesis, and final hostile-audit release are all satisfied, yielding STAGE32_CLOSED=true without asserting Perfect Cuboid existence or nonexistence.",
+      "scope_key": "S32.MAIN.CLOSURE",
+      "scope": {
+        "stage": 32,
+        "target": "STAGE32_CLOSED=true",
+        "endpoint_claim_excluded": true
+      },
+      "proves": [
+        "This is the current stable Stage32 closure target; once replaced/satisfied by the audited final proof chain, Stage32 may set STAGE32_CLOSED=true."
+      ],
+      "does_not_prove": [
+        "This DECLARED_GOAL does not itself close Stage32.",
+        "It does not prove Perfect Cuboid existence.",
+        "It does not prove Perfect Cuboid nonexistence."
+      ],
+      "requires": [
+        "S32.FULL178.NUMERICAL_CENSUS.V1"
+      ],
+      "source_locks": [
+        {
+          "path": "stages/stage32/MAIN-STATE.json",
+          "blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d"
+        },
+        {
+          "path": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
+          "blob_sha1": "336d6680af220a1eacce9b24d08a96ace12c4848"
+        }
+      ],
+      "replay_verifier": null,
+      "authority_status": "DECLARED_GOAL",
+      "audit_receipt": {
+        "status": "NOT_AUDITED_GOAL",
+        "review_id": null,
+        "exact_head": null
+      },
+      "frontier_status": "BLOCKED_OPEN_GOAL",
+      "blockers": [
+        "FULL178 numerical census is incomplete.",
+        "The reserved audited S32.PROOF.* FINAL-CHECK milestone chain is not yet present."
+      ],
+      "lane_links": [
+        {
+          "lane": "MAIN",
+          "role": "OWNER"
+        }
+      ],
+      "claim_core_sha256": "ed63c6bcd3db810c323293d6292787a28dd3902185e77ab545367bc5e37ceaf2"
     }
   ],
   "claims": [
@@ -530,9 +642,9 @@
       ]
     },
     {
-      "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V1",
+      "claim_id": "S32.FULL178.NUMERICAL_CENSUS.V2",
       "kind": "mathematical_claim",
-      "statement": "The exact FULL178 residual unibranch numerical-orbit census over the frozen Stage32 d<=176/d<=192 windows is complete, including the required numerical Picard leaf checks, with FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true.",
+      "statement": "The exact FULL178 residual unibranch numerical-orbit census over the frozen Stage32 d<=176/d<=192 windows is complete through the hostile-audited GRF04 x HPADJ22 same-population exact aggregate, with FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true.",
       "scope_key": "S32.MAIN.CLOSURE",
       "scope": {
         "population": "FULL178 residual unibranch production population",
@@ -540,17 +652,18 @@
           "d<=176",
           "d<=192"
         ],
-        "target_flag": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true"
+        "target_flag": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true",
+        "audited_joint_upper_bound": "128645575147764659235"
       },
       "proves": [
-        "The Stage32 32-01 numerical census component is complete once this claim is AUDITED.",
-        "The finite FULL178 numerical population has no unprocessed numerical leaf once this claim is AUDITED."
+        "The Stage32 32-01 numerical census component is complete.",
+        "The finite FULL178 numerical population has no unprocessed numerical-census leaf under the audited same-population GRF04 x HPADJ22 aggregate."
       ],
       "does_not_prove": [
-        "FULL_178_ROW_SWEEP_AUTHORIZED=true is not completion.",
-        "Exact terminal-family indexing is not numerical Picard completion.",
-        "It does not discharge effectivity or the multibranch ledger.",
-        "It does not prove Stage32 closure."
+        "It does not discharge 32-02 effectivity/carrier disposal.",
+        "It does not discharge the 32-03 multibranch ledger.",
+        "It does not prove Stage32 closure.",
+        "It does not prove Perfect Cuboid existence or nonexistence."
       ],
       "requires": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
@@ -558,26 +671,28 @@
       "source_locks": [
         {
           "path": "stages/stage32/residual-32-01-production/state.json",
-          "blob_sha1": "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
+          "blob_sha1": "4660a1ba3bc7b96237c0723cf48a47da7185fead"
+        },
+        {
+          "path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V47-FULL178-AUTHORITY-SYNC.json",
+          "blob_sha1": "e05c27a247d61cfa58c500c011f4e71ccaefd655",
+          "canonical_sha256": "40109b916cf8403205691d7cc05635ce18b61dacfc8577e64da86105b1045094"
         },
         {
           "path": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
           "blob_sha1": "336d6680af220a1eacce9b24d08a96ace12c4848"
         }
       ],
-      "replay_verifier": null,
-      "authority_status": "DECLARED_GOAL",
+      "replay_verifier": "stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py",
+      "authority_status": "AUDITED",
       "audit_receipt": {
-        "status": "NOT_AUDITED_GOAL",
-        "review_id": null,
-        "exact_head": null
+        "status": "PASS",
+        "pr": 1826,
+        "review_id": 5287562192,
+        "exact_head": "620b90d1ca1f5316d55b88b2620f78eeba1949c7"
       },
-      "frontier_status": "ACTIVE_INCOMPLETE",
-      "blockers": [
-        "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS is currently false.",
-        "numerical_picard_leaf_checks_complete is currently false.",
-        "The exact indexed terminal family is finite but current brute-force scale is operationally infeasible; exact compression/pruning work remains."
-      ],
+      "frontier_status": "AUDITED_TRUE",
+      "blockers": [],
       "lane_links": [
         {
           "lane": "MAIN",
@@ -588,33 +703,36 @@
           "role": "ATTACKS"
         }
       ],
-      "claim_core_sha256": "e2967c770724e8473aa39bae06b45bc574fe7554feed1a928b44373cf107e4e6"
+      "claim_core_sha256": "a0e7b0e9f86d8257f2566ec40f640925b27218700bf92c1ff9fce6f79a910182"
     },
     {
-      "claim_id": "S32.GOAL.STAGE32_CLOSURE.V1",
+      "claim_id": "S32.GOAL.STAGE32_CLOSURE.V2",
       "kind": "mathematical_claim",
-      "statement": "Stage32 reaches its own audited closure only after the exact numerical census, effectivity/carrier disposal, multibranch ledger, integrated low-genus synthesis, and final hostile-audit release are all satisfied, yielding STAGE32_CLOSED=true without asserting Perfect Cuboid existence or nonexistence.",
+      "statement": "Stage32 reaches its own audited closure only after the audited numerical census, effectivity/carrier disposal, multibranch ledger, integrated low-genus synthesis, and final hostile-audit release are all satisfied, yielding STAGE32_CLOSED=true without asserting Perfect Cuboid existence or nonexistence.",
       "scope_key": "S32.MAIN.CLOSURE",
       "scope": {
         "stage": 32,
         "target": "STAGE32_CLOSED=true",
-        "endpoint_claim_excluded": true
+        "endpoint_claim_excluded": true,
+        "numerical_predecessor": "S32.FULL178.NUMERICAL_CENSUS.V2"
       },
       "proves": [
-        "This is the current stable Stage32 closure target; once replaced/satisfied by the audited final proof chain, Stage32 may set STAGE32_CLOSED=true."
+        "This is the current Stage32 closure target after audited completion of the numerical-census predecessor."
       ],
       "does_not_prove": [
         "This DECLARED_GOAL does not itself close Stage32.",
+        "It does not discharge effectivity or multibranch obligations.",
         "It does not prove Perfect Cuboid existence.",
         "It does not prove Perfect Cuboid nonexistence."
       ],
       "requires": [
-        "S32.FULL178.NUMERICAL_CENSUS.V1"
+        "S32.FULL178.NUMERICAL_CENSUS.V2"
       ],
       "source_locks": [
         {
-          "path": "stages/stage32/MAIN-STATE.json",
-          "blob_sha1": "05e2942b4c893044688f16926b5e9837e59d8e9d"
+          "path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V47-FULL178-AUTHORITY-SYNC.json",
+          "blob_sha1": "e05c27a247d61cfa58c500c011f4e71ccaefd655",
+          "canonical_sha256": "40109b916cf8403205691d7cc05635ce18b61dacfc8577e64da86105b1045094"
         },
         {
           "path": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
@@ -630,8 +748,9 @@
       },
       "frontier_status": "BLOCKED_OPEN_GOAL",
       "blockers": [
-        "FULL178 numerical census is incomplete.",
-        "The reserved audited S32.PROOF.* FINAL-CHECK milestone chain is not yet present."
+        "32-02 effectivity/carrier disposal is incomplete.",
+        "32-03 multibranch ledger is incomplete.",
+        "The reserved integrated synthesis / final hostile-audit release chain is incomplete."
       ],
       "lane_links": [
         {
@@ -639,7 +758,7 @@
           "role": "OWNER"
         }
       ],
-      "claim_core_sha256": "ed63c6bcd3db810c323293d6292787a28dd3902185e77ab545367bc5e37ceaf2"
+      "claim_core_sha256": "1b8018386ca46c40fd0ce8996d806a55c66d8c743b6386d54bb46c67d83393b1"
     }
   ]
 }

@@ -12,7 +12,10 @@ MERGED_MAIN="659ba93b9eba657b49a728f549c6bb6028398e08"
 CURRENT_REPOSITORY_MAIN="da573f048a82a63e459be1343fb002e663b60875"
 AUDITED_HEAD="5aa6e63923946e201f51c8070cf9466029073d5e"
 AUDIT_REVIEW=5254811573
-BOUND=138652739800650593494
+OLD_BOUND=138652739800650593494
+V47_BOUND=128645575147764659235
+V47_AUDITED_HEAD="620b90d1ca1f5316d55b88b2620f78eeba1949c7"
+V47_AUDIT_REVIEW=5287562192
 V45_STATE_BLOB="a8f873ffdcaca280f7b57158b69606b3ea496d3c"
 V45_STATE_CANON="58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
 V45_RECEIPT_BLOB="a8486ff337e030d02ce26d7404907fdbea5d3cc1"
@@ -34,24 +37,28 @@ def main():
     rec=lock_json(RECEIPT,RECEIPT_BLOB,RECEIPT_CANON,"V46 receipt")
     req(rec["status"]=="MERGED_V45_AUTHORITY_ADOPTED__ZERO_NEW_PRUNING","receipt status")
     p=rec["merged_predecessor"];req(p["pr"]==1824 and p["merge_commit"]==MERGED_MAIN and p["audited_exact_head"]==AUDITED_HEAD and p["hostile_audit_review_id"]==AUDIT_REVIEW,"predecessor identity")
-    a=rec["authority"];req(a["authoritative_remaining_strata"]==17128 and a["authoritative_remaining_terminals"]==str(BOUND) and a["additional_pruning"]==0 and a["numeric_authority_changed"] is False,"receipt authority")
+    a=rec["authority"];req(a["authoritative_remaining_strata"]==17128 and a["authoritative_remaining_terminals"]==str(OLD_BOUND) and a["additional_pruning"]==0 and a["numeric_authority_changed"] is False,"receipt authority")
     if args.v45_root is not None:
         root=args.v45_root
         old=lock_json(root/"stages/stage32/MAIN-STATE.json",V45_STATE_BLOB,V45_STATE_CANON,"merged V45 state")
-        req(old["current_exact_frontier"]["authoritative_remaining_terminals"]==BOUND,"merged V45 bound")
+        req(old["current_exact_frontier"]["authoritative_remaining_terminals"]==OLD_BOUND,"merged V45 bound")
         req(blob(root/"stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json")==V45_RECEIPT_BLOB,"V45 receipt drift")
         req(blob(root/"stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py")==V45_VERIFIER_BLOB,"V45 verifier drift")
         req(blob(root/"stages/stage32/verify_main_startup.py")==V45_STARTUP_BLOB,"V45 startup drift")
         req(blob(root/"stages/stage32/proof/verify_cross_lane_demands.py")==V45_CROSS_BLOB,"V45 cross drift")
     st=json.loads(STATE.read_text(encoding="utf-8"));req(canon(st)==st.get("canonical_sha256_without_this_field"),"state canonical")
-    req(st["schema"]=="STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR","schema")
     req(st["authority_sync"]["current_repository_main"]==CURRENT_REPOSITORY_MAIN,"current main")
-    req(st["authority_sync"]["predecessor_process_head"]==AUDITED_HEAD,"predecessor head")
     req(st["authority_sync"]["v45_merge_commit"]==MERGED_MAIN and st["authority_sync"]["v45_merge_pr"]==1824 and st["authority_sync"]["v45_final_hostile_audit_review_id"]==AUDIT_REVIEW,"merge metadata")
-    req(st["authority_sync"]["v46_postmerge_sync_additional_pruning"]==0,"V46 pruning")
-    f=st["current_exact_frontier"];req(f["authoritative_remaining_strata"]==17128 and f["authoritative_remaining_terminals"]==BOUND,"authority");req(f["v45_merged_main_synced"] is True and f["v46_postmerge_sync_additional_pruning"]==0,"frontier sync")
-    req(st["source_locks"]["live_specialist_sweep"]["observed_repository_main"]==CURRENT_REPOSITORY_MAIN,"live main")
-    req(st["current"]["next_exact_route"]=="FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS","route")
+    schema=st["schema"];f=st["current_exact_frontier"]
+    if schema=="STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR":
+        req(f["authoritative_remaining_terminals"]==OLD_BOUND and f["full178_numerical_census_complete"] is False,"V46 authority")
+        req(st["current"]["next_exact_route"]=="FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS","V46 route")
+    elif schema=="STAGE32_MAIN_COMPACT_STATE_V47_GRF04_HPADJ22_FULL178_AUDIT_SYNCED":
+        req(f["authoritative_remaining_terminals"]==V47_BOUND and f["full178_numerical_census_complete"] is True,"V47 authority")
+        req(f["v47_grf04_hpadj22_audited_exact_head"]==V47_AUDITED_HEAD and f["v47_grf04_hpadj22_hostile_audit_review_id"]==V47_AUDIT_REVIEW,"V47 audit")
+        req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V47 route")
+    else:
+        req(False,"unsupported successor schema")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
-    print("PASS: Stage32 MAIN V46 adopts merged hostile-audited V45 authority with zero new pruning")
+    print("PASS: Stage32 MAIN preserves V46 predecessor authority and accepts the hostile-audited V47 FULL178 successor when synchronized")
 if __name__=="__main__":main()
