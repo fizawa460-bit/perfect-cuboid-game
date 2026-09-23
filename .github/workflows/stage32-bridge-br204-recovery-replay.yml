@@ -1,6 +1,6 @@
 name: Stage32 BRIDGE BR204 post-cancellation recovery replay
 
-# Lifecycle: ACTIVE_AUTO — current BR204 post-cancellation/carry-repair audit gate.
+# Lifecycle: ACTIVE_AUTO — current BR204 post-replacement audit gate.
 on:
   push:
     branches: [stage32bridge-mainbatch]
@@ -13,6 +13,8 @@ on:
       - '.github/workflows/br204-stage32-bridge-g3-carry-repair.yml'
       - 'stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json'
       - 'stages/stage32/generalization-bridge/STATE.json'
+      - 'stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json'
+      - 'stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json'
       - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
       - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - '.github/workflows/br204-stage32-bridge-recovery-g3.yml'
@@ -36,13 +38,15 @@ env:
   G3_ARM_RUNKEY_BLOB: cc6aa298754e12a9a806ccd0a4e245fd6ca29e99
   REPAIR_TARGET_BLOB: 73bf49fb82ba0256fe870e235cfbde7ee036cba0
   REPAIR_RUNNER_BLOB: fff4cf2b0135dfd63c45f2233613213b80547eb9
-  REPAIR_WORKFLOW_BLOB: 1698bd1fc276872c0e947c5823f54a6fb999de33
-  REPAIR_RUNKEY_BLOB: ef61320a9997c363ebbdf7e6b069d17fed893ac3
-  STATE_BLOB: b66898c90594941d286447ede2c9108b4fde074c
+  REPAIR_WORKFLOW_BLOB: 04349c3acb0c923dc4694a31fc2e7454c330de66
+  REPAIR_RUNKEY_BLOB: 4a76a9b365399be27784194dea0f65ce7937f681
+  STATE_BLOB: ee2d45adcb92b492657d3a6a0e18c7aa217ccc82
+  REPLACEMENT_FREEZE_BLOB: 7f3d8b3c23cce6185d474de4188db0fc69b4e2fd
+  POSTFREEZE_BOUNDARY_BLOB: 5ebb9014a3c5f18d5c4c2cc29e28afc18ecd6726
   G1_MANUAL_BLOB: f8aef3a5abf0119d78c1a80a784027bc5fa5e3d9
   G3_MANUAL_BLOB: 4359bb7678b0a90fa184f7d41584649d0229ca38
   OLD_REPLAY_MANUAL_BLOB: eea43a14cbbd1d37378122e06f6bec1834a4a3d9
-  LIFECYCLE_SUPPLEMENT_BLOB: 4db10552ffe3d96848ce492e9e747752e21507a7
+  LIFECYCLE_SUPPLEMENT_BLOB: bfcebc64bbd00888bc87bf68ec7304b0eace793e
   SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
   BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
   GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
@@ -71,7 +75,7 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
-          assert s['active_leaf']=='BR204_G3_EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_AUDIT'
+          assert s['active_leaf']=='BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT'
           c=s['generation3_execution_checkpoint']
           assert (c['complete_target_count'],c['partial_target_count'],c['missing_target_count'],c['reusable_g3_completed_subunit_count'])==(0,1,68,0)
           assert c['expired_generation2_carry']['reusable'] is False
@@ -103,13 +107,15 @@ jobs:
           /tmp/k8 > /tmp/k8.json
           g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp -o /tmp/mu-eq
           /tmp/mu-eq > /tmp/mu-eq.json
-      - name: Verify cold single-parent repair source locks and firewalls
+      - name: Verify completed replacement source locks and firewalls
         run: |
           set -euo pipefail
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json)" = "$REPAIR_TARGET_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_single_bc16_parent_via_bc64.py)" = "$REPAIR_RUNNER_BLOB"
           test "$(git hash-object .github/workflows/br204-stage32-bridge-g3-carry-repair.yml)" = "$REPAIR_WORKFLOW_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json)" = "$REPAIR_RUNKEY_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json)" = "$REPLACEMENT_FREEZE_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json)" = "$POSTFREEZE_BOUNDARY_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp)" = "$SHARD_WORKER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$BC_COMBINER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py)" = "$GROUP_COMBINER_BLOB"
@@ -117,12 +123,19 @@ jobs:
           python - <<'PY'
           import json
           from pathlib import Path
-          t=json.loads(Path('stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json').read_text()); rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json').read_text())
-          assert t['target']['exact_child_indices']==[0,16,32,48] and t['expired_source']['exact_bytes_available'] is False and t['expired_source']['reusable'] is False
-          assert rk['generation']==0 and rk['armed'] is False and rk['execution']['target']=={'b':2,'d':148,'parent_bc16_index':0}
-          assert rk['recovery_policy']['broader_generation3_or_generation4_wave_forbidden'] is True and rk['recovery_policy']['only_parent_bc16_index0_recomputed'] is True
-          assert rk['arm_contract']['audited_doorstep_head'] is None and rk['arm_contract']['audited_doorstep_review_id'] is None
-          assert all(v is False for v in rk['credit'].values())
+          t=json.loads(Path('stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json').read_text())
+          rk=json.loads(Path('stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json').read_text())
+          f=json.loads(Path('stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json').read_text())
+          b=json.loads(Path('stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json').read_text())
+          assert t['target']['exact_child_indices']==[0,16,32,48]
+          assert rk['generation']==1 and rk['armed'] is True and rk['execution']['target']=={'b':2,'d':148,'parent_bc16_index':0}
+          assert rk['arm_contract']['audited_doorstep_head']=='53fbcf6ce756324862435b5158d00e9e29e33a64'
+          assert rk['arm_contract']['audited_doorstep_review_id']==5264121071
+          assert f['source_execution']['workflow_run_id']==35574528620 and f['result']['complete'] is True
+          assert f['result']['parent_payload']['gzip_sha256']=='d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973'
+          assert b['reconciliation']['generation3_completed_target_credit_after_repair']==0
+          assert b['reconciliation']['pre_repair_complete_targets']==0 and b['reconciliation']['pre_repair_zero_subunit_partial_targets']==1 and b['reconciliation']['pre_repair_missing_targets']==68
+          assert all(v is False for v in rk['credit'].values()) and all(v is False for v in f['credit'].values()) and all(v is False for v in b['credit'].values())
           PY
       - name: Reprove BC partition equivalences
         run: |
