@@ -34,6 +34,10 @@ def main():
     s = p["support_qbc_producer"]
     c = p["intersection_contract"]
 
+    # The V47 files may be supplied from a sibling exact checkout because PR1821
+    # intentionally does not merge/rebase MAIN.  Local copies, when present, must
+    # match the frozen identities; absence is not treated as mathematical replay.
+    req(V47_SYNC.is_file(), "V47 retained sync not materialized; supply the frozen V47 exact checkout before verification")
     req(blob(V47_SYNC) == v["retained_sync_blob_sha1"], "V47 retained sync blob drift")
     vo = json.loads(V47_SYNC.read_text())
     req(canon(vo) == v["retained_sync_canonical_sha256"] == vo["canonical_sha256_without_this_field"], "V47 retained sync canonical drift")
