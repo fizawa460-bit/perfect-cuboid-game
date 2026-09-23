@@ -161,7 +161,7 @@ jobs:
       - name: Verify V47 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "65e97bcd78faaca0e0e7c6d7918f96668222e43b"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "403a32b1fb941503189447e877863e656ac8a326"
           test "$(git hash-object stages/stage32/verify_main_startup.py)" = "0b2b6012752079ab46ebf4e9a2032eaa8017a496"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
@@ -203,7 +203,7 @@ jobs:
           test "$(git hash-object stages/stage32/residual-32-01-production/state.json)" = "4660a1ba3bc7b96237c0723cf48a47da7185fead"
           test "$(git hash-object stages/stage32/FINAL-CHECK.json)" = "761a775989615a28f57054d1794c273eb2ed0c59"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V47-FULL178-AUTHORITY-SYNC.json)" = "e05c27a247d61cfa58c500c011f4e71ccaefd655"
-          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py)" = "0cb02491e96f9c038d60f6a1c1c02dcf314e2c65"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py)" = "6856b8d6a1e32a1287915d9043c5ccc8fedbb27a"
           test "$(git hash-object stages/stage32/proof/verify_stage32_active_frontier.py)" = "1d31b2ff866e84bca1514ffb1ce5d1c347e37f08"
           python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "68108dfb110c4ea1d9dc0d74564a431bbbffbbde"
