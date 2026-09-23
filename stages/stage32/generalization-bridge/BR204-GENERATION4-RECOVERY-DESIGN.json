@@ -1,0 +1,85 @@
+{
+  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V1",
+  "status": "COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT",
+  "audited_parent": {
+    "exact_head": "23150d71c9242efd7a5f46ab6b5491589cd5934b",
+    "hostile_audit_review_id": 5291390788,
+    "verdict": "PASS"
+  },
+  "predecessor": {
+    "generation3_checkpoint": "stages/stage32/generalization-bridge/BR204-GENERATION3-CANCELLATION-CHECKPOINT.json",
+    "generation3_run_id": 35473398160,
+    "complete_targets": 0,
+    "zero_subunit_partial_targets": 1,
+    "missing_targets": 68,
+    "reusable_generation3_completed_subunits": 0
+  },
+  "restored_predecessor_carry": {
+    "b": 2,
+    "d": 148,
+    "parent_bc16_index": 0,
+    "exact_child64_indices": [
+      0,
+      16,
+      32,
+      48
+    ],
+    "replacement_run_id": 35574528620,
+    "artifact_id": 10628120960,
+    "artifact_zip_digest": "sha256:dd76c0d102af75b6313c485a264ee3b5fdd7734aec940c97d88c185a8f590cee",
+    "parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
+    "source_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
+    "rule": "Carry this exact predecessor parent into b=2,d=148. Do not recompute parent BC16#0."
+  },
+  "recovery_design": {
+    "target_population": "the same 69 generation3 target identities; schedule only the 68 missing targets plus b=3,d=148 because its frozen partial contains zero reusable completed mathematical subunits",
+    "target_count_to_finish": 69,
+    "completed_target_carry_count": 0,
+    "modes": [
+      {
+        "class": "36 former retention-replay targets",
+        "design": "Do not repeat the generation2 flat16 artifact topology that exceeded the 900000-byte recovery-slot cap. Partition execution/evidence below the target before any heavy arm; persist independently verifiable bounded child certificates and aggregate only after exact coverage verification."
+      },
+      {
+        "class": "33 d=148 hierarchical targets",
+        "design": "Use BC64 children grouped into exact BC16 parents. For b=2,d=148 inject the restored BC16#0 predecessor payload and schedule only parents 1..15. For all other d=148 targets schedule only missing exact children/parents; the b=3,d=148 cancelled partial contributes no completed subunit."
+      }
+    ],
+    "exactness": [
+      "Every target retains the same mathematical worker/population semantics as audited BR204.",
+      "BC16 parent p equals the exact disjoint union of BC64 children p,p+16,p+32,p+48.",
+      "No target completion is credited until exact child/parent coverage is verified with no gaps or overlaps.",
+      "Artifact retrieval must be paginated or use a deterministic compact carry manifest when expected artifact count can reach 100."
+    ],
+    "durability": [
+      "Use resume-first immutable child units.",
+      "Upload only validated completed subunits on ordinary interruption/cancellation.",
+      "Keep each persisted recovery object below its audited cap; measure representative payload before scale-out.",
+      "Do not depend on the replacement Actions artifact surviving past its retention window without first consuming it into the next durable carry chain."
+    ],
+    "resource_preflight": {
+      "repository_storage_budget_mb": 500,
+      "stage_heavy_concurrency_ceiling": 18,
+      "proposed_max_parallel_upper_bound": 12,
+      "status": "UNMEASURED__MUST_BE_MEASURED_AND_AUDITED_BEFORE_ARM"
+    }
+  },
+  "gates": {
+    "workflow_implemented": false,
+    "runkey_created": false,
+    "heavy_compute_armed": false,
+    "heavy_compute_authorized": false,
+    "next_required": "Implement a cold resume-first G4 execution surface and verifier, source-lock this design and restored carry, measure storage/concurrency, freeze it, then obtain a distinct hostile audit before any arm."
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
