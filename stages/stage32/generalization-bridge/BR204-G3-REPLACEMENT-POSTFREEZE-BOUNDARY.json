@@ -1,0 +1,65 @@
+{
+  "schema": "STAGE32_BR204_G3_REPLACEMENT_POSTFREEZE_BOUNDARY_V1",
+  "status": "FROZEN_AUDIT_REQUIRED_ZERO_CREDIT",
+  "date": "2026-09-23",
+  "parent_replacement_freeze": {
+    "path": "stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json",
+    "source_execution_head": "84a7c615f874a33b22f77a34d99586aa3a845bf7",
+    "workflow_run_id": 35574528620,
+    "artifact_id": 10628120960,
+    "target": "b=2,d=148,BC16 parent0",
+    "child_indices": [
+      0,
+      16,
+      32,
+      48
+    ],
+    "parent_gzip_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
+    "complete": true
+  },
+  "branch_state": {
+    "predecessor_freeze_commit": "028b2b35736ed46b7844e359e51ad61582789a77",
+    "research_inventory_commit": "34e0dd409dccaba8f8ded2d821c8db9cedf5a8f2",
+    "note": "The research-inventory commit adds no execution semantics or credit. This boundary freezes the actual post-repair obligation before any broader recovery."
+  },
+  "reconciliation": {
+    "cancelled_generation3_run": 35473398160,
+    "pre_repair_complete_targets": 0,
+    "pre_repair_zero_subunit_partial_targets": 1,
+    "pre_repair_missing_targets": 68,
+    "repaired_carry_is_predecessor_input_not_generation3_target_completion": true,
+    "generation3_completed_target_credit_after_repair": 0,
+    "rule": "The replacement parent restores one required predecessor carry only. It does not convert any of the 69 generation3 targets to complete and does not authorize their recovery."
+  },
+  "next_obligation": {
+    "id": "BR204_G3_REPLACEMENT_FREEZE_HOSTILE_AUDIT",
+    "action": "Run a fresh stage32bridge-audit on the unchanged post-freeze boundary before any broader BR204 recovery.",
+    "on_pass": [
+      "Design the next recovery generation from the frozen 0-complete/1-zero-subunit-partial/68-missing generation3 frontier plus the restored predecessor carry.",
+      "Preserve resume-first semantics and validated replacement carry; do not recompute the repaired parent blindly.",
+      "Require a distinct audited/runkey-gated authorization before heavy recovery."
+    ],
+    "on_fail": "Repair only the audit blocker and re-audit; do not arm heavy recovery."
+  },
+  "research_followup": {
+    "cross_lane_scan": "stages/stage32/generalization-bridge/CROSS-LANE-GENERALIZATION-SCAN-20260923.json",
+    "priority_after_recovery_boundary_is_audited": [
+      "BRX1_RESIDUE_CLASS_CONVEX_INTERVAL_CAP",
+      "BRX3_DOMAIN_WIDE_INACTIVE_CAP",
+      "BRX2_ZERO_CENTER_SIMPLEX_MIN_IF_NEEDED",
+      "BRX4_BOUNDED_FARKAS_PREFLIGHT_IF_NEEDED"
+    ],
+    "rule": "These are light same-population research candidates only and cannot bypass the BR204 recovery audit gate."
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false,
+    "broader_br204_recovery": false
+  }
+}
