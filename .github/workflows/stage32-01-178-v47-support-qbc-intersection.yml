@@ -30,7 +30,7 @@ jobs:
     needs: prepare
     strategy:
       fail-fast: false
-      max-parallel: 18
+      max-parallel: 20
       matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     runs-on: ubuntu-latest
     timeout-minutes: 300
@@ -48,7 +48,7 @@ jobs:
           p=Path("stages/stage32/32-01-178/fibration-nef"); k=json.load(open(p/"V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json"))
           def b(x):
             z=x.read_bytes(); return hashlib.sha1(b"blob "+str(len(z)).encode()+b"\0"+z).hexdigest()
-          assert k["armed"] and k["expected_units"]==384 and k["execution_policy"]["planned_concurrency"]==18
+          assert k["armed"] and k["expected_units"]==384 and k["execution_policy"]["planned_concurrency"]==20
           assert b(p/"run_v47_support_qbc_intersection_unit.py")==k["unit_consumer_blob_sha1"]
           assert b(p/"aggregate_v47_support_qbc_intersection.py")==k["aggregator_blob_sha1"]
           assert b(p/"local-support-qbc/GENERATION4-COMPLETE.json")==k["coordinate_manifest_blob_sha1"]
@@ -74,6 +74,7 @@ jobs:
             python stages/stage32/32-01-178/fibration-nef/run_v47_support_qbc_intersection_unit.py --repo-root . --source-root /tmp/s32h22src --row-index "$1" --b "$2" --output "/tmp/out/row$(printf '%03d' "$1")-b$(printf '%03d' "$2").json"
           done
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: v47-support-qbc-pair-${{ matrix.r1 }}-${{ matrix.b1 }}-${{ matrix.r2 }}-${{ matrix.b2 }}
           path: /tmp/out/*.json
