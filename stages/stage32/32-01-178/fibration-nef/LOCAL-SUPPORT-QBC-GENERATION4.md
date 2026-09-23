@@ -66,3 +66,30 @@ All336 carried receipts validated before dispatch; status RUNNING,
 stderr empty, free RAM1533136896 bytes. Existing hourly monitor retargeted
 to generation4 following official scheduled-task guidance (OpenAI Docs).
 Research key cooled without changing the immutable execution key.
+
+## Completion retained for explicitly authorized PR1821 push
+
+Generation4 finished COMPLETE,48/48, failed0, unknown0, elapsed8457.328s.
+Supervisor and all generation4 Python processes were absent on inspection.
+Exact new saving296744208060922686. All384 receipts in the full union PASS
+canonical/source/authorization/coverage/integer-sum validation; total
+3349067456107122810, or2.415435469160060653908460501% of fixed startup bound.
+This is not independent hostile-audit acceptance or incremental MAIN credit.
+
+Generation4 receipts retained byte-for-byte in local-support-qbc/generation4.
+Full384-unit index: local-support-qbc/GENERATION4-COMPLETE.json; canonical
+SHA256 without its digest field:
+3f1ebc76ef519949ef9d5c497a363f216159387d6857c081d7c1867319e3b242.
+Reproduction/retention script: retain_support_qbc_generation4.py (one-shot).
+All receipts retain per-unit canonical hashes, source/execution identities,
+complete c accounting, wall/CPU/RSS measurements and exact aggregates.
+Old evidence and source locks have not been overwritten.
+
+User explicitly requested push of completed local results to existing PR1821.
+Only fibration-nef local-support evidence, execution utilities and cold local
+runkey differ from remote head0a1fd3c451be88cf9a406840028ea0ecd29414a7.
+No workflow or MAIN surface change; no merge/rebase/new PR. Research runkey
+remains generation4 armed=false; no successor launched by this retention.
+Future continuation must consume this384-entry manifest, exclude all completed
+coordinates, and never rerun retention into the existing generation4 folder.
+Hourly local continuation authorization remains separate from this push.
