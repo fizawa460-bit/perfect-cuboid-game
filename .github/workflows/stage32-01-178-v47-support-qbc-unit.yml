@@ -1,0 +1,69 @@
+name: Stage32 32-01-178 V47 support-qBC exact unit
+
+# lifecycle: MANUAL
+# Reusable one-coordinate checkpoint worker. No automatic trigger.
+on:
+  workflow_call:
+    inputs:
+      row:
+        required: true
+        type: number
+      b:
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+jobs:
+  exact-unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Verify armed execution authority
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("stages/stage32/32-01-178/fibration-nef")
+          k=json.load(open(p/"V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json"))
+          assert k["armed"] is True and k["expected_units"] == 384
+          def blob(x):
+              b=x.read_bytes()
+              return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+          assert blob(p/"run_v47_support_qbc_intersection_unit.py") == k["unit_consumer_blob_sha1"]
+          assert blob(p/"aggregate_v47_support_qbc_intersection.py") == k["aggregator_blob_sha1"]
+          assert blob(p/"local-support-qbc/GENERATION4-COMPLETE.json") == k["coordinate_manifest_blob_sha1"]
+          print("EXECUTION_AUTHORITY=PASS")
+          PY
+      - name: Materialize frozen producer sources
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          rm -rf /tmp/s32h22src /tmp/s32v47src
+          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          mkdir -p stages/stage32/management/grf04-hpadj22-joint
+          cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
+      - name: Execute one exact coordinate
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/v47-support-qbc-intersection
+          python stages/stage32/32-01-178/fibration-nef/run_v47_support_qbc_intersection_unit.py \
+            --repo-root . --source-root /tmp/s32h22src \
+            --row-index ${{ inputs.row }} --b ${{ inputs.b }} \
+            --output /tmp/v47-support-qbc-intersection/row$(printf '%03d' ${{ inputs.row }})-b$(printf '%03d' ${{ inputs.b }}).json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v47-support-qbc-row${{ inputs.row }}-b${{ inputs.b }}
+          path: /tmp/v47-support-qbc-intersection/*.json
+          if-no-files-found: error
+          retention-days: 14
