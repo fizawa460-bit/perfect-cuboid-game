@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V15_G3_CANCELLED_CARRY_REPAIR_COLD",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V16_G3_REPLACEMENT_COMPLETE_AUDIT_REQUIRED",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G3_CANCELLED__EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_READY",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G3_REPLACEMENT_COMPLETE__POSTFREEZE_AUDIT_REQUIRED",
   "current_node": "BR204",
-  "active_leaf": "BR204_G3_EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_AUDIT",
+  "active_leaf": "BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -162,15 +162,15 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_G3_EXPIRED_CARRY_REPAIR_COLD_DOORSTEP_AUDIT",
+    "id": "BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Freeze cancelled generation3 run 35473398160 and exact 0 complete / 1 zero-subunit partial / 68 missing reconciliation.",
-      "Treat expired generation2 b=2,d=148,BC16 parent0 bytes as unavailable and non-reusable.",
-      "Verify single-parent repair recomputes only BC16 parent0 from BC64 children 0,16,32,48.",
-      "Historical G1/G2/G3 and pre-arm replay must be MANUAL; current replay and single-parent repair only ACTIVE_AUTO.",
-      "Current exact-head recovery replay must pass before fresh hostile audit.",
-      "Do not arm repair until hostile-audit PASS binds unchanged cold doorstep."
+      "Source-lock the completed replacement b=2,d=148,BC16 parent0 and its exact BC64 children 0,16,32,48.",
+      "Preserve generation3 target reconciliation at 0 complete / 1 zero-subunit partial / 68 missing; replacement is predecessor carry only.",
+      "Treat the armed repair runkey as historical consumed execution; do not re-arm or recompute the repaired parent.",
+      "Classify the completed repair workflow as MANUAL/historical and make only post-replacement replay ACTIVE_AUTO.",
+      "Obtain literal exact-head post-replacement replay and lifecycle SUCCESS before fresh hostile audit.",
+      "Do not design or arm broader BR204 recovery until hostile-audit PASS."
     ]
   },
   "transition_policy": {
@@ -272,7 +272,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Generation-3 run 35473398160 was cancelled with 0 complete targets, one b=3,d=148 partial containing no validated BC16/BC64 mathematical subunit, and 68 missing targets. The only intended G2 carry b=2,d=148,BC16#0 expired and is forbidden for reuse. Current frontier is a cold, audit-gated one-parent repair that recomputes only that exact parent from BC64 children 0,16,32,48 before any broader recovery."
+    "stop_reason": "The single expired predecessor carry b=2,d=148,BC16#0 was validly recomputed from BC64 children 0,16,32,48 in run 35574528620 and frozen. It restores predecessor input only: generation3 target credit remains 0 complete / 1 zero-subunit partial / 68 missing. Current frontier is post-replacement controller/replay synchronization and hostile audit; broader recovery is forbidden."
   },
   "deliverable_contract": {
     "per_shard": [
@@ -319,14 +319,14 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Outer b x d-band work was durable only at full-band completion; elapsed work inside a timed-out unit could be lost.",
     "repair": "After every completed d, refresh cumulative local exact rollup. Use always-path finalizer/upload for ordinary interruption/cancellation, soft deadline before hard timeout, explicit pagination, and finer-partition hard stop on single-d timeout.",
-    "status": "AUDIT_5263490758_FAIL_HOLD__FOUR_BLOCKERS_REPAIRED_TO_COLD_SINGLE_PARENT_REPAIR_DOORSTEP__FRESH_REPLAY_AND_REAUDIT_REQUIRED",
+    "status": "AUDIT_5291234568_FAIL_HOLD__REPLACEMENT_ACCEPTED__POSTREPAIR_CONTROLLER_REPLAY_LIFECYCLE_SYNC_REQUIRED",
     "mathematical_population_changed": false,
     "resume_topology_changed": true,
     "launcher_topology_changed": true,
     "repair_status": "RUNKEY_ARM_CONTRACT_AND_QBC_ADDENDUM_LOCKS_REPAIRED__REPLAY_STRENGTHENED__EXACT_HEAD_CI_AND_SEPARATE_REAUDIT_REQUIRED",
-    "latest_hold_exact_head": "065b610d84e414d488cf36e299efb2ca67722ae4",
-    "latest_hold_review_id": 5263490758,
-    "latest_hold_blockers_repaired_in_current_cold_surface": true
+    "latest_hold_exact_head": "b5882c64f4edea18806dc25fb404b6d9ba4dbc48",
+    "latest_hold_review_id": 5291234568,
+    "latest_hold_blockers_repaired_in_current_cold_surface": false
   },
   "generation1_recovery_checkpoint": {
     "path": "stages/stage32/generalization-bridge/BR204-GENERATION1-RECOVERY-CHECKPOINT.json",
@@ -426,15 +426,23 @@
     }
   },
   "generation3_expired_carry_repair_preflight": {
-    "status": "COLD_IMPLEMENTED__EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT_REQUIRED_BEFORE_ARM",
+    "status": "EXECUTED_COMPLETE__FROZEN__CONSUMED_HISTORICAL__ZERO_CREDIT",
     "target_path": "stages/stage32/generalization-bridge/BR204-G3-EXPIRED-CARRY-REPAIR-TARGET.json",
     "target_blob": "73bf49fb82ba0256fe870e235cfbde7ee036cba0",
     "runner_path": "stages/stage32/generalization-bridge/run_br204_single_bc16_parent_via_bc64.py",
     "runner_blob": "fff4cf2b0135dfd63c45f2233613213b80547eb9",
     "workflow_path": ".github/workflows/br204-stage32-bridge-g3-carry-repair.yml",
-    "workflow_blob": "1698bd1fc276872c0e947c5823f54a6fb999de33",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json",
-    "runkey_blob": "ef61320a9997c363ebbdf7e6b069d17fed893ac3",
+    "runkey_blob": "4a76a9b365399be27784194dea0f65ce7937f681",
+    "generation": 1,
+    "armed": true,
+    "execution_run_id": 35574528620,
+    "execution_head": "84a7c615f874a33b22f77a34d99586aa3a845bf7",
+    "replacement_freeze_path": "stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json",
+    "postfreeze_boundary_path": "stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json",
+    "artifact_id": 10628120960,
+    "artifact_zip_digest": "sha256:dd76c0d102af75b6313c485a264ee3b5fdd7734aec940c97d88c185a8f590cee",
+    "parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
     "target": {
       "b": 2,
       "d": 148,
@@ -446,12 +454,7 @@
         48
       ]
     },
-    "generation": 0,
-    "armed": false,
-    "planned_effective_heavy_concurrency": 1,
-    "repository_stage_concurrency_ceiling": 18,
-    "maximum_other_stage32_heavy_concurrency_at_arm": 15,
-    "heavy_compute_authorized": false,
-    "broader_69_target_recovery_authorized": false
+    "broader_69_target_recovery_authorized": false,
+    "credit": false
   }
 }
