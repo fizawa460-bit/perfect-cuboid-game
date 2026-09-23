@@ -1,9 +1,9 @@
 {
   "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME",
   "stage": 32,
-  "generation": 16,
+  "generation": 17,
   "armed": true,
-  "objective": "Generation-16 resume-first FULL178 continuation. Reuse generation-15 all-96 exact parent-window artifacts as first-precedence carry and compute only the remaining exact row/c-shards. Generation-15 validated 2885/2967 row certificates with 76 COMPLETE and 20 PARTIAL windows; no mathematical or MAIN credit until a complete exact aggregate plus hostile audit.",
+  "objective": "Generation-17 resume-first FULL178 tail closure. Reuse generation-16 all-96 exact parent-window artifacts as first-precedence carry. Generation-16 reached 91/96 COMPLETE and 2962/2967 row certificates; the only five missing rows are row177 in parent windows [3,0,2], [3,2,2], [4,1,2], [4,2,2], [4,3,2]. Width-8 c-shards remain exact and operationally bounded (observed completed row177 shards about 103-702 seconds each), so no finer c partition is introduced. Zero credit until complete aggregate plus hostile audit.",
   "source_locks": {
     "row_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
     "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
@@ -11,7 +11,7 @@
     "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
     "cshard_resume_verifier_blob_sha1": "7664b33b45832baf651b2e9deb3a585a72fabd1b",
     "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
-    "workflow_blob_sha1": "44bd3708796fd556c8c8ac56f2ccbacce552183f",
+    "workflow_blob_sha1": "eedc196d369a7e489f9fdfd75f9e3910cba15b8c",
     "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
     "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -51,9 +51,55 @@
     "main_credit": false
   },
   "partition": {
-    "bands": [[0,11],[12,23],[24,35],[36,47],[48,59],[60,71],[72,83],[84,96]],
+    "bands": [
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
+    ],
     "chunks_per_band": 4,
-    "row_windows": [[0,59],[60,119],[120,177]],
+    "row_windows": [
+      [
+        0,
+        59
+      ],
+      [
+        60,
+        119
+      ],
+      [
+        120,
+        177
+      ]
+    ],
     "parents": 96,
     "rows": 178,
     "computed_row_chunk_certificates": 2967,
@@ -80,7 +126,7 @@
     "parent_artifact_upload_on_soft_timeout": true,
     "parent_artifact_upload_step_condition": "always()",
     "soft_timeout_is_operational_checkpoint_not_mathematical_failure": true,
-    "recovery": "For each parent-window use generation15 first. If unavailable, fall back to generation14, then generation11, then the generation10 b4c0w1 special seed; inject source-locked retained local complete rows; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing exact c-shards.",
+    "recovery": "For each parent-window use generation16 first. If unavailable, fall back to generation15, then generation14, then the generation10 b4c0w1 special seed; inject source-locked retained local complete rows; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing exact c-shards.",
     "artifact_job_conclusion_is_not_completion_authority": true,
     "duplicate_valid_carry": "FAIL_CLOSED",
     "rejected_carry": "record and recompute only the rejected/missing exact subunit",
@@ -117,39 +163,55 @@
     "generation16_arm_effective_total_concurrency": 14,
     "prearm_live_concurrency_recheck_required": true,
     "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed.",
-    "note": "Immediately before generation-16 arm, repository in-progress workflow count was 0; planned FULL178 max-parallel is 14, so the recorded effective total is 14 <= 18."
+    "note": "Immediately before generation-17 arm, repository Stage32 in-progress workflow count was 0; planned FULL178 max-parallel is 14, so the recorded effective total is 14 <= 18. Generation-16 left only five row177 residual rows; existing width-8 c-shards are retained because measured completed row177 shard times are operationally bounded.",
+    "observed_other_stage32_heavy_concurrency_at_generation17_arm": 0,
+    "generation17_arm_effective_total_concurrency": 14
   },
   "authorization": {
     "synchronize_only": true,
     "commit_range_runkey_change_required": true,
     "repair_generation": 15,
     "repair_generation_disarmed": false,
-    "next_heavy_generation_minimum": 16,
+    "next_heavy_generation_minimum": 17,
     "next_heavy_arm_requires_hostile_audit_pass": true,
     "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
     "hostile_audit_pass_submitted_at": "2026-09-21T08:01:47Z",
-    "rearm_rule": "Generation-16 is an execution-only resume successor after exact-head cold authorization repair 0dbeb0e32ecb4489b1ea1316a0577dae80e258fb passed FULL178 cold/authorize and MAIN startup-authority. Mathematical worker, wrapper, c-shard width, aggregate semantics, and zero-credit firewalls are unchanged. Generation-15 exact artifacts are first-precedence carry.",
+    "rearm_rule": "Generation-17 is an execution-only resume successor from generation-16 exact recovery snapshot a79253b5.... Mathematical worker, wrapper, c-shard width=8, aggregate semantics, and zero-credit firewalls are unchanged. Generation-16 exact artifacts are first-precedence carry; only five row177 residual rows remain.",
     "prearm_live_concurrency_recheck_required": true,
     "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
   },
   "carry": {
-    "primary_predecessor_run_id": 35665219375,
+    "primary_predecessor_run_id": 35780980259,
     "primary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
     "expected_primary_parent_artifacts": 96,
-    "secondary_predecessor_run_id": 35576827846,
+    "secondary_predecessor_run_id": 35665219375,
     "secondary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
-    "expected_secondary_parent_artifacts": 54,
-    "tertiary_predecessor_run_id": 35531197992,
-    "tertiary_predecessor_topology": "V2_ROW_WINDOW",
-    "expected_tertiary_parent_artifacts": 95,
+    "expected_secondary_parent_artifacts": 96,
+    "tertiary_predecessor_run_id": 35576827846,
+    "tertiary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
+    "expected_tertiary_parent_artifacts": 54,
     "special_predecessor_run_id": 35501853750,
-    "special_parent_window": [4,0,1],
-    "precedence_rule": "generation15 artifact if present; else generation14; else generation11; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows and reject any exact-result conflict"
+    "special_parent_window": [
+      4,
+      0,
+      1
+    ],
+    "precedence_rule": "generation16 artifact if present; else generation15; else generation14; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows and reject any exact-result conflict"
   },
   "local_seed": {
-    "parent_window": [4,0,1],
+    "parent_window": [
+      4,
+      0,
+      1
+    ],
     "special_predecessor_run_id": 35501853750,
-    "special_predecessor_expected_rows": [60,61,62,63,64],
+    "special_predecessor_expected_rows": [
+      60,
+      61,
+      62,
+      63,
+      64
+    ],
     "certificate_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json",
     "certificate_blob_sha1": "39bec9d6a323172dcdebfb839d4b4b568f318b5f",
     "certificate_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
@@ -282,7 +344,12 @@
   "generation14_preheavy_arm_repair": {
     "scope": "COLD_OR_AUTHORIZE_ONLY_SOURCE_LOCK_REPAIR",
     "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
-    "failed_preheavy_run_ids": [35576243792,35576417826,35576524874,35576638637],
+    "failed_preheavy_run_ids": [
+      35576243792,
+      35576417826,
+      35576524874,
+      35576638637
+    ],
     "parent_matrix_started": false,
     "mathematical_failure": false,
     "main_credit": false,
@@ -406,5 +473,55 @@
     "heavy_arm_authorized": false,
     "main_credit": false,
     "note": "The cold-only repair passed exact-head FULL178 cold/authorize and MAIN startup. Generation-16 is now a separate runkey-only execution arm using generation-15 as first-precedence carry."
+  },
+  "generation16_incident": {
+    "run_id": 35780980259,
+    "workflow_conclusion": "success",
+    "status": "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
+    "discovered_parent_artifacts": 96,
+    "complete_parent_windows": 91,
+    "partial_parent_windows": 5,
+    "validated_row_certificates": 2962,
+    "expected_row_certificates": 2967,
+    "validated_c_shard_certificates": 887,
+    "rejected_row_files": 0,
+    "rejected_c_shard_files": 0,
+    "recovery_snapshot_artifact_id": 10730649571,
+    "recovery_snapshot_canonical_sha256": "a79253b5cae375650dd64ec301f81363df8d4d33219418ab927b8f48a81e2351",
+    "residual_parent_windows": [
+      [
+        3,
+        0,
+        2
+      ],
+      [
+        3,
+        2,
+        2
+      ],
+      [
+        4,
+        1,
+        2
+      ],
+      [
+        4,
+        2,
+        2
+      ],
+      [
+        4,
+        3,
+        2
+      ]
+    ],
+    "residual_rows": [
+      177
+    ],
+    "residual_row_certificate_count": 5,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "finer_partition_required": false,
+    "finer_partition_reason": "Observed completed row177 width-8 c-shards were approximately 103-702 seconds each; the 330-minute parent wall was consumed by earlier rows, which are now complete and carried."
   }
 }

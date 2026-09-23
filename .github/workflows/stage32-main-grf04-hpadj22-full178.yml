@@ -81,7 +81,7 @@ jobs:
           assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME"
           assert old is not None and old.get("schema")==p["schema"]
           gen=int(p["generation"]); oldgen=int(old["generation"])
-          assert gen in (15,16)
+          assert gen in (15,16,17)
           s=p["source_locks"]
           assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
           assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
@@ -123,8 +123,8 @@ jobs:
               assert repair["generation15_rejected_c_shard_files"]==0
               assert repair["heavy_arm_authorized"] is False
               assert repair["mathematical_worker_changed"] is False
-          else:
-              assert gen==16 and oldgen==15
+          elif gen==16:
+              assert oldgen==15
               assert p["armed"] is True
               assert carry["primary_predecessor_run_id"]==35665219375
               assert carry["expected_primary_parent_artifacts"]==96
@@ -145,6 +145,29 @@ jobs:
               assert incident["rejected_c_shard_files"]==0
               assert incident["recovery_snapshot_artifact_id"]==10712310702
               assert incident["recovery_snapshot_canonical_sha256"]=="c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2"
+              assert incident["mathematical_failure"] is False and incident["main_credit"] is False
+          else:
+              assert gen==17 and oldgen==16
+              assert p["armed"] is True
+              assert carry["primary_predecessor_run_id"]==35780980259
+              assert carry["expected_primary_parent_artifacts"]==96
+              assert carry["secondary_predecessor_run_id"]==35665219375
+              assert carry["tertiary_predecessor_run_id"]==35576827846
+              incident=p.get("generation16_incident")
+              assert incident is not None
+              assert incident["run_id"]==35780980259
+              assert incident["workflow_conclusion"]=="success"
+              assert incident["status"]=="CHECKPOINTED_INCOMPLETE_ZERO_CREDIT"
+              assert incident["discovered_parent_artifacts"]==96
+              assert incident["complete_parent_windows"]==91
+              assert incident["partial_parent_windows"]==5
+              assert incident["validated_row_certificates"]==2962
+              assert incident["expected_row_certificates"]==2967
+              assert incident["validated_c_shard_certificates"]==887
+              assert incident["rejected_row_files"]==0
+              assert incident["rejected_c_shard_files"]==0
+              assert incident["recovery_snapshot_artifact_id"]==10730649571
+              assert incident["recovery_snapshot_canonical_sha256"]=="a79253b5cae375650dd64ec301f81363df8d4d33219418ab927b8f48a81e2351"
               assert incident["mathematical_failure"] is False and incident["main_credit"] is False
           PY
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
