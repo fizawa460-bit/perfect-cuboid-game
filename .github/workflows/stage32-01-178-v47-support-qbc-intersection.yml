@@ -1,96 +1,102 @@
 name: Stage32 32-01-178 V47 support-qBC exact intersection
-
 # lifecycle: ACTIVE_AUTO
-# Exact same-population V47 x support-qBC execution. ACTIVE 178 frontier; runkey-gated.
 on:
   push:
-    branches:
-      - stage32-01-178-post-td02-fibration-nef
-    paths:
-      - '.github/workflows/stage32-01-178-v47-support-qbc-intersection.yml'
+    branches: [stage32-01-178-post-td02-fibration-nef]
+    paths: ['.github/workflows/stage32-01-178-v47-support-qbc-intersection.yml']
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: stage32-01-178-v47-support-qbc-intersection-${{ github.ref }}
   cancel-in-progress: false
-
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     outputs:
-      matrix_a: ${{ steps.coords.outputs.matrix_a }}
-      matrix_b: ${{ steps.coords.outputs.matrix_b }}
+      matrix: ${{ steps.c.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-      - id: coords
-        name: Freeze two 192-coordinate matrices
+      - id: c
         run: |
           python - <<'PY'
           import json,os
-          from pathlib import Path
-          p=Path("stages/stage32/32-01-178/fibration-nef/local-support-qbc/GENERATION4-COMPLETE.json")
-          m=json.load(open(p))
-          coords=sorted({(int(x["verified"]["row_index"]),int(x["verified"]["b"])) for x in m["receipts"]})
-          assert len(coords)==384
-          halves=(coords[:192],coords[192:])
-          with open(os.environ["GITHUB_OUTPUT"],"a") as fh:
-              for name,xs in zip(("matrix_a","matrix_b"),halves):
-                  value=json.dumps({"include":[{"row":r,"b":b} for r,b in xs]},separators=(",",":"))
-                  fh.write(f"{name}={value}\n")
+          p="stages/stage32/32-01-178/fibration-nef/local-support-qbc/GENERATION4-COMPLETE.json"
+          m=json.load(open(p)); c=sorted({(int(x["verified"]["row_index"]),int(x["verified"]["b"])) for x in m["receipts"]}); assert len(c)==384
+          inc=[{"r1":c[i][0],"b1":c[i][1],"r2":c[i+1][0],"b2":c[i+1][1]} for i in range(0,384,2)]
+          open(os.environ["GITHUB_OUTPUT"],"a").write("matrix="+json.dumps({"include":inc},separators=(",",":"))+"\n")
           PY
-
-  exact-intersection-a:
+  exact-pair:
     needs: prepare
     strategy:
       fail-fast: false
-      max-parallel: 9
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix_a) }}
-    uses: ./.github/workflows/stage32-01-178-v47-support-qbc-unit.yml
-    with:
-      row: ${{ matrix.row }}
-      b: ${{ matrix.b }}
-
-  exact-intersection-b:
-    needs: prepare
-    strategy:
-      fail-fast: false
-      max-parallel: 9
-      matrix: ${{ fromJSON(needs.prepare.outputs.matrix_b) }}
-    uses: ./.github/workflows/stage32-01-178-v47-support-qbc-unit.yml
-    with:
-      row: ${{ matrix.row }}
-      b: ${{ matrix.b }}
-
-  aggregate:
-    needs: [exact-intersection-a, exact-intersection-b]
+      max-parallel: 18
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 300
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install sympy
+      - name: Verify authority
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("stages/stage32/32-01-178/fibration-nef"); k=json.load(open(p/"V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json"))
+          def b(x):
+            z=x.read_bytes(); return hashlib.sha1(b"blob "+str(len(z)).encode()+b"\0"+z).hexdigest()
+          assert k["armed"] and k["expected_units"]==384 and k["execution_policy"]["planned_concurrency"]==18
+          assert b(p/"run_v47_support_qbc_intersection_unit.py")==k["unit_consumer_blob_sha1"]
+          assert b(p/"aggregate_v47_support_qbc_intersection.py")==k["aggregator_blob_sha1"]
+          assert b(p/"local-support-qbc/GENERATION4-COMPLETE.json")==k["coordinate_manifest_blob_sha1"]
+          PY
+      - name: Materialize frozen sources
+        run: |
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          rm -rf /tmp/s32h22src /tmp/s32v47src
+          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          mkdir -p stages/stage32/management/grf04-hpadj22-joint
+          cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
+      - name: Execute pair
+        env:
+          R1: ${{ matrix.r1 }}
+          B1: ${{ matrix.b1 }}
+          R2: ${{ matrix.r2 }}
+          B2: ${{ matrix.b2 }}
+        run: |
+          set -euo pipefail; mkdir -p /tmp/out
+          for x in "$R1 $B1" "$R2 $B2"; do
+            set -- $x
+            python stages/stage32/32-01-178/fibration-nef/run_v47_support_qbc_intersection_unit.py --repo-root . --source-root /tmp/s32h22src --row-index "$1" --b "$2" --output "/tmp/out/row$(printf '%03d' "$1")-b$(printf '%03d' "$2").json"
+          done
+      - uses: actions/upload-artifact@v4
         with:
-          fetch-depth: 0
+          name: v47-support-qbc-pair-${{ matrix.r1 }}-${{ matrix.b1 }}-${{ matrix.r2 }}-${{ matrix.b2 }}
+          path: /tmp/out/*.json
+          if-no-files-found: error
+          retention-days: 14
+  aggregate:
+    needs: exact-pair
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          pattern: v47-support-qbc-row*-b*
+          pattern: v47-support-qbc-pair-*
           path: /tmp/all
           merge-multiple: true
-      - name: Require all 384 durable receipts and verify exact aggregate
-        run: |
+      - run: |
           set -euo pipefail
           test "$(find /tmp/all -maxdepth 1 -name 'row*-b*.json' | wc -l)" -eq 384
-          mkdir -p stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection
-          cp /tmp/all/row*-b*.json stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection/
+          d=stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection; mkdir -p "$d"; cp /tmp/all/row*-b*.json "$d"/
           python stages/stage32/32-01-178/fibration-nef/aggregate_v47_support_qbc_intersection.py
           cp stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-AGGREGATE.json /tmp/
       - uses: actions/upload-artifact@v4
         with:
           name: v47-support-qbc-intersection-exact-aggregate
           path: /tmp/V47-SUPPORT-QBC-INTERSECTION-AGGREGATE.json
-          if-no-files-found: error
           retention-days: 14
-      - name: Diff hygiene
-        run: git diff --check

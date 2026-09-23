@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_32_01_178_V47_SUPPORT_QBC_INTERSECTION_RUNKEY_V1",
   "status": "ARMED_EXACT_384_COORDINATE_INTERSECTION",
-  "generation": 1,
+  "generation": 2,
   "armed": true,
   "purpose": "Execute exactly the 384 Generation4 (row_index,b) coordinates through the frozen V47 GRF04 x HPADJ22 x support-qBC unit consumer.",
   "coordinate_manifest": "local-support-qbc/GENERATION4-COMPLETE.json",
@@ -21,8 +21,10 @@
     "resume_first": true,
     "overwrite_completed_receipts": false,
     "max_effective_concurrency": 18,
-    "planned_concurrency": 12,
-    "aggregate_only_after_384_valid_receipts": true
+    "planned_concurrency": 18,
+    "aggregate_only_after_384_valid_receipts": true,
+    "checkpoint_granularity": "two coordinates per Actions job/artifact",
+    "timeout_loss_bound_units": 2
   },
   "composition_rule": "SAME_POPULATION_EXACT_INTERSECTION_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION",
   "firewalls": {
