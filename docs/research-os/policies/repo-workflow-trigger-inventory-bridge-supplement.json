@@ -2,17 +2,17 @@
   "schema_version": 1,
   "scope": "branch-local supplement to repo-workflow-trigger-inventory-20260911.json",
   "base_inventory": "repo-workflow-trigger-inventory-20260911.json",
-  "reason": "PR #1813 freezes the cancelled generation-3 recovery, demotes generation-1, generation-2, generation-3 and the pre-arm retained replay to MANUAL historical surfaces, and makes the current post-cancellation replay plus the single expired-carry repair workflow the only ACTIVE_AUTO BR204 frontier. Heavy repair still requires a dedicated post-audit runkey-only arm commit.",
+  "reason": "PR #1813 post-replacement frontier: the single expired-carry repair completed and is consumed historical evidence. Only the post-replacement recovery replay remains ACTIVE_AUTO. G1/G2/G3 and the completed repair are MANUAL historical surfaces. Broader recovery remains audit-gated and unauthorized.",
   "classifications": {
     "ACTIVE_AUTO": [
-      ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
-      ".github/workflows/br204-stage32-bridge-g3-carry-repair.yml"
+      ".github/workflows/stage32-bridge-br204-recovery-replay.yml"
     ],
     "MANUAL": [
       ".github/workflows/stage32-bridge-br204-retained-replay.yml",
       ".github/workflows/br204-stage32-bridge-heavy.yml",
       ".github/workflows/br204-stage32-bridge-finer-recovery.yml",
-      ".github/workflows/br204-stage32-bridge-recovery-g3.yml"
+      ".github/workflows/br204-stage32-bridge-recovery-g3.yml",
+      ".github/workflows/br204-stage32-bridge-g3-carry-repair.yml"
     ],
     "RETIRED": [
       ".github/workflows/stage32-bridge-br203.yml"
