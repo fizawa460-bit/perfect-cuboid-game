@@ -84,7 +84,7 @@ def main():
     milestone=rb["S32.PROOF.NUMERICAL_CENSUS.V1"]
     req(milestone["authority_status"]=="AUDITED","reserved numerical milestone")
     req(milestone["audit_receipt"]=={"status":"PASS","pr":1826,"review_id":AUDIT_REVIEW,"exact_head":AUDITED_HEAD},"reserved milestone audit")
-    req("STAGE32_CLOSED=true" in milestone["does_not_prove"],"milestone closure firewall")
+    req("STAGE32_CLOSED=true." in milestone["does_not_prove"],"milestone closure firewall")
 
     adapters=load_locked_json(ADAPTERS,ADAPTERS_BLOB,"lane adapters")
     lanes={x["lane"]:x for x in adapters["lanes"]}
