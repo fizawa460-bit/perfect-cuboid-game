@@ -1,0 +1,35 @@
+{
+  "schema": "STAGE32_32_01_178_V47_SUPPORT_QBC_INTERSECTION_RUNKEY_V1",
+  "status": "ARMED_EXACT_384_COORDINATE_INTERSECTION",
+  "generation": 1,
+  "armed": true,
+  "purpose": "Execute exactly the 384 Generation4 (row_index,b) coordinates through the frozen V47 GRF04 x HPADJ22 x support-qBC unit consumer.",
+  "coordinate_manifest": "local-support-qbc/GENERATION4-COMPLETE.json",
+  "coordinate_manifest_blob_sha1": "a917f6a98e8f4db57d0ada5193fe263f52162732",
+  "coordinate_manifest_canonical_sha256": "3f1ebc76ef519949ef9d5c497a363f216159387d6857c081d7c1867319e3b242",
+  "expected_units": 384,
+  "unit_consumer": "run_v47_support_qbc_intersection_unit.py",
+  "unit_consumer_blob_sha1": "af3026f5d7608181845e2ee0f9e0ab91feee60d1",
+  "aggregator": "aggregate_v47_support_qbc_intersection.py",
+  "aggregator_blob_sha1": "e56a6b1796c067fde61e34f695df410dfa50aa43",
+  "v47_exact_head": "620b90d1ca1f5316d55b88b2620f78eeba1949c7",
+  "v47_upper_bound": "128645575147764659235",
+  "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+  "output_directory": "v47-support-qbc-intersection",
+  "execution_policy": {
+    "partition": "one exact (row_index,b) per unit",
+    "resume_first": true,
+    "overwrite_completed_receipts": false,
+    "max_effective_concurrency": 18,
+    "planned_concurrency": 12,
+    "aggregate_only_after_384_valid_receipts": true
+  },
+  "composition_rule": "SAME_POPULATION_EXACT_INTERSECTION_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION",
+  "firewalls": {
+    "main_credit_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge_authorized": false,
+    "hostile_audit_required": true
+  }
+}
