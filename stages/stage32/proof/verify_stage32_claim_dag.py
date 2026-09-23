@@ -47,7 +47,10 @@ _FROZEN_PROVISIONAL_ROUTING_LOCKS = {
 
 def _is_mutable_routing_state(lock: dict) -> bool:
     path = lock.get("path")
-    return isinstance(path, str) and path.endswith("/MAIN-STATE.json")
+    return isinstance(path, str) and (
+        path.endswith("/MAIN-STATE.json")
+        or path == "stages/stage32/residual-32-01-production/state.json"
+    )
 
 
 def _frozen_provisional_snapshot(cid: str, lock: dict) -> bytes | None:
