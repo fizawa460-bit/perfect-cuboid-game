@@ -325,6 +325,94 @@ jobs:
           python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
           python stages/stage32/final-chain/32-02-effectivity/verify_rr_norm_quantization.py
 
+      - name: Gate 32-02 EFF-CFRR01 five-key pilot
+        id: eff_cfrr01_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PILOT-RUNKEY.json"
+          if [ ! -f "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_PILOT_RUNKEY_V1"
+          assert p["generation"]==1 and p["mode"]=="PILOT_MEASURE"
+          assert p["armed"] is True and p["execution_authorized"] is True
+          assert (p["row_id"],p["genus"],p["degree"],p["exceptional_mass"])==("g0-d018",0,18,8)
+          assert p["sample_base4_key_count"]==5
+          assert p["solver_timeout_ms"]==15000
+          assert p["planned_effective_heavy_concurrency"]==1
+          assert 0 < p["projected_peak_storage_bytes"] < 500*1024*1024
+          assert p["worker_blob_sha1"]=="c18c06fc9c1be7b972564e69bac730542db2febd"
+          assert p["preflight_verifier_blob_sha1"]=="2cce88bb941a922483a3959431d6c29612e4ec2f"
+          assert p["preflight_blob_sha1"]=="abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
+          assert p["lane178_exact_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["lane178_aggregate_blob_sha1"]=="5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+          assert p["zero_credit"] is True
+          assert p["effectivity_credit"] is False and p["theorem_credit"] is False and p["endpoint_credit"] is False
+          assert p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py)" = "c18c06fc9c1be7b972564e69bac730542db2febd"
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py)" = "2cce88bb941a922483a3959431d6c29612e4ec2f"
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PREFLIGHT.json)" = "abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
+          test "$(git -C .stage32-178-btva-source rev-parse HEAD)" = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install 32-02 EFF-CFRR01 pilot dependencies
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Verify 32-02 EFF-CFRR01 preflight
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: python stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py
+
+      - name: Run 32-02 EFF-CFRR01 d18/e8 five-key pilot
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 15000 \
+            --output "$RUNNER_TEMP/eff-cfrr01-d18e8-five-key-pilot.json"
+
+      - name: Validate 32-02 EFF-CFRR01 pilot zero-credit result
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/eff-cfrr01-d18e8-five-key-pilot.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          body=dict(p); stored=body.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_D18E8_BASE4_PILOT_V1"
+          assert p["status"]=="BOUNDED_FIVE_BASE4_PILOT_COMPLETE_ZERO_CREDIT"
+          assert p["target"]["row_id"]=="g0-d018"
+          assert p["target"]["degree"]==18 and p["target"]["exceptional_mass"]==8
+          assert len(p["panel"])==5 and p["summary"]["sample_base4_keys"]==5
+          for k in ("main_pruning_credit","effectivity_credit","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):
+              assert p["firewalls"][k] is False
+          print("EFF_CFRR01_RESULT="+json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload 32-02 EFF-CFRR01 pilot evidence
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-eff-cfrr01-d18e8-five-key-pilot
+          path: ${{ runner.temp }}/eff-cfrr01-d18e8-five-key-pilot.json
+          retention-days: 7
+          compression-level: 9
+
       - name: Verify Stage32 claim DAG and active frontier
         run: |
           python stages/stage32/proof/verify_stage32_claim_dag.py --integrity
