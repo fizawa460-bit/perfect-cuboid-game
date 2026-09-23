@@ -1,8 +1,13 @@
 name: Stage32 32-01-178 V47 support-qBC exact intersection
 
-# lifecycle: RETIRED
+# lifecycle: ACTIVE_AUTO
 # Exact same-population V47 x support-qBC execution. Push of this workflow is the launch edge.
 on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - '.github/workflows/stage32-01-178-v47-support-qbc-intersection.yml'
   workflow_dispatch:
 
 permissions:
