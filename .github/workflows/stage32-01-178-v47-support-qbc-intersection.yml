@@ -55,9 +55,12 @@ jobs:
       - name: Materialize exact HPADJ22 producer source
         run: |
           set -euo pipefail
-          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
-          rm -rf /tmp/s32h22src
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          rm -rf /tmp/s32h22src /tmp/s32v47src
           git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          mkdir -p stages/stage32/management/grf04-hpadj22-joint
+          cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
       - name: Execute assigned exact units
         env:
           SHARD: ${{ matrix.shard }}
