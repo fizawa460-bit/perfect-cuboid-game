@@ -1,0 +1,76 @@
+{
+  "schema": "STAGE32_BR204_G3_SINGLE_PARENT_REPLACEMENT_FREEZE_V1",
+  "source_execution": {
+    "workflow_run_id": 35574528620,
+    "workflow_name": "Stage32 BRIDGE BR204 expired carry repair",
+    "execution_head": "84a7c615f874a33b22f77a34d99586aa3a845bf7",
+    "conclusion": "success",
+    "artifact_id": 10628120960,
+    "artifact_name": "br204-g3-replacement-b2-d148-bc0of16",
+    "artifact_zip_digest": "sha256:dd76c0d102af75b6313c485a264ee3b5fdd7734aec940c97d88c185a8f590cee"
+  },
+  "target": {
+    "b": 2,
+    "d": 148,
+    "parent_count": 16,
+    "parent_index": 0,
+    "child_count": 64,
+    "child_indices": [
+      0,
+      16,
+      32,
+      48
+    ]
+  },
+  "result": {
+    "complete": true,
+    "stop_reason": "COMPLETE",
+    "elapsed_seconds": 973.233,
+    "parent_payload": {
+      "name": "br204-f-b2-d148-bc0of16.tsv.gz",
+      "gzip_bytes": 170248,
+      "gzip_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
+    },
+    "child_payloads": [
+      {
+        "idx": 0,
+        "gzip_bytes": 163873,
+        "gzip_sha256": "5881148242d36fcf98c713a4711397e1b3f414afade2effc263aa8476fb29442"
+      },
+      {
+        "idx": 16,
+        "gzip_bytes": 160202,
+        "gzip_sha256": "2fa5982933d06d855a9a56493c23a23351f2b289bbebae7471550ac5732f5f83"
+      },
+      {
+        "idx": 32,
+        "gzip_bytes": 159261,
+        "gzip_sha256": "f7a7d36d5f5b812e445926df5ce11f9d9cd13803d650b3c73b14011f406e3dff"
+      },
+      {
+        "idx": 48,
+        "gzip_bytes": 158676,
+        "gzip_sha256": "044a708ae4e4a263cc3755b7c5f18d754397660dc4c1dd1c81ad9e2d6dae4fa1"
+      }
+    ],
+    "worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6"
+  },
+  "provenance": {
+    "parent_audited_cold_head": "53fbcf6ce756324862435b5158d00e9e29e33a64",
+    "parent_hostile_audit_review_id": 5264121071,
+    "arm_commit": "84a7c615f874a33b22f77a34d99586aa3a845bf7",
+    "runkey": "stages/stage32/generalization-bridge/runkeys/br204-g3-expired-carry-repair.json",
+    "generation": 1
+  },
+  "next_gate": "Freeze/source-lock this completed replacement parent and obtain a fresh hostile audit before authorizing any broader BR204 recovery.",
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
