@@ -1,0 +1,118 @@
+name: Stage32 32-01-178 V47 support-qBC exact intersection
+
+# lifecycle: ACTIVE_AUTO
+# Exact same-population V47 x support-qBC execution. Push of this workflow is the launch edge.
+on:
+  push:
+    branches:
+      - stage32-01-178-post-td02-fibration-nef
+    paths:
+      - '.github/workflows/stage32-01-178-v47-support-qbc-intersection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-v47-support-qbc-intersection-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  exact-intersection:
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install sympy
+      - name: Verify armed execution authority
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("stages/stage32/32-01-178/fibration-nef")
+          k=json.load(open(p/"V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json"))
+          assert k["armed"] is True and k["expected_units"] == 384
+          assert k["execution_policy"]["planned_concurrency"] == 12
+          def blob(x):
+              b=x.read_bytes()
+              return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+          assert blob(p/"run_v47_support_qbc_intersection_unit.py") == k["unit_consumer_blob_sha1"]
+          assert blob(p/"aggregate_v47_support_qbc_intersection.py") == k["aggregator_blob_sha1"]
+          assert blob(p/"local-support-qbc/GENERATION4-COMPLETE.json") == k["coordinate_manifest_blob_sha1"]
+          print("EXECUTION_AUTHORITY=PASS")
+          PY
+      - name: Materialize exact HPADJ22 producer source
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          rm -rf /tmp/s32h22src
+          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+      - name: Execute assigned exact units
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          base=Path("stages/stage32/32-01-178/fibration-nef")
+          m=json.load(open(base/"local-support-qbc/GENERATION4-COMPLETE.json"))
+          coords=sorted({(int(x["verified"]["row_index"]),int(x["verified"]["b"])) for x in m["receipts"]})
+          assert len(coords)==384
+          shard=int(os.environ["SHARD"])
+          mine=[x for i,x in enumerate(coords) if i%12==shard]
+          out=Path("/tmp/v47-support-qbc-intersection");out.mkdir(parents=True,exist_ok=True)
+          for row,b in mine:
+              subprocess.run(["python",str(base/"run_v47_support_qbc_intersection_unit.py"),
+                "--repo-root",".","--source-root","/tmp/s32h22src","--row-index",str(row),"--b",str(b),
+                "--output",str(out/f"row{row:03d}-b{b:03d}.json")],check=True)
+          print("SHARD_COMPLETE",shard,len(mine))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v47-support-qbc-intersection-shard-${{ matrix.shard }}
+          path: /tmp/v47-support-qbc-intersection/*.json
+          if-no-files-found: error
+          retention-days: 14
+
+  aggregate:
+    needs: exact-intersection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v47-support-qbc-intersection-shard-*
+          path: /tmp/all
+          merge-multiple: true
+      - name: Assemble and verify exact aggregate
+        run: |
+          set -euo pipefail
+          mkdir -p stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection
+          cp /tmp/all/*.json stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection/
+          python stages/stage32/32-01-178/fibration-nef/aggregate_v47_support_qbc_intersection.py
+          cp stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-AGGREGATE.json /tmp/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v47-support-qbc-intersection-exact-aggregate
+          path: |
+            /tmp/V47-SUPPORT-QBC-INTERSECTION-AGGREGATE.json
+            stages/stage32/32-01-178/fibration-nef/v47-support-qbc-intersection/*.json
+          if-no-files-found: error
+          retention-days: 14
+      - name: Diff hygiene
+        run: git diff --check
