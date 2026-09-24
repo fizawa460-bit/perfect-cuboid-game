@@ -18,7 +18,7 @@ A large batch is therefore not safe merely because:
 - each individual shard finishes within its timeout;
 - `pull_request.paths` matched the event.
 
-The repository operating budget for Actions artifact/storage is **500 MB** unless this policy is explicitly revised. Separately, one Stage's coordinated heavy Actions workload is capped at **20 effective concurrent heavy jobs**. Heavy reruns require explicit commit-range authorization; the mere continued presence of a run-key path in a PR diff is not authorization.
+The repository operating budget for Actions artifact/storage is **500 MB** unless this policy is explicitly revised. Separately, one Stage's coordinated heavy Actions workload is capped at **18 effective concurrent heavy jobs**. Heavy reruns require explicit commit-range authorization; the mere continued presence of a run-key path in a PR diff is not authorization.
 
 ## Mandatory concurrency-headroom gate
 
@@ -26,13 +26,13 @@ Before launching or materially revising any heavy Actions workload:
 
 1. determine every heavy job/matrix/workflow from the same Stage that can overlap in time;
 2. compute the maximum **effective concurrent heavy-job count** across those overlapping components;
-3. require that total to be **<= 20**;
+3. require that total to be **<= 18**;
 4. leave runner headroom for other Stages, reconnaissance, audits, and lightweight Actions;
 5. if the overlap cannot be bounded confidently, reduce `max-parallel` until the bound is guaranteed.
 
 The cap applies to the coordinated Stage workload, not to each YAML matrix independently. For example, two overlapping matrices with `max-parallel: 10` each are an effective maximum of 20 and violate policy. Splitting the work across multiple workflows or PRs does not reset the count.
 
-**20 is a hard ceiling, not a utilization target.** Use fewer than 20 whenever that better preserves cross-Stage capacity. Stage-local speed, urgency, or a desire to consume otherwise-idle runners is not an exception. This rule is absolute unless the repository policy itself is explicitly revised.
+**18 is a hard ceiling, not a utilization target.** Use fewer than 18 whenever that better preserves cross-Stage capacity. Stage-local speed, urgency, or a desire to consume otherwise-idle runners is not an exception. This rule is absolute unless the repository policy itself is explicitly revised.
 
 ## Mandatory heavy-rerun authorization gate
 
