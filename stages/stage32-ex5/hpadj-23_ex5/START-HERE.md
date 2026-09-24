@@ -53,4 +53,4 @@ Production remains cold. Before any H=96 arm, the retained gate requires exactly
 
 A dedicated measurement workflow is now source-locked for exactly `H=32, b=0..11`. It runs with concurrency 1, a 120-minute timeout and a 128 MiB artifact cap, retaining the raw JSONL plus a measurement receipt for three days. The receipt records wall/CPU time, peak RSS, raw bytes, zlib-9 bytes, bin count and exact-t entry count.
 
-The workflow cannot launch FULL178 production. It runs only after the dedicated runkey increases generation, sets `armed=true`, sets `mode=MEASUREMENT`, authorizes exactly `H32_B0_11_MEASUREMENT`, and binds the exact execution head. Current generation remains 0 / cold.
+The workflow cannot launch FULL178 production. It runs only after the dedicated runkey increases generation, sets `armed=true`, sets `mode=MEASUREMENT`, and authorizes exactly `H32_B0_11_MEASUREMENT`. The workflow itself binds the PR-event head to the checked-out commit (`git rev-parse HEAD == HEAD_SHA`), avoiding an impossible self-referential commit SHA inside the runkey. Current generation remains 0 / cold.

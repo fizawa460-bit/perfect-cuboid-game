@@ -15,8 +15,8 @@ SHARD=HERE/"build_exact_t_joint_histogram_shard.py"
 RUNKEY=ROOT/"stages/stage32-ex5/runkeys/hpadj23-scaleout-measurement.json"
 
 LOCKS={
- "contract_blob":"bd54d80e18f2721d80f00a873e38471bfa010bf3",
- "contract_canon":"5ff7e45a1153ec192e3c2b8cd9118385f228e77d7493b4cce007c11f9f14699d",
+ "contract_blob":"b7472b77268f9ab628c4d486d0687490340f0f97",
+ "contract_canon":"33445747d7c2ef0d55d670c359a027736acd89630a6d96ab875064a1ac676d6b",
  "preflight_blob":"0b71f07f3bfbb0497ddb0be9a0b5ad28681780b6",
  "preflight_canon":"7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d",
  "runner_blob":"2fe44f3ccc97ef051cfdbbd42124ecad3a45b623",
@@ -62,6 +62,7 @@ def main()->None:
     req(key["measurement_target"]=={"H":32,"b_start":0,"b_stop":11},"runkey target")
     req(key["source_locks"]["shard_builder_blob_sha1"]==LOCKS["shard_blob"],"runkey shard lock")
     req(key["source_locks"]["scaleout_preflight_canonical_sha256"]==LOCKS["preflight_canon"],"runkey preflight lock")
+    req(key["authorization_contract"]["workflow_binds_exact_head_from_event"] is True,"runkey exact-head binding mode")
     req(all(v is False for v in key["credit"].values()),"runkey credit firewall")
 
     req(contract["source_locks"]["scaleout_preflight_canonical_sha256"]==LOCKS["preflight_canon"],"contract preflight lock")
@@ -69,8 +70,13 @@ def main()->None:
     req(contract["source_locks"]["shard_builder_blob_sha1"]==LOCKS["shard_blob"],"contract shard lock")
     req(contract["target"]==key["measurement_target"],"contract/runkey target mismatch")
     req(contract["execution"]["production_scaleout_in_same_run"] is False,"measurement run can trigger production")
+    req(contract["authorization"]["workflow_binds_exact_head_from_event"] is True,"contract exact-head binding mode")
+    req(contract["authorization"]["checkout_head_equality_required"] is True,"checkout head equality firewall")
     req(all(v is False for v in contract["firewalls"].values()),"contract credit firewall")
     req(preflight["authorization"]["full178_production_armed"] is False,"preflight production already armed")
+
+    if args.expected_head is not None:
+        req(re.fullmatch(r"[0-9a-f]{40}",args.expected_head) is not None,"expected head format")
 
     armed=bool(key["armed"])
     if args.require_armed:
@@ -79,20 +85,16 @@ def main()->None:
         req(int(key["generation"])>=1,"armed generation must be >=1")
         req(key["mode"]=="MEASUREMENT","armed runkey mode")
         req(key["authorized_operation"]=="H32_B0_11_MEASUREMENT","armed operation")
-        head=key.get("exact_execution_head")
-        req(isinstance(head,str) and re.fullmatch(r"[0-9a-f]{40}",head) is not None,"armed exact execution head")
-        if args.expected_head is not None:
-            req(head==args.expected_head,"runkey exact head mismatch")
     else:
         req(int(key["generation"])==0,"cold generation drift")
         req(key["mode"]=="COLD" and key["authorized_operation"]=="NONE","cold mode/operation drift")
-        req(args.expected_head is None or not args.require_armed,"expected head only meaningful for armed run")
 
     print(json.dumps({
       "verdict":"PASS_HPADJ23_MEASUREMENT_AUTHORIZATION",
       "generation":int(key["generation"]),
       "armed":armed,
       "target":key["measurement_target"],
+      "workflow_binds_exact_head":True,
       "production_authorized":False,
       "main_credit":False,
     },sort_keys=True))
