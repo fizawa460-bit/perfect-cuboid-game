@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 
 concurrency:
@@ -68,8 +68,34 @@ jobs:
             --v48-dir /tmp/v48-pairs \
             --output /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: v48-full-support-384-min-bound
-          path: /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
-          retention-days: 14
+      - name: Persist compact zero-credit certificate
+        run: |
+          set -euo pipefail
+          out="stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-MIN-BOUND-RETAINED.json"
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          src=Path("/tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json")
+          dst=Path("stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-MIN-BOUND-RETAINED.json")
+          o=json.loads(src.read_text())
+          o["execution"]={
+              "workflow_run_id": int(os.environ["GITHUB_RUN_ID"]),
+              "execution_head": os.environ["GITHUB_SHA"],
+              "workflow_path": ".github/workflows/stage32-01-178-exact-tset-probe.yml",
+              "aggregate_blob_sha1": "d2a197701acf4c8447176256662d736b6d3f4d91",
+              "result_retained_by_workflow": True,
+          }
+          o.pop("canonical_sha256_without_this_field",None)
+          raw=json.dumps(o,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()
+          o["canonical_sha256_without_this_field"]=hashlib.sha256(raw).hexdigest()
+          dst.write_text(json.dumps(o,sort_keys=True,indent=2)+"\n")
+          print("RETAINED_CANONICAL="+o["canonical_sha256_without_this_field"])
+          print("RETAINED_RESULT="+json.dumps(o["result"],sort_keys=True))
+          print("RETAINED_COVERAGE="+json.dumps(o["coverage"],sort_keys=True))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${out}"
+          git diff --cached --quiet && { echo "FAIL: no retained certificate produced"; exit 1; }
+          git commit -m "stage32 178: retain V48 full-support 384 min-bound"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
