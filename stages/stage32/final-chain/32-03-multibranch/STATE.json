@@ -1129,7 +1129,7 @@
       }
     },
     "e2_gfixed_factor_pair_receiver_reopen": {
-      "status": "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_FINITE_128_PAIR_WITH_ALGEBRAIC_5BIT_BASIS_ZERO_CREDIT",
+      "status": "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_UNIQUE_FACTOR_PAIR_AFTER_FIXEDPOINT_SUPPORT_ZERO_CREDIT",
       "scope": {
         "support_mask": "000707000f0f",
         "case": "e=2",
@@ -1165,7 +1165,9 @@
         "ordered_factor_pairs_after_linearization": 128,
         "l_independent": true,
         "relation": "for each A in Pic^(28l)(C8)^G, diagonal G-linearizability forces A tensor B^(-1) into the four-class linearizable kernel",
-        "explicit_label_parameterization": "xi in <lambda_1,lambda_2,mu_12,mu_13,mu_23> ~= F2^5; kappa in <lambda_1,lambda_2> ~= F2^2; (A,B)=(A_ref(l) tensor xi, A_ref(l) tensor xi tensor kappa)"
+        "explicit_label_parameterization": "xi in <lambda_1,lambda_2,mu_12,mu_13,mu_23> ~= F2^5; kappa in <lambda_1,lambda_2> ~= F2^2; (A,B)=(A_ref(l) tensor xi, A_ref(l) tensor xi tensor kappa)",
+        "ordered_factor_pairs_after_fixed_point_support": 1,
+        "unique_factor_pair": "(A_ref(l),A_ref(l)) with A_ref(l)=pi_H^*O_P1(7*l)"
       },
       "carrier_to_receiver": {
         "product_line": "O_(C8 x C8)(Zbar)=p1^*A tensor p2^*B",
@@ -1185,7 +1187,7 @@
         "inherited_candidate_chain_hostile_audited": false,
         "current_head_exact_ci_for_candidate_chain": false,
         "five_tau_algebraic_theta_realization_materialized": false,
-        "pair_effectivity_support_test_materialized": false,
+        "pair_effectivity_support_test_materialized": true,
         "fib_picard64_to_factor_label_adapter_materialized": false,
         "determinant_factor_label_blind": true,
         "determinant_blind_reason": "n+4=28*l+4=4*(7*l+1), so factor 2-torsion twists vanish in the pushed conductor determinant class",
@@ -1193,7 +1195,9 @@
         "fixed_point_character_reason": "diagonal fixed-point linearization currently yields obs_G(A)=obs_G(B), already exactly the 128-pair reduction, but does not separately linearize A and B",
         "direct_conductor_transition_still_missing": true,
         "equivalent_algebraic_five_bit_basis_materialized": true,
-        "historical_tau_termwise_identification_materialized": false
+        "historical_tau_termwise_identification_materialized": false,
+        "fixed_point_support_character_test_materialized": true,
+        "remaining_unique_pair_exact_support_singularity_test_materialized": false
       },
       "cross_lane_alignment": {
         "mb_fib_pr": 1829,
@@ -1206,7 +1210,7 @@
         "direct_X8_Gfixed_2torsion_algebraic_basis_found": false,
         "closest_method_found": "Elvira Lupoian, Two-Torsion Subgroup of some Modular Jacobians (2022), computational theta-hyperplane method for other genus-3/4/5 modular Jacobians; no direct X(8) adapter located"
       },
-      "next_gate": "Use the explicit five-bit algebraic basis to parameterize A=A_ref(l) tensor xi and B=A_ref(l) tensor xi tensor kappa with xi in J(C8)^G[2] (32 labels) and kappa in <lambda_1,lambda_2> (4 labels). The next test must constrain sections/divisors by the 000707 support passport, irreducibility, common-etale normalization, or an exact MB-FIB restriction map. Plain degree/effectivity and determinant monodromy are insufficient.",
+      "next_gate": "The finite label ambiguity is exhausted: only (A_ref(l),A_ref(l)) survives the fixed-point support-character test. Test the unique pair against the exact 000707 node-vanishing multiplicities, singularity/conductor passport, irreducibility and common-etale normalization, or obtain an MB-FIB/Picard64 restriction condition. Unrestricted Hdiag section existence is abundant and is not a closer.",
       "firewalls": {
         "e2_closed": false,
         "e4_closed": false,
@@ -1335,25 +1339,148 @@
           "e2_closed": false,
           "MB104_complete": false
         }
+      },
+      "fixed_point_support_pruning": {
+        "status": "EXACT_PREAUDIT_CONDITIONAL_FIXEDPOINT_CHARACTER_REDUCTION_128_TO_1_ZERO_CREDIT",
+        "source_locks": {
+          "node_stabilizer_type_note_blob": "a29161602c0b38f0607794e56e61068b8cb9735d",
+          "current_survivor_node_type_note_blob": "968b1a98bfabed60ab8909da0728beeca482bd40",
+          "diagonal_g_linearization_note_blob": "7593aad67cbc284f16066063bc6abc6afb2352c8",
+          "equivariant_picard_source_note_blob": "a8db86e809ed6a19e7777a7680f3392f980e0bf0",
+          "intermediate_h_model_blob": "d2e3056137360a9e15ae7c820088d2977a5eb137",
+          "residual_node_orbit_note_blob": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e",
+          "modular_residual_character_note_blob": "ce9554bc047159baf7640db50aa5daf1f0c67f74"
+        },
+        "group": {
+          "structure": "G=(Z/2)^3",
+          "generators": [
+            "g1=T'",
+            "g2=TT'R",
+            "g3=T"
+          ],
+          "support_subgroup": "H=<g1,g2>",
+          "node_types_total_each": 16,
+          "active_support_type_counts": {
+            "g1": 7,
+            "g2": 7,
+            "g3": 0
+          }
+        },
+        "fixed_cell_lemma": {
+          "fixed_points_per_singular_generator_on_C8": 8,
+          "branch_orbits_per_type": 2,
+          "points_per_branch_orbit": 4,
+          "branch_value_cells_per_type": 4,
+          "diagonal_nodes_per_cell": 4,
+          "relative_cosets_per_cell": 4,
+          "total_nodes_per_type": 16,
+          "reason": "Fix(g_i) is two G-orbits of size 4; each product cell R_(i,a)xR_(i,b) has 16 points and four diagonal-G orbits indexed by G/<g_i>."
+        },
+        "obstruction_bit_pruning": {
+          "obstruction_coordinates": [
+            "beta_12",
+            "beta_13",
+            "beta_23"
+          ],
+          "fiber_weight_rule": "on a type-g_i cell, moving the relative coset by h changes the product fiber eigenvalue by the commutator character beta(g_i,h)",
+          "nontrivial_character_forced_nodes_per_cell": 2,
+          "cells_per_type": 4,
+          "nontrivial_restriction_forced_nodes_per_type": 8,
+          "support_capacity_per_used_type": 7,
+          "g1_constraint": "beta_12=beta_13=0",
+          "g2_constraint": "beta_12=beta_23=0",
+          "conclusion": "beta_12=beta_13=beta_23=0; both A and B are individually G-linearizable",
+          "pair_count_before": 128,
+          "pair_count_after": 16
+        },
+        "linearizable_kernel_pruning": {
+          "reference_orbit": "R_3,0 = reduced g3-fixed orbit lying over r=0",
+          "reference_line": "A_ref(l)=O_C8(7*l*R_3,0)=pi_H^*O_P1(7*l)",
+          "equivalent_kernel_basis": {
+            "lambda_g1": "O(R_1,0-R_3,0)",
+            "lambda_g2": "O(R_2,0-R_3,0)",
+            "span": "Ker(obs_G|J(C8)^G)=(Z/2)^2"
+          },
+          "parameterization": "A=A_ref tensor lambda_g1^a tensor lambda_g2^b; B=A tensor lambda_g1^c tensor lambda_g2^d",
+          "type_g1_cell_linear_part": "(a,a+c)",
+          "type_g2_cell_linear_part": "(b,b+d)",
+          "nonzero_cell_linear_part_forced_cells": 2,
+          "nodes_per_cell": 4,
+          "nonzero_cell_linear_part_forced_nodes": 8,
+          "support_capacity_per_used_type": 7,
+          "g1_conclusion": "a=c=0",
+          "g2_conclusion": "b=d=0",
+          "conclusion": "a=b=c=d=0",
+          "pair_count_before": 16,
+          "pair_count_after": 1
+        },
+        "unique_survivor": {
+          "A": "A_ref(l)=pi_H^*O_P1(7*l)",
+          "B": "A_ref(l)=pi_H^*O_P1(7*l)",
+          "relative_kernel_class": "O",
+          "obstruction_class": "0",
+          "defining_H_character": "trivial for the canonical reference linearization, since a nontrivial value on g1 or g2 would force all 16 nodes of that type"
+        },
+        "linearization_choice_firewall": "twisting a factor linearization by a character changes only affine constants in fixed-point fiber weights; the nonzero linear parts and 8-forced-node contradiction are unchanged",
+        "finite_replay": {
+          "nonzero_F2_2_linear_character_ones": 2,
+          "nodes_forced_from_nonzero_cell_character": 8,
+          "nodes_forced_from_nonzero_relative_commutator": 8,
+          "engine": "Wolfram Language",
+          "replay_pass": true
+        },
+        "inherited_candidate_firewall": "The reduction is exact conditional on the source-locked Rosati/product-linearization/external-product chain; that chain has not received current-head hostile audit.",
+        "firewalls": {
+          "unique_pair_is_existence_proof": false,
+          "e2_closed": false,
+          "e4_closed": false,
+          "support_000707_closed": false,
+          "receiver_credit": false,
+          "theorem_credit": false,
+          "endpoint_credit": false,
+          "merge_authorized": false
+        }
+      },
+      "equivariant_section_effectivity_wall": {
+        "status": "EXACT_PREAUDIT_UNRESTRICTED_HDIAG_SECTION_NONVANISHING_NO_EXCLUSION",
+        "quotient": "pi_H:C8->P1_r is the biquadratic H-cover",
+        "pushforward_decomposition": "pi_H*O_C8 = O + O(-2)_chi1 + O(-2)_chi2 + O(-4)_(chi1*chi2)",
+        "reference_line": "A_ref(l)=pi_H^*O_P1(7*l)",
+        "character_section_dimensions": {
+          "trivial": "7*l+1",
+          "chi1": "7*l-1",
+          "chi2": "7*l-1",
+          "chi1chi2": "7*l-3"
+        },
+        "hdiag_invariant_product_section_dimension": "196*l^2-56*l+12",
+        "l1_dimension": 152,
+        "conclusion": "plain Hdiag-equivariant section existence does not eliminate the unique factor pair; the next discriminator must use the exact 000707 vanishing/singularity passport, irreducibility/common-etale normalization, or a FIB/Picard64 restriction character",
+        "firewalls": {
+          "unique_pair_effective_with_required_support_proved": false,
+          "irreducible_required_divisor_constructed": false,
+          "common_etale_normalization_constructed": false,
+          "e2_closed": false
+        }
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 G-fixed 128-pair receiver — equivariant section/support test",
-    "active_leaf": "MB104-000707-E2-GFIXED-128-PAIR-EQUIVARIANT-SECTION-TEST",
-    "required_input": "The equivalent algebraic five-bit basis is now materialized. Parameterize all 128 factor pairs by xi in <lambda_1,lambda_2,mu_12,mu_13,mu_23> and kappa in <lambda_1,lambda_2>. Seek an exact condition from the 000707 support passport, irreducibility, common-etale normalization, or MB-FIB/Picard64 restriction data that rejects factor labels. Do not spend work on plain high-degree effectivity, which is not a plausible discriminator, and do not reuse determinant monodromy as conductor sheet data.",
+    "title": "e=2 unique factor pair — singular support/passport test",
+    "active_leaf": "MB104-000707-E2-UNIQUE-FACTOR-PAIR-SINGULAR-PASSPORT-TEST",
+    "required_input": "The finite factor-label ambiguity is reduced from 1024 to 128 and now to the unique pair A=B=pi_H^*O_P1(7*l), conditional on the retained candidate chain. Do not enumerate Picard labels again. Test this unique pair using the exact 000707 supported-node vanishing/multiplicity passport, irreducibility, common-etale normalization, adaptive cancellation/conductor geometry, or an exact MB-FIB/Picard64 restriction adapter.",
     "success_shapes": [
-      "exact pair-label constraint that eliminates a nonzero subset of the 128 factor pairs",
-      "exact MB-FIB/Picard64 restriction character in the five-bit algebraic basis",
-      "exact finite rejection of all 128 pairs followed by hostile audit before e=2 promotion",
-      "bounded proof that all 128 labels survive the available section/support invariants, with an explicit next missing datum and zero credit"
+      "exact contradiction for the unique factor pair, followed by hostile audit before any e=2 promotion",
+      "exact singular/support condition reducing the unique-pair section space to a finite or empty set",
+      "exact MB-FIB/Picard64 restriction condition incompatible with the unique pair",
+      "bounded proof that the unique pair survives all currently available support/passport invariants, identifying the next genuinely missing datum with zero credit"
     ],
     "must_not_repeat": [
-      "historical tau_j termwise matching unless a source-complete period/divisor adapter appears",
-      "plain Riemann-Roch effectivity of degree-28l factor lines",
+      "128-pair enumeration or fixed-Jacobian basis search",
+      "historical tau_j termwise matching",
+      "plain unrestricted equivariant effectivity/Riemann-Roch",
       "conductor determinant as a factor-label discriminator",
-      "determinant monodromy as a surrogate for pointwise residual conductor sheet data",
+      "determinant monodromy as conductor sheet data",
       "generic endomorphism-centralizer search after Phi_Z=0",
       "conductor pair norm/determinant/Fitting/trace-zero low-degree compression",
       "P.F<36 fibration search",
@@ -1405,7 +1532,7 @@
     "null_union_ambient_lift_route": "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G",
     "compact_C8_commensurator_candidate": "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING",
     "conductor_pair_low_degree_pushforward_route": "CLOSED_QUADRATIC_OR_WEIGHT_BLIND_NO_GO",
-    "finite_receiver_scan_status": "REOPENED_E2_GFIXED_128_PAIR_ALGEBRAIC_BASIS_READY_ZERO_CREDIT",
+    "finite_receiver_scan_status": "REOPENED_E2_GFIXED_UNIQUE_PAIR_AFTER_FIXEDPOINT_SUPPORT_ZERO_CREDIT",
     "equigeneric_semiregularity_route": "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH",
     "mb104_parking_audit_complete": true,
     "mb104_parked_await_new_adapter": false,
@@ -1413,7 +1540,10 @@
     "e2_gfixed_128_pair_receiver_audited": false,
     "e2_gfixed_128_pair_count": 128,
     "e2_gfixed_algebraic_5bit_basis_materialized": true,
-    "e2_gfixed_historical_tau_termwise_identified": false
+    "e2_gfixed_historical_tau_termwise_identified": false,
+    "e2_gfixed_support_character_survivor_count": 1,
+    "e2_gfixed_unique_factor_pair": "A=B=pi_H^*O_P1(7*l)",
+    "e2_gfixed_plain_equivariant_effectivity_closes": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
