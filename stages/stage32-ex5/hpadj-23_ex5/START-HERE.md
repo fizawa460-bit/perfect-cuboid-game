@@ -48,3 +48,9 @@ The producer does **not** need 178 independent BC/t histogram builds. FULL178 us
 The universal producer is partitioned provisionally into the same eight b-bands used by HPADJ22: `[0,11]...[84,96]`. A bounded H=16 four-shard test has exact disjoint union equality with the full builder: 47,667 bins, 207,474 exact-t entries, multiplicity 1,305,021.
 
 Production remains cold. Before any H=96 arm, the retained gate requires exactly one representative measurement target `H=32, b=0..11` to record wall/CPU time, peak RSS, raw/compressed bytes, bin count and t-entry count. The measurement runkey is generation 0 / `armed=false`; ordinary mainbatch is not authorized to arm it. No MAIN or theorem credit is granted.
+
+## Measurement execution surface — ready but cold
+
+A dedicated measurement workflow is now source-locked for exactly `H=32, b=0..11`. It runs with concurrency 1, a 120-minute timeout and a 128 MiB artifact cap, retaining the raw JSONL plus a measurement receipt for three days. The receipt records wall/CPU time, peak RSS, raw bytes, zlib-9 bytes, bin count and exact-t entry count.
+
+The workflow cannot launch FULL178 production. It runs only after the dedicated runkey increases generation, sets `armed=true`, sets `mode=MEASUREMENT`, authorizes exactly `H32_B0_11_MEASUREMENT`, and binds the exact execution head. Current generation remains 0 / cold.

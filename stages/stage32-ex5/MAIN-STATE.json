@@ -131,15 +131,15 @@
     }
   },
   "current": {
-    "status": "HPADJ23_FULL178_SCALEOUT_PREFLIGHT_RETAINED_COLD",
+    "status": "HPADJ23_MEASUREMENT_EXECUTION_SURFACE_READY_COLD",
     "breadth_cycle": "POST_FULL178_REFINEMENT",
     "leaf": "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER",
     "route_id": "HPADJ-23_ex5",
     "route_family": "PICARD64_NODE_SUPPORT_EXACT_T_HOLE_PRODUCER",
     "objective": "Produce an exact (b,c,support,required_parity,qBC,t) histogram interface that removes the current support-qBC parity-hull relaxation without duplicating 32-01-178 consumer execution.",
-    "blocker": "REPRESENTATIVE_H32_B0_11_MEASUREMENT_NOT_AUTHORIZED",
+    "blocker": "MEASUREMENT_RUNKEY_GENERATION_0_COLD_NOT_ARMED",
     "next_route": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
-    "stop_semantics": "UNIVERSAL_H96_SHARDED_DESIGN_READY__MEASUREMENT_COLD__NO_PRODUCTION_ARM"
+    "stop_semantics": "MEASUREMENT_WORKFLOW_READY__RUNKEY_COLD__NO_FULL178_PRODUCTION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/hpadj-23_ex5/START-HERE.md",
@@ -147,10 +147,12 @@
     "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
     "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram_shard.py",
     "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-SHARD-BOUNDED-EQUIVALENCE.json",
-    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_shard_bounded_equivalence.py",
     "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-FULL178-SCALEOUT-PREFLIGHT.json",
-    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_scaleout_preflight.py",
+    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-MEASUREMENT-EXECUTION-CONTRACT.json",
+    "stages/stage32-ex5/hpadj-23_ex5/measure_scaleout_shard.py",
+    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_measurement_authorization.py",
     "stages/stage32-ex5/runkeys/hpadj23-scaleout-measurement.json",
+    ".github/workflows/stage32-ex5-hpadj23-measurement.yml",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "full178_interface": {
@@ -178,7 +180,12 @@
     ],
     "hpadj23_provisional_b_band_count": 8,
     "hpadj23_measurement_armed": false,
-    "hpadj23_storage_preflight_complete": false
+    "hpadj23_storage_preflight_complete": false,
+    "hpadj23_measurement_execution_surface_ready": true,
+    "hpadj23_measurement_workflow": ".github/workflows/stage32-ex5-hpadj23-measurement.yml",
+    "hpadj23_measurement_concurrency": 1,
+    "hpadj23_measurement_timeout_minutes": 120,
+    "hpadj23_measurement_artifact_cap_bytes": 134217728
   },
   "frontier": {
     "global_full178_numerical_census_complete_observed": true,
@@ -216,7 +223,10 @@
       "b_start": 0,
       "b_stop": 11
     },
-    "hpadj23_measurement_armed": false
+    "hpadj23_measurement_armed": false,
+    "hpadj23_measurement_execution_surface_ready": true,
+    "hpadj23_measurement_runner_blob": "2fe44f3ccc97ef051cfdbbd42124ecad3a45b623",
+    "hpadj23_measurement_workflow_blob": "f864d59964b06700112eaece7b033433389bf079"
   },
   "retained_exact_progress": {
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -231,10 +241,11 @@
     "hpadj23_bounded_handoff_canonical": "d31608f8ab1aa9e0c9b11d71c4e560b1fa9f3eef6f26bb2b56145ca937d38615",
     "hpadj23_shard_equivalence_canonical": "5899b8eaac1cd6205d421d6f92874f4dbff47a31a00b37029cc84f9365c19a9b",
     "hpadj23_scaleout_preflight_canonical": "7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d",
-    "hpadj23_measurement_runkey_canonical": "cac4eaaad929420fa0bf98f8493c7a7c8ac18986b183fd11e13a9d3ed316e24a"
+    "hpadj23_measurement_runkey_canonical": "cac4eaaad929420fa0bf98f8493c7a7c8ac18986b183fd11e13a9d3ed316e24a",
+    "hpadj23_measurement_execution_contract_canonical": "5ff7e45a1153ec192e3c2b8cd9118385f228e77d7493b4cce007c11f9f14699d"
   },
   "claim_sync": {
-    "last_trigger": "HPADJ23_FULL178_SCALEOUT_PREFLIGHT_RETENTION",
+    "last_trigger": "HPADJ23_MEASUREMENT_EXECUTION_SURFACE_RETENTION",
     "lane_role": "PRODUCER_REFINEMENT_ZERO_MAIN_CREDIT",
     "active_frontier_remapped": false,
     "claim_registry_mutated": false,
@@ -283,13 +294,14 @@
   },
   "next_step": {
     "id": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
-    "goal": "Run exactly one H=32, b=0..11 producer measurement only after an explicit runkey generation/arm commit; use its wall/RSS/storage metrics to freeze production sharding.",
+    "goal": "When explicitly authorized, increment and arm the dedicated runkey for exactly H=32,b=0..11, run one measurement job, and use only its resource/storage metrics to freeze production sharding.",
     "measurement_target": {
       "H": 32,
       "b_start": 0,
       "b_stop": 11
     },
     "measurement_armed": false,
+    "measurement_execution_surface_ready": true,
     "heavy_scaleout_authorized": false,
     "full178_production_authorized": false,
     "main_promotion_authorized": false,

@@ -1,0 +1,59 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_SCALEOUT_MEASUREMENT_EXECUTION_CONTRACT_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "COLD_EXECUTION_SURFACE_READY__EXPLICIT_RUNKEY_ARM_REQUIRED",
+  "purpose": "Execute exactly one representative HPADJ23 shard measurement for storage/runtime planning without mathematical or MAIN credit.",
+  "source_locks": {
+    "scaleout_preflight_canonical_sha256": "7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d",
+    "measurement_runner_blob_sha1": "2fe44f3ccc97ef051cfdbbd42124ecad3a45b623",
+    "shard_builder_blob_sha1": "25284ea56c0746912318ce3c0d0e75d50cf60458"
+  },
+  "target": {
+    "H": 32,
+    "b_start": 0,
+    "b_stop": 11
+  },
+  "execution": {
+    "job_concurrency": 1,
+    "job_timeout_minutes": 120,
+    "artifact_retention_days": 3,
+    "artifact_hard_cap_bytes": 134217728,
+    "raw_jsonl_retained": true,
+    "measurement_json_retained": true,
+    "production_scaleout_in_same_run": false
+  },
+  "authorization": {
+    "runkey": "stages/stage32-ex5/runkeys/hpadj23-scaleout-measurement.json",
+    "requires_generation_increment": true,
+    "requires_armed_true": true,
+    "requires_authorized_operation": "H32_B0_11_MEASUREMENT",
+    "requires_exact_execution_head": true,
+    "workflow_dispatch_requires_expected_head": true
+  },
+  "result_use": {
+    "allowed": [
+      "storage sizing",
+      "runtime sizing",
+      "peak RSS sizing",
+      "compressed/raw ratio",
+      "final shard partition choice",
+      "production concurrency planning"
+    ],
+    "forbidden": [
+      "Stage32 MAIN pruning credit",
+      "terminal saving claim",
+      "FULL178 completion claim",
+      "effectivity credit",
+      "theorem credit"
+    ]
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "full178_producer_complete": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "5ff7e45a1153ec192e3c2b8cd9118385f228e77d7493b4cce007c11f9f14699d"
+}

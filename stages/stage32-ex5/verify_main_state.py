@@ -29,6 +29,10 @@ HPADJ23_SHARD_EQ_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_shard_bounde
 HPADJ23_SCALEOUT_PREFLIGHT = HERE / "hpadj-23_ex5" / "HPADJ23-FULL178-SCALEOUT-PREFLIGHT.json"
 HPADJ23_SCALEOUT_RUNKEY = HERE / "runkeys" / "hpadj23-scaleout-measurement.json"
 HPADJ23_SCALEOUT_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_scaleout_preflight.py"
+HPADJ23_MEASUREMENT_RUNNER = HERE / "hpadj-23_ex5" / "measure_scaleout_shard.py"
+HPADJ23_MEASUREMENT_CONTRACT = HERE / "hpadj-23_ex5" / "HPADJ23-MEASUREMENT-EXECUTION-CONTRACT.json"
+HPADJ23_MEASUREMENT_AUTH = HERE / "hpadj-23_ex5" / "verify_hpadj23_measurement_authorization.py"
+HPADJ23_MEASUREMENT_WORKFLOW = HERE.parents[1] / ".github" / "workflows" / "stage32-ex5-hpadj23-measurement.yml"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
 ARCH_STATE_BLOB = "a26f19cb01d86174aef49495be16e946a429ddcb"
@@ -48,6 +52,10 @@ HPADJ23_SHARD_EQ_VERIFIER_BLOB = "6aea0f8c39ea0865fb3926aec55ba25582a31697"
 HPADJ23_SCALEOUT_PREFLIGHT_BLOB = "0b71f07f3bfbb0497ddb0be9a0b5ad28681780b6"
 HPADJ23_SCALEOUT_RUNKEY_BLOB = "2e47aae6c05d7e12d34be6cca482b747ac71f811"
 HPADJ23_SCALEOUT_VERIFIER_BLOB = "79119922e51ccd3d31b8ae6306ffd6928cfb8183"
+HPADJ23_MEASUREMENT_RUNNER_BLOB = "2fe44f3ccc97ef051cfdbbd42124ecad3a45b623"
+HPADJ23_MEASUREMENT_CONTRACT_BLOB = "bd54d80e18f2721d80f00a873e38471bfa010bf3"
+HPADJ23_MEASUREMENT_AUTH_BLOB = "82e20e793f3f7ba14aad9224622a5ef30b7d8218"
+HPADJ23_MEASUREMENT_WORKFLOW_BLOB = "f864d59964b06700112eaece7b033433389bf079"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -264,11 +272,30 @@ def main() -> None:
         runpy.run_path(str(HPADJ23_SCALEOUT_VERIFIER), run_name="__main__")
     finally:
         sys.argv = old_argv
+    req(HPADJ23_MEASUREMENT_RUNNER.is_file() and
+        blob(HPADJ23_MEASUREMENT_RUNNER) == HPADJ23_MEASUREMENT_RUNNER_BLOB,
+        "HPADJ23 measurement runner drift")
+    req(HPADJ23_MEASUREMENT_CONTRACT.is_file() and
+        blob(HPADJ23_MEASUREMENT_CONTRACT) == HPADJ23_MEASUREMENT_CONTRACT_BLOB,
+        "HPADJ23 measurement execution contract drift")
+    req(HPADJ23_MEASUREMENT_AUTH.is_file() and
+        blob(HPADJ23_MEASUREMENT_AUTH) == HPADJ23_MEASUREMENT_AUTH_BLOB,
+        "HPADJ23 measurement authorization verifier drift")
+    req(HPADJ23_MEASUREMENT_WORKFLOW.is_file() and
+        blob(HPADJ23_MEASUREMENT_WORKFLOW) == HPADJ23_MEASUREMENT_WORKFLOW_BLOB,
+        "HPADJ23 measurement workflow drift")
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ23_MEASUREMENT_AUTH)]
+        runpy.run_path(str(HPADJ23_MEASUREMENT_AUTH), run_name="__main__")
+    finally:
+        sys.argv = old_argv
     print("PASS: retained EX5 V5 state and live credit/routing firewalls verified")
     print("producer_policy=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
     print("exact_replay_policy=HOSTILE_AUDIT_OR_ON_DEMAND")
     print("HPADJ23_SHARD_EQ_REPLAY_POLICY=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
     print("HPADJ23_SCALEOUT=UNIVERSAL_H96_COLD_MEASUREMENT_GATE")
+    print("HPADJ23_MEASUREMENT_EXECUTION_SURFACE=READY_COLD")
     print("HPADJ20_SOURCE_LOCK=" + LOCKED_PRODUCERS[
         "hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py"
     ])
