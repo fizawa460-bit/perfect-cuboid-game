@@ -36,7 +36,7 @@ def solve_span(S,G,H):
 def stats(R):
  nz=[R[i,j] for i in range(64) for j in range(64) if R[i,j]!=0]
  return {"zero":not nz,"rank":int(R.rank()),"nonzero_entries":len(nz),"max_abs_num":max([abs(int(x.p)) for x in nz],default=0),"max_den":max([int(x.q) for x in nz],default=1)}
-def main():
+def main():\n # Population-level exact frame probe; no effectivity credit is granted here.
  for p,h in LOCK.items():req(blob(p)==h,"lock "+str(p))
  v=load(BASE,"eff03base");bundle=v.load_retained(RET,"eff03ret");mark=v.load_retained(MARK,"eff03mark")
  data=v.reconstruct_translation_data(mark,bundle);P=Matrix(data["adapter"].pairing_matrix);G=Matrix(bundle["picard_gram_64x64"]);H=Matrix(1,64,[int(x) for x in data["bridge"].degree_functional])
