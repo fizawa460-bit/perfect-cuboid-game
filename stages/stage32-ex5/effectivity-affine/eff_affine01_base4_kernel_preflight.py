@@ -234,6 +234,7 @@ def main() -> None:
     print("EFF_AFFINE01_FIXED_RANK=" + str(fixed_rank))
     print("EFF_AFFINE01_KERNEL_DIM=" + str(kernel.cols))
     print("EFF_AFFINE01_CANONICAL=" + out["canonical_sha256_without_this_field"])
+    print("EFF_AFFINE01_RESULT_JSON=" + json.dumps(out, sort_keys=True, separators=(",", ":")))
 
 
 if __name__ == "__main__":
