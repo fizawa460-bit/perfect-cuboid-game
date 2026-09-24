@@ -7,6 +7,7 @@ import hashlib
 import importlib.util
 import json
 import math
+from functools import lru_cache
 import sys
 import time
 from pathlib import Path
@@ -76,6 +77,8 @@ def main() -> None:
     req(blob(V47_HELPER) == V47_HELPER_BLOB, "V47 helper drift")
     support = load(SUPPORT, "joint_tset_selector_support")
     joint = load(JOINT, "joint_tset_selector_min")
+    separate_floor_fn = lru_cache(maxsize=None)(support.aggregate_q_lower)
+    joint_floor_fn = lru_cache(maxsize=None)(joint.joint_q_lower)
     hd = load(V47_HELPER, "joint_tset_selector_v47")
     direct = hd.load(hd.DIRECT, hd.DIRECT_BLOB, "joint_tset_selector_direct")
     old = direct.load_old(args.source_root)
@@ -134,11 +137,11 @@ def main() -> None:
             parity = c & 1
             t_domain = tuple(range(parity, b + c + 1, 2))
             separate_floor = {
-                t: support.aggregate_q_lower(b, c, t, sbc)
+                t: separate_floor_fn(b, c, t, sbc)
                 for t in t_domain
             }
             joint_floor = {
-                t: joint.joint_q_lower(b, c, t, sbc)
+                t: joint_floor_fn(b, c, t, sbc)
                 for t in t_domain
             }
             req(
