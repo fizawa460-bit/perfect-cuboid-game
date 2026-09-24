@@ -67,6 +67,19 @@ jobs:
           cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-15-next-exceptional-terminal-block-preflight-checkpoint.json
       - name: Verify retained BC2-16 exact UNSAT checkpoint
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_16_outer_rank5_exact_unsat_checkpoint.py
+      - name: Run bounded EFF-AFFINE01 FP58 sample key
+        run: |
+          python stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.py \
+            --base4 0 1 1 1 \
+            --output /tmp/eff-affine01-fp58-sample.json
+          python - <<'PY'
+          import json
+          p=json.load(open("/tmp/eff-affine01-fp58-sample.json"))
+          assert p["complete"] is True
+          assert p["classification"] in {"BAD_SHELL_UNSAT_EXACT","BAD_SHELL_SAT_WITNESS","HNF_IMAGE_UNSAT"}
+          print("EFF_AFFINE01_FP58_SAMPLE="+p["classification"])
+          print("EFF_AFFINE01_FP58_NODES="+str(p.get("node_count",0)))
+          PY
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify EX5 cross-lane producer demand routing
