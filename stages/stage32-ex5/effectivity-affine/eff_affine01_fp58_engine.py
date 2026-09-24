@@ -124,8 +124,14 @@ def solve(base4):
                     else:
                         leaves+=1
                         x=bp+RK*Matrix(coords); pair=P*x; c2=int((x.T*gram*x)[0])
-                        req(min(pair)>=0 and LOW<=c2<=HIGH,"leaf verification")
-                        witness={"C2":c2,"picard_coordinates":[int(v) for v in x]}
+                        req(min(pair)>=0 and c2>=LOW,"leaf verification")
+                        # The Fincke--Pohst ellipsoid is bounded by the
+                        # adjunction lower edge only.  Leaves above HIGH are
+                        # valid relaxed-fiber points, not bad-shell witnesses;
+                        # keep enumerating until a LOW..HIGH witness is found
+                        # or the complete ellipsoid is exhausted.
+                        if c2<=HIGH:
+                            witness={"C2":c2,"picard_coordinates":[int(v) for v in x]}
                 for k in range(140): fixed[k]-=coeff[k][i]*transformed
                 if witness is not None: return
             if step>0 and not any_possible:
