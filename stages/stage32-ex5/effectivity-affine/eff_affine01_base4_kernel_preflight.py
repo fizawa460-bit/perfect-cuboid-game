@@ -27,6 +27,7 @@ EFF_WORKER = ROOT / "stages/stage32/final-chain/32-02-effectivity/compressed-fib
 EFF_WORKER_BLOB = "c18c06fc9c1be7b972564e69bac730542db2febd"
 HISTORICAL_AFFINE = ROOT / "stages/stage32/32-03/affine_lattice.py"
 HISTORICAL_AFFINE_BLOB = "8aaa29208508c5314d30952044e037a6deb14b61"
+HISTORICAL_FP_ALGORITHM_ID = "HNF_KERNEL_EXACT_GRAM_LLL_FP140_V1"
 RETAINED = ROOT / "stages/stage33/33-07/picard_base_rows_retained.py"
 RETAINED_BLOB = "82e4d450a1d852e34f6615440fb88a029c6e54eb"
 MARKING = ROOT / "stages/stage33/33-07/stage32_picard_marking_retained.py"
@@ -95,6 +96,10 @@ def main() -> None:
     for path, expected in locks.items():
         req(path.is_file(), f"missing source lock: {path}")
         req(git_blob(path) == expected, f"source lock drift: {path}")
+
+    historical_fp = load_module(HISTORICAL_AFFINE, "stage32ex5_eff_affine01_historical_fp")
+    req(historical_fp.ALGORITHM_ID == HISTORICAL_FP_ALGORITHM_ID, "historical Fincke-Pohst algorithm drift")
+    req(callable(historical_fp.solve_cell), "historical Fincke-Pohst recursion missing")
 
     eff = json.loads(EFF_PREFLIGHT.read_text(encoding="utf-8"))
     req(eff["schema"] == "STAGE32_MAIN_32_02_EFF_CFRR01_PREFLIGHT_V1", "EFF-CFRR01 schema drift")
@@ -243,13 +248,22 @@ def main() -> None:
             "sample_hnf_image_integral": sample_integral_image,
             "sample_hnf_image_coordinates": [str(v) for v in image_coordinates],
         },
+        "historical_fp_backend": {
+            "algorithm_id": HISTORICAL_FP_ALGORITHM_ID,
+            "source_blob_sha1": HISTORICAL_AFFINE_BLOB,
+            "complete_recursion_available": True,
+            "all140_continuous_pruning_available": True,
+            "direct_reuse_without_dimension_port": False,
+            "historical_kernel_dimension": 54,
+            "target_kernel_dimension": 58,
+        },
         "interpretation": {
             "what_is_proved":
                 "The EFF-CFRR01 base4/e/d relaxed Picard64 fiber has an exact saturated 58-dimensional integer H-perp kernel, a unimodular HNF image/kernel split, and a positive-definite exact Gram-LLL reduced -intersection form. The remaining independent certification step is complete Fincke-Pohst bad-shell enumeration with all140 pruning.",
             "what_is_not_proved":
                 "No bad-shell UNSAT, no five-key MAIN pilot result, no effectivity or carrier conclusion, and no MAIN credit are established by this structural preflight.",
             "next_exact_unit":
-                "Port the historical exact Fincke-Pohst recursion to the saturated six-equality base4/e/d fiber, retain all140 nonnegativity pruning, and independently replay only keys whose MAIN diagnostic reports bad-shell UNSAT.",
+                "Port the source-locked historical exact Fincke-Pohst recursion from 54D to the saturated 58D six-equality base4/e/d fiber, retain all140 nonnegativity pruning, then independently replay only keys whose MAIN diagnostic reports bad-shell UNSAT.",
         },
         "firewalls": {
             "main_eff_cfrr01_pilot_executed_by_ex5": False,
