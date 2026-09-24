@@ -18,6 +18,7 @@ ACTIVE_AUTO = {
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
+    ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
     ".github/workflows/stage32-ex5-main.yml",

@@ -1,0 +1,63 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_E_INDEPENDENCE_PREFLIGHT_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "status": "EXACT_EXECUTION_COST_REDUCTION_PREFLIGHT_ZERO_CREDIT",
+  "purpose": "Prove that the GRF04 integer-projection x4 interval used in the V46 HPADJ22 joint route is independent of e over the entire FULL178 admissible domain, so exact joint survivor counting may compute the x4 intersection once per compact (g,d,a,b,c,qA,qBC,parity) cell and multiply by the number of eligible e values.",
+  "source_locks": {
+    "hpadj16_source_path": "stages/stage32-ex5/hpadj-16_ex5/derive_q_quadratic_b_shard_mass_lp_bound.py",
+    "hpadj16_source_blob_sha1": "61805f8b6d661c29805b6966e2453ed411d73189",
+    "hpadj22_bounded_gate_path": "stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py",
+    "hpadj22_bounded_gate_blob_sha1": "98d84c925af74c35b99001b08d8428f997ab63ea",
+    "integer_projection_verifier_path": "stages/stage32/management/grf04-quadratic-capacity/verify_grf04_main_bc_qt_integer_projection_preflight.py",
+    "integer_projection_verifier_blob_sha1": "6b85abcd693586191eb83a7f275b8dd5d9c69b18",
+    "retained_bounded_pilot_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json",
+    "retained_bounded_pilot_blob_sha1": "6b0bceeb562433045449f928343ad5fcd9073af4",
+    "retained_bounded_pilot_canonical_sha256": "713cb7725bf9ddf0fb38f7efba5c8e2ac6f5a25757b3e9f7ac4347e3827c4db9"
+  },
+  "proof": {
+    "hpadj16_x4_search_cap": "a0_interval uses n_min=8*h with d=2*h, hence n_min=4*d; its right endpoint is strictly below n_min because f0(n_min)>0 is asserted before the right boundary binary search.",
+    "resulting_x4_bound": "every x4 returned by a0_interval satisfies 0 <= x4 < 4*d",
+    "eligible_e_upper_bound": "eligible_e uses upper=min(floor(19*d/5),3*d,3*d-(b-c)), hence every eligible e satisfies e<=3*d",
+    "normal_block_parameter": "n=19*d-5*e",
+    "n_lower_bound": "e<=3*d implies n>=19*d-15*d=4*d",
+    "strict_relation": "therefore x4<4*d<=n for every FULL178 admissible compact cell",
+    "consequence": "the min(n, raw_hi) cap in the integer-projection x4 interval is never active on any Picard-eligible x4 point",
+    "exact_rewrite": "count the exact Picard/parity/capacity x4 points in the GRF04 interval once, then multiply by len(eligible_e); do not use min of survivor counts"
+  },
+  "universal_check": {
+    "d_even_min": 8,
+    "d_even_max": 192,
+    "e_even_min": 0,
+    "e_upper_formula": "3*d",
+    "x4_upper_formula": "4*d-1",
+    "checked_symbolically_and_by_finite_integer_loop": true
+  },
+  "bounded_evidence": {
+    "max_d": 16,
+    "row_count": 10,
+    "hpadj22_exact_survivors": 345693595,
+    "joint_exact_survivors": 310971189,
+    "exact_improvement": 34722406,
+    "strict_row_count": 10,
+    "strict_all_rows": true
+  },
+  "next_gate": {
+    "representative_high_d_benchmark_required": true,
+    "benchmark_target": "FULL178 row index 177 resolved from source head as g=1,d=190, historical band7 b=84..96",
+    "full178_scaleout_authorized": false
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f83ef7b1ab7eb9a6af19f04156bbc4a2401579906d2b0ed3a6adea7d134efd02"
+}

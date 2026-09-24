@@ -1,0 +1,74 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_LOCAL_ROW_PROFILE_V1",
+  "stage": 32,
+  "status": "EXACT_LOCAL_ROW_PROFILE_COMPLETE_ZERO_CREDIT",
+  "target": {
+    "band_position": 4,
+    "chunk_position": 0,
+    "row_window_position": 1,
+    "b_chunk": [48, 50],
+    "row_index": 65,
+    "row_id": "g0-d164",
+    "g": 0,
+    "d": 164,
+    "h": 82
+  },
+  "certificate": {
+    "path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json",
+    "canonical_sha256_without_this_field": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
+    "production_validate_carry_accepted": true
+  },
+  "timing_seconds": {
+    "joint_bc_build": 190.863195,
+    "shared_integer_interval_build": 1.069902,
+    "compute_row_wall": 5644.049518,
+    "compute_row_cpu": 5632.859375,
+    "compute_row_reported_total": 5644.022913,
+    "precompute": 5628.686055,
+    "accumulate": 14.648996
+  },
+  "resource_observation": {
+    "external_sample_count": 373,
+    "sample_period_seconds": 15,
+    "maximum_working_set_bytes": 240009216,
+    "maximum_peak_working_set_bytes": 241324032,
+    "single_process_single_core_sustained": true
+  },
+  "cprofile": {
+    "total_function_calls": 10117121643,
+    "total_profiled_seconds": 5644.032,
+    "hotspots_by_cumulative_seconds": [
+      {"function": "compute_row", "calls": 1, "cumulative_seconds": 5644.032},
+      {"function": "count_intersection", "calls": 1261207485, "cumulative_seconds": 2828.479, "self_seconds": 1876.605},
+      {"function": "bisect_left", "calls": 1261207468, "cumulative_seconds": 213.906},
+      {"function": "bisect_right", "calls": 1261207468, "cumulative_seconds": 200.885},
+      {"function": "ceil_div", "calls": 1261207469, "cumulative_seconds": 180.115},
+      {"function": "isqrt", "calls": 1261207468, "cumulative_seconds": 164.008}
+    ],
+    "dominant_loop": "precompute qA x qBC exact count_intersection",
+    "precompute_fraction_of_compute_row": 0.997281
+  },
+  "source_locks": {
+    "generation11_exact_head": "794ec81149fb79fad5e2d035b81eca7a4022d888",
+    "production_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
+    "helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+  },
+  "shard_design_boundary": {
+    "candidate_partition": "disjoint outer (b,c) cells within b in [48,50] and c in [0,82]",
+    "required_machine_checks": ["overlap=0", "gaps=0", "integer component sums reproduce the unsharded row65 certificate exactly"],
+    "optimization_credit": false
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "theorem_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "b2060da358da1eec44353ba4f0e49364c27960d96653130982dcb4d365dceb3c"
+}
