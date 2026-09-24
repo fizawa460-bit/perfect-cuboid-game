@@ -7,17 +7,15 @@ This file is the authoritative startup/read-order contract for ordinary `stage32
 Read only, in this order:
 
 1. root `AGENTS.md`;
-2. `stages/stage32/COMMANDS.md` to resolve this operator command;
+2. `stages/stage32/COMMANDS.md` to resolve the operator command;
 3. this file;
-4. current `stages/stage32/MAIN-STATE.json` from live Stage32 MAIN authority;
-5. current `stages/stage32/generalization-bridge/STATE.json`, focusing only on current node, active leaf, next obligation, source locks, target-population boundary, and credit firewall;
-6. only the exact source/evidence/interface paths required by that active leaf.
+4. live `stages/stage32/MAIN-STATE.json`;
+5. `stages/stage32/generalization-bridge/STATE.json`, focusing on current node, active leaf, next obligation, source locks, target-population boundary, and credit firewall;
+6. only exact source/evidence/interface paths required by that active leaf.
 
-This compact startup is authoritative. Do **not** preload Issue #1817, `BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json`, `MISSION.json`, MB/EX5/CUT history, old BR101-BR190 history, or unrelated Stage32 assets. Those files remain retained evidence/history and are not deleted or weakened by this rule.
+Do not preload Issue #1817, BR200, MISSION, sibling-lane history, old BR101-BR190 history, or unrelated Stage32 assets. They remain retained evidence/history. Open them only when current STATE/source-lock requires them, a node transition requires source refresh, an identity changed, or a concrete semantic conflict must be resolved. Open CROSS-LANE-DEMANDS only when the active leaf explicitly needs a cross-lane dependency.
 
-Open Issue #1817, BR200, MISSION, or other retained history only when the current STATE/source-lock explicitly requires it, when a node transition requires refreshing that source, when a source identity changed, or when resolving a concrete semantic conflict. Open `CROSS-LANE-DEMANDS.json` only when the active leaf explicitly requires a cross-lane dependency.
-
-Current `stages/stage32/MAIN-STATE.json` remains mathematical routing authority. BRIDGE STATE is the compact lane-local operational authority. Retained Issue/charter/mission material is evidence/history, not a competing startup authority. BRIDGE never self-promotes Issue, scratch, sibling, or bridge results to MAIN credit.
+MAIN-STATE remains mathematical routing authority. BRIDGE STATE is the compact lane-local operational authority. Retained Issue/charter/mission material is evidence/history, not competing startup authority. BRIDGE never self-promotes to MAIN credit.
 
 ## V2 mission
 
