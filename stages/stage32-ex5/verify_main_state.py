@@ -10,6 +10,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ARCH = HERE / "archive" / "startup-surface-20260914"
 ARCH_VERIFIER = ARCH / "verify_main_state_v5_pre_startup_collapse.py"
+ARCH_STATE = ARCH / "MAIN-STATE-v5-post-1765.json"
 TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
 MAIN_STATE = HERE / "MAIN-STATE.json"
 HPADJ20_HANDOFF = HERE / "hpadj-20_ex5" / "MAIN-HANDOFF.json"
@@ -24,6 +25,7 @@ HPADJ23_HANDOFF = HERE / "hpadj-23_ex5" / "HPADJ23-BOUNDED-PRODUCER-HANDOFF.json
 HPADJ23_HANDOFF_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_bounded_producer_handoff.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
+ARCH_STATE_BLOB = "a26f19cb01d86174aef49495be16e946a429ddcb"
 HPADJ20_HANDOFF_BLOB = "52ca73eeb52b7d930f905c42a85b62f044bda269"
 HPADJ20_HANDOFF_VERIFIER_BLOB = "404a7d2c362ca15db4bd655eb6022ebbade219d1"
 HPADJ23_PREFLIGHT_BLOB = "eb6ec8e7ea2e1bc87ef3222603f0f9c026cfb78e"
@@ -79,18 +81,23 @@ def verify_archived_v5_projection() -> None:
         "retired EX5 startup surface leaked into live root before V5 replay")
     req(ARCH_VERIFIER.is_file() and blob(ARCH_VERIFIER) == ARCH_VERIFIER_BLOB,
         "archived V5 verifier drift")
+    req(ARCH_STATE.is_file() and blob(ARCH_STATE) == ARCH_STATE_BLOB,
+        "archived V5 state drift")
     for name, expected in RESTORE.items():
         p = ARCH / name
         req(p.is_file() and blob(p) == expected, f"archived V5 startup input drift: {name}")
 
     old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
+    old_state = MAIN_STATE.read_bytes()
     old_live = {name: (HERE / name).read_bytes() if (HERE / name).exists() else None for name in RESTORE}
     try:
         for name in RESTORE:
             (HERE / name).write_bytes((ARCH / name).read_bytes())
+        MAIN_STATE.write_bytes(ARCH_STATE.read_bytes())
         TMP_VERIFIER.write_bytes(ARCH_VERIFIER.read_bytes())
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
+        MAIN_STATE.write_bytes(old_state)
         for name, raw in old_live.items():
             p = HERE / name
             if raw is None:
