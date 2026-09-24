@@ -432,7 +432,7 @@ def main():
         req(cyc["cycle_fields"]["CYCLE_PARKING_AUDIT_COMPLETE"] is True, "cycle parking audit")
 
         recv=d["retained_frontier"]["e2_gfixed_factor_pair_receiver_reopen"]
-        req(recv["status"] == "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_FINITE_128_PAIR_ZERO_CREDIT", "finite receiver reopen status")
+        req(recv["status"] == "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_FINITE_128_PAIR_WITH_ALGEBRAIC_5BIT_BASIS_ZERO_CREDIT", "finite receiver reopen status")
         req(recv["scope"]["source_archive_head"] == "ae6ce8e2feb8233886dec1ca21b6db0ec8dbbb11", "finite receiver archive head")
         fr=recv["finite_receiver"]
         req(fr["fixed_jacobian_structure"] == "(Z/2)^5" and fr["fixed_jacobian_size"] == 32, "finite receiver fixed Jacobian")
@@ -445,6 +445,19 @@ def main():
         req(recv["blockers"]["five_tau_algebraic_theta_realization_materialized"] is False, "finite receiver theta wall")
         req(recv["blockers"]["pair_effectivity_support_test_materialized"] is False, "finite receiver pair-test wall")
         req(recv["blockers"]["determinant_factor_label_blind"] is True, "finite receiver determinant blindness")
+        alg=recv["algebraic_fixed_2torsion_basis"]
+        req(alg["status"] == "EXACT_PREAUDIT_ALGEBRAIC_BRANCH_PARITY_BASIS_CONSTRUCTED", "algebraic five-bit status")
+        req(alg["source_model"]["note_blob"] == "d2e3056137360a9e15ae7c820088d2977a5eb137", "algebraic basis source model")
+        req(alg["linearizable_kernel_basis"]["rank"] == 2 and alg["linearizable_kernel_basis"]["order"] == 4, "algebraic basis kernel")
+        obs=alg["obstruction_matrix"]
+        req(obs["mu_12"] == [1,0,0] and obs["mu_13"] == [0,1,0] and obs["mu_23"] == [0,0,1], "algebraic obstruction basis")
+        req(obs["rank_over_F2"] == 3, "algebraic obstruction rank")
+        req(alg["obstruction_group"] == "H^2(G,C*)=(Z/2)^3", "algebraic obstruction group")
+        req(len(alg["obstruction_basis"]) == 3, "algebraic three obstruction lifts")
+        req(all(x["divisor_identity"].startswith("div(h_") for x in alg["obstruction_basis"]), "algebraic divisor doubling")
+        req(alg["independent_cas_replay"]["square_identities_verified"] is True and alg["independent_cas_replay"]["commutator_product_signs_verified"] is True, "algebraic CAS replay")
+        req(alg["firewalls"]["historical_tau_termwise_identification"] is False and alg["firewalls"]["current_head_hostile_audited"] is False, "algebraic basis audit firewall")
+        req(recv["blockers"]["equivalent_algebraic_five_bit_basis_materialized"] is True and recv["blockers"]["historical_tau_termwise_identification_materialized"] is False, "algebraic basis materialized")
         req("4*(7*l+1)" in recv["blockers"]["determinant_blind_reason"], "finite receiver determinant exponent")
         req(recv["cross_lane_alignment"]["mb_fib_head_observed"] == "5760ede53fff75c0d796ccac280418c112028361", "finite receiver MB-FIB alignment")
         req(recv["cross_lane_alignment"]["semantic_match"] is True and recv["cross_lane_alignment"]["audited_B2_handoff_available"] is False, "finite receiver B2 firewall")
@@ -481,12 +494,13 @@ def main():
         req(routing["null_union_ambient_lift_route"] == "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G", "null-union route closed")
         req(routing["compact_C8_commensurator_candidate"] == "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING", "compact correspondence routing")
         req(routing["conductor_pair_low_degree_pushforward_route"] == "CLOSED_QUADRATIC_OR_WEIGHT_BLIND_NO_GO", "pair compression routing")
-        req(routing["finite_receiver_scan_status"] == "REOPENED_E2_GFIXED_128_PAIR_RESEARCH_CANDIDATE", "finite receiver scan reopened")
+        req(routing["finite_receiver_scan_status"] == "REOPENED_E2_GFIXED_128_PAIR_ALGEBRAIC_BASIS_READY_ZERO_CREDIT", "finite receiver scan reopened")
         req(routing["e2_gfixed_128_pair_receiver_live"] is True and routing["e2_gfixed_128_pair_receiver_audited"] is False, "finite receiver routing audit firewall")
         req(routing["e2_gfixed_128_pair_count"] == 128, "finite receiver routing pair count")
         req(routing["mb104_parking_audit_complete"] is True and routing["mb104_parked_await_new_adapter"] is False, "MB104 finite receiver reopen")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-GFIXED-128-PAIR-RECEIVER-ADAPTER", "post-audit active leaf")
+        req(routing["e2_gfixed_algebraic_5bit_basis_materialized"] is True and routing["e2_gfixed_historical_tau_termwise_identified"] is False, "algebraic five-bit routing")
+        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-GFIXED-128-PAIR-EQUIVARIANT-SECTION-TEST", "post-audit active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()

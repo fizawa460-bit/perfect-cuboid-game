@@ -1129,7 +1129,7 @@
       }
     },
     "e2_gfixed_factor_pair_receiver_reopen": {
-      "status": "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_FINITE_128_PAIR_ZERO_CREDIT",
+      "status": "POST_AUDIT_REOPENED_RESEARCH_CANDIDATE_FINITE_128_PAIR_WITH_ALGEBRAIC_5BIT_BASIS_ZERO_CREDIT",
       "scope": {
         "support_mask": "000707000f0f",
         "case": "e=2",
@@ -1164,7 +1164,8 @@
         "ordered_factor_pairs_before_linearization": 1024,
         "ordered_factor_pairs_after_linearization": 128,
         "l_independent": true,
-        "relation": "for each A in Pic^(28l)(C8)^G, diagonal G-linearizability forces A tensor B^(-1) into the four-class linearizable kernel"
+        "relation": "for each A in Pic^(28l)(C8)^G, diagonal G-linearizability forces A tensor B^(-1) into the four-class linearizable kernel",
+        "explicit_label_parameterization": "xi in <lambda_1,lambda_2,mu_12,mu_13,mu_23> ~= F2^5; kappa in <lambda_1,lambda_2> ~= F2^2; (A,B)=(A_ref(l) tensor xi, A_ref(l) tensor xi tensor kappa)"
       },
       "carrier_to_receiver": {
         "product_line": "O_(C8 x C8)(Zbar)=p1^*A tensor p2^*B",
@@ -1190,7 +1191,9 @@
         "determinant_blind_reason": "n+4=28*l+4=4*(7*l+1), so factor 2-torsion twists vanish in the pushed conductor determinant class",
         "fixed_point_character_additional_pruning_materialized": false,
         "fixed_point_character_reason": "diagonal fixed-point linearization currently yields obs_G(A)=obs_G(B), already exactly the 128-pair reduction, but does not separately linearize A and B",
-        "direct_conductor_transition_still_missing": true
+        "direct_conductor_transition_still_missing": true,
+        "equivalent_algebraic_five_bit_basis_materialized": true,
+        "historical_tau_termwise_identification_materialized": false
       },
       "cross_lane_alignment": {
         "mb_fib_pr": 1829,
@@ -1203,7 +1206,7 @@
         "direct_X8_Gfixed_2torsion_algebraic_basis_found": false,
         "closest_method_found": "Elvira Lupoian, Two-Torsion Subgroup of some Modular Jacobians (2022), computational theta-hyperplane method for other genus-3/4/5 modular Jacobians; no direct X(8) adapter located"
       },
-      "next_gate": "materialize an algebraic/theta/modular realization of the five fixed 2-torsion labels or an exact FIB/Picard64 restriction map to them, then test the 128 pairs; do not use determinant monodromy as a surrogate for conductor sheet data",
+      "next_gate": "Use the explicit five-bit algebraic basis to parameterize A=A_ref(l) tensor xi and B=A_ref(l) tensor xi tensor kappa with xi in J(C8)^G[2] (32 labels) and kappa in <lambda_1,lambda_2> (4 labels). The next test must constrain sections/divisors by the 000707 support passport, irreducibility, common-etale normalization, or an exact MB-FIB restriction map. Plain degree/effectivity and determinant monodromy are insufficient.",
       "firewalls": {
         "e2_closed": false,
         "e4_closed": false,
@@ -1215,29 +1218,144 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
+      },
+      "algebraic_fixed_2torsion_basis": {
+        "status": "EXACT_PREAUDIT_ALGEBRAIC_BRANCH_PARITY_BASIS_CONSTRUCTED",
+        "field": "C (all formulas already defined over Q(zeta_8))",
+        "source_model": {
+          "note_blob": "d2e3056137360a9e15ae7c820088d2977a5eb137",
+          "equations": [
+            "u^2=(r^4+4)/4",
+            "v^2=(r^4-4)/4"
+          ],
+          "generators": {
+            "g1": "T': (r,u,v)->(r,u,-v)",
+            "g2": "TT'R: (r,u,v)->(r,-u,v)",
+            "g3": "T: (r,u,v)->(-r,u,v)"
+          }
+        },
+        "linearizable_kernel_basis": {
+          "source_note_blob": "7593aad67cbc284f16066063bc6abc6afb2352c8",
+          "lambda_1": "O(R1-R3)",
+          "lambda_2": "O(R1-R5)",
+          "rank": 2,
+          "order": 4
+        },
+        "obstruction_basis": [
+          {
+            "name": "mu_23",
+            "branch_orbit": "g1-fixed orbit r^2=2 (equivalently v=0)",
+            "D_plus": "reduced two-point divisor {r^2=2, u=r}",
+            "D_minus": "reduced two-point divisor {r^2=2, u=-r}",
+            "line": "O(D_plus-D_minus)",
+            "transition": "h_23=(r^2-2)/(2*(u+r))",
+            "square_identity": "h_23^2=(u-r)/(u+r)",
+            "divisor_identity": "div(h_23)=2*(D_plus-D_minus)",
+            "generator_products": {
+              "g1": "g1(h_23)=h_23",
+              "g2": "h_23*g2(h_23)=-1",
+              "g3": "h_23*g3(h_23)=+1"
+            },
+            "obstruction_commutator": "(g2,g3)=-1; other generator pairs +1"
+          },
+          {
+            "name": "mu_13",
+            "branch_orbit": "g2-fixed orbit r^2=2*i (equivalently u=0)",
+            "constant": "k^2=i",
+            "D_plus": "reduced two-point divisor {r^2=2*i, v=k*r}",
+            "D_minus": "reduced two-point divisor {r^2=2*i, v=-k*r}",
+            "line": "O(D_plus-D_minus)",
+            "transition": "h_13=(r^2-2*i)/(2*(v+k*r))",
+            "square_identity": "h_13^2=(v-k*r)/(v+k*r)",
+            "divisor_identity": "div(h_13)=2*(D_plus-D_minus)",
+            "generator_products": {
+              "g2": "g2(h_13)=h_13",
+              "g1": "h_13*g1(h_13)=-1",
+              "g3": "h_13*g3(h_13)=+1"
+            },
+            "obstruction_commutator": "(g1,g3)=-1; other generator pairs +1"
+          },
+          {
+            "name": "mu_12",
+            "branch_orbit": "g3-fixed orbit r=0",
+            "D_plus": "reduced two-point divisor {r=0, u=i*v}",
+            "D_minus": "reduced two-point divisor {r=0, u=-i*v}",
+            "line": "O(D_plus-D_minus)",
+            "transition": "h_12=r^2/(sqrt(2)*(u+i*v))",
+            "square_identity": "h_12^2=(u-i*v)/(u+i*v)",
+            "divisor_identity": "div(h_12)=2*(D_plus-D_minus)",
+            "generator_products": {
+              "g3": "g3(h_12)=h_12",
+              "g1": "h_12*g1(h_12)=+1",
+              "g2": "h_12*g2(h_12)=-1"
+            },
+            "obstruction_commutator": "(g1,g2)=-1; other generator pairs +1"
+          }
+        ],
+        "polynomial_replay": [
+          "r^4+4-4*r^2=(r^2-2)^2",
+          "r^4-4-4*i*r^2=(r^2-2*i)^2",
+          "u^2+v^2=r^4/2"
+        ],
+        "obstruction_matrix": {
+          "pair_order": [
+            "(g1,g2)",
+            "(g1,g3)",
+            "(g2,g3)"
+          ],
+          "mu_12": [
+            1,
+            0,
+            0
+          ],
+          "mu_13": [
+            0,
+            1,
+            0
+          ],
+          "mu_23": [
+            0,
+            0,
+            1
+          ],
+          "rank_over_F2": 3
+        },
+        "equivariant_picard_source_blob": "a8db86e809ed6a19e7777a7680f3392f980e0bf0",
+        "obstruction_group": "H^2(G,C*)=(Z/2)^3",
+        "conclusion": "lambda_1, lambda_2, mu_12, mu_13, mu_23 give an explicit algebraic five-bit basis of J(C8)^G[2]; this is an equivalent basis and is not claimed to equal the historical homology tau_1,...,tau_5 term-by-term",
+        "independent_cas_replay": {
+          "engine": "Wolfram Language",
+          "square_identities_verified": true,
+          "commutator_product_signs_verified": true
+        },
+        "firewalls": {
+          "historical_tau_termwise_identification": false,
+          "current_head_hostile_audited": false,
+          "receiver_credit": false,
+          "e2_closed": false,
+          "MB104_complete": false
+        }
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 G-fixed 128-pair finite receiver — algebraic/theta adapter",
-    "active_leaf": "MB104-000707-E2-GFIXED-128-PAIR-RECEIVER-ADAPTER",
-    "required_input": "Work only on the reopened finite receiver. First preserve the inherited candidate/audit firewall. Materialize the five J(C8)^G[2] labels (or an equivalent theta/modular/FIB restriction character) algebraically enough to test the 128 obstruction-compatible factor pairs against the 000707 support passport, irreducibility, and common-etale normalization. Do not count the 128-pair reduction itself as exclusion or receiver credit.",
+    "title": "e=2 G-fixed 128-pair receiver — equivariant section/support test",
+    "active_leaf": "MB104-000707-E2-GFIXED-128-PAIR-EQUIVARIANT-SECTION-TEST",
+    "required_input": "The equivalent algebraic five-bit basis is now materialized. Parameterize all 128 factor pairs by xi in <lambda_1,lambda_2,mu_12,mu_13,mu_23> and kappa in <lambda_1,lambda_2>. Seek an exact condition from the 000707 support passport, irreducibility, common-etale normalization, or MB-FIB/Picard64 restriction data that rejects factor labels. Do not spend work on plain high-degree effectivity, which is not a plausible discriminator, and do not reuse determinant monodromy as conductor sheet data.",
     "success_shapes": [
-      "source-complete algebraic/theta realization of the five fixed 2-torsion labels and the four-class linearizable kernel",
-      "exact FIB/Picard64-to-factor-label adapter matching MB-FIB Phase B2",
-      "exact finite test excluding all 128 pairs, followed by hostile audit before any e=2 promotion",
-      "bounded no-go proving this receiver cannot distinguish the remaining pairs, with explicit blocker and zero credit"
+      "exact pair-label constraint that eliminates a nonzero subset of the 128 factor pairs",
+      "exact MB-FIB/Picard64 restriction character in the five-bit algebraic basis",
+      "exact finite rejection of all 128 pairs followed by hostile audit before e=2 promotion",
+      "bounded proof that all 128 labels survive the available section/support invariants, with an explicit next missing datum and zero credit"
     ],
     "must_not_repeat": [
-      "conductor pair norm/determinant/Fitting/trace-zero low-degree compression",
+      "historical tau_j termwise matching unless a source-complete period/divisor adapter appears",
+      "plain Riemann-Roch effectivity of degree-28l factor lines",
+      "conductor determinant as a factor-label discriminator",
       "determinant monodromy as a surrogate for pointwise residual conductor sheet data",
       "generic endomorphism-centralizer search after Phi_Z=0",
-      "blind branch-divisor differences as a free five-bit basis",
-      "scalar conductor regularity",
-      "normalization-module Betti table",
-      "degree-one support landing / fixed four quadrics",
-      "current common-G square-class/Nielsen reformulations",
+      "conductor pair norm/determinant/Fitting/trace-zero low-degree compression",
       "P.F<36 fibration search",
       "isotropic-shell heavy execution",
       "merge or rebase"
@@ -1287,13 +1405,15 @@
     "null_union_ambient_lift_route": "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G",
     "compact_C8_commensurator_candidate": "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING",
     "conductor_pair_low_degree_pushforward_route": "CLOSED_QUADRATIC_OR_WEIGHT_BLIND_NO_GO",
-    "finite_receiver_scan_status": "REOPENED_E2_GFIXED_128_PAIR_RESEARCH_CANDIDATE",
+    "finite_receiver_scan_status": "REOPENED_E2_GFIXED_128_PAIR_ALGEBRAIC_BASIS_READY_ZERO_CREDIT",
     "equigeneric_semiregularity_route": "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH",
     "mb104_parking_audit_complete": true,
     "mb104_parked_await_new_adapter": false,
     "e2_gfixed_128_pair_receiver_live": true,
     "e2_gfixed_128_pair_receiver_audited": false,
-    "e2_gfixed_128_pair_count": 128
+    "e2_gfixed_128_pair_count": 128,
+    "e2_gfixed_algebraic_5bit_basis_materialized": true,
+    "e2_gfixed_historical_tau_termwise_identified": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
