@@ -32,7 +32,7 @@ Before launching or materially revising any heavy Actions workload:
 
 The cap applies to the coordinated Stage workload, not to each YAML matrix independently. For example, two overlapping matrices with `max-parallel: 10` each are an effective maximum of 20 and violate policy. Splitting the work across multiple workflows or PRs does not reset the count.
 
-**20 is a hard ceiling, not a utilization target.** Use fewer than 18 whenever that better preserves cross-Stage capacity. Stage-local speed, urgency, or a desire to consume otherwise-idle runners is not an exception. This rule is absolute unless the repository policy itself is explicitly revised.
+**20 is a hard ceiling, not a utilization target.** Use fewer than 20 whenever that better preserves cross-Stage capacity. Stage-local speed, urgency, or a desire to consume otherwise-idle runners is not an exception. This rule is absolute unless the repository policy itself is explicitly revised.
 
 ## Mandatory heavy-rerun authorization gate
 
