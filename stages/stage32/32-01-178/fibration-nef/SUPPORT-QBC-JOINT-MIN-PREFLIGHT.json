@@ -1,0 +1,58 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_JOINT_BCT_SUPPORT_MIN_PREFLIGHT_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "STRUCTURAL_STRICT_STRENGTHENING_PREPARED__ZERO_MAIN_CREDIT__EXECUTION_AUDIT_PENDING",
+  "source_locks": {
+    "support_qbc_worker_path": "stages/stage32/32-01-178/fibration-nef/run_hpadj22_support_qbc_local_row_b.py",
+    "support_qbc_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "joint_min_verifier_path": "stages/stage32/32-01-178/fibration-nef/verify_support_qbc_joint_min_preflight.py",
+    "joint_min_verifier_blob_sha1": "490db30dc7e4bfc42da0e6dd9947a644dea14275"
+  },
+  "claim": {
+    "fixed_data": "(b,c,t,H-support)",
+    "joint_minimum": "exact minimum qBC over the seven nonnegative H coordinates under the fixed data, after deliberately relaxing canonical ordering",
+    "dominance": "joint_q_lower >= max(support_q_lower,bc_t_q_lower) pointwise",
+    "safety": "every actual retained H tuple satisfies qBC >= joint_q_lower",
+    "actual_geometric_H_tuple_exactness_claimed": false
+  },
+  "regression": {
+    "formula_domain": "0<=b,c<=8, all t, support 0..7",
+    "formula_states": 5832,
+    "finite_states": 2448,
+    "strict_vs_separate_states": 536,
+    "max_strict_gain": 24,
+    "literal_domain": "all seven H coordinates in {0,1,2,3}",
+    "literal_keys": 1564,
+    "literal_formula_mismatches": 0,
+    "literal_strict_vs_separate_keys": 116,
+    "literal_max_strict_gain": 2
+  },
+  "strict_high_mass_witness": {
+    "b": 36,
+    "c": 89,
+    "t": 103,
+    "support": 5,
+    "old_separate_lower": 3137,
+    "joint_lower": 3377,
+    "strict_gain": 240
+  },
+  "next_gate": "compare joint-min t-set against exact-tset-only on the retained V48 high-value panel before any scaleout",
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_v48_numeric_tightening_claimed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "8396e44a456e19d92ee149347ae3dae709a3a638dcb4f7fb7b20097fc9ffac7b"
+}
