@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -16,6 +17,11 @@ HISTORICAL_V4_STATE_BLOB = "94bf17df76a06132b8a85c735ac644269126966f"
 def req(value: bool, message: str) -> None:
     if not value:
         raise SystemExit(f"FAIL: {message}")
+
+
+def git_blob_sha(path: Path) -> str:
+    data = path.read_bytes()
+    return hashlib.sha1(f"blob {len(data)}\0".encode() + data).hexdigest()
 
 
 def main() -> None:
