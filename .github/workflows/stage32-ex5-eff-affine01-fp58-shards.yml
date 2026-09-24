@@ -52,12 +52,12 @@ jobs:
           mkdir -p /tmp/fp58
           python stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.py \
             --base4 0 1 1 1 \
-            --shard-id ${{ matrix.shard }} \
+            --shard-id ${{ inputs.shard_id }} \
             --shard-count 16 \
             --split-index 53 \
-            --output /tmp/fp58/shard-${{ matrix.shard }}.json
+            --output /tmp/fp58/shard-${{ inputs.shard_id }}.json
       - uses: actions/upload-artifact@v4
         with:
-          name: eff-affine01-fp58-shard-${{ matrix.shard }}
-          path: /tmp/fp58/shard-${{ matrix.shard }}.json
+          name: eff-affine01-fp58-shard-${{ inputs.shard_id }}
+          path: /tmp/fp58/shard-${{ inputs.shard_id }}.json
           retention-days: 7
