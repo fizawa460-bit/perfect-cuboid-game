@@ -33,14 +33,31 @@ jobs:
           assert got=="d2a197701acf4c8447176256662d736b6d3f4d91", got
           PY
 
-      - name: Download frozen V48 pair receipts
-        uses: actions/download-artifact@v4
+      - name: Download frozen V48 pair receipts with pagination
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/v48-pairs /tmp/v48-zips
+          gh api --paginate \
+            "/repos/${GITHUB_REPOSITORY}/actions/runs/35906475088/artifacts?per_page=100" \
+            --jq '.artifacts[] | select(.name | startswith("v47-support-qbc-pair-")) | [.id,.name] | @tsv' \
+            > /tmp/v48-artifacts.tsv
+          test "$(wc -l < /tmp/v48-artifacts.tsv)" -eq 192
+          while IFS=          python stages/stage32/32-01-178/fibration-nef/aggregate_v48_full_support_min_bound.py \
+            --v48-dir /tmp/v48-pairs \
+            --output /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
+
+      - uses: actions/upload-artifact@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 35906475088
-          pattern: v47-support-qbc-pair-*
-          path: /tmp/v48-pairs
-          merge-multiple: true
+          name: v48-full-support-384-min-bound
+          path: /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
+          retention-days: 14
+\t' read -r id name; do
+            gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" > "/tmp/v48-zips/${id}.zip"
+            unzip -qo "/tmp/v48-zips/${id}.zip" -d /tmp/v48-pairs
+          done
+          test "$(find /tmp/v48-pairs -maxdepth 1 -name 'row*-b*.json' | wc -l)" -eq 384
 
       - name: Verify receipt census and aggregate min-bound
         run: |
