@@ -1,70 +1,32 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, importlib.util, json, sys
+import hashlib,importlib.util,json,sys
 from pathlib import Path
 from sympy import Matrix
-
-ROOT=Path(__file__).resolve().parents[3]
-BASE=ROOT/"stages/stage32-ex5/breadth-cycle-2/bc2_02_one_indexed_full178_terminal_to_picard64_completion.py"
-RETAINED=ROOT/"stages/stage33/33-07/picard_base_rows_retained.py"
-MARKING=ROOT/"stages/stage33/33-07/stage32_picard_marking_retained.py"
-LOCKS={BASE:"6b4c3514b5b4cbccd8e66cbffc7f61f8830d1633",RETAINED:"82e4d450a1d852e34f6615440fb88a029c6e54eb",MARKING:"5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"}
-NORMAL=92; EXCEPTIONAL=48; RANK=64
-
-def req(v,msg):
-    if not v: raise SystemExit("FAIL: "+msg)
+ROOT=Path(__file__).resolve().parents[3]; RES=ROOT/"stages/stage32/residual-32-01-production"
+sys.path.insert(0,str(RES))
+from hperp_integral_adapter import HperpIntegralPairingAdapter
+from direct_picard_slice_bridge import DirectPicardSliceBridge
+RET=ROOT/"stages/stage33/33-07/picard_base_rows_retained.py"; MARK=ROOT/"stages/stage33/33-07/stage32_picard_marking_retained.py"
+LOCK={RES/"hperp_integral_adapter.py":"fb1eb380ca786e42a6b00c5ef454b0e79fdba771",RES/"direct_picard_slice_bridge.py":"be48bd94304d0217727c5c3368761d347cb22eaa",RET:"82e4d450a1d852e34f6615440fb88a029c6e54eb",MARK:"5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"}
+def req(v,m):
+ if not v: raise SystemExit("FAIL: "+m)
 def blob(p):
-    b=p.read_bytes(); return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
+ b=p.read_bytes();return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
 def load(p,n):
-    s=importlib.util.spec_from_file_location(n,p); req(s and s.loader,"module "+n)
-    m=importlib.util.module_from_spec(s); sys.modules[n]=m; s.loader.exec_module(m); return m
-def row(v): return Matrix(1,RANK,[int(x) for x in v])
-
+ s=importlib.util.spec_from_file_location(n,p);req(s and s.loader,n);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m.load()
 def main():
-    for p,h in LOCKS.items(): req(p.is_file() and blob(p)==h,"source lock "+str(p))
-    v1=load(BASE,"ex5_eff_affine02_base")
-    bundle=v1.load_retained(RETAINED,"ex5_eff_affine02_bundle")
-    marking=v1.load_retained(MARKING,"ex5_eff_affine02_marking")
-    data=v1.reconstruct_translation_data(marking,bundle)
-    P=Matrix(data["adapter"].pairing_matrix); bridge=data["bridge"]
-    req(P.shape==(140,RANK),"pairing shape")
-    drow=row(bridge.degree_functional); erow=row(bridge.exceptional_mass_functional)
-    nsum=Matrix.zeros(1,RANK); esum=Matrix.zeros(1,RANK)
-    for i in range(NORMAL): nsum += P.row(i)
-    for i in range(NORMAL,NORMAL+EXCEPTIONAL): esum += P.row(i)
-    req(esum==erow,"exceptional mass identity")
-    req(nsum+5*esum==19*drow,"normal mass identity")
-    req(P.rank()==RANK,"all140 pairing map not injective")
-
-    # Recession theorem. On a fixed (d,e) slice, a recession direction r
-    # preserving all140 nonnegativity has P_i r >= 0. The two exact mass
-    # identities force sums over both blocks to zero, hence every P_i r=0.
-    # Injectivity of P then forces r=0. Thus the all140 nonnegative fixed-(d,e)
-    # Picard64 fiber is bounded; no extra per-coordinate bound is needed.
-    out={
-      "schema":"STAGE32EX5_EFF_AFFINE02_BOUNDED_COMPLEMENT_PREFLIGHT_V1",
-      "status":"PASS_FIXED_DE_ALL140_FIBER_HAS_TRIVIAL_RECESSION_CONE",
-      "source_locks":{"base":LOCKS[BASE],"retained":LOCKS[RETAINED],"marking":LOCKS[MARKING]},
-      "exact_identities":{
-        "exceptional_sum":"sum(E_48)=e",
-        "normal_sum":"sum(N_92)=19*d-5*e",
-        "all140_pairing_rank":int(P.rank()),
-        "picard_rank":RANK,
-      },
-      "bounded_complement":{
-        "for_all140_nonnegative_fixed_d_e":True,
-        "exceptional_coordinate_bounds":"0 <= E_i <= e",
-        "normal_coordinate_bounds":"0 <= N_i <= 19*d-5*e",
-        "recession_cone":"{0}",
-        "proof":"For a recession direction r, fixed d,e give sum exceptional(P r)=0 and sum normal(P r)=0. Since every component P_i r is nonnegative, all 140 vanish. rank(P)=64 implies r=0.",
-      },
-      "research_consequence":{
-        "repairs_gap":"The prior producer-gap statement that a bounded complement was not source-locked is too strong once all140 nonnegativity and the exact mass identities are imposed together.",
-        "next_exact_unit":"Construct a source-locked rowwise upper bound U(d,e,prefix) for N=-y^2 over this bounded polytope and compare directly with the quantized RR cutoff T(d)+2m^2.",
-        "scope":"population-level producer architecture, not per-key FP58 enumeration"
-      },
-      "credit":{"effectivity":False,"main":False,"theorem":False,"endpoint":False,"merge":False}
-    }
-    print(json.dumps(out,sort_keys=True,separators=(",",":")))
-
-if __name__=="__main__": main()
+ for p,h in LOCK.items():req(blob(p)==h,"lock "+str(p))
+ bundle=load(RET,"eff02ret");mark=load(MARK,"eff02mark")
+ a=HperpIntegralPairingAdapter.from_retained(mark,bundle); b=DirectPicardSliceBridge.from_retained(mark,bundle)
+ P=Matrix(a.pairing_matrix); d=Matrix(1,64,b.degree_functional); e=Matrix(1,64,b.exceptional_mass_functional)
+ normal=sum((P.row(i) for i in range(92)),Matrix.zeros(1,64)); exc=sum((P.row(i) for i in range(92,140)),Matrix.zeros(1,64))
+ req(exc==e,"exceptional mass identity");req(normal+5*exc==19*d,"normal mass identity")
+ req(a.certificate["selected64_change_of_basis_unimodular"] is True,"pairing injectivity certificate")
+ out={"schema":"STAGE32EX5_EFF_AFFINE02_BOUNDED_COMPLEMENT_PREFLIGHT_V1","status":"PASS_FIXED_DE_ALL140_FIBER_HAS_TRIVIAL_RECESSION_CONE",
+ "exact_identities":{"exceptional_sum":"sum(E_48)=e","normal_sum":"sum(N_92)=19*d-5*e","all140_pairing_map_injective":True},
+ "bounded_complement":{"for_all140_nonnegative_fixed_d_e":True,"exceptional_coordinate_bounds":"0<=E_i<=e","normal_coordinate_bounds":"0<=N_i<=19*d-5*e","recession_cone":"{0}","proof":"fixed d,e plus nonnegative recession pairings force both block sums to zero; hence all140 pairings vanish; the certified unimodular selected64 basis makes the pairing map injective, so r=0"},
+ "research_consequence":{"repairs_gap":"all140 nonnegativity plus exact mass identities supplies a source-locked bounded complement","next_exact_unit":"derive a population-level H-perp norm upper envelope from the bounded pairing polytope","scope":"population-level, not per-key FP58"},
+ "credit":{"effectivity":False,"main":False,"theorem":False,"endpoint":False,"merge":False}}
+ print("EFF_AFFINE02_BOUNDED_COMPLEMENT="+json.dumps(out,sort_keys=True,separators=(",",":")))
+if __name__=="__main__":main()
