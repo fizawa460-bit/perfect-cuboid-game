@@ -1,6 +1,6 @@
 name: Stage32 BRIDGE BR204 post-cancellation recovery replay
 
-# Lifecycle: ACTIVE_AUTO — current BR204 post-replacement audit gate.
+# Lifecycle: ACTIVE_AUTO — current BR204 G4 cold-design replay gate.
 on:
   push:
     branches: [stage32bridge-mainbatch]
@@ -15,6 +15,7 @@ on:
       - 'stages/stage32/generalization-bridge/STATE.json'
       - 'stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json'
       - 'stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json'
+      - 'stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json'
       - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
       - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - '.github/workflows/br204-stage32-bridge-recovery-g3.yml'
@@ -40,7 +41,6 @@ env:
   REPAIR_RUNNER_BLOB: fff4cf2b0135dfd63c45f2233613213b80547eb9
   REPAIR_WORKFLOW_BLOB: 04349c3acb0c923dc4694a31fc2e7454c330de66
   REPAIR_RUNKEY_BLOB: 4a76a9b365399be27784194dea0f65ce7937f681
-  STATE_BLOB: ee2d45adcb92b492657d3a6a0e18c7aa217ccc82
   REPLACEMENT_FREEZE_BLOB: 7f3d8b3c23cce6185d474de4188db0fc69b4e2fd
   POSTFREEZE_BOUNDARY_BLOB: 5ebb9014a3c5f18d5c4c2cc29e28afc18ecd6726
   G1_MANUAL_BLOB: f8aef3a5abf0119d78c1a80a784027bc5fa5e3d9
@@ -69,13 +69,17 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation3_cancellation_checkpoint.py)" = "$G3_CHECKPOINT_VERIFIER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json)" = "$G3_TARGETS_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g3.json)" = "$G3_ARM_RUNKEY_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/STATE.json)" = "$STATE_BLOB"
           python stages/stage32/generalization-bridge/verify_br204_generation3_cancellation_checkpoint.py
           python - <<'PY'
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
-          assert s['active_leaf']=='BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT'
+          assert s['active_leaf'] in ('BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT','BR204_G4_RECOVERY_COLD_DESIGN')
+          if s['active_leaf']=='BR204_G4_RECOVERY_COLD_DESIGN':
+              g4=s['generation4_recovery_design']
+              assert g4['status']=='COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT'
+              assert g4['audited_parent_head']=='23150d71c9242efd7a5f46ab6b5491589cd5934b'
+              assert g4['heavy_compute_armed'] is False and g4['heavy_compute_authorized'] is False
           c=s['generation3_execution_checkpoint']
           assert (c['complete_target_count'],c['partial_target_count'],c['missing_target_count'],c['reusable_g3_completed_subunit_count'])==(0,1,68,0)
           assert c['expired_generation2_carry']['reusable'] is False
