@@ -927,6 +927,93 @@
       },
       "conclusion": "compact arithmeticity does not produce a finite-degree receiver, and the extra diagonal-G condition is exactly the missing adapter; no degree congruence/window is source-complete. The size48 inert-7 CM argument cannot be transported to 000707 because the relevant quotient sources have positive genus growing with l."
     },
+    "conductor_pair_low_degree_pushforward_preflight": {
+      "status": "POST_AUDIT_EXACT_PAIR_CORRESPONDENCE_QUADRATIC_OR_WEIGHT_BLIND_NO_GO_ZERO_CREDIT",
+      "target": "compress the chi-twisted conductor-pair mass W into degree O(l) by a double-point correspondence, norm, determinant, Fitting ideal, trace-zero module, or fixed-rank pushforward",
+      "retained_input": {
+        "carrier": "C in |lP| with normalization E of genus 1",
+        "H_E_degree_formula": "112*l",
+        "delta_formula": "168*l^2+56*l",
+        "weighted_cut_formula": "W=sum I_ij*(1-chi_ij)/2",
+        "weighted_cut_lower_bound": "W>=84*l^2",
+        "interior_different_line": "O_E(Delta_int)=H_E^(3l+1)"
+      },
+      "double_point_conductor": {
+        "external_source": "Fulton, Intersection Theory, Example 9.3.2: for a normalized curve mapped birationally to a surface, the double-point class is the conductor subscheme",
+        "gorenstein_reason": "C is Cartier on the smooth cuboid resolution",
+        "different_degree_formula": "336*l^2+112*l",
+        "different_degree_check": "(3*l+1)*(112*l)",
+        "ordered_twisted_pair_length_formula": "2*W",
+        "conclusion": "any construction retaining scheme-theoretic conductor or twisted-pair length is Theta(l^2), not O(l)"
+      },
+      "residual_etale_trace_zero": {
+        "cover": "q_C:R_C->C is finite etale of degree 2 because the residual cover is etale near C",
+        "trace_split": "q_C*O_R_C = O_C plus L^(-1)",
+        "torsion_relation": "L^2=O_C",
+        "degree": 0,
+        "normalization_base_change_source": "Stacks Project Lemma 10.147.2 / Lemma 37.19.2: normalization commutes with etale/smooth base change",
+        "normalization_pullback": "nu^*L=O_E because the pulled-back residual cover splits as E disjoint-union E",
+        "meaning": "the residual character is a conductor-gluing 2-torsion class; its line-bundle degree is zero"
+      },
+      "hostile_tests": [
+        {
+          "construction": "double-point scheme / conductor correspondence",
+          "result": "FAIL_QUADRATIC",
+          "reason": "degree equals 2*delta=336*l^2+112*l"
+        },
+        {
+          "construction": "Fitting ideal of the full conductor quotient",
+          "result": "FAIL_CHI_BLIND_AND_QUADRATIC",
+          "reason": "etale flat base change pulls back the conductor; total length is fixed by the different and does not isolate the chi=-1 share"
+        },
+        {
+          "construction": "determinant of cohomology / determinant of a torsion sheaf retaining the twisted locus",
+          "result": "FAIL_LENGTH_PRESERVING",
+          "reason": "on a curve, the determinant degree of a zero-dimensional torsion sheaf is its length, hence W or 2W remains Theta(l^2)"
+        },
+        {
+          "construction": "norm of the twisted effective zero-cycle",
+          "result": "FAIL_LENGTH_PRESERVING",
+          "reason": "finite norm/pushforward preserves total zero-cycle degree; it repackages W rather than bounding it"
+        },
+        {
+          "construction": "trace-zero line / Prym character",
+          "result": "FAIL_WEIGHT_BLIND",
+          "reason": "the exact character line has degree 0 and retains the Z/2 gluing class but not the contact multiplicity attached to each opposite-sheet pair"
+        },
+        {
+          "construction": "fixed-rank pushforward to E or P1",
+          "result": "FAIL_NO_FIXED_RANK_COMPRESSION",
+          "reason": "the pair object is zero-dimensional torsion; pushforward preserves length, while replacing it by a finite correspondence makes rank/degree grow with the pair mass"
+        }
+      ],
+      "local_stress_test": {
+        "ring": "A_N={(f,g) in k[[s]]xk[[s]] : f=g mod s^N}",
+        "opposite_gluing_line": "M_-={(f,g): f=-g mod s^N}",
+        "torsion": "M_-^2 is isomorphic to A_N",
+        "pullback_to_normalization": "trivial",
+        "weighted_pair_mass": "N",
+        "observation": "the same Z/2 gluing sign occurs for arbitrary contact order N, so the trace-zero character alone cannot supply an O(l) capacity for W"
+      },
+      "low_genus_index3_refresh": {
+        "status": "NO_REOPEN_TRIGGER",
+        "result": "bounded literature refresh found no source-valid theorem excluding genus-one normalizations in all |3lK_Y| for the retained non-lc index-3 contraction",
+        "scope_warning": "standard pluricanonical birationality theorems found in the refresh are stated for smooth/minimal or canonical-model settings and are not imported across the retained non-lc hypothesis wall"
+      },
+      "route_disposition": "CLOSED_PAIR_CORRESPONDENCE_LOW_DEGREE_COMPRESSION_NO_GO",
+      "conclusion": "the proposed low-degree pair-correspondence route has a dichotomy: retain the weighted conductor length and remain Theta(l^2), or compress to the etale trace-zero 2-torsion line and lose W. No c*l+O(1) invariant retaining the chi-weighted mass is obtained.",
+      "firewalls": {
+        "O_l_upper_bound_on_W": false,
+        "finite_l_window": false,
+        "marked_residual_lift_constructed": false,
+        "carrier_excluded": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
+    },
     "parking_reopen_contract": {
       "status": "POST_AUDIT_PARKED_NO_LIVE_EXECUTABLE_CANDIDATE_ZERO_CREDIT",
       "receiver": "000707000f0f balanced genus-one carrier C in |lP|, l>=1",
@@ -938,7 +1025,8 @@
         "null/formal and common-G/Kummer invariant recombinations exhausted or source-blocked",
         "log-tangent shallow follow-up parked",
         "current MAIN BTVA assets are semantic mismatch for MB Z12",
-        "compact C8 arithmetic correspondence gives no degree bound without a new G-centralizing adapter"
+        "compact C8 arithmetic correspondence gives no degree bound without a new G-centralizing adapter",
+        "conductor-pair norm/determinant/Fitting/trace-zero compression is quadratic or loses the chi-weighted mass"
       ],
       "reopen_triggers": [
         "new marked anti-invariant carrier lift / first-jet sheet data",
@@ -957,22 +1045,25 @@
         "log-tangent without branch-excess or stability input",
         "size48 inert-7 CM obstruction on the 000707 mixed-type support",
         "P.F<36 fibration search",
-        "isotropic-shell heavy execution"
+        "isotropic-shell heavy execution",
+        "conductor pair norm/determinant/Fitting/trace-zero low-degree compression without a new marked lift"
       ],
       "last_reopen_check": {
-        "checked_at_jst": "2026-09-23T09:52:00+09:00",
+        "checked_at_jst": "2026-09-24T21:35:00+09:00",
         "current_main_observed": "da573f048a82a63e459be1343fb002e663b60875",
         "current_main_change_since_prior_check": false,
         "cross_lane_checked": {
           "pr_number": 1829,
           "lane": "stage32mb-fib",
-          "head_observed": "c3a017d3f65ac895b06e05504956e52ac93e821a",
-          "status_observed": "GEN25_SUCCESSOR_REDESIGN_FROM_GEN23_281_COMPLETE_30_TIMEOUT__X59_ABANDONED__DESIGN_ONLY__ZERO_CREDIT",
+          "head_observed": "8d2d592b25838f68ff44c4c06a579c21ead071cd",
+          "status_observed": "GEN26_CONCURRENCY8_COLD_AMENDMENT_FROZEN__AWAITING_EXTERNAL_AUDIT__NO_HEAVY",
           "gen23_complete_x60_singletons": 281,
           "gen23_timeout_x60_singletons": 30,
           "numerical_shell_complete": false,
           "numerical_shell_credit": false,
-          "current_heavy_execution_authorized": false
+          "current_heavy_execution_authorized": false,
+          "gen26_frozen_exact_target": "ea23abf3acd5696f9ea0c9d570ec6e827a069d38",
+          "exact_missing_direct_datum": "branch-specific conductor transition delta_ij=r_z(x_j)/r_z(x_i) in mu_2 at actual conductor-identified normalization preimages"
         },
         "trigger_matches": {
           "marked_anti_invariant_carrier_lift_first_jet_sheet_data": false,
@@ -984,7 +1075,7 @@
           "cross_lane_asset_explicitly_matching_mb_receiver_semantics": false
         },
         "disposition": "RETAIN_PARKED_NO_REOPEN_NO_CREDIT",
-        "reason": "Current MAIN is unchanged from the prior Z12 semantic-mismatch check. The live MB-FIB cross-lane result is still an incomplete isotropic-shell producer computation (281 exact COMPLETE x60 singleton children, 30 timeout leaves) with zero numerical-shell credit and a COLD-only Gen25 redesign. Isotropic-shell execution is explicitly listed in must_not_reopen_without_trigger and does not supply any parking reopen trigger or reverse adapter to MB carrier nonexistence.",
+        "reason": "Current MAIN remains da573f0. The live MB-FIB producer has advanced to a frozen Gen26 COLD audit target, but the retained numerical state is still 281 exact COMPLETE x60 singleton children and 30 timeout leaves with zero shell credit, and its consumer contract still names the branch-specific conductor transition delta_ij as the exact missing datum. The new conductor-pair low-degree preflight also closes as quadratic-or-weight-blind. No parking reopen trigger is supplied.",
         "firewalls": {
           "mb104_reopened": false,
           "receiver_credit": false,
@@ -1015,6 +1106,7 @@
       "size48 inert-7 CM obstruction on the 000707 mixed-type support",
       "P.F<36 fibration search",
       "isotropic-shell heavy execution",
+      "conductor pair norm/determinant/Fitting/trace-zero low-degree compression without a new marked lift",
       "merge or rebase"
     ]
   },
@@ -1061,6 +1153,7 @@
     "equigeneric_semiregularity_leaf_live": false,
     "null_union_ambient_lift_route": "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G",
     "compact_C8_commensurator_candidate": "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING",
+    "conductor_pair_low_degree_pushforward_route": "CLOSED_QUADRATIC_OR_WEIGHT_BLIND_NO_GO",
     "finite_receiver_scan_status": "PARKED_NO_LIVE_EXECUTABLE_CANDIDATE",
     "equigeneric_semiregularity_route": "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH",
     "mb104_parking_audit_complete": true,

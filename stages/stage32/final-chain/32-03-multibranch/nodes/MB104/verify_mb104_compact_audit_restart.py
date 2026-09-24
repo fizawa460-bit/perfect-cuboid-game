@@ -322,6 +322,29 @@ def main():
         cyc=d["retained_frontier"]["cycle_breadth_audit_20260920"]
         req(cyc["exhaustive_view_audit"] is True and cyc["blind_rediscovery"] is True, "cycle breadth audit")
         req(cyc["split_triggered"] is False, "cycle no split")
+        cp=d["retained_frontier"]["conductor_pair_low_degree_pushforward_preflight"]
+        req(cp["retained_input"]["delta_formula"] == "168*l^2+56*l", "pair compression delta")
+        req(cp["retained_input"]["weighted_cut_lower_bound"] == "W>=84*l^2", "pair compression W lower bound")
+        req(cp["double_point_conductor"]["different_degree_formula"] == "336*l^2+112*l", "double-point conductor degree")
+        req(cp["double_point_conductor"]["ordered_twisted_pair_length_formula"] == "2*W", "ordered twisted pair length")
+        for l in (1,2,3,7):
+            req((3*l+1)*(112*l) == 336*l*l+112*l, "pair conductor degree replay")
+            req(2*(168*l*l+56*l) == 336*l*l+112*l, "pair different equals 2 delta")
+        rz=cp["residual_etale_trace_zero"]
+        req(rz["torsion_relation"] == "L^2=O_C" and rz["degree"] == 0, "trace-zero 2-torsion")
+        req(rz["normalization_pullback"] == "nu^*L=O_E because the pulled-back residual cover splits as E disjoint-union E", "trace-zero normalization split")
+        tests={x["construction"]:x["result"] for x in cp["hostile_tests"]}
+        req(tests["double-point scheme / conductor correspondence"] == "FAIL_QUADRATIC", "double-point quadratic no-go")
+        req(tests["Fitting ideal of the full conductor quotient"] == "FAIL_CHI_BLIND_AND_QUADRATIC", "Fitting no-go")
+        req(tests["determinant of cohomology / determinant of a torsion sheaf retaining the twisted locus"] == "FAIL_LENGTH_PRESERVING", "determinant no-go")
+        req(tests["norm of the twisted effective zero-cycle"] == "FAIL_LENGTH_PRESERVING", "norm no-go")
+        req(tests["trace-zero line / Prym character"] == "FAIL_WEIGHT_BLIND", "trace-zero weight blindness")
+        req(tests["fixed-rank pushforward to E or P1"] == "FAIL_NO_FIXED_RANK_COMPRESSION", "fixed-rank pushforward no-go")
+        req(cp["local_stress_test"]["weighted_pair_mass"] == "N", "pair local arbitrary contact")
+        req(cp["low_genus_index3_refresh"]["status"] == "NO_REOPEN_TRIGGER", "low-genus index3 refresh")
+        req(cp["route_disposition"] == "CLOSED_PAIR_CORRESPONDENCE_LOW_DEGREE_COMPRESSION_NO_GO", "pair compression closure")
+        req(all(x is False for x in cp["firewalls"].values()), "pair compression firewalls")
+
         statuses={x["name"]:x["status"] for x in cyc["candidates"]}
         req(statuses["projective conductor regularity decomposition"] == "BLOCKED_NO_NEW_INFORMATION", "cycle conductor status")
         req(statuses["finite normalization-module Betti receiver"] == "LIVE", "cycle live Betti receiver")
@@ -412,12 +435,21 @@ def main():
         req(park["status"] == "POST_AUDIT_PARKED_NO_LIVE_EXECUTABLE_CANDIDATE_ZERO_CREDIT", "parking status")
         req(len(park["reopen_triggers"]) >= 6, "parking reopen triggers")
         req("size48 inert-7 CM obstruction on the 000707 mixed-type support" in park["must_not_reopen_without_trigger"], "CM no-reopen firewall")
+        req("conductor pair norm/determinant/Fitting/trace-zero low-degree compression without a new marked lift" in park["must_not_reopen_without_trigger"], "pair-compression anti-loop firewall")
+        chk=park["last_reopen_check"]
+        req(chk["checked_at_jst"] == "2026-09-24T21:35:00+09:00", "reopen refresh date")
+        req(chk["current_main_observed"] == "da573f048a82a63e459be1343fb002e663b60875", "reopen current main")
+        req(chk["cross_lane_checked"]["head_observed"] == "8d2d592b25838f68ff44c4c06a579c21ead071cd", "reopen MB-FIB head")
+        req(chk["cross_lane_checked"]["gen26_frozen_exact_target"] == "ea23abf3acd5696f9ea0c9d570ec6e827a069d38", "reopen MB-FIB frozen target")
+        req(chk["cross_lane_checked"]["exact_missing_direct_datum"].startswith("branch-specific conductor transition"), "reopen missing conductor datum")
+        req(all(x is False for x in chk["trigger_matches"].values()), "reopen triggers remain false")
 
         req(routing["finite_receiver_blind_scan_live"] is False, "finite receiver blind scan transition")
         req(routing["equigeneric_semiregularity_leaf_live"] is False, "semiregularity leaf closed")
         req(routing["equigeneric_semiregularity_route"] == "PARKED_SOURCE_COMPLETE_DIRECTION_MISMATCH", "semiregularity route closure")
         req(routing["null_union_ambient_lift_route"] == "CLOSED_SURJECTIVE_EQUIVALENT_TO_Z33G", "null-union route closed")
         req(routing["compact_C8_commensurator_candidate"] == "PARKED_ARITHMETICITY_UNBOUNDED_G_ADAPTER_MISSING", "compact correspondence routing")
+        req(routing["conductor_pair_low_degree_pushforward_route"] == "CLOSED_QUADRATIC_OR_WEIGHT_BLIND_NO_GO", "pair compression routing")
         req(routing["finite_receiver_scan_status"] == "PARKED_NO_LIVE_EXECUTABLE_CANDIDATE", "finite receiver scan parked")
         req(routing["mb104_parking_audit_complete"] is True and routing["mb104_parked_await_new_adapter"] is True, "MB104 parking")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
