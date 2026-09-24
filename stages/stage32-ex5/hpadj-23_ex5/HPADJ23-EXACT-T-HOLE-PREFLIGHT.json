@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_EXACT_T_SUPPORT_PREFLIGHT_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "BOUNDED_STRUCTURAL_STRICTNESS_PROVED__FULL178_NOT_RUN__ZERO_MAIN_CREDIT",
+  "purpose": "Retain the exact feasible t-set in the HPADJ22 joint (b,c,support,required_parity,qBC) histogram instead of filling parity-hull holes before downstream GRF04/Picard counting.",
+  "source_locks": {
+    "hpadj22_source_pr": 1823,
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "hpadj22_joint_source_path": "stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py",
+    "v48_main_pr": 1826,
+    "v48_main_audited_head": "b4642621dd736457c4d9df349f89d7081e71ccef",
+    "v48_authority_path": "stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json",
+    "v48_authority_canonical_sha256": "d106029369dd5a029cd7a56e1c7d80fdd29f8471454fd2ed6c638af2b70288b1",
+    "v48_specialist_pr": 1821,
+    "v48_specialist_audited_head": "fb81be66f260879eec79e55be140857b5fc32bbc",
+    "support_qbc_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "support_qbc_research_note": "stages/stage32/32-01-178/fibration-nef/LOCAL-SUPPORT-QBC-RESEARCH.md"
+  },
+  "bounded_pilot": {
+    "H": 4,
+    "valid_canonical_tuples": 686,
+    "exact_bins_with_required_parity": 151,
+    "strict_vs_parity_hull_bins_with_required_parity": 91,
+    "filled_hull_t_points_removed_with_required_parity": 146,
+    "exact_bins_after_required_parity_marginalization": 101,
+    "strict_vs_parity_hull_bins_after_required_parity_marginalization": 52,
+    "filled_hull_t_points_removed_after_required_parity_marginalization": 74,
+    "all_exact_t_sets_subset_of_current_support_qbc_hull": true,
+    "strictness_survives_required_parity_marginalization": true,
+    "representative_witness": {
+      "b": 0,
+      "c": 4,
+      "support": 1,
+      "qBC": 16,
+      "exact_t": [
+        0
+      ],
+      "current_parity_hull_t": [
+        0,
+        2,
+        4
+      ],
+      "filled_nonrealized_t": [
+        2,
+        4
+      ]
+    }
+  },
+  "mathematical_implication": {
+    "same_bc_combinatorics_as_hpadj22": true,
+    "current_v48_support_qbc_interval_is_a_safe_relaxation": true,
+    "exact_t_set_is_pointwise_no_weaker_than_current_hull": true,
+    "strict_bounded_bins_exist": true,
+    "global_v48_tightening_claimed": false,
+    "full178_numeric_replay_performed": false
+  },
+  "ownership": {
+    "producer_lane": "EX5",
+    "producer_output": "EXACT_JOINT_BC_T_SUPPORT_HISTOGRAM_INTERFACE",
+    "consumer_lane": "32-01-178",
+    "consumer_application": "V48_OR_SUCCESSOR_SAME_POPULATION_INTERSECTION",
+    "duplicate_consumer_execution_performed": false,
+    "main_promotion_performed": false
+  },
+  "next_gate": {
+    "id": "HPADJ23_EXACT_T_HISTOGRAM_BUILDER",
+    "goal": "Implement a source-locked scalable joint histogram keyed by (b,c,support,required_parity,qBC,t), crosscheck its qBC/parity marginals against HPADJ22, and retain a compact producer handoff before any 178-lane consumer execution.",
+    "heavy_execution_authorized": false,
+    "full178_scaleout_authorized": false
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "31b7c9d6c2446daf94cf08af43efd1200cec15839433b7366d3dd28c20ce26ea"
+}

@@ -100,6 +100,15 @@ def verify_live_firewalls() -> None:
 
     state = json.loads(MAIN_STATE.read_text())
     req(state.get("stage") == "32EX5", "MAIN-STATE stage drift")
+    req(state.get("schema") == "STAGE32EX5_MAIN_COMPACT_STATE_V6_HPADJ23_EXACT_T_PRODUCER_PREFLIGHT",
+        "MAIN-STATE schema/current-leaf drift")
+    current = state.get("current", {})
+    req(current.get("route_id") == "HPADJ-23_ex5", "current EX5 route drift")
+    req(current.get("leaf") == "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER", "current EX5 leaf drift")
+    next_step = state.get("next_step", {})
+    req(next_step.get("id") == "HPADJ23_EXACT_T_HISTOGRAM_BUILDER", "next-step drift")
+    req(next_step.get("heavy_scaleout_authorized") is False, "unexpected HPADJ23 heavy authorization")
+    req(next_step.get("consumer_execution_authorized_here") is False, "178 consumer duplication authorized")
     authority = state.get("authority", {})
     req(authority.get("state_itself_grants_mathematical_credit") is False,
         "MAIN-STATE unexpectedly grants mathematical credit")
