@@ -29,7 +29,10 @@ assert r["hierarchical_bc64_child_count"]==2108
 assert r["representative_child_certificate_hard_cap_bytes"]==65536
 assert r["projected_peak_storage_bytes"]==175898624
 assert r["projected_peak_storage_bytes"] < r["repository_storage_budget_bytes"]
-assert r["storage_gate_passed"] is True
+assert r["storage_gate_passed"] is False
+assert r["representative_payload_measurement_required"] is True
+assert r["measured_representative_payload_bytes"] is None
+assert r["measurement_status"]=="REQUIRED_NOT_YET_RETAINED"
 assert r["raw_child_state_upload_forbidden"] is True
 a=p["authorization"]
 assert a["runkey_generation"]==0 and a["runkey_armed"] is False and a["heavy_compute_authorized"] is False
