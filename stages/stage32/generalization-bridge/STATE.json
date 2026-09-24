@@ -17,16 +17,23 @@
   },
   "target": {
     "authority": "stages/stage32/MAIN-STATE.json",
-    "repository_main_head": "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
-    "repository_main_state_blob": "232732e29f72b55c34d540bf1c7cfcc4a626851c",
-    "repository_main_state_canonical_sha256": "f6f09126279dc67ff567f2a2fd8fcae89488c24a5fd83eea7c9804218d8a2952",
-    "main_version": "V43_HPADJ21_FULL178_BOUND_AUDIT_SYNCED",
+    "repository_main_head": "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3",
+    "repository_main_state_blob": "070847c669120aef1ab3777239d45878937b41f3",
+    "repository_main_state_canonical_sha256": "a589a92a8d7c5bef1657abe12fe47ea22e5181bae38fc12fada72cb4859794be",
+    "main_version": "V48_178_SUPPORT_QBC_AUDIT_SYNCED",
     "authoritative_remaining_strata": 17128,
-    "authoritative_remaining_terminals": "157570677819451133507",
+    "authoritative_remaining_terminals": "128470212118313474449",
     "authoritative_remaining_terminals_semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
     "target_population": "current authoritative FULL178 population semantics",
     "terminal_family": "stages/stage32/residual-32-01-production/compressed_terminal_family.py",
-    "authority_is_upper_bound_not_exact_residual_identity_set": true
+    "authority_is_upper_bound_not_exact_residual_identity_set": true,
+    "predecessor_comparison": {
+      "version": "V47_GRF04_HPADJ22_FULL178",
+      "upper_bound": "128645575147764659235",
+      "v48_exact_tightening": "175363029451184786",
+      "composition_rule": "SAME_POPULATION_EXACT_INTERSECTION_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION",
+      "same_population_comparable": true
+    }
   },
   "research_seed": {
     "issue": 1817,
@@ -162,13 +169,13 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_G4_COLD_SURFACE_EXACT_HEAD_REPLAY_AND_HOSTILE_AUDIT",
+    "id": "BR204_G4_REPAIR_AUDIT_BLOCKERS",
     "status": "OPEN",
     "requirements": [
-      "Freeze/source-lock current G4 plan, verifier, runkey, workflow and STATE at exact head.",
-      "Obtain exact-head replay/lifecycle evidence with no MANUAL/HISTORICAL automatic triggers.",
-      "Obtain distinct hostile audit PASS before any runkey-only arm commit.",
-      "Heavy remains unauthorized; restored b=2,d=148,BC16#0 must not be recomputed."
+      "Run representative compact-child measurement and retain measured evidence before storage PASS.",
+      "Freeze/source-lock complete G4 doorway bundle including STATE.",
+      "Obtain exact-head cold-gate and replay SUCCESS.",
+      "Re-run distinct hostile audit before any arm."
     ]
   },
   "transition_policy": {
@@ -270,7 +277,7 @@
     ],
     "raw_4_1M_state_artifact_forbidden": true,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Hostile audit 5291390788 PASSed the G3 replacement postfreeze boundary at 23150d71. G4 may now be designed only. The restored b=2,d=148,BC16#0 predecessor carry must be preserved; G3 target completion remains 0 complete / 1 zero-subunit partial / 68 missing, with zero reusable G3 completed subunits. No broader heavy execution is authorized."
+    "stop_reason": "Hostile audit 5305180837 HOLD: G4 doorway repair in progress. MAIN predecessor synchronized to V48 same-population bound 128470212118313474449; heavy remains unauthorized."
   },
   "deliverable_contract": {
     "per_shard": [
@@ -480,11 +487,13 @@
     "cold_runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json",
     "cold_plan_verifier_path": "stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py",
     "storage_preflight": {
-      "status": "PASS_CONSERVATIVE_COMPACT_CHILD_CAP_ZERO_CREDIT",
+      "status": "OPEN_REPRESENTATIVE_MEASUREMENT_REQUIRED_ZERO_CREDIT",
       "evidence_unit_count": 2684,
       "child_certificate_hard_cap_bytes": 65536,
       "projected_peak_storage_bytes": 175898624,
       "repository_budget_bytes": 524288000,
+      "representative_payload_measurement_required": true,
+      "measured_representative_payload_bytes": null,
       "heavy_compute_authorized": false
     }
   }
