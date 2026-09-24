@@ -524,7 +524,69 @@ def main():
         req(routing["mb104_parking_audit_complete"] is True and routing["mb104_parked_await_new_adapter"] is False, "MB104 finite receiver reopen")
         req(routing["cycle_exhaustive_view_audit_complete"] is True and routing["cycle_blind_rediscovery_complete"] is True, "cycle routing audit")
         req(routing["e2_gfixed_algebraic_5bit_basis_materialized"] is True and routing["e2_gfixed_historical_tau_termwise_identified"] is False, "algebraic five-bit routing")
-        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-FACTOR-PAIR-SINGULAR-PASSPORT-TEST", "post-audit active leaf")
+        sp=d["retained_frontier"].get("e2_unique_factor_pair_singular_passport")
+        if sp is None:
+            req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-FACTOR-PAIR-SINGULAR-PASSPORT-TEST", "post-audit active leaf")
+        else:
+            req(sp["status"] == "EXACT_PREAUDIT_UNIQUE_PAIR_SUPPORTED_PRODUCT_PASSPORT_COMPATIBILITY_ZERO_CREDIT", "unique-pair passport status")
+            req(sp["support_mask"] == "000707000f0f" and sp["case"] == "e=2", "unique-pair passport scope")
+            sl=sp["source_locks"]
+            req(sl["product_linearization_note_blob"] == "2c2db567db6a3c33762b2ff3d7f39f885a95b974", "passport product-linearization lock")
+            req(sl["rosati_zero_note_blob"] == "24cc729070ab685491fd2659d970da1a9f415891", "passport Rosati lock")
+            req(sl["external_product_picard_note_blob"] == "dc2def9e4d0148aa3146a034a2ce0ef331206a29", "passport external-product lock")
+            req(sl["etale_basechange_passport_note_blob"] == "d4e5c3b9c598299114f983594be1fac1b01d24d7", "passport etale-basechange lock")
+            req(sl["common_h_factor_line_note_blob"] == "1e121116c1591e3b3d9f748f306151ab0e89b580", "passport common-H line lock")
+            req(sl["projective_conductor_note_blob"] == "69b3e039ebc967c84f7c64d4946a114f09d07fba", "passport projective-conductor lock")
+            req(sl["residual_node_orbit_note_blob"] == "dbfea5a4f62b1388c9810c37ad867076ed4dca6e", "passport residual-node lock")
+            req(sp["unique_pair"] == "A=B=pi_H^*O_P1(7*l)", "unique factor pair")
+            loc=sp["supported_product_local"]
+            req(loc["carrier_different_coefficient_per_E_branch"] == "4*l", "carrier different coefficient")
+            req(loc["H_quotient_ramification_coefficient_per_Z_branch"] == 1, "H quotient ramification coefficient")
+            req(loc["dualizing_identity"] == "R_p+Delta_Z+I_(Z,TZ)=p^*Delta_C", "local dualizing identity")
+            req(loc["branch_identity"] == "c_i+I_i=8*l-1", "local branch identity")
+            req(loc["internal_lower_bound"] == "c_i>=r-1", "internal lower bound")
+            req(loc["translate_lower_bound"] == "I_i>=8*l-r", "translate lower bound")
+            req(loc["forced_equalities"] == ["c_i=r-1","I_i=8*l-r"], "forced supported equalities")
+            req(loc["conclusion"] == "all supported product branches are internally ordinary/transverse and meet the residual translate transversely", "supported transversality conclusion")
+            # The two lower bounds exactly saturate the pulled-back carrier different.
+            for ll in (1,2,3,7):
+                for rr in (0,1,2,4*ll,8*ll-2,8*ll):
+                    if 0 <= rr <= 8*ll:
+                        req((rr-1)+(8*ll-rr) == 8*ll-1, "local saturation arithmetic")
+            sd=sp["supported_delta"]
+            req(sd["per_box_node_formula"] == "2*a_j^2+32*l^2-8*l, a_j=x_j-4*l", "supported delta per-node formula")
+            req(sd["all_14_formula"] == "448*l^2-112*l+2*sum(a_j^2)", "supported delta total formula")
+            req(sd["interior_formula"] == "336*l^2+224*l-2*sum(a_j^2)", "interior delta formula")
+            req(sd["even_l_bridge"] == "l=2*m,a_j=2*b_j => delta_Z,int=4*(336*m^2+112*m-2*Q)=4*delta_same", "even-l energy bridge")
+            for ll in (1,2,5):
+                for xx in range(0,8*ll+1,2):
+                    aa=xx-4*ll
+                    lhs=2*(xx*(xx-1)//2)+2*((8*ll-xx)*(8*ll-xx-1)//2)
+                    rhs=2*aa*aa+32*ll*ll-8*ll
+                    req(lhs == rhs, "supported product delta replay")
+            ci=sp["translate_intersection"]
+            req(ci["total_formula"] == "Zbar.TZbar=1568*l^2", "translate total intersection")
+            req(ci["supported_formula"] == "896*l^2-4*sum(a_j^2)", "translate supported intersection")
+            req(ci["interior_formula"] == "672*l^2+4*sum(a_j^2)", "translate interior intersection")
+            lb=sp["conductor_half_line_bridge"]
+            req(lb["M_i_degree"] == "28*l", "factor pencil degree")
+            req(lb["M_i_fourth_power"] == "M_i^4=H_E", "factor pencil fourth power")
+            req(lb["factor_square_relation"] == "M_1^2=M_2^2", "factor square relation")
+            req(lb["K_C8"] == "pi_H^*O_P1(2)", "C8 canonical pullback")
+            req(lb["Delta_Z_line"] == "O_Z(Delta_Z)=p^*(M_1^(7*l) tensor M_2^(7*l+2))", "product different half-line")
+            req(lb["half_square"] == "L_Delta^2=H_E^(7*l+1)=O_E(Delta_C)", "carrier different square-root identity")
+            req(lb["degree_L_Delta"] == "392*l^2+56*l", "half-line degree")
+            req(lb["degree_Delta_Z"] == "1568*l^2+224*l", "product different degree")
+            for ll in (1,2,5,9):
+                req((14*ll+2)*28*ll == 392*ll*ll+56*ll, "half-line degree replay")
+                req(4*(392*ll*ll+56*ll) == 1568*ll*ll+224*ll, "product different degree replay")
+            req(sp["result"] == "the unique factor pair survives the exact supported-node multiplicity/different passport; supported higher-contact is forced absent on the product surface, and the conductor half-line is exactly compatible", "unique-pair supported passport result")
+            req(all(v is False for v in sp["firewalls"].values()), "unique-pair passport firewalls")
+            req(routing["e2_unique_pair_supported_product_passport_exact"] is True, "unique-pair supported passport routing")
+            req(routing["e2_unique_pair_supported_product_passport_closes"] is False, "unique-pair supported passport no closure")
+            req(routing["e2_unique_pair_supported_higher_contact_live"] is False, "supported higher contact closed")
+            req(routing["e2_unique_pair_conductor_half_line_exact"] is True, "conductor half-line exact")
+            req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-CONDUCTOR-OR-FIB-RESTRICTION", "post-passport active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
