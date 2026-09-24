@@ -1797,7 +1797,7 @@
         "geometrically_realized": false
       },
       "result": "unique-pair saturated factor fibers impose four new mod-8 allocation congruences and exclude the previous m=5 endpoint witness, but a replacement delta_same=0 endpoint survives every retained raw low-bidegree capacity",
-      "next_missing_datum": "the factor-fiber Picard restriction has now been consumed at the full two-coordinate Abel level for both used inertia types; further progress requires interior conductor/common-etale realization data, a stronger non-raw postulation/jet condition, or an audited MB-FIB restriction not equivalent to these factor-fiber classes",
+      "next_missing_datum": "the unique-pair supported-section problem is now exhausted at exact two-slice interpolation level; further progress must use irreducibility/common-etale normalization, interior conductor/postulation beyond the two slices, a marked conductor transition, or an audited MB-FIB restriction independent of these Abel classes",
       "firewalls": {
         "unique_pair_existence_proved": false,
         "factor_fiber_divisor_realization_proved": false,
@@ -1812,6 +1812,32 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
+      },
+      "two_slice_interpolation": {
+        "status": "EXACT_PREAUDIT_SURJECTIVE_HDIAG_TWO_SLICE_INTERPOLATION_NO_EXCLUSION_CREDIT",
+        "line_bundle": "A_ref=pi_H^*O_P1(7*l)",
+        "H_section_decomposition": [
+          "V0=H0(P1,O(7*l)), dim=7*l+1",
+          "Vu=u*H0(P1,O(7*l-2)), dim=7*l-1",
+          "Vv=v*H0(P1,O(7*l-2)), dim=7*l-1",
+          "Vuv=u*v*H0(P1,O(7*l-4)), dim=7*l-3"
+        ],
+        "Hdiag_invariant_sections": "direct_sum_chi V_chi tensor V_chi",
+        "Hdiag_invariant_dimension": "196*l^2-56*l+12",
+        "horizontal_fixed_point": "choose the saturated g1-fixed second-factor point w_g1; v(w_g1)=0,u(w_g1)!=0",
+        "horizontal_image": "V0+Vu, dimension 14*l",
+        "horizontal_reason": "evaluation at w_g1 kills exactly Vv and Vuv; the omitted g1 fixed point has multiplicity zero, so the saturated divisor section is g1-even and lies in the full descended elliptic linear system",
+        "vertical_fixed_point": "choose the saturated g2-fixed first-factor point z_g2; u(z_g2)=0,v(z_g2)!=0",
+        "vertical_image": "V0+Vv, dimension 14*l",
+        "vertical_reason": "evaluation at z_g2 kills exactly Vu and Vuv; the omitted g2 fixed point has multiplicity zero, so the saturated divisor section is g2-even and lies in the full descended elliptic linear system",
+        "joint_image": "all pairs (s_h,s_v) with s_h(z_g2)=s_v(w_g1), dimension 28*l-1",
+        "joint_surjectivity_reason": "Vu tensor Vu supplies the arbitrary horizontal Vu part; Vv tensor Vv supplies the arbitrary vertical Vv part; V0 tensor V0 supplies arbitrary V0 row/column data subject only to equality at the crossing point; Vuv tensor Vuv lies in the joint kernel",
+        "crossing_value": "nonzero for both prescribed saturated slice sections because each slice divisor already spends its full degree 28*l on its seven used-type fixed points and the crossing point is of the other inertia type",
+        "scaling_adapter": "each prescribed slice divisor determines its section up to a nonzero scalar; rescale one slice so the two nonzero crossing values agree",
+        "kernel_dimension": "196*l^2-84*l+13",
+        "saturated_divisor_pair_simultaneously_realizable_as_Hdiag_section": true,
+        "irreducibility_or_common_etale_normalization_proved": false,
+        "conclusion": "plain Hdiag section existence with the exact two saturated support slices is automatically compatible once the four Abel congruences hold; this section-space route is closed as a standalone obstruction"
       }
     }
   },
@@ -1819,7 +1845,7 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — interior realization after factor-fiber Abel",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-REALIZATION-AFTER-FIBER-ABEL",
-    "required_input": "The unique pair A=B=pi_H^*O_P1(7*l) now satisfies an exact saturated factor-fiber Abel reduction. Picard64 parity plus the two ramified bielliptic quotient group laws impose four mod-8 congruences on x_j. These are stronger than the retained zero-quartic mod-4 bits and exclude the old m=5 endpoint witness, but a replacement m=5,l=10,delta_same=0 witness survives all retained raw low-bidegree capacities. Do not repeat factor-label, supported-node tangency, or saturated-factor Abel calculations. Seek interior conductor/common-etale realization or a genuinely stronger postulation/jet or audited MB-FIB restriction.",
+    "required_input": "The unique pair has passed both the supported product-node passport and the full saturated factor-fiber Abel/section test. Four exact mod-8 allocation congruences survive, but a replacement m=5,l=10,delta_same=0 endpoint satisfies them and all retained raw capacities. Moreover the full Hdiag-invariant section restriction to the saturated horizontal and vertical slices is exactly surjective subject only to their common crossing value, so plain supported-section effectivity cannot close e=2. Continue only with irreducibility/common-etale normalization, genuinely interior conductor/postulation, marked conductor transition, or an audited MB-FIB restriction independent of the factor-fiber Abel classes.",
     "success_shapes": [
       "exact interior-conductor or irreducibility/common-etale contradiction for the unique factor pair, followed by hostile audit before any e=2 promotion",
       "exact stronger postulation/jet condition incompatible with every allocation satisfying the four factor-fiber Abel congruences",
@@ -1840,7 +1866,8 @@
       "supported product-node multiplicity/tangency/different replay without new interior data",
       "unique-pair conductor half-line square-root compatibility without an independent marked square-root or restriction datum",
       "saturated factor-fiber divisor-class or bielliptic Abel replay without new interior/marked data",
-      "old zero-quartic mod-4 congruences as if they were the full factor-fiber Picard restriction"
+      "old zero-quartic mod-4 congruences as if they were the full factor-fiber Picard restriction",
+      "plain Hdiag section-dimension or two-slice interpolation after the exact surjectivity wall"
     ]
   },
   "routing": {
@@ -1909,7 +1936,10 @@
     "e2_unique_pair_factor_fiber_abel_new_mod8_constraints": 4,
     "e2_unique_pair_factor_fiber_abel_closes": false,
     "e2_unique_pair_old_capacity_witness_survives": false,
-    "e2_unique_pair_replacement_capacity_endpoint_survives": true
+    "e2_unique_pair_replacement_capacity_endpoint_survives": true,
+    "e2_unique_pair_supported_section_interpolation_exact": true,
+    "e2_unique_pair_supported_section_effectivity_closes": false,
+    "e2_unique_pair_supported_section_route": "CLOSED_EXACT_SURJECTIVE_TWO_SLICE_INTERPOLATION_NO_GO"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
