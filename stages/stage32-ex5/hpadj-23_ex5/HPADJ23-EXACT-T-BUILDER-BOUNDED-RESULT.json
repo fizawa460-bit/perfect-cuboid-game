@@ -1,0 +1,53 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_EXACT_T_BUILDER_BOUNDED_RESULT_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "BOUNDED_D_LE_32_EXACT_T_BUILDER_PASS__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "hpadj22_joint_source_path": "stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py",
+    "hpadj22_joint_source_blob_sha1": "98d84c925af74c35b99001b08d8428f997ab63ea",
+    "preflight_canonical_sha256": "31b7c9d6c2446daf94cf08af43efd1200cec15839433b7366d3dd28c20ce26ea",
+    "v48_authority_canonical_sha256": "d106029369dd5a029cd7a56e1c7d80fdd29f8471454fd2ed6c638af2b70288b1"
+  },
+  "crosschecks": {
+    "bruteforce_H4_exact_joint_t_match": true,
+    "hpadj22_qbc_required_parity_marginal_H4_match": true,
+    "hpadj22_qbc_required_parity_marginal_H16_match": true
+  },
+  "bounded_H16": {
+    "scope_semantics": "same H=16 BC prefix box used by HPADJ22 d<=32 bounded gate",
+    "valid_canonical_tuple_multiplicity": 1305021,
+    "exact_bins_with_required_parity": 47667,
+    "exact_t_support_entries_with_required_parity": 207474,
+    "strict_vs_current_parity_hull_bins_with_required_parity": 39995,
+    "filled_hull_t_points_removed_with_required_parity": 196035,
+    "exact_bins_after_required_parity_marginalization": 26674,
+    "strict_vs_current_parity_hull_bins_after_required_parity_marginalization": 20599,
+    "filled_hull_t_points_removed_after_required_parity_marginalization": 90022,
+    "all_exact_t_sets_subset_of_current_support_qbc_hull": true
+  },
+  "ownership": {
+    "producer_lane": "EX5",
+    "consumer_lane": "32-01-178",
+    "consumer_execution_performed": false,
+    "main_promotion_performed": false
+  },
+  "next_gate": {
+    "id": "HPADJ23_COMPACT_PRODUCER_HANDOFF",
+    "goal": "Freeze a compact exact-t histogram serialization contract and bounded consumer equivalence before any FULL178 producer scaleout or 178-lane intersection.",
+    "heavy_execution_authorized": false,
+    "full178_scaleout_authorized": false
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3"
+}
