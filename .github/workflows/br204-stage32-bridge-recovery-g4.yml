@@ -1,0 +1,70 @@
+name: Stage32 BRIDGE BR204 generation4 recovery cold gate
+
+# Lifecycle: MANUAL — cold G4 execution surface. Heavy compute is intentionally absent
+# until a distinct hostile audit accepts this exact surface and a runkey-only arm commit follows.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PLAN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json
+  PLAN_BLOB: 10666a0a363869ec590e4b1544fa79871959b470
+  PLAN_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+  PLAN_VERIFIER_BLOB: 171caa620d18fb016301964195e104302e013c93
+  RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
+  RUNKEY_BLOB: fad0ac63d335c4be702830cdbee325470dc22615
+  DESIGN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
+  DESIGN_BLOB: 13037b1271f66161dd7ef590d1ac4ffd85319878
+  TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json
+  TARGETS_BLOB: 975fadbe0f3ee0dfd7c792be7807c154421dec20
+  CURRENT_MAIN: e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3
+  CURRENT_MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+
+jobs:
+  cold-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Verify frozen G4 cold surface
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$PLAN")" = "$PLAN_BLOB"
+          test "$(git hash-object "$PLAN_VERIFIER")" = "$PLAN_VERIFIER_BLOB"
+          test "$(git hash-object "$RUNKEY")" = "$RUNKEY_BLOB"
+          test "$(git hash-object "$DESIGN")" = "$DESIGN_BLOB"
+          test "$(git hash-object "$TARGETS")" = "$TARGETS_BLOB"
+          python "$PLAN_VERIFIER"
+          python - <<'PY'
+          import json,os
+          x=json.load(open(os.environ['RUNKEY']))
+          assert x['schema']=='STAGE32_BR204_RECOVERY_G4_RUNKEY_V1'
+          assert x['generation']==0 and x['armed'] is False
+          assert x['storage']['storage_gate_passed'] is False
+          assert x['arm_contract']['audited_doorstep_head'] is None
+          assert x['arm_contract']['audited_doorstep_review_id'] is None
+          assert all(v is False for v in x['credit'].values())
+          PY
+      - name: Verify current MAIN source lock
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$CURRENT_MAIN_STATE_BLOB"
+      - name: Confirm no heavy authorization exists
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os
+          p=json.load(open(os.environ['PLAN']))
+          r=json.load(open(os.environ['RUNKEY']))
+          assert p['authorization']['workflow_implemented'] is False
+          assert p['authorization']['heavy_compute_authorized'] is False
+          assert r['armed'] is False
+          print('G4 cold gate only: heavy compute unavailable')
+          PY
