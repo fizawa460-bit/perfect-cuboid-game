@@ -145,6 +145,24 @@ jobs:
           test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
           test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_recoverability.py)" = "fbd8dad2194378a6bf77d12cc2c65ac03782f112"
 
+      - name: Checkout hostile-audited 178 V48 support-qBC source
+        uses: actions/checkout@v4
+        with:
+          ref: fb81be66f260879eec79e55be140857b5fc32bbc
+          path: .stage32-178-v48-source
+          fetch-depth: 1
+
+      - name: Assert hostile-audited 178 V48 support-qBC source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-178-v48-source rev-parse HEAD)" = "fb81be66f260879eec79e55be140857b5fc32bbc"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/local-support-qbc/GENERATION4-COMPLETE.json)" = "a917f6a98e8f4db57d0ada5193fe263f52162732"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/run_v47_support_qbc_intersection_unit.py)" = "af3026f5d7608181845e2ee0f9e0ab91feee60d1"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/aggregate_v47_support_qbc_intersection.py)" = "e56a6b1796c067fde61e34f695df410dfa50aa43"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-PREFLIGHT.json)" = "1f3abf84f1ff5f9eb4fb319a06e988a22132c26b"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json)" = "46cf52224e84ebd58ea5a17390834616ec266778"
+          test "$(git -C .stage32-178-v48-source hash-object .github/workflows/stage32-01-178-v47-support-qbc-intersection.yml)" = "1e7683453193cbd46d605b60afdf4e532d579e1a"
+
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
@@ -207,7 +225,7 @@ jobs:
           test "$(git hash-object stages/stage32/proof/verify_stage32_active_frontier.py)" = "1d31b2ff866e84bca1514ffb1ce5d1c347e37f08"
           test "$(git hash-object stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json)" = "2733e5519629e6365558bc1b4bfbc6305e0b5533"
           test "$(git hash-object stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py)" = "d719482d9799f8594b4436d0882bd33945583536"
-          python stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py
+          python stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py --lane178-root .stage32-178-v48-source
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "68108dfb110c4ea1d9dc0d74564a431bbbffbbde"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "8787d03e273513298c5d8ecfbc469f89342817f3"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
