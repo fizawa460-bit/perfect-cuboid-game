@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V17_G4_RECOVERY_DESIGN_COLD",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V18_G4_COLD_SURFACE",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G3_REPLACEMENT_AUDITED__G4_RECOVERY_DESIGN_COLD",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_RECOVERY_COLD_SURFACE_IMPLEMENTED__HEAVY_UNAUTHORIZED",
   "current_node": "BR204",
-  "active_leaf": "BR204_G4_RECOVERY_COLD_DESIGN",
+  "active_leaf": "BR204_G4_RECOVERY_COLD_SURFACE",
   "charter_reset": {
     "path": "stages/stage32/generalization-bridge/BR200-ISSUE1817-INTEGRATION-CHARTER-RESET.json",
     "status": "ACTIVE_RESEARCH_CHARTER_RESET_NO_CREDIT",
@@ -162,16 +162,14 @@
     "formal_BR205_gate_passed": false
   },
   "next_obligation": {
-    "id": "BR204_G4_RECOVERY_COLD_SURFACE",
+    "id": "BR204_G4_COLD_SURFACE_PREFLIGHT_AND_FREEZE",
     "status": "OPEN",
     "requirements": [
-      "Implement a resume-first G4 cold execution surface for the unchanged 69-target G3 frontier; no heavy execution.",
-      "Preserve the repaired b=2,d=148,BC16#0 predecessor carry and do not recompute it.",
-      "Replace the former retention-cap-failing flat16 persistence topology with bounded independently verifiable child evidence before scale-out.",
-      "Source-lock exact partition/union verifiers, replacement carry identity, current MAIN identity, storage policy and checkpoint policy.",
-      "Measure representative persisted payload and prove projected peak storage stays below 500 MB.",
-      "Keep proposed Stage32 heavy concurrency at or below 18 with headroom; cold design currently proposes <=12.",
-      "Freeze the cold workflow/runkey/verifier surface and obtain a distinct hostile audit before any arm."
+      "Measure representative persisted child-certificate payload before any heavy scale-out and record projected peak storage below 500 MB.",
+      "Source-lock the final G4 workflow, plan, verifier, runkey, replacement carry identity, current MAIN, storage policy and checkpoint policy.",
+      "Keep G4 workflow MANUAL/cold and runkey generation=0 armed=false until distinct hostile audit PASS.",
+      "After cold surface freeze, obtain exact-head replay/lifecycle evidence and hostile audit before any runkey-only arm commit.",
+      "Do not recompute restored b=2,d=148,BC16#0 predecessor carry."
     ]
   },
   "transition_policy": {
@@ -320,7 +318,7 @@
     "cancelled_generation1_head": "802d82ca5240338b1c74c98bad8ec2da7f30e031",
     "defect": "Outer b x d-band work was durable only at full-band completion; elapsed work inside a timed-out unit could be lost.",
     "repair": "After every completed d, refresh cumulative local exact rollup. Use always-path finalizer/upload for ordinary interruption/cancellation, soft deadline before hard timeout, explicit pagination, and finer-partition hard stop on single-d timeout.",
-    "status": "AUDIT_5291390788_PASS__POSTREPLACEMENT_BOUNDARY_ACCEPTED__G4_DESIGN_ONLY",
+    "status": "G4_COLD_SURFACE_IMPLEMENTED__PREFLIGHT_FREEZE_AND_DISTINCT_HOSTILE_AUDIT_REQUIRED",
     "mathematical_population_changed": false,
     "resume_topology_changed": true,
     "launcher_topology_changed": true,
@@ -477,6 +475,10 @@
       "parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
     },
     "heavy_compute_armed": false,
-    "heavy_compute_authorized": false
+    "heavy_compute_authorized": false,
+    "cold_plan_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json",
+    "cold_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
+    "cold_runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json",
+    "cold_plan_verifier_path": "stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py"
   }
 }
