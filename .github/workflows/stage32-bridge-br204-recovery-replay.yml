@@ -57,6 +57,22 @@ env:
   HIER_HELPER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
   LAST_AUDITED_COLD: f30d33e3992c3bbecb171f14d60086424f017d8c
 
+env:
+  G4_PLAN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json
+  G4_PLAN_BLOB: 5576903408a48078caca018c09a1953424487f86
+  G4_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+  G4_VERIFIER_BLOB: 6ddeddef3167aab990d8a105e7989035284c326a
+  G4_RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
+  G4_RUNKEY_BLOB: fe7a49bffa5581f629ac80a6aac3b2e56afb668e
+  G4_STATE: stages/stage32/generalization-bridge/STATE.json
+  G4_STATE_BLOB: 9d1e87829e9c0d5b568735e2e0e498b3cf418d20
+  G4_COLD_WORKFLOW: .github/workflows/br204-stage32-bridge-recovery-g4.yml
+  G4_COLD_WORKFLOW_BLOB: 68e65edbaf4536e9b0b3385b4256e9275b6282cb
+  G4_MEASUREMENT: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json
+  G4_MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
+  G4_MEASUREMENT_PAYLOAD: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json
+  G4_MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
+
 jobs:
   recovery-replay:
     runs-on: ubuntu-latest
@@ -88,6 +104,18 @@ jobs:
           assert (c['complete_target_count'],c['partial_target_count'],c['missing_target_count'],c['reusable_g3_completed_subunit_count'])==(0,1,68,0)
           assert c['expired_generation2_carry']['reusable'] is False
           PY
+      - name: Verify complete G4 doorway source identities
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$G4_PLAN")" = "$G4_PLAN_BLOB"
+          test "$(git hash-object "$G4_VERIFIER")" = "$G4_VERIFIER_BLOB"
+          test "$(git hash-object "$G4_RUNKEY")" = "$G4_RUNKEY_BLOB"
+          test "$(git hash-object "$G4_STATE")" = "$G4_STATE_BLOB"
+          test "$(git hash-object "$G4_COLD_WORKFLOW")" = "$G4_COLD_WORKFLOW_BLOB"
+          test "$(git hash-object "$G4_MEASUREMENT")" = "$G4_MEASUREMENT_BLOB"
+          test "$(git hash-object "$G4_MEASUREMENT_PAYLOAD")" = "$G4_MEASUREMENT_PAYLOAD_BLOB"
+          python "$G4_VERIFIER"
+
       - name: Verify current MAIN identity
         run: |
           git fetch --no-tags --depth=1 origin main
