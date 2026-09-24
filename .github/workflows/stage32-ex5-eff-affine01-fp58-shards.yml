@@ -23,6 +23,25 @@ jobs:
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ResearchOS ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32-ex5/runkeys/eff-affine01-fp58-heavy-shard.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32EX5: ARM EFF-AFFINE01 FP58 HEAVY SHARD'
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32-ex5/runkeys/eff-affine01-fp58-heavy-shard.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] is True
+          assert d['base4']==[0,1,1,1] and d['shard_count']==16 and d['split_index']==53
+          assert d['max_parallel']==1 and d['allow_finer_split'] is False
+          assert d['shard_id']==int(os.environ['SHARD_ID'])
+          assert d['credit'] is False
+          PY
+        env:
+          SHARD_ID: '${{ inputs.shard_id }}'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
