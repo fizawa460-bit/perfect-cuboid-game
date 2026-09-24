@@ -51,7 +51,11 @@ jobs:
           echo "PAIR_ARTIFACT_COUNT=${count}"
           test "${count}" -eq 192
           while read -r id name; do
-            gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" > "/tmp/v48-zips/${id}.zip"
+            curl --fail --silent --show-error --location \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" \
+              --output "/tmp/v48-zips/${id}.zip"
             unzip -qo "/tmp/v48-zips/${id}.zip" -d /tmp/v48-pairs
           done
           test "$(find /tmp/v48-pairs -maxdepth 1 -name 'row*-b*.json' | wc -l)" -eq 384
