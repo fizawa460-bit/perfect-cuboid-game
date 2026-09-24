@@ -10,20 +10,24 @@ permissions:
 
 env:
   PLAN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json
-  PLAN_BLOB: 3e6239b7e2aeae24ed3f1184e767fc1c7811b5f8
+  PLAN_BLOB: 5576903408a48078caca018c09a1953424487f86
   PLAN_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
-  PLAN_VERIFIER_BLOB: 710fcbabd89c929592bce6acf569119c4e31e80a
+  PLAN_VERIFIER_BLOB: 6ddeddef3167aab990d8a105e7989035284c326a
   RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
-  RUNKEY_BLOB: 3f1d20aadd66d8b2294223b46993232e1db15de2
+  RUNKEY_BLOB: fe7a49bffa5581f629ac80a6aac3b2e56afb668e
   DESIGN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
   DESIGN_BLOB: 13037b1271f66161dd7ef590d1ac4ffd85319878
   TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json
   TARGETS_BLOB: 975fadbe0f3ee0dfd7c792be7807c154421dec20
   CURRENT_MAIN: e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3
-  CURRENT_MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+  CURRENT_MAIN_STATE_BLOB: 9d1e87829e9c0d5b568735e2e0e498b3cf418d20
   STATE: stages/stage32/generalization-bridge/STATE.json
   STATE_BLOB: 79d306afd60410c34bd7fece73bd25f49cd9f378
   MEASURE: stages/stage32/generalization-bridge/measure_br204_g4_compact_child.py
+  MEASUREMENT_RECEIPT: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json
+  MEASUREMENT_RECEIPT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
+  MEASUREMENT_PAYLOAD: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json
+  MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
   MEASURE_BLOB: 69d6a162d83bdbf6c4ebb4d490961bb0f838aa92
 
 jobs:
@@ -45,13 +49,15 @@ jobs:
           test "$(git hash-object "$TARGETS")" = "$TARGETS_BLOB"
           test "$(git hash-object "$STATE")" = "$STATE_BLOB"
           test "$(git hash-object "$MEASURE")" = "$MEASURE_BLOB"
+          test "$(git hash-object "$MEASUREMENT_RECEIPT")" = "$MEASUREMENT_RECEIPT_BLOB"
+          test "$(git hash-object "$MEASUREMENT_PAYLOAD")" = "$MEASUREMENT_PAYLOAD_BLOB"
           python "$PLAN_VERIFIER"
           python - <<'PY'
           import json,os
           x=json.load(open(os.environ['RUNKEY']))
           assert x['schema']=='STAGE32_BR204_RECOVERY_G4_RUNKEY_V1'
           assert x['generation']==0 and x['armed'] is False
-          assert x['storage']['storage_gate_passed'] is False
+          assert x['storage']['storage_gate_passed'] is True
           assert x['arm_contract']['audited_doorstep_head'] is None
           assert x['arm_contract']['audited_doorstep_review_id'] is None
           assert all(v is False for v in x['credit'].values())
@@ -84,6 +90,7 @@ jobs:
           assert p['authorization']['heavy_compute_authorized'] is False
           assert r['armed'] is False
           assert p['resource_preflight']['representative_payload_measurement_required'] is True
-          assert p['resource_preflight']['storage_gate_passed'] is False
+          assert p['resource_preflight']['storage_gate_passed'] is True
+          assert p['resource_preflight']['measured_representative_payload_bytes'] == 448
           print('G4 cold gate only: heavy compute unavailable; measurement gate open')
           PY
