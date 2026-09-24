@@ -586,7 +586,110 @@ def main():
             req(routing["e2_unique_pair_supported_product_passport_closes"] is False, "unique-pair supported passport no closure")
             req(routing["e2_unique_pair_supported_higher_contact_live"] is False, "supported higher contact closed")
             req(routing["e2_unique_pair_conductor_half_line_exact"] is True, "conductor half-line exact")
-            req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-CONDUCTOR-OR-FIB-RESTRICTION", "post-passport active leaf")
+            fa=d["retained_frontier"].get("e2_unique_pair_saturated_factor_fiber_abel")
+            if fa is None:
+                req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-CONDUCTOR-OR-FIB-RESTRICTION", "post-passport active leaf")
+            else:
+                req(fa["status"] == "EXACT_PREAUDIT_UNIQUE_PAIR_SATURATED_FACTOR_FIBER_ABEL_MOD8_REFINEMENT_ZERO_CREDIT", "factor-fiber Abel status")
+                req(fa["support_mask"] == "000707000f0f" and fa["case"] == "e=2", "factor-fiber Abel scope")
+                req(fa["unique_pair"] == "A=B=pi_H^*O_P1(7*l)", "factor-fiber Abel unique pair")
+                fsl=fa["source_locks"]
+                req(fsl["intermediate_h_model_blob"] == "d2e3056137360a9e15ae7c820088d2977a5eb137", "factor-fiber H-model lock")
+                req(fsl["residual_node_orbit_note_blob"] == "dbfea5a4f62b1388c9810c37ad867076ed4dca6e", "factor-fiber node-orbit lock")
+                req(fsl["etale_basechange_passport_note_blob"] == "d4e5c3b9c598299114f983594be1fac1b01d24d7", "factor-fiber etale-passport lock")
+                req(fsl["external_product_picard_note_blob"] == "dc2def9e4d0148aa3146a034a2ce0ef331206a29", "factor-fiber product-Picard lock")
+                req(fsl["picard_descent_parity_certificate_blob"] == "7621932b87a7558d473bc99a09b46bcb04a433a0", "factor-fiber parity lock")
+                req(fsl["zero_quartic_torsion_note_blob"] == "544ded0d132dcf4dca0a5a3d52925a88c8c461e2", "factor-fiber old torsion lock")
+                req(fsl["low_bidegree_capacity_note_blob"] == "60cd43c94b7d1ab2992f3cd502d1e49ac2c972e6", "factor-fiber capacity lock")
+
+                ell=fa["bielliptic_quotients"]
+                req(ell["g1"]["model"] == "Y^2=X^3-X" and ell["g1"]["map"] == "X=u+r^2/2; Y=r*X", "g1 elliptic model")
+                req(ell["g2"]["model"] == "Y^2=X^3+X" and ell["g2"]["map"] == "X=v+r^2/2; Y=r*X", "g2 elliptic model")
+                req(ell["ramified_pullback_pic0_injective"] is True, "ramified quotient Pic0 injection")
+                req(ell["fixed_point_abel_group"] == "(Z/4)^2", "fixed-point Abel group")
+
+                cg=fa["abel_congruences"]
+                req(cg["x_mod8"] == [
+                    "x0-x1+x2-x3+2*(x25-x24)=4*l mod 8",
+                    "x24+x25+x26+2*(x2-x3)=4*l mod 8",
+                    "2*(x8+x9)-x32-x34+x33=4*l mod 8",
+                    "x8-x9+x10-x11+2*x34=4*l mod 8",
+                ], "four factor-fiber mod8 congruences")
+                req(cg["strictly_strengthens_old_mod4"] is True, "factor-fiber Abel stronger than old mod4")
+                req(cg["balanced_allocation_requires_l_even"] is True, "balanced odd-l exclusion")
+
+                def ff_residues_from_x(xx,ll):
+                    yy={k:v//2 for k,v in xx.items()}
+                    return [
+                        (yy[0]-yy[1]+yy[2]-yy[3]+2*(yy[25]-yy[24])-2*ll) % 4,
+                        (yy[24]+yy[25]+yy[26]+2*(yy[2]-yy[3])-2*ll) % 4,
+                        (2*(yy[8]+yy[9])-yy[32]-yy[34]+yy[33]-2*ll) % 4,
+                        (yy[8]-yy[9]+yy[10]-yy[11]+2*yy[34]-2*ll) % 4,
+                    ]
+
+                support_order=[0,1,2,3,8,9,10,11,24,25,26,32,33,34]
+                old_x=dict(zip(support_order,[8,0,0,48,42,76,2,80,0,0,0,0,2,78]))
+                req(ff_residues_from_x(old_x,10) == [0,0,0,2], "old m5 capacity witness killed by new Abel bit")
+
+                repl=fa["replacement_endpoint_witness"]
+                req(repl["m"] == 5 and repl["l"] == 10, "replacement endpoint degree")
+                xx=dict(zip(support_order,repl["x"]))
+                bb=dict(zip(support_order,repl["b"]))
+                req(repl["x"] == [8,0,0,48,38,78,4,80,0,0,0,2,0,78], "replacement endpoint x")
+                req(repl["b"] == [-16,-20,-20,4,-1,19,-18,20,-20,-20,-20,-19,-20,19], "replacement endpoint b")
+                req(all(xx[j] == 2*(bb[j]+20) for j in support_order), "replacement x/b conversion")
+                req(bb[0]-bb[1]+bb[2]-bb[3]-bb[24]+bb[25]-bb[26] == 0, "replacement Q0 centered saturation")
+                req(sum(bb[j] for j in (8,9,10,11,32,33,34)) == 0, "replacement Q1 centered saturation")
+                Q=sum(v*v for v in bb.values())
+                req(Q == 4480 == 168*25+56*5, "replacement endpoint energy")
+                req(336*25+112*5-2*Q == 0, "replacement delta_same endpoint")
+                req(ff_residues_from_x(xx,10) == [0,0,0,0], "replacement satisfies four Abel congruences")
+
+                # New congruences do not empty the even-l adaptive thin shell.
+                q0nodes=(0,1,2,3,24,25,26)
+                q1nodes=(8,9,10,11,32,33,34)
+                for mm in (1,2,3,4,5,6,7):
+                    b2={}
+                    for j,v in zip(q0nodes,(-4,4,3,-3,4,3,-3)):
+                        b2[j]=mm*v
+                    for j,v in zip(q1nodes,(-4,-4,3,3,-4,3,3)):
+                        b2[j]=mm*v
+                    if mm % 2:
+                        b2[10]-=1
+                        b2[11]+=1
+                    ll=2*mm
+                    x2={j:2*(b2[j]+4*mm) for j in support_order}
+                    req(all(0 <= x2[j] <= 8*ll for j in support_order), "thin-shell Abel witness bounds")
+                    req(b2[0]-b2[1]+b2[2]-b2[3]-b2[24]+b2[25]-b2[26] == 0, "thin-shell Abel Q0 saturation")
+                    req(sum(b2[j] for j in q1nodes) == 0, "thin-shell Abel Q1 saturation")
+                    req(ff_residues_from_x(x2,ll) == [0,0,0,0], "thin-shell Abel congruences")
+                    q2=sum(v*v for v in b2.values())
+                    want=168*mm*mm+(2 if mm%2 else 0)
+                    req(q2 == want, "thin-shell Abel energy family")
+                    ds=336*mm*mm+112*mm-2*q2
+                    req(ds == (112*mm-4 if mm%2 else 112*mm), "thin-shell Abel delta family")
+                    req(0 <= ds <= 224*mm-12, "thin-shell Abel witness remains in shell")
+
+                masses=repl["special_masses"]
+                req(sum(masses.values()) == 1120, "replacement special mass")
+                req(repl["capacity_replay"] == {
+                    "max_fibre_mass":280,
+                    "fibre_capacity":280,
+                    "max_11_mass":550,
+                    "capacity_11":560,
+                    "max_12_mass":624,
+                    "capacity_12":840,
+                    "max_21_mass":636,
+                    "capacity_21":840,
+                }, "replacement raw capacity replay")
+                req(fa["result"] == "unique-pair saturated factor fibers impose four new mod-8 allocation congruences and exclude the previous m=5 endpoint witness, but a replacement delta_same=0 endpoint survives every retained raw low-bidegree capacity", "factor-fiber Abel result")
+                req(all(v is False for v in fa["firewalls"].values()), "factor-fiber Abel firewalls")
+                req(routing["e2_unique_pair_factor_fiber_abel_exact"] is True, "factor-fiber Abel routing")
+                req(routing["e2_unique_pair_factor_fiber_abel_new_mod8_constraints"] == 4, "factor-fiber Abel constraint count")
+                req(routing["e2_unique_pair_factor_fiber_abel_closes"] is False, "factor-fiber Abel no closure")
+                req(routing["e2_unique_pair_old_capacity_witness_survives"] is False, "old capacity witness removed")
+                req(routing["e2_unique_pair_replacement_capacity_endpoint_survives"] is True, "replacement endpoint retained")
+                req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-REALIZATION-AFTER-FIBER-ABEL", "post-Abel active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
