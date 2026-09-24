@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_EXACT_RELAXED_TSET_PREFLIGHT_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "NONHEAVY_STRUCTURAL_SUCCESSOR_PREPARED__ZERO_MAIN_CREDIT__REPO_EXECUTION_NOT_YET_AUDITED",
+  "live_authority_observation": {
+    "repository_main": "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3",
+    "main_authority_version": "V48_178_SUPPORT_QBC_AUDIT_SYNCED",
+    "v48_certified_upper_bound": "128470212118313474449",
+    "full178_numerical_census_complete": true,
+    "primary_incomplete": "32-02_EFFECTIVITY_SURVIVOR_DISPOSAL",
+    "parallel_incomplete": "32-03_MULTIBRANCH_LEDGER",
+    "lane178_semantic_leaf": "POST_V48_RESEARCH",
+    "open_cross_lane_demand_for_178": false
+  },
+  "source_locks": {
+    "support_qbc_worker_path": "stages/stage32/32-01-178/fibration-nef/run_hpadj22_support_qbc_local_row_b.py",
+    "support_qbc_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "preflight_verifier_path": "stages/stage32/32-01-178/fibration-nef/verify_support_qbc_exact_tset_preflight.py",
+    "preflight_verifier_blob_sha1": "a0ee258f0714ebb4f247fbc40c10dab7c43cbedd"
+  },
+  "structural_result": {
+    "retained_relaxation_tset": "T={t == c (mod 2): aggregate_q_lower(b,c,t,support) <= qBC}",
+    "old_consumer": "parity hull [min(T),max(T)] with all holes deliberately filled",
+    "new_candidate": "distance to exact finite set T",
+    "safety": "Every actual retained H tuple satisfies aggregate_q_lower<=qBC, so its t is in T. Distance to T is never smaller than distance to the hull; using it can only strengthen the necessary-condition q-cut.",
+    "strict_witness": {
+      "b": 36,
+      "c": 0,
+      "support": 1,
+      "qbc": 1296,
+      "exact_relaxed_tset": [0, 36],
+      "d": 192,
+      "g": 1,
+      "x4": 39,
+      "center_y": 18,
+      "old_hull_distance": 0,
+      "exact_set_distance": 18,
+      "old_hull_qcut": 4992,
+      "exact_set_qcut": 4938,
+      "qcut_tightening": 54
+    },
+    "bounded_independent_regression": {
+      "domain": "0<=b,c<=12, 0<=support<=7, every finite activation threshold, y in [-2,b+c+2]",
+      "threshold_states": 3633,
+      "distance_cases": 70927,
+      "strict_distance_cases": 3010,
+      "expected_relation": "exact_set_distance >= hull_distance in every case"
+    }
+  },
+  "scope": {
+    "actual_H_tuple_exactness_claimed": false,
+    "new_v48_numeric_tightening_claimed": false,
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false
+  },
+  "next_gate": "Implement a source-locked same-population V48 exact-set consumer on a bounded panel and measure incremental tightening versus V48. Scale out only if the bounded result is materially useful and separately authorized.",
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "bbcfa8e88de91a23219e28ced26149dcba8cd065c5cef3c585c29021a7cb21ad"
+}
