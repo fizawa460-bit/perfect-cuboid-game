@@ -237,7 +237,8 @@ def main() -> None:
             exact_weight[qa] = ew
         prepared.append((sbc, r, old_weight, hull_weight, exact_weight))
 
-    if c == 0:\n        req(witness_seen, "strict witness histogram state absent from c=0 bounded cell")
+    if c == 0:
+        req(witness_seen, "strict witness histogram state absent from c=0 bounded cell")
 
     v47 = v48 = exact = 0
     strict_weighted_terms = 0
@@ -272,7 +273,8 @@ def main() -> None:
 
     req(exact <= v48 <= v47, "cell aggregate refinement order drift")
     incremental = v48 - exact
-    # Zero is a valid bounded measurement: structural strictness need not intersect\n    # the current weighted survivor population in every c-cell.
+    # Zero is a valid bounded measurement: structural strictness need not intersect
+    # the current weighted survivor population in every c-cell.
 
     out = {
         "schema": "STAGE32_32_01_178_V48_SUPPORT_QBC_EXACT_TSET_CELL_PROBE_V1",
@@ -328,7 +330,9 @@ def main() -> None:
             "merge": False,
         },
     }
-    print("V48_SUPPORT_QBC_EXACT_TSET_CELL_PROBE=" + json.dumps(out, sort_keys=True))\n    if incremental == 0:\n        print("V48_SUPPORT_QBC_EXACT_TSET_CELL_ZERO=1")
+    print("V48_SUPPORT_QBC_EXACT_TSET_CELL_PROBE=" + json.dumps(out, sort_keys=True))
+    if incremental == 0:
+        print("V48_SUPPORT_QBC_EXACT_TSET_CELL_ZERO=1")
 
 
 if __name__ == "__main__":
