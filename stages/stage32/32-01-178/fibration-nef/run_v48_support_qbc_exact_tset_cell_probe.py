@@ -64,6 +64,35 @@ def nearest_set_distance(y: int, values: tuple[int, ...]) -> int:
 
 
 def exact_set_intersection_count(counter, xs: list[int], *, d: int, g: int, tset: tuple[int, ...], q: int) -> int:
+    """Count xs meeting the exact finite-tset distance gate via merged x4 intervals."""
+    if not xs or not tset:
+        return 0
+    rem = 3 * d * d + 48 * d + 96 - 96 * g - 24 * int(q)
+    if rem < 0:
+        return 0
+    rad = math.isqrt(rem // 4)
+
+    # For fixed t:
+    #   |d/2 - 2*x4 - t| <= rad
+    # gives one integer x4 interval.  Iterate t descending so interval starts
+    # increase, merge their union, then count the sorted retained xs by bisect.
+    merged: list[list[int]] = []
+    for t in reversed(tset):
+        lo = (d // 2 - int(t) - rad + 1) // 2
+        hi = (d // 2 - int(t) + rad) // 2
+        if lo > hi:
+            continue
+        if merged and lo <= merged[-1][1] + 1:
+            merged[-1][1] = max(merged[-1][1], hi)
+        else:
+            merged.append([lo, hi])
+    return sum(
+        bisect.bisect_right(xs, hi) - bisect.bisect_left(xs, lo)
+        for lo, hi in merged
+    )
+
+
+def exact_set_intersection_count_bruteforce(xs: list[int], *, d: int, g: int, tset: tuple[int, ...], q: int) -> int:
     if not xs or not tset:
         return 0
     rem = 3 * d * d + 48 * d + 96 - 96 * g - 24 * int(q)
@@ -71,11 +100,9 @@ def exact_set_intersection_count(counter, xs: list[int], *, d: int, g: int, tset
         return 0
     rad = math.isqrt(rem // 4)
     return sum(
-        1
-        for x4 in xs
+        1 for x4 in xs
         if nearest_set_distance(d // 2 - 2 * int(x4), tset) <= rad
     )
-
 
 def hull_intersection_count_explicit(xs: list[int], *, d: int, g: int, interval: tuple[int, int], q: int) -> int:
     if not xs:
@@ -168,6 +195,7 @@ def main() -> None:
     tset_states = strict_hole_states = strict_count_states = 0
     max_hole_count = max_hull_minus_exact = 0
     witness_seen = False
+    exact_counter_regression_cases = 0
 
     for sbc, r, hist in active:
         old_weight: dict[int, int] = {}
@@ -226,6 +254,12 @@ def main() -> None:
                 ec = exact_set_intersection_count(
                     counter, xs, d=d, g=g, tset=tsets[qbc], q=qa + qbc
                 )
+                if exact_counter_regression_cases < 512:
+                    brute = exact_set_intersection_count_bruteforce(
+                        xs, d=d, g=g, tset=tsets[qbc], q=qa + qbc
+                    )
+                    req(ec == brute, f"exact-set interval-union counter drift {(sbc,r,qbc,qa,ec,brute)}")
+                    exact_counter_regression_cases += 1
                 req(ec <= hc <= oc, f"exact-set refinement order drift {(sbc,r,qbc,qa,ec,hc,oc)}")
                 strict_count_states += int(ec < hc)
                 max_hull_minus_exact = max(max_hull_minus_exact, hc - ec)
@@ -310,6 +344,7 @@ def main() -> None:
             "max_parity_hull_hole_count": max_hole_count,
             "max_per_state_hull_minus_exact_x4_count": max_hull_minus_exact,
             "strict_witness_present": witness_seen,
+            "exact_counter_bruteforce_regression_cases": exact_counter_regression_cases,
         },
         "semantics": {
             "same_population_as_v48_covered_cell": True,
