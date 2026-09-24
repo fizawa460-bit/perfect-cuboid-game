@@ -1,54 +1,57 @@
-name: Stage32 32-01-178 joint support-qBC t-set bounded probe
+name: Stage32 32-01-178 V48 full-support 384 min-bound
 # lifecycle: ACTIVE_AUTO
 on:
   push:
     branches: [stage32-01-178-post-td02-fibration-nef]
     paths: ['.github/workflows/stage32-01-178-exact-tset-probe.yml']
   workflow_dispatch:
+
 permissions:
   contents: read
+  actions: read
+
 concurrency:
   group: stage32-01-178-exact-tset-probe-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  bounded-panel:
+  aggregate-min-bound:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with: {fetch-depth: 0}
-      - uses: actions/setup-python@v5
-        with: {python-version: '3.12'}
-      - run: pip install sympy
-      - name: Verify bounded-probe source
+
+      - name: Verify aggregate source
         run: |
           python - <<'PY'
           import hashlib
           from pathlib import Path
-          p=Path("stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_joint_tset_cell_probe.py")
+          p=Path("stages/stage32/32-01-178/fibration-nef/aggregate_v48_full_support_min_bound.py")
           raw=p.read_bytes()
           got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
-          assert got=="9f366dbf403705e0bbba93d27117ec5971f30106", got
+          assert got=="d2a197701acf4c8447176256662d736b6d3f4d91", got
           PY
-      - name: Materialize frozen sources
+
+      - name: Download frozen V48 pair receipts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 35906475088
+          pattern: v47-support-qbc-pair-*
+          path: /tmp/v48-pairs
+          merge-multiple: true
+
+      - name: Verify receipt census and aggregate min-bound
         run: |
           set -euo pipefail
-          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2 620b90d1ca1f5316d55b88b2620f78eeba1949c7
-          rm -rf /tmp/s32h22src /tmp/s32v47src
-          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
-          git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
-          mkdir -p stages/stage32/management/grf04-hpadj22-joint
-          cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
-      - name: Exact weighted joint-min replay on retained high-value cells
-        run: |
-          set -euo pipefail
-          for c in 83 85 89; do
-            echo "BEGIN_C=$c"
-            python stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_joint_tset_cell_probe.py \
-              --repo-root . \
-              --source-root /tmp/s32h22src \
-              --row-index 22 \
-              --b 36 \
-              --c "$c"
-          done
+          test "$(find /tmp/v48-pairs -maxdepth 1 -name 'row*-b*.json' | wc -l)" -eq 384
+          python stages/stage32/32-01-178/fibration-nef/aggregate_v48_full_support_min_bound.py \
+            --v48-dir /tmp/v48-pairs \
+            --output /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v48-full-support-384-min-bound
+          path: /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
+          retention-days: 14
