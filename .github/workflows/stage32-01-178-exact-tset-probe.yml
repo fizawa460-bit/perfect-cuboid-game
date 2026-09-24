@@ -1,0 +1,50 @@
+name: Stage32 32-01-178 exact support-qBC t-set bounded probe
+# lifecycle: ACTIVE_AUTO
+on:
+  push:
+    branches: [stage32-01-178-post-td02-fibration-nef]
+    paths: ['.github/workflows/stage32-01-178-exact-tset-probe.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: stage32-01-178-exact-tset-probe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bounded-cell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install sympy
+      - name: Verify bounded-probe source
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py")
+          raw=p.read_bytes()
+          got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          assert got=="3792078882b1538ded408065a4d28571a01af149", got
+          PY
+      - name: Materialize frozen sources
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          rm -rf /tmp/s32h22src /tmp/s32v47src
+          git worktree add --detach /tmp/s32h22src 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
+          mkdir -p stages/stage32/management/grf04-hpadj22-joint
+          cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
+      - name: Run one exact bounded cell
+        run: |
+          python stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py \
+            --repo-root . \
+            --source-root /tmp/s32h22src \
+            --row-index 22 \
+            --b 36 \
+            --c 0
