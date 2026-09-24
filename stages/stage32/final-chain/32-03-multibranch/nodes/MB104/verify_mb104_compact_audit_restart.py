@@ -682,6 +682,29 @@ def main():
                     "max_21_mass":636,
                     "capacity_21":840,
                 }, "replacement raw capacity replay")
+                tsi=fa["two_slice_interpolation"]
+                req(tsi["H_section_decomposition"] == [
+                    "V0=H0(P1,O(7*l)), dim=7*l+1",
+                    "Vu=u*H0(P1,O(7*l-2)), dim=7*l-1",
+                    "Vv=v*H0(P1,O(7*l-2)), dim=7*l-1",
+                    "Vuv=u*v*H0(P1,O(7*l-4)), dim=7*l-3",
+                ], "two-slice H-section decomposition")
+                req(tsi["Hdiag_invariant_dimension"] == "196*l^2-56*l+12", "two-slice invariant dimension")
+                req(tsi["horizontal_image"] == "V0+Vu, dimension 14*l", "two-slice horizontal image")
+                req(tsi["vertical_image"] == "V0+Vv, dimension 14*l", "two-slice vertical image")
+                req(tsi["joint_image"] == "all pairs (s_h,s_v) with s_h(z_g2)=s_v(w_g1), dimension 28*l-1", "two-slice joint image")
+                req(tsi["kernel_dimension"] == "196*l^2-84*l+13", "two-slice kernel dimension")
+                for ll in (1,2,3,7):
+                    d0=7*ll+1
+                    du=7*ll-1
+                    dv=7*ll-1
+                    duv=7*ll-3
+                    req(d0*d0+du*du+dv*dv+duv*duv == 196*ll*ll-56*ll+12, "two-slice invariant dimension replay")
+                    req((196*ll*ll-56*ll+12)-(28*ll-1) == 196*ll*ll-84*ll+13, "two-slice kernel replay")
+                    req(196*ll*ll-84*ll+13 > 0, "two-slice positive kernel")
+                req(tsi["saturated_divisor_pair_simultaneously_realizable_as_Hdiag_section"] is True, "two-slice simultaneous section realization")
+                req(tsi["irreducibility_or_common_etale_normalization_proved"] is False, "two-slice geometry firewall")
+                req(tsi["conclusion"] == "plain Hdiag section existence with the exact two saturated support slices is automatically compatible once the four Abel congruences hold; this section-space route is closed as a standalone obstruction", "two-slice conclusion")
                 req(fa["result"] == "unique-pair saturated factor fibers impose four new mod-8 allocation congruences and exclude the previous m=5 endpoint witness, but a replacement delta_same=0 endpoint survives every retained raw low-bidegree capacity", "factor-fiber Abel result")
                 req(all(v is False for v in fa["firewalls"].values()), "factor-fiber Abel firewalls")
                 req(routing["e2_unique_pair_factor_fiber_abel_exact"] is True, "factor-fiber Abel routing")
@@ -689,6 +712,9 @@ def main():
                 req(routing["e2_unique_pair_factor_fiber_abel_closes"] is False, "factor-fiber Abel no closure")
                 req(routing["e2_unique_pair_old_capacity_witness_survives"] is False, "old capacity witness removed")
                 req(routing["e2_unique_pair_replacement_capacity_endpoint_survives"] is True, "replacement endpoint retained")
+                req(routing["e2_unique_pair_supported_section_interpolation_exact"] is True, "supported section interpolation exact")
+                req(routing["e2_unique_pair_supported_section_effectivity_closes"] is False, "supported section interpolation no closure")
+                req(routing["e2_unique_pair_supported_section_route"] == "CLOSED_EXACT_SURJECTIVE_TWO_SLICE_INTERPOLATION_NO_GO", "supported section route closed")
                 req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-REALIZATION-AFTER-FIBER-ABEL", "post-Abel active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
