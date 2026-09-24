@@ -34,30 +34,23 @@ jobs:
           assert got=="d2a197701acf4c8447176256662d736b6d3f4d91", got
           PY
 
-      - name: Download frozen V48 pair receipts with pagination
+      - name: Download frozen V48 pair receipts
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mkdir -p /tmp/v48-pairs /tmp/v48-zips
-          : > /tmp/v48-artifacts.tsv
-          for page in 1 2; do
-            gh api \
-              "/repos/${GITHUB_REPOSITORY}/actions/runs/35906475088/artifacts?per_page=100&page=${page}" \
-              --jq '.artifacts[] | select(.name | startswith("v47-support-qbc-pair-")) | [.id,.name] | @tsv' \
-              >> /tmp/v48-artifacts.tsv
-          done
-          count="$(wc -l < /tmp/v48-artifacts.tsv)"
-          echo "PAIR_ARTIFACT_COUNT=${count}"
-          test "${count}" -eq 192
-          while read -r id name; do
-            curl --fail --silent --show-error --location \
-              -H "Authorization: Bearer ${GH_TOKEN}" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" \
-              --output "/tmp/v48-zips/${id}.zip"
-            unzip -qo "/tmp/v48-zips/${id}.zip" -d /tmp/v48-pairs
-          done
+          rm -rf /tmp/v48-download /tmp/v48-pairs
+          mkdir -p /tmp/v48-download /tmp/v48-pairs
+          gh run download 35906475088 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --pattern 'v47-support-qbc-pair-*' \
+            --dir /tmp/v48-download
+          found="$(find /tmp/v48-download -type f -name 'row*-b*.json' | wc -l)"
+          echo "V48_RECEIPT_COUNT=${found}"
+          test "${found}" -eq 384
+          while IFS= read -r p; do
+            cp "${p}" /tmp/v48-pairs/
+          done < <(find /tmp/v48-download -type f -name 'row*-b*.json' | sort)
           test "$(find /tmp/v48-pairs -maxdepth 1 -name 'row*-b*.json' | wc -l)" -eq 384
 
       - name: Verify receipt census and aggregate min-bound
