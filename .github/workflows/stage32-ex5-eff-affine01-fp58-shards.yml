@@ -1,11 +1,15 @@
-name: Stage32EX5 EFF-AFFINE01 FP58 sharded probe
+name: Stage32EX5 EFF-AFFINE01 FP58 heavy shard
 
-# Research-only exact enumeration.  No effectivity/MAIN credit is granted.
+# ResearchOS heavy: one explicitly dispatched shard per run; serialized globally.
+# No effectivity/MAIN credit is granted.
 on:
-  pull_request:
-    types: [synchronize]
-    paths:
-      - 'stages/stage32-ex5/effectivity-affine/FP58-SHARD-TRIGGER.txt'
+  workflow_dispatch:
+    inputs:
+      shard_id:
+        description: 'Exact shard id (0..15)'
+        required: true
+        type: choice
+        options: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
 
 permissions:
   contents: read
@@ -14,10 +18,9 @@ jobs:
   fp58-shard:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    concurrency:
+      group: stage32-ex5-eff-affine01-fp58-heavy
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
