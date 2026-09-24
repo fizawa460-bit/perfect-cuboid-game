@@ -14,6 +14,8 @@ ROOT = HERE.parents[1]
 EFF_AFFINE01 = HERE / "effectivity-affine" / "eff_affine01_base4_kernel_preflight.py"
 EFF_FP58 = HERE / "effectivity-affine" / "eff_affine01_fp58_engine.py"
 EFF_FP58_BLOB = "5ee491ddb09599e215be31bbc453e97503275052"
+EFF_FP58_AGG = HERE / "effectivity-affine" / "aggregate_eff_affine01_fp58_shards.py"
+EFF_FP58_AGG_BLOB = "39d957f2638cbf39217d27f4c1ee49ba3675811d"
 ARCH = HERE / "archive" / "startup-surface-20260914"
 ARCH_VERIFIER = ARCH / "verify_main_state_v5_pre_startup_collapse.py"
 TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
@@ -104,6 +106,7 @@ def main() -> None:
 
     req(EFF_AFFINE01.is_file(), "missing EFF-AFFINE01 structural preflight")
     req(EFF_FP58.is_file() and blob(EFF_FP58) == EFF_FP58_BLOB, "EFF-AFFINE01 FP58 engine drift")
+    req(EFF_FP58_AGG.is_file() and blob(EFF_FP58_AGG) == EFF_FP58_AGG_BLOB, "EFF-AFFINE01 FP58 aggregator drift")
     fp58_text = EFF_FP58.read_text(encoding="utf-8")
     req('N=58' in fp58_text and '"BAD_SHELL_UNSAT_EXACT"' in fp58_text and 'all140_pruning' in fp58_text,
         "EFF-AFFINE01 FP58 completeness/firewall markers missing")
