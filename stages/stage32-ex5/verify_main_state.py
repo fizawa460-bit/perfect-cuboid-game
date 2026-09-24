@@ -2,10 +2,16 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import runpy
+import subprocess
+import sys
+import tempfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
+EFF_AFFINE01 = HERE / "effectivity-affine" / "eff_affine01_base4_kernel_preflight.py"
 ARCH = HERE / "archive" / "startup-surface-20260914"
 ARCH_VERIFIER = ARCH / "verify_main_state_v5_pre_startup_collapse.py"
 TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
@@ -70,6 +76,52 @@ def main() -> None:
 
     req(all(not (HERE / name).exists() for name in RETIRED),
         "retired EX5 startup surface leaked after V5 compatibility replay")
+
+    live = json.loads((HERE / "MAIN-STATE.json").read_text(encoding="utf-8"))["live_current"]
+    req(live["authority"] == "SUPERSEDES_LEGACY_V5_CURRENT_AND_STAGE32_MAIN_AUTHORITY_FIELDS_FOR_ORDINARY_STARTUP",
+        "live V48 override authority missing")
+    req(live["observed_repository_main"] == "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3",
+        "live repository-main observation drift")
+    req(live["stage32_main_state_blob_sha1"] == "070847c669120aef1ab3777239d45878937b41f3",
+        "live Stage32 MAIN state lock drift")
+    req(live["stage32_primary_incomplete_id"] == "32-02" and
+        live["stage32_primary_incomplete_name"] == "EFFECTIVITY_SURVIVOR_DISPOSAL",
+        "EX5 did not advance from completed 32-01 to 32-02")
+    req(live["full178_numerical_census_complete"] is True,
+        "completed FULL178 census regressed in EX5 startup")
+    req(live["authoritative_remaining_terminals"] == "128470212118313474449",
+        "V48 certified upper bound drift")
+    req(live["active_leaf"] == "EFF-AFFINE01_BASE4_HPERP_EXACT_CHECKER_PREFLIGHT",
+        "EX5 effectivity producer leaf drift")
+    req(live["open_cross_lane_demands_for_ex5"] == 0,
+        "unexpected EX5 demand count in live override")
+    req(live["heavy_scaleout_authorized"] is False and
+        live["effectivity_credit"] is False and live["main_credit"] is False and
+        live["merge_authorized"] is False,
+        "EX5 live override leaked unauthorized credit")
+
+    req(EFF_AFFINE01.is_file(), "missing EFF-AFFINE01 structural preflight")
+    with tempfile.TemporaryDirectory() as td:
+        out = Path(td) / "eff-affine01.json"
+        subprocess.run(
+            [sys.executable, str(EFF_AFFINE01), "--output", str(out)],
+            cwd=ROOT,
+            check=True,
+        )
+        result = json.loads(out.read_text(encoding="utf-8"))
+    req(result["status"] ==
+        "STRUCTURAL_PASS_RANK6_KERNEL58_NEGATIVE_DEFINITE__INTEGER_SATURATION_NOT_YET_CERTIFIED",
+        "EFF-AFFINE01 structural status drift")
+    req(result["fixed_fiber"]["fixed_map_rank"] == 6 and
+        result["fixed_fiber"]["rational_kernel_dimension"] == 58,
+        "EFF-AFFINE01 rank/kernel regression")
+    req(result["fixed_fiber"]["restricted_negative_gram_positive_definite"] is True,
+        "EFF-AFFINE01 H-perp definiteness regression")
+    req(result["firewalls"]["integer_affine_image_certified"] is False and
+        result["firewalls"]["effectivity_credit"] is False and
+        result["firewalls"]["main_pruning_credit"] is False,
+        "EFF-AFFINE01 structural preflight overclaimed credit")
+
     print("PASS: retained EX5 V5 mathematical state replayed against archived startup projection only")
     print("live_startup=LANE-ADAPTERS -> stages/stage32-ex5/MAIN-STATE.json")
 
