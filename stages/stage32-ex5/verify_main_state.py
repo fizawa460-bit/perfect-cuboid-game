@@ -14,10 +14,14 @@ TMP_VERIFIER = HERE / ".verify_main_state_v5_pre_startup_collapse.py"
 MAIN_STATE = HERE / "MAIN-STATE.json"
 HPADJ20_HANDOFF = HERE / "hpadj-20_ex5" / "MAIN-HANDOFF.json"
 HPADJ20_HANDOFF_VERIFIER = HERE / "hpadj-20_ex5" / "verify_main_handoff.py"
+HPADJ23_PREFLIGHT = HERE / "hpadj-23_ex5" / "HPADJ23-EXACT-T-HOLE-PREFLIGHT.json"
+HPADJ23_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_exact_t_hole_preflight.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
 HPADJ20_HANDOFF_BLOB = "52ca73eeb52b7d930f905c42a85b62f044bda269"
 HPADJ20_HANDOFF_VERIFIER_BLOB = "404a7d2c362ca15db4bd655eb6022ebbade219d1"
+HPADJ23_PREFLIGHT_BLOB = "eb6ec8e7ea2e1bc87ef3222603f0f9c026cfb78e"
+HPADJ23_VERIFIER_BLOB = "60f9585ef049daeb49f0b918f4e90e962713abed"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -157,10 +161,23 @@ def verify_hpadj20_handoff_surface() -> None:
         sys.argv = old_argv
 
 
+def verify_hpadj23_preflight_surface() -> None:
+    req(HPADJ23_PREFLIGHT.is_file() and blob(HPADJ23_PREFLIGHT) == HPADJ23_PREFLIGHT_BLOB,
+        "HPADJ23 retained preflight drift")
+    req(HPADJ23_VERIFIER.is_file() and blob(HPADJ23_VERIFIER) == HPADJ23_VERIFIER_BLOB,
+        "HPADJ23 bounded verifier drift")
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ23_VERIFIER)]
+        runpy.run_path(str(HPADJ23_VERIFIER), run_name="__main__")
+    finally:
+        sys.argv = old_argv
+
 def main() -> None:
     verify_archived_v5_projection()
     verify_live_firewalls()
     verify_hpadj20_handoff_surface()
+    verify_hpadj23_preflight_surface()
     print("PASS: retained EX5 V5 state and live credit/routing firewalls verified")
     print("producer_policy=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
     print("exact_replay_policy=HOSTILE_AUDIT_OR_ON_DEMAND")
