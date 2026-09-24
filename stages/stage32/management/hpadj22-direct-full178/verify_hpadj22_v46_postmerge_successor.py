@@ -16,6 +16,9 @@ OLD_BOUND=138652739800650593494
 V47_BOUND=128645575147764659235
 V47_AUDITED_HEAD="620b90d1ca1f5316d55b88b2620f78eeba1949c7"
 V47_AUDIT_REVIEW=5287562192
+V48_BOUND=128470212118313474449
+V48_AUDITED_HEAD="fb81be66f260879eec79e55be140857b5fc32bbc"
+V48_AUDIT_COMMENT=5813812633
 V45_STATE_BLOB="a8f873ffdcaca280f7b57158b69606b3ea496d3c"
 V45_STATE_CANON="58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
 V45_RECEIPT_BLOB="a8486ff337e030d02ce26d7404907fdbea5d3cc1"
@@ -57,8 +60,12 @@ def main():
         req(f["authoritative_remaining_terminals"]==V47_BOUND and f["full178_numerical_census_complete"] is True,"V47 authority")
         req(f["v47_grf04_hpadj22_audited_exact_head"]==V47_AUDITED_HEAD and f["v47_grf04_hpadj22_hostile_audit_review_id"]==V47_AUDIT_REVIEW,"V47 audit")
         req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V47 route")
+    elif schema=="STAGE32_MAIN_COMPACT_STATE_V48_178_SUPPORT_QBC_AUDIT_SYNCED":
+        req(f["authoritative_remaining_terminals"]==V48_BOUND and f["full178_numerical_census_complete"] is True,"V48 authority")
+        req(f["v48_178_support_qbc_audited_exact_head"]==V48_AUDITED_HEAD and f["v48_178_support_qbc_hostile_audit_comment_id"]==V48_AUDIT_COMMENT,"V48 audit")
+        req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V48 route")
     else:
         req(False,"unsupported successor schema")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
-    print("PASS: Stage32 MAIN preserves V46 predecessor authority and accepts the hostile-audited V47 FULL178 successor when synchronized")
+    print("PASS: Stage32 MAIN preserves V46/V47 predecessor authority and accepts the hostile-audited V48 178 support-qBC successor when synchronized")
 if __name__=="__main__":main()
