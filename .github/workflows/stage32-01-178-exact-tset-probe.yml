@@ -31,7 +31,7 @@ jobs:
           p=Path("stages/stage32/32-01-178/fibration-nef/aggregate_v48_full_support_min_bound.py")
           raw=p.read_bytes()
           got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
-          assert got=="d2a197701acf4c8447176256662d736b6d3f4d91", got
+          assert got=="af6abbd54f589bd1a1e9f43380b7de4aad61c8d8", got
           PY
 
       - name: Download frozen V48 pair receipts
@@ -75,7 +75,7 @@ jobs:
               "workflow_run_id": int(os.environ["GITHUB_RUN_ID"]),
               "execution_head": os.environ["GITHUB_SHA"],
               "workflow_path": ".github/workflows/stage32-01-178-exact-tset-probe.yml",
-              "aggregate_blob_sha1": "d2a197701acf4c8447176256662d736b6d3f4d91",
+              "aggregate_blob_sha1": "af6abbd54f589bd1a1e9f43380b7de4aad61c8d8",
               "result_retained_by_workflow": True,
           }
           o.pop("canonical_sha256_without_this_field",None)
