@@ -10,17 +10,21 @@ permissions:
 
 env:
   PLAN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json
-  PLAN_BLOB: 7d4b364a4fefd1d36e141f6f6c3e6587095904e0
+  PLAN_BLOB: 3e6239b7e2aeae24ed3f1184e767fc1c7811b5f8
   PLAN_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
-  PLAN_VERIFIER_BLOB: 79ee698b5450219e949d11e8f8e3ac0251779579
+  PLAN_VERIFIER_BLOB: 710fcbabd89c929592bce6acf569119c4e31e80a
   RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
-  RUNKEY_BLOB: 89fbca35f362dae0f4130017312c9b89f7388d4e
+  RUNKEY_BLOB: 3f1d20aadd66d8b2294223b46993232e1db15de2
   DESIGN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
   DESIGN_BLOB: 13037b1271f66161dd7ef590d1ac4ffd85319878
   TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json
   TARGETS_BLOB: 975fadbe0f3ee0dfd7c792be7807c154421dec20
   CURRENT_MAIN: e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3
   CURRENT_MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+  STATE: stages/stage32/generalization-bridge/STATE.json
+  STATE_BLOB: 79d306afd60410c34bd7fece73bd25f49cd9f378
+  MEASURE: stages/stage32/generalization-bridge/measure_br204_g4_compact_child.py
+  MEASURE_BLOB: 69d6a162d83bdbf6c4ebb4d490961bb0f838aa92
 
 jobs:
   cold-gate:
@@ -39,16 +43,29 @@ jobs:
           test "$(git hash-object "$RUNKEY")" = "$RUNKEY_BLOB"
           test "$(git hash-object "$DESIGN")" = "$DESIGN_BLOB"
           test "$(git hash-object "$TARGETS")" = "$TARGETS_BLOB"
+          test "$(git hash-object "$STATE")" = "$STATE_BLOB"
+          test "$(git hash-object "$MEASURE")" = "$MEASURE_BLOB"
           python "$PLAN_VERIFIER"
           python - <<'PY'
           import json,os
           x=json.load(open(os.environ['RUNKEY']))
           assert x['schema']=='STAGE32_BR204_RECOVERY_G4_RUNKEY_V1'
           assert x['generation']==0 and x['armed'] is False
-          assert x['storage']['storage_gate_passed'] is True
+          assert x['storage']['storage_gate_passed'] is False
           assert x['arm_contract']['audited_doorstep_head'] is None
           assert x['arm_contract']['audited_doorstep_review_id'] is None
           assert all(v is False for v in x['credit'].values())
+          PY
+      - name: Measure representative compact child
+        run: |
+          set -euo pipefail
+          python "$MEASURE"
+          python - <<'PY'
+          import json
+          r=json.load(open('stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json'))
+          assert r['payload_bytes'] <= r['hard_cap_bytes'] == 65536
+          assert r['within_hard_cap'] is True
+          print('representative payload bytes',r['payload_bytes'])
           PY
       - name: Verify current MAIN source lock
         run: |
@@ -63,8 +80,10 @@ jobs:
           import json,os
           p=json.load(open(os.environ['PLAN']))
           r=json.load(open(os.environ['RUNKEY']))
-          assert p['authorization']['workflow_implemented'] is False
+          assert p['authorization']['workflow_implemented'] is True
           assert p['authorization']['heavy_compute_authorized'] is False
           assert r['armed'] is False
-          print('G4 cold gate only: heavy compute unavailable')
+          assert p['resource_preflight']['representative_payload_measurement_required'] is True
+          assert p['resource_preflight']['storage_gate_passed'] is False
+          print('G4 cold gate only: heavy compute unavailable; measurement gate open')
           PY
