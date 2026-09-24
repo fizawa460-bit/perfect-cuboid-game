@@ -128,20 +128,22 @@
     }
   },
   "current": {
-    "status": "HPADJ23_EXACT_T_SUPPORT_PRODUCER_PREFLIGHT_RETAINED",
+    "status": "HPADJ23_EXACT_T_BUILDER_BOUNDED_PASS",
     "breadth_cycle": "POST_FULL178_REFINEMENT",
     "leaf": "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER",
     "route_id": "HPADJ-23_ex5",
     "route_family": "PICARD64_NODE_SUPPORT_EXACT_T_HOLE_PRODUCER",
     "objective": "Produce an exact (b,c,support,required_parity,qBC,t) histogram interface that removes the current support-qBC parity-hull relaxation without duplicating 32-01-178 consumer execution.",
-    "blocker": "SCALABLE_SOURCE_LOCKED_EXACT_T_HISTOGRAM_BUILDER_NOT_YET_RETAINED",
-    "next_route": "HPADJ23_EXACT_T_HISTOGRAM_BUILDER",
-    "stop_semantics": "BOUNDED_NONHEAVY_PRODUCER_PREFLIGHT_ONLY__NO_178_CONSUMER_DUPLICATION"
+    "blocker": "COMPACT_PRODUCER_HANDOFF_SERIALIZATION_NOT_YET_FROZEN",
+    "next_route": "HPADJ23_COMPACT_PRODUCER_HANDOFF",
+    "stop_semantics": "BOUNDED_H16_BUILDER_PASS__NO_FULL178_SCALEOUT__NO_178_CONSUMER_DUPLICATION"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/hpadj-23_ex5/START-HERE.md",
     "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-EXACT-T-HOLE-PREFLIGHT.json",
     "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_exact_t_hole_preflight.py",
+    "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
+    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-EXACT-T-BUILDER-BOUNDED-RESULT.json",
     "stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py",
     "stages/stage32-ex5/verify_main_state.py"
   ],
@@ -172,7 +174,14 @@
     "hpadj23_full178_producer_complete": false,
     "FULL178_complete": false,
     "stage32_main_primary_incomplete": "32-02_EFFECTIVITY_SURVIVOR_DISPOSAL",
-    "qualified_independent_stage32_route_established": false
+    "qualified_independent_stage32_route_established": false,
+    "hpadj23_builder_bounded_H16_pass": true,
+    "hpadj23_H16_exact_bins_with_required_parity": 47667,
+    "hpadj23_H16_strict_bins_with_required_parity": 39995,
+    "hpadj23_H16_removed_hull_t_points_with_required_parity": 196035,
+    "hpadj23_H16_exact_bins_after_required_parity_marginalization": 26674,
+    "hpadj23_H16_strict_bins_after_required_parity_marginalization": 20599,
+    "hpadj23_H16_removed_hull_t_points_after_required_parity_marginalization": 90022
   },
   "retained_exact_progress": {
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -181,17 +190,18 @@
     "v47_joint_bound_observed": "128645575147764659235",
     "v48_support_qbc_bound_observed": "128470212118313474449",
     "hpadj23_preflight_canonical": "31b7c9d6c2446daf94cf08af43efd1200cec15839433b7366d3dd28c20ce26ea",
-    "exact_evidence_rewritten_by_semantic_sync": false
+    "exact_evidence_rewritten_by_semantic_sync": false,
+    "hpadj23_builder_bounded_result_canonical": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3"
   },
   "claim_sync": {
-    "last_trigger": "HPADJ23_BOUNDED_PRODUCER_PREFLIGHT",
+    "last_trigger": "HPADJ23_BOUNDED_H16_BUILDER_RETENTION",
     "lane_role": "PRODUCER_REFINEMENT_ZERO_MAIN_CREDIT",
     "active_frontier_remapped": false,
     "claim_registry_mutated": false,
     "main_promotion": false
   },
   "credit": {
-    "level": "BOUNDED_EXACT_T_SUPPORT_PRODUCER_PREFLIGHT_ZERO_MAIN_CREDIT",
+    "level": "BOUNDED_H16_EXACT_T_HISTOGRAM_BUILDER_PASS_ZERO_MAIN_CREDIT",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -232,8 +242,8 @@
     "re_audit_required_before_any_hpadj23_promotion": true
   },
   "next_step": {
-    "id": "HPADJ23_EXACT_T_HISTOGRAM_BUILDER",
-    "goal": "Implement a source-locked scalable exact joint histogram keyed by (b,c,support,required_parity,qBC,t), prove qBC/parity marginals reproduce HPADJ22, and retain a compact producer handoff for 32-01-178.",
+    "id": "HPADJ23_COMPACT_PRODUCER_HANDOFF",
+    "goal": "Freeze a compact exact-t histogram serialization contract and bounded consumer equivalence for 32-01-178 before any FULL178 producer scaleout.",
     "heavy_scaleout_authorized": false,
     "main_promotion_authorized": false,
     "consumer_execution_authorized_here": false,

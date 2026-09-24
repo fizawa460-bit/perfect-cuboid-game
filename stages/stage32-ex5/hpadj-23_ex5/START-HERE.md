@@ -31,6 +31,6 @@ This is structural producer evidence only. No V48 coordinate was recomputed and 
 
 ## Next exact gate
 
-Implement a scalable source-locked histogram builder keyed by `(b,c,support,required_parity,qBC,t)`. It must reproduce the existing HPADJ22 qBC and required-parity marginals exactly before any downstream handoff. Keep heavy scaleout cold.
+The scalable source-locked builder is now retained and bounded-replayed through H=16. It reproduces the HPADJ22 qBC/required-parity marginals exactly at H=4 and H=16, while the H=4 exact-t histogram also matches literal brute force. At H=16 there are 47,667 exact bins; 39,995 are strict versus the current hull and 196,035 hull-only t-points are removed. After required-parity marginalization, 20,599 of 26,674 bins remain strict and 90,022 hull-only t-points are removed.\n\nThe next gate is a compact serialization/handoff contract for 32-01-178. Heavy/FULL178 scaleout remains cold.
 
 Merge is not authorized.
