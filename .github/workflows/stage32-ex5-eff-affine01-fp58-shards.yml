@@ -1,0 +1,41 @@
+name: Stage32EX5 EFF-AFFINE01 FP58 sharded probe
+
+# Research-only exact enumeration.  No effectivity/MAIN credit is granted.
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32-ex5/effectivity-affine/FP58-SHARD-TRIGGER.txt'
+
+permissions:
+  contents: read
+
+jobs:
+  fp58-shard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact dependencies
+        run: python -m pip install 'python-flint==0.9.0' 'sympy==1.14.0'
+      - name: Run exact FP58 shard
+        run: |
+          mkdir -p /tmp/fp58
+          python stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.py \
+            --base4 0 1 1 1 \
+            --shard-id ${{ matrix.shard }} \
+            --shard-count 16 \
+            --split-index 53 \
+            --output /tmp/fp58/shard-${{ matrix.shard }}.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eff-affine01-fp58-shard-${{ matrix.shard }}
+          path: /tmp/fp58/shard-${{ matrix.shard }}.json
+          retention-days: 7
