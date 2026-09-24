@@ -20,6 +20,8 @@ If the live MAIN authority identity cannot be resolved, or a lane-local mirror c
 - `stage32mb-fib` — auxiliary MB104 fibration/Picard64 producer subroute inside the MB domain, not a separate claim-DAG lane. Startup: `stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md`. It is operationally independent from `stage32mb-mainbatch`: ordinary MB startup does not preload MB-FIB, and an MB-FIB audit/heavy freeze does not freeze MB mainbatch unless MB explicitly consumes a frozen MB-FIB handoff or a shared Stage32 authority gate fails.
 - `stage32mb-fib-audit` — hostile audit for one frozen exact MB-FIB producer boundary. It audits only the dedicated MB-FIB surface and never grants MB/MAIN/theorem/endpoint credit by itself.
 - `stage32mb-audit` — hostile audit after a new exact retained MB checkpoint is frozen.
+- `stage32bridge-mainbatch` — Issue #1817 compact-integration specialist. Startup: `stages/stage32/generalization-bridge/MAIN-START-HERE.md`. Ordinary startup is intentionally compact; retained charter/mission/Issue history is opened only when the active state or transition requires it.
+- `stage32bridge-audit` — hostile audit for a frozen exact BRIDGE checkpoint; PASS alone grants no source-lane or MAIN credit.
 
 ## On-demand and historical surfaces
 
@@ -31,7 +33,7 @@ Mathematical authority: `MAIN-STATE explicit routing` > exact retained/audited e
 
 Operational scheduling inside that authority: `higher-priority applicable OPEN demand` > current lane route > historical roadmap text. The demand layer cannot change mathematical authority by itself.
 
-Stable ownership split: 178 = sustained FULL178 census/incidence/transport/completeness; EX5 = Picard64/node-support interface production/refinement; CUT = direct infeasibility/obstruction consuming exact producer interfaces; MB = 32-03 multibranch research; MB-FIB = MB-local auxiliary fibration/Picard64 producer subroute whose audited outputs may be consumed by MB but which does not own the MB active leaf and is not enrolled as a separate claim-DAG lane; MAIN = authority, coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics. No two surfaces independently own the same semantic leaf without explicit MAIN reassignment.
+Stable ownership split: 178 = sustained FULL178 census/incidence/transport/completeness; EX5 = Picard64/node-support interface production/refinement; CUT = direct infeasibility/obstruction consuming exact producer interfaces; MB = 32-03 multibranch research; MB-FIB = MB-local auxiliary fibration/Picard64 producer subroute whose audited outputs may be consumed by MB but which does not own the MB active leaf and is not enrolled as a separate claim-DAG lane; BRIDGE = Issue #1817 compact integration and replayable b-sharded FULL178 research candidate production, without MAIN promotion; MAIN = authority, coordination, cross-lane synthesis, promotion, and genuinely unowned mathematics. No two surfaces independently own the same semantic leaf without explicit MAIN reassignment.
 
 ## Guards
 
