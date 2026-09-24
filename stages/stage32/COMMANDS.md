@@ -20,6 +20,8 @@ If the live MAIN authority identity cannot be resolved, or a lane-local mirror c
 - `stage32mb-fib` — auxiliary MB104 fibration/Picard64 producer subroute inside the MB domain, not a separate claim-DAG lane. Startup: `stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md`. It is operationally independent from `stage32mb-mainbatch`: ordinary MB startup does not preload MB-FIB, and an MB-FIB audit/heavy freeze does not freeze MB mainbatch unless MB explicitly consumes a frozen MB-FIB handoff or a shared Stage32 authority gate fails.
 - `stage32mb-fib-audit` — hostile audit for one frozen exact MB-FIB producer boundary. It audits only the dedicated MB-FIB surface and never grants MB/MAIN/theorem/endpoint credit by itself.
 - `stage32mb-audit` — hostile audit after a new exact retained MB checkpoint is frozen.
+- `stage32bridge-mainbatch` — Issue #1817 compact-integration specialist. Startup: `stages/stage32/generalization-bridge/MAIN-START-HERE.md`.
+- `stage32bridge-audit` — hostile audit for a frozen exact BRIDGE checkpoint; PASS alone grants no MAIN credit.
 - `stage32bridge-mainbatch` — Issue #1817 compact-integration specialist. Startup: `stages/stage32/generalization-bridge/MAIN-START-HERE.md`. Ordinary startup is intentionally compact; retained charter/mission/Issue history is opened only when the active state or transition requires it.
 - `stage32bridge-audit` — hostile audit for a frozen exact BRIDGE checkpoint; PASS alone grants no source-lane or MAIN credit.
 
