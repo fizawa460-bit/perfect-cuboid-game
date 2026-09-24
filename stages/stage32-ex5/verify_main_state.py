@@ -23,6 +23,12 @@ HPADJ23_SERIALIZER = HERE / "hpadj-23_ex5" / "serialize_exact_t_histogram.py"
 HPADJ23_SERIALIZATION_RESULT = HERE / "hpadj-23_ex5" / "HPADJ23-COMPACT-SERIALIZATION-BOUNDED-RESULT.json"
 HPADJ23_HANDOFF = HERE / "hpadj-23_ex5" / "HPADJ23-BOUNDED-PRODUCER-HANDOFF.json"
 HPADJ23_HANDOFF_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_bounded_producer_handoff.py"
+HPADJ23_SHARD_BUILDER = HERE / "hpadj-23_ex5" / "build_exact_t_joint_histogram_shard.py"
+HPADJ23_SHARD_EQ = HERE / "hpadj-23_ex5" / "HPADJ23-SHARD-BOUNDED-EQUIVALENCE.json"
+HPADJ23_SHARD_EQ_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_shard_bounded_equivalence.py"
+HPADJ23_SCALEOUT_PREFLIGHT = HERE / "hpadj-23_ex5" / "HPADJ23-FULL178-SCALEOUT-PREFLIGHT.json"
+HPADJ23_SCALEOUT_RUNKEY = HERE / "runkeys" / "hpadj23-scaleout-measurement.json"
+HPADJ23_SCALEOUT_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_scaleout_preflight.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
 ARCH_STATE_BLOB = "a26f19cb01d86174aef49495be16e946a429ddcb"
@@ -36,6 +42,12 @@ HPADJ23_SERIALIZER_BLOB = "91be480f62de7c8cac63c4ddc37a372cc3fed33d"
 HPADJ23_SERIALIZATION_RESULT_BLOB = "30eb5b36f357c0474454189c8ff52549d943f277"
 HPADJ23_HANDOFF_BLOB = "f2c1d998cd1d2cf032bf1e56c94e710dbc80eddb"
 HPADJ23_HANDOFF_VERIFIER_BLOB = "f764a06716e90e0b4788e756cb1dd7a03e7b968f"
+HPADJ23_SHARD_BUILDER_BLOB = "25284ea56c0746912318ce3c0d0e75d50cf60458"
+HPADJ23_SHARD_EQ_BLOB = "b1a0248926c176a31a57da0fbb97807c3bb0eeba"
+HPADJ23_SHARD_EQ_VERIFIER_BLOB = "6aea0f8c39ea0865fb3926aec55ba25582a31697"
+HPADJ23_SCALEOUT_PREFLIGHT_BLOB = "0b71f07f3bfbb0497ddb0be9a0b5ad28681780b6"
+HPADJ23_SCALEOUT_RUNKEY_BLOB = "2e47aae6c05d7e12d34be6cca482b747ac71f811"
+HPADJ23_SCALEOUT_VERIFIER_BLOB = "79119922e51ccd3d31b8ae6306ffd6928cfb8183"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -129,7 +141,7 @@ def verify_live_firewalls() -> None:
     req(current.get("route_id") == "HPADJ-23_ex5", "current EX5 route drift")
     req(current.get("leaf") == "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER", "current EX5 leaf drift")
     next_step = state.get("next_step", {})
-    req(next_step.get("id") == "HPADJ23_FULL178_PRODUCER_SCALEOUT_PREFLIGHT", "next-step drift")
+    req(next_step.get("id") == "HPADJ23_SCALEOUT_MEASUREMENT_PILOT", "next-step drift")
     req(next_step.get("heavy_scaleout_authorized") is False, "unexpected HPADJ23 heavy authorization")
     req(next_step.get("consumer_execution_authorized_here") is False, "178 consumer duplication authorized")
     authority = state.get("authority", {})
@@ -229,9 +241,34 @@ def main() -> None:
         runpy.run_path(str(HPADJ23_HANDOFF_VERIFIER), run_name="__main__")
     finally:
         sys.argv = old_argv
+    req(HPADJ23_SHARD_BUILDER.is_file() and
+        blob(HPADJ23_SHARD_BUILDER) == HPADJ23_SHARD_BUILDER_BLOB,
+        "HPADJ23 shard builder drift")
+    req(HPADJ23_SHARD_EQ.is_file() and blob(HPADJ23_SHARD_EQ) == HPADJ23_SHARD_EQ_BLOB,
+        "HPADJ23 shard equivalence receipt drift")
+    req(HPADJ23_SHARD_EQ_VERIFIER.is_file() and
+        blob(HPADJ23_SHARD_EQ_VERIFIER) == HPADJ23_SHARD_EQ_VERIFIER_BLOB,
+        "HPADJ23 shard equivalence verifier drift")
+    req(HPADJ23_SCALEOUT_PREFLIGHT.is_file() and
+        blob(HPADJ23_SCALEOUT_PREFLIGHT) == HPADJ23_SCALEOUT_PREFLIGHT_BLOB,
+        "HPADJ23 scaleout preflight drift")
+    req(HPADJ23_SCALEOUT_RUNKEY.is_file() and
+        blob(HPADJ23_SCALEOUT_RUNKEY) == HPADJ23_SCALEOUT_RUNKEY_BLOB,
+        "HPADJ23 scaleout measurement runkey drift")
+    req(HPADJ23_SCALEOUT_VERIFIER.is_file() and
+        blob(HPADJ23_SCALEOUT_VERIFIER) == HPADJ23_SCALEOUT_VERIFIER_BLOB,
+        "HPADJ23 scaleout preflight verifier drift")
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ23_SCALEOUT_VERIFIER)]
+        runpy.run_path(str(HPADJ23_SCALEOUT_VERIFIER), run_name="__main__")
+    finally:
+        sys.argv = old_argv
     print("PASS: retained EX5 V5 state and live credit/routing firewalls verified")
     print("producer_policy=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
     print("exact_replay_policy=HOSTILE_AUDIT_OR_ON_DEMAND")
+    print("HPADJ23_SHARD_EQ_REPLAY_POLICY=SOURCE_LOCK_ONLY_IN_NORMAL_CI")
+    print("HPADJ23_SCALEOUT=UNIVERSAL_H96_COLD_MEASUREMENT_GATE")
     print("HPADJ20_SOURCE_LOCK=" + LOCKED_PRODUCERS[
         "hpadj-20_ex5/derive_two_tier_qa_predomain_picard_lp_bound.py"
     ])

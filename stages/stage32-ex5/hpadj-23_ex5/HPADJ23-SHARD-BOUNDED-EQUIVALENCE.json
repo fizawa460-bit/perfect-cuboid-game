@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_SHARD_BOUNDED_EQUIVALENCE_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "H16_FOUR_SHARD_EXACT_UNION_MATCH__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "full_builder_blob_sha1": "c02973cb9d7fdea7584661a9c5935a43e12efe92",
+    "shard_builder_blob_sha1": "25284ea56c0746912318ce3c0d0e75d50cf60458",
+    "full_builder_result_canonical_sha256": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3"
+  },
+  "bounded_test": {
+    "H": 16,
+    "shards": [
+      {
+        "b_start": 0,
+        "b_stop": 3,
+        "bins": 2544,
+        "exact_t_entries": 5178,
+        "multiplicity": 13354
+      },
+      {
+        "b_start": 4,
+        "b_stop": 7,
+        "bins": 7717,
+        "exact_t_entries": 24616,
+        "multiplicity": 98998
+      },
+      {
+        "b_start": 8,
+        "b_stop": 11,
+        "bins": 12366,
+        "exact_t_entries": 52799,
+        "multiplicity": 304826
+      },
+      {
+        "b_start": 12,
+        "b_stop": 16,
+        "bins": 25040,
+        "exact_t_entries": 124881,
+        "multiplicity": 887843
+      }
+    ],
+    "union_bins": 47667,
+    "union_exact_t_entries": 207474,
+    "union_multiplicity": 1305021,
+    "shard_key_overlap_count": 0,
+    "shard_union_equals_full_builder": true
+  },
+  "scaleout_semantics": {
+    "full178_row_count": 178,
+    "unique_degree_count": 93,
+    "unique_H_count": 93,
+    "H_min": 4,
+    "H_max": 96,
+    "histogram_depends_on_H_b_c_not_g": true,
+    "prefix_invariance_claim": "For fixed (b,c), all nonnegative BC coordinates are bounded by b or c, so the exact histogram is unchanged in any ambient H >= max(b,c).",
+    "universal_H96_can_supply_all_full178_rows": true,
+    "provisional_b_bands": [
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
+    ],
+    "provisional_band_count": 8,
+    "scaleout_execution_armed": false,
+    "representative_measurement_required_before_arm": true
+  },
+  "next_gate": {
+    "id": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
+    "goal": "Measure one representative H96 producer shard or a safely bounded surrogate, then freeze storage/runtime/concurrency limits before any production arm."
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "main_numeric_authority_changed": false,
+    "full178_producer_complete": false,
+    "heavy_execution_authorized": false,
+    "effectivity_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "5899b8eaac1cd6205d421d6f92874f4dbff47a31a00b37029cc84f9365c19a9b"
+}

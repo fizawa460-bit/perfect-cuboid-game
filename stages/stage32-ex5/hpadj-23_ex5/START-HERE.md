@@ -40,3 +40,11 @@ Merge is not authorized.
 The H=16 producer is now serialized deterministically as UTF-8 JSONL records `[b,c,support,required_parity,qBC,[[t,multiplicity],...]]`. The retained stream identity is 47,667 records, 207,474 exact-t entries, 2,248,811 bytes and SHA-256 `fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8`.
 
 The bounded handoff is ready for a 32-01-178 consumer preflight only. It is not a FULL178 producer handoff, does not compute a V48 saving, and does not alter MAIN authority. The next EX5 gate is a cold FULL178 producer-scaleout preflight: partitioning, resume semantics and resource estimates only; no heavy run is armed.
+
+## FULL178 scaleout preflight retained — cold
+
+The producer does **not** need 178 independent BC/t histogram builds. FULL178 uses even degrees 8..192, hence 93 distinct `H=d/2` values 4..96, and the HPADJ23 BC/t histogram is independent of genus `g`. More strongly, fixed `(b,c)` data is prefix-invariant once the ambient `H >= max(b,c)`; an H=8 versus H=16 exact regression is retained. Therefore one universal `HMAX=96` producer can serve every FULL178 row by prefix restriction.
+
+The universal producer is partitioned provisionally into the same eight b-bands used by HPADJ22: `[0,11]...[84,96]`. A bounded H=16 four-shard test has exact disjoint union equality with the full builder: 47,667 bins, 207,474 exact-t entries, multiplicity 1,305,021.
+
+Production remains cold. Before any H=96 arm, the retained gate requires exactly one representative measurement target `H=32, b=0..11` to record wall/CPU time, peak RSS, raw/compressed bytes, bin count and t-entry count. The measurement runkey is generation 0 / `armed=false`; ordinary mainbatch is not authorized to arm it. No MAIN or theorem credit is granted.

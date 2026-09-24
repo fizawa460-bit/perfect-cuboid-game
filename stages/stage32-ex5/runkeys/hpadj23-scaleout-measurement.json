@@ -1,0 +1,32 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_SCALEOUT_MEASUREMENT_RUNKEY_V1",
+  "route_id": "HPADJ-23_ex5",
+  "generation": 0,
+  "mode": "COLD",
+  "armed": false,
+  "authorized_operation": "NONE",
+  "measurement_target": {
+    "H": 32,
+    "b_start": 0,
+    "b_stop": 11
+  },
+  "source_locks": {
+    "shard_builder_blob_sha1": "25284ea56c0746912318ce3c0d0e75d50cf60458",
+    "scaleout_preflight_canonical_sha256": "7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d"
+  },
+  "authorization_contract": {
+    "first_measurement_requires_generation_increment": true,
+    "armed_true_requires_distinct_followup_commit": true,
+    "exact_execution_head_must_be_recorded": true,
+    "measurement_concurrency": 1,
+    "production_scaleout_not_authorized_by_measurement": true
+  },
+  "credit": {
+    "stage32_main_credit": false,
+    "full178_producer_complete": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "cac4eaaad929420fa0bf98f8493c7a7c8ac18986b183fd11e13a9d3ed316e24a"
+}

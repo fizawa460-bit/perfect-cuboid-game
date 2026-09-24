@@ -1,0 +1,133 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_FULL178_SCALEOUT_PREFLIGHT_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "UNIVERSAL_H96_SHARDED_PRODUCER_DESIGN_READY__MEASUREMENT_REQUIRED__COLD",
+  "purpose": "Exploit prefix invariance to build the exact-t BC producer once at HMAX=96, partitioned by b, instead of recomputing the same BC histogram separately for 178 FULL178 rows.",
+  "source_locks": {
+    "bounded_handoff_canonical_sha256": "d31608f8ab1aa9e0c9b11d71c4e560b1fa9f3eef6f26bb2b56145ca937d38615",
+    "full_builder_blob_sha1": "c02973cb9d7fdea7584661a9c5935a43e12efe92",
+    "shard_builder_blob_sha1": "25284ea56c0746912318ce3c0d0e75d50cf60458",
+    "shard_equivalence_blob_sha1": "b1a0248926c176a31a57da0fbb97807c3bb0eeba",
+    "shard_equivalence_canonical_sha256": "5899b8eaac1cd6205d421d6f92874f4dbff47a31a00b37029cc84f9365c19a9b",
+    "shard_equivalence_verifier_blob_sha1": "6aea0f8c39ea0865fb3926aec55ba25582a31697",
+    "full178_manifest_blob_sha1": "0a46b34e278688240656b4977e9cb7f589e90e06",
+    "full178_manifest_canonical_sha256": "46809e2cb9851434b56778369beac131771902c026f10d49b2c0328680383e23"
+  },
+  "full178_structure": {
+    "row_count": 178,
+    "degree_values": "all even d from 8 through 192 inclusive",
+    "unique_degree_count": 93,
+    "H_definition": "H=d/2",
+    "H_values": "all integers 4 through 96 inclusive",
+    "unique_H_count": 93,
+    "g_dependency_of_exact_t_BC_histogram": false
+  },
+  "prefix_invariance": {
+    "statement": "For fixed b,c and nonnegative x0,x1,x5,x6,x8,x9,x10 satisfying the BC definitions, each BC coordinate is bounded by b or c. Therefore the exact (support,required_parity,qBC,t) histogram for fixed (b,c) is independent of ambient H once H>=max(b,c).",
+    "consequence": "A single HMAX=96 producer supplies exact BC/t data for every FULL178 row by restricting to b,c<=d/2.",
+    "bounded_regression": "H=8 histogram equals the b,c<=8 prefix of H=16 exactly",
+    "bounded_regression_pass": true
+  },
+  "sharding": {
+    "axis": "b",
+    "provisional_b_bands": [
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
+    ],
+    "band_count": 8,
+    "bounded_H16_four_shard_union_pass": true,
+    "bounded_H16_union_bins": 47667,
+    "bounded_H16_union_exact_t_entries": 207474,
+    "bounded_H16_union_multiplicity": 1305021,
+    "same_b_band_layout_as_hpadj22": true,
+    "c_subsharding_allowed_after_measurement": true,
+    "complete_b_band_recompute_forbidden_after_valid_checkpoint": true
+  },
+  "payload": {
+    "record_shape": "[b,c,support,required_parity,qBC,[[t,multiplicity],...]]",
+    "deterministic_order": true,
+    "raw_jsonl_supported": true,
+    "compressed_transport_allowed": "zlib or workflow archive compression only after canonical raw-stream SHA256 is fixed",
+    "consumer_can_ignore_t_multiplicity_if_using_only_exact_feasible_t_support_for_nearest_distance_lower_bound": true,
+    "consumer_must_not_infer_terminal_saving_from_removed_hull_points": true
+  },
+  "measurement_gate": {
+    "required_before_any_H96_production_arm": true,
+    "cold_measurement_target": {
+      "H": 32,
+      "b_start": 0,
+      "b_stop": 11
+    },
+    "measurement_purpose": [
+      "wall/cpu time",
+      "peak RSS",
+      "raw JSONL bytes",
+      "compressed bytes",
+      "bin count",
+      "exact-t entry count"
+    ],
+    "measurement_is_mathematical_credit": false,
+    "if_storage_or_runtime_is_large": "introduce c-subshards before production arm",
+    "runkey": "stages/stage32-ex5/runkeys/hpadj23-scaleout-measurement.json"
+  },
+  "authorization": {
+    "measurement_armed": false,
+    "full178_production_armed": false,
+    "ordinary_mainbatch_may_arm": false,
+    "separate_generation_increment_required": true,
+    "repo_stage_heavy_cap": 18,
+    "planned_production_concurrency_not_frozen": true,
+    "storage_budget_mb": 500,
+    "storage_preflight_complete": false
+  },
+  "next_gate": {
+    "id": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
+    "status": "BLOCKED_EXECUTION_AUTHORIZATION_REQUIRED",
+    "goal": "Authorize exactly one measurement generation only if desired; use its retained metrics to freeze shard/storage/concurrency limits."
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "main_numeric_authority_changed": false,
+    "full178_producer_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d"
+}

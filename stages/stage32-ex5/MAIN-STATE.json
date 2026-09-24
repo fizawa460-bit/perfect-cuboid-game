@@ -131,27 +131,26 @@
     }
   },
   "current": {
-    "status": "HPADJ23_BOUNDED_PRODUCER_HANDOFF_RETAINED",
+    "status": "HPADJ23_FULL178_SCALEOUT_PREFLIGHT_RETAINED_COLD",
     "breadth_cycle": "POST_FULL178_REFINEMENT",
     "leaf": "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER",
     "route_id": "HPADJ-23_ex5",
     "route_family": "PICARD64_NODE_SUPPORT_EXACT_T_HOLE_PRODUCER",
     "objective": "Produce an exact (b,c,support,required_parity,qBC,t) histogram interface that removes the current support-qBC parity-hull relaxation without duplicating 32-01-178 consumer execution.",
-    "blocker": "FULL178_PRODUCER_SCALEOUT_PREFLIGHT_NOT_YET_FROZEN",
-    "next_route": "HPADJ23_FULL178_PRODUCER_SCALEOUT_PREFLIGHT",
-    "stop_semantics": "BOUNDED_H16_PRODUCER_HANDOFF_READY__FULL178_SCALEOUT_COLD__NO_178_CONSUMER_EXECUTION"
+    "blocker": "REPRESENTATIVE_H32_B0_11_MEASUREMENT_NOT_AUTHORIZED",
+    "next_route": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
+    "stop_semantics": "UNIVERSAL_H96_SHARDED_DESIGN_READY__MEASUREMENT_COLD__NO_PRODUCTION_ARM"
   },
   "current_leaf_working_set": [
     "stages/stage32-ex5/hpadj-23_ex5/START-HERE.md",
-    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-EXACT-T-HOLE-PREFLIGHT.json",
-    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_exact_t_hole_preflight.py",
-    "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
-    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-EXACT-T-BUILDER-BOUNDED-RESULT.json",
-    "stages/stage32-ex5/hpadj-23_ex5/serialize_exact_t_histogram.py",
-    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-COMPACT-SERIALIZATION-BOUNDED-RESULT.json",
     "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-BOUNDED-PRODUCER-HANDOFF.json",
-    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_bounded_producer_handoff.py",
-    "stages/stage32-ex5/hpadj-22_ex5/bounded_exact_deletion_correlation.py",
+    "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
+    "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram_shard.py",
+    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-SHARD-BOUNDED-EQUIVALENCE.json",
+    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_shard_bounded_equivalence.py",
+    "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-FULL178-SCALEOUT-PREFLIGHT.json",
+    "stages/stage32-ex5/hpadj-23_ex5/verify_hpadj23_scaleout_preflight.py",
+    "stages/stage32-ex5/runkeys/hpadj23-scaleout-measurement.json",
     "stages/stage32-ex5/verify_main_state.py"
   ],
   "full178_interface": {
@@ -169,7 +168,17 @@
     "hpadj23_bounded_H": 16,
     "hpadj23_bounded_stream_sha256": "fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8",
     "hpadj23_full178_producer_complete": false,
-    "hpadj23_full178_scaleout_armed": false
+    "hpadj23_full178_scaleout_armed": false,
+    "hpadj23_universal_H96_prefix_design_ready": true,
+    "hpadj23_full178_row_count": 178,
+    "hpadj23_unique_H_count": 93,
+    "hpadj23_H_range": [
+      4,
+      96
+    ],
+    "hpadj23_provisional_b_band_count": 8,
+    "hpadj23_measurement_armed": false,
+    "hpadj23_storage_preflight_complete": false
   },
   "frontier": {
     "global_full178_numerical_census_complete_observed": true,
@@ -198,7 +207,16 @@
     "hpadj23_bounded_handoff_ready": true,
     "hpadj23_bounded_stream_line_count": 47667,
     "hpadj23_bounded_stream_bytes": 2248811,
-    "hpadj23_bounded_stream_sha256": "fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8"
+    "hpadj23_bounded_stream_sha256": "fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8",
+    "hpadj23_shard_bounded_equivalence_pass": true,
+    "hpadj23_prefix_invariance_bounded_regression_pass": true,
+    "hpadj23_universal_H96_scaleout_preflight_ready": true,
+    "hpadj23_measurement_target": {
+      "H": 32,
+      "b_start": 0,
+      "b_stop": 11
+    },
+    "hpadj23_measurement_armed": false
   },
   "retained_exact_progress": {
     "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
@@ -210,17 +228,20 @@
     "exact_evidence_rewritten_by_semantic_sync": false,
     "hpadj23_builder_bounded_result_canonical": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3",
     "hpadj23_serialization_result_canonical": "c1d79706eaa83f67995836c9bddd074da7a246822277897f094ffb0e12b9d041",
-    "hpadj23_bounded_handoff_canonical": "d31608f8ab1aa9e0c9b11d71c4e560b1fa9f3eef6f26bb2b56145ca937d38615"
+    "hpadj23_bounded_handoff_canonical": "d31608f8ab1aa9e0c9b11d71c4e560b1fa9f3eef6f26bb2b56145ca937d38615",
+    "hpadj23_shard_equivalence_canonical": "5899b8eaac1cd6205d421d6f92874f4dbff47a31a00b37029cc84f9365c19a9b",
+    "hpadj23_scaleout_preflight_canonical": "7c2422f74dd39a53be844468d738aa061d531409740af480998e62bc0fa04b3d",
+    "hpadj23_measurement_runkey_canonical": "cac4eaaad929420fa0bf98f8493c7a7c8ac18986b183fd11e13a9d3ed316e24a"
   },
   "claim_sync": {
-    "last_trigger": "HPADJ23_BOUNDED_PRODUCER_HANDOFF_RETENTION",
+    "last_trigger": "HPADJ23_FULL178_SCALEOUT_PREFLIGHT_RETENTION",
     "lane_role": "PRODUCER_REFINEMENT_ZERO_MAIN_CREDIT",
     "active_frontier_remapped": false,
     "claim_registry_mutated": false,
     "main_promotion": false
   },
   "credit": {
-    "level": "BOUNDED_H16_EXACT_T_PRODUCER_HANDOFF_ZERO_MAIN_CREDIT",
+    "level": "FULL178_SCALEOUT_PREFLIGHT_RETAINED_COLD_ZERO_MAIN_CREDIT",
     "stage32_main_credit": false,
     "FULL178_complete": false,
     "effectivity_credit": false,
@@ -261,9 +282,16 @@
     "re_audit_required_before_any_hpadj23_promotion": true
   },
   "next_step": {
-    "id": "HPADJ23_FULL178_PRODUCER_SCALEOUT_PREFLIGHT",
-    "goal": "Design a resumable source-locked producer-only FULL178 exact-t histogram scaleout, estimate artifact size/runtime from bounded data, and keep it cold until explicitly armed.",
+    "id": "HPADJ23_SCALEOUT_MEASUREMENT_PILOT",
+    "goal": "Run exactly one H=32, b=0..11 producer measurement only after an explicit runkey generation/arm commit; use its wall/RSS/storage metrics to freeze production sharding.",
+    "measurement_target": {
+      "H": 32,
+      "b_start": 0,
+      "b_stop": 11
+    },
+    "measurement_armed": false,
     "heavy_scaleout_authorized": false,
+    "full178_production_authorized": false,
     "main_promotion_authorized": false,
     "consumer_execution_authorized_here": false,
     "merge_authorized": false
