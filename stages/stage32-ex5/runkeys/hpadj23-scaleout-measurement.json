@@ -1,10 +1,10 @@
 {
   "schema": "STAGE32EX5_HPADJ23_SCALEOUT_MEASUREMENT_RUNKEY_V1",
   "route_id": "HPADJ-23_ex5",
-  "generation": 0,
-  "mode": "COLD",
-  "armed": false,
-  "authorized_operation": "NONE",
+  "generation": 1,
+  "mode": "MEASUREMENT",
+  "armed": true,
+  "authorized_operation": "H32_B0_11_MEASUREMENT",
   "measurement_target": {
     "H": 32,
     "b_start": 0,
@@ -21,6 +21,14 @@
     "measurement_concurrency": 1,
     "production_scaleout_not_authorized_by_measurement": true
   },
+  "resource_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_measurement_concurrency": 1,
+    "observed_other_stage32_heavy_concurrency_at_arm": 0,
+    "artifact_hard_cap_bytes": 134217728,
+    "repository_operating_budget_mb": 500
+  },
+  "authorization_source": "user_stage32ex5_mainbatch_2026-09-25",
   "credit": {
     "stage32_main_credit": false,
     "full178_producer_complete": false,
@@ -28,5 +36,5 @@
     "endpoint_credit": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "27481e8091d685bc7fad670bb6d2f5059dd7894acdb2d375d4037e90c635afe9"
+  "canonical_sha256_without_this_field": "a9ddd548a985caa95d03808a5f3d4d35a1375372ee1728c3a1c807bda234c4d4"
 }
