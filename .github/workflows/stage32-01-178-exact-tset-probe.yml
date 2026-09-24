@@ -21,19 +21,15 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: pip install sympy
-      - name: Verify bounded-probe sources
+      - name: Verify bounded-probe source
         run: |
           python - <<'PY'
           import hashlib
           from pathlib import Path
-          expected={
-            "stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py":"58720e209e7153bcbf5ff2ca167629f84cd7e8f4",
-            "stages/stage32/32-01-178/fibration-nef/select_v48_exact_tset_c_panel.py":"707c14de0c4741eb847471c7021a2ecd4462d9a2",
-          }
-          for name,want in expected.items():
-              p=Path(name); raw=p.read_bytes()
-              got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
-              assert got==want,(name,got,want)
+          p=Path("stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py")
+          raw=p.read_bytes()
+          got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+          assert got=="58720e209e7153bcbf5ff2ca167629f84cd7e8f4", got
           PY
       - name: Materialize frozen sources
         run: |
@@ -44,27 +40,15 @@ jobs:
           git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
           mkdir -p stages/stage32/management/grf04-hpadj22-joint
           cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
-      - name: Select top c cells without a/e weighting
+      - name: Exact weighted replay on three retained high-value cells
         run: |
-          python stages/stage32/32-01-178/fibration-nef/select_v48_exact_tset_c_panel.py \
-            --repo-root . \
-            --source-root /tmp/s32h22src \
-            --output /tmp/selector.json \
-            --top 3
-      - name: Exact weighted replay on selected cells
-        run: |
-          python - <<'PY'
-          import json,subprocess
-          selected=json.load(open("/tmp/selector.json"))["selected_c"]
-          print("SELECTED_C="+json.dumps(selected))
-          for c in selected:
-              subprocess.run([
-                  "python",
-                  "stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py",
-                  "--repo-root",".",
-                  "--source-root","/tmp/s32h22src",
-                  "--row-index","22",
-                  "--b","36",
-                  "--c",str(c),
-              ],check=True)
-          PY
+          set -euo pipefail
+          for c in 83 85 89; do
+            echo "BEGIN_C=$c"
+            python stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py \
+              --repo-root . \
+              --source-root /tmp/s32h22src \
+              --row-index 22 \
+              --b 36 \
+              --c "$c"
+          done
