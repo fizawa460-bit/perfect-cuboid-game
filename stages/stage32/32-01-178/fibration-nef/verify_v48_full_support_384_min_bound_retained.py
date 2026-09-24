@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[4]
+ROOT = HERE.parents[3]
 RETAINED = HERE / "V48-FULL-SUPPORT-384-MIN-BOUND-RETAINED.json"
 AGGREGATE = HERE / "aggregate_v48_full_support_min_bound.py"
 WORKFLOW = ROOT / ".github/workflows/stage32-01-178-exact-tset-probe.yml"
