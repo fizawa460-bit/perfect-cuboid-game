@@ -101,7 +101,7 @@ def main() -> None:
             tiers=profiles[aa][sa]
             if tiers:
                 qa_values.update(int(q) for q,_ in tiers if 0<=int(q)<=tq)
-    qa_values=sorted(qa_values)[-64:]  # selector heuristic only; exact cell replay below uses every qA tier
+    qa_values=sorted(qa_values)[-8:]  # selector heuristic only; exact cell replay below uses every qA tier
 
     rows_out=[]
     for c in range(h+1):
