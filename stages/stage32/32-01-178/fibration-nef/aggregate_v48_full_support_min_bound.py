@@ -18,6 +18,15 @@ V48_TOTAL = 128470212118313474449
 V48_COVERED_TOTAL = 37911631052805557219
 V48_AGGREGATE_CANON = "362461c281a60c3f7e94753ee4bce49dfd6e76cddb549f9440e5800ab2e052e2"
 V48_RUN_ID = 35906475088
+LEGACY_INELIGIBLE = {
+    (22, 47): {
+        "path": "local-support-qbc/row022-b047.json",
+        "blob_sha1": "0f161fa0df18966a8bc38f0160edd76f4f9cc1fe",
+        "canonical": "2bbc6957864fcb439dc991a26a3ea223d6f3169af7352df8b28966a058a8b47b",
+        "worker_blob_sha1": "2c1abfd6d921122d9cf6a67a2f2251b95318e5fd",
+        "reason": "legacy carried receipt predates the source-locked current support worker; leave V48 unchanged at this coordinate",
+    }
+}
 
 
 def req(v: bool, m: str) -> None:
@@ -66,7 +75,15 @@ def main() -> None:
         req(key not in expected, "duplicate raw support coordinate " + str(key))
         sl = o["source_locks"]
         req(sl["hpadj22_source_head"] == HPADJ22_SOURCE_HEAD, "raw HPADJ22 source drift " + rel)
-        req(sl["local_worker_blob_sha1"] == SUPPORT_WORKER_BLOB, "raw support worker drift " + rel)
+        legacy = LEGACY_INELIGIBLE.get(key)
+        eligible = legacy is None
+        if eligible:
+            req(sl["local_worker_blob_sha1"] == SUPPORT_WORKER_BLOB, "raw support worker drift " + rel)
+        else:
+            req(rel == legacy["path"], "legacy ineligible path drift " + rel)
+            req(blob(p) == legacy["blob_sha1"], "legacy ineligible blob drift " + rel)
+            req(o["canonical_sha256_without_this_field"] == legacy["canonical"], "legacy ineligible canonical drift " + rel)
+            req(sl["local_worker_blob_sha1"] == legacy["worker_blob_sha1"], "legacy ineligible worker drift " + rel)
         req(o["semantics"]["same_population_as_current_hpadj22"] is True, "raw population drift " + rel)
         req(o["semantics"]["same_current_x4_capacity_rule"] is True, "raw x4 capacity drift " + rel)
         current = int(o["result"]["current_row_band_survivors"])
@@ -77,8 +94,10 @@ def main() -> None:
             "raw_current": current,
             "raw_full_support": refined,
             "raw_canonical": o["canonical_sha256_without_this_field"],
+            "eligible_for_current_worker_replacement": eligible,
         }
-        raw_total += refined
+        if eligible:
+            raw_total += refined
         raw_current_total += current
 
     files = sorted(args.v48_dir.glob("row*-b*.json"))
@@ -105,8 +124,10 @@ def main() -> None:
         req(o["semantics"]["same_population_v47_replacement"] is True, "V48 population drift " + p.name)
 
         current = int(o["result"]["v47_support_qbc_joint_survivors"])
-        raw = int(expected[key]["raw_full_support"])
-        replacement = min(current, raw)
+        raw_entry = expected[key]
+        raw = int(raw_entry["raw_full_support"])
+        eligible = bool(raw_entry["eligible_for_current_worker_replacement"])
+        replacement = min(current, raw) if eligible else current
         v48_total_covered += current
         replacement_total += replacement
         if replacement < current:
@@ -152,6 +173,8 @@ def main() -> None:
             "expected_coordinates": 384,
             "v48_receipts": 384,
             "raw_support_receipts": 384,
+            "eligible_current_worker_coordinates": 384 - len(LEGACY_INELIGIBLE),
+            "source_ineligible_coordinates": len(LEGACY_INELIGIBLE),
             "strict_replacement_coordinates": len(strict),
             "unchanged_coordinates": unchanged,
             "gaps": 0,
@@ -159,7 +182,7 @@ def main() -> None:
         },
         "result": {
             "covered_v48_current": str(v48_total_covered),
-            "covered_raw_full_support_sum": str(raw_total),
+            "covered_raw_full_support_sum_over_eligible_coordinates": str(raw_total),
             "covered_min_replacement_sum": str(replacement_total),
             "certified_tightening_vs_v48": str(tightening),
             "candidate_global_upper_bound_if_promoted": str(candidate),
@@ -172,6 +195,9 @@ def main() -> None:
             "exact_intersection_identity_set_claimed": False,
             "uncovered_v48_population_unchanged": True,
         },
+        "source_ineligible_coordinates": [
+            {"row_index": k[0], "b": k[1], **v} for k, v in sorted(LEGACY_INELIGIBLE.items())
+        ],
         "strict_coordinates": strict,
         "firewalls": {
             "main_credit_changed": False,
