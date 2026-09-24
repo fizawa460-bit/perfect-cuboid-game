@@ -1,0 +1,173 @@
+name: Stage32 BRIDGE BR204 G4 mainline replay
+
+# Lifecycle: ACTIVE_AUTO — compact replay gate for the current BR204 G4 cold surface.
+on:
+  push:
+    branches: [stage32bridge-g4-mainline]
+    paths:
+      - '.github/workflows/stage32-bridge-br204-recovery-replay.yml'
+      - '.github/workflows/br204-stage32-bridge-recovery-g4.yml'
+      - 'stages/stage32/generalization-bridge/STATE.json'
+      - 'stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json'
+      - 'stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json'
+      - 'stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json'
+      - 'stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py'
+      - 'stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json'
+      - 'stages/stage32/generalization-bridge/BR204-G4-ONE-SHOT-TRIGGER.txt'
+      - 'stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json'
+      - 'stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json'
+      - 'stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-BOUNDED-RESULT.json'
+      - 'stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py'
+      - 'stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py'
+      - 'stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp'
+      - 'stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp'
+      - 'stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp'
+      - 'stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp'
+      - 'stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp'
+      - 'stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp'
+      - 'stages/stage32/generalization-bridge/combine_br204_bc_shards.py'
+      - 'stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py'
+      - 'stages/stage32/generalization-bridge/run_br204_resumable_bc64_hierarchical.py'
+      - 'stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py'
+      - 'stages/stage32/generalization-bridge/verify_br204_bc64_hierarchical_equivalence.py'
+      - 'docs/research-os/policies/verify_repo_workflow_trigger_inventory.py'
+      - 'docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-bridge-br204-g4-mainline-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CURRENT_MAIN: a834864923086e5f7c1647e462804f45ff9ac28d
+  MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+  PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
+  DESIGN_BLOB: cca9143c29c891434303cfc973ea818f965c8460
+  PLAN_BLOB: a6611f245f71bb958b11efb625d3750d1d011501
+  PLAN_VERIFIER_BLOB: 29cff69ef70afcf1926d6e0566a823e4fbafc1bc
+  RUNKEY_BLOB: 97415b3352626262f52524e431d0cf2464d2c70b
+  STATE_BLOB: 1fedddd03426f78988add53463c9946d2bc84095
+  COLD_WORKFLOW_BLOB: 86645d08bfaa0c5f4645188e447adb803a03f441
+  MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
+  MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
+  REPO_LIFECYCLE_VERIFIER_BLOB: e9a6b164f94a9b49a99c62ea8496daff1314421e
+  REPO_LIFECYCLE_INVENTORY_BLOB: 493130a42a564b20109fc744e359e7edb7757e34
+  BR202_RESULT_BLOB: 06d0d21e5543cd5b5195c93ae431fbc186edd6ba
+  BR203_VERIFIER_BLOB: 56c932c90ce2adaf702956e0b600b0a958fd29fe
+  BR203_EMITTER_BLOB: 26f1a0cb87140a5050b01fc1cd076f947091ac27
+  BR203_KERNEL_BLOB: 1feeae4a2f1ec39c919e35626153aba8af68266a
+  BR204_ROUTING_BLOB: 42deb05d35becac2b5cffc8bfb3378b17acbd7e6
+  BR204_K8_BLOB: 336285a0c204276e40da57a63ab634e88dae2b88
+  BR204_MU_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
+  DIRECT_WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
+  SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
+  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
+  GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
+  HIER_HELPER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
+  BC_EQ_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
+  BC64_EQ_BLOB: 3148a180d4e41d5a2910d373a8c4cae065a0b3c3
+
+jobs:
+  recovery-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Verify compact G4 source identities
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json)" = "$PREDECESSOR_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json)" = "$DESIGN_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json)" = "$PLAN_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json)" = "$RUNKEY_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/STATE.json)" = "$STATE_BLOB"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-recovery-g4.yml)" = "$COLD_WORKFLOW_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json)" = "$MEASUREMENT_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json)" = "$MEASUREMENT_PAYLOAD_BLOB"
+          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+      - name: Verify compact predecessor and firewalls
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=json.loads(Path("stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json").read_text())
+          s=json.loads(Path("stages/stage32/generalization-bridge/STATE.json").read_text())
+          r=json.loads(Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json").read_text())
+          assert p["frontier_before_g4"]=={
+              "expected_target_count":69,
+              "complete_target_count":0,
+              "zero_subunit_partial_targets":[{"b":3,"d":148}],
+              "missing_target_count":68,
+              "reusable_generation3_completed_subunits":0,
+          }
+          assert p["restored_predecessor_carry"]["exact_child64_indices"]==[0,16,32,48]
+          assert p["restored_predecessor_carry"]["recompute"] is False
+          assert p["restored_predecessor_carry"]["parent_payload_sha256"]=="d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
+          assert all(v is False for v in p["credit"].values())
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V19_G4_MAINLINE"
+          assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
+          assert s["routing"]["heavy_compute_armed"] is False
+          assert all(v is False for v in s["credit_firewall"].values())
+          assert r["generation"]==0 and r["armed"] is False
+          assert all(v is False for v in r["credit"].values())
+          PY
+      - name: Verify current MAIN identity
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          test "$(git rev-parse origin/main)" = "$CURRENT_MAIN"
+          test "$(git rev-parse origin/main:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
+          git merge-base --is-ancestor "$CURRENT_MAIN" HEAD
+      - name: Verify repository workflow lifecycle
+        run: |
+          set -euo pipefail
+          test "$(git hash-object docs/research-os/policies/verify_repo_workflow_trigger_inventory.py)" = "$REPO_LIFECYCLE_VERIFIER_BLOB"
+          test "$(git hash-object docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json)" = "$REPO_LIFECYCLE_INVENTORY_BLOB"
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+      - name: Verify replay source identities
+        run: |
+          set -euo pipefail
+          test "$(git hash-object stages/stage32/generalization-bridge/BR202-P1-K8-FULL-QA-BOUNDED-RESULT.json)" = "$BR202_RESULT_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py)" = "$BR203_VERIFIER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py)" = "$BR203_EMITTER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp)" = "$BR203_KERNEL_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp)" = "$BR204_ROUTING_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp)" = "$BR204_K8_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp)" = "$BR204_MU_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_b_unit.cpp)" = "$DIRECT_WORKER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp)" = "$SHARD_WORKER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$BC_COMBINER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py)" = "$GROUP_COMBINER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_bc64_hierarchical.py)" = "$HIER_HELPER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py)" = "$BC_EQ_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc64_hierarchical_equivalence.py)" = "$BC64_EQ_BLOB"
+      - name: Install exact algebra dependency
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Replay retained BR203 and bounded BR204 semantics
+        run: |
+          set -euo pipefail
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/mu.json /tmp/br203_mu_generated.hpp
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br203_bounded_mu_intersection_kernel.cpp -o /tmp/br203-direct
+          /tmp/br203-direct > /tmp/br203-direct.json
+          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_routing_surface_preflight.cpp -o /tmp/routing
+          /tmp/routing > /tmp/routing.json
+          g++ -std=c++20 -O3 -DNDEBUG stages/stage32/generalization-bridge/verify_br204_compact_k8_syndrome_preflight.cpp -o /tmp/k8
+          /tmp/k8 > /tmp/k8.json
+          g++ -std=c++20 -O3 -DNDEBUG -I/tmp stages/stage32/generalization-bridge/verify_br204_compact_mu_bounded_equivalence.cpp -o /tmp/mu-eq
+          /tmp/mu-eq > /tmp/mu-eq.json
+      - name: Reprove BR204 partition equivalences
+        run: |
+          python stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py --include-dir /tmp --b 0 --d 8 --shard-count 16
+          python stages/stage32/generalization-bridge/verify_br204_bc64_hierarchical_equivalence.py --include-dir /tmp --b 0 --d 8
+      - name: Diff check compact G4 surface
+        run: |
+          set -euo pipefail
+          git -c core.whitespace=-blank-at-eof diff --check "$CURRENT_MAIN" HEAD --             .github/workflows/stage32-bridge-br204-recovery-replay.yml             .github/workflows/br204-stage32-bridge-recovery-g4.yml             stages/stage32/generalization-bridge             docs/research-os/policies/verify_repo_workflow_trigger_inventory.py             docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json

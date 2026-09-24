@@ -1,0 +1,89 @@
+name: Stage32 BRIDGE BR204 generation4 mainline cold gate
+
+# Lifecycle: MANUAL — validation only. Heavy execution is intentionally absent.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CURRENT_MAIN: a834864923086e5f7c1647e462804f45ff9ac28d
+  MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+  PREDECESSOR: stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json
+  PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
+  DESIGN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
+  DESIGN_BLOB: cca9143c29c891434303cfc973ea818f965c8460
+  PLAN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json
+  PLAN_BLOB: a6611f245f71bb958b11efb625d3750d1d011501
+  PLAN_VERIFIER: stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+  PLAN_VERIFIER_BLOB: 29cff69ef70afcf1926d6e0566a823e4fbafc1bc
+  RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
+  RUNKEY_BLOB: 97415b3352626262f52524e431d0cf2464d2c70b
+  STATE: stages/stage32/generalization-bridge/STATE.json
+  STATE_BLOB: 1fedddd03426f78988add53463c9946d2bc84095
+  MEASUREMENT: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json
+  MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
+  MEASUREMENT_PAYLOAD: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json
+  MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
+
+jobs:
+  cold-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Verify compact G4 mainline source locks
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$PREDECESSOR")" = "$PREDECESSOR_BLOB"
+          test "$(git hash-object "$DESIGN")" = "$DESIGN_BLOB"
+          test "$(git hash-object "$PLAN")" = "$PLAN_BLOB"
+          test "$(git hash-object "$PLAN_VERIFIER")" = "$PLAN_VERIFIER_BLOB"
+          test "$(git hash-object "$RUNKEY")" = "$RUNKEY_BLOB"
+          test "$(git hash-object "$STATE")" = "$STATE_BLOB"
+          test "$(git hash-object "$MEASUREMENT")" = "$MEASUREMENT_BLOB"
+          test "$(git hash-object "$MEASUREMENT_PAYLOAD")" = "$MEASUREMENT_PAYLOAD_BLOB"
+          python "$PLAN_VERIFIER"
+      - name: Verify predecessor and zero-credit firewalls
+        run: |
+          python - <<'PY'
+          import json, os
+          p=json.load(open(os.environ["PREDECESSOR"]))
+          s=json.load(open(os.environ["STATE"]))
+          r=json.load(open(os.environ["RUNKEY"]))
+          m=json.load(open(os.environ["MEASUREMENT"]))
+          assert p["schema"]=="STAGE32_BR204_G4_PREDECESSOR_CERTIFICATE_V1"
+          assert p["frontier_before_g4"]["expected_target_count"]==69
+          assert p["frontier_before_g4"]["complete_target_count"]==0
+          assert p["restored_predecessor_carry"]["exact_child64_indices"]==[0,16,32,48]
+          assert p["restored_predecessor_carry"]["recompute"] is False
+          assert all(v is False for v in p["credit"].values())
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V19_G4_MAINLINE"
+          assert s["routing"]["heavy_compute_armed"] is False
+          assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
+          assert all(v is False for v in s["credit_firewall"].values())
+          assert r["generation"]==0 and r["armed"] is False
+          assert all(v is False for v in r["credit"].values())
+          assert m["payload_bytes"]==448 and m["within_hard_cap"] is True
+          PY
+      - name: Verify current MAIN source lock
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin main
+          test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
+          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
+      - name: Confirm heavy execution is unavailable
+        run: |
+          python - <<'PY'
+          import json, os
+          p=json.load(open(os.environ["PLAN"]))
+          r=json.load(open(os.environ["RUNKEY"]))
+          assert p["authorization"]["heavy_compute_authorized"] is False
+          assert p["authorization"]["runkey_armed"] is False
+          assert r["armed"] is False
+          print("G4 compact mainline cold gate: PASS; heavy remains unauthorized")
+          PY

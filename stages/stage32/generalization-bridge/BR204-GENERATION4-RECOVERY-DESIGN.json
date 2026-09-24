@@ -1,0 +1,50 @@
+{
+  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V2_MAINLINE",
+  "status": "COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT",
+  "predecessor_certificate": {
+    "path": "stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json",
+    "blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02"
+  },
+  "recovery_design": {
+    "target_population": "same 69 BR204 recovery target identities encoded directly in the G4 plan",
+    "target_count_to_finish": 69,
+    "completed_target_carry_count": 0,
+    "flat_target_count": 36,
+    "hierarchical_target_count": 33,
+    "restored_predecessor_rule": "Inject the certified b=2,d=148,BC16#0 predecessor parent and do not recompute it.",
+    "exactness": [
+      "Every target retains the audited BR204 mathematical worker/population semantics.",
+      "BC16 parent p equals the exact disjoint union of BC64 children p,p+16,p+32,p+48.",
+      "No target completion is credited until exact child/parent coverage is verified with no gaps or overlaps."
+    ],
+    "durability": [
+      "Use resume-first immutable child units.",
+      "Persist only independently verifiable compact child certificates.",
+      "Keep raw child state out of retained repository evidence."
+    ]
+  },
+  "resource_preflight": {
+    "repository_storage_budget_bytes": 524288000,
+    "stage_heavy_concurrency_ceiling": 18,
+    "proposed_max_parallel_upper_bound": 12,
+    "representative_measurement_retained": true
+  },
+  "gates": {
+    "cold_workflow_implemented": true,
+    "runkey_created": true,
+    "heavy_compute_armed": false,
+    "heavy_compute_authorized": false,
+    "next_required": "Exact-head cold-gate SUCCESS, exact-head active replay SUCCESS, then distinct hostile audit before any arm."
+  },
+  "credit": {
+    "stage32_main": false,
+    "full178_complete": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "stage32_closed": false,
+    "perfect_cuboid": false,
+    "merge": false
+  }
+}
