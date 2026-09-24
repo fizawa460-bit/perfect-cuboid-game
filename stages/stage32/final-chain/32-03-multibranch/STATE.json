@@ -1197,11 +1197,12 @@
         "equivalent_algebraic_five_bit_basis_materialized": true,
         "historical_tau_termwise_identification_materialized": false,
         "fixed_point_support_character_test_materialized": true,
-        "remaining_unique_pair_exact_support_singularity_test_materialized": false
+        "remaining_unique_pair_exact_support_singularity_test_materialized": true,
+        "remaining_unique_pair_interior_conductor_test_materialized": false
       },
       "cross_lane_alignment": {
         "mb_fib_pr": 1829,
-        "mb_fib_head_observed": "5760ede53fff75c0d796ccac280418c112028361",
+        "mb_fib_head_observed": "68b2e8401e2059989617ccf2736760e8d83b741a",
         "phase_B2": "Rosati Phi_Z=0 and J(C8)^G=(Z/2)^5 finite factor-pair route",
         "semantic_match": true,
         "audited_B2_handoff_available": false
@@ -1210,7 +1211,7 @@
         "direct_X8_Gfixed_2torsion_algebraic_basis_found": false,
         "closest_method_found": "Elvira Lupoian, Two-Torsion Subgroup of some Modular Jacobians (2022), computational theta-hyperplane method for other genus-3/4/5 modular Jacobians; no direct X(8) adapter located"
       },
-      "next_gate": "The finite label ambiguity is exhausted: only (A_ref(l),A_ref(l)) survives the fixed-point support-character test. Test the unique pair against the exact 000707 node-vanishing multiplicities, singularity/conductor passport, irreducibility and common-etale normalization, or obtain an MB-FIB/Picard64 restriction condition. Unrestricted Hdiag section existence is abundant and is not a closer.",
+      "next_gate": "The unique factor pair survives the exact supported product-node multiplicity/different passport. Supported higher contact is forced absent and the induced product conductor half-line squares exactly to the retained carrier total-different line. Continue only with an interior conductor/postulation or irreducibility/common-etale obstruction, or an exact MB-FIB/Picard64 restriction adapter; do not repeat factor-label or supported-node tangency tests.",
       "firewalls": {
         "e2_closed": false,
         "e4_closed": false,
@@ -1462,18 +1463,110 @@
           "e2_closed": false
         }
       }
+    },
+    "e2_unique_factor_pair_singular_passport": {
+      "status": "EXACT_PREAUDIT_UNIQUE_PAIR_SUPPORTED_PRODUCT_PASSPORT_COMPATIBILITY_ZERO_CREDIT",
+      "support_mask": "000707000f0f",
+      "case": "e=2",
+      "scope": "conditional on the retained Rosati/product-linearization/external-product unique-factor-pair chain; exact supported-node dualizing/intersection and conductor-line compatibility only",
+      "source_locks": {
+        "product_linearization_note_blob": "2c2db567db6a3c33762b2ff3d7f39f885a95b974",
+        "rosati_zero_note_blob": "24cc729070ab685491fd2659d970da1a9f415891",
+        "external_product_picard_note_blob": "dc2def9e4d0148aa3146a034a2ce0ef331206a29",
+        "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
+        "common_h_factor_line_note_blob": "1e121116c1591e3b3d9f748f306151ab0e89b580",
+        "projective_conductor_note_blob": "69b3e039ebc967c84f7c64d4946a114f09d07fba",
+        "residual_node_orbit_note_blob": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e"
+      },
+      "unique_pair": "A=B=pi_H^*O_P1(7*l)",
+      "retained_inputs": {
+        "product_divisor": "Zbar subset C8 x C8 with O(Zbar)=p1^*A tensor p2^*B",
+        "residual_translate": "TZbar=Tdiag(Zbar), q^*Cbar=Zbar+TZbar on the supported codimension-one etale/crepant quotient locus",
+        "product_normalization": "nu_Z:Z->Zbar, g(Z)=112*l+1",
+        "carrier_normalization": "nu_C:E->Cbar, g(E)=1",
+        "quotient_map": "p:Z->E is the H-quotient of degree 4",
+        "product_delta": "delta(Zbar)=784*l^2+112*l",
+        "carrier_supported_branch_count_per_node": "8*l",
+        "carrier_supported_different_coefficient_per_branch": "4*l"
+      },
+      "supported_product_local": {
+        "carrier_different_coefficient_per_E_branch": "4*l",
+        "H_quotient_ramification_coefficient_per_Z_branch": 1,
+        "dualizing_identity": "R_p+Delta_Z+I_(Z,TZ)=p^*Delta_C",
+        "branch_identity": "c_i+I_i=8*l-1",
+        "local_multiplicity_parameter": "at a product fixed point Zbar has r branches and TZbar has 8*l-r branches; for the exact allocation these are r=x_j or r=8*l-x_j",
+        "internal_lower_bound": "c_i>=r-1",
+        "translate_lower_bound": "I_i>=8*l-r",
+        "saturation_reason": "the two lower bounds sum to the exact right side 8*l-1",
+        "forced_equalities": [
+          "c_i=r-1",
+          "I_i=8*l-r"
+        ],
+        "conclusion": "all supported product branches are internally ordinary/transverse and meet the residual translate transversely"
+      },
+      "supported_delta": {
+        "centered_allocation": "a_j=x_j-4*l",
+        "per_box_node_formula": "2*a_j^2+32*l^2-8*l, a_j=x_j-4*l",
+        "all_14_formula": "448*l^2-112*l+2*sum(a_j^2)",
+        "product_total_formula": "delta(Zbar)=784*l^2+112*l",
+        "interior_formula": "336*l^2+224*l-2*sum(a_j^2)",
+        "even_l_bridge": "l=2*m,a_j=2*b_j => delta_Z,int=4*(336*m^2+112*m-2*Q)=4*delta_same",
+        "interpretation": "the exact supported ordinary-multiple-point contribution plus the remaining interior defect reproduces the retained allocation energy; it gives compatibility, not exclusion"
+      },
+      "translate_intersection": {
+        "total_formula": "Zbar.TZbar=1568*l^2",
+        "per_box_supported_formula": "4*x_j*(8*l-x_j)",
+        "supported_formula": "896*l^2-4*sum(a_j^2)",
+        "interior_formula": "672*l^2+4*sum(a_j^2)",
+        "interpretation": "the supported contribution is forced transverse; all unspent translate intersection is interior"
+      },
+      "conductor_half_line_bridge": {
+        "factor_pencils": "M_i=psi_i^*O_P1(1)",
+        "M_i_degree": "28*l",
+        "M_i_fourth_power": "M_i^4=H_E",
+        "M_i_fourth_power_derivation": "psi_i^*(eight H-branch values)=B_node+2*Ram(psi_i), O(B_node)=H_E, O(Ram)=M_i^2",
+        "factor_square_relation": "M_1^2=M_2^2",
+        "K_C8": "pi_H^*O_P1(2)",
+        "adjunction": "nu_Z^*omega_Zbar=omega_Z(Delta_Z), omega_Z=f_1^*K_C8",
+        "Delta_Z_line": "O_Z(Delta_Z)=p^*(M_1^(7*l) tensor M_2^(7*l+2))",
+        "half_line_name": "L_Delta=M_1^(7*l) tensor M_2^(7*l+2)",
+        "half_square": "L_Delta^2=H_E^(7*l+1)=O_E(Delta_C)",
+        "degree_L_Delta": "392*l^2+56*l",
+        "degree_Delta_Z": "1568*l^2+224*l",
+        "factor_2torsion_form": "if delta_fac=M_1 tensor M_2^(-1) and M0=M_2^2, then L_Delta=delta_fac^l tensor M0^(7*l+1)",
+        "parity_consequence": "even l is blind to delta_fac; odd l retains delta_fac, but no independent canonical square-root identification is currently retained",
+        "interpretation": "the unique factor pair is exactly compatible with the retained carrier total-different line; this bridge alone does not determine delta_fac or a conductor sheet"
+      },
+      "result": "the unique factor pair survives the exact supported-node multiplicity/different passport; supported higher-contact is forced absent on the product surface, and the conductor half-line is exactly compatible",
+      "next_missing_datum": "a genuinely interior obstruction: interior conductor/postulation or irreducibility/common-etale realization, or an exact MB-FIB/Picard64 restriction character; do not repeat supported-node tangency/multiplicity or conductor-determinant label tests",
+      "firewalls": {
+        "unique_pair_existence_proved": false,
+        "supported_node_contradiction": false,
+        "interior_conductor_excluded": false,
+        "delta_fac_determined": false,
+        "e2_closed": false,
+        "e4_closed": false,
+        "support_000707_closed": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "effectivity_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 unique factor pair — singular support/passport test",
-    "active_leaf": "MB104-000707-E2-UNIQUE-FACTOR-PAIR-SINGULAR-PASSPORT-TEST",
-    "required_input": "The finite factor-label ambiguity is reduced from 1024 to 128 and now to the unique pair A=B=pi_H^*O_P1(7*l), conditional on the retained candidate chain. Do not enumerate Picard labels again. Test this unique pair using the exact 000707 supported-node vanishing/multiplicity passport, irreducibility, common-etale normalization, adaptive cancellation/conductor geometry, or an exact MB-FIB/Picard64 restriction adapter.",
+    "title": "e=2 unique pair — interior conductor / FIB restriction",
+    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-CONDUCTOR-OR-FIB-RESTRICTION",
+    "required_input": "The unique pair A=B=pi_H^*O_P1(7*l) has now passed the exact supported product-node multiplicity/different passport: local dualizing saturation forces ordinary/transverse supported branches and the conductor half-line is compatible with O_E(Delta_C)=H_E^(7*l+1). Do not re-test supported-node multiplicity/tangency or conductor determinant. Seek a genuinely interior conductor/postulation or irreducibility/common-etale obstruction, or an exact MB-FIB/Picard64 restriction condition.",
     "success_shapes": [
-      "exact contradiction for the unique factor pair, followed by hostile audit before any e=2 promotion",
-      "exact singular/support condition reducing the unique-pair section space to a finite or empty set",
-      "exact MB-FIB/Picard64 restriction condition incompatible with the unique pair",
-      "bounded proof that the unique pair survives all currently available support/passport invariants, identifying the next genuinely missing datum with zero credit"
+      "exact interior-conductor or irreducibility/common-etale contradiction for the unique factor pair, followed by hostile audit before any e=2 promotion",
+      "exact MB-FIB/Picard64 restriction condition incompatible with the unique factor pair",
+      "exact independent square-root/marked-conductor identification that turns the odd-l delta_fac term into a contradiction",
+      "bounded proof that the unique pair also survives the available interior invariants, identifying the next genuinely missing datum with zero credit"
     ],
     "must_not_repeat": [
       "128-pair enumeration or fixed-Jacobian basis search",
@@ -1485,7 +1578,9 @@
       "conductor pair norm/determinant/Fitting/trace-zero low-degree compression",
       "P.F<36 fibration search",
       "isotropic-shell heavy execution",
-      "merge or rebase"
+      "merge or rebase",
+      "supported product-node multiplicity/tangency/different replay without new interior data",
+      "unique-pair conductor half-line square-root compatibility without an independent marked square-root or restriction datum"
     ]
   },
   "routing": {
@@ -1543,7 +1638,13 @@
     "e2_gfixed_historical_tau_termwise_identified": false,
     "e2_gfixed_support_character_survivor_count": 1,
     "e2_gfixed_unique_factor_pair": "A=B=pi_H^*O_P1(7*l)",
-    "e2_gfixed_plain_equivariant_effectivity_closes": false
+    "e2_gfixed_plain_equivariant_effectivity_closes": false,
+    "e2_unique_pair_supported_product_passport_exact": true,
+    "e2_unique_pair_supported_product_passport_closes": false,
+    "e2_unique_pair_supported_higher_contact_live": false,
+    "e2_unique_pair_conductor_half_line_exact": true,
+    "e2_unique_pair_interior_conductor_route_live": true,
+    "e2_unique_pair_fib_restriction_route_live": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
