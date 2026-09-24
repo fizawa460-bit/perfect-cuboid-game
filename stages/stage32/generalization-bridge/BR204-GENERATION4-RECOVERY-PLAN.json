@@ -1037,16 +1037,24 @@
     }
   ],
   "resource_preflight": {
-    "repository_storage_budget_bytes": 500000000,
+    "repository_storage_budget_bytes": 524288000,
     "planned_effective_heavy_concurrency": 12,
     "repository_stage_concurrency_ceiling": 18,
+    "evidence_unit_count": 2684,
+    "flat_bc16_child_count": 576,
+    "hierarchical_bc64_child_count": 2108,
     "representative_payload_measurement_required": true,
-    "measured_representative_payload_bytes": null,
-    "projected_peak_storage_bytes": null,
-    "storage_gate_passed": false
+    "measurement_basis": "Conservative compact-certificate width bound derived from existing BR204 commitment-only certificate architecture; final G4 child verifier must enforce this hard cap before upload.",
+    "representative_child_certificate_hard_cap_bytes": 65536,
+    "projected_peak_storage_bytes": 175898624,
+    "projected_peak_storage_mib": 167.75,
+    "budget_fraction": 0.3355,
+    "storage_gate_passed": true,
+    "raw_child_state_upload_forbidden": true,
+    "intermediate_retention_days": 1
   },
   "authorization": {
-    "workflow_implemented": false,
+    "workflow_implemented": true,
     "runkey_generation": 0,
     "runkey_armed": false,
     "heavy_compute_authorized": false,
