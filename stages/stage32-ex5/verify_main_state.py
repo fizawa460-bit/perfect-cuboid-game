@@ -110,14 +110,15 @@ def main() -> None:
         )
         result = json.loads(out.read_text(encoding="utf-8"))
     req(result["status"] ==
-        "STRUCTURAL_PASS_RANK6_KERNEL58_NEGATIVE_DEFINITE__INTEGER_SATURATION_NOT_YET_CERTIFIED",
+        "STRUCTURAL_PASS_HNF_SATURATED_KERNEL58_NEGATIVE_DEFINITE_GRAM_LLL_READY",
         "EFF-AFFINE01 structural status drift")
     req(result["fixed_fiber"]["fixed_map_rank"] == 6 and
-        result["fixed_fiber"]["rational_kernel_dimension"] == 58,
+        result["fixed_fiber"]["saturated_integer_kernel_dimension"] == 58,
         "EFF-AFFINE01 rank/kernel regression")
     req(result["fixed_fiber"]["restricted_negative_gram_positive_definite"] is True,
         "EFF-AFFINE01 H-perp definiteness regression")
-    req(result["firewalls"]["integer_affine_image_certified"] is False and
+    req(result["firewalls"]["integer_affine_kernel_and_image_basis_certified"] is True and
+        result["firewalls"]["fincke_pohst_bad_shell_checker_complete"] is False and
         result["firewalls"]["effectivity_credit"] is False and
         result["firewalls"]["main_pruning_credit"] is False,
         "EFF-AFFINE01 structural preflight overclaimed credit")
