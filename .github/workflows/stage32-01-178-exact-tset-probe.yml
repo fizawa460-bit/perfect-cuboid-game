@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  bounded-cell:
+  bounded-panel:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -21,15 +21,19 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: pip install sympy
-      - name: Verify bounded-probe source
+      - name: Verify bounded-probe sources
         run: |
           python - <<'PY'
           import hashlib
           from pathlib import Path
-          p=Path("stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py")
-          raw=p.read_bytes()
-          got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
-          assert got=="3792078882b1538ded408065a4d28571a01af149", got
+          expected={
+            "stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py":"58720e209e7153bcbf5ff2ca167629f84cd7e8f4",
+            "stages/stage32/32-01-178/fibration-nef/select_v48_exact_tset_c_panel.py":"55c03cf0221d684e48463fcfd624659b0c7e8525",
+          }
+          for name,want in expected.items():
+              p=Path(name); raw=p.read_bytes()
+              got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
+              assert got==want,(name,got,want)
           PY
       - name: Materialize frozen sources
         run: |
@@ -40,11 +44,27 @@ jobs:
           git worktree add --detach /tmp/s32v47src 620b90d1ca1f5316d55b88b2620f78eeba1949c7
           mkdir -p stages/stage32/management/grf04-hpadj22-joint
           cp /tmp/s32v47src/stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py stages/stage32/management/grf04-hpadj22-joint/
-      - name: Run one exact bounded cell
+      - name: Select top c cells without a/e weighting
         run: |
-          python stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py \
+          python stages/stage32/32-01-178/fibration-nef/select_v48_exact_tset_c_panel.py \
             --repo-root . \
             --source-root /tmp/s32h22src \
-            --row-index 22 \
-            --b 36 \
-            --c 0
+            --output /tmp/selector.json \
+            --top 3
+      - name: Exact weighted replay on selected cells
+        run: |
+          python - <<'PY'
+          import json,subprocess
+          selected=json.load(open("/tmp/selector.json"))["selected_c"]
+          print("SELECTED_C="+json.dumps(selected))
+          for c in selected:
+              subprocess.run([
+                  "python",
+                  "stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py",
+                  "--repo-root",".",
+                  "--source-root","/tmp/s32h22src",
+                  "--row-index","22",
+                  "--b","36",
+                  "--c",str(c),
+              ],check=True)
+          PY
