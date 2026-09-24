@@ -1,6 +1,6 @@
 name: Stage32 BRIDGE BR204 post-cancellation recovery replay
 
-# Lifecycle: ACTIVE_AUTO — current BR204 G4 cold-design replay gate.
+# Lifecycle: ACTIVE_AUTO — current BR204 G4 cold-surface replay gate.
 on:
   push:
     branches: [stage32bridge-mainbatch]
@@ -16,6 +16,10 @@ on:
       - 'stages/stage32/generalization-bridge/BR204-G3-SINGLE-PARENT-REPLACEMENT-FREEZE.json'
       - 'stages/stage32/generalization-bridge/BR204-G3-REPLACEMENT-POSTFREEZE-BOUNDARY.json'
       - 'stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json'
+      - 'stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json'
+      - 'stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py'
+      - 'stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json'
+      - '.github/workflows/br204-stage32-bridge-recovery-g4.yml'
       - 'docs/research-os/policies/repo-workflow-trigger-inventory-bridge-supplement.json'
       - '.github/workflows/br204-stage32-bridge-heavy.yml'
       - '.github/workflows/br204-stage32-bridge-recovery-g3.yml'
@@ -74,8 +78,8 @@ jobs:
           import json
           from pathlib import Path
           s=json.loads(Path('stages/stage32/generalization-bridge/STATE.json').read_text())
-          assert s['active_leaf'] in ('BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT','BR204_G4_RECOVERY_COLD_DESIGN')
-          if s['active_leaf']=='BR204_G4_RECOVERY_COLD_DESIGN':
+          assert s['active_leaf'] in ('BR204_G3_REPLACEMENT_POSTFREEZE_AUDIT','BR204_G4_RECOVERY_COLD_DESIGN','BR204_G4_RECOVERY_COLD_SURFACE')
+          if s['active_leaf'] in ('BR204_G4_RECOVERY_COLD_DESIGN','BR204_G4_RECOVERY_COLD_SURFACE'):
               g4=s['generation4_recovery_design']
               assert g4['status']=='COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT'
               assert g4['audited_parent_head']=='23150d71c9242efd7a5f46ab6b5491589cd5934b'
@@ -156,4 +160,8 @@ jobs:
           git -c core.whitespace=-blank-at-eof diff --check 23150d71c9242efd7a5f46ab6b5491589cd5934b HEAD -- \
             .github/workflows/stage32-bridge-br204-recovery-replay.yml \
             stages/stage32/generalization-bridge/STATE.json \
-            stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
+            stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json \
+            stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json \
+            stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py \
+            stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json \
+            .github/workflows/br204-stage32-bridge-recovery-g4.yml
