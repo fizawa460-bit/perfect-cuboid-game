@@ -38,7 +38,11 @@ jobs:
           assert d['base4']==[0,1,1,1] and d['shard_count']==16 and d['split_index']==53
           assert d['max_parallel']==1 and d['allow_finer_split'] is False
           assert d['shard_id']==int(os.environ['SHARD_ID'])
-          assert d['credit'] is False
+          assert d['partition']=='SHA256_REPR_PREFIX_MOD_COUNT_V1'
+          assert d['unit_certificate']=='FP58_SHARD_JSON_V1'
+          assert d['recovery_rule']=='CARRY_VALIDATED_COMPLETE_SHARDS_RECOMPUTE_ONLY_MISSING'
+          assert d['partial_upload']=='IF_ALWAYS_WHEN_OUTPUT_EXISTS'
+          assert d['retention_days']==1 and d['credit'] is False
           PY
         env:
           SHARD_ID: '${{ inputs.shard_id }}'
@@ -56,8 +60,11 @@ jobs:
             --shard-count 16 \
             --split-index 53 \
             --output /tmp/fp58/shard-${{ inputs.shard_id }}.json
-      - uses: actions/upload-artifact@v4
+      - name: Upload exact shard certificate
+        if: ${{ always() && hashFiles('/tmp/fp58/shard-${{ inputs.shard_id }}.json') != '' }}
+        uses: actions/upload-artifact@v4
         with:
           name: eff-affine01-fp58-shard-${{ inputs.shard_id }}
           path: /tmp/fp58/shard-${{ inputs.shard_id }}.json
-          retention-days: 7
+          retention-days: 1
+          if-no-files-found: error
