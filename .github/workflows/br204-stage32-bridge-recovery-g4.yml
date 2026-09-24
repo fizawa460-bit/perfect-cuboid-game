@@ -1,8 +1,12 @@
 name: Stage32 BRIDGE BR204 generation4 recovery cold gate
 
-# Lifecycle: MANUAL — cold G4 execution surface. Heavy compute is intentionally absent
+# Lifecycle: ACTIVE_AUTO_ONE_SHOT — cold G4 validation only; heavy compute is intentionally absent
 # until a distinct hostile audit accepts this exact surface and a runkey-only arm commit follows.
 on:
+  push:
+    branches: [stage32bridge-mainbatch]
+    paths:
+      - '.github/workflows/br204-stage32-bridge-recovery-g4.yml'
   workflow_dispatch:
 
 permissions:
@@ -20,7 +24,7 @@ env:
   TARGETS: stages/stage32/generalization-bridge/BR204-GENERATION3-RECOVERY-TARGETS.json
   TARGETS_BLOB: 975fadbe0f3ee0dfd7c792be7807c154421dec20
   CURRENT_MAIN: e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3
-  CURRENT_MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
+  CURRENT_MAIN_STATE_BLOB: d537e62389b6ddf0806f1c547f251444761ddff3
   STATE: stages/stage32/generalization-bridge/STATE.json
   STATE_BLOB: 79d306afd60410c34bd7fece73bd25f49cd9f378
   MEASURE: stages/stage32/generalization-bridge/measure_br204_g4_compact_child.py
