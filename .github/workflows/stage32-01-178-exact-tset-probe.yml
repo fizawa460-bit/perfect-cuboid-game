@@ -20,7 +20,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-        with: {fetch-depth: 0}
+        with:
+          fetch-depth: 0
 
       - name: Verify aggregate source
         run: |
@@ -44,16 +45,7 @@ jobs:
             --jq '.artifacts[] | select(.name | startswith("v47-support-qbc-pair-")) | [.id,.name] | @tsv' \
             > /tmp/v48-artifacts.tsv
           test "$(wc -l < /tmp/v48-artifacts.tsv)" -eq 192
-          while IFS=          python stages/stage32/32-01-178/fibration-nef/aggregate_v48_full_support_min_bound.py \
-            --v48-dir /tmp/v48-pairs \
-            --output /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: v48-full-support-384-min-bound
-          path: /tmp/V48-FULL-SUPPORT-384-MIN-BOUND.json
-          retention-days: 14
-\t' read -r id name; do
+          while read -r id name; do
             gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip" > "/tmp/v48-zips/${id}.zip"
             unzip -qo "/tmp/v48-zips/${id}.zip" -d /tmp/v48-pairs
           done
