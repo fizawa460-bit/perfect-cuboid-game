@@ -18,6 +18,10 @@ HPADJ23_PREFLIGHT = HERE / "hpadj-23_ex5" / "HPADJ23-EXACT-T-HOLE-PREFLIGHT.json
 HPADJ23_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_exact_t_hole_preflight.py"
 HPADJ23_BUILDER = HERE / "hpadj-23_ex5" / "build_exact_t_joint_histogram.py"
 HPADJ23_BUILDER_RESULT = HERE / "hpadj-23_ex5" / "HPADJ23-EXACT-T-BUILDER-BOUNDED-RESULT.json"
+HPADJ23_SERIALIZER = HERE / "hpadj-23_ex5" / "serialize_exact_t_histogram.py"
+HPADJ23_SERIALIZATION_RESULT = HERE / "hpadj-23_ex5" / "HPADJ23-COMPACT-SERIALIZATION-BOUNDED-RESULT.json"
+HPADJ23_HANDOFF = HERE / "hpadj-23_ex5" / "HPADJ23-BOUNDED-PRODUCER-HANDOFF.json"
+HPADJ23_HANDOFF_VERIFIER = HERE / "hpadj-23_ex5" / "verify_hpadj23_bounded_producer_handoff.py"
 
 ARCH_VERIFIER_BLOB = "fa20238eb372100520a2ca76523ca63d3b3f9c5f"
 HPADJ20_HANDOFF_BLOB = "52ca73eeb52b7d930f905c42a85b62f044bda269"
@@ -26,6 +30,10 @@ HPADJ23_PREFLIGHT_BLOB = "eb6ec8e7ea2e1bc87ef3222603f0f9c026cfb78e"
 HPADJ23_VERIFIER_BLOB = "60f9585ef049daeb49f0b918f4e90e962713abed"
 HPADJ23_BUILDER_BLOB = "c02973cb9d7fdea7584661a9c5935a43e12efe92"
 HPADJ23_BUILDER_RESULT_BLOB = "7e919c28f3c259cc1db2743c8deb7c82a5c11612"
+HPADJ23_SERIALIZER_BLOB = "91be480f62de7c8cac63c4ddc37a372cc3fed33d"
+HPADJ23_SERIALIZATION_RESULT_BLOB = "30eb5b36f357c0474454189c8ff52549d943f277"
+HPADJ23_HANDOFF_BLOB = "f2c1d998cd1d2cf032bf1e56c94e710dbc80eddb"
+HPADJ23_HANDOFF_VERIFIER_BLOB = "f764a06716e90e0b4788e756cb1dd7a03e7b968f"
 RESTORE = {
     "README.md": "62ec5465089fffe316c64a179162bdd337ae8305",
     "MAIN-START-HERE.md": "47581a734da21dac3d2cabc4dc520d5be1310a49",
@@ -114,7 +122,7 @@ def verify_live_firewalls() -> None:
     req(current.get("route_id") == "HPADJ-23_ex5", "current EX5 route drift")
     req(current.get("leaf") == "HPADJ23_EXACT_T_HOLE_HISTOGRAM_PRODUCER", "current EX5 leaf drift")
     next_step = state.get("next_step", {})
-    req(next_step.get("id") == "HPADJ23_COMPACT_PRODUCER_HANDOFF", "next-step drift")
+    req(next_step.get("id") == "HPADJ23_FULL178_PRODUCER_SCALEOUT_PREFLIGHT", "next-step drift")
     req(next_step.get("heavy_scaleout_authorized") is False, "unexpected HPADJ23 heavy authorization")
     req(next_step.get("consumer_execution_authorized_here") is False, "178 consumer duplication authorized")
     authority = state.get("authority", {})
@@ -190,6 +198,28 @@ def main() -> None:
     try:
         sys.argv = [str(HPADJ23_BUILDER)]
         runpy.run_path(str(HPADJ23_BUILDER), run_name="__main__")
+    finally:
+        sys.argv = old_argv
+    req(HPADJ23_SERIALIZER.is_file() and blob(HPADJ23_SERIALIZER) == HPADJ23_SERIALIZER_BLOB,
+        "HPADJ23 serializer drift")
+    req(HPADJ23_SERIALIZATION_RESULT.is_file() and
+        blob(HPADJ23_SERIALIZATION_RESULT) == HPADJ23_SERIALIZATION_RESULT_BLOB,
+        "HPADJ23 serialization result drift")
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ23_SERIALIZER)]
+        runpy.run_path(str(HPADJ23_SERIALIZER), run_name="__main__")
+    finally:
+        sys.argv = old_argv
+    req(HPADJ23_HANDOFF.is_file() and blob(HPADJ23_HANDOFF) == HPADJ23_HANDOFF_BLOB,
+        "HPADJ23 bounded producer handoff drift")
+    req(HPADJ23_HANDOFF_VERIFIER.is_file() and
+        blob(HPADJ23_HANDOFF_VERIFIER) == HPADJ23_HANDOFF_VERIFIER_BLOB,
+        "HPADJ23 bounded handoff verifier drift")
+    old_argv = sys.argv[:]
+    try:
+        sys.argv = [str(HPADJ23_HANDOFF_VERIFIER)]
+        runpy.run_path(str(HPADJ23_HANDOFF_VERIFIER), run_name="__main__")
     finally:
         sys.argv = old_argv
     print("PASS: retained EX5 V5 state and live credit/routing firewalls verified")

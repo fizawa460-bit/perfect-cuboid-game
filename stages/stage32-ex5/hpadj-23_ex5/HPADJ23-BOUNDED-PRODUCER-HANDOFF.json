@@ -1,0 +1,73 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_BOUNDED_PRODUCER_HANDOFF_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "BOUNDED_EXACT_T_PRODUCER_READY_FOR_178_CONSUMER_PREFLIGHT__FULL178_NOT_READY__ZERO_MAIN_CREDIT",
+  "producer": {
+    "pr": 1823,
+    "source_parent_head": "325b5e7bd8e0111e2ef37ee7594a7198950a8a93",
+    "builder": {
+      "path": "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
+      "blob_sha1": "c02973cb9d7fdea7584661a9c5935a43e12efe92",
+      "bounded_result_path": "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-EXACT-T-BUILDER-BOUNDED-RESULT.json",
+      "bounded_result_canonical_sha256": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3"
+    },
+    "serialization": {
+      "path": "stages/stage32-ex5/hpadj-23_ex5/serialize_exact_t_histogram.py",
+      "blob_sha1": "91be480f62de7c8cac63c4ddc37a372cc3fed33d",
+      "bounded_result_path": "stages/stage32-ex5/hpadj-23_ex5/HPADJ23-COMPACT-SERIALIZATION-BOUNDED-RESULT.json",
+      "bounded_result_blob_sha1": "30eb5b36f357c0474454189c8ff52549d943f277",
+      "bounded_result_canonical_sha256": "c1d79706eaa83f67995836c9bddd074da7a246822277897f094ffb0e12b9d041",
+      "bounded_H16_stream_sha256": "fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8"
+    }
+  },
+  "source_population": {
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "hpadj22_population_key": "BC_CANONICAL_ORDER_X0_X1_X5_X6_X8_X9_X10_WITH_REQUIRED_X4_PARITY_AND_QBC",
+    "new_key": "(b,c,support,required_parity,qBC,t)",
+    "marginal_relation": "SUM_OVER_T_REPRODUCES_HPADJ22_JOINT_QBC_REQUIRED_PARITY_HISTOGRAM_EXACTLY",
+    "bounded_H16_marginal_replay_pass": true
+  },
+  "target_consumer": {
+    "lane": "32-01-178",
+    "operation": "Replace parity-hull feasible-t relaxation by the exact t-support set before downstream qcut/GRF04 counting.",
+    "consumer_must_source_lock_producer": true,
+    "consumer_must_replay_or_validate_stream_hash": true,
+    "consumer_must_preserve_multiplicity_when_needed": true,
+    "consumer_must_not_claim_raw_hull_hole_count_as_terminal_saving": true,
+    "consumer_must_compute_same_population_numeric_effect_separately": true
+  },
+  "current_main_observation": {
+    "repository_main": "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3",
+    "merged_main_transition": "V48_178_SUPPORT_QBC",
+    "v48_upper_bound": "128470212118313474449",
+    "full178_numerical_census_complete": true,
+    "primary_incomplete": "32-02_EFFECTIVITY_SURVIVOR_DISPOSAL"
+  },
+  "scope": {
+    "bounded_H": 16,
+    "full178_producer_complete": false,
+    "full178_scaleout_armed": false,
+    "heavy_execution_authorized": false,
+    "bounded_consumer_equivalence_ready": true,
+    "full178_consumer_handoff_ready": false
+  },
+  "next_gate": {
+    "id": "HPADJ23_FULL178_PRODUCER_SCALEOUT_PREFLIGHT",
+    "goal": "Design a resumable source-locked producer-only FULL178 exact-t histogram scaleout, estimate artifact size/runtime from bounded data, and keep it cold until explicitly armed.",
+    "requires_heavy_authorization_before_execution": true
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "main_numeric_authority_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "d31608f8ab1aa9e0c9b11d71c4e560b1fa9f3eef6f26bb2b56145ca937d38615"
+}

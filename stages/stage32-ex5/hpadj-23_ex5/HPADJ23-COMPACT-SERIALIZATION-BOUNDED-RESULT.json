@@ -1,0 +1,62 @@
+{
+  "schema": "STAGE32EX5_HPADJ23_COMPACT_SERIALIZATION_BOUNDED_RESULT_V1",
+  "route_id": "HPADJ-23_ex5",
+  "status": "BOUNDED_H16_COMPACT_SERIALIZATION_PASS__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "builder_path": "stages/stage32-ex5/hpadj-23_ex5/build_exact_t_joint_histogram.py",
+    "builder_blob_sha1": "c02973cb9d7fdea7584661a9c5935a43e12efe92",
+    "builder_result_canonical_sha256": "0ab20358bdcb62c487cd0213b0156f2f7a95875e147e4733e0f65c7d3df72db3",
+    "serializer_path": "stages/stage32-ex5/hpadj-23_ex5/serialize_exact_t_histogram.py",
+    "serializer_blob_sha1": "91be480f62de7c8cac63c4ddc37a372cc3fed33d"
+  },
+  "serialization_contract": {
+    "format": "UTF8_JSONL",
+    "record_shape": "[b,c,support,required_parity,qBC,[[t,multiplicity],...]]",
+    "record_order": "lexicographic by (b,c,support,required_parity,qBC)",
+    "t_pair_order": "strictly increasing t",
+    "integer_encoding": "canonical JSON decimal integers",
+    "json_separators": [
+      ",",
+      ":"
+    ],
+    "line_terminator": "LF"
+  },
+  "bounded_H16_stream": {
+    "stream_sha256": "fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8",
+    "line_count": 47667,
+    "utf8_bytes": 2248811,
+    "exact_t_support_entries": 207474,
+    "canonical_tuple_multiplicity": 1305021
+  },
+  "replay": {
+    "roundtrip_exact_histogram_match": true,
+    "hpadj22_qbc_required_parity_marginal_H16_match": true,
+    "full178_numeric_consumer_replay_performed": false
+  },
+  "handoff_semantics": {
+    "producer_lane": "EX5",
+    "consumer_lane": "32-01-178",
+    "payload_semantics": "EXACT_T_SUPPORT_PRODUCER_INTERFACE",
+    "current_support_qbc_hull_can_be_replaced_by_exact_t_set_only_after_consumer_source_binding": true,
+    "consumer_savings_not_computed_here": true,
+    "same_population_main_replacement_not_claimed_here": true
+  },
+  "next_gate": {
+    "id": "HPADJ23_BOUNDED_PRODUCER_HANDOFF",
+    "goal": "Retain a source-locked bounded producer handoff for 32-01-178 and keep FULL178 scaleout cold until a separate execution preflight is justified.",
+    "heavy_execution_authorized": false,
+    "full178_scaleout_authorized": false
+  },
+  "firewalls": {
+    "stage32_main_credit": false,
+    "full178_completion_credit": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "c1d79706eaa83f67995836c9bddd074da7a246822277897f094ffb0e12b9d041"
+}

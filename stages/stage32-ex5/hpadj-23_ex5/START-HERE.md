@@ -34,3 +34,9 @@ This is structural producer evidence only. No V48 coordinate was recomputed and 
 The scalable source-locked builder is now retained and bounded-replayed through H=16. It reproduces the HPADJ22 qBC/required-parity marginals exactly at H=4 and H=16, while the H=4 exact-t histogram also matches literal brute force. At H=16 there are 47,667 exact bins; 39,995 are strict versus the current hull and 196,035 hull-only t-points are removed. After required-parity marginalization, 20,599 of 26,674 bins remain strict and 90,022 hull-only t-points are removed.\n\nThe next gate is a compact serialization/handoff contract for 32-01-178. Heavy/FULL178 scaleout remains cold.
 
 Merge is not authorized.
+
+## Bounded producer handoff retained
+
+The H=16 producer is now serialized deterministically as UTF-8 JSONL records `[b,c,support,required_parity,qBC,[[t,multiplicity],...]]`. The retained stream identity is 47,667 records, 207,474 exact-t entries, 2,248,811 bytes and SHA-256 `fa84df0ba610c8afec76599a93abe46ed0e494cc3544568f03e6669131d1b4f8`.
+
+The bounded handoff is ready for a 32-01-178 consumer preflight only. It is not a FULL178 producer handoff, does not compute a V48 saving, and does not alter MAIN authority. The next EX5 gate is a cold FULL178 producer-scaleout preflight: partitioning, resume semantics and resource estimates only; no heavy run is armed.
