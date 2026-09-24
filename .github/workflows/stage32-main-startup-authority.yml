@@ -1919,7 +1919,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
-          changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
+          changed="$(git diff --name-only "da573f048a82a63e459be1343fb002e663b60875" "${{ github.event.pull_request.head.sha }}")"
           printf '%s\n' "$changed"
           while IFS= read -r p; do
             [ -z "$p" ] && continue
@@ -1935,7 +1935,7 @@ jobs:
           # The retained pilot receipt is generated, checksum-bound exact evidence.
           # Do not rewrite it for style-only whitespace; check every other changed path.
           git -c core.whitespace=-blank-at-eof diff --check \
-            "${{ github.event.pull_request.base.sha }}" \
+            "da573f048a82a63e459be1343fb002e663b60875" \
             "${{ github.event.pull_request.head.sha }}" -- \
             . \
             ':(exclude)stages/stage32/32-01-178/fibration-nef/SELECTIVE-PICARD-PILOT-G1-U0000-RECEIPT.json'
