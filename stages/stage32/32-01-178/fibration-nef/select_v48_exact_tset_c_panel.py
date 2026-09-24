@@ -101,7 +101,7 @@ def main() -> None:
             tiers=profiles[aa][sa]
             if tiers:
                 qa_values.update(int(q) for q,_ in tiers if 0<=int(q)<=tq)
-    qa_values=sorted(qa_values)
+    qa_values=sorted(qa_values)[-64:]  # selector heuristic only; exact cell replay below uses every qA tier
 
     rows_out=[]
     for c in range(h+1):
@@ -175,7 +175,7 @@ def main() -> None:
         "target":{"row_index":22,"row_id":row_id,"g":g,"d":d,"b":b},
         "selected_c":selected,
         "top_rows":ranked[:10],
-        "coverage":{"eligible_c_rows":len(rows_out),"qa_values":len(qa_values)},
+        "coverage":{"eligible_c_rows":len(rows_out),"selector_qa_values":len(qa_values),"selector_uses_highest_qA_tiers":True},
         "semantics":{
             "selector_score_is_not_terminal_credit":True,
             "selector_omits_a_e_profile_weights":True,
