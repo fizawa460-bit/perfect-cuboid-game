@@ -23,7 +23,14 @@ for x in p["hierarchical_targets"]:
 r=p["resource_preflight"]
 assert r["repository_storage_budget_bytes"]==500000000
 assert r["planned_effective_heavy_concurrency"]==12<=r["repository_stage_concurrency_ceiling"]==18
-assert r["storage_gate_passed"] is False
+assert r["evidence_unit_count"]==2684
+assert r["flat_bc16_child_count"]==576
+assert r["hierarchical_bc64_child_count"]==2108
+assert r["representative_child_certificate_hard_cap_bytes"]==65536
+assert r["projected_peak_storage_bytes"]==175898624
+assert r["projected_peak_storage_bytes"] < r["repository_storage_budget_bytes"]
+assert r["storage_gate_passed"] is True
+assert r["raw_child_state_upload_forbidden"] is True
 a=p["authorization"]
 assert a["runkey_generation"]==0 and a["runkey_armed"] is False and a["heavy_compute_authorized"] is False
 assert all(v is False for v in p["credit"].values())
