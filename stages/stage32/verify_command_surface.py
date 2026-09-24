@@ -52,6 +52,7 @@ def main() -> None:
         "stage32ex5-mainbatch", "stage32ex5-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
         "stage32mb-mainbatch", "stage32mb-fib", "stage32mb-fib-audit", "stage32mb-audit",
+        "stage32bridge-mainbatch", "stage32bridge-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
     req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
@@ -74,6 +75,13 @@ def main() -> None:
     req(ex5["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 state path drift")
     req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
+
+    bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
+    req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
+    bridge = bridge_rows[0]
+    req(bridge["state_path"] == "stages/stage32/generalization-bridge/STATE.json", "BRIDGE state path drift")
+    req(bridge["startup_path"] == "stages/stage32/generalization-bridge/MAIN-START-HERE.md", "BRIDGE startup path drift")
+    req(bridge["demand_state_path"] is None, "BRIDGE unexpected local demand mirror")
 
     fib_rows = [row for row in lanes["lanes"] if row.get("lane") == "MB-FIB"]
     req(len(fib_rows) == 0, "MB-FIB must remain outside the Stage32 claim-lane adapter registry")

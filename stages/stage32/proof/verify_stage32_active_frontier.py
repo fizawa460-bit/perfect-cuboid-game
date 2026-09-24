@@ -42,10 +42,10 @@ REQUIRED_ACTIVE_IDS = {
     "S32.GOAL.STAGE32_CLOSURE.V2",
 }
 # Mathematical active-frontier lane_links remain the historical MAIN/EX contract.
-# 178/CUT/MB are routing-only specialists enrolled in LANE-ADAPTERS V2; they do
+# 178/CUT/MB/BRIDGE are routing-only specialists enrolled in LANE-ADAPTERS V2; they do
 # not become claim-DAG lane_links merely because they are operationally routed.
 CLAIM_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
-ROUTING_LANES = CLAIM_LANES | {"32-01-178", "CUT", "MB"}
+ROUTING_LANES = CLAIM_LANES | {"32-01-178", "CUT", "MB", "BRIDGE"}
 ALLOWED_LANE_ROLES = {"OWNER", "ATTACKS", "CONSUMES"}
 ALLOWED_FRONTIER_STATUS = {
     "AUDITED_TRUE", "OPEN_GOAL", "OPEN_BRANCH", "BLOCKED_OPEN_GOAL", "ACTIVE_INCOMPLETE"
@@ -59,6 +59,7 @@ SPECIALIST_FRONTIER_REFS = {
     "32-01-178": {"S32.FULL178.NUMERICAL_CENSUS.V2"},
     "CUT": {"S32.FULL178.NUMERICAL_CENSUS.V2"},
     "MB": {"S32.GOAL.STAGE32_CLOSURE.V2"},
+    "BRIDGE": {"S32.FULL178.NUMERICAL_CENSUS.V2"},
 }
 
 
