@@ -29,7 +29,7 @@ jobs:
           p=Path("stages/stage32/32-01-178/fibration-nef/run_v48_support_qbc_exact_tset_cell_probe.py")
           raw=p.read_bytes()
           got=hashlib.sha1(b"blob "+str(len(raw)).encode()+b"\0"+raw).hexdigest()
-          assert got=="58720e209e7153bcbf5ff2ca167629f84cd7e8f4", got
+          assert got=="b16b07ca00aae72f5c392f298c3abb632b8d33e3", got
           PY
       - name: Materialize frozen sources
         run: |
