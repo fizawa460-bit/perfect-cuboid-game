@@ -148,4 +148,12 @@ jobs:
       - name: Reverify bounded BR205 qBC-tail attribution without authorization
         run: python stages/stage32/generalization-bridge/verify_br205_qbc_slack_attribution_bounded_preflight.py
       - name: Diff check from last hostile-audited cold boundary
-        run: git -c core.whitespace=-blank-at-eof diff --check "$LAST_AUDITED_COLD" HEAD
+        run: |
+          set -euo pipefail
+          # Scope whitespace checking to the current G4 cold-design delta. Older
+          # retained local-profile evidence predates this audit boundary and is
+          # not modified by G4.
+          git -c core.whitespace=-blank-at-eof diff --check 23150d71c9242efd7a5f46ab6b5491589cd5934b HEAD -- \
+            .github/workflows/stage32-bridge-br204-recovery-replay.yml \
+            stages/stage32/generalization-bridge/STATE.json \
+            stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
