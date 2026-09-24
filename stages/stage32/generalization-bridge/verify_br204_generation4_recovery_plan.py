@@ -21,7 +21,7 @@ assert len(h)==1 and h[0]["parent_bc16_indices"]==list(range(1,16))
 for x in p["hierarchical_targets"]:
     if (x["b"],x["d"])!=(2,148): assert x["parent_bc16_indices"]==list(range(16))
 r=p["resource_preflight"]
-assert r["repository_storage_budget_bytes"]==500000000
+assert r["repository_storage_budget_bytes"]==524288000
 assert r["planned_effective_heavy_concurrency"]==12<=r["repository_stage_concurrency_ceiling"]==18
 assert r["evidence_unit_count"]==2684
 assert r["flat_bc16_child_count"]==576
