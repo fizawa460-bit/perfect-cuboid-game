@@ -80,7 +80,7 @@ def build():
         dual.append(q)
     return F,A,I,RK,R,L,diag,coeff,dual,P,gram
 
-def solve(base4):
+def solve(base4, shard_id=0, shard_count=1, split_index=53):
     F,A,I,RK,R,L,diag,coeff,dual,P,gram=build()
     target=Matrix([D,E,*base4]); ic=I.inv()*target
     if not all(getattr(x,"q",1)==1 for x in ic):
@@ -91,7 +91,10 @@ def solve(base4):
     radius_s=q0-LOW+(cross.T*R.inv()*cross)[0]; req(radius_s>=0,"radius")
     radius=fq(radius_s)
     fixed=[fq(x) for x in P*(bp+RK*center_s)]
+    req(shard_count>=1 and 0<=shard_id<shard_count,"shard bounds")
+    req(0<=split_index<N,"split index")
     coords=[0]*N; nodes=prunes=leaves=0; witness=None; tr=hashlib.sha256()
+    assigned_prefixes=skipped_prefixes=0
 
     def ev(*p): tr.update(("|".join(map(str,p))+"\n").encode())
     def viable(next_i,rem):
@@ -102,7 +105,7 @@ def solve(base4):
             if impossible: prunes+=1; ev("P",next_i,k,fixed[k],rem); return False
         return True
     def rec(i,rem):
-        nonlocal nodes,leaves,witness
+        nonlocal nodes,leaves,witness,assigned_prefixes,skipped_prefixes
         if witness is not None: return
         nodes+=1; ev("N",i,rem)
         alpha=-center[i]
@@ -119,7 +122,18 @@ def solve(base4):
                 any_possible=True; coords[i]=val
                 for k in range(140): fixed[k]+=coeff[k][i]*transformed
                 nr=rem-cost
-                if viable(i-1,nr):
+                # Exact sharding happens on complete feasible prefixes at one
+                # recursion level.  A prefix is assigned by a stable SHA256
+                # residue, so shards are pairwise disjoint and their union is
+                # exactly the unsharded search tree below split_index.
+                assigned=True
+                if i==split_index and shard_count>1:
+                    prefix=tuple(coords[j] for j in range(i,N))
+                    residue=int(hashlib.sha256(repr(prefix).encode()).hexdigest(),16)%shard_count
+                    assigned=(residue==shard_id)
+                    if assigned: assigned_prefixes+=1
+                    else: skipped_prefixes+=1
+                if assigned and viable(i-1,nr):
                     if i: rec(i-1,nr)
                     else:
                         leaves+=1
@@ -143,11 +157,16 @@ def solve(base4):
       "classification":"BAD_SHELL_SAT_WITNESS" if witness else "BAD_SHELL_UNSAT_EXACT",
       "complete":True,"kernel_dimension":N,"all140_pruning":True,"node_count":nodes,
       "intersection_prune_count":prunes,"feasible_leaf_count":leaves,"transcript_sha256":tr.hexdigest(),
-      "elapsed_seconds":elapsed,"witness":witness,"credit":{"effectivity":False,"main":False}}
+      "elapsed_seconds":elapsed,"witness":witness,
+      "shard":{"id":shard_id,"count":shard_count,"split_index":split_index,
+               "assigned_prefix_count":assigned_prefixes,"skipped_prefix_count":skipped_prefixes,
+               "partition":"SHA256_REPR_PREFIX_MOD_COUNT_V1"},
+      "credit":{"effectivity":False,"main":False}}
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--base4",nargs=4,type=int,required=True); ap.add_argument("--output",type=Path,required=True); a=ap.parse_args()
-    out=solve(tuple(a.base4)); out["canonical_sha256_without_this_field"]=csha(out)
+    ap=argparse.ArgumentParser(); ap.add_argument("--base4",nargs=4,type=int,required=True); ap.add_argument("--output",type=Path,required=True)
+    ap.add_argument("--shard-id",type=int,default=0); ap.add_argument("--shard-count",type=int,default=1); ap.add_argument("--split-index",type=int,default=53); a=ap.parse_args()
+    out=solve(tuple(a.base4),a.shard_id,a.shard_count,a.split_index); out["canonical_sha256_without_this_field"]=csha(out)
     a.output.parent.mkdir(parents=True,exist_ok=True); a.output.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n")
     print("EFF_AFFINE01_FP58="+out["classification"]); print("CANONICAL="+out["canonical_sha256_without_this_field"])
 if __name__=="__main__": main()
