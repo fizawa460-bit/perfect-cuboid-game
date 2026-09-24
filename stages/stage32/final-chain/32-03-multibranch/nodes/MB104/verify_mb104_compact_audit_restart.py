@@ -249,7 +249,7 @@ def main():
         req(all(x is False for x in aw["firewalls"].values()), "anti-invariant wall firewalls")
 
         z12=d["retained_frontier"]["z12_current_main_btva_adapter_check"]
-        req(z12["current_main_observed"] == "da573f048a82a63e459be1343fb002e663b60875", "Z12 current-main observation")
+        req(z12["current_main_observed"] == "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3", "Z12 current-main observation")
         req(z12["main_btva_preflight_blob"] == "68108dfb110c4ea1d9dc0d74564a431bbbffbbde", "MAIN BTVA source")
         req(z12["exact_adapter_exists"] is False, "Z12 adapter mismatch")
         req(z12["firewalls"]["main_btva_credit_imported"] is False, "no MAIN BTVA import")
@@ -437,9 +437,17 @@ def main():
         req("size48 inert-7 CM obstruction on the 000707 mixed-type support" in park["must_not_reopen_without_trigger"], "CM no-reopen firewall")
         req("conductor pair norm/determinant/Fitting/trace-zero low-degree compression without a new marked lift" in park["must_not_reopen_without_trigger"], "pair-compression anti-loop firewall")
         chk=park["last_reopen_check"]
-        req(chk["checked_at_jst"] == "2026-09-24T21:35:00+09:00", "reopen refresh date")
-        req(chk["current_main_observed"] == "da573f048a82a63e459be1343fb002e663b60875", "reopen current main")
+        req(chk["checked_at_jst"] == "2026-09-24T22:07:44+09:00", "reopen refresh date")
+        req(chk["current_main_observed"] == "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3", "reopen current main")
         req(chk["cross_lane_checked"]["head_observed"] == "8d2d592b25838f68ff44c4c06a579c21ead071cd", "reopen MB-FIB head")
+        req(chk["current_main_change_since_prior_check"] is True, "reopen main changed")
+        req(chk["current_main_delta"]["current_repository_main"] == "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3", "reopen V48 main delta")
+        req(chk["current_main_delta"]["mb_reopen_semantic_adapter"] is False, "reopen V48 semantic mismatch")
+        req(chk["branch_vs_current_main"]["status"] == "DIVERGED" and chk["branch_vs_current_main"]["rebase_performed"] is False, "reopen divergence no rebase")
+        req(chk["cross_lane_checked"]["status_observed"] == "GEN26_ADAPTIVE_X58_CONCURRENCY8_COLD__FROZEN_PENDING_EXTERNAL_HOSTILE_AUDIT__ZERO_CREDIT", "reopen MB-FIB status")
+        req(chk["cross_lane_checked"]["current_heavy_execution_authorized"] is False, "reopen MB-FIB heavy firewall")
+        req(chk["external_refresh"]["ancillary_inventory_live_confirmed"] is True, "reopen BTVA ancillary inventory")
+        req(chk["external_refresh"]["general_m_support_specific_interface_obtained"] is False and chk["external_refresh"]["reopen_trigger_satisfied"] is False, "reopen BTVA trigger remains false")
         req(chk["cross_lane_checked"]["gen26_frozen_exact_target"] == "ea23abf3acd5696f9ea0c9d570ec6e827a069d38", "reopen MB-FIB frozen target")
         req(chk["cross_lane_checked"]["exact_missing_direct_datum"].startswith("branch-specific conductor transition"), "reopen missing conductor datum")
         req(all(x is False for x in chk["trigger_matches"].values()), "reopen triggers remain false")
