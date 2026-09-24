@@ -8,6 +8,8 @@ import json
 import sys
 from pathlib import Path
 
+import flint
+from flint import fmpz_mat
 from sympy import Matrix
 from sympy.matrices import MatrixBase
 
@@ -151,31 +153,56 @@ def main() -> None:
     req(normal_sum + 5 * exceptional_sum == 19 * degree_row,
         "normal+5 exceptional=19 degree identity mismatch")
 
-    nullspace = fixed_map.nullspace()
-    req(len(nullspace) == PICARD_RANK - fixed_rank, "rational kernel dimension drift")
-    kernel = Matrix.hstack(*nullspace)
-    req(kernel.shape == (PICARD_RANK, 58), "kernel shape drift")
-    req(fixed_map * kernel == Matrix.zeros(6, 58), "kernel equality replay drift")
+    # Exact saturated integer affine decomposition, following the retained
+    # historical Stage32 affine-lattice backend but for the six-observable
+    # (d,e,a,b,c,t) fiber instead of the old ten-budget map.
+    fixed_rows = [[int(fixed_map[i, j]) for j in range(PICARD_RANK)] for i in range(6)]
+    fixed_flint = fmpz_mat(fixed_rows)
+    hnf_flint, transform_flint = fixed_flint.transpose().hnf(transform=True)
+    hnf = Matrix([[int(hnf_flint[i, j]) for j in range(hnf_flint.ncols())]
+                  for i in range(hnf_flint.nrows())])
+    transform = Matrix([[int(transform_flint[i, j]) for j in range(transform_flint.ncols())]
+                        for i in range(transform_flint.nrows())])
+    req(hnf == transform * fixed_map.T, "HNF transform replay drift")
+    req(abs(int(transform_flint.det())) == 1, "HNF transform is not unimodular")
+    req(all(hnf[i, j] == 0 for i in range(6, PICARD_RANK) for j in range(6)),
+        "HNF image/kernel split drift")
 
-    negative_gram = -(kernel.T * gram * kernel)
+    transform_t = transform.T
+    affine_columns = transform_t[:, :6]
+    integer_kernel = transform_t[:, 6:]
+    image_basis = fixed_map * affine_columns
+    req(image_basis == hnf[:6, :].T, "HNF image basis replay drift")
+    req(integer_kernel.shape == (PICARD_RANK, 58), "integer kernel shape drift")
+    req(integer_kernel.rank() == 58, "integer kernel rank drift")
+    req(fixed_map * integer_kernel == Matrix.zeros(6, 58), "integer kernel equality replay drift")
+
+    negative_gram = -(integer_kernel.T * gram * integer_kernel)
     req(negative_gram == negative_gram.T, "restricted negative Gram lost symmetry")
-    ldl_l, ldl_d = negative_gram.LDLdecomposition(hermitian=False)
-    req(negative_gram == ldl_l * ldl_d * ldl_l.T, "exact LDL replay drift")
+    negative_flint = fmpz_mat([[int(negative_gram[i, j]) for j in range(58)] for i in range(58)])
+    reduced_flint, lll_flint = negative_flint.lll(transform=True, rep="gram", gram="exact")
+    lll_transform = Matrix([[int(lll_flint[i, j]) for j in range(58)] for i in range(58)])
+    reduced_gram = Matrix([[int(reduced_flint[i, j]) for j in range(58)] for i in range(58)])
+    req(abs(int(lll_flint.det())) == 1, "Gram-LLL transform is not unimodular")
+    req(reduced_gram == lll_transform * negative_gram * lll_transform.T,
+        "Gram-LLL replay drift")
+
+    ldl_l, ldl_d = reduced_gram.LDLdecomposition(hermitian=False)
+    req(reduced_gram == ldl_l * ldl_d * ldl_l.T, "exact LDL replay drift")
     diagonal = [ldl_d[i, i] for i in range(ldl_d.rows)]
-    req(all(v > 0 for v in diagonal), "base4/e/d kernel is not negative definite")
+    req(all(v > 0 for v in diagonal), "base4/e/d saturated kernel is not negative definite")
 
     target = Matrix([TARGET_DEGREE, TARGET_EXCEPTIONAL_MASS, 0, 1, 1, 1])
-    # This target is the first retained EFF-CFRR01 sample key.  Structural
-    # preflight only checks rational affine consistency; integral HNF image
-    # certification is deliberately left to the next exact unit.
-    rational_solution = fixed_map.gauss_jordan_solve(target)[0]
-    req(fixed_map * rational_solution == target, "sample rational affine solve drift")
+    image_coordinates = image_basis.inv() * target
+    sample_integral_image = all(getattr(v, "q", 1) == 1 for v in image_coordinates)
+    sample_base_point = affine_columns * image_coordinates
+    req(fixed_map * sample_base_point == target, "sample HNF affine solve drift")
 
     out = {
         "schema": "STAGE32EX5_EFF_AFFINE01_BASE4_KERNEL_PREFLIGHT_V1",
         "stage": "32EX5",
         "route_id": "EX5-EFF-AFFINE01",
-        "status": "STRUCTURAL_PASS_RANK6_KERNEL58_NEGATIVE_DEFINITE__INTEGER_SATURATION_NOT_YET_CERTIFIED",
+        "status": "STRUCTURAL_PASS_HNF_SATURATED_KERNEL58_NEGATIVE_DEFINITE_GRAM_LLL_READY",
         "authority": {
             "repository_main": "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3",
             "stage32_primary_incomplete": "32-02_EFFECTIVITY_SURVIVOR_DISPOSAL",
@@ -195,28 +222,39 @@ def main() -> None:
         "fixed_fiber": {
             "fixed_observables": ["d", "e", "a", "b", "c", "t"],
             "fixed_map_rank": fixed_rank,
-            "rational_kernel_dimension": kernel.cols,
+            "saturated_integer_kernel_dimension": integer_kernel.cols,
             "fixed_map_sha256": matrix_sha_strings(fixed_map),
-            "rational_kernel_sha256": matrix_sha_strings(kernel),
+            "hnf_sha256": matrix_sha_strings(hnf),
+            "hnf_transform_sha256": matrix_sha_strings(transform),
+            "image_basis_sha256": matrix_sha_strings(image_basis),
+            "hnf_image_diagonal": [int(image_basis[i, i]) for i in range(6)],
+            "hnf_image_index": abs(int(image_basis.det())),
+            "integer_kernel_sha256": matrix_sha_strings(integer_kernel),
             "negative_restricted_gram_sha256": matrix_sha_strings(negative_gram),
+            "lll_transform_sha256": matrix_sha_strings(lll_transform),
+            "reduced_gram_sha256": matrix_sha_strings(reduced_gram),
             "ldl_diagonal_sha256": csha([str(v) for v in diagonal]),
             "restricted_negative_gram_positive_definite": True,
+            "hnf_transform_unimodular": True,
+            "gram_lll_transform_unimodular": True,
             "normal_mass_implied_exactly_by_d_e": True,
             "exceptional_mass_row_equals_all48_sum": True,
-            "sample_rational_affine_key": [0, 1, 1, 1],
-            "sample_rational_affine_consistent": True,
+            "sample_base4_key": [0, 1, 1, 1],
+            "sample_hnf_image_integral": sample_integral_image,
+            "sample_hnf_image_coordinates": [str(v) for v in image_coordinates],
         },
         "interpretation": {
             "what_is_proved":
-                "The EFF-CFRR01 base4/e/d relaxed Picard64 fiber has an exact 58-dimensional rational H-perp kernel with positive-definite -intersection form, so an HNF/Gram-LLL/Fincke-Pohst independent bad-shell checker is structurally applicable.",
+                "The EFF-CFRR01 base4/e/d relaxed Picard64 fiber has an exact saturated 58-dimensional integer H-perp kernel, a unimodular HNF image/kernel split, and a positive-definite exact Gram-LLL reduced -intersection form. The remaining independent certification step is complete Fincke-Pohst bad-shell enumeration with all140 pruning.",
             "what_is_not_proved":
-                "No saturated integer kernel, no bad-shell UNSAT, no five-key pilot result, no effectivity or carrier conclusion, and no MAIN credit are established by this structural preflight.",
+                "No bad-shell UNSAT, no five-key MAIN pilot result, no effectivity or carrier conclusion, and no MAIN credit are established by this structural preflight.",
             "next_exact_unit":
-                "Construct the saturated integer affine kernel/image certificate for the six equalities and port exact Fincke-Pohst shell enumeration with all140 nonnegativity; only then replay candidate bad-shell UNSAT keys independently.",
+                "Port the historical exact Fincke-Pohst recursion to the saturated six-equality base4/e/d fiber, retain all140 nonnegativity pruning, and independently replay only keys whose MAIN diagnostic reports bad-shell UNSAT.",
         },
         "firewalls": {
             "main_eff_cfrr01_pilot_executed_by_ex5": False,
-            "integer_affine_image_certified": False,
+            "integer_affine_kernel_and_image_basis_certified": True,
+            "individual_base4_image_membership_requires_per_key_hnf_check": True,
             "fincke_pohst_bad_shell_checker_complete": False,
             "effectivity_credit": False,
             "receiver_credit": False,
@@ -232,7 +270,7 @@ def main() -> None:
     args.output.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print("EFF_AFFINE01_STATUS=" + out["status"])
     print("EFF_AFFINE01_FIXED_RANK=" + str(fixed_rank))
-    print("EFF_AFFINE01_KERNEL_DIM=" + str(kernel.cols))
+    print("EFF_AFFINE01_KERNEL_DIM=" + str(integer_kernel.cols))
     print("EFF_AFFINE01_CANONICAL=" + out["canonical_sha256_without_this_field"])
     print("EFF_AFFINE01_RESULT_JSON=" + json.dumps(out, sort_keys=True, separators=(",", ":")))
 
