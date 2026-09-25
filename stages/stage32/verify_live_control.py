@@ -7,7 +7,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 CURRENT = HERE / "CURRENT.json"
 DETAIL = HERE / "MAIN-STATE.json"
-LIVE_ROADMAP = HERE / "LIVE-ROADMAP.md"
+FORMAL_ROADMAP = HERE / "ROADMAP.md"
 LIVE_02 = HERE / "final-chain/32-02-effectivity/LIVE.json"
 LIVE_03 = HERE / "final-chain/32-03-multibranch/LIVE.json"
 
@@ -26,14 +26,15 @@ def main() -> None:
     detail = load(DETAIL)
     u2 = load(LIVE_02)
     u3 = load(LIVE_03)
-    roadmap = LIVE_ROADMAP.read_text(encoding="utf-8")
+    roadmap = FORMAL_ROADMAP.read_text(encoding="utf-8")
 
     req(cur["schema"] == "STAGE32_LIVE_CONTROL_V1" and cur["stage"] == 32, "live control schema")
     req(cur["operator_entrypoint"] == "stage32mainbatch", "operator entrypoint")
     req(cur["detail_authority"] == "stages/stage32/MAIN-STATE.json", "detail authority pointer")
     req(cur["formal_roadmap"] == "stages/stage32/ROADMAP.md", "formal roadmap pointer")
-    req(cur["live_roadmap"] == "stages/stage32/LIVE-ROADMAP.md", "live roadmap pointer")
+    req(cur["routing_policy"] == "stages/stage32/MAIN-START-HERE.md", "routing policy pointer")
     req(cur["detail_files_are_on_demand"] is True, "detail files must be on-demand")
+    req(not (HERE / "LIVE-ROADMAP.md").exists(), "duplicate LIVE-ROADMAP resurrected")
 
     target = detail["current_target"]
     frontier = detail["current_exact_frontier"]
@@ -67,19 +68,31 @@ def main() -> None:
     req(u2["internal_helper"]["surface"] == "EX5" and u2["internal_helper"]["read_only_when_needed"] is True, "32-02 helper routing")
     req(u2["internal_helper"]["routing_authority"] is False, "EX5 routing authority leak")
     req(all(v is False for v in u2["credit"].values()), "32-02 credit leak")
+    req("close_criterion" not in u2, "32-02 live pointer duplicated formal close criterion")
+    req(u2["formal_spec"] == "stages/stage32/ROADMAP.md", "32-02 formal spec pointer")
+    req(u2["formal_spec_role"] == "SOLE_OWNER_OF_UNIT_DEFINITION_AND_CLOSE_CRITERION", "32-02 formal ownership")
 
     req(u3["schema"] == "STAGE32_32_03_LIVE_V1" and u3["status"] == "ACTIVE_PARALLEL_INCOMPLETE_ZERO_CREDIT", "32-03 live schema/status")
     req(u3["internal_surface"] == "MB", "32-03 MB routing")
     req(u3["auxiliary"]["surface"] == "MB-FIB" and u3["auxiliary"]["read_only_when_mb_selects_it"] is True, "MB-FIB preload leak")
     req(all(v is False for v in u3["credit"].values()), "32-03 credit leak")
+    req("close_criterion" not in u3, "32-03 live pointer duplicated formal close criterion")
+    req(u3["formal_spec"] == "stages/stage32/ROADMAP.md", "32-03 formal spec pointer")
+    req(u3["formal_spec_role"] == "SOLE_OWNER_OF_UNIT_DEFINITION_AND_CLOSE_CRITERION", "32-03 formal ownership")
 
     for token in (
+        "### 32-02-L — rigorous effectivity certification",
         "UNKNOWN_EFFECTIVITY_SURVIVOR_COUNT=0",
+        "R29_LG2_EFF=DISCHARGED",
+        "### 32-03-L — multibranch-at-node carrier ledger",
         "MULTIBRANCH_LOW_GENUS_LEDGER_COMPLETE=true",
-        "32-05 external hostile audit",
-        "does not by itself prove Perfect Cuboid existence/nonexistence",
+        "R29_LG2_MB=DISCHARGED",
+        "### 32-04-M — low-genus carrier synthesis and final certificate",
+        "### 32-05 — final hostile audit and close",
+        "PERFECT_CUBOID_EXISTENCE_CLAIM=false",
+        "PERFECT_CUBOID_NONEXISTENCE_CLAIM=false",
     ):
-        req(token in roadmap, f"live roadmap missing: {token}")
+        req(token in roadmap, f"formal roadmap missing load-bearing token: {token}")
 
     print("PASS: Stage32 compact live control matches retained detailed authority")
     print("PASS: ordinary startup may avoid MAIN-STATE/detail layers until load-bearing")
