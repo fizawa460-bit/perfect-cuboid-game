@@ -1,25 +1,13 @@
-# Stage32 integrated EX1-EX4 view
+# Stage32 integrated EX view — retained index
 
-This directory is the user-facing organizational view for the completed or dominated Stage32 EX1-EX4 investigations.
+This directory is a retained organizational view of older EX investigations. It is **not** an ordinary startup or routing surface.
 
-The canonical audited evidence is **not physically moved** from `stages/stage32-ex1` through `stages/stage32-ex4`. Those paths are retained because hostile-audited claim cores, replay verifiers, and source locks bind to exact historical paths. Moving them only for cosmetics would create avoidable audit/versioning debt.
+Current navigation:
 
-Operational rule:
+- EX1–EX4: `stages/stage32/retained/ex1/` through `ex4/`;
+- EX6: `stages/stage32/retained/ex6/`;
+- EX5: current internal 32-02 helper projection at `stages/stage32/internal/ex5/LIVE.json`.
 
-- use `stage32main batch` for ordinary Stage32 continuation;
-- treat EX1-EX4 as integrated Stage32 subresearch/provenance, not as independent ordinary work lanes;
-- re-enter any of EX1-EX4 only through an explicit new target or routing contract;
-- EX5 remains separate and active while its FULL178 route is still under construction;
-- this organizational integration grants no new mathematical credit.
+Canonical historical evidence remains at the legacy `stages/stage32-ex*/` paths where source locks and replay verifiers depend on exact locations.
 
-Current integrated status:
-
-| former lane | integrated Stage32 status | load-bearing consequence |
-| --- | --- | --- |
-| EX1 | completed, audited, consumed by MAIN | no integral irreducible genus-1 V6 carrier in the exact fixed population |
-| EX2 | dominated by audited EX1/MAIN V6 nonexistence | member-reconstruction work is provenance only |
-| EX3 | O210 result/adapter consumed by MAIN | O210 V3 authority is already part of Stage32 MAIN; old EX3 startup state is historical |
-| EX4 | audited bounded terminal, parked | frozen source package cannot select an absolute W-line; no active selected-route attack |
-| EX5 | **not integrated yet** | remains active on FULL178 / receiver breadth |
-
-See `ex1.md` through `ex4.md` for the bounded status of each integrated investigation.
+The files in this directory are retained summaries/provenance only. They do not define current dispatch, current active units, mathematical close criteria, or credit.

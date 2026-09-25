@@ -1,19 +1,27 @@
 # Stage32
 
-This README is a layout map only. It is not a startup/read-order contract and is not current mathematical routing authority. `stage32mainbatch` resolves through `COMMANDS.md` to the single MAIN startup contract `MAIN-START-HERE.md`; mutable routing/credit comes from `MAIN-STATE.json`, and operational cross-lane dependencies come from `proof/CROSS-LANE-DEMANDS.json`.
+Navigation only. This file is not mathematical authority.
 
-The retained final-chain architecture is `32-01 FULL178 -> 32-02 effectivity -> 32-03 multibranch -> 32-04 synthesis -> 32-05 hostile audit`; which step is currently active must be read from `MAIN-STATE.json`, not inferred from this README.
+For ordinary work:
 
-## Layout
+```text
+AGENTS.md
+  -> stages/stage32/MAIN-START-HERE.md
+  -> stages/stage32/CURRENT.json
+  -> selected unit LIVE.json
+```
 
-- `32-01-178/` — FULL178 specialist surface. Ordinary startup is `32-01-178/MAIN-START-HERE.md`; `MISSION.json` and Generation-1 child-lane history are on-demand evidence, not a competing startup contract.
-- `integrated-ex/` — integrated historical/user-facing view of former EX1-EX4 subresearch.
-- `residual-32-01-production/` — retained FULL178 production evidence/code consumed through current routing.
-- `proof/` — claim/frontier registries, adapters, demand coordination, and FINAL-CHECK support.
-- `management/` — routing/checkpoint records.
-- `archive/` — historical root documents and cleanup manifests.
-- `scratch/`, `scouts/`, `runkeys/`, `audits/` — bounded operational support.
+Use:
 
-EX5 remains a separate specialist surface and is consumed only through current source-locked interfaces and the required audit/promotion gates.
+- `MAIN-START-HERE.md` — sole ordinary startup/dispatch policy;
+- `CURRENT.json` — compact current-status projection;
+- `ROADMAP.md` — sole formal unit definitions and close criteria;
+- `SURFACES.md` — live/internal/retained repository map;
+- `proof/` — claim/audit/evidence management, opened on demand;
+- `internal/` — internal execution helpers selected by MAIN;
+- `retained/` — navigation for completed, parked, dominated, or historical surfaces;
+- `final-chain/` — current 32-02/32-03 execution subtrees.
 
-Old numbered Stage32 paths are retained because verifiers/source locks may depend on them. Their presence does not make them ordinary startup authority. New loose root files should be limited to true startup/authority interfaces; put orchestration, management, proof, and historical material in their designated subdirectories.
+Legacy physical directories such as `stage32-ex*`, `32-01-178/`, `full178-cut/`, `generalization-bridge/`, `32-02/`, and `32-03/` remain where source locks or historical replay require exact paths. Their presence does not make them live routing authorities.
+
+Do not infer current work from directory names. Start from `MAIN-START-HERE.md`.
