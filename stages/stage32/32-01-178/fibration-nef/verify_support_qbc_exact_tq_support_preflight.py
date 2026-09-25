@@ -125,7 +125,7 @@ def bounded_literal_regression():
     }
 
 
-def active_cell_stats(rmin,c:int):
+def active_cell_stats(rmin,canon_mod,c:int):
     b=36
     t_domain=tuple(range(c&1,b+c+1,2))
     exact_hist_qbc_bins=0
@@ -137,8 +137,7 @@ def active_cell_stats(rmin,c:int):
     for support in range(8):
         for r in (0,1):
             floors={t:rmin.canonical_r_joint_q_lower(
-                load(CANON,"exact_tq_canon_"+str(c)+"_"+str(support)+"_"+str(r)),
-                b,c,t,support,r
+                canon_mod,b,c,t,support,r
             ) for t in t_domain}
             qsets={t:exact_q_values(b,c,t,support,r,QCAP) for t in t_domain}
             union=set()
@@ -182,6 +181,7 @@ def main():
         "retained panel canonical drift")
 
     rmin=load(RMIN,"exact_tq_rmin")
+    canon_mod=load(CANON,"exact_tq_canon")
 
     literal=bounded_literal_regression()
     req(literal=={
@@ -202,7 +202,7 @@ def main():
     stats=[]
     retained={int(x["c"]):int(x["active_tset_states"]) for x in panel["cells"]}
     for c in (83,85,89):
-        row=active_cell_stats(rmin,c)
+        row=active_cell_stats(rmin,canon_mod,c)
         for k,v in expected[c].items():
             req(int(row[k])==v,f"active exact-q summary drift {(c,k,row[k],v)}")
         req(row["exact_hist_qbc_bins"]==retained[c],
