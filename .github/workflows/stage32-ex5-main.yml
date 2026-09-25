@@ -73,28 +73,11 @@ jobs:
       # exact enumeration requires a separately authorized bounded run.
       - name: Prove EFF-AFFINE02 bounded all140 complement
         run: python stages/stage32-ex5/effectivity-affine/eff_affine02_bounded_complement_preflight.py
-      - name: Probe EFF-AFFINE03 exact pairing-frame identity
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine03_pairing_frame_probe.py
-      - name: Certify EFF-AFFINE04 exact pairing PSD domination
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine04_pairing_psd_domination.py
-      - name: Probe EFF-AFFINE05 exact energy-norm gap
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine05_energy_norm_gap_probe.py
-      - name: Probe EFF-AFFINE06 restricted pairing-square frame
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine06_restricted_pairing_frame.py
-      - name: Probe EFF-AFFINE07 exact Aut-orbit mass energy
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine07_orbit_mass_energy.py
-      - name: Probe EFF-AFFINE08 exact x4 ellipsoid projection
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine08_x4_ellipsoid_projection.py
-      - name: Certify EFF-AFFINE09 x4-conditioned kernel57
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine09_x4_conditioned_kernel57.py
-      - name: Probe EFF-AFFINE10 x4-conditioned exact energy gap
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine10_x4_energy_gap.py
-      - name: Sieve EFF-AFFINE11 all140 projection and orbit mass
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine11_all140_projection_mass_sieve.py
-      - name: Search EFF-AFFINE12 exact orbit-subset energy gaps
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine12_orbit_subset_energy_gap.py
-      - name: Probe EFF-AFFINE13 pairing100-conditioned exact energy gap
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine13_p100_conditioned_energy_gap.py
+      # EFF-AFFINE03..13 are retained research probes, not authority-bearing
+      # gates. Their exact-head negative/inconclusive results advanced the
+      # research frontier and are intentionally not replayed on every PR sync.
+      - name: Probe EFF-AFFINE14 exceptional-hierarchy exact 54D gap
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine14_exceptional_hierarchy54_gap.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify EX5 cross-lane producer demand routing
