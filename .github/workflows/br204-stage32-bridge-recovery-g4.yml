@@ -27,10 +27,12 @@ env:
   PREDECESSOR: stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json
   PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
   DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
-  PLAN_VERIFIER_BLOB: c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde
-  STATE_BLOB: 07bf997024f610787c7f68fe96285db3dedafec1
-  COLD_RUNKEY_BLOB: 30765a051eb1956b5f185f16c8ea4385d69a5334
+  PLAN_VERIFIER_BLOB: a8abc5b24aea8f6ad02eca9ea9acd23997896f3b
+  STATE_BLOB: a89934fafe222a7be646c390c812bb27a7c9a36f
+  COLD_RUNKEY_BLOB: cf5881565057025b9bdcd94c9b6d5682ebb62fad
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
+  BR203_VERIFIER_BLOB: 56c932c90ce2adaf702956e0b600b0a958fd29fe
+  BR203_EMITTER_BLOB: 26f1a0cb87140a5050b01fc1cd076f947091ac27
   WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
   COMBINER_BLOB: 33089c2ca4876650a4ee9c6477e1e6242ad3741c
   GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
@@ -53,7 +55,7 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 2
       - id: gate
-        name: Authorize only hostile-audited generation-2 runkey-only transition
+        name: Authorize only hostile-audited generation-3 runkey-only transition
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -75,6 +77,8 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
           test "$(git hash-object "$STATE")" = "$STATE_BLOB"
           test "$(git hash-object "$PREDECESSOR")" = "$PREDECESSOR_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py)" = "$BR203_VERIFIER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py)" = "$BR203_EMITTER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp)" = "$WORKER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$COMBINER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py)" = "$GROUP_COMBINER_BLOB"
@@ -112,8 +116,14 @@ jobs:
       - name: Build source-locked runtime
         run: |
           set -euo pipefail
-          mkdir -p /tmp/runtime
-          g++ -std=c++20 -O3 -DNDEBUG -pthread -I stages/stage32/generalization-bridge \
+          mkdir -p /tmp/runtime /tmp/build
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py)" = "$BR203_VERIFIER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py)" = "$BR203_EMITTER_BLOB"
+          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/build/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/build/mu.json /tmp/build/br203_mu_generated.hpp
+          test -s /tmp/build/br203_mu_generated.hpp
+          g++ -std=c++20 -O3 -DNDEBUG -pthread -I stages/stage32/generalization-bridge -I /tmp/build \
             stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp -o /tmp/runtime/br204-worker
           cp stages/stage32/generalization-bridge/combine_br204_bc_shards.py /tmp/runtime/
           cp stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py /tmp/runtime/

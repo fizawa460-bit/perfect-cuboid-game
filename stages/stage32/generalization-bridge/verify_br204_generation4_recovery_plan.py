@@ -95,7 +95,7 @@ def validate_static(p, d, s):
     assert d["gates"]["heavy_compute_authorized"] is False
     assert all(v is False for v in d["credit"].values())
 
-    assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V22_G4_GENERATION2_ARM_ADAPTER_COLD"
+    assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V23_G4_GENERATION3_RUNTIME_REPAIR_COLD"
     assert s["source_locks"]["g4_design_blob"]==blob(DESIGN)
     assert s["source_locks"]["g4_plan_blob"]==blob(PLAN)
     assert s["source_locks"]["g4_plan_verifier_blob"]==blob(Path(__file__))
@@ -103,15 +103,15 @@ def validate_static(p, d, s):
     assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
     assert s["generation4_recovery_design"]["generation1_arm_is_inert"] is True
     assert s["generation4_recovery_design"]["heavy_compute_authorized"] is False
-    assert s["generation4_recovery_design"]["next_heavy_generation"]==2
-    assert s["generation4_recovery_design"]["generation2_transition_adapter"]["status"]=="COLD_REPAIRED_AWAIT_HOSTILE_AUDIT"
+    assert s["generation4_recovery_design"]["next_heavy_generation"]==3
+    assert s["generation4_recovery_design"]["generation2_transition_adapter"]["status"]=="AUDITED_PASS_ARMED_CHILD__RUNTIME_FAILED_PRETARGET"\n    assert s["generation4_recovery_design"]["generation3_transition_adapter"]["status"]=="COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT"
     assert s["generation4_recovery_design"]["generation2_transition_adapter"]["runkey_only_child"] is True
-    assert s["next_obligation"]["id"]=="BR204_G4_GENERATION2_ARM_ADAPTER_AUDIT"
+    assert s["next_obligation"]["id"]=="BR204_G4_GENERATION3_RUNTIME_REPAIR_AUDIT"
     assert all(v is False for v in s["credit_firewall"].values())
 
 def validate_cold_runkey(r, expected_blob: str, s):
     assert r["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
-    assert r["generation"]==1 and r["armed"] is True
+    assert r["generation"]==2 and r["armed"] is True
     locks=r["source_locks"]
     assert locks["design_blob"]==blob(DESIGN)
     assert locks["plan_blob"]==blob(PLAN)
@@ -122,6 +122,8 @@ def validate_cold_runkey(r, expected_blob: str, s):
     assert locks["bc_shard_worker_blob"]=="ca0a4985e788455432eb59d603da54fc3c703ea6"
     assert locks["bc_shard_combiner_blob"]=="33089c2ca4876650a4ee9c6477e1e6242ad3741c"
     assert locks["bc64_group_combiner_blob"]=="5986168bca8ec63e1d1aab2e417e9157ae09ef23"
+    assert locks["br203_mu_verifier_blob"]=="56c932c90ce2adaf702956e0b600b0a958fd29fe"
+    assert locks["br203_mu_emitter_blob"]=="26f1a0cb87140a5050b01fc1cd076f947091ac27"
     assert r["storage"]["intermediate_retention_days"]==14
     assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
     ac=r["arm_contract"]
@@ -194,4 +196,4 @@ else:
     new=json.loads(candidate.read_text())
     validate_armed_child(new,old,parent)
 
-print(f"BR204 G4 generation-2 arm adapter {args.mode}: PASS")
+print(f"BR204 G4 generation-3 runtime-repair arm adapter {args.mode}: PASS")

@@ -2,7 +2,7 @@
   "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT",
   "generation": 2,
   "armed": true,
-  "purpose": "Generation-2 runkey-only arm for the hostile-audited BR204 G4 compact recovery execution surface.",
+  "purpose": "Generation-2 authorization succeeded but runtime build failed before any target computation because br203_mu_generated.hpp was not generated. This repaired cold parent requires fresh hostile audit before a generation-3 runkey-only arm.",
   "execution": {
     "target_count": 69,
     "flat_target_count": 36,
@@ -12,12 +12,12 @@
     "target_soft_deadline_seconds": 13500,
     "target_job_timeout_minutes": 330,
     "target_artifact_prefix": "br204-g4-target",
-    "next_heavy_generation": 2
+    "next_heavy_generation": 3
   },
   "source_locks": {
     "design_blob": "6265374f0edd0dc143ffa45c08e42f90dec2207b",
     "plan_blob": "ff067e47f5cef53031b9eb3d1a70d11c16db93e2",
-    "plan_verifier_blob": "c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde",
+    "plan_verifier_blob": "a8abc5b24aea8f6ad02eca9ea9acd23997896f3b",
     "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
     "restored_parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
@@ -26,7 +26,9 @@
     "actions_storage_policy_blob": "69f23db9b280504c1c6c12a58af52182bb052215",
     "bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
     "bc_shard_combiner_blob": "33089c2ca4876650a4ee9c6477e1e6242ad3741c",
-    "bc64_group_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23"
+    "bc64_group_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23",
+    "br203_mu_verifier_blob": "56c932c90ce2adaf702956e0b600b0a958fd29fe",
+    "br203_mu_emitter_blob": "26f1a0cb87140a5050b01fc1cd076f947091ac27"
   },
   "storage": {
     "budget_bytes": 524288000,
@@ -64,11 +66,21 @@
     "execution_surface_changed_after_generation1_arm": true,
     "fresh_hostile_audit_and_generation2_rearm_required": false,
     "generation1_heavy_execution_started": false,
-    "execution_surface_audit_status": "PASS",
+    "execution_surface_audit_status": "PASS_AT_GENERATION2_PARENT__RUNTIME_BUILD_REPAIR_REAUDIT_REQUIRED",
     "execution_surface_failed_exact_head": "d63ed9efe6e0f7bc957de244c7a51b2025eeeca8",
     "execution_surface_failed_review_id": 5313922791,
     "generation2_transition_adapter_status": "AUDITED_PASS_ARMED_CHILD",
-    "generation2_heavy_authorized": true
+    "generation2_heavy_authorized": true,
+    "generation2_authorization_succeeded": true,
+    "generation2_run_id": 36101386917,
+    "generation2_runtime_job_id": 107964448344,
+    "generation2_runtime_failed_before_target": true,
+    "generation2_runtime_failure": "MISSING_BR203_MU_GENERATED_HEADER",
+    "generation2_completed_target_count": 0,
+    "generation2_execution_closed": true,
+    "generation3_transition_adapter_status": "COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT",
+    "generation3_heavy_authorized": false,
+    "fresh_hostile_audit_and_generation3_rearm_required": true
   },
   "credit": {
     "stage32_main": false,

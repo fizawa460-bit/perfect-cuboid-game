@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V22_G4_GENERATION2_ARM_ADAPTER_COLD",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V23_G4_GENERATION3_RUNTIME_REPAIR_COLD",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_GENERATION2_ARM_ADAPTER_REPAIRED__FRESH_AUDIT_REQUIRED",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_RUNTIME_BUILD_REPAIRED__GENERATION3_AUDIT_REQUIRED",
   "current_node": "BR204",
-  "active_leaf": "BR204_G4_GENERATION2_ARM_ADAPTER",
+  "active_leaf": "BR204_G4_GENERATION3_RUNTIME_REPAIR",
   "target": {
     "authority": "stages/stage32/MAIN-STATE.json",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
@@ -26,15 +26,16 @@
     "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
     "g4_design_blob": "6265374f0edd0dc143ffa45c08e42f90dec2207b",
     "g4_plan_blob": "ff067e47f5cef53031b9eb3d1a70d11c16db93e2",
-    "g4_plan_verifier_blob": "c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde",
-    "g4_runkey_blob": "30765a051eb1956b5f185f16c8ea4385d69a5334",
+    "g4_plan_verifier_blob": "a8abc5b24aea8f6ad02eca9ea9acd23997896f3b",
+    "g4_runkey_blob": "cf5881565057025b9bdcd94c9b6d5682ebb62fad",
     "representative_measurement_receipt_blob": "69331aa90b901c3de282d0ee641b2dc82a42b0bb",
     "representative_measurement_payload_blob": "26ca9fcaf37b02daa18acd641c32627e91ab7afc",
     "br202_bounded_result_blob": "06d0d21e5543cd5b5195c93ae431fbc186edd6ba",
     "br203_mu_verifier_blob": "56c932c90ce2adaf702956e0b600b0a958fd29fe",
     "br204_direct_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
     "br204_bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
-    "br204_bc_shard_combiner_blob": "33089c2ca4876650a4ee9c6477e1e6242ad3741c"
+    "br204_bc_shard_combiner_blob": "33089c2ca4876650a4ee9c6477e1e6242ad3741c",
+    "br203_mu_emitter_blob": "26f1a0cb87140a5050b01fc1cd076f947091ac27"
   },
   "predecessor": {
     "certificate_path": "stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json",
@@ -52,18 +53,18 @@
     }
   },
   "generation4_recovery_design": {
-    "status": "COLD_EXECUTION_SURFACE__GEN2_RUNKEY_ONLY_ADAPTER_REPAIRED__AUDIT_REQUIRED__ZERO_CREDIT",
+    "status": "COLD_EXECUTION_SURFACE__GEN2_FAILED_PRETARGET__RUNTIME_BUILD_REPAIRED__GEN3_AUDIT_REQUIRED__ZERO_CREDIT",
     "design_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json",
     "plan_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json",
     "execution_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
     "replay_workflow_path": ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
-    "runkey_generation": 1,
+    "runkey_generation": 2,
     "runkey_armed": true,
     "generation1_arm_is_inert": true,
     "heavy_compute_armed": false,
     "heavy_compute_authorized": false,
-    "next_heavy_generation": 2,
+    "next_heavy_generation": 3,
     "storage_preflight": {
       "status": "PASS_ACTUAL_RETAINED_PREDECESSOR_LOSSLESS_ROUNDTRIP_ZERO_CREDIT",
       "evidence_unit_count": 2688,
@@ -92,11 +93,32 @@
       "heavy_execution_started": false
     },
     "generation2_transition_adapter": {
-      "status": "COLD_REPAIRED_AWAIT_HOSTILE_AUDIT",
+      "status": "AUDITED_PASS_ARMED_CHILD__RUNTIME_FAILED_PRETARGET",
       "runkey_only_child": true,
       "parent_surface_must_be_hostile_audited": true,
       "parent_immutable_surface_bound": true,
       "child_validation": "generation-2 candidate is validated separately from the generation-1 cold runkey pinned by STATE/plan/design",
+      "replay_accepts_valid_runkey_only_child": true,
+      "heavy_gate_requires_exact_audit_review": true
+    },
+    "generation2_execution": {
+      "arm_commit": "48c5e2d462be4ae6ac635d21186adf048d57aa5e",
+      "workflow_run_id": 36101386917,
+      "runtime_job_id": 107964448344,
+      "authorization_succeeded": true,
+      "runtime_started": true,
+      "runtime_failed_before_target": true,
+      "failure": "MISSING_BR203_MU_GENERATED_HEADER",
+      "completed_target_count": 0,
+      "reusable_target_certificates": 0,
+      "mathematical_credit": false
+    },
+    "generation3_transition_adapter": {
+      "status": "COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT",
+      "runkey_only_child": true,
+      "parent_surface_must_be_hostile_audited": true,
+      "parent_immutable_surface_bound": true,
+      "child_validation": "generation-3 candidate is validated separately from the repaired generation-2 cold runkey pinned by STATE/plan/design",
       "replay_accepts_valid_runkey_only_child": true,
       "heavy_gate_requires_exact_audit_review": true
     }
@@ -114,26 +136,28 @@
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "The d63ed9e execution-surface audit failed on an inert shell gate and an impossible generation-2 binding. Both are repaired by a separate generation-2 transition adapter. This surface remains cold until exact-head replay/authorization/startup/frontier evidence and a fresh hostile audit PASS."
+    "stop_reason": "Generation-2 authorization was valid, but runtime compilation failed before any target because br203_mu_generated.hpp was absent. The runtime now regenerates the header from source-locked BR203 verifier/emitter inputs. No target credit exists. Fresh exact-head replay/cold-gate/startup/frontier and hostile audit are required before generation-3."
   },
   "next_obligation": {
-    "id": "BR204_G4_GENERATION2_ARM_ADAPTER_AUDIT",
+    "id": "BR204_G4_GENERATION3_RUNTIME_REPAIR_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Obtain exact-head ACTIVE_AUTO replay SUCCESS, including a synthetic generation-2 runkey-only transition-adapter proof and actual predecessor-child lossless compaction preflight.",
-      "Obtain exact-head execution-workflow authorization-gate SUCCESS with authorized=false because this repair commit is not runkey-only.",
+      "Obtain exact-head ACTIVE_AUTO replay SUCCESS including synthetic generation-3 runkey-only adapter proof and actual predecessor-child lossless compaction preflight.",
+      "Obtain exact-head execution-workflow authorization-gate SUCCESS with authorized=false because this runtime-repair commit is not runkey-only.",
+      "Verify the repaired runtime build source-locks and generates br203_mu_generated.hpp before compiling the worker.",
       "Obtain exact-head Stage32 startup/frontier/lifecycle SUCCESS.",
       "Run distinct stage32bridge-audit on the unchanged repaired exact head.",
-      "Only after audit PASS may a separate generation-2 runkey-only child carry the audit review identity and authorize heavy recovery.",
-      "Do not launch BR205/BR206 and do not grant MAIN/FULL178/theorem/endpoint credit from this surface."
+      "Only after audit PASS may a separate generation-3 runkey-only child authorize the 69-target compact recovery.",
+      "Do not grant MAIN/FULL178/theorem/endpoint credit from generation-2; it completed zero targets."
     ]
   },
   "audit_hold": {
-    "status": "POST_EXECUTION_SURFACE_AUDIT_FAIL__GEN2_ARM_ADAPTER_REPAIRED__FRESH_REAUDIT_REQUIRED",
-    "latest_pass_exact_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
-    "latest_pass_review_id": 5312620454,
-    "latest_fail_exact_head": "d63ed9efe6e0f7bc957de244c7a51b2025eeeca8",
-    "latest_fail_review_id": 5313922791,
+    "status": "GENERATION2_RUNTIME_FAILED_PRETARGET__GEN3_RUNTIME_REPAIR_FRESH_REAUDIT_REQUIRED",
+    "latest_pass_exact_head": "d96b9ff5e3cbabbcdbdf43d6650bfa4b89ae4a4d",
+    "latest_pass_review_id": 5314062883,
+    "generation2_arm_commit": "48c5e2d462be4ae6ac635d21186adf048d57aa5e",
+    "generation2_run_id": 36101386917,
+    "generation2_completed_target_count": 0,
     "mathematical_population_changed": false,
     "execution_surface_changed": true
   },

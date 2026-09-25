@@ -48,10 +48,10 @@ env:
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
   DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
   PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
-  PLAN_VERIFIER_BLOB: c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde
-  COLD_RUNKEY_BLOB: 30765a051eb1956b5f185f16c8ea4385d69a5334
-  STATE_BLOB: 07bf997024f610787c7f68fe96285db3dedafec1
-  G4_WORKFLOW_BLOB: d8a4532c86dd4da74bad45eee4196f63eb327996
+  PLAN_VERIFIER_BLOB: a8abc5b24aea8f6ad02eca9ea9acd23997896f3b
+  COLD_RUNKEY_BLOB: cf5881565057025b9bdcd94c9b6d5682ebb62fad
+  STATE_BLOB: a89934fafe222a7be646c390c812bb27a7c9a36f
+  G4_WORKFLOW_BLOB: a1820fbb6ad122474cf2560956283434d1ebc24a
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
   MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
   REPO_LIFECYCLE_VERIFIER_BLOB: bc5a5513f02776c7256a9882029f74b86a77284f
@@ -128,7 +128,7 @@ jobs:
           assert p["restored_predecessor_carry"]["recompute"] is False
           assert p["restored_predecessor_carry"]["parent_payload_sha256"]=="d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
           assert all(v is False for v in p["credit"].values())
-          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V22_G4_GENERATION2_ARM_ADAPTER_COLD"
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V23_G4_GENERATION3_RUNTIME_REPAIR_COLD"
           assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
           assert s["routing"]["heavy_compute_armed"] is False
           assert all(v is False for v in s["credit_firewall"].values())
@@ -140,7 +140,7 @@ jobs:
               assert ac["generation2_transition_adapter_status"]=="REPAIRED_COLD_AWAIT_HOSTILE_AUDIT"
               assert ac["generation2_heavy_authorized"] is False
           else:
-              assert r["generation"]==2
+              assert r["generation"]==3
               parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
               ac=r["arm_contract"]
               assert ac["audited_doorstep_head"]==parent
@@ -154,7 +154,7 @@ jobs:
           assert all(v is False for v in r["credit"].values())
           PY
           echo 'armed=true' >> "$GITHUB_OUTPUT"
-      - name: Prove future generation-2 runkey-only adapter is structurally consumable
+      - name: Prove future generation-3 runkey-only adapter is structurally consumable
         if: env.RUNKEY_MODE == 'cold-surface'
         run: |
           python - <<'PY'
@@ -162,7 +162,7 @@ jobs:
           from pathlib import Path
           src=Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json")
           r=json.loads(src.read_text())
-          r["generation"]=2
+          r["generation"]=3
           r["purpose"]="Synthetic exact-head transition-adapter proof only; not an execution arm."
           ac=r["arm_contract"]
           ac["audited_doorstep_head"]=os.environ["GITHUB_SHA"]
@@ -174,11 +174,11 @@ jobs:
           ac["fresh_hostile_audit_and_generation2_rearm_required"]=False
           ac["observed_other_stage32_heavy_concurrency_at_arm"]=0
           ac["combined_effective_heavy_concurrency_at_arm"]=12
-          Path("/tmp/br204-g4-generation2-synthetic.json").write_text(json.dumps(r,sort_keys=True,indent=2)+"\n")
+          Path("/tmp/br204-g4-generation3-synthetic.json").write_text(json.dumps(r,sort_keys=True,indent=2)+"\n")
           PY
           python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py \
             --mode armed-child --parent-ref "$GITHUB_SHA" \
-            --candidate-runkey /tmp/br204-g4-generation2-synthetic.json
+            --candidate-runkey /tmp/br204-g4-generation3-synthetic.json
       - name: Verify current MAIN identity
         run: |
           set -euo pipefail
