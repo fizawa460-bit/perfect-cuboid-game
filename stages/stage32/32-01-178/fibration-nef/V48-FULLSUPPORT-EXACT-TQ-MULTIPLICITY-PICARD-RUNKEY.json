@@ -1,0 +1,47 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_EXACT_TQ_MULTIPLICITY_PICARD_RUNKEY_V1",
+  "generation": 0,
+  "mode": "COLD",
+  "armed": false,
+  "purpose": "Dedicated authorization key for the bounded row022/b36 exact t-qBC multiplicity-correlated Picard replay. Ordinary mainbatch may prepare and verify the route but must not execute the information-producing panel while this key is cold.",
+  "target": {
+    "row_index": 22,
+    "row_id": "g1-d192",
+    "g": 1,
+    "d": 192,
+    "b": 36,
+    "c_values": [
+      83,
+      85,
+      89
+    ],
+    "scope": "BOUNDED_3CELL_EXACT_TQ_MULTIPLICITY_SUCCESSOR_PANEL_NOT_FULL_ROW_NOT_FULL178"
+  },
+  "source_locks": {
+    "successor_preflight_blob_sha1": "3f4dfff736aafa0f84e85bfb488e83870e18d95c",
+    "successor_preflight_canonical_sha256": "58a4825bfab902678be6167f9d01cb487f1bd555f7d6dc5fbf6b02b9f362cd5a",
+    "successor_preflight_verifier_blob_sha1": "8aefc7981308f163637c849527c726b4e9d3441a",
+    "successor_probe_blob_sha1": "b349ece87438bd78909e25f5edca7e157201b201",
+    "multiplicity_preflight_blob_sha1": "a7629266c1815c03eb8691566a6e64cbbf1cddab",
+    "multiplicity_preflight_canonical_sha256": "f4930f2a4ebd06ae287b89cae2213d4fe9a429d8636e765f3500ce4e80ce867b",
+    "multiplicity_retained_verifier_blob_sha1": "e40e6abe0e163571b810927d5ddf4d086570faf1"
+  },
+  "authorized_c_values": [],
+  "planned_effective_heavy_concurrency": 0,
+  "reference_runtime_seconds_from_prior_exact_tset_panel": 859.773196478,
+  "reference_only_not_exact_tq_multiplicity_runtime_estimate": true,
+  "projected_peak_storage_bytes": 1048576,
+  "storage_budget_bytes": 524288000,
+  "hard_stage_heavy_concurrency_ceiling": 18,
+  "authorization_rule": "A future explicit authorization must advance generation in a fresh commit range, set mode=BOUNDED_PANEL, armed=true, authorize exactly c={83,85,89}, keep effective heavy concurrency=1 unless separately justified, retain all source locks, require per-bin multiplicity marginal replay against the source histogram, and preserve zero-credit firewalls.",
+  "firewalls": {
+    "heavy_execution_authorized": false,
+    "artifact_production_authorized": false,
+    "main_credit_changed": false,
+    "full178_numerical_census_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge": false
+  },
+  "canonical_sha256_without_this_field": "5289162d6720d44f70b232aaf61fbfae2b229ec00755074e44249306d815ba1b"
+}
