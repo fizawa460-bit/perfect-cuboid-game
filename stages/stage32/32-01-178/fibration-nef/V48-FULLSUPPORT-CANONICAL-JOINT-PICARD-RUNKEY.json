@@ -1,0 +1,46 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_CANONICAL_JOINT_PICARD_RUNKEY_V1",
+  "generation": 0,
+  "mode": "COLD",
+  "armed": false,
+  "purpose": "Dedicated authorization key for the bounded row022/b36 canonical-joint-Picard successor replay. Ordinary mainbatch may prepare and verify the route but must not execute the information-producing panel while this key is cold.",
+  "target": {
+    "row_index": 22,
+    "row_id": "g1-d192",
+    "g": 1,
+    "d": 192,
+    "b": 36,
+    "c_values": [
+      83,
+      85,
+      89
+    ],
+    "scope": "BOUNDED_3CELL_CANONICAL_SUCCESSOR_PANEL_NOT_FULL_ROW_NOT_FULL178"
+  },
+  "source_locks": {
+    "canonical_successor_preflight_blob_sha1": "fb2e208ec374d15e4a1bfc9fa859ac7d36773185",
+    "canonical_successor_preflight_canonical_sha256": "d3d4d1970cdf579c4492e3d393ccc1c6c943e2adc49c2f847cfc6f836ed645da",
+    "canonical_successor_preflight_verifier_blob_sha1": "a61cb20a148a0bf27c8ebf817d659ee5266b22e1",
+    "canonical_successor_probe_blob_sha1": "7d20a7d898bf25f017d742f0f1b7bcaeeab2dc54",
+    "canonical_joint_min_preflight_blob_sha1": "234e411fe38b442525c5c9cc6e2dadfaaec46248",
+    "canonical_joint_min_preflight_canonical_sha256": "a3fd353ee8e6ce8e0a1c66ccb0abef5c25f169f89dd9269cf68bd468a4044cd2"
+  },
+  "authorized_c_values": [],
+  "planned_effective_heavy_concurrency": 0,
+  "reference_runtime_seconds_from_prior_exact_tset_panel": 859.773196478,
+  "reference_only_not_canonical_joint_picard_runtime_estimate": true,
+  "projected_peak_storage_bytes": 1048576,
+  "storage_budget_bytes": 524288000,
+  "hard_stage_heavy_concurrency_ceiling": 18,
+  "authorization_rule": "A future explicit authorization must advance generation in a fresh commit range, set mode=BOUNDED_PANEL, armed=true, authorize exactly c={83,85,89}, keep effective heavy concurrency=1 unless separately justified, retain all source locks, and preserve zero-credit firewalls.",
+  "firewalls": {
+    "heavy_execution_authorized": false,
+    "artifact_production_authorized": false,
+    "main_credit_changed": false,
+    "full178_numerical_census_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge": false
+  },
+  "canonical_sha256_without_this_field": "b21fd8ff29355bca2d8e194c9bd01d445fb60b615fb3abac413a18f7fa43e197"
+}
