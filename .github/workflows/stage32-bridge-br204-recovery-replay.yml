@@ -129,7 +129,7 @@ jobs:
           assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is True
           assert ac["generation1_heavy_execution_started"] is False
           assert r["storage"]["intermediate_retention_days"]==14
-          assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==351797248
+          assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
           assert all(v is False for v in r["credit"].values())
           PY
           echo 'armed=true' >> "$GITHUB_OUTPUT"
