@@ -1,64 +1,42 @@
 # Stage32 MAIN startup
 
-This file is the single ordinary startup contract for Stage32.
+This is the ordinary Stage32 startup contract.
 
-## Operator surface
+## Read order
 
-Normal work has two user-facing commands:
+For `stage32mainbatch`, read only:
 
-- `stage32mainbatch` — continue Stage32 research.
-- `stage32audit` — audit a frozen Stage32 boundary.
-
-All former lane-specific commands are internal execution details. The operator does not need to choose EX5, MB, MB-FIB, 178, CUT, or BRIDGE before starting.
-
-## Ordinary `stage32mainbatch` startup
-
-Read only, in this order:
-
-1. `AGENTS.md`;
+1. repository-root `AGENTS.md`;
 2. this file;
-3. `stages/stage32/MAIN-STATE.json`;
-4. the current formal unit in `stages/stage32/ROADMAP.md`;
-5. that unit's live state/startup boundary;
-6. only the exact evidence required by that boundary.
+3. `stages/stage32/CURRENT.json`;
+4. `stages/stage32/LIVE-ROADMAP.md`;
+5. the `LIVE.json` of the selected unit;
+6. only the detailed state/evidence explicitly named by that live pointer and needed for the current leaf.
 
-Do not preload specialist history, old controller snapshots, `CROSS-LANE-DEMANDS.json`, Research OS policy files, or archived audit receipts. They are on-demand dependencies.
+Do **not** ordinarily preload `MAIN-STATE.json`, full `ROADMAP.md`, claim registries, lane registries, cross-lane demands, historical controllers, audit receipts, parked lanes, or Research OS policies. They are verification/detail authority and are opened only when the selected work actually requires them.
 
-## Dispatch algorithm
+## Dispatch
 
-Use `MAIN-STATE.json` to identify the current incomplete formal unit.
+`CURRENT.json` owns the compact current routing projection.
 
-- `32-01` is audited complete and retained. Do not restart 178/CUT/BRIDGE work unless MAIN explicitly reopens a concrete obligation or a verified regression invalidates the retained claim.
-- `32-02` is the primary active unit. Dispatch to its effectivity state and, only when required by that state, the EX5/Picard64 backend.
-- `32-03` is the parallel active unit. Dispatch to the MB state when it is the selected useful work; MB may dispatch to MB-FIB only through its own explicit resume/audit handoff.
-- `32-04` starts only after 32-02 and 32-03 satisfy their roadmap close criteria.
-- `32-05` is external hostile audit. MAIN must stop before self-awarding Stage32 closure.
+- 32-01 is complete and retained.
+- 32-02 is primary.
+- 32-03 is parallel.
+- 32-04 waits for both.
+- 32-05 is external hostile audit.
 
-Default rule: continue 32-02. Use 32-03 when 32-02 is blocked or when already-running/resumable 32-03 work makes parallel progress preferable.
+Default to 32-02. Use 32-03 when 32-02 is blocked or resumable 32-03 work is the better immediate path.
 
-The dispatch decision belongs to MAIN. A user should not need to know which internal PR or historical lane implements the selected work.
+EX5, MB, and MB-FIB are internal execution surfaces, not operator entrypoints. 178, CUT, and BRIDGE are parked/reopen-only.
 
-## Internal execution isolation
+## Authority
 
-Separate PRs, states, workflows, and audit boundaries may remain where they are technically useful for heavy-run authorization, checkpoint/resume, provenance, or hostile audit.
+Compact live files are routing aids, not proof certificates. If a mathematical claim, credit transition, source identity, historical receipt, or audit boundary becomes load-bearing, open the exact detailed authority named by the live pointer.
 
-This isolation does not create additional operator entrypoints. Internal execution surfaces are subordinate to the selected formal roadmap unit and cannot independently change MAIN authority.
+Never promote bounded/sample/timeout evidence into theorem, effectivity, receiver, endpoint, closure, or Perfect-Cuboid credit without the required audited boundary.
 
-## Authority and credit
+## Stop
 
-`MAIN-STATE.json` is the mutable routing projection. `ROADMAP.md` defines formal mathematical units and close criteria. Claim registries, exact source locks, retained certificates, adapters, and hostile-audit receipts control mathematical credit.
-
-A specialist result changes MAIN authority only through its applicable audited handoff/promotion boundary. Never double-count overlapping restrictions or savings.
-
-## Writeback and stop
-
-Before stopping, update only the live state actually relied upon by the selected work and any required audited handoff. Do not refresh unrelated parked specialists merely for bookkeeping.
-
-Stop when:
-
-- the selected unit exposes a precise residual/tool/theorem wall;
-- 32-02 and 32-03 are complete and 32-04 requires synthesis;
-- 32-04 is complete and 32-05 external audit is next;
-- an applicable safety/audit gate requires a hold.
+Stop on the smallest precise residual/tool/theorem wall, at the 32-04 synthesis boundary, or before 32-05 external audit.
 
 Do not merge without explicit user authorization.
