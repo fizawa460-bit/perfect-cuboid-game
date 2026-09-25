@@ -461,6 +461,22 @@ jobs:
               if frontier.get("full178_numerical_census_complete") is not True:
                   raise SystemExit("FAIL: V48 FULL178 census not complete at historical BTVA gate")
               print("PASS: historical zero-credit BTVA structural preflight retained under V48 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V49")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V49")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128443221087959579960:
+                  raise SystemExit("FAIL: unexpected V49 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V49 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v49_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V49 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V49 authority")
           else:
               raise SystemExit(f"FAIL: unsupported MAIN schema at historical BTVA gate: {schema}")
           PY
