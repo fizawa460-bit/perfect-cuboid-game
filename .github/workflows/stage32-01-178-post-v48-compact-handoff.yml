@@ -1,0 +1,53 @@
+name: Stage32 178 post-V48 compact handoff
+
+# lifecycle: ACTIVE_AUTO — compact current-main audit boundary for one source-locked 178 handoff
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-01-178-post-v48-compact-handoff.yml'
+      - 'stages/stage32/management/178-fullsupport-successor/**'
+      - 'docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json'
+      - 'docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-01-178-post-v48-compact-handoff-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Materialize frozen 178 source
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin adcb7eb2eef153a1207294e956bf6115794e564d
+          rm -rf /tmp/stage32-178-source
+          git worktree add --detach /tmp/stage32-178-source adcb7eb2eef153a1207294e956bf6115794e564d
+
+      - name: Replay compact current-main handoff
+        run: |
+          set -euo pipefail
+          python stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_current_main_transplant.py \
+            --lane178-root /tmp/stage32-178-source \
+            --main-root "$GITHUB_WORKSPACE"
+
+      - name: Verify repository workflow lifecycle inventory
+        run: |
+          set -euo pipefail
+          python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+
+      - name: Diff hygiene
+        run: git diff --check
