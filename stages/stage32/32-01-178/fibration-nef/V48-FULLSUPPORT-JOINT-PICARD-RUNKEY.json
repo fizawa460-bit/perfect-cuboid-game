@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_JOINT_PICARD_RUNKEY_V1",
+  "generation": 0,
+  "mode": "COLD",
+  "armed": false,
+  "purpose": "Dedicated authorization key for the bounded row022/b36 joint-Picard successor replay. Ordinary mainbatch may prepare and verify the route but must not execute the information-producing panel while this key is cold.",
+  "target": {
+    "row_index": 22,
+    "row_id": "g1-d192",
+    "g": 1,
+    "d": 192,
+    "b": 36,
+    "c_values": [
+      83,
+      85,
+      89
+    ],
+    "scope": "BOUNDED_3CELL_SUCCESSOR_PANEL_NOT_FULL_ROW_NOT_FULL178"
+  },
+  "source_locks": {
+    "successor_probe_blob_sha1": "048b61e9cd93d97afa3e22f47eab98904bde85af",
+    "successor_preflight_blob_sha1": "e5165896e879567a8f18a2d41164ee225d7ac90e",
+    "successor_preflight_canonical_sha256": "fe6723e39689e72e64510c3f8c68b6215e271bbcd21b9fd793a8f53ce1905d7a",
+    "uniform_dominance_artifact_blob_sha1": "50ca55cdb03b68e1eff3399cfdabe2d82f8d7328",
+    "uniform_dominance_artifact_canonical_sha256": "15e475bd6dec8a8047f20df0ae2379df1fb2218a1dfd8e3f7db7d0806d343ca3",
+    "uniform_dominance_verifier_blob_sha1": "726869efd5d4a574ad536253bc4908802a02ba66"
+  },
+  "authorized_c_values": [],
+  "planned_effective_heavy_concurrency": 0,
+  "reference_runtime_seconds_from_prior_exact_tset_panel": 859.773196478,
+  "reference_only_not_joint_picard_runtime_estimate": true,
+  "projected_peak_storage_bytes": 1048576,
+  "storage_budget_bytes": 524288000,
+  "hard_stage_heavy_concurrency_ceiling": 18,
+  "authorization_rule": "A future explicit authorization must advance generation in a fresh commit range, set mode=BOUNDED_PANEL, armed=true, authorize exactly c={83,85,89}, keep effective heavy concurrency=1 unless separately justified, retain all source locks, and preserve zero-credit firewalls.",
+  "firewalls": {
+    "heavy_execution_authorized": false,
+    "artifact_production_authorized": false,
+    "main_credit_changed": false,
+    "full178_numerical_census_changed": false,
+    "theorem_credit_changed": false,
+    "endpoint_credit_changed": false,
+    "merge": false
+  }
+}
