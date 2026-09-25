@@ -2746,14 +2746,126 @@
           }
         }
       }
+    },
+    "e2_unique_pair_balanced_hurwitz_core_split": {
+      "status": "EXACT_PREAUDIT_BALANCED_EIGHT_VALUE_HURWITZ_PASSPORT_AND_CORE_GENUS_ZERO_SPLIT_ZERO_CREDIT",
+      "support_mask": "000707000f0f",
+      "case": "e=2 balanced even-l bulk",
+      "source_locks": {
+        "residual_node_orbit_note_blob": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e",
+        "boundary_fiber_saturation_note_blob": "aa9a7215467428b55b18ef296ced91b63ec4bf07",
+        "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
+        "common_H_cover_factor_line_note_blob": "1e121116c1591e3b3d9f748f306151ab0e89b580",
+        "rosati_zero_note_blob": "24cc729070ab685491fd2659d970da1a9f415891"
+      },
+      "balanced_family": {
+        "degree": "l=2*m, n=28*l=56*m",
+        "node_allocation": "x_j=8*m at all 14 supported nodes",
+        "target_branch_values": {
+          "a": "a^2=2",
+          "b": "b=i*a, b^2=-2",
+          "u": "u^2=2*i",
+          "v": "v=2/u, v^2=-2*i",
+          "eight_values": "{+a,-a,+b,-b,+u,-u,+v,-v}"
+        }
+      },
+      "psi1_cycle_passport": {
+        "unramified_points_per_value": {
+          "+a": "32*m",
+          "-a": "32*m",
+          "+b": "24*m",
+          "-b": "24*m",
+          "+u": "56*m",
+          "-u": "56*m",
+          "+v": 0,
+          "-v": 0
+        },
+        "transpositions_per_local_monodromy": {
+          "+a": "12*m",
+          "-a": "12*m",
+          "+b": "16*m",
+          "-b": "16*m",
+          "+u": 0,
+          "-u": 0,
+          "+v": "28*m",
+          "-v": "28*m"
+        },
+        "actual_branch_values": "six values: +/-a, +/-b, +/-v; local monodromy is identity at +/-u"
+      },
+      "psi2_cycle_passport": {
+        "unramified_points_per_value": {
+          "+a": "56*m",
+          "-a": "56*m",
+          "+b": 0,
+          "-b": 0,
+          "+u": "24*m",
+          "-u": "24*m",
+          "+v": "32*m",
+          "-v": "32*m"
+        },
+        "transpositions_per_local_monodromy": {
+          "+a": 0,
+          "-a": 0,
+          "+b": "28*m",
+          "-b": "28*m",
+          "+u": "16*m",
+          "-u": "16*m",
+          "+v": "12*m",
+          "-v": "12*m"
+        },
+        "actual_branch_values": "six values: +/-b, +/-u, +/-v; local monodromy is identity at +/-a"
+      },
+      "exact_checks": {
+        "each_fiber_length": "unramified_count + 2*transposition_count = n=56*m",
+        "total_simple_ramification_each_map": "112*m=2*n, matching Riemann-Hurwitz for E genus 1 -> P1",
+        "total_unramified_points_over_eight_values_each_map": "224*m=4*n",
+        "local_monodromy_sign": "every transposition count is even, so every local branch permutation is even and the monodromy group lies in A_n",
+        "passport_rotation": "the four opposite-value pair counts for psi2 are the psi1 counts cyclically shifted: [32,56,24,0] -> [56,24,0,32]"
+      },
+      "core_genus_obstruction": {
+        "setup": "suppose the self-correspondence C8 <-f1- Z -f2-> C8 has a nonconstant core B with q1:C8->B, q2:C8->B and h=q1 o f1=q2 o f2",
+        "argument": [
+          "if g(B)>0 then q1^*:J(B)->J(C8) is nonzero",
+          "Phi_Z q1^* = f2_* f1^* q1^* = f2_* h^*",
+          "because h=q2 o f2, h^*=f2^* q2^*",
+          "therefore Phi_Z q1^* = f2_* f2^* q2^* = n*q2^*",
+          "in characteristic zero n*q2^* is nonzero for a nonconstant map to a positive-genus curve",
+          "but retained Rosati/product correspondence gives Phi_Z=0"
+        ],
+        "conclusion": "any nonconstant core, if it exists, has genus 0; otherwise the correspondence is coreless",
+        "positive_genus_core_possible": false,
+        "rational_core_possible": true,
+        "coreless_possible": true
+      },
+      "literature_routing_candidate": {
+        "source": "Raju Krishnamoorthy, Correspondences without a Core, Algebra & Number Theory 12 (2018), 1173-1214",
+        "doi": "10.2140/ant.2018.12.1173",
+        "usable_statement": "an etale correspondence of projective curves without a core in characteristic zero has no clumps",
+        "current_adapter_status": "NOT_CONSUMED: no finite clump/complete-set forced by the retained 000707 passport has yet been proved"
+      },
+      "consequence": "the balanced bulk is reduced to two structurally different possibilities: a coreless etale correspondence, where a forced clump would contradict the characteristic-zero no-clump theorem, or a correspondence with a necessarily rational core. The exact eight-value passport provides the finite branch data for either continuation but does not itself close either case.",
+      "firewalls": {
+        "clump_proved": false,
+        "core_proved": false,
+        "rational_core_classified": false,
+        "coreless_case_excluded": false,
+        "balanced_bulk_closed": false,
+        "e2_closed": false,
+        "receiver_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case.",
     "success_shapes": [
+      "classify the rational-core branch compatible with Phi_Z=0, the unique factor pair, and the exact balanced Hurwitz passport, and derive a collision bound or contradiction",
+      "prove that the exact 000707 eight-value passport forces a finite clump/complete set for the etale C8 self-correspondence; combined with the no-core theorem this would force the remaining correspondence into the rational-core branch",
       "exact common-etale/commensurator/fiber-collision upper bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk",
       "a genuinely stronger equality theorem, distinct from Langer 0.1/0.3, whose hypotheses are verified for the exact fractional-boundary pair and which yields a contradiction at m=1,Q=192",
       "exact contradiction for all 36 remaining m=1 feasible energies, followed by hostile audit before promotion",
@@ -2787,7 +2899,8 @@
       "treating m=1 Q=188 or Q=190 as live: exact Abel+saturation energy DP proves both impossible",
       "m=1,Q=192 local-strictness replay: the ordinary equal-weight local orbifold Euler formula attains the retained bound exactly; only a separately verified global equality-rigidity theorem could use the equality boundary",
       "trying to bound the balanced bulk collision multiplicity from only M_1^2=M_2^2, M_i^4=H_E, or generic elliptic common-fiber overlap: these identities formally allow r up to n-1",
-      "inferring ball-quotient uniformization merely from equality in Langer Theorem 0.1/0.3: Langer explicitly records equality examples unrelated to ball quotients"
+      "inferring ball-quotient uniformization merely from equality in Langer Theorem 0.1/0.3: Langer explicitly records equality examples unrelated to ball quotients",
+      "treating the compact C8 correspondence as a punctured modular Gamma(8) Hecke correspondence without a source-valid compact-uniformizer adapter"
     ]
   },
   "routing": {
@@ -2936,7 +3049,12 @@
     "e2_unique_pair_m1_Q192_raw_allocation_count": 19600,
     "e2_unique_pair_m1_Q192_low_bidegree_capacity_survivors": 15168,
     "e2_unique_pair_m1_Q192_low_bidegree_capacity_excluded": 4432,
-    "e2_unique_pair_m1_Q192_low_bidegree_capacity_route": "EXACT_PRUNING_NOT_CLOSURE"
+    "e2_unique_pair_m1_Q192_low_bidegree_capacity_route": "EXACT_PRUNING_NOT_CLOSURE",
+    "e2_unique_pair_balanced_hurwitz_passport_exact": true,
+    "e2_unique_pair_balanced_hurwitz_local_monodromy_even": true,
+    "e2_unique_pair_positive_genus_core_excluded_by_Phi_zero": true,
+    "e2_unique_pair_bulk_core_dichotomy": "CORELESS_OR_RATIONAL_CORE",
+    "e2_unique_pair_coreless_no_clump_theorem_candidate": "SOURCE_FOUND_ADAPTER_MISSING_FORCED_CLUMP"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
