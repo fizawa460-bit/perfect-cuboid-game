@@ -1,0 +1,99 @@
+{
+  "schema": "STAGE32_MAIN_POST_V48_178_FULLSUPPORT_384_HANDOFF_PREFLIGHT_V1",
+  "stage": 32,
+  "surface": "MAIN_CONSUMER_HANDOFF_PREFLIGHT",
+  "status": "READY_FOR_HOSTILE_AUDIT__NOT_AUTHORIZED_FOR_MAIN_CONSUMPTION__ZERO_MAIN_CREDIT",
+  "purpose": "Freeze the exact consumer-side handoff for the retained 178 full-support 384/384 candidate. After hostile-audit PASS and current-main reclassification, MAIN may consume it only as a same-population upper-bound replacement; additive subtraction and producer-side authority mutation are forbidden.",
+  "current_main_authority": {
+    "repository_main": "a834864923086e5f7c1647e462804f45ff9ac28d",
+    "authority_version": "V48_178_SUPPORT_QBC_AUDIT_SYNCED",
+    "main_state_blob_sha1": "070847c669120aef1ab3777239d45878937b41f3",
+    "v48_authority_sync_path": "stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json",
+    "v48_authority_sync_blob_sha1": "2733e5519629e6365558bc1b4bfbc6305e0b5533",
+    "v48_authority_sync_canonical_sha256": "d106029369dd5a029cd7a56e1c7d80fdd29f8471454fd2ed6c638af2b70288b1",
+    "authoritative_remaining_terminals": "128470212118313474449",
+    "semantics": "CERTIFIED_UPPER_BOUND_NOT_EXACT_RESIDUAL_IDENTITY_SET",
+    "full178_numerical_census_complete": true
+  },
+  "producer": {
+    "specialist_pr": 1821,
+    "branch": "stage32-01-178-post-td02-fibration-nef",
+    "handoff_parent_head": "dcab0d8823eccda80e7af735e50f5fabb56bcd1a",
+    "candidate_path": "stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-EQUIV-DERIVED-BOUND-RETAINED.json",
+    "candidate_blob_sha1": "3acb9551db9fda6be8fde0194b23ddb41ca634d0",
+    "candidate_canonical_sha256": "da7eb532daf2b775a49524fe45e5b7bf7851719f19a6926a227f5fa745258aba",
+    "candidate_verifier_path": "stages/stage32/32-01-178/fibration-nef/verify_v48_full_support_384_equiv_derived_bound_retained.py",
+    "candidate_verifier_blob_sha1": "843d348351a05be083f2d0d6e16b08da45e38040",
+    "coverage": {
+      "expected_coordinates": 384,
+      "eligible_replacement_coordinates": 384,
+      "strict_replacement_coordinates": 384,
+      "gaps": 0,
+      "overlaps": 0,
+      "source_ineligible_coordinates": 0
+    },
+    "candidate_upper_bound": "128443221087959579960",
+    "tightening_vs_v48": "26991030353894489",
+    "main_consumption_performed": false
+  },
+  "same_population_accounting": {
+    "v48_covered_384_upper_bound_sum": "37911631052805557219",
+    "replacement_384_upper_bound_sum": "37884640022451662730",
+    "tightening_on_covered_population": "26991030353894489",
+    "global_formula": "V48_total - V48_covered_384_upper_bound_sum + replacement_384_upper_bound_sum",
+    "global_formula_value": "128443221087959579960",
+    "composition_rule": "SAME_POPULATION_PER_COORDINATE_MIN_UPPER_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION",
+    "candidate_is_not_an_identity_set": true,
+    "exact_intersection_identity_set_required": false,
+    "additive_subtraction": false,
+    "statistical_independence": false,
+    "no_double_charge": true,
+    "uncovered_v48_population_unchanged": true
+  },
+  "hostile_audit_gate": {
+    "required": true,
+    "status": "PENDING",
+    "audited_exact_head": null,
+    "review_or_comment_id": null,
+    "exact_head_ci_required": true,
+    "current_known_ci_blocker": "No exact-head Actions run/status is visible through the connected GitHub mutation channel.",
+    "promotion_before_pass_forbidden": true
+  },
+  "future_main_consumer_requirements": {
+    "producer_candidate_verifier_pass_required": true,
+    "producer_hostile_audit_pass_required": true,
+    "producer_exact_head_ci_required": true,
+    "v48_authority_identity_recheck_required": true,
+    "current_main_refresh_required": true,
+    "strict_improvement_against_then_current_main_required": true,
+    "if_main_has_advanced_reclassify_instead_of_subtracting_from_stale_v48": true,
+    "same_population_replacement_only": true,
+    "additive_stacking_with_v48_or_overlapping_178_routes_forbidden": true,
+    "explicit_main_authority_sync_receipt_required": true,
+    "main_state_update_must_be_separate_from_producer": true
+  },
+  "disposition": {
+    "handoff_ready_for_hostile_audit": true,
+    "handoff_ready_for_main_consumption": false,
+    "candidate_upper_bound_if_current_v48_remains_authority": "128443221087959579960",
+    "candidate_tightening_if_current_v48_remains_authority": "26991030353894489",
+    "main_pruning_credit": false,
+    "main_authority_changed": false,
+    "merge_authorized": false
+  },
+  "firewalls": {
+    "producer_self_consumption": false,
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f52f6e74f3ab20c9d5c8a831351da7035af9cccea50893560f4307de5dab9e76"
+}
