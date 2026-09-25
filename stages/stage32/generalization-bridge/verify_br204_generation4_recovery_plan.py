@@ -1,200 +1,123 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse
 import json
-import re
-from collections import Counter, defaultdict
+import subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
-WF_DIR = ROOT / ".github" / "workflows"
-INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+ROOT = Path(__file__).resolve().parent
+PLAN = ROOT / "BR204-GENERATION4-RECOVERY-PLAN.json"
+DESIGN = ROOT / "BR204-GENERATION4-RECOVERY-DESIGN.json"
+RUNKEY = ROOT / "runkeys/br204-recovery-g4.json"
+STATE = ROOT / "STATE.json"
+PREDECESSOR = ROOT / "BR204-G4-PREDECESSOR-CERTIFICATE.json"
 
-# Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
-# if they are present, they are intentionally automatic.
-ACTIVE_AUTO = {
-    ".github/workflows/pages.yml",
-    ".github/workflows/research-arsenal.yml",
-    ".github/workflows/structure-radar.yml",
-    ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
-    ".github/workflows/stage32-claim-frontier-integrity.yml",
-    ".github/workflows/stage32-stale-run-sweeper.yml",
-    ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
-    ".github/workflows/stage32-ex5-main.yml",
-    ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
-    ".github/workflows/stage35-35-01-to-09-audit.yml",
-    ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
-    ".github/workflows/stage36-bootstrap-audit.yml",
-}
-MANUAL = {
-    ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
-    ".github/workflows/stage32-root-cleanup-phase-b.yml",
-    ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
-    ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
-}
+def blob(path: Path) -> str:
+    return subprocess.check_output(["git", "hash-object", str(path)], text=True).strip()
 
+p=json.loads(PLAN.read_text())
+d=json.loads(DESIGN.read_text())
+r=json.loads(RUNKEY.read_text())
+s=json.loads(STATE.read_text())
 
-def rel(path: Path) -> str:
-    return path.relative_to(ROOT).as_posix()
+assert p["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V2_COMPACT_CERT"
+assert p["status"]=="COLD_EXECUTION_PLAN__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
+assert p["design_blob"]==blob(DESIGN)
+assert p["unchanged_target_count"]==69
+assert p["flat_target_count"]==36 and len(p["flat_targets"])==36
+assert p["hierarchical_target_count"]==33 and len(p["hierarchical_targets"])==33
+keys={(x["b"],x["d"]) for x in p["flat_targets"]}|{(x["b"],x["d"]) for x in p["hierarchical_targets"]}
+assert len(keys)==69
+c=p["restored_predecessor_carry"]
+assert (c["b"],c["d"],c["parent_bc16_index"])==(2,148,0)
+assert c["exact_child64_indices"]==[0,16,32,48]
+assert c["parent_payload_sha256"]=="d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
+assert c["recompute"] is False
+h=[x for x in p["hierarchical_targets"] if (x["b"],x["d"])==(2,148)]
+assert len(h)==1 and h[0]["parent_bc16_indices"]==list(range(1,16))
+for x in p["hierarchical_targets"]:
+    if (x["b"],x["d"])!=(2,148):
+        assert x["parent_bc16_indices"]==list(range(16))
+persist=p["persistence"]
+assert persist["compact_certificate_schema"]=="STAGE32_BR204_G4_COMPACT_CHILD_CERT_V2"
+assert persist["compact_codec"]=="delta-varint-zlib-base64-v1"
+assert persist["raw_target_level_retention_replay_forbidden"] is True
+rp=p["resource_preflight"]
+assert rp["repository_storage_budget_bytes"]==524288000
+assert rp["planned_effective_heavy_concurrency"]==12
+assert rp["repository_stage_concurrency_ceiling"]==18
+assert rp["evidence_unit_count"]==2688
+assert rp["flat_bc16_child_count"]==576
+assert rp["hierarchical_bc64_child_count"]==2108
+assert rp["newly_computed_child_certificate_count"]==2684
+assert rp["restored_predecessor_child_certificate_count"]==4
+assert rp["retained_certificate_count"]==2688
+assert rp["representative_child_certificate_hard_cap_bytes"]==65536
+assert rp["actual_predecessor_sample_certificate_bytes"]==[7737,7386,7235,7128]
+assert rp["measured_representative_payload_bytes"]==7737
+assert rp["measured_projection_bytes"]==20797056
+assert rp["conservative_single_generation_hard_cap_projection_bytes"]==176160768
+assert rp["conservative_two_generation_hard_cap_projection_bytes"]==352321536
+assert rp["conservative_two_generation_hard_cap_projection_bytes"] < rp["repository_storage_budget_bytes"]
+assert rp["intermediate_retention_days"]==14
+assert rp["actual_roundtrip_byte_exact"] is True
+assert rp["storage_gate_passed"] is True
+assert rp["raw_child_state_upload_forbidden"] is True
+a=p["authorization"]
+assert a["workflow_implemented"] is True
+assert a["runkey_generation"]==1 and a["runkey_armed"] is True
+assert a["generation1_arm_is_inert"] is True
+assert a["heavy_compute_authorized"] is False
+assert a["hostile_audit_required_before_arm"] is True
+assert a["next_heavy_generation"]==2
+assert a["next_arm_must_be_runkey_only"] is True
+assert all(v is False for v in p["credit"].values())
 
+assert d["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V3_COMPACT_EXECUTION"
+assert d["status"]=="COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
+assert d["predecessor_certificate"]["blob"]==blob(PREDECESSOR)
+assert d["resource_preflight"]["actual_roundtrip_byte_exact"] is True
+assert d["resource_preflight"]["intermediate_retention_days"]==14
+assert d["gates"]["current_runkey_generation"]==1
+assert d["gates"]["current_runkey_armed"] is True
+assert d["gates"]["current_generation1_arm_is_inert"] is True
+assert d["gates"]["heavy_compute_authorized"] is False
+assert all(v is False for v in d["credit"].values())
 
-def workflow_paths() -> list[Path]:
-    return sorted([*WF_DIR.glob("*.yml"), *WF_DIR.glob("*.yaml")])
+assert r["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
+assert r["generation"]==1 and r["armed"] is True
+locks=r["source_locks"]
+assert locks["design_blob"]==blob(DESIGN)
+assert locks["plan_blob"]==blob(PLAN)
+assert locks["plan_verifier_blob"]==blob(Path(__file__))
+assert locks["predecessor_certificate_blob"]==blob(PREDECESSOR)
+assert locks["repository_main_head"]=="a834864923086e5f7c1647e462804f45ff9ac28d"
+assert locks["repository_main_state_blob"]=="070847c669120aef1ab3777239d45878937b41f3"
+assert locks["bc_shard_worker_blob"]=="ca0a4985e788455432eb59d603da54fc3c703ea6"
+assert locks["bc_shard_combiner_blob"]=="33089c2ca4876650a4ee9c6477e1e6242ad3741c"
+assert locks["bc64_group_combiner_blob"]=="5986168bca8ec63e1d1aab2e417e9157ae09ef23"
+assert r["storage"]["intermediate_retention_days"]==14
+assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
+ac=r["arm_contract"]
+assert ac["audited_doorstep_head"]=="4be08e46894dc8aedde5ce19b7c00da85b85b3af"
+assert ac["audited_doorstep_review_id"]==5312620454
+assert ac["hostile_audit_status"]=="PASS"
+assert ac["execution_surface_changed_after_generation1_arm"] is True
+assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is True
+assert ac["generation1_heavy_execution_started"] is False
+assert all(v is False for v in r["credit"].values())
 
+assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V21_G4_COMPACT_EXECUTION_COLD"
+assert s["source_locks"]["g4_design_blob"]==blob(DESIGN)
+assert s["source_locks"]["g4_plan_blob"]==blob(PLAN)
+assert s["source_locks"]["g4_plan_verifier_blob"]==blob(Path(__file__))
+assert s["source_locks"]["g4_runkey_blob"]==blob(RUNKEY)
+assert s["routing"]["heavy_compute_armed"] is False
+assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
+assert s["generation4_recovery_design"]["generation1_arm_is_inert"] is True
+assert s["generation4_recovery_design"]["heavy_compute_authorized"] is False
+assert s["generation4_recovery_design"]["next_heavy_generation"]==2
+assert s["next_obligation"]["id"]=="BR204_G4_COMPACT_EXECUTION_SURFACE_AUDIT"
+assert all(v is False for v in s["credit_firewall"].values())
 
-def family(path: str) -> str:
-    name = Path(path).name
-    if name.startswith(("stage32-ex", "stage32ex")):
-        return "Stage32EX"
-    if name.startswith("stage35-ex"):
-        return "Stage35EX"
-    m = re.match(r"stage(\d+)", name)
-    if m:
-        return f"Stage{m.group(1)}"
-    return "REPO"
-
-
-def classify(path: str) -> str:
-    if path in ACTIVE_AUTO:
-        return "ACTIVE_AUTO"
-    if path in MANUAL:
-        return "MANUAL"
-    if re.match(r"\.github/workflows/stage\d", path):
-        return "RETIRED"
-    return "MANUAL"
-
-
-def top_level_on(lines: list[str]) -> tuple[int, int] | None:
-    for i, line in enumerate(lines):
-        if line.startswith("on:"):
-            end = i + 1
-            if line.strip() != "on:":
-                return i, end
-            while end < len(lines):
-                s = lines[end]
-                if s and not s[0].isspace() and not s.lstrip().startswith("#"):
-                    break
-                end += 1
-            return i, end
-    return None
-
-
-def events(text: str) -> set[str]:
-    lines = text.splitlines()
-    span = top_level_on(lines)
-    if span is None:
-        return set()
-    start, end = span
-    first = lines[start].strip()
-    if first != "on:":
-        rhs = first.split(":", 1)[1].strip()
-        if rhs.startswith("[") and rhs.endswith("]"):
-            return {x.strip().strip("'\"") for x in rhs[1:-1].split(",") if x.strip()}
-        return {rhs.strip("'\"")} if rhs else set()
-    out = set()
-    for line in lines[start + 1:end]:
-        m = re.match(r"^  ([A-Za-z0-9_-]+):", line)
-        if m:
-            out.add(m.group(1))
-    return out
-
-
-def manualize(text: str) -> str:
-    lines = text.splitlines()
-    span = top_level_on(lines)
-    if span is None:
-        raise AssertionError("missing top-level on: block")
-    start, end = span
-    replacement = ["on:", "  workflow_dispatch:"]
-    return "\n".join(lines[:start] + replacement + lines[end:]) + ("\n" if text.endswith("\n") else "")
-
-
-def build_inventory(changed: list[str]) -> dict:
-    groups: dict[str, list[str]] = {k: [] for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
-    fam: dict[str, Counter] = defaultdict(Counter)
-    for p in workflow_paths():
-        r = rel(p)
-        cls = classify(r)
-        groups[cls].append(r)
-        fam[family(r)][cls] += 1
-        fam[family(r)]["TOTAL"] += 1
-    counts = {k: len(v) for k, v in groups.items()}
-    counts["TOTAL"] = sum(counts.values())
-    return {
-        "schema_version": 2,
-        "generated_on": "2026-09-11",
-        "scope": "repository-wide workflow lifecycle policy",
-        "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
-        "counts": counts,
-        "families": {k: dict(v) for k, v in sorted(fam.items())},
-        "classifications": groups,
-        "automatic_triggers_removed_by_migration": changed,
-        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
-        "notes": [
-            "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
-            "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
-            "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
-            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
-            "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-            "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
-        ],
-    }
-
-
-def verify_inventory(inv: dict) -> list[str]:
-    failures: list[str] = []
-    actual = build_inventory([])["classifications"]
-    expected = inv.get("classifications", {})
-    if actual != expected:
-        failures.append("inventory is stale: classification/path set differs from .github/workflows")
-    for p in workflow_paths():
-        r = rel(p)
-        cls = classify(r)
-        ev = events(p.read_text())
-        if cls in {"MANUAL", "RETIRED"} and ev != {"workflow_dispatch"}:
-            failures.append(f"{cls} must be workflow_dispatch-only: {r} events={sorted(ev)}")
-        if cls == "ACTIVE_AUTO" and not (ev - {"workflow_dispatch", "workflow_call"}):
-            failures.append(f"ACTIVE_AUTO has no automatic event: {r} events={sorted(ev)}")
-    return failures
-
-
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--fix", action="store_true")
-    ap.add_argument("--write-inventory", action="store_true")
-    args = ap.parse_args()
-
-    changed: list[str] = []
-    if args.fix:
-        for p in workflow_paths():
-            r = rel(p)
-            if classify(r) not in {"MANUAL", "RETIRED"}:
-                continue
-            text = p.read_text()
-            if events(text) != {"workflow_dispatch"}:
-                p.write_text(manualize(text))
-                changed.append(r)
-
-    generated = build_inventory(changed)
-    if args.write_inventory:
-        INVENTORY.write_text(json.dumps(generated, indent=2, sort_keys=False) + "\n")
-    if not INVENTORY.is_file():
-        raise SystemExit(f"missing inventory: {INVENTORY}")
-    inv = json.loads(INVENTORY.read_text())
-    failures = verify_inventory(inv)
-    if failures:
-        raise SystemExit("\n".join(failures))
-
-    c = inv["counts"]
-    print("PASS repository-wide workflow trigger lifecycle inventory")
-    print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
-    for name, row in inv["families"].items():
-        print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
-    print("historical_or_manual_automatic_triggers=0")
-    print("mathematical_authority_changed=true")
-
-
-if __name__ == "__main__":
-    main()
+print("BR204 G4 compact execution plan: PASS")
