@@ -2137,10 +2137,10 @@
       }
     },
     "e2_unique_pair_etale_immersion_orbifold_bmy": {
-      "status": "EXACT_PREAUDIT_ETALE_IMMERSION_SAFE_LCT_ORBIFOLD_BMY_M1_TOP_SLICE_PRUNING_ZERO_CREDIT",
+      "status": "EXACT_PREAUDIT_SAFE_LCT_ORBIFOLD_BMY_DOMINATED_ZERO_INCREMENTAL_EXCLUSION_NO_CREDIT",
       "support_mask": "000707000f0f",
       "case": "e=2",
-      "scope": "conditional on the retained unique-pair/common-etale chain. Etaleness gives branchwise immersion only; no pairwise transversality is assumed. Langer Theorem 0.3 is applied only after a safe log-canonical-threshold check using lct_P(C)>=1/mult_P(C). This gives a genuine m=1 top-slice cut but does not close the m=2 shell or e=2.",
+      "scope": "bounded no-go for the Langer orbifold-BMY route after enforcing the correct log-canonicity gate. The safe general lct>=1/multiplicity estimate gives no exclusion beyond the already retained factor-fiber Abel/saturation constraints at m=1 or Miyaoka at m=2.",
       "source_locks": {
         "joint_pair_birationality_note_blob": "53608cb51aa49ccde1603b1cb1d136ea497b2324",
         "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
@@ -2249,8 +2249,8 @@
         "disposition": "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA",
         "note": "the earlier tentative EXCLUDED_BY_ORBIFOLD_BMY disposition is withdrawn; safe general lct control does not authorize alpha=1/16 at all possible interior singularities"
       },
-      "result": "with no pairwise-transversality assumption, the safe general lct>=1/multiplicity bound allows Langer's orbifold BMY inequality to exclude only the m=1 top slice Q>=207; the m=1 band 118<=Q<=206 and the Miyaoka-allowed m=2 shell (including Q=672) remain open",
-      "next_missing_datum": "for m=1, exact jet/postulation on 118<=Q<=206; for m=2, the Miyaoka-allowed shell still contains Q=672 and needs exact postulation/marked conductor/common-etale information. A stronger Langer cut would require a proved lower bound on interior lct beyond 1/multiplicity, for example from an independently proved restriction on tangency type.",
+      "result": "after correcting the log-canonicity gate, the Langer orbifold-BMY route gives zero incremental exclusion: m=1 already has Q<=192 from exact saturation+factor-fiber Abel DP while safe Langer starts at Q=207, and m=2 already has Q<=677 from Miyaoka while safe Langer starts at Q=708",
+      "next_missing_datum": "do not pursue orbifold-BMY further without an independently proved interior tangency/lct improvement. Return to exact m=1,m=2 global jet/postulation, marked conductor/common-etale data, a genuinely nonlinear bulk realization obstruction, or an audited MB-FIB restriction.",
       "firewalls": {
         "m1_high_energy_shell_closed": false,
         "bulk_closed": false,
@@ -2266,15 +2266,122 @@
         "endpoint_credit": false,
         "merge_authorized": false,
         "m2_high_energy_shell_closed": false,
-        "pairwise_transversality_proved": false
+        "pairwise_transversality_proved": false,
+        "incremental_exclusion": false
+      },
+      "allocation_energy_dp": {
+        "method": "exact dynamic programming over each seven-variable centered block b_j in [-4*m,4*m], retaining the saturation linear form and the two factor-fiber Abel residues mod 4",
+        "q0_block_nodes": [
+          0,
+          1,
+          2,
+          3,
+          24,
+          25,
+          26
+        ],
+        "q1_block_nodes": [
+          8,
+          9,
+          10,
+          11,
+          32,
+          33,
+          34
+        ],
+        "q0_state_coefficients": {
+          "linear": [
+            1,
+            -1,
+            1,
+            -1,
+            -1,
+            1,
+            -1
+          ],
+          "abel1_mod4": [
+            1,
+            -1,
+            1,
+            -1,
+            -2,
+            2,
+            0
+          ],
+          "abel2_mod4": [
+            0,
+            0,
+            2,
+            -2,
+            1,
+            1,
+            1
+          ]
+        },
+        "q1_state_coefficients": {
+          "linear": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "abel3_mod4": [
+            2,
+            2,
+            0,
+            0,
+            -1,
+            1,
+            -1
+          ],
+          "abel4_mod4": [
+            1,
+            -1,
+            1,
+            -1,
+            0,
+            0,
+            2
+          ]
+        },
+        "exact_maxima": {
+          "m1": {
+            "q0_max": 96,
+            "q1_max": 96,
+            "Q_max": 192
+          },
+          "m2": {
+            "q0_max": 384,
+            "q1_max": 384,
+            "Q_max": 768
+          }
+        }
+      },
+      "safe_lct_comparison": {
+        "m1": {
+          "retained_abel_saturation_Q_max": 192,
+          "safe_lct_langer_first_possible_exclusion_Q": 207,
+          "incremental_exclusion": false,
+          "reason": "the safe-LCT Langer contradiction begins strictly above the exact formal allocation maximum"
+        },
+        "m2": {
+          "retained_miyaoka_Q_upper": 677,
+          "safe_lct_langer_first_possible_exclusion_Q": 708,
+          "retained_formal_witness_Q": 672,
+          "incremental_exclusion": false,
+          "reason": "Miyaoka already removes every Q where the safe-LCT Langer inequality would add an exclusion"
+        }
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 unique pair — safe-LCT BMY-pruned m=1/m=2 or nonlinear bulk",
-    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-SAFE-LCT-BMY-PRUNED-M1-M2-OR-BULK",
-    "required_input": "Etaleness gives only branchwise immersion of Z->Zbar; distinct branches may be tangent. Langer Theorem 0.3 also requires log canonicity, so arbitrary interior points are controlled only through the safe general bound lct>=1/multiplicity. Combining the free four-point H orbit, delta>=binom(mult,2), and the retained ordinary supported-point passport gives one new exact cut: for m=1, Q>=207 is impossible by Langer BMY with alpha=1/8. The stronger tentative Q>=193 and m=2-shell closure are withdrawn because alpha*mult<=2 is not a sufficient lc criterion for arbitrary tangent interior singularities. Thus m=1 high-energy candidates 118<=Q<=206 remain, and m=2 still has the Miyaoka-allowed shell including the retained formal Q=672 witness. Continue with exact m=1/m=2 postulation, a proved tangency/lct refinement, marked conductor/common-etale data, nonlinear bulk obstruction, or an audited MB-FIB restriction.",
+    "title": "e=2 unique pair — exact m=1,m=2 postulation or nonlinear bulk",
+    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-EXACT-M1-M2-POSTULATION-OR-BULK",
+    "required_input": "The Langer orbifold-BMY detour is now bounded and closed as a no-go. Correct log canonicity requires the safe general lct>=1/multiplicity bound at arbitrary tangent interior singularities. Under that gate, m=1 would only be excluded from Q>=207, but exact DP of the retained saturation plus four factor-fiber Abel congruences already gives Q<=96+96=192. For m=2, safe Langer first excludes Q>=708 while the retained Miyaoka bound already gives Q<=677 (and the formal Q=672 witness remains). Hence orbifold-BMY contributes zero incremental exclusion. Continue with exact finite m=1,m=2 jet/postulation, marked conductor/common-etale data, a genuinely nonlinear bulk realization obstruction, or an audited MB-FIB restriction.",
     "success_shapes": [
       "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
       "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka-allowed bulk",
@@ -2304,7 +2411,8 @@
       "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
       "assuming pairwise transversality of interior normalization branches from etaleness alone: only branchwise immersion is retained",
       "claiming alpha*mult<=2 is sufficient for log canonicity at arbitrary interior singularities; without an ordinary/transverse theorem use the safe lct>=1/mult bound",
-      "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut"
+      "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut",
+      "safe-lct Langer/orbifold-BMY replay without a new interior lct or tangency theorem: it is now proved dominated by Abel at m=1 and Miyaoka at m=2"
     ]
   },
   "routing": {
@@ -2393,17 +2501,15 @@
     "e2_unique_pair_etale_immersion_exact": true,
     "e2_unique_pair_orbifold_bmy_exact": false,
     "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": false,
-    "e2_unique_pair_orbifold_bmy_m1_Q_upper": 206,
-    "e2_unique_pair_orbifold_bmy_high_energy_residual": {
-      "m1": {
-        "Q_min": 118,
-        "Q_max": 206
-      },
-      "m2": "MIYAOKA_ALLOWED_SHELL_STILL_OPEN"
-    },
     "e2_unique_pair_orbifold_bmy_e2_closes": false,
     "e2_unique_pair_interior_pairwise_transversality_proved": false,
-    "e2_unique_pair_orbifold_bmy_safe_lct_exact": true
+    "e2_unique_pair_orbifold_bmy_safe_lct_exact": true,
+    "e2_unique_pair_safe_lct_bmy_incremental_exclusion_count": 0,
+    "e2_unique_pair_safe_lct_bmy_route": "CLOSED_DOMINATED_BY_ABEL_M1_AND_MIYAOKA_M2",
+    "e2_unique_pair_abel_formal_Q_max_m1": 192,
+    "e2_unique_pair_miyaoka_Q_upper_m2": 677,
+    "e2_unique_pair_safe_lct_bmy_first_cut_m1": 207,
+    "e2_unique_pair_safe_lct_bmy_first_cut_m2": 708
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
