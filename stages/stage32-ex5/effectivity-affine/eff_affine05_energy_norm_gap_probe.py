@@ -93,9 +93,20 @@ def main() -> None:
             lo = mid
     lam = hi
     dom = lam * R - pair_form
-    _ldl_l, ldl_d = dom.LDLdecomposition(hermitian=False)
+    ldl_l, ldl_d = dom.LDLdecomposition(hermitian=False)
+    req(dom == ldl_l * ldl_d * ldl_l.T, "domination LDL replay")
     req(all(ldl_d[i, i] > 0 for i in range(ldl_d.rows)), "domination LDL")
-    dom_inv = dom.inv()
+
+    def inverse_quadratic(b: Matrix):
+        # Exact b^T dom^-1 b via dom=L D L^T, without forming dom^-1.
+        y = []
+        for i in range(ldl_l.rows):
+            v = b[i, 0]
+            for j in range(i):
+                v -= ldl_l[i, j] * y[j]
+            v /= ldl_l[i, i]
+            y.append(v)
+        return sum(y[i] * y[i] / ldl_d[i, i] for i in range(len(y)))
 
     normal_lb = min_square_sum(eng.NORMAL_MASS, 92)
     exceptional_lb = min_square_sum(eng.E, 48)
@@ -128,7 +139,7 @@ def main() -> None:
         # lambda*Q(C)-E(C) = z^T dom z + 2 b^T z + c.
         b = -lam * cross - s
         c = lam * (Rational(eng.D * eng.D, 16) - q0) - e0
-        min_gap = c - (b.T * dom_inv * b)[0]
+        min_gap = c - inverse_quadratic(b)
         mu = -min_gap
         bad_energy_upper = lam * q_bad_upper + mu
         gap = Rational(energy_lb) - bad_energy_upper
