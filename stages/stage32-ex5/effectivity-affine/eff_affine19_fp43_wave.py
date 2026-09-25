@@ -27,6 +27,8 @@ ENGINE = ROOT / "stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.
 ENGINE_BLOB = "e7857e9213ca9107edada1424012a7a1c902a625"
 AFF17 = ROOT / "stages/stage32-ex5/effectivity-affine/eff_affine17_empty_ellipsoid_sweep.py"
 AFF17_BLOB = "2f173365fe48d91630b1d88d454951469537c42b"
+AFF15 = ROOT / "stages/stage32-ex5/effectivity-affine/eff_affine15_forced_zero_collapse.py"
+AFF15_BLOB = "40255b3c62753f3df837c006b9481f3a8c02c717"
 
 WAVE_SIZE = 16
 PER_FIBER_NODE_CAP = 50000
@@ -277,12 +279,13 @@ def solve_one(row, ctx, lc, P: Matrix, gram: Matrix, eng, total_nodes_used: int)
 def main() -> None:
     req(ENGINE.is_file() and blob(ENGINE) == ENGINE_BLOB, "FP58 engine drift")
     req(AFF17.is_file() and blob(AFF17) == AFF17_BLOB, "AFFINE17 drift")
+    req(AFF15.is_file() and blob(AFF15) == AFF15_BLOB, "AFFINE15 drift")
     eng = load(ENGINE, "stage32ex5_eff_affine19_engine")
     aff17 = load(AFF17, "stage32ex5_eff_affine19_aff17")
 
     F6, A6, I6, RK58, R58, _L, _d, _c, _u, P, gram = eng.build()
     solve58 = aff17.load(
-        ROOT / "stages/stage32-ex5/effectivity-affine/eff_affine15_forced_zero_collapse.py",
+        AFF15,
         "stage32ex5_eff_affine19_aff15",
     ).ldl_solver(R58)
     aff15 = sys.modules["stage32ex5_eff_affine19_aff15"]
