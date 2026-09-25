@@ -42,7 +42,8 @@ Legacy `stages/stage32-ex*` directories, historical routing snapshots, retained 
 
 ## Historical path collisions
 
+- `stages/stage32/32-02/` is historical Z3/Normaliz production evidence, not the current formal 32-02 unit.
 - `stages/stage32/32-03/` is a historical e4/a32 affine-lattice package, not the current formal 32-03 unit.
 - current formal 32-03 work lives under `stages/stage32/final-chain/32-03-multibranch/`.
 
-Use `stages/stage32/retained/historical-32-03/README.md` as the navigation warning. Do not infer unit identity from the legacy directory name.
+Use `stages/stage32/retained/historical-32-02/README.md` and `stages/stage32/retained/historical-32-03/README.md` as navigation warnings. Do not infer unit identity from the legacy directory name.
