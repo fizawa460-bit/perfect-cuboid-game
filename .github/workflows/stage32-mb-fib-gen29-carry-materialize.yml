@@ -1,0 +1,45 @@
+name: Stage32 MB-FIB Gen29 durable carry materialization
+# Trigger lifecycle: ACTIVE_AUTO TEMPORARY — one-shot exact artifact preservation; retire immediately after carry commit.
+on:
+  push:
+    branches:
+      - stage32mb-fib-isotropic-shells-20260920
+    paths:
+      - '.github/workflows/stage32-mb-fib-gen29-carry-materialize.yml'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/materialize_mb104_000707_gen29_x58_singleton_carry.py'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Fetch and preserve exact Gen29 x58 singleton certificates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/materialize_mb104_000707_gen29_x58_singleton_carry.py \
+            --out-dir stages/stage32/final-chain/32-03-multibranch/nodes/MB104
+      - name: Commit exact Gen29 durable carry evidence
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN29-X58-SINGLETON-CARRY-SOURCE.json \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN29-X58-SINGLETON-CARRY-INDEX.json \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN29-X58-SINGLETON-CARRY-BUNDLE-PART-00.b64 \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN29-X58-SINGLETON-CARRY-BUNDLE-PART-01.b64 \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN29-X58-SINGLETON-CARRY-BUNDLE-PART-02.b64 \
+            stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN30-X58-SINGLETON-RESIDUAL49.json
+          git diff --cached --quiet && { echo 'no carry delta'; exit 1; }
+          git commit -m 'stage32mb-fib: retain exact Gen29 x58 singleton durable carry'
+          git push origin "HEAD:stage32mb-fib-isotropic-shells-20260920"
