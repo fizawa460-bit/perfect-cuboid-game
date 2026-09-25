@@ -2855,6 +2855,33 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false
+      },
+      "rational_core_ramification_gate": {
+        "status": "EXACT_PREAUDIT_RATIONAL_CORE_ETALE_RAMIFICATION_GATE_ZERO_CREDIT",
+        "setup": "if a core exists, take nonconstant q1,q2:C8->P1 with h=q1 o f1=q2 o f2, where f1,f2:Z->C8 are the retained etale degree-n projections and n=56*m",
+        "degree_relation": "deg(q1)=deg(q2)=d because deg(h)=n*deg(q1)=n*deg(q2)",
+        "ramification_pullback": "R_h=f1^*R_q1=f2^*R_q2 because f1 and f2 are etale",
+        "ramification_degree": "deg(R_q1)=deg(R_q2)=2*d+8 by Riemann-Hurwitz on genus(C8)=5",
+        "z_genus_check": "g(Z)=n*(5-1)+1=4*n+1 and deg(R_h)=n*(2*d+8)=2*g(Z)-2+2*n*d",
+        "symmetry_firewall": "Krishnamoorthy-core does not imply finitary for a general balanced self-correspondence; Bellaiche's core<=>finitary equivalence requires a symmetric self-correspondence. Symmetry of the retained Z-correspondence is not currently source-locked, so q1=q2 must not be assumed.",
+        "clump_firewall": "the retained eight-value Hurwitz passport records quotient-level cycle counts only; it does not materialize a finite complete/clump set satisfying f1^{-1}(S)=f2^{-1}(S). Therefore Corollary 9.2 cannot be triggered from the passport alone.",
+        "literature": [
+          "Raju Krishnamoorthy, Correspondences without a Core, Algebra & Number Theory 12 (2018), Corollary 9.2 and Theorem 9.6",
+          "Joel Bellaiche, On self-correspondences on curves, Algebra & Number Theory 17 (2023), Remark 2.2.5 / Lemma 3.2.4"
+        ],
+        "conclusion": "the rational-core branch is sharpened to equal-degree P1 maps with identical pulled-back ramification divisor on Z; current data do not justify finitary reduction or a clump, so the next exact target is classification of such ramification-matched core maps under the diagonal-G/common-etale passport",
+        "firewalls": {
+          "rational_core_excluded": false,
+          "correspondence_symmetric": false,
+          "finitary_reduction_authorized": false,
+          "clump_materialized": false,
+          "balanced_bulk_closed": false,
+          "e2_closed": false,
+          "receiver_credit": false,
+          "theorem_credit": false,
+          "endpoint_credit": false,
+          "merge_authorized": false
+        }
       }
     }
   },
@@ -2862,8 +2889,9 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump.",
     "success_shapes": [
+      "classify the equal-degree rational-core maps q1,q2:C8->P1 whose ramification divisors pull back identically along the two etale projections, using the diagonal-G/eight-value passport to derive a collision bound, forced clump, or contradiction",
       "classify the rational-core branch compatible with Phi_Z=0, the unique factor pair, and the exact balanced Hurwitz passport, and derive a collision bound or contradiction",
       "prove that the exact 000707 eight-value passport forces a finite clump/complete set for the etale C8 self-correspondence; combined with the no-core theorem this would force the remaining correspondence into the rational-core branch",
       "exact common-etale/commensurator/fiber-collision upper bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk",
@@ -2900,7 +2928,9 @@
       "m=1,Q=192 local-strictness replay: the ordinary equal-weight local orbifold Euler formula attains the retained bound exactly; only a separately verified global equality-rigidity theorem could use the equality boundary",
       "trying to bound the balanced bulk collision multiplicity from only M_1^2=M_2^2, M_i^4=H_E, or generic elliptic common-fiber overlap: these identities formally allow r up to n-1",
       "inferring ball-quotient uniformization merely from equality in Langer Theorem 0.1/0.3: Langer explicitly records equality examples unrelated to ball quotients",
-      "treating the compact C8 correspondence as a punctured modular Gamma(8) Hecke correspondence without a source-valid compact-uniformizer adapter"
+      "treating the compact C8 correspondence as a punctured modular Gamma(8) Hecke correspondence without a source-valid compact-uniformizer adapter",
+      "treating existence of a Krishnamoorthy core as finitary or setting q1=q2 without a separately source-locked symmetry proof",
+      "claiming that the quotient-level eight-value Hurwitz cycle passport already gives a clump/finite complete set without an exact point-level preimage-equality adapter"
     ]
   },
   "routing": {
@@ -3054,7 +3084,12 @@
     "e2_unique_pair_balanced_hurwitz_local_monodromy_even": true,
     "e2_unique_pair_positive_genus_core_excluded_by_Phi_zero": true,
     "e2_unique_pair_bulk_core_dichotomy": "CORELESS_OR_RATIONAL_CORE",
-    "e2_unique_pair_coreless_no_clump_theorem_candidate": "SOURCE_FOUND_ADAPTER_MISSING_FORCED_CLUMP"
+    "e2_unique_pair_coreless_no_clump_theorem_candidate": "SOURCE_FOUND_ADAPTER_MISSING_FORCED_CLUMP",
+    "e2_unique_pair_rational_core_ramification_gate_exact": true,
+    "e2_unique_pair_rational_core_equal_degree_maps": true,
+    "e2_unique_pair_rational_core_pulled_ramification_identity": true,
+    "e2_unique_pair_core_implies_finitary_without_symmetry": false,
+    "e2_unique_pair_balanced_hurwitz_passport_forces_clump": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
