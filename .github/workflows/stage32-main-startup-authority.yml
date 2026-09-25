@@ -390,6 +390,15 @@ jobs:
               if frontier.get("v48_178_support_qbc_main_numeric_bound_replacement_consumed") is not True:
                   raise SystemExit("FAIL: V48 replacement is not consumed at historical BR204 V46 gate")
               print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V48")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128443221087959579960:
+                  raise SystemExit("FAIL: unexpected V49 current bound at historical BR204 V46 gate")
+              if frontier.get("v49_178_fullsupport_384_main_numeric_bound_replacement_consumed") is not True:
+                  raise SystemExit("FAIL: V49 replacement is not consumed at historical BR204 V46 gate")
+              if frontier.get("v49_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V49 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V49")
           else:
               raise SystemExit(f"FAIL: unsupported MAIN schema at BR204 V46 gate: {schema}")
           PY
