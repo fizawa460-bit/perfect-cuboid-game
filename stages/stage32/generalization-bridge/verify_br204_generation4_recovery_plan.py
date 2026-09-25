@@ -99,13 +99,17 @@ def validate_static(p, d, s):
     assert s["source_locks"]["g4_design_blob"]==blob(DESIGN)
     assert s["source_locks"]["g4_plan_blob"]==blob(PLAN)
     assert s["source_locks"]["g4_plan_verifier_blob"]==blob(Path(__file__))
+    assert s["source_locks"]["br203_mu_verifier_blob"]=="56c932c90ce2adaf702956e0b600b0a958fd29fe"
+    assert s["source_locks"]["br203_mu_emitter_blob"]=="26f1a0cb87140a5050b01fc1cd076f947091ac27"
     assert s["routing"]["heavy_compute_armed"] is False
     assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
     assert s["generation4_recovery_design"]["generation1_arm_is_inert"] is True
     assert s["generation4_recovery_design"]["heavy_compute_authorized"] is False
     assert s["generation4_recovery_design"]["next_heavy_generation"]==3
-    assert s["generation4_recovery_design"]["generation2_transition_adapter"]["status"]=="AUDITED_PASS_ARMED_CHILD__RUNTIME_FAILED_PRETARGET"\n    assert s["generation4_recovery_design"]["generation3_transition_adapter"]["status"]=="COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT"
-    assert s["generation4_recovery_design"]["generation2_transition_adapter"]["runkey_only_child"] is True
+    assert s["generation4_recovery_design"]["generation2_transition_adapter"]["status"]=="AUDITED_PASS_ARMED_CHILD__RUNTIME_FAILED_PRETARGET"
+    assert s["generation4_recovery_design"]["generation2_execution"]["completed_target_count"]==0
+    assert s["generation4_recovery_design"]["generation3_transition_adapter"]["status"]=="COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT"
+    assert s["generation4_recovery_design"]["generation3_transition_adapter"]["runkey_only_child"] is True
     assert s["next_obligation"]["id"]=="BR204_G4_GENERATION3_RUNTIME_REPAIR_AUDIT"
     assert all(v is False for v in s["credit_firewall"].values())
 
@@ -128,10 +132,14 @@ def validate_cold_runkey(r, expected_blob: str, s):
     assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
     ac=r["arm_contract"]
     assert ac["hostile_audit_status"]=="PASS"
-    assert ac["execution_surface_changed_after_generation1_arm"] is True
-    assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is True
     assert ac["generation1_heavy_execution_started"] is False
-    assert ac["generation2_transition_adapter_status"]=="REPAIRED_COLD_AWAIT_HOSTILE_AUDIT"
+    assert ac["generation2_authorization_succeeded"] is True
+    assert ac["generation2_runtime_failed_before_target"] is True
+    assert ac["generation2_completed_target_count"]==0
+    assert ac["generation2_execution_closed"] is True
+    assert ac["fresh_hostile_audit_and_generation3_rearm_required"] is True
+    assert ac["generation3_transition_adapter_status"]=="COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT"
+    assert ac["generation3_heavy_authorized"] is False
     assert all(v is False for v in r["credit"].values())
     assert s["source_locks"]["g4_runkey_blob"]==expected_blob
 
@@ -148,8 +156,8 @@ def validate_parent_immutable(parent_ref: str):
 
 def validate_armed_child(new, old, parent_ref: str):
     assert old["schema"]==new["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
-    assert old["generation"]==1 and old["armed"] is True
-    assert new["generation"]==2 and new["armed"] is True
+    assert old["generation"]==2 and old["armed"] is True
+    assert new["generation"]==3 and new["armed"] is True
     for k in ("execution","source_locks","storage","resume","credit"):
         assert old[k]==new[k], k
     assert all(v is False for v in new["credit"].values())
@@ -158,9 +166,9 @@ def validate_armed_child(new, old, parent_ref: str):
     assert isinstance(ac["audited_doorstep_review_id"],int) and ac["audited_doorstep_review_id"]>0
     assert ac["hostile_audit_status"]=="PASS"
     assert ac["execution_surface_audit_status"]=="PASS"
-    assert ac["generation2_transition_adapter_status"]=="AUDITED_PASS_ARMED_CHILD"
-    assert ac["generation2_heavy_authorized"] is True
-    assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is False
+    assert ac["generation3_transition_adapter_status"]=="AUDITED_PASS_ARMED_CHILD"
+    assert ac["generation3_heavy_authorized"] is True
+    assert ac["fresh_hostile_audit_and_generation3_rearm_required"] is False
     assert ac["runkey_only_arm_commit_required"] is True
     assert ac["planned_effective_heavy_concurrency"]==12
     assert ac["repository_stage_concurrency_ceiling"]==18

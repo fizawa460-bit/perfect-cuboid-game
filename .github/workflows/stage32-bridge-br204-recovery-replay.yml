@@ -48,10 +48,10 @@ env:
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
   DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
   PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
-  PLAN_VERIFIER_BLOB: a8abc5b24aea8f6ad02eca9ea9acd23997896f3b
-  COLD_RUNKEY_BLOB: cf5881565057025b9bdcd94c9b6d5682ebb62fad
-  STATE_BLOB: a89934fafe222a7be646c390c812bb27a7c9a36f
-  G4_WORKFLOW_BLOB: a1820fbb6ad122474cf2560956283434d1ebc24a
+  PLAN_VERIFIER_BLOB: 531defe7181667f2a12fa8f17f19d675b00ce9fc
+  COLD_RUNKEY_BLOB: c40912ca9f4319d9fe6c9fadd8d40069817b25fb
+  STATE_BLOB: 42ea34e6c40e199d56945e788da2fb71d31bfb46
+  G4_WORKFLOW_BLOB: 00576784ddc5dcc601a03db7bcd15a3a4bef1467
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
   MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
   REPO_LIFECYCLE_VERIFIER_BLOB: bc5a5513f02776c7256a9882029f74b86a77284f
@@ -135,10 +135,13 @@ jobs:
           assert r["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
           assert r["armed"] is True
           if os.environ["RUNKEY_MODE"]=="cold-surface":
-              assert r["generation"]==1
+              assert r["generation"]==2
               ac=r["arm_contract"]
-              assert ac["generation2_transition_adapter_status"]=="REPAIRED_COLD_AWAIT_HOSTILE_AUDIT"
-              assert ac["generation2_heavy_authorized"] is False
+              assert ac["generation2_authorization_succeeded"] is True
+              assert ac["generation2_runtime_failed_before_target"] is True
+              assert ac["generation2_completed_target_count"]==0
+              assert ac["generation3_transition_adapter_status"]=="COLD_RUNTIME_BUILD_REPAIRED_AWAIT_HOSTILE_AUDIT"
+              assert ac["generation3_heavy_authorized"] is False
           else:
               assert r["generation"]==3
               parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
@@ -146,9 +149,9 @@ jobs:
               assert ac["audited_doorstep_head"]==parent
               assert ac["hostile_audit_status"]=="PASS"
               assert ac["execution_surface_audit_status"]=="PASS"
-              assert ac["generation2_transition_adapter_status"]=="AUDITED_PASS_ARMED_CHILD"
-              assert ac["generation2_heavy_authorized"] is True
-              assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is False
+              assert ac["generation3_transition_adapter_status"]=="AUDITED_PASS_ARMED_CHILD"
+              assert ac["generation3_heavy_authorized"] is True
+              assert ac["fresh_hostile_audit_and_generation3_rearm_required"] is False
           assert r["storage"]["intermediate_retention_days"]==14
           assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
           assert all(v is False for v in r["credit"].values())
@@ -163,15 +166,15 @@ jobs:
           src=Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json")
           r=json.loads(src.read_text())
           r["generation"]=3
-          r["purpose"]="Synthetic exact-head transition-adapter proof only; not an execution arm."
+          r["purpose"]="Synthetic exact-head generation-3 transition proof only; not an execution arm."
           ac=r["arm_contract"]
           ac["audited_doorstep_head"]=os.environ["GITHUB_SHA"]
           ac["audited_doorstep_review_id"]=1
           ac["hostile_audit_status"]="PASS"
           ac["execution_surface_audit_status"]="PASS"
-          ac["generation2_transition_adapter_status"]="AUDITED_PASS_ARMED_CHILD"
-          ac["generation2_heavy_authorized"]=True
-          ac["fresh_hostile_audit_and_generation2_rearm_required"]=False
+          ac["generation3_transition_adapter_status"]="AUDITED_PASS_ARMED_CHILD"
+          ac["generation3_heavy_authorized"]=True
+          ac["fresh_hostile_audit_and_generation3_rearm_required"]=False
           ac["observed_other_stage32_heavy_concurrency_at_arm"]=0
           ac["combined_effective_heavy_concurrency_at_arm"]=12
           Path("/tmp/br204-g4-generation3-synthetic.json").write_text(json.dumps(r,sort_keys=True,indent=2)+"\n")
@@ -263,6 +266,18 @@ jobs:
           PY
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Rebuild repaired heavy runtime exactly
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/g4runtime-build
+          test "$(git hash-object stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py)" = "$BR203_VERIFIER_BLOB"
+          test "$(git hash-object stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py)" = "$BR203_EMITTER_BLOB"
+          python stages/stage32/generalization-bridge/verify_br203_picard_mu_16_state_v2.py --output /tmp/g4runtime-build/mu.json
+          python stages/stage32/generalization-bridge/emit_br203_bounded_mu_header.py /tmp/g4runtime-build/mu.json /tmp/g4runtime-build/br203_mu_generated.hpp
+          test -s /tmp/g4runtime-build/br203_mu_generated.hpp
+          g++ -std=c++20 -O3 -DNDEBUG -pthread -I stages/stage32/generalization-bridge -I /tmp/g4runtime-build \
+            stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp -o /tmp/g4runtime-build/br204-worker
+          /tmp/g4runtime-build/br204-worker --self-test >/tmp/g4runtime-build/selftest.json
       - name: Replay retained BR203 and bounded BR204 semantics
         run: |
           set -euo pipefail
