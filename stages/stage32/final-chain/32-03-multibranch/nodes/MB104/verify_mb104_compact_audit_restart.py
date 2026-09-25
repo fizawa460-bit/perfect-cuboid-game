@@ -797,7 +797,7 @@ def main():
                     if ob is None:
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-MIYAOKA-PRUNED-INTERIOR-REALIZATION", "post-Miyaoka active leaf")
                     else:
-                        req(ob["status"] == "EXACT_PREAUDIT_ETALE_IMMERSION_ORBIFOLD_BMY_HIGH_ENERGY_PRUNING_ZERO_CREDIT", "orbifold-BMY status")
+                        req(ob["status"] == "EXACT_PREAUDIT_ETALE_IMMERSION_SAFE_LCT_ORBIFOLD_BMY_M1_TOP_SLICE_PRUNING_ZERO_CREDIT", "orbifold-BMY status")
                         req(ob["support_mask"] == "000707000f0f" and ob["case"] == "e=2", "orbifold-BMY scope")
                         osl=ob["source_locks"]
                         req(osl["joint_pair_birationality_note_blob"] == "53608cb51aa49ccde1603b1cb1d136ea497b2324", "orbifold-BMY birationality source")
@@ -809,6 +809,9 @@ def main():
                         req(ext["doi"] == "10.1112/S0024611502013874", "Langer DOI")
                         req(ext["locators"] == ["Theorem 0.1","(0.2.3)","Theorem 0.3"], "Langer theorem locators")
                         req(ext["theorem_03_formula"] == "(K_X+D)^2 <= 3*(c2(X)+sum a_i*(2g(D_i)-2)+sum_P(r_P-m_P+m_P^2/4))", "Langer formula")
+                        lct=osl["external_lct_bound"]
+                        req(lct["statement"] == "1/mult_P(C) <= lct_P(S,C) <= 2/mult_P(C) for a reduced plane curve germ on a smooth surface", "safe lct multiplicity bound")
+                        req(lct["doi"] == "10.1017/S0017089525100827", "safe lct source DOI")
 
                         imm=ob["etale_immersion"]
                         req(imm["f1_etale"] is True and imm["f2_etale"] is True, "both product projections etale")
@@ -840,7 +843,7 @@ def main():
 
                         lg=ob["langer_reduction"]
                         req(lg["boundary"] == "D=alpha*Zbar on P=C8 x C8", "Langer boundary")
-                        req(lg["lc_sufficient_check"] == "alpha*mult_P(Zbar)<=2 at every singular point", "Langer lc multiplicity check")
+                        req(lg["lc_sufficient_check"] == "alpha<=1/mult_P(Zbar) at every singular point, using the general lower bound lct_P(Zbar)>=1/mult_P(Zbar)", "Langer safe lc check")
                         req(lg["general_local_term"] == "alpha*(branches-mult)+(alpha^2/4)*mult^2", "Langer general local term")
                         req(lg["interior_local_upper"] == "alpha*(branches-mult)+(alpha^2/4)*mult^2 <= alpha^2*delta_P", "interior local delta upper")
                         req(lg["supported_ordinary_passport_used"] is True, "supported ordinary passport")
@@ -850,30 +853,30 @@ def main():
                         sh=ob["high_energy_shell_pruning"]
                         req(sh["m1"] == {
                             "shell_Q_lower":118,
-                            "tested_region_Q_lower":193,
-                            "delta_same_upper_in_tested_region":62,
-                            "interior_multiplicity_upper":11,
+                            "safe_lct_region_Q_lower":207,
+                            "delta_same_upper_in_safe_region":34,
+                            "interior_multiplicity_upper":8,
                             "supported_multiplicity_upper":16,
                             "alpha":"1/8",
+                            "lc_reason":"interior: lct>=1/mult>=1/8 because mult<=8; supported points are ordinary with mult<=16 so alpha*mult<=2",
                             "lhs":450,
                             "rhs_upper":"486-3*Q/16",
-                            "necessary_Q_upper":192,
-                            "conclusion":"Q>=193 excluded; residual high-energy band is 118<=Q<=192",
-                        }, "orbifold-BMY m1 pruning")
+                            "bmy_contradiction_threshold_Q":193,
+                            "combined_safe_conclusion":"Q>=207 excluded; 118<=Q<=206 remains from the raw high-energy shell",
+                        }, "safe-lct orbifold-BMY m1 pruning")
                         req(sh["m2"] == {
                             "shell_Q_lower":566,
-                            "delta_same_upper_on_shell":436,
-                            "interior_multiplicity_upper":30,
-                            "supported_multiplicity_upper":32,
-                            "alpha":"1/16",
-                            "lhs":450,
-                            "rhs_upper":"951/2-3*Q/64",
-                            "necessary_Q_upper":544,
-                            "conclusion":"entire m=2 high-energy shell excluded because Q>=566>544",
-                        }, "orbifold-BMY m2 pruning")
+                            "miyaoka_allowed_Q_upper":677,
+                            "safe_lct_orbifold_bmy_first_excluded_Q":708,
+                            "conclusion":"no new m=2 pruning beyond Miyaoka; the retained formal Q=672 witness is not excluded by the safe-lct Langer argument",
+                        }, "safe-lct orbifold-BMY m2 no-improvement")
+                        req("alpha*mult<=2" in sh["correction_firewall"] and "withdrawn" in sh["correction_firewall"], "unsafe lc cut withdrawn")
 
-                        # Exact arithmetic replay of the two universal shell cuts.
+                        # Exact arithmetic replay with a safe general lct>=1/multiplicity gate.
                         from fractions import Fraction
+                        from math import isqrt
+                        def max_mult_from_delta(dd):
+                            return (1+isqrt(1+8*dd))//2
                         def shell_gap(mm, QQ, aa):
                             ll=2*mm
                             delta_total=784*ll*ll+112*ll
@@ -882,20 +885,24 @@ def main():
                             lhs=Fraction(128,1)+2*aa*(448*ll)+aa*aa*(1568*ll*ll)
                             eorb=Fraction(64,1)+aa*(224*ll)+aa*aa*Fraction(local_bracket,4)
                             return lhs,3*eorb,lhs-3*eorb
-                        req(shell_gap(1,192,Fraction(1,8))[2] == 0, "m1 Q=192 exact BMY boundary")
-                        req(shell_gap(1,193,Fraction(1,8))[2] == Fraction(3,16), "m1 Q=193 excluded")
-                        req(shell_gap(2,544,Fraction(1,16))[2] == 0, "m2 Q=544 exact BMY boundary")
-                        req(shell_gap(2,566,Fraction(1,16))[2] == Fraction(33,32), "m2 shell lower excluded")
-                        req(shell_gap(2,672,Fraction(1,16))[2] == 6, "old m2 witness excluded by six-unit gap")
-
-                        req(ob["result"] == "etaleness makes every normalization branch smooth but does not force distinct branches transverse; using the general delta>=binom(multiplicity,2) bound, the free H-orbit multiplicity charge, the retained ordinary supported-point passport, and Langer's orbifold BMY inequality still closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192", "orbifold-BMY result")
+                        ds1=336+112-2*207
+                        req(ds1 == 34 and max_mult_from_delta(ds1) == 8, "m1 Q=207 interior multiplicity gate")
+                        req(shell_gap(1,207,Fraction(1,8))[2] == Fraction(45,16), "m1 Q=207 safe BMY contradiction")
+                        ds206=336+112-2*206
+                        req(ds206 == 36 and max_mult_from_delta(ds206) == 9, "m1 Q=206 does not authorize alpha=1/8 from general lct bound")
+                        req(ob["former_m2_witness"]["m"] == 2 and ob["former_m2_witness"]["Q"] == 672, "m2 witness identity")
+                        req(ob["former_m2_witness"]["disposition"] == "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA", "m2 witness restored")
+                        ds2=336*4+112*2-2*672
+                        req(ds2 == 224 and max_mult_from_delta(ds2) == 21, "m2 Q=672 interior multiplicity gate")
+                        req(ob["result"] == "with no pairwise-transversality assumption, the safe general lct>=1/multiplicity bound allows Langer's orbifold BMY inequality to exclude only the m=1 top slice Q>=207; the m=1 band 118<=Q<=206 and the Miyaoka-allowed m=2 shell (including Q=672) remain open", "orbifold-BMY result")
                         req(all(v is False for v in ob["firewalls"].values()), "orbifold-BMY firewalls")
                         req(routing["e2_unique_pair_etale_immersion_exact"] is True, "orbifold-BMY immersion routing")
-                        req(routing["e2_unique_pair_orbifold_bmy_exact"] is True, "orbifold-BMY exact routing")
-                        req(routing["e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed"] is True, "orbifold-BMY m2 closure")
-                        req(routing["e2_unique_pair_orbifold_bmy_m1_Q_upper"] == 192, "orbifold-BMY m1 upper")
+                        req(routing["e2_unique_pair_orbifold_bmy_exact"] is False, "unsafe orbifold-BMY route not retained")
+                        req(routing["e2_unique_pair_orbifold_bmy_safe_lct_exact"] is True, "safe-lct orbifold-BMY routing")
+                        req(routing["e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed"] is False, "m2 shell remains open")
+                        req(routing["e2_unique_pair_orbifold_bmy_m1_Q_upper"] == 206, "safe-lct orbifold-BMY m1 upper")
                         req(routing["e2_unique_pair_orbifold_bmy_e2_closes"] is False, "orbifold-BMY no e2 closure")
-                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-ORBITAL-BMY-PRUNED-M1-OR-BULK", "post-orbifold-BMY active leaf")
+                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-SAFE-LCT-BMY-PRUNED-M1-M2-OR-BULK", "post-safe-lct orbifold-BMY active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
