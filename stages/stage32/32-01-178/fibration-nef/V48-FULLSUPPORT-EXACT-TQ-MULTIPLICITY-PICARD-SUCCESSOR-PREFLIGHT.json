@@ -1,0 +1,83 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_EXACT_TQ_MULTIPLICITY_PICARD_SUCCESSOR_PREFLIGHT_V5",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "EXACT_TQ_MULTIPLICITY_SUCCESSOR_PREPARED__ZERO_MAIN_CREDIT__EXECUTION_PENDING",
+  "authority_context": {
+    "v48_certified_upper_bound": "128470212118313474449",
+    "current_384_equiv_candidate_upper_bound": "128443221087959579960",
+    "current_384_equiv_tightening_vs_v48": "26991030353894489"
+  },
+  "source_locks": {
+    "canonical_r_successor_v3_preflight_blob_sha1": "b68033307bf450addb0ceae6d76a2ad9e0236809",
+    "canonical_r_successor_v3_preflight_canonical_sha256": "6cd87e1339fae0a9aecc451248ce5db2cd4a7e606f68050fa33f9cec27515140",
+    "exact_tq_support_preflight_blob_sha1": "efd6113e1b10b89b117d3a80cb9b97ff1adaa284",
+    "exact_tq_support_preflight_canonical_sha256": "6bc7beb8c8a0b76d6b150950f0341ff97f5193551fd0882c2504bae172a65d26",
+    "exact_tq_support_retained_verifier_blob_sha1": "19a5100aba6128f2768d1edf0fb22121b49b1dba",
+    "exact_tq_multiplicity_preflight_blob_sha1": "a7629266c1815c03eb8691566a6e64cbbf1cddab",
+    "exact_tq_multiplicity_preflight_canonical_sha256": "f4930f2a4ebd06ae287b89cae2213d4fe9a429d8636e765f3500ce4e80ce867b",
+    "exact_tq_multiplicity_formula_verifier_blob_sha1": "eb870daf2825037bcbdce769e9ad8b58833b99b7",
+    "exact_tq_multiplicity_retained_verifier_blob_sha1": "e40e6abe0e163571b810927d5ddf4d086570faf1",
+    "exact_tq_union_probe_blob_sha1": "30feb3b48b0a58115d78e55d89dd3cca58373836",
+    "exact_tq_multiplicity_probe_blob_sha1": "b349ece87438bd78909e25f5edca7e157201b201"
+  },
+  "dominance": {
+    "exact_multiplicity_over_union": "for each fixed (support,r,qBC,qA,aParity), sum_t m(t,qBC)*count_x4(single t) <= histogram_multiplicity(qBC)*count_x4(union exact t-set)",
+    "marginal_identity": "the consumer must prove sum_t m(t,qBC)=source qBC histogram multiplicity for every consumed bin before using the correlated count",
+    "chain": "exact-tq-multiplicity-correlated Picard <= exact-tq-union Picard <= canonical-r-joint Picard <= canonical-joint Picard <= relaxed-joint Picard <= current-fullsupport Picard",
+    "same_population_reason": "m(t,qBC) is an exact factorization of the same retained canonical H histogram by t; no population is added or removed except through the already-required qBC<=4992 survival region",
+    "h_side_exactness": "for the current consumer, H enters downstream only through (support,r,qBC,t) and multiplicity; therefore after the source-bin marginal identity passes, the H/x4 correlation used by this successor is exact relative to the retained source histogram and current Picard/x4 rules",
+    "no_double_charge_rule": "same-population pointwise replacement only; never additive subtraction"
+  },
+  "structural_evidence": {
+    "active_three_cell_qbc_bins": 23335,
+    "active_three_cell_multi_t_qbc_bins": 23147,
+    "active_three_cell_multi_t_fraction": 0.9919434326119563,
+    "active_three_cell_joint_t_qbc_cells": 770757,
+    "active_three_cell_total_h_multiplicity_qcap": 36294583,
+    "c83": {
+      "qbc_bins": 8274,
+      "multi_t_bins": 8202,
+      "max_exact_t_per_qbc": 56,
+      "max_single_t_qbc_multiplicity": 641
+    },
+    "c85": {
+      "qbc_bins": 7909,
+      "multi_t_bins": 7841,
+      "max_exact_t_per_qbc": 58,
+      "max_single_t_qbc_multiplicity": 665
+    },
+    "c89": {
+      "qbc_bins": 7152,
+      "multi_t_bins": 7104,
+      "max_exact_t_per_qbc": 59,
+      "max_single_t_qbc_multiplicity": 671
+    }
+  },
+  "route_decision": {
+    "exact_tq_union_route_superseded_for_future_execution": true,
+    "canonical_r_floor_route_also_superseded_for_future_execution": true,
+    "successor": "EXACT_T_QBC_MULTIPLICITY_CORRELATED_PICARD_OVER_CURRENT_FULLSUPPORT",
+    "reason": "23,147 of 23,335 active three-cell qBC bins contain multiple exact t values. The union consumer gives every H tuple in such a bin the union of all t-compatible x4 windows. Exact t multiplicities retain the same source population while restoring the lost t-qBC correlation, so future execution should use the correlated consumer and keep all weaker columns only for audit comparison.",
+    "next_gate": "bounded weighted replay on c={83,85,89} under explicit execution authorization; require every qBC-bin multiplicity marginal identity, then retain numerical tightening only if exact replay is strict versus current full-support+Picard"
+  },
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_numeric_tightening_claimed": false,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "58a4825bfab902678be6167f9d01cb487f1bd555f7d6dc5fbf6b02b9f362cd5a"
+}
