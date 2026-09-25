@@ -1106,8 +1106,15 @@ def main():
                         req(qeq["ordinary_equal_weight_formula"] == "for an ordinary r-fold point with r equal coefficients alpha and alpha*r<=2, e_orb=(2-r*alpha)^2/4=(1-r*alpha/2)^2", "m1 Q192 local orbifold formula")
                         req(qeq["source"]["doi"] == "10.1112/S0024611502013874" and "Theorem 8.7" in qeq["source"]["locator"], "m1 Q192 local formula source")
                         req(qeq["firewalls"]["q192_excluded"] is False and qeq["firewalls"]["global_equality_rigidity_adapter_proved"] is False, "m1 Q192 equality firewalls")
+                        geq=qeq["global_equality_uniformization_no_go"]
+                        req(geq["status"] == "SOURCE_VALID_LANGER_EQUALITY_DOES_NOT_IMPLY_BALL_QUOTIENT_NO_GO_ZERO_CREDIT", "m1 Q192 equality uniformization no-go status")
+                        req(geq["source"]["doi"] == "10.1112/S0024611502013874", "m1 Q192 equality no-go source")
+                        req("not connected to ball quotients" in geq["source_statement"], "m1 Q192 equality no-go source statement")
+                        req(geq["firewalls"]["q192_excluded"] is False and geq["firewalls"]["ball_uniformization_from_langer_equality"] is False, "m1 Q192 equality no-go firewalls")
                         req(routing["e2_unique_pair_m1_Q192_local_orbifold_strictness_route"] == "CLOSED_EXACT_EQUALITY_NO_GO", "m1 Q192 local-strictness routing")
                         req(routing["e2_unique_pair_m1_Q192_global_equality_rigidity_adapter"] is False, "m1 Q192 global equality adapter firewall")
+                        req(routing["e2_unique_pair_m1_Q192_langer_equality_ball_uniformization_route"] == "CLOSED_SOURCE_VALID_NO_GO", "m1 Q192 equality uniformization routing")
+                        req(routing["e2_unique_pair_m1_Q192_requires_stronger_equality_theorem_or_postulation"] is True, "m1 Q192 stronger theorem/postulation routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
