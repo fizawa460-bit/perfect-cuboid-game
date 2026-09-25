@@ -4,6 +4,7 @@
   "active_auto": [
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
+    ".github/workflows/stage32-mb-fib-gen30-cold-materialize.yml",
     ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml"
   ],
@@ -51,10 +52,10 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
+    "active_auto": 5,
     "manual": 2,
     "retired": 37,
-    "total": 43
+    "total": 44
   },
   "notes": {
     "n356": "consumed historical Stage32 MAIN leaf; workflow_dispatch-only replay retained",
@@ -65,6 +66,7 @@
     "root_cleanup": "housekeeping verifier; manual replay retained",
     "mathematical_authority_changed": true,
     "mb_fib_isotropic_shell_pilot": "current MB-FIB auxiliary frontier; ACTIVE_AUTO trigger retained but all heavy execution is fresh commit-range runkey gated",
-    "gen29_carry_materializer": "source-committed exact Gen29 carry complete; workflow_dispatch-only RETIRED replay"
+    "gen29_carry_materializer": "source-committed exact Gen29 carry complete; workflow_dispatch-only RETIRED replay",
+    "gen30_cold_materializer": "temporary ACTIVE_AUTO one-shot exact affine-conditioned COLD design materializer; retire immediately after design JSON lands"
   }
 }
