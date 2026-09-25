@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE32_LIVE_CONTROL_V1",
+  "stage": 32,
+  "operator_entrypoint": "stage32mainbatch",
+  "detail_authority": "stages/stage32/MAIN-STATE.json",
+  "formal_roadmap": "stages/stage32/ROADMAP.md",
+  "live_roadmap": "stages/stage32/LIVE-ROADMAP.md",
+  "status": {
+    "32-01": "AUDITED_COMPLETE",
+    "32-02": "ACTIVE_PRIMARY",
+    "32-03": "ACTIVE_PARALLEL",
+    "32-04": "BLOCKED_ON_32_02_AND_32_03",
+    "32-05": "EXTERNAL_AUDIT_ONLY"
+  },
+  "current_frontier": {
+    "certified_upper_bound": "128443221087959579960",
+    "remaining_strata": 17128,
+    "upper_bound_is_exact_residual_identity_set": false,
+    "full178_numerical_census_complete": true
+  },
+  "dispatch": {
+    "default": "32-02",
+    "32-02": "stages/stage32/final-chain/32-02-effectivity/LIVE.json",
+    "32-03": "stages/stage32/final-chain/32-03-multibranch/LIVE.json",
+    "32-04": "stages/stage32/ROADMAP.md",
+    "32-05": "stage32audit"
+  },
+  "parked": [
+    "32-01-178",
+    "CUT",
+    "BRIDGE"
+  ],
+  "firewalls": {
+    "effectivity_released": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "detail_files_are_on_demand": true
+}
