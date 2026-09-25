@@ -25,6 +25,8 @@ REGISTRY = ROOT / "stages/stage32/proof/CLAIM-REGISTRY.json"
 REGISTRY_BLOB = "862e12ddf95e02c5d4907adba76e73e99400cd92"
 ADAPTERS = ROOT / "stages/stage32/proof/LANE-ADAPTERS.json"
 ADAPTERS_BLOB = "2ca34942569532d5ba448e978aa280e85420025f"
+AUDITED_STATE_VERIFIER_SNAPSHOT = ROOT / "stages/stage32/proof/historical-routing-blobs/VERIFY-V49-MAIN-AUTHORITY-SYNC-PRE-ROUTING-CLEANUP.py"
+AUDITED_STATE_VERIFIER_BLOB = "729cbb13410a4efcbeab2b08007208bcfb92e040"
 
 HANDOFF_HEAD = "44d274770de1d092022ebbefff80f3cefb914982"
 HANDOFF_PACKET_REL = Path("stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-CURRENT-MAIN-TRANSPLANT.json")
@@ -164,7 +166,8 @@ def main() -> None:
     locks = st["source_locks"]["v49_post_v48_178_fullsupport_384_authority_sync"]
     req(locks["receipt_blob_sha1"] == RECEIPT_BLOB, "state receipt lock")
     req(locks["receipt_canonical_sha256"] == RECEIPT_CANON, "state receipt canonical lock")
-    req(locks["verifier_blob_sha1"] == blob(Path(__file__)), "state verifier self-lock")
+    req(blob(AUDITED_STATE_VERIFIER_SNAPSHOT) == AUDITED_STATE_VERIFIER_BLOB, "audited state verifier snapshot drift")
+    req(locks["verifier_blob_sha1"] == AUDITED_STATE_VERIFIER_BLOB, "state retained verifier lock")
     req(locks["compact_handoff_audited_exact_head"] == HANDOFF_HEAD, "state handoff head lock")
     req(locks["compact_handoff_blob_sha1"] == HANDOFF_PACKET_BLOB, "state handoff packet lock")
     req(locks["producer_exact_head"] == PRODUCER_HEAD, "state producer head lock")
