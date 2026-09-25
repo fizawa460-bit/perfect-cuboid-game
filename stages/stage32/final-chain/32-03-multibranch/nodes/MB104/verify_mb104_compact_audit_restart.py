@@ -1310,6 +1310,42 @@ def main():
                         req(80 == 5*4*4, "2310 quadratic discriminant squareclass 5")
                         req(ctg["firewalls"]["m_ge_4_rational_core_closed"] is True, "m>=4 firewall closed")
                         req(all(v is False for k,v in ctg["firewalls"].items() if k != "m_ge_4_rational_core_closed"), "compact triangle remaining firewalls")
+                        tk=ctg["takeuchi_class_III_exact_filter"]
+                        req(tk["status"] == "EXACT_PREAUDIT_TAKEUCHI_CLASS_III_COMPLETE_TRIANGLE_FILTER_ZERO_CREDIT", "Takeuchi Class III gate status")
+                        class3=[[2,6,8],[2,3,8],[4,6,6],[3,8,8],[3,3,4],[2,4,8],[4,4,4],[2,8,8],[4,8,8]]
+                        req(tk["class_III_triangle_signatures"] == class3, "Takeuchi Class III signature list")
+                        table=[]
+                        for sig in class3:
+                            dd=orb_delta(tuple(sig))
+                            deg=Fraction(8,1)/dd
+                            table.append((sig,dd,deg))
+                        req([(x[0],x[1],x[2]) for x in table] == [
+                            ([2,6,8],Fraction(5,24),Fraction(192,5)),
+                            ([2,3,8],Fraction(1,24),Fraction(192,1)),
+                            ([4,6,6],Fraction(5,12),Fraction(96,5)),
+                            ([3,8,8],Fraction(5,12),Fraction(96,5)),
+                            ([3,3,4],Fraction(1,12),Fraction(96,1)),
+                            ([2,4,8],Fraction(1,8),Fraction(64,1)),
+                            ([4,4,4],Fraction(1,4),Fraction(32,1)),
+                            ([2,8,8],Fraction(1,4),Fraction(32,1)),
+                            ([4,8,8],Fraction(1,2),Fraction(16,1)),
+                        ], "Takeuchi Class III exact degree replay")
+                        def class3_survivors(m):
+                            out=[]
+                            for sig,dd,deg in table:
+                                if deg.denominator == 1 and deg >= 56*m and deg <= 336:
+                                    out.append({"degree":int(deg),"signature":sig})
+                            return sorted(out,key=lambda x:(x["degree"],x["signature"]))
+                        req(class3_survivors(1) == [{"degree":64,"signature":[2,4,8]},{"degree":96,"signature":[3,3,4]},{"degree":192,"signature":[2,3,8]}], "m1 complete triangle survivors")
+                        req(class3_survivors(2) == [{"degree":192,"signature":[2,3,8]}], "m2 complete triangle survivors")
+                        req(class3_survivors(3) == [{"degree":192,"signature":[2,3,8]}], "m3 complete triangle survivors")
+                        req(all(class3_survivors(m) == [] for m in (4,5,6)), "m>=4 no Class III triangle survivor")
+                        req(tk["balanced_m_survivors"]["m1"] == class3_survivors(1), "state m1 survivors")
+                        req(tk["balanced_m_survivors"]["m2"] == class3_survivors(2), "state m2 survivors")
+                        req(tk["balanced_m_survivors"]["m3"] == class3_survivors(3), "state m3 survivors")
+                        req(tk["balanced_m_survivors"]["m_ge_4"] == [], "state m>=4 survivors")
+                        req(tk["firewalls"]["m_ge_4_rational_core_closed"] is True, "Takeuchi m>=4 closed")
+                        req(all(v is False for k,v in tk["firewalls"].items() if k != "m_ge_4_rational_core_closed"), "Takeuchi remaining firewalls")
                         hb=rch["m_ge4_H_quotient_belyi_gate"]
                         req(hb["status"] == "EXACT_PREAUDIT_MGE4_RATIONAL_CORE_H_QUOTIENT_DEGREE84_BELYI_REDUCTION_ZERO_CREDIT", "m>=4 H quotient Belyi status")
                         req(hb["diagonal_H"]["outer_degree"] == 84, "outer Belyi degree")
@@ -1354,6 +1390,11 @@ def main():
                         req(routing["e2_unique_pair_rational_core_mge4_closed_by_triangle_commensurability"] is True, "mge4 commensurability routing")
                         req(routing["e2_unique_pair_rational_core_m3_survivors"] == [{"degree":192,"signature":[2,3,8]}], "m3 routing survivor")
                         req(routing["e2_unique_pair_rational_core_m2_survivors"] == [{"degree":192,"signature":[2,3,8]}], "m2 routing survivor")
+                        req(routing["e2_unique_pair_rational_core_takeuchi_classIII_filter_exact"] is True, "Takeuchi Class III routing")
+                        req(routing["e2_unique_pair_rational_core_triangle_classification_complete_all_m"] is True, "complete rational-core triangle routing")
+                        req(routing["e2_unique_pair_rational_core_m1_triangle_filter_complete"] is True, "m1 triangle filter routing")
+                        req(routing["e2_unique_pair_rational_core_m1_survivors"] == [{"degree":64,"signature":[2,4,8]},{"degree":96,"signature":[3,3,4]},{"degree":192,"signature":[2,3,8]}], "m1 routing survivors")
+                        req(routing["e2_unique_pair_rational_core_mge4_survivor_count"] == 0, "m>=4 routing survivor count")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
