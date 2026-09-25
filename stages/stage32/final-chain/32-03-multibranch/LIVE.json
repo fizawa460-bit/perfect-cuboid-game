@@ -1,0 +1,20 @@
+{
+  "schema": "STAGE32_32_03_LIVE_V1",
+  "unit": "32-03",
+  "status": "ACTIVE_PARALLEL_INCOMPLETE_ZERO_CREDIT",
+  "goal": "R29_LG2_MB",
+  "primary_state": "stages/stage32/final-chain/32-03-multibranch/STATE.json",
+  "internal_surface": "MB",
+  "auxiliary": {
+    "surface": "MB-FIB",
+    "state": "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json",
+    "read_only_when_mb_selects_it": true
+  },
+  "credit": {
+    "receiver": false,
+    "theorem": false,
+    "endpoint": false
+  },
+  "close_criterion": "MULTIBRANCH_LOW_GENUS_LEDGER_COMPLETE=true and R29_LG2_MB=DISCHARGED",
+  "rule": "Do not preload MB-FIB or historical MB routes unless the current MB state explicitly selects them."
+}
