@@ -2,7 +2,7 @@
 
 Status: **ACTIVE MANAGEMENT LAYER — POST-#1730 Q602-V3-CONSUMED / POST-SYNC-AUDITED / FINAL-CHAIN FRONTIER**
 
-This layer does not replace `MAIN-STATE.json`, retained certificates, leaf verifiers, hostile audits, or FINAL-CHECK. Ordinary routing authority is `stages/stage32/MAIN-STATE.json`; mathematical credit is bounded by registered immutable claim cores, exact source locks, and hostile-audit receipts.
+This layer does not replace retained certificates, leaf verifiers, hostile audits, or FINAL-CHECK. Ordinary startup/dispatch policy lives in `stages/stage32/MAIN-START-HERE.md`; `CURRENT.json` is the compact current-status projection; `MAIN-STATE.json` remains the detailed retained authority/state record. Mathematical credit is bounded by registered immutable claim cores, exact source locks, and hostile-audit receipts.
 
 Machine-readable files:
 
