@@ -1,6 +1,6 @@
 name: Stage32 BRIDGE BR204 G4 mainline replay
 
-# Lifecycle: ACTIVE_AUTO — compact replay gate for the current BR204 G4 cold surface.
+# Lifecycle: ACTIVE_AUTO — compact replay and post-arm storage preflight for the current BR204 G4 surface.
 on:
   push:
     branches: [stage32bridge-g4-mainline]
@@ -36,6 +36,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: stage32-bridge-br204-g4-mainline-${{ github.ref }}
@@ -48,7 +49,7 @@ env:
   DESIGN_BLOB: cca9143c29c891434303cfc973ea818f965c8460
   PLAN_BLOB: a6611f245f71bb958b11efb625d3750d1d011501
   PLAN_VERIFIER_BLOB: 29cff69ef70afcf1926d6e0566a823e4fbafc1bc
-  RUNKEY_BLOB: 97415b3352626262f52524e431d0cf2464d2c70b
+  RUNKEY_BLOB: 313bd92e6dc1e60a91f74352902eee9693a5cf25
   STATE_BLOB: eb75735344c3d9daf7c0a8d64eb1bc6069f2107d
   COLD_WORKFLOW_BLOB: bd61a2c20427318f091469d25e75aa865a397be9
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
@@ -64,7 +65,7 @@ env:
   BR204_MU_BLOB: b7fc7e0c6c889c92cb152d4e8b54d05d2b71a5d1
   DIRECT_WORKER_BLOB: 0d5ee8e1013cab6120e957707a363e86b3c0d41e
   SHARD_WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
-  BC_COMBINER_BLOB: efcbcc3e2b31604acea8f83bbf9524e5180e5139
+  BC_COMBINER_BLOB: 33089c2ca4876650a4ee9c6477e1e6242ad3741c
   GROUP_COMBINER_BLOB: 5986168bca8ec63e1d1aab2e417e9157ae09ef23
   HIER_HELPER_BLOB: ae79ec1ed4ed373f53e5ef010bc2f9e17d8ced45
   BC_EQ_BLOB: e77d033dd375b7a2db319b647d45d56354b9b2b8
@@ -73,6 +74,8 @@ env:
 jobs:
   recovery-replay:
     runs-on: ubuntu-latest
+    outputs:
+      runkey_armed: ${{ steps.armstate.outputs.armed }}
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -92,7 +95,8 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json)" = "$MEASUREMENT_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json)" = "$MEASUREMENT_PAYLOAD_BLOB"
           python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
-      - name: Verify compact predecessor and firewalls
+      - id: armstate
+        name: Verify compact predecessor, audited arm, and firewalls
         run: |
           python - <<'PY'
           import json
@@ -115,9 +119,18 @@ jobs:
           assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
           assert s["routing"]["heavy_compute_armed"] is False
           assert all(v is False for v in s["credit_firewall"].values())
-          assert r["generation"]==0 and r["armed"] is False
+          assert r["generation"]==1 and r["armed"] is True
+          ac=r["arm_contract"]
+          assert ac["audited_doorstep_head"]=="4be08e46894dc8aedde5ce19b7c00da85b85b3af"
+          assert ac["audited_doorstep_review_id"]==5312620454
+          assert ac["hostile_audit_status"]=="PASS"
+          assert ac["planned_effective_heavy_concurrency"]==12
+          assert ac["repository_stage_concurrency_ceiling"]==18
+          assert ac["observed_other_stage32_heavy_concurrency_at_arm"]==0
+          assert ac["combined_effective_heavy_concurrency_at_arm"]==12
           assert all(v is False for v in r["credit"].values())
           PY
+          echo 'armed=true' >> "$GITHUB_OUTPUT"
       - name: Verify current MAIN identity
         run: |
           set -euo pipefail
@@ -148,6 +161,58 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_resumable_bc64_hierarchical.py)" = "$HIER_HELPER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc_shard_equivalence.py)" = "$BC_EQ_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_bc64_hierarchical_equivalence.py)" = "$BC64_EQ_BLOB"
+      - name: Verify actual predecessor-child lossless compaction preflight
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PREDECESSOR_RUN_ID: '35574528620'
+          PREDECESSOR_ARTIFACT_ID: '10628120960'
+          PREDECESSOR_ARTIFACT_NAME: br204-g3-replacement-b2-d148-bc0of16
+          PREDECESSOR_ARTIFACT_DIGEST: sha256:dd76c0d102af75b6313c485a264ee3b5fdd7734aec940c97d88c185a8f590cee
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/g4pred /tmp/g4cert /tmp/g4raw
+          gh api "repos/$REPO/actions/runs/$PREDECESSOR_RUN_ID/artifacts?per_page=100" > /tmp/g4-artifacts.json
+          python - <<'PY'
+          import json,os
+          x=json.load(open('/tmp/g4-artifacts.json'))['artifacts']
+          hit=[a for a in x if a['id']==int(os.environ['PREDECESSOR_ARTIFACT_ID'])]
+          assert len(hit)==1
+          a=hit[0]
+          assert a['name']==os.environ['PREDECESSOR_ARTIFACT_NAME']
+          assert a['expired'] is False
+          assert a['digest']==os.environ['PREDECESSOR_ARTIFACT_DIGEST']
+          PY
+          gh api -H 'Accept: application/vnd.github+json' "repos/$REPO/actions/artifacts/$PREDECESSOR_ARTIFACT_ID/zip" > /tmp/g4pred.zip
+          unzip -q /tmp/g4pred.zip -d /tmp/g4pred
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          expected={
+            0:'5881148242d36fcf98c713a4711397e1b3f414afade2effc263aa8476fb29442',
+            16:'2fa5982933d06d855a9a56493c23a23351f2b289bbebae7471550ac5732f5f83',
+            32:'f7a7d36d5f5b812e445926df5ce11f9d9cd13803d650b3c73b14011f406e3dff',
+            48:'044a708ae4e4a263cc3755b7c5f18d754397660dc4c1dd1c81ad9e2d6dae4fa1',
+          }
+          for i,sha in expected.items():
+              p=Path(f'/tmp/g4pred/children/br204-f-b2-d148-bc{i}of64.tsv.gz')
+              assert p.is_file()
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==sha
+          PY
+          for i in 0 16 32 48; do
+            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py compact-child               --input "/tmp/g4pred/children/br204-f-b2-d148-bc${i}of64.tsv.gz"               --output "/tmp/g4cert/child-${i}.json"               --worker-blob "$SHARD_WORKER_BLOB" --plan-blob "$PLAN_BLOB" --runkey-blob "$RUNKEY_BLOB"
+            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py verify-compact-child               --certificate "/tmp/g4cert/child-${i}.json" --output-raw "/tmp/g4raw/child-${i}.tsv"               --expected-worker-blob "$SHARD_WORKER_BLOB" --expected-plan-blob "$PLAN_BLOB"               --expected-runkey-blob "$RUNKEY_BLOB"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          sizes=[p.stat().st_size for p in Path('/tmp/g4cert').glob('child-*.json')]
+          assert len(sizes)==4 and max(sizes)<=65536
+          projected=max(sizes)*2684
+          assert projected < 524288000
+          assert 175898624 < 524288000
+          print({'actual_certificate_bytes':sorted(sizes),'max_actual':max(sizes),
+                 'projected_2684_at_max':projected,'hard_cap':65536,'budget':524288000})
+          PY
       - name: Install exact algebra dependency
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0'
       - name: Replay retained BR203 and bounded BR204 semantics
@@ -176,6 +241,7 @@ jobs:
   cold-gate-bootstrap:
     name: cold-gate-bootstrap
     needs: recovery-replay
+    if: needs.recovery-replay.outputs.runkey_armed == 'false'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
