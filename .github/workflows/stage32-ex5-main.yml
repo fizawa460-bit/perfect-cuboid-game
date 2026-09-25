@@ -76,8 +76,10 @@ jobs:
       # EFF-AFFINE03..13 are retained research probes, not authority-bearing
       # gates. Their exact-head negative/inconclusive results advanced the
       # research frontier and are intentionally not replayed on every PR sync.
-      - name: Probe EFF-AFFINE14 exceptional-hierarchy exact 54D gap
-        run: python stages/stage32-ex5/effectivity-affine/eff_affine14_exceptional_hierarchy54_gap.py
+      # AFFINE14 exact-head PASS advanced the frontier to a forced-zero
+      # collapse inside its best remaining 54D hierarchy fiber.
+      - name: Certify EFF-AFFINE15 forced-zero lattice collapse
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine15_forced_zero_collapse.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify EX5 cross-lane producer demand routing
