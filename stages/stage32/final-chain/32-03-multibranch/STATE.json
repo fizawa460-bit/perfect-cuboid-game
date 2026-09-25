@@ -2135,19 +2135,155 @@
         "endpoint_credit": false,
         "merge_authorized": false
       }
+    },
+    "e2_unique_pair_etale_immersion_orbifold_bmy": {
+      "status": "EXACT_PREAUDIT_ETALE_IMMERSION_ORBIFOLD_BMY_HIGH_ENERGY_PRUNING_ZERO_CREDIT",
+      "support_mask": "000707000f0f",
+      "case": "e=2",
+      "scope": "conditional on the retained unique-pair/common-etale chain. This uses the product normalization Z -> Zbar in C8 x C8, not a new receiver or MAIN credit. It proves an exact ordinary-self-collision structure and a Langer orbifold-BMY pruning of the adaptive high-energy shell; the Miyaoka-allowed bulk remains open.",
+      "source_locks": {
+        "joint_pair_birationality_note_blob": "53608cb51aa49ccde1603b1cb1d136ea497b2324",
+        "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
+        "residual_node_orbit_note_blob": "dbfea5a4f62b1388c9810c37ad867076ed4dca6e",
+        "product_linearization_note_blob": "2c2db567db6a3c33762b2ff3d7f39f885a95b974",
+        "external_theorem": {
+          "author": "Adrian Langer",
+          "title": "Logarithmic Orbifold Euler Numbers of Surfaces with Applications",
+          "journal": "Proc. London Math. Soc. (3) 86 (2003), 358-396",
+          "year": 2003,
+          "doi": "10.1112/S0024611502013874",
+          "locators": [
+            "Theorem 0.1",
+            "(0.2.3)",
+            "Theorem 0.3"
+          ],
+          "theorem_01": "for a log-canonical surface pair with a multiple of K_X+D effective, (K_X+D)^2<=3*e_orb(X,D)",
+          "local_bound_023": "e_orb(0;C^2,D)<=(1-mult_0(D)/2)^2 for a log-canonical local pair",
+          "theorem_03_formula": "(K_X+D)^2 <= 3*(c2(X)+sum a_i*(2g(D_i)-2)+sum_P(r_P-m_P+m_P^2/4))"
+        }
+      },
+      "etale_immersion": {
+        "normalization": "nu=(f1,f2):Z->Zbar subset P=C8 x C8",
+        "f1_etale": true,
+        "f2_etale": true,
+        "normalization_map_birational": true,
+        "normalization_map_immersive": true,
+        "all_self_collision_branches_pairwise_transverse": true,
+        "all_singularities_ordinary_multiple_points": true,
+        "tangency_argument": "on every off-diagonal component of Z x_(f1,C8,f1) Z, the two induced maps to C8 are finite etale; a tangent coincidence would give a disk automorphism with a fixed point and derivative 1, hence identity, contradicting birationality",
+        "consequence": "there are no cuspidal/unibranch defects and no higher tangency between distinct normalization branches anywhere on Zbar"
+      },
+      "interior_H_orbit": {
+        "H_order": 4,
+        "nontrivial_fixed_types": [
+          "g1",
+          "g2"
+        ],
+        "g1g2_fixed_point_free": true,
+        "unsupported_H_fixed_points_avoided_by_support_mask": true,
+        "interior_singularity_orbit_size": 4,
+        "per_orbit_delta_lower": "4*binom(r,2)",
+        "explanation": "Zbar is H_diag-stable. The only nonfree H points are the g1/g2 fixed cells already represented by the retained support-node table; the active 000707 support has zero carrier multiplicity on the other such cells. Hence every singularity outside the supported packet has a free four-point H orbit."
+      },
+      "product_pair_numbers": {
+        "c2_P": 64,
+        "K_P_square": 128,
+        "geometric_genus": "112*l+1",
+        "K_dot_Zbar": "448*l",
+        "Zbar_square": "1568*l^2",
+        "delta_total": "784*l^2+112*l",
+        "supported_branch_incidence": "224*l",
+        "delta_interior": "4*(336*m^2+112*m-2*Q)",
+        "branch_square_sum_upper": "8960*m^2+1792*m-16*Q"
+      },
+      "langer_reduction": {
+        "boundary": "D=alpha*Zbar on P=C8 x C8",
+        "ordinary_point_lc_condition": "alpha*r<=2",
+        "multiple_of_K_plus_D_effective": true,
+        "global_upper": "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*sum_P r_P^2)",
+        "R_interior_upper": "R_int<=2*delta_int",
+        "sum_r2_identity": "sum r_P^2=2*delta_total+R_total",
+        "derivation": [
+          "for an ordinary r-fold point, multiplicity and branch count agree, so Langer Theorem 0.3 contributes alpha^2*r^2/4",
+          "delta_P=binom(r,2), hence r<=2*delta_P and R_int<=2*delta_int",
+          "the supported product passport has four product singularities over each of fourteen support nodes, with total branch incidence 16*l per node, hence R_supp=224*l",
+          "using delta_total=784*l^2+112*l and delta_int=4*(336*m^2+112*m-2Q) gives sum r_P^2<=8960*m^2+1792*m-16Q"
+        ]
+      },
+      "high_energy_shell_pruning": {
+        "m1": {
+          "shell_Q_lower": 118,
+          "tested_region_Q_lower": 193,
+          "delta_same_upper_in_tested_region": 62,
+          "interior_multiplicity_upper": 11,
+          "supported_multiplicity_upper": 16,
+          "alpha": "1/8",
+          "lhs": 450,
+          "rhs_upper": "486-3*Q/16",
+          "necessary_Q_upper": 192,
+          "conclusion": "Q>=193 excluded; residual high-energy band is 118<=Q<=192"
+        },
+        "m2": {
+          "shell_Q_lower": 566,
+          "delta_same_upper_on_shell": 436,
+          "interior_multiplicity_upper": 30,
+          "supported_multiplicity_upper": 32,
+          "alpha": "1/16",
+          "lhs": 450,
+          "rhs_upper": "951/2-3*Q/64",
+          "necessary_Q_upper": 544,
+          "conclusion": "entire m=2 high-energy shell excluded because Q>=566>544"
+        },
+        "orbit_bound_replay": [
+          "m=1,Q>=193: delta_int/4=delta_same<=62, so binom(r_int,2)<=62 and r_int<=11; supported r<=8*l=16",
+          "m=2,Q>=566: delta_int/4=delta_same<=436, so binom(r_int,2)<=436 and r_int<=30; supported r<=8*l=32"
+        ],
+        "exact_boundary_replay": [
+          "m=1,Q=192,alpha=1/8 gives LHS=450 and RHS_upper=450",
+          "m=1,Q=193,alpha=1/8 gives LHS-RHS_upper=3/16",
+          "m=2,Q=544,alpha=1/16 gives LHS=450 and RHS_upper=450",
+          "m=2,Q=566,alpha=1/16 gives LHS-RHS_upper=33/32"
+        ]
+      },
+      "former_m2_witness": {
+        "m": 2,
+        "Q": 672,
+        "disposition": "EXCLUDED_BY_ORBIFOLD_BMY",
+        "alpha": "1/16",
+        "lhs": 450,
+        "rhs_upper": 444,
+        "contradiction_gap": 6
+      },
+      "result": "etaleness upgrades the normalization map to an immersion and forces every self-collision to be an ordinary transverse multiple point; H-freeness charges every interior singularity in orbits of four, and Langer's orbifold BMY inequality closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192",
+      "next_missing_datum": "for the remaining m=1 high-energy band 118<=Q<=192, use exact-order postulation/marked conductor/common-etale data; for the Miyaoka-allowed bulk at any m, a genuinely nonlinear realization obstruction or an audited MB-FIB restriction is still required",
+      "firewalls": {
+        "m1_high_energy_shell_closed": false,
+        "bulk_closed": false,
+        "unique_pair_existence_proved": false,
+        "e2_closed": false,
+        "e4_closed": false,
+        "support_000707_closed": false,
+        "finite_degree_window": false,
+        "MB104_complete": false,
+        "receiver_credit": false,
+        "effectivity_credit": false,
+        "theorem_credit": false,
+        "endpoint_credit": false,
+        "merge_authorized": false
+      }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 unique pair — bulk-sensitive interior/common-etale realization",
-    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-MIYAOKA-PRUNED-INTERIOR-REALIZATION",
-    "required_input": "The exact even-l family l=2*m, x_j=4*l at every supported node (equivalently b_j=0,Q=0) survives Picard parity, both saturation equations, all four saturated factor-fiber Abel mod-8 congruences, the Miyaoka bound, every retained raw low-bidegree capacity, and the exact two-slice section wall. Its adaptive supported-exceptional cancellation target is identically zero (q_j=0). Therefore eliminating only the finite high-energy residues m=1,2 cannot close e=2. Continue with a genuinely interior/common-etale or marked-conductor obstruction that also sees this bulk ray, or with an independently audited MB-FIB/Picard64 restriction. Finite m=1,2 work is useful only if it is coupled to a bulk-closing mechanism.",
+    "title": "e=2 unique pair — orbifold-BMY-pruned m=1 shell or nonlinear bulk",
+    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-ORBITAL-BMY-PRUNED-M1-OR-BULK",
+    "required_input": "The retained common-etale geometry now gives more than Miyaoka energy: because f1,f2:Z->C8 are both etale and (f1,f2) is birational onto Zbar, the normalization map is an immersion and every self-collision is an ordinary transverse multiple point. H_diag acts freely on every interior singularity, so interior delta is charged in four-point orbits. Langer's orbifold BMY inequality then excludes the entire m=2 adaptive high-energy shell (it would require Q<=544 while that shell starts at Q=566) and excludes m=1 allocations with Q>=193. The only high-energy residue is m=1 with 118<=Q<=192. This still does not close e=2 because Miyaoka-allowed bulk allocations remain for arbitrary m. Continue with exact m=1 postulation/marked-conductor/common-etale data or a genuinely nonlinear bulk obstruction; an audited MB-FIB restriction remains an independent admissible route.",
     "success_shapes": [
-      "exact interior/common-etale or marked-conductor contradiction that applies to the infinite balanced even-l bulk ray",
-      "exact nonlinear/exact-order global realization obstruction that rules out both the balanced bulk ray and the remaining finite high-energy residues",
-      "exact audited MB-FIB/Picard64 restriction independent of the saturated factor-fiber Abel classes and applicable to the unique factor pair",
-      "bounded proof that the balanced bulk ray survives the next proposed invariant too, with the new missing datum identified and zero credit",
-      "exact contradiction for m=1,2 only when accompanied by a separate argument closing the Miyaoka-allowed bulk"
+      "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
+      "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka-allowed bulk",
+      "exact marked conductor transition or common-etale obstruction incompatible with the unique pair",
+      "exact audited MB-FIB/Picard64 restriction independent of the saturated factor-fiber Abel classes",
+      "bounded proof that the remaining m=1 band and/or Miyaoka-allowed bulk survive the available invariants, identifying the next missing datum with zero credit"
     ],
     "must_not_repeat": [
       "128-pair enumeration or fixed-Jacobian basis search",
@@ -2168,7 +2304,10 @@
       "automorphism-graph capacity: it is already contained in the exact irreducible (1,1) low-bidegree capacity census",
       "the former m=5 replacement endpoint: it is now excluded by the Miyaoka bound",
       "adaptive high-energy-shell search for m>=3: that shell is now empty",
-      "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package"
+      "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
+      "m=2 adaptive high-energy-shell search: the entire shell is now excluded by the etale-immersion/Langer orbifold-BMY bound",
+      "m=1 high-energy allocations with Q>=193: they are now excluded by the same orbifold-BMY bound",
+      "treating interior singularities as potentially cuspidal or tangent: the retained common-etale birational normalization forces ordinary transverse self-collisions"
     ]
   },
   "routing": {
@@ -2253,7 +2392,17 @@
     "e2_unique_pair_even_bulk_ray_all_current_supported_linear_constraints_pass": true,
     "e2_unique_pair_balanced_bulk_adaptive_jet_target_dimension": 0,
     "e2_unique_pair_m1_m2_high_shell_alone_can_close_e2": false,
-    "e2_unique_pair_bulk_missing_datum": "genuinely interior/common-etale or marked-conductor information, or an independent audited MB-FIB/Picard64 restriction"
+    "e2_unique_pair_bulk_missing_datum": "genuinely interior/common-etale or marked-conductor information, or an independent audited MB-FIB/Picard64 restriction",
+    "e2_unique_pair_etale_immersion_exact": true,
+    "e2_unique_pair_orbifold_bmy_exact": true,
+    "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": true,
+    "e2_unique_pair_orbifold_bmy_m1_Q_upper": 192,
+    "e2_unique_pair_orbifold_bmy_high_energy_residual": {
+      "m": 1,
+      "Q_min": 118,
+      "Q_max": 192
+    },
+    "e2_unique_pair_orbifold_bmy_e2_closes": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
