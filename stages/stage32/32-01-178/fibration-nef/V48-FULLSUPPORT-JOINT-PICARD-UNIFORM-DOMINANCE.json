@@ -1,0 +1,94 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_JOINT_PICARD_UNIFORM_DOMINANCE_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "UNIFORM_POINTWISE_SUCCESSOR_DOMINANCE_PROVED__ZERO_MAIN_CREDIT__EXECUTION_REQUIRED_FOR_NUMERIC_GAIN",
+  "source_locks": {
+    "support_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "joint_min_verifier_blob_sha1": "490db30dc7e4bfc42da0e6dd9947a644dea14275",
+    "successor_probe_blob_sha1": "048b61e9cd93d97afa3e22f47eab98904bde85af",
+    "uniform_dominance_verifier_blob_sha1": "726869efd5d4a574ad536253bc4908802a02ba66"
+  },
+  "claim": {
+    "joint_floor_dominates_current_separate_floor": "joint_q_lower(b,c,t,support) >= aggregate_q_lower(b,c,t,support)",
+    "set_inclusion": "T_joint(qBC) subset T_separate(qBC) subset hull(T_separate(qBC))",
+    "distance_monotonicity": "dist(y,T_joint) >= dist(y,hull(T_separate))",
+    "picard_qcut_monotonicity": "qcut_joint_picard <= qcut_current_fullsupport pointwise for every fixed (d,g,b,c,support,qBC,x4,a_parity)",
+    "weighted_consequence": "all downstream histogram, qA-tier and eligible-e weights are nonnegative, so the joint-Picard successor cannot increase any cell, coordinate, or summed 384-coordinate upper bound",
+    "same_population": true,
+    "additive_subtraction": false,
+    "statistical_independence": false,
+    "actual_retained_numeric_gain_claimed": false
+  },
+  "bounded_regression": {
+    "domain": "0<=b,c<=8; support=0..7; every finite separate/joint floor threshold; d in {16,24,32}; g in {0,1}; all x4=0..d/2; both a parity classes",
+    "threshold_states": 1120,
+    "strict_tset_states": 524,
+    "empty_joint_states": 238,
+    "qcut_states_with_nonempty_joint_set": 137592,
+    "qcut_states_with_empty_joint_set": 37128,
+    "strict_qcut_states": 17742,
+    "max_qcut_drop": 61
+  },
+  "strict_witnesses": {
+    "small_exact_qcut": {
+      "b": 0,
+      "c": 3,
+      "support": 3,
+      "qbc": 5,
+      "d": 16,
+      "g": 0,
+      "x4": 0,
+      "a_parity": 0,
+      "separate_tset": [
+        1,
+        3
+      ],
+      "joint_tset": [
+        1
+      ],
+      "hull_distance": 5,
+      "joint_set_distance": 7,
+      "current_fullsupport_qcut": 62,
+      "joint_picard_qcut": 58,
+      "strict_qcut_drop": 4
+    },
+    "active_region_structural_threshold": {
+      "b": 36,
+      "c": 89,
+      "support": 5,
+      "t": 103,
+      "separate_floor": 3137,
+      "joint_floor": 3377,
+      "strict_floor_gain": 240,
+      "qbc_test": 3137,
+      "separate_tset_contains_t103": true,
+      "joint_tset_empty_at_qbc_test": true,
+      "retained_positive_histogram_mass_at_qbc_test_claimed": false
+    }
+  },
+  "implication": {
+    "safe_scaleout_rule": "A future exact replay may replace each current full-support+Picard coordinate bound by the corresponding joint-Picard count without any no-double-charge problem; use pointwise same-population replacement only.",
+    "numeric_promotion_requires_execution": true,
+    "next_gate": "Run the bounded c=83,85,89 successor probe under an explicitly authorized execution boundary; if strict against current full-support, retain its exact increment before any larger selector/scaleout."
+  },
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_numeric_tightening_claimed": false,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "15e475bd6dec8a8047f20df0ae2379df1fb2218a1dfd8e3f7db7d0806d343ca3"
+}
