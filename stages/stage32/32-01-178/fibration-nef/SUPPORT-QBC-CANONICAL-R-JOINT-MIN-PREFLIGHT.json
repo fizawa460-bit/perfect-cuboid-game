@@ -1,0 +1,97 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_CANONICAL_R_JOINT_MIN_PREFLIGHT_V1",
+  "status": "EXACT_CANONICAL_R_H_MIN_STRICTLY_DOMINATES_CANONICAL_JOINT__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "support_qbc_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "canonical_joint_min_verifier_blob_sha1": "4296a18f9fb1b59f963206ff28af73a4e9cf7ef0",
+    "canonical_r_joint_min_verifier_blob_sha1": "bb8ccb843a2e2bacaf5c25f88116e2ddddfc4439"
+  },
+  "claim": {
+    "fixed_data": "(b,c,t,H-support,r)",
+    "r_semantics": "r=(x0+x8+x10) mod 2, the exact qBC-histogram required-x4 parity",
+    "exact_minimum": "minimum qBC over retained canonical H tuples with fixed r",
+    "dominance": "canonical_r_joint_q_lower >= canonical_joint_q_lower pointwise",
+    "safety": "the retained qBC histogram is already split by this exact r, so the r-conditioned minimum is same-population and loses no valid tuple",
+    "actual_weighted_v48_gain_claimed": false
+  },
+  "bounded_formula_regression": {
+    "states": 5904,
+    "canonical_finite": 2256,
+    "r_finite": 1859,
+    "r_infeasible_canonical_finite": 397,
+    "strict_finite": 396,
+    "equal_finite": 1463,
+    "max_strict_gain": 30,
+    "weakening": 0
+  },
+  "bounded_literal_enumeration": {
+    "literal_keys": 1064,
+    "formula_mismatches": 0,
+    "strict_vs_canonical_without_r": 145,
+    "max_strict_gain": 4
+  },
+  "active_structural_witness": {
+    "b": 36,
+    "c": 83,
+    "t": 35,
+    "support": 3,
+    "separate_floor": 4753,
+    "relaxed_joint_floor": 4825,
+    "canonical_floor_without_r": 4825,
+    "canonical_r0_floor": 4825,
+    "canonical_r1_floor": 8115,
+    "r1_gain_vs_canonical": 3290
+  },
+  "active_three_cell_structural_scan": {
+    "rows": [
+      {
+        "c": 83,
+        "states": 960,
+        "canonical_finite": 586,
+        "r_finite": 562,
+        "r_infeasible_canonical_finite": 24,
+        "strict_finite": 202,
+        "max_strict_gain": 3290,
+        "strict_with_canonical_floor_at_most_4992": 187,
+        "crosses_qbc_cap_4992": 16
+      },
+      {
+        "c": 85,
+        "states": 976,
+        "canonical_finite": 596,
+        "r_finite": 571,
+        "r_infeasible_canonical_finite": 25,
+        "strict_finite": 207,
+        "max_strict_gain": 3430,
+        "strict_with_canonical_floor_at_most_4992": 188,
+        "crosses_qbc_cap_4992": 12
+      },
+      {
+        "c": 89,
+        "states": 1008,
+        "canonical_finite": 616,
+        "r_finite": 589,
+        "r_infeasible_canonical_finite": 27,
+        "strict_finite": 216,
+        "max_strict_gain": 3710,
+        "strict_with_canonical_floor_at_most_4992": 180,
+        "crosses_qbc_cap_4992": 4
+      }
+    ],
+    "strict_with_canonical_floor_at_most_4992_total": 555,
+    "qbc_cap_crossing_total": 32
+  },
+  "next_gate": "use canonical_r_joint_q_lower per exact retained histogram parity r in the same full-support+Picard successor replay",
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "297cf63ea734a7409f1165af6e2b59610bd04feea68e1d1eaaee077e14fafc11"
+}
