@@ -478,7 +478,6 @@ jobs:
         run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
 
       - name: Verify 32-02 EFF-CFRR01 preflight
-        if: steps.eff_cfrr01_gate.outputs.run == 'true'
         run: python stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py
 
       - name: Run 32-02 EFF-CFRR01 d18/e8 five-key pilot
