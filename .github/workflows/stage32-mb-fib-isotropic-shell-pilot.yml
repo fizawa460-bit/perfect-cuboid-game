@@ -1,0 +1,1104 @@
+name: Stage32 MB-FIB isotropic shell pilot
+# Trigger lifecycle: ACTIVE_AUTO — current MB-FIB Gen30 adaptive COLD frontier; heavy remains runkey-gated.
+# Gen27 durable carry trigger marker: evidence-only, no heavy release.
+on:
+  push:
+    branches:
+      - 'stage32mb-fib-isotropic-shells-20260920'
+    paths:
+      - '.github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml'
+      - 'stages/stage32/final-chain/32-03-multibranch/fib/STATE.json'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/**'
+  pull_request:
+    types: [synchronize]
+    paths:
+      - '.github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml'
+      - 'stages/stage32/final-chain/32-03-multibranch/fib/STATE.json'
+      - 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/**'
+  workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact head to replay
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+      exact_sha: ${{ steps.gate.outputs.exact_sha }}
+      cold_surface: ${{ steps.gate.outputs.cold_surface }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.event.pull_request.head.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact recovery dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - id: gate
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_ACTION: ${{ github.event.action }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          DISPATCH_SHA: ${{ inputs.expected_head_sha }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
+          STATE='stages/stage32/final-chain/32-03-multibranch/fib/STATE.json'
+          PREFLIGHT='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py'
+          LIVE_CONCURRENCY_CHECK="$RUNNER_TEMP/mb-fib-live-stage32-concurrency.py"
+          cat > "$LIVE_CONCURRENCY_CHECK" <<'PY'
+          import json, os, sys, urllib.request
+          repo=os.environ["REPOSITORY"]
+          token=os.environ["GH_TOKEN"]
+          current_run=int(os.environ["CURRENT_RUN_ID"])
+          key_path=sys.argv[1]
+          enforce=sys.argv[2]=="enforce"
+          k=json.load(open(key_path))
+          c=k["concurrency"]
+          planned=int(c["planned_effective_heavy_concurrency"])
+          cap=int(c["stage_heavy_cap"])
+          max_other=int(c["max_other_live_stage32_concurrency_for_arm"])
+          assert planned==8 and cap==18 and max_other==10
+          coordination=c["current_main_coordination"]
+          expected_main=coordination["repository_main"]
+          headers={
+              "Authorization":f"Bearer {token}",
+              "Accept":"application/vnd.github+json",
+              "X-GitHub-Api-Version":"2022-11-28",
+              "User-Agent":"stage32-mb-fib-live-concurrency-gate",
+          }
+          def get(path):
+              req=urllib.request.Request("https://api.github.com"+path,headers=headers)
+              with urllib.request.urlopen(req,timeout=30) as resp:
+                  return json.load(resp)
+          main=get(f"/repos/{repo}/branches/main")["commit"]["sha"]
+          assert main==expected_main,(main,expected_main)
+          def paged(path,item_key):
+              out=[]
+              for page_num in range(1,21):
+                  sep="&" if "?" in path else "?"
+                  payload=get(f"{path}{sep}per_page=100&page={page_num}")
+                  batch=payload[item_key]
+                  out.extend(batch)
+                  if len(batch)<100:
+                      return out
+              raise AssertionError(("pagination overflow",path,len(out)))
+          runs={}
+          for status in ("queued","in_progress"):
+              for run in paged(f"/repos/{repo}/actions/runs?status={status}","workflow_runs"):
+                  name=str(run.get("name",""))
+                  path=str(run.get("path",""))
+                  if "stage32" not in (name+" "+path).lower():
+                      continue
+                  rid=int(run["id"])
+                  if rid==current_run:
+                      continue
+                  runs[rid]=run
+          other=0
+          detail=[]
+          for rid,run in sorted(runs.items()):
+              all_jobs=paged(f"/repos/{repo}/actions/runs/{rid}/jobs?filter=latest","jobs")
+              active=[j for j in all_jobs if j.get("status") in ("queued","in_progress")]
+              if active:
+                  other+=len(active)
+                  detail.append({"run_id":rid,"workflow":run.get("name"),"active_jobs":len(active),
+                                 "job_names":[j.get("name") for j in active]})
+          total=other+planned
+          record={"success":total<=cap,"enforced":enforce,"repository_main":main,
+                  "other_live_stage32_concurrency":other,"planned_mb_fib_concurrency":planned,
+                  "effective_total":total,"stage_heavy_cap":cap,"max_other_for_arm":max_other,
+                  "other_live_detail":detail}
+          print(json.dumps(record,sort_keys=True))
+          if enforce:
+              assert other<=max_other,(other,max_other,detail)
+              assert total<=cap,(total,cap,detail)
+          PY
+          HEAD_SHA="$PR_HEAD"
+          if [ "$EVENT_NAME" = workflow_dispatch ]; then HEAD_SHA="$DISPATCH_SHA"; fi
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          echo 'cold_surface=false' >> "$GITHUB_OUTPUT"
+          echo "exact_sha=$HEAD_SHA" >> "$GITHUB_OUTPUT"
+          [[ "$HEAD_SHA" =~ ^[0-9a-f]{40}$ ]] || exit 0
+          test "$(git rev-parse HEAD)" = "$HEAD_SHA"
+          EXPECTED_PREFLIGHT_BLOB="$(python - "$KEY" <<'PY'
+          import json,sys
+          from pathlib import Path
+          print(json.loads(Path(sys.argv[1]).read_text())["source_locks"]["adaptive_x58_preflight_git_blob"])
+          PY
+          )"
+          test "$(git hash-object "$PREFLIGHT")" = "$EXPECTED_PREFLIGHT_BLOB"
+          python "$PREFLIGHT"
+          set +e
+          python - "$KEY" "$STATE" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          k=json.loads(Path(sys.argv[1]).read_text()); s=json.loads(Path(sys.argv[2]).read_text())
+          gen=int(k["generation"]); mode=k["mode"]
+          pred=k["execution_gate"]["predecessor_audited_surface"]
+          assert pred["status"]=="PASS"
+          assert isinstance(pred["exact_head"],str) and len(pred["exact_head"])==40
+          assert isinstance(pred["review_id"],int)
+          assert s["execution"]["runkey_generation"]==gen
+          if mode=="COLD" and k["armed"] is False:
+              assert gen>=28
+              assert k["execution_gate"]["automatic_execution_authorized"] is False
+              assert k["execution_gate"]["current_head_execution_blocked"] is True
+              assert s["execution"]["heavy_armed"] is False and s["execution"]["execution_authorized"] is False
+              raise SystemExit(28)
+          assert gen>=29 and mode=="RECOVERY" and k["armed"] is True
+          assert k["execution_gate"]["automatic_execution_authorized"] is True
+          audited=k["execution_gate"]["audited_surface"]
+          assert audited["status"]=="PASS" and isinstance(audited["exact_head"],str) and len(audited["exact_head"])==40
+          assert isinstance(audited["review_id"],int)
+          assert s["audit"]["status"]=="PASS"
+          assert s["audit"]["audited_exact_head"]==audited["exact_head"]
+          assert int(s["audit"]["hostile_audit_review_id"])==int(audited["review_id"])
+          receipt=s["audit"]["freeze_evidence"]["load_bearing_source_locks"]
+          sl=k["source_locks"]
+          paths={
+            "workflow_git_blob":".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
+            "local_exact_engine_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell_local_exact.py",
+            "x60_packet_runner_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_x60_packet.py",
+            "gen19_carry_manifest_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN19-X61-PACKET-CARRY-MANIFEST.json",
+            "recovery_runner_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_recovery_singleton.py",
+            "gen23_carry_source_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN23-X60-SINGLETON-CARRY-SOURCE.json",
+            "gen23_carry_index_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN23-X60-SINGLETON-CARRY-INDEX.json",
+            "gen23_carry_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen23_x60_singleton_carry.py",
+            "gen24_residual_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN24-X60-SINGLETON-RESIDUAL30.json",
+            "gen25_successor_design_spec_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-SUCCESSOR-REDESIGN-COLD-SPEC.json",
+            "gen25_successor_cold_diagnostic_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/derive_mb104_000707_gen25_adaptive_affine_cold.py",
+            "gen25_successor_cold_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen25_adaptive_affine_cold.py",
+            "gen25_adaptive_cold_output_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-ADAPTIVE-AFFINE-COLD.json",
+            "gen27_adaptive_carry_source_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-SOURCE.json",
+            "gen27_adaptive_carry_index_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-INDEX.json",
+            "gen27_adaptive_carry_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen27_adaptive_x58_carry.py",
+            "gen28_adaptive_x58_residual_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN28-ADAPTIVE-X58-RESIDUAL54.json",
+            "adaptive_x58_preflight_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py",
+            "adaptive_x58_packet_runner_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_adaptive_x58_packet.py",
+            "adaptive_x58_packet_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_packet.py",
+            "adaptive_x58_aggregate_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/aggregate_mb104_000707_fibration_shell0_adaptive_x58_packets.py",
+            "adaptive_x58_aggregate_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_aggregate.py",
+            "runner_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_isotropic_shells.py",
+            "stage33_stoll_helper_blob":"stages/stage33/33-07/stoll_cuboid_source.py",
+            "stage33_picard_marking_blob":"stages/stage33/33-07/stage32_picard_marking_retained.py",
+            "stage33_picard_base_rows_blob":"stages/stage33/33-07/picard_base_rows_retained.py",
+            "hperp_integral_adapter_blob":"stages/stage32/residual-32-01-production/hperp_integral_adapter.py",
+            "pairing_prefix_engine_blob":"stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+          }
+          subprocess.run(["git","fetch","--no-tags","--depth=1","origin",audited["exact_head"]],check=True)
+          for field,path in paths.items():
+              current=subprocess.check_output(["git","hash-object",path],text=True).strip()
+              assert current==sl[field]==receipt[field],(field,current,sl[field],receipt[field])
+              frozen=subprocess.check_output(["git","rev-parse",f'{audited["exact_head"]}:{path}'],text=True).strip()
+              assert frozen==receipt[field],(field,frozen,receipt[field])
+          PY
+          RC=$?
+          set -e
+          if [ "$RC" = 28 ]; then
+            python "$LIVE_CONCURRENCY_CHECK" "$KEY" diagnostic
+            echo 'cold_surface=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [ "$RC" = 0 ] || exit "$RC"
+          if [ "$EVENT_NAME" = pull_request ]; then
+            [ "$PR_ACTION" = synchronize ] || exit 0
+            BEFORE="$EVENT_BEFORE"
+            [[ "$BEFORE" =~ ^[0-9a-f]{40}$ ]] || exit 0
+            git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+            git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY" || exit 0
+            python - "$BEFORE" "$KEY" <<'PY'
+          import json,subprocess,sys
+          from pathlib import Path
+          before,path=sys.argv[1:]
+          new=json.loads(Path(path).read_text())
+          p=subprocess.run(["git","show",f"{before}:{path}"],text=True,capture_output=True)
+          assert p.returncode==0
+          old=json.loads(p.stdout)
+          assert int(new["generation"])>int(old["generation"])
+          PY
+          fi
+          python "$LIVE_CONCURRENCY_CHECK" "$KEY" enforce
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+      - name: Report MB-FIB COLD surface
+        if: steps.gate.outputs.cold_surface == 'true'
+        run: |
+          echo 'MB-FIB COLD surface verified; current runkey remains unarmed and heavy execution is blocked.'
+  recovery-x59-interval-packet:
+    name: MB-FIB x59 packet p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }}
+    needs: authorize
+    if: ${{ false }} # RETIRED: rejected Gen24 x59 route must never re-arm
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - primary: -12
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 3
+            x60_value: -4
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 0
+            x60_value: -16
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 4
+            x60_value: 4
+          - primary: -8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 3
+            x60_value: -4
+          - primary: -8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 1
+            x60_value: -12
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+          - primary: 0
+            secondary_residue: 6
+            x61_value: 12
+            x60_residue: 4
+            x60_value: 0
+          - primary: 4
+            secondary_residue: 1
+            x61_value: -12
+            x60_residue: 3
+            x60_value: -4
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 2
+            x60_value: -8
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+          - primary: 8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+          - primary: 8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 4
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 7
+            x60_value: 16
+          - primary: 12
+            secondary_residue: 3
+            x61_value: -4
+            x60_residue: 4
+            x60_value: 4
+          - primary: 12
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact recovery dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify exact Gen24 x59 source locks
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_x60_singleton_preflight.py
+      - name: Execute exact x59 interval packet
+        continue-on-error: true
+        run: |
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_x59_packet.py \
+            --primary-value '${{ matrix.primary }}' --secondary-residue '${{ matrix.secondary_residue }}' --x61-value '${{ matrix.x61_value }}' --x60-residue '${{ matrix.x60_residue }}' --x60-value '${{ matrix.x60_value }}' \
+            --solver-timeout-ms 300000 --packet-wall-seconds 2400 --model-cap 10000 \
+            --output "$RUNNER_TEMP/mb-fib-x59-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}.json"
+      - name: Verify x59 packet certificate
+        if: always()
+        run: |
+          CERT="$RUNNER_TEMP/mb-fib-x59-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}.json"
+          test -f "$CERT"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_x59_packet.py --certificate "$CERT" --primary-value '${{ matrix.primary }}' --secondary-residue '${{ matrix.secondary_residue }}' --x61-value '${{ matrix.x61_value }}' --x60-residue '${{ matrix.x60_residue }}' --x60-value '${{ matrix.x60_value }}'
+          python - "$CERT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          d=json.loads(Path(sys.argv[1]).read_text()); assert d["result"]["complete"] is True
+          PY
+      - name: Upload x59 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-mb-fib-x59-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}
+          path: ${{ runner.temp }}/mb-fib-x59-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}.json
+          retention-days: 7
+          if-no-files-found: warn
+          compression-level: 9
+  aggregate-shell0-x59:
+    name: MB-FIB Gen23 carry + x59 residual30 union
+    needs: [authorize,recovery-x59-interval-packet]
+    if: ${{ false }} # RETIRED: rejected Gen24 x59 route must never re-arm
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact aggregate dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify exact Gen24 x59 source locks
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_x60_singleton_preflight.py
+      - name: Verify durable Gen23 carry
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen23_x60_singleton_carry.py
+      - name: Download x59 certificates
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-mb-fib-x59-*
+          path: ${{ runner.temp }}/packets
+          merge-multiple: true
+      - name: Verify exact x59 union
+        continue-on-error: true
+        run: |
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/aggregate_mb104_000707_fibration_shell0_x59_packets.py --input-dir "$RUNNER_TEMP/packets" --output "$RUNNER_TEMP/mb-fib-x59-aggregate.json"
+      - name: Verify aggregate provenance
+        if: always()
+        run: |
+          CERT="$RUNNER_TEMP/mb-fib-x59-aggregate.json"
+          test -f "$CERT"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_x59_aggregate.py --certificate "$CERT"
+      - name: Upload x59 aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-mb-fib-shell0-x59-aggregate
+          path: ${{ runner.temp }}/mb-fib-x59-aggregate.json
+          retention-days: 7
+          if-no-files-found: warn
+          compression-level: 9
+  recovery-adaptive-x58-packet:
+    name: MB-FIB x58 singleton parent p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }} x58=${{ matrix.x58_lo }}..${{ matrix.x58_hi }}
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 6
+            x58_hi: 8
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -8
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 1
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 7
+            x58_hi: 9
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 7
+            x58_hi: 9
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 7
+            x58_hi: 9
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -18
+            x58_hi: -15
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -6
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 4
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 5
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 14
+            x58_hi: 18
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 9
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -11
+            x58_hi: -8
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 3
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 10
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 9
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 7
+            x58_hi: 9
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 6
+            x58_hi: 8
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact singleton dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify Gen28 x58 singleton source locks
+        run: |
+          PREFLIGHT='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py'
+          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
+          EXPECTED="$(python - "$KEY" <<'PY'
+          import json,sys
+          from pathlib import Path
+          print(json.loads(Path(sys.argv[1]).read_text())["source_locks"]["adaptive_x58_preflight_git_blob"])
+          PY
+          )"
+          test "$(git hash-object "$PREFLIGHT")" = "$EXPECTED"
+          python "$PREFLIGHT"
+      - name: Execute exact residual x58 singleton packet
+        continue-on-error: true
+        run: |
+          OUT="$RUNNER_TEMP/x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}.json"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_adaptive_x58_packet.py \
+            --primary-value ${{ matrix.primary }} \
+            --secondary-residue ${{ matrix.secondary_residue }} \
+            --x61-value ${{ matrix.x61_value }} \
+            --x60-residue ${{ matrix.x60_residue }} \
+            --x60-value ${{ matrix.x60_value }} \
+            --x58-lo ${{ matrix.x58_lo }} \
+            --x58-hi ${{ matrix.x58_hi }} \
+            --output "$OUT"
+      - name: Verify residual x58 singleton packet
+        if: always()
+        run: |
+          OUT="$RUNNER_TEMP/x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}.json"
+          test -f "$OUT"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_packet.py \
+            --certificate "$OUT" \
+            --primary-value ${{ matrix.primary }} \
+            --secondary-residue ${{ matrix.secondary_residue }} \
+            --x61-value ${{ matrix.x61_value }} \
+            --x60-residue ${{ matrix.x60_residue }} \
+            --x60-value ${{ matrix.x60_value }} \
+            --x58-lo ${{ matrix.x58_lo }} \
+            --x58-hi ${{ matrix.x58_hi }}
+      - name: Upload residual x58 singleton packet
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-mb-fib-x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}
+          path: ${{ runner.temp }}/x58-singleton-*.json
+          retention-days: 7
+          if-no-files-found: error
+          compression-level: 9
+
+  aggregate-shell0-adaptive-x58:
+    name: MB-FIB Gen27 carry + residual x58 singleton union
+    needs: [authorize,recovery-adaptive-x58-packet]
+    if: always() && needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.authorize.outputs.exact_sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact aggregate dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify Gen28 x58 singleton source locks
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py
+      - name: Verify durable Gen27 carry
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen27_adaptive_x58_carry.py
+      - name: Download residual x58 singleton certificates
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-mb-fib-x58-singleton-*
+          path: ${{ runner.temp }}/packets
+          merge-multiple: true
+      - name: Aggregate exact residual x58 singleton union
+        continue-on-error: true
+        run: |
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/aggregate_mb104_000707_fibration_shell0_adaptive_x58_packets.py \
+            --input-dir "$RUNNER_TEMP/packets" --output "$RUNNER_TEMP/mb-fib-x58-singleton-aggregate.json"
+      - name: Verify residual x58 singleton aggregate provenance
+        if: always()
+        run: |
+          CERT="$RUNNER_TEMP/mb-fib-x58-singleton-aggregate.json"
+          test -f "$CERT"
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_aggregate.py --certificate "$CERT" --input-dir "$RUNNER_TEMP/packets"
+      - name: Upload residual x58 singleton aggregate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-mb-fib-shell0-x58-singleton-aggregate
+          path: ${{ runner.temp }}/mb-fib-x58-singleton-aggregate.json
+          retention-days: 7
+          if-no-files-found: warn
+          compression-level: 9
+
+  materialize-gen27-durable-carry:
+    name: materialize Gen27 durable carry
+    if: ${{ github.event_name == 'push' && github.ref_name == 'stage32mb-fib-isotropic-shells-20260920' && github.event.head_commit.message == 'GEN27-DURABLE-CARRY-TRIGGER' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Gate evidence-only materialization
+        id: materialize_gate
+        run: |
+          set -euo pipefail
+          run="$(python - <<'PY'
+          import json
+          from pathlib import Path
+          k=json.loads(Path('stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json').read_text())
+          g=k.get('evidence_materialization',{})
+          assert int(k['generation'])==27
+          assert k['armed'] is False
+          assert k['execution_gate']['automatic_execution_authorized'] is False
+          assert k['recovery']['heavy_armed'] is False
+          if g.get('pending') is not True:
+              assert g.get('completed') is True
+              print('false')
+              raise SystemExit(0)
+          assert g.get('operation')=='GEN27_ADAPTIVE_X58_DURABLE_CARRY'
+          assert g.get('producing_execution_head')=='1f69a43a49d05b3e8c5fa87c812efe974c9b20e5'
+          assert int(g.get('producing_workflow_run_id'))==36066791252
+          assert int(g.get('expected_complete_child_count'))==74
+          assert int(g.get('expected_incomplete_child_count'))==54
+          assert g.get('heavy_release') is False and g.get('credit') is False
+          print('true')
+          PY
+          )"
+          echo "run=$run" >> "$GITHUB_OUTPUT"
+      - name: Preserve and verify exact Gen27 certificate bytes
+        if: steps.materialize_gate.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/materialize_mb104_000707_gen27_adaptive_x58_carry.py             --out-dir stages/stage32/final-chain/32-03-multibranch/nodes/MB104
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen27_adaptive_x58_carry.py
+      - name: Commit durable carry and disarmed state
+        if: steps.materialize_gate.outputs.run == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          OBSERVED_MAIN="$(gh api "repos/${GITHUB_REPOSITORY}/branches/main" --jq '.commit.sha')"
+          export OBSERVED_MAIN
+          python - <<'PY'
+          import json,os,subprocess
+          from pathlib import Path
+          base=Path('stages/stage32/final-chain/32-03-multibranch/nodes/MB104')
+          keyp=base/'runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
+          statep=Path('stages/stage32/final-chain/32-03-multibranch/fib/STATE.json')
+          k=json.loads(keyp.read_text()); s=json.loads(statep.read_text())
+          def blob(p): return subprocess.check_output(['git','hash-object',str(p)],text=True).strip()
+          source=base/'MB104-000707-GEN27-ADAPTIVE-X58-CARRY-SOURCE.json'
+          index=base/'MB104-000707-GEN27-ADAPTIVE-X58-CARRY-INDEX.json'
+          residual=base/'MB104-000707-GEN28-ADAPTIVE-X58-RESIDUAL54.json'
+          verifier=base/'verify_mb104_000707_gen27_adaptive_x58_carry.py'
+          rehydrate=base/'rehydrate_mb104_000707_gen27_adaptive_x58_carry.py'
+          materializer=base/'materialize_mb104_000707_gen27_adaptive_x58_carry.py'
+          idx=json.loads(index.read_text())
+          assert idx['complete_child_count']==74 and idx['incomplete_child_count']==54
+          assert idx['payload_sha256']=='c5a1d9daa4ec82dd5ec3e6b411b3d5a3dcfb67b4ddcdb252c0c974a5eed7c7d3'
+          k['evidence_materialization']['pending']=False
+          k['evidence_materialization']['completed']=True
+          k['evidence_materialization']['payload_sha256']=idx['payload_sha256']
+          k['evidence_materialization']['gzip_sha256']=idx['gzip_sha256']
+          k['execution_gate']['release_scope']='GEN27_EXECUTED_PARTIAL__DURABLE_CARRY_SOURCE_COMMITTED__NEXT_HEAVY_BLOCKED_PENDING_MAIN_RESYNC_AND_HOSTILE_AUDIT'
+          k['resume']['cold_surface_only']=False
+          k['resume']['recovery_rule']='Preserve 281 prior COMPLETE x60 singletons + 14 REAL_EMPTY leaves + 74 Gen27 COMPLETE x58 interval children. Gen28 may act only on 54 retained timeout children after current-main resync and fresh hostile audit; do not rerun completed regions.'
+          k['source_locks'].update({
+            'gen27_adaptive_x58_carry_source_git_blob':blob(source),
+            'gen27_adaptive_x58_carry_index_git_blob':blob(index),
+            'gen27_adaptive_x58_carry_verifier_git_blob':blob(verifier),
+            'gen27_adaptive_x58_carry_rehydrate_git_blob':blob(rehydrate),
+            'gen27_adaptive_x58_materializer_git_blob':blob(materializer),
+            'gen28_adaptive_x58_residual54_git_blob':blob(residual),
+          })
+          s['execution']['last_attempt']['durable_carry_status']='SOURCE_COMMITTED_VERIFIED'
+          s['execution']['resume_contract'].update({
+            'gen27_adaptive_x58_complete_child_count':74,
+            'gen27_adaptive_x58_residual_timeout_child_count':54,
+            'next_recovery_rule':'Preserve 281 prior COMPLETE x60 singletons + 14 REAL_EMPTY + 74 Gen27 COMPLETE x58 intervals; refine only 54 retained timeout children after main resync and fresh hostile audit.',
+            'recompute_prior_complete_regions':False,
+          })
+          s['gen27_durable_carry']={
+            'producing_execution_head':'1f69a43a49d05b3e8c5fa87c812efe974c9b20e5',
+            'producing_workflow_run_id':36066791252,
+            'aggregate_job_id':107876646071,
+            'aggregate_artifact_id':10839096274,
+            'aggregate_canonical_sha256':'8990b5ddf23ec10a9f39502e3ee6ffb3edef8d517bfab7a3048aca30ae36cd93',
+            'payload_sha256':idx['payload_sha256'],
+            'gzip_sha256':idx['gzip_sha256'],
+            'packet_count':16,
+            'adaptive_interval_child_count':128,
+            'complete_child_count':74,
+            'residual_timeout_child_count':54,
+            'primitive_candidate_count':0,
+            'durable_status':'SOURCE_COMMITTED_VERIFIED',
+            'observed_main_at_materialization':os.environ['OBSERVED_MAIN'],
+            'previous_audited_coordination_main':'e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3',
+            'main_resync_required':os.environ['OBSERVED_MAIN']!='e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3',
+            'credit':False,
+          }
+          s['audit']['status']='GEN27_DURABLE_CARRY_SOURCE_COMMITTED__FREEZE_CONTROL_PENDING'
+          s['execution']['active_transition']='GEN27_DURABLE_CARRY_SOURCE_COMMITTED__54_TIMEOUT_RETAINED__NEXT_HEAVY_BLOCKED'
+          s['status']='GEN27_ADAPTIVE_X58_PARTIAL__74_COMPLETE_54_TIMEOUT__DURABLE_CARRY_SOURCE_COMMITTED__FREEZE_CONTROL_PENDING__MAIN_RESYNC_REQUIRED__ZERO_CREDIT'
+          keyp.write_text(json.dumps(k,indent=2)+"\n")
+          statep.write_text(json.dumps(s,indent=2)+"\n")
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add             stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-SOURCE.json             stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-INDEX.json             stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-BUNDLE-PART-*.b64             stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN28-ADAPTIVE-X58-RESIDUAL54.json             'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json' 'stages/stage32/final-chain/32-03-multibranch/fib/STATE.json'
+          git commit -m 'stage32mb-fib: retain Gen27 adaptive x58 durable carry'
+          git push origin "HEAD:stage32mb-fib-isotropic-shells-20260920"

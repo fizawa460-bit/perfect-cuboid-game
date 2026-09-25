@@ -1,0 +1,11 @@
+name: Stage32 MB-FIB Gen30 cold affine materialization
+# Trigger lifecycle: RETIRED — Gen30 cold design is source-committed; manual replay only.
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify-retired:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Gen30 cold affine design is already source-committed; automatic materialization is retired."
