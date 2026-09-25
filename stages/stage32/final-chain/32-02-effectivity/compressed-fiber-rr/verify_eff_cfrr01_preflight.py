@@ -9,6 +9,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[5]
 HERE = Path(__file__).resolve().parent
 PREFLIGHT = HERE / "EFF-CFRR01-PREFLIGHT.json"
+RETAINED_PILOT = HERE / "EFF-CFRR01-D18E8-FIVE-KEY-PILOT-RETAINED.json"
+PILOT_DISPOSITION = HERE / "EFF-CFRR01-D18E8-FIVE-KEY-PILOT-DISPOSITION.json"
+RETAINED_PILOT_CANON = "240fb8fe2641cb0a62df986449498107af3442786da0916a304a307df767f3dd"
+PILOT_DISPOSITION_CANON = "aeb2405d44d9a597fdd8d7f055fde7ae90177c40367f8034f310ad81181a7864"
 
 
 def req(v: bool, msg: str) -> None:
@@ -132,6 +136,80 @@ def main() -> None:
     ):
         req(p["firewalls"][key] is False, f"firewall {key}")
 
+    retained = json.loads(RETAINED_PILOT.read_text(encoding="utf-8"))
+    req(retained["schema"] == "STAGE32_MAIN_32_02_EFF_CFRR01_D18E8_BASE4_PILOT_V1",
+        "retained pilot schema")
+    req(retained["canonical_sha256_without_this_field"] == RETAINED_PILOT_CANON
+        and canonical(retained) == RETAINED_PILOT_CANON, "retained pilot canonical")
+    req(retained["status"] == "BOUNDED_FIVE_BASE4_PILOT_COMPLETE_ZERO_CREDIT",
+        "retained pilot status")
+    rs = retained["summary"]
+    req(rs == {
+        "linear_fiber_unsat": 0,
+        "rr_all_lifts_candidate": 0,
+        "rr_ambiguous_low_c2_witness": 0,
+        "sample_base4_keys": 5,
+        "source_terminal_mass_in_sample": 60903,
+        "source_terminal_mass_rr_candidate": 0,
+        "unknown": 5,
+    }, "retained pilot summary")
+    expected_keys = [[0,1,1,1],[0,4,4,8],[0,6,2,6],[1,2,2,2],[1,3,3,3]]
+    req([row["base4"] for row in retained["panel"]] == expected_keys, "retained pilot key order")
+    req(all(row["base_linear_status"] == "UNKNOWN"
+            and row["classification"] == "UNKNOWN_BASE_LINEAR"
+            and row["bad_shell_status"] is None
+            and row["reason_unknown"] == "timeout"
+            for row in retained["panel"]), "retained pilot timeout classification")
+    req(sum(int(row["source_terminal_mass"]) for row in retained["panel"]) == 60903,
+        "retained pilot sample mass")
+    for key in (
+        "main_pruning_credit","effectivity_credit","receiver_credit","route_credit",
+        "theorem_credit","endpoint_credit","stage32_closed",
+        "perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized",
+    ):
+        req(retained["firewalls"][key] is False, f"retained pilot firewall {key}")
+
+    disp = json.loads(PILOT_DISPOSITION.read_text(encoding="utf-8"))
+    req(disp["schema"] == "STAGE32_MAIN_32_02_EFF_CFRR01_PILOT_DISPOSITION_V1",
+        "pilot disposition schema")
+    req(disp["canonical_sha256_without_this_field"] == PILOT_DISPOSITION_CANON
+        and canonical(disp) == PILOT_DISPOSITION_CANON, "pilot disposition canonical")
+    req(disp["status"] ==
+        "PILOT_COMPLETE__5_OF_5_UNKNOWN_BASE_LINEAR_TIMEOUT__ZERO_CREDIT__EXACT_AFFINE_SUCCESSOR_REQUIRED",
+        "pilot disposition status")
+    prov = disp["pilot_provenance"]
+    req(prov["execution_head"] == "d38b31458833f13ae8fb7d679e35a9ad99a28d51",
+        "pilot execution head")
+    req(prov["workflow_run_id"] == 36090549352 and prov["job_id"] == 107931867358,
+        "pilot workflow provenance")
+    req(prov["artifact_id"] == 10845511372, "pilot artifact id")
+    req(prov["artifact_zip_digest_sha256"] ==
+        "c570110941b8e6bfe828410dbfde7fe64ea8cc12bb74870899bd952768489dca",
+        "pilot artifact digest")
+    req(prov["result_canonical_sha256"] == RETAINED_PILOT_CANON,
+        "pilot result canonical binding")
+    obs = disp["observed_result"]
+    req(obs["sample_base4_keys"] == 5 and obs["unknown"] == 5
+        and obs["all_unknown_stage"] == "BASE_LINEAR_QF_LIA"
+        and obs["all_unknown_reason"] == "timeout"
+        and obs["solver_timeout_ms_per_key"] == 15000,
+        "pilot disposition observation")
+    req(disp["interpretation"]["timeout_is_resource_wall_not_mathematical_evidence"] is True,
+        "timeout firewall")
+    req(disp["interpretation"]["blind_timeout_extension_selected_as_next_step"] is False,
+        "blind timeout extension selected")
+    req(disp["next_exact_step"]["route"] == "INDEPENDENT_EXACT_AFFINE_LATTICE_BACKEND",
+        "next exact route")
+    req(disp["next_exact_step"]["full343_scaleout_authorized"] is False,
+        "full343 scaleout firewall")
+    for key in (
+        "main_pruning_credit","effectivity_credit","receiver_credit","route_credit",
+        "theorem_credit","endpoint_credit","stage32_closed",
+        "perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized",
+    ):
+        req(disp["firewalls"][key] is False, f"pilot disposition firewall {key}")
+
+    print("PASS: retained EFF-CFRR01 pilot is 5/5 BASE_LINEAR timeout, zero-credit, exact-affine successor required")
     print("PASS: Stage32 32-02 EFF-CFRR01 compressed-base4 RR preflight is source-locked and zero-credit")
 
 
