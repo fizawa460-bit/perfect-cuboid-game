@@ -2485,7 +2485,7 @@
         },
         "projection_degree": "deg(f_i)=28*l=56*m",
         "asymptotic_sheet_fraction": "(7+sqrt(21))/56 ~= 0.20683",
-        "interpretation": "the balanced bulk is no longer an unconstrained formal ray: any realization must concentrate asymptotically at least about 20.7 percent of the common-etale sheets at one interior product point",
+        "interpretation": "the balanced bulk must concentrate asymptotically at least about 20.7 percent of the common-etale sheets at one interior product point. But the retained quotient-elliptic Picard identities alone formally allow shared fiber overlap up to n-1, so the next closer must use the full orbifold/common-etale/commensurator structure rather than only M_1,M_2 line-bundle overlap.",
         "firewalls": {
           "such_high_collision_impossible": false,
           "balanced_bulk_closed": false,
@@ -2494,6 +2494,36 @@
           "theorem_credit": false,
           "endpoint_credit": false,
           "merge_authorized": false
+        },
+        "elliptic_common_fiber_overlap_no_go": {
+          "status": "EXACT_PREAUDIT_ELLIPTIC_PICARD_OVERLAP_ALLOWS_ARBITRARY_R_UP_TO_N_MINUS_1_ZERO_CREDIT",
+          "retained_input": [
+            "E is elliptic",
+            "M_1 and M_2 have common degree n=56*m",
+            "delta_fac=M_1 tensor M_2^(-1) is 2-torsion, equivalently M_1^2=M_2^2",
+            "M_i^4=H_E"
+          ],
+          "construction": [
+            "fix any integer r with 1<=r<=n-1 and put d=n-r>=1",
+            "choose an effective divisor A of degree d",
+            "since every positive-degree line bundle on an elliptic curve has a nonzero section, choose an effective divisor B of degree d with O_E(B)=O_E(A) tensor delta_fac^(-1)",
+            "the degree-r line bundle M_1 tensor O_E(-A) has a nonzero section, so choose an effective divisor D in that class",
+            "then O_E(D+A)=M_1 and O_E(D+B)=M_2; the corresponding fiber sections share D of degree r",
+            "for n=56*m>=56 choose the data generically with D,A,B reduced and D disjoint from A union B, then extend each fiber section by a generic second section to a basepoint-free pencil"
+          ],
+          "consequence": "the identities M_1^2=M_2^2 and M_i^4=H_E, even together with simple/unramified shared fiber points, do not imply any collision upper bound below n-1. Hence they cannot contradict the Langer-required balanced-bulk threshold ceil(7*m+sqrt(21*m*(m-4))) ~0.20683*n.",
+          "scope_firewall": "this is only a no-go for Picard/linear-series overlap arguments on E. It does not construct the full common-etale pair Z->C8, enforce the eight special orbifold branch fibers, or solve diagonal-G/commensurator compatibility.",
+          "firewalls": {
+            "full_common_etale_pair_constructed": false,
+            "orbifold_branch_passport_realized": false,
+            "diagonal_G_commensurator_adapter_proved": false,
+            "balanced_bulk_closed": false,
+            "e2_closed": false,
+            "receiver_credit": false,
+            "theorem_credit": false,
+            "endpoint_credit": false,
+            "merge_authorized": false
+          }
         }
       },
       "variable_alpha_hyperbolic_langer": {
@@ -2665,7 +2695,7 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic.",
     "success_shapes": [
       "exact common-etale/commensurator/fiber-collision upper bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk",
       "source-valid equality-rigidity contradiction at m=1,Q=192, then exact postulation over the remaining 35 energy levels",
@@ -2698,7 +2728,8 @@
       "reopening tangent interior normalization branches: hyperbolic first-jet rigidity now proves distinct branches are pairwise transverse",
       "safe-lct-only Langer replay as the final orbifold-BMY word: the stronger ordinary-multiple-point gate is now exact and closes the m=2 high-energy shell",
       "treating m=1 Q=188 or Q=190 as live: exact Abel+saturation energy DP proves both impossible",
-      "m=1,Q=192 local-strictness replay: the ordinary equal-weight local orbifold Euler formula attains the retained bound exactly; only a separately verified global equality-rigidity theorem could use the equality boundary"
+      "m=1,Q=192 local-strictness replay: the ordinary equal-weight local orbifold Euler formula attains the retained bound exactly; only a separately verified global equality-rigidity theorem could use the equality boundary",
+      "trying to bound the balanced bulk collision multiplicity from only M_1^2=M_2^2, M_i^4=H_E, or generic elliptic common-fiber overlap: these identities formally allow r up to n-1"
     ]
   },
   "routing": {
@@ -2839,7 +2870,9 @@
     "e2_unique_pair_m1_Q188_Q190_impossible": true,
     "e2_unique_pair_m1_Q192_langer_equality_boundary": true,
     "e2_unique_pair_m1_Q192_local_orbifold_strictness_route": "CLOSED_EXACT_EQUALITY_NO_GO",
-    "e2_unique_pair_m1_Q192_global_equality_rigidity_adapter": false
+    "e2_unique_pair_m1_Q192_global_equality_rigidity_adapter": false,
+    "e2_unique_pair_balanced_bulk_elliptic_picard_overlap_route": "CLOSED_ALLOWS_ANY_R_UP_TO_N_MINUS_1",
+    "e2_unique_pair_balanced_bulk_collision_requires_orbifold_or_commensurator_data": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
