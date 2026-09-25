@@ -136,8 +136,10 @@ def main() -> None:
         "root README resurrected obsolete MAIN-STATE routing authority")
 
     integrated = (HERE / "integrated-ex/README.md").read_text(encoding="utf-8")
-    req("retained organizational view" in integrated and "not an ordinary startup or routing surface" in integrated,
-        "integrated EX view still looks live")
+    req("retained organizational view" in integrated and "ordinary startup or routing surface" in integrated,
+        "integrated EX view missing retained/non-live classification")
+    req("Current navigation:" in integrated,
+        "integrated EX view missing current navigation pointer")
     req("stages/stage32/internal/ex5/LIVE.json" in integrated,
         "integrated EX view missing current EX5 internal pointer")
 
