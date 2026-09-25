@@ -1,0 +1,105 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_JOINT_PICARD_SUCCESSOR_PREFLIGHT_V1",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "SUCCESSOR_ROUTE_PREPARED__ZERO_MAIN_CREDIT__EXECUTION_PENDING",
+  "authority_context": {
+    "v48_certified_upper_bound": "128470212118313474449",
+    "current_384_equiv_candidate_upper_bound": "128443221087959579960",
+    "current_384_equiv_tightening_vs_v48": "26991030353894489",
+    "current_384_equiv_certificate": "V48-FULL-SUPPORT-384-EQUIV-DERIVED-BOUND-RETAINED.json",
+    "current_384_equiv_certificate_blob_sha1": "3acb9551db9fda6be8fde0194b23ddb41ca634d0",
+    "current_384_equiv_certificate_canonical_sha256": "da7eb532daf2b775a49524fe45e5b7bf7851719f19a6926a227f5fa745258aba"
+  },
+  "source_locks": {
+    "successor_probe_path": "stages/stage32/32-01-178/fibration-nef/run_v48_fullsupport_joint_picard_cell_probe.py",
+    "successor_probe_blob_sha1": "048b61e9cd93d97afa3e22f47eab98904bde85af",
+    "joint_min_preflight_path": "stages/stage32/32-01-178/fibration-nef/SUPPORT-QBC-JOINT-MIN-PREFLIGHT.json",
+    "joint_min_preflight_blob_sha1": "c7a69e12c084d29bdc2582fb991ab8e26f65c1c9",
+    "joint_min_preflight_canonical_sha256": "8396e44a456e19d92ee149347ae3dae709a3a638dcb4f7fb7b20097fc9ffac7b",
+    "exact_tset_panel_path": "stages/stage32/32-01-178/fibration-nef/V48-EXACT-TSET-HIGHVALUE-PANEL-RETAINED.json",
+    "exact_tset_panel_blob_sha1": "19cfa17b049b94dee5f406cb8db32ca94e8cf318",
+    "exact_tset_panel_canonical_sha256": "ec9aa7f7300f7613bd05ef3dbdd56de45db0193f91c1d7a82ed7f3e4c972de60",
+    "row022_b036_fullsupport_receipt_path": "stages/stage32/32-01-178/fibration-nef/local-support-qbc/generation2/row022-b036.json",
+    "row022_b036_fullsupport_receipt_blob_sha1": "e8b9db8f1fbb091bbd9465a4f365e6f160f1300c",
+    "support_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "joint_picard_parent_probe_blob_sha1": "bdc7a5a5e8d4ba8897154246b95fc3891ee094ea"
+  },
+  "panel": {
+    "target": {
+      "row_index": 22,
+      "row_id": "g1-d192",
+      "g": 1,
+      "d": 192,
+      "b": 36,
+      "c_values": [
+        83,
+        85,
+        89
+      ]
+    },
+    "cells": [
+      {
+        "c": 83,
+        "v48_hull_survivors": "1772948331753044",
+        "exact_tset_survivors": "1772174385751123",
+        "current_fullsupport_picard_survivors": "1770387011206519",
+        "exact_tset_tightening_vs_v48": "773946001921",
+        "current_fullsupport_tightening_vs_v48": "2561320546525",
+        "current_fullsupport_stronger_than_exact_tset_by": "1787374544604"
+      },
+      {
+        "c": 85,
+        "v48_hull_survivors": "1625477749039432",
+        "exact_tset_survivors": "1624727091291441",
+        "current_fullsupport_picard_survivors": "1622975411254128",
+        "exact_tset_tightening_vs_v48": "750657747991",
+        "current_fullsupport_tightening_vs_v48": "2502337785304",
+        "current_fullsupport_stronger_than_exact_tset_by": "1751680037313"
+      },
+      {
+        "c": 89,
+        "v48_hull_survivors": "1316600549076022",
+        "exact_tset_survivors": "1315879226320088",
+        "current_fullsupport_picard_survivors": "1314282645971968",
+        "exact_tset_tightening_vs_v48": "721322755934",
+        "current_fullsupport_tightening_vs_v48": "2317903104054",
+        "current_fullsupport_stronger_than_exact_tset_by": "1596580348120"
+      }
+    ],
+    "aggregate": {
+      "v48_hull_survivors": "4715026629868498",
+      "exact_tset_survivors": "4712780703362652",
+      "current_fullsupport_picard_survivors": "4707645068432615",
+      "exact_tset_tightening_vs_v48": "2245926505846",
+      "current_fullsupport_tightening_vs_v48": "7381561435883",
+      "current_fullsupport_stronger_than_exact_tset_by": "5135634930037"
+    }
+  },
+  "route_decision": {
+    "deprioritize_exact_tset_only_scaleout": true,
+    "reason": "On the retained three-cell high-value panel, current full-support plus Picard is already strictly stronger than exact-tset-only by 5,135,634,930,037 survivors. The useful successor is therefore the simultaneous joint (b,c,t,H-support) qBC minimum combined with the same Picard penalty, measured directly against the current full-support bound.",
+    "successor": "JOINT_QBC_MIN_PLUS_EXACT_TSET_PLUS_PICARD_OVER_CURRENT_FULLSUPPORT",
+    "successor_probe_exactly_replays_current_fullsupport_semantics": true,
+    "next_gate": "Run the successor probe on c=83,85,89 and retain only if joint-Picard is strict against current full-support. If the three-cell incremental is material, then run the selector and bounded scaleout; otherwise stop this route."
+  },
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_numeric_tightening_claimed": false,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "fe6723e39689e72e64510c3f8c68b6215e271bbcd21b9fd793a8f53ce1905d7a"
+}
