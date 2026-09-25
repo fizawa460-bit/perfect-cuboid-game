@@ -2137,10 +2137,10 @@
       }
     },
     "e2_unique_pair_etale_immersion_orbifold_bmy": {
-      "status": "EXACT_PREAUDIT_SAFE_LCT_ORBIFOLD_BMY_DOMINATED_ZERO_INCREMENTAL_EXCLUSION_NO_CREDIT",
+      "status": "EXACT_PREAUDIT_HYPERBOLIC_FIRST_JET_TRANSVERSALITY_LANGER_M2_HIGH_SHELL_CLOSED_ZERO_CREDIT",
       "support_mask": "000707000f0f",
       "case": "e=2",
-      "scope": "bounded no-go for the Langer orbifold-BMY route after enforcing the correct log-canonicity gate. The safe general lct>=1/multiplicity estimate gives no exclusion beyond the already retained factor-fiber Abel/saturation constraints at m=1 or Miyaoka at m=2.",
+      "scope": "conditional on the retained unique-factor-pair/common-etale chain; exact hyperbolic first-jet rigidity upgrades every interior self-collision of the normalization image to an ordinary transverse multiple point, making the stronger Langer orbifold-BMY log-canonicity gate valid. This closes the m=2 high-energy shell but not the m=1 band or the Miyaoka-allowed bulk.",
       "source_locks": {
         "joint_pair_birationality_note_blob": "53608cb51aa49ccde1603b1cb1d136ea497b2324",
         "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
@@ -2166,6 +2166,12 @@
           "source": "Paemurru–Viswanathan, Log canonical thresholds of high multiplicity reduced plane curves",
           "doi": "10.1017/S0017089525100827",
           "locator": "Equation (1.1), citing standard Kollár references"
+        },
+        "hyperbolic_covering_first_jet": {
+          "theorem": "an unbranched holomorphic covering between hyperbolic Riemann surfaces is a local Poincare isometry; a local isometry germ is determined by its value and differential",
+          "source_1": "Schwarz-Pick theorem for hyperbolic Riemann surfaces; covering maps are local hyperbolic isometries",
+          "source_1_url": "https://link.springer.com/article/10.1007/s10231-022-01189-8",
+          "source_2": "standard disk/constant-curvature rigidity: an orientation-preserving local isometry is determined by its first jet"
         }
       },
       "etale_immersion": {
@@ -2176,9 +2182,17 @@
         "normalization_map_immersive": true,
         "each_normalization_branch_smooth": true,
         "unibranch_cusp_possible": false,
-        "pairwise_transversality_claimed": false,
-        "safe_consequence": "every branch is smooth; distinct branches may still be tangent, so interior local estimates use the general delta>=binom(multiplicity,2) bound rather than ordinary-point equality",
-        "correction_note": "the earlier tentative implication 'etale projections => pairwise transverse self-collisions' is not used; two distinct finite etale maps from a common curve need not be determined by first-order coincidence"
+        "pairwise_transversality_claimed": true,
+        "safe_consequence": "every branch is smooth and any two distinct branches at an interior singular point are transverse; hence every interior singularity is an ordinary multiple point",
+        "correction_note": "the earlier firewall allowing tangent interior branches is superseded specifically because both target projections are unbranched coverings of the hyperbolic genus-5 curve C8; first-jet rigidity of local Poincare isometries rules out equal tangents for distinct normalization branches",
+        "hyperbolic_first_jet_argument": [
+          "because C8 has genus 5, it carries its Poincare metric",
+          "each etale projection f_i:Z->C8 is an unbranched covering and hence a local Poincare isometry",
+          "near any normalization point z, use f_1 as local coordinate; the image branch of nu=(f_1,f_2) is the graph of the local isometry h_z=f_2 o (f_1|_z)^(-1)",
+          "if two distinct normalization branches over the same product point had the same tangent line, the corresponding h_z would have the same value and differential",
+          "local isometry germs are determined by value plus differential, so the two graph germs would coincide",
+          "distinct points of the normalization of a reduced integral curve correspond to distinct analytic branches, contradiction"
+        ]
       },
       "interior_H_orbit": {
         "H_order": 4,
@@ -2224,33 +2238,50 @@
       "high_energy_shell_pruning": {
         "m1": {
           "shell_Q_lower": 118,
-          "safe_lct_region_Q_lower": 207,
-          "delta_same_upper_in_safe_region": 34,
-          "interior_multiplicity_upper": 8,
-          "supported_multiplicity_upper": 16,
+          "retained_abel_saturation_Q_upper": 192,
           "alpha": "1/8",
-          "lc_reason": "interior: lct>=1/mult>=1/8 because mult<=8; supported points are ordinary with mult<=16 so alpha*mult<=2",
-          "lhs": 450,
-          "rhs_upper": "486-3*Q/16",
-          "bmy_contradiction_threshold_Q": 193,
-          "combined_safe_conclusion": "Q>=207 excluded; 118<=Q<=206 remains from the raw high-energy shell"
+          "supported_multiplicity_upper": 16,
+          "interior_check_at_first_excluded_Q": {
+            "Q": 193,
+            "delta_int_upper": 248,
+            "H_orbit_size": 4,
+            "ordinary_point_delta_per_orbit": "4*binom(r,2)",
+            "interior_multiplicity_upper": 11,
+            "lc_check": "alpha*r<=11/8<2"
+          },
+          "langer_gap": "LHS-RHS=3*(Q-192)/16",
+          "exclusion": "Q>=193 excluded",
+          "incremental_exclusion": false,
+          "conclusion": "exact Abel+saturation DP already gives Q<=192, so m=1 receives no further pruning; the high-energy band 118<=Q<=192 remains"
         },
         "m2": {
           "shell_Q_lower": 566,
-          "miyaoka_allowed_Q_upper": 677,
-          "safe_lct_orbifold_bmy_first_excluded_Q": 708,
-          "conclusion": "no new m=2 pruning beyond Miyaoka; the retained formal Q=672 witness is not excluded by the safe-lct Langer argument"
+          "retained_miyaoka_Q_upper": 677,
+          "alpha": "1/16",
+          "supported_multiplicity_upper": 32,
+          "interior_check_at_first_excluded_Q": {
+            "Q": 545,
+            "delta_int_upper": 1912,
+            "H_orbit_size": 4,
+            "ordinary_point_delta_per_orbit": "4*binom(r,2)",
+            "interior_multiplicity_upper": 31,
+            "lc_check": "alpha*r<=31/16<2"
+          },
+          "langer_gap": "LHS-RHS=3*(Q-544)/64",
+          "exclusion": "Q>=545 excluded",
+          "incremental_exclusion": true,
+          "conclusion": "the entire retained m=2 high-energy shell Q>=566 is excluded; in fact the exact necessary bound improves to Q<=544"
         },
-        "correction_firewall": "the stronger tentative cuts Q>=193 for m=1 and Q>=545 for m=2 required treating alpha*mult<=2 as sufficient lc at arbitrary interior singularities; that is not valid without an ordinary/transverse singularity theorem and is withdrawn"
+        "log_canonicity_reason": "ordinary r-fold points have lct=min(1,2/r); supported product points were already ordinary, and hyperbolic first-jet rigidity now proves the same pairwise transversality for interior branches"
       },
       "former_m2_witness": {
         "m": 2,
         "Q": 672,
-        "disposition": "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA",
-        "note": "the earlier tentative EXCLUDED_BY_ORBIFOLD_BMY disposition is withdrawn; safe general lct control does not authorize alpha=1/16 at all possible interior singularities"
+        "disposition": "EXCLUDED_BY_HYPERBOLIC_FIRST_JET_LANGER_BMY",
+        "note": "Q=672 lies above the exact hyperbolic-transversality Langer threshold Q>=545 for m=2 and is therefore no longer a surviving formal high-shell witness"
       },
-      "result": "after correcting the log-canonicity gate, the Langer orbifold-BMY route gives zero incremental exclusion: m=1 already has Q<=192 from exact saturation+factor-fiber Abel DP while safe Langer starts at Q=207, and m=2 already has Q<=677 from Miyaoka while safe Langer starts at Q=708",
-      "next_missing_datum": "do not pursue orbifold-BMY further without an independently proved interior tangency/lct improvement. Return to exact m=1,m=2 global jet/postulation, marked conductor/common-etale data, a genuinely nonlinear bulk realization obstruction, or an audited MB-FIB restriction.",
+      "result": "hyperbolic first-jet rigidity proves pairwise transversality for all interior normalization branches. The resulting ordinary-multiple-point log-canonicity gate validates alpha=1/8 for the m=1 top region and alpha=1/16 for m=2. Langer then excludes Q>=193 at m=1 (already dominated by the exact Abel+saturation bound Q<=192) and Q>=545 at m=2, which closes the entire m=2 high-energy shell Q>=566 and excludes the former Q=672 witness. The infinite low-energy bulk, including the balanced even-l Q=0 ray, remains.",
+      "next_missing_datum": "the only finite high-energy residue now requiring exact postulation is m=1 with 118<=Q<=192. Separately, e=2 still requires a genuinely nonlinear/exact-order bulk realization obstruction, marked conductor/common-etale datum beyond first-jet transversality, or an audited MB-FIB/Picard64 restriction.",
       "firewalls": {
         "m1_high_energy_shell_closed": false,
         "bulk_closed": false,
@@ -2265,9 +2296,9 @@
         "theorem_credit": false,
         "endpoint_credit": false,
         "merge_authorized": false,
-        "m2_high_energy_shell_closed": false,
-        "pairwise_transversality_proved": false,
-        "incremental_exclusion": false
+        "m2_high_energy_shell_closed": true,
+        "pairwise_transversality_proved": true,
+        "incremental_exclusion": true
       },
       "allocation_energy_dp": {
         "method": "exact dynamic programming over each seven-variable centered block b_j in [-4*m,4*m], retaining the saturation linear form and the two factor-fiber Abel residues mod 4",
@@ -2379,15 +2410,15 @@
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 unique pair — exact m=1,m=2 postulation or nonlinear bulk",
-    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-EXACT-M1-M2-POSTULATION-OR-BULK",
-    "required_input": "The Langer orbifold-BMY detour is now bounded and closed as a no-go. Correct log canonicity requires the safe general lct>=1/multiplicity bound at arbitrary tangent interior singularities. Under that gate, m=1 would only be excluded from Q>=207, but exact DP of the retained saturation plus four factor-fiber Abel congruences already gives Q<=96+96=192. For m=2, safe Langer first excludes Q>=708 while the retained Miyaoka bound already gives Q<=677 (and the formal Q=672 witness remains). Hence orbifold-BMY contributes zero incremental exclusion. Continue with exact finite m=1,m=2 jet/postulation, marked conductor/common-etale data, a genuinely nonlinear bulk realization obstruction, or an audited MB-FIB restriction.",
+    "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
+    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
+    "required_input": "Hyperbolic first-jet rigidity now proves that distinct interior normalization branches are pairwise transverse. Therefore the stronger ordinary-multiple-point Langer gate is valid: m=1 has Q>=193 excluded but exact Abel+saturation DP already gives Q<=192, while m=2 has Q>=545 excluded, so its entire previous high-energy shell Q>=566 and the Q=672 witness are gone. The only finite high-energy residue is m=1, 118<=Q<=192. The infinite even-l bulk ray Q=0 still survives, so finite cleanup alone cannot close e=2.",
     "success_shapes": [
       "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
-      "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka-allowed bulk",
-      "exact marked conductor transition or common-etale obstruction incompatible with the unique pair",
+      "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka/Langer-allowed bulk including the balanced even-l Q=0 ray",
+      "exact marked conductor transition or common-etale obstruction beyond first-jet transversality and incompatible with the unique pair",
       "exact audited MB-FIB/Picard64 restriction independent of the saturated factor-fiber Abel classes",
-      "bounded proof that the remaining m=1 band and/or Miyaoka-allowed bulk survive the available invariants, identifying the next missing datum with zero credit"
+      "bounded proof that the remaining m=1 band and/or low-energy bulk survive the available invariants, identifying the next missing datum with zero credit"
     ],
     "must_not_repeat": [
       "128-pair enumeration or fixed-Jacobian basis search",
@@ -2409,10 +2440,9 @@
       "the former m=5 replacement endpoint: it is now excluded by the Miyaoka bound",
       "adaptive high-energy-shell search for m>=3: that shell is now empty",
       "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
-      "assuming pairwise transversality of interior normalization branches from etaleness alone: only branchwise immersion is retained",
-      "claiming alpha*mult<=2 is sufficient for log canonicity at arbitrary interior singularities; without an ordinary/transverse theorem use the safe lct>=1/mult bound",
       "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut",
-      "safe-lct Langer/orbifold-BMY replay without a new interior lct or tangency theorem: it is now proved dominated by Abel at m=1 and Miyaoka at m=2"
+      "reopening tangent interior normalization branches: hyperbolic first-jet rigidity now proves distinct branches are pairwise transverse",
+      "safe-lct-only Langer replay as the final orbifold-BMY word: the stronger ordinary-multiple-point gate is now exact and closes the m=2 high-energy shell"
     ]
   },
   "routing": {
@@ -2499,17 +2529,23 @@
     "e2_unique_pair_m1_m2_high_shell_alone_can_close_e2": false,
     "e2_unique_pair_bulk_missing_datum": "genuinely interior/common-etale or marked-conductor information, or an independent audited MB-FIB/Picard64 restriction",
     "e2_unique_pair_etale_immersion_exact": true,
-    "e2_unique_pair_orbifold_bmy_exact": false,
-    "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": false,
+    "e2_unique_pair_orbifold_bmy_exact": true,
+    "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": true,
     "e2_unique_pair_orbifold_bmy_e2_closes": false,
-    "e2_unique_pair_interior_pairwise_transversality_proved": false,
+    "e2_unique_pair_interior_pairwise_transversality_proved": true,
     "e2_unique_pair_orbifold_bmy_safe_lct_exact": true,
     "e2_unique_pair_safe_lct_bmy_incremental_exclusion_count": 0,
-    "e2_unique_pair_safe_lct_bmy_route": "CLOSED_DOMINATED_BY_ABEL_M1_AND_MIYAOKA_M2",
+    "e2_unique_pair_safe_lct_bmy_route": "CLOSED_SUPERSEDED_BY_HYPERBOLIC_FIRST_JET_TRANSVERSALITY",
     "e2_unique_pair_abel_formal_Q_max_m1": 192,
     "e2_unique_pair_miyaoka_Q_upper_m2": 677,
     "e2_unique_pair_safe_lct_bmy_first_cut_m1": 207,
-    "e2_unique_pair_safe_lct_bmy_first_cut_m2": 708
+    "e2_unique_pair_safe_lct_bmy_first_cut_m2": 708,
+    "e2_unique_pair_hyperbolic_first_jet_transversality_exact": true,
+    "e2_unique_pair_hyperbolic_langer_m1_Q_upper": 192,
+    "e2_unique_pair_hyperbolic_langer_m2_Q_upper": 544,
+    "e2_unique_pair_hyperbolic_langer_m1_incremental_exclusion": false,
+    "e2_unique_pair_hyperbolic_langer_m2_incremental_exclusion": true,
+    "e2_unique_pair_m2_formal_Q672_witness_survives": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
