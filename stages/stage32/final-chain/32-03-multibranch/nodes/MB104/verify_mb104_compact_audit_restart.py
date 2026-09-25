@@ -1115,6 +1115,83 @@ def main():
                         req(routing["e2_unique_pair_m1_Q192_global_equality_rigidity_adapter"] is False, "m1 Q192 global equality adapter firewall")
                         req(routing["e2_unique_pair_m1_Q192_langer_equality_ball_uniformization_route"] == "CLOSED_SOURCE_VALID_NO_GO", "m1 Q192 equality uniformization routing")
                         req(routing["e2_unique_pair_m1_Q192_requires_stronger_equality_theorem_or_postulation"] is True, "m1 Q192 stronger theorem/postulation routing")
+                        qc=sp["q192_low_bidegree_capacity_census"]
+                        req(qc["status"] == "EXACT_PREAUDIT_Q192_LOW_BIDEGREE_CAPACITY_CENSUS_ZERO_CREDIT", "Q192 capacity census status")
+                        def q192_top_states(coeffs):
+                            keys=list(coeffs.keys())
+                            out=[]
+                            for zpos in range(7):
+                                for mask in range(64):
+                                    vv=[]
+                                    kk=0
+                                    for pos in range(7):
+                                        if pos == zpos:
+                                            vv.append(0)
+                                        else:
+                                            vv.append(4 if ((mask >> kk) & 1) else -4)
+                                            kk += 1
+                                    if sum(a*b for a,b in zip(coeffs["linear"],vv)) != 0:
+                                        continue
+                                    if sum(a*b for a,b in zip(coeffs[keys[1]],vv)) % 4 != 0:
+                                        continue
+                                    if sum(a*b for a,b in zip(coeffs[keys[2]],vv)) % 4 != 0:
+                                        continue
+                                    out.append(tuple(vv))
+                            return out
+                        top0=q192_top_states(q0c)
+                        top1=q192_top_states(q1c)
+                        req(len(top0) == 140 and len(top1) == 140, "Q192 top block counts")
+                        fibs=[("A+","B+"),("A-","B-"),("C+","D+"),("C-","D-"),("E+","F+","G+","H+"),("E-","F-","G-","H-"),("A+","B-","C-","D+"),("A-","B+","C+","D-"),("E+","F-"),("E-","F+"),("G+","H-"),("G-","H+")]
+                        sup11=[("A+","A-","E+","E-"),("A+","A-","H+","H-"),("A+","C+","E+","G-"),("A+","C+","E-","G+"),("A+","C+","F+","H-"),("A+","C+","F-","H+"),("A+","D-","E+","H-"),("A+","D-","E-","H+"),("A-","C-","E+","G-"),("A-","C-","E-","G+"),("A-","C-","F+","H-"),("A-","C-","F-","H+"),("A-","D+","E+","H-"),("A-","D+","E-","H+"),("B+","B-","F+","F-"),("B+","B-","G+","G-"),("B+","C-","F+","G-"),("B+","C-","F-","G+"),("B+","D+","E+","G-"),("B+","D+","E-","G+"),("B+","D+","F+","H-"),("B+","D+","F-","H+"),("B-","C+","F+","G-"),("B-","C+","F-","G+"),("B-","D-","E+","G-"),("B-","D-","E-","G+"),("B-","D-","F+","H-"),("B-","D-","F-","H+"),("C+","C-","F+","F-"),("C+","C-","G+","G-"),("D+","D-","E+","E-"),("D+","D-","H+","H-")]
+                        sup12=[("A+","B+","E+","E-","G+","G-"),("A+","B+","E+","F+","G-","H-"),("A+","B+","E-","F-","G+","H+"),("A+","B+","F+","F-","H+","H-"),("A-","B-","E+","E-","G+","G-"),("A-","B-","E+","F+","G-","H-"),("A-","B-","E-","F-","G+","H+"),("A-","B-","F+","F-","H+","H-"),("C+","D+","E+","E-","G+","G-"),("C+","D+","E+","F+","G-","H-"),("C+","D+","E-","F-","G+","H+"),("C+","D+","F+","F-","H+","H-"),("C-","D-","E+","E-","G+","G-"),("C-","D-","E+","F+","G-","H-"),("C-","D-","E-","F-","G+","H+"),("C-","D-","F+","F-","H+","H-")]
+                        sup21=[("A+","A-","C+","C-","E+","F-"),("A+","A-","C+","C-","E-","F+"),("A+","A-","C+","C-","G+","H-"),("A+","A-","C+","C-","G-","H+"),("A+","B-","C+","D-","E+","F-"),("A+","B-","C+","D-","E-","F+"),("A+","B-","C+","D-","G+","H-"),("A+","B-","C+","D-","G-","H+"),("A-","B+","C-","D+","E+","F-"),("A-","B+","C-","D+","E-","F+"),("A-","B+","C-","D+","G+","H-"),("A-","B+","C-","D+","G-","H+"),("B+","B-","D+","D-","E+","F-"),("B+","B-","D+","D-","E-","F+"),("B+","B-","D+","D-","G+","H-"),("B+","B-","D+","D-","G-","H+")]
+                        counts={"survive_all":0,"fibre_only":0,"irreducible_11_only":0,"fibre_and_11":0}
+                        maxes={"fibre":0,"irreducible_11":0,"irreducible_12":0,"irreducible_21":0}
+                        for vv0 in top0:
+                            for vv1 in top1:
+                                xx={}
+                                for node,val in zip([0,1,2,3,24,25,26],vv0):
+                                    xx[node]=2*val+8
+                                for node,val in zip([8,9,10,11,32,33,34],vv1):
+                                    xx[node]=2*val+8
+                                ww={
+                                    "A+":xx[0]+xx[2],"A-":32-xx[0]-xx[2],
+                                    "B+":xx[1]+xx[3],"B-":32-xx[1]-xx[3],
+                                    "C+":xx[24]+xx[26],"C-":32-xx[24]-xx[26],
+                                    "D+":xx[25],"D-":16-xx[25],
+                                    "E+":xx[8]+xx[10],"E-":32-xx[8]-xx[10],
+                                    "F+":xx[9]+xx[11],"F-":32-xx[9]-xx[11],
+                                    "G+":xx[32]+xx[34],"G-":32-xx[32]-xx[34],
+                                    "H+":xx[33],"H-":16-xx[33],
+                                }
+                                mf=max(sum(ww[z] for z in ss) for ss in fibs)
+                                m11=max(sum(ww[z] for z in ss) for ss in sup11)
+                                m12=max(sum(ww[z] for z in ss) for ss in sup12)
+                                m21=max(sum(ww[z] for z in ss) for ss in sup21)
+                                maxes["fibre"]=max(maxes["fibre"],mf)
+                                maxes["irreducible_11"]=max(maxes["irreducible_11"],m11)
+                                maxes["irreducible_12"]=max(maxes["irreducible_12"],m12)
+                                maxes["irreducible_21"]=max(maxes["irreducible_21"],m21)
+                                badf=mf>56
+                                bad11=m11>112
+                                req(m12<=168 and m21<=168, "Q192 no (1,2)/(2,1) violation")
+                                if not badf and not bad11:
+                                    counts["survive_all"] += 1
+                                elif badf and bad11:
+                                    counts["fibre_and_11"] += 1
+                                elif badf:
+                                    counts["fibre_only"] += 1
+                                else:
+                                    counts["irreducible_11_only"] += 1
+                        req(counts == {"survive_all":15168,"fibre_only":3024,"irreducible_11_only":1216,"fibre_and_11":192}, "Q192 capacity exact survivor count")
+                        req(maxes == {"fibre":64,"irreducible_11":128,"irreducible_12":168,"irreducible_21":168}, "Q192 capacity maxima")
+                        req(qc["exact_census"]["survive_all"] == 15168 and qc["exact_census"]["excluded_total"] == 4432, "Q192 stored capacity census")
+                        req(qc["exact_census"]["irreducible_12_incremental"] == 0 and qc["exact_census"]["irreducible_21_incremental"] == 0, "Q192 higher-capacity no increment")
+                        req(all(v is False for v in qc["firewalls"].values()), "Q192 capacity firewalls")
+                        req(routing["e2_unique_pair_m1_Q192_raw_allocation_count"] == 19600, "Q192 raw allocation routing")
+                        req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_survivors"] == 15168, "Q192 survivor routing")
+                        req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_excluded"] == 4432, "Q192 excluded routing")
+                        req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_route"] == "EXACT_PRUNING_NOT_CLOSURE", "Q192 capacity routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
