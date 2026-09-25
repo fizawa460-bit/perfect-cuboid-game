@@ -1006,6 +1006,21 @@ def main():
                         req(all(v is False for v in bp["firewalls"].values()), "balanced collision firewalls")
                         req(routing["e2_unique_pair_balanced_bulk_collision_pressure_exact"] is True, "balanced collision routing")
                         req(routing["e2_unique_pair_balanced_bulk_collision_threshold"] == "ceil(7*m+sqrt(21*m*(m-4))) for m>=5", "balanced collision threshold routing")
+                        eno=bp["elliptic_common_fiber_overlap_no_go"]
+                        req(eno["status"] == "EXACT_PREAUDIT_ELLIPTIC_PICARD_OVERLAP_ALLOWS_ARBITRARY_R_UP_TO_N_MINUS_1_ZERO_CREDIT", "elliptic overlap no-go status")
+                        req(eno["retained_input"][1] == "M_1 and M_2 have common degree n=56*m", "elliptic overlap degree")
+                        req("1<=r<=n-1" in eno["construction"][0] and "d=n-r>=1" in eno["construction"][0], "elliptic overlap arbitrary r")
+                        req("O_E(D+A)=M_1" in eno["construction"][4] and "O_E(D+B)=M_2" in eno["construction"][4], "elliptic overlap divisor construction")
+                        req("n-1" in eno["consequence"] and "0.20683*n" in eno["consequence"], "elliptic overlap consequence")
+                        req(all(v is False for v in eno["firewalls"].values()), "elliptic overlap firewalls")
+                        for mm in range(5,11):
+                            nn=56*mm
+                            rad=21*mm*(mm-4)
+                            rr=isqrt(rad)
+                            ceilrad=rr if rr*rr == rad else rr+1
+                            req(7*mm+ceilrad <= nn-1, f"elliptic overlap room m={mm}")
+                        req(routing["e2_unique_pair_balanced_bulk_elliptic_picard_overlap_route"] == "CLOSED_ALLOWS_ANY_R_UP_TO_N_MINUS_1", "elliptic overlap routing")
+                        req(routing["e2_unique_pair_balanced_bulk_collision_requires_orbifold_or_commensurator_data"] is True, "collision requires orbifold/commensurator routing")
                         va=ob["variable_alpha_hyperbolic_langer"]
                         req(va["status"] == "EXACT_PREAUDIT_VARIABLE_ALPHA_ORDINARY_LANGER_COMPLETE_M_CLASSIFICATION_ZERO_CREDIT", "variable-alpha Langer status")
                         req(va["gap"] == "G(m,Q,alpha)=4*((3*Q-112*m^2-336*m)*alpha^2+112*m*alpha-16)", "variable-alpha gap")
