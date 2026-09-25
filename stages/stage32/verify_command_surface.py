@@ -122,8 +122,24 @@ def main() -> None:
     for token in ("## Live control", "## Internal execution surfaces", "## Retained / reopen-only surfaces"):
         req(token in surface_map, f"surface map missing {token}")
     req("## Historical path collisions" in surface_map, "surface map missing historical collision section")
+    req((HERE / "retained/historical-32-02/README.md").is_file(),
+        "historical 32-02 navigation marker missing")
     req((HERE / "retained/historical-32-03/README.md").is_file(),
         "historical 32-03 navigation marker missing")
+
+    root_readme = (HERE / "README.md").read_text(encoding="utf-8")
+    req("Do not infer current work from directory names." in root_readme,
+        "root README missing anti-inference navigation rule")
+    req("MAIN-START-HERE.md" in root_readme and "CURRENT.json" in root_readme and "SURFACES.md" in root_readme,
+        "root README missing compact navigation anchors")
+    req("mutable routing/credit comes from" not in root_readme,
+        "root README resurrected obsolete MAIN-STATE routing authority")
+
+    integrated = (HERE / "integrated-ex/README.md").read_text(encoding="utf-8")
+    req("retained organizational view" in integrated and "not an ordinary startup or routing surface" in integrated,
+        "integrated EX view still looks live")
+    req("stages/stage32/internal/ex5/LIVE.json" in integrated,
+        "integrated EX view missing current EX5 internal pointer")
 
     bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
     req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
