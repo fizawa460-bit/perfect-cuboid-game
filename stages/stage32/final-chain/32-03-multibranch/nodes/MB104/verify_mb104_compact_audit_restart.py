@@ -999,6 +999,86 @@ def main():
                         req(all(v is False for v in bp["firewalls"].values()), "balanced collision firewalls")
                         req(routing["e2_unique_pair_balanced_bulk_collision_pressure_exact"] is True, "balanced collision routing")
                         req(routing["e2_unique_pair_balanced_bulk_collision_threshold"] == "ceil(7*m+sqrt(21*m*(m-4))) for m>=5", "balanced collision threshold routing")
+                        va=ob["variable_alpha_hyperbolic_langer"]
+                        req(va["status"] == "EXACT_PREAUDIT_VARIABLE_ALPHA_ORDINARY_LANGER_COMPLETE_M_CLASSIFICATION_ZERO_CREDIT", "variable-alpha Langer status")
+                        req(va["gap"] == "G(m,Q,alpha)=4*((3*Q-112*m^2-336*m)*alpha^2+112*m*alpha-16)", "variable-alpha gap")
+
+                        def ordinary_opt_gap(mm,QQ):
+                            DD=336*mm*mm+112*mm-2*QQ
+                            req(DD >= 0, f"ordinary gap nonnegative delta m={mm},Q={QQ}")
+                            rr=(1+isqrt(1+8*DD))//2
+                            cap=min(Fraction(1,8*mm), Fraction(2,rr))
+                            AA=3*QQ-112*mm*mm-336*mm
+                            cand=[cap]
+                            if AA < 0:
+                                vv=Fraction(-56*mm,AA)
+                                if 0 < vv < cap:
+                                    cand.append(vv)
+                            vals=[(Fraction(4,1)*(AA*x*x+112*mm*x-16),x) for x in cand]
+                            return max(vals),rr,cap
+
+                        miyaoka_upper=lambda mm:(1624*mm*mm+3192*mm)//19
+                        expected_var={
+                            1:(193,192,"1/8"),
+                            2:(545,544,"1/16"),
+                            3:(1093,1092,"1/24"),
+                            4:(1840,1839,"2/65"),
+                            5:(2806,2805,"1/41"),
+                            6:(3959,3958,"1/49"),
+                            7:(5290,5289,"2/115"),
+                            8:(6812,6811,"1/66"),
+                        }
+                        for mm,(firstq,upper,astr) in expected_var.items():
+                            hi=min(miyaoka_upper(mm), (336*mm*mm+112*mm)//2)
+                            got=None
+                            got_alpha=None
+                            for QQ in range(0,hi+1):
+                                (gg,aa),_,_=ordinary_opt_gap(mm,QQ)
+                                if gg > 0:
+                                    got=QQ
+                                    got_alpha=aa
+                                    break
+                            req(got == firstq and str(got_alpha) == astr, f"variable-alpha first cut m={mm}")
+                            cc=va["exact_cuts"][f"m{mm}"]
+                            req(cc["first_positive_Q"] == firstq and cc["new_upper"] == upper and cc["alpha_at_first"] == astr, f"stored variable-alpha cut m={mm}")
+
+                        for mm,want in ((9,Fraction(-30256,22801)),(10,Fraction(-55728,28561))):
+                            QQ=miyaoka_upper(mm)
+                            (gg,_),_,_=ordinary_opt_gap(mm,QQ)
+                            req(gg == want, f"variable-alpha no-cut Miyaoka top m={mm}")
+                        req(781*11-8189 >= 0, "m>=11 rmax>=17m base")
+                        req(2*781 > 0, "m>=11 rmax monotonicity")
+                        req(283*11-798 > 0, "m>=11 negative optimized-gap base")
+                        req(va["no_increment_m_ge_9"]["conclusion"] == "variable-alpha Langer gives no incremental pruning beyond Miyaoka for every m>=9", "variable-alpha m>=9 no increment")
+                        req(routing["e2_unique_pair_variable_alpha_langer_complete"] is True, "variable-alpha routing complete")
+                        req(routing["e2_unique_pair_variable_alpha_langer_incremental_m"] == [2,3,4,5,6,7,8], "variable-alpha incremental list")
+                        req([routing[f"e2_unique_pair_variable_alpha_langer_m{mm}_Q_upper"] for mm in range(2,9)] == [544,1092,1839,2805,3958,5289,6811], "variable-alpha upper bounds")
+                        req(routing["e2_unique_pair_variable_alpha_langer_no_increment_m_ge_9"] is True, "variable-alpha no increment m>=9")
+
+                        sp=ob["m1_exact_abel_saturation_energy_spectrum"]
+                        def block_energy_spectrum(coeffs):
+                            keys=list(coeffs.keys())
+                            states={(0,0,0):{0}}
+                            for aa,bb,cc0 in zip(coeffs["linear"],coeffs[keys[1]],coeffs[keys[2]]):
+                                nxt={}
+                                for (ss,r1,r2),energies in states.items():
+                                    for vv in range(-4,5):
+                                        key=(ss+aa*vv,(r1+bb*vv)%4,(r2+cc0*vv)%4)
+                                        bag=nxt.setdefault(key,set())
+                                        sq=vv*vv
+                                        for ee in energies:
+                                            bag.add(ee+sq)
+                                states=nxt
+                            return states[(0,0,0)]
+                        e0=block_energy_spectrum(q0c)
+                        e1=block_energy_spectrum(q1c)
+                        feasible=sorted({x+y for x in e0 for y in e1 if 118 <= x+y <= 192})
+                        req(feasible == sp["feasible_Q"], "m1 exact energy spectrum")
+                        req(sp["impossible_extra_even_Q"] == [188,190], "m1 Q188 Q190 impossible")
+                        req(len(feasible) == 36 and feasible[-1] == 192, "m1 spectrum count/top")
+                        req(routing["e2_unique_pair_m1_exact_energy_level_count"] == 36, "m1 spectrum routing count")
+                        req(routing["e2_unique_pair_m1_Q188_Q190_impossible"] is True, "m1 188/190 routing")
+                        req(routing["e2_unique_pair_m1_Q192_langer_equality_boundary"] is True, "m1 Q192 equality routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
