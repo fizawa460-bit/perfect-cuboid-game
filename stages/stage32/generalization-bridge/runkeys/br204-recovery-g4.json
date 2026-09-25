@@ -1,8 +1,8 @@
 {
   "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT",
-  "generation": 1,
+  "generation": 2,
   "armed": true,
-  "purpose": "Generation-1 remains an inert cold parent. The repaired transition adapter permits only a hostile-audited generation-2 runkey-only child to authorize the 69-target compact recovery.",
+  "purpose": "Generation-2 runkey-only arm for the hostile-audited BR204 G4 compact recovery execution surface.",
   "execution": {
     "target_count": 69,
     "flat_target_count": 36,
@@ -52,8 +52,8 @@
     "retained_certificate_count": 2688
   },
   "arm_contract": {
-    "audited_doorstep_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
-    "audited_doorstep_review_id": 5312620454,
+    "audited_doorstep_head": "d96b9ff5e3cbabbcdbdf43d6650bfa4b89ae4a4d",
+    "audited_doorstep_review_id": 5314062883,
     "hostile_audit_status": "PASS",
     "runkey_only_arm_commit_required": true,
     "planned_effective_heavy_concurrency": 12,
@@ -62,13 +62,13 @@
     "observed_other_stage32_heavy_concurrency_at_arm": 0,
     "combined_effective_heavy_concurrency_at_arm": 12,
     "execution_surface_changed_after_generation1_arm": true,
-    "fresh_hostile_audit_and_generation2_rearm_required": true,
+    "fresh_hostile_audit_and_generation2_rearm_required": false,
     "generation1_heavy_execution_started": false,
-    "execution_surface_audit_status": "FAIL_REPAIRED_REAUDIT_REQUIRED",
+    "execution_surface_audit_status": "PASS",
     "execution_surface_failed_exact_head": "d63ed9efe6e0f7bc957de244c7a51b2025eeeca8",
     "execution_surface_failed_review_id": 5313922791,
-    "generation2_transition_adapter_status": "REPAIRED_COLD_AWAIT_HOSTILE_AUDIT",
-    "generation2_heavy_authorized": false
+    "generation2_transition_adapter_status": "AUDITED_PASS_ARMED_CHILD",
+    "generation2_heavy_authorized": true
   },
   "credit": {
     "stage32_main": false,
