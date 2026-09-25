@@ -103,6 +103,7 @@ def main() -> None:
         "EX2": "stages/stage32/retained/ex2/README.md",
         "EX3": "stages/stage32/retained/ex3/README.md",
         "EX4": "stages/stage32/retained/ex4/README.md",
+        "EX6": "stages/stage32/retained/ex6/README.md",
     }
     for name, retained_path in retained_startups.items():
         row = next(x for x in lanes["lanes"] if x.get("lane") == name)
@@ -120,6 +121,9 @@ def main() -> None:
     surface_map = (HERE / "SURFACES.md").read_text(encoding="utf-8")
     for token in ("## Live control", "## Internal execution surfaces", "## Retained / reopen-only surfaces"):
         req(token in surface_map, f"surface map missing {token}")
+    req("## Historical path collisions" in surface_map, "surface map missing historical collision section")
+    req((HERE / "retained/historical-32-03/README.md").is_file(),
+        "historical 32-03 navigation marker missing")
 
     bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
     req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
