@@ -126,7 +126,7 @@ jobs:
           # Hostile-audit correctness and merge-ready freshness are separate gates.
           # This long-lived 178 research PR intentionally remains based at the
           # pre-V48 main boundary while consuming V48 only through source locks.
-          test "$current_main" = "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3"
+          test "$current_main" = "a834864923086e5f7c1647e462804f45ff9ac28d"
           test "$merge_base" = "da573f048a82a63e459be1343fb002e663b60875"
           git merge-base --is-ancestor "$merge_base" HEAD
           git merge-base --is-ancestor "$merge_base" "$current_main"
@@ -136,7 +136,9 @@ jobs:
           test "$(git rev-parse "$current_main:stages/stage32/MAIN-STATE.json")" = "070847c669120aef1ab3777239d45878937b41f3"
           test "$(git rev-parse "$current_main:stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json")" = "2733e5519629e6365558bc1b4bfbc6305e0b5533"
           test "$(git rev-parse "$current_main:stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py")" = "d719482d9799f8594b4436d0882bd33945583536"
-          echo "MERGE_READY_FRESHNESS=PENDING_BEHIND_V48_MAIN"
+          test "$(git rev-parse "$current_main:docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json")" = "bbc77625d9ec9886eb528d853cd0a09c9aef21c1"
+          test "$(git rev-parse "$current_main:docs/research-os/policies/verify_repo_workflow_trigger_inventory.py")" = "aeb12a8d25e6a68962a415b2a76e96fc898ceb3e"
+          echo "MERGE_READY_FRESHNESS=PENDING_BEHIND_CURRENT_MAIN"
 
       - name: Verify V45 retained source identities
         run: |
