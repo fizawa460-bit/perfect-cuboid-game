@@ -1,0 +1,96 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_EXACT_TQ_SUPPORT_PREFLIGHT_V1",
+  "status": "EXACT_CANONICAL_T_QBC_SUPPORT_STRICTLY_REFINES_R_MIN_TSETS__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "canonical_r_joint_min_verifier_blob_sha1": "bb8ccb843a2e2bacaf5c25f88116e2ddddfc4439",
+    "canonical_joint_min_verifier_blob_sha1": "4296a18f9fb1b59f963206ff28af73a4e9cf7ef0",
+    "exact_tq_support_verifier_blob_sha1": "1f6ede0e60689bcd4c42f4a41252289b241bd213",
+    "retained_exact_tset_panel_blob_sha1": "19cfa17b049b94dee5f406cb8db32ca94e8cf318",
+    "retained_exact_tset_panel_canonical_sha256": "ec9aa7f7300f7613bd05ef3dbdd56de45db0193f91c1d7a82ed7f3e4c972de60"
+  },
+  "claim": {
+    "fixed_data": "(b,c,H-support,r)",
+    "exact_support": "for every t, enumerate the exact attainable qBC values of retained canonical H tuples; at an exact histogram qBC bin retain t iff qBC is in that exact value set",
+    "dominance": "T_exact_qBC subset T_canonical_r_floor subset T_canonical subset T_relaxed_joint subset current hull",
+    "same_population_check": "the reconstructed qBC support-bin counts equal the independent retained exact histogram-bin counts for c=83,85,89",
+    "actual_weighted_v48_gain_claimed": false
+  },
+  "bounded_literal_enumeration": {
+    "literal_keys": 197,
+    "formula_mismatches": 0,
+    "total_exact_q_values": 256,
+    "max_q_values_per_state": 3
+  },
+  "active_three_cell_structural_scan": [
+    {
+      "c": 83,
+      "exact_hist_qbc_bins": 8274,
+      "strict_qbc_bins": 5912,
+      "removed_t_total": 97503,
+      "max_removed_t": 59,
+      "max_removed_witness": {
+        "support": 4,
+        "r": 0,
+        "qbc": 4707,
+        "floor_tset_size": 60,
+        "exact_tset": [
+          95
+        ],
+        "removed_t": 59
+      }
+    },
+    {
+      "c": 85,
+      "exact_hist_qbc_bins": 7909,
+      "strict_qbc_bins": 5478,
+      "removed_t_total": 85294,
+      "max_removed_t": 60,
+      "max_removed_witness": {
+        "support": 4,
+        "r": 0,
+        "qbc": 4947,
+        "floor_tset_size": 61,
+        "exact_tset": [
+          97
+        ],
+        "removed_t": 60
+      }
+    },
+    {
+      "c": 89,
+      "exact_hist_qbc_bins": 7152,
+      "strict_qbc_bins": 4586,
+      "removed_t_total": 60952,
+      "max_removed_t": 57,
+      "max_removed_witness": {
+        "support": 4,
+        "r": 0,
+        "qbc": 4863,
+        "floor_tset_size": 58,
+        "exact_tset": [
+          83
+        ],
+        "removed_t": 57
+      }
+    }
+  ],
+  "active_three_cell_totals": {
+    "exact_hist_qbc_bins": 23335,
+    "strict_qbc_bins": 15976,
+    "removed_t_total": 243749,
+    "max_removed_t_in_one_qbc_bin": 60
+  },
+  "next_gate": "replace floor-based tsets by exact attainable-qBC tsets in the same full-support+Picard weighted replay",
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "6bc7beb8c8a0b76d6b150950f0341ff97f5193551fd0882c2504bae172a65d26"
+}
