@@ -133,11 +133,12 @@ def main() -> None:
     req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
 
     main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
-    req("stages/stage32/ROADMAP.md" in main_start,
-        "MAIN startup missing roadmap dispatch")
-    req("`32-01` is audited complete and retained." in main_start,
-        "MAIN startup missing audited 32-01 completion")
-    req("`32-02` is the primary active unit." in main_start and "`32-03` is the parallel active unit." in main_start,
+    req("stages/stage32/CURRENT.json" in main_start, "MAIN startup missing compact CURRENT")
+    req("stages/stage32/LIVE-ROADMAP.md" in main_start, "MAIN startup missing compact live roadmap")
+    req("Do **not** ordinarily preload `MAIN-STATE.json`" in main_start,
+        "MAIN startup still preloads detailed authority")
+    req("32-01 is complete and retained." in main_start, "MAIN startup missing audited 32-01 completion")
+    req("32-02 is primary." in main_start and "32-03 is parallel." in main_start,
         "MAIN startup missing final-chain dispatch")
     req("All former lane-specific commands are internal execution details." in main_start,
         "MAIN startup did not collapse specialist commands to internal execution")
