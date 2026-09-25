@@ -15,10 +15,10 @@ HANDOFF = HERE / "POST-V48-178-FULLSUPPORT-384-MAIN-HANDOFF-PREFLIGHT.json"
 HANDOFF_BLOB = "3667b2395f50b675f6f8286074e20e0212933e2f"
 HANDOFF_CANON = "f52f6e74f3ab20c9d5c8a831351da7035af9cccea50893560f4307de5dab9e76"
 
-CANDIDATE = ROOT / "stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-EQUIV-DERIVED-BOUND-RETAINED.json"
+CANDIDATE_REL = Path("stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-EQUIV-DERIVED-BOUND-RETAINED.json")
 CANDIDATE_BLOB = "3acb9551db9fda6be8fde0194b23ddb41ca634d0"
 CANDIDATE_CANON = "da7eb532daf2b775a49524fe45e5b7bf7851719f19a6926a227f5fa745258aba"
-CANDIDATE_VERIFY = ROOT / "stages/stage32/32-01-178/fibration-nef/verify_v48_full_support_384_equiv_derived_bound_retained.py"
+CANDIDATE_VERIFY_REL = Path("stages/stage32/32-01-178/fibration-nef/verify_v48_full_support_384_equiv_derived_bound_retained.py")
 CANDIDATE_VERIFY_BLOB = "843d348351a05be083f2d0d6e16b08da45e38040"
 
 CURRENT_MAIN_HEAD = "a834864923086e5f7c1647e462804f45ff9ac28d"
@@ -88,15 +88,20 @@ def verify_main_root(root: Path, handoff: dict) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--lane178-root", type=Path, default=ROOT)
     ap.add_argument("--main-root", type=Path)
     args = ap.parse_args()
 
+    lane_root = args.lane178_root.resolve()
+    candidate = lane_root / CANDIDATE_REL
+    candidate_verify = lane_root / CANDIDATE_VERIFY_REL
+
     h = load_locked(HANDOFF, HANDOFF_BLOB, HANDOFF_CANON, "MAIN handoff")
-    c = load_locked(CANDIDATE, CANDIDATE_BLOB, CANDIDATE_CANON, "384/384 candidate")
-    req(CANDIDATE_VERIFY.is_file() and blob(CANDIDATE_VERIFY) == CANDIDATE_VERIFY_BLOB,
+    c = load_locked(candidate, CANDIDATE_BLOB, CANDIDATE_CANON, "384/384 candidate")
+    req(candidate_verify.is_file() and blob(candidate_verify) == CANDIDATE_VERIFY_BLOB,
         "candidate verifier blob drift")
 
-    subprocess.run([sys.executable, str(CANDIDATE_VERIFY)], check=True)
+    subprocess.run([sys.executable, str(candidate_verify)], check=True)
 
     req(h["schema"] == "STAGE32_MAIN_POST_V48_178_FULLSUPPORT_384_HANDOFF_PREFLIGHT_V1",
         "handoff schema drift")
@@ -195,7 +200,7 @@ def main() -> None:
         req(v is False, "handoff firewall drift " + k)
 
     if args.main_root is not None:
-        verify_main_root(args.main_root, h)
+        verify_main_root(args.main_root.resolve(), h)
 
     print("POST_V48_178_FULLSUPPORT_MAIN_HANDOFF_PREFLIGHT=PASS")
     print("CURRENT_V48_UPPER_BOUND=128470212118313474449")
