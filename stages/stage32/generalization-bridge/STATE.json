@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V19_G4_MAINLINE",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V20_G4_BOOTSTRAP_COLD_GATE",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_MAINLINE_COLD_SURFACE__AUDIT_REQUIRED",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_MAINLINE_BOOTSTRAP_COLD_GATE__AUDIT_REQUIRED",
   "current_node": "BR204",
   "active_leaf": "BR204_G4_RECOVERY_COLD_SURFACE",
   "target": {
@@ -67,6 +67,14 @@
       "child_certificate_hard_cap_bytes": 65536,
       "conservative_hard_cap_projection_bytes": 175898624,
       "repository_budget_bytes": 524288000
+    },
+    "bootstrap_cold_gate": {
+      "mode": "ACTIVE_AUTO_REPLAY_EQUIVALENT_PREMERGE",
+      "workflow_path": ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
+      "retained_manual_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
+      "reason": "workflow_dispatch only receives events when its workflow file exists on the default branch; the retained MANUAL cold workflow is branch-local before merge",
+      "equivalence_requirement": "bootstrap job executes the same source-lock, predecessor/firewall, current-MAIN, and heavy-unarmed kernel as the retained MANUAL cold gate",
+      "audit_required": true
     }
   },
   "routing": {
@@ -82,13 +90,14 @@
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "G4 mainline surface is cold-only. Exact-head cold-gate SUCCESS, active replay SUCCESS, and fresh hostile audit are required before any arm."
+    "stop_reason": "G4 mainline surface is cold-only. Exact-head cold-gate SUCCESS, active replay SUCCESS, and fresh hostile audit are required before any arm. Pre-merge, the ACTIVE_AUTO replay bootstrap may supply cold-gate execution only if hostile audit verifies kernel equivalence to the retained MANUAL workflow."
   },
   "next_obligation": {
     "id": "BR204_G4_MAINLINE_EXACT_HEAD_EVIDENCE",
     "status": "OPEN",
     "requirements": [
-      "Obtain exact-head MANUAL cold-gate SUCCESS.",
+      "Obtain exact-head cold-gate SUCCESS.",
+      "Before default-branch enrollment, ACTIVE_AUTO replay bootstrap may execute the identical retained MANUAL cold-gate kernel; hostile audit must verify equivalence.",
       "Obtain exact-head ACTIVE_AUTO replay SUCCESS on the same boundary.",
       "Run distinct stage32bridge-audit.",
       "Do not arm heavy compute before audit PASS and a separate runkey-only arm commit."
