@@ -1258,6 +1258,58 @@ def main():
                         req(delta237 < Fraction(1,28) < delta238, "m>=4 forces (2,3,7)")
                         req(56*6 == 336 and 56*7 > 336, "balanced m cutoff replay")
                         req(all(v is False for v in rch["firewalls"].values()), "rational core Hurwitz firewalls")
+                        ctg=rch["compact_triangle_commensurability_gate"]
+                        req(ctg["status"] == "EXACT_PREAUDIT_COMPACT_X8_TRIANGLE_COMMENSURABILITY_FILTER_ZERO_CREDIT", "compact X8 triangle gate status")
+                        req(ctg["compact_surface_group"]["invariant_trace_field"] == "k(K)=k(Delta(2,3,8))=Q(sqrt(2))", "compact X8 invariant field")
+                        req(ctg["rational_core_triangle_reduction"]["delta"] == "delta=8/d from Riemann-Hurwitz on genus(C8)=5", "rational core delta")
+                        req(ctg["m_ge_4"]["conclusion"] == "EXCLUDED_BY_INVARIANT_TRACE_FIELD" and ctg["m_ge_4"]["rational_core_closed_for_m_ge_4"] is True, "m>=4 commensurability exclusion")
+                        req(ctg["m3"]["degree_candidates"] == [192,336], "m3 candidates")
+                        req(ctg["m3"]["survivors"] == [{"degree":192,"signature":[2,3,8]}], "m3 survivor")
+                        m2=ctg["m2"]
+                        req([x["signature"] for x in m2["candidates"]] == [[2,3,7],[2,3,8],[2,3,9],[2,3,10],[2,4,5]], "m2 triangle candidate list")
+                        req([x["degree"] for x in m2["candidates"]] == [336,192,144,120,160], "m2 triangle candidate degrees")
+                        req(m2["survivors"] == [{"degree":192,"signature":[2,3,8]}], "m2 survivor")
+                        # Independent small-area signature replay.
+                        def orb_delta(sig):
+                            a,b,c=sig
+                            return Fraction(1,1)-Fraction(1,a)-Fraction(1,b)-Fraction(1,c)
+                        req(orb_delta((2,3,7)) == Fraction(1,42), "237 delta")
+                        req(orb_delta((2,3,8)) == Fraction(1,24), "238 delta")
+                        req(orb_delta((2,3,9)) == Fraction(1,18), "239 delta")
+                        req(orb_delta((2,3,10)) == Fraction(1,15), "2310 delta")
+                        req(orb_delta((2,4,5)) == Fraction(1,20), "245 delta")
+                        req([int(Fraction(8,1)/orb_delta(tuple(x["signature"]))) for x in m2["candidates"]] == [336,192,144,120,160], "m2 degree replay")
+                        # Completeness for m=2: delta<=1/14 forces a=2 and b in {3,4}.
+                        brute=[]
+                        for a in range(2,6):
+                            for b in range(a,12):
+                                for c in range(b,60):
+                                    dd=orb_delta((a,b,c))
+                                    if dd > 0 and dd <= Fraction(1,14):
+                                        deg=Fraction(8,1)/dd
+                                        if deg.denominator == 1 and deg >= 112 and deg <= 336:
+                                            brute.append(([a,b,c],int(deg)))
+                        req(brute == [([2,3,7],336),([2,3,8],192),([2,3,9],144),([2,3,10],120),([2,4,5],160)], "m2 completeness replay")
+                        # Exact trace-field discriminators used by the retained table.
+                        # For (2,3,n), k=Q(cos(2*pi/n)); n=8 gives Q(sqrt2),
+                        # n=10 gives Q(sqrt5), while n=7,9 have irreducible cubics.
+                        def has_rational_root_cubic(coeffs):
+                            a,b,c,e=coeffs
+                            nums=[d for d in range(1,abs(e)+1) if e%d==0]
+                            dens=[d for d in range(1,abs(a)+1) if a%d==0]
+                            for n0 in nums:
+                                for d0 in dens:
+                                    for s0 in (-1,1):
+                                        x0=Fraction(s0*n0,d0)
+                                        if a*x0**3+b*x0**2+c*x0+e == 0:
+                                            return True
+                            return False
+                        req(not has_rational_root_cubic((64,-80,24,-1)), "cos^2(pi/7) cubic irreducible")
+                        req(not has_rational_root_cubic((64,-96,36,-1)), "cos^2(pi/9) cubic irreducible")
+                        req(32 == 2*4*4, "238 quadratic discriminant squareclass 2")
+                        req(80 == 5*4*4, "2310 quadratic discriminant squareclass 5")
+                        req(ctg["firewalls"]["m_ge_4_rational_core_closed"] is True, "m>=4 firewall closed")
+                        req(all(v is False for k,v in ctg["firewalls"].items() if k != "m_ge_4_rational_core_closed"), "compact triangle remaining firewalls")
                         hb=rch["m_ge4_H_quotient_belyi_gate"]
                         req(hb["status"] == "EXACT_PREAUDIT_MGE4_RATIONAL_CORE_H_QUOTIENT_DEGREE84_BELYI_REDUCTION_ZERO_CREDIT", "m>=4 H quotient Belyi status")
                         req(hb["diagonal_H"]["outer_degree"] == 84, "outer Belyi degree")
@@ -1276,8 +1328,11 @@ def main():
                         req(spec["u"] == 84 and spec["p"] == 0 and spec["e_order2"] == 8 and spec["f_order3"] == 0 and spec["g_order7"] == 0, "m>=4 Stothers specification")
                         req(spec["genus_formula_check"] == "84 = 84*(0-1)+21*8" and spec["exceptional"] is False, "m>=4 Stothers specification validity")
                         req(ap["firewalls"]["abstract_passport_exists"] is True, "m>=4 abstract passport exists")
-                        req(all(x is False for k,x in ap["firewalls"].items() if k != "abstract_passport_exists"), "m>=4 marked-geometry firewalls")
-                        req(all(x is False for x in hb["firewalls"].values()), "m>=4 H quotient Belyi outer firewalls")
+                        req(ap["firewalls"]["abstract_passport_exists"] is True, "m>=4 abstract passport exists retained")
+                        req(ap["firewalls"]["prescribed_U_realization_excluded"] is True and ap["firewalls"]["rational_core_m4_m6_closed"] is True, "m>=4 marked geometry excluded by compact triangle gate")
+                        req(all(x is False for k,x in ap["firewalls"].items() if k not in {"abstract_passport_exists","prescribed_U_realization_excluded","rational_core_m4_m6_closed"}), "m>=4 remaining marked-geometry firewalls")
+                        req(hb["firewalls"]["rational_core_m4_m6_closed"] is True, "m>=4 outer route closed")
+                        req(all(x is False for k,x in hb["firewalls"].items() if k != "rational_core_m4_m6_closed"), "m>=4 H quotient remaining firewalls")
                         req(all(v is False for v in hc["firewalls"].values()), "balanced Hurwitz/core firewalls")
                         req(routing["e2_unique_pair_balanced_hurwitz_passport_exact"] is True, "balanced Hurwitz routing")
                         req(routing["e2_unique_pair_balanced_hurwitz_local_monodromy_even"] is True, "balanced even-monodromy routing")
@@ -1293,7 +1348,12 @@ def main():
                         req(routing["e2_unique_pair_rational_core_ramification_clump_materialized_conditionally"] is True, "rational core conditional clump routing")
                         req(routing["e2_unique_pair_rational_core_mge4_abstract_passport_exists"] is True, "mge4 abstract passport routing")
                         req(routing["e2_unique_pair_rational_core_mge4_unmarked_passport_nonexistence_route"] == "CLOSED_BY_STOTHERS_EXISTENCE", "mge4 unmarked route closed")
-                        req(routing["e2_unique_pair_rational_core_mge4_marked_U_geometry_live"] is True, "mge4 marked U geometry routing")
+                        req(routing["e2_unique_pair_rational_core_mge4_marked_U_geometry_live"] is False, "mge4 marked U geometry closed routing")
+                        req(routing["e2_unique_pair_rational_core_mge4_marked_U_geometry_disposition"] == "CLOSED_BY_COMPACT_X8_TRIANGLE_COMMENSURABILITY", "mge4 marked U disposition")
+                        req(routing["e2_unique_pair_rational_core_compact_X8_triangle_gate_exact"] is True, "compact X8 triangle routing")
+                        req(routing["e2_unique_pair_rational_core_mge4_closed_by_triangle_commensurability"] is True, "mge4 commensurability routing")
+                        req(routing["e2_unique_pair_rational_core_m3_survivors"] == [{"degree":192,"signature":[2,3,8]}], "m3 routing survivor")
+                        req(routing["e2_unique_pair_rational_core_m2_survivors"] == [{"degree":192,"signature":[2,3,8]}], "m2 routing survivor")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
