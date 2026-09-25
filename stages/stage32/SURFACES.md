@@ -35,6 +35,19 @@ The following are retained provenance/evidence, not active ordinary research:
 
 Their legacy physical directories remain in place where source locks, historical receipts, and replay verifiers depend on exact paths. Do not preload them during ordinary Stage32 startup.
 
+## Evidence and machinery
+
+These are not ordinary startup surfaces:
+
+- `proof/` — claim DAG, source/credit adapters, audit and historical replay machinery;
+- `management/` — retained promotion/bound/checkpoint machinery from earlier MAIN authority revisions;
+- `residual-32-01-production/` — retained numerical-census production evidence;
+- `integrated-ex/` — retained summary view only;
+- `archive/` and historical-routing blobs — frozen historical contracts/evidence;
+- `scratch/`, `scouts/`, `runkeys/`, `audits/` — bounded operational support where present.
+
+Their contents are opened only when the selected live leaf, verifier, source lock, audit, or explicit re-entry requires them.
+
 ## Historical evidence
 
 Legacy `stages/stage32-ex*` directories, historical routing snapshots, retained verifiers, receipts, source locks, and older authority states are evidence/replay surfaces. Their physical placement does not make them live routing authorities.
