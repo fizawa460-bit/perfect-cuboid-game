@@ -38,6 +38,7 @@ def load_module(p: Path, name: str):
     s = importlib.util.spec_from_file_location(name, p)
     req(s is not None and s.loader is not None, "module spec " + name)
     m = importlib.util.module_from_spec(s)
+    sys.modules[name] = m
     s.loader.exec_module(m)
     return m
 
