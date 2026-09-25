@@ -715,7 +715,84 @@ def main():
                 req(routing["e2_unique_pair_supported_section_interpolation_exact"] is True, "supported section interpolation exact")
                 req(routing["e2_unique_pair_supported_section_effectivity_closes"] is False, "supported section interpolation no closure")
                 req(routing["e2_unique_pair_supported_section_route"] == "CLOSED_EXACT_SURJECTIVE_TWO_SLICE_INTERPOLATION_NO_GO", "supported section route closed")
-                req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-REALIZATION-AFTER-FIBER-ABEL", "post-Abel active leaf")
+                my=d["retained_frontier"].get("e2_unique_pair_miyaoka_energy_bound")
+                if my is None:
+                    req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-INTERIOR-REALIZATION-AFTER-FIBER-ABEL", "post-Abel active leaf")
+                else:
+                    req(my["status"] == "EXACT_PREAUDIT_MIYAOKA_INTERMEDIATE_RESOLUTION_ENERGY_BOUND_ZERO_CREDIT", "Miyaoka energy-bound status")
+                    req(my["support_mask"] == "000707000f0f" and my["case"] == "e=2", "Miyaoka energy-bound scope")
+                    src=my["source_locks"]
+                    req(src["a1_lift_energy_note_blob"] == "3fb4152c35b88160f36730fac941f542566664a8", "Miyaoka A1-energy source lock")
+                    req(src["product_linearization_note_blob"] == "2c2db567db6a3c33762b2ff3d7f39f885a95b974", "Miyaoka product source lock")
+                    ext=src["external_theorem"]
+                    req(ext["author"] == "Yoichi Miyaoka" and ext["year"] == 2008, "Miyaoka theorem attribution")
+                    req(ext["doi"] == "10.2977/PRIMS/1210167331" and ext["locator"] == "Theorem 1.3(i),(ii)", "Miyaoka theorem locator")
+                    req(ext["restated_as"] == "Bauer et al., Negative curves on algebraic surfaces, Theorem 2.4", "Miyaoka restatement lock")
+                    req(ext["formula_g1"] == "2*(K.C)^2 <= (3*c2-K^2)*(C^2+3*K.C)", "Miyaoka g=1 formula")
+
+                    surf=my["intermediate_resolution"]
+                    req(surf["surface"] == "S=minimum resolution of X_H=(C8 x C8)/H_diag", "Miyaoka surface")
+                    req(surf["K_P_square"] == 128 and surf["e_P"] == 64, "product surface invariants")
+                    req(surf["H_order"] == 4 and surf["fixed_points_diag_g1"] == 64 and surf["fixed_points_diag_g2"] == 64 and surf["fixed_points_diag_g1g2"] == 0, "H fixed-point counts")
+                    req(surf["quotient_euler"] == 48 and surf["A1_count"] == 64, "quotient singularity count")
+                    req(surf["c2_S"] == 112 and surf["K_S_square"] == 32 and surf["kappa_S"] == 2, "resolved surface invariants")
+                    req(surf["miyaoka_a"] == 304, "Miyaoka surface a")
+                    req((64+64+64+0)//4 == 48, "quotient Euler replay")
+                    req(48+64 == 112, "A1 resolution Euler replay")
+                    req(128//4 == 32, "crepant K-square replay")
+                    req(3*112-32 == 304, "Miyaoka a replay")
+
+                    cur=my["curve"]
+                    req(cur["curve"] == "C1=strict transform of Gamma=Zbar/H_diag", "Miyaoka curve")
+                    req(cur["geometric_genus"] == 1, "Miyaoka genus")
+                    req(cur["K_dot_C1"] == "112*l", "Miyaoka canonical degree")
+                    req(cur["C1_square"] == "168*l^2-sum(a_j^2)", "Miyaoka self intersection")
+                    req(cur["hypothesis_KC_gt_3g_minus_3"] is True, "Miyaoka positive canonical degree hypothesis")
+                    req(cur["bound"] == "19*sum(a_j^2)<=1624*l^2+6384*l", "Miyaoka allocation bound")
+                    for ll in (1,2,5,10):
+                        # 2*(112l)^2 <= 304*(168l^2-A+336l)
+                        # is exactly 19*A <= 1624*l^2+6384*l after division by 16.
+                        lhs_const=2*(112*ll)**2
+                        rhs_const=304*(168*ll*ll+336*ll)
+                        req((rhs_const-lhs_const)//16 == 1624*ll*ll+6384*ll, "Miyaoka coefficient replay")
+
+                    ev=my["even_l_reduction"]
+                    req(ev["substitution"] == "l=2*m, a_j=2*b_j, Q=sum(b_j^2)", "Miyaoka even-l substitution")
+                    req(ev["bound"] == "19*Q<=1624*m^2+3192*m", "Miyaoka Q bound")
+                    req(ev["delta_same_lower_bound"] == "delta_same>=(3136/19)*m^2-224*m", "Miyaoka delta lower bound")
+                    req(ev["adaptive_shell_lower"] == "Q>=168*m^2-56*m+6", "Miyaoka adaptive shell lower")
+                    req(ev["combined_polynomial"] == "1568*m^2-4256*m+114<=0", "Miyaoka shell polynomial")
+                    p=lambda mm:1568*mm*mm-4256*mm+114
+                    req(p(1) <= 0 and p(2) <= 0 and p(3) > 0, "Miyaoka shell m1/m2 cutoff")
+                    req(all(p(mm+1)>p(mm) for mm in range(1,12)), "Miyaoka shell polynomial increasing after m1")
+                    req(ev["integer_high_energy_shell_residual_m"] == [1,2], "Miyaoka finite shell residue")
+                    req(ev["high_energy_shell_excluded_for_m_ge"] == 3, "Miyaoka large-m shell closure")
+
+                    oldep=my["old_replacement_endpoint"]
+                    req(oldep["m"] == 5 and oldep["Q"] == 4480, "Miyaoka old endpoint")
+                    req(19*oldep["Q"] > 1624*25+3192*5, "Miyaoka excludes old endpoint")
+                    req(oldep["excluded_by_miyaoka_bound"] is True, "Miyaoka old endpoint disposition")
+
+                    small=my["finite_shell_residue"]
+                    req([w["m"] for w in small] == [1,2], "Miyaoka finite residue degrees")
+                    for w in small:
+                        mm=w["m"]
+                        bb=w["b"]
+                        req(len(bb)==14 and sum(x*x for x in bb)==w["Q"], "Miyaoka finite witness energy")
+                        req(19*w["Q"] <= 1624*mm*mm+3192*mm, "Miyaoka finite witness bound")
+                        req(w["abel_residues"] == [0,0,0,0], "Miyaoka finite witness Abel")
+                        req(w["passes_retained_raw_low_bidegree_capacity"] is True, "Miyaoka finite witness raw capacity")
+                    req(small[0]["capacity_maxima"] == {"fibre":56,"11":66,"12":96,"21":100}, "Miyaoka m1 capacity replay")
+                    req(small[1]["capacity_maxima"] == {"fibre":112,"11":128,"12":192,"21":192}, "Miyaoka m2 capacity replay")
+
+                    req(my["result"] == "Miyaoka's curve inequality removes the entire adaptive high-energy shell for even l=2m with m>=3 and excludes the former m=5 replacement endpoint; it does not exclude e=2 because bulk allocations remain and m=1,2 shell witnesses survive the retained raw capacities", "Miyaoka result")
+                    req(all(v is False for v in my["firewalls"].values()), "Miyaoka credit firewalls")
+                    req(routing["e2_unique_pair_miyaoka_surface_bound_exact"] is True, "Miyaoka routing exact")
+                    req(routing["e2_unique_pair_miyaoka_high_energy_shell_m_ge_3_closed"] is True, "Miyaoka routing shell closure")
+                    req(routing["e2_unique_pair_miyaoka_e2_closes"] is False, "Miyaoka routing no e2 closure")
+                    req(routing["e2_unique_pair_miyaoka_high_energy_shell_residual_m"] == [1,2], "Miyaoka routing finite residue")
+                    req(routing["e2_unique_pair_replacement_endpoint_survives_current_constraints"] is False, "Miyaoka old endpoint no longer current")
+                    req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-MIYAOKA-PRUNED-INTERIOR-REALIZATION", "post-Miyaoka active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
