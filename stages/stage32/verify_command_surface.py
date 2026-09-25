@@ -55,8 +55,8 @@ def main() -> None:
         "stage32bridge-mainbatch", "stage32bridge-audit",
     ):
         req(token in commands, f"canonical command missing: {token}")
-    req("Lane startup entrypoints are resolved by `stages/stage32/proof/LANE-ADAPTERS.json`" in commands,
-        "command registry missing lane startup authority")
+    req("`stages/stage32/proof/LANE-ADAPTERS.json` remains the machine registry" in commands,
+        "command registry missing lane adapter registry")
     req("Stage32EX5 is intentionally collapsed to `stages/stage32-ex5/MAIN-STATE.json`" in commands,
         "command registry missing EX5 startup collapse")
     req("not a second startup contract" in commands, "command registry still acts as startup contract")
