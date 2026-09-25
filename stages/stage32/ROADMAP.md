@@ -9,20 +9,6 @@ EXECUTION_CLASS=2
 PERFECT_CUBOID_PROBLEM_STATUS=OPEN
 ```
 
-## Current audited position — 2026-09-25
-
-The formal roadmap is now in its final-chain phase:
-
-```text
-32-01  COMPLETE / AUDITED numerical census
-32-02  ACTIVE primary — effectivity/carrier disposal
-32-03  ACTIVE parallel — multibranch ledger
-32-04  BLOCKED on 32-02 + 32-03 — integrated synthesis
-32-05  BLOCKED — final hostile audit
-```
-
-Ordinary operation is unified under `stage32mainbatch`. Historical 178/CUT/BRIDGE research is retained but is not an ordinary prerequisite after audited 32-01 completion. Separate EX5/MB/MB-FIB PRs may remain as isolated execution/audit surfaces; they do not define separate Stage32 roadmaps.
-
 ## 0. Purpose
 
 Stage32 closes, or reduces to a smaller exact residual, the remaining low-genus Picard-production Class-2 kernel frozen by Stage29.
