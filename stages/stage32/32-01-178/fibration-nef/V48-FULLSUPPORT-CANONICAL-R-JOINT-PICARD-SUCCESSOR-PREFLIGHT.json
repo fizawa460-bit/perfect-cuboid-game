@@ -1,0 +1,72 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_CANONICAL_R_JOINT_PICARD_SUCCESSOR_PREFLIGHT_V3",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "CANONICAL_R_JOINT_SUCCESSOR_PREPARED__ZERO_MAIN_CREDIT__EXECUTION_PENDING",
+  "authority_context": {
+    "v48_certified_upper_bound": "128470212118313474449",
+    "current_384_equiv_candidate_upper_bound": "128443221087959579960",
+    "current_384_equiv_tightening_vs_v48": "26991030353894489"
+  },
+  "source_locks": {
+    "canonical_successor_v2_preflight_blob_sha1": "fb2e208ec374d15e4a1bfc9fa859ac7d36773185",
+    "canonical_successor_v2_preflight_canonical_sha256": "d3d4d1970cdf579c4492e3d393ccc1c6c943e2adc49c2f847cfc6f836ed645da",
+    "canonical_r_joint_min_preflight_blob_sha1": "e6a996aee1cfff1424320c9c664df0ae3ac89c1d",
+    "canonical_r_joint_min_preflight_canonical_sha256": "297cf63ea734a7409f1165af6e2b59610bd04feea68e1d1eaaee077e14fafc11",
+    "canonical_r_joint_min_formula_verifier_blob_sha1": "bb8ccb843a2e2bacaf5c25f88116e2ddddfc4439",
+    "canonical_r_joint_min_retained_verifier_blob_sha1": "f135ed7c6d8db5d2ddc08f2a2c2510dee03bd83c",
+    "canonical_r_successor_probe_blob_sha1": "407d27d15102930381b9da38e15fae783ceb0fe5"
+  },
+  "dominance": {
+    "r_floor_over_canonical": "canonical_r_joint_q_lower(b,c,t,support,r) >= canonical_joint_q_lower(b,c,t,support)",
+    "set_inclusion": "T_canonical_r(qBC) subset T_canonical(qBC) subset T_relaxed_joint(qBC) subset current_fullsupport_hull",
+    "picard_consequence": "canonical-r-joint-Picard survivors <= canonical-joint-Picard survivors <= relaxed-joint-Picard survivors <= current-fullsupport-Picard survivors",
+    "same_population_reason": "r is already an exact index of every retained qBC histogram and selects the same x4-parity bucket used by the consumer",
+    "no_double_charge_rule": "same-population pointwise replacement only; never additive subtraction"
+  },
+  "structural_evidence": {
+    "bounded_formula_states": 5904,
+    "bounded_literal_keys": 1064,
+    "literal_formula_mismatches": 0,
+    "strict_finite_vs_canonical": 396,
+    "r_infeasible_canonical_finite": 397,
+    "active_panel_strict_states_with_canonical_floor_at_most_4992": 555,
+    "active_panel_qbc_cap_crossings": 32,
+    "active_witness": {
+      "b": 36,
+      "c": 83,
+      "t": 35,
+      "support": 3,
+      "r": 1,
+      "canonical_floor_without_r": 4825,
+      "canonical_r_floor": 8115,
+      "gain": 3290
+    }
+  },
+  "route_decision": {
+    "canonical_without_r_route_superseded_for_future_execution": true,
+    "relaxed_joint_route_also_superseded_for_future_execution": true,
+    "successor": "CANONICAL_R_JOINT_QBC_MIN_PLUS_PICARD_OVER_CURRENT_FULLSUPPORT",
+    "reason": "The exact retained qBC histogram already carries r. Conditioning the canonical minimum on r is zero-loss and pointwise strengthens the v2 canonical floor. Future bounded replay should execute only v3 and retain v1/v2 columns as internal audit comparisons.",
+    "next_gate": "bounded weighted replay on c={83,85,89} under explicit execution authorization; retain numeric tightening only if exact replay is strict versus current full-support+Picard"
+  },
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_numeric_tightening_claimed": false,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "6cd87e1339fae0a9aecc451248ce5db2cd4a7e606f68050fa33f9cec27515140"
+}
