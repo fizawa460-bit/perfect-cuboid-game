@@ -20,12 +20,18 @@ LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
 LIVE_MAIN_START = HERE / "MAIN-START-HERE.md"
 LIVE_178_START = HERE / "32-01-178" / "MAIN-START-HERE.md"
 OLD_178_START = ARCH / "MAIN-START-HERE-178-PRE-UNIFIED-DISPATCH.md"
+LIVE_CUT_START = HERE / "full178-cut" / "MAIN-START-HERE.md"
+OLD_CUT_START = ARCH / "MAIN-START-HERE-CUT-PRE-UNIFIED-DISPATCH.md"
+LIVE_MB_START = HERE / "final-chain" / "32-03-multibranch" / "MAIN-START-HERE.md"
+OLD_MB_START = ARCH / "MAIN-START-HERE-MB-PRE-UNIFIED-DISPATCH.md"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
 OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
 OLD_MAIN_START_BLOB = "2b659d7e7bde120de764de8b2c260faefe78a18e"
 OLD_EX5_START_BLOB = "47581a734da21dac3d2cabc4dc520d5be1310a49"
 OLD_178_START_BLOB = "21e5da4898c2a5c1dda3fc92cce49332ccaf24a9"
+OLD_CUT_START_BLOB = "1d888992efeb90945f4064153afa1274ebb58b00"
+OLD_MB_START_BLOB = "729815602eccfe7d00ca706a711a59eb80a231c5"
 RETIRED = (
     "README.md",
     "MAIN-START-HERE.md",
@@ -143,16 +149,22 @@ def main() -> None:
     req(blob(OLD_MAIN_START) == OLD_MAIN_START_BLOB, "pre-monitor MAIN startup snapshot drift")
     req(blob(ARCH_EX5 / "MAIN-START-HERE.md") == OLD_EX5_START_BLOB, "archived EX5 startup snapshot drift")
     req(blob(OLD_178_START) == OLD_178_START_BLOB, "pre-unified 178 startup snapshot drift")
+    req(blob(OLD_CUT_START) == OLD_CUT_START_BLOB, "pre-unified CUT startup snapshot drift")
+    req(blob(OLD_MB_START) == OLD_MB_START_BLOB, "pre-unified MB startup snapshot drift")
 
     live_commands = (HERE / "COMMANDS.md").read_bytes()
     live_main_start = LIVE_MAIN_START.read_bytes()
     live_178_start = LIVE_178_START.read_bytes()
+    live_cut_start = LIVE_CUT_START.read_bytes()
+    live_mb_start = LIVE_MB_START.read_bytes()
     old_start = LEGACY_EX5_START.read_bytes() if LEGACY_EX5_START.exists() else None
     old_tmp = TMP_VERIFIER.read_bytes() if TMP_VERIFIER.exists() else None
     try:
         (HERE / "COMMANDS.md").write_bytes(OLD_COMMANDS.read_bytes())
         LIVE_MAIN_START.write_bytes(OLD_MAIN_START.read_bytes())
         LIVE_178_START.write_bytes(OLD_178_START.read_bytes())
+        LIVE_CUT_START.write_bytes(OLD_CUT_START.read_bytes())
+        LIVE_MB_START.write_bytes(OLD_MB_START.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
         TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
@@ -160,6 +172,8 @@ def main() -> None:
         (HERE / "COMMANDS.md").write_bytes(live_commands)
         LIVE_MAIN_START.write_bytes(live_main_start)
         LIVE_178_START.write_bytes(live_178_start)
+        LIVE_CUT_START.write_bytes(live_cut_start)
+        LIVE_MB_START.write_bytes(live_mb_start)
         if old_start is None:
             if LEGACY_EX5_START.exists():
                 LEGACY_EX5_START.unlink()
@@ -174,6 +188,8 @@ def main() -> None:
     req((HERE / "COMMANDS.md").read_bytes() == live_commands, "live COMMANDS restore failed")
     req(LIVE_MAIN_START.read_bytes() == live_main_start, "live MAIN startup restore failed")
     req(LIVE_178_START.read_bytes() == live_178_start, "live 178 startup restore failed")
+    req(LIVE_CUT_START.read_bytes() == live_cut_start, "live CUT startup restore failed")
+    req(LIVE_MB_START.read_bytes() == live_mb_start, "live MB startup restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
     print("PASS: Stage32 command surface is roadmap-first with one ordinary operator entrypoint")
