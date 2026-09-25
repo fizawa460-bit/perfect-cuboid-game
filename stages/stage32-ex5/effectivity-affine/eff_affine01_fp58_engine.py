@@ -21,6 +21,7 @@ RETAINED=ROOT/"stages/stage33/33-07/picard_base_rows_retained.py"
 MARKING=ROOT/"stages/stage33/33-07/stage32_picard_marking_retained.py"
 LOCKS={BASE:"6b4c3514b5b4cbccd8e66cbffc7f61f8830d1633",RELAXED:"e44bec7ad9c0b7a4d8d7d87a455f181a681035c6",PARENT:"29114c0cd8a2c604d24b2a9ad3418fc2b5200171",RETAINED:"82e4d450a1d852e34f6615440fb88a029c6e54eb",MARKING:"5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7"}
 D,E,G=18,8,0
+NORMAL_MASS=19*D-5*E
 LOW=-D-2+2*G
 HIGH=D-15
 N=58
@@ -93,16 +94,24 @@ def solve(base4, shard_id=0, shard_count=1, split_index=53):
     fixed=[fq(x) for x in P*(bp+RK*center_s)]
     req(shard_count>=1 and 0<=shard_id<shard_count,"shard bounds")
     req(0<=split_index<N,"split index")
-    coords=[0]*N; nodes=prunes=leaves=0; witness=None; tr=hashlib.sha256()
+    coords=[0]*N; nodes=prunes=lower_prunes=upper_prunes=leaves=0; witness=None; tr=hashlib.sha256()
+    pair_upper=[NORMAL_MASS]*92+[E]*48
     assigned_prefixes=skipped_prefixes=0
 
     def ev(*p): tr.update(("|".join(map(str,p))+"\n").encode())
     def viable(next_i,rem):
-        nonlocal prunes
+        nonlocal prunes,lower_prunes,upper_prunes
         for k in range(140):
-            if fixed[k]>=0: continue
-            impossible=next_i<0 or fixed[k]*fixed[k]>rem*dual[k][next_i]
-            if impossible: prunes+=1; ev("P",next_i,k,fixed[k],rem); return False
+            v=fixed[k]; upper=fmpq(pair_upper[k])
+            if 0<=v<=upper: continue
+            dist=-v if v<0 else v-upper
+            impossible=next_i<0 or dist*dist>rem*dual[k][next_i]
+            if impossible:
+                prunes+=1
+                if v<0: lower_prunes+=1; side="LOW"
+                else: upper_prunes+=1; side="HIGH"
+                ev("P2",next_i,k,side,v,upper,rem)
+                return False
         return True
     def rec(i,rem):
         nonlocal nodes,leaves,witness,assigned_prefixes,skipped_prefixes
@@ -139,6 +148,7 @@ def solve(base4, shard_id=0, shard_count=1, split_index=53):
                         leaves+=1
                         x=bp+RK*Matrix(coords); pair=P*x; c2=int((x.T*gram*x)[0])
                         req(min(pair)>=0 and c2>=LOW,"leaf verification")
+                        req(max(pair[:92,:])<=NORMAL_MASS and max(pair[92:,:])<=E,"leaf pairing upper bounds")
                         # The Fincke--Pohst ellipsoid is bounded by the
                         # adjunction lower edge only.  Leaves above HIGH are
                         # valid relaxed-fiber points, not bad-shell witnesses;
@@ -155,8 +165,9 @@ def solve(base4, shard_id=0, shard_count=1, split_index=53):
     t=time.perf_counter(); rec(N-1,radius); elapsed=time.perf_counter()-t
     return {"schema":"STAGE32EX5_EFF_AFFINE01_FP58_KEY_V1","base4":list(base4),"bad_shell":[LOW,HIGH],
       "classification":"BAD_SHELL_SAT_WITNESS" if witness else "BAD_SHELL_UNSAT_EXACT",
-      "complete":True,"kernel_dimension":N,"all140_pruning":True,"node_count":nodes,
-      "intersection_prune_count":prunes,"feasible_leaf_count":leaves,"transcript_sha256":tr.hexdigest(),
+      "complete":True,"kernel_dimension":N,"all140_pruning":True,"two_sided_pairing_pruning":True,"node_count":nodes,
+      "intersection_prune_count":prunes,"lower_pairing_prune_count":lower_prunes,
+      "upper_pairing_prune_count":upper_prunes,"feasible_leaf_count":leaves,"transcript_sha256":tr.hexdigest(),
       "elapsed_seconds":elapsed,"witness":witness,
       "shard":{"id":shard_id,"count":shard_count,"split_index":split_index,
                "assigned_prefix_count":assigned_prefixes,"skipped_prefix_count":skipped_prefixes,
