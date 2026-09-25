@@ -1,0 +1,58 @@
+name: Stage32 MB-FIB Gen15 durable carry materialization # COLD evidence-only
+# Trigger lifecycle: RETIRED — one-shot durable evidence materializer; manual replay only.
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Target branch containing the exact expected head
+        required: true
+        type: string
+      expected_head_sha:
+        description: Exact head; this COLD workflow refuses a different commit
+        required: true
+        type: string
+permissions:
+  contents: write
+  actions: read
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact materializer dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify COLD source before evidence materialization
+        env:
+          EXPECTED_HEAD: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_head_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          python - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          k=json.loads(Path('stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json').read_text())
+          assert k['armed'] is False and k['mode']=='COLD' and int(k['generation'])==16
+          for f,path in {'materialize_gen15_carry_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/materialize_mb104_000707_gen15_durable_carry.py','carry_manifest_git_blob':'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN13-SHARD0-CARRY-MANIFEST.json'}.items():
+              assert subprocess.check_output(['git','hash-object',path],text=True).strip()==k['source_locks'][f]
+          PY
+      - name: Fetch and preserve original Gen15 exact certificate bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/materialize_mb104_000707_gen15_durable_carry.py \
+            --manifest stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN13-SHARD0-CARRY-MANIFEST.json \
+            --bundle stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN15-SINGLETON-CARRY-BUNDLE.json
+      - name: Commit durable evidence only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN13-SHARD0-CARRY-MANIFEST.json stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN15-SINGLETON-CARRY-BUNDLE.json
+          git commit -m 'stage32 mb-fib: retain exact Gen15 carry evidence'
+          git push origin "HEAD:${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref_name }}"

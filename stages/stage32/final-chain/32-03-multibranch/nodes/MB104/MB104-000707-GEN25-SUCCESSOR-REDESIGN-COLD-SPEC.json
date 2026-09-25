@@ -1,0 +1,144 @@
+{
+  "schema": "STAGE32_MB104_000707_GEN25_SUCCESSOR_REDESIGN_COLD_SPEC_V1",
+  "status": "GEN25_AUDIT_BLOCKER_REPAIR_PREPARED__PENDING_CI__NO_HEAVY_EXECUTION_NO_CREDIT",
+  "source_population": {
+    "carry_authority": "SOURCE_COMMITTED_GEN23_X60_SINGLETON_CARRY",
+    "source_generation": 23,
+    "producing_execution_head": "99601aef02a82858d32729dec344f103ae40af09",
+    "producing_workflow_run_id": 35663858139,
+    "complete_x60_singleton_count": 281,
+    "residual_timeout_x60_singleton_count": 30,
+    "residual_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN24-X60-SINGLETON-RESIDUAL30.json",
+    "residual_git_blob": "7bc6bc0f3f1d7fa656800274a9f4f31c8fc541c6",
+    "recompute_complete_regions": false,
+    "predecessor_audited_surface": {
+      "status": "PASS",
+      "exact_head": "3a895b566a1edd7a66f2c0eab84cf5c42b640737",
+      "review_id": 5285595954,
+      "scope": "GEN23_RETAINED_EVIDENCE_BOUNDARY_ONLY",
+      "authority_use": "LOAD_BEARING_PREDECESSOR_FOR_SOURCE_COMMITTED_GEN23_CARRY"
+    }
+  },
+  "retired_route": {
+    "route": "GLOBAL_X59_INTERVAL_SPLIT",
+    "audited_exact_head": "1fb795fd47b2e78130c85f5c313f4796ce68675e",
+    "hostile_audit_review_id": 5285481947,
+    "disposition": "HISTORICAL_ABANDONED_ROUTE_ONLY__NO_HEAVY__NOT_CONSUMED",
+    "heavy_executed": false,
+    "mathematical_credit": false,
+    "coordinate_0based": 59,
+    "historical_review_result": "PASS_AT_TIME__LATER_EXCLUDED_FROM_PREDECESSOR_AUTHORITY",
+    "authority_status": "NON_AUTHORITATIVE_REJECTED_AS_PREDECESSOR",
+    "load_bearing_authority": false
+  },
+  "successor_design": {
+    "id": "GEN25_PER_LEAF_AFFINE_CONDITIONED_DUAL_ELLIPSOID",
+    "purpose": "Choose a different exact split independently for each of the 30 retained timeout leaves instead of applying one global x59 split.",
+    "fixed_coordinates_0based": [
+      62,
+      61,
+      60
+    ],
+    "forbidden_split_coordinates_0based": [
+      59,
+      60,
+      61,
+      62
+    ],
+    "load_bearing_constraints": [
+      "exact positive-definite H-perp norm equality",
+      "exact fixed P pairing",
+      "the retained fixed x62,x61,x60 values of each timeout leaf"
+    ],
+    "exact_bound_method": [
+      "partition the retained H-perp Gram into fixed and free coordinates for each timeout leaf",
+      "complete the square exactly over Q after substituting fixed x62,x61,x60",
+      "condition the ellipsoid additionally on the exact P-pairing affine hyperplane",
+      "project the resulting positive-definite affine ellipsoid onto each allowed free coordinate",
+      "intersect each projected interval with the existing exact global integer coordinate bound"
+    ],
+    "per_leaf_selection_rule": "MIN_EXACT_AFFINE_CONDITIONAL_INTEGER_DOMAIN__MAX_ALL140_ABS_LINEAR_WEIGHT__MIN_INDEX__EXCLUDING_X59_X60_X61_X62",
+    "empty_leaf_rule": "If the exact norm-plus-P conditioned residual energy is negative, record REAL_EMPTY_NECESSARY_CONDITION_CANDIDATE; no credit until an independent verifier confirms the exact arithmetic and source locks.",
+    "partition_rule": "For each nonempty leaf, split its selected coordinate integer domain into at most 8 nonempty contiguous disjoint intervals with exact endpoint coverage.",
+    "packet_rule": "One parent packet per retained timeout leaf; coordinate choice may differ between leaves.",
+    "maximum_parent_packets": 30,
+    "maximum_interval_children": 240,
+    "planned_effective_heavy_concurrency_after_future_audit": 4,
+    "heavy_surface_present": false,
+    "heavy_armed": false,
+    "execution_authorized": false,
+    "cold_diagnostic_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/derive_mb104_000707_gen25_adaptive_affine_cold.py",
+    "cold_diagnostic_git_blob": "6d2f7016621c602d097e4e45a429b8250579cdf6",
+    "cold_diagnostic_verifier_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen25_adaptive_affine_cold.py",
+    "cold_diagnostic_verifier_git_blob": "7760e7ea3d7f260dd5abf46d6bd14e713cb887d3",
+    "runkey_generation": 25,
+    "optimization": "COMMON_FIXED_X62_X61_X60_AFFINE_CONTEXT_AND_60X60_RATIONAL_INVERSE_COMPUTED_ONCE__MATHEMATICAL_CONTRACT_UNCHANGED"
+  },
+  "cold_diagnostic_required_output": {
+    "residual_leaf_count": 30,
+    "preserve_complete_x60_singletons": 281,
+    "require_no_x59_selection": true,
+    "require_exact_source_identity_binding": true,
+    "require_exact_disjoint_coverage": true,
+    "report_selected_coordinate_histogram": true,
+    "report_per_leaf_conditional_domain": true,
+    "report_real_empty_leaf_count": true,
+    "report_total_interval_child_count": true,
+    "report_max_conditional_domain": true,
+    "report_median_conditional_domain": true,
+    "compare_against_retired_x59_only_as_diagnostic": true
+  },
+  "promotion_gate": {
+    "source_committed_cold_output_required": true,
+    "independent_verifier_required": true,
+    "hostile_audit_required_before_heavy": true,
+    "matching_runner_verifier_aggregate_surface_required_before_arm": true,
+    "semantic_runkey_advance_required_before_arm": true,
+    "x59_surface_must_not_be_rearmed": true,
+    "cold_diagnostic_implemented": true,
+    "cold_diagnostic_verifier_implemented": true,
+    "external_hostile_audit_required": true,
+    "producer_self_audit_authorized": false,
+    "source_committed_cold_output_satisfied": true,
+    "x59_heavy_jobs_retired_required": true
+  },
+  "credit_firewall": {
+    "numerical_fibration_shell_credit": false,
+    "effectivity_credit": false,
+    "semiampleness_credit": false,
+    "global_fibration_optimum_credit": false,
+    "MB104_complete": false,
+    "stage32_03_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "cold_output": {
+    "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-ADAPTIVE-AFFINE-COLD.json",
+    "producing_execution_head": "98d460d33ec5feabaf5bba0da51a7192dca275e2",
+    "producing_workflow_run_id": 35804557466,
+    "authorize_job_id": 107002314104,
+    "artifact_id": 10726409201,
+    "artifact_digest": "sha256:ccc09ae12eedb702814771e73066b799811c214d2d0d797c610814cd0749c144",
+    "certificate_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
+    "canonical_sha256": "6daaaef5e82aaefab0b676c24392b08894e7ecf63b6a930f0327d74ffd48a1d7",
+    "carried_complete_x60_singletons": 281,
+    "residual_timeout_leaf_count": 30,
+    "necessary_condition_empty_leaf_count": 14,
+    "split_leaf_count": 16,
+    "selected_coordinate_histogram": {
+      "58": 16
+    },
+    "total_interval_child_count": 128,
+    "maximum_conditional_domain": 37,
+    "median_conditional_domain": [
+      25,
+      25
+    ],
+    "heavy_authorized": false,
+    "credit": false
+  }
+}

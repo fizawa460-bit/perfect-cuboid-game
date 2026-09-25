@@ -18,6 +18,9 @@ OLD_MAIN_START = ARCH / "MAIN-START-HERE-PRE-ACTIVE-SPECIALIST-MONITOR.md"
 TMP_VERIFIER = HERE / ".verify_command_surface_pre_ex5_startup_collapse.py"
 LEGACY_EX5_START = EX5 / "MAIN-START-HERE.md"
 LIVE_MAIN_START = HERE / "MAIN-START-HERE.md"
+FIB_RUNKEY = REPO / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
+FIB_WORKFLOW = REPO / ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml"
+FIB_PREFLIGHT_VERIFIER = REPO / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_isotropic_shells_preflight.py"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
 OLD_VERIFIER_BLOB = "bfe5fefce877eb0c819f04798fc72957eddedadd"
@@ -95,7 +98,46 @@ def main() -> None:
     req(fib_state["routing"]["registered_lane_adapter"] is False, "MB-FIB unexpectedly registered as claim lane")
     req(fib_state["routing"]["ordinary_mb_mainbatch_preloads_this_lane"] is False, "MB-FIB leaked into ordinary MB startup")
     req(fib_state["routing"]["fib_freeze_blocks_mb_mainbatch"] is False, "MB-FIB freeze incorrectly blocks MB mainbatch")
-    req(fib_state["execution"]["heavy_armed"] is False, "MB-FIB bootstrap unexpectedly arms heavy compute")
+    fib_key = json.loads(FIB_RUNKEY.read_text(encoding="utf-8"))
+    req(fib_key["schema"] == "STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1", "MB-FIB runkey schema drift")
+    req(int(fib_state["execution"]["runkey_generation"]) == int(fib_key["generation"]), "MB-FIB STATE/runkey generation drift")
+    req(blob(FIB_RUNKEY) == fib_state["imported_source"]["research_surface_runkey_git_blob"], "MB-FIB retained runkey blob drift")
+    req(blob(FIB_WORKFLOW) == fib_state["imported_source"]["research_surface_workflow_git_blob"], "MB-FIB retained workflow blob drift")
+    req(blob(FIB_PREFLIGHT_VERIFIER) == fib_state["imported_source"]["preflight_verifier_git_blob"], "MB-FIB preflight verifier blob drift")
+
+    if fib_state["execution"]["heavy_armed"]:
+        req(fib_state["execution"]["execution_authorized"] is True, "MB-FIB armed STATE lacks execution authorization")
+        req(fib_key["armed"] is True and fib_key["mode"] == "RECOVERY" and int(fib_key["generation"]) >= 17, "MB-FIB armed recovery mode drift")
+        req(fib_state["audit"]["status"] == "PASS", "MB-FIB armed without hostile-audit PASS")
+        req(fib_key["execution_gate"]["hostile_audit_status"] == "PASS", "MB-FIB armed runkey lacks audit PASS")
+        req(fib_key["execution_gate"]["hostile_audit_exact_head"] == fib_state["audit"]["audited_exact_head"], "MB-FIB audit exact-head drift")
+        req(fib_key["execution_gate"]["hostile_audit_review_id"] == fib_state["audit"]["hostile_audit_review_id"], "MB-FIB audit receipt drift")
+        req(fib_key["execution_gate"]["automatic_execution_authorized"] is True, "MB-FIB armed key lacks automatic authorization")
+        req(fib_key["execution_gate"]["state_transition_recorded"] is True, "MB-FIB armed key lacks state transition")
+        req(fib_key["execution_gate"]["current_head_execution_blocked"] is False, "MB-FIB armed key still blocked")
+        req(fib_key["execution_gate"]["pilot_only"] is True, "MB-FIB armed outside pilot-only scope")
+        req(fib_key["execution_gate"]["scaleout_authorized"] is False, "MB-FIB premature scaleout authorization")
+    else:
+        req(fib_state["execution"]["execution_authorized"] is False, "MB-FIB unarmed STATE execution authorization leak")
+        req(fib_key["armed"] is False, "MB-FIB unarmed runkey drift")
+        req(fib_key["execution_gate"]["automatic_execution_authorized"] is False, "MB-FIB unarmed key automatic authorization leak")
+        req(fib_key["execution_gate"]["current_head_execution_blocked"] is True, "MB-FIB unarmed key unexpectedly unblocked")
+        if fib_key["mode"] == "COLD":
+            pass
+        elif fib_key["mode"] == "RECOVERY":
+            req(int(fib_key["generation"]) == 23, "MB-FIB disarmed RECOVERY is allowed only for consumed Gen23")
+            req(fib_state["status"] == "GEN23_EXECUTED_PARTIAL_281_COMPLETE_30_TIMEOUT__DISARMED__ZERO_CREDIT", "MB-FIB Gen23 disarm STATE status drift")
+            req(fib_state["execution"]["active_transition"] == "GEN23_RECOVERY_X60_SINGLETON_RESIDUAL62_EXECUTED__DISARMED", "MB-FIB Gen23 disarm transition drift")
+            req(fib_key["execution_gate"]["release_scope"] == "GEN23_RELEASE_CONSUMED__NO_REPEAT_EXECUTION__SUCCESSOR_REQUIRES_NEW_SEMANTIC_ADVANCE_AND_AUDIT", "MB-FIB Gen23 release-consumed scope drift")
+            req(int(fib_key["execution_gate"]["last_numerical_attempt_generation"]) == 23, "MB-FIB Gen23 last-attempt generation drift")
+            req(int(fib_key["execution_gate"]["last_numerical_attempt_run_id"]) == 35663858139, "MB-FIB Gen23 last-attempt run drift")
+            req(int(fib_state["execution"]["last_attempt"]["generation"]) == 23, "MB-FIB Gen23 STATE last-attempt generation drift")
+            req(int(fib_state["execution"]["last_attempt"]["run_id"]) == 35663858139, "MB-FIB Gen23 STATE last-attempt run drift")
+            req(int(fib_state["execution"]["last_attempt"]["complete_child_count"]) == 281, "MB-FIB Gen23 COMPLETE carry count drift")
+            req(int(fib_state["execution"]["last_attempt"]["incomplete_child_count"]) == 30, "MB-FIB Gen23 residual timeout count drift")
+        else:
+            req(False, "MB-FIB unexpected unarmed mode")
+
     req(all(v is False for v in fib_state["credit_firewall"].values()), "MB-FIB credit firewall leak")
 
     state = json.loads((EX5 / "MAIN-STATE.json").read_text(encoding="utf-8"))
