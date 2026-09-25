@@ -1,0 +1,176 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_CANONICAL_JOINT_MIN_PREFLIGHT_V1",
+  "status": "EXACT_CANONICAL_H_MIN_STRICTLY_DOMINATES_RELAXED_JOINT__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "support_qbc_worker_blob_sha1": "37e72735125c232e534d92c6e24c7afc0a0f4f24",
+    "relaxed_joint_min_verifier_blob_sha1": "490db30dc7e4bfc42da0e6dd9947a644dea14275",
+    "canonical_joint_min_verifier_blob_sha1": "4296a18f9fb1b59f963206ff28af73a4e9cf7ef0"
+  },
+  "claim": {
+    "fixed_data": "(b,c,t,H-support)",
+    "exact_minimum": "minimum qBC over the seven retained H coordinates with the terminal x0<=x1 / equality-lex canonicalization and retained parity enforced",
+    "dominance": "canonical_joint_q_lower >= relaxed joint_q_lower >= aggregate_q_lower pointwise",
+    "safety": "every retained H tuple satisfies the canonical constraints, so every retained tuple has qBC >= canonical_joint_q_lower",
+    "actual_weighted_v48_gain_claimed": false
+  },
+  "bounded_formula_regression": {
+    "states": 2952,
+    "relaxed_joint_finite": 1268,
+    "canonical_finite": 1128,
+    "canonical_infeasible_relaxed_finite": 140,
+    "strict_finite": 137,
+    "equal_finite": 991,
+    "max_strict_gain": 24,
+    "weakening": 0
+  },
+  "bounded_literal_enumeration": {
+    "literal_keys": 670,
+    "formula_mismatches": 0,
+    "strict_vs_relaxed_joint": 65,
+    "max_strict_gain": 4
+  },
+  "active_structural_witness": {
+    "b": 36,
+    "c": 89,
+    "t": 103,
+    "support": 5,
+    "separate_floor": 3137,
+    "relaxed_joint_floor": 3377,
+    "canonical_joint_floor": 3617,
+    "canonical_gain_vs_relaxed": 240,
+    "canonical_gain_vs_separate": 480
+  },
+  "active_three_cell_structural_scan": {
+    "rows": [
+      {
+        "c": 83,
+        "states": 480,
+        "relaxed_joint_finite": 294,
+        "canonical_finite": 293,
+        "canonical_infeasible_relaxed_finite": 1,
+        "strict_finite": 188,
+        "max_strict_gain": 1800,
+        "strict_with_relaxed_floor_at_most_4992": 184,
+        "crosses_qbc_cap_4992": 3
+      },
+      {
+        "c": 85,
+        "states": 488,
+        "relaxed_joint_finite": 299,
+        "canonical_finite": 298,
+        "canonical_infeasible_relaxed_finite": 1,
+        "strict_finite": 192,
+        "max_strict_gain": 1656,
+        "strict_with_relaxed_floor_at_most_4992": 186,
+        "crosses_qbc_cap_4992": 2
+      },
+      {
+        "c": 89,
+        "states": 504,
+        "relaxed_joint_finite": 309,
+        "canonical_finite": 308,
+        "canonical_infeasible_relaxed_finite": 1,
+        "strict_finite": 198,
+        "max_strict_gain": 1368,
+        "strict_with_relaxed_floor_at_most_4992": 189,
+        "crosses_qbc_cap_4992": 4
+      }
+    ],
+    "qbc_cap_crossing_states": [
+      {
+        "c": 83,
+        "t": 47,
+        "support": 3,
+        "relaxed_joint_floor": 4801,
+        "canonical_joint_floor": 6601,
+        "canonical_infeasible": false,
+        "gain_if_finite": 1800
+      },
+      {
+        "c": 83,
+        "t": 49,
+        "support": 3,
+        "relaxed_joint_floor": 4853,
+        "canonical_joint_floor": 6365,
+        "canonical_infeasible": false,
+        "gain_if_finite": 1512
+      },
+      {
+        "c": 83,
+        "t": 51,
+        "support": 3,
+        "relaxed_joint_floor": 4921,
+        "canonical_joint_floor": 6145,
+        "canonical_infeasible": false,
+        "gain_if_finite": 1224
+      },
+      {
+        "c": 85,
+        "t": 85,
+        "support": 3,
+        "relaxed_joint_floor": 4909,
+        "canonical_joint_floor": 4993,
+        "canonical_infeasible": false,
+        "gain_if_finite": 84
+      },
+      {
+        "c": 85,
+        "t": 121,
+        "support": 3,
+        "relaxed_joint_floor": 4909,
+        "canonical_joint_floor": 5021,
+        "canonical_infeasible": false,
+        "gain_if_finite": 112
+      },
+      {
+        "c": 89,
+        "t": 121,
+        "support": 4,
+        "relaxed_joint_floor": 4925,
+        "canonical_joint_floor": 5009,
+        "canonical_infeasible": false,
+        "gain_if_finite": 84
+      },
+      {
+        "c": 89,
+        "t": 123,
+        "support": 5,
+        "relaxed_joint_floor": 4437,
+        "canonical_joint_floor": 5087,
+        "canonical_infeasible": false,
+        "gain_if_finite": 650
+      },
+      {
+        "c": 89,
+        "t": 123,
+        "support": 6,
+        "relaxed_joint_floor": 4435,
+        "canonical_joint_floor": 5085,
+        "canonical_infeasible": false,
+        "gain_if_finite": 650
+      },
+      {
+        "c": 89,
+        "t": 125,
+        "support": 4,
+        "relaxed_joint_floor": 4609,
+        "canonical_joint_floor": 5365,
+        "canonical_infeasible": false,
+        "gain_if_finite": 756
+      }
+    ]
+  },
+  "next_gate": "use canonical_joint_q_lower in the same full-support+Picard successor counter; numerical V48 tightening still requires the authorized weighted retained-histogram replay",
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "a3fd353ee8e6ce8e0a1c66ccb0abef5c25f169f89dd9269cf68bd468a4044cd2"
+}
