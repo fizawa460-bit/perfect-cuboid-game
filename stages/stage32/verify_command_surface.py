@@ -140,10 +140,10 @@ def main() -> None:
     req("32-01 is complete and retained." in main_start, "MAIN startup missing audited 32-01 completion")
     req("32-02 is primary." in main_start and "32-03 is parallel." in main_start,
         "MAIN startup missing final-chain dispatch")
-    req("All former lane-specific commands are internal execution details." in main_start,
+    req("EX5, MB, and MB-FIB are internal execution surfaces" in main_start,
         "MAIN startup did not collapse specialist commands to internal execution")
-    req("The dispatch decision belongs to MAIN." in main_start,
-        "MAIN startup does not own specialist dispatch")
+    req("`CURRENT.json` owns the compact current routing projection." in main_start,
+        "MAIN startup does not own compact dispatch")
 
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
