@@ -2634,6 +2634,29 @@
           "theorem_credit": false,
           "endpoint_credit": false,
           "merge_authorized": false
+        },
+        "q192_local_orbifold_equality_check": {
+          "status": "EXACT_PREAUDIT_LOCAL_STRICTNESS_NO_GO_ZERO_CREDIT",
+          "boundary": "m=1,Q=192,alpha=1/8",
+          "ordinary_equal_weight_formula": "for an ordinary r-fold point with r equal coefficients alpha and alpha*r<=2, e_orb=(2-r*alpha)^2/4=(1-r*alpha/2)^2",
+          "source": {
+            "author": "Adrian Langer",
+            "title": "Logarithmic Orbifold Euler Numbers of Surfaces with Applications",
+            "doi": "10.1112/S0024611502013874",
+            "locator": "Theorem 8.7 (ordinary line arrangements); equal-coefficient specialization"
+          },
+          "consequence": "the local orbifold-Euler estimate used in the retained ordinary-point Langer reduction is exact, not merely an upper bound, at every ordinary supported/interior singularity in the log-canonical range",
+          "no_go": "Q=192 cannot be excluded by claiming strictness in the local ordinary-point orbifold Euler estimate",
+          "next_possible_equality_route": "a separate source-valid global equality-rigidity/uniformization theorem whose hypotheses are verified for this fractional-boundary pair, or exact postulation/marked-conductor data",
+          "firewalls": {
+            "q192_excluded": false,
+            "global_equality_rigidity_adapter_proved": false,
+            "e2_closed": false,
+            "receiver_credit": false,
+            "theorem_credit": false,
+            "endpoint_credit": false,
+            "merge_authorized": false
+          }
         }
       }
     }
@@ -2674,7 +2697,8 @@
       "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut",
       "reopening tangent interior normalization branches: hyperbolic first-jet rigidity now proves distinct branches are pairwise transverse",
       "safe-lct-only Langer replay as the final orbifold-BMY word: the stronger ordinary-multiple-point gate is now exact and closes the m=2 high-energy shell",
-      "treating m=1 Q=188 or Q=190 as live: exact Abel+saturation energy DP proves both impossible"
+      "treating m=1 Q=188 or Q=190 as live: exact Abel+saturation energy DP proves both impossible",
+      "m=1,Q=192 local-strictness replay: the ordinary equal-weight local orbifold Euler formula attains the retained bound exactly; only a separately verified global equality-rigidity theorem could use the equality boundary"
     ]
   },
   "routing": {
@@ -2813,7 +2837,9 @@
     "e2_unique_pair_variable_alpha_langer_no_increment_m_ge_9": true,
     "e2_unique_pair_m1_exact_energy_level_count": 36,
     "e2_unique_pair_m1_Q188_Q190_impossible": true,
-    "e2_unique_pair_m1_Q192_langer_equality_boundary": true
+    "e2_unique_pair_m1_Q192_langer_equality_boundary": true,
+    "e2_unique_pair_m1_Q192_local_orbifold_strictness_route": "CLOSED_EXACT_EQUALITY_NO_GO",
+    "e2_unique_pair_m1_Q192_global_equality_rigidity_adapter": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
