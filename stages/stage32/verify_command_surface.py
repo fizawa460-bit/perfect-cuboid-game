@@ -46,22 +46,22 @@ def blob(path: Path) -> str:
 
 def main() -> None:
     commands = (HERE / "COMMANDS.md").read_text(encoding="utf-8")
+    for token in ("stage32mainbatch", "stage32audit"):
+        req(token in commands, f"operator command missing: {token}")
     for token in (
-        "stage32mainbatch", "stage32audit",
         "stage32-01-178-mainbatch", "stage32-01-178-audit",
         "stage32ex5-mainbatch", "stage32ex5-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
         "stage32mb-mainbatch", "stage32mb-fib", "stage32mb-fib-audit", "stage32mb-audit",
         "stage32bridge-mainbatch", "stage32bridge-audit",
     ):
-        req(token in commands, f"canonical command missing: {token}")
-    req("`stages/stage32/proof/LANE-ADAPTERS.json` remains the machine registry" in commands,
-        "command registry missing lane adapter registry")
-    req("Stage32EX5 is intentionally collapsed to `stages/stage32-ex5/MAIN-STATE.json`" in commands,
-        "command registry missing EX5 startup collapse")
-    req("not a second startup contract" in commands, "command registry still acts as startup contract")
-    req("## Stable startup invariants" not in commands and "Before substantive work, every active `*-mainbatch`" not in commands,
-        "command registry reintroduced duplicate startup procedure")
+        req(token not in commands, f"internal specialist command leaked into operator surface: {token}")
+    req("That is the complete normal command surface." in commands,
+        "operator command surface is not explicitly closed")
+    req("Routing and startup procedure live only in `MAIN-START-HERE.md`." in commands,
+        "COMMANDS reintroduced routing procedure")
+    req("Mathematical unit definitions and close criteria live only in `ROADMAP.md`." in commands,
+        "COMMANDS reintroduced roadmap semantics")
 
     req(all(not (EX5 / name).exists() for name in RETIRED),
         "retired EX5 startup surface leaked back into live stage root")
@@ -104,13 +104,15 @@ def main() -> None:
 
     main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
     req("stages/stage32/ROADMAP.md" in main_start,
-        "MAIN startup missing roadmap-first routing")
-    req("32-01 — COMPLETE / RETAINED" in main_start,
+        "MAIN startup missing roadmap dispatch")
+    req("`32-01` is audited complete and retained." in main_start,
         "MAIN startup missing audited 32-01 completion")
-    req("32-02 — ACTIVE PRIMARY" in main_start and "32-03 — ACTIVE PARALLEL" in main_start,
-        "MAIN startup missing final-chain routing")
-    req("Do not perform a repository-wide specialist sweep on every invocation." in main_start,
-        "MAIN startup did not retire mandatory global specialist sweep")
+    req("`32-02` is the primary active unit." in main_start and "`32-03` is the parallel active unit." in main_start,
+        "MAIN startup missing final-chain dispatch")
+    req("All former lane-specific commands are internal execution details." in main_start,
+        "MAIN startup did not collapse specialist commands to internal execution")
+    req("The dispatch decision belongs to MAIN." in main_start,
+        "MAIN startup does not own specialist dispatch")
 
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
