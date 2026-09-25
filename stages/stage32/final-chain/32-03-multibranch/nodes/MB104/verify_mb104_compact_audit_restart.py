@@ -1369,6 +1369,19 @@ def main():
                         req(sig96 == [3,3,4], "Q96 orbifold replay")
                         req(64//4 == 16 and 96//4 == 24 and 192//4 == 48, "H quotient outer degrees")
                         req(exm["firewalls"]["all_surviving_single_map_types_have_regular_H_compatible_realization"] is True, "single-map realization firewall")
+                        rpair=exm["regular_pair_fiber_product_no_go"]
+                        req(rpair["status"] == "EXACT_PREAUDIT_REGULAR_BY_REGULAR_CORE_PAIR_SPLITS_INTO_AUTOMORPHISM_GRAPHS_ZERO_CREDIT", "regular pair gate status")
+                        aut=rpair["full_automorphism_group"]
+                        req(aut["order"] == 192 and aut["two_sylow_count"] == 3 and aut["abelianization"] == "G/G'=C2", "Aut(C8) subgroup data")
+                        req("all such subgroups are G-conjugate" in aut["consequences"][0], "order64 conjugacy")
+                        req("unique index-2/order-96 subgroup" in aut["consequences"][1], "order96 uniqueness")
+                        fp=rpair["fiber_product_split"]
+                        req(fp["leg_degree_each_component"] == 1, "regular fiber-product leg degree")
+                        req("disjoint union of automorphism graphs" in fp["components"], "regular fiber-product graph split")
+                        req(rpair["contradiction_with_balanced_correspondence"]["required_leg_degree"] == "n=56*m >=56", "balanced leg degree gate")
+                        req(rpair["contradiction_with_balanced_correspondence"]["regular_pair_leg_degree"] == 1, "regular pair degree replay")
+                        req(rpair["firewalls"]["regular_by_regular_rational_core_pair_excluded"] is True, "regular pair excluded")
+                        req(all(v is False for k,v in rpair["firewalls"].items() if k != "regular_by_regular_rational_core_pair_excluded"), "regular pair remaining firewalls")
                         req(all(v is False for k,v in exm["firewalls"].items() if k != "all_surviving_single_map_types_have_regular_H_compatible_realization"), "single-map remaining firewalls")
                         req(all(v is False for k,v in tk["firewalls"].items() if k != "m_ge_4_rational_core_closed"), "Takeuchi remaining firewalls")
                         hb=rch["m_ge4_H_quotient_belyi_gate"]
@@ -1424,6 +1437,10 @@ def main():
                         req(routing["e2_unique_pair_rational_core_all_surviving_single_map_types_exist"] is True, "single-map existence routing")
                         req(routing["e2_unique_pair_rational_core_surviving_maps_H_compatible"] is True, "H-compatible surviving maps routing")
                         req(routing["e2_unique_pair_rational_core_pair_common_etale_is_load_bearing"] is True, "pair common-etale routing")
+                        req(routing["e2_unique_pair_rational_core_regular_pair_route"] == "CLOSED_GRAPH_COMPONENTS_LEG_DEGREE_ONE", "regular pair routing")
+                        req(routing["e2_unique_pair_rational_core_regular_pair_leg_degree"] == 1, "regular pair routing degree")
+                        req(routing["e2_unique_pair_rational_core_requires_nonregular_core_map"] is True, "nonregular core map required routing")
+                        req(routing["e2_unique_pair_rational_core_nonregular_uniform_map_route_live"] is True, "nonregular route live")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
