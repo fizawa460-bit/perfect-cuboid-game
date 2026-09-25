@@ -3048,6 +3048,42 @@
             "theorem_credit": false,
             "endpoint_credit": false,
             "merge_authorized": false
+          },
+          "abstract_passport_existence_no_go": {
+            "status": "SOURCE_VALID_ABSTRACT_DEGREE84_PASSPORT_EXISTS_MARKED_GEOMETRY_STILL_OPEN_ZERO_CREDIT",
+            "source": {
+              "author": "W. W. Stothers",
+              "title": "Subgroups of the (2,3,7) triangle group",
+              "year": 1977,
+              "secondary_locator": "Stephenson PhD thesis summary of Stothers' theorem",
+              "theorem_summary": "a specification (u,p,e,f,g) with u=84(p-1)+21e+28f+36g corresponds to a finite-index subgroup of Delta(2,3,7), except exactly (16,0,0,1,2), (21,1,1,0,0), and (36,1,0,0,1)"
+            },
+            "retained_specification": {
+              "u": 84,
+              "p": 0,
+              "e_order2": 8,
+              "f_order3": 0,
+              "g_order7": 0,
+              "genus_formula_check": "84 = 84*(0-1)+21*8",
+              "exceptional": false
+            },
+            "interpretation": "there exists an abstract index-84 subgroup of Delta(2,3,7) with genus zero and eight order-2 elliptic points; equivalently the unmarked passport 1^8 2^38 / 3^28 / 7^12 is realizable as a degree-84 Belyi cover",
+            "no_go": "abstract monodromy/subgroup nonexistence cannot close m=4,5,6. Any exclusion must use the marked placement of the eight simple order-2 points at U=R^8-16S^8=0, or additional diagonal-G/common-etale structure not encoded by the bare passport.",
+            "next_target": "test whether any realization of the abstract subgroup passport can be Möbius-normalized so that its eight order-2 elliptic points have the exact octic configuration U=R^8-16S^8; equivalently attack the marked polynomial identity lambda*U*A^2-mu*B^3=nu*C^7 rather than the unmarked passport",
+            "firewalls": {
+              "abstract_passport_exists": true,
+              "prescribed_U_realization_exists": false,
+              "prescribed_U_realization_excluded": false,
+              "rational_core_m4_m6_closed": false,
+              "rational_core_branch_closed": false,
+              "coreless_case_excluded": false,
+              "balanced_bulk_closed": false,
+              "e2_closed": false,
+              "receiver_credit": false,
+              "theorem_credit": false,
+              "endpoint_credit": false,
+              "merge_authorized": false
+            }
           }
         }
       }
@@ -3057,8 +3093,9 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12. Stothers existence check closes the unmarked-passport route: specification (84,0,8,0,0) exists. Therefore m=4,5,6 can only be attacked through the marked eight-point configuration U=R^8-16S^8 or stronger common-etale/diagonal-G data.",
     "success_shapes": [
+      "exclude or classify the marked degree-84 Belyi problem with the eight simple order-2 points fixed at the octic configuration U=R^8-16S^8; abstract passport existence is already known",
       "classify or exclude the fixed degree-84 Belyi passport 1^8 2^38 / 3^28 / 7^12 with prescribed simple order-2 fiber U=R^8-16S^8; this closes the rational-core cases m=4,5,6 if excluded",
       "for the rational-core branch, exploit the forced d=336, (2,3,7) coarse-core geometry at m=4,5,6 (and the finite residual m<=3 cases) to obtain an exact contradiction or a finite classified survivor set",
       "materialize a genuine point-level clump from the 000707 common-etale/eight-value passport; by the exact core<=>clump equivalence this would force the rational-core branch without assuming symmetry",
@@ -3103,7 +3140,8 @@
       "treating existence of a Krishnamoorthy core as finitary or setting q1=q2 without a separately source-locked symmetry proof",
       "claiming that the quotient-level eight-value Hurwitz cycle passport already gives a clump/finite complete set without an exact point-level preimage-equality adapter",
       "treating the rational-core balanced branch as unbounded in m: the common-Galois/Hurwitz gate gives 56*m<=d<=336, hence m<=6",
-      "returning to arbitrary rational-core maps for m=4,5,6: they are now reduced to the fixed degree-84 (2,3,7) Belyi passport with U=R^8-16S^8"
+      "returning to arbitrary rational-core maps for m=4,5,6: they are now reduced to the fixed degree-84 (2,3,7) Belyi passport with U=R^8-16S^8",
+      "trying to exclude the m=4,5,6 rational-core branch by bare (2,3,7) subgroup/passport nonexistence; Stothers' classification realizes specification (84,0,8,0,0)"
     ]
   },
   "routing": {
@@ -3292,7 +3330,10 @@
       "7^12"
     ],
     "e2_unique_pair_rational_core_mge4_prescribed_simple_fiber_polynomial": "r^8-16",
-    "e2_unique_pair_rational_core_mge4_fixed_belyi_equation": true
+    "e2_unique_pair_rational_core_mge4_fixed_belyi_equation": true,
+    "e2_unique_pair_rational_core_mge4_abstract_passport_exists": true,
+    "e2_unique_pair_rational_core_mge4_unmarked_passport_nonexistence_route": "CLOSED_BY_STOTHERS_EXISTENCE",
+    "e2_unique_pair_rational_core_mge4_marked_U_geometry_live": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
