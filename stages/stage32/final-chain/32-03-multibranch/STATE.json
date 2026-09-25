@@ -2168,10 +2168,11 @@
         "f2_etale": true,
         "normalization_map_birational": true,
         "normalization_map_immersive": true,
-        "all_self_collision_branches_pairwise_transverse": true,
-        "all_singularities_ordinary_multiple_points": true,
-        "tangency_argument": "on every off-diagonal component of Z x_(f1,C8,f1) Z, the two induced maps to C8 are finite etale; a tangent coincidence would give a disk automorphism with a fixed point and derivative 1, hence identity, contradicting birationality",
-        "consequence": "there are no cuspidal/unibranch defects and no higher tangency between distinct normalization branches anywhere on Zbar"
+        "each_normalization_branch_smooth": true,
+        "unibranch_cusp_possible": false,
+        "pairwise_transversality_claimed": false,
+        "safe_consequence": "every branch is smooth; distinct branches may still be tangent, so interior local estimates use the general delta>=binom(multiplicity,2) bound rather than ordinary-point equality",
+        "correction_note": "the earlier tentative implication 'etale projections => pairwise transverse self-collisions' is not used; two distinct finite etale maps from a common curve need not be determined by first-order coincidence"
       },
       "interior_H_orbit": {
         "H_order": 4,
@@ -2182,8 +2183,8 @@
         "g1g2_fixed_point_free": true,
         "unsupported_H_fixed_points_avoided_by_support_mask": true,
         "interior_singularity_orbit_size": 4,
-        "per_orbit_delta_lower": "4*binom(r,2)",
-        "explanation": "Zbar is H_diag-stable. The only nonfree H points are the g1/g2 fixed cells already represented by the retained support-node table; the active 000707 support has zero carrier multiplicity on the other such cells. Hence every singularity outside the supported packet has a free four-point H orbit."
+        "per_orbit_delta_lower": "4*binom(mult,2)",
+        "explanation": "Zbar is H_diag-stable. The only nonfree H points are the g1/g2 fixed cells represented by the retained support-node table; the active 000707 support has zero carrier multiplicity on the other such cells. Hence every interior singularity has a free four-point H orbit. For any reduced plane-curve singularity of multiplicity mult, delta>=binom(mult,2), so one interior orbit costs at least 4*binom(mult,2)."
       },
       "product_pair_numbers": {
         "c2_P": 64,
@@ -2194,20 +2195,24 @@
         "delta_total": "784*l^2+112*l",
         "supported_branch_incidence": "224*l",
         "delta_interior": "4*(336*m^2+112*m-2*Q)",
-        "branch_square_sum_upper": "8960*m^2+1792*m-16*Q"
+        "langer_local_quadratic_bracket_upper": "8960*m^2+1792*m-16*Q"
       },
       "langer_reduction": {
         "boundary": "D=alpha*Zbar on P=C8 x C8",
-        "ordinary_point_lc_condition": "alpha*r<=2",
+        "lc_sufficient_check": "alpha*mult_P(Zbar)<=2 at every singular point",
         "multiple_of_K_plus_D_effective": true,
-        "global_upper": "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*sum_P r_P^2)",
-        "R_interior_upper": "R_int<=2*delta_int",
-        "sum_r2_identity": "sum r_P^2=2*delta_total+R_total",
+        "general_local_term": "alpha*(branches-mult)+(alpha^2/4)*mult^2",
+        "interior_local_upper": "alpha*(branches-mult)+(alpha^2/4)*mult^2 <= alpha^2*delta_P",
+        "interior_local_upper_reason": "branches<=mult and delta_P>=binom(mult,2), while mult>=2 at a singular point implies mult^2/4<=delta_P",
+        "supported_ordinary_passport_used": true,
+        "supported_local_quadratic_identity": "sum_supp mult^2=2*delta_supp+R_supp",
+        "global_upper": "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*(2*delta_total+R_supp+2*delta_int))",
         "derivation": [
-          "for an ordinary r-fold point, multiplicity and branch count agree, so Langer Theorem 0.3 contributes alpha^2*r^2/4",
-          "delta_P=binom(r,2), hence r<=2*delta_P and R_int<=2*delta_int",
-          "the supported product passport has four product singularities over each of fourteen support nodes, with total branch incidence 16*l per node, hence R_supp=224*l",
-          "using delta_total=784*l^2+112*l and delta_int=4*(336*m^2+112*m-2Q) gives sum r_P^2<=8960*m^2+1792*m-16Q"
+          "Langer Theorem 0.3 gives alpha*(branches-mult)+(alpha^2/4)*mult^2 at a singular point of the irreducible boundary alpha*Zbar",
+          "at an arbitrary interior singularity branches<=mult and delta>=binom(mult,2), hence the local term is at most alpha^2*delta",
+          "the retained supported-product passport already proves the supported product branches internally ordinary/transverse, so sum_supp mult^2=2*delta_supp+R_supp there",
+          "R_supp=224*l, delta_supp=delta_total-delta_int, hence the total local correction is at most (alpha^2/4)*(2*delta_total+R_supp+2*delta_int)",
+          "for lc it is enough here to check alpha*mult<=2; the free H-orbit delta charge bounds every interior multiplicity in the two finite shell regions"
         ]
       },
       "high_energy_shell_pruning": {
@@ -2235,8 +2240,8 @@
           "conclusion": "entire m=2 high-energy shell excluded because Q>=566>544"
         },
         "orbit_bound_replay": [
-          "m=1,Q>=193: delta_int/4=delta_same<=62, so binom(r_int,2)<=62 and r_int<=11; supported r<=8*l=16",
-          "m=2,Q>=566: delta_int/4=delta_same<=436, so binom(r_int,2)<=436 and r_int<=30; supported r<=8*l=32"
+          "m=1,Q>=193: delta_int/4=delta_same<=62 and each interior singularity has a free H orbit, so binom(mult_int,2)<=62 and mult_int<=11; supported mult<=8*l=16",
+          "m=2,Q>=566: delta_int/4=delta_same<=436 and each interior singularity has a free H orbit, so binom(mult_int,2)<=436 and mult_int<=30; supported mult<=8*l=32"
         ],
         "exact_boundary_replay": [
           "m=1,Q=192,alpha=1/8 gives LHS=450 and RHS_upper=450",
@@ -2254,8 +2259,8 @@
         "rhs_upper": 444,
         "contradiction_gap": 6
       },
-      "result": "etaleness upgrades the normalization map to an immersion and forces every self-collision to be an ordinary transverse multiple point; H-freeness charges every interior singularity in orbits of four, and Langer's orbifold BMY inequality closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192",
-      "next_missing_datum": "for the remaining m=1 high-energy band 118<=Q<=192, use exact-order postulation/marked conductor/common-etale data; for the Miyaoka-allowed bulk at any m, a genuinely nonlinear realization obstruction or an audited MB-FIB restriction is still required",
+      "result": "etaleness makes every normalization branch smooth but does not force distinct branches transverse; using the general delta>=binom(multiplicity,2) bound, the free H-orbit multiplicity charge, the retained ordinary supported-point passport, and Langer's orbifold BMY inequality still closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192",
+      "next_missing_datum": "for the remaining m=1 high-energy band 118<=Q<=192, use exact-order postulation/marked conductor/common-etale data; for the Miyaoka-allowed bulk at any m, a genuinely nonlinear realization obstruction or an audited MB-FIB restriction is still required. Do not assume interior transversality.",
       "firewalls": {
         "m1_high_energy_shell_closed": false,
         "bulk_closed": false,
@@ -2277,7 +2282,7 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — orbifold-BMY-pruned m=1 shell or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-ORBITAL-BMY-PRUNED-M1-OR-BULK",
-    "required_input": "The retained common-etale geometry now gives more than Miyaoka energy: because f1,f2:Z->C8 are both etale and (f1,f2) is birational onto Zbar, the normalization map is an immersion and every self-collision is an ordinary transverse multiple point. H_diag acts freely on every interior singularity, so interior delta is charged in four-point orbits. Langer's orbifold BMY inequality then excludes the entire m=2 adaptive high-energy shell (it would require Q<=544 while that shell starts at Q=566) and excludes m=1 allocations with Q>=193. The only high-energy residue is m=1 with 118<=Q<=192. This still does not close e=2 because Miyaoka-allowed bulk allocations remain for arbitrary m. Continue with exact m=1 postulation/marked-conductor/common-etale data or a genuinely nonlinear bulk obstruction; an audited MB-FIB restriction remains an independent admissible route.",
+    "required_input": "The retained common-etale geometry gives a safe branchwise statement: because f1,f2:Z->C8 are etale, the normalization map Z->Zbar is immersive, so each branch is smooth, but distinct branches are NOT assumed transverse. For arbitrary interior singularities use the general reduced plane-curve bound delta>=binom(multiplicity,2). H_diag acts freely on every interior singularity, so one local multiplicity mult costs at least 4*binom(mult,2) in interior delta. Combining that with the retained ordinary supported-point passport and Langer's Theorem 0.3 still excludes the entire m=2 adaptive high-energy shell (necessary Q<=544 versus shell Q>=566) and excludes m=1 allocations with Q>=193. The only high-energy residue is m=1 with 118<=Q<=192. This still does not close e=2 because Miyaoka-allowed bulk allocations remain for arbitrary m. Continue with exact m=1 postulation/marked-conductor/common-etale data or a genuinely nonlinear bulk obstruction; an audited MB-FIB restriction remains an independent admissible route.",
     "success_shapes": [
       "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
       "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka-allowed bulk",
@@ -2307,7 +2312,7 @@
       "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
       "m=2 adaptive high-energy-shell search: the entire shell is now excluded by the etale-immersion/Langer orbifold-BMY bound",
       "m=1 high-energy allocations with Q>=193: they are now excluded by the same orbifold-BMY bound",
-      "treating interior singularities as potentially cuspidal or tangent: the retained common-etale birational normalization forces ordinary transverse self-collisions"
+      "assuming pairwise transversality of interior normalization branches from etaleness alone: only branchwise immersion is retained"
     ]
   },
   "routing": {
@@ -2402,7 +2407,8 @@
       "Q_min": 118,
       "Q_max": 192
     },
-    "e2_unique_pair_orbifold_bmy_e2_closes": false
+    "e2_unique_pair_orbifold_bmy_e2_closes": false,
+    "e2_unique_pair_interior_pairwise_transversality_proved": false
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
