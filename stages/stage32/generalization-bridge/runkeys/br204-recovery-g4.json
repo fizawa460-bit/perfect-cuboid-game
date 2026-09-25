@@ -1,7 +1,7 @@
 {
   "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V1",
-  "generation": 0,
-  "armed": false,
+  "generation": 1,
+  "armed": true,
   "purpose": "Cold-only G4 recovery runkey. No heavy execution until exact-head hostile audit PASS and a separate runkey-only generation-1 arm commit.",
   "execution": {
     "target_count": 69,
@@ -33,9 +33,15 @@
     "measured_projection_bytes": 1202432
   },
   "arm_contract": {
-    "audited_doorstep_head": null,
-    "audited_doorstep_review_id": null,
-    "runkey_only_arm_commit_required": true
+    "audited_doorstep_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
+    "audited_doorstep_review_id": 5312620454,
+    "hostile_audit_status": "PASS",
+    "runkey_only_arm_commit_required": true,
+    "planned_effective_heavy_concurrency": 12,
+    "repository_stage_concurrency_ceiling": 18,
+    "maximum_other_stage32_heavy_concurrency_at_arm": 6,
+    "observed_other_stage32_heavy_concurrency_at_arm": 0,
+    "combined_effective_heavy_concurrency_at_arm": 12
   },
   "credit": {
     "stage32_main": false,
