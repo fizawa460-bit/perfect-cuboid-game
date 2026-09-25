@@ -2409,6 +2409,86 @@
           "incremental_exclusion": false,
           "reason": "Miyaoka already removes every Q where the safe-LCT Langer inequality would add an exclusion"
         }
+      },
+      "general_m_hyperbolic_langer": {
+        "alpha_family": "alpha=1/(8*m), l=2*m",
+        "supported_lc_gate": "supported multiplicity <=8*l=16*m, hence alpha*mult<=2",
+        "interior_ordinary_orbit_gate": "if an interior ordinary r-fold point occurs, its free H-orbit contributes 4*binom(r,2) to delta_Z,int=4*delta_same; therefore r<=16*m whenever delta_same<binom(16*m+1,2)",
+        "interior_lc_Q_threshold": "Q>=104*m^2+52*m+1",
+        "langer_gap": "LHS-RHS=3*(Q-80*m^2-112*m)/(16*m^2)",
+        "contradiction_Q_threshold": "Q>=80*m^2+112*m+1",
+        "combined_exact_cut": "Q>=T_m excluded, T_m=max(104*m^2+52*m+1,80*m^2+112*m+1)",
+        "cases": {
+          "m1": {
+            "T_m": 193,
+            "prior_exact_upper": 192,
+            "new_upper": 192,
+            "incremental": false,
+            "reason": "exact Abel+saturation already stronger"
+          },
+          "m2": {
+            "T_m": 545,
+            "prior_miyaoka_upper": 677,
+            "new_upper": 544,
+            "incremental": true
+          },
+          "m3": {
+            "T_m": 1093,
+            "prior_miyaoka_upper": 1273,
+            "new_upper": 1092,
+            "incremental": true
+          },
+          "m4": {
+            "T_m": 1873,
+            "prior_miyaoka_upper": 2039,
+            "new_upper": 1872,
+            "incremental": true
+          },
+          "m5": {
+            "T_m": 2861,
+            "prior_miyaoka_upper": 2976,
+            "new_upper": 2860,
+            "incremental": true
+          },
+          "m6": {
+            "T_m": 4057,
+            "prior_miyaoka_upper": 4085,
+            "new_upper": 4056,
+            "incremental": true
+          }
+        },
+        "m_ge_7_no_increment_reason": "19*(104*m^2+52*m+1)-(1624*m^2+3192*m)=352*m^2-2204*m+19>0 for every integer m>=7, so Miyaoka already lies below the interior-LC threshold",
+        "interpretation": "first-jet transversality gives finite additional low-energy trimming for m=2,...,6, but does not touch the infinite balanced Q=0 bulk"
+      },
+      "balanced_bulk_collision_pressure": {
+        "status": "EXACT_PREAUDIT_BALANCED_BULK_FORCES_LINEAR_INTERIOR_COLLISION_MULTIPLICITY_ZERO_CREDIT",
+        "family": "l=2*m, x_j=8*m for all supported nodes, Q=0",
+        "supported_multiplicity": "8*m at every supported product point",
+        "langer_gap_Q0": "LHS-RHS=4*(-112*m*(m+3)*alpha^2+112*m*alpha-16)",
+        "positive_gap_exists": "for m>=5 the quadratic has a positive interval; at the supported lc cap alpha=1/(4*m), gap=4*(5*m-21)/m>0",
+        "lower_positive_root": "alpha_-(m)=(7*m-sqrt(21*m*(m-4)))/(14*m*(m+3))",
+        "collision_threshold_real": "R_*(m)=2/alpha_-(m)=7*m+sqrt(21*m*(m-4))",
+        "necessary_condition": "every geometric balanced survivor with m>=5 must have an interior ordinary singular point of multiplicity r_max>=ceil(R_*(m)); otherwise choose alpha in (alpha_-,min(1/(4*m),2/r_max)] and Langer gives a contradiction",
+        "first_values": {
+          "m5": 46,
+          "m6": 58,
+          "m7": 70,
+          "m8": 82,
+          "m9": 94,
+          "m10": 106
+        },
+        "projection_degree": "deg(f_i)=28*l=56*m",
+        "asymptotic_sheet_fraction": "(7+sqrt(21))/56 ~= 0.20683",
+        "interpretation": "the balanced bulk is no longer an unconstrained formal ray: any realization must concentrate asymptotically at least about 20.7 percent of the common-etale sheets at one interior product point",
+        "firewalls": {
+          "such_high_collision_impossible": false,
+          "balanced_bulk_closed": false,
+          "e2_closed": false,
+          "receiver_credit": false,
+          "theorem_credit": false,
+          "endpoint_credit": false,
+          "merge_authorized": false
+        }
       }
     }
   },
@@ -2416,8 +2496,9 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "Hyperbolic first-jet rigidity now proves that distinct interior normalization branches are pairwise transverse. Therefore the stronger ordinary-multiple-point Langer gate is valid: m=1 has Q>=193 excluded but exact Abel+saturation DP already gives Q<=192, while m=2 has Q>=545 excluded, so its entire previous high-energy shell Q>=566 and the Q=672 witness are gone. The only finite high-energy residue is m=1, 118<=Q<=192. The infinite even-l bulk ray Q=0 still survives, so finite cleanup alone cannot close e=2.",
+    "required_input": "Hyperbolic first-jet rigidity now proves that distinct interior normalization branches are pairwise transverse. Therefore the stronger ordinary-multiple-point Langer gate is valid: m=1 has Q>=193 excluded but exact Abel+saturation DP already gives Q<=192, while m=2 has Q>=545 excluded, so its entire previous high-energy shell Q>=566 and the Q=672 witness are gone. The only finite high-energy residue is m=1, 118<=Q<=192. The infinite even-l bulk ray Q=0 still survives, so finite cleanup alone cannot close e=2. The balanced Q=0 bulk also has a sharp collision-pressure condition: for m>=5 any geometric realization must contain an interior ordinary singularity of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))), asymptotically about 20.7% of all 56*m sheets. A bulk closer may therefore target impossibility of such high common-etale fiber collisions.",
     "success_shapes": [
+      "exact common-etale/commensurator/fiber-collision bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk, yielding an infinite-family contradiction",
       "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
       "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka/Langer-allowed bulk including the balanced even-l Q=0 ray",
       "exact marked conductor transition or common-etale obstruction beyond first-jet transversality and incompatible with the unique pair",
@@ -2549,7 +2630,22 @@
     "e2_unique_pair_hyperbolic_langer_m2_Q_upper": 544,
     "e2_unique_pair_hyperbolic_langer_m1_incremental_exclusion": false,
     "e2_unique_pair_hyperbolic_langer_m2_incremental_exclusion": true,
-    "e2_unique_pair_m2_formal_Q672_witness_survives": false
+    "e2_unique_pair_m2_formal_Q672_witness_survives": false,
+    "e2_unique_pair_hyperbolic_langer_general_m_exact": true,
+    "e2_unique_pair_hyperbolic_langer_incremental_m": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "e2_unique_pair_hyperbolic_langer_m3_Q_upper": 1092,
+    "e2_unique_pair_hyperbolic_langer_m4_Q_upper": 1872,
+    "e2_unique_pair_hyperbolic_langer_m5_Q_upper": 2860,
+    "e2_unique_pair_hyperbolic_langer_m6_Q_upper": 4056,
+    "e2_unique_pair_balanced_bulk_collision_pressure_exact": true,
+    "e2_unique_pair_balanced_bulk_collision_threshold": "ceil(7*m+sqrt(21*m*(m-4))) for m>=5",
+    "e2_unique_pair_balanced_bulk_asymptotic_collision_sheet_fraction": "(7+sqrt(21))/56 ~= 0.20683"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
