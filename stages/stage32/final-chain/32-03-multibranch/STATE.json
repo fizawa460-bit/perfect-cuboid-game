@@ -2291,7 +2291,7 @@
         "note": "Q=672 lies above the exact hyperbolic-transversality Langer threshold Q>=545 for m=2 and is therefore no longer a surviving formal high-shell witness"
       },
       "result": "hyperbolic first-jet rigidity proves pairwise transversality for all interior normalization branches. The resulting ordinary-multiple-point log-canonicity gate validates alpha=1/8 for the m=1 top region and alpha=1/16 for m=2. Langer then excludes Q>=193 at m=1 (already dominated by the exact Abel+saturation bound Q<=192) and Q>=545 at m=2, which closes the entire m=2 high-energy shell Q>=566 and excludes the former Q=672 witness. The infinite low-energy bulk, including the balanced even-l Q=0 ray, remains.",
-      "next_missing_datum": "the only finite high-energy residue now requiring exact postulation is m=1 with 118<=Q<=192. Separately, e=2 still requires a genuinely nonlinear/exact-order bulk realization obstruction, marked conductor/common-etale datum beyond first-jet transversality, or an audited MB-FIB/Picard64 restriction.",
+      "next_missing_datum": "The variable-alpha Langer envelope is now complete: m=2..8 improve to Q upper bounds 544,1092,1839,2805,3958,5289,6811, while m>=9 receives no incremental pruning beyond Miyaoka. m=1 has exactly 36 feasible high-band energy levels (even 118..186 plus 192); Q=188,190 are impossible and Q=192 is the Langer equality boundary. The balanced Q=0 family remains and for m>=5 any realization must carry the retained linear-size interior collision.",
       "firewalls": {
         "m1_high_energy_shell_closed": false,
         "bulk_closed": false,
@@ -2495,6 +2495,146 @@
           "endpoint_credit": false,
           "merge_authorized": false
         }
+      },
+      "variable_alpha_hyperbolic_langer": {
+        "status": "EXACT_PREAUDIT_VARIABLE_ALPHA_ORDINARY_LANGER_COMPLETE_M_CLASSIFICATION_ZERO_CREDIT",
+        "principle": "for fixed m,Q, ordinary interior transversality gives r_max=floor((1+sqrt(1+8*D))/2), D=336*m^2+112*m-2*Q. Optimize Langer over 0<alpha<=min(1/(8*m),2/r_max). The optimized gap is monotone nondecreasing in Q because its Q-coefficient is positive and the admissible alpha interval expands as D decreases.",
+        "gap": "G(m,Q,alpha)=4*((3*Q-112*m^2-336*m)*alpha^2+112*m*alpha-16)",
+        "exact_cuts": {
+          "m1": {
+            "first_positive_Q": 193,
+            "new_upper": 192,
+            "alpha_at_first": "1/8",
+            "incremental_vs_abel": false
+          },
+          "m2": {
+            "first_positive_Q": 545,
+            "new_upper": 544,
+            "alpha_at_first": "1/16",
+            "incremental_vs_miyaoka": true
+          },
+          "m3": {
+            "first_positive_Q": 1093,
+            "new_upper": 1092,
+            "alpha_at_first": "1/24",
+            "incremental_vs_miyaoka": true
+          },
+          "m4": {
+            "first_positive_Q": 1840,
+            "new_upper": 1839,
+            "alpha_at_first": "2/65",
+            "incremental_vs_miyaoka": true
+          },
+          "m5": {
+            "first_positive_Q": 2806,
+            "new_upper": 2805,
+            "alpha_at_first": "1/41",
+            "incremental_vs_miyaoka": true
+          },
+          "m6": {
+            "first_positive_Q": 3959,
+            "new_upper": 3958,
+            "alpha_at_first": "1/49",
+            "incremental_vs_miyaoka": true
+          },
+          "m7": {
+            "first_positive_Q": 5290,
+            "new_upper": 5289,
+            "alpha_at_first": "2/115",
+            "incremental_vs_miyaoka": true
+          },
+          "m8": {
+            "first_positive_Q": 6812,
+            "new_upper": 6811,
+            "alpha_at_first": "1/66",
+            "incremental_vs_miyaoka": true
+          }
+        },
+        "no_increment_m_ge_9": {
+          "m9": {
+            "miyaoka_Q_upper": 8435,
+            "D_at_upper": 11354,
+            "r_max": 151,
+            "alpha_cap": "2/151",
+            "optimized_gap": "-30256/22801"
+          },
+          "m10": {
+            "miyaoka_Q_upper": 10227,
+            "D_at_upper": 14266,
+            "r_max": 169,
+            "alpha_cap": "2/169",
+            "optimized_gap": "-55728/28561"
+          },
+          "m_ge_11_proof": [
+            "at the real Miyaoka upper Q_M=(1624*m^2+3192*m)/19 one has D>=224*m*(14*m-19)/19",
+            "for m>=11 this lower bound is >=binom(17*m,2), since the difference is m*(781*m-8189)/38>=0",
+            "therefore r_max>=17*m and every universally safe ordinary-point coefficient satisfies alpha<=2/(17*m)",
+            "at Q=Q_M and alpha=2/(17*m), G=-64*(283*m-798)/(5491*m)<0",
+            "the optimized gap is monotone in Q, so no Q below Miyaoka can give a Langer contradiction for m>=11"
+          ],
+          "conclusion": "variable-alpha Langer gives no incremental pruning beyond Miyaoka for every m>=9"
+        },
+        "interpretation": "this strictly improves the fixed-alpha envelope for m=4..8 and extends incremental trimming through m=8. It still leaves Q=0 untouched for every m."
+      },
+      "m1_exact_abel_saturation_energy_spectrum": {
+        "status": "EXACT_PREAUDIT_M1_HIGH_BAND_ENERGY_SPECTRUM_ZERO_CREDIT",
+        "method": "exact DP over both independent seven-variable centered blocks b_j in [-4,4], retaining the saturation linear equation, two Abel residues mod 4 per block, and square energy",
+        "queried_band": "118<=Q<=192",
+        "feasible_Q": [
+          118,
+          120,
+          122,
+          124,
+          126,
+          128,
+          130,
+          132,
+          134,
+          136,
+          138,
+          140,
+          142,
+          144,
+          146,
+          148,
+          150,
+          152,
+          154,
+          156,
+          158,
+          160,
+          162,
+          164,
+          166,
+          168,
+          170,
+          172,
+          174,
+          176,
+          178,
+          180,
+          182,
+          184,
+          186,
+          192
+        ],
+        "impossible_extra_even_Q": [
+          188,
+          190
+        ],
+        "parity_consequence": "no odd Q occurs in the band",
+        "top_energy_structure": "Q=192 forces Q0=Q1=96; in each seven-variable block the absolute-value multiset is [4,4,4,4,4,4,0]",
+        "langer_relation": "Q=192 is the exact alpha=1/8 equality boundary; strict Langer contradiction begins at Q=193",
+        "conclusion": "the m=1 high band has exactly 36 feasible energy levels. This is an exact formal pruning only, not a geometric realization result.",
+        "firewalls": {
+          "m1_high_band_closed": false,
+          "q192_excluded": false,
+          "e2_closed": false,
+          "receiver_credit": false,
+          "theorem_credit": false,
+          "endpoint_credit": false,
+          "merge_authorized": false
+        }
       }
     }
   },
@@ -2502,14 +2642,14 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "Hyperbolic first-jet rigidity now proves that distinct interior normalization branches are pairwise transverse. Therefore the stronger ordinary-multiple-point Langer gate is valid: m=1 has Q>=193 excluded but exact Abel+saturation DP already gives Q<=192, while m=2 has Q>=545 excluded, so its entire previous high-energy shell Q>=566 and the Q=672 witness are gone. The only finite high-energy residue is m=1, 118<=Q<=192. The infinite even-l bulk ray Q=0 still survives, so finite cleanup alone cannot close e=2. The balanced Q=0 bulk also has a sharp collision-pressure condition: for m>=5 any geometric realization must contain an interior ordinary singularity of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))), asymptotically about 20.7% of all 56*m sheets. A bulk closer may therefore target impossibility of such high common-etale fiber collisions.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions.",
     "success_shapes": [
-      "exact common-etale/commensurator/fiber-collision bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk, yielding an infinite-family contradiction",
-      "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
-      "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka/Langer-allowed bulk including the balanced even-l Q=0 ray",
-      "exact marked conductor transition or common-etale obstruction beyond first-jet transversality and incompatible with the unique pair",
-      "exact audited MB-FIB/Picard64 restriction independent of the saturated factor-fiber Abel classes",
-      "bounded proof that the remaining m=1 band and/or low-energy bulk survive the available invariants, identifying the next missing datum with zero credit"
+      "exact common-etale/commensurator/fiber-collision upper bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk",
+      "source-valid equality-rigidity contradiction at m=1,Q=192, then exact postulation over the remaining 35 energy levels",
+      "exact contradiction for all 36 remaining m=1 feasible energies, followed by hostile audit before promotion",
+      "exact nonlinear/exact-order interior realization obstruction applying to balanced Q=0",
+      "exact marked conductor/common-etale obstruction beyond first-jet transversality",
+      "exact audited MB-FIB/Picard64 restriction independent of saturated factor-fiber Abel classes"
     ],
     "must_not_repeat": [
       "128-pair enumeration or fixed-Jacobian basis search",
@@ -2533,7 +2673,8 @@
       "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
       "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut",
       "reopening tangent interior normalization branches: hyperbolic first-jet rigidity now proves distinct branches are pairwise transverse",
-      "safe-lct-only Langer replay as the final orbifold-BMY word: the stronger ordinary-multiple-point gate is now exact and closes the m=2 high-energy shell"
+      "safe-lct-only Langer replay as the final orbifold-BMY word: the stronger ordinary-multiple-point gate is now exact and closes the m=2 high-energy shell",
+      "treating m=1 Q=188 or Q=190 as live: exact Abel+saturation energy DP proves both impossible"
     ]
   },
   "routing": {
@@ -2651,7 +2792,28 @@
     "e2_unique_pair_hyperbolic_langer_m6_Q_upper": 4056,
     "e2_unique_pair_balanced_bulk_collision_pressure_exact": true,
     "e2_unique_pair_balanced_bulk_collision_threshold": "ceil(7*m+sqrt(21*m*(m-4))) for m>=5",
-    "e2_unique_pair_balanced_bulk_asymptotic_collision_sheet_fraction": "(7+sqrt(21))/56 ~= 0.20683"
+    "e2_unique_pair_balanced_bulk_asymptotic_collision_sheet_fraction": "(7+sqrt(21))/56 ~= 0.20683",
+    "e2_unique_pair_variable_alpha_langer_complete": true,
+    "e2_unique_pair_variable_alpha_langer_incremental_m": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "e2_unique_pair_variable_alpha_langer_m2_Q_upper": 544,
+    "e2_unique_pair_variable_alpha_langer_m3_Q_upper": 1092,
+    "e2_unique_pair_variable_alpha_langer_m4_Q_upper": 1839,
+    "e2_unique_pair_variable_alpha_langer_m5_Q_upper": 2805,
+    "e2_unique_pair_variable_alpha_langer_m6_Q_upper": 3958,
+    "e2_unique_pair_variable_alpha_langer_m7_Q_upper": 5289,
+    "e2_unique_pair_variable_alpha_langer_m8_Q_upper": 6811,
+    "e2_unique_pair_variable_alpha_langer_no_increment_m_ge_9": true,
+    "e2_unique_pair_m1_exact_energy_level_count": 36,
+    "e2_unique_pair_m1_Q188_Q190_impossible": true,
+    "e2_unique_pair_m1_Q192_langer_equality_boundary": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
