@@ -309,7 +309,7 @@ def main() -> None:
                     picard += p
                     canonical_picard += q
                     canonical_r_picard += rr
-                    strict_weighted_terms += int(q < f)
+                    strict_weighted_terms += int(rr < f)
                     visited_weighted_terms += 1
 
     req(canonical_r_picard <= canonical_picard <= picard <= fullsupport_picard <= joined <= exact <= v48, "cell aggregate r-canonical successor refinement order drift")
