@@ -2707,6 +2707,43 @@
               "merge_authorized": false
             }
           }
+        },
+        "q192_low_bidegree_capacity_census": {
+          "status": "EXACT_PREAUDIT_Q192_LOW_BIDEGREE_CAPACITY_CENSUS_ZERO_CREDIT",
+          "top_energy_structure": "each seven-variable block has exactly six entries in {+4,-4} and one zero; after saturation plus the two Abel mod-4 residues each block has 140 exact states",
+          "raw_pair_count": 19600,
+          "capacities": {
+            "fibre": "56 at l=2",
+            "irreducible_11": "112 at l=2",
+            "irreducible_12": "168 at l=2",
+            "irreducible_21": "168 at l=2"
+          },
+          "exact_census": {
+            "survive_all": 15168,
+            "excluded_total": 4432,
+            "fibre_only": 3024,
+            "irreducible_11_only": 1216,
+            "fibre_and_11": 192,
+            "irreducible_12_incremental": 0,
+            "irreducible_21_incremental": 0
+          },
+          "global_maxima_over_all_19600": {
+            "fibre": 64,
+            "irreducible_11": 128,
+            "irreducible_12": 168,
+            "irreducible_21": 168
+          },
+          "conclusion": "raw low-bidegree capacity gives a genuine exact pruning of the m=1,Q=192 equality level, but leaves 15168 formal allocations; higher (1,2)/(2,1) capacities are automatically saturated but never violated on this top-energy population.",
+          "firewalls": {
+            "q192_closed": false,
+            "surviving_allocations_geometrically_realized": false,
+            "m1_high_band_closed": false,
+            "e2_closed": false,
+            "receiver_credit": false,
+            "theorem_credit": false,
+            "endpoint_credit": false,
+            "merge_authorized": false
+          }
         }
       }
     }
@@ -2715,7 +2752,7 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions.",
     "success_shapes": [
       "exact common-etale/commensurator/fiber-collision upper bound strictly below ceil(7*m+sqrt(21*m*(m-4))) for the balanced bulk",
       "a genuinely stronger equality theorem, distinct from Langer 0.1/0.3, whose hypotheses are verified for the exact fractional-boundary pair and which yields a contradiction at m=1,Q=192",
@@ -2895,7 +2932,11 @@
     "e2_unique_pair_balanced_bulk_elliptic_picard_overlap_route": "CLOSED_ALLOWS_ANY_R_UP_TO_N_MINUS_1",
     "e2_unique_pair_balanced_bulk_collision_requires_orbifold_or_commensurator_data": true,
     "e2_unique_pair_m1_Q192_langer_equality_ball_uniformization_route": "CLOSED_SOURCE_VALID_NO_GO",
-    "e2_unique_pair_m1_Q192_requires_stronger_equality_theorem_or_postulation": true
+    "e2_unique_pair_m1_Q192_requires_stronger_equality_theorem_or_postulation": true,
+    "e2_unique_pair_m1_Q192_raw_allocation_count": 19600,
+    "e2_unique_pair_m1_Q192_low_bidegree_capacity_survivors": 15168,
+    "e2_unique_pair_m1_Q192_low_bidegree_capacity_excluded": 4432,
+    "e2_unique_pair_m1_Q192_low_bidegree_capacity_route": "EXACT_PRUNING_NOT_CLOSURE"
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
