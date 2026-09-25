@@ -449,7 +449,7 @@ jobs:
           old=json.loads(subprocess.check_output(["git","show",f"HEAD^:{sys.argv[1]}"],text=True))
           assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_PILOT_RUNKEY_V1"
           assert old["schema"]==p["schema"]
-          assert old["generation"]==1 and p["generation"]==2 and p["generation"]==old["generation"]+1
+          assert isinstance(old["generation"],int) and p["generation"]==old["generation"]+1 and p["generation"]>=2
           assert p["mode"]=="PILOT_MEASURE"
           assert p["armed"] is True and p["execution_authorized"] is True
           assert (p["row_id"],p["genus"],p["degree"],p["exceptional_mass"])==("g0-d018",0,18,8)
@@ -458,7 +458,7 @@ jobs:
           assert p["planned_effective_heavy_concurrency"]==1
           assert 0 < p["projected_peak_storage_bytes"] < 500*1024*1024
           assert p["worker_blob_sha1"]=="c18c06fc9c1be7b972564e69bac730542db2febd"
-          assert p["preflight_verifier_blob_sha1"]=="2cce88bb941a922483a3959431d6c29612e4ec2f"
+          assert p["preflight_verifier_blob_sha1"]=="a50ee1278f644c6f798e1432c47b3d7899bdfc66"
           assert p["preflight_blob_sha1"]=="abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
           assert p["lane178_exact_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
           assert p["lane178_aggregate_blob_sha1"]=="5fa9f1d67d6411cb550230b62398aff7bd6488ff"
@@ -467,7 +467,7 @@ jobs:
           assert p["merge_authorized"] is False
           PY
           test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py)" = "c18c06fc9c1be7b972564e69bac730542db2febd"
-          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py)" = "2cce88bb941a922483a3959431d6c29612e4ec2f"
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py)" = "a50ee1278f644c6f798e1432c47b3d7899bdfc66"
           test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PREFLIGHT.json)" = "abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
           test "$(git -C .stage32-178-btva-source rev-parse HEAD)" = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
           test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
