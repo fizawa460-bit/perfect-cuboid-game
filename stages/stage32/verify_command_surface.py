@@ -125,7 +125,9 @@ def main() -> None:
     req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
     bridge = bridge_rows[0]
     req(bridge["state_path"] == "stages/stage32/generalization-bridge/STATE.json", "BRIDGE state path drift")
-    req(bridge["startup_path"] == "stages/stage32/generalization-bridge/MAIN-START-HERE.md", "BRIDGE startup path drift")
+    req(bridge["startup_path"] == "stages/stage32/retained/bridge/README.md", "BRIDGE retained startup path drift")
+    req(bridge.get("legacy_startup_path") == "stages/stage32/generalization-bridge/MAIN-START-HERE.md",
+        "BRIDGE legacy startup pointer drift")
     req(bridge["demand_state_path"] is None, "BRIDGE unexpected local demand mirror")
     req(bridge["lane_status"] == "PARKED_OPTIONAL_POST_32_01_REFINEMENT",
         "BRIDGE not parked after 32-01 completion")
@@ -135,8 +137,16 @@ def main() -> None:
     lane_by_name = {row["lane"]: row for row in lanes["lanes"]}
     req(lane_by_name["32-01-178"]["lane_status"] == "PARKED_RETAINED_AFTER_AUDITED_32_01_COMPLETION",
         "178 lane not parked after audited 32-01 completion")
+    req(lane_by_name["32-01-178"]["startup_path"] == "stages/stage32/retained/178/README.md",
+        "178 retained startup path drift")
+    req(lane_by_name["32-01-178"].get("legacy_startup_path") == "stages/stage32/32-01-178/MAIN-START-HERE.md",
+        "178 legacy startup pointer drift")
     req(lane_by_name["CUT"]["lane_status"] == "RETAINED_HISTORY_NO_OPEN_SUCCESSOR",
         "CUT lane still presented as active")
+    req(lane_by_name["CUT"]["startup_path"] == "stages/stage32/retained/cut/README.md",
+        "CUT retained startup path drift")
+    req(lane_by_name["CUT"].get("legacy_startup_path") == "stages/stage32/full178-cut/MAIN-START-HERE.md",
+        "CUT legacy startup pointer drift")
     req(lane_by_name["MB"]["lane_status"] == "ACTIVE_INTERNAL_32_03_EXECUTION",
         "MB not classified as internal 32-03 execution")
     for name in ("32-01-178", "CUT", "MB"):
