@@ -1270,7 +1270,14 @@ def main():
                         eq=hb["fixed_belyi_equation"]
                         req(eq["degrees"] == {"U":8,"A":38,"B":28,"C":12}, "fixed Belyi form degrees")
                         req(8+2*38 == 3*28 == 7*12 == 84, "fixed Belyi homogeneous degree")
-                        req(all(v is False for v in hb["firewalls"].values()), "m>=4 H quotient Belyi firewalls")
+                        ap=hb["abstract_passport_existence_no_go"]
+                        req(ap["status"] == "SOURCE_VALID_ABSTRACT_DEGREE84_PASSPORT_EXISTS_MARKED_GEOMETRY_STILL_OPEN_ZERO_CREDIT", "m>=4 abstract passport existence status")
+                        spec=ap["retained_specification"]
+                        req(spec["u"] == 84 and spec["p"] == 0 and spec["e_order2"] == 8 and spec["f_order3"] == 0 and spec["g_order7"] == 0, "m>=4 Stothers specification")
+                        req(spec["genus_formula_check"] == "84 = 84*(0-1)+21*8" and spec["exceptional"] is False, "m>=4 Stothers specification validity")
+                        req(ap["firewalls"]["abstract_passport_exists"] is True, "m>=4 abstract passport exists")
+                        req(all(x is False for k,x in ap["firewalls"].items() if k != "abstract_passport_exists"), "m>=4 marked-geometry firewalls")
+                        req(all(x is False for x in hb["firewalls"].values()), "m>=4 H quotient Belyi outer firewalls")
                         req(all(v is False for v in hc["firewalls"].values()), "balanced Hurwitz/core firewalls")
                         req(routing["e2_unique_pair_balanced_hurwitz_passport_exact"] is True, "balanced Hurwitz routing")
                         req(routing["e2_unique_pair_balanced_hurwitz_local_monodromy_even"] is True, "balanced even-monodromy routing")
@@ -1284,6 +1291,9 @@ def main():
                         req(routing["e2_unique_pair_core_iff_nonempty_etale_clump_exact"] is True, "core clump equivalence routing")
                         req(routing["e2_unique_pair_core_clump_equivalence_is_finitary_equivalence"] is False, "core clump not finitary routing")
                         req(routing["e2_unique_pair_rational_core_ramification_clump_materialized_conditionally"] is True, "rational core conditional clump routing")
+                        req(routing["e2_unique_pair_rational_core_mge4_abstract_passport_exists"] is True, "mge4 abstract passport routing")
+                        req(routing["e2_unique_pair_rational_core_mge4_unmarked_passport_nonexistence_route"] == "CLOSED_BY_STOTHERS_EXISTENCE", "mge4 unmarked route closed")
+                        req(routing["e2_unique_pair_rational_core_mge4_marked_U_geometry_live"] is True, "mge4 marked U geometry routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
