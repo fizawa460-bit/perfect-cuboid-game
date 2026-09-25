@@ -19,6 +19,10 @@ V47_AUDIT_REVIEW=5287562192
 V48_BOUND=128470212118313474449
 V48_AUDITED_HEAD="fb81be66f260879eec79e55be140857b5fc32bbc"
 V48_AUDIT_COMMENT=5813812633
+V49_BOUND=128443221087959579960
+V49_AUDITED_HEAD="44d274770de1d092022ebbefff80f3cefb914982"
+V49_AUDIT_REVIEW=5313265646
+V49_TIGHTENING=26991030353894489
 V45_STATE_BLOB="a8f873ffdcaca280f7b57158b69606b3ea496d3c"
 V45_STATE_CANON="58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
 V45_RECEIPT_BLOB="a8486ff337e030d02ce26d7404907fdbea5d3cc1"
@@ -64,8 +68,14 @@ def main():
         req(f["authoritative_remaining_terminals"]==V48_BOUND and f["full178_numerical_census_complete"] is True,"V48 authority")
         req(f["v48_178_support_qbc_audited_exact_head"]==V48_AUDITED_HEAD and f["v48_178_support_qbc_hostile_audit_comment_id"]==V48_AUDIT_COMMENT,"V48 audit")
         req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V48 route")
+    elif schema=="STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+        req(f["authoritative_remaining_terminals"]==V49_BOUND and f["full178_numerical_census_complete"] is True,"V49 authority")
+        req(f["v49_exact_tightening_vs_v48"]==V49_TIGHTENING and f["v49_178_fullsupport_384_main_numeric_bound_replacement_consumed"] is True,"V49 tightening/consumption")
+        locks=st["source_locks"]["v49_post_v48_178_fullsupport_384_authority_sync"]
+        req(locks["compact_handoff_audited_exact_head"]==V49_AUDITED_HEAD and locks["hostile_audit_review_id"]==V49_AUDIT_REVIEW,"V49 audit")
+        req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V49 route")
     else:
         req(False,"unsupported successor schema")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
-    print("PASS: Stage32 MAIN preserves V46/V47 predecessor authority and accepts the hostile-audited V48 178 support-qBC successor when synchronized")
+    print("PASS: Stage32 MAIN preserves V46/V47/V48 predecessor authority and accepts the hostile-audited V49 178 full-support 384 successor when synchronized")
 if __name__=="__main__":main()
