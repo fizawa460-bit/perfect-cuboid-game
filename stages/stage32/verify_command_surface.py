@@ -62,7 +62,12 @@ def main() -> None:
         req(token in commands, f"operator command missing: {token}")
     for token in (
         "stage32-01-178-mainbatch", "stage32-01-178-audit",
+        "stage32ex1-mainbatch", "stage32ex1-audit",
+        "stage32ex2-mainbatch", "stage32ex2-audit",
+        "stage32ex3-mainbatch", "stage32ex3-audit",
+        "stage32ex4-mainbatch", "stage32ex4-audit",
         "stage32ex5-mainbatch", "stage32ex5-audit",
+        "stage32ex6-mainbatch", "stage32ex6-audit",
         "stage32cut-mainbatch", "stage32cut-audit",
         "stage32mb-mainbatch", "stage32mb-fib", "stage32mb-fib-audit", "stage32mb-audit",
         "stage32bridge-mainbatch", "stage32bridge-audit",
