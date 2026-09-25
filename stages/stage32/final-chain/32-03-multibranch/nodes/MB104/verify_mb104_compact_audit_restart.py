@@ -1440,7 +1440,42 @@ def main():
                         req(routing["e2_unique_pair_rational_core_regular_pair_route"] == "CLOSED_GRAPH_COMPONENTS_LEG_DEGREE_ONE", "regular pair routing")
                         req(routing["e2_unique_pair_rational_core_regular_pair_leg_degree"] == 1, "regular pair routing degree")
                         req(routing["e2_unique_pair_rational_core_requires_nonregular_core_map"] is True, "nonregular core map required routing")
-                        req(routing["e2_unique_pair_rational_core_nonregular_uniform_map_route_live"] is True, "nonregular route live")
+                        req(routing["e2_unique_pair_rational_core_nonregular_uniform_map_route_live"] is False, "nonregular route superseded")
+                        rh=rpair["relative_H_support_bidegree_closure"]
+                        req(rh["status"] == "EXACT_PREAUDIT_RELATIVE_H_SUPPORT_STABILIZER_AND_BIDEGREE_RATIONAL_CORE_CLOSURE_ZERO_CREDIT", "relative-H bidegree closure status")
+                        sl=rh["source_locks"]
+                        req(sl["node_stabilizer_type_note_blob"] == "a29161602c0b38f0607794e56e61068b8cb9735d", "relative-H node-type source lock")
+                        req(sl["residual_node_orbit_note_blob"] == "dbfea5a4f62b1388c9810c37ad867076ed4dca6e", "relative-H residual-node source lock")
+                        req(sl["boundary_fiber_saturation_note_blob"] == "aa9a7215467428b55b18ef296ced91b63ec4bf07", "relative-H boundary source lock")
+                        req(sl["modular_residual_character_note_blob"] == "ce9554bc047159baf7640db50aa5daf1f0c67f74", "relative-H modular source lock")
+                        pg=rh["exact_support_parity_gate"]
+                        req(pg["Q0"]["box_nodes"] == 8 and pg["Q0"]["supported_nodes"] == 7 and pg["Q0"]["omitted_nodes"] == ["P27"], "Q0 seven-of-eight support")
+                        req(pg["Q1"]["box_nodes"] == 8 and pg["Q1"]["supported_nodes"] == 7 and pg["Q1"]["omitted_nodes"] == ["P35"], "Q1 seven-of-eight support")
+                        req(pg["Q0"]["nontrivial_relative_action"] == "b2 sign" and pg["Q1"]["nontrivial_relative_action"] == "b1 sign", "relative-H zero-quartic actions")
+                        req(pg["Q0"]["supported_nodes"] % 2 == 1 and pg["Q1"]["supported_nodes"] % 2 == 1, "seven-node parity")
+                        req(pg["relative_stabilizer_order_after_Hdiag_quotient"] == 1, "relative-H stabilizer trivial")
+                        qp=rh["quotient_pair_map"]
+                        req(qp["degree_each"] == "n=56*m" and qp["generic_degree"] == 1, "quotient pair-map degree")
+                        req("bidegree (56*m,56*m)" in qp["conclusion"], "quotient pair-map bidegree")
+                        bg=rh["H_trivial_common_core_bidegree_gate"]
+                        req(bg["consequence"].endswith("56*m<=d/4"), "H-trivial common-core bidegree bound")
+                        sx=rh["survivor_exclusions"]
+                        req(sx["signature_238"]["degree"] == 192 and sx["signature_238"]["outer_degree"] == 48 and sx["signature_238"]["excluded"] is True, "(2,3,8) bidegree exclusion")
+                        req(all(56*m > 48 for m in (1,2,3)), "(2,3,8) exact degree replay")
+                        req(sx["signature_248"]["degree"] == 64 and sx["signature_248"]["outer_degree"] == 16 and 56 > 16 and sx["signature_248"]["excluded"] is True, "(2,4,8) bidegree exclusion")
+                        req(sx["signature_334_trivial_action"]["degree"] == 96 and sx["signature_334_trivial_action"]["outer_degree"] == 24 and 56 > 24, "(3,3,4) trivial-action exclusion")
+                        s334=sx["signature_334_nontrivial_action"]
+                        req(s334["coarser_common_map_degree"] == 192 and s334["coarser_signature"] == [2,3,8], "(3,3,4) quotient signature")
+                        req(s334["local_orders"] == {"merged_order3_values":3,"fixed_order4_value":"4*2=8","additional_ordinary_fixed_value":"1*2=2"}, "(3,3,4) quotient local orders")
+                        req(s334["excluded"] is True and 56 > 48, "(3,3,4) nontrivial-action exclusion")
+                        req(rh["consequence"]["rational_core_branch_closed"] is True and rh["consequence"]["balanced_bulk_remaining_branch"] == "CORELESS_AND_NO_NONEMPTY_CLUMP_ONLY", "rational-core downstream closure")
+                        req(rh["firewalls"]["coreless_case_excluded"] is False and rh["firewalls"]["balanced_bulk_closed"] is False and rh["firewalls"]["e2_closed"] is False, "coreless/e2 firewall")
+                        req(routing["e2_unique_pair_rational_core_relative_H_support_stabilizer_exact"] is True and routing["e2_unique_pair_rational_core_relative_H_stabilizer_order"] == 1, "relative-H routing")
+                        req(routing["e2_unique_pair_rational_core_E_to_RxR_birational"] is True and routing["e2_unique_pair_rational_core_H_trivial_bidegree_bound"] == "56*m<=d/4", "bidegree routing")
+                        req(routing["e2_unique_pair_rational_core_238_closed_all_balanced_m"] is True and routing["e2_unique_pair_rational_core_248_closed_m1"] is True and routing["e2_unique_pair_rational_core_334_closed_m1"] is True, "rational-core survivor closure routing")
+                        req(routing["e2_unique_pair_rational_core_branch_closed"] is True, "rational-core branch routing closed")
+                        req(routing["e2_unique_pair_rational_core_nonregular_uniform_map_route"] == "SUPERSEDED_BY_RELATIVE_H_SUPPORT_BIDEGREE_CLOSURE", "nonregular route disposition")
+                        req(routing["e2_unique_pair_balanced_remaining_core_branch"] == "CORELESS_NO_CLUMP_ONLY", "balanced coreless-only routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
