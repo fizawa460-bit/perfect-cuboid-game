@@ -2137,10 +2137,10 @@
       }
     },
     "e2_unique_pair_etale_immersion_orbifold_bmy": {
-      "status": "EXACT_PREAUDIT_ETALE_IMMERSION_ORBIFOLD_BMY_HIGH_ENERGY_PRUNING_ZERO_CREDIT",
+      "status": "EXACT_PREAUDIT_ETALE_IMMERSION_SAFE_LCT_ORBIFOLD_BMY_M1_TOP_SLICE_PRUNING_ZERO_CREDIT",
       "support_mask": "000707000f0f",
       "case": "e=2",
-      "scope": "conditional on the retained unique-pair/common-etale chain. This uses the product normalization Z -> Zbar in C8 x C8, not a new receiver or MAIN credit. It proves an exact ordinary-self-collision structure and a Langer orbifold-BMY pruning of the adaptive high-energy shell; the Miyaoka-allowed bulk remains open.",
+      "scope": "conditional on the retained unique-pair/common-etale chain. Etaleness gives branchwise immersion only; no pairwise transversality is assumed. Langer Theorem 0.3 is applied only after a safe log-canonical-threshold check using lct_P(C)>=1/mult_P(C). This gives a genuine m=1 top-slice cut but does not close the m=2 shell or e=2.",
       "source_locks": {
         "joint_pair_birationality_note_blob": "53608cb51aa49ccde1603b1cb1d136ea497b2324",
         "etale_basechange_passport_note_blob": "d4e5c3b9c598299114f983594be1fac1b01d24d7",
@@ -2160,6 +2160,12 @@
           "theorem_01": "for a log-canonical surface pair with a multiple of K_X+D effective, (K_X+D)^2<=3*e_orb(X,D)",
           "local_bound_023": "e_orb(0;C^2,D)<=(1-mult_0(D)/2)^2 for a log-canonical local pair",
           "theorem_03_formula": "(K_X+D)^2 <= 3*(c2(X)+sum a_i*(2g(D_i)-2)+sum_P(r_P-m_P+m_P^2/4))"
+        },
+        "external_lct_bound": {
+          "statement": "1/mult_P(C) <= lct_P(S,C) <= 2/mult_P(C) for a reduced plane curve germ on a smooth surface",
+          "source": "Paemurru–Viswanathan, Log canonical thresholds of high multiplicity reduced plane curves",
+          "doi": "10.1017/S0017089525100827",
+          "locator": "Equation (1.1), citing standard Kollár references"
         }
       },
       "etale_immersion": {
@@ -2199,7 +2205,7 @@
       },
       "langer_reduction": {
         "boundary": "D=alpha*Zbar on P=C8 x C8",
-        "lc_sufficient_check": "alpha*mult_P(Zbar)<=2 at every singular point",
+        "lc_sufficient_check": "alpha<=1/mult_P(Zbar) at every singular point, using the general lower bound lct_P(Zbar)>=1/mult_P(Zbar)",
         "multiple_of_K_plus_D_effective": true,
         "general_local_term": "alpha*(branches-mult)+(alpha^2/4)*mult^2",
         "interior_local_upper": "alpha*(branches-mult)+(alpha^2/4)*mult^2 <= alpha^2*delta_P",
@@ -2208,59 +2214,43 @@
         "supported_local_quadratic_identity": "sum_supp mult^2=2*delta_supp+R_supp",
         "global_upper": "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*(2*delta_total+R_supp+2*delta_int))",
         "derivation": [
-          "Langer Theorem 0.3 gives alpha*(branches-mult)+(alpha^2/4)*mult^2 at a singular point of the irreducible boundary alpha*Zbar",
-          "at an arbitrary interior singularity branches<=mult and delta>=binom(mult,2), hence the local term is at most alpha^2*delta",
-          "the retained supported-product passport already proves the supported product branches internally ordinary/transverse, so sum_supp mult^2=2*delta_supp+R_supp there",
-          "R_supp=224*l, delta_supp=delta_total-delta_int, hence the total local correction is at most (alpha^2/4)*(2*delta_total+R_supp+2*delta_int)",
-          "for lc it is enough here to check alpha*mult<=2; the free H-orbit delta charge bounds every interior multiplicity in the two finite shell regions"
+          "Langer Theorem 0.3 gives alpha*(branches-mult)+(alpha^2/4)*mult^2 at a singular point of the irreducible boundary alpha*Zbar, but it requires the pair to be log canonical",
+          "for a reduced plane-curve germ on a smooth surface, lct>=1/mult; therefore alpha<=1/mult at every interior singularity is a safe sufficient lc check without assuming transversality",
+          "at an arbitrary interior singularity branches<=mult and delta>=binom(mult,2), hence once lc is secured the local Langer term is at most alpha^2*delta",
+          "the retained supported-product passport proves the supported product branches internally ordinary/transverse; there alpha*mult<=2 is sufficient and sum_supp mult^2=2*delta_supp+R_supp",
+          "R_supp=224*l, delta_supp=delta_total-delta_int, hence the same numerical local-correction upper bound is valid after the safe lc check"
         ]
       },
       "high_energy_shell_pruning": {
         "m1": {
           "shell_Q_lower": 118,
-          "tested_region_Q_lower": 193,
-          "delta_same_upper_in_tested_region": 62,
-          "interior_multiplicity_upper": 11,
+          "safe_lct_region_Q_lower": 207,
+          "delta_same_upper_in_safe_region": 34,
+          "interior_multiplicity_upper": 8,
           "supported_multiplicity_upper": 16,
           "alpha": "1/8",
+          "lc_reason": "interior: lct>=1/mult>=1/8 because mult<=8; supported points are ordinary with mult<=16 so alpha*mult<=2",
           "lhs": 450,
           "rhs_upper": "486-3*Q/16",
-          "necessary_Q_upper": 192,
-          "conclusion": "Q>=193 excluded; residual high-energy band is 118<=Q<=192"
+          "bmy_contradiction_threshold_Q": 193,
+          "combined_safe_conclusion": "Q>=207 excluded; 118<=Q<=206 remains from the raw high-energy shell"
         },
         "m2": {
           "shell_Q_lower": 566,
-          "delta_same_upper_on_shell": 436,
-          "interior_multiplicity_upper": 30,
-          "supported_multiplicity_upper": 32,
-          "alpha": "1/16",
-          "lhs": 450,
-          "rhs_upper": "951/2-3*Q/64",
-          "necessary_Q_upper": 544,
-          "conclusion": "entire m=2 high-energy shell excluded because Q>=566>544"
+          "miyaoka_allowed_Q_upper": 677,
+          "safe_lct_orbifold_bmy_first_excluded_Q": 708,
+          "conclusion": "no new m=2 pruning beyond Miyaoka; the retained formal Q=672 witness is not excluded by the safe-lct Langer argument"
         },
-        "orbit_bound_replay": [
-          "m=1,Q>=193: delta_int/4=delta_same<=62 and each interior singularity has a free H orbit, so binom(mult_int,2)<=62 and mult_int<=11; supported mult<=8*l=16",
-          "m=2,Q>=566: delta_int/4=delta_same<=436 and each interior singularity has a free H orbit, so binom(mult_int,2)<=436 and mult_int<=30; supported mult<=8*l=32"
-        ],
-        "exact_boundary_replay": [
-          "m=1,Q=192,alpha=1/8 gives LHS=450 and RHS_upper=450",
-          "m=1,Q=193,alpha=1/8 gives LHS-RHS_upper=3/16",
-          "m=2,Q=544,alpha=1/16 gives LHS=450 and RHS_upper=450",
-          "m=2,Q=566,alpha=1/16 gives LHS-RHS_upper=33/32"
-        ]
+        "correction_firewall": "the stronger tentative cuts Q>=193 for m=1 and Q>=545 for m=2 required treating alpha*mult<=2 as sufficient lc at arbitrary interior singularities; that is not valid without an ordinary/transverse singularity theorem and is withdrawn"
       },
       "former_m2_witness": {
         "m": 2,
         "Q": 672,
-        "disposition": "EXCLUDED_BY_ORBIFOLD_BMY",
-        "alpha": "1/16",
-        "lhs": 450,
-        "rhs_upper": 444,
-        "contradiction_gap": 6
+        "disposition": "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA",
+        "note": "the earlier tentative EXCLUDED_BY_ORBIFOLD_BMY disposition is withdrawn; safe general lct control does not authorize alpha=1/16 at all possible interior singularities"
       },
-      "result": "etaleness makes every normalization branch smooth but does not force distinct branches transverse; using the general delta>=binom(multiplicity,2) bound, the free H-orbit multiplicity charge, the retained ordinary supported-point passport, and Langer's orbifold BMY inequality still closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192",
-      "next_missing_datum": "for the remaining m=1 high-energy band 118<=Q<=192, use exact-order postulation/marked conductor/common-etale data; for the Miyaoka-allowed bulk at any m, a genuinely nonlinear realization obstruction or an audited MB-FIB restriction is still required. Do not assume interior transversality.",
+      "result": "with no pairwise-transversality assumption, the safe general lct>=1/multiplicity bound allows Langer's orbifold BMY inequality to exclude only the m=1 top slice Q>=207; the m=1 band 118<=Q<=206 and the Miyaoka-allowed m=2 shell (including Q=672) remain open",
+      "next_missing_datum": "for m=1, exact jet/postulation on 118<=Q<=206; for m=2, the Miyaoka-allowed shell still contains Q=672 and needs exact postulation/marked conductor/common-etale information. A stronger Langer cut would require a proved lower bound on interior lct beyond 1/multiplicity, for example from an independently proved restriction on tangency type.",
       "firewalls": {
         "m1_high_energy_shell_closed": false,
         "bulk_closed": false,
@@ -2274,15 +2264,17 @@
         "effectivity_credit": false,
         "theorem_credit": false,
         "endpoint_credit": false,
-        "merge_authorized": false
+        "merge_authorized": false,
+        "m2_high_energy_shell_closed": false,
+        "pairwise_transversality_proved": false
       }
     }
   },
   "next_obligation": {
     "node_id": "MB104",
-    "title": "e=2 unique pair — orbifold-BMY-pruned m=1 shell or nonlinear bulk",
-    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-ORBITAL-BMY-PRUNED-M1-OR-BULK",
-    "required_input": "The retained common-etale geometry gives a safe branchwise statement: because f1,f2:Z->C8 are etale, the normalization map Z->Zbar is immersive, so each branch is smooth, but distinct branches are NOT assumed transverse. For arbitrary interior singularities use the general reduced plane-curve bound delta>=binom(multiplicity,2). H_diag acts freely on every interior singularity, so one local multiplicity mult costs at least 4*binom(mult,2) in interior delta. Combining that with the retained ordinary supported-point passport and Langer's Theorem 0.3 still excludes the entire m=2 adaptive high-energy shell (necessary Q<=544 versus shell Q>=566) and excludes m=1 allocations with Q>=193. The only high-energy residue is m=1 with 118<=Q<=192. This still does not close e=2 because Miyaoka-allowed bulk allocations remain for arbitrary m. Continue with exact m=1 postulation/marked-conductor/common-etale data or a genuinely nonlinear bulk obstruction; an audited MB-FIB restriction remains an independent admissible route.",
+    "title": "e=2 unique pair — safe-LCT BMY-pruned m=1/m=2 or nonlinear bulk",
+    "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-SAFE-LCT-BMY-PRUNED-M1-M2-OR-BULK",
+    "required_input": "Etaleness gives only branchwise immersion of Z->Zbar; distinct branches may be tangent. Langer Theorem 0.3 also requires log canonicity, so arbitrary interior points are controlled only through the safe general bound lct>=1/multiplicity. Combining the free four-point H orbit, delta>=binom(mult,2), and the retained ordinary supported-point passport gives one new exact cut: for m=1, Q>=207 is impossible by Langer BMY with alpha=1/8. The stronger tentative Q>=193 and m=2-shell closure are withdrawn because alpha*mult<=2 is not a sufficient lc criterion for arbitrary tangent interior singularities. Thus m=1 high-energy candidates 118<=Q<=206 remain, and m=2 still has the Miyaoka-allowed shell including the retained formal Q=672 witness. Continue with exact m=1/m=2 postulation, a proved tangency/lct refinement, marked conductor/common-etale data, nonlinear bulk obstruction, or an audited MB-FIB restriction.",
     "success_shapes": [
       "exact contradiction for the remaining finite high-energy band m=1, 118<=Q<=192, followed by hostile audit before any promotion",
       "exact nonlinear/exact-order interior realization obstruction that applies to the Miyaoka-allowed bulk",
@@ -2310,9 +2302,9 @@
       "the former m=5 replacement endpoint: it is now excluded by the Miyaoka bound",
       "adaptive high-energy-shell search for m>=3: that shell is now empty",
       "finite m=1,2 high-energy-residue computation as a standalone e=2 closure strategy; an infinite even-l bulk ray survives the current invariant package",
-      "m=2 adaptive high-energy-shell search: the entire shell is now excluded by the etale-immersion/Langer orbifold-BMY bound",
-      "m=1 high-energy allocations with Q>=193: they are now excluded by the same orbifold-BMY bound",
-      "assuming pairwise transversality of interior normalization branches from etaleness alone: only branchwise immersion is retained"
+      "assuming pairwise transversality of interior normalization branches from etaleness alone: only branchwise immersion is retained",
+      "claiming alpha*mult<=2 is sufficient for log canonicity at arbitrary interior singularities; without an ordinary/transverse theorem use the safe lct>=1/mult bound",
+      "m=1 allocations with Q>=207: they are excluded by the safe-lct Langer BMY cut"
     ]
   },
   "routing": {
@@ -2399,16 +2391,19 @@
     "e2_unique_pair_m1_m2_high_shell_alone_can_close_e2": false,
     "e2_unique_pair_bulk_missing_datum": "genuinely interior/common-etale or marked-conductor information, or an independent audited MB-FIB/Picard64 restriction",
     "e2_unique_pair_etale_immersion_exact": true,
-    "e2_unique_pair_orbifold_bmy_exact": true,
-    "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": true,
-    "e2_unique_pair_orbifold_bmy_m1_Q_upper": 192,
+    "e2_unique_pair_orbifold_bmy_exact": false,
+    "e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed": false,
+    "e2_unique_pair_orbifold_bmy_m1_Q_upper": 206,
     "e2_unique_pair_orbifold_bmy_high_energy_residual": {
-      "m": 1,
-      "Q_min": 118,
-      "Q_max": 192
+      "m1": {
+        "Q_min": 118,
+        "Q_max": 206
+      },
+      "m2": "MIYAOKA_ALLOWED_SHELL_STILL_OPEN"
     },
     "e2_unique_pair_orbifold_bmy_e2_closes": false,
-    "e2_unique_pair_interior_pairwise_transversality_proved": false
+    "e2_unique_pair_interior_pairwise_transversality_proved": false,
+    "e2_unique_pair_orbifold_bmy_safe_lct_exact": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
