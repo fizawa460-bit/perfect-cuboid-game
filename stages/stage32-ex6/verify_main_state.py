@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -9,6 +10,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 STATE = HERE / "MAIN-STATE.json"
 STARTUP = HERE / "MAIN-START-HERE.md"
+HISTORICAL_STARTUP = ROOT / "stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX6-PRE-RETAINED-DEMOTION.md"
+HISTORICAL_STARTUP_BLOB = "ad4111d19ae9ed30f90f75327f7a3c90844f5467"
 
 
 def fail(msg: str) -> None:
@@ -76,10 +79,20 @@ def main() -> int:
                 fail(f"EX6 current leaf path missing: {rel}")
 
         startup = STARTUP.read_text()
-        if "Claim-DAG synchronization trigger" not in startup:
-            fail("EX6 startup missing claim-sync hook")
-        if "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md" not in startup:
-            fail("EX6 startup missing central claim-sync contract")
+        if "not an ordinary Stage32 operator entrypoint" not in startup:
+            fail("EX6 live startup was not demoted to retained boundary")
+        if "stages/stage32/retained/ex6/README.md" not in startup:
+            fail("EX6 retained navigation pointer missing")
+
+        raw = HISTORICAL_STARTUP.read_bytes()
+        blob = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+        if blob != HISTORICAL_STARTUP_BLOB:
+            fail("EX6 historical startup snapshot drift")
+        historical = raw.decode()
+        if "Claim-DAG synchronization trigger" not in historical:
+            fail("EX6 historical startup missing claim-sync hook")
+        if "stages/stage32/proof/CLAIM-SYNC-CONTRACT.md" not in historical:
+            fail("EX6 historical startup missing central claim-sync contract")
         for trigger in (
             "RETAINED_CONSOLIDATION",
             "AUTHORITY_OR_AUDIT_TRANSITION",
@@ -87,8 +100,8 @@ def main() -> int:
             "ACTIVE_FRONTIER_REMAP",
             "FINAL_MILESTONE_TRANSITION",
         ):
-            if trigger not in startup:
-                fail(f"EX6 startup missing trigger {trigger}")
+            if trigger not in historical:
+                fail(f"EX6 historical startup missing trigger {trigger}")
 
         print(json.dumps({
             "verdict": "PASS_STAGE32EX6_MAIN_STATE",
