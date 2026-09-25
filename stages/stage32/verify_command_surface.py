@@ -84,12 +84,42 @@ def main() -> None:
     req(len(rows) == 1, "EX5 lane adapter missing or duplicated")
     ex5 = rows[0]
     req(ex5["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 state path drift")
-    req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
+    req(ex5["startup_path"] == "stages/stage32/internal/ex5/LIVE.json", "EX5 startup path not internalized")
+    req(ex5.get("legacy_state_path") == "stages/stage32-ex5/MAIN-STATE.json", "EX5 legacy state pointer drift")
+    ex5_live = json.loads((HERE / "internal/ex5/LIVE.json").read_text(encoding="utf-8"))
+    req(ex5_live["schema"] == "STAGE32_INTERNAL_EX5_LIVE_V1", "EX5 internal live schema")
+    req(ex5_live["operator_entrypoint"] is False and ex5_live["routing_authority"] is False,
+        "EX5 internal live authority leak")
+    req(ex5_live["legacy_detail_state"] == "stages/stage32-ex5/MAIN-STATE.json",
+        "EX5 internal live legacy pointer drift")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
     req(ex5["lane_status"] == "ACTIVE_INTERNAL_32_02_HELPER_LEGACY_STATE",
         "EX5 not classified as internal 32-02 helper")
     req(ex5.get("ordinary_operator_entrypoint") is False and ex5.get("routing_authority") is False,
         "EX5 legacy state leaked back into operator/routing authority")
+
+    retained_startups = {
+        "EX1": "stages/stage32/retained/ex1/README.md",
+        "EX2": "stages/stage32/retained/ex2/README.md",
+        "EX3": "stages/stage32/retained/ex3/README.md",
+        "EX4": "stages/stage32/retained/ex4/README.md",
+    }
+    for name, retained_path in retained_startups.items():
+        row = next(x for x in lanes["lanes"] if x.get("lane") == name)
+        req(row["startup_path"] == retained_path, f"{name} retained startup pointer drift")
+        req(row.get("legacy_state_path") == f"stages/stage32-ex{name[-1]}/MAIN-STATE.json",
+            f"{name} legacy state pointer drift")
+        req(row.get("legacy_startup_path") == f"stages/stage32-ex{name[-1]}/MAIN-START-HERE.md",
+            f"{name} legacy startup pointer drift")
+        req(row.get("ordinary_operator_entrypoint") is False and row.get("routing_authority") is False,
+            f"{name} leaked back into live routing authority")
+        legacy_start = (REPO / f"stages/stage32-ex{name[-1]}/MAIN-START-HERE.md").read_text(encoding="utf-8")
+        req("not an ordinary Stage32 operator entrypoint" in legacy_start,
+            f"{name} legacy directory still presents an ordinary startup")
+
+    surface_map = (HERE / "SURFACES.md").read_text(encoding="utf-8")
+    for token in ("## Live control", "## Internal execution surfaces", "## Retained / reopen-only surfaces"):
+        req(token in surface_map, f"surface map missing {token}")
 
     bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
     req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
