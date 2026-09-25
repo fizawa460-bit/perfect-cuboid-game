@@ -152,7 +152,64 @@ def main() -> None:
     center_s = R.inv() * cross
     center = [fq(x) for x in center_s]
     radius_s = q0 - eng.LOW + (cross.T * R.inv() * cross)[0]
-    req(radius_s >= 0, "radius")
+    # Exact completion of the square gives
+    #   C^2 = q0 + 2<cross,z> - z^T R z
+    #       = q0 + cross^T R^-1 cross
+    #         - (z-center)^T R (z-center).
+    # Hence radius_s < 0 means the entire affine fiber has C^2 < LOW:
+    # this is an exact bad-shell UNSAT certificate, not an implementation error.
+    if radius_s < 0:
+        out = {
+            "schema": "STAGE32EX5_EFF_AFFINE16_FP37_BENCHMARK_V2",
+            "status": "PASS_BOUNDED_EXACT_FP37_BENCHMARK",
+            "target": {
+                "base4": list(BASE4),
+                "A": A_MASS,
+                "AB": AB_MASS,
+                "B": AB_MASS - A_MASS,
+                "C": C_MASS,
+                "D": eng.E - AB_MASS - C_MASS,
+                "p100": P100,
+                "forced_zero_pairing_count": len(forced),
+            },
+            "fixed_rank": rank,
+            "kernel_dimension": 37,
+            "hnf_image_index": abs(int(I.det())),
+            "bad_shell": [eng.LOW, eng.HIGH],
+            "outer_radius_squared": str(fq(radius_s)),
+            "classification": "BAD_SHELL_UNSAT_EXACT_FP37_EMPTY_ADJUNCTION_ELLIPSOID",
+            "complete": True,
+            "node_cap": NODE_CAP,
+            "node_count": 0,
+            "intersection_prune_count": 0,
+            "lower_pairing_prune_count": 0,
+            "upper_pairing_prune_count": 0,
+            "feasible_leaf_count": 0,
+            "transcript_sha256": hashlib.sha256(b"EMPTY_ADJUNCTION_ELLIPSOID_V1\\n").hexdigest(),
+            "witness": None,
+            "interpretation": {
+                "what_is_proved": (
+                    "Exact completion of the square gives a negative radius for the "
+                    "C^2 >= LOW ellipsoid, so this saturated 37D affine fiber contains "
+                    "no class in the enlarged bad shell, independently of pairing pruning."
+                ),
+                "next_exact_unit": (
+                    "Replay this empty-ellipsoid test across all AFFINE15 survivors before "
+                    "arming any recursive Fincke--Pohst scaleout; recurse only on fibers with "
+                    "nonnegative exact radius."
+                ),
+            },
+            "credit": {
+                "effectivity": False,
+                "main": False,
+                "receiver": False,
+                "theorem": False,
+                "endpoint": False,
+                "merge": False,
+            },
+        }
+        print("EFF_AFFINE16_FP37=" + json.dumps(out, sort_keys=True, separators=(",", ":")))
+        return
     radius = fq(radius_s)
     fixed = [fq(x) for x in P * (bp + RK * center_s)]
 
