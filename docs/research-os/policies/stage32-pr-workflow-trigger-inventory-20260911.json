@@ -4,6 +4,7 @@
   "active_auto": [
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
+    ".github/workflows/stage32-mb-fib-gen29-carry-materialize.yml",
     ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml"
   ],
@@ -50,10 +51,10 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
+    "active_auto": 5,
     "manual": 2,
     "retired": 36,
-    "total": 42
+    "total": 43
   },
   "notes": {
     "n356": "consumed historical Stage32 MAIN leaf; workflow_dispatch-only replay retained",
@@ -63,6 +64,7 @@
     "n350": "production-leaf meta-contract is not current active frontier; manual replay retained",
     "root_cleanup": "housekeeping verifier; manual replay retained",
     "mathematical_authority_changed": true,
-    "mb_fib_isotropic_shell_pilot": "current MB-FIB auxiliary frontier; ACTIVE_AUTO trigger retained but all heavy execution is fresh commit-range runkey gated"
+    "mb_fib_isotropic_shell_pilot": "current MB-FIB auxiliary frontier; ACTIVE_AUTO trigger retained but all heavy execution is fresh commit-range runkey gated",
+    "gen29_carry_materializer": "temporary ACTIVE_AUTO one-shot artifact materializer; exact Gen29 run/head pinned; retire to workflow_dispatch immediately after source-committed carry lands"
   }
 }
