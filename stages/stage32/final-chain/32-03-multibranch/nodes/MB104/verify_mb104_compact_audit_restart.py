@@ -1086,6 +1086,13 @@ def main():
                         req(routing["e2_unique_pair_m1_exact_energy_level_count"] == 36, "m1 spectrum routing count")
                         req(routing["e2_unique_pair_m1_Q188_Q190_impossible"] is True, "m1 188/190 routing")
                         req(routing["e2_unique_pair_m1_Q192_langer_equality_boundary"] is True, "m1 Q192 equality routing")
+                        qeq=sp["q192_local_orbifold_equality_check"]
+                        req(qeq["status"] == "EXACT_PREAUDIT_LOCAL_STRICTNESS_NO_GO_ZERO_CREDIT", "m1 Q192 local equality status")
+                        req(qeq["ordinary_equal_weight_formula"] == "for an ordinary r-fold point with r equal coefficients alpha and alpha*r<=2, e_orb=(2-r*alpha)^2/4=(1-r*alpha/2)^2", "m1 Q192 local orbifold formula")
+                        req(qeq["source"]["doi"] == "10.1112/S0024611502013874" and "Theorem 8.7" in qeq["source"]["locator"], "m1 Q192 local formula source")
+                        req(qeq["firewalls"]["q192_excluded"] is False and qeq["firewalls"]["global_equality_rigidity_adapter_proved"] is False, "m1 Q192 equality firewalls")
+                        req(routing["e2_unique_pair_m1_Q192_local_orbifold_strictness_route"] == "CLOSED_EXACT_EQUALITY_NO_GO", "m1 Q192 local-strictness routing")
+                        req(routing["e2_unique_pair_m1_Q192_global_equality_rigidity_adapter"] is False, "m1 Q192 global equality adapter firewall")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
