@@ -70,6 +70,8 @@ The remaining mathematical interface is now exactly:
 
 The FULL178 numerical-census predecessor is now audited complete as `S32.FULL178.NUMERICAL_CENSUS.V2`.
 
+Historical routing label retained for compatibility with audited management replay: `FULL178_AND_FINAL_MILESTONE_CHAIN`. In the current state its FULL178 predecessor is complete; the live work is effectivity plus multibranch.
+
 ## 5. MAIN / EX routing after Q602 completion
 
 - `MAIN`: integration/frontier coordinator. Current route is `EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS`.
