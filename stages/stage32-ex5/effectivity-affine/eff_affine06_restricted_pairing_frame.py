@@ -8,6 +8,7 @@ import json
 import sys
 from pathlib import Path
 
+from flint import fmpz_mat
 from sympy import Matrix
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -48,8 +49,13 @@ def main() -> None:
     A = Matrix.hstack(*[upper(f) for f in forms])
     b = upper(R)
 
-    rank_a = int(A.rank())
-    aug_rank = int(A.row_join(b).rank())
+    Af = fmpz_mat([[int(A[i, j]) for j in range(A.cols)] for i in range(A.rows)])
+    Augf = fmpz_mat([
+        [int(A[i, j]) for j in range(A.cols)] + [int(b[i, 0])]
+        for i in range(A.rows)
+    ])
+    rank_a = int(Af.rank())
+    aug_rank = int(Augf.rank())
     in_span = rank_a == aug_rank
 
     coeff = None
