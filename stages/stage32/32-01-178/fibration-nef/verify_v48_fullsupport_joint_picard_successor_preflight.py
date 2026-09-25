@@ -29,7 +29,7 @@ def main():
     pref=json.loads(PREF.read_text()); panel=json.loads(PANEL.read_text()); raw=json.loads(RAW.read_text())
     req(canon(pref)==PREF_CANON==pref["canonical_sha256_without_this_field"],"preflight canonical drift")
     req(canon(panel)==PANEL_CANON==panel["canonical_sha256_without_this_field"],"panel canonical drift")
-    req(raw["canonical_sha256_without_this_field"]=="dd9366fa81bf062f827cc40cb99f79bb0e0ee8c9146f9010a00fd59def5f4898" or True,"raw canonical parse")
+    req(canon(raw)=="9bbb2336f1a68f4896f937a2f781e27a6e855eb5f288990a7f2fa838cfcd2035"==raw["canonical_sha256_without_this_field"],"raw canonical drift")
     req(pref["source_locks"]["successor_probe_blob_sha1"]==PROBE_BLOB,"probe lock drift")
     req(pref["source_locks"]["exact_tset_panel_blob_sha1"]==PANEL_BLOB,"panel lock drift")
     req(pref["source_locks"]["row022_b036_fullsupport_receipt_blob_sha1"]==RAW_BLOB,"raw lock drift")
