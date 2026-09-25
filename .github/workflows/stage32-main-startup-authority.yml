@@ -444,10 +444,13 @@ jobs:
             exit 0
           fi
           python - "$runkey" <<'PY'
-          import json,sys
+          import json,subprocess,sys
           p=json.load(open(sys.argv[1]))
+          old=json.loads(subprocess.check_output(["git","show",f"HEAD^:{sys.argv[1]}"],text=True))
           assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_PILOT_RUNKEY_V1"
-          assert p["generation"]==1 and p["mode"]=="PILOT_MEASURE"
+          assert old["schema"]==p["schema"]
+          assert old["generation"]==1 and p["generation"]==2 and p["generation"]==old["generation"]+1
+          assert p["mode"]=="PILOT_MEASURE"
           assert p["armed"] is True and p["execution_authorized"] is True
           assert (p["row_id"],p["genus"],p["degree"],p["exceptional_mass"])==("g0-d018",0,18,8)
           assert p["sample_base4_key_count"]==5
