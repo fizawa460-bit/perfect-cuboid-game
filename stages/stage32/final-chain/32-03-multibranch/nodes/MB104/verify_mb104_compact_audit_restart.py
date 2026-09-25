@@ -1345,6 +1345,31 @@ def main():
                         req(tk["balanced_m_survivors"]["m3"] == class3_survivors(3), "state m3 survivors")
                         req(tk["balanced_m_survivors"]["m_ge_4"] == [], "state m>=4 survivors")
                         req(tk["firewalls"]["m_ge_4_rational_core_closed"] is True, "Takeuchi m>=4 closed")
+                        exm=tk["surviving_triangle_marked_map_existence_no_go"]
+                        req(exm["status"] == "EXACT_PREAUDIT_ALL_SURVIVING_SINGLE_CORE_MAP_TYPES_HAVE_H_COMPATIBLE_REGULAR_X8_REALIZATIONS_ZERO_CREDIT", "single core map existence status")
+                        mg=exm["modular_group"]
+                        req(mg["order"] == 192 and mg["kernel_order"] == 32, "PSL2 mod8/mod2 orders")
+                        req("ker(rho)" in mg["retained_H"], "retained H lies in mod2 kernel")
+                        q64=exm["regular_248"]
+                        q96=exm["regular_334"]
+                        q192=exm["regular_238"]
+                        req(q64["order"] == 64 and q64["contains_H"] is True and q64["coset_degree"] == 3, "Q64 subgroup")
+                        req(q64["coset_cycles"] == {"order2_generator":[1,2],"order3_generator":[3],"order8_generator":[1,2]}, "Q64 coset cycles")
+                        req(q64["lifted_signature"] == [2,4,8] and q64["map_degree"] == 64, "Q64 lifted signature")
+                        req(q96["order"] == 96 and q96["contains_H"] is True and q96["coset_degree"] == 2, "Q96 subgroup")
+                        req(q96["coset_cycles"] == {"order2_generator":[2],"order3_generator":[1,1],"order8_generator":[2]}, "Q96 coset cycles")
+                        req(q96["lifted_signature"] == [3,3,4] and q96["map_degree"] == 96, "Q96 lifted signature")
+                        req(q192["order"] == 192 and q192["contains_H"] is True and q192["lifted_signature"] == [2,3,8], "Q192 full quotient")
+                        # Independent orbifold subgroup replay from coset-cycle lengths.
+                        def lifted_periods(base_order,cycles):
+                            return sorted([base_order//c for c in cycles if base_order//c > 1])
+                        sig64=sorted(lifted_periods(2,[1,2])+lifted_periods(3,[3])+lifted_periods(8,[1,2]))
+                        sig96=sorted(lifted_periods(2,[2])+lifted_periods(3,[1,1])+lifted_periods(8,[2]))
+                        req(sig64 == [2,4,8], "Q64 orbifold replay")
+                        req(sig96 == [3,3,4], "Q96 orbifold replay")
+                        req(64//4 == 16 and 96//4 == 24 and 192//4 == 48, "H quotient outer degrees")
+                        req(exm["firewalls"]["all_surviving_single_map_types_have_regular_H_compatible_realization"] is True, "single-map realization firewall")
+                        req(all(v is False for k,v in exm["firewalls"].items() if k != "all_surviving_single_map_types_have_regular_H_compatible_realization"), "single-map remaining firewalls")
                         req(all(v is False for k,v in tk["firewalls"].items() if k != "m_ge_4_rational_core_closed"), "Takeuchi remaining firewalls")
                         hb=rch["m_ge4_H_quotient_belyi_gate"]
                         req(hb["status"] == "EXACT_PREAUDIT_MGE4_RATIONAL_CORE_H_QUOTIENT_DEGREE84_BELYI_REDUCTION_ZERO_CREDIT", "m>=4 H quotient Belyi status")
@@ -1395,6 +1420,10 @@ def main():
                         req(routing["e2_unique_pair_rational_core_m1_triangle_filter_complete"] is True, "m1 triangle filter routing")
                         req(routing["e2_unique_pair_rational_core_m1_survivors"] == [{"degree":64,"signature":[2,4,8]},{"degree":96,"signature":[3,3,4]},{"degree":192,"signature":[2,3,8]}], "m1 routing survivors")
                         req(routing["e2_unique_pair_rational_core_mge4_survivor_count"] == 0, "m>=4 routing survivor count")
+                        req(routing["e2_unique_pair_rational_core_single_map_nonexistence_route"] == "CLOSED_BY_EXPLICIT_MODULAR_REGULAR_REALIZATIONS", "single-map route disposition")
+                        req(routing["e2_unique_pair_rational_core_all_surviving_single_map_types_exist"] is True, "single-map existence routing")
+                        req(routing["e2_unique_pair_rational_core_surviving_maps_H_compatible"] is True, "H-compatible surviving maps routing")
+                        req(routing["e2_unique_pair_rational_core_pair_common_etale_is_load_bearing"] is True, "pair common-etale routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
