@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE32_32_01_178_V48_FULLSUPPORT_CANONICAL_JOINT_PICARD_SUCCESSOR_PREFLIGHT_V2",
+  "stage": 32,
+  "lane": "32-01-178",
+  "status": "CANONICAL_JOINT_SUCCESSOR_PREPARED__ZERO_MAIN_CREDIT__EXECUTION_PENDING",
+  "authority_context": {
+    "v48_certified_upper_bound": "128470212118313474449",
+    "current_384_equiv_candidate_upper_bound": "128443221087959579960",
+    "current_384_equiv_tightening_vs_v48": "26991030353894489"
+  },
+  "source_locks": {
+    "relaxed_successor_preflight_blob_sha1": "e5165896e879567a8f18a2d41164ee225d7ac90e",
+    "relaxed_successor_preflight_canonical_sha256": "fe6723e39689e72e64510c3f8c68b6215e271bbcd21b9fd793a8f53ce1905d7a",
+    "canonical_joint_min_preflight_blob_sha1": "234e411fe38b442525c5c9cc6e2dadfaaec46248",
+    "canonical_joint_min_preflight_canonical_sha256": "a3fd353ee8e6ce8e0a1c66ccb0abef5c25f169f89dd9269cf68bd468a4044cd2",
+    "canonical_joint_min_formula_verifier_blob_sha1": "4296a18f9fb1b59f963206ff28af73a4e9cf7ef0",
+    "canonical_joint_min_retained_verifier_blob_sha1": "f3754b0e014c9d1885f388a90e3883382bc86907",
+    "canonical_successor_probe_blob_sha1": "7d20a7d898bf25f017d742f0f1b7bcaeeab2dc54",
+    "current_fullsupport_joint_picard_probe_blob_sha1": "048b61e9cd93d97afa3e22f47eab98904bde85af"
+  },
+  "dominance": {
+    "canonical_floor_over_relaxed": "canonical_joint_q_lower >= relaxed joint_q_lower pointwise",
+    "canonical_tset_inclusion": "T_canonical(qBC) subset T_relaxed_joint(qBC)",
+    "picard_consequence": "with the same Picard penalty and same retained population, canonical-joint-Picard survivors <= relaxed-joint-Picard survivors <= current-fullsupport-Picard survivors",
+    "no_double_charge_rule": "same-population pointwise replacement only; never additive subtraction"
+  },
+  "structural_evidence": {
+    "bounded_formula_states": 2952,
+    "bounded_literal_keys": 670,
+    "literal_formula_mismatches": 0,
+    "strict_finite_vs_relaxed": 137,
+    "canonical_infeasible_relaxed_finite": 140,
+    "active_panel_strict_states_with_relaxed_floor_at_most_4992": 559,
+    "active_panel_qbc_cap_crossings": 9,
+    "active_witness": {
+      "b": 36,
+      "c": 89,
+      "t": 103,
+      "support": 5,
+      "separate_floor": 3137,
+      "relaxed_joint_floor": 3377,
+      "canonical_joint_floor": 3617
+    }
+  },
+  "route_decision": {
+    "relaxed_joint_picard_route_superseded_for_future_execution": true,
+    "successor": "CANONICAL_JOINT_QBC_MIN_PLUS_PICARD_OVER_CURRENT_FULLSUPPORT",
+    "reason": "The canonical minimum enforces source-terminal ordering/parity omitted by the relaxed joint minimum and pointwise dominates it. Future bounded replay should execute only the canonical successor and report both relaxed and canonical columns for audit comparison.",
+    "next_gate": "bounded weighted replay on c={83,85,89} under explicit execution authorization; retain numeric tightening only if exact replay is strict versus current full-support+Picard"
+  },
+  "scope": {
+    "heavy_execution_armed": false,
+    "production_scaleout_authorized": false,
+    "new_numeric_tightening_claimed": false,
+    "main_consumption_performed": false
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "canonical_sha256_without_this_field": "d3d4d1970cdf579c4492e3d393ccc1c6c943e2adc49c2f847cfc6f836ed645da"
+}
