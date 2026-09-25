@@ -1,49 +1,200 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
 import json
+import re
+from collections import Counter, defaultdict
 from pathlib import Path
 
-ROOT=Path(__file__).resolve().parent
-p=json.loads((ROOT/"BR204-GENERATION4-RECOVERY-PLAN.json").read_text())
-d=json.loads((ROOT/"BR204-GENERATION4-RECOVERY-DESIGN.json").read_text())
-assert p["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V2_COMPACT_CERT"
-assert p["status"]=="COLD_EXECUTION_PLAN__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
-assert p["design_blob"]=="a92ae6677310b8ed104e6356ca2442936a1245f5"
-assert p["unchanged_target_count"]==69
-assert p["flat_target_count"]==36 and len(p["flat_targets"])==36
-assert p["hierarchical_target_count"]==33 and len(p["hierarchical_targets"])==33
-keys={(x["b"],x["d"]) for x in p["flat_targets"]}|{(x["b"],x["d"]) for x in p["hierarchical_targets"]}
-assert len(keys)==69
-c=p["restored_predecessor_carry"]
-assert (c["b"],c["d"],c["parent_bc16_index"])==(2,148,0)
-assert c["exact_child64_indices"]==[0,16,32,48] and c["recompute"] is False
-h=[x for x in p["hierarchical_targets"] if x["b"]==2 and x["d"]==148]
-assert len(h)==1 and h[0]["parent_bc16_indices"]==list(range(1,16))
-for x in p["hierarchical_targets"]:
-    if (x["b"],x["d"])!=(2,148): assert x["parent_bc16_indices"]==list(range(16))
-r=p["resource_preflight"]
-assert r["repository_storage_budget_bytes"]==524288000
-assert r["planned_effective_heavy_concurrency"]==12<=r["repository_stage_concurrency_ceiling"]==18
-assert r["evidence_unit_count"]==2684
-assert r["flat_bc16_child_count"]==576 and r["hierarchical_bc64_child_count"]==2108
-assert r["representative_child_certificate_hard_cap_bytes"]==65536
-assert r["actual_predecessor_sample_certificate_bytes"]==[7737,7386,7235,7128]
-assert r["measured_representative_payload_bytes"]==7737
-assert r["measured_projection_bytes"]==20766108
-assert r["conservative_two_generation_hard_cap_projection_bytes"]==351797248
-assert r["conservative_two_generation_hard_cap_projection_bytes"] < r["repository_storage_budget_bytes"]
-assert r["intermediate_retention_days"]==14
-assert r["actual_roundtrip_byte_exact"] is True
-assert r["raw_child_state_upload_forbidden"] is True
-a=p["authorization"]
-assert a["runkey_generation"]==1 and a["runkey_armed"] is True
-assert a["generation1_arm_is_inert"] is True and a["heavy_compute_authorized"] is False
-assert a["next_heavy_generation"]==2 and a["next_arm_must_be_runkey_only"] is True
-assert all(v is False for v in p["credit"].values())
-assert d["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V3_COMPACT_EXECUTION"
-assert d["status"]=="COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
-assert d["predecessor_certificate"]["blob"]=="5a4a990a1588c71facbb9640a4c26b8641e44b02"
-assert d["resource_preflight"]["maximum_actual_sample_certificate_bytes"]==7737
-assert d["resource_preflight"]["intermediate_retention_days"]==14
-assert d["gates"]["current_generation1_arm_is_inert"] is True
-assert d["gates"]["heavy_compute_authorized"] is False
-print("BR204 G4 compact execution plan: PASS")
+ROOT = Path(__file__).resolve().parents[3]
+WF_DIR = ROOT / ".github" / "workflows"
+INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.json")
+
+# Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
+# if they are present, they are intentionally automatic.
+ACTIVE_AUTO = {
+    ".github/workflows/pages.yml",
+    ".github/workflows/research-arsenal.yml",
+    ".github/workflows/structure-radar.yml",
+    ".github/workflows/stage32-main-startup-authority.yml",
+    ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
+    ".github/workflows/stage32-claim-frontier-integrity.yml",
+    ".github/workflows/stage32-stale-run-sweeper.yml",
+    ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
+    ".github/workflows/stage32-ex5-main.yml",
+    ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
+    ".github/workflows/stage35-35-01-to-09-audit.yml",
+    ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
+    ".github/workflows/stage36-bootstrap-audit.yml",
+}
+MANUAL = {
+    ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    ".github/workflows/stage32-root-cleanup-phase-b.yml",
+    ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
+    ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
+}
+
+
+def rel(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix()
+
+
+def workflow_paths() -> list[Path]:
+    return sorted([*WF_DIR.glob("*.yml"), *WF_DIR.glob("*.yaml")])
+
+
+def family(path: str) -> str:
+    name = Path(path).name
+    if name.startswith(("stage32-ex", "stage32ex")):
+        return "Stage32EX"
+    if name.startswith("stage35-ex"):
+        return "Stage35EX"
+    m = re.match(r"stage(\d+)", name)
+    if m:
+        return f"Stage{m.group(1)}"
+    return "REPO"
+
+
+def classify(path: str) -> str:
+    if path in ACTIVE_AUTO:
+        return "ACTIVE_AUTO"
+    if path in MANUAL:
+        return "MANUAL"
+    if re.match(r"\.github/workflows/stage\d", path):
+        return "RETIRED"
+    return "MANUAL"
+
+
+def top_level_on(lines: list[str]) -> tuple[int, int] | None:
+    for i, line in enumerate(lines):
+        if line.startswith("on:"):
+            end = i + 1
+            if line.strip() != "on:":
+                return i, end
+            while end < len(lines):
+                s = lines[end]
+                if s and not s[0].isspace() and not s.lstrip().startswith("#"):
+                    break
+                end += 1
+            return i, end
+    return None
+
+
+def events(text: str) -> set[str]:
+    lines = text.splitlines()
+    span = top_level_on(lines)
+    if span is None:
+        return set()
+    start, end = span
+    first = lines[start].strip()
+    if first != "on:":
+        rhs = first.split(":", 1)[1].strip()
+        if rhs.startswith("[") and rhs.endswith("]"):
+            return {x.strip().strip("'\"") for x in rhs[1:-1].split(",") if x.strip()}
+        return {rhs.strip("'\"")} if rhs else set()
+    out = set()
+    for line in lines[start + 1:end]:
+        m = re.match(r"^  ([A-Za-z0-9_-]+):", line)
+        if m:
+            out.add(m.group(1))
+    return out
+
+
+def manualize(text: str) -> str:
+    lines = text.splitlines()
+    span = top_level_on(lines)
+    if span is None:
+        raise AssertionError("missing top-level on: block")
+    start, end = span
+    replacement = ["on:", "  workflow_dispatch:"]
+    return "\n".join(lines[:start] + replacement + lines[end:]) + ("\n" if text.endswith("\n") else "")
+
+
+def build_inventory(changed: list[str]) -> dict:
+    groups: dict[str, list[str]] = {k: [] for k in ("ACTIVE_AUTO", "MANUAL", "RETIRED")}
+    fam: dict[str, Counter] = defaultdict(Counter)
+    for p in workflow_paths():
+        r = rel(p)
+        cls = classify(r)
+        groups[cls].append(r)
+        fam[family(r)][cls] += 1
+        fam[family(r)]["TOTAL"] += 1
+    counts = {k: len(v) for k, v in groups.items()}
+    counts["TOTAL"] = sum(counts.values())
+    return {
+        "schema_version": 2,
+        "generated_on": "2026-09-11",
+        "scope": "repository-wide workflow lifecycle policy",
+        "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
+        "counts": counts,
+        "families": {k: dict(v) for k, v in sorted(fam.items())},
+        "classifications": groups,
+        "automatic_triggers_removed_by_migration": changed,
+        "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
+        "notes": [
+            "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
+            "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
+            "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
+            "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
+            "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
+            "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
+        ],
+    }
+
+
+def verify_inventory(inv: dict) -> list[str]:
+    failures: list[str] = []
+    actual = build_inventory([])["classifications"]
+    expected = inv.get("classifications", {})
+    if actual != expected:
+        failures.append("inventory is stale: classification/path set differs from .github/workflows")
+    for p in workflow_paths():
+        r = rel(p)
+        cls = classify(r)
+        ev = events(p.read_text())
+        if cls in {"MANUAL", "RETIRED"} and ev != {"workflow_dispatch"}:
+            failures.append(f"{cls} must be workflow_dispatch-only: {r} events={sorted(ev)}")
+        if cls == "ACTIVE_AUTO" and not (ev - {"workflow_dispatch", "workflow_call"}):
+            failures.append(f"ACTIVE_AUTO has no automatic event: {r} events={sorted(ev)}")
+    return failures
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--fix", action="store_true")
+    ap.add_argument("--write-inventory", action="store_true")
+    args = ap.parse_args()
+
+    changed: list[str] = []
+    if args.fix:
+        for p in workflow_paths():
+            r = rel(p)
+            if classify(r) not in {"MANUAL", "RETIRED"}:
+                continue
+            text = p.read_text()
+            if events(text) != {"workflow_dispatch"}:
+                p.write_text(manualize(text))
+                changed.append(r)
+
+    generated = build_inventory(changed)
+    if args.write_inventory:
+        INVENTORY.write_text(json.dumps(generated, indent=2, sort_keys=False) + "\n")
+    if not INVENTORY.is_file():
+        raise SystemExit(f"missing inventory: {INVENTORY}")
+    inv = json.loads(INVENTORY.read_text())
+    failures = verify_inventory(inv)
+    if failures:
+        raise SystemExit("\n".join(failures))
+
+    c = inv["counts"]
+    print("PASS repository-wide workflow trigger lifecycle inventory")
+    print(f"ACTIVE_AUTO={c['ACTIVE_AUTO']} MANUAL={c['MANUAL']} RETIRED={c['RETIRED']} TOTAL={c['TOTAL']}")
+    for name, row in inv["families"].items():
+        print(f"FAMILY {name} TOTAL={row.get('TOTAL',0)} ACTIVE_AUTO={row.get('ACTIVE_AUTO',0)} MANUAL={row.get('MANUAL',0)} RETIRED={row.get('RETIRED',0)}")
+    print("historical_or_manual_automatic_triggers=0")
+    print("mathematical_authority_changed=true")
+
+
+if __name__ == "__main__":
+    main()

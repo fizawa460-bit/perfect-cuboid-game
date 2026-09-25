@@ -24,10 +24,10 @@ env:
   DESIGN: stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json
   STATE: stages/stage32/generalization-bridge/STATE.json
   PREDECESSOR: stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json
-  PLAN_BLOB: 96af27f62e399e6a161aa435dfdb321b85e05d4c
-  DESIGN_BLOB: a92ae6677310b8ed104e6356ca2442936a1245f5
-  PLAN_VERIFIER_BLOB: 62a3396e998c17ef94ce92c5febc689d62b86411
-  STATE_BLOB: b88301b60236b8be7b456ce5d11cca480365ee79
+  PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
+  DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
+  PLAN_VERIFIER_BLOB: e9a6b164f94a9b49a99c62ea8496daff1314421e
+  STATE_BLOB: 03d01292c19acda50adcc8a82fc0c07609cf516b
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
   WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
   COMBINER_BLOB: 33089c2ca4876650a4ee9c6477e1e6242ad3741c
@@ -42,24 +42,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     outputs:
-      authorized: \${{ steps.gate.outputs.authorized }}
-      runkey_blob: \${{ steps.gate.outputs.runkey_blob }}
-      generation: \${{ steps.gate.outputs.generation }}
+      authorized: ${{ steps.gate.outputs.authorized }}
+      runkey_blob: ${{ steps.gate.outputs.runkey_blob }}
+      generation: ${{ steps.gate.outputs.generation }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 2
       - id: gate
         name: Authorize only audited generation-2 runkey-only transition
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
           test "\${GITHUB_EVENT_NAME}" = push || exit 0
           test "\${GITHUB_REF_NAME}" = stage32bridge-g4-mainline || exit 0
-          BEFORE='\${{ github.event.before }}'
+          BEFORE='${{ github.event.before }}'
+          export BEFORE
           test -n "$BEFORE" && test "$BEFORE" != 0000000000000000000000000000000000000000 || exit 0
           mapfile -t changed < <(git diff --name-only "$BEFORE" "$GITHUB_SHA")
           if [ "\${#changed[@]}" -ne 1 ] || [ "\${changed[0]}" != "$RUNKEY" ]; then
@@ -101,7 +102,7 @@ jobs:
           test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
           test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
           review_id="$(python -c 'import json,os; print(json.load(open(os.environ["RUNKEY"]))["arm_contract"]["audited_doorstep_review_id"])')"
-          gh api "repos/\${{ github.repository }}/pulls/1833/reviews?per_page=100" > /tmp/reviews.json
+          gh api "repos/${{ github.repository }}/pulls/1833/reviews?per_page=100" > /tmp/reviews.json
           REVIEW_ID="$review_id" BEFORE="$BEFORE" python - <<'PY'
           import json,os
           rows=json.load(open('/tmp/reviews.json'))
@@ -125,7 +126,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - name: Build source-locked runtime
         run: |
@@ -138,7 +139,7 @@ jobs:
           /tmp/runtime/br204-worker --self-test >/tmp/runtime/selftest.json
       - uses: actions/upload-artifact@v4
         with:
-          name: br204-g4-runtime-\${{ needs.authorize.outputs.generation }}
+          name: br204-g4-runtime-${{ needs.authorize.outputs.generation }}
           path: /tmp/runtime
           retention-days: 1
           if-no-files-found: error
@@ -148,11 +149,11 @@ jobs:
     if: needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     outputs:
-      matrix: \${{ steps.plan.outputs.matrix }}
+      matrix: ${{ steps.plan.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - id: plan
         run: |
@@ -174,18 +175,18 @@ jobs:
     strategy:
       fail-fast: false
       max-parallel: 12
-      matrix: \${{ fromJSON(needs.plan.outputs.matrix) }}
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     runs-on: ubuntu-latest
     timeout-minutes: 330
     env:
-      B: \${{ matrix.b }}
-      D: \${{ matrix.d }}
-      MODE: \${{ matrix.mode }}
-      RUNKEY_BLOB: \${{ needs.authorize.outputs.runkey_blob }}
+      B: ${{ matrix.b }}
+      D: ${{ matrix.d }}
+      MODE: ${{ matrix.mode }}
+      RUNKEY_BLOB: ${{ needs.authorize.outputs.runkey_blob }}
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: br204-g4-runtime-\${{ needs.authorize.outputs.generation }}
+          name: br204-g4-runtime-${{ needs.authorize.outputs.generation }}
           path: /tmp/runtime
       - name: Restore certified predecessor children only for b2 d148
         if: matrix.b == 2 && matrix.d == 148
@@ -193,7 +194,7 @@ jobs:
         with:
           name: br204-g3-replacement-b2-d148-bc0of16
           run-id: 35574528620
-          github-token: \${{ github.token }}
+          github-token: ${{ github.token }}
           path: /tmp/predecessor
       - name: Execute target with lossless compact child retention
         id: compute
@@ -287,7 +288,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: br204-g4-target-b\${{ matrix.b }}-d\${{ matrix.d }}
+          name: br204-g4-target-b${{ matrix.b }}-d${{ matrix.d }}
           path: /tmp/out
           retention-days: 14
           if-no-files-found: error
@@ -306,11 +307,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      GH_TOKEN: \${{ github.token }}
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.sha }}
+          ref: ${{ github.sha }}
           fetch-depth: 1
       - name: Download current-generation target artifacts with pagination
         run: |
@@ -318,7 +319,7 @@ jobs:
           mkdir -p /tmp/all
           page=1
           while :; do
-            gh api "repos/\${{ github.repository }}/actions/runs/\${{ github.run_id }}/artifacts?per_page=100&page=$page" > "/tmp/a-$page.json"
+            gh api "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts?per_page=100&page=$page" > "/tmp/a-$page.json"
             n="$(python -c "import json; print(len(json.load(open('/tmp/a-$page.json'))['artifacts']))")"
             [ "$n" -gt 0 ] || break
             python - "$page" <<'PY' > /tmp/ids.tsv
@@ -330,7 +331,7 @@ jobs:
             while IFS=$'\t' read -r id name; do
               [ -n "$id" ] || continue
               mkdir -p "/tmp/all/$name"
-              gh api -H 'Accept: application/vnd.github+json' "repos/\${{ github.repository }}/actions/artifacts/$id/zip" > /tmp/x.zip
+              gh api -H 'Accept: application/vnd.github+json' "repos/${{ github.repository }}/actions/artifacts/$id/zip" > /tmp/x.zip
               unzip -q /tmp/x.zip -d "/tmp/all/$name"
             done < /tmp/ids.tsv
             page=$((page+1))
@@ -363,7 +364,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: br204-g4-recovery-summary-\${{ needs.authorize.outputs.generation }}
+          name: br204-g4-recovery-summary-${{ needs.authorize.outputs.generation }}
           path: /tmp/BR204-G4-RECOVERY-SUMMARY.json
           retention-days: 14
           if-no-files-found: error

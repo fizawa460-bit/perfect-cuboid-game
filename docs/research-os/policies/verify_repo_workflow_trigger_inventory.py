@@ -21,6 +21,7 @@ ACTIVE_AUTO = {
     ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
     ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
+    ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
     ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
