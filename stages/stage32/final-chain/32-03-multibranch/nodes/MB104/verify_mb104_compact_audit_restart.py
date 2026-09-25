@@ -961,6 +961,44 @@ def main():
                         req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m1"] == 207, "m1 safe-Langer first cut")
                         req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m2"] == 708, "m2 safe-Langer first cut")
                         req(routing["e2_unique_pair_m2_formal_Q672_witness_survives"] is False, "m2 Q672 witness killed")
+                        gm=ob["general_m_hyperbolic_langer"]
+                        req(gm["alpha_family"] == "alpha=1/(8*m), l=2*m", "general-m Langer alpha")
+                        req(gm["interior_lc_Q_threshold"] == "Q>=104*m^2+52*m+1", "general-m Langer lc threshold")
+                        req(gm["langer_gap"] == "LHS-RHS=3*(Q-80*m^2-112*m)/(16*m^2)", "general-m Langer gap")
+                        expected_general={
+                            1:(193,192,False),
+                            2:(545,544,True),
+                            3:(1093,1092,True),
+                            4:(1873,1872,True),
+                            5:(2861,2860,True),
+                            6:(4057,4056,True),
+                        }
+                        for mm,(tt,uu,inc) in expected_general.items():
+                            calc=max(104*mm*mm+52*mm+1,80*mm*mm+112*mm+1)
+                            req(calc == tt, f"general-m threshold m={mm}")
+                            req(shell_gap(mm,tt,Fraction(1,8*mm))[2] > 0, f"general-m Langer contradiction m={mm}")
+                            cc=gm["cases"][f"m{mm}"]
+                            req(cc["T_m"] == tt and cc["new_upper"] == uu and cc["incremental"] is inc, f"stored general-m cut m={mm}")
+                        req(352*7*7-2204*7+19 > 0 and 704*7-2204 > 0, "m>=7 Miyaoka dominance base and monotonicity")
+                        req(routing["e2_unique_pair_hyperbolic_langer_general_m_exact"] is True, "general-m Langer routing")
+                        req(routing["e2_unique_pair_hyperbolic_langer_incremental_m"] == [2,3,4,5,6], "general-m incremental m list")
+                        req([routing[f"e2_unique_pair_hyperbolic_langer_m{mm}_Q_upper"] for mm in (3,4,5,6)] == [1092,1872,2860,4056], "general-m retained upper bounds")
+
+                        bp=ob["balanced_bulk_collision_pressure"]
+                        req(bp["status"] == "EXACT_PREAUDIT_BALANCED_BULK_FORCES_LINEAR_INTERIOR_COLLISION_MULTIPLICITY_ZERO_CREDIT", "balanced bulk collision status")
+                        req(bp["family"] == "l=2*m, x_j=8*m for all supported nodes, Q=0", "balanced bulk family")
+                        req(bp["collision_threshold_real"] == "R_*(m)=2/alpha_-(m)=7*m+sqrt(21*m*(m-4))", "balanced collision root")
+                        req(bp["projection_degree"] == "deg(f_i)=28*l=56*m", "balanced projection degree")
+                        first={5:46,6:58,7:70,8:82,9:94,10:106}
+                        for mm,want in first.items():
+                            nn=21*mm*(mm-4)
+                            rr=isqrt(nn)
+                            ceilroot=rr if rr*rr == nn else rr+1
+                            req(7*mm+ceilroot == want, f"balanced collision threshold m={mm}")
+                            req(shell_gap(mm,0,Fraction(1,4*mm))[2] == Fraction(4*(5*mm-21),mm), f"balanced support-cap Langer gap m={mm}")
+                        req(all(v is False for v in bp["firewalls"].values()), "balanced collision firewalls")
+                        req(routing["e2_unique_pair_balanced_bulk_collision_pressure_exact"] is True, "balanced collision routing")
+                        req(routing["e2_unique_pair_balanced_bulk_collision_threshold"] == "ceil(7*m+sqrt(21*m*(m-4))) for m>=5", "balanced collision threshold routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
