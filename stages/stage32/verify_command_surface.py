@@ -103,14 +103,14 @@ def main() -> None:
     req(state["bootstrap"]["merge_authorized"] is False, "EX5 merge authorization leak")
 
     main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
-    req("ACTIVE-SPECIALIST-MONITOR-CONTRACT.json" in main_start,
-        "MAIN startup missing active-specialist monitor contract")
-    req("Mandatory live specialist sweep" in main_start,
-        "MAIN startup missing mandatory live specialist sweep")
-    req("S32.DEMAND.N398.178.MAIN.PARITY_SYNTHESIS.V1" in main_start,
-        "MAIN startup missing N398 handoff route")
-    req("PICARD64-PARITY-CROSS-LANE-SYNTHESIS-V1.json" in main_start,
-        "MAIN startup missing parity synthesis boundary")
+    req("stages/stage32/ROADMAP.md" in main_start,
+        "MAIN startup missing roadmap-first routing")
+    req("32-01 — COMPLETE / RETAINED" in main_start,
+        "MAIN startup missing audited 32-01 completion")
+    req("32-02 — ACTIVE PRIMARY" in main_start and "32-03 — ACTIVE PARALLEL" in main_start,
+        "MAIN startup missing final-chain routing")
+    req("Do not perform a repository-wide specialist sweep on every invocation." in main_start,
+        "MAIN startup did not retire mandatory global specialist sweep")
 
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
@@ -145,8 +145,8 @@ def main() -> None:
     req(LIVE_MAIN_START.read_bytes() == live_main_start, "live MAIN startup restore failed")
     req(not LEGACY_EX5_START.exists() if old_start is None else LEGACY_EX5_START.read_bytes() == old_start,
         "retired EX5 startup leaked after compatibility replay")
-    print("PASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired")
-    print("PASS: current MAIN active-specialist monitor contract present")
+    print("PASS: Stage32 command surface is roadmap-first with one ordinary operator entrypoint")
+    print("PASS: specialist execution surfaces remain on-demand and isolated")
     print("historical pre-collapse command/startup contract replayed transiently with no live-path resurrection")
 
 
