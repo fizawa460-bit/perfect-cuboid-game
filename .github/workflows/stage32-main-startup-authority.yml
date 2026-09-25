@@ -2238,7 +2238,7 @@ jobs:
         run: |
           set -euo pipefail
           allow='stages/stage32/final-chain/32-03-multibranch/fib/A834-SYNC-STARTUP-CHANGED-PATHS.txt'
-          test "$(git hash-object "$allow")" = "417b476dcddde9ccd71fb829f9b28618e9dcb71c"
+          test "$(git hash-object "$allow")" = "a8e18c53b27712a45dd2f72257dab63f03650dbe"
           changed="$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")"
           printf '%s\n' "$changed"
           while IFS= read -r p; do

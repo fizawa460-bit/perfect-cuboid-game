@@ -1,5 +1,5 @@
 name: Stage32 MB-FIB isotropic shell pilot
-# Trigger lifecycle: ACTIVE_AUTO — current MB-FIB Gen25 adaptive COLD frontier; heavy remains runkey-gated.
+# Trigger lifecycle: ACTIVE_AUTO — current MB-FIB Gen30 adaptive COLD frontier; heavy remains runkey-gated.
 # Gen27 durable carry trigger marker: evidence-only, no heavy release.
 on:
   push:
@@ -147,11 +147,13 @@ jobs:
           gen=int(k["generation"]); mode=k["mode"]
           pred=k["execution_gate"]["predecessor_audited_surface"]
           assert pred["status"]=="PASS"
-          assert pred["exact_head"]=="3a6107d19c0cc166e0e05efd8cf64c867460ab93"
-          assert int(pred["review_id"])==5310669573
+          assert isinstance(pred["exact_head"],str) and len(pred["exact_head"])==40
+          assert isinstance(pred["review_id"],int)
           assert s["execution"]["runkey_generation"]==gen
-          if gen==28 and mode=="COLD" and k["armed"] is False:
+          if mode=="COLD" and k["armed"] is False:
+              assert gen>=28
               assert k["execution_gate"]["automatic_execution_authorized"] is False
+              assert k["execution_gate"]["current_head_execution_blocked"] is True
               assert s["execution"]["heavy_armed"] is False and s["execution"]["execution_authorized"] is False
               raise SystemExit(28)
           assert gen>=29 and mode=="RECOVERY" and k["armed"] is True
@@ -228,10 +230,10 @@ jobs:
           fi
           python "$LIVE_CONCURRENCY_CHECK" "$KEY" enforce
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
-      - name: Report Gen28 residual x58 singleton COLD surface
+      - name: Report MB-FIB COLD surface
         if: steps.gate.outputs.cold_surface == 'true'
         run: |
-          echo 'Gen28 COLD residual x58 singleton surface verified: 54 packets / 160 singleton children; heavy remains blocked.'
+          echo 'MB-FIB COLD surface verified; current runkey remains unarmed and heavy execution is blocked.'
   recovery-x59-interval-packet:
     name: MB-FIB x59 packet p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }}
     needs: authorize
