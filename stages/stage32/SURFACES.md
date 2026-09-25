@@ -28,6 +28,7 @@ The following are retained provenance/evidence, not active ordinary research:
 - EX2 — dominated by audited V6 nonexistence;
 - EX3 — audited provenance, no current attack;
 - EX4 — audited bounded terminal/provenance, no current attack;
+- EX6 — stopped pending genuinely new endpoint input;
 - 178 — audited 32-01 numerical census retained;
 - CUT — retained historical obstruction work;
 - BRIDGE — parked optional refinement.
@@ -37,3 +38,11 @@ Their legacy physical directories remain in place where source locks, historical
 ## Historical evidence
 
 Legacy `stages/stage32-ex*` directories, historical routing snapshots, retained verifiers, receipts, source locks, and older authority states are evidence/replay surfaces. Their physical placement does not make them live routing authorities.
+
+
+## Historical path collisions
+
+- `stages/stage32/32-03/` is a historical e4/a32 affine-lattice package, not the current formal 32-03 unit.
+- current formal 32-03 work lives under `stages/stage32/final-chain/32-03-multibranch/`.
+
+Use `stages/stage32/retained/historical-32-03/README.md` as the navigation warning. Do not infer unit identity from the legacy directory name.
