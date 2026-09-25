@@ -132,7 +132,7 @@ def main() -> None:
         mu = -min_gap
         bad_energy_upper = lam * q_bad_upper + mu
         gap = Rational(energy_lb) - bad_energy_upper
-        proved = gap > 0
+        proved = bool(gap > 0)
 
         row.update({
             "lambda": lam,
