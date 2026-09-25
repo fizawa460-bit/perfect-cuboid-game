@@ -1932,6 +1932,14 @@ jobs:
             esac
           done <<< "$changed"
 
+      - name: Verify post-V48 178 retained successor boundaries
+        run: |
+          set -euo pipefail
+          python stages/stage32/32-01-178/fibration-nef/verify_v48_legacy_b47_worker_equivalence_preflight.py
+          python stages/stage32/32-01-178/fibration-nef/verify_v48_full_support_384_equiv_derived_bound_retained.py
+          python stages/stage32/32-01-178/fibration-nef/verify_v48_fullsupport_joint_picard_successor_preflight.py
+          python stages/stage32/32-01-178/fibration-nef/verify_v48_fullsupport_joint_picard_uniform_dominance_retained.py
+
       - name: Diff check
         if: github.event_name == 'pull_request'
         run: |
