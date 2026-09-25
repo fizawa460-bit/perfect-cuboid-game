@@ -9,8 +9,8 @@ MONITOR=HERE/"ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
 STATE=ROOT/"stages/stage32/MAIN-STATE.json"
 REGISTRY_BLOB="68a02f31431ad658b42ad695f9553c67fd6cff01"
 REGISTRY_CANON="aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
-MONITOR_BLOB="f828c4fb75b2697274eee42fe85e9a0738f474b9"
-MONITOR_CANON="c8f43e0fd56a37514c0fc101b057804de573b59d0439b4c158519b2e82e24836"
+MONITOR_BLOB="3547e58eef441aab4c6df15aa08b95b2824830de"
+MONITOR_CANON="4a5a2f3eb0883af5c6175784878b1aba9023c3330b6f94967734e464a25b0815"
 BOUND=128443221087959579960
 V47_BOUND=128645575147764659235
 V48_TIGHTENING=175363029451184786
@@ -38,6 +38,10 @@ def main():
     req(mon["startup_rule"]["resolve_only_selected_roadmap_unit"] is True,"roadmap selection rule")
     req(mon["startup_rule"]["global_specialist_sweep_required"] is False,"global specialist sweep unexpectedly required")
     req(mon["authority"]["this_contract_is_a_snapshot_of_live_heads"] is False,"routing contract treated as live snapshot")
+    surfaces={x["unit"]:x for x in mon["active_roadmap_surfaces"]}
+    req(surfaces["32-02"]["dispatch_surface"]=="EX5" and surfaces["32-02"]["internal_only"] is True,"32-02 internal dispatch surface")
+    req(surfaces["32-03"]["dispatch_surface"]=="MB" and surfaces["32-03"]["auxiliary_surface"]=="MB-FIB" and surfaces["32-03"]["internal_only"] is True,"32-03 internal dispatch surface")
+    req(all("helper_command" not in x and "auxiliary_command" not in x for x in mon["active_roadmap_surfaces"]),"legacy specialist commands leaked into live monitor")
     req(st["schema"]=="STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED","MAIN schema")
     f=st["current_exact_frontier"]
     req(f["authoritative_remaining_strata"]==17128 and f["authoritative_remaining_terminals"]==BOUND,"MAIN authority")
