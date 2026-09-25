@@ -134,7 +134,9 @@ def main() -> None:
 
     main_start = LIVE_MAIN_START.read_text(encoding="utf-8")
     req("stages/stage32/CURRENT.json" in main_start, "MAIN startup missing compact CURRENT")
-    req("stages/stage32/LIVE-ROADMAP.md" in main_start, "MAIN startup missing compact live roadmap")
+    req("stages/stage32/LIVE-ROADMAP.md" not in main_start, "MAIN startup references duplicate live roadmap")
+    req("Open the formal `ROADMAP.md` section for the selected unit only when" in main_start,
+        "MAIN startup missing on-demand formal roadmap rule")
     req("Do **not** ordinarily preload `MAIN-STATE.json`" in main_start,
         "MAIN startup still preloads detailed authority")
     req("32-01 is complete and retained." in main_start, "MAIN startup missing audited 32-01 completion")
@@ -142,8 +144,10 @@ def main() -> None:
         "MAIN startup missing final-chain dispatch")
     req("EX5, MB, and MB-FIB are internal execution surfaces" in main_start,
         "MAIN startup did not collapse specialist commands to internal execution")
-    req("`CURRENT.json` owns the compact current routing projection." in main_start,
-        "MAIN startup does not own compact dispatch")
+    req("This file owns dispatch policy." in main_start,
+        "MAIN startup does not own dispatch policy")
+    req("`ROADMAP.md` is the sole formal owner of mathematical unit definitions and close criteria." in main_start,
+        "formal roadmap ownership is not explicit")
 
     req(blob(OLD_COMMANDS) == OLD_COMMANDS_BLOB, "pre-collapse COMMANDS snapshot drift")
     req(blob(OLD_VERIFIER) == OLD_VERIFIER_BLOB, "pre-collapse command verifier snapshot drift")
