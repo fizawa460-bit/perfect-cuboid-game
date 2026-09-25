@@ -127,7 +127,7 @@ def main() -> None:
             f"{name} legacy directory still presents an ordinary startup")
 
     surface_map = (HERE / "SURFACES.md").read_text(encoding="utf-8")
-    for token in ("## Live control", "## Internal execution surfaces", "## Retained / reopen-only surfaces"):
+    for token in ("## Live control", "## Internal execution surfaces", "## Retained / reopen-only surfaces", "## Evidence and machinery"):
         req(token in surface_map, f"surface map missing {token}")
     req("## Historical path collisions" in surface_map, "surface map missing historical collision section")
     req((HERE / "retained/historical-32-02/README.md").is_file(),
