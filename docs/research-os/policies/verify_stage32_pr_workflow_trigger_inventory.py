@@ -36,8 +36,8 @@ def main() -> None:
     groups = {k: inv[k] for k in ("active_auto", "manual", "retired")}
     flattened = [p for values in groups.values() for p in values]
     assert len(flattened) == len(set(flattened)), "duplicate workflow path in inventory"
-    assert len(flattened) == inv["counts"]["total"] == 41
-    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 3
+    assert len(flattened) == inv["counts"]["total"] == 42
+    assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 4
     assert len(groups["manual"]) == inv["counts"]["manual"] == 2
     assert len(groups["retired"]) == inv["counts"]["retired"] == 36
     assert inv["notes"]["mathematical_authority_changed"] is True
@@ -65,7 +65,7 @@ def main() -> None:
         raise SystemExit("\n".join(failures))
 
     print("PASS Stage32 PR workflow trigger lifecycle inventory")
-    print("ACTIVE_AUTO=3 MANUAL=2 RETIRED=36 TOTAL=41")
+    print("ACTIVE_AUTO=4 MANUAL=2 RETIRED=36 TOTAL=42")
     print("historical_or_manual_pr_auto_triggers=0")
     print("mathematical_authority_changed=true")
 
