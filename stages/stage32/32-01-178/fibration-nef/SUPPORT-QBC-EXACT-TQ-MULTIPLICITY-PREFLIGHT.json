@@ -1,0 +1,78 @@
+{
+  "schema": "STAGE32_32_01_178_SUPPORT_QBC_EXACT_TQ_MULTIPLICITY_PREFLIGHT_V1",
+  "status": "EXACT_CANONICAL_T_QBC_MULTIPLICITY_FACTORIZATION__ZERO_MAIN_CREDIT",
+  "source_locks": {
+    "exact_tq_support_verifier_blob_sha1": "1f6ede0e60689bcd4c42f4a41252289b241bd213",
+    "retained_exact_tset_panel_blob_sha1": "19cfa17b049b94dee5f406cb8db32ca94e8cf318",
+    "retained_exact_tset_panel_canonical_sha256": "ec9aa7f7300f7613bd05ef3dbdd56de45db0193f91c1d7a82ed7f3e4c972de60",
+    "exact_tq_multiplicity_verifier_blob_sha1": "eb870daf2825037bcbdce769e9ad8b58833b99b7"
+  },
+  "claim": {
+    "fixed_data": "(b,c,H-support,r)",
+    "exact_factorization": "for every t and exact qBC bin, count the exact multiplicity of retained canonical H tuples",
+    "marginal_identity_required_at_replay": "future consumer must require sum_t multiplicity(t,qBC)=the source qBC histogram multiplicity for every (support,r,qBC) before using the refinement",
+    "consumer_improvement": "replace qBC-bin multiplicity times union-over-t x4 count by sum_t exact_multiplicity(t,qBC) times the single-t x4 count",
+    "dominance": "the exact correlated count is <= the exact-tset union upper bound pointwise because each single-t x4 count is bounded by the union x4 count",
+    "actual_weighted_v48_gain_claimed": false
+  },
+  "bounded_literal_enumeration": {
+    "literal_keys": 197,
+    "formula_mismatches": 0,
+    "total_tuple_multiplicity": 686,
+    "total_exact_q_values": 256,
+    "max_single_q_multiplicity": 10
+  },
+  "active_three_cell_structural_scan": [
+    {
+      "c": 83,
+      "qbc_bins": 8274,
+      "joint_t_qbc_cells": 268838,
+      "total_h_multiplicity_qcap": 11772562,
+      "max_single_t_qbc_multiplicity": 641,
+      "qbc_bins_with_multiple_t": 8202,
+      "max_exact_t_per_qbc": 56
+    },
+    {
+      "c": 85,
+      "qbc_bins": 7909,
+      "joint_t_qbc_cells": 261160,
+      "total_h_multiplicity_qcap": 12073210,
+      "max_single_t_qbc_multiplicity": 665,
+      "qbc_bins_with_multiple_t": 7841,
+      "max_exact_t_per_qbc": 58
+    },
+    {
+      "c": 89,
+      "qbc_bins": 7152,
+      "joint_t_qbc_cells": 240759,
+      "total_h_multiplicity_qcap": 12448811,
+      "max_single_t_qbc_multiplicity": 671,
+      "qbc_bins_with_multiple_t": 7104,
+      "max_exact_t_per_qbc": 59
+    }
+  ],
+  "active_three_cell_totals": {
+    "qbc_bins": 23335,
+    "joint_t_qbc_cells": 770757,
+    "total_h_multiplicity_qcap": 36294583,
+    "qbc_bins_with_multiple_t": 23147
+  },
+  "route_decision": {
+    "exact_tq_union_route_superseded_for_future_execution": true,
+    "successor": "EXACT_T_QBC_MULTIPLICITY_CORRELATED_PICARD_OVER_CURRENT_FULLSUPPORT",
+    "reason": "The retained qBC histogram multiplicity can be factored exactly by t. The union t-set consumer assigns every qBC-bin H tuple the union of all admissible t windows and is therefore a same-population overcount whenever multiple t values occur. Future bounded replay should consume exact t multiplicities directly and retain the union column only as an audit upper bound.",
+    "next_gate": "build the exact multiplicity-correlated Picard consumer, enforce every qBC-bin marginal identity against the retained source histogram, and execute only under a fresh bounded-panel authorization"
+  },
+  "firewalls": {
+    "main_credit": false,
+    "full178_numerical_census_changed": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "f4930f2a4ebd06ae287b89cae2213d4fe9a429d8636e765f3500ce4e80ce867b"
+}
