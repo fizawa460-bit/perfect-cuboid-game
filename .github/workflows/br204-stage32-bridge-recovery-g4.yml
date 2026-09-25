@@ -21,7 +21,7 @@ env:
   RUNKEY: stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
   RUNKEY_BLOB: 97415b3352626262f52524e431d0cf2464d2c70b
   STATE: stages/stage32/generalization-bridge/STATE.json
-  STATE_BLOB: 1fedddd03426f78988add53463c9946d2bc84095
+  STATE_BLOB: eb75735344c3d9daf7c0a8d64eb1bc6069f2107d
   MEASUREMENT: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
   MEASUREMENT_PAYLOAD: stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json
@@ -62,7 +62,7 @@ jobs:
           assert p["restored_predecessor_carry"]["exact_child64_indices"]==[0,16,32,48]
           assert p["restored_predecessor_carry"]["recompute"] is False
           assert all(v is False for v in p["credit"].values())
-          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V19_G4_MAINLINE"
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V20_G4_BOOTSTRAP_COLD_GATE"
           assert s["routing"]["heavy_compute_armed"] is False
           assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
           assert all(v is False for v in s["credit_firewall"].values())
