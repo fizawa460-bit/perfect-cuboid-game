@@ -797,13 +797,16 @@ def main():
                     if ob is None:
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-MIYAOKA-PRUNED-INTERIOR-REALIZATION", "post-Miyaoka active leaf")
                     else:
-                        req(ob["status"] == "EXACT_PREAUDIT_SAFE_LCT_ORBIFOLD_BMY_DOMINATED_ZERO_INCREMENTAL_EXCLUSION_NO_CREDIT", "orbifold-BMY status")
+                        req(ob["status"] == "EXACT_PREAUDIT_HYPERBOLIC_FIRST_JET_TRANSVERSALITY_LANGER_M2_HIGH_SHELL_CLOSED_ZERO_CREDIT", "orbifold-BMY status")
                         req(ob["support_mask"] == "000707000f0f" and ob["case"] == "e=2", "orbifold-BMY scope")
                         osl=ob["source_locks"]
                         req(osl["joint_pair_birationality_note_blob"] == "53608cb51aa49ccde1603b1cb1d136ea497b2324", "orbifold-BMY birationality source")
                         req(osl["etale_basechange_passport_note_blob"] == "d4e5c3b9c598299114f983594be1fac1b01d24d7", "orbifold-BMY etale source")
                         req(osl["residual_node_orbit_note_blob"] == "dbfea5a4f62b1388c9810c37ad867076ed4dca6e", "orbifold-BMY node-orbit source")
                         req(osl["product_linearization_note_blob"] == "2c2db567db6a3c33762b2ff3d7f39f885a95b974", "orbifold-BMY product source")
+                        hyp=osl["hyperbolic_covering_first_jet"]
+                        req("local Poincare isometry" in hyp["theorem"] and "value and differential" in hyp["theorem"], "hyperbolic first-jet source statement")
+                        req(hyp["source_1_url"] == "https://link.springer.com/article/10.1007/s10231-022-01189-8", "hyperbolic covering source URL")
                         ext=osl["external_theorem"]
                         req(ext["author"] == "Adrian Langer" and ext["year"] == 2003, "Langer attribution")
                         req(ext["doi"] == "10.1112/S0024611502013874", "Langer DOI")
@@ -818,8 +821,9 @@ def main():
                         req(imm["normalization_map_birational"] is True and imm["normalization_map_immersive"] is True, "birational branchwise immersion")
                         req(imm["each_normalization_branch_smooth"] is True, "smooth normalization branches")
                         req(imm["unibranch_cusp_possible"] is False, "no unibranch cusp")
-                        req(imm["pairwise_transversality_claimed"] is False, "no unsupported transversality claim")
-                        req(imm["safe_consequence"] == "every branch is smooth; distinct branches may still be tangent, so interior local estimates use the general delta>=binom(multiplicity,2) bound rather than ordinary-point equality", "safe immersion consequence")
+                        req(imm["pairwise_transversality_claimed"] is True, "hyperbolic first-jet transversality claim")
+                        req(imm["safe_consequence"] == "every branch is smooth and any two distinct branches at an interior singular point are transverse; hence every interior singularity is an ordinary multiple point", "hyperbolic immersion consequence")
+                        req(len(imm["hyperbolic_first_jet_argument"]) == 6, "hyperbolic first-jet proof steps")
 
                         orb=ob["interior_H_orbit"]
                         req(orb["H_order"] == 4 and orb["nontrivial_fixed_types"] == ["g1","g2"], "interior orbit H data")
@@ -922,21 +926,39 @@ def main():
                         req(192 < 207, "m1 safe-Langer cut is above exact Abel maximum")
                         req(677 < 708, "m2 Miyaoka dominates safe-Langer cut")
                         req(ob["former_m2_witness"]["m"] == 2 and ob["former_m2_witness"]["Q"] == 672, "m2 witness identity")
-                        req(ob["former_m2_witness"]["disposition"] == "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA", "m2 witness survives safe Langer")
-                        req(ob["result"] == "after correcting the log-canonicity gate, the Langer orbifold-BMY route gives zero incremental exclusion: m=1 already has Q<=192 from exact saturation+factor-fiber Abel DP while safe Langer starts at Q=207, and m=2 already has Q<=677 from Miyaoka while safe Langer starts at Q=708", "orbifold-BMY no-go result")
-                        req(all(v is False for v in ob["firewalls"].values()), "orbifold-BMY firewalls")
+                        req(ob["former_m2_witness"]["disposition"] == "EXCLUDED_BY_HYPERBOLIC_FIRST_JET_LANGER_BMY", "m2 witness excluded by hyperbolic Langer")
+                        ds193=336+112-2*193
+                        req(ds193 == 62 and max_mult_from_delta(ds193) == 11, "m1 Q=193 ordinary interior multiplicity gate")
+                        req(shell_gap(1,193,Fraction(1,8))[2] == Fraction(3,16), "m1 Q=193 hyperbolic Langer contradiction")
+                        ds545=336*4+112*2-2*545
+                        req(ds545 == 478 and max_mult_from_delta(ds545) == 31, "m2 Q=545 ordinary interior multiplicity gate")
+                        req(shell_gap(2,545,Fraction(1,16))[2] == Fraction(3,64), "m2 Q=545 hyperbolic Langer contradiction")
+                        sh=ob["high_energy_shell_pruning"]
+                        req(sh["m1"]["retained_abel_saturation_Q_upper"] == 192 and sh["m1"]["exclusion"] == "Q>=193 excluded", "m1 hyperbolic Langer boundary")
+                        req(sh["m2"]["shell_Q_lower"] == 566 and sh["m2"]["exclusion"] == "Q>=545 excluded", "m2 hyperbolic Langer boundary")
+                        req("hyperbolic first-jet rigidity proves pairwise transversality" in ob["result"] and "Q>=545" in ob["result"], "hyperbolic Langer result")
+                        true_fw={k for k,v in ob["firewalls"].items() if v is True}
+                        req(true_fw == {"m2_high_energy_shell_closed","pairwise_transversality_proved","incremental_exclusion"}, "orbifold-BMY positive firewalls")
+                        req(ob["firewalls"]["e2_closed"] is False and ob["firewalls"]["bulk_closed"] is False, "orbifold-BMY closure firewalls")
                         req(routing["e2_unique_pair_etale_immersion_exact"] is True, "orbifold-BMY immersion routing")
-                        req(routing["e2_unique_pair_orbifold_bmy_exact"] is False, "unsafe orbifold-BMY route not retained")
+                        req(routing["e2_unique_pair_orbifold_bmy_exact"] is True, "hyperbolic orbifold-BMY route retained")
                         req(routing["e2_unique_pair_orbifold_bmy_safe_lct_exact"] is True, "safe-lct orbifold-BMY routing")
-                        req(routing["e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed"] is False, "m2 shell remains open")
+                        req(routing["e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed"] is True, "m2 shell closed")
+                        req(routing["e2_unique_pair_interior_pairwise_transversality_proved"] is True, "interior transversality routing")
+                        req(routing["e2_unique_pair_hyperbolic_first_jet_transversality_exact"] is True, "hyperbolic first-jet routing")
+                        req(routing["e2_unique_pair_hyperbolic_langer_m1_Q_upper"] == 192, "m1 hyperbolic Langer upper")
+                        req(routing["e2_unique_pair_hyperbolic_langer_m2_Q_upper"] == 544, "m2 hyperbolic Langer upper")
+                        req(routing["e2_unique_pair_hyperbolic_langer_m1_incremental_exclusion"] is False, "m1 Langer dominated")
+                        req(routing["e2_unique_pair_hyperbolic_langer_m2_incremental_exclusion"] is True, "m2 Langer incremental")
                         req(routing["e2_unique_pair_orbifold_bmy_e2_closes"] is False, "orbifold-BMY no e2 closure")
                         req(routing["e2_unique_pair_safe_lct_bmy_incremental_exclusion_count"] == 0, "safe-lct BMY zero incremental exclusion")
-                        req(routing["e2_unique_pair_safe_lct_bmy_route"] == "CLOSED_DOMINATED_BY_ABEL_M1_AND_MIYAOKA_M2", "safe-lct BMY route closure")
+                        req(routing["e2_unique_pair_safe_lct_bmy_route"] == "CLOSED_SUPERSEDED_BY_HYPERBOLIC_FIRST_JET_TRANSVERSALITY", "safe-lct BMY route superseded")
                         req(routing["e2_unique_pair_abel_formal_Q_max_m1"] == 192, "m1 formal Q max routing")
                         req(routing["e2_unique_pair_miyaoka_Q_upper_m2"] == 677, "m2 Miyaoka Q max routing")
                         req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m1"] == 207, "m1 safe-Langer first cut")
                         req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m2"] == 708, "m2 safe-Langer first cut")
-                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-EXACT-M1-M2-POSTULATION-OR-BULK", "post-BMY no-go active leaf")
+                        req(routing["e2_unique_pair_m2_formal_Q672_witness_survives"] is False, "m2 Q672 witness killed")
+                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
