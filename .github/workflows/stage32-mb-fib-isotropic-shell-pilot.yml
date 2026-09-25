@@ -147,14 +147,14 @@ jobs:
           gen=int(k["generation"]); mode=k["mode"]
           pred=k["execution_gate"]["predecessor_audited_surface"]
           assert pred["status"]=="PASS"
-          assert pred["exact_head"]=="17473b02de084c086fe3abeaf0b7fc8107e4a997"
-          assert int(pred["review_id"])==5285955013
+          assert pred["exact_head"]=="3a6107d19c0cc166e0e05efd8cf64c867460ab93"
+          assert int(pred["review_id"])==5310669573
           assert s["execution"]["runkey_generation"]==gen
-          if gen==26 and mode=="COLD" and k["armed"] is False:
+          if gen==28 and mode=="COLD" and k["armed"] is False:
               assert k["execution_gate"]["automatic_execution_authorized"] is False
               assert s["execution"]["heavy_armed"] is False and s["execution"]["execution_authorized"] is False
-              raise SystemExit(26)
-          assert gen>=27 and mode=="RECOVERY" and k["armed"] is True
+              raise SystemExit(28)
+          assert gen>=29 and mode=="RECOVERY" and k["armed"] is True
           assert k["execution_gate"]["automatic_execution_authorized"] is True
           audited=k["execution_gate"]["audited_surface"]
           assert audited["status"]=="PASS" and isinstance(audited["exact_head"],str) and len(audited["exact_head"])==40
@@ -178,6 +178,10 @@ jobs:
             "gen25_successor_cold_diagnostic_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/derive_mb104_000707_gen25_adaptive_affine_cold.py",
             "gen25_successor_cold_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen25_adaptive_affine_cold.py",
             "gen25_adaptive_cold_output_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-ADAPTIVE-AFFINE-COLD.json",
+            "gen27_adaptive_carry_source_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-SOURCE.json",
+            "gen27_adaptive_carry_index_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN27-ADAPTIVE-X58-CARRY-INDEX.json",
+            "gen27_adaptive_carry_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen27_adaptive_x58_carry.py",
+            "gen28_adaptive_x58_residual_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN28-ADAPTIVE-X58-RESIDUAL54.json",
             "adaptive_x58_preflight_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py",
             "adaptive_x58_packet_runner_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_adaptive_x58_packet.py",
             "adaptive_x58_packet_verifier_git_blob":"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_packet.py",
@@ -199,7 +203,7 @@ jobs:
           PY
           RC=$?
           set -e
-          if [ "$RC" = 26 ]; then
+          if [ "$RC" = 28 ]; then
             python "$LIVE_CONCURRENCY_CHECK" "$KEY" diagnostic
             echo 'cold_surface=true' >> "$GITHUB_OUTPUT"
             exit 0
@@ -224,10 +228,10 @@ jobs:
           fi
           python "$LIVE_CONCURRENCY_CHECK" "$KEY" enforce
           echo 'authorized=true' >> "$GITHUB_OUTPUT"
-      - name: Report Gen26 adaptive x58 COLD surface
+      - name: Report Gen28 residual x58 singleton COLD surface
         if: steps.gate.outputs.cold_surface == 'true'
         run: |
-          echo 'Gen26 COLD adaptive x58 execution surface verified; heavy remains blocked.'
+          echo 'Gen28 COLD residual x58 singleton surface verified: 54 packets / 160 singleton children; heavy remains blocked.'
   recovery-x59-interval-packet:
     name: MB-FIB x59 packet p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }}
     needs: authorize
@@ -474,7 +478,7 @@ jobs:
           if-no-files-found: warn
           compression-level: 9
   recovery-adaptive-x58-packet:
-    name: MB-FIB adaptive x58 packet p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }}
+    name: MB-FIB x58 singleton parent p=${{ matrix.primary }} s=${{ matrix.secondary_residue }} x61=${{ matrix.x61_value }} x60=${{ matrix.x60_value }} x58=${{ matrix.x58_lo }}..${{ matrix.x58_hi }}
     needs: authorize
     if: needs.authorize.outputs.authorized == 'true'
     strategy:
@@ -487,81 +491,379 @@ jobs:
             x61_value: -8
             x60_residue: 2
             x60_value: -8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 6
+            x58_hi: 8
           - primary: -8
             secondary_residue: 2
             x61_value: -8
             x60_residue: 4
             x60_value: 0
+            x58_lo: -9
+            x58_hi: -8
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 1
+          - primary: -8
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 7
+            x58_hi: 9
           - primary: -8
             secondary_residue: 4
             x61_value: 0
             x60_residue: 2
             x60_value: -8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 7
+            x58_hi: 9
           - primary: -8
             secondary_residue: 4
             x61_value: 0
             x60_residue: 4
             x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: -8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
           - primary: 0
             secondary_residue: 2
             x61_value: -8
             x60_residue: 2
             x60_value: -8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 7
+            x58_hi: 9
           - primary: 0
             secondary_residue: 2
             x61_value: -8
             x60_residue: 4
             x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 2
+            x61_value: -8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
           - primary: 0
             secondary_residue: 4
             x61_value: 0
             x60_residue: 2
             x60_value: -8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 2
+            x60_value: -8
+            x58_lo: 6
+            x58_hi: 8
           - primary: 0
             secondary_residue: 4
             x61_value: 0
             x60_residue: 4
             x60_value: 0
+            x58_lo: -18
+            x58_hi: -15
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -6
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 4
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 5
+            x58_hi: 8
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 14
+            x58_hi: 18
           - primary: 0
             secondary_residue: 4
             x61_value: 0
             x60_residue: 5
             x60_value: 8
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 6
+            x58_hi: 8
           - primary: 0
             secondary_residue: 5
             x61_value: 8
             x60_residue: 4
             x60_value: 0
+            x58_lo: -12
+            x58_hi: -10
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
           - primary: 0
             secondary_residue: 5
             x61_value: 8
             x60_residue: 5
             x60_value: 8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 0
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 9
           - primary: 4
             secondary_residue: 4
             x61_value: 4
             x60_residue: 5
             x60_value: 8
+            x58_lo: -11
+            x58_hi: -8
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 3
+          - primary: 4
+            secondary_residue: 4
+            x61_value: 4
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 10
           - primary: 8
             secondary_residue: 4
             x61_value: 0
             x60_residue: 4
             x60_value: 0
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 6
+            x58_hi: 8
           - primary: 8
             secondary_residue: 4
             x61_value: 0
             x60_residue: 5
             x60_value: 8
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 8
+            secondary_residue: 4
+            x61_value: 0
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 7
+            x58_hi: 9
           - primary: 8
             secondary_residue: 5
             x61_value: 8
             x60_residue: 4
             x60_value: 0
+            x58_lo: -9
+            x58_hi: -8
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 0
+            x58_hi: 1
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 4
+            x60_value: 0
+            x58_lo: 7
+            x58_hi: 9
           - primary: 8
             secondary_residue: 5
             x61_value: 8
             x60_residue: 5
             x60_value: 8
+            x58_lo: -9
+            x58_hi: -7
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 0
+            x58_hi: 2
+          - primary: 8
+            secondary_residue: 5
+            x61_value: 8
+            x60_residue: 5
+            x60_value: 8
+            x58_lo: 6
+            x58_hi: 8
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
@@ -572,9 +874,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install exact adaptive dependencies
+      - name: Install exact singleton dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
-      - name: Verify Gen26 adaptive source locks
+      - name: Verify Gen28 x58 singleton source locks
         run: |
           PREFLIGHT='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py'
           KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
@@ -586,21 +888,23 @@ jobs:
           )"
           test "$(git hash-object "$PREFLIGHT")" = "$EXPECTED"
           python "$PREFLIGHT"
-      - name: Execute exact adaptive x58 packet
+      - name: Execute exact residual x58 singleton packet
         continue-on-error: true
         run: |
-          OUT="$RUNNER_TEMP/adaptive-x58-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}.json"
+          OUT="$RUNNER_TEMP/x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}.json"
           python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/run_mb104_000707_fibration_shell0_adaptive_x58_packet.py \
             --primary-value ${{ matrix.primary }} \
             --secondary-residue ${{ matrix.secondary_residue }} \
             --x61-value ${{ matrix.x61_value }} \
             --x60-residue ${{ matrix.x60_residue }} \
             --x60-value ${{ matrix.x60_value }} \
+            --x58-lo ${{ matrix.x58_lo }} \
+            --x58-hi ${{ matrix.x58_hi }} \
             --output "$OUT"
-      - name: Verify adaptive x58 packet
+      - name: Verify residual x58 singleton packet
         if: always()
         run: |
-          OUT="$RUNNER_TEMP/adaptive-x58-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}.json"
+          OUT="$RUNNER_TEMP/x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}.json"
           test -f "$OUT"
           python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_packet.py \
             --certificate "$OUT" \
@@ -608,19 +912,21 @@ jobs:
             --secondary-residue ${{ matrix.secondary_residue }} \
             --x61-value ${{ matrix.x61_value }} \
             --x60-residue ${{ matrix.x60_residue }} \
-            --x60-value ${{ matrix.x60_value }}
-      - name: Upload adaptive x58 packet
+            --x60-value ${{ matrix.x60_value }} \
+            --x58-lo ${{ matrix.x58_lo }} \
+            --x58-hi ${{ matrix.x58_hi }}
+      - name: Upload residual x58 singleton packet
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-mb-fib-adaptive-x58-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}
-          path: ${{ runner.temp }}/adaptive-x58-*.json
+          name: stage32-mb-fib-x58-singleton-${{ matrix.primary }}-${{ matrix.secondary_residue }}-${{ matrix.x61_value }}-${{ matrix.x60_residue }}-${{ matrix.x60_value }}-${{ matrix.x58_lo }}-${{ matrix.x58_hi }}
+          path: ${{ runner.temp }}/x58-singleton-*.json
           retention-days: 7
           if-no-files-found: error
           compression-level: 9
 
   aggregate-shell0-adaptive-x58:
-    name: MB-FIB Gen23 carry + Gen25 adaptive x58 union
+    name: MB-FIB Gen27 carry + residual x58 singleton union
     needs: [authorize,recovery-adaptive-x58-packet]
     if: always() && needs.authorize.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
@@ -635,43 +941,33 @@ jobs:
           python-version: '3.11'
       - name: Install exact aggregate dependencies
         run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
-      - name: Verify Gen26 adaptive source locks
-        run: |
-          PREFLIGHT='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py'
-          KEY='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'
-          EXPECTED="$(python - "$KEY" <<'PY'
-          import json,sys
-          from pathlib import Path
-          print(json.loads(Path(sys.argv[1]).read_text())["source_locks"]["adaptive_x58_preflight_git_blob"])
-          PY
-          )"
-          test "$(git hash-object "$PREFLIGHT")" = "$EXPECTED"
-          python "$PREFLIGHT"
-      - name: Verify durable Gen23 carry
-        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen23_x60_singleton_carry.py
-      - name: Download adaptive x58 certificates
+      - name: Verify Gen28 x58 singleton source locks
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py
+      - name: Verify durable Gen27 carry
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen27_adaptive_x58_carry.py
+      - name: Download residual x58 singleton certificates
         uses: actions/download-artifact@v4
         with:
-          pattern: stage32-mb-fib-adaptive-x58-*
+          pattern: stage32-mb-fib-x58-singleton-*
           path: ${{ runner.temp }}/packets
           merge-multiple: true
-      - name: Aggregate exact adaptive x58 union
+      - name: Aggregate exact residual x58 singleton union
         continue-on-error: true
         run: |
           python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/aggregate_mb104_000707_fibration_shell0_adaptive_x58_packets.py \
-            --input-dir "$RUNNER_TEMP/packets" --output "$RUNNER_TEMP/mb-fib-adaptive-x58-aggregate.json"
-      - name: Verify adaptive aggregate provenance
+            --input-dir "$RUNNER_TEMP/packets" --output "$RUNNER_TEMP/mb-fib-x58-singleton-aggregate.json"
+      - name: Verify residual x58 singleton aggregate provenance
         if: always()
         run: |
-          CERT="$RUNNER_TEMP/mb-fib-adaptive-x58-aggregate.json"
+          CERT="$RUNNER_TEMP/mb-fib-x58-singleton-aggregate.json"
           test -f "$CERT"
           python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_fibration_shell0_adaptive_x58_aggregate.py --certificate "$CERT" --input-dir "$RUNNER_TEMP/packets"
-      - name: Upload adaptive x58 aggregate
+      - name: Upload residual x58 singleton aggregate
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-mb-fib-shell0-adaptive-x58-aggregate
-          path: ${{ runner.temp }}/mb-fib-adaptive-x58-aggregate.json
+          name: stage32-mb-fib-shell0-x58-singleton-aggregate
+          path: ${{ runner.temp }}/mb-fib-x58-singleton-aggregate.json
           retention-days: 7
           if-no-files-found: warn
           compression-level: 9
