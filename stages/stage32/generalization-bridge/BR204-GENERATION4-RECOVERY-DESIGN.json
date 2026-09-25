@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V2_MAINLINE",
-  "status": "COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT",
+  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V3_COMPACT_EXECUTION",
+  "status": "COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT",
   "predecessor_certificate": {
     "path": "stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json",
     "blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02"
@@ -18,23 +18,39 @@
       "No target completion is credited until exact child/parent coverage is verified with no gaps or overlaps."
     ],
     "durability": [
-      "Use resume-first immutable child units.",
-      "Persist only independently verifiable compact child certificates.",
-      "Keep raw child state out of retained repository evidence."
+      "Use resume-first immutable BC child units.",
+      "Raw worker TSV exists only runner-local and is deleted after a verified compact certificate is written.",
+      "Persist lossless delta-varint+zlib+base64 compact child certificates; decoding must restore canonical worker TSV byte-for-byte.",
+      "Retain target artifacts for 14 days because prior one-day carry expiry caused mathematically valid predecessor loss; two worst-case generations remain below the repository storage budget."
     ]
   },
   "resource_preflight": {
     "repository_storage_budget_bytes": 524288000,
     "stage_heavy_concurrency_ceiling": 18,
     "proposed_max_parallel_upper_bound": 12,
-    "representative_measurement_retained": true
+    "evidence_unit_count": 2684,
+    "child_certificate_hard_cap_bytes": 65536,
+    "actual_predecessor_sample_certificate_bytes": [
+      7737,
+      7386,
+      7235,
+      7128
+    ],
+    "maximum_actual_sample_certificate_bytes": 7737,
+    "measured_projection_bytes": 20766108,
+    "conservative_single_generation_hard_cap_projection_bytes": 175898624,
+    "conservative_two_generation_hard_cap_projection_bytes": 351797248,
+    "intermediate_retention_days": 14,
+    "two_generation_projection_within_budget": true,
+    "actual_roundtrip_byte_exact": true
   },
   "gates": {
-    "cold_workflow_implemented": true,
-    "runkey_created": true,
-    "heavy_compute_armed": false,
+    "execution_workflow_implemented": true,
+    "current_runkey_generation": 1,
+    "current_runkey_armed": true,
+    "current_generation1_arm_is_inert": true,
     "heavy_compute_authorized": false,
-    "next_required": "Exact-head cold-gate SUCCESS, exact-head active replay SUCCESS, then distinct hostile audit before any arm."
+    "next_required": "Fresh hostile audit of this execution surface, then a separate generation-2 runkey-only arm commit whose parent is the audited exact head."
   },
   "credit": {
     "stage32_main": false,

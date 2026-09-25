@@ -5,9 +5,9 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 p=json.loads((ROOT/"BR204-GENERATION4-RECOVERY-PLAN.json").read_text())
 d=json.loads((ROOT/"BR204-GENERATION4-RECOVERY-DESIGN.json").read_text())
-assert p["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V1"
-assert p["status"]=="COLD_PLAN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT"
-assert p["design_blob"]=="cca9143c29c891434303cfc973ea818f965c8460"
+assert p["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V2_COMPACT_CERT"
+assert p["status"]=="COLD_EXECUTION_PLAN__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
+assert p["design_blob"]=="a92ae6677310b8ed104e6356ca2442936a1245f5"
 assert p["unchanged_target_count"]==69
 assert p["flat_target_count"]==36 and len(p["flat_targets"])==36
 assert p["hierarchical_target_count"]==33 and len(p["hierarchical_targets"])==33
@@ -24,23 +24,26 @@ r=p["resource_preflight"]
 assert r["repository_storage_budget_bytes"]==524288000
 assert r["planned_effective_heavy_concurrency"]==12<=r["repository_stage_concurrency_ceiling"]==18
 assert r["evidence_unit_count"]==2684
-assert r["flat_bc16_child_count"]==576
-assert r["hierarchical_bc64_child_count"]==2108
+assert r["flat_bc16_child_count"]==576 and r["hierarchical_bc64_child_count"]==2108
 assert r["representative_child_certificate_hard_cap_bytes"]==65536
-assert r["projected_peak_storage_bytes"]==175898624
-assert r["projected_peak_storage_bytes"] < r["repository_storage_budget_bytes"]
-assert r["storage_gate_passed"] is True
-assert r["representative_payload_measurement_required"] is True
-assert r["measured_representative_payload_bytes"]==448
-assert r["measured_projection_bytes"]==1202432
-assert r["measurement_status"]=="RETAINED_SOURCE_LOCKED"
-assert len(r["measurement_receipt_blob"])==40
-assert len(r["measurement_payload_blob"])==40
+assert r["actual_predecessor_sample_certificate_bytes"]==[7737,7386,7235,7128]
+assert r["measured_representative_payload_bytes"]==7737
+assert r["measured_projection_bytes"]==20766108
+assert r["conservative_two_generation_hard_cap_projection_bytes"]==351797248
+assert r["conservative_two_generation_hard_cap_projection_bytes"] < r["repository_storage_budget_bytes"]
+assert r["intermediate_retention_days"]==14
+assert r["actual_roundtrip_byte_exact"] is True
 assert r["raw_child_state_upload_forbidden"] is True
 a=p["authorization"]
-assert a["runkey_generation"]==0 and a["runkey_armed"] is False and a["heavy_compute_authorized"] is False
+assert a["runkey_generation"]==1 and a["runkey_armed"] is True
+assert a["generation1_arm_is_inert"] is True and a["heavy_compute_authorized"] is False
+assert a["next_heavy_generation"]==2 and a["next_arm_must_be_runkey_only"] is True
 assert all(v is False for v in p["credit"].values())
-assert d["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V2_MAINLINE"
+assert d["schema"]=="STAGE32_BR204_GENERATION4_RECOVERY_DESIGN_V3_COMPACT_EXECUTION"
+assert d["status"]=="COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT"
 assert d["predecessor_certificate"]["blob"]=="5a4a990a1588c71facbb9640a4c26b8641e44b02"
-assert d["status"]=="COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT"
-print("BR204 G4 cold recovery plan: PASS")
+assert d["resource_preflight"]["maximum_actual_sample_certificate_bytes"]==7737
+assert d["resource_preflight"]["intermediate_retention_days"]==14
+assert d["gates"]["current_generation1_arm_is_inert"] is True
+assert d["gates"]["heavy_compute_authorized"] is False
+print("BR204 G4 compact execution plan: PASS")

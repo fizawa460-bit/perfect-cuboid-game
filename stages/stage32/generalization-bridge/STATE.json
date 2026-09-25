@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V20_G4_BOOTSTRAP_COLD_GATE",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V21_G4_COMPACT_EXECUTION_COLD",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_MAINLINE_BOOTSTRAP_COLD_GATE__AUDIT_REQUIRED",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_COMPACT_EXECUTION_SURFACE__FRESH_AUDIT_REQUIRED",
   "current_node": "BR204",
-  "active_leaf": "BR204_G4_RECOVERY_COLD_SURFACE",
+  "active_leaf": "BR204_G4_COMPACT_RECOVERY_EXECUTION_SURFACE",
   "target": {
     "authority": "stages/stage32/MAIN-STATE.json",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
@@ -24,16 +24,17 @@
   },
   "source_locks": {
     "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
-    "g4_design_blob": "cca9143c29c891434303cfc973ea818f965c8460",
-    "g4_plan_blob": "a6611f245f71bb958b11efb625d3750d1d011501",
-    "g4_plan_verifier_blob": "29cff69ef70afcf1926d6e0566a823e4fbafc1bc",
-    "g4_runkey_blob": "97415b3352626262f52524e431d0cf2464d2c70b",
+    "g4_design_blob": "a92ae6677310b8ed104e6356ca2442936a1245f5",
+    "g4_plan_blob": "96af27f62e399e6a161aa435dfdb321b85e05d4c",
+    "g4_plan_verifier_blob": "62a3396e998c17ef94ce92c5febc689d62b86411",
+    "g4_runkey_blob": "0b741c2b5d1e5092343cead8ab5faf48fbb0b8ac",
     "representative_measurement_receipt_blob": "69331aa90b901c3de282d0ee641b2dc82a42b0bb",
     "representative_measurement_payload_blob": "26ca9fcaf37b02daa18acd641c32627e91ab7afc",
     "br202_bounded_result_blob": "06d0d21e5543cd5b5195c93ae431fbc186edd6ba",
     "br203_mu_verifier_blob": "56c932c90ce2adaf702956e0b600b0a958fd29fe",
     "br204_direct_worker_blob": "0d5ee8e1013cab6120e957707a363e86b3c0d41e",
-    "br204_bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6"
+    "br204_bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
+    "br204_bc_shard_combiner_blob": "33089c2ca4876650a4ee9c6477e1e6242ad3741c"
   },
   "predecessor": {
     "certificate_path": "stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json",
@@ -51,30 +52,41 @@
     }
   },
   "generation4_recovery_design": {
-    "status": "COLD_DESIGN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT",
+    "status": "COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT",
     "design_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json",
     "plan_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json",
-    "cold_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
+    "execution_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
     "replay_workflow_path": ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
+    "runkey_generation": 1,
+    "runkey_armed": true,
+    "generation1_arm_is_inert": true,
     "heavy_compute_armed": false,
     "heavy_compute_authorized": false,
+    "next_heavy_generation": 2,
     "storage_preflight": {
-      "status": "PASS_RETAINED_REPRESENTATIVE_MEASUREMENT_ZERO_CREDIT",
+      "status": "PASS_ACTUAL_RETAINED_PREDECESSOR_LOSSLESS_ROUNDTRIP_ZERO_CREDIT",
       "evidence_unit_count": 2684,
-      "measured_representative_payload_bytes": 448,
-      "measured_projection_bytes": 1202432,
+      "actual_sample_certificate_bytes": [
+        7737,
+        7386,
+        7235,
+        7128
+      ],
+      "maximum_actual_sample_certificate_bytes": 7737,
+      "measured_projection_bytes": 20766108,
       "child_certificate_hard_cap_bytes": 65536,
-      "conservative_hard_cap_projection_bytes": 175898624,
-      "repository_budget_bytes": 524288000
+      "conservative_single_generation_hard_cap_projection_bytes": 175898624,
+      "conservative_two_generation_hard_cap_projection_bytes": 351797248,
+      "repository_budget_bytes": 524288000,
+      "intermediate_retention_days": 14
     },
-    "bootstrap_cold_gate": {
-      "mode": "ACTIVE_AUTO_REPLAY_EQUIVALENT_PREMERGE",
-      "workflow_path": ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
-      "retained_manual_workflow_path": ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
-      "reason": "workflow_dispatch only receives events when its workflow file exists on the default branch; the retained MANUAL cold workflow is branch-local before merge",
-      "equivalence_requirement": "bootstrap job executes the same source-lock, predecessor/firewall, current-MAIN, and heavy-unarmed kernel as the retained MANUAL cold gate",
-      "audit_required": true
+    "historical_cold_doorway": {
+      "audited_exact_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
+      "hostile_audit_review_id": 5312620454,
+      "status": "PASS",
+      "generation1_arm_commit": "d65877e6d2a9953208b841807bf51c8983187dd1",
+      "heavy_execution_started": false
     }
   },
   "routing": {
@@ -90,24 +102,26 @@
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "G4 mainline surface is cold-only. Exact-head cold-gate SUCCESS, active replay SUCCESS, and fresh hostile audit are required before any arm. Pre-merge, the ACTIVE_AUTO replay bootstrap may supply cold-gate execution only if hostile audit verifies kernel equivalence to the retained MANUAL workflow."
+    "stop_reason": "Generation-1 arm is intentionally inert after the execution-surface change. Fresh exact-head replay/startup/frontier evidence and hostile audit are required; only a later generation-2 runkey-only commit may authorize the 69-target compact recovery."
   },
   "next_obligation": {
-    "id": "BR204_G4_MAINLINE_EXACT_HEAD_EVIDENCE",
+    "id": "BR204_G4_COMPACT_EXECUTION_SURFACE_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Obtain exact-head cold-gate SUCCESS.",
-      "Before default-branch enrollment, ACTIVE_AUTO replay bootstrap may execute the identical retained MANUAL cold-gate kernel; hostile audit must verify equivalence.",
-      "Obtain exact-head ACTIVE_AUTO replay SUCCESS on the same boundary.",
-      "Run distinct stage32bridge-audit.",
-      "Do not arm heavy compute before audit PASS and a separate runkey-only arm commit."
+      "Obtain exact-head ACTIVE_AUTO replay SUCCESS including actual predecessor-child lossless compaction preflight.",
+      "Obtain exact-head execution-workflow authorization-gate SUCCESS with authorized=false on this non-runkey-only surface commit.",
+      "Obtain exact-head Stage32 startup/frontier/lifecycle SUCCESS.",
+      "Run distinct stage32bridge-audit on the unchanged exact head.",
+      "Only after audit PASS may a separate generation-2 runkey-only arm commit authorize heavy recovery.",
+      "Do not launch BR205/BR206 and do not grant MAIN/FULL178/theorem/endpoint credit from this surface."
     ]
   },
   "audit_hold": {
-    "status": "G4_MAINLINE_COMPACT_SURFACE__AUDIT_REQUIRED",
-    "latest_hold_exact_head": "50a7216c43d878f558642abe204169be2f4741b9",
-    "latest_hold_review_id": 5310490348,
-    "mathematical_population_changed": false
+    "status": "LATEST_PASS_IS_PRE_EXECUTION_SURFACE__FRESH_AUDIT_REQUIRED",
+    "latest_pass_exact_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
+    "latest_pass_review_id": 5312620454,
+    "mathematical_population_changed": false,
+    "execution_surface_changed": true
   },
   "credit_firewall": {
     "source_lane_credit_mutated": false,

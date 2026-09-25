@@ -4,8 +4,8 @@
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 11,
-    "MANUAL": 3,
+    "ACTIVE_AUTO": 12,
+    "MANUAL": 2,
     "RETIRED": 519,
     "TOTAL": 533
   },
@@ -24,9 +24,9 @@
       "TOTAL": 1
     },
     "Stage32": {
-      "ACTIVE_AUTO": 5,
+      "ACTIVE_AUTO": 6,
       "TOTAL": 263,
-      "MANUAL": 2,
+      "MANUAL": 1,
       "RETIRED": 256
     },
     "Stage32EX": {
@@ -57,6 +57,7 @@
   },
   "classifications": {
     "ACTIVE_AUTO": [
+      ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
       ".github/workflows/pages.yml",
       ".github/workflows/research-arsenal.yml",
       ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
@@ -70,7 +71,6 @@
       ".github/workflows/structure-radar.yml"
     ],
     "MANUAL": [
-      ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
       ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
       ".github/workflows/stage32-root-cleanup-phase-b.yml"
     ],
@@ -600,6 +600,7 @@
     ".github/workflows/stage32-main-btva-static7-bounded-panel.yml"
   ],
   "branch_local_live_catalog": [
+    ".github/workflows/br204-stage32-bridge-recovery-g4.yml",
     ".github/workflows/pages.yml",
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/stage32-bridge-br204-recovery-replay.yml",
@@ -618,6 +619,7 @@
     "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
     "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
     "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",
-    "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only."
+    "Stage32 N356 optimistic exceptional transport is consumed historical evidence after N357 MAIN consumption; it is RETIRED and workflow_dispatch-only.",
+    "Stage32 BRIDGE BR204 generation4 compact recovery is ACTIVE_AUTO but heavy execution is fail-closed behind a strict audited generation-2 runkey-only transition; workflow/source commits only run the cheap authorize gate."
   ]
 }

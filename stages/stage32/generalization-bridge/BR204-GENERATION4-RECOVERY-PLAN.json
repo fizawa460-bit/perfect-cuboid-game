@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V1",
-  "status": "COLD_PLAN_ONLY__NO_HEAVY_AUTHORIZATION__ZERO_CREDIT",
-  "design_blob": "cca9143c29c891434303cfc973ea818f965c8460",
+  "schema": "STAGE32_BR204_GENERATION4_RECOVERY_PLAN_V2_COMPACT_CERT",
+  "status": "COLD_EXECUTION_PLAN__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT",
+  "design_blob": "a92ae6677310b8ed104e6356ca2442936a1245f5",
   "unchanged_target_count": 69,
   "flat_target_count": 36,
   "hierarchical_target_count": 33,
@@ -20,9 +20,13 @@
     "recompute": false
   },
   "persistence": {
-    "flat": "persist each validated BC16 child independently; target completion requires exact 16-child union",
-    "hierarchical": "persist each validated BC64 child independently and combine exact four-child groups into BC16 parents; target completion requires exact 16-parent union",
+    "flat": "persist each validated BC16 child as a lossless compact certificate; target completion requires exact 16-child union reconstructed byte-exact on the runner",
+    "hierarchical": "persist each validated BC64 child as a lossless compact certificate and reconstruct exact four-child groups into BC16 parents; target completion requires exact 16-parent union",
+    "compact_certificate_schema": "STAGE32_BR204_G4_COMPACT_CHILD_CERT_V2",
+    "compact_codec": "delta-varint-zlib-base64-v1",
+    "retained_artifact_contents": "compact child certificates plus target STATUS only; raw worker TSV/TSV.GZ upload is forbidden",
     "artifact_enumeration": "explicit pagination or deterministic compact carry manifest",
+    "recovery_rule": "a failed/partial wave must carry validated compact certificates and compute only missing child indices; blind target rerun is forbidden",
     "raw_target_level_retention_replay_forbidden": true
   },
   "flat_targets": [
@@ -1044,26 +1048,40 @@
     "flat_bc16_child_count": 576,
     "hierarchical_bc64_child_count": 2108,
     "representative_payload_measurement_required": true,
-    "measurement_basis": "Retained representative compact-child payload measured at 448 bytes; measured 2684-unit projection is 1202432 bytes. Independent conservative hard-cap projection is 175898624 bytes under the 524288000-byte repository budget.",
+    "measurement_basis": "Actual retained predecessor children BC64 {0,16,32,48} were losslessly compacted and byte-exact round-tripped. Certificate sizes were 7737,7386,7235,7128 bytes; the maximum-sample 2684-unit projection is 20766108 bytes.",
     "representative_child_certificate_hard_cap_bytes": 65536,
     "projected_peak_storage_bytes": 175898624,
     "projected_peak_storage_mib": 167.75,
     "budget_fraction": 0.3355,
     "storage_gate_passed": true,
     "raw_child_state_upload_forbidden": true,
-    "intermediate_retention_days": 1,
-    "measured_representative_payload_bytes": 448,
-    "measurement_status": "RETAINED_SOURCE_LOCKED",
+    "intermediate_retention_days": 14,
+    "measured_representative_payload_bytes": 7737,
+    "measurement_status": "ACTUAL_RETAINED_PREDECESSOR_FOUR_CHILDREN_ROUNDTRIP_PASS",
     "measurement_receipt_blob": "69331aa90b901c3de282d0ee641b2dc82a42b0bb",
     "measurement_payload_blob": "26ca9fcaf37b02daa18acd641c32627e91ab7afc",
-    "measured_projection_bytes": 1202432
+    "measured_projection_bytes": 20766108,
+    "actual_predecessor_sample_certificate_bytes": [
+      7737,
+      7386,
+      7235,
+      7128
+    ],
+    "actual_predecessor_source_artifact_id": 10628120960,
+    "actual_predecessor_source_artifact_digest": "sha256:dd76c0d102af75b6313c485a264ee3b5fdd7734aec940c97d88c185a8f590cee",
+    "actual_roundtrip_byte_exact": true,
+    "conservative_two_generation_hard_cap_projection_bytes": 351797248,
+    "two_generation_projection_within_budget": true
   },
   "authorization": {
     "workflow_implemented": true,
-    "runkey_generation": 0,
-    "runkey_armed": false,
+    "runkey_generation": 1,
+    "runkey_armed": true,
+    "generation1_arm_is_inert": true,
     "heavy_compute_authorized": false,
-    "hostile_audit_required_before_arm": true
+    "hostile_audit_required_before_arm": true,
+    "next_heavy_generation": 2,
+    "next_arm_must_be_runkey_only": true
   },
   "credit": {
     "stage32_main": false,

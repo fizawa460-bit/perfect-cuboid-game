@@ -1,36 +1,52 @@
 {
-  "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V1",
+  "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT",
   "generation": 1,
   "armed": true,
-  "purpose": "Cold-only G4 recovery runkey. No heavy execution until exact-head hostile audit PASS and a separate runkey-only generation-1 arm commit.",
+  "purpose": "Generation-1 is an inert audited-doorway arm. The execution surface changed afterward to lossless compact certificates; heavy recovery requires a fresh hostile audit and a separate generation-2 runkey-only re-arm.",
   "execution": {
     "target_count": 69,
     "flat_target_count": 36,
     "hierarchical_target_count": 33,
-    "planned_effective_heavy_concurrency": 12
+    "planned_effective_heavy_concurrency": 12,
+    "child_timeout_seconds": 1200,
+    "target_soft_deadline_seconds": 13500,
+    "target_job_timeout_minutes": 330,
+    "target_artifact_prefix": "br204-g4-target",
+    "next_heavy_generation": 2
   },
   "source_locks": {
-    "design_blob": "cca9143c29c891434303cfc973ea818f965c8460",
+    "design_blob": "a92ae6677310b8ed104e6356ca2442936a1245f5",
+    "plan_blob": "96af27f62e399e6a161aa435dfdb321b85e05d4c",
+    "plan_verifier_blob": "62a3396e998c17ef94ce92c5febc689d62b86411",
+    "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
     "restored_parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
     "repository_main_state_blob": "070847c669120aef1ab3777239d45878937b41f3",
     "heavy_checkpoint_policy_blob": "893d5c0b6a415382904ac1ab32219d0f0f4fd5ea",
     "actions_storage_policy_blob": "69f23db9b280504c1c6c12a58af52182bb052215",
-    "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02"
+    "bc_shard_worker_blob": "ca0a4985e788455432eb59d603da54fc3c703ea6",
+    "bc_shard_combiner_blob": "33089c2ca4876650a4ee9c6477e1e6242ad3741c",
+    "bc64_group_combiner_blob": "5986168bca8ec63e1d1aab2e417e9157ae09ef23"
   },
   "storage": {
     "budget_bytes": 524288000,
     "evidence_unit_count": 2684,
     "child_certificate_hard_cap_bytes": 65536,
-    "projected_peak_storage_bytes": 175898624,
+    "conservative_single_generation_hard_cap_projection_bytes": 175898624,
+    "conservative_two_generation_hard_cap_projection_bytes": 351797248,
+    "actual_sample_certificate_bytes": [
+      7737,
+      7386,
+      7235,
+      7128
+    ],
+    "maximum_actual_sample_certificate_bytes": 7737,
+    "actual_sample_projection_bytes": 20766108,
     "storage_gate_passed": true,
     "raw_child_state_upload_forbidden": true,
-    "intermediate_retention_days": 1,
-    "representative_payload_measurement_required": true,
-    "measured_representative_payload_bytes": 448,
-    "measurement_receipt_blob": "69331aa90b901c3de282d0ee641b2dc82a42b0bb",
-    "measurement_payload_blob": "26ca9fcaf37b02daa18acd641c32627e91ab7afc",
-    "measured_projection_bytes": 1202432
+    "intermediate_retention_days": 14,
+    "max_simultaneous_generations_retained": 2,
+    "retention_exception_justification": "Prior one-day predecessor carry expired before recovery. Lossless compact certificates reduce the measured projection enough that two worst-case generations remain below the 500MB repository budget."
   },
   "arm_contract": {
     "audited_doorstep_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
@@ -41,7 +57,10 @@
     "repository_stage_concurrency_ceiling": 18,
     "maximum_other_stage32_heavy_concurrency_at_arm": 6,
     "observed_other_stage32_heavy_concurrency_at_arm": 0,
-    "combined_effective_heavy_concurrency_at_arm": 12
+    "combined_effective_heavy_concurrency_at_arm": 12,
+    "execution_surface_changed_after_generation1_arm": true,
+    "fresh_hostile_audit_and_generation2_rearm_required": true,
+    "generation1_heavy_execution_started": false
   },
   "credit": {
     "stage32_main": false,
@@ -52,5 +71,12 @@
     "endpoint": false,
     "perfect_cuboid": false,
     "merge": false
+  },
+  "resume": {
+    "carry_run_id": null,
+    "carry_artifact_prefix": "br204-g4-target",
+    "salvage_validated_compact_children": true,
+    "compute_only_missing_child_indices": true,
+    "blind_target_rerun_forbidden": true
   }
 }

@@ -46,16 +46,16 @@ env:
   CURRENT_MAIN: a834864923086e5f7c1647e462804f45ff9ac28d
   MAIN_STATE_BLOB: 070847c669120aef1ab3777239d45878937b41f3
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
-  DESIGN_BLOB: cca9143c29c891434303cfc973ea818f965c8460
-  PLAN_BLOB: a6611f245f71bb958b11efb625d3750d1d011501
-  PLAN_VERIFIER_BLOB: 29cff69ef70afcf1926d6e0566a823e4fbafc1bc
-  RUNKEY_BLOB: 313bd92e6dc1e60a91f74352902eee9693a5cf25
-  STATE_BLOB: eb75735344c3d9daf7c0a8d64eb1bc6069f2107d
-  COLD_WORKFLOW_BLOB: bd61a2c20427318f091469d25e75aa865a397be9
+  DESIGN_BLOB: a92ae6677310b8ed104e6356ca2442936a1245f5
+  PLAN_BLOB: 96af27f62e399e6a161aa435dfdb321b85e05d4c
+  PLAN_VERIFIER_BLOB: 62a3396e998c17ef94ce92c5febc689d62b86411
+  RUNKEY_BLOB: 0b741c2b5d1e5092343cead8ab5faf48fbb0b8ac
+  STATE_BLOB: b88301b60236b8be7b456ce5d11cca480365ee79
+  G4_WORKFLOW_BLOB: e0524ccfcd71912569c0b4e0a2a5fd64d895b349
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
   MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
   REPO_LIFECYCLE_VERIFIER_BLOB: e9a6b164f94a9b49a99c62ea8496daff1314421e
-  REPO_LIFECYCLE_INVENTORY_BLOB: 493130a42a564b20109fc744e359e7edb7757e34
+  REPO_LIFECYCLE_INVENTORY_BLOB: 064e774927d466cf2cbfecf9f304e0156d31c3ca
   BR202_RESULT_BLOB: 06d0d21e5543cd5b5195c93ae431fbc186edd6ba
   BR203_VERIFIER_BLOB: 56c932c90ce2adaf702956e0b600b0a958fd29fe
   BR203_EMITTER_BLOB: 26f1a0cb87140a5050b01fc1cd076f947091ac27
@@ -91,7 +91,7 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json)" = "$RUNKEY_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/STATE.json)" = "$STATE_BLOB"
-          test "$(git hash-object .github/workflows/br204-stage32-bridge-recovery-g4.yml)" = "$COLD_WORKFLOW_BLOB"
+          test "$(git hash-object .github/workflows/br204-stage32-bridge-recovery-g4.yml)" = "$G4_WORKFLOW_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json)" = "$MEASUREMENT_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json)" = "$MEASUREMENT_PAYLOAD_BLOB"
           python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
@@ -115,19 +115,21 @@ jobs:
           assert p["restored_predecessor_carry"]["recompute"] is False
           assert p["restored_predecessor_carry"]["parent_payload_sha256"]=="d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
           assert all(v is False for v in p["credit"].values())
-          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V20_G4_BOOTSTRAP_COLD_GATE"
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V21_G4_COMPACT_EXECUTION_COLD"
           assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
           assert s["routing"]["heavy_compute_armed"] is False
           assert all(v is False for v in s["credit_firewall"].values())
+          assert r["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
           assert r["generation"]==1 and r["armed"] is True
           ac=r["arm_contract"]
           assert ac["audited_doorstep_head"]=="4be08e46894dc8aedde5ce19b7c00da85b85b3af"
           assert ac["audited_doorstep_review_id"]==5312620454
           assert ac["hostile_audit_status"]=="PASS"
-          assert ac["planned_effective_heavy_concurrency"]==12
-          assert ac["repository_stage_concurrency_ceiling"]==18
-          assert ac["observed_other_stage32_heavy_concurrency_at_arm"]==0
-          assert ac["combined_effective_heavy_concurrency_at_arm"]==12
+          assert ac["execution_surface_changed_after_generation1_arm"] is True
+          assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is True
+          assert ac["generation1_heavy_execution_started"] is False
+          assert r["storage"]["intermediate_retention_days"]==14
+          assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==351797248
           assert all(v is False for v in r["credit"].values())
           PY
           echo 'armed=true' >> "$GITHUB_OUTPUT"
@@ -237,68 +239,3 @@ jobs:
           set -euo pipefail
           git -c core.whitespace=-blank-at-eof diff --check "$CURRENT_MAIN" HEAD --             .github/workflows/stage32-bridge-br204-recovery-replay.yml             .github/workflows/br204-stage32-bridge-recovery-g4.yml             stages/stage32/generalization-bridge             docs/research-os/policies/verify_repo_workflow_trigger_inventory.py             docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json
 
-
-  cold-gate-bootstrap:
-    name: cold-gate-bootstrap
-    needs: recovery-replay
-    if: needs.recovery-replay.outputs.runkey_armed == 'false'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          fetch-depth: 1
-      - name: Verify retained MANUAL cold-gate source locks
-        run: |
-          set -euo pipefail
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json)" = "$PREDECESSOR_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json)" = "$DESIGN_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json)" = "$PLAN_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json)" = "$RUNKEY_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/STATE.json)" = "$STATE_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json)" = "$MEASUREMENT_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json)" = "$MEASUREMENT_PAYLOAD_BLOB"
-          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
-      - name: Verify predecessor and zero-credit firewalls
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p=json.loads(Path("stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json").read_text())
-          s=json.loads(Path("stages/stage32/generalization-bridge/STATE.json").read_text())
-          r=json.loads(Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json").read_text())
-          m=json.loads(Path("stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json").read_text())
-          assert p["schema"]=="STAGE32_BR204_G4_PREDECESSOR_CERTIFICATE_V1"
-          assert p["frontier_before_g4"]["expected_target_count"]==69
-          assert p["frontier_before_g4"]["complete_target_count"]==0
-          assert p["restored_predecessor_carry"]["exact_child64_indices"]==[0,16,32,48]
-          assert p["restored_predecessor_carry"]["recompute"] is False
-          assert all(v is False for v in p["credit"].values())
-          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V20_G4_BOOTSTRAP_COLD_GATE"
-          assert s["routing"]["heavy_compute_armed"] is False
-          assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
-          assert all(v is False for v in s["credit_firewall"].values())
-          assert r["generation"]==0 and r["armed"] is False
-          assert all(v is False for v in r["credit"].values())
-          assert m["payload_bytes"]==448 and m["within_hard_cap"] is True
-          PY
-      - name: Verify current MAIN source lock
-        run: |
-          set -euo pipefail
-          git fetch --no-tags --depth=1 origin main
-          test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
-          test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"
-      - name: Confirm heavy execution remains unavailable
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          p=json.loads(Path("stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json").read_text())
-          r=json.loads(Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json").read_text())
-          assert p["authorization"]["heavy_compute_authorized"] is False
-          assert p["authorization"]["runkey_armed"] is False
-          assert r["armed"] is False
-          print("G4 compact mainline bootstrap cold gate: PASS; heavy remains unauthorized")
-          PY
