@@ -13,8 +13,6 @@ from sympy import Matrix
 ROOT = Path(__file__).resolve().parents[3]
 ENGINE = ROOT / "stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.py"
 ENGINE_BLOB = "e7857e9213ca9107edada1424012a7a1c902a625"
-PREFIX = ROOT / "stages/stage32/residual-32-01-production/pairing_prefix_engine.py"
-PREFIX_BLOB = "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
 
 
 def req(v: bool, msg: str) -> None:
@@ -44,29 +42,31 @@ def min_square_sum(total: int, count: int) -> int:
 
 def main() -> None:
     req(ENGINE.is_file() and blob(ENGINE) == ENGINE_BLOB, "FP58 engine drift")
-    req(PREFIX.is_file() and blob(PREFIX) == PREFIX_BLOB, "pairing-prefix engine drift")
     eng = load(ENGINE, "stage32ex5_eff_affine07_engine")
-    prefix = load(PREFIX, "stage32ex5_eff_affine07_prefix")
 
-    _F, _A, _I, _RK, _R, _L, _diag, _coeff, _dual, P, _gram = eng.build()
+    F, _A, _I, _RK, _R, _L, _diag, _coeff, _dual, P, _gram = eng.build()
+    H = F.row(0)
+    E = F.row(1)
     marking = eng.load(eng.MARKING, "stage32ex5_eff_affine07_marking").load()
-    bundle = eng.load(eng.RETAINED, "stage32ex5_eff_affine07_bundle").load()
-    base = eng.load(eng.BASE, "stage32ex5_eff_affine07_base")
-    data = base.reconstruct_translation_data(marking, bundle)
-    bridge = data["bridge"]
-    H = Matrix(1, 64, bridge.degree_functional)
-    E = Matrix(1, 64, bridge.exceptional_mass_functional)
+    gens = [tuple(int(v) - 1 for v in p) for p in marking["aut_action"]["permutations_1based"]]
+    req(gens and all(len(g) == 140 and sorted(g) == list(range(140)) for g in gens),
+        "Aut generators")
 
-    group = prefix.close_permutation_group(marking["aut_action"]["permutations_1based"])
-    unseen = set(range(140))
-    orbits = []
-    while unseen:
-        seed = min(unseen)
-        orbit = tuple(sorted({g[seed] for g in group}))
-        orbits.append(orbit)
-        unseen.difference_update(orbit)
+    def point_orbit(seed: int) -> tuple[int, ...]:
+        seen = {seed}
+        queue = [seed]
+        while queue:
+            cur = queue.pop()
+            for gen in gens:
+                nxt = gen[cur]
+                if nxt not in seen:
+                    seen.add(nxt)
+                    queue.append(nxt)
+        return tuple(sorted(seen))
 
-    req(sorted(len(o) for o in orbits) == [12, 32, 48, 48], "Aut orbit partition drift")
+    orbits = [point_orbit(seed) for seed in (0, 32, 44, 92)]
+    expected = [tuple(range(0, 32)), tuple(range(32, 44)), tuple(range(44, 92)), tuple(range(92, 140))]
+    req(orbits == expected, "Aut point-orbit partition drift")
     span = Matrix.hstack(H.T, E.T)
     rows = []
     total_lb = 0
@@ -115,7 +115,7 @@ def main() -> None:
     out = {
         "schema": "STAGE32EX5_EFF_AFFINE07_ORBIT_MASS_ENERGY_V1",
         "status": "PASS_EXACT_AUT_ORBIT_MASS_TEST",
-        "aut_group_order": len(group),
+        "aut_generator_count": len(gens),
         "orbits": rows,
         "all_orbit_masses_fixed_by_d_e": all_fixed,
         "coarse_block_energy_lower_bound": coarse_lb,
