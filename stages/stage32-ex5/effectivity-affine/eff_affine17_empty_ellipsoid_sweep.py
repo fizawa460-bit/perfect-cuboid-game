@@ -168,6 +168,7 @@ def main() -> None:
     empty_by_dim = {}
     survivor_by_dim = {}
     per_key = []
+    remaining_ranked = []
 
     for base4 in aff15.SAMPLE_BASE4:
         key_rows = [r for r in candidates if r["base4"] == base4]
@@ -204,6 +205,9 @@ def main() -> None:
                 radius_survivors += 1
                 key_survive += 1
                 survivor_by_dim[dim] = survivor_by_dim.get(dim, 0) + 1
+                remaining_ranked.append((
+                    dim, radius, tuple(base4), row["A"], row["AB"], row["C"], row["p100"], row["mask"]
+                ))
                 if len(examples) < 12:
                     examples.append({
                         "A": row["A"], "AB": row["AB"], "B": row["B"],
@@ -225,6 +229,23 @@ def main() -> None:
     req(hnf_unsat == 478, "AFFINE15 HNF UNSAT drift")
     req(hnf_survivors == 296, "AFFINE15 survivor drift")
     req(empty_unsat + radius_survivors == 296, "radius partition")
+    remaining_ranked.sort(key=lambda x: (x[0], x[1], x[2], x[3], x[4], x[5], x[6], x[7]))
+    best_remaining = [
+        {
+            "kernel_dimension": dim,
+            "exact_radius_squared": str(radius),
+            "exact_real_max_C2": str(eng.LOW + radius),
+            "base4": list(base4),
+            "A": a,
+            "AB": ab,
+            "B": ab - a,
+            "C": c,
+            "D": eng.E - ab - c,
+            "p100": p100,
+            "zero_pattern_mask": mask,
+        }
+        for dim, radius, base4, a, ab, c, p100, mask in remaining_ranked[:20]
+    ]
 
     out = {
         "schema": "STAGE32EX5_EFF_AFFINE17_EMPTY_ELLIPSOID_SWEEP_V1",
@@ -241,6 +262,7 @@ def main() -> None:
         "survivor_kernel_dimension_histogram": {
             str(k): survivor_by_dim[k] for k in sorted(survivor_by_dim)
         },
+        "best_remaining_fibers": best_remaining,
         "rows": per_key,
         "interpretation": {
             "what_is_proved": (
