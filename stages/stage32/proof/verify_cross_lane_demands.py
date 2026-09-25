@@ -50,7 +50,7 @@ def main():
     req(f["v49_178_fullsupport_384_main_numeric_bound_replacement_consumed"] is True and f["v49_additive_subtraction_performed"] is False and f["v49_exact_incremental_rejected_identity_set_claimed"] is False,"V49 accounting firewall")
     req(f["full178_numerical_census_complete"] is True,"FULL178 census not synchronized")
     req(st["current"]["mainbatch_stop_gate"]=="NONE","MAIN stop gate")
-    req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","MAIN next route")
+    req(st["current"]["next_exact_route"]=="ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS","MAIN next route")
     req(st["current"]["operator_entrypoint"]=="stage32mainbatch","MAIN operator entrypoint")
     req(st["current"]["routing_mode"]=="ROADMAP_FIRST_ON_DEMAND_SPECIALIST_DISPATCH","MAIN routing mode")
     sweep=st["source_locks"]["live_specialist_sweep"]
