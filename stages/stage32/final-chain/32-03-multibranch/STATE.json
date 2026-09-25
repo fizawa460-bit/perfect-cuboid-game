@@ -3219,8 +3219,35 @@
             "conclusion": "only d=192 (2,3,8) remains"
           },
           "m1": {
-            "status": "OPEN_NOT_FULLY_CLASSIFIED_BY_THIS_GATE",
-            "reason": "the present retained step deliberately stops after the m>=2 high-value reduction; m=1 has a larger finite triangle list and is not silently collapsed"
+            "status": "FINITE_CLASSIFIED_NOT_CLOSED",
+            "survivors": [
+              {
+                "degree": 64,
+                "signature": [
+                  2,
+                  4,
+                  8
+                ]
+              },
+              {
+                "degree": 96,
+                "signature": [
+                  3,
+                  3,
+                  4
+                ]
+              },
+              {
+                "degree": 192,
+                "signature": [
+                  2,
+                  3,
+                  8
+                ]
+              }
+            ],
+            "source": "Takeuchi Class III complete arithmetic triangle list plus d>=56",
+            "conclusion": "exactly three rational-core triangle types remain at m=1"
           },
           "disposition": {
             "marked_degree84_route": "CLOSED: the m=4,5,6 marked U degree-84 construction would compose with C8->C8/H to a forbidden pure (2,3,7) compact triangle map",
@@ -3240,6 +3267,215 @@
             "theorem_credit": false,
             "endpoint_credit": false,
             "merge_authorized": false
+          },
+          "takeuchi_class_III_exact_filter": {
+            "status": "EXACT_PREAUDIT_TAKEUCHI_CLASS_III_COMPLETE_TRIANGLE_FILTER_ZERO_CREDIT",
+            "source": {
+              "primary": "K. Takeuchi, Commensurability classes of arithmetic triangle groups (1977)",
+              "explicit_class_III_table": "Fang-Ting Tu and Yifan Yang, Algebraic transformations of hypergeometric functions and automorphic forms on Shimura curves, Appendix A / Class III",
+              "logic": "Delta(2,3,8) is arithmetic. Any triangle group commensurable with it is arithmetic and therefore appears in Takeuchi's complete arithmetic triangle classification; Class III is exactly its commensurability class."
+            },
+            "class_III_triangle_signatures": [
+              [
+                2,
+                6,
+                8
+              ],
+              [
+                2,
+                3,
+                8
+              ],
+              [
+                4,
+                6,
+                6
+              ],
+              [
+                3,
+                8,
+                8
+              ],
+              [
+                3,
+                3,
+                4
+              ],
+              [
+                2,
+                4,
+                8
+              ],
+              [
+                4,
+                4,
+                4
+              ],
+              [
+                2,
+                8,
+                8
+              ],
+              [
+                4,
+                8,
+                8
+              ]
+            ],
+            "genus5_degree_rule": "for a pure triangle map C8->P1, d=8/(1-1/a-1/b-1/c), and rational-core group counting also gives d>=n=56*m",
+            "exact_table": [
+              {
+                "signature": [
+                  2,
+                  6,
+                  8
+                ],
+                "delta": "5/24",
+                "d": "192/5"
+              },
+              {
+                "signature": [
+                  2,
+                  3,
+                  8
+                ],
+                "delta": "1/24",
+                "d": 192
+              },
+              {
+                "signature": [
+                  4,
+                  6,
+                  6
+                ],
+                "delta": "5/12",
+                "d": "96/5"
+              },
+              {
+                "signature": [
+                  3,
+                  8,
+                  8
+                ],
+                "delta": "5/12",
+                "d": "96/5"
+              },
+              {
+                "signature": [
+                  3,
+                  3,
+                  4
+                ],
+                "delta": "1/12",
+                "d": 96
+              },
+              {
+                "signature": [
+                  2,
+                  4,
+                  8
+                ],
+                "delta": "1/8",
+                "d": 64
+              },
+              {
+                "signature": [
+                  4,
+                  4,
+                  4
+                ],
+                "delta": "1/4",
+                "d": 32
+              },
+              {
+                "signature": [
+                  2,
+                  8,
+                  8
+                ],
+                "delta": "1/4",
+                "d": 32
+              },
+              {
+                "signature": [
+                  4,
+                  8,
+                  8
+                ],
+                "delta": "1/2",
+                "d": 16
+              }
+            ],
+            "balanced_m_survivors": {
+              "m1": [
+                {
+                  "degree": 64,
+                  "signature": [
+                    2,
+                    4,
+                    8
+                  ]
+                },
+                {
+                  "degree": 96,
+                  "signature": [
+                    3,
+                    3,
+                    4
+                  ]
+                },
+                {
+                  "degree": 192,
+                  "signature": [
+                    2,
+                    3,
+                    8
+                  ]
+                }
+              ],
+              "m2": [
+                {
+                  "degree": 192,
+                  "signature": [
+                    2,
+                    3,
+                    8
+                  ]
+                }
+              ],
+              "m3": [
+                {
+                  "degree": 192,
+                  "signature": [
+                    2,
+                    3,
+                    8
+                  ]
+                }
+              ],
+              "m_ge_4": []
+            },
+            "consequences": [
+              "the rational-core balanced branch is completely triangle-classified for every m>=1",
+              "m>=4 is excluded without solving the marked degree-84 Belyi equation",
+              "m=2 and m=3 retain only the natural commensurability-class signature (2,3,8) at degree 192",
+              "m=1 retains exactly three commensurable signatures: degree 64 (2,4,8), degree 96 (3,3,4), degree 192 (2,3,8)"
+            ],
+            "next_target": "classify the common-etale/clump compatibility of the finite rational-core list: m1 has three triangle types; m2,m3 only degree-192 (2,3,8). In parallel, the coreless/no-clump branch remains open.",
+            "firewalls": {
+              "m1_rational_core_closed": false,
+              "m2_rational_core_closed": false,
+              "m3_rational_core_closed": false,
+              "m_ge_4_rational_core_closed": true,
+              "rational_core_branch_closed": false,
+              "coreless_case_excluded": false,
+              "balanced_bulk_closed": false,
+              "e2_closed": false,
+              "receiver_credit": false,
+              "theorem_credit": false,
+              "endpoint_credit": false,
+              "merge_authorized": false
+            }
           }
         }
       }
@@ -3249,8 +3485,9 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12. Stothers existence check closes the unmarked-passport route: specification (84,0,8,0,0) exists. Therefore m=4,5,6 can only be attacked through the marked eight-point configuration U=R^8-16S^8 or stronger common-etale/diagonal-G data. Compact-X(8) triangle commensurability now supersedes the m>=4 marked-Belyi route: the natural compact cover C8=X(8)->X(1) gives surface field Q(sqrt(2)); any rational-core pure triangle map must be commensurable with Delta(2,3,8). Thus m>=4/(2,3,7) is excluded, while m=2 and m=3 each retain only d=192, signature (2,3,8). This uses the compact (2,3,8) triangle cover, not punctured Gamma(8).",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12. Stothers existence check closes the unmarked-passport route: specification (84,0,8,0,0) exists. Therefore m=4,5,6 can only be attacked through the marked eight-point configuration U=R^8-16S^8 or stronger common-etale/diagonal-G data. Compact-X(8) triangle commensurability now supersedes the m>=4 marked-Belyi route: the natural compact cover C8=X(8)->X(1) gives surface field Q(sqrt(2)); any rational-core pure triangle map must be commensurable with Delta(2,3,8). Thus m>=4/(2,3,7) is excluded, while m=2 and m=3 each retain only d=192, signature (2,3,8). This uses the compact (2,3,8) triangle cover, not punctured Gamma(8). Takeuchi Class III now completes the rational-core triangle classification for all balanced m: m=1 leaves exactly (2,4,8),d=64; (3,3,4),d=96; (2,3,8),d=192. m=2,3 each leave only (2,3,8),d=192. m>=4 leaves no rational-core triangle.",
     "success_shapes": [
+      "resolve the finite rational-core triangle list: at m=1 test degree 64 (2,4,8), degree 96 (3,3,4), degree 192 (2,3,8); at m=2,3 test only degree 192 (2,3,8), against the exact ramification clump/common-etale correspondence",
       "for rational-core m=2,3, classify the compatibility of the two surviving degree-192 pure (2,3,8) core maps with R_h=f1^*R_q1=f2^*R_q2 and the retained diagonal-H/common-etale structure",
       "exclude or classify the marked degree-84 Belyi problem with the eight simple order-2 points fixed at the octic configuration U=R^8-16S^8; abstract passport existence is already known",
       "classify or exclude the fixed degree-84 Belyi passport 1^8 2^38 / 3^28 / 7^12 with prescribed simple order-2 fiber U=R^8-16S^8; this closes the rational-core cases m=4,5,6 if excluded",
@@ -3300,7 +3537,8 @@
       "returning to arbitrary rational-core maps for m=4,5,6: they are now reduced to the fixed degree-84 (2,3,7) Belyi passport with U=R^8-16S^8",
       "trying to exclude the m=4,5,6 rational-core branch by bare (2,3,7) subgroup/passport nonexistence; Stothers' classification realizes specification (84,0,8,0,0)",
       "solving the marked degree-84 (2,3,7) Belyi coefficient identity for m=4,5,6: compact-X(8) triangle commensurability already excludes any marked realization",
-      "using punctured Gamma(8) as the compact uniformizing group: the valid compact commensurability adapter is the Galois (2,3,8) cover X(8)->X(1)"
+      "using punctured Gamma(8) as the compact uniformizing group: the valid compact commensurability adapter is the Galois (2,3,8) cover X(8)->X(1)",
+      "searching for additional rational-core triangle signatures outside Takeuchi Class III: compact C8 is in the arithmetic (2,3,8) commensurability class, so the complete Class III list is exhaustive"
     ]
   },
   "routing": {
@@ -3517,7 +3755,36 @@
       }
     ],
     "e2_unique_pair_rational_core_mge4_marked_U_geometry_disposition": "CLOSED_BY_COMPACT_X8_TRIANGLE_COMMENSURABILITY",
-    "e2_unique_pair_rational_core_m1_triangle_filter_complete": false
+    "e2_unique_pair_rational_core_m1_triangle_filter_complete": true,
+    "e2_unique_pair_rational_core_takeuchi_classIII_filter_exact": true,
+    "e2_unique_pair_rational_core_triangle_classification_complete_all_m": true,
+    "e2_unique_pair_rational_core_m1_survivors": [
+      {
+        "degree": 64,
+        "signature": [
+          2,
+          4,
+          8
+        ]
+      },
+      {
+        "degree": 96,
+        "signature": [
+          3,
+          3,
+          4
+        ]
+      },
+      {
+        "degree": 192,
+        "signature": [
+          2,
+          3,
+          8
+        ]
+      }
+    ],
+    "e2_unique_pair_rational_core_mge4_survivor_count": 0
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
