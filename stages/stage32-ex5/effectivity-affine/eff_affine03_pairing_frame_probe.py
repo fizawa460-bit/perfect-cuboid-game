@@ -19,8 +19,10 @@ def upper(m):
  return Matrix([m[i,j] for i in range(64) for j in range(i,64)])
 def span_solution(forms,target):
  A=Matrix.hstack(*[upper(x) for x in forms]); b=upper(target)
- sol=Matrix(A).gauss_jordan_solve(b)
- x,params=sol
+ try:
+  x,params=Matrix(A).gauss_jordan_solve(b)
+ except ValueError:
+  return None
  return None if params.rows else [x[i,0] for i in range(x.rows)]
 def main():
  for p,h in LOCK.items():req(blob(p)==h,"lock "+str(p))
