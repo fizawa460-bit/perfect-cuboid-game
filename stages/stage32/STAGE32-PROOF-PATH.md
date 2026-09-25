@@ -66,16 +66,18 @@ Therefore the Q602 post-sync audit gate is complete. `Q602_excluded=true` remain
 
 The remaining mathematical interface is now exactly:
 
-`FULL178_AND_FINAL_MILESTONE_CHAIN`.
+`EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN`.
+
+The FULL178 numerical-census predecessor is now audited complete as `S32.FULL178.NUMERICAL_CENSUS.V2`.
 
 ## 5. MAIN / EX routing after Q602 completion
 
-- `MAIN`: integration/frontier coordinator. Current route is `FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS`.
+- `MAIN`: integration/frontier coordinator. Current route is `EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS`.
 - `EX1`: completed audited handoff; provenance only.
 - `EX2`: old V6 actual-member branch dominated by audited V6 population emptiness; no active claim.
 - `EX3`: O210/Q602 authority consumer/provenance only.
 - `EX4`: Q602 marking provenance only; selected route parked.
-- `EX5`: active FULL178 / receiver-breadth weapon lane. The BTVA node-support/span checkpoint is audited infrastructure, but FULL178 remains incomplete.
+- `EX5`: active 32-02 Picard64/affine certificate backend. It supports effectivity work and does not reopen the completed numerical census.
 - `EX6`: stopped pending new endpoint input.
 
 PR #1742 is an EX5 working surface for BC2-02. Its retained blocker says FULL178 production lacks the exact per-candidate 59-entry Picard witness / 48 exceptional-pairing support certificate needed to fire the BTVA projective-span cut. That blocker is not Stage32 MAIN mathematical credit.
@@ -94,9 +96,9 @@ The current Stage32 roadmap chain is:
 
 Current execution interpretation:
 
-1. `32-01-XL` is primary and incomplete. FULL178 support reconstruction and independent global cuts may proceed in parallel.
-2. `32-02-L` final execution waits for the complete 32-01 survivor/orbit ledger, but effectivity verifier/linear-system/decomposition/RR-vanishing preparation may proceed without claiming effectivity disposal.
-3. `32-03-L` is a separate receiver and may progress independently of FULL178. It must classify multibranch normalization profiles, delta/genus corrections, exact Aut(S) quotienting, justified finite degree/intersection restrictions, finite Picard enumeration where available, and exact effectivity/carrier certificates.
+1. `32-01-XL` is **AUDITED COMPLETE** through `S32.FULL178.NUMERICAL_CENSUS.V2`. Further numerical tightening is optional and must not be treated as a prerequisite.
+2. `32-02-L` is the primary active unit. It consumes the completed 32-01 numerical ledger and must rigorously dispose all remaining effectivity/carrier cases.
+3. `32-03-L` is the active parallel receiver and may progress independently of 32-02. It must classify multibranch normalization profiles, delta/genus corrections, exact Aut(S) quotienting, justified finite degree/intersection restrictions, finite Picard enumeration where available, and exact effectivity/carrier certificates.
 4. `32-04-M` waits for 32-01/02/03 outputs.
 5. MAIN must stop before self-awarding `32-05`; final hostile audit is external.
 
@@ -110,11 +112,10 @@ On `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOT
 
 This reentry changes routing/audit metadata only. The V6/O210/Q602 immutable mathematical cores above remain unchanged.
 
-## 8. FULL178 and final closure remain open
+## 8. Numerical census complete; final closure remains open
 
-`S32.FULL178.NUMERICAL_CENSUS.V1` remains incomplete. The reserved final milestone chain remains:
+`S32.FULL178.NUMERICAL_CENSUS.V2` is audited complete. The remaining reserved final milestone chain is:
 
-- `S32.PROOF.NUMERICAL_CENSUS.V1`
 - `S32.PROOF.EFFECTIVITY_DISPOSAL.V1`
 - `S32.PROOF.MULTIBRANCH_LEDGER.V1`
 - `S32.PROOF.INTEGRATED_SYNTHESIS.V1`
