@@ -69,12 +69,18 @@ def main() -> None:
         "retired EX5 startup surface missing from archive")
 
     lanes = json.loads(LANES.read_text(encoding="utf-8"))
+    req(lanes["contract"]["ordinary_startup_reads_cross_lane_demands"] is False,
+        "lane registry still forces demand preload on ordinary MAIN startup")
     rows = [row for row in lanes["lanes"] if row.get("lane") == "EX5"]
     req(len(rows) == 1, "EX5 lane adapter missing or duplicated")
     ex5 = rows[0]
     req(ex5["state_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 state path drift")
     req(ex5["startup_path"] == "stages/stage32-ex5/MAIN-STATE.json", "EX5 startup path not collapsed")
     req(ex5["demand_state_path"] is None, "EX5 stale local demand mirror still live")
+    req(ex5["lane_status"] == "ACTIVE_INTERNAL_32_02_HELPER_LEGACY_STATE",
+        "EX5 not classified as internal 32-02 helper")
+    req(ex5.get("ordinary_operator_entrypoint") is False and ex5.get("routing_authority") is False,
+        "EX5 legacy state leaked back into operator/routing authority")
 
     bridge_rows = [row for row in lanes["lanes"] if row.get("lane") == "BRIDGE"]
     req(len(bridge_rows) == 1, "BRIDGE lane adapter missing or duplicated")
@@ -82,6 +88,21 @@ def main() -> None:
     req(bridge["state_path"] == "stages/stage32/generalization-bridge/STATE.json", "BRIDGE state path drift")
     req(bridge["startup_path"] == "stages/stage32/generalization-bridge/MAIN-START-HERE.md", "BRIDGE startup path drift")
     req(bridge["demand_state_path"] is None, "BRIDGE unexpected local demand mirror")
+    req(bridge["lane_status"] == "PARKED_OPTIONAL_POST_32_01_REFINEMENT",
+        "BRIDGE not parked after 32-01 completion")
+    req(bridge["demand_role"] == "ROUTABLE_IF_REOPENED" and bridge.get("ordinary_operator_entrypoint") is False,
+        "BRIDGE still exposed as ordinary route")
+
+    lane_by_name = {row["lane"]: row for row in lanes["lanes"]}
+    req(lane_by_name["32-01-178"]["lane_status"] == "PARKED_RETAINED_AFTER_AUDITED_32_01_COMPLETION",
+        "178 lane not parked after audited 32-01 completion")
+    req(lane_by_name["CUT"]["lane_status"] == "RETAINED_HISTORY_NO_OPEN_SUCCESSOR",
+        "CUT lane still presented as active")
+    req(lane_by_name["MB"]["lane_status"] == "ACTIVE_INTERNAL_32_03_EXECUTION",
+        "MB not classified as internal 32-03 execution")
+    for name in ("32-01-178", "CUT", "MB"):
+        req(lane_by_name[name].get("ordinary_operator_entrypoint") is False,
+            f"{name} leaked into ordinary operator surface")
 
     fib_rows = [row for row in lanes["lanes"] if row.get("lane") == "MB-FIB"]
     req(len(fib_rows) == 0, "MB-FIB must remain outside the Stage32 claim-lane adapter registry")
