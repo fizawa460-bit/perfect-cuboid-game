@@ -812,17 +812,18 @@ def main():
 
                         imm=ob["etale_immersion"]
                         req(imm["f1_etale"] is True and imm["f2_etale"] is True, "both product projections etale")
-                        req(imm["normalization_map_birational"] is True and imm["normalization_map_immersive"] is True, "birational immersion")
-                        req(imm["all_self_collision_branches_pairwise_transverse"] is True, "transverse self-collisions")
-                        req(imm["all_singularities_ordinary_multiple_points"] is True, "ordinary multiple points")
-                        req(imm["tangency_argument"] == "on every off-diagonal component of Z x_(f1,C8,f1) Z, the two induced maps to C8 are finite etale; a tangent coincidence would give a disk automorphism with a fixed point and derivative 1, hence identity, contradicting birationality", "etale tangency argument")
+                        req(imm["normalization_map_birational"] is True and imm["normalization_map_immersive"] is True, "birational branchwise immersion")
+                        req(imm["each_normalization_branch_smooth"] is True, "smooth normalization branches")
+                        req(imm["unibranch_cusp_possible"] is False, "no unibranch cusp")
+                        req(imm["pairwise_transversality_claimed"] is False, "no unsupported transversality claim")
+                        req(imm["safe_consequence"] == "every branch is smooth; distinct branches may still be tangent, so interior local estimates use the general delta>=binom(multiplicity,2) bound rather than ordinary-point equality", "safe immersion consequence")
 
                         orb=ob["interior_H_orbit"]
                         req(orb["H_order"] == 4 and orb["nontrivial_fixed_types"] == ["g1","g2"], "interior orbit H data")
                         req(orb["g1g2_fixed_point_free"] is True, "interior orbit free product involution")
                         req(orb["unsupported_H_fixed_points_avoided_by_support_mask"] is True, "support mask excludes other H-fixed points")
                         req(orb["interior_singularity_orbit_size"] == 4, "interior singularity orbit size")
-                        req(orb["per_orbit_delta_lower"] == "4*binom(r,2)", "interior orbit delta charge")
+                        req(orb["per_orbit_delta_lower"] == "4*binom(mult,2)", "interior orbit multiplicity charge")
 
                         num=ob["product_pair_numbers"]
                         req(num == {
@@ -834,15 +835,17 @@ def main():
                             "delta_total":"784*l^2+112*l",
                             "supported_branch_incidence":"224*l",
                             "delta_interior":"4*(336*m^2+112*m-2*Q)",
-                            "branch_square_sum_upper":"8960*m^2+1792*m-16*Q",
+                            "langer_local_quadratic_bracket_upper":"8960*m^2+1792*m-16*Q",
                         }, "orbifold-BMY product numerics")
 
                         lg=ob["langer_reduction"]
                         req(lg["boundary"] == "D=alpha*Zbar on P=C8 x C8", "Langer boundary")
-                        req(lg["ordinary_point_lc_condition"] == "alpha*r<=2", "ordinary point lc condition")
-                        req(lg["global_upper"] == "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*sum_P r_P^2)", "Langer reduced inequality")
-                        req(lg["R_interior_upper"] == "R_int<=2*delta_int", "interior incidence upper")
-                        req(lg["sum_r2_identity"] == "sum r_P^2=2*delta_total+R_total", "branch-square identity")
+                        req(lg["lc_sufficient_check"] == "alpha*mult_P(Zbar)<=2 at every singular point", "Langer lc multiplicity check")
+                        req(lg["general_local_term"] == "alpha*(branches-mult)+(alpha^2/4)*mult^2", "Langer general local term")
+                        req(lg["interior_local_upper"] == "alpha*(branches-mult)+(alpha^2/4)*mult^2 <= alpha^2*delta_P", "interior local delta upper")
+                        req(lg["supported_ordinary_passport_used"] is True, "supported ordinary passport")
+                        req(lg["supported_local_quadratic_identity"] == "sum_supp mult^2=2*delta_supp+R_supp", "supported ordinary identity")
+                        req(lg["global_upper"] == "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*(2*delta_total+R_supp+2*delta_int))", "Langer reduced inequality")
 
                         sh=ob["high_energy_shell_pruning"]
                         req(sh["m1"] == {
@@ -875,10 +878,9 @@ def main():
                             ll=2*mm
                             delta_total=784*ll*ll+112*ll
                             delta_int=4*(336*mm*mm+112*mm-2*QQ)
-                            R_upper=224*ll+2*delta_int
-                            sum_r2=2*delta_total+R_upper
+                            local_bracket=2*delta_total+224*ll+2*delta_int
                             lhs=Fraction(128,1)+2*aa*(448*ll)+aa*aa*(1568*ll*ll)
-                            eorb=Fraction(64,1)+aa*(224*ll)+aa*aa*Fraction(sum_r2,4)
+                            eorb=Fraction(64,1)+aa*(224*ll)+aa*aa*Fraction(local_bracket,4)
                             return lhs,3*eorb,lhs-3*eorb
                         req(shell_gap(1,192,Fraction(1,8))[2] == 0, "m1 Q=192 exact BMY boundary")
                         req(shell_gap(1,193,Fraction(1,8))[2] == Fraction(3,16), "m1 Q=193 excluded")
@@ -886,7 +888,7 @@ def main():
                         req(shell_gap(2,566,Fraction(1,16))[2] == Fraction(33,32), "m2 shell lower excluded")
                         req(shell_gap(2,672,Fraction(1,16))[2] == 6, "old m2 witness excluded by six-unit gap")
 
-                        req(ob["result"] == "etaleness upgrades the normalization map to an immersion and forces every self-collision to be an ordinary transverse multiple point; H-freeness charges every interior singularity in orbits of four, and Langer's orbifold BMY inequality closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192", "orbifold-BMY result")
+                        req(ob["result"] == "etaleness makes every normalization branch smooth but does not force distinct branches transverse; using the general delta>=binom(multiplicity,2) bound, the free H-orbit multiplicity charge, the retained ordinary supported-point passport, and Langer's orbifold BMY inequality still closes the entire m=2 high-energy shell and cuts the m=1 shell to 118<=Q<=192", "orbifold-BMY result")
                         req(all(v is False for v in ob["firewalls"].values()), "orbifold-BMY firewalls")
                         req(routing["e2_unique_pair_etale_immersion_exact"] is True, "orbifold-BMY immersion routing")
                         req(routing["e2_unique_pair_orbifold_bmy_exact"] is True, "orbifold-BMY exact routing")
