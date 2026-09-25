@@ -156,7 +156,10 @@ def main() -> None:
 
     cur = st["current"]
     req(cur["latest_main_native_research"] == "V49_POST_V48_178_FULLSUPPORT_384_AUTHORITY_SYNC", "latest MAIN research")
-    req(cur["next_exact_route"] == "EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS", "next route")
+    req(cur["next_exact_route"] == "ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS", "next route")
+    req(cur["operator_entrypoint"] == "stage32mainbatch", "operator entrypoint")
+    req(cur["routing_mode"] == "ROADMAP_FIRST_ON_DEMAND_SPECIALIST_DISPATCH", "routing mode")
+    req(st["authority_sync"]["current_repository_main"] == "a834864923086e5f7c1647e462804f45ff9ac28d", "current repository main projection")
 
     locks = st["source_locks"]["v49_post_v48_178_fullsupport_384_authority_sync"]
     req(locks["receipt_blob_sha1"] == RECEIPT_BLOB, "state receipt lock")
@@ -168,15 +171,20 @@ def main() -> None:
     req(locks["hostile_audit_review_id"] == AUDIT_REVIEW, "state audit review lock")
 
     sweep = st["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == "a834864923086e5f7c1647e462804f45ff9ac28d", "live sweep main")
-    req(sweep["sweep_date"] == "2026-09-25", "live sweep date")
-    req(sweep["lane_178_head"] == PRODUCER_HEAD, "live sweep 178 head")
-    req(sweep["lane_178_latest_audited_exact_head"] == HANDOFF_HEAD, "live sweep 178 audit head")
-    req(sweep["lane_178_latest_audit_review_id"] == AUDIT_REVIEW, "live sweep 178 audit receipt")
-    req(sweep["lane_178_pending_main_handoff"] == "NONE", "live sweep 178 pending handoff")
-    req(sweep["ex5_pr"] == 1831 and sweep["ex5_head"] == "e1ab78bc3de90bb116f3d65cb3e6793767b88075", "live sweep EX5")
-    req(sweep["cut_open_successor"] is False and sweep["cut_pending_main_handoff"] == "NONE", "live sweep CUT")
-    req(sweep["mb_pr"] == 1827 and sweep["mb_head"] == "aae50aa93bea7318b2b063564fa4492007ac9f22", "live sweep MB")
+    req(sweep["mode"] == "ROADMAP_SELECTED_ON_DEMAND_COORDINATION_SNAPSHOT", "coordination snapshot mode")
+    req(sweep["global_sweep_required"] is False, "global sweep unexpectedly required")
+    req(sweep["observed_repository_main"] == "a834864923086e5f7c1647e462804f45ff9ac28d", "coordination main")
+    req(sweep["sweep_date"] == "2026-09-25", "coordination date")
+    req(sweep["lane_178_status"] == "PARKED_RETAINED_AFTER_AUDITED_32_01_COMPLETION", "178 parked status")
+    req(sweep["lane_178_retained_source_head"] == PRODUCER_HEAD, "178 retained source head")
+    req(sweep["lane_178_latest_audited_exact_head"] == HANDOFF_HEAD, "178 audit head")
+    req(sweep["lane_178_latest_audit_review_id"] == AUDIT_REVIEW, "178 audit receipt")
+    req(sweep["lane_178_pending_main_handoff"] == "NONE", "178 pending handoff")
+    req(sweep["ex5_pr"] == 1831 and sweep["ex5_head"] == "ffc3cf84ff9995b91bacd406193a05708f8cc84e", "32-02 EX5 helper")
+    req(sweep["mb_pr"] == 1827 and sweep["mb_head"] == "50205efc2d57af4553cff75dd3667b204e4b089d", "32-03 MB")
+    req(sweep["mb_fib_pr"] == 1829 and sweep["mb_fib_head"] == "090cf1ce97819736f9be09a9a96fb6421349acad", "32-03 MB-FIB")
+    req(sweep["bridge_status"] == "PARKED_OPTIONAL_POST_32_01_REFINEMENT" and sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE parked")
+    req(sweep["cut_status"] == "RETAINED_HISTORY_NO_OPEN_SUCCESSOR" and sweep["cut_pending_main_handoff"] == "NONE", "CUT retained")
 
     for k in ("effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):
         req(st["firewalls"][k] is False, "firewall " + k)
