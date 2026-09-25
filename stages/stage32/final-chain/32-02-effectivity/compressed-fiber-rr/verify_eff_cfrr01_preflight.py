@@ -92,8 +92,16 @@ def main() -> None:
         "BTVA preflight schema")
     iface = btva["exact_interface"]
     req(iface["picard_variable"] == "x in Z^64 retained Picard basis", "Picard64 interface")
-    req(iface["per_terminal_59d_witness_required"] is False, "per-terminal witness bypass")
-    req(iface["per_terminal_identity_required"] is False, "per-terminal identity bypass")
+    req(iface["compressed_observable_order"] == ["a","b","c","t","x4","e","d","r0","r1","r2","r3","r4"],
+        "compressed observable order")
+    relaxed = iface["safe_relaxed_effective_curve_conditions"]
+    req("the twelve compressed observables equal the requested static/residual key" in relaxed,
+        "compressed-key equality contract")
+    req("x is integral Picard64" in relaxed, "integral Picard64 existential lift")
+    req(iface["all140_normal_nonnegativity_required_for_this_preflight"] is False,
+        "normal nonnegativity relaxation")
+    req("UNSAT" in iface["why_relaxed_is_safe"] and "sound exclusion" in iface["why_relaxed_is_safe"],
+        "relaxation UNSAT safety")
 
     v47 = json.loads((ROOT / locks["v47_authority_path"]).read_text(encoding="utf-8"))
     req(p["authority"]["v47_full178_numerical_census_complete"] is True, "V47 completion flag")
