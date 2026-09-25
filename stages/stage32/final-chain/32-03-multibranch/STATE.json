@@ -3475,6 +3475,107 @@
               "theorem_credit": false,
               "endpoint_credit": false,
               "merge_authorized": false
+            },
+            "surviving_triangle_marked_map_existence_no_go": {
+              "status": "EXACT_PREAUDIT_ALL_SURVIVING_SINGLE_CORE_MAP_TYPES_HAVE_H_COMPATIBLE_REGULAR_X8_REALIZATIONS_ZERO_CREDIT",
+              "scope": "single rational-core map q:C8->P1 only; this does not construct the required two-map common-etale correspondence",
+              "sources": [
+                "Dessins on Modular Curves: the regular genus-5 X(8) map has deck group PSL2(Z/8Z) of order 192 and triangle type (2,3,8)",
+                "Singerman triangle inclusions: Delta(2,4,8) has index 3 in Delta(2,3,8), and Delta(3,3,4) has index 2 in Delta(2,3,8)"
+              ],
+              "modular_group": {
+                "G": "PSL2(Z/8Z)",
+                "order": 192,
+                "reduction_mod2": "rho:G->PSL2(F2)=S3 is surjective",
+                "kernel_order": 32,
+                "retained_H": "H=<T',TT'R> ~= (Z/2)^2 is contained in Gamma(4)/Gamma(8), hence in ker(rho)",
+                "triangle_generators": "choose x,y with ord(x)=8, ord(y)=2, ord(x*y)=3; modulo 2, x and y are transpositions and x*y is a 3-cycle"
+              },
+              "regular_248": {
+                "subgroup": "Q64=rho^(-1)(<transposition>)",
+                "order": 64,
+                "contains_H": true,
+                "coset_degree": 3,
+                "coset_cycles": {
+                  "order2_generator": [
+                    1,
+                    2
+                  ],
+                  "order3_generator": [
+                    3
+                  ],
+                  "order8_generator": [
+                    1,
+                    2
+                  ]
+                },
+                "lifted_signature": [
+                  2,
+                  4,
+                  8
+                ],
+                "map_degree": 64,
+                "H_factorization": "C8 -> R=C8/H -> C8/Q64=P1 with outer degree 16"
+              },
+              "regular_334": {
+                "subgroup": "Q96=rho^(-1)(A3)",
+                "order": 96,
+                "contains_H": true,
+                "coset_degree": 2,
+                "coset_cycles": {
+                  "order2_generator": [
+                    2
+                  ],
+                  "order3_generator": [
+                    1,
+                    1
+                  ],
+                  "order8_generator": [
+                    2
+                  ]
+                },
+                "lifted_signature": [
+                  3,
+                  3,
+                  4
+                ],
+                "map_degree": 96,
+                "H_factorization": "C8 -> R=C8/H -> C8/Q96=P1 with outer degree 24"
+              },
+              "regular_238": {
+                "subgroup": "Q192=G",
+                "order": 192,
+                "contains_H": true,
+                "lifted_signature": [
+                  2,
+                  3,
+                  8
+                ],
+                "map_degree": 192,
+                "H_factorization": "C8 -> R=C8/H -> C8/G=P1 with outer degree 48"
+              },
+              "survivor_coverage": {
+                "m1": "all three Takeuchi survivors (64,(2,4,8)), (96,(3,3,4)), (192,(2,3,8)) have explicit H-compatible regular quotient realizations",
+                "m2": "the sole survivor (192,(2,3,8)) has the regular full-G realization",
+                "m3": "the sole survivor (192,(2,3,8)) has the regular full-G realization"
+              },
+              "consequence": "single-map existence/nonexistence, unmarked passport, and marked-H-factorization tests cannot close any surviving rational-core triangle type; any exclusion must use simultaneous q1,q2/common-etale intersection data",
+              "next_target": "classify pairs of surviving core maps q1,q2 for which the normalization of the relevant fiber-product component has both projections etale of degree n=56*m and satisfies R_h=f1^*R_q1=f2^*R_q2; regular maps alone give only the obvious automorphism-graph components when paired identically",
+              "firewalls": {
+                "all_surviving_single_map_types_have_regular_H_compatible_realization": true,
+                "common_etale_pair_constructed": false,
+                "rational_core_m1_closed": false,
+                "rational_core_m2_closed": false,
+                "rational_core_m3_closed": false,
+                "rational_core_branch_closed": false,
+                "coreless_case_excluded": false,
+                "balanced_bulk_closed": false,
+                "e2_closed": false,
+                "receiver_credit": false,
+                "theorem_credit": false,
+                "endpoint_credit": false,
+                "merge_authorized": false
+              }
             }
           }
         }
@@ -3485,8 +3586,9 @@
     "node_id": "MB104",
     "title": "e=2 unique pair — exact m=1 postulation or nonlinear bulk",
     "active_leaf": "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK",
-    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12. Stothers existence check closes the unmarked-passport route: specification (84,0,8,0,0) exists. Therefore m=4,5,6 can only be attacked through the marked eight-point configuration U=R^8-16S^8 or stronger common-etale/diagonal-G data. Compact-X(8) triangle commensurability now supersedes the m>=4 marked-Belyi route: the natural compact cover C8=X(8)->X(1) gives surface field Q(sqrt(2)); any rational-core pure triangle map must be commensurable with Delta(2,3,8). Thus m>=4/(2,3,7) is excluded, while m=2 and m=3 each retain only d=192, signature (2,3,8). This uses the compact (2,3,8) triangle cover, not punctured Gamma(8). Takeuchi Class III now completes the rational-core triangle classification for all balanced m: m=1 leaves exactly (2,4,8),d=64; (3,3,4),d=96; (2,3,8),d=192. m=2,3 each leave only (2,3,8),d=192. m>=4 leaves no rational-core triangle.",
+    "required_input": "First-jet rigidity makes every interior self-collision ordinary. Variable-alpha Langer is optimized over the exact ordinary multiplicity cap: m=2..8 have Q<=544,1092,1839,2805,3958,5289,6811; m>=9 cannot improve Miyaoka by this method. Exact Abel+saturation DP leaves only 36 m=1 high-band energy levels: even Q=118..186 and Q=192, with 188 and 190 impossible. Q=192 is the Langer equality boundary. Independently, balanced Q=0 survives but m>=5 forces an interior ordinary collision of multiplicity at least ceil(7*m+sqrt(21*m*(m-4))). Continue on equality rigidity / exact m=1 postulation or on an upper bound for common-etale fiber collisions. The quotient-elliptic line-bundle identities alone cannot close the collision route: for every 1<=r<=n-1 there are formal basepoint-free degree-n pencils with M_1^2=M_2^2 and M_i^4=H_E whose chosen fibers share r simple points. Any upper bound below the Langer threshold must therefore use the eight special orbifold branch fibers, the actual common-etale lift, or diagonal-G/commensurator arithmetic. The naive Q=192 equality-rigidity shortcut is also closed: Langer explicitly notes that equality in these generalized orbifold inequalities occurs in infinite families not arising from ball quotients. Therefore equality alone cannot supply a ball-uniformization contradiction here. At the equality level m=1,Q=192, exact enumeration gives 140 admissible top-energy states per seven-variable block, 19,600 pairs. The complete retained low-bidegree capacity package removes exactly 4,432 and leaves 15,168 formal allocations; only fibres and irreducible (1,1) curves contribute new exclusions. Balanced bulk now has a complete eight-value Hurwitz passport: each quotient pencil has six actual branch values with local transposition counts drawn from {0,12m,16m,28m}, and all local permutations are even. Independently, Phi_Z=0 proves that any nonconstant core of the etale self-correspondence must have genus zero. Continue by either forcing a finite clump/complete set from the 000707 passport (which would attack the coreless case via the characteristic-zero no-clump theorem) or classifying/excluding the rational-core case. Rational-core exact gate: any core has equal-degree maps q1,q2:C8->P1 and R_h=f1^*R_q1=f2^*R_q2; do not identify core with finitary unless symmetry is separately proved, and do not treat the quotient Hurwitz passport as a clump. Core/clump exact equivalence: for the retained étale characteristic-zero correspondence, a core yields the nonempty ramification clump S=supp(R_h), while Krishnamoorthy Cor. 9.2 gives the converse clump=>core. This is not a finitary equivalence and does not make quotient cycle counts into a clump. Rational-core Hurwitz gate: a finite common Galois cover can be chosen etale over both genus-5 legs; if d is the coarse-core degree then 56*m=n<=d<=336. Hence the rational-core branch has m<=6, and m=4,5,6 force d=336 with quotient signature (2,3,7). Do not apply this bound to the coreless branch. For m=4,5,6 in the rational-core branch, diagonal H acts trivially on the (2,3,7) coarse core, so q_i factors through C8/H=P1_r. The outer degree-84 map has exact passport 1^8 2^38 / 3^28 / 7^12, with the eight simple order-2-fiber points exactly r^8=16. Equivalently one must solve/obstruct lambda*U*A^2-mu*B^3=nu*C^7 with U=R^8-16S^8 and degrees A=38,B=28,C=12. Stothers existence check closes the unmarked-passport route: specification (84,0,8,0,0) exists. Therefore m=4,5,6 can only be attacked through the marked eight-point configuration U=R^8-16S^8 or stronger common-etale/diagonal-G data. Compact-X(8) triangle commensurability now supersedes the m>=4 marked-Belyi route: the natural compact cover C8=X(8)->X(1) gives surface field Q(sqrt(2)); any rational-core pure triangle map must be commensurable with Delta(2,3,8). Thus m>=4/(2,3,7) is excluded, while m=2 and m=3 each retain only d=192, signature (2,3,8). This uses the compact (2,3,8) triangle cover, not punctured Gamma(8). Takeuchi Class III now completes the rational-core triangle classification for all balanced m: m=1 leaves exactly (2,4,8),d=64; (3,3,4),d=96; (2,3,8),d=192. m=2,3 each leave only (2,3,8),d=192. m>=4 leaves no rational-core triangle. Every surviving rational-core triangle type is individually realizable on the fixed C8 and factors through the retained H quotient: mod-2 reduction PSL2(Z/8)->S3 gives regular degree 64 (2,4,8), degree 96 (3,3,4), and degree 192 (2,3,8) quotient maps, all with H in the deck subgroup. Therefore single-map/marked-map nonexistence is no longer a viable closer; only simultaneous q1,q2/common-etale intersection data can close rational core.",
     "success_shapes": [
+      "classify pairs of H-compatible surviving core maps, not individual maps: require a connected fiber-product component with both legs etale of degree n=56*m and the exact ramification-clump pullback identity",
       "resolve the finite rational-core triangle list: at m=1 test degree 64 (2,4,8), degree 96 (3,3,4), degree 192 (2,3,8); at m=2,3 test only degree 192 (2,3,8), against the exact ramification clump/common-etale correspondence",
       "for rational-core m=2,3, classify the compatibility of the two surviving degree-192 pure (2,3,8) core maps with R_h=f1^*R_q1=f2^*R_q2 and the retained diagonal-H/common-etale structure",
       "exclude or classify the marked degree-84 Belyi problem with the eight simple order-2 points fixed at the octic configuration U=R^8-16S^8; abstract passport existence is already known",
@@ -3538,7 +3640,8 @@
       "trying to exclude the m=4,5,6 rational-core branch by bare (2,3,7) subgroup/passport nonexistence; Stothers' classification realizes specification (84,0,8,0,0)",
       "solving the marked degree-84 (2,3,7) Belyi coefficient identity for m=4,5,6: compact-X(8) triangle commensurability already excludes any marked realization",
       "using punctured Gamma(8) as the compact uniformizing group: the valid compact commensurability adapter is the Galois (2,3,8) cover X(8)->X(1)",
-      "searching for additional rational-core triangle signatures outside Takeuchi Class III: compact C8 is in the arithmetic (2,3,8) commensurability class, so the complete Class III list is exhaustive"
+      "searching for additional rational-core triangle signatures outside Takeuchi Class III: compact C8 is in the arithmetic (2,3,8) commensurability class, so the complete Class III list is exhaustive",
+      "trying to exclude any surviving rational-core triangle type by individual map or marked-H-factorization nonexistence: explicit regular modular quotient maps realize all surviving signatures on C8"
     ]
   },
   "routing": {
@@ -3784,7 +3887,11 @@
         ]
       }
     ],
-    "e2_unique_pair_rational_core_mge4_survivor_count": 0
+    "e2_unique_pair_rational_core_mge4_survivor_count": 0,
+    "e2_unique_pair_rational_core_single_map_nonexistence_route": "CLOSED_BY_EXPLICIT_MODULAR_REGULAR_REALIZATIONS",
+    "e2_unique_pair_rational_core_all_surviving_single_map_types_exist": true,
+    "e2_unique_pair_rational_core_surviving_maps_H_compatible": true,
+    "e2_unique_pair_rational_core_pair_common_etale_is_load_bearing": true
   },
   "credit_firewall": {
     "r29_lg2_mb_discharged": false,
