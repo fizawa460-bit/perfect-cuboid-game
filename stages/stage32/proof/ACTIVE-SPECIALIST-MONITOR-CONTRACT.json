@@ -27,21 +27,23 @@
       "unit": "32-02",
       "role": "PRIMARY_ACTIVE",
       "main_owner": "stage32mainbatch",
-      "helper_command": "stage32ex5-mainbatch",
       "helper_pr_hint": 1831,
       "helper_state": "stages/stage32-ex5/MAIN-STATE.json",
-      "semantic_leaf": "effectivity/carrier disposal with exact Picard64/affine certification backend"
+      "semantic_leaf": "effectivity/carrier disposal with exact Picard64/affine certification backend",
+      "dispatch_surface": "EX5",
+      "internal_only": true
     },
     {
       "unit": "32-03",
       "role": "PARALLEL_ACTIVE",
-      "helper_command": "stage32mb-mainbatch",
       "helper_pr_hint": 1827,
       "helper_state": "stages/stage32/final-chain/32-03-multibranch/STATE.json",
-      "auxiliary_command": "stage32mb-fib",
       "auxiliary_pr_hint": 1829,
       "auxiliary_state": "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json",
-      "semantic_leaf": "multibranch-at-node carrier ledger"
+      "semantic_leaf": "multibranch-at-node carrier ledger",
+      "dispatch_surface": "MB",
+      "auxiliary_surface": "MB-FIB",
+      "internal_only": true
     }
   ],
   "parked_surfaces": [
@@ -68,5 +70,5 @@
     "duplicate_pruning_credit_authorized": false,
     "merge_authorized": false
   },
-  "canonical_sha256_without_this_field": "c8f43e0fd56a37514c0fc101b057804de573b59d0439b4c158519b2e82e24836"
+  "canonical_sha256_without_this_field": "4a5a2f3eb0883af5c6175784878b1aba9023c3330b6f94967734e464a25b0815"
 }
