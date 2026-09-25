@@ -1192,6 +1192,40 @@ def main():
                         req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_survivors"] == 15168, "Q192 survivor routing")
                         req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_excluded"] == 4432, "Q192 excluded routing")
                         req(routing["e2_unique_pair_m1_Q192_low_bidegree_capacity_route"] == "EXACT_PRUNING_NOT_CLOSURE", "Q192 capacity routing")
+                        hc=d["retained_frontier"]["e2_unique_pair_balanced_hurwitz_core_split"]
+                        req(hc["status"] == "EXACT_PREAUDIT_BALANCED_EIGHT_VALUE_HURWITZ_PASSPORT_AND_CORE_GENUS_ZERO_SPLIT_ZERO_CREDIT", "balanced Hurwitz/core status")
+                        req(hc["balanced_family"]["degree"] == "l=2*m, n=28*l=56*m", "balanced Hurwitz degree")
+                        p1=hc["psi1_cycle_passport"]
+                        p2=hc["psi2_cycle_passport"]
+                        expected_u1={"+a":"32*m","-a":"32*m","+b":"24*m","-b":"24*m","+u":"56*m","-u":"56*m","+v":0,"-v":0}
+                        expected_t1={"+a":"12*m","-a":"12*m","+b":"16*m","-b":"16*m","+u":0,"-u":0,"+v":"28*m","-v":"28*m"}
+                        expected_u2={"+a":"56*m","-a":"56*m","+b":0,"-b":0,"+u":"24*m","-u":"24*m","+v":"32*m","-v":"32*m"}
+                        expected_t2={"+a":0,"-a":0,"+b":"28*m","-b":"28*m","+u":"16*m","-u":"16*m","+v":"12*m","-v":"12*m"}
+                        req(p1["unramified_points_per_value"] == expected_u1 and p1["transpositions_per_local_monodromy"] == expected_t1, "psi1 exact cycle passport")
+                        req(p2["unramified_points_per_value"] == expected_u2 and p2["transpositions_per_local_monodromy"] == expected_t2, "psi2 exact cycle passport")
+                        # Independent balanced-node replay in units of m.
+                        # psi1: four q0 nodes with r_z^2=2, three with r_z^2=-2, seven q1 nodes with r_z^2=2i.
+                        u1=[32,32,24,24,56,56,0,0]
+                        # psi2: seven q0 nodes with r_w^2=2; q1 splits four at -2i and three at +2i.
+                        u2=[56,56,0,0,24,24,32,32]
+                        for uu in (u1,u2):
+                            tt=[(56-x)//2 for x in uu]
+                            req(all(x+2*y == 56 for x,y in zip(uu,tt)), "balanced Hurwitz fiber length")
+                            req(sum(tt) == 112, "balanced Hurwitz total ramification")
+                            req(sum(uu) == 224, "balanced Hurwitz total unramified")
+                            req(all(y % 2 == 0 for y in tt), "balanced Hurwitz even local monodromy")
+                        req(sorted((56-x)//2 for x in u1) == sorted((56-x)//2 for x in u2) == [0,0,12,12,16,16,28,28], "balanced Hurwitz transposition multiset")
+                        core=hc["core_genus_obstruction"]
+                        req(core["positive_genus_core_possible"] is False and core["rational_core_possible"] is True and core["coreless_possible"] is True, "balanced core dichotomy")
+                        req(core["conclusion"] == "any nonconstant core, if it exists, has genus 0; otherwise the correspondence is coreless", "balanced core conclusion")
+                        req("Phi_Z q1^*" in core["argument"][1] and "n*q2^*" in core["argument"][3], "balanced core pull-push proof")
+                        req(hc["literature_routing_candidate"]["doi"] == "10.2140/ant.2018.12.1173", "no-core literature source")
+                        req(hc["literature_routing_candidate"]["current_adapter_status"].startswith("NOT_CONSUMED"), "no-core theorem not overconsumed")
+                        req(all(v is False for v in hc["firewalls"].values()), "balanced Hurwitz/core firewalls")
+                        req(routing["e2_unique_pair_balanced_hurwitz_passport_exact"] is True, "balanced Hurwitz routing")
+                        req(routing["e2_unique_pair_balanced_hurwitz_local_monodromy_even"] is True, "balanced even-monodromy routing")
+                        req(routing["e2_unique_pair_positive_genus_core_excluded_by_Phi_zero"] is True, "positive-genus core routing")
+                        req(routing["e2_unique_pair_bulk_core_dichotomy"] == "CORELESS_OR_RATIONAL_CORE", "core dichotomy routing")
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
