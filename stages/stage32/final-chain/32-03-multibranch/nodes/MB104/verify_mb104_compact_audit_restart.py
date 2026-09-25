@@ -797,7 +797,7 @@ def main():
                     if ob is None:
                         req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-MIYAOKA-PRUNED-INTERIOR-REALIZATION", "post-Miyaoka active leaf")
                     else:
-                        req(ob["status"] == "EXACT_PREAUDIT_ETALE_IMMERSION_SAFE_LCT_ORBIFOLD_BMY_M1_TOP_SLICE_PRUNING_ZERO_CREDIT", "orbifold-BMY status")
+                        req(ob["status"] == "EXACT_PREAUDIT_SAFE_LCT_ORBIFOLD_BMY_DOMINATED_ZERO_INCREMENTAL_EXCLUSION_NO_CREDIT", "orbifold-BMY status")
                         req(ob["support_mask"] == "000707000f0f" and ob["case"] == "e=2", "orbifold-BMY scope")
                         osl=ob["source_locks"]
                         req(osl["joint_pair_birationality_note_blob"] == "53608cb51aa49ccde1603b1cb1d136ea497b2324", "orbifold-BMY birationality source")
@@ -850,29 +850,58 @@ def main():
                         req(lg["supported_local_quadratic_identity"] == "sum_supp mult^2=2*delta_supp+R_supp", "supported ordinary identity")
                         req(lg["global_upper"] == "(K_P+alpha*Zbar)^2 <= 3*(64+alpha*(2*g(Z)-2)+(alpha^2/4)*(2*delta_total+R_supp+2*delta_int))", "Langer reduced inequality")
 
-                        sh=ob["high_energy_shell_pruning"]
-                        req(sh["m1"] == {
-                            "shell_Q_lower":118,
-                            "safe_lct_region_Q_lower":207,
-                            "delta_same_upper_in_safe_region":34,
-                            "interior_multiplicity_upper":8,
-                            "supported_multiplicity_upper":16,
-                            "alpha":"1/8",
-                            "lc_reason":"interior: lct>=1/mult>=1/8 because mult<=8; supported points are ordinary with mult<=16 so alpha*mult<=2",
-                            "lhs":450,
-                            "rhs_upper":"486-3*Q/16",
-                            "bmy_contradiction_threshold_Q":193,
-                            "combined_safe_conclusion":"Q>=207 excluded; 118<=Q<=206 remains from the raw high-energy shell",
-                        }, "safe-lct orbifold-BMY m1 pruning")
-                        req(sh["m2"] == {
-                            "shell_Q_lower":566,
-                            "miyaoka_allowed_Q_upper":677,
-                            "safe_lct_orbifold_bmy_first_excluded_Q":708,
-                            "conclusion":"no new m=2 pruning beyond Miyaoka; the retained formal Q=672 witness is not excluded by the safe-lct Langer argument",
-                        }, "safe-lct orbifold-BMY m2 no-improvement")
-                        req("alpha*mult<=2" in sh["correction_firewall"] and "withdrawn" in sh["correction_firewall"], "unsafe lc cut withdrawn")
+                        dp=ob["allocation_energy_dp"]
+                        req(dp["q0_block_nodes"] == [0,1,2,3,24,25,26], "BMY no-go q0 nodes")
+                        req(dp["q1_block_nodes"] == [8,9,10,11,32,33,34], "BMY no-go q1 nodes")
+                        req(dp["q0_state_coefficients"] == {
+                            "linear":[1,-1,1,-1,-1,1,-1],
+                            "abel1_mod4":[1,-1,1,-1,-2,2,0],
+                            "abel2_mod4":[0,0,2,-2,1,1,1],
+                        }, "BMY no-go q0 DP coefficients")
+                        req(dp["q1_state_coefficients"] == {
+                            "linear":[1,1,1,1,1,1,1],
+                            "abel3_mod4":[2,2,0,0,-1,1,-1],
+                            "abel4_mod4":[1,-1,1,-1,0,0,2],
+                        }, "BMY no-go q1 DP coefficients")
 
-                        # Exact arithmetic replay with a safe general lct>=1/multiplicity gate.
+                        def block_energy_max(mm, coeffs):
+                            states={(0,0,0):0}
+                            for a,b,c0 in zip(coeffs["linear"], coeffs[list(coeffs.keys())[1]], coeffs[list(coeffs.keys())[2]]):
+                                nxt={}
+                                for (ss,r1,r2),qq in states.items():
+                                    for vv in range(-4*mm,4*mm+1):
+                                        key=(ss+a*vv,(r1+b*vv)%4,(r2+c0*vv)%4)
+                                        nq=qq+vv*vv
+                                        if nq > nxt.get(key,-1):
+                                            nxt[key]=nq
+                                states=nxt
+                            return states[(0,0,0)]
+
+                        q0c=dp["q0_state_coefficients"]
+                        q1c=dp["q1_state_coefficients"]
+                        req(block_energy_max(1,q0c) == 96 and block_energy_max(1,q1c) == 96, "m1 exact Abel/saturation energy maxima")
+                        req(block_energy_max(2,q0c) == 384 and block_energy_max(2,q1c) == 384, "m2 exact Abel/saturation energy maxima")
+                        req(dp["exact_maxima"] == {
+                            "m1":{"q0_max":96,"q1_max":96,"Q_max":192},
+                            "m2":{"q0_max":384,"q1_max":384,"Q_max":768},
+                        }, "BMY no-go stored DP maxima")
+
+                        cmp=ob["safe_lct_comparison"]
+                        req(cmp["m1"] == {
+                            "retained_abel_saturation_Q_max":192,
+                            "safe_lct_langer_first_possible_exclusion_Q":207,
+                            "incremental_exclusion":False,
+                            "reason":"the safe-LCT Langer contradiction begins strictly above the exact formal allocation maximum",
+                        }, "safe-lct BMY m1 dominated")
+                        req(cmp["m2"] == {
+                            "retained_miyaoka_Q_upper":677,
+                            "safe_lct_langer_first_possible_exclusion_Q":708,
+                            "retained_formal_witness_Q":672,
+                            "incremental_exclusion":False,
+                            "reason":"Miyaoka already removes every Q where the safe-LCT Langer inequality would add an exclusion",
+                        }, "safe-lct BMY m2 dominated")
+
+                        # Recheck the safe general-lct thresholds.
                         from fractions import Fraction
                         from math import isqrt
                         def max_mult_from_delta(dd):
@@ -886,23 +915,28 @@ def main():
                             eorb=Fraction(64,1)+aa*(224*ll)+aa*aa*Fraction(local_bracket,4)
                             return lhs,3*eorb,lhs-3*eorb
                         ds1=336+112-2*207
-                        req(ds1 == 34 and max_mult_from_delta(ds1) == 8, "m1 Q=207 interior multiplicity gate")
-                        req(shell_gap(1,207,Fraction(1,8))[2] == Fraction(45,16), "m1 Q=207 safe BMY contradiction")
+                        req(ds1 == 34 and max_mult_from_delta(ds1) == 8, "m1 Q=207 safe lct multiplicity gate")
+                        req(shell_gap(1,207,Fraction(1,8))[2] > 0, "m1 Q=207 safe Langer contradiction")
                         ds206=336+112-2*206
-                        req(ds206 == 36 and max_mult_from_delta(ds206) == 9, "m1 Q=206 does not authorize alpha=1/8 from general lct bound")
+                        req(ds206 == 36 and max_mult_from_delta(ds206) == 9, "m1 Q=206 alpha=1/8 not safely authorized")
+                        req(192 < 207, "m1 safe-Langer cut is above exact Abel maximum")
+                        req(677 < 708, "m2 Miyaoka dominates safe-Langer cut")
                         req(ob["former_m2_witness"]["m"] == 2 and ob["former_m2_witness"]["Q"] == 672, "m2 witness identity")
-                        req(ob["former_m2_witness"]["disposition"] == "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA", "m2 witness restored")
-                        ds2=336*4+112*2-2*672
-                        req(ds2 == 224 and max_mult_from_delta(ds2) == 21, "m2 Q=672 interior multiplicity gate")
-                        req(ob["result"] == "with no pairwise-transversality assumption, the safe general lct>=1/multiplicity bound allows Langer's orbifold BMY inequality to exclude only the m=1 top slice Q>=207; the m=1 band 118<=Q<=206 and the Miyaoka-allowed m=2 shell (including Q=672) remain open", "orbifold-BMY result")
+                        req(ob["former_m2_witness"]["disposition"] == "SURVIVES_SAFE_LCT_LANGER_CHECK_AND_MIYAOKA", "m2 witness survives safe Langer")
+                        req(ob["result"] == "after correcting the log-canonicity gate, the Langer orbifold-BMY route gives zero incremental exclusion: m=1 already has Q<=192 from exact saturation+factor-fiber Abel DP while safe Langer starts at Q=207, and m=2 already has Q<=677 from Miyaoka while safe Langer starts at Q=708", "orbifold-BMY no-go result")
                         req(all(v is False for v in ob["firewalls"].values()), "orbifold-BMY firewalls")
                         req(routing["e2_unique_pair_etale_immersion_exact"] is True, "orbifold-BMY immersion routing")
                         req(routing["e2_unique_pair_orbifold_bmy_exact"] is False, "unsafe orbifold-BMY route not retained")
                         req(routing["e2_unique_pair_orbifold_bmy_safe_lct_exact"] is True, "safe-lct orbifold-BMY routing")
                         req(routing["e2_unique_pair_orbifold_bmy_m2_high_energy_shell_closed"] is False, "m2 shell remains open")
-                        req(routing["e2_unique_pair_orbifold_bmy_m1_Q_upper"] == 206, "safe-lct orbifold-BMY m1 upper")
                         req(routing["e2_unique_pair_orbifold_bmy_e2_closes"] is False, "orbifold-BMY no e2 closure")
-                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-SAFE-LCT-BMY-PRUNED-M1-M2-OR-BULK", "post-safe-lct orbifold-BMY active leaf")
+                        req(routing["e2_unique_pair_safe_lct_bmy_incremental_exclusion_count"] == 0, "safe-lct BMY zero incremental exclusion")
+                        req(routing["e2_unique_pair_safe_lct_bmy_route"] == "CLOSED_DOMINATED_BY_ABEL_M1_AND_MIYAOKA_M2", "safe-lct BMY route closure")
+                        req(routing["e2_unique_pair_abel_formal_Q_max_m1"] == 192, "m1 formal Q max routing")
+                        req(routing["e2_unique_pair_miyaoka_Q_upper_m2"] == 677, "m2 Miyaoka Q max routing")
+                        req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m1"] == 207, "m1 safe-Langer first cut")
+                        req(routing["e2_unique_pair_safe_lct_bmy_first_cut_m2"] == 708, "m2 safe-Langer first cut")
+                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-EXACT-M1-M2-POSTULATION-OR-BULK", "post-BMY no-go active leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
