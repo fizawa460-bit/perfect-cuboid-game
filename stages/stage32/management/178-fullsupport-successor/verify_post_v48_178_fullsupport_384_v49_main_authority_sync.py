@@ -156,7 +156,7 @@ def main() -> None:
 
     cur = st["current"]
     req(cur["latest_main_native_research"] == "V49_POST_V48_178_FULLSUPPORT_384_AUTHORITY_SYNC", "latest MAIN research")
-    req(cur["next_exact_route"] == "EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS", "next route")
+    req(cur["next_exact_route"] == "ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS", "next route")
     req(cur["operator_entrypoint"] == "stage32mainbatch", "operator entrypoint")
     req(cur["routing_mode"] == "ROADMAP_FIRST_ON_DEMAND_SPECIALIST_DISPATCH", "routing mode")
     req(st["authority_sync"]["current_repository_main"] == "da573f048a82a63e459be1343fb002e663b60875", "retained V46 repository-main identity")
