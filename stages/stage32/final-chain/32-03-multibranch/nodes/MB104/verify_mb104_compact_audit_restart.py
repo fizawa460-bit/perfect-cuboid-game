@@ -807,6 +807,9 @@ def main():
                         hyp=osl["hyperbolic_covering_first_jet"]
                         req("local Poincare isometry" in hyp["theorem"] and "value and differential" in hyp["theorem"], "hyperbolic first-jet source statement")
                         req(hyp["source_1_url"] == "https://link.springer.com/article/10.1007/s10231-022-01189-8", "hyperbolic covering source URL")
+                        req(hyp["source_1_locator"] == "Theorem 2.1 (Schwarz-Pick equality / covering case)", "hyperbolic covering source locator")
+                        req(hyp["source_2_url"] == "https://www.math.ucla.edu/~petersen/RG.pdf" and hyp["source_2_locator"] == "Proposition 5.6.1(2)", "local isometry first-jet source")
+                        req("F(p) and D F_p" in hyp["first_jet_consequence"], "first-jet consequence")
                         ext=osl["external_theorem"]
                         req(ext["author"] == "Adrian Langer" and ext["year"] == 2003, "Langer attribution")
                         req(ext["doi"] == "10.1112/S0024611502013874", "Langer DOI")
