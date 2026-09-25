@@ -27,8 +27,9 @@ env:
   PREDECESSOR: stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json
   PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
   DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
-  PLAN_VERIFIER_BLOB: 245eb1690efb136eb5a654f60b3c092da78586a7
-  STATE_BLOB: 09156e6aa0e9d3dd71bb26c2bdf2596f1392ee5d
+  PLAN_VERIFIER_BLOB: c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde
+  STATE_BLOB: 07bf997024f610787c7f68fe96285db3dedafec1
+  COLD_RUNKEY_BLOB: 30765a051eb1956b5f185f16c8ea4385d69a5334
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
   WORKER_BLOB: ca0a4985e788455432eb59d603da54fc3c703ea6
   COMBINER_BLOB: 33089c2ca4876650a4ee9c6477e1e6242ad3741c
@@ -52,44 +53,23 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 2
       - id: gate
-        name: Authorize only audited generation-2 runkey-only transition
+        name: Authorize only hostile-audited generation-2 runkey-only transition
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           echo 'authorized=false' >> "$GITHUB_OUTPUT"
-          test "\${GITHUB_EVENT_NAME}" = push || exit 0
-          test "\${GITHUB_REF_NAME}" = stage32bridge-g4-mainline || exit 0
+          test "${GITHUB_EVENT_NAME}" = push || exit 0
+          test "${GITHUB_REF_NAME}" = stage32bridge-g4-mainline || exit 0
           BEFORE='${{ github.event.before }}'
           export BEFORE
           test -n "$BEFORE" && test "$BEFORE" != 0000000000000000000000000000000000000000 || exit 0
           mapfile -t changed < <(git diff --name-only "$BEFORE" "$GITHUB_SHA")
-          if [ "\${#changed[@]}" -ne 1 ] || [ "\${changed[0]}" != "$RUNKEY" ]; then
+          if [ "${#changed[@]}" -ne 1 ] || [ "${changed[0]}" != "$RUNKEY" ]; then
             echo "cold/non-runkey-only commit: heavy remains blocked"
             exit 0
           fi
-          git show "$BEFORE:$RUNKEY" > /tmp/old-runkey.json
-          python - <<'PY'
-          import json,os
-          old=json.load(open('/tmp/old-runkey.json'))
-          new=json.load(open(os.environ['RUNKEY']))
-          assert old['schema']==new['schema']=='STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT'
-          assert old['generation']==1 and new['generation']==2
-          assert old['armed'] is True and new['armed'] is True
-          for k in ('execution','source_locks','storage','resume','credit'):
-              assert old[k]==new[k], k
-          ac=new['arm_contract']
-          assert ac['audited_doorstep_head']==os.environ['BEFORE']
-          assert ac['hostile_audit_status']=='PASS'
-          assert ac.get('execution_surface_audit_status')=='PASS'
-          assert isinstance(ac['audited_doorstep_review_id'],int) and ac['audited_doorstep_review_id']>0
-          assert ac['planned_effective_heavy_concurrency']==12
-          assert ac['repository_stage_concurrency_ceiling']==18
-          assert 0 <= ac['observed_other_stage32_heavy_concurrency_at_arm'] <= 6
-          assert ac['combined_effective_heavy_concurrency_at_arm'] == 12 + ac['observed_other_stage32_heavy_concurrency_at_arm']
-          assert ac['combined_effective_heavy_concurrency_at_arm'] <= 18
-          assert all(v is False for v in new['credit'].values())
-          PY
+          test "$(git rev-parse "$BEFORE:$RUNKEY")" = "$COLD_RUNKEY_BLOB"
           test "$(git hash-object "$PLAN")" = "$PLAN_BLOB"
           test "$(git hash-object "$DESIGN")" = "$DESIGN_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
@@ -98,7 +78,7 @@ jobs:
           test "$(git hash-object stages/stage32/generalization-bridge/run_br204_full178_bc_shard.cpp)" = "$WORKER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc_shards.py)" = "$COMBINER_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/combine_br204_bc64_to_bc16_parent.py)" = "$GROUP_COMBINER_BLOB"
-          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py --mode armed-child --parent-ref "$BEFORE"
           git fetch --no-tags --depth=1 origin main
           test "$(git rev-parse FETCH_HEAD)" = "$CURRENT_MAIN"
           test "$(git rev-parse FETCH_HEAD:stages/stage32/MAIN-STATE.json)" = "$MAIN_STATE_BLOB"

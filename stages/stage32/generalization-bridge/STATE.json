@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V21_G4_COMPACT_EXECUTION_COLD",
+  "schema": "STAGE32_GENERALIZATION_BRIDGE_STATE_V22_G4_GENERATION2_ARM_ADAPTER_COLD",
   "mission_id": "stage32-generalization-bridge",
-  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_COMPACT_EXECUTION_SURFACE__FRESH_AUDIT_REQUIRED",
+  "status": "ACTIVE_RESEARCH_NO_CREDIT__G4_GENERATION2_ARM_ADAPTER_REPAIRED__FRESH_AUDIT_REQUIRED",
   "current_node": "BR204",
-  "active_leaf": "BR204_G4_COMPACT_RECOVERY_EXECUTION_SURFACE",
+  "active_leaf": "BR204_G4_GENERATION2_ARM_ADAPTER",
   "target": {
     "authority": "stages/stage32/MAIN-STATE.json",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
@@ -26,8 +26,8 @@
     "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
     "g4_design_blob": "6265374f0edd0dc143ffa45c08e42f90dec2207b",
     "g4_plan_blob": "ff067e47f5cef53031b9eb3d1a70d11c16db93e2",
-    "g4_plan_verifier_blob": "245eb1690efb136eb5a654f60b3c092da78586a7",
-    "g4_runkey_blob": "188217bb41516a97a6b179513c5c99974d91f07b",
+    "g4_plan_verifier_blob": "c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde",
+    "g4_runkey_blob": "30765a051eb1956b5f185f16c8ea4385d69a5334",
     "representative_measurement_receipt_blob": "69331aa90b901c3de282d0ee641b2dc82a42b0bb",
     "representative_measurement_payload_blob": "26ca9fcaf37b02daa18acd641c32627e91ab7afc",
     "br202_bounded_result_blob": "06d0d21e5543cd5b5195c93ae431fbc186edd6ba",
@@ -52,7 +52,7 @@
     }
   },
   "generation4_recovery_design": {
-    "status": "COLD_EXECUTION_SURFACE__LOSSLESS_COMPACT_CERT__AUDIT_REQUIRED__ZERO_CREDIT",
+    "status": "COLD_EXECUTION_SURFACE__GEN2_RUNKEY_ONLY_ADAPTER_REPAIRED__AUDIT_REQUIRED__ZERO_CREDIT",
     "design_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json",
     "plan_path": "stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json",
     "runkey_path": "stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json",
@@ -90,6 +90,15 @@
       "status": "PASS",
       "generation1_arm_commit": "d65877e6d2a9953208b841807bf51c8983187dd1",
       "heavy_execution_started": false
+    },
+    "generation2_transition_adapter": {
+      "status": "COLD_REPAIRED_AWAIT_HOSTILE_AUDIT",
+      "runkey_only_child": true,
+      "parent_surface_must_be_hostile_audited": true,
+      "parent_immutable_surface_bound": true,
+      "child_validation": "generation-2 candidate is validated separately from the generation-1 cold runkey pinned by STATE/plan/design",
+      "replay_accepts_valid_runkey_only_child": true,
+      "heavy_gate_requires_exact_audit_review": true
     }
   },
   "routing": {
@@ -105,24 +114,26 @@
     "BR206_late_59D_authorized": false,
     "population_wide_credit_authorized": false,
     "cross_lane_demand_registry": "stages/stage32/proof/CROSS-LANE-DEMANDS.json",
-    "stop_reason": "Generation-1 arm is intentionally inert after the execution-surface change. Fresh exact-head replay/startup/frontier evidence and hostile audit are required; only a later generation-2 runkey-only commit may authorize the 69-target compact recovery."
+    "stop_reason": "The d63ed9e execution-surface audit failed on an inert shell gate and an impossible generation-2 binding. Both are repaired by a separate generation-2 transition adapter. This surface remains cold until exact-head replay/authorization/startup/frontier evidence and a fresh hostile audit PASS."
   },
   "next_obligation": {
-    "id": "BR204_G4_COMPACT_EXECUTION_SURFACE_AUDIT",
+    "id": "BR204_G4_GENERATION2_ARM_ADAPTER_AUDIT",
     "status": "OPEN",
     "requirements": [
-      "Obtain exact-head ACTIVE_AUTO replay SUCCESS including actual predecessor-child lossless compaction preflight.",
-      "Obtain exact-head execution-workflow authorization-gate SUCCESS with authorized=false on this non-runkey-only surface commit.",
+      "Obtain exact-head ACTIVE_AUTO replay SUCCESS, including a synthetic generation-2 runkey-only transition-adapter proof and actual predecessor-child lossless compaction preflight.",
+      "Obtain exact-head execution-workflow authorization-gate SUCCESS with authorized=false because this repair commit is not runkey-only.",
       "Obtain exact-head Stage32 startup/frontier/lifecycle SUCCESS.",
-      "Run distinct stage32bridge-audit on the unchanged exact head.",
-      "Only after audit PASS may a separate generation-2 runkey-only arm commit authorize heavy recovery.",
+      "Run distinct stage32bridge-audit on the unchanged repaired exact head.",
+      "Only after audit PASS may a separate generation-2 runkey-only child carry the audit review identity and authorize heavy recovery.",
       "Do not launch BR205/BR206 and do not grant MAIN/FULL178/theorem/endpoint credit from this surface."
     ]
   },
   "audit_hold": {
-    "status": "LATEST_PASS_IS_PRE_EXECUTION_SURFACE__FRESH_AUDIT_REQUIRED",
+    "status": "POST_EXECUTION_SURFACE_AUDIT_FAIL__GEN2_ARM_ADAPTER_REPAIRED__FRESH_REAUDIT_REQUIRED",
     "latest_pass_exact_head": "4be08e46894dc8aedde5ce19b7c00da85b85b3af",
     "latest_pass_review_id": 5312620454,
+    "latest_fail_exact_head": "d63ed9efe6e0f7bc957de244c7a51b2025eeeca8",
+    "latest_fail_review_id": 5313922791,
     "mathematical_population_changed": false,
     "execution_surface_changed": true
   },

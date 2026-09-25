@@ -48,10 +48,10 @@ env:
   PREDECESSOR_BLOB: 5a4a990a1588c71facbb9640a4c26b8641e44b02
   DESIGN_BLOB: 6265374f0edd0dc143ffa45c08e42f90dec2207b
   PLAN_BLOB: ff067e47f5cef53031b9eb3d1a70d11c16db93e2
-  PLAN_VERIFIER_BLOB: 245eb1690efb136eb5a654f60b3c092da78586a7
-  RUNKEY_BLOB: 188217bb41516a97a6b179513c5c99974d91f07b
-  STATE_BLOB: 09156e6aa0e9d3dd71bb26c2bdf2596f1392ee5d
-  G4_WORKFLOW_BLOB: c3e71af4abd8e736be804974b6b69cca9826fd3e
+  PLAN_VERIFIER_BLOB: c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde
+  COLD_RUNKEY_BLOB: 30765a051eb1956b5f185f16c8ea4385d69a5334
+  STATE_BLOB: 07bf997024f610787c7f68fe96285db3dedafec1
+  G4_WORKFLOW_BLOB: d8a4532c86dd4da74bad45eee4196f63eb327996
   MEASUREMENT_BLOB: 69331aa90b901c3de282d0ee641b2dc82a42b0bb
   MEASUREMENT_PAYLOAD_BLOB: 26ca9fcaf37b02daa18acd641c32627e91ab7afc
   REPO_LIFECYCLE_VERIFIER_BLOB: bc5a5513f02776c7256a9882029f74b86a77284f
@@ -82,24 +82,37 @@ jobs:
         with:
           ref: ${{ github.sha }}
           fetch-depth: 0
-      - name: Verify compact G4 source identities
+      - name: Verify compact G4 source identities and runkey mode
         run: |
           set -euo pipefail
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json)" = "$PREDECESSOR_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-DESIGN.json)" = "$DESIGN_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-GENERATION4-RECOVERY-PLAN.json)" = "$PLAN_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py)" = "$PLAN_VERIFIER_BLOB"
-          test "$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json)" = "$RUNKEY_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/STATE.json)" = "$STATE_BLOB"
           test "$(git hash-object .github/workflows/br204-stage32-bridge-recovery-g4.yml)" = "$G4_WORKFLOW_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-STORAGE-MEASUREMENT.json)" = "$MEASUREMENT_BLOB"
           test "$(git hash-object stages/stage32/generalization-bridge/BR204-G4-REPRESENTATIVE-COMPACT-CHILD.json)" = "$MEASUREMENT_PAYLOAD_BLOB"
-          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py
+          current_runkey_blob="$(git hash-object stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json)"
+          echo "CURRENT_RUNKEY_BLOB=$current_runkey_blob" >> "$GITHUB_ENV"
+          if [ "$current_runkey_blob" = "$COLD_RUNKEY_BLOB" ]; then
+            python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py --mode cold-surface
+            echo 'RUNKEY_MODE=cold-surface' >> "$GITHUB_ENV"
+          else
+            parent="$(git rev-parse HEAD^)"
+            mapfile -t changed < <(git diff --name-only "$parent" HEAD)
+            test "${#changed[@]}" -eq 1
+            test "${changed[0]}" = stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json
+            test "$(git rev-parse "$parent:stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json")" = "$COLD_RUNKEY_BLOB"
+            python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py --mode armed-child --parent-ref "$parent"
+            echo 'RUNKEY_MODE=armed-child' >> "$GITHUB_ENV"
+            echo "PARENT_REF=$parent" >> "$GITHUB_ENV"
+          fi
       - id: armstate
-        name: Verify compact predecessor, audited arm, and firewalls
+        name: Verify compact predecessor, transition state, and firewalls
         run: |
           python - <<'PY'
-          import json
+          import json,os,subprocess
           from pathlib import Path
           p=json.loads(Path("stages/stage32/generalization-bridge/BR204-G4-PREDECESSOR-CERTIFICATE.json").read_text())
           s=json.loads(Path("stages/stage32/generalization-bridge/STATE.json").read_text())
@@ -115,24 +128,57 @@ jobs:
           assert p["restored_predecessor_carry"]["recompute"] is False
           assert p["restored_predecessor_carry"]["parent_payload_sha256"]=="d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973"
           assert all(v is False for v in p["credit"].values())
-          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V21_G4_COMPACT_EXECUTION_COLD"
+          assert s["schema"]=="STAGE32_GENERALIZATION_BRIDGE_STATE_V22_G4_GENERATION2_ARM_ADAPTER_COLD"
           assert s["routing"]["BR204_FULL178_scaleout_authorized"] is False
           assert s["routing"]["heavy_compute_armed"] is False
           assert all(v is False for v in s["credit_firewall"].values())
           assert r["schema"]=="STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT"
-          assert r["generation"]==1 and r["armed"] is True
-          ac=r["arm_contract"]
-          assert ac["audited_doorstep_head"]=="4be08e46894dc8aedde5ce19b7c00da85b85b3af"
-          assert ac["audited_doorstep_review_id"]==5312620454
-          assert ac["hostile_audit_status"]=="PASS"
-          assert ac["execution_surface_changed_after_generation1_arm"] is True
-          assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is True
-          assert ac["generation1_heavy_execution_started"] is False
+          assert r["armed"] is True
+          if os.environ["RUNKEY_MODE"]=="cold-surface":
+              assert r["generation"]==1
+              ac=r["arm_contract"]
+              assert ac["generation2_transition_adapter_status"]=="REPAIRED_COLD_AWAIT_HOSTILE_AUDIT"
+              assert ac["generation2_heavy_authorized"] is False
+          else:
+              assert r["generation"]==2
+              parent=subprocess.check_output(["git","rev-parse","HEAD^"],text=True).strip()
+              ac=r["arm_contract"]
+              assert ac["audited_doorstep_head"]==parent
+              assert ac["hostile_audit_status"]=="PASS"
+              assert ac["execution_surface_audit_status"]=="PASS"
+              assert ac["generation2_transition_adapter_status"]=="AUDITED_PASS_ARMED_CHILD"
+              assert ac["generation2_heavy_authorized"] is True
+              assert ac["fresh_hostile_audit_and_generation2_rearm_required"] is False
           assert r["storage"]["intermediate_retention_days"]==14
           assert r["storage"]["conservative_two_generation_hard_cap_projection_bytes"]==352321536
           assert all(v is False for v in r["credit"].values())
           PY
           echo 'armed=true' >> "$GITHUB_OUTPUT"
+      - name: Prove future generation-2 runkey-only adapter is structurally consumable
+        if: env.RUNKEY_MODE == 'cold-surface'
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          src=Path("stages/stage32/generalization-bridge/runkeys/br204-recovery-g4.json")
+          r=json.loads(src.read_text())
+          r["generation"]=2
+          r["purpose"]="Synthetic exact-head transition-adapter proof only; not an execution arm."
+          ac=r["arm_contract"]
+          ac["audited_doorstep_head"]=os.environ["GITHUB_SHA"]
+          ac["audited_doorstep_review_id"]=1
+          ac["hostile_audit_status"]="PASS"
+          ac["execution_surface_audit_status"]="PASS"
+          ac["generation2_transition_adapter_status"]="AUDITED_PASS_ARMED_CHILD"
+          ac["generation2_heavy_authorized"]=True
+          ac["fresh_hostile_audit_and_generation2_rearm_required"]=False
+          ac["observed_other_stage32_heavy_concurrency_at_arm"]=0
+          ac["combined_effective_heavy_concurrency_at_arm"]=12
+          Path("/tmp/br204-g4-generation2-synthetic.json").write_text(json.dumps(r,sort_keys=True,indent=2)+"\n")
+          PY
+          python stages/stage32/generalization-bridge/verify_br204_generation4_recovery_plan.py \
+            --mode armed-child --parent-ref "$GITHUB_SHA" \
+            --candidate-runkey /tmp/br204-g4-generation2-synthetic.json
       - name: Verify current MAIN identity
         run: |
           set -euo pipefail
@@ -202,8 +248,8 @@ jobs:
               assert hashlib.sha256(p.read_bytes()).hexdigest()==sha
           PY
           for i in 0 16 32 48; do
-            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py compact-child               --input "/tmp/g4pred/children/br204-f-b2-d148-bc${i}of64.tsv.gz"               --output "/tmp/g4cert/child-${i}.json"               --worker-blob "$SHARD_WORKER_BLOB" --plan-blob "$PLAN_BLOB" --runkey-blob "$RUNKEY_BLOB"
-            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py verify-compact-child               --certificate "/tmp/g4cert/child-${i}.json" --output-raw "/tmp/g4raw/child-${i}.tsv"               --expected-worker-blob "$SHARD_WORKER_BLOB" --expected-plan-blob "$PLAN_BLOB"               --expected-runkey-blob "$RUNKEY_BLOB"
+            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py compact-child               --input "/tmp/g4pred/children/br204-f-b2-d148-bc${i}of64.tsv.gz"               --output "/tmp/g4cert/child-${i}.json"               --worker-blob "$SHARD_WORKER_BLOB" --plan-blob "$PLAN_BLOB" --runkey-blob "$CURRENT_RUNKEY_BLOB"
+            python stages/stage32/generalization-bridge/combine_br204_bc_shards.py verify-compact-child               --certificate "/tmp/g4cert/child-${i}.json" --output-raw "/tmp/g4raw/child-${i}.tsv"               --expected-worker-blob "$SHARD_WORKER_BLOB" --expected-plan-blob "$PLAN_BLOB"               --expected-runkey-blob "$CURRENT_RUNKEY_BLOB"
           done
           python - <<'PY'
           from pathlib import Path

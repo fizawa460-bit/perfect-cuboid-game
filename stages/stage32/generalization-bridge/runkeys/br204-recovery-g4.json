@@ -2,7 +2,7 @@
   "schema": "STAGE32_BR204_RECOVERY_G4_RUNKEY_V2_COMPACT_CERT",
   "generation": 1,
   "armed": true,
-  "purpose": "Generation-1 is an inert audited-doorway arm. The execution surface changed afterward to lossless compact certificates; heavy recovery requires a fresh hostile audit and a separate generation-2 runkey-only re-arm.",
+  "purpose": "Generation-1 remains an inert cold parent. The repaired transition adapter permits only a hostile-audited generation-2 runkey-only child to authorize the 69-target compact recovery.",
   "execution": {
     "target_count": 69,
     "flat_target_count": 36,
@@ -17,7 +17,7 @@
   "source_locks": {
     "design_blob": "6265374f0edd0dc143ffa45c08e42f90dec2207b",
     "plan_blob": "ff067e47f5cef53031b9eb3d1a70d11c16db93e2",
-    "plan_verifier_blob": "245eb1690efb136eb5a654f60b3c092da78586a7",
+    "plan_verifier_blob": "c75550d205b3caa1bc68ea2b6d5c9a5076ea7dde",
     "predecessor_certificate_blob": "5a4a990a1588c71facbb9640a4c26b8641e44b02",
     "restored_parent_payload_sha256": "d3a84475e3d7c68614fa101f166b0c342c32ea9c73453e5ea331fa608a284973",
     "repository_main_head": "a834864923086e5f7c1647e462804f45ff9ac28d",
@@ -63,7 +63,12 @@
     "combined_effective_heavy_concurrency_at_arm": 12,
     "execution_surface_changed_after_generation1_arm": true,
     "fresh_hostile_audit_and_generation2_rearm_required": true,
-    "generation1_heavy_execution_started": false
+    "generation1_heavy_execution_started": false,
+    "execution_surface_audit_status": "FAIL_REPAIRED_REAUDIT_REQUIRED",
+    "execution_surface_failed_exact_head": "d63ed9efe6e0f7bc957de244c7a51b2025eeeca8",
+    "execution_surface_failed_review_id": 5313922791,
+    "generation2_transition_adapter_status": "REPAIRED_COLD_AWAIT_HOSTILE_AUDIT",
+    "generation2_heavy_authorized": false
   },
   "credit": {
     "stage32_main": false,
