@@ -1,6 +1,6 @@
 # Stage32 HPADJ22-UNIBRANCH — HPADJ22 direct count composed with the unibranch node-Hurwitz support requirement
 
-Status: `RESEARCH_RESULT__HOSTILE_AUDIT_PENDING__MAIN_AUTHORITY_UNCHANGED`.
+Status: `RESEARCH_RESULT__EXTERNAL_HOSTILE_AUDIT_PASS__MAIN_AUTHORITY_UNCHANGED`. See `EXTERNAL-AUDIT-RECEIPT.md`. `RESULT.json` keeps its audited bytes (its `status` field still reads `..._HOSTILE_AUDIT_PENDING_...`).
 
 This is a necessary-condition research result. It does not change MAIN authority (V50, 511353002049). It grants no MAIN, effectivity, receiver, theorem, endpoint, Stage32-closure, Perfect-Cuboid or merge credit.
 
@@ -29,9 +29,9 @@ The original test uses the same three quantities, with `qneed = K - support`:
 The original test requires `qneed <= srem` and `e >= M + qneed`. The composed test replaces `K` by `req(e)`.
 
 - `srem` is an upper bound on the number of hidden exceptional curves with positive intersection.
-- It is the N355/N356 special-fibre capacity: 16 + 13 + 9 = 38 hidden exceptional curves.
+- It is the N357 unit-capacity flow bound (current-authority composition `management/N357-V13-CURRENT-AUTHORITY-COMPOSITION.json`), built on the N355/N356 special-fibre capacities. Each hidden coordinate made positive uses one unit of row and one unit of column capacity, and each cell's capacity is its number of hidden labels. The three components are bounded by `min(16,d)`, `min(13, d-a, d-2a+4, h+5)` and `min(9, d-b-c, d-2b, d-2c+1)`, at most 16 + 13 + 9 = 38 hidden exceptional curves.
 - So `nu <= support + min(srem, e - M)`.
-- Rejecting `support + min(srem, e - M) < req(e)` is therefore exactly the unibranch necessary condition, read with HPADJ's own capacity.
+- Rejecting `support + min(srem, e - M) < req(e)` is therefore a necessary-condition filter that uses an upper bound on `nu`, read with HPADJ's own capacity. A surviving terminal need not admit an actual completion of the hidden coordinates.
 
 ## Result (exact integer arithmetic)
 
