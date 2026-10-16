@@ -15,6 +15,10 @@ RECEIPT_BLOB = "5fa510fb9878211e04f534ffc9dcdfed765dd4bc"
 RECEIPT_CANON = "f4c713421a5ea3e085392e9df93fd89ccde3974f7accb2f418c73dcbfdf789c1"
 
 STATE = ROOT / "stages/stage32/MAIN-STATE.json"
+# After the V50 sync the live MAIN-STATE is V50; the V49 state is then replayed from its blob-locked snapshot.
+V50_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED"
+V49_STATE_SNAPSHOT = ROOT / "stages/stage32/management/unibranch-node-hurwitz/MAIN-STATE-V49-PRE-V50.json"
+V49_STATE_SNAPSHOT_BLOB = "9eef41db0645300398d8187297f489472fcfbf1c"
 V48 = ROOT / "stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json"
 V48_BLOB = "2733e5519629e6365558bc1b4bfbc6305e0b5533"
 V48_CANON = "d106029369dd5a029cd7a56e1c7d80fdd29f8471454fd2ed6c638af2b70288b1"
@@ -140,6 +144,9 @@ def main() -> None:
     req(cs["lane_adapter_mutation_required"] is False, "lane adapter mutation firewall")
 
     st = json.loads(STATE.read_text(encoding="utf-8"))
+    if st.get("schema") == V50_SCHEMA:
+        req(blob(V49_STATE_SNAPSHOT) == V49_STATE_SNAPSHOT_BLOB, "V49 state snapshot drift")
+        st = json.loads(V49_STATE_SNAPSHOT.read_text(encoding="utf-8"))
     expected_state_canon = canon(st)
     req(st.get("canonical_sha256_without_this_field") == expected_state_canon,
         "MAIN state canonical; expected=" + expected_state_canon)

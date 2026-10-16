@@ -46,3 +46,9 @@ Other findings:
 | recommended | Regression test on the full 40-row output | The verifier compares all per-row data with `RESULT.json` |
 
 The auditor did not verify a Python 3.10 environment; the author's WSL Python 3.10.6 replay passed.
+
+## Repository exact-head audit disposition (2026-10-16)
+
+The repository owner waived a separate exact-head audit of this leaf. The reason given is that the merged leaf (#1838, `6b7fefa4256399ed8b448b9c3349e724b2728920`) contains the same mathematics and census as the externally audited bundle (version 2 fixes included). The waiver is recorded as `WAIVED_BY_REPOSITORY_OWNER_2026_10_16__EXTERNAL_BUNDLE_AUDIT_ACCEPTED`.
+
+The leaf is consumed into MAIN by the separate V50 authority sync. See `V50-MAIN-AUTHORITY-SYNC.json` and `verify_v50_main_authority_sync.py`. `CONTRACT.md` and `RESULT.json` are left byte-identical so that their blob locks hold. Their `MAIN_AUTHORITY_UNCHANGED` status describes the leaf as merged, before V50.
