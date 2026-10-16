@@ -10,10 +10,19 @@ jobs:
   verify-stage32ex5-main:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout exact PR head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact checked-out head
+        if: github.event_name == 'pull_request'
+        run: test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
+      - name: Install exact Picard64 preflight dependencies
+        run: python -m pip install 'python-flint==0.9.0' 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
       - name: Replay retained Cycle1 evidence against historical MAIN routing snapshots
         run: python stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py
       - name: Replay BC2-00 BTVA node-support/span first-pass diagnostic
@@ -55,6 +64,55 @@ jobs:
           cmp "$tmp" stages/stage32-ex5/breadth-cycle-2/bc2-15-next-exceptional-terminal-block-preflight-checkpoint.json
       - name: Verify retained BC2-16 exact UNSAT checkpoint
         run: python stages/stage32-ex5/breadth-cycle-2/verify_bc2_16_outer_rank5_exact_unsat_checkpoint.py
+      # EFF-AFFINE01 FP58 is intentionally not executed in ordinary
+      # integrity CI: the first bounded sample exceeded the practical CI
+      # envelope and was cancelled.  The engine remains source-locked below;
+      # exact enumeration requires a separately authorized bounded run.
+      - name: Prove EFF-AFFINE02 bounded all140 complement
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine02_bounded_complement_preflight.py
+      # EFF-AFFINE03..13 are retained research probes, not authority-bearing
+      # gates. Their exact-head negative/inconclusive results advanced the
+      # research frontier and are intentionally not replayed on every PR sync.
+      # AFFINE14 exact-head PASS advanced the frontier to a forced-zero
+      # collapse inside its best remaining 54D hierarchy fiber.
+      - name: Certify EFF-AFFINE15 forced-zero lattice collapse
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine15_forced_zero_collapse.py
+      - name: Benchmark EFF-AFFINE16 exact FP37 survivor
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine16_fp37_benchmark.py
+      - name: Sweep EFF-AFFINE17 exact empty adjunction ellipsoids
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine17_empty_ellipsoid_sweep.py
+      - name: Benchmark EFF-AFFINE18 smallest-radius exact FP43 survivor
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine18_fp43_benchmark.py
+      - name: Run EFF-AFFINE19 low-radius exact FP43 wave
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine19_fp43_wave.py
+      - name: Sweep EFF-AFFINE20 exact pairing ellipsoid separation
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine20_pairing_ellipsoid_separation.py
+      - name: Sweep EFF-AFFINE21 exact two-pairing ellipsoid separation
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine21_two_pairing_separation.py
+      - name: Sweep EFF-AFFINE22 optimized exact two-halfspace dual
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine22_optimized_two_halfspace_dual.py
+      - name: Benchmark EFF-AFFINE23 AFFINE22 residual exact FP43
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine23_fp43_residual_benchmark.py
+      - name: Probe EFF-AFFINE24 single-pairing exact conditioning
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine24_single_pairing_conditioning.py
+      - name: Benchmark EFF-AFFINE25 conditioned exact FP42 branch
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine25_fp42_conditioned_benchmark.py
+      - name: Benchmark EFF-AFFINE26 next conditioned exact FP42 branch
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine26_fp42_next_conditioned_benchmark.py
+      - name: Probe EFF-AFFINE27 FP42 search growth
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine27_fp42_growth_probe.py
+      - name: Probe EFF-AFFINE28 second exact pairing conditioner
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine28_second_pairing_conditioning.py
+      - name: Close remaining EFF-AFFINE29 pairing96 branches structurally
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine29_remaining_pair96_second_conditioning.py
+      - name: Probe EFF-AFFINE30 third exact pairing conditioner
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine30_third_pairing_conditioning.py
+      - name: Close EFF-AFFINE32 simultaneous singleton-forcing residuals
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine32_singleton_forced_closure.py
+      - name: Probe EFF-AFFINE31 fourth exact pairing conditioner
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine31_fourth_pairing_conditioning.py
+      - name: Close EFF-AFFINE33 pairing96=1 by exact A-block compositions
+        run: python stages/stage32-ex5/effectivity-affine/eff_affine33_a_block_composition_closure.py
       - name: Verify EX5 live routing firewalls
         run: python stages/stage32-ex5/verify_main_state.py
       - name: Verify EX5 cross-lane producer demand routing
