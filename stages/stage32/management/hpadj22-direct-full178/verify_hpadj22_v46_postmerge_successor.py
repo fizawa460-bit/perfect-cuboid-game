@@ -10,6 +10,8 @@ RECEIPT_BLOB="0ebbf672c432cb3cb1b2927bf03d660567eb417c"
 RECEIPT_CANON="61b40b3a98bbc1be7a59e90225086e3bc21ff6dd35f9c96bc9cbcfcf5bb348d6"
 MERGED_MAIN="659ba93b9eba657b49a728f549c6bb6028398e08"
 CURRENT_REPOSITORY_MAIN="da573f048a82a63e459be1343fb002e663b60875"
+V48_CURRENT_REPOSITORY_MAIN="e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3"
+V49_CURRENT_REPOSITORY_MAIN="a834864923086e5f7c1647e462804f45ff9ac28d"
 AUDITED_HEAD="5aa6e63923946e201f51c8070cf9466029073d5e"
 AUDIT_REVIEW=5254811573
 OLD_BOUND=138652739800650593494
@@ -19,6 +21,10 @@ V47_AUDIT_REVIEW=5287562192
 V48_BOUND=128470212118313474449
 V48_AUDITED_HEAD="fb81be66f260879eec79e55be140857b5fc32bbc"
 V48_AUDIT_COMMENT=5813812633
+V49_BOUND=128443221087959579960
+V49_AUDITED_HEAD="44d274770de1d092022ebbefff80f3cefb914982"
+V49_AUDIT_REVIEW=5313265646
+V49_TIGHTENING=26991030353894489
 V45_STATE_BLOB="a8f873ffdcaca280f7b57158b69606b3ea496d3c"
 V45_STATE_CANON="58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
 V45_RECEIPT_BLOB="a8486ff337e030d02ce26d7404907fdbea5d3cc1"
@@ -50,22 +56,31 @@ def main():
         req(blob(root/"stages/stage32/verify_main_startup.py")==V45_STARTUP_BLOB,"V45 startup drift")
         req(blob(root/"stages/stage32/proof/verify_cross_lane_demands.py")==V45_CROSS_BLOB,"V45 cross drift")
     st=json.loads(STATE.read_text(encoding="utf-8"));req(canon(st)==st.get("canonical_sha256_without_this_field"),"state canonical")
-    req(st["authority_sync"]["current_repository_main"]==CURRENT_REPOSITORY_MAIN,"current main")
     req(st["authority_sync"]["v45_merge_commit"]==MERGED_MAIN and st["authority_sync"]["v45_merge_pr"]==1824 and st["authority_sync"]["v45_final_hostile_audit_review_id"]==AUDIT_REVIEW,"merge metadata")
     schema=st["schema"];f=st["current_exact_frontier"]
     if schema=="STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR":
+        req(st["authority_sync"]["current_repository_main"]==CURRENT_REPOSITORY_MAIN,"V46 current main")
         req(f["authoritative_remaining_terminals"]==OLD_BOUND and f["full178_numerical_census_complete"] is False,"V46 authority")
         req(st["current"]["next_exact_route"]=="FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS","V46 route")
     elif schema=="STAGE32_MAIN_COMPACT_STATE_V47_GRF04_HPADJ22_FULL178_AUDIT_SYNCED":
+        req(st["authority_sync"]["current_repository_main"]==CURRENT_REPOSITORY_MAIN,"V47 current main")
         req(f["authoritative_remaining_terminals"]==V47_BOUND and f["full178_numerical_census_complete"] is True,"V47 authority")
         req(f["v47_grf04_hpadj22_audited_exact_head"]==V47_AUDITED_HEAD and f["v47_grf04_hpadj22_hostile_audit_review_id"]==V47_AUDIT_REVIEW,"V47 audit")
         req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V47 route")
     elif schema=="STAGE32_MAIN_COMPACT_STATE_V48_178_SUPPORT_QBC_AUDIT_SYNCED":
+        req(st["authority_sync"]["current_repository_main"]==V48_CURRENT_REPOSITORY_MAIN,"V48 current main")
         req(f["authoritative_remaining_terminals"]==V48_BOUND and f["full178_numerical_census_complete"] is True,"V48 authority")
         req(f["v48_178_support_qbc_audited_exact_head"]==V48_AUDITED_HEAD and f["v48_178_support_qbc_hostile_audit_comment_id"]==V48_AUDIT_COMMENT,"V48 audit")
         req(st["current"]["next_exact_route"]=="EFFECTIVITY_AND_MULTIBRANCH_THEN_FINAL_SYNTHESIS","V48 route")
+    elif schema=="STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+        req(st["authority_sync"]["current_repository_main"]==V49_CURRENT_REPOSITORY_MAIN,"V49 current main")
+        req(f["authoritative_remaining_terminals"]==V49_BOUND and f["full178_numerical_census_complete"] is True,"V49 authority")
+        req(f["v49_exact_tightening_vs_v48"]==V49_TIGHTENING and f["v49_178_fullsupport_384_main_numeric_bound_replacement_consumed"] is True,"V49 tightening/consumption")
+        locks=st["source_locks"]["v49_post_v48_178_fullsupport_384_authority_sync"]
+        req(locks["compact_handoff_audited_exact_head"]==V49_AUDITED_HEAD and locks["hostile_audit_review_id"]==V49_AUDIT_REVIEW,"V49 audit")
+        req(st["current"]["next_exact_route"]=="ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS","V49 route")
     else:
         req(False,"unsupported successor schema")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
-    print("PASS: Stage32 MAIN preserves V46/V47 predecessor authority and accepts the hostile-audited V48 178 support-qBC successor when synchronized")
+    print("PASS: Stage32 MAIN preserves V46/V47/V48 predecessor authority and accepts the hostile-audited V49 178 full-support 384 successor when synchronized")
 if __name__=="__main__":main()

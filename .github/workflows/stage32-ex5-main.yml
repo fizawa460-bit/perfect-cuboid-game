@@ -1,17 +1,8 @@
 name: Stage32EX5 main integrity
 
-# Trigger lifecycle: ACTIVE_AUTO — EX5 current producer / retained-interface integrity gate
+# Trigger lifecycle: MANUAL — demoted from ACTIVE_AUTO by the 2026-10-16 local-first migration (docs/research-os/policies/local-first-execution.md); replay locally by default
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32-ex5/**'
-      - 'stages/stage32/proof/CLAIM-REGISTRY.json'
-      - 'stages/stage32/proof/LANE-ADAPTERS.json'
-      - 'stages/stage32/proof/CROSS-LANE-DEMANDS.json'
-      - 'stages/stage32/proof/verify_cross_lane_demands.py'
-      - '.github/workflows/stage32-ex5-main.yml'
-
+  workflow_dispatch:
 permissions:
   contents: read
 

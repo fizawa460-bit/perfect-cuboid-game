@@ -4,6 +4,16 @@ Keep this root file small. Stage-specific startup, history, and operating detail
 
 During ordinary Stage startup, do not preload Research OS. Follow the Stage-local startup contract and open Research OS only on the explicit triggers below.
 
+## Local-first execution (overrides older Actions-first rules)
+
+GitHub Actions is no longer the default execution or evidence surface (account suspended in 2026-09 for excessive workflow volume; restored). **Always follow `docs/research-os/policies/local-first-execution.md`.** In short:
+
+- run verifiers, replays, and heavy computation locally, and run the relevant verifiers locally before every push;
+- only three workflows stay automatic (`pages.yml`, `stage32-main-startup-authority.yml`, `stage32-claim-frontier-integrity.yml`); every other workflow is `workflow_dispatch`-only, and adding an automatic trigger needs explicit user approval;
+- batch commits and push rarely — never push just to see CI;
+- a heavy Actions run needs explicit user authorization for that specific run, with at most 2 effective concurrent heavy jobs repository-wide;
+- an exact-head local replay record is valid wherever exact-head CI evidence was required; proof/credit firewalls are unchanged.
+
 ## Repository traversal discipline
 
 Repository discovery is search-first, not tree-first. **Never acquire a recursive/full repository tree, and never call a recursive tree endpoint (including `recursive=1`) for discovery, exhaustive enumeration, or as a fallback after any search miss. There is no Stage/task exception to this rule.** Fetch known paths directly; use GitHub search for filenames/paths and GitHub code search for terms, symbols, identifiers, or phrases; follow controller, roadmap, source-lock, certificate, index, or other authority references only to the exact targets needed for the active leaf. If exhaustive enumeration is genuinely required, use bounded/paginated targeted search, explicit non-recursive directory traversal, or a task-specific repository index instead; if those mechanisms cannot establish exhaustive coverage, stop and record that limitation rather than requesting a recursive/full tree. A search miss never proves repository-wide absence; broaden only under the active Stage/search policy.
@@ -24,14 +34,14 @@ Permanent whole-fetch denylist:
 - Before artifact-producing compute, conservatively preflight peak stored footprint. For a new high-mass workflow, measure a representative shard before scaling.
 - Keep raw exhaustive evidence runner-local when possible; persist compact deterministic certificates only after verification. Use bounded waves and short retention for necessary intermediates.
 - Storage risk, upload failure, or materially larger-than-estimated artifacts are stop/cancel conditions. Do not trade mathematical exactness for storage.
-- A single Stage's coordinated heavy workload must stay at **<=18 effective concurrent heavy jobs**, summed across all overlapping matrices, workflows, and PRs from that Stage. Splitting work across workflows/PRs does not reset the count.
+- Superseded by local-first: heavy Actions runs need per-run user authorization and stay at **<=2 effective concurrent heavy jobs repository-wide**. Historical rule: a single Stage's coordinated heavy workload must stay at **<=18 effective concurrent heavy jobs**, summed across all overlapping matrices, workflows, and PRs from that Stage. Splitting work across workflows/PRs does not reset the count.
 - **18 is a hard ceiling, not a target.** Preserve runner headroom for other Stages, reconnaissance, audits, and lightweight Actions; use fewer than 18 when overlap or capacity is uncertain.
 - Before arming a new or materially revised heavy workflow, record/verify `planned effective heavy concurrency <= 18`; if the overlap cannot be bounded confidently, reduce `max-parallel` until it can.
 - **On-demand trigger:** open `docs/research-os/policies/actions-storage-and-evidence-safety.md` only when designing, materially revising, authorizing, rerunning, or diagnosing an artifact-producing/heavy workflow.
 
 ## Pull-request workflow trigger lifecycle
 
-Stage-local or leaf workflows may be created freely for research verification, but creating a workflow does **not** grant permission to leave it on an automatic PR trigger indefinitely.
+Prefer local scripts to new workflows. Stage-local or leaf workflows may still be created (default `MANUAL`), but creating a workflow does **not** grant permission to put it on an automatic trigger; the automatic allowlist is fixed by `local-first-execution.md`.
 
 - Automatic `pull_request` / `pull_request_target` triggers are reserved for the current **ACTIVE frontier** and repository-wide safety/authority gates such as MAIN startup and claim/frontier integrity.
 - `RETIRED`, `HISTORICAL`, or `AUDITED-CONSUMED` leaf workflows must default to manual execution (`workflow_dispatch`) unless the active Stage controller explicitly keeps them automatic.

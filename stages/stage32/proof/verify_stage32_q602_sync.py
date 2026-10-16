@@ -105,7 +105,7 @@ def validate(basev, by_id):
     assert prov["formal_q602_residues_are_current_survivors"] is False
     assert by_id["S32.Q602.SURVIVORS_73_97_235.V1"]["scope"]["surviving_residues"] == [73,97,235]
 
-    assert target["control_mode"] == "EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN"
+    assert target["control_mode"] == "ROADMAP_DRIVEN_FINAL_CHAIN"
     assert target["primary_incomplete_id"] == "32-02"
     assert target["parallel_incomplete_id"] == "32-03"
     assert target["V6_is_current_attack_target"] is False
@@ -180,7 +180,7 @@ def validate(basev, by_id):
         Q_ID,
         "Q602_excluded=true",
         "O210_excluded=true",
-        "FULL178_AND_FINAL_MILESTONE_CHAIN",
+        "EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN",
         "5149990935",
         "32-02-L   rigorous effectivity certification",
         "32-03-L   multibranch-at-node carrier ledger",

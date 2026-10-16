@@ -24,9 +24,9 @@
     "consumer_rule": "Each lane checks demands where consumer_lane equals its lane. OPEN means wait without duplicating producer work; SATISFIED means immediate next-mainbatch re-entry after validating artifact identity and current population semantics.",
     "new_lane_enrollment_rule": "Any new Stage32 lane must be added here with exact startup/state paths before it may participate in demand routing or mathematical promotion.",
     "ordinary_startup_preloads_claim_dag": false,
-    "ordinary_startup_reads_cross_lane_demands": true,
+    "ordinary_startup_reads_cross_lane_demands": false,
     "promotion_rule": "EX/specialist -> MAIN mathematical credit still requires the existing audited terminal claim/current-target adapter/claim-sync rules. LANE-ADAPTERS and demand status never promote.",
-    "purpose": "Unified lane routing map. MAIN-STATE remains current mathematical routing authority; CROSS-LANE-DEMANDS is operational dependency authority.",
+    "purpose": "Internal claim/demand routing registry. MAIN-STATE plus MAIN-START-HERE define ordinary Stage32 routing; this registry is consulted only after MAIN selects an internal execution surface or a concrete cross-lane dependency.",
     "scratch_only_sync_required": false,
     "scratch_rule": "Scratch results are not claim dependencies or demand satisfaction artifacts until retained with exact identity/replay semantics."
   },
@@ -54,7 +54,7 @@
     {
       "lane": "EX1",
       "state_path": "stages/stage32-ex1/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex1/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/ex1/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.EX1.LANE_CONTRACT.V2",
@@ -65,12 +65,17 @@
       "active_frontier_refs": [],
       "lane_status": "COMPLETED_AUDITED_HANDOFF",
       "promotion_blocked_without_active_claim": true,
-      "demand_role": "ROUTABLE_IF_REOPENED"
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "legacy_state_path": "stages/stage32-ex1/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex1/MAIN-START-HERE.md",
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     },
     {
       "lane": "EX2",
       "state_path": "stages/stage32-ex2/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex2/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/ex2/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.EX2.LANE_CONTRACT.V2",
@@ -80,12 +85,17 @@
       "active_frontier_refs": [],
       "lane_status": "DOMINATED_BY_AUDITED_V6_NONEXISTENCE",
       "promotion_blocked_without_active_claim": true,
-      "demand_role": "ROUTABLE_IF_REOPENED"
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "legacy_state_path": "stages/stage32-ex2/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex2/MAIN-START-HERE.md",
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     },
     {
       "lane": "EX3",
       "state_path": "stages/stage32-ex3/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex3/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/ex3/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.EX3.LANE_CONTRACT.V2",
@@ -98,12 +108,18 @@
         "S32.Q602.EXCLUSION.V3"
       ],
       "lane_status": "AUDITED_PROVENANCE_NO_CURRENT_ATTACK",
-      "demand_role": "ROUTABLE_IF_REOPENED"
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "legacy_state_path": "stages/stage32-ex3/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex3/MAIN-START-HERE.md",
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY",
+      "active_frontier_refs_semantics": "CLAIM_DAG_RELATION_NOT_OPERATOR_ACTIVITY"
     },
     {
       "lane": "EX4",
       "state_path": "stages/stage32-ex4/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex4/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/ex4/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.EX4.LANE_CONTRACT.V2",
@@ -116,12 +132,18 @@
         "S32.Q602.EXCLUSION.V3"
       ],
       "lane_status": "AUDITED_PROVENANCE_NO_CURRENT_ATTACK",
-      "demand_role": "ROUTABLE_IF_REOPENED"
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "legacy_state_path": "stages/stage32-ex4/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex4/MAIN-START-HERE.md",
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY",
+      "active_frontier_refs_semantics": "CLAIM_DAG_RELATION_NOT_OPERATOR_ACTIVITY"
     },
     {
       "lane": "EX5",
       "state_path": "stages/stage32-ex5/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "startup_path": "stages/stage32/internal/ex5/LIVE.json",
       "demand_state_path": null,
       "claim_refs": [
         "S32.EX5.LANE_CONTRACT.V3",
@@ -132,16 +154,22 @@
       "active_frontier_refs": [
         "S32.FULL178.NUMERICAL_CENSUS.V2"
       ],
-      "lane_status": "ACTIVE_PRODUCER_HANDOFF_COMPLETE",
-      "demand_role": "PRODUCER",
+      "lane_status": "ACTIVE_INTERNAL_32_02_HELPER_LEGACY_STATE",
+      "demand_role": "ROUTABLE_ON_MAIN_DISPATCH",
       "satisfied_demand_refs": [
         "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
-      ]
+      ],
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "INTERNAL_32_02_HELPER__LEGACY_DETAIL_ON_DEMAND",
+      "legacy_state_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex5/MAIN-STATE.json",
+      "active_frontier_refs_semantics": "CLAIM_DAG_RELATION_NOT_OPERATOR_ACTIVITY"
     },
     {
       "lane": "EX6",
       "state_path": "stages/stage32-ex6/MAIN-STATE.json",
-      "startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/ex6/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
@@ -149,38 +177,47 @@
       "active_frontier_refs": [],
       "lane_status": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
       "promotion_blocked_without_active_claim": true,
-      "demand_role": "ROUTABLE_IF_REOPENED"
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "legacy_state_path": "stages/stage32-ex6/MAIN-STATE.json",
+      "legacy_startup_path": "stages/stage32-ex6/MAIN-START-HERE.md",
+      "ordinary_operator_entrypoint": false,
+      "routing_authority": false,
+      "state_semantics": "RETAINED_ENDPOINT_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     },
     {
       "lane": "32-01-178",
       "state_path": "stages/stage32/32-01-178/MISSION.json",
-      "startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/178/README.md",
       "demand_state_path": null,
       "claim_refs": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
       ],
-      "active_frontier_refs": [
-        "S32.FULL178.NUMERICAL_CENSUS.V2"
-      ],
-      "lane_status": "ACTIVE_SPECIALIST",
-      "demand_role": "ROUTABLE"
+      "active_frontier_refs": [],
+      "lane_status": "PARKED_RETAINED_AFTER_AUDITED_32_01_COMPLETION",
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "ordinary_operator_entrypoint": false,
+      "legacy_startup_path": "stages/stage32/32-01-178/MAIN-START-HERE.md",
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     },
     {
       "lane": "CUT",
       "state_path": "stages/stage32/full178-cut/MISSION.json",
-      "startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
+      "startup_path": "stages/stage32/retained/cut/README.md",
       "demand_state_path": "stages/stage32/full178-cut/CROSS-LANE-STATE.json",
       "claim_refs": [
         "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
       ],
-      "active_frontier_refs": [
-        "S32.FULL178.NUMERICAL_CENSUS.V2"
-      ],
-      "lane_status": "ACTIVE_CONSUMER_REENTERED",
-      "demand_role": "CONSUMER",
+      "active_frontier_refs": [],
+      "lane_status": "RETAINED_HISTORY_NO_OPEN_SUCCESSOR",
+      "demand_role": "ROUTABLE_IF_REOPENED",
       "satisfied_demand_refs": [
         "S32.DEMAND.CUT192.EX5.DISJOINT_E8_PICARD64.V1"
-      ]
+      ],
+      "ordinary_operator_entrypoint": false,
+      "legacy_startup_path": "stages/stage32/full178-cut/MAIN-START-HERE.md",
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     },
     {
       "lane": "MB",
@@ -193,8 +230,25 @@
       "active_frontier_refs": [
         "S32.GOAL.STAGE32_CLOSURE.V2"
       ],
-      "lane_status": "ACTIVE_INDEPENDENT_SPECIALIST",
-      "demand_role": "ROUTABLE"
+      "lane_status": "ACTIVE_INTERNAL_32_03_EXECUTION",
+      "demand_role": "ROUTABLE_ON_MAIN_DISPATCH",
+      "ordinary_operator_entrypoint": false
+    },
+    {
+      "lane": "BRIDGE",
+      "state_path": "stages/stage32/generalization-bridge/STATE.json",
+      "startup_path": "stages/stage32/retained/bridge/README.md",
+      "demand_state_path": null,
+      "claim_refs": [
+        "S32.MAIN.CURRENT_TARGET_CONTEXT.V1"
+      ],
+      "active_frontier_refs": [],
+      "lane_status": "PARKED_OPTIONAL_POST_32_01_REFINEMENT",
+      "demand_role": "ROUTABLE_IF_REOPENED",
+      "ordinary_operator_entrypoint": false,
+      "legacy_startup_path": "stages/stage32/generalization-bridge/MAIN-START-HERE.md",
+      "routing_authority": false,
+      "state_semantics": "RETAINED_PROVENANCE_EVIDENCE__NOT_LIVE_ROUTING_AUTHORITY"
     }
   ]
 }
