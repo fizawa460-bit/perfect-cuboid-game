@@ -9,6 +9,7 @@ Emulation (deliberately small):
     `actions/checkout` without `path:` -> the current working tree (the replay targets the current HEAD).
   * other `uses:` steps (setup-python, upload-artifact, ...) are skipped and listed in the record.
   * `${{ github.sha }}`, `${{ github.event.pull_request.head.sha }}` -> HEAD; `github.event_name` -> 'pull_request';
+    `github.event.pull_request.base.sha` -> merge-base(HEAD, origin/main); `github.event.action` -> 'synchronize';
     `github.event.pull_request.number` -> '0'; `github.ref` -> 'refs/heads/<branch>'.
   * `if:` supports `github.*` context values, `steps.<id>.outputs.<key>` (read from the step's $GITHUB_OUTPUT),
     `==`, `!=`, `&&`, `||`, `!`, `always()`, `success()`, `failure()`; anything else is reported as UNSUPPORTED_IF
@@ -96,14 +97,16 @@ def main():
     dirty = git("status", "--porcelain")
     if dirty and not a.allow_dirty:
         raise SystemExit("working tree is not clean; commit first or pass --allow-dirty (the record will say so)")
+    base = sh(["git", "merge-base", "HEAD", "origin/main"]).stdout.strip() or head
     ctx = {"github.sha": head, "github.event.pull_request.head.sha": head, "github.event_name": "pull_request",
+           "github.event.pull_request.base.sha": base, "github.event.action": "synchronize",
            "github.event.pull_request.number": "0", "github.ref": f"refs/heads/{branch}", "github.workspace": str(ROOT),
            "runner.temp": str(ROOT / ".git" / "local-replay-tmp")}
     bash = find_bash()
     env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8", GITHUB_WORKSPACE=str(ROOT), CI="true")
     env.update({k: str(v) for k, v in (wf.get("env") or {}).items()})
     record = {"schema": "LOCAL_REPLAY_RECORD_V1", "policy": "docs/research-os/policies/local-first-execution.md",
-              "workflow": wf_path.relative_to(ROOT).as_posix(), "exact_head": head, "branch": branch,
+              "workflow": wf_path.relative_to(ROOT).as_posix(), "exact_head": head, "emulated_pr_base": base, "branch": branch,
               "working_tree_clean": not dirty, "dirty_paths": dirty.splitlines() if dirty else [],
               "started_utc": datetime.datetime.utcnow().isoformat(timespec="seconds") + "Z",
               "environment": {"os": platform.platform(), "python": sys.version.split()[0], "bash": bash,
