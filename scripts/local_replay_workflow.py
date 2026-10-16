@@ -197,7 +197,7 @@ def main():
     out = Path(a.out) if a.out else None
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        out.write_text(json.dumps(record, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({"verdict": record["verdict"], "exact_head": head, "working_tree_clean": not dirty,
                       "jobs": {j["job"]: j.get("status") for j in record["jobs"]}}, ensure_ascii=False))
     sys.exit(0 if overall_ok else 1)
