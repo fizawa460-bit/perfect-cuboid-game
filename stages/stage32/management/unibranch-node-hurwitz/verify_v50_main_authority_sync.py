@@ -28,6 +28,10 @@ RESULT = HERE / "RESULT.json"
 LEAF_VERIFIER = HERE / "verify_unibranch_node_hurwitz.py"
 STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 CURRENT = ROOT / "stages/stage32/CURRENT.json"
+# After the V51 sync the live MAIN-STATE is V51; the V50 state is then replayed from its blob-locked snapshot.
+V51_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED"
+V50_STATE_SNAPSHOT = ROOT / "stages/stage32/management/hpadj22-unibranch/MAIN-STATE-V50-PRE-V51.json"
+V50_STATE_SNAPSHOT_BLOB = "14dc10f96d8f63cfc566f4e2228dd68ec5bd5a07"
 
 SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED"
 V49_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED"
@@ -108,6 +112,10 @@ def main() -> None:
     req(not any(rec["credit"].values()), "receipt credit firewall")
 
     st = load(STATE)
+    superseded = st.get("schema") == V51_SCHEMA
+    if superseded:
+        req(blob(V50_STATE_SNAPSHOT) == V50_STATE_SNAPSHOT_BLOB, "V50 state snapshot drift")
+        st = load(V50_STATE_SNAPSHOT)
     req(st.get("canonical_sha256_without_this_field") == canon(st), "MAIN state canonical; expected=" + canon(st))
     req(st["schema"] == SCHEMA, "MAIN schema")
     f = st["current_exact_frontier"]
@@ -133,9 +141,10 @@ def main() -> None:
         req(st["firewalls"][k] is False, "firewall " + k)
     req(st["firewalls"]["full178_complete"] is False, "firewall full178_complete")
 
-    cur = load(CURRENT)["current_frontier"]
-    req(cur["certified_upper_bound"] == str(NEW_BOUND) and cur["remaining_strata"] == NEW_STRATA, "CURRENT frontier")
-    req(cur["upper_bound_is_exact_residual_identity_set"] is False, "CURRENT semantics")
+    if not superseded:
+        cur = load(CURRENT)["current_frontier"]
+        req(cur["certified_upper_bound"] == str(NEW_BOUND) and cur["remaining_strata"] == NEW_STRATA, "CURRENT frontier")
+        req(cur["upper_bound_is_exact_residual_identity_set"] is False, "CURRENT semantics")
 
     if args.replay_leaf:
         subprocess.run([sys.executable, str(LEAF_VERIFIER)], check=True)
