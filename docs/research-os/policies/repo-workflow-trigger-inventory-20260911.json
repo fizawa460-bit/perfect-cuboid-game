@@ -1,18 +1,19 @@
 {
   "schema_version": 2,
-  "generated_on": "2026-09-11",
+  "generated_on": "2026-10-16",
   "scope": "repository-wide workflow lifecycle policy",
   "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
   "counts": {
-    "ACTIVE_AUTO": 10,
-    "MANUAL": 2,
+    "ACTIVE_AUTO": 3,
+    "MANUAL": 9,
     "RETIRED": 519,
     "TOTAL": 531
   },
   "families": {
     "REPO": {
-      "ACTIVE_AUTO": 3,
-      "TOTAL": 3
+      "ACTIVE_AUTO": 1,
+      "TOTAL": 3,
+      "MANUAL": 2
     },
     "Stage29": {
       "RETIRED": 4,
@@ -25,13 +26,13 @@
     "Stage32": {
       "RETIRED": 256,
       "TOTAL": 262,
-      "MANUAL": 2,
-      "ACTIVE_AUTO": 4
+      "MANUAL": 4,
+      "ACTIVE_AUTO": 2
     },
     "Stage32EX": {
       "RETIRED": 4,
       "TOTAL": 5,
-      "ACTIVE_AUTO": 1
+      "MANUAL": 1
     },
     "Stage33": {
       "RETIRED": 131,
@@ -42,7 +43,7 @@
       "TOTAL": 56
     },
     "Stage35": {
-      "ACTIVE_AUTO": 1,
+      "MANUAL": 1,
       "TOTAL": 1
     },
     "Stage35EX": {
@@ -50,26 +51,26 @@
       "TOTAL": 67
     },
     "Stage36": {
-      "ACTIVE_AUTO": 1,
+      "MANUAL": 1,
       "TOTAL": 1
     }
   },
   "classifications": {
     "ACTIVE_AUTO": [
       ".github/workflows/pages.yml",
-      ".github/workflows/research-arsenal.yml",
       ".github/workflows/stage32-claim-frontier-integrity.yml",
+      ".github/workflows/stage32-main-startup-authority.yml"
+    ],
+    "MANUAL": [
+      ".github/workflows/research-arsenal.yml",
+      ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
       ".github/workflows/stage32-ex5-main.yml",
       ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
-      ".github/workflows/stage32-main-startup-authority.yml",
+      ".github/workflows/stage32-root-cleanup-phase-b.yml",
       ".github/workflows/stage32-stale-run-sweeper.yml",
       ".github/workflows/stage35-35-01-to-09-audit.yml",
       ".github/workflows/stage36-bootstrap-audit.yml",
       ".github/workflows/structure-radar.yml"
-    ],
-    "MANUAL": [
-      ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
-      ".github/workflows/stage32-root-cleanup-phase-b.yml"
     ],
     "RETIRED": [
       ".github/workflows/stage29-01-audit.yml",
@@ -594,23 +595,21 @@
     ]
   },
   "automatic_triggers_removed_by_migration": [
-    ".github/workflows/stage32-main-btva-static7-bounded-panel.yml"
-  ],
-  "branch_local_live_catalog": [
-    ".github/workflows/pages.yml",
-    ".github/workflows/research-arsenal.yml",
-    ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
-    ".github/workflows/stage32-main-startup-authority.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     ".github/workflows/stage36-bootstrap-audit.yml",
     ".github/workflows/structure-radar.yml"
   ],
+  "branch_local_live_catalog": [
+    ".github/workflows/pages.yml",
+    ".github/workflows/stage32-claim-frontier-integrity.yml",
+    ".github/workflows/stage32-main-startup-authority.yml"
+  ],
   "notes": [
     "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
-    "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
+    "LOCAL-FIRST 2026-10-16: ACTIVE_AUTO is limited to the Pages deploy and two cheap Stage32 safety gates; every research leaf workflow is MANUAL/RETIRED and is replayed locally by default.",
     "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
     "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
     "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",

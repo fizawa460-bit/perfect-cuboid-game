@@ -3,12 +3,12 @@
   "scope": "Stage32 workflows observed auto-firing on the long-lived MAIN PR plus the current active/safety exceptions",
   "active_auto": [
     ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-claim-frontier-integrity.yml",
-    ".github/workflows/stage32-stale-run-sweeper.yml"
+    ".github/workflows/stage32-claim-frontier-integrity.yml"
   ],
   "manual": [
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
-    ".github/workflows/stage32-root-cleanup-phase-b.yml"
+    ".github/workflows/stage32-root-cleanup-phase-b.yml",
+    ".github/workflows/stage32-stale-run-sweeper.yml"
   ],
   "retired": [
     ".github/workflows/stage32-01-178-n230-filtered-indexer.yml",
@@ -49,8 +49,8 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 3,
-    "manual": 2,
+    "active_auto": 2,
+    "manual": 3,
     "retired": 36,
     "total": 41
   },
@@ -61,6 +61,7 @@
     "stale_run_sweeper": "Actions safety gate; automatic PR execution retained",
     "n350": "production-leaf meta-contract is not current active frontier; manual replay retained",
     "root_cleanup": "housekeeping verifier; manual replay retained",
-    "mathematical_authority_changed": true
+    "mathematical_authority_changed": true,
+    "local_first_20261016": "stale-run sweeper demoted to MANUAL by the local-first migration; only startup-authority and claim-frontier-integrity remain automatic (docs/research-os/policies/local-first-execution.md)"
   }
 }
