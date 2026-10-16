@@ -25,6 +25,9 @@ V49_BOUND=128443221087959579960
 V49_AUDITED_HEAD="44d274770de1d092022ebbefff80f3cefb914982"
 V49_AUDIT_REVIEW=5313265646
 V49_TIGHTENING=26991030353894489
+V50_CURRENT_REPOSITORY_MAIN="5fd74ee8d9f1129fea7fbb5bf1c647e120817860"
+V50_BOUND=511353002049
+V50_STRATA=530
 V45_STATE_BLOB="a8f873ffdcaca280f7b57158b69606b3ea496d3c"
 V45_STATE_CANON="58adceeff158b8ddc4194ff7a269ed4f32237c72f0c6eb62f88d343d902df62a"
 V45_RECEIPT_BLOB="a8486ff337e030d02ce26d7404907fdbea5d3cc1"
@@ -79,8 +82,14 @@ def main():
         locks=st["source_locks"]["v49_post_v48_178_fullsupport_384_authority_sync"]
         req(locks["compact_handoff_audited_exact_head"]==V49_AUDITED_HEAD and locks["hostile_audit_review_id"]==V49_AUDIT_REVIEW,"V49 audit")
         req(st["current"]["next_exact_route"]=="ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS","V49 route")
+    elif schema=="STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED":
+        req(st["authority_sync"]["current_repository_main"]==V50_CURRENT_REPOSITORY_MAIN,"V50 current main")
+        req(f["authoritative_remaining_terminals"]==V50_BOUND and f["authoritative_remaining_strata"]==V50_STRATA and f["full178_numerical_census_complete"] is True,"V50 authority")
+        req(f["v50_predecessor_upper_bound"]==V49_BOUND and f["v49_exact_tightening_vs_v48"]==V49_TIGHTENING and f["v50_unibranch_node_hurwitz_main_numeric_bound_consumed"] is True,"V50 predecessor/consumption")
+        req(f["v50_additive_subtraction_performed"] is False,"V50 additive firewall")
+        req(st["current"]["next_exact_route"]=="ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS","V50 route")
     else:
         req(False,"unsupported successor schema")
     for k in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][k] is False,"firewall "+k)
-    print("PASS: Stage32 MAIN preserves V46/V47/V48 predecessor authority and accepts the hostile-audited V49 178 full-support 384 successor when synchronized")
+    print("PASS: Stage32 MAIN preserves V46/V47/V48 predecessor authority and accepts the hostile-audited V49 178 full-support 384 and V50 unibranch node-Hurwitz successors when synchronized")
 if __name__=="__main__":main()
