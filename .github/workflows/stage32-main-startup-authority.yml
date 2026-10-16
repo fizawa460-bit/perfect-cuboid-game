@@ -2339,6 +2339,8 @@ jobs:
               AGENTS.md|docs/research-os/policies/local-first-execution.md|docs/research-os/policies/local-replay/*|docs/research-os/policies/actions-storage-and-evidence-safety.md|docs/research-os/policies/hostile-audit-and-freshness.md|docs/research-os/policies/pr-workflow-trigger-lifecycle.md|docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json|docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py|scripts/local_replay_workflow.py|.github/workflows/research-arsenal.yml|.github/workflows/stage32-ex5-main.yml|.github/workflows/stage32-stale-run-sweeper.yml|.github/workflows/stage35-35-01-to-09-audit.yml|.github/workflows/stage36-bootstrap-audit.yml|.github/workflows/structure-radar.yml) ;;
               # UNIBRANCH-NODE-HURWITZ leaf (2026-10-16) and its MAIN V50 authority sync (receipt, verifier, V49 state snapshot)
               stages/stage32/management/unibranch-node-hurwitz/*) ;;
+              # HPADJ22-UNIBRANCH research leaf (2026-10-16): retained leaf only; MAIN authority (V50) unchanged
+              stages/stage32/management/hpadj22-unibranch/*) ;;
               *) echo "unexpected V49 authority-sync path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
