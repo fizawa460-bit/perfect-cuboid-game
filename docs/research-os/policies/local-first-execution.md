@@ -12,7 +12,7 @@ In September 2026 the repository owner's GitHub account was suspended after GitH
 - Before every push, run the verifiers that the changed boundary depends on locally and record the result (command, exit status, and the key PASS lines) in the commit message, PR body, or a retained local-replay record (§4).
 - Never push merely to "see what CI says". CI is not a debugger.
 - Windows checkouts must use `git config core.autocrlf false` (and a working tree checked out with LF). Many verifiers compare `git hash-object` blob hashes against source locks; a CRLF working tree makes them fail spuriously. WSL checkouts are unaffected.
-- `scripts/local_replay_workflow.py` replays the `run:` steps of a workflow locally and writes an exact-head local replay record (§5). Heavy steps behind gate outputs are evaluated from the gate's `$GITHUB_OUTPUT`, and unsupported `if:` expressions fail closed (the step is not run).
+- `scripts/local_replay_workflow.py` replays the `run:` steps of a workflow locally and writes an exact-head local replay record (§5). Heavy steps behind gate outputs are evaluated from the gate's `$GITHUB_OUTPUT`, and unsupported `if:` expressions fail closed (the step is not run). A step consisting only of a pinned `pip install` is checked offline: it passes iff exactly the pinned versions are installed. For CI parity use an environment with the workflow's pinned Python and packages (for example a WSL Ubuntu venv); Windows text-mode writes can break byte-exact `cmp` replays.
 
 ## 2. Automatic workflows
 

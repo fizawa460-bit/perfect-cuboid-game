@@ -8,6 +8,8 @@ Emulation (deliberately small):
   * `actions/checkout` with `path:` -> detached `git worktree` of the requested `ref` at that path (removed afterwards);
     `actions/checkout` without `path:` -> the current working tree (the replay targets the current HEAD).
   * other `uses:` steps (setup-python, upload-artifact, ...) are skipped and listed in the record.
+  * a step that is only `python -m pip install 'pkg==ver' ...` is not executed; it passes iff exactly those pinned
+    versions are already installed (offline replay, no network), else FAIL.
   * `${{ github.sha }}`, `${{ github.event.pull_request.head.sha }}` -> HEAD; `github.event_name` -> 'pull_request';
     `github.event.pull_request.base.sha` -> merge-base(HEAD, origin/main); `github.event.action` -> 'synchronize';
     `github.event.pull_request.number` -> '0'; `github.ref` -> 'refs/heads/<branch>'.
@@ -17,6 +19,10 @@ Emulation (deliberately small):
 Matrix jobs and `needs:` ordering are not emulated; such jobs are reported as SKIPPED_MATRIX.
 
 usage: python scripts/local_replay_workflow.py .github/workflows/<file>.yml [--job JOB] [--out RECORD.json] [--allow-dirty]
+       LOCAL_REPLAY_ROOT=/path/to/other/checkout python /path/to/local_replay_workflow.py ...   (audit another checkout)
+
+CI parity: workflows pin Python/package versions; replay in an environment with exactly those versions (e.g. a WSL
+Ubuntu venv with the pinned Python), since Windows text-mode writes (CRLF) break byte-exact `cmp` replays.
 """
 from __future__ import annotations
 
@@ -25,7 +31,9 @@ from pathlib import Path
 
 import yaml
 
-ROOT = Path(__file__).resolve().parents[1]
+# repository root: the checkout containing this script, or LOCAL_REPLAY_ROOT (lets a newer replayer audit an older checkout
+# without dirtying it)
+ROOT = Path(os.environ.get("LOCAL_REPLAY_ROOT") or Path(__file__).resolve().parents[1]).resolve()
 
 
 def sh(cmd, **kw):
@@ -90,6 +98,8 @@ def main():
     ap.add_argument("--allow-dirty", action="store_true")
     a = ap.parse_args()
 
+    global GITDIR
+    GITDIR = Path(git("rev-parse", "--absolute-git-dir"))  # works in linked worktrees, where .git is a file
     wf_path = (ROOT / a.workflow).resolve()
     wf = yaml.safe_load(wf_path.read_text(encoding="utf-8"))
     head = git("rev-parse", "HEAD")
@@ -101,9 +111,10 @@ def main():
     ctx = {"github.sha": head, "github.event.pull_request.head.sha": head, "github.event_name": "pull_request",
            "github.event.pull_request.base.sha": base, "github.event.action": "synchronize",
            "github.event.pull_request.number": "0", "github.ref": f"refs/heads/{branch}", "github.workspace": str(ROOT),
-           "runner.temp": str(ROOT / ".git" / "local-replay-tmp")}
+           "runner.temp": str(GITDIR / "local-replay-tmp")}
     bash = find_bash()
-    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8", GITHUB_WORKSPACE=str(ROOT), CI="true")
+    env = dict(os.environ, PYTHONUTF8="1", PYTHONIOENCODING="utf-8", PYTHONDONTWRITEBYTECODE="1",
+               GITHUB_WORKSPACE=str(ROOT), CI="true")  # no __pycache__: keeps the audited tree clean
     env.update({k: str(v) for k, v in (wf.get("env") or {}).items()})
     record = {"schema": "LOCAL_REPLAY_RECORD_V1", "policy": "docs/research-os/policies/local-first-execution.md",
               "workflow": wf_path.relative_to(ROOT).as_posix(), "exact_head": head, "emulated_pr_base": base, "branch": branch,
@@ -155,11 +166,29 @@ def main():
                 if "run" not in st:
                     srec["status"] = "SKIPPED_EMPTY"; continue
                 script = subst(st["run"], ctx)
+                pins = re.findall(r"['\"]?([A-Za-z0-9_.-]+)==([A-Za-z0-9_.+-]+)['\"]?", script) if "pip install" in script else []
+                if pins and re.fullmatch(r"\s*python3? -m pip install[^\n;&|]*\s*", script):
+                    # offline replay: a pinned `pip install` step passes iff exactly those versions are already installed
+                    from importlib import metadata
+                    bad = []
+                    for pkg, ver in pins:
+                        try:
+                            have = metadata.version(pkg)
+                        except metadata.PackageNotFoundError:
+                            have = None
+                        if have != ver and (have or "").split("+")[0] != ver:
+                            bad.append(f"{pkg}=={ver} (installed: {have})")
+                    srec["status"] = "PINS_PRESENT" if not bad else "FAIL"
+                    srec["pins"] = [f"{a}=={b}" for a, b in pins]
+                    if bad:
+                        srec["missing_pins"] = bad; failed = True
+                    print(f"[{srec['status']}] {job_id} :: {name}", flush=True)
+                    continue
                 senv = dict(jenv); senv.update({k: subst(str(v), ctx) for k, v in (st.get("env") or {}).items()})
                 cwd = ROOT / st["working-directory"] if st.get("working-directory") else ROOT
                 t0 = time.time()
                 # pass the script through a file: Windows command-line quoting can corrupt long multi-line `-c` scripts
-                tmpdir = ROOT / ".git" / "local-replay-tmp"; tmpdir.mkdir(exist_ok=True)
+                tmpdir = GITDIR / "local-replay-tmp"; tmpdir.mkdir(exist_ok=True)
                 sfile = tmpdir / f"{job_id}-{i}.sh"
                 sfile.write_text(script, encoding="utf-8", newline="\n")
                 senv.setdefault("GITHUB_OUTPUT", str(tmpdir / f"{job_id}-{i}.github_output"))
