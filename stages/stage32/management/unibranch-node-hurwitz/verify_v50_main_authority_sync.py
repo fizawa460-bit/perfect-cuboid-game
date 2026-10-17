@@ -112,7 +112,7 @@ def main() -> None:
     req(not any(rec["credit"].values()), "receipt credit firewall")
 
     st = load(STATE)
-    superseded = st.get("schema") == V51_SCHEMA
+    superseded = st.get("schema") in (V51_SCHEMA, "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED")
     if superseded:
         req(blob(V50_STATE_SNAPSHOT) == V50_STATE_SNAPSHOT_BLOB, "V50 state snapshot drift")
         st = load(V50_STATE_SNAPSHOT)

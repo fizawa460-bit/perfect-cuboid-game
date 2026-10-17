@@ -144,7 +144,7 @@ def main() -> None:
     req(cs["lane_adapter_mutation_required"] is False, "lane adapter mutation firewall")
 
     st = json.loads(STATE.read_text(encoding="utf-8"))
-    if st.get("schema") in (V50_SCHEMA, "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED"):
+    if st.get("schema") in (V50_SCHEMA, "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED", "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED"):
         req(blob(V49_STATE_SNAPSHOT) == V49_STATE_SNAPSHOT_BLOB, "V49 state snapshot drift")
         st = json.loads(V49_STATE_SNAPSHOT.read_text(encoding="utf-8"))
     expected_state_canon = canon(st)

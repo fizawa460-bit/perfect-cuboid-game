@@ -208,14 +208,14 @@ jobs:
       - name: Verify V49 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "d13c7e312e1c58ea7c269920aa306d2af5973aa2"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "777d26c55b5b029b9dc7c09e31a0bc457384f05e"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8688dfd8aad8b0f0ba9a2b932a5ac793d1a62a1"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "adfc49f00635aba1b0d421cb9d828fabfa6ef99a"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "f42f025560a3d22e0b22ab05b2e26af68bfefb36"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "4862851ba00a821533f44a600cc5b78a4680f126"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json)" = "0ebbf672c432cb3cb1b2927bf03d660567eb417c"
-          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py)" = "6ec5e48fc5a004552f9264a26aff8d8e5bae016c"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py)" = "265ca91aedcdb1f0701834cd329e45b1e047e91e"
           test "$(git hash-object stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json)" = "281b94981f2de336575b32776d47fd3ea1efe890"
           test "$(git hash-object stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py)" = "a287c2b362064495edbd592356076234240b97cd"
           test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json)" = "6b0bceeb562433045449f928343ad5fcd9073af4"
@@ -255,22 +255,30 @@ jobs:
           test "$(git hash-object stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json)" = "2733e5519629e6365558bc1b4bfbc6305e0b5533"
           test "$(git hash-object stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py)" = "d719482d9799f8594b4436d0882bd33945583536"
           test "$(git hash-object stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-V49-MAIN-AUTHORITY-SYNC.json)" = "5fa510fb9878211e04f534ffc9dcdfed765dd4bc"
-          test "$(git hash-object stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py)" = "849fa6bf0e9e53064e47efdb85a9e5117b317edf"
+          test "$(git hash-object stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py)" = "10deed7fff17094f69b4a604660611d4c1b9ffeb"
           python stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py \
             --handoff-root .stage32-178-v49-handoff \
             --producer-root .stage32-178-v49-producer
           test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/MAIN-STATE-V49-PRE-V50.json)" = "9eef41db0645300398d8187297f489472fcfbf1c"
           test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/V50-MAIN-AUTHORITY-SYNC.json)" = "59545e5dcc3ee2f03fc6e3d2c6035e3c907275ec"
-          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py)" = "4e7ab5297db9c8de0e7bce4a245c4c757cdd4478"
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py)" = "901897c6cdb32b710ef0ef45b6886be126d6aefc"
           test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/RESULT.json)" = "ac2ce430382beb534ca5ac1e2774cdd716ce6c39"
           test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/verify_unibranch_node_hurwitz.py)" = "f1ecb31adde8ea855a508efdfb263977cce2e10f"
           python stages/stage32/management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py
           test "$(git hash-object stages/stage32/management/hpadj22-unibranch/MAIN-STATE-V50-PRE-V51.json)" = "14dc10f96d8f63cfc566f4e2228dd68ec5bd5a07"
           test "$(git hash-object stages/stage32/management/hpadj22-unibranch/V51-MAIN-AUTHORITY-SYNC.json)" = "e330a3194954eb1a34e48fe332730509e3ff1791"
-          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/verify_v51_main_authority_sync.py)" = "ee4611fa096ebaf4d17f624d217a00c227c75b17"
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/verify_v51_main_authority_sync.py)" = "510aaf35ecbd14cec7fce9456047904e33c531bd"
           test "$(git hash-object stages/stage32/management/hpadj22-unibranch/RESULT.json)" = "a9f9886c263a4e4bc23ed202630342e200b189cf"
           test "$(git hash-object stages/stage32/management/hpadj22-unibranch/verify_hpadj22_unibranch.py)" = "39a91d89a89f4300abeaff1311d811658be9bd43"
           python stages/stage32/management/hpadj22-unibranch/verify_v51_main_authority_sync.py
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/MAIN-STATE-V51-PRE-V52.json)" = "d13c7e312e1c58ea7c269920aa306d2af5973aa2"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/V52-MAIN-AUTHORITY-SYNC.json)" = "38117791d498242374b62b36cd433bdab5259188"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/verify_v52_main_authority_sync.py)" = "64b62f5bf551d3696ac8e3bb2186e876e5275ea3"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/RESULT.json)" = "581357102d418c36aff1620fdd6016247a27c1c7"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/verify_fixed_direction_certificates.py)" = "3ba957660145cf7e9e8585be73f63d13de332eb7"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/count_fixed_direction_certificates.c)" = "4616b9ba721dd0e085cff25476445281315a0264"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/DIRECTIONS.json)" = "278f3173884c9f7a2470fa231991c8717e418327"
+          python stages/stage32/management/fixed-direction-certificates/verify_v52_main_authority_sync.py
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "68108dfb110c4ea1d9dc0d74564a431bbbffbbde"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "8787d03e273513298c5d8ecfbc469f89342817f3"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
@@ -429,6 +437,15 @@ jobs:
               if frontier.get("v51_additive_subtraction_performed") is not False:
                   raise SystemExit("FAIL: V51 additive-subtraction firewall drift at historical BR204 V46 gate")
               print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V51")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 726240487 or frontier.get("authoritative_remaining_strata") != 530:
+                  raise SystemExit("FAIL: unexpected V52 current bound at historical BR204 V46 gate")
+              if frontier.get("v52_fixed_direction_certificates_main_numeric_bound_consumed") is not True:
+                  raise SystemExit("FAIL: V52 bound is not consumed at historical BR204 V46 gate")
+              if frontier.get("v52_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V52 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V52")
           else:
               raise SystemExit(f"FAIL: unsupported MAIN schema at BR204 V46 gate: {schema}")
           PY
@@ -539,6 +556,22 @@ jobs:
               if frontier.get("v51_additive_subtraction_performed") is not False:
                   raise SystemExit("FAIL: V51 additive-subtraction firewall drift at historical BTVA gate")
               print("PASS: historical zero-credit BTVA structural preflight retained under V51 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + bytes([0]) + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V52")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V52")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 726240487:
+                  raise SystemExit("FAIL: unexpected V52 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V52 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v52_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V52 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V52 authority")
           else:
               raise SystemExit(f"FAIL: unsupported MAIN schema at historical BTVA gate: {schema}")
           PY
@@ -2372,6 +2405,8 @@ jobs:
               stages/stage32/management/unibranch-node-hurwitz/*) ;;
               # HPADJ22-UNIBRANCH leaf (2026-10-16) and its MAIN V51 authority sync (receipt, verifier, V50 state snapshot)
               stages/stage32/management/hpadj22-unibranch/*) ;;
+              # FIXED-DIRECTION-CERTIFICATES leaf (2026-10-17) and its MAIN V52 authority sync (receipt, verifier, V51 state snapshot)
+              stages/stage32/management/fixed-direction-certificates/*) ;;
               *) echo "unexpected V49 authority-sync path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
