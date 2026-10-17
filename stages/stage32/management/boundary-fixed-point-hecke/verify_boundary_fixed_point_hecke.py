@@ -2,14 +2,14 @@
 """Stage32 BOUNDARY-FIXED-POINT-HECKE (research cycle 32R-18): computational checks for the fixed-point Hecke lemma.
 Checks only arithmetic and finite-group facts; the geometric proof is in CONTRACT.md and needs hostile audit.
 
-Lemma: in the equality case the deck involution iota of D -> Ctilde has exactly 48 fixed points, but for every g in
-Comm(Delta) \\ Delta,  #Fix(iota) <= 6 * 2^omega(g) * n / h(g)  with n = d/2 = deg f_i, h(g) = prod N(P)^(k-1)(N(P)+1).
-Checks:
-  1. the inequality 6 * 2^w * n / h < 48 for every Hecke degree (all primes of Z[sqrt2] with N >= 7; w = #primes),
-     n in {22, 24};
-  2. sanity of the local fact used: an involution of PGL2(F_p) (p odd) fixes 0 or 2 points of P^1(F_p);
-  3. Delta(2,3,8) maps onto PGL2(F_7) and PGL2(F_23) (a (2,3,8)-generating pair exists), images of order-2
-     elements fix <= 2 points; and the PSL2 parts are perfect (transitivity of Gamma_Y).
+Lemma (proved in CONTRACT.md; the general-omega case uses the monotone bound 6*2^w*n/h <= 6n(1/4)^w):
+#Fix(iota) = 48 but #Fix(iota) <= 6 * 2^omega(g) * n / h(g), with n = d/2 = deg f_i and h(g) = prod N(P)^(k-1)(N(P)+1).
+What this script ACTUALLY checks (finite illustrations only; not a substitute for the proofs in CONTRACT.md):
+  1. the numerical inequality 6*2^w*n/8^w < 48 for n in {22, 24} and w = 1..11;
+  2. involutions of PGL2(F_p) fix 0 or 2 points of P^1(F_p), for p = 7, 23;
+  3. a pair (x, y) in PGL2(F_p) with x^2 = y^3 = 1 and xy of order 8 EXISTS (p = 7, 23).
+NOT checked here: that such a pair generates PGL2(F_p), the perfectness of SL2 over finite local rings, or any
+geometric statement.  These are argued in CONTRACT.md.
 """
 from itertools import product
 from sympy import primerange
