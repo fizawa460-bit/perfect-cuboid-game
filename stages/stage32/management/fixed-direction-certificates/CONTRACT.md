@@ -1,6 +1,6 @@
 # Stage32 FIXED-DIRECTION-CERTIFICATES — exact Hodge bound and fixed-direction certificates on compressed terminals
 
-Status: `RESEARCH_RESULT__HOSTILE_AUDIT_PENDING__MAIN_AUTHORITY_UNCHANGED`.
+Status: `RESEARCH_RESULT__EXTERNAL_HOSTILE_AUDIT_PASS__MAIN_AUTHORITY_UNCHANGED`. See `EXTERNAL-AUDIT-RECEIPT.md`. `RESULT.json`, the C counter and the verifier keep their audited bytes. `RESULT.json`'s `status` field still reads `..._HOSTILE_AUDIT_PENDING_...`.
 
 This is a necessary-condition research result. It does not change MAIN authority (V51, 5369214401). It grants no MAIN, effectivity, receiver, theorem, endpoint, Stage32-closure, Perfect-Cuboid or merge credit.
 
@@ -40,7 +40,8 @@ If `h0(t) < L`, or if `lin_D(t) < 0` and `lin_D(t)^2 > (h0(t) - L) c_D`, then no
 5. So `x^2 <= x^2 + 2s x.D = h0 + 2s lin_D + (y^2 + 2s y.D)`.
 6. Write `y = N z`. Then `y^2 + 2s y.D = -z^T M z + 2s lambda^T P N z <= s^2 c_D`.
 7. So `x^2 <= h0 + 2s lin_D + s^2 c_D` for every `s >= 0`.
-8. If `lin_D < 0`, take `s = -lin_D/c_D`. This gives `x^2 <= h0 - lin_D^2/c_D < L`, which contradicts `x^2 >= L`. ∎
+8. If `lin_D < 0` and `c_D > 0`, take `s = -lin_D/c_D >= 0`. This gives `x^2 <= h0 - lin_D^2/c_D < L`, which contradicts `x^2 >= L`.
+9. If `lin_D < 0` and `c_D = 0`, step 7 gives `x^2 <= h0 + 2s lin_D` for every `s >= 0`. Letting `s -> infinity` contradicts `x^2 >= L`. So any `lambda >= 0` with `lin_D < 0` and `c_D = 0` already kills the terminal. The verifier requires `c_D > 0` for every direction used here, and all 24 satisfy it. ∎
 
 Any `lambda >= 0` gives a valid certificate. The 24 directions in `DIRECTIONS.json` were selected by sampling (research cycle 32R-11). They need not be optimal, and their choice does not affect validity.
 
@@ -49,7 +50,11 @@ Any `lambda >= 0` gives a valid certificate. The 24 directions in `DIRECTIONS.js
 The C counter `count_fixed_direction_certificates.c` works as follows:
 
 - It enumerates every canonical exceptional prefix of every stratum, using a monotone pruning that is checked against exact prefix counts.
-- It tests every `x4` in `0..19d-5e` with exact `__int128` integer arithmetic. Every product in the certificate test is overflow-checked.
+- It tests every `x4` in `0..19d-5e` with exact `__int128` integer arithmetic.
+  - Only the two products of the certificate test go through `__builtin_mul_overflow`. The evaluation of `H` and of `lin` is unguarded.
+  - Safety therefore rests on an explicit bound for this input range: `e <= 72`, `x4 <= 672`, and every 64-bit input has absolute value at most 228,000,000.
+  - The auditor's conservative bound: every certificate product fits in 94 bits, well inside signed 128-bit. The counts fit in 64 bits.
+  - Changing the input range requires re-deriving this bound.
 - The forms are integer-scaled from the exact rationals; `Q` has denominator 456.
 
 | | count |
@@ -67,7 +72,9 @@ The C counter `count_fixed_direction_certificates.c` works as follows:
 
 1. The exact forms are rebuilt from the retained Picard data. The kernel's negative definiteness is checked exactly, and every `lambda >= 0`. The forms' sha256 must match `RESULT.json`.
 2. The 530 strata and their exact prefix counts are rebuilt with the N220 symbolic counter.
-3. **Independent reference.** A separate Python enumeration with exact integer arithmetic reproduces `(prefixes, Hodge survivors, final survivors)` on the 40 smallest strata.
+3. **Independent reference.** A separate Python implementation reproduces `(prefixes, Hodge survivors, final survivors)` on the 40 smallest strata (8,859 prefixes). It uses recursive enumeration and an exact test with integer scaling.
+   - It is independent of the C code but shares the form/strata construction and the same monotone pruning idea, so it is a limited cross-check.
+   - The verifier docstring's wording "itertools enumeration + Fraction arithmetic" is superseded by this description; the code is unchanged.
 4. The C counter is compiled and run. Every stratum's prefix count must equal step 2, and all per-stratum data must equal `RESULT.json`.
 5. The per-row MIN with V51 and all totals are recomputed.
 
