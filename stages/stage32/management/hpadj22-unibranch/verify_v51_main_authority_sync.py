@@ -25,6 +25,10 @@ LEAF_VERIFIER = HERE / "verify_hpadj22_unibranch.py"
 UNH_RESULT = ROOT / "stages/stage32/management/unibranch-node-hurwitz/RESULT.json"
 STATE = ROOT / "stages/stage32/MAIN-STATE.json"
 CURRENT = ROOT / "stages/stage32/CURRENT.json"
+# After the V52 sync the live MAIN-STATE is V52; the V51 state is then replayed from its blob-locked snapshot.
+V52_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED"
+V51_STATE_SNAPSHOT = ROOT / "stages/stage32/management/fixed-direction-certificates/MAIN-STATE-V51-PRE-V52.json"
+V51_STATE_SNAPSHOT_BLOB = "d13c7e312e1c58ea7c269920aa306d2af5973aa2"
 
 SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED"
 V50_SCHEMA = "STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED"
@@ -97,6 +101,10 @@ def main() -> None:
     req(not any(rec["credit"].values()), "receipt credit firewall")
 
     st = load(STATE)
+    superseded = st.get("schema") == V52_SCHEMA
+    if superseded:
+        req(blob(V51_STATE_SNAPSHOT) == V51_STATE_SNAPSHOT_BLOB, "V51 state snapshot drift")
+        st = load(V51_STATE_SNAPSHOT)
     live = st.get("schema") == SCHEMA
     req(live, "MAIN schema is not V51")
     req(st.get("canonical_sha256_without_this_field") == canon(st), "MAIN state canonical; expected=" + canon(st))
@@ -120,9 +128,10 @@ def main() -> None:
     for k in FIREWALLS:
         req(st["firewalls"][k] is False, "firewall " + k)
 
-    cur = load(CURRENT)["current_frontier"]
-    req(cur["certified_upper_bound"] == str(NEW_BOUND) and cur["remaining_strata"] == V50_STRATA, "CURRENT frontier")
-    req(cur["upper_bound_is_exact_residual_identity_set"] is False, "CURRENT semantics")
+    if not superseded:
+        cur = load(CURRENT)["current_frontier"]
+        req(cur["certified_upper_bound"] == str(NEW_BOUND) and cur["remaining_strata"] == V50_STRATA, "CURRENT frontier")
+        req(cur["upper_bound_is_exact_residual_identity_set"] is False, "CURRENT semantics")
 
     print("PASS: Stage32 MAIN V51 consumes hostile-audited HPADJ22-UNIBRANCH as the per-row minimum of same-population certified upper bounds")
     print("V50_UPPER_BOUND=" + str(V50_BOUND) + " V51_UPPER_BOUND=" + str(NEW_BOUND) + " STRATA_UPPER_BOUND=" + str(V50_STRATA))
