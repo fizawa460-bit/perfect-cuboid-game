@@ -4,8 +4,9 @@
 What this script ACTUALLY checks (sympy / integer arithmetic; Singular is NOT run here, see singular/run_all.sh):
   A. singular/tangency_{swap,id}.sing are reproduced byte-for-byte by singular/make_tangency_ideals.py.
   B. Every prime listed in singular/primes_{swap,id}.txt contains the tangency ideal T. Its members are:
-       - the square locus {G^2 : G a (2,2) form through the 6 points} (G^2 satisfies all generators, and the
-         affine dimension equals dim of that space of G: 3 for swap, 4 for id);
+       - the square locus {G^2 : G a (2,2) form through the 6 points}: for a SYMBOLIC G = sum a_k G_k, G^2 lies in L
+         and makes every generator vanish identically in a; the map a -> G^2 has Jacobian rank len(a) (3 for swap,
+         4 for id) at a rational point. The prime's dimension (= len(a)) is taken from Singular (primes_*.txt).
        - swap: two points, F = (x-y)(x+y)(xy-1)(xy+1) (contains x - y) and F = F*;
        - id: 16 primes on which x - y divides F (F(t,t) reduces to 0 modulo the prime).
      (That these primes are ALL the minimal primes of T is Singular's minAssGTZ, logged in primes_*.log.)
@@ -17,17 +18,19 @@ What this script ACTUALLY checks (sympy / integer arithmetic; Singular is NOT ru
   E. The 24 octahedral Moebius maps mu: for each, the rank r of <h_j(t)h_j(mu t)> mod squares, the number B of branch
      points, and the genus g of each component (2g-2 = 2^(r-1)(B-4)). Expected: rank 0 <-> class-preserving (4
      maps, conics), rank 1 (12 maps, g = 1), rank 2 (8 maps, g = 3).
-  F. enumeration/classes_d8.json: every class has K.C = 8, the recorded C^2, pairing >= 0 with the 140 known curves,
-     n1 = 4, and the stated (e, C^2, node pattern) counts. For e = 8 the equality sum_c C.E_c + B = 16 holds.
-  G. enumeration/job_status.json: every split job is COMPLETE or EMPTY, and the NODE_LIMIT unsplit jobs are exactly
-     the (n1, e) pairs that were split.
-NOT checked here: the completeness of the floating-point Fincke-Pohst pruning in fp_enum.c (see CONTRACT §2), any
-geometric statement, or the Hecke facts imported from #1842/#1843.
+  F. enumeration/certified_results.jsonl: every class reported by a split job is distinct and satisfies, in exact
+     integer arithmetic, K.C = 8, F1.C = n1, e and Gamma49.C = v of its job, C^2 >= c2min, C.Gamma >= 0 for the 140
+     known curves; there are 1830 of them, all with n1 = 4, in the stated (e, C^2, node pattern) counts.
+  G. The result records are EXACTLY the generated job inventory of enumeration/run_certified.py (no missing, extra or
+     duplicate job); every BOUND job carries the exact certificate Gamma49.C <= 10 on its slice (or the slice is
+     empty); every split job ended COMPLETE / EMPTY / CONGRUENCE_EMPTY.
+NOT checked here (re-run separately): the enumeration itself (enumeration/run_certified.py, about 3 hours on 11 cores;
+its pruning is rigorous by construction, see certified_enum.c and CONTRACT §2), the Singular decompositions
+(singular/run_all.sh), any geometric statement, or the Hecke facts imported from #1842/#1843.
 usage: PYTHONUTF8=1 python verify_d8_low_genus.py [REPO_ROOT]
 """
 import importlib.util
 import json
-import random
 import sys
 from collections import Counter, defaultdict
 from itertools import permutations
@@ -43,7 +46,6 @@ import make_tangency_ideals as mti  # noqa: E402
 QI = sp.QQ.algebraic_field(sp.I)
 X, Y, T = sp.symbols("x y t")
 x0, x1, y0, y1 = mti.x0, mti.x1, mti.y0, mti.y1
-random.seed(20261018)
 ok = True
 
 
@@ -109,13 +111,17 @@ for name, (sigma, u, FL, tang) in data.items():
         GB = sp.groebner(gens, *u, order="grevlex", domain=QI)
         if not all(reduces_to_zero(tg, GB, u) for tg in tang):
             check(False, f"B {name}: a prime does not contain T"); continue
-        if d == len(nsG):                                   # candidate square locus
-            good = True
-            for _ in range(2):
-                coef = sum((random.randint(-4, 4) * n for n in nsG), sp.zeros(9, 1))
-                Gs = sp.expand(sum(coef[k] * m2[k] for k in range(9)) ** 2)
-                s = coords_of(Gs, u, FL)
-                good &= s is not None and all(sp.expand(gg.subs(s)) == 0 for gg in gens)
+        if d == len(nsG):                                   # candidate square locus: UNIVERSAL symbolic check
+            a = sp.symbols(f"a0:{len(nsG)}")
+            coef = sum((a[k] * nsG[k] for k in range(len(nsG))), sp.zeros(9, 1))
+            Gs = sp.expand(sum(coef[k] * m2[k] for k in range(9)) ** 2)
+            eqs = sp.Poly(sp.expand(FL - Gs), x0, x1, y0, y1).coeffs()
+            sol = sp.solve(eqs, u, dict=True)                  # u(a): coordinates of G^2 in L (polynomial in a)
+            good = len(sol) == 1 and all(sp.expand(gg.subs(sol[0])) == 0 for gg in gens)
+            # the parametrisation a -> G^2 has Jacobian rank len(a) at a rational point, so the closure of the
+            # square locus has affine dimension len(a) = d; with the prime irreducible of dimension d, they coincide
+            J = sp.Matrix([[sp.diff(sol[0][w], ak) for ak in a] for w in u]).subs({ak: k + 2 for k, ak in enumerate(a)})
+            good &= J.rank() == len(a)
             kinds["square locus" if good else "UNEXPLAINED"] += 1
             continue
         if d == 1:                                          # a single projective point
@@ -273,45 +279,62 @@ if ad is not None:
         met = [lbl for lbl in range(33, 45) if gram140[lbl - 1][k - 1] > 0]
         pair[k] = (next(lbl for lbl in met if side[lbl] == "V"), next(lbl for lbl in met if side[lbl] == "H"))
     check(Counter(Counter(pair.values()).values()) == Counter({4: 12}), "F 48 nodes = 12 cusp pairs x 4")
-    cls = json.loads((HERE / "enumeration/classes_d8.json").read_text())["classes"]
+    results = [json.loads(line) for line in (HERE / "enumeration/certified_results.jsonl").read_text().splitlines() if line.strip()]
+    cls = [(r, c) for r in results if r.get("fix") for c in r.get("classes", [])]
     pat = Counter()
     good = True
-    for c in cls:
+    for r, c in cls:
         x = np.array(c["x"], dtype=object)
         pr = P.dot(x)
         c2 = int(x.dot(G).dot(x))
-        good &= int(deg.dot(x)) == 8 and c2 == c["C2"] and (pr >= 0).all() and int(F1row.dot(x)) == 4 and int(sum(pr[92:])) == c["e"]
+        good &= (int(deg.dot(x)) == 8 and c2 == c["C2"] and c2 >= r["c2min"] and (pr >= 0).all()
+                 and int(F1row.dot(x)) == r["n1"] and int(sum(pr[92:])) == r["e"] and int(pr[48]) == int(r["fix"].split("=")[1]))
         bd = {lbl: int(pr[lbl - 1]) for lbl in range(33, 45)}
         nd = defaultdict(list)
         for k in range(93, 141):
             if pr[k - 1] > 0:
                 nd[pair[k]].append(int(pr[k - 1]))
         sumE_V = sum(v for lbl, v in bd.items() if side[lbl] == "V")
-        good &= 2 * sumE_V + c["e"] == 24
-        pat[(c["e"], c2, tuple(sorted(Counter(bd.values()).items())),
+        good &= 2 * sumE_V + r["e"] == 6 * r["n1"]
+        pat[(r["n1"], r["e"], c2, tuple(sorted(Counter(bd.values()).items())),
              tuple(sorted(Counter(tuple(sorted(m)) for m in nd.values()).items())),
              len({p_[0] for p_ in nd}), len({p_[1] for p_ in nd}))] += 1
-    check(good and len(cls) == 1830, "F all 1830 classes: K.C = 8, C^2 as recorded, C.Gamma >= 0 (140 curves), n1 = 4, 2 sum_V C.E + e = 24")
-    # key: (e, C^2, {C.E_c value: #lines}, {sorted m-list per cusp pair: #pairs}, #vertical lines met, #horizontal lines met)
+    xs = [tuple(c["x"]) for _, c in cls]
+    check(good and len(xs) == len(set(xs)) == 1830,
+          f"F all {len(xs)} certified classes: distinct; K.C = 8, F1.C = n1, e, Gamma49.C = v of their job, C^2 >= c2min, "
+          "C.Gamma >= 0 (140 curves), 2 sum_V C.E + e = 6 n1")
+    # key: (n1, e, C^2, {C.E_c value: #lines}, {sorted m-list per cusp pair: #pairs}, #vertical lines met, #horizontal lines met)
     expect = Counter({
-        (12, -8, ((1, 12),), (((1, 1), 6),), 6, 6): 64,
-        (12, -4, ((1, 12),), (((1, 1), 6),), 6, 6): 32,
-        (8, -8, ((0, 4), (2, 8)), (((2, 2), 2),), 2, 2): 192,
-        (8, -8, ((0, 2), (1, 4), (2, 6)), (((2,), 2), ((2, 2), 1)), 3, 3): 384,
-        (8, -8, ((1, 8), (2, 4)), (((2,), 4),), 4, 4): 960,
-        (8, -4, ((1, 8), (2, 4)), (((1, 1), 4),), 4, 4): 192,
-        (8, 0, ((0, 4), (2, 8)), (((1, 1, 1, 1), 2),), 2, 2): 6})
-    check(pat == expect, "F node patterns (e, C2, C.E counts, m-lists per pair, #V, #H): "
+        (4, 12, -8, ((1, 12),), (((1, 1), 6),), 6, 6): 64,
+        (4, 12, -4, ((1, 12),), (((1, 1), 6),), 6, 6): 32,
+        (4, 8, -8, ((0, 4), (2, 8)), (((2, 2), 2),), 2, 2): 192,
+        (4, 8, -8, ((0, 2), (1, 4), (2, 6)), (((2,), 2), ((2, 2), 1)), 3, 3): 384,
+        (4, 8, -8, ((1, 8), (2, 4)), (((2,), 4),), 4, 4): 960,
+        (4, 8, -4, ((1, 8), (2, 4)), (((1, 1), 4),), 4, 4): 192,
+        (4, 8, 0, ((0, 4), (2, 8)), (((1, 1, 1, 1), 2),), 2, 2): 6})
+    check(pat == expect, "F node patterns (n1, e, C2, C.E counts, m-lists per pair, #V, #H): "
           + "; ".join(f"{k} x{v}" for k, v in sorted(pat.items())))
 
-# ---- G: job status -------------------------------------------------------------------------------------------------
-jobs = json.loads((HERE / "enumeration/job_status.json").read_text())["jobs"]
-split = {(j["n1"], j["e"], j["c2min"]) for j in jobs if j["kind"] != "unsplit"}
-okj = all(j["status"].split()[0] in ("COMPLETE", "EMPTY") for j in jobs if j["kind"] != "unsplit")
-limit = {(j["n1"], j["e"], j["c2min"]) for j in jobs if j["kind"] == "unsplit" and j["status"].startswith("NODE_LIMIT")}
-okj &= limit <= split
-okj &= all(len({j["fix"] for j in jobs if j["kind"] != "unsplit" and (j["n1"], j["e"], j["c2min"]) == s}) == 101 for s in split)
-check(okj, f"G {len(jobs)} jobs: split jobs all COMPLETE/EMPTY with v = 0..100; NODE_LIMIT unsplit jobs {sorted(limit)} are all split")
+# ---- G: certified job inventory --------------------------------------------------------------------------------------
+sys.path.insert(0, str(HERE / "enumeration"))
+import run_certified  # noqa: E402
+results = [json.loads(line) for line in (HERE / "enumeration/certified_results.jsonl").read_text().splitlines() if line.strip()]
+keys = [r["job"] for r in results]
+expected = {run_certified.key(j) for j in run_certified.inventory()}
+okj = len(keys) == len(set(keys)) and set(keys) == expected
+bad = []
+for r in results:
+    st = r["status"].split()[0]
+    if r["job"].endswith("|BOUND"):
+        if not (st in ("EMPTY", "CONGRUENCE_EMPTY") or (st == "BOUND" and r.get("gamma49_le_10_on_ellipsoid") is True)):
+            bad.append(r["job"])
+    elif st not in ("COMPLETE", "EMPTY", "CONGRUENCE_EMPTY"):
+        bad.append(r["job"])
+okj &= not bad
+check(okj, f"G inventory: {len(keys)} result records = exactly the {len(expected)} generated jobs "
+      "(n1 = 1..7; e = 12..24 with C^2 >= -10 and e = 8..11 with C^2 >= -8; BOUND + v = 0..10 each); every BOUND job "
+      "certifies Gamma49.C <= 10 (or the slice is empty); every split job COMPLETE/EMPTY/CONGRUENCE_EMPTY"
+      + (f"; bad: {bad[:5]}" if bad else ""))
 
 print("ALL PASS" if ok else "SOME CHECKS FAILED")
 sys.exit(0 if ok else 1)

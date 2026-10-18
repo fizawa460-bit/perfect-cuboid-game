@@ -4,7 +4,9 @@
 CLAIM: Every integral curve C on S̃ (the minimal resolution of the cuboid surface S) with d = K·C = 8 has geometric
        genus ≥ 2. Equivalently, there are no rational or elliptic curves of degree 8.
        Degree ≤ 6 was classified by Stoll–Testa (arXiv 1009.0388), so this is the next degree.
-STATUS: Proof + exact computer algebra. Needs external hostile audit. No credit flags are changed.
+STATUS: Proof + exact computer algebra. First hostile audit (head 817845ce): FAIL on (1) floating-point enumeration
+        not certified and (2) verifier scope; both repaired here (§2 certified enumeration, §8). Needs re-audit.
+        No credit flags are changed.
 SCOPE: A geometric fact about the d = 8 strata. MAIN (V52) and all formal counts are unchanged.
 BUILDS ON: #1842 §0–§3a (FSM model, Bolza curve Y, Δ = Δ(2,3,8) = normalizer of the Bolza maximal order,
            Hecke product formula h ≥ 8 for g ∈ Comm(Δ) \ Δ) and #1843 §6 (Γ_Y acts transitively on Δ/K).
@@ -49,10 +51,22 @@ Let k_c = #(points of C̃ over ℓ_c). Then:
   - C² ≥ 2g − 2 − 8, since p_a ≥ g;
   - C² ≤ d²/K² = 4 (Hodge);
   - C·Γ ≥ 0 for all 140 known curves.
-- **Method:** fp_enum.c is a Fincke–Pohst enumeration with floating-point Cauchy–Schwarz pruning (tolerance 1e-6) on each slice. Every leaf is rechecked in exact integer arithmetic (classes_driver.py).
-- **Splitting:** the slices that hit the node limit were split by v = C·Γ49 ∈ [0, 100]. The ellipsoid maximum of C·Γ49 on those slices is ≤ 9.3 (32R-23), so the split is exhaustive.
-- **Job status:** 1160 jobs, all COMPLETE, EMPTY or CONGRUENCE_EMPTY (job_status.json; verifier G).
-- **Result (classes_d8.json, 1830 classes, all with n1 = n2 = 4):**
+- **Slices (generated inventory, `enumeration/run_certified.py`):**
+  - n1 = 1..7 with (C² ≥ −10, e = 12..24) and (C² ≥ −8, e = 8..11).
+  - Genus-1 classes with e ≥ 12 lie inside the first family.
+  - The constraint "Σm_j = e" is imposed for every integer e in range, so no parity argument is needed.
+- **Certified enumeration** (`certified_driver.py` + `certified_enum.c`; replaces the floating-point pipeline audited at 817845ce):
+  - **Exact data.** All data are exact rationals (python-flint): the affine slice (HNF), the LLL basis, M = UᵀDU, the centre zs, the radius R, and the linear forms f0 + g·y with Cauchy–Schwarz constants S_k(i) = Σ_{j<i} g_kj²/d_j. R < 0 is decided exactly.
+  - **Enclosures.** Each rational is passed as an enclosing double interval (degenerate if exactly representable).
+  - **Rigorous pruning.** The C program keeps rigorous bounds: [c_i] for the centres, [y_i], an upper bound on the remaining radius, and upper bounds on the linear forms. Every operation is rounded outward (UP/DN, justified in the file header). A branch is discarded only if the exact discarding condition is implied: radius < 0, or f_k < 0 with f_k² > rem·S_k(i). Candidate ranges are supersets of the exact ranges.
+  - **Exact leaf check.** The leaves are therefore a superset of the exact solutions. Every leaf is rechecked in exact integer arithmetic.
+  - **Floating point.** No floating-point quantity is trusted beyond these enclosures. The build flags forbid FMA contraction and fast-math.
+- **Splitting by v = C·Γ49.**
+  - Every slice is split into v = 0..10. Here v ≥ 0 is one of the constraints (Γ49 is a known curve).
+  - For every slice a BOUND job certifies exactly that sup Γ49·x ≤ 10 on its real ellipsoid: f0_49 + √(R·S_49) ≤ 10, checked squared in Q.
+  - An a-priori bound also exists (auditor): Γ49² = −4, K·Γ49 = 4 and C² ≥ −10 give C·Γ49 ≤ 2 + √70 < 11 by Hodge.
+- **Job status:** 1428 jobs (119 slices × (1 BOUND + 11 splits)). They are exactly the generated inventory, all BOUND certificates hold, and all splits are COMPLETE / EMPTY / CONGRUENCE_EMPTY (`certified_results.jsonl`; verifier G).
+- **Result (1830 classes, all with n1 = n2 = 4; verifier F):**
 
 | e | C² | C·E per line | m per cusp pair | count |
 |---|----|--------------|-----------------|-------|
@@ -140,7 +154,10 @@ Let C be in an e = 12 class with g ≤ 1. Put Z0 = f(C) ⊂ P¹×P¹ (irreducibl
 - **σ = id** (dim L = 10): 17 minimal primes.
   - The square locus.
   - 16 primes (12 points and 4 conics) on which x − y divides F (an ideal-membership check). These are reducible.
-- **F\*** is absolutely irreducible (Singular absFactorize). Its singular points are exactly the 6 points, all ordinary nodes (verifier C). So its geometric genus is 9 − 6 = **3**.
+- **F\***: its singular points are exactly the 6 points, all ordinary nodes (verifier C).
+  - It is irreducible over Q(i) (verifier C), and absolutely irreducible (Singular absFactorize).
+  - Independent argument (auditor): a nontrivial Galois-conjugate splitting over Q̄ would force at least 8 intersection nodes, contradicting the six-node count.
+  - So its geometric genus is 9 − 6 = **3**.
 - So for m = 1, C̃ ≅ Z̃0 has genus 3. **Contradiction.** ∎(e = 12)
 
 The classes of §2 are exhaustive. So §3 and §4 prove the CLAIM.
@@ -154,17 +171,39 @@ The classes of §2 are exhaustive. So §3 and §4 prove the CLAIM.
 ## 6. Points to audit
 1. §0: the formula f*ℓ_c = 2E_c + ΣExc_j, and its identification with the repository fibre class (lattice labels 33–44 / 93–140).
 2. §1: the inequality chain, especially k_c ≤ C·E_c + B_c and Σ_c C·E_c = (6n1 − e)/2.
-3. §2: completeness of floating-point Fincke–Pohst pruning (tolerance 1e-6) and of the split by C·Γ49.
+3. §2: the certified enumeration. Check:
+   - the outward rounding (UP/DN) in certified_enum.c;
+   - that each discard condition is implied by the bounds;
+   - the exact UᵀDU / Cauchy–Schwarz data in certified_driver.py;
+   - the BOUND certificates;
+   - the generated inventory.
 4. §3: the equality consequences, the étaleness of f_i, and the Hecke step (h ≤ 4 against h ≥ 8). Check that #1842/#1843 apply to any étale pair of degree n, not only the boundary setting.
 5. §3: the identification of the α case with the octahedral graphs, and n1 = 2^r.
 6. §4: the local analysis on cusp lines (cases P_E ∈ Exc), the m = 2 ramification count, and the reduction of σ to two types.
 7. §4: the Singular primary decompositions (rerun singular/run_all.sh). The covering argument uses the fact that the square locus is closed.
-8. Verifier scope: `verify_d8_low_genus.py` checks A–G of its docstring only.
+8. Verifier scope: `verify_d8_low_genus.py` checks A–G of its docstring only. The enumeration and the Singular runs are reproduced by their own scripts.
 
 ## 7. Files
-- `verify_d8_low_genus.py`: the exact checks A–G (sympy, numpy, repository lattice). Run with `PYTHONUTF8=1 python verify_d8_low_genus.py`; it prints ALL PASS. About 1 minute.
+- `verify_d8_low_genus.py`: the exact checks A–G (sympy, numpy, repository lattice). Run `PYTHONUTF8=1 python verify_d8_low_genus.py`; it prints ALL PASS in a few minutes.
 - `singular/`:
   - make_tangency_ideals.py writes tangency_{swap,id}.sing;
-  - primes_{swap,id}.sing and fstar.sing are the Singular scripts, with logs *.log and dumps primes_*.txt;
-  - run_all.sh reruns them.
-- `enumeration/`: fp_enum.c and classes_driver.py (32R-21), the job lists and runners (paths as used locally), job_status.json and classes_d8.json.
+  - primes_{swap,id}.sing and fstar.sing are the Singular scripts, with logs *.log and dumps primes_*.txt.
+  - `bash run_all.sh` reruns them (set -euo pipefail). It fails if Singular fails or an expected line is missing.
+  - The order of primes in primes_id.txt can vary between runs.
+- `enumeration/`:
+  - certified_driver.py: exact slice data and exact leaf check;
+  - certified_enum.c: the rigorous interval enumerator; build line in its header;
+  - run_certified.py: the generated inventory and parallel runner (portable: `--repo`, `--enum CMD`);
+  - certified_results.jsonl: one record per job.
+  - The full rerun takes about 3 hours on 11 cores.
+
+## 8. Changes after the first hostile audit (head 817845ce: FAIL)
+- **Must-fix 1 (floating-point enumeration not certified).** Replaced by the certified enumeration of §2. The old fp_enum pipeline and its outputs were removed.
+- **Must-fix 2 (verifier overstated).**
+  - B now checks the square locus symbolically: G² makes every generator vanish identically, and the parametrisation has Jacobian rank = dim.
+  - G now requires the result records to equal the generated inventory exactly, with the BOUND certificates.
+  - The docstring lists precisely what is and is not checked.
+- **Should-fix.**
+  - The exact Γ49 bound replaces "≈ 9.3".
+  - run_all.sh uses pipefail and validates its output.
+  - The runners are portable.
