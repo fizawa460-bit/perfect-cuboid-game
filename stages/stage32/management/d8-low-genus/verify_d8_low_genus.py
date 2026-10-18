@@ -22,11 +22,14 @@ What this script ACTUALLY checks (sympy / integer arithmetic; Singular is NOT ru
      integer arithmetic, K.C = 8, F1.C = n1, e and Gamma49.C = v of its job, C^2 >= c2min, C.Gamma >= 0 for the 140
      known curves; there are 1830 of them, all with n1 = 4, in the stated (e, C^2, node pattern) counts.
   G. The result records are EXACTLY the generated job inventory of enumeration/run_certified.py (no missing, extra or
-     duplicate job), all carry the producer id of the current producer files, and their fields match their job key.
+     duplicate job), all carry the producer id of the current producer files, and their fields match their job key;
+     enumeration/PROVENANCE.json names the same producer id and the current certified_enum.c hash (the binary hash
+     itself is reproduced by enumeration/reproduce_binary.sh, not by this script).
      Independently of the driver (rational nullspace, x_p = A^T (A A^T)^-1 t, column-lattice HNF), G recomputes:
      every CONGRUENCE_EMPTY claim (no integer solution of the slice equations), every EMPTY claim (R < 0), and for
      every BOUND job the intrinsic exact values f0_49, R, S49, which must equal the recorded witness and satisfy
-     f0_49 <= 10 and (10 - f0_49)^2 >= R S49 (so Gamma49.C <= 10 on the slice). COMPLETE split jobs are taken from
+     R >= 0, S49 >= 0, f0_49 <= 10 and (10 - f0_49)^2 >= R S49 (so Gamma49.C <= 10 on the slice); in every
+     recomputed slice the form M = -N^T G N is checked positive definite by exact LDL^T pivots. COMPLETE split jobs are taken from
      the enumerator; their classes are checked in F.
 NOT checked here (re-run separately): the enumeration itself (enumeration/run_certified.py, about 3 hours on 11 cores;
 its pruning is rigorous by construction, see certified_enum.c and CONTRACT §2), the Singular decompositions
@@ -362,6 +365,20 @@ if ad is not None:
         X, nul = A.nullspace()
         N = fmpq_mat([[X[i, j] for j in range(nul)] for i in range(64)])
         M = -(N.transpose() * Gq * N)
+        # independent positive-definiteness check of M (exact LDL^T pivots, all > 0)
+        nn = M.nrows()
+        Mw = [[M[i, j] for j in range(nn)] for i in range(nn)]
+        pd = True
+        for k in range(nn):
+            pk_ = Mw[k][k]
+            if not pk_ > 0:
+                pd = False
+                break
+            for i in range(k + 1, nn):
+                f_ = Mw[i][k] / pk_
+                if f_ != 0:
+                    for j in range(k + 1, nn):
+                        Mw[i][j] -= f_ * Mw[k][j]
         bvec = N.transpose() * Gq * xp
         c = (xp.transpose() * Gq * xp)[0, 0]
         w = M.solve(bvec)
@@ -370,7 +387,7 @@ if ad is not None:
         l0 = (l.transpose() * (xp + N * w))[0, 0]
         pv = N.transpose() * l
         S = (pv.transpose() * M.solve(pv))[0, 0]
-        cache[kk] = (solvable, R, l0, S)
+        cache[kk] = (solvable, R, l0, S, pd)
         return cache[kk]
 
     for r in results:
@@ -386,21 +403,28 @@ if ad is not None:
             if slice_info(n1, e, c2min, v)[0]:
                 bad.append(r["job"] + " solvable")
         elif st == "EMPTY":
-            if not slice_info(n1, e, c2min, v)[1] < 0:
+            si = slice_info(n1, e, c2min, v)
+            if not (si[4] and si[1] < 0):
                 bad.append(r["job"] + " R>=0")
         elif v is None:
-            sol_, R, l0, S = slice_info(n1, e, c2min, None)
+            sol_, R, l0, S, pd = slice_info(n1, e, c2min, None)
             wit = r.get("witness", {})
             same = st == "BOUND" and wit.get("f0_49") == str(l0) and wit.get("R") == str(R) and wit.get("S49") == str(S)
-            if not (same and l0 <= 10 and (10 - l0) ** 2 >= R * S):
+            if not (same and pd and R >= 0 and S >= 0 and l0 <= 10 and (10 - l0) ** 2 >= R * S):
                 bad.append(r["job"] + " bound")
         elif st != "COMPLETE":
             bad.append(r["job"] + " status")
 else:
     okj = False
+prov = json.loads((HERE / "enumeration/PROVENANCE.json").read_text())
+import hashlib  # noqa: E402
+prov_ok = (prov["producer_id_in_records"] == pid
+           and prov["certified_enum_c_sha256"] == hashlib.sha256((HERE / "enumeration/certified_enum.c").read_bytes()).hexdigest())
+if not prov_ok:
+    bad.append("PROVENANCE.json inconsistent with the current producer files")
 okj &= not bad
 check(okj, f"G inventory: {len(keys)} result records = exactly the {len(expected)} generated jobs, all from the current "
-      "producer files; record fields match their job key; every CONGRUENCE_EMPTY / EMPTY claim and every BOUND witness "
+      "producer files; record fields match their job key; M positive definite; every CONGRUENCE_EMPTY / EMPTY claim and every BOUND witness "
       "(Gamma49.C <= 10 on the real ellipsoid) independently recomputed in exact arithmetic; split jobs COMPLETE otherwise"
       + (f"; bad: {bad[:5]}" if bad else ""))
 

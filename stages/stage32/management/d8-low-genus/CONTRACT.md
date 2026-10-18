@@ -62,9 +62,13 @@ Let k_c = #(points of C̃ over ℓ_c). Then:
   - **Exact leaf check.** The leaves are therefore a superset of the exact solutions. Every leaf is rechecked in exact integer arithmetic.
   - **Floating point.** No floating-point quantity is trusted beyond these enclosures. The build flags forbid FMA contraction and fast-math.
   - **Range/conversion guards (audit 2).** The program aborts with ERROR (and the job is then not COMPLETE) if:
-    - any input or computed bound is non-finite (this covers NaN from 0·∞ or ∞−∞);
+    - any input, centre bound, range bound, y bound, radius bound or linear-form bound is non-finite (this covers NaN from 0·∞ or ∞−∞). An overflow inside the Cauchy–Schwarz comparison itself (the squares DN(FH²), UP(RH·S)) is NOT aborted. It can only make the discard test false, which disables pruning and is conservative; exact leaf filtering then removes the extra candidates;
     - any candidate range leaves [−2⁵², 2⁵²], so every integer↔double conversion is exact;
-    - the node counter reaches 2⁶², or an allocation or write fails.
+    - the node counter reaches 2⁶², or an allocation or write fails. The counter test compares a 64-bit integer with the double 2⁶², so it is exact only below 2⁵³. The largest count of any job here is 2.48·10¹⁰ (< 2³⁵).
+  - **Binary provenance (audit 3).**
+    - `enumeration/PROVENANCE.json` records the binary that produced the records (sha256 faf0fbec…, gcc 15.2.0) and the exact build command.
+    - `reproduce_binary.sh` rebuilds the committed source into a byte-identical binary.
+    - The producer files were deliberately left unchanged after audit 3, so the records stay bound to them.
     The COMPLETE line reports max|z| and max|centre bound|. In the actual run max|z| = 23 and max|centre bound| = 21.2, far inside 2⁵².
 - **Splitting by v = C·Γ49.**
   - Every slice is split into v = 0..10. Here v ≥ 0 is one of the constraints (Γ49 is a known curve).
@@ -231,3 +235,23 @@ The classes of §2 are exhaustive. So §3 and §4 prove the CLAIM.
   - Range diagnostics are recorded.
   - The Cauchy–Schwarz comment now uses the maximum f + √(rem·S) < 0.
   - run_all.sh detects every "?" error line and every non-library "// **" warning; tested on a deliberately broken script.
+
+## 10. Third audits (head 92d9d639): separate-session Claude (with execution) PASS, DeepSeek (reading) FAIL
+- **Claude PASS (executed).** It ran:
+  - the adversarial and brute-force tests of certified_enum.c (also under UB/float-cast sanitizers);
+  - the verifier, including the tamper tests;
+  - three job replays;
+  - Singular 4.3.1 run_all.sh.
+  Its should-fix items:
+  - run_all.sh could miss an error hidden in long output: now scans the complete saved output;
+  - resumption keeps stale records (G already rejects duplicates): documented below;
+  - the non-finite guarantee was stated too broadly: narrowed in §2.
+- **DeepSeek must-fix items.**
+  1. A BOUND claim must require R ≥ 0 and S ≥ 0, and G must check M positive definite. Added to G: R ≥ 0, S49 ≥ 0, and exact LDLᵀ positive-definiteness of M in every recomputed slice.
+  2. The producer id omits the binary and flags. Answered by PROVENANCE.json and reproduce_binary.sh (byte-identical rebuild); G checks the PROVENANCE ↔ producer-id ↔ source-hash consistency.
+  3. The node-counter comparison is mixed-type. It is documented as exact below 2⁵³; all actual counts are far below that. Changing the code would have unbound the audited records from their producer id.
+- **DeepSeek should-fix items.**
+  - A failed BOUND is never final: G requires every BOUND record to certify, so a failed one cannot pass verification.
+  - run_all.sh now allows leading blanks before "// **" (tested with fixtures: a hidden error in 1 MB output and an indented warning both fail; clean output passes).
+  - long vs int64_t: the build is LP64 x86-64, where long is 64-bit; stated here.
+- **Resumption caveat.** run_certified.py appends. A file with records from several producers may contain duplicate job ids. Such a file fails G, which requires one record per job and the current producer. The committed file is the single-producer run.
