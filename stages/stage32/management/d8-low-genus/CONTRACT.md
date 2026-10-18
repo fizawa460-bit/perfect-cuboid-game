@@ -61,11 +61,20 @@ Let k_c = #(points of C̃ over ℓ_c). Then:
   - **Rigorous pruning.** The C program keeps rigorous bounds: [c_i] for the centres, [y_i], an upper bound on the remaining radius, and upper bounds on the linear forms. Every operation is rounded outward (UP/DN, justified in the file header). A branch is discarded only if the exact discarding condition is implied: radius < 0, or f_k < 0 with f_k² > rem·S_k(i). Candidate ranges are supersets of the exact ranges.
   - **Exact leaf check.** The leaves are therefore a superset of the exact solutions. Every leaf is rechecked in exact integer arithmetic.
   - **Floating point.** No floating-point quantity is trusted beyond these enclosures. The build flags forbid FMA contraction and fast-math.
+  - **Range/conversion guards (audit 2).** The program aborts with ERROR (and the job is then not COMPLETE) if:
+    - any input or computed bound is non-finite (this covers NaN from 0·∞ or ∞−∞);
+    - any candidate range leaves [−2⁵², 2⁵²], so every integer↔double conversion is exact;
+    - the node counter reaches 2⁶², or an allocation or write fails.
+    The COMPLETE line reports max|z| and max|centre bound|. In the actual run max|z| = 23 and max|centre bound| = 21.2, far inside 2⁵².
 - **Splitting by v = C·Γ49.**
   - Every slice is split into v = 0..10. Here v ≥ 0 is one of the constraints (Γ49 is a known curve).
-  - For every slice a BOUND job certifies exactly that sup Γ49·x ≤ 10 on its real ellipsoid: f0_49 + √(R·S_49) ≤ 10, checked squared in Q.
+  - For every slice a BOUND job certifies exactly that sup Γ49·x ≤ 10 on its real ellipsoid: f0_49 + √(R·S_49) ≤ 10, checked squared in Q. It records the rational witness (f0_49, R, S49).
+  - The verifier recomputes this witness independently and requires exact equality. The three values are intrinsic to the real ellipsoid, so they do not depend on the basis used.
   - An a-priori bound also exists (auditor): Γ49² = −4, K·Γ49 = 4 and C² ≥ −10 give C·Γ49 ≤ 2 + √70 < 11 by Hodge.
-- **Job status:** 1428 jobs (119 slices × (1 BOUND + 11 splits)). They are exactly the generated inventory, all BOUND certificates hold, and all splits are COMPLETE / EMPTY / CONGRUENCE_EMPTY (`certified_results.jsonl`; verifier G).
+- **Job status:** 1428 jobs (119 slices × (1 BOUND + 11 splits)) (`certified_results.jsonl`; verifier G).
+  - The records are exactly the generated inventory, and every record carries the current producer id (a sha256 of the three producer files).
+  - Every CONGRUENCE_EMPTY / EMPTY claim and every BOUND witness is recomputed independently.
+  - All splits are COMPLETE, EMPTY or CONGRUENCE_EMPTY.
 - **Result (1830 classes, all with n1 = n2 = 4; verifier F):**
 
 | e | C² | C·E per line | m per cusp pair | count |
@@ -189,7 +198,7 @@ The classes of §2 are exhaustive. So §3 and §4 prove the CLAIM.
   - make_tangency_ideals.py writes tangency_{swap,id}.sing;
   - primes_{swap,id}.sing and fstar.sing are the Singular scripts, with logs *.log and dumps primes_*.txt.
   - `bash run_all.sh` reruns them (set -euo pipefail). It fails if Singular fails or an expected line is missing.
-  - The order of primes in primes_id.txt can vary between runs.
+  - The order of primes in primes_id.txt can vary between runs, as can the sign or component chosen for the square-root elements in fstar.log (verifier D squares them).
 - `enumeration/`:
   - certified_driver.py: exact slice data and exact leaf check;
   - certified_enum.c: the rigorous interval enumerator; build line in its header;
@@ -207,3 +216,18 @@ The classes of §2 are exhaustive. So §3 and §4 prove the CLAIM.
   - The exact Γ49 bound replaces "≈ 9.3".
   - run_all.sh uses pipefail and validates its output.
   - The runners are portable.
+
+## 9. Changes after the second hostile audits (head 05bb278b: FAIL by two auditors)
+- **Must-fix: integer→double conversion not enclosed.** Auditor counterexample: centre 10¹⁸, which lost 72 solutions.
+  - Repaired by the guards in §2: abort outside [−2⁵², 2⁵²], abort on non-finite values, check the node counter, check allocations and writes.
+  - The counterexample input now aborts with ERROR. A small-centre version returns exactly the 201 solutions.
+  - The whole enumeration was rerun with the guarded binary. No job aborted; max|z| per job is recorded.
+- **Must-fix: verifier G trusted the BOUND flag.** BOUND jobs now record exact rational witnesses, and G recomputes them by an independent method:
+  - G recomputes them and requires equality plus the inequality;
+  - it independently re-derives every CONGRUENCE_EMPTY and EMPTY claim;
+  - it checks that each record's fields match its job key.
+- **Should-fix.**
+  - Resumption reuses only records with the current producer id.
+  - Range diagnostics are recorded.
+  - The Cauchy–Schwarz comment now uses the maximum f + √(rem·S) < 0.
+  - run_all.sh detects every "?" error line and every non-library "// **" warning; tested on a deliberately broken script.

@@ -22,8 +22,12 @@ What this script ACTUALLY checks (sympy / integer arithmetic; Singular is NOT ru
      integer arithmetic, K.C = 8, F1.C = n1, e and Gamma49.C = v of its job, C^2 >= c2min, C.Gamma >= 0 for the 140
      known curves; there are 1830 of them, all with n1 = 4, in the stated (e, C^2, node pattern) counts.
   G. The result records are EXACTLY the generated job inventory of enumeration/run_certified.py (no missing, extra or
-     duplicate job); every BOUND job carries the exact certificate Gamma49.C <= 10 on its slice (or the slice is
-     empty); every split job ended COMPLETE / EMPTY / CONGRUENCE_EMPTY.
+     duplicate job), all carry the producer id of the current producer files, and their fields match their job key.
+     Independently of the driver (rational nullspace, x_p = A^T (A A^T)^-1 t, column-lattice HNF), G recomputes:
+     every CONGRUENCE_EMPTY claim (no integer solution of the slice equations), every EMPTY claim (R < 0), and for
+     every BOUND job the intrinsic exact values f0_49, R, S49, which must equal the recorded witness and satisfy
+     f0_49 <= 10 and (10 - f0_49)^2 >= R S49 (so Gamma49.C <= 10 on the slice). COMPLETE split jobs are taken from
+     the enumerator; their classes are checked in F.
 NOT checked here (re-run separately): the enumeration itself (enumeration/run_certified.py, about 3 hours on 11 cores;
 its pruning is rigorous by construction, see certified_enum.c and CONTRACT §2), the Singular decompositions
 (singular/run_all.sh), any geometric statement, or the Hecke facts imported from #1842/#1843.
@@ -315,25 +319,89 @@ if ad is not None:
     check(pat == expect, "F node patterns (n1, e, C2, C.E counts, m-lists per pair, #V, #H): "
           + "; ".join(f"{k} x{v}" for k, v in sorted(pat.items())))
 
-# ---- G: certified job inventory --------------------------------------------------------------------------------------
+# ---- G: certified job inventory, with INDEPENDENT recomputation of every exact slice claim -----------------------
+# Independent of certified_driver.py: rational kernel via fmpz_mat.nullspace (not HNF + LLL), particular solution
+# x_p = A^T (A A^T)^-1 t, and integer solvability via a row-HNF of the column lattice of A.
+# The real-ellipsoid quantities are intrinsic (centre value of Gamma49, max x^2 - c2min, dual norm of Gamma49), so
+# they must coincide exactly with the driver's witness, whatever basis the driver used.
+from flint import fmpz_mat, fmpq_mat, fmpq  # noqa: E402
 sys.path.insert(0, str(HERE / "enumeration"))
 import run_certified  # noqa: E402
 results = [json.loads(line) for line in (HERE / "enumeration/certified_results.jsonl").read_text().splitlines() if line.strip()]
 keys = [r["job"] for r in results]
 expected = {run_certified.key(j) for j in run_certified.inventory()}
-okj = len(keys) == len(set(keys)) and set(keys) == expected
+pid = run_certified.producer_id()
+okj = len(keys) == len(set(keys)) and set(keys) == expected and all(r.get("producer") == pid for r in results)
 bad = []
-for r in results:
-    st = r["status"].split()[0]
-    if r["job"].endswith("|BOUND"):
-        if not (st in ("EMPTY", "CONGRUENCE_EMPTY") or (st == "BOUND" and r.get("gamma49_le_10_on_ellipsoid") is True)):
-            bad.append(r["job"])
-    elif st not in ("COMPLETE", "EMPTY", "CONGRUENCE_EMPTY"):
-        bad.append(r["job"])
+if ad is not None:
+    Gq = fmpq_mat([[fmpq(int(v)) for v in rw] for rw in G.tolist()])
+    rowK, rowF1, rowE, row49 = ([int(v) for v in deg], [int(v) for v in F1row], [int(v) for v in exc], [int(v) for v in P[48]])
+    cache = {}
+
+    def slice_info(n1, e, c2min, v):
+        kk = (n1, e, c2min, v)
+        if kk in cache:
+            return cache[kk]
+        rows = [rowK, rowF1, rowE] + ([row49] if v is not None else [])
+        t = [8, n1, e] + ([v] if v is not None else [])
+        A = fmpz_mat(rows)
+        H = fmpz_mat(A.transpose().tolist()).hnf()              # rows span the lattice A Z^64 (row vectors in Z^r)
+        res = list(t)
+        for i in range(H.nrows()):
+            row = [int(H[i, j]) for j in range(H.ncols())]
+            piv = next((j for j, x in enumerate(row) if x), None)
+            if piv is None:
+                continue
+            if res[piv] % row[piv]:
+                break
+            q = res[piv] // row[piv]
+            res = [rv - q * xv for rv, xv in zip(res, row)]
+        solvable = all(x == 0 for x in res)
+        Aq = fmpq_mat(A.tolist())
+        xp = Aq.transpose() * (Aq * Aq.transpose()).inv() * fmpq_mat([[fmpq(x)] for x in t])
+        X, nul = A.nullspace()
+        N = fmpq_mat([[X[i, j] for j in range(nul)] for i in range(64)])
+        M = -(N.transpose() * Gq * N)
+        bvec = N.transpose() * Gq * xp
+        c = (xp.transpose() * Gq * xp)[0, 0]
+        w = M.solve(bvec)
+        R = c + (bvec.transpose() * w)[0, 0] - c2min
+        l = fmpq_mat([[fmpq(x)] for x in row49])
+        l0 = (l.transpose() * (xp + N * w))[0, 0]
+        pv = N.transpose() * l
+        S = (pv.transpose() * M.solve(pv))[0, 0]
+        cache[kk] = (solvable, R, l0, S)
+        return cache[kk]
+
+    for r in results:
+        n1s, es, cs, vs = r["job"].split("|")
+        n1, e, c2min = int(n1s), int(es), int(cs)
+        v = None if vs == "BOUND" else int(vs)
+        fields_ok = (r.get("d") == 8 and r.get("n1") == n1 and r.get("e") == e and r.get("c2min") == c2min
+                     and r.get("fix") == (None if v is None else f"49={v}"))
+        st = r["status"].split()[0]
+        if not fields_ok:
+            bad.append(r["job"] + " fields"); continue
+        if st == "CONGRUENCE_EMPTY":
+            if slice_info(n1, e, c2min, v)[0]:
+                bad.append(r["job"] + " solvable")
+        elif st == "EMPTY":
+            if not slice_info(n1, e, c2min, v)[1] < 0:
+                bad.append(r["job"] + " R>=0")
+        elif v is None:
+            sol_, R, l0, S = slice_info(n1, e, c2min, None)
+            wit = r.get("witness", {})
+            same = st == "BOUND" and wit.get("f0_49") == str(l0) and wit.get("R") == str(R) and wit.get("S49") == str(S)
+            if not (same and l0 <= 10 and (10 - l0) ** 2 >= R * S):
+                bad.append(r["job"] + " bound")
+        elif st != "COMPLETE":
+            bad.append(r["job"] + " status")
+else:
+    okj = False
 okj &= not bad
-check(okj, f"G inventory: {len(keys)} result records = exactly the {len(expected)} generated jobs "
-      "(n1 = 1..7; e = 12..24 with C^2 >= -10 and e = 8..11 with C^2 >= -8; BOUND + v = 0..10 each); every BOUND job "
-      "certifies Gamma49.C <= 10 (or the slice is empty); every split job COMPLETE/EMPTY/CONGRUENCE_EMPTY"
+check(okj, f"G inventory: {len(keys)} result records = exactly the {len(expected)} generated jobs, all from the current "
+      "producer files; record fields match their job key; every CONGRUENCE_EMPTY / EMPTY claim and every BOUND witness "
+      "(Gamma49.C <= 10 on the real ellipsoid) independently recomputed in exact arithmetic; split jobs COMPLETE otherwise"
       + (f"; bad: {bad[:5]}" if bad else ""))
 
 print("ALL PASS" if ok else "SOME CHECKS FAILED")

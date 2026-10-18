@@ -107,7 +107,7 @@ zsq = fmpq_mat(M).solve(fmpq_mat([[v] for v in b]))
 zs = [zsq[i, 0] for i in range(n)]
 R = c + sum((bi * zi for bi, zi in zip(b, zs)), fmpq(0)) - c2min
 if R < 0:
-    emit("EMPTY", nodes=0)
+    emit("EMPTY", nodes=0, witness={"R": str(R)})
 # M = U^T D U with U unit upper triangular (pivots in ascending order). Then with w = z - zs,
 # (z - zs)^T M (z - zs) = sum_i d_i y_i^2,  y_i = w_i + sum_{j>i} U_ij w_j,
 # so fixing z_{n-1}, ..., z_i fixes y_{n-1}, ..., y_i, matching the recursion order of certified_enum.c.
@@ -140,7 +140,9 @@ S49 = S[48][n - 1] + g[48][n - 1] ** 2 / Dg[n - 1]
 # sup over {sum d_j y_j^2 <= R} of f0_49 + g_49.y equals f0_49 + sqrt(R * S49).
 LE10 = bool((fmpq(10) - f0[48] >= 0) and ((fmpq(10) - f0[48]) ** 2 >= R * S49))
 if "--bound-only" in sys.argv:
-    emit("BOUND", gamma49_le_10_on_ellipsoid=LE10)
+    # exact rational witness (verifier G recomputes these independently and compares)
+    emit("BOUND", gamma49_le_10_on_ellipsoid=LE10,
+         witness={"f0_49": str(f0[48]), "R": str(R), "S49": str(S49)})
 
 
 def iv(q):

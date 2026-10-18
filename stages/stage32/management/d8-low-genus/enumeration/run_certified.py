@@ -9,6 +9,7 @@ Results are appended to RESULTS (one JSON per line, resumable).
 usage: python run_certified.py --repo REPO --enum "CMD" [--workers 11] [--out certified_results.jsonl]
 """
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -28,6 +29,15 @@ def inventory():
     return jobs
 
 
+def producer_id():
+    """sha256 over the exact bytes of the three producer files; every record carries it, and resumption only
+    reuses records with the CURRENT producer id (stale results from other code are never accepted)."""
+    h = hashlib.sha256()
+    for name in ("certified_driver.py", "certified_enum.c", "run_certified.py"):
+        h.update(name.encode() + b"|" + (HERE / name).read_bytes() + b"|")
+    return h.hexdigest()
+
+
 def key(j):
     return f"{j[0]}|{j[1]}|{j[2]}|{'BOUND' if j[3] is None else j[3]}"
 
@@ -40,15 +50,16 @@ def main():
     ap.add_argument("--out", default=str(HERE / "certified_results.jsonl"))
     a = ap.parse_args()
     out = Path(a.out)
+    pid = producer_id()
     done = set()
     if out.exists():
         for line in out.read_text().splitlines():
             r = json.loads(line)
-            if not r["status"].startswith("ERROR"):
+            if r.get("producer") == pid and not r["status"].startswith("ERROR"):
                 done.add(r["job"])
     todo = [j for j in inventory() if key(j) not in done]
     todo.sort(key=lambda j: (j[0] != 4, j[1], j[3] is not None))     # big n1 = 4 slices first
-    print(f"inventory {len(inventory())}, to run {len(todo)}", flush=True)
+    print(f"producer {pid}; inventory {len(inventory())}, to run {len(todo)}", flush=True)
 
     def run(j):
         n1, e, c2, v = j
@@ -60,6 +71,7 @@ def main():
         except Exception:
             r = {"status": f"ERROR driver rc={p.returncode} {p.stderr[-300:]}"}
         r["job"] = key(j)
+        r["producer"] = pid
         return r
 
     with ThreadPoolExecutor(a.workers) as ex, out.open("a") as fh:
