@@ -1,0 +1,24 @@
+// D8-LOW-GENUS: the curve F* = (x-y)^4 + (x^4-1)(y^4-1) (CONTRACT.md §3-4).
+LIB "normal.lib"; LIB "absfact.lib"; LIB "primdec.lib";
+ring r0 = 0,(x,y),dp;
+poly F = x^4*y^4 - 4*x^3*y + 6*x^2*y^2 - 4*x*y^3 + 1;
+"F - ((x-y)^4 + (x^4-1)*(y^4-1)) =", F - ((x-y)^4 + (x^4-1)*(y^4-1));
+def AF = absFactorize(F); setring AF;
+"number of absolute factors:", size(absolute_factors[1]) - 1, "; factors:"; absolute_factors[1];
+setring r0;
+"geometric genus (normal.lib):", genus(ideal(F));
+ideal S = std(ideal(F, diff(F,x), diff(F,y)));
+"affine singular scheme: dim", dim(S), ", length", vdim(S), "; radical:"; std(radical(S));
+ring r = (0,I),(w,x,y),(dp(1),dp(2));
+minpoly = I^2+1;
+poly F = imap(r0, F);
+list G = x*y, (x2-1)*(y2-1), (x2+1)*(y2+1);
+int j; int k;
+for (j = 1; j <= 3; j++) {
+  list P = minAssGTZ(ideal(F, w^2 - G[j]));
+  "g_" + string(j) + ": components of {F = 0, w^2 = g_j}: " + string(size(P));
+  ideal Q = std(P[1]);
+  for (k = 1; k <= size(Q); k++) { if (deg(Q[k], intvec(1,0,0)) == 1) { "  element linear in w:", Q[k]; break; } }
+  kill P; kill Q;
+}
+quit;

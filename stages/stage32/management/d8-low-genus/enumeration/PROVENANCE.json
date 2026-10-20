@@ -1,0 +1,12 @@
+{
+  "purpose": "provenance of the enumerator binary that produced certified_results.jsonl (audit 3, DeepSeek must-fix 2)",
+  "producer_id_in_records": "e61145edcaee2197637db0896c5cf128f2b1b60f6c50afda846270c2c4887b4e",
+  "producer_id_definition": "sha256 over certified_driver.py, certified_enum.c, run_certified.py (run_certified.producer_id)",
+  "certified_enum_c_sha256": "9e59ff703bfd5077559f5371da50ee46bbd1b9a692df809255f5043b7bd20421",
+  "build_command": "gcc -O2 -std=c11 -Wall -ffp-contract=off -fno-fast-math -o certified_enum certified_enum.c -lm",
+  "compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, x86-64 (WSL Ubuntu)",
+  "binary_used": "/root/certified_enum, built 2026-10-18 16:50:06 +0900, before the run (log finished 2026-10-18 23:51 +0900)",
+  "binary_sha256": "faf0fbec840869e400d9a6129f86e6831131273dd1a4960c45b0d45011434d4b",
+  "reproducibility": "rebuilding the committed certified_enum.c with build_command and the same compiler gives a byte-identical binary (same sha256); see reproduce_binary.sh",
+  "enum_command": "wsl.exe -d Ubuntu -u root -- /root/certified_enum"
+}
