@@ -1,0 +1,15 @@
+LIB "elim.lib"; LIB "normal.lib"; LIB "absfact.lib";
+ring R = 0,(a,b,c,d,f,g,u,v,w),dp;
+ideal S = -a^2 - b^2 + d^2,-2*a*c,-b^2 - c^2 + f^2,-a^2 - b^2 - c^2 + g^2;
+ideal C0 = std(S + ideal(a,b + d,-a,-f + g));
+ideal C1 = std(S + ideal(c,c,-b + f,-d + g));
+ideal C2 = std(S + ideal(c,c,b + f,d + g));
+list L = sat(std(S), intersect(C0, intersect(C1, C2))); ideal Res = std(L[1]);
+ideal Pr = Res, u - ((-6)*a+(1)*b+(9)*c+(-2)*d+(5)*f+(3)*g), v - ((4)*a+(7)*b+(-3)*c+(1)*d+(-8)*f+(2)*g), w - ((2)*a+(-5)*b+(6)*c+(9)*d+(1)*f+(-7)*g);
+ideal E = eliminate(Pr, a*b*c*d*f*g);
+int ng = size(E); poly F = subst(E[1], w, 1); int rd = mult(Res); int pd = deg(E[1]);
+ring r3 = 0,(u,v),dp; poly F = imap(R, F);
+int na; def AF = absFactorize(F); setring AF; na = size(absolute_factors[1]) - 1; setring r3;
+int gg = -99; if (na == 1) { gg = genus(ideal(F)); }
+"RESULT 16 18 30 proj 2 resdeg", rd, "planegens", ng, "planedeg", pd, "absfactors", na, "genus", gg;
+quit;
