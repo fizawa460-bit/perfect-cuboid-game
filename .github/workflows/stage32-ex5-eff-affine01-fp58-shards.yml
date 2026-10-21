@@ -1,0 +1,70 @@
+name: Stage32EX5 EFF-AFFINE01 FP58 heavy shard
+
+# ResearchOS heavy: one explicitly dispatched shard per run; serialized globally.
+# No effectivity/MAIN credit is granted.
+on:
+  workflow_dispatch:
+    inputs:
+      shard_id:
+        description: 'Exact shard id (0..15)'
+        required: true
+        type: choice
+        options: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15']
+
+permissions:
+  contents: read
+
+jobs:
+  fp58-shard:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    concurrency:
+      group: stage32-ex5-eff-affine01-fp58-heavy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ResearchOS ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32-ex5/runkeys/eff-affine01-fp58-heavy-shard.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32EX5: ARM EFF-AFFINE01 FP58 HEAVY SHARD'
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32-ex5/runkeys/eff-affine01-fp58-heavy-shard.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] is True
+          assert d['base4']==[0,1,1,1] and d['shard_count']==16 and d['split_index']==53
+          assert d['max_parallel']==1 and d['allow_finer_split'] is False
+          assert d['shard_id']==int(os.environ['SHARD_ID'])
+          assert d['partition']=='SHA256_REPR_PREFIX_MOD_COUNT_V1'
+          assert d['unit_certificate']=='FP58_SHARD_JSON_V1'
+          assert d['recovery_rule']=='CARRY_VALIDATED_COMPLETE_SHARDS_RECOMPUTE_ONLY_MISSING'
+          assert d['partial_upload']=='IF_ALWAYS_WHEN_OUTPUT_EXISTS'
+          assert d['retention_days']==1 and d['credit'] is False
+          PY
+        env:
+          SHARD_ID: '${{ inputs.shard_id }}'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact dependencies
+        run: python -m pip install 'python-flint==0.9.0' 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+      - name: Run exact FP58 shard
+        run: |
+          mkdir -p /tmp/fp58
+          python stages/stage32-ex5/effectivity-affine/eff_affine01_fp58_engine.py \
+            --base4 0 1 1 1 \
+            --shard-id ${{ inputs.shard_id }} \
+            --shard-count 16 \
+            --split-index 53 \
+            --output /tmp/fp58/shard-${{ inputs.shard_id }}.json
+      - name: Upload exact shard certificate
+        if: ${{ always() && hashFiles('/tmp/fp58/shard-${{ inputs.shard_id }}.json') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: eff-affine01-fp58-shard-${{ inputs.shard_id }}
+          path: /tmp/fp58/shard-${{ inputs.shard_id }}.json
+          retention-days: 1
+          if-no-files-found: error
