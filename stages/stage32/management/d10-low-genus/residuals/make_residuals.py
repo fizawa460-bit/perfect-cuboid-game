@@ -47,16 +47,23 @@ def is_automorphism(M):
 
 
 def conics_on_S():
-    """each listed conic lies on S: the four quadrics vanish on its plane modulo the plane's quadric."""
+    """each listed conic is a smooth conic on S, and the 32 conics are distinct:
+    on the plane (parametrised by t0..t2) the restrictions of the four quadrics, written on the SAME aligned list of the
+    six quadratic monomials, span a 1-dimensional space (so S meets the plane exactly in that conic); the spanning
+    form has nonzero 3x3 determinant (smooth conic); and the 32 planes are pairwise distinct."""
+    t = sp.symbols("t0:3")
+    mons = [t[0]**2, t[1]**2, t[2]**2, t[0] * t[1], t[0] * t[2], t[1] * t[2]]
     ok = True
     for (_, L), P in zip(CONICS, PLANES):
-        t = sp.symbols("t0:3")
         pt = sum((t[k] * P[k] for k in range(3)), sp.zeros(7, 1))
-        vals = [sp.expand(q.subs(dict(zip(V, pt)), simultaneous=True)) for q in QUADS]
-        # all four restrictions must be proportional to one nonzero quadratic form (the conic)
-        polys = [sp.Poly(v_, *t) for v_ in vals if v_ != 0]
-        base = polys[0]
-        ok &= all(sp.simplify(sp.Matrix([base.coeffs(), p.coeffs()]).rank()) == 1 and len(p.coeffs()) == len(base.coeffs()) for p in polys)
+        vals = [sp.Poly(sp.expand(q.subs(dict(zip(V, pt)), simultaneous=True)), *t) for q in QUADS]
+        M = sp.Matrix([[v_.coeff_monomial(m) for m in mons] for v_ in vals])
+        ok &= M.rank() == 1
+        row = next(M.row(r) for r in range(4) if any(x != 0 for x in M.row(r)))
+        a11, a22, a33, a12, a13, a23 = row
+        Q = sp.Matrix([[2 * a11, a12, a13], [a12, 2 * a22, a23], [a13, a23, 2 * a33]])
+        ok &= sp.simplify(Q.det()) != 0
+    ok &= all(sp.Matrix.hstack(*(PLANES[i] + PLANES[j])).rank() > 3 for i, j in itertools.combinations(range(32), 2))
     return ok
 
 

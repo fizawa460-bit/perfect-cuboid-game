@@ -3,7 +3,9 @@
 ```text
 CLAIM: Every integral curve C on S̃ (the minimal resolution of the cuboid surface S) with d = K·C = 10 has geometric
        genus ≥ 2. (Degree 8 is #1844; degree ≤ 6 is Stoll–Testa.)
-STATUS: Proof + exact computer algebra. Needs external hostile audit. No credit flags are changed.
+STATUS: Proof + exact computer algebra. First audit round (head d5b651cc): Claude-session (executed), ChatGPT
+        (executed), Grok, Gemini PASS; DeepSeek FAIL and Meta AI FAIL (no file access). Items answered in §9. No
+        credit flags are changed.
 SCOPE: A geometric fact about the d = 10 strata. MAIN (V52) and all formal counts are unchanged.
 BUILDS ON: d8-low-genus (#1844, audited): model and notation §0, the Hurwitz bound §1, and the certified enumerator
            (certified_enum.c, copied unchanged).
@@ -29,6 +31,10 @@ SIDE RESULT (remark only): 64 rational representative conic triples give absolut
   - |G| = 6144 (verifier A). G permutes the 12 boundary curves.
   - The elements preserving the V side fix F1. The others swap F1 and F2.
 - **Slice group.** G_slice = G if n1 = n2 = 5; otherwise the subgroup preserving the V side.
+  - G need not be the full automorphism group of the configuration, and it may contain non-geometric lattice isometries. Only two facts are used:
+    - each element maps numerical candidates of a slice to numerical candidates of the same slice;
+    - orbit coverage is verified for G itself.
+    No effectivity claim is transported by G.
   - For x in a slice and g ∈ G_slice, xQ_g satisfies every constraint of the same slice: K·, F1·, ΣExc·, C², and pairing with the 140 curves.
   - Its boundary vector is g·b.
 - **Representatives.** For each slice, the b-vectors are scanned in a fixed order and the orbit representatives under G_slice are kept.
@@ -42,32 +48,41 @@ SIDE RESULT (remark only): 64 rational representative conic triples give absolut
   - `reproduce_binary.sh` rebuilds a byte-identical binary (sha256 faf0fbec…) or fails.
 - **Result.** 5679 jobs: 5530 CONGRUENCE_EMPTY, 123 COMPLETE, 26 NO_BVECTOR, no error.
   - Classes occur only in the slice (n1, e, C²min) = (5, 12, −10): 8 classes at the representatives.
-  - Expanded by G_slice they give **256 classes**, all with C² = −2 (p_a = 5), n = (5,5), ν = e = 12, all m_j = 1 (enumeration/classes_d10.json; verifier D).
+  - Expanded by G_slice they give **256 classes**, all with C² = −2 (p_a = 5), n = (5,5), ν = e = 12. The pairings with the 48 exceptional curves are twelve 1s and thirty-six 0s (enumeration/classes_d10.json; verifier D asserts all of this exactly).
   - No class with genus 0 is possible (no class in any C² ≥ −12 slice).
 
 ## 3. The decomposition of K − x (verifier E)
 - For each of the 256 classes x: K − x = Γ_i + Γ_j + Γ_k + Σ a_l Exc_l, with Γ_i, Γ_j, Γ_k three distinct conics (labels 1–32) and a_l ≥ 0.
 - This is the only decomposition of K − x as known non-exceptional curves of total degree K·(K − x) = 6 plus a nonnegative exceptional combination.
+- The non-exceptional known curves have degree 2 (conics) or 4 (labels 33–92), so such a combination has at most three curves, and the search over 1–3 curves is exhaustive (verifier E).
 
 ## 4. The hyperplane-residual argument
 Let C be an irreducible curve in one of the 256 classes x, and write D = Γ_i + Γ_j + Γ_k + Σa_l Exc_l.
 1. **Linear equivalence.**
-   - S is a complete intersection of four quadrics in P⁶ with 48 A1 nodes, so it is simply connected. (A complete intersection of dimension ≥ 2 with isolated singularities is simply connected.)
-   - Hence S̃ is simply connected, H₁(S̃) = 0, and Pic S̃ is torsion-free.
-   - So C + D ≡ K numerically implies C + D ~ K = π*O(1) linearly (K_S = O(1)).
+   - S is a complete intersection of four quadrics in P⁶ with 48 A1 nodes.
+     - A complete intersection of dimension ≥ 2 with only isolated singularities is simply connected (Hamm; Milnor's theory for isolated singularities).
+     - The minimal resolution of rational double points does not change π₁: the exceptional curves are trees of P¹'s, and the link of an A1 point has finite π₁ that dies in the resolution.
+     - Hence π₁(S̃) = 1, so H₁(S̃, Z) = 0 and, by universal coefficients, H²(S̃, Z) is torsion-free.
+     - Since q = 0, Pic S̃ = NS(S̃) ⊂ H²(S̃, Z) is torsion-free.
+   - A1 points are Du Val, so K_S̃ = π*K_S. By adjunction K_S = O(2·4 − 7) = O(1).
+   - So C + D ≡ K numerically implies C + D ~ K = π*O(1) linearly.
 2. **Hyperplane section.**
-   - S is projectively normal (a complete intersection), and its singularities are rational. So H⁰(S̃, π*O(1)) = H⁰(P⁶, O(1)).
+   - S is projectively normal: it is a complete intersection, so H¹(I_S(1)) = 0 by the Koszul resolution.
+   - Its singularities are rational, so π_*O_S̃ = O_S. Hence H⁰(S̃, π*O(1)) = H⁰(S, O(1)) = H⁰(P⁶, O(1)), of dimension 7.
    - Therefore C + D is the pull-back of a hyperplane section S ∩ H₀.
    - So H₀ contains the three conics Γ_i, Γ_j, Γ_k, and the exceptional part only records multiplicities at nodes.
 3. **The conics.**
-   - The 32 conics of S are explicit: in the planes a = 0, b = 0, c = 0 and g = 0, each with 8 sign choices (residuals/make_residuals.py; the script checks that each lies on S).
+   - The 32 conics of S are explicit: in the planes a = 0, b = 0, c = 0 and g = 0, each with 8 sign choices.
+   - residuals/make_residuals.py, `conics_on_S`, checks with aligned monomials that S meets each plane exactly in a smooth conic and that the 32 planes are distinct.
    - They are 32 distinct conics, so they are exactly the 32 known conics (labels 1–32).
-4. **Span rank of the triple.** Among all 4960 triples of distinct conics, the span of the three planes has rank 7 (3136 triples), 6 (1728) or 5 (96). This is computed exactly (verifier F).
+   - No label-by-label correspondence is needed: §4.4 treats every triple of the 32 conics.
+4. **Span rank of the triple.** Here "rank" is the dimension of the linear span in C⁷ of the three 3-dimensional subspaces (the planes). Among all 4960 triples of distinct conics it is 7 (3136 triples), 6 (1728) or 5 (96), computed exactly (verifier F).
    - Rank 7: no hyperplane contains the triple. Impossible.
-   - Rank 5: the hyperplanes containing the triple form a pencil {H_t}, and each H_t ∩ S − (conics) − (exceptional part) is linearly equivalent to C.
-     - For t ≠ 0, if C were not a component of the residual R_t, then C·R_t ≥ 0. But C·R_t = C² = −2. So C is a component of every R_t.
-     - Then R_t − C is effective with class 0, so R_t = C for all t. That is absurd, because distinct hyperplanes cut distinct divisors on S, which spans P⁶.
-     - Impossible.
+   - Rank 5: impossible (direct argument, verifier F).
+     - The span of the three planes contains the plane of a fourth conic. This is checked for all 96 triples (observed by the ChatGPT auditor).
+     - So every hyperplane H₀ ⊃ triple also contains that fourth conic, and S ∩ H₀ (degree 16) contains four conics.
+     - The remaining components have total degree ≤ 8 < 10 = deg C, so C cannot be one of them.
+     - (The pencil argument also works, using the auditor's computation of the forced exceptional coefficients ⌈r/2⌉. The direct argument is simpler.)
    - Rank 6: H₀ is unique. C is a component of the residual R = sat(S ∩ H₀, Γ_i ∪ Γ_j ∪ Γ_k), which has degree ≤ 10 = deg C.
      - If deg R < 10 or R is reducible, this is impossible.
      - Otherwise C = R.
@@ -81,7 +96,12 @@ Let C be an irreducible curve in one of the 256 classes x, and write D = Γ_i + 
   - the residual R (Singular sat);
   - a plane model by eliminating the six hyperplane coordinates;
   - its absolute factorization (absFactorize) and geometric genus (normal.lib).
-  - When R has degree 10, the plane model also has degree 10, so the projection is birational onto its image. The two projections agree.
+  - **Birationality.** For a linear projection, deg R ≥ deg(R → image)·deg(image), with equality iff the centre misses R.
+    - A plane model of degree 10 = deg R therefore forces a map of degree 1 whose centre misses R, i.e. birational.
+    - Even if a projection were not birational, the genus of the normalized image would only bound g(R) from below.
+  - The two projections agree on residual degree, absolute factor count and genus.
+  - Sentinel: genus −99 in results.txt means "not computed because the plane model is reducible".
+  - **Provenance.** results.txt records the Singular version and, for each line, the sha256 of the script that produced it. The verifier recomputes every script from make_residuals.py.
 - **Results** (both projections identical):
 
 | residual R | representatives |
@@ -115,9 +135,27 @@ Let C be an irreducible curve in one of the 256 classes x, and write D = Γ_i + 
   - certified_enum.c (from #1844), symmetry_generators.json;
   - results.jsonl (5679 records), classes_d10.json (256 classes), export_classes.py;
   - PROVENANCE.json and reproduce_binary.sh.
-- `enumeration/.gitattributes`: symmetry_generators.json ends with CRLF as written at run time.
-  - It is hashed into every record's producer_info.sources_sha256, so it is exempted from git whitespace checks rather than rewritten.
-- The Singular scripts and results.txt were re-written with LF line endings after the run. The scripts' content is otherwise byte-identical (make_residuals.py regenerates them; verifier F compares them).
+- `enumeration/.gitattributes` (`-text -whitespace`): symmetry_generators.json ends with CRLF as written at run time.
+  - It is hashed into every record's producer_info.sources_sha256.
+  - It is therefore kept byte-for-byte: no end-of-line conversion and no whitespace check.
+- The Singular runs were redone after the first audit round, with provenance (see §5).
 - `residuals/`:
   - make_residuals.py (conics, ranks, automorphisms, representative map, Singular scripts) → triples.json and sing/*.sing (832 × 2);
   - run_residuals.py → results.txt.
+
+## 9. First audit round (head d5b651cc) and responses
+- **DeepSeek (FAIL, reading):**
+  1. **Degree-6 search limited to ≤ 3 curves.** The non-exceptional known curves have degree 2 or 4, so ≤ 3 curves is exhaustive. This is now asserted in verifier E.
+  2. **C² = −2 not asserted.** Verifier D now asserts exactly 256 classes, (5, 12, −2) and the exceptional pattern.
+  3. **Singular provenance.** The residual runs were redone with the Singular version header and per-script sha256. Verifier F checks them against the regenerated scripts.
+  4. **.gitattributes.** Now `-text -whitespace` (no end-of-line conversion).
+  - Should-fix items, also done: exact counts in D and F; genus 5 for all 64 irreducible residuals; PROVENANCE producer and cflags checked. On the full-group question, see §2: coverage is verified for the group used, and no maximality is needed.
+- **ChatGPT (PASS, executed):**
+  - the "all m_j = 1" wording is corrected;
+  - the rank-5 case now uses the fourth-conic argument (verifier F);
+  - verifier F is hardened: computed genus ≥ 2 is required, duplicate or unexpected lines are rejected, and planegens is checked for both projections;
+  - conics_on_S uses aligned monomials and smoothness.
+- **Gemini, Grok (PASS):** the documentation notes are added (non-geometric isometries, birationality and the genus bound, the −99 sentinel).
+- **Meta AI (FAIL):** it could not access the files.
+  - Its C² objection is mistaken: p_a = 5 gives C² = 2p_a − 2 − K·C = −2. The values −12 and −10 apply to smooth curves of genus 0 and 1, not to these classes, which have p_a = 5.
+  - Its points on torsion-freeness, H⁰ and span ranks are expanded in §4.
