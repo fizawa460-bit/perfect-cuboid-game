@@ -456,6 +456,10 @@ jobs:
       - name: Verify Stage32 MAIN V46 successor startup projection
         run: python stages/stage32/verify_main_startup.py
 
+      - name: Verify MB104 compact audit repair when present
+        run: |
+          p="stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
+          if [ -f "$p" ]; then python "$p" --self-test-fail-closed; fi
       - name: Verify Stage32 cross-lane coordination
         run: python stages/stage32/proof/verify_cross_lane_demands.py
 
@@ -2422,6 +2426,8 @@ jobs:
               stages/stage32/management/d8-low-genus/*) ;;
               # D10-LOW-GENUS research leaf (2026-10-22): proof + exact computation; MAIN authority (V52) unchanged
               stages/stage32/management/d10-low-genus/*) ;;
+              # PR1827 bounded current-main audit repair; no broad MB wildcard
+              stages/stage32/final-chain/32-03-multibranch/STATE.json|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md|.github/workflows/stage32-main-startup-authority.yml|stages/stage32/final-chain/32-03-multibranch/AUDIT-REPAIR-20261026.md|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-REPAIR.json|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-CLAIM.json|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-STARTUP.json) ;;
               *) echo "unexpected V49 authority-sync path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
