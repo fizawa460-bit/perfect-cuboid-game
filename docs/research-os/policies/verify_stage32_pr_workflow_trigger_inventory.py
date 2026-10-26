@@ -36,10 +36,10 @@ def main() -> None:
     groups = {k: inv[k] for k in ("active_auto", "manual", "retired")}
     flattened = [p for values in groups.values() for p in values]
     assert len(flattened) == len(set(flattened)), "duplicate workflow path in inventory"
-    assert len(flattened) == inv["counts"]["total"] == 41
+    assert len(flattened) == inv["counts"]["total"] == 46
     assert len(groups["active_auto"]) == inv["counts"]["active_auto"] == 2
-    assert len(groups["manual"]) == inv["counts"]["manual"] == 3
-    assert len(groups["retired"]) == inv["counts"]["retired"] == 36
+    assert len(groups["manual"]) == inv["counts"]["manual"] == 4
+    assert len(groups["retired"]) == inv["counts"]["retired"] == 40
     assert inv["notes"]["mathematical_authority_changed"] is True
     assert inv["notes"]["n356"] == "consumed historical Stage32 MAIN leaf; workflow_dispatch-only replay retained"
 
@@ -65,7 +65,7 @@ def main() -> None:
         raise SystemExit("\n".join(failures))
 
     print("PASS Stage32 PR workflow trigger lifecycle inventory")
-    print("ACTIVE_AUTO=2 MANUAL=3 RETIRED=36 TOTAL=41")
+    print("ACTIVE_AUTO=2 MANUAL=4 RETIRED=40 TOTAL=46")
     print("historical_or_manual_pr_auto_triggers=0")
     print("mathematical_authority_changed=true")
 

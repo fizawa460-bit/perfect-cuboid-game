@@ -21,6 +21,7 @@ ACTIVE_AUTO = {
     ".github/workflows/stage32-claim-frontier-integrity.yml",
 }
 MANUAL = {
+    ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
     ".github/workflows/stage32-root-cleanup-phase-b.yml",
     ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",

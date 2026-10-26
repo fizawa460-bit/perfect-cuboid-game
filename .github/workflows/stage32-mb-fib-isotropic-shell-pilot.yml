@@ -1,0 +1,28 @@
+name: Stage32 MB-FIB COLD verification
+# Trigger lifecycle: MANUAL. Gen30 COLD verification only; no heavy execution jobs.
+on:
+  workflow_dispatch:
+    inputs:
+      expected_head_sha:
+        description: Exact frozen COLD head to verify
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.expected_head_sha }}
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install exact verification dependencies
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' 'z3-solver==4.13.4.0'
+      - name: Verify COLD source locks and exact successor design
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_000707_gen26_adaptive_x58_preflight.py
+      - name: Reject changed dependencies before execution
+        run: python stages/stage32/final-chain/32-03-multibranch/nodes/MB104/test_mb104_fib_preimport_locks.py

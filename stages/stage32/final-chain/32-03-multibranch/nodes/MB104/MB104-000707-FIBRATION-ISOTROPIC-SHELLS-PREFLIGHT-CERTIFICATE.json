@@ -1,0 +1,306 @@
+{
+  "schema": "STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_PREFLIGHT_V5",
+  "status": "PRE_AUDIT_EXECUTION_PREFLIGHT_COLD_GEN12_LOCAL_EXACT_DISJOINT_SHARDS_NO_NUMERICAL_RESULT_NO_CREDIT",
+  "support": {
+    "mask": "000707000f0f",
+    "compact_indices_0based": [
+      0,
+      1,
+      2,
+      3,
+      8,
+      9,
+      10,
+      11,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ],
+    "P": "7H-4*sum(E_i over support)",
+    "P2": 336,
+    "H_dot_P": 112
+  },
+  "shells": [
+    {
+      "shell_index": 0,
+      "H_dot_F": 10,
+      "F2": 0,
+      "P_dot_F": 30,
+      "support_mass": 10,
+      "transform": "x=8F-5H",
+      "minus_transform_square": 400,
+      "transform_dot_P": -320
+    },
+    {
+      "shell_index": 1,
+      "H_dot_F": 10,
+      "F2": 0,
+      "P_dot_F": 34,
+      "support_mass": 9,
+      "transform": "x=8F-5H",
+      "minus_transform_square": 400,
+      "transform_dot_P": -288
+    },
+    {
+      "shell_index": 2,
+      "H_dot_F": 10,
+      "F2": 0,
+      "P_dot_F": 38,
+      "support_mass": 8,
+      "transform": "x=8F-5H",
+      "minus_transform_square": 400,
+      "transform_dot_P": -256
+    },
+    {
+      "shell_index": 3,
+      "H_dot_F": 12,
+      "F2": 0,
+      "P_dot_F": 36,
+      "support_mass": 12,
+      "transform": "y=4F-3H",
+      "minus_transform_square": 144,
+      "transform_dot_P": -192
+    }
+  ],
+  "enumeration": {
+    "ambient_hperp_rank": 63,
+    "exact_engine": "Local exact Z3 QF_NIA over retained positive-definite H-perp coordinates; exact dual-norm finite coordinate bounds; all140 nonnegative/integral pairing constraints; exact retained Picard64 integrality; no public Magma request",
+    "filters": [
+      "exact H-perp norm and fixed P pairing",
+      "all140 nonnegative integral pairings under x=aF-bH",
+      "exact support mass",
+      "retained Picard64 integrality",
+      "primitive integral Picard class after exact model replay"
+    ],
+    "workunit_partition": "shell0 split-coordinate exact interval partition into 8 disjoint shards",
+    "shell0_shard_count": 8,
+    "resume_first": true,
+    "partial_shard_artifact_preserved": true,
+    "aggregate_requires_exact_union_0_7": true,
+    "unknown_or_resource_wall_is_no_credit": true,
+    "numerical_execution_completed": false
+  },
+  "source_locks": {
+    "runner_git_blob": "cae7d170990128bbf1a80ed840b4c0b4a2b84cd4",
+    "parent_verifier_git_blob": "5b1d120b6cd2dcd6d23ebcaa889448b897a479db",
+    "workunit_runner_git_blob": "671fa6cbc2ea171a4abebacf44e8122189e8397f",
+    "workunit_verifier_git_blob": "2a067db553a45f2f8e70783ec6b95495fc976360",
+    "predecessor_runner_git_blob": "d5e5130eeccea49bd7b771e8b231592ff3606543",
+    "stage33_picard_base_rows_blob": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "hperp_integral_adapter_blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+    "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
+    "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
+    "pairing_prefix_engine_blob": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "local_exact_engine_git_blob": "ee651d257ddec5d606033651cf3d4ae1e773f52a",
+    "local_exact_shard_verifier_git_blob": "442b9583b27c14753a7f682c2d7dcb70b164b233",
+    "local_exact_aggregate_git_blob": "14ec01f70e48ed806721ec76937a6b0d8e9de931",
+    "workflow_git_blob": "dd3380c9351cb773fc848c8c10b15f644dcf4877",
+    "preflight_verifier_git_blob": "7f0060210b8a1ec646d930a9696c3dc003833d9d"
+  },
+  "next_if_zero": "combine with the already-retained degree reduction to seek an audited proof that min over all fibrations of P.F is 40; this preflight alone does not grant that conclusion",
+  "next_if_nonzero": {
+    "degree10": "reducible sextic residual geometry: quartic+conic or three conics, plus exceptional components",
+    "degree12": "QA+QB+degree4 residual singular-fiber geometry, plus exceptional components"
+  },
+  "firewalls": {
+    "numerical_result": false,
+    "effectivity_credit": false,
+    "semiampleness_credit": false,
+    "global_fibration_optimum_credit": false,
+    "MB104_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "merge_authorized": false
+  },
+  "execution_repair": {
+    "predecessor_runner_git_blob": "b1b1a3e851c5a1dc6631d7f1426598b4dab01dd0",
+    "repaired_runner_git_blob": "8a4d08554de20c1e1bcdebda3c392003e7707dc0",
+    "repair_scope": "EXECUTION_SYNTAX_ONLY__PYTHON_FSTRING_LITERAL_BRACES_AND_MAGMA_RESERVED_IDENTIFIER_EQ",
+    "repaired_source_text": "forall{{j : j in [1..#numseq] | numseq[j] mod aa eq 0}}",
+    "generated_magma_text": "forall{j : j in [1..#numseq] | numseq[j] mod aa eq 0}",
+    "mathematical_shell_definition_changed": false,
+    "generation1_failure": {
+      "run_id": 35486324481,
+      "execution_head": "82ca826445466af7e073dcf9ccd82f509b1dca2c",
+      "artifact_id": 10598045105,
+      "artifact_bytes": 507,
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "reason": "Python NameError while constructing Magma source before run_magma: unescaped literal braces in f-string"
+    },
+    "math_shell_definition_changed": false,
+    "generated_magma_reserved_word_fix": {
+      "before": [
+        "for eq in [1,-1] do",
+        "x[3+bb] := -eq*sr;"
+      ],
+      "after": [
+        "for es in [1,-1] do",
+        "x[3+bb] := -es*sr;"
+      ],
+      "reason": "Magma reserves eq as the equality operator"
+    },
+    "generation3_failure": {
+      "run_id": 35487244953,
+      "execution_head": "6770df0e2e11e1696e85517c951a121bba524d56",
+      "artifact_id": 10598415860,
+      "artifact_bytes": 503,
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "reached_magma": true,
+      "failure_stage": "MAGMA_PARSE_COMPACT_SECOND_HALF",
+      "reason": "reserved identifier eq caused bad syntax; compact map stopped at 24 points"
+    },
+    "generation5_failure": {
+      "run_id": 35500778154,
+      "execution_head": "0081fef5b0e1cf532b1e0cb644e19cc1499f27e5",
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "reached_magma": false,
+      "failure_stage": "SOURCE_LOCK_VERIFY_BEFORE_COMPUTE",
+      "reason": "archive original runner blob was compared to predecessor repaired runner blob"
+    },
+    "generation6_source_lock_role_repair": {
+      "archive_runner_git_blob": "1ad6c42b41a2c044933bd04c0495b40814f22b9e",
+      "predecessor_runner_git_blob": "b1b1a3e851c5a1dc6631d7f1426598b4dab01dd0",
+      "repaired_runner_git_blob": "8a4d08554de20c1e1bcdebda3c392003e7707dc0",
+      "mathematical_shell_definition_changed": false
+    },
+    "generation7_failure": {
+      "run_id": 35501980795,
+      "execution_head": "67698d0f4e69150bd993cbeb914eaa9d15bc241e",
+      "artifact_id": 10601964112,
+      "artifact_bytes": 502,
+      "reached_magma": true,
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "failure_stage": "MISSING_HPERP_BOOTSTRAP_BEFORE_SHELL_ENUMERATION",
+      "reason": "pinned split core stops at the automorphism-group marker, so upstream Hperp/pospmHperp/HperpMod/HperptoPic definitions were absent before build_extra"
+    },
+    "generation8_hperp_bootstrap_repair": {
+      "repaired_runner_git_blob": "d5e5130eeccea49bd7b771e8b231592ff3606543",
+      "definitions_restored": [
+        "Hperp",
+        "pospmHperp",
+        "HperpMod",
+        "HperptoPic"
+      ],
+      "provenance": "byte-equivalent upstream definitions immediately after the pinned split-core stop marker",
+      "mathematical_shell_definition_changed": false,
+      "numerical_result_claimed": false
+    },
+    "generation9_failure": {
+      "run_id": 35502636705,
+      "execution_head": "fe7cccdd33d991ce674f64f150c6db1e18653edf",
+      "artifact_id": 10603022214,
+      "artifact_bytes": 507,
+      "reached_magma": true,
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "failure_stage": "PUBLIC_MAGMA_CALCULATOR_WALL_BEFORE_AFFINE_SHELL_ENUMERATION",
+      "observed_progress": [
+        "known-curve intersection matrix reconstruction completed in 45.340 seconds",
+        "compact-to-Stoll 48-point map emitted exactly",
+        "14 support points emitted exactly",
+        "no FIBSHELL_SHELL row emitted",
+        "no FIBSHELL_DONE marker emitted"
+      ],
+      "reason": "calculator output ended after support mapping at about 61 seconds; no shell enumeration result was produced"
+    },
+    "generation10_retained_hperp_numeric_engine": {
+      "repaired_runner_git_blob": "cae7d170990128bbf1a80ed840b4c0b4a2b84cd4",
+      "retained_hperp_text_sha256": "af373f16d6ab2bb8aed6ca09e0a15c8b28d565cbec6f242a8b76c590df81bb4f",
+      "retained_picard_base_canonical": "d1deeb3b0cb65fd52563355cd5497a2319ddd7bc9fe4aaeaca91449f155c998c",
+      "stage33_picard_base_rows_blob": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+      "hperp_integral_adapter_blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+      "calculator_geometry_reconstruction_skipped": true,
+      "exact_inputs": [
+        "retained 63x63 positive H-perp Gram",
+        "retained all-140 degree and H-perp pairing functionals",
+        "retained saturated Picard64 Gram",
+        "exact compact-to-Stoll mapping previously emitted by generations 7 and 9"
+      ],
+      "mathematical_shell_definition_changed": false,
+      "numerical_result_claimed": false
+    },
+    "generation10_equivalence_bridge_repair": {
+      "hostile_audit_fail_review_id": 5260316341,
+      "predecessor_runner_git_blob": "d5e5130eeccea49bd7b771e8b231592ff3606543",
+      "predecessor_role": "generation8 repaired live-geometry runner released by hostile-audit PASS 5260261872 before generation9 execution",
+      "required_runtime_validation": "HperpIntegralPairingAdapter.from_retained on the exact retained marking and Picard64 bundle used by the generation10 runner",
+      "required_assertions": [
+        "certificate/runkey/STATE predecessor identity agreement",
+        "saturated_picard64_integral_adapter_validated",
+        "runner retained-basis labels equal validated adapter labels",
+        "runner retained Picard Gram hash equals validated adapter retained-basis Gram hash"
+      ],
+      "mathematical_shell_definition_changed": false,
+      "numerical_result_claimed": false
+    },
+    "generation10_lock_before_exec_repair": {
+      "hostile_audit_fail_review_id": 5260522691,
+      "repaired_order": [
+        "read inert JSON controller/certificate/runkey/state",
+        "verify all repository source blob identities used by retained equivalence bridge",
+        "only then execute generation10 runner module",
+        "only then execute H-perp integral adapter and its pairing-prefix dependency",
+        "only then consume retained marking/Picard base and run equivalence assertions"
+      ],
+      "locked_before_exec": {
+        "runner_git_blob": "cae7d170990128bbf1a80ed840b4c0b4a2b84cd4",
+        "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
+        "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
+        "stage33_picard_base_rows_blob": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+        "hperp_integral_adapter_blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+        "pairing_prefix_engine_blob": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b"
+      },
+      "mathematical_shell_definition_changed": false,
+      "numerical_result_claimed": false
+    },
+    "generation11_failure": {
+      "run_id": 35510077408,
+      "execution_head": "4e6d3ddea9d0369d001539a2794b7577c389195e",
+      "shell0_job_id": 106076373597,
+      "artifact_id": 10604769896,
+      "artifact_bytes": 502,
+      "artifact_digest_sha256": "35eb776c799c7d4191c3161c2ee7a5262eeebbee6feeb5338c7e1c8ed407c333",
+      "reached_magma": true,
+      "status": "EXECUTION_FAILED_NO_NUMERICAL_RESULT",
+      "failure_stage": "PUBLIC_MAGMA_CVP_WALL_BEFORE_FIRST_SHELL_ROW",
+      "observed_progress": [
+        "exact compact-to-Stoll 48-point map emitted",
+        "exact 14-point support map emitted",
+        "no FIBSHELL_SHELL row emitted",
+        "no FIBSHELL_DONE marker emitted"
+      ],
+      "reason": "retained-Hperp engine removed geometry reconstruction, but the 62-dimensional affine lattice setup/CloseVectors still exceeded the public calculator wall",
+      "mathematical_credit": false
+    },
+    "generation12_local_exact_recovery": {
+      "mode": "COLD_PREFLIGHT_ONLY_PENDING_HOSTILE_AUDIT",
+      "mathematical_shell_definition_changed": false,
+      "public_magma_removed_from_load_bearing_execution": true,
+      "exact_coordinate_bound": "for x^TQx=N with Q positive definite, x_j^2 <= N*(Q^-1)_{jj}; integer endpoints computed with exact rational arithmetic and isqrt",
+      "solver": "Z3 QF_NIA 4.13.4.0",
+      "partition": {
+        "shell_index": 0,
+        "shard_count": 8,
+        "rule": "choose deterministic narrow nontrivial exact coordinate, partition its complete finite integer interval into 8 contiguous disjoint intervals",
+        "aggregate_requires_exact_union": true
+      },
+      "completion": "a shard is COMPLETE only after exact solver enumeration reaches final UNSAT after blocking every integral known140-nonnegative Picard64 model",
+      "partial_states": [
+        "PARTIAL_UNKNOWN_NO_CREDIT",
+        "PARTIAL_WALL_NO_CREDIT",
+        "PARTIAL_MODEL_CAP_NO_CREDIT"
+      ],
+      "storage": "compact JSON per shard; retention 1 day; raw solver stdout not persisted",
+      "numerical_result_claimed": false,
+      "aggregate_source_lock_before_exec": true,
+      "aggregate_revalidates_each_shard_with_exact_verifier": true,
+      "shard_certificate_binds_execution_surface_generation": true,
+      "shard_certificate_binds_local_engine_and_verifier_identity": true,
+      "aggregate_binds_input_shard_canonical_hashes": true,
+      "stale_carried_shards_rejected": true
+    }
+  }
+}

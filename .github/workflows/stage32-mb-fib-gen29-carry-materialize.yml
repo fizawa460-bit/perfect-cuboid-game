@@ -1,0 +1,14 @@
+name: Stage32 MB-FIB Gen29 durable carry materialization
+# Trigger lifecycle: RETIRED — Gen29 exact carry is source-committed; manual replay only.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify-retired:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: echo "Gen29 durable carry is already source-committed; automatic materialization is retired."
