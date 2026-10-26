@@ -36,3 +36,19 @@ Replay records bind the tested exact commit, environment, initial tree state, co
 ## Independent auditor's boundary
 
 Confirm the exact repair head, both ancestry boundaries, bounded PR diff, retained-frontier and note hashes, corrected routing semantics, regression failures, startup/claim replay, workflow lifecycle and zero-credit flags. Local checker PASS is not hostile-audit PASS. The pre-audit rational-core result remains pre-audit; CORELESS / NO NONEMPTY CLUMP, balanced bulk, e2 and 32-03 remain open. No heavy computation, receiver discharge, effectivity, theorem, endpoint, Stage32 closure or Perfect Cuboid claim is released.
+
+## Published source-boundary local replay results
+
+Source boundary: `b418ad97d3261651915ae4a37158bcadc9f46d60` (remote Git object; parents are the retained research head and incorporated current main). The source tree is byte-identical to the locally repaired tree.
+
+- MB compact checker + eight fail-closed regression cases: PASS.
+- Claim/frontier workflow: PASS,16 run steps.
+- Startup-authority job: PASS,57 run steps. Its historical bounded V46 pilot also ran locally in4.1 seconds under that source commit's parent-range gate; no GitHub Actions run was dispatched. Conditional heavy steps remain gated; this record does not authorize them.
+- Initial trees were clean; environment, commands, actual exits and bounded outputs are in the records below.
+- Original retained_frontier, original next_obligation (now resume_obligation) and credit_firewall were additionally compared object-for-object with retained head68e9ce5: unchanged.
+
+| Record | SHA256 |
+|---|---|
+| `LOCAL-REPLAY-MB104-REPAIR.json` | `52cb35e1e8fa1981e5671997b173bb8a890beef4ced486456163c85ee2be37ec` |
+| `LOCAL-REPLAY-MB104-CLAIM.json` | `e687145b70fdb2aed2975758a16e81de25dfb200489614051c6289d7c6622f68` |
+| `LOCAL-REPLAY-MB104-STARTUP.json` | `4d42737dddf6c160aa8e847d59317340ffc848a9c5f7cb924f802b6ef7bcb2e7` |
