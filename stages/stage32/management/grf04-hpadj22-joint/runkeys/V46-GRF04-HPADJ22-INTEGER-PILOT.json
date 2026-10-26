@@ -1,0 +1,29 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_INTEGER_PILOT_RUNKEY_V1",
+  "generation": 1,
+  "armed": true,
+  "purpose": "Execute a bounded d<=16 exact-intersection pilot combining the existing HPADJ22 qA/qBC/Picard survivor rule with the MAIN-owned GRF04 exact integer BC q-t projection. This is a zero-credit research diagnostic only.",
+  "script_blob_sha1": "71742d4272b0a7356bdb2ac6a63a9da534bb26b2",
+  "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+  "max_d": 16,
+  "execution": {
+    "scope": "bounded rows with d<=16; band0 covers all b",
+    "exact_x4_intersection": true,
+    "min_of_counts_forbidden": true,
+    "raw_terminal_identity_materialization": false
+  },
+  "decision_rule": {
+    "strict_result": "retain as candidate for a separately authorized FULL178 scaleout",
+    "zero_improvement": "stop this route as dominated/redundant",
+    "any_regression": "fail closed"
+  },
+  "credit": {
+    "main": false,
+    "full178": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "endpoint": false,
+    "merge": false
+  }
+}

@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib,json,subprocess,sys
+import subprocess,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-SYNC=HERE/"management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json"
-AUTHORITY=HERE/"management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py"
+AUTHORITY=HERE/"management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py"
+V50_AUTHORITY=HERE/"management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py"
+V51_AUTHORITY=HERE/"management/hpadj22-unibranch/verify_v51_main_authority_sync.py"
+V52_AUTHORITY=HERE/"management/fixed-direction-certificates/verify_v52_main_authority_sync.py"
 COMMAND_SURFACE=HERE/"verify_command_surface.py"
-def canonical(obj):
-    body=dict(obj);body.pop("canonical_sha256_without_this_field",None);return hashlib.sha256(json.dumps(body,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+LIVE_CONTROL=HERE/"verify_live_control.py"
 def replay(path):subprocess.run([sys.executable,str(path)],check=True)
 def main():
-    obj=json.loads(SYNC.read_text(encoding="utf-8"));print("V45_HPADJ22_AUDIT_SYNC_CANONICAL_DIAGNOSTIC="+canonical(obj),flush=True);print("V45_HPADJ22_AUDIT_SYNC_STORED_CANONICAL="+str(obj.get("canonical_sha256_without_this_field")),flush=True);replay(AUTHORITY);replay(COMMAND_SURFACE);print("PASS: Stage32 MAIN V45 synchronizes hostile-audited V44 HPADJ22 authority with zero new pruning")
+    replay(AUTHORITY);replay(V50_AUTHORITY);replay(V51_AUTHORITY);replay(V52_AUTHORITY);replay(LIVE_CONTROL);replay(COMMAND_SURFACE)
+    print("PASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES (726240487 compressed terminals, strata upper bound 530) as same-population per-row MIN with V51; effectivity and multibranch remain open")
 if __name__=="__main__":main()

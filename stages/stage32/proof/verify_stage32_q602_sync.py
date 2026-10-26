@@ -105,12 +105,15 @@ def validate(basev, by_id):
     assert prov["formal_q602_residues_are_current_survivors"] is False
     assert by_id["S32.Q602.SURVIVORS_73_97_235.V1"]["scope"]["surviving_residues"] == [73,97,235]
 
-    assert target["control_mode"] == "FULL178_AND_FINAL_MILESTONE_CHAIN"
-    assert target["primary_incomplete_id"] == "32-01"
+    assert target["control_mode"] == "ROADMAP_DRIVEN_FINAL_CHAIN"
+    assert target["primary_incomplete_id"] == "32-02"
+    assert target["parallel_incomplete_id"] == "32-03"
     assert target["V6_is_current_attack_target"] is False
     assert target["O210_is_current_attack_target"] is False
     assert target["Q602_is_current_attack_target"] is False
-    assert f["full178_numerical_census_complete"] is False
+    assert f["full178_numerical_census_complete"] is True
+    assert f["v47_grf04_hpadj22_audited_exact_head"] == "620b90d1ca1f5316d55b88b2620f78eeba1949c7"
+    assert f["v47_grf04_hpadj22_hostile_audit_review_id"] == 5287562192
     assert legacy_f["primary_incomplete_remains_32_01"] is True
     assert f["stage32_closed"] is False
 
@@ -149,6 +152,13 @@ def validate(basev, by_id):
 
     assert by_id["S32.FULL178.NUMERICAL_CENSUS.V1"]["authority_status"] == "DECLARED_GOAL"
     assert by_id["S32.GOAL.STAGE32_CLOSURE.V1"]["authority_status"] == "DECLARED_GOAL"
+    v47_num = by_id["S32.FULL178.NUMERICAL_CENSUS.V2"]
+    assert v47_num["authority_status"] == "AUDITED"
+    assert v47_num["frontier_status"] == "AUDITED_TRUE"
+    assert v47_num["audit_receipt"] == {"status":"PASS","pr":1826,"review_id":5287562192,"exact_head":"620b90d1ca1f5316d55b88b2620f78eeba1949c7"}
+    v47_goal = by_id["S32.GOAL.STAGE32_CLOSURE.V2"]
+    assert v47_goal["authority_status"] == "DECLARED_GOAL"
+    assert v47_goal["requires"] == ["S32.FULL178.NUMERICAL_CENSUS.V2"]
     for cid in ["S32.O210.EXCLUSION.V3", Q_ID]:
         assert all(link["role"] != "ATTACKS" for link in by_id[cid]["lane_links"])
 
@@ -170,7 +180,7 @@ def validate(basev, by_id):
         Q_ID,
         "Q602_excluded=true",
         "O210_excluded=true",
-        "FULL178_AND_FINAL_MILESTONE_CHAIN",
+        "EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN",
         "5149990935",
         "32-02-L   rigorous effectivity certification",
         "32-03-L   multibranch-at-node carrier ledger",

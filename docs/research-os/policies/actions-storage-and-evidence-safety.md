@@ -1,5 +1,7 @@
 # Actions storage and evidence safety
 
+> **Local-first override (2026-10-16).** `local-first-execution.md` takes precedence over this file. Actions heavy runs need per-run user authorization and are capped at 2 effective concurrent heavy jobs repository-wide; the 18-job ceiling below is historical.
+
 ## Status
 
 This is a mandatory repository-wide Research OS policy for any GitHub Actions workload that performs substantial computation, exhaustive search, proof/certificate generation, or large parallel batching.

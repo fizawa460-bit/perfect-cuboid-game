@@ -1,0 +1,527 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME",
+  "stage": 32,
+  "generation": 17,
+  "armed": true,
+  "objective": "Generation-17 resume-first FULL178 tail closure. Reuse generation-16 all-96 exact parent-window artifacts as first-precedence carry. Generation-16 reached 91/96 COMPLETE and 2962/2967 row certificates; the only five missing rows are row177 in parent windows [3,0,2], [3,2,2], [4,1,2], [4,2,2], [4,3,2]. Width-8 c-shards remain exact and operationally bounded (observed completed row177 shards about 103-702 seconds each), so no finer c partition is introduced. Zero credit until complete aggregate plus hostile audit.",
+  "source_locks": {
+    "row_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
+    "legacy_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
+    "window_wrapper_blob_sha1": "8592f978538fd4bc8e7091d248a52084382d8962",
+    "window_aggregator_blob_sha1": "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e",
+    "cshard_resume_verifier_blob_sha1": "7664b33b45832baf651b2e9deb3a585a72fabd1b",
+    "row65_legacy_carry_verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
+    "workflow_blob_sha1": "eedc196d369a7e489f9fdfd75f9e3910cba15b8c",
+    "highd_helper_blob_sha1": "99eef03657b07eb5cf86be8d880050fd8aa2d13b",
+    "highd_generation8_retained_blob_sha1": "d154b3cff576c2d5a2853be88e77cf6d195e7490",
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "cshard_compute_worker_blob_sha1": "611300610f8300f919c60ff1b0a234fd90d30ec3",
+    "cshard_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py",
+    "legacy_row_compute_worker_path": "stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py",
+    "recovery_snapshot_builder_blob_sha1": "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e",
+    "recovery_snapshot_builder_path": "stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py",
+    "retained_local_rows_manifest_blob_sha1": "df54d3a73fec673c926f23bc251756df299a2102",
+    "retained_local_rows_verifier_blob_sha1": "8ca6c545e53ee27b979b544b8d28623f58a4577f",
+    "retained_local_row_blobs": {
+      "B6-C0-W1-ROW089": "97835fc992926193a0f7e6605d9d343211cb0ea8",
+      "B6-C0-W2-ROW177": "3e083d0177a7acf35c8cd5d8db9265d3c7763bca",
+      "B6-C1-W2-ROW175": "bcebae2f1717406451ed185dc4b73d55ae2a3a8b",
+      "B6-C1-W2-ROW177": "83526f8c64e970745108304dce33bb4974324cbc",
+      "B6-C2-W2-ROW177": "152dba550dab657b4ed08878c7cc301bac51e8db",
+      "B6-C3-W2-ROW177": "0d1c4dd626c9180670384553946cd03fc9759bf0"
+    }
+  },
+  "benchmark_gate": {
+    "run_id": 35437525466,
+    "aggregate_artifact_id": 10583850457,
+    "aggregate_canonical_sha256": "7f1acd8a9033ce0c45674f96a816357e7784630cf4e6f77828102abc5a53f3dc",
+    "row177_band7_baseline": "236901807892797077",
+    "row177_band7_joint": "210109102000552262",
+    "exact_improvement": "26792705892244815",
+    "strict": true
+  },
+  "generation1_incident": {
+    "run_id": 35442892171,
+    "status": "CANCELLED_AFTER_COARSE_PARTITION_EXECUTION_RESOURCE_WALL",
+    "authorize_jobs_succeeded": 1,
+    "parent_jobs_soft_timeout_failed": 24,
+    "jobs_cancelled_by_cold_redesign": 9,
+    "retained_parent_checkpoint_artifacts": 28,
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "partition": {
+    "bands": [
+      [
+        0,
+        11
+      ],
+      [
+        12,
+        23
+      ],
+      [
+        24,
+        35
+      ],
+      [
+        36,
+        47
+      ],
+      [
+        48,
+        59
+      ],
+      [
+        60,
+        71
+      ],
+      [
+        72,
+        83
+      ],
+      [
+        84,
+        96
+      ]
+    ],
+    "chunks_per_band": 4,
+    "row_windows": [
+      [
+        0,
+        59
+      ],
+      [
+        60,
+        119
+      ],
+      [
+        120,
+        177
+      ]
+    ],
+    "parents": 96,
+    "rows": 178,
+    "computed_row_chunk_certificates": 2967,
+    "parent_artifact_count": 96,
+    "recovery_snapshot_artifact_count": 1,
+    "parent_certificate_rule": "Each parent-window covers one exact spatial b-chunk and one disjoint row-index window; each row in the window is exactly one computed row certificate or an exact implicit zero.",
+    "c_shard_axis": "c",
+    "c_shard_width": 8,
+    "row65_h": 82,
+    "row65_c_shard_count": 11,
+    "c_shard_rule": "For every unfinished exact row, partition c=0..h into consecutive disjoint width-8 ranges; the final range may be shorter. Each (row,c-range) certificate is exact and independently reusable.",
+    "c_shard_artifact_strategy": "Store c-shard certificate files inside the existing 96 parent-window artifacts; do not create per-c-shard Actions artifacts."
+  },
+  "resume_contract": {
+    "durable_unit": "ROW_CSHARD_CERTIFICATE_OR_VALID_LEGACY_COMPLETE_ROW",
+    "legacy_generation1_row_certificates_reusable": true,
+    "legacy_generation1_required_row_compute_worker_blob_sha1": "c9fbf71242581f096718ebf0dbc9ac88878c91f1",
+    "legacy_complete_rows_recomputed": false,
+    "c_shard_width": 8,
+    "c_shard_certificate": "exact identity + source locks + canonical digest + HPADJ22 baseline + joint survivors + improvement + zero MAIN credit",
+    "c_shard_validation": "schema + canonical + parent/row/c-range identity + current worker/helper/source locks + exact c coverage + joint<=baseline",
+    "row_reconstruction": "Require the complete ordered c-range partition with gaps=0 and overlaps=0, then integer-sum all additive result fields into the existing ROW certificate schema.",
+    "representative_exact_equivalence": "Cold verifier computes an actual FULL178 row with at least two c-shards both monolithically and by c-shard union and requires identical exact result dictionaries.",
+    "parent_artifact_upload_on_soft_timeout": true,
+    "parent_artifact_upload_step_condition": "always()",
+    "soft_timeout_is_operational_checkpoint_not_mathematical_failure": true,
+    "recovery": "For each parent-window use generation16 first. If unavailable, fall back to generation15, then generation14, then the generation10 b4c0w1 special seed; inject source-locked retained local complete rows; validate complete rows first, then validate c-shards of unfinished rows, and compute only missing exact c-shards.",
+    "artifact_job_conclusion_is_not_completion_authority": true,
+    "duplicate_valid_carry": "FAIL_CLOSED",
+    "rejected_carry": "record and recompute only the rejected/missing exact subunit",
+    "aggregate_requires_all_96_parent_window_complete_manifests": true,
+    "legacy_worker_and_row65_verifier_identity_preserved": true,
+    "legacy_worker_path_unchanged": true,
+    "cshard_worker_is_separate_file": true,
+    "recovery_snapshot_missing_artifacts_nonfatal": true,
+    "recovery_snapshot_inventory_replayable": true,
+    "recovery_snapshot_inventory": "All 96 parent-window identities are classified COMPLETE/PARTIAL/MISSING/REJECTED; validated row and c-shard identities plus canonical commitments are recorded; invalid files are surfaced instead of aborting snapshot creation.",
+    "aggregate_gate": "Aggregate remains blocked unless the recovery inventory reports all 96 parent windows COMPLETE with validated complete manifests and no rejected carry.",
+    "retained_local_complete_rows_recomputed": false,
+    "retained_local_row_conflict_rule": "If an artifact carry already contains the same retained row identity, require exact baseline/joint/improvement equality before replacing it with the source-locked retained certificate; any conflict fails closed."
+  },
+  "resource_preflight": {
+    "repo_stage_heavy_cap": 18,
+    "planned_effective_heavy_concurrency": 14,
+    "parent_jobs": 96,
+    "artifact_count_upper_bound": 98,
+    "artifact_bytes_upper_bound_each": 4194304,
+    "projected_peak_artifact_mb_upper_bound": 430,
+    "retention_days_parent": 7,
+    "retention_days_recovery_snapshot": 7,
+    "retention_days_aggregate": 7,
+    "job_timeout_minutes": 350,
+    "compute_soft_timeout_minutes": 330,
+    "c_shards_are_files_inside_parent_artifacts": true,
+    "observed_other_stage32_heavy_concurrency_at_repair": 0,
+    "observed_other_stage32_heavy_concurrency_at_generation14_arm": 2,
+    "observed_other_stage32_heavy_concurrency_at_generation15_arm": 4,
+    "observed_other_stage32_heavy_concurrency_at_generation16_arm": 0,
+    "generation14_arm_effective_total_concurrency": 18,
+    "generation15_arm_effective_total_concurrency": 18,
+    "generation16_arm_effective_total_concurrency": 14,
+    "prearm_live_concurrency_recheck_required": true,
+    "prearm_concurrency_rule": "Immediately before any future arm, re-read live Stage32 heavy jobs and require other_stage32_heavy_concurrency + planned_effective_heavy_concurrency <= repo_stage_heavy_cap; otherwise remain disarmed.",
+    "note": "Immediately before generation-17 arm, repository Stage32 in-progress workflow count was 0; planned FULL178 max-parallel is 14, so the recorded effective total is 14 <= 18. Generation-16 left only five row177 residual rows; existing width-8 c-shards are retained because measured completed row177 shard times are operationally bounded.",
+    "observed_other_stage32_heavy_concurrency_at_generation17_arm": 0,
+    "generation17_arm_effective_total_concurrency": 14
+  },
+  "authorization": {
+    "synchronize_only": true,
+    "commit_range_runkey_change_required": true,
+    "repair_generation": 15,
+    "repair_generation_disarmed": false,
+    "next_heavy_generation_minimum": 17,
+    "next_heavy_arm_requires_hostile_audit_pass": true,
+    "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
+    "hostile_audit_pass_submitted_at": "2026-09-21T08:01:47Z",
+    "rearm_rule": "Generation-17 is an execution-only resume successor from generation-16 exact recovery snapshot a79253b5.... Mathematical worker, wrapper, c-shard width=8, aggregate semantics, and zero-credit firewalls are unchanged. Generation-16 exact artifacts are first-precedence carry; only five row177 residual rows remain.",
+    "prearm_live_concurrency_recheck_required": true,
+    "prearm_live_concurrency_gate": "BLOCK if other live Stage32 heavy concurrency + MAIN planned max-parallel exceeds 18."
+  },
+  "carry": {
+    "primary_predecessor_run_id": 35780980259,
+    "primary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
+    "expected_primary_parent_artifacts": 96,
+    "secondary_predecessor_run_id": 35665219375,
+    "secondary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
+    "expected_secondary_parent_artifacts": 96,
+    "tertiary_predecessor_run_id": 35576827846,
+    "tertiary_predecessor_topology": "V3_CSHARD_ROW_WINDOW",
+    "expected_tertiary_parent_artifacts": 54,
+    "special_predecessor_run_id": 35501853750,
+    "special_parent_window": [
+      4,
+      0,
+      1
+    ],
+    "precedence_rule": "generation16 artifact if present; else generation15; else generation14; b4c0w1 may fall back to generation10; then inject source-locked retained local complete rows and reject any exact-result conflict"
+  },
+  "local_seed": {
+    "parent_window": [
+      4,
+      0,
+      1
+    ],
+    "special_predecessor_run_id": 35501853750,
+    "special_predecessor_expected_rows": [
+      60,
+      61,
+      62,
+      63,
+      64
+    ],
+    "certificate_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json",
+    "certificate_blob_sha1": "39bec9d6a323172dcdebfb839d4b4b568f318b5f",
+    "certificate_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
+    "profile_blob_sha1": "9a77ce7c018b741bb109974288621c8da864239b",
+    "verifier_blob_sha1": "fa065dc721a41b1e1227e83868c1e4667b40fb53",
+    "production_validate_carry_accepted": true,
+    "main_credit": false,
+    "recompute_forbidden": true,
+    "current_worker_accepts_legacy_certificate": true
+  },
+  "credit": {
+    "main": false,
+    "full178": false,
+    "theorem": false,
+    "effectivity": false,
+    "receiver": false,
+    "route": false,
+    "endpoint": false,
+    "merge": false
+  },
+  "generation2_incident": {
+    "run_id": 35468873266,
+    "status": "USER_CANCELLED_AFTER_WINDOWED_RECOVERY_VALIDATION",
+    "retained_parent_window_checkpoint_artifacts": 4,
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation3_incident": {
+    "run_id": 35469124811,
+    "workflow_conclusion": "success",
+    "status": "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
+    "discovered_parent_artifacts": 96,
+    "complete_parent_windows": 9,
+    "incomplete_parent_windows": 87,
+    "persisted_row_certificates": 582,
+    "expected_row_certificates": 2967,
+    "recovery_snapshot_artifact_id": 10599462625,
+    "recovery_snapshot_canonical_sha256": "a3133752812fe581b3b46be56bda780032ee4e491d8204bebeca801d3e4f8c48",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation4_incident": {
+    "status": "NOT_EXECUTED_AS_HEAVY_RUN",
+    "reason": "generation-4 runkey was committed while PR #1826 was merge-conflicted against current main; no pull_request workflow run existed for that arm commit. Subsequent cold workflow/resource-contract repair and branch sync invalidate generation-4 as an execution generation.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation5_incident": {
+    "status": "SUPERSEDED_BEFORE_CREDIT",
+    "reason": "generation-5 arm preceded the required MAIN-STATE canonical refresh discovered by exact-head cold-sync CI; no mathematical result or MAIN credit is consumed from generation 5.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation6_incident": {
+    "status": "CANCELLED_BY_SUCCESSOR_SYNCHRONIZATION_BEFORE_CREDIT",
+    "reason": "generation-6 was queued when exact-head CI exposed that MAIN-STATE had been numerically rounded by an unsafe JSON rewrite. The state was restored from the last healthy boundary with exact integer authority, then canonical/blob locks were refreshed. No generation-6 mathematical result or credit is consumed.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation7_incident": {
+    "status": "SUPERSEDED_BEFORE_CREDIT",
+    "reason": "generation-7 arm preceded refresh of verify_cross_lane_demands.py to the already-written live specialist observations; exact-head claim-frontier/EX5 CI exposed stale verifier expectations. No generation-7 mathematical result or credit is consumed.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation8_incident": {
+    "status": "SUPERSEDED_BEFORE_CREDIT",
+    "reason": "generation-8 arm exposed a stale V46 postmerge verifier that conflated historical V45 merge authority with current repository main after MB-FIB #1828. The verifier was repaired and source-lock refreshed. No generation-8 mathematical result or credit is consumed.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation9_incident": {
+    "status": "USER_CANCELLED_ZERO_CREDIT",
+    "reason": "User stopped generation-9 to reallocate Stage32 heavy capacity. Run 35501107348 produced 4 checkpoint artifacts before cancellation, but it is not used as the sole predecessor because it lacks the full 96-window artifact surface; generation-3 run 35469124811 remains the complete predecessor carry source.",
+    "produced_checkpoint_artifacts": 4,
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation10_incident": {
+    "status": "CHECKPOINTED_95_OF_96__ONE_PARENT_CANCELLED_ZERO_CREDIT",
+    "run_id": 35501853750,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 95,
+    "parent_jobs_cancelled": 1,
+    "discovered_parent_artifacts": 95,
+    "missing_parent_window": "b3-c3-w0",
+    "missing_parent_job_id": 106054915103,
+    "missing_parent_compute_started_at": "2026-09-20T11:53:25Z",
+    "missing_parent_job_completed_at": "2026-09-20T13:28:16Z",
+    "summary_status": "FAILED_EXPECTED_96_FOUND_95",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "The 95 uploaded row-window artifacts remain valid zero-credit carry. The missing b3-c3-w0 artifact was cancelled before upload; generation-11 falls back to generation-3 for that exact window only."
+  },
+  "generation11_incident": {
+    "status": "CHECKPOINTED_21_COMPLETE_74_PARTIAL__ONE_EXTERNALIZED_WINDOW_ZERO_CREDIT",
+    "run_id": 35531197992,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 95,
+    "parent_jobs_cancelled": 1,
+    "discovered_parent_artifacts": 95,
+    "complete_parent_windows": 21,
+    "partial_parent_windows": 74,
+    "missing_parent_window": "b4-c0-w1",
+    "missing_parent_job_id": 106132013320,
+    "persisted_row_certificates": 1156,
+    "expected_row_certificates": 2967,
+    "summary_status": "FAILED_EXPECTED_96_FOUND_95",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "Generation-11 nearly doubled persisted exact row certificates from generation-3 (582 to 1156). b4-c0-w1 is assigned to Codex Local; generation-12 excludes that one parent-window and resumes the other 95."
+  },
+  "generation12_incident": {
+    "status": "USER_SUPERSEDED_BY_CODEX_RESULT_PUSH_ZERO_CREDIT",
+    "run_id": 35555103056,
+    "workflow_conclusion": "cancelled",
+    "parent_jobs_success": 3,
+    "parent_jobs_cancelled": 92,
+    "retained_parent_window_artifacts": 19,
+    "external_hold_parent_window": "b4-c0-w1",
+    "codex_result_commit": "7ad68e647b91b5b90d267738ac79b3db03c1ae52",
+    "retained_local_row65_canonical_sha256": "df73e851b80cc6a8b44cf6228433ad85b3c5a23bd8fa0e2c4eb26d221759f172",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "Generation-12 was interrupted by the Codex result push. Its 19 uploaded V2 row-window artifacts remain valid zero-credit primary carry for generation-13; generation-11 supplies the fallback surface."
+  },
+  "generation14_preheavy_arm_repair": {
+    "scope": "COLD_OR_AUTHORIZE_ONLY_SOURCE_LOCK_REPAIR",
+    "hostile_audit_pass_exact_head": "7424625b9280f790e2f5723be8932c6b2795fdad",
+    "failed_preheavy_run_ids": [
+      35576243792,
+      35576417826,
+      35576524874,
+      35576638637
+    ],
+    "parent_matrix_started": false,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "note": "All listed generation14 attempts stopped in cold_verify or authorize before any parent matrix execution. This record permits only the same generation14 audited arm to continue after source-lock/gate repair; it grants no mathematical or MAIN credit."
+  },
+  "generation13_salvage": {
+    "run_id": 35559431762,
+    "workflow_conclusion": "cancelled",
+    "discovered_artifact_count": 35,
+    "valid_row_certificates": 795,
+    "complete_parent_windows": 4,
+    "invalid_row_certificates": 0,
+    "valid_c_shard_certificates": 0,
+    "generation13_superset_of_same_window_generation12_rows": true,
+    "generation13_superset_of_same_window_generation11_rows": true,
+    "validated_precedence_union_windows": 96,
+    "validated_precedence_union_rows": 1302,
+    "selected_generation13_windows": 35,
+    "selected_generation11_windows": 60,
+    "selected_generation10_special_windows": 1,
+    "canonical_conflicts": 0,
+    "recovery_snapshot_canonical_sha256": "67f1c14d4d199004be19d8ec7075ffff933cfd8a3b5bfce2a73677445756643d",
+    "main_credit": false,
+    "recovery_snapshot_retained_as_separate_file": false,
+    "recovery_snapshot_fields_folded_into_runkey": true
+  },
+  "generation13_incident": {
+    "run_id": 35559431762,
+    "workflow_conclusion": "cancelled",
+    "status": "USER_CANCELLED_AFTER_ROW_RESUME_UNIT_PROVED_TOO_COARSE_ZERO_CREDIT",
+    "parent_jobs_success_observed": 19,
+    "parent_jobs_cancelled_observed": 10,
+    "discovered_parent_window_artifacts": 35,
+    "valid_row_certificates_salvaged": 795,
+    "complete_parent_windows": 4,
+    "root_cause": "78-minute soft wall persisted only whole-row certificates; a >78-minute unfinished row lost all intra-row work and restarted from zero on the next generation.",
+    "repair": "Disarm generation13; replace row-only recovery with exact width-8 c-range certificates inside each unfinished row; preserve legacy completed rows unchanged.",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "retained_local_rows": {
+    "status": "EXACT_COMPLETE_ROWS_ZERO_CREDIT",
+    "source_commit": "f02c821f98b224652dab743d665743a0be7a00c2",
+    "manifest_path": "stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-LOCAL-ROWS-RETAINED.json",
+    "verifier_path": "stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py",
+    "certificate_count": 6,
+    "selected_exact_improvement": "157151676541230906",
+    "research_only_candidate_upper_bound_if_separately_audited": "138495588124109362588",
+    "action_carry_overlap_at_retention": 0,
+    "recompute_forbidden": true,
+    "main_credit": false,
+    "full178_credit": false,
+    "hostile_audit_required_before_promotion": true
+  },
+  "generation14_incident": {
+    "run_id": 35576827846,
+    "workflow_conclusion": "cancelled",
+    "status": "CANCELLED_BY_RETENTION_POLICY_SYNCHRONIZE_ZERO_CREDIT",
+    "cancellation_trigger_commit": "ca2c69e36ece09a1370df7635dff8ab6e0971cee",
+    "cancellation_trigger_reason": "Changing Actions artifact retention from 2/3 days to 7 days synchronized PR #1826 while cancel-in-progress was enabled.",
+    "retained_parent_window_artifacts": 54,
+    "recovery_snapshot_artifacts": 1,
+    "complete_parent_windows": 12,
+    "partial_parent_windows": 42,
+    "missing_parent_windows": 42,
+    "validated_row_certificates": 1871,
+    "validated_c_shard_certificates": 6851,
+    "rejected_row_files": 0,
+    "rejected_c_shard_files": 0,
+    "recovery_snapshot_artifact_id": 10668218004,
+    "recovery_snapshot_canonical_sha256": "748e81f3065a889f949664ce08f332d3386d699e7518f6b6d6532fe63ab03332",
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation15_incident": {
+    "run_id": 35665219375,
+    "workflow_conclusion": "success",
+    "status": "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
+    "discovered_parent_artifacts": 96,
+    "complete_parent_windows": 76,
+    "partial_parent_windows": 20,
+    "missing_parent_windows": 0,
+    "validated_row_certificates": 2885,
+    "expected_row_certificates": 2967,
+    "remaining_row_certificates": 82,
+    "validated_c_shard_certificates": 6015,
+    "rejected_row_files": 0,
+    "rejected_c_shard_files": 0,
+    "recovery_snapshot_artifact_id": 10712310702,
+    "recovery_snapshot_canonical_sha256": "c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2",
+    "parent_inventory_commitment_sha256": "1fc30878b6ab1da98b98894b01352ea4d335f2fd564d1624d622ec4c6ee5aaf6",
+    "validated_carry_commitment_sha256": "60be1777d272fb6d275944191cbb21e99d5af6da4d7246f361dbb69f693f2b62",
+    "aggregate_executed": false,
+    "mathematical_failure": false,
+    "main_credit": false
+  },
+  "generation16_preheavy_repair": {
+    "scope": "COLD_AUTHORIZATION_SOURCE_LOCK_REPAIR",
+    "cold_repair_exact_head": "0dbeb0e32ecb4489b1ea1316a0577dae80e258fb",
+    "cold_full178_run_id": 35780626089,
+    "cold_full178_conclusion": "success",
+    "cold_main_startup_run_id": 35780626146,
+    "cold_main_startup_conclusion": "success",
+    "generation15_run_id": 35665219375,
+    "generation15_workflow_conclusion": "success",
+    "generation15_recovery_snapshot_artifact_id": 10712310702,
+    "generation15_recovery_snapshot_canonical_sha256": "c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2",
+    "generation15_parent_inventory_commitment_sha256": "1fc30878b6ab1da98b98894b01352ea4d335f2fd564d1624d622ec4c6ee5aaf6",
+    "generation15_validated_carry_commitment_sha256": "60be1777d272fb6d275944191cbb21e99d5af6da4d7246f361dbb69f693f2b62",
+    "generation15_complete_parent_windows": 76,
+    "generation15_partial_parent_windows": 20,
+    "generation15_missing_parent_windows": 0,
+    "generation15_validated_row_certificates": 2885,
+    "generation15_expected_row_certificates": 2967,
+    "generation15_remaining_row_certificates": 82,
+    "generation15_validated_c_shard_certificates": 6015,
+    "generation15_rejected_row_files": 0,
+    "generation15_rejected_c_shard_files": 0,
+    "new_workflow_blob_sha1": "44bd3708796fd556c8c8ac56f2ccbacce552183f",
+    "mathematical_worker_changed": false,
+    "heavy_arm_authorized": false,
+    "main_credit": false,
+    "note": "The cold-only repair passed exact-head FULL178 cold/authorize and MAIN startup. Generation-16 is now a separate runkey-only execution arm using generation-15 as first-precedence carry."
+  },
+  "generation16_incident": {
+    "run_id": 35780980259,
+    "workflow_conclusion": "success",
+    "status": "CHECKPOINTED_INCOMPLETE_ZERO_CREDIT",
+    "discovered_parent_artifacts": 96,
+    "complete_parent_windows": 91,
+    "partial_parent_windows": 5,
+    "validated_row_certificates": 2962,
+    "expected_row_certificates": 2967,
+    "validated_c_shard_certificates": 887,
+    "rejected_row_files": 0,
+    "rejected_c_shard_files": 0,
+    "recovery_snapshot_artifact_id": 10730649571,
+    "recovery_snapshot_canonical_sha256": "a79253b5cae375650dd64ec301f81363df8d4d33219418ab927b8f48a81e2351",
+    "residual_parent_windows": [
+      [
+        3,
+        0,
+        2
+      ],
+      [
+        3,
+        2,
+        2
+      ],
+      [
+        4,
+        1,
+        2
+      ],
+      [
+        4,
+        2,
+        2
+      ],
+      [
+        4,
+        3,
+        2
+      ]
+    ],
+    "residual_rows": [
+      177
+    ],
+    "residual_row_certificate_count": 5,
+    "mathematical_failure": false,
+    "main_credit": false,
+    "finer_partition_required": false,
+    "finer_partition_reason": "Observed completed row177 width-8 c-shards were approximately 103-702 seconds each; the 330-minute parent wall was consumed by earlier rows, which are now complete and carried."
+  }
+}

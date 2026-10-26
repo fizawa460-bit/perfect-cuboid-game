@@ -30,20 +30,22 @@ REQUIRED_SUPPORT_IDS = {
     "S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1",
     "S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1",
     "S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1",
+    "S32.FULL178.NUMERICAL_CENSUS.V1",
+    "S32.GOAL.STAGE32_CLOSURE.V1",
     "S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3",
 }
 REQUIRED_ACTIVE_IDS = {
     "S32.O210.EXCLUSION.V3",
     "S32.Q602.SURVIVORS_73_97_235.V1",
     "S32.Q602.EXCLUSION.V3",
-    "S32.FULL178.NUMERICAL_CENSUS.V1",
-    "S32.GOAL.STAGE32_CLOSURE.V1",
+    "S32.FULL178.NUMERICAL_CENSUS.V2",
+    "S32.GOAL.STAGE32_CLOSURE.V2",
 }
 # Mathematical active-frontier lane_links remain the historical MAIN/EX contract.
-# 178/CUT/MB are routing-only specialists enrolled in LANE-ADAPTERS V2; they do
+# 178/CUT/MB/BRIDGE are routing-only specialists enrolled in LANE-ADAPTERS V2; they do
 # not become claim-DAG lane_links merely because they are operationally routed.
 CLAIM_LANES = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
-ROUTING_LANES = CLAIM_LANES | {"32-01-178", "CUT", "MB"}
+ROUTING_LANES = CLAIM_LANES | {"32-01-178", "CUT", "MB", "BRIDGE"}
 ALLOWED_LANE_ROLES = {"OWNER", "ATTACKS", "CONSUMES"}
 ALLOWED_FRONTIER_STATUS = {
     "AUDITED_TRUE", "OPEN_GOAL", "OPEN_BRANCH", "BLOCKED_OPEN_GOAL", "ACTIVE_INCOMPLETE"
@@ -54,9 +56,10 @@ INACTIVE_LANE_STATUSES = {
     "EX6": "STOPPED_PENDING_NEW_ENDPOINT_INPUT",
 }
 SPECIALIST_FRONTIER_REFS = {
-    "32-01-178": {"S32.FULL178.NUMERICAL_CENSUS.V1"},
-    "CUT": {"S32.FULL178.NUMERICAL_CENSUS.V1"},
-    "MB": {"S32.GOAL.STAGE32_CLOSURE.V1"},
+    "32-01-178": set(),
+    "CUT": set(),
+    "MB": {"S32.GOAL.STAGE32_CLOSURE.V2"},
+    "BRIDGE": set(),
 }
 
 
@@ -83,6 +86,8 @@ def validate_sync(adapters: dict) -> None:
         raise RuntimeError("audit transition policy drift")
     if contract.get("ordinary_startup_preloads_claim_dag") is not False:
         raise RuntimeError("ordinary startup must not preload claim DAG")
+    if contract.get("ordinary_startup_reads_cross_lane_demands") is not False:
+        raise RuntimeError("ordinary startup must not preload cross-lane demands")
     if contract.get("scratch_only_sync_required") is not False:
         raise RuntimeError("scratch-only work must not require sync")
     if contract.get("cross_lane_demand_registry") != "stages/stage32/proof/CROSS-LANE-DEMANDS.json":
@@ -228,9 +233,9 @@ def main() -> int:
                 raise RuntimeError(f"{lane}: specialist routing refs drift")
             if any(ref not in active_ids for ref in refs):
                 raise RuntimeError(f"{lane}: specialist routing ref not in active frontier")
-        if lane_items["CUT"].get("demand_role") != "CONSUMER":
+        if lane_items["CUT"].get("demand_role") != "ROUTABLE_IF_REOPENED":
             raise RuntimeError("CUT demand role drift")
-        if lane_items["EX5"].get("demand_role") != "PRODUCER":
+        if lane_items["EX5"].get("demand_role") != "ROUTABLE_ON_MAIN_DISPATCH":
             raise RuntimeError("EX5 demand role drift")
         if lane_items["MAIN"].get("demand_role") != "GLOBAL_MONITOR":
             raise RuntimeError("MAIN demand role drift")

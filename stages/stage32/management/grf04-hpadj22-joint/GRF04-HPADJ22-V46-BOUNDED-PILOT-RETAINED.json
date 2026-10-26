@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE32_MAIN_V46_GRF04_HPADJ22_BOUNDED_PILOT_RETAINED_V1",
+  "stage": 32,
+  "surface": "MAIN",
+  "status": "RETAINED_STRICT_BOUNDED_EXACT_INTERSECTION_ZERO_CREDIT",
+  "purpose": "Retain the exact d<=16 GRF04 integer-projection x HPADJ22 intersection pilot and its execution provenance as evidence for a later separately authorized FULL178 scaleout.",
+  "execution": {
+    "workflow_run_id": 35425975367,
+    "execution_head": "b11cb8e8d14714fb9c39a60ddb230fd512602190",
+    "artifact_id": 10579009806,
+    "artifact_name": "stage32-main-v46-grf04-hpadj22-bounded-pilot",
+    "artifact_zip_sha256": "6ee7965663c95e2d21d34427ea88356fa991e13aba02588f1483407b7bd3377a",
+    "artifact_file_sha256": "477dee164313ef21f774eaf4f913d4a0b5c33e8a8c90a7c5e57823db4c786dfb",
+    "artifact_canonical_sha256": "0409a76fd6f725ca47d7370785ed6bc8e6c464c4c49ad9f97190cf05d580a54f",
+    "script_blob_sha1": "71742d4272b0a7356bdb2ac6a63a9da534bb26b2",
+    "runkey_path": "stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json"
+  },
+  "source_locks": {
+    "hpadj22_source_head": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2",
+    "direct_count_blob_sha1": "e965ab0a6ea51938006882ca2110016f48b3768e",
+    "integer_projection_verifier_blob_sha1": "6b85abcd693586191eb83a7f275b8dd5d9c69b18",
+    "old_hpadj22_worker_blob_sha1": "2c998a190baaf5f29b33a91fd9efedbb036cef46"
+  },
+  "scope": {
+    "max_d": 16,
+    "row_count": 10,
+    "full178_rows": 178,
+    "b_domain": "band0 covers all b in the bounded scope"
+  },
+  "result": {
+    "hpadj22_bounded_exact_survivors": 345693595,
+    "joint_bounded_exact_survivors": 310971189,
+    "exact_improvement": 34722406,
+    "strict_row_count": 10,
+    "strict_all_rows": true,
+    "bounded_relative_reduction": 0.10044272298420802
+  },
+  "exactness": {
+    "hpadj22_exact_count_rebuilt_and_matched": true,
+    "grf04_integer_t_interval_exact": true,
+    "exact_x4_point_intersection": true,
+    "min_of_counts_used": false,
+    "raw_terminal_identity_materialized": false,
+    "same_population_direct_refinement": true,
+    "additive_subtraction": false
+  },
+  "next_gate": {
+    "full178_scaleout_authorized": false,
+    "requirement": "First retain and verify an execution-cost reduction showing the GRF04 x4 interval is e-independent over the entire FULL178 admissible domain, then benchmark a representative high-d row/band before arming FULL178 scaleout."
+  },
+  "firewalls": {
+    "main_pruning_credit": false,
+    "full178_complete": false,
+    "effectivity_credit": false,
+    "receiver_credit": false,
+    "route_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "stage32_closed": false,
+    "perfect_cuboid_credit": false,
+    "merge_authorized": false
+  },
+  "canonical_sha256_without_this_field": "713cb7725bf9ddf0fb38f7efba5c8e2ac6f5a25757b3e9f7ac4347e3827c4db9"
+}

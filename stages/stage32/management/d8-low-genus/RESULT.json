@@ -1,0 +1,74 @@
+{
+  "leaf": "stage32-d8-low-genus",
+  "research_cycles": "32R-20..23",
+  "date": "2026-10-18",
+  "claim": "Every integral curve on the resolved cuboid surface with K.C = 8 has geometric genus >= 2.",
+  "status": "proof + exact computation; audits: 817845ce FAIL, 05bb278b FAIL x2 (repaired), 92d9d639 Claude-with-execution PASS / DeepSeek FAIL (items addressed in CONTRACT §10); re-audit pending",
+  "main_authority_change": false,
+  "credit_flags_changed": false,
+  "numerical_classes": {
+    "total": 1830,
+    "e12": {
+      "C2=-8": 64,
+      "C2=-4": 32
+    },
+    "e8": {
+      "C2=-8": 1536,
+      "C2=-4": 192,
+      "C2=0": 6
+    }
+  },
+  "exact_algebra": {
+    "swap": {
+      "dim_L": 7,
+      "minimal_primes": 3,
+      "irreducible_members": "F* = (x-y)^4+(x^4-1)(y^4-1), genus 3"
+    },
+    "id": {
+      "dim_L": 10,
+      "minimal_primes": 17,
+      "irreducible_members": "none"
+    }
+  },
+  "files_sha256": {
+    "CONTRACT.md": "3784eb9001eb5cbd4d0bbb38cfed2faf53e0232fccdf0caf6842a0eade515898",
+    "enumeration/certified_driver.py": "3b17094b234612fd300fe1c8226a8b60b550e9d693638a862aae1d85d3278d31",
+    "enumeration/certified_enum.c": "9e59ff703bfd5077559f5371da50ee46bbd1b9a692df809255f5043b7bd20421",
+    "enumeration/certified_results.jsonl": "f29cbe81049aa5745e2e2f401141cb8335a95fedc9f5edf827e31c2bd7b47057",
+    "enumeration/PROVENANCE.json": "09f84d4825c9cc67694b19e8e455401549911becbe6d1b2fad03beffe3e205f0",
+    "enumeration/reproduce_binary.sh": "6505dbf958280ab82409696430969ceead13c55a1b48867bd69b124b23807777",
+    "enumeration/run_certified.py": "5aff1d919dbdf661a2c03500b6f5ca76e3b241132fb874a3263a99ea30a0094a",
+    "singular/fstar.log": "d234d3e437bff2c3c435af424e615b4f98b0fb411964377aefae119a12dfed82",
+    "singular/fstar.sing": "a6cf5f1e6aee91c9db794bc839e7cc995162a6777462a60abf3e3c27b1de8864",
+    "singular/make_tangency_ideals.py": "2e270894cb5e82aa3b2c4c7dc4e074d7d4898f94a4ab839e930874768160ea6d",
+    "singular/primes_id.log": "b07b60e8a7225c663a67a42f21107136c592f1b94b971d8994330b5dee67946e",
+    "singular/primes_id.sing": "7d8f9542486032d5d652a3b5090fdc6844de6ab08fbf6c29b27fb040869a0b6d",
+    "singular/primes_id.txt": "e8dda4331b3ee8a1eec2f50fad76a25c6919cc676c32266d976ea7e060c126b7",
+    "singular/primes_swap.log": "f922ad557cd0895f70afc12693bdb6adc25c71ba09bb0bcd74c8cc8a7a6c6661",
+    "singular/primes_swap.sing": "c851acae3a217ba059c3f4a7feda63cdaaa41971c6ec7bd8c377c0072ebc45ef",
+    "singular/primes_swap.txt": "8a38fb02f7eabc76838e4306c82f613e624ac814e8548756d392292745f132b3",
+    "singular/run_all.sh": "bfd9650821bc691ed687424f12549d514b71275c0001ee7a6997b8db9b19437f",
+    "singular/tangency_id.sing": "b1844cdb59dc94b98063de8b72a1b870953464b61e96a1b744c19f9212194c57",
+    "singular/tangency_swap.sing": "8174bc1dbf69b26a517c6b9def86cece7110d4c1b87ffab9a18176ad5a179509",
+    "verify_d8_low_genus.py": "ff1203de49bd9c5cf1d4b7c856f40adaf7910e940092b030845fb23484ab8bea"
+  },
+  "enumeration": {
+    "method": "certified Fincke-Pohst: exact rational data (python-flint), outward-rounded interval pruning in C, exact leaf check",
+    "jobs": 1428,
+    "slices": 119,
+    "status_counts": {
+      "BOUND": 27,
+      "COMPLETE": 236,
+      "EMPTY": 61,
+      "CONGRUENCE_EMPTY": 1104
+    },
+    "classes": 1830,
+    "identical_to_previous_float_enumeration": true,
+    "guards": "abort on non-finite values, ranges outside [-2^52,2^52], counter/alloc/write failure; none triggered",
+    "max_abs_z": 23,
+    "max_abs_centre_bound": 21.2,
+    "producer_id": "e61145edcaee2197637db0896c5cf128f2b1b60f6c50afda846270c2c4887b4e",
+    "binary_sha256": "faf0fbec840869e400d9a6129f86e6831131273dd1a4960c45b0d45011434d4b",
+    "max_nodes_per_job": 24800000000
+  }
+}

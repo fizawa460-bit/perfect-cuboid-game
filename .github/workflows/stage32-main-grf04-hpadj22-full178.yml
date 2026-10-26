@@ -1,0 +1,452 @@
+name: Stage32 MAIN GRF04 x HPADJ22 FULL178
+
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-main-grf04-hpadj22-full178-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cold_verify:
+    name: FULL178 cold c-shard resume verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Verify retained row65 legacy carry
+        run: python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py
+      - name: Verify retained local FULL178 row carries
+        run: python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py
+      - name: Verify c-shard partition, salvage snapshot, and exact union equivalence
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py \
+            --source-root .stage32-ex5-hpadj22-full178
+
+  authorize:
+    name: FULL178 authorize
+    needs: cold_verify
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+      primary_run_id: ${{ steps.gate.outputs.primary_run_id }}
+      secondary_run_id: ${{ steps.gate.outputs.secondary_run_id }}
+      tertiary_run_id: ${{ steps.gate.outputs.tertiary_run_id }}
+      special_run_id: ${{ steps.gate.outputs.special_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          echo "primary_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "secondary_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "tertiary_run_id=0" >> "$GITHUB_OUTPUT"
+          echo "special_run_id=0" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          git show "$before:$key" > "$RUNNER_TEMP/old-runkey.json" || true
+          python - "$RUNNER_TEMP/old-runkey.json" "$key" <<'PY'
+          import json,sys,pathlib
+          oldp=pathlib.Path(sys.argv[1]);p=json.load(open(sys.argv[2]));old=json.load(open(oldp)) if oldp.exists() and oldp.stat().st_size else None
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_RUNKEY_V3_CSHARD_RESUME"
+          assert old is not None and old.get("schema")==p["schema"]
+          gen=int(p["generation"]); oldgen=int(old["generation"])
+          assert gen in (15,16,17)
+          s=p["source_locks"]
+          assert s["row_compute_worker_blob_sha1"]=="611300610f8300f919c60ff1b0a234fd90d30ec3"
+          assert s["window_wrapper_blob_sha1"]=="8592f978538fd4bc8e7091d248a52084382d8962"
+          assert s["window_aggregator_blob_sha1"]=="f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          assert s["cshard_resume_verifier_blob_sha1"]=="7664b33b45832baf651b2e9deb3a585a72fabd1b"
+          assert s["recovery_snapshot_builder_blob_sha1"]=="75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e"
+          assert s["retained_local_rows_manifest_blob_sha1"]=="df54d3a73fec673c926f23bc251756df299a2102"
+          assert s["retained_local_rows_verifier_blob_sha1"]=="8ca6c545e53ee27b979b544b8d28623f58a4577f"
+          assert len(s["workflow_blob_sha1"])==40
+          assert s["highd_helper_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          assert s["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["partition"]["c_shard_width"]==8
+          assert p["partition"]["parents"]==96 and p["partition"]["row_windows"]==[[0,59],[60,119],[120,177]]
+          assert p["resume_contract"]["durable_unit"]=="ROW_CSHARD_CERTIFICATE_OR_VALID_LEGACY_COMPLETE_ROW"
+          assert p["resume_contract"]["legacy_complete_rows_recomputed"] is False
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==14 <= p["resource_preflight"]["repo_stage_heavy_cap"]
+          assert p["resource_preflight"]["artifact_count_upper_bound"]==98 < 100
+          assert p["resource_preflight"]["projected_peak_artifact_mb_upper_bound"]<=430
+          assert p["credit"]["main"] is False and p["credit"]["full178"] is False
+          assert p["credit"]["theorem"] is False and p["credit"]["effectivity"] is False
+          assert p["credit"]["receiver"] is False and p["credit"]["route"] is False and p["credit"]["endpoint"] is False and p["credit"]["merge"] is False
+          carry=p["carry"]
+          assert carry["special_predecessor_run_id"]==35501853750
+          if gen==15:
+              assert carry["primary_predecessor_run_id"]==35576827846
+              assert carry["secondary_predecessor_run_id"]==35559431762
+              assert carry["tertiary_predecessor_run_id"]==35531197992
+              assert oldgen==15
+              repair=p.get("generation16_preheavy_repair")
+              assert repair is not None
+              assert repair["scope"]=="COLD_AUTHORIZATION_SOURCE_LOCK_REPAIR"
+              assert repair["generation15_run_id"]==35665219375
+              assert repair["generation15_complete_parent_windows"]==76
+              assert repair["generation15_partial_parent_windows"]==20
+              assert repair["generation15_validated_row_certificates"]==2885
+              assert repair["generation15_expected_row_certificates"]==2967
+              assert repair["generation15_validated_c_shard_certificates"]==6015
+              assert repair["generation15_rejected_row_files"]==0
+              assert repair["generation15_rejected_c_shard_files"]==0
+              assert repair["heavy_arm_authorized"] is False
+              assert repair["mathematical_worker_changed"] is False
+          elif gen==16:
+              assert oldgen==15
+              assert p["armed"] is True
+              assert carry["primary_predecessor_run_id"]==35665219375
+              assert carry["expected_primary_parent_artifacts"]==96
+              assert carry["secondary_predecessor_run_id"]==35576827846
+              assert carry["tertiary_predecessor_run_id"]==35531197992
+              incident=p.get("generation15_incident")
+              assert incident is not None
+              assert incident["run_id"]==35665219375
+              assert incident["workflow_conclusion"]=="success"
+              assert incident["status"]=="CHECKPOINTED_INCOMPLETE_ZERO_CREDIT"
+              assert incident["discovered_parent_artifacts"]==96
+              assert incident["complete_parent_windows"]==76
+              assert incident["partial_parent_windows"]==20
+              assert incident["validated_row_certificates"]==2885
+              assert incident["expected_row_certificates"]==2967
+              assert incident["validated_c_shard_certificates"]==6015
+              assert incident["rejected_row_files"]==0
+              assert incident["rejected_c_shard_files"]==0
+              assert incident["recovery_snapshot_artifact_id"]==10712310702
+              assert incident["recovery_snapshot_canonical_sha256"]=="c320a9d43a57b3347545138b114d13b0f51b648eedfcba4ceebfc30386eac2e2"
+              assert incident["mathematical_failure"] is False and incident["main_credit"] is False
+          else:
+              assert gen==17 and oldgen==16
+              assert p["armed"] is True
+              assert carry["primary_predecessor_run_id"]==35780980259
+              assert carry["expected_primary_parent_artifacts"]==96
+              assert carry["secondary_predecessor_run_id"]==35665219375
+              assert carry["tertiary_predecessor_run_id"]==35576827846
+              incident=p.get("generation16_incident")
+              assert incident is not None
+              assert incident["run_id"]==35780980259
+              assert incident["workflow_conclusion"]=="success"
+              assert incident["status"]=="CHECKPOINTED_INCOMPLETE_ZERO_CREDIT"
+              assert incident["discovered_parent_artifacts"]==96
+              assert incident["complete_parent_windows"]==91
+              assert incident["partial_parent_windows"]==5
+              assert incident["validated_row_certificates"]==2962
+              assert incident["expected_row_certificates"]==2967
+              assert incident["validated_c_shard_certificates"]==887
+              assert incident["rejected_row_files"]==0
+              assert incident["rejected_c_shard_files"]==0
+              assert incident["recovery_snapshot_artifact_id"]==10730649571
+              assert incident["recovery_snapshot_canonical_sha256"]=="a79253b5cae375650dd64ec301f81363df8d4d33219418ab927b8f48a81e2351"
+              assert incident["mathematical_failure"] is False and incident["main_credit"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py)" = "c9fbf71242581f096718ebf0dbc9ac88878c91f1"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py)" = "611300610f8300f919c60ff1b0a234fd90d30ec3"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py)" = "8592f978538fd4bc8e7091d248a52084382d8962"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py)" = "f52ec28e397f2e6d9e10aa4a8b9b4c8263eb063e"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py)" = "7664b33b45832baf651b2e9deb3a585a72fabd1b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py)" = "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-LOCAL-ROWS-RETAINED.json)" = "df54d3a73fec673c926f23bc251756df299a2102"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py)" = "8ca6c545e53ee27b979b544b8d28623f58a4577f"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W1-ROW089.json)" = "97835fc992926193a0f7e6605d9d343211cb0ea8"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W2-ROW177.json)" = "3e083d0177a7acf35c8cd5d8db9265d3c7763bca"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW175.json)" = "bcebae2f1717406451ed185dc4b73d55ae2a3a8b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW177.json)" = "83526f8c64e970745108304dce33bb4974324cbc"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C2-W2-ROW177.json)" = "152dba550dab657b4ed08878c7cc301bac51e8db"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C3-W2-ROW177.json)" = "0d1c4dd626c9180670384553946cd03fc9759bf0"
+          expected_workflow="$(python -c 'import json;print(json.load(open("'"$key"'"))["source_locks"]["workflow_blob_sha1"])')"
+          test "$(git hash-object .github/workflows/stage32-main-grf04-hpadj22-full178.yml)" = "$expected_workflow"
+          cold_repair="$(python -c 'import json;p=json.load(open("'"$key"'"));print("true" if int(p["generation"])==15 and p.get("generation16_preheavy_repair",{}).get("heavy_arm_authorized") is False else "false")')"
+          if [ "$cold_repair" = "true" ]; then
+            echo "Generation-16 preheavy repair is cold-only; no parent matrix authorized."
+            exit 0
+          fi
+          armed="$(python -c 'import json;print("true" if json.load(open("'"$key"'"))["armed"] else "false")')"
+          if [ "$armed" != "true" ]; then
+            echo "FULL178 runkey is intentionally disarmed; cold verification only."
+            exit 0
+          fi
+          primary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["primary_predecessor_run_id"])')"
+          secondary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["secondary_predecessor_run_id"])')"
+          tertiary="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["tertiary_predecessor_run_id"])')"
+          special="$(python -c 'import json;print(json.load(open("'"$key"'"))["carry"]["special_predecessor_run_id"])')"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+          echo "primary_run_id=$primary" >> "$GITHUB_OUTPUT"
+          echo "secondary_run_id=$secondary" >> "$GITHUB_OUTPUT"
+          echo "tertiary_run_id=$tertiary" >> "$GITHUB_OUTPUT"
+          echo "special_run_id=$special" >> "$GITHUB_OUTPUT"
+
+  parents:
+    name: FULL178 checkpoint b${{ matrix.band }} c${{ matrix.chunk }} w${{ matrix.window }}
+    needs: [cold_verify, authorize]
+    if: needs.cold_verify.result == 'success' && needs.authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 14
+      matrix:
+        band: [0,1,2,3,4,5,6,7]
+        chunk: [0,1,2,3]
+        window: [0,1,2]
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - id: primary_carry
+        name: Fetch primary predecessor carry artifact
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.primary_run_id }}
+          github-token: ${{ github.token }}
+      - id: secondary_carry
+        name: Fetch secondary fallback carry artifact
+        if: steps.primary_carry.outcome != 'success'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.secondary_run_id }}
+          github-token: ${{ github.token }}
+      - id: tertiary_carry
+        name: Fetch tertiary fallback carry artifact
+        if: steps.primary_carry.outcome != 'success' && steps.secondary_carry.outcome != 'success'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.tertiary_run_id }}
+          github-token: ${{ github.token }}
+      - name: Fetch b4-c0-w1 generation-10 predecessor
+        if: matrix.band == 4 && matrix.chunk == 0 && matrix.window == 1 && steps.primary_carry.outcome != 'success' && steps.secondary_carry.outcome != 'success' && steps.tertiary_carry.outcome != 'success'
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-4-0-1
+          path: carry-parent
+          run-id: ${{ needs.authorize.outputs.special_run_id }}
+          github-token: ${{ github.token }}
+      - name: Inject exact retained local row65
+        if: matrix.band == 4 && matrix.chunk == 0 && matrix.window == 1
+        shell: bash
+        run: |
+          set -euo pipefail
+          seed="stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json"
+          mkdir -p carry-parent
+          if [ -f carry-parent/row-065.json ]; then
+            cmp -s carry-parent/row-065.json "$seed" || { echo "FAIL: conflicting carried row65"; exit 1; }
+          else
+            cp "$seed" carry-parent/row-065.json
+          fi
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py
+      - name: Inject retained local exact rows
+        if: matrix.band == 6
+        shell: bash
+        run: |
+          set -euo pipefail
+          seeds=()
+          case "${{ matrix.chunk }}-${{ matrix.window }}" in
+            0-1) seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W1-ROW089.json:089") ;;
+            0-2) seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W2-ROW177.json:177") ;;
+            1-2)
+              seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW175.json:175")
+              seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW177.json:177")
+              ;;
+            2-2) seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C2-W2-ROW177.json:177") ;;
+            3-2) seeds+=("stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C3-W2-ROW177.json:177") ;;
+            *) exit 0 ;;
+          esac
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py
+          mkdir -p carry-parent
+          for item in "${seeds[@]}"; do
+            seed="${item%:*}"
+            row="${item##*:}"
+            dest="carry-parent/row-${row}.json"
+            if [ -f "$dest" ] && ! cmp -s "$dest" "$seed"; then
+              python - "$dest" "$seed" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1]));b=json.load(open(sys.argv[2]))
+          ta=a.get("target",{});tb=b.get("target",{})
+          for k in ("band_position","chunk_position","b_chunk","row_index","row_id","g","d"):
+              assert ta.get(k)==tb.get(k),f"conflicting retained-row identity: {k}"
+          ra=a.get("result",{});rb=b.get("result",{})
+          for k in ("hpadj22_exact_survivors","joint_exact_survivors","exact_improvement"):
+              assert int(ra.get(k,-1))==int(rb.get(k,-2)),f"conflicting retained-row exact result: {k}"
+          PY
+            fi
+            cp "$seed" "$dest"
+          done
+      - id: compute
+        name: Run resumable exact row-window with c-shard checkpoints
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/full178-parent"
+          carry=()
+          if [ -d carry-parent ]; then carry=(--carry-root carry-parent); fi
+          set +e
+          timeout --signal=TERM --kill-after=60s 330m \
+            python stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py \
+              --source-root .stage32-ex5-hpadj22-full178 \
+              --band-position ${{ matrix.band }} \
+              --chunk-position ${{ matrix.chunk }} \
+              --row-window-position ${{ matrix.window }} \
+              --output-dir "$RUNNER_TEMP/full178-parent" \
+              --expected-wrapper-blob 8592f978538fd4bc8e7091d248a52084382d8962 \
+              "${carry[@]}"
+          code=$?
+          set -e
+          if [ "$code" -eq 0 ]; then
+            echo "checkpoint_status=COMPLETE" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          if [ "$code" -eq 124 ] || [ "$code" -eq 143 ] || [ "$code" -eq 130 ]; then
+            echo "checkpoint_status=PARTIAL_CSHARD_CHECKPOINT" >> "$GITHUB_OUTPUT"
+            echo "checkpoint stop: completed row/c-shard certificates will be uploaded as valid zero-credit carry"
+            exit 0
+          fi
+          echo "unexpected compute failure code=$code"
+          exit "$code"
+      - name: Upload parent-window checkpoint
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-window-${{ matrix.band }}-${{ matrix.chunk }}-${{ matrix.window }}
+          path: ${{ runner.temp }}/full178-parent
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 9
+
+  summarize:
+    name: FULL178 generation recovery summary
+    needs: [authorize, parents]
+    if: always() && needs.authorize.result == 'success' && needs.authorize.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      complete: ${{ steps.scan.outputs.complete }}
+      complete_parents: ${{ steps.scan.outputs.complete_parents }}
+      row_certificates: ${{ steps.scan.outputs.row_certificates }}
+      c_shard_certificates: ${{ steps.scan.outputs.c_shard_certificates }}
+      missing_parents: ${{ steps.scan.outputs.missing_parents }}
+      rejected_parents: ${{ steps.scan.outputs.rejected_parents }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-full178
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Fetch all available parent-window checkpoints
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-v46-grf04-hpadj22-full178-window-*
+          path: full178-parents
+      - id: scan
+        name: Build validated recovery inventory even with missing artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p full178-parents
+          python stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py \
+            --parents-root full178-parents \
+            --source-root .stage32-ex5-hpadj22-full178 \
+            --output RECOVERY-SNAPSHOT.json \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Upload recovery inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-recovery-snapshot
+          path: RECOVERY-SNAPSHOT.json
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 9
+
+  aggregate:
+    name: FULL178 exact aggregate
+    needs: summarize
+    if: needs.summarize.outputs.complete == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-v46-grf04-hpadj22-full178-window-*
+          path: full178-parents
+      - name: Aggregate exact 96-window union
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py \
+            --parents-root full178-parents \
+            --output "$RUNNER_TEMP/grf04-hpadj22-full178.json"
+      - name: Validate aggregate firewalls
+        run: |
+          python - "$RUNNER_TEMP/grf04-hpadj22-full178.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]));stored=p.pop("canonical_sha256_without_this_field");calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest();assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_FULL178_AGGREGATE_V3_CSHARD_RESUME"
+          assert p["coverage"]["parents"]==96 and p["coverage"]["row_windows"]==3
+          assert p["coverage"]["gaps"]==0 and p["coverage"]["overlaps"]==0
+          assert p["totals"]["hpadj22_exact_survivors"]=="138652739800650593494"
+          assert int(p["totals"]["joint_exact_survivors"])<=int(p["totals"]["hpadj22_exact_survivors"])
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["hostile_audit_required_before_promotion"] is True
+          assert p["firewalls"]["merge_authorized"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-full178-aggregate
+          path: ${{ runner.temp }}/grf04-hpadj22-full178.json
+          retention-days: 7
+          compression-level: 9

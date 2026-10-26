@@ -1,6 +1,6 @@
 name: Stage32 MAIN startup authority
 # Trigger lifecycle: ACTIVE_AUTO — Stage32 startup/authority/coordination safety gate
-# Current boundary: V45 process-sync of hostile-audited V44 HPADJ22 numerical MAIN authority; zero new pruning.
+# Current boundary: V49 hostile-audited POST-V48 178 384-coordinate same-population bound replacement; effectivity/multibranch remain open.
 on:
   pull_request:
     paths:
@@ -99,6 +99,38 @@ jobs:
           test "$(git -C .stage32-v44-replacement hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
           test "$(git -C .stage32-v44-replacement hash-object stages/stage32/verify_main_startup.py)" = "c8b90c33c31f212e05837421f9ce975b1b605fba"
 
+      - name: Checkout hostile-audited merged V45 boundary
+        uses: actions/checkout@v4
+        with:
+          ref: 659ba93b9eba657b49a728f549c6bb6028398e08
+          path: .stage32-v45-merged
+          fetch-depth: 1
+
+      - name: Assert fixed merged V45 boundary
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-v45-merged rev-parse HEAD)" = "659ba93b9eba657b49a728f549c6bb6028398e08"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/MAIN-STATE.json)" = "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/verify_main_startup.py)" = "9460290b475c7d08622fd94c21782133d40ac6cd"
+          test "$(git -C .stage32-v45-merged hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8e55c5026ab7d3ea9b7c390d5d2562562d396c10"
+
+      - name: Checkout BR204 generation1 source
+        uses: actions/checkout@v4
+        with:
+          ref: ee755bbfd46f405ca83e4930b354ee63459ad362
+          path: .stage32-bridge-br204-source
+          fetch-depth: 1
+
+      - name: Assert fixed BR204 generation1 source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-bridge-br204-source rev-parse HEAD)" = "ee755bbfd46f405ca83e4930b354ee63459ad362"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/STATE.json)" = "6f12ff6efff4c435fafe322cdd12d5e8978a8cbb"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/runkeys/br204-full178-heavy.json)" = "95bfe7aca936ff60d840d10761c20a42fc7480b0"
+          test "$(git -C .stage32-bridge-br204-source hash-object stages/stage32/generalization-bridge/BR204-HEAVY-EXECUTION-CONTRACT.json)" = "796e7fc649ba0482eeae4b602d41278b5f1402fb"
+
       - name: Checkout live 178 compressed-Picard source
         uses: actions/checkout@v4
         with:
@@ -113,6 +145,54 @@ jobs:
           test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
           test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_recoverability.py)" = "fbd8dad2194378a6bf77d12cc2c65ac03782f112"
 
+      - name: Checkout hostile-audited 178 V48 support-qBC source
+        uses: actions/checkout@v4
+        with:
+          ref: fb81be66f260879eec79e55be140857b5fc32bbc
+          path: .stage32-178-v48-source
+          fetch-depth: 1
+
+      - name: Assert hostile-audited 178 V48 support-qBC source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-178-v48-source rev-parse HEAD)" = "fb81be66f260879eec79e55be140857b5fc32bbc"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/local-support-qbc/GENERATION4-COMPLETE.json)" = "a917f6a98e8f4db57d0ada5193fe263f52162732"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/run_v47_support_qbc_intersection_unit.py)" = "af3026f5d7608181845e2ee0f9e0ab91feee60d1"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/aggregate_v47_support_qbc_intersection.py)" = "e56a6b1796c067fde61e34f695df410dfa50aa43"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-PREFLIGHT.json)" = "1f3abf84f1ff5f9eb4fb319a06e988a22132c26b"
+          test "$(git -C .stage32-178-v48-source hash-object stages/stage32/32-01-178/fibration-nef/V47-SUPPORT-QBC-INTERSECTION-RUNKEY.json)" = "46cf52224e84ebd58ea5a17390834616ec266778"
+          test "$(git -C .stage32-178-v48-source hash-object .github/workflows/stage32-01-178-v47-support-qbc-intersection.yml)" = "1e7683453193cbd46d605b60afdf4e532d579e1a"
+
+      - name: Checkout hostile-audited 178 post-V48 compact handoff
+        uses: actions/checkout@v4
+        with:
+          ref: 44d274770de1d092022ebbefff80f3cefb914982
+          path: .stage32-178-v49-handoff
+          fetch-depth: 1
+
+      - name: Assert fixed 178 post-V48 compact handoff
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-178-v49-handoff rev-parse HEAD)" = "44d274770de1d092022ebbefff80f3cefb914982"
+          test "$(git -C .stage32-178-v49-handoff hash-object stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-CURRENT-MAIN-TRANSPLANT.json)" = "e643a8a4e3c233817469f3e1c7dc9e60c41bea05"
+          test "$(git -C .stage32-178-v49-handoff hash-object stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_current_main_transplant.py)" = "de43524403d2616980f06af7d30fefb9323e7467"
+
+      - name: Checkout fixed 178 post-V48 producer source
+        uses: actions/checkout@v4
+        with:
+          ref: adcb7eb2eef153a1207294e956bf6115794e564d
+          path: .stage32-178-v49-producer
+          fetch-depth: 1
+
+      - name: Assert fixed 178 post-V48 producer source
+        run: |
+          set -euo pipefail
+          test "$(git -C .stage32-178-v49-producer rev-parse HEAD)" = "adcb7eb2eef153a1207294e956bf6115794e564d"
+          test "$(git -C .stage32-178-v49-producer hash-object stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-MAIN-HANDOFF-PREFLIGHT.json)" = "3667b2395f50b675f6f8286074e20e0212933e2f"
+          test "$(git -C .stage32-178-v49-producer hash-object stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_main_handoff_preflight.py)" = "484dac8d43fc90357e08d033d2e93835fcad4c2e"
+          test "$(git -C .stage32-178-v49-producer hash-object stages/stage32/32-01-178/fibration-nef/V48-FULL-SUPPORT-384-EQUIV-DERIVED-BOUND-RETAINED.json)" = "3acb9551db9fda6be8fde0194b23ddb41ca634d0"
+          test "$(git -C .stage32-178-v49-producer hash-object stages/stage32/32-01-178/fibration-nef/verify_v48_full_support_384_equiv_derived_bound_retained.py)" = "843d348351a05be083f2d0d6e16b08da45e38040"
+
       - name: Resolve research-head and merge-ready freshness separately
         if: github.event_name == 'pull_request'
         run: |
@@ -122,27 +202,83 @@ jobs:
           merge_base="$(git merge-base HEAD "$current_main")"
           echo "current_main=$current_main"
           echo "merge_base=$merge_base"
-          test "$current_main" = "659ba93b9eba657b49a728f549c6bb6028398e08"
           test "$merge_base" = "$current_main"
           git merge-base --is-ancestor "$current_main" HEAD
 
-      - name: Verify V45 retained source identities
+      - name: Verify V49 retained source identities
         run: |
           set -euo pipefail
-          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "a8f873ffdcaca280f7b57158b69606b3ea496d3c"
-          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "9460290b475c7d08622fd94c21782133d40ac6cd"
+          test "$(git hash-object stages/stage32/MAIN-STATE.json)" = "b8688dfd8aad8b0f0ba9a2b932a5ac793d1a62a1"
+          test "$(git hash-object stages/stage32/verify_main_startup.py)" = "adfc49f00635aba1b0d421cb9d828fabfa6ef99a"
           test "$(git hash-object stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py)" = "0af26aa6436019a05f2151125e2374d0527be136"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json)" = "588442bf55ea03858387f78e0566ff1d5ed7699a"
           test "$(git hash-object stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py)" = "60d7fea8876e9143cea7c5dc89a7a2b9a6d99008"
-          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "8e55c5026ab7d3ea9b7c390d5d2562562d396c10"
+          test "$(git hash-object stages/stage32/proof/verify_cross_lane_demands.py)" = "4862851ba00a821533f44a600cc5b78a4680f126"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json)" = "0ebbf672c432cb3cb1b2927bf03d660567eb417c"
+          test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py)" = "265ca91aedcdb1f0701834cd329e45b1e047e91e"
+          test "$(git hash-object stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json)" = "281b94981f2de336575b32776d47fd3ea1efe890"
+          test "$(git hash-object stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py)" = "a287c2b362064495edbd592356076234240b97cd"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json)" = "6b0bceeb562433045449f928343ad5fcd9073af4"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json)" = "3498cd0656f86c1289b65cc4a8c6ab0318d69628"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py)" = "582432a2995d523c247808d39e0ff5ff14611c2a"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py)" = "7007272ae29955717da5e43d967991261e398d6b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py)" = "233f8ff186a4a0e691e5eef55668bfc042b784e4"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json)" = "39bec9d6a323172dcdebfb839d4b4b568f318b5f"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065-LOCAL-PROFILE.json)" = "9a77ce7c018b741bb109974288621c8da864239b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py)" = "fa065dc721a41b1e1227e83868c1e4667b40fb53"
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py)" = "75f38ece92d2aa7b218c3a1dc3150ea3764c4d3e"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-LOCAL-ROWS-RETAINED.json)" = "df54d3a73fec673c926f23bc251756df299a2102"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py)" = "8ca6c545e53ee27b979b544b8d28623f58a4577f"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W1-ROW089.json)" = "97835fc992926193a0f7e6605d9d343211cb0ea8"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C0-W2-ROW177.json)" = "3e083d0177a7acf35c8cd5d8db9265d3c7763bca"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW175.json)" = "bcebae2f1717406451ed185dc4b73d55ae2a3a8b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C1-W2-ROW177.json)" = "83526f8c64e970745108304dce33bb4974324cbc"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C2-W2-ROW177.json)" = "152dba550dab657b4ed08878c7cc301bac51e8db"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/B6-C3-W2-ROW177.json)" = "0d1c4dd626c9180670384553946cd03fc9759bf0"
+          python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json)" = "a8486ff337e030d02ce26d7404907fdbea5d3cc1"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py)" = "d545dbc10ccdbe6342c2bfef18581ea27abdae76"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json)" = "a2be82fe69bf1d2fdefc0a7ba566601246a0bec4"
           test "$(git hash-object stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py)" = "723554d2a3960c39dba1c38cc2e6d05cd2318b12"
           test "$(git hash-object stages/stage32/proof/CROSS-LANE-DEMANDS.json)" = "68a02f31431ad658b42ad695f9553c67fd6cff01"
-          test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "f3a884adc1c82aace81cb73d049ff14720ace862"
-          test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "4c251be4aa5c355481fe3bcfc71c292fb6389ba4"
-          test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "c0ef34e5838e27046a20fed77063593009c56f40"
+          test "$(git hash-object stages/stage32/proof/CLAIM-REGISTRY.json)" = "862e12ddf95e02c5d4907adba76e73e99400cd92"
+          test "$(git hash-object stages/stage32/proof/ACTIVE-FRONTIER.json)" = "2515c3591f9ccf88474b7cfdf6f9c7bf54ec8798"
+          test "$(git hash-object stages/stage32/proof/LANE-ADAPTERS.json)" = "59b180efaca230f4a35ba0cae49f785b7a26cefb"
+          test "$(git hash-object stages/stage32/residual-32-01-production/state.json)" = "4660a1ba3bc7b96237c0723cf48a47da7185fead"
+          test "$(git hash-object stages/stage32/FINAL-CHECK.json)" = "761a775989615a28f57054d1794c273eb2ed0c59"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V47-FULL178-AUTHORITY-SYNC.json)" = "e05c27a247d61cfa58c500c011f4e71ccaefd655"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py)" = "6856b8d6a1e32a1287915d9043c5ccc8fedbb27a"
+          test "$(git hash-object stages/stage32/proof/verify_stage32_active_frontier.py)" = "85ddd310c5e53897bb1324baa30a5b4c67af29b5"
+          test "$(git hash-object stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json)" = "2733e5519629e6365558bc1b4bfbc6305e0b5533"
+          test "$(git hash-object stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py)" = "d719482d9799f8594b4436d0882bd33945583536"
+          test "$(git hash-object stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-V49-MAIN-AUTHORITY-SYNC.json)" = "5fa510fb9878211e04f534ffc9dcdfed765dd4bc"
+          test "$(git hash-object stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py)" = "10deed7fff17094f69b4a604660611d4c1b9ffeb"
+          python stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py \
+            --handoff-root .stage32-178-v49-handoff \
+            --producer-root .stage32-178-v49-producer
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/MAIN-STATE-V49-PRE-V50.json)" = "9eef41db0645300398d8187297f489472fcfbf1c"
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/V50-MAIN-AUTHORITY-SYNC.json)" = "59545e5dcc3ee2f03fc6e3d2c6035e3c907275ec"
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py)" = "901897c6cdb32b710ef0ef45b6886be126d6aefc"
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/RESULT.json)" = "ac2ce430382beb534ca5ac1e2774cdd716ce6c39"
+          test "$(git hash-object stages/stage32/management/unibranch-node-hurwitz/verify_unibranch_node_hurwitz.py)" = "f1ecb31adde8ea855a508efdfb263977cce2e10f"
+          python stages/stage32/management/unibranch-node-hurwitz/verify_v50_main_authority_sync.py
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/MAIN-STATE-V50-PRE-V51.json)" = "14dc10f96d8f63cfc566f4e2228dd68ec5bd5a07"
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/V51-MAIN-AUTHORITY-SYNC.json)" = "e330a3194954eb1a34e48fe332730509e3ff1791"
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/verify_v51_main_authority_sync.py)" = "510aaf35ecbd14cec7fce9456047904e33c531bd"
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/RESULT.json)" = "a9f9886c263a4e4bc23ed202630342e200b189cf"
+          test "$(git hash-object stages/stage32/management/hpadj22-unibranch/verify_hpadj22_unibranch.py)" = "39a91d89a89f4300abeaff1311d811658be9bd43"
+          python stages/stage32/management/hpadj22-unibranch/verify_v51_main_authority_sync.py
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/MAIN-STATE-V51-PRE-V52.json)" = "d13c7e312e1c58ea7c269920aa306d2af5973aa2"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/V52-MAIN-AUTHORITY-SYNC.json)" = "38117791d498242374b62b36cd433bdab5259188"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/verify_v52_main_authority_sync.py)" = "64b62f5bf551d3696ac8e3bb2186e876e5275ea3"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/RESULT.json)" = "581357102d418c36aff1620fdd6016247a27c1c7"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/verify_fixed_direction_certificates.py)" = "3ba957660145cf7e9e8585be73f63d13de332eb7"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/count_fixed_direction_certificates.c)" = "4616b9ba721dd0e085cff25476445281315a0264"
+          test "$(git hash-object stages/stage32/management/fixed-direction-certificates/DIRECTIONS.json)" = "278f3173884c9f7a2470fa231991c8717e418327"
+          python stages/stage32/management/fixed-direction-certificates/verify_v52_main_authority_sync.py
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json)" = "68108dfb110c4ea1d9dc0d74564a431bbbffbbde"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py)" = "8787d03e273513298c5d8ecfbc469f89342817f3"
           test "$(git hash-object stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json)" = "4ae970e17b0d7168f6d2ffd0644195f2ab57ae8d"
@@ -156,6 +292,73 @@ jobs:
         with:
           python-version: '3.11.x'
 
+      - name: Gate V46 GRF04 x HPADJ22 bounded pilot
+        id: grf04_h22_joint_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json"
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if printf '%s\n' "$changed" | grep -Fxq "$target"; then
+            test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py)" = "71742d4272b0a7356bdb2ac6a63a9da534bb26b2"
+            python - "$target" <<'PY'
+          import json,sys
+          p=json.load(open(sys.argv[1]))
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_INTEGER_PILOT_RUNKEY_V1"
+          assert p["generation"]==1 and p["armed"] is True
+          assert p["script_blob_sha1"]=="71742d4272b0a7356bdb2ac6a63a9da534bb26b2"
+          assert p["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["max_d"]==16
+          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          PY
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout exact HPADJ22 source for V46 GRF04 joint pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-v46-joint
+          fetch-depth: 1
+
+      - name: Run V46 GRF04 integer projection x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py \
+            --source-root .stage32-ex5-hpadj22-v46-joint \
+            --output "$RUNNER_TEMP/v46-grf04-hpadj22-bounded.json"
+
+      - name: Validate V46 GRF04 x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/v46-grf04-hpadj22-bounded.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_INTEGER_PROJECTION_X_HPADJ22_BOUNDED_PILOT_V1"
+          assert p["scope"]["max_d"]==16
+          assert p["result"]["joint_bounded_exact_survivors"]<=p["result"]["hpadj22_bounded_exact_survivors"]
+          assert p["construction"]["min_of_counts_used"] is False
+          assert p["construction"]["raw_terminal_identity_materialized"] is False
+          assert p["firewalls"]["main_pruning_credit"] is False
+          assert p["firewalls"]["merge_authorized"] is False
+          print(json.dumps({"result":p["result"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload V46 GRF04 x HPADJ22 bounded pilot
+        if: steps.grf04_h22_joint_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-bounded-pilot
+          path: ${{ runner.temp }}/v46-grf04-hpadj22-bounded.json
+          retention-days: 3
+          compression-level: 9
+
       - name: Replay hostile-audited V42 authority projection
         run: python .stage32-v42/stages/stage32/verify_main_startup.py
 
@@ -168,29 +371,310 @@ jobs:
       - name: Replay hostile-audited V44 HPADJ22 replacement boundary
         run: python .stage32-v44-replacement/stages/stage32/verify_main_startup.py
 
-      - name: Verify V45 HPADJ22 audit sync against audited V44 root
-        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py --v44-root .stage32-v44-replacement
+      - name: Replay hostile-audited merged V45 boundary
+        run: python .stage32-v45-merged/stages/stage32/verify_main_startup.py
 
-      - name: Verify Stage32 MAIN V45 audit-sync startup projection
+      - name: Verify V46 postmerge successor against merged V45 root
+        run: python stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py --v45-root .stage32-v45-merged
+
+      - name: Verify BR204 V46 current-authority consumer preflight
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          state = json.loads(Path("stages/stage32/MAIN-STATE.json").read_text(encoding="utf-8"))
+          schema = state.get("schema")
+          if schema == "STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR":
+              subprocess.run(
+                  [
+                      "python",
+                      "stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py",
+                      "--bridge-root",
+                      ".stage32-bridge-br204-source",
+                  ],
+                  check=True,
+              )
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V47_GRF04_HPADJ22_FULL178_AUDIT_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128645575147764659235:
+                  raise SystemExit("FAIL: unexpected V47 current bound at historical BR204 V46 gate")
+              if frontier.get("v47_main_numeric_bound_replacement_consumed") is not True:
+                  raise SystemExit("FAIL: V47 replacement is not consumed at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V47")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V48_178_SUPPORT_QBC_AUDIT_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128470212118313474449:
+                  raise SystemExit("FAIL: unexpected V48 current bound at historical BR204 V46 gate")
+              if frontier.get("v48_178_support_qbc_main_numeric_bound_replacement_consumed") is not True:
+                  raise SystemExit("FAIL: V48 replacement is not consumed at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V48")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128443221087959579960:
+                  raise SystemExit("FAIL: unexpected V49 current bound at historical BR204 V46 gate")
+              if frontier.get("v49_178_fullsupport_384_main_numeric_bound_replacement_consumed") is not True:
+                  raise SystemExit("FAIL: V49 replacement is not consumed at historical BR204 V46 gate")
+              if frontier.get("v49_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V49 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V49")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 511353002049 or frontier.get("authoritative_remaining_strata") != 530:
+                  raise SystemExit("FAIL: unexpected V50 current bound at historical BR204 V46 gate")
+              if frontier.get("v50_unibranch_node_hurwitz_main_numeric_bound_consumed") is not True:
+                  raise SystemExit("FAIL: V50 bound is not consumed at historical BR204 V46 gate")
+              if frontier.get("v50_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V50 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V50")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 5369214401 or frontier.get("authoritative_remaining_strata") != 530:
+                  raise SystemExit("FAIL: unexpected V51 current bound at historical BR204 V46 gate")
+              if frontier.get("v51_hpadj22_unibranch_main_numeric_bound_consumed") is not True:
+                  raise SystemExit("FAIL: V51 bound is not consumed at historical BR204 V46 gate")
+              if frontier.get("v51_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V51 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V51")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED":
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 726240487 or frontier.get("authoritative_remaining_strata") != 530:
+                  raise SystemExit("FAIL: unexpected V52 current bound at historical BR204 V46 gate")
+              if frontier.get("v52_fixed_direction_certificates_main_numeric_bound_consumed") is not True:
+                  raise SystemExit("FAIL: V52 bound is not consumed at historical BR204 V46 gate")
+              if frontier.get("v52_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V52 additive-subtraction firewall drift at historical BR204 V46 gate")
+              print("PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V52")
+          else:
+              raise SystemExit(f"FAIL: unsupported MAIN schema at BR204 V46 gate: {schema}")
+          PY
+
+      - name: Verify GRF04 x HPADJ22 e-independence preflight
+        run: python stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py
+
+      - name: Verify Stage32 MAIN V46 successor startup projection
         run: python stages/stage32/verify_main_startup.py
 
+      - name: Verify MB104 compact audit repair when present
+        run: |
+          p="stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py"
+          if [ -f "$p" ]; then python "$p" --self-test-fail-closed; fi
       - name: Verify Stage32 cross-lane coordination
         run: python stages/stage32/proof/verify_cross_lane_demands.py
 
-      - name: Verify MB104 compact audit restart when present
-        run: |
-          set -euo pipefail
-          p='stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py'
-          if [ -f "$p" ]; then python "$p"; fi
-
       - name: Verify MAIN compressed BTVA Picard-lift intersection preflight
-        run: python stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py --lane178-root .stage32-178-btva-source
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          import subprocess
+          from pathlib import Path
+
+          state = json.loads(Path("stages/stage32/MAIN-STATE.json").read_text(encoding="utf-8"))
+          schema = state.get("schema")
+          if schema == "STAGE32_MAIN_COMPACT_STATE_V46_POSTMERGE_SUCCESSOR":
+              subprocess.run(
+                  [
+                      "python",
+                      "stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py",
+                      "--lane178-root",
+                      ".stage32-178-btva-source",
+                  ],
+                  check=True,
+              )
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V47_GRF04_HPADJ22_FULL178_AUDIT_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V47")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V47")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128645575147764659235:
+                  raise SystemExit("FAIL: unexpected V47 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V47 FULL178 census not complete at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V47 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V48_178_SUPPORT_QBC_AUDIT_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V48")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V48")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128470212118313474449:
+                  raise SystemExit("FAIL: unexpected V48 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V48 FULL178 census not complete at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V48 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V49_POST_V48_178_FULLSUPPORT_384_AUDIT_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V49")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V49")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 128443221087959579960:
+                  raise SystemExit("FAIL: unexpected V49 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V49 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v49_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V49 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V49 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V50_UNIBRANCH_NODE_HURWITZ_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V50")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V50")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 511353002049:
+                  raise SystemExit("FAIL: unexpected V50 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V50 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v50_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V50 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V50 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V51_HPADJ22_UNIBRANCH_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + bytes([0]) + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V51")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V51")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 5369214401:
+                  raise SystemExit("FAIL: unexpected V51 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V51 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v51_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V51 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V51 authority")
+          elif schema == "STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED":
+              def blob_sha1(path: str) -> str:
+                  raw = Path(path).read_bytes()
+                  return hashlib.sha1(b"blob " + str(len(raw)).encode() + bytes([0]) + raw).hexdigest()
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json") != "68108dfb110c4ea1d9dc0d74564a431bbbffbbde":
+                  raise SystemExit("FAIL: historical BTVA preflight blob drift under V52")
+              if blob_sha1("stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py") != "8787d03e273513298c5d8ecfbc469f89342817f3":
+                  raise SystemExit("FAIL: historical BTVA verifier blob drift under V52")
+              frontier = state["current_exact_frontier"]
+              if frontier.get("authoritative_remaining_terminals") != 726240487:
+                  raise SystemExit("FAIL: unexpected V52 authority at historical BTVA gate")
+              if frontier.get("full178_numerical_census_complete") is not True:
+                  raise SystemExit("FAIL: V52 FULL178 census not complete at historical BTVA gate")
+              if frontier.get("v52_additive_subtraction_performed") is not False:
+                  raise SystemExit("FAIL: V52 additive-subtraction firewall drift at historical BTVA gate")
+              print("PASS: historical zero-credit BTVA structural preflight retained under V52 authority")
+          else:
+              raise SystemExit(f"FAIL: unsupported MAIN schema at historical BTVA gate: {schema}")
+          PY
 
       - name: Verify Stage32 final-chain 32-02 retained checks
         run: |
           python stages/stage32/final-chain/32-02-effectivity/verify_surface_invariant_source_lock.py
           python stages/stage32/final-chain/32-02-effectivity/verify_rr_effectivity_sufficient.py
           python stages/stage32/final-chain/32-02-effectivity/verify_rr_norm_quantization.py
+
+      - name: Gate 32-02 EFF-CFRR01 five-key pilot
+        id: eff_cfrr01_gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          runkey="stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PILOT-RUNKEY.json"
+          if [ ! -f "$runkey" ]; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only HEAD^ HEAD)"
+          if ! printf '%s\n' "$changed" | grep -Fxq "$runkey"; then
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python - "$runkey" <<'PY'
+          import json,subprocess,sys
+          p=json.load(open(sys.argv[1]))
+          old=json.loads(subprocess.check_output(["git","show",f"HEAD^:{sys.argv[1]}"],text=True))
+          assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_PILOT_RUNKEY_V1"
+          assert old["schema"]==p["schema"]
+          assert isinstance(old["generation"],int) and p["generation"]==old["generation"]+1 and p["generation"]>=2
+          assert p["mode"]=="PILOT_MEASURE"
+          assert p["armed"] is True and p["execution_authorized"] is True
+          assert (p["row_id"],p["genus"],p["degree"],p["exceptional_mass"])==("g0-d018",0,18,8)
+          assert p["sample_base4_key_count"]==5
+          assert p["solver_timeout_ms"]==15000
+          assert p["planned_effective_heavy_concurrency"]==1
+          assert 0 < p["projected_peak_storage_bytes"] < 500*1024*1024
+          assert p["worker_blob_sha1"]=="c18c06fc9c1be7b972564e69bac730542db2febd"
+          assert p["preflight_verifier_blob_sha1"]=="a50ee1278f644c6f798e1432c47b3d7899bdfc66"
+          assert p["preflight_blob_sha1"]=="abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
+          assert p["lane178_exact_head"]=="e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          assert p["lane178_aggregate_blob_sha1"]=="5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+          assert p["zero_credit"] is True
+          assert p["effectivity_credit"] is False and p["theorem_credit"] is False and p["endpoint_credit"] is False
+          assert p["merge_authorized"] is False
+          PY
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py)" = "c18c06fc9c1be7b972564e69bac730542db2febd"
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py)" = "a50ee1278f644c6f798e1432c47b3d7899bdfc66"
+          test "$(git hash-object stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PREFLIGHT.json)" = "abd993bf3356484a57a7b0824f7c371cb6b6ca2b"
+          test "$(git -C .stage32-178-btva-source rev-parse HEAD)" = "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+          test "$(git -C .stage32-178-btva-source hash-object stages/stage32/32-01-178/fibration-nef/verify_fibration_nef_aggregate_picard_lattice_preflight.py)" = "5fa9f1d67d6411cb550230b62398aff7bd6488ff"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+      - name: Install 32-02 EFF-CFRR01 pilot dependencies
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.4.0'
+
+      - name: Verify 32-02 EFF-CFRR01 preflight
+        run: python stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py
+
+      - name: Run 32-02 EFF-CFRR01 d18/e8 five-key pilot
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: |
+          python stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py \
+            --retained stages/stage33/33-07/picard_base_rows_retained.py \
+            --marking stages/stage33/33-07/stage32_picard_marking_retained.py \
+            --lane178-root .stage32-178-btva-source \
+            --solver-timeout-ms 15000 \
+            --output "$RUNNER_TEMP/eff-cfrr01-d18e8-five-key-pilot.json"
+
+      - name: Validate 32-02 EFF-CFRR01 pilot zero-credit result
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        run: |
+          python - "$RUNNER_TEMP/eff-cfrr01-d18e8-five-key-pilot.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          body=dict(p); stored=body.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(body,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_32_02_EFF_CFRR01_D18E8_BASE4_PILOT_V1"
+          assert p["status"]=="BOUNDED_FIVE_BASE4_PILOT_COMPLETE_ZERO_CREDIT"
+          assert p["target"]["row_id"]=="g0-d018"
+          assert p["target"]["degree"]==18 and p["target"]["exceptional_mass"]==8
+          assert len(p["panel"])==5 and p["summary"]["sample_base4_keys"]==5
+          for k in ("main_pruning_credit","effectivity_credit","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):
+              assert p["firewalls"][k] is False
+          print("EFF_CFRR01_RESULT="+json.dumps({"summary":p["summary"],"canonical":stored},sort_keys=True))
+          PY
+
+      - name: Upload 32-02 EFF-CFRR01 pilot evidence
+        if: steps.eff_cfrr01_gate.outputs.run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-eff-cfrr01-d18e8-five-key-pilot
+          path: ${{ runner.temp }}/eff-cfrr01-d18e8-five-key-pilot.json
+          retention-days: 7
+          compression-level: 9
 
       - name: Verify Stage32 claim DAG and active frontier
         run: |
@@ -1909,7 +2393,7 @@ jobs:
           retention-days: 3
           compression-level: 9
 
-      - name: Enforce V44 successor scope
+      - name: Enforce V49 authority-sync scope
         if: github.event_name == 'pull_request'
         run: |
           set -euo pipefail
@@ -1918,8 +2402,26 @@ jobs:
           while IFS= read -r p; do
             [ -z "$p" ] && continue
             case "$p" in
-              .github/workflows/stage32-main-startup-authority.yml|stages/stage32/final-chain/32-03-multibranch/STATE.json|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json|stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json|stages/stage32/management/hpadj22-direct-full178/run_direct_band.py|stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py|stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
-              *) echo "unexpected V44 successor path: $p"; exit 1 ;;
+              stages/stage32/management/178-fullsupport-successor/POST-V48-178-FULLSUPPORT-384-V49-MAIN-AUTHORITY-SYNC.json|stages/stage32/management/178-fullsupport-successor/verify_post_v48_178_fullsupport_384_v49_main_authority_sync.py|.github/workflows/stage32-main-startup-authority.yml|.github/workflows/stage32-claim-frontier-integrity.yml|stages/stage32/COMMANDS.md|stages/stage32/MAIN-START-HERE.md|stages/stage32/CURRENT.json|stages/stage32/SURFACES.md|stages/stage32/README.md|stages/stage32/integrated-ex/README.md|stages/stage32/retained/historical-32-02/README.md|stages/stage32/internal/README.md|stages/stage32/retained/README.md|stages/stage32/retained/178/README.md|stages/stage32/retained/cut/README.md|stages/stage32/retained/bridge/README.md|stages/stage32/internal/ex5/LIVE.json|stages/stage32/retained/ex1/README.md|stages/stage32/retained/ex2/README.md|stages/stage32/retained/ex3/README.md|stages/stage32/retained/ex4/README.md|stages/stage32/retained/ex6/README.md|stages/stage32/retained/historical-32-03/README.md|stages/stage32-ex6/MAIN-START-HERE.md|stages/stage32-ex6/verify_main_state.py|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX6-PRE-RETAINED-DEMOTION.md|stages/stage32-ex1/MAIN-START-HERE.md|stages/stage32-ex2/MAIN-START-HERE.md|stages/stage32-ex3/MAIN-START-HERE.md|stages/stage32-ex4/MAIN-START-HERE.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX1-PRE-RETAINED-DEMOTION.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX2-PRE-RETAINED-DEMOTION.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX3-PRE-RETAINED-DEMOTION.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-EX4-PRE-RETAINED-DEMOTION.md|stages/stage32/proof/historical-routing-blobs/LANE-ADAPTERS-V49-AUDITED.json|stages/stage32/proof/historical-routing-blobs/README-PRE-LIVE-CONTROL-CLEANUP.md|stages/stage32/final-chain/32-02-effectivity/LIVE.json|stages/stage32/final-chain/32-03-multibranch/LIVE.json|stages/stage32/verify_live_control.py|stages/stage32/ROADMAP.md|stages/stage32/STAGE32-PROOF-PATH.md|stages/stage32/proof/LANE-ADAPTERS.json|stages/stage32/proof/CROSS-LANE-STARTUP-CONTRACT.md|stages/stage32/32-01-178/MAIN-START-HERE.md|stages/stage32/full178-cut/MAIN-START-HERE.md|stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md|stages/stage32/proof/ACTIVE-SPECIALIST-MONITOR-CONTRACT.json|stages/stage32/verify_command_surface.py|stages/stage32/final-chain/32-03-multibranch/fib/MAIN-START-HERE.md|stages/stage32/final-chain/32-03-multibranch/fib/STATE.json|stages/stage32/generalization-bridge/MAIN-START-HERE.md|stages/stage32/generalization-bridge/STATE.json|.github/workflows/stage32-main-grf04-hpadj22-full178.yml|docs/research-os/policies/verify_repo_workflow_trigger_inventory.py|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-HIGHD-G8-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178.py|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_full178_windowed.py|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_cshard.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_hpadj22_full178_parent_window.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-B4-C0-W1-ROW065-LOCAL-PROFILE.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_b4_c0_w1_row065_local.py|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_cshard_resume.py|stages/stage32/management/grf04-hpadj22-joint/build_grf04_hpadj22_full178_recovery_snapshot.py|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-FULL178-LOCAL-ROWS-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_full178_local_rows_retained.py|stages/stage32/management/grf04-hpadj22-joint/retained-local-rows/*|docs/research-os/policies/heavy-checkpoint-and-resume.md|docs/research-os/policies/repo-workflow-trigger-inventory-20260911.json|stages/stage32/MAIN-STATE.json|stages/stage32/verify_main_startup.py|stages/stage32/verify_main_startup_authority_v42_hpadj21_full178_bound_consumed.py|stages/stage32/verify_main_startup_authority_v43_hpadj21_full178_audit_synced.py|stages/stage32/verify_main_startup_authority_v44_btva_static7_normalmass.py|stages/stage32/proof/verify_cross_lane_demands.py|stages/stage32/FINAL-CHECK.json|stages/stage32/residual-32-01-production/state.json|stages/stage32/proof/CLAIM-REGISTRY.json|stages/stage32/proof/ACTIVE-FRONTIER.json|stages/stage32/proof/LANE-ADAPTERS.json|stages/stage32/proof/verify_stage32_active_frontier.py|stages/stage32/proof/verify_stage32_claim_dag.py|stages/stage32/proof/verify_stage32_q602_sync.py|stages/stage32/proof/historical-routing-blobs/931e80ba892ec0d98f3e7b909ac2dd46660c116c.json|stages/stage32/proof/historical-routing-blobs/ROADMAP-EX5-00-SOURCE-LOCK.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-178-PRE-UNIFIED-DISPATCH.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-CUT-PRE-UNIFIED-DISPATCH.md|stages/stage32/proof/historical-routing-blobs/MAIN-START-HERE-MB-PRE-UNIFIED-DISPATCH.md|stages/stage32/proof/historical-routing-blobs/VERIFY-V49-MAIN-AUTHORITY-SYNC-PRE-ROUTING-CLEANUP.py|stages/stage32-ex5/verify_ex5_retained_chain_historical_main_replay.py|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V47-FULL178-AUTHORITY-SYNC.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v47_full178_authority_sync.py|stages/stage32/management/178-support-qbc/V48-178-SUPPORT-QBC-AUTHORITY-SYNC.json|stages/stage32/management/178-support-qbc/verify_v48_178_support_qbc_authority_sync.py|stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PREFLIGHT.json|stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/EFF-CFRR01-PILOT-RUNKEY.json|stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/run_eff_cfrr01_d18e8_base4_pilot.py|stages/stage32/final-chain/32-02-effectivity/compressed-fiber-rr/verify_eff_cfrr01_preflight.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V41-HPADJ20-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v41_hpadj20_full178_audit_sync.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-SUBSET-MAIN-PREFLIGHT.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_subset_main_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_structural_refinement.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_event_compiled_capacity_preflight.py|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_independent_replay.py|stages/stage32/management/grf04-quadratic-capacity/HPADJ21-KNOWN-STRICT-PROMOTION-PACKET.json|stages/stage32/management/grf04-quadratic-capacity/verify_hpadj21_known_strict_promotion_packet.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V42-HPADJ21-FULL178-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v42_hpadj21_full178_main_bound_replacement.py|stages/stage32/management/grf04-quadratic-capacity/GRF04-V43-HPADJ21-FULL178-AUDIT-SYNC.json|stages/stage32/management/grf04-quadratic-capacity/verify_grf04_v43_hpadj21_full178_audit_sync.py|stages/stage32/management/btva-compressed-lift/BTVA-COMPRESSED-PICARD-LIFT-INTERSECTION-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/verify_btva_compressed_picard_lift_intersection_preflight.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_bounded_panel.py|stages/stage32/management/btva-compressed-lift/run_btva_d8_retained_basis_pairing_pilot.py|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_exceptional_support_only.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-RESIDUAL-BLOCK-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_residual_block_picard_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-STATIC7-PICARD-HNF-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_static7_picard_image_hnf.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-ROUND2-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_round2.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-TIMEOUT-RESCUE-TOP16-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-HPADJ21-EXACT-QBIN-JOINT-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_e12_hpadj21_exact_qbin_joint.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4.py|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-DIRECTED-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE1-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave2.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE2-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE2-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE3-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE3-PARTIAL-QBIN-RETAINED.json|stages/stage32/management/btva-compressed-lift/select_btva_e12_ratio_directed_base4_wave4.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-SELECTOR-RETAINED.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave4.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-PANEL.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE4-SELECTOR.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-RATIO-DIRECTED-WAVE4-PARTIAL-RETAINED.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-E12-WAVE4-27UNSAT-QBIN-RETAINED.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_row.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOPROW-PILOT.json|stages/stage32/management/grf04-x4-global/HPADJ21-TOP20-MASS-MANIFEST.json|stages/stage32/management/grf04-x4-global/run_hpadj21_x4_support_top20_row.py|stages/stage32/management/grf04-x4-global/aggregate_grf04_x4_top20.py|stages/stage32/management/grf04-x4-global/runkeys/V44-GRF04-X4-TOP20.json|stages/stage32/management/hpadj22-fast-global/benchmark_fast_row.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-FAST-BENCHMARK.json|stages/stage32/management/hpadj22-fast-global/benchmark_direct_count.py|stages/stage32/management/hpadj22-fast-global/runkeys/V44-HPADJ22-DIRECT-COUNT-BENCHMARK.json|stages/stage32/management/hpadj22-direct-full178/run_direct_band.py|stages/stage32/management/hpadj22-direct-full178/aggregate_direct_full178.py|stages/stage32/management/hpadj22-direct-full178/runkeys/V44-HPADJ22-DIRECT-FULL178.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-DIRECT-FULL178-RETAINED.json|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V44-MAIN-BOUND-REPLACEMENT.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v44_main_bound_replacement.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V45-AUDIT-SYNC.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v45_audit_sync.py|stages/stage32/management/hpadj22-direct-full178/HPADJ22-V46-POSTMERGE-SUCCESSOR.json|stages/stage32/management/hpadj22-direct-full178/verify_hpadj22_v46_postmerge_successor.py|stages/stage32/management/br204-current-authority/BR204-V46-CURRENT-AUTHORITY-CONSUMER-PREFLIGHT.json|stages/stage32/management/br204-current-authority/verify_br204_v46_current_authority_consumer_preflight.py|stages/stage32/management/grf04-hpadj22-joint/run_grf04_integer_projection_hpadj22_bounded_pilot.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-INTEGER-PILOT.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-BOUNDED-PILOT-RETAINED.json|stages/stage32/management/grf04-hpadj22-joint/GRF04-HPADJ22-V46-E-INDEPENDENCE-PREFLIGHT.json|stages/stage32/management/grf04-hpadj22-joint/verify_grf04_hpadj22_v46_e_independence_preflight.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_band7_fast.py|stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py|stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py|stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_band7_current_authority_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-BAND7-ADAPTER.json|stages/stage32/management/hpadj22-band7-adapter/build_hpadj22_salvaged_cells_adapter.py|stages/stage32/management/hpadj22-band7-adapter/runkeys/V44-HPADJ22-SALVAGE-ADAPTER.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave4_27unsat_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE4-27UNSAT-QBIN.json|stages/stage32/management/btva-compressed-lift/derive_btva_e12_wave3_partial_qbin_floor.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-WAVE3-PARTIAL-QBIN.json|stages/stage32/management/btva-compressed-lift/run_btva_e12_ratio_directed_basis_pairing_panel_wave3.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-E12-RATIO-WAVE3-PANEL.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-V43-HPADJ21-ROW-REFERENCE.json|stages/stage32/management/btva-compressed-lift/run_btva_d8_timeout_rescue_top16.py|stages/stage32/management/btva-compressed-lift/BTVA-D8-FULL343-RETAINED-CHECKPOINT.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-ALL140-RECEIVER-SEMANTICS-RETAINED.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_all140_receiver_nonnegativity.py|stages/stage32/management/btva-compressed-lift/run_btva_static7_normalmass_bounded_panel.py|.github/workflows/stage32-main-btva-static7-bounded-panel.yml|.github/workflows/stage32-main-btva-static7-normalmass-bounded-panel.yml|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_static7_key_census.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-STATIC7-KEY-CENSUS.json|stages/stage32/management/btva-compressed-lift/BTVA-STATIC7-KEY-CENSUS-RECEIPT.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_normalmass_bounded_panel.py|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-NORMALMASS.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-NORMALMASS-BOUNDED-PANEL.json|stages/stage32/management/btva-compressed-lift/run_btva_base4_full343_shard.py|stages/stage32/management/btva-compressed-lift/aggregate_btva_base4_full343.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343.json|stages/stage32/management/btva-compressed-lift/BTVA-D8-PLANE-CONIC-EXCEPTION-SEPARATION.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V2.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V2.json|stages/stage32/management/btva-compressed-lift/diagnose_btva_d8_known_curve_overlap.py|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V3.json|stages/stage32/management/btva-compressed-lift/BTVA-BASE4-FULL343-SCALEOUT-PREFLIGHT-V4.json|stages/stage32/management/btva-compressed-lift/runkeys/V44-BTVA-BASE4-FULL343-V3.json) ;;
+              # LOCAL-FIRST migration (2026-10-16, docs/research-os/policies/local-first-execution.md): repo-wide policy/workflow-trigger paths only
+              AGENTS.md|docs/research-os/policies/local-first-execution.md|docs/research-os/policies/local-replay/*|docs/research-os/policies/actions-storage-and-evidence-safety.md|docs/research-os/policies/hostile-audit-and-freshness.md|docs/research-os/policies/pr-workflow-trigger-lifecycle.md|docs/research-os/policies/stage32-pr-workflow-trigger-inventory-20260911.json|docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py|scripts/local_replay_workflow.py|.github/workflows/research-arsenal.yml|.github/workflows/stage32-ex5-main.yml|.github/workflows/stage32-stale-run-sweeper.yml|.github/workflows/stage35-35-01-to-09-audit.yml|.github/workflows/stage36-bootstrap-audit.yml|.github/workflows/structure-radar.yml) ;;
+              # UNIBRANCH-NODE-HURWITZ leaf (2026-10-16) and its MAIN V50 authority sync (receipt, verifier, V49 state snapshot)
+              stages/stage32/management/unibranch-node-hurwitz/*) ;;
+              # HPADJ22-UNIBRANCH leaf (2026-10-16) and its MAIN V51 authority sync (receipt, verifier, V50 state snapshot)
+              stages/stage32/management/hpadj22-unibranch/*) ;;
+              # FIXED-DIRECTION-CERTIFICATES leaf (2026-10-17) and its MAIN V52 authority sync (receipt, verifier, V51 state snapshot)
+              stages/stage32/management/fixed-direction-certificates/*) ;;
+              # BOUNDARY-G0-D044-HECKE research leaf (2026-10-17): proof sketch only; MAIN authority (V52) unchanged
+              stages/stage32/management/boundary-g0-d044-hecke/*) ;;
+              # BOUNDARY-FIXED-POINT-HECKE research leaf (2026-10-17): proof sketch only; MAIN authority (V52) unchanged
+              stages/stage32/management/boundary-fixed-point-hecke/*) ;;
+              # D8-LOW-GENUS research leaf (2026-10-18): proof + exact computation; MAIN authority (V52) unchanged
+              stages/stage32/management/d8-low-genus/*) ;;
+              # D10-LOW-GENUS research leaf (2026-10-22): proof + exact computation; MAIN authority (V52) unchanged
+              stages/stage32/management/d10-low-genus/*) ;;
+              # PR1827 bounded current-main audit repair; no broad MB wildcard
+              stages/stage32/final-chain/32-03-multibranch/STATE.json|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md|stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md|.github/workflows/stage32-main-startup-authority.yml|stages/stage32/final-chain/32-03-multibranch/AUDIT-REPAIR-20261026.md|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-REPAIR.json|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-CLAIM.json|stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-STARTUP.json) ;;
+              *) echo "unexpected V49 authority-sync path: $p"; exit 1 ;;
             esac
           done <<< "$changed"
 
@@ -2596,3 +3098,153 @@ jobs:
           retention-days: 3
           compression-level: 9
 
+
+  grf04-h22-highd-authorize:
+    name: GRF04 x HPADJ22 high-d chunk authorize
+    needs: startup-authority
+    if: github.event_name == 'pull_request' && github.event.action == 'synchronize'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.gate.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          key="stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-HIGHD-BENCHMARK.json"
+          before='${{ github.event.before }}'
+          head='${{ github.event.pull_request.head.sha }}'
+          echo "run=false" >> "$GITHUB_OUTPUT"
+          test -n "$before"
+          git fetch --no-tags --depth=1 origin "$before" || true
+          git cat-file -e "$before^{commit}"
+          git diff --name-only "$before" "$head" | grep -Fxq "$key" || exit 0
+          git show "$before:$key" > "$RUNNER_TEMP/highd-old.json"
+          python - "$RUNNER_TEMP/highd-old.json" "$key" <<'PY'
+          import json,sys
+          old=json.load(open(sys.argv[1])); p=json.load(open(sys.argv[2]))
+          assert old["schema"]==p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_RUNKEY_V1"
+          assert old["generation"]==7
+          assert p["generation"]==8 and p["generation"]>old["generation"] and p["armed"] is True
+          assert p["execution_mode"]=="ROW177_BAND7_FOUR_BCHUNK_EXACT_AGGREGATE"
+          assert p["chunk_worker_blob_sha1"]=="99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          assert p["aggregator_blob_sha1"]=="69213b46a56a0bff19ff5d20337443e591e832b0"
+          assert p["chunks"]==[[84,87],[88,90],[91,93],[94,96]]
+          assert p["row_index"]==177 and p["band_position"]==7
+          assert p["hpadj22_source_head"]=="4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+          assert p["resource_preflight"]["planned_effective_heavy_concurrency"]==4
+          assert p["resource_preflight"]["artifact_count_upper_bound"]==5
+          assert p["credit"]["main"] is False and p["credit"]["merge"] is False
+          PY
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py)" = "99eef03657b07eb5cf86be8d880050fd8aa2d13b"
+          test "$(git hash-object stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py)" = "69213b46a56a0bff19ff5d20337443e591e832b0"
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo "run=true" >> "$GITHUB_OUTPUT"
+
+  grf04-h22-highd-chunks:
+    name: GRF04 x HPADJ22 high-d chunk ${{ matrix.chunk }} b${{ matrix.b_start }}-${{ matrix.b_stop }}
+    needs: grf04-h22-highd-authorize
+    if: needs.grf04-h22-highd-authorize.outputs.run == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        include:
+          - chunk: 0
+            b_start: 84
+            b_stop: 87
+          - chunk: 1
+            b_start: 88
+            b_stop: 90
+          - chunk: 2
+            b_start: 91
+            b_stop: 93
+          - chunk: 3
+            b_start: 94
+            b_stop: 96
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/checkout@v4
+        with:
+          ref: 4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2
+          path: .stage32-ex5-hpadj22-v46-highd-chunk
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.x'
+      - name: Run exact high-d b-chunk
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/benchmark_grf04_hpadj22_highd_bchunk.py \
+            --source-root .stage32-ex5-hpadj22-v46-highd-chunk \
+            --b-start ${{ matrix.b_start }} --b-stop ${{ matrix.b_stop }} \
+            --output "$RUNNER_TEMP/highd-chunk-${{ matrix.chunk }}.json"
+      - name: Validate exact b-chunk certificate
+        run: |
+          python - "$RUNNER_TEMP/highd-chunk-${{ matrix.chunk }}.json" ${{ matrix.b_start }} ${{ matrix.b_stop }} <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1])); bs=int(sys.argv[2]); be=int(sys.argv[3])
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["schema"]=="STAGE32_MAIN_V46_GRF04_HPADJ22_HIGHD_BCHUNK_V1"
+          assert p["target"]["b_chunk"]==[bs,be]
+          assert p["result"]["partial_joint_exact_survivors"]<=p["result"]["partial_hpadj22_exact_survivors"]
+          assert p["firewalls"]["main_pruning_credit"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-highd-chunk-${{ matrix.chunk }}
+          path: ${{ runner.temp }}/highd-chunk-${{ matrix.chunk }}.json
+          retention-days: 2
+          compression-level: 9
+
+  grf04-h22-highd-aggregate:
+    name: GRF04 x HPADJ22 high-d exact aggregate
+    needs: grf04-h22-highd-chunks
+    if: needs.grf04-h22-highd-chunks.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-main-v46-grf04-hpadj22-highd-chunk-*
+          path: highd-chunks
+          merge-multiple: true
+      - name: Aggregate exact row177 band7 chunks
+        run: |
+          python stages/stage32/management/grf04-hpadj22-joint/aggregate_grf04_hpadj22_highd_bchunks.py \
+            --chunks-root highd-chunks \
+            --output "$RUNNER_TEMP/highd-aggregate.json"
+      - name: Validate exact aggregate
+        run: |
+          python - "$RUNNER_TEMP/highd-aggregate.json" <<'PY'
+          import hashlib,json,sys
+          p=json.load(open(sys.argv[1]))
+          stored=p.pop("canonical_sha256_without_this_field")
+          calc=hashlib.sha256(json.dumps(p,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+          assert stored==calc
+          assert p["result"]["hpadj22_exact_survivors"]==236901807892797077
+          assert p["result"]["joint_exact_survivors"]<=p["result"]["hpadj22_exact_survivors"]
+          assert p["coverage"]=={"chunk_count":4,"expected_chunks":[[84,87],[88,90],[91,93],[94,96]],"gaps":0,"overlaps":0}
+          assert p["firewalls"]["main_pruning_credit"] is False
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-main-v46-grf04-hpadj22-highd-bchunk-aggregate
+          path: ${{ runner.temp }}/highd-aggregate.json
+          retention-days: 3
+          compression-level: 9

@@ -2,7 +2,7 @@
 
 Status: **ACTIVE MANAGEMENT LAYER — POST-#1730 Q602-V3-CONSUMED / POST-SYNC-AUDITED / FINAL-CHAIN FRONTIER**
 
-This layer does not replace `MAIN-STATE.json`, retained certificates, leaf verifiers, hostile audits, or FINAL-CHECK. Ordinary routing authority is `stages/stage32/MAIN-STATE.json`; mathematical credit is bounded by registered immutable claim cores, exact source locks, and hostile-audit receipts.
+This layer does not replace retained certificates, leaf verifiers, hostile audits, or FINAL-CHECK. Ordinary startup/dispatch policy lives in `stages/stage32/MAIN-START-HERE.md`; `CURRENT.json` is the compact current-status projection; `MAIN-STATE.json` remains the detailed retained authority/state record. Mathematical credit is bounded by registered immutable claim cores, exact source locks, and hostile-audit receipts.
 
 Machine-readable files:
 
@@ -66,23 +66,21 @@ Therefore the Q602 post-sync audit gate is complete. `Q602_excluded=true` remain
 
 The remaining mathematical interface is now exactly:
 
-`FULL178_AND_FINAL_MILESTONE_CHAIN`.
+`EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN`.
 
-## 5. MAIN / EX routing after Q602 completion
+The FULL178 numerical-census predecessor is now audited complete as `S32.FULL178.NUMERICAL_CENSUS.V2`.
 
-- `MAIN`: integration/frontier coordinator. Current route is `FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS`.
-- `EX1`: completed audited handoff; provenance only.
-- `EX2`: old V6 actual-member branch dominated by audited V6 population emptiness; no active claim.
-- `EX3`: O210/Q602 authority consumer/provenance only.
-- `EX4`: Q602 marking provenance only; selected route parked.
-- `EX5`: active FULL178 / receiver-breadth weapon lane. The BTVA node-support/span checkpoint is audited infrastructure, but FULL178 remains incomplete.
-- `EX6`: stopped pending new endpoint input.
+Historical routing label retained for compatibility with audited management replay: `FULL178_AND_FINAL_MILESTONE_CHAIN`. In the current state its FULL178 predecessor is complete; the live work is effectivity plus multibranch.
 
-PR #1742 is an EX5 working surface for BC2-02. Its retained blocker says FULL178 production lacks the exact per-candidate 59-entry Picard witness / 48 exceptional-pairing support certificate needed to fire the BTVA projective-span cut. That blocker is not Stage32 MAIN mathematical credit.
+## 5. Current final-chain claim boundary
 
-## 6. Formal final-chain execution
+The FULL178 numerical-census predecessor is audited complete as `S32.FULL178.NUMERICAL_CENSUS.V2`.
 
-The current Stage32 roadmap chain is:
+The remaining mathematical interface is:
+
+`EFFECTIVITY_MULTIBRANCH_AND_FINAL_MILESTONE_CHAIN`.
+
+The formal Stage32 chain remains:
 
 ```text
 32-01-XL  complete unibranch numerical census       R29-LG2
@@ -92,15 +90,16 @@ The current Stage32 roadmap chain is:
 32-05     final hostile audit
 ```
 
-Current execution interpretation:
+Current claim interpretation:
 
-1. `32-01-XL` is primary and incomplete. FULL178 support reconstruction and independent global cuts may proceed in parallel.
-2. `32-02-L` final execution waits for the complete 32-01 survivor/orbit ledger, but effectivity verifier/linear-system/decomposition/RR-vanishing preparation may proceed without claiming effectivity disposal.
-3. `32-03-L` is a separate receiver and may progress independently of FULL178. It must classify multibranch normalization profiles, delta/genus corrections, exact Aut(S) quotienting, justified finite degree/intersection restrictions, finite Picard enumeration where available, and exact effectivity/carrier certificates.
-4. `32-04-M` waits for 32-01/02/03 outputs.
-5. MAIN must stop before self-awarding `32-05`; final hostile audit is external.
+- `32-01-XL` is **AUDITED COMPLETE** through `S32.FULL178.NUMERICAL_CENSUS.V2`.
+- `32-02-L` and `32-03-L` remain open.
+- `32-04-M` cannot release before both open predecessor receivers are resolved.
+- `32-05` remains an external hostile-audit boundary; MAIN cannot self-award it.
 
-Historical path collision warning: existing `stages/stage32/32-02/` contains older local Z3/Normaliz production evidence, and existing `stages/stage32/32-03/` is the historical `e4/a32` affine-lattice closure package. Neither directory is the formal current effectivity/multibranch unit described above. Do not overwrite or reinterpret them; materialize new final-chain work under unambiguous namespaced paths.
+Historical EX/lane names remain provenance and implementation identifiers only. They do not define ordinary startup routing. The ordinary dispatch contract lives solely in `stages/stage32/MAIN-START-HERE.md`; this file governs claim and audit semantics.
+
+Historical path collision warning: existing `stages/stage32/32-02/` contains older local Z3/Normaliz production evidence, and existing `stages/stage32/32-03/` is the historical `e4/a32` affine-lattice closure package. Neither directory is the formal current effectivity/multibranch unit described above. Do not overwrite or reinterpret them; materialize current final-chain work under unambiguous namespaced paths.
 
 The retained routing checkpoint is `stages/stage32/management/mainbatch-final-chain-reentry-20260909.json`.
 
@@ -110,11 +109,10 @@ On `RETAINED_CONSOLIDATION`, `AUTHORITY_OR_AUDIT_TRANSITION`, `EX_TO_MAIN_PROMOT
 
 This reentry changes routing/audit metadata only. The V6/O210/Q602 immutable mathematical cores above remain unchanged.
 
-## 8. FULL178 and final closure remain open
+## 8. Numerical census complete; final closure remains open
 
-`S32.FULL178.NUMERICAL_CENSUS.V1` remains incomplete. The reserved final milestone chain remains:
+`S32.FULL178.NUMERICAL_CENSUS.V2` is audited complete. The remaining reserved final milestone chain is:
 
-- `S32.PROOF.NUMERICAL_CENSUS.V1`
 - `S32.PROOF.EFFECTIVITY_DISPOSAL.V1`
 - `S32.PROOF.MULTIBRANCH_LEDGER.V1`
 - `S32.PROOF.INTEGRATED_SYNTHESIS.V1`

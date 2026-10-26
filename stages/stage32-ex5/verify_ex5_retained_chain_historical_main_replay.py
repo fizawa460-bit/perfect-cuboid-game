@@ -16,8 +16,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MAIN = ROOT / "stages/stage32/MAIN-STATE.json"
 ACTIVE = ROOT / "stages/stage32/proof/ACTIVE-FRONTIER.json"
+PROD = ROOT / "stages/stage32/residual-32-01-production/state.json"
+ROADMAP = ROOT / "stages/stage32/ROADMAP.md"
 MAIN_SNAPSHOT = ROOT / "stages/stage32/proof/historical-routing-blobs/05e2942b4c893044688f16926b5e9837e59d8e9d.json"
 ACTIVE_SNAPSHOT = ROOT / "stages/stage32/proof/historical-management-blobs/93dee109899185602d9e8e4bb200f614a3b421e0.json"
+PROD_SNAPSHOT = ROOT / "stages/stage32/proof/historical-routing-blobs/931e80ba892ec0d98f3e7b909ac2dd46660c116c.json"
+ROADMAP_SNAPSHOT = ROOT / "stages/stage32/proof/historical-routing-blobs/ROADMAP-EX5-00-SOURCE-LOCK.md"
 EX5 = ROOT / "stages/stage32-ex5"
 LEGACY_AUDIT = EX5 / "AUDIT-CONTRACT.md"
 ARCHIVED_AUDIT = EX5 / "archive/startup-surface-20260914/AUDIT-CONTRACT.md"
@@ -44,23 +48,33 @@ def git_blob_sha1(data: bytes) -> str:
 def main() -> None:
     old_main = MAIN_SNAPSHOT.read_bytes()
     old_active = ACTIVE_SNAPSHOT.read_bytes()
+    old_prod = PROD_SNAPSHOT.read_bytes()
+    old_roadmap = ROADMAP_SNAPSHOT.read_bytes()
     old_audit = ARCHIVED_AUDIT.read_bytes()
     assert git_blob_sha1(old_main) == "05e2942b4c893044688f16926b5e9837e59d8e9d"
     assert git_blob_sha1(old_active) == "93dee109899185602d9e8e4bb200f614a3b421e0"
+    assert git_blob_sha1(old_prod) == "931e80ba892ec0d98f3e7b909ac2dd46660c116c"
+    assert git_blob_sha1(old_roadmap) == "15526ac6012b2dc383dcfc186784340fe1569be7"
     assert git_blob_sha1(old_audit) == "b0639b5655e33ce2f7877018b8650e0e8150c4fe"
 
     live_main = MAIN.read_bytes()
     live_active = ACTIVE.read_bytes()
+    live_prod = PROD.read_bytes()
+    live_roadmap = ROADMAP.read_bytes()
     live_audit = LEGACY_AUDIT.read_bytes() if LEGACY_AUDIT.exists() else None
     try:
         MAIN.write_bytes(old_main)
         ACTIVE.write_bytes(old_active)
+        PROD.write_bytes(old_prod)
+        ROADMAP.write_bytes(old_roadmap)
         LEGACY_AUDIT.write_bytes(old_audit)
         for name in VERIFIERS:
             subprocess.run([sys.executable, str(EX5 / name)], cwd=ROOT, check=True)
     finally:
         MAIN.write_bytes(live_main)
         ACTIVE.write_bytes(live_active)
+        PROD.write_bytes(live_prod)
+        ROADMAP.write_bytes(live_roadmap)
         if live_audit is None:
             if LEGACY_AUDIT.exists():
                 LEGACY_AUDIT.unlink()
@@ -69,6 +83,8 @@ def main() -> None:
 
     assert MAIN.read_bytes() == live_main
     assert ACTIVE.read_bytes() == live_active
+    assert PROD.read_bytes() == live_prod
+    assert ROADMAP.read_bytes() == live_roadmap
     assert not LEGACY_AUDIT.exists() if live_audit is None else LEGACY_AUDIT.read_bytes() == live_audit
     print("PASS_EX5_RETAINED_CHAIN_HISTORICAL_MANAGEMENT_REPLAY_POST1728")
 

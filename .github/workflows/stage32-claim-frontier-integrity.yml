@@ -13,6 +13,8 @@ on:
       - 'stages/stage32/MAIN-START-HERE.md'
       - 'stages/stage32/32-01-178/MAIN-START-HERE.md'
       - 'stages/stage32/verify_main_startup.py'
+      - 'stages/stage32/verify_command_surface.py'
+      - 'stages/stage32/final-chain/32-03-multibranch/fib/**'
       - 'stages/stage32/verify_main_startup_authority_v*.py'
       - 'stages/stage32/verify_cut191_main_consumption.py'
       - 'stages/stage32/management/post-cut191-hostile-pass-consumption-20260911.json'
@@ -78,6 +80,8 @@ jobs:
         run: python docs/research-os/policies/verify_stage32_pr_workflow_trigger_inventory.py
       - name: Verify repository-wide PR workflow trigger lifecycle
         run: python docs/research-os/policies/verify_repo_workflow_trigger_inventory.py
+      - name: Verify Stage32 command/startup surface
+        run: python stages/stage32/verify_command_surface.py
       - name: Replay historical V6 authority consumption
         working-directory: .stage32-audited-q602
         run: python stages/stage32/verify_stage32_post1728_v6_negative_authority_consumption.py

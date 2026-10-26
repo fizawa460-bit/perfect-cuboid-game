@@ -1,5 +1,7 @@
 # Heavy checkpoint and resume policy
 
+> **Local-first override (2026-10-16).** `local-first-execution.md` takes precedence over this file. Heavy computation runs locally by default; the resume-first rules below apply equally to local checkpoints, and an Actions heavy run needs per-run user authorization.
+
 This policy is mandatory when designing, materially revising, authorizing, rerunning, or recovering an artifact-producing/heavy workflow.
 
 The default execution model is **resume-first**, not monolithic rerun. Long computations must be partitioned at the finest practical exact boundary into deterministic independently verifiable work units. A successful unit is durable work: later generations must salvage and validate it, carry it forward, and recompute only unfinished units.

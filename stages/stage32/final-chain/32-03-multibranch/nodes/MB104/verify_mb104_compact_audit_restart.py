@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 import json
+import hashlib
+import copy
+import contextlib
+import io
+import sys
+import tempfile
 import re
 import subprocess
 from pathlib import Path
@@ -40,7 +46,7 @@ def main():
     d = json.loads(STATE.read_text())
     req(d["schema"] == "STAGE32_32_03_MULTIBRANCH_STATE_V1", "state schema")
     req(d["mission_id"] == "stage32-32-03-multibranch", "mission")
-    req(d["status"] in {"FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT","ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT"}, "state mode")
+    req(d["status"] in {"FROZEN_COMPACT_AUDIT_RESTART_NO_CREDIT","ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT", "FROZEN_AUDIT_REPAIR_READY_NO_CREDIT"}, "state mode")
     req(d["current_node"] == "MB104", "current node")
     req(d["completed_retained_nodes"] == ["MB101","MB102","MB103"], "completed nodes")
     surf = d["active_surface"]
@@ -56,6 +62,8 @@ def main():
     req(hist["latest_fail"]["review_id"] == 5257949069, "latest fail review")
     req(hist["current_head_inherits_prior_pass"] is False, "no audit inheritance")
 
+    repair = d.get("audit_repair")
+    frozen_repair = d["status"] == "FROZEN_AUDIT_REPAIR_READY_NO_CREDIT"
     freeze = d["audit_freeze"]
     req(freeze["substantive_boundary_head"] == EXPECTED["substantive_freeze_boundary"], "substantive freeze boundary")
     allowed = {
@@ -72,7 +80,7 @@ def main():
     req(anc.returncode == 0, "freeze boundary must be ancestor of exact HEAD")
     changed = {
         x for x in subprocess.check_output(
-            ["git", "diff", "--name-only", EXPECTED["substantive_freeze_boundary"] + ".." + head],
+            ["git", "diff", "--name-only", EXPECTED["substantive_freeze_boundary"] + ".." + (repair["retained_research_head"] if frozen_repair else head)],
             cwd=ROOT,
             text=True,
         ).splitlines()
@@ -85,8 +93,9 @@ def main():
     else:
         req(freeze["boundary_semantics"] == "AUDITED_COMPACT_RESTART_BOUNDARY__POST_AUDIT_RESEARCH_RELEASED", "post-audit boundary semantics")
         req(freeze["post_boundary_changes_must_be_bounded_audit_repairs_only"] is False, "post-audit research release")
-        req(set(freeze["post_audit_research_path_allowlist"]) == allowed, "post-audit research path allowlist")
-        req(changed <= allowed, "post-audit path detected outside compact research surface: " + ",".join(sorted(changed - allowed)))
+        research_allowed = allowed | {"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"}
+        req(set(freeze["post_audit_research_path_allowlist"]) == research_allowed, "post-audit research path allowlist")
+        req(changed <= research_allowed, "post-audit path detected outside compact research surface: " + ",".join(sorted(changed - research_allowed)))
 
     rb = d["restart_boundary"]
     req(rb["base_main"] == EXPECTED["base_main"], "base main")
@@ -134,15 +143,15 @@ def main():
         req(routing["substantive_research_append_blocked_until_reaudit_pass"] is True, "research blocked")
         req(routing["latest_audited_exact_head"] == "70c2fe772df63362d82df537ea889658eb03f58f", "routing last audited head")
         req(routing["current_head_reaudit_required"] is True, "current-head reaudit")
-    elif d["status"] == "ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT":
+    elif d["status"] in {"ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT", "FROZEN_AUDIT_REPAIR_READY_NO_CREDIT"}:
         ar = d["audit_release"]
         req(ar["hostile_audit_status"] == "PASS", "post-audit PASS")
         req(ar["audited_exact_head"] == "37727ad09b62c49b49cfb2e1e428b5a2d4826e88", "post-audit exact head")
         req(ar["hostile_audit_review_id"] == 5258058107, "corrected PASS receipt")
         req(ar["corrected_prior_hold_review_id"] == 5257998935, "corrected prior HOLD receipt")
         req(ar["isotropic_shell_execution_authorized"] is False, "heavy shell remains blocked")
-        req(routing["substantive_research_append_blocked_until_reaudit_pass"] is False, "research released")
-        req(routing["current_head_reaudit_required"] is False, "ordinary research mode")
+        req(routing["substantive_research_append_blocked_until_reaudit_pass"] is frozen_repair, "research release/freeze mode")
+        req(routing["current_head_reaudit_required"] is frozen_repair, "current-head audit mode")
         req(routing["ordinary_mb104_research_released_by_review"] == 5258058107, "research release receipt")
         req(routing["fibration_search_below_36_closed"] is True, "fibration lower route closed")
         g7=d["retained_frontier"]["genus7_fibration"]
@@ -182,7 +191,7 @@ def main():
         req(four["nonexceptional_common_contracted_curves"] == 0, "nonexceptional common contraction")
         req(four["carrier_invariant_under_sigma"] is False and four["carrier_to_quotient_generic_degree"] == 1, "carrier quotient degree")
         req(all(x is False for x in four["firewalls"].values()), "fourmap credit firewall")
-        req(routing["current_leaf_uses_finite_b3_quotient"] is True, "b3 quotient route")
+        req(routing["current_leaf_uses_finite_b3_quotient"] is False, "historical b3 quotient is not the selected live route")
         req(routing["single_pair_stein_correction_still_open"] is True, "single-pair Stein firewall")
         req(routing["fourmap_common_vertical_meets_carrier"] is False, "fourmap carrier finiteness")
         qc=d["retained_frontier"]["b3_quotient_collision_accounting"]
@@ -239,7 +248,7 @@ def main():
         req(routing["b3_split_branch_condition_live"] is False, "split branch no longer live")
         req(routing["b3_split_branch_route"] == "CLOSED_TAUTOLOGICAL_BY_AMBIENT_B3", "split branch closure")
         req(routing["absent_eta_character_line_route"] == "CLOSED_FEASIBLE_AT_LINE_BUNDLE_LEVEL", "eta line closure")
-        req(routing["anti_invariant_conductor_first_jet_live"] is True, "anti-invariant jet route live")
+        req(routing["anti_invariant_conductor_first_jet_live"] is False, "historical anti-invariant jet route is parked")
         req(routing["box_surface_functions_are_sheet_blind"] is True, "box sheet blindness")
         req(routing["f7_second_section_not_a_sheet_detector"] is True, "f7 sheet firewall")
         aw=d["retained_frontier"]["anti_invariant_conductor_source_wall"]
@@ -249,7 +258,7 @@ def main():
         req(all(x is False for x in aw["firewalls"].values()), "anti-invariant wall firewalls")
 
         z12=d["retained_frontier"]["z12_current_main_btva_adapter_check"]
-        req(z12["current_main_observed"] == "e7fd29d24dd21e8529dbdb45b221a53f2cc21ed3", "Z12 current-main observation")
+        req(z12["current_main_observed"] == "a834864923086e5f7c1647e462804f45ff9ac28d", "Z12 historical main observation (not live authority)")
         req(z12["main_btva_preflight_blob"] == "68108dfb110c4ea1d9dc0d74564a431bbbffbbde", "MAIN BTVA source")
         req(z12["exact_adapter_exists"] is False, "Z12 adapter mismatch")
         req(z12["firewalls"]["main_btva_credit_imported"] is False, "no MAIN BTVA import")
@@ -276,7 +285,7 @@ def main():
         req(routing["anti_invariant_conductor_route"] == "PARKED_BOUNDED_SOURCE_WALL", "anti-invariant parked")
         req(routing["z12_current_main_btva_adapter_available"] is False, "Z12 MAIN adapter absent")
         req(routing["H_polarized_subcanonical_bridge_exact"] is True, "subcanonical bridge routing")
-        req(routing["ACM_section_ring_gate_live"] is True, "ACM gate live")
+        req(routing["ACM_section_ring_gate_live"] is False, "historical ACM gate is not live")
         pc=d["retained_frontier"]["projective_ci_conductor_regularity"]
         req(pc["source_z41_tricanonical_blob"] == "19a7f6dfb82efbaaa68fbd47e45c91eacc7acfd5", "projective CI Z41 source")
         req(pc["source_z48_conductor_blob"] == "69b3e039ebc967c84f7c64d4946a114f09d07fba", "projective CI Z48 source")
@@ -347,11 +356,11 @@ def main():
 
         statuses={x["name"]:x["status"] for x in cyc["candidates"]}
         req(statuses["projective conductor regularity decomposition"] == "BLOCKED_NO_NEW_INFORMATION", "cycle conductor status")
-        req(statuses["finite normalization-module Betti receiver"] == "LIVE", "cycle live Betti receiver")
+        req(statuses["finite normalization-module Betti receiver"] == "BLOCKED_NO_NEW_INFORMATION", "retained cycle Betti receiver is blocked")
         req(statuses["generic finite replacement receiver beyond graded module"] == "UNTESTED", "cycle untested fallback")
         cf=cyc["cycle_fields"]
         req(cf["CYCLE_EXHAUSTIVE_VIEW_AUDIT"] is True and cf["CYCLE_BLIND_REDISCOVERY"] is True, "cycle fields audit")
-        req(cf["CYCLE_NEW_VIEW"] == "normalization-module Hilbert numerator and Gorenstein self-dual Betti constraints", "cycle new view")
+        req(cf["CYCLE_NEW_VIEW"] == "compact C8 arithmetic correspondence checked and parked", "retained cycle final parked view")
 
         nb=d["retained_frontier"]["normalization_module_betti_preflight"]
         req(nb["codimension_over_S"] == 5 and nb["Cohen_Macaulay"] is True, "normalization module CM codim")
@@ -1476,7 +1485,7 @@ def main():
                         req(routing["e2_unique_pair_rational_core_branch_closed"] is True, "rational-core branch routing closed")
                         req(routing["e2_unique_pair_rational_core_nonregular_uniform_map_route"] == "SUPERSEDED_BY_RELATIVE_H_SUPPORT_BIDEGREE_CLOSURE", "nonregular route disposition")
                         req(routing["e2_unique_pair_balanced_remaining_core_branch"] == "CORELESS_NO_CLUMP_ONLY", "balanced coreless-only routing")
-                        req(d["next_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "post-hyperbolic-Langer active leaf")
+                        req((d["resume_obligation"] if frozen_repair else d["next_obligation"])["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "preserved post-hyperbolic-Langer research resume leaf")
     req(all(v is False for v in d["credit_firewall"].values()), "credit firewall")
 
     h = HANDOFF.read_text()
@@ -1495,6 +1504,24 @@ def main():
         for v in EXPECTED[section].values():
             req(re.fullmatch(r"[0-9a-f]{40}", v) is not None, f"blob syntax {section}")
 
+
+    if frozen_repair:
+        req(repair["status"] == "PENDING_INDEPENDENT_HOSTILE_REAUDIT", "repair audit status")
+        req(repair["base_main"] == "c6cc8f12d7044eb3f3dc182850decd565a4e1752", "repair main identity")
+        req(repair["retained_research_head"] == "68e9ce5dc1453caa7d4802929b573e5fb3fdb1e0", "retained research identity")
+        req(subprocess.run(["git", "merge-base", "--is-ancestor", repair["base_main"], head], cwd=ROOT).returncode == 0, "current main integrated")
+        expected_paths = {'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-REPAIR.json', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md', '.github/workflows/stage32-main-startup-authority.yml', 'stages/stage32/final-chain/32-03-multibranch/STATE.json', 'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-STARTUP.json', 'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-CLAIM.json', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md', 'stages/stage32/final-chain/32-03-multibranch/AUDIT-REPAIR-20261026.md', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py'}
+        req(set(repair["allowed_pr_paths"]) == expected_paths, "bounded repair path contract")
+        pr_changed = set(subprocess.check_output(["git", "diff", "--name-only", repair["base_main"] + ".." + head], cwd=ROOT, text=True).splitlines())
+        req(pr_changed <= expected_paths, "unexpected repair path: " + ",".join(sorted(pr_changed - expected_paths)))
+        frontier_hash = hashlib.sha256(json.dumps(d["retained_frontier"], sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()).hexdigest()
+        req(frontier_hash == repair["retained_frontier_sha256"] == "b70a41d328b28cce77e1a73df8b3b97cb0e91185c404c069f6774d50b9ceca17", "retained mathematical frontier unchanged")
+        note = ROOT / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"
+        req(hashlib.sha256(note.read_bytes()).hexdigest() == repair["note_sha256"] == "c66c5d88218ca42af669694da44cd56b3556fb8d99a4fa506c3d40e7b25af24a", "retained invariant-line note unchanged")
+        req(nxt["active_leaf"] == "MB104-20261026-AUDIT-REPAIR-REAUDIT", "frozen repair leaf")
+        req(d["resume_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "research resume pointer preserved")
+        req(all(repair[k] is False for k in ("claim_promotion", "research_resume_authorized", "merge_authorized")), "repair does not award audit or research credit")
+
     print("PASS: MB104 compact audit restart")
     print("base main", EXPECTED["base_main"])
     print("substantive freeze boundary", EXPECTED["substantive_freeze_boundary"])
@@ -1505,5 +1532,39 @@ def main():
     print("mode", d["status"])
     print("isotropic-shell heavy compute remains blocked; ordinary research follows live STATE")
 
+def self_test_fail_closed():
+    global STATE
+    original_state = STATE
+    baseline = json.loads(STATE.read_text())
+    cases = {
+        "unapproved repair path": lambda d: d["audit_repair"]["allowed_pr_paths"].append("stages/stage32/final-chain/32-03-multibranch/arbitrary.py"),
+        "research reopened before audit": lambda d: d["routing"].update(substantive_research_append_blocked_until_reaudit_pass=False),
+        "unaudited head accepted": lambda d: d["routing"].update(current_head_reaudit_required=False),
+        "retired b3 route made live": lambda d: d["routing"].update(current_leaf_uses_finite_b3_quotient=True),
+        "retained mathematical claim changed": lambda d: d["retained_frontier"]["pair_map"].update(result="all r=1,2,3,4 remain OPEN; no orbit excluded; 864; UNREVIEWED EXTRA CLAIM"),
+        "note identity changed": lambda d: d["audit_repair"].update(note_sha256="0" * 64),
+        "merge credit self-awarded": lambda d: d["audit_repair"].update(merge_authorized=True),
+        "research resume lost": lambda d: d["resume_obligation"].update(active_leaf="UNRELATED"),
+    }
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            STATE = Path(td) / "STATE.json"
+            for name, mutate in cases.items():
+                candidate = copy.deepcopy(baseline)
+                mutate(candidate)
+                STATE.write_text(json.dumps(candidate))
+                try:
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        main()
+                except SystemExit as exc:
+                    req(str(exc).startswith("FAIL:"), "unexpected regression exit " + name)
+                else:
+                    raise SystemExit("FAIL: mutation accepted: " + name)
+        finally:
+            STATE = original_state
+    print("PASS: MB104 audit repair fail-closed regressions: " + str(len(cases)))
+
 if __name__ == "__main__":
     main()
+    if "--self-test-fail-closed" in sys.argv[1:]:
+        self_test_fail_closed()

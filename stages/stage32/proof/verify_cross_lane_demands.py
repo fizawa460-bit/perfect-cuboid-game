@@ -1,129 +1,81 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-
-import hashlib
-import json
+import hashlib,json
 from pathlib import Path
-
-HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-REGISTRY = HERE / "CROSS-LANE-DEMANDS.json"
-MONITOR = HERE / "ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
-STATE = ROOT / "stages/stage32/MAIN-STATE.json"
-
-REGISTRY_BLOB = "68a02f31431ad658b42ad695f9553c67fd6cff01"
-REGISTRY_CANON = "aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
-MONITOR_BLOB = "2d245205d2c4e597284fcefc6b5f6b43f8df7a2a"
-MONITOR_CANON = "f5b2403a76546db1c7aea61bfb3eb5b62b3141063969e819758e6911f3a54e6e"
-BOUND = 138652739800650593494
-V43_BOUND = 157570677819451133507
-V44_TIGHTENING = 18917938018800540013
-V41_BOUND = 179119009547804181594
-V42_TIGHTENING = 21548331728353048087
-
-
-def req(v, m):
-    if not v:
-        raise SystemExit("FAIL: " + m)
-
-
+HERE=Path(__file__).resolve().parent
+ROOT=HERE.parents[2]
+REGISTRY=HERE/"CROSS-LANE-DEMANDS.json"
+MONITOR=HERE/"ACTIVE-SPECIALIST-MONITOR-CONTRACT.json"
+STATE=ROOT/"stages/stage32/MAIN-STATE.json"
+REGISTRY_BLOB="68a02f31431ad658b42ad695f9553c67fd6cff01"
+REGISTRY_CANON="aec14c8c2a843e39478a287eb48d10696b1465124b2d089e0085630c66d346f5"
+MONITOR_BLOB="3547e58eef441aab4c6df15aa08b95b2824830de"
+MONITOR_CANON="4a5a2f3eb0883af5c6175784878b1aba9023c3330b6f94967734e464a25b0815"
+BOUND=726240487
+V52_PREDECESSOR=5369214401
+V51_PREDECESSOR=511353002049
+STRATA=530
+V50_PREDECESSOR=128443221087959579960
+V47_BOUND=128645575147764659235
+V48_TIGHTENING=175363029451184786
+V49_PREDECESSOR=128470212118313474449
+V49_COVERED=37911631052805557219
+V49_REPLACEMENT=37884640022451662730
+V49_TIGHTENING=26991030353894489
+OLD_BOUND=138652739800650593494
+TIGHTENING=10007164652885934259
+def req(v,m):
+    if not v: raise SystemExit("FAIL: "+m)
 def blob(p):
-    b = p.read_bytes()
-    return hashlib.sha1(b"blob " + str(len(b)).encode() + b"\0" + b).hexdigest()
-
-
+    b=p.read_bytes();return hashlib.sha1(b"blob "+str(len(b)).encode()+b"\0"+b).hexdigest()
 def canon(o):
-    x = dict(o)
-    x.pop("canonical_sha256_without_this_field", None)
-    return hashlib.sha256(
-        json.dumps(x, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
-    ).hexdigest()
-
-
-def lock(p, b, c):
-    req(blob(p) == b, f"blob drift {p}")
-    o = json.loads(p.read_text(encoding="utf-8"))
-    req(o.get("canonical_sha256_without_this_field") == c and canon(o) == c,
-        f"canonical drift {p}")
-    return o
-
-
+    x=dict(o);x.pop("canonical_sha256_without_this_field",None)
+    return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(",",":"),ensure_ascii=False).encode()).hexdigest()
+def lock(p,b,c):
+    req(blob(p)==b,f"blob drift {p}");o=json.loads(p.read_text(encoding="utf-8"))
+    req(o.get("canonical_sha256_without_this_field")==c and canon(o)==c,f"canonical drift {p}");return o
 def main():
-    reg = lock(REGISTRY, REGISTRY_BLOB, REGISTRY_CANON)
-    mon = lock(MONITOR, MONITOR_BLOB, MONITOR_CANON)
-    st = json.loads(STATE.read_text(encoding="utf-8"))
-    stored = st.get("canonical_sha256_without_this_field")
-    req(isinstance(stored, str) and canon(st) == stored, "current MAIN state canonical drift")
-
-    req([d["demand_id"] for d in reg["demands"] if d["status"] == "OPEN"] == [],
-        "unexpected OPEN demand")
-    req(mon["startup_rule"]["refresh_live_on_every_stage32mainbatch"] is True,
-        "live sweep startup rule disabled")
-    req(mon["authority"]["this_contract_is_a_snapshot_of_live_heads"] is False,
-        "monitor contract treated as live snapshot")
-    req(mon["credit_firewall"]["monitor_observation_is_mathematical_credit"] is False,
-        "monitor observation credit firewall")
-
-    req(st["schema"] == "STAGE32_MAIN_COMPACT_STATE_V45_HPADJ22_FULL178_BOUND_AUDIT_SYNCED",
-        "MAIN state schema")
-    f = st["current_exact_frontier"]
-    req(f["authoritative_remaining_strata"] == 17128, "MAIN strata authority")
-    req(f["authoritative_remaining_terminals"] == BOUND, "MAIN numerical authority")
-    req(f["predecessor_v41_authoritative_remaining_terminals"] == V41_BOUND,
-        "V41 predecessor bound")
-    req(f["v42_hpadj21_certified_numeric_bound_tightening_vs_v41"] == V42_TIGHTENING,
-        "V42 tightening")
-    req(f["v42_replacement_head_hostile_audited"] is True, "V42 hostile audit not synced")
-    req(f["v43_audit_sync_additional_pruning"] == 0, "V43 added pruning")
-    req(f["predecessor_v43_authoritative_remaining_terminals"] == V43_BOUND, "V43 predecessor authority")
-    req(f["v44_hpadj22_main_numeric_bound_replacement_consumed"] is True, "V44 replacement not consumed")
-    req(f["v44_hpadj22_candidate_main_credit"] is True, "V44 MAIN credit")
-    req(f["v44_hpadj22_candidate_tightening_vs_hpadj21"] == str(V44_TIGHTENING), "V44 tightening")
-    req(f["v44_replacement_head_hostile_audited"] is True, "V44 replacement audit not synced")
-    req(f["v44_replacement_head_audited_exact_head"] == "142b50757b345971218c953db6a15ddd09974172", "V44 audited head")
-    req(f["v44_replacement_head_hostile_audit_review_id"] == 5254793258, "V44 audit review")
-    req(f["v45_audit_sync_additional_pruning"] == 0, "V45 added pruning")
-    req(f["full178_numerical_census_complete"] is False, "FULL178 overclaim")
-
-    req(st["current"]["mainbatch_stop_gate"] == "NONE", "MAIN stop gate")
-    req(st["current"]["next_exact_route"] ==
-        "FULL178_THEN_EFFECTIVITY_MULTIBRANCH_AND_FINAL_SYNTHESIS", "MAIN next route")
-    req(st["firewalls"]["replacement_head_hostile_reaudit_required"] is False,
-        "replacement hostile re-audit gate still armed")
-
-    sweep = st["source_locks"]["live_specialist_sweep"]
-    req(sweep["observed_repository_main"] == "83ae3f66cfcbdfaaaebf149bea078d1b0ff11c49",
-        "repository main observation")
-    req(sweep["lane_178_pr"] == 1821 and sweep["lane_178_head"] ==
-        "fd8ffe03ff4b90f811e317a43e76a95f31c30464" and
-        sweep["lane_178_pending_main_handoff"] == "NONE", "178 observation")
-    req(sweep["ex5_pr"] == 1823 and sweep["ex5_head"] ==
-        "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2" and
-        sweep["ex5_pending_main_handoff"] == "NONE", "EX5 observation")
-    req(sweep["mb_pr"] == 1825 and sweep["mb_head"] ==
-        "81ac5f243c08fb7c16a2b7cb2f09653fff78f65e" and
-        sweep["mb_pending_main_handoff"] == "NONE", "MB observation")
-    req(sweep["mb_latest_audited_exact_head"] ==
-        "b28adadc95776762754e1415a0ecab0da1d4cd8e" and
-        sweep["mb_latest_audit_review_id"] == 5254494158,
-        "MB audited predecessor observation")
-    req(sweep["bridge_pr"] == 1813 and sweep["bridge_head"] ==
-        "ee755bbfd46f405ca83e4930b354ee63459ad362" and
-        sweep["bridge_runkey_generation"] == 1 and sweep["bridge_runkey_armed"] is True and
-        sweep["bridge_pending_main_handoff"] == "NONE", "BRIDGE observation")
-    req(sweep["cut_open_successor"] is False and sweep["cut_handoff"] == "NONE",
-        "CUT observation")
-
-    for key in ("full178_complete", "effectivity_released", "receiver_credit",
-                "route_credit", "theorem_credit", "endpoint_credit", "stage32_closed",
-                "perfect_cuboid_existence_claim", "perfect_cuboid_nonexistence_claim",
-                "merge_authorized"):
-        req(st["firewalls"][key] is False, f"firewall {key}")
-
-    print("PASS: Stage32 MAIN V45 audit-sync records hostile-audited V44 HPADJ22 authority with zero new pruning")
-    print("PASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB P6B head with zero MAIN credit")
-    print("PASS: FULL178 remains active incomplete; downstream and merge credit remain blocked")
-
-
-if __name__ == "__main__":
-    main()
+    reg=lock(REGISTRY,REGISTRY_BLOB,REGISTRY_CANON);mon=lock(MONITOR,MONITOR_BLOB,MONITOR_CANON)
+    st=json.loads(STATE.read_text(encoding="utf-8"));req(canon(st)==st.get("canonical_sha256_without_this_field"),"current MAIN state canonical drift")
+    req([d["demand_id"] for d in reg["demands"] if d["status"]=="OPEN"]==[],"unexpected OPEN demand")
+    req(mon["startup_rule"]["refresh_live_on_every_stage32mainbatch"] is False,"global live sweep not retired")
+    req(mon["startup_rule"]["resolve_only_selected_roadmap_unit"] is True,"roadmap selection rule")
+    req(mon["startup_rule"]["global_specialist_sweep_required"] is False,"global specialist sweep unexpectedly required")
+    req(mon["authority"]["this_contract_is_a_snapshot_of_live_heads"] is False,"routing contract treated as live snapshot")
+    surfaces={x["unit"]:x for x in mon["active_roadmap_surfaces"]}
+    req(surfaces["32-02"]["dispatch_surface"]=="EX5" and surfaces["32-02"]["internal_only"] is True,"32-02 internal dispatch surface")
+    req(surfaces["32-03"]["dispatch_surface"]=="MB" and surfaces["32-03"]["auxiliary_surface"]=="MB-FIB" and surfaces["32-03"]["internal_only"] is True,"32-03 internal dispatch surface")
+    req(all("helper_command" not in x and "auxiliary_command" not in x for x in mon["active_roadmap_surfaces"]),"legacy specialist commands leaked into live monitor")
+    req(st["schema"]=="STAGE32_MAIN_COMPACT_STATE_V52_FIXED_DIRECTION_CERTIFICATES_SYNCED","MAIN schema")
+    f=st["current_exact_frontier"]
+    req(f["authoritative_remaining_strata"]==STRATA and f["authoritative_remaining_terminals"]==BOUND,"MAIN authority")
+    req(f["v50_predecessor_upper_bound"]==V50_PREDECESSOR and f["v50_predecessor_remaining_strata"]==17128 and f["v50_exact_tightening_vs_v49"]==V50_PREDECESSOR-V51_PREDECESSOR,"V50 MIN composition")
+    req(f["v50_unibranch_node_hurwitz_main_numeric_bound_consumed"] is True and f["v50_additive_subtraction_performed"] is False and f["v50_exact_incremental_rejected_identity_set_claimed"] is False,"V50 accounting firewall")
+    req(f["v44_hpadj22_main_numeric_bound_replacement_consumed"] is True and f["v45_merged_main_synced"] is True,"historical authority chain")
+    req(f["v47_predecessor_upper_bound"]==OLD_BOUND and f["v47_exact_tightening_vs_v46"]==TIGHTENING,"V47 tightening")
+    req(f["v47_grf04_hpadj22_audited_exact_head"]=="620b90d1ca1f5316d55b88b2620f78eeba1949c7" and f["v47_grf04_hpadj22_hostile_audit_review_id"]==5287562192,"V47 audit")
+    req(f["v48_predecessor_upper_bound"]==V47_BOUND and f["v48_exact_tightening_vs_v47"]==V48_TIGHTENING,"V48 tightening")
+    req(f["v48_178_support_qbc_audited_exact_head"]=="fb81be66f260879eec79e55be140857b5fc32bbc" and f["v48_178_support_qbc_hostile_audit_comment_id"]==5813812633,"V48 audit")
+    req(f["v49_predecessor_upper_bound"]==V49_PREDECESSOR and f["v49_covered_v48_384_upper_bound_sum"]==V49_COVERED and f["v49_replacement_384_upper_bound_sum"]==V49_REPLACEMENT and f["v49_exact_tightening_vs_v48"]==V49_TIGHTENING,"V49 replacement arithmetic")
+    req(f["v49_178_fullsupport_384_main_numeric_bound_replacement_consumed"] is True and f["v49_additive_subtraction_performed"] is False and f["v49_exact_incremental_rejected_identity_set_claimed"] is False,"V49 accounting firewall")
+    req(f["full178_numerical_census_complete"] is True,"FULL178 census not synchronized")
+    req(st["current"]["mainbatch_stop_gate"]=="NONE","MAIN stop gate")
+    req(st["current"]["next_exact_route"]=="ROADMAP_32_02_AND_32_03_THEN_32_04_SYNTHESIS","MAIN next route")
+    req(st["current"]["operator_entrypoint"]=="stage32mainbatch","MAIN operator entrypoint")
+    req(st["current"]["routing_mode"]=="ROADMAP_FIRST_ON_DEMAND_SPECIALIST_DISPATCH","MAIN routing mode")
+    sweep=st["source_locks"]["live_specialist_sweep"]
+    req(sweep["mode"]=="ROADMAP_SELECTED_ON_DEMAND_COORDINATION_SNAPSHOT" and sweep["global_sweep_required"] is False,"coordination snapshot mode")
+    req(sweep["observed_repository_main"]=="a834864923086e5f7c1647e462804f45ff9ac28d" and sweep["sweep_date"]=="2026-09-25","repository main/coordination date")
+    req(sweep["lane_178_status"]=="PARKED_RETAINED_AFTER_AUDITED_32_01_COMPLETION" and sweep["lane_178_retained_source_pr"]==1821 and sweep["lane_178_compact_handoff_pr"]==1835 and sweep["lane_178_latest_audited_exact_head"]=="44d274770de1d092022ebbefff80f3cefb914982" and sweep["lane_178_latest_audit_review_id"]==5313265646 and sweep["lane_178_pending_main_handoff"]=="NONE","178 retained observation")
+    req(sweep["ex5_pr"]==1831 and sweep["ex5_head"]=="ffc3cf84ff9995b91bacd406193a05708f8cc84e" and sweep["ex5_pending_main_handoff"]=="NONE","EX5 32-02 observation")
+    req(sweep["mb_pr"]==1827 and sweep["mb_head"]=="50205efc2d57af4553cff75dd3667b204e4b089d" and sweep["mb_pending_main_handoff"]=="NONE","MB 32-03 observation")
+    req(sweep["mb_fib_pr"]==1829 and sweep["mb_fib_head"]=="090cf1ce97819736f9be09a9a96fb6421349acad","MB-FIB auxiliary observation")
+    req(sweep["bridge_status"]=="PARKED_OPTIONAL_POST_32_01_REFINEMENT" and sweep["bridge_pending_main_handoff"]=="NONE","BRIDGE parked observation")
+    req(sweep["cut_status"]=="RETAINED_HISTORY_NO_OPEN_SUCCESSOR" and sweep["cut_pending_main_handoff"]=="NONE","CUT retained observation")
+    for key in ("full178_complete","effectivity_released","receiver_credit","route_credit","theorem_credit","endpoint_credit","stage32_closed","perfect_cuboid_existence_claim","perfect_cuboid_nonexistence_claim","merge_authorized"):req(st["firewalls"][key] is False,f"firewall {key}")
+    req(f["v51_predecessor_upper_bound"]==V51_PREDECESSOR and f["v51_exact_tightening_vs_v50"]==V51_PREDECESSOR-V52_PREDECESSOR,"V51 MIN composition")
+    req(f["v51_hpadj22_unibranch_main_numeric_bound_consumed"] is True and f["v51_additive_subtraction_performed"] is False and f["v51_exact_incremental_rejected_identity_set_claimed"] is False,"V51 accounting firewall")
+    req(f["v52_predecessor_upper_bound"]==V52_PREDECESSOR and f["v52_exact_tightening_vs_v51"]==V52_PREDECESSOR-BOUND,"V52 MIN composition")
+    req(f["v52_fixed_direction_certificates_main_numeric_bound_consumed"] is True and f["v52_additive_subtraction_performed"] is False and f["v52_exact_incremental_rejected_identity_set_claimed"] is False,"V52 accounting firewall")
+    print("PASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound")
+if __name__=="__main__":main()

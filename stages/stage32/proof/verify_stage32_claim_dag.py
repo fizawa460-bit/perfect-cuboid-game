@@ -47,7 +47,10 @@ _FROZEN_PROVISIONAL_ROUTING_LOCKS = {
 
 def _is_mutable_routing_state(lock: dict) -> bool:
     path = lock.get("path")
-    return isinstance(path, str) and path.endswith("/MAIN-STATE.json")
+    return isinstance(path, str) and (
+        path.endswith("/MAIN-STATE.json")
+        or path == "stages/stage32/residual-32-01-production/state.json"
+    )
 
 
 def _frozen_provisional_snapshot(cid: str, lock: dict) -> bytes | None:
@@ -147,7 +150,7 @@ def validate_source_locks(by_id: dict[str, dict]) -> int:
 def validate_lane_adapters(by_id: dict[str, dict], adapters: dict) -> None:
     """Keep claim validation unchanged while allowing the routing map to enroll specialists.
 
-    V2 adds operational routing lanes 32-01-178, CUT and MB. Their presence does
+    V2 adds operational routing lanes 32-01-178, CUT, MB and BRIDGE. Their presence does
     not add claim authority: claim_refs must still resolve into the existing
     mathematical CLAIM-REGISTRY and demand IDs are forbidden there by the
     independent cross-lane verifier.
@@ -156,7 +159,7 @@ def validate_lane_adapters(by_id: dict[str, dict], adapters: dict) -> None:
     if schema == "STAGE32_LANE_CLAIM_ADAPTERS_V1":
         expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6"}
     elif schema == "STAGE32_LANE_CLAIM_ADAPTERS_V2_CROSS_LANE_DEMAND_ROUTING":
-        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "32-01-178", "CUT", "MB"}
+        expected = {"MAIN", "EX1", "EX2", "EX3", "EX4", "EX5", "EX6", "32-01-178", "CUT", "MB", "BRIDGE"}
     else:
         raise CheckError("unexpected lane adapter schema")
     lanes = adapters.get("lanes")

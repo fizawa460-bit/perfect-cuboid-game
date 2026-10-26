@@ -1,0 +1,157 @@
+{
+  "schema": "STAGE32_MB_FIB_STATE_V1",
+  "stage": 32,
+  "lane_id": "MB-FIB",
+  "command": "stage32mb-fib",
+  "status": "READY_FOR_DEDICATED_RESEARCH_PR_NO_CREDIT",
+  "consumer_lane": "MB",
+  "purpose": "MB-local auxiliary MB104 fibration/Picard64 producer subroute that can run in parallel without moving or freezing the ordinary MB active leaf.",
+  "routing": {
+    "ordinary_mb_mainbatch_preloads_this_lane": false,
+    "fib_freeze_blocks_mb_mainbatch": false,
+    "mb_consumes_only_exact_audited_handoff": true,
+    "main_credit_auto_promotion": false,
+    "dedicated_research_pr_required_for_retained_execution": true,
+    "one_open_retained_fib_pr_at_a_time": true,
+    "recommended_branch_prefix": "stage32mb-fib-",
+    "registered_lane_adapter": false,
+    "claim_dag_lane": false,
+    "cross_lane_demand_identity": "MB"
+  },
+  "command_modes": {
+    "research": {
+      "invocation": "stage32mb-fib",
+      "rule": "Continue the dedicated MB-FIB producer STATE/PR. Do not mutate ordinary MB active-leaf state."
+    },
+    "audit": {
+      "invocation": "stage32mb-fib-audit",
+      "rule": "Audit only the exact head frozen in this subroute's audit target. If no exact target is frozen, fail closed."
+    }
+  },
+  "active_surface": {
+    "research_pr_number": null,
+    "research_branch": null,
+    "exact_head": null,
+    "bootstrap_merge_pr_is_not_research_surface": true
+  },
+  "audit": {
+    "status": "NOT_FROZEN",
+    "exact_head": null,
+    "hostile_audit_review_id": null,
+    "current_head_inherits_prior_pass": false
+  },
+  "imported_source": {
+    "role": "ARCHIVE_ONLY_SOURCE_LOCKED_PREPARED_PACKAGE",
+    "archive_pr": 1825,
+    "archive_branch": "stage32mb-z33-span5-restart-20260919",
+    "exact_source_boundary": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+    "note_blob": "c65e9daa8f29a4ba525742116c9995cdc9cc504d",
+    "certificate_blob": "67e897bd2d46b3382282449b301235af2497109b",
+    "cold_runkey_blob": "9dcd460c5d7a73a87e4ed24569c742cac42ea511",
+    "runner_git_blob": "1ad6c42b41a2c044933bd04c0495b40814f22b9e",
+    "parent_verifier_git_blob": "5b1d120b6cd2dcd6d23ebcaa889448b897a479db",
+    "workunit_runner_git_blob": "671fa6cbc2ea171a4abebacf44e8122189e8397f",
+    "workunit_verifier_git_blob": "2a067db553a45f2f8e70783ec6b95495fc976360",
+    "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
+    "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
+    "numerical_execution_completed": false
+  },
+  "active_leaf": {
+    "id": "MBFIB-000707-DEG10-DEG12-PICARD64-SHELLS",
+    "support_mask": "000707000f0f",
+    "compact_indices_0based": [
+      0,
+      1,
+      2,
+      3,
+      8,
+      9,
+      10,
+      11,
+      24,
+      25,
+      26,
+      32,
+      33,
+      34
+    ],
+    "shells": [
+      {
+        "shell_index": 0,
+        "degree": 10,
+        "p_intersection": 30,
+        "support_mass": 10,
+        "hperp_norm": 400
+      },
+      {
+        "shell_index": 1,
+        "degree": 10,
+        "p_intersection": 34,
+        "support_mass": 9,
+        "hperp_norm": 400
+      },
+      {
+        "shell_index": 2,
+        "degree": 10,
+        "p_intersection": 38,
+        "support_mass": 8,
+        "hperp_norm": 400
+      },
+      {
+        "shell_index": 3,
+        "degree": 12,
+        "p_intersection": 36,
+        "support_mass": 12,
+        "hperp_norm": 144
+      }
+    ],
+    "first_action": "Create/continue the dedicated retained MB-FIB research PR, port the source-locked bounded runner, freeze and audit the execution surface, then run shell0 pilot only.",
+    "zero_candidate_handoff": "Produce an audited exact enumeration certificate only. The MB consumer must compose it with Z40B and degree-8 exhaustiveness before asserting min_ALL fibrations P.F=40.",
+    "nonzero_candidate_handoff": "Retain exact candidates; degree10 goes to residual sextic configurations, degree12 to QA+QB+degree4 residual geometry.",
+    "forbidden_drift": [
+      "do not reopen 32-01 terminal pruning as the objective",
+      "do not treat known140 nonnegativity as effectivity or semiampleness",
+      "do not self-promote zero shell hits to an MB/global theorem",
+      "do not drift to Z55+ merely because this producer is blocked"
+    ]
+  },
+  "execution": {
+    "heavy_armed": false,
+    "runkey_generation": 0,
+    "pilot_required": true,
+    "pilot_shell_index": 0,
+    "planned_effective_heavy_concurrency": 1,
+    "stage_heavy_cap": 18,
+    "repository_storage_budget_mb": 500,
+    "raw_stdout_persisted": false,
+    "resume_first": true
+  },
+  "handoff_contract": {
+    "consumer_lane": "MB",
+    "required_fields": [
+      "producer_pr",
+      "producer_exact_head",
+      "hostile_audit_receipt",
+      "certificate_blob_or_canonical_hash",
+      "source_population_semantics",
+      "result_scope"
+    ],
+    "consumer_must_explicitly_accept": true,
+    "producer_surface": "MB-FIB"
+  },
+  "credit_firewall": {
+    "numerical_shell_credit": false,
+    "global_fibration_optimum_credit": false,
+    "effectivity_credit": false,
+    "semiampleness_credit": false,
+    "mb104_complete": false,
+    "stage32_03_complete": false,
+    "receiver_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "audit_command": "stage32mb-fib-audit"
+}

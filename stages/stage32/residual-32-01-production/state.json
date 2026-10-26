@@ -1,8 +1,8 @@
 {
-  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V70_PREFIX_INDEXED_COMPRESSION",
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V71_FULL178_AUDIT_SYNCED",
   "stage": "32",
   "item": "RESIDUAL_32_01_PRODUCTION",
-  "status": "PREFIX_DFS_REPARAMETERIZED_INDEXED_NUMERICAL_LEAF_COMPRESSION_NEXT",
+  "status": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS_AUDIT_SYNCED__EFFECTIVITY_NEXT",
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": false,
@@ -11,7 +11,7 @@
   "FULL_178_ROW_SWEEP_AUTHORIZED": true,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "FULL_D8_G0_ROW_COMPLETE": false,
-  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": true,
   "R29_LG2": "NOT_DISCHARGED",
   "THEOREM_CREDIT": false,
   "RECEIVER_CREDIT": false,
@@ -28,9 +28,21 @@
     "runner": "stages/stage32/residual-32-01-production/run_full178_resumable_work_unit.py",
     "real_stage32_resume_equivalence": "PASS_REAL_STAGE32_RESUME_EQUIVALENCE",
     "max_unresolved_children_per_input": 1,
-    "structural_reproduction_upper_bound": 1.0,
-    "generation34": {"workflow_run_id": 33270325393, "input_frontier_count": 218, "frontier_after_ingest_count": 169, "frontier_net_change": -49, "continuation_count": 79},
-    "generation35": {"workflow_run_id": 33273365713, "input_frontier_count": 169, "frontier_after_ingest_count": 124, "frontier_net_change": -45, "continuation_count": 83},
+    "structural_reproduction_upper_bound": 1,
+    "generation34": {
+      "workflow_run_id": 33270325393,
+      "input_frontier_count": 218,
+      "frontier_after_ingest_count": 169,
+      "frontier_net_change": -49,
+      "continuation_count": 79
+    },
+    "generation35": {
+      "workflow_run_id": 33273365713,
+      "input_frontier_count": 169,
+      "frontier_after_ingest_count": 124,
+      "frontier_net_change": -45,
+      "continuation_count": 83
+    },
     "generation36": {
       "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation36-main-checkpoint.json",
       "workflow_run_id": 33276475360,
@@ -88,7 +100,11 @@
       "frontier_net_change": -21,
       "result": "PASS_RESUMABLE_GEN38_256M_EXACT_FIFO_FRONTIER_73_TO_52"
     },
-    "carry_free_continuation_rate_sequence": [0.7419354838709677, 0.7934782608695652, 0.7123287671232876],
+    "carry_free_continuation_rate_sequence": [
+      0.7419354838709677,
+      0.7934782608695652,
+      0.7123287671232876
+    ],
     "generation38_hard_tail_diagnostic": {
       "checkpoint": "stages/stage32/residual-32-01-production/full178-resumable-generation38-256m-hard-tail-diagnostic-main-checkpoint.json",
       "workflow_run_id": 33286709799,
@@ -134,7 +150,7 @@
     "generation38_adaptive_interpretation": {
       "previous_node_limit_per_work_unit": 64000000,
       "current_node_limit_per_work_unit": 256000000,
-      "node_limit_multiplier": 4.0,
+      "node_limit_multiplier": 4,
       "frontier_before": 73,
       "frontier_after": 52,
       "hard_tail_remains_substantial": true,
@@ -161,7 +177,10 @@
       "indexer_test_count": 3,
       "indexer_test_runtime_seconds": 4.079,
       "small_family_full_set_bijection_checked": true,
-      "large_random_access_roundtrip_e": [663, 729],
+      "large_random_access_roundtrip_e": [
+        663,
+        729
+      ],
       "random_access_unrank": true,
       "inverse_rank": true,
       "terminal_set_semantics_preserved": true,
@@ -174,6 +193,38 @@
     "production_switch_supported": true,
     "production_switched": true
   },
-  "legacy_generation34_old_split": {"armed": false, "preferred": false},
-  "next_item": "DIRECT_NUMERICAL_PICARD_LEAF_COMPRESSION_AFTER_PREFIX_REPARAMETERIZATION"
+  "legacy_generation34_old_split": {
+    "armed": false,
+    "preferred": false
+  },
+  "next_item": "32-02_EFFECTIVITY_SURVIVOR_DISPOSAL_AND_PARALLEL_32-03_MULTIBRANCH",
+  "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": true,
+  "full178_numerical_picard_leaf_checks_complete": true,
+  "full178_audit_sync": {
+    "status": "HOSTILE_AUDIT_PASS_CONSUMED_BY_MAIN_AUTHORITY_SYNC",
+    "source_pr": 1826,
+    "audited_exact_head": "620b90d1ca1f5316d55b88b2620f78eeba1949c7",
+    "hostile_audit_review_id": 5287562192,
+    "workflow_run_id": 35816698218,
+    "aggregate_artifact_id": 10733557553,
+    "artifact_zip_sha256": "a0930b1291b6ac43a53e510cf22a89d9e0b248dfd0895ccbf0316463a34367fa",
+    "aggregate_canonical_sha256": "9de69a0af40f11f67f8d41cbf1cd82161357d3f0c417b999d7c8d969ec57c422",
+    "durable_authority_sync_receipt_blob_sha1": "e05c27a247d61cfa58c500c011f4e71ccaefd655",
+    "coverage": {
+      "parents": 96,
+      "row_chunk_certificates": 2967,
+      "gaps": 0,
+      "overlaps": 0
+    },
+    "predecessor_upper_bound": "138652739800650593494",
+    "joint_upper_bound": "128645575147764659235",
+    "exact_tightening": "10007164652885934259",
+    "composition_rule": "SAME_POPULATION_EXACT_INTERSECTION_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION",
+    "effectivity_complete": false,
+    "multibranch_complete": false,
+    "stage32_closed": false,
+    "theorem_credit": false,
+    "receiver_credit": false,
+    "endpoint_credit": false
+  }
 }

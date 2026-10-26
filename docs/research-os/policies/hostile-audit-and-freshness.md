@@ -12,7 +12,7 @@ A hostile audit primarily checks:
 - source locks and dependency identity;
 - evidence and certificates;
 - verifier correctness;
-- required exact-head CI;
+- required exact-head CI, or an exact-head local replay record as defined in `local-first-execution.md` §5;
 - authority provenance;
 - research-credit boundaries;
 - state, controller, and roadmap consistency;
@@ -73,7 +73,7 @@ Immediately before an intended merge, evaluate the live merge-ready gate separat
 - PR ahead/behind counts;
 - merge-base;
 - relevant intervening drift and its semantic-impact classification;
-- CI or replay required by the active Stage/PR contract after synchronization.
+- CI or replay required by the active Stage/PR contract after synchronization (a local replay record per `local-first-execution.md` §5 is acceptable).
 
 Possible reporting states include `CLEAR`, `PENDING`, or `BLOCKED`, with the reason stated explicitly. A PR may therefore be hostile-audit PASS while merge-ready freshness is still pending.
 

@@ -1,5 +1,7 @@
 # Pull-request workflow trigger lifecycle
 
+> **Local-first override (2026-10-16).** `local-first-execution.md` takes precedence over this file. The automatic allowlist is fixed there; item 5 of the hostile-audit obligation below (representative exact-head replay of GitHub runs) is replaced by the static inventory verifiers named there.
+
 This policy defines lifecycle control for Stage-local and leaf GitHub Actions workflows.
 
 ## Principle
