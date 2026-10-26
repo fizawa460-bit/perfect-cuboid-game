@@ -1,0 +1,17 @@
+// D8-LOW-GENUS: minimal associated primes of the tangency ideal for matching type 'swap' (CONTRACT.md §3).
+< "tangency_swap.sing";
+LIB "primdec.lib";
+list P = minAssGTZ(T);
+ideal GT = std(T);
+"== swap: dim L =", nvars(basering), "; tangency ideal: affine dim", dim(GT), ", degree", mult(GT), "; minimal primes:", size(P);
+link l = ":w primes_swap.txt";
+int k;
+for (k = 1; k <= size(P); k++) {
+  ideal Q = std(P[k]);
+  "  prime", k, ": affine dim", dim(Q), ", degree", mult(Q);
+  write(l, "PRIME " + string(dim(Q)) + " " + string(mult(Q)));
+  write(l, string(Q));
+  kill Q;
+}
+close(l);
+quit;

@@ -1,0 +1,958 @@
+{
+  "schema": "LOCAL_REPLAY_RECORD_V1",
+  "policy": "docs/research-os/policies/local-first-execution.md",
+  "workflow": ".github/workflows/stage32-main-startup-authority.yml",
+  "exact_head": "ccc23632ad6997e1df81b10218a348bd2c4fcba1",
+  "emulated_pr_base": "d355445c86958158f3623e7848f5179288917c05",
+  "branch": "stage32-boundary-g0-d044-hecke",
+  "working_tree_clean": true,
+  "dirty_paths": [],
+  "started_utc": "2026-10-17T05:23:24Z",
+  "environment": {
+    "os": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.10.6",
+    "bash": "bash",
+    "git": "git version 2.53.0"
+  },
+  "jobs": [
+    {
+      "job": "startup-authority",
+      "steps": [
+        {
+          "name": "Checkout exact PR head",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "Assert exact PR head",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V42 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e4311c4ec31d5768c57308681ae60679987e2ced"
+        },
+        {
+          "name": "Assert fixed V42 boundary",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited merged V43 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2"
+        },
+        {
+          "name": "Assert fixed V43 boundary",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V44 HPADJ22 candidate boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e24488f1394abae25d9b0f9d099c8efd84e03a2a"
+        },
+        {
+          "name": "Assert fixed V44 HPADJ22 candidate boundary",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V44 HPADJ22 replacement boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "142b50757b345971218c953db6a15ddd09974172"
+        },
+        {
+          "name": "Assert fixed V44 HPADJ22 replacement boundary",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited merged V45 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "659ba93b9eba657b49a728f549c6bb6028398e08"
+        },
+        {
+          "name": "Assert fixed merged V45 boundary",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout BR204 generation1 source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "ee755bbfd46f405ca83e4930b354ee63459ad362"
+        },
+        {
+          "name": "Assert fixed BR204 generation1 source",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout live 178 compressed-Picard source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+        },
+        {
+          "name": "Assert fixed 178 compressed-Picard source",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited 178 V48 support-qBC source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "fb81be66f260879eec79e55be140857b5fc32bbc"
+        },
+        {
+          "name": "Assert hostile-audited 178 V48 support-qBC source",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited 178 post-V48 compact handoff",
+          "status": "EMULATED_WORKTREE",
+          "ref": "44d274770de1d092022ebbefff80f3cefb914982"
+        },
+        {
+          "name": "Assert fixed 178 post-V48 compact handoff",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout fixed 178 post-V48 producer source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "adcb7eb2eef153a1207294e956bf6115794e564d"
+        },
+        {
+          "name": "Assert fixed 178 post-V48 producer source",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Resolve research-head and merge-ready freshness separately",
+          "seconds": 2.0,
+          "exit": 0,
+          "stdout_tail": "current_main=d355445c86958158f3623e7848f5179288917c05\nmerge_base=d355445c86958158f3623e7848f5179288917c05\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify V49 retained source identities",
+          "seconds": 0.3,
+          "exit": 0,
+          "stdout_tail": "o-credit firewalls\nPASS: 6 retained local FULL178 row certificates are canonical, source-locked, production-validate_carry accepted, pairwise distinct, and zero-credit\nPASS: retained exact improvement sum = 157151676541230906; no MAIN/FULL178/downstream credit granted\nPASS: Stage32 MAIN V49 consumes hostile-audited POST-V48 178 384-coordinate bound as same-population replacement\nV48_UPPER_BOUND=128470212118313474449\nV49_UPPER_BOUND=128443221087959579960\nTIGHTENING=26991030353894489\nACCOUNTING=SAME_POPULATION_PER_COORDINATE_MIN_UPPER_BOUND_REPLACEMENT__NO_ADDITIVE_SUBTRACTION\nPASS: Stage32 MAIN V50 consumes hostile-audited UNIBRANCH-NODE-HURWITZ as the minimum of same-population certified upper bounds\nV49_UPPER_BOUND=128443221087959579960 STRATA=17128\nV50_UPPER_BOUND=511353002049 STRATA=530\nSEMANTICS=COMPRESSED_N220_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 MAIN V51 consumes hostile-audited HPADJ22-UNIBRANCH as the per-row minimum of same-population certified upper bounds\nV50_UPPER_BOUND=511353002049 V51_UPPER_BOUND=5369214401 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES as the per-row minimum with V51 on the same population\nV51_UPPER_BOUND=5369214401 V52_UPPER_BOUND=726240487 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Set up pinned Python",
+          "status": "SKIPPED_USES",
+          "uses": "actions/setup-python@v5"
+        },
+        {
+          "name": "Gate V46 GRF04 x HPADJ22 bounded pilot",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ22 source for V46 GRF04 joint pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V46 GRF04 integer projection x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V46 GRF04 x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V46 GRF04 x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited V42 authority projection",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "ojection verified; external EX5 source replay delegated to exact-head CI/audit\nPASS: numerical authority is 157570677819451133507; replacement head awaits independent hostile reaudit\nPASS: FULL178 census and downstream theorem/effectivity/receiver/endpoint credit remain incomplete\nPASS: Stage32 MAIN V42 consumes hostile-audited EX5 HPADJ21 by non-additive same-population bound replacement\nPASS: numerical authority is 157570677819451133507; replacement head awaits independent hostile reaudit\nPASS: FULL178/final-milestone chain remains incomplete and downstream credit remains blocked\nPASS: Stage32 MAIN V42 routes hostile-audited HPADJ21 as a non-additive replacement\nPASS: replacement head is fail-closed pending hostile reaudit; FULL178 remains active incomplete\nPASS: live specialist observation shapes/firewalls verified; remote freshness remains an operator startup obligation\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired\nPASS: current MAIN active-specialist monitor contract present\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V42 HPADJ21 replacement projection is current; hostile reaudit required\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay hostile-audited merged V43 boundary",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "ANONICAL_DIAGNOSTIC=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nV43_HPADJ21_AUDIT_SYNC_STORED_CANONICAL=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nPASS: Stage32 V43 synchronizes the hostile-audited V42 HPADJ21 numerical authority with zero new pruning\nPASS: V42 audit gate cleared; FULL178 research resumes with downstream/merge firewalls unchanged\nPASS: live specialist sweep refreshed through MB and BRIDGE current heads\nPASS: Stage32 MAIN V43 synchronizes the V42 HPADJ21 hostile-audit PASS with zero new pruning\nPASS: numerical authority remains 157570677819451133507; FULL178 research resumes\nPASS: Stage32 MAIN V43 audit sync clears the V42 replacement stop gate with zero new pruning\nPASS: live 178/EX5/MB/BRIDGE/CUT observations are current for this checkpoint\nPASS: FULL178 remains active incomplete; downstream and merge credit remain blocked\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired\nPASS: current MAIN active-specialist monitor contract present\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V43 audit synchronization is current; FULL178 research resumed\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay hostile-audited V44 HPADJ22 candidate boundary",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "YNC_CANONICAL_DIAGNOSTIC=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nV43_HPADJ21_AUDIT_SYNC_STORED_CANONICAL=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nPASS: V44 d=8 full343 result retained exactly with 255 UNSAT / 88 timeout / 0 SAT\nPASS: d=8 all140 nonnegativity receiver necessity and plane-conic separation are structurally closed\nPASS: HPADJ22 direct FULL178 retained 1424/1424 cells with candidate 138652739800650593494 and zero credit pending audit\nPASS: V43 numerical authority remains unchanged; V44 carries zero MAIN/theorem/effectivity/endpoint credit\nPASS: Stage32 MAIN V43 audit sync clears the V42 replacement stop gate with zero new pruning\nPASS: live 178/EX5/MB/BRIDGE/CUT observations are refreshed for V44 research successor\nPASS: FULL178 remains active incomplete; downstream and merge credit remain blocked\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired\nPASS: current MAIN active-specialist monitor contract present\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V44 zero-credit HPADJ22 FULL178 candidate preserves merged hostile-audited V43 authority\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay hostile-audited V44 HPADJ22 replacement boundary",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "V43_HPADJ21_AUDIT_SYNC_CANONICAL_DIAGNOSTIC=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nV43_HPADJ21_AUDIT_SYNC_STORED_CANONICAL=7a531a5cab37702c43ee83abe98c4e822ac878354eba22f8ea1bc042349b313e\nPASS: Stage32 V44 consumes hostile-audited HPADJ22 FULL178 candidate by same-population MIN replacement\nPASS: authoritative upper bound = 138652739800650593494; replacement head requires hostile re-audit\nPASS: Stage32 MAIN V44 HPADJ22 numerical replacement is synchronized; replacement head hostile re-audit is required\nPASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB Z33A head with zero MAIN credit\nPASS: FULL178 remains active incomplete; downstream and merge credit remain blocked\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired\nPASS: current MAIN active-specialist monitor contract present\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V44 consumes hostile-audited HPADJ22 FULL178 upper bound; replacement head pending hostile re-audit\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay hostile-audited merged V45 boundary",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "V45_HPADJ22_AUDIT_SYNC_CANONICAL_DIAGNOSTIC=122052faff0cf86b7cc58e78e769f6ca4027d908881b97813edc42dc32fb0477\nV45_HPADJ22_AUDIT_SYNC_STORED_CANONICAL=122052faff0cf86b7cc58e78e769f6ca4027d908881b97813edc42dc32fb0477\nPASS: Stage32 V45 synchronizes hostile-audited V44 HPADJ22 authority with zero new pruning\nPASS: Stage32 MAIN V45 audit-sync records hostile-audited V44 HPADJ22 authority with zero new pruning\nPASS: live 178/EX5/MB/BRIDGE/CUT observations include current MB P6B head with zero MAIN credit\nPASS: FULL178 remains active incomplete; downstream and merge credit remain blocked\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 shared command/startup contracts preserved; EX5 duplicate startup surface retired\nPASS: current MAIN active-specialist monitor contract present\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V45 synchronizes hostile-audited V44 HPADJ22 authority with zero new pruning\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify V46 postmerge successor against merged V45 root",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: Stage32 MAIN preserves V46/V47/V48 predecessor authority and accepts the hostile-audited V49 178 full-support 384, V50 unibranch node-Hurwitz, V51 HPADJ22-unibranch and V52 fixed-direction-certificate successors when synchronized\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify BR204 V46 current-authority consumer preflight",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: BR204 V46 consumer preflight retained as historical zero-credit provenance under V52\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify GRF04 x HPADJ22 e-independence preflight",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: GRF04 x4 interval e-independence verified over 14043 finite (d,e) pairs\nPASS: exact rewrite may count x4 intersection once and multiply by eligible-e count\nPASS: retained historical source-lock identities are bound; exact source checkout replay is delegated to the high-d benchmark job\nPASS: bounded strict pilot retained with zero MAIN credit; high-d benchmark remains next gate\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify Stage32 MAIN V46 successor startup projection",
+          "seconds": 0.2,
+          "exit": 0,
+          "stdout_tail": "er bounds\nV50_UPPER_BOUND=511353002049 V51_UPPER_BOUND=5369214401 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES as the per-row minimum with V51 on the same population\nV51_UPPER_BOUND=5369214401 V52_UPPER_BOUND=726240487 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 compact live control matches retained detailed authority\nPASS: ordinary startup may avoid MAIN-STATE/detail layers until load-bearing\nPASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 command surface is roadmap-first with one ordinary operator entrypoint\nPASS: specialist execution surfaces remain on-demand and isolated\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES (726240487 compressed terminals, strata upper bound 530) as same-population per-row MIN with V51; effectivity and multibranch remain open\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify Stage32 cross-lane coordination",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify MAIN compressed BTVA Picard-lift intersection preflight",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: historical zero-credit BTVA structural preflight retained under V52 authority\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify Stage32 final-chain 32-02 retained checks",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "ectivity/survivor/FULL178 closure credit\nPASS: Stage32 final-chain 32-02 surface invariant source lock\nK^2=16; p_g=7; q=0; chi(O)=8; K big and nef\nStage32 target degree semantics: degree=K.C\ncredit: source-lock only; no survivor/effectivity-final/carrier/receiver/theorem/endpoint credit\nPASS: Stage32 final-chain 32-02 Hperp-norm RR scalar adapter\nminimal survivor interface for RR gate: row_id, d, N=-y^2\nexact reconstruction: C2=d^2/16-N/m^2; RR gate: 16N<=m^2(d^2-16d+224)\nfull 59-entry Picard vector is not required by this RR sufficient test\nproducer gap remains: 32-01 must source-lock exact N per final survivor\ncredit: preparation only; no FULL178/effectivity-final/carrier/receiver/theorem/endpoint credit\nPASS: Stage32 final-chain 32-02 source-locked RR effectivity sufficient classifier\nsurface lock: K^2=16; p_g=7; q=0; chi(O)=8; K big and nef; degree=K.C\nFULL178 degree gate: source-locked 168 rows with d>16 / 10 rows with d<=16\nminimal downstream RR interface: row_id, d, N=-y^2; full 59-entry Picard vector not required by this gate\ncriterion: d>16 and C2>=d-14 with even C2-d; conclusion=effective divisor only\nstandalone API/CLI remains fail-closed; official wrapper affirms only after retained source-lock replay\nparent hostile re-audit: #1785 review 5179390797 at d44ff4403559dce4ea296698630f57a56cd0d0fe\ncredit: preparation only; CUT193/FULL178/receiver/theorem/endpoint remain zero\nPASS: RR norm quantization regression; degrees=4096 parity-compatible-pairs=266240 credit=NONE\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Gate 32-02 EFF-CFRR01 five-key pilot",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install 32-02 EFF-CFRR01 pilot dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify 32-02 EFF-CFRR01 preflight",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: retained EFF-CFRR01 pilot is 5/5 BASE_LINEAR timeout, zero-credit, exact-affine successor required\nPASS: Stage32 32-02 EFF-CFRR01 compressed-base4 RR preflight is source-locked and zero-credit\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Run 32-02 EFF-CFRR01 d18/e8 five-key pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate 32-02 EFF-CFRR01 pilot zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload 32-02 EFF-CFRR01 pilot evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify Stage32 claim DAG and active frontier",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "{\"authority_status_counts\": {\"AUDITED\": 9, \"DECLARED_GOAL\": 7, \"PROVISIONAL\": 1, \"SUPERSEDED\": 1}, \"claim_count\": 18, \"final_contract_locked\": true, \"lanes\": [\"MAIN\", \"EX1\", \"EX2\", \"EX3\", \"EX4\", \"EX5\", \"EX6\"], \"replay_verifiers_checked\": 17, \"source_locks_checked\": 45, \"verdict\": \"PASS_STAGE32_CLAIM_DAG_INTEGRITY\"}\n{\"active_claim_ids\": [\"S32.FULL178.NUMERICAL_CENSUS.V2\", \"S32.GOAL.STAGE32_CLOSURE.V2\", \"S32.O210.EXCLUSION.V3\", \"S32.Q602.EXCLUSION.V3\", \"S32.Q602.SURVIVORS_73_97_235.V1\"], \"demand_dag_separate\": true, \"inactive_lanes\": [\"EX1\", \"EX2\", \"EX6\"], \"o210_excluded\": true, \"q602_excluded\": true, \"replay_verifiers_checked\": 25, \"routing_only_specialists\": [\"32-01-178\", \"BRIDGE\", \"CUT\", \"MB\"], \"source_locks_checked\": 80, \"supporting_claim_ids\": [\"S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3\", \"S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1\", \"S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1\", \"S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1\", \"S32.FULL178.NUMERICAL_CENSUS.V1\", \"S32.GOAL.STAGE32_CLOSURE.V1\"], \"v6_negative_consumed\": true, \"verdict\": \"PASS_STAGE32_POST1730_Q602_ACTIVE_FRONTIER_DAG\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Gate V44 BTVA all140 receiver nonnegativity diagnostic",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA all140 receiver diagnostic dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA all140 receiver nonnegativity diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA all140 receiver diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA all140 receiver diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 timeout rescue top16",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 timeout rescue dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 timeout rescue round2",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 timeout rescue round2 dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 static Picard HNF diagnostic",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 static Picard HNF dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 residual-block HNF dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 exceptional support-only diagnostic",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 exceptional support-only dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 retained-basis pairing pilot",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA d8 retained-basis pairing dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA normalmass bounded runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA bounded solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA static7 normalmass bounded panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA normalmass zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA normalmass bounded evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA static7 key census runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Run V44 BTVA static7 exact key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA static7 key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA static7 key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA base4 bounded runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 BTVA base4 solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA base4 normalmass bounded panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA base4 zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA base4 bounded evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 full343 solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 exact shards sequentially",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 shard bundle",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Aggregate V44 full343 exact coverage",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 full343 parent result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 V2 pilot runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 full343 V2 pilot dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 V2 checkpointed shard0 pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 V2 pilot checkpoints",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V2 pilot shard",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 V3 resume scaleout runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Carry retained V44 full343 shard0 artifact",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 full343 V3 scaleout dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 V3 missing shards sequentially",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V3 missing shards",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Aggregate V44 full343 V3 carried plus missing shards",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V3 exact union",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 V3 resume evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed BTVA panel runkey",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 e12 ratio-directed BTVA panel dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave2 selector",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave2 BTVA panel",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave2 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave3 selector",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave3 BTVA panel",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave3 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 wave3 partial exact-qbin floor",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave3 partial qbin",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave4 selector",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave4 BTVA panel",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave4 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave4 27-UNSAT qbin",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 wave4 27-UNSAT exact-qbin result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 global GRF04 x4 top-row pilot",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS",
+          "outputs": {
+            "run": "false"
+          }
+        },
+        {
+          "name": "Checkout audited HPADJ21 source for global GRF04 x4 pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout audited 178 GRF04 x4 source for global pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Enforce V49 authority-sync scope",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": ".github/workflows/stage32-main-startup-authority.yml\nstages/stage32/management/boundary-g0-d044-hecke/CONTRACT.md\nstages/stage32/management/boundary-g0-d044-hecke/EXTERNAL-AUDIT-RECEIPT.md\nstages/stage32/management/boundary-g0-d044-hecke/LOCAL-REPLAY-stage32-claim-frontier-integrity-80db66918911.json\nstages/stage32/management/boundary-g0-d044-hecke/LOCAL-REPLAY-stage32-main-startup-authority-80db66918911.json\nstages/stage32/management/boundary-g0-d044-hecke/RESULT.json\nstages/stage32/management/boundary-g0-d044-hecke/verify_boundary_g0_d044_hecke.py\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Diff check",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "finished_utc": "2026-10-17T05:23:40Z",
+  "verdict": "PASS",
+  "skipped_uses": [
+    "actions/setup-python@v5"
+  ]
+}

@@ -1,28 +1,158 @@
 {
+  "abandoned_gen24_x59_cold": {
+    "authority_status": "NON_AUTHORITATIVE_REJECTED_AS_PREDECESSOR",
+    "bound": [
+      -20,
+      20
+    ],
+    "carried_complete_x60_singletons": 281,
+    "carry_authority": "SOURCE_COMMITTED_GEN23_X60_SINGLETON_CARRY",
+    "cold_canonical_sha256": "2e275b5d3dded8cd2b01e5b5707a682aa3add52425525af9ded8ffb07be67904",
+    "credit": false,
+    "execution_authorized": false,
+    "expected_interval_child_count": 240,
+    "expected_packet_count": 30,
+    "heavy_armed": false,
+    "heavy_surface_retired": true,
+    "historical_review_id": 5285481947,
+    "historical_review_result": "PASS_AT_TIME__LATER_EXCLUDED_FROM_PREDECESSOR_AUTHORITY",
+    "intervals": [
+      [
+        -20,
+        -16
+      ],
+      [
+        -15,
+        -11
+      ],
+      [
+        -10,
+        -6
+      ],
+      [
+        -5,
+        -1
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        20
+      ]
+    ],
+    "max_parallel": 4,
+    "recompute_prior_complete_regions": false,
+    "refinement_coordinate_0based": 59,
+    "residual_timeout_x60_singletons": 30,
+    "resume_first": true,
+    "source_generation": 23
+  },
+  "adaptive_successor_cold": {
+    "canonical_sha256": "6daaaef5e82aaefab0b676c24392b08894e7ecf63b6a930f0327d74ffd48a1d7",
+    "carried_complete_x60_singletons": 281,
+    "carry_authority": "SOURCE_COMMITTED_GEN23_X60_SINGLETON_CARRY",
+    "credit": false,
+    "execution_authorized": false,
+    "forbidden_split_coordinates_0based": [
+      59,
+      60,
+      61,
+      62
+    ],
+    "heavy_armed": false,
+    "heavy_surface_present": true,
+    "hostile_audit_exact_head": "17473b02de084c086fe3abeaf0b7fc8107e4a997",
+    "hostile_audit_review_id": 5285955013,
+    "hostile_audit_status": "PASS",
+    "implementation_optimization": "COMMON_AFFINE_CONTEXT_REUSE_ONLY__NO_SEMANTIC_CHANGE",
+    "matching_execution_surface": {
+      "aggregate_requires_exact_full_union": true,
+      "credit": false,
+      "generation": 26,
+      "heavy_authorized": false,
+      "interval_child_count": 128,
+      "max_parallel_after_future_audit": 8,
+      "mode": "COLD",
+      "necessary_condition_empty_leaf_count": 14,
+      "packet_count": 16,
+      "refinement_coordinate_0based": 58
+    },
+    "maximum_interval_child_count": 240,
+    "method": "PER_LEAF_AFFINE_CONDITIONED_DUAL_ELLIPSOID",
+    "output_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
+    "output_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-ADAPTIVE-AFFINE-COLD.json",
+    "planned_max_parallel_after_future_external_audit": 4,
+    "predecessor_audited_surface": {
+      "exact_head": "17473b02de084c086fe3abeaf0b7fc8107e4a997",
+      "review_id": 5285955013,
+      "scope": "GEN25_COLD_ADAPTIVE_AFFINE_DIAGNOSTIC",
+      "status": "PASS"
+    },
+    "residual_timeout_x60_singletons": 30,
+    "result": {
+      "artifact_digest": "sha256:ccc09ae12eedb702814771e73066b799811c214d2d0d797c610814cd0749c144",
+      "artifact_id": 10726409201,
+      "authorize_job_id": 107002314104,
+      "canonical_sha256": "6daaaef5e82aaefab0b676c24392b08894e7ecf63b6a930f0327d74ffd48a1d7",
+      "carried_complete_x60_singletons": 281,
+      "certificate_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
+      "credit": false,
+      "heavy_authorized": false,
+      "maximum_conditional_domain": 37,
+      "median_conditional_domain": [
+        25,
+        25
+      ],
+      "necessary_condition_empty_leaf_count": 14,
+      "producing_execution_head": "98d460d33ec5feabaf5bba0da51a7192dca275e2",
+      "producing_workflow_run_id": 35804557466,
+      "residual_timeout_leaf_count": 30,
+      "selected_coordinate_histogram": {
+        "58": 16
+      },
+      "split_leaf_count": 16,
+      "total_interval_child_count": 128
+    },
+    "source_committed": true,
+    "source_generation": 23,
+    "source_lock_repair": "SYNC_TO_SOURCE_COMMITTED_SPEC_BLOB__NO_SEMANTIC_CHANGE",
+    "transport": "VERIFIED_CERTIFICATE_BASE64_LOG_TRANSPORT_ONLY__NO_SEMANTIC_CHANGE",
+    "x59_heavy_surface_retired": true
+  },
   "armed": false,
   "concurrency": {
-    "planned_effective_heavy_concurrency": 8,
-    "reserved_stage_headroom": 10,
-    "stage_heavy_cap": 18,
-    "max_other_live_stage32_concurrency_for_arm": 10,
-    "prearm_live_concurrency_recheck_required": true,
-    "live_gate_fail_closed": true,
-    "live_gate_counting_method": "ALL_QUEUED_OR_IN_PROGRESS_JOBS_IN_OTHER_STAGE32_WORKFLOW_RUNS__CURRENT_RUN_EXCLUDED__CONSERVATIVE_UPPER_BOUND",
-    "prearm_concurrency_rule": "Before any later Gen31-or-newer heavy authorization, require a fresh hostile-audit PASS for the matching execution surface, current repository main to equal its audited coordination head, and other_live_stage32_concurrency + planned MB-FIB concurrency <= 18.",
     "current_main_coordination": {
-      "repository_main": "a834864923086e5f7c1647e462804f45ff9ac28d",
-      "main_commit_message": "[Stage32] current main A834 coordination",
-      "main_heavy_workflow_path": ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
-      "main_heavy_workflow_git_blob": "eedc196d369a7e489f9fdfd75f9e3910cba15b8c",
-      "main_heavy_runkey_path": "stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json",
-      "main_heavy_runkey_git_blob": "f011a66e48789b40bf3b54c4118cfdd0faa0f585",
-      "main_heavy_generation": 17,
+      "failed_audit_observation": "latest MAIN heavy run completed; future overlap remains mechanically possible without a live gate",
+      "main_commit_message": "Current MAIN synchronized; historical Gen29 concurrency observations confer no execution authority",
       "main_heavy_armed": true,
+      "main_heavy_generation": 17,
+      "main_heavy_runkey_git_blob": "f011a66e48789b40bf3b54c4118cfdd0faa0f585",
+      "main_heavy_runkey_path": "stages/stage32/management/grf04-hpadj22-joint/runkeys/V46-GRF04-HPADJ22-FULL178.json",
+      "main_heavy_workflow_git_blob": "85df27b5da8169ca0a0a1f55132612460a1a4d90",
+      "main_heavy_workflow_path": ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
       "main_planned_effective_heavy_concurrency": 14,
-      "main_stage_heavy_cap": 18,
       "main_prearm_live_concurrency_recheck_required": true,
-      "failed_audit_observation": "latest MAIN heavy run completed; future overlap remains mechanically possible without a live gate"
-    }
+      "main_stage_heavy_cap": 18,
+      "repository_main": "c6cc8f12d7044eb3f3dc182850decd565a4e1752"
+    },
+    "live_gate_counting_method": "ALL_QUEUED_OR_IN_PROGRESS_JOBS_IN_OTHER_STAGE32_WORKFLOW_RUNS__CURRENT_RUN_EXCLUDED__CONSERVATIVE_UPPER_BOUND",
+    "live_gate_fail_closed": true,
+    "max_other_live_stage32_concurrency_for_arm": 2,
+    "planned_effective_heavy_concurrency": 0,
+    "prearm_concurrency_rule": "COLD has no heavy jobs. Any future heavy Actions run requires explicit per-run user authorization, matching hostile-audited execution surface, and repository-wide effective heavy concurrency <= 2. Local computation is the default.",
+    "prearm_live_concurrency_recheck_required": true,
+    "reserved_stage_headroom": 2,
+    "stage_heavy_cap": 2
   },
   "credit": {
     "MB104_complete": false,
@@ -35,87 +165,106 @@
     "semiampleness_credit": false,
     "theorem_credit": false
   },
+  "evidence_materialization": {
+    "adaptive_interval_child_count": 128,
+    "aggregate_artifact_id": 10839096274,
+    "aggregate_canonical_sha256": "8990b5ddf23ec10a9f39502e3ee6ffb3edef8d517bfab7a3048aca30ae36cd93",
+    "completed": true,
+    "credit": false,
+    "expected_complete_child_count": 74,
+    "expected_incomplete_child_count": 54,
+    "gzip_sha256": "74fe77d25bd3000fd53c220a4e23b354bee0d2ea4dd96faf27d342b10c05db08",
+    "heavy_release": false,
+    "operation": "GEN27_ADAPTIVE_X58_DURABLE_CARRY",
+    "packet_count": 16,
+    "payload_sha256": "c5a1d9daa4ec82dd5ec3e6b411b3d5a3dcfb67b4ddcdb252c0c974a5eed7c7d3",
+    "pending": false,
+    "primitive_candidate_count": 0,
+    "producing_execution_head": "1f69a43a49d05b3e8c5fa87c812efe974c9b20e5",
+    "producing_workflow_run_id": 36066791252,
+    "schema": "STAGE32_MB104_000707_GEN27_DURABLE_CARRY_MATERIALIZATION_GATE_V1"
+  },
   "execution_gate": {
     "audited_surface": {
-      "status": "PENDING",
       "exact_head": null,
       "review_id": null,
-      "scope": "GEN30_COLD_X56_AFFINE_RESIDUAL49__NO_HEAVY"
-    },
-    "predecessor_audited_surface": {
-      "status": "PASS",
-      "exact_head": "ac511eff35b37212d9f17acb5237689719804718",
-      "review_id": 5312763582,
-      "scope": "GEN28_COLD_X58_SINGLETON_RESIDUAL54_HOSTILE_AUDIT_PASS__RELEASE_CONSUMED_BY_GEN29"
+      "scope": "GEN30_COLD_X56_AFFINE_RESIDUAL49__NO_HEAVY",
+      "status": "PENDING"
     },
     "automatic_execution_authorized": false,
     "commit_range_runkey_change_required": true,
-    "current_head_execution_blocked": true,
-    "hostile_audit_exact_head": null,
-    "hostile_audit_review_id": null,
-    "hostile_audit_status": "PENDING",
-    "last_numerical_attempt_generation": 29,
-    "last_numerical_attempt_run_id": 36092356653,
-    "last_numerical_attempt_status": "111_COMPLETE_X58_SINGLETON_CHILDREN_49_TIMEOUT__SOURCE_COMMITTED_DURABLE_CARRY__GEN29_RELEASE_CONSUMED",
-    "pilot_only": true,
-    "previous_generation": 29,
-    "previous_generation_run_id": 36092356653,
-    "previous_generation_status": "GEN29_RECOVERY_EXECUTED__111_COMPLETE_X58_SINGLETONS__49_TIMEOUT__SOURCE_COMMITTED_DURABLE_CARRY",
-    "previous_generation_failure_stage": null,
-    "previous_generation_failure_reason": null,
-    "release_scope": "GEN29_RELEASE_CONSUMED__GEN30_COLD_X56_AFFINE_RESIDUAL49__FRESH_HOSTILE_AUDIT_REQUIRED",
-    "scaleout_authorized": false,
-    "shells_1_2_3_authorized": false,
-    "state_transition_recorded": true,
-    "scope": "AUXILIARY_FIBRATION_OPTIMIZATION_SHELL_NOT_MB104_CARRIER_PICARD_ENUMERATION",
-    "workflow_class": "ACTIVE_AUTO",
-    "previous_failed_audit": {
-      "exact_head": "266a8e58b7c5758996f6b2f7016053d3d06cafc5",
-      "control_head": "d4cbde34bea7d4da48c3c15ac2805e721d1daef5",
-      "review_id": 5286171867,
-      "outcome": "FAIL_HOLD",
-      "blockers": [
-        "TRANSITIVE_SOURCE_LOCK_GAP__GEN19_MANIFEST_AND_RECOVERY_SINGLETON_RUNNER",
-        "ADAPTIVE_CANDIDATE_REPLAY_UNION_COUNT_VERIFIER_GAP"
-      ]
-    },
-    "gen19_failed_authorization": {
-      "execution_head": "d02b8b5ee0536e0c87c7c61f2fa9cd8a6c0b6b66",
-      "run_id": 35564922308,
-      "authorize_job_id": 106224738507,
-      "audit_exact_head": "8b200c2e20b9ec923fd905c9fb52252fb93a750b",
-      "audit_review_id": 5263227713,
-      "outcome": "AUTHORIZE_FAILED_BEFORE_HEAVY",
-      "packet_jobs_executed": 0,
-      "aggregate_executed": false,
-      "reason": "audited exact commit object absent under fetch-depth=2 before audited-head blob comparison"
-    },
     "concurrency_amendment_predecessor_audit": {
-      "status": "PASS",
       "exact_head": "c771af0b5076460860a116abecce0288d62da011",
       "review_id": 5304323336,
-      "scope": "GEN26_MATCHING_ADAPTIVE_X58_EXECUTION_SURFACE__MAX_PARALLEL_4"
+      "scope": "GEN26_MATCHING_ADAPTIVE_X58_EXECUTION_SURFACE__MAX_PARALLEL_4",
+      "status": "PASS"
     },
     "concurrency_repair": {
-      "failed_audit_exact_head": "ea23abf3acd5696f9ea0c9d570ec6e827a069d38",
-      "failed_audit_control_head": "8d2d592b25838f68ff44c4c06a579c21ead071cd",
-      "failed_audit_review_id": 5304816257,
       "blocker_count": 2,
+      "failed_audit_control_head": "8d2d592b25838f68ff44c4c06a579c21ead071cd",
+      "failed_audit_exact_head": "ea23abf3acd5696f9ea0c9d570ec6e827a069d38",
+      "failed_audit_review_id": 5304816257,
       "repairs": [
         "RUNKEY_STATE_WORKFLOW_CONCURRENCY_CONTRACT_SYNCHRONIZED_TO_8_PLUS_10_HEADROOM_EQUALS_18",
         "FAIL_CLOSED_LIVE_STAGE32_JOB_CENSUS_BEFORE_RECOVERY_AUTHORIZATION",
         "CURRENT_MAIN_E7FD29D_COORDINATION_HEAD_PINNED_FOR_PREARM_FRESHNESS"
       ]
     },
+    "current_head_execution_blocked": true,
+    "gen19_failed_authorization": {
+      "aggregate_executed": false,
+      "audit_exact_head": "8b200c2e20b9ec923fd905c9fb52252fb93a750b",
+      "audit_review_id": 5263227713,
+      "authorize_job_id": 106224738507,
+      "execution_head": "d02b8b5ee0536e0c87c7c61f2fa9cd8a6c0b6b66",
+      "outcome": "AUTHORIZE_FAILED_BEFORE_HEAVY",
+      "packet_jobs_executed": 0,
+      "reason": "audited exact commit object absent under fetch-depth=2 before audited-head blob comparison",
+      "run_id": 35564922308
+    },
+    "hostile_audit_exact_head": null,
+    "hostile_audit_review_id": null,
+    "hostile_audit_status": "PENDING",
+    "last_numerical_attempt_generation": 29,
+    "last_numerical_attempt_run_id": 36092356653,
+    "last_numerical_attempt_status": "111_COMPLETE_X58_SINGLETON_CHILDREN_49_TIMEOUT__SOURCE_COMMITTED_DURABLE_CARRY__GEN29_RELEASE_CONSUMED",
     "live_gate_pagination_repair": {
-      "failed_cold_run_id": 36062297013,
       "failed_authorize_job_id": 107843850701,
+      "failed_cold_run_id": 36062297013,
       "failure": "ACTIONS_API_TOTAL_COUNT_PAGE_LENGTH_ASSUMPTION_INVALID",
-      "repair": "PAGINATE_QUEUED_AND_IN_PROGRESS_RUNS_AND_JOBS_UNTIL_SHORT_PAGE__MAX_20_PAGES_FAIL_CLOSED",
       "mathematical_population_changed": false,
-      "solver_semantics_changed": false,
-      "max_parallel_changed": false
-    }
+      "max_parallel_changed": false,
+      "repair": "PAGINATE_QUEUED_AND_IN_PROGRESS_RUNS_AND_JOBS_UNTIL_SHORT_PAGE__MAX_20_PAGES_FAIL_CLOSED",
+      "solver_semantics_changed": false
+    },
+    "pilot_only": true,
+    "predecessor_audited_surface": {
+      "exact_head": "ac511eff35b37212d9f17acb5237689719804718",
+      "review_id": 5312763582,
+      "scope": "GEN28_COLD_X58_SINGLETON_RESIDUAL54_HOSTILE_AUDIT_PASS__RELEASE_CONSUMED_BY_GEN29",
+      "status": "PASS"
+    },
+    "previous_failed_audit": {
+      "blockers": [
+        "TRANSITIVE_SOURCE_LOCK_GAP__GEN19_MANIFEST_AND_RECOVERY_SINGLETON_RUNNER",
+        "ADAPTIVE_CANDIDATE_REPLAY_UNION_COUNT_VERIFIER_GAP"
+      ],
+      "control_head": "d4cbde34bea7d4da48c3c15ac2805e721d1daef5",
+      "exact_head": "266a8e58b7c5758996f6b2f7016053d3d06cafc5",
+      "outcome": "FAIL_HOLD",
+      "review_id": 5286171867
+    },
+    "previous_generation": 29,
+    "previous_generation_failure_reason": null,
+    "previous_generation_failure_stage": null,
+    "previous_generation_run_id": 36092356653,
+    "previous_generation_status": "GEN29_RECOVERY_EXECUTED__111_COMPLETE_X58_SINGLETONS__49_TIMEOUT__SOURCE_COMMITTED_DURABLE_CARRY",
+    "release_scope": "GEN29_RELEASE_CONSUMED__GEN30_COLD_X56_AFFINE_RESIDUAL49__FRESH_HOSTILE_AUDIT_REQUIRED",
+    "scaleout_authorized": false,
+    "scope": "AUXILIARY_FIBRATION_OPTIMIZATION_SHELL_NOT_MB104_CARRIER_PICARD_ENUMERATION",
+    "shells_1_2_3_authorized": false,
+    "state_transition_recorded": true,
+    "workflow_class": "MANUAL"
   },
   "generation": 30,
   "leaf": "MBFIB-000707-SHELL0-GEN30-COLD-GEN29-CARRY-X56-AFFINE-RESIDUAL49",
@@ -129,215 +278,89 @@
     "required_before_scaleout": true,
     "shell_index": 0
   },
-  "recovery": {
-    "carry_authority": "SOURCE_COMMITTED_GEN29_X58_SINGLETON_DURABLE_CARRY__NO_RECOMPUTATION_OF_281_X60_COMPLETE__14_REAL_EMPTY__74_X58_INTERVAL_COMPLETE__111_X58_SINGLETON_COMPLETE",
-    "parent_gen29_execution_head": "090cf1ce97819736f9be09a9a96fb6421349acad",
-    "parent_gen29_workflow_run_id": 36092356653,
-    "carried_complete_x60_singleton_count": 281,
-    "necessary_condition_empty_leaf_count": 14,
-    "carried_complete_x58_interval_count": 74,
-    "carried_complete_x58_singleton_count": 111,
-    "residual_timeout_x58_singleton_count": 49,
-    "next_coordinate_0based": 56,
-    "next_parent_leaf_count": 49,
-    "next_interval_child_count": 392,
-    "method": "PER_LEAF_AFFINE_CONDITIONED_DUAL_ELLIPSOID_AFTER_X58_SINGLETONIZATION",
-    "max_parallel_after_future_external_audit": 8,
-    "resume_first": true,
-    "recompute_prior_complete_regions": false,
-    "current_generation": 30,
-    "mode": "COLD",
-    "heavy_surface_present": false,
-    "heavy_armed": false,
-    "execution_authorized": false
-  },
-  "resume": {
-    "partition_key": "gen23_281_complete_plus_gen25_14_real_empty_plus_gen27_74_complete_x58_intervals_plus_gen29_111_complete_x58_singletons_plus_49_timeout_x58_singletons",
-    "carried_complete_x60_singleton_count": 281,
-    "necessary_condition_empty_leaf_count": 14,
-    "carried_complete_x58_interval_count": 74,
-    "carried_complete_x58_singleton_count": 111,
-    "residual_timeout_x58_singleton_count": 49,
-    "next_coordinate_0based": 56,
-    "next_parent_leaf_count": 49,
-    "next_interval_child_count": 392,
-    "cold_surface_only": true,
-    "rerun_missing_only": true,
-    "future_aggregate_requires_exact_full_union": true,
-    "recovery_rule": "Gen30 is diagnostic COLD only. Preserve 281 COMPLETE Gen23 x60 singletons + 14 audited Gen25 REAL_EMPTY closures + 74 Gen27 COMPLETE x58 intervals + 111 Gen29 COMPLETE x58 singletons; retain only 49 timeout x58 singletons for a future separately-audited x56 execution surface.",
-    "recompute_prior_complete_regions": false
-  },
-  "schema": "STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1",
-  "source_locks": {
-    "archive_runner_git_blob": "1ad6c42b41a2c044933bd04c0495b40814f22b9e",
-    "carry_manifest_git_blob": "4d57eec7bb1fe2d51431e14b314e1b737acd8fae",
-    "carry_verifier_git_blob": "6cba4f4435150bbd98c222c4e2ac6ba96ea9c73e",
-    "gen15_carry_bundle_git_blob": "9f3d0a52483b23dc88822b32cae9e3554434adce",
-    "hperp_integral_adapter_blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
-    "local_exact_aggregate_git_blob": "14ec01f70e48ed806721ec76937a6b0d8e9de931",
-    "local_exact_engine_git_blob": "ee651d257ddec5d606033651cf3d4ae1e773f52a",
-    "local_exact_shard_verifier_git_blob": "442b9583b27c14753a7f682c2d7dcb70b164b233",
-    "materialize_gen15_carry_git_blob": "ea10e5e90d752d342e1fdfb966f059cd3117b693",
-    "pairing_prefix_engine_blob": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
-    "parent_verifier_git_blob": "5b1d120b6cd2dcd6d23ebcaa889448b897a479db",
-    "predecessor_boundary": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
-    "predecessor_runner_git_blob": "d5e5130eeccea49bd7b771e8b231592ff3606543",
-    "preflight_certificate_git_blob": "fd636665112cc04b252a2de2ad3c1b90b1f4efc0",
-    "preflight_verifier_git_blob": "7f0060210b8a1ec646d930a9696c3dc003833d9d",
-    "recovery_aggregate_git_blob": "512f2a4fe4c3233d517aa5886ede651bbdb4a1c8",
-    "recovery_preflight_git_blob": "84b12671086548895457a9529ac5a1c0487f1316",
-    "recovery_runner_git_blob": "7930dec5d1d9ea2f2655461d9236959fed7bb723",
-    "recovery_verifier_git_blob": "aed2436c2ec1956fe6301f48ebdc42f9e2b54af3",
-    "rehydrate_gen15_carry_git_blob": "5aaf9959a15874a7a3b516db6a08dcdce4415b1d",
-    "runner_git_blob": "cae7d170990128bbf1a80ed840b4c0b4a2b84cd4",
-    "stage33_picard_base_rows_blob": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
-    "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
-    "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
-    "stoll_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
-    "stoll_cuboids_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
-    "workflow_git_blob": "3abaa7ab9530bb7974127cb4b93634e25b554d26",
-    "workunit_runner_git_blob": "671fa6cbc2ea171a4abebacf44e8122189e8397f",
-    "workunit_verifier_git_blob": "2a067db553a45f2f8e70783ec6b95495fc976360",
-    "gen17_carry_source_git_blob": "a4d4e59b5ff17e4308640b457cf6134bb558cb2f",
-    "gen17_carry_bundle_git_blob": "2a6daeca90db82ea5afb8fe6dbac369d101a6659",
-    "gen17_carry_manifest_git_blob": "aab5871ebe1abf2b7cb831b2717570cfb50b2edb",
-    "gen17_carry_verifier_git_blob": "3fa34b20cc7c8e084482e0545a1738274ff9b4a6",
-    "rehydrate_gen17_carry_git_blob": "d4e596e738e089c5a2818b674a3fc8d38c83d5eb",
-    "x61_packet_runner_git_blob": "3aa8c841ba06d84e40e39bca0707d3e7c666ff15",
-    "x61_packet_verifier_git_blob": "f6522a5525da78eadda15b90dce88d0db8647efa",
-    "x61_packet_aggregate_git_blob": "eef99b92bc08797a43392951fae2f2580afcdb97",
-    "x61_packet_preflight_git_blob": "152aaa88aee339e3aaf81e42ad8f92a4b8a7aa60",
-    "x61_packet_aggregate_verifier_git_blob": "845a364445f2a65cf9407e7a52b965b4c305d594",
-    "gen19_carry_verifier_git_blob": "d5eddaf31b306a075b1a6c1dfbf096b408c1ee3d",
-    "rehydrate_gen19_carry_git_blob": "d74faa51665f18ab2599afc5d352a316c555a8c3",
-    "gen19_carry_manifest_git_blob": "5f15b5b810dd662700072e4bb04dddcc1a3740e4",
-    "gen19_carry_bundle_git_blob": "98a03fe4ade60ace6b15f293b5f9244d45f6ba6b",
-    "x60_packet_runner_git_blob": "b7b9f79207ad962e4a3fa30508624fc02800ac49",
-    "x60_packet_verifier_git_blob": "b0b9388475fd587748a0d375e9e4a06cd5f6b929",
-    "x60_packet_aggregate_git_blob": "1ca2f685967d0c32323f23220720728afe19e1b0",
-    "x60_packet_aggregate_verifier_git_blob": "ab0d0b8b8ee4e3df85ed68a8187ce96632e718b5",
-    "x60_packet_preflight_git_blob": "a5956ae34f45289186d56e83fddfe374c4161fed",
-    "gen21_carry_verifier_git_blob": "ea704a3e93ff7d2c7ed4607b0160823f38db887c",
-    "rehydrate_gen21_carry_git_blob": "647c31ad3f21dc4e1d300a6947e2af26d3eaef81",
-    "gen21_carry_manifest_git_blob": "591f2cd278a79f3070703af367adde88c9e109bd",
-    "gen21_carry_bundle_git_blob": "b0a2135a0dc9fc5d5dfee2f0151bbfc6a3990a7d",
-    "x60_singleton_runner_git_blob": "f39f7395dafea0a0cd13cd9c645f344a322a555b",
-    "x60_singleton_verifier_git_blob": "9c8a367c94578fca8c0c62491218d6fb720eaedf",
-    "x60_singleton_aggregate_git_blob": "a1e14745ad50a5b56ae56ab2a4b00fce7c6a4589",
-    "x60_singleton_aggregate_verifier_git_blob": "cfeb885bd2637708223a1e07ba1d9595c05643d1",
-    "x60_singleton_preflight_git_blob": "1a89be64921a643106629e4240e55c55489b70a4",
-    "gen23_carry_source_git_blob": "3980e1fe033bc1b92b7dd42cf5bfec9bec5c2a89",
-    "gen23_carry_index_git_blob": "3ee2a4d9b8a944cc8a5410ba3475e903f5349625",
-    "gen23_carry_verifier_git_blob": "1bec9c2825889b51a44e9f602b7ee0748d503621",
-    "gen24_residual_git_blob": "7bc6bc0f3f1d7fa656800274a9f4f31c8fc541c6",
-    "gen24_nextcoord_derive_git_blob": "65446307cd8d81b5662e76be73c9ccd15482314c",
-    "gen24_x59_cold_preflight_git_blob": "038fed68fedce175c9629bfdfcfda50e34592e5d",
-    "gen24_x59_cold_verifier_git_blob": "d6fde3dba0bddf83080ceae2652863541df19ec1",
-    "x59_packet_runner_git_blob": "d79c08a176c9a2425773e22ff600227ab4bb2404",
-    "x59_packet_verifier_git_blob": "2e5b87e4a3329f2baabc2d6693696371d5e2cebb",
-    "x59_packet_aggregate_git_blob": "f67806653e7427cb57cb404f529fc98766432bec",
-    "x59_packet_aggregate_verifier_git_blob": "8b9f13b5cc9f84b810ac3e90f71639532c5e548a",
-    "gen25_successor_design_spec_git_blob": "8a9132ed90fbfdb37603e14380bffdcf29e5cf8b",
-    "gen25_successor_cold_diagnostic_git_blob": "6d2f7016621c602d097e4e45a429b8250579cdf6",
-    "gen25_successor_cold_verifier_git_blob": "7760e7ea3d7f260dd5abf46d6bd14e713cb887d3",
-    "gen25_adaptive_cold_output_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
-    "adaptive_x58_preflight_git_blob": "85fe1cda1e077fee6b137100d5aa757664e3d8a4",
-    "adaptive_x58_packet_runner_git_blob": "0115f7f2af0492350f25350208c819cdfad32bce",
-    "adaptive_x58_packet_verifier_git_blob": "9fd5d1c081dcd18fdf41d0a5d899f31510b447a5",
-    "adaptive_x58_aggregate_git_blob": "0861fe71603b1e5e867901a4d4d7cfdc0f868762",
-    "adaptive_x58_aggregate_verifier_git_blob": "297412727ba6bd6b8fb9a87ca0f219e30d1eacb5",
-    "gen27_adaptive_x58_carry_source_git_blob": "d0d420db8ffb0ec5b0eeec40b9b60ff21bdeba43",
-    "gen27_adaptive_x58_carry_index_git_blob": "08fd53edbca04b1d8e483654a622accb4d6ce4c9",
-    "gen27_adaptive_x58_carry_verifier_git_blob": "71bdd0bac83fc5c0b52edcab436255e5ab0a067e",
-    "gen27_adaptive_x58_carry_rehydrate_git_blob": "4062c980a58812365f905b5fe3e0302c7316f9bb",
-    "gen27_adaptive_x58_materializer_git_blob": "4f1cd9d07a3a244b55c4d1b0e1af257164cf94a7",
-    "gen28_adaptive_x58_residual54_git_blob": "5c9f7b6c3d249ccab40c4c1adc23278a7f61a231",
-    "gen27_adaptive_carry_source_git_blob": "d0d420db8ffb0ec5b0eeec40b9b60ff21bdeba43",
-    "gen27_adaptive_carry_index_git_blob": "08fd53edbca04b1d8e483654a622accb4d6ce4c9",
-    "gen27_adaptive_carry_verifier_git_blob": "71bdd0bac83fc5c0b52edcab436255e5ab0a067e",
-    "gen28_adaptive_x58_residual_git_blob": "5c9f7b6c3d249ccab40c4c1adc23278a7f61a231",
-    "gen29_x58_singleton_carry_source_git_blob": "8eb2dfff63eddc6b96a75e0491a0379846f1fd43",
-    "gen29_x58_singleton_carry_index_git_blob": "17698edea9440fb32e6d3a1768e574407ac80713",
-    "gen29_x58_singleton_carry_verifier_git_blob": "3dd5f1d9115a20491215b6fa53be384bbc9dc58a",
-    "gen30_residual49_git_blob": "d73ebdbc925bd6d2d522c81d2ce1c3c8f4d33563",
-    "gen30_adaptive_affine_deriver_git_blob": "088ea6ddbbc0f9fb9d600b231d29401a7ea7830d",
-    "gen30_adaptive_affine_output_git_blob": "2718669b2f4badf76fc223bbad23b33ca09289c3",
-    "gen30_adaptive_affine_verifier_git_blob": "20000cff4f8b37dc71e657c90c4f09eb7426e105"
-  },
-  "storage": {
-    "compact_certificate_only": true,
-    "per_shard_certificate_size_stop_mb": 10,
-    "pilot_certificate_size_measurement_required": true,
-    "pilot_certificate_size_stop_mb": 100,
-    "projected_peak_persisted_mb_upper_bound": 90,
-    "raw_magma_stdout_persisted": false,
-    "raw_solver_stdout_persisted": false,
-    "repository_operating_budget_mb": 500,
-    "retention_days_if_executed": 7
-  },
-  "support_mask": "000707000f0f",
-  "workunits": [
-    {
-      "degree": 10,
-      "hperp_norm": 400,
-      "p_intersection": 30,
-      "shell_index": 0,
-      "support_mass": 10
-    },
-    {
-      "degree": 10,
-      "hperp_norm": 400,
-      "p_intersection": 34,
-      "shell_index": 1,
-      "support_mass": 9
-    },
-    {
-      "degree": 10,
-      "hperp_norm": 400,
-      "p_intersection": 38,
-      "shell_index": 2,
-      "support_mass": 8
-    },
-    {
-      "degree": 12,
-      "hperp_norm": 144,
-      "p_intersection": 36,
-      "shell_index": 3,
-      "support_mass": 12
-    }
-  ],
   "post_gen19_materialization": {
     "armed": false,
-    "status": "SOURCE_COMMITTED_DURABLE_CARRY",
-    "producing_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
-    "producing_workflow_run_id": 35568958576,
-    "materialization_trigger_head": "accf3807e13a2df9dbd20033b22422d9f61bc1d8",
-    "materialization_run_id": 35578802057,
-    "materialization_job_id": 106266795716,
-    "materialization_commit": "42ec5ea965afcb4bab09187507c4d7369f70ffa8",
-    "packet_count": 29,
-    "singleton_child_count": 146,
+    "bundle_git_blob": "98a03fe4ade60ace6b15f293b5f9244d45f6ba6b",
     "complete_child_count": 123,
+    "exact_bytes_not_regenerated": true,
+    "gzip_sha256": "ca6ada76485d3dae1ca1679e095a6c06d09212f47e64273ac50066e258370405",
     "incomplete_child_count": 23,
     "manifest_git_blob": "5f15b5b810dd662700072e4bb04dddcc1a3740e4",
-    "bundle_git_blob": "98a03fe4ade60ace6b15f293b5f9244d45f6ba6b",
+    "materialization_commit": "42ec5ea965afcb4bab09187507c4d7369f70ffa8",
+    "materialization_job_id": 106266795716,
+    "materialization_run_id": 35578802057,
+    "materialization_trigger_head": "accf3807e13a2df9dbd20033b22422d9f61bc1d8",
+    "packet_count": 29,
     "payload_sha256": "daa2dca322533aa5ee5a68e4f347aa3f514fd6aac65aa9d7782737ac15f07aa7",
-    "gzip_sha256": "ca6ada76485d3dae1ca1679e095a6c06d09212f47e64273ac50066e258370405",
-    "exact_bytes_not_regenerated": true
+    "producing_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
+    "producing_workflow_run_id": 35568958576,
+    "singleton_child_count": 146,
+    "status": "SOURCE_COMMITTED_DURABLE_CARRY"
   },
-  "recovery_x60": {
-    "design_record_comment_id": 5754065461,
-    "parent_gen19_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
-    "parent_gen19_workflow_run_id": 35568958576,
-    "parent_gen19_complete_x61_child_count": 123,
-    "parent_gen19_timeout_x61_child_count": 23,
+  "post_gen21_materialization": {
+    "armed": false,
+    "bundle_git_blob": "b0a2135a0dc9fc5d5dfee2f0151bbfc6a3990a7d",
+    "complete_interval_child_count": 122,
+    "exact_bytes_not_regenerated": true,
+    "gzip_sha256": "44fd5b12245ec0795a290e7f37fb61cc787b2cf3c3d611f71cefa440d176f41b",
+    "incomplete_interval_child_count": 62,
+    "manifest_git_blob": "591f2cd278a79f3070703af367adde88c9e109bd",
+    "materialization_commit": "ffc2eef609293f0ac7b2b40818e524ae7a2284bc",
+    "materialization_job_id": 106336785473,
+    "materialization_run_id": 35600960381,
+    "materialization_trigger_head": "b3ea86a7c448afb78d803e514ec6dcc9d5a78b57",
+    "next_x60_singleton_child_count": 311,
+    "packet_count": 23,
+    "payload_sha256": "fa43374196f602cd9201ada16fa685285ca7a42e6bc9124d1b1e5a9744048918",
+    "producing_execution_head": "7166da4f293ab608ff200ddcef222e1c21fc6014",
+    "producing_workflow_run_id": 35586170075,
+    "status": "SOURCE_COMMITTED_DURABLE_CARRY",
+    "x60_interval_child_count": 184
+  },
+  "recovery": {
+    "carried_complete_x58_interval_count": 74,
+    "carried_complete_x58_singleton_count": 111,
+    "carried_complete_x60_singleton_count": 281,
+    "carry_authority": "SOURCE_COMMITTED_GEN29_X58_SINGLETON_DURABLE_CARRY__NO_RECOMPUTATION_OF_281_X60_COMPLETE__14_REAL_EMPTY__74_X58_INTERVAL_COMPLETE__111_X58_SINGLETON_COMPLETE",
+    "current_generation": 30,
+    "execution_authorized": false,
+    "heavy_armed": false,
+    "heavy_surface_present": false,
+    "max_parallel_after_future_external_audit": 8,
+    "method": "PER_LEAF_AFFINE_CONDITIONED_DUAL_ELLIPSOID_AFTER_X58_SINGLETONIZATION",
+    "mode": "COLD",
+    "necessary_condition_empty_leaf_count": 14,
+    "next_coordinate_0based": 56,
+    "next_interval_child_count": 392,
+    "next_parent_leaf_count": 49,
+    "parent_gen29_execution_head": "090cf1ce97819736f9be09a9a96fb6421349acad",
+    "parent_gen29_workflow_run_id": 36092356653,
+    "recompute_prior_complete_regions": false,
+    "residual_timeout_x58_singleton_count": 49,
+    "resume_first": true
+  },
+  "recovery_gen21_x60_history": {
+    "carried_complete_x61_child_count": 123,
     "carry_authority": "SOURCE_COMMITTED_GEN19_X61_PACKET_CARRY__NO_RECOMPUTATION_OF_123_COMPLETE_CHILDREN",
-    "refinement_coordinate_0based": 60,
+    "current_generation": 21,
+    "design_record_comment_id": 5754065461,
+    "exact_completion_rule": "Gen13 + Gen15 + Gen17 + Gen19 durable carries plus all 184 x60 interval children covering exactly the 23 retained Gen19 timeout x61 leaves",
+    "expected_interval_child_count": 184,
+    "expected_packet_count": 23,
+    "max_parallel": 4,
+    "mode": "RECOVERY",
+    "model_cap": 10000,
+    "packet_wall_seconds": 2400,
+    "parent_gen19_complete_x61_child_count": 123,
+    "parent_gen19_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
+    "parent_gen19_timeout_x61_child_count": 23,
+    "parent_gen19_workflow_run_id": 35568958576,
+    "recompute_complete_x61": false,
     "refinement_bound": [
       -20,
       20
     ],
-    "refinement_shard_count": 8,
+    "refinement_coordinate_0based": 60,
     "refinement_intervals": [
       [
         -20,
@@ -372,21 +395,77 @@
         20
       ]
     ],
-    "expected_packet_count": 23,
-    "expected_interval_child_count": 184,
-    "packet_wall_seconds": 2400,
-    "solver_timeout_ms": 300000,
-    "model_cap": 10000,
-    "max_parallel": 4,
+    "refinement_shard_count": 8,
+    "residual_timeout_x61_leaf_count": 23,
     "resume_first": true,
-    "exact_completion_rule": "Gen13 + Gen15 + Gen17 + Gen19 durable carries plus all 184 x60 interval children covering exactly the 23 retained Gen19 timeout x61 leaves"
+    "solver_timeout_ms": 300000
+  },
+  "recovery_x60": {
+    "carry_authority": "SOURCE_COMMITTED_GEN19_X61_PACKET_CARRY__NO_RECOMPUTATION_OF_123_COMPLETE_CHILDREN",
+    "design_record_comment_id": 5754065461,
+    "exact_completion_rule": "Gen13 + Gen15 + Gen17 + Gen19 durable carries plus all 184 x60 interval children covering exactly the 23 retained Gen19 timeout x61 leaves",
+    "expected_interval_child_count": 184,
+    "expected_packet_count": 23,
+    "max_parallel": 4,
+    "model_cap": 10000,
+    "packet_wall_seconds": 2400,
+    "parent_gen19_complete_x61_child_count": 123,
+    "parent_gen19_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
+    "parent_gen19_timeout_x61_child_count": 23,
+    "parent_gen19_workflow_run_id": 35568958576,
+    "refinement_bound": [
+      -20,
+      20
+    ],
+    "refinement_coordinate_0based": 60,
+    "refinement_intervals": [
+      [
+        -20,
+        -16
+      ],
+      [
+        -15,
+        -11
+      ],
+      [
+        -10,
+        -6
+      ],
+      [
+        -5,
+        -1
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        5,
+        9
+      ],
+      [
+        10,
+        14
+      ],
+      [
+        15,
+        20
+      ]
+    ],
+    "refinement_shard_count": 8,
+    "resume_first": true,
+    "solver_timeout_ms": 300000
   },
   "recovery_x61_history": {
+    "carried_completed_primary_workunit_count": 30,
     "carried_interval": [
       -20,
       -16
     ],
-    "carried_completed_primary_workunit_count": 30,
+    "exact_completion_rule": "Gen13 carry + 29 Gen15 singleton carry + 27 Gen17 COMPLETE secondary cells + all x61 singleton children covering every one of the 29 Gen17 UNKNOWN parent cells exactly",
+    "expected_final_leaf_region_count": 203,
+    "expected_new_packet_count": 29,
+    "expected_new_singleton_child_count": 146,
     "gen15_complete_count": 29,
     "gen15_complete_values": [
       -15,
@@ -419,13 +498,11 @@
       19,
       20
     ],
-    "gen17_execution_head": "4d4f48f4f69e27731444117bc83a9c9ab7d51c50",
-    "gen17_workflow_run_id": 35548407737,
     "gen17_aggregate_artifact_id": 10618577398,
     "gen17_aggregate_canonical_sha256": "fb3b24be67f90c12bbdc034f12f300ce464ef94c9a4f6396427a080887073141",
     "gen17_carry_authority": "SOURCE_COMMITTED_DURABLE_BUNDLE__27_EXACT_COMPLETE_SECONDARY_CERTIFICATE_BYTES__NO_RECOMPUTATION",
     "gen17_complete_secondary_count": 27,
-    "gen17_incomplete_secondary_count": 29,
+    "gen17_execution_head": "4d4f48f4f69e27731444117bc83a9c9ab7d51c50",
     "gen17_incomplete_cells": [
       [
         -12,
@@ -544,260 +621,184 @@
         6
       ]
     ],
+    "gen17_incomplete_secondary_count": 29,
+    "gen17_workflow_run_id": 35548407737,
+    "max_parallel": 4,
+    "model_cap": 10000,
+    "packet_wall_seconds": 2400,
     "refinement_coordinate_0based": 61,
     "refinement_rule": "each Gen17 UNKNOWN secondary interval is partitioned into exact x61 singleton values inside one compact packet job",
-    "expected_new_packet_count": 29,
-    "expected_new_singleton_child_count": 146,
-    "expected_final_leaf_region_count": 203,
-    "packet_wall_seconds": 2400,
-    "solver_timeout_ms": 300000,
-    "model_cap": 10000,
-    "max_parallel": 4,
     "resume_first": true,
-    "exact_completion_rule": "Gen13 carry + 29 Gen15 singleton carry + 27 Gen17 COMPLETE secondary cells + all x61 singleton children covering every one of the 29 Gen17 UNKNOWN parent cells exactly"
+    "solver_timeout_ms": 300000
+  },
+  "release_scope": "GEN29_RELEASE_CONSUMED__GEN30_COLD_REQUIRES_FRESH_HOSTILE_AUDIT_BEFORE_ANY_HEAVY",
+  "resume": {
+    "carried_complete_x58_interval_count": 74,
+    "carried_complete_x58_singleton_count": 111,
+    "carried_complete_x60_singleton_count": 281,
+    "cold_surface_only": true,
+    "future_aggregate_requires_exact_full_union": true,
+    "necessary_condition_empty_leaf_count": 14,
+    "next_coordinate_0based": 56,
+    "next_interval_child_count": 392,
+    "next_parent_leaf_count": 49,
+    "partition_key": "gen23_281_complete_plus_gen25_14_real_empty_plus_gen27_74_complete_x58_intervals_plus_gen29_111_complete_x58_singletons_plus_49_timeout_x58_singletons",
+    "recompute_prior_complete_regions": false,
+    "recovery_rule": "Gen30 is diagnostic COLD only. Preserve 281 COMPLETE Gen23 x60 singletons + 14 audited Gen25 REAL_EMPTY closures + 74 Gen27 COMPLETE x58 intervals + 111 Gen29 COMPLETE x58 singletons; retain only 49 timeout x58 singletons for a future separately-audited x56 execution surface.",
+    "rerun_missing_only": true,
+    "residual_timeout_x58_singleton_count": 49
   },
   "resume_x61_history": {
-    "partition_key": "gen13_plus_gen15_plus_gen17_27_complete_plus_29_x61_singleton_packets",
+    "aggregate_requires_exact_full_union": true,
     "carried_exact_region_count": 57,
+    "carry_complete_verified_workunits": true,
+    "expected_final_leaf_region_count": 203,
     "new_packet_count": 29,
     "new_singleton_child_count": 146,
-    "expected_final_leaf_region_count": 203,
-    "carry_complete_verified_workunits": true,
-    "rerun_missing_only": true,
-    "aggregate_requires_exact_full_union": true,
     "partial_outputs_uploaded_with_if_always": true,
-    "recovery_rule": "never rerun Gen13, completed Gen15, or the 27 COMPLETE Gen17 secondary cells; each UNKNOWN Gen17 parent cell is refined only into its exact x61 singleton children and packet-level COMPLETE children remain individually identifiable"
+    "partition_key": "gen13_plus_gen15_plus_gen17_27_complete_plus_29_x61_singleton_packets",
+    "recovery_rule": "never rerun Gen13, completed Gen15, or the 27 COMPLETE Gen17 secondary cells; each UNKNOWN Gen17 parent cell is refined only into its exact x61 singleton children and packet-level COMPLETE children remain individually identifiable",
+    "rerun_missing_only": true
   },
-  "recovery_gen21_x60_history": {
-    "design_record_comment_id": 5754065461,
-    "parent_gen19_execution_head": "bc1f055cfcfa9a5249244a2d50ff13e20b9d9fb1",
-    "parent_gen19_workflow_run_id": 35568958576,
-    "parent_gen19_complete_x61_child_count": 123,
-    "parent_gen19_timeout_x61_child_count": 23,
-    "carry_authority": "SOURCE_COMMITTED_GEN19_X61_PACKET_CARRY__NO_RECOMPUTATION_OF_123_COMPLETE_CHILDREN",
-    "refinement_coordinate_0based": 60,
-    "refinement_bound": [
-      -20,
-      20
-    ],
-    "refinement_shard_count": 8,
-    "refinement_intervals": [
-      [
-        -20,
-        -16
-      ],
-      [
-        -15,
-        -11
-      ],
-      [
-        -10,
-        -6
-      ],
-      [
-        -5,
-        -1
-      ],
-      [
-        0,
-        4
-      ],
-      [
-        5,
-        9
-      ],
-      [
-        10,
-        14
-      ],
-      [
-        15,
-        20
-      ]
-    ],
-    "expected_packet_count": 23,
-    "expected_interval_child_count": 184,
-    "packet_wall_seconds": 2400,
-    "solver_timeout_ms": 300000,
-    "model_cap": 10000,
-    "max_parallel": 4,
-    "resume_first": true,
-    "exact_completion_rule": "Gen13 + Gen15 + Gen17 + Gen19 durable carries plus all 184 x60 interval children covering exactly the 23 retained Gen19 timeout x61 leaves",
-    "current_generation": 21,
-    "mode": "RECOVERY",
-    "carried_complete_x61_child_count": 123,
-    "residual_timeout_x61_leaf_count": 23,
-    "recompute_complete_x61": false
-  },
-  "post_gen21_materialization": {
-    "armed": false,
-    "status": "SOURCE_COMMITTED_DURABLE_CARRY",
-    "producing_execution_head": "7166da4f293ab608ff200ddcef222e1c21fc6014",
-    "producing_workflow_run_id": 35586170075,
-    "materialization_trigger_head": "b3ea86a7c448afb78d803e514ec6dcc9d5a78b57",
-    "materialization_run_id": 35600960381,
-    "materialization_job_id": 106336785473,
-    "materialization_commit": "ffc2eef609293f0ac7b2b40818e524ae7a2284bc",
-    "packet_count": 23,
-    "x60_interval_child_count": 184,
-    "complete_interval_child_count": 122,
-    "incomplete_interval_child_count": 62,
-    "next_x60_singleton_child_count": 311,
-    "manifest_git_blob": "591f2cd278a79f3070703af367adde88c9e109bd",
-    "bundle_git_blob": "b0a2135a0dc9fc5d5dfee2f0151bbfc6a3990a7d",
-    "payload_sha256": "fa43374196f602cd9201ada16fa685285ca7a42e6bc9124d1b1e5a9744048918",
-    "gzip_sha256": "44fd5b12245ec0795a290e7f37fb61cc787b2cf3c3d611f71cefa440d176f41b",
-    "exact_bytes_not_regenerated": true
-  },
-  "abandoned_gen24_x59_cold": {
-    "source_generation": 23,
-    "carry_authority": "SOURCE_COMMITTED_GEN23_X60_SINGLETON_CARRY",
-    "carried_complete_x60_singletons": 281,
-    "residual_timeout_x60_singletons": 30,
-    "refinement_coordinate_0based": 59,
-    "bound": [
-      -20,
-      20
-    ],
-    "intervals": [
-      [
-        -20,
-        -16
-      ],
-      [
-        -15,
-        -11
-      ],
-      [
-        -10,
-        -6
-      ],
-      [
-        -5,
-        -1
-      ],
-      [
-        0,
-        4
-      ],
-      [
-        5,
-        9
-      ],
-      [
-        10,
-        14
-      ],
-      [
-        15,
-        20
-      ]
-    ],
-    "expected_packet_count": 30,
-    "expected_interval_child_count": 240,
-    "max_parallel": 4,
-    "resume_first": true,
-    "recompute_prior_complete_regions": false,
-    "cold_canonical_sha256": "2e275b5d3dded8cd2b01e5b5707a682aa3add52425525af9ded8ffb07be67904",
-    "heavy_armed": false,
-    "execution_authorized": false,
-    "credit": false,
-    "authority_status": "NON_AUTHORITATIVE_REJECTED_AS_PREDECESSOR",
-    "historical_review_id": 5285481947,
-    "historical_review_result": "PASS_AT_TIME__LATER_EXCLUDED_FROM_PREDECESSOR_AUTHORITY",
-    "heavy_surface_retired": true
-  },
-  "adaptive_successor_cold": {
-    "source_generation": 23,
-    "carry_authority": "SOURCE_COMMITTED_GEN23_X60_SINGLETON_CARRY",
-    "carried_complete_x60_singletons": 281,
-    "residual_timeout_x60_singletons": 30,
-    "method": "PER_LEAF_AFFINE_CONDITIONED_DUAL_ELLIPSOID",
-    "forbidden_split_coordinates_0based": [
-      59,
-      60,
-      61,
-      62
-    ],
-    "maximum_interval_child_count": 240,
-    "planned_max_parallel_after_future_external_audit": 4,
-    "heavy_surface_present": true,
-    "heavy_armed": false,
-    "execution_authorized": false,
-    "credit": false,
-    "implementation_optimization": "COMMON_AFFINE_CONTEXT_REUSE_ONLY__NO_SEMANTIC_CHANGE",
-    "transport": "VERIFIED_CERTIFICATE_BASE64_LOG_TRANSPORT_ONLY__NO_SEMANTIC_CHANGE",
-    "result": {
-      "producing_execution_head": "98d460d33ec5feabaf5bba0da51a7192dca275e2",
-      "producing_workflow_run_id": 35804557466,
-      "authorize_job_id": 107002314104,
-      "artifact_id": 10726409201,
-      "artifact_digest": "sha256:ccc09ae12eedb702814771e73066b799811c214d2d0d797c610814cd0749c144",
-      "certificate_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
-      "canonical_sha256": "6daaaef5e82aaefab0b676c24392b08894e7ecf63b6a930f0327d74ffd48a1d7",
-      "carried_complete_x60_singletons": 281,
-      "residual_timeout_leaf_count": 30,
-      "necessary_condition_empty_leaf_count": 14,
-      "split_leaf_count": 16,
-      "selected_coordinate_histogram": {
-        "58": 16
-      },
-      "total_interval_child_count": 128,
-      "maximum_conditional_domain": 37,
-      "median_conditional_domain": [
-        25,
-        25
-      ],
-      "heavy_authorized": false,
-      "credit": false
-    },
-    "source_committed": true,
-    "output_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-GEN25-ADAPTIVE-AFFINE-COLD.json",
-    "output_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
-    "canonical_sha256": "6daaaef5e82aaefab0b676c24392b08894e7ecf63b6a930f0327d74ffd48a1d7",
-    "source_lock_repair": "SYNC_TO_SOURCE_COMMITTED_SPEC_BLOB__NO_SEMANTIC_CHANGE",
-    "predecessor_audited_surface": {
-      "status": "PASS",
-      "exact_head": "17473b02de084c086fe3abeaf0b7fc8107e4a997",
-      "review_id": 5285955013,
-      "scope": "GEN25_COLD_ADAPTIVE_AFFINE_DIAGNOSTIC"
-    },
-    "x59_heavy_surface_retired": true,
-    "hostile_audit_status": "PASS",
-    "hostile_audit_exact_head": "17473b02de084c086fe3abeaf0b7fc8107e4a997",
-    "hostile_audit_review_id": 5285955013,
-    "matching_execution_surface": {
-      "generation": 26,
-      "mode": "COLD",
-      "refinement_coordinate_0based": 58,
-      "necessary_condition_empty_leaf_count": 14,
-      "packet_count": 16,
-      "interval_child_count": 128,
-      "max_parallel_after_future_audit": 8,
-      "aggregate_requires_exact_full_union": true,
-      "heavy_authorized": false,
-      "credit": false
-    }
+  "schema": "STAGE32_MB104_000707_FIBRATION_ISOTROPIC_SHELLS_RUNKEY_V1",
+  "source_locks": {
+    "adaptive_x58_aggregate_git_blob": "0861fe71603b1e5e867901a4d4d7cfdc0f868762",
+    "adaptive_x58_aggregate_verifier_git_blob": "297412727ba6bd6b8fb9a87ca0f219e30d1eacb5",
+    "adaptive_x58_packet_runner_git_blob": "0115f7f2af0492350f25350208c819cdfad32bce",
+    "adaptive_x58_packet_verifier_git_blob": "9fd5d1c081dcd18fdf41d0a5d899f31510b447a5",
+    "adaptive_x58_preflight_git_blob": "3fad8b850e34ccaa25593eba6cb90a1e2292d656",
+    "archive_runner_git_blob": "1ad6c42b41a2c044933bd04c0495b40814f22b9e",
+    "carry_manifest_git_blob": "4d57eec7bb1fe2d51431e14b314e1b737acd8fae",
+    "carry_verifier_git_blob": "6cba4f4435150bbd98c222c4e2ac6ba96ea9c73e",
+    "gen15_carry_bundle_git_blob": "9f3d0a52483b23dc88822b32cae9e3554434adce",
+    "gen17_carry_bundle_git_blob": "2a6daeca90db82ea5afb8fe6dbac369d101a6659",
+    "gen17_carry_manifest_git_blob": "aab5871ebe1abf2b7cb831b2717570cfb50b2edb",
+    "gen17_carry_source_git_blob": "a4d4e59b5ff17e4308640b457cf6134bb558cb2f",
+    "gen17_carry_verifier_git_blob": "3fa34b20cc7c8e084482e0545a1738274ff9b4a6",
+    "gen19_carry_bundle_git_blob": "98a03fe4ade60ace6b15f293b5f9244d45f6ba6b",
+    "gen19_carry_manifest_git_blob": "5f15b5b810dd662700072e4bb04dddcc1a3740e4",
+    "gen19_carry_verifier_git_blob": "d5eddaf31b306a075b1a6c1dfbf096b408c1ee3d",
+    "gen21_carry_bundle_git_blob": "b0a2135a0dc9fc5d5dfee2f0151bbfc6a3990a7d",
+    "gen21_carry_manifest_git_blob": "591f2cd278a79f3070703af367adde88c9e109bd",
+    "gen21_carry_verifier_git_blob": "ea704a3e93ff7d2c7ed4607b0160823f38db887c",
+    "gen23_carry_index_git_blob": "3ee2a4d9b8a944cc8a5410ba3475e903f5349625",
+    "gen23_carry_source_git_blob": "3980e1fe033bc1b92b7dd42cf5bfec9bec5c2a89",
+    "gen23_carry_verifier_git_blob": "1bec9c2825889b51a44e9f602b7ee0748d503621",
+    "gen24_nextcoord_derive_git_blob": "65446307cd8d81b5662e76be73c9ccd15482314c",
+    "gen24_residual_git_blob": "7bc6bc0f3f1d7fa656800274a9f4f31c8fc541c6",
+    "gen24_x59_cold_preflight_git_blob": "038fed68fedce175c9629bfdfcfda50e34592e5d",
+    "gen24_x59_cold_verifier_git_blob": "d6fde3dba0bddf83080ceae2652863541df19ec1",
+    "gen25_adaptive_cold_output_git_blob": "cf25e803bce68f79f57a2cc6f4e82ce078b92ffb",
+    "gen25_successor_cold_diagnostic_git_blob": "6d2f7016621c602d097e4e45a429b8250579cdf6",
+    "gen25_successor_cold_verifier_git_blob": "7760e7ea3d7f260dd5abf46d6bd14e713cb887d3",
+    "gen25_successor_design_spec_git_blob": "8a9132ed90fbfdb37603e14380bffdcf29e5cf8b",
+    "gen27_adaptive_carry_index_git_blob": "08fd53edbca04b1d8e483654a622accb4d6ce4c9",
+    "gen27_adaptive_carry_source_git_blob": "d0d420db8ffb0ec5b0eeec40b9b60ff21bdeba43",
+    "gen27_adaptive_carry_verifier_git_blob": "71bdd0bac83fc5c0b52edcab436255e5ab0a067e",
+    "gen27_adaptive_x58_carry_index_git_blob": "08fd53edbca04b1d8e483654a622accb4d6ce4c9",
+    "gen27_adaptive_x58_carry_rehydrate_git_blob": "4062c980a58812365f905b5fe3e0302c7316f9bb",
+    "gen27_adaptive_x58_carry_source_git_blob": "d0d420db8ffb0ec5b0eeec40b9b60ff21bdeba43",
+    "gen27_adaptive_x58_carry_verifier_git_blob": "71bdd0bac83fc5c0b52edcab436255e5ab0a067e",
+    "gen27_adaptive_x58_materializer_git_blob": "4f1cd9d07a3a244b55c4d1b0e1af257164cf94a7",
+    "gen28_adaptive_x58_residual54_git_blob": "5c9f7b6c3d249ccab40c4c1adc23278a7f61a231",
+    "gen28_adaptive_x58_residual_git_blob": "5c9f7b6c3d249ccab40c4c1adc23278a7f61a231",
+    "gen29_x58_singleton_carry_index_git_blob": "17698edea9440fb32e6d3a1768e574407ac80713",
+    "gen29_x58_singleton_carry_source_git_blob": "8eb2dfff63eddc6b96a75e0491a0379846f1fd43",
+    "gen29_x58_singleton_carry_verifier_git_blob": "3dd5f1d9115a20491215b6fa53be384bbc9dc58a",
+    "gen30_adaptive_affine_deriver_git_blob": "1f55994a7347188b18a7d0a9c85a625deaf28dde",
+    "gen30_adaptive_affine_output_git_blob": "2718669b2f4badf76fc223bbad23b33ca09289c3",
+    "gen30_adaptive_affine_verifier_git_blob": "20000cff4f8b37dc71e657c90c4f09eb7426e105",
+    "gen30_residual49_git_blob": "d73ebdbc925bd6d2d522c81d2ce1c3c8f4d33563",
+    "hperp_integral_adapter_blob": "fb1eb380ca786e42a6b00c5ef454b0e79fdba771",
+    "local_exact_aggregate_git_blob": "14ec01f70e48ed806721ec76937a6b0d8e9de931",
+    "local_exact_engine_git_blob": "ee651d257ddec5d606033651cf3d4ae1e773f52a",
+    "local_exact_shard_verifier_git_blob": "442b9583b27c14753a7f682c2d7dcb70b164b233",
+    "materialize_gen15_carry_git_blob": "ea10e5e90d752d342e1fdfb966f059cd3117b693",
+    "pairing_prefix_engine_blob": "c8e87c6598fa1cd7ba1675fc35fa83bea983c94b",
+    "parent_verifier_git_blob": "5b1d120b6cd2dcd6d23ebcaa889448b897a479db",
+    "predecessor_boundary": "d13afbb1a693a5547bebd31ec6fbcc04a7648f05",
+    "predecessor_runner_git_blob": "d5e5130eeccea49bd7b771e8b231592ff3606543",
+    "preflight_certificate_git_blob": "fd636665112cc04b252a2de2ad3c1b90b1f4efc0",
+    "preflight_verifier_git_blob": "7f0060210b8a1ec646d930a9696c3dc003833d9d",
+    "recovery_aggregate_git_blob": "512f2a4fe4c3233d517aa5886ede651bbdb4a1c8",
+    "recovery_preflight_git_blob": "84b12671086548895457a9529ac5a1c0487f1316",
+    "recovery_runner_git_blob": "7930dec5d1d9ea2f2655461d9236959fed7bb723",
+    "recovery_verifier_git_blob": "aed2436c2ec1956fe6301f48ebdc42f9e2b54af3",
+    "rehydrate_gen15_carry_git_blob": "5aaf9959a15874a7a3b516db6a08dcdce4415b1d",
+    "rehydrate_gen17_carry_git_blob": "d4e596e738e089c5a2818b674a3fc8d38c83d5eb",
+    "rehydrate_gen19_carry_git_blob": "d74faa51665f18ab2599afc5d352a316c555a8c3",
+    "rehydrate_gen21_carry_git_blob": "647c31ad3f21dc4e1d300a6947e2af26d3eaef81",
+    "runner_git_blob": "cae7d170990128bbf1a80ed840b4c0b4a2b84cd4",
+    "stage33_picard_base_rows_blob": "82e4d450a1d852e34f6615440fb88a029c6e54eb",
+    "stage33_picard_marking_blob": "5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7",
+    "stage33_stoll_helper_blob": "010db3767b8f932c71ac5722b50ccb64a8c79f9d",
+    "stoll_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "stoll_cuboids_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "transitive_lock_helper_git_blob": "c8b3f2cf512e3fea6b48c7795505a41fe4cd1798",
+    "workflow_git_blob": "29c5bdba3af1157bf511cea2efc63de1ae8acfcb",
+    "workunit_runner_git_blob": "671fa6cbc2ea171a4abebacf44e8122189e8397f",
+    "workunit_verifier_git_blob": "2a067db553a45f2f8e70783ec6b95495fc976360",
+    "x59_packet_aggregate_git_blob": "f67806653e7427cb57cb404f529fc98766432bec",
+    "x59_packet_aggregate_verifier_git_blob": "8b9f13b5cc9f84b810ac3e90f71639532c5e548a",
+    "x59_packet_runner_git_blob": "d79c08a176c9a2425773e22ff600227ab4bb2404",
+    "x59_packet_verifier_git_blob": "2e5b87e4a3329f2baabc2d6693696371d5e2cebb",
+    "x60_packet_aggregate_git_blob": "1ca2f685967d0c32323f23220720728afe19e1b0",
+    "x60_packet_aggregate_verifier_git_blob": "ab0d0b8b8ee4e3df85ed68a8187ce96632e718b5",
+    "x60_packet_preflight_git_blob": "a5956ae34f45289186d56e83fddfe374c4161fed",
+    "x60_packet_runner_git_blob": "b7b9f79207ad962e4a3fa30508624fc02800ac49",
+    "x60_packet_verifier_git_blob": "b0b9388475fd587748a0d375e9e4a06cd5f6b929",
+    "x60_singleton_aggregate_git_blob": "a1e14745ad50a5b56ae56ab2a4b00fce7c6a4589",
+    "x60_singleton_aggregate_verifier_git_blob": "cfeb885bd2637708223a1e07ba1d9595c05643d1",
+    "x60_singleton_preflight_git_blob": "1a89be64921a643106629e4240e55c55489b70a4",
+    "x60_singleton_runner_git_blob": "f39f7395dafea0a0cd13cd9c645f344a322a555b",
+    "x60_singleton_verifier_git_blob": "9c8a367c94578fca8c0c62491218d6fb720eaedf",
+    "x61_packet_aggregate_git_blob": "eef99b92bc08797a43392951fae2f2580afcdb97",
+    "x61_packet_aggregate_verifier_git_blob": "845a364445f2a65cf9407e7a52b965b4c305d594",
+    "x61_packet_preflight_git_blob": "152aaa88aee339e3aaf81e42ad8f92a4b8a7aa60",
+    "x61_packet_runner_git_blob": "3aa8c841ba06d84e40e39bca0707d3e7c666ff15",
+    "x61_packet_verifier_git_blob": "f6522a5525da78eadda15b90dce88d0db8647efa"
   },
   "status": "GEN30_ADAPTIVE_AFFINE_X56_RESIDUAL49_COLD__PENDING_EXTERNAL_HOSTILE_AUDIT__ZERO_CREDIT",
-  "release_scope": "GEN29_RELEASE_CONSUMED__GEN30_COLD_REQUIRES_FRESH_HOSTILE_AUDIT_BEFORE_ANY_HEAVY",
-  "evidence_materialization": {
-    "schema": "STAGE32_MB104_000707_GEN27_DURABLE_CARRY_MATERIALIZATION_GATE_V1",
-    "pending": false,
-    "operation": "GEN27_ADAPTIVE_X58_DURABLE_CARRY",
-    "producing_execution_head": "1f69a43a49d05b3e8c5fa87c812efe974c9b20e5",
-    "producing_workflow_run_id": 36066791252,
-    "aggregate_artifact_id": 10839096274,
-    "aggregate_canonical_sha256": "8990b5ddf23ec10a9f39502e3ee6ffb3edef8d517bfab7a3048aca30ae36cd93",
-    "packet_count": 16,
-    "adaptive_interval_child_count": 128,
-    "expected_complete_child_count": 74,
-    "expected_incomplete_child_count": 54,
-    "primitive_candidate_count": 0,
-    "heavy_release": false,
-    "credit": false,
-    "completed": true,
-    "payload_sha256": "c5a1d9daa4ec82dd5ec3e6b411b3d5a3dcfb67b4ddcdb252c0c974a5eed7c7d3",
-    "gzip_sha256": "74fe77d25bd3000fd53c220a4e23b354bee0d2ea4dd96faf27d342b10c05db08"
-  }
+  "storage": {
+    "compact_certificate_only": true,
+    "per_shard_certificate_size_stop_mb": 10,
+    "pilot_certificate_size_measurement_required": true,
+    "pilot_certificate_size_stop_mb": 100,
+    "projected_peak_persisted_mb_upper_bound": 90,
+    "raw_magma_stdout_persisted": false,
+    "raw_solver_stdout_persisted": false,
+    "repository_operating_budget_mb": 500,
+    "retention_days_if_executed": 7
+  },
+  "support_mask": "000707000f0f",
+  "workunits": [
+    {
+      "degree": 10,
+      "hperp_norm": 400,
+      "p_intersection": 30,
+      "shell_index": 0,
+      "support_mass": 10
+    },
+    {
+      "degree": 10,
+      "hperp_norm": 400,
+      "p_intersection": 34,
+      "shell_index": 1,
+      "support_mass": 9
+    },
+    {
+      "degree": 10,
+      "hperp_norm": 400,
+      "p_intersection": 38,
+      "shell_index": 2,
+      "support_mass": 8
+    },
+    {
+      "degree": 12,
+      "hperp_norm": 144,
+      "p_intersection": 36,
+      "shell_index": 3,
+      "support_mass": 12
+    }
+  ]
 }

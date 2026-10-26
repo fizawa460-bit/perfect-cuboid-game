@@ -1,0 +1,149 @@
+{
+  "schema": "LOCAL_REPLAY_RECORD_V1",
+  "policy": "docs/research-os/policies/local-first-execution.md",
+  "workflow": ".github/workflows/stage32-claim-frontier-integrity.yml",
+  "exact_head": "454947870337f828801bfbc051dcbf916428d86f",
+  "emulated_pr_base": "86ce22f394164206bf0945413c4264a355fa27e6",
+  "branch": "stage32-d10-low-genus",
+  "working_tree_clean": true,
+  "dirty_paths": [],
+  "started_utc": "2026-10-21T07:54:19Z",
+  "environment": {
+    "os": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.10.6",
+    "bash": "bash",
+    "git": "git version 2.53.0"
+  },
+  "jobs": [
+    {
+      "job": "integrity",
+      "steps": [
+        {
+          "name": "Checkout exact PR head",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "Assert exact checked-out head",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout exact audited pre-sync evidence separately",
+          "status": "EMULATED_WORKTREE",
+          "ref": "6487de765b0d35e05d81018aeaff902af9b7d21a"
+        },
+        {
+          "name": "Verify live Q602 V3 claim synchronization",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "{\"active_claim_ids\": [\"S32.FULL178.NUMERICAL_CENSUS.V2\", \"S32.GOAL.STAGE32_CLOSURE.V2\", \"S32.O210.EXCLUSION.V3\", \"S32.Q602.EXCLUSION.V3\", \"S32.Q602.SURVIVORS_73_97_235.V1\"], \"demand_dag_separate\": true, \"inactive_lanes\": [\"EX1\", \"EX2\", \"EX6\"], \"o210_excluded\": true, \"q602_excluded\": true, \"replay_verifiers_checked\": 25, \"routing_only_specialists\": [\"32-01-178\", \"BRIDGE\", \"CUT\", \"MB\"], \"source_locks_checked\": 80, \"supporting_claim_ids\": [\"S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3\", \"S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1\", \"S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1\", \"S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1\", \"S32.FULL178.NUMERICAL_CENSUS.V1\", \"S32.GOAL.STAGE32_CLOSURE.V1\"], \"v6_negative_consumed\": true, \"verdict\": \"PASS_STAGE32_POST1730_Q602_ACTIVE_FRONTIER_DAG\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify repo-wide hostile-audit and freshness governance",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "{\"agents_on_demand_reference\": true, \"common_policy\": \"docs/research-os/policies/hostile-audit-and-freshness.md\", \"hostile_audit_distinct_from_claim_sync\": true, \"hostile_audit_distinct_from_merge_ready_freshness\": true, \"mathematical_credit_granted\": false, \"merge_authorized\": false, \"pass_cannot_upgrade_consumable_authority_before_sync\": true, \"stage32_claim_sync_reference\": true, \"verdict\": \"PASS_HOSTILE_AUDIT_FRESHNESS_POLICY_INTEGRITY\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify Stage32 PR workflow trigger lifecycle",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS Stage32 PR workflow trigger lifecycle inventory\nACTIVE_AUTO=2 MANUAL=3 RETIRED=36 TOTAL=41\nhistorical_or_manual_pr_auto_triggers=0\nmathematical_authority_changed=true\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify repository-wide PR workflow trigger lifecycle",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "PASS repository-wide workflow trigger lifecycle inventory\nACTIVE_AUTO=3 MANUAL=9 RETIRED=519 TOTAL=531\nFAMILY REPO TOTAL=3 ACTIVE_AUTO=1 MANUAL=2 RETIRED=0\nFAMILY Stage29 TOTAL=4 ACTIVE_AUTO=0 MANUAL=0 RETIRED=4\nFAMILY Stage31 TOTAL=1 ACTIVE_AUTO=0 MANUAL=0 RETIRED=1\nFAMILY Stage32 TOTAL=262 ACTIVE_AUTO=2 MANUAL=4 RETIRED=256\nFAMILY Stage32EX TOTAL=5 ACTIVE_AUTO=0 MANUAL=1 RETIRED=4\nFAMILY Stage33 TOTAL=131 ACTIVE_AUTO=0 MANUAL=0 RETIRED=131\nFAMILY Stage34 TOTAL=56 ACTIVE_AUTO=0 MANUAL=0 RETIRED=56\nFAMILY Stage35 TOTAL=1 ACTIVE_AUTO=0 MANUAL=1 RETIRED=0\nFAMILY Stage35EX TOTAL=67 ACTIVE_AUTO=0 MANUAL=0 RETIRED=67\nFAMILY Stage36 TOTAL=1 ACTIVE_AUTO=0 MANUAL=1 RETIRED=0\nhistorical_or_manual_automatic_triggers=0\nmathematical_authority_changed=true\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify Stage32 command/startup surface",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 command surface is roadmap-first with one ordinary operator entrypoint\nPASS: specialist execution surfaces remain on-demand and isolated\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay historical V6 authority consumption",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS_STAGE32_POST1728_V6_NEGATIVE_AUTHORITY_CONSUMPTION\nbe5fd93e5c8efa0087c10e0773eb0076c28af80a529b1c11b81d80c6c412fffc\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay byte-exact imported EX3 O210 terminal mathematics",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS Stage32EX3 EX3-04h retained provisional trace-zero gate\n{\"C1\": [24, 21, 18, 19], \"Gamma\": [164, 164, 208, 208], \"H_blocks\": {\"chi_u\": 0, \"chi_uv\": 0, \"chi_v\": 22, \"trivial\": 0}, \"hostile_audited\": false, \"stage32_main_credit\": false, \"terminal_candidate\": \"O210_COVER_GEOMETRY_EXCLUDED\", \"traces\": [22, 22, -22, -22]}\nPASS Stage32EX3 EX3-09 retained terminal candidate; claim sync pending\n{\"claim_sync_pending\": true, \"hostile_audited\": false, \"retained\": true, \"stage32_main_credit\": false, \"terminal_candidate\": \"O210_COVER_GEOMETRY_EXCLUDED\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay historical audited O210 post-sync authority",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS_STAGE32_POST1730_O210_V3_MAIN_CLAIM_SYNC\nproof_path_post1730_sync=true\n{\"FULL178_complete\": false, \"O210_excluded\": true, \"O212_plus\": false, \"Q602_excluded\": false, \"survivors\": [73, 97, 235]}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify base Stage32 claim DAG",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "{\"authority_status_counts\": {\"AUDITED\": 9, \"DECLARED_GOAL\": 7, \"PROVISIONAL\": 1, \"SUPERSEDED\": 1}, \"claim_count\": 18, \"final_contract_locked\": true, \"lanes\": [\"MAIN\", \"EX1\", \"EX2\", \"EX3\", \"EX4\", \"EX5\", \"EX6\"], \"replay_verifiers_checked\": 17, \"source_locks_checked\": 45, \"verdict\": \"PASS_STAGE32_CLAIM_DAG_INTEGRITY\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify active Stage32 mathematical frontier and claim-sync hooks",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "{\"active_claim_ids\": [\"S32.FULL178.NUMERICAL_CENSUS.V2\", \"S32.GOAL.STAGE32_CLOSURE.V2\", \"S32.O210.EXCLUSION.V3\", \"S32.Q602.EXCLUSION.V3\", \"S32.Q602.SURVIVORS_73_97_235.V1\"], \"demand_dag_separate\": true, \"inactive_lanes\": [\"EX1\", \"EX2\", \"EX6\"], \"o210_excluded\": true, \"q602_excluded\": true, \"replay_verifiers_checked\": 25, \"routing_only_specialists\": [\"32-01-178\", \"BRIDGE\", \"CUT\", \"MB\"], \"source_locks_checked\": 80, \"supporting_claim_ids\": [\"S32.ADAPTER.EX3_O210_TO_MAIN_O210.V3\", \"S32.ADAPTER.O210_EMPTY_TO_Q602_REALIZATION_EMPTY.V1\", \"S32.ADAPTER.Q602_ADMISSIBLE_TO_O210_POPULATION.V1\", \"S32.EX3.O210_COVER_GEOMETRY_EXCLUSION_TERMINAL.V1\", \"S32.FULL178.NUMERICAL_CENSUS.V1\", \"S32.GOAL.STAGE32_CLOSURE.V1\"], \"v6_negative_consumed\": true, \"verdict\": \"PASS_STAGE32_POST1730_Q602_ACTIVE_FRONTIER_DAG\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify cross-lane demand DAG and lane coordination",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "PASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify live synchronized MAIN authority boundary",
+          "seconds": 0.2,
+          "exit": 0,
+          "stdout_tail": "er bounds\nV50_UPPER_BOUND=511353002049 V51_UPPER_BOUND=5369214401 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES as the per-row minimum with V51 on the same population\nV51_UPPER_BOUND=5369214401 V52_UPPER_BOUND=726240487 STRATA_UPPER_BOUND=530\nSEMANTICS=COMPRESSED_TERMINALS_SURVIVING_NECESSARY_CONDITIONS__NOT_PICARD_CLASSES_OR_CURVES\nPASS: Stage32 compact live control matches retained detailed authority\nPASS: ordinary startup may avoid MAIN-STATE/detail layers until load-bearing\nPASS: Stage32 MAIN V52 cross-lane state is synchronized after hostile-audited FIXED-DIRECTION-CERTIFICATES same-population per-row MIN bound\nPASS: Stage32 command registry and MAIN/178 startup contracts are authority-separated\nMAIN startup=AGENTS -> MAIN-START-HERE -> MAIN-STATE -> CROSS-LANE-DEMANDS -> working set/evidence\nREADME=layout only; COMMANDS=registry only; demand registry=machine authority\nPASS: Stage32 command surface is roadmap-first with one ordinary operator entrypoint\nPASS: specialist execution surfaces remain on-demand and isolated\nhistorical pre-collapse command/startup contract replayed transiently with no live-path resurrection\nPASS: Stage32 MAIN V52 consumes hostile-audited FIXED-DIRECTION-CERTIFICATES (726240487 compressed terminals, strata upper bound 530) as same-population per-row MIN with V51; effectivity and multibranch remain open\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify stopped EX6 management enrollment",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "{\"o264_descent_authorized\": false, \"o266_endpoint_excluded\": false, \"outcome\": \"O266_ENDPOINT_NOT_CLOSED\", \"stage32_main_credit\": false, \"status\": \"STOPPED_PENDING_NEW_ENDPOINT_INPUT\", \"verdict\": \"PASS_STAGE32EX6_MAIN_STATE\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Replay synthetic fail-close regressions",
+          "seconds": 0.0,
+          "exit": 0,
+          "stdout_tail": "{\"adapter_bridge_shape_required\": true, \"audited_to_unresolved_mathematical_goal_rejected\": true, \"bridge_mutation_changes_core\": true, \"disconnected_final_milestones_rejected\": true, \"production_final_milestone_removal_rejected\": true, \"production_final_safety_boolean_weakening_rejected\": true, \"verdict\": \"PASS_STAGE32_FAIL_CLOSED_SELF_TEST\"}\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Assert current FINAL-CHECK is NOT_READY",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "{\"authority_status_counts\": {\"AUDITED\": 9, \"DECLARED_GOAL\": 7, \"PROVISIONAL\": 1, \"SUPERSEDED\": 1}, \"claim_count\": 18, \"final_contract_locked\": true, \"final_ready\": false, \"lanes\": [\"MAIN\", \"EX1\", \"EX2\", \"EX3\", \"EX4\", \"EX5\", \"EX6\"], \"reasons\": [\"32-02 effectivity/carrier disposal: missing S32.PROOF.EFFECTIVITY_DISPOSAL.V1\", \"32-03 multibranch ledger: missing S32.PROOF.MULTIBRANCH_LEDGER.V1\", \"32-04 integrated synthesis: missing S32.PROOF.INTEGRATED_SYNTHESIS.V1\", \"32-05 hostile-audit release: missing S32.PROOF.HOSTILE_AUDIT_RELEASE.V1\", \"Stage32 closed: missing S32.PROOF.STAGE32_CLOSED.V1\"], \"replay_verifiers_checked\": 17, \"source_locks_checked\": 45, \"verdict\": \"NOT_READY_STAGE32_FINAL_CHECK\"}\n",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS"
+    }
+  ],
+  "finished_utc": "2026-10-21T07:54:21Z",
+  "verdict": "PASS",
+  "skipped_uses": []
+}

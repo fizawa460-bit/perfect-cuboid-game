@@ -8,17 +8,22 @@ CARRY_SOURCE=HERE/'MB104-000707-GEN29-X58-SINGLETON-CARRY-SOURCE.json'; CARRY_IN
 RESIDUAL=HERE/'MB104-000707-GEN30-X58-SINGLETON-RESIDUAL49.json'; DERIVE=HERE/'derive_mb104_000707_gen30_adaptive_affine_cold.py'; COLD=HERE/'MB104-000707-GEN30-ADAPTIVE-AFFINE-COLD.json'; COLD_VERIFIER=HERE/'verify_mb104_000707_gen30_adaptive_affine_cold.py'
 LOCAL=HERE/'run_mb104_000707_fibration_shell_local_exact.py'; RETAINED=HERE/'run_mb104_000707_fibration_isotropic_shells.py'; WORKFLOW=REPO/'.github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml'
 PATHS={'workflow_git_blob':WORKFLOW,'adaptive_x58_preflight_git_blob':Path(__file__).resolve(),'local_exact_engine_git_blob':LOCAL,'runner_git_blob':RETAINED,'gen29_x58_singleton_carry_source_git_blob':CARRY_SOURCE,'gen29_x58_singleton_carry_index_git_blob':CARRY_INDEX,'gen29_x58_singleton_carry_verifier_git_blob':CARRY_VERIFIER,'gen30_residual49_git_blob':RESIDUAL,'gen30_adaptive_affine_deriver_git_blob':DERIVE,'gen30_adaptive_affine_output_git_blob':COLD,'gen30_adaptive_affine_verifier_git_blob':COLD_VERIFIER}
+PATHS['transitive_lock_helper_git_blob']=HERE/'mb104_fib_source_locks.py'
 def blob(p): return subprocess.check_output(['git','hash-object',str(p)],cwd=REPO,text=True).strip()
 def main():
  k=json.loads(RUNKEY.read_text()); s=json.loads(STATE.read_text()); sl=k['source_locks']
  if int(k['generation'])!=30 or k['mode']!='COLD' or k['armed'] is not False: raise SystemExit('Gen30 COLD/unarmed preflight contract drift')
  if s['execution']['runkey_generation']!=30 or s['execution']['heavy_armed'] is not False or s['execution']['execution_authorized'] is not False: raise SystemExit('Gen30 STATE execution gate drift')
  if k['execution_gate']['automatic_execution_authorized'] is not False or k['execution_gate']['current_head_execution_blocked'] is not True: raise SystemExit('Gen30 runkey execution gate drift')
+ if k['execution_gate']['workflow_class']!='MANUAL' or s['execution']['workflow_class']!='MANUAL': raise SystemExit('COLD lifecycle drift')
+ if k['concurrency']['planned_effective_heavy_concurrency']!=0 or k['concurrency']['stage_heavy_cap']!=2: raise SystemExit('local-first concurrency drift')
  verified={}
  for f,p in PATHS.items():
   got=blob(p); want=sl[f]
   if got!=want: raise SystemExit(f'source-lock mismatch before exec: {f}: {got} != {want}')
   verified[f]=got
+ from mb104_fib_source_locks import verify_before_import
+ verify_before_import()
  subprocess.run([sys.executable,str(CARRY_VERIFIER)],cwd=HERE,check=True)
  subprocess.run([sys.executable,str(COLD_VERIFIER),'--certificate',str(COLD)],cwd=HERE,check=True)
  r=json.loads(RESIDUAL.read_text()); d=json.loads(COLD.read_text()); idx=json.loads(CARRY_INDEX.read_text())

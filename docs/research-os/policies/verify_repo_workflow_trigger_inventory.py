@@ -14,25 +14,28 @@ INVENTORY = Path(__file__).with_name("repo-workflow-trigger-inventory-20260911.j
 # Repository-wide automatic surface. Entries may be absent on a sibling PR branch;
 # if they are present, they are intentionally automatic.
 ACTIVE_AUTO = {
+    # LOCAL-FIRST (2026-10-16): only cheap repository safety gates plus the Pages deploy stay automatic.
+    # See docs/research-os/policies/local-first-execution.md.
     ".github/workflows/pages.yml",
+    ".github/workflows/stage32-main-startup-authority.yml",
+    ".github/workflows/stage32-claim-frontier-integrity.yml",
+}
+MANUAL = {
+    ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
+    ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
+    ".github/workflows/stage32-root-cleanup-phase-b.yml",
+    ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
+    ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
+    # demoted from ACTIVE_AUTO by the local-first migration (2026-10-16); run locally or by explicit dispatch
     ".github/workflows/research-arsenal.yml",
     ".github/workflows/structure-radar.yml",
-    ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
     ".github/workflows/stage32-main-grf04-hpadj22-full178.yml",
-    ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-stale-run-sweeper.yml",
     ".github/workflows/stage32-ex5-main.yml",
     ".github/workflows/stage32ex5-bc2-24-explicit-fibre-degree-partition.yml",
     ".github/workflows/stage35-35-01-to-09-audit.yml",
     ".github/workflows/stage35-ex-goal4cf-selected-discriminant-height.yml",
     ".github/workflows/stage36-bootstrap-audit.yml",
-}
-MANUAL = {
-    ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
-    ".github/workflows/stage32-root-cleanup-phase-b.yml",
-    ".github/workflows/stage32-n350-symbolic-mirror-generator.yml",
-    ".github/workflows/stage32-q604-opposite-pair-residue-pack.yml",
 }
 
 
@@ -124,7 +127,7 @@ def build_inventory(changed: list[str]) -> dict:
     counts["TOTAL"] = sum(counts.values())
     return {
         "schema_version": 2,
-        "generated_on": "2026-09-11",
+        "generated_on": "2026-10-16",
         "scope": "repository-wide workflow lifecycle policy",
         "classification_contract": "explicit live allowlist; known Stage workflows not live are RETIRED; unknown repo workflows fail closed to MANUAL",
         "counts": counts,
@@ -134,7 +137,7 @@ def build_inventory(changed: list[str]) -> dict:
         "branch_local_live_catalog": sorted(p for p in ACTIVE_AUTO if (ROOT / p).is_file()),
         "notes": [
             "RETIRED and MANUAL workflows are normalized to workflow_dispatch only.",
-            "ACTIVE_AUTO includes current research leaves and repository safety/authority gates.",
+            "LOCAL-FIRST 2026-10-16: ACTIVE_AUTO is limited to the Pages deploy and two cheap Stage32 safety gates; every research leaf workflow is MANUAL/RETIRED and is replayed locally by default.",
             "ACTIVE_AUTO entries absent from the current sibling branch do not affect that branch inventory.",
             "Stage33 MAIN and Stage35 MAIN have no open PR at migration time; Stage33 historical leaf workflows remain retired while the Stage35 aggregate audit remains live where present.",
             "Stage32EX5 BC2-24 is the only live BC2 leaf; BC2-12 through BC2-23 are not live.",

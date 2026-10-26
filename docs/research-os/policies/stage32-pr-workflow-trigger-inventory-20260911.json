@@ -2,14 +2,14 @@
   "schema": "STAGE32_PR_WORKFLOW_TRIGGER_INVENTORY_V1",
   "scope": "Stage32 workflows observed auto-firing on the long-lived MAIN PR plus the current active/safety exceptions",
   "active_auto": [
-    ".github/workflows/stage32-claim-frontier-integrity.yml",
     ".github/workflows/stage32-main-startup-authority.yml",
-    ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
-    ".github/workflows/stage32-stale-run-sweeper.yml"
+    ".github/workflows/stage32-claim-frontier-integrity.yml"
   ],
   "manual": [
     ".github/workflows/stage32-01-178-n350-production-leaf-contract.yml",
-    ".github/workflows/stage32-root-cleanup-phase-b.yml"
+    ".github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml",
+    ".github/workflows/stage32-root-cleanup-phase-b.yml",
+    ".github/workflows/stage32-stale-run-sweeper.yml"
   ],
   "retired": [
     ".github/workflows/stage32-01-178-n230-filtered-indexer.yml",
@@ -43,6 +43,8 @@
     ".github/workflows/stage32-01-178-n354-two-sided-scalar-hurwitz.yml",
     ".github/workflows/stage32-01-178-n355-special-fibre-prefix-max-cut.yml",
     ".github/workflows/stage32-01-178-n356-optimistic-exceptional-transport.yml",
+    ".github/workflows/stage32-mb-fib-gen15-carry-materialize.yml",
+    ".github/workflows/stage32-mb-fib-gen17-carry-materialize.yml",
     ".github/workflows/stage32-mb-fib-gen29-carry-materialize.yml",
     ".github/workflows/stage32-mb-fib-gen30-cold-materialize.yml",
     ".github/workflows/stage32-post1505-o210-q602-16-residue-retained-asset-search.yml",
@@ -52,10 +54,10 @@
     ".github/workflows/stage32-q602-retained-audit.yml"
   ],
   "counts": {
-    "active_auto": 4,
-    "manual": 2,
-    "retired": 38,
-    "total": 44
+    "active_auto": 2,
+    "manual": 4,
+    "retired": 40,
+    "total": 46
   },
   "notes": {
     "n356": "consumed historical Stage32 MAIN leaf; workflow_dispatch-only replay retained",
@@ -65,8 +67,7 @@
     "n350": "production-leaf meta-contract is not current active frontier; manual replay retained",
     "root_cleanup": "housekeeping verifier; manual replay retained",
     "mathematical_authority_changed": true,
-    "mb_fib_isotropic_shell_pilot": "current MB-FIB auxiliary frontier; ACTIVE_AUTO trigger retained but all heavy execution is fresh commit-range runkey gated",
-    "gen29_carry_materializer": "source-committed exact Gen29 carry complete; workflow_dispatch-only RETIRED replay",
-    "gen30_cold_materializer": "source-committed exact Gen30 cold design complete; workflow_dispatch-only RETIRED replay"
+    "local_first_20261016": "stale-run sweeper demoted to MANUAL by the local-first migration; only startup-authority and claim-frontier-integrity remain automatic (docs/research-os/policies/local-first-execution.md)",
+    "mb_fib": "Gen30 COLD verification only; MANUAL; no heavy execution surface"
   }
 }

@@ -3,6 +3,12 @@ from __future__ import annotations
 import argparse,hashlib,importlib,json,subprocess
 from fractions import Fraction
 from pathlib import Path
+# Pin the lock implementation before importing it or any retained dependency.
+_LOCK_HELPER = Path(__file__).resolve().with_name('mb104_fib_source_locks.py')
+if subprocess.check_output(['git', 'hash-object', str(_LOCK_HELPER)], text=True).strip() != 'c8b3f2cf512e3fea6b48c7795505a41fe4cd1798':
+ raise SystemExit('source-lock mismatch before exec: lock helper')
+from mb104_fib_source_locks import verify_before_import
+verify_before_import()
 from sympy import Matrix
 
 HERE=Path(__file__).resolve().parent

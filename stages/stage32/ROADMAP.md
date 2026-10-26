@@ -336,27 +336,21 @@ Only this unit may set
 STAGE32_CLOSED=true
 ```
 
-## 5. Main-batch continuation rule
+## 5. Unit transition rule
 
-`Stage32-main-batch` is deliberately not tied one-to-one to a unit.
-
-Within one user invocation it may execute:
+The formal dependency is:
 
 ```text
-32-01 -> 32-02 -> 32-03 -> 32-04
+32-01 complete
+   |
+   +--> 32-02 --+
+   |           |
+   +--> 32-03 --+--> 32-04 --> 32-05 external hostile audit
 ```
 
-as far as time/tool limits permit, provided each completed unit writes its own immutable/reproducible checkpoint before continuing.
+Each unit must satisfy its own close criterion and retain a reproducible checkpoint before downstream credit is released. A precise residual wall stops that unit and replaces it only with the smallest justified residual.
 
-It must stop before 32-05 and request:
-
-```text
-Stage32-audit
-```
-
-It must also stop immediately if a precise residual wall is found.
-
-This is the Stage32 version of the user's preferred "one-shot if possible" workflow, without turning a potentially large lattice computation into an unauditable monolith.
+Operator startup and dispatch policy are intentionally not duplicated here; they are defined only by `stages/stage32/MAIN-START-HERE.md`.
 
 ## 6. Firewall
 
