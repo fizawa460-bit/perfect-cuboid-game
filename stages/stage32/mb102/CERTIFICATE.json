@@ -1,0 +1,75 @@
+{
+  "schema": "STAGE32_MB102_DELTA_GENUS_LEDGER_V1",
+  "status": "RETAINED_NO_CREDIT",
+  "receiver": "R29-LG2-MB",
+  "parent": {
+    "node": "MB101",
+    "certificate_path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
+    "certificate_blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563"
+  },
+  "local_delta_contract": {
+    "resolved_point_formula": "delta_P=sum intrinsic_branch_delta + sum pairwise_intersection_multiplicity",
+    "different_resolved_points_have_no_pairwise_local_term": true,
+    "exceptional_delta_equals_exceptional_mass": false,
+    "exceptional_delta_equals_normalization_preimage_count": false,
+    "exceptional_delta_equals_branch_excess": false,
+    "delta_i_equals_M_i_minus_r_i": false,
+    "delta_i_equals_choose_r_i_2": false
+  },
+  "global_genus_contract": {
+    "H_equals_K_S": true,
+    "degree": "d=H.D",
+    "arithmetic_genus": "p_a(D)=1+(D^2+d)/2",
+    "normalization_genus_relation": "p_a(D)-g=Delta_total",
+    "delta_split": "Delta_total=Delta_exc+Delta_off",
+    "exact_identity": "D^2+d=2g-2+2*Delta_total",
+    "g0_specialization": "D^2=-d-2+2*Delta_total",
+    "g1_specialization": "D^2=-d+2*Delta_total",
+    "finite_degree_bound_implied": false
+  },
+  "node_ledger_fields": [
+    "r_i",
+    "M_i",
+    "resolved_landing_partition_L_i",
+    "intrinsic_branch_deltas",
+    "pairwise_intersection_multiplicities",
+    "Delta_i_exc"
+  ],
+  "off_exceptional_firewall": {
+    "Delta_off_forced_zero": false,
+    "MB101_counts_bound_Delta_off": false,
+    "explicit_retained_feasibility_wall_allows_exceptional_delta_zero_with_positive_off_exceptional_delta": true
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/nodes/MB101/CERTIFICATE.json",
+      "blob_sha1": "282fc94d8d5feb0221cf6bf096ed4b0030883563"
+    },
+    {
+      "path": "stages/stage29/29-02c-LG2/result.md",
+      "blob_sha1": "820ed4e1b1a53db14085678de6f186b59ae0ea48"
+    },
+    {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150"
+    }
+  ],
+  "credit_firewall": {
+    "mb101_retained": true,
+    "mb102_retained": true,
+    "mb103_complete": false,
+    "mb104_complete": false,
+    "mb105_complete": false,
+    "finite_picard_enumeration_released": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_node": "MB103"
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "STAGE32_MB101_NORMALIZATION_PROFILE_V1",
+  "status": "RETAINED_NO_CREDIT",
+  "receiver": "R29-LG2-MB",
+  "population": {
+    "ambient_surface": "singular box surface X",
+    "resolution": "minimal resolution pi:S->X",
+    "exceptional_node_count": 48,
+    "carrier": "nonexceptional integral low-genus curve C",
+    "strict_transform": "D subset S",
+    "multibranch_membership": "exists node i with r_i>=2",
+    "unibranch_degree_cap_imported": false,
+    "finite_degree_window_proved": false
+  },
+  "branch_contract": {
+    "A_positive_integer": true,
+    "B_positive_integer": true,
+    "A_plus_B_even": true,
+    "exceptional_intersection_multiplicity": "m=min(A,B)",
+    "m_lower_bound": 1,
+    "landing": {
+      "A_lt_B": "x_chart_distinguished_point",
+      "A_gt_B": "z_chart_distinguished_point",
+      "A_eq_B": "free_nonzero_lambda_from_leading_units"
+    }
+  },
+  "node_contract": {
+    "r_i": "number of normalization branches over node i",
+    "M_i": "sum_j m_ij = D.E_i",
+    "multibranch_iff": "r_i>=2",
+    "when_M_i_positive": "1<=r_i<=M_i",
+    "r_i_equals_M_i_iff": "all branch multiplicities m_ij equal 1",
+    "normalization_preimage_count_equals_exceptional_mass": false,
+    "branch_excess_equals_delta": false
+  },
+  "global_profile_contract": {
+    "R": "sum_i r_i",
+    "M": "sum_i M_i",
+    "N": "number of nodes with r_i>0",
+    "N_MB": "number of nodes with r_i>=2",
+    "necessary_relations": [
+      "N<=R",
+      "R<=M",
+      "N_MB<=N",
+      "R-N=sum_{i:r_i>0}(r_i-1)"
+    ]
+  },
+  "delta_firewall": {
+    "delta_determined_by_r_i_M_i": false,
+    "resolved_landing_partition_required": true,
+    "intrinsic_branch_delta_required_when_singular": true,
+    "pairwise_intersection_multiplicity_required_when_branches_share_resolved_point": true,
+    "distinct_minimal_A_eq_B_lambda_can_be_disjoint_after_resolution": true,
+    "next_owner": "MB102"
+  },
+  "source_locks": [
+    {
+      "path": "stages/stage29/29-02c-LG2/result.md",
+      "blob_sha1": "820ed4e1b1a53db14085678de6f186b59ae0ea48"
+    },
+    {
+      "path": "stages/stage32/residual-32-01-production/post1648an-a1-strict-transform-delta-feasibility-source-note.md",
+      "blob_sha1": "512fcc70afb1acf16956fd4b7a2b9b935a052150"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/PREFLIGHT.json",
+      "blob_sha1": "f625c14b665af668d9ce6b6e78d0b05a2a27bd27"
+    },
+    {
+      "path": "stages/stage32/final-chain/32-03-multibranch/MISSION.json",
+      "blob_sha1": "13757db3859a6b1bbec1d9fc3a8cd65c99d61e6c"
+    }
+  ],
+  "credit_firewall": {
+    "mb101_retained": true,
+    "mb102_complete": false,
+    "mb103_complete": false,
+    "mb104_complete": false,
+    "mb105_complete": false,
+    "r29_lg2_mb_discharged": false,
+    "receiver_credit": false,
+    "effectivity_credit": false,
+    "final_milestone_credit": false,
+    "theorem_credit": false,
+    "endpoint_credit": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false,
+    "merge_authorized": false
+  },
+  "next_node": "MB102"
+}
