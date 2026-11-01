@@ -1,6 +1,6 @@
 # Stage32 / MB104 — 研究資料・独立監査・検算証拠（同期保管）
 
-**これは研究資料の移送先であり、Stage32のactive controllerではありません。** 現在の正式な controller は [`../final-chain/32-03-multibranch/STATE.json`](../final-chain/32-03-multibranch/STATE.json) です。そこに記載された `FROZEN_AUDIT_REPAIR_READY_NO_CREDIT` と `retained_frontier` 27件、およびcredit firewallを変更・解除しません。
+**これは研究資料の移送先であり、Stage32のactive controllerではありません。** 現在の正式な controller は [`../../../STATE.json`](../../../STATE.json) です。そこに記載された `FROZEN_AUDIT_REPAIR_READY_NO_CREDIT` と `retained_frontier` 27件、およびcredit firewallを変更・解除しません。
 
 この資料は2026-11-01時点のGoogle Drive正本から採取したエビデンスと履歴です。完全直方体の存在・非存在、母集団全体の有限窓、実候補の排除、公式creditを証明または昇格するものではありません。
 
@@ -22,6 +22,6 @@ F45=F46は同じnorm平方ゲートの異なる記述。F51/F52の無循環な�
 
 ## 機械的検査
 
-`stages/stage32/mb104/` 内で `sha256sum -c SHA256SUMS.txt` を実行してください。これはソースバイトの整合性の検査であり、数学的妥当性・再現実行PASSではありません。
+`stages/stage32/final-chain/32-03-multibranch/nodes/MB104/drive-research/` 内で `sha256sum -c SHA256SUMS.txt` を実行してください。これはソースバイトの整合性の検査であり、数学的妥当性・再現実行PASSではありません。
 
 元のZIPはGoogle Driveにのみ保管。**GitHubにはZIPを1本も登録していません。**
