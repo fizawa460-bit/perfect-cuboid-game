@@ -4251,5 +4251,67 @@
       "pr_merge_commit": "b647f33e1c36c6f156d2a81a1e6f146ae2c7b550",
       "release_transition_recorded": "2026-11-02 by owner decision (frozen-state/routing release required by the PASS review)"
     }
+  },
+  "route_register": {
+    "schema": "STAGE32_MB104_ROUTE_REGISTER_V1",
+    "registered": "2026-11-02 by owner decision (GitHub sole authority; Google Drive MB104 frozen)",
+    "semantics": "Registration of the frozen Drive A-E route ledger into the GitHub controller. Statuses and next steps are copied verbatim from the frozen source; no route is newly credited, excluded, promoted or audited by this registration. retained_frontier remains the only audited GitHub frontier; credit_firewall is unchanged.",
+    "source": {
+      "overview_path": "stages/stage32/32-03-multibranch/MB104/drive-research/status/MB104-RESEARCH-OVERVIEW-V025.md",
+      "overview_version": "v0.25",
+      "overview_sha256": "6638f0b85ac7fec184b6dfd9b3372982227abcd4fb642cc9534ebc5970df9bc9",
+      "index_path": "stages/stage32/32-03-multibranch/MB104/drive-research/status/MB104-ROUTE-INDEX-V030.md",
+      "index_version": "v0.30",
+      "index_sha256": "7dd2cfa988a899cd3b7ba3ce12f65bff47ddd156e104f6a9c50df6c73925cb69",
+      "audit_scope_path": "stages/stage32/32-03-multibranch/MB104/drive-research/AUDIT_SCOPE.md",
+      "drive_frozen_as_of": "2026-11-01 JST snapshot; frozen 2026-11-02"
+    },
+    "routes": {
+      "A": {
+        "label": "pair map r=1..4 / 864 supports / Stein-common-vertical correction",
+        "status": "PARKED_MATH_OPEN",
+        "source_text": "PARKED／数学OPEN。r=1..4、864支持、Stein/common-vertical補正と全候補一様有限次数・交点窓の証明はOPEN。000707の種数7ファイブレーション最小P・F=36は対象限定既存成果。2026-11-01のClaude外部評価に由来するκ補題（κ<304ならr3有限化という条件付き提案、r4でκ=384必要など）はPROVISIONAL／元証明の独立監査・κ具体値未了（HOLD）、r1,2には効かない。これは正式なNO-GO確定でも、A全体の数学的不能の証明でもない。CURRENT_A_REVIEW_20261101を索引で確認。実候補排除0・credit0。",
+        "next": "PARKEDを維持。κ補題を活用するなら成立条件・交点計算・Λ列挙・κの値を独立監査した上で、さらにr1,2を閉じる別の証明が必要。旧殻/P・F=40計画、浅いr4、同じ判別式計算は再開しない。"
+      },
+      "B": {
+        "label": "conductor / sheet sign / norm-square",
+        "status": "PARKED_MATH_OPEN",
+        "source_text": "PARKED／数学OPEN。衝突δ会計・分岐半因子・抽象指標線・自由切断jetなど方法限定NO-GOは維持。実source正規化、marked conductorにおける反不変一次係数・符号付きgluing、種数1感応の独立制約が未完。F45とF46は同じglobal norm/Picゲートの等価表現で二重計上しない。F49のtorsor分裂は各引戻し成分のCartier性・実marked gluingの自動証明ではない。F63の固定複素モデル整曲線・Q=0・norm分裂は条件付き監査範囲であり、種数1／実source不存在の証明ではない。Claudeの『導手符号データは曲線そのもので外部から原理的に取得不能』は未証明の絶対主張として認定しない。CURRENT_B_REVIEW_20261101を索引で確認。実候補排除0・credit0。",
+        "next": "PARKEDを維持。実sourceでの反不変一次jet／正規化枝対応と導手符号gluingに、新たな種数1感応の強制条件または独立不等式を与え、実候補排除／有限窓までの接続を示す。『未知データ待ち』だけでは再開条件として不十分。"
+      },
+      "C": {
+        "label": "w zero forcing / genus-1 effectivity (C16, C17R)",
+        "status": "OPEN",
+        "source_text": "OPEN（今回のClaude追加評価なし）。C16のw大域零点強制、C17Rの多方向特殊配置・真の種数1／有効性・変形の障壁は不変。C14/C18A、F61〜68固定モデル内の限定監査を実担体除外に自動拡張しない。旧C14残5列、Severi期待次元、一般元の高種数計算をNEXTとして再計上しない。新排除0・credit0。",
+        "next": "C16のw零点強制またはC17R特殊配置／種数1有効性への独立制約。前回の条件付き固定モデルPASSを全母集団へ無条件移送しない。"
+      },
+      "D": {
+        "label": "D1 F81 CM families / D2 F82 two-leg multibranch",
+        "status": "OPEN_WITH_CONDITIONAL_PASSES_RETAINED",
+        "source_text": "既存D1／F81は固定CMペンシル・L等の明示条件付きPASSを保持し、可変CM族E1/M0実効一様上限・滑らかな最大torsion成分はHOLD。既存D2／F82-A/BとC1〜C5はF72/F75〜79の実正規化・源標識条件下で独立監査CONDITIONAL_PASS（再証明・重複認定なし）。F82-C: k4ならb≤2a、k8ならb≤3a、B_s≤(8+2k)a等は必要条件であってa,bの絶対上限ではない。",
+        "audited_delta_F82_D": "F82追補D1・D2は独立監査で、同じK=ℂ(Y)／同じsとS／同じC8→E_s二重被覆／同じ指標χ_{αu}=χ_uを仮定したときCONDITIONAL_PASS。D1: 分岐対称差からdegα≤1+(k/4)(1+(r0−1)/a)≤1+k/4。D2: F76のCM模型End(E_s)=ℤ[i]、4捩れ標識、対合固定点を利用し非単元の次数2も排除、したがって原点保存自己準同型αにdegα=1が必要。D3: [n] (|n|≥2) の同一標識保持不能はD1の系としてCONDITIONAL_PASS、独立新規定理と二重計上しない。監査に伴うSCOPE_CORRECTION: h_cov=2では二脚のχ1=χ2が成立するが、h_cov=4のV4被覆では一般に独立な2指標があるのでχ1=χ2を無条件に要求しない。D2.2は単一uへの自己同種後合成の排除に限定し、異なるY・異なるu1/u2の直接比較に適用しない。研究原本のPROVISIONALは提出時表示で、監査正本でのD1/D2/D3の現行評価は限定PASS、元source chain全体の無条件再監査ではない。",
+        "next_D1": "可変CM同種全族のE1/M0／滑らか1D maximal torsion cosetを支配する正当な共通実効上限（正しい定義体・偏極・指数条件でManin–Mumfordを適用）。",
+        "next_D2": "F75のh_cov=2では同じ二次指標の異なる写像u1,u2間の剛性を、h_cov=4ではそれぞれの独立ラベル保存を厳密に区別したうえで、実C8二脚passport、δ=1/2、marked多枝から一様B_sまたはdeg(h1)+deg(h2)上界/不存在へ導く。追補Dの自己同種後合成排除を別u間の絶対次数制限と誤認しない。"
+      },
+      "E": {
+        "label": "CORELESS + NO NONEMPTY CLUMP",
+        "status": "OPEN_PARKED",
+        "source_text": "CORELESS + NO NONEMPTY CLUMP／実source正規化上6超平面の全付値・補助Wの実分岐・marked conductor等OPEN/PARKED。rational-core閉鎖の旧GitHub前監査主張を全32-03消去と混同しない。F70/71の対象限定数値窓を全MB104に外挿しない。F82-DはEの実補助被覆Wの分岐や6付値を自動解決しない。新排除0・credit0。",
+        "next": "CORELESS／NO NONEMPTY CLUMP残余に実source上6超平面の全消失次数・偶奇または補助Wの実分岐を強制する新しい独立証明。旧Abel/norm単独の再演は失効。",
+        "github_link": "same branch as next_obligation / resume_obligation (rational-core closure there is PRE-AUDIT, zero credit)"
+      }
+    },
+    "superseded_next": "F82-D独立監査待ちは解消（明示条件下の限定PASS）。F82-Dを絶対次数上限や別u間の一致に昇格する旧期待は不許可。F82-A/B/CやF75/F76の重複登録、r1..4決着済み扱い、A/B保留を数学的全NO-GOとして確定、F63高種数一般例を種数1排除へ拡張することも禁止。従前のSUPERSEDEDはv0.24以下の履歴を継承。",
+    "global": "MB104 full-population finite window OPEN; real-candidate exclusions 0; official credit 0. F is cross-route management, not a sixth route.",
+    "double_count_rules": [
+      "F45 and F46 are one norm-square gate",
+      "F51/F52 circular inference retracted by F53 (I=1568m^2+2k)",
+      "F82-D3 is a corollary of D1, not a separate result",
+      "fixed-model conditional PASSes (F61-F68, C14/C18A) do not extend to real-carrier exclusion"
+    ],
+    "credit": {
+      "promotion": false,
+      "exclusion_credit": false
+    }
   }
 }

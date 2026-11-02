@@ -7,7 +7,7 @@
 ## 1. 読む順番
 
 1. この文書（全体の地図と、既知の食い違い）。
-2. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`resume_obligation`、`retained_frontier`、`credit_firewall` を見る。
+2. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`route_register`（ルートA〜E）、`retained_frontier`、`credit_firewall` を見る。
 3. （必要なときだけ）`drive-research/status/MB104-ROUTE-INDEX-V030.md` と `MB104-RESEARCH-OVERVIEW-V025.md` — 凍結した Drive 台帳の写し。過去の経緯やルートA〜Eの記録を調べるときの参考。
 4. `drive-research/AUDIT_SCOPE.md` — 各 F 文書の監査範囲・HOLD・重複規則。
 5. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
@@ -43,7 +43,7 @@ Drive 側は凍結したので、`drive-research/` の内容が最終版とし�
 
 - 正式な次の課題は `../STATE.json` の `next_obligation`。表題は「m=1 postulation or bulk」と古いが、本文（`required_input`）の結論では有理核（rational-core）の枝は閉じており（PRE-AUDIT／credit 0、未監査）、生きているのは **CORELESS + NO NONEMPTY CLUMP** の枝だけ。
 - `success_shapes` に残る有理核の古い項目（次数84 Belyi、m=4..6 など）は、有理核の閉鎖が監査を通るまで形式上残しているだけ。新しい作業の出発点にしない。
-- 凍結した Drive 台帳には、A〜D のルートや F35〜F82 の研究もある。これらは GitHub の STATE には載っていない（credit 0 の参考資料）。使うときは `drive-research/` から読み、GitHub 側で新しく扱う課題としてユーザーが決める。
+- ルートA〜Eの状態と次にやることは、`../STATE.json` の `route_register` に登録してある（2026-11-02。凍結した Drive 台帳 v0.25 の文面をそのまま写したもので、credit・排除・監査判定は増やしていない）。どのルートを進めるかはユーザーが決める。根拠の F 文書は `drive-research/` から読む。
 - 研究の結果は GitHub（このフォルダと `../STATE.json`）に記録する。push・PR・merge はユーザーの OK を取ってから。成果を `retained_frontier` に入れたり昇格したりするのは、監査を通ってから。
 
 ## 3. 既知の食い違い・古い記述
