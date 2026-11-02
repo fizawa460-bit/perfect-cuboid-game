@@ -81,6 +81,11 @@ def main() -> None:
     req("close_criterion" not in u3, "32-03 live pointer duplicated formal close criterion")
     req(u3["formal_spec"] == "stages/stage32/ROADMAP.md", "32-03 formal spec pointer")
     req(u3["formal_spec_role"] == "SOLE_OWNER_OF_UNIT_DEFINITION_AND_CLOSE_CRITERION", "32-03 formal ownership")
+    # 32-03 state pointers must name the canonical MB directory and exist.
+    repo = HERE.parents[1]
+    for key, rel in (("primary_state", u3["primary_state"]), ("auxiliary.state", u3["auxiliary"]["state"])):
+        req(rel.startswith("stages/stage32/32-03-multibranch/"), f"32-03 {key} outside canonical MB directory")
+        req((repo / rel).is_file(), f"32-03 {key} missing: {rel}")
 
     for token in (
         "### 32-02-L — rigorous effectivity certification",
