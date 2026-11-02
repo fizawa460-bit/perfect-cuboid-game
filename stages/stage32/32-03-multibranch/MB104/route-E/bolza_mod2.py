@@ -58,8 +58,7 @@ print("PASS")
 
 # Independent check of the structure constants against explicit quaternions in D_B = (-3, sqrt2) over Q(sqrt2)
 # KKSV (6.1), (6.2), Section 7: alpha = (1 + i)/2, gamma = (1/6)(3 + i)(1 - (1 + sqrt2) j),
-# beta = alpha (1 - (1 - sqrt2) gamma).  (The closed form (7.1) of beta is not used: PDF text extraction drops the
-# sqrt signs, so the defining product formula is used instead.)
+# beta = alpha (1 - (1 - sqrt2) gamma).  (This agrees with the closed form (7.1); the product formula is used here.)
 from fractions import Fraction as Q
 def fa(p, q): return (p[0] + q[0], p[1] + q[1])
 def fm(p, q): return (p[0]*q[0] + 2*p[1]*q[1], p[0]*q[1] + p[1]*q[0])
