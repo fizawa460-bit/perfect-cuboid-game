@@ -17,11 +17,11 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 
 ### 2.1 GitHub 側（`../STATE.json`）
 
-- `status`: `FROZEN_AUDIT_REPAIR_READY_NO_CREDIT`。`current_node`: MB104。完了・保持は MB101〜MB103。
-- `next_obligation`: `MB104-20261026-AUDIT-REPAIR-REAUDIT`（現行 main での独立再監査）。
-- `resume_obligation`: `MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK`。e=2 の一意な対について、m=1 の 36 個の高エネルギー準位（Q=118..186 の偶数と Q=192）か、非線形の bulk を扱う。
+- `status`: `ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT`（2026-11-02 に凍結状態から切り替え）。`current_node`: MB104。完了・保持は MB101〜MB103。
+- `audit_repair.status`: `INDEPENDENT_HOSTILE_REAUDIT_PASS_RECORDED`。#1827 の exact head `adf4f05f` に対する独立監査 PASS（review `5648282668`、2026-10-26）を `audit_repair.reaudit_pass` に記録済み。PASS の範囲は監査修復と証拠の出所の確認だけで、数学の新しい credit はない。
+- `next_obligation`: `MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK`（`resume_obligation` と同じ）。e=2 の一意な対について、m=1 の 36 個の高エネルギー準位（Q=118..186 の偶数と Q=192）か、非線形の bulk を扱う。
 - `retained_frontier`: 27 項目。すべて credit 0。B 系の5項目（b3 商・衝突会計・分岐半因子・η 指標線・反不変導手の source wall）もここにある。
-- `credit_firewall`: すべて false（受け手・有効性・定理・端点・存在／非存在・merge）。
+- `credit_firewall`: すべて false（受け手・有効性・定理・端点・存在／非存在・merge）。重い計算（isotropic shell）も引き続き禁止。
 
 ### 2.2 Drive 側（索引 v0.30／統合 v0.25）
 
@@ -38,12 +38,12 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 
 - MB104 全体の有限窓は OPEN。実候補の排除は 0、credit は 0。
 
-## 3. 既知の食い違い・古い記述（未修正）
+## 3. 既知の食い違い・古い記述
 
-台帳を編集しない方針なので、次の点は正本を直していません。直すかどうかはユーザーが決めます。
+正本をどう直したか、または直していないかを記録します。直すかどうかはユーザーが決めます。
 
-1. **STATE の監査状態が古い。** `audit_repair.status` は `PENDING_INDEPENDENT_HOSTILE_REAUDIT`、`research_resume_authorized` は false のまま。実際には、#1827 の exact head `adf4f05f` に対する独立監査が 2026-10-26 06:44 に PASS しており（review `PRR_kwDOTr52Y88AAAABUKn0LA`）、#1827 は 06:55 にマージされた。Drive 側はこの PASS を記録済みだが、GitHub の STATE は追従していない。
-2. **STATE の PR 番号が古い。** `routing.active_pr_number` と `active_surface.pr_number` は 1827 のまま。#1827 はマージ済みで、開いている MB の PR はない。
+1. **（2026-11-02 解消）STATE の監査状態。** 以前は `PENDING_INDEPENDENT_HOSTILE_REAUDIT` のままだったが、#1827 の再監査 PASS を記録し、研究再開状態へ切り替えた。
+2. **STATE の PR 番号。** `routing.active_pr_number` と `active_surface.pr_number` は 1827 のまま残している（旧検証器がこの値を固定しているため）。マージ済みであることは `active_surface.pr_state` と `routing.active_pr_merged` に記録した。今は開いている MB の PR はない。
 3. **フォルダの移設。** #1846（2026-11-02 マージ）で `stages/stage32/final-chain/32-03-multibranch/` から `stages/stage32/32-03-multibranch/` へ移した。STATE 内のパスは書き換え済み。ただし証明書・旧監査記録・Drive 資料の中の旧パスは履歴としてそのまま残している。
 4. **検証器は移設先では動かない可能性がある。** MB101〜MB104 の Python は移設前のバイトのまま（`parents[6]` などのルート深さ、固定 source-lock を前提にしている）。実行が必要になったら、その入口だけ直してから試す。
 5. **ワークフロー。** `stage32-main-startup-authority.yml` は 2026-10-26 から形式エラーで動いていなかったため、2026-11-02 に GitHub の設定で無効化した（ファイルは残っている）。PR の自動検査で今も動くのは `stage32-claim-frontier-integrity.yml` だけ。
