@@ -9,7 +9,7 @@ CURRENT = HERE / "CURRENT.json"
 DETAIL = HERE / "MAIN-STATE.json"
 FORMAL_ROADMAP = HERE / "ROADMAP.md"
 LIVE_02 = HERE / "final-chain/32-02-effectivity/LIVE.json"
-LIVE_03 = HERE / "final-chain/32-03-multibranch/LIVE.json"
+LIVE_03 = HERE / "32-03-multibranch/LIVE.json"
 
 
 def req(v: bool, msg: str) -> None:
