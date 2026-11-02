@@ -1,98 +1,126 @@
 # E03 — Population-wide form of E02, and the scope of E01/E02 over the GitHub frontier (2026-11-02)
 
-Status: research note, **unaudited, zero credit**. It uses only E02 §1–§2, i.e. FSM facts (F1)–(F3) and the derived
-Beauville chain, together with Lemma E01′.
+Status: research note, **zero credit**. Audits:
 
-## 1. Population-wide statement (no assumption on the class)
+- round 1, DeepSeek (reading): PASS;
+- round 2, Claude (executing): FAIL, for one must-fix. The must-fix was the missing hypothesis "C̄ ⊂ B, d ≥ 1" (the exceptional curves E_p are counterexamples to the old wording). Revision 2 fixes it.
 
-"Population-wide" here means independent of the class of C ⊂ B. It does **not** mean independent of E01′, i.e. of the compact X(8) uniformization and the congruence propagation in E01 §2a, or of the FSM facts (F1)–(F3).
+E03 uses only:
 
-Notation, for an integral curve C̄ ⊂ B (any class):
+- E02 §1–§2, i.e. the FSM facts (F1)–(F3) and the derived Beauville chain;
+- Lemma E01′.
 
-- Ē is the normalization of C̄, of genus g;
-- C̃ ⊂ S is the strict transform;
-- d := K_B·C̄ = H·C̃;
-- μ(C) := Σ_{p∈nodes} C̃·E_p is the total exceptional contact mass;
+## 1. Population-wide statement
+
+"Population-wide" here means independent of the class of the curve. It does **not** mean independent of E01′, i.e. of the compact X(8) uniformization and the congruence propagation in E01 §2a, or of the FSM facts (F1)–(F3).
+
+**Standing hypothesis.** C̄ ⊂ B is an integral curve on the box variety. Equivalently, C̃ ⊂ S is an integral curve that is **not** one of the 48 exceptional curves E_p. Then d := K_B·C̄ = H·C̃ ≥ 1. (Each E_p has H·E_p = 0 and is a rational curve; it is not covered, and the old wording without this hypothesis was false for E_p.)
+
+Notation:
+
+- Ē is the normalization, of genus g;
+- μ(C) := Σ_p C̃·E_p is the total exceptional contact mass;
 - M ≤ μ is the number of normalization points of Ē over ∪E_p;
-- r ≤ M is the number of branch points of Y → Ē.
+- r ≤ M is the number of branch points of Y → Ē. By (B1), r is even.
 
-**Lemma E03.** If g ≤ 1, then:
+**Lemma E03.** Under the standing hypothesis, if g ≤ 1, then:
 
-1. r > 0, and r ≥ d − 4g + 4. This is (B4), with the case r = 0 excluded exactly as in E02 §3, an argument that does not depend on the class.
-2. If r = d − 4g + 4, then d ≤ 85.
-3. Hence, if d ≥ 86: **μ ≥ M ≥ r ≥ d − 4g + 5**.
+1. r > 0 and r ≥ d − 4g + 4 (this is (B4); r = 0 is excluded as in E02 §3);
+2. if r = d − 4g + 4, then d ≤ 85, and for g = 0 even d ≤ 42;
+3. hence, if d ≥ 86: **μ ≥ M ≥ r ≥ d − 4g + 5**, and in fact r ≥ d − 4g + 6 when d is even, because r is even.
 
 *Proof.*
 
-- (1) is E02 §2–§3. Those steps use only (F1)–(F3), never the class of C.
-- For (2), on the equality face E02 §2(E),(S) gives a minimal étale correspondence Z ⊂ C8×C8 with legs of degree n = ed/8 and Z/Stab_G(Z) = Ē, where |Stab| = 2e.
-  - Lemma E01′ needs n < 16·2e/3, i.e. ed/8 < 32e/3, i.e. d < 256/3, i.e. d ≤ 85.
-  - Equivalently, Area(Ē) = πd < 256π/3.
-- (3) follows from (1) and (2). □
+- (1) is E02 §2–§3. Those steps use only (F1)–(F3) and g ≤ 1, never the class.
+- (2) On the equality face, E02 §2(E),(S) gives a minimal étale correspondence Z with legs of degree n = ed/8 and Z/Stab_G(Z) = Ē, where |Stab| = 2e. Stab acts faithfully on Z: a nontrivial diagonal element of G has only finitely many fixed points on C8×C8, so it cannot fix the curve Z pointwise.
+  - Then Area(Ē) = πd. Lemma E01′ (g ≤ 1, Zograf with g + 1 ≤ 2) gives πd < 256π/3, so d ≤ 85.
+  - For g = 0, the same Zograf bound with g + 1 = 1 gives πd < 128π/3, so d ≤ 42.
+- (3) follows from (1) and (2), using the parity of r. □
 
-**Corollary E03.1 (counting exclusion).** No curve of geometric genus ≤ 1 lies in a class with
+Also: if d is odd, r = d − 4g + 4 is odd, so the equality face is empty for odd d.
 
-μ ≤ d − 4g + 4 and d ≥ 86,
+**Corollary E03.1.** Let C̄ ⊂ B satisfy the standing hypothesis, and let g ≤ 1. Then C̄ cannot satisfy
 
-or with μ < d − 4g + 4 (any d). For genus 1 this reads: μ ≤ d and d ≥ 86, or μ < d. For genus 0: μ ≤ d + 4 and d ≥ 86, or μ < d + 4.
+μ < d − 4g + 4, or μ = d − 4g + 4 with d ≥ 86 (d ≥ 43 if g = 0).
 
-**Corollary E03.2 (E02 recovered).** For the uniform class 7lH − 4lΣ_{14}E_p we have μ = 14·8l = 112l = d ≥ 112. So the class is excluded for every l ≥ 1.
+In words: a class (in Pic S, not an exceptional class) contains no integral curve of geometric genus g ≤ 1 with these values of μ and d.
 
-**What E03 does not do.** Classes with μ > d − 4g + 4 remain open: there the legs may ramify, and E01′ does not apply. Small degrees d ≤ 85 on the exact equality face also remain open.
+**Corollary E03.2.** For the uniform class 7lH − 4lΣ_{14}E_p we have μ = 112l = d ≥ 112. So no integral curve of geometric genus ≤ 1 lies in it, for every l ≥ 1. This recovers E02.
 
 ## 2. Scope over the GitHub frontier (STATE `retained_frontier`)
 
-Which retained records concern carriers in |lP| = |7lH − 4lΣ_{000707}E_p|, the class that E02 covers?
+Round 2 (Claude, executing) read the carrier of **all 27 retained records**. Each record either concerns the |lP| carrier (H·P = 112, P² = 336, δ = 168l² + 56l) or is auxiliary to it through P. Examples of the auxiliary kind are `genus7_fibration` and `isotropic_shell_preflight`, which are about P·F for a fibre class F. No record treats a different carrier.
 
-| Record (`retained_frontier`) | Carrier | Covered by E02? |
+| Record (`retained_frontier`) | Carrier | Covered by E01/E02 |
 |---|---|---|
-| `pair_map` (route A, r = 1..4, "864") | "integral MB carrier in \|lP\| with elliptic normalization" (restriction note, blob `18617398`) | yes |
-| `r4`, `genus7_fibration`, `isotropic_shell_preflight` | auxiliary to the \|lP\| pair map | yes (as far as they serve that carrier) |
-| `rank3_fourmap_b3_quotient`, `support_hyperplane_subcanonical_bridge` | C = lP, support 000707 | yes |
-| `b3_*`, `absent_eta_character_line`, `anti_invariant_conductor_source_wall` (route B) | the same carrier (b3 quotient of lP) | yes |
-| `e2_*` (6 records), `parking_reopen_contract`, `compact_C8_etale_correspondence_preflight`, `conductor_pair_low_degree_pushforward_preflight` | support 000707, e = 2 | yes |
-| `cycle_breadth_audit_20260920` | lP | yes |
-| `z12_*`, `projective_ci_*`, `normalization_module_*`, `elliptic_linear_series_*`, `null_union_*`, `equigeneric_*` | method walls for the same carrier | yes, as far as they concern it |
+| `pair_map` (route A, r = 1..4, "864") | \|lP\|, elliptic normalization (restriction note, blob `18617398`) | yes |
+| `r4`, `genus7_fibration`, `isotropic_shell_preflight` | auxiliary to \|lP\| through P | yes |
+| `rank3_fourmap_b3_quotient`, `support_hyperplane_subcanonical_bridge`, `cycle_breadth_audit_20260920` | C = lP, support 000707 | yes |
+| `b3_*`, `absent_eta_character_line`, `anti_invariant_conductor_source_wall` (route B) | b3 quotient of the lP carrier | yes |
+| `e2_*` (6 records), `parking_reopen_contract`, `conductor_pair_low_degree_pushforward_preflight` | support 000707, e = 2 | yes |
+| `compact_C8_etale_correspondence_preflight` | G-stable Z, legs 56l, Z/G = E, i.e. **e = 4** | yes (E01′ with \|A\| = 8: 56l < 128/3 fails) |
+| `z12_*`, `projective_ci_*`, `normalization_module_*`, `elliptic_linear_series_*`, `null_union_*`, `equigeneric_*` | method walls for the same carrier | yes |
 
-The column "Covered by E02?" is an **expectation, not a verified row-by-row check**. The only exception is the support `000707000f0f` itself, whose class |lP| is stated in the cited sources (`pair_map` restriction note, `support_hyperplane_subcanonical_bridge`). For every other row, the source blob still has to be re-read before the row is stated as fact.
+"Covered" means: if the hypothetical carrier these records study does not exist (E02), the records become moot. They are not individually refuted.
 
-The column means: if E01/E02 survive audit, the hypothetical carrier these records study does not
-exist. The records then become moot; they are not individually refuted.
+**The 864 supports**
 
-The "864" in `pair_map` is a count of balanced supports. E02 holds for every 14-node support with uniform coefficients
-(7l, 4l), so any such support is covered. Whether all 864 have exactly that uniform shape must be checked against
-the pair-map source before it is stated as fact.
+- They decompose into three orbits, all of the uniform 14-node shape P = 7H − 4ΣE_i, |Σ| = 14:
 
-The frozen Drive routes C and D (F35–F82) were written for the same 000707 carrier. Their status follows the same rule, but
-is recorded here only as an expectation, not as a check.
+  | Orbit | Count |
+  |---|---|
+  | `0000770000ff` | 48 |
+  | `00007b0000ff` | 48 |
+  | `000707000f0f` | 768 |
+  | **Total** | **864** |
 
-## 3. What remains of MB104 after E01–E03 (if audited)
+- Sources: Z3 notes on commit `d13afbb1` (blobs `dca4eeca`, `30885461`) and the pair-map discriminant note (blob `0e1f7d60`).
+- The fourth orbit `00070b000f0f`, already excluded by Z33G, has the same shape.
+- E02 holds for every 14-node support, so it covers all 864 class by class.
 
-MB104's mission is a "population-wide finite degree/intersection restriction" (MISSION.json). After E01–E03:
+The frozen Drive routes C and D (F35–F82) were written for the same 000707 carrier. This is recorded as an expectation only.
+
+## 3. What remains of MB104 after E01–E03
+
+MB104's mission is a "population-wide finite degree/intersection restriction" (MISSION.json). All statements below concern integral curves on B (non-exceptional on S) of geometric genus g ≤ 1.
 
 - **Excluded:**
-  - the uniform 14-node class |lP| (support 000707 and any other 14-node support), for all l;
-  - every class with μ < d − 4g + 4;
-  - every class with μ ≤ d − 4g + 4 and d ≥ 86.
-- **Remaining:**
-  - genus-≤1 curves with μ ≥ d − 4g + 5 (strictly off the equality face);
-  - the equality face for d ≤ 85.
-
-  E03 gives the population-wide restriction r ≥ d − 4g + 5 for d ≥ 86. This is a necessary condition, not a finite window.
-- To obtain a finite window, the off-face case needs a new idea. For example, a ramified version of E01′ (an orbifold or Belyi-type uniformization of Z → C8 with controlled ramification R = 2e(r − d + 4g − 4)) or a bound on μ − d.
+  - every curve in a uniform 14-node class 7lH − 4lΣE_p, for all l. This includes all 864 supports.
+  - every curve with μ < d − 4g + 4;
+  - every curve with μ = d − 4g + 4 and d ≥ 86 (d ≥ 43 if g = 0);
+  - every curve on the equality face with d odd.
+- **Remaining (the off-face condition is a condition on r, not on μ):**
+  - curves with μ ≥ d − 4g + 5. Among these, r ≥ d − 4g + 5 is forced when d ≥ 86. For d ≤ 85, the equality face r = d − 4g + 4 is still possible.
+  - curves with μ = d − 4g + 4 and d ≤ 85 (d ≤ 42 if g = 0), with d even.
+- This is a necessary condition, not a finite window. A finite window needs a new idea for the off-face case. For example, a ramified version of E01′ with controlled leg ramification R = 2e(r − d + 4g − 4), or a bound on μ − d.
 
 ## 4. Audit points
 
-1. Lemma E03 (1)–(3): check that E02 §2–§3 uses no class-specific input. The only class-specific step in E02 is the count μ = d.
-2. Corollaries E03.1 and E03.2: arithmetic.
-3. The scope table: check each record's carrier against its source blob.
+1. Lemma E03 (1)–(3): E02 §2–§3 uses no class-specific input. The standing hypothesis is now explicit.
+2. Corollaries E03.1 and E03.2, and the g = 0 and parity refinements.
+3. Scope table and the 864 breakdown, against the cited blobs.
 4. No credit, frontier change or MB104 closure is claimed.
 
 ## 5. Audit history
 
-- **Round 1: DeepSeek (reading), PASS at `51b57aac`. No must-fix.**
-  - Covered E01′, E02 revision 3 and E03.
+- **Round 1: DeepSeek (reading), PASS at `51b57aac`. No must-fix.** Should-fix items:
+  1. The scope column was an expectation. Now superseded: round 2 read all 27 records.
+  2. "Population-wide" is relative to E01′ → §1.
+  3. Scripts were not re-executed at this head → noted.
+- **Round 2: Claude (executing), FAIL at `51b57aac`. One must-fix.**
+  - Ran e02_counts.py, bolza_mod2.py and c8_net.py with and without `-O`: exit 0, with hashes matching STATE.
+  - Independently re-derived:
+    - E01′;
+    - E02 §2 (a), (b), (B1), (B2), (B4), (E) and (S);
+    - the r = 0 argument;
+    - E03 (1)–(3);
+    - known FSM curves: boundary elliptic curves (d = 4, r = 8), Prop 2.9 (d = 4, r = 4, on the face), Prop 2.6 rational curves (d = 2, e = 4, r = 6 = d + 4, on the face).
+  - Must-fix: the E_p (d = 0, μ = −2, genus 0) contradicted the old Corollary E03.1. → Fixed by the standing hypothesis in §1.
   - Should-fix items:
-    1. The scope column is an expectation → stated in §2.
-    2. "Population-wide" depends on E01′ → stated in §1.
-    3. Scripts were not re-executed at this head → noted. They were executed at `dd0c2339` (ChatGPT) and `212bd863` (Claude).
+    1. STATE audit statuses vs content → STATE updated: E01 §2a and E02 revision 3 are now covered by rounds after their PASS, and are recorded as such.
+    2. The "remaining" set confused μ and r → §3 rewritten.
+    3. "class with μ < …" phrasing → Corollary E03.1 reworded.
+    4. `compact_C8_*` is e = 4 → moved in the table.
+    5. The 864 breakdown → added as fact, with sources.
+    6. Faithfulness of Stab on Z → stated in Lemma E03 (2), and in E02 (S).
+    7. Optional refinements (parity of r; d ≤ 42 for g = 0) → added.

@@ -4339,6 +4339,14 @@
                 "verdict": "PASS",
                 "must_fix": 0,
                 "resolution": "6 should-fix items addressed (C8 192 argument + c8_net.py, KKSV citations, conditional wording, h<=10 caveat, depends_on, script comment)"
+              },
+              {
+                "round": 3,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "MATH_CONFIRMED_IN_E03_ROUND",
+                "must_fix": 0,
+                "resolution": "section 2a (Lemma E01-prime), written after the round-2 PASS, re-derived in the E03 round 2 audit (Claude, executing) and in E03 round 1 (DeepSeek PASS)"
               }
             ],
             "support_verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/c8_net.py",
@@ -4355,7 +4363,7 @@
             "status": "EXECUTING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E02-F69-PREMISE-CHECK-EQUALITY-FACE.md",
-            "note_sha256": "aaa3b732cb3c864e7bcd302de46dabd38dca40b1e7523bb40b3c337585afd60b",
+            "note_sha256": "85102c50993e7ea7c503a8583464eb85386a35b491f7b16330196f385fc8d2b6",
             "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/e02_counts.py",
             "verifier_sha256": "621f1dbb465f909b9200ecc7a42278cfb15d4e2c61c4e036757ab4b182765ce1",
             "claim": "For the uniform class D_l=7lH-4l sum_{14 nodes}E_p (l>=1): d=K.D=112l equals the node-branch bound 14*8l, so the Beauville inequality r_odd>=d-4g+4 forces genus 0 impossible and genus 1 onto the equality face; there the product-cover component is a minimal etale correspondence with leg degree 14el and stabilizer 2e, so E01 (area pi*d=112*pi*l > 256*pi/3) excludes it for all l and e in {1,2,4}.",
@@ -4399,6 +4407,22 @@
                 "verdict": "HOLD",
                 "must_fix": 0,
                 "resolution": "no math issue; HOLD only because primary sources could not be read in the auditor's environment"
+              },
+              {
+                "round": 4,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "MATH_CONFIRMED_IN_E03_ROUND",
+                "must_fix": 0,
+                "resolution": "revision 3 sections 2-3 re-derived without error in the E03 round 2 audit; faithfulness of Stab now stated"
+              },
+              {
+                "round": 5,
+                "auditor": "DeepSeek (reading)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "covered in the E03 round 1 audit"
               }
             ],
             "bookkeeping_open": [
@@ -4408,19 +4432,18 @@
           {
             "id": "E03",
             "title": "Population-wide equality-face exclusion (r>=d-4g+5 for genus<=1, d>=86) and scope of E01/E02 over the GitHub frontier",
-            "status": "READING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
+            "status": "AUDIT_FAIL_FIXED_PENDING_RECHECK_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E03-POPULATION-WIDE-EQUALITY-FACE-AND-SCOPE.md",
-            "note_sha256": "a57b9f2b255bc3143070fc215ad7a1acc7d60c0c0872772bdb4a5698909c724d",
-            "claim": "For any integral curve on the box surface with geometric genus g<=1 and d=H.C: r>=d-4g+4, equality forces d<=85; hence for d>=86, mu>=M>=r>=d-4g+5. Classes with mu<d-4g+4, or mu<=d-4g+4 with d>=86, contain no genus<=1 curve.",
+            "note_sha256": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+            "claim": "For any integral curve C on the box variety B (i.e. non-exceptional on S, d=H.C>=1) with geometric genus g<=1: r>=d-4g+4 (r even), equality forces d<=85 (d<=42 for g=0); hence for d>=86, mu>=M>=r>=d-4g+5. No such curve has mu<d-4g+4, or mu=d-4g+4 with d>=86 (d>=43 if g=0). The 864 pair-map supports (orbits 0000770000ff:48, 00007b0000ff:48, 000707000f0f:768) are all uniform 14-node classes, covered by E02.",
             "depends_on": [
               "E02 sections 1-2 (FSM facts, derived Beauville chain)",
               "Lemma E01-prime"
             ],
             "scope_caveats": [
-              "necessary condition, not a finite window; off-face classes mu>=d-4g+5 remain open",
-              "scope table over retained_frontier records is an expectation per record; per-source check pending",
-              "864 pair-map supports: uniform shape to be checked"
+              "necessary condition, not a finite window; curves with mu>=d-4g+5 and the equality face for d<=85 remain open",
+              "retained_frontier records become moot if E02 holds; they are not individually refuted"
             ],
             "credit": {
               "promotion": false,
@@ -4435,6 +4458,14 @@
                 "verdict": "PASS",
                 "must_fix": 0,
                 "resolution": "scope column marked as expectation; population-wide qualified as relative to E01-prime; script execution recorded from earlier rounds"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "FAIL",
+                "must_fix": 1,
+                "resolution": "must-fix (exceptional curves E_p contradict the unrestricted wording) fixed by the standing hypothesis C in B, d>=1; 7 should-fix items addressed in revision 2"
               }
             ]
           }

@@ -72,6 +72,7 @@ Let C̄ ⊂ B be an integral curve, Ē its normalization of genus g, and d := K_
 **(S) Stabilizer.**
 
 - P → B is Galois with group G (F1), and Z is a component of the normalized pullback of Ē. So Z → Ē is the quotient by Stab_G(Z), of degree deg(Z → Y)·deg(Y → Ē) = 2e. Hence |Stab_G(Z)| = 2e.
+- Stab_G(Z) acts faithfully on Z. A nontrivial element of G acts diagonally on C8×C8 with only finitely many fixed points, so it cannot fix the curve Z pointwise. (E03 round 2, should-fix 6.)
 - Z is the normalization of an integral curve in P. This is the component of the preimage of C̄, which is reduced because P → B is generically étale. So Z is birational onto its image.
 
 ## 3. The uniform class
@@ -151,4 +152,5 @@ Let D_l = 7l·H − 4l·Σ_{p∈Σ} E_p, with |Σ| = 14 and l ≥ 1, and let C̃
     - the spectral contradiction 1/7 < 3/16.
   - It confirmed that the r_odd = 0 case is closed.
   - HOLD reason: the auditor could not read the primary papers (FSM, Beauville, LMR, Wiman uniqueness). This is an audit-environment limitation, not an identified error. Those sources were read directly when writing E01/E02, and round 2's auditor checked FSM Thm 2.4, Prop 2.5 and Lemma 4.1.
+- E03 audit round 2 (Claude, executing, at `51b57aac`) re-derived E02 §2 (a)–(S) and the r = 0 argument for revision 3 and found no error in them. Its single must-fix concerned E03's wording, not E02.
 - Revision 1 relied on the predecessor-archive Beauville notes (blobs `1afa8398`, `a2054708`, `cb05a7a1`) and on the A1 adapter (blob `512fcc70`). Revision 2 no longer relies on them, but they remain consistent with §2.
