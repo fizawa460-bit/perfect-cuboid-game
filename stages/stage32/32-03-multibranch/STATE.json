@@ -4577,10 +4577,10 @@
           {
             "id": "E06",
             "title": "Co-images of bidegree (1,1) in R x R carry no epsilon>0 carrier (Moebius-type layer empty)",
-            "status": "AUDIT_HOLD_FIXES_APPLIED_REAUDIT_PENDING_ZERO_CREDIT",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E06-MOBIUS-COIMAGE-EXCLUDED.md",
-            "note_sha256": "b4e3b5dbd75eb2f70bada2652831d019f7c35659c8cc432e1d39c60f6a744f6f",
+            "note_sha256": "12be7811592027719996c1b64ba6bdf7b5fd84e4ef1462bd64385193f9675a2e",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum.py",
               "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum_k4.py",
@@ -4611,7 +4611,18 @@
                 "verdict": "HOLD",
                 "must_fix": 1,
                 "resolution": "M1 (odd-order locus at infinity for q_e=t) replaced by divisor-mod-2 argument; S1 k=4 conjugacy checked in mobius/k4_conjugacy.py; S2 unused code removed; all verifiers rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "independent sympy re-enumeration k=8 matched; should-fix applied in revision 3: withdrew unproved b<=3 sketch, k=4 fixed-point proof, bidegree convention"
               }
+            ],
+            "scope_caveats": [
+              "only co-image bidegree (1,1); no bound on (1,b) or general (a,b) is claimed"
             ]
           },
           {
@@ -4620,14 +4631,14 @@
             "status": "EXECUTING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E07-CUSP-RAMIFIED-LAYER-MODULAR-HECKE.md",
-            "note_sha256": "6fdb82736fea881b802a687c73c9c5c4959588b8c567140662d7c681abe2cc6c",
+            "note_sha256": "b107bf59f7c2215f87780bbe5fe31e79e9acd5aa48f13da60de33d88c76bc689",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/modular/run_e07.py",
               "stages/stage32/32-03-multibranch/MB104/route-E/modular/modhecke.py"
             ],
             "verifier_sha256": [
-              "211ee1c0adbaa6b3f2dd21d252900f68f457243747a8be442ae0abe843f4fe52",
-              "430a86f0021ca837123455c244ca695fe823fffb4495bd6dc86caf3d1e71e269"
+              "d57c9ec8b28eb00097d076db3ec5587eedff80dc9748d24c09ffd21dda67a8f3",
+              "cf571bbf1473a4c9f4609e3e235cce9efc99491308f2ca812b8899a2aba11ed2"
             ],
             "claim": "If both legs ramify only over cusps of X(8) and f1^-1(cusps)=f2^-1(cusps), then Z is a twisted modular Hecke correspondence T_N (Gamma(8) < PSL2(Z)); Selberg 3/16 + Zograf give N<=8; exact computation over all twists gives genus<=1 only for N=1 (E04's 80 curves).",
             "origin": "Proposition A of the Claude brainstorming proposal (2026-11-02)",
@@ -4654,6 +4665,14 @@
                 "verdict": "PASS_SCOPED",
                 "must_fix": 0,
                 "resolution": "S1 wording (128 twists vs 80 curves) fixed; run_e07.py hardened (-I -O child, mu*k=192n, full (k,genus) table); rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "resolution": "independent re-implementation N=1..4 matched; should-fix applied in revision 3: L_sigma derivation, factor swap, Comm citation, index notation, per-run temp path, runtime"
               }
             ]
           }
@@ -4674,7 +4693,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "f16169887fb94901d7615f7e2de7647fba2a70460ebe3761e922b8db7ec63685",
+      "sha256": "468b1758ac6bfbe34d9442623b1f323d5bf402bde89a1bbfd463261d500a842e",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }

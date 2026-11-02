@@ -105,4 +105,4 @@ print("  twists with genus <= 1:", len(low), sorted(Counter((k, g) for _, k, g, 
 print("  min genus:", min(r[2] for r in res))
 import json
 import tempfile, os
-json.dump({"N": N, "res": [[list(s), k, g, mu] for s, k, g, mu in res]}, open(os.path.join(tempfile.gettempdir(), f"modhecke_N{N}.json"), "w"))
+json.dump({"N": N, "res": [[list(s), k, g, mu] for s, k, g, mu in res]}, open(sys.argv[2] if len(sys.argv) > 2 else os.path.join(tempfile.gettempdir(), f"modhecke_N{N}.json"), "w"))

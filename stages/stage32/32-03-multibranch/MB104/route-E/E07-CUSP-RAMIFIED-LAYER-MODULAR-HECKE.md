@@ -36,18 +36,19 @@ Then C̄ is one of the 80 curves of E04, so ε = 0 and C̄ is single-branch. **I
    - Each f_i : Z° → Y(8) is proper. By (i) it is unramified, so it is a finite covering.
    - Γ(8) is torsion-free, so Z° = H/K′ with K′ ⊂ Γ(8) of finite index n = deg f₁.
 2. **Hecke.**
-   - f₂ lifts to an isometry a of H with aK′a⁻¹ ⊂ Γ(8). So a ∈ Comm(Γ(8)) = PGL₂(Q)⁺ (classical).
+   - f₂ lifts to an isometry a of H with aK′a⁻¹ ⊂ Γ(8). So a ∈ Comm(Γ(8)) = PGL₂(Q)⁺. This is classical: Γ(8) is commensurable with PSL₂(Z), whose commensurator in PSL₂(R) is PGL₂(Q)⁺ (Shimura, *Introduction to the Arithmetic Theory of Automorphic Functions*, 1971, §3.1; Margulis' theorem for arithmetic groups).
    - Z is birational onto its image, so K′ = Γ(8) ∩ a⁻¹Γ(8)a, as in E01 Step 2.
    - Scale a to a primitive integral matrix. Its Smith form gives a = γ·diag(N,1)·γ′ with γ, γ′ ∈ SL₂(Z).
-   - Up to a diagonal automorphism of X(8)×X(8), which normalizes G and so descends to B, Z is the twist Z_σ = (1×σ)·T_N, σ ∈ PSL₂(Z/8), of the Hecke curve T_N = {(Γ(8)z, Γ(8)·diag(N,1)z)}.
+   - Up to a diagonal automorphism of X(8)×X(8), which normalizes G and so descends to B, Z is the twist Z_σ = (1×σ)·T_N, σ ∈ PSL₂(Z/8), of the Hecke curve T_N = {(Γ(8)z, Γ(8)·diag(N,1)z)}. Explicitly, T_a = (γ̄′⁻¹ × γ̄′⁻¹)·(1 × γ̄γ̄′)·T_N.
+   - Swapping the two factors is covered: the swapped curve is T_{a⁻¹} = T_{adj a}, and adj a has the same Smith form diag(N,1). So it lies in the same family of twists.
 3. **Congruence and the degree bound.**
    - The diagonal S lifts to L ⊃ K′ with [L : K′] = k and Z/S = H/L, with cusps filled.
    - L ⊂ PSL₂(Z), and L ⊇ Γ(8N), so L is a congruence subgroup of PSL₂(Z).
    - Selberg (1965) gives λ₁(L) ≥ 3/16. LMR Thm 4.4 (Zograf) applies to every finite-coarea Fuchsian group, cusps included.
    - With genus ≤ 1 these give Area(H/L) = (192n/k)·π/3 < 256π/3. So n < 4k/3, i.e. n ≤ 10.
-   - The index is n = [Γ(8) : Γ(8) ∩ Γ⁰-level 8N] = 2^{v₂(N)}·ψ(N_odd). So n ≤ 10 exactly for N ∈ {1, …, 8}: n = 1, 2, 4, 4, 6, 8, 8, 8.
+   - K′ = Γ(8) ∩ a⁻¹Γ(8)a is conjugate in Γ(8) to Γ(8) ∩ Γ₀(8N), so the index is n = [Γ(8) : Γ(8) ∩ Γ₀(8N)] = 2^{v₂(N)}·ψ(N_odd). So n ≤ 10 exactly for N ∈ {1, …, 8}: n = 1, 2, 4, 4, 6, 8, 8, 8.
 4. **Exact computation.** For N = 1..8 and all 192 twists σ, `modhecke.py` computes everything exactly in SL₂(Z/8N):
-   - L_σ = { ℓ ∈ Γ₀(N) : ℓ mod 8 ∈ G and (aℓa⁻¹) mod 8 = σ⁻¹(ℓ mod 8)σ }, projectively. This is the full group of lifts of diagonal G-elements preserving Z_σ;
+   - L_σ = { ℓ ∈ Γ₀(N) : ℓ mod 8 ∈ G and (aℓa⁻¹) mod 8 = σ⁻¹(ℓ mod 8)σ }, projectively. This is the full group of lifts of diagonal G-elements preserving Z_σ, not just a necessary condition. *Derivation (revision 3):* ℓ lifts (g, g) exactly when ℓ ∈ Γ(8)ĝ and σ̂aℓa⁻¹σ̂⁻¹ ∈ Γ(8)ĝ. This is equivalent to ℓ ∈ Γ₀(N) (so that aℓa⁻¹ is integral), ℓ mod 8 = g, and aℓa⁻¹ mod 8 = σ⁻¹gσ. For even N the entry γ/N is needed mod 8, which is why the code works mod 8N;
    - S(σ), its image in G;
    - the genus of H/L_σ, by Riemann–Hurwitz from the cycles of S = [[0,−1],[1,0]], U = ST and T on the cosets.
 
@@ -90,7 +91,7 @@ From the repository root:
 python -I -O stages/stage32/32-03-multibranch/MB104/route-E/modular/run_e07.py
 ```
 
-It takes about a minute and ends with `PASS`, exit code 0. Outputs go to the temporary directory.
+It takes a few seconds and ends with `PASS`, exit code 0. Intermediate outputs go to a private temporary directory created per run.
 
 ## 4. Audit points
 
@@ -105,3 +106,8 @@ It takes about a minute and ends with `PASS`, exit code 0. Outputs go to the tem
 - **Round 1: Claude (executing), PASS (scoped) at `656798f2`.** The script gave PASS. The theorem holds under (i) and (ii) only.
   - Should-fix S1: the 128 twists versus the 80 distinct curves. → §1 Step 4 now has a note; the count 80 is inherited from E04.
   - Hardening in `run_e07.py`: the child runs with `-I -O`; for every twist, μ·k = 192·n is checked; the full (k, genus) table above is checked for every N.
+- **Round 2: Claude (executing), PASS at `656798f2`.** No must-fix. The auditor re-implemented N = 1..4 independently (own definition of L, direct coset membership, standard genus formula); all matched.
+  - Should-fix 1: the derivation of L_σ as the exact lift group, and the swap of factors. → Added to Steps 2 and 4 (revision 3).
+  - Should-fix 2: a citation for Comm(Γ(8)) = PGL₂(Q)⁺, and the index written as [Γ(8) : Γ(8) ∩ Γ₀(8N)]. → Added.
+  - Should-fix 3: the `"G\{1}"` string (already fixed in revision 2), and the fixed temp-file name. → `run_e07.py` now passes a private per-run path to `modhecke.py`.
+  - Should-fix 4: the runtime. → "a few seconds".

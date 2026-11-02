@@ -34,12 +34,14 @@ def conj_class(A):
 ellip = conj_class((0, 7, 1, 0)) | conj_class(mul8((0, 7, 1, 0), (1, 1, 0, 1))) | conj_class(mul8(mul8((0, 7, 1, 0), (1, 1, 0, 1)), mul8((0, 7, 1, 0), (1, 1, 0, 1))))
 ok = (len(cusps) == 24 and fix == [0, 0, 0, 0, 8, 8, 8] and not (set(G) & ellip))
 print("cusps:", len(cusps), " cusp fixed-point counts of G minus identity:", fix, " G meets elliptic images:", bool(set(G) & ellip))
+import tempfile
+tmpdir = tempfile.mkdtemp(prefix="run_e07_")  # private per run, so parallel runs do not collide
 for N in range(1, 9):
-    out = subprocess.run([sys.executable, "-I", "-O", os.path.join(here, "modhecke.py"), str(N)], capture_output=True, text=True, cwd=here)
+    outp = os.path.join(tmpdir, f"modhecke_N{N}.json")
+    out = subprocess.run([sys.executable, "-I", "-O", os.path.join(here, "modhecke.py"), str(N), outp], capture_output=True, text=True, cwd=here)
     print(out.stdout.strip())
     if out.returncode: print(out.stderr); ok = False; continue
-    import tempfile
-    r = json.load(open(os.path.join(tempfile.gettempdir(), f"modhecke_N{N}.json")))["res"]
+    r = json.load(open(outp))["res"]
     low = [(k, g) for _, k, g, _ in r if g <= 1]
     # index identity mu * k = 192 n for every twist, and the full (k, genus) table
     nidx = {1: 1, 2: 2, 3: 4, 4: 4, 5: 6, 6: 8, 7: 8, 8: 8}[N]
