@@ -142,4 +142,13 @@ Let D_l = 7l·H − 4l·Σ_{p∈Σ} E_p, with |Σ| = 14 and l ≥ 1, and let C̃
     5. Commit `a0c25bb7` did not resolve in the auditor's refs (blob `512fcc70` did) → noted. Revision 2 no longer depends on it.
     6. The A1 parity rule is not needed → remark added in §3.
     7. The script's role → already stated in §4.
+- **Round 3: ChatGPT (executing the scripts), HOLD at `dd0c2339` (revision 3). No must-fix.**
+  - Ran e02_counts.py and bolza_mod2.py with `-O`: exit 0, with matching blob hashes.
+  - Independently re-derived:
+    - the intersection counts and the branch-count bound;
+    - the cusp/node count (24 cusps, a free G0 of order 4, 192 fixed pairs, 48 node orbits);
+    - (B4), equality rigidity, the stabilizer order 2e and Lemma E01′;
+    - the spectral contradiction 1/7 < 3/16.
+  - It confirmed that the r_odd = 0 case is closed.
+  - HOLD reason: the auditor could not read the primary papers (FSM, Beauville, LMR, Wiman uniqueness). This is an audit-environment limitation, not an identified error. Those sources were read directly when writing E01/E02, and round 2's auditor checked FSM Thm 2.4, Prop 2.5 and Lemma 4.1.
 - Revision 1 relied on the predecessor-archive Beauville notes (blobs `1afa8398`, `a2054708`, `cb05a7a1`) and on the A1 adapter (blob `512fcc70`). Revision 2 no longer relies on them, but they remain consistent with §2.
