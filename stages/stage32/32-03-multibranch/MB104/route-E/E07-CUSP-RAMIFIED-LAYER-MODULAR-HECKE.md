@@ -55,7 +55,7 @@ Then C̄ is one of the 80 curves of E04, so ε = 0 and C̄ is single-branch. **I
 
    | N | n | (k, genus) over the twists | twists of genus ≤ 1 |
    |---|---|---|---|
-   | 1 | 1 | (8,0)×32, (4,1)×96, (2,3)×64 | 128: exactly E04's 32 + 48 curves |
+   | 1 | 1 | (8,0)×32, (4,1)×96, (2,3)×64 | 128 twists (see note below) |
    | 2 | 2 | (4,5)×64, (2,9)×128 | 0 |
    | 3 | 4 | (8,3)×32, (4,9)×96, (2,21)×64 | 0 |
    | 4 | 4 | (4,9)×64, (2,21)×128 | 0 |
@@ -63,6 +63,8 @@ Then C̄ is one of the 80 curves of E04, so ε = 0 and C̄ is single-branch. **I
    | 6 | 8 | (4,25)×64, (2,49)×128 | 0 |
    | 7 | 8 | (8,11)×32, (4,25)×96, (2,53)×64 | 0 |
    | 8 | 8 | (4,25)×64, (2,49)×128 | 0 |
+
+   *Note on N = 1 (revision 2, audit S1).* The 128 genus-≤1 twists are 128 graphs of automorphisms, not 128 distinct curves on B. Different twists can give the same curve on B. The count of distinct curves, 32 + 48 = 80, is not recomputed here; it is inherited from E04's G-conjugacy count. The code checks only that the (k, genus) pattern of the twists matches (8,0)×32 and (4,1)×96.
 
    So genus ≤ 1 occurs only for N = 1, the automorphism graphs, i.e. E04's curves. □
 
@@ -97,3 +99,9 @@ It takes about a minute and ends with `PASS`, exit code 0. Outputs go to the tem
 3. Step 2: Comm(Γ(8)) = PGL₂(Q)⁺, the reduction to a = diag(N,1) plus twists, and the descent of the diagonal automorphism to B.
 4. Step 3: Selberg 3/16 for congruence subgroups of PSL₂(Z), and Zograf for cusped groups (LMR Thm 4.4 as quoted). Also the area convention Area(H/PSL₂(Z)) = π/3, and the index formula.
 5. Step 4: the definition of L_σ, i.e. exact lifts rather than a necessary condition, and the coset/genus computation.
+
+## 5. Audit history
+
+- **Round 1: Claude (executing), PASS (scoped) at `656798f2`.** The script gave PASS. The theorem holds under (i) and (ii) only.
+  - Should-fix S1: the 128 twists versus the 80 distinct curves. → §1 Step 4 now has a note; the count 80 is inherited from E04.
+  - Hardening in `run_e07.py`: the child runs with `-I -O`; for every twist, μ·k = 192·n is checked; the full (k, genus) table above is checked for every N.

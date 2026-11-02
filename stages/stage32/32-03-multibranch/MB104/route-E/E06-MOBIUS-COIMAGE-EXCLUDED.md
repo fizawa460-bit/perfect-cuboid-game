@@ -39,7 +39,14 @@ Status: research note, **unaudited, zero credit**.
 *Proof.*
 
 - **The Kummer condition gives a bound on Δ(T).**
-  - Put Δ(T) = ∪_χ (B_χ △ T⁻¹B_χ). The function q_χ∘T / q_χ on P¹ has odd order exactly at the points of B_χ △ T⁻¹B_χ: the pole orders at ∞ are even, and the factor (γt + δ)² or (γt + δ)⁴ is a square.
+  - Put Δ(T) = ∪_χ (B_χ △ T⁻¹B_χ). The function q_χ∘T / q_χ on P¹ has odd order exactly at the points of B_χ △ T⁻¹B_χ. *Reason (revision 2, replacing an incorrect remark about poles at ∞):*
+    - For every character, div(q_χ) ≡ [B_χ] (mod 2) as a divisor on P¹:
+      - q_a = 1 + t² has divisor [i] + [−i] − 2[∞];
+      - q_b = 1 − t² has divisor [1] + [−1] − 2[∞];
+      - q_e = t has divisor [0] − [∞] ≡ [0] + [∞], with a simple pole at ∞, so ∞ ∈ B_e;
+      - for k = 4, q_u = ρ⁴ + 1 has divisor [B_u] − 4[∞], and q_v = ρ⁴ − 1 has divisor [B_v] − 4[∞].
+    - Pulling back along the automorphism T gives div(q_χ∘T) = T*div(q_χ) ≡ [T⁻¹B_χ] (mod 2).
+    - Hence div(q_χ∘T / q_χ) ≡ [T⁻¹B_χ] + [B_χ] ≡ [B_χ △ T⁻¹B_χ] (mod 2). Points lying in both sets cancel mod 2. The code treats ∞ as a point of B_e.
   - By (K), ψ₁* of it is a square. So every point of E over Δ(T) has even ψ₁-local degree.
   - Riemann–Hurwitz for ψ₁ (degree n) gives (n/2)|Δ| ≤ 2n + 2g − 2, i.e. |Δ(T)| ≤ 4 + 4(g − 1)/n.
 - **Counting.**
@@ -84,5 +91,12 @@ The first takes seconds and the second about 7 minutes. Each ends with `PASS`, e
 1. The odd-order statement for q_χ∘T / q_χ, including the points at ∞ and the denominators.
 2. The equality case of Riemann–Hurwitz, and D_i = 0 ⇒ A_i = 0, which uses deg D_i = A_i/k from F72 (5).
 3. The lifting of label-preserving T, and f₂ = gσ∘f₁.
-4. The k = 4 model (S = ⟨u ↦ −u, v ↦ −v⟩) as the representative of the three conjugate k = 4 subgroups.
+4. The k = 4 model (S = ⟨u ↦ −u, v ↦ −v⟩) as the representative of the three conjugate k = 4 subgroups. Revision 2 checks the conjugacy in code: `mobius/k4_conjugacy.py`, on the 192-element group of `hecke/`.
 5. The code: Möbius maps through three points, the exact fields, and the counting identity.
+
+## 6. Audit history
+
+- **Round 1: Claude (executing), HOLD at `656798f2`.** All three scripts gave PASS. The theorem had no counterexample.
+  - Must-fix E06-M1: the justification for the odd-order locus was wrong at ∞ for q_e = t, which has a simple pole there. → §2 now gives the divisor-mod-2 argument.
+  - Should-fix S1: the conjugacy of the three k = 4 subgroups → `mobius/k4_conjugacy.py`.
+  - Should-fix S2: unused code removed.

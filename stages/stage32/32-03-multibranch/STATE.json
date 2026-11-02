@@ -4577,17 +4577,19 @@
           {
             "id": "E06",
             "title": "Co-images of bidegree (1,1) in R x R carry no epsilon>0 carrier (Moebius-type layer empty)",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "status": "AUDIT_HOLD_FIXES_APPLIED_REAUDIT_PENDING_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E06-MOBIUS-COIMAGE-EXCLUDED.md",
-            "note_sha256": "e857ad3e3b642e9592a245d9e3bf91f3f1e9c2363e3e2a1536a7cbe3f45c3257",
+            "note_sha256": "b4e3b5dbd75eb2f70bada2652831d019f7c35659c8cc432e1d39c60f6a744f6f",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum.py",
-              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum_k4.py"
+              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum_k4.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/k4_conjugacy.py"
             ],
             "verifier_sha256": [
-              "6e08c4320a8048905654ba5deafe8d012c47d8878a35a11552d6b08b0f1cbae4",
-              "60a56e4efe06251172d9ebe1aed25c02f07a6f04d65ce7797fad65f41bb0f6c7"
+              "0fdaa05d939a4babbf94bad612ec1b2321dedbc825548dbbc5c38cb9572fc6a6",
+              "a75063020e164ee9c666486b577e723c5db8e95b9b35dece3b84e55ffaf80131",
+              "31ba877b3e337a1aaff9e2c19e8d2e0b83aa71300ef3115f2bf5a0ff37ec6360"
             ],
             "claim": "If psi2 = T o psi1 for a Moebius T (co-image bidegree (1,1)), then epsilon = 0; hence no MB101 carrier has such a co-image. Remaining epsilon>0 carriers have co-image bidegree (a,b) != (1,1) and d <= 8(a+b).",
             "depends_on": [
@@ -4600,21 +4602,31 @@
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "HOLD",
+                "must_fix": 1,
+                "resolution": "M1 (odd-order locus at infinity for q_e=t) replaced by divisor-mod-2 argument; S1 k=4 conjugacy checked in mobius/k4_conjugacy.py; S2 unused code removed; all verifiers rerun PASS"
+              }
+            ]
           },
           {
             "id": "E07",
             "title": "Cusp-ramified layer: correspondences ramified only over cusps (meeting the boundary only at cusp pairs) carry no epsilon>0 carrier",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "status": "EXECUTING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E07-CUSP-RAMIFIED-LAYER-MODULAR-HECKE.md",
-            "note_sha256": "6ef7472ca4152c91e109d948502044f2dc67754dbe3e04f097d103e7c0f38307",
+            "note_sha256": "6fdb82736fea881b802a687c73c9c5c4959588b8c567140662d7c681abe2cc6c",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/modular/run_e07.py",
               "stages/stage32/32-03-multibranch/MB104/route-E/modular/modhecke.py"
             ],
             "verifier_sha256": [
-              "bfb9ab034f37ddcfdcf2290d7684c5a391a8365607825daba5fe7a2e47c7474f",
+              "211ee1c0adbaa6b3f2dd21d252900f68f457243747a8be442ae0abe843f4fe52",
               "430a86f0021ca837123455c244ca695fe823fffb4495bd6dc86caf3d1e71e269"
             ],
             "claim": "If both legs ramify only over cusps of X(8) and f1^-1(cusps)=f2^-1(cusps), then Z is a twisted modular Hecke correspondence T_N (Gamma(8) < PSL2(Z)); Selberg 3/16 + Zograf give N<=8; exact computation over all twists gives genus<=1 only for N=1 (E04's 80 curves).",
@@ -4629,7 +4641,21 @@
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "scope_caveats": [
+              "only under (i) ramification over cusps only and (ii) f1^-1(cusps)=f2^-1(cusps); interior ramification and one-sided cusp contact remain open",
+              "the count 80 of distinct curves is inherited from E04, not recomputed"
+            ],
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "resolution": "S1 wording (128 twists vs 80 curves) fixed; run_e07.py hardened (-I -O child, mu*k=192n, full (k,genus) table); rerun PASS"
+              }
+            ]
           }
         ]
       }
@@ -4648,7 +4674,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "2986df22fa1fcd860c864da93772fe03a110565d965c5feb2bcbc6b2c0ce46e3",
+      "sha256": "f16169887fb94901d7615f7e2de7647fba2a70460ebe3761e922b8db7ec63685",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }

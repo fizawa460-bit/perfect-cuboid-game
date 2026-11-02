@@ -33,14 +33,22 @@ def conj_class(A):
     return out
 ellip = conj_class((0, 7, 1, 0)) | conj_class(mul8((0, 7, 1, 0), (1, 1, 0, 1))) | conj_class(mul8(mul8((0, 7, 1, 0), (1, 1, 0, 1)), mul8((0, 7, 1, 0), (1, 1, 0, 1))))
 ok = (len(cusps) == 24 and fix == [0, 0, 0, 0, 8, 8, 8] and not (set(G) & ellip))
-print("cusps:", len(cusps), " cusp fixed-point counts of G\{1}:", fix, " G meets elliptic images:", bool(set(G) & ellip))
+print("cusps:", len(cusps), " cusp fixed-point counts of G minus identity:", fix, " G meets elliptic images:", bool(set(G) & ellip))
 for N in range(1, 9):
-    out = subprocess.run([sys.executable, "-I", os.path.join(here, "modhecke.py"), str(N)], capture_output=True, text=True, cwd=here)
+    out = subprocess.run([sys.executable, "-I", "-O", os.path.join(here, "modhecke.py"), str(N)], capture_output=True, text=True, cwd=here)
     print(out.stdout.strip())
     if out.returncode: print(out.stderr); ok = False; continue
     import tempfile
     r = json.load(open(os.path.join(tempfile.gettempdir(), f"modhecke_N{N}.json")))["res"]
     low = [(k, g) for _, k, g, _ in r if g <= 1]
+    # index identity mu * k = 192 n for every twist, and the full (k, genus) table
+    nidx = {1: 1, 2: 2, 3: 4, 4: 4, 5: 6, 6: 8, 7: 8, 8: 8}[N]
+    ok &= all(mu * k == 192 * nidx for _, k, g, mu in r)
+    from collections import Counter
+    TABLE = {1: {(8, 0): 32, (4, 1): 96, (2, 3): 64}, 2: {(4, 5): 64, (2, 9): 128}, 3: {(8, 3): 32, (4, 9): 96, (2, 21): 64},
+             4: {(4, 9): 64, (2, 21): 128}, 5: {(8, 7): 32, (4, 17): 96, (2, 37): 64}, 6: {(4, 25): 64, (2, 49): 128},
+             7: {(8, 11): 32, (4, 25): 96, (2, 53): 64}, 8: {(4, 25): 64, (2, 49): 128}}
+    ok &= Counter((k, g) for _, k, g, _ in r) == Counter(TABLE[N])
     if N == 1:
         from collections import Counter
         ok &= Counter(low) == Counter({(8, 0): 32, (4, 1): 96})

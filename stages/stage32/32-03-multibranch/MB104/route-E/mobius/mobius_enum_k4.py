@@ -61,7 +61,6 @@ def mul(M, N):
 def normalize(M):
     piv = next(x for x in M if not x.iszero()); return tuple(x / piv for x in M)
 cands = set()
-src0 = B[:3]
 for src in itertools.permutations(B, 3):
     S_ = to01inf(*src)
     for dst in itertools.permutations(B, 3):

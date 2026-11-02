@@ -34,8 +34,6 @@ def apply(M, z):
     return INF if den.iszero() else num / den
 def cross_map(z):   # Moebius sending (z1,z2,z3) -> (0,1,oo)
     z1, z2, z3 = z
-    def coef(p):    # returns (a,b,c,d) of S(x) = ((x-z1)(z2-z3))/((x-z3)(z2-z1)) handling oo
-        pass
     if not any(p == INF for p in z):
         return (z2 - z3, (z1*(z2 - z3)) * G(-1), z2 - z1, (z3*(z2 - z1)) * G(-1))
     if z1 == INF: return (ZERO, z2 - z3, ONE, z3 * G(-1))          # (z2-z3)/(x-z3)
