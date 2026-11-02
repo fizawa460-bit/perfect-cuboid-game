@@ -186,7 +186,7 @@ def main() -> None:
     fib_rows = [row for row in lanes["lanes"] if row.get("lane") == "MB-FIB"]
     req(len(fib_rows) == 0, "MB-FIB must remain outside the Stage32 claim-lane adapter registry")
 
-    fib_state = json.loads((REPO / "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
+    fib_state = json.loads((REPO / "stages/stage32/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
     req(fib_state["schema"] == "STAGE32_MB_FIB_STATE_V1", "MB-FIB state schema drift")
     req(fib_state["command"] == "stage32mb-fib", "MB-FIB command drift")
     req(fib_state["audit_command"] == "stage32mb-fib-audit", "MB-FIB audit command drift")
