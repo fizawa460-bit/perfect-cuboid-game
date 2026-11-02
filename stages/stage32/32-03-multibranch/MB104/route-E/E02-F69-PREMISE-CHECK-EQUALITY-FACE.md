@@ -1,7 +1,7 @@
 # E02 — Check of the F69 receiver premises; the uniform 14-node class has no genus ≤ 1 carrier (2026-11-02)
 
-Status: research note, **unaudited, zero credit**. Round 1 (DeepSeek, reading) gave HOLD at `212bd863`: no must-fix,
-five should-fix items. Revision 2 makes the Beauville chain self-contained (§2). It now relies only on the
+Status: research note, **zero credit**. Round 1 (DeepSeek, reading) gave HOLD at `212bd863`: no must-fix, five should-fix
+items. Round 2 (Claude, executing) gave PASS at `212bd863`: no must-fix. Revision 3 addresses both rounds' should-fix items. Revision 2 makes the Beauville chain self-contained (§2). It now relies only on the
 Freitag–Salvati Manni facts (F1)–(F3), which were read in the primary source, and on Lemma E01′
 (`E01-C8-CONGRUENCE-EMPTY-WINDOW.md` §2a).
 
@@ -80,6 +80,14 @@ Let D_l = 7l·H − 4l·Σ_{p∈Σ} E_p, with |Σ| = 14 and l ≥ 1, and let C̃
 
 - d = H·D_l = 7l·16 = 112l, and C̃·E_p = −4l·E_p² = 8l.
 - The local multiplicities m_x ≥ 1 over E_p sum to 8l. So the number of normalization points over E_p is ≤ 8l, and r_odd ≤ M ≤ 14·8l = 112l = d.
+- Remark (round-2 should-fix 6). The argument needs only that the branch points of Y → Ē lie over ∪E_p, which is §2(a), together with this count. The exact parity rule of §2(b) is not needed for the conclusion. If r′ is the true number of branch points, then r′ ≤ M ≤ d, and (B4) holds for r′ verbatim.
+
+**The case r_odd = 0 is impossible (round-2 should-fix 2).**
+
+- (B1) and (B4) need Y to be connected, which (B1) gets from r_odd > 0. Suppose r_odd = 0.
+- Then Ē ×_S X̃ → Ē is étale, so every component Y′ of its normalization is an étale cover of Ē and has genus g(Y′) ≤ 1, since g(Ē) ≤ 1. A component Z of the pullback to P is étale over some Y′, so g(Z) ≤ 1 as well.
+- But Z is a curve in P = C8×C8, so at least one projection Z → C8 is nonconstant. Riemann–Hurwitz then gives g(Z) ≥ g(C8) = 5. This is a contradiction.
+- Hence r_odd > 0, Y is connected, and (B1)–(B4) apply.
 
 **Genus 0.** (B4) gives r_odd ≥ d + 4 > d ≥ r_odd. This is impossible.
 
@@ -117,4 +125,21 @@ Let D_l = 7l·H − 4l·Σ_{p∈Σ} E_p, with |Σ| = 14 and l ≥ 1, and let C̃
   3. FSM non-compact Γ[8] versus compact X(8) → addressed in §1, including FSM Lemma 4.1 (freeness on H*).
   4. "covers the whole current e=2 frontier" → removed; scope in §4.
   5. The script's role → stated in §4.
+- **Round 2: Claude, separate chat, executing. PASS at `212bd863` (revision 1), no must-fix.**
+  - Ran e02_counts.py, bolza_mod2.py and c8_net.py with and without -O: exit 0. Hashes matched STATE.
+  - Re-derived from FSM:
+    - Thm 2.4 (B = compact product / Δ(4,8)), Prop 2.5 (48 nodes, (C×C)/±), Lemma 4.1 (freeness including cusps, also recomputed: 24 cusps, 96 zero-dimensional cusps, 48 nodes) and §3 (d = K·C);
+    - K_X² = 32 and K_P² = 128;
+    - (B1)–(B4) and (E1)–(E4).
+  - Cross-checked on known curves:
+    - a boundary elliptic curve: r = 8, d = 4;
+    - FSM Prop 2.9: e = 2, r = 4, on the equality face, with area 4π < 64π, so there is no conflict.
+  - Should-fix items, with their status at revision 3:
+    1. Scope overstatement on the e=2 frontier → already removed in revision 2 (§4).
+    2. The case r_odd = 0 was implicit → added in §3.
+    3. E01's statement → generalized as Lemma E01′ (E01 §2a).
+    4. The predecessor note GENUS1-P5-FULL-DECK-STABILIZER-RIGIDITY forces e = 4 for its explicit (5,5,4) support, which would make STATE's e = 2 records vacuous for that support → recorded here. E02 covers e ∈ {1, 2, 4}, so it is unaffected. Support `000707000f0f` has type counts (6,2,6), so whether e = 4 is forced there is not settled by that note; this is a bookkeeping item for STATE.
+    5. Commit `a0c25bb7` did not resolve in the auditor's refs (blob `512fcc70` did) → noted. Revision 2 no longer depends on it.
+    6. The A1 parity rule is not needed → remark added in §3.
+    7. The script's role → already stated in §4.
 - Revision 1 relied on the predecessor-archive Beauville notes (blobs `1afa8398`, `a2054708`, `cb05a7a1`) and on the A1 adapter (blob `512fcc70`). Revision 2 no longer relies on them, but they remain consistent with §2.
