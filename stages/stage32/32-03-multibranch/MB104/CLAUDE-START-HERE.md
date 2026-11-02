@@ -1,17 +1,18 @@
 # MB104 — Claude 用の起動メモ（2026-11-02 時点）
 
-**この文書は案内だけです。** 正本ではありません。数学の結果・credit・監査判定・STATE の値はここで変更も昇格もしません。食い違ったら正本（下の「読む順番」の 2〜4）が優先です。
+**この文書は案内だけです。** 正本ではありません。数学の結果・credit・監査判定・STATE の値はここで変更も昇格もしません。食い違ったら正本の `../STATE.json` が優先です。
+
+**運用方針（2026-11-02、ユーザー決定）：GitHub が唯一の正本。Google Drive 側は凍結し、今後は更新も参照先としての追従もしない。** `drive-research/` は 2026-11-01 時点の凍結した写しで、過去の資料を読むためだけに使う。
 
 ## 1. 読む順番
 
 1. この文書（全体の地図と、既知の食い違い）。
 2. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`resume_obligation`、`retained_frontier`、`credit_firewall` を見る。
-3. `drive-research/status/MB104-ROUTE-INDEX-V030.md` — Drive 側の研究台帳（索引 v0.30）。冒頭の CURRENT 行と「現在の運用ゲート」。
-4. `drive-research/status/MB104-RESEARCH-OVERVIEW-V025.md` — 研究統合記録 v0.25。`A_EXISTING_ROUTE`〜`E_EXISTING_ROUTE` と `NEXT_A`〜`NEXT_E`。
-5. `drive-research/AUDIT_SCOPE.md` — 各 F 文書の監査範囲・HOLD・重複規則。
-6. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
+3. （必要なときだけ）`drive-research/status/MB104-ROUTE-INDEX-V030.md` と `MB104-RESEARCH-OVERVIEW-V025.md` — 凍結した Drive 台帳の写し。過去の経緯やルートA〜Eの記録を調べるときの参考。
+4. `drive-research/AUDIT_SCOPE.md` — 各 F 文書の監査範囲・HOLD・重複規則。
+5. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
 
-Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版はこれより進んでいる可能性があります。
+Drive 側は凍結したので、`drive-research/` の内容が最終版として扱われる。
 
 ## 2. いまの状態
 
@@ -23,9 +24,9 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 - `retained_frontier`: 27 項目。すべて credit 0。B 系の5項目（b3 商・衝突会計・分岐半因子・η 指標線・反不変導手の source wall）もここにある。
 - `credit_firewall`: すべて false（受け手・有効性・定理・端点・存在／非存在・merge）。重い計算（isotropic shell）も引き続き禁止。
 
-### 2.2 Drive 側（索引 v0.30／統合 v0.25）
+### 2.2 凍結した Drive 台帳の最終状態（参考、索引 v0.30／統合 v0.25）
 
-- 運用ゲート: `ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT`。通常の MB104 研究は再開してよい。重い計算・成果の昇格・GitHub への書き込みは、別途ユーザーの許可が必要。
+- 凍結時の運用ゲート: `ACTIVE_POST_AUDIT_RESEARCH_ZERO_CREDIT`（GitHub の STATE も 2026-11-02 に同じ状態へそろえた）。
 - ルートの状態:
 
 | ルート | 状態 | 次にやること（要約） |
@@ -38,12 +39,12 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 
 - MB104 全体の有限窓は OPEN。実候補の排除は 0、credit は 0。
 
-### 2.3 次にやることの対応関係（GitHub と Drive）
+### 2.3 次に何をするか（GitHub 主体）
 
-- GitHub の `next_obligation` は E 系の1本だけを指す。表題は「m=1 postulation or bulk」と古い。しかし本文（`required_input`）の結論では、有理核（rational-core）の枝は閉じている（PRE-AUDIT／credit 0、未監査）。そのため、生きている枝は **CORELESS + NO NONEMPTY CLUMP** だけ。これは Drive の `NEXT_E` と同じ対象。
-- `success_shapes` には有理核の枝の古い項目（次数84 Belyi、m=4..6 など）が残っている。有理核の閉鎖が監査を通るまでは、形式上は残してあるだけ。新しい作業の出発点にしない。
-- Drive 側の `NEXT_A`〜`NEXT_E` のほうが広く、新しい。A・B は保留。C・D1・D2・E が動かせる。直近の Drive の作業は D2（F82）。
-- どのルートを進めるかはユーザーが決める。結果は Drive の研究台帳の流れ（F 番号・監査）に従って記録し、GitHub の STATE へ反映するのは監査を通ってからにする。
+- 正式な次の課題は `../STATE.json` の `next_obligation`。表題は「m=1 postulation or bulk」と古いが、本文（`required_input`）の結論では有理核（rational-core）の枝は閉じており（PRE-AUDIT／credit 0、未監査）、生きているのは **CORELESS + NO NONEMPTY CLUMP** の枝だけ。
+- `success_shapes` に残る有理核の古い項目（次数84 Belyi、m=4..6 など）は、有理核の閉鎖が監査を通るまで形式上残しているだけ。新しい作業の出発点にしない。
+- 凍結した Drive 台帳には、A〜D のルートや F35〜F82 の研究もある。これらは GitHub の STATE には載っていない（credit 0 の参考資料）。使うときは `drive-research/` から読み、GitHub 側で新しく扱う課題としてユーザーが決める。
+- 研究の結果は GitHub（このフォルダと `../STATE.json`）に記録する。push・PR・merge はユーザーの OK を取ってから。成果を `retained_frontier` に入れたり昇格したりするのは、監査を通ってから。
 
 ## 3. 既知の食い違い・古い記述
 
@@ -66,9 +67,9 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 
 ## 5. やってはいけないこと
 
-- 台帳・索引・統合記録・監査正本・Drive 文書・STATE の数学的な値を、ユーザーの判断なしに編集すること。
+- STATE の数学的な値・監査記録・`drive-research/` の凍結資料を、ユーザーの判断なしに編集すること。
 - credit flag を変えること、成果を公式に認定すること、新しいルートや成果項目を作ること。
-- push・merge・Drive へのアップロードを、ユーザーの OK なしに行うこと。
+- push・merge を、ユーザーの OK なしに行うこと。Drive は凍結したので、Drive への書き込み・アップロードはしない。
 - 重い計算をユーザーの OK なしに始めること（計算は手元で行うのが原則）。
 
 ## 6. 手元の計算（32R）との関係

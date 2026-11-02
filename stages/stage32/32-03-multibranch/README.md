@@ -10,7 +10,7 @@ Claude sessions: start with `MB104/CLAUDE-START-HERE.md` (navigation only; not a
 - `MB102/`: retained branch/delta/genus results and original Python verifier.
 - `MB103/`: retained Aut(S) orbit-quotient semantics and original Python verifier.
 - `MB104/`: 107 retained verification/numeric files, historical Genus7 sources and runkeys; original Python source blobs preserved (3 Genus7 files restored byte-exact from `d13afbb1a693a5547bebd31ec6fbcc04a7648f05`).
-- `MB104/drive-research/`: 170 Google Drive research, audits and supporting evidence files, including SHA256SUMS.
+- `MB104/drive-research/`: 170 Google Drive research, audits and supporting evidence files, including SHA256SUMS. Google Drive is frozen as of 2026-11-02; this copy is the final read-only reference and GitHub is the sole authority.
 
 The former `stages/stage32/final-chain/32-03-multibranch/` tree is **removed**, with **no symlink, alias or duplicate corpus**. Previous `stages/stage32/mb101/`, `mb102/` and `mb103/` shallow archive copies are also removed. Older commits on `main` and historical PRs still retain their immutable provenance.
 
