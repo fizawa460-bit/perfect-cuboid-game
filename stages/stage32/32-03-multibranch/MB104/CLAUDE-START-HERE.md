@@ -38,6 +38,13 @@ Drive 側の資料は 2026-11-01 時点の写しです。Drive の最新版は�
 
 - MB104 全体の有限窓は OPEN。実候補の排除は 0、credit は 0。
 
+### 2.3 次にやることの対応関係（GitHub と Drive）
+
+- GitHub の `next_obligation` は E 系の1本だけを指す。表題は「m=1 postulation or bulk」と古い。しかし本文（`required_input`）の結論では、有理核（rational-core）の枝は閉じている（PRE-AUDIT／credit 0、未監査）。そのため、生きている枝は **CORELESS + NO NONEMPTY CLUMP** だけ。これは Drive の `NEXT_E` と同じ対象。
+- `success_shapes` には有理核の枝の古い項目（次数84 Belyi、m=4..6 など）が残っている。有理核の閉鎖が監査を通るまでは、形式上は残してあるだけ。新しい作業の出発点にしない。
+- Drive 側の `NEXT_A`〜`NEXT_E` のほうが広く、新しい。A・B は保留。C・D1・D2・E が動かせる。直近の Drive の作業は D2（F82）。
+- どのルートを進めるかはユーザーが決める。結果は Drive の研究台帳の流れ（F 番号・監査）に従って記録し、GitHub の STATE へ反映するのは監査を通ってからにする。
+
 ## 3. 既知の食い違い・古い記述
 
 正本をどう直したか、または直していないかを記録します。直すかどうかはユーザーが決めます。
