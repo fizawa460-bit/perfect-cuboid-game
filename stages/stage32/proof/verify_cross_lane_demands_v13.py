@@ -241,7 +241,7 @@ def main() -> None:
         "EX6":"stages/stage32-ex6/MAIN-START-HERE.md",
         "32-01-178":"stages/stage32/32-01-178/MAIN-START-HERE.md",
         "CUT":"stages/stage32/full178-cut/MAIN-START-HERE.md",
-        "MB":"stages/stage32/final-chain/32-03-multibranch/MAIN-START-HERE.md",
+        "MB":"stages/stage32/32-03-multibranch/MAIN-START-HERE.md",
     }
     for lane, rel in startup_paths.items():
         t = (REPO / rel).read_text(encoding="utf-8")
