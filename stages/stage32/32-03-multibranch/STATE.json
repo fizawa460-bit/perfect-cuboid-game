@@ -4298,7 +4298,178 @@
         "status": "OPEN_PARKED",
         "source_text": "CORELESS + NO NONEMPTY CLUMP／実source正規化上6超平面の全付値・補助Wの実分岐・marked conductor等OPEN/PARKED。rational-core閉鎖の旧GitHub前監査主張を全32-03消去と混同しない。F70/71の対象限定数値窓を全MB104に外挿しない。F82-DはEの実補助被覆Wの分岐や6付値を自動解決しない。新排除0・credit0。",
         "next": "CORELESS／NO NONEMPTY CLUMP残余に実source上6超平面の全消失次数・偶奇または補助Wの実分岐を強制する新しい独立証明。旧Abel/norm単独の再演は失効。",
-        "github_link": "same branch as next_obligation / resume_obligation (rational-core closure there is PRE-AUDIT, zero credit)"
+        "github_link": "same branch as next_obligation / resume_obligation (rational-core closure there is PRE-AUDIT, zero credit)",
+        "github_unaudited_notes": [
+          {
+            "id": "E01",
+            "title": "C8 is the principal congruence quotient PQ1_B(2) of the Bolza order; the F69 conditional leg window is conditionally empty",
+            "status": "EXECUTING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E01-C8-CONGRUENCE-EMPTY-WINDOW.md",
+            "note_sha256": "1095cdc42fbcd3b71f56f76fc261222e5335defdf6f327804f0c1c64c3184d3f",
+            "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/bolza_mod2.py",
+            "verifier_sha256": "746b705290194250f863a755bb09c5ff1af1398c1b721e89492ecf6d41619718",
+            "claim": "Under the MB104-F69 section 3 receiver hypotheses (minimal etale Z in C8xC8, diagonal H of order h in {4,8}, E=Z/H of genus <=1) the leg degree satisfies d<16h/3, hence no d=56m receiver exists; F69's conditional window d<=196416 (m<=3507) becomes empty.",
+            "depends_on": [
+              "MB104-F69 section 3 receiver hypotheses (HOLD, unaudited)",
+              "KKSV arXiv:1405.5454 Thm 1.4/7.1",
+              "Long-Maclachlan-Reid 2006 Def 4.1, Thm 4.3, Thm 4.4 (Zograf)",
+              "uniqueness of the genus-5 curve with 192 automorphisms (Wiman, X(8))",
+              "Borel volume formula with zeta_Q(sqrt2)(-1)=1/12 (Q1_B = <alpha,beta>)",
+              "|Aut(C8)|=192 on this model (F69 section 2; re-derived in audit round 2 via the net of quadrics; c8_net.py checks model, discriminant, kernel)"
+            ],
+            "audit_required": "executing audit PASS obtained (round 2); any frontier registration or promotion still requires the F69 receiver chain and a separate decision",
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "DeepSeek (reading, no execution)",
+                "head": "dac76cbbfdf38e42bb4e2481412a022f4d83d804",
+                "verdict": "FAIL",
+                "resolution": "Step 3 rewritten with plain-letter ideal n and explicit existence proof (reader dropped Fraktur symbol); torsion-free argument expanded; scope sentence and F69 inheritance clarified; execution left to an executing audit"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude separate chat (executing)",
+                "head": "dac76cbbfdf38e42bb4e2481412a022f4d83d804",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "6 should-fix items addressed (C8 192 argument + c8_net.py, KKSV citations, conditional wording, h<=10 caveat, depends_on, script comment)"
+              },
+              {
+                "round": 3,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "MATH_CONFIRMED_IN_E03_ROUND",
+                "must_fix": 0,
+                "resolution": "section 2a (Lemma E01-prime), written after the round-2 PASS, re-derived in the E03 round 2 audit (Claude, executing) and in E03 round 1 (DeepSeek PASS)"
+              }
+            ],
+            "support_verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/c8_net.py",
+            "support_verifier_sha256": "daafb7e776e27d85978955a967363363fa4ec2c7c1c498962367d0ef350f6da9",
+            "scope_caveats": [
+              "conditional on the F69 section 3 receiver hypotheses (HOLD)",
+              "bound d<16h/3 excludes d=56 only for h<=10"
+            ],
+            "general_form": "Lemma E01-prime (section 2a): any finite group A of automorphisms of Z with genus(Z/A)<=1 gives d<16|A|/3"
+          },
+          {
+            "id": "E02",
+            "title": "F69 receiver premises check; the uniform class 7lH-4l sum_14 E_p contains no genus<=1 carrier",
+            "status": "EXECUTING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E02-F69-PREMISE-CHECK-EQUALITY-FACE.md",
+            "note_sha256": "85102c50993e7ea7c503a8583464eb85386a35b491f7b16330196f385fc8d2b6",
+            "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/e02_counts.py",
+            "verifier_sha256": "621f1dbb465f909b9200ecc7a42278cfb15d4e2c61c4e036757ab4b182765ce1",
+            "claim": "For the uniform class D_l=7lH-4l sum_{14 nodes}E_p (l>=1): d=K.D=112l equals the node-branch bound 14*8l, so the Beauville inequality r_odd>=d-4g+4 forces genus 0 impossible and genus 1 onto the equality face; there the product-cover component is a minimal etale correspondence with leg degree 14el and stabilizer 2e, so E01 (area pi*d=112*pi*l > 256*pi/3) excludes it for all l and e in {1,2,4}.",
+            "depends_on": [
+              "E01 and Lemma E01-prime (E01 section 2a)",
+              "Freitag-Salvati Manni arXiv:1303.6495: (F1) B=(X(8)xX(8))/G, G=(Z/2)^3 diagonal, nodes=images of fixed points; (F2) G0=Gamma'[4]/Gamma[8] free on compact X(8) (Lemma 4.1), Beauville double cover unramified off nodes, X~->B~ ramified along the 48 exceptional lines; (F3) K_B=O(1), H^2=16"
+            ],
+            "scope_caveats": [
+              "uniform class with |Sigma|=14 only; no claim that every current e=2 frontier curve lies in this class",
+              "unequal Picard coefficients, other node counts, P6 sectors untouched",
+              "relation to route A 864 supports not checked"
+            ],
+            "audit_required": "independent hostile audit of the Beauville chain and of E02 before any frontier registration",
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "superseded_dependencies": "revision 1 relied on predecessor-archive Beauville notes (blobs 1afa8398, a2054708, cb05a7a1) and the A1 adapter (blob 512fcc70); revision 2 re-derives (B1),(B2),(B4), equality rigidity, stabilizer and the odd-branch rule in E02 section 2",
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "DeepSeek (reading)",
+                "head": "212bd8638b9ef9573f6ff4e86d70277c3d69aa40",
+                "verdict": "HOLD",
+                "must_fix": 0,
+                "resolution": "Beauville chain re-derived from FSM facts; Lemma E01-prime added; compact X(8) vs cusps addressed (FSM Lemma 4.1); frontier overstatement removed; script role stated"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude separate chat (executing)",
+                "head": "212bd8638b9ef9573f6ff4e86d70277c3d69aa40",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "revision 3: r_odd=0 case added; A1 parity rule marked non-load-bearing; predecessor e=4 (5,5,4) bookkeeping recorded; other items already handled in revision 2"
+              },
+              {
+                "round": 3,
+                "auditor": "ChatGPT (executing scripts)",
+                "head": "dd0c23398c7e4281f24510be14840bc1c2a4f411",
+                "verdict": "HOLD",
+                "must_fix": 0,
+                "resolution": "no math issue; HOLD only because primary sources could not be read in the auditor's environment"
+              },
+              {
+                "round": 4,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "MATH_CONFIRMED_IN_E03_ROUND",
+                "must_fix": 0,
+                "resolution": "revision 3 sections 2-3 re-derived without error in the E03 round 2 audit; faithfulness of Stab now stated"
+              },
+              {
+                "round": 5,
+                "auditor": "DeepSeek (reading)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "covered in the E03 round 1 audit"
+              }
+            ],
+            "bookkeeping_open": [
+              "predecessor note forces e=4 for the explicit (5,5,4) support; whether e=2 records for support 000707000f0f (type counts (6,2,6)) are vacuous is unsettled; E02 covers e in {1,2,4}"
+            ]
+          },
+          {
+            "id": "E03",
+            "title": "Population-wide equality-face exclusion (r>=d-4g+5 for genus<=1, d>=86) and scope of E01/E02 over the GitHub frontier",
+            "status": "AUDIT_FAIL_FIXED_PENDING_RECHECK_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E03-POPULATION-WIDE-EQUALITY-FACE-AND-SCOPE.md",
+            "note_sha256": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+            "claim": "For any integral curve C on the box variety B (i.e. non-exceptional on S, d=H.C>=1) with geometric genus g<=1: r>=d-4g+4 (r even), equality forces d<=85 (d<=42 for g=0); hence for d>=86, mu>=M>=r>=d-4g+5. No such curve has mu<d-4g+4, or mu=d-4g+4 with d>=86 (d>=43 if g=0). The 864 pair-map supports (orbits 0000770000ff:48, 00007b0000ff:48, 000707000f0f:768) are all uniform 14-node classes, covered by E02.",
+            "depends_on": [
+              "E02 sections 1-2 (FSM facts, derived Beauville chain)",
+              "Lemma E01-prime"
+            ],
+            "scope_caveats": [
+              "necessary condition, not a finite window; curves with mu>=d-4g+5 and the equality face for d<=85 remain open",
+              "retained_frontier records become moot if E02 holds; they are not individually refuted"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "DeepSeek (reading)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "scope column marked as expectation; population-wide qualified as relative to E01-prime; script execution recorded from earlier rounds"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude separate chat (executing)",
+                "head": "51b57aac6b6419b74537481c9c6670d0fefbadd6",
+                "verdict": "FAIL",
+                "must_fix": 1,
+                "resolution": "must-fix (exceptional curves E_p contradict the unrestricted wording) fixed by the standing hypothesis C in B, d>=1; 7 should-fix items addressed in revision 2"
+              }
+            ]
+          }
+        ]
       }
     },
     "superseded_next": "F82-D独立監査待ちは解消（明示条件下の限定PASS）。F82-Dを絶対次数上限や別u間の一致に昇格する旧期待は不許可。F82-A/B/CやF75/F76の重複登録、r1..4決着済み扱い、A/B保留を数学的全NO-GOとして確定、F63高種数一般例を種数1排除へ拡張することも禁止。従前のSUPERSEDEDはv0.24以下の履歴を継承。",
