@@ -5,6 +5,8 @@ Beauville chain, together with Lemma E01′.
 
 ## 1. Population-wide statement (no assumption on the class)
 
+"Population-wide" here means independent of the class of C ⊂ B. It does **not** mean independent of E01′, i.e. of the compact X(8) uniformization and the congruence propagation in E01 §2a, or of the FSM facts (F1)–(F3).
+
 Notation, for an integral curve C̄ ⊂ B (any class):
 
 - Ē is the normalization of C̄, of genus g;
@@ -52,7 +54,9 @@ Which retained records concern carriers in |lP| = |7lH − 4lΣ_{000707}E_p|, th
 | `cycle_breadth_audit_20260920` | lP | yes |
 | `z12_*`, `projective_ci_*`, `normalization_module_*`, `elliptic_linear_series_*`, `null_union_*`, `equigeneric_*` | method walls for the same carrier | yes, as far as they concern it |
 
-The column "Covered by E02?" means: if E01/E02 survive audit, the hypothetical carrier these records study does not
+The column "Covered by E02?" is an **expectation, not a verified row-by-row check**. The only exception is the support `000707000f0f` itself, whose class |lP| is stated in the cited sources (`pair_map` restriction note, `support_hyperplane_subcanonical_bridge`). For every other row, the source blob still has to be re-read before the row is stated as fact.
+
+The column means: if E01/E02 survive audit, the hypothetical carrier these records study does not
 exist. The records then become moot; they are not individually refuted.
 
 The "864" in `pair_map` is a count of balanced supports. E02 holds for every 14-node support with uniform coefficients
@@ -83,3 +87,12 @@ MB104's mission is a "population-wide finite degree/intersection restriction" (M
 2. Corollaries E03.1 and E03.2: arithmetic.
 3. The scope table: check each record's carrier against its source blob.
 4. No credit, frontier change or MB104 closure is claimed.
+
+## 5. Audit history
+
+- **Round 1: DeepSeek (reading), PASS at `51b57aac`. No must-fix.**
+  - Covered E01′, E02 revision 3 and E03.
+  - Should-fix items:
+    1. The scope column is an expectation → stated in §2.
+    2. "Population-wide" depends on E01′ → stated in §1.
+    3. Scripts were not re-executed at this head → noted. They were executed at `dd0c2339` (ChatGPT) and `212bd863` (Claude).
