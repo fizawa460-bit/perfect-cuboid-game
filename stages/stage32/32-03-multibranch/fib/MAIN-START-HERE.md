@@ -11,7 +11,7 @@ Read:
 1. current Stage32 MAIN authority;
 2. current MB STATE/consumer handoff that selected MB-FIB;
 3. this file;
-4. `stages/stage32/final-chain/32-03-multibranch/fib/STATE.json`;
+4. `stages/stage32/32-03-multibranch/fib/STATE.json`;
 5. only source/evidence named by the active FIB leaf;
 6. cross-lane demand state only when the selected leaf has a concrete dependency.
 
