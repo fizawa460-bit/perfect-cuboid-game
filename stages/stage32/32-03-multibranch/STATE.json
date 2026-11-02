@@ -4306,7 +4306,7 @@
             "status": "EXECUTING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E01-C8-CONGRUENCE-EMPTY-WINDOW.md",
-            "note_sha256": "4cea017cb892d2fb6a9030f25c49102850121f757d8d01af9c8ef4c00559e201",
+            "note_sha256": "1095cdc42fbcd3b71f56f76fc261222e5335defdf6f327804f0c1c64c3184d3f",
             "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/bolza_mod2.py",
             "verifier_sha256": "746b705290194250f863a755bb09c5ff1af1398c1b721e89492ecf6d41619718",
             "claim": "Under the MB104-F69 section 3 receiver hypotheses (minimal etale Z in C8xC8, diagonal H of order h in {4,8}, E=Z/H of genus <=1) the leg degree satisfies d<16h/3, hence no d=56m receiver exists; F69's conditional window d<=196416 (m<=3507) becomes empty.",
@@ -4346,35 +4346,45 @@
             "scope_caveats": [
               "conditional on the F69 section 3 receiver hypotheses (HOLD)",
               "bound d<16h/3 excludes d=56 only for h<=10"
-            ]
+            ],
+            "general_form": "Lemma E01-prime (section 2a): any finite group A of automorphisms of Z with genus(Z/A)<=1 gives d<16|A|/3"
           },
           {
             "id": "E02",
-            "title": "F69 receiver premises check; the Beauville equality face (uniform class 7lH-4l sum_14 E_p) contains no genus<=1 carrier",
+            "title": "F69 receiver premises check; the uniform class 7lH-4l sum_14 E_p contains no genus<=1 carrier",
             "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E02-F69-PREMISE-CHECK-EQUALITY-FACE.md",
-            "note_sha256": "8d88145875053fc2da3374f252ee15167dcb0843f4c41ca7f5b006c1335a9d02",
+            "note_sha256": "14c3661201d371d66476ade8838687bbbb2b6c2049d768df9e8ae9a7a31116eb",
             "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/e02_counts.py",
             "verifier_sha256": "621f1dbb465f909b9200ecc7a42278cfb15d4e2c61c4e036757ab4b182765ce1",
             "claim": "For the uniform class D_l=7lH-4l sum_{14 nodes}E_p (l>=1): d=K.D=112l equals the node-branch bound 14*8l, so the Beauville inequality r_odd>=d-4g+4 forces genus 0 impossible and genus 1 onto the equality face; there the product-cover component is a minimal etale correspondence with leg degree 14el and stabilizer 2e, so E01 (area pi*d=112*pi*l > 256*pi/3) excludes it for all l and e in {1,2,4}.",
             "depends_on": [
-              "E01",
-              "predecessor-archive Beauville notes: BEAUVILLE-ODD-BRANCH-COVER-WALL (blob 1afa8398), GENUS1-P5-BEAUVILLE-EQUALITY-RIGIDITY (blob a2054708), GENUS1-P5-FULL-DECK-STABILIZER-RIGIDITY (blob cb05a7a1)",
-              "A1 branch adapter (blob 512fcc70)",
-              "Freitag-Salvati Manni arXiv:1303.6495 (product quotient, G=(Z/2)^3 diagonal, Beauville cover unramified off nodes, G0 free)"
+              "E01 and Lemma E01-prime (E01 section 2a)",
+              "Freitag-Salvati Manni arXiv:1303.6495: (F1) B=(X(8)xX(8))/G, G=(Z/2)^3 diagonal, nodes=images of fixed points; (F2) G0=Gamma'[4]/Gamma[8] free on compact X(8) (Lemma 4.1), Beauville double cover unramified off nodes, X~->B~ ramified along the 48 exceptional lines; (F3) K_B=O(1), H^2=16"
             ],
             "scope_caveats": [
-              "uniform class with |Sigma|=14 only; unequal Picard coefficients, other node counts, P6 sectors untouched",
-              "relation to route A 864 supports not yet checked",
-              "predecessor Beauville chain not hostile-audited at current head"
+              "uniform class with |Sigma|=14 only; no claim that every current e=2 frontier curve lies in this class",
+              "unequal Picard coefficients, other node counts, P6 sectors untouched",
+              "relation to route A 864 supports not checked"
             ],
             "audit_required": "independent hostile audit of the Beauville chain and of E02 before any frontier registration",
             "credit": {
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "superseded_dependencies": "revision 1 relied on predecessor-archive Beauville notes (blobs 1afa8398, a2054708, cb05a7a1) and the A1 adapter (blob 512fcc70); revision 2 re-derives (B1),(B2),(B4), equality rigidity, stabilizer and the odd-branch rule in E02 section 2",
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "DeepSeek (reading)",
+                "head": "212bd8638b9ef9573f6ff4e86d70277c3d69aa40",
+                "verdict": "HOLD",
+                "must_fix": 0,
+                "resolution": "Beauville chain re-derived from FSM facts; Lemma E01-prime added; compact X(8) vs cusps addressed (FSM Lemma 4.1); frontier overstatement removed; script role stated"
+              }
+            ]
           }
         ]
       }

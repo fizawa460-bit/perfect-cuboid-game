@@ -67,6 +67,20 @@ Notation: in this step, **n** denotes a nonzero ideal of O_K = Z[√2]. Only pla
 - So 16πd/h < 256π/3, i.e. d < 16h/3.
 - h = 4: d ≤ 21. h = 8: d ≤ 42. □
 
+## 2a. General form (Lemma E01′; added for E02)
+
+**Lemma E01′.** Let Z be the normalization of an integral curve in C8×C8 whose two projections are finite étale of degree d. Let A be *any* finite group of automorphisms of Z (it need not act diagonally, nor through Aut(C8)) such that the underlying curve of Z/A has genus ≤ 1. Then Area(H/L) = 16πd/|A| < 256π/3, i.e. d < 16|A|/3. In particular, for |A| ∈ {1, 2, 4, 8}: d ≤ 5, 10, 21, 42 respectively.
+
+*Proof.*
+
+- By Step 2, Z = H/K with K = Γ ∩ a⁻¹Γa (torsion-free). Every automorphism of the hyperbolic surface Z lifts to an isometry of H normalizing K.
+- Let L be the group of all lifts of elements of A. Then K ⊂ L, L/K ≅ A, [L : K] = |A|, and Z/A = H/L as an orbifold.
+- By Step 3, K ⊇ PQ¹_B(n) for a nonzero ideal n. Hence L ⊇ PQ¹_B(n), so L is a congruence arithmetic Fuchsian group (LMR Def. 4.1). L is commensurable with K, so it is arithmetic.
+- Area(H/L) = Area(H/K)/|A| = 16πd/|A|, and g(L) = g(Z/A) ≤ 1.
+- Step 4 applies verbatim, with h replaced by |A|. □
+
+The lemma uses |A| only through [L : K]. Neither the diagonal nature of A nor h ≥ 4 is used anywhere.
+
 ## 3. What is still open (audit points)
 
 1. The receiver hypotheses of F69 §3, namely that the real MB104 carrier gives such a minimal Z with étale legs, an H-quotient of genus ≤ 1, and d = 56m. These are HOLD in F69 and are not touched here. F69 §7 also shows that dropping minimality (birationality onto the image) breaks the argument.
