@@ -244,7 +244,15 @@ def main() -> None:
         LIVE_CUT_START.write_bytes(OLD_CUT_START.read_bytes())
         LIVE_MB_START.write_bytes(OLD_MB_START.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
-        TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
+        # Replay the SHA-locked historical verifier using a one-line, in-memory
+        # path adapter: the old MB directory was removed by PR #1846.
+        # Do not edit the historical verifier blob or recreate the old path.
+        historical_verifier = OLD_VERIFIER.read_bytes()
+        old_mb_anchor = b'mb_dir = HERE / "final-chain" / "32-03-multibranch"'
+        new_mb_anchor = b'mb_dir = HERE / "32-03-multibranch"'
+        req(historical_verifier.count(old_mb_anchor) == 1,
+            "historical MB location adapter anchor drift")
+        TMP_VERIFIER.write_bytes(historical_verifier.replace(old_mb_anchor, new_mb_anchor))
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
         (HERE / "COMMANDS.md").write_bytes(live_commands)
