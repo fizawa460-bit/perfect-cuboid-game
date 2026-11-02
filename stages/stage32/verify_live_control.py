@@ -62,7 +62,7 @@ def main() -> None:
 
     req("dispatch" not in cur, "CURRENT duplicated dispatch policy")
     req(cur["unit_pointers"]["32-02"] == "stages/stage32/final-chain/32-02-effectivity/LIVE.json", "32-02 live pointer")
-    req(cur["unit_pointers"]["32-03"] == "stages/stage32/final-chain/32-03-multibranch/LIVE.json", "32-03 live pointer")
+    req(cur["unit_pointers"]["32-03"] == "stages/stage32/32-03-multibranch/LIVE.json", "32-03 live pointer")
     req(set(cur["unit_pointers"]) == {"32-02", "32-03"}, "unexpected live unit pointer")
     req(set(cur["parked"]) == {"32-01-178", "CUT", "BRIDGE"}, "parked surface drift")
 
