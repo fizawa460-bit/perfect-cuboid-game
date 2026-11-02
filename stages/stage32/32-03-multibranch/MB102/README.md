@@ -1,18 +1,11 @@
-# MB102 — archival mirror (PR #1846)
+# MB102 — canonical retained archive (PR #1846)
 
-Status: RESEARCH_ARCHIVE_COPY / RETAINED_NO_CREDIT / NOT_AN_EXECUTION_RELOCATION
+Status: RETAINED_NO_CREDIT / SOURCE_BLOBS_PRESERVED / EXECUTION_NOT_VALIDATED
 
-This folder is a byte-identical, Git-blob-preserving copy of the 3 files in
-`stages/stage32/final-chain/32-03-multibranch/nodes/MB102/` on main at `b647f33e1c36c6f156d2a81a1e6f146ae2c7b550`.
-The same 3 source bytes were independently compared with the Google Drive node folder.
-The original files remain at their current canonical paths; none are deleted or modified.
+Canonical location in this draft branch: `stages/stage32/32-03-multibranch/MB102/`.
 
-The legacy Python verifier computes its repository root using
-`Path(__file__).resolve().parents[6]`. Consequently the mirrored script is
-**not** a drop-in executable at this shallower location. Continue any existing
-operational replay from the canonical original path until a separately audited
-relocation/adapter is approved. The archive copy does not certify a new replay.
+The three original files (CERTIFICATE.json, RESULT.md, and the Python verifier) retain the exact Git blob SHA values from main at `b647f33e1c36c6f156d2a81a1e6f146ae2c7b550`. The source bytes were also independently compared with the Google Drive node folder. The old `final-chain` tree and shallow duplicate copies are **not present on this branch**. Historical commits preserve their provenance; they are not live execution paths.
 
-No changes to `STATE.json`, `retained_frontier`, credit firewall, receiver,
-theorem, endpoint, or mathematical certification. This is a preservation-only
-copy, without new candidate exclusion or proof credit.
+The original Python verifier is deliberately unchanged, including `Path(__file__).resolve().parents[6]` and source-locked paths. Because the directory depth has changed, **do not execute it from this new location until an independently checked relocation has been performed**. There is no new replay or mathematical credit.
+
+The Stage32 control/credit firewalls remain binding. No candidate exclusion, finite-window result, receiver, theorem, endpoint, audit PASS, or merge authorization is granted by this archival relocation.
