@@ -24,21 +24,29 @@ Combined with E03, every genus-≤1 curve of B other than these 80 satisfies **r
 - With the compact uniformization C8 = H/Γ, Γ = PQ¹_B(2) (E01), Z = H/K with K = Γ ∩ a⁻¹Γa for some a ∈ Comm(Γ) = PD_B^×₊, and n = [Γ : K] (E01 Step 2).
 - Lemma E01′ with A = Stab_G(Z) gives n < 16·2e/3 ≤ 128/3, so n ≤ 42.
 
-**Step 2. Which double cosets have index ≤ 42.**
+**Step 2. Which double cosets have index ≤ 42 (completeness, written out after audit round 1).**
 
-- The index [Γ : Γ ∩ a⁻¹Γa] is the product of the local indices.
-- At the ramified prime (√2), D_B is a division algebra, so every local element normalizes O_2 and 2O_2, hence normalizes Γ locally. Local index 1.
-- At a prime 𝔭 ∤ 2 (split for D_B), an element at distance k in the Bruhat–Tits tree has local index (N𝔭+1)·N𝔭^{k−1}.
-- Since N𝔭 ≥ 7 for 𝔭 ∤ 2 in Z[√2], index ≤ 42 forces:
-  - either a ∈ N(Γ) = Δ(2,3,8) (n = 1, graphs of automorphisms);
-  - or a is primitive of distance 1 at a single prime with N𝔭 + 1 ≤ 42.
+- (2a) *Which elements occur.*
+  - Γ is arithmetic, so Comm(Γ) is the image of D_B^× in PGL₂(R) under the split real place (Borel).
+  - A correspondence of compact Riemann surfaces needs a holomorphic action on H. So a has positive reduced norm at the split real place.
+  - At the ramified real place, nrd is positive definite, hence positive there too.
+  - Therefore nrd(a) is totally positive. Elements with negative norm at the split place act anti-holomorphically, or swap the upper and lower half planes, and give no holomorphic correspondence.
+- (2b) *Local–global.* By strong approximation for the norm-one group of D_B (indefinite at one real place), [Γ : Γ ∩ a⁻¹Γa] = ∏_𝔭 [Γ_𝔭 : Γ_𝔭 ∩ a⁻¹Γ_𝔭 a]. Here Γ_𝔭 is the closure of Γ, with Γ_𝔭 = O¹_𝔭(2O_𝔭) at 𝔭 = (√2) and Γ_𝔭 = O¹_𝔭 ≅ SL₂(O_𝔭) at 𝔭 ∤ 2.
+- (2c) *At (√2) the local index is 1.*
+  - D_B ⊗ K_(√2) is a division algebra (KKSV §5). Its valuation ring O_2 is the unique maximal order, and every one-sided ideal of O_2 is a power of the unique maximal ideal P, hence two-sided.
+  - So every local a satisfies a·O_2·a⁻¹ = O_2 and a·2O_2·a⁻¹ = 2O_2.
+  - Hence a normalizes Γ_2 = O¹_2(2O_2), and the local index is 1.
+- (2d) *At 𝔭 ∤ 2.* D_B splits at 𝔭, and Γ_𝔭 = SL₂(O_𝔭) is the stabilizer of a vertex of the Bruhat–Tits tree.
+  - For a at tree distance k from that vertex, the local index is the size of the SL₂(O_𝔭)-orbit of a vertex at distance k, which is (N𝔭+1)·N𝔭^(k−1) (k ≥ 1), and 1 for k = 0.
+  - The smallest norm of a prime 𝔭 ∤ 2 of Z[√2] is 7. Rational primes ≡ ±1 mod 8 split, the smallest being 7; inert primes have norm p² ≥ 9.
+- (2e) *Conclusion.*
+  - Index ≤ 42 allows nontrivial distance at no more than one prime (two primes give at least 8·8 = 64), and there only k = 1 (k = 2 gives N(N+1) ≥ 56).
+  - If the distance is 0 everywhere, a normalizes Γ locally everywhere. By (2b), a ∈ N(Γ), which is Δ(2,3,8) because Δ(2,3,8) is a maximal Fuchsian group (F69 §4, LMR) containing Γ as a normal subgroup.
+  - So n ∈ {1} ∪ {N𝔭 + 1 : N𝔭 ≤ 41}. The primes are:
+    - split: 3 ± √2 (N = 7), 5 ± 2√2 (17), 5 ± √2 (23), 7 ± 3√2 (31), 7 ± 2√2 (41);
+    - inert: 3 (N = 9) and 5 (N = 25).
 
-  Two primes give at least 8·8 = 64, and k = 2 gives N(N+1) ≥ 56.
-- The primes with N𝔭 ≤ 41 are:
-  - split: 3 ± √2 (N = 7), 5 ± 2√2 (17), 5 ± √2 (23), 7 ± 3√2 (31), 7 ± 2√2 (41);
-  - inert: 3 (N = 9) and 5 (N = 25).
-
-  That gives 12 primes.
+    That gives 12 primes.
 
 **Step 3. The twists.**
 
@@ -51,8 +59,19 @@ Combined with E03, every genus-≤1 curve of B other than these 80 satisfies **r
 - Δ(2,3,8) = ⟨x, y⟩ with y = α and x = −1 + α + β ∈ Q_B. Here nrd x = 2 + √2, x² is central, and (xy)⁸ is central.
 - Δ/Γ is built from mod-2 coset keys. It has 192 elements, and x, y, xy have orders 2, 3, 8.
 - G is the normal (Z/2)³ in Δ/Γ. Three of its elements have 8 fixed points each, and four are free. G0 is the free subgroup of order 4.
+  - *Identification with FSM* (round 1, must-fix 3). FSM's G = Γ[4]/Γ[8] is a normal subgroup of Aut(X(8)) of order 8 consisting of the identity and involutions. FSM's G0 = Γ′[4]/Γ[8] is a subgroup of order 4 acting freely (FSM Lemma 4.1).
+  - `run_face.py` checks that the 192-element group has **exactly one** normal subgroup of order 8 made of the identity and involutions, and that this G has **exactly one** subgroup of order 4 acting freely.
+  - So the code's G and G0 are FSM's, independently of how Aut(C8) ≅ Δ/Γ is identified.
 - For each prime, Δ ∩ a⁻¹Δa is the stabilizer of the left ideal (Q_B/𝔭)·ā among the N𝔭 + 1 minimal left ideals. φ is computed 2-adically.
-- The genus of H/L is computed by Riemann–Hurwitz from the cycle types of x, y, xy on Δ/L.
+  - *Lift independence of φ* (round 1, must-fix 4). Fix a. For two lifts ℓ, ℓγ (γ ∈ Γ) of h ∈ Δ/Γ we have aℓγa⁻¹ = (aℓa⁻¹)(aγa⁻¹). Write γ = 1 + 2t with t ∈ O_2. Then aγa⁻¹ = 1 + 2·ata⁻¹ ∈ 1 + 2O_2, because a normalizes O_2 (Step 2c). So the 2-adic key of aℓa⁻¹, hence φ(h), does not depend on the lift.
+  - Changing a within its double coset only composes Z with automorphisms of the factors. Those are covered by enumerating all 192 twists σ (Step 3).
+  - `run_face.py` also checks this numerically: φ recomputed with 8 nontrivial Γ elements (Schreier generators) agrees, for every prime.
+- The genus of H/L is computed by Riemann–Hurwitz from the cycle types of x, y, xy on Δ/L. This is valid for **every** finite-index L, with or without torsion (round 1, must-fix 2, answered):
+  - the underlying compact surface of the orbifold H/L is a branched cover of degree N = [Δ : L] of the underlying sphere of H/Δ;
+  - it is branched only over the three cone points;
+  - over the cone point of type g, its points are the cycles of g on Δ/L, with ramification index equal to the cycle length.
+
+  Riemann–Hurwitz for these underlying surfaces gives 2g(H/L) − 2 = −2N + Σ_g (N − c_g). Elliptic points of L are cycles shorter than ord(g) and are already counted correctly. No orbifold correction enters the *underlying* genus, which is the genus of Ē.
 - Sanity check: for every prime, g(Z) = 1 + 4(N𝔭 + 1), as theory predicts (33, 41, 73, 97, 105, 129, 169).
 
 **Results.** All 12 primes and the graphs, 192 twists each, 2496 cases in all:
@@ -69,7 +88,7 @@ elliptic curves (FSM Prop 2.7) have r = 8 > d = 4. They are off the face, consis
 
 ## 3. Consequence for MB104
 
-- The equality face contributes only the 80 known curves above. MB104's multibranch population is the rest.
+- Conditional on the inputs in §4 (completeness of the double-coset list in Step 2, and the correctness of the code), the equality face contributes only the 80 known curves above. The off-face inequality r ≥ d − 4g + 5 for all other curves is inherited from E03, not proved anew. E04 only classifies the face r = d − 4g + 4. MB104's multibranch population is the rest.
 - So the open part of MB104 is exactly the genus-≤1 curves with r ≥ d − 4g + 5 (strictly off the face) in every degree, together with the boundary/known curves already classified.
 - The off-face case (μ > d − 4g + 4, ramified legs) is still the open core. A finite window needs a new idea there.
 
@@ -94,3 +113,16 @@ python -O run_face.py
 ```
 
 It takes about 1 minute. The script prints g(Z) for every prime, the counts, and finally `distinct curves: genus 0 32  genus 1 48` and `PASS`, with exit code 0. All checks are fail-closed: no `assert`, so `-O` cannot disable them. It writes `face_results.json`, the per-twist table, which is not committed.
+
+## 6. Audit history
+
+- **Round 1: DeepSeek (reading), HOLD at `5a10c241`.** Four must-fix items:
+  1. Completeness of the double-coset list → Step 2 written out (2a–2e).
+  2. The genus formula with torsion → answered: Riemann–Hurwitz on the underlying surfaces, valid for any finite-index L.
+  3. Identification of G and G0 → uniqueness checked in code.
+  4. Lift independence of φ → proved, and checked in code for all 12 primes.
+
+  Should-fix items:
+  1. Execution → `python -O run_face.py` PASS at revision 2.
+  2. The off-face inequality is inherited from E03 → §3.
+  3. Conditional wording → §3.

@@ -150,3 +150,38 @@ if __name__ == "__main__":
     print("G", G, "fixed points", [FP[g] for g in G])
     print("G0", G0, " G normal:", all(conj(g, c) in G for g in G for c in range(NG)))
     print("fixed points of x, y, xy:", fixed_points(EX), fixed_points(EY), fixed_points(EXY))
+# ---------- extra fail-closed checks (E04 audit round 1) ----------
+def check_G_unique():
+    """G must be the unique normal subgroup of order 8 consisting of the identity and involutions, and G0 the unique
+    subgroup of order 4 of G all of whose nontrivial elements act freely on C8."""
+    cands = []
+    for k in range(1, len(classes) + 1):
+        for combo in itertools.combinations(classes, k):
+            S_ = set().union(*combo) | {0}
+            if len(S_) == 8 and all(gmul(a, b) in S_ for a in S_ for b in S_): cands.append(sorted(S_))
+    free_subgroups = []
+    for a, b in itertools.combinations(FREE, 2):
+        c = gmul(a, b)
+        if c in FREE:
+            H = sorted({0, a, b, c})
+            if H not in free_subgroups: free_subgroups.append(H)
+    return len(cands) == 1 and cands[0] == G, len(free_subgroups) == 1 and free_subgroups[0] == G0, len(cands), len(free_subgroups)
+def gamma_elements(count=8):
+    """nontrivial elements of Gamma = PQ1_B(2): Schreier generators rep(g*c)^-1 * g * rep(c)"""
+    from deltagrp import inv, key
+    idk = key(Q1); out = []
+    for c in range(NG):
+        for g, P in ((X, PX), (Y, PY)):
+            gm = mul(inv(REPS[P[c]]), mul(g, REPS[c]))
+            if key(gm) != idk: raise SystemExit("FAIL: Schreier generator not in Gamma")
+            if any(t != Z0 for t in coords(gm)[1:]): out.append(gm)
+            if len(out) >= count: return out
+    return out
+def check_phi_lift_independent(a, gam):
+    """phi(h) computed from rep*gamma must equal phi(h) computed from rep, for every coset and every sample gamma"""
+    ainv = qinv(a); base = phi_table(a)
+    for i, r in enumerate(REPS):
+        for gm in gam:
+            w = qm(qm(a, mul(r, gm)), ainv)
+            if KEYS[key2(w)] != base[i]: return False
+    return True

@@ -50,8 +50,15 @@ def run_prime(name, p, gen):
     if len(Ia) != 2: raise SystemExit('FAIL: ideal dimension')
     Xi = qred(F, qinv(X)); Yi = qred(F, qinv(Y))
     phi = phi_table(a)
+    if not check_phi_lift_independent(a, GAM): raise SystemExit("FAIL: phi depends on the lift (" + name + ")")
     if sorted(phi) != list(range(NG)): raise SystemExit('FAIL: phi not a bijection')
     return F, a, Ia, Xi, Yi, phi
+gU, g0U, nG, nG0 = check_G_unique()
+print("G unique among normal involution subgroups of order 8:", gU, "(candidates", nG, ");  G0 unique free subgroup of order 4:", g0U, "(candidates", nG0, ")")
+if not (gU and g0U): raise SystemExit("FAIL: G/G0 not uniquely determined")
+GAM = gamma_elements()
+print("sample nontrivial Gamma elements for lift checks:", len(GAM))
+if len(GAM) < 3: raise SystemExit("FAIL: could not sample Gamma elements")
 results = []
 def record(name, n, sigma, S, g, N):
     e = len([s for s in S if s in G0]); results.append(dict(prime=name, n=n, sigma=sigma, S=sorted(S), S_size=len(S), e=e, genus=g, points=N))
