@@ -5,7 +5,7 @@ from pathlib import Path
 
 PACKET_SCHEMA = "STAGE32_MB104_000707_FIBRATION_SHELL0_X60_SINGLETON_PACKET_V1"
 AGG_SCHEMA = "STAGE32_MB104_000707_FIBRATION_SHELL0_X60_SINGLETON_AGGREGATE_V1"
-RUNKEY_REL = "stages/stage32/32-03-multibranch/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
+RUNKEY_REL = "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/runkeys/000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
 
 def csha(o):
     return hashlib.sha256(json.dumps(o, sort_keys=True, separators=(",", ":")).encode()).hexdigest()

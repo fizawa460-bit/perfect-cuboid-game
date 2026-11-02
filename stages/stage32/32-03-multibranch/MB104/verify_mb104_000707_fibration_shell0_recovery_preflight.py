@@ -3,9 +3,9 @@ from __future__ import annotations
 import importlib.util,json,os,subprocess
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-REPO=HERE.parents[3]
+REPO=HERE.parents[5]
 RUNKEY=HERE/"runkeys"/"000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
-STATE=HERE.parents[0]/"fib"/"STATE.json"
+STATE=HERE.parents[1]/"fib"/"STATE.json"
 PARENT=HERE/"run_mb104_000707_fibration_shell_local_exact.py"
 RECOVERY=HERE/"run_mb104_000707_fibration_shell0_recovery_singleton.py"
 RECOVERY_VERIFIER=HERE/"verify_mb104_000707_fibration_shell0_recovery_singleton.py"

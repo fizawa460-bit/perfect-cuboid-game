@@ -2,8 +2,8 @@
 from __future__ import annotations
 import json,subprocess,sys
 from pathlib import Path
-HERE=Path(__file__).resolve().parent; REPO=HERE.parents[3]
-RUNKEY=HERE/'runkeys'/'000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'; STATE=HERE.parents[0]/'fib'/'STATE.json'
+HERE=Path(__file__).resolve().parent; REPO=HERE.parents[5]
+RUNKEY=HERE/'runkeys'/'000707-FIBRATION-ISOTROPIC-SHELLS-V1.json'; STATE=HERE.parents[1]/'fib'/'STATE.json'
 CARRY_SOURCE=HERE/'MB104-000707-GEN29-X58-SINGLETON-CARRY-SOURCE.json'; CARRY_INDEX=HERE/'MB104-000707-GEN29-X58-SINGLETON-CARRY-INDEX.json'; CARRY_VERIFIER=HERE/'verify_mb104_000707_gen29_x58_singleton_carry.py'
 RESIDUAL=HERE/'MB104-000707-GEN30-X58-SINGLETON-RESIDUAL49.json'; DERIVE=HERE/'derive_mb104_000707_gen30_adaptive_affine_cold.py'; COLD=HERE/'MB104-000707-GEN30-ADAPTIVE-AFFINE-COLD.json'; COLD_VERIFIER=HERE/'verify_mb104_000707_gen30_adaptive_affine_cold.py'
 LOCAL=HERE/'run_mb104_000707_fibration_shell_local_exact.py'; RETAINED=HERE/'run_mb104_000707_fibration_isotropic_shells.py'; WORKFLOW=REPO/'.github/workflows/stage32-mb-fib-isotropic-shell-pilot.yml'

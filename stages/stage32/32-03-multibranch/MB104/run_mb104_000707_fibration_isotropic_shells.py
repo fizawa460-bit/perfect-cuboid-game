@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[5]
 LEGACY = ROOT / "stages" / "stage33" / "33-07"
 sys.path.insert(0, str(LEGACY))
 

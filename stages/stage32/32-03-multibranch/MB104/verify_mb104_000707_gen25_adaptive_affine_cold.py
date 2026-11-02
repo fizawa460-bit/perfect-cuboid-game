@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse,json,subprocess,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-REPO=HERE.parents[3]
+REPO=HERE.parents[5]
 RUNKEY=HERE/"runkeys"/"000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
 DERIVE=HERE/"derive_mb104_000707_gen25_adaptive_affine_cold.py"
 SPEC=HERE/"MB104-000707-GEN25-SUCCESSOR-REDESIGN-COLD-SPEC.json"

@@ -2,7 +2,7 @@
 from pathlib import Path
 import subprocess
 
-ROOT = Path(__file__).resolve().parents[4]
+ROOT = Path(__file__).resolve().parents[6]
 LOCKS = {
     'stages/stage33/33-07/stoll_cuboid_source.py': '010db3767b8f932c71ac5722b50ccb64a8c79f9d',
     'stages/stage33/33-07/stage32_picard_marking_retained.py': '5a0708a4ddb171e30d85c5a768e0f14ee0eb05f7',

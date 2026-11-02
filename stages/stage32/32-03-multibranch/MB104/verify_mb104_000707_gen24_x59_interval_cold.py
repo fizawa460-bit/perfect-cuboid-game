@@ -3,9 +3,9 @@ from __future__ import annotations
 import json,subprocess,sys
 from pathlib import Path
 HERE=Path(__file__).resolve().parent
-REPO=HERE.parents[3]
+REPO=HERE.parents[5]
 RUNKEY=HERE/"runkeys"/"000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
-STATE=HERE.parents[0]/"fib"/"STATE.json"
+STATE=HERE.parents[1]/"fib"/"STATE.json"
 COLD=HERE/"MB104-000707-GEN24-X59-INTERVAL-COLD-PREFLIGHT.json"
 DERIVE=HERE/"derive_mb104_000707_gen24_nextcoord_cold.py"
 RESIDUAL=HERE/"MB104-000707-GEN24-X60-SINGLETON-RESIDUAL30.json"

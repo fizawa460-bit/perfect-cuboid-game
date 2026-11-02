@@ -2,7 +2,7 @@
 from __future__ import annotations
 import importlib.util,json,subprocess
 from pathlib import Path
-HERE=Path(__file__).resolve().parent; REPO=HERE.parents[3]; RUNKEY=HERE/"runkeys"/"000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"; STATE=HERE.parents[0]/"fib"/"STATE.json"
+HERE=Path(__file__).resolve().parent; REPO=HERE.parents[5]; RUNKEY=HERE/"runkeys"/"000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"; STATE=HERE.parents[1]/"fib"/"STATE.json"
 PATHS={
 "local_exact_engine_git_blob":HERE/"run_mb104_000707_fibration_shell_local_exact.py",
 "carry_manifest_git_blob":HERE/"MB104-000707-GEN13-SHARD0-CARRY-MANIFEST.json",

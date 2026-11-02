@@ -11,7 +11,7 @@ from pathlib import Path
 from sympy import Matrix
 
 HERE = Path(__file__).resolve().parent
-REPO = HERE.parents[3]
+REPO = HERE.parents[5]
 RUNKEY = HERE / "runkeys" / "000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
 RESIDUAL = HERE / "MB104-000707-GEN24-X60-SINGLETON-RESIDUAL30.json"
 PARENT = HERE / "run_mb104_000707_fibration_shell_local_exact.py"

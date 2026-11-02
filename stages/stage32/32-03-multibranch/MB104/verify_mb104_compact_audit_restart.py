@@ -10,8 +10,8 @@ import re
 import subprocess
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[4]
-STATE = ROOT / "stages/stage32/32-03-multibranch/STATE.json"
+ROOT = Path(__file__).resolve().parents[6]
+STATE = ROOT / "stages/stage32/final-chain/32-03-multibranch/STATE.json"
 HANDOFF = Path(__file__).with_name("MB104-COMPACT-AUDIT-RESTART-20260920.md")
 
 EXPECTED = {
@@ -67,8 +67,8 @@ def main():
     freeze = d["audit_freeze"]
     req(freeze["substantive_boundary_head"] == EXPECTED["substantive_freeze_boundary"], "substantive freeze boundary")
     allowed = {
-        "stages/stage32/32-03-multibranch/STATE.json",
-        "stages/stage32/32-03-multibranch/MB104/verify_mb104_compact_audit_restart.py",
+        "stages/stage32/final-chain/32-03-multibranch/STATE.json",
+        "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py",
     }
     req(set(freeze["allowed_post_boundary_paths"]) == allowed, "post-boundary path allowlist")
 
@@ -93,7 +93,7 @@ def main():
     else:
         req(freeze["boundary_semantics"] == "AUDITED_COMPACT_RESTART_BOUNDARY__POST_AUDIT_RESEARCH_RELEASED", "post-audit boundary semantics")
         req(freeze["post_boundary_changes_must_be_bounded_audit_repairs_only"] is False, "post-audit research release")
-        research_allowed = allowed | {"stages/stage32/32-03-multibranch/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"}
+        research_allowed = allowed | {"stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"}
         req(set(freeze["post_audit_research_path_allowlist"]) == research_allowed, "post-audit research path allowlist")
         req(changed <= research_allowed, "post-audit path detected outside compact research surface: " + ",".join(sorted(changed - research_allowed)))
 
@@ -1510,13 +1510,13 @@ def main():
         req(repair["base_main"] == "c6cc8f12d7044eb3f3dc182850decd565a4e1752", "repair main identity")
         req(repair["retained_research_head"] == "68e9ce5dc1453caa7d4802929b573e5fb3fdb1e0", "retained research identity")
         req(subprocess.run(["git", "merge-base", "--is-ancestor", repair["base_main"], head], cwd=ROOT).returncode == 0, "current main integrated")
-        expected_paths = {'stages/stage32/32-03-multibranch/LOCAL-REPLAY-MB104-REPAIR.json', 'stages/stage32/32-03-multibranch/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md', '.github/workflows/stage32-main-startup-authority.yml', 'stages/stage32/32-03-multibranch/STATE.json', 'stages/stage32/32-03-multibranch/LOCAL-REPLAY-MB104-STARTUP.json', 'stages/stage32/32-03-multibranch/LOCAL-REPLAY-MB104-CLAIM.json', 'stages/stage32/32-03-multibranch/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md', 'stages/stage32/32-03-multibranch/AUDIT-REPAIR-20261026.md', 'stages/stage32/32-03-multibranch/MB104/verify_mb104_compact_audit_restart.py'}
+        expected_paths = {'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-REPAIR.json', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md', '.github/workflows/stage32-main-startup-authority.yml', 'stages/stage32/final-chain/32-03-multibranch/STATE.json', 'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-STARTUP.json', 'stages/stage32/final-chain/32-03-multibranch/LOCAL-REPLAY-MB104-CLAIM.json', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-COMPACT-AUDIT-RESTART-20260920.md', 'stages/stage32/final-chain/32-03-multibranch/AUDIT-REPAIR-20261026.md', 'stages/stage32/final-chain/32-03-multibranch/nodes/MB104/verify_mb104_compact_audit_restart.py'}
         req(set(repair["allowed_pr_paths"]) == expected_paths, "bounded repair path contract")
         pr_changed = set(subprocess.check_output(["git", "diff", "--name-only", repair["base_main"] + ".." + head], cwd=ROOT, text=True).splitlines())
         req(pr_changed <= expected_paths, "unexpected repair path: " + ",".join(sorted(pr_changed - expected_paths)))
         frontier_hash = hashlib.sha256(json.dumps(d["retained_frontier"], sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()).hexdigest()
         req(frontier_hash == repair["retained_frontier_sha256"] == "b70a41d328b28cce77e1a73df8b3b97cb0e91185c404c069f6774d50b9ceca17", "retained mathematical frontier unchanged")
-        note = ROOT / "stages/stage32/32-03-multibranch/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"
+        note = ROOT / "stages/stage32/final-chain/32-03-multibranch/nodes/MB104/MB104-000707-CORELESS-INVARIANT-LINE-WALL-20260926.md"
         req(hashlib.sha256(note.read_bytes()).hexdigest() == repair["note_sha256"] == "c66c5d88218ca42af669694da44cd56b3556fb8d99a4fa506c3d40e7b25af24a", "retained invariant-line note unchanged")
         req(nxt["active_leaf"] == "MB104-20261026-AUDIT-REPAIR-REAUDIT", "frozen repair leaf")
         req(d["resume_obligation"]["active_leaf"] == "MB104-000707-E2-UNIQUE-PAIR-M1-POSTULATION-OR-BULK", "research resume pointer preserved")
@@ -1537,7 +1537,7 @@ def self_test_fail_closed():
     original_state = STATE
     baseline = json.loads(STATE.read_text())
     cases = {
-        "unapproved repair path": lambda d: d["audit_repair"]["allowed_pr_paths"].append("stages/stage32/32-03-multibranch/arbitrary.py"),
+        "unapproved repair path": lambda d: d["audit_repair"]["allowed_pr_paths"].append("stages/stage32/final-chain/32-03-multibranch/arbitrary.py"),
         "research reopened before audit": lambda d: d["routing"].update(substantive_research_append_blocked_until_reaudit_pass=False),
         "unaudited head accepted": lambda d: d["routing"].update(current_head_reaudit_required=False),
         "retired b3 route made live": lambda d: d["routing"].update(current_leaf_uses_finite_b3_quotient=True),

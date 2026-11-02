@@ -8,10 +8,10 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
+ROOT = HERE.parents[5]
 CERT = HERE / "MB104-000707-FIBRATION-ISOTROPIC-SHELLS-PREFLIGHT-CERTIFICATE.json"
 RUNKEY = HERE / "runkeys" / "000707-FIBRATION-ISOTROPIC-SHELLS-V1.json"
-STATE = ROOT / "stages/stage32/32-03-multibranch/fib/STATE.json"
+STATE = ROOT / "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json"
 RETAINED_RUNNER = HERE / "run_mb104_000707_fibration_isotropic_shells.py"
 LOCAL_ENGINE = HERE / "run_mb104_000707_fibration_shell_local_exact.py"
 LOCAL_SHARD_VERIFIER = HERE / "verify_mb104_000707_fibration_shell_local_exact_shard.py"

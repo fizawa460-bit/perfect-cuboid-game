@@ -1,16 +1,17 @@
-# Stage32 32-03 multibranch — canonical directory (DRAFT MIGRATION)
+# Stage32 32-03 multibranch — canonical folder (DRAFT / NO CREDIT)
 
-**Canonical path proposed in draft PR #1846:** `stages/stage32/32-03-multibranch/`.
+**Only canonical location in draft PR #1846:**
+`stages/stage32/32-03-multibranch/`
 
-- `STATE.json`, `MISSION.json`, `PREFLIGHT.json`, `LIVE.json`, and `fib/`: original 32-03 routing and frozen audit state.
-- `MB101/`: retained multibranch normalization profile.
-- `MB102/`: retained local delta / genus ledger.
-- `MB103/`: retained `Aut(S)` semantic orbit quotient (not a production orbit table).
-- `MB104/`: existing numerical / frozen-audit verifier, source data, and `runkeys/`.
-- `MB104/drive-research/`: 170 Google Drive research, audit and evidence artifacts, with internal SHA256SUMS.
+- `STATE.json`, `MISSION.json`, `PREFLIGHT.json`, `LIVE.json`, `fib/`: preserved historical/frozen control records.
+- `MB101/`: retained normalization-profile results and original Python verifier.
+- `MB102/`: retained branch/delta/genus results and original Python verifier.
+- `MB103/`: retained Aut(S) orbit-quotient semantics and original Python verifier.
+- `MB104/`: 104 existing verification/numeric files and runkeys; original Python source blobs preserved.
+- `MB104/drive-research/`: 170 Google Drive research, audits and supporting evidence files, including SHA256SUMS.
 
-The former `stages/stage32/final-chain/32-03-multibranch` is retained **only as a symlink alias** pointing here. This is for compatibility with previously source-locked Stage32 entrypoints and historical proof records; it is not a second copy of the research corpus. The three former shallow folders `stages/stage32/mb101/`, `mb102/` and `mb103/` are removed in this draft migration in favour of the single canonical node folders above.
+The former `stages/stage32/final-chain/32-03-multibranch/` tree is **removed from this draft branch**, with **no symlink, alias or duplicate corpus**. Previous `stages/stage32/mb101/`, `mb102/` and `mb103/` shallow archive copies are also removed from this branch. Older commits on `main` and historical PRs still retain their immutable provenance.
 
-**Audit HOLD / NO CREDIT.** Some Python entrypoints were adjusted to resolve the repository root at the new path. This changes their Git blob identities; existing pinned hashes, frozen `STATE.json` records, legacy Git path lookups, and CI/independent replay are **not yet re-audited**. The legacy source-locked status remains preserved exactly as historical evidence. Do not infer that symlink compatibility proves that every Git path lookup, frozen verification or workflow will pass. Do not merge or promote any mathematics, exclusions or receiver/endpoint credit without a clean exact-head audit and source-lock reconciliation.
+**Deferred repair when execution is actually needed.** Python sources here are the exact pre-migration Git blobs, NOT adapted executable relocations. Existing Python repository-root depth, absolute file paths, runkeys, source-lock hashes, frozen `STATE.json` path lists, dispatchers and GitHub Actions still point to historical paths. They may fail if invoked from this new location or if a workflow attempts to run. No workflow wiring/CI remediation or verifier replay is included by user direction. Do not run old workflows as if this migration were a validated runtime relocation. Repair only the needed entrypoints and their locks, then test on an exact head before release.
 
-PR #1846 is a **draft, unmerged** archive-and-structure migration; `main` is unchanged.
+This is solely a search/storage reorganization. No mathematical evidence is credited or excluded, no frozen audit is released, no receiver/effectivity/theorem/endpoint claim is promoted, and no merge is authorized. PR #1846 remains DRAFT; `main` is unchanged.
