@@ -81,7 +81,8 @@ for name, p, gen in PRIMES:
         if S not in done:
             px, py = orbit_action(list(S), F, Ia, Xi, Yi); done[S] = genus_from_action(px, py)
         g, N = done[S]; record(name, n, sigma, S, g, N)
-json.dump(results, open("face_results.json", "w"))
+import tempfile, os
+json.dump(results, open(os.path.join(tempfile.gettempdir(), "face_results.json"), "w"))
 from collections import Counter
 low = [r for r in results if r["genus"] <= 1]
 print("total twists", len(results), " genus<=1:", len(low))
@@ -92,7 +93,9 @@ classes = {g: {frozenset(conj(r["sigma"], h) for h in G) for r in low if r["genu
 ok = (all(r["prime"] == "graph" for r in low) and len(classes[0]) == 32 and len(classes[1]) == 48
       and all(r["S_size"] == 8 and r["e"] == 4 for r in low if r["genus"] == 0)
       and all(r["S_size"] == 4 and r["e"] == 2 for r in low if r["genus"] == 1)
-      and len(G) == 8 and len(G0) == 4)
+      and len(G) == 8 and len(G0) == 4
+      and sorted(FP[g] for g in G if g != 0) == [0, 0, 0, 0, 8, 8, 8]
+      and all(conj(g, c) in G for g in G for c in range(NG)))
 print("distinct curves: genus 0", len(classes[0]), " genus 1", len(classes[1]))
 print("PASS" if ok else "FAIL")
 if not ok: raise SystemExit(1)

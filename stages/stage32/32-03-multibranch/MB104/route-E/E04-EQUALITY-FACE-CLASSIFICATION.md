@@ -8,8 +8,8 @@ and an exact finite computation (`hecke/hecke.py`, `hecke/run_face.py`, built on
 **Lemma E04.** Let C̄ ⊂ B be an integral curve on the box variety (non-exceptional on S) of geometric genus g ≤ 1
 that lies on the Beauville equality face r = d − 4g + 4. Then C̄ is one of:
 
-- the **32 smooth rational curves of degree 2**, `w = Mz + k` (FSM Prop 2.6). For these, g = 0, d = 2, e = 4, |Stab| = 8;
-- the **48 non-boundary elliptic curves of degree 4**, the Δ(1,2)-orbit of `w = z + 1` (FSM Prop 2.9). For these, g = 1, d = 4, e = 2, |Stab| = 4.
+- the **32 rational curves of degree 2**: the images of the graphs of the 32 elements σ of the centralizer C(G) of G in Aut(C8). For these, g = 0, d = 2, e = 4, |Stab| = 8. Their number matches the 32 non-exceptional rational curves of Stoll–Testa / FSM Prop 2.6. The literal FSM formula `w = Mz + k`, M ∈ Γ[4]/Γ[8], k ∈ {0,2,4,6}, only yields 16 distinct automorphisms, because z ↦ z + 4 lies in G. So the identification is by count, not by that formula.
+- the **48 elliptic curves of degree 4**: the images of the graphs of the 96 automorphisms σ whose centralizer in G has order 4 and contains exactly one singular involution s_i, taken up to G-conjugacy (48 classes). For these, g = 1, d = 4, e = 2, |Stab| = 4. Their number matches the 48 non-boundary elliptic curves of FSM Prop 2.9.
 
 All of them are graphs of automorphisms of C8, i.e. leg degree n = 1. No genuine Hecke correspondence (n > 1) gives a
 curve of genus ≤ 1.
@@ -49,6 +49,12 @@ Combined with E03, every genus-≤1 curve of B other than these 80 satisfies **r
     That gives 12 primes.
 
 **Step 3. The twists.**
+
+- *Every distance-1 element is a twist of a fixed one.* Let a′ be another element at distance 1 at 𝔭.
+  - Γ is dense in SL₂(O_𝔭), so it acts transitively on the neighbours of the base vertex. Choose γ ∈ Γ with γ·a′ and a at the same neighbour.
+  - Then a(γa′)⁻¹ normalizes every local order, so it lies in N(Q_B)₊ = Δ. Hence T_{a′} = (1 × δ̄)·T_a for some δ̄ ∈ Δ/Γ.
+  - A twist on the first factor reduces to the second: (σ × 1)T = (σ × σ)(1 × σ⁻¹)T. Swapping the factors gives T_{a⁻¹}, which is in the same family.
+- *The computed S is an upper bound for the true stabilizer.* Equality of the curves (g × g)Z_σ = Z_σ forces, 2-adically, g = σφ(g)σ⁻¹. So the code's S(σ) contains the true stabilizer, and the computed genus is at most the true genus. For the exclusion of genus ≤ 1 this is the right direction. For n = 1 (graphs) S is exact.
 
 - Up to the diagonal action of Aut(C8) = Δ/Γ, which normalizes G and so descends to automorphisms of B, every such curve is Z_σ = (1×σ)·{(Γz, Γaz)} with σ ∈ Δ/Γ (192 twists).
 - Its G-stabilizer is S(σ) = {g ∈ G : σφ(g)σ⁻¹ = g}, where φ is conjugation by a on Δ/Γ.
@@ -90,7 +96,7 @@ elliptic curves (FSM Prop 2.7) have r = 8 > d = 4. They are off the face, consis
 
 - Conditional on the inputs in §4 (completeness of the double-coset list in Step 2, and the correctness of the code), the equality face contributes only the 80 known curves above. The off-face inequality r ≥ d − 4g + 5 for all other curves is inherited from E03, not proved anew. E04 only classifies the face r = d − 4g + 4. MB104's multibranch population is the rest.
 - So the open part of MB104 is exactly the genus-≤1 curves with r ≥ d − 4g + 5 (strictly off the face) in every degree, together with the boundary/known curves already classified.
-- The off-face case (μ > d − 4g + 4, ramified legs) is still the open core. A finite window needs a new idea there.
+- The off-face case r > d − 4g + 4 (ramified legs) is still the open core. Since r is even, this means r ≥ d − 4g + 6 when d is even, and r ≥ d − 4g + 5 when d is odd. A finite window needs a new idea there.
 
 ## 4. Audit points
 
@@ -112,7 +118,7 @@ From `stages/stage32/32-03-multibranch/MB104/route-E/hecke/`:
 python -O run_face.py
 ```
 
-It takes about 1 minute. The script prints g(Z) for every prime, the counts, and finally `distinct curves: genus 0 32  genus 1 48` and `PASS`, with exit code 0. All checks are fail-closed: no `assert`, so `-O` cannot disable them. It writes `face_results.json`, the per-twist table, which is not committed.
+It takes about 1 minute. The script prints g(Z) for every prime, the counts, and finally `distinct curves: genus 0 32  genus 1 48` and `PASS`, with exit code 0. All checks are fail-closed: no `assert`, so `-O` cannot disable them. It writes the per-twist table to `face_results.json` in the system temporary directory, not in the repository.
 
 ## 6. Audit history
 
@@ -126,3 +132,14 @@ It takes about 1 minute. The script prints g(Z) for every prime, the counts, and
   1. Execution → `python -O run_face.py` PASS at revision 2.
   2. The off-face inequality is inherited from E03 → §3.
   3. Conditional wording → §3.
+- **Round 2: Claude (executing), PASS at `5a10c241`. No must-fix.**
+  - Re-ran all scripts with matching hashes.
+  - Independent re-implementations:
+    - PSL₂(Z/8) (graphs: 32 and 48);
+    - a separate Hecke implementation for N = 7 and 9, with the same genus distributions.
+  - Should-fix items, addressed in revision 3:
+    1. Completeness argument → Step 2 (revision 2), plus the transitivity / N(Q_B)₊ = Δ argument and S as an upper bound in Step 3.
+    2. FSM Prop 2.6 identification is by count only → claim restated via C(G).
+    3. Fixed-point pattern and normality of G now in the fail-closed check.
+    4. The μ/r confusion in §3 → fixed; parity refinement added.
+    5. `face_results.json` now written to the temporary directory.

@@ -4471,11 +4471,11 @@
           },
           {
             "id": "E04",
-            "title": "Beauville equality face classification: exactly the 32 degree-2 rational and 48 degree-4 elliptic curves (FSM Prop 2.6/2.9)",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "title": "Beauville equality face classification: exactly the 32 degree-2 rational curves (graphs of C(G)) and 48 degree-4 elliptic curves (graphs, centralizer of order 4)",
+            "status": "EXECUTING_AUDIT_PASS_CONDITIONAL_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E04-EQUALITY-FACE-CLASSIFICATION.md",
-            "note_sha256": "31e102d4796a7ad26bc63c13d67c5d8904448b4cce02e1c5a55901ae3fa9c804",
+            "note_sha256": "37a0f290cb727ff708c21a3151abb76c1bb7b01319ac1c58fab45ca70b994fe9",
             "verifier_paths": {
               "qalg.py": "stages/stage32/32-03-multibranch/MB104/route-E/hecke/qalg.py",
               "deltagrp.py": "stages/stage32/32-03-multibranch/MB104/route-E/hecke/deltagrp.py",
@@ -4486,7 +4486,7 @@
               "qalg.py": "7cd5b4e526d84758ff63312660f676716399d6ce95ba86eb3d95f3cadbe531b3",
               "deltagrp.py": "822b7ad45bec029be16c5958edf5563ce583089f0274598f35aee2f57c96fc0b",
               "hecke.py": "897c24f84700ace973d196014d168cb8b197f2e6d040ceb66d4f471ec7c616f3",
-              "run_face.py": "0fcbc13e4af6d452f1fa21cc1a6f23ac9766cb38b6a6ed6ee091c916b6255a29"
+              "run_face.py": "0e0feb9b46051e46436cb7add5452506920a65716aadf34059703d1ba8bd3fb4"
             },
             "claim": "An integral non-exceptional curve of geometric genus <=1 on the equality face r=d-4g+4 is one of the 32 rational curves of degree 2 or the 48 non-boundary elliptic curves of degree 4 (all automorphism graphs, leg degree 1); no Hecke correspondence of leg degree 8..42 gives genus <=1. Hence every other genus<=1 curve satisfies r>=d-4g+5 in every degree.",
             "depends_on": [
@@ -4511,6 +4511,14 @@
                 "verdict": "HOLD",
                 "must_fix": 4,
                 "resolution": "double-coset completeness written out; RH on underlying surfaces valid with torsion; G/G0 uniqueness checked in code; phi lift independence proved and checked"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude separate chat (executing)",
+                "head": "5a10c241e6f76868a17f1f2e0ea23d1385a5fbdd",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "independent PSL2(Z/8) and Hecke re-implementations agree; revision 3: transitivity and S-upper-bound arguments, C(G) restatement, fail-closed G pattern, mu/r wording, temp output"
               }
             ]
           }
