@@ -24,7 +24,7 @@ LIVE_178_START = HERE / "32-01-178" / "MAIN-START-HERE.md"
 OLD_178_START = ARCH / "MAIN-START-HERE-178-PRE-UNIFIED-DISPATCH.md"
 LIVE_CUT_START = HERE / "full178-cut" / "MAIN-START-HERE.md"
 OLD_CUT_START = ARCH / "MAIN-START-HERE-CUT-PRE-UNIFIED-DISPATCH.md"
-LIVE_MB_START = HERE / "final-chain" / "32-03-multibranch" / "MAIN-START-HERE.md"
+LIVE_MB_START = HERE / "32-03-multibranch" / "MAIN-START-HERE.md"
 OLD_MB_START = ARCH / "MAIN-START-HERE-MB-PRE-UNIFIED-DISPATCH.md"
 
 OLD_COMMANDS_BLOB = "8837f7ca1963e73bf5b91c3cbdbc4625341aa469"
@@ -186,7 +186,7 @@ def main() -> None:
     fib_rows = [row for row in lanes["lanes"] if row.get("lane") == "MB-FIB"]
     req(len(fib_rows) == 0, "MB-FIB must remain outside the Stage32 claim-lane adapter registry")
 
-    fib_state = json.loads((REPO / "stages/stage32/final-chain/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
+    fib_state = json.loads((REPO / "stages/stage32/32-03-multibranch/fib/STATE.json").read_text(encoding="utf-8"))
     req(fib_state["schema"] == "STAGE32_MB_FIB_STATE_V1", "MB-FIB state schema drift")
     req(fib_state["command"] == "stage32mb-fib", "MB-FIB command drift")
     req(fib_state["audit_command"] == "stage32mb-fib-audit", "MB-FIB audit command drift")
@@ -244,7 +244,15 @@ def main() -> None:
         LIVE_CUT_START.write_bytes(OLD_CUT_START.read_bytes())
         LIVE_MB_START.write_bytes(OLD_MB_START.read_bytes())
         LEGACY_EX5_START.write_bytes((ARCH_EX5 / "MAIN-START-HERE.md").read_bytes())
-        TMP_VERIFIER.write_bytes(OLD_VERIFIER.read_bytes())
+        # Replay the SHA-locked historical verifier using a one-line, in-memory
+        # path adapter: the old MB directory was removed by PR #1846.
+        # Do not edit the historical verifier blob or recreate the old path.
+        historical_verifier = OLD_VERIFIER.read_bytes()
+        old_mb_anchor = b'mb_dir = HERE / "final-chain" / "32-03-multibranch"'
+        new_mb_anchor = b'mb_dir = HERE / "32-03-multibranch"'
+        req(historical_verifier.count(old_mb_anchor) == 1,
+            "historical MB location adapter anchor drift")
+        TMP_VERIFIER.write_bytes(historical_verifier.replace(old_mb_anchor, new_mb_anchor))
         runpy.run_path(str(TMP_VERIFIER), run_name="__main__")
     finally:
         (HERE / "COMMANDS.md").write_bytes(live_commands)

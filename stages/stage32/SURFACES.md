@@ -15,7 +15,7 @@ Formal mathematical unit definitions and close criteria live in `stages/stage32/
 ## Internal execution surfaces
 
 - `internal/ex5/` — current 32-02 helper projection; detailed retained EX5 evidence remains under legacy `stages/stage32-ex5/`.
-- 32-03 MB lives under `final-chain/32-03-multibranch/`.
+- 32-03 MB lives under `stages/stage32/32-03-multibranch/`.
 - MB-FIB is auxiliary under the MB subtree and is read only when MB selects it.
 
 Internal surfaces are not operator entrypoints and do not own MAIN authority.
@@ -57,6 +57,6 @@ Legacy `stages/stage32-ex*` directories, historical routing snapshots, retained 
 
 - `stages/stage32/32-02/` is historical Z3/Normaliz production evidence, not the current formal 32-02 unit.
 - `stages/stage32/32-03/` is a historical e4/a32 affine-lattice package, not the current formal 32-03 unit.
-- current formal 32-03 work lives under `stages/stage32/final-chain/32-03-multibranch/`.
+- current formal 32-03 work lives under `stages/stage32/32-03-multibranch/`.
 
 Use `stages/stage32/retained/historical-32-02/README.md` and `stages/stage32/retained/historical-32-03/README.md` as navigation warnings. Do not infer unit identity from the legacy directory name.
