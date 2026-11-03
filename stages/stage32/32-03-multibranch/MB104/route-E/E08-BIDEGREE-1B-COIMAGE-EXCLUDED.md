@@ -1,6 +1,6 @@
 # E08 — Co-images of bidegree (1, b) or (b, 1) with b ≥ 2 do not occur (2026-11-03)
 
-Status: research note, **unaudited, zero credit**.
+Status: research note, **audit round 1 PASS (two auditors, head 5e199e66; should-fixes applied here), zero credit**.
 
 - It continues E06 (bidegree (1, 1)), and replaces the withdrawn "b ≤ 3" sketch of E06 §3 by a proof.
 - It uses audited F72 and E06 §1 (the marked Kummer conditions (K)), and exact computations in `bidegree/`.
@@ -67,7 +67,7 @@ By symmetry of the two legs it suffices to treat (1, b), so ψ₂ = φ∘ψ₁ w
 **Step 5. Exact enumeration.** Write φ = P/Q with binary forms P, Q of degree b. "φ(x) = y" is a linear condition on the coefficients of P and Q. A solution counts only if P and Q have no common factor ("genuine").
 
 - **Uniqueness for b = 2.** Two genuine degree-2 maps that agree at five points coincide, because P Q′ − P′ Q is a binary quartic with five zeros.
-  - So for five prescribed points and images, a genuine solution exists only if the solution space is one-dimensional. If it had dimension ≥ 2, the genuine members would form a nonempty open set, i.e. infinitely many maps agreeing at five points.
+  - So for five prescribed points and images, a genuine solution exists only if the solution space is one-dimensional. If it had dimension ≥ 2 and contained one genuine member, then (coprimality being an open condition) the genuine members would form a nonempty open subset of the projectivized space, i.e. infinitely many distinct maps agreeing at five points. So higher-dimensional kernels are discarded.
 - **k = 8, b = 2** (`bidegree/e08_k8_b2.py`, exact in Q(i)):
   - all 6·6⁵ = 46,656 choices of five points of B and their images in B;
   - 26,370 distinct one-dimensional solutions, of which 810 are not genuine;
@@ -76,8 +76,8 @@ By symmetry of the two legs it suffices to treat (1, b), so ψ₂ = φ∘ψ₁ w
 - **k = 8, b = 3** (`bidegree/e08_k8_b3.py`, exact over Q(i) with sympy):
   - all 64 label-preserving assignments of the six points of B;
   - the solution space V has dimension 2 in 60 cases and 3 in 4 cases;
-  - in the 4 three-dimensional cases every member has a common factor (checked on the generic member), so none is genuine;
-  - in the 60 two-dimensional cases, the condition "branch form ∝ product of four chosen points of B" (15 choices) has no genuine solution;
+  - in the 4 three-dimensional cases every member has a common factor (checked on the generic member with symbolic parameters), so none is genuine. The script reports this as `DEGENERATE` once for each of the 15 choices of four critical values, hence the count 60 = 4 × 15 in its output; this 60 is unrelated to the 60 two-dimensional kernels;
+  - in the 60 two-dimensional cases, the condition "branch form ∝ product of four chosen points of B" (15 choices) has no genuine solution. The discriminant condition only locates candidates; a candidate counts only after a separate coprimality check of P and Q;
   - a positive control finds the known map t(t² + 3)/(3t² + 1).
   - **No map exists.**
 - **k = 4, b = 2** (`bidegree/e08_k4_b2.py`, exact over Q(ζ₈)):
@@ -103,7 +103,7 @@ python -I -O stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k8_b3.p
 python -I -O stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k4_b2.py
 ```
 
-Each ends with `PASS`, exit code 0. All checks are fail-closed against the exact counts above. Measured runtimes (while other jobs shared the machine): about 7, 12 and 31 minutes respectively.
+Each ends with `PASS`, exit code 0. All checks are fail-closed against the exact counts above. Measured runtimes depend on the machine and load: about 2–7, 6–12 and 15–31 minutes respectively.
 
 ## 5. Audit points
 
@@ -113,3 +113,11 @@ Each ends with `PASS`, exit code 0. All checks are fail-closed against the exact
 4. Step 4: the bound on b, and the fiber-type analysis for k = 8, b = 3.
 5. Step 5: the uniqueness lemma for b = 2, the treatment of non-genuine solutions, and the completeness of the enumeration (the fields used contain B).
 6. Scope: the theorem needs k ∈ {4, 8}. It does not cover bidegrees with a, b ≥ 2.
+
+## 6. Audit history
+
+- **Round 1** (two auditors, head 5e199e66): PASS on the mathematics, no must-fix.
+  - Auditor A (Claude, executing from the repository root): all three scripts PASS, exit 0; Steps 1–4 re-derived by hand; encoding of the scripts read and checked.
+  - Auditor B: independent exact enumerator over Q(ζ₈) for k = 4, b = 2 (1,016 one-dimensional kernels, 32 maps, all |Ω| = 8), and reproductions of the k = 8 scripts (from reconstructed copies, not byte-identical, so not a source-locked run).
+  - Should-fixes applied: the `DEGENERATE` 60 count explained; the reason for discarding higher-dimensional kernels stated; the role of the discriminant vs the coprimality check stated; runtimes given as ranges.
+  - Not yet done: an independent re-implementation of the k = 8 enumerations.

@@ -1,11 +1,11 @@
 # E10 — k = 8 curves via their co-image in P¹×P¹: exact structure, C̄², and the blind spot of E09 (2026-11-03)
 
-Status: research note, **unaudited, zero credit**. No exclusion and no finite window are claimed.
+Status: research note, **revision 2 after audit round 1 (FAIL at 5e199e66, two must-fix items, fixed here), zero credit**. No exclusion and no finite window are claimed.
 
 - For k = 8 it reformulates every genus-≤1 curve of B as a curve W ⊂ P¹×P¹ with an exact parity condition (§1–§2).
 - It gives an exact formula for C̄² (§3), checked on E04's degree-2 curves.
 - Consequence (§4): E09's criterion, combined with the only available bound on cheap singularities (ν ≤ δ_int), gives nothing for the near-balanced curves with δ = 8. That route would need a new input there.
-- The open problem is then a concrete problem on P¹×P¹ ("Problem W", §5).
+- The open problem is then a concrete problem on P¹×P¹ ("Problem W", §5). It is a necessary condition only, and it is **not** a finite search (§5).
 
 Notation as in E06/E08:
 
@@ -35,7 +35,10 @@ Notation as in E06/E08:
   - Let j (resp. h) be the number of v ∈ O₁ ∩ O₂ whose two labels agree (resp. differ).
   - Then **|Ω| = Σo₁ + Σo₂ − 2j − h**, and Riemann–Hurwitz for p_i gives **Σo_i ≥ 2·deg p_i + 4 − 4γ**.
 - **Consequences** (γ = 0, |Ω| = 4):
-  - 2j + h ≥ 2a + 2b + 4, so at least a + b + 2 points of V₀ map to the 12 label-matched points of B×B. These are the points over the nodes of B.
+  - 2j + h ≥ 2a + 2b + 4.
+  - A label-differing point lies in Ω (for the label of p₁(v) the two statements differ), so h ≤ |Ω| = 4.
+  - Hence **j + h ≥ a + b + 2** (points of V₀ over B×B) and **j ≥ a + b** (points over the 12 label-matched points of B×B, which lie over the nodes of B).
+  - The bound j ≥ a + b + 2 does **not** follow; it was claimed in revision 1 and is withdrawn. Example of the numerics: p₁ = t, p₂ = it gives a = b = 1, j = 2, h = 4, |Ω| = 4 (not claimed to be a carrier).
   - |Σo₁ − Σo₂| ≤ 4. So the degrees are nearly balanced, up to the slack s_i := (Σo_i − 2·deg p_i − 4)/2 of each p_i: |a − b + s₁ − s₂| ≤ 2.
 
 E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition.
@@ -50,9 +53,11 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
 - **Two cases for each χ.** The preimage of W in (C8/ker χ)² is either irreducible (h_χ is not a square) or splits as Ȳ_χ + (1, ι)Ȳ_χ (h_χ is a square, i.e. χ ∈ Q). Here ι is the involution covering C8/ker χ → P¹.
   - Irreducible case: the contribution of this piece to tr(φφ†) is 0.
   - Split case: the contribution is δ²(I_χ − 2ab), where I_χ := Ȳ_χ·(1, ι)Ȳ_χ ≥ 2ab.
+  - Irreducible case, reason: the preimage is (1, ι)-invariant, so φ_χ = φ_χ∘ι*, and ι* = −1 on the piece because C8/ker χ → P¹ is the quotient by ι. Hence φ_χ = 0 on this piece.
+  - Split case, reason: the formula tr = 2n₁n₂ − (deg)²·Ȳ_χ² below, with deg = δ and Ȳ_χ² = 4ab − I_χ, gives 2δ²ab − δ²(4ab − I_χ) = δ²(I_χ − 2ab). (The same formula gives 2δ²ab − (δ/2)²·8ab = 0 in the irreducible case, consistent with the reason above.) The general formula is checked only on E04 and on δ = 8.
   - These are the only cases when γ = 0. A third case, q_χ(p₁) itself a square, would make V₀ map onto the positive-genus curve C8/ker χ, which is impossible for rational V₀.
   - Derivation: Ȳ_χ² = 8ab in the irreducible case, with deg(Y_χ → Ȳ_χ) = δ/2. In the split case Ȳ_χ² = 4ab − I_χ, with degree δ. In both, tr = 2n₁n₂ − (deg)²·Ȳ_χ².
-- **Result.** From D² = 2n₁n₂ − tr(φφ†) on C8×C8, with Z̄² = 8C̄²:
+- **Result (γ = 0 only).** From D² = 2n₁n₂ − tr(φφ†) on C8×C8, with Z̄² = 8C̄²:
 
   **C̄² = (δ²/8)·[ 2ab − Σ_{χ ∈ Q, χ of positive genus} (I_χ − 2ab) ].**
 
@@ -67,7 +72,10 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
 - E09's criterion (with β ≈ d, all contacts 1) needs, for large d, roughly C̄² < d²/32.
 - For δ = 8 this reads 16ab < 2(a + b)², i.e. **8ab < (a + b)²**, i.e. a/b > 3 + 2√2 or b/a > 3 + 2√2.
 - But §2 forces |a − b + s₁ − s₂| ≤ 2. So whenever the slacks s₁, s₂ are comparable, the curve is near-balanced, and E09 gives nothing.
-- **So E09, with the bound ν ≤ δ_int, cannot close the δ = 8 near-balanced family.** There C̄ is numerically almost proportional to K_B (Hodge equality), so sharper constants do not help.
+- **So E09, with the bound ν ≤ δ_int, cannot close the δ = 8, γ = 0 near-balanced family.**
+- Assumptions of this comparison: β ≈ d and σ near its minimum d²/48. If σ is much larger, E09 can still bite.
+- The case δ = 8, γ = 1 (Ω = ∅) is not covered by the balance condition and is not treated here.
+- Whether sharper constants could help is not decided here (revision 1 said they could not; that remark is withdrawn as unproved).
 - E09 could still bite if one proved that most singular points of these curves have multiplicity ≥ 4, since only double and triple points count in ν. Nothing here proves or refutes that.
 
 ## 5. Problem W (the k = 8 core, restated on P¹×P¹)
@@ -75,10 +83,13 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
 > Classify the curves W ⊂ P¹×P¹ of bidegree (a, b) whose normalization V₀ is rational, such that the three functions h_a = (1 + x²)(1 + y²), h_b = (1 − x²)(1 − y²), h_e = xy (with ∞ treated as in E06) have, in total, **exactly four** points of odd order on V₀.
 
 - Together with δ and Q from §1, this describes every k = 8 carrier of genus 1 with γ = 0. Genus 0 and γ = 1 are similar and easier.
-- In Problem W each p_i is an almost-orbifold covering of (P¹; 2⁶): its ramification lies over B with local degree ≤ 2, up to the slack s_i. Such maps are rigid (Riemann existence: finitely many for each degree and slack, up to Möbius maps of the source).
-- The matching condition (at least a + b + 2 common labelled odd points of p₁ and p₂) is strongly overdetermined.
-- So Problem W is a **finite search for each (a, b, s₁, s₂)**, with monodromy data and a matching equation. It is a much smaller search than on B itself.
-- A uniform bound would need either an argument that the matching fails for large a + b, or such a search combined with some other bound.
+- Problem W is a **necessary** condition. A solution W need not give a carrier: one also needs the actual stabilized component Z of the six-radical compositum K(V₀)(√q_χ(p₁), √q_χ(p₂)) with Stab = G (§1). The parity condition on the three h_χ alone does not ensure this.
+- Each p_i is an almost-orbifold covering of (P¹; 2⁶): RH gives ramification over B of at least 2·deg p_i − 2 − s_i, so the ramification outside B is at most s_i.
+  - **Slack 0:** all ramification lies over B with index 2, so p_i is an orbifold covering with fixed branch data. By Riemann existence there are finitely many, up to Möbius maps of the source.
+  - **Slack s ≥ 1:** branch values may move outside B, so such maps form families of dimension up to s. Example: t² + c (degree 2, Σo = 10, s = 1) with c ∉ B varying. Revision 1 claimed finiteness for every slack; **that claim was false and is withdrawn.**
+- Matching condition (from §2): j ≥ a + b label-matched points and j + h ≥ a + b + 2 points over B×B in total.
+- So Problem W is a finite search only when s₁ = s₂ = 0. For s ≥ 1 it is a problem on positive-dimensional Hurwitz families with matching equations. Whether the matching cuts these down to finitely many is open.
+- A uniform bound would need an argument that the matching fails for large a + b, or such a search combined with some other bound.
 
 ## 6. Audit points
 
@@ -87,3 +98,11 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
 3. §3: the isotypic decomposition (genera 2, 1, 1, 1, 0, 0, 0 of C8/ker χ, from the F72 table); the identification of φ on each piece; the two cases; the E04 check.
 4. §4: the comparison with E09 uses E09's asymptotic criterion with ν ≤ δ_int. It is only as good as E09's inputs (Langer).
 5. k = 4 is not treated here.
+
+## 7. Audit history
+
+- **Round 1** (two auditors, head 5e199e66): FAIL.
+  - M1: §2 inferred j ≥ a + b + 2 from 2j + h ≥ 2a + 2b + 4; only j ≥ a + b and j + h ≥ a + b + 2 follow. Fixed.
+  - M2: §5 claimed finitely many almost-orbifold coverings for each slack; false for s ≥ 1 (t² + c). Fixed: finite only for slack 0.
+  - Should-fix: §3 limited to γ = 0, reasons for both cases added; §4 assumptions (σ near minimum, γ = 0) stated and the unproved "sharper constants" remark withdrawn; Problem W marked as necessary only, with the component condition.
+  - Confirmed by the auditors: §1 function fields, RH equality, the odd-locus identity (independent tests), the E04 check (also via Z̄² = 2 − 2·5 = −8), δ = 8 numbers, and the §4 comparison.

@@ -1,5 +1,5 @@
 """E09 checks: (1) symbolic collection of terms from Langer's inequality to the stated form; (2) the orbifold numbers;
-(3) the E04 boundary curves satisfy (E09) for all admissible alpha; (4) the thresholds of §2.
+(3) the E04 equality-face curves satisfy (E09) for all admissible alpha; (4) the thresholds of §2.
 usage: python -I -O e09_check.py"""
 import sympy as sp
 from fractions import Fraction as Fr
@@ -24,11 +24,11 @@ eP_, fix = 64, 3*64
 eB = Fr(eP_ + fix, 8); nodes = fix // 4; eorbB = eB - nodes*Fr(1, 2); K2 = Fr(128, 8)
 print("e(B) =", eB, " A1 points =", nodes, " e_orb(B) =", eorbB, " K_B^2 =", K2, " c2(S) =", eB + nodes)
 ok &= (eB, nodes, eorbB, K2, eB + nodes) == (32, 48, 8, 16, 80)
-# E04 boundary curves (single branch, contact 1 at each node, no interior singularities)
+# E04 equality-face curves (single branch, contact 1 at each node, no interior singularities)
 def e09(al, d_, g_, beta, nu, sig):
     return (2*al - al*al)*d_ <= 8 + (3*al - al*al)*(2*g_ - 2) + Fr(3, 2)*al*beta + al*al*(nu - Fr(sig, 8))
 bd = all(e09(Fr(k, 100), 2, 0, 6, 0, 6) and e09(Fr(k, 100), 4, 1, 4, 0, 4) for k in range(1, 100))
-print("E04 boundary curves (d=2,g=0,M=6) and (d=4,g=1,M=4) satisfy (E09) for alpha in (0,1):", bd); ok &= bd
+print("E04 equality-face curves (d=2,g=0,M=6) and (d=4,g=1,M=4) satisfy (E09) for alpha in (0,1):", bd); ok &= bd
 # thresholds: beta = d (lambda = 1): need 32*kappa < (2 - 3/2)^2  ->  kappa < 1/128; with sigma >= d^2/48: nu < d^2/96
 lam = Fr(1); kap = (2 - Fr(3, 2)*lam)**2 / 32
 nu_thr = kap + Fr(1, 48)/8

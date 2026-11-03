@@ -4679,10 +4679,10 @@
           {
             "id": "E08",
             "title": "Co-images of bidegree (1,b) or (b,1) with b>=2 do not occur (k in {4,8})",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E08-BIDEGREE-1B-COIMAGE-EXCLUDED.md",
-            "note_sha256": "b9cbf6a4386d0528119fa21e10f791f009025e34c7b5fbaa33e7f916176751f0",
+            "note_sha256": "c122fbeb7664caf6e48ec2d6b6bf6c7523eef385d74f8a3045f90c83a1ea3ae0",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k8_b2.py",
               "stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k8_b3.py",
@@ -4706,24 +4706,34 @@
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing) + second auditor (independent k=4 enumerator)",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "should-fixes applied in note: DEGENERATE 60 = 4 x 15 explained, discard of higher-dim kernels justified, discriminant vs coprimality roles stated, runtimes as ranges; independent re-implementation of k=8 enumerations not yet done"
+              }
+            ]
           },
           {
             "id": "E09",
             "title": "Orbifold BMY on the box variety: exact inequality and reduction (no exclusion)",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "status": "AUDIT_R1_HOLD_REVISED_PENDING_REAUDIT_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E09-ORBIFOLD-BMY-REDUCTION.md",
-            "note_sha256": "4afdf8c3065990d33adb1bb1ebc45d7858bf5de05599b916865ca04b58e6a93d",
+            "note_sha256": "2467b23b92ad42e8d994515cb46b7df627889e2fcbaf2a8cdcbf43afe8d1a543",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/bmy/e09_check.py"
             ],
             "verifier_sha256": [
-              "f91f44b94ffe69b2e8469b096878e35a55874bb9da7730954019bb5c135f7897"
+              "02557dcad15ca1fc9efd194e4e220927b3a876ccdbf1d73421f3bc5e9b0b6b4b"
             ],
             "claim": "Langer orbifold BMY on (B, alpha*Cbar) gives (2a-a^2)d <= 8 + (3a-a^2)(2g-2) + (3/2)a*beta + a^2(nu - sigma/8); not a degree bound by itself. A uniform bound for large d needs nu < ~d^2/96 (beta ~ d) or beta <= lambda*d with lambda<1; Miyaoka on S forces delta >= d^2/224 - d (g=1).",
             "depends_on": [
-              "Langer 2003 Thm 0.1, (0.2.3), quotient rule (to be checked)",
+              "Langer 2003 Thm 0.1 (effective multiple of K+D, lc, coefficients in [0,1]), (0.2.3), quotient rule; checked against the paper by one round-1 auditor",
               "Miyaoka 2008 Thm 1.3",
               "F71 d = K.Cbar"
             ],
@@ -4734,29 +4744,50 @@
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing, checked Langer arXiv:math/0012180) + second auditor (did not inspect Langer)",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "HOLD (auditor B); no must-fix (auditor A)",
+                "must_fix": 1,
+                "resolution": "M1 nefness argument (g=0 gap) removed: Langer Thm 0.1 needs only an effective multiple of K+D (K_B ample); alpha rational then real by continuity; citation corrected; beta range, heuristic remark, pi notation and e09_check wording fixed; e09_check rerun PASS"
+              }
+            ]
           },
           {
             "id": "E10",
             "title": "k=8 curves via co-image in P1xP1: exact structure, C^2 formula, blind spot of E09 (no exclusion)",
-            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "status": "AUDIT_R1_FAIL_REVISED_PENDING_REAUDIT_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E10-K8-COIMAGE-STRUCTURE-AND-BMY-BLIND-SPOT.md",
-            "note_sha256": "954ec7a710e79ffe80f74e7dc05c33551a34e2b87321ac8c420567fc317223ad",
-            "claim": "For k=8: K(E)=K(V0)(sqrt h_chi), h_chi=q_chi(x)q_chi(y), delta=2^rank; E->V0 branched exactly on Omega with RH equality (g=1, gamma=0: |Omega|=4); |Omega|=So1+So2-2j-h; Cbar^2=(delta^2/8)[2ab - sum_{split chi}(I_chi-2ab)] (checked on E04 d=2). E09 with nu<=delta_int cannot close delta=8 near-balanced curves; core restated as Problem W on P1xP1.",
+            "note_sha256": "83d7eb7234cbc68d8f1b61427ddf6fdf7bff0f1c7e172d77931fcfe4bac997af",
+            "claim": "For k=8: K(E)=K(V0)(sqrt h_chi), h_chi=q_chi(x)q_chi(y), delta=2^rank; E->V0 branched exactly on Omega with RH equality (g=1, gamma=0: |Omega|=4); |Omega|=So1+So2-2j-h; Cbar^2=(delta^2/8)[2ab - sum_{split chi}(I_chi-2ab)] (checked on E04 d=2). E09 with nu<=delta_int cannot close delta=8 near-balanced curves; core restated as Problem W on P1xP1 (necessary condition; finite search only for slack 0). Matching: j >= a+b, j+h >= a+b+2.",
             "depends_on": [
               "E06 (K) Kummer description",
               "E08 odd-locus identity",
               "F71/F72"
             ],
             "scope_caveats": [
-              "k=8 only; reduction and reformulation, no exclusion"
+              "k=8 only; reduction and reformulation, no exclusion",
+              "C^2 formula for gamma=0 only; general formula checked only on E04 and delta=8"
             ],
             "credit": {
               "promotion": false,
               "exclusion_credit": false,
               "finite_window": false
-            }
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing) + second auditor",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "FAIL",
+                "must_fix": 2,
+                "resolution": "M1: j >= a+b+2 withdrawn; only j >= a+b and j+h >= a+b+2 (h <= |Omega| = 4). M2: finiteness of almost-orbifold coverings withdrawn for slack >= 1 (t^2+c); Problem W finite only for slack 0 and necessary only (component condition). Should-fix: C^2 formula limited to gamma=0 with reasons for both cases; section 4 assumptions stated, unproved remark withdrawn"
+              }
+            ]
           }
         ]
       }
@@ -4775,7 +4806,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "37050ad3991dac6ca289af1b6ec7252b1c789d87e8cef8fb17a4bd556119ba03",
+      "sha256": "d39bde27958e9304a773ae9a12ce7ce9ad647d127bda4ac37e5c37c2eddce5de",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }

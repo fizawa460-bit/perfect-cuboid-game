@@ -1,6 +1,6 @@
 # E09 — Orbifold BMY on the box variety: an exact inequality, and what it would take to bound d (2026-11-03)
 
-Status: research note, **unaudited, zero credit**. No exclusion and no finite window are claimed.
+Status: research note, **revision 2 after audit round 1 (HOLD/should-fix at 5e199e66; the nefness step is removed here), zero credit**. No exclusion and no finite window are claimed.
 
 - It records an exact necessary inequality for every curve of the MB101 population, obtained from Langer's logarithmic orbifold BMY inequality on the singular surface B.
 - It explains why this and the related Chern-number inequalities (Miyaoka 2008, Bogomolov) do **not** by themselves bound d.
@@ -29,7 +29,7 @@ The point of working on B: the "Bogomolov" condition K² > e holds for the orbif
 - M = Σ_p m_p;
 - δ_E ≥ 0, the δ-invariant of C̃ at points on the exceptional curves.
 
-**Theorem E09.** Let 0 < α < 1 with α·m_P ≤ 1 at every interior singular point and α·m_p ≤ 1 at every node on C̄. Then
+**Theorem E09.** Let 0 < α < 1 (first α rational; see the last step of the proof) with α·m_P ≤ 1 at every interior singular point and α·m_p ≤ 1 at every node on C̄. Then
 
 (2α − α²)·d ≤ 8 + (3α − α²)(2g − 2) + Σ_P [3α(r_P − m_P) + α²(3m_P²/4 − 2δ_P)] − 2α²δ_E + Σ_p [ (3/2)α Σ_j(2 − c_j) − (α²/8)·m_p² ].
 
@@ -38,8 +38,9 @@ The point of working on B: the "Bogomolov" condition K² > e holds for the orbif
 - **Langer's theorem applies.** The pair (B, αC̄) is log canonical:
   - at an interior point, lct ≥ 1/mult;
   - at a node, the pair is log canonical iff its lift to C² is, and the lifted germ has multiplicity m_p (see below).
-- **K_B + αC̄ is nef**, because (K_B + αC̄)·C̄ = d + αC̄² and C̄² ≥ 2g − 2 − d (see below).
-- So Langer, Thm 0.1, gives (K_B + αC̄)² ≤ 3·e_orb(B, αC̄).
+- **The positivity hypothesis.** Langer's Thm 0.1 asks only that some multiple of K_B + αC̄ be effective (no nefness). K_B is ample and C̄ is effective, so this holds for rational α.
+  - Revision 1 argued nefness from C̄² ≥ 2g − 2 − d instead. That argument was incomplete for g = 0 (it needs (1 − α)d − 2α ≥ 0) and is not needed; it is withdrawn.
+- So Langer, Thm 0.1, gives (K_B + αC̄)² ≤ 3·e_orb(B, αC̄) for rational α.
 - **Computing e_orb(B, αC̄)** with Langer's definition:
   - e_orb(B, αC̄) = 8 + α(2g − 2) + α·Σ_{P∪p} r + Σ_P (e_P − 1) + Σ_p (e_p − 1/2).
   - At an interior point, Langer (0.2.3) gives e_P ≤ (1 − αm_P/2)².
@@ -47,19 +48,20 @@ The point of working on B: the "Bogomolov" condition K² > e holds for the orbif
   - **The lifted germ at a node has multiplicity m_p.** Let ρ be the double cover branched along the exceptional curve E′ of the blow-up of C². Then ρ*E = 2E′, so C̃·E = L̃·E′, where L̃ is the strict transform of the lifted germ.
 - **The left side.**
   - (K_B + αC̄)² = 16 + 2αd + α²C̄².
-  - C̄² = C̃² + Σ_p m_p²/2, because ρ*C̄ = C̃ + Σ(m_p/2)E_p and E_p² = −2.
+  - C̄² = C̃² + Σ_p m_p²/2, because π*C̄ = C̃ + Σ(m_p/2)E_p (π : S → B the minimal resolution) and E_p² = −2.
   - C̃² = 2g − 2 − d + 2Σ_P δ_P + 2δ_E, by adjunction on S with K_S·C̃ = d.
-  - In particular C̄² ≥ 2g − 2 − d, which gives nefness above.
 - **Collecting terms.**
   - The two node terms combine: 3αr_p − (3/2)αm_p = (3/2)α Σ_j (2 − c_j).
   - The quadratic node term: (3/8)α²m_p² − (1/2)α²m_p² = −(1/8)α²m_p².
-  - Collecting everything gives the stated inequality. □
+  - Collecting everything gives the stated inequality for rational α.
+- **Real α.** Both sides are polynomials in α, and the conditions α·m ≤ 1 define a closed interval. Rational α are dense in it, so the inequality holds for all real α in the range. □
 
 **Simplified form.** At an interior point, r_P ≤ m_P and δ_P ≥ m_P(m_P − 1)/2, so the interior term is at most α²·(m_P − m_P²/4). This is 1 for a double point, 3/4 for a triple point, and ≤ 0 for m_P ≥ 4. Put:
 
 - β := Σ_p Σ_j (2 − c_j) = 2R − M, where R is the number of node branches. Each contact-1 branch adds 1, each contact-2 branch adds 0, and higher contacts subtract.
 - ν := Σ_P max(0, m_P − m_P²/4), the "cheap singularity count": ordinary double and triple points.
 - σ := Σ_p m_p² ≥ M²/48.
+- β can be as large as M (all contacts 1). When β ≥ (4/3)d the Corollary below is empty.
 
 Then, dropping δ_E ≥ 0,
 
@@ -92,7 +94,7 @@ Then d ≤ t*² / ( (2 − (3/2)λ)²/(4κ) − 8 ). (Similarly for g = 0.)
    - So there is a window, roughly d²/224 ≲ δ ≲ d²/96, in which (E09) would bite, but nothing presently forces ν into it.
 3. **Bogomolov-type symmetric differentials.**
    - For B, the G-invariant symmetric differentials come from the orbifold line (P¹; 2⁶) or (P¹; 2⁸).
-   - Pulled back to E, they acquire poles exactly at the points of odd contact. This is the F72 deficiency bookkeeping, so it gives no new information.
+   - Pulled back to E, they acquire poles exactly at the points of odd contact. This looks like the F72 deficiency bookkeeping again. That it gives no new information is a heuristic remark, not a proved statement.
 
 ## 3. Reduction statement and next step
 
@@ -106,8 +108,8 @@ Then d ≤ t*² / ( (2 − (3/2)λ)²/(4κ) − 8 ). (Similarly for g = 0.)
 
 ## 4. Inputs to audit
 
-1. Langer, *Logarithmic orbifold Euler numbers of surfaces with applications*, Proc. LMS 86 (2003):
-   - Thm 0.1 for log canonical pairs with K_X + D nef, on a normal projective surface with quotient singularities;
+1. Langer, *Logarithmic orbifold Euler numbers of surfaces with applications*, Proc. LMS 86 (2003), arXiv:math/0012180:
+   - Thm 0.1: normal projective surface, boundary coefficients in [0, 1], (X, D) log canonical, and some multiple of K_X + D effective (no nefness needed). One round-1 auditor checked this against the paper; the other did not inspect it;
    - the local bound (0.2.3);
    - the quotient rule e_orb(p; X, D) = e_orb(0; C², lift)/|Γ|.
    These are quoted as in STATE.retained_frontier.e2_unique_pair_etale_immersion_orbifold_bmy, but their exact hypotheses must be checked against the paper.
@@ -121,4 +123,12 @@ Then d ≤ t*² / ( (2 − (3/2)λ)²/(4κ) − 8 ). (Similarly for g = 0.)
 python -I -O stages/stage32/32-03-multibranch/MB104/route-E/bmy/e09_check.py
 ```
 
-It checks the symbolic collection of terms in §1, the boundary curves of E04, and the thresholds 1/128 and 1/96 in §2. It ends with `PASS`.
+It checks the symbolic collection of terms in §1 (the identity is additive in the local terms, so one interior point and one two-branch node represent all cases), the E04 equality-face curves (not Satake boundary curves), and the thresholds 1/128 and 1/96 in §2. It ends with `PASS`.
+
+## 6. Audit history
+
+- **Round 1** (two auditors, head 5e199e66).
+  - Auditor A (Claude, executing; checked Langer arXiv:math/0012180): no must-fix. Should-fix: wrong citation "K + D nef" (the paper asks for an effective multiple), unneeded nefness argument with a g = 0 gap, β range, the unproved "no new information" remark, script wording, ρ vs π.
+  - Auditor B (did not inspect Langer): HOLD, must-fix M1 = the nefness argument is insufficient for g = 0. Should-fix: coefficient domain (real α), coverage of the term check, and that a symbolic PASS does not certify Langer's hypotheses.
+  - Fixed in revision 2: the nefness step is removed and replaced by the effective-multiple hypothesis; α is taken rational, then real α by continuity; the other items are addressed above.
+  - Not changed: `e09_check.py` verifies only the algebra. Log canonicity and the applicability of Langer's theorem rest on the cited paper and the arguments in §1.
