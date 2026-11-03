@@ -4804,6 +4804,35 @@
                 "resolution": "M1, M2 confirmed fixed; h<=|Omega| re-checked on 20 forced-coincidence pairs; should-fixes applied (gamma=0 in claim, 'similar and easier' withdrawn, section 3 coefficient matching flagged)"
               }
             ]
+          },
+          {
+            "id": "E11",
+            "title": "Problem W at slack 0: etale covers of the Bolza curve, E07 translation, bidegree (2,2) excluded at slack 0",
+            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "added": "2026-11-03",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E11-SLACK0-BOLZA-ETALE-AND-BIDEGREE-22.md",
+            "note_sha256": "a72f596843ff66900851469704edd287daacedba9b33e3810b775f7103a5f817",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_w22.py"
+            ],
+            "verifier_sha256": [
+              "f24ed8543164d8719b141aea03a9647357c15525e990eb66f2b2876197e130e4"
+            ],
+            "claim": "k=8, gamma=0: slack 0 <=> all ramification of p_i over B with index 2 <=> V'_i -> Bolza curve etale; at slack 0, E07 (i) <=> Omega in P1 cap P2 and (ii) <=> P1 = P2 (forces a=b); no configuration of bidegree (2,2) with both slacks 0 and |Omega|<=4 (exhaustive search, 157824 Moebius maps, numerical gap certificate).",
+            "depends_on": [
+              "E10 (audit round 2 PASS)",
+              "E07 (audit PASS, scoped)",
+              "E06 for bidegree (1,1)"
+            ],
+            "scope_caveats": [
+              "only bidegree (2,2) with both slacks 0 is excluded; positive slack and larger bidegrees open",
+              "numerical certificate (chordal gap ~11 orders), not interval arithmetic"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            }
           }
         ]
       }
@@ -4822,7 +4851,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "4758ba7d64cea05e995a187a06219ccdd3fb5a13bafdb7ff0a7ca2513bd26525",
+      "sha256": "1b095c21db9daa09a390fe0cf8b46143314f647a222cc156bb56a1987750be53",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }
