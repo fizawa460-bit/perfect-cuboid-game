@@ -4807,25 +4807,27 @@
           },
           {
             "id": "E11",
-            "title": "Problem W at slack 0: etale covers of the Bolza curve, E07 translation, bidegree (2,2) excluded at slack 0",
+            "title": "Problem W at slack 0: etale covers of the Bolza curve, E07 translation, bidegrees (2,2), (2,3), (3,3) excluded at slack 0",
             "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E11-SLACK0-BOLZA-ETALE-AND-BIDEGREE-22.md",
-            "note_sha256": "a72f596843ff66900851469704edd287daacedba9b33e3810b775f7103a5f817",
+            "note_sha256": "b638e16dc167403492885ba04764ad2d7d6f6f37cbe7514213b9f6f36e0ea354",
             "verifier_paths": [
-              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_w22.py"
+              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_w22.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_slack0_small.py"
             ],
             "verifier_sha256": [
-              "f24ed8543164d8719b141aea03a9647357c15525e990eb66f2b2876197e130e4"
+              "f24ed8543164d8719b141aea03a9647357c15525e990eb66f2b2876197e130e4",
+              "53f4cab930c20de40d4525b9192c980d9c26077946696d1aea1319d16c40198b"
             ],
-            "claim": "k=8, gamma=0: slack 0 <=> all ramification of p_i over B with index 2 <=> V'_i -> Bolza curve etale; at slack 0, E07 (i) <=> Omega in P1 cap P2 and (ii) <=> P1 = P2 (forces a=b); no configuration of bidegree (2,2) with both slacks 0 and |Omega|<=4 (exhaustive search, 157824 Moebius maps, numerical gap certificate).",
+            "claim": "k=8, gamma=0: slack 0 <=> all ramification of p_i over B with index 2 <=> V'_i -> Bolza curve etale; at slack 0, E07 (i) <=> Omega in P1 cap P2 and (ii) <=> P1 = P2 (forces a=b); no birational co-image of bidegree (2,2), (2,3), (3,2) or (3,3) with both slacks 0 and |Omega|<=4 (exhaustive search over the 15 degree-2 and 60 degree-3 slack-0 maps; numerical gap certificate, weakest margin ~6 orders for (3,3)).",
             "depends_on": [
               "E10 (audit round 2 PASS)",
               "E07 (audit PASS, scoped)",
               "E06 for bidegree (1,1)"
             ],
             "scope_caveats": [
-              "only bidegree (2,2) with both slacks 0 is excluded; positive slack and larger bidegrees open",
+              "only bidegrees (2,2), (2,3), (3,2), (3,3) with both slacks 0 are excluded; positive slack and larger bidegrees open",
               "numerical certificate (chordal gap ~11 orders), not interval arithmetic"
             ],
             "credit": {
@@ -4851,7 +4853,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "1b095c21db9daa09a390fe0cf8b46143314f647a222cc156bb56a1987750be53",
+      "sha256": "4cde6090743d76de7cef1b4cc1c187d37b4054f45c20f5e09a28bbf8861c7971",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }
