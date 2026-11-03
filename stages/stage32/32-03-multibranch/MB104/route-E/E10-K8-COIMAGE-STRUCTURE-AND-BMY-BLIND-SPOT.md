@@ -1,6 +1,6 @@
 # E10 — k = 8 curves via their co-image in P¹×P¹: exact structure, C̄², and the blind spot of E09 (2026-11-03)
 
-Status: research note, **revision 2 after audit round 1 (FAIL at 5e199e66, two must-fix items, fixed here), zero credit**. No exclusion and no finite window are claimed.
+Status: research note, **audit round 2 PASS at f1ceb4b9 (revision 2; round-2 should-fixes applied), zero credit**. No exclusion and no finite window are claimed.
 
 - For k = 8 it reformulates every genus-≤1 curve of B as a curve W ⊂ P¹×P¹ with an exact parity condition (§1–§2).
 - It gives an exact formula for C̄² (§3), checked on E04's degree-2 curves.
@@ -54,7 +54,7 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
   - Irreducible case: the contribution of this piece to tr(φφ†) is 0.
   - Split case: the contribution is δ²(I_χ − 2ab), where I_χ := Ȳ_χ·(1, ι)Ȳ_χ ≥ 2ab.
   - Irreducible case, reason: the preimage is (1, ι)-invariant, so φ_χ = φ_χ∘ι*, and ι* = −1 on the piece because C8/ker χ → P¹ is the quotient by ι. Hence φ_χ = 0 on this piece.
-  - Split case, reason: the formula tr = 2n₁n₂ − (deg)²·Ȳ_χ² below, with deg = δ and Ȳ_χ² = 4ab − I_χ, gives 2δ²ab − δ²(4ab − I_χ) = δ²(I_χ − 2ab). (The same formula gives 2δ²ab − (δ/2)²·8ab = 0 in the irreducible case, consistent with the reason above.) The general formula is checked only on E04 and on δ = 8.
+  - Split case, reason: the formula tr = 2n₁n₂ − (deg)²·Ȳ_χ² below, with deg = δ and Ȳ_χ² = 4ab − I_χ, gives 2δ²ab − δ²(4ab − I_χ) = δ²(I_χ − 2ab). (The same formula gives 2δ²ab − (δ/2)²·8ab = 0 in the irreducible case, consistent with the reason above.) The general formula is checked only on E04 and on δ = 8. The coefficient matching between φ on H¹(C8)^χ and the correspondence Ȳ_χ on C8/ker χ is used but not written out here.
   - These are the only cases when γ = 0. A third case, q_χ(p₁) itself a square, would make V₀ map onto the positive-genus curve C8/ker χ, which is impossible for rational V₀.
   - Derivation: Ȳ_χ² = 8ab in the irreducible case, with deg(Y_χ → Ȳ_χ) = δ/2. In the split case Ȳ_χ² = 4ab − I_χ, with degree δ. In both, tr = 2n₁n₂ − (deg)²·Ȳ_χ².
 - **Result (γ = 0 only).** From D² = 2n₁n₂ − tr(φφ†) on C8×C8, with Z̄² = 8C̄²:
@@ -82,7 +82,7 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
 
 > Classify the curves W ⊂ P¹×P¹ of bidegree (a, b) whose normalization V₀ is rational, such that the three functions h_a = (1 + x²)(1 + y²), h_b = (1 − x²)(1 − y²), h_e = xy (with ∞ treated as in E06) have, in total, **exactly four** points of odd order on V₀.
 
-- Together with δ and Q from §1, this describes every k = 8 carrier of genus 1 with γ = 0. Genus 0 and γ = 1 are similar and easier.
+- Together with δ and Q from §1, this describes every k = 8 carrier of genus 1 with γ = 0. Genus 0 and γ = 1 are not treated here (revision 2 called them "similar and easier"; that remark is unproved and withdrawn).
 - Problem W is a **necessary** condition. A solution W need not give a carrier: one also needs the actual stabilized component Z of the six-radical compositum K(V₀)(√q_χ(p₁), √q_χ(p₂)) with Stab = G (§1). The parity condition on the three h_χ alone does not ensure this.
 - Each p_i is an almost-orbifold covering of (P¹; 2⁶): RH gives ramification over B of at least 2·deg p_i − 2 − s_i, so the ramification outside B is at most s_i.
   - **Slack 0:** all ramification lies over B with index 2, so p_i is an orbifold covering with fixed branch data. By Riemann existence there are finitely many, up to Möbius maps of the source.
@@ -106,3 +106,4 @@ E06 (a = b = 1) and E08 (a = 1 or b = 1) are the special cases of this condition
   - M2: §5 claimed finitely many almost-orbifold coverings for each slack; false for s ≥ 1 (t² + c). Fixed: finite only for slack 0.
   - Should-fix: §3 limited to γ = 0, reasons for both cases added; §4 assumptions (σ near minimum, γ = 0) stated and the unproved "sharper constants" remark withdrawn; Problem W marked as necessary only, with the component condition.
   - Confirmed by the auditors: §1 function fields, RH equality, the odd-locus identity (independent tests), the E04 check (also via Z̄² = 2 − 2·5 = −8), δ = 8 numbers, and the §4 comparison.
+- **Round 2** (Claude, executing, head f1ceb4b9): PASS. M1 and M2 fixed; h ≤ |Ω| and the identity re-checked on 20 random forced-coincidence pairs; slack-0 finiteness and t² + c confirmed; no new must-fix. Should-fixes applied: "similar and easier" withdrawn; the unwritten coefficient matching in §3 flagged; γ = 0 added to the STATE claim.

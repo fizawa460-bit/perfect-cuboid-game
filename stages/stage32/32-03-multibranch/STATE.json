@@ -4721,10 +4721,10 @@
           {
             "id": "E09",
             "title": "Orbifold BMY on the box variety: exact inequality and reduction (no exclusion)",
-            "status": "AUDIT_R1_HOLD_REVISED_PENDING_REAUDIT_ZERO_CREDIT",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E09-ORBIFOLD-BMY-REDUCTION.md",
-            "note_sha256": "2467b23b92ad42e8d994515cb46b7df627889e2fcbaf2a8cdcbf43afe8d1a543",
+            "note_sha256": "8dbbc04e7bde9650650b87dc0f2895a1f6aaf405dff89e4001ec69aea961598d",
             "verifier_paths": [
               "stages/stage32/32-03-multibranch/MB104/route-E/bmy/e09_check.py"
             ],
@@ -4753,17 +4753,25 @@
                 "verdict": "HOLD (auditor B); no must-fix (auditor A)",
                 "must_fix": 1,
                 "resolution": "M1 nefness argument (g=0 gap) removed: Langer Thm 0.1 needs only an effective multiple of K+D (K_B ample); alpha rational then real by continuity; citation corrected; beta range, heuristic remark, pi notation and e09_check wording fixed; e09_check rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "f1ceb4b9ec69bc7309acc7a9c96c27f76231f071",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "M1 confirmed fixed; Langer hypotheses and lc conditions confirmed; should-fixes applied (stale wording in section 4, lambda=1 explicit)"
               }
             ]
           },
           {
             "id": "E10",
             "title": "k=8 curves via co-image in P1xP1: exact structure, C^2 formula, blind spot of E09 (no exclusion)",
-            "status": "AUDIT_R1_FAIL_REVISED_PENDING_REAUDIT_ZERO_CREDIT",
+            "status": "EXECUTING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
             "added": "2026-11-03",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E10-K8-COIMAGE-STRUCTURE-AND-BMY-BLIND-SPOT.md",
-            "note_sha256": "83d7eb7234cbc68d8f1b61427ddf6fdf7bff0f1c7e172d77931fcfe4bac997af",
-            "claim": "For k=8: K(E)=K(V0)(sqrt h_chi), h_chi=q_chi(x)q_chi(y), delta=2^rank; E->V0 branched exactly on Omega with RH equality (g=1, gamma=0: |Omega|=4); |Omega|=So1+So2-2j-h; Cbar^2=(delta^2/8)[2ab - sum_{split chi}(I_chi-2ab)] (checked on E04 d=2). E09 with nu<=delta_int cannot close delta=8 near-balanced curves; core restated as Problem W on P1xP1 (necessary condition; finite search only for slack 0). Matching: j >= a+b, j+h >= a+b+2.",
+            "note_sha256": "e7b98b1b572c6c356d027e56e7cbf5220c60fa2aa1c271399820de8356beb089",
+            "claim": "For k=8: K(E)=K(V0)(sqrt h_chi), h_chi=q_chi(x)q_chi(y), delta=2^rank; E->V0 branched exactly on Omega with RH equality (g=1, gamma=0: |Omega|=4); |Omega|=So1+So2-2j-h; for gamma=0: Cbar^2=(delta^2/8)[2ab - sum_{split chi}(I_chi-2ab)] (checked on E04 d=2). E09 with nu<=delta_int cannot close delta=8 near-balanced curves; core restated as Problem W on P1xP1 (necessary condition; finite search only for slack 0). Matching: j >= a+b, j+h >= a+b+2.",
             "depends_on": [
               "E06 (K) Kummer description",
               "E08 odd-locus identity",
@@ -4786,6 +4794,14 @@
                 "verdict": "FAIL",
                 "must_fix": 2,
                 "resolution": "M1: j >= a+b+2 withdrawn; only j >= a+b and j+h >= a+b+2 (h <= |Omega| = 4). M2: finiteness of almost-orbifold coverings withdrawn for slack >= 1 (t^2+c); Problem W finite only for slack 0 and necessary only (component condition). Should-fix: C^2 formula limited to gamma=0 with reasons for both cases; section 4 assumptions stated, unproved remark withdrawn"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "f1ceb4b9ec69bc7309acc7a9c96c27f76231f071",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "M1, M2 confirmed fixed; h<=|Omega| re-checked on 20 forced-coincidence pairs; should-fixes applied (gamma=0 in claim, 'similar and easier' withdrawn, section 3 coefficient matching flagged)"
               }
             ]
           }
@@ -4806,7 +4822,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "d39bde27958e9304a773ae9a12ce7ce9ad647d127bda4ac37e5c37c2eddce5de",
+      "sha256": "4758ba7d64cea05e995a187a06219ccdd3fb5a13bafdb7ff0a7ca2513bd26525",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }

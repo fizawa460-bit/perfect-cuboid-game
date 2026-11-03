@@ -1,6 +1,6 @@
 # E09 — Orbifold BMY on the box variety: an exact inequality, and what it would take to bound d (2026-11-03)
 
-Status: research note, **revision 2 after audit round 1 (HOLD/should-fix at 5e199e66; the nefness step is removed here), zero credit**. No exclusion and no finite window are claimed.
+Status: research note, **audit round 2 PASS at f1ceb4b9 (revision 2; round-2 should-fixes applied), zero credit**. No exclusion and no finite window are claimed.
 
 - It records an exact necessary inequality for every curve of the MB101 population, obtained from Langer's logarithmic orbifold BMY inequality on the singular surface B.
 - It explains why this and the related Chern-number inequalities (Miyaoka 2008, Bogomolov) do **not** by themselves bound d.
@@ -86,7 +86,7 @@ Then d ≤ t*² / ( (2 − (3/2)λ)²/(4κ) − 8 ). (Similarly for g = 0.)
 
 1. **Nodes loosen the inequality (the β term).**
    - Every contact-1 branch through a node adds (3/2)α to the right side. In the orbifold sense, passing through a ½-point makes the curve *more* hyperbolic, not less.
-   - Since M ≥ d, a curve with all contacts 1 has β = M ≥ d, so λ ≥ 1, and only (2 − 3/2)² = 1/4 is left on the left.
+   - Since M ≥ d, a curve with all contacts 1 has β = M ≥ d, so λ ≥ 1. In the boundary case λ = 1 (β = d), only (2 − 3/2)² = 1/4 is left on the left; for λ > 1 even less is left, and for λ ≥ 4/3 nothing.
    - Then the criterion needs **ν − σ/8 < d²/128**. With σ ≥ M²/48 ≥ d²/48, this holds once **ν < d²/96**, i.e. fewer than about d²/96 ordinary double points in the interior.
 2. **The cheap interior singularities (the ν term).**
    - Hodge index on B only gives C̄² ≤ d²/16, hence ν ≤ δ_int ≤ about d²/32 + d/2. This is three times too weak.
@@ -112,7 +112,7 @@ Then d ≤ t*² / ( (2 − (3/2)λ)²/(4κ) − 8 ). (Similarly for g = 0.)
    - Thm 0.1: normal projective surface, boundary coefficients in [0, 1], (X, D) log canonical, and some multiple of K_X + D effective (no nefness needed). One round-1 auditor checked this against the paper; the other did not inspect it;
    - the local bound (0.2.3);
    - the quotient rule e_orb(p; X, D) = e_orb(0; C², lift)/|Γ|.
-   These are quoted as in STATE.retained_frontier.e2_unique_pair_etale_immersion_orbifold_bmy, but their exact hypotheses must be checked against the paper.
+   These were checked against the paper in audit rounds 1 and 2: Thm 0.1, (0.2.2) (quotient formula, quasi-étale of degree 2 at A₁ points), (0.2.3) = Cor 7.8, Def 3.4. D is a Q-divisor, hence rational α first, then real α by continuity.
 2. Miyaoka, PRIMS 44 (2008), Thm 1.3, as recorded in STATE.retained_frontier.e2_unique_pair_miyaoka_energy_bound.
 3. The orbifold numbers in §0, and the identity d = K_B·C̄.
 4. The lift multiplicity m_p = C̃·E_p at an A₁ point.
@@ -132,3 +132,5 @@ It checks the symbolic collection of terms in §1 (the identity is additive in t
   - Auditor B (did not inspect Langer): HOLD, must-fix M1 = the nefness argument is insufficient for g = 0. Should-fix: coefficient domain (real α), coverage of the term check, and that a symbolic PASS does not certify Langer's hypotheses.
   - Fixed in revision 2: the nefness step is removed and replaced by the effective-multiple hypothesis; α is taken rational, then real α by continuity; the other items are addressed above.
   - Not changed: `e09_check.py` verifies only the algebra. Log canonicity and the applicability of Langer's theorem rest on the cited paper and the arguments in §1.
+
+- **Round 2** (Claude, executing, head f1ceb4b9): PASS. M1 fixed; Langer hypotheses (effective multiple, Q-divisor, normal surface, quotient formula at A₁ points) and the log-canonical conditions confirmed; no new must-fix. Should-fixes applied: stale "to be checked" wording in §4 replaced; λ = 1 made explicit in §2.
