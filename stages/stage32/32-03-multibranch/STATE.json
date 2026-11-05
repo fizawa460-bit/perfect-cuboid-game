@@ -4432,10 +4432,10 @@
           {
             "id": "E03",
             "title": "Population-wide equality-face exclusion (r>=d-4g+5 for genus<=1, d>=86) and scope of E01/E02 over the GitHub frontier",
-            "status": "AUDIT_FAIL_FIXED_PENDING_RECHECK_ZERO_CREDIT",
+            "status": "READING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E03-POPULATION-WIDE-EQUALITY-FACE-AND-SCOPE.md",
-            "note_sha256": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+            "note_sha256": "1f14944b406ff885718adb2897a41bbad6b4d875b6c060ed1386b35e63e90141",
             "claim": "For any integral curve C on the box variety B (i.e. non-exceptional on S, d=H.C>=1) with geometric genus g<=1: r>=d-4g+4 (r even), equality forces d<=85 (d<=42 for g=0); hence for d>=86, mu>=M>=r>=d-4g+5. No such curve has mu<d-4g+4, or mu=d-4g+4 with d>=86 (d>=43 if g=0). The 864 pair-map supports (orbits 0000770000ff:48, 00007b0000ff:48, 000707000f0f:768) are all uniform 14-node classes, covered by E02.",
             "depends_on": [
               "E02 sections 1-2 (FSM facts, derived Beauville chain)",
@@ -4466,6 +4466,16 @@
                 "verdict": "FAIL",
                 "must_fix": 1,
                 "resolution": "must-fix (exceptional curves E_p contradict the unrestricted wording) fixed by the standing hypothesis C in B, d>=1; 7 should-fix items addressed in revision 2"
+              },
+              {
+                "round": 3,
+                "auditor": "independent hostile reading audit (via Stage32 32-02 audit package R2, Appendix K)",
+                "date": "2026-11-06",
+                "note_sha256_audited": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "scope": "E03 (1) with the standing hypothesis (C~ integral, not an E_p; d>=1): r>0, r even, r>=d-4g+4; reading only, no execution; E03 (2), (3) and the scope table not re-read in this round (round 1 PASS, round 2 re-derivation)",
+                "resolution": "round-2 must-fix confirmed fixed; the d=16 corollary (mu<18 excludes g<=1; E03 (1)+E02 (B1)+E04) accepted; audit record added to the note (section 5)"
               }
             ]
           },
@@ -4853,7 +4863,7 @@
     },
     "status_map": {
       "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
-      "sha256": "4cde6090743d76de7cef1b4cc1c187d37b4054f45c20f5e09a28bbf8861c7971",
+      "sha256": "cae63ac066d7701f05cfda99d5de8d5edf4f47489d6572624ab02c8214e968e9",
       "semantics": "navigation only; no credit, exclusion, promotion or audit change",
       "as_of": "2026-11-02"
     }

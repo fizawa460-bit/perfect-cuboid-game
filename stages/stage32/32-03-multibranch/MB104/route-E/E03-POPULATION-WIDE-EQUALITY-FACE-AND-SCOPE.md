@@ -4,6 +4,7 @@ Status: research note, **zero credit**. Audits:
 
 - round 1, DeepSeek (reading): PASS;
 - round 2, Claude (executing): FAIL, for one must-fix. The must-fix was the missing hypothesis "C̄ ⊂ B, d ≥ 1" (the exceptional curves E_p are counterexamples to the old wording). Revision 2 fixes it.
+- round 3, independent hostile reading audit (2026-11-06): PASS for E03 (1) with the standing hypothesis (re-audit of the round-2 fix). Scope: E03 (1) only, see §5.
 
 E03 uses only:
 
@@ -124,3 +125,12 @@ MB104's mission is a "population-wide finite degree/intersection restriction" (M
     5. The 864 breakdown → added as fact, with sources.
     6. Faithfulness of Stab on Z → stated in Lemma E03 (2), and in E02 (S).
     7. Optional refinements (parity of r; d ≤ 42 for g = 0) → added.
+- **Round 3: independent hostile reading audit, PASS (2026-11-06), on revision 2 (sha256 `ad217d3e…`, unchanged).**
+  - Read through the Stage 32-02 audit package R2, Appendix K. That appendix reproduces E03 (1) with its full
+    proof and the standing hypothesis "C̃ integral, not an E_p (C̄ ⊂ B, d ≥ 1)". The package is kept locally, outside this repository.
+  - Verdict: the round-2 must-fix is fixed. r > 0, r even and r ≥ d − 4g + 4 are correct. This is the E02 §2–§3
+    argument plus the standing hypothesis.
+  - Also accepted: the d = 16 corollary built on it (with E02 (B1) and E04): μ < 18 excludes every integral curve with g ≤ 1. This is the d = 16 case of the E05 μ filter.
+  - Scope: reading only, no scripts executed in this round. E03 (2), (3), the corollaries and the scope table were not re-read in this round.
+    They keep their round-1 PASS (DeepSeek) and the round-2 re-derivation (Claude, executing).
+  - No must-fix. No credit change.
