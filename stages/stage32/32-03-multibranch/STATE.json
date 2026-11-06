@@ -4432,10 +4432,10 @@
           {
             "id": "E03",
             "title": "Population-wide equality-face exclusion (r>=d-4g+5 for genus<=1, d>=86) and scope of E01/E02 over the GitHub frontier",
-            "status": "AUDIT_FAIL_FIXED_PENDING_RECHECK_ZERO_CREDIT",
+            "status": "READING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
             "added": "2026-11-02",
             "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E03-POPULATION-WIDE-EQUALITY-FACE-AND-SCOPE.md",
-            "note_sha256": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+            "note_sha256": "1f14944b406ff885718adb2897a41bbad6b4d875b6c060ed1386b35e63e90141",
             "claim": "For any integral curve C on the box variety B (i.e. non-exceptional on S, d=H.C>=1) with geometric genus g<=1: r>=d-4g+4 (r even), equality forces d<=85 (d<=42 for g=0); hence for d>=86, mu>=M>=r>=d-4g+5. No such curve has mu<d-4g+4, or mu=d-4g+4 with d>=86 (d>=43 if g=0). The 864 pair-map supports (orbits 0000770000ff:48, 00007b0000ff:48, 000707000f0f:768) are all uniform 14-node classes, covered by E02.",
             "depends_on": [
               "E02 sections 1-2 (FSM facts, derived Beauville chain)",
@@ -4466,6 +4466,16 @@
                 "verdict": "FAIL",
                 "must_fix": 1,
                 "resolution": "must-fix (exceptional curves E_p contradict the unrestricted wording) fixed by the standing hypothesis C in B, d>=1; 7 should-fix items addressed in revision 2"
+              },
+              {
+                "round": 3,
+                "auditor": "independent hostile reading audit (via Stage32 32-02 audit package R2, Appendix K)",
+                "date": "2026-11-06",
+                "note_sha256_audited": "ad217d3ef7173be3074fd0728801d0a9709cbc95250683ff98d1e3e7b324a4c0",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "scope": "E03 (1) with the standing hypothesis (C~ integral, not an E_p; d>=1): r>0, r even, r>=d-4g+4; reading only, no execution; E03 (2), (3) and the scope table not re-read in this round (round 1 PASS, round 2 re-derivation)",
+                "resolution": "round-2 must-fix confirmed fixed; the d=16 corollary (mu<18 excludes g<=1; E03 (1)+E02 (B1)+E04) accepted; audit record added to the note (section 5)"
               }
             ]
           },
@@ -4521,6 +4531,320 @@
                 "resolution": "independent PSL2(Z/8) and Hecke re-implementations agree; revision 3: transitivity and S-upper-bound arguments, C(G) restatement, fail-closed G pattern, mu/r wording, temp output"
               }
             ]
+          },
+          {
+            "id": "F83",
+            "title": "Elliptic co-image layer (F74) closed by Gaussian CM 8-torsion coset structure; k=8 co-image genus parity; F75 Hermitian necessary classes",
+            "author": "ChatGPT (research note, verbatim), imported from Drive transfer folder PR1850用",
+            "status": "LIMITED_PASS_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/MB104-F83-ELLIPTIC-COIMAGE-TORSION-OBSTRUCTION-20261102.md",
+            "note_sha256": "d15944077a964494f28cb9c7f5d1c00a60899687376691d03aed330ea6c9e823",
+            "verifier_path": "stages/stage32/32-03-multibranch/MB104/route-E/mb104_f74_f75_window.py",
+            "verifier_sha256": "aee656f8bb44b1fa52a38f666968d114581eaade1d2a086abaaf1fdd959fa0b3",
+            "audit_record_path": "stages/stage32/32-03-multibranch/MB104/route-E/MB104-F83-AUDIT-RECORD-20261102.md",
+            "audit_record_sha256": "c84c0f1dc1fe70995675f62f4b563bc10cf12924353c87ec3414aa1f2882be57",
+            "claim": "No MB101 carrier with epsilon>0 has an elliptic co-image Y_s (F74 layer), for (g,k) in {0,1}x{4,8}; for k=8 the co-image genus is odd and delta_img even (k=8, gamma=2 impossible); F75 B_s=0 windows reduce to finitely many Hermitian numerical classes (necessary conditions only).",
+            "depends_on": [
+              "F70-F74 (limited PASS / PASS in the integrated audit)",
+              "F75 B_s=0 windows (input to the enumeration only; not fully audited)"
+            ],
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "external integrated audit F69-F83",
+                "head": "33ef9d164684a655b97b5cb5e4d0d47a142e9938",
+                "verdict": "LIMITED_PASS",
+                "must_fix": 0,
+                "resolution": "should-fix SF-1..3 recorded as notes in the audit record (F83 text kept verbatim)"
+              }
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            }
+          },
+          {
+            "id": "E05",
+            "title": "Small-epsilon structure (epsilon=2,4) and the mu filter for degree-by-degree searches",
+            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E05-SMALL-EPSILON-STRUCTURE-AND-MU-FILTER.md",
+            "note_sha256": "6d567b1af970fff008af95cc296cfbaa182eb9c975bbdc25679b00a65b8be7da",
+            "claim": "Corollary of E03/E04: genus-1 curves need mu>=d+2 (d even), genus-0 mu>=d+6; epsilon=2 forces all contacts 1, disjoint D1,D2 of total degree 2 and fixed leg degrees; one-leg-etale case is a finite Hurwitz problem for fixed d only. No new MB104 exclusion.",
+            "depends_on": [
+              "E03",
+              "E04",
+              "F71-F73"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            }
+          },
+          {
+            "id": "E06",
+            "title": "Co-images of bidegree (1,1) in R x R carry no epsilon>0 carrier (Moebius-type layer empty)",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E06-MOBIUS-COIMAGE-EXCLUDED.md",
+            "note_sha256": "12be7811592027719996c1b64ba6bdf7b5fd84e4ef1462bd64385193f9675a2e",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/mobius_enum_k4.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/mobius/k4_conjugacy.py"
+            ],
+            "verifier_sha256": [
+              "0fdaa05d939a4babbf94bad612ec1b2321dedbc825548dbbc5c38cb9572fc6a6",
+              "a75063020e164ee9c666486b577e723c5db8e95b9b35dece3b84e55ffaf80131",
+              "31ba877b3e337a1aaff9e2c19e8d2e0b83aa71300ef3115f2bf5a0ff37ec6360"
+            ],
+            "claim": "If psi2 = T o psi1 for a Moebius T (co-image bidegree (1,1)), then epsilon = 0; hence no MB101 carrier has such a co-image. Remaining epsilon>0 carriers have co-image bidegree (a,b) != (1,1) and d <= 8(a+b).",
+            "depends_on": [
+              "F71-F73 (audited)",
+              "E04",
+              "marked Kummer conditions (ChatGPT proposal A.1, checked)",
+              "exact Moebius enumeration (k=8 over Q(i), k=4 over Q(zeta8))"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "HOLD",
+                "must_fix": 1,
+                "resolution": "M1 (odd-order locus at infinity for q_e=t) replaced by divisor-mod-2 argument; S1 k=4 conjugacy checked in mobius/k4_conjugacy.py; S2 unused code removed; all verifiers rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "independent sympy re-enumeration k=8 matched; should-fix applied in revision 3: withdrew unproved b<=3 sketch, k=4 fixed-point proof, bidegree convention"
+              }
+            ],
+            "scope_caveats": [
+              "only co-image bidegree (1,1); no bound on (1,b) or general (a,b) is claimed"
+            ]
+          },
+          {
+            "id": "E07",
+            "title": "Cusp-ramified layer: correspondences ramified only over cusps (meeting the boundary only at cusp pairs) carry no epsilon>0 carrier",
+            "status": "EXECUTING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
+            "added": "2026-11-02",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E07-CUSP-RAMIFIED-LAYER-MODULAR-HECKE.md",
+            "note_sha256": "b107bf59f7c2215f87780bbe5fe31e79e9acd5aa48f13da60de33d88c76bc689",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/modular/run_e07.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/modular/modhecke.py"
+            ],
+            "verifier_sha256": [
+              "d57c9ec8b28eb00097d076db3ec5587eedff80dc9748d24c09ffd21dda67a8f3",
+              "cf571bbf1473a4c9f4609e3e235cce9efc99491308f2ca812b8899a2aba11ed2"
+            ],
+            "claim": "If both legs ramify only over cusps of X(8) and f1^-1(cusps)=f2^-1(cusps), then Z is a twisted modular Hecke correspondence T_N (Gamma(8) < PSL2(Z)); Selberg 3/16 + Zograf give N<=8; exact computation over all twists gives genus<=1 only for N=1 (E04's 80 curves).",
+            "origin": "Proposition A of the Claude brainstorming proposal (2026-11-02)",
+            "depends_on": [
+              "E01 step 2 (birationality argument)",
+              "E04",
+              "Selberg 1965 / LMR Thm 4.3, Zograf / LMR Thm 4.4",
+              "Comm(PSL2(Z)) = PGL2(Q)+"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "scope_caveats": [
+              "only under (i) ramification over cusps only and (ii) f1^-1(cusps)=f2^-1(cusps); interior ramification and one-sided cusp contact remain open",
+              "the count 80 of distinct curves is inherited from E04, not recomputed"
+            ],
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "resolution": "S1 wording (128 twists vs 80 curves) fixed; run_e07.py hardened (-I -O child, mu*k=192n, full (k,genus) table); rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "656798f2b55b11d51b2ebbbfb1174c7fcb7fda26",
+                "verdict": "PASS_SCOPED",
+                "must_fix": 0,
+                "resolution": "independent re-implementation N=1..4 matched; should-fix applied in revision 3: L_sigma derivation, factor swap, Comm citation, index notation, per-run temp path, runtime"
+              }
+            ]
+          },
+          {
+            "id": "E08",
+            "title": "Co-images of bidegree (1,b) or (b,1) with b>=2 do not occur (k in {4,8})",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
+            "added": "2026-11-03",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E08-BIDEGREE-1B-COIMAGE-EXCLUDED.md",
+            "note_sha256": "c122fbeb7664caf6e48ec2d6b6bf6c7523eef385d74f8a3045f90c83a1ea3ae0",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k8_b2.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k8_b3.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/bidegree/e08_k4_b2.py"
+            ],
+            "verifier_sha256": [
+              "21d8737beffe7c9bac152ba6826fea0353f9388e7f939752edf75ec0626c0e90",
+              "bf1a4658d113d1dea124fbd8f47bdccb7418d8364da8ce2e73e65f14ba4ed0fe",
+              "95afaaa0690a1bb7a125bef2e13823155375a97377cefa77ef427e884e1f33a0"
+            ],
+            "claim": "If k in {4,8} and psi2 = phi o psi1 with deg phi = b >= 2 (or symmetrically), no genus<=1 carrier exists: parity + Riemann-Hurwitz give |Omega|<=4 and b<=3 (k=8), b<=2 (k=4); exact enumeration finds no admissible phi. With E06: every epsilon>0 carrier has co-image bidegree (a,b) with a,b>=2.",
+            "depends_on": [
+              "F72 (audited)",
+              "E06 section 1 marked Kummer conditions (audited)",
+              "exact enumeration over Q(i) and Q(zeta8)"
+            ],
+            "scope_caveats": [
+              "needs k in {4,8}; bidegrees with a,b>=2 remain open"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing) + second auditor (independent k=4 enumerator)",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "should-fixes applied in note: DEGENERATE 60 = 4 x 15 explained, discard of higher-dim kernels justified, discriminant vs coprimality roles stated, runtimes as ranges; independent re-implementation of k=8 enumerations not yet done"
+              }
+            ]
+          },
+          {
+            "id": "E09",
+            "title": "Orbifold BMY on the box variety: exact inequality and reduction (no exclusion)",
+            "status": "EXECUTING_AUDIT_PASS_ZERO_CREDIT",
+            "added": "2026-11-03",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E09-ORBIFOLD-BMY-REDUCTION.md",
+            "note_sha256": "8dbbc04e7bde9650650b87dc0f2895a1f6aaf405dff89e4001ec69aea961598d",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/bmy/e09_check.py"
+            ],
+            "verifier_sha256": [
+              "02557dcad15ca1fc9efd194e4e220927b3a876ccdbf1d73421f3bc5e9b0b6b4b"
+            ],
+            "claim": "Langer orbifold BMY on (B, alpha*Cbar) gives (2a-a^2)d <= 8 + (3a-a^2)(2g-2) + (3/2)a*beta + a^2(nu - sigma/8); not a degree bound by itself. A uniform bound for large d needs nu < ~d^2/96 (beta ~ d) or beta <= lambda*d with lambda<1; Miyaoka on S forces delta >= d^2/224 - d (g=1).",
+            "depends_on": [
+              "Langer 2003 Thm 0.1 (effective multiple of K+D, lc, coefficients in [0,1]), (0.2.3), quotient rule; checked against the paper by one round-1 auditor",
+              "Miyaoka 2008 Thm 1.3",
+              "F71 d = K.Cbar"
+            ],
+            "scope_caveats": [
+              "reduction only; no exclusion, no finite window"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing, checked Langer arXiv:math/0012180) + second auditor (did not inspect Langer)",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "HOLD (auditor B); no must-fix (auditor A)",
+                "must_fix": 1,
+                "resolution": "M1 nefness argument (g=0 gap) removed: Langer Thm 0.1 needs only an effective multiple of K+D (K_B ample); alpha rational then real by continuity; citation corrected; beta range, heuristic remark, pi notation and e09_check wording fixed; e09_check rerun PASS"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "f1ceb4b9ec69bc7309acc7a9c96c27f76231f071",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "M1 confirmed fixed; Langer hypotheses and lc conditions confirmed; should-fixes applied (stale wording in section 4, lambda=1 explicit)"
+              }
+            ]
+          },
+          {
+            "id": "E10",
+            "title": "k=8 curves via co-image in P1xP1: exact structure, C^2 formula, blind spot of E09 (no exclusion)",
+            "status": "EXECUTING_AUDIT_PASS_SCOPED_ZERO_CREDIT",
+            "added": "2026-11-03",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E10-K8-COIMAGE-STRUCTURE-AND-BMY-BLIND-SPOT.md",
+            "note_sha256": "e7b98b1b572c6c356d027e56e7cbf5220c60fa2aa1c271399820de8356beb089",
+            "claim": "For k=8: K(E)=K(V0)(sqrt h_chi), h_chi=q_chi(x)q_chi(y), delta=2^rank; E->V0 branched exactly on Omega with RH equality (g=1, gamma=0: |Omega|=4); |Omega|=So1+So2-2j-h; for gamma=0: Cbar^2=(delta^2/8)[2ab - sum_{split chi}(I_chi-2ab)] (checked on E04 d=2). E09 with nu<=delta_int cannot close delta=8 near-balanced curves; core restated as Problem W on P1xP1 (necessary condition; finite search only for slack 0). Matching: j >= a+b, j+h >= a+b+2.",
+            "depends_on": [
+              "E06 (K) Kummer description",
+              "E08 odd-locus identity",
+              "F71/F72"
+            ],
+            "scope_caveats": [
+              "k=8 only; reduction and reformulation, no exclusion",
+              "C^2 formula for gamma=0 only; general formula checked only on E04 and delta=8"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            },
+            "audit_rounds": [
+              {
+                "round": 1,
+                "auditor": "Claude (executing) + second auditor",
+                "head": "5e199e66c0ed816d477b54ccc904dca51a6cfedc",
+                "verdict": "FAIL",
+                "must_fix": 2,
+                "resolution": "M1: j >= a+b+2 withdrawn; only j >= a+b and j+h >= a+b+2 (h <= |Omega| = 4). M2: finiteness of almost-orbifold coverings withdrawn for slack >= 1 (t^2+c); Problem W finite only for slack 0 and necessary only (component condition). Should-fix: C^2 formula limited to gamma=0 with reasons for both cases; section 4 assumptions stated, unproved remark withdrawn"
+              },
+              {
+                "round": 2,
+                "auditor": "Claude (executing)",
+                "head": "f1ceb4b9ec69bc7309acc7a9c96c27f76231f071",
+                "verdict": "PASS",
+                "must_fix": 0,
+                "resolution": "M1, M2 confirmed fixed; h<=|Omega| re-checked on 20 forced-coincidence pairs; should-fixes applied (gamma=0 in claim, 'similar and easier' withdrawn, section 3 coefficient matching flagged)"
+              }
+            ]
+          },
+          {
+            "id": "E11",
+            "title": "Problem W at slack 0: etale covers of the Bolza curve, E07 translation, bidegrees (2,2), (2,3), (3,3) excluded at slack 0",
+            "status": "UNAUDITED_RESEARCH_NOTE_ZERO_CREDIT",
+            "added": "2026-11-03",
+            "note_path": "stages/stage32/32-03-multibranch/MB104/route-E/E11-SLACK0-BOLZA-ETALE-AND-BIDEGREE-22.md",
+            "note_sha256": "b638e16dc167403492885ba04764ad2d7d6f6f37cbe7514213b9f6f36e0ea354",
+            "verifier_paths": [
+              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_w22.py",
+              "stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_slack0_small.py"
+            ],
+            "verifier_sha256": [
+              "f24ed8543164d8719b141aea03a9647357c15525e990eb66f2b2876197e130e4",
+              "53f4cab930c20de40d4525b9192c980d9c26077946696d1aea1319d16c40198b"
+            ],
+            "claim": "k=8, gamma=0: slack 0 <=> all ramification of p_i over B with index 2 <=> V'_i -> Bolza curve etale; at slack 0, E07 (i) <=> Omega in P1 cap P2 and (ii) <=> P1 = P2 (forces a=b); no birational co-image of bidegree (2,2), (2,3), (3,2) or (3,3) with both slacks 0 and |Omega|<=4 (exhaustive search over the 15 degree-2 and 60 degree-3 slack-0 maps; numerical gap certificate, weakest margin ~6 orders for (3,3)).",
+            "depends_on": [
+              "E10 (audit round 2 PASS)",
+              "E07 (audit PASS, scoped)",
+              "E06 for bidegree (1,1)"
+            ],
+            "scope_caveats": [
+              "only bidegrees (2,2), (2,3), (3,2), (3,3) with both slacks 0 are excluded; positive slack and larger bidegrees open",
+              "numerical certificate (chordal gap ~11 orders), not interval arithmetic"
+            ],
+            "credit": {
+              "promotion": false,
+              "exclusion_credit": false,
+              "finite_window": false
+            }
           }
         ]
       }
@@ -4536,6 +4860,12 @@
     "credit": {
       "promotion": false,
       "exclusion_credit": false
+    },
+    "status_map": {
+      "path": "stages/stage32/32-03-multibranch/MB104/MB104-STATUS-MAP-20261102.md",
+      "sha256": "cae63ac066d7701f05cfda99d5de8d5edf4f47489d6572624ab02c8214e968e9",
+      "semantics": "navigation only; no credit, exclusion, promotion or audit change",
+      "as_of": "2026-11-02"
     }
   }
 }

@@ -7,10 +7,11 @@
 ## 1. 読む順番
 
 1. この文書（全体の地図と、既知の食い違い）。
-2. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`route_register`（ルートA〜E）、`retained_frontier`、`credit_firewall` を見る。
-3. （必要なときだけ）`drive-research/status/MB104-ROUTE-INDEX-V030.md` と `MB104-RESEARCH-OVERVIEW-V025.md` — 凍結した Drive 台帳の写し。過去の経緯やルートA〜Eの記録を調べるときの参考。
-4. `drive-research/AUDIT_SCOPE.md` — 各 F 文書の監査範囲・HOLD・重複規則。
-5. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
+2. **`MB104-STATUS-MAP-20261102.md`** — 2026-11-02 時点で、MB104 の何が片付き何が残っているかの一覧。route-E の E01〜E04 と、凍結した Drive の F69〜F82 との対応も載せている。
+3. `../STATE.json` — GitHub 側の MB の正本。`status`、`next_obligation`、`route_register`（ルートA〜E）、`retained_frontier`、`credit_firewall` を見る。
+4. （必要なときだけ）`drive-research/status/MB104-ROUTE-INDEX-V030.md` と `MB104-RESEARCH-OVERVIEW-V025.md` — 凍結した Drive 台帳の写し。過去の経緯やルートA〜Eの記録を調べるときの参考。
+5. `drive-research/AUDIT_SCOPE.md` — 各 F 文書の監査範囲・HOLD・重複規則。
+6. 必要になった F 文書・監査文書だけ（`drive-research/research/`、`audits/`、`evidence/`）。
 
 Drive 側は凍結したので、`drive-research/` の内容が最終版として扱われる。
 
@@ -40,6 +41,17 @@ Drive 側は凍結したので、`drive-research/` の内容が最終版とし�
 - MB104 全体の有限窓は OPEN。実候補の排除は 0、credit は 0。
 
 ### 2.3 次に何をするか（GitHub 主体）
+
+**2026-11-02 の到達点（詳細は `MB104-STATUS-MAP-20261102.md`）**
+
+- route-E の E01〜E04（マージ済み、credit 0）によって、次のことがわかった。
+  - 旧 frontier の \|lP\|（支持 000707、864 支持）には、種数 1 以下の曲線は存在しない。
+  - 等号面（ε = 0）にあるのは、多枝ではない既知の曲線 80 本だけ。
+- 残るのは ε > 0（脚が分岐する側）だけで、凍結した Drive の F72〜F82 がこれを層ごとに攻めている。
+  - F74 と F75 には有限の窓がある（未監査）。
+  - F76〜F80 は定数が数値化されていない。
+  - F81・F82 は未解決。
+- 以下の `next_obligation` と `retained_frontier` は、E02 によって対象の曲線そのものが存在しないことになった（個別に反駁されたわけではない）。
 
 - 正式な次の課題は `../STATE.json` の `next_obligation`。表題は「m=1 postulation or bulk」と古いが、本文（`required_input`）の結論では有理核（rational-core）の枝は閉じており（PRE-AUDIT／credit 0、未監査）、生きているのは **CORELESS + NO NONEMPTY CLUMP** の枝だけ。
 - `success_shapes` に残る有理核の古い項目（次数84 Belyi、m=4..6 など）は、有理核の閉鎖が監査を通るまで形式上残しているだけ。新しい作業の出発点にしない。
