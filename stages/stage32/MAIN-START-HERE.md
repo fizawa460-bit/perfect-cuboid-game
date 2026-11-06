@@ -40,6 +40,27 @@ If a mathematical claim, credit transition, source identity, historical receipt,
 
 Never promote bounded/sample/timeout evidence into theorem, effectivity, receiver, endpoint, closure, or Perfect-Cuboid credit without the required audited boundary.
 
+## Audit standard (owner decision, 2026-11-06)
+
+This section applies to `stage32mainbatch` and to `stage32audit`.
+
+- **Purpose of an audit.** The audit checks that nothing is wrong. A reading (paper) audit is sufficient. It checks the
+  mathematics and the logic, and what each computation decides. Under this standard, a reading audit with PASS and no
+  open must-fix counts as **PASS**.
+- **Re-execution is optional.** The auditor need not rerun the computations. "Not re-executed" alone does not make a
+  PASS conditional, and does not keep a result unsettled.
+- **Compute only when needed.** Run or rerun computations only when an argument requires them, or when an audit
+  finding concerns what a computation decides.
+- **Reproducibility is kept.** Scripts, commands, outputs and caveats stay recorded, so that anyone can check the
+  computations.
+- **Unchanged.** This standard does not change:
+  - the repository-wide rules in `docs/research-os/policies/hostile-audit-and-freshness.md` and
+    `research-credit-and-promotion-firewalls.md`;
+  - credit flags;
+  - the requirement of the owner's OK for any STATE, credit or merge change.
+
+  A mathematical gap remains open whatever an audit says; for example, the d = 16 multibranch classes (32-03).
+
 ## Stop
 
 Stop on the smallest precise residual/tool/theorem wall, at the 32-04 synthesis boundary, or before 32-05 external audit.
