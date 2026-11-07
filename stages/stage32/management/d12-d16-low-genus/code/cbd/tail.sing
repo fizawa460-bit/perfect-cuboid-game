@@ -1,0 +1,19 @@
+"COMPS", nq; for (ia = 1; ia <= nq; ia++) { "  comp", ia, " deg", mult(QL[ia]), " mult", QM[ia]; }
+proc baddir(ideal J) { poly r2 = reduce(FL[2], J); poly r3 = reduce(FL[3], J); poly rn = reduce(NN, J); string sout;
+  if (rn != 0) { sout = "NN-NOT-IN"; }
+  else { if (r2 == 0 && r3 == 0) { sout = "ALL"; } else { if (r3 == 0) { sout = "t=0"; } else { if (r2 == 0) { sout = "t=inf"; } else {
+    number kq = leadcoef(r2) / leadcoef(r3); if (r2 - kq * r3 == 0) { sout = "t=" + string(-1/kq); } else { sout = "NONE"; } } } } }
+  return(sout); }
+// direction parameter t: bad member = FL2 + t*FL3 (t=inf means FL3)
+list NPL = minAssGTZ(NODES);
+for (jj = 1; jj <= size(NPL); jj++) { ideal NP = std(NPL[jj]);
+  int oN = ordP(NN, NP); int oG = ordP(FL[1], NP); int e = oN - oG; string th = ""; int sm = 0;
+  for (ia = 1; ia <= nq; ia++) { if (size(reduce(QL[ia], NP)) == 0) { sm = sm + QM[ia]; th = th + " " + string(ia) + "x" + string(QM[ia]); } }
+  if (e >= 1) { ideal JP = satur(std(S + NP^(oG + 1)), MX); int oF2 = ordP(FL[2], NP); int oF3 = ordP(FL[3], NP);
+    "  NODE", jj, " pdeg", mult(NP), " e", e, " xE", sm - 2*e, " comps", th, " oG", oG, " BAD", baddir(JP); kill JP; kill oF2; kill oF3; }
+  kill NP; kill oN; kill oG; kill e; kill th; kill sm; }
+for (ia = 1; ia <= nq; ia++) { if (QM[ia] >= 2) { string nl = ""; int se = 0;
+  for (jj = 1; jj <= size(NPL); jj++) { ideal NP = std(NPL[jj]); if (size(reduce(QL[ia], NP)) == 0) { int e = ordP(NN, NP) - ordP(FL[1], NP); nl = nl + " " + string(jj) + ":" + string(e); se = se + e; kill e; } kill NP; }
+  ideal WB = satx(std(QL[ia] + IB), NODES); int nb = 0; if (dim(WB) > 0) { nb = mult(WB); }
+  "  MCOMP", ia, " mult", QM[ia], " nodes(e)", nl, " sum e", se, " offnode basepts", nb, " BAD", baddir(QL[ia]); kill nl; kill se; kill WB; kill nb; } }
+quit;

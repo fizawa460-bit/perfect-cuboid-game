@@ -1,0 +1,45 @@
+// find the member(s) in J
+ideal RR; for (kk = 1; kk <= HH; kk++) { RR[kk] = reduce(FL[kk], J); }
+matrix CM = coeffs(RR, maxideal(mm)); module SZ = syz(CM); int nsz = 0; int js; vector vv;
+for (js = 1; js <= size(SZ); js++) { if (deg(SZ[js]) == 0) { nsz++; vv = SZ[js]; } }
+"MEMBERDIM", nsz;
+if (nsz != 1) { "NO-UNIQUE-MEMBER"; quit; }
+poly NN = 0; for (kk = 1; kk <= HH; kk++) { NN = NN + number(vv[kk]) * FL[kk]; }
+// direction basis: for HH = 2: B = an FL independent of NN; for HH >= 3: FL2, FL3 (generic) with NN
+int b1 = 1; if (rank(coeffs(ideal(NN, FL[1]), maxideal(mm))) < 2) { b1 = 2; }
+proc baddir(ideal J2, poly F2, poly F3, poly FN, int hh) { if (hh == 2) { if (reduce(F2, J2) == 0) { return("B"); } return("NONE"); }
+  poly r2 = reduce(F2, J2); poly r3 = reduce(F3, J2); poly rn = reduce(FN, J2); string sout;
+  if (rn != 0) { sout = "NNOUT"; } else { if (r2 == 0 && r3 == 0) { sout = "ALL"; } else { if (r3 == 0) { sout = "t0"; } else { if (r2 == 0) { sout = "tinf"; } else {
+    number kq = leadcoef(r2) / leadcoef(r3); if (r2 - kq * r3 == 0) { sout = "t" + string(kq); } else { sout = "NONE"; } } } } }
+  return(sout); }
+poly P2 = FL[b1]; poly P3 = 0; if (HH >= 3) { P2 = FL[2]; P3 = FL[3]; }
+proc dmul(ideal Q) { int k; for (k = 1; k <= size(DLc); k++) { if (size(reduce(DL[k], Q)) == 0 && size(reduce(Q, std(DL[k]))) == 0) { return(DLc[k]); } } return(0); }
+proc gpow(ideal G, int c) { if (c == 0) { return(ideal(1)); } return(satur(satur(std(S + G^c), NODES), MX)); }
+ideal B = std(S + ideal(NN)); ideal Bp = satur(B, Dc); list QL; intvec QM; intvec DM; int nq = 0; int ia; int ib; int ic; int jj;
+if (dim(Bp) == 2) { list MA = minAssGTZ(Bp); for (ia = 1; ia <= size(MA); ia++) { ideal QA = std(MA[ia]); if (dim(QA) == 2) { nq++; QL[nq] = QA; ideal RZq = satur(Bp, QA); QM[nq] = (mult(Bp) - mult(RZq)) div mult(QA); DM[nq] = 0; kill RZq; } kill QA; } }
+ideal BBg2 = std(S + ideal(FL[1]));
+for (js = 1; js <= size(DLc); js++) { int exn = (mult(B) - mult(satur(B, DL[js]))) div mult(DL[js]); int exg = (mult(BBg2) - mult(satur(BBg2, DL[js]))) div mult(DL[js]); if (exn > exg) { nq++; QL[nq] = std(DL[js]); QM[nq] = exn - exg; DM[nq] = exg; } kill exn; kill exg; }
+"COMPS", nq; int sg = 0; for (ia = 1; ia <= nq; ia++) { int gq = genus(QL[ia]); "COMP", ia, mult(QL[ia]), QM[ia], gq; if (gq > 0) { sg = sg + gq; } kill gq; }
+"SIGMAG", sg;
+for (ia = 1; ia <= nq; ia++) { "BADC", ia, baddir(gpow(QL[ia], DM[ia] + 1), P2, P3, NN, HH); }
+for (ia = 1; ia < nq; ia++) { for (ib = ia + 1; ib <= nq; ib++) { ideal W = satur(std(QL[ia] + QL[ib]), NODES);
+  if (dim(W) > 0) { list PW = minAssGTZ(W); int kq2; for (kq2 = 1; kq2 <= size(PW); kq2++) { ideal PP = std(PW[kq2]);
+      int lw = mult(std(QL[ia] + QL[ib] + PP^4)) div mult(PP); string on = ""; for (ic = 1; ic <= nq; ic++) { if (size(reduce(QL[ic], PP)) == 0) { on = on + " " + string(ic); } }
+      ideal JQ = satur(satur(std(S + gpow(QL[ia], DM[ia]) * gpow(QL[ib], DM[ib]) * PP), NODES), MX);
+      int bp = 1; for (kk = 1; kk <= HH; kk++) { if (reduce(FL[kk], JQ) != 0) { bp = 0; } }
+      "CROSS", ia, ib, " pdeg", mult(PP), " len", lw, " on", on, " basept", bp;
+      if (bp) { ideal Ja = satur(satur(std(S + gpow(QL[ia], DM[ia] + 1) + gpow(QL[ia], DM[ia]) * gpow(QL[ib], DM[ib]) * PP^2), NODES), MX);
+        ideal Jb = satur(satur(std(S + gpow(QL[ib], DM[ib] + 1) + gpow(QL[ia], DM[ia]) * gpow(QL[ib], DM[ib]) * PP^2), NODES), MX);
+        "BADX", ia, ib, kq2, " base", baddir(Ja, P2, P3, NN, HH), baddir(Jb, P2, P3, NN, HH); kill Ja; kill Jb; } else { "BADX", ia, ib, kq2, " pt", baddir(JQ, P2, P3, NN, HH); }
+      kill PP; kill lw; kill on; kill JQ; kill bp; } kill PW; kill kq2; }
+  kill W; } }
+list NPL = minAssGTZ(NODES);
+for (jj = 1; jj <= size(NPL); jj++) { ideal NP = std(NPL[jj]);
+  int oN = ordP(NN, NP); int oG = 99; for (kk = 1; kk <= HH; kk++) { int o3 = ordP(FL[kk], NP); if (o3 < oG) { oG = o3; } kill o3; } int e = oN - oG; string th = ""; intvec thr; int nt = 0; int lok = 1;
+  for (ia = 1; ia <= nq; ia++) { if (size(reduce(QL[ia], NP)) == 0) { nt++; thr[nt] = ia; th = th + " " + string(ia); } }
+  for (ia = 1; ia < nt; ia++) { for (ib = ia + 1; ib <= nt; ib++) { ideal W = std(QL[thr[ia]] + QL[thr[ib]]); ideal Wo = satur(W, NP); int ll = mult(W) - mult(Wo); if (dim(Wo) <= 0) { ll = mult(W); } if (ll != 1) { lok = 0; } kill W; kill Wo; kill ll; } }
+  if (nt > 0 || e > 0) { "NODE", jj, mult(NP), e, lok, " comps", th; }
+  if (e > 0) { "BADE", jj, baddir(satur(std(S + NP^(oG + 1)), MX), P2, P3, NN, HH); }
+  kill NP; kill oN; kill oG; kill e; kill th; kill thr; kill nt; kill lok; }
+"HH", HH; "END";
+quit;
