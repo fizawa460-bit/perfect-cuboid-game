@@ -1,0 +1,23 @@
+ideal NFL = simplify(reduce(Lsys, SS), 2);
+"sections", ncols(NFL);
+system("random", 2718);
+poly F0 = 0; poly F1 = 0; poly F2 = 0; int ii; int jj;
+for (ii = 1; ii <= ncols(NFL); ii++) { F0 = F0 + random(1,9999)*NFL[ii]; F1 = F1 + random(1,9999)*NFL[ii]; F2 = F2 + random(1,9999)*NFL[ii]; }
+"rank of chosen sections", rank(coeffs(ideal(F0, F1, F2), maxideal(mm)));
+ideal NODES = std(S + minor(jacob(S), 4));
+ring RN = 10009,(a1,a2,a3,b1,b2,b3,c,u,v),dp;
+ideal SN = imap(R, S); poly G = imap(R, F0) + u*imap(R, F1) + v*imap(R, F2);
+matrix J[5][7];
+for (ii = 1; ii <= 4; ii++) { for (jj = 1; jj <= 7; jj++) { J[ii, jj] = diff(SN[ii], var(jj)); } }
+for (jj = 1; jj <= 7; jj++) { J[5, jj] = diff(G, var(jj)); }
+int t0 = timer;
+ideal Z = std(SN + ideal(G) + minor(J, 5)); "incidence: dim", dim(Z), " time", timer - t0;
+proc sat1(ideal I, poly f) { def T = sat(I, ideal(f)); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+proc satI(ideal I, ideal Q) { def T = sat(I, Q); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+ideal Z1 = intersect(sat1(Z, imap(R, F0)), sat1(Z, imap(R, F1)), sat1(Z, imap(R, F2))); Z1 = std(Z1);
+"after base locus: dim", dim(Z1), " time", timer - t0;
+ideal Z2 = satI(Z1, imap(R, NODES)); "after nodes: dim", dim(Z2), " time", timer - t0;
+ideal E = eliminate(Z2, a1*a2*a3*b1*b2*b3*c); "discriminant ideal size", size(E), " time", timer - t0;
+if (size(E) > 0) { "deg", deg(E[1]); list FD = factorize(E[1]); for (ii = 1; ii <= size(FD[1]); ii++) { "  component degree", deg(FD[1][ii]), " exp", FD[2][ii]; } }
+write(":w disc.txt", string(E));
+quit;

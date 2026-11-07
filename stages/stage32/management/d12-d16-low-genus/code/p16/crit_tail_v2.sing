@@ -1,0 +1,63 @@
+ideal SS = std(S);
+ideal NFL = simplify(reduce(Lsys, SS), 2);
+poly F0 = NFL[1]; poly F1 = 0; int q2;
+for (q2 = 2; q2 <= ncols(NFL); q2++) { if (rank(coeffs(ideal(F0, NFL[q2]), maxideal(mm))) == 2) { F1 = NFL[q2]; break; } }
+"pencil degree", deg(F0), deg(F1);
+system("random", 2718); poly PB0 = F0 + random(1,9999)*F1; poly PB1 = F1 + random(1,9999)*F0; F0 = PB0; F1 = PB1; kill PB0; kill PB1;
+ideal BL = std(S + ideal(F0, F1));
+ideal NODES = std(S + minor(jacob(S), 4));   // 32R-69j: the 48 nodes (was S + (a1*...*c), a curve of degree 112)
+matrix J[5][7];
+int ii; int jj;
+for (ii = 1; ii <= 4; ii++) { for (jj = 1; jj <= 7; jj++) { J[ii, jj] = diff(S[ii], var(jj)); } }
+for (jj = 1; jj <= 7; jj++) { J[5, jj] = F1 * diff(F0, var(jj)) - F0 * diff(F1, var(jj)); }
+ideal Z = std(S + minor(J, 5));
+"critical scheme (before saturation): dim", dim(Z);
+proc sat1(ideal I, poly f) { def T = sat(I, ideal(f)); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+ideal Z1 = intersect(sat1(Z, F0), sat1(Z, F1)); Z1 = std(Z1);   // = sat(Z, S + (F0, F1))
+def ZZ2 = sat(std(Z1), NODES); ideal Z3; if (typeof(ZZ2) == "list") { Z3 = ZZ2[1]; } else { Z3 = ZZ2; }
+Z = Z3;
+Z = std(Z); "critical scheme after removing base locus and nodes: dim", dim(Z), " degree", mult(Z);
+if (dim(Z) >= 2) {
+  ideal Z1 = std(radical(equidimMax(Z))); "critical curve (multiple fibre component?): dim", dim(Z1), " degree", mult(Z1);
+  ring RW = 10009,(a1,a2,a3,b1,b2,b3,c,u),dp; ideal YW = imap(R, Z1) + ideal(u * imap(R, F1) - imap(R, F0));
+  def LW = sat(YW, ideal(imap(R, F1))); ideal YW2; if (typeof(LW) == "list") { YW2 = std(LW[1]); } else { YW2 = std(LW); }
+  ideal EW = eliminate(YW2, a1*a2*a3*b1*b2*b3*c); "critical curve fibre values:", EW;
+  if (EW[1] == 0) { "CRITCURVE-NOT-IN-FIBRE"; quit; }
+  setring R; kill RW;
+  def LZ = sat(Z, Z1); ideal Z4; if (typeof(LZ) == "list") { Z4 = LZ[1]; } else { Z4 = LZ; } Z = std(Z4);
+  "critical scheme after removing the critical curve: dim", dim(Z), " degree", mult(Z);
+}
+
+
+Z = std(Z);
+"critical points (with multiplicity):", mult(Z);
+ideal Zr = std(radical(Z)); "distinct critical points:", mult(Zr);
+ideal V1 = std(Z + ideal(F1)); "critical points with F1 = 0: dim", dim(V1);
+poly LC = a1 + 3*a2 + 5*a3 + 7*b1 + 11*b2 + 13*b3 + 17*c;
+ideal VL = std(Z + ideal(LC)); "critical points on the chart hyperplane: dim", dim(VL);
+ring RU = 10009,(a1,a2,a3,b1,b2,b3,c,u),dp;
+ideal ZU = imap(R, Z) + ideal(u * imap(R, F1) - imap(R, F0)) + ideal(imap(R, LC) - 1);
+ZU = std(ZU); int vZU = vdim(ZU); "dim ZU", dim(ZU), " vdim", vZU;
+ideal EU = eliminate(ZU, a1*a2*a3*b1*b2*b3*c);
+list FA = factorize(EU[1]); int kk; int vv; int nf = size(FA[1]);
+// 32R-71: length_f >= deg(f) * mult_f(eliminant) =: lb_f; slack = vZU - sum lb.  A factor needs its exact length
+// only if lb_f + slack >= 2 deg(f); exact lengths are computed in increasing degree and reduce the slack.
+intvec DG = 0:nf; intvec LB = 0:nf; int sl = vZU; int md = 0; int dd; int ub;
+for (kk = 2; kk <= nf; kk++) { DG[kk] = deg(FA[1][kk]); LB[kk] = DG[kk] * FA[2][kk]; sl = sl - LB[kk]; if (DG[kk] > md) { md = DG[kk]; } }
+"eliminant factors", nf - 1, " slack", sl;
+if (sl < 0) { "SLACK-NEGATIVE"; quit; }
+for (dd = 1; dd <= md; dd++) {
+  for (kk = 2; kk <= nf; kk++) {
+    if (DG[kk] == dd) {
+      ub = LB[kk] + sl;
+      if (ub div dd >= 2) {
+        ideal ZK = sat1(ZU, FA[1][kk]); vv = vZU - vdim(ZK); kill ZK; sl = sl - (vv - LB[kk]);
+        "fibre factor degree", dd, " critical length", vv, " per fibre", vv div dd; if (vv div dd >= 2) { "  factor:", FA[1][kk]; }
+      } else {
+        "fibre factor degree", dd, " critical length at most", ub, " per fibre at most 1 (bound)";
+      }
+    }
+  }
+}
+"FIBRE-LOOP-DONE slack", sl;
+quit;

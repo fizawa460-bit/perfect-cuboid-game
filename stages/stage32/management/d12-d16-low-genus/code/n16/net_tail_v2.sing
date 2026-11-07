@@ -1,0 +1,115 @@
+// 32R-72 net tail (c).  Members G = F0 + u F1 + v F2 (+ w F3) of a random basis.  Z1 = incidence {(p, q): G_q
+// singular at p} off the base locus, nodes kept.  For a pencil (line L through q, generic), the length of Z1 over
+// (L, q) at p is mu_p(C_q) (graph of the pencil critical scheme), so sum_p mu_p(C_q) = mult_q(D), D = pi_*[Z1],
+// provided Z1 has no embedded points.  delta(C_q) <= sum mu_p (visible points).  E = eliminant <= D; equality is
+// checked by the length on a random line (= deg D).  Candidates: points of D' (D without node lines: members through
+// a node contain the exceptional curve, reducible in class x) with multiplicity >= THR.
+ideal SS = std(S);
+ideal NFL = simplify(reduce(Lsys, SS), 2);
+"sections", ncols(NFL);
+system("random", 2718);
+int ii; int jj; int kk;
+list FL; for (kk = 1; kk <= HH; kk++) { poly Ft = 0; for (ii = 1; ii <= ncols(NFL); ii++) { Ft = Ft + random(1,9999)*NFL[ii]; } FL[kk] = Ft; kill Ft; }
+ideal FI; for (kk = 1; kk <= HH; kk++) { FI[kk] = FL[kk]; }
+"rank of chosen sections", rank(coeffs(FI, maxideal(mm)));
+ideal NODES = std(S + minor(jacob(S), 4));
+list PD = minAssGTZ(NODES); "nodes", size(PD);
+// node linear forms: value of each basis section at each node (chart where some coordinate = 1)
+intmat NVI[size(PD)][HH];
+for (kk = 1; kk <= size(PD); kk++) {
+  ideal P = std(PD[kk]); ideal Q; int j2;
+  for (j2 = 1; j2 <= 7; j2++) { Q = std(P + ideal(var(j2) - 1)); if (vdim(Q) == 1) { break; } }
+  for (ii = 1; ii <= HH; ii++) { NVI[kk, ii] = int(leadcoef(reduce(FL[ii], Q))); }
+  kill P; kill Q; kill j2;
+}
+// base points outside the D-part (a member singular there is invisible in Z1)
+def LBp = sat(std(S + FI), Iall); ideal Bp; if (typeof(LBp) == "list") { Bp = std(LBp[1]); } else { Bp = std(LBp); } kill LBp;
+"base locus outside D: dim", dim(Bp), " degree", mult(Bp);
+if (dim(Bp) > 0) { "BASE-POINTS-OUTSIDE-D"; }
+// line at infinity (first basis coefficient 0) is not a component of D: the subsystem <F2..> has finitely many
+// critical points.  For HH = 3 this is a pencil check.
+matrix J0[5][7];
+for (ii = 1; ii <= 4; ii++) { for (jj = 1; jj <= 7; jj++) { J0[ii, jj] = diff(S[ii], var(jj)); } }
+for (jj = 1; jj <= 7; jj++) { J0[5, jj] = FL[3] * diff(FL[2], var(jj)) - FL[2] * diff(FL[3], var(jj)); }
+proc sat1(ideal I, poly f) { def T = sat(I, ideal(f)); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+int t0 = timer;
+ideal Zp = std(S + minor(J0, 5)); Zp = intersect(sat1(Zp, FL[2]), sat1(Zp, FL[3])); Zp = std(Zp);
+"infinity pencil critical scheme: dim", dim(Zp), " time", timer - t0;
+if (dim(Zp) > 1) { "INFINITY-LINE-CHECK-FAILED"; }
+kill Zp;
+// 32R-85 net v2 (HH = 3 only): J7 = det[grad S1..S4, grad F1, grad F2, grad F3].  In the chart G = F1 + u F2 + v F3,
+// row operations give J7 = det[grad S; grad G; grad F2; grad F3] = sum of (5x5 minors of J) * (2x2 minors), so J7 lies
+// in the ideal of Z.  Sigma = sat(S + J7, base) lies in sat(I(Z), base) = I(Z1); adding it before the saturation
+// gives the same Z1 (same scheme), with a much smaller base part to remove.
+if (HH != 3) { "NETV2-NEEDS-HH3"; quit; }
+matrix J7[7][7];
+for (ii = 1; ii <= 4; ii++) { for (jj = 1; jj <= 7; jj++) { J7[ii, jj] = diff(S[ii], var(jj)); } }
+for (kk = 1; kk <= 3; kk++) { for (jj = 1; jj <= 7; jj++) { J7[4 + kk, jj] = diff(FL[kk], var(jj)); } }
+ideal SIG0 = std(S + ideal(det(J7)));
+ideal SIG = sat1(SIG0, FI[1]); for (kk = 2; kk <= HH; kk++) { SIG = intersect(SIG, sat1(SIG0, FI[kk])); } SIG = std(SIG); kill SIG0;
+"jacobian curve off base: dim", dim(SIG), " degree", mult(SIG), " time", timer - t0;
+execute("ring RN = 10009,(a1,a2,a3,b1,b2,b3,c," + PARS + "),dp;");
+ideal SN = imap(R, S); ideal FIN = imap(R, FI); poly G = FIN[1];
+for (kk = 2; kk <= HH; kk++) { G = G + var(6 + kk) * FIN[kk]; }
+matrix J[5][7];
+for (ii = 1; ii <= 4; ii++) { for (jj = 1; jj <= 7; jj++) { J[ii, jj] = diff(SN[ii], var(jj)); } }
+for (jj = 1; jj <= 7; jj++) { J[5, jj] = diff(G, var(jj)); }
+ideal Z = std(SN + ideal(G) + minor(J, 5) + imap(R, SIG)); "incidence (with jacobian curve): dim", dim(Z), " time", timer - t0;
+ideal Z1 = sat1(Z, FIN[1]);
+for (kk = 2; kk <= HH; kk++) { Z1 = intersect(Z1, sat1(Z, FIN[kk])); }
+Z1 = std(Z1); "after base locus: dim", dim(Z1), " time", timer - t0;
+ideal E = eliminate(Z1, a1*a2*a3*b1*b2*b3*c); "eliminant size", size(E), " time", timer - t0;
+if (size(E) != 1) { "ELIMINANT-NOT-PRINCIPAL"; quit; }
+poly EP = E[1]; int dE = deg(EP); "deg E", dE;
+// length on a random line (HH = 3) / random line (HH = 4: two random linear conditions)
+ideal LN; for (kk = 2; kk < HH; kk++) { poly lt = var(6 + kk); for (ii = kk + 1; ii <= HH; ii++) { lt = lt - random(1,9999) * var(6 + ii); } LN[kk - 1] = lt - random(1,9999); kill lt; }
+"random line:", LN;
+ideal ZL = std(Z1 + LN);
+// 32R-72 v2: the eliminant E is only the reduced-ish image, NOT D = pi_*[Z1] (v1 runs: deficits up to 76).  The
+// multiplicity of each factor f of E in D is read off the random line: length of ZL over {f = 0} = m_f * deg f.
+// The chart hyperplane LC = 0 may meet the line points only at nodes; otherwise another random chart is tried.
+ideal NODESN = imap(R, NODES); poly LC; int okc = 0; int tc;
+for (tc = 1; tc <= 6; tc++) {
+  if (tc == 1) { LC = a1 + 3*a2 + 5*a3 + 7*b1 + 11*b2 + 13*b3 + 17*c; }
+  else { LC = 0; for (ii = 1; ii <= 7; ii++) { LC = LC + random(1,9999) * var(ii); } }
+  ideal ZLr = std(radical(ZL + ideal(LC)));
+  if (size(reduce(NODESN, ZLr)) == 0) { okc = 1; kill ZLr; break; }
+  kill ZLr;
+}
+if (okc == 0) { "LINE-POINTS-ON-CHART-HYPERPLANE"; } else { "line points on chart hyperplane: only nodes (chart", tc, ")"; }
+ideal ZL1 = std(ZL + ideal(LC - 1)); int vL = vdim(ZL1); "length on random line", vL, " time", timer - t0;
+if (vL == dE) { "E-EQUALS-D"; } else { "E-NOT-D deficit", vL - dE; }
+write(":w " + OUTF, string(EP));
+write(":w z1_" + OUTF, string(Z1));
+// multiplicities of the factors of E in D, node lines (members through a node) and D'
+list FD = factorize(EP); poly Dp = 1; int isnode; int nn; int lk; int tot = 0; intvec MU = 0:size(FD[1]);
+for (ii = 2; ii <= size(FD[1]); ii++) {
+  ideal ZK = sat1(ZL1, FD[1][ii]); lk = vL - vdim(ZK); kill ZK; tot = tot + lk;
+  if (lk mod deg(FD[1][ii]) != 0) { "MULT-NOT-DIVISIBLE factor", ii; }
+  MU[ii] = lk div deg(FD[1][ii]);
+}
+if (tot != vL) { "LENGTH-UNACCOUNTED", vL - tot; } else { "D-RECONSTRUCTED deg D", tot; }
+for (ii = 2; ii <= size(FD[1]); ii++) {
+  isnode = 0;
+  if (deg(FD[1][ii]) == 1) {
+    for (nn = 1; nn <= nrows(NVI); nn++) {
+      poly ln = NVI[nn, 1]; for (kk = 2; kk <= HH; kk++) { ln = ln + NVI[nn, kk] * var(6 + kk); }
+      if (ln != 0) { if (reduce(FD[1][ii], std(ideal(ln))) == 0) { isnode = 1; } }
+      kill ln;
+    }
+  }
+  "  factor degree", deg(FD[1][ii]), " exp in E", FD[2][ii], " mult in D", MU[ii], " node", isnode;
+  if (isnode == 0) { Dp = Dp * FD[1][ii]^MU[ii]; }
+}
+"deg D'", deg(Dp), " time", timer - t0;
+write(":w dp_" + OUTF, string(Dp));
+// points of D' with multiplicity >= THR (homogenised, char p > degree so Euler applies)
+execute("ring RP = 10009,(s0," + PARS + "),dp;");
+poly H = homog(imap(RN, Dp), s0);
+ideal M = H; int r;
+for (r = 1; r < THR; r++) { ideal M2; int c2 = 0; for (ii = 1; ii <= ncols(M); ii++) { for (jj = 1; jj <= nvars(RP); jj++) { c2++; M2[c2] = diff(M[ii], var(jj)); } } M = simplify(M2, 2 + 4 + 8); kill M2; kill c2; }
+M = std(M + ideal(H));
+"points of multiplicity >= THR: projective dim", dim(M) - 1, " degree", mult(M), " time", timer - t0;
+if (dim(M) >= 1) { list PM = minAssGTZ(M); "CANDIDATES", size(PM); for (ii = 1; ii <= size(PM); ii++) { "  cand", ii, " deg", mult(std(PM[ii])), ":", PM[ii]; } }
+else { "NO-CANDIDATES"; }
+quit;
