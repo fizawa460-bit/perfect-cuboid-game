@@ -1,6 +1,6 @@
 # E07 — The cusp-ramified layer: correspondences ramified only over cusps carry no ε > 0 carrier (2026-11-02)
 
-Status: research note, **unaudited, zero credit**.
+Status: research note, **audit round 2 PASS at `656798f2` (Claude, executing; §5), zero credit**.
 
 - It answers "Proposition A" of the Claude brainstorming proposal of 2026-11-02, which uses the second arithmetic structure of X(8).
 - It uses audited E01/E04 and F70–F73, and an exact computation: `modular/run_e07.py` driving `modular/modhecke.py`.
