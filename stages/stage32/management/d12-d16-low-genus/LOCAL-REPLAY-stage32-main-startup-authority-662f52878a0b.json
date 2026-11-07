@@ -1,0 +1,1188 @@
+{
+  "schema": "LOCAL_REPLAY_RECORD_V1",
+  "policy": "docs/research-os/policies/local-first-execution.md",
+  "workflow": ".github/workflows/stage32-main-startup-authority.yml",
+  "exact_head": "662f52878a0be7a74c2985aa8a3bb854905ec617",
+  "emulated_pr_base": "087961175cea5d75af2c5142f562d25b10cc4a67",
+  "branch": "stage32-d12-d16-low-genus",
+  "working_tree_clean": true,
+  "dirty_paths": [],
+  "started_utc": "2026-11-07T08:07:53Z",
+  "environment": {
+    "os": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "python": "3.14.4",
+    "bash": "bash",
+    "git": "git version 2.53.0"
+  },
+  "jobs": [
+    {
+      "job": "startup-authority",
+      "steps": [
+        {
+          "name": "Checkout exact PR head",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "Assert exact PR head",
+          "seconds": 0.1,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V42 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e4311c4ec31d5768c57308681ae60679987e2ced"
+        },
+        {
+          "name": "Assert fixed V42 boundary",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited merged V43 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "1dfea81c06f9e3f52b99e4c88e7da7e78c872cc2"
+        },
+        {
+          "name": "Assert fixed V43 boundary",
+          "seconds": 0.6,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V44 HPADJ22 candidate boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e24488f1394abae25d9b0f9d099c8efd84e03a2a"
+        },
+        {
+          "name": "Assert fixed V44 HPADJ22 candidate boundary",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited V44 HPADJ22 replacement boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "142b50757b345971218c953db6a15ddd09974172"
+        },
+        {
+          "name": "Assert fixed V44 HPADJ22 replacement boundary",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited merged V45 boundary",
+          "status": "EMULATED_WORKTREE",
+          "ref": "659ba93b9eba657b49a728f549c6bb6028398e08"
+        },
+        {
+          "name": "Assert fixed merged V45 boundary",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout BR204 generation1 source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "ee755bbfd46f405ca83e4930b354ee63459ad362"
+        },
+        {
+          "name": "Assert fixed BR204 generation1 source",
+          "seconds": 0.3,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout live 178 compressed-Picard source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "e60f03cf5105bc6e26cb4615acabd6fe0c07625c"
+        },
+        {
+          "name": "Assert fixed 178 compressed-Picard source",
+          "seconds": 0.3,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited 178 V48 support-qBC source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "fb81be66f260879eec79e55be140857b5fc32bbc"
+        },
+        {
+          "name": "Assert hostile-audited 178 V48 support-qBC source",
+          "seconds": 0.6,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout hostile-audited 178 post-V48 compact handoff",
+          "status": "EMULATED_WORKTREE",
+          "ref": "44d274770de1d092022ebbefff80f3cefb914982"
+        },
+        {
+          "name": "Assert fixed 178 post-V48 compact handoff",
+          "seconds": 0.2,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Checkout fixed 178 post-V48 producer source",
+          "status": "EMULATED_WORKTREE",
+          "ref": "adcb7eb2eef153a1207294e956bf6115794e564d"
+        },
+        {
+          "name": "Assert fixed 178 post-V48 producer source",
+          "seconds": 0.4,
+          "exit": 0,
+          "stdout_tail": "",
+          "status": "PASS"
+        },
+        {
+          "name": "Resolve research-head and merge-ready freshness separately",
+          "seconds": 1.7,
+          "exit": 0,
+          "stdout_tail": "current_main=087961175cea5d75af2c5142f562d25b10cc4a67\nmerge_base=087961175cea5d75af2c5142f562d25b10cc4a67\n",
+          "status": "PASS"
+        },
+        {
+          "name": "Verify V49 retained source identities",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL"
+        },
+        {
+          "name": "Set up pinned Python",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V46 GRF04 x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ22 source for V46 GRF04 joint pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V46 GRF04 integer projection x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V46 GRF04 x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V46 GRF04 x HPADJ22 bounded pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited V42 authority projection",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited merged V43 boundary",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited V44 HPADJ22 candidate boundary",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited V44 HPADJ22 replacement boundary",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Replay hostile-audited merged V45 boundary",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify V46 postmerge successor against merged V45 root",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify BR204 V46 current-authority consumer preflight",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify GRF04 x HPADJ22 e-independence preflight",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify Stage32 MAIN V46 successor startup projection",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify MB104 compact audit repair when present",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify Stage32 cross-lane coordination",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify MAIN compressed BTVA Picard-lift intersection preflight",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify Stage32 final-chain 32-02 retained checks",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate 32-02 EFF-CFRR01 five-key pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install 32-02 EFF-CFRR01 pilot dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify 32-02 EFF-CFRR01 preflight",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run 32-02 EFF-CFRR01 d18/e8 five-key pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate 32-02 EFF-CFRR01 pilot zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload 32-02 EFF-CFRR01 pilot evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify Stage32 claim DAG and active frontier",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA all140 receiver nonnegativity diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA all140 receiver diagnostic dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA all140 receiver nonnegativity diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA all140 receiver diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA all140 receiver diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 timeout rescue dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 timeout rescue top16",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 timeout rescue round2 dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 timeout rescue round2",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 static Picard HNF dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 static Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 residual-block HNF dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 residual-block Picard HNF diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 exceptional support-only dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 exceptional support-only diagnostic",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA d8 retained-basis pairing dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA d8 retained-basis pairing pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA normalmass bounded runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA bounded solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA static7 normalmass bounded panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA normalmass zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA normalmass bounded evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA static7 key census runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA static7 exact key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA static7 key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA static7 key census",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA base4 bounded runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 BTVA base4 solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 BTVA base4 normalmass bounded panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 BTVA base4 zero-credit result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 BTVA base4 bounded evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 full343 solver dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 exact shards sequentially",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 shard bundle",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Aggregate V44 full343 exact coverage",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 full343 parent result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 V2 pilot runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 full343 V2 pilot dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 V2 checkpointed shard0 pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 V2 pilot checkpoints",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V2 pilot shard",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 BTVA full343 V3 resume scaleout runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Carry retained V44 full343 shard0 artifact",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 full343 V3 scaleout dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 full343 V3 missing shards sequentially",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V3 missing shards",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Aggregate V44 full343 V3 carried plus missing shards",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 full343 V3 exact union",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Preserve V44 full343 V3 resume evidence",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed BTVA panel runkey",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 e12 ratio-directed BTVA panel dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave2 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave2 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave2 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave3 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave3 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave3 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave3 partial qbin",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 wave3 partial exact-qbin floor",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave4 selector",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Install V44 e12 ratio-directed wave4 BTVA dependencies",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 ratio-directed wave4 BTVA panel",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout exact HPADJ21 source for V44 e12 wave4 27-UNSAT qbin",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 e12 wave4 27-UNSAT exact-qbin reoptimization",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 e12 wave4 27-UNSAT exact-qbin result",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Gate V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout audited HPADJ21 source for global GRF04 x4 pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Checkout audited 178 GRF04 x4 source for global pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Run V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Validate V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Upload V44 global GRF04 x4 top-row pilot",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Verify retained MB-FIB COLD audit repair when present",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Enforce V49 authority-sync scope",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "Diff check",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "grf04-x4-top20-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "grf04-x4-top20",
+      "steps": [],
+      "status": "SKIPPED_MATRIX"
+    },
+    {
+      "job": "grf04-x4-top20-aggregate",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "Aggregate exact top20 replacement candidate",
+          "seconds": 0.4,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "FAIL: top20 row coverage incomplete\n",
+          "status": "FAIL"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-fast-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-fast-benchmark",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_WORKTREE",
+          "ref": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+        },
+        {
+          "name": "Download retained complete band7 baseline",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "Locate retained row 177",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "find: ‘baseline-band7’: No such file or directory\n",
+          "status": "FAIL",
+          "outputs": {}
+        },
+        {
+          "name": "Run exact-equivalent optimized row",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-direct-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-direct-benchmark",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_WORKTREE",
+          "ref": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "step3",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "find: ‘baseline-band7-direct’: No such file or directory\n",
+          "status": "FAIL",
+          "outputs": {}
+        },
+        {
+          "name": "Run exact HPADJ22 direct count",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-band7-adapter-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-band7-adapter",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_WORKTREE",
+          "ref": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "step3",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "find: ‘band7-complete’: No such file or directory\n",
+          "status": "FAIL",
+          "outputs": {}
+        },
+        {
+          "name": "Build exact zero-credit band7 MAIN adapter",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-salvage-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-salvage-adapter",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_WORKTREE",
+          "ref": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "step5",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "find: ‘original-snapshot’: No such file or directory\n",
+          "status": "FAIL",
+          "outputs": {}
+        },
+        {
+          "name": "Build exact zero-credit salvage adapter",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-direct-full178-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "hpadj22-direct-full178-bands",
+      "steps": [],
+      "status": "SKIPPED_MATRIX"
+    },
+    {
+      "job": "hpadj22-direct-full178-aggregate",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_WORKTREE",
+          "ref": "4bd68dedffa9ca49b0fecc41a89e5e2bc39585a2"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "step4",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "find: ‘retained-band7’: No such file or directory\n",
+          "status": "FAIL",
+          "outputs": {}
+        },
+        {
+          "name": "Aggregate exact FULL178 direct count",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "grf04-h22-highd-authorize",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "step1",
+          "seconds": 0.0,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "",
+          "status": "FAIL",
+          "outputs": {
+            "run": "false"
+          }
+        }
+      ],
+      "status": "FAIL"
+    },
+    {
+      "job": "grf04-h22-highd-chunks",
+      "steps": [],
+      "status": "SKIPPED_MATRIX"
+    },
+    {
+      "job": "grf04-h22-highd-aggregate",
+      "steps": [
+        {
+          "name": "actions/checkout@v4",
+          "status": "EMULATED_CURRENT_TREE"
+        },
+        {
+          "name": "actions/download-artifact@v4",
+          "status": "SKIPPED_USES",
+          "uses": "actions/download-artifact@v4"
+        },
+        {
+          "name": "Aggregate exact row177 band7 chunks",
+          "seconds": 0.5,
+          "exit": 1,
+          "stdout_tail": "",
+          "stderr_tail": "FAIL: incomplete chunks []\n",
+          "status": "FAIL"
+        },
+        {
+          "name": "Validate exact aggregate",
+          "status": "SKIPPED_IF"
+        },
+        {
+          "name": "actions/upload-artifact@v4",
+          "status": "SKIPPED_IF"
+        }
+      ],
+      "status": "FAIL"
+    }
+  ],
+  "finished_utc": "2026-11-07T08:41:49Z",
+  "verdict": "FAIL",
+  "skipped_uses": [
+    "actions/download-artifact@v4"
+  ]
+}
