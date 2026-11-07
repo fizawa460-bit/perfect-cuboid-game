@@ -1,12 +1,16 @@
 # E11 — Problem W at slack 0: étale covers of the Bolza curve, the link to E07, and bidegrees (2, 2), (2, 3), (3, 3) (2026-11-03)
 
-Status: research note, **unaudited, zero credit**.
+Status: research note, **reading audit round 1 (2026-11-07, two auditors): Lemmas 1–3, the search reductions and the
+search sizes PASS; the exclusions of §4 and §4b are numerically verified, not exactly certified (revision 2, §8)**,
+zero credit.
 
 - It builds on E10 (audit round 2 PASS), whose §5 states that Problem W is a finite search exactly at slack 0.
 - It gives three things:
   - a structural description of slack 0 (§1–§2);
   - a translation of E07's hypotheses at slack 0 (§3);
-  - exclusions in Problem W for bidegrees (2, 2), (2, 3) and (3, 3) with both slacks 0 (§4, §4b).
+  - **numerically verified** exclusions in Problem W for bidegrees (2, 2), (2, 3) and (3, 3) with both slacks 0
+    (§4, §4b). Coincidences of points are decided in floating point with a large separation gap; exact (algebraic or
+    interval) certification is pending, so these are not yet theorems.
 
 Setting and notation as in E10:
 
@@ -76,9 +80,9 @@ The cusps are the 24 singular fixed points of G (E07 §0). Their images in R for
 - By E07, a slack-0 solution with Ω ⊆ P₁ ∩ P₂ and P₁ = P₂ is one of the 80 curves of E04, so ε = 0.
 - A slack-0 MB104 carrier therefore has an Ω-point outside P₁ ∩ P₂ (interior ramification of a leg), or P₁ ≠ P₂ (one-sided cusp contact).
 
-## 4. Bidegree (2, 2) with both slacks 0 does not occur
+## 4. Bidegree (2, 2) with both slacks 0 (numerically verified)
 
-**Proposition.** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 2) with s₁ = s₂ = 0 and |Ω| ≤ 4.
+**Proposition (numerically verified; exact certification pending).** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 2) with s₁ = s₂ = 0 and |Ω| ≤ 4.
 
 This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; |Ω| ≤ 3 for g = 0.
 
@@ -92,8 +96,11 @@ This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; 
    - All (i, j, triple, image triple) are enumerated: 157,824 Möbius maps T.
 3. **Birationality.** (p₁, p₂) : V₀ → W is birational unless p₁ and p₂ factor through a common degree-2 map. Since p₁ = q_i, this means p₂ is invariant under the deck involution t ↦ −t of q_i. In that case W = (p₁, p₂)(V₀) has bidegree (1, 1); that case is E06.
 4. **Result.**
-   - 57 distinct configurations have |Ω| ≤ 4. All are non-birational, i.e. bidegree (1, 1).
-   - **No birational configuration has |Ω| ≤ 4.** □
+   - 57 configurations with |Ω| ≤ 4 (distinct after rounding the coordinates of T, i.e. distinct as numerical keys;
+     this count is a diagnostic, not a count of exact equivalence classes). All are non-birational, i.e. bidegree
+     (1, 1), by the numerical test of item 3.
+   - **No birational configuration with |Ω| ≤ 4 was found** (numerical decision of every coincidence, see Numerics).
+     □
 
 **Positive control.** For (a, b) = (1, 1) (p₁ = id, p₂ = T; only j ≥ 2 holds, so no label pruning), the same code finds 16 Möbius maps with |Ω| ≤ 4:
 
@@ -104,11 +111,13 @@ This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; 
 
 - Coincidence of points is decided in complex double precision by chordal distance < 10⁻⁸.
 - The run checks a separation gap. Every accepted coincidence has distance < 10⁻¹¹ (measured 7.6·10⁻¹⁵). Every non-coincidence has distance > 10⁻⁴ (measured 1.8·10⁻³).
-- This is a numerical certificate with a gap of about 11 orders of magnitude, not interval arithmetic.
+- This is a numerical separation diagnostic with a gap of about 11 orders of magnitude, not a certificate: the errors
+  of the computed points against their exact algebraic values are not bounded rigorously, and the root lists and local
+  multiplicities that define O_i are also obtained numerically.
 
-## 4b. Bidegrees (2, 3) and (3, 3) with both slacks 0 do not occur
+## 4b. Bidegrees (2, 3) and (3, 3) with both slacks 0 (numerically verified)
 
-**Proposition.** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 3), (3, 2) or (3, 3) with s₁ = s₂ = 0 and |Ω| ≤ 4.
+**Proposition (numerically verified; exact certification pending).** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 3), (3, 2) or (3, 3) with s₁ = s₂ = 0 and |Ω| ≤ 4.
 
 (3, 2) is (2, 3) with the legs swapped.
 
@@ -124,8 +133,12 @@ This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; 
    - **(3, 3):** |O| = 10, 10, so j ≥ 6. Triples among the first 7 points of O₁ are enumerated: 3,287,808 maps T.
      - Birationality fails exactly when p₂ = M∘p₁ for a Möbius M. This is tested by constancy of p₂ on two generic fibres of p₁. In that case W is of bidegree (1, 1).
 3. **Result.**
-   - (2, 3): no configuration with |Ω| ≤ 4.
-   - (3, 3): every configuration with |Ω| ≤ 4 is non-birational (raw counts {0: 8400, 4: 496}). **None is birational.** □
+   - (2, 3): no configuration with |Ω| ≤ 4 was found.
+   - (3, 3): every configuration found with |Ω| ≤ 4 is non-birational by the numerical two-fibre test (raw counts
+     {0: 8400, 4: 496}). **No birational one was found.** □
+   - In exact arithmetic the two-fibre test is valid: if p₂ is constant on two distinct regular fibres of p₁ (degree 3),
+     the numerators of p₂ − c₁ and p₂ − c₂ are proportional to those of p₁ − c′₁ and p₁ − c′₂, so p₂ = M∘p₁ for a
+     Möbius M (audit round 1). The implementation tests constancy numerically.
 
 **Why only label-matched triples are needed.** If j ≥ 3, at most |O₁| − j points of O₁ are not label-matched coincidences. So any |O₁| − j_min + 3 points of O₁ contain a label-matched coincident triple, which determines T. For (1, 1) only j ≥ 2 holds, so the control runs without label pruning.
 
@@ -142,7 +155,7 @@ This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; 
 | (3, 3) | 2.4·10⁻¹² | 1.9·10⁻⁶ |
 
 - The script requires < 10⁻¹⁰ and > 10⁻⁶.
-- For (3, 3) the margin is about 6 orders of magnitude, which is the weakest in the table. This is a numerical certificate, not interval arithmetic.
+- For (3, 3) the margin is about 6 orders of magnitude, which is the weakest in the table. This is a numerical separation diagnostic, not a certificate (see §4 Numerics).
 - The inputs are computed to 50–60 digits; the search itself runs in double precision.
 
 ## 5. Open and next
@@ -176,6 +189,24 @@ python -I -O stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_slack0_sm
    - the birationality criterion;
    - the numerical gap argument.
 4. Scope:
-   - §4 and §4b cover only (2, 2), (2, 3), (3, 2) and (3, 3) with both slacks 0;
+   - §4 and §4b cover only (2, 2), (2, 3), (3, 2) and (3, 3) with both slacks 0, and are numerically verified only;
    - nothing is claimed for positive slack or larger bidegrees;
    - no credit.
+
+## 8. Audit history and what certification needs
+
+- **Round 1 (2026-11-07), reading audit, two auditors (ChatGPT, DeepSeek).** Both HOLD.
+  - PASS: Lemmas 1–3 (Riemann–Hurwitz, the treatment of ∞, the translation of E07), the 15 degree-2 maps, the
+    reduction to label-matched triples (j ≥ 4, 5, 6), the birationality criteria, the use of E10 §2. DeepSeek
+    recounted the search sizes 157,824 / 98,352 / 468,096 / 3,287,808 independently: all agree.
+  - **Must-fix (DeepSeek E11-1): numerical decisions do not certify exact nonexistence.** Answered by revision 2: §4
+    and §4b are now stated as numerically verified, not as theorems. No counterexample was reported.
+  - Should-fix (E11-5, E11-6, ChatGPT): the meaning of "57 distinct" and the term "certificate" are corrected above.
+- **Open certification items (needed only to turn §4 / §4b into theorems):**
+  1. the 60 degree-3 maps: for each of the 15 value sets, the four non-spurious roots of D(λ) are distinct, each has a
+     one-dimensional kernel and gives a cubic with nonzero resultant (exact, in Q(i)[λ]/(D)) (E11-2);
+  2. the root lists and local multiplicities defining O_i, by exact gcds / discriminants or certified root disks
+     (E11-4);
+  3. non-coincidences by certified enclosures (disjoint balls), so that every rejected T has certified |Ω| ≥ 5;
+  4. for every accepted configuration, the identity p₂ = M∘p₁ (or q_j∘T invariant under t ↦ −t) proved exactly
+     (E11-3).

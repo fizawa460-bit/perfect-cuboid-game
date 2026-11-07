@@ -1,6 +1,6 @@
 # E06 — Co-images of bidegree (1,1) in R×R carry no ε > 0 carrier (2026-11-02)
 
-Status: research note, **unaudited, zero credit**.
+Status: research note, **audit round 2 PASS at `656798f2` (Claude, executing; §6), zero credit**.
 
 - It answers the "Möbius-type" question in the ChatGPT brainstorming proposal of 2026-11-02 (Directions A-1, A-2 and A-4).
 - It uses audited F71–F73, E04, and exact computations: `mobius/mobius_enum.py` (k = 8) and `mobius/mobius_enum_k4.py` (k = 4).
