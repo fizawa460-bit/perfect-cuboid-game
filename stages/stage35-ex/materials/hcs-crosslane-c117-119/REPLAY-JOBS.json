@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "jobs": [
+    {
+      "id": "R3-independent-rank1-finite-chain",
+      "code": "code/r3_rank1.py",
+      "actual": "r3_c118_independent_sel2_evidence.json",
+      "expected": "expected/r3_rank1.json"
+    },
+    {
+      "id": "R3-p3-logdifference",
+      "code": "code/r3_p3_logdiff.py",
+      "inputs": [
+        {
+          "source": "inputs/prior44D.json",
+          "target": "p3prev/r3_c116_hcs_p3_zero_disk_evidence.json"
+        }
+      ],
+      "expected": "expected/r3_p3.json"
+    },
+    {
+      "id": "R3-all-four-disks",
+      "code": "code/r3_all4.py",
+      "inputs": [
+        {
+          "source": "inputs/prior44D.json",
+          "target": "r3_c116_hcs_p3_zero_disk_evidence_PRIOR.json"
+        }
+      ],
+      "actual": "r3_c119_hcs_all4_p3_evidence.json",
+      "expected": "expected/r3_all4.json"
+    },
+    {
+      "id": "R1-odd-index-third-isogeny",
+      "code": "code/r1_odd_gate.py",
+      "expected": "expected/r1_odd_gate.json"
+    },
+    {
+      "id": "R4-B-even-Tamagawa-regression",
+      "code": "code/r4_tamagawa.py",
+      "actual": "r4_c117_beven_eplus_tamagawa_evidence.json",
+      "required_fields": {
+        "status": "PASS_ARITHMETIC_REGRESSION_PROOF_SEPARATE",
+        "branch_b_closed": false,
+        "e1_proved": false
+      }
+    },
+    {
+      "id": "R4-conditional-offcycle-regression",
+      "code": "code/r4_offcycle.py",
+      "expected": "expected/r4_offcycle.json"
+    }
+  ],
+  "scope": "Original historical fixed calculations only, normal Python mode. No discovery or new claim credit."
+}

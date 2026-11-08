@@ -1,0 +1,178 @@
+﻿# Stage35EX-D/R4 — B-even Eplus at 2: I-star type, four rational components and uniform Tamagawa completion
+
+
+RUN_ID: `R4-20261016-POSTC117-EPLUS-BEVEN-STAR-TAMAGAWA-ALLBASE-V1`
+LANE: `stage35ex-d / R4`
+BASE_HEAD: `C35-117` (retrieved CURRENT and completed R0 receipt)
+SEMANTIC_KEY: `original-physical-adapter-primitivity-proof-repair / companion-local-global-proof-repair`
+AUTHORITY: `V74_GOAL4AK_SECTION334` (unchanged)
+STATUS: `PASS_PROVED_DEPENDENT_SCOPED_BEVEN_COMPONENT_FORMULA / R0_NOVELTY_AUDIT_PENDING`
+R0_ACCEPTED=false; PARENT_CREDIT=false; HOSTILE_AUDITED=false; BRANCH_B_OPEN=true; STAGE35_OPEN=true; E1_UNPROVEN=true.
+
+
+## 1. Precise new result
+
+
+Let A,B,C>0 be an **ordered, labelled, primitive** Pythagorean triple, A²+B²=C², with B even. Thus e=v₂(B)≥2 and A,C odd. Write D=AC, H=A²+C² and the OLD elliptic companion
+
+
+    Eplus: y²=x(x+A⁴)(x+C⁴) = x³+a x²+b x,
+    a=A⁴+C⁴, b=D⁴.
+
+
+The displayed integral model is MINIMAL at 2, has additive potentially multiplicative Kodaira type
+
+
+    I*_(4e−2),
+
+
+with conductor exponent f₂=4, bad Euler coefficient a₂=0 and **local Tamagawa factor c₂=4**. These are exact for EVERY labelled B-even base, not just a sample, and rely on the established uniform Section248 f₂=4 result.
+
+
+At odd primes retain the OLD Section248 splitting rules and the already integrated C35-116 A-even component formula:
+
+
+    p|AC        : split I_(8v_p(AC)),             c_p=8v_p(AC).
+    p|H         : split I_(2v_p(H)),              c_p=2v_p(H).
+    p|B, p≡1(4): split I_(4v_p(B)),              c_p=4v_p(B).
+    p|B, p≡3(4): nonsplit I_(4v_p(B)),           c_p=2.
+
+
+Odd prime supports AC, H, B are pairwise disjoint; others are good. Let
+
+
+    C_odd = ∏_(odd p|AC)8v_p(AC) × ∏_(odd p|H)2v_p(H)
+            × ∏_(odd p|B,p≡1(4))4v_p(B)
+            × ∏_(odd p|B,p≡3(4))2.
+
+
+Then **all primitive bases** now have the conditional-on-established-local-theory explicit total formula
+
+
+    c(Eplus) = C_odd × ( 8v₂(A)−8 if A even;
+                         4          if B even ).
+
+
+The A-even branch and every odd formula are OLD (C35-116); the **sole new project-scoped claim** is the B-even I-star type, exact c₂=4 and the resulting all-base completion. No new analytic rank, physical-source exclusion or independent elliptic Selmer credit is claimed.
+
+
+## 2. Proof of minimality and exact Kodaira type (2-adic)
+
+
+Primitive Pythagorean parity gives e=v₂(B)≥2; A,C odd; H=A²+C²≡2(mod8), so v₂(H)=1.
+
+
+For the above OLD integral Weierstrass equation,
+
+
+    c₄=16(a²−3b),
+    c₆=−32a(2a²−9b),
+    Δ=16A⁸C⁸B⁴H².
+
+
+Since A⁴≡C⁴≡1(mod16), a≡2(mod16), b≡1(mod16):
+
+
+    v₂(c₄)=4, v₂(c₆)=6, v₂(Δ)=6+4e,
+    v₂(j)=12−(6+4e)=6−4e<0.
+
+
+Thus Eplus is potentially multiplicative at 2. Section248 independently established f₂=4 (its splitting character is Q₂(i)/Q₂). In particular the curve is ADDITIVE, not multiplicative.
+
+
+The displayed equation is minimal at 2: were it nonminimal, an integral admissible change with scale u divisible by 2 would yield integral c₄'=c₄/u⁴ with v₂(c₄')=0 (u must have v₂(u)=1; v₂(c₄)=4). The transformed integral model would have v₂(Δ')=4e−6>0 and c₄' a 2-unit, hence multiplicative f₂=1, contradicting the established f₂=4. Therefore Δ is the minimal 2-discriminant.
+
+
+Potentially multiplicative but additive means type I*_{n} (standard Kodaira/Néron classification). By Ogg's conductor-component formula f₂=v₂(Δ_min)+1−m, where m is the number of geometric components, and I*_n has m=n+5. Therefore
+
+
+    4 = (6+4e)+1−(n+5),  n=4e−2.
+
+
+This is even and ≥6. Standard I*_n geometry bounds the number of rational components by 4, i.e. c₂≤4. We show c₂≥4 directly, thereby avoiding an unverified 2-adic residue-squareclass shortcut.
+
+
+## 3. NEW elementary 2-adic component lower bound c₂≥4
+
+
+The minimal special fiber modulo 2 is
+
+
+    y² = x(x+1)².
+
+
+Its unique singular point is (x,y)=(1,0); its smooth locus over F₂ consists EXACTLY of O and T₀=(0,0). For the Néron filtration E(Q₂)⊃E₀(Q₂)⊃E₁(Q₂), reduction gives
+
+
+    E₀(Q₂)/E₁(Q₂) ≅ E_ns(F₂) ≅ Z/2.
+
+
+Thus the rational 2-torsion T₀ lies in E₀\E₁, and **no double of an element of E₀ can equal T₀**.
+
+
+Let T₁=(−A⁴,0), one of the OTHER OLD full rational 2-torsion points, and K₄=(D²,D²H), the OLD rational 4-torsion point of Section241. Both have odd x, even y, hence both reduce to singular (1,0), so T₁,K₄ ∉ E₀(Q₂). We have 2T₁=O and 2K₄=T₀. The latter follows algebraically by the duplication identity
+
+
+    x(2P) = (x(P)²−b)²/(4y(P)²);
+
+
+at P=K₄ one has x(P)=D², b=D⁴, y(P)=D²H≠0; thus 2K₄=(0,0).
+
+
+If T₁ and K₄ represented the SAME component of E(Q₂)/E₀(Q₂), their difference K₄−T₁ would belong to E₀. But 2(K₄−T₁)=T₀∈E₀\E₁, contradicting the order-two group E₀/E₁. Consequently the two distinct nonidentity component classes [T₁],[K₄], each of order 2, generate FOUR distinct component classes (including identity and their sum).
+
+
+Hence c₂≥4. Coupled with the standard I*_n upper bound c₂≤4, this proves **c₂=4 for every B-even base**. It uses genuine GLOBAL rational torsion and the exact LOCAL smooth-fiber quotient; no finite residue search is mistaken for the proof.
+
+
+## 4. Independent exact regression and examples
+
+
+The standalone Python3 standard-library verifier reproduces:
+
+
+* all integer identities c₄,c₆,Δ; the v₂ formulas and modulo-2 smooth/singular classification;
+* the OLD rational 4-torsion K₄ identity, 2K₄=T₀ and opposite reduction statuses of T₀ versus T₁,K₄;
+* all odd bad-prime tangent squareclasses and individual Kodaira/Tamagawa factors;
+* the inherited S248 conductors and root numbers for representative bases;
+* all checks on 227 distinct Euclid-parametrized B-even primitive labelled bases (1,595 odd bad-prime records; largest tested v₂B=6).
+
+
+PASS. This confirms the symbolic proof but is not an independent algorithmic Tate audit or proof by sampling.
+
+
+Examples (the rank/Sha of these curves is NOT newly determined):
+
+
+    (3,4,5):    N=4080,    w=−1, c₂=4, c(Eplus)=512.
+    (15,8,17): N=1048560, w=+1, c₂=4, c(Eplus)=4096.
+    (5,12,13): N=302640,  w=−1, c₂=4, c(Eplus)=1024.
+
+
+## 5. Semantic duplicate audit and scope guard
+
+
+Checked live R0 HEAD C35-117 and the C35-117 receipt; the owner R4 lane folder; OLD Section248 uniform companion N,w,bad-a_p; OLD S241 universal 2×4 companion torsion and K₄; C35-116 integrated R4 A-even minimal/Tamagawa and previous C96 ORIGINAL-E Tamagawa (DIFFERENT curve); searched Google Drive for `Eplus B even Kodaira type`, `Eplus B even Tamagawa`, `companion B even c2 4`, `Eplus I_n*`, `Eplus Tamagawa all bases`, `B-even 2-adic Neron Eplus`. No exact B-even companion result found in this BOUNDED PJ semantic review. This is not an archive-wide or global-literature originality certificate. The group-theoretic and Kodaira tools are classical, not novel general mathematics.
+
+
+Historical boundaries: Section248 already had the 2-adic conductor f₂=4 and additive root coefficient; we do not recredit. S241 already had all 8 rational torsion points; we do not recredit. C35-116 A-even and all odd c_p receive zero recredit. This new theorem provides a fully explicit, checkable completion of the LOCAL Tamagawa bookkeeping in the other parity only.
+
+
+No assertion about R4 full original physical/primitivity adapter, Q/Qsharp infinite quotient, actual signed D_n, source four positive S243 integral roots/common c, actual W_n and W_(2|n|), same Gaussian f,g and shared quartic, FOUR TRUE S270 GOOD/H TOP/PROPER uncapped ordinary-beta pools, all-index/global-rank obstruction, Stage35/E1 or perfect cuboid. Branch A user-paused; Branch B OPEN. No owner STATE or shared controller edits made by this packet.
+
+
+## 6. Requested R0 review and NEXT
+
+
+Requested disposition: `ACCEPT_SCOPED_BEVEN_COMPANION_TAMAGAWA_COMPLETION` OR `EQUIVALENT_ZERO_CREDIT` after independent source and local Néron audit. Only R0 can integrate shared HEAD/MAIN/INDEX/CURRENT or promote authority.
+
+
+NEXT_R4: restore attention to arbitrary-base original physical adapter/primitivity and true global rational lift; employ complete companion local table as audited dependency when necessary. Do not count more serial fixed-base eliminations as new physical exclusion.
+
+
+PRIMARY PJ links:
+- C35-117 CURRENT: https://docs.google.com/document/d/1weMNOpPRuYDOC_J_iXhkkPyYAYjc0UCgGmQjAQ1K8cw/edit
+- Section248: https://docs.google.com/document/d/16LiBQbmvP8R0VdotzHOVlS6DTO_q4yqVhWIVyo42L00/edit
+- Old S241: https://docs.google.com/document/d/1TPTB1oQn-U3kwyMq9-5qlfbNlzKox67tMd0F0P9rfh4/edit
+- C35-116 R4 A-even: https://docs.google.com/document/d/1EXMahBjSlyyKY_tpPKMm1W1J63HBD-_OLWVMijwIZvU/edit
+- C35-117 R0 review: https://docs.google.com/document/d/1Uk-lhUQuarMCTcvG33Z_MdkP-p7pmXN1YQlq5UBygpQ/edit
