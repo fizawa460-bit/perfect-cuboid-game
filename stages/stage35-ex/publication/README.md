@@ -10,6 +10,7 @@
 - [第1資料群：元source排除の証明・検証コード](../materials/original-source-exclusions/README.md)
 - [第2資料群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)
 - [第3資料群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)
+- [第4資料群：固定±18の親Selmer証書](../materials/selmer18-parent-chain/README.md)
 - [監査・採用の範囲](AUDIT-SCOPE.md)
 - [R3研究記録330–393](research-records/R3-330-393.md)
 

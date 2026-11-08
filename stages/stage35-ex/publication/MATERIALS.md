@@ -8,7 +8,7 @@
 - 5つの管理索引スナップショット、機械可読JSON/CSV、R3研究記録330–393の概要・出典。
 - この掲載範囲の整合・リンク・件数・元フィールド保持を検査する標準Python検証器。
 
-追加の資料第1群として、[±18・指定指数群・+30の排除本文と証拠](../materials/original-source-exclusions/README.md)を保存しました。C35-08/11/12の親算術パッケージも含みます。続く[第2群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)として14記録とその全証拠パッケージを保存しました。さらに[第3群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)としてrow385–393と全529証拠メンバー・9監査を収載しました。[移植進捗](../materials/MIGRATION-STATUS.json)から残りの対象を確認できます。
+追加の資料第1群として、[±18・指定指数群・+30の排除本文と証拠](../materials/original-source-exclusions/README.md)を保存しました。C35-08/11/12の親算術パッケージも含みます。続く[第2群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)として14記録とその全証拠パッケージを保存しました。さらに[第3群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)としてrow385–393と全529証拠メンバー・9監査を収載しました。[第4群：固定±18の親Selmer証書](../materials/selmer18-parent-chain/README.md)では12パッケージの数学的前提を補完しました。[移植進捗](../materials/MIGRATION-STATUS.json)から残りの対象を確認できます。
 
 **証明本文・多項式係数・全計算証書の実体を全ルートについて移したわけではありません。** 下表は移植の対象を整理したもので、未移植を掲載済みと表示しません。
 
@@ -18,7 +18,7 @@
 | ±18、指定指数群、+30の排除 | [証明・検証器・4監査・直近親入力](../materials/original-source-exclusions/README.md)、C35-08/11/12全算術資料 | 深い親証明鎖の未移植分は明示して継続 |
 | −30のMW/Selmer構造 | [14記録の本文・全証拠パッケージ・13監査本文](../materials/negative30-mw-selmer/README.md) | row377監査本文の欠落を保持。深い上流依存と他ルート資料は継続 |
 | 類群・非分岐部分・不同 | [9記録の本文・全529証拠メンバー・9監査](../materials/classgroup-and-different/README.md) | row393定理原典の照合待ち、類群全尽性の未解決を保持 |
-| 既知7類の対数枠など再利用材料 | 記録361等への参照 | 定義・正規化・最小の検証可能な出力とコード |
+| 固定±18の既知7対数・類数1・真正Selmer9 | [第4群：12親パッケージの数学資料と再現器](../materials/selmer18-parent-chain/README.md) | C118以前の証書と全母集団からの上流写像は引き続き依存として明示 |
 | 方法の限界・試行した案・未完成案 | 全ルートに原文の到達点・障壁・再開条件 | 固有の考察は少なくとも要約、必要な反例・方式限定の論証を保持 |
 | 大きな中間表・重複ログ・途中版 | 元資料への案内 | 固有の証拠がなければDriveに残し、所在を維持 |
 
