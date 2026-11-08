@@ -7,7 +7,7 @@
 | 系列 | 対象 | 保存された未閉鎖事項 |
 |---|---|---|
 | R1/R4の整数直接 | actual signed Wardとcanonical source | 全基底のglobal T_n非平方または有効点分類 |
-| P23 LOW：R3-07 | even 12≤|n|≤154 | 9絶対指数・16 signed枠。−30の類群と他残余 |
+| P23 LOW：R3-07 | 偶数の絶対指数12…154 | 9絶対指数・16 signed枠。−30の類群と他残余 |
 | P23 MID/HIGH：R2-01 | even156…196 / even198以上と許容odd域 | 同じTRUE四TOP＋全PROPER ordinary βの相関上界 |
 | 固定曲線・Prym・反射 | 指定曲線とsource必要像 | 全指数・moving baseへ必要な正確なadapterと点の排除 |
 | indexedの外側 | B_wideの非indexed部分 | indexedへの無証明の被覆を仮定しない |

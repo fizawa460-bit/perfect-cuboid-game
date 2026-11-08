@@ -1,8 +1,8 @@
-# 材料の掲載範囲と次の移植単位
+# 資料の掲載範囲と移植完了状態
 
 ## 主要ルートの本文整理（2026-11-09）
 
-[主要ルート本文](major-routes/README.md)に、元Ward/canonical source、MID/HIGH質量、LOW排除、−30類群、補助幾何/局所障壁、横断の量化子をまとめた。主要本文・証明への導線・成立条件・監査・訂正・重要な障壁の整理は一巡し、公開ドラフトのレビューを残す。
+[主要ルート本文](major-routes/README.md)に、元Ward/canonical source、MID/HIGH質量、LOW排除、−30類群、補助幾何/局所障壁、横断の量化子をまとめた。主要本文・証明への導線・成立条件・監査・訂正・重要な障壁の移植整理と、出典・表示の点検は完了。現在の指定範囲で追加の資料移植は残っていない。PR #1854はドラフトで保持する。
 
 追加した原著本文はC195、R2の155/197証明、有限局所法のC241の3件に限定。既存のR3証明・監査は参照して共有し、深い親証書や原ログは追加しない。全99ID本文の移植は要求しない。数学はrow393停止、無条件−30・全LOW・Branch BはOPEN。
 
@@ -17,13 +17,13 @@
 - 5つの管理索引スナップショット、機械可読JSON/CSV、R3研究記録330–393の概要・出典。
 - この掲載範囲の整合・リンク・件数・元フィールド保持を検査する標準Python検証器。
 
-追加の資料第1群として、[±18・指定指数群・+30の排除本文と証拠](../materials/original-source-exclusions/README.md)を保存しました。C35-08/11/12の親算術パッケージも含みます。続く[第2群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)として14記録とその全証拠パッケージを保存しました。さらに[第3群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)としてrow385–393と全529証拠メンバー・9監査を収載しました。[第4群：固定±18の親Selmer証書](../materials/selmer18-parent-chain/README.md)では12パッケージの数学的前提を補完しました。[第5群：C117–C119 HCSとR1/R4関連資料](../materials/hcs-crosslane-c117-119/README.md)では、C118親証書・同時期の他レーン議論を補完しました。[移植進捗](../materials/MIGRATION-STATUS.json)から残りの対象を確認できます。
+追加の資料第1群として、[±18・指定指数群・+30の排除本文と証拠](../materials/original-source-exclusions/README.md)を保存しました。C35-08/11/12の親算術パッケージも含みます。続く[第2群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)として14記録とその全証拠パッケージを保存しました。さらに[第3群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)としてrow385–393と全529証拠メンバー・9監査を収載しました。[第4群：固定±18の親Selmer証書](../materials/selmer18-parent-chain/README.md)では12パッケージの数学的前提を補完しました。[第5群：C117–C119 HCSとR1/R4関連資料](../materials/hcs-crosslane-c117-119/README.md)では、C118親証書・同時期の他レーン議論を補完しました。[移植進捗](../materials/MIGRATION-STATUS.json)から完了状態と保持条件を確認できます。
 
 **証明本文・多項式係数・全計算証書の実体を全ルートについて移したわけではありません。** 下表は既存収載物と、主要ルート向けの扱いを整理したものです。既存5群の収載履歴を、残る全資料の追加義務とは扱いません。
 
-| 材料群 | 既存の掲載 | 今後の扱い |
+| 材料群 | 既存の掲載 | 掲載範囲と保持条件 |
 |---|---|---|
-| 元source・量化・写像・符号・原始性 | ルート要約と資料所在 | 主要な結論の定義・成立条件と元資料リンクをまとめる |
+| 元source・量化・写像・符号・原始性 | ルート要約と資料所在 | 主要ルート本文に結論の定義・成立条件・元資料リンクを掲載済み |
 | ±18、指定指数群、+30の排除 | [証明・検証器・4監査・直近親入力](../materials/original-source-exclusions/README.md)、C35-08/11/12全算術資料 | 主要結果の本文を中心にし、深い親鎖はDrive参照 |
 | −30のMW/Selmer構造 | [14記録の本文・全証拠パッケージ・13監査本文](../materials/negative30-mw-selmer/README.md) | row377監査本文の欠落を保持。深い上流依存はDrive参照 |
 | 類群・非分岐部分・不同 | [9記録の本文・全529証拠メンバー・9監査](../materials/classgroup-and-different/README.md) | row393定理原典の照合待ち、類群全尽性の未解決を保持 |

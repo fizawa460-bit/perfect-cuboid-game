@@ -9,7 +9,7 @@
 - [主要ルート本文・証明・成立条件・監査・障壁](major-routes/README.md)
 - [全99件を読む](CATALOGUE.md)
 - [CSVで一覧を見る](catalogue.csv) · [構造化JSON](catalogue.json)
-- [材料の掲載範囲と次の移植単位](MATERIALS.md)
+- [資料の掲載範囲と移植完了状態](MATERIALS.md)
 - [第1資料群：元source排除の証明・検証コード](../materials/original-source-exclusions/README.md)
 - [第2資料群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)
 - [第3資料群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)
