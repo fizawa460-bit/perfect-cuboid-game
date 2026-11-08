@@ -1,3 +1,6 @@
+> **2026-11-08 current work: publication inventory; mathematics paused at R3 row393.**
+> Use the [99-ID catalogue](publication/README.md) for the imported route/material inventory. The older integration narrative and mathematical NEXT below are retained as history, not as permission to resume research. Formal V74 authority is unchanged.
+
 # Stage35-EX MAIN batch handoff — Goal4CG current-main integration
 
 Formal authority remains **V74 / Goal4AK** under hostile review `5142248509`. Current `main` already contains the hostile-audited Goal4CF selected-direction discriminant-height adapter through merged PR #1773 at main commit `9a05bdbe2dbb1ba50ef68425c80f5c289260f5da`.
