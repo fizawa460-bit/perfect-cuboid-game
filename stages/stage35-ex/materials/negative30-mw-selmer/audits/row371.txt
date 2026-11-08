@@ -1,0 +1,45 @@
+﻿STAGE35EX / R3-07 row371 — 独立数学監査（2026-11-06）
+VERDICT: PASS_SCOPED_DEPENDENT_20261106_WITH_FULL_CHAIN_REPLAY_LIMIT
+対象: signed ±30、C29: y²=F29(x)、genus 52。これはrow370のscoped-PASSを親とした、既知3有理類の31進対数と2進根体分解の監査。全域排除・新signed指数排除は0。
+
+
+監査対象
+原著者証明 https://drive.google.com/file/d/1-9vBo6wLKkjPB3twoWt1MLcajDZjNwjJ/view
+証拠ZIP https://drive.google.com/file/d/17PxkDhEDsMeC96muCx2-pMaft1XaB0pH/view
+親row370独立監査 https://docs.google.com/document/d/1aV7X2-A8DzRq1XjuogBRA1JSYnnu616DygbO4Vv9A6s/edit
+
+
+1. 証拠の完全性と独立計算
+ZIP内のSHA256SUMSに列挙された9ファイルを直接sha256sum -cで照合し9/9一致。著者原ログの「4406 finite Cantor crosschecks、2補助チャート、直接H照合」は保存済み。ただし独立環境にpython-flintがなく、著者スクリプトの法31²全中間4406演算は今回独立に完全再演していない。この不足を明示した限定判定とする。
+
+
+2. 31進入口の独立証明確認
+Python標準整数演算による独自の有限体F31 Cantor演算を作り、記載のN=393648362324456806647414264130928641711553162973261279756877858799612593368832、N mod31=13、N D0=N D+=N D−=N H=0 in J(F31)を4類すべて再計算して確認。F=a_*²+x b_*²、F(±1)=2^70も独立整数演算で一致。
+
+
+3. 法31²終点からの微小積分と52座標
+二つの著者チャート(run seeds 371,372)の初期・終点Mumford対（各3類）および直接Hの終点を、著者のnmod_polyではない独自多項式演算で検査。(U,V)はmonic度52、V²≡F mod U (mod31²)、(U,V)≡(u,v) mod31を全例で満たす。そこからdelta=(U-u)/31 mod31、q=-delta/(2v) mod uを独自の有限体拡張Euclid法で構成し、[x^51] x^j q mod u（j=0..51）としてログ最初の桁を再導出した。2チャート×3類×52座標が記録JSONと完全一致。直接Hの52成分も一致し、2H=D0に沿う半分対数と一致。これは提出終点が正しいログ桁を与えることの独立再計算であり、終点が法31²の真正[N]Dであることの全チェーン再計算とは別である。
+
+
+4. 31進線形代数と条件付き階数5
+既知3行H,D+,D−のlog/31 mod31の初めの5列は、[13,16,17,13,15],[6,0,13,14,9],[5,13,24,17,16]。row370既存証明の元sourceからのe0,e1二方向を加えた5×5 minorはdet≡20 mod31を独立計算。lambda0=z0+25z2+20z3+z4、lambda1=z1+30z2+19z3+27z4は3行をすべて消し、e0,e1を二つの標準基底へ写すことも再検算。
+従ってrow370の元source存在という条件の下ではQ31対数空間の次元≥5⇒rank J(Q)≥5。rank≤4の真正証明、または全MW飽和対数の(lambda0,lambda1)二座標射影次元≤1の真正証明があれば両signed±30が排除される。現時点ではどちらも未証明。
+
+
+5. 2進根体の独立算術
+独自整数係数演算でF(-t²)=G(t)G(-t)、G(t)=a_*(-t²)+t b_*(-t²)を再確認。G(1+T)の全106整数係数を二項展開から再生成し、3v2(c_i)+i≥105、Newton一辺((0,35),(105,0))を照合。独自GF2ビット多項式で残余多項式を作り、次数7/28の指定二因子との積一致、Rabin既約性テスト、r28の立方判定を確認。結果K⊗Q2の二成分(e,f)=(3,7),(3,28)、次数21+84、tame判別式付値70が成立。ノルム核平方類次元106、J(Q2)[2]次元1、局所Kummer像の次元53も通常の局所2-descent理論から追認。ただし53は局所像の基底の構成や真正Selmer上界ではない。
+
+
+6. 数学的採否と重複
+row370のC29点/31進e0,e1を再加点しない。新差分は既知3類の31進ログ実測、条件付きrank≥5、2進根体の(3,7),(3,28)分解と局所Kummer次元53。古典Cantor、Hensel、局所Kummer理論は旧理論として扱う。固定±30の新指数排除0、9絶対指数・17 signed枠の残表不変。C35-200 formal採択は本監査だけで変わらない。
+
+
+7. 未検証範囲とNEXT
+法31²群演算4406中間の独立完全再演は未実施。提出終点の独立整合性/2チャート一致と、著者コードの演算後の単元検査・有限体Cantor crosscheckに基づく限定受理。局所Kummer像は53次元という数値までで、基底/大域平方類候補/悪素数局所条件/真正Selmer上界は未構成。NEXTはrow371に記載の2進局所Kummer像の基底と全球2-Selmer上界、または全MWの31進二座標射影上界を維持。著者計算を全MW証明へ自動昇格しない。
+
+
+8. USER WINDOWS FULL-CODE REPLAY / SHA LINE ENDINGS — 2026-11-06
+2026-11-06のユーザー報告（Windows PowerShell、Python 3.12.10、python-flint 0.9.0、専用.venv）により verify_row371.py、verify_dyadic.py の両スクリプトが終了。USER_REPLAY.log末尾には known rank 3 with forced jets 5, det_mod31=20, direct H agrees, finite_Cantor_addition_crosschecks=4406。USER_DYADIC_REPLAY.log末尾には dyadic (e,f) [(3,7),(3,28)], field discriminant v2=70、norm kernel dimension106、Jacobian Kummer dimension53 を表示。エラー/tracebackは投稿範囲に現れない。ユーザー環境で元著者コードの4,406クロスチェックを完走したことを追加確認。成果の数理的範囲は不変。
+出力JSONのユーザーSHA-256: logs_mod31.json = D90462C3F0894096E4B14AA8B3D5D8AA3582F02C26950397452FD61DF13FB27A, dyadic_local.json = 6D14B9005D5B91E408314D5D06832F8C0762715DF5BF993E373CA3BCE4A996C3。原ZIPのLFバイト列のSHAはそれぞれ77bba97d9ce72b10bfd56894e05f1db9ffbbebf7298531e24d4039d9d73c27b7 / b40ba8a47f9fb089252ded5d5d723cdce75700c1db117ae172b4affc66f40d5b。各原ファイルのLF (
+) をCRLF (\r\n) に変換したバイト列のSHAを別途Python hashlibで厳密計算するとユーザー提示SHAと両方完全一致。Windows Path.write_text の改行自動変換で説明がつき、データ不一致ではない。
+UPDATED AUDIT CLASSIFICATION: PASS_SCOPED_DEPENDENT_20261106 + USER_WINDOWS_AUTHOR_CODE_FULL_REPLAY_PASS_4406 + USER_SHA_CRLF_EXACT_MATCH_2_OF_2。以前の「4,406全中間演算の別実装による完全独立再実演なし」は継続して事実だが、「著者コードをユーザーの独立Windows環境で全再実行」はPASSとなった。両者を混同しない。ユーザーが提示したのはPowerShellログ抜粋とSHA文字列であり、全ログ実ファイルは未添付。新しい全球rank上界・真正Selmer上界・元signed±30排除は認証されない。NEXTは不変。

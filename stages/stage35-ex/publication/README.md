@@ -8,6 +8,7 @@
 - [CSVで一覧を見る](catalogue.csv) · [構造化JSON](catalogue.json)
 - [材料の掲載範囲と次の移植単位](MATERIALS.md)
 - [第1資料群：元source排除の証明・検証コード](../materials/original-source-exclusions/README.md)
+- [第2資料群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)
 - [監査・採用の範囲](AUDIT-SCOPE.md)
 - [R3研究記録330–393](research-records/R3-330-393.md)
 

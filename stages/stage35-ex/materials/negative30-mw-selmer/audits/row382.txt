@@ -1,0 +1,52 @@
+﻿Stage35EX｜R3 row382 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_UNCONDITIONAL_NECESSARY_FINITE_HECKE_ZERO_WINDOW_NO_UNCONDITIONAL_EXCLUSION_RANK31_FULL_CHAIN_INDEPENDENT_PASS
+TARGET=P23-R3-07-LOW; same original signed −30 source, genus-52 curve C29, degree-105 root field K.
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; MINUS30=OPEN; BRANCH_B=OPEN; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; WINDOW_ZERO_FREE_CONDITIONAL_REMAINDER=8_ABSOLUTE_15_SIGNED.
+SCOPE: New unconditional theorem is NECESSARY ZERO WINDOW, not a proof of zero-freeness or original-source nonexistence.
+
+
+I. 親成果と定理の論理
+row373–375の数体最大整環・局所Kummer像・通常類群のSelmer上界、row370のsame-sourceの31進jet二方向、row381の55単元・真2-Selmer上界<=9+c_Clを親成果として消費。今回の独立監査によりrow381の31進全スカラー連結を完全別実装で再検証した。
+元のsigned −30 sourceが存在するとMW rank(J29)>=10、従ってc_Cl>=1。通常類群の非自明二次指標χが存在。χに付随するHecke L(s,χ)は非自明かつ無限素点でも非分岐、署名(7,49)、次数105、同じ体判別式。GRHなしに
+  ∃非自明χ, L(ρ,χ)=0, 53/100<Re(ρ)<=1, 1/4<|Im(ρ)|<17/5
+を必要条件として得る。この有限領域の全該当χに対する無零性は未証明。無条件のsigned排除、新絶対指数排除はいずれも0。有限領域の全該当χへの無零性を別途証明した場合だけ−30と絶対指数30が排除される（+30は親row376で無条件除外済み）。
+
+
+II. 入力ハッシュ・類群の関係・素数尾部（独立）
+ZIP SHA256SUMS 17/17一致。親row381の独立監査済み4,140本の奇素イデアル支持だけを入力に、著者の検証器は実行・importせず、独立high-pivot GF(2)消去で関係rank=4042、通常類群二倍商で零になる形式素イデアル座標=2492を正確に再現。これを類群商の生成元を全尽すると誤認しない。
+row378の監査済み668小素数の因子表とrow379の独立監査済み尾部を継承。5003<p<=1623500の素数一覧をSymPyで独立篩照合し、122117有理素数と122553一次素イデアルに完全一致。零点証書の素数項は現関係から導いたχ(p)=+1、それ以外の奇数べきに−1、偶数べきに+1を使用。p=199は異なる因子の次数(1,27,76)、p=2は(7,28)。二重計上なし。
+
+
+III. 試験関数・零点和・moment の数学監査
+g=B_(93/10)*B_1^{*5}、F=(g*g)/(g*g)(0)、支持半幅143/10を検証。区分多項式の係数を有理数で別生成し、
+ R(0)=85500985/863101008、
+ -F''(0)=1718090/17100197
+を完全一致。Fは非負の偶自己相関、F(0)=1、0<=F<=1、Fourier変換>=0（非負関数の自己相関）。
+Poitou明示公式の重み Φ(ρ)=∫F(x)e^{(ρ−1/2)x} dx を独立検算。R1 caseでは零点に関するGRH仮定不要。独立のNumPy長倍精度＋SciPy/120点Gauss-Legendre区分積分で
+ finite prime term ≈0.3145652900133383,
+ I(F)≈0.3841155055352630,
+ Score lower≈0.0411987595950444 > 0.041,
+ author Arb interval expression≈0.0411987563542669 > 0.041.
+M_χ=∑ρ (2−Reρ)/|2−ρ|²についてHadamard対称積とχのL'/L(2)のEuler積から独立再算。上界 ≈124.10565040315653 <125 と一致。独立浮動小数点計算はそれ自体を厳密Arb証書と呼ばず、著者の192-bit Arb外向き区間・親算術と整合を確認した。
+独立のmpmath.iv区間演算（著者Arbとは異なるライブラリ・分割方針）で、ReΦ(ρ)+(17/500)W(u,t)>0 を以下の全閉矩形上に厳密認証:
+ (u∈[0,1/2],t∈[1/10,1/4]) 5387 boxes;
+ (u∈[0,3/100],t∈[1/4,17/5]) 247 boxes;
+ (u∈[0,1/2],t∈[17/5,15/4]) 32 boxes.
+t<=1/10では cos(tx)>=0 (T/10<π/2)、t>=15/4では |Φ|/W <=0.027027<17/500 の解析上界。W>= (3/2)/(4+t²)を用いる。以上の領域外零点では Σρ ReΦ(ρ)>=−(17/500)Mχ>−4.25。一方 Poitouスコアから Σρ ReΦ(ρ)<−105*(41/1000)=−4.305。矛盾。したがって通常類群2階数非零なら有限領域内に零点が必要。端点は厳密な有理閾値で処理し、領域境界の漏れなし。
+
+
+IV. row381 31進全チェーン独立監査負債の解消
+元著者のverify_rank_tape.cppとverify_chain_expressions.pyを使わず、別のNumPy整数多項式mod961実装を作成。row382が固定した元の演算テープを入力として、全4473成功加法、195符号反転、53316反復Cantor還元ステップ、2376関数還元の各段階を独立検証。各入出力のMumford曲線合同式、CRT/倍算補間、関数因子ノルム、極次数、モニック正規化・付値単元条件を検査。八終点のスカラー式をZ^9係数で独立追跡。8*52=416個の31進対数先頭桁は独立のGF31多項式逆元・trace計算で全一致。e0,e1を加えた10×10 minor det=6 mod31。
+従来row375/381で残っていた「著者群演算終点と実際の[N]Dの結合」の独立全チェーン留保は今回のrow382証拠範囲で解消。row370のsame-sourceの二方向jetと、局所+大域の親Selmer理論は独立の親成果として消費する。元−30存在ならrank>=10は無条件の必要条件として支持する。
+
+
+V. 重複・不足・唯一NEXT
+row381の条件付きGRH排除を新しい無条件排除として再登録しない。新規の増分は(i)無条件の必要なHecke零点有限窓の明示、(ii)row381の31進全演算別実装独立監査完了。
+全該当χの列挙・有限窓無零性・無条件c_Cl=0・無条件MW上界<=9は未証。無条件LOWは9絶対指数・16 signed、Branch B/P23 LOW OPEN。零点窓の無零性仮定の下は8絶対指数・15 signed。Perfect Cuboid全域解決ではない。
+R0 ACTIVE_NEXTとR3 G8を一字も変更しない。今後は非自明普通類群二次Hecke指標の全尽性と有限窓の無零性を証明、または別ルートで無条件c_Cl=0 / MW rank<=9を証明する。
+
+
+AUTHOR_PROOF=https://drive.google.com/file/d/1KjvTvG_OnFYOo0SpSh8MN5P0lQ0s3FuK/view
+AUTHOR_ZIP=https://drive.google.com/file/d/1_VR_RseonTWkIfyjNClpi4gHP3-03kVQ/view
+PARENT_ROW381_AUDIT=https://docs.google.com/document/d/1siQsZfW85ir4uLvAV9_uy7DVELHT1rrPXcyN5sbNUeE/edit
+INDEPENDENT_EVIDENCE=STAGE35EX_ROW382_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip; Python implementations, GF2/prime/spline/SciPy calculations, mpmath.iv interval certificates, complete rank31 NumPy replay, 416 exact log digits, SHA summary; downloadable local artifact.

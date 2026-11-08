@@ -1,0 +1,56 @@
+﻿Stage35EX｜R3 row384 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_UNCONDITIONAL_CCL_GE2_NECESSARY_TWO_HECKE_ZERO_BANDS_AND_DELTA_STAR_EXPLICIT_TARGET
+TARGET=P23-R3-07-LOW、同じoriginal sourceのsigned −30、C29/J29 genus52、K degree105。
+NEW_UNCONDITIONAL_EXCLUSION=0。LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED。BRANCH_B/P23_LOW=OPEN。
+AUDIT DOES NOT PROVE ZF2 OR DELTA_STAR_NONLIFT. THE TWO OPEN OBLIGATIONS ARE PRESERVED.
+
+
+A. 今回の無条件の必要条件とその正確な量化
+Kの普通類群Cl(O_K)の2階数をc_Clとする。row370・row381・row382監査済み成果から、元signed −30が存在すればMW(J29/Q) rank>=10、2-Selmer次元<=9+c_Clなのでc_Cl>=1。
+新row384: c_Cl>=2で任意に選んだ独立2つの非自明普通類群二次Hecke指標χ1,χ2と積χ1χ2の3本のうち、少なくとも1本のL(s,χ)に以下のΩ2領域内の非自明零点が必要（GRH不要）:
+ Ω2: 63/100<Re(s)<=1; |Im(s)|∈(13/50,77/100)∪(103/100,73/50)。
+各非自明指標単独でΩ2零点必須とは主張しない（3本の少なくとも1本）。全該当指標へのΩ2無零性ZF2を別途証明した場合に限りc_Cl<=1。ZF2は未証明。したがって本行の新規無条件指数排除は0。
+
+
+B. SHA・関係消去・尾部入力の独立検査
+原著者ZIPのSHA256SUMSは16/16一致。著者verify_average384.py、verify_four_lift_target384.py、row382_inputs.pyをimport/実行せず、独自Python SymPy/Fractions/NumPy/SciPy/mpmath.ivを実装。
+親row381/382の4140主イデアル関係を別high-pivot GF(2)消去し、rank4042、形式素イデアル座標4964個中の消去済み2492個を再現。これは全類群の生成系尽性を認証するものではない。
+全147058個の5003超～1982760有理素数を別エラトステネス篩とCSV照合し、一次素イデアル合計147527個も一致。一次因子の個々の法p計算の全再演ではなく、row379/383の既監査尾部因子CSVを再利用した。
+
+
+C. 二指標平均明示公式の数学監査
+χ1,χ2の各素イデアル値が±1で、3本χ1,χ2,χ1χ2の平均は、両指標が+1なら1、その他の3通りは−1/3。この同一源からの平均下界は無条件・指標列挙不要。奇数べきの未知項に−1/3、偶数べきと既知2492分裂に+1を課す。
+独自有理数計算で長さ(91/10,23/10,23/10,7/20,7/20)の畳み込み自己相関、support T=72/5、37非零節点、R(0)=110734914179/1144115376768、D0=55460131200/775144399253、Dprime=24248800551657000479/19378609981325000000、21個の有理余弦係数の和1とλ0−Σ|λ_j|=3/1000>0を厳密検算。従ってF(x)>=0、F(0)=1。
+著者Arbに依存しないSciPy区分積分＋NumPy長倍精度147058尾部和で prime-lower≈0.3691698403775162、arch≈0.4275235928068812、base≈0.11074897511696911、score≈+0.05239522268760416。原著者のArb192bit外向き下界式≈+0.0523946411808995、厳密閾値>1/25=0.04に十分整合。独立の浮動小数点数値はそれだけでは厳密Arb証明ではないため、著者Arb外向き区間証書を証明依存として明記。
+σ=7/5のHadamard零点重みの一様上界Mχ<100は親row383独立監査を継承（別数値照合Mχ upper≈99.186384435239）。
+独立mpmath.iv外向き区間演算(65以上桁)で、Reφ(u+it)+(7/200)W(u,t)>0を以下の5閉矩形族で厳密確認:
+t=[1/10,13/50],u=[0,1/2]: 9小矩形;
+t=[77/100,103/100],u=[0,1/2]: 20小矩形;
+t=[73/50,12],u=[0,1/2]: 786小矩形;
+t=[13/50,77/100],u=[0,13/100]: 13小矩形;
+t=[103/100,73/50],u=[0,13/100]: 6小矩形。
+合計834/834 PASS。各小矩形は独立の次数7 Taylor係数・Cauchy尾部を実装し、著者Arb検査器と異なる外向き区間評価で再帰分割。t<=1/10ではTt<π/2でF>=0を使用。t>=12は別mpmath.ivで|φ|/W<=0.000351882023146385<7/200を区間認証。区間境界の漏れなし。
+全零点がΩ2の外側なら3指標平均の零点和>=−(7/200)*100=−3.5。一方Poitouのscore>1/25とn=105から平均の零点和<−4.2。差>0.7は厳密矛盾。これによりc_Cl>=2⇒任意の独立2指標3本のどれかのLがΩ2に零点を持つ、という必要条件を親結果依存で採用する。
+
+
+D. δ★の明示化（4リフト非成立は証明しない）
+row381監査済みの55ノルム1大域単元の局所107bit平方類と核基底9本を入力として、独立GF2実装でunit Selmer rank9、既知8有理Jacobian類の局所像rank8、補空間候補256を再構成。512個の9次元Selmer組合せを完全走査し、既知8方向の外にある256候補の奇数べき原多項式使用数を計算。
+最小122因子、使用21単元の代表は
+δ★ mask=0x4125e122ae5103、
+unit basis indices (zero-based) = {0,1,8,12,14,17,18,19,21,23,25,29,32,37,38,39,40,42,45,48,54}、
+local code=0x44b88774c94772d6bc5c8f05827、
+dyadic obstruction=0、real signature=0x1eでrow373実符号条件を満たし、既知8方向の空間外。
+G(ρ)=Astar(−ρ²)+ρBstar(−ρ²)のdegree105 monic polynomialをSymPy ZZで再構築し、122個の原多項式h_iについて整数終結式Res(G,h_i)を全122本別実装で再計算。提出全122符号は一致、ノルムの絶対値積は422996bitの完全平方数（平方根211498bit）。これは具体的な単元Selmer類の代表の整合性証拠であり、Sel4像への所属・非所属を決めるものではない。親row381の単元大域性・Kummer単射・Selmer群同定を依存条件として消費。
+
+
+E. 条件付き含意、未解決のまま残す証明
+ZF2ならc_Cl<=1。元−30ならrank>=10、Sel2<=9+c_Clであるためc_Cl=1、rank=Sel2 dimension=10。この場合全Selmer2類が有理MW像となり、自然なSel4→Sel2にリフトされる。δ★がその像に入らないことが別証明されれば、任意のc_Clでrank<=8+c_Clが従うため、元−30存在ならc_Cl>=2を要する。ZF2とδ★非リフトの両方が証明できれば元−30全域排除となる。**本監査はどちらの新規仮定も証明していない。**
+従って無条件残=9絶対指数・16signed枠。ZF2+非リフト双方の仮定下=8絶対指数・15signed枠（+30は親row376監査済み無条件除外）。元−30/Branch B/P23 LOWは無条件OPEN。Perfect cuboid全域の不存在証明ではない。
+唯一のNEXTは固定δ★の大域Sel4→Sel2リフト有無の判定。R0 ACTIVE_NEXT・R3 G8を一切変更せず。row383以前の監査済み内容は二重計上せず、row384のみ独立監査完了と登録する。
+
+
+AUTHOR_PROOF=https://drive.google.com/file/d/1zp64-mcDWazv9TQTQKiYmSX9mzdFsa1r/view
+AUTHOR_ZIP=https://drive.google.com/file/d/188OLveW09acDsliuRkmACh4XHoFGG6Kf/view
+PARENT_ROW383_AUDIT=https://docs.google.com/document/d/1s1F38oS5MLWl6awS6uyT9zJtxRNefWoyj5W3WEKd6tY/edit
+PARENT_ROW382_AUDIT=https://docs.google.com/document/d/1gJ1KbYSF_AOaTu-d4nQYu_sIQoxU6rhfBpXKizDgEWU/edit
+INDEPENDENT_AUDITOR_EVIDENCE_LOCAL=STAGE35EX_ROW384_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip; source Python independent scripts, JSON CSV input, exact/numerical/interval outputs, 122 resultants signs, SHA manifest.
