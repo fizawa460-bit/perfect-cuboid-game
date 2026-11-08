@@ -1,7 +1,8 @@
 # Stage35EX 研究記録
 
-現在の公開整理は、**row393で研究を一時停止した時点の全99管理IDの索引化**です。
+現在の公開整理は、**row393で研究を一時停止した時点の主要ルート本文・証明・成立条件・監査・障壁**です。全99管理IDの索引も保持します。
 
+- [主要ルート本文を読む](publication/major-routes/README.md)
 - [全ルートと資料の入口](publication/README.md)
 - [99管理IDの一覧](publication/CATALOGUE.md)
 - [材料は何が掲載済みか](publication/MATERIALS.md)
