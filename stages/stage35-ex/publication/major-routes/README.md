@@ -15,6 +15,6 @@
 
 研究はrow393で停止。無条件−30・全LOW・Branch BはOPENで、row393はSOURCE_THEOREM_VERIFICATION_PENDING。今回の公開整理は新研究・新規独立監査・正式採択ではない。正式V74のMAIN-STATEは別の保持された権威であり変更しない。
 
-主要ルートの本文・証明への導線・条件・監査・障壁の移植整理と、出典・表示の点検は完了した。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。現在の指定範囲で追加の資料移植は残っていない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
+六つの主要説明本文と出典・表示の点検は済んだが、[C195以前の主要前提の原証明収載は未完了](C195-DEPENDENCIES.md)。以前の移植完了表示は訂正する。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
 
 [全体入口](../README.md) · [既存5資料群](../../materials/README.md) · [移植進捗](../../materials/MIGRATION-STATUS.json)

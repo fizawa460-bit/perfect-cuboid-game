@@ -7,9 +7,10 @@
 99管理IDすべてに、目的・到達点・障壁・保存された再開条件・元資料リンクを持つページを用意しました。R1 9、R2 8、R3 10、R4 52、R5 20。歴史的統合先や横断系列を含むため、99本の独立数学ルート・99定理ではありません。
 
 - [主要ルート本文・証明・成立条件・監査・障壁](major-routes/README.md)
+- [C195以前の主要前提：原証明収載の未完了箇所](major-routes/C195-DEPENDENCIES.md)
 - [全99件を読む](CATALOGUE.md)
 - [CSVで一覧を見る](catalogue.csv) · [構造化JSON](catalogue.json)
-- [資料の掲載範囲と移植完了状態](MATERIALS.md)
+- [資料の掲載範囲と未完了部分](MATERIALS.md)
 - [第1資料群：元source排除の証明・検証コード](../materials/original-source-exclusions/README.md)
 - [第2資料群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)
 - [第3資料群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)
