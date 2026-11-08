@@ -98,19 +98,15 @@
   ],
   "next_material_groups": [
     {
-      "id": "other-route-payloads",
-      "scope": "Continue body/evidence migration across other R1/R2/R3/R4/R5 route records; 99-ID index is complete, full payload migration is not."
+      "id": "major-route-final-texts",
+      "scope": "Use existing owner indices to consolidate major routes only: latest results, proof text, validity conditions, audit state, barriers and original links. No full-99-body target."
     },
     {
-      "id": "older-parents-and-source-adapters",
-      "scope": "Earlier HCS/C116 premises and remaining source/coverage adapters as explicitly needed; no claim of whole-chain self-containment."
-    },
-    {
-      "id": "audit-gaps",
-      "scope": "row377 empty original report; row361 standalone audit report not located; row362 independent audit pending; row393 theorem primary source pending."
+      "id": "minimal-evidence-links",
+      "scope": "Retain the minimum support needed for a major result. Use Drive links for deep ancestors, raw logs and intermediate versions; do not expand an exhaustive parent queue."
     }
   ],
-  "remaining_other_routes": "Owner catalogue is complete for 99 IDs; full payload migration of the other routes remains pending.",
+  "remaining_other_routes": "Only principal-route texts and evidence links are in scope. Full payload migration of every route or parent certificate is not required.",
   "merge_authorization": false,
   "active_publication_pr": 1854,
   "active_branch": "stage35ex-publication-row393-99-index",
@@ -119,5 +115,24 @@
     1855,
     1857
   ],
-  "publication_policy": "Continue all authorized migration on PR #1854. Do not create additional PRs unless explicitly requested."
+  "publication_policy": "Continue all authorized migration on PR #1854. Do not create additional PRs unless explicitly requested.",
+  "migration_scope": {
+    "mode": "MAJOR_ROUTES_ONLY",
+    "authority": "EXPLICIT_USER_INSTRUCTION_20261109",
+    "include": [
+      "Main results and proof text of major routes",
+      "Validity conditions, audit status and decisive barriers",
+      "Minimal necessary evidence and original Drive links"
+    ],
+    "drive_reference_only": [
+      "Deep parent-certificate chains",
+      "Raw data and complete computation logs",
+      "Intermediate versions, duplicate records and detailed trials"
+    ],
+    "all_99_route_bodies_required": false,
+    "all_source_material_required": false,
+    "recursive_parent_import_required": false,
+    "existing_batches": "Retained as previously published material; not a mandate for further exhaustive import."
+  },
+  "scope_supersedes": "Earlier all-route-payload / older-parent-completion queues are superseded by the user clarification: major routes only."
 }
