@@ -1,0 +1,18 @@
+// preimage in C8 x C8 of the k=4 hit W: x^2y^2 + x^2 - y^2 + 1 = 0 (H4 up to sign), C8: u^2 = rho^4 + 1, v^2 = rho^4 - 1
+LIB "primdec.lib"; LIB "normal.lib";
+ring R = 10009,(x,u1,v1,y,u2,v2),dp;
+ideal I = x2y2+x2-y2+1, u1^2-x^4-1, v1^2-x^4+1, u2^2-y^4-1, v2^2-y^4+1;
+I = std(I); "preimage: dim", dim(I), " degree", mult(I);
+list PA = minAssGTZ(I); "components over F_p", size(PA);
+int k; for (k = 1; k <= size(PA); k++) {
+  ideal Q = std(PA[k]);
+  // diagonal S = <(u1,u2) -> -(u1,u2), (v1,v2) -> -(v1,v2)>, extra G element rho -> -rho on both factors
+  int e1; int e2; int e3; string st = "";
+  for (e1 = 0; e1 <= 1; e1++) { for (e2 = 0; e2 <= 1; e2++) { for (e3 = 0; e3 <= 1; e3++) {
+    map g = R, (-1)^e3*x, (-1)^e1*u1, (-1)^e2*v1, (-1)^e3*y, (-1)^e1*u2, (-1)^e2*v2;
+    if (size(reduce(g(Q), Q)) == 0) { st = st + " (" + string(e1) + string(e2) + string(e3) + ")"; } kill g; } } }
+  "  comp", k, " degree", mult(Q), " stabilizer (u,v,rho signs):", st;
+  if (k == 1) { "  genus of comp 1 (normal.lib):", genus(Q); }
+  kill Q;
+}
+quit;
