@@ -1,0 +1,47 @@
+﻿Stage35EX｜R3 row386 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_UNCONDITIONAL_C29_DYADIC_POINT_KUMMER_THREE_CLASSES_SHUKLA_SIMPLE_CONIC_METHOD_OBSTRUCTED_NOT_SEL4_NONLIFT
+TARGET=P23-R3-07-LOW｜same-original-source signed −30｜C29/J29 genus52｜K degree105.
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; NEW_ABSOLUTE_EXCLUSION=0; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; MINUS30/P23_LOW/BRANCH_B=OPEN.
+
+
+1. 数学的主張・結論の限定
+親row373の2進根体とrow381/385のSel2分解Sel2=U⊕H_nr、dim U=9、loc₂(H_nr)=0、loc₂|U単射を継承する。C29の有理無限遠点∞を基点とする曲線点Kummer写像κについて
+ κ₂(C29(Q₂)) ∩ loc₂(U) = {0, κ₂(D−), κ₂(D+)}
+が成立することを独立算術で検証。U9座標はそれぞれ0x000,0x049,0x0a1。D−=[P−−∞], D+=[P+−∞]。P±=(±1,2^35)はF29(±1)=2^70から確実な有理曲線点。
+任意の有理曲線点Pの大域2-SelmerクラスはU⊕H_nrへ分解でき、局所化はU成分だけ。これに局所三類分類を適用するとκ(C29(Q))はH_nr、κ(D−)+H_nr、κ(D+)+H_nrの三剰余類の和集合に含まれる。全Jacobian MW類・J(Q)/2J(Q)が三類だとは一切言えない。
+別の新規判定: δ★（単元mask0x4125e122ae5103、U座標0x10c）+既知有理8類Wの256代表は、Shukla§4.4の補助conicの27必要条件を全ては満たせない。7条件で全256代表を覆う否定証明がある。これは曲線点型の簡便conic計算法のこの第一引数への適用限界であり、真のSel4 nonliftではない。
+q★の代表理想・値、δ★の真のSel4への所属は未判定。新規無条件指数排除0。row385の条件付きrank≤7+c_Clは維持、昇格しない。
+
+
+2. 証拠と独立計算方式
+著者ZIP SHA256SUMS=11/11完全一致。著者のflint依存検証器・局所環・conic算術モジュールをimportせず、別に3つのNumba/Pythonプログラムを作成。独立環として
+ (Z/8Z)[z]/(R28(z)), π^3=2
+の3成分を整数計算で構成。R28はRabin型F2既約判定を独立実施済み。上記のZ/8環は法π^9に相当し、単元平方類はπ^1,π^3,π^5係数とπ^6トレースで決まり、法π^7より高い精度π^9で厳密に定まる。著者法π^24と演算実装・精度を変えた独立検算。
+・independent_linear.py: 著者が提出した85×85 Hilbert係数行列の対称性・rank84、全7056ノルムコードの各84方向独立性と各Hilbert行への直交、27二次多項式の全512クラス評価・rank13、7条件被覆、F29(±1)を独立GF2・整数計算で照合。
+・independent_local_core.py + check_norms_independent.py: 84個の分岐二次拡大に対し、明示norm N(1+z^h ω^j)=(1+z^h a_j)^2−β(1+z^h a_j)z^h b_j+γ(z^h b_j)^2を自作環で全7056件再計算。各平方類の85bitコードが著者の全7056提出値と一致（7056/7056 PASS）。84独立ノルムで各Hilbert汎関数を一意決定する局所類体論を使う。全Hilbert行は入力に対する出力検算だけではなく、具体的真のnorm証書から算術的に認証された。
+・independent_conics_derive.py: F29(t−1)を整数二項係数で直接生成し、π^9までの72非零縮小係数でHensel root wを別計算。28個の不分岐Frobenius共役をR28の各根のNewton持ち上げから求め、9基底の平方類を全共役に写した。Hilbert pairingで作る27本の二次式Qk(m)の線形・交差係数を一つずつ再導出し、著者local_conics386.jsonの27/27式と係数レベルで完全一致。
+有理曲線点x=±1の (x−theta) を28共役全てで直接Kummer照合し、計56/56一致。x=0の平方類0も確認。F29(±1)=2^70は整数厳密確認。著者FLINTパッケージ不使用、独立コード総合PASS。
+
+
+3. 本件の有限判定
+27二次条件の線形包rank13。全512 U9座標を独立列挙するとQ1=…=Q27=0の解は正確に{0x000,0x049,0x0a1}。三座標は既知有理曲線点∞、P−、P+により達成されるため、必要条件だけでなく共通部分の厳密等式を証明。
+既知8有理Jacobian類のU座標=0xcf,0xa1,0x49,0x0e,0xa8,0x6b,0xf6,0x51はrank8、全て最上位第9ビット0。δ★=0x10cは第9ビット1。δ★+Wは第9ビット1の256全類。各代表で失敗する補助conic条件の数は最小6。Frobenius指数10,6,11,13,4,1,2の7本を順次課した残存数は112→44→18→5→2→1→0で、独立コードと著者結果一致。
+この局所補助conic条件は曲線点のKummer第一引数については必要条件。Sel4に入るか否かの必要条件ではなく、一般の4コホモロジーリフトに対する非存在証明には絶対に転用しない。
+
+
+4. 親依存と数学的限界
+親row373のK21/K84局所因子と局所モデルの正当性、親row381の55単元・9単元Selmerとloc₂単射、親row385のSel2=U⊕H_nrを限定依存として継承。本行で親まで全再構築したと主張しない。新しい局所計算自体（norm7056、27conics、512classes、点controls）は親からの具体入力に基づく独立実装で全再計算。
+本行で明らかになるのは、Shukla §4.4でδ★を第一引数とする簡便アルゴリズムが既知8類を加える操作では救えない、という計算上の経路STOPである。Shukla §4.3一般版のコホモロジー/2コサイクル算法は適用可能性未判定ではなく引き続きOPEN。真Sel4 membership・q★の零性・MW≤9・元−30不存在は未証明。
+元−30・P23 LOW・Branch BともOPEN。LOW無条件残9絶対指数・16signed。row376の+30の既存排除は維持。新規無条件signed/absolute排除0。Perfect cuboid全域解決主張なし。
+
+
+5. 正本更新指示
+R3 row386を独立監査PASS_SCOPED_DEPENDENTで更新。R3 route E8とR0 ACTIVE_REGION、P0/P2監査状態を最小差分で更新。row386現行数学結果・障壁のaudit labelのみ昇格。R0 ACTIVE_NEXT・R3 G8は変更しない。
+唯一NEXT（ROW386後）は固定δ★の一般4コホモロジーリフトの明示とShukla§4.3の2コサイクル自明化、局所Kummer補正、q★代表理想の構成およびCl/2零性。§4.4簡便法の修復探索は今回失効。q★の零／非零を先決めしない。
+
+
+ORIGINAL_PROOF=https://drive.google.com/file/d/1m6RBEo6QCwvDwe6OC0HZN51uYGnA4sRL/view
+ORIGINAL_AUTHOR_ZIP=https://drive.google.com/file/d/13OQxEPU6NspSIwaU_A6-0NSSXLrqlhOV/view
+PARENT_ROW385_INDEPENDENT_AUDIT=https://docs.google.com/document/d/1Hk75vK7CosfoVALBTbqvQA2RN_5LvIL_1J46PW28aDY/edit
+INDEPENDENT_EVIDENCE_ZIP=https://drive.google.com/file/d/1xwN5P2pY5RPqxa03Pxv11FHDTDyp9SAk/view
+INDEPENDENT_EVIDENCE_SHA256=14abe938e07da9a73a98c0575f78f781a0aade3c7d8e889d3ef93bbb18e2f637

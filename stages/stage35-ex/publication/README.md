@@ -1,6 +1,6 @@
 # Stage35EX — row393停止時点の全ルート公開索引
 
-**研究はrow393で一時停止。現在の作業は公開整理です。**
+**研究はrow393で一時停止。現在の作業は公開整理です。** 公開作業は[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)一つにまとめ、続きを同じPRへ追加します。
 
 99管理IDすべてに、目的・到達点・障壁・保存された再開条件・元資料リンクを持つページを用意しました。R1 9、R2 8、R3 10、R4 52、R5 20。歴史的統合先や横断系列を含むため、99本の独立数学ルート・99定理ではありません。
 
@@ -9,6 +9,7 @@
 - [材料の掲載範囲と次の移植単位](MATERIALS.md)
 - [第1資料群：元source排除の証明・検証コード](../materials/original-source-exclusions/README.md)
 - [第2資料群：−30のMW/Selmer・Artin/Hecke資料](../materials/negative30-mw-selmer/README.md)
+- [第3資料群：類群・非分岐部分・不同・有限上界](../materials/classgroup-and-different/README.md)
 - [監査・採用の範囲](AUDIT-SCOPE.md)
 - [R3研究記録330–393](research-records/R3-330-393.md)
 
