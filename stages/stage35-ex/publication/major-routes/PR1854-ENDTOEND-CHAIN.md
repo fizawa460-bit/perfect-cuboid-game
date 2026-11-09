@@ -85,7 +85,7 @@
 |---|---|---|
 | **GITHUB_SOURCE_RETAINED** | 既存原著に加え、今回11本の数学本文をGoogle DriveからGitHubへ保存。[原著・Git blob対応](PR1854-BULK-ORIGINAL-SOURCES.json) | 追加11本を11独立定理・11必須ファイルとは扱わない |
 | **ROOT_GRAPH_CLASSIFIED** | R2 C189の従来依存表は79識別子に到達。もとの70収載ID＋残り9識別子を新収載・既存別名・本文内再述・外部境界のいずれかに整理。[対応表](PR1854-ENDTOEND-CHAIN.json) | 79を必要定理数や完了率の分母にしない |
-| **OLDER_ORIGINAL_BOUNDARY** | S194が古いSection16の非平方/4位数不在補題を引用。正確な原典位置は未発見。S196の古典的plus-sign降下本文は収載済み | 別のSection16現行K-support定理を誤って同一視しない |
+| **OLDER_ORIGINAL_BOUNDARY（第２周で位置修正）** | S194の非平方補題の出典は[旧BranchB Section16＋Section17訂正](proofs/earliest-foundations/BranchB-Section16.md)で確認できる。[S194](proofs/active-ancestors/S194.md)は4位数不在も本文で論じる。S196のplus-sign降下本文も既収載。外部Fermat降下の独立監査は未完 | 撤回済みのspecialization二分法を復活せず、別のSection16 K-support原著と混同しない |
 | **PUBLISHED_THEOREM_PENDING** | S252のBérczesの高さ定理、row393のde la Maza定理。適用仮定・記号の原典照合が未完 | 有限数値検算のPASSを外部定理適用のPASSと呼ばない |
 | **MATH_SCOPE_REVIEW** | S250のS251内再述、C160→C185の精密適用、R3でさらに深いrow344〜349/証書の原著境界。固定例・歴史・必須親を分ける個別監査は後段 | 未検証を黙って済みにしない |
 | **COMPUTATION_DEFERRED** | コード、元ZIP、計算入力と再演証書の全面確認はユーザー指示で保留 | 数学本文の収載数へ混ぜない |

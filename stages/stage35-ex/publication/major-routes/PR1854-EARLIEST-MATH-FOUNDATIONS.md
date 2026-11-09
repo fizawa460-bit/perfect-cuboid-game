@@ -1,4 +1,9 @@
 # PR #1854: 最古の数学的親原著・残る接続境界
+> **2026-11-09 PR #1860：第１周の欠落原数学証明箇所を回収**：旧§13・§16だけでなく、[最古Branch B §15.1–15.5の一様E' torsionの原証明](proofs/earliest-foundations/BranchB-Section15-torsion.md)も[S194](proofs/active-ancestors/S194.md)の**数学的親**。原Drive本体は同じ（別原本ではない）が、§15.2–15.5のZ/8・Z/12の実際の排除証明が第１周の移植に欠けていたため、#1860に追加した。[分岐・証拠・未検証古典定理](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)。Mazur/Fermat/Mordell外部一次出典や全体の独立監査は未実施。旧§15.6の撤回済み全飽和命題は採用していない。
+
+
+> **2026-11-09 PR #1860 続行訂正（元の歴史的本文は保存）**：この下の`CANONICAL_MARKING_AND_SIGNED_WARD_ORBIT_TRANSFER=UNVERIFIED`などは第１周**当時の一括判定**。現在は[最古E3／35EX-21/31／R1-239標識の明示橋](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)で、positive cuboid→selected４平方（この本文§Equation-level crosswalkの既知成果）、35EX-31原始marking、E3有理`τ=(C+A)/B`とR1の`τ=(t+1)/(t−1)`、同じE/P/T0・`Q−Qsharp`の代数式を照合した。**A/B偶奇標識の不一致は障壁ではない**。なおselected physicalから**必ず`D_n=T0+2nP`の部分群に入る**とは主張しない。S193第一枝・有限奇数枝・無限独立枝を区別し、全inner indexed BranchB網羅と数学独立監査はOPEN。原著129件の件数やStage35採否は変更しない。
+
 
 2026-11-09 / R3-07 LOW through row393; R2-01 MID/HIGH at same snapshot. **This is a rough mathematical-parent/source map, not a proven minimal dependency closure.** No row394 research.
 

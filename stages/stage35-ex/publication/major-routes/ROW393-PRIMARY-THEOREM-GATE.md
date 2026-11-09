@@ -1,14 +1,12 @@
-# row393｜de la Mazaの一次文献の未確認部分と独立数値照合（2026-11-09）
+# row393｜de la Mazaの一次文献適用と先行の独立数値照合
 
-**状態：SOURCE_THEOREM_VERIFICATION_PENDING / CONDITIONAL_APPLICATION_ONLY。** 本文：[row393原証明](../../materials/classgroup-and-different/proofs/row393.md)、[著者時点の独立監査記録](../../materials/classgroup-and-different/audits/row393.txt)。移植元Driveの監査は外部定理原文の入手ができなかったことを明記する。今回も一次文献本文は取得・照合できず、外部定理の証明への適用承認を付与しない。
+**2026-11-09 JST｜D-1 PASS（原命題・適用条件）。** [row393 §2](../../materials/classgroup-and-different/proofs/row393.md)に対し、de la Maza, *Bounds for the smallest norm in an ideal class*, Math. Comp. 71(240) (2002), 1745–1758 の掲載版を読んだ。pp. 1746–1747のTheorem 1・Corollaryと式 (4)–(7)、pp. 1748–1749の証明・式 (11)、pp. 1750–1751のLemma 2・Proposition 2を照合した。[原論文の掲載版PDF](https://citeseerx.ist.psu.edu/document?doi=1b6ff134947b9273c37cb81b7a73217d3d9562f7&repid=rep1&type=pdf) · [D-1照合の詳細](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)
 
-## 照合すべき原典
-
-著者が引用するのは **Ana-Cecilia de la Maza, `Bounds for the smallest norm in an ideal class`, Mathematics of Computation 71(240) (2002), 1745–1758, Theorem 1およびその直後の系**。著者が挙げた [DOI](https://doi.org/10.1090/S0025-5718-01-01373-4) と[AMS PDF](https://www.ams.org/mcom/2002-71-240/S0025-5718-01-01373-4/S0025-5718-01-01373-4.pdf) は今回の利用可能なGoogle Drive個人資料内で一次原文を発見できていない。これらの書誌事項の原典自体への外部到達確認も未実施であり、論文題名・著者は**row393の引用情報として記載**する。
+[著者時点の独立監査記録](../../materials/classgroup-and-different/audits/row393.txt)と以下の数値スポットチェックは先行記録。数体・署名・判別式はrow393の固定親入力を使う。
 
 ## 実際に独立確認した数学的な部分
 
-row393のパラメータ`gamma=107/500`,`alpha=13/1000`,`beta=77/1000`,`lambda=83/250`は`0<alpha<beta<gamma<lambda`を満たす。記載された有理関数R(s)の(1+constant/s)による展開は因数の整理により恒等的に成り、係数が非負となることを初等代数で確認できる。ただし、**それが原典の「admissible (4)」の十分条件と完全一致するかは未確認**。
+row393のパラメータ`gamma=107/500`,`alpha=13/1000`,`beta=77/1000`,`lambda=83/250`は`0<alpha<beta<gamma<lambda`を満たす。記載された有理関数R(s)の(1+constant/s)による展開は因数の整理により恒等的に成り、係数が非負となることを初等代数で確認できる。この展開は原典 (4) の因子数・符号条件を満たし、Proposition 2 の α₁=α₂=λ に一致する。
 
 署名(r1,r2)=(7,49)、n=105で
 ```text
@@ -16,7 +14,7 @@ Gamma_K(s) = Gamma(s/2)^56 Gamma((s+1)/2)^49,
 T(s)=Gamma_K(1−s)/Gamma_K(s+2 gamma+1),
 P(s)=Gamma_K(s)/Gamma_K(s+2 gamma+1).
 ```
-s=−gamma+itならTの分子と分母は複素共役で絶対値1。極s=−betaの留数が負、積分線のR寄与の上界`M=(gamma-alpha)/(2(gamma-beta)(lambda-gamma))`は初等的に導出できる。横方向の積分消滅にはGamma比Stirlingの一様評価が必要であり、この標準的解析条件の適用範囲も外部定理と合わせて今後点検する。
+s=−gamma+itならTの分子と分母は複素共役で絶対値1。極s=−betaの留数が負、積分線のR寄与の上界`M=(gamma-alpha)/(2(gamma-beta)(lambda-gamma))`は初等的に導出できる。横方向の積分の消滅は移動帯でのGamma比の一様Stirling評価とR(s)の二次減衰で確認した。
 
 mpmath高精度**独立再計算**（数値スポットチェックであり、今回新たに厳密区間証明を実装したとは言わない）：
 ```text
@@ -31,17 +29,12 @@ B/2^94 ≈ 0.67173410153985976.
 ```
 で一致した。これは親判別式の独立再計算ではない。過去のArb/mpmath.ivによる区間算術の記録はそのまま別証拠として保持する。
 
-## 一次文献から照合しない限り閉じられないゲート
+## 適用判定
 
-1. Theorem 1の**数体の対象**が通常イデアル類（strict/narrowではないか）で、数体次数・署名・判別式・零点仮定などがrow393のKと一致するか。
-2. 原文(4)のadmissibleの**全定義**（極の位置、解析帯、成長、正係数分解・収束）と、R(s)の条件が一致するか。
-3. 原文のF(y)の正確なMellin変換の向き・符号・積分線と、F(y)≤0 for y≤y0が必要十分な形式で使われているか。
-4. Theorem 1と直後の系が`B=sqrt(|Delta_K|)/(t0*exp(y0))`を本当にこの記号規約で与えるか。特に`pi^(n/2)`、Gamma変数の倍角、単位群・類数正規化の取り違えがないか。
-5. 結論にGRHや零点の不在、狭義/通常類群の区別、Fの非負条件等の**見落とした追加仮定**がないか。
-6. 判別式・最大整環・署名の親証書を実物で独立検証すること（今回の数値はその入力に依存）。
+- 原典の通常イデアル類とrow393の類群が一致。GRH、零点不在、不同の主性の仮定を課さない。
+- Mellin積分の符号・線方向・ガンマ規格化が一致。原典 (17) の下界に δ₂=γ、α₁=α₂=λ を入れるとrow393の $y_0$ になる。
+- Corollary (7) と (11) を併用すると $B=\sqrt{|\Delta_K|}/(t_0e^{y_0})$。既存の区間計算と合わせ、固定数体の各通常イデアル類にノルムが $B$ 以下の整イデアル代表が存在し、$B<2^{94}$ となる。
 
-このゲートを閉じる前に「全通常イデアル類にノルムB以下の代表が存在」を**原典照合まで完了した無条件定理として公開認証しない**。ただし「row393の記載した公式に基づく数値B<2^94」は整合している。6768の878基底のCl/2全尽生成、形式181のc_Clへの昇格、−30排除は引き続き未証。
-
-**公表上の文言**：『row393は、de la Mazaの引用定理の適用が正しい場合にB<2^94となる計算を収載する。数値計算は検算済みだが、引用定理の一次文献適用は未監査。』
+6768の878基底によるCl/2全尽生成、形式181とc_Clの関係、−30無条件排除は未解決。全算術証書の独立再演は別の監査範囲。
 
 [主要移植チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md) · [既存類群研究](04-minus30.md)
