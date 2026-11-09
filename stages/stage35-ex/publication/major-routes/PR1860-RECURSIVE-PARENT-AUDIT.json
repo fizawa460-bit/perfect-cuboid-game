@@ -367,9 +367,9 @@
       "route": "R3-07",
       "from": "R1-239 signed±18 A-even B-odd mapping",
       "to": "earliest E3 selected labelled A=t²−1 B=2t chart",
-      "evidence": "E3-selected-physical-kummer.md §1 selects B-even Euclid chart, R1-239 original selects A-even survivor after S264, and E/P depend asymmetrically on A and B",
-      "status": "LABELLED_ORIENTATION_GLOBAL_FORWARD_NOT_CERTIFIED",
-      "outstanding": "do not identify these two charts without explicit labelled switch and elliptic orbit compatibility"
+      "evidence": "E3 original/S193 explicitly rational τ>1: τ=(C+A)/B, λ=B²/[2(C+A)]; R1-239 A=2uv,B=u²−v² with t=u/v gives τ=(t+1)/(t−1); z=(B²/AC)²=(b²/a)²",
+      "status": "LABELLED_CHART_ORIENTATION_RESOLVED_ALGEBRAICALLY",
+      "outstanding": "Only independent full selected-physical→inner indexed BranchB membership/coverage, not A/B parity or E/P scaling; see PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md"
     },
     {
       "route": "R2-01",
@@ -415,13 +415,37 @@
       "route": "COMMON_SOURCE",
       "from": "Selected E3 physical diagonal map",
       "to": "fully labelled original indexed E/P and same Q/Qsharp for R2/R3",
-      "evidence": "E3-selected-physical source fixed A=t²−1,B=2t while R1-239 uses A-even B-odd; S231/S263/C195 assert arbitrary labelled base only after actual packet",
-      "status": "GLOBAL_PHYSICAL_FORWARD_ADAPTER_STILL_OPEN",
-      "outstanding": "need explicit proof of coverage of both orientations and same indexed orbit; Section17 withdrawn saturation not reused"
+      "evidence": "S193 normalized E0, P3, T0 and physical Qn: (x,y)↦(C²x,C³y) maps to identical labelled integral E/P/T0. S231 Q−Qsharp chord slope s gives (-r²,-rpq). However selected physical root equations alone DO NOT imply Qn∈T0+2ZP.",
+      "status": "EXACT_SAME_LABELLED_CURVE_POINT_AND_ORBIT_BRIDGE_RESOLVED_GLOBAL_MEMBERSHIP_STILL_OPEN",
+      "outstanding": "Full Stage35 physical source coverage and indexed inner-BranchB subgroup membership are independent remaining gates; Section17 withdrawn source saturation not reintroduced"
+    },
+    {
+      "route": "COMMON_SOURCE",
+      "from": "every positive labelled primitive (A,B,C)",
+      "to": "earliest selected E3 rational τ chart",
+      "evidence": "τ=(C+A)/B>1, λ=B²/[2(C+A)]; λ(τ²−1,2τ,τ²+1)=(A,B,C) identically; R1 ±18 t=u/v has τ=(t+1)/(t−1)",
+      "status": "ALGEBRAIC_PROOF_REDERIVED_SOURCE_PRESENT",
+      "outstanding": "No statement that all Stage35 physical packets lie in inner indexed BranchB; original proof report PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md"
+    },
+    {
+      "route": "COMMON_SOURCE",
+      "from": "E3 E0,P3,T0, Qphys",
+      "to": "labelled integral original E,P,T0, Qn, signed Dn",
+      "evidence": "ι_C(x,y)=(C²x,C³y) maps E0 and P3=(a,ab) to E:y²=x(x−A²)(x+C²),P=(AC,ABC); Qphys↦(-r²,+rpq), negation ↦(-r²,-rpq) with j↦−j",
+      "status": "CURVE_POINT_SIGNED_INDEX_SCALING_DERIVED",
+      "outstanding": "Subgroup membership is separate condition of S193's first branch"
+    },
+    {
+      "route": "COMMON_SOURCE",
+      "from": "S231 same original r,s,p,q,Q,Qsharp",
+      "to": "Q−Qsharp=(-r²,-rpq)",
+      "evidence": "ρ=rs+pq, ρ(ρ−2rs)=D², chord between Q and −Qsharp has slope s; x=s²−B²=−r², y=−rρ+sr²=−rpq",
+      "status": "GROUP_CHORD_IDENTITY_INDEPENDENTLY_REDERIVED",
+      "outstanding": "Physical 4 roots alone do not establish Q−Qsharp∈T0+2ZP; finite-odd and rank growth remain separate"
     }
   ],
   "next_open_gates": [
-    "R3-07 and R2-01 global physical E3 selected label → every original positive primitive labelled signed E/P,Q/Qsharp source forward coverage, including A-even/B-odd when selected E3 chart B-even",
+    "GLOBAL source coverage only: prove which selected physical packets satisfy original indexed inner BranchB subgroup Qn∈T0+2ZP; A-even/B-odd versus selected rational E3 τ chart and E/P/T0 scaling now ALGEBRAICALLY RESOLVED. Do not conflate S193 first-branch membership with all physical packets.",
     "R3 fixed ±18 row367 independent proof audit, exact 2-adic/global-to-local compatibility, and C35-11/C35-12 Coleman/Selmer source-dependent analysis; all mathematical manuscripts present in inspected direct chain but independent math audit open",
     "R3 −30 row393 de la Maza external primary theorem hypotheses/normalizations; 24 row370..393 math originals present, no unconditional −30 exclusion and Cl/2 full generator proof",
     "R2 C185 first-entry and H critical/canonical/protected TOP theorem independent arithmetic/formal proof; C174/C175 height all-base numerical certificates independent replay",
@@ -491,6 +515,25 @@
       "duplicate_uploads_this_turn": 0,
       "C185_original_historical_name": "R2 C184 owner proposal mathematically adopted into R0 C185",
       "prime_reciprocal_bound_verified": true
+    },
+    {
+      "route": "COMMON_SOURCE",
+      "path": "stages/stage35-ex/publication/major-routes/PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md",
+      "status": "LABELLED_E3_TO_INDEXED_COORDINATES_MATHEMATICALLY_REDERIVED_GLOBAL_SUBGROUP_COVERAGE_OPEN",
+      "new_math_origins_added": 0
     }
-  ]
+  ],
+  "labelled_chart_bridge": {
+    "status": "RESOLVED_ALGEBRAICALLY",
+    "audit_path": "stages/stage35-ex/publication/major-routes/PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md",
+    "rational_tau": "(C+A)/B",
+    "rational_lambda": "B^2/(2(C+A))",
+    "R1_Euclid_t_to_E3_tau": "(t+1)/(t-1)",
+    "normalized_curve_to_integral": "(x,y)->(C^2*x,C^3*y)",
+    "R1_z_identity": "(B^2/(A*C))^2=(b^2/a)^2",
+    "Q_Qsharp_identity": "Q-Qsharp=(-r^2,-r*p*q)",
+    "global_Stage35_physical_coverage_certified": false,
+    "all_selected_physical_points_in_indexed_subgroup_certified": false,
+    "external_independent_math_audit": false
+  }
 }
