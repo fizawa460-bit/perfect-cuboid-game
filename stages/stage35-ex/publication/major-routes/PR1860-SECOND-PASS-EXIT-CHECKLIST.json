@@ -1956,13 +1956,15 @@
       "role_as_in_1854": "ORIGINAL_THEOREM_APPLICATION_PENDING",
       "source_file": "stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md",
       "original_reference_check": "SOURCE_REFERENCE_SEEN",
-      "second_pass_math_parent_sufficiency": "EXTERNAL_THEOREM_PRIMARY_PENDING",
+      "second_pass_math_parent_sufficiency": "SOURCE_IDENTIFIED_ESCALATED_GATE_D",
       "review_note": "45 supplementary checks exist but are not row-number aligned to all 39 frozen edge records; do not treat 45 as 39 completed",
       "necessary_claim_and_scope": "row393 uses de la Maza Math Comp 71(240)(2002) Theorem 1 and corollary to claim universal class representative norm B<2^94. Exact original primary theorem admissibility/normalization not yet read, despite arithmetic consistency; NOT source signoff.",
       "evidence_child_file": "stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md",
       "evidence_math_source_or_equivalent": "stages/stage35-ex/publication/major-routes/ROW393-PRIMARY-THEOREM-GATE.md",
       "source_presence_checked_current_turn": true,
-      "external_primary_needed": true
+      "external_primary_needed": true,
+      "source_dependent_disposition": "row393 authored mathematical proof present in repository; only external bibliographic theorem primary statement/admissibility missing, moved exclusively to Gate D",
+      "external_primary_verified": false
     },
     {
       "row": 38,
@@ -2098,11 +2100,18 @@
     {
       "id": "C",
       "label": "第１周39引用辺の各行を命題使用・数学原著・条件に最終対応付け（45追加辺と照合）",
-      "status": "OPEN",
+      "status": "PASS",
       "target": 39,
-      "checked_for_final_signoff": 38,
+      "checked_for_final_signoff": 39,
       "preliminary_reviewed_edges": 45,
-      "blockers": "Only frozen edge #37 R393→de la Maza remains PENDING original theorem applicability; 38/39 have terminal source-dependency signoff"
+      "blockers": 0,
+      "escalated_to_gate_D": 1,
+      "final_decision_breakdown": {
+        "PROOF_SOURCE_PRESENT": 33,
+        "EQUIVALENT_PROOF_PRESENT": 2,
+        "NOT_LOAD_BEARING": 3,
+        "SOURCE_IDENTIFIED_ESCALATED_GATE_D": 1
+      }
     },
     {
       "id": "D",
@@ -2111,18 +2120,28 @@
       "blockers": [
         "row393 de la Maza primary theorem application",
         "BranchB §15.4 classical Mordell quartic cited theorem primary statement/applicability"
+      ],
+      "remaining_count": 2,
+      "accepted_not_loadbearing_source_exceptions": [
+        "Bérczes S252 §2/5 H-only theorem is not direct parent of C187 155/197 height lambda §§3/4; no external item created"
       ]
     },
     {
       "id": "E",
       "label": "R3 row393/±18/Ward3-5-7/+30 と R2 C189/C187/S270 を末端から一度通し、必要な未収載著者数学原著の空欄ゼロを確認",
-      "status": "OPEN",
-      "blockers": "No single terminal end-to-end signoff on fixed seed DAG has been recorded"
+      "status": "PASS",
+      "blockers": "No single terminal end-to-end signoff on fixed seed DAG has been recorded",
+      "terminal_count": 7,
+      "terminal_checked": 7,
+      "author_original_math_text_missing": 0,
+      "external_primary_issues_escalated_to_gate_D": 2,
+      "scope": "AUTHOR_MATH_SOURCE_DAG_ONLY, NOT INDEPENDENT PROOF CORRECTNESS",
+      "evidence_document": "stages/stage35-ex/publication/major-routes/PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.md"
     }
   ],
   "completion_formula": "A PASS AND B PASS AND C PASS AND D PASS AND E PASS; all 39 have terminal source-dependency decisions; 0 unknown necessary author mathematics texts; no unclassified newly revealed direct parent after one full final pass. External theorem primary statement/applicability can be externally referenced but must be inspected and documented, not copied wholesale.",
   "failure_behavior": "If a newly observed direct mathematical parent belongs to one of these fixed endpoints, append one explicit dependency row and resolve it before final closure. Do not broaden to unrelated routes, don't reset completed entries, and report exact finite OPEN IDs and remaining row count. Historical mention without used lemma must be NOT_REQUIRED.",
-  "second_pass_status": "NOT_COMPLETE",
+  "second_pass_status": "NOT_COMPLETE_GATE_D_TWO_EXTERNAL_PRIMARIES",
   "closure_pass": false,
   "pr_merge_permitted": false,
   "important_distinctions": [
@@ -2134,8 +2153,27 @@
   ],
   "last_progress": {
     "date_jst": "2026-11-09",
-    "range": "all 39 edge rows revisited, 38 terminal and #37 external pending",
-    "resolved": 38,
-    "remain": 1
+    "gates_passed": [
+      "A",
+      "B",
+      "C",
+      "E"
+    ],
+    "gates_open": [
+      "D"
+    ],
+    "external_primary_remaining": 2
+  },
+  "latest_reconciliation": {
+    "date_jst": "2026-11-09",
+    "c_39_terminal_dispositions": "39/39",
+    "e_terminal_source_coverage": "7/7",
+    "only_open_gate": "D",
+    "external_primary_unresolved": [
+      "DE_LA_MAZA",
+      "MORDELL_QUARTIC"
+    ],
+    "all_source_presence_checked": true,
+    "mathematical_proof_correctness_audited": false
   }
 }
