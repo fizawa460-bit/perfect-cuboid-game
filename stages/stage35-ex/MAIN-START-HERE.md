@@ -1,3 +1,7 @@
+> **2026-11-08 owner instruction — publication work only.**
+> Research is paused after the Google Drive R3 row393 snapshot. Do not execute a mathematical NEXT (including older Goal4AL/CG or row394+) until an explicit user resumption instruction.
+> [99-ID publication catalogue](publication/README.md) records routes, materials and audit scope. This metadata import adds no mathematical credit and does not change the formal V74 authority in `MAIN-STATE.json`.
+
 # Stage35-EX — START HERE
 
 ## Purpose

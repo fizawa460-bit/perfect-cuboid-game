@@ -1,0 +1,475 @@
+﻿#!/usr/bin/env python3
+"""Independent Stage35EX-C genus-3 2-Selmer local/global arithmetic audit.
+
+
+Standard library + sympy. Implementation is independent of prior bit labeling:
+  * direct quotient of cubic residue rings O_K/8 by all unit squares;
+  * direct F_(5^d) Euler square tests and rational 5-adic root Hensel;
+  * p=11/37 unit Kummer images from the factorized algebra;
+  * all 1024 10-dimensional support-space masks.
+This is a finite arithmetic certificate; arithmetic-to-Selmer implication uses
+standard odd-degree hyperelliptic 2-descent and local Kummer theorems.
+"""
+from itertools import product
+from pathlib import Path
+import sympy as sp, json
+
+
+x=sp.symbols('x')
+A=x**3+x**2-13*x-5
+B=x**3+5*x**2+11*x-1
+F=sp.expand(x*A*B)
+
+
+def gf_rank(vectors):
+    piv={}
+    for z in vectors:
+        while z:
+            h=z.bit_length()-1
+            if h in piv:z ^= piv[h]
+            else:piv[h]=z;break
+    return len(piv)
+
+
+def bitrow(s):return sum(int(t)<<i for i,t in enumerate(s))
+
+
+def v_p(n,p):
+    assert n!=0
+    k=0
+    while n%p==0:n//=p;k+=1
+    return k
+
+
+def leg(a,p):
+    a%=p
+    assert a
+    r=pow(a,(p-1)//2,p)
+    assert r in (1,p-1)
+    return int(r==p-1)
+
+
+# Independent local 11/37 audit: the degree-three unramified factor
+# gives a nonsquare bit by its polynomial norm C(s).
+pbig={}
+for p,ss,simple,double,unram in [
+  (11,(3,6,7),9,4,A),
+  (37,(1,2,4),22,7,B)]:
+    fac=sp.factor_list(F,modulus=p)[1]
+    assert sorted(int(z[1]) for z in fac)==[1,1,1,2]
+    assert all(sp.Poly(unram,x,modulus=p).eval(t)%p for t in range(p))
+    assert v_p(abs(int(sp.discriminant(A if p==37 else B,x))),p)==1
+    vectors=[];controls=[]
+    for s in ss:
+        fy=int(F.subs(x,s)); fyp=fy%p
+        assert fyp and leg(fyp,p)==0
+        vals=[leg(s,p),leg(s-simple,p),leg(s-double,p),leg(int(unram.subs(x,s)),p)]
+        assert vals[0]^vals[1]^vals[3]==0
+        row=bitrow(vals); vectors.append(row)
+        controls.append({'s':s,'F':fy,'F_modp':fyp,'bits':''.join(map(str,vals))})
+    assert gf_rank(vectors)==3
+    image={0}
+    for z in vectors:image|={v^z for v in tuple(image)}
+    assert len(image)==8
+    pbig[str(p)]={'square_witnesses':controls,'genuine_dimension':3,
+      'full_image_order':len(image),'even_valuation_all_factors':True,
+      'full_image_vectors':[''.join(str((v>>i)&1) for i in range(4)) for v in sorted(image)]}
+
+
+# Enumerate cubic integer rings; x is a uniformizer at the unique prime over 2.
+# Cubic KA has x^3 - 8 x^2 + 6x + 2, cubic KB y^3+4y^2-6y+2.
+class Cubic2:
+    def __init__(self,poly):
+        self.c=tuple(poly)
+        self.qsq=None
+        self.coset_table=None
+        self.labels=None
+    def mul(self,a,b):
+        v=[0]*5
+        for i in range(3):
+            for j in range(3):v[i+j]+=a[i]*b[j]
+        for i in (4,3):
+            q=v[i]
+            if q:
+                for j in range(3):v[i-3+j]-=q*self.c[j]
+        return tuple(v[:3])
+    def divide_by_uniformizer(self,a):
+        # pi^3+c2*pi^2+c1*pi+2=0; 2/pi=-(pi^2+c2*pi+c1)
+        twice_inv=(-self.c[1],-self.c[2],-1)
+        z=self.mul(a,twice_inv)
+        assert all(zi%2==0 for zi in z)
+        return tuple(zi//2 for zi in z)
+    def norm(self,a):
+        cols=[]
+        for j in range(3):
+            e=[0,0,0];e[j]=1
+            cols.append(self.mul(a,e))
+        M=sp.Matrix(3,3,lambda i,j:cols[j][i])
+        return int(M.det())
+    def square_residues(self):
+        if self.qsq is None:
+            self.qsq={tuple(v%8 for v in self.mul(c,c)) for c in product(range(8),repeat=3) if c[0]%2}
+            assert len(self.qsq)==16
+        return self.qsq
+    def normalized(self,a):
+        n=self.norm(a)
+        assert n!=0
+        e=v_p(abs(n),2)
+        for _ in range(e):a=self.divide_by_uniformizer(a)
+        assert a[0]%2
+        return e%2,tuple(t%8 for t in a)
+    def setup_labels(self):
+        squares=self.square_residues(); coset_table={}; reps=[]
+        for u in product(range(8),repeat=3):
+            if not u[0]%2 or u in coset_table:continue
+            cid=len(reps)
+            orbit={tuple(t%8 for t in self.mul(u,s)) for s in squares}
+            for t in orbit:coset_table[t]=cid
+            reps.append(min(orbit))
+        assert len(reps)==16 and len(coset_table)==256
+        # obtain a group-basis via orbit expansion, not by copying older labels
+        labs={coset_table[(1,0,0)]:0};gen=[]
+        for cid in range(16):
+            if cid in labs:continue
+            val=reps[cid]; k=len(gen)
+            snapshot=list(labs.items()); gen.append(val)
+            for old,mask in snapshot:
+                pair=self.mul(reps[old],val)
+                nxt=coset_table[tuple(v%8 for v in pair)]
+                assert nxt not in labs
+                labs[nxt]=mask^(1<<k)
+        assert len(gen)==4 and len(labs)==16
+        self.coset_table=coset_table; self.labels=labs
+    def word(self,a):
+        if self.labels is None:self.setup_labels()
+        parity,residue=self.normalized(a)
+        return parity<<4 | self.labels[self.coset_table[residue]]
+
+
+KA=Cubic2((2,6,-8));KB=Cubic2((2,-6,4))
+KA.setup_labels();KB.setup_labels()
+
+
+def oddq(n):
+    assert n
+    v=v_p(abs(n),2)
+    odd=(n//(2**v))%8
+    return v%2 | {1:0,7:2,5:4,3:6}[odd]
+
+
+def fullword(norm,aa,bb):
+    return oddq(norm) | (KA.word(aa)<<3) | (KB.word(bb)<<8)
+
+
+def multiply(r,a,b):return r.mul(a,b)
+
+
+# KA: alpha=2x-1, theta=-5/alpha;
+# f0=-1+3x-2z and f1=-2+2x-z, z=(x*x+1)/5.
+# Multiply 5f0,5f1 by 5 again to restore squareclasses exactly.
+alpha=(-1,2,0); beta=(-1,2,0)
+fa0=KA.mul((5,0,0),(-7,15,-2))
+fa1=KA.mul((5,0,0),(-11,10,-1))
+AN={'-1':-1,'f0':1,'f1':1,'x':-2,'theta':5,'alpha':-25}
+BN={'-1':-1,'g0':1,'y':-2,'5':125}
+A_polys={'-1':(-1,0,0),'f0':fa0,'f1':fa1,'x':(0,1,0),
+ 'theta':KA.mul((-5,0,0),alpha),'alpha':alpha}
+B_polys={'-1':(-1,0,0),'g0':(-7,9,2),'y':(0,1,0),'5':(5,0,0)}
+assert KA.norm(A_polys['theta']) == AN['theta']*5**4
+# The f0,f1 reps differ by square factor 5^2 from actual f0,f1; verify ratio by norms.
+for k,v in [('f0',fa0),('f1',fa1)]:assert KA.norm(v)==AN[k]*5**6
+for k in ['-1','g0','y','5']:assert KB.norm(B_polys[k])==BN[k]
+for k in ['-1','x','alpha']:assert KA.norm(A_polys[k])==AN[k]
+assert [int(A.subs(x,t))%3 for t in (0,1,2)].count(0)==0
+assert [int(B.subs(x,t))%3 for t in (0,1,2)].count(0)==0
+assert KA.norm(A_polys['f0'])==25**3 and KA.norm(A_polys['f1'])==25**3
+assert KA.norm(A_polys['theta'])==5**5
+# KB unit g0=2y²+9y-7 is 1+y mod2, never an odd-unit square mod2.
+assert B_polys['g0'][0]%2==1 and B_polys['g0'][1]%2==1
+assert sp.factor_list(A,modulus=5)[1] and sp.factor_list(B,modulus=5)[1]
+
+
+
+
+keys=['A:'+k for k in AN]+['B:'+k for k in BN]
+loc2=[]
+for k in AN:loc2.append(fullword(AN[k],A_polys[k],(1,0,0)))
+for k in BN:loc2.append(fullword(BN[k],(1,0,0),B_polys[k]))
+assert len(loc2)==10 and gf_rank(loc2)==9
+
+
+# Pure modular 5-adic finite field arithmetic over monic irreducible mod-5 polys.
+class F5Ext:
+    def __init__(self, coeffs, mod):
+        self.poly=tuple(v%5 for v in mod);self.d=len(mod)-1
+        self.c=tuple((list(coeffs)+[0]*self.d)[:self.d]);self.c=tuple(t%5 for t in self.c)
+    def coerce(self,r):
+        if isinstance(r,F5Ext):
+            assert r.poly==self.poly
+            return r
+        return F5Ext([r],self.poly)
+    def __add__(self,r):
+        r=self.coerce(r);return F5Ext([(u+v)%5 for u,v in zip(self.c,r.c)],self.poly)
+    __radd__=__add__
+    def __neg__(self):return F5Ext([-v for v in self.c],self.poly)
+    def __sub__(self,r):return self+-self.coerce(r)
+    def __rsub__(self,r):return self.coerce(r)-self
+    def __mul__(self,r):
+        r=self.coerce(r);c=[0]*(2*self.d-1)
+        for i,a in enumerate(self.c):
+            for j,b in enumerate(r.c):c[i+j]+=a*b
+        for k in range(len(c)-1,self.d-1,-1):
+            for j in range(self.d):c[k-self.d+j]-=c[k]*self.poly[j]
+        return F5Ext(c[:self.d],self.poly)
+    __rmul__=__mul__
+    def __pow__(self,n):
+        assert n>=0
+        cur=self;out=self.coerce(1)
+        while n:
+            if n%2:out=out*cur
+            cur=cur*cur;n//=2
+        return out
+    def inv(self):return self**(5**self.d-2)
+    def __truediv__(self,r):return self*self.coerce(r).inv()
+    def __rtruediv__(self,r):return self.coerce(r)/self
+    def __eq__(self,r):return self.c==self.coerce(r).c
+    def char(self):
+        assert self!=0
+        val=self**((5**self.d-1)//2)
+        assert val==1 or val==-1
+        return int(val==-1)
+
+
+p5A=F5Ext([0,1],[2,1,1]);p5B=F5Ext([0,1],[-1,1,0,1])
+# Rational root alpha=-5/theta, h_alpha(T)=T^3-13T²-5T+25
+ha=lambda n:n**3-13*n*n-5*n+25
+alpha_r=next(i for i in range(3,125,5) if ha(i)%125==0)
+xx=((alpha_r+1)*pow(2,-1,125))%125
+assert (xx*xx+1)%5==0
+zz=((xx*xx+1)//5)%5
+real_A={'-1':-1,'f0':-1+3*xx-2*zz,'f1':-2+2*xx-zz,'x':xx,
+ 'theta':-pow(alpha_r,-1,5),'alpha':alpha_r}
+# p5A is the theta (NOT x) of the degree-two factor.
+p5z=(1-2/p5A)/4
+Aq={'-1':-p5A.coerce(1),'f0':-1+3*3-2*p5z,'f1':-2+2*3-p5z,
+ 'x':p5A.coerce(3),'theta':p5A,'alpha':-1/p5A}
+Av5r={'theta':1};Av5q={'alpha':1}
+Bbeta=-1/p5B
+By=(Bbeta+1)/2
+Bq={'-1':-p5B.coerce(1),'g0':2*By*By+9*By-7,'y':By,'5':p5B.coerce(1)}
+Bv5q={'5':1}
+
+
+def rat5(n):
+    k=v_p(abs(n),5);u=n//(5**k)
+    return k%2,leg(u,5)
+
+
+loc5=[]
+for k in AN:
+    v5,nonsq=rat5(AN[k]);vr=Av5r.get(k,0);uq=Av5q.get(k,0)
+    rur=real_A[k]
+    if k=='alpha':rur=alpha_r # alpha unit rational branch
+    # theta_r=-5/alpha => theta/5 = -1/alpha
+    ur=leg(rur,5)
+    loc5.append(bitrow([v5,nonsq,vr,ur,uq,Aq[k].char(),0,0]))
+for k in BN:
+    v5,ns=rat5(BN[k]);loc5.append(bitrow([v5,ns,0,0,0,0,Bv5q.get(k,0),Bq[k].char()]))
+
+
+# Direct verification of all three actual p5 local Jacobian classes, without
+# trusting the published fingerprints as input.
+theta5_over5=(-pow(alpha_r,-1,5))%5
+assert theta5_over5==3
+# T0=(0,0): F'(0)=5 gives v5=1 nonsquare-unit0;
+# at the distinct rational A branch, s-theta=-theta has leading unit 2.
+p5T0=bitrow([1,leg(1,5),1,leg(theta5_over5,5),0,p5A.char(),0,p5B.char()])
+# Talpha=(theta5,0): s=theta5; at x=0 one gets -theta5.
+# At x=theta5 branch F'(theta5)/5=(theta5/5)*A'(0)*B(0).
+p5TA=bitrow([1,leg(-theta5_over5,5),1,leg(theta5_over5*(-13)*(-1),5),
+              0,(-p5A).char(),0,(-p5B).char()])
+# P=[(-1,8)-infinity]: evaluate x-T at all four field factors.
+p5P=bitrow([0,leg(-1,5),0,leg(-1,5),0,(-1-p5A).char(),0,(-1-p5B).char()])
+assert (p5T0,p5TA,p5P)==(bitrow((1,0,1,1,0,1,0,0)),
+ bitrow((1,1,1,0,0,1,0,0)),bitrow((0,0,0,0,0,1,0,1)))
+
+
+# The actual local p5 image: 2-torsion 0-branch, local A-branch and rational P(-1).
+p5span={0}
+for z in (p5T0,p5TA,p5P):
+    p5span|={z^w for w in tuple(p5span)}
+assert len(p5span)==8
+# Exact order of real roots and rigorous rational isolating brackets are separately asserted.
+A_roots=sorted(float(sp.re(root)) for root in sp.nroots(A))
+B_roots=[float(sp.re(root)) for root in sp.nroots(B) if abs(float(sp.im(root)))<1e-9]
+assert len(A_roots)==3 and len(B_roots)==1
+assert -4<A_roots[0]<-3 and -.5<A_roots[1]<-.375 and 10/3<A_roots[2]<3.5
+assert 1/12<B_roots[0]<1/11
+
+
+def aval(k,t):
+    a=-5/t;x=(a+1)/2;z=(x*x+1)/5
+    return {'-1':-1,'f0':-1+3*x-2*z,'f1':-2+2*x-z,'x':x,'theta':t,'alpha':a}[k]
+
+
+def bval(k,t):
+    b=-1/t;y=(b+1)/2
+    return {'-1':-1,'g0':2*y*y+9*y-7,'y':y,'5':5}[k]
+locR=[]
+for k in AN:
+    locR.append(bitrow([int(AN[k]<0),*[int(aval(k,t)<0) for t in A_roots],0]))
+for k in BN:
+    locR.append(bitrow([int(BN[k]<0),0,0,0,int(bval(k,B_roots[0])<0)]))
+realspan={0,bitrow((1,0,1,1,1)),bitrow((0,0,0,1,1)),bitrow((1,0,1,0,0))}
+assert len(realspan)==4
+# Three independent sign patterns give the complete KA unit mod-square basis.
+unit_signs=[bitrow([int(aval(k,t)<0) for t in A_roots]) for k in ('-1','f0','f1')]
+assert gf_rank(unit_signs)==3
+
+
+
+
+# Q2 5 genuine independent local divisor class witnesses.
+def my_poly(coeff,t,ring):
+    acc=(0,0,0)
+    for c in reversed(coeff):
+        acc=ring.mul(acc,t);acc=(acc[0]+c,acc[1],acc[2])
+    return acc
+
+
+def Fint(s):return int(F.subs(x,s))
+
+
+def q2_square_int(n):
+    if not n:return True
+    k=v_p(abs(n),2)
+    return k%2==0 and (n//(2**k))%8==1
+
+
+def pointword(s):
+    # s-theta_A=(s*alpha+5)*alpha, s-theta_B=(s*beta+1)*beta modulo squares
+    aa=KA.mul((5-s,2*s,0),alpha)
+    bb=KB.mul((1-s,2*s,0),beta)
+    return fullword(s,aa,bb)
+
+
+T0=fullword(5,KA.mul((5,0,0),alpha),beta)
+Abranch=KA.mul((5,0,0),my_poly([125,-125,55,1],alpha,KA))
+Bbranch=tuple(-i for i in KB.mul(beta,my_poly([-1,1,13,-5],beta,KB)))
+TA=fullword(5,Abranch,Bbranch)
+points=[]
+for s in (-300,-297,-293):
+    assert q2_square_int(Fint(s))
+    points.append({'x':s,'F':Fint(s),'v2F':v_p(abs(Fint(s)),2),'word':pointword(s)})
+q2v=[T0,*[r['word'] for r in points],TA]
+assert gf_rank(q2v)==5
+q2span={0}
+for z in q2v:q2span|={w^z for w in tuple(q2span)}
+assert len(q2span)==32
+
+
+# Exact mod16 reclassification, a strictly stronger check on the mod8
+# squareclass encoding. Since v2(16)=4 in Q2 and e=3 in each field,
+# computing all 16^3 residue cubes is finite and independent.
+mod16_check={}
+for nm,ring,basis in [('KA',KA,[*A_polys.values(),KA.mul((5,0,0),alpha),Abranch,*[KA.mul((5-s,2*s,0),alpha) for s in (-300,-297,-293)]]),
+                      ('KB',KB,[*B_polys.values(),beta,Bbranch,*[KB.mul((1-s,2*s,0),beta) for s in (-300,-297,-293)]])]:
+    sq16={tuple(t%16 for t in ring.mul(u,u)) for u in product(range(16),repeat=3) if u[0]%2}
+    assert len(sq16)==128
+    vals=[]
+    for b in basis:
+        n=ring.norm(b);d=v_p(abs(n),2)
+        for i in range(d):b=ring.divide_by_uniformizer(b)
+        vals.append((d%2,tuple(t%16 for t in b)))
+    total=0
+    for i in range(len(basis)):
+        for j in range(i+1):
+            d1,u1=vals[i];d2,u2=vals[j]
+            positive=(d1==d2 and tuple(t%16 for t in ring.mul(u1,u2)) in sq16)
+            negative=(ring.word(basis[i])==ring.word(basis[j]))
+            assert positive==negative,(nm,i,j)
+            total+=1
+    mod16_check[nm]={'square_units':len(sq16),'pairwise_comparisons':total,'passed':True}
+
+
+# Independent 1024-mask intersection; tests use different field squareclass coordinates
+# from the project's original 13-bit labels.
+sel=[];g5=[];gr=[];both=[]
+for m in range(1<<10):
+    a=b=c=0
+    for i in range(10):
+        if m&(1<<i):a^=loc5[i];b^=locR[i];c^=loc2[i]
+    if a in p5span:g5.append(m)
+    if b in realspan:gr.append(m)
+    if a in p5span and b in realspan:
+        both.append(m)
+        if c in q2span:sel.append(m)
+
+
+expected={0,81,150,199,269,348,411,458}
+assert set(sel)==expected, (sel,expected)
+assert (len(g5),len(gr),len(both),len(sel))==(128,256,32,8), (len(g5),len(gr),len(both),len(sel))
+assert gf_rank(sel)==3
+assert gf_rank([(loc2[i]<<13)^(loc5[i]<<5)^locR[i] for i in range(10)])>=3
+# Injections are checked on all nonzero masks: no globally supported class
+# maps to zero simultaneously at real,p5,p2.
+
+
+zero_kernel=[]
+for m in range(1,1<<10):
+    a=b=c=0
+    for i in range(10):
+        if m>>i&1:a^=loc2[i];b^=loc5[i];c^=locR[i]
+    if a==b==c==0:zero_kernel.append(m)
+assert zero_kernel==[],zero_kernel
+
+
+# Recover actual three rational divisor classes in the Selmer survivors.
+# Their Q2 signatures come from independent polynomial evaluation, and
+# their R / p5 signatures come from genuine points / branch formulas.
+def signature_mask(target2,target5,targetR):
+    found=[]
+    for m in range(1<<10):
+        a=b=c=0
+        for i in range(10):
+            if m>>i&1:a^=loc2[i];b^=loc5[i];c^=locR[i]
+        if (a,b,c)==(target2,target5,targetR):found.append(m)
+    assert len(found)==1,found
+    return found[0]
+class_masks={
+    'T0': signature_mask(T0,p5T0,bitrow((0,0,0,1,1))),
+    'TA': signature_mask(TA,p5T0,bitrow([0,*[int(t*float(B.subs(x,t))<0) for t in A_roots],int(-float(A.subs(x,B_roots[0]))<0)])),
+    'D(-1)':signature_mask(pointword(-1),p5P,bitrow((1,0,1,1,1)))
+}
+# Independent global Q2 & Q5 check of TA against mask 150, and
+# independent location of the two other rational classes.
+assert __import__('functools').reduce(lambda v,i:v^(loc2[i] if 150>>i&1 else 0),range(10),0)==TA
+assert __import__('functools').reduce(lambda v,i:v^(loc5[i] if 150>>i&1 else 0),range(10),0)==p5T0
+assert class_masks=={'T0':81,'TA':150,'D(-1)':269},class_masks
+assert gf_rank([81,150,269])==3
+
+
+report={
+ 'schema':'stage35ex-c-independent-full-sel2-local-audit-v1',
+ 'source_head':'C35-117',
+ 'curve':'Y^2=x(x^3+x^2-13x-5)(x^3+5x^2+11x-1)',
+ 'small_prime_full_genuine_kummer_images':pbig,
+ 'class_number_minkowski':{'KA_discriminant':int(sp.discriminant(x**3-8*x**2+6*x+2,x))//25, 'KB_discriminant':int(sp.discriminant(x**3+4*x**2-6*x+2,x))},
+ 'global_basis_order':keys,'global_basis_real': [''.join(str((v>>i)&1) for i in range(5)) for v in locR],
+ 'global_basis_p5': [''.join(str((v>>i)&1) for i in range(8)) for v in loc5],
+ 'global_basis_q2_independent_words':[format(v,'013b') for v in loc2],
+ 'q2_square_residues_mod8_each':16,'q2_local_image_order':len(q2span),
+ 'q2_independent_witnesses':[{'name':n,'word':format(w,'013b')} for n,w in zip(('T0','-300','-297','-293','TA'),q2v)],
+ 'support_mask_counts':{'p5':len(g5),'real':len(gr),'p5_real':len(both),'p5_real_q2':len(sel)},
+ 'survivor_masks':sel,'survivor_basis':[81,150,269],
+ 'rational_divisor_survivor_masks':class_masks,'mod16_checks':mod16_check,
+ 'all_1023_nonzero_global_supported_masks_locally_detected':not zero_kernel,
+ 'rank_one_full_independent_audit_status':'finite_arithmetic_chain_replayed; source-field S-unit completeness and local-to-Selmer deductions require standard theorems',
+ 'formal_authority':'V74_GOAL4AK_SECTION334',
+ 'branch_b_closed':False,'E1_proven':False,
+}
+assert report['class_number_minkowski']=={'KA_discriminant':148,'KB_discriminant':-44}
+out=Path(__file__).resolve().parent/'r3_c118_independent_sel2_evidence.json'
+with open(out,'w',encoding='utf-8') as fw:json.dump(report,fw,ensure_ascii=False,sort_keys=True,indent=2)
+print(json.dumps({k:report[k] for k in ('small_prime_full_genuine_kummer_images','support_mask_counts','survivor_masks','class_number_minkowski')},ensure_ascii=False,indent=2))
+print('PASS')

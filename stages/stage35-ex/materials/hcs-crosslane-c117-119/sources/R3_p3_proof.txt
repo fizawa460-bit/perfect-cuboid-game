@@ -1,0 +1,178 @@
+﻿# Stage35EX-C / R3 — certified 3-adic logarithm DIFFERENCE resolves the C35-116 direction gate
+
+
+DATE=2026-10-16 JST
+RUN_ID=R3-20261016-POSTC116-HCS-P3-LOGDIFF
+BASE_INTEGRATED_RESEARCH_HEAD=C35-116 (R0 receipt readback)
+FORMAL_AUTHORITY=V74_GOAL4AK_SECTION334 (unchanged)
+STATUS=PROJECT-SCOPED NEW ARITHMETIC LOG-DIFFERENCE CERTIFICATE; PREPARED FOR R0 SEMANTIC REVIEW
+R0_ACCEPTED=false; EXTERNAL_HOSTILE_AUDIT=false; OWNER_STATE_WRITTEN=false; MAIN_INDEX_SECTION334_UNCHANGED=true
+
+
+## 1. The precisely improved conclusion (and crucial conditional boundary)
+
+
+In the OLD fixed genus-nine auxiliary curve
+
+
+  X : a²=f(z²), b²=g(z²),
+  f(q)=1+q-13q²-5q³, g(q)=1+5q+11q²-q³,
+
+
+let the OLD genus-three quotient be
+
+
+  C : y²=P(q)=q f(q)g(q)
+    =5q⁷−42q⁶−169q⁵−60q⁴+3q³+6q²+q,
+
+
+and let J=Jac(C), D=[(-1,8)-∞] in J(Q), and omega_i=q^i dq/(2y), i=0,1,2. These curves, D, good p=3 reduction, the point counts 4,18,28 and #J(F3)=44, and the previously verified rational Mumford coordinates of 44D are OLD C35-90/C35-116. NO new credit for them.
+
+
+Write L_i=log_{J,3}(44D)(omega_i) in Q3. The log pairing is the canonical abelian/Jacobian logarithm, not an arbitrary path-dependent integral.
+
+
+**NEW PROVED EXACT CONGRUENCE**
+
+
+        L_2 − L_1 = 3   (mod 9 Z_3).
+
+
+In particular v3(L_2−L_1)=1. Since 44D reduces to zero in J(F3), every integral-differential logarithm L_i belongs to 3Z3. Thus nu=min_i v3(L_i)=1 and the primitive normalized direction (L0/3,L1/3,L2/3) has
+
+
+        (L_2−L_1)/3 = 1  (mod 3).
+
+
+So the previously OPEN C35-116 condition "(v1,v2)!=(0,0) modulo 3" is established, without needing to compute each entire Coleman logarithm coordinate.
+
+
+**Conditional global corollary only:** IF the scoped inherited C35-104 2-Selmer/rank input is independently accepted as a rigorous certificate that rank J(Q)=1, THEN the C35-116 Chabauty zero-disk theorem now gives
+
+
+        X(Q) = { (0,+1,+1),(0,+1,-1),(0,-1,+1),(0,-1,-1) }.
+
+
+The rank-one proof is NOT re-executed, independently hostile-certified or promoted by this packet; therefore **do not assert the four-point classification unconditionally**. More importantly, even certifying X(Q)=4 in isolation would concern the old FIXED auxiliary signed-six receiver only, not the full infinite-index physical source and all four TRUE GOOD/H pools. BRANCH_B_CLOSED=false; STAGE35_CLOSED=false; E1_PROVED=false.
+
+
+## 2. Recovered 3-adic divisor splitting of 44D: exact algebra
+
+
+The R0-accepted C35-116 rational Cantor certificate provides a reduced degree-three Mumford representation (u,v) of 44D with u|v²−P and
+
+
+        u(q)=q³+u2*q²+u1*q+u0,
+        v(q)=v2*q²+v1*q+v0.
+
+
+The exact numerators/denominators are retained in the bundled prior JSON (SHA256 in new evidence). One independent Fraction polynomial remainder program verifies u|(v²−P) and the normalized p=3 coefficient data
+
+
+        v3(u2)=v3(u1)=v3(u0)=−2;
+        v3(v2)=v3(v1)=v3(v0)=−3;
+        9u2=9u1=9u0=1 (mod 3);
+        27v2=27v1=27v0=1 (mod 3).
+
+
+Set A=9u2, B=9u1, C=9u0 in Z3. The substitution q=s/9 turns u(q)=0 into
+
+
+        F(s)=s³+A*s²+9B*s+81C=0.
+
+
+Modulo 3, F(s)=s²(s+1), and the root s=2 has derivative F'(2)=1 (mod3), so Hensel yields a **unique** s in Z3, s=2 mod3. This defines one rational local divisor point P_infty, q_infty=s/9, v3(q_infty)=−2. Independent digit-Hensel lifts at precision 3^5,3^8,3^11,3^14 agree and give s=65 (mod81). Its curve y-coordinate is y_infty=v(q_infty). The valid smooth infinity parameter is
+
+
+        t=y/q^4.
+
+
+Because 3-adically 27v2=1 mod3 and q_infty=s/9, exact substitution gives
+
+
+        t_infty/3 = ((27v2)s² + 9(27v1)s +81(27v0))/s⁴  in Z3.
+
+
+Thus t_infty/3=1 mod3, so v3(t_infty)=1 and P_infty lies in the infinity residue disk. Independently, t²=P(q)/q^8=5/q+O(q^-2), so t_infty²/9=5/s=1 mod3, confirming the valuation and nonvanishing without using the sign convention for v.
+
+
+Divide out q−q_infty. The remaining quadratic is
+
+
+        q²+U1 q+U0,  U1=(A+s)/9, U0=−C/s.
+
+
+The modular calculation verifies U1=U0=1 (mod3), but this double q=1 reduction alone does not establish the correct unramified splitting. Instead substitute q=1+3w. Exact divisibility by 9 gives the integral monic quadratic
+
+
+        w² + ((2+U1)/3) w + ((1+U1+U0)/9).
+
+
+Modulo 3 this is w²+2w+2. The three F3 inputs w=0,1,2 all give NONZERO evaluations, so the polynomial is irreducible over F3 and defines the unramified quadratic K/Q3. Its two roots w1,w2 lie in O_K, giving q1,q2 in 1+3O_K. Since y_i=v(q_i) and y_i²=P(q_i), each y_i is a 3-adic unit, with residues opposite square roots of P(1)=−256 in F9. In particular both finite points reduce to the hyperelliptic conjugate pair (q=1, y=±16 sqrt(−1)). All three points are distinct.
+
+
+## 3. Exact p=3 Coleman logarithm DIFFERENCE without full log computation
+
+
+Work over the unramified K/Q3 for the two finite points. Choose the exact conjugate pair U_+=(1,+16 sqrt(−1)), U_-=(1,−16 sqrt(−1)) on C(K). Their divisor U_++U_-−2∞ is principal, div(q−1), hence has ZERO Jacobian logarithm. Assign each finite point P1,P2 to U_+ or U_- in the SAME residue disk. Therefore for any regular differential omega,
+
+
+    log_omega(44D)
+      = integral_{U_+}^{P1} omega + integral_{U_-}^{P2} omega
+        + integral_infty^{P_infty} omega.
+
+
+These are all tiny integrals on single good-reduction residue disks. The equality follows by additivity of abelian logarithms, and tiny Coleman integrals agree with the formal integral of the local differential. No global bridge integral is silently assumed.
+
+
+Take the special difference eta=omega2−omega1=(q²−q)dq/(2y).
+
+
+**Finite pair:** eta=q(q−1)dq/(2y) has a zero at q=1, while y is a 3-adic unit in both finite disks. The integral from q=1 to q=1+3w has Taylor terms with valuations at least m−v3(m)>=2 for m>=2 (m=2,3 attain 2, and all later m satisfy >=2). Consequently each finite tiny integral of eta lies in 9 O_K; their sum lies in 9Z3. In particular no finite-part cancellation assumption is needed.
+
+
+**Infinity:** t=y/q^4 is the correct uniformizer at the rational infinity point. Put r=1/q. The relation t²=r^8 P(1/r)=5r−42r²−169r³−... gives r=t²/5+O(t⁴). Directly
+
+
+    omega_i=−r^(2−i) dr/(2t),
+    eta=−(1−r) dr/(2t)=−(1/5+O(t²)) dt.
+
+
+For t in 3Z3, integrating the O(t²) term gives an element of 9Z3, since the first possible denominator is 3 (valuation of t³/3 is at least 2) and every later term has valuation >=2. Hence
+
+
+    integral_infty^{P_infty} eta = − t_infty/5 (mod 9 Z3).
+
+
+By the exact algebra above t_infty/3=1 mod3 and 1/5=2 mod3, so
+
+
+    (L2−L1)/3 = −(t_infty/3)*(1/5) = −1*2 =1 mod3.
+
+
+This establishes the new congruence and resolves C35-116's direction gate. The argument computes a **specific difference of two abelian-log coordinates**, NOT the entire log vector, and does not rely on unjustified finite-ring-to-global lifting.
+
+
+## 4. Reproducibility and independent checks
+
+
+The stdlib independent verifier:
+1. Reads the bundled *old* exact 44D rational Mumford JSON; checks its SHA256; verifies u|(v²−P) with its own Fraction polynomial-division backend.
+2. Checks all six normalized 3-adic rational coefficients, constructs F(s), Hensel-lifts s separately at 3^5,3^8,3^11,3^14 with a unique unit derivative, and tests s mod81=65.
+3. Independently computes U1,U0 and finite w²+2w+2 irreducibility; verifies t_infty/3=1 mod3.
+4. Outputs the new p3 log DIFFERENCE residue 1 and explicit separate flags that full 3-component logarithm, independent rank1 audit, unconditional X(Q)=4 and Branch B closure are NOT claimed.
+
+
+The finite precision checks certify the exact modular inputs. Infinite-depth tiny integral congruences follow separately from the local analytic arguments of section 3. Both are necessary parts of the proof.
+
+
+## 5. Project semantic dedup and strict integration recommendation
+
+
+Read latest C35-116 Section334/R0 receipt and R3 preceding C35-115 log-gate proof, old C35-90/93/97/104-108, and indexed R0-C35-116 mission. R0 explicitly records "log itself NOT computed; rank1 NOT independently audited". Previous C35-116 supplied only a criterion; here its decisive arithmetic test is **actually satisfied**. OLD 44D, old rank1 premise, old X local3Z3, old point counts, general Coleman/Strassmann arguments, and prior p7/11/19/23/37 screens receive ZERO novel credit. Bounded PJ Drive searches including "Hcs 44D logarithm difference", "44D omega2 omega1 p3", "p3 log 44D mod9", "Hcs p3 infinity parameter", "Chabauty log difference", "C35-117" found no identical fixed-Hcs scalar log-difference certificate. This is not a complete archive absence or worldwide novelty certificate.
+
+
+R0 REVIEW: replay independent verifier and compare exact JSON; inspect q_infty root/Hensel uniqueness and w-polynomial irreducibility; confirm Cantor (u,v) has the stated divisor sign convention (a reversal changes residue 1 to 2 but never the gate nonvanishing); inspect both tiny integral valuations, infinity differential expansion, good reduction and 44D formal-kernel membership. Accept the p3 LOG-DIFFERENCE NONZERO result as a NEW scoped arithmetic item only after audit. Preserve C35-104 rank1 conditional assumptions. An independent full 2-Selmer/rank and saturation audit is still mandatory for an **unconditional** fixed-X point classification.
+
+
+FULL ENDPOINT FIREWALL: The original source retains ONE labelled positive primitive A²+B²=C², C odd, the actual signed E/P/T0/D_n for all |n|>=3, strict physical chamber, SAME Q/Qsharp and infinite quotient, ONE odd coprime M>N>1/common alpha, FOUR GLOBAL positive integer S243 roots, actual signed W_n/W_(2|n|)/b_n, SAME primitive Gaussian/shared quartic, corrected H, FOUR TRUE GOOD/H TOP/PROPER UNCAPPED ordinary-beta pools and all prior HOLD/NEGATIVE/retractions. Auxiliary fixed X rank1-conditional four-point classification is not a global all-index physical exclusion. Branch A USER_PAUSED, Branch B OPEN, Stage35 OPEN, E1 UNPROVEN; no external hostile audit; no authority or owner state promotion.

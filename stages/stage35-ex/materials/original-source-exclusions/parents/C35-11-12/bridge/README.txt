@@ -1,0 +1,1 @@
+Stage35EX C35-10 exact symbolic certificate. Run python C35_10_exact_bridge.py. Requires Python3 and sympy. No claim of original upstream perfect-cuboid physical mask closure. See C35-10 Google Drive audit card.

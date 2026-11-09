@@ -1,0 +1,39 @@
+﻿Stage35EX｜R3 row379 独立数学監査｜2026-11-06 JST
+VERDICT=PASS_SCOPED_DEPENDENT_CONDITIONAL_QUADRATIC_HECKE_GRH_20261106
+TARGET=P23-R3-07-LOW, row379, the SAME original signed −30 source as row378.
+ASSUMPTION=GRH for all nontrivial ordinary-class-group quadratic Hecke L functions of K=Q(theta), F29(theta)=0. NOT unconditional.
+NEW_SIGNED_INDEX_EXCLUSION=0; NEW_ABSOLUTE_INDEX_EXCLUSION=0; MINUS30=OPEN; BRANCH_B=OPEN.
+
+
+1. 証書と独立算術監査
+著者ZIP SHA256SUMS照合: 6/6 PASS。著者 verify_row379.py は実行・importせず、C++/GMPによる独立GF(p)[x]累乗・最大公約多項式計算で全147,058有理素数5003<p<=1982760を検査。一次素イデアル総数147,527、著者値と完全一致。60素数を別のSymPy gf_pow_mod/gf_gcdで突合し不一致0。p=199は親row374に従い非平方自由例外として次数(1,27,76)を採用。p<=5003の668奇素数に対するF29剰余因子と4種の分裂マスクは独立監査済みrow378の全表を入力として継承。2上の剰余次数(7,28)は親row373を採用。
+試験関数の整数ウェイトから階段関数の正規化自己相関を別実装し、F>=0、F(0)=1、Fourier(F)>=0を理論検証。区分線形核積分IをSciPy quadで独立数値評価。素イデアル項は同じ次数表/分裂マスクを使い、指定分裂は+1、それ以外の奇数乗平均は−1/(d−1)、偶数乗は+1とする厳密な下界を独立実装。支持外の寄与は0; tailでは p>5003 の次数1・m=1の負寄与のみ取り、非負の他寄与を捨てた。著者の128-bit Arb区間証書と独立のIEEE浮動小数点計算を相互照合した。
+定数 C=EulerGamma+log(8π)+7π/210−log|disc(K)|/105≈0.11074897511696902。
+独立近似計算した正のB下界:
+ S_both (d=32) +0.009913132128670843 >0.009
+ S_Delta (d=16) +0.0018394920001329057 >0.001
+ S_equal (d=2) +0.07293803752437261 >0.070
+ S_one (d=2) +0.04817476186137294 >0.047
+著者の4区間下界に矛盾なし。厳密な区間端点の全桁を別のArb実装で再生成したという主張はしない。独立計算の誤差が符号を反転するほどの規模でないこと、著者の保守的正下界と整合することを確認した。
+
+
+2. 形式的数学論理
+対象は普通類群の2指標（無限実素点でも非分岐）。GRH下で非自明二次Hecke指標の明示公式は、非負Fourier変換試験関数による零点側非負性からB_chi(F)<=0。任意の初等2商(G_S≅(Z/2)^r)の非自明指標d−1本について、指定S上の奇数乗平均=1、その他の元の奇数乗平均>=−1/(d−1)、偶数乗平均=1。したがって上記正下界と矛盾するdの存在は不可能。
+これにより GRH下で c_Sboth<=4, c_SDelta<=3, c_Sequal=0, c_Sone=0。row378の必要Artin分裂条件から、元候補のchi+,chi−は両方自明または互いに非自明かつ一次独立の2本。単独非自明、一致する非自明2本は排除される。
+c_Sequal=0とc_Sone=0はそれぞれ条件付き集合に対する制約であり、それらの全素イデアル分裂を無条件に仮定しない。399等の素イデアル個数は類群独立関係数ではない。
+
+
+3. 依存と限界
+親row373/374/375による整環・判別式・実署名・2上剰余次数、親row378による六平方/S243/S269のsame-source Artin表、row376の非分岐性を依存前提として採用。これらを本監査だけで再証明していない。GRHは未証明の外部仮定であり、本成果は必ずGRH条件付きラベルで保管する。
+無条件の商c_S、全類群c_Cl、真Selmer/MW上界、全MW31進射影上界は依然OPEN。GRH下で2つの指標が独立な場合と、両方自明でも高次descentによる元−30排除は未証明。元signed −30=OPEN、P23 LOW/Branch B=OPEN。LOW残9絶対指数16 signed枠。新規全域除外0。
+
+
+4. 差分と唯一NEXT
+row379の差分は既存K21/Section159とは異なる次数105のKと、row378の4指定分裂集合に対する条件付き上界。指数排除や無条件類群ランクと二重計上しない。
+R0 ACTIVE_NEXTとR3-研究ルートG8は維持。元−30のS_bothでの無条件類群商2階数を認証する。GRH条件付きに限ればc_Sboth<=1またはc_SDelta=0の強化で独立二本を除外できるが、2類が自明となっても高次descentを要する。
+
+
+PROOF=https://drive.google.com/file/d/1Of96Rdau3m-BeeYNU0YvmmpMAnzls7D2/view
+AUTHOR_ZIP=https://drive.google.com/file/d/1wA4G9V6y4MkFCPJSgLHlI3M5xKuchUmQ/view
+PARENT_ROW378_AUDIT=https://docs.google.com/document/d/15S-zOqPesOhWpGcdHlcZ5aNZ5oARjVp77HDsd1XYW_M/edit
+INDEPENDENT_EVIDENCE=ROW379_INDEPENDENT_AUDIT_EVIDENCE_20261106.zip in current ChatGPT artifact session; C++ independent whole-tail table, 60-prime SymPy controls, SciPy independent score reconstruction, SHA256.

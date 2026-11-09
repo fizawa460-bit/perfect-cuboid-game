@@ -1,0 +1,54 @@
+﻿Stage35EX｜R3 row385 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_GLOBAL_H1_J4_LIFT_AND_ABSTRACT_CASSELS_TATE_CLASSGROUP_OBSTRUCTION_QSTAR_VALUE_UNCOMPUTED
+SCOPE=P23-R3-07-LOW; same-original-source signed −30; C29/J29 genus52; K degree105.
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; NEW_UNCONDITIONAL_ABSOLUTE_EXCLUSION=0; REMAINING_LOW=9_ABSOLUTE_16_SIGNED; MINUS30=OPEN; P23_LOW=OPEN; BRANCH_B=OPEN.
+
+
+1. 結論と厳密な監査区別
+固定 δ★ のH¹(Q,J[4])への大域コホモロジーリフトの「存在」を親のJ[2] Kummer同定および局所化単射で支持する。大域の具体的コサイクルは未構成。
+Cassels–Tateの2-Selmerペアリングbの単元部分U×Uは交代性と既知8有理類から恒等的に0。
+親のSel2=U⊕H_nr、dimU=9、dimH_nr=c_Clを継承すると、δ★の真のSel4へのリフトの可否はH_nrとの線形汎関数 λ★(η)=b(δ★,η) で完全に支配される。双対性により一意の抽象的元q★∈Cl(O_K)/2Cl(O_K)が存在し、
+    δ★ ∈ im(Sel4→Sel2) ⇔ λ★=0 ⇔ q★=0
+が成立する。
+【重大な限定】q★はペアリング双対により「定義」しただけで、代表理想、局所Hilbert符号、類群2倍商での評価値は全て未構成・未判定。本監査はq★非零を認証しない。H¹リフトと真のSel4リフトは別。
+
+
+2. 独立監査のデータ・有限計算
+著者証拠ZIP内9/9 SHA256一致。著者純Python検査器のバイト単位再現もPASS。別に著者コードをimportしない低位ピボットGF2のaugmented線形系と交代形式の連立方程式、根置換加群の同変射影を独立Python実装した。
+独立rank=9の単元Selmer基底に、親row375の既知8有理Jacobian類の局所座標がrank=8で含まれる。座標は cf,a1,49,0e,a8,6b,f6,51（hex）。δ★座標=10c、局所code=0x44b88774c94772d6bc5c8f05827、55単元mask=0x4125e122ae5103、使った単元数21で独立一致。8既知類＋δ★でrank9。8既知方向を消しδ★で1の唯一の9次元線形汎関数は0x100。α9=canonical第9単元Selmer基底と H,D5b,D7 の座標の和が0x10cになることを再検算。α9の単元mask=0x4125e1224eb004も一致。
+9次元交代形式の未知36成分に対し、既知8有理Kummer像が根基であることから72本のGF2制約を独立生成、rank=36、従ってb|U×U=0。数学的には8次元W⊂rad(b)およびdim(U/W)=1と交代性だけで証明できる。数値CT pairingの直接測定ではない。
+C29の奇数次数105からg=52、canonical divisor=102∞、有理半正準因子=51∞。Poonen–Stoll標準定理の交代性仮定を満たす。
+
+
+3. 根置換加群・H²大域局所
+J[2]⊕μ₂≅μ₂^Δ を親odd-degree hyperellipticの標準同定として使用。105次元F2根置換加群の偶パリティ部分への写像 v→v+(Σv_i)1 は階数104・冪等・Galois同変。著者の検査ではなく、独立GF2でrank104、全105基底×隣接104互換=10920等変テスト全PASS。
+Shapiro: H²(Q,μ₂^Δ)≅Br(K)[2]。Brauer–Hasse–Noetherにより局所化は単射。J[2]は直和成分だからH²(Q,J[2])→∏_vH²(Q_v,J[2])も単射。
+δ★は親監査により真の2-Selmer類なので各局所は有理点のKummer像であり、H¹(Q_v,J[4])にリフトできる。故にBockstein ∂δ★∈H²(Q,J[2])は局所で全て0、大域でも0。長完全列からH¹(Q,J[4])への大域リフトが無条件に存在。具体的リフトの代表コサイクルと全局所4-Kummer補正は未生成。
+
+
+4. Cassels–Tate標準核定理と形式的類群障害
+既知の二次Selmer Cassels–Tate pairingの核の定理 rad(b)=im(Sel4→Sel2)を用いる。Sha有限性は不要。親row381/375の群分解Sel2=U⊕H_nrは、親row375の全非分岐部分H_nrの2-Selmer局所所属を必要とする継承条件であり、本監査は独立再証明していない。
+H_nr≈Hom(Cl(O_K),F2)はc_Cl次元。H_nrとUはdyadic局所像を用いて交わらず、親のSel2次元の完全性を採用。U×Uのペアリング消滅からδ★はUと自動直交。残りH_nrへのλ★だけが問題。有限群の完全双対性からHom(H_nr,F2)≈Cl(O_K)/2Cl(O_K)、抽象q★が一意に存在し、Sel4 membership ⇔ q★=0。
+【独立監査の限界】この同値は数学的に正当な縮約だが、実際の「q★の代表理想」あるいはCassels–TateのH_nr成分の値を計算したものではない。row385著者ZIPも同じく未計算と明記。旧row384の「非リフトだろう」という期待は判定に使わない。
+
+
+5. もしq★≠0の場合だけ得られる階数上界
+λ★≠0なら、あるη∈H_nrでb(δ★,η)=1。bは交代形式なのでδ★,η上の2×2小行列は [[0,1],[1,0]]、rank(b)≥2。親dim Sel2=9+c_Clによりrad次元≤7+c_Cl。有理MW Kummer像はradに含まれ、親のJ(Q)[2]=0より
+    q★≠0 ⇒ rank J29(Q)≤7+c_Cl。
+元original signed −30の存在なら親row382の31進rank条件≥10。従って
+    q★≠0 AND source(−30) ⇒ c_Cl≥3。
+これはあくまで非リフト条件付きの含意であって、現在の無条件類群下界や指数排除に加算しない。
+逆にc_Cl=0ならH_nr=0、Sel2=U、b=0。したがって全Sel2類はSel4にリフトする。特にδ★の非リフトはc_Cl=0と両立しない。c_Cl=0（親row381のGRH仮定下）なら4-Selmerリフトするが、これだけでMWランク上界9は得られない。
+
+
+6. 差分・残余・唯一NEXT
+新しい無条件の数学的増分は、全Uペアリング消滅、H¹(J[4])リフト存在（非構成的）、q★∈Cl/2によるSel4判定への形式的帰着、非リフト条件付きrank上界7+c_Cl。row384までの55単元・9単元Selmer・31進全チェーン・Hecke二帯を重複成果として再加点しない。
+q★の代表理想・零性、真Sel4 membership、ZF2二帯無零性、無条件c_Cl=0、MW≤9、元−30排除はいずれもOPEN。新規無条件排除0、LOW 9 absolute /16 signed、Branch B/P23 LOW OPEN。Perfect cuboid全域解決ではない。
+唯一のNEXTはR0 row385後の既存命令を保持：固定δ★の大域4コホモロジーリフトと局所Kummer補正を明示し、q★を表す理想を構成。既存主イデアル関係を用いてCl/2で零性を判定する。零ならSel4 membershipを認証（MW≤9の別証明必要）、非零ならrank≤7+c_Clと元−30⇒c_Cl≥3に接続。方向を先決めしない。
+
+
+AUTHOR_PROOF=https://drive.google.com/file/d/1cpCsXPIBDmm3Q5km-CcjxPlGznYjTry9/view
+AUTHOR_ZIP=https://drive.google.com/file/d/1k5irLeBjXk_wWvc4DK1gmfZhnaefYGvB/view
+PARENT_ROW384_AUDIT=https://docs.google.com/document/d/10-bZu62zTKnTFWA2B7jJPU9u4fjTgXhXeTIieOdYXlc/edit
+INDEPENDENT_AUDIT_EVIDENCE=STAGE35EX_ROW385_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip、original+independent SHA/inputs、独立低位ピボットGF2/全置換射影確認、author exact replay、結果JSON、詳説Markdown。
+INDEPENDENT_AUDIT_EVIDENCE_GOOGLE_DRIVE=https://drive.google.com/file/d/1FIQVNRK-VCyYXK83qrM6aMPZtFRJnZu8/view

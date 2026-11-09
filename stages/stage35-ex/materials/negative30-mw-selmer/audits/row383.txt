@@ -1,0 +1,52 @@
+﻿Stage35EX｜R3 row383 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_UNCONDITIONAL_NECESSARY_THREE_HECKE_ZERO_BANDS_AND_GALOIS
+TARGET=P23-R3-07-LOW｜same original signed −30 source｜K=Q(theta), degree105; J29 genus52.
+NEW_UNCONDITIONAL_SIGNED_SOURCE_EXCLUSION=0; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; BRANCH_B=OPEN; MINUS30_UNCONDITIONALLY_OPEN.
+NOTE=ROW384_ALREADY_CURRENT_MATH_AND_NEXT; THIS_IS_ROW383_AUDIT_ONLY; ROW384_AUDIT_STILL_PENDING.
+
+
+1. 数学的主張（必要条件、無条件排除ではない）
+元−30が存在するとrow370/381/382親成果からrank J29(Q)>=10かつdim Sel2<=9+c_Cl、ゆえに通常類群の2階数c_Cl>=1。すると通常類群の非自明二次Hecke指標χが存在する。row383の明示公式を無条件で検証し、任意の非自明χに対して次のいずれかに非自明零点ρが必要:
+(a) 0.26<|Imρ|<0.77, 0.562<Reρ<=1;
+(b) 1.03<|Imρ|<1.46, 0.572<Reρ<=1;
+(c) 1.70<|Imρ|<2.12, 0.605<Reρ<=1.
+これはrow382の長方形必要零点領域の面積約39%に縮約する。三帯の全該当指標への無零性は未証明、従って新たな無条件signed指数排除は0。三帯全部の無零性を別途証明した場合のみ元−30を排除でき、親row376の+30除外と併せLOW残は8絶対指数・15signed枠となる。無条件残は9絶対・16signed。
+
+
+2. 監査用算術入力の独立再現
+著者ZIP内12/12 SHA256一致。著者verify_spectral383.py/verify_galois383.py/row382_inputs.pyをimport・実行せず、SymPy/Fractions/NumPy/SciPy/mpmath.ivを用いる独立実装を構築。親row381/382で監査済みの4140本の主イデアル関係データから異なる高位ピボットGF2消去でrank4042、類群2倍商で零と分かる形式素イデアル座標2492/4964を再現。これは全類群生成系の完全性認証ではない。
+5003超～1982760の固定尾部表の147058有理素数を別のエラトステネス篩と全件照合、一次素イデアル個数合計147527を一致確認。各素数の一次因子数はrow379既監査表を継承し、全147058個の新規mod-p gcd再演とは称しない。
+余弦変調20係数を独立の有理計算で確認。sumλ=1、λ0−Σj>0|λj|=999/500000>0。独立展開した12個一様密度の自己相関ノット52、R(0)=315106907555613642197/3224097709065389475000、−F0''(0)=24946763370980000000/315106907555613642197、D'=268853590680419844415627781173/126042763022245456878800000000、1024項以降の級数厳密尾部上界1.085977831988724e-6。
+
+
+3. Hecke零点和の独立算術と閾値
+別のSciPy区分数値積分・NumPy長倍精度素数和（著者のFLINT/Arbを使わない）により:
+I(F)≈0.385462833315505、prime-lower≈0.284600788057357、const≈0.110748975116969、score≈+0.009886929858821、原著者Arb保守的下界式≈+0.009885889843094と整合。Hadamard Mχ(7/5)上界≈99.186384435239<100、符号付きEuler上界≈1.270552109626721で著者値と一致。独立の浮動小数点積分を厳密Arb全桁再生成とは称しない。厳密なscore>49/5000とMχ<100には著者の192-bit外向き区間認証と親数体算術を併用した。
+
+
+4. 厳密な独立区間認証【著者のArbと別実装】
+独自のmpmath.iv（外向き80桁）で、変調試験関数φ(z)の中心Taylor係数0..7をsinh(kz)/(kz)の漸化式から生成。半径1/2のCauchy尾部、複素矩形のW(u,t)区間評価を使い、Reφ(u+it)+(1/100)W(u,t)>0を7個の閉矩形族の全464葉で厳密に検証:
+  t=[0.10,0.26], u=[0,0.5]: 10葉；
+  t=[0.77,1.03], u=[0,0.5]: 24葉；
+  t=[1.46,1.70], u=[0,0.5]: 23葉；
+  t=[2.12,8], u=[0,0.5]: 363葉；
+  t=[0.26,0.77], u=[0,0.062]: 17葉；
+  t=[1.03,1.46], u=[0,0.072]: 14葉；
+  t=[1.70,2.12], u=[0,0.105]: 13葉。
+u≤0.5は関数等式の対称性。t≤0.1はsupport T=7237/500からt*T<π/2、F≥0による非負性。t≥8は独立mpmath.iv外向き値 |φ|/W<=0.007824221198<1/100 を厳密確認。三帯外に零点しかなければ零点和≥−0.01Mχ>−1。一方Poitou明示公式とscore>49/5000から零点和<−105*49/5000=−1.029。厳密な矛盾余裕29/1000。全該当非自明二次指標に対して三帯に零点が存在する必要条件を得る（GRH不要）。
+
+
+5. ガロア群の独立有限体/群論検証
+著者FLINTではなくSymPy GF(p)既約因子分解:
+ p3=(6,33,66); p31=(4,5,48,48); p43=(2,2,9,10,11,71); p199=(1^2,27,76)。p3/p31因子次数の部分和共通{0,105}で有理既約。p43のFrobenius 990乗が71-cycle; 105の真ブロックの数・サイズはいずれも35以下なので原始。p199の唯一二重根r170についてF(170)/199≡122 mod199、F'(170)≡0、F''(170)≡6 mod199。親row374の2冪整数基底指数を継承すると199は単純分岐、惰性は互換。原始群+互換によりGal(L/Q)=S105。
+非自明ordinary-class-group二次拡大E/KがLに含まれればE=K(√disc K)となり、199上の非分岐次数27/76成分で分岐して不可能。ゆえにE∩L=K。非分岐・全実分裂の平方類bのノルムは正の有理平方なので、105個の共役平方根の符号核は偶パリティV⊂F2^105。S105安定非零核には二座標ベクトルが含まれ、V全体を生成。よってGal(M/Q)=V⋊S105=W(D105)。独立r指標についても行差の同変部分加群と非自明線形積の類体による反証からV^r⋊S105となる。親判別式・局所類体論を使う限定監査範囲。
+
+
+6. 差分・未解決・正本操作
+新規数学: 無条件の三帯必要零点条件、およびS105とW(D105)のガロア制約。旧row382の零点長方形・31進全連結・親類群関係は再登録しない。三帯の全該当χの列挙・無零性、無条件c_Cl=0、元−30全域排除は未証。P23 LOW/Branch B OPEN。row384は既に最新の主研究として二帯Ω2とδ★のSel4リフト課題に進行しており、本監査でrow384の証明状態を昇格させない。R0 ACTIVE_NEXT、R3 G8は変更しない。
+
+
+ORIGINAL_PROOF=https://drive.google.com/file/d/104olY-E_uZ0drh_EkNt_EOLEo8J9fkic/view
+ORIGINAL_ZIP=https://drive.google.com/file/d/12z4f0zsy7MsHqspy64KkraiUAcohLBZE/view
+PARENT_ROW382_AUDIT=https://docs.google.com/document/d/1gJ1KbYSF_AOaTu-d4nQYu_sIQoxU6rhfBpXKizDgEWU/edit
+AUDITOR_EVIDENCE_LOCAL=STAGE35EX_ROW383_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip (14 files with SHA256SUMS_INDEPENDENT, scripts, complete mpmath.iv certificates, results, fixed inputs, detailed independent report).

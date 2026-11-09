@@ -1,0 +1,36 @@
+﻿Stage35EX｜R3 row381 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_CONDITIONAL_QUADRATIC_HECKE_GRH_WITH_RANK31_AUTHOR_CHAIN_LIMIT
+TARGET=Stage35EX P23-R3-07-LOW / original same-source signed −30 / C29 genus52, K degree105.
+UNCONDITIONAL_NEW_SIGNED_SOURCE_EXCLUSION=0; CONDITIONAL_NEW_SIGNED_SOURCE_EXCLUSION=1 (−30), CONDITIONAL_ABSOLUTE_EXCLUSION=1 (30 with parent row376 unconditional +30); BRANCH_B_UNCONDITIONAL_OPEN.
+
+
+A. 完全別実装で確認した整数・局所算術（親整環/曲線/sourceの数学成果は継承）
+・著者ZIP SHA256SUMS 32/32一致。
+・著者verify_*.py / linear.pyをimport・実行せず、SymPy ZZ多項式を用いて新規主イデアル関係3682本の整数終結式3682/3682一致。odd normに現れる10117奇素因子出現と4019種類の奇素数の完全分解／素数性を確認。
+・別実装GF(p) gcd(G,h)とθ=−ρ²の剰余因子対応で3682本すべての奇素イデアル付値の偶奇支持を照合。模pの全10117出現一致。必要な高冪付値はノルム次数の和から一意に認証、未解決Hensel分岐0。
+・dyadic principalのhについて |Res(G,h)|=2^(105×34+7)、t^i/2^floor(i/3)基底でh(ρ)/2^34整、局所残余次数7,28を使用して2上の二素イデアルが主イデアルと確定。
+・全関係4140本から、有理(p)の追加4618本を一切使わない独立GF2消去で全類群の二乗商において零と認証できる奇素イデアル座標2492個、元S_both商では2483個を得た。この縮小関係集合は著者の2522/2505個より弱いが、GRH付き類群消滅証明には十分。著者の全(p)因子分解・同時Artin表6066→4099・992分裂の数値をすべて独立再現したとの主張はしない。
+・完全別方式SciPy区分線形自己相関積分＋全支持内素数項で、非自明な普通類群二次指標に対するPoitouの下界+0.0467705434791。著者Arb厳密区間式+0.0467561113671に整合。使用した分裂座標は上の独立2492個のみ。従って普通類群二次Hecke L関数のGRHを仮定すると c_Cl=0。独立の浮動小数点再計算を独立Arb区間証明とは称さない。厳密性は著者Arb証書と十分な正値余裕、親row379の監査済み素数表に依存。
+・55単元候補に含まれる259個の整数多項式生成元の奇素イデアル付値672出現を独立同定し、55積で全て相殺。2上の付値は各h(1+t)の最小3v2(b_i)+iと整数ノルム2冪、親の二残余次数7,28から各生成元で決定。55積の両dyadic付値も0。従って55個は真正ノルム1大域単元。
+・別の純Python局所環(Z/16)[α,π]/(h(α),π³−2)をπ^12精度で計算。259生成元の2進平方類・55単元の平方類を全一致。55局所像のF2階数55、54本の2進所属条件の障害階数46。独立の330桁高精度7実根評価で55単元の実符号も全一致。2進＋実障害階数46、単元Selmer核次元9、既知8有理類もそこに含まれる。大域ノルム1単元平方類はDirichletの定理から55次元なので、これが全基底。
+・これでGRH不要の上界 dim Sel2(J29/Q)≤9+c_Cl を、親row373/374のKummerと偶付値完全列に依存して支持する。正確な等式=9+c_Clには親row375のH_nr⊂Selmer・H_nr∩U=0の類体論的主張を追加で継承する。GRH下のsource排除には上界だけでも十分。
+
+
+B. 31進ランク10の監査限界
+・row370の同一31進円盤から元sourceがe0,e1方向を強制する紙上論理を継承。八有理類に対する提出8×52対数行の線形代数を別実装し、e0,e1と合わせた10×10小行列式は6 mod31で一致。
+・row375独立監査は8類の二組の最終31²チャートと52座標を検査済みだが、中間9446操作の完全独立再演を留保していた。row381の新verify_rank31.pyは4473成功加法・81041反復還元・2376関数還元・385拒否チャートを含む新方式を著者厳密再現済み。今回の監査は算法・帰納不変量を精査し、提出ログの行列式を再計算したが、別実装で31進群演算4473件全チェーンは再演していない。
+・したがって「元−30ならrank≥10」と「GRH下の元−30全域排除」を完全独立再現済みとは称さない。**row381著者全チェーンPASSと親row375端点監査を依存条件とした限定合格**とし、監査負債を明示する。
+
+
+C. 条件付き成果と未解決
+・非自明普通類群二次Hecke GRHかつ上記31進群演算チェーンの正当性を条件に、c_Cl=0、dim Sel2≤9、元−30ならMW rank≥10は矛盾。よって元−30は条件付き全域排除。親row376の無条件+30排除と合わせ絶対指数30はGRH付きで除外。
+・無条件の新規指数排除は0。無条件LOW残9絶対指数16 signed枠、GRH付きLOW残8絶対指数15 signed枠。Branch B/P23 LOWの無条件問題はOPEN。完全直方体の不存在・存在の証明ではない。
+・正確な類群2階数を無条件に0とする証明、又は同じJ29の無条件MW階数≤9が未解決。唯一のACTIVE_NEXTは変更せず。
+・監査はrow381のみ。親row373–380の監査済み範囲を明記して消費し、別体に対する過去の主イデアル関係と重複登録しない。
+
+
+ORIGINAL_PROOF=https://drive.google.com/file/d/1dM5nT_12WVKvme-v6vOguz5xEnvR16GO/view
+AUTHOR_ZIP=https://drive.google.com/file/d/1Ak8BvQ--oDJPtIjcI1IqxtXx21rq-bJz/view
+PARENT_ROW380_AUDIT=https://docs.google.com/document/d/1tolJspBqE8ZxY_lfywXgnXefXTaH2wtoaAmiFr8UqzM/edit
+PARENT_ROW375_AUDIT=https://drive.google.com/file/d/1tn7zSp7Qx_ST06_9keChC7JBER7CM421/view
+AUDITOR_EVIDENCE=STAGE35EX_ROW381_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip / local downloadable artifact (independent scripts, full JSON inputs and result certificates, SHA256).

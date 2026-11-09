@@ -1,0 +1,36 @@
+﻿Stage35EX｜R3 row380 独立数学監査｜2026-11-06 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261106_UNCONDITIONAL_RELATIONS_AND_UNITS_CONDITIONAL_QUADRATIC_HECKE_GRH
+TARGET=P23-R3-07-LOW｜元−30 same original signed source｜C29次数105根体
+NEW_SIGNED_INDEX_EXCLUSION=0; NEW_ABSOLUTE_INDEX_EXCLUSION=0; MINUS30=OPEN; BRANCH_B=OPEN; LOW_REMAINDER=9_ABSOLUTE_16_SIGNED.
+
+
+1. 独立算術検証（GRH不要）
+著者ZIP内SHA256 16/16一致。原典の verify_row380.py 等をimport・実行せず、独自SymPy ZZ整数多項式実装で458本全件のRes(G,h)を再計算。458/458一致。927個の奇素数出現の素数性と、odd_normの完全な素数冪因数分解を全件確認。ノルムの最大長3629bit。
+独自GF(p) gcd・既約因子対応theta=−rho^2を用い、927奇素数出現／928素イデアル成分をすべて追跡。p>5003の399素数ではgcd(F29,X^p−X)から一次因子を別に求め、p<=5003の因子の順序は独立監査済みrow378原表を入力とした。458本すべてのmod2理想素因子ラベルが一致。不明なHensel事例0。
+独自GF(2)掃き出し（著者の消去実装と別実装）で、形式的関係階数 S_both=453, S_Delta=450, S_equal=394, S_one=398。各既存指定分裂商で追加的に消える素イデアル類253,271,365,352。一つの座標が消えることは同商でその類が零という十分な関係を与えるが、形式座標群が類群商を生成し尽くす証明は含まない。
+二指標の同時Artin表では、独立の制約伝播で旧6066→5754組、668素数表のうち57表縮小、新規共通分裂143（上記共通分裂商の38個を含む）。使われた式は74本。伝播は各主イデアル関係からの必要条件を保つもの。元sourceの不在は証明されない。
+
+
+2. 独立2進単元検証（GRH不要）
+3つの新単元で整数終結式を独立再計算しRes(G,h)=2^(105×34)を全件認証。継承する整数基底 (rho−1)^i/2^floor(i/3) への所属を二項変換と整数割り切りで全件認証。
+さらに、row373_local_arithmetic.py と verify_row380.py をimportせず、Z/8Z[alpha,pi]/(h(alpha),pi^3−2)に基づく全く別の純Python局所環演算を実装。pi^9精度で実際に2つの局所根を構成し、各3単元の6局所座標すべてを著者証拠と独立一致。
+継承するrow373の54本の所属等式を独立に評価し、親17障害に3本の一次独立な障害を追加、rank=20、ノルム1単元の適合部分は55−20=35次元以下。親row374/375のKummer完全列を使用する場合の上界 dim_F2 Sel^(2)(Q,J29) <= 35+c_Cl を支持する。c_Clは未知であり、具体的Selmer次元が35以下だとは主張しない。
+
+
+3. 明示公式（非分岐二次Hecke GRH条件付き部分）
+row379のPoitou／非自明普通類群二次指標の平均を用い、今回消えた253素イデアル類をS_bothに追加。相対次数d=16を排除する場合について、試験関数は非負階段関数の自己相関で支持半幅T=14.5。
+完全な147058個の有理素数5003<p<=1982760を独立篩と照合、147527一次素イデアル。独立のSciPy直接積分・全素数項の浮動小数点再計算ではスコア +0.0247567616665。著者128-bit Arb証書の保守的下界 +0.0247424539554 と整合。差は著者の無限素点積分の上側剰余境界から来る。二次Hecke GRH下で初等2商のrank c_Sboth<=3（row379の旧<=4を改善）。独立の新規厳密Arb区間全桁再生成までは主張しないが、独立数値計算のマージンは十分大きく、著者区間証書の符号と一致。
+独立したNo-GRH Poitou方式の上側包絡再計算: −0.217154402399676、著者Arb値−0.21715440239967593と一致。固定した素数上限・臨界帯で非負の試験関数方式では分裂だけ増やしても正の矛盾を得られないという限定STOP。他の無条件類群計算法の不可能性を意味しない。
+
+
+4. 親依存・未解決
+row373–375の最大整環・署名・2進分解・完全列、row376の非分岐Artin対応、row378のsix-squares/sourceと初期Artin表、row379の独立監査済み全次数1表を親成果として消費した。row380独立監査だけでそれらの原理から再導出したものではない。
+新規signed全域排除0。元−30 OPEN。Branch B OPEN。GRHを仮定しても二指標独立の可能性、両方自明のときの高次降下、無条件類群商の生成・2階数、c_Cl、全MW31進射影上界は残る。
+唯一NEXT（R0 ACTIVE_NEXT・R3 G8）を変更しない。元S_both商を尽くす生成系の証明と残る元の主イデアル関係から無条件c_both=0を狙う。GRH下でもc_both<=1またはc_Delta=0で独立二本を消すだけであり、ただちに−30排除ではない。
+
+
+ORIGINAL_PROOF=https://drive.google.com/file/d/1f403ozvEV0TWLfOzwIkeahVP9kEzuqsE/view
+ORIGINAL_WITNESS_ZIP=https://drive.google.com/file/d/1cMK4p9SI9DgFQ2Z3RcTM_WRie0VucqHk/view
+PARENT_ROW379_AUDIT=https://docs.google.com/document/d/1TUdiWNrwp_NRtPlyPLzyUG7mOGyiXLEnnnyH8CSMCjE/edit
+PARENT_ROW378_AUDIT=https://docs.google.com/document/d/15S-zOqPesOhWpGcdHlcZ5aNZ5oARjVp77HDsd1XYW_M/edit
+INDEPENDENT_EVIDENCE=STAGE35EX_ROW380_INDEPENDENT_AUDIT_EVIDENCE_20261106.zip (downloadable ChatGPT artifact). Independent source scripts, self-contained original input JSON/CSV, JSON results and detailed independent report.

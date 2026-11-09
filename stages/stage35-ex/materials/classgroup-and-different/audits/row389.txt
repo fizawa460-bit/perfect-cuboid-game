@@ -1,0 +1,46 @@
+﻿STAGE35EX｜R3 row389 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_NEW_GLOBAL_PRINCIPAL_RELATIONS_1047_820_EXPLICIT_DIVISIBILITY54_FORMAL_FB332_TO264_EXTENDED_PRIMITIVE_INTEGER_LATTICE
+TARGET=P23-R3-07-LOW、同じ original signed −30、K=[Q(ρ):Q]=105、J29 genus52。
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; P23_LOW=OPEN; BRANCH_B=OPEN; CCL=UNDETERMINED; QSTAR=UNDETERMINED。
+
+
+1. 今回の新規数学と監査対象
+親row388の4143既存生成元・付値表と、row389の1047新規明示代数的整数、任意Q*の主イデアル関係を用いる。既存＋有理数主因子関係の法2階数9538に対し、新関係820独立次元、拡張主関係全体rank10358。ノルム6768以下の878素イデアルのうち、Cl(K)/2で各個に零であると認証された数は488→542。明示の(α_p)=p I_p^2証人が新54類に存在する。形式的商で878個が張る残像の次元332→264（68減）を検証。row388先頭のp349,j2=(349,ρ−178)は新しい主関係で零。次の先頭未消去はp773,j1=(773,ρ−20)。
+注意：54は「2Clへの包含が新たに証明された素イデアル類の数」であり非零類54個ではない。820は主関係行列のrank増分でありcClの減少ではない。264はCl/2の次元でもその無条件上界でもない。878個の全Cl/2生成性は依然未認証。
+
+
+2. 著者証書の全ファイル整合と独立数体算術
+著者ZIPのSHA256SUMS=61/61一致。著者純Python再現器とは別のSymPy ZZ整数終結式実装で、1047新元の105次Res(G,h)を全件独立再算し、符号込みでRes(G,h)=norm_sign×2^(105*k)×absolute_normと一致。最大整環基底 t^j/2^floor(j/3) に必要な105係数の二項展開整数可除性も1047/1047合格。全元のノルムと提出された素イデアル付値から計算するノルム指数も一致。独立結果はexact_norms_0_350.json /350_700.json /700_1047.jsonに全件ハッシュで固定。
+特にalpha349: k=34, Res(G,h)=2^3570×3,595,674,059, 3,595,674,059=67×349×367×419。親で零と認証済みのp67,j1・p367,j0・p419,j1と組み合わせ、p349,j2のCl/2零が従う。著者とは別に素数67,349,367,419のGF(p)因数分解・ρ根代入・h根代入を照合PASS。
+全5494有理素数の素数性をSymPyで確認。著者新規791素数分解のうち45素数を独立SymPy GF(p)因数分解し、F29のdegree/exponent表と一致。対象新元の次数1因子でG(ρ)=h(ρ)=0となる直接合同式187件PASS。
+【限定】1047元のノルムと整数性は全独立検証したが、全新規791個の素数分解・全1047元の局所素イデアル付値・全107bit二進unit codeを別数体エンジンから完全再生成したわけではない。これらは著者の原始FLINT算術再構成証書・親row374/381/388監査に依存する。45素数と187根照合は抜取であり全再構成と称しない。
+
+
+3. 54件の主イデアル半平方証人と形式的商
+別実装の疎整数ideal exponent合成で54件の全証人を検査。旧4143元・有理素数・新1047元の総3041個の参照を算術合成し、各素イデアル座標についてv(α_p)=e_p+2v(I_p)を正確に認証。54件のI_pは形式ラベルだけではなく提出された全整数付値の半イデアル座標。54件すべて合格（親・新元の真正ideal valuationsを前提にした独立整数演算）。
+別低位ピボットGF2により878個の商残像で個別零542、残る非零336個が張るrank264を再計算。最初は(773,j1,norm773)、ρ≡20 mod773がGの根であることを別計算。row388の個別零488との差分54個とsubmitted certificateの集合は完全一致。
+発見経緯における対象ラベル115件の訂正は、実際のρ剰余根から照合したprovenance correctionであって、数学的証書の因子番号を曖昧にしていない。訂正済み全表を原証拠に保持する。
+
+
+4. 拡張整数格子の飽和性と全部乗法閉包
+旧4143＋有理主因子5494＋新1047=10684行、素イデアル座標33042の疎整数付値行列を、著者の高位ピボットとは逆の「低位座標から整数Euclid消去」で独立再計算。整数rank=10358、全10358の主ピボットは±1であり、行格子はZ^33042とそのQ線形包の交わりで飽和。法2では旧+有理rank9538、新増分820、全rank10358で一致。unit minorにより整数飽和の証書となる。
+326本の提出整数付値核関係を各行の全素イデアル座標で直接検算し、mod2で326独立。326局所unit codeからのimage rank55は親の完全単元基底と一致、271の平方関係の全付値と局所平方類が0かつGF2独立。271関係の大域平方性は親row381のU¹局所化単射および単元完全性を消費する。100個の決定的偶付値組合せでもβ主生成元を独立検査。
+整数核mod2が全偶付値指数核を尽くすので、α∈Γ389かつ(α)=I²なら、α=εβ²、(β)=Iとする指数列βを構成できる。S外のQ*有理素数pについてはKの奇次数105から少なくとも一つe_jが奇数となるため、偶付値条件は有理指数の偶数性を強制。したがって任意のQ*倍を含めた
+ barΓ389∩V=U¹ (dim55); barΓ389∩Sel2=U (dim9); barΓ389∩H_nr={0}
+が親のSelmer/V分解に依存して成立。これは拡張Gamma389内だけの結論であり、数体全体のCl(K)[2]=0を意味しない。
+
+
+5. 未解決の全体証明
+878因子基底のCl(K)/2全体に対する無条件2生成証書は存在しない。形式残余264は真のcClではない。既存1047新元＋旧主関係＋任意Q*による閉包には非自明H_nrが無く、この閉包内で同じCl[2]探索を繰り返しても新類は得られない。Cl[2]全尽基底、I_i²=(α_i)、未知η_iの大域conic解とCassels–Tate値、抽象q★の値、δ★真Sel4所属、無条件MW≤9は未決。元signed −30はOPEN、新規無条件signed除外0、LOW残9絶対16signed、Branch B / P23 LOW OPEN。完全直方体全域の不存在は未証明。
+親row381の55単元、row387 good三剰余類・η第一引数CTルート、row388旧Gamma閉包は再登録せず継承する。
+
+
+6. 現行正本と唯一NEXT
+row389後のR0 ACTIVE_NEXTおよびR3 G8を変更しない。Cl(K)/2について有限因子基底の無条件2生成証書が必要。6768基底を使うなら形式残264方向を消すbarΓ389外の新しい大域主関係を探す。最初の対象は(p773,j1,ρ20)。既存332候補と今回1047元を再登録しない。Cl[2]全基底空を厳密認証できればcCl=0からMW≤9と元−30 rank≥10を矛盾させ排除。非空の基底を厳密認証した時だけI_i²=(α_i)とη_i第一引数conic/CT→q★に進む。
+
+
+AUTHOR_PROOF=https://drive.google.com/file/d/1Oo1MD9Ozt6RNueg99Zug7t4i6blXffWN/view
+AUTHOR_EVIDENCE_ZIP=https://drive.google.com/file/d/1jE70XzHlb96Forl3ymrWrot6O3D1FmWY/view
+PARENT_ROW388_INDEPENDENT_AUDIT=https://docs.google.com/document/d/15T-lLgoQ0ubQ_Df5AGP5nvvkmucLEcPumgwtJTfmoKU/edit
+INDEPENDENT_AUDIT_EVIDENCE_ZIP=https://drive.google.com/file/d/12LLoRggPPSzNx4FhYx3F7GYPBVwMioG9/view
+INDEPENDENT_EVIDENCE_SHA256=a8cd9cab2c4cc9f7c6815c9c1c570fd2d511d0a013d906bb3ad7c95d0548ac7e

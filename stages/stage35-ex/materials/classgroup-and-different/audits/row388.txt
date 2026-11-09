@@ -1,0 +1,47 @@
+﻿STAGE35EX｜R3 row388 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_INTEGER_PRIMITIVE_RELATION_LATTICE_COMPLETE_OLD_MULTIPLICATIVE_CLOSURE_HNR_ZERO_FORMAL_FB_RESIDUAL332
+SCOPE=P23-R3-07-LOW / same-original-source signed −30 / K degree105 signature(7,49), J29 genus52.
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; NEW_UNCONDITIONAL_ABSOLUTE_EXCLUSION=0; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; P23_LOW/BRANCH_B=OPEN.
+
+
+1. 新規成果と正しい量化
+親row374/381のK最大整環・有限素イデアル真正付値、55ノルム1単元の平方類完全基底、2進単元像の単射、Sel2=U9⊕H_nr を前提とする。row381既存4140主イデアル証人に追加3元を合わせた4143元a_iと任意Q*により生成されるK*/K*²内の群をbarGammaとする。
+提出真正付値行列R（4143行×4966素イデアル座標）について整数rank=4044、99元の付値零関係が得られる。全有理素数因子4344個の(p)行を追加した8487行×26761座標では整数rank=8388、同じ99元の付値零関係。整数格子は選択された三角小行列の全ピボットが±1で飽和。
+99関係の局所107bit符号のrank=55、親row381の55基底と一致。局所単射の親定理により残り44関係は大域平方関係。元4143の平方類次元4099、(p)追加群で8443。
+α∈Gammaの全素イデアル付値が偶数なら、その指数列x mod2を整数付値核99本のmod2画像により相殺できる。付値零のkを選びz=(x−k)/2を整数としてβ=∏a_i^z_i∏p^z_p、ε=∏a_i^k_iを構成するとα=εβ²、(β)=I whenever (α)=I²。εは単元でありαの平方根とは限らない。S外の任意有理素数pの指数が奇数なら、次数105が奇数なのである素イデアルのe_jが奇数となりαに奇付値を生じる。ゆえに任意Q*倍でもこの主イデアル化は完全。
+これより
+  barGamma∩V=U¹ (dim55);
+  barGamma∩Sel2=U (dim9);
+  barGamma∩H_nr={0}
+が親Sel2/V分解のもとで成立。**barGamma全体の結論であり、K全体のCl[2]が零である証明ではない。** 既存主関係を掛け合わせるだけで非自明H_nrを発見する研究経路はSTOP。
+
+
+2. 監査証拠と独立計算
+著者ZIP内部SHA256SUMS=31/31一致。著者の純Python verify_row388.py / verify_frontier388.py clean ZIP再現は結果JSONに一致。
+著者とは逆向きの**低位ピボット整数Euclid消去**を別実装し、4143行でrank4044・全4044ピボット±1、8487行でrank8388・全8388ピボット±1（両ケースEuclid swap13）を再現。元核の99提出整数関係それぞれの全付値が正確に0、99マスクがGF2独立。単元局所107bitのrank55、44平方関係の零局所・偶付値およびGF2 rank44を独立検算。親55個の単元基底指数が付値零かつ局所コードが原証拠と一致。
+偶付値の主生成元構成を独立の低位GF2消去により再実装し、192組の決定的ランダム組合せでα=εβ²とR(β)=R(α)/2を厳密確認。これは一般証明のテストであり、論証本体はrankQ=rankGF2と99整数核マスクによる全核被覆。
+全4143元の提出奇素付値とodd_factorizationのp進ノルム指数が全件一致。提出4344各素数分解型のΣe_jf_j=105を独立確認。数体Fの原始整数係数から**SymPy GF(p)を使った30素数の完全因数分解**を独立に行い、17個の既存関係側と13個の追加因子基底側ですべて次数・指数一致（3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,199,349,6761,9817,81547,985489607）。
+【独立性の限定】4143元の全原始素イデアル付値・2進単元コードと4703有理素数の全GF(p)分解を、新規の数体演算で全件再生成したわけではない。python-flintがないため、これらの真正性は著者の再構成・SHA31/31・親監査および30標本の別計算に依存。格子/GF2/主イデアル化/因子基底残余の検査そのものは別コード独立。作成した independent_exact_lattice.py、independent_principalization.py、independent_factor_sample_short.py と結果JSON・入力・SHAを証拠ZIPに収録。
+
+
+3. ノルム6768の形式因子基底と未証明の全尽性
+元・有理素数主関係を法2で射影した形式類群商でノルム6768以下の素イデアル878個を検査。個別に零と立証できる488個を独立再計算。残りの形式元の張る空間のrankは332。878−488−332=58個は従属する非零形式元。最初の独立未消去座標は(p=349,j=2,norm349)、rho≡178 mod349。全332候補を別GF2ピボット順で検算PASS。
+332はc_Clではないし、その無条件上界でもない。878基底がCl(O_K)/2Cl(O_K)全体を生成するという**無条件の因子基底証明がない**。形式元が大域の未知主関係でさらに零となり得る。著者のbounded349実験15件は新規主関係0の有限実験であり、非自明類の証明にはならない。
+一般のMinkowski定理の基底ノルム上界は約3.0592×10^47<4×10^47（既知定理に基づく著者の数値、今回独立再区間演算なし）。6768の全尽証書ではない。
+
+
+4. 紙面監査と残る障壁
+整数消去の各操作は元行の整数結合であり、全ピボット±1で三角小行列の行列式±1を与えるため、行格子の整数飽和に十分。rankQ=rankF2、99整数核関係mod2がkernelF2の基底という組合せは、全偶付値指数を持つαの主イデアル化に十分である。さらに親のKummer分解でbarGamma∩H_nr=0。これは有限探索でH_nr候補が0だったことより強い。
+一方、Cl[2]の全尽的認証基底、I_i²=(α_i)大域証人、未知ηのconic解・Cassels–Tate値、q★の具体類・零性、δ★の真Sel4所属は未構成/未判定。MW≤9無条件証明・元−30の無条件排除は得ていない。低域残9絶対/16signed、Branch B/P23 LOW OPEN。親row387の全H_nr good・η第一引数CTルートは保持する。Perfect cuboid全域解決は主張しない。
+旧成果の55単元基底・Selmer次元9+cCl・good三剰余類は重複登録しない。
+
+
+5. NEXT/正本管理
+現行R0 ACTIVE_NEXTとR3 G8の唯一命令を保持。既存barGamma内部のCl[2]候補再探索は終了し、同じKのCl/2に対する無条件有限2生成証書を求める。ノルム6768基底を使うなら332未消去方向を消すGamma外の新しい大域主関係を要する。最初の(p349,j2,rho=178)を固定。空基底を厳密認証したときのみcCl=0と結論し、元−30 rank≥10 vs親MW≤9で排除。非空基底の場合のみI_i²=(α_i)をrow387の55単元補正・η第一引数conic/CTに渡しq★を計算する。
+
+
+ORIGINAL_AUTHOR_PROOF=https://drive.google.com/file/d/1x_NuWRH8imDBb22Uf_l2Xg4Mr-0wc7Pr/view
+ORIGINAL_AUTHOR_ZIP=https://drive.google.com/file/d/1QTJwhFksXGg2R-7qza5iIffxXIywPBGC/view
+PARENT_ROW387_AUDIT=https://docs.google.com/document/d/1tZjQ1-uBgrpWS1fJ817gjLxOpnzVrL34MNxIY3UTLEA/edit
+INDEPENDENT_EVIDENCE=https://drive.google.com/file/d/1WZRB8hXabX-bs7dcnGPFZMdmboYdPxG3/view
+INDEPENDENT_EVIDENCE_SHA256=e3a0ec27c2bb4462de2eca308ed35594bae4bc09c6dd2e2acb4c9d6ff092acc2

@@ -1,0 +1,30 @@
+﻿Stage35EX / R3-07 — row369 独立数学監査
+2026-11-06 JST
+VERDICT: PASS_SCOPED_DEPENDENT — 固定Ward7の5絶対指数・10 signed枠のoriginal source限定排除（C35-12の既存種数3有理点定理を親とする）。Branch B / R3-07 LOW / R2 MID-HIGHはOPEN。
+
+
+1. 対象と新規性
+原論文: https://drive.google.com/file/d/1gyV4HQ2X7Xxi3B_pPE1yM6FnJC-1CqO_/view
+証拠ZIP: https://drive.google.com/file/d/108RqRi2I4375vlm7MB2QZVP6NRv8dWT-/view
+直近の監査済みrow368: https://drive.google.com/file/d/1zDAELQJ1OLWuDx98DsDW9YvRQhd1U2gb/view
+既存S263の同じ元signed nと原始標識付き三平方 A²+B²=C² から、σ_n正有理平方 ⇒ W_{|n|±1}のそれぞれが符号付き整数平方という必要条件を用いる。Ward7の乗数 j=49,77,91,119,133 がそれぞれ |n|=48,78,90,120,132 の隣接位置に当たり、各正負signedに同一の必要条件が課される。B偶は既存S264より48と120のみ。今回の排除は5絶対指数・10 signed枠である。row368以前のC118やrow367の排除を再計上しない。
+
+
+2. 独立に検証した算術
+ZIPの6ファイルについてSHA256SUMS.jsonのSHA-256が全件一致し、著者 verify_row369.py を実行、記録JSONおよび 14 abs/27 signed → 9 abs/17 signed が一致。別実装でw7=-p7*q7を元Ward漸化式から導出し、H1=K L の反射恒等式 (u(u+1))^6 p7(1/[u(u+1)])=P(u)P(-1-u) を展開検算。Resultantは Res(p7,q7)=-2^52、Res(p7,Φ7)=Res(q7,Φ7)=2^196、Res(P(u),P(-1-u))=-2^24*13。13での共通根 u=6 は非平方。prime projective slopes p=7,11,13,17,19 の両ラベルをパラメータ表示から新規列挙し、元source上のH1零は全て空、H2零はp7のz=0に限ることを確認。一般多項式根p13: p7で9、q7で5、およびp19: q7で12の排除根拠を二次剰余で個別検証。p13でz=9 ⇒ z+4=0 ⇒ B²/C²=2（非平方）。これらの合同よりH1=正平方、H2もm=7の例外を除き正平方、例外は1または-7のtwistと導ける。任意素数での付値降下はrow368の監査済み合成公式とResの2冪性を採用する。
+
+
+A偶/B奇：4|AからK,L≡7 mod8、奇数かつ互いに素。H1が正平方ならK=-k²,L=-l²。x=-(A/B)²<0, y=(A/B)k/B^6 はC3': y²=xP(-x)上の有理点。親C35-12でC3'(Q)={∞,(0,0)}のため矛盾。実際にはx=-u<0の局所3円盤の証明だけでも足りる。C35-12に対して今回新たなrankやColemanの完全再実行・独立査読は行っていない（後述の依存）。
+
+
+B偶/A奇：S264の対象は48と120。K,L≡1 mod8、正平方 ⇒ K>0 ⇒ u=(A/B)²>5、0<z<1/30。q7(z)の正項上界は94171801/729000000<1でq7(z)<0。120はH2が正平方を要求して矛盾。48ではH2=-7h²のみ可能。原始三平方は5|ABC; 5∤Bなら5|DでH2≡V^6 (mod5)と-7が矛盾。従って5|Bかつ5∤D。もう一方の隣接j=47についてW47≡47D^2208 (mod5)；±47≡2,3 mod5はいずれも非平方。よって48も矛盾。
+検査でA偶のu、K/L各mod8の値とB偶の値を具体的原始三つ組で再チェックし、5元の非零平方三つ組が存在しないこと、q7の上界、残る全隣接が双子素数であることを検証。
+
+
+3. 独立監査の到達範囲と限界
+PASSはS263/S264/S321/S322、C35-11/12（ランク1・種数3有理点分類）、row368の先行監査済み命題に依存する対象限定の数学的帰結。親C35-12はscoped computer-assisted mathematical proof audit PASSであるが、row369のために旧Coleman全証拠・他の旧形式的HOLD・完全直方体全物理源へのforward adapterを今回再審査したわけではない。したがって完全直方体の不存在、R3-07全LOW、Branch B、S231等は認証しない。R2-01 MID/HIGHは別担当を維持。
+監査済み研究残表：絶対指数9件、signed枠17件 = 12（-12のみ）,30,42,60,72,102,108,138,150。B偶は72のみ。-12のrow338は引き続き別の採否境界。
+現行NEXT（研究担当の権限、監査により変更しない）：±30で元W29/W31の因子分解・平方自由部・同源固定曲線/低次数被覆の検査。row369結果は元sourceを満たし得る個別候補が実在するとの主張ではない。
+
+
+最終判定: PASS_SCOPED_DEPENDENT_ROW369_20261106; NEW=5_ABSOLUTE_SIGNED_INDICES_10_SIGNED_SLOTS; REMAINING_LOW=9_ABS_17_SIGNED; ORIGINAL_BRANCH_B_OPEN; C35_12_PARENT_INHERITED_NOT_INDEPENDENTLY_REAUDITED.

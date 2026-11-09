@@ -1,0 +1,36 @@
+﻿STAGE35EX｜R3 row378 独立数学監査｜2026-11-06 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261106_ROW378_COUPLED_ARTIN
+TARGET=R3-研究経緯 row378 / P23-R3-07-LOW / original signed −30 source.
+NEW_SIGNED_EXCLUSIONS=0; NEW_ABSOLUTE_EXCLUSIONS=0; MINUS30=OPEN; BRANCH_B=OPEN.
+
+
+I. 独立算術監査
+1. 著者提供の証拠ZIP内4ファイルのSHA256SUMSを sha256sum -c で照合し4/4 PASS。
+2. 著者 verify_row378.py の実行・importなし。独立のNumPy多項式Horner評価・Python有限体楕円加法・modular exact square判定を実装。p≤5003 の669奇素数を全走査し、p=199をArtin表から除いた668素数について、六平方傾き件数、S243/S269後の残存件数、同時Artin許容組、4ケースの非分裂マスク、同次係数とF29既約因子積を照合。不一致0。
+3. 独立再計算の強制素数: p|ABC が56個、p|A が41個。既存六平方のみとの差分p|ABC新規23個。Aは8×41素数の積（95桁）の倍数。
+4. Artin表の全668素数の係数配列から得る計3476個の因子をSymPy有限体既約性試験で個別検証: 全件既約。全因子の積は各pのF29係数に一致。p=199では gcd(F29,F29') mod199 の次数1を独立計算し非平方自由を確認。
+5. 分裂素イデアル数（2つのdyadic素イデアル込み）: S_both=399, S_Delta=652, S_equal=3034, S_one=2732。著者集計と完全一致。
+6. 照合例: p=17 の組(0,0),(0,17),(17,0)、p=29 の組(0,0),(3,3)、p=109 の組(0,0),(27,57),(48,48),(57,27)。p=23,131,179,191は六平方の許容傾きから追加条件によってA=0の2傾きのみになる。
+
+
+II. 数学的論理の限定監査
+A. 同一元sourceの有限必要条件: p∤ABCでD_{−30}がアフィン還元なら r,s,p0,q0 がp整で、S243の四平方を同じλ=(p0q0+rs)/Dに課せる。無限遠還元ならp|b_J b_Kで、S243によりA,C,−1が剰余平方、S269の同一整数Gaussian quarticにより8 i B²/(AC)が四乗剰余である。符号候補を全て保留する実装は必要条件として安全。
+B. A²+C²≡0 mod pの節点還元でもc4≡16A⁴は単元、T0とRの還元は滑らか。重根x=A²に対しx(R)=A²/2であり、滑らかな部分上の通常の加法公式が適用される（pは奇、p∤ABC）。
+C. p∤ABCかつF29 mod p平方自由なら、p上の因子g_iに対してα±=±s0−θの剰余ノルムg_i(±s0)の平方性で非分岐二次Artinビットを判定する。g_i(±s0)=0の唯一の一次因子では、親row370のF29(±s0)有理平方と親row374の偶付値を用いると他因子のビットから最後のビットが定まる。親row376の非分岐とABC素数全分裂を依存前提とする。
+D. S_bothは両指標が同時に分裂する無条件必要集合。S_Deltaは指標和、S_equalはχ+=χ−の条件下、S_oneは片方自明の場合の条件下の必要集合であり、これら後二者を無条件に全分裂と解釈しない。
+E. 記述された十分条件 c_Sboth=0、または c_SDelta=c_Sequal=0、または c_Sboth≤1かつ c_Sequal=c_Sone=0 はF2線形代数で正しい。ただし四つのc_Tは計算されていない。
+
+
+III. 認証依存・未解決
+親のrow370の六つの元Ward正整数平方、row374の最大整環/全有限偶付値、row375の実単元符号全射、row376のKummer類非分岐・±30符号判定・ABC分裂、S243/S269の同一元source adapterを既存限定認証として継承。これら親を本監査で独立再証明したとはしない。
+399等は『分裂する素イデアルの数』であり、類群内の独立な類の数でも商の2階数でもない。c_Cl、c_Sboth、c_SDelta、c_Sequal、c_Soneは未認証。両Kummer類の自明性・大域2可除性・高次descentによる元source不存在は未証明。元−30の全域排除0。LOW残9絶対指数・16 signed枠を維持。
+
+
+IV. 次に必要な証明
+C29の最大整環上でS_both=399を割った類群商の2階数を厳密証明。668素数同時Artin表を利用しつつ、和・対角・片方自明の条件付き商も計算する。解消されれば初めて二点の大域2可除性を高次descentへ接続する。R0の唯一NEXT、P23-R3-07-LOW、R2-01 MID/HIGHは変更しない。
+
+
+SOURCE_PROOF=https://drive.google.com/file/d/1Lyf52ifdPJnp0tjap2-M3jUVQVryRU1b/view
+AUTHOR_EVIDENCE=https://drive.google.com/file/d/1NvA5GTILoe8haeIuvi9SXA_aHFBuSb9n/view
+PARENT_AUDIT_ROW376=https://drive.google.com/file/d/1l5Rt7tvVd4xuxpFbxufKEXyvfNe55m8i/view
+INDEPENDENT_REPLAY=NumPy + Python EC arithmetic; all 668 tables checked. INDEPENDENT_IRREDUCIBILITY=SymPy GF(p),3476/3476 PASS.

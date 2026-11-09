@@ -1,0 +1,148 @@
+﻿# Stage35EX-C / R3 — Four-disk p=3 Chabauty exhaustion of the ENTIRE fixed genus-three Hcs(Q)
+
+
+DATE: 2026-10-16 JST
+RUN_ID: R3-20261016-POSTC118-HCS-FOUR-DISK-FULL-RATIONAL-EXHAUSTION
+BASE INTEGRATED HEAD: C35-118 (Section334 CURRENT / R0 receipt COMPLETE, independently fetched)
+FORMAL AUTHORITY: V74_GOAL4AK_SECTION334 UNCHANGED
+STATUS: PJ-SCOPED NEW STRONGER FIXED GENUS-THREE GLOBAL POINT THEOREM CANDIDATE; R0_REVIEW_PREPARED_ONLY.
+EXTERNAL_HOSTILE_AUDIT=false. OWNER_STATE_WRITTEN=false. NO_MAIN_INDEX_SECTION334_CHANGE=true.
+
+
+## 1. New global result and inherited assumptions
+
+
+Define OLD degree-seven genus-three hyperelliptic curve C=Hcs/Q by
+
+
+  C: y²=P(q)=q f(q)g(q)=5q^7−42q^6−169q^5−60q^4+3q^3+6q²+q,
+  f(q)=1+q−13q²−5q³, g(q)=1+5q+11q²−q³.
+
+
+Let J=Jac(C); omega_i=q^i dq/(2y), i=0,1,2, and D=[(-1,8)−infinity] ∈ J(Q). The previous C35-118 R0 provisional internal independent Selmer audit ACCEPTED rank J(Q)=1 at its defined scoped research strength, using a 10-dimensional S-unit ambient and full local Kummer images. This rank result is imported without renewed novelty credit or external formal certification. The old exact 44D Mumford pair, #J(F3)=44, old p3 nonzero difference (L2−L1)/3≡1, and old fixed X(Q)=four points are also zero renewed credit.
+
+
+**NEW THEOREM, at the inherited provisional rank-one scope:**
+
+
+  C(Q) = {infinity, (0,0), (-1,8), (-1,-8)}.
+
+
+This is strictly stronger than C35-105's #C(Q)∈{4,6}, than C35-118's four-point theorem for the narrower square-q genus-nine receiver X, and than the previous conditional *single* zero disk theorem. The new result is for the WHOLE fixed genus-three curve C, including all rational q (not only squares or physical source q). It is NOT a result on the moving-base original full indexed system, nor an E1/Branch-B endpoint theorem.
+
+
+## 2. New exact primitive logarithm vector modulo3 (stronger than OLD single difference)
+
+
+At p=3, C has good reduction: gcd(P,P')=1 in F3[q], lead5 is a unit, and complete C(F3) is {infinity,(0,0),(2,1),(2,2)}. OLD #J(F3)=44. Let
+
+
+  L_i = log_{J,3}(44D)(omega_i) ∈ 3 Z3.
+
+
+OLD C35-117 proved L2−L1 ≡3 (mod9), but did NOT compute L0 and L1. **The new finite arithmetic certificate proves the complete normalized vector**
+
+
+  (L0,L1,L2)/3 ≡ (1,1,2) (mod3),
+
+
+or equivalently L0≡3, L1≡3, L2≡6 (mod9).
+
+
+Here is a self-contained exact argument for the ADDITIONAL L0 and L1 information.
+
+
+OLD exact reduced Mumford pair of 44D: (u(q),v(q)), with u monic degree3, deg v≤2, u | v²−P. Let u2,u1,u0 be the nonleading u coefficients and v2,v1,v0 those of v. They satisfy v3(uj)=−2, v3(vj)=−3. Put A=9u2, B=9u1, C0=9u0, Vj=27vj; these are integral 3-adically. The prior 44D JSON is embedded verbatim, with SHA256:
+  d84545a9f0a002f218e525978d75203a31fd455bbbbb9645eb0f40168ccfc0a7.
+
+
+Set q=s/9. The monic u equation becomes s³+A s²+9B s+81C0=0. Mod3 this is s²(s+1). The root s=2 is simple; Hensel yields unique s∈Z3 reducing2, and s=65 (mod81). The corresponding rational Q3 divisor point P_infty has q=s/9, v3(q)=−2, and local infinity parameter t=y/q⁴ with t/3≡1 (mod3). These facts and the log DIFFERENCE were already C35-117 and obtain ZERO renewed mathematical credit.
+
+
+After factoring q−s/9 from u, the remaining finite quadratic is
+  q²+U1 q+U0,
+  U1=(A+s)/9, U0=−C0/s.
+
+
+Both Uj belong to Z3; substitute q=1+3w. The new w polynomial is
+  w²+a w+b=0, a=(2+U1)/3, b=(1+U1+U0)/9,
+  and reduction modulo3 is w²+2w+2, irreducible over F3. Hence the two finite points P1,P2 are conjugate over unramified K/Q3 of degree2, with q_i=1+3w_i, and w_i+1=δ_i, δ_i²=−1 modulo3.
+
+
+**New sign/residue determination:** Evaluate y=v(q) using the quadratic relation, rather than guessing the square root of P(1). With q=1+3w and w²=−aw−b,
+
+
+  27 y = V2(1−9b)+V1+V0 + [V2(6−9a)+3V1]w.
+
+
+The exact rational 44D coefficients and Hensel lifts give, after dividing BOTH bracket coefficients by 27, residues 1 and 1 modulo3. Thus y_i≡1+w_i=δ_i (mod3), not its negative. For transparent finite arithmetic, at pole precision 3^27 the script records
+  s mod2187=956; (A,B,C0) mod2187=(1429,307,1297);
+  (V0,V1,V2) mod81=(1,46,25);
+  (U1,U0) mod81=(22,76); (a,b) mod9=(8,2),
+  and (constant,w coefficient) of v(q) mod3=(1,1).
+
+
+Path #1 directly performs exact Fraction polynomial reductions and digit Hensel at precisions 3^12,3^15,3^18,3^21,3^24,3^27; every result is (1,1). Path #2 independently Newton-lifts a root w≡δ−1 in Z/3^k[δ]/(δ²+1), k=6,8,10,12, then DIRECTLY evaluates the ORIGINAL quadratic v(q) without using the reduced linear formula. All 4 runs give y≡δ, i.e. (0,1) in the basis (1,δ). The irreducible finite split, unit y and separate 3-adic precision bounds are explicitly checked. This certifies the sign without a floating-point approximation or relying on the previous scalar log-difference claim.
+
+
+Let U_i=(q=1,y=16δ_i) on C(K), taking the actual exact unramified lifts δ_i²=−1 in characteristic0. These are a hyperelliptic conjugate pair, so U1+U2−2∞=div(q−1) is principal. The old 44D divisor decomposes P1+P2+P_infty−3∞; hence for each omega_i the canonical ABELIAN logarithm is exactly the sum of the tiny Coleman integrals
+  L_i = integral(U1→P1,omega_i) + integral(U2→P2,omega_i) + integral(∞→P_infty,omega_i).
+
+
+At either finite point q=1+3w with y a unit, omega_i=q^i dq/(2y) has leading Taylor term dq/(2 y(U_i)), independently of i. A general higher Taylor term with power h≥2 has valuation ≥h−v3(h)≥2 when q−1∈3O_K. Thus modulo 9:
+  integral(U_i→P_i,omega_i) ≡ 3w_i/(2 y(U_i)) (mod 9 O_K).
+
+
+Modulo3, 16δ_i≡δ_i and y(U_i)≡δ_i. We obtain
+  (finite contribution)/3 ≡ (1/2) Tr_{F9/F3}[w/(w+1)]
+                            = (1/2) Tr[1−(w+1)^(−1)]
+                            = (1/2)·2 =1 (mod3).
+The trace of (w+1)^(−1) is zero because its conjugate is its negative, while Tr(1)=2. Therefore the finite pair contributes 3 modulo9 to EACH of L0,L1,L2.
+
+
+Infinity: with r=1/q, t=y/q⁴ and t²=5r−42r²−169r³−..., r=t²/5+O(t⁴); the differentials satisfy
+  omega_i = −r^(2−i) dr/(2t).
+Thus omega0=O(t⁴)dt, omega1=O(t²)dt, omega2=−(1/5+O(t²))dt, all with integral coefficients. At t_infty∈3Z3 and t_infty/3≡1, tiny integration yields
+  (infinity contribution of L0,L1,L2)/3 ≡ (0,0,−1/5) ≡ (0,0,1) (mod3).
+Combining finite and infinite contributions proves the NEW direction (1,1,2) modulo3, hence nu=1 and L0/3 is a unit.
+
+
+## 3. All FOUR rational residue disks individually exhausted
+
+
+Since rank J(Q)=1 at the stated scoped research status, the Q3-line generated by log(J(Q)) is spanned by log(44D). Hence EVERY regular differential whose pairing with log(44D) vanishes is a Coleman-Chabauty annihilator of J(Q). Because L0 is nonzero, define exact 3-adic ratios λ1=L1/L0∈Z3 and λ2=L2/L0∈Z3; their reductions are λ1≡1, λ2≡2 (mod3). Form annihilators
+  η_fin = omega1 − λ1 omega0; mod3 coefficient vector (2,1,0),
+  η_inf = omega2 − λ2 omega0; mod3 coefficient vector (1,0,1).
+Both annihilate the entire rational Jacobian, including torsion (its p-adic log vanishes). This does NOT assume that D generates the full Mordell–Weil group or that its index is saturated: rank1 alone is enough to give the same Q3-logarithm line.
+
+
+There are exactly four F3 residue disks, and each contains a known rational point:
+
+
+  Disk T0=(0,0): evaluations of (omega0,omega1,omega2) are proportional to (1,0,0), and η_fin evaluates to 2 mod3 (unit).
+  Disk (2,1): known (-1,-8) or (-1,+8) according to y reduction; evaluation proportional to (1,2,1); η_fin evaluates to 2+2=1 mod3 (unit).
+  Disk (2,2): the other known (-1,±8); same evaluation row (1,2,1) up to unit scaling; η_fin again a unit.
+  Disk infinity: uniformizer t=y/q⁴ gives leading evaluation (0,0,−1/5), and η_inf is a unit.
+
+
+For each disk choose its known rational base point T. A good-reduction integral local parameter h with h∈3Z3 expresses η as (a0+a1h+a2h²+...)dh with aj∈Z3 and a0 a unit. Its Coleman primitive from T is
+  I(h)=a0*h+sum_{j>=1} aj*h^(j+1)/(j+1).
+For h∈3Z3, h≠0, the ratio I(h)/h≡a0 (mod3) because j−v3(j+1)≥1 for ALL integers j≥1 (proved by elementary valuations; also finite checked to 500 in replay). Thus I(h)≠0 for any h≠0. So each disk contains at most ONE rational point. The four known rational points occupy the four distinct disks, giving EXACTLY those four rational points and no further rational point on C. QED at the inherited scoped rank1 level.
+
+
+This is a complete all-depth Strassmann/Coleman disk proof, NOT a claim derived solely from finite arithmetic. The required analytic integrality follows from C's smooth model at3 (P and P' coprime modulo3), the unit Y in finite nonbranch disks, q~t² at q=0, and r~t²/5 at infinity.
+
+
+## 4. Independent tests, anti-duplication and limitations
+
+
+REPLAY: `python3 r3_c119_hcs_all4_p3_verify.py` (Python3 stdlib only) recreates its JSON and asserts: original 44D exact `u|(v²−P)`; prior source SHA; six Hensel precisions + four independent unramified Newton tests; actual y sign modulo3; F3 smoothness and point list; log direction (1,1,2), exact unit evaluations in each of four disks, and a 500-term integral-tail valuation regression. It does NOT claim that 500 terms replace the proven all-integer inequality or perform a hostile external audit.
+
+
+BOUNDED PJ SEMANTIC DEDUP: Compared R0 C35-118 Section334 mission/receipt; OLD R3 C35105 Stoll upper #C(Q)∈{4,6}; OLD R3 C35104 inherited Selmer proof; OLD C35-116 unique zero disk only; OLD C35-117 scalar log difference; OLD C35-118 X(Q)=four and signed±6 source exclusion. Targeted Drive semantic searches included `Hcs exactly four rational points`, `Hcs four points proof`, `C_s(Q) four points`, `Hcs rank1 Coleman 3 all disks`, `Hcs genus3 rational points 4 6`, `(-1,8) Hcs complete rational`. No prior equivalent whole-C rational-point exhaustion found. This is project-relative candidate novelty, not exhaustive archive checking or worldwide first-priority certification. All earlier genus, rank, local count, divisor, genus9 and signed6 results get ZERO renewed credit.
+
+
+R0 AUDIT ITEMS: (i) replay the independent direct unramified quadratic Newton sign y≡w+1; (ii) inspect exact principal-divisor subtraction of U1+U2−2∞; (iii) verify all tiny integral mod9 bounds including t³/3 at p3; (iv) check λ_i ratios are integral and the 4 disk unit evaluations; (v) ensure the inherited C118 rank1 proof/scope has not been superseded by errata. If accepted, advance ONLY whole fixed Hcs(Q) to four points at provisional research scope. No additional original signed indices are automatically excluded.
+
+
+FULL ENDPOINT FIREWALL: one original primitive positive labelled A²+B²=C², C odd; actual original signed D_n=T0+2nP, |n|≥3; strict physical chamber and positive r,s,p,q; SAME Q/Qsharp infinite quotient, odd coprime M>N>1/shared alpha, FOUR globally positive integer S243 roots, SAME actual W_n,W_2|n|,b_n; ONE primitive Gaussian/shared quartic, corrected H; FOUR TRUE S270 GOOD/H TOP/PROPER uncapped ordinary-beta pools; all old HOLD/NEGATIVE. BRANCH_A=USER_PAUSED, BRANCH_B=OPEN, STAGE35=OPEN, E1=UNPROVEN. External hostile audit absent. Original full source/physical adapter, arbitrary-index coverage and TRUE fourpool upper remain open. No R0/MAIN/INDEX/Section334 or owner STATE edits by R3.

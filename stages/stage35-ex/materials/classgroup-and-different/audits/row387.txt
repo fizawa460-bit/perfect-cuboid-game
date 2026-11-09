@@ -1,0 +1,44 @@
+﻿Stage35EX｜R3 row387 独立数学監査｜2026-11-07 JST
+VERDICT=PASS_SCOPED_DEPENDENT_20261107_GLOBAL_GOOD_SELMER_THREE_HNR_COSETS_REVERSED_CT_ROUTE_NO_QSTAR_VALUE
+SCOPE=P23-R3-07-LOW; same original signed −30; C29/J29 genus52; [K:Q]=105.
+NEW_UNCONDITIONAL_SIGNED_EXCLUSION=0; LOW_UNCONDITIONAL_REMAINDER=9_ABSOLUTE_16_SIGNED; P23_LOW=OPEN; BRANCH_B=OPEN.
+
+
+1. 確定した新規成果（親結果依存）
+親row381/385の完全分解 S=Sel2(J29/Q)=U⊕H_nr, dimU=9, dimH_nr=c_Cl, loc₂|Uは単射, loc₂(H_nr)=0を継承。親row386が独立監査した27個の2進補助conic必要条件の全512 U座標解は0x000/0x049/0x0a1のみであり、これらは∞, P−, P+（P±=(±1,2^35)）の有理曲線点で達成。
+本行は全奇素点で補助conicが可解であることを追加証明。根対が奇剰余標数pで区別できる場合はroot differenceと両平方類の代表を単元にでき、局所体の単元同士のHilbert記号が+1。根対が合流する場合は、唯一二重根を持つ6奇判別式素数に限られ、局所で同一の分岐二次因子の共役二根となる。奇剰余標数の分岐二次体の共役は剰余を固定するので、偶付値の両componentの単元平方類は同じであり、積は平方。以上、全d∈Sの全ordered-pair conicは奇素点で可解。偶付値・素数サポートの完全性は親row374/381に依存。
+d=u+η（η∈H_nr、u∈{0,D−,D+}）ではηが全2進根体で平方、全実埋込みでも正なので、2進・実conicはuから可解。複素場所は自動。全根対体上のconicはHasse–Minkowskiの原理で大域点を持つ。one ordered-pair orbitの代表体内の解をGalois輸送すれば整合した解が得られる。よって
+ Good(S)=H_nr ∪ (κ(D−)+H_nr) ∪ (κ(D+)+H_nr)
+が成立。good元数3*2^c_Cl、S全体への割合は3/512。good元の張る部分空間はH_nr⊕〈D−,D+〉次元c_Cl+2。既知有理8方向Wにgood元を加えたW⊕H_nrはSで指数2。Shukla Definition 4.4.5のgood curve基準を指定された親定理の下で満たす。
+Cassels–Tateの交代性（親row385）からb(δ★,η)=b(η,δ★)。全η∈H_nrがgoodであるため、Shukla§4.4の簡便conic CT算法にηを第一引数として適用可能。これによりrow386で失敗した「δ★を第一引数にして既知8類加算で修復する」ルートを置換する。good性はSel4リフトやMW由来性と同義ではない。
+
+
+2. 著者資料の検査と独立整数・GF2再計算
+著者ZIPのSHA256SUMSは11/11 PASS。著者二つの純Python検査器を展開後再実行、出力JSONはgood_selmer387.jsonおよびunramified_correction387.jsonと完全一致。
+これとは独立に標準Pythonのみのindependent_row387.pyを新規実装。著者検査コードをimportせず、各奇素数pで別実装の多項式Euclidとsynthetic divisionによりgcd(F,F')が一次、F=(X-r)^2 Q modp、Q次数103・平方自由・Q(r)非零、F(r)のp進付値が1であることを全6素数に対して独立PASS。6素数の正しさ・判別式サポート完全性は親row374の監査を継承。F(1)=F(-1)=2^70を整数係数から直接確認。
+親row386由来の27個の2進補助conic多項式を全512座標に独立評価し、解は正確に[0,73,161]。良クラス二方向の階数2、既知8有理Kummer座標（cf,a1,49,0e,a8,6b,f6,51）のrank8、δ★座標0x10cを加えるとrank9。27条件の局所算術的導出は親row386独立監査を継承し、本行では再々導出しない。
+55ノルム1大域単元の107bit局所像から著者の高位ピボットと異なる低位ピボットGF2消去でrank55。55基底の局所像に対し左逆の正しさと107次元上の射影冪等性を独立認証。9単元Selmer基底の55bitマスクと局所コード対応PASS。局所像の補空間上の左逆の選択は非一意で、対象の画像部分では入力に対する補正を一意に定める。これは未知大域入力のprincipal square ideal証明ではない。
+次数10920のordered-pair体 M=K[z]/R(t,z)、R=(F(z)-F(t))/(z-t)に対し、Rの全105個のz係数多項式を独立の整数係数恒等式で照合PASS。S105による根対推移性・Mの次数は親row383のガロア監査を継承。補助conic η(z)u²−η(t)v²=t−z を X=η(z)u, Y=v と変換した二次ノルム方程式 X²−η(t)η(z)Y²=(t−z)η(z) は正しい。大域解を構成したとの主張はしない。
+
+
+3. 線形演算子と未充足の前提
+Cl(O_K)[2]の全尽的な認証済み基底の各イデアルI_iについてI_i²=(α_i)と大域主生成元の証人を持つとき、α_iをノルム正有理平方に調整し、親V=U¹⊕H_nrの局所codeを55単元の左逆で補正してη_i∈H_nrを得られる。これは真正の大域I_iとα_iを入力とするアルゴリズムであって、局所107bit codeだけから未知の大域類を作り出す証明器ではない。
+現時点で認証済みCl[2]全基底、主平方イデアルの証人、未知ηの大域conic解・局所CT補正、λ_i=b(η_i,δ★)、Artin双対類A_i、q★=[∏A_i^λ_i]の値は全て未計算。真Sel4所属もUNDETERMINED。Cl[2]の有限候補を探索して0個だったというだけではc_Cl=0の認証ではない。
+
+
+4. 監査の依存・限界・残余
+独立再検査した算術は奇6素数の節点、55×107局所GF2射影、根対多項式105係数、親27多項式の512類判定。有理曲線点による三類の達成、親Sel2分解、素点の全偶付値、局所体分解、Shuklaのgood定義・Hasse原理は紙面の数学的検討と親監査に依存している。整数計算やCRTだけで未知c_Clを確定したとの過大主張はしない。
+新規無条件signed/absolute排除0。LOW残9絶対指数16signed枠、元−30・P23 LOW・Branch B OPEN。Perfect cuboid全域解決なし。
+
+
+5. 唯一NEXT（ROW387後、内容変更なし）
+同じ根体Kの通常類群Cl[2]の全尽的な認証基底I_iとI_i²=(α_i)の証人を構成する。空基底を真に認証できればc_Cl=0、親rank≤9と元−30 rank≥10の矛盾から排除。非空なら55単元補正でη_i∈H_nrを得て、η_iを第一引数に次数10920根対体の補助conicノルム方程式を解き、局所CT計算とArtin双対でq★を判定する。δ★の一般4コホモロジーリフトの先行必須化はrow387で置換済み。元source排除や非リフトの結論は未証。R0 ACTIVE_NEXT・R3 G8を維持。
+
+
+AUTHOR_PROOF=https://drive.google.com/file/d/1nA5mow6aOEBBrhzcYDFiWAIQyoSSlKG4/view
+AUTHOR_ZIP=https://drive.google.com/file/d/1LU3ZLXgpwnTwLLIQRAKWWdG85NkbOaX5/view
+PARENT_ROW386_AUDIT=https://docs.google.com/document/d/15snnWNu6hWnHLA_ZT9TwwMMosilqU5C68TwNBQcYaO8/edit
+INDEPENDENT_AUDITOR_EVIDENCE_LOCAL=STAGE35EX_ROW387_INDEPENDENT_AUDIT_EVIDENCE_20261107.zip; SHA256=bbad859e83c3879e7ca1112f5ff474d8f36bb32627337fd532e153f63625bcc9.
+
+
+INDEPENDENT_AUDITOR_EVIDENCE_GOOGLE_DRIVE=https://drive.google.com/file/d/1SG8X2G-iqKx5sVF4pmt1FjOlU2PTZK6m/view

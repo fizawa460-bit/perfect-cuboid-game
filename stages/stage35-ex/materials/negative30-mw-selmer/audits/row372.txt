@@ -1,0 +1,36 @@
+﻿STAGE35EX / R3-07 / ROW372 — 独立数学監査
+2026-11-06 JST
+VERDICT: PASS_SCOPED_DEPENDENT_20261106_ROW372_LOCAL_KUMMER3_INDEPENDENT
+
+
+監査対象・境界
+固定signed±30のC29: y²=F29(x) (deg F29=105, genus52)。row372の新数学は既知の3有理類 H,D+,D- の 2進真x−θ Kummer像が局所的にF2独立であること。親row370/371の有理点・31進対数・2進体分解・局所像の次元53の既出成果は追加credit0。真正Selmer上界、全53ベクトル基底、±30 source排除を本監査は証明しない。
+新証明：https://docs.google.com/document/d/1FYbYPCFBt5rCmidRTCpShItJIv1oiZVoXSUtDaGwtvE/edit
+監査側新規独立証拠：https://drive.google.com/file/d/1IiJt-Bf96PQUDwgYxcNDLUm1ioFochOF/view
+親row371曲線係数： https://drive.google.com/file/d/17PxkDhEDsMeC96muCx2-pMaft1XaB0pH/view
+
+
+独立再計算方法（著者row372再現器は不使用）
+1. 親row371の公開curve_C29.json（A*_ascending,B*_ascending,F_ascending）を固定。Python標準ライブラリのみで、G(t)=A*(-t²)+tB*(-t²)、各G(1+T), B*(-(1+T)²)の整数Taylor係数をbinomial combで再生成。K21=U7(pi), pi³=2、U7=Q2[z]/(z^7+z+1)、mod pi^12 を自作21成分の有限環 (Z/16)[z,pi]/(z^7+z+1,pi³−2) で計算。乗算の z^7=-z−1 と pi³=2 を独立実装。
+2. pi^-105 G(1+pi W) の全106項をNewton条件で正規化して評価。F2^7で w0=z^85=0x6d、P(w0)=0 modpi、P'(w0) residue=0x4b !=0。導関数単元の逆元をNewtonで構成し、Wの根を4回のNewton反復でP(W)=0 modpi^12まで持ち上げた。したがって theta=−(1+pi W)^2 は対象K21成分のF根として認証。
+3. Hのtrue Kummer像は B*(theta)、D+=1−theta、D−=−1−theta（奇数次数Fに対するscalar商のないodd-degree x−theta map）。t=pi WとするとD+、D−をt²で割った単元は 1+pi W^-2+pi² W^-1 と 1+pi² W^-1。Hはpi^-104 B*(theta)を計算し、定数剰余が0x4b非零、剰余体平方根のliftで割って剰余1に正規化。従ってHのpi係数=0x3c、D+のpi係数=0x77、D−のpi係数=0、pi²係数=0x55。
+4. 0x55 のF2^7平方根 c=0x0fを独立のGF(2^7)冪乗で検算。u−−(1+pi c)^2 はpi²まで0、pi³係数=0x08≠0。残差のpi³係数は平方根へpi²以上を足しても変わらず、u−は非平方。H/D+のpi係数は相異なる非零なので、H,D+,H+D+のどれも平方にはならない。またD−を加えてもpi係数は変わらない。故に3像はF2独立。
+5. Odd-degree Kummer map J(Q2)/2J(Q2) → (K⊗Q2)^×/(square) は局所的に単射（ノルム核像へ）。K21への投影で3方向独立なら全積K21×K84でも独立。従ってΓ3=<H,D+,D−>について Γ3∩2J(Q2)=2Γ3。Q有理群への包含でΓ3∩2J(Q)=2Γ3も従う。ただし全球側の3方向独立性はrow370のp17親にも既存であり、新規はQ2での具体Kummer独立性のみ。
+
+
+検算結果（独立実装）
+w0=0x6d、P'(w0)=0x4b unit、Newton4反復でP(W)=0 modpi^12。
+B*(theta)/pi^104 residue=0x4b nonzero。uH U1=0x3c、u+ U1=0x77、u− U1=0・U2=0x55、sqrt U2=0x0f、補正後U3=0x08。上の全て著者証明と一致。
+
+
+独立証拠・SHA256
+https://drive.google.com/file/d/1IiJt-Bf96PQUDwgYxcNDLUm1ioFochOF/view
+ZIP SHA256: 812a0e13efba18ce2a0e1ca79c281e07dac52b59001c77a5f8a6d4cfb735b2ec
+曲線係数 curve_C29.json SHA256: 04542e2e37a75ce382ca7921d51aae9e3bcc690b6a03d514dcbc0a511205bd74
+別実装 independent_kummer_row372.py SHA256: 862d40ce912566dbd3094ad34fe41f05a7554e7e8dda5ce4cbd4d927cc8027ce
+独立REPLAY.log SHA256: 1983d210fe0c12c9128a68fe429beb336c8e6a7fba245c0c6a3d9d5a8e5cce7d
+
+
+検証範囲の限界
+row372原著者がチャット内添付と記載した専用ZIPは今回の作業環境とGoogle Driveに存在を確認できなかったため、その原添付のSHA/著者検証器そのものは監査していない。一方で公開された証明の中核は、親row371のF/A*/B*係数から独立再構築し、有限環のpi^12で完全厳密に照合した。この限定のもと上の数学補題にPASSを付す。
+未完成：残50方向を含む全53次元の局所Jacobian実生成ベクトル、bad primeの局所条件、大域norm squareclass候補、true 2-Selmer≤4または全MWの31進(lambda0,lambda1)射影≤1、元signed±30排除。索引の残9絶対指数・17signed枠不変。row372後の唯一のNEXTは現行R3とR0から変更しない。
