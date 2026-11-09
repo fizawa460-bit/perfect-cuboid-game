@@ -79,3 +79,6 @@ row345・row352は[#1854の収載行列](PR1854-PROOF-EVIDENCE-PRESENCE-MATRIX.m
 ## 第二周の作業境界
 
 今回確認できた **R3の12原著の未収載0** は、あくまで「発見済み12本の数学原著本文がPR #1860に入った」の意味。完証・数学独立監査・全証拠のbyte-complete保管を意味しない。未確認をPASSへ書き換えない。
+
+
+**【初回23候補外・同一Drive原本の未収載原数学節を追加】** 巨大な[Branch B原稿](https://docs.google.com/document/d/1CKLon3eRKjsEVuIwgpSTV4DKHQ5GRWsfDw2SA6T5vNI/edit)の[§15.1–15.5 E'_t(Q)一様torsion元証明](proofs/earliest-foundations/BranchB-Section15-torsion.md)が、S194の有限奇数商・E_tのtorsionの**数学的親**であり、第１周で移植した§13・§16には含まれていなかったため追加。**別個の原Driveファイルの発見ではない**（既存原著から証明箇所１件を新規抽出）。#1860の数学本文は12+10+1=**23追加ファイル**。厳密な[原分岐の依存監査](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)で旧§17撤回とS193の条件付きfirst branchを分離した。総必要親と自己完結の完了判定は未確定。
