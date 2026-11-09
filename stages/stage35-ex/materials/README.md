@@ -24,4 +24,6 @@
 
 ## 主要原証明の追補（2026-11-09）
 
-[20件の追加した主要原著本文と未完了チェック](../publication/major-routes/MIGRATION-COMPLETION-CHECKLIST.md)および[出典対応map](../publication/major-routes/PRIMARY-SOURCE-MAP.json)。C195の11前提、S270、P112関連3本、C196〜C200を含む。数学的な意味での独立再監査・移植完了・mainマージを意味しない。
+[24件の追加資料本文と未完了チェック](../publication/major-routes/MIGRATION-COMPLETION-CHECKLIST.md)および[出典対応map](../publication/major-routes/PRIMARY-SOURCE-MAP.json)。C195の11前提、S270、P112関連3本、C196〜C200を含む。数学的な意味での独立再監査・移植完了・mainマージを意味しない。
+
+[S270→C189の旧定義・155/197採否照合](../publication/major-routes/S270-C189-SCOPE-CROSSCHECK.md)、[C196〜C200論理連鎖の照合](../publication/major-routes/C196-C200-DEPENDENCY-REVIEW.md)、[P112の整数再集計](../publication/major-routes/P112-RESIDUAL-RECONCILIATION.md)を追加。数理の敵対的再監査、Google Docs native数式/表の忠実性チェックは未完了。
