@@ -1955,16 +1955,16 @@
       "to": "EXTERNAL_DE_LA_MAZA",
       "role_as_in_1854": "ORIGINAL_THEOREM_APPLICATION_PENDING",
       "source_file": "stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md",
-      "original_reference_check": "SOURCE_REFERENCE_SEEN",
+      "original_reference_check": "PUBLISHED_PRIMARY_TEXT_READ_IN_GATE_D1",
       "second_pass_math_parent_sufficiency": "SOURCE_IDENTIFIED_ESCALATED_GATE_D",
       "review_note": "45 supplementary checks exist but are not row-number aligned to all 39 frozen edge records; do not treat 45 as 39 completed",
-      "necessary_claim_and_scope": "row393 uses de la Maza Math Comp 71(240)(2002) Theorem 1 and corollary to claim universal class representative norm B<2^94. Exact original primary theorem admissibility/normalization not yet read, despite arithmetic consistency; NOT source signoff.",
+      "necessary_claim_and_scope": "row393 §2 uses de la Maza Theorem 1 and Corollary for B<2^94 for all ordinary ideal classes. Primary (4)–(7), (11) and Proposition 2 match its specialization and normalization.",
       "evidence_child_file": "stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md",
       "evidence_math_source_or_equivalent": "stages/stage35-ex/publication/major-routes/ROW393-PRIMARY-THEOREM-GATE.md",
       "source_presence_checked_current_turn": true,
       "external_primary_needed": true,
-      "source_dependent_disposition": "row393 authored mathematical proof present in repository; only external bibliographic theorem primary statement/admissibility missing, moved exclusively to Gate D",
-      "external_primary_verified": false
+      "source_dependent_disposition": "Author proof text is present; external statement and its application transferred to Gate D and verified as D-1. Frozen Gate C classification retained.",
+      "external_primary_verified": true
     },
     {
       "row": 38,
@@ -2116,42 +2116,50 @@
     {
       "id": "D",
       "label": "必要な外部定理の原命題・仮定の照合。既に別用途と判明した参照は除外",
-      "status": "OPEN",
-      "blockers": [
-        "row393 de la Maza primary theorem application",
-        "BranchB §15.4 classical Mordell quartic cited theorem primary statement/applicability"
-      ],
-      "remaining_count": 2,
+      "status": "PASS",
+      "blockers": [],
+      "remaining_count": 0,
       "accepted_not_loadbearing_source_exceptions": [
         "Bérczes S252 §2/5 H-only theorem is not direct parent of C187 155/197 height lambda §§3/4; no external item created"
       ],
       "latest_scoped_audit": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md",
       "latest_machine_audit": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json",
-      "primary_search_result": "Connected GDrive / repo / project search did not locate either actual external original theorem source. Only author citation text exists. No public-publisher document read and no original primary citation pass.",
+      "primary_search_result": "Published primary article text (CiteSeerX) and Mordell 1969 Chapter 4 pp. 19–20 (page reproduction) read and matched to their applications.",
       "D1": {
         "id": "D-1",
         "external": "de la Maza 2002 Thm1+corollary",
-        "original_theorem_text_present": false,
-        "external_application_verified": false,
-        "internal_numeric_and_rational_factor_checks": "PASS_SCOPED_OLD_PRIOR_AUDIT"
+        "original_theorem_text_present": true,
+        "external_application_verified": true,
+        "internal_numeric_and_rational_factor_checks": "PASS_SCOPED_OLD_PRIOR_AUDIT",
+        "status": "PASS",
+        "primary_text_url": "https://citeseerx.ist.psu.edu/document?doi=1b6ff134947b9273c37cb81b7a73217d3d9562f7&repid=rep1&type=pdf",
+        "printed_location": "pp. 1746–1751, Theorem 1, Corollary, (4), (5), (11), Proposition 2"
       },
       "D2": {
         "id": "D-2",
         "external": "Mordell Diophantine Equations Ch4 Equation7prime",
-        "original_theorem_text_present": false,
-        "external_application_verified": false,
+        "original_theorem_text_present": true,
+        "external_application_verified": true,
         "psi3_discriminant_and_two_alpha_branches": "SYMPY_EXACT_PASS",
         "quartic_reduction_for_both_signs": "SYMPY_EXACT_PASS",
         "r_exception_handling": "EXACT_PASS",
         "integer_primitive_reduction": "ELEMENTARY_PROOF_PASS",
-        "quoted_quartic_nontrivial_absence": "UNVERIFIED_EXTERNAL"
-      }
+        "quoted_quartic_nontrivial_absence": "VERIFIED_IN_MORDELL_1969_CH4_EQ_7_PRIME",
+        "status": "PASS",
+        "primary_text_urls": [
+          "https://fliphtml5.com/xlghd/zrvl/Diophantine_Equations_%28L.J._Mordell%29/32/",
+          "https://fliphtml5.com/xlghd/zrvl/Diophantine_Equations_%28L.J._Mordell%29/33/"
+        ],
+        "printed_location": "p. 19, k=1, Eq. (7′); proof continues on p. 20"
+      },
+      "target": 2,
+      "checked": 2
     },
     {
       "id": "E",
       "label": "R3 row393/±18/Ward3-5-7/+30 と R2 C189/C187/S270 を末端から一度通し、必要な未収載著者数学原著の空欄ゼロを確認",
       "status": "PASS",
-      "blockers": "No single terminal end-to-end signoff on fixed seed DAG has been recorded",
+      "blockers": 0,
       "terminal_count": 7,
       "terminal_checked": 7,
       "author_original_math_text_missing": 0,
@@ -2162,8 +2170,8 @@
   ],
   "completion_formula": "A PASS AND B PASS AND C PASS AND D PASS AND E PASS; all 39 have terminal source-dependency decisions; 0 unknown necessary author mathematics texts; no unclassified newly revealed direct parent after one full final pass. External theorem primary statement/applicability can be externally referenced but must be inspected and documented, not copied wholesale.",
   "failure_behavior": "If a newly observed direct mathematical parent belongs to one of these fixed endpoints, append one explicit dependency row and resolve it before final closure. Do not broaden to unrelated routes, don't reset completed entries, and report exact finite OPEN IDs and remaining row count. Historical mention without used lemma must be NOT_REQUIRED.",
-  "second_pass_status": "NOT_COMPLETE_GATE_D_TWO_EXTERNAL_PRIMARIES",
-  "closure_pass": false,
+  "second_pass_status": "COMPLETE_SCOPED_SOURCE_AND_DEPENDENCY_AUDIT",
+  "closure_pass": true,
   "pr_merge_permitted": false,
   "important_distinctions": [
     "23/23 initial location audit complete does not mean mathematical chain complete",
@@ -2178,25 +2186,25 @@
       "A",
       "B",
       "C",
+      "D",
       "E"
     ],
-    "gates_open": [
-      "D"
-    ],
-    "external_primary_remaining": 2
+    "gates_open": [],
+    "external_primary_remaining": 0
   },
   "latest_reconciliation": {
     "date_jst": "2026-11-09",
     "c_39_terminal_dispositions": "39/39",
     "e_terminal_source_coverage": "7/7",
-    "only_open_gate": "D",
-    "external_primary_unresolved": [
-      "DE_LA_MAZA",
-      "MORDELL_QUARTIC"
-    ],
+    "only_open_gate": null,
+    "external_primary_unresolved": [],
     "all_source_presence_checked": true,
     "mathematical_proof_correctness_audited": false,
-    "gate_D_math_subchecks": "D2 symbolic antecedent and scope PASS; original theorem text for D1/D2 missing; 2 primary items OPEN",
-    "latest_external_audit": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md"
+    "gate_D_math_subchecks": "Both original statements, assumptions and uses verified. D-1 ordinary ideal class bound for row393; D-2 primitive integer quartic for Branch B §15.4.",
+    "latest_external_audit": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md",
+    "external_primary_verified": [
+      "DE_LA_MAZA",
+      "MORDELL_QUARTIC"
+    ]
   }
 }

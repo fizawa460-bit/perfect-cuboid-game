@@ -1,7 +1,7 @@
 {
   "schema": "stage35ex.pr1860.recursive-parent-continuing-audit.v1",
   "updated_jst": "2026-11-09",
-  "status": "IN_PROGRESS_NOT_CLOSED",
+  "status": "COMPLETE_SCOPED_SOURCE_AND_DEPENDENCY_AUDIT",
   "scope": [
     "R3-07 row393 and adopted LOW exclusions",
     "R2-01 C189/S270 current math only"
@@ -207,9 +207,9 @@
       "route": "R3-07",
       "from": "row393 degree105",
       "to": "de la Maza Theorem 1/corollary",
-      "evidence": "row393.md §2 gives DOI/author and specialized weight",
-      "status": "EXTERNAL_THEOREM_APPLICATION_PENDING",
-      "outstanding": "actual primary theorem assumptions and normalized constants not independently confirmed"
+      "evidence": "row393 §2 matched to published primary Theorem 1, Corollary, (4)–(7), (11), and Proposition 2; see stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md",
+      "status": "EXTERNAL_PRIMARY_APPLICATION_PASS",
+      "outstanding": null
     },
     {
       "route": "R2-01",
@@ -465,7 +465,7 @@
       "to": "Branch B original §15.1–15.5 full E'_t(Q)_tors=Z/4Z proof",
       "evidence": "S194 §3 explicitly derives E_t(Q)_tors=E_t[2] from retained E'_t(Q)_tors=Z/4Z. First pass contained historical §13, §16 and S194 references but not original 8/12 torsion exclusion argument; recovered Section15 full historical original from same Drive.",
       "status": "FIRST_ROUND_MISSING_AUTHOR_MATH_SECTION_RECOVERED",
-      "outstanding": "Mazur + Fermat 1 noncongruent + classical Mordell quartic primary hypotheses and full independent proof audit pending"
+      "outstanding": "Separate independent mathematics audit of §15; Mordell primary citation and application verified under D-2."
     },
     {
       "route": "COMMON_BRANCH_B",
@@ -473,7 +473,7 @@
       "to": "original §15.2 unique nonzero rational 2-torsion + Q4 plus §15.3 no Z/8 and §15.4 no Z/12",
       "evidence": "BranchB-Section15-torsion.md exact original excerpt §15.2–15.5; ψ3 polynomial discriminant in α independently symbolically checked =16 x³(x+1)³",
       "status": "ORIGINAL_MATH_PARENT_TEXT_IMPORTED_SYMBOLIC_SUBCHECK_ONLY",
-      "outstanding": "external classical theorem Mordell u^4+u²v²+v^4=W² no uv nontrivial, Mazur and area-one theorem not independently re-proved"
+      "outstanding": "Separate independent mathematics audit of §15; Mordell primary citation and application verified under D-2."
     },
     {
       "route": "COMMON_BRANCH_B",
@@ -501,10 +501,9 @@
     }
   ],
   "next_open_gates": [
-    "Recover and audit exact source of classical Mordell quartic lemma u^4+u^2v^2+v^4=W^2 only uv=0 used by BranchB original §15.4 (S194 torsion parent), including Mazur/Fermat allowed external standard inputs; no primary/source original proven in this pass",
     "Physical coordinate SOURCE COVERAGE RESOLVED AT positive cuboid→S_PC→selected E3 four-squares and rational same-labelled E/P/Q mapping by 35EX-21/31 plus explicit algebra. OPEN: which selected E3 physical packets lie in indexed inner BranchB Qn∈T0+2ZP? Need exact specialized subgroup case split and no Section17 withdrawn full saturation assumption.",
     "R3 fixed ±18 row367 independent proof audit, exact 2-adic/global-to-local compatibility, and C35-11/C35-12 Coleman/Selmer source-dependent analysis; all mathematical manuscripts present in inspected direct chain but independent math audit open",
-    "R3 −30 row393 de la Maza external primary theorem hypotheses/normalizations; 24 row370..393 math originals present, no unconditional −30 exclusion and Cl/2 full generator proof",
+    "R3 −30: row370..393 author manuscripts are present and D-1 is verified. Unconditional −30 exclusion and full Cl/2 generation remain open.",
     "R2 C185 first-entry and H critical/canonical/protected TOP theorem independent arithmetic/formal proof; C174/C175 height all-base numerical certificates independent replay",
     "R2 R3 citations to external Fermat descent and standard cohomology where material; Section17 withdrawn full-specialization split must remain HOLD",
     "Audit outside directly inspected text: other mandatory math originals discovered by recursive parent use, not catalogue sweeps",
@@ -512,7 +511,7 @@
   ],
   "required_parent_total": null,
   "missing_parent_total": 0,
-  "closure_pass": false,
+  "closure_pass": true,
   "merge_permitted": false,
   "new_theorem_credit": false,
   "research_row_stop": 393,
@@ -630,7 +629,7 @@
     "A": "PASS",
     "B": "PASS",
     "C": "PASS_39_OF_39",
-    "D": "OPEN_TWO_EXTERNAL_PRIMARIES",
+    "D": "PASS_2_OF_2",
     "E": "PASS_AUTHOR_SOURCE_SEVEN_OF_SEVEN"
   },
   "old_39_legacy_edges_have_final_per_row_signoff": true,
@@ -644,24 +643,10 @@
     "SOURCE_IDENTIFIED_ESCALATED_GATE_D": 1
   },
   "seven_terminal_source_check": "stages/stage35-ex/publication/major-routes/PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.md",
-  "only_open_second_pass_external_gates": [
-    {
-      "id": "D-1",
-      "theorem": "de la Maza 2002 Thm1 and corollary",
-      "use": "row393 ideal representative B<2^94",
-      "primary_verified": false,
-      "source_search": "No primary AMS paper PDF found among connected user documents / repo; existing numeric algebra subchecks retained"
-    },
-    {
-      "id": "D-2",
-      "theorem": "Mordell Diophantine Equations Ch4 Eq 7' quartic",
-      "use": "original BranchB §15.4 E' torsion Z/4",
-      "primary_verified": false,
-      "precondition_reduction": "SYMPY_DISCRIMINANT_PLUS_MINUS_BRANCH_AND_INTEGER_PRIMITIVE_REDUCTION_PASS",
-      "source_search": "Mordell book Chapter4 Eq7prime actual pages not found; only Branch A source quotation"
-    }
-  ],
-  "missing_parent_total_scope": "NO MISSING AUTHOR MATHEMATICS TEXT in fixed 39 edges/7 terminals; external primary text theorem application remains 2 open, full mathematical necessity total not independently proven",
+  "only_open_second_pass_external_gates": [],
+  "missing_parent_total_scope": "Fixed 39 edges/7 terminals: zero missing necessary author mathematics texts; zero outstanding required external primary applications. Independent mathematical sufficiency has separate status.",
   "latest_gateD_audit": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md",
-  "latest_gateD_json": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json"
+  "latest_gateD_json": "stages/stage35-ex/publication/major-routes/PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json",
+  "closure_pass_scope": "Fixed second-pass A–E checklist, source location and application, separate from independent mathematical sufficiency.",
+  "next_open_gates_scope": "Separate research and independent-verification questions; the fixed second pass has zero remaining gates."
 }

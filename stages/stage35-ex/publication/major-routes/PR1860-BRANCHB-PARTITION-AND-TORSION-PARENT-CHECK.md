@@ -1,6 +1,6 @@
 # PR #1860｜Branch B 原分岐・S194奇数商・S232無限商の数学原著再帰監査
 
-**2026-11-09｜R3-07/R2-01のためだけの祖先監査｜IN_PROGRESS｜DO_NOT_MERGE。** このファイルは、最古の大容量原著から、**どの章が真に数学的な親か**を特定する。Stage35/Branch Bを新たに証明するものでも、R2/R3以外の全ルートを再調査するものでもない。
+**2026-11-09 JST｜R3-07/R2-01の著者原著所在と §15.4 のMordell引用照合はPASS｜Draft・未マージ。** このファイルは、最古の大容量原著から、**どの章が真に数学的な親か**を特定する。Stage35/Branch Bを新たに証明するものでも、R2/R3以外の全ルートを再調査するものでもない。
 
 ## 1. 第１周未発見だった独立の数学証明節を追加
 
@@ -17,9 +17,9 @@
 
 [**機械可読な原著抽出区間・依存命題・暫定監査判定**](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.json)を同梱した。
 
-**古典四次式の出典照合**：最古Branch Aの[別原稿 §3/§9](https://docs.google.com/document/d/1smWIX2pkMdKEou0soUVj9_o9opg-z_JPRT4MwxSROHE/edit)も調査し、そこで `L. J. Mordell, Diophantine Equations, Chapter 4, Equation 7′` と出典指定していることを確認。ただしその原稿も**古典定理の証明自体は載せていない**。したがって§15.4のMordell引用の一次原典照合は`OPEN`。重複する古いBranch A原著を１本増やして「自己完結」とはしない。
+**古典四次式の出典照合（D-2 PASS）**。最古Branch Aの[別原稿 §3/§9](https://docs.google.com/document/d/1smWIX2pkMdKEou0soUVj9_o9opg-z_JPRT4MwxSROHE/edit)が指定したMordellの1969年版Chapter 4 p. 19 Eq. (7′) と p. 20 の証明を読んだ。$x^4+x^2y^2+y^4=z^2$ の原始条件は $\gcd(x,y)=1$。解は $xy=0$ に限られる。§15.4の既約分母払いはこの条件を満たす。[原典ページ・適用の詳細](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)
 
-**独立監査境界**：`ψ3`のα判別式`16x³(x+1)³`は独立記号計算で再確認。ただしMazur分類、Fermat「1は非congruent」、Mordell四次式の古典定理の原典・仮定・独立証明は今回未監査。§15全証明の数学的PASSを付与しない。
+**独立監査の範囲**。$\psi_3$ の判別式 $16x^3(x+1)^3$ と両枝の四次式への帰着は先行の記号検算。§15.2–15.3の古典入力と§15全証明の独立数学監査は別扱い。
 
 ## 2. 最古Section14.5 → 15.5 → 17 → 19 と後続S193/194を原文比較
 
@@ -85,8 +85,8 @@ Q − Qsharp=(-r²,-r*p*q)=Q_n=T0+nR  （indexは元分岐の仮定）.
 | これまで第１周23候補から収載した著者本文ファイル | 12（変わらず） |
 | 第１周23件外の**別個のDrive文書**から回収した原著本文 | 10（変わらず） |
 | #1860で追加した数学本文ファイルの累計 | **23**（12+10+1）。ファイル≠独立定理数・独立原本数 |
-| 原証明の独立数学監査 | **未了**。§15のMazur・Fermat・Mordell四次式は外部古典入力として明示 |
-| 全必要親の再帰的数学十分性 | **NOT_CLOSED**。不足数・全親数未確定 |
+| 原証明の独立数学監査 | **未了**。今回の外部原典適用PASSは§15.4のMordell四次式 |
+| 固定した２ルートの必要著者原著と §15.4 引用の照合 | **PASS**。[終了判定表](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) |
 | 原Stage35の全物理点がinner indexed Branch Bに属するか | **主張しない**。outer Branch A・finite-odd・infinite分岐を分離する |
 
-**次の必要な検査**：S194 §2の「2-saturation」の証明に現れる古典Fermat入力と§15の8/12torsion証明が正しく適用されているか、R2の旧S268/C160とC187が実際に同じconditional domainを受けるか、R3 row367の±18内部排除からrow393までの数体・外部定理の仮定。原計算ZIPと独立数学監査を本人確認なしにPASSへ昇格しない。**PR #1860 Draft / DO_NOT_MERGE。**
+独立数学監査と元物理点のindexed分岐網羅は別の範囲。**PR #1860はDraft・未マージ。**

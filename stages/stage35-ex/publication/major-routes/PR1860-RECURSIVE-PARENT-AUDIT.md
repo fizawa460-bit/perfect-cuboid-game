@@ -1,6 +1,6 @@
-# PR #1860 継続中：R3-07 / R2-01 数学原著の再帰的自己完結監査
+# PR #1860｜R3-07 / R2-01 数学原著の再帰監査記録
 
-**状態：IN_PROGRESS / RECURSIVE_PARENT_CLOSURE_UNVERIFIED / DO_NOT_MERGE（2026-11-09）。** これは第２周の作業ログ。23件は第１周の発見候補であり、全不足ではない。**２ルートの依存鎖をこれからも辿り、初回に未発見だった必要原著が出たら本PRに順次加える。** 完了宣言なし。計算証拠の全面移植・独立数学監査PASSは別層。
+**2026-11-09 JST｜固定した第２周の原著収集・依存関係確認は完了。** A〜Eは全PASS、必要著者本文の未収載０件、外部原典の未照合０件。現行判定は[終了判定表](PR1860-SECOND-PASS-EXIT-CHECKLIST.md)を参照。PRはDraft・未マージ。以下に経過を記録する。
 
 ## 第１周の23候補の外から新規発見した原著
 
@@ -36,7 +36,7 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 ## ２ルートの続行監査（今回も完了ではない）
 
-- **[R3 −30のrow370〜393：24数学原著・親の段階確認](PR1860-R3-MINUS30-PARENT-CHECK.md)**：各24原著をGitHubで再読して本文欠落０。ただしrow377は別枝、row381の排除はHecke GRH条件付き、row393の外部de la Maza原典は未照合。
+- **[R3 −30のrow370〜393：24数学原著・親の段階確認](PR1860-R3-MINUS30-PARENT-CHECK.md)**：各24原著をGitHubで再読して本文欠落０。ただしrow377は別枝、row381の排除はHecke GRH条件付き、row393の外部de la Maza原典は[D-1で照合済み](ROW393-PRIMARY-THEOREM-GATE.md)。
 - **[R2 C189→C187：17原著と16辺の数学親監査](PR1860-R2-CORE-PARENT-CHECK.md)**：第１周の文書要旨ではなく原著へ接続。C187端点 Q₄(154),Q₄(155),Q₁(196),Q₁(197) の厳密有理算術は別計算で一致。
 - **重要な適用範囲訂正**：S252のBérczes外部定理は `H`-supported分母の別指数上界に用いられる（S252 §2/§5）。C187の155/197には **S252 §3〜4の自足的な倍点高さ評価** を使う。外部定理そのものを検証済みとせず、C187の直接親ゲートから分離した。外部de la Mazaはrow393の直接親として残る。
 
@@ -55,7 +55,7 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 | R2-01 | S232 rank-growth denominator → S230 A/C local lemma | S232.md lines 60-66, 78-81 and S230.md §2-3 | **SCOPED_LEMMA_PRESENT** | S230 overall theorem assumes finite-odd dQ=mP; check that local A/C argument stands without it. Text says it does. |
 | R3-07 | row368 Ward5/3 → S321 factorization + S263/S264 | row368.md lines 34-39; S321.md factor W5 proof, S238 old 2-adic conditions | **SOURCE_PRESENT_RECURSIVE_REVIEW_OPEN** | row368 independent certificates and source adapter not reevaluated |
 | R3-07 | row369 Ward7 → S322 K/L split + C35-12 + S321 | row369.md lines 63-85; S322.md P(u)Q(u), Q(u)=P(-1-u) polynomial identity | **SOURCE_PRESENT_POLYNOMIAL_EQUALITY_CONFIRMED** | C35-12 genus3 rational point classification certificate and source coverage not reaudited |
-| R3-07 | row393 degree105 → de la Maza Theorem 1/corollary | row393.md §2 gives DOI/author and specialized weight | **EXTERNAL_THEOREM_APPLICATION_PENDING** | actual primary theorem assumptions and normalized constants not independently confirmed |
+| R3-07 | row393 degree105 → de la Maza Theorem 1/corollary | row393.md §2 gives DOI/author and specialized weight | **EXTERNAL_PRIMARY_APPLICATION_PASS** | [Gate D-1](ROW393-PRIMARY-THEOREM-GATE.md) verifies (4)–(7), (11) and Proposition 2 |
 | R2-01 | S252 height → Bérczes et al. Theorem 2.1(i) | S252.md lines 45-74 gives preconditions and specialization | **EXTERNAL_THEOREM_APPLICATION_PENDING** | primary theorem statement/definitions not independently verified |
 | COMMON | S194 → old BranchB Section16 | S194.md header and BranchB-Section16.md with Section17 correction | **SOURCE_LOCATION_RESOLVED_MATH_AUDIT_OPEN** | Section17 withdrawn saturation/specialization conclusion must not be revived |
 
@@ -85,9 +85,9 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
-## Gate Dの部分検証・直接一次原典未取得（2026-11-09）
+## Gate Dの原典適用（2026-11-09 JST）
 
-[**Gate Dの一次文献２件と正確な代数チェック**](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)／[監査JSON](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json)。de la Mazaの出版社原PDF・Mordellの原著Chapter4該当ページは、接続済み資料検索では取得できなかった。Mordellを使う§15.4の`ψ3`判別式・`α±(r)`・四次式への代数帰着は別途SymPyで検算PASS。**古典「非自明整数解無し」の命題自体とde la Mazaのadmissible(4)は原典未検証**。Gate A/B/C/EはPASSのまま、D-1/D-2の２件はOPEN。必要著者本文の追加は０／第２周累計23、独立数学監査認定なし。
+[**外部２件の原典と適用条件の照合**](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)／[監査JSON](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json)。D-1はde la Mazaの掲載版、D-2はMordellの1969年版 p. 19 Eq. (7′) と p. 20 を読み、使用箇所への適用を確認した。Dは２／２ PASS。
 
 ## Gate C・Eの完了判定（2026-11-09更新）
 
@@ -95,26 +95,24 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 [**R3六終端とR2一終端の著者原数学本文所在の最終通し照合**](PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.md)を追加し、**7/7で内部必要著者原著の未収載０**、Gate E（source chain）もPASS。ただし作者の算術証書・外部定理の適用・独立数学監査のPASSではない。第２周で収載した著者数学本文は**23本**のまま、追加の原著はなし。
 
-**唯一の残ゲートDは外部２件に固定**：D-1 de la Maza（row393ノルム上界の原命題/admissibility/規格化）、D-2 Mordell（Branch B§15.4の四次式定理の一次原典）。一次文献が手元に無い状態を推定でPASSにしない。A/B/C/E=PASS、D=OPEN、**第２周は完了宣言しない**。PRはDraft/DO NOT MERGEのまま。
-
 ## 【固定した終了条件｜第２周の全件チェック表】
 
-**以後の第２周判定は [PR1860-SECOND-PASS-EXIT-CHECKLIST.md](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) を唯一の終了判定正本とする。** ２ルートだけの固定リストは#1854の129数学ファイル・既存２・未収載23、初回の39依存辺と第２周で見つかった必要数学親。23候補は**23/23分類済み**、必要数学本文追加12+10+1=23。新原著を発見した件数だけでは終了としない。**現在はA/B/C/E=PASS、D=OPEN（外部原典２件）**。終了には元39辺の命題・原著・適用条件を**39行一対一**で埋め、外部主定理を照合し、R3-07/R2-01の親の「未収載かつ必須」行を０にする。
+**以後の第２周判定は [PR1860-SECOND-PASS-EXIT-CHECKLIST.md](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) を唯一の終了判定正本とする。** ２ルートだけの固定リストは#1854の129数学ファイル・既存２・未収載23、初回の39依存辺と第２周で見つかった必要数学親。23候補は**23/23分類済み**、必要数学本文追加12+10+1=23。新原著を発見した件数だけでは終了としない。元39辺の全件分類、固定７終端の所在、外部２件の原典適用が確定し、現在は**A〜E 全PASS**。
 
 ## 今回の第１周抜け：最古Branch B §15.1–15.5のtorsion数学親（2026-11-09）
 
-[**元原著§15.1–15.5の正確な切出し**](proofs/earliest-foundations/BranchB-Section15-torsion.md)をGitHubに追加した。S194 §3は`E'_t(\mathbb Q)_tors=\mathbf Z/4\mathbf Z`を使いE_tのtorsion、有限奇数商のgcdと位数の条件を証明するが、§15の元のZ/8・Z/12排除計算は第１周の§13・§16の追加では収載されていなかった。今回元Driveの連続した**1286–1446行**を読み込み、GitHubの抽出本文一致を確認した。**§15.6の後に§17で撤回された同階数飽和主張は取り込んでいない**。§15.4の3-division判別式`16x³(x+1)³`の記号計算だけ独立確認したが、Mazur/Fermat/Mordell古典定理の一次証拠の数学監査はOPEN。
+[**元原著§15.1–15.5の正確な切出し**](proofs/earliest-foundations/BranchB-Section15-torsion.md)をGitHubに追加した。S194 §3は`E'_t(\mathbb Q)_tors=\mathbf Z/4\mathbf Z`を使いE_tのtorsion、有限奇数商のgcdと位数の条件を証明するが、§15の元のZ/8・Z/12排除計算は第１周の§13・§16の追加では収載されていなかった。今回元Driveの連続した**1286–1446行**を読み込み、GitHubの抽出本文一致を確認した。**§15.6の後に§17で撤回された同階数飽和主張は取り込んでいない**。§15.4の3-division判別式`16x³(x+1)³`は先行の独立記号計算と一致し、Mordellの原典適用はD-2で照合済み。
 
 [**分岐と真の親・重複判定**](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)を追加。最古原本§19の`Pτ`・三分岐数学は既収載S194に同じ物理`Q,Qsharp`からの直接群証明があるため、§19の長文を無差別に移植しない。S193`d=1`、S194有限奇数`d≥3`、S232無限商は**inner indexed Branch Bに入った後の正確な分岐**で、`R2-01`という研究レーン名は有限奇数「Route2」と同義ではない。C187の条件付き155/197・R3固定`D_n`論文を証明するため、全Stage35物理点がこのindexed部分群に属するという偽の全称命題を必須親にしない。
 
-**件数（重複なし）**：第１周23候補中12本、初回外の**別個のDrive文書**10本、すでに使っていた巨大な同じBranch B Drive原本からの**新規数学証明節１本**、よって#1860追加数学本文ファイルは**23本**。独立Drive原本11件という意味ではない。**必要数学全親の再帰閉包は依然未確認、PRはDraft。**
+**件数（重複なし）**：第１周23候補中12本、初回外の**別個のDrive文書**10本、すでに使っていた巨大な同じBranch B Drive原本からの**新規数学証明節１本**、よって#1860追加数学本文ファイルは**23本**。独立Drive原本11件という意味ではない。**固定第２周の所在・依存確認は完了、PRはDraft。**
 
-## 次に調べる対象（このPRが終わるまで開いておく）
+## 終了判定表の固定前に挙げた調査候補（履歴）
 
 1. R2 C187→C185/C175→C174/S268/S270/S252 の式と数学親をさらに奥へ辿り、別個の著者原証明を探す。
 2. R3 row367/368/369/376の各親とrow370→393の−30鎖に戻り、既収載の原著が結論に必要な数学の正確な証明か判定する。
 3. C118・C35-11/12の計算を含む数学親、S194の旧Section16適用と撤回、最古E3 physical sourceとの条件同一性を扱う。
-4. row393のde la Maza、S252のBérczesは、引用名の存在ではなく使用した定理の正確な仮定・式を独立照合する必要がある。現状PENDING。
+4. 外部定理の引用範囲の整理。row393のde la MazaはD-1で照合済み。S252 §§2/5 のBérczesはC187の155/197下界と別用途。
 5. 論理的親の厳密な再帰閉包が閉じるまで、必要本文の総数・不足数・完了率を確定しない。
 
 **研究の結論は増やさない。** R3 row393停止、R2 strict75% 上界・全LOW・−30無条件排除・Branch B・Stage35はOPEN。R0 / MAIN-STATE / NEXTは不変更。

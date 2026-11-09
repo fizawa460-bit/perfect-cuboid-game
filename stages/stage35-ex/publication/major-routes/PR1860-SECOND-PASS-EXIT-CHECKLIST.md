@@ -1,6 +1,6 @@
 # PR #1860｜第２周の有限な終了条件と全件固定台帳
 
-**作成：2026-11-09｜対象はR3-07とR2-01のみ｜状態：NOT COMPLETE / Draft / DO NOT MERGE。**
+**2026-11-09 JST｜R3-07・R2-01｜第２周の原著収集・依存関係確認は完了（A〜E 全PASS）｜Draft・未マージ。**
 
 これまでの「新しい数学原著が見つかったら際限なく探索を広げる」管理は終了条件がなく不適切だった。**第２周を終わらせるための固定母集団と完了条件を定義する。** 本表は後付けの一般研究NEXTでなく、PR #1854から#1860への**数学的原著所在・依存鎖の移植確認**専用。
 
@@ -11,8 +11,8 @@
 | A | #1854でDriveのみとした**23件すべて**に必要性判定・収載先／不要根拠を付ける | **PASS（23/23）** | なし：12本コピー・11件は移植しない理由付き |
 | B | その23件**以外**に見つかった親原著10本＋既知原本の未収載§15証明１本の本文・場所を確定する | **PASS（11/11）** | なし：10本GitHub SHA照合、§15原著区間一致 |
 | C | 第１周の**39引用辺全件**に「使った数学命題・実際の原著／後続再証明・適用条件・終端判定」をつける | **PASS（39/39）** | 原著33、後続再証明2、直接不要3、外部Dへ明示移管1。Cには未判定０件 |
-| D | 現在の証明に必要な外部定理を、原命題の内容・成立条件・使う式と照合する | **OPEN（明示２ゲート）** | row393のde la Maza、Branch B §15.4のMordell四次式。C187の155/197にBérczes定理を無理に加えない |
-| E | R3 row393/row367/368/369/376/C183、R2 C189/C187/S270を起点に**親を端から端まで１回通読照合**する | **PASS（７終端／７終端）** | 著者数学原著の必要本文の未収載０。引用する外部定理の原典照合はDで２件保持 |
+| D | 現在の証明に必要な外部定理を、原命題の内容・成立条件・使う式と照合する | **PASS（2/2）** | 残０件。[D-1 row393／D-2 Branch B §15.4 原典照合](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md) |
+| E | R3 row393/row367/368/369/376/C183、R2 C189/C187/S270を起点に**親を端から端まで１回通読照合**する | **PASS（７終端／７終端）** | 必要な著者数学原著の未収載０件。外部原典２件はDで照合済み |
 
 **A+B+C+D+Eの全PASSが「PR #1860の第２周を全部しました」の意味。** 定理そのものの独立敵対監査、数値ZIPの全再演、R3の−30全排除、R2の相関上界、完全直方体不存在は第２周の完了要件に**混ぜない**。それらは別の数学研究・検証の対象。
 
@@ -100,31 +100,24 @@
 | 34 | `R385→row384` | **原著あり** | [原数学本文](../../materials/negative30-mw-selmer/row384/PROOF.md)：row385 imports row384 fixed δ★ representative and two-character conditional upper, and then proves class functional/4-lift ne |
 | 35 | `R392→row391` | **原著あり** | [原数学本文](../../materials/classgroup-and-different/proofs/row391.md)：row392 uses row391's already present principal relations and finite remaining directions; row392 adds 222→193, different and  |
 | 36 | `R393→row392` | **原著あり** | [原数学本文](../../materials/classgroup-and-different/proofs/row392.md)：row393 explicitly inherits row392's 193 formal residual directions and different δ, then computes a smaller norm bound. 181 i |
-| 37 | `R393→EXTERNAL_DE_LA_MAZA` | **外部Gate Dへ移管** | [原数学本文](./ROW393-PRIMARY-THEOREM-GATE.md)：row393 uses de la Maza Math Comp 71(240)(2002) Theorem 1 and corollary to claim universal class representative norm B<2^94. E |
+| 37 | `R393→EXTERNAL_DE_LA_MAZA` | **外部Gate Dへ移管・D-1 PASS** | [row393 §2 の原典適用監査](ROW393-PRIMARY-THEOREM-GATE.md)。Theorem 1・Corollaryの仮定・記号規約・上界式を照合済み。 |
 | 38 | `C183→R5-C220` | **原著あり** | [原数学本文](./proofs/foundations/R5-C220.md)：C183 §4 accepts R5 C220 fixed signed +12 HIGH real y-sign veto only after original C220 curve equation typo is corrected via  |
 | 39 | `C220→C181` | **原著あり** | [原数学本文](./proofs/foundations/C181.md)：R5 C220 §Theorem B uses C181 inherited LOW-empty/high-only envelope and older C130 two real windows to upgrade z≥18 sign veto |
 
-**１行だけの移管は旧#37 `R393→EXTERNAL_DE_LA_MAZA`**。row393の著者数学本文は保存済み。外部定理の**原文の条件を未確認**なので「数学原著あり＝外部定理適用PASS」という扱いはしない。Gate C（原著の所在と親の分類）は**PASS**、[Gate Dの原典監査](ROW393-PRIMARY-THEOREM-GATE.md)だけ**OPEN**にする。前回の45追加点検は参考の別の命題辺であり、今回の元39行の代用品ではない。
+**旧 #37 `R393→EXTERNAL_DE_LA_MAZA` の原典適用は Gate D-1 で照合済み。** Gate C の分類は原著33・後続再証明２・直接不要３・外部Dへ移管１の39/39。追加点検45辺は別集合。
 
 ## Gate E：末端７つから原著を一巡（著者数学本文の所在はPASS）
 
 [**R3-07六終端・R2-01一終端の原数学本文所在と使用条件を通した最終記録**](PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.md)と[機械可読版](PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.json)。R3 row393（−30）、row367（±18）、row368（Ward3/5）、row369（Ward7）、row376（+30）、C183（+12）、R2 C189/C187/S270の**７／７**で、現行で必要な**著者数学原著本文の未収載は０件**。これは原著の所在・条件付き命題の通し照合であって、算術証書・外部標準定理を全て独立再現した数学監査ではない。
 
-## Gate DだけOPEN：有限２つの外部定理
+## Gate D｜外部原典の命題・条件を２件照合
 
-- **D-1 / de la Maza**：row393のノルム上界`B<2^94`に使うTheorem1・系の原文と`admissible`、Gamma/Mellin規約、追加仮定の照合。[未確認ゲート](ROW393-PRIMARY-THEOREM-GATE.md)。
-- **D-2 / Mordell**：最古Branch B§15.4に必要な整数四次式 `u⁴+u²v²+v⁴=w²` の非自明解不存在。歴史原稿の引用は `L. J. Mordell, Diophantine Equations, Chapter4 Eq.7′` までだが、**一次定理原文の照合は未了**。[§15移植・分岐監査](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)。
+[**一次本文の所在・数式・適用条件の照合記録**](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)／[機械可読記録](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json)。
 
-**Gate A/B/C/E=PASS。Gate D=OPEN（２件）。全体の第２周はまだ完了ではない。** 外部原典が読めない場合、推測でPASSを付けない。必要文献の原命題を照合する以外の新しいR2/R3研究、99ルート、外部の無関係定理をGate Dへ増やさない。
+- **D-1 PASS**。de la Maza の掲載版 pp. 1746–1747、1748–1749、1750–1751。row393 §2 の関数は (4) と Proposition 2 を満たし、(5) の積分、(7) の重みの符号条件、(11) の規格化、通常イデアル類に対する上界が一致する。
+- **D-2 PASS**。Mordell の1969年版 Chapter 4、p. 19 Eq. (7′) と p. 20 の証明。Branch B §15.4 の既約分母払いで原始整数条件を満たし、原典の結論が $uv=0$ を強制する。
 
-## Gate Dの一次文献再探索と式の確認（2026-11-09）
-
-[**２件の外部定理：接続済み資料での探索結果と、Mordell四次式までの符号・例外・整数化の正確な代数照合**](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)／[機械可読記録](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json)を作成した。
-
-- **D-1**：de la Maza論文の著者引用・AMS PDF URLは存在するが、接続済みDrive・GitHub・Project資料で**原典PDF本文を確認できなかった**。row393内部の`R(s)`、`T(s)`、数値`B<2^94`の条件付き整合を超える、原論文のadmissible条件・類の定義・Mellin/Γ正規化は**OPEN**。
-- **D-2**：Mordell書籍Chapter4 Equation7′の原典ページは**見つからなかった**。しかし、BranchB §15.4の`ψ3`判別式、`r`二枝、`4(z⁴+z²+1)`、`z=m/n`を原始整数四次式に落とすまでの代数を**正確に再検算PASS**。これは古典定理自体の真偽・出典の確認ではない。
-
-**残数D-1/D-2の２件は不変。** 既存原著がGitHubにあることと一次論文・本が読めたことを取り違えない。数値・記号検算で「外部原典を照合した」判定は付けない。
+Gate Dの残数は **０件**。C187の155/197下界に用いるS252 §§3–4と、Bérczes定理を用いる別用途のS252 §§2/5は引き続き区別する。
 
 ## 追加原著が見つかった場合の厳密な停止規則
 
@@ -132,4 +125,4 @@
 
 最後に起点から１回通して、使用している数学親の**未判定０・必要本文の未収載０・外部定理の必要条件未照合０**になったら、**その時点で第２周を完了と宣言**する。翌日新しい無関係文書を見つける可能性を理由に終わらない、という扱いはしない。残った数学研究のOPENとは区別する。
 
-**最新：Gate A/B/C/E=PASS、DだけOPEN（外部一次定理２件）。したがって第２周はまだ完了ではない。** この２件が一次原典の成立条件まで確認できれば、固定第２周を終了判定する。
+**最新判定は A〜E 全PASS。R3-07・R2-01の第２周の原著収集・依存関係確認は完了。** 固定39辺の未判定０、７終端の必要著者本文の未収載０、外部原典の未照合０。PR #1860はDraft・未マージ。

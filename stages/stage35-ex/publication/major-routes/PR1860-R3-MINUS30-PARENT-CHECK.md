@@ -1,13 +1,13 @@
 # PR #1860｜R3-07 −30からrow393まで：数学原著本文24本の再帰所在確認
 
-**IN PROGRESS / NOT A CLOSURE CERTIFICATE / DO NOT MERGE**。対象はR3-07のrow370〜393のみ。第１周でGitHubに入った原数学本文の再確認であり、99ルート全体の分類はしない。
+**著者原著所在24/24｜D-1 PASS｜Draft・未マージ。** 対象はR3-07のrow370〜393のみ。第１周でGitHubに入った原数学本文の再確認であり、99ルート全体の分類はしない。
 
 ## 今回実際に確認したこと
 
 - 24件全件について **現在の #1860 ブランチから実ファイルを読み込み、存在と内容を確認**。したがってこの24行の「原著本文そのもの」は**欠落０**。ただし、24本が数学的に独立・必要・十分という結論は出していない。
 - 前半のrow370～376（±30の六平方／2進Kummer／+30限定排除）と、後半row378～393（−30条件付き排除、類群・有限関係・原典照合）を分けて扱う。**row377は別の補助枝であって、row378→393の自動的必須親とは認定しない。**
 - row370は既知row335/338の二点法を言及するものの、自分の本文で同じ−30に必要な六平方・31進二方向の導出を含む。古い番号が登場しただけで必須原著の追加要求にはしない。
-- row393にはde la Mazaの書誌・式・有理パラメータが書かれているが、**外部定理の仮定・正規化の直接原典照合は未完**。外部PDF全文を無断でGitHubへコピーすることとは異なる。
+- row393に使うde la Mazaの仮定・正規化は掲載版本文と照合済み。[D-1 PASS](ROW393-PRIMARY-THEOREM-GATE.md)。
 
 ## 各行：実在する著者数学本文、親として引用する先、限定
 
@@ -36,15 +36,15 @@
 | row390 | [収載原著](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/stage35ex-r3r2-math-sources-pass2/stages/stage35-ex/materials/classgroup-and-different/proofs/row390.md) | row389 | FINITE_RELATIONS_NOT_ALL_CL2 |
 | row391 | [収載原著](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/stage35ex-r3r2-math-sources-pass2/stages/stage35-ex/materials/classgroup-and-different/proofs/row391.md) | row390 | FINITE_RELATIONS_NOT_ALL_CL2 |
 | row392 | [収載原著](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/stage35ex-r3r2-math-sources-pass2/stages/stage35-ex/materials/classgroup-and-different/proofs/row392.md) | row391 | FINITE_RELATIONS_AND_DIFFERENT_NOT_ALL_CL2 |
-| row393 | [収載原著](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/stage35ex-r3r2-math-sources-pass2/stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md) | row392, row381, EXTERNAL_DE_LA_MAZA_THEOREM1 | FINITE_RELATIONS181_NOT_CL2_BOUND_AND_SOURCE_THEOREM_PENDING |
+| row393 | [収載原著](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/stage35ex-r3r2-math-sources-pass2/stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md) | row392, row381, EXTERNAL_DE_LA_MAZA_THEOREM1 | FINITE_RELATIONS181_NOT_CL2_BOUND_AND_D1_PRIMARY_APPLICATION_PASS |
 
-## 自己完結を阻む未判定ゲート
+## 適用判定と別範囲の数学課題
 
 1. **row370の元source適用**：S263/S264の厳密なsigned±30 Ward平方の適用条件と、後続row371～375の前提が同一基底・同一指標・同一曲線かを命題単位で確定する。
 2. **row378→381のHecke仮定**：row381の−30排除は二次Hecke GRH条件付き。数学原著がGitHubにあることだけで無条件の排除へ昇格しない。
 3. **row385→393の類群**：6768小因子基底の全Cl/2生成、c_Cl、q★、真Sel4を証明した原著は存在しない（未証明研究ゲート）。**181は形式的残余**。
-4. **外部de la Mazaの適用**：row393で使用したTheorem1と系に対する有理試験関数のadmissibilityと符号規約を原典と直接照合。既存のGitHub原著は著者の定理適用説明であり、原典監査PASSではない。
+4. **外部de la Mazaの適用**。[D-1 PASS](ROW393-PRIMARY-THEOREM-GATE.md)。Theorem 1と系の仮定、式 (4)–(5) の重み、(11) と上界をrow393 §2と照合した。
 5. **row377の監査原稿**：第１周でDrive原監査が空/BOMと記録された。数学的原著本文はGitHubにあるため、これを「原数学証明の未収載１件」と誤算しない。監査証拠の未確認欄を保持。
 6. **計算資料の範囲**：資料群2の172 ZIP memberと資料群3の529 memberは#1854に保存済み。今回の原著位置確認では再演していない。数学的十分性を判断する前提証書は別層の監査ゲートとして残す。
 
-**結論は『row370〜393の数学本文24本は収載済み』まで。** 数学的祖先DAGの必要十分・外部定理適用・無条件−30排除・全LOWは依然 OPEN。第２周の調査自体は継続。
+**row370〜393の著者数学本文24本の所在とrow393の外部原典適用を確認済み。** 数学全体の独立監査、無条件−30排除、全LOWは別範囲。第２周の現行判定は[終了判定表](PR1860-SECOND-PASS-EXIT-CHECKLIST.md)を参照。
