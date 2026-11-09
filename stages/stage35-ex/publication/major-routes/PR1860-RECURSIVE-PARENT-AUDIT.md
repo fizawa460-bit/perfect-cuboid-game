@@ -85,6 +85,10 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
+## 【固定した終了条件｜第２周の全件チェック表】
+
+**以後の第２周判定は [PR1860-SECOND-PASS-EXIT-CHECKLIST.md](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) を唯一の終了判定正本とする。** ２ルートだけの固定リストは#1854の129数学ファイル・既存２・未収載23、初回の39依存辺と第２周で見つかった必要数学親。23候補は**23/23分類済み**、必要数学本文追加12+10+1=23。新原著を発見した件数だけでは終了としない。**Gate A/B=PASS、C/D/E=OPEN**。終了には元39辺の命題・原著・適用条件を**39行一対一**で埋め、外部主定理を照合し、R3-07/R2-01の親の「未収載かつ必須」行を０にする。
+
 ## 今回の第１周抜け：最古Branch B §15.1–15.5のtorsion数学親（2026-11-09）
 
 [**元原著§15.1–15.5の正確な切出し**](proofs/earliest-foundations/BranchB-Section15-torsion.md)をGitHubに追加した。S194 §3は`E'_t(\mathbb Q)_tors=\mathbf Z/4\mathbf Z`を使いE_tのtorsion、有限奇数商のgcdと位数の条件を証明するが、§15の元のZ/8・Z/12排除計算は第１周の§13・§16の追加では収載されていなかった。今回元Driveの連続した**1286–1446行**を読み込み、GitHubの抽出本文一致を確認した。**§15.6の後に§17で撤回された同階数飽和主張は取り込んでいない**。§15.4の3-division判別式`16x³(x+1)³`の記号計算だけ独立確認したが、Mazur/Fermat/Mordell古典定理の一次証拠の数学監査はOPEN。
