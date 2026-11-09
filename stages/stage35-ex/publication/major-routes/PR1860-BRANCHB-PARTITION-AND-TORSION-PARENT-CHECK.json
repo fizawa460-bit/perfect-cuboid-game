@@ -1,0 +1,111 @@
+{
+  "schema": "stage35ex.pr1860.branchb-section15-source-closure.v1",
+  "date_jst": "2026-11-09",
+  "state": "IN_PROGRESS_NOT_CLOSED",
+  "routes": [
+    "R3-07",
+    "R2-01"
+  ],
+  "original": {
+    "drive_url": "https://docs.google.com/document/d/1CKLon3eRKjsEVuIwgpSTV4DKHQ5GRWsfDw2SA6T5vNI/edit",
+    "title": "Stage35EX-E3-Branch-B-moving-support-canonical-base-uniformization-preflight",
+    "overall_original_size_chars": 127079,
+    "extracted_original_section": "15. Hostile-audit repair through 15.5 (excluding 15.6)",
+    "source_line_numbers": [
+      1286,
+      1446
+    ],
+    "excerpt_text_chars": 4974,
+    "stored_path": "stages/stage35-ex/publication/major-routes/proofs/earliest-foundations/BranchB-Section15-torsion.md",
+    "exact_source_segment_git_readback": true,
+    "source_drive_already_used_for_sections13_16": true,
+    "counted_as_new_distinct_drive_document": false,
+    "counted_as_new_mathematical_proof_text_section": true
+  },
+  "mathematical_uses": [
+    {
+      "child": "S194 §3 E_t(Q)_tors=E_t[2] and finite-odd d classification",
+      "parent": "§15.5 E'_t(Q)_tors=Z/4",
+      "type": "LOAD_BEARING_THEOREM"
+    },
+    {
+      "child": "§15.5 E'_t(Q)_tors=Z/4",
+      "parent": "§15.2 unique rational 2-torsion + rational point of order 4; §15.3 exclude Z/8; §15.4 exclude Z/12",
+      "type": "MATH_PARENT_FULL_PROOF"
+    },
+    {
+      "child": "§15.4 no E_t rational 3-torsion",
+      "parent": "ψ3 quadratic-in-alpha discriminant 16x^3(x+1)^3 and Mordell quartic nontrivial integer-solutions absence",
+      "type": "EXTERNAL_CLASSICAL_LEMMA_STILL_PRIMARY_UNAUDITED"
+    },
+    {
+      "child": "S194 §2 K 2-saturated",
+      "parent": "§16 a(t) non-square, classic no-congruent-number 1 and split 2-torsion criterion",
+      "type": "SOURCE_ALREADY_PRESENT"
+    },
+    {
+      "child": "S194 §§0–4 group quotient and 1/odd/infinite split",
+      "parent": "§19 original partner identities",
+      "type": "SELF_CONTAINED_REDERIVED_IN_S194_NO_BULK_COPY"
+    }
+  ],
+  "independent_checks": [
+    {
+      "claim": "discriminant of ψ3(x)=3x^4+4(1-alpha)x^3-6alpha x^2-alpha^2 w.r.t. alpha",
+      "value": "16*x^3*(x+1)^3",
+      "method": "sympy.factor(sympy.discriminant(...,alpha))",
+      "result": "EXACT_MATCH"
+    },
+    {
+      "claim": "full §15 torsion mathematical theorem",
+      "result": "NOT_INDEPENDENTLY_VERIFIED"
+    },
+    {
+      "claim": "Mazur classification, Fermat 1 noncongruent, Mordell quartic",
+      "result": "EXTERNAL_PRIMARY_NOT_VERIFIED"
+    }
+  ],
+  "other_original": {
+    "branchA_torsion_original": "https://docs.google.com/document/d/1smWIX2pkMdKEou0soUVj9_o9opg-z_JPRT4MwxSROHE/edit",
+    "pertinent_sections": "§3/§9",
+    "scope": "§3 derives a physical torsion obstruction and cites Mordell quartic; §9 names L. J. Mordell, Diophantine Equations, Ch.4 Equation 7'. It does NOT provide an independent proof of the classical theorem. §15 BranchB source mathematically rederives required E'_t torsion, so copying all BranchA work is NOT a mandatory mathematical parent.",
+    "independent_drive_original_imported": false,
+    "external_mordell_primary_proof_needed_to_certify_full_lemma": true
+  },
+  "scope_partition": [
+    {
+      "label": "outer Branch B",
+      "predicate": "original physical packet Qphys∈T0+Z R",
+      "source": "S193 / Branch B original §14.5",
+      "status": "SOURCE_DEFINITION_NOT_ALL_PHYSICAL"
+    },
+    {
+      "label": "inner d=1",
+      "predicate": "Q∈K=E[2]+ZP (or S∈phi(K))",
+      "source": "S193/S194",
+      "status": "SCOPED_EXCLUSION_RETAINED"
+    },
+    {
+      "label": "inner 1<d<infinite",
+      "predicate": "d odd >=3, d Q = m P + T, T∈E[2]",
+      "source": "S194 §3-4; S232 research-routing note",
+      "status": "USER_ACCEPTED_ROUTING_PASS_NOT_STAGE35_GLOBAL"
+    },
+    {
+      "label": "inner d=infinite",
+      "predicate": "[Q] infinite order in E(Q)/K",
+      "source": "S194 §3 and S232 §B",
+      "status": "R2_C187_CONDITIONAL_Q_INFINITE_AND_R3_SOURCE_PARENT_SCOPE"
+    }
+  ],
+  "lane_confusion_warning": "R2-01 research lane is NOT identical to historical S194 route2 finite-odd d≥3.",
+  "mathematical_text_added_in_pr1860": 23,
+  "first_round_23_candidate_imports": 12,
+  "separate_new_drive_original_manuscripts": 10,
+  "new_excerpt_from_already_used_drive_original": 1,
+  "independent_full_math_audit": false,
+  "all_needed_parent_sources_closed": false,
+  "merge_permitted": false,
+  "next_math_parent_scope": "Focus on classical Mordell source lock and exact S194 finite-odd/generic first branch theorem usage; do not infer any all-physical index membership. R2 lower and R3 fixed source math remain conditional.",
+  "markdown_audit": "stages/stage35-ex/publication/major-routes/PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md"
+}
