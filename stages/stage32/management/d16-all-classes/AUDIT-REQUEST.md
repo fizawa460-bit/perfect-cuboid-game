@@ -33,7 +33,7 @@ Please read `PAPER.md` (main text), `RESULT.json`, `logs/32R-97_D16_ALL_CLASSES_
 3. **h⁰ = 1 table (PAPER §3).** Do the categories cover all 4,094 classes exactly once (3,112 + 4 + 978, with the 14
    non-reduced classes counted inside the 978)? Is each verdict a valid closure (T3 + Lemma G; Lemma P; Lemma G by
    components; Lemma K)?
-4. **h⁰ = 2 (PAPER §4).** 
+4. **h⁰ = 2 (PAPER §4).**
    - the 21 pencils with a fixed component, checked in char 0 by exact h⁰ over Q(ζ₈) (R2's T2′, `code/p16all/mkfix0.py`,
      `results/fix0_char0.txt`);
    - reuse of the R2 pencil pipeline (v6 critical tail, fibre matching, stage 2, `always_hidden` empty) and of R2
