@@ -3,7 +3,8 @@
 Status: research note, **reading audit round 1 (2026-11-07, two auditors): Lemmas 1–3, the search reductions and the
 search sizes PASS; the exclusions of §4 and §4b were numerically verified (revision 2, §8). Revision 3 (2026-11-09,
 §9): exact certificates for §4 and §4b (exact number-field arithmetic for (2, 2); finite-field exhaustion with a
-characteristic-zero lifting argument for (2, 3), (3, 3)), re-run locally; not yet independently audited**, zero credit.
+characteristic-zero lifting argument for (2, 3), (3, 3)), re-run locally; reading + executing audit by Claude PASS
+(slack0/exact-20261109/AUDIT-CLAUDE-20261109.md)**, zero credit.
 
 - It builds on E10 (audit round 2 PASS), whose §5 states that Problem W is a finite search exactly at slack 0.
 - It gives three things:
@@ -215,7 +216,7 @@ python -I -O stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_slack0_sm
 ## 9. Exact certification (revision 3, 2026-11-09)
 
 Files: `slack0/exact-20261109/` (README there). Computed by ChatGPT on the user's request, re-run locally by Claude
-with identical results; the characteristic-zero argument was read by Claude. Not independently audited.
+with identical results. Audit: Claude, reading + executing, PASS, no must-fix (`AUDIT-CLAUDE-20261109.md`).
 
 - **(2, 2)** (`w22/`): the 15 degree-2 maps; all odd points in K = Q(√2, √(−1+i)), [K : Q] = 8; every coincidence
   decided exactly in K. All |Ω| ≤ 4 configurations have a relative Möbius map commuting with t ↦ −t (diagonal or
@@ -229,5 +230,5 @@ with identical results; the characteristic-zero argument was read by Claude. Not
   (2, 3): no candidate. (3, 3): 8,896 candidate occurrences, each of the form q̄∘M̄ = Ū∘f̄ with Ū ∈ Aut(B); the
   identity lifts to characteristic 0 (Hensel uniqueness of the normal-form parameter and of the marked simple points),
   so every candidate is non-birational. This answers items 2–4 for §4b without certified root disks.
-- Consequence: **§4 and §4b hold exactly** (subject to an independent audit of the certificate): Problem W has no
+- Consequence: **§4 and §4b hold exactly**: Problem W has no
   solution of bidegree (2, 2), (2, 3), (3, 2), (3, 3) with both slacks 0.
