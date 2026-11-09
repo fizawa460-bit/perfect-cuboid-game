@@ -109,9 +109,34 @@
         "R3 row339 derived source map"
       ],
       "finding": "R1-256 cites R1-255 genus5169 t-cover and eigenspace quotient decomposition; old original is separate Drive mathematical text, not contained in PR1854 sources."
+    },
+    {
+      "id": "R3-ROW340-GENUS17-RANK2",
+      "origin": "https://drive.google.com/file/d/12sN7B7exGu0g-kiQJMF5yity-06n-a2c/view",
+      "file": "proofs/R3-18-upstream/row340.md",
+      "sha": "23dffaf9b7a947623279ef924c50378748998af4",
+      "role": "LOAD_BEARING_MATH_PARENT_OF_ROW341_ROW342",
+      "used_by": [
+        "row341 C2 rank≥3",
+        "row342 both J(Q)[2]=0 and six-class rank≥6",
+        "row343 rank≥6 and finite prime factors"
+      ],
+      "finding": "row342 expressly inherits row340 two genus17 Jacobians rank≥2, rational 2-torsion zero and finite-field x−θ squareclasses; actual row340 proof was not a standalone GitHub original in first pass."
+    },
+    {
+      "id": "R3-ROW341-GENUS17-RANK3",
+      "origin": "https://drive.google.com/file/d/1T7L1-P3IMQzPCVKQyUxdWEp6y7tmmzf9/view",
+      "file": "proofs/R3-18-upstream/row341.md",
+      "sha": "66585034836da15357d6c4e83bdacee528975c12",
+      "role": "LOAD_BEARING_MATH_PARENT_OF_ROW342",
+      "used_by": [
+        "row342 h2=Apoly²−XBpoly² and torsion/half divisor",
+        "row343 global preflight"
+      ],
+      "finding": "row342 §1 uses precisely the row341 Pell-type h2=A²−XB² polynomial identity, half divisor S and rank≥3; original row341 mathematical text imported."
     }
   ],
-  "new_origins_count": 8,
+  "new_origins_count": 10,
   "source_readback_equality": "All five newly imported readable Drive texts exactly match GitHub UTF-8 readbacks; this is not source native layout/byte verification.",
   "inspected_edges": [
     {
@@ -249,11 +274,35 @@
       "evidence": "C187 uses lambda_k/hhat(P) and S270 (269.7)-(269.10); S252 §2/§5 invokes Bérczes only for all-H S-integer bound M_H",
       "status": "PRIOR_EXTERNAL_GATE_SCOPE_CORRECTED",
       "outstanding": "Bérczes remains pending only for the distinct all-H bound, not a direct logical parent of adopted C187 155/197"
+    },
+    {
+      "route": "R3-07",
+      "from": "row342 six independent rational C2 classes",
+      "to": "R3-ROW341-GENUS17-RANK3",
+      "evidence": "row342.md introduction/§1 names row341 A(X),B(X) degrees 18,17 and h2=A²−XB²; §2 uses S=[8∞+ +9∞− −E]",
+      "status": "NEW_MATH_ORIGINAL_ADDED_READBACK_EQUAL",
+      "outstanding": "full 2-Kummer membership proof independently unaudited"
+    },
+    {
+      "route": "R3-07",
+      "from": "row341 fixed C2 rank≥3",
+      "to": "R3-ROW340-GENUS17-RANK2",
+      "evidence": "row341 and row342 cite row340 Kummer DA/DB at p7/p163, J(Q)[2]=0 using mod19 (17,19) factor degrees",
+      "status": "NEW_MATH_ORIGINAL_ADDED_READBACK_EQUAL",
+      "outstanding": "field irreducibility and norm-square x−θ quotient not independently rechecked"
+    },
+    {
+      "route": "R3-07",
+      "from": "row340 rank≥2 both genus17",
+      "to": "R1-256 signed18 quotients + row339 p163 disk",
+      "evidence": "row340 research-record and author proof of C1/C2 fixed same source, source model row339 and R1-256",
+      "status": "PARENT_ORIGINALS_PRESENT_ON_GITHUB",
+      "outstanding": "need continue logical exact input assumptions and source map up to primitive physical"
     }
   ],
   "next_open_gates": [
+    "Continue R3 row339→340→341→342→343→344..→364→367 exact source and parent equivalence; 4 extra parents outside first23 now recovered",
     "Continue row370→393 -30 ancestor DAG and determine any first-pass omitted AUTHOR proof bodies, not merely file presence",
-    "Continue signed18 row339→row367: inspect R1-255→R1-256→row339→R3 row342/row343 and C2 exact polynomial equality with fixed ±18 source; C2 source forward conditional only.",
     "Continue R2 C174/C175 height ancestor C157 proof→S252/S270 definitions; inspect whether earlier C171 is historical rather than needed math",
     "Continue C187/C185/C175 → S252/S270/S268/C174 more remote original parent proof discovery",
     "Verify R3 row368/369 C118/C35-11/12 audit material and R2 S275/S271–274 mathematically necessary part",
@@ -291,5 +340,12 @@
   "external_berczes_for_C187": "NOT_REQUIRED_FOR_THIS_LOWER__SIDE_RECEIVER_ONLY",
   "r3_minus30_original_texts_370_393_on_github": 24,
   "r3_minus30_all_direct_parent_sufficiency_certified": false,
-  "c187_fraction_endpoints_verified_exact": true
+  "c187_fraction_endpoints_verified_exact": true,
+  "r3_signed18_discovered_early_parents": [
+    "R1-255",
+    "R1-256",
+    "row340",
+    "row341"
+  ],
+  "r3_signed18_newly_imported_total_including_initial12": 16
 }
