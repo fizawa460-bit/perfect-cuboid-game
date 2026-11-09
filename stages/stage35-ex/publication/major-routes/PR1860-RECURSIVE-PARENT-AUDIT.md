@@ -6,6 +6,8 @@
 
 | 原数学原著 | Drive原著 | 第２周GitHub保存 | 論理的役割・注意 |
 |---|---|---|---|
+| **R3-R1-256-SIGNED18-Z-QUOTIENT** | [Drive](https://docs.google.com/document/d/1Bg3HTX34RPd_0D_Ged9dgmFotw20S-dY/edit) | [収載](./proofs/R3-18-upstream/R1-256-signed18-fourward-quotient-original.md) | R3 row339 explicitly names R1-256. Original proves four Ward integer square constraints ↔ four rational square factors g_i(z), genus637 cover and genus17/22 quotients, with restricted inverse to genuine original Euclid base.（LOAD_BEARING_R3_SOURCE_ADAPTER） |
+| **R3-R1-255-SIGNED18-FOURCOVER** | [Drive](https://drive.google.com/file/d/16nLMwuHaMtmV4znOGxM5kTeos14Oe-kE/view) | [収載](./proofs/R3-18-upstream/R1-255-fourward-cover-original.md) | R1-256 cites R1-255 genus5169 t-cover and eigenspace quotient decomposition; old original is separate Drive mathematical text, not contained in PR1854 sources.（MATHEMATICAL_GEOMETRY_PARENT_OF_R1_256） |
 | **R2-R5-C157-EIGHTP-HEIGHT** | [Drive](https://drive.google.com/file/d/1cR-QQDIP9vCkVzjQ2E2sJm22mDy6ZNn_/view) | [収載](./proofs/active-ancestors/C157-R5-eightP-height-original.md) | R2 C174 cites R5 C157 exact universal 8P lower height λ3>L/16−41/768; actual mathematical proof is separate Drive markdown and was not in first 23.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C160-OWNER-STRONG-GCD** | [Drive](https://drive.google.com/file/d/12zpMA0N4I8FKRyeiiRVpLGELs7ef5_X9/view) | [収載](./proofs/active-ancestors/C160-R2-strong-gcd-original.md) | C160 is R0 integration summary; mathematical owner proof SG.1/SG.2 is a different document, not among original 23.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C185-OWNER-PRIME-CUT** | [Drive](https://docs.google.com/document/d/11mAxfmwcaGns7H_Za-X59BMN4dYEPmjy_xvV9mEg7M0/edit) | [収載](./proofs/active-ancestors/C185-R2-prime-cut-original.md) | R0 C185 summary only gave sparse lcm/gcd formula; owner source includes its full valuation case split and constants.（LOAD_BEARING_DIRECT_PARENT） |
@@ -13,12 +15,21 @@
 | **R2-C175-EFFECTIVE-TOP-UPPER** | [Drive](https://docs.google.com/document/d/1WyJgZFJL0XDGFWRGFGBas8SNrdVsUiVRlxZHoBtajiU/edit) | [収載](./proofs/active-ancestors/C175-R2-effective-top-upper-original.md) | R0 accepted scoped numerical effective upper, which is NOT a <75% all-source upper.（CONDITIONAL_UPPER_TOOL_NOT_C189_LOWER_CORE） |
 | **R2-C175-OLDER-MOBIUS-UPPER** | [Drive](https://docs.google.com/document/d/1ojhPqu5PynGnDzHnZ8YNCzWEuYUJ-kb_ndk0y_3aOrA/edit) | [収載](./proofs/active-ancestors/C175-R2-older-mobius-upper-original.md) | C175 cites postC136 original subset-Möbius upper; not the all-index strict 75% upper.（CONDITIONAL_UPPER_ANCESTOR_NOT_C189_LOWER_CORE） |
 
-**照合結果：原著６本を直接Driveから取得し、GitHubから読み戻したテキストが全件一致**。第１周の23件とは別に発見した証拠であり、以前の「残り11件」が全不足数だったという考えは成立しない。特にC160のR0要旨とR2オーナーSG.1/SG.2原証明は別文書である。
+**照合結果：原著８本を直接Driveから取得し、GitHubから読み戻したテキストが全件一致**。第１周の23件とは別に発見した証拠であり、以前の「残り11件」が全不足数だったという考えは成立しない。特にC160のR0要旨とR2オーナーSG.1/SG.2原証明は別文書である。
+
+## R3-07：row339以前の元source数式について新たに得た接続
+
+- [R1-239は第１周で既存GitHub](../../materials/selmer18-parent-chain/objects/91c82ae590d162c6-R1_239_SOURCE_ADAPTER.txt)：元のsigned±18 Ward17/19の４因子正整数平方。
+- [R1-255原著](proofs/R3-18-upstream/R1-255-fourward-cover-original.md)：同じ原始Euclid `u,v` に戻した `F_i(t)`、全４平方被覆と15 sign-character分解。
+- [R1-256原著](proofs/R3-18-upstream/R1-256-signed18-fourward-quotient-original.md)：`z=(B²/AC)²` への縮約、種数637・種数17/22商、`z→u/v` 逆像条件の保持。
+- [row339の既存原著](../../materials/original-source-exclusions/parents/row339-PROOF.md)：上記を参照し `X=(AC/B²)²` と163進円盤へ送る。
+- R1-254の別原著はRunge法の既知上限の検討であり、R1-255が必要な `F_i(t)` の式を本文に再度明記している。**R1-254のRunge側枝全体を自己完結の必須祖先と誤認しない**。
 
 ## 現在点検した依存辺（『存在する』と『数学的に十分』を分離）
 
 | ルート | 子 → 数学親 | 照合した根拠 | 現在の判定 | 次に残す条件 |
 |---|---|---|---|---|
+| R3-07 | row339 → R1-256 → R1-255 → R1-239 | row339 original §1/2, R1-256 §2, R1-255 four-factor theorem, GitHub existing R1-239 | **SOURCE_RETAINED_RECURSIVE_PATH** | genus/算術再演と最古元source→indexedの接続は未完 |
 | R2-01 | C174 hybrid height selector → R5 C157 8P lower height | C174数学本文はλ3>L/16−41/768を親として引用し、C157原著(8P.1)-(8P.4)にその導出がある | **SOURCE_RETAINED_STATEMENT_MATCHED** | 証書再演、S252正規化の独立監査は未実施 |
 | R2-01 | C185 sparse prime-cut → R2-C160-OWNER-STRONG-GCD | C185.md line 24 and C160.md §3; owner proof SG.1/SG.2 | **SOURCE_RETAINED_STATEMENT_MATCHED** | all parent assumptions and computations not independently audited |
 | R2-01 | C187 155/197 → R2-C185-OWNER-PRIME-CUT | R2-uniform-thresholds.md cites C185 exact λ-bound and 9/50, 7/50 | **SOURCE_RETAINED_STATEMENT_MATCHED** | prime-cut valuation certificate not independently rerun |
