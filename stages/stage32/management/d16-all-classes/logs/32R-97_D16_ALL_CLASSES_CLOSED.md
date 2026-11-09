@@ -16,18 +16,19 @@ genus ≤ 1 other than the known ones** — pending an audit of this note.
 ## h0 = 1 (4,094 classes, `d16all/`)
 | verdict | count | argument |
 |---|---|---|
-| member integral mod p, fast genus bound ≥ 2 | 3,113 | T3 + Lemma G (one component); includes t_21: exact genus 3 |
-| exact genus 3 of the plane model (t_1967, t_2090, t_2091) | 3 | δ summed over all singular points of the birational plane image (deltaLoc), g = 105 − 102 |
-| known curves removed, remainder integral, fast bound ≥ 5 (Σg ≥ 3) | 494 | Lemma G |
-| support only known curves, ≥ 2 of the 60 quartics (genus 1, R2 convention) | 173 | Lemma G |
-| support only known curves, ≤ 1 quartic | 297 | Lemma K (below) |
-| non-reduced: 2·(genus-3 curve of degree 8) | 14 | Lemma G |
+| member integral mod p, fast genus bound ≥ 2 | 3,112 | T3 + Lemma G (one component) |
+| fast bound 1: t_21, exact genus 3 (normal.lib, P³ image, `mkg3.py`) | 1 | T3 + Lemma G |
+| fast bound 1: t_1967, t_2090, t_2091, exact genus 3 (Lemma P) | 3 | δ summed over all singular points of the birational plane image (deltaLoc), g = 105 − 102 |
+| 964 contained + 14 non-reduced = 978, known curves removed (`mklg.py`): remainder integral, fast bound ≥ 3 | 494 | Lemma G (bounds 3: 108, 4: 69, 5: 243, 6: 65, 7: 9) |
+| — supported only on known curves and E_p | 470 | Lemma K (all of them; no use of the genus of the known quartics) |
+| — remainder reducible: 2·(genus-3 curve of degree 8) | 14 | Lemma G by components (`mkrr.py`) |
+3,112 + 1 + 3 + 978 = 4,094.
 
 **Lemma K.** If the unique member M_p of |x|_p is supported on known curves (the 92 curves and the 48 E_p), then x is
-a non-negative combination of known classes (specialization Pic(S̃_0) → Pic(S̃_p) is injective), so that combination
-is an effective divisor of |x|_0; h⁰_0(x) ≤ h⁰_p(x) = 1, hence |x|_0 consists of that reducible divisor and contains
-no integral curve (x is not itself a known curve: total multiplicity ≥ 2). Uses only h⁰_0 ≤ h⁰_p, not the M1-type
-"reducible mod p ⇒ reducible".
+a non-negative combination of known classes (the difference has zero specialization, hence zero intersection with all
+known classes, hence is 0 since the known Gram matrix is non-degenerate and Pic(S̃_0) is torsion free), so that
+combination is an effective divisor of |x|_0; h⁰_0(x) ≤ h⁰_p(x) = 1, hence |x|_0 consists of that reducible divisor
+and contains no integral curve. Uses only h⁰_0 ≤ h⁰_p and the preservation of intersection numbers.
 
 ## h0 = 2 (118 pencils, `p16all/`)
 - 21 with a fixed component (fixfilt rule; checked in char 0 by exact h0 over Q(zeta_8), R2 T2′: h0_0(D) = h0_0(D + Γ) = 2 for all 21, p16all/mkfix0.py); 97 pencils → 186 critical jobs + 89 Möbius jobs (p18 pipeline, v6 tail,
@@ -53,3 +54,8 @@ the 97 pencils. Answers (leaf PAPER.md revision 2, §4.2–4.7): v6 whole-fibre 
 R2's hidden-set / base-point / node checks and stage 2b (606 special members) run, open 0; identification of
 components with known curves (299 all known, 33 closed by Lemma G); c0 = D_k for all 441 scan entries; 84 T7 jobs
 with the generic-member check OK. The h⁰ = 1 counts are 3,112 + 1 (t_21) + 3 (Lemma P) + 978 (494 + 470 + 14).
+
+## Audit round 2 (2026-11-09): HOLD (narrow), answered
+No mathematical error. Completeness checks: 81 removed-whole lines (all linear), F1 jobs for all 97 pencils, mknt.py
+generator (regenerates the 4 nt_ files identically); plus hidden-point evidence, 159 more generic-member checks, the
+bound distribution of the 494 (leaf PAPER.md revision 3).

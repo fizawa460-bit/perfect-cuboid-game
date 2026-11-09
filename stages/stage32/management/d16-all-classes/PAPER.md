@@ -1,6 +1,6 @@
 # d = 16, all classes: no integral curve of geometric genus ≤ 1 (multibranch-only classes included)
 
-Date 2026-11-09, revision 2 (answers to the reading audit round 1, HOLD at a821e14f; §7). Research logs:
+Date 2026-11-09, revision 3 (answers to the reading audits round 1, HOLD at a821e14f, and round 2, HOLD at 4349cac6; §7). Research logs:
 `logs/32R-97_D16_ALL_CLASSES_CLOSED.md` (and 32R-91 for the chain).
 Zero credit. Companion of the audited leaf `management/d12-d16-low-genus/` (#1852, "R2"), whose tools and notation
 (PAPER-R2.md: T1–T7, Lemma G, §2.5, §4.5, Appendices A–D) are used throughout and are not re-proved here.
@@ -66,7 +66,7 @@ Selection (`prep_h1.py`): all 4,094 classes pass x·E ≥ 0 and μ ≥ 18; the c
 | fast bound 1, exact genus 3: t_21 | 1 | normal.lib genus of the birational P³ image (degree 16 = deg R; `mkg3.py`) |
 | fast bound 1, exact genus 3: t_1967, t_2090, t_2091 | 3 | Lemma P (Σδ = 102, e = 16; `mkgx.py`) |
 | fast tail gave up (non-reduced members) | 14 | treated with the 964 below |
-| 964 + 14 = 978, known curves removed (`mklg.py`, `tally_lg.py`): remainder integral, fast bound ≥ 3 | 494 | Lemma G (the remainder alone has genus ≥ 3) |
+| 964 + 14 = 978, known curves removed (`mklg.py`, `tally_lg.py`): remainder integral, fast bound ≥ 3 | 494 | Lemma G (the remainder alone has genus ≥ 3: bounds 3: 108, 4: 69, 5: 243, 6: 65, 7: 9, `results/lg_remainder_bounds.txt`) |
 | — supported on known curves and E_p only | 470 | Lemma K (no use of the genus of the known quartics) |
 | — remainder reducible (the 14 classes 666–679) | 14 | Lemma G by components (`mkrr.py`): Σg = 3 (`results/rr_results.txt`) |
 
@@ -83,7 +83,8 @@ stage 2 with fibre matching (`stage2m.py`, p_a = 1 + (C² + 16)/2): status ok fo
 - **Fibres removed whole by v6 (audit MUST FIX).** v6 removes a fibre containing a critical curve, arguing that the
   member is non-reduced. That is a char-p statement and cannot exclude a characteristic-0 curve reducing to it (the M1
   pattern). It happened in 61 of the 186 jobs: 81 removed members. All 81 were run as member jobs
-  (`audit_r1_steps.py rf`): Lemma G by components 23; Σg ≤ 1: 58, every component a known curve (§4.5), of which
+  (`audit_r1_steps.py rf`; the 186 critical outputs contain exactly 81 'removed whole' lines, all with a linear
+  factor u ± c, `results/b_removed_fibres.txt`): Lemma G by components 23; Σg ≤ 1: 58, every component a known curve (§4.5), of which
   NC-OK 38 and analyzer (T7) OK 20 (`results/b_removed_fibres.txt`).
 
 **4.3 Members of stage 2 (305).** Fast genus ≥ 2: 153 (T3 + Lemma G). The other 152: Lemma G by components (`mkcg.py`)
@@ -97,12 +98,15 @@ stage 2 only together with R2's further checks; they are now run on the 97 penci
 (`hidden_check.py`, `hidden_pts.py`, `basepts.py`, `node_jobs.py`, `stage2b.py`, paths p16 → p16all; node profile
 `pencil_profile.json` from Pn·x), `results/c_hidden_base_node.txt`:
 - hidden set H = ∩_D (∪ hidden curves of D) off the nodes (point-wise): empty for 44 pencils, non-empty for 53 →
-  hidden-point fibres (`hidden_pts.py`): 105 special factors, no moving base point, no chart problem;
+  hidden-point fibres (`hidden_pts.py`): for all 53, no hidden point on the chart hyperplane (dim −1) and finitely
+  many members through the hidden points (dim 0), 105 special factors (`results/c_hidden_points.txt`);
 - base points off the nodes: none 73, all simple 24 (no member singular at a base point);
 - nodes with x·E ≥ 2 (every one of the 97 pencils has such nodes, 281 in total): blow-up charts, 562 jobs; the 4 jobs
   with "ramification not finite" were redone with R2's direct version (`nt_`, `mknt.py`; cE = multiplicity of the node
-  in D, the division by s^cE is checked): special factor u = −329 each;
-- stage 2b, the special members (node branch values, hidden-point fibres, and u = ∞ for every pencil): 606 jobs
+  in D, the division by s^cE is checked; R2's template is included as `code/p16all/R2_nt_template_27522_122_1.sing`):
+  special factor u = −329 each;
+- stage 2b, the special members (node branch values, hidden-point fibres, and u = ∞): 606 jobs; every one of the 97
+  pencils has special factors, so the u = ∞ member (F1) was run for all 97 (97 F1 jobs);
   (`results/c_stage2b_accounting.txt`): fast ≥ 2: 509; quadratic factors as one member over F_p(w): 12 (bounds 8–10);
   known curves removed, remainder genus ≥ 2: 30; supported on known curves: NC-OK 20, analyzer OK 26 + Lemma G 9.
   Open: 0.
@@ -123,7 +127,8 @@ c0 + 2 is exactly "excess ≥ 2", and a family of non-reduced members would appe
 
 **4.7 Generic member in the T7 jobs (audit MUST CHECK (f)).** Every T7 job (29 + 20 + 35) checks that F0 and F0 + 7F1
 have exactly the multiplicities DLc along all D-curves and that NN ≠ F0: 84 × EXG-CHECK OK
-(`results/f_generic_member_checks.txt`).
+(`results/f_generic_member_checks.txt`). The same check on the 159 analyzer cases of the non-reduced scan (§4.6, random
+  generic member FL[1]): 159 × EXG-CHECK OK (`results/f_generic_member_checks_nr.txt`).
 
 Every new pencil is closed.
 
@@ -144,3 +149,8 @@ No new class has h⁰ ≥ 3.
   the P³ image has degree 16 = deg R); split_new output → `results/split_new.txt` (s16sym = the 71,697 representatives
   of R2). SHOULD FIX: Lemma K wording (§2); c₀ ≠ 0 (§2); the h⁰ = 1 table and the log made consistent (§3); v6 is
   32R-85, not an R2 tool (§4.2); the prep_all.py docstring corrected.
+- **Round 2** (head 4349cac6): HOLD with a narrow scope; no mathematical error, no M1 pattern. (b), (d), (e), (f) PASS.
+  MUST CHECK 1: 81 'removed whole' lines in the 186 outputs, all linear (§4.2). MUST CHECK 2: F1 jobs for all 97
+  pencils (§4.4). MUST CHECK 3: `mknt.py` now contains the generator (it regenerates the 4 nt_ files byte for byte)
+  and R2's template is attached. SHOULD FIX: hidden-point evidence (§4.4), the generic-member check on the 159
+  analyzer cases of §4.6 (§4.7), the bound distribution of the 494 (§3), the log table (32R-97).
