@@ -76,3 +76,11 @@ row362はrow361と同一原著なので重複しない。row351/352等のさら�
 4. 計算コード・ZIP・期待値はユーザー指示で**後回し**。独立数学監査も別ゲート。
 
 **現状：部分収載。数学原証明の必須総数・不足数・完了率は未確定。** [二ルートの入口](PR1854-START-HERE.md)。
+
+## 第2回整理で確認した、LOW現行残数に必要な旧入力
+
+- [C181（旧LOW／固定12）](proofs/foundations/C181.md)と[S264（ラベル別Ward偶奇）](proofs/foundations/S264.md)。
+- [+12のR0 C183採択](proofs/foundations/C183.md)、[旧R5-C220証明](proofs/foundations/R5-C220.md)、[R5-C224の曲線式訂正](proofs/foundations/R5-C224-erratum.md)。誤記のある旧曲線を現在のモデルとして使わない。
+- [R5-C212旧指数マスク](proofs/foundations/R5-C212.md)は現在の9絶対／16 signedを直接与える単独の定理ではなく、旧C181・C183とrow367/368/369/376の差分照合に必要な文脈である。
+
+上の**6本文は追加アップ不要、GitHub既存**。引用の根拠と残る親の分類は[引用辺監査](PR1854-PROOF-EDGE-AUDIT.md)へまとめた。現在の数学的必須本文の最終総数は依然未確定。
