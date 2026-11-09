@@ -40,9 +40,9 @@
 
 正規化`E₀:y²=x(x−a²)(x+1)`から`(x,y)↦(C²x,C³y)`は同型で、`P3=(a,ab)↦P=(AC,ABC)`、`T0↦T0`、全signed `T0+2nP3↦T0+2nP`を保存。S193はselected physical `Qphys=(-r₀²,+r₀p₀q₀)`を負に取り`Qn=(-r²,−rpq)`へ移すが、これは整数指数の符号を`j→−j`とするだけ。さらにS231の`Q=(ρ,(r+s)ρ),Qsharp=(-ρ,(s−r)ρ),ρ=rs+pq`から弦の傾き`s`を使い`Q−Qsharp=(-r²,-rpq)`を直接再導出できる。
 
-**厳密な式・算術チェック・原著所在：** [E3 label/indexed bridge独立監査](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)。`LABELLED_ORIENTATION=RESOLVED`、`EXACT_CURVE_AND_POINT_SCALING=RESOLVED`。ただし**selected physical４平方だけで**`Qn∈T0+2\mathbf ZP`とはいえない。S193第一枝等の元の**部分群条件**と、全Stage35→inner indexed BranchBの**大域網羅**は引き続き別のOPENゲート。
+**厳密な式・算術チェック・原著所在：** [E3 label/indexed bridge独立監査](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)。`LABELLED_ORIENTATION=RESOLVED`、`EXACT_CURVE_AND_POINT_SCALING=RESOLVED`。さらに[35EX-21](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md)の正の完全直方体`S_PC`では、辺`(1,x,y)`から`A=1,B=z,C=w,r=x,s=y,p0=p,q0=q`を取れば**selected E3の４平方を満たす**。[35EX-31](../../35ex-31/primitive-source-marking-endpoint-equivalence.md)はこの正の有理点からprimitive source markingをスケール／置換を法に再構成する。**positive cuboid→selected物理点の座標的橋は確認済み**。ただし**selected physical４平方だけで**`Qn∈T0+2\mathbf ZP`とはいえない。S193第一枝等の元の**部分群条件**と、物理点全体→inner indexed BranchBの**分岐網羅**は引き続きOPEN。
 
-[S231](proofs/active-ancestors/S231.md)と[S263](../../materials/original-source-exclusions/parents/S263.md)、[S268](proofs/C195-upstream/S268.md)、[C195](proofs/C195-canonical-source.md)には一般の正の**labelled** baseと実際のindexed点を前提にした数学がある。これは元source**必要条件の内部計算**を支えるが、**すべてのStage35物理解が同一のprimitive labelled indexed orbitに送り込まれる**という別のグローバルforward命題を再監査したことにはならない。ここを`GLOBAL_SOURCE_FORWARD_ADAPTER_OPEN`として固定する。
+[S231](proofs/active-ancestors/S231.md)と[S263](../../materials/original-source-exclusions/parents/S263.md)、[S268](proofs/C195-upstream/S268.md)、[C195](proofs/C195-canonical-source.md)には一般の正の**labelled** baseと実際のindexed点を前提にした数学がある。これは元source**必要条件の内部計算**を支えるが、**すべてのselected物理点が同一のprimitive labelled indexed軌道に属する**という命題は今回証明していない。正の完全直方体→selected physicalの座標的対応は上記で確認したが、残りは`GLOBAL_PHYSICAL_TO_INDEXED_SUBGROUP_COVERAGE_OPEN`として固定する。
 
 [Section16＋Section17訂正](proofs/earliest-foundations/BranchB-Section16.md)・[S194](proofs/active-ancestors/S194.md)の使用可能部分は`a(t)`非平方と、それに依存する2-saturation・有限奇数商の必要条件。Section17が撤回した**全specializationの同階数飽和二分法は復活させない**。
 
