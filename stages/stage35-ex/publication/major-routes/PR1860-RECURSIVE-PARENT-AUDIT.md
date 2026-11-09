@@ -85,9 +85,17 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
+## Gate C・Eの完了判定（2026-11-09更新）
+
+[**固定した39辺の全行判定表**](PR1860-SECOND-PASS-EXIT-CHECKLIST.md)に、**原数学本文あり33／後続再証明２／現行終端には非必須３／外部原典照合をGate Dへ移管１**の根拠を記録。**39/39行を一意分類**し、Gate CをPASSとした。外部への移管は旧#37 row393→de la Mazaだけ。**これをC・Dの両方に未判定として二重計上しない**。
+
+[**R3六終端とR2一終端の著者原数学本文所在の最終通し照合**](PR1860-SEVEN-TERMINAL-SOURCE-CHAIN-CHECK.md)を追加し、**7/7で内部必要著者原著の未収載０**、Gate E（source chain）もPASS。ただし作者の算術証書・外部定理の適用・独立数学監査のPASSではない。第２周で収載した著者数学本文は**23本**のまま、追加の原著はなし。
+
+**唯一の残ゲートDは外部２件に固定**：D-1 de la Maza（row393ノルム上界の原命題/admissibility/規格化）、D-2 Mordell（Branch B§15.4の四次式定理の一次原典）。一次文献が手元に無い状態を推定でPASSにしない。A/B/C/E=PASS、D=OPEN、**第２周は完了宣言しない**。PRはDraft/DO NOT MERGEのまま。
+
 ## 【固定した終了条件｜第２周の全件チェック表】
 
-**以後の第２周判定は [PR1860-SECOND-PASS-EXIT-CHECKLIST.md](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) を唯一の終了判定正本とする。** ２ルートだけの固定リストは#1854の129数学ファイル・既存２・未収載23、初回の39依存辺と第２周で見つかった必要数学親。23候補は**23/23分類済み**、必要数学本文追加12+10+1=23。新原著を発見した件数だけでは終了としない。**Gate A/B=PASS、C/D/E=OPEN**。終了には元39辺の命題・原著・適用条件を**39行一対一**で埋め、外部主定理を照合し、R3-07/R2-01の親の「未収載かつ必須」行を０にする。
+**以後の第２周判定は [PR1860-SECOND-PASS-EXIT-CHECKLIST.md](PR1860-SECOND-PASS-EXIT-CHECKLIST.md) を唯一の終了判定正本とする。** ２ルートだけの固定リストは#1854の129数学ファイル・既存２・未収載23、初回の39依存辺と第２周で見つかった必要数学親。23候補は**23/23分類済み**、必要数学本文追加12+10+1=23。新原著を発見した件数だけでは終了としない。**現在はA/B/C/E=PASS、D=OPEN（外部原典２件）**。終了には元39辺の命題・原著・適用条件を**39行一対一**で埋め、外部主定理を照合し、R3-07/R2-01の親の「未収載かつ必須」行を０にする。
 
 ## 今回の第１周抜け：最古Branch B §15.1–15.5のtorsion数学親（2026-11-09）
 
