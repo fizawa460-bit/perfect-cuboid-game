@@ -1,6 +1,6 @@
 # Stage35EX row393：現行数学的証明鎖の依存グラフと親本文（2026-11-09）
 
-**現在の状態：初期34件、直接親5件、上流9件、さらに上流6件の合計54件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
+**現在の状態：初期34件、直接親5件、上流9件、さらに上流6件、finite-branch親5件の合計59件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
 
 ## 採用する移植境界
 
@@ -135,3 +135,17 @@ S316の (316.1)/(316.2) に直接用いる旧数学は **S252 / S270 / S291 / S3
 S289/S290 はすでに [S289](proofs/C195-upstream/S289.md) / [S290](proofs/C195-upstream/S290.md) としてGitHubに存在したため、再コピーせず既存pathへ対応した。S190/S191の scoped 結論を全上流original physical adapterの独立監査PASSに昇格させない。S198のeven-only条件、S222の非torsion結論とH-centerの未排除、S224の有限射影を厳密に区別。
 
 **追加資料は合計54件。** 新たな再帰・外部/重複を含む現在の未対応分類候補は9識別子：`C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S123`、`S126`、`S230`、`S242`、`S250`、`SECTION16_NONSQUARE`。この数は数学的に必須な欠落証明数ではない。S123/S126のscoped原資料、Section16 a-nonsquare、C160の正確なgcd補題、外部定理の原文条件、最小計算コードの連結を確認するまで移植完了は宣言しない。
+
+## 2026-11-09 第5波：S123/S126の分岐に不可欠な親証明5件
+
+| ID | この系で使われる限定主張 | 親 | GitHub原著 |
+|---|---|---|---|
+| S122 | reciprocal partner and paired-index MW split conditional on original Section121 adapter | S121 | [本文](proofs/active-ancestors/S122.md) |
+| S123 | primitive-divisor transfer of reciprocal index pair; only GENERIC_IMAGE_MULTIPLE branch | S122 | [本文](proofs/active-ancestors/S123.md) |
+| S124 | family Lang bound and normalized canonical-height inequality, external inequalities retained | S123 | [本文](proofs/active-ancestors/S124.md) |
+| S125 | explicit Zsigmondy bound from direct 2-Kummer, external EMW Lemma3.3 and Silverman height comparison | S123, S124 | [本文](proofs/active-ancestors/S125.md) |
+| S126 | 379-pair scoped index population based on audited S123–125 interface, full predecessor audit not claimed | S123, S124, S125 | [本文](proofs/active-ancestors/S126.md) |
+
+S126の379組はS123–125のscoped前提とpopulation auditを保持する。S123はGENERIC_IMAGE_MULTIPLEという定義された部分分岐への必要条件であり、Branch B全体の排除ではない。S122が使うS121の元のquotient adapterは新たに確認対象になった。S124/S125の外部Silverman/EMWの正規化と定理仮定を独立照合したと主張しない。
+
+**累計59原証明/採否資料をGitHubへ追加保存**。最新の未対応・要仕分けは8識別子：`C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S121`、`S230`、`S242`、`S250`、`SECTION16_NONSQUARE`。外部数学入力、監査だけの文書、再述/数値例、未収載の真の親を混在させた機械的リストであり、必要数学の不足数ではない。本文収載と最小計算証書再現、文字列忠実性、敵対的数学監査は別ゲート。PR #1854 draftで研究row393停止。
