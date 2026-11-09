@@ -15,7 +15,7 @@
 
 研究はrow393で停止。無条件−30・全LOW・Branch BはOPENで、row393はSOURCE_THEOREM_VERIFICATION_PENDING。今回の公開整理は新研究・新規独立監査・正式採択ではない。正式V74のMAIN-STATEは別の保持された権威であり変更しない。
 
-[C195の11直接前提の原証明](C195-DEPENDENCIES.md)は取得・収載済み。ただし[完了チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md)に残るP112の整数集合差の再構成は済んだが、S270/C189、C196〜C200の論理対応は記録照合済み。原文表示忠実性と親数学計算の独立検査は未了。以前の移植完了表示は訂正する。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
+[C195の11直接前提の原証明](C195-DEPENDENCIES.md)は取得・収載済み。ただし[完了チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md)に残るP112の整数集合差の再構成は済んだが、S270/C189、C196〜C200の論理対応は記録照合済み。24件の本文テキスト一致とS240ネイティブ2表の修復は完了。親数学証明の全面独立検査は未了。以前の移植完了表示は訂正する。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
 
 [全体入口](../README.md) · [既存5資料群](../../materials/README.md) · [移植進捗](../../materials/MIGRATION-STATUS.json)
 
@@ -24,3 +24,7 @@
 [旧P112→現行LOW残9絶対/16 signedの出典接続](P112-RESIDUAL-RECONCILIATION.md)
 
 [四TOPとC189の成立条件・採否照合](S270-C189-SCOPE-CROSSCHECK.md) · [C196〜C200の適用範囲・失効NEXT照合](C196-C200-DEPENDENCY-REVIEW.md)
+
+### 追補検証（2026-11-09）
+
+[24原資料テキスト一致・S240表修復](NATIVE-DOCS-FIDELITY-REVIEW.md) · [親証明の実際に独立検算した初等範囲と未監査範囲](MAJOR-PARENT-MATH-PAPER-CHECK.md) · [row393引用定理の一次原文照合ゲート](ROW393-PRIMARY-THEOREM-GATE.md)。一次文献が未確認のため、row393のB<2^94を**原典照合まで完了した無条件類代表定理**と断定しない。PRはdraft、移植全体の完了判定は保留。

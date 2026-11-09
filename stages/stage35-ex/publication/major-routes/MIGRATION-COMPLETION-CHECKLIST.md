@@ -1,6 +1,6 @@
 # Stage35EX 主要成果の移植完了要件と未完了チェック
 
-**判定：PARTIAL / NOT_COMPLETE（2026-11-09、PR #1854 draft）。** 主要6まとまりの説明、既存5詳細資料群、既存3中央原証明に加え、Google Driveから重要な原証明・訂正・履歴テキスト24本を新たに保存した。全99管理ID本文、深い親証書、途中版、生ログの全数複製は**完了要件から除外**する。
+**判定：PARTIAL / NOT_COMPLETE（2026-11-09、PR #1854 draft）。追加検証：24本文テキスト一致、S240の2 native表復元。親数理は部分PASS、row393一次定理照合はPENDING。** 主要6まとまりの説明、既存5詳細資料群、既存3中央原証明に加え、Google Driveから重要な原証明・訂正・履歴テキスト24本を新たに保存した。全99管理ID本文、深い親証書、途中版、生ログの全数複製は**完了要件から除外**する。
 
 ## 移植完了の定義
 
@@ -58,9 +58,11 @@
 ## 移植完了を宣言する前のゲート
 
 - P112の独立整数再binは完了。残る検査は元マスクの正確な適用条件・歴史的採否を全経路で照合すること。
-- C196〜C200およびS270/C189の**記録上の依存条件・量化子・失効NEXT照合は完了**。残るのは個々の代数計算・親前提の数学的監査、原著の数式/表表示忠実性の確認。
-- GitHubに残した24本文の改行・数式・表の抽出漏れ確認と経路リンクの実在チェック。
-- 研究はrow393で停止、Branch B/Stage35/E1/無条件−30/全LOWはOPEN。row393 SOURCE_THEOREM_VERIFICATION_PENDINGのまま。99ID索引は全99原文の収載を意味しない。
+- C196〜C200およびS270/C189の**記録上の依存条件・量化子・失効NEXT照合は完了**。残るのは個々の代数計算・親前提の全面数学監査（[限定数学検査](MAJOR-PARENT-MATH-PAPER-CHECK.md)では初等恒等式・端点のみPASS）。
+- [24資料の同一抽出方式によるテキスト比較24/24 PASS](NATIVE-DOCS-FIDELITY-REVIEW.md)。S240の2ネイティブ表（全24セル）は復元。Google Docsの全視覚書式・数式レンダリングの原物同一性は別問題。
+- [row393 de la Mazaの原典Theorem 1＋系の仮定・t0係数照合](ROW393-PRIMARY-THEOREM-GATE.md)は外部原文未入手のためPENDING。研究はrow393で停止、Branch B/Stage35/E1/無条件−30/全LOWはOPEN。99ID索引は全99原文の収載を意味しない。
 - PR #1854はdraft/open、mainへはマージしない。新しいPRも作らない。
 
 [主要ルートREADME](README.md) · [C195依存](C195-DEPENDENCIES.md) · [原文出典map](PRIMARY-SOURCE-MAP.json) · [5詳細資料群](../../materials/README.md)
+
+[移植本文の忠実性レビュー](NATIVE-DOCS-FIDELITY-REVIEW.md) · [親数学の限定再検算](MAJOR-PARENT-MATH-PAPER-CHECK.md) · [row393引用定理未確認ゲート](ROW393-PRIMARY-THEOREM-GATE.md)

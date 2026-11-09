@@ -61,3 +61,5 @@ PASS_SCOPED_DEPENDENT_20261108 / SOURCE_THEOREM_VERIFICATION_PENDING。
 無条件Cl/2の全尽証書または代替の厳密MW上界、必要なら全類群基底からのCT/q★計算が残る。これらは保存された研究課題であり、今回実行していない。row393以降の新研究は停止したまま、無条件−30・全LOW・Branch BはOPEN。
 
 [主要ルート入口](README.md)
+
+[2026-11-09 row393の外部原典適用未監査を詳細に特定したゲート](ROW393-PRIMARY-THEOREM-GATE.md)。作者式のy0・t0・B高精度スポット計算は整合するが、de la Maza Theorem 1と直後の系の原文条件・π正規化の独立照合は未実施。類群全尽や−30排除の新creditは0。

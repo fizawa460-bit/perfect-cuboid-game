@@ -56,3 +56,5 @@ C195はR1-223の訂正を取り消していない。任意のM,N、normだけの
 [C195の直接前提11本文](C195-DEPENDENCIES.md)と[C196〜C200の後続本文](MIGRATION-COMPLETION-CHECKLIST.md)を収載。S233/S237/S240のC195内再構成と旧S268/S269/C174/S289/S290の継承を区別する。新監査・新採択・実際の補平方source存在は主張しない。
 
 [C196〜C200後続原証明の論理的連鎖とC197 NEXT失効の限定レビュー](C196-C200-DEPENDENCY-REVIEW.md)。資料間の条件対応は確認したが、個別のisogeny/height/source-coverの数学的独立監査ではない。
+
+[親C195の倍算二恒等式・役割p付値・高さ係数の限定独立検算](MAJOR-PARENT-MATH-PAPER-CHECK.md)。S237の全formal depthとC174の一様高さ入力、S289/S290の全数学的適用はまだ独立再監査していない。

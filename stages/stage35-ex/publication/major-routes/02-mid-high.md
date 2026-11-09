@@ -71,6 +71,8 @@ C189のR0採否は内部の従属採択として記録する。155/197の有限F
 
 ## S270原文（追補）
 
-[四つのTRUE TOPと全PROPER ordinary βの原著S270](proofs/foundations/S270.md)を保存。原稿と現行C189の定義・採択範囲の突合は[未完了チェック](MIGRATION-COMPLETION-CHECKLIST.md)へ。
+[四つのTRUE TOPと全PROPER ordinary βの原著S270](proofs/foundations/S270.md)を保存。原稿とC189の定義・採択範囲は[資料間照合済み](S270-C189-SCOPE-CROSSCHECK.md)。ただし、親高さ証明の独立数学再監査は保留。
 
 [補助監査：S270のTRUE四TOPとC189採択155/197の対応](S270-C189-SCOPE-CROSSCHECK.md)。S270のbase-dependent N4/N1を155/197へ同一視しない。すべて**下界**であり、相関**上界**とBranch B排除は未証。
+
+[R2のQ4(154/155), Q1(196/197)の有理端点の独立再計算結果](MAJOR-PARENT-MATH-PAPER-CHECK.md)。主張全体の独立監査ではない。
