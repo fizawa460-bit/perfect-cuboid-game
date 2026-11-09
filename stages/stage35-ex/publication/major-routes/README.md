@@ -1,5 +1,7 @@
 # Stage35EX 主要ルート本文 — row393停止時点
 
+**最新移植スナップショット（2026-11-09）**：新たな親原著・R0採否本文**60件**を[最新出典台帳](ACTIVE-ANCESTOR-SOURCE-MAP.json)へ収載。既存24件の文字列照合とは別集団。未対応識別子**7**は[役割別に仕分け](ACTIVE-PARENT-TRIAGE-AND-REPLAY-GATES.md)し、必須定理7本とは数えない。S316の[最小script＋期待JSONと実行結果照合](proofs/active-ancestors/S316-replay/README.md)はPASS（有限再演算のみ）。数学的独立監査と移植全体は未完了。
+
 2026-11-09 JST。主要な成果・証明の流れ・成立条件・監査状態・重要な障壁を、次の六つのまとまりで読む。六つは説明上の区分であり、独立定理数ではない。全99管理IDの原文は既存の[索引](../CATALOGUE.md)に残す。
 
 | 主要なまとまり | 最終的に分かっていること | 残る核心 |
@@ -33,8 +35,13 @@
 
 [必要数・収載数・当時の未対応13候補の歴史台帳](ACTIVE-PROOF-SPINE-COVERAGE.md)を基準とする。現在の直接中核は56論点／原証明本文55件相当、明記された別の親証明少なくとも7件も収載。ただし親証明鎖は未閉鎖。Google Drive参照のみでよいのは障壁・失敗ルート・歴史・重複等であり、現行結果の論理的に不可欠な親補題はGitHub本文と最小限証書へ対応づける。
 
-## 現行証明鎖の親補題・採否34資料をGitHubへ追加（2026-11-09）
+## 現行証明鎖の親補題・採否34資料をGitHubへ追加（2026-11-09：履歴）
 
 [最新数学依存表（新34件・未対応候補12識別子）](ACTIVE-ANCESTOR-DEPENDENCY-MAP.md)と[出典・blob SHA・親関係JSON](ACTIVE-ANCESTOR-SOURCE-MAP.json)。最初の13候補、直接親11件、上流10件（S194/195/196、S213/218、S228/229、S235、S275、S318）を本文収載済み。34件は数学的に独立した34新定理ではなく、採否・限定的結果も含む。S255は管理CURRENTから完全数学CARDへ修正、S243のネイティブ表12セルを復元。
 
 [旧24件のテキスト忠実性検査](NATIVE-DOCS-FIDELITY-REVIEW.md)はその24件の24/24一致のみを保証し、新34件へ外挿しない。残る12識別子の必須性・重複判定、S252 Bérczes・S196 quartic・row393 de la Maza原典、不可欠な有限計算証拠と独立数学監査はPENDING。Branch B・−30無条件排除・全LOWはOPEN。研究row393停止、PR #1854 draft未マージ。
+
+
+## 最新追補（60件版、2026-11-09）
+
+34件を出発点に直接・上流の26親原著を追加し、S289/S290は既存本文で対応した。[source map](ACTIVE-ANCESTOR-SOURCE-MAP.json)および[依存表](ACTIVE-ANCESTOR-DEPENDENCY-MAP.md)を現行とする。旧34件時点の12識別子は履歴で、現在の未対応候補は[別紙の7識別子](ACTIVE-PARENT-TRIAGE-AND-REPLAY-GATES.md)。計算はS316のみ新たなstandalone replay PASS、他は未照合。独立数学監査・外部定理の仮定/正規化は未了、row393停止・PR draft/未マージ。
