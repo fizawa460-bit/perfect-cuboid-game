@@ -35,7 +35,6 @@
 | C198 | boundary/Prym dual4 | [本文](proofs/post-C195/C198.md) | TEXT_RETAINED / semantic review pending |
 | C199 | actual-index height comparison | [本文](proofs/post-C195/C199.md) | TEXT_RETAINED / semantic review pending |
 | C200 | dual4 original signed POINT cover | [本文](proofs/post-C195/C200.md) | TEXT_RETAINED / semantic review pending |
-
 | C183 | R0 C183、signed +12従属採択 | [原文](proofs/foundations/C183.md) | CORRECTED_FORMULA_CONTROLS |
 | R5-C220 | signed +12 HIGHの元証明 | [歴史的原文](proofs/foundations/R5-C220.md) | ERRATUM_REQUIRED |
 | R5-C224-erratum | C220の正規化曲線のX欠落を訂正 | [訂正文](proofs/foundations/R5-C224-erratum.md) | AUTHOR_CORRECTION |
