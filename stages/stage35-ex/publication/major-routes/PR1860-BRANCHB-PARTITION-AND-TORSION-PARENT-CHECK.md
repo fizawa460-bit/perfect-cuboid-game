@@ -15,6 +15,10 @@
 
 **なぜ数学的な直接親か**：既収載[S194 §3](proofs/active-ancestors/S194.md)は`E'_t(Q)_tors=Z/4Z`を明記して、`E_t(Q)_tors=E_t[2]`、`E_t(Q)/(E_t[2]+ZP)`の有限非自明位数の奇数性、`dQ=mP+T`での`gcd(d,m)=1`に利用する。S194はこの一様torsion**を引用していて、8/12除外の元証明本文自体は再記述しない**。また[S121](proofs/active-ancestors/S121.md)にも一様torsionが親として出る。第１周の§13/§16とS194の所在が既知でもこの§15.2–15.5の原証明が自動的に揃ったことにはならなかった。
 
+[**機械可読な原著抽出区間・依存命題・暫定監査判定**](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.json)を同梱した。
+
+**古典四次式の出典照合**：最古Branch Aの[別原稿 §3/§9](https://docs.google.com/document/d/1smWIX2pkMdKEou0soUVj9_o9opg-z_JPRT4MwxSROHE/edit)も調査し、そこで `L. J. Mordell, Diophantine Equations, Chapter 4, Equation 7′` と出典指定していることを確認。ただしその原稿も**古典定理の証明自体は載せていない**。したがって§15.4のMordell引用の一次原典照合は`OPEN`。重複する古いBranch A原著を１本増やして「自己完結」とはしない。
+
 **独立監査境界**：`ψ3`のα判別式`16x³(x+1)³`は独立記号計算で再確認。ただしMazur分類、Fermat「1は非congruent」、Mordell四次式の古典定理の原典・仮定・独立証明は今回未監査。§15全証明の数学的PASSを付与しない。
 
 ## 2. 最古Section14.5 → 15.5 → 17 → 19 と後続S193/194を原文比較
