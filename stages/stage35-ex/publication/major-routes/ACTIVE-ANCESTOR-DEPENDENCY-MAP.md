@@ -1,6 +1,6 @@
 # Stage35EX row393：現行数学的証明鎖の依存グラフと親本文（2026-11-09）
 
-**現在の状態：初期34件に加え数学的親5件、合計39件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
+**現在の状態：初期34件、数学的親5件、さらに古い上流9件の合計48件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
 
 ## 採用する移植境界
 
@@ -89,7 +89,7 @@ LOW proofs row361..376 + older C181/C183/R5-C212 -> 9 abs / 16 signed
 
 研究正本R0/運用NEXTは未更新。GitHubのPRだけ編集。[移植完了チェック](MIGRATION-COMPLETION-CHECKLIST.md)
 
-## 2026-11-09 第2波：不足していた数学的親5件を追加
+## 2026-11-09 第2波：不足していた数学的親5件を追加（履歴）
 
 | ID | 実際に継承する範囲 | 直接参照される親（新たな依存候補） | GitHub原著 |
 |---|---|---|---|
@@ -102,3 +102,21 @@ LOW proofs row361..376 + older C181/C183/R5-C212 -> 9 abs / 16 signed
 **最新の未対応候補は20識別子（単純な不足定理数ではない）：** `C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S192`、`S197`、`S200`、`S201`、`S223`、`S225`、`S226`、`S230`、`S242`、`S250`、`S291`、`S308`、`S312`、`S313`、`S314`、`S315`、`SECTION16_NONSQUARE`。今回S193/S202/S227/S234/S316の原文を取り込んだため、旧12識別子のうち5件は本文として解消。ただしS192/S197/S200/S201/S223/S225/S226/S291/S308/S312/S313/S314/S315など、これらの本文から新しい上流の確認対象が生じた。既存GitHubにある別名の等価証明を優先照合し、重複は移植しない。S231はS227への依存を一部縮小するが、S228/229が用いる厳密chordの使用範囲を確認する。S234はFaltingsによる**固定基底**の有限性で、全基底の無根拠な排除に使わない。S316は著者側の暫定条件付き高指数censusで、全物理解排除ではない。S202の`dQ=mP`はfinite-odd packet限定。
 
 今回5件のGitHub本文保存は独立数学監査・計算再実行ではない。外部Bérczes、古典quartic、row393 de la Mazaの原典ゲートは未解決。S193/S202/S227/S234/S316で引用する最小計算証書も個別に未照合。研究row393停止、Branch B等OPEN、PR draft未マージ。
+
+## 2026-11-09 第3波：さらに古い数学的親9件の保存
+
+| 親 | 利用中の限定命題 | 上流参照 | GitHub本文 |
+|---|---|---|---|
+| S192 | finite-integer subgroup x-isogeny receiver; not global Branch B closure | S190, S191 | [本文](proofs/active-ancestors/S192.md) |
+| S197 | shifted odd full-chord receiver; scalar only for finite-odd | S193, S194, S195, S196 | [本文](proofs/active-ancestors/S197.md) |
+| S200 | prime-power formal-depth finite-odd receiver; no global closure | S197, S198, S199 | [本文](proofs/active-ancestors/S200.md) |
+| S201 | symmetric formal chord depth finite-odd receiver | S197, S198, S199, S200 | [本文](proofs/active-ancestors/S201.md) |
+| S223 | original division integer/H-prime height necessary bound | S213, S218, S222 | [本文](proofs/active-ancestors/S223.md) |
+| S225 | square-support B-boundary large-index necessary prefilters | S194, S198, S223, S224 | [本文](proofs/active-ancestors/S225.md) |
+| S226 | even-index dual square envelope, not odd | S198, S225 | [本文](proofs/active-ancestors/S226.md) |
+| S291 | signed orbit original height adapter; rank/growth open | S289, S290 | [本文](proofs/active-ancestors/S291.md) |
+| S308 | S316 invokes section3–4 all-base 16P height certificate, not conditional d445 conclusion | S252, S291 | [本文](proofs/active-ancestors/S308.md) |
+
+S316の (316.1)/(316.2) に直接用いる旧数学は **S252 / S270 / S291 / S308 (Sections3–4)**。S312/S313/S314/S315はS316の比較・後継/背景の記載であり、全件を数式証明の直親とは認定しない。S308のd445条件付き排除をall-base下界と混同しない。S226は偶数指数専用。旧finite-oddの `dQ=mP` を無限位数側へ持ち込まない。
+
+**今回の追加本文累計48件**。これらは独立検証済みの48定理ではない。**最新未対応識別子15件（分類待ち）:** `C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S190`、`S191`、`S198`、`S199`、`S222`、`S224`、`S230`、`S242`、`S250`、`S289`、`S290`、`SECTION16_NONSQUARE`。旧12/20件は以前の時点の棚卸し。残る識別子には外部定理、監査・重複、古い親の論理的必須部分が混在するため、最終必要数・完了率は未定。計算証書の最小移植と独立再演算も未完了。
