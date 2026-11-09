@@ -6,7 +6,9 @@ CLAIM: Let S̃ be the minimal resolution of the cuboid surface S and d = K·C. E
        71,697 unibranch-compatible representatives; this leaf treats the other 1,665,666.)
        With R2 (d = 12, 14), d8 (#1844) and d10 (#1845): no integral curve of degree <= 16 and geometric genus <= 1
        except the known ones.
-STATUS: research leaf, NOT audited (reading audit requested, AUDIT-REQUEST.md). Zero credit; no credit flag changed.
+STATUS: reading (hostile) audit, three rounds: round 1 HOLD (a821e14f), round 2 HOLD narrow (4349cac6), round 3 PASS
+        (6e22aef1), PAPER.md §7. Under the owner's audit standard (#1851) this is a PASS. Zero credit; no credit flag
+        changed.
 SCOPE: A geometric fact about the d = 16 stratum. MAIN authority, STATE files and all formal counts are unchanged.
 BUILDS ON: R2 (#1852: T1-T7, Lemma G, §2.5, §4.5, the analyzer), E05.1 (μ filter, audited), the split enumeration.
 NEW HERE: Lemma K (support on known curves), Lemma P (exact genus from all plane singular points); PAPER.md §2.

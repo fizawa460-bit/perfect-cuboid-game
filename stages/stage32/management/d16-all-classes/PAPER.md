@@ -154,3 +154,7 @@ No new class has h⁰ ≥ 3.
   pencils (§4.4). MUST CHECK 3: `mknt.py` now contains the generator (it regenerates the 4 nt_ files byte for byte)
   and R2's template is attached. SHOULD FIX: hidden-point evidence (§4.4), the generic-member check on the 159
   analyzer cases of §4.6 (§4.7), the bound distribution of the 494 (§3), the log table (32R-97).
+- **Round 3** (head 6e22aef1): **PASS** (reading level). The three completeness checks and four should-fix items of round 2
+  are resolved; no remaining item. Singular outputs were not re-executed (the audit relies on the submitted tallies).
+  Combined with R2, d8 (#1844) and d10 (#1845): no integral curve of degree ≤ 16 and geometric genus ≤ 1 other than
+  the known ones (degree 2, 4; E04), at reading level. No credit flag is changed.
