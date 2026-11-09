@@ -6,18 +6,20 @@
 
 | 原数学原著 | Drive原著 | 第２周GitHub保存 | 論理的役割・注意 |
 |---|---|---|---|
+| **R2-R5-C157-EIGHTP-HEIGHT** | [Drive](https://drive.google.com/file/d/1cR-QQDIP9vCkVzjQ2E2sJm22mDy6ZNn_/view) | [収載](./proofs/active-ancestors/C157-R5-eightP-height-original.md) | R2 C174 cites R5 C157 exact universal 8P lower height λ3>L/16−41/768; actual mathematical proof is separate Drive markdown and was not in first 23.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C160-OWNER-STRONG-GCD** | [Drive](https://drive.google.com/file/d/12zpMA0N4I8FKRyeiiRVpLGELs7ef5_X9/view) | [収載](./proofs/active-ancestors/C160-R2-strong-gcd-original.md) | C160 is R0 integration summary; mathematical owner proof SG.1/SG.2 is a different document, not among original 23.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C185-OWNER-PRIME-CUT** | [Drive](https://docs.google.com/document/d/11mAxfmwcaGns7H_Za-X59BMN4dYEPmjy_xvV9mEg7M0/edit) | [収載](./proofs/active-ancestors/C185-R2-prime-cut-original.md) | R0 C185 summary only gave sparse lcm/gcd formula; owner source includes its full valuation case split and constants.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C174-OWNER-HYBRID-HEIGHT** | [Drive](https://docs.google.com/document/d/1XxC52DqQ9E5WZGcqIWcXWuLgUse_XfZ7T0JjV1Y-Sg4/edit) | [収載](./proofs/active-ancestors/C174-R2-hybrid-height-original.md) | R0 C174 uses owner λ4/λ3 exact threshold certificate; full owner proof is distinct from R0 integration text.（LOAD_BEARING_DIRECT_PARENT） |
 | **R2-C175-EFFECTIVE-TOP-UPPER** | [Drive](https://docs.google.com/document/d/1WyJgZFJL0XDGFWRGFGBas8SNrdVsUiVRlxZHoBtajiU/edit) | [収載](./proofs/active-ancestors/C175-R2-effective-top-upper-original.md) | R0 accepted scoped numerical effective upper, which is NOT a <75% all-source upper.（CONDITIONAL_UPPER_TOOL_NOT_C189_LOWER_CORE） |
 | **R2-C175-OLDER-MOBIUS-UPPER** | [Drive](https://docs.google.com/document/d/1ojhPqu5PynGnDzHnZ8YNCzWEuYUJ-kb_ndk0y_3aOrA/edit) | [収載](./proofs/active-ancestors/C175-R2-older-mobius-upper-original.md) | C175 cites postC136 original subset-Möbius upper; not the all-index strict 75% upper.（CONDITIONAL_UPPER_ANCESTOR_NOT_C189_LOWER_CORE） |
 
-**照合結果：原著５本を直接Driveから取得し、GitHubから読み戻したテキストが全件一致**。第１周の23件とは別に発見した証拠であり、以前の「残り11件」が全不足数だったという考えは成立しない。特にC160のR0要旨とR2オーナーSG.1/SG.2原証明は別文書である。
+**照合結果：原著６本を直接Driveから取得し、GitHubから読み戻したテキストが全件一致**。第１周の23件とは別に発見した証拠であり、以前の「残り11件」が全不足数だったという考えは成立しない。特にC160のR0要旨とR2オーナーSG.1/SG.2原証明は別文書である。
 
 ## 現在点検した依存辺（『存在する』と『数学的に十分』を分離）
 
 | ルート | 子 → 数学親 | 照合した根拠 | 現在の判定 | 次に残す条件 |
 |---|---|---|---|---|
+| R2-01 | C174 hybrid height selector → R5 C157 8P lower height | C174数学本文はλ3>L/16−41/768を親として引用し、C157原著(8P.1)-(8P.4)にその導出がある | **SOURCE_RETAINED_STATEMENT_MATCHED** | 証書再演、S252正規化の独立監査は未実施 |
 | R2-01 | C185 sparse prime-cut → R2-C160-OWNER-STRONG-GCD | C185.md line 24 and C160.md §3; owner proof SG.1/SG.2 | **SOURCE_RETAINED_STATEMENT_MATCHED** | all parent assumptions and computations not independently audited |
 | R2-01 | C187 155/197 → R2-C185-OWNER-PRIME-CUT | R2-uniform-thresholds.md cites C185 exact λ-bound and 9/50, 7/50 | **SOURCE_RETAINED_STATEMENT_MATCHED** | prime-cut valuation certificate not independently rerun |
 | R2-01 | C187 155/197 → R2-C174-OWNER-HYBRID-HEIGHT | C174.md §1 λ*; C175 R0 height selector; R2-uniform-thresholds.md C174/C175 reference | **SOURCE_RETAINED_STATEMENT_MATCHED** | 20856 base replay and λ* proof not independently rerun |
@@ -32,6 +34,7 @@
 
 ### 個別に確認できた再述・適用範囲
 
+- **R2 C174→R5 C157:** [R5 8P原著](proofs/active-ancestors/C157-R5-eightP-height-original.md)は旧一様高さλ3の数式と全基底への証明を含む。C174のhybrid λ4/λ3で使う基礎下界に対応する。R0要旨だけの再述ではなかったため追加収載。独立数学監査済みとはしない。
 - **R2 C160→C185:** C160は統合・採否要旨、今回追加した[R2 strong-gcd原証明](proofs/active-ancestors/C160-R2-strong-gcd-original.md)は任意の符号付き２指数とnodal Hを含むSG.1/SG.2を展開。C185が必要とする2-adic階層の分母公約数法則と主張レベルで対応する。ただし独立再演PASSとはしない。
 - **R2 S232→S230:** S230全体のfinite-odd排除はdQ=mPを仮定するが、§2/3のA,C局所付値評価は式の導出でdQ=mPを使わない。S232はその局所部分だけをrank-independentな前提として利用している。**全体定理を無条件に昇格しない**。
 - **R3 row369→S322:** 使用する六次式P,QについてGitHub原著の係数から **Q(u)=P(-1-u)** の恒等式を確認（差が０、終結式−2²⁴×13）。この代数一致のみ確認済み。元sourceの全依存の数学監査ではない。
