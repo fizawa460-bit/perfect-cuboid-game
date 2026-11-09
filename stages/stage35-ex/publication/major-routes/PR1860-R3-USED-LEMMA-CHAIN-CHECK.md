@@ -32,9 +32,15 @@
 
 **C35-08を新たな未収載「必須数学原著」として重複計上しない理由：** 別の[Drive C35-08著者原稿](https://docs.google.com/document/d/1m6OYk1ldDpAXUZM299UdL2Oxw51GunQGna2nvKP1_DY/edit)は実在し、当時`GLOBAL_C3_RATIONAL_POINTS...HOLD`と記載する。一方、後の**[C35-12のGitHub数学原著](../../materials/original-source-exclusions/parents/C35-12/PROOF.md)**には４残余円盤の位相・局所Coleman積分の基点、誤差・無限尾、mod243の共通零点不存在、`C3'(\mathbf Q)`分類が**詳細に再導出**されている。C35-08の元検証器もGitHub [Coleman保存群](../../materials/original-source-exclusions/parents/C35-11-12/coleman/README.txt)にある。したがってこの**固定曲線の点分類命題**に対する原数学本文は既収載C35-12で足りるという**本文レベルの重複判定**であり、原計算の独立再演がPASSしたという意味ではない。
 
-## 4. 最古の元物理source：標識の向きを勝手に同一視しない
+## 4. 最古の元物理source：A偶・B奇の有理パラメータ接続は解決（2026-11-09訂正）
 
-[初期E3選択物理原著](proofs/earliest-foundations/E3-selected-physical-kummer.md)§1は`A=t²−1,B=2t,C=t²+1`という**選択した対角・標識チャート**を使用する。既存の[R3±18原著R1-239](../../materials/selmer18-parent-chain/objects/91c82ae590d162c6-R1_239_SOURCE_ADAPTER.txt)は、旧S264でB偶を除いた後、**A偶・B奇**の原始Euclid`A=2uv,B=u²−v²,C=u²+v²`を対象にする。原始整数化したE3チャートはB偶向きになるので、**二者のラベルを入れ替える写像とsigned楕円軌道の可換性を、証明なしで宣言しない**。両者は同じPythagorean関係でも、`E:y²=x(x−A²)(x+C²)`,`P=(AC,ABC)`におけるA/Bの役割が変わる。
+前回「E3はB偶チャートなので±18のA偶B奇と不一致、A/B標識を交換する橋が必要」と記したのは、**E3のtを整数と誤解したため**。実際には[S193 §§Outcome/Direct source](proofs/active-ancestors/S193.md)は**rational t>1**を用いる。
+
+任意の正のlabelled primitive三つ組に`τ=(C+A)/B>1`, `λ=B²/[2(C+A)]`を適用すれば、`(A,B,C)=λ(τ²−1,2τ,τ²+1)`、`a=A/C,b=B/C`。R1-239の生き残る`A=2uv,B=u²−v²,C=u²+v²`,`t_R1=u/v`には`τ=(t_R1+1)/(t_R1−1)`が対応し、`z=(B²/AC)²=(b²/a)²`、row339の`X=1/z`まで一致する。**label swapは行わない**。
+
+正規化`E₀:y²=x(x−a²)(x+1)`から`(x,y)↦(C²x,C³y)`は同型で、`P3=(a,ab)↦P=(AC,ABC)`、`T0↦T0`、全signed `T0+2nP3↦T0+2nP`を保存。S193はselected physical `Qphys=(-r₀²,+r₀p₀q₀)`を負に取り`Qn=(-r²,−rpq)`へ移すが、これは整数指数の符号を`j→−j`とするだけ。さらにS231の`Q=(ρ,(r+s)ρ),Qsharp=(-ρ,(s−r)ρ),ρ=rs+pq`から弦の傾き`s`を使い`Q−Qsharp=(-r²,-rpq)`を直接再導出できる。
+
+**厳密な式・算術チェック・原著所在：** [E3 label/indexed bridge独立監査](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)。`LABELLED_ORIENTATION=RESOLVED`、`EXACT_CURVE_AND_POINT_SCALING=RESOLVED`。ただし**selected physical４平方だけで**`Qn∈T0+2\mathbf ZP`とはいえない。S193第一枝等の元の**部分群条件**と、全Stage35→inner indexed BranchBの**大域網羅**は引き続き別のOPENゲート。
 
 [S231](proofs/active-ancestors/S231.md)と[S263](../../materials/original-source-exclusions/parents/S263.md)、[S268](proofs/C195-upstream/S268.md)、[C195](proofs/C195-canonical-source.md)には一般の正の**labelled** baseと実際のindexed点を前提にした数学がある。これは元source**必要条件の内部計算**を支えるが、**すべてのStage35物理解が同一のprimitive labelled indexed orbitに送り込まれる**という別のグローバルforward命題を再監査したことにはならない。ここを`GLOBAL_SOURCE_FORWARD_ADAPTER_OPEN`として固定する。
 
