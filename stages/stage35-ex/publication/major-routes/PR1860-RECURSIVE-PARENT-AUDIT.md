@@ -81,7 +81,9 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 [有理パラメータ・群法則・`z,X`の直接証明](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)を新規作成。以前の「E3の`B=2t`は整数のB偶しか含まず、R1-239のA偶B奇と食い違う」という判定を**取消**。整数でない有理`t`と縮尺`λ`が許されるため、全positive labelled primitiveが同じa,bで表現される。R1原著とE3原著で変数名`t`が異なる点は`τ=(t+1)/(t−1)`で解決。**最古`source`のラベル不一致という不足原著はなし**。
 
-未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、最初のStage35全物理候補がindexed Branch Bを網羅する証明が完結したわけではない。ここは`GLOBAL_SOURCE_TO_INDEXED_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
+加えて[35EX-21の正の有理完全直方体面](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md)では、辺`(1,x,y)`から`A=1,B=z,C=w,r=x,s=y,p0=p,q0=q`として**最古E3の物理４平方へ直接写せる**。[35EX-31原始source marking](../../35ex-31/primitive-source-marking-endpoint-equivalence.md)§§5,7が同じ正の完全直方体座標と原始Euclid sourceのスケール・辺順序を復元する。これにより**全正の完全直方体→selected物理４平方の数学的座標橋も解決**、新しい原著は不要。
+
+未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
 ## 次に調べる対象（このPRが終わるまで開いておく）
 
