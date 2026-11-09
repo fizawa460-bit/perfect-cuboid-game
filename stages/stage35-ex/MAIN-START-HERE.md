@@ -1,3 +1,6 @@
+> **2026-11-10 owner-authorized R3-07 resumption.**
+> Continue only the same signed −30 / row393 route documented in [the resume record](research/r3-row393-resume-20261110/README.md). This unreviewed delta does not promote formal V74 authority or revive unrelated historical NEXT items. The publication-only pause below is historical.
+
 > **2026-11-08 owner instruction — publication work only.**
 > Research is paused after the Google Drive R3 row393 snapshot. Do not execute a mathematical NEXT (including older Goal4AL/CG or row394+) until an explicit user resumption instruction.
 > [99-ID publication catalogue](publication/README.md) records routes, materials and audit scope. This metadata import adds no mathematical credit and does not change the formal V74 authority in `MAIN-STATE.json`.
@@ -87,3 +90,4 @@ Open the smallest relevant source, export the needed fact into a compact Stage35
 - Before research-credit promotion or hostile audit, follow the repo-wide research-credit trigger in `AGENTS.md`.
 - Hostile audit is required before any promotion out of Stage35-EX.
 - At batch end, promote exact state only into `MAIN-STATE.json`; keep unpromoted transient delta only in `MAIN-BATCH-HANDOFF.md`.
+

@@ -1,3 +1,6 @@
+> **2026-11-10 R3-07 resumed by explicit user instruction.**
+> [Unreviewed row393 successor evidence](research/r3-row393-resume-20261110/README.md): one new principal relation; formal residual181 unchanged; P827 unresolved; no unconditional exclusion. Next: relations detected by the retained dual certificate, or unconditional class-group generation / alternative rank bound. The old publication-only pause below is historical; V74 authority is unchanged.
+
 > **2026-11-08 current work: publication inventory; mathematics paused at R3 row393.**
 > Use the [99-ID catalogue](publication/README.md) for the imported route/material inventory. The older integration narrative and mathematical NEXT below are retained as history, not as permission to resume research. Formal V74 authority is unchanged.
 
@@ -163,3 +166,4 @@ perfect_cuboid_nonexistence_claim=false
 ```
 
 PR #1771 must remain unmerged until its rewritten current-main exact head has green aggregate/lifecycle CI and a hostile freshness PASS anchored to that exact head.
+
