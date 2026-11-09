@@ -28,9 +28,41 @@ Selected positive four-square source → [E3 physical](proofs/earliest-foundatio
 
 R3 terminus: [R3-07 chain](PR1854-R3-07-CHAIN.md) → [row393](../../materials/classgroup-and-different/proofs/row393.md). −30 unconditional exclusion, complete LOW and Branch B remain OPEN. R2 terminus: [S270](proofs/foundations/S270.md), C160/C175/C185 and 155/197 → [C189](proofs/active-ancestors/C189.md) in [R2-01 chain](PR1854-R2-01-CHAIN.md). The correlated strict upper <75% remains OPEN.
 
+## Equation-level crosswalk: existing 35EX-21 surface to the selected E3 physical packet
+
+This is an **exact substitution of equations already printed in the older originals**, not a newly admitted theorem, primitive-label transfer, or converse to all Stage35 cases.
+
+[35EX-21](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md) has positive rational points with
+```text
+P_x^2=1+x^2,  P_y^2=1+y^2,
+z^2=x^2+y^2,  w^2=1+x^2+y^2.
+```
+Thus `1+z^2=w^2`. Choose a positive rational common scale `A` so `(A,B,C)=A(1,z,w)` is a **primitive positive integer** Pythagorean triple (hence `C` odd). Set
+```text
+r=A*x, s=A*y, p=A*P_x, q=A*P_y, B=A*z, C=A*w.
+```
+The displayed 35EX-21 equations give, with no appeal to the generic Mordell–Weil rank,
+```text
+r^2+s^2=B^2,
+p^2=A^2+r^2,
+q^2=A^2+s^2=C^2-r^2.
+```
+Since `s^2=B^2-r^2`, these are exactly the **unindexed selected four-root equations** used in the [E3 physical/Kummer original](proofs/earliest-foundations/E3-selected-physical-kummer.md) and [S231, §0](proofs/active-ancestors/S231.md), after dividing all lengths by `C` and writing `alpha=A^2/C^2`, `beta=B^2/C^2`. Indeed
+```text
+rho=r/C, sigma=s/C, pi=p/C, kappa=q/C,
+pi^2=alpha+rho^2, sigma^2=beta-rho^2, kappa^2=1-rho^2.
+u=-rho^2, v=+rho*pi*kappa:
+v^2=u(u-alpha)(u+1).
+```
+The opposite sign `v=-rho*pi*kappa` is the signed sheet required when the **actual** Ward point is stipulated to have negative `Y`; it is **not** a deduction of the Ward index. Conversely, any positive rational `(A,B,C,r,s,p,q)` satisfying these physical equations maps back to the stated 35EX-21 positive surface equations by division by `A`.
+
+**Boundary, not swept under the algebra:** 35EX-21's named genus-5 fibration fixes its *first source conic* `(x,P_x)`, while the E3 physical presentation fixes the diagonal triangle `(A,B,C)`. Both sets of equations sit on the same rational cuboid surface, but these are **different choices of fibration**, and the displayed substitution does not identify their rational fibers as the same named fiber. [35EX-31](../../35ex-31/primitive-source-marking-endpoint-equivalence.md) controls additional primitive two-source marking and edge-permutation gauges. The exact correspondence of that marking to the SAME labelled E3 original packet, the specialized `D_n=T0+2nP` with signed `|n|>=3`, the required `Q/Qsharp` and infinite class, and the conditional generic/specialization transfer remains **UNVERIFIED**. In particular, the `Q(t)` generic rank-one theorem cannot be promoted to every rational specialization.
+
+**Status:** `EQUATION_LEVEL_POSITIVE_PHYSICAL_SOURCE_CROSSWALK=CHECKED_BY_SUBSTITUTION`; `CANONICAL_MARKING_AND_SIGNED_WARD_ORBIT_TRANSFER=UNVERIFIED`; `MATHEMATICAL_PARENT_CLOSURE=NOT_CERTIFIED`. This does not extend research beyond row393 or change theorem credit.
+
 ## Older mathematical GitHub material and still unverified exact bridge
 
-GitHub already contains [35EX-21 normalized surface/genus5 fibration](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md) and [35EX-31 primitive source marking](../../35ex-31/primitive-source-marking-endpoint-equivalence.md). **Those are earlier primary math files but not yet certified as the exact model/quantifier bridge into the selected E3 physical source used by R3/R2.** Matching the genus is insufficient. The older Stage35 selected-fiber/cuboid → exact E3 selected diagonal original population bridge is **MATCH_UNVERIFIED**, so no claim of ultimate earliest-source closure.
+GitHub already contains [35EX-21 normalized surface/genus5 fibration](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md) and [35EX-31 primitive source marking](../../35ex-31/primitive-source-marking-endpoint-equivalence.md). **These are earlier primary mathematical files; their positive rational surface equations now have the explicit substitution above into the E3 physical square package.** That formula-level match does **not** certify canonical source marking, specific selected-fiber identity, sign, signed Ward index, or the full specialized physical population. Their exact marked/orbit/quantifier transfer remains **MATCH_UNVERIFIED**, so no claim of ultimate earliest-source closure.
 
 Further open: S250 within S251 equivalence; C160→C185 exact transport; external Bérczes Thm2.1(i) (S252); external de la Maza theorem (row393); generic vs specialized E3 transfer and Section13/16 correction; computational replay and source layout; necessity of individual older finite-odd branches. [C124](https://docs.google.com/document/d/1VLG7UBzuh07DIkkzsO5iL3kseCnCBtgMSSiE3lpu5fU/edit) / [C193](https://drive.google.com/file/d/1D8QNpX2k-O36w76ZoTqbVDdUFJClNnLj/view) / C192 are **NOT_AUTOMATIC_REQUIRED_MATH_PARENTS** and were not bulk uploaded.
 
