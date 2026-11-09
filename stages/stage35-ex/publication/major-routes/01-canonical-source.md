@@ -58,3 +58,5 @@ C195はR1-223の訂正を取り消していない。任意のM,N、normだけの
 [C196〜C200後続原証明の論理的連鎖とC197 NEXT失効の限定レビュー](C196-C200-DEPENDENCY-REVIEW.md)。資料間の条件対応は確認したが、個別のisogeny/height/source-coverの数学的独立監査ではない。
 
 [親C195の倍算二恒等式・役割p付値・高さ係数の限定独立検算](MAJOR-PARENT-MATH-PAPER-CHECK.md)。S237の全formal depthとC174の一様高さ入力、S289/S290の全数学的適用はまだ独立再監査していない。
+
+[S231物理分母→S232全分母素数→S243四根→S251–267のTRUE TOP前提に至る原数学的前提リンク](ACTIVE-ANCESTOR-DEPENDENCY-MAP.md)。全員が同じsigned original source上の条件付き必要命題であり、新たな原始点実在やBranch B排除は主張しない。

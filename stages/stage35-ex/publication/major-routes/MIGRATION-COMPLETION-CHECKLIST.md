@@ -68,4 +68,10 @@
 
 [移植本文の忠実性レビュー](NATIVE-DOCS-FIDELITY-REVIEW.md) · [親数学の限定再検算](MAJOR-PARENT-MATH-PAPER-CHECK.md) · [row393引用定理未確認ゲート](ROW393-PRIMARY-THEOREM-GATE.md)
 
-[現行証明鎖の必要件数・既収載55＋親7・未対応13候補](ACTIVE-PROOF-SPINE-COVERAGE.md)
+[現行証明鎖の旧棚卸し（未対応13は追補で収載）](ACTIVE-PROOF-SPINE-COVERAGE.md)
+
+## 続きの移植（2026-11-09）
+
+[初期13候補＋さらに11親資料＝24件をGitHubへ実収載](ACTIVE-ANCESTOR-DEPENDENCY-MAP.md)し、[独立の出典SHA・親参照グラフ](ACTIVE-ANCESTOR-SOURCE-MAP.json)を作成。S243のネイティブ表12セルをMarkdown表に復元。S255の旧CURRENTは[S255-current](proofs/active-ancestors/S255-current.md)に保管し、[数学CARD](proofs/active-ancestors/S255.md)へ本文リンクを修正。
+
+**次の不足**：S194/195/196、S213/218、S228/229、S235、C160/S275/S318の使用命題を先に確認する。S230/S242/S250は監査・固定基底・重複の可能性を分類。外部のS252 superelliptic定理とrow393 de la Maza定理の適用原典はPENDING。24原著の数学的計算コードと期待データのGitHub内最小再現性はまだ未完了。全体完了率・最終必要数は未確定。

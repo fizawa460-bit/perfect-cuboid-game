@@ -1,6 +1,6 @@
 # 2. MID/HIGH — 真正四TOPの下界と、未証明の相関上界
 
-所有ルート：[R2-01](../routes/R2-01.md)、横断[R5-K05](../routes/R5-K05.md)・[K06](../routes/R5-K06.md)。[155/197原著証明](proofs/R2-uniform-thresholds.md)と、後日の[C189採否本文](https://docs.google.com/document/d/10MNKZS2aWJ6rZVi1YxgIliuX9kxIJAPlY3EWwhf5d48/edit)を合わせて読む。原著のC187時点PENDINGは、C189のACCEPT_DEPENDENT_UNIFORM_THRESHOLD_EXTENSIONより前の履歴である。
+所有ルート：[R2-01](../routes/R2-01.md)、横断[R5-K05](../routes/R5-K05.md)・[K06](../routes/R5-K06.md)。[155/197原著証明](proofs/R2-uniform-thresholds.md)と、後日の[C189採否本文](proofs/active-ancestors/C189.md)を合わせて読む。原著のC187時点PENDINGは、C189のACCEPT_DEPENDENT_UNIFORM_THRESHOLD_EXTENSIONより前の履歴である。
 
 ## 対象と下界の意味
 
@@ -76,3 +76,5 @@ C189のR0採否は内部の従属採択として記録する。155/197の有限F
 [補助監査：S270のTRUE四TOPとC189採択155/197の対応](S270-C189-SCOPE-CROSSCHECK.md)。S270のbase-dependent N4/N1を155/197へ同一視しない。すべて**下界**であり、相関**上界**とBranch B排除は未証。
 
 [R2のQ4(154/155), Q1(196/197)の有理端点の独立再計算結果](MAJOR-PARENT-MATH-PAPER-CHECK.md)。主張全体の独立監査ではない。
+
+[今回GitHub化したS232/S243/S251–262/S265–267とC175/C185/C189の直接親補題・採否の図](ACTIVE-ANCESTOR-DEPENDENCY-MAP.md)。[C175](proofs/active-ancestors/C175.md)は旧高さ係数のR0統合、[C185](proofs/active-ancestors/C185.md)はdependent protected係数、[C189](proofs/active-ancestors/C189.md)は155/197の従属採否。TRUE TOPとPROPER ordinary βの共通original sourceの数理親証明は依存継続、相関上界は未証。
