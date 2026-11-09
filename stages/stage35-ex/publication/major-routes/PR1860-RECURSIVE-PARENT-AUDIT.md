@@ -67,6 +67,16 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 - **R3 row369→S322:** 使用する六次式P,QについてGitHub原著の係数から **Q(u)=P(-1-u)** の恒等式を確認（差が０、終結式−2²⁴×13）。この代数一致のみ確認済み。元sourceの全依存の数学監査ではない。
 - **R2 S275→S271〜274:** S275の全指数canonical factorization §2はS243からの積・gcdで本文内に計算を示す。S273/274のtwist構造は§4のNO-GO説明に参照されるが、C187の155/197 lowerを得るには§2/§3の部分が主に使用される。旧側枝の要否を決める際は**命題単位**で扱い、S275の全記述の自己完結を自動認定しない。
 
+## 今回の新しい命題単位監査（既存原著の再使用、重複収載なし）
+
+- **[R3-07 ±18／Ward3・5・7／最古の標識チャート](PR1860-R3-USED-LEMMA-CHAIN-CHECK.md)**：row350がrow346〜349の**実際の数式**、row364がrow353/355・row363の真正局所／全球入力、row367がrow364/365/366の２進障害を使用することを照合。row368→S321 W5＋C118 `\mathcal X(\mathbb Q)`、row369→S321 W7＋S322 K/L＋C35-12 `C3'(\mathbb Q)`も元の同じbaseからの有理点写像を確認。
+- **R3の偽の追加不足を排除**：row346〜349/356〜360の９本は、すでに#1860の差分に存在し、前の読み戻しでそのうち346〜349のDrive本文一致も確認済み。**新規９件アップロードしない**。C35-08の[Drive原著](https://docs.google.com/document/d/1m6OYk1ldDpAXUZM299UdL2Oxw51GunQGna2nvKP1_DY/edit)は存在するが、C35-12が必要な４円盤Coleman数学を基点・誤差・無限尾込みで再証明するため、**原数学本文の必須欠落と扱わず**計算証書の独立監査を残す。
+- **[R2-01 のfirst-entry → prime-cut → ４protected TOP](PR1860-R2-PRIMECUT-LEMMA-CHAIN-CHECK.md)**：S268 `b_m`、C160 SG.1/SG.2、S258のuncapped critical Hと`T_e`、S275の四canonical因子、S318非critical H top補正、R2 C184原提出→R0 C185採用→C187 155/197 の使用箇所を確認。奇素数逆二乗和の明示有理上界 `0.2048689656588...<41/200` も独立に点検。
+- **最古forwardに残る標識の問題**：[初期E3 selected chart](proofs/earliest-foundations/E3-selected-physical-kummer.md)は`A=t²−1,B=2t`、[元±18のR1-239](../../materials/selmer18-parent-chain/objects/91c82ae590d162c6-R1_239_SOURCE_ADAPTER.txt)はS264の後で**A偶・B奇**の`A=2uv,B=u²−v²`。label swapを根拠なしに同一signed `E,P,D_n`へ持ち上げない。S231/S263/S268/C195の任意labelled base上の**内部必要命題**と、全Stage35物理sourceの**大域forward網羅**を分離する。
+- **対象を拡張しない**：S271〜274、S280、row354は歴史的枝・訂正であり、使用命題が確認されない限り必須数学原著として数えない。外部原典・数値ZIPの独立数学監査も未実施。
+
+**今回新規に保存したのは監査文書２本だけ**。第１周23候補外で発見した原数学本文は引き続き累計**10本**、第１周23候補中のPR #1860収載分は**12本**。新しい不足原著を確定できなかったことは自己完結PASSを意味しない。
+
 ## 次に調べる対象（このPRが終わるまで開いておく）
 
 1. R2 C187→C185/C175→C174/S268/S270/S252 の式と数学親をさらに奥へ辿り、別個の著者原証明を探す。
