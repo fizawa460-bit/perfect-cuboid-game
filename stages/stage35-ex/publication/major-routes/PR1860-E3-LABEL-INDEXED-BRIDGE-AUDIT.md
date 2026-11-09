@@ -99,6 +99,9 @@ y(Q−Qsharp)=−(r+s)ρ+m(ρ+r²)=−r(ρ−rs)=−rpq.
 
 ## 5. 35EX-21／35EX-31の正の完全直方体座標からselected E3の４平方まで
 
+**重複・新規性判定（重要）**：positive `S_PC`からE3のselected４平方への置換自体は、すでに[PR1854最古原著接続整理・Equation-level crosswalk](PR1854-EARLIEST-MATH-FOUNDATIONS.md)に書かれている**既知成果**。本回の差分は、E3のパラメータが有理数であることを使いR1-239の`A偶B奇`との**誤判定を解消**し、`τ=(t+1)/(t−1)`、元楕円`P,T0`のスケール、`Q−Qsharp`とsigned点の符号を同じ条件で再点検し、未解決ゲートを**indexed subgroupへの所属**に絞った点。既知置換を新定理として登録しない。
+
+
 [35EX-21原著](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md)§§1–2の**正の有理完全直方体面**`S_PC`では、辺`(1,x,y)`、面対角線`(p,q,z)`、立体対角線`w`は
 ```
 p²=1+x², q²=1+y², z²=x²+y², w²=1+x²+y²;
