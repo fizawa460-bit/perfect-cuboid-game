@@ -1,8 +1,9 @@
 # E11 — Problem W at slack 0: étale covers of the Bolza curve, the link to E07, and bidegrees (2, 2), (2, 3), (3, 3) (2026-11-03)
 
 Status: research note, **reading audit round 1 (2026-11-07, two auditors): Lemmas 1–3, the search reductions and the
-search sizes PASS; the exclusions of §4 and §4b are numerically verified, not exactly certified (revision 2, §8)**,
-zero credit.
+search sizes PASS; the exclusions of §4 and §4b were numerically verified (revision 2, §8). Revision 3 (2026-11-09,
+§9): exact certificates for §4 and §4b (exact number-field arithmetic for (2, 2); finite-field exhaustion with a
+characteristic-zero lifting argument for (2, 3), (3, 3)), re-run locally; not yet independently audited**, zero credit.
 
 - It builds on E10 (audit round 2 PASS), whose §5 states that Problem W is a finite search exactly at slack 0.
 - It gives three things:
@@ -80,7 +81,7 @@ The cusps are the 24 singular fixed points of G (E07 §0). Their images in R for
 - By E07, a slack-0 solution with Ω ⊆ P₁ ∩ P₂ and P₁ = P₂ is one of the 80 curves of E04, so ε = 0.
 - A slack-0 MB104 carrier therefore has an Ω-point outside P₁ ∩ P₂ (interior ramification of a leg), or P₁ ≠ P₂ (one-sided cusp contact).
 
-## 4. Bidegree (2, 2) with both slacks 0 (numerically verified)
+## 4. Bidegree (2, 2) with both slacks 0 (numerically verified; exactly certified in §9)
 
 **Proposition (numerically verified; exact certification pending).** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 2) with s₁ = s₂ = 0 and |Ω| ≤ 4.
 
@@ -115,7 +116,7 @@ This uses the necessary conditions of E10 §2: |Ω| = 4 for g = 1 and δ ≥ 2; 
   of the computed points against their exact algebraic values are not bounded rigorously, and the root lists and local
   multiplicities that define O_i are also obtained numerically.
 
-## 4b. Bidegrees (2, 3) and (3, 3) with both slacks 0 (numerically verified)
+## 4b. Bidegrees (2, 3) and (3, 3) with both slacks 0 (numerically verified; exactly certified in §9)
 
 **Proposition (numerically verified; exact certification pending).** There is no k = 8, γ = 0 configuration (g ≤ 1) whose co-image W has bidegree (2, 3), (3, 2) or (3, 3) with s₁ = s₂ = 0 and |Ω| ≤ 4.
 
@@ -210,3 +211,23 @@ python -I -O stages/stage32/32-03-multibranch/MB104/route-E/slack0/e11_slack0_sm
   3. non-coincidences by certified enclosures (disjoint balls), so that every rejected T has certified |Ω| ≥ 5;
   4. for every accepted configuration, the identity p₂ = M∘p₁ (or q_j∘T invariant under t ↦ −t) proved exactly
      (E11-3).
+
+## 9. Exact certification (revision 3, 2026-11-09)
+
+Files: `slack0/exact-20261109/` (README there). Computed by ChatGPT on the user's request, re-run locally by Claude
+with identical results; the characteristic-zero argument was read by Claude. Not independently audited.
+
+- **(2, 2)** (`w22/`): the 15 degree-2 maps; all odd points in K = Q(√2, √(−1+i)), [K : Q] = 8; every coincidence
+  decided exactly in K. All |Ω| ≤ 4 configurations have a relative Möbius map commuting with t ↦ −t (diagonal or
+  antidiagonal), hence are non-birational. This answers certification items 2–4 of §8 for §4.
+- **Degree-3 maps** (`w22/degree3_enumeration.py`): every slack-0 cubic is N⁻¹∘F_k with
+  F_k(t) = t²((2k − 1)t + 2 − 3k)/(t − k) and H_z(k) = k(3k − 2)³ − z(2k − 1) = 0; for all 15 value sets H_z has degree
+  4, simple roots and no spurious root; 60 maps. This answers item 1.
+- **(2, 3), (3, 3)** (`w23_33/`, PROOF.md): at p = 874009 all 75 covers and their odd points split with distinct
+  simple reductions (disc_k H_z = −2⁴3⁹z²(z − 1)²). The three-point alignment over F_p is exhaustive (j ≥ 6 by
+  O_i \ Ω ⊆ J, E12 Lemma 0), and every characteristic-zero candidate reduces to an F_p-candidate with no larger |Ω|.
+  (2, 3): no candidate. (3, 3): 8,896 candidate occurrences, each of the form q̄∘M̄ = Ū∘f̄ with Ū ∈ Aut(B); the
+  identity lifts to characteristic 0 (Hensel uniqueness of the normal-form parameter and of the marked simple points),
+  so every candidate is non-birational. This answers items 2–4 for §4b without certified root disks.
+- Consequence: **§4 and §4b hold exactly** (subject to an independent audit of the certificate): Problem W has no
+  solution of bidegree (2, 2), (2, 3), (3, 2), (3, 3) with both slacks 0.
