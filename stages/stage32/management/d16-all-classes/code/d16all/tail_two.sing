@@ -1,0 +1,60 @@
+LIB "sing.lib"; LIB "normal.lib"; LIB "primdec.lib";
+"residual: dim", dim(Bp), " hilbPoly", hilbPoly(Bp);
+int dB = mult(Bp); intvec HP = hilbPoly(Bp); int pa = 1 - HP[1];
+"p_a:", pa;
+ring R4 = 10009,(a1,a2,a3,b1,b2,b3,c,u0,u1,u2,u3),dp;
+ideal BX = imap(R, Bp); system("random", 4242);
+poly l0 = 0; poly l1 = 0; poly l2 = 0; poly l3 = 0; int jj;
+for (jj = 1; jj <= 7; jj++) { l0 = l0 + random(1,9999)*var(jj); l1 = l1 + random(1,9999)*var(jj); l2 = l2 + random(1,9999)*var(jj); l3 = l3 + random(1,9999)*var(jj); }
+ideal EX = eliminate(BX + ideal(u0 - l0, u1 - l1, u2 - l2, u3 - l3), a1*a2*a3*b1*b2*b3*c);
+ring P3 = 10009,(u0,u1,u2,u3),dp;
+ideal C3 = std(imap(R4, EX));
+"P3 image: dim", dim(C3), " degree", mult(C3), " hilbPoly", hilbPoly(C3);
+if (mult(C3) != dB) { "FAST: projection not birational"; quit; }
+// 32R-71 v2: no slocus(C3).  Two generic plane projections pi1, pi2 of C3; JP = C3 + pi1^*(Sing f1) + pi2^*(Sing f2)
+// contains Sing(C3) (a singular point of C3 maps to singular points of both birational plane images).
+ring R5 = 10009,(u0,u1,u2,u3,w0,w1,w2),dp;
+ideal CX = imap(P3, C3); system("random", 99);
+poly m0 = 0; poly m1 = 0; poly m2 = 0; poly n0 = 0; poly n1 = 0; poly n2 = 0;
+for (jj = 1; jj <= 4; jj++) { m0 = m0 + random(1,9999)*var(jj); m1 = m1 + random(1,9999)*var(jj); m2 = m2 + random(1,9999)*var(jj); }
+for (jj = 1; jj <= 4; jj++) { n0 = n0 + random(1,9999)*var(jj); n1 = n1 + random(1,9999)*var(jj); n2 = n2 + random(1,9999)*var(jj); }
+ideal FE = eliminate(CX + ideal(w0 - m0, w1 - m1, w2 - m2), u0*u1*u2*u3);
+ideal FE2 = eliminate(CX + ideal(w0 - n0, w1 - n1, w2 - n2), u0*u1*u2*u3);
+ring P2 = 10009,(w0,w1,w2),dp;
+ideal Fp = std(imap(R5, FE)); ideal Fq = std(imap(R5, FE2));
+"plane image: gens", size(Fp), " degree", deg(Fp[1]), "; second:", size(Fq), deg(Fq[1]);
+if (size(Fp) != 1 || deg(Fp[1]) != dB) { "FAST: plane projection not birational"; quit; }
+if (size(Fq) != 1 || deg(Fq[1]) != dB) { "FAST: second plane projection not birational"; quit; }
+ideal JF1 = Fp[1], diff(Fp[1], w0), diff(Fp[1], w1), diff(Fp[1], w2);
+ideal JF2 = Fq[1], diff(Fq[1], w0), diff(Fq[1], w1), diff(Fq[1], w2);
+setring P3;
+map pm = P2, imap(R5, m0), imap(R5, m1), imap(R5, m2); map pn = P2, imap(R5, n0), imap(R5, n1), imap(R5, n2);
+ideal JP = std(C3 + pm(JF1) + pn(JF2));
+"P3 singular superset dim:", dim(JP), " degree", mult(JP);
+if (dim(JP) <= 0) { "SMOOTH: genus = p_a"; "FASTGENUS", pa; quit; }
+if (dim(JP) >= 2) { "FAST: singular superset not finite"; quit; }
+ideal SL = JP;
+setring R5; ideal SX = imap(P3, SL);
+ideal JE = eliminate(SX + ideal(w0 - m0, w1 - m1, w2 - m2), u0*u1*u2*u3);
+setring P2; ideal Jp = std(radical(imap(R5, JE)));
+if (dim(std(Jp + ideal(w0))) > 0) { "FAST: singular point at infinity"; quit; }
+// second projection: delta_space(P) <= delta of each birational plane image at pi(P), so sum <= min of both sums
+setring R5; ideal JE2 = eliminate(SX + ideal(w0 - n0, w1 - n1, w2 - n2), u0*u1*u2*u3);
+setring P2; ideal Jq = std(radical(imap(R5, JE2)));
+if (dim(std(Jq + ideal(w0))) > 0) { "SECOND: singular point at infinity"; }
+else {
+ring A3 = 10009,(x,y),dp; map ph2 = P2, 1, x, y;
+poly f2 = ph2(Fq)[1]; ideal J2 = std(ph2(Jq));
+list PR2 = minAssGTZ(J2); int dt2 = 0; int k2; list DL2;
+for (k2 = 1; k2 <= size(PR2); k2++) { DL2 = deltaLoc(f2, PR2[k2]); dt2 = dt2 + DL2[1]; "second projection point component", k2, " delta", DL2[1]; }
+"second delta sum (upper bound):", dt2; "SECOND GENUS lower bound", pa - dt2;
+setring P2;
+}
+ring A2 = 10009,(x,y),dp;
+map ph = P2, 1, x, y;
+ideal Fa = ph(Fp); poly f = Fa[1]; ideal J = std(ph(Jp));
+list PRX = minAssGTZ(J); int dtotX = 0; int kX; list DLX;
+for (kX = 1; kX <= size(PRX); kX++) { DLX = deltaLoc(f, PRX[kX]); dtotX = dtotX + DLX[1]; "point component", kX, " delta", DLX[1]; }
+"delta sum (upper bound):", dtotX;
+"FASTGENUS lower bound", pa - dtotX;
+quit;
