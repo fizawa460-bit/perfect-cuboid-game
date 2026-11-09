@@ -1,6 +1,6 @@
 # Stage35EX row393：現行数学的証明鎖の依存グラフと親本文（2026-11-09）
 
-**現在の状態：親原著・R0採否文書34件をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
+**現在の状態：初期34件に加え数学的親5件、合計39件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
 
 ## 採用する移植境界
 
@@ -72,7 +72,7 @@ LOW proofs row361..376 + older C181/C183/R5-C212 -> 9 abs / 16 signed
 | S275 | canonical all-index primitive four-root quartic factorization; eta union no-go not saving | [S243](proofs/active-ancestors/S243.md) | [本文](proofs/active-ancestors/S275.md) |
 | S318 | odd-prime exact TOP and noncritical H correction; lower mass conditional | [S268](proofs/C195-upstream/S268.md)、[S269](proofs/C195-upstream/S269.md)、[S270](proofs/foundations/S270.md)、[S275](proofs/active-ancestors/S275.md)、[S267](proofs/active-ancestors/S267.md)、[S258](proofs/active-ancestors/S258.md)、**S316（要照合）** | [本文](proofs/active-ancestors/S318.md) |
 
-## なお残る未対応の親識別子（現時点12）
+## 初期34件時点の未対応の親識別子（当時12：履歴）
 
 **C160、EXTERNAL_BERCZES_THM2_1、EXTERNAL_FERMAT_QUARTIC、S193、S202、S227、S230、S234、S242、S250、S316、SECTION16_NONSQUARE**。
 
@@ -88,3 +88,17 @@ LOW proofs row361..376 + older C181/C183/R5-C212 -> 9 abs / 16 signed
 [従来の中核55本文相当・親7の棚卸し](ACTIVE-PROOF-SPINE-COVERAGE.md)に、今回新規34件の親数学/採否文書を追加。重複、単一著者のまとめカード、採否だけの資料を独立定理数として加算しない。初期13未対応候補は全13原文収載で解消したが、**完全な親鎖と再現コードを含む必要総件数・完了率はまだ確定不可**。これからの公開作業は新しい[出典・直接依存の機械台帳](ACTIVE-ANCESTOR-SOURCE-MAP.json)を参照する。
 
 研究正本R0/運用NEXTは未更新。GitHubのPRだけ編集。[移植完了チェック](MIGRATION-COMPLETION-CHECKLIST.md)
+
+## 2026-11-09 第2波：不足していた数学的親5件を追加
+
+| ID | 実際に継承する範囲 | 直接参照される親（新たな依存候補） | GitHub原著 |
+|---|---|---|---|
+| S193 | scoped original first Branch-B subbranch exclusion, not global Branch B closure | S192, SECTION16_NONSQUARE | [S193](proofs/active-ancestors/S193.md) |
+| S202 | finite-odd q-primary physical component escape reduction; dQ=mP retained only in finite-class setting | S194, S197, S200, S201 | [S202](proofs/active-ancestors/S202.md) |
+| S227 | integral full-chord monic-square denominator lemma, not full physical closure; S231 partially re-proves denominator without relying on this | S197, S223, S225, S226 | [S227](proofs/active-ancestors/S227.md) |
+| S234 | simultaneous quartic roots and two degree-8 genus-9 components; fixed-base finiteness does not close varying-base sources | S232, S233 | [S234](proofs/active-ancestors/S234.md) |
+| S316 | all-base high-index original-source census, not packet or signed-source exclusion; author-side provisional | S252, S270, S291, S308, S312, S313, S314, S315 | [S316](proofs/active-ancestors/S316.md) |
+
+**最新の未対応候補は20識別子（単純な不足定理数ではない）：** `C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S192`、`S197`、`S200`、`S201`、`S223`、`S225`、`S226`、`S230`、`S242`、`S250`、`S291`、`S308`、`S312`、`S313`、`S314`、`S315`、`SECTION16_NONSQUARE`。今回S193/S202/S227/S234/S316の原文を取り込んだため、旧12識別子のうち5件は本文として解消。ただしS192/S197/S200/S201/S223/S225/S226/S291/S308/S312/S313/S314/S315など、これらの本文から新しい上流の確認対象が生じた。既存GitHubにある別名の等価証明を優先照合し、重複は移植しない。S231はS227への依存を一部縮小するが、S228/229が用いる厳密chordの使用範囲を確認する。S234はFaltingsによる**固定基底**の有限性で、全基底の無根拠な排除に使わない。S316は著者側の暫定条件付き高指数censusで、全物理解排除ではない。S202の`dQ=mP`はfinite-odd packet限定。
+
+今回5件のGitHub本文保存は独立数学監査・計算再実行ではない。外部Bérczes、古典quartic、row393 de la Mazaの原典ゲートは未解決。S193/S202/S227/S234/S316で引用する最小計算証書も個別に未照合。研究row393停止、Branch B等OPEN、PR draft未マージ。
