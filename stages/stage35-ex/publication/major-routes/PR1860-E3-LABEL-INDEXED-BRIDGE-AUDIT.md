@@ -127,6 +127,8 @@ E3原著の`t>1`は有理数。例えば上記の`A=1,B=z,C=w`では`τ=(w+1)/z>
 
 **解消した範囲**：`35EX-21 positive S_PC ↔ E3 selected positive four squares`および`35EX-31 primitive marking ↔ positive S_PC`の**物理座標・標識の橋**。ここでやったのは原著の式の直接組合せで、新たな完全直方体不存在や数学独立監査PASSではない。
 
+**【分岐スコープ補正・2026-11-09】** [S194の最新数学証明](proofs/active-ancestors/S194.md)と[最古Branch B§15 torsion元原著](proofs/earliest-foundations/BranchB-Section15-torsion.md)を突き合わせた結果、`Qn∈T0+2\mathbf ZP`は元inner indexed Branch Bの**定義条件**であり、条件付きのR2 C187／R3固定n原著の直接の不足数学親と扱わない。元全物理点に関するStage35全体の外側分岐網羅は別のOPEN研究ゲート。[原証明分岐監査](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)。
+
 **未解消で残る核心**：selected positive physical packetは`Qn=(-r²,-rpq)`という有理点を与えるが、一般には`Qn∈T0+2\mathbf Z P`を**主張しない**。最古selected physicalからS193のgeneric-image-multiple第一枝、S194の有限奇数障害、無限class／rank-growthをどう排他的・網羅的に分け、R2/R3が実際に扱うinner indexed BranchBがどの範囲を覆うかは別の命題。ここを閉じていないため、Stage35・Branch B全体はOPEN。
 
 ## 6. source→R3／R2との関係と厳密な未閉鎖境界
