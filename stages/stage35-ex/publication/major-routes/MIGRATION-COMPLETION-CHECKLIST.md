@@ -1,6 +1,6 @@
 # Stage35EX 主要成果の移植完了要件と未完了チェック
 
-**判定：PARTIAL / NOT_COMPLETE（2026-11-09、PR #1854 draft）。** 主要6まとまりの説明、既存5詳細資料群、既存3中央原証明に加え、Google Driveから重要原証明20本を新たに保存した。全99管理ID本文、深い親証書、途中版、生ログの全数複製は**完了要件から除外**する。
+**判定：PARTIAL / NOT_COMPLETE（2026-11-09、PR #1854 draft）。** 主要6まとまりの説明、既存5詳細資料群、既存3中央原証明に加え、Google Driveから重要な原証明・訂正・履歴テキスト24本を新たに保存した。全99管理ID本文、深い親証書、途中版、生ログの全数複製は**完了要件から除外**する。
 
 ## 移植完了の定義
 
@@ -11,7 +11,7 @@
 5. C196〜C200を現行C195の条件と接続し、弱い補助曲線から実際のsigned元点への無根拠な推論をしない。
 6. 収載元ID→GitHub本文→依存先が検証でき、レビュー後に初めて移植完了を宣言する。正式研究採択・数学的独立監査とは別。
 
-## 今回の実移植20本
+## 今回の実移植24本
 
 | 証明 | 支える部分 | GitHub原著テキスト | 現時点 |
 |---|---|---|---|
@@ -38,22 +38,29 @@
 
 原文は歴史的状態のまま残す。raw/Docs抽出の出典・blob SHAは[PRIMARY-SOURCE-MAP.json](PRIMARY-SOURCE-MAP.json)。新しい数学的除外や敵対的監査は生じない。
 
+| C183 | R0 C183、signed +12従属採択 | [原文](proofs/foundations/C183.md) | CORRECTED_FORMULA_CONTROLS |
+| R5-C220 | signed +12 HIGHの元証明 | [歴史的原文](proofs/foundations/R5-C220.md) | ERRATUM_REQUIRED |
+| R5-C224-erratum | C220の正規化曲線のX欠落を訂正 | [訂正文](proofs/foundations/R5-C224-erratum.md) | AUTHOR_CORRECTION |
+| R5-P112 | 旧三マスクの有限指数再bin | [歴史的報告](proofs/foundations/R5-P112-rebin.md) | COUNTS_HISTORICAL_ONLY |
+
+[旧P112のLOW36/MID9から現行LOW9絶対/16 signedへの集合差の独立再計算](P112-RESIDUAL-RECONCILIATION.md)は完了し、[標準Python検算](tools/verify_p112_residual.py)を保存した。これは整数集合の照合であって、親マスクの数学的独立監査ではない。
+
 ## ルート別の論理的残作業
 
 | 主要区分 | 既収載の証拠・今回の追加 | なお必要な照合 |
 |---|---|---|
 | 元Ward/canonical source | C195と直接前提11本 | C195の再構成とS268/S269/C174/S289/S290の旧主張を条件まで照合。旧C174高さの親証書を勝手に再検証済みとしない |
 | MID/HIGH | R2の155/197原文、C189採否のリンク、S270本文 | TRUE四GOOD、actual-critical-H、全PROPER ordinary β、旧C185前提と現行C189の採択範囲を突合 |
-| LOW | row367/368/369/376の証明・監査とC181/R5-C212/S264本文 | **P112残表を三資料＋最新LOW9絶対/16 signedから具体的に再構成・検証**。未作成の表を済み扱いしない |
+| LOW | row367/368/369/376の証明・監査とC181/R5-C212/S264本文 | **P112集合差の再構成は完了**。上記の独立整数再binとR0 C183＋C220/C224の符号補正を参照。親マスクの全称数学証明は依存を保持 |
 | −30 | row381, row385〜393の原文・監査・証拠 | row393のde la Maza原典定理照合がPENDING、Cl/2全尽生成は未証。指数−30はOPEN |
 | 逆写像・幾何 | C241とC194、C196〜C200全本文 | exact actual signed POINTとPrym/dual4の適用範囲および失効したNEXTを精査 |
 | 横断ルート | 99管理ID索引と5資料群 | original indexed vs wide vs physical、formal adoptionと仮採択・条件付きの区別を点検 |
 
 ## 移植完了を宣言する前のゲート
 
-- P112残表の出典・推論を本文に明文化し、LOW表と矛盾がないこと。
+- P112の独立整数再binは完了。残る検査は元マスクの正確な適用条件・歴史的採否を全経路で照合すること。
 - C195とC196〜C200の依存条件の対応、S270とC189/R2の正確な定義の照合。
-- GitHubに残した20本文の改行・数式・表の抽出漏れ確認と経路リンクの実在チェック。
+- GitHubに残した24本文の改行・数式・表の抽出漏れ確認と経路リンクの実在チェック。
 - 研究はrow393で停止、Branch B/Stage35/E1/無条件−30/全LOWはOPEN。row393 SOURCE_THEOREM_VERIFICATION_PENDINGのまま。99ID索引は全99原文の収載を意味しない。
 - PR #1854はdraft/open、mainへはマージしない。新しいPRも作らない。
 

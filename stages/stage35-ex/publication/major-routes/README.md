@@ -11,12 +11,14 @@
 | [5. 逆写像・補助幾何・局所法の障壁](05-geometry-local.md) | 原始ρの厳密逆判定、固定曲線の成果、有限局所検査の限界 | 元の同じ点への写像と大域的な空性 |
 | [6. 横断ルートの対象と量化子](06-cross-lane.md) | P23分担、固定指数の有限性、indexedとwideの区別 | 全域閉鎖に必要な命題のままOPEN |
 
-各本文は元の証明・監査・管理索引へ直接つながる。中央原証明C195・R2の155/197・C241の3件に加え、直接前提11件、S270/C181/R5-C212/S264/C196〜C200の20件を追加保存した（主要原証明計23件）。原著本文には当時のPENDINGやNEXTも残るため、現在の成立条件・訂正・監査範囲は上の整理本文を先に読む。[出典対応](SOURCES.json)は取得方式・原資料の更新日時・本文ハッシュを記録する。native Docsからの論理的テキスト抽出と、元ZIPのバイトを混同しない。
+各本文は元の証明・監査・管理索引へ直接つながる。中央原証明C195・R2の155/197・C241の3件に加え、直接前提11件、S270/C181/R5-C212/S264/C196〜C200の20件に、C183/R5-C220/R5-C224訂正/R5-P112の4件を追加保存した（追加の資料本文24件、うち追加の原証明22件・訂正/履歴資料2件。旧中央3件と合わせ主要原証明25件）。原著本文には当時のPENDINGやNEXTも残るため、現在の成立条件・訂正・監査範囲は上の整理本文を先に読む。[出典対応](SOURCES.json)は取得方式・原資料の更新日時・本文ハッシュを記録する。native Docsからの論理的テキスト抽出と、元ZIPのバイトを混同しない。
 
 研究はrow393で停止。無条件−30・全LOW・Branch BはOPENで、row393はSOURCE_THEOREM_VERIFICATION_PENDING。今回の公開整理は新研究・新規独立監査・正式採択ではない。正式V74のMAIN-STATEは別の保持された権威であり変更しない。
 
-[C195の11直接前提の原証明](C195-DEPENDENCIES.md)は取得・収載済み。ただし[完了チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md)に残るP112、S270、C196〜C200の論理対応照合と原文表示点検は未了。以前の移植完了表示は訂正する。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
+[C195の11直接前提の原証明](C195-DEPENDENCIES.md)は取得・収載済み。ただし[完了チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md)に残るP112の整数集合差の再構成は済んだが、S270/C189、C196〜C200の論理対応照合と原文表示点検は未了。以前の移植完了表示は訂正する。今回の点検は公開内容の転記・案内・条件表示を対象とし、独立数学監査ではない。全資料・全99ID本文・深い親証書の追加コピーは完了条件にしない。[PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)はドラフトで保持し、mainへのマージは行わない。
 
 [全体入口](../README.md) · [既存5資料群](../../materials/README.md) · [移植進捗](../../materials/MIGRATION-STATUS.json)
 
-[原著追加20件の対応map](PRIMARY-SOURCE-MAP.json) · [移植完了要件・未完了事項](MIGRATION-COMPLETION-CHECKLIST.md)
+[追加24資料の対応map](PRIMARY-SOURCE-MAP.json) · [移植完了要件・未完了事項](MIGRATION-COMPLETION-CHECKLIST.md)
+
+[旧P112→現行LOW残9絶対/16 signedの出典接続](P112-RESIDUAL-RECONCILIATION.md)
