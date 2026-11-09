@@ -85,6 +85,14 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
+## 今回の第１周抜け：最古Branch B §15.1–15.5のtorsion数学親（2026-11-09）
+
+[**元原著§15.1–15.5の正確な切出し**](proofs/earliest-foundations/BranchB-Section15-torsion.md)をGitHubに追加した。S194 §3は`E'_t(\mathbb Q)_tors=\mathbf Z/4\mathbf Z`を使いE_tのtorsion、有限奇数商のgcdと位数の条件を証明するが、§15の元のZ/8・Z/12排除計算は第１周の§13・§16の追加では収載されていなかった。今回元Driveの連続した**1286–1446行**を読み込み、GitHubの抽出本文一致を確認した。**§15.6の後に§17で撤回された同階数飽和主張は取り込んでいない**。§15.4の3-division判別式`16x³(x+1)³`の記号計算だけ独立確認したが、Mazur/Fermat/Mordell古典定理の一次証拠の数学監査はOPEN。
+
+[**分岐と真の親・重複判定**](PR1860-BRANCHB-PARTITION-AND-TORSION-PARENT-CHECK.md)を追加。最古原本§19の`Pτ`・三分岐数学は既収載S194に同じ物理`Q,Qsharp`からの直接群証明があるため、§19の長文を無差別に移植しない。S193`d=1`、S194有限奇数`d≥3`、S232無限商は**inner indexed Branch Bに入った後の正確な分岐**で、`R2-01`という研究レーン名は有限奇数「Route2」と同義ではない。C187の条件付き155/197・R3固定`D_n`論文を証明するため、全Stage35物理点がこのindexed部分群に属するという偽の全称命題を必須親にしない。
+
+**件数（重複なし）**：第１周23候補中12本、初回外の**別個のDrive文書**10本、すでに使っていた巨大な同じBranch B Drive原本からの**新規数学証明節１本**、よって#1860追加数学本文ファイルは**23本**。独立Drive原本11件という意味ではない。**必要数学全親の再帰閉包は依然未確認、PRはDraft。**
+
 ## 次に調べる対象（このPRが終わるまで開いておく）
 
 1. R2 C187→C185/C175→C174/S268/S270/S252 の式と数学親をさらに奥へ辿り、別個の著者原証明を探す。
