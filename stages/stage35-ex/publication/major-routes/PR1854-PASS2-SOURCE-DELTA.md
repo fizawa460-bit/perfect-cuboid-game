@@ -65,7 +65,7 @@ row345・row352は[#1854の収載行列](PR1854-PROOF-EVIDENCE-PRESENCE-MATRIX.m
 
 1. **数学的な必要十分の親DAGは未完**：収載済みファイルの記述を逆向きに辿って、後続で結果が使われたのか単に履歴として引用されたのか、欠けた祖先がないか逐一確認する。
 2. **第２の層は計算証拠**：row344〜360の原JSON証書・検算器・元ZIPがどこにあるかは別途照合する。今回、本文だけで完全再演可能とは宣言しない。
-3. **外部定理・古い橋**：R2 S252 Bérczes、R3 row393 de la Mazaの原典仮定、S194引用の旧Section16の正確な位置などは既知の未確認ゲート。
+3. **外部定理・古い橋**：R2 S252 Bérczes、R3 row393 de la Mazaの原典仮定は依然として未確認。**S194の旧Branch B Section16のa(t)非平方補題の原著位置は[既収載Section16・17](proofs/earliest-foundations/BranchB-Section16.md)および[S194](proofs/active-ancestors/S194.md)で解決済み**。ただし外部Fermat降下定理の独立照合や、撤回されたspecialization二分法の復活はしていない。
 4. **研究状態は据え置き**：R3 row393停止、R2相関strict75%上界・無条件−30排除・全LOW・Branch B・Stage35はOPEN。DriveのR0、正式MAIN-STATE、NEXTは変更しない。
 
 ## 第二周の作業境界
