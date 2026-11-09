@@ -2,6 +2,8 @@
 
 **状態：SOURCE_THEOREM_VERIFICATION_PENDING / CONDITIONAL_APPLICATION_ONLY。** 本文：[row393原証明](../../materials/classgroup-and-different/proofs/row393.md)、[著者時点の独立監査記録](../../materials/classgroup-and-different/audits/row393.txt)。移植元Driveの監査は外部定理原文の入手ができなかったことを明記する。今回も一次文献本文は取得・照合できず、外部定理の証明への適用承認を付与しない。
 
+**追補・2026-11-09**：[Gate D二外部原典の再探索と四次式帰着の検算](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)。接続済みGoogle Drive／GitHub／Project資料でde la Mazaの**原PDF本文は見つからず**、既存の引用と数値スポットチェックは維持。**原論文を読んでいないため一次定理の適用承認は引き続きPENDING**。
+
 ## 照合すべき原典
 
 著者が引用するのは **Ana-Cecilia de la Maza, `Bounds for the smallest norm in an ideal class`, Mathematics of Computation 71(240) (2002), 1745–1758, Theorem 1およびその直後の系**。著者が挙げた [DOI](https://doi.org/10.1090/S0025-5718-01-01373-4) と[AMS PDF](https://www.ams.org/mcom/2002-71-240/S0025-5718-01-01373-4/S0025-5718-01-01373-4.pdf) は今回の利用可能なGoogle Drive個人資料内で一次原文を発見できていない。これらの書誌事項の原典自体への外部到達確認も未実施であり、論文題名・著者は**row393の引用情報として記載**する。
