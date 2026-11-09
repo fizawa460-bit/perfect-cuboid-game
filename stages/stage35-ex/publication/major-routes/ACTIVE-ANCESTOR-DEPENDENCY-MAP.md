@@ -1,6 +1,6 @@
 # Stage35EX row393：現行数学的証明鎖の依存グラフと親本文（2026-11-09）
 
-**現在の状態：初期34件、直接親5件、上流9件、さらに上流6件、finite-branch親5件の合計59件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
+**現在の状態：初期34件、親5件、上流9件、さらに上流6件、finite-branch親5件、S121の合計60件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
 
 ## 採用する移植境界
 
@@ -149,3 +149,9 @@ S289/S290 はすでに [S289](proofs/C195-upstream/S289.md) / [S290](proofs/C195
 S126の379組はS123–125のscoped前提とpopulation auditを保持する。S123はGENERIC_IMAGE_MULTIPLEという定義された部分分岐への必要条件であり、Branch B全体の排除ではない。S122が使うS121の元のquotient adapterは新たに確認対象になった。S124/S125の外部Silverman/EMWの正規化と定理仮定を独立照合したと主張しない。
 
 **累計59原証明/採否資料をGitHubへ追加保存**。最新の未対応・要仕分けは8識別子：`C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S121`、`S230`、`S242`、`S250`、`SECTION16_NONSQUARE`。外部数学入力、監査だけの文書、再述/数値例、未収載の真の親を混在させた機械的リストであり、必要数学の不足数ではない。本文収載と最小計算証書再現、文字列忠実性、敵対的数学監査は別ゲート。PR #1854 draftで研究row393停止。
+
+## 2026-11-09 第6波：元の同じ quotient の親 S121
+
+[S121原著](proofs/active-ancestors/S121.md)を追加し、S122の同じD元点・2-isogeny quotient と GENERIC_IMAGE_MULTIPLE分岐の m,n 結合をGitHubで確認可能にした。S121の冒頭にあるSection120はBranch Aのsupport-migration障壁・研究ルートparkで、S121の元のSection13 quotient同一性の新規数学的親ではないため、[Driveの原資料](https://docs.google.com/document/d/1Oa02cmUsqchmR5TjMOSQZzbBWQxqOqn1LndiyrPCLU4/edit)への参照で維持する。Section13の従前のscoped hostile auditの範囲を今回再監査したわけではない。
+
+**累計60件の追加原文・採否本文**。依存識別子残7候補：`C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S230`、`S242`、`S250`、`SECTION16_NONSQUARE`。真の必須親・外部定理・障壁/例示/再述を混同せず分類継続。原著収載≠計算証拠GitHub完結≠数学独立監査。研究停止とPR draft未マージを維持。
