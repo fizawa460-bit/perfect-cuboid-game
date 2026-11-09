@@ -1,0 +1,77 @@
+LIB "primdec.lib"; LIB "elim.lib"; LIB "normal.lib";
+ring R = 10009,(a1,a2,a3,b1,b2,b3,c),dp; number z = 792;
+ideal S = a1^2+a2^2-b3^2, a2^2+a3^2-b1^2, a1^2+a3^2-b2^2, a1^2+a2^2+a3^2-c^2;
+proc satur(ideal I, ideal Q) { def T = sat(I, Q); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+ideal MX = maxideal(1);
+ideal G7 = satur(std(S + ideal(a1,a2+(-1)*b3,a3+(-1)*b2,b1+(1)*c)), MX);
+ideal G8 = satur(std(S + ideal(a1,a2+(-1)*b3,a3+(-1)*b2,b1+(-1)*c)), MX);
+ideal G27 = satur(std(S + ideal(c,(z^2)*a1+(1)*b1,(z^2)*a2+(-1)*b2,(z^2)*a3+(1)*b3)), MX);
+ideal G28 = satur(std(S + ideal(c,(z^2)*a1+(-1)*b1,(z^2)*a2+(-1)*b2,(z^2)*a3+(1)*b3)), MX);
+ideal G72 = satur(std(S + ideal((z^2)*a1+(-1)*c,(z^2)*b2+(-1)*b3,(z^2)*(z-z^3)*a1+(1)*b1)), MX);
+ideal G76 = satur(std(S + ideal((z^2)*a1+(-1)*c,(z^2)*b2+(-1)*b3,(z^2)*(z-z^3)*a1+(-1)*b1)), MX);
+ideal N93 = satur(std(S + ideal(b3,b2+c,b1+c,a3+c,a2,a1)^1), MX);
+ideal N95 = satur(std(S + ideal(b3,b2+c,b1-c,a3+c,a2,a1)^1), MX);
+ideal N98 = satur(std(S + ideal(b3,b2-c,b1+c,a3-c,a2,a1)^1), MX);
+ideal N100 = satur(std(S + ideal(b3,b2-c,b1-c,a3-c,a2,a1)^1), MX);
+ideal N101 = satur(std(S + ideal(b3+c,b2,b1+c,a3,a2+c,a1)^1), MX);
+ideal N103 = satur(std(S + ideal(b3+c,b2,b1-c,a3,a2+c,a1)^1), MX);
+ideal N106 = satur(std(S + ideal(b3-c,b2,b1+c,a3,a2-c,a1)^1), MX);
+ideal N108 = satur(std(S + ideal(b3-c,b2,b1-c,a3,a2-c,a1)^1), MX);
+ideal N117 = satur(std(S + ideal(c,b2+(z^2)*b3,b1,a3-b2,a2+b3,a1)^1), MX);
+ideal N119 = satur(std(S + ideal(c,b2+(z^2)*b3,b1,a3+b2,a2+b3,a1)^2), MX);
+ideal N121 = satur(std(S + ideal(c,b2+(z^2)*b3,b1,a3-b2,a2-b3,a1)^2), MX);
+ideal N122 = satur(std(S + ideal(c,b2+(-z^2)*b3,b1,a3+b2,a2-b3,a1)^1), MX);
+ideal N123 = satur(std(S + ideal(c,b2+(z^2)*b3,b1,a3+b2,a2-b3,a1)^1), MX);
+ideal N124 = satur(std(S + ideal(c,b2+(-z^2)*b3,b1,a3-b2,a2-b3,a1)^2), MX);
+ideal N127 = satur(std(S + ideal(c,b2,b1+(z^2)*b3,a3+b1,a2,a1+b3)^1), MX);
+ideal N128 = satur(std(S + ideal(c,b2,b1+(-z^2)*b3,a3-b1,a2,a1+b3)^1), MX);
+ideal N131 = satur(std(S + ideal(c,b2,b1+(z^2)*b3,a3+b1,a2,a1-b3)^1), MX);
+ideal N132 = satur(std(S + ideal(c,b2,b1+(-z^2)*b3,a3-b1,a2,a1-b3)^1), MX);
+ideal N133 = satur(std(S + ideal(c,b3,b1+(z^2)*b2,a3,a2-b1,a1+b2)^1), MX);
+ideal N134 = satur(std(S + ideal(c,b3,b1+(-z^2)*b2,a3,a2+b1,a1+b2)^1), MX);
+ideal N137 = satur(std(S + ideal(c,b3,b1+(z^2)*b2,a3,a2-b1,a1-b2)^1), MX);
+ideal N138 = satur(std(S + ideal(c,b3,b1+(-z^2)*b2,a3,a2+b1,a1-b2)^1), MX);
+ideal Iall = intersect(G7,G8,G27,G28,G72,G76,N93,N95,N98,N100,N101,N103,N106,N108,N117,N119,N121,N122,N123,N124,N127,N128,N131,N132,N133,N134,N137,N138); Iall = std(Iall);
+int mm = 2; int q; int r; int t;
+ideal Lsys; t = 0;
+for (q = 1; q <= ncols(Iall); q++) { if (Iall[q] != 0) { if (deg(Iall[q]) <= mm) { if (deg(Iall[q]) == mm) { t++; Lsys[t] = Iall[q]; } else { ideal U = maxideal(mm - deg(Iall[q])); for (r = 1; r <= ncols(U); r++) { t++; Lsys[t] = U[r] * Iall[q]; } kill U; } } } }
+ideal SS = std(S); "H0 (h0):", size(kbase(SS, mm)) - size(kbase(Iall, mm));
+ideal SS = std(S);
+ideal NFL = simplify(reduce(Lsys, SS), 2);
+poly F0 = NFL[1]; poly F1 = 0; int q2;
+for (q2 = 2; q2 <= ncols(NFL); q2++) { if (rank(coeffs(ideal(F0, NFL[q2]), maxideal(mm))) == 2) { F1 = NFL[q2]; break; } }
+"pencil degree", deg(F0), deg(F1);
+system("random", 2718); poly PB0 = F0 + random(1,9999)*F1; poly PB1 = F1 + random(1,9999)*F0; F0 = PB0; F1 = PB1; kill PB0; kill PB1;
+ideal Dc = std(intersect(G7,G8,G27,G28,G72,G76));
+ideal PK = std(ideal(c,b2+(-z^2)*b3,b1,a3+b2,a2-b3,a1));
+int j0 = 0; int ii; ideal QPK; for (ii = 1; ii <= 7; ii++) { QPK = std(PK + ideal(var(ii) - 1)); if (QPK[1] != 1) { j0 = ii; break; } }
+ideal CS = reduce(maxideal(1), QPK);
+"node 122 chart 1: j0", j0;
+ring RB = 10009,(s,v2,v3,v4,v5,v6,tt),dp;
+system("random", 1111); matrix AA[6][6]; int r1; int r2; for (r1 = 1; r1 <= 6; r1++) { for (r2 = 1; r2 <= 6; r2++) { AA[r1, r2] = random(1, 9999); } }
+ideal WW = s, s*v2, s*v3, s*v4, s*v5, s*v6; ideal CSB = imap(R, CS); ideal IMG; int rr = 0;
+for (ii = 1; ii <= 7; ii++) { if (ii == j0) { IMG[ii] = 1; } else { rr++; IMG[ii] = CSB[ii]; for (r2 = 1; r2 <= 6; r2++) { IMG[ii] = IMG[ii] + AA[rr, r2] * WW[r2]; } } }
+map PHI = R, IMG;
+proc satB(ideal I, ideal Q) { def T = sat(I, Q); ideal R2; if (typeof(T) == "list") { R2 = T[1]; } else { R2 = T; } return(std(R2)); }
+ideal IS = satB(std(PHI(S)), ideal(s)); ideal EE = std(IS + ideal(s)); "E x A1: dim", dim(EE), " (expect 2)";
+poly GG = PHI(F0) - tt * PHI(F1); ideal JY = satB(std(IS + ideal(GG)), ideal(s)); ideal YY = std(JY + ideal(s));
+ideal DF = std(satB(std(IS + PHI(Dc)), ideal(s)) + ideal(s));
+ideal YM = YY; if (dim(DF) >= 0) { YM = satB(YY, DF); }
+"moving part on E: dim", dim(YM), " (expect 1)"; if (dim(YM) != 1) { "NODE-OPEN: moving part not a curve over t"; quit; }
+ideal YF = std(YM + DF); "moving part meets fixed points: dim", dim(YF); if (dim(YF) >= 1) { "NODE-OPEN: base point on E"; quit; }
+int cE = 1; "node power c", cE;
+ideal ISc = IS; ISc[ncols(IS) + 1] = s^cE;
+matrix L0 = lift(ISc, ideal(PHI(F0))); matrix L1 = lift(ISc, ideal(PHI(F1)));
+poly H0 = L0[nrows(L0), 1]; poly H1 = L1[nrows(L1), 1];
+if (reduce(PHI(F0) - s^cE * H0, std(IS)) != 0 || reduce(PHI(F1) - s^cE * H1, std(IS)) != 0) { "NODE-OPEN: division by s^c failed"; quit; }
+poly HT = H0 - tt * H1;
+ideal YH = std(IS + ideal(HT, s)); "member restriction to E: dim", dim(YH);
+system("random", 31); ideal QC; for (r1 = 1; r1 <= 4; r1++) { QC[r1] = 0; for (r2 = 1; r2 <= ncols(IS); r2++) { QC[r1] = QC[r1] + random(1,999) * IS[r2]; } }
+matrix JS[5][6]; for (r2 = 1; r2 <= 6; r2++) { for (r1 = 1; r1 <= 4; r1++) { JS[r1, r2] = diff(QC[r1], var(r2)); } JS[5, r2] = diff(HT, var(r2)); }
+ideal JQ = std(IS + ideal(s) + minor(jacob(QC), 4)); "CI singular on E: dim", dim(JQ); if (dim(JQ) >= 2) { "NODE-OPEN: random CI singular along E"; quit; }
+ideal RS = std(IS + ideal(HT, s) + minor(JS, 5)); if (dim(DF) >= 0) { RS = satB(RS, DF); }
+"singular points of members on E: dim", dim(RS); if (dim(RS) >= 1) { "NODE-OPEN: members singular along E"; quit; }
+ideal SP = intersect(RS, YF); ideal ET = eliminate(SP, s*v2*v3*v4*v5*v6); "special t:", ET;
+if (size(ET) == 0) { "NODE-NONE"; quit; }
+list FT = factorize(ET[1]); int kk; for (kk = 2; kk <= size(FT[1]); kk++) { "  special factor:", FT[1][kk]; }
+quit;
