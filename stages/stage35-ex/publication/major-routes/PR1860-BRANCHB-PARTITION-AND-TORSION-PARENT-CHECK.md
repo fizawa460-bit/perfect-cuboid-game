@@ -44,7 +44,14 @@ I/H ≅ M/K.
 Q−Qsharp=Qn=T0+nR, 2Q=nR+Ptau.
 [Ptau]=2[Q] in M/K.
 ```
-を示す。さらに**`K`は2-saturated**（S194 §2：`a(t)`非平方、Eに4-torsionなし）なので`M/K`には2-torsionがなく、同じ物理点の商位数`d=ord([Q])`に応じて以下が成立する。
+を示す。**旧§19の元物理点恒等式を本稿でも直接再導出**：`ρ=rs+pq`と物理平方から`ρ(ρ−2rs)=(pq)²−(rs)²=A²C²`。`Q=(ρ,(r+s)ρ)`,`Qsharp=(-ρ,(s−r)ρ)`を`E:y²=x³+B²x²−A²C²x`で加えると、`Q+Qsharp`の弦傾きが`r`、`Q−Qsharp`の弦傾きが`s`となる。加法公式の結果は
+```
+Q + Qsharp=(-s²,-s*p*q)=Q_tau=T0+P_tau,
+Q − Qsharp=(-r²,-r*p*q)=Q_n=T0+nR  （indexは元分岐の仮定）.
+```
+二式を足して`2Q=nR+P_tau`。従って旧§19.1–19.3の**使用する群恒等式はこの数学本文と既存S194内で足りる**。この証明にも`dQ=mP`や全特殊化rank1は不要。なお`Q_n=T0+nR`という**分岐所属の仮定**それ自体は群法から導出しない。
+
+さらに**`K`は2-saturated**（S194 §2：`a(t)`非平方、Eに4-torsionなし）なので`M/K`には2-torsionがなく、同じ物理点の商位数`d=ord([Q])`に応じて以下が成立する。
 
 1. `d=1`：**generic-image multiple**の元の二重部分群交叉、[S193](proofs/active-ancestors/S193.md)が**この限定分岐を排除**。S193の結論は外側の全物理点がindexedであるという定理ではない。
 2. `1<d<∞`：S194により**奇数`d≥3`**。`dQ=mP+T, T∈E[2]`と`dPtau=kR,k=m−dn`を要するfinite-odd/saturation分岐。[S232](proofs/active-ancestors/S232.md)には**user-accepted research-routing PASS**とあるが、外部査読・Stage35全体の閉鎖認定ではない。この「Route2 finite-odd」は**R2-01というレーンの名称と別**。
