@@ -2,10 +2,32 @@
 
 **今回の作業状態：BROAD_CHAIN_MAP_COMPLETE / SOURCE_TEXT_PARTIAL_REVIEW。** ユーザー指定の2ルートを、細かい数学的必須性の逐一監査より先に、**到達点から最も深く確認できる既存証明本文まで**つないだ。これは「案内・元原著収載の粗い鎖」ができたという意味で、数学的正しさの独立証明や原典仮定の全面PASSではない。計算証拠は後回し。
 
+## 0. C195より前の研究と、時系列／数学的依存の分離
+
+**確認結果：S253が先、C195が後。** 初版ではC195を元source研究の始点に見える場所へ置いたが、それは研究時系列として不正確。日時はGoogle Drive原著の作成時刻または記録済み最終更新時刻を日本時間に換算。
+
+| 原著 | 日時（JST） | GitHub原著と役割 |
+|---|---|---|
+| S253 | 2026-10-08 17:25 作成 | [保存済み：二つの必要分母役割](proofs/active-ancestors/S253.md) |
+| S263 | 2026-10-08 23:35 作成 | [保存済み：元signed軌道の隣接整数Ward条件](../../materials/original-source-exclusions/parents/S263.md) |
+| S264 | 2026-10-09 00:10 更新 | [保存済み：偶奇・符号条件](proofs/foundations/S264.md) |
+| S268 | 2026-10-09 07:57 更新 | [保存済み：元分母のreduced norm](proofs/C195-upstream/S268.md) |
+| S269 | 2026-10-09 08:14 更新 | [保存済み：Gaussian四次式とsigned POINT](proofs/C195-upstream/S269.md) |
+| S270 | 2026-10-09 08:24 更新 | [保存済み：4つのTRUE TOP＋全PROPER](proofs/foundations/S270.md) |
+| C193 | 2026-10-28 13:54 作成 | [Drive原著のみ確認](https://drive.google.com/file/d/1D8QNpX2k-O36w76ZoTqbVDdUFJClNnLj/view)。補助曲線間generic写像の障壁 |
+| C194 | 2026-10-28 14:31 作成 | [保存済み：C193のgeneric non-mapを強める](proofs/C195-upstream/C194.md) |
+| C195 | 2026-10-28 15:00 作成 | [保存済み：actual sigma-squareからcanonical整数sourceを後で再構成](proofs/C195-canonical-source.md) |
+
+**時系列の先後と、証明に必要な親は別。** S253は古い独立した条件付き必要定理で、C195がS253を新しく証明したわけではない。C195の直接の正方向入力はS233/237/240、S268/269、R1訂正、C174、S289/290等。C193/C194はgeneric補助曲線写像に関する禁止・障壁を扱い、元sourceの正方向の全証明の必須前提とは自動判定しない。
+
+**収載境界：** Stage35EX公開ツリーの1529個のファイルパスを確認。C195前のS系列、C194は多数保存済みだが、**C193・C192・C124という識別子を持つ独立原著ファイルはGitHub上に未確認**。Driveの原著は[C193](https://drive.google.com/file/d/1D8QNpX2k-O36w76ZoTqbVDdUFJClNnLj/view)、[C192](https://docs.google.com/document/d/1J5VhsT2pPyKuy7ooumpsf--WSoJPWhuCfEIfjx_wPAs/edit)、[C124](https://docs.google.com/document/d/1VLG7UBzuh07DIkkzsO5iL3kseCnCBtgMSSiE3lpu5fU/edit)。いずれも今の2ルートの不可欠親かどうかは未判定。歴史の全C番号を移植義務とはしない。
+
 ## 1. R3-07 / LOW / row393
 
 ```text
-同じ原始標識付き base／元signed source [C195, S268/S269, S263/S264]
+古い研究系列 S253(10/8) → S263/S264 → S268/S269 → S270(10/9)
+  ↓ 後日の元source再構成 C195(10/28)
+  ※ 矢印は概略の研究時系列。各矢印が数学的な直接依存とは限らない
   ├─ LOW旧マスク C181・C183(+12)・R5-C220／C224訂正
   │     └─ 元LOWの残数表（旧数と現行数は区別）
   ├─ ±18：row339固定 C₂(genus17)
@@ -33,7 +55,7 @@
 ## 2. R2-01 / MID/HIGH / 同じ停止時点
 
 ```text
-同じ元signed source C195 / S268・S269
+元signed source：旧S253系列・S268/S269を後日C195が統合
   ├─ 旧々祖先 S121–126 → S190–202（finite-oddの範囲は限定）
   │       → S213–235；S230のA/C点だけの付値 → S232
   ├─ 同じ四根：S233・S237・S240 → S243
