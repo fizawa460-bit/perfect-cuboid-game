@@ -52,7 +52,24 @@ Q−Qsharp=Qn=T0+nR, 2Q=nR+Ptau.
 
 したがって「すべてのE3 selected物理点を特定のindexed軌道へ送り込む定理が証明されていない」ことは、**R2/C187・R3の明記された条件付き対象の自己完結に必須の空白原著ではない**。これは**Stage35全体を結論するには別途必要な外側・分岐網羅の問題**。この２つのレベルを二度と混同しない。
 
-## 4. 今回のファイル所在・数学監査の状態
+## 4. 最古原著§1–12の「古いから必要」誤判定を防ぐ精密切分け
+
+同じ[巨大Drive原著](https://docs.google.com/document/d/1CKLon3eRKjsEVuIwgpSTV4DKHQ5GRWsfDw2SA6T5vNI/edit)の**元行23〜644**を新たに直接確認した。第１周の§13/§16の前に存在することと、現行R2/R3の**使用する数学親**であることを別々に判定する。
+
+| 旧原著の数学箇所 | 実際に記載された結論 | 現行２ルートの近接原著と判定 |
+|---|---|---|
+| §1 行23–77 | `A²+B²=C²` の任意labelled積分E/P/R、`C1=B,C2=2ABC`（B偶の旧表示） | [S231](proofs/active-ancestors/S231.md)、[S240](proofs/C195-upstream/S240.md)、[S263](../../materials/original-source-exclusions/parents/S263.md)にE/Pと元sourceの必要式が**明記済み**。旧§1だけを別必須証明として複製しない |
+| §2 行78–169 | `p|A,C,B,H`のbad-support局所付値 | S263の全odd+2 formal valuationと[S258](proofs/active-ancestors/S258.md)、[S268](proofs/C195-upstream/S268.md)の実際の`b_m`とH first-entryが後で個別に証明される。旧root denominator `C_k`と新しい`b_m`を**無条件に同一視しない** |
+| §§3–4 行170–269 | 旧`C_{n−1}^{odd}C_{n+1}^{odd}`平方および奇素数の強整除・parity別旧基底 | [S263 §3, §5–7](../../materials/original-source-exclusions/parents/S263.md)の真のsigned Ward平方・例外twist固定に置換済み。C160のSG.1/SG.2も正確な2-adic階層とnodal Hを扱う。旧`C_k`式を新`W_j`に証明なしに流用せず、**現在のC187/row367の直接必須親とは認定しない** |
+| §5 行270–314 | primitive Pythagorean parameter と基底の正規化 | [R1-255/256](proofs/R3-18-upstream/R1-255-fourward-cover-original.md)、[C195](proofs/C195-canonical-source.md)が同じ原始三つ組を明記しsource forwardの必要式を証明。古い標準パラメータ形式の元原稿を重複しない |
+| §6–9 行315–406 | 外部標準定理、研究上の残障壁と当時のNEXT | 新たに採用された数学結論ではない。§6の外部定理の出典・仮定は親が現在も必要な時だけ監査する |
+| §10 行407–537 | p=2におけるB偶/B奇２モデルの局所計算と`C_{n−1}C_{n+1}`平方 | 現行主張は[後のS263](../../materials/original-source-exclusions/parents/S263.md)の元`W_j`とδ_nについて別の全素数付値証明を使用。旧C_k計算がなくてもその必要条件は証明されると原著に明記。**旧全`C_k`定理を新`W_j`定理と等号で結ばない** |
+| §11 行538–605 | 完全基底`B`、`2ABC`、`4ABC`を使った旧根分母`C_{n±1}`の平方形 | 同じ要約だけではS263/C160の全符号・H込みの数学が足りないが、**それらの新原著はGitHubに既収載**。旧§11の数式が後のR2 C185/R3 row370に直接必要だとは確認されないため一括追加しない |
+| §12 行606–643 | 保存・研究routing | 当時のNEXTであり現行主要２ルートの数学親ではない |
+
+**判定**：旧§1–12は全面数学監査PASSではない。しかし、今回実際に使う`E,P`、元の`σ_n`→signed Ward平方、`b_m` first entry、primitive sourceについては後の原著に直接証明本文があるため、**古い節１つにつき１本ずつ機械的に追加する必要は確認されない**。一方、旧§15.2–15.5のE'一様torsionは後続S194の引用だけで実排除証明が無かったので今回追加した。この差を保持する。
+
+## 5. 今回のファイル所在・数学監査の状態
 
 | 対象 | 状態 |
 |---|---|
