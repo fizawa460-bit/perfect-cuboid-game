@@ -1,0 +1,83 @@
+{
+  "schema": "stage35ex.pr1860.gateD.primary-source-verification.v1",
+  "date_jst": "2026-11-09",
+  "scope": [
+    "R3-07",
+    "R2-01"
+  ],
+  "source_search_scope": "connected Google Drive, GitHub project repo, Project/Library Files; does not include direct external publisher or book full-text retrieval",
+  "searched_exact_names": [
+    "Bounds for the smallest norm in an ideal class",
+    "Ana-Cecilia de la Maza",
+    "10.1090/S0025-5718-01-01373-4",
+    "Mordell Diophantine Equations",
+    "Mordell.pdf",
+    "Diophantine Equations.pdf",
+    "u^4+u^2v^2+v^4"
+  ],
+  "findings": {
+    "D1": {
+      "id": "D-1",
+      "required": "Ana-Cecilia de la Maza, Bounds for the smallest norm in an ideal class, Math. Comp. 71(240) (2002), Theorem 1 and corollary",
+      "cited_pdf": "https://www.ams.org/mcom/2002-71-240/S0025-5718-01-01373-4/S0025-5718-01-01373-4.pdf",
+      "original_theorem_full_text_found": false,
+      "observed_files": [
+        "stages/stage35-ex/materials/classgroup-and-different/proofs/row393.md",
+        "stages/stage35-ex/publication/major-routes/ROW393-PRIMARY-THEOREM-GATE.md"
+      ],
+      "checked_within_existing_material": [
+        "r1=7,r2=49,n=105 and Gamma_K(s)=Gamma(s/2)^56 Gamma((s+1)/2)^49",
+        "0<alpha=13/1000<beta=77/1000<gamma=107/500<lambda=83/250",
+        "rational R(s)=(s+alpha)/((s+beta)(s+lambda)^2) positive inverse-factor rearrangement is algebraically valid",
+        "T(-gamma+it) modulus1 from conjugate arguments",
+        "row393 B<2^94 numeric spot-check already in primary theorem gate"
+      ],
+      "still_primary_unknown": [
+        "original admissible(4) full definition",
+        "Theorem1 and corollary F(y) sign and Mellin normalization",
+        "ordinary vs narrow ideal class and hidden GRH/zero hypotheses",
+        "B formula including pi and Gamma normalizations"
+      ],
+      "source_verified": false,
+      "application_verified": false,
+      "if_source_unavailable": "Remain OPEN, neither unconditional bound theorem nor its citation validated as an original theorem; author mathematics text present and numeric spotcheck separately documented"
+    },
+    "D2": {
+      "id": "D-2",
+      "required": "L. J. Mordell, Diophantine Equations, Chapter 4, Equation 7' primitive x^4+x^2*y^2+y^4=z^2 only xy=0",
+      "original_theorem_full_text_found": false,
+      "original_bibliographic_trace": "Stage35EX Branch-A original Google Drive document 1smWIX2pkMdKEou0soUVj9_o9opg-z_JPRT4MwxSROHE, line447",
+      "author_math_source": "stages/stage35-ex/publication/major-routes/proofs/earliest-foundations/BranchB-Section15-torsion.md",
+      "independent_algebra_verification": {
+        "division_polynomial": "psi3(x)=3x^4+4(1-alpha)x^3-6alpha*x^2-alpha^2",
+        "discriminant_alpha": "16*x^3*(x+1)^3",
+        "exceptional_x0": "psi3(0)=-alpha^2 !=0 if alpha>0",
+        "exceptional_xminus1": "psi3(-1)=-(alpha+1)^2 !=0 if alpha>0",
+        "plus_alpha": "-r^3(r+2)/((r-1)(r+1)^3)",
+        "minus_alpha": "-r^3(r-2)/((r-1)^3(r+1))",
+        "plus_or_minus_exact_substitution_into_psi3": "IDENTITY_ZERO_BY_SYMPY_FACTOR",
+        "square_completion_plus": "(1+z^2) r^2 + 2r - z^2=0",
+        "square_completion_minus": "(1+z^2) r^2 - 2r - z^2=0",
+        "discriminant_r": "4*(z^4+z^2+1)",
+        "integer_reduction": "z=m/n reduced, n>0; w^2=z^4+z^2+1 implies W=n^2*w is rational square root of integer m^4+m^2*n^2+n^4, hence W integer. Classical only-trivial m*n=0 then m=0.",
+        "leftover_branches_if_z0": "plus r∈{0,-2}, minus r∈{0,2}; r=0 excluded by 3-torsion x!=0, r=±2 gives alpha=0, incompatible t>1",
+        "status": "DIRECT_SYMBOLIC_REDUCTION_PASS_NOT_EXTERNAL_QUARTIC_THEOREM_PROOF"
+      },
+      "source_verified": false,
+      "applicability_if_classical_claim_is_correct": "YES: equation exactly matches book-citation quotation including primitive coprime integers; no omitted r=±1 or zero-division exceptions on alpha>0",
+      "mathematical_claim_independently_proven": false,
+      "if_source_unavailable": "Remain OPEN as original citation, although the algebraic use of the quoted statement has been independently checked"
+    }
+  },
+  "finite_gate_D_status": "OPEN_2_PRIMARIES",
+  "gate_ABC_E": [
+    "A_PASS",
+    "B_PASS",
+    "C_PASS_39_OF_39",
+    "E_PASS_7_OF_7"
+  ],
+  "mathematical_source_text_added_in_pr1860": 23,
+  "global_mathematical_theorem_proved": false,
+  "full_second_pass_complete": false,
+  "merge_permitted": false
+}
