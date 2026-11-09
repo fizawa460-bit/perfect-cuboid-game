@@ -1,6 +1,6 @@
 # Stage35EX row393：現行数学的証明鎖の依存グラフと親本文（2026-11-09）
 
-**現在の状態：初期34件、数学的親5件、さらに古い上流9件の合計48件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
+**現在の状態：初期34件、直接親5件、上流9件、さらに上流6件の合計54件の原著・採否本文をGitHubに追加保存。PR #1854 draft / 未マージ。移植完了は未宣言。** 本文転記は数学定理の独立監査を意味しない。元研究はrow393停止、Branch B・−30・全LOW等はOPEN。
 
 ## 採用する移植境界
 
@@ -120,3 +120,18 @@ LOW proofs row361..376 + older C181/C183/R5-C212 -> 9 abs / 16 signed
 S316の (316.1)/(316.2) に直接用いる旧数学は **S252 / S270 / S291 / S308 (Sections3–4)**。S312/S313/S314/S315はS316の比較・後継/背景の記載であり、全件を数式証明の直親とは認定しない。S308のd445条件付き排除をall-base下界と混同しない。S226は偶数指数専用。旧finite-oddの `dQ=mP` を無限位数側へ持ち込まない。
 
 **今回の追加本文累計48件**。これらは独立検証済みの48定理ではない。**最新未対応識別子15件（分類待ち）:** `C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S190`、`S191`、`S198`、`S199`、`S222`、`S224`、`S230`、`S242`、`S250`、`S289`、`S290`、`SECTION16_NONSQUARE`。旧12/20件は以前の時点の棚卸し。残る識別子には外部定理、監査・重複、古い親の論理的必須部分が混在するため、最終必要数・完了率は未定。計算証書の最小移植と独立再演算も未完了。
+
+## 2026-11-09 第4波：有限位数・局所H側の古い必須親6件
+
+| 親 | 継承する数学的範囲 | 直接の旧親 | GitHub本文 |
+|---|---|---|---|
+| S190 | scoped reciprocal pair exclusion, original S126 population and physical adapter held | S126 | [本文](proofs/active-ancestors/S190.md) |
+| S191 | orientation and exact x-only S123/S126-to-S190 adapter; full upstream HOLD | S123, S126, S190 | [本文](proofs/active-ancestors/S191.md) |
+| S198 | finite-odd homogeneous boundary with distinct even/odd conditions | S190, S194, S197 | [本文](proofs/active-ancestors/S198.md) |
+| S199 | least-prime resonance necessary sieve, not full physical closure | S194, S197, S198 | [本文](proofs/active-ancestors/S199.md) |
+| S222 | original P nontorsion and algebraic H-center necessity; no all-H exclusion | S213, S218, S221 | [本文](proofs/active-ancestors/S222.md) |
+| S224 | finite conic projection/homogeneous scalar cap, not source exclusion | S198, S223 | [本文](proofs/active-ancestors/S224.md) |
+
+S289/S290 はすでに [S289](proofs/C195-upstream/S289.md) / [S290](proofs/C195-upstream/S290.md) としてGitHubに存在したため、再コピーせず既存pathへ対応した。S190/S191の scoped 結論を全上流original physical adapterの独立監査PASSに昇格させない。S198のeven-only条件、S222の非torsion結論とH-centerの未排除、S224の有限射影を厳密に区別。
+
+**追加資料は合計54件。** 新たな再帰・外部/重複を含む現在の未対応分類候補は9識別子：`C160`、`EXTERNAL_BERCZES_THM2_1`、`EXTERNAL_FERMAT_QUARTIC`、`S123`、`S126`、`S230`、`S242`、`S250`、`SECTION16_NONSQUARE`。この数は数学的に必須な欠落証明数ではない。S123/S126のscoped原資料、Section16 a-nonsquare、C160の正確なgcd補題、外部定理の原文条件、最小計算コードの連結を確認するまで移植完了は宣言しない。
