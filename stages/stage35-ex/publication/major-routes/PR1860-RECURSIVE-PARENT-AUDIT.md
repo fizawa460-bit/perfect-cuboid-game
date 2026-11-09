@@ -72,10 +72,16 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 - **[R3-07 ±18／Ward3・5・7／最古の標識チャート](PR1860-R3-USED-LEMMA-CHAIN-CHECK.md)**：row350がrow346〜349の**実際の数式**、row364がrow353/355・row363の真正局所／全球入力、row367がrow364/365/366の２進障害を使用することを照合。row368→S321 W5＋C118 `\mathcal X(\mathbb Q)`、row369→S321 W7＋S322 K/L＋C35-12 `C3'(\mathbb Q)`も元の同じbaseからの有理点写像を確認。
 - **R3の偽の追加不足を排除**：row346〜349/356〜360の９本は、すでに#1860の差分に存在し、前の読み戻しでそのうち346〜349のDrive本文一致も確認済み。**新規９件アップロードしない**。C35-08の[Drive原著](https://docs.google.com/document/d/1m6OYk1ldDpAXUZM299UdL2Oxw51GunQGna2nvKP1_DY/edit)は存在するが、C35-12が必要な４円盤Coleman数学を基点・誤差・無限尾込みで再証明するため、**原数学本文の必須欠落と扱わず**計算証書の独立監査を残す。
 - **[R2-01 のfirst-entry → prime-cut → ４protected TOP](PR1860-R2-PRIMECUT-LEMMA-CHAIN-CHECK.md)**：S268 `b_m`、C160 SG.1/SG.2、S258のuncapped critical Hと`T_e`、S275の四canonical因子、S318非critical H top補正、R2 C184原提出→R0 C185採用→C187 155/197 の使用箇所を確認。奇素数逆二乗和の明示有理上界 `0.2048689656588...<41/200` も独立に点検。
-- **最古forwardに残る標識の問題**：[初期E3 selected chart](proofs/earliest-foundations/E3-selected-physical-kummer.md)は`A=t²−1,B=2t`、[元±18のR1-239](../../materials/selmer18-parent-chain/objects/91c82ae590d162c6-R1_239_SOURCE_ADAPTER.txt)はS264の後で**A偶・B奇**の`A=2uv,B=u²−v²`。label swapを根拠なしに同一signed `E,P,D_n`へ持ち上げない。S231/S263/S268/C195の任意labelled base上の**内部必要命題**と、全Stage35物理sourceの**大域forward網羅**を分離する。
+- **【今回訂正】最古E3とR1-239の標識は有理パラメータで接続済み**：[独立の明示代数証明](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)。任意のlabelled primitive `A²+B²=C²`に `τ=(C+A)/B>1` を取り、`(A/C,B/C)=((τ²−1)/(τ²+1),2τ/(τ²+1))`。R1のA偶B奇の`t=u/v`は `τ=(t+1)/(t−1)`。E3→整数Eの同型 `(x,y)↦(C²x,C³y)`でP3/T0/元のindexed D_nが保存される。`Q−Qsharp=(-r²,−rpq)`も群の弦法則から再導出。**A/B交換は不要**。ただし物理４平方点が自動的に`T0+2ZP`に所属するとは主張しない。全Stage35物理sourceの大域forward網羅もOPEN。
 - **対象を拡張しない**：S271〜274、S280、row354は歴史的枝・訂正であり、使用命題が確認されない限り必須数学原著として数えない。外部原典・数値ZIPの独立数学監査も未実施。
 
-**今回新規に保存したのは監査文書２本だけ**。第１周23候補外で発見した原数学本文は引き続き累計**10本**、第１周23候補中のPR #1860収載分は**12本**。新しい不足原著を確定できなかったことは自己完結PASSを意味しない。
+**この継続調査で命題監査２本に加え、E3有理標識の接続監査１本を追加保存した**。第１周23候補外で発見した原数学本文は引き続き累計**10本**、第１周23候補中のPR #1860収載分は**12本**。新しい不足原著を確定できなかったことは自己完結PASSを意味しない。
+
+## 最古のE3標識と原始indexの橋の修正（追加監査）
+
+[有理パラメータ・群法則・`z,X`の直接証明](PR1860-E3-LABEL-INDEXED-BRIDGE-AUDIT.md)を新規作成。以前の「E3の`B=2t`は整数のB偶しか含まず、R1-239のA偶B奇と食い違う」という判定を**取消**。整数でない有理`t`と縮尺`λ`が許されるため、全positive labelled primitiveが同じa,bで表現される。R1原著とE3原著で変数名`t`が異なる点は`τ=(t+1)/(t−1)`で解決。**最古`source`のラベル不一致という不足原著はなし**。
+
+未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、最初のStage35全物理候補がindexed Branch Bを網羅する証明が完結したわけではない。ここは`GLOBAL_SOURCE_TO_INDEXED_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
 ## 次に調べる対象（このPRが終わるまで開いておく）
 
