@@ -46,3 +46,10 @@ no integral curve (x is not itself a known curve: total multiplicity ≥ 2). Use
 - Pencil plans: always_hidden empty for all 97; stage 2 status ok for all 97.
 - **So every class of degree 16 is closed** (modulo an audit of: Lemma K, the all-singular-points genus, and the reuse
   of the R2 tools on the new data).
+
+## Audit round 1 (2026-11-09): HOLD, answered
+External reading audit (head a821e14f): PASS for Lemma K, Lemma P, h⁰ = 1, the 21 fixed-component pencils; HOLD for
+the 97 pencils. Answers (leaf PAPER.md revision 2, §4.2–4.7): v6 whole-fibre removal (81 members) run and closed;
+R2's hidden-set / base-point / node checks and stage 2b (606 special members) run, open 0; identification of
+components with known curves (299 all known, 33 closed by Lemma G); c0 = D_k for all 441 scan entries; 84 T7 jobs
+with the generic-member check OK. The h⁰ = 1 counts are 3,112 + 1 (t_21) + 3 (Lemma P) + 978 (494 + 470 + 14).

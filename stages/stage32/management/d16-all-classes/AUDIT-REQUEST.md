@@ -1,4 +1,4 @@
-# Reading audit request — Stage32 D16-ALL-CLASSES (degree 16, all classes, genus ≤ 1)
+# Reading audit request, round 2 — Stage32 D16-ALL-CLASSES (degree 16, all classes, genus ≤ 1)
 
 Paste everything below the line into a fresh chat. Repository: `fizawa460-bit/perfect-cuboid-game` (public), branch
 `stage32-d16-all-classes`, folder `stages/stage32/management/d16-all-classes/`. The audited companion leaf is
@@ -6,47 +6,36 @@ Paste everything below the line into a fresh chat. Repository: `fizawa460-bit/pe
 
 ---
 
-You are an independent hostile auditor doing a **reading (paper) audit**. The goal is to check that **nothing is
-wrong**: every argument is valid, and each computation decides what it is claimed to decide. Re-running code is welcome
-but optional.
+You are an independent hostile auditor doing a **reading (paper) audit, round 2**. Round 1 (head a821e14f) gave HOLD:
+Lemma K, Lemma P, the h⁰ = 1 table and the 21 fixed-component pencils passed; the other 97 pencils were held for one
+MUST FIX and four MUST CHECK items. The answers are in `PAPER.md` §4.2–4.7 and §7 (audit history), with evidence in
+`results/` and generators in `code/` (`code/p16all/audit_r1_steps.py` collects the steps first run inline).
 
 **Background.** S is the cuboid surface (complete intersection of four quadrics in P⁶ with 48 nodes), S̃ its minimal
-resolution with exceptional curves E_p, K = K_S̃, d = K·C. Known: 92 curves (32 conics, 60 quartics) and the 48 E_p.
-The audited package R2 (`d12-d16-low-genus/PAPER-R2.md`) proved: no integral curve of geometric genus ≤ 1 with
-d = 12, 14 (all classes), and with d = 16 in the classes of the 71,697 unibranch-compatible representatives. This leaf
-claims the remaining d = 16 classes (1,665,666 representatives), so that **d = 16 is closed for all classes**.
-Computations are mod p = 10009; R2 §2 fixes which char-p → char-0 directions are allowed (h⁰_p ≥ h⁰_0, g_p ≤ g_0 via
-Lemma G, statements about all char-p members). R2's round-1 error M1 ("reducible mod p ⇒ reducible in char 0") must not
-reappear.
+resolution, K = K_S̃, d = K·C. R2 proved: no integral curve of geometric genus ≤ 1 with d = 12, 14 (all classes) and
+d = 16 in the 71,697 unibranch-compatible representatives. This leaf claims the remaining d = 16 classes. Computations
+are mod p = 10009; R2 §2 fixes the allowed char-p → char-0 directions; R2's round-1 error M1 ("reducible mod p ⇒
+reducible in char 0") must not reappear.
 
-Please read `PAPER.md` (main text), `RESULT.json`, `logs/32R-97_D16_ALL_CLASSES_CLOSED.md`, and as needed `code/` and
-`results/`, and check:
+Please check, against the round-1 findings:
 
-1. **Lemma K (PAPER §2).** If the unique member of |x|_p is supported on known curves and the E_p, then |x|_0 has no
-   integral member. Is the injectivity of specialization Pic(S̃_0) → Pic(S̃_p) correctly invoked (smooth proper model,
-   known curves defined over Q(ζ₈))? Is h⁰_0 ≤ h⁰_p the only semicontinuity used? Does "LG-ONLY-KNOWN" in
-   `code/d16all/mklg.py` (saturation by every contained known curve until dimension < 2) really mean that the member is
-   supported on known curves, the E_p and the D-part? Could the D-part matter?
-2. **Lemma P (PAPER §2).** Genus of the plane model = (e − 1)(e − 2)/2 − Σ δ over **all** singular points
-   (`code/d16all/mkgx.py`): is the chart choice (line at infinity avoiding the singular locus) enough; is the
-   birationality check sufficient; is the conjugate-split case handled correctly as a Lemma G lower bound?
-3. **h⁰ = 1 table (PAPER §3).** Do the categories cover all 4,094 classes exactly once (3,112 + 4 + 978, with the 14
-   non-reduced classes counted inside the 978)? Is each verdict a valid closure (T3 + Lemma G; Lemma P; Lemma G by
-   components; Lemma K)?
-4. **h⁰ = 2 (PAPER §4).**
-   - the 21 pencils with a fixed component, checked in char 0 by exact h⁰ over Q(ζ₈) (R2's T2′, `code/p16all/mkfix0.py`,
-     `results/fix0_char0.txt`);
-   - reuse of the R2 pencil pipeline (v6 critical tail, fibre matching, stage 2, `always_hidden` empty) and of R2
-     §2.5(i) for unlisted reduced members;
-   - the 65 members of Σg ≤ 1: the normal-crossings check (36 OK) and the analyzer `m16/an2.py` (29), with data
-     produced by `m16/tail.sing` where the member NN is **given** (`code/p16all/mkt7.py`) instead of searched — is that
-     substitution sound?
-   - the non-reduced scan (R2 §4.5): h⁰_p(D + 2Γ_k) for all 140 Γ_k, and the 'cap' entries run directly as member
-     jobs (`code/p16all/scan.py`, `gennr.py`): is this complete (members with a multiple component that is a known
-     curve or an E_p)?
-5. **Scope.** Confirm that no step uses the odd-contact filter 32R-83 (valid only for unibranch curves), and that the
-   split into old (R2) and new classes (`code/d16all/split_new.py`) loses nothing.
+1. **MUST FIX (b), PAPER §4.2.** The v6 critical tail removed whole fibres in 61 jobs (81 members). Are all 81 now
+   treated as members (`results/b_removed_fibres.txt`: Lemma G 23; NC-OK 38; analyzer OK 20), and is no closure left
+   that relies on "non-reduced mod p"?
+2. **MUST CHECK (c), PAPER §4.4.** R2's hidden-set, base-point and node checks, run with R2's scripts on the 97 pencils
+   (`results/c_hidden_base_node.txt`), the direct node version for 4 jobs (`code/p16all/mknt.py`), and stage 2b on all
+   special members (606 jobs, `results/c_stage2b_accounting.txt`, open 0; quadratic factors as one member over F_p(w)).
+   Is this the complete R2 procedure behind R2 §2.5(i)? Is anything still missing (e.g. members at u = ∞, tangent cases)?
+3. **MUST CHECK (d), PAPER §4.5.** Identification of every component with a known curve before the NC check / analyzer
+   (`results/d_identification.txt`: 299 all known; the 33 with an unknown component are closed by Lemma G alone). Is
+   "containment of the known-curve ideal + equal degree" an adequate identification?
+4. **MUST CHECK (e), PAPER §4.6.** c0 = D_k in all 441 non-reduced scan entries (`results/e_c0_vs_Dk.txt`); MEMBERDIM
+   0: 232, 1: 209, ≥ 2: none. Does this settle the cap entries and the possibility of non-reduced families?
+5. **MUST CHECK (f), PAPER §4.7.** The check inserted in every T7 job (block `// audit (f)` in
+   `code/p16all/t7/example_t7_job_with_audit_f_check.sing`): 84 × EXG-CHECK OK.
+6. **The t_21 item and the SHOULD FIX items** (PAPER §2, §3, §7; `code/d16all/mkg3.py`, `results/gx_results.txt`,
+   `results/split_new.txt`).
 
 ## Answer format
-For each item: **PASS / HOLD / FAIL**, then a list marked **MUST FIX** (a wrong step), **MUST CHECK** (could not
-verify) or **SHOULD FIX** (wording). Quote the exact sentence for each item.
+For each item: **PASS / HOLD / FAIL**, then items marked **MUST FIX**, **MUST CHECK** or **SHOULD FIX**, quoting the
+exact sentence. Finally an overall verdict on Claim D16.

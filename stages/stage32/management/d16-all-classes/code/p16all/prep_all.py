@@ -1,9 +1,8 @@
-"""d=16 ALL reps, new classes (not unibranch-compatible reps), h0=2, NO odd-contact filter (32R-83 is unibranch-only); copy of p18/prep_all.py (32R-85 d=18 pencil PRODUCTION (from p18s/prep.py): all h0=2 reps that survive the odd-contact filter
-(mu1820/pf18.txt, column 2 == 2), critical tail p16/crit_tail_v6.sing, output dir p18/.
-Original sample doc: pick NS random h0=2 reps from fasth0/j18_glpk.txt
-(x from /root/x18_ord.txt, same order), drop reps with a fixed known/exceptional curve (fixfilt rule), build the
-decompositions as p16/pencil_plan.py (both node modes) and write the critical scripts p18/c_<i>_<t>.sing.
-usage (from stoll/): python p18/prep_all.py"""
+"""d = 16 ALL reps, new classes (not among the unibranch-compatible reps of R2), h0 = 2; input /root/j16all_new_h0pos.txt.
+No odd-contact filter is used (32R-83 is valid for unibranch curves only).  Derived from p18/prep_all.py (32R-85):
+fixed-component check (fixfilt rule; then checked in char 0 by p16all/mkfix0.py), decompositions as p16/pencil_plan.py
+(several decompositions to shrink the hidden curves), critical scripts p16all/c_<i>_<t>.sing with the tail
+p16/crit_tail_v6.sing.  usage (from stoll/): python p16all/prep_all.py"""
 import sys, json, random
 ARGV = sys.argv[1:]
 import numpy as np
