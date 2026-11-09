@@ -1,0 +1,183 @@
+{
+  "schema": "stage35ex.pr1860.recursive-parent-continuing-audit.v1",
+  "updated_jst": "2026-11-09",
+  "status": "IN_PROGRESS_NOT_CLOSED",
+  "scope": [
+    "R3-07 row393 and adopted LOW exclusions",
+    "R2-01 C189/S270 current math only"
+  ],
+  "first_pass_1854": "FIRST_ROUND_INVENTORY_NONEXHAUSTIVE",
+  "known_first_round_drive_candidates": 23,
+  "first_round_candidates_added_in_1860": 12,
+  "new_originals_discovered_outside_first_23": [
+    {
+      "id": "R2-C160-OWNER-STRONG-GCD",
+      "origin": "https://drive.google.com/file/d/12zpMA0N4I8FKRyeiiRVpLGELs7ef5_X9/view",
+      "file": "proofs/active-ancestors/C160-R2-strong-gcd-original.md",
+      "sha": "7f3be8554739ec6edece3068b22aff256cf582db",
+      "role": "LOAD_BEARING_DIRECT_PARENT",
+      "used_by": [
+        "C160 R0 record",
+        "C185 sparse prime-cut proof",
+        "C187 155/197 dependent bound"
+      ],
+      "finding": "C160 is R0 integration summary; mathematical owner proof SG.1/SG.2 is a different document, not among original 23."
+    },
+    {
+      "id": "R2-C185-OWNER-PRIME-CUT",
+      "origin": "https://docs.google.com/document/d/11mAxfmwcaGns7H_Za-X59BMN4dYEPmjy_xvV9mEg7M0/edit",
+      "file": "proofs/active-ancestors/C185-R2-prime-cut-original.md",
+      "sha": "7471a83dfe5a5f8aae052f3e7f7165d99c568594",
+      "role": "LOAD_BEARING_DIRECT_PARENT",
+      "used_by": [
+        "C185 R0 adopted summary",
+        "C187 original 155/197 bound"
+      ],
+      "finding": "R0 C185 summary only gave sparse lcm/gcd formula; owner source includes its full valuation case split and constants."
+    },
+    {
+      "id": "R2-C174-OWNER-HYBRID-HEIGHT",
+      "origin": "https://docs.google.com/document/d/1XxC52DqQ9E5WZGcqIWcXWuLgUse_XfZ7T0JjV1Y-Sg4/edit",
+      "file": "proofs/active-ancestors/C174-R2-hybrid-height-original.md",
+      "sha": "9b5b150e806dca6e41b0bfaee22c770e720c2124",
+      "role": "LOAD_BEARING_DIRECT_PARENT",
+      "used_by": [
+        "C174 R0 threshold adoption",
+        "C175 selected height certificate",
+        "C187 155/197 uniform band"
+      ],
+      "finding": "R0 C174 uses owner λ4/λ3 exact threshold certificate; full owner proof is distinct from R0 integration text."
+    },
+    {
+      "id": "R2-C175-EFFECTIVE-TOP-UPPER",
+      "origin": "https://docs.google.com/document/d/1WyJgZFJL0XDGFWRGFGBas8SNrdVsUiVRlxZHoBtajiU/edit",
+      "file": "proofs/active-ancestors/C175-R2-effective-top-upper-original.md",
+      "sha": "6b7901901cdb6d98e818d4c40f0b6f3999597320",
+      "role": "CONDITIONAL_UPPER_TOOL_NOT_C189_LOWER_CORE",
+      "used_by": [
+        "C175 R0 §3 dependent upper",
+        "R2 historical non-closing TOP mass analysis"
+      ],
+      "finding": "R0 accepted scoped numerical effective upper, which is NOT a <75% all-source upper."
+    },
+    {
+      "id": "R2-C175-OLDER-MOBIUS-UPPER",
+      "origin": "https://docs.google.com/document/d/1ojhPqu5PynGnDzHnZ8YNCzWEuYUJ-kb_ndk0y_3aOrA/edit",
+      "file": "proofs/active-ancestors/C175-R2-older-mobius-upper-original.md",
+      "sha": "f1a6633b5ba64968d2dde46bf5645b182501d486",
+      "role": "CONDITIONAL_UPPER_ANCESTOR_NOT_C189_LOWER_CORE",
+      "used_by": [
+        "C175 R0 §3 earlier input",
+        "R2 effective TOP upper owner proof"
+      ],
+      "finding": "C175 cites postC136 original subset-Möbius upper; not the all-index strict 75% upper."
+    }
+  ],
+  "new_origins_count": 5,
+  "source_readback_equality": "All five newly imported readable Drive texts exactly match GitHub UTF-8 readbacks; this is not source native layout/byte verification.",
+  "inspected_edges": [
+    {
+      "route": "R2-01",
+      "from": "C185 sparse prime-cut",
+      "to": "R2-C160-OWNER-STRONG-GCD",
+      "evidence": "C185.md line 24 and C160.md §3; owner proof SG.1/SG.2",
+      "status": "SOURCE_RETAINED_STATEMENT_MATCHED",
+      "outstanding": "all parent assumptions and computations not independently audited"
+    },
+    {
+      "route": "R2-01",
+      "from": "C187 155/197",
+      "to": "R2-C185-OWNER-PRIME-CUT",
+      "evidence": "R2-uniform-thresholds.md cites C185 exact λ-bound and 9/50, 7/50",
+      "status": "SOURCE_RETAINED_STATEMENT_MATCHED",
+      "outstanding": "prime-cut valuation certificate not independently rerun"
+    },
+    {
+      "route": "R2-01",
+      "from": "C187 155/197",
+      "to": "R2-C174-OWNER-HYBRID-HEIGHT",
+      "evidence": "C174.md §1 λ*; C175 R0 height selector; R2-uniform-thresholds.md C174/C175 reference",
+      "status": "SOURCE_RETAINED_STATEMENT_MATCHED",
+      "outstanding": "20856 base replay and λ* proof not independently rerun"
+    },
+    {
+      "route": "R2-01",
+      "from": "C175 R0 §3 upper",
+      "to": "R2-C175-EFFECTIVE-TOP-UPPER",
+      "evidence": "C175.md lines 71-97 reference source",
+      "status": "SOURCE_RETAINED_SCOPED_TOOL",
+      "outstanding": "not proof of global strict<75% upper; nonessential to adopted C189 lower"
+    },
+    {
+      "route": "R2-01",
+      "from": "R2-C175-EFFECTIVE-TOP-UPPER",
+      "to": "R2-C175-OLDER-MOBIUS-UPPER",
+      "evidence": "C175.md §3 explicitly cites postC136 primary",
+      "status": "SOURCE_RETAINED_SCOPED_TOOL",
+      "outstanding": "conditional upper only"
+    },
+    {
+      "route": "R2-01",
+      "from": "S232 rank-growth denominator",
+      "to": "S230 A/C local lemma",
+      "evidence": "S232.md lines 60-66, 78-81 and S230.md §2-3",
+      "status": "SCOPED_LEMMA_PRESENT",
+      "outstanding": "S230 overall theorem assumes finite-odd dQ=mP; check that local A/C argument stands without it. Text says it does."
+    },
+    {
+      "route": "R3-07",
+      "from": "row368 Ward5/3",
+      "to": "S321 factorization + S263/S264",
+      "evidence": "row368.md lines 34-39; S321.md factor W5 proof, S238 old 2-adic conditions",
+      "status": "SOURCE_PRESENT_RECURSIVE_REVIEW_OPEN",
+      "outstanding": "row368 independent certificates and source adapter not reevaluated"
+    },
+    {
+      "route": "R3-07",
+      "from": "row369 Ward7",
+      "to": "S322 K/L split + C35-12 + S321",
+      "evidence": "row369.md lines 63-85; S322.md P(u)Q(u), Q(u)=P(-1-u) polynomial identity",
+      "status": "SOURCE_PRESENT_POLYNOMIAL_EQUALITY_CONFIRMED",
+      "outstanding": "C35-12 genus3 rational point classification certificate and source coverage not reaudited"
+    },
+    {
+      "route": "R3-07",
+      "from": "row393 degree105",
+      "to": "de la Maza Theorem 1/corollary",
+      "evidence": "row393.md §2 gives DOI/author and specialized weight",
+      "status": "EXTERNAL_THEOREM_APPLICATION_PENDING",
+      "outstanding": "actual primary theorem assumptions and normalized constants not independently confirmed"
+    },
+    {
+      "route": "R2-01",
+      "from": "S252 height",
+      "to": "Bérczes et al. Theorem 2.1(i)",
+      "evidence": "S252.md lines 45-74 gives preconditions and specialization",
+      "status": "EXTERNAL_THEOREM_APPLICATION_PENDING",
+      "outstanding": "primary theorem statement/definitions not independently verified"
+    },
+    {
+      "route": "COMMON",
+      "from": "S194",
+      "to": "old BranchB Section16",
+      "evidence": "S194.md header and BranchB-Section16.md with Section17 correction",
+      "status": "SOURCE_LOCATION_RESOLVED_MATH_AUDIT_OPEN",
+      "outstanding": "Section17 withdrawn saturation/specialization conclusion must not be revived"
+    }
+  ],
+  "next_open_gates": [
+    "Continue C187/C185/C175 → S252/S270/S268/C174 more remote original parent proof discovery",
+    "Continue R3 -30 row370→393 and signed±18 row339→367 logical dependency proof sufficiency",
+    "Verify R3 row368/369 C118/C35-11/12 audit material and R2 S275/S271–274 mathematically necessary part",
+    "Verify S194 Section16 and Section17 conditional scope; re-check oldest E3 source adapter",
+    "External primary mathematical application: Bérczes S252; de la Maza row393",
+    "Recurse from actual proof statements not merely same-number file presence; record missing source as soon as found",
+    "Explicitly defer all original computing ZIP/code replay and new independent mathematics certification"
+  ],
+  "required_parent_total": null,
+  "missing_parent_total": null,
+  "closure_pass": false,
+  "merge_permitted": false,
+  "new_theorem_credit": 0,
+  "research_row_stop": 393
+}
