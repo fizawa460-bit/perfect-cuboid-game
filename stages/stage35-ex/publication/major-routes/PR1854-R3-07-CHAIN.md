@@ -1,5 +1,7 @@
 # R3-07：row393までに至る数学的証明鎖（PR #1854）
 
+> **現行の粗い鎖は [**2ルートの端から端までの粗い証明鎖（今回の最新全体図）**](PR1854-ENDTOEND-CHAIN.md) を優先**。以下には段階的整理の履歴も残る。今回追加した著者原証明11本と、以前から収載された原証明の所在を合わせたもので、個々の数学的必須性・外部定理適用は未監査。
+
 **第1対象：P23-LOW、R3研究経緯のrow393で停止。** [R3-07運用記録](../routes/R3-07.md)が正本への入口。ここにあるリンクは「GitHub上に原著が存在する」の確認であり、親鎖が数学的に完全に閉じたという判定ではない。新しい原証明・計算証拠は今回追加しない。
 
 ## 最終地点
@@ -25,7 +27,7 @@ row368はWard3/5列挙、row369はWard7列挙。row376は**+30だけ**であり�
 - [row365](../../materials/original-source-exclusions/parents/row365/REPORT.md)
 - [row366](../../materials/original-source-exclusions/row367/parent_evidence/ROW366_PROOF.md)
 
-row362はrow361と同一原著なので重複しない。row351/352等のさらに古い真正Selmer→fakeの数学親は、既存GitHubオブジェクト内証明と正確な主張をまだ対応付ける必要がある。
+row362はrow361と同一原著なので重複しない。row351の[元数学証明](proofs/R3-18-upstream/row351.md)、row352の[既存数学本文](../../materials/selmer18-parent-chain/objects/5fd888550f0b7d57-PROOF_C2_INFINITY_RANK7_AND_TRUE_FAKE_KERNEL_JA.md)、row350の[実符号本文](proofs/R3-18-upstream/row350.md)を今回直接接続した。数学的な真偽・全親の完全性は別途の確認事項。
 
 ## Ward3/5/7：既存親本文
 
@@ -35,7 +37,7 @@ row362はrow361と同一原著なので重複しない。row351/352等のさら�
 - [C35-12](../../materials/original-source-exclusions/parents/C35-12/PROOF.md)
 - [row339](../../materials/original-source-exclusions/parents/row339-PROOF.md)
 
-**S238の一様2進平方類**と**S321のW5/W7同じsource分割**は、採用LOW証明に引用されるにもかかわらず、現時点でGitHub内の完全同値証明への対応未了。S322はrow369等の既存本文に必要部分が完全にあるかを先に判定する。ここを障壁文書とひとまとめにして除外しない。
+[**S238の一様2進平方類**](proofs/active-ancestors/S238.md)、[**S321のW5/W7元source分割**](proofs/active-ancestors/S321.md)、[**S322のK/L分割**](proofs/active-ancestors/S322.md)の**元著者数学本文を収載した**。個々の補題の適用範囲・監査状態は原稿を保持し、無条件のsigned±6排除まで主張しない。
 
 ## −30前段：元source必要条件・局所Kummer・階数
 
@@ -70,7 +72,7 @@ row362はrow361と同一原著なので重複しない。row351/352等のさら�
 
 ## このルートの証明本文として残る確認
 
-1. 現行で利用したLOW排除とrow393から逆向きに、**実際に使う数学的補題**を列挙して上記のGitHub証明に接続。S238/S321・row351/352・S322等は必要範囲を照合する。
+1. LOW排除とrow393からの粗い祖先鎖は[全体図](PR1854-ENDTOEND-CHAIN.md)で接続。S238/S321/S322・row351/352の**本文欠落**は修正したが、採用命題への個々の適用とさらに古い親の数学的十分性は独立に未監査。
 2. row393のde la Maza原典Theorem 1と直後の系の仮定・係数・規約の一致を確認する。有限算術のPASSを原典確認PASSとしない。
 3. 過去の不採用・障壁だけの研究は原本Drive参照で足りる。**採用結果の不可欠な親補題はGitHub原著か完全同値証明を要求**。
 4. 計算コード・ZIP・期待値はユーザー指示で**後回し**。独立数学監査も別ゲート。
@@ -84,3 +86,7 @@ row362はrow361と同一原著なので重複しない。row351/352等のさら�
 - [R5-C212旧指数マスク](proofs/foundations/R5-C212.md)は現在の9絶対／16 signedを直接与える単独の定理ではなく、旧C181・C183とrow367/368/369/376の差分照合に必要な文脈である。
 
 上の**6本文は追加アップ不要、GitHub既存**。引用の根拠と残る親の分類は[引用辺監査](PR1854-PROOF-EDGE-AUDIT.md)へまとめた。現在の数学的必須本文の最終総数は依然未確定。
+
+## 粗い連結の終端（新資料・元からある本文）
+
+固定±18は[row342](proofs/R3-18-upstream/row342.md)→[row343](proofs/R3-18-upstream/row343.md)→[row345既存](../../materials/selmer18-parent-chain/objects/01d05437afc6fa87-PROOF_C2_TRUE_LOCAL_KUMMER_DIMENSIONS_JA.md)→[row350](proofs/R3-18-upstream/row350.md)→[row351](proofs/R3-18-upstream/row351.md)→[row352既存](../../materials/selmer18-parent-chain/objects/5fd888550f0b7d57-PROOF_C2_INFINITY_RANK7_AND_TRUE_FAKE_KERNEL_JA.md)→row364～367。Wardは[S238](proofs/active-ancestors/S238.md)・[S320](proofs/active-ancestors/S320.md)・[S321](proofs/active-ancestors/S321.md)・[S322](proofs/active-ancestors/S322.md)→row368/369。−30は既存のrow370～393を辿る。[粗い全体図](PR1854-ENDTOEND-CHAIN.md)を参照。
