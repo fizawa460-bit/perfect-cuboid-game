@@ -97,7 +97,36 @@ y(Q−Qsharp)=−(r+s)ρ+m(ρ+r²)=−r(ρ−rs)=−rpq.
 ```
 **Q−Qsharp=Qn=(-r²,−rpq)**が同じr,s,p,q、同じラベル・符号のもとで恒等的に従う。この計算に `dQ=mP` もspecialized rank=1も使わない。ただし**`Qn=T0+[2n]P`は、indexed original branchの追加の部分群条件**であり、物理４平方だけでは帰結しない。
 
-## 5. source→R3／R2との関係と厳密な未閉鎖境界
+## 5. 35EX-21／35EX-31の正の完全直方体座標からselected E3の４平方まで
+
+[35EX-21原著](../../35ex-21/global-normalized-cuboid-surface-and-genus5-fibration.md)§§1–2の**正の有理完全直方体面**`S_PC`では、辺`(1,x,y)`、面対角線`(p,q,z)`、立体対角線`w`は
+```
+p²=1+x², q²=1+y², z²=x²+y², w²=1+x²+y²;
+x,y,p,q,z,w>0.
+```
+その**同じ物理点**に対し
+```
+A=1, B=z, C=w;   r=x, s=y, p0=p, q0=q
+```
+を選ぶと
+```
+A²+B²=C²,
+p0²=A²+r²,
+s²=B²−r²,
+q0²=C²−r²,
+r,s,p0,q0>0.
+```
+をすべて恒等的に満たす。したがって、[E3最古selected物理原著](proofs/earliest-foundations/E3-selected-physical-kummer.md)§1の**四つの平方条件へ全てのpositive rational cuboid点から一方向に送れる**（選んだ辺A=1、反対の面対角線B=z、空間対角線C=w）。逆向きも、この４平方点を辺`(A,r,s)`・面対角線`(p0,q0,B)`・空間対角線`C`と解釈することで成り立つ。物理根・符号・同じ点を保った純代数的な往復である。境界点や任意符号componentは含めない。
+
+E3原著の`t>1`は有理数。例えば上記の`A=1,B=z,C=w`では`τ=(w+1)/z>1`を選び、§2の`λ`で戻す。`A,B,C`が有理三つ組なら、正の有理一括スケールで３つを整数にし、共通最大公約数で割って**同じ標識のpositive primitive integer base**を得る。同じ一括スケールを`r,s,p0,q0`にも適用するので、元の物理square packetを失わない。
+
+[35EX-31原著](../../35ex-31/primitive-source-marking-endpoint-equivalence.md)§§5,7は、正の有理完全直方体で２進付値が最小の辺を選び、残りを`v₂(x),v₂(y)>0`とする正規化から、元の**primitive Euclid source**とMaster/E1受信条件を再構成する。この`source marking`と上記の`A=1`選択は、正のスケールと辺の置換を法とした**同一の物理点の異なるゲージ**であり、いずれもselected E3の４平方を正確に与える。
+
+**解消した範囲**：`35EX-21 positive S_PC ↔ E3 selected positive four squares`および`35EX-31 primitive marking ↔ positive S_PC`の**物理座標・標識の橋**。ここでやったのは原著の式の直接組合せで、新たな完全直方体不存在や数学独立監査PASSではない。
+
+**未解消で残る核心**：selected positive physical packetは`Qn=(-r²,-rpq)`という有理点を与えるが、一般には`Qn∈T0+2\mathbf Z P`を**主張しない**。最古selected physicalからS193のgeneric-image-multiple第一枝、S194の有限奇数障害、無限class／rank-growthをどう排他的・網羅的に分け、R2/R3が実際に扱うinner indexed BranchBがどの範囲を覆うかは別の命題。ここを閉じていないため、Stage35・Branch B全体はOPEN。
+
+## 6. source→R3／R2との関係と厳密な未閉鎖境界
 
 **解決済み（命題の成立範囲）**：
 1. `positive labelled primitive A,B,C ↔ positive rational τ>1` の正規化。向きA-even/B-oddに問題なし。R1のtとのMöbius写像・`z,X`が一致。
@@ -105,9 +134,9 @@ y(Q−Qsharp)=−(r+s)ρ+m(ρ+r²)=−r(ρ−rs)=−rpq.
 3. 元のindexed仮定が確かにある場合、S240・S263の`σ_n`とR1-239/256・row339の必要的Ward平方/曲線受信へ矛盾なく進む。C195のS269-Gaussian復元は**actual nP とσ_n平方**という別の十分条件を要する。
 
 **依然OPEN、勝手に解決しない**：
-- 35EX-21/31等の**全**完全直方体候補が、最古selected physical対角モデルに漏れなく帰着するという上流source coverage。
+- 全正の有理完全直方体→35EX-21 S_PC→selected E3物理４平方の**座標的包含は§5で解決**。残るのは、全selected physicalから**特定のindexed inner BranchB**へどう分岐・受信するかの網羅性であり、これをsource全体の不存在証明に昇格しない。
 - selected physical４平方点から**必ず**Branch Bの`Qn=T0+[2n]P`に属すると推論すること。S193の第一枝とS194有限奇商／無限独立枝の区別を保存。R2/R3が対象とするのは、元の**indexed inner Branch B**に入った対象の条件付き数学。
 - S194の古いSection16からSection17で**撤回済み**の特殊化飽和性を復活させること、C195の元のindexed sourceとR3自由な補助曲線点を逆対応させること。
 - row367真2-Selmer／局所障害の独立数学監査、row393外部定理の仮定、R2 C187の155/197 **LOWER**から相関４枝`strict<75%` **UPPER**を導くこと。
 
-**本回の分類**：`LABELLED_CHART_BRIDGE_RESOLVED_ALGEBRAICALLY`、`EXACT_ELLIPTIC_P_TORSION_AND_ORBIT_SCALING_RESOLVED`、`Q_QSHARP_SAME_SOURCE_IDENTITY_REDERIVED`、`GLOBAL_SOURCE_COVERAGE_AND_SUBGROUP_MEMBERSHIP_OPEN`。既存原著の独立全文検証・原計算ZIP再演のPASSではない。数学原著の追加収載は０、新規一般定理として台帳登録しない。PR #1860はDraft、DO_NOT_MERGE。
+**本回の分類**：`LABELLED_CHART_BRIDGE_RESOLVED_ALGEBRAICALLY`、`EXACT_ELLIPTIC_P_TORSION_AND_ORBIT_SCALING_RESOLVED`、`Q_QSHARP_SAME_SOURCE_IDENTITY_REDERIVED`、`GLOBAL_POSITIVE_CUBOID_TO_SELECTED_PHYSICAL_COORDINATES_RESOLVED`、`GLOBAL_PHYSICAL_TO_INDEXED_SUBGROUP_COVERAGE_OPEN`。既存原著の独立全文検証・原計算ZIP再演のPASSではない。数学原著の追加収載は０、新規一般定理として台帳登録しない。PR #1860はDraft、DO_NOT_MERGE。
