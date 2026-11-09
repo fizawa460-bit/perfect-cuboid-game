@@ -85,6 +85,10 @@ row354 [Drive ZIP](https://drive.google.com/file/d/1m7Z0PKSNdkPR7Qt37STDSOpU3esg
 
 未解決は別問題として保存：物理４平方だけでは`D_n=T0+2nP`という部分群所属を強制しない、S193第一枝・S194有限奇数枝・無限独立枝は異なる、selected E3物理点がindexed Branch Bに属する範囲の**分岐網羅**が完結したわけではない。ここは`GLOBAL_SELECTED_PHYSICAL_TO_INDEXED_BRANCH_COVERAGE_OPEN`、`OLD_SECTION17_WITHDRAWAL_HOLD`。
 
+## Gate Dの部分検証・直接一次原典未取得（2026-11-09）
+
+[**Gate Dの一次文献２件と正確な代数チェック**](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.md)／[監査JSON](PR1860-GATE-D-TWO-EXTERNAL-PRIMARY-AUDIT.json)。de la Mazaの出版社原PDF・Mordellの原著Chapter4該当ページは、接続済み資料検索では取得できなかった。Mordellを使う§15.4の`ψ3`判別式・`α±(r)`・四次式への代数帰着は別途SymPyで検算PASS。**古典「非自明整数解無し」の命題自体とde la Mazaのadmissible(4)は原典未検証**。Gate A/B/C/EはPASSのまま、D-1/D-2の２件はOPEN。必要著者本文の追加は０／第２周累計23、独立数学監査認定なし。
+
 ## Gate C・Eの完了判定（2026-11-09更新）
 
 [**固定した39辺の全行判定表**](PR1860-SECOND-PASS-EXIT-CHECKLIST.md)に、**原数学本文あり33／後続再証明２／現行終端には非必須３／外部原典照合をGate Dへ移管１**の根拠を記録。**39/39行を一意分類**し、Gate CをPASSとした。外部への移管は旧#37 row393→de la Mazaだけ。**これをC・Dの両方に未判定として二重計上しない**。
