@@ -25,12 +25,19 @@
 - [row339の既存原著](../../materials/original-source-exclusions/parents/row339-PROOF.md)：上記を参照し `X=(AC/B²)²` と163進円盤へ送る。
 - R1-254の別原著はRunge法の既知上限の検討であり、R1-255が必要な `F_i(t)` の式を本文に再度明記している。**R1-254のRunge側枝全体を自己完結の必須祖先と誤認しない**。
 
+## ２ルートの続行監査（今回も完了ではない）
+
+- **[R3 −30のrow370〜393：24数学原著・親の段階確認](PR1860-R3-MINUS30-PARENT-CHECK.md)**：各24原著をGitHubで再読して本文欠落０。ただしrow377は別枝、row381の排除はHecke GRH条件付き、row393の外部de la Maza原典は未照合。
+- **[R2 C189→C187：17原著と16辺の数学親監査](PR1860-R2-CORE-PARENT-CHECK.md)**：第１周の文書要旨ではなく原著へ接続。C187端点 Q₄(154),Q₄(155),Q₁(196),Q₁(197) の厳密有理算術は別計算で一致。
+- **重要な適用範囲訂正**：S252のBérczes外部定理は `H`-supported分母の別指数上界に用いられる（S252 §2/§5）。C187の155/197には **S252 §3〜4の自足的な倍点高さ評価** を使う。外部定理そのものを検証済みとせず、C187の直接親ゲートから分離した。外部de la Mazaはrow393の直接親として残る。
+
 ## 現在点検した依存辺（『存在する』と『数学的に十分』を分離）
 
 | ルート | 子 → 数学親 | 照合した根拠 | 現在の判定 | 次に残す条件 |
 |---|---|---|---|---|
 | R3-07 | row339 → R1-256 → R1-255 → R1-239 | row339 original §1/2, R1-256 §2, R1-255 four-factor theorem, GitHub existing R1-239 | **SOURCE_RETAINED_RECURSIVE_PATH** | genus/算術再演と最古元source→indexedの接続は未完 |
 | R2-01 | C174 hybrid height selector → R5 C157 8P lower height | C174数学本文はλ3>L/16−41/768を親として引用し、C157原著(8P.1)-(8P.4)にその導出がある | **SOURCE_RETAINED_STATEMENT_MATCHED** | 証書再演、S252正規化の独立監査は未実施 |
+| R2-01 | C187 155/197 → S252 §3〜4（Bérczes §2ではない） | C187/S270本使用式とS252§3〜5の式によるscope照合 | **SCOPE_CORRECTED** | 高さ下界全原数学監査は未了 |
 | R2-01 | C185 sparse prime-cut → R2-C160-OWNER-STRONG-GCD | C185.md line 24 and C160.md §3; owner proof SG.1/SG.2 | **SOURCE_RETAINED_STATEMENT_MATCHED** | all parent assumptions and computations not independently audited |
 | R2-01 | C187 155/197 → R2-C185-OWNER-PRIME-CUT | R2-uniform-thresholds.md cites C185 exact λ-bound and 9/50, 7/50 | **SOURCE_RETAINED_STATEMENT_MATCHED** | prime-cut valuation certificate not independently rerun |
 | R2-01 | C187 155/197 → R2-C174-OWNER-HYBRID-HEIGHT | C174.md §1 λ*; C175 R0 height selector; R2-uniform-thresholds.md C174/C175 reference | **SOURCE_RETAINED_STATEMENT_MATCHED** | 20856 base replay and λ* proof not independently rerun |
