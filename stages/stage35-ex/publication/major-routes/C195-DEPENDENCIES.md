@@ -1,27 +1,23 @@
-# C195以前の主要前提 — 収載状況の訂正
+# C195の前提11原証明：収載対応と依存条件
 
-2026-11-09 JST。確認したPR head：8153723a483a663fda0fb77115c675fbc76a15aa。
+2026-11-09 JST。以前の「対応未確認」11原稿は、Driveの実本文を取得し、PR #1854の同じブランチに保存した。**これは証明チェーンの独立監査完了を意味しない。** 旧著者のPROVISIONALやNEXTを現行結果として昇格しない。
 
-**C195より前の証明が不要という意味ではない。C195の主要前提までGitHub本文で読める状態は未完了。** 以前の「主要ルート移植完了」は、六つの説明本文と出典リンクを揃えたことに対する過大な完了表示だったため訂正する。
-
-| 前段資料 | C195での役割 | 今回のGitHub収載で確認できた範囲 |
+| 原稿 | 位置づけ | 原著本文 |
 |---|---|---|
-| S233・S237 | 共通整数分子・素点付値・formal depth | C195に議論の再構成はある。元原稿の本文収載対応は未確認 |
-| S240 | 同じ元楕円軌道の倍算・三平方adapter | C195に公式と議論はある。元原稿の本文収載対応は未確認 |
-| S268・S269 | 既約Ward norm、原始性、Gaussian・役割・正しいsigned POINT | C195や主要本文で使用。原証明への導線はDrive参照 |
-| R1-223訂正・R1-228 | 任意役割の誤推論を防ぐ訂正、H四乗のnormal form | C195に引用・説明はある。元原稿の本文収載対応は未確認 |
-| C174 | 全原始基底の高さ下界、proper役割とQ無限商の継承 | C195は旧全基底証明を依存として利用。今回の収載で原証明本体を対応づけていない |
-| S289・S290 | 四つのGLOBAL整数根、Kummer、Q無限商・高さ規約 | C195の結論に継承される。今回の収載で原証明本体を対応づけていない |
-| C194 | generic補助曲線への転送を制限する既存障壁 | C195の文脈・適用境界で参照。原稿はDrive参照 |
+| S233 | C195 rederives common-numerator subset | [保存済み](proofs/C195-upstream/S233.md) |
+| S237 | C195 rederives formal-depth subset | [保存済み](proofs/C195-upstream/S237.md) |
+| S240 | C195 uses original duplication adapter | [保存済み](proofs/C195-upstream/S240.md) |
+| S268 | C195 inherits reduced primitive norm | [保存済み](proofs/C195-upstream/S268.md) |
+| S269 | C195 inherits Gaussian quartic/signed POINT | [保存済み](proofs/C195-upstream/S269.md) |
+| R1-223 | correction: no arbitrary role factorization | [保存済み](proofs/C195-upstream/R1-223.md) |
+| R1-228 | fourth-power normal form | [保存済み](proofs/C195-upstream/R1-228.md) |
+| C174 | uniform height and role context | [保存済み](proofs/C195-upstream/C174.md) |
+| S289 | global four-root lift | [保存済み](proofs/C195-upstream/S289.md) |
+| S290 | large-index same-Q infinity context | [保存済み](proofs/C195-upstream/S290.md) |
+| C194 | generic auxiliary no-map barrier | [保存済み](proofs/C195-upstream/C194.md) |
 
-[C195本文の原資料一覧](proofs/C195-canonical-source.md)に各原稿のDriveリンクを保持する。C195で必要な議論を証明し直している部分と、外部の旧証明を前提に使っている部分は分けて扱う。前者の旧稿を全件複製する必要はなくても、後者の主要な証明は主要ルートの根拠として収載を検討する必要がある。
+C195自身の[原証明](proofs/C195-canonical-source.md)は、元のactual signed orbit上の正の補平方・canonicalなM,N・正しいnegative-y POINTと現行index条件に限定する。S233/S237/S240相当の議論はC195本文で再構成するが、S268/S269/C174/S289/S290は旧結果を前提に使用する。R1-223訂正の「任意のb=MNから四次式へ飛躍できない」は保持し、S289のQ無限商を任意の補助曲線点へ転送しない。C194のno-map障壁も維持。
 
-## 確認の範囲と限界
+出典ID、Git blob SHA、抽出形式は[出典対応map](PRIMARY-SOURCE-MAP.json)に保存した。native Docsは段落テキストを連結、Markdownはreadable textを取得。画像・表・数式表示を含むnative原物同一性、全文の数学的独立検証は主張しない。C174の高さ依存、C195での前提適用、C196〜C200の条件、S270/P112の対応の最終照合は[移植チェックリスト](MIGRATION-COMPLETION-CHECKLIST.md)に残す。
 
-既存五資料群の全SOURCE-INVENTORY、publicationの収載manifest、C195の本文と原資料リンクを確認した。C195が列挙する上記11原稿の正確なDrive IDは、既存五群のSOURCE-INVENTORYに対応がない。五群にはC117–C119、±18のSelmer親、LOW排除、−30の類群など別の前段資料が保存されており、「C195以前は一切無い」という意味でもない。
-
-default-branchの限定GitHub検索も実施したが、検索不一致からリポジトリ全体の不存在は断定しない。別名・別証明による既存GitHub内容が同じ命題を十分に支えているかは未照合である。従って現状態は「今回の移植で原証明本体への対応が未確認」であり、「全GitHubに存在しない」とはしない。
-
-必要な次の作業は、主要前提の正確な命題・成立条件と原証明を対応づけ、既存の同内容は共有し、不足する主要本文を補うこと。全過去文書・生ログ・全親証書の網羅複製は再開しない。数学研究・row394以降・独立数学監査・mainマージも実行しない。
-
-[主要ルート入口](README.md) · [移植進捗](../../materials/MIGRATION-STATUS.json)
+[主要ルート](README.md) · [元Wardルート](01-canonical-source.md) · [PR #1854](https://github.com/fizawa460-bit/perfect-cuboid-game/pull/1854)

@@ -57,3 +57,7 @@ D_-30は反対の符号を持つため、この証明は−30を排除しない�
 各固定指数のsource有限性だけでは有効列挙や空性は得られない。−30の最新の障壁は[類群の本文](04-minus30.md)、他の残余も含めた全LOWとBranch BはOPEN。
 
 [主要ルート入口](README.md)
+
+## P112残表の原資料（追補）
+
+[C181](proofs/foundations/C181.md)、[R5-C212](proofs/foundations/R5-C212.md)、[S264](proofs/foundations/S264.md)を保存。9絶対・16 signedの現行表は維持するが、これら三資料からのP112の導出表は[照合待ち](MIGRATION-COMPLETION-CHECKLIST.md)。

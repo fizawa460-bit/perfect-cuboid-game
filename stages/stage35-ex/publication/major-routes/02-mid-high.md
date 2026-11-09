@@ -68,3 +68,7 @@ C189は同系列の補遺も従属採択し、m≥155でjoint protected質量が
 C189のR0採否は内部の従属採択として記録する。155/197の有限Fraction計算の再現と、継承された全基底高さ証明の独立再監査は区別する。今回の公開は新しい数学監査を付与しない。深い高さ証書・原ログはDrive参照に留める。
 
 [主要ルート入口](README.md) · [C189原文](https://docs.google.com/document/d/10MNKZS2aWJ6rZVi1YxgIliuX9kxIJAPlY3EWwhf5d48/edit)
+
+## S270原文（追補）
+
+[四つのTRUE TOPと全PROPER ordinary βの原著S270](proofs/foundations/S270.md)を保存。原稿と現行C189の定義・採択範囲の突合は[未完了チェック](MIGRATION-COMPLETION-CHECKLIST.md)へ。

@@ -50,3 +50,7 @@ C195はR1-223の訂正を取り消していない。任意のM,N、normだけの
 全許容基底と明示されたsigned指数域で、実際のstrict元軌道のT_nが大域的に正の平方になれないこと、またはその点を有効に全分類することが残る。[R2の真正質量上界](02-mid-high.md)も別の残存方向である。元の整数Gaussianを書き直すこと、Qの古い独立gateを再導入すること、有限素数検査を追加することは、この未証明部分の解消にならない。
 
 [主要ルート入口](README.md) · [原著C195のDrive](https://drive.google.com/file/d/1qI7lyiiJF_5Mf7mevzInxG-HZGRQzqUF/view)
+
+## 原証明本文追補（2026-11-09）
+
+[C195の直接前提11本文](C195-DEPENDENCIES.md)と[C196〜C200の後続本文](MIGRATION-COMPLETION-CHECKLIST.md)を収載。S233/S237/S240のC195内再構成と旧S268/S269/C174/S289/S290の継承を区別する。新監査・新採択・実際の補平方source存在は主張しない。
