@@ -1,0 +1,1508 @@
+﻿# K16-C3-M3-LOCAL-TO-GLOBAL — MAIN
+
+
+## Current research authority / continuation contract
+This file is the compact current operational authority for normal M3 research.
+Continuation order: MAIN -> RESEARCH-INDEX -> RESULT-LEDGER -> active ROUTE.
+PRIMARY_GATE=M3-T11-GATE-001
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+LATEST_RESEARCH_CARD=M3-T11-087
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+NEXT_RESEARCH_CARD_ID=M3-T11-088
+NUMBERING_GUARD: M3-T11-001 through M3-T11-083 are existing IDs. Do not reset or reuse T11 numbering. After M3-T11-083, the next genuinely new T11 research card is M3-T11-084. Search/index sort order never defines continuation order.
+For the live arithmetic frontier, jump to the CURRENT AUTHORITY SNAPSHOT at the end of this file.
+Detailed per-card derivations and superseded frontier states belong in RESEARCH-INDEX / RESULT-LEDGER / ROUTE, not in MAIN.
+Do not append a new historical frontier block to MAIN after every card; update the single current snapshot instead.
+No theorem, endpoint, or P(B)/M3(B) credit is promoted unless explicitly restated in the current snapshot.
+
+
+## Research writeback / audit promotion policy
+MAIN is a compact dashboard, not a working notebook.
+
+
+WORKING:
+Use one current working document for active derivations, experiments, failed attempts, intermediate calculations, and provisional conclusions. Do not copy this material wholesale into MAIN.
+
+
+CARD / ROUTE / RESULT-LEDGER / RESEARCH-INDEX:
+When a bounded research leaf produces a substantive result, freeze the exact statement, dependencies, population/measure, firewalls, DO_NOT_REOPEN conditions, and credit limits here. This is the durable research record and the object to audit.
+
+
+AUDIT:
+Audit the frozen result/chain before formal promotion. An audit failure keeps the result provisional and out of MAIN authority/credit, even if it remains useful as a research lead.
+AUDIT_STORAGE_FOLDER=Stage37-AUDIT. Store Stage37 hostile-audit documents there, not in the Stage37 root. Keep the Stage37 root limited to operational entry documents and top-level research folders.
+
+
+MAIN PROMOTION:
+After audit PASS, promote to MAIN only the short part that changes current research control: the live gate, proved/closed status, load-bearing exact result, next legal action, DO_NOT_REOPEN rule, or credit flag. Do not paste full proofs, derivations, card history, or superseded frontier blocks into MAIN.
+
+
+PROVISIONAL FRONTIER POINTER:
+MAIN may name the current provisional working leaf so ordinary startup knows where research is happening, but such a pointer is not theorem/endpoint/P(B)/M3(B) credit and must be explicitly treated as provisional until audit PASS.
+
+
+Operational model:
+WORKING = live scratchpad;
+CARD/ROUTE/LEDGER/INDEX = durable research record;
+AUDIT = promotion gate;
+MAIN = compact audited authority plus, when needed, one clearly marked provisional frontier pointer.
+
+
+## 0. Goal and exponent budget
+
+
+Population:
+M3(B) = exact physical primitive canonical Euler bricks with R<=B and all three face diagonals integral.
+
+
+Endpoint subset:
+P(B) = objects in M3(B) with integral space diagonal R.
+
+
+Unique target:
+P(B)/M3(B) -> 0.
+
+
+This kernel does NOT claim Perfect Cuboid nonexistence.
+
+
+Certified denominator:
+M3(B) >> B^(1/3).
+
+
+Therefore an absolute numerator proof is sufficient if
+P(B)=o(B^(1/3)).
+
+
+Current generic numerator ceiling:
+P(B) <<_epsilon B^(1/2+epsilon).
+
+
+## 1. Research firewall
+
+
+- finite computation != theorem.
+- ambient density != exact M3 density.
+- any change of population, measure, field, quotient, height, or multiplicity requires an exact adapter.
+- do not assume independence.
+- do not charge the same saving twice.
+- local laws are already strong; local algebra alone receives no new research credit.
+- blocked route or finite no-hit != impossibility.
+- P(B)/M3(B)->0 does not imply Perfect Cuboid nonexistence.
+- route renaming is not progress.
+- every active route must be checked against the question: does this move toward an actual receiver for P(B)/M3(B)->0?
+- raw Master square-box truncation is forbidden; exact physical R<=B must be retained.
+
+
+## Card creation and search-entry rules
+
+
+Before opening a new card, normalize its population/measure, equation, saving mechanism, theorem species, and exponent consequence. Search RESULT-LEDGER, NEGATIVE-REGISTER, relevant ROUTE docs, and aliases. Update an existing card or add an addendum when the semantic result is unchanged; assign a new ID only for a genuinely new result, adapter, consequence, or proved reopening.
+
+
+One mathematical result or theorem gate has one unique canonical ID. The two distinct M3-T11-042 entries currently collide; keep both visible and flagged in the search index, and do not cite that ID alone as an unambiguous result. Resolve the source-ledger collision deliberately before renumbering either historical entry.
+
+
+Freeze substantive claims, exact population/height, dependencies, implications, status, credit limits, DO_NOT_REPEAT, REOPEN_CONDITION, and detail location in RESULT-LEDGER and the relevant ROUTE. Audit the frozen chain before promoting any theorem or endpoint credit to MAIN. A provisional result remains explicitly provisional.
+
+
+In the same research writeback, refresh the K16-C3-M3-CARD-INDEX search view from RESULT-LEDGER: one row per ledger entry, including ID/collision flag, status, type, concise claim, population, dependencies, reopening condition, detail location, and source links. Check the latest card, row count, duplicate IDs, and links after refresh. On correction, retraction, or supersession, retain the historical record and update the affected row/status and pointers; do not silently delete it.
+
+
+The search index is a dated navigation snapshot, not a second mathematical authority. If it disagrees with MAIN or RESULT-LEDGER, verify the source and repair the index. MAIN remains the compact audited operational authority and receives only a changed live gate, status, load-bearing result, next action, firewall, or credit flag.
+
+
+SEARCH ENTRY: K16-C3-M3-CARD-INDEX
+
+
+
+
+## 2. Exact physical and Master structure
+
+
+Canonical physical coordinates:
+X = unique odd edge,
+Y,Z = even edges,
+P^2=X^2+Y^2,
+Q^2=X^2+Z^2,
+D^2=Y^2+Z^2,
+R^2=X^2+Y^2+Z^2.
+
+
+M3 means D is integral.
+Endpoint means R is integral.
+
+
+Exact terminal factorization:
+(PQ-YZ)(PQ+YZ)=X^2 R^2.
+
+
+Primitive Master-Hit coverage uses two primitive Pythagorean triples
+(U1,V1,W1), (U2,V2,W2)
+and
+g=gcd(U1,U2),
+
+
+X=U1*U2/g,
+Y=V1*U2/g,
+Z=U1*V2/g.
+
+
+M3 condition:
+(V1*U2)^2+(U1*V2)^2=K^2,
+with K=gD.
+
+
+Endpoint iff
+X^2+D^2 is a square.
+
+
+Fixed-(X,D) physical multiplicity is B^o(1).
+
+
+## 3. Accepted anti-concentration arsenal
+
+
+For the rational fibration coordinate t on K_c:
+each fixed occupied t-fiber has multiplicity B^o(1).
+
+
+Hence occupied t-values number at least B^(1/3-o(1)),
+and any set of <=B^(1/3-epsilon) fixed t-fibers is M3-negligible.
+
+
+Retained B^o(1) fixed-coordinate multiplicity also holds for the established fibers:
+X,
+D,
+N_-,
+N_+,
+(h,J), where J=(X^2+D^2)/h^2.
+
+
+These are auxiliary tools only; none alone closes the ratio.
+
+
+## 4. Root receiver
+
+
+Fix a missing-face direction j.
+Let M2,j be the exactly-two-face population in that direction and N2,j the corresponding space-diagonal survivors.
+
+
+On the exact directional host:
+H_j = M2,j disjoint_union M3.
+
+
+The exact selector table gives
+Pr_j(S=1|F=0)=N2,j/M2,j,
+Pr_j(S=1|F=1)=P/M3.
+
+
+Define
+T_j(B)=(P/M3)/(N2,j/M2,j).
+
+
+A sufficient bound is
+T_j(B) << B^(1/2-delta)
+for some fixed delta>0.
+
+
+Current generic ceiling is
+T_j(B) << B^(3/4+o(1)).
+
+
+ROOT_RECEIVER=TerminalDirectionalCovariance.
+
+
+The root receiver normalizes the goal; it is not itself a proof method.
+
+
+## ARCHIVED HISTORICAL MIDDLE — former §§7–11D
+STATUS=ARCHIVED / NON-AUTHORITY
+ARCHIVE_DOC=K16-C3-M3-LOCAL-TO-GLOBAL-ARCHIVE-LEGACY-COLD
+ARCHIVE_DOC_ID=13koBuulOeqRttaJxkmJgsmNHdhyiNLLVvyRp-6eLaTA
+ARCHIVE_RANGE=# ARCHIVED FROM STAGE37 MAIN — former §§7–11D
+CARD_AUTHORITY=K16-C3-M3-RESULT-LEDGER
+SEARCH_ENTRY=M3研究カード検索
+DETAIL_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE and K16-C3-M3-ROUTE-CROSS-GCD
+RULE=Do not read the archived block during normal restart. Search RESULT-LEDGER/Card Index first, then open the relevant ROUTE. Use the archive only when derivation history is required.
+RULE=Any stale NEXT_ATTACK or CURRENT_* line inside the archived block is non-authoritative unless reasserted by the later CURRENT AUTHORITY SNAPSHOT.
+
+
+## M3 relative-fresh principal-root compression
+
+
+New exact card:
+M3-T11-028 = Principal square-root coordinate and fixed-root elliptic compression.
+
+
+For the relative-fresh branch, the full double-lift equation itself gives a principal-incidence-preserving squared-modulus condition.
+
+
+With
+
+
+D=1+C^2+C^2*s^2,
+P=1+s^2+C^2*s^2,
+
+
+the endpoint equation is
+
+
+D*t^2+2*C*s*t+P=0.
+
+
+If G_3 supplies the fresh relative core and mathfrak_M_3=(G_3^sharp)^2, then t==0 mod mathfrak_M_3 and therefore
+
+
+P==0 mod mathfrak_M_3.
+
+
+The principal selector
+
+
+K=-Lambda(C)*Lambda(s)*Lambda(C*s)
+
+
+has the distinguished rational square root
+
+
+z=1+D*t/(C*s),
+
+
+so z^2=K and
+
+
+(tau_3^sharp)^2 | Num(z-1).
+
+
+The exceptional value z=1 is impossible on the rational norm-one endpoint torus.
+
+
+For fixed z, the Fricke identity reduces the principal cover to the plane cubic
+
+
+X*Y*(X+Y+z^2-4)+z^4=0,
+
+
+with X=Lambda(C)^2 and Y=Lambda(s)^2.
+
+
+The nontrivial relative-fresh branch avoids all singular parameters. The cubic has rational flexes and hence rational 3-torsion. By the retained uniform bounded-height elliptic theorem,
+
+
+fixed z + fixed content/coefficient packet
+=> at most B^o(1) physical endpoint states.
+
+
+Therefore the minimal relative-fresh gate is now
+
+
+FreshRelativePrincipalRootSquareDivisorSupportOneTwelfth.
+
+
+It asks for a fixed-power deficit on the exact realized-z physical support with an actual fresh witness m satisfying
+
+
+m^2 | Num(z-1).
+
+
+This supersedes the general principal-incidence-preserving inverse-frequency adapter as the narrowest algebraic receiver on the relative-fresh branch. The inverse-frequency formulation remains an alternate analytic representation only.
+
+
+The all-same fresh square-divisor branch and the small-fresh Stage14-t27 branch remain separate.
+
+
+CURRENT_CARD_FRONTIER=M3-T11-028,M3-T11-027,M3-T11-026,M3-T11-025,M3-XG-GATE-002
+CURRENT_RELATIVE_FRESH_GATE=FreshRelativePrincipalRootSquareDivisorSupportOneTwelfth
+M3_T11_FIXED_Z_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_REALIZED_Z_SQUARE_DIVISOR_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+## CURRENT AUTHORITY SNAPSHOT — single live frontier
+This block supersedes every older NEXT_ATTACK / CURRENT_* operational line above unless explicitly restated here.
+
+
+GOAL:
+P(B)/M3(B) -> 0.
+CERTIFIED_DENOMINATOR:
+M3(B) >> B^(1/3).
+PRIMARY_GATE=M3-T11-GATE-001
+ACTIVE_ROUTE=K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE
+LATEST_RESEARCH_CARD=M3-T11-087
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+### Live x=27/40 state
+Let M=2656080. The four retained live Mordell-Weil progressions are:
+- epsilon=0: n==+/-2 mod M;
+- epsilon=1: n==+/-1 mod M.
+M3-T11-071 gives kappa5=(C|5)=+1 on all four live progressions.
+M3-T11-072 gives the exact base-Q p=3 Sturmian denominator-character law on epsilon=0.
+M3-T11-073 routes ramified p=7 exactly: it is always active on epsilon=0, never active on epsilon=1, and adds no pruning on the four live progressions.
+M3-T11-074 closes the epsilon=1 reciprocal-root p=3 gap by the shifted generator Q_T=Q+T=(11250,-1260000); the actual positive denominator character is Sturmian there as well.
+M3-T11-075 composes the live delta router with the principal-factor product identity: on actual translated-lift survivors [alpha0*alpha-*alpha+]=[-chi_n] for epsilon=0 and [2*chi_n] for epsilon=1, with chi_n given by the corresponding base/shifted Sturmian p=3 law. This is an exact global bridge, not a counting saving.
+M3-T11-076 (HOSTILE AUDIT PASS) transports the fresh H/K source factors to the same Mordell-Weil coset: (H^sharp)^2=(C_{n-2,epsilon}*C_{n+2,epsilon})^sharp and K^sharp=(C_{n-1,epsilon}*C_{n+1,epsilon})^sharp. It narrows the first attack to the remaining u/v allocation on four neighboring root denominators; no counting credit is promoted
+M3-T11-077 (HOSTILE AUDIT PASS) sharpens the H-side of M3-T11-076: each individual H-neighbor canonical root denominator has fresh part a square, (C_{n-2,epsilon})^sharp=h_-^2 and (C_{n+2,epsilon})^sharp=h_+^2, with gcd(h_-,h_+)=1. Equivalently both squarefree kernels are supported on {2,3,5,7}. This is an exact necessary condition, not a counting saving.
+M3-T11-078 (HOSTILE AUDIT PASS) converts that finite-S denominator condition into qualitative global finiteness on the fixed E2 quotient. Writing C=d*z^2 with squarefree d|210 and scaling (U,V)->(d^2*U,d^3*V) sends the point to one of 16 fixed Q-isomorphic curves with standard root denominator z^2. The Everest-Reynolds-Stevens fixed-exponent theorem then makes the finite-S denominator point set finite. Hence even one H-neighbor condition forces only finitely many Mordell-Weil indices. This is ineffective and no counting credit is promoted.
+M3-T11-079 (HOSTILE AUDIT PASS) attaches that finite MW-index support to the audited M3-T11-036 fixed-u B^o(1) physical multiplicity. The exact x=27/40 reconstruction U -> m -> t -> u makes the realized symmetric-u set finite, so each fixed content/coefficient packet contributes only B^o(1) physical x=27/40 endpoints. Conditional on audit of 076->079, this closes this singular carrier at the one-twelfth packet scale without an effective point classification.
+Therefore all local character gaps on the four live progressions are closed, but the local laws do not themselves give a fixed-power saving.
+
+
+### Exact delta routing now available
+epsilon=0: delta in {1,14}, driven pointwise by the base-Q Sturmian p=3 character.
+epsilon=1: delta in {7,2}, driven pointwise by the shifted-Q_T Sturmian p=3 character.
+
+
+### Current attacks
+CURRENT_X27_FIRST_ATTACK=RETIRED_AUDITED_X27_OVER_40_FIXED_PACKET_ONE_TWELFTH
+CURRENT_X_MINUS_ONE_EIGHTH_FIRST_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth
+CURRENT_X_MINUS_ONE_EIGHTH_SUPPORTING_ATTACK=XMinusOneEighthDualConductorTripleSpinRootLineOneTwelfth
+CURRENT_X_MINUS_ONE_EIGHTH_FIXED_D_BO1_STATUS=HOSTILE_AUDIT_PASS
+CURRENT_GENERIC_FIXED_X_BO1_STATUS=HOSTILE_AUDIT_REQUIRED
+CURRENT_X27_SECOND_ATTACK=X27Over40EllipticLogHeightReductionBelow1328040_OPTIONAL_CLASSIFICATION
+CURRENT_X27_THIRD_ATTACK=X27Over40SplitJacobianQuadraticChabauty_OPTIONAL_CLASSIFICATION
+
+
+NEXT_LEGAL_ACTION:
+M3-T11-080 is HOSTILE AUDIT PASS. On the remaining x=-1/8 singular carrier, D=d_-*d_+=sf((a^2+b^2)/M_rel^2), the smooth quartic has Jacobian V^2=U^3-1296*D^2*U with j=1728 and full rational 2-torsion, and fixed D + fixed content/coefficient packet contributes B^o(1) physical endpoints.
+NEXT: M3-T11-084/085/086/087 are HOSTILE AUDIT PASS. The x=-1/8 residual-kernel chain is now audited through the exact triple-spin sigma support coordinate: D_fr*h_fr|tau_0^sharp; the small-D_fr branch closes at one-twelfth scale; the large branch carries the audited all-same sigma root line; outside the fixed packet support Den(sigma) has fresh part exactly M_rel^2; and fixed sigma + fixed packet has B^o(1) physical multiplicity. The remaining theorem is purely a same-physical-measure fixed-power deficit for realized sigma support on the large-D_fr branch. No denominator/lattice/divisor factor is charged as an independent density saving, and no total x=-1/8 power saving, primary-gate closure, endpoint theorem, or P(B)/M3(B) credit is promoted.
+M3-T11-076/077/078/079 remain hostile-audit PASS and x=27/40 remains retired at the one-twelfth packet scale. M3-T11-080 and M3-T11-083 remain audited; M3-T11-084/085/086/087 are now hostile-audit PASS under audit document 1gJmVhhWyEg7zsS1b-LiIEB1cYnJl4B_ndkVMteqDgXI. M3-T11-081 and M3-T11-082 remain provisional/standalone-unaudited except for sublemmas already rechecked by later audits. No moving-sigma support deficit, x=-1/8 carrier power saving, generic fixed-x B^o(1), primary-gate closure, endpoint, or P(B)/M3(B) credit is promoted.
+DO_NOT_REOPEN:
+- epsilon=1 reciprocal-root p=3 character;
+- ramified-7 routing on the four live progressions;
+- p=5 character;
+- p=2/3/5/7 valuation normalization;
+- any search for a constant delta on an ambient M-progression.
+
+
+STATUS FLAGS:
+M3_T11_X_27_OVER_40_LOCAL_CHARACTER_GAPS_CLOSED=true
+M3_T11_X_27_OVER_40_STURMIAN_PRINCIPAL_PRODUCT_SQUARECLASS_EXACT=true
+M3_T11_X_27_OVER_40_PRINCIPAL_PRODUCT_GLOBAL_SQUARECLASS_INTERSECTION_CLOSED=true
+M3_T11_X_27_OVER_40_H_NEIGHBOR_FINITE_S_ROOT_DENOMINATOR_SET_FINITE=true
+M3_T11_X_27_OVER_40_DUAL_H_NEIGHBOR_MW_INDEX_SET_FINITE=true
+M3_T11_X_27_OVER_40_REALIZED_U_SET_FINITE=true
+M3_T11_X_27_OVER_40_FIXED_PACKET_PHYSICAL_COUNT_BO1=true
+M3_T11_X_27_OVER_40_ONE_TWELFTH_CARRIER_TARGET_CLOSED=true
+M3_T11_X_27_OVER_40_HK_SPLIT_ALLOCATION_GLOBAL_COUPLING_PROVED=false
+M3_T11_X_27_OVER_40_RATIONAL_POINTS_CLASSIFIED=false
+M3_T11_X_27_OVER_40_POWER_SAVING_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_KERNEL_SPLIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_RESIDUAL_QUARTIC_J1728=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_D_BO1_PROVED=true
+M3_T11_083_HOSTILE_AUDIT=PASS
+M3_T11_083_AUDIT_DOC_ID=1qlE66-it4Cg60Whtlwe-bot9-ldgbj1eyBoxVIhki8U
+M3_T11_X_MINUS_ONE_EIGHTH_LCM_DENOMINATOR_UPPER_WINDOW=true
+M3_T11_X_MINUS_ONE_EIGHTH_FIXED_DQH_PHYSICAL_FIBER_BO1=true
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+M3_T11_084_HOSTILE_AUDIT=PASS
+M3_T11_085_HOSTILE_AUDIT=PASS
+M3_T11_086_HOSTILE_AUDIT=PASS
+M3_T11_087_HOSTILE_AUDIT=PASS
+M3_T11_084_087_AUDIT_DOC_ID=1gJmVhhWyEg7zsS1b-LiIEB1cYnJl4B_ndkVMteqDgXI
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_HFR_DIVIDES_TAU0_FRESH=true
+M3_T11_X_MINUS_ONE_EIGHTH_SMALL_DFR_BRANCH_ONE_TWELFTH=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_COMMON_PHASE_SQUARE_DIVISOR=true
+M3_T11_TRIPLE_SPIN_SIGMA_TAU0_FRESH_ROOTLINE=true
+M3_T11_TRIPLE_SPIN_SIGMA_RELATIVE_FRESH_DENOMINATOR_MREL2=true
+M3_T11_TRIPLE_SPIN_SIGMA_DUAL_CONDUCTOR_LATTICE=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_DFR_ROOTLINE=true
+M3_T11_TRIPLE_SPIN_SIGMA_FRESH_DENOMINATOR_RECOVERS_MREL=true
+M3_T11_TRIPLE_SPIN_SIGMA_ACTIVE_MREL_POWER_EQUIVALENT=true
+M3_T11_FIXED_SIGMA_FIXED_PACKET_PHYSICAL_MULTIPLICITY=BO1
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_SUPPORT_RECEIVER=true
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+HISTORY LOCATION:
+M3-T11-029 through M3-T11-087 remain preserved in RESEARCH-INDEX, RESULT-LEDGER, and K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE. MAIN intentionally keeps only this single live frontier snapshot.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-088 provisional
+This block supersedes the older LATEST_RESEARCH_CARD / PROVISIONAL_FRONTIER / NEXT_LEGAL_ACTION lines above; audited conclusions through M3-T11-087 remain unchanged.
+LATEST_RESEARCH_CARD=M3-T11-088
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+PROVISIONAL_FRONTIER_CARD=M3-T11-088
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+CURRENT_CANONICAL_X_MINUS_ONE_EIGHTH_ATTACK=XMinusOneEighthDualConductorTripleSpinSigmaSupportOneTwelfth
+CURRENT_X_MINUS_ONE_EIGHTH_SUPPORTING_ATTACK=XMinusOneEighthSigmaAntirootProductExactKernelSupportOneTwelfth
+M3-T11-088 provisional exact result:
+On x=-1/8, for Omega=v_1*v_2*v_3,
+Omega=-8*u^3/(1+u^2)^2=-8*a^3*b/N_u^2
+is reduced, so Den(Omega)=N_u^2 exactly. Audited M3-T11-087 gives B_sigma,fr=M_rel^2 and audited M3-T11-080 gives D=sf(N_u/M_rel^2). Therefore
+K_088=sqrt(Den(Omega))/B_sigma,fr
+is an integer,
+D=sf(K_088),
+and
+D_fr=D/gcd(D,Delta_pkt), Delta_pkt=rad(L_vee*c_1*c_2*c_3).
+Thus the realized pair (sigma,Omega)+fixed packet deterministically recovers M_rel and D_fr. Because fixed sigma+packet has B^o(1) physical multiplicity, realized pair support and realized sigma support have the same polynomial exponent. This removes the existential D_fr witness but proves no fixed-power deficit.
+STATUS FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_ANTIROOT_PRODUCT_DENOMINATOR_NU2=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_D=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_DFR=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_SUPPORT_POWER_EQUIVALENT=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_SIGMA_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_RESEARCH_CARD_ID=M3-T11-089
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-088. In mainbatch, attack a same-physical-measure fixed-power deficit for realized (sigma,Omega) on the large-D_fr branch using deterministic D_fr(sigma,Omega). Do not charge denominator recovery, lattice index, large-divisor size, or fixed-sigma B^o(1) as independent savings.
+HISTORY LOCATION:
+M3-T11-029 through M3-T11-088 are preserved in RESEARCH-INDEX, RESULT-LEDGER, and K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-089 provisional
+This block supersedes the older provisional frontier and NEXT_LEGAL_ACTION lines above. Audited authority remains through M3-T11-087; M3-T11-088 and M3-T11-089 are provisional pending hostile audit.
+LATEST_RESEARCH_CARD=M3-T11-089
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-087
+PROVISIONAL_FRONTIER_CARD=M3-T11-089
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+M3-T11-089 provisional exact contradiction:
+Assume p|D_fr and write alpha=v_p(tau_0^sharp)>=1, e=v_p(h). Audited M3-T11-085 gives
+1+2e<=2alpha
+and N_u=D*(M_rel*h)^2 gives v_p(N_u)=1+2e.
+At the same p, the exact Section-24 formulas for C,C*s,C*t give three rational traces of valuation -2alpha each, so
+v_p(Lambda(C)Lambda(C*s)Lambda(C*t))=-6alpha.
+Section 34 gives
+Omega^2=[Lambda(C)Lambda(C*s)Lambda(C*t)]^2*sigma^2.
+Audited M3-T11-086 makes sigma a p-unit at tau_0^sharp primes, hence v_p(Omega)=-6alpha. Provisional M3-T11-088 gives Den(Omega)=N_u^2 exactly, so v_p(N_u)=3alpha. Therefore
+3alpha=1+2e<=2alpha,
+a contradiction.
+Hence, provisionally,
+D_fr=1
+and the large-D_fr x=-1/8 branch is empty.
+Audited M3-T11-085 then covers the entire x=-1/8 carrier by its small-D_fr estimate
+B^(1/12-eta+o(1))
+per fixed content/coefficient packet.
+STATUS FLAGS:
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_PRIME_VALUATION_CONTRADICTION=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_EQUALS_ONE=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_BRANCH_EMPTY=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_TWELFTH_CARRIER_CLOSED=PROVISIONAL
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_X_MINUS_ONE_EIGHTH_STATUS=PROVISIONAL_CLOSED_PENDING_AUDIT
+NEXT_RESEARCH_CARD_ID=M3-T11-090
+NEXT_LEGAL_ACTION=Hostile-audit the M3-T11-088 -> M3-T11-089 chain. If PASS, retire x=-1/8 at the fixed-packet one-twelfth scale. Mainbatch may preflight the generic fixed-x/global moving-support frontier but must not spend the provisional x=-1/8 closure as canonical theorem credit before audit.
+HISTORY LOCATION:
+M3-T11-029 through M3-T11-089 are preserved in RESEARCH-INDEX, RESULT-LEDGER, and K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE.
+## CURRENT AUTHORITY UPDATE — M3-T11-088/089 audited
+This block supersedes the provisional M3-T11-088 and M3-T11-089 authority updates above. Audited conclusions through M3-T11-089 are current.
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1KWFj3p7PJYpKuHgmxn_b4RJEjNnRMpra-PK1Rr-n7yQ
+LATEST_RESEARCH_CARD=M3-T11-089
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+M3_T11_088_HOSTILE_AUDIT=PASS
+M3_T11_089_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_ANTIROOT_PRODUCT_DENOMINATOR_NU2=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_D=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_RECOVERS_DFR=true
+M3_T11_X_MINUS_ONE_EIGHTH_SIGMA_OMEGA_SUPPORT_POWER_EQUIVALENT=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_PRIME_VALUATION_CONTRADICTION=true
+M3_T11_X_MINUS_ONE_EIGHTH_DFR_EQUALS_ONE=true
+M3_T11_X_MINUS_ONE_EIGHTH_LARGE_DFR_BRANCH_EMPTY=true
+M3_T11_X_MINUS_ONE_EIGHTH_ONE_TWELFTH_CARRIER_CLOSED=true
+CURRENT_X_MINUS_ONE_EIGHTH_STATUS=RETIRED_AUDITED_FIXED_PACKET_ONE_TWELFTH
+CURRENT_X_MINUS_ONE_EIGHTH_FIRST_ATTACK=RETIRED_AUDITED_FIXED_PACKET_ONE_TWELFTH
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+NEXT_RESEARCH_CARD_ID=M3-T11-090
+NEXT_LEGAL_ACTION=Return mainbatch to the generic fixed-x / global moving-support frontier. Both singular carriers x=27/40 and x=-1/8 are retired at the audited fixed-packet one-twelfth scale. Do not reopen x=-1/8 unless an audited dependency changes.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-093 provisional
+This block is the current live frontier. Audited authority remains through M3-T11-089; M3-T11-090 through M3-T11-093 are provisional pending hostile audit.
+
+
+LATEST_RESEARCH_CARD=M3-T11-093
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+PROVISIONAL_FRONTIER_CARD=M3-T11-093
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-090 provisional:
+fixed realized generic x + fixed packet => B^o(1) physical endpoints.
+
+
+M3-T11-091 provisional:
+the Legendre defect ell carries M_rel^2 in its reduced numerator with exact fresh valuation and has a fixed-ell rational-2-torsion elliptic compression.
+
+
+M3-T11-092 provisional:
+the homogeneous defect form
+P_ell=4*a^2*t^2-12*a*b*s*t+(b^2-11*a^2)*s^2
+satisfies
+ell=N_u*P_ell/(8*a*b*s)^2
+and
+Phi=-4*t^2*P_ell+s^3*(N_u*s-16*a*b*t).
+After normalized residual square removal, 3*(ell/M_rel^2)*Phi_flat is a unit square modulo M_rel^2. This is a character receiver only and has no fixed-power credit.
+
+
+M3-T11-093 provisional:
+define the recombined defect
+theta=16*ell+3*(v+1).
+Exact factorization gives
+theta=(v+1)^2*(v+1-48*x+64*x^2)/(256*v*x^2).
+Hence on the generic full-S branch
+M_rel^4|Num(theta)
+and gcd(Den(theta),M_rel)=1.
+For theta!=0, extra valuation beyond 4lambda is exactly the x=3/4 collision below the 2lambda saturation threshold. Fresh p==5 mod12 cannot collide at x=3/4 by the Legendre condition, so v_p(theta)=4lambda exactly there.
+
+
+Fixed theta!=0 maps to
+Z^2=(v+1)*(8+(7+4*theta)*v-v^2),
+with rational 2-torsion and discriminant
+16*theta^2*(16*theta^2+56*theta+81).
+Thus fixed theta!=0 + packet => B^o(1) physical endpoints is a provisional same-measure adapter.
+
+
+The sole singular value theta=0 is the conic
+u^2+w^2=8,
+x=(3+/-w)/8.
+With q=c/d primitive, the two branches route the entire fresh conductor into exactly one Gaussian norm:
+F_+=(2*c+d)^2+c^2
+or
+F_-=(c-2*d)^2+d^2,
+with
+M_rel^2|F_+ or M_rel^2|F_-
+and no extra fresh valuation.
+This theta=0 carrier is NOT closed.
+
+
+The sharpened live split is therefore:
+A. theta!=0:
+GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth.
+B. theta=0:
+ThetaZeroConicGaussianNormSquareDivisorOneTwelfth.
+
+
+No M_rel^-4 ambient density is credited. The theta coordinate is an algebraic recombination on the same physical measure and may not be multiplied with the ell carrier, residual character lock, or fixed-fiber multiplicities.
+
+
+STATUS FLAGS:
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=false
+M3_T11_FIXED_LEGENDRE_DEFECT_BO1_PROVED=false
+M3_T11_FULL_S_HOMOGENEOUS_LEGENDRE_DEFECT_FORM=PROVISIONAL
+M3_T11_FULL_S_RESIDUAL_CHARACTER_LOCK=PROVISIONAL
+M3_T11_FULL_S_THETA_COORDINATE=PROVISIONAL
+M3_T11_FULL_S_THETA_MREL4_NUMERATOR=PROVISIONAL
+M3_T11_FULL_S_THETA_OVERVALUATION_X_THREE_QUARTERS=PROVISIONAL
+M3_T11_FULL_S_THETA_P5MOD12_EXACT_SATURATION=PROVISIONAL
+M3_T11_FIXED_THETA_ELLIPTIC_2TORSION_CANDIDATE=true
+M3_T11_FIXED_THETA_BO1_PROVED=false
+M3_T11_THETA_ZERO_CONIC_CARRIER=PROVISIONAL
+M3_T11_THETA_ZERO_GAUSSIAN_NORM_ROUTER=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|ThetaZeroConicGaussianNormSquareDivisorOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-094
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-090 through M3-T11-093. Mainbatch may prioritize a same-physical-measure fixed-power support bound for theta!=0 under the deterministic M_rel^4 numerator carrier, while theta=0 stays on its explicit Gaussian conic receiver. Do not charge M_rel^-4 or multiply old carriers as independent savings.
+HISTORY LOCATION:
+M3-T11-029 through M3-T11-093 are preserved in RESEARCH-INDEX, RESULT-LEDGER, and K16-C3-M3-ROUTE-TRIVIAL-SPLIT-CYCLE.
+
+
+
+
+## Stage37 current-authority update — M3-T11-094
+LATEST_RESEARCH_CARD=M3-T11-094
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+PROVISIONAL_FRONTIER_CARD=M3-T11-094
+NEXT_RESEARCH_CARD_ID=M3-T11-095
+
+
+M3-T11-094 provisional substantive result:
+- theta has the exact homogeneous full-S form
+  theta=M_rel^4*N_0*Psi_theta/(2*a*b*s)^2,
+  Psi_theta=N_0*s^2-12*a*b*s*t_0+4*a^2*M_rel^2*t_0^2.
+- The theta residual and normalized endpoint residual are fresh-support disjoint:
+  4*s^2*Psi_theta-3*Phi_0 == N_0*s^4 (mod M_rel^2),
+  hence gcd(Psi_theta,Phi_0,M_rel)=1.
+- Restoring the exact rational-r condition on the M3-T11-093 theta=0 conic gives two explicit quartic square conditions. Their primitive factor pairs have resultant 2^17, reduce to squareclass delta in {1,2}, and each yields
+  X^2+53*delta*S^2=7*d^2
+  or
+  X^2+53*delta*S^2=7*c^2.
+  The mod-7 anisotropy forces 7 to divide both primitive q coordinates, impossible.
+- Therefore
+  M3_T11_THETA_ZERO_PHYSICAL_EMPTY=PROVISIONAL.
+  ThetaZeroConicGaussianNormSquareDivisorOneTwelfth is provisionally retired.
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+
+
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-090 through M3-T11-094. Mainbatch may continue only on the surviving theta!=0 same-physical-measure fourth-power support problem or the retained residual/global-dispersion routes. Do not charge M_rel^-4 as ambient density and do not multiply Psi_theta/Phi_0 support separation as independent saving.
+
+
+M3_T11_FULL_S_THETA_HOMOGENEOUS_COFACTOR=PROVISIONAL
+M3_T11_FULL_S_THETA_PHI0_FRESH_SUPPORT_DISJOINT=PROVISIONAL
+M3_T11_THETA_ZERO_7ADIC_OBSTRUCTION=PROVISIONAL
+M3_T11_THETA_ZERO_PHYSICAL_EMPTY=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+
+
+## Stage37 current-authority update — M3-T11-095
+LATEST_RESEARCH_CARD=M3-T11-095
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-089
+PROVISIONAL_FRONTIER_CARD=M3-T11-095
+NEXT_RESEARCH_CARD_ID=M3-T11-096
+M3-T11-095 provisional substantive result:
+- On the M3-T11-093 fixed-theta elliptic fiber, the physical discriminant coordinate satisfies the exact identity
+  Z=(v+1)*(3-2*w),
+  where w=(v+1)/(16*x)=u/S.
+- Therefore the 2-torsion tangent difference
+  tau_theta=Z-3*(v+1)
+  =-2*w*(v+1)
+  =-(v+1)^2/(8*x).
+- On the full-S branch, for every p^lambda||M_rel,
+  v_p(v+1)=2*lambda,
+  v_p(w)=2*lambda,
+  and x is a p-unit. Hence
+  v_p(tau_theta)=4*lambda
+  exactly. The reduced denominator of tau_theta is fresh-prime coprime. This removes the x=3/4 overvaluation ambiguity present in theta itself.
+- However Z/(v+1)-3=-2*w shows that the apparent fixed-theta 2-torsion root line is exactly the already-known scaled-symmetric coordinate w=u/S. It is not an independent conductor saving and must not be multiplied with the theta carrier or older root-line/determinant savings.
+- If one instead fixes the exactly saturated coordinate tau_theta, the canonical endpoint equation becomes a hyperelliptic degree-7 model with discriminant
+  tau_theta^23*(125*tau_theta+27)^3*(729*tau_theta^2+351*tau_theta+128).
+  The only rational singular tau values are 0 and -27/125; both are absent on the hard full-S branch. Thus realized fixed-tau fibers are smooth genus 3, so the exact-saturation coordinate loses the elliptic fixed-fiber compression and supplies no current B^o(1) theorem.
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-090 through M3-T11-095. Mainbatch may continue on the surviving theta!=0 global support problem or the retained residual/global-dispersion routes. Do not charge tau_theta or its w-identification as an independent saving, and do not replace the elliptic theta support receiver by fixed-tau counting without a new uniform genus-3 theorem.
+M3_T11_THETA_2TORSION_TANGENT_IDENTITY=PROVISIONAL
+M3_T11_THETA_TANGENT_MREL4_EXACT_SATURATION=PROVISIONAL
+M3_T11_THETA_TANGENT_EQUALS_SCALED_W=PROVISIONAL
+M3_T11_THETA_TANGENT_INDEPENDENT_SAVING=false
+M3_T11_FIXED_TAU_GENERIC_GENUS3=PROVISIONAL
+M3_T11_FIXED_TAU_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+P_OVER_M3_LIMIT_PROVED=false
+## CURRENT AUTHORITY UPDATE — M3-T11-090/095 audited
+This block supersedes the provisional M3-T11-090 through M3-T11-095 frontier lines above. Audited conclusions through M3-T11-095 are current.
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=11ZQfatG59mNZLiXydBpvyRMhbZTJq24CWkaVZymcLmQ
+LATEST_RESEARCH_CARD=M3-T11-095
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-095
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+M3_T11_090_HOSTILE_AUDIT=PASS
+M3_T11_091_HOSTILE_AUDIT=PASS
+M3_T11_092_HOSTILE_AUDIT=PASS
+M3_T11_093_HOSTILE_AUDIT=PASS
+M3_T11_094_HOSTILE_AUDIT=PASS
+M3_T11_095_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_X_GENERIC_BO1_PROVED=true
+M3_T11_GENERIC_FULL_S_LEGENDRE_DEFECT_FRESH_VALUATION_EXACT=true
+M3_T11_FIXED_LEGENDRE_DEFECT_BO1_PROVED=true
+M3_T11_FULL_S_RESIDUAL_CHARACTER_LOCK=true
+M3_T11_FULL_S_RESIDUAL_CHARACTER_FIXED_POWER=false
+M3_T11_FULL_S_THETA_MREL4_NUMERATOR=true
+M3_T11_FIXED_THETA_BO1_PROVED=true
+M3_T11_THETA_ZERO_PHYSICAL_EMPTY=true
+M3_T11_THETA_2TORSION_TANGENT_IDENTITY=true
+M3_T11_THETA_TANGENT_MREL4_EXACT_SATURATION=true
+M3_T11_THETA_TANGENT_EQUALS_SCALED_W=true
+M3_T11_THETA_TANGENT_INDEPENDENT_SAVING=false
+M3_T11_FIXED_TAU_GENERIC_GENUS3=true
+M3_T11_FIXED_TAU_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|FullSDefectResidualCharacterDispersionOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-096
+NEXT_LEGAL_ACTION=Continue mainbatch from M3-T11-096 on the surviving theta!=0 same-physical-measure moving-support/global-dispersion problem. Theta=0 is audited-empty and must not be reopened unless an audited dependency changes. Do not charge M_rel^-4, tau_theta, w, theta, ell, residual-character, root-line, or determinant presentations as independent savings.
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-096
+This block supersedes the M3-T11-095 frontier lines above for research routing only. M3-T11-096 is provisional and has not received hostile-audit promotion.
+LATEST_RESEARCH_CARD=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-095
+PROVISIONAL_FRONTIER_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_AUDIT_STATUS=REQUIRED
+M3_T11_THETA_NORMALIZED_CONGRUENCE=PROVISIONAL
+M3_T11_092_CHARACTER_INDEPENDENT_ON_THETA_BRANCH=PROVISIONAL_FALSE
+M3_T11_THETA_2ISOGENY_SOURCE_KUMMER_CLASS_MINUS_N0=PROVISIONAL
+M3_T11_THETA_2ISOGENY_DUAL_KUMMER_CLASS_TRIVIAL=PROVISIONAL
+M3_T11_THETA_2ISOGENY_FRESH_CONDUCTOR_VISIBLE=PROVISIONAL_FALSE
+M3_T11_THETA_2ISOGENY_NEW_SAVING=PROVISIONAL_FALSE
+M3_T11_FULL_S_RESIDUAL_CHARACTER_STANDALONE_ATTACK_RETIRED=PROVISIONAL
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-096 before canonical retirement of the standalone M3-T11-092 residual-character and ordinary 2-isogeny routes. If mainbatch continues before audit, treat all M3-T11-096 conclusions as provisional and do not assign any fixed-power saving. Continue only on genuinely new theta moving-support / global-dispersion information not implied by theta M_rel^4 plus the normalized endpoint square
+## CURRENT AUTHORITY UPDATE — M3-T11-096 audited
+This block supersedes the provisional M3-T11-096 authority update above. Audited conclusions through M3-T11-096 are current.
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1cGtPtIX2-9NmEG0OaR-zWxtPRsj2RqSDeJhr7T_V_eY
+LATEST_RESEARCH_CARD=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+M3_T11_096_HOSTILE_AUDIT=PASS
+M3_T11_THETA_NORMALIZED_CONGRUENCE=true
+M3_T11_THETA_NORMALIZED_SQUARECLASS_X_4XMINUS3=true
+M3_T11_092_CHARACTER_INDEPENDENT_ON_THETA_BRANCH=false
+M3_T11_THETA_2ISOGENY_SOURCE_KUMMER_CLASS_MINUS_N0=true
+M3_T11_THETA_2ISOGENY_DUAL_KUMMER_CLASS_TRIVIAL=true
+M3_T11_THETA_2ISOGENY_FRESH_CONDUCTOR_VISIBLE=false
+M3_T11_THETA_2ISOGENY_NEW_SAVING=false
+M3_T11_FULL_S_RESIDUAL_CHARACTER_STANDALONE_ATTACK_RETIRED=true
+M3_T11_THETA_ORDINARY_2ISOGENY_FRESH_CONDUCTOR_ATTACK_RETIRED=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondSquareclass|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+NEXT_LEGAL_ACTION=Continue mainbatch from M3-T11-097 only on genuinely new same-physical-measure theta moving-support/global-dispersion information beyond the theta M_rel^4 identity and normalized endpoint square. The standalone M3-T11-092 residual-character route and ordinary fixed-theta 2-isogeny Kummer route are canonically retired as independent fresh-conductor savings. Do not assign fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+
+
+
+
+
+
+## HISTORICAL AUDIT GAP CLOSURE — M3-T11-081/082
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1w8gqZwla4lkElFMhd76PaIR4iFduZ9EjLRrwx3EdfqQ
+M3_T11_081_HOSTILE_AUDIT=PASS
+M3_T11_082_HOSTILE_AUDIT=PASS
+M3_T11_X_MINUS_ONE_EIGHTH_SOPHIE_GERMAIN_KERNEL_ROUTER=true
+M3_T11_X_MINUS_ONE_EIGHTH_NEGATIVE_SQUARE_2DESCENT_POINT=true
+M3_T11_X_MINUS_ONE_EIGHTH_REALIZED_D_CONGRUENT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_EXPLICIT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_STANDARD_DENOMINATOR_EXACT=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_DENROOT_MULTIPLE_OF_MREL=true
+M3_T11_X_MINUS_ONE_EIGHTH_MOVING_D_POINT_NAIVE_HEIGHT_WINDOW=true
+M3_T11_081_082_SAME_RATIONAL_POINT=true
+M3_T11_081_082_INDEPENDENT_SAVINGS=false
+M3_T11_X_MINUS_ONE_EIGHTH_ACTIVE_D_SUPPORT_DEFICIT_PROVED=false
+M3_T11_X_MINUS_ONE_EIGHTH_POWER_SAVING_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+LATEST_RESEARCH_CARD=M3-T11-096
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+NEXT_RESEARCH_CARD_ID=M3-T11-097
+NOTE=Historical audit debt for 081/082 is closed. Current post-096 theta moving-support/global-dispersion frontier is unchanged.
+## CURRENT AUTHORITY UPDATE — M3-T11-098 provisional
+This block supersedes the prior M3-T11-097 provisional pointer. Audited conclusions through M3-T11-096 remain unchanged; M3-T11-097 and M3-T11-098 require hostile audit before promotion.
+LATEST_RESEARCH_CARD=M3-T11-098
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=M3-T11-098
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+M3-T11-097 provisional boundary:
+Rational 2-torsion translation exchanges the two visible M_rel^2 branch-depth factors of theta; duplication gives a tautological square; ordinary rational-T Kummer iteration cannot recover the fresh M_rel^2 factor. It left the split-dual residual bracket classes open.
+M3-T11-098 provisional substantive result:
+Over K=Q(sqrt(theta))=Q(sqrt(Theta)), write eta^2=Theta and kappa=(v+1)/M_rel^2=N_0/b^2. The two residual split-2-Kummer brackets factor exactly as
+B_+=(eta+kappa/2)^2/kappa,
+B_-=-(eta-kappa/2)^2/kappa.
+Hence
+q^2-alpha_+=-(4*M_rel^2/kappa)*(eta+kappa/2)^2,
+q^2-alpha_-=-(4*M_rel^2/kappa)*(eta-kappa/2)^2.
+Thus every nonzero split root-difference class equals [-N_0], while [Xp]=1. When one difference vanishes, the dual image is split nonzero 2-torsion and the standard full-2-descent special-value coordinate again has class [-N_0]. Therefore the full ordinary split dual 2-Kummer tuple is, up to ordering,
+(1,[-N_0],[-N_0]).
+The residual bracket classes left open by M3-T11-097 are provisionally closed as a new-information route.
+M3_T11_DUAL_SPLIT_2KUMMER_BRACKETS_COMPLETE_SQUARE=PROVISIONAL
+M3_T11_DUAL_SPLIT_2KUMMER_RESIDUAL_CLASSES_OPEN=false
+M3_T11_DUAL_SPLIT_2KUMMER_CLASSES_MINUS_N0=PROVISIONAL
+M3_T11_FULL_SPLIT_2KUMMER_NEW_SAVING=false
+M3_T11_THETA_NONKUMMER_HIGHER_DESCENT_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersion
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterGlobalDispersion
+NEXT_RESEARCH_CARD_ID=M3-T11-099
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-097 and M3-T11-098 as one dependency chain. Mainbatch continuation may only use genuinely non-Kummer higher-descent or global moving-support/dispersion information not determined by the theta/Kummer identities.
+
+
+
+
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-099 provisional
+This block supersedes the prior M3-T11-098 provisional routing pointer for research routing only. Audited conclusions through M3-T11-096 remain unchanged. M3-T11-097 and M3-T11-098 still require grouped hostile audit; M3-T11-099 uses only the audited Section-35/48/040 chain.
+
+
+LATEST_RESEARCH_CARD=M3-T11-099
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=M3-T11-099
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-099 provisional substantive result:
+For an interior fresh prime p^lambda with 0<c_p<2*lambda, write
+k_p=2*lambda-c_p,
+t=p^k_p*tau_p,
+N_u=p^(2*lambda+c_p)*nu_p.
+The audited symmetric identity
+P=v_1*v_2*v_3=4*u^2*S/(1+u^2)=4*a^2*s/(t*N_u)
+gives exactly
+Pi_p:=p^(4*lambda)*P=4*a^2*s/(tau_p*nu_p).
+With the oriented Gaussian root a==rho*b mod p and rho^2==-1 mod p,
+chi_p(-rho*Pi_p)=chi_p(rho*tau_p*nu_p)*chi_p(s).
+Hence the physical residual selector is exactly
+chi_p(s)=chi_p(rho*tau_p*nu_p).
+
+
+If q_int is the squarefree radical of all interior fresh primes and the auxiliary data are fixed, CRT gives exactly
+phi(q_int)/2^omega(q_int)
+admissible unit classes for s modulo q_int. Equivalently the selector indicator has principal coefficient 2^(-omega(q_int)). Therefore generic selector-only character equidistribution, Burgess-type cancellation, or large-sieve cancellation cannot by itself yield a uniform fixed-power q_int^(-delta) saving: the principal term is only q_int^(-o(1)) in the worst case and is 1/2 for a single interior prime.
+
+
+This does not retire every possible InteriorCharacterGlobalDispersion argument. It narrows the live route: any successful interior-character theorem must exploit additional correlation with the endpoint incidence, moving theta support, or another invariant beyond the isolated local sign selectors.
+
+
+M3_T11_INTERIOR_CHARACTER_SINGLE_S_NUMERATOR=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_CRT_EXACT_ACCEPTANCE=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_EQUIDISTRIBUTION_ONLY_FIXED_POWER=false
+M3_T11_INTERIOR_CHARACTER_GENERIC_DISPERSION_ATTACK_RETIRED=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_CORRELATION_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalDispersionBeyondSelectorEquidistribution
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterEndpointIncidenceCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-100
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-097 and M3-T11-098 as one dependency chain, and hostile-audit M3-T11-099 independently. Mainbatch may continue on genuinely non-Kummer/global moving-theta support, or on an interior-character route only when it introduces endpoint-incidence information beyond selector-only equidistribution.
+
+
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-100 provisional
+This block supersedes the prior M3-T11-099 provisional routing pointer for research routing only. Audited conclusions through M3-T11-096 remain unchanged. M3-T11-097/098/099/100 require hostile audit before promotion.
+
+
+LATEST_RESEARCH_CARD=M3-T11-100
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-096
+PROVISIONAL_FRONTIER_CARD=M3-T11-100
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-100 provisional substantive result:
+For every Section-48 interior fresh prime p^lambda with 0<c_p<2lambda and k_p=2lambda-c_p, write
+t=p^k_p*tau_p,
+N_u=p^(2lambda+c_p)*nu_p.
+The exact normalized square equation is
+W_hat_p^2=-nu_p*Phi_hat_p,
+where
+Phi_hat_p=Phi/p^k_p,
+W_hat_p=W/p^(2lambda)
+are p-adic units. The audited Gaussian reduction gives
+Phi_hat_p==-16*b^2*rho*tau_p*s^3 mod p,
+so local square-solvability is exactly
+chi_p(s)=chi_p(rho*tau_p*nu_p),
+independently recovering the M3-T11-099 selector.
+
+
+Because p is odd, a p-adic unit is a square iff its residue mod p is a square. Hence every accepted mod-p class Hensel-lifts through all p^h; for fixed auxiliary local data exactly phi(p^h)/2 unit s-classes survive at every precision h>=1. Across interior primes, deeper p-adic precision leaves the exact relative density 2^(-omega(q_int)) unchanged.
+
+
+Therefore the full local Section-48 normalized square equation has no hidden higher-p-adic thinning beyond the first-residue selector. Higher-padic refinement of that same local square equation is provisionally retired as an independent fixed-power route. Genuinely global cross-prime endpoint correlation, moving-theta support, and non-Kummer/higher-descent information remain open.
+
+
+M3_T11_INTERIOR_NORMALIZED_SQUARE_HENSEL_SATURATED=PROVISIONAL
+M3_T11_INTERIOR_HIGHER_PADIC_SELECTOR_GAIN=false
+M3_T11_INTERIOR_ENDPOINT_SQUARE_LOCAL_REFINEMENT_RETIRED=PROVISIONAL
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_GLOBAL_CORRELATION_OPEN=true
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterGlobalEndpointCorrelationBeyondLocalSquare
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-101
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-097 and M3-T11-098 as one dependency chain; hostile-audit M3-T11-099 independently; hostile-audit M3-T11-100 from the audited Section-48 chain. Mainbatch may continue only with genuinely global/non-Kummer moving-theta information or cross-prime endpoint correlation beyond the Hensel-saturated local square equation
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-097/100 audited
+This block supersedes the provisional M3-T11-097 through M3-T11-100 routing pointers above. Audited conclusions through M3-T11-100 are current.
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1OJVRZhazc6V05s6fNkx8ihwW83O1egWNK_TJLuc12sE
+AUDITED_CARDS=M3-T11-097,M3-T11-098,M3-T11-099,M3-T11-100
+LATEST_RESEARCH_CARD=M3-T11-100
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-100
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_097_HOSTILE_AUDIT=PASS
+M3_T11_098_HOSTILE_AUDIT=PASS
+M3_T11_099_HOSTILE_AUDIT=PASS
+M3_T11_100_HOSTILE_AUDIT=PASS
+
+
+M3_T11_THETA_T_TRANSLATION_BRANCH_DEPTH_INVOLUTION=true
+M3_T11_THETA_BRANCH_DEPTH_PRODUCT_4THETA=true
+M3_T11_THETA_DUPLICATION_DEPTH_EXACT_SQUARE=true
+M3_T11_RATIONAL_T_KUMMER_ITERATES_FRESH_CONDUCTOR_VISIBLE=false
+
+
+M3_T11_DUAL_SPLIT_2KUMMER_BRACKETS_COMPLETE_SQUARE=true
+M3_T11_DUAL_SPLIT_2KUMMER_RESIDUAL_CLASSES_OPEN=false
+M3_T11_DUAL_SPLIT_2KUMMER_CLASSES_MINUS_N0=true
+M3_T11_DUAL_SPLIT_2KUMMER_TORSION_SPECIAL_VALUE_MINUS_N0=true
+M3_T11_FULL_SPLIT_2KUMMER_NEW_SAVING=false
+
+
+M3_T11_INTERIOR_CHARACTER_SINGLE_S_NUMERATOR=true
+M3_T11_INTERIOR_CHARACTER_CRT_EXACT_ACCEPTANCE=true
+M3_T11_INTERIOR_CHARACTER_EQUIDISTRIBUTION_ONLY_FIXED_POWER=false
+M3_T11_INTERIOR_CHARACTER_GENERIC_DISPERSION_ATTACK_RETIRED=true
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_CORRELATION_OPEN=true
+
+
+M3_T11_INTERIOR_NORMALIZED_SQUARE_HENSEL_SATURATED=true
+M3_T11_INTERIOR_HIGHER_PADIC_SELECTOR_GAIN=false
+M3_T11_INTERIOR_ENDPOINT_SQUARE_LOCAL_REFINEMENT_RETIRED=true
+M3_T11_INTERIOR_CHARACTER_ENDPOINT_GLOBAL_CORRELATION_OPEN=true
+
+
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorCharacterCrossPrimeEndpointCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-101
+NEXT_LEGAL_ACTION=Continue from M3-T11-101 only with genuinely global/non-Kummer moving-theta information or cross-prime endpoint-incidence correlation. Ordinary rational/split 2-Kummer iteration, selector-only character equidistribution, and deeper p-adic refinement of the same Section-48 local square are audited-retired as independent fixed-power routes. Do not assign fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-101
+This block supersedes the M3-T11-097/100 audited frontier for research routing only. Audited authority remains through M3-T11-100. M3-T11-101 requires hostile audit before promotion.
+LATEST_RESEARCH_CARD=M3-T11-101
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-100
+PROVISIONAL_FRONTIER_CARD=M3-T11-101
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-101 provisional substantive result:
+- M3-T11-040 implies M_rel^4|t*N_u. Define J=t*N_u/M_rel^4 in Z.
+- For every interior fresh p, audited M3-T11-099 becomes exactly chi_p(2*s*J)=+1.
+- Since Pi=v_1*v_2*v_3=4*a^2*s/(t*N_u) and (s*J)*Pi=(2*a*s/M_rel^2)^2, one has the global squareclass identity
+  [2*s*J]=[2*Pi] in Q*/Q*^2.
+- Hence every interior conductor prime has trivial local quadratic character in the single moving squareclass [2*Pi]; if nontrivial it splits in K_Pi=Q(sqrt(2*Pi)).
+- Section 49 gives exact fresh denominator exponent 4*lambda for Pi, so the forced M_rel^4 denominator is invisible in the quadratic squareclass and yields no field-discriminant credit.
+- Fixing rational Pi=pi!=0 yields an exact degree-12 hyperelliptic model
+  Z^2=-(1+u^2)*G_pi(u)
+  whose discriminant is
+  2^156*pi^32*(729*pi^2-512)^3*(256*pi^4+96417*pi^2-746496).
+  Every rational nonzero pi gives a smooth genus-5 fiber.
+- This is a global receiver/fiber-complexity preflight only. No uniform fixed-Pi B^o(1) theorem and no fixed-power saving are proved.
+
+
+M3_T11_INTERIOR_GLOBAL_J_INTEGER=PROVISIONAL
+M3_T11_INTERIOR_SELECTOR_GLOBAL_2PI_SQUARECLASS=PROVISIONAL
+M3_T11_INTERIOR_PRIMES_SPLIT_IN_K_2PI=PROVISIONAL
+M3_T11_INTERIOR_AUXILIARY_LOCAL_SIGNS_ELIMINATED=PROVISIONAL
+M3_T11_INTERIOR_QUADRATIC_RECIPROCITY_ONLY_FIXED_POWER=false
+M3_T11_FIXED_PI_GENERIC_GENUS5=PROVISIONAL
+M3_T11_FIXED_PI_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorGlobal2PiSplittingEndpointGeometry
+NEXT_RESEARCH_CARD_ID=M3-T11-102
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-101. Mainbatch may continue on genuinely global endpoint geometry/support that couples realized Pi to the requirement that every interior conductor prime split in K_Pi, or on the independent theta moving-support route. Do not reopen p-dependent auxiliary-sign bookkeeping, Jacobi/quadratic-reciprocity-only arguments, selector-only character equidistribution, deeper local Hensel refinement, or quadratic-field-discriminant credit from the M_rel^4 denominator.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-101 audited
+This block supersedes the provisional M3-T11-101 routing pointer above. Audited conclusions through M3-T11-101 are current.
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1OVWtL8f3E065ErxzMulISFEVF--_gFn9ySsM220P9hc
+AUDITED_CARD=M3-T11-101
+LATEST_RESEARCH_CARD=M3-T11-101
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-101
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_101_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_GLOBAL_J_INTEGER=true
+M3_T11_INTERIOR_SELECTOR_GLOBAL_2PI_SQUARECLASS=true
+M3_T11_INTERIOR_PRIMES_SPLIT_IN_K_2PI=true
+M3_T11_INTERIOR_AUXILIARY_LOCAL_SIGNS_ELIMINATED=true
+M3_T11_INTERIOR_QUADRATIC_RECIPROCITY_ONLY_FIXED_POWER=false
+M3_T11_FIXED_PI_GENERIC_GENUS5=true
+M3_T11_FIXED_PI_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorGlobal2PiSplittingEndpointGeometry
+NEXT_RESEARCH_CARD_ID=M3-T11-102
+NEXT_LEGAL_ACTION=Continue from M3-T11-102 only with genuinely global endpoint geometry/support coupling realized Pi to interior-prime splitting in K_Pi, or with the independent theta moving-support route. Do not reopen p-dependent auxiliary-sign bookkeeping, reciprocity-only arguments, selector-only character sums, deeper local Hensel refinement, or quadratic-field-discriminant credit from the M_rel^4 denominator. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is assigned.
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-102
+This block supersedes the M3-T11-101 audited frontier for research routing only. Audited authority remains through M3-T11-101. M3-T11-102 requires hostile audit before promotion.
+LATEST_RESEARCH_CARD=M3-T11-102
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-101
+PROVISIONAL_FRONTIER_CARD=M3-T11-102
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+M3-T11-102 provisional substantive result:
+- The audited splitting receiver fixes only d=[2*Pi], not the exact value of Pi.
+- Exact symmetric identities give [2*Pi]=[2*S*(1+u^2)]=[2*s*t*N_u]; on Q(S,u)!=0 one also has [2*Pi]=[-2*S*Q(S,u)].
+- Choose signed squarefree d and q with 2*Pi=d*q^2. Section 49 gives v_p(Pi)=-4*lambda at every relative-fresh p^lambda||M_rel, hence p does not divide d and v_p(q)=-2*lambda. Thus q has exact relative-fresh denominator M_rel^2, but this is only the square root of the already-consumed Pi denominator and gives no independent saving.
+- Fixing d leaves the two-dimensional endpoint surface S=d*q^2*(1+u^2)/(8*u^2) plus the endpoint square equation. The M3-T11-101 fixed-Pi genus-5 curves are q^2-fixed slices, so fixed-Pi geometry over-refines the splitting-field datum.
+- For fixed rational d,u!=0, substitution pi=d*q^2/2 gives a smooth degree-8 genus-3 hyperelliptic q-fiber. The exact polynomial discriminant is
+  -2^128*d^28*u^62*(1+u^2)^33*(25*u^2-2)^6,
+  nonzero for rational physical u.
+- The involution q->-q has the already-audited Section-35 fixed-u genus-one incidence as quotient after x=d*q^2=2*Pi. The new geometry is the square-coordinate double cover, not a new elliptic compression.
+- Therefore the legal interior continuation is a same-measure theorem controlling q / exact-Pi support inside one d, or a global theorem for the genus-3 square-coordinate cover across moving u. No fixed-power saving is proved.
+M3_T11_2PI_SQUARECLASS_SYMMETRIC_REPRESENTATIONS=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_Q_MREL2_DENOMINATOR=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_Q_DENOMINATOR_INDEPENDENT_SAVING=false
+M3_T11_FIXED_2PI_SQUARECLASS_RECEIVER_DIMENSION=2
+M3_T11_FIXED_2PI_SQUARECLASS_FIXED_U_GENUS3=PROVISIONAL
+M3_T11_FIXED_2PI_SQUARECLASS_GENUS3_ELLIPTIC_QUOTIENT_OLD=true
+M3_T11_FIXED_PI_GENUS5_OVERREFINEMENT_FIREWALL=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorSymmetricProductSplittingIncidence
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassSurfaceQSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-103
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-102. Mainbatch may continue on a same-measure q / exact-Pi support theorem inside fixed d=[2*Pi], on a genuinely global theorem for the genus-3 square-coordinate cover across moving u, or on the independent theta moving-support route. Do not identify fixed d with fixed Pi, recharge q's M_rel^2 denominator, recharge the old fixed-u elliptic quotient, or infer a fixed-power saving from smooth genus 3. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is assigned.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-102 audited
+This block supersedes the provisional M3-T11-102 routing pointer above. Audited conclusions through M3-T11-102 are current.
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1dlK8Pyj6HCa3sE2Ha-73NnH3W9-hSNn_yVpC9ueHx4k
+AUDITED_CARD=M3-T11-102
+LATEST_RESEARCH_CARD=M3-T11-102
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_102_HOSTILE_AUDIT=PASS
+M3_T11_2PI_SQUARECLASS_SYMMETRIC_REPRESENTATIONS=true
+M3_T11_FIXED_SQUARECLASS_Q_MREL2_DENOMINATOR=true
+M3_T11_FIXED_SQUARECLASS_Q_DENOMINATOR_INDEPENDENT_SAVING=false
+M3_T11_FIXED_2PI_SQUARECLASS_RECEIVER_DIMENSION=2
+M3_T11_FIXED_2PI_SQUARECLASS_FIXED_U_GENUS3=true
+M3_T11_FIXED_2PI_SQUARECLASS_GENUS3_ELLIPTIC_QUOTIENT_OLD=true
+M3_T11_FIXED_PI_GENUS5_OVERREFINEMENT_FIREWALL=true
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassSurfaceQSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassSurfaceQSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-103
+NEXT_LEGAL_ACTION=Continue from M3-T11-103 only with a same-measure theorem controlling realized q/exact-Pi support inside one d=[2*Pi], a genuinely global theorem for the genus-3 square-coordinate cover across moving u, or the independent theta moving-support route. Do not identify fixed d with fixed Pi, recharge q's M_rel^2 denominator, recharge the old fixed-u elliptic quotient, or infer fixed-power credit from smooth genus 3.
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-103
+This block supersedes the M3-T11-102 audited routing pointer for research routing only. Audited authority remains through M3-T11-102. M3-T11-103 requires hostile audit before promotion.
+
+
+LATEST_RESEARCH_CARD=M3-T11-103
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+PROVISIONAL_FRONTIER_CARD=M3-T11-103
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-103 provisional substantive result:
+- Write the audited fixed-squareclass genus-3 cover as C_{d,u}: T^2=-(1+u^2)H_u(d*q^2), with x=d*q^2.
+- Besides the old q->-q elliptic quotient, the complementary involution (q,T)->(-q,-T) has invariants x=d*q^2 and W=d*q*T and gives the exact genus-2 quotient
+  H_{d,u}: W^2=-d*(1+u^2)*x*H_u(x).
+- For fixed u this complementary factor is exactly a quadratic twist by d=[2*Pi].
+- Its polynomial discriminant is
+  -2^84*d^8*u^46*(1+u^2)^22*(25*u^2-2)^3,
+  so every rational physical d,u!=0 quotient is smooth genus 2.
+- The exact Q-defined V4 action gives
+  Jac(C_{d,u}) ~_Q E_u x Jac(H_{d,u}),
+  where E_u is the already-audited fixed-u genus-one quotient and carries no new credit.
+- x=0 and infinity give a rational 2-torsion class on Jac(H_{d,u}), providing a concrete 2-descent interface only.
+- The M3-T11-044 reciprocal criterion has exact obstruction
+  -2^26*u^14*(1+u^2)^6*(9+25*u^2),
+  so no rational physical u admits the reciprocal x->lambda/x second-elliptic split. Non-reciprocal factors are not excluded.
+- Therefore the live interior continuation sharpens to same-measure genus-2 d-twist/Selmer/support analysis. No fixed-power saving is proved.
+
+
+M3_T11_FIXED_SQUARECLASS_GENUS3_COMPLEMENTARY_GENUS2_QUOTIENT=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_IS_D_TWIST=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS3_JAC_SPLIT_E_PLUS_GENUS2=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_2TORSION=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RECIPROCAL_SECOND_ELLIPTIC=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2TwistSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2TwistSelmerSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-104
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-103. Mainbatch may continue only on exact same-measure 2-descent/Selmer/support information in Jac(H_{d,u}) across moving u and d=[2*Pi], on a proved non-reciprocal factor/correspondence with a physical adapter, or on the independent theta moving-support route. Do not recharge the old E_u factor, infer saving from genus 2 or rational 2-torsion alone, repeat reciprocal x->lambda/x searches, identify fixed d with fixed Pi, or recharge q's M_rel^2 denominator. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is assigned.
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-104
+This block supersedes the M3-T11-103 routing pointer for research routing only. Audited authority remains through M3-T11-102. M3-T11-104 depends provisionally on M3-T11-103; promotion requires hostile audit of the dependency chain.
+
+
+LATEST_RESEARCH_CARD=M3-T11-104
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+PROVISIONAL_FRONTIER_CARD=M3-T11-104
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+PROVISIONAL_DEPENDS_ON=M3-T11-103
+
+
+M3-T11-104 provisional substantive result:
+- On the M3-T11-103 genus-2 quotient H_{d,u}: W^2=-d*(1+u^2)*x*H_u(x), the rational Weierstrass class [(0,0)-infinity] has visible Kummer evaluation [x].
+- Every physical point has x=d*q^2, hence [x]=[d].
+- The complementary visible factor satisfies -d*(1+u^2)*H_u(x)=d*T^2 and also has squareclass [d].
+- At every relative-fresh interior p^lambda||M_rel, p does not divide d and v_p(q)=-2lambda, so v_p(x)=-4lambda; the local unit squareclass remains d.
+- Audited M3-T11-101 already requires these interior p to split in Q(sqrt(d)), i.e. chi_p(d)=+1. Therefore the rational-Weierstrass Kummer condition is exactly the old splitting receiver and has zero independent saving.
+- This freezes only the visible rational-2-torsion component. The full genus-2 2-Selmer/quartic étale component, non-reciprocal correspondences, and global cross-u support remain open.
+
+
+M3_T11_FIXED_SQUARECLASS_GENUS2_PHYSICAL_X_KUMMER_CLASS_D=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_COMPLEMENTARY_FACTOR_CLASS_D=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_WEIERSTRASS_DESCENT_NEW_SAVING=false
+M3_T11_101_INTERIOR_SPLITTING_AND_GENUS2_X_KUMMER_INDEPENDENT=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2ResidualSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2ResidualSelmerSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-105
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-103 then M3-T11-104. Mainbatch may continue only with residual genus-2 2-descent/Selmer information not determined by [x]=[d], a proved non-reciprocal factor/correspondence with an exact physical adapter, genuinely global cross-u support, or the independent theta moving-support route. Do not recharge the M3-T11-101 splitting condition, q's M_rel^2 denominator, the old elliptic factor, or the visible rational-Weierstrass Kummer component. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is assigned.
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-105
+This block supersedes the M3-T11-104 routing pointer for research routing only. Audited authority remains through M3-T11-102. M3-T11-105 depends provisionally on M3-T11-103/104; promotion requires hostile audit of the chain.
+
+
+LATEST_RESEARCH_CARD=M3-T11-105
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-102
+PROVISIONAL_FRONTIER_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+PROVISIONAL_DEPENDS_ON=M3-T11-103,M3-T11-104
+
+
+M3-T11-105 provisional substantive result:
+- Normalize the residual quartic by z=(1+u^2)x/(16u^2):
+  Q_u(z)=(1+u^2)z^4-8uz^3+(11u^2-1)z^2+6uz-u^2.
+- Disc(Q_u)=-2^4*u^2*(1+u^2)^2*(25u^2-2)^3.
+- Q_u and its standard cubic resolvent are irreducible over Q(u); u=1 gives the exact irreducible specializations 2z^4-8z^3+10z^2+6z-1 and y^3-5y^2-10y-11.
+- The discriminant squareclass is [2-25u^2], nonsquare in Q(u), so the generic Galois group is S4.
+- Thus there is no generic split into two quadratic norm problems, including after only adjoining the discriminant square root.
+- For theta a root of monic Q_u/(1+u^2), the physical residual class satisfies
+  N(z-theta)=-(T/(2^8*u^4*(1+u^2)))^2,
+  so its norm squareclass is identically [-1].
+- Therefore norm-only descent loses d and q completely. The full non-norm S4 étale class remains open. Generic S4 is not promoted to every rational u and no exceptional-specialization counting saving is claimed.
+
+
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_NORMAL_FORM=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_GENERIC_GALOIS_S4=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_ETALE_NORM_CLASS_MINUS_ONE=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_NORM_ONLY_NEW_SAVING=false
+M3_T11_FIXED_SQUARECLASS_GENUS2_GENERIC_TWO_QUADRATIC_SPLIT=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-106
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-103, then 104, then 105. Mainbatch may continue only with non-norm information in the S4 quartic étale class, an exact same-measure theorem controlling exceptional rational u, a proved non-reciprocal correspondence with physical adapter, genuinely global cross-u support, or the independent theta route. Do not recharge [x]=[d], the norm [-1], the old d-splitting condition, q's square denominator depth, or the old elliptic factor. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit is assigned.
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-103/105 audited
+This block supersedes the provisional M3-T11-103 through M3-T11-105 routing pointers above. Audited conclusions through M3-T11-105 are current.
+
+
+HOSTILE_AUDIT=PASS
+AUDIT_DOC_ID=1TLW9ndcDO5o6HodeD314X77Ch-5gOMjUSzdYy2Y3nBU
+AUDITED_CARDS=M3-T11-103,M3-T11-104,M3-T11-105
+LATEST_RESEARCH_CARD=M3-T11-105
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_103_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS3_COMPLEMENTARY_GENUS2_QUOTIENT=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_IS_D_TWIST=true
+M3_T11_FIXED_SQUARECLASS_GENUS3_JAC_SPLIT_E_PLUS_GENUS2=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_2TORSION=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RECIPROCAL_SECOND_ELLIPTIC=false
+
+
+M3_T11_104_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS2_PHYSICAL_X_KUMMER_CLASS_D=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_COMPLEMENTARY_FACTOR_CLASS_D=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RATIONAL_WEIERSTRASS_DESCENT_NEW_SAVING=false
+M3_T11_101_INTERIOR_SPLITTING_AND_GENUS2_X_KUMMER_INDEPENDENT=false
+
+
+M3_T11_105_HOSTILE_AUDIT=PASS
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_NORMAL_FORM=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_QUARTIC_GENERIC_GALOIS_S4=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_ETALE_NORM_CLASS_MINUS_ONE=true
+M3_T11_FIXED_SQUARECLASS_GENUS2_RESIDUAL_NORM_ONLY_NEW_SAVING=false
+M3_T11_FIXED_SQUARECLASS_GENUS2_GENERIC_TWO_QUADRATIC_SPLIT=false
+M3_T11_105_NORM_NOTATION_NORMALIZED_TO_PHYSICAL_SPECIALIZATION_OR_SCALAR_EXTENSION=true
+
+
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_FIXED_SQUARECLASS_BO1_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|Interior2PiSquareclassGenus2S4EtaleSelmerSupport
+NEXT_RESEARCH_CARD_ID=M3-T11-106
+NEXT_LEGAL_ACTION=Continue from M3-T11-106 only with genuinely non-norm information in the S4 quartic etale class, an exact same-measure theorem controlling exceptional rational u, a proved non-reciprocal correspondence with physical adapter, genuinely global cross-u support, or the independent theta route. Do not recharge [x]=[d], norm [-1], the old d-splitting condition, q denominator depth, the old elliptic factor, or the reciprocal split route.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-106
+This block supersedes the preceding M3-T11-105 audited routing pointer for research routing only. Audited authority remains through M3-T11-105. M3-T11-106 requires hostile audit before promotion.
+
+
+LATEST_RESEARCH_CARD=M3-T11-106
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=M3-T11-106
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3-T11-106 provisional substantive result:
+- On the exact physical image, the M3-T11-105 normalized quartic coordinate is z=S/2.
+- At every interior fresh p^lambda||m_i, with A=1+u^2 and n=v_p(A)=2lambda+c_p, the residual quartic has a canonical Q_p-linear factor plus a degree-3 factor. The linear component of z-theta has squareclass [-8u/A].
+- If 3 does not divide n, the cubic factor is irreducible of odd degree 3. Restriction on p-adic squareclasses is then an isomorphism and norm is its inverse, so the audited total norm [-1] forces the cubic component to be res([A/(8u)]). There is no independent non-norm local squareclass at such a prime.
+- If n=3m, scaling around the triple root gives residual cubic xi^3-kappa_p with kappa_p=27*a_0*u/128 mod p, where A=p^n*a_0. The only surviving primewise local branch is reducibility of this cubic: p==5 mod12 gives 1+2, while p==1 mod12 gives 1+1+1 exactly when kappa_p is a cube; otherwise the cubic remains irreducible and the odd-cubic collapse still applies.
+- Therefore the live interior local receiver narrows to cubic-resonant interior-prime support/correlation. This is a router/anti-loop result only. No resonance-frequency estimate, global Selmer collapse, fixed-power saving, primary-gate closure, endpoint theorem, or P(B)/M3(B) credit is promoted.
+
+
+M3_T11_105_PHYSICAL_Z_EQUALS_S_OVER_2=PROVISIONAL
+M3_T11_INTERIOR_RESIDUAL_ETALE_CANONICAL_LINEAR_FACTOR=PROVISIONAL
+M3_T11_INTERIOR_NONRESONANT_FULL_ETALE_SQUARECLASS_DETERMINED_BY_U=PROVISIONAL
+M3_T11_INTERIOR_NONRESONANT_ETALE_NEW_LOCAL_SAVING=false
+M3_T11_INTERIOR_CUBIC_RESONANCE_ROUTER=PROVISIONAL
+M3_T11_INTERIOR_CUBIC_RESONANCE_POWER_SAVING_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleCubicResonanceSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleResonantPrimeGlobalCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-107
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-106. Mainbatch may continue only with same-measure control/correlation of cubic-resonant interior primes, genuinely global nonlocal S4-Selmer information not reducible primewise to the odd-cubic collapse, exact exceptional-specialization/cross-u control, a proved non-reciprocal correspondence with physical adapter, or the independent theta moving-support route.
+
+
+DO_NOT_REOPEN:
+- M3-T11-105 norm-only descent;
+- generic two-quadratic splitting of the residual quartic;
+- independent primewise non-norm squareclass attacks at nonresonant interior primes;
+- deeper local Hensel refinement of the old endpoint square selector;
+- recharging d-splitting, q/M_rel denominator depth, selector density, or old determinant/lattice factors.
+
+
+
+
+## PROVISIONAL CURRENT AUTHORITY UPDATE — M3-T11-107
+This block supersedes the M3-T11-106 routing suggestion for research routing only. Audited authority remains through M3-T11-105. M3-T11-106 and M3-T11-107 both require hostile audit before promotion.
+
+
+LATEST_RESEARCH_CARD=M3-T11-107
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-105
+PROVISIONAL_FRONTIER_CARD=M3-T11-107
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+PROVISIONAL_DEPENDS_ON=M3-T11-106
+
+
+M3-T11-107 provisional substantive result:
+- At an interior fresh prime, the three finite-cluster roots from M3-T11-106 are p-adic units while the physical z=S/2 has negative valuation. Therefore every finite component z-theta equals z times a 1-unit square, so the entire complementary degree-3 étale squareclass is res([z]) regardless of whether the cubic is irreducible, 1+2, or 1+1+1.
+- Exact identity z/(A/(8u))=P/u with A=1+u^2, together with the audited M3-T11-099/100 selector chi_p(-rho*Pi_p)=+1, p==1 mod4, u==rho mod p, and v_p(P/u)=-4lambda, gives [z]=[A/(8u)] in Q_p^*/Q_p^{*2}.
+- Combining with provisional M3-T11-106 [beta_p]=[-8u/A], the full local quartic étale class is
+  ([-8u/A], res([A/(8u)]))
+  at every interior fresh prime.
+- Hence cubic resonance changes only the decomposition of the local degree-3 algebra; it supplies no new primewise local 2-descent squareclass, selector, or density event. The exact resonance criterion from M3-T11-106 is retained as structural data, but its proposed local-squareclass continuation is retired.
+- No global S4-Selmer collapse, fixed-power saving, primary-gate closure, endpoint theorem, or P(B)/M3(B) credit is promoted.
+
+
+M3_T11_INTERIOR_FINITE_CLUSTER_ETALE_CLASS_EQUALS_RES_Z=PROVISIONAL
+M3_T11_INTERIOR_Z_CLASS_EQUALS_A_OVER_8U=PROVISIONAL
+M3_T11_INTERIOR_FULL_ETALE_LOCAL_SQUARECLASS_PREDETERMINED=PROVISIONAL
+M3_T11_INTERIOR_CUBIC_RESONANCE_SQUARECLASS_NEW_SAVING=false
+M3_T11_INTERIOR_PRIMEWISE_S4_ETALE_LOCAL_ROUTE_RETIRED=PROVISIONAL
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+
+
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-108
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-106 then M3-T11-107. Mainbatch may continue only with genuinely global/nonlocal S4 étale-Selmer information not determined by the primewise interior squareclass tuple, exact exceptional-specialization/cross-u control, a proved non-reciprocal correspondence with physical adapter, or the independent theta moving-support route.
+
+
+DO_NOT_REOPEN:
+- M3-T11-105 norm-only descent;
+- generic two-quadratic splitting of the residual quartic;
+- cubic resonance as a new primewise local squareclass event;
+- independent local non-norm squareclass attacks at interior fresh primes;
+- deeper Hensel refinement of the old endpoint square selector;
+- recharging d-splitting, q/M_rel denominator depth, selector density, resonance frequency, or old determinant/lattice factors
+## CURRENT AUTHORITY UPDATE — M3-T11-106/107 audited
+This block supersedes the provisional M3-T11-106 and M3-T11-107 routing blocks above. Audited authority is current through M3-T11-107.
+HOSTILE_AUDIT=PASS
+AUDITED_CARDS=M3-T11-106,M3-T11-107
+AUDIT_DOC_ID_106=1YI56OGaJ1pv6meZBEeJtoAjZ0KVwyydvP4ZuQ_cwcPo
+AUDIT_DOC_ID_107=1pQM1ofNrgsIWHYqOhVTKeLPD7prG5gv1ahufNBEAxxI
+LATEST_RESEARCH_CARD=M3-T11-107
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-107
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+M3_T11_106_HOSTILE_AUDIT=PASS
+M3_T11_105_PHYSICAL_Z_EQUALS_S_OVER_2=true
+M3_T11_INTERIOR_RESIDUAL_Q_MOD_P_TRIPLE_ROOT=true
+M3_T11_INTERIOR_RESIDUAL_ETALE_CANONICAL_LINEAR_FACTOR=true
+M3_T11_INTERIOR_NONRESONANT_CUBIC_FACTOR_DEGREE3=true
+M3_T11_INTERIOR_NONRESONANT_FULL_ETALE_SQUARECLASS_DETERMINED_BY_U=true
+M3_T11_INTERIOR_NONRESONANT_ETALE_NEW_LOCAL_SAVING=false
+M3_T11_INTERIOR_CUBIC_RESONANCE_ROUTER=true
+M3_T11_107_HOSTILE_AUDIT=PASS
+M3_T11_INTERIOR_FINITE_CLUSTER_ETALE_CLASS_EQUALS_RES_Z=true
+M3_T11_INTERIOR_Z_CLASS_EQUALS_A_OVER_8U=true
+M3_T11_INTERIOR_FULL_ETALE_LOCAL_SQUARECLASS_PREDETERMINED=true
+M3_T11_INTERIOR_CUBIC_RESONANCE_SQUARECLASS_NEW_SAVING=false
+M3_T11_INTERIOR_PRIMEWISE_S4_ETALE_LOCAL_ROUTE_RETIRED=true
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+CURRENT_SUPPORTING_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelation
+NEXT_RESEARCH_CARD_ID=M3-T11-108
+NEXT_LEGAL_ACTION=Continue only with genuinely global/nonlocal S4 etale-Selmer information not determined by the primewise interior squareclass tuple, exact exceptional-specialization/cross-u control, a proved non-reciprocal correspondence with physical adapter, or the independent theta moving-support route. Do not recharge the M3-T11-099/100 selector, cubic resonance frequency, d-splitting, q/M_rel denominator depth, or old determinant/lattice factors.
+.
+
+
+
+
+## CURRENT AUTHORITY UPDATE — M3-T11-108 provisional
+LATEST_RESEARCH_CARD=M3-T11-108
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-107
+PROVISIONAL_FRONTIER_CARD=M3-T11-108
+PROVISIONAL_FRONTIER_AUDIT_STATUS=HOSTILE_AUDIT_REQUIRED
+
+
+M3_T11_RATIONAL_U_NONZERO_CUBIC_RESOLVENT_IRREDUCIBLE=PROVISIONAL
+M3_T11_RATIONAL_U_NONZERO_TWO_QUADRATIC_SPECIALIZATION=false
+M3_T11_EXCEPTIONAL_RESOLVENT_REDUCIBLE_BRANCH_EMPTY=PROVISIONAL
+M3_T11_UNIFORM_RATIONAL_U_QUARTIC_IRREDUCIBILITY_PROVED=false
+M3_T11_UNIFORM_RATIONAL_U_S4_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+AUTHORITY_SUMMARY=M3-T11-108 proves provisionally that the M3-T11-105 standard cubic resolvent is irreducible over Q for every nonzero rational u. The rational resolvent-reducible / rational 2+2 specialization branch is empty. This is exact exceptional-specialization control but gives no fixed-power saving. Uniform quartic irreducibility and uniform S4 are NOT proved: the rational 1+3 quartic-factor branch and the A4 discriminant-square branch remain live.
+
+
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelationOrRemainingExceptionalA4OnePlusThreeControl
+NEXT_RESEARCH_CARD_ID=M3-T11-109
+NEXT_LEGAL_ACTION=Hostile-audit M3-T11-108. Mainbatch may continue only with the exact 1+3 quartic-specialization locus, the A4 discriminant-square specialization locus, genuinely global/nonlocal S4 etale-Selmer information beyond the primewise local tuple, or the independent theta moving-support route. Do not reopen rational resolvent-root or rational 2+2 specialization searches for u!=0. No primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
+
+
+
+
+## AUDIT PROMOTION — M3-T11-108
+HOSTILE_AUDIT=PASS
+AUDITED_CARD=M3-T11-108
+AUDIT_DOC_ID_108=18rDf9voOTpj4g2uwdIG8nPLYMRWjHv1Iy7FvRafNIgE
+LATEST_RESEARCH_CARD=M3-T11-108
+LATEST_AUDITED_RESEARCH_CARD=M3-T11-108
+PROVISIONAL_FRONTIER_CARD=NONE
+PROVISIONAL_FRONTIER_AUDIT_STATUS=NOT_APPLICABLE
+
+
+M3_T11_108_HOSTILE_AUDIT=PASS
+M3_T11_RATIONAL_U_NONZERO_CUBIC_RESOLVENT_IRREDUCIBLE=true
+M3_T11_RATIONAL_U_NONZERO_TWO_QUADRATIC_SPECIALIZATION=false
+M3_T11_EXCEPTIONAL_RESOLVENT_REDUCIBLE_BRANCH_EMPTY=true
+M3_T11_UNIFORM_RATIONAL_U_QUARTIC_IRREDUCIBILITY_PROVED=false
+M3_T11_UNIFORM_RATIONAL_U_S4_PROVED=false
+M3_T11_FIXED_SQUARECLASS_FULL_GENUS2_SELMER_COLLAPSE_PROVED=false
+M3_T11_DENOMINATOR_EXTREME_SUPPORT_DEFICIT_PROVED=false
+M3_T11_PRIMARY_GATE_CLOSED=false
+P_OVER_M3_LIMIT_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_CREDIT=false
+
+
+AUTHORITY_SUMMARY=M3-T11-108 is hostile-audit PASS. For every nonzero rational u, the standard cubic resolvent of the M3-T11-105 residual quartic is irreducible over Q, so the rational resolvent-reducible exceptional branch and every rational 2+2 quartic specialization are empty. This gives exact exceptional-specialization control only: the rational 1+3 quartic-factor branch and the A4 discriminant-square branch remain live, and no counting saving is charged.
+
+
+CURRENT_ATTACK=GenericFullSThetaNonzeroFourthPowerSupportOneTwelfth|InteriorS4EtaleGlobalNonlocalSupport
+NEXT_ATTACK=ThetaFourthPowerMovingSupportBeyondKummer|InteriorS4EtaleGlobalClassCorrelationOrRemainingExceptionalA4OnePlusThreeControl
+NEXT_RESEARCH_CARD_ID=M3-T11-109
+NEXT_LEGAL_ACTION=Mainbatch may continue only with the exact rational 1+3 quartic-specialization locus, the A4 discriminant-square locus, genuinely global/nonlocal S4 etale-Selmer information beyond the primewise local tuple, or the independent theta moving-support route. Do not reopen rational resolvent-root or rational 2+2 specialization searches for u!=0. No fixed-power, primary-gate, endpoint, P(B)/M3(B), or Perfect Cuboid nonexistence credit.
