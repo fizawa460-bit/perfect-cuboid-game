@@ -1,5 +1,5 @@
 > **2026-11-10 R3-07 resumed by explicit user instruction.**
-> [Unreviewed row393 successor evidence](research/r3-row393-resume-20261110/README.md): one new principal relation; formal residual181 unchanged; P827 unresolved; no unconditional exclusion. Next: relations detected by the retained dual certificate, or unconditional class-group generation / alternative rank bound. The old publication-only pause below is historical; V74 authority is unchanged.
+> [Unreviewed row393 successor evidence](research/r3-row393-resume-20261110/README.md): 590 new integral generators / 589 independent principal relations in total; formal residual181→180; P827 unresolved; no unconditional exclusion. Next: relations detected by the retained dual certificate, or unconditional class-group generation / alternative rank bound. The old publication-only pause below is historical; V74 authority is unchanged.
 
 > **2026-11-08 current work: publication inventory; mathematics paused at R3 row393.**
 > Use the [99-ID catalogue](publication/README.md) for the imported route/material inventory. The older integration narrative and mathematical NEXT below are retained as history, not as permission to resume research. Formal V74 authority is unchanged.
