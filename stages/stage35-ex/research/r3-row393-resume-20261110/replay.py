@@ -12,8 +12,8 @@ with tempfile.TemporaryDirectory(prefix='r3-resume-') as tmp:
     if a.parent:
         shutil.copytree(a.parent,parent)
     else:
-        restore=HERE.parents[1]/'materials/classgroup-and-different/restore_package.py'
-        subprocess.run([sys.executable,str(restore),'--row','393','--destination',str(parent)],check=True)
+        restore=HERE/'restore_locked_parent.py'
+        subprocess.run([sys.executable,str(restore),'--destination',str(parent)],check=True)
     lock=json.loads((HERE/'PARENT-SHA256.json').read_text())
     for name,expected in lock.items():
         if hashlib.sha256((parent/name).read_bytes()).hexdigest()!=expected:
@@ -79,9 +79,28 @@ with tempfile.TemporaryDirectory(prefix='r3-resume-') as tmp:
     for name in fourth_names:
         if json.loads((fourth/name).read_text())!=expected_fourth[name]:
             raise RuntimeError('Wave4 result mismatch: '+name)
+    fifth=work/'wave5'
+    shutil.copytree(HERE/'wave5',fifth)
+    for name,item in json.loads((fifth/'PAYLOADS.json').read_text()).items():
+        data=gzip.decompress(base64.b64decode((fifth/item['stored']).read_text(),validate=False))
+        if len(data)!=item['bytes'] or hashlib.sha256(data).hexdigest()!=item['sha256']:
+            raise RuntimeError('Wave5 payload mismatch: '+name)
+        (fifth/name).write_bytes(data)
+    fifth_names=['verification_wave5.json','key_verification.json','results_wave5.json',
+                 'certificate_wave5.json','dependency_witnesses.json','dual_wave5.json','linear_verification.json']
+    expected_fifth={name:json.loads((fifth/name).read_text()) for name in fifth_names}
+    for script in ['verify_wave.py','verify_key.py','extract_dependencies.py','verify_linear.py']:
+        run=subprocess.run([sys.executable,str(fifth/script)],capture_output=True,text=True)
+        commands.append(dict(script='wave5/'+script,exit_status=run.returncode,stdout_sha256=hashlib.sha256(run.stdout.encode()).hexdigest()))
+        if run.returncode:raise RuntimeError(run.stdout+run.stderr)
+        print('PASS wave5/'+script,flush=True)
+    for name in fifth_names:
+        if json.loads((fifth/name).read_text())!=expected_fifth[name]:
+            raise RuntimeError('Wave5 result mismatch: '+name)
     report=dict(status='AUTHOR_REPLAY_PASS_NOT_INDEPENDENT_AUDIT',python=sys.version,
         platform=platform.platform(),parent_files_verified=len(lock),commands=commands,
-        result_json_equal=names+wave_names+third_names+fourth_names,new_relations=1738,formal_residual=178,p827_zero=False,
+        result_json_equal=names+wave_names+third_names+fourth_names+fifth_names,new_relations=2770,formal_residual=177,p827_zero=False,
+        publication_frozen_manifest="NOT_VERIFIED_BY_LOCKED_PARENT_RESTORER",
         unconditional_exclusions=0)
     if a.output: a.output.write_text(json.dumps(report,indent=2)+'\n')
-    print('PASS exact result JSON equality; residual178; P827 not eliminated; exclusion0')
+    print('PASS exact result JSON equality; residual177; P827 not eliminated; exclusion0')
