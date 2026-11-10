@@ -1,0 +1,314 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229C — projective-content crosswalk and degree-four thin-set ceiling
+
+
+STATUS: POST_229B_DELTA_RESEARCH_COMPLETE / PROVED_228_MOVING_G_IS_EXACT_PROJECTIVE_CONTENT / NEW_WEIGHTED_PROJECTIVE_AND_DEGREE4_THINSET_INPUTS_AUDITED / NO_CURRENT_REOPEN_CONTRACT / PRODUCTION_HOLD_RETAINED / GLOBAL_CREDIT=0
+
+
+AUTHORITY AND SCOPE
+Current Stage37 operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Latest prior post-229 delta audit is 229B.
+M3-T11-230 remains unissued.
+TI remains parked.
+Independent hostile audit186–229 remains NOT RUN.
+This card records one new exact internal crosswalk and a bounded external-theorem applicability audit. It does not re-prove the already frozen Stage15 toric identification and does not improve the endpoint upper bound.
+
+
+1. Exact projective-content identity inside the 228 four-chart model
+
+
+Fix one of the four M3-T11-228 directional charts. For the two primitive Pythagorean faces write
+    L1,M1 and L2,M2
+for the shared/opposite primitive legs as in 228, so
+    gcd(L1,M1)=gcd(L2,M2)=1,
+and put
+    g=gcd(L1,L2).
+
+
+M3-T11-228 gives the physical edges
+    e = L1 L2/g,
+    x = L2 M1/g,
+    y = L1 M2/g.                                  (229C.1)
+
+
+Define the raw bihomogeneous triple
+    A=L1L2,
+    B=L2M1,
+    C=L1M2.
+
+
+Then exactly
+    gcd(A,B,C)=gcd(L1,L2)=g.                       (229C.2)
+
+
+Proof.
+Fix a prime p and put a=v_p(L1), b=v_p(L2), u=v_p(M1), v=v_p(M2).
+Primitive-face coprimality gives
+    a>0 => u=0,
+    b>0 => v=0.
+The p-adic valuation of gcd(A,B,C) is
+    min(a+b, b+u, a+v).
+If a,b>0 this is min(a+b,b,a)=min(a,b).
+If exactly one of a,b is positive one of the last two entries is zero, so the minimum is zero.
+If a=b=0 it is zero.
+Thus the minimum always equals min(a,b), proving (229C.2).
+
+
+Consequently
+    (e,x,y)=(A/g,B/g,C/g)
+is exactly the primitive integer representative of the projective triple
+    [L1L2 : L2M1 : L1M2].                          (229C.3)
+
+
+In particular
+    gcd(e,x,y)=1.
+
+
+This sharpens the interpretation of the moving normalizer in 228:
+the moving g is not an arbitrary auxiliary correction; in the four-chart coordinates it is exactly the common projective content of the three raw physical-edge coordinates.
+
+
+M3-T11-228 also gives
+    H_theta = g^2(e^2+x^2+y^2),
+so its exact height statement becomes
+    R^2=e^2+x^2+y^2,
+    R<=B iff H_theta<=g^2B^2.                      (229C.4)
+
+
+Hence, if
+    H_proj=max(e,x,y),
+then exactly
+    H_proj <= R <= sqrt(3) H_proj.                 (229C.5)
+
+
+RESULT_229C_PROJECTIVE_CONTENT_CROSSWALK=PROVED_EXACT.
+RESULT_229C_MOVING_G_IS_PROJECTIVE_CONTENT=true.
+RESULT_229C_PHYSICAL_EUCLIDEAN_TO_PROJECTIVE_HEIGHT_COMPARISON=PROVED_EXACT.
+
+
+2. What is new and what is not
+
+
+The existence of a toric ambient surface is NOT new here.
+The frozen Stage15 result M3-HIST15-AMBIENT-001 already identifies the primitive canonical two-face ambient population under exact physical R<=B with the positive real chamber of the split toric resolution
+    Y=Bl_4(P^1 x P^1),
+with R an anticanonical adelic height and ambient order B(log B)^5.
+
+
+Stage28 also already uses Bl_4(P^1 x P^1) as the common geometric base for the relevant completion problems.
+
+
+Therefore 229C does not claim a new P^1 x P^1 or toric identification.
+The substantive new internal asset is narrower:
+equations (229C.2)–(229C.5) explicitly identify the 228 chart normalizer g with primitive projective content and connect the raw four-chart formulas directly to the primitive physical edge triple.
+
+
+3. Two square selectors after primitive normalization
+
+
+M3-T11-228 gives
+    E_theta=g^2(x^2+y^2),
+    H_theta=g^2(e^2+x^2+y^2).
+
+
+Since g^2 is a square,
+    F=1 iff x^2+y^2 is an integer square,
+    S=1 iff e^2+x^2+y^2 is an integer square.       (229C.6)
+
+
+Thus the two terminal selectors are two quadratic lift conditions over the same primitive physical projective triple.
+
+
+Over the known two-face toric ambient, each one individually defines the familiar degree-two square-lift cover on the relevant open.
+The simultaneous endpoint locus is contained in the fiber product of these two quadratic covers.
+For the quantitative audit below we grant the most favorable possible generic situation: that a suitable affine primitive-element reduction exists with cover degree d=4 and all irreducibility/top-form hypotheses required by the external theorem.
+This favorable grant is only an upper-bound preflight; generic degree exactly four is NOT proved in this card.
+
+
+4. New degree-four thin-set theorem test
+
+
+A genuinely new current theorem species is:
+T. Buggenhout, R. Cluckers, P. Salberger, T. Santens, F. Vermeulen,
+“Serre's question on thin sets in projective space,” arXiv:2506.13471v2.
+
+
+Their affine theorem gives, for the stated absolutely irreducible weighted-top-form setup, a degree-d type-II cover in n affine base variables:
+    d>=5:  O(B^(n-1)),
+    d=4:   O(B^(n-1) log(B)^O(1)),
+    d=2,3: O(B^(n-2+2/sqrt(d)) log(B)^O(1)).
+
+
+Apply only a favorable exponent preflight, not a certified transfer.
+In a regular balanced 228 chart with all four raw Euclid parameters of scale T and with g=O(1), the quadratic primitive legs L_i,M_i have scale T^2, so
+    e,x,y,R have scale T^4.
+Thus physical R<=B corresponds to the favorable balanced scale
+    T <= B^(1/4+o(1)).                              (229C.7)
+
+
+Granting a valid n=4,d=4 affine reduction of the simultaneous two-square locus, the theorem would give at best
+    T^3 log(T)^O(1)
+      = B^(3/4) log(B)^O(1).                        (229C.8)
+
+
+This does not close Stage37.
+The current certified denominator corridor contains only
+    M3(B) >> B^(1/3),
+so (229C.8) is far too large to prove P(B)=o(M3(B)).
+It is also weaker as an absolute endpoint upper bound than the already retained
+    P(B) << B^(1/2+epsilon).
+
+
+Therefore this powerful new degree-four theorem does not satisfy any 229 restart contract by black-box application.
+
+
+RESULT_229C_DEGREE4_THINSET_BLACKBOX=NO_GO_FOR_CURRENT_STAGE37_NORMALIZATION.
+This is a method-sufficiency statement, not a lower bound and not an impossibility theorem for adapted determinant methods.
+
+
+5. Weighted-projective-stack / lopsided-large-sieve test
+
+
+A second genuinely new current theorem species is:
+S. Chan, D. Loughran, N. Rome,
+“Thin sets in weighted projective stacks,” arXiv:2602.05705.
+
+
+They prove thin-set upper bounds for weighted projective stacks and develop a lopsided large sieve adapted to weighted heights and weighted gcds.
+This is relevant in spirit because (229C.2) identifies the 228 moving g as exact projective content.
+
+
+However there is no current black-box Stage37 adapter.
+
+
+The theorem is stated for a weighted projective stack
+    P(a)=[(A^(n+1)-{0})/G_m]
+with one weighted G_m scaling.
+The frozen Stage15 exact base is instead the split toric surface
+    Y=Bl_4(P^1 x P^1),
+with its anticanonical height and higher-rank toric/Cox quotient structure.
+The fact that both descriptions involve gcd normalization does not identify their heights or counting measures.
+
+
+In particular, 229C has not proved:
+- a count-preserving morphism taking the exact Stage37 physical population to one weighted-projective-stack population;
+- equality/comparability of the Stage15 anticanonical physical height with the weighted-projective height with summable total fiber cost;
+- a weighted-projective theorem whose main/error terms give the signed A/R1-TF centered covariance.
+
+
+Therefore
+    WEIGHTED_PROJECTIVE_STACK_REOPEN=false.
+    LOPSIDED_LARGE_SIEVE_REOPEN=false.
+
+
+This does NOT say the lopsided large sieve cannot be adapted to a Cox/universal-torsor presentation of Y. It says such a toric adaptation is new mathematics not supplied by the current theorem.
+
+
+6. Existing toric theorem boundary
+
+
+Zhizhong Huang's toric equidistribution/geometric-sieve theorem, now available in a 2026 revision of arXiv:2111.01509, is already theorem-species-compatible with the Stage15 split toric ambient and underlies the frozen Stage15 toric/equidistribution architecture.
+
+
+That machinery is sufficient for ambient asymptotics and qualitative thin-set/local-condition removal on the toric measure, but it does not currently supply:
+- P(B)=o(M3(B)) on the endpoint-conditioned M3 marginal from the weak M3 denominator lower bound;
+- the exact empirical-marginal signed covariance required by A/R1-TF;
+- the M3-weighted moving-base second moment required by FIB;
+- occupied-image expansion required by PAIR.
+
+
+Thus the projective-content crosswalk removes a semantic mystery about g, but not the principal quantitative receiver.
+
+
+7. Route-by-route restart audit
+
+
+LOCAL:
+The exact content identity does not provide a fixed-Q/fixed-conductor twisted asymptotic on exact M3.
+LOCAL_REOPEN=false.
+
+
+A / R1-TF:
+The identity gives a cleaner physical/projective height crosswalk, but no centered two-selector correlation theorem or empirical-product principal term.
+A_REOPEN=false.
+
+
+FIB:
+No M3-weighted moving-base second moment or equivalent two-fibration incidence estimate.
+FIB_REOPEN=false.
+
+
+PAIR:
+No fixed-power occupied-image deficit for endpoint-active primitive projective triples.
+PAIR_REOPEN=false.
+
+
+CROSS-GCD:
+No same-measure Stage14 outer-support/family-average theorem.
+CROSS_GCD_REOPEN=false.
+
+
+TQ:
+No arithmetic distribution theorem for the actual moving J/H labels.
+TQ_REOPEN=false.
+
+
+GEOMETRY:
+No growing-family carrier theorem plus residual control under exact physical height.
+GEOMETRY_REOPEN=false.
+
+
+DEN:
+No exact M3 lower bound above exponent 1/2.
+DEN_REOPEN=false.
+
+
+8. Retained new asset and precise future contract
+
+
+The new usable asset is:
+    228_MOVING_G_IS_EXACT_PROJECTIVE_CONTENT=true.
+
+
+A future theorem can exploit this only if it works on the correct quotient/height.
+The sharp new contract is one of:
+
+
+(A) Toric/Cox lopsided large sieve:
+a version of the Chan–Loughran–Rome weighted large-sieve mechanism on the exact Stage15 toric/Cox measure, with anticanonical R-height and a quantitative error strong enough after conditioning to M3.
+
+
+(B) Simultaneous-cover determinant theorem:
+a genuinely anisotropic/product-height theorem for the two-square fiber product that materially improves the favorable B^(3/4) black-box ceiling and survives the exact primitive/canonical masks.
+
+
+(C) Centered toric covariance theorem:
+an exact same-physical-measure theorem whose principal term is the product of the empirical F and S marginals and whose signed error meets the M3-T11-228 Pearson B^(-1/12-delta) receiver.
+
+
+Without one of these new interfaces, merely renaming g as projective content does not reopen production.
+
+
+9. Final state
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230_ISSUED=false.
+NEXT_RESEARCH_CARD=NONE.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+
+
+M3-T11-229 remains latest operational T11 card.
+M3-T11-228 remains latest mathematical construction card.
+229C is the latest post-229 delta research card.
+No perfect-cuboid existence/nonexistence conclusion.
+
+
+SOURCES CHECKED
+Buggenhout–Cluckers–Salberger–Santens–Vermeulen, arXiv:2506.13471v2.
+Chan–Loughran–Rome, arXiv:2602.05705.
+Huang, arXiv:2111.01509, 2026 revision.
+Frozen internal dependencies: M3-T11-228; M3-HIST15-AMBIENT-001; Stage15-6ct; M3-HIST28-GEOMETRY-FW-001.

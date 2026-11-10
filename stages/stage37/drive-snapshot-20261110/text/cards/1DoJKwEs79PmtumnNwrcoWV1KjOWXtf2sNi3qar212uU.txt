@@ -1,0 +1,194 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229I — strongly-genuine specialization and target-ratio scale envelope
+
+
+STATUS: POST_229H_CURRENT_THEOREM_WATCH_COMPLETE / PROVED_TARGET_RATIO_SCALE_ENVELOPE / NEW_STRONGLY_GENUINE_SPECIALIZATION_THEOREM_AUDITED / PROVED_PARTIAL_SPECIALIZATION_NOT_POINTWISE_M3_HILBERT / NO_REOPEN / GLOBAL_CREDIT=0
+TYPE: POST-229H EXTERNAL THEOREM DELTA AUDIT / PAIR WEIGHT TRANSFER SHARPENING
+OPERATIONAL_AUTHORITY: M3-T11-229
+LATEST_MATHEMATICAL_CONSTRUCTION: M3-T11-228
+LATEST_INTERNAL_STRUCTURAL_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229F
+PREVIOUS_EXTERNAL_THEOREM_DELTA: Stage37-NEW-INPUT-DELTA-AUDIT-229H
+PRIMARY_GATE: M3-T11-GATE-001 OPEN
+M3_T11_230: NOT ISSUED
+GLOBAL_COUNTING_CREDIT: 0
+
+
+1. Scope and restart contract
+
+
+229H reduced the live PAIR theorem-watch problem to the exact occupied-ratio measure
+  n_B(w)=#{(X,D) in W_B : D/X=w}
+and retained
+  sum_{w in T_Pyth} n_B(w) <= B^(-delta+o(1)) sum_w n_B(w)
+as the needed fixed-power thin-image deficit.
+
+
+The current missing uniformity is not qualitative thinness. It is the combination of:
+  (i) support/height moving with B; and
+  (ii) exact M3 pushforward weight possibly concentrating on T_Pyth.
+
+
+This audit checks one genuinely new theorem species and then tests the strongest deterministic height envelope available directly on the target ratio.
+
+
+2. Bonolis–Pierce–Woo strongly-genuine specialization theorem
+
+
+New source checked:
+Dante Bonolis, Lillian B. Pierce, Katharine Woo,
+“Genuine and strongly genuine polynomials: With an application to the persistence of Galois groups under specialization,” arXiv:2607.01969.
+
+
+Their strongly n-genuine theorem gives, for an appropriate polynomial F(Y,X_1,...,X_n), an O(B^(n-2)) bound for the (n-1)-tuples of integer partial specializations x' for which the remaining polynomial F(Y,X_1,x') is reducible over the algebraic closure. A finite-field analogue is also proved. The companion n-genuine theorem gives the same B^(n-2) scale for complete splitting over Q after partial specialization.
+
+
+This is a real fixed-power reducibility theorem and is stronger than generic type-II ambient counts in its own quantifier regime.
+
+
+However the Stage37 endpoint predicate has a different quantifier. For one exact occupied M3 point, the condition is pointwise:
+  X^2 + D^2 = R^2,
+equivalently w=D/X lies in the degree-two Pythagorean image.
+
+
+Pointwise solvability/reducibility of the specialized one-point fibre does not imply that a polynomial with one variable left free becomes identically reducible after a partial specialization. Therefore the O(B^(n-2)) strongly-genuine exceptional-specialization theorem cannot be applied directly to the exact M3 occupied source.
+
+
+No exact population/height-preserving adapter from the Stage37 source to the BPW partial-specialization exceptional set was found.
+
+
+RESULT_229I_BPW_STRONGLY_GENUINE_MATCH=NEW_THEOREM_SPECIES_BUT_WRONG_SPECIALIZATION_QUANTIFIER.
+PAIR_REOPEN_FROM_BPW=false.
+LOCAL_REOPEN_FROM_BPW=false.
+
+
+3. Exact target-ratio scale envelope
+
+
+Let w=a/b>0 be in lowest terms and suppose w in T_Pyth. Then there is a unique positive primitive Pythagorean hypotenuse c=c(w) satisfying
+  a^2+b^2=c^2.
+
+
+For every occupied pair (X,D) with D/X=w, coprimality of a,b forces
+  (X,D)=k(b,a)
+for a positive integer k.
+
+
+Because w is Pythagorean, this pair is endpoint-active and
+  sqrt(X^2+D^2)=k c.
+
+
+Under the exact physical cutoff R<=B, necessarily
+  k c <= B.
+Hence the occupied-pair weight satisfies the deterministic exact bound
+  n_B(w) <= floor(B/c(w)).                         (229I.1)
+
+
+Since c(w) is comparable to the standard projective height H(w)=max(|a|,|b|),
+  n_B(w) << B/H(w).                                (229I.2)
+
+
+This uses only the exact ratio definition and physical height; it does not replace the occupied measure by an ambient one.
+
+
+RESULT_229I_TARGET_RATIO_SCALE_ENVELOPE=PROVED_EXACT.
+
+
+4. Why the envelope still does not transfer ambient Hilbert sparsity
+
+
+The scale envelope is too weak to convert the ambient target sparsity into the needed M3-weighted deficit.
+
+
+Using 229H/Mah,
+  #{w in T_Pyth : H(w)<=H} << H (log H)^5.
+On a dyadic height shell H~C, (229I.2) gives weight at most B/C per target value, while Mah gives at most O(C(log B)^5) target values. Thus one shell costs at most O(B(log B)^5), and summing O(log B) shells gives only
+  sum_{w in T_Pyth} n_B(w) << B (log B)^6.          (229I.3)
+
+
+For this specific Pythagorean cover, the elementary Euclid parametrization improves the ambient cardinality to O(H), and correspondingly improves (229I.3) only to
+  sum_{w in T_Pyth} n_B(w) << B log B.              (229I.4)
+
+
+Both are far weaker than the retained endpoint ceiling P(B)<<B^(1/2+epsilon), so neither gives any new endpoint exponent, any PAIR fixed-power deficit, or any global counting credit.
+
+
+Equivalently, define the target occupancy factor
+  alpha_B(w)=n_B(w)c(w)/B.
+Then 0<=alpha_B(w)<=1 by (229I.1), and
+  sum_{w in T_Pyth} n_B(w)
+    = B sum_{w in T_Pyth} alpha_B(w)/c(w).
+Ambient Hilbert/thin-set results control how many target w occur in the ambient height range; they do not force the realized alpha_B(w) to be small on the exact M3 image.
+
+
+RESULT_229I_MAH_PLUS_SCALE_ENVELOPE=VALID_TRANSFER_BUT_TOO_WEAK.
+RESULT_229I_ELEMENTARY_PYTH_PLUS_SCALE_ENVELOPE=O(B_LOG_B)_ONLY / DOMINATED_BY_RETAINED_ENDPOINT_CEILING.
+GLOBAL_COUNTING_CREDIT remains 0.
+
+
+5. Relation to M3-T11-152
+
+
+M3-T11-152 proves a different growing-support statement: endpoints whose physical R is supported on one specified prime alphabet S_B of polylogarithmic size have a negligible sector in a suitable range.
+
+
+That result explicitly pays for moving alphabet families and does not permit replacing “one specified support for R” by arbitrary moving prime support. It therefore does not supply uniform control of numerator/denominator support of w=D/X, nor does it control alpha_B(w) or n_B(w).
+
+
+RESULT_229I_152_SUPPORT_TRANSFER_TO_W=false.
+
+
+6. Sharpened missing theorem
+
+
+The PAIR contract remains:
+  M3_WEIGHTED_HILBERT_PROPERTY.
+
+
+229I sharpens what must be added beyond ambient target sparsity. A sufficient new input would be any one of:
+
+
+(A) a source-conditioned Hilbert/thin-set theorem stated for the exact M3 source and physical R-height;
+(B) a fixed-power average anti-concentration theorem for alpha_B(w), or directly for n_B(w), on T_Pyth;
+(C) a summable moving-w fibre theorem that beats the deterministic B/c(w) scale by a fixed power on the realized target set;
+(D) an exact same-M3 residue/equidistribution adapter strong enough to reopen LOCAL independently.
+
+
+A theorem about reducibility after leaving a free variable, an ambient count of target values, or a bound depending only on c(w) without source anti-concentration does not satisfy the restart contract.
+
+
+PAIR_REOPEN_CONTRACT=M3_WEIGHTED_HILBERT_PROPERTY / EXACT_M3_SOURCE_WEIGHTED_FIXED_POWER_DEFICIT_ON_T_PYTH.
+CURRENT_MISSING_UNIFORMITY=SOURCE_ANTI_CONCENTRATION_BEYOND_TRIVIAL_B_OVER_C_TARGET_SCALE.
+POST_229_REOPEN_TRIGGER_FOUND=false.
+PAIR_REOPEN=false.
+LOCAL_REOPEN=false.
+NEXT_INTERNAL_PREFLIGHT=NONE.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230=NOT_ISSUED.
+GLOBAL_COUNTING_CREDIT=0.
+
+
+7. Reopen/watch guidance
+
+
+Continue theorem watch only. Highest-value targets are:
+- weighted/source-conditioned Hilbert irreducibility for sparse arithmetic source measures;
+- quantitative thin-image estimates with nonuniform arithmetic weights;
+- exact-height source-side counts for the Pythagorean pullback on the physical M3 population;
+- same-M3 equidistribution strong enough to control occupied-ratio concentration.
+
+
+Do not start another internal identity chain from 229I.
+
+
+SOURCES CHECKED
+- Bonolis–Pierce–Woo, arXiv:2607.01969, especially the n-genuine and strongly n-genuine specialization theorems.
+- Stoll–Siksek, arXiv:2609.04551, retained from 229H.
+- Mah, arXiv:2512.03490, retained from 229H.
+- Stage37-NEW-INPUT-DELTA-AUDIT-229H.
+- Stage37-PAIR-PREFLIGHT-001.
+- M3-BASE-001.
+- M3-XD-001.
+- M3-T11-152.
+
+
+AUDIT SCOPE
+This is a current-theorem applicability audit plus an exact internal target-ratio height-envelope derivation. It is not an independent hostile proof audit of cards 186–229. No perfect-cuboid existence or nonexistence conclusion is claimed.

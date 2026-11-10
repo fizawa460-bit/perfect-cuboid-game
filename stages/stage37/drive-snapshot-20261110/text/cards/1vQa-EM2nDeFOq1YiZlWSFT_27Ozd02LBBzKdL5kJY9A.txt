@@ -1,0 +1,215 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229B — affine type-II thin-set sieve contract test
+
+
+STATUS: POST_229A_EXTERNAL_THEOREM_DELTA_SCAN_COMPLETE / NEW_BPW_TYPEII_THEOREM_SPECIES_IDENTIFIED / PROVED_NO_CURRENT_BLACK_BOX_TRANSFER_TO_STAGE37_RESTART_CONTRACTS / PRODUCTION_HOLD_RETAINED / GLOBAL_CREDIT=0
+
+
+AUTHORITY AND SCOPE
+Current Stage37 operational authority is M3-T11-229.
+Latest mathematical construction is M3-T11-228.
+Latest prior post-229 delta audit is 229A.
+M3-T11-230 remains unissued.
+TI remains parked.
+Independent hostile audit186–229 remains NOT RUN.
+This document is a scoped theorem/applicability audit. It does not prove a universal impossibility theorem for thin-set methods and does not improve the endpoint upper bound.
+
+
+1. New external theorem species
+A previously unregistered current theorem species was identified:
+D. Bonolis, L. B. Pierce, K. Woo, “Counting integral points in thin sets of type II: singularities, sieves, and stratification”, arXiv:2505.11226 (2025).
+
+
+For an absolutely irreducible F(Y,X_1,...,X_n) monic in Y and polynomial in Y^m, m>=2, their affine type-II thin-set theorem gives, under a genuine-variable/nondegeneracy hypothesis,
+    N(F,T) << T^(n-1+1/(n+1)+epsilon).
+For n=4 this exponent is
+    3+1/5 = 16/5.
+For a special class they obtain the stronger scale
+    N(F,T) << T^(n-1) (log T)^e,
+so for n=4 the optimistic strong scale is T^3 polylog.
+
+
+The 2026 survey by the same authors, arXiv:2603.23334, emphasizes that coefficient-independent uniformity for affine type-II thin sets is still not known in general. The companion Bonolis–Kowalski–Woo stratification work, arXiv:2506.18299, provides uniform stratification in families but does not by itself turn the type-II count into the exact Stage37 moving-height measure.
+
+
+RESULT_229B_NEW_INPUT = GENUINE_NEW_THEOREM_SPECIES_NOT_PREVIOUSLY_REGISTERED_IN_STAGE37.
+
+
+2. Exact Stage37 object to which one would try to apply it
+By M3-T11-228, on each of the four exact directional charts,
+    E_theta=(L2 M1)^2+(L1 M2)^2,
+    H_theta=E_theta+(L1 L2)^2,
+and
+    F=1 iff E_theta is an integer square,
+    S=1 iff H_theta is an integer square,
+with exact physical height
+    R<=B iff H_theta<=g^2 B^2,
+where
+    g=gcd(L1,L2).
+
+
+Thus a first black-box thin-set attempt would use
+    Y^2-H_theta(a,b,c,f)
+or
+    Y^2-E_theta(a,b,c,f)
+as a four-parameter type-II cover.
+
+
+This is genuinely different from the standard finite-prime character replacement rejected in M3-T11-228. Therefore it deserved an explicit contract test rather than automatic rejection.
+
+
+3. Quantitative ceiling on a favorable regular balanced cell
+Consider a regular balanced dyadic subcell of one chart in which all four raw Pythagorean parameters have scale T, the relevant O/E legs have scale T^2, and g is bounded. On such a subcell,
+    H_theta has scale T^8,
+so the exact physical cutoff R<=B has the favorable scale
+    T <= B^(1/4)
+up to fixed constants.
+
+
+Grant, optimistically, every polynomial admissibility hypothesis needed by the 2025 theorem.
+
+
+The general n=4 type-II bound then gives only
+    T^(16/5+epsilon)
+      = B^(4/5+epsilon)
+on the favorable balanced physical scale.
+
+
+Even granting the stronger special-class bound gives only
+    T^3 polylog
+      = B^(3/4) polylog.
+
+
+The current certified Stage37 denominator corridor contains only
+    M3(B) >> B^(1/3)
+at the lower end.
+Therefore neither B^(4/5+epsilon) nor the optimistic B^(3/4) polylog can by itself prove
+    P(B)=o(M3(B)).
+
+
+This is a method-sufficiency statement, not a lower bound on P. It says the cited black-box thin-set theorem does not have enough exponent budget to close the direct endpoint count from the currently certified M3 lower bound.
+
+
+Notably the generic B^(4/5) physical exponent is the same exponent scale already appearing in the retained M3-FOUR-NEG-001 balanced elementary double-square-sieve ceiling. The new theorem is conceptually stronger and much more general, but its black-box n=4 exponent does not cross the Stage37 absolute endpoint threshold.
+
+
+RESULT_229B_BALANCED_EXPONENT_TEST = FAIL_FOR_DIRECT_ENDPOINT_CLOSURE.
+
+
+4. Moving-gcd / exact-height mismatch
+The full Stage37 population is not a fixed isotropic raw box. Its exact cutoff contains the moving
+    g=gcd(L1,L2).
+
+
+Stage15-6ct resolves the arithmetic bookkeeping by exact cross-gcd cells and gives the product-height bridge
+    H*M*N*U*V <= B
+for the common normalizer cells.
+This is valuable, but it is not currently an affine type-II theorem on that exact product-height/lattice measure.
+
+
+A black-box application on a symmetric box containing each raw dyadic cell loses the product-height geometry, while rescaling to moving anisotropic boxes creates a coefficient/lattice family whose required uniform Stage37 summation is not supplied by the cited theorem. The 2026 survey makes clear that full coefficient-independent uniformity in affine type II remains subtle.
+
+
+Thus the physical-measure firewall of M3-T11-228 is not removed.
+
+
+RESULT_229B_EXACT_PHYSICAL_HEIGHT_ADAPTER = NOT_SUPPLIED.
+RESULT_229B_MOVING_GCD_TRANSFER = NO_CURRENT_CONTRACT_TRANSFER.
+
+
+5. A/R1-TF centered-covariance test
+The A route does not merely need an unsigned upper bound for one square-value set. It needs the signed same-measure covariance
+    Z_j = sum_{H_j} (F-alpha)(S-beta)
+with empirical global marginals and Pearson saving stronger than B^(-1/12).
+
+
+The type-II theorem counts parameter points admitting an integral lift for one finite cover. It does not provide:
+- an exact centered expansion for the two integer-square selectors;
+- a principal term equal to the empirical product alpha*beta on the physical H_j measure;
+- a signed covariance estimate;
+- a moving-gcd physical coefficient theorem at the required Pearson normalization.
+
+
+Encoding both E_theta and H_theta as one finite fiber-product cover does not by itself create a second independent thinness saving from the cited theorem; the theorem remains a type-II projected-point upper bound, not a centered two-selector correlation theorem.
+
+
+Therefore
+    A_REOPEN=false.
+
+
+RESULT_229B_A_CENTERED_MATCH = NO_DIRECT_OR_NEAR_DIRECT_MATCH.
+
+
+6. Other restart-contract tests
+LOCAL:
+No exact-M3 fixed-Q/fixed-conductor twisted asymptotic or exact height-zeta/torsor transfer is supplied.
+LOCAL_REOPEN=false.
+
+
+FIB:
+No exact-M3 weighted moving-base second moment
+    sum_t p_t(B)^2/m_t(B)=o(M3(B))
+or equivalent two-fibration incidence theorem is supplied.
+FIB_REOPEN=false.
+
+
+PAIR:
+No occupied-image expansion/incidence theorem on W_B is supplied.
+PAIR_REOPEN=false.
+
+
+CROSS-GCD:
+No Stage14 same-measure outer-support/family-average theorem is supplied.
+CROSS_GCD_REOPEN=false.
+
+
+TQ:
+No arithmetic distribution theorem for the actual moving J/H labels is supplied.
+TQ_REOPEN=false.
+
+
+GEOMETRY:
+This thin-set theorem is not a growing-carrier-family plus residual-surface theorem under exact physical height.
+GEOMETRY_REOPEN=false.
+
+
+DEN:
+No >1/2 exact Stage37 M3 lower-bound construction is supplied.
+DEN_REOPEN=false.
+
+
+7. Verdict and future use
+The Bonolis–Pierce–Woo theorem is genuine new mathematics and is relevant enough to register, but it does not currently satisfy any M3-T11-229 restart contract.
+
+
+The strongest useful conclusion is scoped:
+- DO NOT discard affine type-II thin-set sieves as irrelevant;
+- DO NOT count them as current Stage37 progress;
+- DO NOT issue M3-T11-230 from this input alone.
+
+
+A future thin-set input could become production-relevant only if it supplies at least one missing interface, for example:
+(a) an exact product-height / moving-gcd version on the Stage37 physical measure with a total exponent below the required M3 normalization;
+(b) a genuinely two-condition or centered version giving the A covariance receiver;
+(c) an exact adapter to one of the existing 229 restart contracts.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230_ISSUED=false.
+NEXT_RESEARCH_CARD=NONE.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+
+
+SOURCES CHECKED
+Bonolis–Pierce–Woo, arXiv:2505.11226 (2025), affine type-II thin-set counting.
+Bonolis–Pierce–Woo, arXiv:2603.23334 (2026), survey and uniformity status.
+Bonolis–Kowalski–Woo, arXiv:2506.18299 (2025), stratification in families.
+
+
+FINAL
+M3-T11-229 remains the latest operational T11 card.
+M3-T11-228 remains the latest mathematical construction card.
+229B is the latest post-229 external-theorem delta audit.
+Production remains HOLD and M3-T11-230 remains unissued.

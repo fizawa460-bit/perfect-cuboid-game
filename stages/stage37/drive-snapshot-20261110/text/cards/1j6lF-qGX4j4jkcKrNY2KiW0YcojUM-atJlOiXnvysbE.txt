@@ -1,0 +1,300 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229E — four-Pythagorean cycle and exact 2-adic router
+
+
+STATUS: POST_229D_DELTA_RESEARCH_COMPLETE / PROVED_EXACT_FOUR_PYTHAGOREAN_CYCLE / PROVED_EXACT_2ADIC_CONTENT_TRICHOTOMY / PROVED_FIXED_PACKET_SELECTOR_SURFACE_SINGULAR_RATIONAL / SMOOTH_QUARTIC_DEL_PEZZO_BLACKBOX_REJECTED / PRODUCTION_HOLD_RETAINED / GLOBAL_CREDIT=0
+
+
+AUTHORITY AND SCOPE
+Current Stage37 operational authority remains M3-T11-229.
+Latest mathematical construction remains M3-T11-228.
+Latest prior post-229 delta research is 229D.
+M3-T11-230 remains unissued.
+TI remains parked.
+Independent hostile audit186–229 remains NOT RUN.
+
+
+This card continues only from the exact 228/229C/229D four-chart coordinates. It records a stronger endpoint normal form and a geometry preflight. It does not improve the global endpoint count.
+
+
+1. Exact four-Pythagorean cycle
+
+
+Use the 229D decomposition
+    L1=g a,   L2=g b,   gcd(a,b)=1,
+    M1=d c,   M2=d f,   gcd(c,f)=1,
+with
+    gcd(g,d)=1,
+    gcd(g,c)=gcd(g,f)=1,
+    gcd(a,d)=gcd(a,c)=1,
+    gcd(b,d)=gcd(b,f)=1.
+
+
+The physical edges are
+    e=gab,
+    x=dbc,
+    y=daf.
+
+
+Because (L1,M1) and (L2,M2) are the two primitive Pythagorean face-leg pairs inherited from M3-T11-228/M3-MASTER-001, there are primitive hypotenuses n1,n2 with
+    (ga)^2+(dc)^2=n1^2,                           (229E.1)
+    (gb)^2+(df)^2=n2^2.                           (229E.2)
+
+
+At an endpoint, 229D gives a primitive missing-face triple
+    (bc)^2+(af)^2=q^2,                            (229E.3)
+and with
+    h=gcd(g,q),   G=g/h,   Q=q/h,
+a second primitive triple
+    (Gab)^2+(dQ)^2=s^2,   s=R/h.                 (229E.4)
+
+
+Thus every endpoint in one 228 directional chart satisfies the closed multiplicative four-triple system
+    T1=(ga,dc,n1),
+    T2=(gb,df,n2),
+    T3=(bc,af,q),
+    T4=(Gab,dQ,s).                                (229E.5)
+
+
+All four triples are primitive.
+
+
+This is not merely a relabeling of M3-MASTER-001: T1,T2 are the retained two-face host, while T3,T4 are exactly the two endpoint selectors after the 229D content reductions.
+
+
+RESULT_229E_FOUR_PYTHAGOREAN_CYCLE=PROVED_EXACT.
+
+
+2. Exact 2-adic content trichotomy
+
+
+Every primitive Pythagorean triple has exactly one even leg, and its even leg is divisible by 4.
+
+
+Because gcd(g,d)=1, g and d cannot both be even. Applying the primitive parity rule simultaneously to T1,T2,T3 gives exactly three possible content patterns.
+
+
+TYPE G-EVEN:
+    g even, hence d odd.
+    T1,T2 force c,f odd.
+    T3 then forces a,b to have opposite parity.
+    Since ga and gb are both even legs in T1,T2, v2(g)>=2.
+    The even member of {a,b} is the even leg-factor in T3 and is itself divisible by 4.
+Therefore
+    4|g,
+    d,c,f odd,
+    a,b opposite parity,
+    4 divides the even member of {a,b}.            (229E.6)
+
+
+TYPE D-EVEN:
+    d even, hence g odd.
+    T1,T2 force a,b odd.
+    T3 forces c,f to have opposite parity.
+    Since dc and df are both even legs in T1,T2 and one of c,f is odd, v2(d)>=2.
+    The even member of {c,f} is the even leg-factor in T3 and is divisible by 4.
+Therefore
+    4|d,
+    g,a,b odd,
+    c,f opposite parity,
+    4 divides the even member of {c,f}.            (229E.7)
+
+
+TYPE BOTH-ODD:
+    g,d odd.
+    T1 gives a,c opposite parity.
+    T2 gives b,f opposite parity.
+    gcd(a,b)=gcd(c,f)=1 excludes a,b both even and, together with the previous two relations, excludes a,b both odd.
+Hence a,b are opposite parity and c,f are opposite parity.
+Moreover the even factors occur crosswise:
+    either a,f are even and b,c odd,
+    or b,c are even and a,f odd.
+Because g,d are odd, each even member is itself an even leg of a primitive face triple, hence each is divisible by 4.
+Therefore the even leg of T3 is divisible by 16.             (229E.8)
+
+
+These three cases are exhaustive and disjoint.
+
+
+Since q is the hypotenuse of primitive T3, q is odd and q==1 mod4.
+Hence
+    h=gcd(g,q)
+is always odd.
+Every prime divisor of h is 1 mod4 by 229D, so in fact
+    h==1 mod4.                                    (229E.9)
+
+
+RESULT_229E_2ADIC_CONTENT_TRICHOTOMY=PROVED_EXACT.
+RESULT_229E_H_ODD_AND_1MOD4=PROVED_EXACT.
+
+
+This is a routing result only. It supplies at most local/constant-factor exclusion unless combined with a same-physical-measure distribution theorem.
+
+
+3. Fixed-content endpoint-selector surface
+
+
+Freeze a,b,g,d,h and put G=g/h.
+Ignore for this subsection only the already-conditioned baseline face-square equations (229E.1)-(229E.2), and isolate the two endpoint selectors T3,T4.
+
+
+Homogenize with coordinate t and write q=hQ.
+The selector pair is the projective complete intersection in P^4_[c:f:Q:s:t]
+    b^2 c^2 + a^2 f^2 - h^2 Q^2 = 0,             (229E.10)
+    d^2 Q^2 + G^2 a^2 b^2 t^2 - s^2 = 0.         (229E.11)
+
+
+This is an intersection of two quadrics, but it is NOT a smooth quartic del Pezzo surface.
+
+
+Indeed the first quadric has zero gradient at c=f=Q=0, and the intersection contains the two rational points
+    [0:0:0:+Gab:1],
+    [0:0:0:-Gab:1].
+Hence these are singular points of the complete intersection.
+
+
+Conversely the second quadric has zero gradient at Q=s=t=0, and over the algebraic closure the intersection contains
+    [a:+i b:0:0:0],
+    [a:-i b:0:0:0].
+A direct gradient-dependence check shows there is no singular point with both quadric gradients nonzero and dependent. Thus the selector compactification has exactly these four geometric singular points.
+
+
+RESULT_229E_SELECTOR_COMPLETE_INTERSECTION_SMOOTH=false.
+RESULT_229E_SELECTOR_HAS_FOUR_GEOMETRIC_SINGULAR_POINTS=PROVED_EXACT.
+
+
+4. Rationality of the selector surface on the physical open
+
+
+The same separated equations show why fixed-packet endpoint geometry alone does not provide scarcity.
+
+
+On the affine physical chart t=1 with Q nonzero, parameterize (229E.11) by u:
+    dQ/(Gab)=2u/(1-u^2),
+    s/(Gab)=(1+u^2)/(1-u^2).
+
+
+Then parameterize (229E.10) by r:
+    bc/(hQ)=(1-r^2)/(1+r^2),
+    af/(hQ)=2r/(1+r^2).
+
+
+Therefore
+    Q = (2Gab/d) * u/(1-u^2),
+    c = (hQ/b) * (1-r^2)/(1+r^2),
+    f = (2hQ/a) * r/(1+r^2),                     (229E.12)
+with s as above.
+
+
+Conversely on the same nondegenerate open,
+    u=dQ/(s+Gab),
+    r=af/(hQ+bc).
+
+
+Hence the fixed-content two-selector surface is rational on a dense open, birational to a two-parameter rational surface.
+
+
+RESULT_229E_FIXED_PACKET_SELECTOR_SURFACE_RATIONAL=true.
+
+
+This is a critical firewall:
+the two endpoint square selectors, after freezing a,b,g,d,h but before intersecting with the exact two-face host, do not form a sparse high-genus object. The hard arithmetic lies in their intersection with the already-conditioned primitive-face system T1,T2 and the exact physical/canonical masks.
+
+
+5. Quartic-del-Pezzo theorem preflight
+
+
+A tempting external theorem species is bounded-height counting on quartic del Pezzo surfaces / intersections of two quadrics with conic bundle structure.
+
+
+Relevant literature includes:
+- Glas–Hochfilzer, “Rational points on del Pezzo surfaces of low degree”, arXiv:2401.04759. For smooth degree-4 or degree-5 del Pezzo surfaces with a conic bundle they prove N_U(B)<<_X B^(1+epsilon) over number fields.
+- Browning–Sofos, “Counting rational points on quartic del Pezzo surfaces with a rational conic”, arXiv:1609.09057 / Math. Ann. 2019, giving sharp fixed-surface bounds for smooth quartic del Pezzo conic bundles.
+
+
+Neither is a black-box Stage37 adapter for (229E.10)-(229E.11):
+    (i) the selector compactification above is geometrically singular;
+    (ii) its physical open is already rational;
+    (iii) the Stage37 population is not the unrestricted selector surface, but its intersection with T1,T2 and primitive/canonical masks;
+    (iv) the coefficients a,b,g,d,h move with B;
+    (v) the cited fixed-surface constants/height are not an exact uniform theorem for the moving Stage37 physical R-height.
+
+
+Therefore the smooth quartic-del-Pezzo route does not satisfy a M3-T11-229 restart contract.
+
+
+RESULT_229E_SMOOTH_D4_DEL_PEZZO_BLACKBOX=NO_DIRECT_TRANSFER.
+
+
+This is a scoped applicability rejection, not an impossibility theorem for singular-del-Pezzo or universal-torsor methods adapted to the full four-cycle.
+
+
+6. Receiver audit
+
+
+A / R1-TF:
+The four-cycle is an exact same-object adapter, but no centered covariance estimate or empirical-product principal term follows.
+A_REOPEN=false.
+
+
+FIB:
+No M3-weighted moving-base second moment follows.
+FIB_REOPEN=false.
+
+
+PAIR:
+No occupied-image fixed-power deficit follows.
+PAIR_REOPEN=false.
+
+
+CROSS-GCD:
+The 2-adic router and h-root-line refine endpoint structure but do not provide the missing same-measure tail theorem.
+CROSS_GCD_REOPEN=false.
+
+
+LOCAL:
+The 2-adic trichotomy is a single-prime local classification, not contraction over arbitrarily many fixed primes.
+LOCAL_REOPEN=false.
+
+
+GEOMETRY:
+The naive fixed-packet selector geometry is rational/singular; a useful geometry theorem must include the baseline T1,T2 host and exact physical height.
+GEOMETRY_REOPEN=false.
+
+
+DEN:
+No new M3 lower bound.
+DEN_REOPEN=false.
+
+
+POST_229_REOPEN_TRIGGER_FOUND=false.
+
+
+7. Precise future contract
+
+
+The new useful object is the full four-cycle (229E.5), not the selector surface (229E.10)-(229E.11) by itself.
+
+
+A genuinely useful next theorem would have to do one of:
+(A) count the full four-cycle on the exact R<=B physical measure with a fixed-power endpoint deficit;
+(B) give a centered correlation theorem between T3 and T4 conditioned on the T1,T2 host;
+(C) construct a uniform universal-torsor / singular-del-Pezzo adapter whose moving coefficients and physical height are controlled with summable constants.
+
+
+Fixed-packet rationality by itself is not progress toward closure, and smooth quartic-del-Pezzo point counts must not be imported without this adapter.
+
+
+8. Final state
+
+
+M3-T11-229 remains latest operational T11 card.
+M3-T11-228 remains latest mathematical construction card.
+229E is the latest post-229 delta research card.
+
+
+RESEARCH_PRODUCTION_STATUS=HOLD_PENDING_GENUINELY_NEW_THEOREM_INPUT.
+M3_T11_230_ISSUED=false.
+GLOBAL_COUNTING_CREDIT=0.
+M3_T11_GATE_001=OPEN.
+P_OVER_M3_LIMIT_PROVED=false.
+NO_PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_CONCLUSION=true.
