@@ -30,6 +30,11 @@ Default to 32-02. Use 32-03 when 32-02 is blocked or resumable 32-03 work is the
 
 EX5, MB, and MB-FIB are internal execution surfaces, not operator entrypoints. 178, CUT, and BRIDGE are parked/reopen-only.
 
+When dispatching to 32-03, read its LIVE-named STATE and honor `next_obligation.operational_next`
+and `route_register.routes.E` before interpreting a historical `active_leaf` label. The old
+MB104 active-leaf identifier is retained for audit-verifier compatibility; it does not by
+itself authorize blind repetition of E2 work or promotion of the post-E12 route.
+
 ## Authority
 
 `ROADMAP.md` is the sole formal owner of mathematical unit definitions and close criteria.
@@ -59,7 +64,9 @@ This section applies to `stage32mainbatch` and to `stage32audit`.
   - credit flags;
   - the requirement of the owner's OK for any STATE, credit or merge change.
 
-  A mathematical gap remains open whatever an audit says; for example, the d = 16 multibranch classes (32-03).
+  A mathematical gap remains open outside the exact audited scope. For example, the d = 16 all-classes leaf
+  (including multibranch-only classes) does not supply a uniform degree bound for all multibranch genus <= 1
+  curves and does not close 32-03. Do not mistake a fixed-degree reading-audit PASS for Stage32 closure.
 
 ## Stop
 
