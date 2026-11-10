@@ -62,9 +62,26 @@ with tempfile.TemporaryDirectory(prefix='r3-resume-') as tmp:
     for name in third_names:
         if json.loads((third/name).read_text())!=json.loads((HERE/'wave3'/name).read_text()):
             raise RuntimeError('Wave3 result mismatch: '+name)
+    fourth=work/'wave4'
+    shutil.copytree(HERE/'wave4',fourth)
+    for name,item in json.loads((fourth/'PAYLOADS.json').read_text()).items():
+        data=gzip.decompress(base64.b64decode((fourth/item['stored']).read_text(),validate=False))
+        if len(data)!=item['bytes'] or hashlib.sha256(data).hexdigest()!=item['sha256']:
+            raise RuntimeError('Wave4 payload mismatch: '+name)
+        (fourth/name).write_bytes(data)
+    fourth_names=['verification_wave4.json','key_verification.json','results_wave4.json','dependency_witnesses.json','dual_wave4.json','linear_verification.json']
+    expected_fourth={name:json.loads((fourth/name).read_text()) for name in fourth_names}
+    for script in ['verify_wave.py','verify_keys.py','extract_dependencies.py','verify_linear.py']:
+        run=subprocess.run([sys.executable,str(fourth/script)],capture_output=True,text=True)
+        commands.append(dict(script='wave4/'+script,exit_status=run.returncode,stdout_sha256=hashlib.sha256(run.stdout.encode()).hexdigest()))
+        if run.returncode:raise RuntimeError(run.stdout+run.stderr)
+        print('PASS wave4/'+script,flush=True)
+    for name in fourth_names:
+        if json.loads((fourth/name).read_text())!=expected_fourth[name]:
+            raise RuntimeError('Wave4 result mismatch: '+name)
     report=dict(status='AUTHOR_REPLAY_PASS_NOT_INDEPENDENT_AUDIT',python=sys.version,
         platform=platform.platform(),parent_files_verified=len(lock),commands=commands,
-        result_json_equal=names+wave_names+third_names,new_relations=645,formal_residual=180,p827_zero=False,
+        result_json_equal=names+wave_names+third_names+fourth_names,new_relations=1738,formal_residual=178,p827_zero=False,
         unconditional_exclusions=0)
     if a.output: a.output.write_text(json.dumps(report,indent=2)+'\n')
-    print('PASS exact result JSON equality; residual180; P827 not eliminated; exclusion0')
+    print('PASS exact result JSON equality; residual178; P827 not eliminated; exclusion0')
