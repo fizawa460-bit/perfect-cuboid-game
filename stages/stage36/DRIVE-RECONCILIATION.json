@@ -1,7 +1,7 @@
 {
-  "schema": "STAGE36_STAGE38_DRIVE_RECONCILIATION_V1",
+  "schema": "STAGE36_STAGE38_DRIVE_AUTHORITATIVE_STATUS_SYNC_V2",
   "prepared_utc_date": "2026-11-10",
-  "mode": "EXTERNAL_DRIVE_STATUS_MIRROR_NOT_MATHEMATICAL_PROMOTION",
+  "mode": "GOOGLE_DRIVE_AUTHORITATIVE_MANAGEMENT_SYNCHRONIZATION",
   "repository": "fizawa460-bit/perfect-cuboid-game",
   "initial_github_main_sha": "3096951febf4c31a91319283da7b784d9e6202e4",
   "receiver": "R29-CAMP2",
@@ -12,7 +12,8 @@
     "current_unit": "36-09FE",
     "recorded_next_leaf": "36-09FF_RHO_FORCED_CRT_FACTOR_SHAPE_UNBOUNDED_CONTROL_PREFLIGHT",
     "recorded_next_leaf_entry_allowed": false,
-    "preserved": "No modifications to the audited 36-09 chain, legacy source locks, historical CI receipts or old MAIN-STATE."
+    "preserved": "Archived legacy exact 36-09FE state and source locks. Current MAIN-STATE now records Drive 36R-06 as PARKED_PROVISIONAL.",
+    "archive_path": "stages/stage36/historical/MAIN-STATE-V296R3-36-09FE.json"
   },
   "external_drive_snapshot": {
     "latest_indexed_snapshot": "2026-10-16",
@@ -43,21 +44,23 @@
       "36R-06 Proposition B: proposed Brauer-Manin does not exclude U_H(Q); external hostile review pending"
     ],
     "independent_blind_rediscovery_complete": false,
-    "external_hostile_review_of_new_36R_claims_complete": false
+    "external_hostile_review_of_new_36R_claims_complete": false,
+    "last_indexed_snapshot": "2026-10-16"
   },
   "operational_interlock": {
-    "external_snapshot_takes_precedence_for_research_triage": true,
+    "drive_is_authority_for_management_status": true,
+    "github_operational_state_is_synced": true,
     "legacy_github_36_09FF_auto_resume_allowed": false,
-    "promote_external_claims_into_audited_github_main_state": false,
-    "auto_close_receiver": false,
-    "next_action": "INDEPENDENT_REVIEW_AND_BLIND_REDISCOVERY_THEN_INTEGRATION_DECISION",
-    "required_review": [
-      "Hostile mathematical audit of 36R-06 Propositions A and B",
-      "Hostile audit of 36R-04 Propositions 3 and 4 and 36R-05 p=53/8 counterexample",
-      "Independent blind rediscovery with no prior candidate ledger exposure",
-      "Reconcile current GitHub main and immutable Stage36 certificate provenance",
-      "Only after audits decide whether to supersede the old 36-09FF research routing"
-    ]
+    "receiver_flags_updated_only_from_drive": false,
+    "new_mathematical_credit_not_inferred_from_sync": true,
+    "no_mathematical_audit_required_for_status_sync": true,
+    "next_action": "PARKED_PROVISIONAL_NO_ACTIVE_LEAF",
+    "research_followups_recorded_by_drive": [
+      "External mathematical review of 36R-04/05/06",
+      "Genuinely independent blind rediscovery in another research session",
+      "Reopen only if material new input is found"
+    ],
+    "audited_main_state_upgrade_is_not_a_sync_prerequisite": true
   },
   "closure_flags": {
     "R29_CAMP2_CLOSED": false,
@@ -77,6 +80,11 @@
     "state_after_36r06": "https://drive.google.com/file/d/1l9jXsKyawZtVvaE3-m6TckpXVQm6pV_n/view",
     "parking_audit": "https://drive.google.com/file/d/1BiHaaXkFgosWjzMj-AkxUwcMyuUiJgoK/view",
     "receiver_audit": "https://drive.google.com/file/d/1ImbfQknqCzl50NE9Lkd0t90Dgy6wscsk/view",
-    "endpoint_classes": "https://drive.google.com/file/d/174FB-hTAY1PqNyPYs1kPraFVAieWi7mM/view"
-  }
+    "endpoint_classes": "https://drive.google.com/file/d/174FB-hTAY1PqNyPYs1kPraFVAieWi7mM/view",
+    "stage36_roadmap_current": "stages/stage36/ROADMAP-CURRENT.md",
+    "stage36_36r_state_repo": "stages/stage36/36R-import-20261110/sources/36R-06_state.json"
+  },
+  "sync_completed_on_branch": true,
+  "current_state_path": "stages/stage36/MAIN-STATE.json",
+  "current_roadmap_path": "stages/stage36/ROADMAP-CURRENT.md"
 }
