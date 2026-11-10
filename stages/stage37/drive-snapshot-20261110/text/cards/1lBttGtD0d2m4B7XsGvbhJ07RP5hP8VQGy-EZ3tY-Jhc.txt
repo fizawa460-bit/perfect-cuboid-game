@@ -1,0 +1,33 @@
+﻿Stage37 229HI-A6 — self-contained dyadic Pell norm ideal certificate
+SOURCE_CARD=1qPCl4bFo7B5EJytRVO3bdu9zRHpi3CHspMuooUISfug; CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A6; PREVIOUS_A5_CERT=1xvmPAXfzGc8t283-BYl9iMoCFxiRKrZwWnPzayUs71M; ORIGINAL_A4_PHYSICAL_EQUATION r^4+h²=2p²q²; SOURCE_ROW687.
+SETUP: Q≤p<q<r≤2Q distinct split odd primes, one physical primitive FJ third root, actual g, h=g/2>0 odd nonsquare and h|K1² or K2² on exactly remaining two B0=0 source labels. Let X=r², Y=pq; then X²−2Y²=−h². Both X,Y positive and lie [Q²,4Q²]. Define α=X+Y√2 positive with (1+√2)Q²≤α≤4(1+√2)Q².
+PROOF: In O=Z[√2] integral ideals norm h² count ≤τ(h²), because for every ℓ^e||h, ℓ split has 2e+1 allocations, inert/ramified at most1. For given principal ideal (α), every other positive real generator with EXACT norm−h² is ε^kα, ε=3+2√2>4 fundamental norm1 unit. The interval for α has endpoint ratio≤4<ε, so there is at most one such generator in this Q packet for each ideal. Thus ≤τ(h²) integer solutions X,Y, irrespective of prime or square constraints. Each X=r² gives at most one r, each Y=pq gives at most one ordered pair distinct p<q, so #distinct source prime triples with h fixed ≤τ(h²). Sum over 1≤h≤H.
+AVERAGE: τ(n²)≤d3(n): for each n=∏ell^e, (2e+1)≤binom(e+2,2). ∑_{n≤H}d3(n)=#{a,b,c≥1:abc≤H}≤H(∑_{a≤H}1/a)²≤H(1+logH)². Hence #source prime triples ≤H(1+logH)². Choose H=Q/log³Q ⇒ ≪Q/logQ, or H=Q^(1−δ) ⇒ ≪δQ^(1−δ)(logQ)². All heights, no local-density assumptions, one-per-outer floor included. Full original physical factor from R² three Gaussian macros ≤r2(R²)^3=108³, using exact representation adapter inherited from 229FA; FJ full hostile HOLD retained. Does NOT address h>H or other140 sources; no stage closure.
+PERFECT-BOX UNIT CHECK: Fundamental unit 1+√2 has norm−1; square ε=3+2√2 norm+1 and ε≈5.8284>4. For any given ideal with exact norm−h², units relating two generators have norm+1; positive α prohibits - sign. Ratio [α_min,α_max]=4; therefore at most one k. This removes the traditional O(logQ) overhead from 229EZ's broad quadratic norm tubes.
+INDEPENDENT EXECUTABLE REPLAY (Python3+SymPy, originally created local SHA256 8b49629f0c3f615be6a049039ddf5b57500ba366bebbadc7ed50192cc7021965):
+import math
+from sympy import divisor_count
+from collections import defaultdict
+def packet(Q,H):
+ by_h=defaultdict(list)
+ for X in range(Q*Q,4*Q*Q+1):
+  for h in range(1,H+1):
+   S=X*X+h*h
+   if S%2:continue
+   Y=math.isqrt(S//2)
+   if Y*Y==S//2 and Q*Q<=Y<=4*Q*Q:by_h[h].append((X,Y))
+ for h,xy in by_h.items():
+  assert len(xy)<=divisor_count(h*h),(Q,h,xy)
+ return len(by_h),sum(map(len,by_h.values()))
+assert packet(10,100)==(67,96)
+assert packet(30,150)==(98,147)
+assert packet(80,200)==(127,196)
+assert 23**2-2*17**2==-49 and 137==3*23+4*17 and 97==2*23+3*17
+for H,total in [(10,48),(100,1194),(1000,22502),(10000,363982)]:
+ assert sum(int(divisor_count(h*h)) for h in range(1,H+1))==total
+ assert total<=H*(1+math.log(H))**2
+print('DYADIC PELL IDEAL AND TAU(H²) EXACT CHECK PASS')
+FIREWALL: 229EZ had generic moving d quadratic detuning norm ideal estimate, not this fixed d2 physical source restriction; 229GR had sparse Gaussian determinant D_Q, not actual g/2. FJ/FS/FW/HB audits and global mean o(Q) remain OPEN. Authority M3-T11-229, Gate OPEN, GlobalCredit0, formal route switch NONE.
+
+
+POSTWRITE CERTIFICATE READBACK RECEIPT — 2026-10-10 JST. Exact fixed d2 Pell ideal/unit orbit proof and executable finite verification saved. MAIN/INDEX source687/AI00 count686/AI10/LEDGER/ROUTE/NEG/FAST all current229HI-A6 verified. Card/cert both in M3-Research-Cards and available for Drive-only continuation. All other original global restrictions and independent hostile audits remain OPEN/HOLD; no gate/authority/credit changes.

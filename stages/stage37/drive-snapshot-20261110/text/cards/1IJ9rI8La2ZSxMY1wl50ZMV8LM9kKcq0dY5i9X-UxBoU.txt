@@ -1,0 +1,42 @@
+﻿Stage37 229HI-A8 — rigorous fixed largest split prime reverse Pell two-ideal count and executable hostile replay
+CURRENT=Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A8; CARD=1mu_oMzvnY0WTHcqSIjfsUMEmI7kOUasXn2L8WTMkSro; INDEX_ROW689; previous A7 card=1gxmR1eFMPEUtRahE8c5CP6C_cFIkZOMNAksxWcai9zk.
+A4 EXACT SOURCE EQUATION, scoped to keys000.002.021:2 and001.020.022:0 with actual third primitive rational root:
+r⁴+h²=2p²q², h=actual specialized polynomial content/2>0, p<q<r distinct odd norm primes all≡1mod8 under original selectors. Let Y=pq. Then beta=h+Y√2 has norm h²−2Y²=−r⁴.
+From p<q<r, Y<r². From h²>0, Y>r²/√2. Hence 0<h<r² and
+    r² < beta < (1+√2)r².
+Since gcd(pq,r)=1, if ell|gcd(h,Y) then ell|r⁴=2Y²−h²; ell|Y=pq ⇒ell=p orq≠r contradiction; therefore gcd(h,Y)=1. Also original p>r/√2, automatically all3 comparable.
+r≡1mod8 ⇒ (2/r)=+1; in Z[√2], (r)=P Pbar split with distinct norm-r prime ideals. Any integral ideal of norm r⁴ is P^j Pbar^(4−j), j0..4. Primitive gcd(h,Y)=1 forbids both P and Pbar factors of (beta), because (r)|beta implies r|h,Y. Therefore j=0 or4, at most TWO possible ideals for beta. Given same ideal, any two positive real norm−r⁴ generators differ by positive norm+1 unit epsilon^k, epsilon=3+2√2 (fundamental norm+1), epsilon>1+√2, whereas permitted beta interval endpoint ratio <1+√2. Therefore AT MOST ONE per eligible ideal for each r. Overall ≤2 primitive integer Pell pairs (h,Y), even before requiring Y product two smaller norm primes and actual FJ coefficients/third signed roots. Each Y=pq with distinct p<q determines (p,q) uniquely. Hence for fixed r, source prime triples across BOTH keys ≤2.
+For original R=pqr≤B, B≥3, from Y>r²/√2 obtain r³<√2 R≤√2 B. Therefore N_two_source(B)≤2π((√2B)^(1/3))≪B^(1/3)/log B. This is ALL-CONTENT, no H threshold, r fixed ideal-count / outer floor paid exactly once. B0=0 other4 Lq/Lp labels already globally empty A3; no double credit. Original P per r squarefree 3-prime R bounded by r2(R²)^3=108³ under retained 229FA original 3 Pythag norm representations. FJ/FS/FW/HB external source independent audits HOLD; no unrestricted closure.
+Exact independent portable replay (Python3, SymPy for primality/factorization):
+from sympy import primerange, factorint
+from math import gcd,isqrt
+rr=[int(r) for r in primerange(17,2000) if int(r)%8==1]
+primitive=[]; per={}
+qualified_all8=[]; relaxed=[]
+for r in rr:
+    per[r]=0
+    for Y in range(isqrt(r**4//2),r*r):
+        t=2*Y*Y-r**4
+        if t<=0:continue
+        h=isqrt(t)
+        if h*h!=t or gcd(h,Y)!=1:continue
+        primitive.append((r,h,Y));per[r]+=1
+        fac=factorint(Y)
+        if len(fac)==2 and all(e==1 for e in fac.values()):
+            p,q=sorted(map(int,fac.keys()))
+            if p<q<r:
+                relaxed.append((p,q,r,h))
+                if p%8==q%8==r%8==1:
+                    qualified_all8.append((p,q,r,h))
+assert len(rr)==68
+assert len(primitive)==68
+assert max(per.values())==1
+assert relaxed==[(257,277,313,23191)]
+assert qualified_all8==[]
+assert primitive[:3]==[(17,23,205),(41,1567,1625),(73,2303,4105)]
+print('REVERSE PELL FIXED LARGEST PRIME COUNT REPLAY PASS')
+The relaxed exact primitive prime triple (257,277,313,23191) violates the original q≡1mod8 selector and so is NOT an original candidate. Its existence disproves unjustified blanket "no norm-solutions" claim. All finite results are sanity, not asymptotic proof.
+Loop comparison: A6 ideals norm h² sum_tau and A7 primitive 2^omega(h) mod16 Selberg–Delange use *varying content h* and stop at H; THIS proof fixes LAST PRIME r giving exact norm r⁴ and only TWO ideals and a small unit box, disposing of all h. Historical 229GY fixed (p,r) lattice and 229EZ moving quadratic field are different. 140 other FJ labels do not generally satisfy r⁴+h²=2p²q²; do not transport automatically. External hostile FJ/FS/FW/HB audit HOLD, A8 independent proof audit NOT_RUN. Authority229/construction228/gateOPEN/globalcredit0/routeNONE, closure unchanged.
+
+
+POSTWRITE CERT REPLAY RECEIPT — 2026-10-10 JST. Portable fixed-r reverse Pell 2 ideal proof and finite sample r1mod8<2000 stored. Main/Index689/AI00 live688/AI10/ledger/route/neg/fast all A8 readback PASS; card & certificate in Stage37 research cards and readable. Strict original 1mod8 triple finite0 NOT all-height emptiness claim; relaxed p257,q277,r313 h23191 is arithmetic counterexample to no-solution assertion. Source other140, FJ/FS/FW/HB hostile and full global gate OPEN.

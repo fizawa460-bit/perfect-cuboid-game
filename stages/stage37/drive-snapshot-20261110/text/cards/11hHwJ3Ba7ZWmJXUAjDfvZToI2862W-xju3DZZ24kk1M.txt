@@ -1,0 +1,61 @@
+﻿Stage37-NEW-INPUT-DELTA-AUDIT-229HI-A10-CANDIDATE — r-adic free-slope discriminant parity: all twelve A9 keys have NO physical signed source datum at any height
+
+
+DATE 2026-10-10 JST. AUTHOR: Claude (claude.ai chat session, Project 完全直方体). PARENT=229HI-A9 (card 1etkkBkNbtFnyj5hQKeg5_1D5FPDXM8O0GMSSXPVeH1o, cert 1hIIV3oDTpQvSBSpb047BYxqVygd3z4fXySWEZKehl7o).
+
+
+STATUS=PROVED_SCOPED_CANDIDATE_TWELVE_A9_KEYS_EMPTY_ALL_HEIGHTS_RELATIVE_TO_A9_IMPORTED_SOURCE_MODEL / INDEPENDENT_HOSTILE_AUDIT_NOT_RUN / GLOBAL_CREDIT0.
+GOVERNANCE UNCHANGED: AUTHORITY=M3-T11-229; CONSTRUCTION=M3-T11-228; 230 NOT_ISSUED; M3-T11-GATE-001 OPEN; GLOBAL_CREDIT0; PRODUCTION HOLD; FORMAL_ROUTE_SWITCH NONE; closure unchanged. Inherited FJ/FS/FW/HB hostile HOLD and A9 independent audit NOT_RUN remain.
+
+
+WRITEBACK LIMITATION (important): this session's Google Drive connector can create files but CANNOT edit the body of existing documents or spreadsheets. Therefore MAIN / CARD-INDEX (no row allocated; "A10" is a CANDIDATE label only) / RESULT-LEDGER / active ROUTE / NEGATIVE-REGISTER / FASTPATH were NOT updated. WRITEBACK=HOLD. A later session with edit access must allocate the index row and propagate, or reject this card.
+
+
+1. Startup / loop audit actually performed (partial)
+Read FASTPATH current (229HI-A9), A9 card and A9 certificate in full. CARD-INDEX spreadsheet was NOT row-searched (no row-search tool in this session): full historical index loop audit = NOT PERFORMED. Instead Drive full-text search over Stage37 for Q-DIFF / discriminant / valuation found: 229GN (2-adic discriminant valuation empties eight OTHER degree-two FJ branches — same method family, different keys), 229HH (prime-square root height valuation, different keys), 229GV/GW (squareclass kernels, local-only, different keys), A9 (these twelve keys: explicitly NO_NEW_LABEL_EMPTY, counted only). No record found that applies an r-adic valuation of the FREE-SLOPE discriminant to the A9 twelve. Novelty = relative to the records actually read; classify overlap with unread index rows as UNKNOWN.
+A9 NEXT asked for a source-specific lower first-prime height p >> r/(log r)^C for six Q-DIFF unbalanced keys. Before attempting height bounds, this batch checked whether the free-slope root can be rational at all; it cannot. The height question is therefore moot for these twelve keys.
+
+
+2. Setting (imported from A9, not re-proved here)
+t=b/a, x=d/c, y=W/T; a²+b²=p², c²+d²=q², T²+W²=r²; primitive signed, all of a,b,c,d,T,W nonzero; p<q<r odd primes ≡1 mod 8. F(t,x,y)=0 holds for the physical datum (source macro as in A9 cert). From A9: Q-DIFF keys force r | c²−d²; P-DIFF keys force r | a²−b² (via r² | S0 = 4p⁴(c²−d²)² resp. 4q⁴(a²−b²)² and r∤pq).
+
+
+3. Lemma (valuation facts). Q-DIFF: v_r(c²−d²)=1 exactly, and r ∤ c d q T W.
+Proof: gcd(c−d,c+d)=1 (primitive, opposite parity). |c±d| ≤ √2 q < 2r and both nonzero (c²≠d² for primitive with q>1). r divides exactly one factor; that factor has absolute value <2r, nonzero, so it equals ±r; the other factor k satisfies 0<k<r. Hence v_r=1. 0<|c|,|d|<q<r, 0<|T|,|W|<r, q<r give the rest. P-DIFF identical with (a,b,p).
+
+
+4. Exact discriminant factorizations (verified symbolically, Wolfram Language, all twelve keys)
+Q-DIFF keys, F quadratic in t, D=disc_t(F) evaluated at x=d/c, y=W/T:
+  Type I  {000.011.020:1, 002.011.022:1}:  D·c⁴T⁴ = 8(T²+W²)·(c²−d²)(cW−dT)(cW+dT)
+  Type II {000.001.020:1, 002.021.022:1}:  D·c⁴T⁴ = 8(T²+W²)·(c²−d²)·W·(c²W−d²W−2cdT)
+          {000.020.021:2, 001.002.022:0}:  D·c⁴T⁴ = 8(T²+W²)·(c²−d²)·W·(c²W−d²W+2cdT)
+P-DIFF keys, F quadratic in x, D=disc_x(F) at t=b/a, y=W/T: the same six formulas with (c,d)->(a,b):
+  Type I  {000.022.101:2, 002.020.101:2}; Type II {000.001.022:1, 002.020.021:2} (−2abT), {000.021.022:1, 001.002.020:0} (+2abT).
+Leading coefficients (times c²T² resp. a²T²): Type I (c²−d²)(T²−W²); Type II c²T²−c²W²+2d²W² (P-DIFF: a,b).
+
+
+5. Theorem (candidate). For each of the twelve A9 keys there is no physical signed source datum, at any height and any aspect (balanced or not).
+Proof (Q-DIFF; P-DIFF identical). T²+W²=r², so v_r(D) = 2 + v_r(N), N the bracketed product.
+ Type I: v_r(c²−d²)=1. Mod r: c²W²−d²T² = c²(T²+W²) − T²(c²+d²) = c²r² − q²T² ≡ −q²T² ≢ 0. So v_r(N)=1.
+ Type II: v_r(c²−d²)=1, r∤W, and c²W−d²W±2cdT ≡ ±2cdT ≢ 0 mod r (r odd). So v_r(N)=1.
+ Hence v_r(D)=3, odd, so D is not the square of a rational number (and D≠0).
+ Leading coefficient never vanishes: Type I needs c²=d² or T²=W² (then r²=2T², impossible). Type II: c²T²=W²(c²−2d²) with gcd(T,W)=1 forces c=nW, then 2d²=n²(W²−T²), gcd(n,d)=1 gives n²=1, so r²=T²+W²=2(c²−d²) is even — impossible.
+ So F is a genuine quadratic in the free slope with non-square discriminant: no rational t (resp. x). But the physical datum requires rational t=b/a (resp. x=d/c). Contradiction. ∎
+Uses NO bound on p, NO primality of p or q, NO balance assumption; only r odd prime, q<r (resp. p<r), primitivity, and A9's r | c²−d² (resp. a²−b²).
+
+
+6. Consequence for A9 bookkeeping (proposed, not applied)
+A9: six P-DIFF globally quantitatively o(B^(1/3)); six Q-DIFF balanced only; global open 134, balanced open 128; potential residual list 142 unchanged.
+If accepted: all twelve move to EMPTY (stronger than counting). Six Q-DIFF unbalanced obstruction removed. GLOBAL open 134 -> 128; BALANCED open stays 128; potential nonempty residual 142 -> 130 (A8 two remain counted, not empty). No double credit with HH72/HI108/A2/A3/A8.
+NOT claimed: unrestricted #S_B(delta)=o(B^(1/3)); anything about the other 128 keys; anything beyond A9's imported FJ source association (hostile HOLD).
+
+
+7. Independent finite consistency check (not part of proof)
+Pure-Python exact search (fractions), verifier qdiff_search.py SHA256 cf4961138647d73d03ac0b7406e9affdbb593157a9b1d43c35c2e9f3eaeabd6d (text in companion certificate). For all primes r≡1 mod 8 up to 100000: reverse-Pell gate nonempty for 343 r (r<2000: 16 r, matching A9), all signed (c,d),(T,W) orientations and six Q-DIFF keys: rational-discriminant events 0, p-integral hits 0. Consistent with the theorem.
+
+
+8. Five-batch gate / strategy
+A5–A9 improved scoped counts only. This batch converts a counted family into an empty family by a different tool (r-adic parity of the free-slope discriminant rather than height/ideal counting). It is a new method application, not a cutoff variant.
+
+
+NEXT=Apply the same free-slope discriminant r-adic (and q-, p-adic) parity screen to the remaining 128 balanced / 128 global source keys: for each key, (i) take F in the free slope, (ii) factor disc in the other two normalized coordinates, (iii) use the prime forced to divide S0 by the single physical root (A9/229GX Gauss lemma) and test whether its valuation in disc is forced odd. Keys passing (iii) become EMPTY; keys failing record the exact even-valuation obstruction. Requires the remaining150 key list from 229HI cert 1P8LdtObaD36UR2B1rvrvaLeIOTGeIaKQ8pv5RWejOSw. Also: independent hostile audit of this card; propagate to MAIN/INDEX/LEDGER/ROUTE/NEG/FASTPATH in an edit-capable session.

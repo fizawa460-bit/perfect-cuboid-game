@@ -1,0 +1,43 @@
+﻿Stage37 229HI-A11 EXACT PORTABLE CERTIFICATE — EVEN GAUSSIAN LEG AND ODD SMALL-k
+DATE 2026-10-11 JST; PARENT=1BOBYxNQT66xML7j6FVQqrIhKyQQdOlcxJaWGur-3VhM; SOURCE_ROW692; CURRENT=229HI-A11; PREVIOUS=229HI-A10; ORIGINAL_PARENT_229HI=1P8LdtObaD36UR2B1rvrvaLeIOTGeIaKQ8pv5RWejOSw.
+ALL24 EXACT S0 FACTORIZATIONS REPLAY PASS in independently reconstructed 13 signed Gaussian source macros; EVEN16 global empty, ODD8 count condition. Compiled local standalone script SHA256=c5aad14fea44c4c810ce3ca6f51f306ad124fe418457b40e8a806f9425d4060c; below equivalent self-contained portable symbolic verifier (same identities, not asserted byte-identical SHA).
+ORIGINAL ONE REAL PHYSICAL GAUSSIAN THIRD NORM R² requires r² |S0=(A0−C0)²+B0². For16 even U=ad±bc, S0=4p²q²U², gcd(U,V)=1, V=ac∓bd, hyp H=pq and even U. Then r|U => r|mn in primitive U=2mn, H=m²+n² => H≥r²+1 contradict H=pq<r². Scope exactly16 source keys, any height.
+For8 odd U=ac±bd, S0=4p²q²U², primitive H=pq and U=(m−n)(m+n) with coprime odd factors; r|U and |m±n|<2r => r equals one factor and k=|U|/r is the other; r²+k²=2pq, r<(2B)^(1/3), unique p<q from product per fixed r,k. Thus <=8K π((2B)^(1/3)); K=(log B)^(1−η) => o(B^(1/3)) scoped necessary-source count. Nonempty odd NORM gate p73,q89,r113,k15 is NOT an actual original P witness.
+Separately verified 32 even cubic Gaussian norms split 16 H=p q² and16 H=p² q, same r²<H gives aspect-only boundaries; NOT counted globally empty.
+GOVERNANCE: authority229 construction228 Gate OPEN GlobalCredit0 production HOLD route switch NONE. FJ/FS/FW/HB hostile HOLD and independent A11 hostile NOT_RUN. Original unrestricted Stage37 goal OPEN.
+STANDALONE CODE START
+# Standalone exact Stage37 229HI-A11 symbolic verifier, Python3 + SymPy
+import sympy as S
+from collections import Counter
+a,b,c,d,t,x,y=S.symbols("a b c d t x y")
+P=a*a+b*b; Q=c*c+d*d
+bases="000.021.110 001.010.100 001.012.102 001.020.110 001.022.110 002.021.110 010.021.102 012.021.100".split()
+keys=[base+":"+str(h) for base in bases for h in range(3)]
+def E(code):
+ i,j,k=[int(w)-1 for w in code]
+ return S.expand((i*t+j*x+k*y-i*j*k*t*x*y)**2 * (1+t*t if i==0 else 1) * (1+x*x if j==0 else 1) * (1+y*y if k==0 else 1))
+groups={"EVEN":[],"ODD":[]}
+for key in keys:
+ codes,h=key.split(":"); h=int(h)
+ f=S.Poly(S.expand(sum((1 if j!=h else -1)*E(z) for j,z in enumerate(codes.split(".")))),y)
+ A,B,C=[S.cancel(a*a*c*c*f.nth(j)).subs({t:b/a,x:d/c}).cancel() for j in (2,1,0)]
+ N=S.factor((A-C)**2+B**2)
+ options=[a*d+b*c,a*d-b*c,a*c+b*d,a*c-b*d]
+ matched=[u for u in options if S.expand(N-4*P*Q*u*u)==0]
+ assert len(matched)==1,(key,matched,N)
+ u=matched[0]
+ assert any(S.expand(u*u+v*v-P*Q)==0 for v in options)
+ parity="EVEN" if u.subs({a:1,b:0,c:1,d:0})==0 else "ODD"
+ groups[parity].append(key)
+assert [len(groups[z]) for z in ("EVEN","ODD")]==[16,8]
+print("24/24 norm identities pass, EVEN16, ODD8")
+print("EVEN",*groups["EVEN"])
+print("ODD",*groups["ODD"])
+# Odd-leg norm-gate counterexample is NOT a physical original source F root
+p,q,r,k=73,89,113,15
+A,B,C,D=55,48,39,80
+assert A*A+B*B==p*p and C*C+D*D==q*q and abs(A*C-B*D)==r*k and r*r+k*k==2*p*q
+print("ODD-NORM-GATE example PASS")
+
+
+STANDALONE CODE END
